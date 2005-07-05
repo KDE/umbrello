@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -24,36 +24,36 @@ class AssociationWidget;
 class QEvent;
 
 
-/** 
+/**
  * All toolbar states inherit directly or indirectly from this class. 
  */
-class ToolBarState 
+class ToolBarState
 {
 
 public:
-	ToolBarState(UMLView *umlView);
-	virtual ~ToolBarState();	
+    ToolBarState(UMLView *umlView);
+    virtual ~ToolBarState();
 
-	virtual void mousePress(QMouseEvent *ome);
-	virtual void mouseRelease(QMouseEvent*);
-	virtual void mouseDoubleClick(QMouseEvent*);
-	virtual void mouseMove(QMouseEvent*);
+    virtual void mousePress(QMouseEvent *ome);
+    virtual void mouseRelease(QMouseEvent*);
+    virtual void mouseDoubleClick(QMouseEvent*);
+    virtual void mouseMove(QMouseEvent*);
 
-	// Go back to the initial state.
-	virtual void init();
+    // Go back to the initial state.
+    virtual void init();
 
 protected:
 
-	virtual void setMouseEvent (QMouseEvent* ome, const QEvent::Type &type);
-	virtual bool setSelectedWidget(QMouseEvent * me);
-	virtual void changeTool();
+    virtual void setMouseEvent (QMouseEvent* ome, const QEvent::Type &type);
+    virtual bool setSelectedWidget(QMouseEvent * me);
+    virtual void changeTool();
 
-	UMLView* m_pUMLView;
+    UMLView* m_pUMLView;
 
-	QMouseEvent* m_pMouseEvent;
-	bool m_bWidgetSelected;
+    QMouseEvent* m_pMouseEvent;
+    bool m_bWidgetSelected;
 
-	bool m_bIsButtonPressed;
+    bool m_bIsButtonPressed;
 };
 
 #endif //TOOLBARSTATE_H

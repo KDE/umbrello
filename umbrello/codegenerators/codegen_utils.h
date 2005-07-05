@@ -15,15 +15,15 @@
 
 namespace Umbrello {
 
-	/**
-	 * Add C++ primitives as datatypes
-	 */
-	void createCppDatatypes();
+/**
+ * Add C++ primitives as datatypes
+ */
+void createCppDatatypes();
 
-	/**
-	 * Get list of C++ reserved keywords
-	 */
-	const QStringList reservedCppKeywords();
+/**
+ * Get list of C++ reserved keywords
+ */
+const QStringList reservedCppKeywords();
 
 }
 

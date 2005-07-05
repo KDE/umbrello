@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -18,27 +18,27 @@
 #include <klocale.h>
 
 void UMLClassifierListItemList::copyInto(UMLClassifierListItemList *rhs) const {
-	// Prevent copying to yourself. (Can cause serious injuries)
-	if (rhs == this) return;
+    // Prevent copying to yourself. (Can cause serious injuries)
+    if (rhs == this) return;
 
-	rhs->clear();
+    rhs->clear();
 
-	// Suffering from const; we shall not modify our object.
-	UMLClassifierListItemList *tmp = new UMLClassifierListItemList(*this);
+    // Suffering from const; we shall not modify our object.
+    UMLClassifierListItemList *tmp = new UMLClassifierListItemList(*this);
 
-	UMLClassifierListItem *item;
-	for (item = tmp->first(); item; item = tmp->next() )
-	{
-		rhs->append((UMLClassifierListItem*)item->clone());
-	}
-	delete tmp;
+    UMLClassifierListItem *item;
+    for (item = tmp->first(); item; item = tmp->next() )
+    {
+        rhs->append((UMLClassifierListItem*)item->clone());
+    }
+    delete tmp;
 }
 
 
 UMLClassifierListItemList* UMLClassifierListItemList::clone() const {
-	UMLClassifierListItemList *clone = new UMLClassifierListItemList();
-	copyInto(clone);
-	return clone;
+    UMLClassifierListItemList *clone = new UMLClassifierListItemList();
+    copyInto(clone);
+    return clone;
 }
 
 

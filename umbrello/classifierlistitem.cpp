@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2003-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2003-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -21,19 +21,19 @@
 #include "umldoc.h"
 
 UMLClassifierListItem::UMLClassifierListItem(const UMLObject *parent, QString Name, Uml::IDType id)
-  : UMLObject(parent, Name, id) {
-	UMLObject *parentObj = const_cast<UMLObject*>(parent);
-	UMLClassifier *pc = dynamic_cast<UMLClassifier*>(parentObj);
-	if (pc)
-		UMLObject::setUMLPackage(pc);
+        : UMLObject(parent, Name, id) {
+    UMLObject *parentObj = const_cast<UMLObject*>(parent);
+    UMLClassifier *pc = dynamic_cast<UMLClassifier*>(parentObj);
+    if (pc)
+        UMLObject::setUMLPackage(pc);
 }
 
 UMLClassifierListItem::UMLClassifierListItem(const UMLObject *parent)
-  : UMLObject(parent) {
-	UMLObject *parentObj = const_cast<UMLObject*>(parent);
-	UMLClassifier *pc = dynamic_cast<UMLClassifier*>(parentObj);
-	if (pc)
-		UMLObject::setUMLPackage(pc);
+        : UMLObject(parent) {
+    UMLObject *parentObj = const_cast<UMLObject*>(parent);
+    UMLClassifier *pc = dynamic_cast<UMLClassifier*>(parentObj);
+    if (pc)
+        UMLObject::setUMLPackage(pc);
 }
 
 UMLClassifierListItem::~UMLClassifierListItem() {
@@ -41,67 +41,67 @@ UMLClassifierListItem::~UMLClassifierListItem() {
 
 void UMLClassifierListItem::copyInto(UMLClassifierListItem *rhs) const
 {
-	// Call the parent.
-	UMLObject::copyInto(rhs);
+    // Call the parent.
+    UMLObject::copyInto(rhs);
 }
 
 QString UMLClassifierListItem::toString(Uml::Signature_Type /*sig*/) {
-	return getName();
+    return getName();
 }
 
 UMLClassifier * UMLClassifierListItem::getType() {
-	return static_cast<UMLClassifier*>(m_pSecondary);
+    return static_cast<UMLClassifier*>(m_pSecondary);
 }
 
 QString UMLClassifierListItem::getTypeName() {
-	if (m_pSecondary == NULL)
-		return m_SecondaryId;
-	const UMLPackage *typePkg = m_pSecondary->getUMLPackage();
-	if (typePkg != NULL && typePkg != m_pUMLPackage)
-		return m_pSecondary->getFullyQualifiedName();
-	return m_pSecondary->getName();
+    if (m_pSecondary == NULL)
+        return m_SecondaryId;
+    const UMLPackage *typePkg = m_pSecondary->getUMLPackage();
+    if (typePkg != NULL && typePkg != m_pUMLPackage)
+        return m_pSecondary->getFullyQualifiedName();
+    return m_pSecondary->getName();
 }
 
 void UMLClassifierListItem::setType(UMLObject *type) {
-	if (m_pSecondary != type) {
-		m_pSecondary = type;
-		emit modified();
-	}
+    if (m_pSecondary != type) {
+        m_pSecondary = type;
+        emit modified();
+    }
 }
 
 void UMLClassifierListItem::setTypeName(const QString &type) {
-	if (type.isEmpty()) {
-		m_pSecondary = NULL;
-		m_SecondaryId = type;
-		return;
-	}
-	UMLDoc *pDoc = UMLApp::app()->getDocument();
-	m_pSecondary = pDoc->findUMLObject(type);
-	if (m_pSecondary == NULL) {
-		// Make data type for easily identified cases
-		const int n_types = 12;
-		const char *types[] = {
-			"void", "bool",
-			"char", "unsigned char",
-			"short", "unsigned short",
-			"int", "unsigned int",
-			"long", "unsigned long",
-			"float", "double"
-		};
-		int i = 0;
-		for (; i < n_types; i++) {
-			if (type == types[i])
-				break;
-		}
-		if (i < n_types || type.contains('*')) {
-			m_pSecondary = pDoc->createUMLObject(Uml::ot_Datatype, type);
-			kdDebug() << "UMLClassifierListItem::setTypeName: "
-				  << "created datatype for " << type << endl;
-		} else {
-			m_SecondaryId = type;
-		}
-	}
-	emit modified();
+    if (type.isEmpty()) {
+        m_pSecondary = NULL;
+        m_SecondaryId = type;
+        return;
+    }
+    UMLDoc *pDoc = UMLApp::app()->getDocument();
+    m_pSecondary = pDoc->findUMLObject(type);
+    if (m_pSecondary == NULL) {
+        // Make data type for easily identified cases
+        const int n_types = 12;
+        const char *types[] = {
+                                  "void", "bool",
+                                  "char", "unsigned char",
+                                  "short", "unsigned short",
+                                  "int", "unsigned int",
+                                  "long", "unsigned long",
+                                  "float", "double"
+                              };
+        int i = 0;
+        for (; i < n_types; i++) {
+            if (type == types[i])
+                break;
+        }
+        if (i < n_types || type.contains('*')) {
+            m_pSecondary = pDoc->createUMLObject(Uml::ot_Datatype, type);
+            kdDebug() << "UMLClassifierListItem::setTypeName: "
+            << "created datatype for " << type << endl;
+        } else {
+            m_SecondaryId = type;
+        }
+    }
+    emit modified();
 }
 
 

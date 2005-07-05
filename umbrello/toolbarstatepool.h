@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -27,13 +27,13 @@ class ToolBarStatePool : public ToolBarState
 {
 
 public:
-	ToolBarStatePool(UMLView *umlView);	
+    ToolBarStatePool(UMLView *umlView);
 
-	virtual void setButton(const WorkToolBar::ToolBar_Buttons &button);
-	virtual WorkToolBar::ToolBar_Buttons getButton() const; 
-	
+    virtual void setButton(const WorkToolBar::ToolBar_Buttons &button);
+    virtual WorkToolBar::ToolBar_Buttons getButton() const;
+
 private:
-	WorkToolBar::ToolBar_Buttons m_ToolBarButton;
+    WorkToolBar::ToolBar_Buttons m_ToolBarButton;
 };
 
 #endif //TOOLBARSTATEPOOL_H

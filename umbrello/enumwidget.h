@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2003-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2003-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -33,85 +33,85 @@ class UMLView;
 class EnumWidget : public UMLWidget {
 public:
 
-	/**
-	 * Constructs an EnumWidget.
-	 *
-	 * @param view		The parent of this EnumWidget.
-	 * @param o		The UMLObject this will be representing.
-	 */
-	EnumWidget(UMLView* view, UMLObject* o);
+    /**
+     * Constructs an EnumWidget.
+     *
+     * @param view		The parent of this EnumWidget.
+     * @param o		The UMLObject this will be representing.
+     */
+    EnumWidget(UMLView* view, UMLObject* o);
 
-	/**
-	 * Standard deconstructor.
-	 */
-	~EnumWidget();
+    /**
+     * Standard deconstructor.
+     */
+    ~EnumWidget();
 
-	/**
-	 * Initializes key variables of the class.
-	 */
-	void init();
+    /**
+     * Initializes key variables of the class.
+     */
+    void init();
 
-	/**
-	 * Returns the status of whether to show Package.
-	 *
-	 * @return	True if package is shown.
-	 */
-	bool getShowPackage() const;
+    /**
+     * Returns the status of whether to show Package.
+     *
+     * @return	True if package is shown.
+     */
+    bool getShowPackage() const;
 
-	/**
-	 * Toggles the status of whether to show package.
-	 */
-	void toggleShowPackage();
+    /**
+     * Toggles the status of whether to show package.
+     */
+    void toggleShowPackage();
 
-	/**
-	 * Set the status of whether to show Package.
-	 *
-	 * @param _show		True if package shall be shown.
-	 */
-	void setShowPackage(bool _status);
+    /**
+     * Set the status of whether to show Package.
+     *
+     * @param _show		True if package shall be shown.
+     */
+    void setShowPackage(bool _status);
 
-	/**
-	 * Activate the object after serializing it from a QDataStream.
-	 */
-	virtual bool activate(IDChangeLog* ChangeLog  = 0 );
+    /**
+     * Activate the object after serializing it from a QDataStream.
+     */
+    virtual bool activate(IDChangeLog* ChangeLog  = 0 );
 
-	/**
-	 * Draws the enum as a rectangle with a box underneith with a list of literals
-	 */
-	void draw(QPainter& p, int offsetX, int offsetY);
+    /**
+     * Draws the enum as a rectangle with a box underneith with a list of literals
+     */
+    void draw(QPainter& p, int offsetX, int offsetY);
 
-	/**
-	 * Saves to the <enumwidget> XMI element.
-	 */
-	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    /**
+     * Saves to the <enumwidget> XMI element.
+     */
+    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-	/**
-	 * Loads from an <enumwidget> XMI element.
-	 */
-	bool loadFromXMI(QDomElement& qElement);
+    /**
+     * Loads from an <enumwidget> XMI element.
+     */
+    bool loadFromXMI(QDomElement& qElement);
 
 protected:
-	bool m_bShowPackage;
+    bool m_bShowPackage;
 
 private:
-	/**
-	 * Calculates the size of the object.
-	 */
-	void calculateSize();
+    /**
+     * Calculates the size of the object.
+     */
+    void calculateSize();
 
-	/**
-	 * The right mouse button menu.
-	 */
-	ListPopupMenu* m_pMenu;
+    /**
+     * The right mouse button menu.
+     */
+    ListPopupMenu* m_pMenu;
 
 public slots:
-	/**
-	 * Will be called when a menu selection has been made from the
-	 * popup menu.
-	 *
-	 * @param sel	The selection id that has been selected.
-	 */
-	void slotMenuSelection(int sel);
+    /**
+     * Will be called when a menu selection has been made from the
+     * popup menu.
+     *
+     * @param sel	The selection id that has been selected.
+     */
+    void slotMenuSelection(int sel);
 };
 
 #endif

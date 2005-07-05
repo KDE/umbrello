@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -39,109 +39,109 @@ class KFontChooser;
  */
 
 class StateDialog : public KDialogBase {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	/**
-	 *   Constructor
-	 */
-	StateDialog( UMLView * pView, StateWidget * pWidget );
+    /**
+     *   Constructor
+     */
+    StateDialog( UMLView * pView, StateWidget * pWidget );
 
-	/**
-	 *   Returns whether changes were made.
-	 */
-	bool getChangesMade() {
-		return m_bChangesMade;
-	}
+    /**
+     *   Returns whether changes were made.
+     */
+    bool getChangesMade() {
+        return m_bChangesMade;
+    }
 
 protected:
 
-	enum Page
-	{
-	    GeneralPage = 0,
-	    Activity_Page,
-	    ColorPage,
-	    FontPage
-	};
+    enum Page
+    {
+        GeneralPage = 0,
+        Activity_Page,
+        ColorPage,
+        FontPage
+    };
 
-	/**
-	*   Entered when OK button pressed.
-	*/
-	void slotOk();
+    /**
+    *   Entered when OK button pressed.
+    */
+    void slotOk();
 
-	/**
-	*   Entered when Apply button pressed.
-	*/
-	void slotApply();
+    /**
+    *   Entered when Apply button pressed.
+    */
+    void slotApply();
 
-	/**
-	*   Sets up the pages of the dialog.
-	*/
-	void setupPages();
+    /**
+    *   Sets up the pages of the dialog.
+    */
+    void setupPages();
 
-	/**
-	*   Sets up the general page of the dialog.
-	*/
-	void setupGeneralPage();
+    /**
+    *   Sets up the general page of the dialog.
+    */
+    void setupGeneralPage();
 
-	/**
-	* 	Sets up the color page.
-	*/
-	void setupColorPage();
+    /**
+    * 	Sets up the color page.
+    */
+    void setupColorPage();
 
-	/**
-	*   Sets up the font selection page.
-	*/
-	void setupFontPage();
+    /**
+    *   Sets up the font selection page.
+    */
+    void setupFontPage();
 
-	/**
-	*	Sets up the activity page.
-	*/
-	void setupActivityPage();
+    /**
+    *	Sets up the activity page.
+    */
+    void setupActivityPage();
 
-	/**
-	*     Applys changes to the given page.
-	*/
-	void applyPage( Page page );
+    /**
+    *     Applys changes to the given page.
+    */
+    void applyPage( Page page );
 
-	/**
-	*   Font chooser widget for font page.
-	*/
-	KFontChooser * m_pChooser;
+    /**
+    *   Font chooser widget for font page.
+    */
+    KFontChooser * m_pChooser;
 
-	/**
-	* 	Color page
-	*/
-	UMLWidgetColorPage * m_pColorPage;
+    /**
+    * 	Color page
+    */
+    UMLWidgetColorPage * m_pColorPage;
 
-	/**
-	*	Activity page.
-	*/
-	ActivityPage * m_pActivityPage;
+    /**
+    *	Activity page.
+    */
+    ActivityPage * m_pActivityPage;
 
-	/**
-	*   The widget to represent.
-	*/
-	StateWidget * m_pStateWidget;
+    /**
+    *   The widget to represent.
+    */
+    StateWidget * m_pStateWidget;
 
-	/**
-	*   The diagram the widget is on.
-	*/
-	UMLView * m_pView;
+    /**
+    *   The diagram the widget is on.
+    */
+    UMLView * m_pView;
 
-	/**
-	*   Holds whether changes in the dialog have been made.
-	*/
-	bool m_bChangesMade;
+    /**
+    *   Holds whether changes in the dialog have been made.
+    */
+    bool m_bChangesMade;
 
-	struct GeneralPageWidgets {
-		QLabel * nameL, * typeL;
-		QLineEdit * nameLE, * typeLE;
-		QMultiLineEdit * docMLE;
+    struct GeneralPageWidgets {
+        QLabel * nameL, * typeL;
+        QLineEdit * nameLE, * typeLE;
+        QMultiLineEdit * docMLE;
 
-		QGroupBox * docGB, * generalGB;
-	}
-	m_GenPageWidgets;
+        QGroupBox * docGB, * generalGB;
+    }
+    m_GenPageWidgets;
 };
 
 #endif

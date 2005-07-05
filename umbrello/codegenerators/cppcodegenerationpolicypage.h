@@ -25,21 +25,21 @@
  */
 
 class CPPCodeGenerationPolicyPage : public CodeGenerationPolicyPage {
-	Q_OBJECT
+    Q_OBJECT
 public:
 
-	CPPCodeGenerationPolicyPage (QWidget *parent=0, const char *name=0, CPPCodeGenerationPolicy * policy = 0);
+    CPPCodeGenerationPolicyPage (QWidget *parent=0, const char *name=0, CPPCodeGenerationPolicy * policy = 0);
 
-	virtual ~CPPCodeGenerationPolicyPage();
+    virtual ~CPPCodeGenerationPolicyPage();
 
 protected:
 
-	CPPCodeGenerationForm * form;
-	int commentTypeToInteger(CPPCodeGenerationPolicy::CPPCommentStyle type);
+    CPPCodeGenerationForm * form;
+    int commentTypeToInteger(CPPCodeGenerationPolicy::CPPCommentStyle type);
 
 public slots:
 
-	void apply();
+    void apply();
 
 };
 

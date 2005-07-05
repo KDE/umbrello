@@ -28,23 +28,23 @@ class CodeGenerationPolicy;
  */
 
 class CodeGenerationPolicyPage : public CodeGenerationPolicyBase  {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	CodeGenerationPolicyPage (QWidget *parent=0, const char *name=0, CodeGenerationPolicy * policy = 0);
+    CodeGenerationPolicyPage (QWidget *parent=0, const char *name=0, CodeGenerationPolicy * policy = 0);
 
-	virtual ~CodeGenerationPolicyPage();
+    virtual ~CodeGenerationPolicyPage();
 
-	void setDefaults();
+    void setDefaults();
 
 protected:
 
-	CodeGenerationPolicy * m_parentPolicy;
+    CodeGenerationPolicy * m_parentPolicy;
 
 private:
 
 public slots:
 
-	virtual void apply();
+    virtual void apply();
 
 
 };

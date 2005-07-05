@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2003-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2003-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -25,73 +25,73 @@
 #include "dialogs/umltemplatedialog.h"
 
 UMLTemplate::UMLTemplate(const UMLObject *parent, QString name, Uml::IDType id, QString type)
-  : UMLClassifierListItem( parent, name, id ) {
-	setTypeName( type );
-	m_BaseType = Uml::ot_Template;
+        : UMLClassifierListItem( parent, name, id ) {
+    setTypeName( type );
+    m_BaseType = Uml::ot_Template;
 }
 
 UMLTemplate::UMLTemplate(const UMLObject *parent)
-  : UMLClassifierListItem( parent ) {
-	m_BaseType = Uml::ot_Template;
+        : UMLClassifierListItem( parent ) {
+    m_BaseType = Uml::ot_Template;
 }
 
 UMLTemplate::~UMLTemplate() {}
 
 QString UMLTemplate::toString(Uml::Signature_Type /*sig = st_NoSig*/) {
-	if (m_pSecondary == NULL || m_pSecondary->getName() == "class") {
-		return getName();
-	} else {
-		return getName() + " : " + m_pSecondary->getName();
-	}
+    if (m_pSecondary == NULL || m_pSecondary->getName() == "class") {
+        return getName();
+    } else {
+        return getName() + " : " + m_pSecondary->getName();
+    }
 }
 
 QString UMLTemplate::getTypeName() {
-	if (m_pSecondary == NULL)
-		return "class";
-	return m_pSecondary->getName();
+    if (m_pSecondary == NULL)
+        return "class";
+    return m_pSecondary->getName();
 }
 
 bool UMLTemplate::operator==(UMLTemplate &rhs) {
-	if (this == &rhs) {
-		return true;
-	}
-	if ( !UMLObject::operator==( rhs ) ) {
-		return false;
-	}
-	if (m_pSecondary != rhs.m_pSecondary) {
-		return false;
-	}
-	return true;
+    if (this == &rhs) {
+        return true;
+    }
+    if ( !UMLObject::operator==( rhs ) ) {
+        return false;
+    }
+    if (m_pSecondary != rhs.m_pSecondary) {
+        return false;
+    }
+    return true;
 }
 
 void UMLTemplate::copyInto(UMLTemplate *rhs) const
 {
-	UMLClassifierListItem::copyInto(rhs);
+    UMLClassifierListItem::copyInto(rhs);
 }
 
 UMLObject* UMLTemplate::clone() const
 {
-	UMLTemplate *clone = new UMLTemplate( (UMLTemplate*) parent());
-	copyInto(clone);
+    UMLTemplate *clone = new UMLTemplate( (UMLTemplate*) parent());
+    copyInto(clone);
 
-	return clone;
+    return clone;
 }
 
 
 void UMLTemplate::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
-	//FIXME: uml13.dtd compliance
-	QDomElement attributeElement = UMLObject::save("UML:TemplateParameter", qDoc);
-	if (m_pSecondary)
-		attributeElement.setAttribute("type", ID2STR(m_pSecondary->getID()));
-	qElement.appendChild(attributeElement);
+    //FIXME: uml13.dtd compliance
+    QDomElement attributeElement = UMLObject::save("UML:TemplateParameter", qDoc);
+    if (m_pSecondary)
+        attributeElement.setAttribute("type", ID2STR(m_pSecondary->getID()));
+    qElement.appendChild(attributeElement);
 }
 
 bool UMLTemplate::load(QDomElement& element) {
-	m_SecondaryId = element.attribute("type", "");
-	return true;
+    m_SecondaryId = element.attribute("type", "");
+    return true;
 }
 
 bool UMLTemplate::showPropertiesDialogue(QWidget* parent) {
-	UMLTemplateDialog dialogue(parent, this);
-	return dialogue.exec();
+    UMLTemplateDialog dialogue(parent, this);
+    return dialogue.exec();
 }

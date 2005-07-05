@@ -36,35 +36,35 @@ class CodeGenerationOptionsPage;
  */
 
 class CodeGenerationWizard : public CodeGenerationWizardBase {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	CodeGenerationWizard(UMLDoc *doc, UMLClassifierList *classList,
-			     QString activeLanguage, UMLApp *parent,
-			     const char *name=0);
-	~CodeGenerationWizard();
+    CodeGenerationWizard(UMLDoc *doc, UMLClassifierList *classList,
+                         QString activeLanguage, UMLApp *parent,
+                         const char *name=0);
+    ~CodeGenerationWizard();
 
-	void showPage(QWidget *);
+    void showPage(QWidget *);
 
-	int exec() {
-		return QWizard::exec();
-	}
+    int exec() {
+        return QWizard::exec();
+    }
 protected slots:
-	void selectClass();
-	void deselectClass();
-	void populateStatusList();
-	void generateCode();
-	void classGenerated(UMLClassifier* concept, bool generated);
+    void selectClass();
+    void deselectClass();
+    void populateStatusList();
+    void generateCode();
+    void classGenerated(UMLClassifier* concept, bool generated);
 
 private slots:
-	void changeLanguage();
+    void changeLanguage();
 
 
 private:
-	CodeGenerator* generator();
+    CodeGenerator* generator();
 
-	UMLApp* m_app;
-	UMLDoc* m_doc;
-	CodeGenerationOptionsPage* m_CodeGenerationOptionsPage;
+    UMLApp* m_app;
+    UMLDoc* m_doc;
+    CodeGenerationOptionsPage* m_CodeGenerationOptionsPage;
 };
 
 #endif

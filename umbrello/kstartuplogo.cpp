@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2000
-  *  Michael Edwardes <mte @users.sourceforge.net>
-  */
+/*
+ *  copyright (C) 2000
+ *  Michael Edwardes <mte @users.sourceforge.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -18,38 +18,38 @@
 #include <qtimer.h>
 
 KStartupLogo::KStartupLogo(QWidget * parent, const char *name)
-		: QWidget(parent,name, WStyle_NoBorder | WStyle_Customize | WDestructiveClose )
+        : QWidget(parent,name, WStyle_NoBorder | WStyle_Customize | WDestructiveClose )
 ,m_bReadyToHide(false) {
-	//pm.load(locate("appdata", "pics/startlogo.png"));
-	KStandardDirs * dirs = KGlobal::dirs();
-	QString dataDir = dirs -> findResourceDir("data", "umbrello/pics/object.png");
-	dataDir += "/umbrello/pics/";
-	QPixmap pm(dataDir + "startlogo.png");
-	setBackgroundPixmap(pm);
-	setGeometry(QApplication::desktop()->width()/2-pm.width()/2,
-	            QApplication::desktop()->height()/2-pm.height()/2,
-	            pm.width(),pm.height());
+    //pm.load(locate("appdata", "pics/startlogo.png"));
+    KStandardDirs * dirs = KGlobal::dirs();
+    QString dataDir = dirs -> findResourceDir("data", "umbrello/pics/object.png");
+    dataDir += "/umbrello/pics/";
+    QPixmap pm(dataDir + "startlogo.png");
+    setBackgroundPixmap(pm);
+    setGeometry(QApplication::desktop()->width()/2-pm.width()/2,
+                QApplication::desktop()->height()/2-pm.height()/2,
+                pm.width(),pm.height());
 
-	timer = new QTimer(this);
-	connect( timer, SIGNAL(timeout()), this, SLOT(timerDone()) );
-	timer->start(2000, true);
+    timer = new QTimer(this);
+    connect( timer, SIGNAL(timeout()), this, SLOT(timerDone()) );
+    timer->start(2000, true);
 }
 
 KStartupLogo::~KStartupLogo() {
-	delete timer;
+    delete timer;
 }
 
 void KStartupLogo::mousePressEvent( QMouseEvent*) {
-	// for the haters of raising startlogos
-	if (m_bReadyToHide)
-		hide();
+    // for the haters of raising startlogos
+    if (m_bReadyToHide)
+        hide();
 }
 
 void KStartupLogo::timerDone() {
-	this->hide();
+    this->hide();
 }
 
 void KStartupLogo::setHideEnabled(bool bEnabled) {
-	m_bReadyToHide = bEnabled;
+    m_bReadyToHide = bEnabled;
 }
 #include "kstartuplogo.moc"

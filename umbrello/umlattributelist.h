@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -29,18 +29,18 @@ typedef QPtrListIterator<UMLAttribute> UMLAttributeListIt;
  */
 class UMLAttributeList : public QPtrList<UMLAttribute>
 {
-	public:
+public:
 
-	/**
-	 * Copy the internal presentation of this object into the new
-	 * object.
-	 */
-	virtual void copyInto (UMLAttributeList *rhs) const;
+    /**
+     * Copy the internal presentation of this object into the new
+     * object.
+     */
+    virtual void copyInto (UMLAttributeList *rhs) const;
 
-	/**
-	 * Make a clone of this object.
-	 */
-	virtual UMLAttributeList* clone() const;
+    /**
+     * Make a clone of this object.
+     */
+    virtual UMLAttributeList* clone() const;
 };
 
 

@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -41,60 +41,60 @@ class UMLView;
 
 class SelectOpDlg : public KDialogBase
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	/**
-	 *	Constructs a SelectOpDlg instance.
-	 *
-	 *	@param	parent	The parent to this instance.
-	 *	@param	c	The concept to get the operations from.
-	 */
-	SelectOpDlg(UMLView * parent, UMLClassifier * c);
+    /**
+     *	Constructs a SelectOpDlg instance.
+     *
+     *	@param	parent	The parent to this instance.
+     *	@param	c	The concept to get the operations from.
+     */
+    SelectOpDlg(UMLView * parent, UMLClassifier * c);
 
-	/**
-	 *	Standard deconstructor.
-	 */
-	~SelectOpDlg();
+    /**
+     *	Standard deconstructor.
+     */
+    ~SelectOpDlg();
 
-	/**
-	 *	Returns the operation to display.
-	 *
-	 *	@return The operation to display.
-	 */
-	QString getOpText();
+    /**
+     *	Returns the operation to display.
+     *
+     *	@return The operation to display.
+     */
+    QString getOpText();
 
-	/**
-	 *	Returns the sequence number for the operation.
-	 *
-	 *	@return Returns the sequence number for the operation.
-	 */
-	QString getSeqNumber();
+    /**
+     *	Returns the sequence number for the operation.
+     *
+     *	@return Returns the sequence number for the operation.
+     */
+    QString getSeqNumber();
 
-	/**
-	 * Set the sequence number text.
-	 *
-	 *	@param	num	The number to set the sequence to.
-	 */
-	void setSeqNumber(const QString &num);
+    /**
+     * Set the sequence number text.
+     *
+     *	@param	num	The number to set the sequence to.
+     */
+    void setSeqNumber(const QString &num);
 
-	/**
-	 * Set the custom operation text.
-	 *
-	 *	@param op The operation to set as the custom operation.
-	 */
-	void setCustomOp(const QString &op);
+    /**
+     * Set the custom operation text.
+     *
+     *	@param op The operation to set as the custom operation.
+     */
+    void setCustomOp(const QString &op);
 private:
-	QGroupBox * m_pOpGB;
-	QComboBox *	m_pOpCB;
-	QLabel * m_pSeqL;
-	QLineEdit * m_pOpLE, * m_pSeqLE;
-	QRadioButton * m_pCustomRB, * m_pOpRB;
-	QButtonGroup * m_pOpBG, * m_pDocGB;
-	QString m_Text;
-	int m_nOpCount;
-	UMLView *m_pView;
+    QGroupBox * m_pOpGB;
+    QComboBox *	m_pOpCB;
+    QLabel * m_pSeqL;
+    QLineEdit * m_pOpLE, * m_pSeqLE;
+    QRadioButton * m_pCustomRB, * m_pOpRB;
+    QButtonGroup * m_pOpBG, * m_pDocGB;
+    QString m_Text;
+    int m_nOpCount;
+    UMLView *m_pView;
 public slots:
-	void slotSelected(int id);
+    void slotSelected(int id);
 };
 
 #endif

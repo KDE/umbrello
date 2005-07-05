@@ -42,222 +42,222 @@
   * you cant fully represent Objects in the XML world ..yet. -b.t.
   */
 
-class XMLSchemaWriter : public SimpleCodeGenerator 
+class XMLSchemaWriter : public SimpleCodeGenerator
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
 
-	/**
-	 * Constructor, initialises a couple of variables
-	 */
-	XMLSchemaWriter(UMLDoc * doc, const char* name = 0);
+    /**
+     * Constructor, initialises a couple of variables
+     */
+    XMLSchemaWriter(UMLDoc * doc, const char* name = 0);
 
-	/**
-	 * Destructor, empty
-	 */
-	virtual ~XMLSchemaWriter();
+    /**
+     * Destructor, empty
+     */
+    virtual ~XMLSchemaWriter();
 
-	/**
-	 * call this method to generate XMLschema code for a UMLClassifier
-	 * @param c the class to generate code for
-	 */
-	virtual void writeClass(UMLClassifier *c);
- 
-	/**
-	 * checks whether type is "XMLSchemaWriter"
-	 *
-	 * @param type
-	 */
-	virtual bool isType (QString & type);
+    /**
+     * call this method to generate XMLschema code for a UMLClassifier
+     * @param c the class to generate code for
+     */
+    virtual void writeClass(UMLClassifier *c);
 
-	/**
-	 * returns "XMLSchema"
-	 */
-	virtual QString getLanguage();
+    /**
+     * checks whether type is "XMLSchemaWriter"
+     *
+     * @param type
+     */
+    virtual bool isType (QString & type);
 
-	/**
-	 * get list of reserved keywords
-	 */
-	virtual const QStringList reservedKeywords() const;
+    /**
+     * returns "XMLSchema"
+     */
+    virtual QString getLanguage();
+
+    /**
+     * get list of reserved keywords
+     */
+    virtual const QStringList reservedKeywords() const;
 
 private:
 
-	/**
-	 * Writes concept's documentation then  guts
-	 */
-	void writeClassifier(UMLClassifier *c, QTextStream &XMLSchema); 
-	void writeAbstractClassifier(UMLClassifier *c, QTextStream &XMLSchema); 
-	void writeConcreteClassifier(UMLClassifier *c, QTextStream &XMLSchema); 
+    /**
+     * Writes concept's documentation then  guts
+     */
+    void writeClassifier(UMLClassifier *c, QTextStream &XMLSchema);
+    void writeAbstractClassifier(UMLClassifier *c, QTextStream &XMLSchema);
+    void writeConcreteClassifier(UMLClassifier *c, QTextStream &XMLSchema);
 
-	/**
-	 * write a <complexType> declaration for this classifier
-	 */
-	void writeComplexTypeClassifierDecl(UMLClassifier *c, 
-				UMLAssociationList associations, 
-				UMLAssociationList aggregations, 
-				UMLAssociationList compositions, 
-				UMLClassifierList superclassifiers, 
-				QTextStream &XMLSchema); 
+    /**
+     * write a <complexType> declaration for this classifier
+     */
+    void writeComplexTypeClassifierDecl(UMLClassifier *c,
+                                        UMLAssociationList associations,
+                                        UMLAssociationList aggregations,
+                                        UMLAssociationList compositions,
+                                        UMLClassifierList superclassifiers,
+                                        QTextStream &XMLSchema);
 
-	/**
-	 * write a <group> declaration for this classifier. Used for interfaces to classes with
-	 * inheriting children. 
-	 */
-	void writeGroupClassifierDecl(UMLClassifier *c, 
-				UMLClassifierList superclassifiers, 
-				QTextStream &XMLSchema); 
+    /**
+     * write a <group> declaration for this classifier. Used for interfaces to classes with
+     * inheriting children. 
+     */
+    void writeGroupClassifierDecl(UMLClassifier *c,
+                                  UMLClassifierList superclassifiers,
+                                  QTextStream &XMLSchema);
 
-	/**
-	 * find if the classifier would have any Child elements.
-	 */
-	bool determineIfHasChildNodes( UMLClassifier *c); 
+    /**
+     * find if the classifier would have any Child elements.
+     */
+    bool determineIfHasChildNodes( UMLClassifier *c);
 
-	/**
-	 * write all attributes for a given class
-	 * @param c the class for which we are generating code
-	 * @param j the stream associated with the output file
-	 */
-	void writeAttributes(UMLClassifier *c, QTextStream &j);
+    /**
+     * write all attributes for a given class
+     * @param c the class for which we are generating code
+     * @param j the stream associated with the output file
+     */
+    void writeAttributes(UMLClassifier *c, QTextStream &j);
 
-	/**
-	 * write an element declaration.
-	 */
-	void writeElementDecl( const QString &elementName, const QString &elementTypeName, QTextStream &XMLschema); 
+    /**
+     * write an element declaration.
+     */
+    void writeElementDecl( const QString &elementName, const QString &elementTypeName, QTextStream &XMLschema);
 
-	/**
-	 * writes the Attribute declarations
-	 * @param attribs List of attributes
-	 * @param XMLschema text stream
-	 */
-	void writeAttributeDecls(UMLAttributeList &attribs, QTextStream &XMLschema ); 
+    /**
+     * writes the Attribute declarations
+     * @param attribs List of attributes
+     * @param XMLschema text stream
+     */
+    void writeAttributeDecls(UMLAttributeList &attribs, QTextStream &XMLschema );
 
-	/**
-	 * write an element attribute.
-	 */
-	void writeAttributeDecl(UMLAttribute *attrib, QTextStream &XMLschema ); 
+    /**
+     * write an element attribute.
+     */
+    void writeAttributeDecl(UMLAttribute *attrib, QTextStream &XMLschema );
 
-	/**
-	 * Find all attributes for this concept.
-	 */
-	UMLAttributeList findAttributes (UMLClassifier *c); 
+    /**
+     * Find all attributes for this concept.
+     */
+    UMLAttributeList findAttributes (UMLClassifier *c);
 
-	/**
-	 * Discover the string name of all the attribute groups (which are child nodes)
-	 * of this concept (err.. element)
-	 */
-	QStringList findAttributeGroups (UMLClassifier *c); 
+    /**
+     * Discover the string name of all the attribute groups (which are child nodes)
+     * of this concept (err.. element)
+     */
+    QStringList findAttributeGroups (UMLClassifier *c);
 
-	/**
-	 * Searches a list of associations for appropriate ones to write out as attributes.
-	 * This works well for compositions, aggregations and self-associations but will 
-	 * not work right for plain associations between 2 different classes.
-	 */
-	bool writeAssociationDecls(UMLAssociationList associations, bool noRoleOK, bool didOne,
-				   Uml::IDType id, QTextStream &XMLschema);
+    /**
+     * Searches a list of associations for appropriate ones to write out as attributes.
+     * This works well for compositions, aggregations and self-associations but will 
+     * not work right for plain associations between 2 different classes.
+     */
+    bool writeAssociationDecls(UMLAssociationList associations, bool noRoleOK, bool didOne,
+                               Uml::IDType id, QTextStream &XMLschema);
 
-	/**
-	 * Find all attributes that  belong in group
-	 */
-	void writeAttributeGroupDecl(const QString &elementName, UMLAttributeList &attribs, QTextStream &XMLschema ); 
+    /**
+     * Find all attributes that  belong in group
+     */
+    void writeAttributeGroupDecl(const QString &elementName, UMLAttributeList &attribs, QTextStream &XMLschema );
 
-	/**
-	 * Writes out an association as an attribute using Vector
-	 */
-	void writeAssociationRoleDecl(UMLClassifier *c, const QString &multi, QTextStream &XMLschema); 
+    /**
+     * Writes out an association as an attribute using Vector
+     */
+    void writeAssociationRoleDecl(UMLClassifier *c, const QString &multi, QTextStream &XMLschema);
 
-	/**
-	 * Construct an element tag with the schema namespace 
-	 */
-	QString makeSchemaTag ( QString tagName );
+    /**
+     * Construct an element tag with the schema namespace 
+     */
+    QString makeSchemaTag ( QString tagName );
 
-	/**
-	 * Construct an element tag with the package namespace 
-	 */
-	QString makePackageTag ( QString tagName );
+    /**
+     * Construct an element tag with the package namespace 
+     */
+    QString makePackageTag ( QString tagName );
 
-	/**
-	 * Writes a comment
-	 */
-	void writeComment(const QString &text, QTextStream &XMLschema); 
+    /**
+     * Writes a comment
+     */
+    void writeComment(const QString &text, QTextStream &XMLschema);
 
-	/**
-	 * Find and return a list of child UMLObjects pointed to by the associations 
-	 * in this UMLClassifier.
-	 */
-	UMLObjectList findChildObjsInAssociations (UMLClassifier *c, UMLAssociationList associations);
+    /**
+     * Find and return a list of child UMLObjects pointed to by the associations 
+     * in this UMLClassifier.
+     */
+    UMLObjectList findChildObjsInAssociations (UMLClassifier *c, UMLAssociationList associations);
 
-	/**
-	 * Replaces `string' with `String' and `bool' with `boolean'
-	 */
-	QString fixTypeName( QString string ); 
+    /**
+     * Replaces `string' with `String' and `bool' with `boolean'
+     */
+    QString fixTypeName( QString string );
 
-	/**
-	 * check that initial values of strings DONT have quotes around them
-	 * (we get double quoting then!!
-	 */
-	QString fixInitialStringDeclValue( QString value, const QString &type);
+    /**
+     * check that initial values of strings DONT have quotes around them
+     * (we get double quoting then!!
+     */
+    QString fixInitialStringDeclValue( QString value, const QString &type);
 
-	/**
-	 * Find the element node name for this concept.
-	 */
-	QString getElementName(UMLClassifier *c);
+    /**
+     * Find the element node name for this concept.
+     */
+    QString getElementName(UMLClassifier *c);
 
-	/**
-	 * Find the element node "type" name. Used in the "complexType" which
-	 * might define that element node.
-	 */
-	QString getElementTypeName(UMLClassifier *c);
+    /**
+     * Find the element node "type" name. Used in the "complexType" which
+     * might define that element node.
+     */
+    QString getElementTypeName(UMLClassifier *c);
 
-	/**
-	 * Find the group node "type" name. Used for elements which define an interface/are abstract. 
-	 */
-	QString getElementGroupTypeName(UMLClassifier *c);
+    /**
+     * Find the group node "type" name. Used for elements which define an interface/are abstract. 
+     */
+    QString getElementGroupTypeName(UMLClassifier *c);
 
-	/**
-	 * Find all the child objects in this association and make sure they get 
-	 * written out (if they havent already been)
-	 */
-	void writeChildObjsInAssociation (UMLClassifier *c, UMLAssociationList assoc, QTextStream &s); 
+    /**
+     * Find all the child objects in this association and make sure they get 
+     * written out (if they havent already been)
+     */
+    void writeChildObjsInAssociation (UMLClassifier *c, UMLAssociationList assoc, QTextStream &s);
 
-	/**
-	 * Quick check to see if we have written the declaration for this concept yet.
-	 */
-	bool hasBeenWritten(UMLClassifier *c);
+    /**
+     * Quick check to see if we have written the declaration for this concept yet.
+     */
+    bool hasBeenWritten(UMLClassifier *c);
 
-	/**
-	 * mark a concept as written, so it is not repeatedly re-declared in the schema
-	 */ 
-	void markAsWritten(UMLClassifier *c);
+    /**
+     * mark a concept as written, so it is not repeatedly re-declared in the schema
+     */ 
+    void markAsWritten(UMLClassifier *c);
 
-	/**
-	 * The basic schemaNamespace tag
-	 */
-	QString schemaNamespaceTag;
+    /**
+     * The basic schemaNamespace tag
+     */
+    QString schemaNamespaceTag;
 
-	/**
-	 * The basic schemaNamespace tag
-	 */
-	QString packageNamespaceTag;
+    /**
+     * The basic schemaNamespace tag
+     */
+    QString packageNamespaceTag;
 
-	/*
-	 * The basic schemaNamespace URI
-	 */
-	QString schemaNamespaceURI;
+    /*
+     * The basic schemaNamespace URI
+     */
+    QString schemaNamespaceURI;
 
-	/**
-	 * The basic schemaNamespace URI
-	 */
-	QString packageNamespaceURI;
+    /**
+     * The basic schemaNamespace URI
+     */
+    QString packageNamespaceURI;
 
-	/**
-	 * A \n, used at the end of each line
-	 */
-	QString startline;
+    /**
+     * A \n, used at the end of each line
+     */
+    QString startline;
 
-	/**
-	 * a list of UMLClassifiers we have already written
-	 */
-	UMLClassifierList writtenClassifiers;
+    /**
+     * a list of UMLClassifiers we have already written
+     */
+    UMLClassifierList writtenClassifiers;
 };
 
 #endif // XMLSCHEMAWRITER_H

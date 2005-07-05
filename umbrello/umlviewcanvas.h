@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -24,27 +24,27 @@ class UMLView;
 
 class UMLViewCanvas : public QCanvas {
 public:
-	/**
-	*	Constructor
-	*/
-	UMLViewCanvas( UMLView * pView );
+    /**
+    *	Constructor
+    */
+    UMLViewCanvas( UMLView * pView );
 
-	/**
-	*	Deconstructor
-	*/
-	virtual ~UMLViewCanvas();
+    /**
+    *	Deconstructor
+    */
+    virtual ~UMLViewCanvas();
 
 protected:
 
-	/**
-	* 	Overrides default method.
-	*/
-	virtual void drawBackground( QPainter & painter, const QRect & clip );
+    /**
+    * 	Overrides default method.
+    */
+    virtual void drawBackground( QPainter & painter, const QRect & clip );
 
-	/**
-	* 	The view the canvas is associated with.
-	*/
-	UMLView * m_pView;
+    /**
+    * 	The view the canvas is associated with.
+    */
+    UMLView * m_pView;
 };
 
 #endif

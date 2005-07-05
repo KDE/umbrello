@@ -51,46 +51,46 @@ class KConfig;
 
 namespace Umbrello
 {
-  // forward declarations
-  class PluginLoader;
+// forward declarations
+class PluginLoader;
 
-  /**
-   * @ingroup U2_Lib
-   *
-   * The Plugin class is the base class for all modular functionality in
-   * the core Umbrello library. Because Umbrello is a plugin architecture,
-   * this class is derived from many times. Plugins are created via the
-   * KLibFactory of the encapsulating shared library and created from some
-   * other functional object (application, tool or plugin). After the plugin
-   * has been created, the init method is called. Before unloading, the
-   * shutdown method is called. Derived plugins can implement specific
-   * startup/shutdown behavior by overloading the onInit and onShutdown
-   * methods respectively.
-   *
-   * By default, plugins use a configuration group called [LoadActions] in
-   * the config file. Entries in this group define any dependant or on-demand
-   * plugins that should be loaded in conjunction with this plugin. Known
-   * entries (actions) are "Load" and "LoadGUI". Because plugins can be used
-   * by both GUI and command line tools, they must be selective about some
-   * functionality. Specifically, during configuration, a plugin for a tool
-   * must not load GUI plugins.
-   *
-   * In order to provide application-like functionality, this class offers
-   * support for accessing the configuration records of the KInstance object
-   * corresponding to the shared library. Because the KInstance object is
-   * only available within the scope of the shared library, the configuration
-   * records must be set in the constructor of the derived plugin class. However,
-   * because the construction name is passed to this constructor (as are the
-   * parent object and args), we can simply capture the name when the object
-   * is constructed.
-   */
-  class Plugin : 
-    public QObject,
-    public Configurable
-  {
+/**
+ * @ingroup U2_Lib
+ *
+ * The Plugin class is the base class for all modular functionality in
+ * the core Umbrello library. Because Umbrello is a plugin architecture,
+ * this class is derived from many times. Plugins are created via the
+ * KLibFactory of the encapsulating shared library and created from some
+ * other functional object (application, tool or plugin). After the plugin
+ * has been created, the init method is called. Before unloading, the
+ * shutdown method is called. Derived plugins can implement specific
+ * startup/shutdown behavior by overloading the onInit and onShutdown
+ * methods respectively.
+ *
+ * By default, plugins use a configuration group called [LoadActions] in
+ * the config file. Entries in this group define any dependant or on-demand
+ * plugins that should be loaded in conjunction with this plugin. Known
+ * entries (actions) are "Load" and "LoadGUI". Because plugins can be used
+ * by both GUI and command line tools, they must be selective about some
+ * functionality. Specifically, during configuration, a plugin for a tool
+ * must not load GUI plugins.
+ *
+ * In order to provide application-like functionality, this class offers
+ * support for accessing the configuration records of the KInstance object
+ * corresponding to the shared library. Because the KInstance object is
+ * only available within the scope of the shared library, the configuration
+ * records must be set in the constructor of the derived plugin class. However,
+ * because the construction name is passed to this constructor (as are the
+ * parent object and args), we can simply capture the name when the object
+ * is constructed.
+ */
+class Plugin :
+            public QObject,
+            public Configurable
+{
     Q_OBJECT
     friend class PluginLoader;
-  public:
+public:
     /** Destroy a plugin.*/
     virtual ~Plugin();
 
@@ -110,7 +110,7 @@ namespace Umbrello
      */
     void unload();
 
-  protected:
+protected:
     /** Construct a plugin */
     Plugin(QObject *parent, const char *name, const QStringList &args);
 
@@ -120,7 +120,7 @@ namespace Umbrello
     /** Can be reimplemented to define plugin specific shutdown behavior */
     virtual bool onShutdown();
 
-  private:
+private:
     /**
      * This method is called by the loader to initialize and configure the
      * plugin. During initialization, any configured plugins are loaded.
@@ -153,11 +153,11 @@ namespace Umbrello
     /** Add to the reference count */
     void ref();
 
-  protected:
+protected:
     uint	_ref;		///< Reference counter
     QCString	_instanceName;	///< Instance name of the plugin
     KConfig    *_config;	///< Configuration record
-  };
+};
 }
 
 #endif

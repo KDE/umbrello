@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -36,309 +36,309 @@ class SeqLineWidget;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ObjectWidget : public UMLWidget {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	/**
-	 * Creates an ObjectWidget.
-	 *
-	 * @param view		The parent to this object.
-	 * @param o		The object it will be representing.
-	 * @param lid		The local id for the object.
-	 */
-	ObjectWidget(UMLView * view, UMLObject *o, Uml::IDType lid = Uml::id_None );
+    /**
+     * Creates an ObjectWidget.
+     *
+     * @param view		The parent to this object.
+     * @param o		The object it will be representing.
+     * @param lid		The local id for the object.
+     */
+    ObjectWidget(UMLView * view, UMLObject *o, Uml::IDType lid = Uml::id_None );
 
-	/**
-	 * destructor 
-	 */
-	virtual ~ObjectWidget();
+    /**
+     * destructor 
+     */
+    virtual ~ObjectWidget();
 
-	/**
-	 * Sets the x-coordinate.
-	 * Reimplements the method from UMLWidget.
-	 *
-	 * @param x The x-coordinate to be set.
-	 */
-	virtual void setX( int x );
+    /**
+     * Sets the x-coordinate.
+     * Reimplements the method from UMLWidget.
+     *
+     * @param x The x-coordinate to be set.
+     */
+    virtual void setX( int x );
 
-	/**
-	 * Sets the y-coordinate.
-	 * Reimplements the method from UMLWidget.
-	 *
-	 * @param y The y-coordinate to be set.
-	 */
-	virtual void setY( int y );
+    /**
+     * Sets the y-coordinate.
+     * Reimplements the method from UMLWidget.
+     *
+     * @param y The y-coordinate to be set.
+     */
+    virtual void setY( int y );
 
-	/**
-	 * Returns the local ID for this object.  This ID is used so that
-	 * many objects of the same @ref UMLObject instance can be on the
-	 * same diagram.
-	 *
-	 * @return	The local ID.
-	 */
-	Uml::IDType getLocalID() const {
-		return m_nLocalID;
-	}
+    /**
+     * Returns the local ID for this object.  This ID is used so that
+     * many objects of the same @ref UMLObject instance can be on the
+     * same diagram.
+     *
+     * @return	The local ID.
+     */
+    Uml::IDType getLocalID() const {
+        return m_nLocalID;
+    }
 
-	/**
-	 * Returns the instance name.
-	 *
-	 * @return	The instance name.
-	 */
-	QString getInstanceName() const {
-		return m_InstanceName;
-	}
+    /**
+     * Returns the instance name.
+     *
+     * @return	The instance name.
+     */
+    QString getInstanceName() const {
+        return m_InstanceName;
+    }
 
-	/**
-	 * Sets the instance name.
-	 *
-	 * @param name		The name to set the instance name to.
-	 */
-	void setInstanceName(const QString &name) {
-		m_InstanceName = name;
-	}
+    /**
+     * Sets the instance name.
+     *
+     * @param name		The name to set the instance name to.
+     */
+    void setInstanceName(const QString &name) {
+        m_InstanceName = name;
+    }
 
-	/**
-	 * Returns the documentation for the object.
-	 *
-	 * @return	The documentation for the object.
-	 */
-	QString getDoc() const;
+    /**
+     * Returns the documentation for the object.
+     *
+     * @return	The documentation for the object.
+     */
+    QString getDoc() const;
 
-	/**
-	 * Sets the documentation.
-	 *
-	 * @param _doc		The documentation to set to.
-	 */
-	void setDoc(const QString &_doc) {
-		m_Doc = _doc;
-	}
+    /**
+     * Sets the documentation.
+     *
+     * @param _doc		The documentation to set to.
+     */
+    void setDoc(const QString &_doc) {
+        m_Doc = _doc;
+    }
 
-	/**
-	 * Returns whether object is representing a multi-object.
-	 *
-	 * @return	True if object is representing a multi-object.
-	 */
-	bool getMultipleInstance() const {
-		return m_bMultipleInstance;
-	}
+    /**
+     * Returns whether object is representing a multi-object.
+     *
+     * @return	True if object is representing a multi-object.
+     */
+    bool getMultipleInstance() const {
+        return m_bMultipleInstance;
+    }
 
-	/**
-	 * Sets whether representing a multi-instance object.
-	 *
-	 * @param multiple	Object state. true- multi, false - single.
-	 */
-	void setMultipleInstance(bool multiple);
+    /**
+     * Sets whether representing a multi-instance object.
+     *
+     * @param multiple	Object state. true- multi, false - single.
+     */
+    void setMultipleInstance(bool multiple);
 
-	/**
-	 * Sets the local id of the object.
-	 *
-	 * @param id		The local id of the object.
-	 */
-	void setLocalID(Uml::IDType id) {
-		m_nLocalID = id;
-	}
+    /**
+     * Sets the local id of the object.
+     *
+     * @param id		The local id of the object.
+     */
+    void setLocalID(Uml::IDType id) {
+        m_nLocalID = id;
+    }
 
-	/**
-	 * Activate the object after serializing it from a QDataStream
-	 */
-	virtual bool activate(IDChangeLog* ChangeLog = 0);
+    /**
+     * Activate the object after serializing it from a QDataStream
+     */
+    virtual bool activate(IDChangeLog* ChangeLog = 0);
 
-	/**
-	 * Override default method.
-	 */
-	void draw(QPainter & p, int offsetX, int offsetY);
+    /**
+     * Override default method.
+     */
+    void draw(QPainter & p, int offsetX, int offsetY);
 
-	/**
-	 * Overrides the standard operation.
-	 */
-	virtual void moveEvent(QMoveEvent */*m*/);
+    /**
+     * Overrides the standard operation.
+     */
+    virtual void moveEvent(QMoveEvent */*m*/);
 
-	/**
-	 * Used to cleanup any other widget it may need to delete.
-	 */
-	void cleanup();
+    /**
+     * Used to cleanup any other widget it may need to delete.
+     */
+    void cleanup();
 
-	/**
-	 * Returns whether to draw as an Actor or not.
-	 *
-	 * @return	True if widget is drawn as an actor.
-	 */
-	bool getDrawAsActor() const {
-		return m_bDrawAsActor;
-	}
+    /**
+     * Returns whether to draw as an Actor or not.
+     *
+     * @return	True if widget is drawn as an actor.
+     */
+    bool getDrawAsActor() const {
+        return m_bDrawAsActor;
+    }
 
-	/**
-	 * Sets whether to draw as an Actor.
-	 *
-	 * @param drawAsActor	True if widget shall be drawn as an actor.
-	 */
-	void setDrawAsActor( bool drawAsActor );
+    /**
+     * Sets whether to draw as an Actor.
+     *
+     * @param drawAsActor	True if widget shall be drawn as an actor.
+     */
+    void setDrawAsActor( bool drawAsActor );
 
-	/**
-	 * Overrides the standard operation keeping it at the correct height
-	 */
-	virtual void mouseMoveEvent(QMouseEvent* me);
+    /**
+     * Overrides the standard operation keeping it at the correct height
+     */
+    virtual void mouseMoveEvent(QMouseEvent* me);
 
-	/**
-	 * Sets whether to show deconstruction on sequence line.
-	 *
-	 * @param bShow		True if destruction on line shall be shown.
-	 */
-	void setShowDestruction( bool bShow );
+    /**
+     * Sets whether to show deconstruction on sequence line.
+     *
+     * @param bShow		True if destruction on line shall be shown.
+     */
+    void setShowDestruction( bool bShow );
 
-	/**
-	 * Returns whether to show deconstruction on sequence line.
-	 *
-	 * @return	True if destruction on sequence line is shown.
-	 */
-	bool getShowDestruction() const {
-		return m_bShowDestruction;
-	}
+    /**
+     * Returns whether to show deconstruction on sequence line.
+     *
+     * @return	True if destruction on sequence line is shown.
+     */
+    bool getShowDestruction() const {
+        return m_bShowDestruction;
+    }
 
-	/**
-	 * Returns the top margin constant (Y axis value)
-	 *
-	 * @return	Y coordinate of the space between the diagram top
-	 *		and the upper edge of the ObjectWidget.
-	 */
-	int topMargin();
+    /**
+     * Returns the top margin constant (Y axis value)
+     *
+     * @return	Y coordinate of the space between the diagram top
+     *		and the upper edge of the ObjectWidget.
+     */
+    int topMargin();
 
-	/**
-	 * Returns the end Y co-ord of the seq. line.
-	 *
-	 * @return	Y coordinate of the endpoint of the sequence line.
-	 */
-	int getEndLineY();
+    /**
+     * Returns the end Y co-ord of the seq. line.
+     *
+     * @return	Y coordinate of the endpoint of the sequence line.
+     */
+    int getEndLineY();
 
-	/**
-	 * Add a message widget to the list.
-	 *
-	 * @param message	Pointer to the MessageWidget to add.
-	 */
-	void messageAdded(MessageWidget* message);
+    /**
+     * Add a message widget to the list.
+     *
+     * @param message	Pointer to the MessageWidget to add.
+     */
+    void messageAdded(MessageWidget* message);
 
-	/**
-	 * Remove a message widget from the list.
-	 *
-	 * @param message	Pointer to the MessageWidget to remove.
-	 */
-	void messageRemoved(MessageWidget* message);
+    /**
+     * Remove a message widget from the list.
+     *
+     * @param message	Pointer to the MessageWidget to remove.
+     */
+    void messageRemoved(MessageWidget* message);
 
-	/**
-	 * Returns whether or not the widget can be moved vertically up.
-	 *
-	 * @return	True if widget can be moved upwards vertically.
-	 */
-	bool canTabUp();
+    /**
+     * Returns whether or not the widget can be moved vertically up.
+     *
+     * @return	True if widget can be moved upwards vertically.
+     */
+    bool canTabUp();
 
-	/**
-	 * Returns whether a message is overlapping with another message.
-	 * Used by MessageWidget::draw() methods.
-	 * 
-	 * @param y		The top of your message.
-	 * @param messageWidget	A pointer to your message so it doesn't
-	 *			check against itself.
-	 */
-	bool messageOverlap(int y, MessageWidget* messageWidget);
+    /**
+     * Returns whether a message is overlapping with another message.
+     * Used by MessageWidget::draw() methods.
+     * 
+     * @param y		The top of your message.
+     * @param messageWidget	A pointer to your message so it doesn't
+     *			check against itself.
+     */
+    bool messageOverlap(int y, MessageWidget* messageWidget);
 
-	/**
-	 * Saves to the <objectwidget> XMI element.
-	 */
-	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    /**
+     * Saves to the <objectwidget> XMI element.
+     */
+    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-	/**
-	 * Loads from a <objectwidget> XMI element.
-	 */
-	bool loadFromXMI( QDomElement & qElement );
-	
+    /**
+     * Loads from a <objectwidget> XMI element.
+     */
+    bool loadFromXMI( QDomElement & qElement );
+
 public slots:
-	/**
-	 * Handles a popup menu selection.
-	 */
-	void slotMenuSelection(int sel);
+    /**
+     * Handles a popup menu selection.
+     */
+    void slotMenuSelection(int sel);
 
-	/**
-	 * Handles a color change signal.
-	 */
-	virtual void slotColorChanged(Uml::IDType viewID);
+    /**
+     * Handles a color change signal.
+     */
+    virtual void slotColorChanged(Uml::IDType viewID);
 
-	/**
-	 * Called when a message widget with an end on this object has
-	 * moved up or down.
-	 * Sets the bottom of the line to a nice position.
-	 */
-	void slotMessageMoved();	
+    /**
+     * Called when a message widget with an end on this object has
+     * moved up or down.
+     * Sets the bottom of the line to a nice position.
+     */
+    void slotMessageMoved();
 
 protected:
-	QString m_Doc;
-	SeqLineWidget * m_pLine;
+    QString m_Doc;
+    SeqLineWidget * m_pLine;
 
-	/**
-	 * Calculates the size of the widget.
-	 */
-	void calculateSize();
+    /**
+     * Calculates the size of the widget.
+     */
+    void calculateSize();
 
-	/**
-	 * Draw the object as an actor.
-	 */
-	void drawActor(QPainter & p, int offsetX, int offsetY);
+    /**
+     * Draw the object as an actor.
+     */
+    void drawActor(QPainter & p, int offsetX, int offsetY);
 
-	/**
-	 * Draw the object as an object (default).
-	 */
-	void drawObject(QPainter & p, int offsetX, int offsetY);
+    /**
+     * Draw the object as an object (default).
+     */
+    void drawObject(QPainter & p, int offsetX, int offsetY);
 
-	/**
-	 * Move the object up on a sequence diagram.
-	 */
-	void tabUp();
+    /**
+     * Move the object up on a sequence diagram.
+     */
+    void tabUp();
 
-	/**
-	 * Move the object down on a sequence diagram.
-	 */
-	void tabDown();
+    /**
+     * Move the object down on a sequence diagram.
+     */
+    void tabDown();
 
-	// Data loaded/saved:
+    // Data loaded/saved:
 
-	/**
-	 * Instance name of object.
-	 */
-	QString m_InstanceName;
+    /**
+     * Instance name of object.
+     */
+    QString m_InstanceName;
 
-	/**
-	 * Local ID used on views.  Needed as a it can represent a class
-	 * that has many objects representing it.
-	 */
-	Uml::IDType m_nLocalID;
+    /**
+     * Local ID used on views.  Needed as a it can represent a class
+     * that has many objects representing it.
+     */
+    Uml::IDType m_nLocalID;
 
-	/**
-	 * Determines whether to draw an object as a multiple object
-	 * instance.
-	 */
-	bool m_bMultipleInstance;
+    /**
+     * Determines whether to draw an object as a multiple object
+     * instance.
+     */
+    bool m_bMultipleInstance;
 
-	/**
-	 * Determines whether the object should be drawn as an Actor or 
-	 * an Object.
-	 */
-	bool m_bDrawAsActor;
+    /**
+     * Determines whether the object should be drawn as an Actor or 
+     * an Object.
+     */
+    bool m_bDrawAsActor;
 
-	/**
-	 * Determines whether to show object destruction on sequence
-	 * diagram line.
-	 */
-	bool m_bShowDestruction;
+    /**
+     * Determines whether to show object destruction on sequence
+     * diagram line.
+     */
+    bool m_bShowDestruction;
 
 private:
-	/**
-	 * Initializes the key attributes of the class.
-	 */
-	void init();
-	
-	/**
-	 * A list of the message widgets with an end on this widget.
-	 */
-	MessageWidgetList messageWidgetList;
+    /**
+     * Initializes the key attributes of the class.
+     */
+    void init();
+
+    /**
+     * A list of the message widgets with an end on this widget.
+     */
+    MessageWidgetList messageWidgetList;
 };
 
 #endif

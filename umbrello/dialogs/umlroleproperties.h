@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2003-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2003-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -26,36 +26,36 @@
  *	@author Brian Thomas <brian.thomas@gsfc.nasa.gov>
  */
 class UMLRoleProperties : public UMLRolePropertiesBase {
-	Q_OBJECT
+    Q_OBJECT
 public:
 
-	/**
-	 *	Sets up the UMLRoleProperties.
-	 *
-	 *	@param	parent	The parent widget to the UMLRoleProperties.
-	 *	@param	role	The UMLRole to display the properties of.
-	 */
-	UMLRoleProperties( QWidget *parent, UMLRole *role);
+    /**
+     *	Sets up the UMLRoleProperties.
+     *
+     *	@param	parent	The parent widget to the UMLRoleProperties.
+     *	@param	role	The UMLRole to display the properties of.
+     */
+    UMLRoleProperties( QWidget *parent, UMLRole *role);
 
-	/**
-	 *	Standard deconstructor.
-	 */
-	~UMLRoleProperties();
+    /**
+     *	Standard deconstructor.
+     */
+    ~UMLRoleProperties();
 
-	/**
-	 *	Will move information from the dialog into the object.
-	 *	Call when the ok or apply button is pressed.
-	 */
-	void updateObject();
+    /**
+     *	Will move information from the dialog into the object.
+     *	Call when the ok or apply button is pressed.
+     */
+    void updateObject();
 
 protected:
 
-	// the parent role object
-	UMLRole * m_pRole;
+    // the parent role object
+    UMLRole * m_pRole;
 
 private:
 
-	void constructWidget();
+    void constructWidget();
 
 };
 

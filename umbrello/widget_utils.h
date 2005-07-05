@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -30,25 +30,25 @@ class QCanvasRectangle;
  */
 namespace Umbrello {
 
-	/**
-	 * Find the widget identified by the given ID in the given widget
-	 * or message list.
-	 *
-	 * @param id		The unique ID to find.
-	 * @param widgets	The UMLWidgetList to search in.
-	 * @param pMessages	Optional pointer to a MessageWidgetList to
-	 *			search in.
-	 */
-	UMLWidget* findWidget(Uml::IDType id,
-			      const UMLWidgetList& widgets,
-			      const MessageWidgetList* pMessages = NULL);
+/**
+ * Find the widget identified by the given ID in the given widget
+ * or message list.
+ *
+ * @param id		The unique ID to find.
+ * @param widgets	The UMLWidgetList to search in.
+ * @param pMessages	Optional pointer to a MessageWidgetList to
+ *			search in.
+ */
+UMLWidget* findWidget(Uml::IDType id,
+                      const UMLWidgetList& widgets,
+                      const MessageWidgetList* pMessages = NULL);
 
-	/**
-	 * Return the icon corresponding to the given Diagram_Type.
-	 */
-	QIconSet iconSet(Uml::Diagram_Type dt);
+/**
+ * Return the icon corresponding to the given Diagram_Type.
+ */
+QIconSet iconSet(Uml::Diagram_Type dt);
 
-	QCanvasRectangle *decoratePoint(QPoint p);
+QCanvasRectangle *decoratePoint(QPoint p);
 
 }
 

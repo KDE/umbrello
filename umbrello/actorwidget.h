@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -46,36 +46,36 @@ class UMLActor;
 class ActorWidget : public UMLWidget {
 public:
 
-	/**
-	 * Constructs an ActorWidget.
-	 *
-	 * @param view 	The parent of this ActorWidget.
-	 * @param o 	The Actor class this ActorWidget will display.
-	 */
-	ActorWidget(UMLView * view, UMLActor *o);
+    /**
+     * Constructs an ActorWidget.
+     *
+     * @param view 	The parent of this ActorWidget.
+     * @param o 	The Actor class this ActorWidget will display.
+     */
+    ActorWidget(UMLView * view, UMLActor *o);
 
 
-	/**
-	 * destructor
-	 */
-	virtual ~ActorWidget();
+    /**
+     * destructor
+     */
+    virtual ~ActorWidget();
 
-	/**
-	 * Overrides the standard paint event.
-	 */
-	void draw(QPainter & p, int offsetX, int offsetY);
+    /**
+     * Overrides the standard paint event.
+     */
+    void draw(QPainter & p, int offsetX, int offsetY);
 
-	/**
-	 * Saves the widget to the <actorwidget> XMI element.
-	 * Note: For loading from XMI, the inherited parent method is used.
-	 */
-	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    /**
+     * Saves the widget to the <actorwidget> XMI element.
+     * Note: For loading from XMI, the inherited parent method is used.
+     */
+    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:
-	/**
-	 * Calculates the size of the widget.
-	 */
-	void calculateSize();
+    /**
+     * Calculates the size of the widget.
+     */
+    void calculateSize();
 };
 
 #endif

@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -15,29 +15,29 @@
 #include "usecase.h"
 
 UMLUseCase::UMLUseCase(const QString & name, Uml::IDType id)
-  : UMLCanvasObject(name, id) {
-	init();
+        : UMLCanvasObject(name, id) {
+    init();
 }
 
 UMLUseCase::~UMLUseCase() {}
 
 void UMLUseCase::init() {
-	m_BaseType = Uml::ot_UseCase;
+    m_BaseType = Uml::ot_UseCase;
 }
 
 UMLObject* UMLUseCase::clone() const {
-	UMLUseCase *clone = new UMLUseCase();
-	UMLObject::copyInto(clone);
-	return clone;
+    UMLUseCase *clone = new UMLUseCase();
+    UMLObject::copyInto(clone);
+    return clone;
 }
 
 void UMLUseCase::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
-	QDomElement usecaseElement = UMLObject::save("UML:UseCase", qDoc);
-	qElement.appendChild(usecaseElement);
+    QDomElement usecaseElement = UMLObject::save("UML:UseCase", qDoc);
+    qElement.appendChild(usecaseElement);
 }
 
 bool UMLUseCase::load(QDomElement& ) {
-	return true;
+    return true;
 }
 
 

@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -35,122 +35,122 @@
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ActivityWidget : public UMLWidget {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
 
-	enum ActivityType
-	{
-	    Initial = 0,
-	    Normal,
-	    End,
-	    Branch,
-	    Fork
-	};
+    enum ActivityType
+    {
+        Initial = 0,
+        Normal,
+        End,
+        Branch,
+        Fork
+    };
 
-	/**
-	 * Creates a Activity widget.
-	 *
-	 * @param view		The parent of the widget.
-	 * @param activityType	The type of activity.
-	 * @param id		The ID to assign (-1 will prompt a new ID.)
-	 */
-	ActivityWidget( UMLView * view, ActivityType activityType = Normal, Uml::IDType id = Uml::id_None );
+    /**
+     * Creates a Activity widget.
+     *
+     * @param view		The parent of the widget.
+     * @param activityType	The type of activity.
+     * @param id		The ID to assign (-1 will prompt a new ID.)
+     */
+    ActivityWidget( UMLView * view, ActivityType activityType = Normal, Uml::IDType id = Uml::id_None );
 
-	
-	/**
-	 *  destructor
-	 */
-	virtual ~ActivityWidget();
 
-	/**
-	 * Overrides the standard paint event.
-	 */
-	void draw(QPainter & p, int offsetX, int offsetY);
+    /**
+     *  destructor
+     */
+    virtual ~ActivityWidget();
 
-	/**
-	 * Sets the name of the Activity.
-	 */
-	virtual void setName(const QString &strName);
+    /**
+     * Overrides the standard paint event.
+     */
+    void draw(QPainter & p, int offsetX, int offsetY);
 
-	/**
-	 * Returns the name of the Activity.
-	 */
-	virtual QString getName() const;
+    /**
+     * Sets the name of the Activity.
+     */
+    virtual void setName(const QString &strName);
 
-	/**
-	 * Returns the documentation of the activity.
-	 */
-	QString getDoc() const;
+    /**
+     * Returns the name of the Activity.
+     */
+    virtual QString getName() const;
 
-	/**
-	 * Sets the documenation of the activity.
-	 */
-	void setDoc( const QString &doc );
+    /**
+     * Returns the documentation of the activity.
+     */
+    QString getDoc() const;
 
-	/**
-	 * Returns the type of activity.
-	 */
-	ActivityType getActivityType() const;
+    /**
+     * Sets the documenation of the activity.
+     */
+    void setDoc( const QString &doc );
 
-	/**
-	 * Sets the type of activity.
-	 */
-	void setActivityType( ActivityType activityType );
+    /**
+     * Returns the type of activity.
+     */
+    ActivityType getActivityType() const;
 
-	/**
-	 * Overrides a method.  Used to pickup double clicks.
-	 */
-	void mouseDoubleClickEvent(QMouseEvent * /*me*/);
+    /**
+     * Sets the type of activity.
+     */
+    void setActivityType( ActivityType activityType );
 
-	/**
-	 * Determines whether a toolbar button represents an Activity.
-	 *
-	 * @param tbb		The toolbar button enum input value.
-	 * @param resultType	The ActivityType corresponding to tbb.
-	 *			This is only set if tbb is an Activity.
-	 * @return	True if tbb represents an Activity.
-	 */
-	static bool isActivity( WorkToolBar::ToolBar_Buttons tbb,
-				ActivityType& resultType );
+    /**
+     * Overrides a method.  Used to pickup double clicks.
+     */
+    void mouseDoubleClickEvent(QMouseEvent * /*me*/);
 
-	/**
-	 * Saves the widget to the <activitywidget> XMI element.
-	 */
-	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    /**
+     * Determines whether a toolbar button represents an Activity.
+     *
+     * @param tbb		The toolbar button enum input value.
+     * @param resultType	The ActivityType corresponding to tbb.
+     *			This is only set if tbb is an Activity.
+     * @return	True if tbb represents an Activity.
+     */
+    static bool isActivity( WorkToolBar::ToolBar_Buttons tbb,
+                            ActivityType& resultType );
 
-	/**
-	 * Loads the widget from the <activitywidget> XMI element.
-	 */
-	bool loadFromXMI( QDomElement & qElement );
+    /**
+     * Saves the widget to the <activitywidget> XMI element.
+     */
+    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+
+    /**
+     * Loads the widget from the <activitywidget> XMI element.
+     */
+    bool loadFromXMI( QDomElement & qElement );
 
 protected:
-	/**
-	 * Calculates the size of the widget.
-	 */
-	void calculateSize();
+    /**
+     * Calculates the size of the widget.
+     */
+    void calculateSize();
 
-	/**
-	 * Type of activity.
-	 */
-	ActivityWidget::ActivityType m_ActivityType;
+    /**
+     * Type of activity.
+     */
+    ActivityWidget::ActivityType m_ActivityType;
 
-	/**
-	 * Name of the activity.
-	 */
-	QString m_Name;
+    /**
+     * Name of the activity.
+     */
+    QString m_Name;
 
-	/**
-	 * Documentation for the activity.
-	 */
-	QString m_Doc;
+    /**
+     * Documentation for the activity.
+     */
+    QString m_Doc;
 
 public slots:
 
-	/**
-	 * Captures any popup menu signals for menus it created.
-	 */
-	void slotMenuSelection(int sel);
+    /**
+     * Captures any popup menu signals for menus it created.
+     */
+    void slotMenuSelection(int sel);
 };
 
 #endif

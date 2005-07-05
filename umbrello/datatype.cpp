@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2003-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2003-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -23,69 +23,69 @@
 #include "stereotype.h"
 
 UMLDatatype::UMLDatatype(const QString& name, Uml::IDType id)
-  : UMLClassifier(name, id) {
-	init();
+        : UMLClassifier(name, id) {
+    init();
 }
 
 UMLDatatype::~UMLDatatype() {
 }
 
 bool UMLDatatype::operator==(UMLDatatype& rhs) {
-	return UMLClassifier::operator==(rhs);
+    return UMLClassifier::operator==(rhs);
 }
 
 void UMLDatatype::copyInto(UMLDatatype *rhs) const
 {
-	UMLClassifier::copyInto(rhs);
+    UMLClassifier::copyInto(rhs);
 }
 
 UMLObject* UMLDatatype::clone() const
 {
-	UMLDatatype *clone = new UMLDatatype();
-	copyInto(clone);
+    UMLDatatype *clone = new UMLDatatype();
+    copyInto(clone);
 
-	return clone;
+    return clone;
 }
 
 void UMLDatatype::setOriginType(UMLClassifier *origType) {
-	m_pSecondary = origType;
+    m_pSecondary = origType;
 }
 
 UMLClassifier * UMLDatatype::originType() {
-	return static_cast<UMLClassifier*>(m_pSecondary);
+    return static_cast<UMLClassifier*>(m_pSecondary);
 }
 
 void UMLDatatype::setIsReference(bool isRef) {
-	m_isRef = isRef;
+    m_isRef = isRef;
 }
 
 bool UMLDatatype::isReference() {
-	return m_isRef;
+    return m_isRef;
 }
 
 void UMLDatatype::init() {
-	m_BaseType = Uml::ot_Datatype;
-	setStereotype( i18n("datatype") );
-	m_pSecondary = NULL;
-	m_isRef = false;
+    m_BaseType = Uml::ot_Datatype;
+    setStereotype( i18n("datatype") );
+    m_pSecondary = NULL;
+    m_isRef = false;
 }
 
 void UMLDatatype::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
-	QDomElement classElement = UMLObject::save("UML:DataType", qDoc);
-	if (m_pSecondary)
-		classElement.setAttribute( "elementReference",
-					   ID2STR(m_pSecondary->getID()) );
-	qElement.appendChild( classElement );
+    QDomElement classElement = UMLObject::save("UML:DataType", qDoc);
+    if (m_pSecondary)
+        classElement.setAttribute( "elementReference",
+                                   ID2STR(m_pSecondary->getID()) );
+    qElement.appendChild( classElement );
 }
 
 bool UMLDatatype::load(QDomElement& element) {
-	//CHECK: Does our usage of the elementReference attribute
-	//       violate the XMI standard? - See resolveRef()
-	m_SecondaryId = element.attribute( "elementReference", "" );
-	if (!m_SecondaryId.isEmpty()) {
-		// @todo We do not currently support composition.
-		m_isRef = true;
-	}
-	return true;
+    //CHECK: Does our usage of the elementReference attribute
+    //       violate the XMI standard? - See resolveRef()
+    m_SecondaryId = element.attribute( "elementReference", "" );
+    if (!m_SecondaryId.isEmpty()) {
+        // @todo We do not currently support composition.
+        m_isRef = true;
+    }
+    return true;
 }
 

@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -38,76 +38,76 @@ class UMLDoc;
  */
 class ParmPropDlg : public KDialogBase {
 public:
-	/**
-	 * Constructs a ParmPropDlg.
-	 *
-	 * @param parent	The parent of the dialog.
-	 * @param a	The parameter to represent.
-	 */
-	ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a);
+    /**
+     * Constructs a ParmPropDlg.
+     *
+     * @param parent	The parent of the dialog.
+     * @param a	The parameter to represent.
+     */
+    ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a);
 
-	/**
-	 * Standard deconstructor.
-	 */
-	~ParmPropDlg();
+    /**
+     * Standard deconstructor.
+     */
+    ~ParmPropDlg();
 
-	/**
-	 * Returns the documentation.
-	 *
-	 * @return	Returns the documentation.
-	 */
-	QString getDoc() {
-		return m_pDoc -> text();
-	}
+    /**
+     * Returns the documentation.
+     *
+     * @return	Returns the documentation.
+     */
+    QString getDoc() {
+        return m_pDoc -> text();
+    }
 
-	/**
-	 * Return the name of the parameter.
-	 *
-	 * @return	Return the name of the parameter.
-	 */
-	QString getName() {
-		return m_pNameLE -> text();
-	}
+    /**
+     * Return the name of the parameter.
+     *
+     * @return	Return the name of the parameter.
+     */
+    QString getName() {
+        return m_pNameLE -> text();
+    }
 
-	/**
-	 * Return the initial value of the parameter.
-	 *
-	 * @return	Return the initial value of the parameter.
-	 */
-	QString getInitialValue() {
-		return m_pInitialLE -> text();
-	}
+    /**
+     * Return the initial value of the parameter.
+     *
+     * @return	Return the initial value of the parameter.
+     */
+    QString getInitialValue() {
+        return m_pInitialLE -> text();
+    }
 
-	/**
-	 * Return the type name of the parameter.
-	 *
-	 * @return Return the type name of the parameter.
-	 */
-	QString getTypeName() {
-		return m_pTypeCB -> currentText();
-	}
+    /**
+     * Return the type name of the parameter.
+     *
+     * @return Return the type name of the parameter.
+     */
+    QString getTypeName() {
+        return m_pTypeCB -> currentText();
+    }
 
-	/**
-	 * Return the kind of the parameter (in, out, or inout).
-	 *
-	 * @return	The Uml::Parameter_Direction corresponding to
-	 *		the selected "Kind" radiobutton.
-	 */
-	Uml::Parameter_Direction getParmKind();
+    /**
+     * Return the kind of the parameter (in, out, or inout).
+     *
+     * @return	The Uml::Parameter_Direction corresponding to
+     *		the selected "Kind" radiobutton.
+     */
+    Uml::Parameter_Direction getParmKind();
 
 public slots:
-	void slotOk();
+    void slotOk();
 
 private:
-	QGroupBox * m_pParmGB, * m_pDocGB;
-	QButtonGroup *m_pKind;
-	QRadioButton * m_pIn, * m_pOut, *m_pInOut;
-	QLabel * m_pTypeL, * m_pNameL, * m_pInitialL, * m_pStereoTypeL;
-	QComboBox * m_pTypeCB;
-	QLineEdit * m_pNameLE, * m_pInitialLE, * m_pStereoTypeLE;
-	QMultiLineEdit * m_pDoc;
-	UMLDoc * m_pUmldoc;
-	UMLAttribute * m_pAtt;
+    QGroupBox * m_pParmGB, * m_pDocGB;
+    QButtonGroup *m_pKind;
+    QRadioButton * m_pIn, * m_pOut, *m_pInOut;
+    QLabel * m_pTypeL, * m_pNameL, * m_pInitialL, * m_pStereoTypeL;
+    QComboBox * m_pTypeCB;
+    QLineEdit * m_pNameLE, * m_pInitialLE, * m_pStereoTypeLE;
+    QMultiLineEdit * m_pDoc;
+    UMLDoc * m_pUmldoc;
+    UMLAttribute * m_pAtt;
 };
 
 #endif

@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -32,16 +32,16 @@ class UMLClassifierListItemList : public QPtrList<UMLClassifierListItem>
 
 public:
 
-	/**
-	 * Copy the internal presentation of this object into the new
-	 * object.
-	 */
-	virtual void copyInto (UMLClassifierListItemList *rhs) const;
+    /**
+     * Copy the internal presentation of this object into the new
+     * object.
+     */
+    virtual void copyInto (UMLClassifierListItemList *rhs) const;
 
-	/**
-	 * Make a clone of this object.
-	 */
-	virtual UMLClassifierListItemList* clone() const;
+    /**
+     * Make a clone of this object.
+     */
+    virtual UMLClassifierListItemList* clone() const;
 
 };
 

@@ -24,42 +24,42 @@
 
 class JavaClassDeclarationBlock : public OwnedHierarchicalCodeBlock
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
 
-	// Constructors/Destructors
-	//  
+    // Constructors/Destructors
+    //
 
-	/**
-	 * Empty Constructor
-	 */
-	JavaClassDeclarationBlock ( JavaClassifierCodeDocument * parentDoc, const QString &start = "", const QString &endText = "}", const QString &comment = "");
+    /**
+     * Empty Constructor
+     */
+    JavaClassDeclarationBlock ( JavaClassifierCodeDocument * parentDoc, const QString &start = "", const QString &endText = "}", const QString &comment = "");
 
-	/**
-	 * Empty Destructor
-	 */
-	virtual ~JavaClassDeclarationBlock ( );
+    /**
+     * Empty Destructor
+     */
+    virtual ~JavaClassDeclarationBlock ( );
 
-       /**
-	 * Save the XMI representation of this object
-	 */
-	virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
+    /**
+    * Save the XMI representation of this object
+    */
+    virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
-	/**
-	 * load params from the appropriate XMI element node.
-	 */
-	virtual void loadFromXMI ( QDomElement & root );
+    /**
+     * load params from the appropriate XMI element node.
+     */
+    virtual void loadFromXMI ( QDomElement & root );
 
 protected:
 
-	/**
-	 * Update the start/end text of this codeblock.
-	 */
-	void updateContent ( );
+    /**
+     * Update the start/end text of this codeblock.
+     */
+    void updateContent ( );
 
 private:
 
-	void init (JavaClassifierCodeDocument * parent, const QString &comment);
+    void init (JavaClassifierCodeDocument * parent, const QString &comment);
 
 };
 

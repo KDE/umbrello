@@ -23,46 +23,44 @@
 //qt include
 
 CodeViewerOptionsPage::CodeViewerOptionsPage( Settings::CodeViewerState options, QWidget *parent, const char *name )
-	:CodeViewerOptionsBase(parent,name)
+        :CodeViewerOptionsBase(parent,name)
 {
-	init (options);
+    init (options);
 }
 
 CodeViewerOptionsPage::~CodeViewerOptionsPage() { }
 
 void CodeViewerOptionsPage::init( Settings::CodeViewerState options )
 {
-	m_options = options;
+    m_options = options;
 
-	// set widget stuff
-/*
-	fontChooser->setFont( options.font );
-	selectColorButton -> setColor (options.selectedColor);
-	fontColorButton -> setColor (options.fontColor);
-	paperColorButton -> setColor (options.paperColor);
-	editBlockColorButton -> setColor (options.editBlockColor);
-	nonEditBlockColorButton -> setColor (options.nonEditBlockColor);
-	umlObjectColorButton -> setColor (options.umlObjectColor);
- */
+    // set widget stuff
+    /*
+    	fontChooser->setFont( options.font );
+    	selectColorButton -> setColor (options.selectedColor);
+    	fontColorButton -> setColor (options.fontColor);
+    	paperColorButton -> setColor (options.paperColor);
+    	editBlockColorButton -> setColor (options.editBlockColor);
+    	nonEditBlockColorButton -> setColor (options.nonEditBlockColor);
+    	umlObjectColorButton -> setColor (options.umlObjectColor);
+     */
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void CodeViewerOptionsPage::apply() {
-/*
-	m_options.umlObjectColor = umlObjectColorButton->color();
-	m_options.editBlockColor = editBlockColorButton->color();
-	m_options.nonEditBlockColor = nonEditBlockColorButton->color();
-	m_options.selectedColor = selectColorButton->color();
-	m_options.paperColor = paperColorButton->color();
-	m_options.fontColor = fontColorButton->color();
-	m_options.font = fontChooser->font();
- */
-	emit applyClicked();
+    /*
+    	m_options.umlObjectColor = umlObjectColorButton->color();
+    	m_options.editBlockColor = editBlockColorButton->color();
+    	m_options.nonEditBlockColor = nonEditBlockColorButton->color();
+    	m_options.selectedColor = selectColorButton->color();
+    	m_options.paperColor = paperColorButton->color();
+    	m_options.fontColor = fontColorButton->color();
+    	m_options.font = fontChooser->font();
+     */
+    emit applyClicked();
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 Settings::CodeViewerState CodeViewerOptionsPage::getOptions() {
-	return m_options;
+    return m_options;
 }
 
 #include "codevieweroptionspage.moc"

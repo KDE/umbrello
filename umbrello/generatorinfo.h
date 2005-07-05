@@ -21,8 +21,8 @@
  */
 class GeneratorInfo {
 public:
-	QString language;
-	QString object;
+    QString language;
+    QString object;
 };
 
 /**

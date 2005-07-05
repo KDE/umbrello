@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -30,66 +30,66 @@ class ListPopupMenu;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ActivityPage : public QWidget {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	/**
-	 *	Constructor
-	 */
-	ActivityPage( QWidget * pParent, StateWidget * pWidget );
+    /**
+     *	Constructor
+     */
+    ActivityPage( QWidget * pParent, StateWidget * pWidget );
 
-	/**
-	*	Deconstructor
-	*/
-	~ActivityPage();
+    /**
+    *	Deconstructor
+    */
+    ~ActivityPage();
 
-	/**
-	*	Sets up the page.
-	*/
-	void setupPage();
+    /**
+    *	Sets up the page.
+    */
+    void setupPage();
 
-	/**
-	*	Sets the activities of the widget.
-	*/
-	void updateActivities();
+    /**
+    *	Sets the activities of the widget.
+    */
+    void updateActivities();
 
 protected:
-	/**
-	 *	Set the state of the widgets on the page with the given value.
-	 *
-	 *	@param	state	The state to set the widgets as.
-	 */
-	void enableWidgets(bool state);
+    /**
+     *	Set the state of the widgets on the page with the given value.
+     *
+     *	@param	state	The state to set the widgets as.
+     */
+    void enableWidgets(bool state);
 
-	/**
-	 *	The widget to get the activities from.
-	 */
-	StateWidget * m_pStateWidget;
+    /**
+     *	The widget to get the activities from.
+     */
+    StateWidget * m_pStateWidget;
 
-	/**
-	 *	Popup menu used.
-	 */
-	ListPopupMenu * m_pMenu;
-	//GUI widgets
-	QListBox * m_pActivityLB;
-	QGroupBox * m_pActivityGB;
-	KArrowButton * m_pUpArrowB, * m_pDownArrowB;
-	QPushButton* m_pDeleteActivityButton;
-	QPushButton* m_pRenameButton;
+    /**
+     *	Popup menu used.
+     */
+    ListPopupMenu * m_pMenu;
+    //GUI widgets
+    QListBox * m_pActivityLB;
+    QGroupBox * m_pActivityGB;
+    KArrowButton * m_pUpArrowB, * m_pDownArrowB;
+    QPushButton* m_pDeleteActivityButton;
+    QPushButton* m_pRenameButton;
 
 public slots:
-	/**
-	 *	Popup menu item selected
-	 */
-	void slotMenuSelection( int sel );
-	void slotClicked( QListBoxItem* item );
-	void slotDoubleClicked( QListBoxItem* item );
-	void slotRightButtonClicked(QListBoxItem* item, const QPoint& p);
-	void slotRightButtonPressed(QListBoxItem* item, const QPoint& p);
-	void slotUpClicked();
-	void slotDownClicked();
-	void slotNewActivity();
-	void slotDelete();
-	void slotRename();
+    /**
+     *	Popup menu item selected
+     */
+    void slotMenuSelection( int sel );
+    void slotClicked( QListBoxItem* item );
+    void slotDoubleClicked( QListBoxItem* item );
+    void slotRightButtonClicked(QListBoxItem* item, const QPoint& p);
+    void slotRightButtonPressed(QListBoxItem* item, const QPoint& p);
+    void slotUpClicked();
+    void slotDownClicked();
+    void slotNewActivity();
+    void slotDelete();
+    void slotRename();
 };
 
 #endif

@@ -34,100 +34,100 @@
 class ClassifierInfo {
 public:
 
-	/**
-	 * Constructor, initialises a couple of variables
-	 */
-	ClassifierInfo (UMLClassifier * classifier, UMLDoc * doc);
+    /**
+     * Constructor, initialises a couple of variables
+     */
+    ClassifierInfo (UMLClassifier * classifier, UMLDoc * doc);
 
-	/**
-	 * Destructor, empty
-	 */
-	virtual ~ClassifierInfo();
+    /**
+     * Destructor, empty
+     */
+    virtual ~ClassifierInfo();
 
-	// Fields
-	//
-	
-	/**
-	 * Lists of attributes of this classifier (if a class)
-	 * Sorted by scope.
-	 */
-	UMLAttributeList atpub;
-	UMLAttributeList atprot;
-	UMLAttributeList atpriv;
+    // Fields
+    //
 
-	/**
-	 * Lists of static attributes of this classifier (if a class)
-	 */
-	UMLAttributeList static_atpub; 
-	UMLAttributeList static_atprot; 
-	UMLAttributeList static_atpriv; 
+    /**
+     * Lists of attributes of this classifier (if a class)
+     * Sorted by scope.
+     */
+    UMLAttributeList atpub;
+    UMLAttributeList atprot;
+    UMLAttributeList atpriv;
 
-	/**
-	 * Lists of types of associations this classifier has
-	 */
-	UMLAssociationList plainAssociations;
-	UMLAssociationList aggregations;
-	UMLAssociationList compositions;
+    /**
+     * Lists of static attributes of this classifier (if a class)
+     */
+    UMLAttributeList static_atpub;
+    UMLAttributeList static_atprot;
+    UMLAttributeList static_atpriv;
 
-	/**
-	 * what sub and super classifiers are related to this class
-	 */
-	UMLClassifierList superclasses;
-	UMLClassifierList subclasses;
+    /**
+     * Lists of types of associations this classifier has
+     */
+    UMLAssociationList plainAssociations;
+    UMLAssociationList aggregations;
+    UMLAssociationList compositions;
 
-	/**
-	 * Various conditional information about our classifier.
-	 */
-	bool isInterface; // Whether or not this classifier is an interface.
-	bool hasAssociations;
-	bool hasAttributes;
-	bool hasStaticAttributes;
-	bool hasMethods;
-	bool hasAccessorMethods;
-	bool hasOperationMethods;
-	bool hasVectorFields;
+    /**
+     * what sub and super classifiers are related to this class
+     */
+    UMLClassifierList superclasses;
+    UMLClassifierList subclasses;
 
-	/**
-	 * Class and File names
-	 */
-	QString className;
-	QString fileName;
+    /**
+     * Various conditional information about our classifier.
+     */
+    bool isInterface; // Whether or not this classifier is an interface.
+    bool hasAssociations;
+    bool hasAttributes;
+    bool hasStaticAttributes;
+    bool hasMethods;
+    bool hasAccessorMethods;
+    bool hasOperationMethods;
+    bool hasVectorFields;
 
-	/**
-	 * utility functions to allow easy determination of what classifiers
-	 * are "owned" by the current one via named association type (e.g. 
-	 * plain, aggregate or compositions).
-	 */
-	UMLClassifierList getPlainAssocChildClassifierList();
-	UMLClassifierList getAggregateChildClassifierList();
-	UMLClassifierList getCompositionChildClassifierList();
+    /**
+     * Class and File names
+     */
+    QString className;
+    QString fileName;
 
-	/**
-	 * Utility method to obtain list of attributes, if they exist, for
-	 * the current classfier.
-	 */
-	UMLAttributeList* getAttList();
+    /**
+     * utility functions to allow easy determination of what classifiers
+     * are "owned" by the current one via named association type (e.g. 
+     * plain, aggregate or compositions).
+     */
+    UMLClassifierList getPlainAssocChildClassifierList();
+    UMLClassifierList getAggregateChildClassifierList();
+    UMLClassifierList getCompositionChildClassifierList();
+
+    /**
+     * Utility method to obtain list of attributes, if they exist, for
+     * the current classfier.
+     */
+    UMLAttributeList* getAttList();
 
 
 protected:
-	void init (UMLClassifier *c);
+    void init (UMLClassifier *c);
 
 private:
 
-	Uml::IDType m_nID; // id of the classifier
+    Uml::IDType m_nID; // id of the classifier
 
-	/**
-	 * Utility method called by "get*ChildClassfierList()" methods. It basically 
-	 * finds all the classifiers named in each association in the given association list 
-	 * which arent the current one. Usefull for finding which classifiers are "owned" by the 
-	 * current one via declared associations such as in aggregations/compositions.
-	 */
-	UMLClassifierList findAssocClassifierObjsInRoles (UMLAssociationList * list); 
+    /**
+     * Utility method called by "get*ChildClassfierList()" methods. It basically 
+     * finds all the classifiers named in each association in the given association list 
+     * which arent the current one. Usefull for finding which classifiers are "owned" by the 
+     * current one via declared associations such as in aggregations/compositions.
+     */
+    UMLClassifierList findAssocClassifierObjsInRoles (UMLAssociationList * list);
 
-	/**
-	 *      List of all the attributes in this class.
-	 */
-	UMLAttributeList m_AttsList;
+    /**
+     *      List of all the attributes in this class.
+     */
+    UMLAttributeList m_AttsList;
 
 };
 

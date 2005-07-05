@@ -32,68 +32,68 @@ class UMLObject;
   * be in sync with that parent.
   */
 
-class OwnedCodeBlock : virtual public QObject 
+class OwnedCodeBlock : virtual public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
 
-	// Constructors/Destructors
-	//  
+    // Constructors/Destructors
+    //
 
-	/**
-	 * Constructor
-	 */
-	OwnedCodeBlock ( UMLObject * parent );
+    /**
+     * Constructor
+     */
+    OwnedCodeBlock ( UMLObject * parent );
 
-	/**
-	 * Empty Destructor
-	 */
-	virtual ~OwnedCodeBlock ( );
+    /**
+     * Empty Destructor
+     */
+    virtual ~OwnedCodeBlock ( );
 
-	/**
-	 * @return	UMLObject
-	 */
-	UMLObject * getParentObject ( );
+    /**
+     * @return	UMLObject
+     */
+    UMLObject * getParentObject ( );
 
-	// get the parent code document of this code block
-	virtual CodeDocument * getParentDocument ( ) = 0;
+    // get the parent code document of this code block
+    virtual CodeDocument * getParentDocument ( ) = 0;
 
 protected:
 
-       /** causes the text block to release all of its connections
-         * and any other text blocks that it 'owns'.
-         * needed to be called prior to deletion of the textblock.
-         */
-        virtual void release ();
+    /** causes the text block to release all of its connections
+      * and any other text blocks that it 'owns'.
+      * needed to be called prior to deletion of the textblock.
+      */
+    virtual void release ();
 
-        /** set attributes of the node that represents this class
-         * in the XMI document.
-         */
-        virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
+    /** set attributes of the node that represents this class
+     * in the XMI document.
+     */
+    virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
 
-        /** set the class attributes of this object from
-         * the passed element node.
-         */
-        virtual void setAttributesFromNode ( QDomElement & element);
+    /** set the class attributes of this object from
+     * the passed element node.
+     */
+    virtual void setAttributesFromNode ( QDomElement & element);
 
-	/** set the class attributes from a passed object
-         */
-        virtual void setAttributesFromObject (TextBlock * obj);
+    /** set the class attributes from a passed object
+            */
+    virtual void setAttributesFromObject (TextBlock * obj);
 
-	/**
-         * This is the method called from within syncToParent
-	 */
-	virtual void updateContent ( ) = 0;
+    /**
+            * This is the method called from within syncToParent
+     */
+    virtual void updateContent ( ) = 0;
 
 private:
 
-	void initFields ( UMLObject * parent );
+    void initFields ( UMLObject * parent );
 
-	UMLObject * m_parentObject;
+    UMLObject * m_parentObject;
 
 public slots:
 
-	virtual void syncToParent ( );
+    virtual void syncToParent ( );
 
 };
 

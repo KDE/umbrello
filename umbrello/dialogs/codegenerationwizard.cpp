@@ -32,229 +32,229 @@
 #include "../umldoc.h"
 
 CodeGenerationWizard::CodeGenerationWizard(UMLDoc *doc,
-					   UMLClassifierList *classList,
-					   QString activeLanguage,
-					   UMLApp *parent, const char *name)
-		:CodeGenerationWizardBase((QWidget*)parent,name) {
-	m_doc = doc;
-	m_app = parent;
-	m_availableList -> setAllColumnsShowFocus(true);
-	m_availableList -> setResizeMode(QListView::AllColumns);
-	m_selectedList  -> setAllColumnsShowFocus(true);
-	m_selectedList  -> setResizeMode(QListView::AllColumns);
-	m_statusList    -> setAllColumnsShowFocus(true);
-	m_statusList    -> setResizeMode(QListView::AllColumns);
+        UMLClassifierList *classList,
+        QString activeLanguage,
+        UMLApp *parent, const char *name)
+        :CodeGenerationWizardBase((QWidget*)parent,name) {
+    m_doc = doc;
+    m_app = parent;
+    m_availableList -> setAllColumnsShowFocus(true);
+    m_availableList -> setResizeMode(QListView::AllColumns);
+    m_selectedList  -> setAllColumnsShowFocus(true);
+    m_selectedList  -> setResizeMode(QListView::AllColumns);
+    m_statusList    -> setAllColumnsShowFocus(true);
+    m_statusList    -> setResizeMode(QListView::AllColumns);
 
-	m_CodeGenerationOptionsPage = new CodeGenerationOptionsPage(doc->getCurrentCodeGenerator(),
-								    activeLanguage, this);
-	connect( m_CodeGenerationOptionsPage, SIGNAL(languageChanged()), this, SLOT(changeLanguage()) );
+    m_CodeGenerationOptionsPage = new CodeGenerationOptionsPage(doc->getCurrentCodeGenerator(),
+                                  activeLanguage, this);
+    connect( m_CodeGenerationOptionsPage, SIGNAL(languageChanged()), this, SLOT(changeLanguage()) );
 
-	insertPage(m_CodeGenerationOptionsPage, i18n("Code Generation Options"), 1);
+    insertPage(m_CodeGenerationOptionsPage, i18n("Code Generation Options"), 1);
 
-	UMLClassifierList cList;
+    UMLClassifierList cList;
 
-	if (classList == NULL) {
-		cList = m_doc->getClassesAndInterfaces();
-		classList = &cList;
-	}
-	for (UMLClassifier *c = classList->first(); c ; c = classList->next()) {
-		new QListViewItem( m_selectedList, c->getFullyQualifiedName());
-	}
+    if (classList == NULL) {
+        cList = m_doc->getClassesAndInterfaces();
+        classList = &cList;
+    }
+    for (UMLClassifier *c = classList->first(); c ; c = classList->next()) {
+        new QListViewItem( m_selectedList, c->getFullyQualifiedName());
+    }
 
-	setNextEnabled(page(0),m_selectedList->childCount() > 0);
+    setNextEnabled(page(0),m_selectedList->childCount() > 0);
 
-	setFinishEnabled(page(2),true);
-	finishButton()->disconnect();
-	finishButton()->setText(i18n("&Generate"));
-	connect(finishButton(),SIGNAL(clicked()),this,SLOT(generateCode()));
-        if ( QApplication::reverseLayout() )
-        {
-            QPixmap tmpPixmap( *m_addButton->pixmap() );
-            m_addButton->setPixmap(*m_removeButton->pixmap());
-            m_removeButton->setPixmap(tmpPixmap);
-        }
+    setFinishEnabled(page(2),true);
+    finishButton()->disconnect();
+    finishButton()->setText(i18n("&Generate"));
+    connect(finishButton(),SIGNAL(clicked()),this,SLOT(generateCode()));
+    if ( QApplication::reverseLayout() )
+    {
+        QPixmap tmpPixmap( *m_addButton->pixmap() );
+        m_addButton->setPixmap(*m_removeButton->pixmap());
+        m_removeButton->setPixmap(tmpPixmap);
+    }
 }
 
 CodeGenerationWizard::~CodeGenerationWizard() {}
 
 
 void CodeGenerationWizard::selectClass() {
-	if( !m_availableList->selectedItem() ) {
-		return;
-	}
-	QString name = m_availableList->selectedItem()->text(0);
-	if( !m_selectedList->findItem( name,0 ) ) {
-		new QListViewItem(m_selectedList, name);
-	}
-	m_availableList->removeItem( m_availableList->selectedItem() );
-	setNextEnabled(currentPage(),true);
+    if( !m_availableList->selectedItem() ) {
+        return;
+    }
+    QString name = m_availableList->selectedItem()->text(0);
+    if( !m_selectedList->findItem( name,0 ) ) {
+        new QListViewItem(m_selectedList, name);
+    }
+    m_availableList->removeItem( m_availableList->selectedItem() );
+    setNextEnabled(currentPage(),true);
 }
 
 void CodeGenerationWizard::deselectClass() {
-	if( !m_selectedList->selectedItem() ) {
-		return;
-	}
-	QString name = m_selectedList->selectedItem()->text(0);
-	if( !m_availableList->findItem(name, 0) ) {
-		new QListViewItem(m_availableList, name);
-	}
-	if(m_selectedList->childCount() == 0) {
-		setNextEnabled(currentPage(),false);
-	}
-	m_selectedList->removeItem( m_selectedList->selectedItem() );
+    if( !m_selectedList->selectedItem() ) {
+        return;
+    }
+    QString name = m_selectedList->selectedItem()->text(0);
+    if( !m_availableList->findItem(name, 0) ) {
+        new QListViewItem(m_availableList, name);
+    }
+    if(m_selectedList->childCount() == 0) {
+        setNextEnabled(currentPage(),false);
+    }
+    m_selectedList->removeItem( m_selectedList->selectedItem() );
 }
 
 void CodeGenerationWizard::generateCode() {
-	backButton()->setEnabled(false);
+    backButton()->setEnabled(false);
 
-	CodeGenerator* codeGenerator = m_app->getGenerator();
+    CodeGenerator* codeGenerator = m_app->getGenerator();
 
-	if (codeGenerator) {
+    if (codeGenerator) {
 
-		cancelButton()->setEnabled(false);
+        cancelButton()->setEnabled(false);
 
-		connect( codeGenerator, SIGNAL(codeGenerated(UMLClassifier*, bool)),
-			 this, SLOT(classGenerated(UMLClassifier*, bool)) );
+        connect( codeGenerator, SIGNAL(codeGenerated(UMLClassifier*, bool)),
+                 this, SLOT(classGenerated(UMLClassifier*, bool)) );
 
-		UMLClassifierList cList;
-		cList.setAutoDelete(false);
+        UMLClassifierList cList;
+        cList.setAutoDelete(false);
 
-		for(QListViewItem *item = m_statusList->firstChild(); item;
-		    item = item-> nextSibling()) {
-			UMLClassifier *concept =  m_doc->findUMLClassifier(item->text(0));
-			cList.append(concept);
-		}
-		codeGenerator->writeCodeToFile(cList);
-		finishButton()->setText(i18n("Finish"));
-		finishButton()->disconnect();
-		connect(finishButton(),SIGNAL(clicked()),this,SLOT(accept()));
+        for(QListViewItem *item = m_statusList->firstChild(); item;
+                item = item-> nextSibling()) {
+            UMLClassifier *concept =  m_doc->findUMLClassifier(item->text(0));
+            cList.append(concept);
+        }
+        codeGenerator->writeCodeToFile(cList);
+        finishButton()->setText(i18n("Finish"));
+        finishButton()->disconnect();
+        connect(finishButton(),SIGNAL(clicked()),this,SLOT(accept()));
 
-	}
+    }
 }
 
 void CodeGenerationWizard::classGenerated(UMLClassifier* concept, bool generated) {
-	QListViewItem* item = m_statusList->findItem( concept->getFullyQualifiedName(), 0 );
-	if( !item ) {
-		kdError()<<"GenerationStatusPage::Error finding class in list view"<<endl;
-	} else if (generated) {
-		item->setText( 1, i18n("Code Generated") );
-	} else {
-		item->setText( 1, i18n("Not Generated") );
-	}
+    QListViewItem* item = m_statusList->findItem( concept->getFullyQualifiedName(), 0 );
+    if( !item ) {
+        kdError()<<"GenerationStatusPage::Error finding class in list view"<<endl;
+    } else if (generated) {
+        item->setText( 1, i18n("Code Generated") );
+    } else {
+        item->setText( 1, i18n("Not Generated") );
+    }
 }
 
 void CodeGenerationWizard::populateStatusList() {
-	m_statusList->clear();
-	for(QListViewItem* item = m_selectedList->firstChild(); item; item = item->nextSibling()) {
-		new QListViewItem(m_statusList,item->text(0),i18n("Not Yet Generated"));
-	}
+    m_statusList->clear();
+    for(QListViewItem* item = m_selectedList->firstChild(); item; item = item->nextSibling()) {
+        new QListViewItem(m_statusList,item->text(0),i18n("Not Yet Generated"));
+    }
 }
 
 void CodeGenerationWizard::showPage(QWidget *page) {
-	if (indexOf(page) == 2)
-	{
-		// first save the settings to the selected generator policy
-		((CodeGenerationOptionsPage*)QWizard::page(1))->apply();
+    if (indexOf(page) == 2)
+    {
+        // first save the settings to the selected generator policy
+        ((CodeGenerationOptionsPage*)QWizard::page(1))->apply();
 
-		// before going on to the final page, check that the output directory exists and is
-		// writable
+        // before going on to the final page, check that the output directory exists and is
+        // writable
 
-		// get the policy for the current code generator
-		CodeGenerationPolicy *policy = m_doc->getCurrentCodeGenerator()->getPolicy();
-		
-		// get the output directory path
-		QFileInfo info(policy->getOutputDirectory().absPath());
-		if(!info.exists())
-		{
-			if (KMessageBox::questionYesNo(this,
-					i18n("The directory %1 does not exist. Do you want to create it now?").arg(info.filePath()),
-					i18n("Output Directory Does Not Exist")) == KMessageBox::Yes)
-			{
-				QDir dir;
-				if(!dir.mkdir(info.filePath()))
-				{
-					KMessageBox::sorry(this,i18n("The directory could not be created.\nPlease make sure you have write access to its parent directory or select another, valid, directory."),
-					i18n("Error Creating Directory"));
-					return;
-				}
-				//else, directory created
-			}
-			else // do not create output directory
-			{
-				KMessageBox::information(this,i18n("Please select a valid directory."),
-				i18n("Output Directory Does Not Exist"));
-				return;
-			}
-		} else {
-		//directory exists.. make sure we can write to it
-			if(!info.isWritable())
-			{
-      	KMessageBox::sorry(this,i18n("The output directory exists, but it is not writable.\nPlease set the appropriate permissions or choose another directory."),
-				i18n("Error Writing to Output Directory"));
-				return;
-			}
-     // it exits and we can write... make sure it is a directory
-			if(!info.isDir())
-			{
-				KMessageBox::sorry(this,i18n("%1 does not seem to be a directory. Please choose a valid directory.").arg(info.filePath()),
-				i18n("Please Choose Valid Directory"));
-				return;
-			}
-		}
-	}
-	populateStatusList();
-	QWizard::showPage(page);
+        // get the policy for the current code generator
+        CodeGenerationPolicy *policy = m_doc->getCurrentCodeGenerator()->getPolicy();
+
+        // get the output directory path
+        QFileInfo info(policy->getOutputDirectory().absPath());
+        if(!info.exists())
+        {
+            if (KMessageBox::questionYesNo(this,
+                                           i18n("The directory %1 does not exist. Do you want to create it now?").arg(info.filePath()),
+                                           i18n("Output Directory Does Not Exist")) == KMessageBox::Yes)
+            {
+                QDir dir;
+                if(!dir.mkdir(info.filePath()))
+                {
+                    KMessageBox::sorry(this,i18n("The directory could not be created.\nPlease make sure you have write access to its parent directory or select another, valid, directory."),
+                                       i18n("Error Creating Directory"));
+                    return;
+                }
+                //else, directory created
+            }
+            else // do not create output directory
+            {
+                KMessageBox::information(this,i18n("Please select a valid directory."),
+                                         i18n("Output Directory Does Not Exist"));
+                return;
+            }
+        } else {
+            //directory exists.. make sure we can write to it
+            if(!info.isWritable())
+            {
+                KMessageBox::sorry(this,i18n("The output directory exists, but it is not writable.\nPlease set the appropriate permissions or choose another directory."),
+                                   i18n("Error Writing to Output Directory"));
+                return;
+            }
+            // it exits and we can write... make sure it is a directory
+            if(!info.isDir())
+            {
+                KMessageBox::sorry(this,i18n("%1 does not seem to be a directory. Please choose a valid directory.").arg(info.filePath()),
+                                   i18n("Please Choose Valid Directory"));
+                return;
+            }
+        }
+    }
+    populateStatusList();
+    QWizard::showPage(page);
 }
 
 CodeGenerator* CodeGenerationWizard::generator() {
-// FIX
-/*
-	GeneratorInfo* info;
-	if( m_CodeGenerationOptionsPage->getCodeGenerationLanguage().isEmpty() ) {
-		KMessageBox::sorry(this,i18n("There is no Active Language defined.\nPlease select\
-		                             one of the installed languages to generate the code in."),
-				   i18n("No Language Selected"));
-		return 0;
-	}
-	GeneratorDict ldict = UMLApp::app()->generatorDict();
-	info = ldict.find( m_CodeGenerationOptionsPage->getCodeGenerationLanguage() );
-	if(!info) {
-		kdDebug()<<"error looking up library information (dictionary)"<<endl;
-		return 0;
-	}
+    // FIX
+    /*
+    	GeneratorInfo* info;
+    	if( m_CodeGenerationOptionsPage->getCodeGenerationLanguage().isEmpty() ) {
+    		KMessageBox::sorry(this,i18n("There is no Active Language defined.\nPlease select\
+    		                             one of the installed languages to generate the code in."),
+    				   i18n("No Language Selected"));
+    		return 0;
+    	}
+    	GeneratorDict ldict = UMLApp::app()->generatorDict();
+    	info = ldict.find( m_CodeGenerationOptionsPage->getCodeGenerationLanguage() );
+    	if(!info) {
+    		kdDebug()<<"error looking up library information (dictionary)"<<endl;
+    		return 0;
+    	}
 
-	KLibLoader* loader = KLibLoader::self();
-	if(!loader) {
-		kdDebug()<<"error getting KLibLoader!"<<endl;
-		return 0;
-	}
+    	KLibLoader* loader = KLibLoader::self();
+    	if(!loader) {
+    		kdDebug()<<"error getting KLibLoader!"<<endl;
+    		return 0;
+    	}
 
-	KLibFactory* fact = loader->factory(info->library.latin1());
-	if(!fact) {
-		kdDebug()<<"error getting the Factory"<<endl;
-		return 0;
-	}
+    	KLibFactory* fact = loader->factory(info->library.latin1());
+    	if(!fact) {
+    		kdDebug()<<"error getting the Factory"<<endl;
+    		return 0;
+    	}
 
-	QObject* o=fact->create(m_doc, 0, info->object.latin1());
-	if(!o) {
-		kdDebug()<<"could not create object"<<endl;
-		return 0;
-	}
+    	QObject* o=fact->create(m_doc, 0, info->object.latin1());
+    	if(!o) {
+    		kdDebug()<<"could not create object"<<endl;
+    		return 0;
+    	}
 
-	CodeGenerator* g = (CodeGenerator*)o;
-	// g->setDocument(m_doc);
-	return g;
-*/
-	return (CodeGenerator*) NULL;
+    	CodeGenerator* g = (CodeGenerator*)o;
+    	// g->setDocument(m_doc);
+    	return g;
+    */
+    return (CodeGenerator*) NULL;
 }
 
 // when we change language, we need to update the codegenoptions page
 // language-dependent stuff. THe way to do this is to call its "apply" method.
 void CodeGenerationWizard::changeLanguage()
 {
-	m_app->setActiveLanguage( m_CodeGenerationOptionsPage->getCodeGenerationLanguage() );
-	m_CodeGenerationOptionsPage->setCodeGenerator(m_doc->getCurrentCodeGenerator());
-	m_CodeGenerationOptionsPage->apply();
+    m_app->setActiveLanguage( m_CodeGenerationOptionsPage->getCodeGenerationLanguage() );
+    m_CodeGenerationOptionsPage->setCodeGenerator(m_doc->getCurrentCodeGenerator());
+    m_CodeGenerationOptionsPage->apply();
 }
 
 #include "codegenerationwizard.moc"

@@ -21,7 +21,7 @@
  */
 namespace IDLImport {
 
-	void parseFile(QString filename);
+void parseFile(QString filename);
 
 }
 

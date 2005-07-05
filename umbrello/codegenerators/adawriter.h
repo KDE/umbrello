@@ -32,69 +32,69 @@ class UMLOperation;
   * that concept
   */
 class AdaWriter : public SimpleCodeGenerator {
-        Q_OBJECT
+    Q_OBJECT
 public:
 
-	/**
-	 * Basic Constructor
-	 */
-	AdaWriter (UMLDoc * parent = 0, const char* name = 0);
+    /**
+     * Basic Constructor
+     */
+    AdaWriter (UMLDoc * parent = 0, const char* name = 0);
 
-	/**
-	 * Empty Destructor
-	 */
-	virtual ~AdaWriter ();
+    /**
+     * Empty Destructor
+     */
+    virtual ~AdaWriter ();
 
-	/**
-	 * call this method to generate Ada code for a UMLClassifier
-	 * @param c the class to generate code for
-	 */
-	virtual void writeClass (UMLClassifier *c);
+    /**
+     * call this method to generate Ada code for a UMLClassifier
+     * @param c the class to generate code for
+     */
+    virtual void writeClass (UMLClassifier *c);
 
-	/**
-	 * checks whether type is "AdaWriter"
-	 *
-	 * @param type
-	 */
-	virtual bool isType (QString & type);
+    /**
+     * checks whether type is "AdaWriter"
+     *
+     * @param type
+     */
+    virtual bool isType (QString & type);
 
-	/**
-	 * returns "Ada"
-	 */
-	virtual QString getLanguage();
+    /**
+     * returns "Ada"
+     */
+    virtual QString getLanguage();
 
-	void createDefaultDatatypes();
+    void createDefaultDatatypes();
 
-	/**
-	 * Check whether the given string is a reserved word for the
-	 * language of this code generator
-	 *
-	 * @param rPossiblyReservedKeyword  The string to check.
-	 */
-	virtual bool isReservedKeyword(const QString & rPossiblyReservedWord);
+    /**
+     * Check whether the given string is a reserved word for the
+     * language of this code generator
+     *
+     * @param rPossiblyReservedKeyword  The string to check.
+     */
+    virtual bool isReservedKeyword(const QString & rPossiblyReservedWord);
 
-	/**
-	 * get list of reserved keywords
-	 */
-	virtual const QStringList reservedKeywords() const;
+    /**
+     * get list of reserved keywords
+     */
+    virtual const QStringList reservedKeywords() const;
 
 private:
 
-	/**
-	 * write one operation
-	 * @param op the class for which we are generating code
-	 * @param ada the stream associated with the output file
-	 */
-	void writeOperation (UMLOperation *op, QTextStream &ada, bool is_comment = false);
+    /**
+     * write one operation
+     * @param op the class for which we are generating code
+     * @param ada the stream associated with the output file
+     */
+    void writeOperation (UMLOperation *op, QTextStream &ada, bool is_comment = false);
 
-	void computeAssocTypeAndRole (UMLAssociation *a, QString& typeName, QString& roleName);
+    void computeAssocTypeAndRole (UMLAssociation *a, QString& typeName, QString& roleName);
 
-	bool isOOClass (UMLClassifier *c);
+    bool isOOClass (UMLClassifier *c);
 
-	QString qualifiedName
-	(UMLClassifier *c, bool withType = false, bool byValue = false);
+    QString qualifiedName
+    (UMLClassifier *c, bool withType = false, bool byValue = false);
 
-	static const QString defaultPackageSuffix;
+    static const QString defaultPackageSuffix;
 
 };
 

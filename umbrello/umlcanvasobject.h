@@ -34,191 +34,191 @@ class IDChangeLog;
  */
 
 class UMLCanvasObject : public UMLObject {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	/**
-	 * Sets up a UMLCanvasObject.
-	 *
-	 * @param name		The name of the Concept.
-	 * @param id		The unique id of the Concept.
-	 */
-	UMLCanvasObject(const QString & name = "", Uml::IDType id = Uml::id_None);
+    /**
+     * Sets up a UMLCanvasObject.
+     *
+     * @param name		The name of the Concept.
+     * @param id		The unique id of the Concept.
+     */
+    UMLCanvasObject(const QString & name = "", Uml::IDType id = Uml::id_None);
 
 
-	/**
-	 * Standard deconstructor.
-	 */
-	virtual ~UMLCanvasObject();
+    /**
+     * Standard deconstructor.
+     */
+    virtual ~UMLCanvasObject();
 
-	/**
-	 *  Overloaded '==' operator
-	 */
-	virtual bool operator==(UMLCanvasObject& rhs);
+    /**
+     *  Overloaded '==' operator
+     */
+    virtual bool operator==(UMLCanvasObject& rhs);
 
-	/**
-	 * Copy the internal presentation of this object into the new
-	 * object.
-	 */
-	virtual void copyInto(UMLCanvasObject *rhs) const;
+    /**
+     * Copy the internal presentation of this object into the new
+     * object.
+     */
+    virtual void copyInto(UMLCanvasObject *rhs) const;
 
-	// The abstract method UMLObject::clone() is implemented
-	// in the classes inheriting from UMLCanvasObject.
+    // The abstract method UMLObject::clone() is implemented
+    // in the classes inheriting from UMLCanvasObject.
 
-	/**
-	 * Adds an association.
-	 *
-	 * @param assoc		The association to add.
-	 */
-	bool addAssociation(UMLAssociation* assoc);
+    /**
+     * Adds an association.
+     *
+     * @param assoc		The association to add.
+     */
+    bool addAssociation(UMLAssociation* assoc);
 
-	/**
-	 * Determine if this canvasobject has the given association.
-	 *
-	 * @param assoc		The association to check.
-	 */
-	bool hasAssociation(UMLAssociation* assoc);
+    /**
+     * Determine if this canvasobject has the given association.
+     *
+     * @param assoc		The association to check.
+     */
+    bool hasAssociation(UMLAssociation* assoc);
 
-	/**
-	 * Remove an association from the CanvasObject.
-	 *
-	 * @param o		The association to remove.
-	 */
-	int removeAssociation(UMLAssociation *assoc);
+    /**
+     * Remove an association from the CanvasObject.
+     *
+     * @param o		The association to remove.
+     */
+    int removeAssociation(UMLAssociation *assoc);
 
-	/**
-	 * Remove all associations from the CanvasObject.
-	 */
-	void removeAllAssociations();
+    /**
+     * Remove all associations from the CanvasObject.
+     */
+    void removeAllAssociations();
 
-	/**
-	 * Returns the number of associations for the CanvasObject.
-	 * This is the sum of the aggregations and compositions.
-	 *
-	 * @return	The number of associations for the Concept.
-	 */
-	int associations();
+    /**
+     * Returns the number of associations for the CanvasObject.
+     * This is the sum of the aggregations and compositions.
+     *
+     * @return	The number of associations for the Concept.
+     */
+    int associations();
 
- 	/**
-	 * Return the list of associations for the CanvasObject.
-	 *
-	 * @return	The list of associations for the CanvasObject.
-	 */
-	const UMLAssociationList& getAssociations();
+    /**
+    * Return the list of associations for the CanvasObject.
+    *
+    * @return	The list of associations for the CanvasObject.
+    */
+    const UMLAssociationList& getAssociations();
 
-	/**
-	 * Return the subset of m_AssocsList that matches the given type.
-	 *
-	 * @param assocType	The Association_Type to match.
-	 * @return	The list of associations that match assocType.
-	 */
-	UMLAssociationList getSpecificAssocs(Uml::Association_Type assocType);
+    /**
+     * Return the subset of m_AssocsList that matches the given type.
+     *
+     * @param assocType	The Association_Type to match.
+     * @return	The list of associations that match assocType.
+     */
+    UMLAssociationList getSpecificAssocs(Uml::Association_Type assocType);
 
-	/**
-	 * Return a list of the superclasses of this concept.
-	 * TODO: This overlaps with UMLClassifier::findSuperClassConcepts(),
-	 *       see if we can merge the two.
-	 *
-	 * @return	The list of superclasses for the concept.
-	 */
-	UMLClassifierList getSuperClasses();
+    /**
+     * Return a list of the superclasses of this concept.
+     * TODO: This overlaps with UMLClassifier::findSuperClassConcepts(),
+     *       see if we can merge the two.
+     *
+     * @return	The list of superclasses for the concept.
+     */
+    UMLClassifierList getSuperClasses();
 
-	/**
-	 * Return a list of the classes that inherit from this concept.
-	 * TODO: This overlaps with UMLClassifier::findSubClassConcepts(),
-	 *       see if we can merge the two.
-	 *
-	 * @return	The list of classes inheriting from the concept.
-	 */
-	UMLClassifierList getSubClasses();
+    /**
+     * Return a list of the classes that inherit from this concept.
+     * TODO: This overlaps with UMLClassifier::findSubClassConcepts(),
+     *       see if we can merge the two.
+     *
+     * @return	The list of classes inheriting from the concept.
+     */
+    UMLClassifierList getSubClasses();
 
-	/**
-	 * Shorthand for getSpecificAssocs(Uml::at_Realization)
-	 *
-	 * @return	The list of realizations for the Concept.
-	 */
-	virtual UMLAssociationList getRealizations();
+    /**
+     * Shorthand for getSpecificAssocs(Uml::at_Realization)
+     *
+     * @return	The list of realizations for the Concept.
+     */
+    virtual UMLAssociationList getRealizations();
 
-	/**
-	 * Shorthand for getSpecificAssocs(Uml::at_Aggregation)
-	 *
-	 * @return	The list of aggregations for the Concept.
-	 */
-	UMLAssociationList getAggregations();
+    /**
+     * Shorthand for getSpecificAssocs(Uml::at_Aggregation)
+     *
+     * @return	The list of aggregations for the Concept.
+     */
+    UMLAssociationList getAggregations();
 
-	/**
-	 * Shorthand for getSpecificAssocs(Uml::at_Composition)
-	 *
-	 * @return	The list of compositions for the Concept.
-	 */
-	UMLAssociationList getCompositions();
+    /**
+     * Shorthand for getSpecificAssocs(Uml::at_Composition)
+     *
+     * @return	The list of compositions for the Concept.
+     */
+    UMLAssociationList getCompositions();
 
-	/**
-	 * Shorthand for getSpecificAssocs(Uml::at_Relationship)
-	 *
-	 * @return	The list of relationships for the entity.
-	 */
-	UMLAssociationList getRelationships();
+    /**
+     * Shorthand for getSpecificAssocs(Uml::at_Relationship)
+     *
+     * @return	The list of relationships for the entity.
+     */
+    UMLAssociationList getRelationships();
 
-	/**
-	 * Find a list of associations with the given name.
-	 *
-	 * @param t		The type to find.
-	 * @param n		The name of the object to find.
-	 * @return	List of objects found (empty if none found.)
-	 */
-	virtual UMLObjectList findChildObject(Uml::Object_Type t, const QString &n);
+    /**
+     * Find a list of associations with the given name.
+     *
+     * @param t		The type to find.
+     * @param n		The name of the object to find.
+     * @return	List of objects found (empty if none found.)
+     */
+    virtual UMLObjectList findChildObject(Uml::Object_Type t, const QString &n);
 
-	/**
-	 * Find an association.
-	 *
-	 * @param id		The id of the object to find.
-	 * @return	Pointer to the object found (NULL if not found.)
-	 */
-	UMLObject* findAssoc(Uml::IDType id);
+    /**
+     * Find an association.
+     *
+     * @param id		The id of the object to find.
+     * @return	Pointer to the object found (NULL if not found.)
+     */
+    UMLObject* findAssoc(Uml::IDType id);
 
-	/**
-	 * Returns a name for the new association, operation, template
-	 * or attribute appended with a number if the default name is
-	 * taken e.g. new_association, new_association_1 etc.
-	 *
-	 * @param type		The object type for which to make a name.
-	 * @param seekStereo	Set this true if we should look at the object's
-	 *			stereotype instead of its name.
-	 * @return	Unique name string for the Object_Type given.
-	 */
-	virtual QString uniqChildName(const Uml::Object_Type type,
-				      bool seekStereo = false);
+    /**
+     * Returns a name for the new association, operation, template
+     * or attribute appended with a number if the default name is
+     * taken e.g. new_association, new_association_1 etc.
+     *
+     * @param type		The object type for which to make a name.
+     * @param seekStereo	Set this true if we should look at the object's
+     *			stereotype instead of its name.
+     * @return	Unique name string for the Object_Type given.
+     */
+    virtual QString uniqChildName(const Uml::Object_Type type,
+                                  bool seekStereo = false);
 
-	// The abstract method UMLObject::saveToXMI() is implemented
-	// in the classes inheriting from UMLCanvasObject.
+    // The abstract method UMLObject::saveToXMI() is implemented
+    // in the classes inheriting from UMLCanvasObject.
 
 protected:
 
-	/**
-	 * List of all the associations in this class.
-	 */
-	UMLAssociationList m_AssocsList;
+    /**
+     * List of all the associations in this class.
+     */
+    UMLAssociationList m_AssocsList;
 
 private:
 
-	/**
-	 * Initialises key variables of the class.
-	 */
-	void init();
+    /**
+     * Initialises key variables of the class.
+     */
+    void init();
 
 signals:
 
-	/**
-	 * Emit when new association is added.
-	 * @param assoc Pointer to the association which has been added.
-	 */
-	void sigAssociationAdded(UMLAssociation * assoc);
+    /**
+     * Emit when new association is added.
+     * @param assoc Pointer to the association which has been added.
+     */
+    void sigAssociationAdded(UMLAssociation * assoc);
 
-	/**
-	 * Emit when new association is removed.
-	 * @param assoc Pointer to the association which has been removed.
-	 */
-	void sigAssociationRemoved(UMLAssociation * assoc);
+    /**
+     * Emit when new association is removed.
+     * @param assoc Pointer to the association which has been removed.
+     */
+    void sigAssociationRemoved(UMLAssociation * assoc);
 
 };
 

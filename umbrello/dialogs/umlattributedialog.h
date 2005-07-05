@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -31,53 +31,53 @@ class KComboBox;
 class QLineEdit;
 
 class UMLAttributeDialog : public KDialogBase {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	UMLAttributeDialog( QWidget * pParent, UMLAttribute * pAttribute );
-	~UMLAttributeDialog();
+    UMLAttributeDialog( QWidget * pParent, UMLAttribute * pAttribute );
+    ~UMLAttributeDialog();
 
 protected:
-	/**
-	*	Sets up the dialog
-	*/
-	void setupDialog();
+    /**
+    *	Sets up the dialog
+    */
+    void setupDialog();
 
-	/**
-	 * Checks if changes are valid and applies them if they are,
-	 * else returns false
-	 */
-	bool apply();
+    /**
+     * Checks if changes are valid and applies them if they are,
+     * else returns false
+     */
+    bool apply();
 
-	/**
-	* Inserts @p type into the type-combobox as well as its completion object.
-	*/
-	void insertType( const QString& type, int index = -1 );
+    /**
+    * Inserts @p type into the type-combobox as well as its completion object.
+    */
+    void insertType( const QString& type, int index = -1 );
 
-	/**
-	*	The Attribute to represent
-	*/
-	UMLAttribute * m_pAttribute;
+    /**
+    *	The Attribute to represent
+    */
+    UMLAttribute * m_pAttribute;
 
-	//GUI Widgets
-	QGroupBox * m_pAttsGB, * m_pValuesGB;
-	QButtonGroup * m_pScopeBG;
-	QRadioButton * m_pPublicRB, * m_pPrivateRB,  * m_pProtectedRB;
-	QLabel * m_pTypeL, * m_pNameL, * m_pInitialL, * m_pStereoTypeL;
-	KComboBox * m_pTypeCB;
-	QLineEdit * m_pNameLE, * m_pInitialLE, * m_pStereoTypeLE;
-	QCheckBox* m_pStaticCB;
+    //GUI Widgets
+    QGroupBox * m_pAttsGB, * m_pValuesGB;
+    QButtonGroup * m_pScopeBG;
+    QRadioButton * m_pPublicRB, * m_pPrivateRB,  * m_pProtectedRB;
+    QLabel * m_pTypeL, * m_pNameL, * m_pInitialL, * m_pStereoTypeL;
+    KComboBox * m_pTypeCB;
+    QLineEdit * m_pNameLE, * m_pInitialLE, * m_pStereoTypeLE;
+    QCheckBox* m_pStaticCB;
 
 public slots:
-	/**
-	 * I don't think this is used, but if we had an apply button
-	 * it would slot into here
-	 */
-	void slotApply();
+    /**
+     * I don't think this is used, but if we had an apply button
+     * it would slot into here
+     */
+    void slotApply();
 
-	/**
-	 * Used when the OK button is clicked.  Calls apply()
-	 */
-	void slotOk();
+    /**
+     * Used when the OK button is clicked.  Calls apply()
+     */
+    void slotOk();
     void slotNameChanged( const QString & );
 };
 

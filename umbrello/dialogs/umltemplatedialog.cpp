@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2003-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2003-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -35,122 +35,122 @@
 #include "../dialog_utils.h"
 
 UMLTemplateDialog::UMLTemplateDialog(QWidget* pParent, UMLTemplate* pTemplate)
-  : KDialogBase( Plain, i18n("Template Properties"), Help | Ok | Cancel , Ok, pParent, "_UMLTemplateDLG_", true, true) {
-	m_pTemplate = pTemplate;
-	setupDialog();
+        : KDialogBase( Plain, i18n("Template Properties"), Help | Ok | Cancel , Ok, pParent, "_UMLTemplateDLG_", true, true) {
+    m_pTemplate = pTemplate;
+    setupDialog();
 }
 
 UMLTemplateDialog::~UMLTemplateDialog() {}
 
 void UMLTemplateDialog::setupDialog() {
-	int margin = fontMetrics().height();
+    int margin = fontMetrics().height();
 
-	QVBoxLayout* mainLayout = new QVBoxLayout( plainPage() );
+    QVBoxLayout* mainLayout = new QVBoxLayout( plainPage() );
 
-	m_pValuesGB = new QGroupBox(i18n("General Properties"), plainPage() );
-	QGridLayout* valuesLayout = new QGridLayout(m_pValuesGB, 3, 2);
-	valuesLayout->setMargin(margin);
-	valuesLayout->setSpacing(10);
+    m_pValuesGB = new QGroupBox(i18n("General Properties"), plainPage() );
+    QGridLayout* valuesLayout = new QGridLayout(m_pValuesGB, 3, 2);
+    valuesLayout->setMargin(margin);
+    valuesLayout->setSpacing(10);
 
-	m_pTypeL = new QLabel(i18n("&Type:"), m_pValuesGB);
-	valuesLayout->addWidget(m_pTypeL, 0, 0);
+    m_pTypeL = new QLabel(i18n("&Type:"), m_pValuesGB);
+    valuesLayout->addWidget(m_pTypeL, 0, 0);
 
-	m_pTypeCB = new QComboBox(m_pValuesGB);
-	valuesLayout->addWidget(m_pTypeCB, 0, 1);
-	m_pTypeL->setBuddy(m_pTypeCB);
+    m_pTypeCB = new QComboBox(m_pValuesGB);
+    valuesLayout->addWidget(m_pTypeCB, 0, 1);
+    m_pTypeL->setBuddy(m_pTypeCB);
 
-	Umbrello::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
-					m_pNameL, i18n("&Name:"),
-					m_pNameLE, m_pTemplate->getName() );
+    Umbrello::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
+                                    m_pNameL, i18n("&Name:"),
+                                    m_pNameLE, m_pTemplate->getName() );
 
-	Umbrello::makeLabeledEditField( m_pValuesGB, valuesLayout, 2,
-					m_pStereoTypeL, i18n("&Stereotype name:"),
-					m_pStereoTypeLE, m_pTemplate->getStereotype(false) );
+    Umbrello::makeLabeledEditField( m_pValuesGB, valuesLayout, 2,
+                                    m_pStereoTypeL, i18n("&Stereotype name:"),
+                                    m_pStereoTypeLE, m_pTemplate->getStereotype(false) );
 
-	mainLayout->addWidget(m_pValuesGB);
+    mainLayout->addWidget(m_pValuesGB);
 
-	// "class" is the nominal type of template parameter
-	m_pTypeCB->insertItem( "class" );
-	// Add the active data types to combo box
-	UMLDoc *pDoc = UMLApp::app()->getDocument();
-	UMLClassifierList namesList( pDoc->getConcepts() );
-	UMLClassifier* obj = 0;
-	for (obj = namesList.first(); obj; obj = namesList.next()) {
-		m_pTypeCB->insertItem( obj->getName() );
-	}
+    // "class" is the nominal type of template parameter
+    m_pTypeCB->insertItem( "class" );
+    // Add the active data types to combo box
+    UMLDoc *pDoc = UMLApp::app()->getDocument();
+    UMLClassifierList namesList( pDoc->getConcepts() );
+    UMLClassifier* obj = 0;
+    for (obj = namesList.first(); obj; obj = namesList.next()) {
+        m_pTypeCB->insertItem( obj->getName() );
+    }
 
-	m_pTypeCB->setEditable(true);
-	m_pTypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
-	m_pTypeCB->setAutoCompletion(true);
+    m_pTypeCB->setEditable(true);
+    m_pTypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
+    m_pTypeCB->setAutoCompletion(true);
 
-	//work out which one to select
-	int typeBoxCount = 0;
-	bool foundType = false;
-	while (typeBoxCount < m_pTypeCB->count() && foundType == false) {
-		QString typeBoxString = m_pTypeCB->text(typeBoxCount);
-		if ( typeBoxString == m_pTemplate->getTypeName() ) {
-			foundType = true;
-			m_pTypeCB->setCurrentItem(typeBoxCount);
-		} else {
-			typeBoxCount++;
-		}
-	}
+    //work out which one to select
+    int typeBoxCount = 0;
+    bool foundType = false;
+    while (typeBoxCount < m_pTypeCB->count() && foundType == false) {
+        QString typeBoxString = m_pTypeCB->text(typeBoxCount);
+        if ( typeBoxString == m_pTemplate->getTypeName() ) {
+            foundType = true;
+            m_pTypeCB->setCurrentItem(typeBoxCount);
+        } else {
+            typeBoxCount++;
+        }
+    }
 
-	if (!foundType) {
-		m_pTypeCB->insertItem( m_pTemplate->getTypeName(), 0 );
-		m_pTypeCB->setCurrentItem(0);
-	}
+    if (!foundType) {
+        m_pTypeCB->insertItem( m_pTemplate->getTypeName(), 0 );
+        m_pTypeCB->setCurrentItem(0);
+    }
 
-	m_pNameLE->setFocus();
+    m_pNameLE->setFocus();
 }
 
 bool UMLTemplateDialog::apply() {
-	QString typeName = m_pTypeCB->currentText();
-	UMLDoc *pDoc = UMLApp::app()->getDocument();
-	UMLClassifierList namesList( pDoc->getConcepts() );
-	UMLClassifier* obj = 0;
-	for (obj = namesList.first(); obj; obj = namesList.next()) {
-		if (typeName == obj->getName()) {
-			m_pTemplate->setType( obj );
-		}
-	}
-	if (obj == NULL) { // not found.
-		// FIXME: This implementation is not good yet.
-		m_pTemplate->setTypeName( typeName );
-	}
-	QString name = m_pNameLE->text();
-	if( name.length() == 0 ) {
-		KMessageBox::error(this, i18n("You have entered an invalid template name."),
-		                   i18n("Template Name Invalid"), false);
-		m_pNameLE->setText( m_pTemplate->getName() );
-		return false;
-	}
+    QString typeName = m_pTypeCB->currentText();
+    UMLDoc *pDoc = UMLApp::app()->getDocument();
+    UMLClassifierList namesList( pDoc->getConcepts() );
+    UMLClassifier* obj = 0;
+    for (obj = namesList.first(); obj; obj = namesList.next()) {
+        if (typeName == obj->getName()) {
+            m_pTemplate->setType( obj );
+        }
+    }
+    if (obj == NULL) { // not found.
+        // FIXME: This implementation is not good yet.
+        m_pTemplate->setTypeName( typeName );
+    }
+    QString name = m_pNameLE->text();
+    if( name.length() == 0 ) {
+        KMessageBox::error(this, i18n("You have entered an invalid template name."),
+                           i18n("Template Name Invalid"), false);
+        m_pNameLE->setText( m_pTemplate->getName() );
+        return false;
+    }
 
-	UMLClassifier * pClass = dynamic_cast<UMLClassifier *>( m_pTemplate->parent() );
-	if (pClass) {
-		UMLObjectList list= pClass->findChildObject(Uml::ot_Attribute, name);
-		if( list.count() != 0 && list.findRef( m_pTemplate ) ) {
-			KMessageBox::error(this, i18n("The template parameter name you have chosen is already being used in this operation."),
-			                   i18n("Template Name Not Unique"), false);
-			m_pNameLE->setText( m_pTemplate->getName() );
-			return false;
-		}
-	}
-	m_pTemplate->setName(name);
+    UMLClassifier * pClass = dynamic_cast<UMLClassifier *>( m_pTemplate->parent() );
+    if (pClass) {
+        UMLObjectList list= pClass->findChildObject(Uml::ot_Attribute, name);
+        if( list.count() != 0 && list.findRef( m_pTemplate ) ) {
+            KMessageBox::error(this, i18n("The template parameter name you have chosen is already being used in this operation."),
+                               i18n("Template Name Not Unique"), false);
+            m_pNameLE->setText( m_pTemplate->getName() );
+            return false;
+        }
+    }
+    m_pTemplate->setName(name);
 
-	m_pTemplate->setStereotype( m_pStereoTypeLE->text() );
+    m_pTemplate->setStereotype( m_pStereoTypeLE->text() );
 
-	return true;
+    return true;
 }
 
 void UMLTemplateDialog::slotApply() {
-	apply();
+    apply();
 }
 
 void UMLTemplateDialog::slotOk() {
-	if ( apply() ) {
-		accept();
-	}
+    if ( apply() ) {
+        accept();
+    }
 }
 
 #include "umltemplatedialog.moc"

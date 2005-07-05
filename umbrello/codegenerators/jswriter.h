@@ -29,51 +29,51 @@
   * Just call writeClass and feed it a UMLClassifier;
   */
 class JSWriter : public SimpleCodeGenerator {
-	Q_OBJECT
+    Q_OBJECT
 public:
 
-	JSWriter( UMLDoc * parent, const char* name = 0 );
-	virtual ~JSWriter();
+    JSWriter( UMLDoc * parent, const char* name = 0 );
+    virtual ~JSWriter();
 
-	/**
-	  * call this method to generate Actionscript code for a UMLClassifier
-	  * @param c the class you want to generate code for.
-	  */
-	virtual void writeClass(UMLClassifier *c);
+    /**
+      * call this method to generate Actionscript code for a UMLClassifier
+      * @param c the class you want to generate code for.
+      */
+    virtual void writeClass(UMLClassifier *c);
 
-	/**
-	 * checks whether type is "JSWriter"
-	 *
-	 * @param type
-	 */
-	virtual bool isType (QString & type);
+    /**
+     * checks whether type is "JSWriter"
+     *
+     * @param type
+     */
+    virtual bool isType (QString & type);
 
-	/**
-	 * returns "JavaScript"
-	 */
-	virtual QString getLanguage();
+    /**
+     * returns "JavaScript"
+     */
+    virtual QString getLanguage();
 
-	/**
-	 * get list of reserved keywords
-	 */
-	virtual const QStringList reservedKeywords() const;
+    /**
+     * get list of reserved keywords
+     */
+    virtual const QStringList reservedKeywords() const;
 
 private:
 
-	/**
-	 * we do not want to write the comment "Private methods" twice
-	 */
-	bool bPrivateSectionCommentIsWritten;
+    /**
+     * we do not want to write the comment "Private methods" twice
+     */
+    bool bPrivateSectionCommentIsWritten;
 
-	/**
-	  * write a list of class operations
-	  *
-	  * @param classname the name of the class
-	  * @param opList the list of operations
-	  * @param js output stream for the JS file
-	  */
-	void writeOperations(QString classname, UMLOperationList *opList,
-			     QTextStream &js);
+    /**
+      * write a list of class operations
+      *
+      * @param classname the name of the class
+      * @param opList the list of operations
+      * @param js output stream for the JS file
+      */
+    void writeOperations(QString classname, UMLOperationList *opList,
+                         QTextStream &js);
 };
 
 #endif //JSWRITER

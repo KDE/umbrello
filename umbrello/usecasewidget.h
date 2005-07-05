@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -41,37 +41,37 @@ class UMLUseCase;
 class UseCaseWidget : public UMLWidget {
 public:
 
-	/**
-	 *	Creates a UseCase widget.
-	 *
-	 *	@param	view		The parent of the widget.
-	 *	@param	o		The UMLObject to represent.
-	 */
-	UseCaseWidget(UMLView * view, UMLUseCase *o);
+    /**
+     *	Creates a UseCase widget.
+     *
+     *	@param	view		The parent of the widget.
+     *	@param	o		The UMLObject to represent.
+     */
+    UseCaseWidget(UMLView * view, UMLUseCase *o);
 
 
-	/**
-	 *	destructor
-	 */
-	virtual ~UseCaseWidget();
+    /**
+     *	destructor
+     */
+    virtual ~UseCaseWidget();
 
-	/**
-	*	Overrides the standard paint event.
-	*/
-	void draw(QPainter & p, int offsetX, int offsetY);
+    /**
+    *	Overrides the standard paint event.
+    */
+    void draw(QPainter & p, int offsetX, int offsetY);
 
-	/**
-	*	Saves this UseCase to file.
-	*/
-	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    /**
+    *	Saves this UseCase to file.
+    */
+    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-	// For loading we can use the loadFromXMI() inherited from UMLWidget.
+    // For loading we can use the loadFromXMI() inherited from UMLWidget.
 
 protected:
-	/**
-	 *	Calculates the size of the widget.
-	 */
-	void calculateSize();
+    /**
+     *	Calculates the size of the widget.
+     */
+    void calculateSize();
 };
 
 #endif

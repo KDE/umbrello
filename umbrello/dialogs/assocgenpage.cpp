@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2003-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2003-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -28,16 +28,16 @@
 #include "../dialog_utils.h"
 
 AssocGenPage::AssocGenPage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc)
-	: QWidget(parent)
+        : QWidget(parent)
 {
 
-	m_pAssociationWidget = assoc;
-	m_pWidget = 0;
-	m_pTypeLE = 0;
-	m_pAssocNameLE = 0;
-	m_pUmldoc = d;
+    m_pAssociationWidget = assoc;
+    m_pWidget = 0;
+    m_pTypeLE = 0;
+    m_pAssocNameLE = 0;
+    m_pUmldoc = d;
 
-	constructWidget();
+    constructWidget();
 
 }
 
@@ -45,51 +45,50 @@ AssocGenPage::~AssocGenPage() {}
 
 void AssocGenPage::constructWidget() {
 
-	// general configuration of the GUI
-	int margin = fontMetrics().height();
-	setMinimumSize(310,330);
-	QVBoxLayout * topLayout = new QVBoxLayout(this);
-	topLayout -> setSpacing(6);
+    // general configuration of the GUI
+    int margin = fontMetrics().height();
+    setMinimumSize(310,330);
+    QVBoxLayout * topLayout = new QVBoxLayout(this);
+    topLayout -> setSpacing(6);
 
-	// group boxes for name, documentation properties
-	QGroupBox *nameGB = new QGroupBox(this);
-	QGroupBox *docGB = new QGroupBox(this);
-	nameGB -> setTitle(i18n("Properties"));
-	docGB -> setTitle(i18n("Documentation"));
-	topLayout -> addWidget(nameGB);
-	topLayout -> addWidget(docGB);
+    // group boxes for name, documentation properties
+    QGroupBox *nameGB = new QGroupBox(this);
+    QGroupBox *docGB = new QGroupBox(this);
+    nameGB -> setTitle(i18n("Properties"));
+    docGB -> setTitle(i18n("Documentation"));
+    topLayout -> addWidget(nameGB);
+    topLayout -> addWidget(docGB);
 
-	QGridLayout * nameLayout = new QGridLayout(nameGB, 2, 2);
-	nameLayout -> setSpacing(6);
-	nameLayout -> setMargin(margin);
+    QGridLayout * nameLayout = new QGridLayout(nameGB, 2, 2);
+    nameLayout -> setSpacing(6);
+    nameLayout -> setMargin(margin);
 
-	//Association name
-	QLabel *pAssocNameL = NULL;
-	QLineEdit* nameField = Umbrello::makeLabeledEditField( nameGB, nameLayout, 0,
-							       pAssocNameL, i18n("Name:"),
-							       m_pAssocNameLE, m_pAssociationWidget->getName() );
-	nameField->setFocus();
+    //Association name
+    QLabel *pAssocNameL = NULL;
+    QLineEdit* nameField = Umbrello::makeLabeledEditField( nameGB, nameLayout, 0,
+                           pAssocNameL, i18n("Name:"),
+                           m_pAssocNameLE, m_pAssociationWidget->getName() );
+    nameField->setFocus();
 
-	// document
-	QHBoxLayout * docLayout = new QHBoxLayout(docGB);
-	docLayout -> setMargin(margin);
+    // document
+    QHBoxLayout * docLayout = new QHBoxLayout(docGB);
+    docLayout -> setMargin(margin);
 
-	m_pDoc = new QMultiLineEdit(docGB);
-	docLayout -> addWidget(m_pDoc);
-	m_pDoc-> setText(m_pAssociationWidget-> getDoc());
+    m_pDoc = new QMultiLineEdit(docGB);
+    docLayout -> addWidget(m_pDoc);
+    m_pDoc-> setText(m_pAssociationWidget-> getDoc());
 
-	// Association Type
-	QLabel *pTypeL = NULL;
-	Umbrello::makeLabeledEditField( nameGB, nameLayout, 1,
-					pTypeL, i18n("Type:"),
-					m_pTypeLE, UMLAssociation::typeAsString(m_pAssociationWidget->getAssocType()) );
-	m_pTypeLE->setEnabled(false);
+    // Association Type
+    QLabel *pTypeL = NULL;
+    Umbrello::makeLabeledEditField( nameGB, nameLayout, 1,
+                                    pTypeL, i18n("Type:"),
+                                    m_pTypeLE, UMLAssociation::typeAsString(m_pAssociationWidget->getAssocType()) );
+    m_pTypeLE->setEnabled(false);
 
-	m_pDoc->setWordWrap(QMultiLineEdit::WidgetWidth);
+    m_pDoc->setWordWrap(QMultiLineEdit::WidgetWidth);
 
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
 AssocGenPage::AssocGenPage(UMLDoc *d, QWidget *parent, ObjectWidget * o, AssociationWidget *a)
 	: QWidget(parent)
@@ -159,16 +158,15 @@ AssocGenPage::AssocGenPage(UMLDoc *d, QWidget *parent, ObjectWidget * o, Associa
 		*/
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void AssocGenPage::updateObject() {
 
-	if(m_pAssociationWidget) {
-		QString name = m_pAssocNameLE -> text();
+    if(m_pAssociationWidget) {
+        QString name = m_pAssocNameLE -> text();
 
-		m_pAssociationWidget->setName(m_pAssocNameLE->text());
-		m_pAssociationWidget->setDoc(m_pDoc->text());
+        m_pAssociationWidget->setName(m_pAssocNameLE->text());
+        m_pAssociationWidget->setDoc(m_pDoc->text());
 
-	} //end if m_pAssociationWidget
+    } //end if m_pAssociationWidget
 }
 
 

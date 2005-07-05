@@ -22,14 +22,14 @@
  * code generator.
  */
 CodeGenerationPolicyPage::CodeGenerationPolicyPage( QWidget *parent, const char *name, CodeGenerationPolicy * policy )
-	:CodeGenerationPolicyBase(parent,name)
+        :CodeGenerationPolicyBase(parent,name)
 {
-	m_parentPolicy = policy;
+    m_parentPolicy = policy;
 }
 
 CodeGenerationPolicyPage::~CodeGenerationPolicyPage()
 {
-	this->disconnect();
+    this->disconnect();
 }
 
 void CodeGenerationPolicyPage::apply() {

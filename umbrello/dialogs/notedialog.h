@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -29,27 +29,27 @@ class QTextEdit;
 
 class NoteDialog : public KDialogBase {
 public:
-	/**
-	 *	Constructs an NoteDialog.
-	 */
-	NoteDialog( QWidget * parent, NoteWidget * pNote );
+    /**
+     *	Constructs an NoteDialog.
+     */
+    NoteDialog( QWidget * parent, NoteWidget * pNote );
 
-	/**
-	 *	Standard deconstructor.
-	 */
-	~NoteDialog();
+    /**
+     *	Standard deconstructor.
+     */
+    ~NoteDialog();
 
 public slots:
-	void slotOk();
+    void slotOk();
 private:
-	//GUI widgets
-	QGroupBox * m_pDocGB;
-	QTextEdit * m_pDocTE;
+    //GUI widgets
+    QGroupBox * m_pDocGB;
+    QTextEdit * m_pDocTE;
 
-	/**
-	 *	Note widget to show documentation for.
-	 */
-	NoteWidget * m_pNoteWidget;
+    /**
+     *	Note widget to show documentation for.
+     */
+    NoteWidget * m_pNoteWidget;
 };
 
 #endif

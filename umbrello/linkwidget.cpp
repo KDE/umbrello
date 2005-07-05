@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -27,37 +27,37 @@ LinkWidget::~LinkWidget() {
 }
 
 UMLClassifier *LinkWidget::getOperationOwner() {
-	UMLOperation *op = getOperation();
-	if (op == NULL)
-		return NULL;
-	return static_cast<UMLClassifier*>(op->parent());
+    UMLOperation *op = getOperation();
+    if (op == NULL)
+        return NULL;
+    return static_cast<UMLClassifier*>(op->parent());
 }
 
 QString LinkWidget::getOperationText(UMLView *view /* = NULL */) {
-	UMLOperation *op = getOperation();
-	if (op == NULL)
-		return getCustomOpText();
-	if (view == NULL)
-		view = UMLApp::app()->getCurrentView();
-	Uml::Signature_Type sigType;
-	if (view && view->getShowOpSig())
-		sigType = Uml::st_SigNoScope;
-	else
-		sigType = Uml::st_NoSigNoScope;
-	QString opText = op->toString(sigType);
-	return opText;
+    UMLOperation *op = getOperation();
+    if (op == NULL)
+        return getCustomOpText();
+    if (view == NULL)
+        view = UMLApp::app()->getCurrentView();
+    Uml::Signature_Type sigType;
+    if (view && view->getShowOpSig())
+        sigType = Uml::st_SigNoScope;
+    else
+        sigType = Uml::st_NoSigNoScope;
+    QString opText = op->toString(sigType);
+    return opText;
 }
 
 void LinkWidget::resetTextPositions() {
 }
 
 bool LinkWidget::showDialog() {
-	return true;
+    return true;
 }
 
 void LinkWidget::constrainTextPos(int & /*textX*/, int & /*textY*/,
-				  int /*textWidth*/, int /*textHeight*/,
-				  Uml::Text_Role /*tr*/) {
+                                  int /*textWidth*/, int /*textHeight*/,
+                                  Uml::Text_Role /*tr*/) {
 }
 
 void LinkWidget::calculateNameTextSegment() {

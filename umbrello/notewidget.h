@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -35,131 +35,131 @@ class QTextEdit;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class NoteWidget : public UMLWidget {
-	Q_OBJECT
+    Q_OBJECT
 public:
 
-	/**
-	 * Constructs a NoteWidget.
-	 *
-	 * @param view		The parent to this widget.
-	 * @param id		The unique id of the widget.
-	 *			The default (-1) will prompt a new ID.
-	 */
-	NoteWidget(UMLView * view, Uml::IDType id = Uml::id_None );
+    /**
+     * Constructs a NoteWidget.
+     *
+     * @param view		The parent to this widget.
+     * @param id		The unique id of the widget.
+     *			The default (-1) will prompt a new ID.
+     */
+    NoteWidget(UMLView * view, Uml::IDType id = Uml::id_None );
 
-	/**
-	 * destructor
-	 */
-	virtual ~NoteWidget();
+    /**
+     * destructor
+     */
+    virtual ~NoteWidget();
 
-	/**
-	 * Overrides the standard function.
-	 */
-	void mousePressEvent(QMouseEvent *me);
+    /**
+     * Overrides the standard function.
+     */
+    void mousePressEvent(QMouseEvent *me);
 
-	/**
-	 * Overrides the standard function.
-	 */
-	void mouseMoveEvent(QMouseEvent *me);
+    /**
+     * Overrides the standard function.
+     */
+    void mouseMoveEvent(QMouseEvent *me);
 
-	/**
-	 * Overrides the standard operation.
-	 */
-	void mouseReleaseEvent(QMouseEvent * me);
+    /**
+     * Overrides the standard operation.
+     */
+    void mouseReleaseEvent(QMouseEvent * me);
 
-	/**
-	 * Overrides the standard operation.
-	 */
-	void mouseDoubleClickEvent(QMouseEvent * /*me*/);
+    /**
+     * Overrides the standard operation.
+     */
+    void mouseDoubleClickEvent(QMouseEvent * /*me*/);
 
-	/**
-	 * Returns the text in the box.
-	 *
-	 * @return	The text in the box.
-	 */
-	QString getDoc() const;
+    /**
+     * Returns the text in the box.
+     *
+     * @return	The text in the box.
+     */
+    QString getDoc() const;
 
-	/**
-	 * Sets the note documentation.
-	 *
-	 * @param newText	The text to set the documentation to.
-	 */
-	void setDoc(const QString &newText);
+    /**
+     * Sets the note documentation.
+     *
+     * @param newText	The text to set the documentation to.
+     */
+    void setDoc(const QString &newText);
 
-	/**
-	 * Set the ID of the diagram hyperlinked to this note.
-	 * To switch off the hyperlink, set this to Uml::id_None.
-	 *
-	 * @param viewID	ID of an UMLView.
-	 */
-	void setDiagramLink(Uml::IDType viewID);
+    /**
+     * Set the ID of the diagram hyperlinked to this note.
+     * To switch off the hyperlink, set this to Uml::id_None.
+     *
+     * @param viewID	ID of an UMLView.
+     */
+    void setDiagramLink(Uml::IDType viewID);
 
-	/**
-	 * Return the ID of the diagram hyperlinked to this note.
-	 *
-	 * @return	ID of an UMLView, or Uml::id_None if no
-	 *		hyperlink is set.
-	 */
-	Uml::IDType getDiagramLink() const;
+    /**
+     * Return the ID of the diagram hyperlinked to this note.
+     *
+     * @return	ID of an UMLView, or Uml::id_None if no
+     *		hyperlink is set.
+     */
+    Uml::IDType getDiagramLink() const;
 
-	/**
-	 * Activate the NoteWidget after the saved data has been loaded.
-	 */
-	virtual bool activate( IDChangeLog* ChangeLog = 0 );
+    /**
+     * Activate the NoteWidget after the saved data has been loaded.
+     */
+    virtual bool activate( IDChangeLog* ChangeLog = 0 );
 
-	/**
-	 * Override default method.
-	 */
-	void draw(QPainter & p, int offsetX, int offsetY);
+    /**
+     * Override default method.
+     */
+    void draw(QPainter & p, int offsetX, int offsetY);
 
-	/**
-	 * Override method from UMLWidget.
-	 */
-	void setFont(QFont font);
+    /**
+     * Override method from UMLWidget.
+     */
+    void setFont(QFont font);
 
-	/**
-	 * Override method from UMLWidget.
-	 */
-	void setX(int x);
+    /**
+     * Override method from UMLWidget.
+     */
+    void setX(int x);
 
-	/**
-	 * Override method from UMLWidget.
-	 */
-	void setY(int y);
+    /**
+     * Override method from UMLWidget.
+     */
+    void setY(int y);
 
-	/**
-	 * Saves to the <notewidget> XMI element.
-	 */
-	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    /**
+     * Saves to the <notewidget> XMI element.
+     */
+    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-	/**
-	 * Loads a <notewidget> XMI element.
-	 */
-	bool loadFromXMI( QDomElement & qElement );
+    /**
+     * Loads a <notewidget> XMI element.
+     */
+    bool loadFromXMI( QDomElement & qElement );
 
 public slots:
-	void slotMenuSelection(int sel);	
-	void slotViewScrolled(int x, int y);
+    void slotMenuSelection(int sel);
+    void slotViewScrolled(int x, int y);
 
 protected:
-	// Data loaded/saved
-	Uml::IDType m_DiagramLink;
+    // Data loaded/saved
+    Uml::IDType m_DiagramLink;
 
-	/**
-	 * Draws the text.  Auxiliary to draw().
-	 */
-	void drawText(QPainter * p = NULL, int offsetX = 0, int offsetY = 0);
+    /**
+     * Draws the text.  Auxiliary to draw().
+     */
+    void drawText(QPainter * p = NULL, int offsetX = 0, int offsetY = 0);
 private:
-	/**
-	 * Initializes key variables for the class.
-	 */
-	void init();
+    /**
+     * Initializes key variables for the class.
+     */
+    void init();
 
-	void setEditorGeometry(int dx = 0, int dy = 0);
+    void setEditorGeometry(int dx = 0, int dy = 0);
 #if defined (NOTEWIDGET_EMBED_EDITOR)
-	QTextEdit *m_pEditor;
+    QTextEdit *m_pEditor;
 #else
-	QString m_Text;
+    QString m_Text;
 #endif
 };
 

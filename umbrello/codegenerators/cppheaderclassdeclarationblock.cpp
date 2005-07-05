@@ -19,136 +19,136 @@
 #include "../model_utils.h"
 
 // Constructors/Destructors
-//  
+//
 
 CPPHeaderClassDeclarationBlock::CPPHeaderClassDeclarationBlock ( CPPHeaderCodeDocument * parentDoc, const QString &startText, const QString &endText, const QString &comment)
-    : OwnedHierarchicalCodeBlock((UMLObject*) parentDoc->getParentClassifier(), (CodeDocument*)parentDoc, startText, endText, comment)
+        : OwnedHierarchicalCodeBlock((UMLObject*) parentDoc->getParentClassifier(), (CodeDocument*)parentDoc, startText, endText, comment)
 {
-	init(parentDoc, comment);
+    init(parentDoc, comment);
 }
 
 CPPHeaderClassDeclarationBlock::~CPPHeaderClassDeclarationBlock ( ) { }
 
-//  
+//
 // Methods
-//  
+//
 
 /**
  * load params from the appropriate XMI element node.
  */
 void CPPHeaderClassDeclarationBlock::loadFromXMI ( QDomElement & root )
 {
-	setAttributesFromNode(root);
+    setAttributesFromNode(root);
 }
 
 /** set the class attributes from a passed object
  */
-void CPPHeaderClassDeclarationBlock::setAttributesFromObject (TextBlock * obj) 
+void CPPHeaderClassDeclarationBlock::setAttributesFromObject (TextBlock * obj)
 {
-	HierarchicalCodeBlock::setAttributesFromObject(obj);
+    HierarchicalCodeBlock::setAttributesFromObject(obj);
 }
 
 /**
  * Save the XMI representation of this object
  */
 void CPPHeaderClassDeclarationBlock::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-	QDomElement blockElement = doc.createElement( "cppheaderclassdeclarationblock" );
+    QDomElement blockElement = doc.createElement( "cppheaderclassdeclarationblock" );
 
-	setAttributesOnNode(doc, blockElement);
+    setAttributesOnNode(doc, blockElement);
 
-	root.appendChild( blockElement );
+    root.appendChild( blockElement );
 }
 
 // Accessor methods
-//  
+//
 
 // Other methods
-//  
+//
 
 /**
  * update the start and end text for this hierarchicalcodeblock.
  */
-void CPPHeaderClassDeclarationBlock::updateContent ( ) 
+void CPPHeaderClassDeclarationBlock::updateContent ( )
 {
 
-	CPPHeaderCodeDocument *parentDoc = (CPPHeaderCodeDocument*)getParentDocument();
-	UMLClassifier *c = parentDoc->getParentClassifier();
-	CPPCodeGenerator *g = (CPPCodeGenerator*) parentDoc->getParentGenerator();
-	//CPPCodeGenerationPolicy *policy = (CPPCodeGenerationPolicy*) g->getPolicy();
-	QString endLine = parentDoc->getNewLineEndingChars();
-	bool isInterface = parentDoc->parentIsInterface(); // a little shortcut
-	QString CPPHeaderClassName = parentDoc->getCPPClassName(c->getName());
+    CPPHeaderCodeDocument *parentDoc = (CPPHeaderCodeDocument*)getParentDocument();
+    UMLClassifier *c = parentDoc->getParentClassifier();
+    CPPCodeGenerator *g = (CPPCodeGenerator*) parentDoc->getParentGenerator();
+    //CPPCodeGenerationPolicy *policy = (CPPCodeGenerationPolicy*) g->getPolicy();
+    QString endLine = parentDoc->getNewLineEndingChars();
+    bool isInterface = parentDoc->parentIsInterface(); // a little shortcut
+    QString CPPHeaderClassName = parentDoc->getCPPClassName(c->getName());
 
-	// COMMENT
+    // COMMENT
 
-	//check if class is abstract.. it should have abstract methods
-	if(!isInterface && c->getAbstract() && !c->hasAbstractOps())
-	{
-		getComment()->setText("******************************* Abstract Class ****************************"+endLine
-			  +CPPHeaderClassName+" does not have any pure virtual methods, but its author"+endLine
-			  +"  defined it as an abstract class, so you should not use it directly."+endLine
-			  +"  Inherit from it instead and create only objects from the derived classes"+endLine
-			  +"*****************************************************************************");
-	} else {
-		if(isInterface)
-			getComment()->setText("Interface "+CPPHeaderClassName+endLine+c->getDoc());
-		else
-			getComment()->setText("Class "+CPPHeaderClassName+endLine+c->getDoc());
-	}
+    //check if class is abstract.. it should have abstract methods
+    if(!isInterface && c->getAbstract() && !c->hasAbstractOps())
+    {
+        getComment()->setText("******************************* Abstract Class ****************************"+endLine
+                              +CPPHeaderClassName+" does not have any pure virtual methods, but its author"+endLine
+                              +"  defined it as an abstract class, so you should not use it directly."+endLine
+                              +"  Inherit from it instead and create only objects from the derived classes"+endLine
+                              +"*****************************************************************************");
+    } else {
+        if(isInterface)
+            getComment()->setText("Interface "+CPPHeaderClassName+endLine+c->getDoc());
+        else
+            getComment()->setText("Class "+CPPHeaderClassName+endLine+c->getDoc());
+    }
 
-	if(g->forceDoc() || !c->getDoc().isEmpty())
-		getComment()->setWriteOutText(true);
-	else
-		getComment()->setWriteOutText(false);
+    if(g->forceDoc() || !c->getDoc().isEmpty())
+        getComment()->setWriteOutText(true);
+    else
+        getComment()->setWriteOutText(false);
 
 
-	// Now set START/ENDING Text
-	QString startText = "";
+    // Now set START/ENDING Text
+    QString startText = "";
 
-/*
-*/
+    /*
+    */
 
-/*
-	if(parentDoc->parentIsInterface())
-		startText.append("interface ");
-	else
-*/
-	startText.append("class ");
+    /*
+    	if(parentDoc->parentIsInterface())
+    		startText.append("interface ");
+    	else
+    */
+    startText.append("class ");
 
-	startText.append(CPPHeaderClassName);
+    startText.append(CPPHeaderClassName);
 
-	// write inheritances out
-	UMLClassifierList superclasses = c->findSuperClassConcepts();
-	int nrof_superclasses = superclasses.count();
+    // write inheritances out
+    UMLClassifierList superclasses = c->findSuperClassConcepts();
+    int nrof_superclasses = superclasses.count();
 
-	// write out inheritance
-	int i = 0;
-	if(nrof_superclasses >0)
-		startText.append(" : ");
-	for (UMLClassifier * concept= superclasses.first(); concept; concept = superclasses.next())
-	{
-		startText.append(Umbrello::scopeToString(concept->getScope(), false)+" "+parentDoc->getCPPClassName(concept->getName()));
-		if(i != (nrof_superclasses-1))
-		      startText.append(", ");
-		i++;
-	}
+    // write out inheritance
+    int i = 0;
+    if(nrof_superclasses >0)
+        startText.append(" : ");
+    for (UMLClassifier * concept= superclasses.first(); concept; concept = superclasses.next())
+    {
+        startText.append(Umbrello::scopeToString(concept->getScope(), false)+" "+parentDoc->getCPPClassName(concept->getName()));
+        if(i != (nrof_superclasses-1))
+            startText.append(", ");
+        i++;
+    }
 
-	// Set the header and end text for the hier.codeblock
-	setStartText(startText+" {");
+    // Set the header and end text for the hier.codeblock
+    setStartText(startText+" {");
 
-	// setEndText("}"); // not needed 
+    // setEndText("}"); // not needed
 
 }
 
-void CPPHeaderClassDeclarationBlock::init (CPPHeaderCodeDocument *parentDoc, const QString &comment) 
+void CPPHeaderClassDeclarationBlock::init (CPPHeaderCodeDocument *parentDoc, const QString &comment)
 {
 
-	setComment(new CPPCodeDocumentation(parentDoc));
-	getComment()->setText(comment);
+    setComment(new CPPCodeDocumentation(parentDoc));
+    getComment()->setText(comment);
 
-	setEndText("};");
+    setEndText("};");
 
-	updateContent(); 
+    updateContent();
 
 }
 

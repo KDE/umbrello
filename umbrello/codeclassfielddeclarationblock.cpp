@@ -22,43 +22,43 @@
 #include "umlrole.h"
 
 // Constructors/Destructors
-//  
+//
 
-CodeClassFieldDeclarationBlock::CodeClassFieldDeclarationBlock ( CodeClassField * parentCF )  
-    : CodeBlockWithComments ( (CodeDocument*) parentCF->getParentDocument() ),
-	OwnedCodeBlock ((UMLObject*) parentCF->getParentObject()) 
+CodeClassFieldDeclarationBlock::CodeClassFieldDeclarationBlock ( CodeClassField * parentCF )
+        : CodeBlockWithComments ( (CodeDocument*) parentCF->getParentDocument() ),
+        OwnedCodeBlock ((UMLObject*) parentCF->getParentObject())
 {
-	init(parentCF);
+    init(parentCF);
 }
 
-CodeClassFieldDeclarationBlock::~CodeClassFieldDeclarationBlock ( ) { 
-// Q: is this needed??
-//      m_parentclassfield->getParentObject()->disconnect(this);
+CodeClassFieldDeclarationBlock::~CodeClassFieldDeclarationBlock ( ) {
+    // Q: is this needed??
+    //      m_parentclassfield->getParentObject()->disconnect(this);
 }
 
-//  
+//
 // Methods
-//  
+//
 
 // Accessor methods
-//  
+//
 
 /**
  * Get the value of m_parentclassfield
  * @return the value of m_parentclassfield
  */
 CodeClassField * CodeClassFieldDeclarationBlock::getParentClassField ( ) {
-	return m_parentclassfield;
+    return m_parentclassfield;
 }
 
-/** Get the parent object of the parentCodeClassfield 
+/** Get the parent object of the parentCodeClassfield
  */
 UMLObject * CodeClassFieldDeclarationBlock::getParentObject ( ) {
-	return m_parentclassfield->getParentObject();
+    return m_parentclassfield->getParentObject();
 }
 
 CodeDocument * CodeClassFieldDeclarationBlock::getParentDocument ( ) {
-	return TextBlock::getParentDocument();
+    return TextBlock::getParentDocument();
 }
 
 // Other methods
@@ -69,42 +69,42 @@ CodeDocument * CodeClassFieldDeclarationBlock::getParentDocument ( ) {
 // called because we re-use it over and over
 // until the codeclassfield is released.
 void CodeClassFieldDeclarationBlock::release () {
-	// do nothing
+    // do nothing
 }
 
 void CodeClassFieldDeclarationBlock::forceRelease () {
-	if(m_parentclassfield)
-	{
-//		m_parentclassfield->getParentObject()->disconnect(this);
-		m_parentclassfield->disconnect(this);
-	}
-	m_parentclassfield = 0;
-	OwnedCodeBlock::release();
-	TextBlock::release();
+    if(m_parentclassfield)
+    {
+        //		m_parentclassfield->getParentObject()->disconnect(this);
+        m_parentclassfield->disconnect(this);
+    }
+    m_parentclassfield = 0;
+    OwnedCodeBlock::release();
+    TextBlock::release();
 }
 
 /**
  * Save the XMI representation of this object
  */
-void CodeClassFieldDeclarationBlock::saveToXMI ( QDomDocument & doc, QDomElement & elem) 
+void CodeClassFieldDeclarationBlock::saveToXMI ( QDomDocument & doc, QDomElement & elem)
 {
-	QDomElement docElement = doc.createElement( "ccfdeclarationcodeblock" );
+    QDomElement docElement = doc.createElement( "ccfdeclarationcodeblock" );
 
-	setAttributesOnNode(doc, docElement);
+    setAttributesOnNode(doc, docElement);
 
-	elem.appendChild( docElement );
+    elem.appendChild( docElement );
 }
 
-void CodeClassFieldDeclarationBlock::loadFromXMI ( QDomElement & root ) 
+void CodeClassFieldDeclarationBlock::loadFromXMI ( QDomElement & root )
 {
-	setAttributesFromNode(root);
+    setAttributesFromNode(root);
 }
 
 void CodeClassFieldDeclarationBlock::setAttributesOnNode (QDomDocument & doc, QDomElement & elem ) {
 
-	// set super-class attributes
-	CodeBlockWithComments::setAttributesOnNode(doc, elem);
-	OwnedCodeBlock::setAttributesOnNode(doc, elem);
+    // set super-class attributes
+    CodeBlockWithComments::setAttributesOnNode(doc, elem);
+    OwnedCodeBlock::setAttributesOnNode(doc, elem);
 
 }
 
@@ -113,60 +113,60 @@ void CodeClassFieldDeclarationBlock::setAttributesOnNode (QDomDocument & doc, QD
  */
 void CodeClassFieldDeclarationBlock::setAttributesFromNode( QDomElement & root ) {
 
-	// set attributes from the XMI
-	CodeBlockWithComments::setAttributesFromNode(root); // superclass load
-	OwnedCodeBlock::setAttributesFromNode(root); // superclass load
-	
-	syncToParent();
+    // set attributes from the XMI
+    CodeBlockWithComments::setAttributesFromNode(root); // superclass load
+    OwnedCodeBlock::setAttributesFromNode(root); // superclass load
+
+    syncToParent();
 }
 
 /** set the class attributes from a passed object
  */
 void CodeClassFieldDeclarationBlock::setAttributesFromObject (TextBlock * obj) {
 
-	CodeBlockWithComments::setAttributesFromObject(obj);
+    CodeBlockWithComments::setAttributesFromObject(obj);
 
-	CodeClassFieldDeclarationBlock * ccb = dynamic_cast<CodeClassFieldDeclarationBlock*>(obj);
-	if(ccb)
-	{
-		m_parentclassfield->disconnect(this);
-		init(ccb->getParentClassField());
+    CodeClassFieldDeclarationBlock * ccb = dynamic_cast<CodeClassFieldDeclarationBlock*>(obj);
+    if(ccb)
+    {
+        m_parentclassfield->disconnect(this);
+        init(ccb->getParentClassField());
 
-		syncToParent();
-	}
+        syncToParent();
+    }
 
 }
 
 void CodeClassFieldDeclarationBlock::syncToParent () {
 
-	// for role-based accessors, we DONT write ourselves out when
-	// the name of the role is not defined.
-	if(!(getParentClassField()->parentIsAttribute()))
-	{
-		UMLRole * parent = (UMLRole*)getParentObject();
-		if(parent->getName().isEmpty())
-		{
-			getComment()->setWriteOutText(false);
-			setWriteOutText(false);
-		} else {
-			getComment()->setWriteOutText(true);
-			setWriteOutText(true);
-		}
-	}
+    // for role-based accessors, we DONT write ourselves out when
+    // the name of the role is not defined.
+    if(!(getParentClassField()->parentIsAttribute()))
+    {
+        UMLRole * parent = (UMLRole*)getParentObject();
+        if(parent->getName().isEmpty())
+        {
+            getComment()->setWriteOutText(false);
+            setWriteOutText(false);
+        } else {
+            getComment()->setWriteOutText(true);
+            setWriteOutText(true);
+        }
+    }
 
-	// only update IF we are NOT AutoGenerated
-	if(getContentType() != AutoGenerated)
-		return;
+    // only update IF we are NOT AutoGenerated
+    if(getContentType() != AutoGenerated)
+        return;
 
-	updateContent();
+    updateContent();
 
 }
 
-void CodeClassFieldDeclarationBlock::init (CodeClassField * parentCF) 
+void CodeClassFieldDeclarationBlock::init (CodeClassField * parentCF)
 {
-	m_parentclassfield = parentCF;
-	m_canDelete = false;
-	connect(m_parentclassfield,SIGNAL(modified()),this,SLOT(syncToParent()));
+    m_parentclassfield = parentCF;
+    m_canDelete = false;
+    connect(m_parentclassfield,SIGNAL(modified()),this,SLOT(syncToParent()));
 }
 
 #include "codeclassfielddeclarationblock.moc"

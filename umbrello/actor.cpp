@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -15,28 +15,28 @@
 #include "actor.h"
 
 UMLActor::UMLActor(const QString & name, Uml::IDType id) : UMLCanvasObject(name, id) {
-	init();
+    init();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLActor::~UMLActor() {}
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLActor::init() {
-	m_BaseType = Uml::ot_Actor;
+    m_BaseType = Uml::ot_Actor;
 }
 
 UMLObject* UMLActor::clone() const {
-	UMLActor *clone = new UMLActor();
-	UMLObject::copyInto(clone);
-	return clone;
+    UMLActor *clone = new UMLActor();
+    UMLObject::copyInto(clone);
+    return clone;
 }
 
 void UMLActor::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
-	QDomElement actorElement = UMLObject::save("UML:Actor", qDoc);
-	qElement.appendChild(actorElement);
+    QDomElement actorElement = UMLObject::save("UML:Actor", qDoc);
+    qElement.appendChild(actorElement);
 }
 
 bool UMLActor::load(QDomElement&) {
-	return true;
+    return true;
 }
 
 

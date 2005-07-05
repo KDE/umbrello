@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2003-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2003-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -35,42 +35,42 @@ class IDChangeLog;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLNode : public UMLCanvasObject {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	/**
-	 * Sets up a Node.
-	 *
-	 * @param name		The name of the Concept.
-	 * @param id		The unique id of the Concept.
-	 */
-	UMLNode(const QString & name = "", Uml::IDType id = Uml::id_None);
+    /**
+     * Sets up a Node.
+     *
+     * @param name		The name of the Concept.
+     * @param id		The unique id of the Concept.
+     */
+    UMLNode(const QString & name = "", Uml::IDType id = Uml::id_None);
 
-	/**
-	 * Empty deconstructor.
-	 */
-	virtual ~UMLNode();
+    /**
+     * Empty deconstructor.
+     */
+    virtual ~UMLNode();
 
-	/**
-	 * Initializes key variables of the class.
-	 */
-	virtual void init();
+    /**
+     * Initializes key variables of the class.
+     */
+    virtual void init();
 
-	/**
-	 * Make a clone of this object.
-	 */
-	virtual UMLObject* clone() const;
+    /**
+     * Make a clone of this object.
+     */
+    virtual UMLObject* clone() const;
 
-	/**
-	 * Creates the <UML:Node> XMI element.
-	 */
-	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    /**
+     * Creates the <UML:Node> XMI element.
+     */
+    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:
-	/**
-	 * Loads the <UML:Node> XMI element (empty.)
-	 */
-	bool load( QDomElement & element );
-	
+    /**
+     * Loads the <UML:Node> XMI element (empty.)
+     */
+    bool load( QDomElement & element );
+
 };
 
 #endif

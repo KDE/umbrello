@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2003-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2003-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -30,80 +30,80 @@
 
 class UMLTemplate : public UMLClassifierListItem {
 public:
-	/**
-	 * Sets up a template.
-	 *
-	 * @param parent	The parent of this UMLTemplate (i.e. its concept).
-	 * @param name		The name of this UMLTemplate.
-	 * @param id		The unique id given to this UMLTemplate.
-	 * @param type		The type of this UMLTemplate.
-	 */
-	UMLTemplate(const UMLObject *parent, QString name, Uml::IDType id = Uml::id_None,
-		    QString type = "class");
+    /**
+     * Sets up a template.
+     *
+     * @param parent	The parent of this UMLTemplate (i.e. its concept).
+     * @param name		The name of this UMLTemplate.
+     * @param id		The unique id given to this UMLTemplate.
+     * @param type		The type of this UMLTemplate.
+     */
+    UMLTemplate(const UMLObject *parent, QString name, Uml::IDType id = Uml::id_None,
+                QString type = "class");
 
-	/**
-	 * Sets up a template.
-	 *
-	 * @param parent	The parent of this UMLTemplate (i.e. its concept).
-	 */
-	UMLTemplate(const UMLObject *parent);
+    /**
+     * Sets up a template.
+     *
+     * @param parent	The parent of this UMLTemplate (i.e. its concept).
+     */
+    UMLTemplate(const UMLObject *parent);
 
-	/**
-	 * Overloaded '==' operator
-	 */
-	bool operator==(UMLTemplate &rhs);
+    /**
+     * Overloaded '==' operator
+     */
+    bool operator==(UMLTemplate &rhs);
 
-	/**
-	 * Copy the internal presentation of this object into the new
-	 * object.
-	 */
-	virtual void copyInto(UMLTemplate *rhs) const;
+    /**
+     * Copy the internal presentation of this object into the new
+     * object.
+     */
+    virtual void copyInto(UMLTemplate *rhs) const;
 
-	/**
-	 * Make a clone of this object.
-	 */
-	virtual UMLObject* clone() const;
+    /**
+     * Make a clone of this object.
+     */
+    virtual UMLObject* clone() const;
 
-	/**
-	 * destructor
-	 */
-	virtual ~UMLTemplate();
+    /**
+     * destructor
+     */
+    virtual ~UMLTemplate();
 
-	/**
-	 * Returns a string representation of the UMLTemplate.
-	 *
-	 * @param sig		Currently unused.
-	 * @return	Returns a string representation of the UMLTemplate.
-	 */
-	QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
+    /**
+     * Returns a string representation of the UMLTemplate.
+     *
+     * @param sig		Currently unused.
+     * @return	Returns a string representation of the UMLTemplate.
+     */
+    QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
 
-	/**
-	 * Overrides method from UMLClassifierListItem.
-	 * Returns the type name of the UMLTemplate.
-	 * If the template parameter is a class, there is no separate
-	 * type object. In this case, getTypeName() returns "class".
-	 *
-	 * @return	The type name of the UMLClassifierListItem.
-	 */
-	virtual QString getTypeName();
+    /**
+     * Overrides method from UMLClassifierListItem.
+     * Returns the type name of the UMLTemplate.
+     * If the template parameter is a class, there is no separate
+     * type object. In this case, getTypeName() returns "class".
+     *
+     * @return	The type name of the UMLClassifierListItem.
+     */
+    virtual QString getTypeName();
 
-	/**
-	 * Display the properties configuration dialogue for the template.
-	 *
-	 * @return	Success status.
-	 */
-	bool showPropertiesDialogue(QWidget* parent);
+    /**
+     * Display the properties configuration dialogue for the template.
+     *
+     * @return	Success status.
+     */
+    bool showPropertiesDialogue(QWidget* parent);
 
-	/**
-	 * Writes the <UML:TemplateParameter> XMI element.
-	 */
-	void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
+    /**
+     * Writes the <UML:TemplateParameter> XMI element.
+     */
+    void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
 protected:
-	/**
-	 * Loads the <UML:TemplateParameter> XMI element.
-	 */
-	bool load(QDomElement & element);
+    /**
+     * Loads the <UML:TemplateParameter> XMI element.
+     */
+    bool load(QDomElement & element);
 
 };
 

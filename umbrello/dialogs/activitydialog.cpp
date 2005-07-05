@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -28,96 +28,96 @@
 #include "../dialog_utils.h"
 
 ActivityDialog::ActivityDialog( UMLView * pView, ActivityWidget * pWidget )
-  : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help, Ok, pView, "_STATEDIALOG_", true, true) {
-	m_pView = pView;
-	m_pActivityWidget = pWidget;
-	m_bChangesMade = false;
-	setupPages();
+        : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help, Ok, pView, "_STATEDIALOG_", true, true) {
+    m_pView = pView;
+    m_pActivityWidget = pWidget;
+    m_bChangesMade = false;
+    setupPages();
 }
 
 void ActivityDialog::slotOk() {
-	applyPage( GeneralPage );
-	applyPage( ColorPage );
-	applyPage( FontPage );
-	accept();
+    applyPage( GeneralPage );
+    applyPage( ColorPage );
+    applyPage( FontPage );
+    accept();
 }
 
 void ActivityDialog::slotApply() {
-	applyPage( (Page) activePageIndex() );
+    applyPage( (Page) activePageIndex() );
 }
 
 void ActivityDialog::setupPages() {
-	setupGeneralPage();
-	setupColorPage();
-	setupFontPage();
+    setupGeneralPage();
+    setupColorPage();
+    setupFontPage();
 }
 
 void ActivityDialog::applyPage( Page page ) {
-	m_bChangesMade = true;
-	switch( page ) {
-		case GeneralPage:
-			m_pActivityWidget -> setName( m_GenPageWidgets.nameLE -> text() );
-			m_pActivityWidget -> setDoc( m_GenPageWidgets.docMLE -> text() );
-			break;
+    m_bChangesMade = true;
+    switch( page ) {
+    case GeneralPage:
+        m_pActivityWidget -> setName( m_GenPageWidgets.nameLE -> text() );
+        m_pActivityWidget -> setDoc( m_GenPageWidgets.docMLE -> text() );
+        break;
 
-		case ColorPage:
-			m_pColorPage -> updateUMLWidget();
+    case ColorPage:
+        m_pColorPage -> updateUMLWidget();
 
-		case FontPage:
-			m_pActivityWidget -> setFont( m_pChooser -> font() );
-			break;
-	}//end switch
+    case FontPage:
+        m_pActivityWidget -> setFont( m_pChooser -> font() );
+        break;
+    }//end switch
 }
 
 void ActivityDialog::setupGeneralPage() {
-	QString types[ ] = { i18n("Initial activity"), i18n("Activity"), i18n("End activity"), i18n( "Branch/Merge"), i18n( "Fork/Join" ) };
-	ActivityWidget::ActivityType type = m_pActivityWidget -> getActivityType();
+    QString types[ ] = { i18n("Initial activity"), i18n("Activity"), i18n("End activity"), i18n( "Branch/Merge"), i18n( "Fork/Join" ) };
+    ActivityWidget::ActivityType type = m_pActivityWidget -> getActivityType();
 
-	QVBox * page = addVBoxPage( i18n("General"), i18n("General Properties"), DesktopIcon( "misc") );
-	m_GenPageWidgets.generalGB = new QGroupBox( i18n( "Properties"), (QWidget *)page );
+    QVBox * page = addVBoxPage( i18n("General"), i18n("General Properties"), DesktopIcon( "misc") );
+    m_GenPageWidgets.generalGB = new QGroupBox( i18n( "Properties"), (QWidget *)page );
 
-	QGridLayout * generalLayout = new QGridLayout( m_GenPageWidgets.generalGB, 2, 2 );
-	generalLayout -> setSpacing( spacingHint() );
-	generalLayout -> setMargin(  fontMetrics().height()  );
+    QGridLayout * generalLayout = new QGridLayout( m_GenPageWidgets.generalGB, 2, 2 );
+    generalLayout -> setSpacing( spacingHint() );
+    generalLayout -> setMargin(  fontMetrics().height()  );
 
-	QString actType ( types[ (int)type ] );
-	Umbrello::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 0,
-					    m_GenPageWidgets.typeL, i18n("Activity type:"),
-					    m_GenPageWidgets.typeLE, actType );
-	m_GenPageWidgets.typeLE -> setEnabled( false );
+    QString actType ( types[ (int)type ] );
+    Umbrello::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 0,
+                                    m_GenPageWidgets.typeL, i18n("Activity type:"),
+                                    m_GenPageWidgets.typeLE, actType );
+    m_GenPageWidgets.typeLE -> setEnabled( false );
 
-	Umbrello::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 1,
-					    m_GenPageWidgets.nameL, i18n("Activity name:"),
-					    m_GenPageWidgets.nameLE );
+    Umbrello::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 1,
+                                    m_GenPageWidgets.nameL, i18n("Activity name:"),
+                                    m_GenPageWidgets.nameLE );
 
-	m_GenPageWidgets.docGB = new QGroupBox( i18n( "Documentation"), (QWidget *)page );
+    m_GenPageWidgets.docGB = new QGroupBox( i18n( "Documentation"), (QWidget *)page );
 
-	QHBoxLayout * docLayout = new QHBoxLayout( m_GenPageWidgets.docGB );
-	docLayout -> setSpacing( spacingHint() );
-	docLayout -> setMargin(  fontMetrics().height()  );
+    QHBoxLayout * docLayout = new QHBoxLayout( m_GenPageWidgets.docGB );
+    docLayout -> setSpacing( spacingHint() );
+    docLayout -> setMargin(  fontMetrics().height()  );
 
-	m_GenPageWidgets.docMLE = new QMultiLineEdit( m_GenPageWidgets.docGB );
-	m_GenPageWidgets.docMLE -> setText( m_pActivityWidget -> getDoc() );
-	docLayout -> addWidget( m_GenPageWidgets.docMLE );
+    m_GenPageWidgets.docMLE = new QMultiLineEdit( m_GenPageWidgets.docGB );
+    m_GenPageWidgets.docMLE -> setText( m_pActivityWidget -> getDoc() );
+    docLayout -> addWidget( m_GenPageWidgets.docMLE );
 
-	if( type != ActivityWidget::Normal ) {
-		m_GenPageWidgets.nameLE -> setEnabled( false );
-		m_GenPageWidgets.nameLE -> setText( "" );
-	} else
-		m_GenPageWidgets.nameLE -> setText( m_pActivityWidget -> getName() );
+    if( type != ActivityWidget::Normal ) {
+        m_GenPageWidgets.nameLE -> setEnabled( false );
+        m_GenPageWidgets.nameLE -> setText( "" );
+    } else
+        m_GenPageWidgets.nameLE -> setText( m_pActivityWidget -> getName() );
 }
 
 void ActivityDialog::setupFontPage() {
-	QVBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
-	m_pChooser = new KFontChooser( (QWidget*)page, "font", false, QStringList(), false);
-	m_pChooser -> setFont( m_pActivityWidget -> getFont() );
+    QVBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
+    m_pChooser = new KFontChooser( (QWidget*)page, "font", false, QStringList(), false);
+    m_pChooser -> setFont( m_pActivityWidget -> getFont() );
 }
 
 void ActivityDialog::setupColorPage() {
-	QFrame * colorPage = addPage( i18n("Color"), i18n("Widget Colors"), DesktopIcon( "colors") );
-	QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
-	m_pColorPage = new UMLWidgetColorPage( colorPage, m_pActivityWidget );
-	m_pColorLayout -> addWidget(m_pColorPage);
+    QFrame * colorPage = addPage( i18n("Color"), i18n("Widget Colors"), DesktopIcon( "colors") );
+    QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
+    m_pColorPage = new UMLWidgetColorPage( colorPage, m_pActivityWidget );
+    m_pColorLayout -> addWidget(m_pColorPage);
 }
 
 

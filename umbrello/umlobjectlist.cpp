@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -18,27 +18,27 @@
 #include <klocale.h>
 
 void UMLObjectList::copyInto(UMLObjectList *rhs) const {
-	// Don't copy yourself.
-	if (rhs == this) return;
+    // Don't copy yourself.
+    if (rhs == this) return;
 
-	rhs->clear();
+    rhs->clear();
 
-	// Suffering from const; we shall not modify our object.
-	UMLObjectList *tmp = new UMLObjectList(*this);
+    // Suffering from const; we shall not modify our object.
+    UMLObjectList *tmp = new UMLObjectList(*this);
 
-	UMLObject *item;
-	for (item = tmp->first(); item; item = tmp->next() )
-	{
-		rhs->append(item->clone());
-	}
-	delete tmp;
+    UMLObject *item;
+    for (item = tmp->first(); item; item = tmp->next() )
+    {
+        rhs->append(item->clone());
+    }
+    delete tmp;
 }
 
 
 UMLObjectList* UMLObjectList::clone() const {
-	UMLObjectList *clone = new UMLObjectList();
-	copyInto(clone);
-	return clone;
+    UMLObjectList *clone = new UMLObjectList();
+    copyInto(clone);
+    return clone;
 }
 
 

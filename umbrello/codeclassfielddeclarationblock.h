@@ -18,7 +18,7 @@
 
 
 class UMLObject;
-class CodeClassField; 
+class CodeClassField;
 
 #include "codeblockwithcomments.h"
 #include "ownedcodeblock.h"
@@ -30,81 +30,81 @@ class CodeClassField;
   * special CodeBlockWithComments which is "sync'd" to the parent CodeClassField.
   */
 
-class CodeClassFieldDeclarationBlock : public CodeBlockWithComments, public OwnedCodeBlock 
+class CodeClassFieldDeclarationBlock : public CodeBlockWithComments, public OwnedCodeBlock
 {
-	friend class CodeClassField;
-	Q_OBJECT
+    friend class CodeClassField;
+    Q_OBJECT
 public:
 
-	// Constructors/Destructors
-	//  
+    // Constructors/Destructors
+    //
 
-	/**
-	 * Constructor
-	 */
-	CodeClassFieldDeclarationBlock (CodeClassField * parent);
+    /**
+     * Constructor
+     */
+    CodeClassFieldDeclarationBlock (CodeClassField * parent);
 
-	/**
-	 * Empty Destructor
-	 */
-	virtual ~CodeClassFieldDeclarationBlock ( );
+    /**
+     * Empty Destructor
+     */
+    virtual ~CodeClassFieldDeclarationBlock ( );
 
-	/**
-	 * Get the value of m_parentclassfield
-	 * @return the value of m_parentclassfield
-	 */
-	CodeClassField * getParentClassField ( );
+    /**
+     * Get the value of m_parentclassfield
+     * @return the value of m_parentclassfield
+     */
+    CodeClassField * getParentClassField ( );
 
-	/** A Utility method to get the parent object of the parentCodeClassfield
- 	 */
-	UMLObject * getParentObject ( );
+    /** A Utility method to get the parent object of the parentCodeClassfield
+    	 */
+    UMLObject * getParentObject ( );
 
-	// get the parent document
-	CodeDocument * getParentDocument ( );
+    // get the parent document
+    CodeDocument * getParentDocument ( );
 
-	/**
-	 * Save the XMI representation of this object
-	 */
-	virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
+    /**
+     * Save the XMI representation of this object
+     */
+    virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
-	/**
-	 * load params from the appropriate XMI element node.
-	 */
-	virtual void loadFromXMI ( QDomElement & root );
+    /**
+     * load params from the appropriate XMI element node.
+     */
+    virtual void loadFromXMI ( QDomElement & root );
 
-	/** set the class attributes from a passed object
-	 */
-	virtual void setAttributesFromObject (TextBlock * obj);
+    /** set the class attributes from a passed object
+     */
+    virtual void setAttributesFromObject (TextBlock * obj);
 
 protected:
 
-	virtual void release ();
+    virtual void release ();
 
-	/** set attributes of the node that represents this class
-	 * in the XMI document.
-	 */
-	virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
+    /** set attributes of the node that represents this class
+     * in the XMI document.
+     */
+    virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
 
-	/** set the class attributes of this object from
-	 * the passed element node.
-	 */
-	virtual void setAttributesFromNode ( QDomElement & element);
+    /** set the class attributes of this object from
+     * the passed element node.
+     */
+    virtual void setAttributesFromNode ( QDomElement & element);
 
-	/** this is called by syncToParent
-	 */
-	virtual void updateContent() = 0;
+    /** this is called by syncToParent
+     */
+    virtual void updateContent() = 0;
 
-	// so parent can actually release this block
-	void forceRelease ();
+    // so parent can actually release this block
+    void forceRelease ();
 
 private:
 
-	CodeClassField * m_parentclassfield;
-	void init(CodeClassField * parent);
+    CodeClassField * m_parentclassfield;
+    void init(CodeClassField * parent);
 
 public slots:
 
-	virtual void syncToParent();
+    virtual void syncToParent();
 
 };
 

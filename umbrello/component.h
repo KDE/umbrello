@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2003-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2003-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -37,59 +37,59 @@ class IDChangeLog;
  */
 
 class UMLComponent : public UMLCanvasObject {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	/**
-	 * Sets up a Component.
-	 *
-	 * @param name		The name of the Concept.
-	 * @param id		The unique id of the Concept.
-	 */
-	UMLComponent(const QString & name = "", Uml::IDType id = Uml::id_None);
+    /**
+     * Sets up a Component.
+     *
+     * @param name		The name of the Concept.
+     * @param id		The unique id of the Concept.
+     */
+    UMLComponent(const QString & name = "", Uml::IDType id = Uml::id_None);
 
-	/**
-	 * Empty deconstructor.
-	 */
-	virtual ~UMLComponent();
+    /**
+     * Empty deconstructor.
+     */
+    virtual ~UMLComponent();
 
-	/**
-	 * Initializes key variables of the class.
-	 */
-	virtual void init();
+    /**
+     * Initializes key variables of the class.
+     */
+    virtual void init();
 
-	/**
-	 * Make a clone of this object.
-	 */
-	virtual UMLObject* clone() const;
+    /**
+     * Make a clone of this object.
+     */
+    virtual UMLObject* clone() const;
 
-	/**
-	 * Creates the UML:Component element including its operations,
-	 * attributes and templates
-	 */
-	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    /**
+     * Creates the UML:Component element including its operations,
+     * attributes and templates
+     */
+    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-	/**
-	 * sets m_executable
-	 */
-	void setExecutable(bool executable);
+    /**
+     * sets m_executable
+     */
+    void setExecutable(bool executable);
 
-	/**
-	 * returns the value of m_executable
-	 */
-	bool getExecutable();
+    /**
+     * returns the value of m_executable
+     */
+    bool getExecutable();
 
 protected:
-	/**
-	 * Loads the UML:Component element including its operations,
-	 * attributes and templates
-	 */
-	bool load( QDomElement & element );
+    /**
+     * Loads the UML:Component element including its operations,
+     * attributes and templates
+     */
+    bool load( QDomElement & element );
 
 private:
-	/**
-	 * holds whether this is an executable component or not
-	 */
-	bool m_executable;
+    /**
+     * holds whether this is an executable component or not
+     */
+    bool m_executable;
 };
 
 #endif

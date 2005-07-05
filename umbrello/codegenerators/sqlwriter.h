@@ -32,52 +32,52 @@
   * that concept
   */
 class SQLWriter : public SimpleCodeGenerator {
-	Q_OBJECT
+    Q_OBJECT
 public:
 
-	SQLWriter( UMLDoc * parent, const char* name = 0 );
-	virtual ~SQLWriter();
+    SQLWriter( UMLDoc * parent, const char* name = 0 );
+    virtual ~SQLWriter();
 
-	/**
-	 * call this method to generate sql code for a UMLClassifier
-	 * @param c the class to generate code for
-	 */
-	virtual void writeClass(UMLClassifier *c);
+    /**
+     * call this method to generate sql code for a UMLClassifier
+     * @param c the class to generate code for
+     */
+    virtual void writeClass(UMLClassifier *c);
 
-	/**
-	 * checks whether type is "SQLWriter"
-	 *
-	 * @param type
-	 */
-	virtual bool isType (QString & type);
+    /**
+     * checks whether type is "SQLWriter"
+     *
+     * @param type
+     */
+    virtual bool isType (QString & type);
 
-	/**
-	 * returns "SQL"
-	 */
-	virtual QString getLanguage();
+    /**
+     * returns "SQL"
+     */
+    virtual QString getLanguage();
 
-	/**
-	 * get list of reserved keywords
-	 */
-	virtual const QStringList reservedKeywords() const;
+    /**
+     * get list of reserved keywords
+     */
+    virtual const QStringList reservedKeywords() const;
 
 private:
 
-	/**
-	 * write all attributes for a given class
-	 * @param c the class for which we are generating code
-	 * @param j the stream associated with the output file
-	 */
-	void writeAttributes(UMLClassifier *c, QTextStream &j);
+    /**
+     * write all attributes for a given class
+     * @param c the class for which we are generating code
+     * @param j the stream associated with the output file
+     */
+    void writeAttributes(UMLClassifier *c, QTextStream &j);
 
-	/**
-	 * Prints out attributes as columns in the table
-	 *
-	 * @param sql the stream we should print to
-	 * @param attributeList the attributes to be printed
-	 * @param first if the attributes are the first one
-	 */
-	void printAttributes(QTextStream& sql, UMLAttributeList attributeList, bool first);
+    /**
+     * Prints out attributes as columns in the table
+     *
+     * @param sql the stream we should print to
+     * @param attributeList the attributes to be printed
+     * @param first if the attributes are the first one
+     */
+    void printAttributes(QTextStream& sql, UMLAttributeList attributeList, bool first);
 };
 
 #endif // SQLWRITER_H

@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2003-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2003-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -33,75 +33,75 @@ class UMLComponent;
 class ComponentWidget : public UMLWidget {
 public:
 
-	/**
-	 * Constructs a ComponentWidget.
-	 *
-	 * @param view	The parent of this ComponentWidget.
-	 * @param c	The UMLComponent this will be representing.
-	 */
-	ComponentWidget(UMLView * view, UMLComponent *c);
+    /**
+     * Constructs a ComponentWidget.
+     *
+     * @param view	The parent of this ComponentWidget.
+     * @param c	The UMLComponent this will be representing.
+     */
+    ComponentWidget(UMLView * view, UMLComponent *c);
 
-	/**
-	 * destructor
-	 */
-	virtual ~ComponentWidget();
+    /**
+     * destructor
+     */
+    virtual ~ComponentWidget();
 
-	/**
-	 * Returns the status of whether to show StereoType.
-	 *
-	 * @return	Status of whether to show stereotype.
-	 */
-	bool getShowStereotype() const;
+    /**
+     * Returns the status of whether to show StereoType.
+     *
+     * @return	Status of whether to show stereotype.
+     */
+    bool getShowStereotype() const;
 
-	/**
-	 * Set the status of whether to show StereoType
-	 *
-	 * @param _show		True if stereotype shall be shown.
-	 */
-	void setShowStereotype(bool _status);
+    /**
+     * Set the status of whether to show StereoType
+     *
+     * @param _show		True if stereotype shall be shown.
+     */
+    void setShowStereotype(bool _status);
 
-	/**
-	 * Activate the object after serializing it from a QDataStream
-	 */
-	virtual bool activate(IDChangeLog* ChangeLog  = 0 );
+    /**
+     * Activate the object after serializing it from a QDataStream
+     */
+    virtual bool activate(IDChangeLog* ChangeLog  = 0 );
 
-	/**
-	 * Overrides standard method
-	 */
-	void draw(QPainter& p, int offsetX, int offsetY);
+    /**
+     * Overrides standard method
+     */
+    void draw(QPainter& p, int offsetX, int offsetY);
 
-	/**
-	 * Saves to the <componentwidget> XMI element.
-	 */
-	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    /**
+     * Saves to the <componentwidget> XMI element.
+     */
+    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-	/**
-	 * Loads from a <componentwidget> XMI element.
-	 */
-	bool loadFromXMI(QDomElement& qElement);
+    /**
+     * Loads from a <componentwidget> XMI element.
+     */
+    bool loadFromXMI(QDomElement& qElement);
 
 protected:
-	/**
-	 * Should it show the <<stereotype>> of the component, currently ignored
-	 * (stereotype is shown if it isn't empty).
-	 */
-	bool m_bShowStereotype;
+    /**
+     * Should it show the <<stereotype>> of the component, currently ignored
+     * (stereotype is shown if it isn't empty).
+     */
+    bool m_bShowStereotype;
 
 private:
-	/**
-	 * Initializes key variables of the class.
-	 */
-	void init();
-	
-	/**
-	 * Automatically calculates the size of the object.
-	 */
-	void calculateSize();
+    /**
+     * Initializes key variables of the class.
+     */
+    void init();
 
-	/**
-	 * The right mouse button menu
-	 */
-	ListPopupMenu* m_pMenu;
+    /**
+     * Automatically calculates the size of the object.
+     */
+    void calculateSize();
+
+    /**
+     * The right mouse button menu
+     */
+    ListPopupMenu* m_pMenu;
 };
 
 #endif

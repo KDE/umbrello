@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -38,92 +38,92 @@ class UMLView;
  */
 class LinkWidget {
 public:
-	LinkWidget();
-	virtual ~LinkWidget();
+    LinkWidget();
+    virtual ~LinkWidget();
 
-	/**
-	 * Sets the font the widget is to use.
-	 * Abstract operation implemented by inheriting classes.
-	 * Motivated by FloatingText::slotMenuSelection(mt_Operation)
-	 *
-	 * @param font		Font to be set.
-	 */
-	virtual void lwSetFont(QFont font) = 0;
+    /**
+     * Sets the font the widget is to use.
+     * Abstract operation implemented by inheriting classes.
+     * Motivated by FloatingText::slotMenuSelection(mt_Operation)
+     *
+     * @param font		Font to be set.
+     */
+    virtual void lwSetFont(QFont font) = 0;
 
-	/**
-	 * Motivated by FloatingText::slotMenuSelection(mt_Operation)
-	 */
-	virtual UMLClassifier *getOperationOwner();
+    /**
+     * Motivated by FloatingText::slotMenuSelection(mt_Operation)
+     */
+    virtual UMLClassifier *getOperationOwner();
 
-	/**
-	 * Motivated by FloatingText::slotMenuSelection(mt_Operation)
-	 */
-	virtual UMLOperation *getOperation() = 0;
+    /**
+     * Motivated by FloatingText::slotMenuSelection(mt_Operation)
+     */
+    virtual UMLOperation *getOperation() = 0;
 
-	/**
-	 * Motivated by FloatingText::slotMenuSelection(mt_Operation)
-	 */
-	virtual void setOperation(UMLOperation *op) = 0;
+    /**
+     * Motivated by FloatingText::slotMenuSelection(mt_Operation)
+     */
+    virtual void setOperation(UMLOperation *op) = 0;
 
-	/**
-	 * Motivated by getOperationText()
-	 */
-	virtual QString getCustomOpText() = 0;
+    /**
+     * Motivated by getOperationText()
+     */
+    virtual QString getCustomOpText() = 0;
 
-	/**
-	 * Motivated by FloatingText::slotMenuSelection(mt_Operation)
-	 */
-	virtual void setCustomOpText(const QString &opText) = 0;
+    /**
+     * Motivated by FloatingText::slotMenuSelection(mt_Operation)
+     */
+    virtual void setCustomOpText(const QString &opText) = 0;
 
-	/**
-	 * Uses getOperation() if set, else calls getCustomOpText().
-	 */
-	QString getOperationText(UMLView *view = NULL);
+    /**
+     * Uses getOperation() if set, else calls getCustomOpText().
+     */
+    QString getOperationText(UMLView *view = NULL);
 
-	/**
-	 * Motivated by FloatingText::slotMenuSelection(mt_Reset_Label_Positions)
-	 * Only applies to AssociationWidget.
-	 */
-	virtual void resetTextPositions();
+    /**
+     * Motivated by FloatingText::slotMenuSelection(mt_Reset_Label_Positions)
+     * Only applies to AssociationWidget.
+     */
+    virtual void resetTextPositions();
 
-	/**
-	 * Motivated by FloatingText::setMessageText()
-	 */
-	virtual void setMessageText(FloatingText *ft) = 0;
+    /**
+     * Motivated by FloatingText::setMessageText()
+     */
+    virtual void setMessageText(FloatingText *ft) = 0;
 
-	/**
-	 * Motivated by FloatingText::handleRename()
-	 */
-	virtual void setText(FloatingText *ft, const QString &newText) = 0;
+    /**
+     * Motivated by FloatingText::handleRename()
+     */
+    virtual void setText(FloatingText *ft, const QString &newText) = 0;
 
-	/**
-	 * Motivated by FloatingText::mouseDoubleClickEvent()
-	 * Only applies to AssociationWidget.
-	 */
-	virtual bool showDialog();
+    /**
+     * Motivated by FloatingText::mouseDoubleClickEvent()
+     * Only applies to AssociationWidget.
+     */
+    virtual bool showDialog();
 
-	/**
-	 * Motivated by FloatingText::showOpDlg()
-	 */
-	virtual UMLClassifier *getSeqNumAndOp(QString& seqNum, QString& op) = 0;
+    /**
+     * Motivated by FloatingText::showOpDlg()
+     */
+    virtual UMLClassifier *getSeqNumAndOp(QString& seqNum, QString& op) = 0;
 
-	/**
-	 * Motivated by FloatingText::showOpDlg()
-	 */
-	virtual void setSeqNumAndOp(const QString &seqNum, const QString &op) = 0;
+    /**
+     * Motivated by FloatingText::showOpDlg()
+     */
+    virtual void setSeqNumAndOp(const QString &seqNum, const QString &op) = 0;
 
-	/**
-	 * Motivated by FloatingText::mouseMoveEvent()
-	 * Only applies to MessageWidget.
-	 */
-	virtual void constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
-				      Uml::Text_Role tr);
- 
-	/**
-	 * Motivated by FloatingText::setLink().
-	 * Only applies to AssociationWidget.
-	 */
-	virtual void calculateNameTextSegment();
+    /**
+     * Motivated by FloatingText::mouseMoveEvent()
+     * Only applies to MessageWidget.
+     */
+    virtual void constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
+                                  Uml::Text_Role tr);
+
+    /**
+     * Motivated by FloatingText::setLink().
+     * Only applies to AssociationWidget.
+     */
+    virtual void calculateNameTextSegment();
 
 };
 

@@ -25,21 +25,21 @@
  */
 
 class JavaCodeGenerationPolicyPage : public CodeGenerationPolicyPage {
-	Q_OBJECT
+    Q_OBJECT
 public:
 
-	JavaCodeGenerationPolicyPage (QWidget *parent=0, const char *name=0, JavaCodeGenerationPolicy * policy = 0);
+    JavaCodeGenerationPolicyPage (QWidget *parent=0, const char *name=0, JavaCodeGenerationPolicy * policy = 0);
 
-	virtual ~JavaCodeGenerationPolicyPage();
+    virtual ~JavaCodeGenerationPolicyPage();
 
 protected:
 
-	JavaCodeGenerationFormBase * form;
-	int commentTypeToInteger(JavaCodeGenerationPolicy::JavaCommentStyle type);
+    JavaCodeGenerationFormBase * form;
+    int commentTypeToInteger(JavaCodeGenerationPolicy::JavaCommentStyle type);
 
 public slots:
 
-	void apply();
+    void apply();
 
 };
 

@@ -47,17 +47,17 @@ const bool CPPCodeGenerationPolicy::DEFAULT_VECTOR_INCLUDE_GLOBAL = true;
 //
 
 CPPCodeGenerationPolicy::CPPCodeGenerationPolicy(CodeGenerationPolicy *defaults)
-    : CodeGenerationPolicy(defaults)
+        : CodeGenerationPolicy(defaults)
 {
-	init();
-	setDefaults(defaults,false);
+    init();
+    setDefaults(defaults,false);
 }
 
 CPPCodeGenerationPolicy::CPPCodeGenerationPolicy(KConfig *config)
-    : CodeGenerationPolicy(config)
+        : CodeGenerationPolicy(config)
 {
-	init();
-	setDefaults(config,false);
+    init();
+    setDefaults(config,false);
 }
 
 CPPCodeGenerationPolicy::~CPPCodeGenerationPolicy ( ) { }
@@ -75,8 +75,8 @@ CPPCodeGenerationPolicy::~CPPCodeGenerationPolicy ( ) { }
  */
 void CPPCodeGenerationPolicy::setAccessorsAreInline ( bool var )
 {
-	m_inlineAccessors = var;
-	emit modifiedCodeContent();
+    m_inlineAccessors = var;
+    emit modifiedCodeContent();
 }
 
 /**
@@ -85,7 +85,7 @@ void CPPCodeGenerationPolicy::setAccessorsAreInline ( bool var )
  */
 bool CPPCodeGenerationPolicy::getAccessorsAreInline( )
 {
-	return m_inlineAccessors;
+    return m_inlineAccessors;
 }
 
 /**
@@ -94,8 +94,8 @@ bool CPPCodeGenerationPolicy::getAccessorsAreInline( )
  */
 void CPPCodeGenerationPolicy::setOperationsAreInline ( bool var )
 {
-	m_inlineOperations = var;
-	emit modifiedCodeContent();
+    m_inlineOperations = var;
+    emit modifiedCodeContent();
 }
 
 /**
@@ -104,7 +104,7 @@ void CPPCodeGenerationPolicy::setOperationsAreInline ( bool var )
  */
 bool CPPCodeGenerationPolicy::getOperationsAreInline( )
 {
-	return m_inlineOperations;
+    return m_inlineOperations;
 }
 
 /**
@@ -113,8 +113,8 @@ bool CPPCodeGenerationPolicy::getOperationsAreInline( )
  */
 void CPPCodeGenerationPolicy::setDestructorsAreVirtual ( bool var )
 {
-	m_virtualDestructors = var;
-	emit modifiedCodeContent();
+    m_virtualDestructors = var;
+    emit modifiedCodeContent();
 }
 
 /**
@@ -123,7 +123,7 @@ void CPPCodeGenerationPolicy::setDestructorsAreVirtual ( bool var )
  */
 bool CPPCodeGenerationPolicy::getDestructorsAreVirtual( )
 {
-	return m_virtualDestructors;
+    return m_virtualDestructors;
 }
 
 /**
@@ -131,8 +131,8 @@ bool CPPCodeGenerationPolicy::getDestructorsAreVirtual( )
  * @param new_var the new value
  */
 void CPPCodeGenerationPolicy::setPackageIsNamespace ( bool var ) {
-	m_packageIsNamespace = var;
-	emit modifiedCodeContent();
+    m_packageIsNamespace = var;
+    emit modifiedCodeContent();
 }
 
 /**
@@ -140,7 +140,7 @@ void CPPCodeGenerationPolicy::setPackageIsNamespace ( bool var ) {
  * @return value the boolean value of m_packageIsNamespace
  */
 bool CPPCodeGenerationPolicy::getPackageIsNamespace( ) {
-	return m_packageIsNamespace;
+    return m_packageIsNamespace;
 }
 
 /**
@@ -148,8 +148,8 @@ bool CPPCodeGenerationPolicy::getPackageIsNamespace( ) {
  * @param new_var the new value of m_commentStyle
  */
 void CPPCodeGenerationPolicy::setCommentStyle ( CPPCommentStyle new_var ) {
-	m_commentStyle = new_var;
-	emit modifiedCodeContent();
+    m_commentStyle = new_var;
+    emit modifiedCodeContent();
 }
 
 /**
@@ -157,7 +157,7 @@ void CPPCodeGenerationPolicy::setCommentStyle ( CPPCommentStyle new_var ) {
  * @return the value of m_commentStyle
  */
 CPPCodeGenerationPolicy::CPPCommentStyle CPPCodeGenerationPolicy::getCommentStyle ( ) {
-	return m_commentStyle;
+    return m_commentStyle;
 }
 
 /**
@@ -165,8 +165,8 @@ CPPCodeGenerationPolicy::CPPCommentStyle CPPCodeGenerationPolicy::getCommentStyl
  * @param new_var the new value
  */
 void CPPCodeGenerationPolicy::setAutoGenerateConstructors( bool var ) {
-        m_autoGenerateConstructors = var;
-	emit modifiedCodeContent();
+    m_autoGenerateConstructors = var;
+    emit modifiedCodeContent();
 }
 
 /**
@@ -174,7 +174,7 @@ void CPPCodeGenerationPolicy::setAutoGenerateConstructors( bool var ) {
  * @return the value of m_autoGenerateConstructors
  */
 bool CPPCodeGenerationPolicy::getAutoGenerateConstructors( ){
-        return m_autoGenerateConstructors;
+    return m_autoGenerateConstructors;
 }
 
 /**
@@ -182,8 +182,8 @@ bool CPPCodeGenerationPolicy::getAutoGenerateConstructors( ){
  * @param new_var the new value
  */
 void CPPCodeGenerationPolicy::setAutoGenerateAccessors( bool var ) {
-        m_autoGenerateAccessors = var;
-	emit modifiedCodeContent();
+    m_autoGenerateAccessors = var;
+    emit modifiedCodeContent();
 }
 
 /**
@@ -191,102 +191,102 @@ void CPPCodeGenerationPolicy::setAutoGenerateAccessors( bool var ) {
  * @return the value of m_autoGenerateConstructors
  */
 bool CPPCodeGenerationPolicy::getAutoGenerateAccessors( ){
-        return m_autoGenerateAccessors;
+    return m_autoGenerateAccessors;
 }
 
 QString CPPCodeGenerationPolicy::getStringClassName() {
-	return m_stringClassName;
+    return m_stringClassName;
 }
 
 QString CPPCodeGenerationPolicy::getStringClassNameInclude() {
-	return m_stringClassNameInclude;
+    return m_stringClassNameInclude;
 }
 
 QString CPPCodeGenerationPolicy::getVectorClassName() {
-	return m_vectorClassName;
+    return m_vectorClassName;
 }
 
 QString CPPCodeGenerationPolicy::getVectorClassNameInclude() {
-	return m_vectorClassNameInclude;
+    return m_vectorClassNameInclude;
 }
 
 void CPPCodeGenerationPolicy::setStringClassName(const QString &value) {
-	m_stringClassName = value;
-	emit modifiedCodeContent();
+    m_stringClassName = value;
+    emit modifiedCodeContent();
 }
 
 void CPPCodeGenerationPolicy::setStringClassNameInclude(const QString &value) {
-	m_stringClassNameInclude = value;
-	emit modifiedCodeContent();
+    m_stringClassNameInclude = value;
+    emit modifiedCodeContent();
 }
 
 void CPPCodeGenerationPolicy::setVectorClassName(const QString &value) {
-	m_vectorClassName = value;
-	emit modifiedCodeContent();
+    m_vectorClassName = value;
+    emit modifiedCodeContent();
 }
 
 void CPPCodeGenerationPolicy::setVectorClassNameInclude(const QString &value) {
-	m_vectorClassNameInclude = value;
-	emit modifiedCodeContent();
+    m_vectorClassNameInclude = value;
+    emit modifiedCodeContent();
 }
 
 /** determine if the string include is global one */
 bool CPPCodeGenerationPolicy::stringIncludeIsGlobal () {
-	return m_stringIncludeIsGlobal;
+    return m_stringIncludeIsGlobal;
 }
 
 bool CPPCodeGenerationPolicy::vectorIncludeIsGlobal () {
-	return m_vectorIncludeIsGlobal;
+    return m_vectorIncludeIsGlobal;
 }
 
 void CPPCodeGenerationPolicy::setStringIncludeIsGlobal(bool value) {
-	m_stringIncludeIsGlobal = value;
-	emit modifiedCodeContent();
+    m_stringIncludeIsGlobal = value;
+    emit modifiedCodeContent();
 }
 
 void CPPCodeGenerationPolicy::setVectorIncludeIsGlobal(bool value) {
-	m_vectorIncludeIsGlobal = value;
-	emit modifiedCodeContent();
+    m_vectorIncludeIsGlobal = value;
+    emit modifiedCodeContent();
 }
 
 QString CPPCodeGenerationPolicy::getVectorMethodAppend(const QString & variableName, const QString & itemClassName) {
-	QString value = m_vectorMethodAppendBase;
-	if(!variableName.isEmpty())
-		value.replace(QRegExp("%VARNAME%"),variableName);
-	value.replace(QRegExp("%VECTORTYPENAME%"), m_vectorClassName);
-	if(!itemClassName.isEmpty())
-		value.replace(QRegExp("%ITEMCLASS%"),itemClassName);
-        return value;
+    QString value = m_vectorMethodAppendBase;
+    if(!variableName.isEmpty())
+        value.replace(QRegExp("%VARNAME%"),variableName);
+    value.replace(QRegExp("%VECTORTYPENAME%"), m_vectorClassName);
+    if(!itemClassName.isEmpty())
+        value.replace(QRegExp("%ITEMCLASS%"),itemClassName);
+    return value;
 }
 
 QString CPPCodeGenerationPolicy::getVectorMethodRemove(const QString & variableName, const QString & itemClassName) {
-	QString value = m_vectorMethodRemoveBase;
-        if(!variableName.isEmpty())
-                value.replace(QRegExp("%VARNAME%"),variableName);
-        value.replace(QRegExp("%VECTORTYPENAME%"), m_vectorClassName);
-        if(!itemClassName.isEmpty())
-                value.replace(QRegExp("%ITEMCLASS%"),itemClassName);
-        return value;
+    QString value = m_vectorMethodRemoveBase;
+    if(!variableName.isEmpty())
+        value.replace(QRegExp("%VARNAME%"),variableName);
+    value.replace(QRegExp("%VECTORTYPENAME%"), m_vectorClassName);
+    if(!itemClassName.isEmpty())
+        value.replace(QRegExp("%ITEMCLASS%"),itemClassName);
+    return value;
 }
 
 QString CPPCodeGenerationPolicy::getVectorMethodInit(const QString & variableName, const QString & itemClassName) {
-	QString value = m_vectorMethodInitBase;
-        if(!variableName.isEmpty())
-                value.replace(QRegExp("%VARNAME%"),variableName);
-        value.replace(QRegExp("%VECTORTYPENAME%"), m_vectorClassName);
-        if(!itemClassName.isEmpty())
-                value.replace(QRegExp("%ITEMCLASS%"),itemClassName);
-        return value;
+    QString value = m_vectorMethodInitBase;
+    if(!variableName.isEmpty())
+        value.replace(QRegExp("%VARNAME%"),variableName);
+    value.replace(QRegExp("%VECTORTYPENAME%"), m_vectorClassName);
+    if(!itemClassName.isEmpty())
+        value.replace(QRegExp("%ITEMCLASS%"),itemClassName);
+    return value;
 }
 
 QString CPPCodeGenerationPolicy::getObjectMethodInit(const QString & variableName, const QString & itemClassName) {
-	QString value = m_objectMethodInitBase;
-        if(!variableName.isEmpty())
-                value.replace(QRegExp("%VARNAME%"),variableName);
-        value.replace(QRegExp("%VECTORTYPENAME%"), m_vectorClassName);
-        if(!itemClassName.isEmpty())
-                value.replace(QRegExp("%ITEMCLASS%"),itemClassName);
-        return value;
+    QString value = m_objectMethodInitBase;
+    if(!variableName.isEmpty())
+        value.replace(QRegExp("%VARNAME%"),variableName);
+    value.replace(QRegExp("%VECTORTYPENAME%"), m_vectorClassName);
+    if(!itemClassName.isEmpty())
+        value.replace(QRegExp("%ITEMCLASS%"),itemClassName);
+    return value;
 }
 
 // Other methods
@@ -295,123 +295,123 @@ QString CPPCodeGenerationPolicy::getObjectMethodInit(const QString & variableNam
 void CPPCodeGenerationPolicy::writeConfig ( KConfig * config )
 {
 
-	// write ONLY the CPP specific stuff
-	config->setGroup("CPP Code Generation");
+    // write ONLY the CPP specific stuff
+    config->setGroup("CPP Code Generation");
 
-	config->writeEntry("commentStyle",getCommentStyle());
-	config->writeEntry("autoGenEmptyConstructors",getAutoGenerateConstructors());
-	config->writeEntry("autoGenAccessors",getAutoGenerateAccessors());
+    config->writeEntry("commentStyle",getCommentStyle());
+    config->writeEntry("autoGenEmptyConstructors",getAutoGenerateConstructors());
+    config->writeEntry("autoGenAccessors",getAutoGenerateAccessors());
 
-	CodeGenerator *codegen = UMLApp::app()->getGenerator();
-	CPPCodeGenerator *cppcodegen = dynamic_cast<CPPCodeGenerator*>(codegen);
-	if (cppcodegen)
-		config->writeEntry("buildMakefile", cppcodegen->getCreateProjectMakefile());
+    CodeGenerator *codegen = UMLApp::app()->getGenerator();
+    CPPCodeGenerator *cppcodegen = dynamic_cast<CPPCodeGenerator*>(codegen);
+    if (cppcodegen)
+        config->writeEntry("buildMakefile", cppcodegen->getCreateProjectMakefile());
 
-	config->writeEntry("inlineAccessors",getAccessorsAreInline());
-	config->writeEntry("inlineOps",getOperationsAreInline());
-	config->writeEntry("virtualDestructors",getDestructorsAreVirtual());
-	config->writeEntry("packageIsNamespace",getPackageIsNamespace());
+    config->writeEntry("inlineAccessors",getAccessorsAreInline());
+    config->writeEntry("inlineOps",getOperationsAreInline());
+    config->writeEntry("virtualDestructors",getDestructorsAreVirtual());
+    config->writeEntry("packageIsNamespace",getPackageIsNamespace());
 
-	config->writeEntry("stringClassName",getStringClassName());
-	config->writeEntry("stringClassNameInclude",getStringClassNameInclude());
-	config->writeEntry("stringIncludeIsGlobal",stringIncludeIsGlobal());
+    config->writeEntry("stringClassName",getStringClassName());
+    config->writeEntry("stringClassNameInclude",getStringClassNameInclude());
+    config->writeEntry("stringIncludeIsGlobal",stringIncludeIsGlobal());
 
-	config->writeEntry("vectorClassName",getVectorClassName());
-	config->writeEntry("vectorClassNameInclude",getVectorClassNameInclude());
-	config->writeEntry("vectorIncludeIsGlobal",vectorIncludeIsGlobal());
+    config->writeEntry("vectorClassName",getVectorClassName());
+    config->writeEntry("vectorClassNameInclude",getVectorClassNameInclude());
+    config->writeEntry("vectorIncludeIsGlobal",vectorIncludeIsGlobal());
 
 }
 
 void CPPCodeGenerationPolicy::setDefaults ( CodeGenerationPolicy * clone, bool emitUpdateSignal )
 {
 
-	CPPCodeGenerationPolicy * cppclone;
-	if (!clone)
-		return;
+    CPPCodeGenerationPolicy * cppclone;
+    if (!clone)
+        return;
 
-	// do the super class
-	CodeGenerationPolicy::setDefaults(clone, false);
+    // do the super class
+    CodeGenerationPolicy::setDefaults(clone, false);
 
-	// NOW block signals for cpp param setting
-        blockSignals(true); // we need to do this because otherwise most of these
-                           // settors below will each send the modifiedCodeContent() signal
-                           // needlessly (we can just make one call at the end).
+    // NOW block signals for cpp param setting
+    blockSignals(true); // we need to do this because otherwise most of these
+    // settors below will each send the modifiedCodeContent() signal
+    // needlessly (we can just make one call at the end).
 
 
-	// now do cpp-specific stuff IF our clone is also a CPPCodeGenerationPolicy object
- 	if((cppclone = dynamic_cast<CPPCodeGenerationPolicy*>(clone)))
-	{
-		setCommentStyle(cppclone->getCommentStyle());
-		setAutoGenerateConstructors(cppclone->getAutoGenerateConstructors());
-		setAutoGenerateAccessors(cppclone->getAutoGenerateAccessors());
+    // now do cpp-specific stuff IF our clone is also a CPPCodeGenerationPolicy object
+    if((cppclone = dynamic_cast<CPPCodeGenerationPolicy*>(clone)))
+    {
+        setCommentStyle(cppclone->getCommentStyle());
+        setAutoGenerateConstructors(cppclone->getAutoGenerateConstructors());
+        setAutoGenerateAccessors(cppclone->getAutoGenerateAccessors());
 
-		setAccessorsAreInline(cppclone->getAccessorsAreInline());
-        	setOperationsAreInline(cppclone->getOperationsAreInline());
-		setDestructorsAreVirtual(cppclone->getDestructorsAreVirtual());
-		setPackageIsNamespace(cppclone->getPackageIsNamespace());
+        setAccessorsAreInline(cppclone->getAccessorsAreInline());
+        setOperationsAreInline(cppclone->getOperationsAreInline());
+        setDestructorsAreVirtual(cppclone->getDestructorsAreVirtual());
+        setPackageIsNamespace(cppclone->getPackageIsNamespace());
 
-		setStringClassName(cppclone->getStringClassName() );
-		setStringClassNameInclude(cppclone->getStringClassNameInclude());
-		setStringIncludeIsGlobal(cppclone->stringIncludeIsGlobal());
+        setStringClassName(cppclone->getStringClassName() );
+        setStringClassNameInclude(cppclone->getStringClassNameInclude());
+        setStringIncludeIsGlobal(cppclone->stringIncludeIsGlobal());
 
-		setVectorClassName(cppclone->getVectorClassName());
-		setVectorClassNameInclude(cppclone->getVectorClassNameInclude());
-		setVectorIncludeIsGlobal(cppclone->vectorIncludeIsGlobal());
+        setVectorClassName(cppclone->getVectorClassName());
+        setVectorClassNameInclude(cppclone->getVectorClassNameInclude());
+        setVectorIncludeIsGlobal(cppclone->vectorIncludeIsGlobal());
 
-	}
+    }
 
-        blockSignals(false); // "as you were citizen"
+    blockSignals(false); // "as you were citizen"
 
-	if(emitUpdateSignal)
-		emit modifiedCodeContent();
+    if(emitUpdateSignal)
+        emit modifiedCodeContent();
 
 }
 
 void CPPCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSignal )
 {
 
-	if(!config)
-		return;
+    if(!config)
+        return;
 
-        // call the superclass to init default stuff
-        CodeGenerationPolicy::setDefaults(config, false);
+    // call the superclass to init default stuff
+    CodeGenerationPolicy::setDefaults(config, false);
 
-	// NOW block signals (because call to super-class method will leave value at "true")
-        blockSignals(true); // we need to do this because otherwise most of these
-                            // settors below will each send the modifiedCodeContent() signal
-                            // needlessly (we can just make one call at the end).
+    // NOW block signals (because call to super-class method will leave value at "true")
+    blockSignals(true); // we need to do this because otherwise most of these
+    // settors below will each send the modifiedCodeContent() signal
+    // needlessly (we can just make one call at the end).
 
-	// now do cpp specific stuff
-        config -> setGroup("CPP Code Generation");
+    // now do cpp specific stuff
+    config -> setGroup("CPP Code Generation");
 
-	setCommentStyle((CPPCommentStyle)config->readNumEntry("commentStyle",DEFAULT_COMMENT));
-	setAutoGenerateConstructors(config->readBoolEntry("autoGenEmptyConstructors",DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS));
-	setAutoGenerateAccessors(config->readBoolEntry("autoGenAccessors",DEFAULT_AUTO_GEN_ACCESSORS));
+    setCommentStyle((CPPCommentStyle)config->readNumEntry("commentStyle",DEFAULT_COMMENT));
+    setAutoGenerateConstructors(config->readBoolEntry("autoGenEmptyConstructors",DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS));
+    setAutoGenerateAccessors(config->readBoolEntry("autoGenAccessors",DEFAULT_AUTO_GEN_ACCESSORS));
 
-	CodeGenerator *codegen = UMLApp::app()->getGenerator();
-	CPPCodeGenerator *cppcodegen = dynamic_cast<CPPCodeGenerator*>(codegen);
-	if (cppcodegen) {
-		bool mkmf = config->readBoolEntry("buildMakefile", CPPCodeGenerator::DEFAULT_BUILD_MAKEFILE);
-		cppcodegen->setCreateProjectMakefile(mkmf);
-	}
+    CodeGenerator *codegen = UMLApp::app()->getGenerator();
+    CPPCodeGenerator *cppcodegen = dynamic_cast<CPPCodeGenerator*>(codegen);
+    if (cppcodegen) {
+        bool mkmf = config->readBoolEntry("buildMakefile", CPPCodeGenerator::DEFAULT_BUILD_MAKEFILE);
+        cppcodegen->setCreateProjectMakefile(mkmf);
+    }
 
-	setAccessorsAreInline(config->readBoolEntry("inlineAccessors",DEFAULT_INLINE_ACCESSORS));
-	setOperationsAreInline(config->readBoolEntry("inlineOps",DEFAULT_INLINE_OPERATIONS));
-	setDestructorsAreVirtual(config->readBoolEntry("virtualDestructors",DEFAULT_VIRTUAL_DESTRUCTORS));
-	setPackageIsNamespace(config->readBoolEntry("packageIsNamespace",DEFAULT_PACKAGE_IS_NAMESPACE));
+    setAccessorsAreInline(config->readBoolEntry("inlineAccessors",DEFAULT_INLINE_ACCESSORS));
+    setOperationsAreInline(config->readBoolEntry("inlineOps",DEFAULT_INLINE_OPERATIONS));
+    setDestructorsAreVirtual(config->readBoolEntry("virtualDestructors",DEFAULT_VIRTUAL_DESTRUCTORS));
+    setPackageIsNamespace(config->readBoolEntry("packageIsNamespace",DEFAULT_PACKAGE_IS_NAMESPACE));
 
-	setStringClassName(config->readEntry("stringClassName",DEFAULT_STRING_CLASS_NAME) );
-	setStringClassNameInclude(config->readEntry("stringClassNameInclude",DEFAULT_STRING_CLASS_INCLUDE ) );
-	setStringIncludeIsGlobal(config->readBoolEntry("stringIncludeIsGlobal",DEFAULT_STRING_INCLUDE_GLOBAL) );
+    setStringClassName(config->readEntry("stringClassName",DEFAULT_STRING_CLASS_NAME) );
+    setStringClassNameInclude(config->readEntry("stringClassNameInclude",DEFAULT_STRING_CLASS_INCLUDE ) );
+    setStringIncludeIsGlobal(config->readBoolEntry("stringIncludeIsGlobal",DEFAULT_STRING_INCLUDE_GLOBAL) );
 
-	setVectorClassName(config->readEntry("vectorClassName",DEFAULT_VECTOR_CLASS_NAME) );
-	setVectorClassNameInclude(config->readEntry("vectorClassNameInclude",DEFAULT_VECTOR_CLASS_INCLUDE) );
-	setVectorIncludeIsGlobal(config->readBoolEntry("vectorIncludeIsGlobal",DEFAULT_VECTOR_INCLUDE_GLOBAL) );
+    setVectorClassName(config->readEntry("vectorClassName",DEFAULT_VECTOR_CLASS_NAME) );
+    setVectorClassNameInclude(config->readEntry("vectorClassNameInclude",DEFAULT_VECTOR_CLASS_INCLUDE) );
+    setVectorIncludeIsGlobal(config->readBoolEntry("vectorIncludeIsGlobal",DEFAULT_VECTOR_INCLUDE_GLOBAL) );
 
-        blockSignals(false); // "as you were citizen"
+    blockSignals(false); // "as you were citizen"
 
-	if(emitUpdateSignal)
-		emit modifiedCodeContent();
+    if(emitUpdateSignal)
+        emit modifiedCodeContent();
 }
 
 
@@ -420,32 +420,32 @@ void CPPCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSign
  * @return dialog object
  */
 CodeGenerationPolicyPage * CPPCodeGenerationPolicy::createPage ( QWidget *parent, const char *name ) {
-        return new CPPCodeGenerationPolicyPage ( parent, name, this );
+    return new CPPCodeGenerationPolicyPage ( parent, name, this );
 }
 
 void CPPCodeGenerationPolicy::init() {
 
-	m_commentStyle = DEFAULT_COMMENT;
-	m_autoGenerateConstructors = DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS;
-        m_autoGenerateAccessors = DEFAULT_AUTO_GEN_ACCESSORS;
+    m_commentStyle = DEFAULT_COMMENT;
+    m_autoGenerateConstructors = DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS;
+    m_autoGenerateAccessors = DEFAULT_AUTO_GEN_ACCESSORS;
 
-	m_inlineAccessors = DEFAULT_INLINE_ACCESSORS;
-	m_inlineOperations = DEFAULT_INLINE_OPERATIONS;
-	m_virtualDestructors = DEFAULT_VIRTUAL_DESTRUCTORS;
-	m_packageIsNamespace = DEFAULT_PACKAGE_IS_NAMESPACE;
+    m_inlineAccessors = DEFAULT_INLINE_ACCESSORS;
+    m_inlineOperations = DEFAULT_INLINE_OPERATIONS;
+    m_virtualDestructors = DEFAULT_VIRTUAL_DESTRUCTORS;
+    m_packageIsNamespace = DEFAULT_PACKAGE_IS_NAMESPACE;
 
-	m_stringClassName = DEFAULT_STRING_CLASS_NAME;
-	m_stringClassNameInclude = DEFAULT_STRING_CLASS_INCLUDE;
-	m_stringIncludeIsGlobal = DEFAULT_STRING_INCLUDE_GLOBAL;
+    m_stringClassName = DEFAULT_STRING_CLASS_NAME;
+    m_stringClassNameInclude = DEFAULT_STRING_CLASS_INCLUDE;
+    m_stringIncludeIsGlobal = DEFAULT_STRING_INCLUDE_GLOBAL;
 
-	m_vectorClassName = DEFAULT_VECTOR_CLASS_NAME;
-	m_vectorClassNameInclude = DEFAULT_VECTOR_CLASS_INCLUDE;
-	m_vectorIncludeIsGlobal = DEFAULT_VECTOR_INCLUDE_GLOBAL;
+    m_vectorClassName = DEFAULT_VECTOR_CLASS_NAME;
+    m_vectorClassNameInclude = DEFAULT_VECTOR_CLASS_INCLUDE;
+    m_vectorIncludeIsGlobal = DEFAULT_VECTOR_INCLUDE_GLOBAL;
 
-	m_vectorMethodAppendBase = DEFAULT_VECTOR_METHOD_APPEND;
-	m_vectorMethodRemoveBase = DEFAULT_VECTOR_METHOD_REMOVE;
-	m_vectorMethodInitBase = DEFAULT_VECTOR_METHOD_INIT;
-	m_objectMethodInitBase = DEFAULT_OBJECT_METHOD_INIT;
+    m_vectorMethodAppendBase = DEFAULT_VECTOR_METHOD_APPEND;
+    m_vectorMethodRemoveBase = DEFAULT_VECTOR_METHOD_REMOVE;
+    m_vectorMethodInitBase = DEFAULT_VECTOR_METHOD_INIT;
+    m_objectMethodInitBase = DEFAULT_OBJECT_METHOD_INIT;
 
 }
 

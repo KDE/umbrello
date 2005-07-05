@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2003-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2003-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -33,46 +33,46 @@ class UMLTemplate;
  */
 
 class UMLTemplateDialog : public KDialogBase {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	UMLTemplateDialog(QWidget* pParent, UMLTemplate* pAttribute);
-	~UMLTemplateDialog();
+    UMLTemplateDialog(QWidget* pParent, UMLTemplate* pAttribute);
+    ~UMLTemplateDialog();
 
 protected:
-	/**
-	*	Sets up the dialog
-	*/
-	void setupDialog();
+    /**
+    *	Sets up the dialog
+    */
+    void setupDialog();
 
-	/**
-	 * Checks if changes are valid and applies them if they are,
-	 * else returns false
-	 */
-	bool apply();
+    /**
+     * Checks if changes are valid and applies them if they are,
+     * else returns false
+     */
+    bool apply();
 
-	/**
-	*	The Attribute to represent
-	*/
-	UMLTemplate* m_pTemplate;
+    /**
+    *	The Attribute to represent
+    */
+    UMLTemplate* m_pTemplate;
 
-	//GUI Widgets
-	QGroupBox* m_pTemplateGB;
-	QGroupBox* m_pValuesGB;
-	QLabel *m_pTypeL, *m_pNameL, *m_pStereoTypeL;
-	QComboBox* m_pTypeCB;
-	QLineEdit *m_pNameLE, *m_pStereoTypeLE;
+    //GUI Widgets
+    QGroupBox* m_pTemplateGB;
+    QGroupBox* m_pValuesGB;
+    QLabel *m_pTypeL, *m_pNameL, *m_pStereoTypeL;
+    QComboBox* m_pTypeCB;
+    QLineEdit *m_pNameLE, *m_pStereoTypeLE;
 
 public slots:
-	/**
-	 * I don't think this is used, but if we had an apply button
-	 * it would slot into here
-	 */
-	void slotApply();
+    /**
+     * I don't think this is used, but if we had an apply button
+     * it would slot into here
+     */
+    void slotApply();
 
-	/**
-	 * Used when the OK button is clicked.  Calls apply()
-	 */
-	void slotOk();
+    /**
+     * Used when the OK button is clicked.  Calls apply()
+     */
+    void slotOk();
 };
 
 #endif

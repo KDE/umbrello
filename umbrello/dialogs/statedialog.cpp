@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -33,114 +33,114 @@
 #include "../dialog_utils.h"
 
 StateDialog::StateDialog( UMLView * pView, StateWidget * pWidget )
-  : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help, Ok, pView, "_STATEDIALOG_", true, true) {
-	m_pActivityPage = 0;
-	m_pView = pView;
-	m_pStateWidget = pWidget;
-	m_bChangesMade = false;
-	setupPages();
+        : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help, Ok, pView, "_STATEDIALOG_", true, true) {
+    m_pActivityPage = 0;
+    m_pView = pView;
+    m_pStateWidget = pWidget;
+    m_bChangesMade = false;
+    setupPages();
 }
 
 void StateDialog::slotOk() {
-	applyPage( GeneralPage );
-	applyPage( Activity_Page );
-	applyPage( ColorPage );
-	applyPage( FontPage );
-	accept();
+    applyPage( GeneralPage );
+    applyPage( Activity_Page );
+    applyPage( ColorPage );
+    applyPage( FontPage );
+    accept();
 }
 
 void StateDialog::slotApply() {
-	applyPage( (Page) activePageIndex() );
+    applyPage( (Page) activePageIndex() );
 }
 
 void StateDialog::setupPages() {
-	setupGeneralPage();
-	if( m_pStateWidget -> getStateType() == StateWidget::Normal )
-		setupActivityPage();
-	setupColorPage();
-	setupFontPage();
+    setupGeneralPage();
+    if( m_pStateWidget -> getStateType() == StateWidget::Normal )
+        setupActivityPage();
+    setupColorPage();
+    setupFontPage();
 }
 
 void StateDialog::applyPage( Page page ) {
-	m_bChangesMade = true;
-	switch( page ) {
-		case GeneralPage:
-			m_pStateWidget -> setName( m_GenPageWidgets.nameLE -> text() );
-			m_pStateWidget -> setDoc( m_GenPageWidgets.docMLE -> text() );
-			break;
+    m_bChangesMade = true;
+    switch( page ) {
+    case GeneralPage:
+        m_pStateWidget -> setName( m_GenPageWidgets.nameLE -> text() );
+        m_pStateWidget -> setDoc( m_GenPageWidgets.docMLE -> text() );
+        break;
 
-		case Activity_Page:
-			if( m_pActivityPage )
-				m_pActivityPage -> updateActivities();
-			break;
+    case Activity_Page:
+        if( m_pActivityPage )
+            m_pActivityPage -> updateActivities();
+        break;
 
-		case ColorPage:
-			m_pColorPage -> updateUMLWidget();
-			break;
+    case ColorPage:
+        m_pColorPage -> updateUMLWidget();
+        break;
 
-		case FontPage:
-			m_pStateWidget -> setFont( m_pChooser -> font() );
-			break;
-	}//end switch
+    case FontPage:
+        m_pStateWidget -> setFont( m_pChooser -> font() );
+        break;
+    }//end switch
 }
 
 void StateDialog::setupGeneralPage() {
-	QString types[ ] = { i18n("Initial state"), i18n("State"), i18n("End state") };
-	StateWidget::StateType type = m_pStateWidget -> getStateType();
+    QString types[ ] = { i18n("Initial state"), i18n("State"), i18n("End state") };
+    StateWidget::StateType type = m_pStateWidget -> getStateType();
 
-	QVBox * page = addVBoxPage( i18n("General"), i18n("General Properties"), DesktopIcon( "misc") );
-	m_GenPageWidgets.generalGB = new QGroupBox( i18n( "Properties"), (QWidget *)page );
+    QVBox * page = addVBoxPage( i18n("General"), i18n("General Properties"), DesktopIcon( "misc") );
+    m_GenPageWidgets.generalGB = new QGroupBox( i18n( "Properties"), (QWidget *)page );
 
-	QGridLayout * generalLayout = new QGridLayout( m_GenPageWidgets.generalGB, 2, 2 );
-	generalLayout -> setSpacing( spacingHint() );
-	generalLayout -> setMargin(  fontMetrics().height()  );
+    QGridLayout * generalLayout = new QGridLayout( m_GenPageWidgets.generalGB, 2, 2 );
+    generalLayout -> setSpacing( spacingHint() );
+    generalLayout -> setMargin(  fontMetrics().height()  );
 
-	Umbrello::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 0,
-					    m_GenPageWidgets.typeL, i18n("State type:"),
-					    m_GenPageWidgets.typeLE, types[ (int)type ] );
-	m_GenPageWidgets.typeLE -> setEnabled( false );
+    Umbrello::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 0,
+                                    m_GenPageWidgets.typeL, i18n("State type:"),
+                                    m_GenPageWidgets.typeLE, types[ (int)type ] );
+    m_GenPageWidgets.typeLE -> setEnabled( false );
 
-	Umbrello::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 1,
-					    m_GenPageWidgets.nameL, i18n("State name:"),
-					    m_GenPageWidgets.nameLE );
+    Umbrello::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 1,
+                                    m_GenPageWidgets.nameL, i18n("State name:"),
+                                    m_GenPageWidgets.nameLE );
 
-	m_GenPageWidgets.docGB = new QGroupBox( i18n( "Documentation"), (QWidget *)page );
+    m_GenPageWidgets.docGB = new QGroupBox( i18n( "Documentation"), (QWidget *)page );
 
-	QHBoxLayout * docLayout = new QHBoxLayout( m_GenPageWidgets.docGB );
-	docLayout -> setSpacing( spacingHint() );
-	docLayout -> setMargin(  fontMetrics().height()  );
+    QHBoxLayout * docLayout = new QHBoxLayout( m_GenPageWidgets.docGB );
+    docLayout -> setSpacing( spacingHint() );
+    docLayout -> setMargin(  fontMetrics().height()  );
 
-	m_GenPageWidgets.docMLE = new QMultiLineEdit( m_GenPageWidgets.docGB );
-	m_GenPageWidgets.docMLE -> setText( m_pStateWidget -> getDoc() );
-	docLayout -> addWidget( m_GenPageWidgets.docMLE );
+    m_GenPageWidgets.docMLE = new QMultiLineEdit( m_GenPageWidgets.docGB );
+    m_GenPageWidgets.docMLE -> setText( m_pStateWidget -> getDoc() );
+    docLayout -> addWidget( m_GenPageWidgets.docMLE );
 
-	if( type != StateWidget::Normal ) {
-		m_GenPageWidgets.nameLE -> setEnabled( false );
-		m_GenPageWidgets.nameLE -> setText( "" );
-	} else
-		m_GenPageWidgets.nameLE -> setText( m_pStateWidget -> getName() );
+    if( type != StateWidget::Normal ) {
+        m_GenPageWidgets.nameLE -> setEnabled( false );
+        m_GenPageWidgets.nameLE -> setText( "" );
+    } else
+        m_GenPageWidgets.nameLE -> setText( m_pStateWidget -> getName() );
 }
 
 void StateDialog::setupFontPage() {
-	if ( !m_pStateWidget )
-		return;
-	QVBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
-	m_pChooser = new KFontChooser( (QWidget*)page, "font", false, QStringList(), false);
-	m_pChooser -> setFont( m_pStateWidget -> getFont() );
+    if ( !m_pStateWidget )
+        return;
+    QVBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
+    m_pChooser = new KFontChooser( (QWidget*)page, "font", false, QStringList(), false);
+    m_pChooser -> setFont( m_pStateWidget -> getFont() );
 }
 
 void StateDialog::setupColorPage() {
-	QFrame * colorPage = addPage( i18n("Color"), i18n("Widget Color"), DesktopIcon( "colors") );
-	QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
-	m_pColorPage = new UMLWidgetColorPage( colorPage, m_pStateWidget );
-	m_pColorLayout -> addWidget(m_pColorPage);
+    QFrame * colorPage = addPage( i18n("Color"), i18n("Widget Color"), DesktopIcon( "colors") );
+    QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
+    m_pColorPage = new UMLWidgetColorPage( colorPage, m_pStateWidget );
+    m_pColorLayout -> addWidget(m_pColorPage);
 }
 
 void StateDialog::setupActivityPage() {
-	QFrame * activityPage = addPage( i18n("Activities"), i18n("Activities"), DesktopIcon( "misc") );
-	QHBoxLayout * activityLayout = new QHBoxLayout( activityPage );
-	m_pActivityPage = new ActivityPage( activityPage, m_pStateWidget );
-	activityLayout -> addWidget( m_pActivityPage );
+    QFrame * activityPage = addPage( i18n("Activities"), i18n("Activities"), DesktopIcon( "misc") );
+    QHBoxLayout * activityLayout = new QHBoxLayout( activityPage );
+    m_pActivityPage = new ActivityPage( activityPage, m_pStateWidget );
+    activityLayout -> addWidget( m_pActivityPage );
 }
 
 

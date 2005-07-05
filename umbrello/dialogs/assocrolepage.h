@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2003-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2003-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -32,57 +32,57 @@
 #include "../associationwidget.h"
 
 /**
- *	Displays properties of a UMLObject in a dialog box.  This is not usually directly
- *	called.  The class @ref AssocPropDlg	will set this up for you.
+ * Displays properties of a UMLObject in a dialog box.  This is not usually directly
+ * called.  The class @ref AssocPropDlg	will set this up for you.
  *
- *	@short	Display properties on a UMLObject.
- *	@author Paul Hensgen	<phensgen@techie.com>
+ * @short Display properties on a UMLObject.
+ * @author Paul Hensgen	<phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class AssocRolePage : public QWidget {
-	Q_OBJECT
+    Q_OBJECT
 public:
 
-	/**
-	 *	Sets up the AssocRolePage.
-	 *
-	 *	@param	d	The UMLDoc which controls controls object creation.
-	 *	@param	parent	The parent to the AssocRolePage.
-	 *	@param	o	The ObjectWidget to display the properties of.
-	 */
-	AssocRolePage(UMLDoc *d, QWidget *parent, AssociationWidget *a);
+    /**
+     *	Sets up the AssocRolePage.
+     *
+     *	@param	d	The UMLDoc which controls controls object creation.
+     *	@param	parent	The parent to the AssocRolePage.
+     *	@param	o	The ObjectWidget to display the properties of.
+     */
+    AssocRolePage(UMLDoc *d, QWidget *parent, AssociationWidget *a);
 
-	/**
-	 *	Standard deconstructor.
-	 */
-	~AssocRolePage();
+    /**
+     *	Standard deconstructor.
+     */
+    ~AssocRolePage();
 
-	/**
-	 *	Will move information from the dialog into the object.
-	 *	Call when the ok or apply button is pressed.
-	 */
-	void updateObject();
+    /**
+     *	Will move information from the dialog into the object.
+     *	Call when the ok or apply button is pressed.
+     */
+    void updateObject();
 
 private:
-	QLineEdit *m_pRoleALE, *m_pRoleBLE, *m_pMultiALE, *m_pMultiBLE;
-	QMultiLineEdit *m_pDocA, *m_pDocB;
-	AssociationWidget *m_pAssociationWidget;
-	UMLDoc * m_pUmldoc;
-	ObjectWidget *m_pWidget;
-	QRadioButton *m_PublicARB, *m_ProtectedARB, *m_PrivateARB;
-	QRadioButton *m_PublicBRB, *m_ProtectedBRB, *m_PrivateBRB;
-	QRadioButton *m_ChangeableARB, *m_AddOnlyARB, *m_FrozenARB;
-	QRadioButton *m_ChangeableBRB, *m_AddOnlyBRB, *m_FrozenBRB;
+    QLineEdit *m_pRoleALE, *m_pRoleBLE, *m_pMultiALE, *m_pMultiBLE;
+    QMultiLineEdit *m_pDocA, *m_pDocB;
+    AssociationWidget *m_pAssociationWidget;
+    UMLDoc * m_pUmldoc;
+    ObjectWidget *m_pWidget;
+    QRadioButton *m_PublicARB, *m_ProtectedARB, *m_PrivateARB;
+    QRadioButton *m_PublicBRB, *m_ProtectedBRB, *m_PrivateBRB;
+    QRadioButton *m_ChangeableARB, *m_AddOnlyARB, *m_FrozenARB;
+    QRadioButton *m_ChangeableBRB, *m_AddOnlyBRB, *m_FrozenBRB;
 
-	void constructWidget();
+    void constructWidget();
 
 public slots:
-	/**
-	 * 	When the draw as actor check box is toggled, the draw
-	 * 	as multi instance need to be enabled/disabled.  They
-	 * 	both can't be available at the same time.
-	 */
-	// void slotActorToggled( bool state );
+    /**
+     * 	When the draw as actor check box is toggled, the draw
+     * 	as multi instance need to be enabled/disabled.  They
+     * 	both can't be available at the same time.
+     */
+    // void slotActorToggled( bool state );
 };
 
 #endif

@@ -27,25 +27,25 @@
  */
 
 class CodeViewerOptionsPage : public CodeViewerOptionsBase  {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	CodeViewerOptionsPage (Settings::CodeViewerState options, QWidget *parent, const char *name=0);
-	~CodeViewerOptionsPage();
+    CodeViewerOptionsPage (Settings::CodeViewerState options, QWidget *parent, const char *name=0);
+    ~CodeViewerOptionsPage();
 
-	Settings::CodeViewerState getOptions();
-	void apply();
+    Settings::CodeViewerState getOptions();
+    void apply();
 
 protected:
 
 private:
 
-	Settings::CodeViewerState m_options;
-	void init ( Settings::CodeViewerState options);
+    Settings::CodeViewerState m_options;
+    void init ( Settings::CodeViewerState options);
 
 protected slots:
 
 signals:
-	void applyClicked();
+    void applyClicked();
 
 };
 

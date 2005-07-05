@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2003-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2003-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -29,58 +29,58 @@
 
 class UMLEnumLiteral : public UMLClassifierListItem {
 public:
-	/**
-	 * Sets up an enum literal.
-	 *
-	 * @param parent	The parent of this UMLEnumLiteral.
-	 * @param name		The name of this UMLEnumLiteral.
-	 * @param id		The unique id given to this UMLEnumLiteral.
-	 */
-	UMLEnumLiteral(const UMLObject* parent, QString name, Uml::IDType id = Uml::id_None);
+    /**
+     * Sets up an enum literal.
+     *
+     * @param parent	The parent of this UMLEnumLiteral.
+     * @param name		The name of this UMLEnumLiteral.
+     * @param id		The unique id given to this UMLEnumLiteral.
+     */
+    UMLEnumLiteral(const UMLObject* parent, QString name, Uml::IDType id = Uml::id_None);
 
-	/**
-	 * Sets up an enum literal.
-	 *
-	 * @param parent	The parent of this UMLEnumLiteral.
-	 */
-	UMLEnumLiteral(const UMLObject* parent);
+    /**
+     * Sets up an enum literal.
+     *
+     * @param parent	The parent of this UMLEnumLiteral.
+     */
+    UMLEnumLiteral(const UMLObject* parent);
 
-	/**
-	 * Overloaded '==' operator
-	 */
-	bool operator==(UMLEnumLiteral &rhs);
+    /**
+     * Overloaded '==' operator
+     */
+    bool operator==(UMLEnumLiteral &rhs);
 
-	/**
-	 * Copy the internal presentation of this object into the new
-	 * object.
-	 */
-	virtual void copyInto(UMLEnumLiteral *rhs) const;
+    /**
+     * Copy the internal presentation of this object into the new
+     * object.
+     */
+    virtual void copyInto(UMLEnumLiteral *rhs) const;
 
-	/**
-	 * Make a clone of this object.
-	 */
-	virtual UMLObject* clone() const;
+    /**
+     * Make a clone of this object.
+     */
+    virtual UMLObject* clone() const;
 
-	/**
-	 * destructor
-	 */
-	virtual ~UMLEnumLiteral();
+    /**
+     * destructor
+     */
+    virtual ~UMLEnumLiteral();
 
-	/**
-	 * Creates the <UML:EnumLiteral> XMI element.
-	 */
-	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    /**
+     * Creates the <UML:EnumLiteral> XMI element.
+     */
+    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-	/**
-	 * Display the properties configuration dialogue for the enum literal.
-	 */
-	bool showPropertiesDialogue(QWidget* parent);
+    /**
+     * Display the properties configuration dialogue for the enum literal.
+     */
+    bool showPropertiesDialogue(QWidget* parent);
 
 protected:
-	/**
-	 * Loads the <UML:EnumLiteral> XMI element (empty.)
-	 */
-	bool load(QDomElement& element);
+    /**
+     * Loads the <UML:EnumLiteral> XMI element (empty.)
+     */
+    bool load(QDomElement& element);
 
 };
 

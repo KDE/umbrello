@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -31,39 +31,39 @@
 
 class UMLUseCase : public UMLCanvasObject {
 public:
-	/**
-	 *	Creates a UseCase object
-	 *
-	 *	@param name		The name of the object.
-	 *	@param	id				The id of the object.
-	 */
-	UMLUseCase(const QString & name = "", Uml::IDType id = Uml::id_None);
+    /**
+     *	Creates a UseCase object
+     *
+     *	@param name		The name of the object.
+     *	@param	id				The id of the object.
+     */
+    UMLUseCase(const QString & name = "", Uml::IDType id = Uml::id_None);
 
-	/**
-	 *	Standard deconstructor
-	 */
-	~UMLUseCase();
+    /**
+     *	Standard deconstructor
+     */
+    ~UMLUseCase();
 
-	/**
-	 *	Initializes key variables of the class.
-	 */
-	virtual void init();
+    /**
+     *	Initializes key variables of the class.
+     */
+    virtual void init();
 
-	/**
-	 * Make a clone of this object.
-	 */
-	virtual UMLObject* clone() const;
+    /**
+     * Make a clone of this object.
+     */
+    virtual UMLObject* clone() const;
 
-	/**
-	 * Creates the <UML:UseCase> element.
-	 */
-	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    /**
+     * Creates the <UML:UseCase> element.
+     */
+    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:
-	/**
-	 * Loads the <UML:UseCase> element (empty.)
-	 */
-	bool load( QDomElement & element );
+    /**
+     * Loads the <UML:UseCase> element (empty.)
+     */
+    bool load( QDomElement & element );
 };
 
 #endif

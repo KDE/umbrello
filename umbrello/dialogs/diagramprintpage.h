@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -38,67 +38,67 @@ class QGroupBox;
  */
 
 class DiagramPrintPage : public KPrintDialogPage {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	/**
-	 *  Constructs the diagram print page.
-	 *
-	 *  @param parent The parent to the page.
-	 *  @param doc	The @ref UMLDoc class instance being used.
-	 */
-	DiagramPrintPage(QWidget * parent, UMLDoc *doc);
+    /**
+     *  Constructs the diagram print page.
+     *
+     *  @param parent The parent to the page.
+     *  @param doc	The @ref UMLDoc class instance being used.
+     */
+    DiagramPrintPage(QWidget * parent, UMLDoc *doc);
 
-	/**
-	 *	Stnadard deconstructor.
-	 */
-	~DiagramPrintPage();
+    /**
+     *	Stnadard deconstructor.
+     */
+    ~DiagramPrintPage();
 
-	/**
-	 * Overriden method. It builds a list with the diagram name and the diagram
-	 * IDs.
-	 */
-	void getOptions(QMap<QString,QString>& opts, bool /* incldef=false */);
+    /**
+     * Overriden method. It builds a list with the diagram name and the diagram
+     * IDs.
+     */
+    void getOptions(QMap<QString,QString>& opts, bool /* incldef=false */);
 
-	/**
-	 * Overriden method.
-	 */
-	void setOptions( const QMap<QString,QString>& /*opts*/ );
+    /**
+     * Overriden method.
+     */
+    void setOptions( const QMap<QString,QString>& /*opts*/ );
 
-	/**
-	 * Overriden method.
-	 */
-	bool isValid( QString& msg );
+    /**
+     * Overriden method.
+     */
+    bool isValid( QString& msg );
 
 private:
-	QButtonGroup * m_pFilterBG;
-	QGroupBox * m_pSelectGB, m_pOptionsGB;
-	QListBox * m_pSelectLB;
-	QRadioButton * m_pAllRB, * m_pCurrentRB, * m_pSelectRB, * m_pTypeRB;
-	QComboBox * m_pTypeCB;
+    QButtonGroup * m_pFilterBG;
+    QGroupBox * m_pSelectGB, m_pOptionsGB;
+    QListBox * m_pSelectLB;
+    QRadioButton * m_pAllRB, * m_pCurrentRB, * m_pSelectRB, * m_pTypeRB;
+    QComboBox * m_pTypeCB;
 
-	UMLDoc * m_pDoc;
-	Uml::Diagram_Type m_ViewType;
+    UMLDoc * m_pDoc;
+    Uml::Diagram_Type m_ViewType;
 
-	/**
-	 * list containing the IDs of diagrams to print
-	 */
-	QValueList<Uml::IDType> m_nIdList;
+    /**
+     * list containing the IDs of diagrams to print
+     */
+    QValueList<Uml::IDType> m_nIdList;
 
-	enum FilterType{Current = 0, All, Select, Type};
+    enum FilterType{Current = 0, All, Select, Type};
 public slots:
 
-	/**
-	 * Gets called when the users chooses to print all diagrams, the current
-	 * diagram, a selection of diagrams or diagrams by type. It will change the
-	 * listed diagrams in the diagram box.
-	 */
-	void slotClicked(int id);
+    /**
+     * Gets called when the users chooses to print all diagrams, the current
+     * diagram, a selection of diagrams or diagrams by type. It will change the
+     * listed diagrams in the diagram box.
+     */
+    void slotClicked(int id);
 
-	/**
-	 * Gets called when the user chooses another diagram type. Only diagrams of
-	 * this type will be shown in the diagram box.
-	 */
-	void slotActivated(const QString & text);
+    /**
+     * Gets called when the user chooses another diagram type. Only diagrams of
+     * this type will be shown in the diagram box.
+     */
+    void slotActivated(const QString & text);
 };
 
 #endif

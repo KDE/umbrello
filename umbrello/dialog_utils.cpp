@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -25,32 +25,32 @@
 namespace Umbrello {
 
 QLineEdit* makeLabeledEditField(QGroupBox *containingBox, QGridLayout *layout, int row,
-				QLabel * &label, QString labelText,
-				QLineEdit * &editField, QString editFieldText /* = QString::null */)
+                                QLabel * &label, QString labelText,
+                                QLineEdit * &editField, QString editFieldText /* = QString::null */)
 {
-	label = new QLabel(labelText, containingBox);
-	layout->addWidget(label, row, 0);
-	editField = new QLineEdit(editFieldText, containingBox);
-	layout->addWidget(editField, row, 1 );
-	label->setBuddy(editField);
-	return editField;
+    label = new QLabel(labelText, containingBox);
+    layout->addWidget(label, row, 0);
+    editField = new QLineEdit(editFieldText, containingBox);
+    layout->addWidget(editField, row, 1 );
+    label->setBuddy(editField);
+    return editField;
 }
 
 
 void askNameForWidget(
-	UMLWidget * &targetWidget, QString dialogTitle, QString dialogPrompt, QString defaultName) {
+    UMLWidget * &targetWidget, QString dialogTitle, QString dialogPrompt, QString defaultName) {
 
-	bool pressedOK = false;
+    bool pressedOK = false;
 
-	QString name = KInputDialog::getText(dialogTitle, dialogPrompt, defaultName, &pressedOK, UMLApp::app());
+    QString name = KInputDialog::getText(dialogTitle, dialogPrompt, defaultName, &pressedOK, UMLApp::app());
 
-	if (pressedOK) {
-		targetWidget->setName(name);
-	} else {
-		targetWidget->cleanup();
-		delete targetWidget;
-		targetWidget = NULL;
-	}
+    if (pressedOK) {
+        targetWidget->setName(name);
+    } else {
+        targetWidget->cleanup();
+        delete targetWidget;
+        targetWidget = NULL;
+    }
 }
 
 

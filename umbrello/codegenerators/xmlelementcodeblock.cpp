@@ -21,37 +21,37 @@
 #include "../codedocument.h"
 
 // Constructors/Destructors
-//  
+//
 
 XMLElementCodeBlock::XMLElementCodeBlock ( CodeDocument * parentDoc, const QString & nodeName, const QString & comment)
-    : HierarchicalCodeBlock(parentDoc)
+        : HierarchicalCodeBlock(parentDoc)
 {
-	init(parentDoc, nodeName, comment);
+    init(parentDoc, nodeName, comment);
 }
 
 XMLElementCodeBlock::~XMLElementCodeBlock ( ) { }
 
-//  
+//
 // Methods
-//  
+//
 
 /**
  * Save the XMI representation of this object
  */
 void XMLElementCodeBlock::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-	QDomElement blockElement = doc.createElement( "xmlelementblock" );
+    QDomElement blockElement = doc.createElement( "xmlelementblock" );
 
-	setAttributesOnNode(doc, blockElement);
+    setAttributesOnNode(doc, blockElement);
 
-	root.appendChild( blockElement );
+    root.appendChild( blockElement );
 }
 
 /**
  * load params from the appropriate XMI element node.
  */
-void XMLElementCodeBlock::loadFromXMI ( QDomElement & root ) 
+void XMLElementCodeBlock::loadFromXMI ( QDomElement & root )
 {
-	setAttributesFromNode(root);
+    setAttributesFromNode(root);
 }
 
 /** set attributes of the node that represents this class
@@ -60,11 +60,11 @@ void XMLElementCodeBlock::loadFromXMI ( QDomElement & root )
 void XMLElementCodeBlock::setAttributesOnNode ( QDomDocument & doc, QDomElement & docElement)
 {
 
-	// superclass call
-	HierarchicalCodeBlock::setAttributesOnNode(doc,docElement);
+    // superclass call
+    HierarchicalCodeBlock::setAttributesOnNode(doc,docElement);
 
-	// now set local attributes/fields
-	docElement.setAttribute("nodeName",getNodeName());
+    // now set local attributes/fields
+    docElement.setAttribute("nodeName",getNodeName());
 
 }
 
@@ -73,86 +73,86 @@ void XMLElementCodeBlock::setAttributesOnNode ( QDomDocument & doc, QDomElement 
  */
 void XMLElementCodeBlock::setAttributesFromNode ( QDomElement & root) {
 
-	// superclass call
-	HierarchicalCodeBlock::setAttributesFromNode(root);
+    // superclass call
+    HierarchicalCodeBlock::setAttributesFromNode(root);
 
-	// now set local attributes
-	setNodeName(root.attribute("nodeName","UNKNOWN"));
+    // now set local attributes
+    setNodeName(root.attribute("nodeName","UNKNOWN"));
 
 }
 
 // Accessor methods
-//  
+//
 
 void XMLElementCodeBlock::setNodeName (const QString &name) {
-	m_nodeName = name;
+    m_nodeName = name;
 }
 
 QString XMLElementCodeBlock::getNodeName () {
-	return m_nodeName;
+    return m_nodeName;
 }
 
 void XMLElementCodeBlock::addAttribute (UMLAttribute * at) {
-	m_attList.append(at);
+    m_attList.append(at);
 }
 
 QPtrList<UMLAttribute> * XMLElementCodeBlock::getAttributeList() {
-	return & m_attList;
+    return & m_attList;
 }
 
 
 // Other methods
-//  
+//
 
 /**
  * update the start and end text for this ownedhierarchicalcodeblock.
  */
-void XMLElementCodeBlock::updateContent ( ) 
+void XMLElementCodeBlock::updateContent ( )
 {
 
-	QString endLine = getNewLineEndingChars();
+    QString endLine = getNewLineEndingChars();
 
-	QString nodeName = getNodeName();
+    QString nodeName = getNodeName();
 
-	// Now update START/ENDING Text
-	QString startText = "<"+nodeName;
-	QString endText = "";
+    // Now update START/ENDING Text
+    QString startText = "<"+nodeName;
+    QString endText = "";
 
-	QPtrList<UMLAttribute> * alist = getAttributeList();
-	for (UMLAttribute *at = alist->first(); at; at=alist->next())
-	{
-		if(at->getInitialValue().isEmpty())
-			kdWarning()<<" XMLElementCodeBlock : cant print out attribute that lacks an initial value"<<endl;
-		else {
-			startText.append(" " +at->getName()+"=\"");
-			startText.append(at->getInitialValue()+"\"");
-		}
-	}
+    QPtrList<UMLAttribute> * alist = getAttributeList();
+    for (UMLAttribute *at = alist->first(); at; at=alist->next())
+    {
+        if(at->getInitialValue().isEmpty())
+            kdWarning()<<" XMLElementCodeBlock : cant print out attribute that lacks an initial value"<<endl;
+        else {
+            startText.append(" " +at->getName()+"=\"");
+            startText.append(at->getInitialValue()+"\"");
+        }
+    }
 
-	// now set close of starting/ending node, the style depending on whether we have child text or not
-	if(getTextBlockList()->count())
-	{
-		startText.append(">");
-		endText = "</"+nodeName+">";
-	} else {
-		startText.append("/>");
-		endText = "";
-	}
+    // now set close of starting/ending node, the style depending on whether we have child text or not
+    if(getTextBlockList()->count())
+    {
+        startText.append(">");
+        endText = "</"+nodeName+">";
+    } else {
+        startText.append("/>");
+        endText = "";
+    }
 
-	setStartText(startText);
-	setEndText(endText);
+    setStartText(startText);
+    setEndText(endText);
 
 }
 
-void XMLElementCodeBlock::init (CodeDocument *parentDoc, const QString &nodeName, const QString &comment) 
+void XMLElementCodeBlock::init (CodeDocument *parentDoc, const QString &nodeName, const QString &comment)
 {
 
-	setComment(new XMLCodeComment(parentDoc));
-	getComment()->setText(comment);
+    setComment(new XMLCodeComment(parentDoc));
+    getComment()->setText(comment);
 
-	m_nodeName = nodeName;
+    m_nodeName = nodeName;
 
-	updateContent(); 
+    updateContent();
 
 }
 

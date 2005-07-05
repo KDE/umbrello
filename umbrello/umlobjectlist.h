@@ -37,16 +37,16 @@ class UMLObjectList : public QPtrList<UMLObject>
 
 public:
 
-	/**
-	 * Copy the internal presentation of this object into the new
-	 * object.
-	 */
-	virtual void copyInto (UMLObjectList *rhs) const;
+    /**
+     * Copy the internal presentation of this object into the new
+     * object.
+     */
+    virtual void copyInto (UMLObjectList *rhs) const;
 
-	/**
-	 * Make a clone of this object.
-	 */
-	virtual UMLObjectList* clone() const;
+    /**
+     * Make a clone of this object.
+     */
+    virtual UMLObjectList* clone() const;
 };
 
 

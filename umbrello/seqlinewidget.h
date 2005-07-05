@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -27,105 +27,105 @@ class ObjectWidget;
  */
 class SeqLineWidget : public QCanvasLine {
 public:
-	/**
-	 * Constructor.
-	 */
-	SeqLineWidget( UMLView * pView, ObjectWidget * pObject );
+    /**
+     * Constructor.
+     */
+    SeqLineWidget( UMLView * pView, ObjectWidget * pObject );
 
-	/**
-	 * Destructor.
-	 */
-	~SeqLineWidget();
+    /**
+     * Destructor.
+     */
+    ~SeqLineWidget();
 
-	/**
-	 * Return whether on seq. line.
-	 * Takes into account destruction box if shown.
-	 *
-	 * @param p	The point to investigate.
-	 * @return	True if point is on this sequence line.
-	 */
-	bool onWidget( const QPoint & p );
+    /**
+     * Return whether on seq. line.
+     * Takes into account destruction box if shown.
+     *
+     * @param p	The point to investigate.
+     * @return	True if point is on this sequence line.
+     */
+    bool onWidget( const QPoint & p );
 
-	/**
-	 * Clean up anything before deletion.
-	 */
-	void cleanup();
+    /**
+     * Clean up anything before deletion.
+     */
+    void cleanup();
 
-	/**
-	 * Set up destruction box.
-	 */
-	void setupDestructionBox();
+    /**
+     * Set up destruction box.
+     */
+    void setupDestructionBox();
 
-	/**
-	 * Set the start point of the line.
-	 *
-	 * @param startX	X coordinate of the start point.
-	 * @param startY	Y coordinate of the start point.
-	 */
-	void setStartPoint( int startX, int startY );
+    /**
+     * Set the start point of the line.
+     *
+     * @param startX	X coordinate of the start point.
+     * @param startY	Y coordinate of the start point.
+     */
+    void setStartPoint( int startX, int startY );
 
-	/**
-	 * Gets the length of the line.
-	 *
-	 * @return	Length of the line.
-	 */
-	int getLineLength() {
-		return m_nLengthY;
-	}
+    /**
+     * Gets the length of the line.
+     *
+     * @return	Length of the line.
+     */
+    int getLineLength() {
+        return m_nLengthY;
+    }
 
-	/**
-	 * Returns the @ref ObjectWidget associated with this sequence line.
-	 *
-	 * @return	Pointer to the associated ObjectWidget.
-	 */
-	ObjectWidget * getObjectWidget() {
-		return m_pObject;
-	}
+    /**
+     * Returns the @ref ObjectWidget associated with this sequence line.
+     *
+     * @return	Pointer to the associated ObjectWidget.
+     */
+    ObjectWidget * getObjectWidget() {
+        return m_pObject;
+    }
 
-	/**
-	 * Sets the y position of the bottom of the vertical line.
-	 *
-	 * @param yPosition	The y coordinate for the bottom of the line.
-	 */
-	void setEndOfLine(int yPosition);
+    /**
+     * Sets the y position of the bottom of the vertical line.
+     *
+     * @param yPosition	The y coordinate for the bottom of the line.
+     */
+    void setEndOfLine(int yPosition);
 
 protected:
-	/**
-	 * Clean up destruction box.
-	 */
-	void cleanupDestructionBox();
+    /**
+     * Clean up destruction box.
+     */
+    void cleanupDestructionBox();
 
-	/**
-	 * Move destruction box.
-	 */
-	void moveDestructionBox();
+    /**
+     * Move destruction box.
+     */
+    void moveDestructionBox();
 
-	/**
-	 * ObjectWidget associated with this sequence line.
-	 */
-	ObjectWidget * m_pObject;
+    /**
+     * ObjectWidget associated with this sequence line.
+     */
+    ObjectWidget * m_pObject;
 
-	/**
-	 * View displayed on.
-	 */
-	UMLView * m_pView;
+    /**
+     * View displayed on.
+     */
+    UMLView * m_pView;
 
-	/// The destruction box.
-	struct {
-		QCanvasRectangle * rect;
-		QCanvasLine * line1;
-		QCanvasLine * line2;
-	} m_pDestructionBox;
+    /// The destruction box.
+    struct {
+        QCanvasRectangle * rect;
+        QCanvasLine * line1;
+        QCanvasLine * line2;
+    } m_pDestructionBox;
 
-	/**
-	 * The length of the line.
-	 */
-	int m_nLengthY;
+    /**
+     * The length of the line.
+     */
+    int m_nLengthY;
 
-	/**
-	 * Margin used for mouse clicks.
-	 */
-	static int const m_nMouseDownEpsilonX;
+    /**
+     * Margin used for mouse clicks.
+     */
+    static int const m_nMouseDownEpsilonX;
 };
 
 #endif

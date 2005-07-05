@@ -27,13 +27,13 @@
 using namespace Umbrello;
 
 Plugin::Plugin(QObject *parent,
-	       const char *name,
-	       const QStringList & /* args */) :
-  QObject(parent, name),
-  Configurable(),
-  _ref(0),
-  _instanceName(name),
-  _config(NULL)
+               const char *name,
+               const QStringList & /* args */) :
+        QObject(parent, name),
+        Configurable(),
+        _ref(0),
+        _instanceName(name),
+        _config(NULL)
 {
 }
 
@@ -44,122 +44,122 @@ Plugin::~Plugin()
 void
 Plugin::ref()
 {
-  _ref++;
+    _ref++;
 }
 
 void
 Plugin::unload()
 {
-  _ref--;
-  if(_ref == 0) {
-    // save the name
-    QString pluginName = _instanceName;
+    _ref--;
+    if(_ref == 0) {
+        // save the name
+        QString pluginName = _instanceName;
 
-    // shutdown and delete
-    shutdown();
-    delete this;
+        // shutdown and delete
+        shutdown();
+        delete this;
 
-    // once the object is destroyed, we can have the plugin loader unload
-    // the library.
-    PluginLoader::instance()->unloadPlugin(pluginName);
-  }
+        // once the object is destroyed, we can have the plugin loader unload
+        // the library.
+        PluginLoader::instance()->unloadPlugin(pluginName);
+    }
 }
 
 bool
 Plugin::init()
 {
-  bool ret = true;
+    bool ret = true;
 
-  // initialize this plugin first - then load other plugins
-  ret = onInit();
-  if(!ret) {
-    kdError() << "failed to initialize " << instanceName() << endl;
-  }
-
-  // configure on load plugins
-  if(ret) {
-    ret = configure();
+    // initialize this plugin first - then load other plugins
+    ret = onInit();
     if(!ret) {
-      kdError() << "failed configuration " << instanceName() << endl;
+        kdError() << "failed to initialize " << instanceName() << endl;
     }
-  }
 
-  return true;
+    // configure on load plugins
+    if(ret) {
+        ret = configure();
+        if(!ret) {
+            kdError() << "failed configuration " << instanceName() << endl;
+        }
+    }
+
+    return true;
 }
 
 bool
 Plugin::shutdown()
 {
-  bool ret = true;
+    bool ret = true;
 
-  // always unload plugins, even if things are failing
-  unloadPlugins();
+    // always unload plugins, even if things are failing
+    unloadPlugins();
 
-  // shutdown this plugin
-  ret = onShutdown();
-  if(!ret) {
-    kdError() << "failed to shutdown " << instanceName() << endl;
-  }
+    // shutdown this plugin
+    ret = onShutdown();
+    if(!ret) {
+        kdError() << "failed to shutdown " << instanceName() << endl;
+    }
 
-  return true;
+    return true;
 }
 
 QCString
 Plugin::instanceName() const
 {
-  return _instanceName;
+    return _instanceName;
 }
 
 KConfig *
 Plugin::config()
 {
-  return _config;
+    return _config;
 }
 
 bool
 Plugin::onInit()
 {
-  return true;
+    return true;
 }
 
 bool
 Plugin::onShutdown()
 {
-  return true;
+    return true;
 }
 
 bool
 Plugin::configure()
 {
-  bool ret = true;
+    bool ret = true;
 
-  // grab the OnStartup map
-  KConfig *conf = config();
-  if(!conf) {
-    kdDebug() << "no configuration for " << instanceName() << endl;
-    ret = false;
-  }
-
-  if(ret) {
-    // set the config group to Load Actions
-    conf->setGroup("Load Actions");
-
-    // load standard plugins by default
-    loadPlugins(conf, "Load");
-
-    // only load GUI plugins if this is not a terminal app
-    if(KApplication::kApplication()->type() != QApplication::Tty) {
-      loadPlugins(conf, "LoadGUI");
+    // grab the OnStartup map
+    KConfig *conf = config();
+    if(!conf) {
+        kdDebug() << "no configuration for " << instanceName() << endl;
+        ret = false;
     }
-  }
 
-  return ret;
+    if(ret) {
+        // set the config group to Load Actions
+        conf->setGroup("Load Actions");
+
+        // load standard plugins by default
+        loadPlugins(conf, "Load");
+
+        // only load GUI plugins if this is not a terminal app
+        if(KApplication::kApplication()->type() != QApplication::Tty) {
+            loadPlugins(conf, "LoadGUI");
+        }
+    }
+
+    return ret;
 }
 
 QString
 Plugin::category()
 {
-  return QString("miscellaneous");
+    return QString("miscellaneous");
 }
 
 #include "plugin.moc"

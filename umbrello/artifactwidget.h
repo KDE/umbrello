@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2003-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2003-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -35,80 +35,80 @@ class UMLArtifact;
 class ArtifactWidget : public UMLWidget {
 public:
 
-	/**
-	 * Constructs a ArtifactWidget.
-	 *
-	 * @param view		The parent of this ArtifactWidget.
-	 * @param a		The Artifact this widget will be representing.
-	 */
-	ArtifactWidget(UMLView *view, UMLArtifact *a);
+    /**
+     * Constructs a ArtifactWidget.
+     *
+     * @param view		The parent of this ArtifactWidget.
+     * @param a		The Artifact this widget will be representing.
+     */
+    ArtifactWidget(UMLView *view, UMLArtifact *a);
 
-	/**
-	 * destructor
-	 */
-	virtual ~ArtifactWidget();
+    /**
+     * destructor
+     */
+    virtual ~ArtifactWidget();
 
-	/**
-	 * Activate the object after loading it
-	 */
-	virtual bool activate(IDChangeLog* ChangeLog  = 0 );
+    /**
+     * Activate the object after loading it
+     */
+    virtual bool activate(IDChangeLog* ChangeLog  = 0 );
 
-	/**
-	 * Overrides standard method
-	 */
-	void draw(QPainter& p, int offsetX, int offsetY);
+    /**
+     * Overrides standard method
+     */
+    void draw(QPainter& p, int offsetX, int offsetY);
 
-	/**
-	 * Saves the widget to the <artifactwidget> XMI element.
-	 * Note: For loading from XMI, the inherited parent method is used.
-	 */
-	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    /**
+     * Saves the widget to the <artifactwidget> XMI element.
+     * Note: For loading from XMI, the inherited parent method is used.
+     */
+    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 private:
-	/**
-	 * Initializes key variables of the class.
-	 */
-	void init();
-	
-	/**
-	 * Automatically calculates the size of the object.
-	 */
-	void calculateSize();
+    /**
+     * Initializes key variables of the class.
+     */
+    void init();
 
-	/**
-	 * calculates and sets the size when drawing as an icon (it's the same size for all icons)
-	 */
-	QSize calculateIconSize();
+    /**
+     * Automatically calculates the size of the object.
+     */
+    void calculateSize();
 
-	/**
-	 * calculates and sets the size for drawing as a box
-	 */
-	QSize calculateNormalSize();
+    /**
+     * calculates and sets the size when drawing as an icon (it's the same size for all icons)
+     */
+    QSize calculateIconSize();
 
-	/**
-	 * draw as a file icon
-	 */
-	void drawAsFile(QPainter& p, int offsetX, int offsetY);
+    /**
+     * calculates and sets the size for drawing as a box
+     */
+    QSize calculateNormalSize();
 
-	/**
-	 * draw as a library file icon
-	 */
-	void drawAsLibrary(QPainter& p, int offsetX, int offsetY);
+    /**
+     * draw as a file icon
+     */
+    void drawAsFile(QPainter& p, int offsetX, int offsetY);
 
-	/**
-	 * draw as a database table icon
-	 */
-	void drawAsTable(QPainter& p, int offsetX, int offsetY);
+    /**
+     * draw as a library file icon
+     */
+    void drawAsLibrary(QPainter& p, int offsetX, int offsetY);
 
-	/**
-	 * draw as a box
-	 */
-	void drawAsNormal(QPainter& p, int offsetX, int offsetY);
+    /**
+     * draw as a database table icon
+     */
+    void drawAsTable(QPainter& p, int offsetX, int offsetY);
 
-	/**
-	 * The right mouse button menu
-	 */
-	ListPopupMenu* m_pMenu;
+    /**
+     * draw as a box
+     */
+    void drawAsNormal(QPainter& p, int offsetX, int offsetY);
+
+    /**
+     * The right mouse button menu
+     */
+    ListPopupMenu* m_pMenu;
 };
 
 #endif

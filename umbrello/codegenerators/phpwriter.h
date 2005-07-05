@@ -30,71 +30,71 @@
   * Just call writeClass and feed it a UMLClassifier;
   */
 class PhpWriter : public SimpleCodeGenerator {
-	Q_OBJECT
+    Q_OBJECT
 public:
 
-	PhpWriter( UMLDoc * parent, const char* name = 0 );
-	virtual ~PhpWriter();
+    PhpWriter( UMLDoc * parent, const char* name = 0 );
+    virtual ~PhpWriter();
 
-	/**
-	  * call this method to generate Php code for a UMLClassifier
-	  * @param c the class you want to generate code for.
-	  */
-	virtual void writeClass(UMLClassifier *c);
+    /**
+      * call this method to generate Php code for a UMLClassifier
+      * @param c the class you want to generate code for.
+      */
+    virtual void writeClass(UMLClassifier *c);
 
-	/**
-	 * checks whether type is "PhpWriter"
-	 *
-	 * @param type
-	 */
-	virtual bool isType (QString & type);
+    /**
+     * checks whether type is "PhpWriter"
+     *
+     * @param type
+     */
+    virtual bool isType (QString & type);
 
-	/**
-	 * returns "PHP"
-	 */
-	virtual QString getLanguage();
+    /**
+     * returns "PHP"
+     */
+    virtual QString getLanguage();
 
-	/**
-	 * get list of reserved keywords
-	 */
-	virtual const QStringList reservedKeywords() const;
+    /**
+     * get list of reserved keywords
+     */
+    virtual const QStringList reservedKeywords() const;
 
 private:
 
-	/**
-	 * we do not want to write the comment "Private methods" twice
-	 */
-	bool bPrivateSectionCommentIsWritten;
+    /**
+     * we do not want to write the comment "Private methods" twice
+     */
+    bool bPrivateSectionCommentIsWritten;
 
-	/**
-	  * write all operations for a given class
-	  *
-	  * @param c the concept we are generating code for
-	  * @param php output stream for the PHP file
-	  */
-	void writeOperations(UMLClassifier *c, QTextStream &php);
+    /**
+      * write all operations for a given class
+      *
+      * @param c the concept we are generating code for
+      * @param php output stream for the PHP file
+      */
+    void writeOperations(UMLClassifier *c, QTextStream &php);
 
-	/**
-	  * write a list of class operations
-	  *
-	  * @param classname the name of the class
-	  * @param opList the list of operations
-	  * @param php output stream for the PHP file
-	  */
-	void writeOperations(QString classname, UMLOperationList &opList,
-			     QTextStream &php);
+    /**
+      * write a list of class operations
+      *
+      * @param classname the name of the class
+      * @param opList the list of operations
+      * @param php output stream for the PHP file
+      */
+    void writeOperations(QString classname, UMLOperationList &opList,
+                         QTextStream &php);
 
-	/** write all the attributes of a class
-	  * @param c the class we are generating code for
-	  * @param php output stream for the PHP file
-	  */
-	void writeAttributes(UMLClassifier *c, QTextStream &php);
+    /** write all the attributes of a class
+      * @param c the class we are generating code for
+      * @param php output stream for the PHP file
+      */
+    void writeAttributes(UMLClassifier *c, QTextStream &php);
 
-	/** write a list of class attributes
-	  * @param atList the list of attributes
-	  * @param php output stream for the PHP file
-	  */
-	void writeAttributes(UMLAttributeList &atList, QTextStream &php);
+    /** write a list of class attributes
+      * @param atList the list of attributes
+      * @param php output stream for the PHP file
+      */
+    void writeAttributes(UMLAttributeList &atList, QTextStream &php);
 };
 
 #endif //PHPWRITER

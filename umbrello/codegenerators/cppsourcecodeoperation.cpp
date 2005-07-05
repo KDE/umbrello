@@ -23,9 +23,9 @@
 //
 
 CPPSourceCodeOperation::CPPSourceCodeOperation ( CPPSourceCodeDocument * doc, UMLOperation *parent, const QString & body, const QString & comment )
-    : CodeOperation ((ClassifierCodeDocument*)doc, parent, body, comment)
+        : CodeOperation ((ClassifierCodeDocument*)doc, parent, body, comment)
 {
-	init(doc);
+    init(doc);
 }
 
 CPPSourceCodeOperation::~CPPSourceCodeOperation ( ) { }
@@ -39,11 +39,11 @@ CPPSourceCodeOperation::~CPPSourceCodeOperation ( ) { }
 // the body text.
 void CPPSourceCodeOperation::updateContent( )
 {
-        CPPCodeGenerationPolicy * policy = (CPPCodeGenerationPolicy*) getParentDocument()->getParentGenerator()->getPolicy();
-        bool isInlineMethod = policy->getAccessorsAreInline( );
+    CPPCodeGenerationPolicy * policy = (CPPCodeGenerationPolicy*) getParentDocument()->getParentGenerator()->getPolicy();
+    bool isInlineMethod = policy->getAccessorsAreInline( );
 
-        if(!isInlineMethod)
-                setText(""); // change whatever it is to "";
+    if(!isInlineMethod)
+        setText(""); // change whatever it is to "";
 
 }
 
@@ -51,66 +51,66 @@ void CPPSourceCodeOperation::updateContent( )
 void CPPSourceCodeOperation::updateMethodDeclaration()
 {
 
-	CPPSourceCodeDocument * doc = (CPPSourceCodeDocument*) getParentDocument();
-	CPPCodeGenerator * gen = (CPPCodeGenerator*) getParentDocument()->getParentGenerator();
-        CPPCodeGenerationPolicy * policy = (CPPCodeGenerationPolicy*) gen->getPolicy();
-	UMLClassifier * c = doc->getParentClassifier();
-	UMLOperation * o = getParentOperation();
-	bool isInterface = doc->parentIsInterface();
-        bool isInlineMethod = policy->getAccessorsAreInline( );
+    CPPSourceCodeDocument * doc = (CPPSourceCodeDocument*) getParentDocument();
+    CPPCodeGenerator * gen = (CPPCodeGenerator*) getParentDocument()->getParentGenerator();
+    CPPCodeGenerationPolicy * policy = (CPPCodeGenerationPolicy*) gen->getPolicy();
+    UMLClassifier * c = doc->getParentClassifier();
+    UMLOperation * o = getParentOperation();
+    bool isInterface = doc->parentIsInterface();
+    bool isInlineMethod = policy->getAccessorsAreInline( );
 
-	// first, the comment on the operation
-	QString comment = o->getDoc();
-	getComment()->setText(comment);
+    // first, the comment on the operation
+    QString comment = o->getDoc();
+    getComment()->setText(comment);
 
-	// no return type for constructors
-	QString returnType = o->isConstructorOperation() ? QString("") : o->getTypeName();
-	QString methodName = o->getName();
-	QString paramStr = QString("");
-	QString className = gen->getCPPClassName(c->getName());
+    // no return type for constructors
+    QString returnType = o->isConstructorOperation() ? QString("") : o->getTypeName();
+    QString methodName = o->getName();
+    QString paramStr = QString("");
+    QString className = gen->getCPPClassName(c->getName());
 
-	// assemble parameters
-        UMLAttributeList * list = getParentOperation()->getParmList();
-	int nrofParam = list->count();
-	int paramNum = 0;
-	for(UMLAttribute* parm = list->first(); parm; parm=list->next())
-	{
-		QString rType = parm->getTypeName();
-		QString paramName = parm->getName();
-		paramStr += rType + " " + paramName;
-		paramNum++;
+    // assemble parameters
+    UMLAttributeList * list = getParentOperation()->getParmList();
+    int nrofParam = list->count();
+    int paramNum = 0;
+    for(UMLAttribute* parm = list->first(); parm; parm=list->next())
+    {
+        QString rType = parm->getTypeName();
+        QString paramName = parm->getName();
+        paramStr += rType + " " + paramName;
+        paramNum++;
 
-		if (paramNum != nrofParam )
-			paramStr  += ", ";
-	}
+        if (paramNum != nrofParam )
+            paramStr  += ", ";
+    }
 
-	QString startText = returnType + " " + className + "::" + methodName + " ("+paramStr+") {";
-	setStartMethodText(startText);
+    QString startText = returnType + " " + className + "::" + methodName + " ("+paramStr+") {";
+    setStartMethodText(startText);
 
-	// Only write this out if its a child of an interface OR is abstract.
-	// and its not inline
-	if(isInterface || o->getAbstract() || isInlineMethod)
-	{
-		setWriteOutText(false);
-	} else {
-		setWriteOutText(true);
-	}
+    // Only write this out if its a child of an interface OR is abstract.
+    // and its not inline
+    if(isInterface || o->getAbstract() || isInlineMethod)
+    {
+        setWriteOutText(false);
+    } else {
+        setWriteOutText(true);
+    }
 
 }
 
 void CPPSourceCodeOperation::init (CPPSourceCodeDocument * doc )
 {
 
-	// lets not go with the default comment and instead use
-	// full-blown cpp documentation object instead
-        setComment(new CPPCodeDocumentation(doc));
+    // lets not go with the default comment and instead use
+    // full-blown cpp documentation object instead
+    setComment(new CPPCodeDocumentation(doc));
 
-	// these things never change..
-        setOverallIndentationLevel(0);
-	setEndMethodText("}");
+    // these things never change..
+    setOverallIndentationLevel(0);
+    setEndMethodText("}");
 
-        updateMethodDeclaration();
-        updateContent();
+    updateMethodDeclaration();
+    updateContent();
 
 }
 

@@ -22,26 +22,26 @@
 
 class CPPSourceCodeClassFieldDeclarationBlock : public CodeClassFieldDeclarationBlock
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
 
-	// Constructors/Destructors
-	//  
+    // Constructors/Destructors
+    //
 
-	/**
-	 * Constructor
-	 */
-	CPPSourceCodeClassFieldDeclarationBlock ( CodeClassField * parent );
+    /**
+     * Constructor
+     */
+    CPPSourceCodeClassFieldDeclarationBlock ( CodeClassField * parent );
 
-	/**
-	 * Empty Destructor
-	 */
-	virtual ~CPPSourceCodeClassFieldDeclarationBlock ( );
+    /**
+     * Empty Destructor
+     */
+    virtual ~CPPSourceCodeClassFieldDeclarationBlock ( );
 
 protected:
 
-	// this will be called by syncToParent whenever the parent object is "modified" 
-       	void updateContent ( );
+    // this will be called by syncToParent whenever the parent object is "modified"
+    void updateContent ( );
 
 private:
 

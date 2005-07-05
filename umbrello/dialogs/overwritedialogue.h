@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -31,44 +31,44 @@ class QCheckBox;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class OverwriteDialogue: public KDialogBase {
-	Q_OBJECT
+    Q_OBJECT
 
- public:
-	/**
-	 * constructor sets up the dialogue, adding checkbox and label
-	 */
-	OverwriteDialogue(QString fileName, QString outputDirectory, bool applyToAllRemaining, QWidget* parent=0, const char* name=0);
+public:
+    /**
+     * constructor sets up the dialogue, adding checkbox and label
+     */
+    OverwriteDialogue(QString fileName, QString outputDirectory, bool applyToAllRemaining, QWidget* parent=0, const char* name=0);
 
-	/**
-	 * destrictor doesn't do anything
-	 */
-	~OverwriteDialogue();
+    /**
+     * destrictor doesn't do anything
+     */
+    ~OverwriteDialogue();
 
-	/**
-	 * @return the value of the Apply To All Remaining Files checkbox
-	 */
-	bool applyToAllRemaining();
+    /**
+     * @return the value of the Apply To All Remaining Files checkbox
+     */
+    bool applyToAllRemaining();
 
- protected slots:
-	 /**
-	  * Overrides standard operation to call QDialog::done(Yes).
-	  *  This is a kludge, see note in class description.
-	  */
-	 virtual void slotOk();
+protected slots:
+    /**
+     * Overrides standard operation to call QDialog::done(Yes).
+     *  This is a kludge, see note in class description.
+     */
+    virtual void slotOk();
 
-         /**
-	  * Overrides standard operation to call QDialog::done(No).
-	  */
-	 virtual void slotApply();
+    /**
+    * Overrides standard operation to call QDialog::done(No).
+    */
+    virtual void slotApply();
 
 
-         /**
-	  * Overrides standard operation to call QDialog::done(Cancel).
-	  */
-	 virtual void slotCancel();
+    /**
+    * Overrides standard operation to call QDialog::done(Cancel).
+    */
+    virtual void slotCancel();
 
- private:
-	QCheckBox* m_applyToAllRemaining;
+private:
+    QCheckBox* m_applyToAllRemaining;
 };
 
 #endif

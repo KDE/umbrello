@@ -28,14 +28,14 @@
 CodeViewerDialog::CodeViewerDialog ( QWidget* parent, CodeDocument * doc,
                                      Settings::CodeViewerState state,
                                      const char* name, bool modal, WFlags fl )
-    : CodeViewerDialogBase ( parent, name, modal, fl )
+        : CodeViewerDialogBase ( parent, name, modal, fl )
 
 {
-	m_state = state;
+    m_state = state;
 
-	initGUI(name);
+    initGUI(name);
 
-	addCodeDocument(doc);
+    addCodeDocument(doc);
 
 }
 
@@ -49,22 +49,22 @@ CodeViewerDialog::~CodeViewerDialog()
 
 void CodeViewerDialog::initGUI ( const char * name) {
 
-	if ( !name )
-		setName( "CodeViewerDialog" );
+    if ( !name )
+        setName( "CodeViewerDialog" );
 
-	setFont( getState().font );
+    setFont( getState().font );
 
-	// set some viewability parameters
-	int margin = fontMetrics().height();
-	int width = fontMetrics().maxWidth() * getState().width;
-	int height = fontMetrics().lineSpacing() * getState().height;
+    // set some viewability parameters
+    int margin = fontMetrics().height();
+    int width = fontMetrics().maxWidth() * getState().width;
+    int height = fontMetrics().lineSpacing() * getState().height;
 
-	m_highlightCheckBox->setChecked( getState().blocksAreHighlighted );
-	m_showHiddenCodeCB->setChecked ( getState().showHiddenBlocks );
+    m_highlightCheckBox->setChecked( getState().blocksAreHighlighted );
+    m_showHiddenCodeCB->setChecked ( getState().showHiddenBlocks );
 
-	CodeViewerDialogBaseLayout->setMargin(margin);
+    CodeViewerDialogBaseLayout->setMargin(margin);
 
-	resize( QSize(width, height).expandedTo(minimumSizeHint()) );
+    resize( QSize(width, height).expandedTo(minimumSizeHint()) );
 
 }
 
@@ -73,35 +73,35 @@ void CodeViewerDialog::initGUI ( const char * name) {
  */
 void CodeViewerDialog::addCodeDocument( CodeDocument * doc)
 {
-	CodeEditor * page = new CodeEditor ( this, "_codedocumenteditor_", doc );
-	QString fname = doc->getFileName();
-	QString ext = doc->getFileExtension();
-	m_tabWidget->insertTab(page, (fname + (ext.isEmpty()? "" : ext)));
+    CodeEditor * page = new CodeEditor ( this, "_codedocumenteditor_", doc );
+    QString fname = doc->getFileName();
+    QString ext = doc->getFileExtension();
+    m_tabWidget->insertTab(page, (fname + (ext.isEmpty()? "" : ext)));
 
-    	connect( m_highlightCheckBox, SIGNAL( stateChanged(int) ), page, SLOT( changeHighlighting(int) ) );
-    	connect( m_showHiddenCodeCB, SIGNAL( stateChanged(int) ), page, SLOT( changeShowHidden(int) ) );
+    connect( m_highlightCheckBox, SIGNAL( stateChanged(int) ), page, SLOT( changeHighlighting(int) ) );
+    connect( m_showHiddenCodeCB, SIGNAL( stateChanged(int) ), page, SLOT( changeShowHidden(int) ) );
 
 }
 
 Settings::CodeViewerState CodeViewerDialog::getState() {
-	return m_state;
+    return m_state;
 }
 
 bool CodeViewerDialog::close ( bool alsoDelete )
 {
 
-	// remember widget size for next time
-	m_state.height = height() / fontMetrics().lineSpacing();
-	m_state.width = width() / fontMetrics().maxWidth();
+    // remember widget size for next time
+    m_state.height = height() / fontMetrics().lineSpacing();
+    m_state.width = width() / fontMetrics().maxWidth();
 
-	// remember block highlighting
-	m_state.blocksAreHighlighted = m_highlightCheckBox->isChecked();
+    // remember block highlighting
+    m_state.blocksAreHighlighted = m_highlightCheckBox->isChecked();
 
-	// remember block show status
-	m_state.showHiddenBlocks = m_showHiddenCodeCB->isChecked();
+    // remember block show status
+    m_state.showHiddenBlocks = m_showHiddenCodeCB->isChecked();
 
-	// run superclass close now
-	return CodeViewerDialogBase::close(alsoDelete);
+    // run superclass close now
+    return CodeViewerDialogBase::close(alsoDelete);
 
 }
 

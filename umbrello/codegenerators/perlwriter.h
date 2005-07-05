@@ -34,74 +34,74 @@ class UMLClassifier;
   * Just call writeClass and feed it a UMLClassifier;
   */
 class PerlWriter : public SimpleCodeGenerator {
-	Q_OBJECT
+    Q_OBJECT
 public:
 
-	PerlWriter( UMLDoc *doc, const char* name = 0 );
-	virtual ~PerlWriter();
+    PerlWriter( UMLDoc *doc, const char* name = 0 );
+    virtual ~PerlWriter();
 
-	/**
-	  * call this method to generate Perl code for a UMLClassifier
-	  * @param c the class you want to generate code for.
-	  */
-	virtual void writeClass(UMLClassifier *c);
+    /**
+      * call this method to generate Perl code for a UMLClassifier
+      * @param c the class you want to generate code for.
+      */
+    virtual void writeClass(UMLClassifier *c);
 
-	/**
-	 * checks whether type is "PerlWriter"
-	 *
-	 * @param type
-	 */
-	virtual bool isType (QString & type); 
+    /**
+     * checks whether type is "PerlWriter"
+     *
+     * @param type
+     */
+    virtual bool isType (QString & type);
 
-	/**
-	 * returns "Perl"
-	 */
-	virtual QString getLanguage();
+    /**
+     * returns "Perl"
+     */
+    virtual QString getLanguage();
 
-	/**
-	 * get list of reserved keywords
-	 */
-	virtual const QStringList reservedKeywords() const;
+    /**
+     * get list of reserved keywords
+     */
+    virtual const QStringList reservedKeywords() const;
 
-	void createDefaultDatatypes();	 
+    void createDefaultDatatypes();
 
 private:
 
-	/**
-	 * we do not want to write the comment "Private methods" twice
-	 * not sure whether this is php specific
-	 */
-	bool bPrivateSectionCommentIsWritten;
+    /**
+     * we do not want to write the comment "Private methods" twice
+     * not sure whether this is php specific
+     */
+    bool bPrivateSectionCommentIsWritten;
 
-	/**
-	  * write all operations for a given class
-	  *
-	  * @param c the concept we are generating code for
-	  * @param perl output stream for the Perl file
-	  */
-	void writeOperations(UMLClassifier *c, QTextStream &perl);
+    /**
+      * write all operations for a given class
+      *
+      * @param c the concept we are generating code for
+      * @param perl output stream for the Perl file
+      */
+    void writeOperations(UMLClassifier *c, QTextStream &perl);
 
-	/**
-	  * write a list of class operations
-	  *
-	  * @param classname the name of the class
-	  * @param opList the list of operations
-	  * @param perl output stream for the Perl file
-	  */
-	void writeOperations(QString classname, UMLOperationList &opList,
-			     QTextStream &perl);
+    /**
+      * write a list of class operations
+      *
+      * @param classname the name of the class
+      * @param opList the list of operations
+      * @param perl output stream for the Perl file
+      */
+    void writeOperations(QString classname, UMLOperationList &opList,
+                         QTextStream &perl);
 
-	/** write all the attributes of a class
-	  * @param c the class we are generating code for
-	  * @param perl output stream for the Perl file
-	  */
-	void writeAttributes(UMLClassifier *c, QTextStream &perl);
+    /** write all the attributes of a class
+      * @param c the class we are generating code for
+      * @param perl output stream for the Perl file
+      */
+    void writeAttributes(UMLClassifier *c, QTextStream &perl);
 
-	/** write a list of class attributes
-	  * @param atList the list of attributes
-	  * @param perl output stream for the Perl file
-	  */
-	void writeAttributes(UMLAttributeList &atList, QTextStream &perl);
+    /** write a list of class attributes
+      * @param atList the list of attributes
+      * @param perl output stream for the Perl file
+      */
+    void writeAttributes(UMLAttributeList &atList, QTextStream &perl);
 };
 
 #endif //PERLWRITER

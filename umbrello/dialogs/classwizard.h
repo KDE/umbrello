@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -24,83 +24,83 @@ class UMLClassifier;
 class UMLDoc;
 
 /**
- *	@author Paul Hensgen
+ * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ClassWizard : public KWizard {
 public:
-	/**
-	 *	Consrtuctor
-	 */
-	ClassWizard( UMLDoc * pDoc );
+    /**
+     *	Consrtuctor
+     */
+    ClassWizard( UMLDoc * pDoc );
 
-	/**
-	 *	Deconstructor
-	 */
-	~ClassWizard();
+    /**
+     *	Deconstructor
+     */
+    ~ClassWizard();
 
 protected:
 
-	/**
-	 *	Overrides the default method.
-	 */
-	void showPage( QWidget * pWidget );
+    /**
+     *	Overrides the default method.
+     */
+    void showPage( QWidget * pWidget );
 
-	/**
-	 *	Overrides the default method.
-	 */
-	void next();
+    /**
+     *	Overrides the default method.
+     */
+    void next();
 
-	/**
-	 *	Overrides the default method.
-	 */
-	void back();
+    /**
+     *	Overrides the default method.
+     */
+    void back();
 
-	/**
-	 *	Overrides the default method.
-	 */
-	void accept();
+    /**
+     *	Overrides the default method.
+     */
+    void accept();
 
-	/**
-	*	Overrides the default method.
-	*/
-	void reject();
+    /**
+    *	Overrides the default method.
+    */
+    void reject();
 
-	/**
-	*	Setup the wizard pages.
-	*/
-	void setupPages();
+    /**
+    *	Setup the wizard pages.
+    */
+    void setupPages();
 
-	/**
-	*	Page 1 - General class info
-	*/
-	ClassGenPage * m_pGenPage;
+    /**
+    *	Page 1 - General class info
+    */
+    ClassGenPage * m_pGenPage;
 
-	/**
-	*	Page 2 - Class Attributes
-	*/
-	ClassifierListPage* m_pAttPage;
+    /**
+    *	Page 2 - Class Attributes
+    */
+    ClassifierListPage* m_pAttPage;
 
-	/**
-	*	Page 3 - Class Operations
-	*/
-	ClassifierListPage* m_pOpPage;
+    /**
+    *	Page 3 - Class Operations
+    */
+    ClassifierListPage* m_pOpPage;
 
-	/**
-	*	Document currently opened
-	*/
-	UMLDoc * m_pDoc;
+    /**
+    *	Document currently opened
+    */
+    UMLDoc * m_pDoc;
 
-	/**
-	*	Class to create
-	*/
-	UMLClassifier * m_pClass;
+    /**
+    *	Class to create
+    */
+    UMLClassifier * m_pClass;
 
 protected slots:
-	/**
-	 * Opens Umbrello handbook
-	 */
-	void help();
+    /**
+     * Opens Umbrello handbook
+     */
+    void help();
 
 };
 

@@ -33,49 +33,49 @@ class UMLOperation;
 class IDLWriter : public SimpleCodeGenerator {
 public:
 
-	IDLWriter (UMLDoc * parent, const char* name = 0);
-	virtual ~IDLWriter ();
+    IDLWriter (UMLDoc * parent, const char* name = 0);
+    virtual ~IDLWriter ();
 
-	/**
-	 * call this method to generate IDL code for a UMLClassifier
-	 * @param c the class to generate code for
-	 */
-	virtual void writeClass (UMLClassifier *c);
+    /**
+     * call this method to generate IDL code for a UMLClassifier
+     * @param c the class to generate code for
+     */
+    virtual void writeClass (UMLClassifier *c);
 
-	/**
-	 * checks whether type is "IDLWriter"
-	 *
-	 * @param type
-	 */
-	virtual bool isType (QString & type);
+    /**
+     * checks whether type is "IDLWriter"
+     *
+     * @param type
+     */
+    virtual bool isType (QString & type);
 
-	/**
-	 * returns "IDL"
-	 */
-	virtual QString getLanguage();
+    /**
+     * returns "IDL"
+     */
+    virtual QString getLanguage();
 
-	void createDefaultDatatypes();
+    void createDefaultDatatypes();
 
-	/**
-	 * get list of reserved keywords
-	 */
-	virtual const QStringList reservedKeywords() const;
+    /**
+     * get list of reserved keywords
+     */
+    virtual const QStringList reservedKeywords() const;
 
 private:
 
-	/**
-	 * write one operation
-	 * @param op the class for which we are generating code
-	 * @param idl the stream associated with the output file
-	 */
-	void writeOperation(UMLOperation* op, QTextStream& idl, bool is_comment = false);
+    /**
+     * write one operation
+     * @param op the class for which we are generating code
+     * @param idl the stream associated with the output file
+     */
+    void writeOperation(UMLOperation* op, QTextStream& idl, bool is_comment = false);
 
-	void computeAssocTypeAndRole(UMLAssociation* a, UMLClassifier *c,
-				     QString& typeName, QString& roleName);
+    void computeAssocTypeAndRole(UMLAssociation* a, UMLClassifier *c,
+                                 QString& typeName, QString& roleName);
 
-	static bool isOOClass(UMLClassifier* c);
+    static bool isOOClass(UMLClassifier* c);
 
-	static bool assocTypeIsMappableToAttribute(Uml::Association_Type at);
+    static bool assocTypeIsMappableToAttribute(Uml::Association_Type at);
 
 };
 

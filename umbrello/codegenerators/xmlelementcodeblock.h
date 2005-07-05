@@ -27,61 +27,61 @@ class UMLAttribute;
 
 class XMLElementCodeBlock : public HierarchicalCodeBlock
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
 
-	// Constructors/Destructors
-	//  
+    // Constructors/Destructors
+    //
 
-	/**
-	 * Empty Constructor
-	 */
-	XMLElementCodeBlock ( CodeDocument * parentDoc, const QString & nodeName, const QString & comment = "");
+    /**
+     * Empty Constructor
+     */
+    XMLElementCodeBlock ( CodeDocument * parentDoc, const QString & nodeName, const QString & comment = "");
 
-	/**
-	 * Empty Destructor
-	 */
-	virtual ~XMLElementCodeBlock ( );
+    /**
+     * Empty Destructor
+     */
+    virtual ~XMLElementCodeBlock ( );
 
-       /**
-	 * Save the XMI representation of this object
-	 */
-	virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
+    /**
+    * Save the XMI representation of this object
+    */
+    virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
-	/**
-	 * load params from the appropriate XMI element node.
-	 */
-	virtual void loadFromXMI ( QDomElement & root );
+    /**
+     * load params from the appropriate XMI element node.
+     */
+    virtual void loadFromXMI ( QDomElement & root );
 
-	virtual QPtrList<UMLAttribute> * getAttributeList();
+    virtual QPtrList<UMLAttribute> * getAttributeList();
 
-	virtual void setNodeName (const QString &name);
-	virtual QString getNodeName ();
+    virtual void setNodeName (const QString &name);
+    virtual QString getNodeName ();
 
-	void addAttribute (UMLAttribute * at);
+    void addAttribute (UMLAttribute * at);
 
 protected:
 
-       /** set attributes of the node that represents this class
-	 * in the XMI document.
-	 */
-	virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
+    /** set attributes of the node that represents this class
+    * in the XMI document.
+    */
+    virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
 
-	/** set the class attributes of this object from
-	 * the passed element node.
-	 */
-	virtual void setAttributesFromNode ( QDomElement & element);
+    /** set the class attributes of this object from
+     * the passed element node.
+     */
+    virtual void setAttributesFromNode ( QDomElement & element);
 
-	/**
-	 * Update the start/end text of this codeblock.
-	 */
-	void updateContent ( );
+    /**
+     * Update the start/end text of this codeblock.
+     */
+    void updateContent ( );
 
 private:
 
-	QPtrList<UMLAttribute> m_attList;
-	QString m_nodeName; 
-	void init (CodeDocument * parent, const QString &nodeName, const QString &comment);
+    QPtrList<UMLAttribute> m_attList;
+    QString m_nodeName;
+    void init (CodeDocument * parent, const QString &nodeName, const QString &comment);
 
 };
 

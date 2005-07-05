@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -36,21 +36,21 @@ class UMLView;
 class ToolBarStateFactory
 {
 public:
-	// constructor.
-	ToolBarStateFactory(UMLView* umlView);	
+    // constructor.
+    ToolBarStateFactory(UMLView* umlView);
 
-	// Destructor
-	virtual ~ToolBarStateFactory();	
+    // Destructor
+    virtual ~ToolBarStateFactory();
 
-	ToolBarState* getState(const WorkToolBar::ToolBar_Buttons &toolbarButton);
-
-protected:
-	int getKey(const WorkToolBar::ToolBar_Buttons &toolbarButton) const;
+    ToolBarState* getState(const WorkToolBar::ToolBar_Buttons &toolbarButton);
 
 protected:
-	ToolBarState* states[NR_OF_TOOLBAR_STATES]; 
+    int getKey(const WorkToolBar::ToolBar_Buttons &toolbarButton) const;
 
-	UMLView* m_pUMLView;
+protected:
+    ToolBarState* states[NR_OF_TOOLBAR_STATES];
+
+    UMLView* m_pUMLView;
 };
 
 #endif //TOOLBARSTATEFACTORY_H

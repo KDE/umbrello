@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -31,58 +31,58 @@ class QCheckBox;
 class QGroupBox;
 
 class UMLWidgetColorPage : public QWidget {
-	Q_OBJECT
+    Q_OBJECT
 public:
 
-	/**
-	* 	Constructor - Observe a UMLWidget
-	*/
-	UMLWidgetColorPage( QWidget * pParent, UMLWidget * pWidget );
-	
-	/**
-	* 	Constructor - Observe an OptionState structure
-	*/
-	UMLWidgetColorPage( QWidget * pParent, Settings::OptionState *options );
+    /**
+    * 	Constructor - Observe a UMLWidget
+    */
+    UMLWidgetColorPage( QWidget * pParent, UMLWidget * pWidget );
 
-	/**
-	*	destructor
-	*/
-	virtual ~UMLWidgetColorPage();
+    /**
+    * 	Constructor - Observe an OptionState structure
+    */
+    UMLWidgetColorPage( QWidget * pParent, Settings::OptionState *options );
 
-	/**
-	* 	Updates the @ref UMLWidget with the dialog properties.
-	*/
-	void updateUMLWidget();
-	
+    /**
+    *	destructor
+    */
+    virtual ~UMLWidgetColorPage();
+
+    /**
+    * 	Updates the @ref UMLWidget with the dialog properties.
+    */
+    void updateUMLWidget();
+
 public slots:
-	/**
-	*	Sets the default line color when default line button
-	*	clicked.
-	*/
-	void slotLineButtonClicked();
+    /**
+    *	Sets the default line color when default line button
+    *	clicked.
+    */
+    void slotLineButtonClicked();
 
-	/**
-	*	Sets the default fill color when default fill button
-	*	clicked.
-	*/
-	void slotFillButtonClicked();
-		
+    /**
+    *	Sets the default fill color when default fill button
+    *	clicked.
+    */
+    void slotFillButtonClicked();
+
 protected:
-	/**
-	* 	The widget to set the color for.
-	*/
-	UMLWidget * m_pUMLWidget;
-	
-	Settings::OptionState *m_options;
-	
-	//GUI widgets
-	QGroupBox * m_pColorGB;
-	QLabel * m_pLineColorL, * m_pFillColorL;
-	QCheckBox * m_pUseFillColorCB;
-	QPushButton * m_pLineDefaultB, * m_pFillDefaultB;
-	KColorButton * m_pLineColorB, * m_pFillColorB;
+    /**
+    * 	The widget to set the color for.
+    */
+    UMLWidget * m_pUMLWidget;
+
+    Settings::OptionState *m_options;
+
+    //GUI widgets
+    QGroupBox * m_pColorGB;
+    QLabel * m_pLineColorL, * m_pFillColorL;
+    QCheckBox * m_pUseFillColorCB;
+    QPushButton * m_pLineDefaultB, * m_pFillDefaultB;
+    KColorButton * m_pLineColorB, * m_pFillColorB;
 private:
-	void init();
+    void init();
 
 };
 

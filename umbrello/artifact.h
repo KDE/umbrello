@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2003-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2003-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -35,71 +35,71 @@ class IDChangeLog;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLArtifact : public UMLCanvasObject {
-	Q_OBJECT
+    Q_OBJECT
 public:
 
-	/**
-	 * Artifacts can be drawn using one of several icons.
-	 */
-	enum Draw_Type {
-		defaultDraw,
-		file,
-		library,
-		table
-	};
+    /**
+     * Artifacts can be drawn using one of several icons.
+     */
+    enum Draw_Type {
+        defaultDraw,
+        file,
+        library,
+        table
+    };
 
-	/**
-	 * Sets up a Artifact.
-	 *
-	 * @param name		The name of the Concept.
-	 * @param id		The unique id of the Concept.
-	 */
-	UMLArtifact(const QString & Name = "", Uml::IDType id = Uml::id_None);
+    /**
+     * Sets up a Artifact.
+     *
+     * @param name		The name of the Concept.
+     * @param id		The unique id of the Concept.
+     */
+    UMLArtifact(const QString & Name = "", Uml::IDType id = Uml::id_None);
 
-	/**
-	 * Standard deconstructor.
-	 */
-	virtual ~UMLArtifact();
+    /**
+     * Standard deconstructor.
+     */
+    virtual ~UMLArtifact();
 
-	/**
-	 * Initializes key variables of the class.
-	 */
-	virtual void init();
+    /**
+     * Initializes key variables of the class.
+     */
+    virtual void init();
 
-	/**
-	 * Make a clone of this object.
-	 */
-	virtual UMLObject* clone() const;
+    /**
+     * Make a clone of this object.
+     */
+    virtual UMLObject* clone() const;
 
-	/**
-	 * Creates the UML:Artifact element including its operations,
-	 * attributes and templates
-	 */
-	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    /**
+     * Creates the UML:Artifact element including its operations,
+     * attributes and templates
+     */
+    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-	/**
-	 * sets m_drawAsType for which method to draw the artifact as
-	 */
-	void setDrawAsType(Draw_Type type);
+    /**
+     * sets m_drawAsType for which method to draw the artifact as
+     */
+    void setDrawAsType(Draw_Type type);
 
-	/**
-	 * returns the value of m_drawAsType
-	 */
-	Draw_Type getDrawAsType();
+    /**
+     * returns the value of m_drawAsType
+     */
+    Draw_Type getDrawAsType();
 
 protected:
-	/**
-	 * Loads the UML:Artifact element including its operations,
-	 * attributes and templates
-	 */
-	bool load( QDomElement & element );
+    /**
+     * Loads the UML:Artifact element including its operations,
+     * attributes and templates
+     */
+    bool load( QDomElement & element );
 
 private:
-	/**
-	 * Artifacts can be drawn as one of several different icons,
-	 * this value choosing how to draw them.
-	 */
-	Draw_Type m_drawAsType;
+    /**
+     * Artifacts can be drawn as one of several different icons,
+     * this value choosing how to draw them.
+     */
+    Draw_Type m_drawAsType;
 };
 
 #endif

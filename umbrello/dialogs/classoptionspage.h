@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -36,74 +36,74 @@ class ClassifierWidget;
  */
 class ClassOptionsPage : public QWidget {
 public:
-	/**
-	 * Constructor - observe and modify a Widget
-	 */
-	ClassOptionsPage(QWidget* pParent, ClassifierWidget* pWidget);
-	
-	/**
-	 * Constructor - observe and modify an OptionState structure
-	 */
-	ClassOptionsPage(QWidget* pParent, Settings::OptionState *options );
+    /**
+     * Constructor - observe and modify a Widget
+     */
+    ClassOptionsPage(QWidget* pParent, ClassifierWidget* pWidget);
 
-	/**
-	 * destructor
-	 */
-	virtual ~ClassOptionsPage();
+    /**
+     * Constructor - observe and modify an OptionState structure
+     */
+    ClassOptionsPage(QWidget* pParent, Settings::OptionState *options );
 
-	/**
-	 * Updates the widget with the dialog page properties.
-	 */
-	void updateUMLWidget();
+    /**
+     * destructor
+     */
+    virtual ~ClassOptionsPage();
 
-	/**
-	 * Sets the widget to be used.  Only used by @ref UMLView to set
-	 * settings of a widget.
-	 */
-	void setWidget( ClassifierWidget * pWidget ) {
-		m_pWidget = pWidget;
-	}
+    /**
+     * Updates the widget with the dialog page properties.
+     */
+    void updateUMLWidget();
+
+    /**
+     * Sets the widget to be used.  Only used by @ref UMLView to set
+     * settings of a widget.
+     */
+    void setWidget( ClassifierWidget * pWidget ) {
+        m_pWidget = pWidget;
+    }
 
 protected:
-	/**
-	 * Initialize optional items
-	 */
-	void init();
+    /**
+     * Initialize optional items
+     */
+    void init();
 
-	/**
-	 * Creates the page with the correct options for the class/interface
-	 */
-	void setupPage();
+    /**
+     * Creates the page with the correct options for the class/interface
+     */
+    void setupPage();
 
-	/**
-	 * Creates the page based on the OptionState
-	 */
-	void setupClassPageOption();
+    /**
+     * Creates the page based on the OptionState
+     */
+    void setupClassPageOption();
 
-	/**
-	 * Sets the ClassifierWidget's properties to those selected in this dialogue page.
-	 */
-	void updateWidget();
+    /**
+     * Sets the ClassifierWidget's properties to those selected in this dialogue page.
+     */
+    void updateWidget();
 
-	/**
-	 * Sets the OptionState to the values selected in this dialogue page.
-	 */
-	void updateOptionState();
+    /**
+     * Sets the OptionState to the values selected in this dialogue page.
+     */
+    void updateOptionState();
 
-	//GUI widgets
-	QGroupBox * m_pVisibilityGB;
-	QCheckBox * m_pShowScopeCB, * m_pShowAttSigCB;
-	QCheckBox * m_pShowOpSigCB, * m_pShowAttsCB, * m_pShowOpsCB;
-	QCheckBox * m_pShowStereotypeCB, * m_pShowPackageCB;
-	QCheckBox* m_pDrawAsCircleCB;
+    //GUI widgets
+    QGroupBox * m_pVisibilityGB;
+    QCheckBox * m_pShowScopeCB, * m_pShowAttSigCB;
+    QCheckBox * m_pShowOpSigCB, * m_pShowAttsCB, * m_pShowOpsCB;
+    QCheckBox * m_pShowStereotypeCB, * m_pShowPackageCB;
+    QCheckBox* m_pDrawAsCircleCB;
 
-	/**
-	 * The classifier widget to represent in the dialog page.
-	 */
-	ClassifierWidget* m_pWidget;
-	/**
-	 * The OptionState structure to represent in the dialog page.
-	 */
-	Settings::OptionState *m_options;
+    /**
+     * The classifier widget to represent in the dialog page.
+     */
+    ClassifierWidget* m_pWidget;
+    /**
+     * The OptionState structure to represent in the dialog page.
+     */
+    Settings::OptionState *m_options;
 };
 #endif

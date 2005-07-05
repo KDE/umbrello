@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -28,18 +28,18 @@
  */
 class InfoWidget : public QWidget {
 public:
-	/**
-	 *	Constructs an InfoWidget.
-	 *
-	 *	@param	parent	The parent of this InfoWidget.
-	 *	@param	name	The name of this widget.
-	 */
-	InfoWidget(QWidget *parent=0, const char *name=0);
+    /**
+     *	Constructs an InfoWidget.
+     *
+     *	@param	parent	The parent of this InfoWidget.
+     *	@param	name	The name of this widget.
+     */
+    InfoWidget(QWidget *parent=0, const char *name=0);
 
-	/**
-	 *	Standard deconstructor.
-	 */
-	~InfoWidget();
+    /**
+     *	Standard deconstructor.
+     */
+    ~InfoWidget();
 };
 
 #endif

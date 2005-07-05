@@ -18,53 +18,53 @@
 #include "../model_utils.h"
 
 // Constructors/Destructors
-//  
+//
 
-CPPSourceCodeClassFieldDeclarationBlock::CPPSourceCodeClassFieldDeclarationBlock ( CodeClassField * parent ) 
-    : CodeClassFieldDeclarationBlock ( parent ) 
+CPPSourceCodeClassFieldDeclarationBlock::CPPSourceCodeClassFieldDeclarationBlock ( CodeClassField * parent )
+        : CodeClassFieldDeclarationBlock ( parent )
 {
-	setOverallIndentationLevel(1);
-	updateContent();
+    setOverallIndentationLevel(1);
+    updateContent();
 }
 
 CPPSourceCodeClassFieldDeclarationBlock::~CPPSourceCodeClassFieldDeclarationBlock ( ) { }
 
-//  
+//
 // Methods
-//  
+//
 
 // Other methods
-//  
+//
 
 /**
  */
-void CPPSourceCodeClassFieldDeclarationBlock::updateContent( ) 
+void CPPSourceCodeClassFieldDeclarationBlock::updateContent( )
 {
 
-/*
-	CodeClassField * cf = getParentClassField();
-	ClassifierCodeDocument * doc = cf->getParentDocument();
-	CPPCodeClassField * jcf = (CPPCodeClassField*) cf;
-        CPPClassifierCodeDocument* jdoc = (CPPClassifierCodeDocument*) doc;
+    /*
+    	CodeClassField * cf = getParentClassField();
+    	ClassifierCodeDocument * doc = cf->getParentDocument();
+    	CPPCodeClassField * jcf = (CPPCodeClassField*) cf;
+            CPPClassifierCodeDocument* jdoc = (CPPClassifierCodeDocument*) doc;
 
-        // Set the comment
-        QString notes = getParentObject()->getDoc();
-        getComment()->setText(notes);
+            // Set the comment
+            QString notes = getParentObject()->getDoc();
+            getComment()->setText(notes);
 
-        // Set the body
-        QString staticValue = getParentObject()->getStatic() ? "static " : "";
-        QString scopeStr = Umbrello::scopeToString(getParentObject()->getScope(), false);
+            // Set the body
+            QString staticValue = getParentObject()->getStatic() ? "static " : "";
+            QString scopeStr = Umbrello::scopeToString(getParentObject()->getScope(), false);
 
-        QString typeName = jcf->getTypeName();
-        QString fieldName = jcf->getFieldName();
-        QString initialV = jcf->getInitialValue();
+            QString typeName = jcf->getTypeName();
+            QString fieldName = jcf->getFieldName();
+            QString initialV = jcf->getInitialValue();
 
-        QString body = staticValue+scopeStr+" "+typeName+" "+fieldName;
-        if (!initialV.isEmpty())
-                body.append(" = " + initialV);
-        setText(body+";");
-*/
-        setText("FIX ME;");
+            QString body = staticValue+scopeStr+" "+typeName+" "+fieldName;
+            if (!initialV.isEmpty())
+                    body.append(" = " + initialV);
+            setText(body+";");
+    */
+    setText("FIX ME;");
 
 
 }

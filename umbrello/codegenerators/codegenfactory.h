@@ -27,21 +27,21 @@ class UMLDoc;
 class CodeGeneratorFactory {
 public:
 
-        CodeGeneratorFactory();
-        virtual ~CodeGeneratorFactory();
+    CodeGeneratorFactory();
+    virtual ~CodeGeneratorFactory();
 
-        /**
-         * Returns a QStringList containing the languages offered by this library
-         */
-        QStringList languagesAvailable();
+    /**
+     * Returns a QStringList containing the languages offered by this library
+     */
+    QStringList languagesAvailable();
 
-        /**
-         * Returns the name of the generator which implements language l
-         */
-        QString generatorName(const QString &l);
+    /**
+     * Returns the name of the generator which implements language l
+     */
+    QString generatorName(const QString &l);
 
-//FIXMEnow        virtual QObject* createObject(QObject* parent, const char* name);
-        CodeGenerator* createObject(UMLDoc* parent, const char* name);
+    //FIXMEnow        virtual QObject* createObject(QObject* parent, const char* name);
+    CodeGenerator* createObject(UMLDoc* parent, const char* name);
 };
 
 #endif //CODEGENFACTORY_H

@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -22,7 +22,7 @@ class QMouseEvent;
 class UMLView;
 class UMLWidget;
 
-/** 
+/**
  * Almost every object is created by this state. Except assiociations and
  * messages. 
  */ 
@@ -30,18 +30,18 @@ class ToolBarStateOther : public ToolBarStatePool
 {
 
 public:
-	ToolBarStateOther(UMLView *umlView);	
-	virtual ~ToolBarStateOther();	
+    ToolBarStateOther(UMLView *umlView);
+    virtual ~ToolBarStateOther();
 
-	virtual void mousePress(QMouseEvent* ome);
-	virtual void mouseRelease(QMouseEvent* ome);
-	virtual void mouseDoubleClick(QMouseEvent* ome);
-	virtual void mouseMove(QMouseEvent* ome);
-	
+    virtual void mousePress(QMouseEvent* ome);
+    virtual void mouseRelease(QMouseEvent* ome);
+    virtual void mouseDoubleClick(QMouseEvent* ome);
+    virtual void mouseMove(QMouseEvent* ome);
+
 private:
 
-	Uml::Object_Type getObjectType(WorkToolBar::ToolBar_Buttons tbb);
-	bool newWidget();
+    Uml::Object_Type getObjectType(WorkToolBar::ToolBar_Buttons tbb);
+    bool newWidget();
 
 };
 

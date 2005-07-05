@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -25,15 +25,15 @@ class ToolBarStateAssociation : public ToolBarStatePool
 {
 
 public:
-	ToolBarStateAssociation(UMLView *umlView);	
-	virtual ~ToolBarStateAssociation();	
+    ToolBarStateAssociation(UMLView *umlView);
+    virtual ~ToolBarStateAssociation();
 
-	virtual void mousePress(QMouseEvent* ome);
-	virtual void mouseRelease(QMouseEvent* ome);
-	virtual void mouseDoubleClick(QMouseEvent* ome);
-	virtual void mouseMove(QMouseEvent* ome);
-	
-	virtual void init();
+    virtual void mousePress(QMouseEvent* ome);
+    virtual void mouseRelease(QMouseEvent* ome);
+    virtual void mouseDoubleClick(QMouseEvent* ome);
+    virtual void mouseMove(QMouseEvent* ome);
+
+    virtual void init();
 };
 
 #endif //TOOLBARSTATEASSOCIATION_H

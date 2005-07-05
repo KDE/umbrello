@@ -32,38 +32,38 @@
 // structure.
 
 class CodeGenerationOptionsPage : public CodeGenerationOptionsBase  {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	CodeGenerationOptionsPage(CodeGenerator * gen,
-	                          QString activeLanguage, QWidget *parent=0, const char *name=0);
-	~CodeGenerationOptionsPage();
-	void setDefaults();
-	QString getCodeGenerationLanguage();
-	void updateCodeGenerationPolicyTab(CodeGenerator * gen);
-	void apply();
-	void setCodeGenerator ( CodeGenerator * gen);
+    CodeGenerationOptionsPage(CodeGenerator * gen,
+                              QString activeLanguage, QWidget *parent=0, const char *name=0);
+    ~CodeGenerationOptionsPage();
+    void setDefaults();
+    QString getCodeGenerationLanguage();
+    void updateCodeGenerationPolicyTab(CodeGenerator * gen);
+    void apply();
+    void setCodeGenerator ( CodeGenerator * gen);
 
 protected:
-	CodeGenerationPolicy * m_parentPolicy;
+    CodeGenerationPolicy * m_parentPolicy;
 
 private:
 
-	CodeGenerator * m_pCodeGenerator;
-	CodeGenerationPolicyPage * m_pCodePolicyPage;
-	void init (CodeGenerator * gen, const QString &activeLanguage);
-	int overwriteToInteger(CodeGenerationPolicy::OverwritePolicy value);
-	int newLineToInteger(CodeGenerationPolicy::NewLineType value);
-	int indentTypeToInteger(CodeGenerationPolicy::IndentationType value);
-	void setupActiveLanguageBox(QString activeLanguage); 
+    CodeGenerator * m_pCodeGenerator;
+    CodeGenerationPolicyPage * m_pCodePolicyPage;
+    void init (CodeGenerator * gen, const QString &activeLanguage);
+    int overwriteToInteger(CodeGenerationPolicy::OverwritePolicy value);
+    int newLineToInteger(CodeGenerationPolicy::NewLineType value);
+    int indentTypeToInteger(CodeGenerationPolicy::IndentationType value);
+    void setupActiveLanguageBox(QString activeLanguage);
 
 protected slots:
-	void activeLanguageChanged(int id); 
-	void browseClicked();
+    void activeLanguageChanged(int id);
+    void browseClicked();
 
 signals:
-	void applyClicked();
-	void languageChanged();
-	void syncCodeDocumentsToParent();
+    void applyClicked();
+    void languageChanged();
+    void syncCodeDocumentsToParent();
 
 
 };

@@ -24,43 +24,43 @@
 
 class CPPHeaderClassDeclarationBlock : public OwnedHierarchicalCodeBlock
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
 
-	// Constructors/Destructors
-	//  
+    // Constructors/Destructors
+    //
 
-	/**
-	 * Empty Constructor
-	 */
-	CPPHeaderClassDeclarationBlock ( CPPHeaderCodeDocument * parentDoc, const QString &start = "", const QString &endText = "}", const QString &comment = "");
+    /**
+     * Empty Constructor
+     */
+    CPPHeaderClassDeclarationBlock ( CPPHeaderCodeDocument * parentDoc, const QString &start = "", const QString &endText = "}", const QString &comment = "");
 
-	/**
-	 * Empty Destructor
-	 */
-	virtual ~CPPHeaderClassDeclarationBlock ( );
+    /**
+     * Empty Destructor
+     */
+    virtual ~CPPHeaderClassDeclarationBlock ( );
 
-	/**
-	 * Save the XMI representation of this object
-	 */
-	virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
+    /**
+     * Save the XMI representation of this object
+     */
+    virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
-	virtual void loadFromXMI ( QDomElement & root ); 
+    virtual void loadFromXMI ( QDomElement & root );
 
 protected:
 
-	/** set the class attributes from a passed object
-	 */
-	virtual void setAttributesFromObject (TextBlock * obj);
+    /** set the class attributes from a passed object
+     */
+    virtual void setAttributesFromObject (TextBlock * obj);
 
-	/**
-	 * Update the start/end text of this codeblock.
-	 */
-	void updateContent ( );
+    /**
+     * Update the start/end text of this codeblock.
+     */
+    void updateContent ( );
 
 private:
 
-	void init (CPPHeaderCodeDocument * parent, const QString &comment);
+    void init (CPPHeaderCodeDocument * parent, const QString &comment);
 
 };
 

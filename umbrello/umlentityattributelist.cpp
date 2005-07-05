@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -18,24 +18,24 @@
 #include <klocale.h>
 
 void UMLEntityAttributeList::copyInto(UMLEntityAttributeList* rhs) const {
-	// Don't copy yourself.
-	if (rhs == this) return;
+    // Don't copy yourself.
+    if (rhs == this) return;
 
-	rhs->clear();
+    rhs->clear();
 
-	// Suffering from const; we shall not modify our object.
-	UMLEntityAttributeList* tmp = new UMLEntityAttributeList(*this);
+    // Suffering from const; we shall not modify our object.
+    UMLEntityAttributeList* tmp = new UMLEntityAttributeList(*this);
 
-	UMLEntityAttribute* item;
-	for (item = tmp->first(); item; item = tmp->next() ) {
-		rhs->append((UMLEntityAttribute*)item->clone());
-	}
-	delete tmp;
+    UMLEntityAttribute* item;
+    for (item = tmp->first(); item; item = tmp->next() ) {
+        rhs->append((UMLEntityAttribute*)item->clone());
+    }
+    delete tmp;
 }
 
 
 UMLEntityAttributeList* UMLEntityAttributeList::clone() const {
-	UMLEntityAttributeList *clone = new UMLEntityAttributeList();
-	copyInto(clone);
-	return clone;
+    UMLEntityAttributeList *clone = new UMLEntityAttributeList();
+    copyInto(clone);
+    return clone;
 }

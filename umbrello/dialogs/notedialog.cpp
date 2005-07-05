@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -27,30 +27,30 @@
 
 
 NoteDialog::NoteDialog( QWidget * parent, NoteWidget * pNote ) : KDialogBase(Plain, i18n("Note Documentation"), Help | Ok | Cancel , Ok, parent, "_NOTEDIALOG_", true, true) {
-	m_pNoteWidget = pNote;
-	int margin = fontMetrics().height();
+    m_pNoteWidget = pNote;
+    int margin = fontMetrics().height();
 
-	m_pDocGB = new QGroupBox(i18n("Documentation"), plainPage());
-	QVBoxLayout * mainLayout = new QVBoxLayout(plainPage());
-	mainLayout -> addWidget(m_pDocGB);
-	mainLayout -> setSpacing(10);
-	mainLayout -> setMargin(margin);
+    m_pDocGB = new QGroupBox(i18n("Documentation"), plainPage());
+    QVBoxLayout * mainLayout = new QVBoxLayout(plainPage());
+    mainLayout -> addWidget(m_pDocGB);
+    mainLayout -> setSpacing(10);
+    mainLayout -> setMargin(margin);
 
-	QHBoxLayout * docLayout = new QHBoxLayout(m_pDocGB);
-	docLayout -> setSpacing(10);
-	docLayout -> setMargin(margin);
+    QHBoxLayout * docLayout = new QHBoxLayout(m_pDocGB);
+    docLayout -> setSpacing(10);
+    docLayout -> setMargin(margin);
 
-	m_pDocTE = new QTextEdit( m_pDocGB );
-	m_pDocTE -> setFocus();
-	docLayout -> addWidget( m_pDocTE );
-	m_pDocTE -> setText( pNote -> getDoc() );
-	setMinimumSize(330, 160);
+    m_pDocTE = new QTextEdit( m_pDocGB );
+    m_pDocTE -> setFocus();
+    docLayout -> addWidget( m_pDocTE );
+    m_pDocTE -> setText( pNote -> getDoc() );
+    setMinimumSize(330, 160);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 NoteDialog::~NoteDialog() {}
 
 void NoteDialog::slotOk() {
-	m_pNoteWidget -> setDoc( m_pDocTE -> text() );
-	accept();
+    m_pNoteWidget -> setDoc( m_pDocTE -> text() );
+    accept();
 }
 

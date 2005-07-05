@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -26,162 +26,162 @@ class UMLClassifier;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLOperation : public UMLClassifierListItem {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	/**
-	 * Constructs an UMLOperation.
-	 * Not intended for general use: The operation is not tied in with
-	 * umbrello's Qt signalling for object creation.
-	 * If you want to create an Operation use the method in UMLDoc instead.
-	 *
-	 * @param parent	The parent to this operation.
-	 * @param name		The name of the operation.
-	 * @param id		The id of the operation.
-	 * @param s		The scope of the operation.
-	 * @param rt		The return type of the operation.
-	 */
-	UMLOperation(const UMLClassifier * parent, QString Name, Uml::IDType id = Uml::id_None,
-		     Uml::Scope s = Uml::Public, QString rt = "void");
+    /**
+     * Constructs an UMLOperation.
+     * Not intended for general use: The operation is not tied in with
+     * umbrello's Qt signalling for object creation.
+     * If you want to create an Operation use the method in UMLDoc instead.
+     *
+     * @param parent	The parent to this operation.
+     * @param name		The name of the operation.
+     * @param id		The id of the operation.
+     * @param s		The scope of the operation.
+     * @param rt		The return type of the operation.
+     */
+    UMLOperation(const UMLClassifier * parent, QString Name, Uml::IDType id = Uml::id_None,
+                 Uml::Scope s = Uml::Public, QString rt = "void");
 
-	/**
-	 * Constructs an UMLOperation.
-	 * Not intended for general use: The operation is not tied in with
-	 * umbrello's Qt signalling for object creation.
-	 * If you want to create an Operation use the method in UMLDoc instead.
-	 *
-	 * @param parent	The parent to this operation.
-	 */
-	UMLOperation(const UMLClassifier * parent);
+    /**
+     * Constructs an UMLOperation.
+     * Not intended for general use: The operation is not tied in with
+     * umbrello's Qt signalling for object creation.
+     * If you want to create an Operation use the method in UMLDoc instead.
+     *
+     * @param parent	The parent to this operation.
+     */
+    UMLOperation(const UMLClassifier * parent);
 public:
 
-	/**
-	 * destructor
-	 */
-	virtual ~UMLOperation();
+    /**
+     * destructor
+     */
+    virtual ~UMLOperation();
 
-	/**
-	 * Overloaded '==' operator.
-	 */
-	bool operator==( UMLOperation & rhs );
+    /**
+     * Overloaded '==' operator.
+     */
+    bool operator==( UMLOperation & rhs );
 
-	/**
-	 * Copy the internal presentation of this object into the new
-	 * object.
-	 */
-	virtual void copyInto(UMLOperation *rhs) const;
+    /**
+     * Copy the internal presentation of this object into the new
+     * object.
+     */
+    virtual void copyInto(UMLOperation *rhs) const;
 
-	/**
-	 * Make a clone of this object.
-	 */
-	virtual UMLObject* clone() const;
+    /**
+     * Make a clone of this object.
+     */
+    virtual UMLObject* clone() const;
 
-	/**
-	 * Add a parameter to the operation.
-	 *
-	 * @param type		The type of the parameter.
-	 * @param name		The name of the parameter.
-	 * @param initialValue	The initial value of the parameter.
-	 * @param kind		Optional: The parameter kind (in|inout|out).
-	 *                      Default is "in".
-	 * @return	Pointer to the UMLAttribute created.
-	 */
-	UMLAttribute * addParm(QString type, QString name, QString initialValue, QString doc,
-		               Uml::Parameter_Direction kind = Uml::pd_In);
+    /**
+     * Add a parameter to the operation.
+     *
+     * @param type		The type of the parameter.
+     * @param name		The name of the parameter.
+     * @param initialValue	The initial value of the parameter.
+     * @param kind		Optional: The parameter kind (in|inout|out).
+     *                      Default is "in".
+     * @return	Pointer to the UMLAttribute created.
+     */
+    UMLAttribute * addParm(QString type, QString name, QString initialValue, QString doc,
+                           Uml::Parameter_Direction kind = Uml::pd_In);
 
-	/**
-	 * Move a parameter one position to the left.
-	 *
-	 * @param a		The parameter to move.
-	 */
-	void moveParmLeft(UMLAttribute *a);
-	
-	/**
-	 *Move a parameter one position to the right.
-	 *
-	 * @param a		The parameter to move.
-	 */
-	void moveParmRight(UMLAttribute *a);
-	 
-	/**
-	 * Remove a parameter from the operation.
-	 *
-	 * @param a		The paramter to remove.
-	 */
-	void removeParm(UMLAttribute *a);
+    /**
+     * Move a parameter one position to the left.
+     *
+     * @param a		The parameter to move.
+     */
+    void moveParmLeft(UMLAttribute *a);
 
-	/**
-	 * Returns a list of parameters.
-	 *
-	 * @return A list of the paramters in the operation.
-	 */
-	UMLAttributeList* getParmList() {
-		return &m_List;
-	}
+    /**
+     *Move a parameter one position to the right.
+     *
+     * @param a		The parameter to move.
+     */
+    void moveParmRight(UMLAttribute *a);
 
-	/**
-	 * Finds a parameter of the operation.
-	 *
-	 * @param name	The parameter name to search for.
-	 * @return	The found parameter, 0 if not found.
-	 */
-	UMLAttribute * findParm(const QString &name);
+    /**
+     * Remove a parameter from the operation.
+     *
+     * @param a		The paramter to remove.
+     */
+    void removeParm(UMLAttribute *a);
 
-	/**
-	 * Returns a string representation of the operation.
-	 *
-	 * @param sig	What type of operation string to show.
-	 * @return	The string representation of the operation.
-	 */
-	QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
+    /**
+     * Returns a list of parameters.
+     *
+     * @return A list of the paramters in the operation.
+     */
+    UMLAttributeList* getParmList() {
+        return &m_List;
+    }
 
-	/**
-	 * Add a parameter to the operation.
-	 *
-	 * @param parameter	The paramter to add.
-	 * @param position	The position in the parameter list.
-	 *			If position = -1 the parameter will be
-	 *			appended to the list.
-	 */
-	void addParm(UMLAttribute *parameter, int position = -1);
+    /**
+     * Finds a parameter of the operation.
+     *
+     * @param name	The parameter name to search for.
+     * @return	The found parameter, 0 if not found.
+     */
+    UMLAttribute * findParm(const QString &name);
 
-	/**
-	 * Calls resolveRef() on all parameters.
-	 * Needs to be called after all UML objects are loaded from file.
-	 *
-	 * @return	True for success.
-	 */
-	bool resolveRef();
+    /**
+     * Returns a string representation of the operation.
+     *
+     * @param sig	What type of operation string to show.
+     * @return	The string representation of the operation.
+     */
+    QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
 
-	/**
-	 * Returns an unused parameter name for a new parameter.
-	 */
-	QString getUniqueParameterName();
+    /**
+     * Add a parameter to the operation.
+     *
+     * @param parameter	The paramter to add.
+     * @param position	The position in the parameter list.
+     *			If position = -1 the parameter will be
+     *			appended to the list.
+     */
+    void addParm(UMLAttribute *parameter, int position = -1);
 
-	/**
-	 * Display the properties configuration dialogue for the template.
-	 */
-	bool showPropertiesDialogue(QWidget* parent);
+    /**
+     * Calls resolveRef() on all parameters.
+     * Needs to be called after all UML objects are loaded from file.
+     *
+     * @return	True for success.
+     */
+    bool resolveRef();
 
-	/**
-	 * Saves to the <UML:Operation> XMI element.
-	 */
-	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    /**
+     * Returns an unused parameter name for a new parameter.
+     */
+    QString getUniqueParameterName();
 
-	/**
-	 * Returns whether this operation is a constructor.
-	 *
-	 * @return	True if this operation is a constructor.
-	 */
-	bool isConstructorOperation();
+    /**
+     * Display the properties configuration dialogue for the template.
+     */
+    bool showPropertiesDialogue(QWidget* parent);
+
+    /**
+     * Saves to the <UML:Operation> XMI element.
+     */
+    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+
+    /**
+     * Returns whether this operation is a constructor.
+     *
+     * @return	True if this operation is a constructor.
+     */
+    bool isConstructorOperation();
 
 protected:
-	/**
-	 * Loads a <UML:Operation> XMI element.
-	 */
-	bool load( QDomElement & element );
+    /**
+     * Loads a <UML:Operation> XMI element.
+     */
+    bool load( QDomElement & element );
 
 private:
-	UMLAttributeList m_List;
+    UMLAttributeList m_List;
 };
 
 #endif

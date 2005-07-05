@@ -22,93 +22,93 @@
 #include "../umlrole.h"
 
 // Constructors/Destructors
-//  
+//
 
-JavaCodeClassFieldDeclarationBlock::JavaCodeClassFieldDeclarationBlock ( CodeClassField * parent ) 
-    : CodeClassFieldDeclarationBlock ( parent ) 
+JavaCodeClassFieldDeclarationBlock::JavaCodeClassFieldDeclarationBlock ( CodeClassField * parent )
+        : CodeClassFieldDeclarationBlock ( parent )
 {
-	setOverallIndentationLevel(1);
-	updateContent();
+    setOverallIndentationLevel(1);
+    updateContent();
 }
 
 JavaCodeClassFieldDeclarationBlock::~JavaCodeClassFieldDeclarationBlock ( ) { }
 
-//  
+//
 // Methods
-//  
+//
 
 
 
 // Other methods
-//  
+//
 
 /**
  */
-void JavaCodeClassFieldDeclarationBlock::updateContent( ) 
+void JavaCodeClassFieldDeclarationBlock::updateContent( )
 {
 
-	CodeClassField * cf = getParentClassField();
-	ClassifierCodeDocument * doc = cf->getParentDocument();
-	JavaCodeClassField * jcf = (JavaCodeClassField*) cf;
-        JavaClassifierCodeDocument* jdoc = (JavaClassifierCodeDocument*) doc;
-	JavaCodeGenerationPolicy * javapolicy = (JavaCodeGenerationPolicy *) jdoc->getPolicy(); 
+    CodeClassField * cf = getParentClassField();
+    ClassifierCodeDocument * doc = cf->getParentDocument();
+    JavaCodeClassField * jcf = (JavaCodeClassField*) cf;
+    JavaClassifierCodeDocument* jdoc = (JavaClassifierCodeDocument*) doc;
+    JavaCodeGenerationPolicy * javapolicy = (JavaCodeGenerationPolicy *) jdoc->getPolicy();
 
-	JavaCodeGenerationPolicy::ScopePolicy scopePolicy = javapolicy->getAssociationFieldScope();
+    JavaCodeGenerationPolicy::ScopePolicy scopePolicy = javapolicy->getAssociationFieldScope();
 
-        // Set the comment
-        QString notes = getParentObject()->getDoc();
-        getComment()->setText(notes);
+    // Set the comment
+    QString notes = getParentObject()->getDoc();
+    getComment()->setText(notes);
 
-        // Set the body
-        QString staticValue = getParentObject()->getStatic() ? "static " : "";
-        QString scopeStr = jdoc->scopeToJavaDecl(getParentObject()->getScope());
+    // Set the body
+    QString staticValue = getParentObject()->getStatic() ? "static " : "";
+    QString scopeStr = jdoc->scopeToJavaDecl(getParentObject()->getScope());
 
-	// IF this is from an association, then scope taken as appropriate to policy
-	if(!jcf->parentIsAttribute())
-	{
-        	switch (scopePolicy) {
-                	case JavaCodeGenerationPolicy::Public:
-                	case JavaCodeGenerationPolicy::Private:
-                	case JavaCodeGenerationPolicy::Protected:
-                        	scopeStr = jdoc->scopeToJavaDecl((Uml::Scope) scopePolicy);
-                        	break;
-                	default:
-                	case JavaCodeGenerationPolicy::FromParent:
-				// do nothing here... will leave as from parent object
-                       		break;
-        	}
+    // IF this is from an association, then scope taken as appropriate to policy
+    if(!jcf->parentIsAttribute())
+    {
+        switch (scopePolicy) {
+        case JavaCodeGenerationPolicy::Public:
+        case JavaCodeGenerationPolicy::Private:
+        case JavaCodeGenerationPolicy::Protected:
+            scopeStr = jdoc->scopeToJavaDecl((Uml::Scope) scopePolicy);
+            break;
+        default:
+        case JavaCodeGenerationPolicy::FromParent:
+            // do nothing here... will leave as from parent object
+            break;
         }
+    }
 
-        QString typeName = jcf->getTypeName();
-        QString fieldName = jcf->getFieldName();
-        QString initialV = jcf->getInitialValue();
+    QString typeName = jcf->getTypeName();
+    QString fieldName = jcf->getFieldName();
+    QString initialV = jcf->getInitialValue();
 
-	if (!cf->parentIsAttribute() && !cf->fieldIsSingleValue())
-		typeName = "List";
+    if (!cf->parentIsAttribute() && !cf->fieldIsSingleValue())
+        typeName = "List";
 
-        QString body = staticValue+scopeStr+" "+typeName+" "+fieldName;
-        if (!initialV.isEmpty())
-                body.append(" = " + initialV);
-	else if (!cf->parentIsAttribute())
-	{
-		UMLRole * role = dynamic_cast<UMLRole*>(cf->getParentObject());
-		if (role->getObject()->getBaseType() == Uml::ot_Interface) 
-		{
-			// do nothing.. can't instanciate an interface
-		} else {
+    QString body = staticValue+scopeStr+" "+typeName+" "+fieldName;
+    if (!initialV.isEmpty())
+        body.append(" = " + initialV);
+    else if (!cf->parentIsAttribute())
+    {
+        UMLRole * role = dynamic_cast<UMLRole*>(cf->getParentObject());
+        if (role->getObject()->getBaseType() == Uml::ot_Interface)
+        {
+            // do nothing.. can't instanciate an interface
+        } else {
 
-		// FIX?: IF a constructor method exists in the classifiercodedoc
-		// of the parent Object, then we can use that instead (if its empty).
- 		if(cf->fieldIsSingleValue())
-		{
-			if(!typeName.isEmpty())
-                		body.append(" = new " + typeName + " ( )");
-		} else
-                	body.append(" = new Vector ( )");
-		}
-	}
+            // FIX?: IF a constructor method exists in the classifiercodedoc
+            // of the parent Object, then we can use that instead (if its empty).
+            if(cf->fieldIsSingleValue())
+            {
+                if(!typeName.isEmpty())
+                    body.append(" = new " + typeName + " ( )");
+            } else
+                body.append(" = new Vector ( )");
+        }
+    }
 
-        setText(body+";");
+    setText(body+";");
 
 }
 

@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -39,84 +39,84 @@ class DiagramPropertiesPage;
 
 
 class UMLViewDialog : public KDialogBase {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	/**
-	*	Constructor
-	*/
-	UMLViewDialog( QWidget * pParent, UMLView * pView );
+    /**
+    *	Constructor
+    */
+    UMLViewDialog( QWidget * pParent, UMLView * pView );
 
-	/**
-	*	Deconstructor
-	*/
-	~UMLViewDialog();
+    /**
+    *	Deconstructor
+    */
+    ~UMLViewDialog();
 protected:
-	enum Page
-	{
-	    General = 0,
-	    Color,
-	    Font,
-	    Class
-	};
+    enum Page
+    {
+        General = 0,
+        Color,
+        Font,
+        Class
+    };
 
-	/**
-	* 	Sets up the dialog pages.
-	*/
-	void setupPages();
-	
-	/**
-	*	Sets up the general Diagram Properties Page
-	*/
-	void setupDiagramPropertiesPage();
+    /**
+    * 	Sets up the dialog pages.
+    */
+    void setupPages();
 
-	/**
-	*	Sets up the Class page
-	*/
-	void setupClassPage();
+    /**
+    *	Sets up the general Diagram Properties Page
+    */
+    void setupDiagramPropertiesPage();
 
-	/**
-	*	Sets up the color page.
-	*/
-	void setupColorPage();
+    /**
+    *	Sets up the Class page
+    */
+    void setupClassPage();
 
-	/**
-	*	Sets up font page.
-	*/
-	void setupFontPage();
+    /**
+    *	Sets up the color page.
+    */
+    void setupColorPage();
 
-	/**
-	*	Applys the properties of the given page.
-	*/
-	void applyPage( Page page );
+    /**
+    *	Sets up font page.
+    */
+    void setupFontPage();
 
-	/**
-	*	Checks whether the name is unique and sets it if it is.
-	*/
-	void checkName();
+    /**
+    *	Applys the properties of the given page.
+    */
+    void applyPage( Page page );
 
-	/**
-	*	The view to represent.
-	*/
-	UMLView * m_pView;
+    /**
+    *	Checks whether the name is unique and sets it if it is.
+    */
+    void checkName();
 
-	Settings::OptionState m_options;
+    /**
+    *	The view to represent.
+    */
+    UMLView * m_pView;
 
-	KFontChooser * m_pChooser;
-	DiagramPropertiesPage *m_diagramProperties;
-	ClassOptionsPage * m_pOptionsPage;
-	UMLWidgetColorPage * m_pColorPage;
+    Settings::OptionState m_options;
 
-	//GUI widgets
-	QLabel * m_pNameL, * m_pSpinXL, * m_pSpinYL;
-	QLineEdit * m_pNameLE;
-	QGroupBox * m_pDocGB, * m_pValuesGB;
-	QCheckBox * m_pSnapToGridCB, * m_pShowSnapCB;
-	QTextEdit * m_pDocTE;
-	QSpinBox * m_pSnapXSB, * m_pSnapYSB;
-	QSpinBox * m_pLineWidthSB;
+    KFontChooser * m_pChooser;
+    DiagramPropertiesPage *m_diagramProperties;
+    ClassOptionsPage * m_pOptionsPage;
+    UMLWidgetColorPage * m_pColorPage;
+
+    //GUI widgets
+    QLabel * m_pNameL, * m_pSpinXL, * m_pSpinYL;
+    QLineEdit * m_pNameLE;
+    QGroupBox * m_pDocGB, * m_pValuesGB;
+    QCheckBox * m_pSnapToGridCB, * m_pShowSnapCB;
+    QTextEdit * m_pDocTE;
+    QSpinBox * m_pSnapXSB, * m_pSnapYSB;
+    QSpinBox * m_pLineWidthSB;
 public slots:
-	void slotOk();
-	void slotApply();
+    void slotOk();
+    void slotApply();
 };
 
 #endif

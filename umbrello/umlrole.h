@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2003-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2003-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *									   *
@@ -27,151 +27,151 @@ class UMLAssociation;
  */
 
 class UMLRole : public UMLObject {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	/**
-	 * Sets up an association.
-	 *
-	 * @param parent	The parent of this UMLRole.
-	 */
-	UMLRole (UMLAssociation * parent, UMLObject * parentUMLObject, Uml::Role_Type role);
+    /**
+     * Sets up an association.
+     *
+     * @param parent	The parent of this UMLRole.
+     */
+    UMLRole (UMLAssociation * parent, UMLObject * parentUMLObject, Uml::Role_Type role);
 
-	/**
-	 * Overloaded '==' operator
-	 */
-	bool operator==(UMLRole & rhs);
+    /**
+     * Overloaded '==' operator
+     */
+    bool operator==(UMLRole & rhs);
 
-	/**
-	 * Standard deconstructor.
-	 */
-	virtual ~UMLRole();
+    /**
+     * Standard deconstructor.
+     */
+    virtual ~UMLRole();
 
-	/**
-	 * Returns the UMLObject assigned to the role.
-	 * @return	Pointer to the UMLObject in role.
-	 */
-	UMLObject* getObject();
+    /**
+     * Returns the UMLObject assigned to the role.
+     * @return	Pointer to the UMLObject in role.
+     */
+    UMLObject* getObject();
 
-	/**
-	 * Returns the Changeablity of the role.
-	 *
-	 * @return	Changeability_Type of role.
-	 */
-	Uml::Changeability_Type getChangeability() const;
+    /**
+     * Returns the Changeablity of the role.
+     *
+     * @return	Changeability_Type of role.
+     */
+    Uml::Changeability_Type getChangeability() const;
 
-	/**
-	 * Returns the Visibility of the role.
-	 *
-	 * @return	Scope of role.
-	 */
-	Uml::Scope getVisibility() const;
+    /**
+     * Returns the Visibility of the role.
+     *
+     * @return	Scope of role.
+     */
+    Uml::Scope getVisibility() const;
 
-	/**
-	 * Returns the multiplicity assigned to the role.
-	 *
-	 * @return	The multiplicity assigned to the role.
-	 */
-	QString getMultiplicity() const;
+    /**
+     * Returns the multiplicity assigned to the role.
+     *
+     * @return	The multiplicity assigned to the role.
+     */
+    QString getMultiplicity() const;
 
-	/**
-	 * Returns the name assigned to the role.
-	 *
-	 * @return	The name assigned to the role.
-	 */
-	QString getName() const;
+    /**
+     * Returns the name assigned to the role.
+     *
+     * @return	The name assigned to the role.
+     */
+    QString getName() const;
 
-	/**
-	 * Returns the documentation for the role.
-	 *
-	 * @return	The documentation text for the role.
-	 */
-	QString getDoc() const;
+    /**
+     * Returns the documentation for the role.
+     *
+     * @return	The documentation text for the role.
+     */
+    QString getDoc() const;
 
-	/**
-	 * Sets the UMLObject playing the role in the association.
-	 *
-	 * @param obj		Pointer to the UMLObject of role.
-	 */
-	void setObject(UMLObject *obj);
+    /**
+     * Sets the UMLObject playing the role in the association.
+     *
+     * @param obj		Pointer to the UMLObject of role.
+     */
+    void setObject(UMLObject *obj);
 
-	/**
-	 * Sets the visibility of the role.
-	 *
-	 * @param value 	Scope of role visibility.
-	 */
-	void setVisibility(Uml::Scope value);
+    /**
+     * Sets the visibility of the role.
+     *
+     * @param value 	Scope of role visibility.
+     */
+    void setVisibility(Uml::Scope value);
 
-	/**
-	 * Sets the changeability of the role.
-	 *
-	 * @param value 	Changeability_Type of role changeability.
-	 */
-	void setChangeability (Uml::Changeability_Type value);
+    /**
+     * Sets the changeability of the role.
+     *
+     * @param value 	Changeability_Type of role changeability.
+     */
+    void setChangeability (Uml::Changeability_Type value);
 
-	/**
-	 * Sets the multiplicity of the role.
-	 *
-	 * @param multi		The multiplicity of role.
-	 */
-	void setMultiplicity ( const QString &multi );
+    /**
+     * Sets the multiplicity of the role.
+     *
+     * @param multi		The multiplicity of role.
+     */
+    void setMultiplicity ( const QString &multi );
 
-	/**
-	 * Sets the name of the role.
-	 *
-	 * @param roleName	The name of role.
-	 */
-	void setName( const QString &roleName );
+    /**
+     * Sets the name of the role.
+     *
+     * @param roleName	The name of role.
+     */
+    void setName( const QString &roleName );
 
-	/**
-	 *  Sets the documentation on the role.
-	 *
-	 *  @param doc		The string with the documentation.
-	 */
-	void setDoc( const QString &doc );
+    /**
+     *  Sets the documentation on the role.
+     *
+     *  @param doc		The string with the documentation.
+     */
+    void setDoc( const QString &doc );
 
-	UMLAssociation * getParentAssociation ();
+    UMLAssociation * getParentAssociation ();
 
-	// Sets the m_SecondaryId
-	// @todo  Candidate for removal
-	void setIdStr( const QString &idStr );
+    // Sets the m_SecondaryId
+    // @todo  Candidate for removal
+    void setIdStr( const QString &idStr );
 
-	/** get the 'id' of the role (NOT the parent object). This could be
-	 * either Uml::A or Uml::B. Yes, it would be better if we
-	 * could get along without this, but we need it to distinguish saved
-	 * umlrole objects in the XMI for 'self' associations where both roles
-	 * will point to the same underlying UMLObject.
-	 */
-	Uml::Role_Type getRole();
+    /** get the 'id' of the role (NOT the parent object). This could be
+     * either Uml::A or Uml::B. Yes, it would be better if we
+     * could get along without this, but we need it to distinguish saved
+     * umlrole objects in the XMI for 'self' associations where both roles
+     * will point to the same underlying UMLObject.
+     */
+    Uml::Role_Type getRole();
 
-	/**
-	 * Make a clone of this object.
-	 * Not yet implemented.
-	 */
-	UMLObject* clone() const { return NULL; }
+    /**
+     * Make a clone of this object.
+     * Not yet implemented.
+     */
+    UMLObject* clone() const { return NULL; }
 
-	/**
-	 * Creates the <UML:AssociationEnd> XMI element.
-	 */
-	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    /**
+     * Creates the <UML:AssociationEnd> XMI element.
+     */
+    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
-	/**
-	 * Loads the <UML:AssociationEnd> XMI element.
-	 * Auxiliary to UMLObject::loadFromXMI.
-	 */
-	bool load(QDomElement& element);
+    /**
+     * Loads the <UML:AssociationEnd> XMI element.
+     * Auxiliary to UMLObject::loadFromXMI.
+     */
+    bool load(QDomElement& element);
 
 private:
 
-	/** do some initialization at construction time */
-	void init (UMLAssociation * parent, UMLObject * parentObj, Uml::Role_Type r);
+    /** do some initialization at construction time */
+    void init (UMLAssociation * parent, UMLObject * parentObj, Uml::Role_Type r);
 
-	QString m_Doc;
-	UMLAssociation * m_pAssoc;
-	Uml::Role_Type m_role;
-	QString m_Name;
-	QString m_Multi;
-	Uml::Changeability_Type m_Changeability;
+    QString m_Doc;
+    UMLAssociation * m_pAssoc;
+    Uml::Role_Type m_role;
+    QString m_Name;
+    QString m_Multi;
+    Uml::Changeability_Type m_Changeability;
 
 };
 

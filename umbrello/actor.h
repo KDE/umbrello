@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -32,41 +32,41 @@
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLActor : public UMLCanvasObject {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	/**
-	 * Constructs an Actor.
-	 *
-	 * @param name		The name of the Actor.
-	 * @param id		The unique id to assign to this Actor.
-	 */
-	UMLActor(const QString & name = "", Uml::IDType id = Uml::id_None);
+    /**
+     * Constructs an Actor.
+     *
+     * @param name		The name of the Actor.
+     * @param id		The unique id to assign to this Actor.
+     */
+    UMLActor(const QString & name = "", Uml::IDType id = Uml::id_None);
 
-	/**
-	 * Standard deconstructor.
-	 */
-	~UMLActor();
+    /**
+     * Standard deconstructor.
+     */
+    ~UMLActor();
 
-	/**
-	 * Initializes key variables of the class.
-	 */
-	virtual void init();
+    /**
+     * Initializes key variables of the class.
+     */
+    virtual void init();
 
-	/**
-	 * Make a clone of this object.
-	 */
-	virtual UMLObject* clone() const;
+    /**
+     * Make a clone of this object.
+     */
+    virtual UMLObject* clone() const;
 
-	/**
-	 * Creates the <UML:Actor> XMI element.
-	 */
-	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    /**
+     * Creates the <UML:Actor> XMI element.
+     */
+    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:
-	/**
-	 * Loads the <UML:Actor> XMI element (empty.)
-	 */
-	bool load( QDomElement & element );
+    /**
+     * Loads the <UML:Actor> XMI element (empty.)
+     */
+    bool load( QDomElement & element );
 };
 
 #endif

@@ -30,54 +30,54 @@ enum Access {PRIVATE, PUBLIC, PROTECTED};
   * Just call writeClass and feed it a UMLClassifier;
   */
 class PythonWriter : public SimpleCodeGenerator {
-	Q_OBJECT
+    Q_OBJECT
 public:
 
-	PythonWriter( UMLDoc * parent, const char* name = 0 );
-	virtual ~PythonWriter();
+    PythonWriter( UMLDoc * parent, const char* name = 0 );
+    virtual ~PythonWriter();
 
-	/**
-	  * call this method to generate C++ code for a UMLClassifier
-	  * @param c the class you want to generate code for.
-	  */
-	virtual void writeClass(UMLClassifier *c);
+    /**
+      * call this method to generate C++ code for a UMLClassifier
+      * @param c the class you want to generate code for.
+      */
+    virtual void writeClass(UMLClassifier *c);
 
-	/**
-	 * checks whether type is "PythonWriter"
-	 *
-	 * @param type
-	 */
-	virtual bool isType (QString & type);
+    /**
+     * checks whether type is "PythonWriter"
+     *
+     * @param type
+     */
+    virtual bool isType (QString & type);
 
-	/**
-	 * returns "Python"
-	 */
-	virtual QString getLanguage();
+    /**
+     * returns "Python"
+     */
+    virtual QString getLanguage();
 
-	/**
-	 * get list of reserved keywords
-	 */
-	virtual const QStringList reservedKeywords() const;
+    /**
+     * get list of reserved keywords
+     */
+    virtual const QStringList reservedKeywords() const;
 
 private:
 
-	/**
-	  * write all operations for a given class
-	  *
-	  * @param c the concept we are generating code for
-	  * @param h output stream for the header file
-	  */
-	void writeOperations(UMLClassifier *c, QTextStream &h);
+    /**
+      * write all operations for a given class
+      *
+      * @param c the concept we are generating code for
+      * @param h output stream for the header file
+      */
+    void writeOperations(UMLClassifier *c, QTextStream &h);
 
-	/**
-	  * write a list of class operations
-	  *
-	  * @param classname the name of the class
-	  * @param opList the list of operations
-	  * @param h output stream for the header file
-	  */
-	void writeOperations(QString classname, UMLOperationList &opList,
-	                     QTextStream &h, Access access);
+    /**
+      * write a list of class operations
+      *
+      * @param classname the name of the class
+      * @param opList the list of operations
+      * @param h output stream for the header file
+      */
+    void writeOperations(QString classname, UMLOperationList &opList,
+                         QTextStream &h, Access access);
 };
 
 #endif //PYTHONWRITER

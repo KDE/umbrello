@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2003-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2003-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -33,55 +33,55 @@ class UMLDatatype;
 class DatatypeWidget : public UMLWidget {
 public:
 
-	/**
-	 * Constructs an DatatypeWidget.
-	 *
-	 * @param view		The parent of this DatatypeWidget.
-	 * @param d		The UMLDatatype this will be representing.
-	 */
-	DatatypeWidget(UMLView* view, UMLDatatype *d);
+    /**
+     * Constructs an DatatypeWidget.
+     *
+     * @param view		The parent of this DatatypeWidget.
+     * @param d		The UMLDatatype this will be representing.
+     */
+    DatatypeWidget(UMLView* view, UMLDatatype *d);
 
-	/**
-	 * Standard deconstructor.
-	 */
-	virtual ~DatatypeWidget();
+    /**
+     * Standard deconstructor.
+     */
+    virtual ~DatatypeWidget();
 
-	/**
-	 * Activate the object after serializing it from a QDataStream.
-	 */
-	virtual bool activate(IDChangeLog* ChangeLog  = 0 );
+    /**
+     * Activate the object after serializing it from a QDataStream.
+     */
+    virtual bool activate(IDChangeLog* ChangeLog  = 0 );
 
-	/**
-	 * Overrides standard method.
-	 */
-	void draw(QPainter& p, int offsetX, int offsetY);
+    /**
+     * Overrides standard method.
+     */
+    void draw(QPainter& p, int offsetX, int offsetY);
 
-	/**
-	 * Saves to the <datatypewidget> XMI element.
-	 */
-	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    /**
+     * Saves to the <datatypewidget> XMI element.
+     */
+    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-	/**
-	 * Loads from an <datatypewidget> XMI element.
-	 */
-	bool loadFromXMI(QDomElement& qElement);
+    /**
+     * Loads from an <datatypewidget> XMI element.
+     */
+    bool loadFromXMI(QDomElement& qElement);
 
 protected:
 
 private:
-	/**
-	 * Initializes key variables of the class.
-	 */
-	void init();
-	/**
-	 * Automatically calculates the size of the object.
-	 */
-	void calculateSize();
+    /**
+     * Initializes key variables of the class.
+     */
+    void init();
+    /**
+     * Automatically calculates the size of the object.
+     */
+    void calculateSize();
 
-	/**
-	 * The right mouse button menu.
-	 */
-	ListPopupMenu* m_pMenu;
+    /**
+     * The right mouse button menu.
+     */
+    ListPopupMenu* m_pMenu;
 
 public slots:
 };

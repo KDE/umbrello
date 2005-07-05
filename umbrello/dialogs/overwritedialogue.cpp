@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -22,39 +22,39 @@
 #include "overwritedialogue.h"
 
 OverwriteDialogue::OverwriteDialogue(QString fileName, QString outputDirectory, bool applyToAllRemaining, QWidget* parent, const char* name):
-	KDialogBase(Plain, i18n("Destination File Already Exists"), Ok|Apply|Cancel, Yes, parent, name) {
+KDialogBase(Plain, i18n("Destination File Already Exists"), Ok|Apply|Cancel, Yes, parent, name) {
 
-	QVBoxLayout* layout = new QVBoxLayout( plainPage(), 0, spacingHint() );
+    QVBoxLayout* layout = new QVBoxLayout( plainPage(), 0, spacingHint() );
 
-	QLabel* dialogueLabel = new QLabel(i18n("The file %1 already exists in %2.\n\nUmbrello can overwrite the file, generate a similar\nfile name or not generate this file.").arg(fileName).arg(outputDirectory), plainPage() );
-	layout->addWidget(dialogueLabel);
+    QLabel* dialogueLabel = new QLabel(i18n("The file %1 already exists in %2.\n\nUmbrello can overwrite the file, generate a similar\nfile name or not generate this file.").arg(fileName).arg(outputDirectory), plainPage() );
+    layout->addWidget(dialogueLabel);
 
-	m_applyToAllRemaining = new QCheckBox( i18n("&Apply to all remaining files"), plainPage() );
-	m_applyToAllRemaining->setChecked(applyToAllRemaining);
-	layout->addWidget(m_applyToAllRemaining);
+    m_applyToAllRemaining = new QCheckBox( i18n("&Apply to all remaining files"), plainPage() );
+    m_applyToAllRemaining->setChecked(applyToAllRemaining);
+    layout->addWidget(m_applyToAllRemaining);
 
-	setButtonText(KDialogBase::Ok, i18n("&Overwrite"));
-	setButtonText(KDialogBase::Apply, i18n("&Generate Similar File Name"));
-	setButtonText(KDialogBase::Cancel, i18n("&Do Not Generate File"));
+    setButtonText(KDialogBase::Ok, i18n("&Overwrite"));
+    setButtonText(KDialogBase::Apply, i18n("&Generate Similar File Name"));
+    setButtonText(KDialogBase::Cancel, i18n("&Do Not Generate File"));
 }
 
 OverwriteDialogue::~OverwriteDialogue() {
 }
 
 void OverwriteDialogue::slotOk() {
-	done(Yes);
+    done(Yes);
 }
 
 void OverwriteDialogue::slotApply() {
-	done(No);
+    done(No);
 }
 
 void OverwriteDialogue::slotCancel() {
-	done(Cancel);
+    done(Cancel);
 }
 
 bool OverwriteDialogue::applyToAllRemaining() {
-	return m_applyToAllRemaining->isChecked();
+    return m_applyToAllRemaining->isChecked();
 }
 
 #include "overwritedialogue.moc"

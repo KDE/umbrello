@@ -35,132 +35,132 @@ class UMLDoc;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ClassifierListPage : public QWidget {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	/**
-	 *	Sets up the ClassifierListPage
-	 *
-	 *	@param parent	The parent to the ClassAttPage.
-	 *	@param classifier	The Concept to display the properties of.
-	 *      @param doc The UMLDoc document
-	 *      @param type The type of listItem this handles
-	 */
-	ClassifierListPage(QWidget* parent, UMLClassifier* classifier, UMLDoc* doc, Uml::Object_Type type);
+    /**
+     *	Sets up the ClassifierListPage
+     *
+     *	@param parent	The parent to the ClassAttPage.
+     *	@param classifier	The Concept to display the properties of.
+     *      @param doc The UMLDoc document
+     *      @param type The type of listItem this handles
+     */
+    ClassifierListPage(QWidget* parent, UMLClassifier* classifier, UMLDoc* doc, Uml::Object_Type type);
 
-	/**
-	 *	Standard deconstructor.
-	 */
-	~ClassifierListPage();
+    /**
+     *	Standard deconstructor.
+     */
+    ~ClassifierListPage();
 
-	/**
-	 *	Will move information from the dialogue into the object.
-	 *	Call when the ok or apply button is pressed.
-	 */
-	void updateObject();
+    /**
+     *	Will move information from the dialogue into the object.
+     *	Call when the ok or apply button is pressed.
+     */
+    void updateObject();
 
 private:
-	/**
-	 *	Set the state of the widgets on the page with the given value.
-	 *
-	 *	@param	state	The state to set the widgets as.
-	 */
-	void enableWidgets(bool state);
+    /**
+     *	Set the state of the widgets on the page with the given value.
+     *
+     *	@param	state	The state to set the widgets as.
+     */
+    void enableWidgets(bool state);
 
-	/**
-	 * Saves the documentation for the currently selected item
-	 */
-	void saveCurrentItemDocumentation();
+    /**
+     * Saves the documentation for the currently selected item
+     */
+    void saveCurrentItemDocumentation();
 
-	/**
-	 * Get classifiers
-	 */
-	UMLClassifierListItemList getItemList();
-	
-	/**
-	 * Attempts to add classifier to the appropriate list
-	 *
-	 * @param classifier	Pointer to the classifier to add.
-	 * @param position	Index at which to insert into the list.
-	 * @return true if the classifier could be added
-	 *
-	 */
-	bool addClassifier(UMLClassifierListItem* classifier, int position = -1);
+    /**
+     * Get classifiers
+     */
+    UMLClassifierListItemList getItemList();
 
-	/**
-	 * Take classifier, It is the client responsibility to hand over
-	 * ownership of the classifier, or to delete it.
-	 * @param classifier	Classifier to take.
-	 * @param wasAtIndex	Return value: Index in the UMLClassifier's item
-	 *			list at which the item was taken.
-	 * @return	Pointer to the UMLClassifierListItem taken.
-	 */
-	UMLClassifierListItem* takeClassifier(UMLClassifierListItem* classifier,
-					      int &wasAtIndex);
-	
-	UMLClassifier* m_pClassifier;
-	QGroupBox* m_pDocGB;
-	QGroupBox* m_pItemListGB;
-	QListBox* m_pItemListLB;
-	QTextEdit* m_pDocTE;
-	Uml::Object_Type m_itemType;
+    /**
+     * Attempts to add classifier to the appropriate list
+     *
+     * @param classifier	Pointer to the classifier to add.
+     * @param position	Index at which to insert into the list.
+     * @return true if the classifier could be added
+     *
+     */
+    bool addClassifier(UMLClassifierListItem* classifier, int position = -1);
 
-	KArrowButton* m_pUpArrowB;
-	KArrowButton* m_pDownArrowB;
-	QPushButton* m_pDeleteListItemButton;
-	QPushButton* m_pPropertiesButton;
+    /**
+     * Take classifier, It is the client responsibility to hand over
+     * ownership of the classifier, or to delete it.
+     * @param classifier	Classifier to take.
+     * @param wasAtIndex	Return value: Index in the UMLClassifier's item
+     *			list at which the item was taken.
+     * @return	Pointer to the UMLClassifierListItem taken.
+     */
+    UMLClassifierListItem* takeClassifier(UMLClassifierListItem* classifier,
+                                          int &wasAtIndex);
 
-	UMLClassifierListItem* m_pOldListItem;
-	UMLDoc* m_pDoc;
-	ListPopupMenu* m_pMenu;
-	bool m_bSigWaiting;
+    UMLClassifier* m_pClassifier;
+    QGroupBox* m_pDocGB;
+    QGroupBox* m_pItemListGB;
+    QListBox* m_pItemListLB;
+    QTextEdit* m_pDocTE;
+    Uml::Object_Type m_itemType;
+
+    KArrowButton* m_pUpArrowB;
+    KArrowButton* m_pDownArrowB;
+    QPushButton* m_pDeleteListItemButton;
+    QPushButton* m_pPropertiesButton;
+
+    UMLClassifierListItem* m_pOldListItem;
+    UMLDoc* m_pDoc;
+    ListPopupMenu* m_pMenu;
+    bool m_bSigWaiting;
 
 public slots:
-	/**
-	 * called when list view is clicked on
-	 * calls enableWidgets()
-	 */
-	void slotClicked(QListBoxItem* item);
+    /**
+     * called when list view is clicked on
+     * calls enableWidgets()
+     */
+    void slotClicked(QListBoxItem* item);
 
-        /**
-	 * Called when an item is selected in a right click menu
-	 */
-	void slotPopupMenuSel(int id);
+    /**
+    * Called when an item is selected in a right click menu
+    */
+    void slotPopupMenuSel(int id);
 
-	void slotListItemCreated(UMLObject* object);
-	void slotListItemModified();
-	void slotRightButtonClicked(QListBoxItem* item, const QPoint& p);
-	void slotRightButtonPressed(QListBoxItem* item, const QPoint& p);
+    void slotListItemCreated(UMLObject* object);
+    void slotListItemModified();
+    void slotRightButtonClicked(QListBoxItem* item, const QPoint& p);
+    void slotRightButtonPressed(QListBoxItem* item, const QPoint& p);
 
-	/**
-	 * shows properties dialogue for the attribute clicked on
-	 */
-	void slotDoubleClick(QListBoxItem* item);
+    /**
+     * shows properties dialogue for the attribute clicked on
+     */
+    void slotDoubleClick(QListBoxItem* item);
 
 
-	/**
-	 * moves selected attribute up in list
-	 */
-	void slotUpClicked();
+    /**
+     * moves selected attribute up in list
+     */
+    void slotUpClicked();
 
-	/**
-	 * moved selected attribute down in list
-	 */
-	void slotDownClicked();
+    /**
+     * moved selected attribute down in list
+     */
+    void slotDownClicked();
 
-	/**
-	 * shows dialogue for new attribute
-	 */
-	void slotNewListItem();
+    /**
+     * shows dialogue for new attribute
+     */
+    void slotNewListItem();
 
-	/**
-	 * removes currently seleted attribute
-	 */
-	void slotDelete();
+    /**
+     * removes currently seleted attribute
+     */
+    void slotDelete();
 
-	/**
-	 * shows properties dialogue for currently selected attribute
-	 */
-	void slotProperties();
+    /**
+     * shows properties dialogue for currently selected attribute
+     */
+    void slotProperties();
 };
 
 #endif

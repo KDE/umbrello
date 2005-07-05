@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -41,361 +41,361 @@ class UMLOperation;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class MessageWidget : public UMLWidget, public LinkWidget {
-	Q_OBJECT
+    Q_OBJECT
 public:
 
-	/**
-	 * Constructs a MessageWidget.
-	 *
-	 * @param view	The parent to this class.
-	 * @param a	The role A widget for this message.
-	 * @param b	The role B widget for this message.
-	 * @param y	The vertical position to display this message.
-	 * @param sequenceMessageType Whether synchronous or asynchronous
-	 * @param id	A unique id used for deleting this object cleanly.
-	 *              The default (-1) will prompt generation of a new ID.
-	 */
-	MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
-		      int y, Uml::Sequence_Message_Type sequenceMessageType,
-		      Uml::IDType id = Uml::id_None);
+    /**
+     * Constructs a MessageWidget.
+     *
+     * @param view	The parent to this class.
+     * @param a	The role A widget for this message.
+     * @param b	The role B widget for this message.
+     * @param y	The vertical position to display this message.
+     * @param sequenceMessageType Whether synchronous or asynchronous
+     * @param id	A unique id used for deleting this object cleanly.
+     *              The default (-1) will prompt generation of a new ID.
+     */
+    MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
+                  int y, Uml::Sequence_Message_Type sequenceMessageType,
+                  Uml::IDType id = Uml::id_None);
 
-	/**
-	 * Constructs a MessageWidget.
-	 *
-	 * @param view		The parent to this class.
-	 * @param id		The ID to assign (-1 will prompt a new ID.)
-	 */
-	MessageWidget(UMLView * view, Uml::Sequence_Message_Type sequenceMessageType, Uml::IDType id = Uml::id_None);
+    /**
+     * Constructs a MessageWidget.
+     *
+     * @param view		The parent to this class.
+     * @param id		The ID to assign (-1 will prompt a new ID.)
+     */
+    MessageWidget(UMLView * view, Uml::Sequence_Message_Type sequenceMessageType, Uml::IDType id = Uml::id_None);
 
-	/**
-	 * Initializes key variables of the class.
-	 */
-	void init();
+    /**
+     * Initializes key variables of the class.
+     */
+    void init();
 
-	/**
-	 * Standard deconstructor.
-	 */
-	virtual ~MessageWidget();
+    /**
+     * Standard deconstructor.
+     */
+    virtual ~MessageWidget();
 
-	/**
-	 * Write property of QString m_SequenceNumber.
-	 */
-	void setSequenceNumber( const QString &sequenceNumber );
+    /**
+     * Write property of QString m_SequenceNumber.
+     */
+    void setSequenceNumber( const QString &sequenceNumber );
 
-	/**
-	 * Read property of QString m_SequenceNumber.
-	 */
-	QString getSequenceNumber() const;
+    /**
+     * Read property of QString m_SequenceNumber.
+     */
+    QString getSequenceNumber() const;
 
-	/**
-	 * Returns whether the message is synchronous or asynchronous
-	 */
-	Uml::Sequence_Message_Type getSequenceMessageType() const {
-		return m_sequenceMessageType;
-	}
+    /**
+     * Returns whether the message is synchronous or asynchronous
+     */
+    Uml::Sequence_Message_Type getSequenceMessageType() const {
+        return m_sequenceMessageType;
+    }
 
-	/**
-	 * Check to see if the given ObjectWidget is involved in the message.
-	 *
-	 * @param w	The ObjectWidget to check for.
-	 * @return 	true - if is contained, false - not contained.
-	 */
-	bool contains(ObjectWidget * w);
+    /**
+     * Check to see if the given ObjectWidget is involved in the message.
+     *
+     * @param w	The ObjectWidget to check for.
+     * @return 	true - if is contained, false - not contained.
+     */
+    bool contains(ObjectWidget * w);
 
-	/**
-	 * Returns the related widget on the given side.
-	 *
-	 * @return	The ObjectWidget we are related to.
-	 */
-	ObjectWidget* getWidget(Uml::Role_Type role);
+    /**
+     * Returns the related widget on the given side.
+     *
+     * @return	The ObjectWidget we are related to.
+     */
+    ObjectWidget* getWidget(Uml::Role_Type role);
 
-	/**
-	 * Sets the related widget on the given side.
-	 *
-	 * @param ow	The ObjectWidget we are related to.
-	 */
-	void setWidget(ObjectWidget * ow, Uml::Role_Type role) ;
+    /**
+     * Sets the related widget on the given side.
+     *
+     * @param ow	The ObjectWidget we are related to.
+     */
+    void setWidget(ObjectWidget * ow, Uml::Role_Type role) ;
 
-	/**
-	 * Returns the text widget it is related to.
-	 *
-	 * @return	The text widget we are related to.
-	 */
-	FloatingText * getFloatingText() {
-		return m_pFText;
-	}
+    /**
+     * Returns the text widget it is related to.
+     *
+     * @return	The text widget we are related to.
+     */
+    FloatingText * getFloatingText() {
+        return m_pFText;
+    }
 
-	/**
-	 * Sets the text widget it is related to.
-	 *
-	 * @param f	The text widget we are related to.
-	 */
-	void setFloatingText(FloatingText * f) {
-		m_pFText = f;
-	}
+    /**
+     * Sets the text widget it is related to.
+     *
+     * @param f	The text widget we are related to.
+     */
+    void setFloatingText(FloatingText * f) {
+        m_pFText = f;
+    }
 
-	/**
-	 * Implements operation from LinkWidget.
-	 * Required by FloatingText.
-	 */
-	void lwSetFont (QFont font);
+    /**
+     * Implements operation from LinkWidget.
+     * Required by FloatingText.
+     */
+    void lwSetFont (QFont font);
 
-	/**
-	 * Overrides operation from LinkWidget.
-	 * Required by FloatingText.
-	 * @todo Move to LinkWidget.
-	 */
-	UMLClassifier *getOperationOwner();
+    /**
+     * Overrides operation from LinkWidget.
+     * Required by FloatingText.
+     * @todo Move to LinkWidget.
+     */
+    UMLClassifier *getOperationOwner();
 
-	/**
-	 * Implements operation from LinkWidget.
-	 * Motivated by FloatingText.
-	 */
-	UMLOperation *getOperation();
+    /**
+     * Implements operation from LinkWidget.
+     * Motivated by FloatingText.
+     */
+    UMLOperation *getOperation();
 
-	/**
-	 * Implements operation from LinkWidget.
-	 * Motivated by FloatingText.
-	 */
-	void setOperation(UMLOperation *op);
+    /**
+     * Implements operation from LinkWidget.
+     * Motivated by FloatingText.
+     */
+    void setOperation(UMLOperation *op);
 
-	/**
-	 * Overrides operation from LinkWidget.
-	 * Required by FloatingText.
-	 */
-	QString getCustomOpText();
+    /**
+     * Overrides operation from LinkWidget.
+     * Required by FloatingText.
+     */
+    QString getCustomOpText();
 
-	/**
-	 * Overrides operation from LinkWidget.
-	 * Required by FloatingText.
-	 */
-	void setCustomOpText(const QString &opText);
+    /**
+     * Overrides operation from LinkWidget.
+     * Required by FloatingText.
+     */
+    void setCustomOpText(const QString &opText);
 
-	/**
-	 * Overrides operation from LinkWidget.
-	 * Required by FloatingText.
-	 *
-	 * @param ft	The text widget which to update.
-	 */
-	void setMessageText(FloatingText *ft);
+    /**
+     * Overrides operation from LinkWidget.
+     * Required by FloatingText.
+     *
+     * @param ft	The text widget which to update.
+     */
+    void setMessageText(FloatingText *ft);
 
-	/**
-	 * Overrides operation from LinkWidget.
-	 * Required by FloatingText.
-	 *
-	 * @param ft	The text widget which to update.
-	 * @param newText	The new text to set.
-	 */
-	void setText(FloatingText *ft, const QString &newText);
+    /**
+     * Overrides operation from LinkWidget.
+     * Required by FloatingText.
+     *
+     * @param ft	The text widget which to update.
+     * @param newText	The new text to set.
+     */
+    void setText(FloatingText *ft, const QString &newText);
 
-	/**
-	 * Overrides operation from LinkWidget.
-	 * Required by FloatingText.
-	 *
-	 * @param seqNum	The new sequence number string to set.
-	 * @param op		The new operation string to set.
-	 */
-	void setSeqNumAndOp(const QString &seqNum, const QString &op);
+    /**
+     * Overrides operation from LinkWidget.
+     * Required by FloatingText.
+     *
+     * @param seqNum	The new sequence number string to set.
+     * @param op		The new operation string to set.
+     */
+    void setSeqNumAndOp(const QString &seqNum, const QString &op);
 
-	/**
-	 * Overrides operation from LinkWidget.
-	 * Required by FloatingText.
-	 *
-	 * @param seqNum	Return this MessageWidget's sequence number string.
-	 * @param op		Return this MessageWidget's operation string.
-	 */
-	UMLClassifier * getSeqNumAndOp(QString& seqNum, QString& op);
+    /**
+     * Overrides operation from LinkWidget.
+     * Required by FloatingText.
+     *
+     * @param seqNum	Return this MessageWidget's sequence number string.
+     * @param op		Return this MessageWidget's operation string.
+     */
+    UMLClassifier * getSeqNumAndOp(QString& seqNum, QString& op);
 
-	/**
-	 * Calculate the geometry of the widget.
-	 */
-	void calculateWidget();
+    /**
+     * Calculate the geometry of the widget.
+     */
+    void calculateWidget();
 
-	/**
-	 * Activates a MessageWidget.  Connects its m_pOw[] pointers
-	 * to UMLObjects and also send signals about its FloatingText.
-	 */
-	bool activate(IDChangeLog * Log = 0);
+    /**
+     * Activates a MessageWidget.  Connects its m_pOw[] pointers
+     * to UMLObjects and also send signals about its FloatingText.
+     */
+    bool activate(IDChangeLog * Log = 0);
 
-	/**
-	 * Calculates the size of the widget by calling
-	 * calculateDimenstionsSynchronous(),
-	 * calculateDimenstionsAsynchronous(), or
-	 * calculateDimensionsCreation()
-	 */
-	void calculateDimensions();
+    /**
+     * Calculates the size of the widget by calling
+     * calculateDimenstionsSynchronous(),
+     * calculateDimenstionsAsynchronous(), or
+     * calculateDimensionsCreation()
+     */
+    void calculateDimensions();
 
-	/**
-	 * Calculates and sets the size of the widget for a synchronous message
-	 */
-	void calculateDimensionsSynchronous();
+    /**
+     * Calculates and sets the size of the widget for a synchronous message
+     */
+    void calculateDimensionsSynchronous();
 
-	/**
-	 * Calculates and sets the size of the widget for an asynchronous message
-	 */
-	void calculateDimensionsAsynchronous();
+    /**
+     * Calculates and sets the size of the widget for an asynchronous message
+     */
+    void calculateDimensionsAsynchronous();
 
-	/**
-	 * Calculates and sets the size of the widget for a creation message
-	 */
-	void calculateDimensionsCreation();
+    /**
+     * Calculates and sets the size of the widget for a creation message
+     */
+    void calculateDimensionsCreation();
 
-	/** 
-	 * Calls drawSynchronous() or drawAsynchronous()
-	 */
-	void draw(QPainter& p, int offsetX, int offsetY);
+    /**
+     * Calls drawSynchronous() or drawAsynchronous()
+     */
+    void draw(QPainter& p, int offsetX, int offsetY);
 
-	/**
-	 * Draws the calling arrow with filled in arrowhead, the
-	 * timeline box and the returning arrow with a dashed line and
-	 * stick arrowhead.
-	 */
-	void drawSynchronous(QPainter& p, int offsetX, int offsetY);
+    /**
+     * Draws the calling arrow with filled in arrowhead, the
+     * timeline box and the returning arrow with a dashed line and
+     * stick arrowhead.
+     */
+    void drawSynchronous(QPainter& p, int offsetX, int offsetY);
 
-	/**
-	 * Draws a solid arrow line and a stick arrow head.
-	 */
-	void drawAsynchronous(QPainter& p, int offsetX, int offsetY);
+    /**
+     * Draws a solid arrow line and a stick arrow head.
+     */
+    void drawAsynchronous(QPainter& p, int offsetX, int offsetY);
 
-	/**
-	 * Draws a solid arrow line and a stick arrow head to the
-	 * edge of the target object widget instead of to the
-	 * sequence line.
-	 */
-	void drawCreation(QPainter& p, int offsetX, int offsetY);
+    /**
+     * Draws a solid arrow line and a stick arrow head to the
+     * edge of the target object widget instead of to the
+     * sequence line.
+     */
+    void drawCreation(QPainter& p, int offsetX, int offsetY);
 
-	/**
-	 * Sets the text position relative to the sequence message.
-	 */
-	void setTextPosition();
+    /**
+     * Sets the text position relative to the sequence message.
+     */
+    void setTextPosition();
 
-	/**
-	 * Constrains the FloatingText X and Y values supplied.
-	 * Overrides operation from LinkWidget.
-	 *
-	 * @param textX		Candidate X value (may be modified by the constraint.)
-	 * @param textY		Candidate Y value (may be modified by the constraint.)
-	 * @param textWidth	Width of the text.
-	 * @param textHeight	Height of the text.
-	 * @param tr		Uml::Text_Role of the text.
-	 */
-	void constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
-			      Uml::Text_Role tr);
+    /**
+     * Constrains the FloatingText X and Y values supplied.
+     * Overrides operation from LinkWidget.
+     *
+     * @param textX		Candidate X value (may be modified by the constraint.)
+     * @param textY		Candidate Y value (may be modified by the constraint.)
+     * @param textWidth	Width of the text.
+     * @param textHeight	Height of the text.
+     * @param tr		Uml::Text_Role of the text.
+     */
+    void constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
+                          Uml::Text_Role tr);
 
-	/**
-	 * Used to cleanup any other widget it may need to delete.
-	 */
-	void cleanup();
+    /**
+     * Used to cleanup any other widget it may need to delete.
+     */
+    void cleanup();
 
-	/**
-	 * Overrides the standard operation.
-	 */
-	void mouseMoveEvent(QMouseEvent *me);
+    /**
+     * Overrides the standard operation.
+     */
+    void mouseMoveEvent(QMouseEvent *me);
 
-	/**
-	 * Sets the state of whether the widget is selected.
-	 *
-	 * @param _select	True if the widget is selected.
-	 */
-	void setSelected(bool _select);
+    /**
+     * Sets the state of whether the widget is selected.
+     *
+     * @param _select	True if the widget is selected.
+     */
+    void setSelected(bool _select);
 
-	/**
-	 * Returns the minimum height this widget should be set at on
-	 * a sequence diagrams.  Takes into account the widget positions
-	 * it is related to.
-	 */
-	int getMinHeight();
+    /**
+     * Returns the minimum height this widget should be set at on
+     * a sequence diagrams.  Takes into account the widget positions
+     * it is related to.
+     */
+    int getMinHeight();
 
-	/**
-	 * Returns the maximum height this widget should be set at on
-	 * a sequence diagrams.  Takes into account the widget positions
-	 * it is related to.
-	 */
-	int getMaxHeight();
+    /**
+     * Returns the maximum height this widget should be set at on
+     * a sequence diagrams.  Takes into account the widget positions
+     * it is related to.
+     */
+    int getMaxHeight();
 
-	/**
-	 * Overrides operation from UMLWidget.
-	 *
-	 * @param p Point to be checked.
-	 *
-	 * @return True if the point is on a visual part of the MessageWidget
-	 */
-	bool onWidget(const QPoint & p);
+    /**
+     * Overrides operation from UMLWidget.
+     *
+     * @param p Point to be checked.
+     *
+     * @return True if the point is on a visual part of the MessageWidget
+     */
+    bool onWidget(const QPoint & p);
 
-	/**
-	 * Overrides the standard operation.
-	 */
-	virtual void mouseReleaseEvent(QMouseEvent * me);
+    /**
+     * Overrides the standard operation.
+     */
+    virtual void mouseReleaseEvent(QMouseEvent * me);
 
-	/**
-	 * Overrides the standard operation.
-	 */
-	virtual void mousePressEvent(QMouseEvent *me);
+    /**
+     * Overrides the standard operation.
+     */
+    virtual void mousePressEvent(QMouseEvent *me);
 
-	/**
-	 * Saves to the <messagewidget> XMI element.
-	 */
-	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    /**
+     * Saves to the <messagewidget> XMI element.
+     */
+    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-	/**
-	 * Loads from the <messagewidget> XMI element.
-	 */
-	bool loadFromXMI( QDomElement & qElement );
+    /**
+     * Loads from the <messagewidget> XMI element.
+     */
+    bool loadFromXMI( QDomElement & qElement );
 
 protected:
-	/**
-	 * Shortcut for calling m_pFText->setLink() followed by
-	 * this->setTextPosition().
-	 */
-	void setLinkAndTextPos();
+    /**
+     * Shortcut for calling m_pFText->setLink() followed by
+     * this->setTextPosition().
+     */
+    void setLinkAndTextPos();
 
-	/**
-	 * Returns the textX arg with constraints applied.
-	 * Auxiliary to setTextPosition() and constrainTextPos().
-	 */
-	int constrainX(int textX, int textWidth, Uml::Text_Role tr);
+    /**
+     * Returns the textX arg with constraints applied.
+     * Auxiliary to setTextPosition() and constrainTextPos().
+     */
+    int constrainX(int textX, int textWidth, Uml::Text_Role tr);
 
-	/**
-	 * Draw an arrow pointing in the given direction.
-	 * The arrow head is not solid, i.e. it is made up of two lines
-	 * like so:  --->
-	 * The direction can be either Qt::LeftArrow or Qt::RightArrow.
-	 */
-	static void drawArrow( QPainter& p, int x, int y, int w,
-			Qt::ArrowType direction, bool useDottedLine = false );
+    /**
+     * Draw an arrow pointing in the given direction.
+     * The arrow head is not solid, i.e. it is made up of two lines
+     * like so:  --->
+     * The direction can be either Qt::LeftArrow or Qt::RightArrow.
+     */
+    static void drawArrow( QPainter& p, int x, int y, int w,
+                           Qt::ArrowType direction, bool useDottedLine = false );
 
-	/**
-	 * Draw a solid (triangular) arrowhead pointing in the given direction.
-	 * The direction can be either Qt::LeftArrow or Qt::RightArrow.
-	 */
-	static void drawSolidArrowhead(QPainter& p, int x, int y, Qt::ArrowType direction);
+    /**
+     * Draw a solid (triangular) arrowhead pointing in the given direction.
+     * The direction can be either Qt::LeftArrow or Qt::RightArrow.
+     */
+    static void drawSolidArrowhead(QPainter& p, int x, int y, Qt::ArrowType direction);
 
-	// Data loaded/saved
-	QString m_SequenceNumber;
-	QString m_CustomOp;
-	/**
-	 * Whether the message is synchronous or asynchronous
-	 */
-        Uml::Sequence_Message_Type m_sequenceMessageType;
+    // Data loaded/saved
+    QString m_SequenceNumber;
+    QString m_CustomOp;
+    /**
+     * Whether the message is synchronous or asynchronous
+     */
+    Uml::Sequence_Message_Type m_sequenceMessageType;
 
 private:
-	void moveEvent(QMoveEvent */*m*/);
-	void resizeEvent(QResizeEvent */*re*/);
-	void mouseDoubleClickEvent(QMouseEvent */* me*/);
+    void moveEvent(QMoveEvent */*m*/);
+    void resizeEvent(QResizeEvent */*re*/);
+    void mouseDoubleClickEvent(QMouseEvent */* me*/);
 
-	ObjectWidget * m_pOw[2];
-	FloatingText * m_pFText;
-	int m_nY;
-	bool m_inSelection;
+    ObjectWidget * m_pOw[2];
+    FloatingText * m_pFText;
+    int m_nY;
+    bool m_inSelection;
 public slots:
-	void slotWidgetMoved(Uml::IDType id);
-	void slotMenuSelection(int sel);
+    void slotWidgetMoved(Uml::IDType id);
+    void slotMenuSelection(int sel);
 signals:
-	/**
-	 * emitted when the message widget is moved up or down
-	 * slots into ObjectWidget::slotMessageMoved()
-	 */
-	void sigMessageMoved();
+    /**
+     * emitted when the message widget is moved up or down
+     * slots into ObjectWidget::slotMessageMoved()
+     */
+    void sigMessageMoved();
 };
 
 #endif

@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -28,25 +28,25 @@ class ToolBarStateMessages : public ToolBarStatePool
 {
 
 public:
-	ToolBarStateMessages(UMLView *umlView);	
-	virtual ~ToolBarStateMessages();	
+    ToolBarStateMessages(UMLView *umlView);
+    virtual ~ToolBarStateMessages();
 
-	virtual void mousePress(QMouseEvent* ome);
-	virtual void mouseRelease(QMouseEvent* ome);
-	virtual void mouseDoubleClick(QMouseEvent* ome);
-	virtual void mouseMove(QMouseEvent* ome);
-	
-	virtual void init();
+    virtual void mousePress(QMouseEvent* ome);
+    virtual void mouseRelease(QMouseEvent* ome);
+    virtual void mouseDoubleClick(QMouseEvent* ome);
+    virtual void mouseMove(QMouseEvent* ome);
 
-protected:
-	Uml::Sequence_Message_Type getMessageType ();
-	virtual bool setSelectedWidget(QMouseEvent * me);
-	void removeLine();
+    virtual void init();
 
 protected:
-	UMLWidget* m_pSelectedWidget;
-	QCanvasLine* m_pLine;
-	QPoint m_FirstMousePos;
+    Uml::Sequence_Message_Type getMessageType ();
+    virtual bool setSelectedWidget(QMouseEvent * me);
+    void removeLine();
+
+protected:
+    UMLWidget* m_pSelectedWidget;
+    QCanvasLine* m_pLine;
+    QPoint m_FirstMousePos;
 };
 
 #endif //TOOLBARSTATEMESSAGES_H

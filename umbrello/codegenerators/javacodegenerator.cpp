@@ -32,16 +32,16 @@ const bool JavaCodeGenerator::DEFAULT_BUILD_ANT_DOC = false;
 //
 
 JavaCodeGenerator::JavaCodeGenerator ( UMLDoc * parentDoc , const char * name, QDomElement & elem )
-    : CodeGenerator ( parentDoc , name)
+        : CodeGenerator ( parentDoc , name)
 {
-	initFields();
-	loadFromXMI(elem);
+    initFields();
+    loadFromXMI(elem);
 }
 
 JavaCodeGenerator::JavaCodeGenerator ( UMLDoc * parentDoc, const char * name )
-    : CodeGenerator ( parentDoc , name)
+        : CodeGenerator ( parentDoc , name)
 {
-	initFields();
+    initFields();
 }
 
 JavaCodeGenerator::~JavaCodeGenerator ( ) { }
@@ -55,7 +55,7 @@ JavaCodeGenerator::~JavaCodeGenerator ( ) { }
 
 // return our language
 QString JavaCodeGenerator::getLanguage() {
-	return "Java";
+    return "Java";
 }
 
 /**
@@ -63,10 +63,10 @@ QString JavaCodeGenerator::getLanguage() {
  * @param new_var the new value of m_createANTBuildFile
  */
 void JavaCodeGenerator::setCreateANTBuildFile ( bool buildIt) {
-        m_createANTBuildFile = buildIt;
-        CodeDocument * antDoc = findCodeDocumentByID("ANTDOC");
-	if (antDoc)
-		antDoc->setWriteOutCode(buildIt);
+    m_createANTBuildFile = buildIt;
+    CodeDocument * antDoc = findCodeDocumentByID("ANTDOC");
+    if (antDoc)
+        antDoc->setWriteOutCode(buildIt);
 }
 
 /**
@@ -74,57 +74,57 @@ void JavaCodeGenerator::setCreateANTBuildFile ( bool buildIt) {
  * @return the value of m_createANTBuildFile
  */
 bool JavaCodeGenerator::getCreateANTBuildFile ( ) {
-        return m_createANTBuildFile;
+    return m_createANTBuildFile;
 }
 
 // In the Java version, we make the ANT build file also available.
 CodeViewerDialog * JavaCodeGenerator::getCodeViewerDialog ( QWidget* parent, CodeDocument *doc,
-                                                            Settings::CodeViewerState state)
+        Settings::CodeViewerState state)
 {
-	CodeViewerDialog *dialog = new CodeViewerDialog(parent, doc, state);
-	if(getCreateANTBuildFile())
-		dialog->addCodeDocument(findCodeDocumentByID("ANTDOC"));
-	return dialog;
+    CodeViewerDialog *dialog = new CodeViewerDialog(parent, doc, state);
+    if(getCreateANTBuildFile())
+        dialog->addCodeDocument(findCodeDocumentByID("ANTDOC"));
+    return dialog;
 }
 
 
 void JavaCodeGenerator::setPolicy ( CodeGenerationPolicy* policy )
 {
-	JavaCodeGenerationPolicy * jpolicy = dynamic_cast<JavaCodeGenerationPolicy*>(policy);
-	CodeGenerator::setPolicy(policy);
-	setJavaPolicy(jpolicy);
+    JavaCodeGenerationPolicy * jpolicy = dynamic_cast<JavaCodeGenerationPolicy*>(policy);
+    CodeGenerator::setPolicy(policy);
+    setJavaPolicy(jpolicy);
 }
 
 void JavaCodeGenerator::setJavaPolicy( JavaCodeGenerationPolicy * policy) {
-        m_javacodegenerationpolicy = policy;
+    m_javacodegenerationpolicy = policy;
 }
 
 JavaCodeGenerationPolicy * JavaCodeGenerator::getJavaPolicy() {
-        return m_javacodegenerationpolicy;
+    return m_javacodegenerationpolicy;
 }
 
 JavaCodeGenerationPolicy::JavaCommentStyle JavaCodeGenerator::getCommentStyle ( )
 {
-	return getJavaPolicy()->getCommentStyle();
+    return getJavaPolicy()->getCommentStyle();
 }
 
 bool JavaCodeGenerator::getAutoGenerateConstructors ( )
 {
-	return getJavaPolicy()->getAutoGenerateConstructors();
+    return getJavaPolicy()->getAutoGenerateConstructors();
 }
 
 bool JavaCodeGenerator::getAutoGenerateAttribAccessors ( )
 {
-        return getJavaPolicy()->getAutoGenerateAttribAccessors ();
+    return getJavaPolicy()->getAutoGenerateAttribAccessors ();
 }
 
 bool JavaCodeGenerator::getAutoGenerateAssocAccessors ( )
 {
-        return getJavaPolicy()->getAutoGenerateAssocAccessors ();
+    return getJavaPolicy()->getAutoGenerateAssocAccessors ();
 }
 
 QString JavaCodeGenerator::getListFieldClassName () {
-        return QString("Vector");
+    return QString("Vector");
 }
 
 // Other methods
@@ -132,11 +132,11 @@ QString JavaCodeGenerator::getListFieldClassName () {
 
 QString JavaCodeGenerator::capitalizeFirstLetter(QString string)
 {
-        // we could lowercase everything tostart and then capitalize? Nah, it would
-        // screw up formatting like getMyRadicalVariable() to getMyradicalvariable(). Bah.
-        QChar firstChar = string.at(0);
-        string.replace( 0, 1, firstChar.upper());
-        return string;
+    // we could lowercase everything tostart and then capitalize? Nah, it would
+    // screw up formatting like getMyRadicalVariable() to getMyradicalvariable(). Bah.
+    QChar firstChar = string.at(0);
+    string.replace( 0, 1, firstChar.upper());
+    return string;
 }
 
 // IF the type is "string" we need to declare it as
@@ -144,22 +144,22 @@ QString JavaCodeGenerator::capitalizeFirstLetter(QString string)
 // Same thing again for "bool" to "boolean"
 QString JavaCodeGenerator::fixTypeName(QString string)
 {
-        string.replace(QRegExp("^string$"),"String");
-        string.replace(QRegExp("^bool$"),"boolean");
-        return cleanName(string);
+    string.replace(QRegExp("^string$"),"String");
+    string.replace(QRegExp("^bool$"),"boolean");
+    return cleanName(string);
 }
 
 /**
  * @return      JavaANTCodeDocument
  */
 JavaANTCodeDocument * JavaCodeGenerator::newANTCodeDocument ( ) {
-	return new JavaANTCodeDocument(this);
+    return new JavaANTCodeDocument(this);
 }
 
 CodeGenerationPolicy * JavaCodeGenerator::newCodeGenerationPolicy( KConfig * config)
 {
-	CodeGenerationPolicy * myPolicy = new JavaCodeGenerationPolicy(config);
-	return myPolicy;
+    CodeGenerationPolicy * myPolicy = new JavaCodeGenerationPolicy(config);
+    return myPolicy;
 }
 
 /**
@@ -168,206 +168,206 @@ CodeGenerationPolicy * JavaCodeGenerator::newCodeGenerationPolicy( KConfig * con
  */
 CodeDocument * JavaCodeGenerator::newClassifierCodeDocument ( UMLClassifier * c)
 {
-        JavaClassifierCodeDocument * doc = new JavaClassifierCodeDocument(c,this);
-        return doc;
+    JavaClassifierCodeDocument * doc = new JavaClassifierCodeDocument(c,this);
+    return doc;
 }
 
 CodeComment * JavaCodeGenerator::newCodeComment ( CodeDocument * doc) {
-        return new JavaCodeComment(doc);
+    return new JavaCodeComment(doc);
 }
 
 void JavaCodeGenerator::initFields() {
 
-	setPolicy ( new JavaCodeGenerationPolicy(getPolicy()) );
+    setPolicy ( new JavaCodeGenerationPolicy(getPolicy()) );
 
-	// load Classifier documents from parent document
-	initFromParentDocument();
+    // load Classifier documents from parent document
+    initFromParentDocument();
 
-	// add in an ANT document
-        JavaANTCodeDocument * buildDoc = newANTCodeDocument( );
-        addCodeDocument(buildDoc);
+    // add in an ANT document
+    JavaANTCodeDocument * buildDoc = newANTCodeDocument( );
+    addCodeDocument(buildDoc);
 
-	// set our 'writeout' policy for that code document
-        setCreateANTBuildFile(DEFAULT_BUILD_ANT_DOC);
+    // set our 'writeout' policy for that code document
+    setCreateANTBuildFile(DEFAULT_BUILD_ANT_DOC);
 
 }
 
 void JavaCodeGenerator::createDefaultDatatypes() {
-	m_document->createDatatype("int");
-	m_document->createDatatype("char");
-	m_document->createDatatype("boolean");
-	m_document->createDatatype("float");
-	m_document->createDatatype("double");
-	m_document->createDatatype("byte");
-	m_document->createDatatype("short");
-	m_document->createDatatype("string");
+    m_document->createDatatype("int");
+    m_document->createDatatype("char");
+    m_document->createDatatype("boolean");
+    m_document->createDatatype("float");
+    m_document->createDatatype("double");
+    m_document->createDatatype("byte");
+    m_document->createDatatype("short");
+    m_document->createDatatype("string");
 }
 
 const QStringList JavaCodeGenerator::reservedKeywords() const {
 
-  static QStringList keywords;
+    static QStringList keywords;
 
-  if (keywords.isEmpty()) {
-    keywords << "abstract"
-             << "AbstractMethodError"
-             << "ArithmeticException"
-             << "ArrayIndexOutOfBoundsException"
-             << "ArrayStoreException"
-             << "assert"
-             << "AssertionError"
-             << "auto"
-             << "boolean"
-             << "Boolean"
-             << "break"
-             << "byte"
-             << "Byte"
-             << "catch"
-             << "char"
-             << "Character"
-             << "CharSequence"
-             << "Class"
-             << "ClassCastException"
-             << "ClassCircularityError"
-             << "ClassFormatError"
-             << "ClassLoader"
-             << "ClassNotFoundException"
-             << "clone"
-             << "Cloneable"
-             << "CloneNotSupportedException"
-             << "Comparable"
-             << "Compiler"
-             << "const"
-             << "continue"
-             << "default"
-             << "delete"
-             << "do"
-             << "double"
-             << "Double"
-             << "else"
-             << "enum"
-             << "equals"
-             << "Error"
-             << "Exception"
-             << "ExceptionInInitializerError"
-             << "extends"
-             << "extern"
-             << "false"
-             << "final"
-             << "finalize"
-             << "finally"
-             << "float"
-             << "Float"
-             << "for"
-             << "friend"
-             << "getClass"
-             << "goto"
-             << "hashCode"
-             << "if"
-             << "IllegalAccessError"
-             << "IllegalAccessException"
-             << "IllegalArgumentException"
-             << "IllegalMonitorStateException"
-             << "IllegalStateException"
-             << "IllegalThreadStateException"
-             << "implements"
-             << "import"
-             << "IncompatibleClassChangeError"
-             << "IndexOutOfBoundsException"
-             << "InheritableThreadLocal"
-             << "inline"
-             << "instanceof"
-             << "InstantiationError"
-             << "InstantiationException"
-             << "int"
-             << "Integer"
-             << "interface"
-             << "InternalError"
-             << "InterruptedException"
-             << "LinkageError"
-             << "long"
-             << "Long"
-             << "Math"
-             << "native"
-             << "NegativeArraySizeException"
-             << "new"
-             << "nextgroup=javaUserLabelRef"
-             << "NoClassDefFoundError"
-             << "NoSuchFieldError"
-             << "NoSuchFieldException"
-             << "NoSuchMethodError"
-             << "NoSuchMethodException"
-             << "notify"
-             << "notifyAll"
-             << "null"
-             << "NullPointerException"
-             << "Number"
-             << "NumberFormatException"
-             << "Object"
-             << "operator"
-             << "OutOfMemoryError"
-             << "package"
-             << "Package"
-             << "private"
-             << "Process"
-             << "protected"
-             << "public"
-             << "redeclared"
-             << "register"
-             << "return"
-             << "Runnable"
-             << "Runtime"
-             << "RuntimeException"
-             << "RuntimePermission"
-             << "SecurityException"
-             << "SecurityManager"
-             << "serializable"
-             << "short"
-             << "Short"
-             << "signed"
-             << "sizeof"
-             << "skipwhite"
-             << "StackOverflowError"
-             << "StackTraceElement"
-             << "static"
-             << "strictfp"
-             << "StrictMath"
-             << "String"
-             << "StringBuffer"
-             << "StringIndexOutOfBoundsException"
-             << "struct"
-             << "super"
-             << "switch"
-             << "synchronized"
-             << "template"
-             << "this"
-             << "Thread"
-             << "ThreadDeath"
-             << "ThreadGroup"
-             << "ThreadLocal"
-             << "throw"
-             << "Throwable"
-             << "throws"
-             << "toString"
-             << "transient"
-             << "true"
-             << "try"
-             << "typedef"
-             << "union"
-             << "UnknownError"
-             << "UnsatisfiedLinkError"
-             << "unsigned"
-             << "UnsupportedClassVersionError"
-             << "UnsupportedOperationException"
-             << "VerifyError"
-             << "VirtualMachineError"
-             << "void"
-             << "Void"
-             << "volatile"
-             << "wait"
-             << "while";
-  }
+    if (keywords.isEmpty()) {
+        keywords << "abstract"
+        << "AbstractMethodError"
+        << "ArithmeticException"
+        << "ArrayIndexOutOfBoundsException"
+        << "ArrayStoreException"
+        << "assert"
+        << "AssertionError"
+        << "auto"
+        << "boolean"
+        << "Boolean"
+        << "break"
+        << "byte"
+        << "Byte"
+        << "catch"
+        << "char"
+        << "Character"
+        << "CharSequence"
+        << "Class"
+        << "ClassCastException"
+        << "ClassCircularityError"
+        << "ClassFormatError"
+        << "ClassLoader"
+        << "ClassNotFoundException"
+        << "clone"
+        << "Cloneable"
+        << "CloneNotSupportedException"
+        << "Comparable"
+        << "Compiler"
+        << "const"
+        << "continue"
+        << "default"
+        << "delete"
+        << "do"
+        << "double"
+        << "Double"
+        << "else"
+        << "enum"
+        << "equals"
+        << "Error"
+        << "Exception"
+        << "ExceptionInInitializerError"
+        << "extends"
+        << "extern"
+        << "false"
+        << "final"
+        << "finalize"
+        << "finally"
+        << "float"
+        << "Float"
+        << "for"
+        << "friend"
+        << "getClass"
+        << "goto"
+        << "hashCode"
+        << "if"
+        << "IllegalAccessError"
+        << "IllegalAccessException"
+        << "IllegalArgumentException"
+        << "IllegalMonitorStateException"
+        << "IllegalStateException"
+        << "IllegalThreadStateException"
+        << "implements"
+        << "import"
+        << "IncompatibleClassChangeError"
+        << "IndexOutOfBoundsException"
+        << "InheritableThreadLocal"
+        << "inline"
+        << "instanceof"
+        << "InstantiationError"
+        << "InstantiationException"
+        << "int"
+        << "Integer"
+        << "interface"
+        << "InternalError"
+        << "InterruptedException"
+        << "LinkageError"
+        << "long"
+        << "Long"
+        << "Math"
+        << "native"
+        << "NegativeArraySizeException"
+        << "new"
+        << "nextgroup=javaUserLabelRef"
+        << "NoClassDefFoundError"
+        << "NoSuchFieldError"
+        << "NoSuchFieldException"
+        << "NoSuchMethodError"
+        << "NoSuchMethodException"
+        << "notify"
+        << "notifyAll"
+        << "null"
+        << "NullPointerException"
+        << "Number"
+        << "NumberFormatException"
+        << "Object"
+        << "operator"
+        << "OutOfMemoryError"
+        << "package"
+        << "Package"
+        << "private"
+        << "Process"
+        << "protected"
+        << "public"
+        << "redeclared"
+        << "register"
+        << "return"
+        << "Runnable"
+        << "Runtime"
+        << "RuntimeException"
+        << "RuntimePermission"
+        << "SecurityException"
+        << "SecurityManager"
+        << "serializable"
+        << "short"
+        << "Short"
+        << "signed"
+        << "sizeof"
+        << "skipwhite"
+        << "StackOverflowError"
+        << "StackTraceElement"
+        << "static"
+        << "strictfp"
+        << "StrictMath"
+        << "String"
+        << "StringBuffer"
+        << "StringIndexOutOfBoundsException"
+        << "struct"
+        << "super"
+        << "switch"
+        << "synchronized"
+        << "template"
+        << "this"
+        << "Thread"
+        << "ThreadDeath"
+        << "ThreadGroup"
+        << "ThreadLocal"
+        << "throw"
+        << "Throwable"
+        << "throws"
+        << "toString"
+        << "transient"
+        << "true"
+        << "try"
+        << "typedef"
+        << "union"
+        << "UnknownError"
+        << "UnsatisfiedLinkError"
+        << "unsigned"
+        << "UnsupportedClassVersionError"
+        << "UnsupportedOperationException"
+        << "VerifyError"
+        << "VirtualMachineError"
+        << "void"
+        << "Void"
+        << "volatile"
+        << "wait"
+        << "while";
+    }
 
-  return keywords;
+    return keywords;
 }
 
 #include "javacodegenerator.moc"

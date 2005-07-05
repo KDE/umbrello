@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2003-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2003-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -17,30 +17,30 @@
 #include <klocale.h>
 
 UMLNode::UMLNode(const QString & name, Uml::IDType id)
-  : UMLCanvasObject(name, id) {
-	init();
+        : UMLCanvasObject(name, id) {
+    init();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UMLNode::~UMLNode() {
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void UMLNode::init() {
-	m_BaseType = Uml::ot_Node;
+    m_BaseType = Uml::ot_Node;
 }
 
 UMLObject* UMLNode::clone() const {
-	UMLNode *clone = new UMLNode();
-	UMLObject::copyInto(clone);
-	return clone;
+    UMLNode *clone = new UMLNode();
+    UMLObject::copyInto(clone);
+    return clone;
 }
 
 void UMLNode::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
-	QDomElement nodeElement = UMLObject::save("UML:Node", qDoc);
-	qElement.appendChild(nodeElement);
+    QDomElement nodeElement = UMLObject::save("UML:Node", qDoc);
+    qElement.appendChild(nodeElement);
 }
 
 bool UMLNode::load(QDomElement& ) {
-	return true;
+    return true;
 }
 
 #include "node.moc"

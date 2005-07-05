@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -39,148 +39,148 @@
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class StateWidget : public UMLWidget {
-	Q_OBJECT
+    Q_OBJECT
 public:
 
-	/// Enumeration that codes the different types of state.
-	enum StateType
-	{
-	    Initial = 0,
-	    Normal,
-	    End
-	};
+    /// Enumeration that codes the different types of state.
+    enum StateType
+    {
+        Initial = 0,
+        Normal,
+        End
+    };
 
-	/**
-	 * Creates a State widget.
-	 *
-	 * @param view		The parent of the widget.
-	 * @param stateType	The type of state.
-	 * @param id		The ID to assign (-1 will prompt a new ID.)
-	 */
-	StateWidget( UMLView * view, StateType stateType = Normal, Uml::IDType id = Uml::id_None );
+    /**
+     * Creates a State widget.
+     *
+     * @param view		The parent of the widget.
+     * @param stateType	The type of state.
+     * @param id		The ID to assign (-1 will prompt a new ID.)
+     */
+    StateWidget( UMLView * view, StateType stateType = Normal, Uml::IDType id = Uml::id_None );
 
-	/**
-	 * destructor
-	 */
-	virtual ~StateWidget();
+    /**
+     * destructor
+     */
+    virtual ~StateWidget();
 
-	/**
-	 * Overrides the standard paint event.
-	 */
-	void draw(QPainter & p, int offsetX, int offsetY);
+    /**
+     * Overrides the standard paint event.
+     */
+    void draw(QPainter & p, int offsetX, int offsetY);
 
-	/**
-	 * Sets the name of the State.
-	 */
-	virtual void setName(const QString &strName);
+    /**
+     * Sets the name of the State.
+     */
+    virtual void setName(const QString &strName);
 
-	/**
-	 * Returns the name of the State.
-	 */
-	virtual QString getName() const;
+    /**
+     * Returns the name of the State.
+     */
+    virtual QString getName() const;
 
-	/**
-	 * Returns the documentation of the state.
-	 */
-	QString getDoc() const;
+    /**
+     * Returns the documentation of the state.
+     */
+    QString getDoc() const;
 
-	/**
-	 * Sets the documenation of the state.
-	 */
-	void setDoc( const QString &doc );
+    /**
+     * Sets the documenation of the state.
+     */
+    void setDoc( const QString &doc );
 
-	/**
-	 * Returns the type of state.
-	 */
-	StateType getStateType() const;
+    /**
+     * Returns the type of state.
+     */
+    StateType getStateType() const;
 
-	/**
-	 * Sets the type of state.
-	 */
-	void setStateType( StateType stateType );
+    /**
+     * Sets the type of state.
+     */
+    void setStateType( StateType stateType );
 
-	/**
-	 * Overrides a method.  Used to pickup double clicks.
-	 */
-	void mouseDoubleClickEvent(QMouseEvent * /*me*/);
+    /**
+     * Overrides a method.  Used to pickup double clicks.
+     */
+    void mouseDoubleClickEvent(QMouseEvent * /*me*/);
 
-	/**
-	 * Adds the given activity to the state.
-	 */
-	bool addActivity( const QString &activity );
+    /**
+     * Adds the given activity to the state.
+     */
+    bool addActivity( const QString &activity );
 
-	/**
-	 * Removes the given activity from the state.
-	 */
-	bool removeActivity( const QString &activity );
+    /**
+     * Removes the given activity from the state.
+     */
+    bool removeActivity( const QString &activity );
 
-	/**
-	 * Renames the given activity.
-	 */
-	bool renameActivity( const QString &activity, const QString &newName );
+    /**
+     * Renames the given activity.
+     */
+    bool renameActivity( const QString &activity, const QString &newName );
 
-	/**
-	 * Sets the states activities to the ones given.
-	 */
-	void setActivities( QStringList & list );
+    /**
+     * Sets the states activities to the ones given.
+     */
+    void setActivities( QStringList & list );
 
-	/**
-	 * Returns the list of activities.
-	 */
-	QStringList & getActivityList();
+    /**
+     * Returns the list of activities.
+     */
+    QStringList & getActivityList();
 
-	/**
-	 * Returns true if the given toolbar button represents a State.
-	 *
-	 * @param tbb		Input value of type WorkToolBar::ToolBar_Buttons.
-	 * @param resultType	Output value, the StateType that corresponds to tbb.
-	 *			Only set if the method returns true.
-	 */
-	static bool isState( WorkToolBar::ToolBar_Buttons tbb,
-			     StateType& resultType );
+    /**
+     * Returns true if the given toolbar button represents a State.
+     *
+     * @param tbb		Input value of type WorkToolBar::ToolBar_Buttons.
+     * @param resultType	Output value, the StateType that corresponds to tbb.
+     *			Only set if the method returns true.
+     */
+    static bool isState( WorkToolBar::ToolBar_Buttons tbb,
+                         StateType& resultType );
 
-	/**
-	 * Creates the <statewidget> XMI element.
-	 */
-	void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    /**
+     * Creates the <statewidget> XMI element.
+     */
+    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-	/**
-	 * Loads a <statewidget> XMI element.
-	 */
-	bool loadFromXMI( QDomElement & qElement );
+    /**
+     * Loads a <statewidget> XMI element.
+     */
+    bool loadFromXMI( QDomElement & qElement );
 
 protected:
-	/**
-	 * Calculates the size of the widget.
-	 */
-	void calculateSize();
+    /**
+     * Calculates the size of the widget.
+     */
+    void calculateSize();
 
-	/**
-	 * Type of state.
-	 */
-	StateType m_StateType;
+    /**
+     * Type of state.
+     */
+    StateType m_StateType;
 
-	/**
-	 * Name of the state.
-	 */
-	QString m_Name;
+    /**
+     * Name of the state.
+     */
+    QString m_Name;
 
-	/**
-	 * Documentation for the state
-	 */
-	QString m_Doc;
+    /**
+     * Documentation for the state
+     */
+    QString m_Doc;
 
-	/**
-	 * List of activities for the state.
-	 */
-	QStringList m_Activities;
+    /**
+     * List of activities for the state.
+     */
+    QStringList m_Activities;
 
 public slots:
 
-	/**
-	 * Captures any popup menu signals for menus it created.
-	 */
-	void slotMenuSelection(int sel);
+    /**
+     * Captures any popup menu signals for menus it created.
+     */
+    void slotMenuSelection(int sel);
 };
 
 #endif

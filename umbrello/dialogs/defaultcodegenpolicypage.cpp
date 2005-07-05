@@ -21,14 +21,14 @@
 
 #include "defaultcodegenpolicypage.h"
 
-/** This is the page which comes up IF there is no special options for the 
+/** This is the page which comes up IF there is no special options for the
  * code generator.
  */
 DefaultCodeGenPolicyPage::DefaultCodeGenPolicyPage ( QWidget *parent, const char *name, CodeGenerationPolicy * policy )
-	:CodeGenerationPolicyPage(parent,name,policy) 
+        :CodeGenerationPolicyPage(parent,name,policy)
 {
-	textLabel = new QLabel(parent,"textLabel");
-    	textLabel->setText(tr2i18n("<p align=\"center\">No Options Available.</p>"));
+    textLabel = new QLabel(parent,"textLabel");
+    textLabel->setText(tr2i18n("<p align=\"center\">No Options Available.</p>"));
 }
 
 DefaultCodeGenPolicyPage::~DefaultCodeGenPolicyPage() { }

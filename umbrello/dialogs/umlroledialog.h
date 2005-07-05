@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2003-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2003-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -27,52 +27,52 @@ class UMLRole;
 class UMLRoleProperties;
 
 class UMLRoleDialog : public KDialogBase {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	/**
-	*	Constructor
-	*/
-	UMLRoleDialog( QWidget * parent, UMLRole * pRole );
+    /**
+    *	Constructor
+    */
+    UMLRoleDialog( QWidget * parent, UMLRole * pRole );
 
-	/**
-	*	Deconstructor
-	*/
-	~UMLRoleDialog();
+    /**
+    *	Deconstructor
+    */
+    ~UMLRoleDialog();
 
 protected:
 
-	/**
-	*	Sets up the dialog
-	*/
-	void setupDialog();
+    /**
+    *	Sets up the dialog
+    */
+    void setupDialog();
 
-	/**
-	 * Checks if changes are valid and applies them if they are,
-	 * else returns false
-	 */
-	bool apply();
+    /**
+     * Checks if changes are valid and applies them if they are,
+     * else returns false
+     */
+    bool apply();
 
-	/**
-	* The role to represent.
-	*/
-	UMLRole * m_pRole;
+    /**
+    * The role to represent.
+    */
+    UMLRole * m_pRole;
 
 private:
 
-	UMLRoleProperties * m_pRoleProps;
+    UMLRoleProperties * m_pRoleProps;
 
 public slots:
 
-	/**
-	 * I don't think this is used, but if we had an apply button
-	 * it would slot into here
-	 */
-	void slotApply();
+    /**
+     * I don't think this is used, but if we had an apply button
+     * it would slot into here
+     */
+    void slotApply();
 
-	/**
-	 * Used when the OK button is clicked.  Calls apply()
-	 */
-	void slotOk();
+    /**
+     * Used when the OK button is clicked.  Calls apply()
+     */
+    void slotOk();
 };
 
 #endif

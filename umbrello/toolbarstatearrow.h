@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -29,24 +29,24 @@ class ToolBarStateArrow : public ToolBarState
 {
 
 public:
-	ToolBarStateArrow(UMLView *umlView);	
-	virtual ~ToolBarStateArrow();	
+    ToolBarStateArrow(UMLView *umlView);
+    virtual ~ToolBarStateArrow();
 
-	virtual void mousePress(QMouseEvent* ome);
-	virtual void mouseRelease(QMouseEvent* ome);
-	virtual void mouseDoubleClick(QMouseEvent* ome);
-	virtual void mouseMove(QMouseEvent* ome);
+    virtual void mousePress(QMouseEvent* ome);
+    virtual void mouseRelease(QMouseEvent* ome);
+    virtual void mouseDoubleClick(QMouseEvent* ome);
+    virtual void mouseMove(QMouseEvent* ome);
 
-	virtual void init();
+    virtual void init();
 protected:
 
-	virtual void changeTool();
+    virtual void changeTool();
 
-	QPtrList<QCanvasLine> m_SelectionRect;
-	bool m_bDrawRectangle;
+    QPtrList<QCanvasLine> m_SelectionRect;
+    bool m_bDrawRectangle;
 
-	Qt::ButtonState m_ButtonPressed;
-	QPoint m_StartPosition;
+    Qt::ButtonState m_ButtonPressed;
+    QPoint m_StartPosition;
 };
 
 #endif //TOOLBARSTATEARROW_H

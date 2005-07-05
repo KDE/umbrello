@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -38,53 +38,53 @@ ToolBarStateAssociation::~ToolBarStateAssociation()
 
 void ToolBarStateAssociation::mousePress(QMouseEvent* ome)
 {
-	ToolBarStatePool::mousePress(ome);
+    ToolBarStatePool::mousePress(ome);
 
-	QCanvasLine *line = m_pUMLView->getAssocLine();
-	if (line)
-	{
-		delete line;
-		m_pUMLView->setAssocLine(NULL);
-	}
+    QCanvasLine *line = m_pUMLView->getAssocLine();
+    if (line)
+    {
+        delete line;
+        m_pUMLView->setAssocLine(NULL);
+    }
 }
 
 void ToolBarStateAssociation::mouseRelease(QMouseEvent* ome)
 {
-	ToolBarStatePool::mouseRelease(ome);
+    ToolBarStatePool::mouseRelease(ome);
 }
 
 
 void ToolBarStateAssociation::mouseDoubleClick(QMouseEvent* ome)
 {
-	ToolBarStatePool::mouseDoubleClick(ome);
+    ToolBarStatePool::mouseDoubleClick(ome);
 }
 
 void ToolBarStateAssociation::mouseMove(QMouseEvent* ome)
 {
-	ToolBarStatePool::mouseMove(ome);
+    ToolBarStatePool::mouseMove(ome);
 
-	if( m_pUMLView->getFirstSelectedWidget() )
-	{
-		QCanvasLine *line = m_pUMLView->getAssocLine();
-		if (line)
-		{
-			QPoint sp = line->startPoint();
-			line->setPoints( sp.x(), sp.y(), m_pMouseEvent->x(), m_pMouseEvent->y() );
-		}
-	}
+    if( m_pUMLView->getFirstSelectedWidget() )
+    {
+        QCanvasLine *line = m_pUMLView->getAssocLine();
+        if (line)
+        {
+            QPoint sp = line->startPoint();
+            line->setPoints( sp.x(), sp.y(), m_pMouseEvent->x(), m_pMouseEvent->y() );
+        }
+    }
 }
 
 void ToolBarStateAssociation::init()
 {
-	m_pUMLView->setFirstSelectedWidget( NULL );
+    m_pUMLView->setFirstSelectedWidget( NULL );
 
-	QCanvasLine *line = m_pUMLView->getAssocLine();
-	if (line)
-	{
-		delete line;
-		m_pUMLView->setAssocLine( NULL );
-	}
+    QCanvasLine *line = m_pUMLView->getAssocLine();
+    if (line)
+    {
+        delete line;
+        m_pUMLView->setAssocLine( NULL );
+    }
 
-	ToolBarStatePool::init();
+    ToolBarStatePool::init();
 }
 

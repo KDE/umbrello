@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -28,44 +28,44 @@ class UMLDoc;
 // class UMLWidget;
 
 /**
- * 	Based off of AssocPropDlg class
- *	@author Brian Thomas <Brian.A.Thomas@gsfc.nasa.gov>
+ * Based off of AssocPropDlg class
+ * @author Brian Thomas <Brian.A.Thomas@gsfc.nasa.gov>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class AssocPropDlg : public KDialogBase {
-	Q_OBJECT
+    Q_OBJECT
 public:
 
-	/**
-	 *	Sets up a Association Properties Dialog.
-	 *	@param	parent	The parent of the AssocPropDlg
-	 *	@param	a	The Association Widget to display properties of.
-	 *	@param	pageNum	The page to show first.
-	 */
+    /**
+     *	Sets up a Association Properties Dialog.
+     *	@param	parent	The parent of the AssocPropDlg
+     *	@param	a	The Association Widget to display properties of.
+     *	@param	pageNum	The page to show first.
+     */
 
-	AssocPropDlg(QWidget *parent, AssociationWidget *a, int pageNum = 0);
+    AssocPropDlg(QWidget *parent, AssociationWidget *a, int pageNum = 0);
 
-	/**
-	 *	Standard deconstructor
-	 */
-	~AssocPropDlg();
+    /**
+     *	Standard deconstructor
+     */
+    ~AssocPropDlg();
 
-	enum Page { page_gen = 0, page_role, page_font };
+    enum Page { page_gen = 0, page_role, page_font };
 
 protected:
-	void slotOk();
-	void slotApply();
-	void setupPages(AssociationWidget * assocWidget);
-	void setupFontPage();
-	void init();
+    void slotOk();
+    void slotApply();
+    void setupPages(AssociationWidget * assocWidget);
+    void setupFontPage();
+    void init();
 private:
 
-	AssocGenPage *m_pGenPage;
-	AssocRolePage *m_pRolePage;
-	KFontChooser * m_pChooser;
-	AssociationWidget *m_pAssoc;
+    AssocGenPage *m_pGenPage;
+    AssocRolePage *m_pRolePage;
+    KFontChooser * m_pChooser;
+    AssociationWidget *m_pAssoc;
 
-	UMLDoc *m_pDoc; // is this needed?? 
+    UMLDoc *m_pDoc; // is this needed??
 
 };
 

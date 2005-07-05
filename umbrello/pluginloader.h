@@ -26,45 +26,45 @@ class QString;
 
 namespace Umbrello
 {
-  // forward declarations
-  class Plugin;
+// forward declarations
+class Plugin;
 
-  /**
-   * @ingroup U2_Lib
-   *
-   * The plugin loader is an abstraction that sits on top of KLibLoader.
-   * Whereas plugins are specialized shared objects, the plugin must
-   * specialize the loading of those objects. Essentially, the plugin
-   * loader provides a single unit of functionality - loading plugins.
-   * In order to load a plugin, we must first load a shared library
-   * and then use the libraries factory to create the plugin. However,
-   * because a plugin is required to be a singleton, we must ensure
-   * that no plugin is ever created more than once. To that end, the
-   * loader must also retain a map of loaded plugins. When a loaded
-   * plugin is requested, we can increase its reference count.
-   *
-   * On the subject of unloading, we actually have very little to do.
-   * The unload method on a plugin is simply a reference decrementer.
-   * When it reaches 0, the object destroys itself. Being a QObject,
-   * it will emit the destroyed signal just before deletion, allowing
-   * the plugin loader to respond to the event and remove the plugin
-   * from its mapping.
-   *
-   * The PluginLoader also manages categories of plugins. The runtime
-   * categories actually reflect the directory structure of the build
-   * environment with each category represented by the name of a
-   * directory. The categories are "pre-seeded" at startup.
-   *
-   * @bug Plugins are not removed from their respective categories
-   * when they are destroyed. It may be acceptable to call
-   * Plugin::category() from slotDestroyed because the category()
-   * method doesn't reference any local variables - it just returns
-   * a string.
-   */
-  class PluginLoader : public QObject
-  {
+/**
+ * @ingroup U2_Lib
+ *
+ * The plugin loader is an abstraction that sits on top of KLibLoader.
+ * Whereas plugins are specialized shared objects, the plugin must
+ * specialize the loading of those objects. Essentially, the plugin
+ * loader provides a single unit of functionality - loading plugins.
+ * In order to load a plugin, we must first load a shared library
+ * and then use the libraries factory to create the plugin. However,
+ * because a plugin is required to be a singleton, we must ensure
+ * that no plugin is ever created more than once. To that end, the
+ * loader must also retain a map of loaded plugins. When a loaded
+ * plugin is requested, we can increase its reference count.
+ *
+ * On the subject of unloading, we actually have very little to do.
+ * The unload method on a plugin is simply a reference decrementer.
+ * When it reaches 0, the object destroys itself. Being a QObject,
+ * it will emit the destroyed signal just before deletion, allowing
+ * the plugin loader to respond to the event and remove the plugin
+ * from its mapping.
+ *
+ * The PluginLoader also manages categories of plugins. The runtime
+ * categories actually reflect the directory structure of the build
+ * environment with each category represented by the name of a
+ * directory. The categories are "pre-seeded" at startup.
+ *
+ * @bug Plugins are not removed from their respective categories
+ * when they are destroyed. It may be acceptable to call
+ * Plugin::category() from slotDestroyed because the category()
+ * method doesn't reference any local variables - it just returns
+ * a string.
+ */
+class PluginLoader : public QObject
+{
     Q_OBJECT
-  public:
+public:
     /** Destry the plugin loader */
     ~PluginLoader();
 
@@ -97,7 +97,7 @@ namespace Umbrello
      * we just unload the library.
      */
     void unloadPlugin(const QString &name);
-    
+
     /**
      * Get a reference to the plugin mapping. This method wraps everything
      * in consts with the express purpose that no changes are made to the
@@ -108,7 +108,7 @@ namespace Umbrello
     /** Get a reference to the plugin category mapping. */
     const CategoryMap &categories() const;
 
-  private slots:
+private slots:
     /**
      * This is used to connect to the destroyed signal emitted by plugins
      * when they are finally deleted. The plugin loader uses this signal
@@ -116,14 +116,14 @@ namespace Umbrello
      */
     void slotDestroyed(QObject *obj);
 
-  private:
+private:
     /** Private constructor - This must be created through the instance method */
     PluginLoader();
 
     static PluginLoader	       *_instance;	///< Singleton instance
     PluginMap			_plugins;	///< The plugin mapping
     CategoryMap			_categories;	///< Categories of plugins
-  };
+};
 }
 
 #endif

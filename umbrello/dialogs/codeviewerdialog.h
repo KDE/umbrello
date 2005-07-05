@@ -44,35 +44,35 @@ class CodeViewerDialog : public CodeViewerDialogBase
     Q_OBJECT
 public:
 
-	CodeViewerDialog ( QWidget* parent, CodeDocument * doc, Settings::CodeViewerState state,
-                           const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
-	~CodeViewerDialog ();
+    CodeViewerDialog ( QWidget* parent, CodeDocument * doc, Settings::CodeViewerState state,
+                       const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+    ~CodeViewerDialog ();
 
-	/** return the code viewer state */
-	Settings::CodeViewerState getState( );
+    /** return the code viewer state */
+    Settings::CodeViewerState getState( );
 
-	QString parentDocName;
+    QString parentDocName;
 
-	/**
-	 *  Adds a code document to the tabbed output
- 	 */
-	void addCodeDocument( CodeDocument * doc); 
+    /**
+     *  Adds a code document to the tabbed output
+    	 */
+    void addCodeDocument( CodeDocument * doc);
 
 protected:
 
-	bool close ( bool alsoDelete ); 
+    bool close ( bool alsoDelete );
 
 private:
 
-	Settings::CodeViewerState m_state;
+    Settings::CodeViewerState m_state;
 
-	void initGUI ( const char * name );
+    void initGUI ( const char * name );
 
 public slots:
 
 protected slots:
 
-    	virtual void languageChange();
+    virtual void languageChange();
 
 };
 

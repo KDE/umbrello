@@ -22,26 +22,26 @@
 
 class CPPHeaderCodeClassFieldDeclarationBlock : public CodeClassFieldDeclarationBlock
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
 
-	// Constructors/Destructors
-	//  
+    // Constructors/Destructors
+    //
 
-	/**
-	 * Constructor
-	 */
-	CPPHeaderCodeClassFieldDeclarationBlock ( CodeClassField * parent );
+    /**
+     * Constructor
+     */
+    CPPHeaderCodeClassFieldDeclarationBlock ( CodeClassField * parent );
 
-	/**
-	 * Empty Destructor
-	 */
-	virtual ~CPPHeaderCodeClassFieldDeclarationBlock ( );
+    /**
+     * Empty Destructor
+     */
+    virtual ~CPPHeaderCodeClassFieldDeclarationBlock ( );
 
 protected:
 
-	// this will be called by syncToParent whenever the parent object is "modified" 
-       	void updateContent ( );
+    // this will be called by syncToParent whenever the parent object is "modified"
+    void updateContent ( );
 
 private:
 

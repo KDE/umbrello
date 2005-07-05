@@ -19,53 +19,53 @@
 #include "cppheadercodedocument.h"
 
 // Constructors/Destructors
-//  
+//
 
-CPPHeaderCodeClassFieldDeclarationBlock::CPPHeaderCodeClassFieldDeclarationBlock ( CodeClassField * parent ) 
-    : CodeClassFieldDeclarationBlock ( parent ) 
+CPPHeaderCodeClassFieldDeclarationBlock::CPPHeaderCodeClassFieldDeclarationBlock ( CodeClassField * parent )
+        : CodeClassFieldDeclarationBlock ( parent )
 {
-	setOverallIndentationLevel(1);
-	updateContent();
+    setOverallIndentationLevel(1);
+    updateContent();
 }
 
 CPPHeaderCodeClassFieldDeclarationBlock::~CPPHeaderCodeClassFieldDeclarationBlock ( ) { }
 
-//  
+//
 // Methods
-//  
+//
 
 // Other methods
-//  
+//
 
 /**
  */
-void CPPHeaderCodeClassFieldDeclarationBlock::updateContent( ) 
+void CPPHeaderCodeClassFieldDeclarationBlock::updateContent( )
 {
 
-	CodeClassField * cf = getParentClassField();
-	CPPCodeClassField * hcppcf = (CPPCodeClassField*) cf;
+    CodeClassField * cf = getParentClassField();
+    CPPCodeClassField * hcppcf = (CPPCodeClassField*) cf;
 
-        // Set the comment
-        QString notes = getParentObject()->getDoc();
-        getComment()->setText(notes);
-	if(notes.isEmpty())
-		getComment()->setWriteOutText(false);
-	else
-		getComment()->setWriteOutText(true);
-	
+    // Set the comment
+    QString notes = getParentObject()->getDoc();
+    getComment()->setText(notes);
+    if(notes.isEmpty())
+        getComment()->setWriteOutText(false);
+    else
+        getComment()->setWriteOutText(true);
 
-        // Set the body
-        QString staticValue = getParentObject()->getStatic() ? "static " : "";
-        QString typeName = hcppcf->getTypeName();
-        QString fieldName = hcppcf->getFieldName();
 
-	// Ugh. Sloppy exception.
-        if (!cf->parentIsAttribute() && !cf->fieldIsSingleValue())
-                typeName = hcppcf->getListFieldClassName();
+    // Set the body
+    QString staticValue = getParentObject()->getStatic() ? "static " : "";
+    QString typeName = hcppcf->getTypeName();
+    QString fieldName = hcppcf->getFieldName();
 
-        QString body = staticValue+" "+typeName+" "+fieldName+";";
+    // Ugh. Sloppy exception.
+    if (!cf->parentIsAttribute() && !cf->fieldIsSingleValue())
+        typeName = hcppcf->getListFieldClassName();
 
-        setText(body);
+    QString body = staticValue+" "+typeName+" "+fieldName+";";
+
+    setText(body);
 
 }
 

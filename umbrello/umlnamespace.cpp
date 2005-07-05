@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -17,11 +17,11 @@
 
 namespace Uml {
 
-    bool tagEq (QString tag, QString pattern) {
-	tag.remove( QRegExp("^\\w+:") );  // remove leading "UML:" or other
-	int patSections = pattern.contains( '.' ) + 1;
-	QString tagEnd = tag.section( '.', -patSections );
-	return (tagEnd.lower() == pattern.lower());
-    }
+bool tagEq (QString tag, QString pattern) {
+    tag.remove( QRegExp("^\\w+:") );  // remove leading "UML:" or other
+    int patSections = pattern.contains( '.' ) + 1;
+    QString tagEnd = tag.section( '.', -patSections );
+    return (tagEnd.lower() == pattern.lower());
+}
 
 }

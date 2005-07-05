@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2003-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2003-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -36,72 +36,72 @@ class UMLObject;
  */
 class UMLDatatype : public UMLClassifier {
 public:
-	/**
-	 * Sets up an datatype.
-	 *
-	 * @param name		The name of the Concept.
-	 * @param id		The unique id of the Concept.
-	 */
-	UMLDatatype(const QString & name = "", Uml::IDType id = Uml::id_None);
+    /**
+     * Sets up an datatype.
+     *
+     * @param name		The name of the Concept.
+     * @param id		The unique id of the Concept.
+     */
+    UMLDatatype(const QString & name = "", Uml::IDType id = Uml::id_None);
 
-	/**
-	 * Standard deconstructor.
-	 */
-	virtual ~UMLDatatype();
+    /**
+     * Standard deconstructor.
+     */
+    virtual ~UMLDatatype();
 
-	/**
-	 * Overloaded '==' operator.
-	 */
-	bool operator==(UMLDatatype& rhs);
+    /**
+     * Overloaded '==' operator.
+     */
+    bool operator==(UMLDatatype& rhs);
 
-	/**
-	 * Copy the internal presentation of this object into the new
-	 * object.
-	 */
-	virtual void copyInto(UMLDatatype *rhs) const;
+    /**
+     * Copy the internal presentation of this object into the new
+     * object.
+     */
+    virtual void copyInto(UMLDatatype *rhs) const;
 
-	/**
-	 * Make a clone of this object.
-	 */
-	virtual UMLObject* clone() const;
+    /**
+     * Make a clone of this object.
+     */
+    virtual UMLObject* clone() const;
 
-	/**
-	 * Creates the <UML:DataType> XMI element.
-	 */
-	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    /**
+     * Creates the <UML:DataType> XMI element.
+     */
+    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-	/**
-	 * Set the origin type (in case of e.g. typedef)
-	 */
-	void setOriginType(UMLClassifier *origType);
+    /**
+     * Set the origin type (in case of e.g. typedef)
+     */
+    void setOriginType(UMLClassifier *origType);
 
-	/**
-	 * Get the origin type (in case of e.g. typedef)
-	 */
-	UMLClassifier * originType();
+    /**
+     * Get the origin type (in case of e.g. typedef)
+     */
+    UMLClassifier * originType();
 
-	/**
-	 * Set the m_isRef flag (true when dealing with a pointer type)
-	 */
-	void setIsReference(bool isRef = true);
+    /**
+     * Set the m_isRef flag (true when dealing with a pointer type)
+     */
+    void setIsReference(bool isRef = true);
 
-	/**
-	 * Get the m_isRef flag.
-	 */
-	bool isReference();
+    /**
+     * Get the m_isRef flag.
+     */
+    bool isReference();
 
 protected:
-	/**
-	 * Loads the <UML:DataType> XMI element (empty.)
-	 */
-	bool load( QDomElement & element );
+    /**
+     * Loads the <UML:DataType> XMI element (empty.)
+     */
+    bool load( QDomElement & element );
 
-	/**
-	 * Initializes key variables of the class.
-	 */
-	virtual void init(); // doesnt seem to be any reason for this to be public
+    /**
+     * Initializes key variables of the class.
+     */
+    virtual void init(); // doesnt seem to be any reason for this to be public
 
-	bool m_isRef;
+    bool m_isRef;
 };
 
 #endif // DATATYPE_H

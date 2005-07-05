@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -16,8 +16,8 @@
 #include <kdebug.h>
 
 InfoWidget::InfoWidget(QWidget* parent, const char* name) : QWidget(parent,name) {
-	setBackgroundColor(white);
+    setBackgroundColor(white);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 InfoWidget::~InfoWidget() {}
 

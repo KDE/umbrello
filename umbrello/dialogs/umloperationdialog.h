@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -39,92 +39,92 @@ class UMLDoc;
 class KArrowButton;
 
 class UMLOperationDialog : public KDialogBase {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	/**
-	*	Constructor
-	*/
-	UMLOperationDialog( QWidget * parent, UMLOperation * pOperation );
+    /**
+    *	Constructor
+    */
+    UMLOperationDialog( QWidget * parent, UMLOperation * pOperation );
 
-	/**
-	*	Deconstructor
-	*/
-	~UMLOperationDialog();
+    /**
+    *	Deconstructor
+    */
+    ~UMLOperationDialog();
 
 protected:
-	/**
-	*	Sets up the dialog
-	*/
-	void setupDialog();
+    /**
+    *	Sets up the dialog
+    */
+    void setupDialog();
 
-	/**
-	 * Checks if changes are valid and applies them if they are,
-	 * else returns false
-	 */
-	bool apply();
+    /**
+     * Checks if changes are valid and applies them if they are,
+     * else returns false
+     */
+    bool apply();
 
-	/**
-	* Inserts @p type into the type-combobox as well as its completion object.
-	*/
-	void insertType( const QString& type, int index = -1 );
+    /**
+    * Inserts @p type into the type-combobox as well as its completion object.
+    */
+    void insertType( const QString& type, int index = -1 );
 
-	/**
-	*	The operation to represent.
-	*/
-	UMLOperation * m_pOperation;
+    /**
+    *	The operation to represent.
+    */
+    UMLOperation * m_pOperation;
 
-	/**
-	  * The UMLDocument where all objects live
-	 */
-	 UMLDoc *m_doc;
+    /**
+      * The UMLDocument where all objects live
+     */
+    UMLDoc *m_doc;
 
-	/**
-	* 	Menu used in paramater list box.
-	*/
-	ListPopupMenu * m_pMenu;
+    /**
+    * 	Menu used in paramater list box.
+    */
+    ListPopupMenu * m_pMenu;
 
-	//GUI widgets
-	QGroupBox  * m_pParmsGB, * m_pGenGB;
-	QListBox * m_pParmsLB;
-	QButtonGroup * m_pScopeBG;
-	QRadioButton * m_pPublicRB, * m_pPrivateRB,  * m_pProtectedRB;
-	QLabel * m_pRtypeL, * m_pNameL, * m_pStereoTypeL;
-	KComboBox * m_pRtypeCB;
-	QLineEdit * m_pNameLE, * m_pStereoTypeLE;
-	QCheckBox * m_pAbstractCB;
-	QCheckBox * m_pStaticCB;
-	QPushButton* m_pDeleteButton;
-	QPushButton* m_pPropertiesButton;
-	KArrowButton* m_pUpButton;
-	KArrowButton* m_pDownButton;
+    //GUI widgets
+    QGroupBox  * m_pParmsGB, * m_pGenGB;
+    QListBox * m_pParmsLB;
+    QButtonGroup * m_pScopeBG;
+    QRadioButton * m_pPublicRB, * m_pPrivateRB,  * m_pProtectedRB;
+    QLabel * m_pRtypeL, * m_pNameL, * m_pStereoTypeL;
+    KComboBox * m_pRtypeCB;
+    QLineEdit * m_pNameLE, * m_pStereoTypeLE;
+    QCheckBox * m_pAbstractCB;
+    QCheckBox * m_pStaticCB;
+    QPushButton* m_pDeleteButton;
+    QPushButton* m_pPropertiesButton;
+    KArrowButton* m_pUpButton;
+    KArrowButton* m_pDownButton;
 
 public slots:
-	void slotParmRightButtonPressed(QListBoxItem *item, const QPoint &p);
-	void slotParmRightButtonClicked(QListBoxItem *item, const QPoint &p);
-	void slotParmDoubleClick(QListBoxItem *item);
-	void slotParmPopupMenuSel(int id);
-	void slotNewParameter();
-	void slotDeleteParameter();
-	void slotParameterProperties();
-	void slotParameterUp();
-	void slotParameterDown();
+    void slotParmRightButtonPressed(QListBoxItem *item, const QPoint &p);
+    void slotParmRightButtonClicked(QListBoxItem *item, const QPoint &p);
+    void slotParmDoubleClick(QListBoxItem *item);
+    void slotParmPopupMenuSel(int id);
+    void slotNewParameter();
+    void slotDeleteParameter();
+    void slotParameterProperties();
+    void slotParameterUp();
+    void slotParameterDown();
 
-	/**
-	 * enables or disables buttons
-	 */
-	void slotParamsBoxClicked(QListBoxItem* parameterItem);
+    /**
+     * enables or disables buttons
+     */
+    void slotParamsBoxClicked(QListBoxItem* parameterItem);
 
-	/**
-	 * I don't think this is used, but if we had an apply button
-	 * it would slot into here
-	 */
-	void slotApply();
+    /**
+     * I don't think this is used, but if we had an apply button
+     * it would slot into here
+     */
+    void slotApply();
 
-	/**
-	 * Used when the OK button is clicked.  Calls apply()
-	 */
-	void slotOk();
+    /**
+     * Used when the OK button is clicked.  Calls apply()
+     */
+    void slotOk();
     void slotNameChanged( const QString & );
 
 };

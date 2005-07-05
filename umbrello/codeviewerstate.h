@@ -15,21 +15,21 @@
 
 namespace Settings {
 
-	/// configurable params for the code viewer tool
-	struct CodeViewerState {
-		int height;
-		int width;
-		bool showHiddenBlocks;
-		bool blocksAreHighlighted;
-		QFont font;
-		QColor paperColor;
-		QColor fontColor;
-		QColor selectedColor;
-		QColor editBlockColor;
-		QColor nonEditBlockColor;
-		QColor umlObjectColor;
-		QColor hiddenColor;
-	};
+/// configurable params for the code viewer tool
+struct CodeViewerState {
+    int height;
+    int width;
+    bool showHiddenBlocks;
+    bool blocksAreHighlighted;
+    QFont font;
+    QColor paperColor;
+    QColor fontColor;
+    QColor selectedColor;
+    QColor editBlockColor;
+    QColor nonEditBlockColor;
+    QColor umlObjectColor;
+    QColor hiddenColor;
+};
 
 }
 

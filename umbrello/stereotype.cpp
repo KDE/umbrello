@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2003-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2003-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -22,72 +22,72 @@
 #include <kdebug.h>
 
 UMLStereotype::UMLStereotype(const QString &name, Uml::IDType id /* = Uml::id_None */)
-  : UMLObject( name, id ) {
-	m_BaseType = Uml::ot_Stereotype;
-	m_refCount = 0;
+        : UMLObject( name, id ) {
+    m_BaseType = Uml::ot_Stereotype;
+    m_refCount = 0;
 }
 
 UMLStereotype::UMLStereotype() : UMLObject() {
-	m_BaseType = Uml::ot_Stereotype;
-	m_refCount = 0;
+    m_BaseType = Uml::ot_Stereotype;
+    m_refCount = 0;
 }
 
 UMLStereotype::~UMLStereotype() {}
 
 bool UMLStereotype::operator==( UMLStereotype &rhs) {
-	if (this == &rhs) {
-		return true;
-	}
+    if (this == &rhs) {
+        return true;
+    }
 
-	if ( !UMLObject::operator==( rhs ) ) {
-		return false;
-	}
+    if ( !UMLObject::operator==( rhs ) ) {
+        return false;
+    }
 
-	return true;
+    return true;
 }
 
 void UMLStereotype::copyInto(UMLStereotype *rhs) const
 {
-	UMLObject::copyInto(rhs);
+    UMLObject::copyInto(rhs);
 }
 
 UMLObject* UMLStereotype::clone() const
 {
-	UMLStereotype *clone = new UMLStereotype();
-	copyInto(clone);
+    UMLStereotype *clone = new UMLStereotype();
+    copyInto(clone);
 
-	return clone;
+    return clone;
 }
 
 
 void UMLStereotype::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
-	//FIXME: uml13.dtd compliance
-	QDomElement stereotypeElement = UMLObject::save("UML:Stereotype", qDoc);
-	qElement.appendChild( stereotypeElement );
+    //FIXME: uml13.dtd compliance
+    QDomElement stereotypeElement = UMLObject::save("UML:Stereotype", qDoc);
+    qElement.appendChild( stereotypeElement );
 }
 
 bool UMLStereotype::load(QDomElement& /*element*/) {
-	return true;
+    return true;
 }
 
 bool UMLStereotype::showPropertiesDialogue(QWidget* parent) {
-	bool ok;
-	QString name = KInputDialog::getText(i18n("Stereotype"), i18n("Enter name:"), getName(),&ok, parent);
-	if (ok) {
-		setName(name);
-	}
-	return ok;
+    bool ok;
+    QString name = KInputDialog::getText(i18n("Stereotype"), i18n("Enter name:"), getName(),&ok, parent);
+    if (ok) {
+        setName(name);
+    }
+    return ok;
 }
 
 void UMLStereotype::incrRefCount() {
-	m_refCount++;
+    m_refCount++;
 }
 
 void UMLStereotype::decrRefCount() {
-	m_refCount--;
+    m_refCount--;
 }
 
 int UMLStereotype::refCount() const {
-	return m_refCount;
+    return m_refCount;
 }
 

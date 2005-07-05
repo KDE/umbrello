@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2003-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2003-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -29,77 +29,77 @@
 
 class UMLStereotype : public UMLObject {
 public:
-	/**
-	 * Sets up a stereotype.
-	 *
-	 * @param name		The name of this UMLStereotype.
-	 * @param id		The unique id given to this UMLStereotype.
-	 * @param listType	The list which this stereotype is part of
-	 *			(attribute, operation etc)
-	 */
-	UMLStereotype(const QString &name, Uml::IDType id = Uml::id_None);
+    /**
+     * Sets up a stereotype.
+     *
+     * @param name		The name of this UMLStereotype.
+     * @param id		The unique id given to this UMLStereotype.
+     * @param listType	The list which this stereotype is part of
+     *			(attribute, operation etc)
+     */
+    UMLStereotype(const QString &name, Uml::IDType id = Uml::id_None);
 
-	/**
-	 * Sets up a stereotype.
-	 *
-	 * @param parent	The parent of this UMLStereotype.
-	 */
-	UMLStereotype();
+    /**
+     * Sets up a stereotype.
+     *
+     * @param parent	The parent of this UMLStereotype.
+     */
+    UMLStereotype();
 
-	/**
-	 * Overloaded '==' operator
-	 */
-	bool operator==(UMLStereotype &rhs);
+    /**
+     * Overloaded '==' operator
+     */
+    bool operator==(UMLStereotype &rhs);
 
-	/**
-	 * destructor
-	 */
-	virtual ~UMLStereotype();
+    /**
+     * destructor
+     */
+    virtual ~UMLStereotype();
 
-	/**
-	 * Copy the internal presentation of this object into the new
-	 * object.
-	 */
-	virtual void copyInto(UMLStereotype *rhs) const;
+    /**
+     * Copy the internal presentation of this object into the new
+     * object.
+     */
+    virtual void copyInto(UMLStereotype *rhs) const;
 
-	/**
-	 * Make a clone of this object.
-	 */
-	virtual UMLObject* clone() const;
+    /**
+     * Make a clone of this object.
+     */
+    virtual UMLObject* clone() const;
 
-	/**
-	 * Increments the reference count for this stereotype.
-	 */
-	void incrRefCount();
+    /**
+     * Increments the reference count for this stereotype.
+     */
+    void incrRefCount();
 
-	/**
-	 * Decrements the reference count for this stereotype.
-	 */
-	void decrRefCount();
+    /**
+     * Decrements the reference count for this stereotype.
+     */
+    void decrRefCount();
 
-	/**
-	 * Returns the reference count for this stereotype.
-	 */
-	int refCount() const;
+    /**
+     * Returns the reference count for this stereotype.
+     */
+    int refCount() const;
 
-	/**
-	 * Saves to the <UML:StereoType> XMI element.
-	 */
-	void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    /**
+     * Saves to the <UML:StereoType> XMI element.
+     */
+    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-	/**
-	 * Display the properties configuration dialogue for the stereotype
-	 * (just a line edit).
-	 */
-	bool showPropertiesDialogue(QWidget* parent);
+    /**
+     * Display the properties configuration dialogue for the stereotype
+     * (just a line edit).
+     */
+    bool showPropertiesDialogue(QWidget* parent);
 
 protected:
-	/**
-	 * Loads a <UML:StereoType> XMI element.
-	 */
-	bool load(QDomElement& element);
+    /**
+     * Loads a <UML:StereoType> XMI element.
+     */
+    bool load(QDomElement& element);
 
-	int m_refCount;
+    int m_refCount;
 };
 
 #endif

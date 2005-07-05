@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -18,34 +18,34 @@
 #include "umlobject.h"
 
 WidgetBase::WidgetBase(UMLView *view)
-  : QObject(view), m_Type(Uml::wt_UMLWidget), m_pView(view), m_pObject(NULL) {
+        : QObject(view), m_Type(Uml::wt_UMLWidget), m_pView(view), m_pObject(NULL) {
 }
 
 void WidgetBase::setBaseType( Uml::Widget_Type type ) {
-	m_Type = type;
+    m_Type = type;
 }
 
 Uml::Widget_Type WidgetBase::getBaseType() const {
-	return m_Type;
+    return m_Type;
 }
 
 UMLObject *WidgetBase::getUMLObject() {
-	return m_pObject;
+    return m_pObject;
 }
 
 void WidgetBase::setUMLObject(UMLObject * o) {
-	m_pObject = o;
+    m_pObject = o;
 }
 
 QString WidgetBase::getDoc() const {
-	if (m_pObject != NULL)
-		return m_pObject->getDoc();
-	return "";
+    if (m_pObject != NULL)
+        return m_pObject->getDoc();
+    return "";
 }
 
 void WidgetBase::setDoc( const QString &doc ) {
-	if (m_pObject != NULL)
-		m_pObject->setDoc( doc );
+    if (m_pObject != NULL)
+        m_pObject->setDoc( doc );
 }
 
 #include "widgetbase.moc"

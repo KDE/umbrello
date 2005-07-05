@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2000
-  *  Michael Edwardes <mte @users.sourceforge.net>
-  */
+/*
+ *  copyright (C) 2000
+ *  Michael Edwardes <mte @users.sourceforge.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -25,19 +25,19 @@
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class KStartupLogo : public QWidget  {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	KStartupLogo(QWidget *parent=0, const char *name=0);
-	~KStartupLogo();
-	void setHideEnabled(bool bEnabled);
+    KStartupLogo(QWidget *parent=0, const char *name=0);
+    ~KStartupLogo();
+    void setHideEnabled(bool bEnabled);
 
 protected:
-	virtual void mousePressEvent( QMouseEvent*);
-	bool m_bReadyToHide;
-	QTimer* timer;
+    virtual void mousePressEvent( QMouseEvent*);
+    bool m_bReadyToHide;
+    QTimer* timer;
 
 public slots:
-	void timerDone();
+    void timerDone();
 
 };
 

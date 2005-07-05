@@ -1,7 +1,7 @@
- /*
-  *  copyright (C) 2002-2004
-  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
-  */
+/*
+ *  copyright (C) 2002-2004
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -41,61 +41,61 @@ static KCmdLineOptions options[] =
     };
 
 int main(int argc, char *argv[]) {
-	KAboutData aboutData( "umbrello", I18N_NOOP("Umbrello UML Modeller"),
-	                      UMBRELLO_VERSION, description, KAboutData::License_GPL,
-	                      I18N_NOOP("(c) 2001 Paul Hensgen, (c) 2002-2005 Umbrello UML Modeller Authors"), 0,
-	                      "http://uml.sf.net/");
-	aboutData.addAuthor("Paul Hensgen",0, "phensgen@users.sourceforge.net");
-	aboutData.addAuthor(I18N_NOOP("Umbrello UML Modeller Authors"), 0, "uml-devel@lists.sourceforge.net");
-	KCmdLineArgs::init( argc, argv, &aboutData );
-	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
+    KAboutData aboutData( "umbrello", I18N_NOOP("Umbrello UML Modeller"),
+                          UMBRELLO_VERSION, description, KAboutData::License_GPL,
+                          I18N_NOOP("(c) 2001 Paul Hensgen, (c) 2002-2005 Umbrello UML Modeller Authors"), 0,
+                          "http://uml.sf.net/");
+    aboutData.addAuthor("Paul Hensgen",0, "phensgen@users.sourceforge.net");
+    aboutData.addAuthor(I18N_NOOP("Umbrello UML Modeller Authors"), 0, "uml-devel@lists.sourceforge.net");
+    KCmdLineArgs::init( argc, argv, &aboutData );
+    KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 
-	KApplication app;
-	if( app.isRestored() ) {
-		RESTORE( UMLApp );
-	} else {
-		KStartupLogo* start_logo = 0L;
-		UMLApp *uml = new UMLApp();
-		KConfig * cfg = app.config();
-		//see if we want a logo shown
-		cfg -> setGroup( "General Options" );
-		bool showLogo = cfg -> readBoolEntry( "logo", true );
-		if (showLogo) {
+    KApplication app;
+    if( app.isRestored() ) {
+        RESTORE( UMLApp );
+    } else {
+        KStartupLogo* start_logo = 0L;
+        UMLApp *uml = new UMLApp();
+        KConfig * cfg = app.config();
+        //see if we want a logo shown
+        cfg -> setGroup( "General Options" );
+        bool showLogo = cfg -> readBoolEntry( "logo", true );
+        if (showLogo) {
 #if KDE_IS_VERSION(3,2,90)
-			start_logo = new KStartupLogo(0);
-			start_logo->setHideEnabled(true);
-			KWin::setMainWindow(start_logo, uml->winId());
+            start_logo = new KStartupLogo(0);
+            start_logo->setHideEnabled(true);
+            KWin::setMainWindow(start_logo, uml->winId());
 #else
-			start_logo = new KStartupLogo(uml);
-			start_logo->setHideEnabled(true);
+            start_logo = new KStartupLogo(uml);
+            start_logo->setHideEnabled(true);
 #endif
-			KWin::setState(start_logo->winId(), NET::KeepAbove);
-			start_logo->show();
-			QApplication::flushX();
-		}
-		uml->show();
-		uml->initGenerators();
+            KWin::setState(start_logo->winId(), NET::KeepAbove);
+            start_logo->show();
+            QApplication::flushX();
+        }
+        uml->show();
+        uml->initGenerators();
 
-		//show tips if wanted
-		KTipDialog::showTip();
+        //show tips if wanted
+        KTipDialog::showTip();
 
-		KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-		if ( args -> count() ) {
-			uml -> openDocumentFile( args -> url( 0 ) );
-			args -> clear();
-		} else {
-			cfg -> setGroup( "General Options" );
-			bool last = cfg -> readBoolEntry( "loadlast", false );
-			QString file = cfg -> readPathEntry( "lastFile" );
-			if( last && !file.isEmpty() ) {
-				uml->openDocumentFile( KURL( file ) );
-			} else {
-				uml->newDocument();
-			}
-		}
-		if ( showLogo && !start_logo->isHidden() ) {
-			start_logo->raise();
-		}
-	}
-	return app.exec();
+        KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+        if ( args -> count() ) {
+            uml -> openDocumentFile( args -> url( 0 ) );
+            args -> clear();
+        } else {
+            cfg -> setGroup( "General Options" );
+            bool last = cfg -> readBoolEntry( "loadlast", false );
+            QString file = cfg -> readPathEntry( "lastFile" );
+            if( last && !file.isEmpty() ) {
+                uml->openDocumentFile( KURL( file ) );
+            } else {
+                uml->newDocument();
+            }
+        }
+        if ( showLogo && !start_logo->isHidden() ) {
+            start_logo->raise();
+        }
+    }
+    return app.exec();
 }

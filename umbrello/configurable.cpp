@@ -29,49 +29,49 @@ using namespace Umbrello;
 
 
 Configurable::Configurable() :
-  _plugins()
+        _plugins()
 {
-  _plugins.setAutoDelete(FALSE);
+    _plugins.setAutoDelete(FALSE);
 }
 
 Configurable::~Configurable()
 {
-  unloadPlugins();
+    unloadPlugins();
 }
 
 bool
 Configurable::loadPlugins(KConfig *config,
-			  const QString &key)
+                          const QString &key)
 {
-  bool ret = true;
+    bool ret = true;
 
-  QStringList names = config->readListEntry(key);
-  for(uint i = 0; i != names.size(); i++) {
-    const QString &name = names[i];
+    QStringList names = config->readListEntry(key);
+    for(uint i = 0; i != names.size(); i++) {
+        const QString &name = names[i];
 
-    kdDebug() << "loading plugin " << name << endl;
+        kdDebug() << "loading plugin " << name << endl;
 
-    // load the plugin
-    Plugin *plugin = PluginLoader::instance()->loadPlugin(name);
+        // load the plugin
+        Plugin *plugin = PluginLoader::instance()->loadPlugin(name);
 
-    // keep the plugin
-    if(plugin) {
-      _plugins.append(plugin);
+        // keep the plugin
+        if(plugin) {
+            _plugins.append(plugin);
+        }
     }
-  }
 
-  return ret;
+    return ret;
 }
 
 bool
 Configurable::unloadPlugins()
 {
-  // just iterate through and dereference all the
-  // plugins.
-  for(uint i = 0; i != _plugins.count(); i++) {
-    Plugin *plugin = _plugins.at(i);
-    plugin->unload();
-  }
-  _plugins.clear();
-  return true;
+    // just iterate through and dereference all the
+    // plugins.
+    for(uint i = 0; i != _plugins.count(); i++) {
+        Plugin *plugin = _plugins.at(i);
+        plugin->unload();
+    }
+    _plugins.clear();
+    return true;
 }
