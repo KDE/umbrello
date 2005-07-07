@@ -1311,7 +1311,7 @@ void UMLApp::setActiveLanguage(int id) {
 
 
 		m_langSelect->setItemChecked(id,true);
-		m_activeLanguage = m_langSelect->text(id);
+		m_activeLanguage = m_langSelect->text(id).remove('&');
 
 		// update the generator
 		setGenerator(createGenerator());
