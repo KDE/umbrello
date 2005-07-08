@@ -669,10 +669,10 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
  * @param	linewidth
  */
 QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix, int lineWidth) {
-    QString output, comment(text);
+    QString output;
 
     const QString endLine = getNewLineEndingChars();
-    QStringList lines = QStringList::split(endLine, comment);
+    QStringList lines = QStringList::split(endLine, text);
     for (QStringList::ConstIterator lit = lines.begin(); lit != lines.end(); ++lit) {
         QString input = *lit;
         input.remove( QRegExp("\\s+$") );
@@ -682,7 +682,9 @@ QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix,
         }
         int index;
         do {
-            index = comment.findRev(" ", lineWidth + 1);
+            index = input.findRev(" ", lineWidth + 1);
+            if (index == -1)
+                break;
             output += linePrefix + input.left(index) + endLine; // add line
             input.remove(0, index + 1);	//and remove processed string, including
             // white space
