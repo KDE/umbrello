@@ -40,7 +40,7 @@ CPPHeaderCodeOperation::~CPPHeaderCodeOperation ( ) { }
 void CPPHeaderCodeOperation::updateContent( )
 {
     CPPCodeGenerationPolicy * policy = (CPPCodeGenerationPolicy*) getParentDocument()->getParentGenerator()->getPolicy();
-    bool isInlineMethod = policy->getAccessorsAreInline( );
+    bool isInlineMethod = policy->getOperationsAreInline( );
 
     if(isInlineMethod)
         setText(""); // change whatever it is to "";
