@@ -34,8 +34,8 @@
 #include "../operation.h"
 #include "../umlnamespace.h"
 
-PythonWriter::PythonWriter( UMLDoc *parent, const char *name ) :
-SimpleCodeGenerator( parent, name) {
+PythonWriter::PythonWriter( UMLDoc *parent, const char *name )
+  : SimpleCodeGenerator(parent, name), m_bNeedPass(true) {
 }
 
 PythonWriter::~PythonWriter() {}
@@ -52,6 +52,8 @@ void PythonWriter::writeClass(UMLClassifier *c) {
     UMLClassifierList superclasses = c->getSuperClasses();
     UMLAssociationList aggregations = c->getAggregations();
     UMLAssociationList compositions = c->getCompositions();
+
+    m_bNeedPass = true;
 
     //find an appropriate name for our file
     fileName = findFileName(c,".py");
@@ -122,10 +124,14 @@ void PythonWriter::writeClass(UMLClassifier *c) {
         h<<m_indentation<<":version:"<<m_endl;
         h<<m_indentation<<":author:"<<m_endl;
         h<<m_indentation<<"\"\"\""<<m_endl<<m_endl;
+        m_bNeedPass = false;
     }
 
     //operations
     writeOperations(c,h);
+
+    if (m_bNeedPass)
+        h << m_indentation << "pass" << m_endl;
 
     //finish files
     h<<m_endl<<m_endl;
@@ -241,7 +247,7 @@ void PythonWriter::writeOperations(QString /*classname*/, UMLOperationList &opLi
             h<<m_indentation<<m_indentation<<"\"\"\""<<m_endl;
         }
         h<<m_indentation<<m_indentation<<"pass"<<m_endl<<m_endl;
-
+        m_bNeedPass = false;
     }//end for
 }
 

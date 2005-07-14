@@ -78,6 +78,8 @@ private:
       */
     void writeOperations(QString classname, UMLOperationList &opList,
                          QTextStream &h, Access access);
+
+    bool m_bNeedPass;  ///< True as long as no "pass" has been written
 };
 
 #endif //PYTHONWRITER
