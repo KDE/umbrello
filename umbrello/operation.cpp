@@ -243,14 +243,12 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement operationElement = UMLObject::save("UML:Operation", qDoc);
     QDomElement featureElement = qDoc.createElement( "UML:BehavioralFeature.parameter" );
     if (m_pSecondary) {
-        if (m_pSecondary->getName() != "void") {
-            QDomElement retElement = qDoc.createElement("UML:Parameter");
-            UMLDoc *pDoc = UMLApp::app()->getDocument();
-            retElement.setAttribute( "xmi.id", ID2STR(pDoc->getUniqueID()) );
-            retElement.setAttribute( "type", ID2STR(m_pSecondary->getID()) );
-            retElement.setAttribute( "kind", "return" );
-            featureElement.appendChild( retElement );
-        }
+        QDomElement retElement = qDoc.createElement("UML:Parameter");
+        UMLDoc *pDoc = UMLApp::app()->getDocument();
+        retElement.setAttribute( "xmi.id", ID2STR(pDoc->getUniqueID()) );
+        retElement.setAttribute( "type", ID2STR(m_pSecondary->getID()) );
+        retElement.setAttribute( "kind", "return" );
+        featureElement.appendChild( retElement );
     } else {
         //operationElement.setAttribute( "type", m_SecondaryId );
         kdDebug() << "UMLOperation::saveToXMI: m_SecondaryId is "
