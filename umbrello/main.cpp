@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
         cfg -> setGroup( "General Options" );
         bool showLogo = cfg -> readBoolEntry( "logo", true );
         if (showLogo) {
-#if KDE_IS_VERSION(3,2,90)
+#if KDE_IS_VERSION(3,3,90)
             start_logo = new KStartupLogo(0);
             start_logo->setHideEnabled(true);
             KWin::setMainWindow(start_logo, uml->winId());
