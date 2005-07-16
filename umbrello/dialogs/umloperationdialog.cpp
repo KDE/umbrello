@@ -298,6 +298,10 @@ void UMLOperationDialog::slotNewParameter() {
 			 */
 			newAttribute->setID( m_doc->getUniqueID() );
 			newAttribute->setName( name );
+			newAttribute->setTypeName( dlg.getTypeName() );
+			newAttribute->setInitialValue( dlg.getInitialValue() );
+			newAttribute->setDoc( dlg.getDoc() );
+			newAttribute->setParmKind( dlg.getParmKind() );
 			m_pOperation->addParm( newAttribute );
 			m_pParmsLB -> insertItem( name );
 			m_doc -> setModified( true );
