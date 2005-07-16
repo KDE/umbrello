@@ -296,18 +296,6 @@ void UMLDrag::setUMLDataClip5(UMLObjectList& objects, UMLListViewItemList& umlLi
     setEncodedData(domDoc.toString().utf8(), 0);
 }
 
-bool UMLDrag::canDecode(const QMimeSource* mimeSource) {
-    const char* f;
-    for (int i=0; (f=mimeSource->format(i)); i++) {
-        if ( 0==qstrnicmp(f,"application/x-uml-clip", 22) ) {
-            //FIXME need to test for clip1, clip2, clip3, clip4 or clip5
-            //(the only valid clip types)
-            return true;
-        }
-    }
-    return false;
-}
-
 bool UMLDrag::decodeClip1(const QMimeSource* mimeSource, UMLObjectList& objects,
                           UMLListViewItemList& umlListViewItems) {
     UMLDoc* doc = UMLApp::app()->getDocument();

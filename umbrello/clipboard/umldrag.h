@@ -134,11 +134,6 @@ public:
     void setUMLDataClip5(UMLObjectList& Objects, UMLListViewItemList& UMLListViewItems);
 
     /**
-     *  Returns whether it can decode the given mimesource
-     */
-    static bool canDecode(const QMimeSource* mimeSource);
-
-    /**
      * Sets the type of the clip to "application/x-uml-" + sub
      *	sub should be clip[1-5]
      */

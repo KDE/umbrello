@@ -61,7 +61,6 @@
 #include "worktoolbar.h"
 
 #include "clipboard/umlclipboard.h"
-#include "clipboard/umldrag.h"
 #include "dialogs/classwizard.h"
 #include "dialogs/codegenerationwizard.h"
 #include "dialogs/codeviewerdialog.h"
@@ -141,7 +140,6 @@ UMLApp::~UMLApp() {
     delete m_clipTimer;
     delete m_copyTimer;
 
-    delete statProg;
     delete m_statusLabel;
     delete m_refactoringAssist;
 }
@@ -360,17 +358,6 @@ void UMLApp::setupZoomMenu() {
 }
 
 void UMLApp::initStatusBar() {
-    /* Progress bar removed, it didn't reflect the actual load status of a file
-    statProg = new QProgressBar(statusBar(),"Progressbar");
-    statProg->setFixedWidth( 100 );             // arbitrary width
-    statProg->setCenterIndicator(true);
-    statProg->setFrameStyle( QFrame::NoFrame | QFrame::Plain );
-    statProg->setMargin( 0 );
-    statProg->setLineWidth(0);
-    statProg->setBackgroundMode( QWidget::PaletteBackground );
-    statProg->setFixedHeight( statProg->sizeHint().height() - 8 );
-    */
-
     m_statusLabel = new KStatusBarLabel( i18n("Ready."), 0, statusBar() );
     m_statusLabel->setFixedHeight( m_statusLabel->sizeHint().height() );
 
@@ -380,17 +367,7 @@ void UMLApp::initStatusBar() {
 
     statusBar()->addWidget( m_statusLabel, 1, false );
 
-    /*
-    statusBar()->addWidget(statProg, 0,  true);
-    */
-
     m_statusLabel->setAlignment(AlignLeft|AlignVCenter);
-
-    /*
-    connect(m_doc,SIGNAL(sigSetStatusbarProgressSteps(int)),statProg,SLOT(setTotalSteps(int)));
-    connect(m_doc,SIGNAL(sigSetStatusbarProgress(int)),statProg,SLOT(setProgress(int)));
-    connect(m_doc,SIGNAL(sigResetStatusbarProgress()),statProg,SLOT(reset()));
-    */
 
     connect(m_doc, SIGNAL( sigWriteToStatusBar(const QString &) ), this, SLOT( slotStatusMsg(const QString &) ));
 }
@@ -1005,11 +982,23 @@ void UMLApp::initClip() {
     connect(m_copyTimer, SIGNAL(timeout()), this, SLOT(slotCopyChanged()));
 }
 
+bool UMLApp::canDecode(const QMimeSource* mimeSource) {
+    const char* f;
+    for (int i=0; (f=mimeSource->format(i)); i++) {
+        if ( !qstrnicmp(f,"application/x-uml-clip", 22) ) {
+            //FIXME need to test for clip1, clip2, clip3, clip4 or clip5
+            //(the only valid clip types)
+            return true;
+        }
+    }
+    return false;
+}
+
 void UMLApp::slotClipDataChanged() {
     QMimeSource * data = QApplication::clipboard()->data();
 
     //Pass the MimeSource to the Doc
-    editPaste->setEnabled( data && UMLDrag::canDecode(data) );
+    editPaste->setEnabled( data && canDecode(data) );
 }
 
 void UMLApp::slotCopyChanged() {

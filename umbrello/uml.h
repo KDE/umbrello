@@ -24,7 +24,6 @@
 
 #include <qmap.h>
 #include <qdict.h>
-#include <qprogressbar.h>
 
 #include <kdockwidget.h>
 #include <kdeversion.h>
@@ -767,6 +766,11 @@ private:
     ClassImport * m_classImporter;
 
     /**
+     *  Returns whether we can decode the given mimesource
+     */
+    static bool canDecode(const QMimeSource* mimeSource);
+
+    /**
      * Reads from the config file the options state.
      * Not in @ref readOptions as it needs to be read earlier than some
      * of the other options, before some items are created.
@@ -897,7 +901,6 @@ private:
 
     KStatusBarLabel* m_statusLabel;
 
-    QGuardedPtr<QProgressBar> statProg;
     /**
      * True if the application is opening an existing document
      */
