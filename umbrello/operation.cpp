@@ -393,11 +393,10 @@ bool UMLOperation::isConstructorOperation() {
 
     QString cName = c->getName();
     QString opName = getName();
-    QString opReturn = getTypeName();
 
-    // its a constructor operation if the operation name and return type
-    // match that of the parent classifier
-    return (cName == opName && cName == opReturn) ? true : false;
+    // It's a constructor operation if the operation name
+    // matches that of the parent classifier.
+    return (cName == opName);
 }
 
 bool UMLOperation::showPropertiesDialogue(QWidget* parent) {
