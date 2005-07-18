@@ -20,4 +20,3 @@ dnl #endif
 dnl int setenv(const char *name, const char *value, int overwrite);
 dnl #endif
 dnl ])
-
