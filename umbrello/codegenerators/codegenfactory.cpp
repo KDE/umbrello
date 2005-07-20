@@ -35,6 +35,7 @@
 #include "php5writer.h"
 #include "perlwriter.h"
 #include "pythonwriter.h"
+#include "rubywriter.h"
 #include "sqlwriter.h"
 #include "aswriter.h"
 #include "jswriter.h"
@@ -64,6 +65,7 @@ QStringList CodeGeneratorFactory::languagesAvailable() {
     l.append("PHP");
     l.append("PHP5");
     l.append("Python");
+    l.append("Ruby");
     l.append("SQL");
     l.append("XMLSchema");
     return l;
@@ -95,6 +97,8 @@ QString CodeGeneratorFactory::generatorName(const QString &l) {
         return "PerlWriter";
     if (l == "Python")
         return "PythonWriter";
+    if (l == "Ruby")
+        return "RubyWriter";
     if (l == "SQL")
         return "SQLWriter";
     if (l == "XMLSchema")
@@ -138,6 +142,8 @@ CodeGenerator* CodeGeneratorFactory::createObject(UMLDoc* doc, const char* name)
             obj = new PerlWriter( doc, name);
         } else if (cname == "PythonWriter") {
             obj = new PythonWriter( doc, name);
+        } else if (cname == "RubyWriter") {
+            obj = new RubyWriter( doc, name);
         } else if (cname == "SQLWriter") {
             obj = new SQLWriter( doc, name);
         } else if (cname == "XMLSchemaWriter") {

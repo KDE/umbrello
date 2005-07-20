@@ -22,7 +22,7 @@ libcodegenerator_la_SOURCES = codegenfactory.cpp classifierinfo.cpp \
 				cppcodegenerationformbase.ui cppcodegenerationform.cpp \
 				simplecodegenerator.cpp \
 				adawriter.cpp aswriter.cpp cppwriter.cpp javawriter.cpp jswriter.cpp \
-				idlwriter.cpp perlwriter.cpp \
+				idlwriter.cpp perlwriter.cpp rubywriter.cpp \
 				phpwriter.cpp php5writer.cpp pythonwriter.cpp sqlwriter.cpp xmlschemawriter.cpp \
 				xmlelementcodeblock.cpp xmlcodecomment.cpp \
 				codegen_utils.cpp

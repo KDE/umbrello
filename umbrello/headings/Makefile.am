@@ -11,5 +11,6 @@ heading.js \
 heading.php \
 heading.pm \
 heading.py \
+heading.rb \
 heading.sql \
 heading.xsd
