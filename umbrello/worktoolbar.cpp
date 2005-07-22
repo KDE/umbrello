@@ -53,13 +53,8 @@ WorkToolBar::~WorkToolBar() {
 }
 
 void WorkToolBar::insertHotBtn(ToolBar_Buttons tbb) {
-    try {
-        insertButton(m_ToolButtons[tbb].Symbol, tbb, true, m_ToolButtons[tbb].Label);
-        setToggle(tbb, true);
-    }
-    catch (...) {
-        kdError() << "Undefined button id " << tbb << "!" << endl;
-    }
+    insertButton(m_ToolButtons[tbb].Symbol, tbb, true, m_ToolButtons[tbb].Label);
+    setToggle(tbb, true);
 }
 
 void WorkToolBar::insertBasicAssociations()  {
@@ -199,13 +194,7 @@ void WorkToolBar::buttonChanged(int b) {
 }
 
 QCursor WorkToolBar::currentCursor() {
-    try {
-        return m_ToolButtons[m_CurrentButtonID].Cursor;
-    }
-    catch (...) {
-        kdError() << "Cursor not found for id " << m_CurrentButtonID << "!" << endl;
-        return QCursor();
-    }
+    return m_ToolButtons[m_CurrentButtonID].Cursor;
 }
 
 void WorkToolBar::slotResetToolBar() {
@@ -238,15 +227,9 @@ void WorkToolBar::setDefaultTool() {
 }
 
 QPixmap WorkToolBar::load(const QString & fileName) {
-    try {
-        QPixmap pxm;
-        pxm.load(fileName);
-        return pxm;
-    }
-    catch (...) {
-        kdError() << "Could not load pixmap from " << fileName << "!" << endl;
-        return 0;
-    }
+    QPixmap pxm;
+    pxm.load(fileName);
+    return pxm;
 }
 
 void WorkToolBar::loadPixmaps() {
