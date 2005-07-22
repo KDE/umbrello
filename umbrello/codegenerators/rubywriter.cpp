@@ -234,7 +234,7 @@ void RubyWriter::writeOperations(QString classname, UMLOperationList &opList,
 
     for (op=opList.first(); op ; op=opList.next()) {
         QString methodName = cleanName(op->getName());
-        QString commentedParams;
+        QStringList commentedParams;
 
         // Skip destructors, and operator methods which
         // can't be defined in ruby
@@ -276,7 +276,7 @@ void RubyWriter::writeOperations(QString classname, UMLOperationList &opList,
             int pos = re_params.search(docStr);
             while (pos != -1) {
                 docStr.replace( re_params.cap(0), 
-                                QString("@param _") + re_params.cap(1).lower() + re_params.cap(2) + "_");
+                                QString("@param _") + re_params.cap(1).lower() + re_params.cap(2) + "_" );
                 commentedParams.append(re_params.cap(1).lower() + re_params.cap(2));
 
                 pos += re_params.matchedLength() + 3;
@@ -329,7 +329,7 @@ void RubyWriter::writeOperations(QString classname, UMLOperationList &opList,
 
         int j=0;
         for( at = atl->first(); at ;at = atl->next(),j++) {
-            QString nameStr = cppToRubyName(cleanName(at->getName()));
+            QString nameStr = cppToRubyName(at->getName());
             if (j > 0) {
                 h << ", " << nameStr;
             } else {

@@ -23,6 +23,7 @@
 // the new
 #include "cppcodegenerator.h"
 #include "javacodegenerator.h"
+#include "rubycodegenerator.h"
 #include "xmlschemawriter.h"
 
 // the old
@@ -143,7 +144,10 @@ CodeGenerator* CodeGeneratorFactory::createObject(UMLDoc* doc, const char* name)
         } else if (cname == "PythonWriter") {
             obj = new PythonWriter( doc, name);
         } else if (cname == "RubyWriter") {
-            obj = new RubyWriter( doc, name);
+            if (optionState.generalState.newcodegen)
+                obj = new RubyCodeGenerator(doc, name);
+            else
+                obj = new RubyWriter(doc, name);
         } else if (cname == "SQLWriter") {
             obj = new SQLWriter( doc, name);
         } else if (cname == "XMLSchemaWriter") {

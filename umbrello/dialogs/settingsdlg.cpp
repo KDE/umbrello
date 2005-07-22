@@ -116,7 +116,7 @@ void SettingsDlg::setupGeneralPage() {
     m_GeneralWidgets.tabdiagramsCB -> setChecked( m_pOptionState->generalState.tabdiagrams );
     miscLayout -> addWidget( m_GeneralWidgets.tabdiagramsCB, 0, 1 );
 
-    m_GeneralWidgets.newcodegenCB = new QCheckBox( i18n("Use new C++/Java generators"), m_GeneralWidgets.miscGB );
+    m_GeneralWidgets.newcodegenCB = new QCheckBox( i18n("Use new C++/Java/Ruby generators"), m_GeneralWidgets.miscGB );
     m_GeneralWidgets.newcodegenCB -> setChecked( m_pOptionState->generalState.newcodegen );
     miscLayout -> addWidget( m_GeneralWidgets.newcodegenCB, 1, 0 );
 

@@ -20,6 +20,12 @@ libcodegenerator_la_SOURCES = codegenfactory.cpp classifierinfo.cpp \
 				cppheadercodeclassfielddeclarationblock.cpp \
 				cppcodegenerationpolicy.cpp cppcodegenerationpolicypage.cpp \
 				cppcodegenerationformbase.ui cppcodegenerationform.cpp \
+				rubycodegenerator.cpp rubycodeclassfield.cpp \
+				rubyclassifiercodedocument.cpp rubycodecomment.cpp rubycodedocumentation.cpp \
+				rubycodeoperation.cpp rubycodeaccessormethod.cpp \
+				rubyclassdeclarationblock.cpp rubycodeclassfielddeclarationblock.cpp \
+				rubycodegenerationpolicy.cpp rubycodegenerationpolicypage.cpp \
+				rubycodegenerationformbase.ui \
 				simplecodegenerator.cpp \
 				adawriter.cpp aswriter.cpp cppwriter.cpp javawriter.cpp jswriter.cpp \
 				idlwriter.cpp perlwriter.cpp rubywriter.cpp \
