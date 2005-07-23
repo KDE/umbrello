@@ -390,5 +390,14 @@ const QStringList reservedCppKeywords() {
     return keywords;
 }
 
+void createCppStereotypes(){
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    umldoc->findOrCreateStereotype("constructor");
+    // declares an operation as friend
+    umldoc->findOrCreateStereotype("friend");
+    // to use in methods that aren't abstract
+    umldoc->findOrCreateStereotype("virtual");
+}
+
 }  // end namespace Umbrello
 

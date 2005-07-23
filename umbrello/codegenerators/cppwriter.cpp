@@ -587,7 +587,7 @@ void CppWriter::writeAttributeDecls (Uml::Scope visibility, bool writeStatic, QT
 
 void CppWriter::writeHeaderAttributeAccessorMethods (Uml::Scope visibility, bool writeStatic, QTextStream &stream )
 {
-
+    // check the current policy about generate accessors as public
     UMLAttributeList * list;
     switch (visibility)
     {
@@ -1187,9 +1187,13 @@ void CppWriter::writeOperations(UMLOperationList &oplist, bool isHeaderMethod, Q
         QString returnStr = "";
         // write documentation
 
-        QString methodReturnType = fixTypeName(op->getTypeName());
-        if(methodReturnType != "void")
-            returnStr += "@return	"+methodReturnType+"\n";
+        QString methodReturnType = "";
+        if (!op->isConstructorOperation())
+        {
+            methodReturnType = fixTypeName(op->getTypeName());
+            if(methodReturnType != "void")
+                returnStr += "@return	"+methodReturnType+"\n";
+        }
 
         str = ""; // reset for next method
         if (op->getAbstract() || classifierInfo->isInterface) {

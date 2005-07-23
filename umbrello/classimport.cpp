@@ -221,7 +221,8 @@ UMLObject* ClassImport::insertAttribute(UMLClassifier *owner, Uml::Scope scope, 
 
 void ClassImport::insertMethod(UMLClassifier *klass, UMLOperation *op,
                                Uml::Scope scope, QString type,
-                               bool isStatic, bool isAbstract,
+                               bool isStatic, bool isAbstract, 
+                               bool isFriend, bool isConstructor,
                                QString comment) {
     op->setScope(scope);
     if (!type.isEmpty()) {  // return type may be missing (constructor/destructor)
@@ -236,9 +237,18 @@ void ClassImport::insertMethod(UMLClassifier *klass, UMLOperation *op,
                 op->setType(typeObj);
             }
         }
-    }
+    } 
+    
     op->setStatic(isStatic);
     op->setAbstract(isAbstract);
+
+    // if the operation is friend, add it as a stereotype
+    if (isFriend)
+        op->setStereotype("friend");
+    // if the operation is a constructor, add it as a stereotype
+    if (isConstructor)
+        op->setStereotype("constructor");
+
     klass->addOperation(op);
     //umldoc->signalUMLObjectCreated(op);
     QString strippedComment = formatComment(comment);

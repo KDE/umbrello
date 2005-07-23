@@ -46,16 +46,16 @@ CPPCodeGenerationForm::CPPCodeGenerationForm( QWidget *parent, const char *name 
     pOptionAccessorsAreInline = new QCheckListItem( GeneralOptionsListView,
                                 tr2i18n("Accessors are inline"),
                                 QCheckListItem::CheckBox );
-    pOptionGenerateMakefileDocument = new QCheckListItem( GeneralOptionsListView,
-                                      tr2i18n("Create Makefile document"),
-                                      QCheckListItem::CheckBox );
 
-#if 0
+    pOptionAccessorsArePublic = new QCheckListItem( GeneralOptionsListView,
+                                tr2i18n("Accessors are public"),
+                                QCheckListItem::CheckBox );
+
     connect(GeneralOptionsListView,
             SIGNAL(clicked(QListViewItem *)), this,
             SLOT(generalOptionsListViewClicked(QListViewItem *))
            );
-#endif
+
 }
 
 CPPCodeGenerationForm::~CPPCodeGenerationForm()
@@ -81,6 +81,11 @@ void CPPCodeGenerationForm::browseClicked()
 }
 
 void CPPCodeGenerationForm::generalOptionsListViewClicked(QListViewItem *pSender) {
+
+    // operations are inline and accessors are operations :)
+    if (pOptionOperationsAreInline->isOn() && pOptionGenerateAccessorMethods->isOn())
+            pOptionAccessorsAreInline->setOn(true);
+
     if (pSender == pOptionPackageIsANamespace) {
 #if 0
         KMessageBox::error(0, "CPPCodeGenerationForm::generalOptionsListViewClicked(): "
@@ -103,6 +108,14 @@ void CPPCodeGenerationForm::generalOptionsListViewClicked(QListViewItem *pSender
         return;
     }
     if (pSender == pOptionGenerateAccessorMethods) {
+        pOptionAccessorsAreInline->setEnabled(pOptionGenerateAccessorMethods->isOn());
+        pOptionAccessorsArePublic->setEnabled(pOptionGenerateAccessorMethods->isOn());
+        // reset the value if needed
+        if (!pOptionGenerateAccessorMethods->isOn())
+        {
+            pOptionAccessorsAreInline->setOn(false);
+            pOptionAccessorsArePublic->setOn(false);
+        }
 #if 0
         KMessageBox::error(0, "CPPCodeGenerationForm::generalOptionsListViewClicked(): "
                            "sender=pOptionGenerateAccessorMethods");
@@ -123,13 +136,6 @@ void CPPCodeGenerationForm::generalOptionsListViewClicked(QListViewItem *pSender
 #endif
         return;
     }
-    if (pSender == pOptionGenerateMakefileDocument) {
-#if 0
-        KMessageBox::error(0, "CPPCodeGenerationForm::generalOptionsListViewClicked(): "
-                           "sender=pOptionGenerateMakefileDocument");
-#endif
-        return;
-    }
 
 #if 0
     KMessageBox::error(0, "CPPCodeGenerationForm::generalOptionsListViewClicked(): "
@@ -145,7 +151,6 @@ void CPPCodeGenerationForm::init() {
     pOptionGenerateAccessorMethods = NULL;
     pOptionOperationsAreInline = NULL;
     pOptionAccessorsAreInline = NULL;
-    pOptionGenerateMakefileDocument = NULL;
 }
 
 /**
@@ -182,6 +187,15 @@ void CPPCodeGenerationForm::setGenerateEmptyConstructors(bool bFlag) {
  */
 void CPPCodeGenerationForm::setGenerateAccessorMethods(bool bFlag) {
     pOptionGenerateAccessorMethods->setOn(bFlag);
+    // initial settings
+    pOptionAccessorsAreInline->setEnabled(pOptionGenerateAccessorMethods->isOn());
+    pOptionAccessorsArePublic->setEnabled(pOptionGenerateAccessorMethods->isOn());
+    // reset the value if needed
+    if (!pOptionGenerateAccessorMethods->isOn())
+    {
+        pOptionAccessorsAreInline->setOn(false);
+        pOptionAccessorsArePublic->setOn(false);
+    }
 }
 
 /**
@@ -204,11 +218,11 @@ void CPPCodeGenerationForm::setAccessorsAreInline(bool bFlag) {
 
 /**
  *
- * set the display state of option "Generate Makefile Document"
+ * set the display state of option "Accessors Are Public"
  *
  */
-void CPPCodeGenerationForm::setGenerateMakefileDocument(bool bFlag) {
-    pOptionGenerateMakefileDocument->setOn(bFlag);
+void CPPCodeGenerationForm::setAccessorsArePublic(bool bFlag) {
+    pOptionAccessorsArePublic->setOn(bFlag);
 }
 
 /**
@@ -273,12 +287,12 @@ bool CPPCodeGenerationForm::getAccessorsAreInline()
 
 /**
  *
- * get the display state of option "Generate Makefile Document"
+ * get the display state of option "Accessors Are Public"
  *
  */
-bool CPPCodeGenerationForm::getGenerateMakefileDocument()
+bool CPPCodeGenerationForm::getAccessorsArePublic()
 {
-    return pOptionGenerateMakefileDocument->isOn();
+    return pOptionAccessorsArePublic->isOn();
 }
 
 

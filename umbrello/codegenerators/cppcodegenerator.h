@@ -143,6 +143,11 @@ public:
      */
     virtual const QStringList reservedKeywords() const;
 
+    /**
+     * Add the default stereotypes for c++ (constructor, int etc)
+     */
+    virtual void createDefaultStereotypes ();
+
 protected:
 
     /**

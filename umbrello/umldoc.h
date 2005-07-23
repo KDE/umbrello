@@ -848,6 +848,19 @@ public:
     void removeStereotype(const UMLStereotype *s);
 
     /**
+     * Add a stereotype if it doesn't already exist.
+     * Used by code generators, operations and attribute dialogue.
+     */
+    void addDefaultStereotypes();
+
+    /**
+     * Returns a list of the stereotypes in this UMLDoc.
+     *
+     * @return	List of UML stereotypes.
+     */
+    const UMLStereotypeList& getStereotypes();
+
+    /**
      * Returns a name for the new object, appended with a number
      * if the default name is taken e.g. new_actor, new_actor_1
      * etc.

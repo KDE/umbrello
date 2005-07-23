@@ -80,6 +80,7 @@ public:
     static void insertMethod(UMLClassifier *klass, UMLOperation *op,
                              Uml::Scope scope, QString type,
                              bool isStatic, bool isAbstract,
+                             bool isFriend = false, bool isConstructor = false,
                              QString comment = QString::null);
 
     /**

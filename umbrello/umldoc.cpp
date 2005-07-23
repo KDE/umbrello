@@ -342,6 +342,7 @@ bool UMLDoc::newDocument() {
     }//end switch
 
     addDefaultDatatypes();
+    addDefaultStereotypes();
 
     setModified(false);
     initSaveTimer();
@@ -520,6 +521,8 @@ bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
     UMLApp::app()->enableUndo(false);
     clearUndoStack();
     addToUndoStack();
+    // for compatibility
+    addDefaultStereotypes();
 
     return true;
 }
@@ -2872,6 +2875,15 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point) {
     m_pTabPopupMenu->popup(point);
     connect(m_pTabPopupMenu, SIGNAL(activated(int)), view, SLOT(slotMenuSelection(int)));
 }
+
+void UMLDoc::addDefaultStereotypes() {
+    UMLApp::app()->getGenerator()->createDefaultStereotypes();
+}
+
+const UMLStereotypeList& UMLDoc::getStereotypes() {
+    return m_stereoList;
+}
+
 
 #include "umldoc.moc"
 

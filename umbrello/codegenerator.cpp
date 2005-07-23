@@ -796,4 +796,9 @@ const QStringList CodeGenerator::reservedKeywords() const {
     return emptyList;
 }
 
+void CodeGenerator::createDefaultStereotypes()  {
+    //empty by default, override in your code generator
+    //e.g.  m_document->createDefaultStereotypes("constructor");
+}
+
 #include "codegenerator.moc"

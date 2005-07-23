@@ -634,6 +634,17 @@ void ClassifierCodeDocument::loadClassFieldsFromXMI( QDomElement & elem) {
  * Save the XMI representation of this object
  */
 void ClassifierCodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+#if 0
+    // avoid the creation of primitive data type
+    QString strType;
+    if (getParentClassifier()->getBaseType() == Uml::ot_Datatype) {
+        strType = getParentClassifier()->getName();
+        // lets get the default code generator to check if it is a primitive data type
+        // there's a reason to create files for int/boolean and so ?
+        if (getParentGenerator()->isReservedKeyword(strType))
+           return;
+    }
+#endif
     QDomElement docElement = doc.createElement( "classifiercodedocument" );
 
     setAttributesOnNode(doc, docElement);

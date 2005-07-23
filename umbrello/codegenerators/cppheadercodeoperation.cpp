@@ -72,7 +72,7 @@ void CPPHeaderCodeOperation::updateMethodDeclaration()
     }
 
     // no return type for constructors
-    QString methodReturnType = o->isConstructorOperation() ? QString("") : (o->getTypeName() + QString(" "));
+    QString methodReturnType = (o->isConstructorOperation() ? QString("") : o->getTypeName());
     QString methodName = o->getName();
     QString paramStr = QString("");
 
@@ -95,21 +95,24 @@ void CPPHeaderCodeOperation::updateMethodDeclaration()
             paramStr  += ", ";
     }
 
+    // if an operation isn't a constructor or a destructor and it has no return type
+    // this operation should be  void
+    if (methodReturnType.isEmpty() && !o->isConstructorOperation() && (methodName.find("~") == -1))
+        methodReturnType = QString("void");
+    // check for destructor, desctructor has no type
+    if (methodName.find("~") != -1)
+        methodReturnType = "";
+
     // set start/end method text
-    QString startText = methodReturnType+" "+methodName+" ("+paramStr+")";
+    QString prototype = methodReturnType+" "+methodName+" ("+paramStr+")";
 
-    // write as an abstract operation if explicitly stated OR if child of interface
-    if((isInterface || o->getAbstract()) && !isInlineMethod)
-        startText = "virtual " + startText + " = 0";
-    else if (o->getStatic())                // prefix with "static" if required
-        startText = "static "  + startText;
-    startText += (isInlineMethod ? " {" : ";");
+    QString startText;
+    QString endText;
 
-    QString endText = (isInlineMethod ? "}" : "");
+    applyStereotypes (prototype, o, isInlineMethod, isInterface, startText, endText);
 
-    setStartMethodText(startText);
+    setStartMethodText(prototype+startText);
     setEndMethodText(endText);
-
 }
 
 int CPPHeaderCodeOperation::lastEditableLine() {
@@ -132,11 +135,42 @@ void CPPHeaderCodeOperation::init (CPPHeaderCodeDocument * doc )
     setOverallIndentationLevel(1);
 
     setText("");
+    setStartMethodText("");
     setEndMethodText("");
 
     updateMethodDeclaration();
     updateContent();
 
+}
+
+void CPPHeaderCodeOperation::applyStereotypes (QString& prototype, UMLOperation * pOp,
+                                               bool inlinePolicy, bool interface,
+                                               QString& start, QString& end)
+{
+    // if the class is an interface, all methods will be declared as pure
+    // virtual functions
+    start = (inlinePolicy ? " {" : ";");
+    end = (inlinePolicy ? "}" : "");
+    if (interface || pOp->getAbstract()) {
+       // constructor can't be virtual or abstract
+       if (!pOp->isConstructorOperation()) {
+           prototype = "virtual " + prototype + " = 0";
+           if (inlinePolicy) {
+               start = ";";
+               end = "";
+           }
+       }
+    } // constructors could not be declared as static
+    else if (pOp->getStatic() && !pOp->isConstructorOperation()) {
+       prototype = "static " + prototype;
+    }
+    // apply the stereotypes
+    if (!pOp->getStereotype(false).isEmpty()) {
+        if ((pOp->getStereotype(false) == "friend") || (pOp->getStereotype(false) == "virtual")) {
+            if (!pOp->isConstructorOperation() && !(interface || pOp->getAbstract()) && !pOp->getStatic())
+                prototype = pOp->getStereotype(false) + " " + prototype; 
+        }
+    }
 }
 
 #include "cppheadercodeoperation.moc"

@@ -36,11 +36,7 @@ CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage( QWidget *parent, const
     form->setGenerateEmptyConstructors(policy->getAutoGenerateConstructors());
     form->setOperationsAreInline(policy->getOperationsAreInline());
     form->setAccessorsAreInline(policy->getAccessorsAreInline());
-
-    CodeGenerator *codegen = UMLApp::app()->getGenerator();
-    CPPCodeGenerator *cppcodegen = dynamic_cast<CPPCodeGenerator*>(codegen);
-    if (cppcodegen)
-        form->setGenerateMakefileDocument(cppcodegen->getCreateProjectMakefile());
+    form->setAccessorsArePublic(policy->getAccessorsArePublic());
 
     form->m_stringClassHCombo->setCurrentItem(policy->getStringClassName(),true);
     form->m_listClassHCombo->setCurrentItem(policy->getVectorClassName(),true);
@@ -84,11 +80,7 @@ void CPPCodeGenerationPolicyPage::apply()
     parent->setPackageIsNamespace(form->getPackageIsANamespace());
     parent->setAccessorsAreInline(form->getAccessorsAreInline());
     parent->setOperationsAreInline(form->getOperationsAreInline());
-
-    CodeGenerator *codegen = UMLApp::app()->getGenerator();
-    CPPCodeGenerator *cppcodegen = dynamic_cast<CPPCodeGenerator*>(codegen);
-    if (cppcodegen)
-        cppcodegen->setCreateProjectMakefile(form->getGenerateMakefileDocument());
+    parent->setAccessorsArePublic(form->getAccessorsArePublic());
 
     parent->setStringClassName(form->m_stringClassHCombo->currentText());
     parent->setStringClassNameInclude(form->m_stringIncludeFileHistoryCombo->currentText());

@@ -335,6 +335,11 @@ void CPPCodeGenerator::checkAddUMLObject (UMLObject * obj) {
     if (!obj)
         return;
 
+    // if the obj being created is a native data type
+    // there's no reason to create a .h/.cpp file
+    if (isReservedKeyword(obj->getName()))
+        return;
+
     UMLClassifier * c = dynamic_cast<UMLClassifier*>(obj);
     if(c) {
         CodeDocument * cDoc = newClassifierCodeDocument(c);
@@ -376,13 +381,6 @@ void CPPCodeGenerator::initAttributes ( )
     // load Classifier documents from parent document
     initFromParentDocument();
 
-    // add in an Make build document
-    CPPMakefileCodeDocument * buildDoc = newMakefileCodeDocument( );
-    addCodeDocument(buildDoc);
-
-    // set our 'writeout' policy for that code document
-    setCreateProjectMakefile(DEFAULT_BUILD_MAKEFILE);
-
 }
 
 void CPPCodeGenerator::createDefaultDatatypes() {
@@ -391,6 +389,10 @@ void CPPCodeGenerator::createDefaultDatatypes() {
 
 const QStringList CPPCodeGenerator::reservedKeywords() const {
     return Umbrello::reservedCppKeywords();
+}
+
+void CPPCodeGenerator::createDefaultStereotypes (){
+    Umbrello::createCppStereotypes();
 }
 
 #include "cppcodegenerator.moc"

@@ -68,6 +68,11 @@ public:
     void setAccessorsAreInline(bool bFlag = true);
 
     /**
+     * set the display state of option "Accessors Are Public"
+     */
+    void setAccessorsArePublic(bool bFlag = true);
+
+    /**
      * set the display state of option "Generate Makefile Document"
      */
     void setGenerateMakefileDocument(bool bFlag = true);
@@ -103,6 +108,11 @@ public:
     bool getAccessorsAreInline();
 
     /**
+     * get the display state of option "Accessors Are Public"
+     */
+    bool getAccessorsArePublic();
+
+    /**
      * get the display state of option "Generate Makefile Document"
      */
     bool getGenerateMakefileDocument();
@@ -127,7 +137,7 @@ private:
     QCheckListItem *pOptionGenerateAccessorMethods;
     QCheckListItem *pOptionOperationsAreInline;
     QCheckListItem *pOptionAccessorsAreInline;
-    QCheckListItem *pOptionGenerateMakefileDocument;
+    QCheckListItem *pOptionAccessorsArePublic;
 
     /**
      * initialize all attributes

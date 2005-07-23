@@ -51,7 +51,7 @@ void CPPHeaderCodeAccessorMethod::updateContent( )
     CPPCodeClassField * cppfield = (CPPCodeClassField*)parentField;
     CPPCodeGenerationPolicy * policy = (CPPCodeGenerationPolicy*) parentField->getParentDocument()->getParentGenerator()->getPolicy();
     bool isInlineMethod = policy->getAccessorsAreInline( );
-
+Uml::Scope scope = parentField->getVisibility();
     QString variableName = cppfield->getFieldName();
     QString itemClassName = cppfield->getTypeName();
     QString text = "";

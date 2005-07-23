@@ -25,6 +25,11 @@ void createCppDatatypes();
  */
 const QStringList reservedCppKeywords();
 
+/**
+ * Add C++ stereotypes
+ */
+void createCppStereotypes();
+
 }
 
 #endif  // CODEGEN_UTILS_H

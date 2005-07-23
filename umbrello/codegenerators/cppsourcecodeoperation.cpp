@@ -84,7 +84,21 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
             paramStr  += ", ";
     }
 
-    QString startText = returnType + " " + className + "::" + methodName + " ("+paramStr+") {";
+    // if an operation isn't a constructor/destructor and it has no return type
+    // this operation should be  void
+    if (returnType.isEmpty() && !o->isConstructorOperation() && (methodName.find("~") == -1))
+        returnType = QString("void");
+    // check for destructor, destructor has no type
+    if (methodName.find("~") != -1)
+        returnType = "";
+
+    // if a property has a friend stereotype, the operation should
+    // not be a class name
+    QString startText;
+    if (!o->getStereotype(false).isEmpty() && o->getStereotype(false) == "friend")
+        startText = returnType + " " + methodName + " ("+paramStr+") {";
+    else
+        startText = returnType + " " + className + "::" + methodName + " ("+paramStr+") {";
     setStartMethodText(startText);
 
     // Only write this out if its a child of an interface OR is abstract.

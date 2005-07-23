@@ -754,6 +754,7 @@ void CPPHeaderCodeDocument::updateContent( )
     HierarchicalCodeBlock * privAccessorBlock = privMethodsBlock->getHierarchicalCodeBlock("accessorMethods", "Accessor Methods", 1);
     // set conditions for showing section comment
     CodeComment * privAccessComment = privAccessorBlock->getComment();
+    // We've to copy the private accessorMethods to the public block
     if (!forcedoc && !hasclassFields)
         privAccessComment->setWriteOutText(false);
     else
@@ -781,20 +782,36 @@ void CPPHeaderCodeDocument::updateContent( )
     // public stuff
     pubStaticAccessors->addCodeClassFieldMethods(staticPublicAttribClassFields);
     pubRegularAccessors->addCodeClassFieldMethods(publicAttribClassFields);
+
+    // generate accessors as public
+    if (policy && policy->getAccessorsArePublic())
+    {
+        pubRegularAccessors->addCodeClassFieldMethods(privateAttribClassFields);
+        pubRegularAccessors->addCodeClassFieldMethods(protectedAttribClassFields);
+    }
+
     pubRegularAccessors->addCodeClassFieldMethods(publicPlainAssocClassFields);
     pubRegularAccessors->addCodeClassFieldMethods(publicAggregationClassFields);
     pubRegularAccessors->addCodeClassFieldMethods(publicCompositionClassFields);
 
     // protected stuff
     protStaticAccessors->addCodeClassFieldMethods(staticProtectedAttribClassFields);
-    protRegularAccessors->addCodeClassFieldMethods(protectedAttribClassFields);
+
+    // accessors are public so we don't have to create it here
+    if (policy && !policy->getAccessorsArePublic())
+        protRegularAccessors->addCodeClassFieldMethods(protectedAttribClassFields);
+
     protRegularAccessors->addCodeClassFieldMethods(protPlainAssocClassFields);
     protRegularAccessors->addCodeClassFieldMethods(protAggregationClassFields);
     protRegularAccessors->addCodeClassFieldMethods(protCompositionClassFields);
 
     // private stuff
     privStaticAccessors->addCodeClassFieldMethods(staticPrivateAttribClassFields);
-    privRegularAccessors->addCodeClassFieldMethods(privateAttribClassFields);
+
+    // accessors are public so we don't have to create it here
+    if (policy && !policy->getAccessorsArePublic())
+        privRegularAccessors->addCodeClassFieldMethods(privateAttribClassFields);
+
     privRegularAccessors->addCodeClassFieldMethods(privPlainAssocClassFields);
     privRegularAccessors->addCodeClassFieldMethods(privAggregationClassFields);
     privRegularAccessors->addCodeClassFieldMethods(privCompositionClassFields);

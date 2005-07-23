@@ -46,6 +46,7 @@
 #include "../umlclassifierlistitemlist.h"
 #include "../dialog_utils.h"
 #include "parmpropdlg.h"
+#include "../stereotype.h"
 
 UMLOperationDialog::UMLOperationDialog( QWidget * parent, UMLOperation * pOperation )
         : KDialogBase( Plain, i18n("Operation Properties"), Help | Ok | Cancel , Ok, parent, "_UMLOPERATIONDLG_", true, true) {
@@ -78,9 +79,10 @@ void UMLOperationDialog::setupDialog() {
     genLayout -> addWidget(m_pRtypeCB, 0, 3);
     m_pRtypeL->setBuddy(m_pRtypeCB);
 
-    Umbrello::makeLabeledEditField( m_pGenGB, genLayout, 1,
-                                    m_pStereoTypeL, i18n("Stereotype name:"),
-                                    m_pStereoTypeLE, m_pOperation->getStereotype(false) );
+    m_pStereoTypeL = new QLabel( i18n("Stereotype name:"), m_pGenGB );
+    genLayout -> addWidget(m_pStereoTypeL, 1, 0);
+    m_pStereoTypeCB = new KComboBox(true, m_pGenGB );
+    genLayout -> addWidget(m_pStereoTypeCB, 1, 1);
 
     m_pAbstractCB = new QCheckBox( i18n("&Abstract operation"), m_pGenGB );
     m_pAbstractCB -> setChecked( m_pOperation -> getAbstract() );
@@ -180,7 +182,7 @@ void UMLOperationDialog::setupDialog() {
         insertType( m_pOperation->getTypeName(), 0 );
         m_pRtypeCB->setCurrentItem(0);
     }
-
+    
     //fill in parm list box
     UMLAttributeList * list = m_pOperation -> getParmList();
     UMLAttribute * pAtt = 0;
@@ -195,6 +197,28 @@ void UMLOperationDialog::setupDialog() {
         m_pPrivateRB -> setChecked( true );
     else
         m_pProtectedRB -> setChecked( true );
+
+    // manage stereotypes
+    m_pStereoTypeCB -> setDuplicatesEnabled(false);//only allow one of each type in box
+    insertStereotype (QString("")); // an empty stereotype is the default
+    int defaultStereotype=0;
+    bool foundDefaultStereotype = false;
+    for (UMLStereotypeListIt it(m_doc->getStereotypes()); it.current(); ++it) {
+        if (!foundDefaultStereotype) {
+            if ( m_pOperation->getStereotype(false) == it.current()->getName()) {
+                foundDefaultStereotype = true;
+                defaultStereotype++;
+            }
+            else
+                defaultStereotype++;
+        }
+        insertStereotype (it.current()->getName());
+    }
+    // lookup for a default stereotype, if the operation doesn't have one
+    if (foundDefaultStereotype)
+        m_pStereoTypeCB -> setCurrentItem(defaultStereotype);
+    else
+        m_pStereoTypeCB -> setCurrentItem(-1);
 
     //setup parm list box signals
     connect( m_pUpButton, SIGNAL( clicked() ), this, SLOT( slotParameterUp() ) );
@@ -465,7 +489,7 @@ bool UMLOperationDialog::apply()
         classifier->setAbstract(true);
     }
     m_pOperation -> setStatic( m_pStaticCB -> isChecked() );
-    m_pOperation -> setStereotype( m_pStereoTypeLE->text() );
+    m_pOperation -> setStereotype( m_pStereoTypeCB->currentText() );
 
     return true;
 }
@@ -484,6 +508,12 @@ void UMLOperationDialog::insertType( const QString& type, int index )
 {
     m_pRtypeCB->insertItem( type, index );
     m_pRtypeCB->completionObject()->addItem( type );
+}
+
+void UMLOperationDialog::insertStereotype( const QString& type, int index )
+{
+    m_pStereoTypeCB->insertItem( type, index );
+    m_pStereoTypeCB->completionObject()->addItem( type );
 }
 
 #include "umloperationdialog.moc"

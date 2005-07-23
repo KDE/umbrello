@@ -84,14 +84,19 @@ protected:
     */
     ListPopupMenu * m_pMenu;
 
+    /**
+    * Inserts @p stereotype into the stereotype-combobox as well as its completion object.
+    */
+    void insertStereotype( const QString& type, int index = -1 );
+
     //GUI widgets
     QGroupBox  * m_pParmsGB, * m_pGenGB;
     QListBox * m_pParmsLB;
     QButtonGroup * m_pScopeBG;
     QRadioButton * m_pPublicRB, * m_pPrivateRB,  * m_pProtectedRB;
     QLabel * m_pRtypeL, * m_pNameL, * m_pStereoTypeL;
-    KComboBox * m_pRtypeCB;
-    QLineEdit * m_pNameLE, * m_pStereoTypeLE;
+    KComboBox * m_pRtypeCB, * m_pStereoTypeCB;
+    QLineEdit * m_pNameLE;
     QCheckBox * m_pAbstractCB;
     QCheckBox * m_pStaticCB;
     QPushButton* m_pDeleteButton;

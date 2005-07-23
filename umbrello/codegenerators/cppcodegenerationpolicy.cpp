@@ -41,6 +41,7 @@ const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_METHOD_INIT = ""; // nothin
 const char * CPPCodeGenerationPolicy::DEFAULT_OBJECT_METHOD_INIT = "%VARNAME% = new %ITEMCLASS%( );";
 const bool CPPCodeGenerationPolicy::DEFAULT_STRING_INCLUDE_GLOBAL = true;
 const bool CPPCodeGenerationPolicy::DEFAULT_VECTOR_INCLUDE_GLOBAL = true;
+const bool CPPCodeGenerationPolicy::DEFAULT_PUBLIC_ACCESSORS = false;
 
 
 // Constructors/Destructors
@@ -68,6 +69,24 @@ CPPCodeGenerationPolicy::~CPPCodeGenerationPolicy ( ) { }
 
 // Accessor methods
 //
+/**
+ * Set the value of m_publicAccessors
+ * @param new_var the new value
+ */
+void CPPCodeGenerationPolicy::setAccessorsArePublic ( bool var )
+{
+    m_publicAccessors = var;
+    emit modifiedCodeContent();
+}
+
+/**
+ * Get the value of m_publicAccessors
+ * @return value the boolean value of m_publicAccessors
+ */
+bool CPPCodeGenerationPolicy::getAccessorsArePublic( )
+{
+    return m_publicAccessors;
+}
 
 /**
  * Set the value of m_inlineAccessors
@@ -302,12 +321,8 @@ void CPPCodeGenerationPolicy::writeConfig ( KConfig * config )
     config->writeEntry("autoGenEmptyConstructors",getAutoGenerateConstructors());
     config->writeEntry("autoGenAccessors",getAutoGenerateAccessors());
 
-    CodeGenerator *codegen = UMLApp::app()->getGenerator();
-    CPPCodeGenerator *cppcodegen = dynamic_cast<CPPCodeGenerator*>(codegen);
-    if (cppcodegen)
-        config->writeEntry("buildMakefile", cppcodegen->getCreateProjectMakefile());
-
     config->writeEntry("inlineAccessors",getAccessorsAreInline());
+    config->writeEntry("publicAccessors",getAccessorsArePublic());
     config->writeEntry("inlineOps",getOperationsAreInline());
     config->writeEntry("virtualDestructors",getDestructorsAreVirtual());
     config->writeEntry("packageIsNamespace",getPackageIsNamespace());
@@ -388,14 +403,8 @@ void CPPCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSign
     setAutoGenerateConstructors(config->readBoolEntry("autoGenEmptyConstructors",DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS));
     setAutoGenerateAccessors(config->readBoolEntry("autoGenAccessors",DEFAULT_AUTO_GEN_ACCESSORS));
 
-    CodeGenerator *codegen = UMLApp::app()->getGenerator();
-    CPPCodeGenerator *cppcodegen = dynamic_cast<CPPCodeGenerator*>(codegen);
-    if (cppcodegen) {
-        bool mkmf = config->readBoolEntry("buildMakefile", CPPCodeGenerator::DEFAULT_BUILD_MAKEFILE);
-        cppcodegen->setCreateProjectMakefile(mkmf);
-    }
-
     setAccessorsAreInline(config->readBoolEntry("inlineAccessors",DEFAULT_INLINE_ACCESSORS));
+    setAccessorsArePublic(config->readBoolEntry("publicAccessors",DEFAULT_PUBLIC_ACCESSORS));
     setOperationsAreInline(config->readBoolEntry("inlineOps",DEFAULT_INLINE_OPERATIONS));
     setDestructorsAreVirtual(config->readBoolEntry("virtualDestructors",DEFAULT_VIRTUAL_DESTRUCTORS));
     setPackageIsNamespace(config->readBoolEntry("packageIsNamespace",DEFAULT_PACKAGE_IS_NAMESPACE));
@@ -430,6 +439,7 @@ void CPPCodeGenerationPolicy::init() {
     m_autoGenerateAccessors = DEFAULT_AUTO_GEN_ACCESSORS;
 
     m_inlineAccessors = DEFAULT_INLINE_ACCESSORS;
+    m_publicAccessors = DEFAULT_PUBLIC_ACCESSORS;
     m_inlineOperations = DEFAULT_INLINE_OPERATIONS;
     m_virtualDestructors = DEFAULT_VIRTUAL_DESTRUCTORS;
     m_packageIsNamespace = DEFAULT_PACKAGE_IS_NAMESPACE;

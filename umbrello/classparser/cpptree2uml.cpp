@@ -255,6 +255,7 @@ void CppTree2Uml::parseFunctionDefinition( FunctionDefinitionAST* ast )
     bool isVirtual = false;
     bool isStatic = false;
     bool isInline = false;
+    bool isConstructor = false;
 
     if( funSpec ){
 	QPtrList<AST> l = funSpec->nodeList();
@@ -286,11 +287,17 @@ void CppTree2Uml::parseFunctionDefinition( FunctionDefinitionAST* ast )
 		  << "): need a surrounding class." << endl;
 	return;
     }
+
     QString returnType = typeOfDeclaration( typeSpec, d );
     UMLOperation *m = ClassImport::makeOperation(c, id);
+    // if a class has no return type, it could be a constructor or
+    // a destructor
+    if (d && returnType.isEmpty() && id.find("~") == -1)
+        isConstructor = true;
+
     parseFunctionArguments( d, m );
     ClassImport::insertMethod( c, m, (Uml::Scope)m_currentAccess, returnType,
-			      isStatic, false /*isAbstract*/, m_comment);
+			      isStatic, false /*isAbstract*/, isFriend, isConstructor, m_comment);
     m_comment = "";
 
 /* For reference, Kdevelop does some more:
@@ -488,6 +495,7 @@ void CppTree2Uml::parseFunctionDeclaration(  GroupAST* funSpec, GroupAST* storag
     bool isStatic = false;
     bool isInline = false;
     bool isPure = decl->initializer() != 0;
+    bool isConstructor = false;
 
     if( funSpec ){
 	QPtrList<AST> l = funSpec->nodeList();
@@ -523,9 +531,14 @@ void CppTree2Uml::parseFunctionDeclaration(  GroupAST* funSpec, GroupAST* storag
 
     QString returnType = typeOfDeclaration( typeSpec, d );
     UMLOperation *m = ClassImport::makeOperation(c, id);
+    // if a class has no return type, it could de a constructor or
+    // a destructor
+    if (d && returnType.isEmpty() && id.find("~") == -1)
+        isConstructor = true;
+
     parseFunctionArguments( d, m );
     ClassImport::insertMethod( c, m, (Uml::Scope)m_currentAccess, returnType,
-			      isStatic, isPure, m_comment);
+			      isStatic, isPure, isFriend, isConstructor, m_comment);
     m_comment = "";
 }
 

@@ -391,7 +391,8 @@ void parseFile(QString filename) {
                     break;
                 srcIndex++;
             }
-            ClassImport::insertMethod(klass, op, Uml::Public, typeName, false, false, comment);
+            ClassImport::insertMethod(klass, op, Uml::Public, typeName,
+                                      false, false, false, false, comment);
             if (isOneway) {
                 op->setStereotype("oneway");
                 isOneway = false;

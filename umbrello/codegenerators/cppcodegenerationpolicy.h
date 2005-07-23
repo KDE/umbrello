@@ -36,6 +36,7 @@ public:
     static const bool DEFAULT_INLINE_OPERATIONS;
     static const bool DEFAULT_VIRTUAL_DESTRUCTORS;
     static const bool DEFAULT_PACKAGE_IS_NAMESPACE;
+    static const bool DEFAULT_PUBLIC_ACCESSORS;
 
     static const bool DEFAULT_STRING_INCLUDE_GLOBAL;
     static const bool DEFAULT_VECTOR_INCLUDE_GLOBAL;
@@ -146,6 +147,18 @@ public:
     void setCommentStyle ( CPPCommentStyle new_var );
 
     /**
+     * Set the value of m_publicAccessors
+     * @param new_var the new value
+     */
+    void setAccessorsArePublic ( bool var );
+
+    /**
+     * Get the value of m_publicAccessors
+     * @return value the boolean value of m_inlineAccessors
+     */
+    bool getAccessorsArePublic( );
+
+    /**
      * Get the value of m_commentStyle
      * @return the value of m_commentStyle
      */
@@ -223,6 +236,7 @@ private:
     bool m_inlineOperations;
     bool m_virtualDestructors;
     bool m_packageIsNamespace;
+    bool m_publicAccessors;
 
     bool m_stringIncludeIsGlobal;
     bool m_vectorIncludeIsGlobal;

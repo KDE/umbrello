@@ -48,6 +48,11 @@ protected:
     virtual void updateMethodDeclaration();
     virtual void updateContent( );
 
+    /**
+     * Check to see if we have a valid stereotype to apply in the operation
+     */
+    virtual void applyStereotypes (QString&, UMLOperation *, bool, bool, QString&, QString&);
+
 private:
     void init (CPPHeaderCodeDocument * doc );
 
