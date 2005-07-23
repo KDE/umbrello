@@ -419,12 +419,12 @@ QString CodeGenerator::getHeadingFile( const QString &file ) {
  * @param	codeDoc
  * @param	name
  */
-QString CodeGenerator::overwritableName( QString name, const QString &extention ) {
+QString CodeGenerator::overwritableName( QString name, const QString &extension ) {
 
     QDir outputDirectory = m_codegeneratorpolicy->getOutputDirectory();
 
-    if (!outputDirectory.exists(name + extention)) {
-        return name + extention;
+    if (!outputDirectory.exists(name + extension)) {
+        return name + extension;
     }
 
     int suffix;
@@ -432,23 +432,24 @@ QString CodeGenerator::overwritableName( QString name, const QString &extention 
                                          m_applyToAllRemaining, kapp -> mainWidget() );
     switch(overwritePolicy()) {  //if it exists, check the OverwritePolicy we should use
     case CodeGenerationPolicy::Ok:		//ok to overwrite file
-        name = name + extention;
+        name = name + extension;
         break;
     case CodeGenerationPolicy::Ask:	       //ask if we can overwrite
         switch(overwriteDialogue.exec()) {
         case KDialogBase::Yes:  //overwrite file
             if ( overwriteDialogue.applyToAllRemaining() ) {
                 setOverwritePolicy(CodeGenerationPolicy::Ok);
+                name = name + extension;
             } else {
                 m_applyToAllRemaining = false;
             }
             break;
         case KDialogBase::No: //generate similar name
             suffix = 1;
-            while( outputDirectory.exists(name + "__" + QString::number(suffix) + extention) ) {
+            while( outputDirectory.exists(name + "__" + QString::number(suffix) + extension) ) {
                 suffix++;
             }
-            name = name + "__" + QString::number(suffix) + extention;
+            name = name + "__" + QString::number(suffix) + extension;
             if ( overwriteDialogue.applyToAllRemaining() ) {
                 setOverwritePolicy(CodeGenerationPolicy::Never);
             } else {
@@ -468,10 +469,10 @@ QString CodeGenerator::overwritableName( QString name, const QString &extention 
         break;
     case CodeGenerationPolicy::Never: //generate similar name
         suffix = 1;
-        while( outputDirectory.exists(name + "__" + QString::number(suffix) + extention) ) {
+        while( outputDirectory.exists(name + "__" + QString::number(suffix) + extension) ) {
             suffix++;
         }
-        name = name + "__" + QString::number(suffix) + extention;
+        name = name + "__" + QString::number(suffix) + extension;
         break;
     case CodeGenerationPolicy::Cancel: //don't output anything
         return NULL;

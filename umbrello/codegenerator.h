@@ -359,7 +359,7 @@ protected:
      * @return the real file name that should be used. (with extension?) or 
      *      NULL if none to be used
      */
-    QString overwritableName ( QString name, const QString &extention );
+    QString overwritableName ( QString name, const QString &extension );
 
     /** Opens a file named "name" for writing in the outputDirectory.
      * If something goes wrong, it informs the user
