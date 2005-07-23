@@ -8,7 +8,13 @@
 
 <tip category="Umbrello">
 <html>
-<p>Welcome to Umbrello 1.4.  New in this version are tabbed diagrams, canvas items can be moved with Alt+arrowkeys, a PHP 5 code generator, entity relationship diagrams and many fixes.</p>
+<p>Welcome to Umbrello 1.5.  New in this version are association classes, Ruby code generation, externalizable folders, ability to change interfaces into classes, and more.</p>
+</html>
+</tip>
+
+<tip category="Umbrello">
+<html>
+<p>Tabbed Diagrams and Externalized Folders are mutually exclusive. If you need External Folders then deselect &quot;Use tabbed diagrams&quot; in the General Settings.</p>
 </html>
 </tip>
 

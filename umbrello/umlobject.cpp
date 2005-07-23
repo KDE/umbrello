@@ -68,6 +68,11 @@ void UMLObject::init() {
 
 
 bool UMLObject::isSavedInSeparateFile() {
+    if (UMLApp::app()->getOptionState().generalState.tabdiagrams) {
+        // Umbrello currently does not support external folders
+        // when tabbed diagrams are enabled.
+        return false;
+    }
     const QString msgPrefix("UMLObject::isSavedInSeparateFile(" + m_Name + "): ");
     UMLListView *listView = UMLApp::app()->getListView();
     UMLListViewItem *lvItem = listView->findUMLObject(this);

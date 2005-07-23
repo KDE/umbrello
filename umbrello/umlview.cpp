@@ -1183,6 +1183,11 @@ Uml::IDType UMLView::getLocalID() {
 }
 
 bool UMLView::isSavedInSeparateFile() {
+    if (getOptionState().generalState.tabdiagrams) {
+        // Umbrello currently does not support external folders
+        // when tabbed diagrams are enabled.
+        return false;
+    }
     const QString msgPrefix("UMLView::isSavedInSeparateFile(" + getName() + "): ");
     UMLListView *listView = UMLApp::app()->getListView();
     UMLListViewItem *lvItem = listView->findItem(m_nID);

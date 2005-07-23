@@ -594,6 +594,14 @@ void ListPopupMenu::insertAssocItem(const QString &label, Menu_Type mt) {
 }
 
 void ListPopupMenu::insertSubmodelAction() {
+    const Settings::OptionState& ostat = UMLApp::app()->getOptionState();
+    if (ostat.generalState.tabdiagrams) {
+        // Umbrello currently does not support External Folders
+        // in combination with Tabbed Diagrams.
+        // If you need external folders then disable the tabbed diagrams
+        // in the General Settings.
+        return;
+    }
     UMLListView *listView = UMLApp::app()->getListView();
     UMLListViewItem *current = static_cast<UMLListViewItem*>(listView->currentItem());
     QString submodelFile = current->getFolderFile();
