@@ -2190,7 +2190,7 @@ bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
             if( KMessageBox::warningYesNo(
                         kapp -> mainWidget(),
                         i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
-                        i18n( "Name Not Unique" ) ) == KMessageBox::No ) {
+                        i18n( "Name Not Unique" ), i18n("Use Name"), i18n("Enter New Name") ) == KMessageBox::No ) {
                 delete item;
                 return false;
             }

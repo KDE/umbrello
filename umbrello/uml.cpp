@@ -750,8 +750,8 @@ bool UMLApp::slotFileSaveAs()
             QDir d = url.path(-1);
 
             if(QFile::exists(d.path())) {
-                int want_save = KMessageBox::warningYesNo(this, i18n("The file %1 exists.\nDo you wish to overwrite it?").arg(url.path()), i18n("Warning"));
-                if(want_save == KMessageBox::Yes)
+                int want_save = KMessageBox::warningContinueCancel(this, i18n("The file %1 exists.\nDo you wish to overwrite it?").arg(url.path()), i18n("Warning"), i18n("Overwrite"));
+                if(want_save == KMessageBox::Continue)
                     cont = false;
             } else
                 cont = false;

@@ -215,7 +215,7 @@ bool UMLDoc::saveModified() {
         return completed;
 
     UMLApp *win = UMLApp::app();
-    int want_save = KMessageBox::warningYesNoCancel(win, i18n("The current file has been modified.\nDo you want to save it?"), i18n("Warning"));
+    int want_save = KMessageBox::warningYesNoCancel(win, i18n("The current file has been modified.\nDo you want to save it?"), i18n("Warning"),KStdGuiItem::save(),KStdGuiItem::discard());
     switch(want_save) {
     case KMessageBox::Yes:
         if (m_doc_url.fileName() == i18n("Untitled")) {
@@ -1334,7 +1334,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o) {
                     .count() == 0)
                     || ((o->getBaseType() == Uml::ot_Operation) && KMessageBox::warningYesNo( kapp -> mainWidget() ,
                             i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
-                            i18n( "Name Not Unique")) == KMessageBox::Yes) ) {
+                            i18n( "Name Not Unique"),i18n("Use Name"),i18n("Enter New Name")) == KMessageBox::Yes) ) {
                 o->setName(name);
                 setModified(true);
                 break;
