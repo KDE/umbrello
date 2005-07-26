@@ -3323,7 +3323,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
         } else {
             const Uml::Object_Type ot = myObj->getBaseType();
             if (ot == ot_Attribute || ot == ot_Operation) {
-                m_pObject = myObj;
+                setUMLObject(myObj);
                 QString type = qElement.attribute( "type", "-1" );
                 Uml::Association_Type aType = (Uml::Association_Type) type.toInt();
                 setAssocType(aType);
