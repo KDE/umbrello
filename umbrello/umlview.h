@@ -720,6 +720,14 @@ public:
     void createAutoAssociations( UMLWidget * widget );
 
     /**
+     * If the m_Type of the given widget is Uml::wt_Class then
+     * iterate through the class' attributes and create an
+     * association to each attribute type widget that is present
+     * on the current diagram.
+     */
+    void createAutoAttributeAssociations(UMLWidget *widget);
+
+    /**
      * Refreshes containment association, i.e. removes possible old
      * containment and adds new containment association if applicable.
      *
@@ -1129,11 +1137,6 @@ protected:
      * @return	Returns the smallest area to print.
      */
     QRect getDiagramRect();
-
-    /**
-     * Auxiliary method for createAutoAssociations()
-     */
-    void createAutoAttributeAssociations(UMLWidget *widget);
 
     /**
      * Selects all the widgets of the given association widget.

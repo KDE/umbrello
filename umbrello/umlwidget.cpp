@@ -331,6 +331,9 @@ void UMLWidget::updateWidget()
 {
     calculateSize();
     adjustAssocs( getX(), getY() ); //adjust assoc lines.
+    if (m_Type == Uml::wt_Class) {
+        m_pView->createAutoAttributeAssociations(this);
+    }
     if(isVisible())
         update();
 }
