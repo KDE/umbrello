@@ -67,17 +67,17 @@ QString RubyCodeDocumentation::toString ( )
     // simple output method
     if(getWriteOutText())
     {
-        bool useDoubleDashOutput = true;
+        bool  useHashOutput = true;
 
         // need to figure out output type from ruby policy
         RubyCodeGenerationPolicy * p = ((RubyClassifierCodeDocument*)getParentDocument())->getRubyPolicy();
         if(p->getCommentStyle() == RubyCodeGenerationPolicy::BeginEnd)
-            useDoubleDashOutput = false;
+             useHashOutput = false;
 
         QString indent = getIndentationString();
         QString endLine = getNewLineEndingChars();
         QString body = getText();
-        if(useDoubleDashOutput)
+        if( useHashOutput)
         {
             if(!body.isEmpty())
                 output.append(formatMultiLineText (body, indent +"# ", endLine));
