@@ -18,10 +18,13 @@
 #include "../umlwidget.h"
 #include <klocale.h>
 #include <qlayout.h>
-#include <qgroupbox.h>
+#include <q3groupbox.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
 #include <qcheckbox.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <QGridLayout>
 
 #include <kcolorbutton.h>
 
@@ -53,7 +56,7 @@ void UMLWidgetColorPage::init()
     QVBoxLayout * topLayout = new QVBoxLayout( this );
     topLayout -> setSpacing( 6 );
 
-    m_pColorGB = new QGroupBox( i18n( "Color" ), this );
+    m_pColorGB = new Q3GroupBox( i18n( "Color" ), this );
     topLayout -> addWidget( m_pColorGB );
     QGridLayout * colorLayout = new QGridLayout( m_pColorGB, 3, 3 );
     colorLayout -> setMargin( margin );

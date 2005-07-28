@@ -10,12 +10,12 @@
 #ifndef UMLASSOCIATIONLIST_H
 #define UMLASSOCIATIONLIST_H
 
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 
 // forward declaration
 class UMLAssociation;
 
-typedef QPtrList<UMLAssociation> UMLAssociationList;
-typedef QPtrListIterator<UMLAssociation> UMLAssociationListIt;
+typedef Q3PtrList<UMLAssociation> UMLAssociationList;
+typedef Q3PtrListIterator<UMLAssociation> UMLAssociationListIt;
 
 #endif

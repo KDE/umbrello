@@ -22,9 +22,9 @@
 #include <qapplication.h>
 #include <klocale.h>
 #include <qpainter.h>
-#include <qpopupmenu.h>
-#include <qvbox.h>
-#include <qptrlist.h>
+#include <q3popupmenu.h>
+#include <q3vbox.h>
+#include <q3ptrlist.h>
 
 #include <kdebug.h>
 
@@ -55,7 +55,7 @@ void PackageWidget::umlObjectModified()
 	canvas()->update();
 }
 
-void PackageWidget::fillContextMenu(QPopupMenu &menu)
+void PackageWidget::fillContextMenu(Q3PopupMenu &menu)
 {
 	UMLWidget::fillContextMenu(menu);
 }

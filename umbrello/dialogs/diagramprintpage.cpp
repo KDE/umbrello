@@ -15,12 +15,15 @@
 #include <klocale.h>
 
 #include <qlayout.h>
-#include <qptrlist.h>
-#include <qlistbox.h>
+#include <q3ptrlist.h>
+#include <q3listbox.h>
 #include <qradiobutton.h>
 #include <qcombobox.h>
-#include <qbuttongroup.h>
-#include <qgroupbox.h>
+#include <q3buttongroup.h>
+#include <q3groupbox.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 
 #include "diagramprintpage.h"
 #include "../umldoc.h"
@@ -35,7 +38,7 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : KPrintDi
     mainLayout -> setSpacing(10);
     mainLayout -> setMargin(margin);
 
-    m_pFilterBG = new QButtonGroup(i18n("Filter"), this);
+    m_pFilterBG = new Q3ButtonGroup(i18n("Filter"), this);
     mainLayout -> addWidget(m_pFilterBG);
     m_pFilterBG -> setExclusive(true);
 
@@ -60,7 +63,7 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : KPrintDi
     filter -> addWidget(m_pTypeRB);
     m_pFilterBG -> insert(m_pTypeRB, Type);
 
-    m_pSelectGB = new QGroupBox(i18n("Selection"), this);
+    m_pSelectGB = new Q3GroupBox(i18n("Selection"), this);
     mainLayout -> addWidget(m_pSelectGB);
 
     QVBoxLayout * select = new QVBoxLayout(m_pSelectGB);
@@ -71,10 +74,10 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : KPrintDi
     select -> addWidget(m_pTypeCB);
     m_pTypeCB -> setEnabled(false);
 
-    m_pSelectLB = new QListBox(m_pSelectGB);
+    m_pSelectLB = new Q3ListBox(m_pSelectGB);
     select -> addWidget(m_pSelectLB);
     m_pSelectLB -> setEnabled(false);
-    m_pSelectLB -> setSelectionMode(QListBox::Multi);
+    m_pSelectLB -> setSelectionMode(Q3ListBox::Multi);
     m_pSelectLB -> insertItem(m_pDoc->getCurrentView()->getName());
     m_pSelectLB -> setSelected(0, true);
     m_nIdList.clear();

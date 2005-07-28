@@ -17,6 +17,10 @@
 
 #include "umlwidget.h"
 #include "linkwidget.h"
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QMoveEvent>
+#include <QResizeEvent>
 
 // forward declarations
 class FloatingText;

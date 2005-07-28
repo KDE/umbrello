@@ -11,11 +11,11 @@
 #define UMBRELLO_PATHTTOOL_H
 
 #include "tool.h"
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 #include <qpoint.h>
 
 
-class QCanvasLine;
+class Q3CanvasLine;
 
 namespace Umbrello
 {
@@ -49,7 +49,7 @@ protected:
 	virtual QPoint findNextPathPoint( );
 	
 	
-	QPtrList<QCanvasLine> m_linePath;
+	Q3PtrList<Q3CanvasLine> m_linePath;
 };
 
 

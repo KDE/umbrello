@@ -15,7 +15,9 @@
 #ifndef UMBRELLO_PATH_SEGMENT_H
 #define UMBRELLO_PATH_SEGMENT_H
 
-#include <qcanvas.h>
+#include <q3canvas.h>
+//Added by qt3to4:
+#include <Q3PointArray>
 
 
 namespace Umbrello{
@@ -23,7 +25,7 @@ namespace Umbrello{
 class Path;
 
 /** Represents a segment within a path*/
-class PathSegment : public QCanvasLine
+class PathSegment : public Q3CanvasLine
 {
 friend class Path;
 public:
@@ -31,7 +33,7 @@ public:
 	virtual ~PathSegment();
 	inline Path* path() const;
 	virtual void moveBy( double dx, double dy);
-	virtual QPointArray areaPoints() const;
+	virtual Q3PointArray areaPoints() const;
 	
 protected: 
 	/** Constructor

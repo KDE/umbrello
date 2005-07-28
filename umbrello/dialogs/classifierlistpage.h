@@ -12,9 +12,9 @@
 
 //qt  includes
 #include <qwidget.h>
-#include <qgroupbox.h>
-#include <qlistbox.h>
-#include <qtextedit.h>
+#include <q3groupbox.h>
+#include <q3listbox.h>
+#include <q3textedit.h>
 //kde includes
 #include <karrowbutton.h>
 
@@ -98,10 +98,10 @@ private:
                                           int &wasAtIndex);
 
     UMLClassifier* m_pClassifier;
-    QGroupBox* m_pDocGB;
-    QGroupBox* m_pItemListGB;
-    QListBox* m_pItemListLB;
-    QTextEdit* m_pDocTE;
+    Q3GroupBox* m_pDocGB;
+    Q3GroupBox* m_pItemListGB;
+    Q3ListBox* m_pItemListLB;
+    Q3TextEdit* m_pDocTE;
     Uml::Object_Type m_itemType;
 
     KArrowButton* m_pUpArrowB;
@@ -119,7 +119,7 @@ public slots:
      * called when list view is clicked on
      * calls enableWidgets()
      */
-    void slotClicked(QListBoxItem* item);
+    void slotClicked(Q3ListBoxItem* item);
 
     /**
     * Called when an item is selected in a right click menu
@@ -128,13 +128,13 @@ public slots:
 
     void slotListItemCreated(UMLObject* object);
     void slotListItemModified();
-    void slotRightButtonClicked(QListBoxItem* item, const QPoint& p);
-    void slotRightButtonPressed(QListBoxItem* item, const QPoint& p);
+    void slotRightButtonClicked(Q3ListBoxItem* item, const QPoint& p);
+    void slotRightButtonPressed(Q3ListBoxItem* item, const QPoint& p);
 
     /**
      * shows properties dialogue for the attribute clicked on
      */
-    void slotDoubleClick(QListBoxItem* item);
+    void slotDoubleClick(Q3ListBoxItem* item);
 
 
     /**

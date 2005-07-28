@@ -1,3 +1,5 @@
+//Added by qt3to4:
+#include <Q3ValueList>
 /***************************************************************************
                           pluginloader.h
                              -------------------
@@ -70,7 +72,7 @@ public:
 
 
     /** Just a container of plugins */
-    typedef QValueList<Plugin *> PluginList;
+    typedef Q3ValueList<Plugin *> PluginList;
 
     /** The containment type for mapping plugins */
     typedef QMap<QString, Plugin *> PluginMap;

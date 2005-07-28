@@ -13,7 +13,7 @@
  ***************************************************************************/
 
 #include <qradiobutton.h>
-#include <qtextedit.h>
+#include <q3textedit.h>
 #include <qlineedit.h>
 
 #include <klocale.h>

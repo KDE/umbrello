@@ -1,3 +1,5 @@
+//Added by qt3to4:
+#include <Q3PtrList>
 /***************************************************************************
                           umlviewlist.h  -  description
                              -------------------
@@ -23,7 +25,7 @@
 
 class UMLView;
 
-typedef QPtrList<UMLView> UMLViewList;
-typedef QPtrListIterator<UMLView> UMLViewListIt;
+typedef Q3PtrList<UMLView> UMLViewList;
+typedef Q3PtrListIterator<UMLView> UMLViewListIt;
 
 #endif

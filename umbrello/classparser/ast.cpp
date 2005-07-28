@@ -235,7 +235,7 @@ QString NameAST::text() const
         str += "::";
 
     QStringList l;
-    QPtrListIterator<ClassOrNamespaceNameAST> it( m_classOrNamespaceNameList );
+    Q3PtrListIterator<ClassOrNamespaceNameAST> it( m_classOrNamespaceNameList );
     while( it.current() ){
         str += it.current()->text() + "::";
         ++it;
@@ -410,7 +410,7 @@ QString TemplateArgumentListAST::text() const
 {
     QStringList l;
 
-    QPtrListIterator<AST> it( m_argumentList );
+    Q3PtrListIterator<AST> it( m_argumentList );
     while( it.current() ){
         l.append( it.current()->text() );
 	++it;
@@ -994,7 +994,7 @@ QString ParameterDeclarationListAST::text() const
 {
     QStringList l;
 
-    QPtrListIterator<ParameterDeclarationAST> it( m_parameterList );
+    Q3PtrListIterator<ParameterDeclarationAST> it( m_parameterList );
     while( it.current() ){
         l.append( it.current()->text() );
 	++it;
@@ -1054,7 +1054,7 @@ QString GroupAST::text() const
 {
     QStringList l;
 
-    QPtrListIterator<AST> it( m_nodeList );
+    Q3PtrListIterator<AST> it( m_nodeList );
     while( it.current() ){
         l.append( it.current()->text() );
 	++it;
@@ -1082,7 +1082,7 @@ QString AccessDeclarationAST::text() const
 {
     QStringList l;
 
-    QPtrListIterator<AST> it( m_accessList );
+    Q3PtrListIterator<AST> it( m_accessList );
     while( it.current() ){
         l.append( it.current()->text() );
 	++it;

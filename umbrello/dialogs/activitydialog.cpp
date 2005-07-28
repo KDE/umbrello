@@ -17,6 +17,10 @@
 
 //qt includes
 #include <qlayout.h>
+//Added by qt3to4:
+#include <Q3Frame>
+#include <QHBoxLayout>
+#include <QGridLayout>
 
 //kde includes
 #include <kiconloader.h>
@@ -73,8 +77,8 @@ void ActivityDialog::setupGeneralPage() {
     QString types[ ] = { i18n("Initial activity"), i18n("Activity"), i18n("End activity"), i18n( "Branch/Merge"), i18n( "Fork/Join" ) };
     ActivityWidget::ActivityType type = m_pActivityWidget -> getActivityType();
 
-    QVBox * page = addVBoxPage( i18n("General"), i18n("General Properties"), DesktopIcon( "misc") );
-    m_GenPageWidgets.generalGB = new QGroupBox( i18n( "Properties"), (QWidget *)page );
+    Q3VBox * page = addVBoxPage( i18n("General"), i18n("General Properties"), DesktopIcon( "misc") );
+    m_GenPageWidgets.generalGB = new Q3GroupBox( i18n( "Properties"), (QWidget *)page );
 
     QGridLayout * generalLayout = new QGridLayout( m_GenPageWidgets.generalGB, 2, 2 );
     generalLayout -> setSpacing( spacingHint() );
@@ -90,13 +94,13 @@ void ActivityDialog::setupGeneralPage() {
                                     m_GenPageWidgets.nameL, i18n("Activity name:"),
                                     m_GenPageWidgets.nameLE );
 
-    m_GenPageWidgets.docGB = new QGroupBox( i18n( "Documentation"), (QWidget *)page );
+    m_GenPageWidgets.docGB = new Q3GroupBox( i18n( "Documentation"), (QWidget *)page );
 
     QHBoxLayout * docLayout = new QHBoxLayout( m_GenPageWidgets.docGB );
     docLayout -> setSpacing( spacingHint() );
     docLayout -> setMargin(  fontMetrics().height()  );
 
-    m_GenPageWidgets.docMLE = new QMultiLineEdit( m_GenPageWidgets.docGB );
+    m_GenPageWidgets.docMLE = new Q3MultiLineEdit( m_GenPageWidgets.docGB );
     m_GenPageWidgets.docMLE -> setText( m_pActivityWidget -> getDoc() );
     docLayout -> addWidget( m_GenPageWidgets.docMLE );
 
@@ -108,13 +112,13 @@ void ActivityDialog::setupGeneralPage() {
 }
 
 void ActivityDialog::setupFontPage() {
-    QVBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
+    Q3VBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
     m_pChooser = new KFontChooser( (QWidget*)page, "font", false, QStringList(), false);
     m_pChooser -> setFont( m_pActivityWidget -> getFont() );
 }
 
 void ActivityDialog::setupColorPage() {
-    QFrame * colorPage = addPage( i18n("Color"), i18n("Widget Colors"), DesktopIcon( "colors") );
+    Q3Frame * colorPage = addPage( i18n("Color"), i18n("Widget Colors"), DesktopIcon( "colors") );
     QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
     m_pColorPage = new UMLWidgetColorPage( colorPage, m_pActivityWidget );
     m_pColorLayout -> addWidget(m_pColorPage);

@@ -16,7 +16,7 @@
 #define WIDGET_FACTORY_H
 
 #include <qobject.h>
-#include <qvaluelist.h>
+#include <q3valuelist.h>
 
 class UMLObject;
 
@@ -31,7 +31,7 @@ class WidgetSet;
 class WidgetFactory : public QObject
 {Q_OBJECT
 public:
-	typedef QValueList<WidgetSet*> WidgetSetList;
+	typedef Q3ValueList<WidgetSet*> WidgetSetList;
 	
 	static WidgetFactory* instance();
 	virtual ~WidgetFactory();

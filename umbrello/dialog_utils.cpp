@@ -13,10 +13,12 @@
  ***************************************************************************/
 #include "dialog_utils.h"
 
-#include <qgroupbox.h>
+#include <q3groupbox.h>
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qlineedit.h>
+//Added by qt3to4:
+#include <QGridLayout>
 
 #include "inputdialog.h"
 #include "uml.h"
@@ -24,7 +26,7 @@
 
 namespace Umbrello {
 
-QLineEdit* makeLabeledEditField(QGroupBox *containingBox, QGridLayout *layout, int row,
+QLineEdit* makeLabeledEditField(Q3GroupBox *containingBox, QGridLayout *layout, int row,
                                 QLabel * &label, QString labelText,
                                 QLineEdit * &editField, QString editFieldText /* = QString::null */)
 {

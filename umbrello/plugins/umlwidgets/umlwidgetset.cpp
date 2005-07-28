@@ -28,8 +28,8 @@
 #include "../../umldoc.h"
 
 #include <qstring.h>
-#include <qpointarray.h>
-#include <qptrlist.h>
+#include <q3pointarray.h>
+#include <q3ptrlist.h>
 #include <qpoint.h>
 
 #include <kdebug.h>

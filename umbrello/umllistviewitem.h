@@ -15,7 +15,7 @@
 #ifndef UMLLISTVIEWITEM_H
 #define UMLLISTVIEWITEM_H
 
-#include <qlistview.h>
+#include <q3listview.h>
 #include <qdom.h>
 #include "umlnamespace.h"
 
@@ -33,7 +33,7 @@ class UMLObject;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class UMLListViewItem : public QListViewItem {
+class UMLListViewItem : public Q3ListViewItem {
 public:
     /**
      * Sets up an instance.
@@ -184,7 +184,7 @@ public:
     /**
      * Overrides the default sorting to sort by item type.
      */
-    virtual int compare(QListViewItem *other, int col, bool ascending) const;
+    virtual int compare(Q3ListViewItem *other, int col, bool ascending) const;
 
     /**
      * Returns the number of children of the UMLListViewItem

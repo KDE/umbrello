@@ -25,15 +25,17 @@
 #include "umldoc.h"
 #include "umlview.h"
 #include "worktoolbar.h"
+//Added by qt3to4:
+#include <QPixmap>
 
 
-WorkToolBar::WorkToolBar(QMainWindow *parentWindow, const char*name)
+WorkToolBar::WorkToolBar(Q3MainWindow *parentWindow, const char*name)
         : KToolBar(parentWindow,Qt::DockRight,false,name) {
     m_CurrentButtonID = tbb_Undefined;
     loadPixmaps();
     m_Type = Uml::dt_Class; /* first time in just want it to load arrow,
     			   needs anything but dt_Undefined  */
-    setOrientation( Vertical );
+    setOrientation( Qt::Vertical );
     setVerticalStretchable( true );
     //intialize old tool map, everything starts with select tool (arrow)
     m_map.insert(Uml::dt_UseCase,tbb_Arrow);

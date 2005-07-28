@@ -16,6 +16,8 @@
 #define WORKTOOLBAR_H
 
 #include <qcursor.h>
+//Added by qt3to4:
+#include <QPixmap>
 #include <ktoolbar.h>
 #include "umlnamespace.h"
 
@@ -47,7 +49,7 @@ public:
      * @param parentWindow	The parent of the toolbar.
      * @param name		The name of the toolbar.
      */
-    WorkToolBar(QMainWindow *parentWindow, const char *name);
+    WorkToolBar(Q3MainWindow *parentWindow, const char *name);
 
     /**
      * Standard deconstructor.

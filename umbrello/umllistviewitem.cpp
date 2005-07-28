@@ -18,6 +18,8 @@
 // qt/kde includes
 #include <qfile.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <QTextStream>
 #include <kapplication.h>
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -39,7 +41,7 @@ UMLListView* UMLListViewItem::s_pListView = 0;
 
 UMLListViewItem::UMLListViewItem( UMLListView * parent, const QString &name,
                                   Uml::ListView_Type t, UMLObject* o)
-        : QListViewItem(parent, name) {
+        : Q3ListViewItem(parent, name) {
     init();
     s_pListView = parent;
     m_Type = t;
@@ -52,7 +54,7 @@ UMLListViewItem::UMLListViewItem( UMLListView * parent, const QString &name,
 }
 
 UMLListViewItem::UMLListViewItem(UMLListView * parent)
-        : QListViewItem(parent) {
+        : Q3ListViewItem(parent) {
     init();
     if (parent != NULL)
         s_pListView = parent;
@@ -61,12 +63,12 @@ UMLListViewItem::UMLListViewItem(UMLListView * parent)
 }
 
 UMLListViewItem::UMLListViewItem(UMLListViewItem * parent)
-        : QListViewItem(parent)  {
+        : Q3ListViewItem(parent)  {
     init();
 }
 
 UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, Uml::ListView_Type t,UMLObject*o)
-        : QListViewItem(parent, name) {
+        : Q3ListViewItem(parent, name) {
     if (s_pListView == NULL) {
         kdDebug() << "UMLListViewItem internal error 1: s_pListView is NULL" << endl;
         exit(1);
@@ -92,7 +94,7 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
 }
 
 UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, Uml::ListView_Type t,Uml::IDType id)
-        : QListViewItem(parent, name) {
+        : Q3ListViewItem(parent, name) {
     if (s_pListView == NULL) {
         kdDebug() << "UMLListViewItem internal error 2: s_pListView is NULL" << endl;
         exit(1);
@@ -177,13 +179,13 @@ QString UMLListViewItem::getFolderFile() {
 }
 
 bool UMLListViewItem::isOwnParent(Uml::IDType listViewItemID) {
-    QListViewItem *lvi = (QListViewItem*)s_pListView->findItem(listViewItemID);
+    Q3ListViewItem *lvi = (Q3ListViewItem*)s_pListView->findItem(listViewItemID);
     if (lvi == NULL) {
         kdError() << "UMLListViewItem::isOwnParent: ListView->findItem("
         << ID2STR(listViewItemID) << ") returns NULL" << endl;
         return true;
     }
-    for (QListViewItem *self = (QListViewItem*)this; self; self = self->parent()) {
+    for (Q3ListViewItem *self = (Q3ListViewItem*)this; self; self = self->parent()) {
         if (lvi == self)
             return true;
     }
@@ -319,13 +321,13 @@ void UMLListViewItem::updateFolder() {
 }
 
 void UMLListViewItem::setOpen( bool open ) {
-    QListViewItem::setOpen( open );
+    Q3ListViewItem::setOpen( open );
     updateFolder();
 }
 
 void UMLListViewItem::setText(const QString &newText) {
     m_Label = newText;
-    QListViewItem::setText(0, newText);
+    Q3ListViewItem::setText(0, newText);
 }
 
 QString UMLListViewItem::getText() const {
@@ -333,7 +335,7 @@ QString UMLListViewItem::getText() const {
 }
 
 void UMLListViewItem::okRename( int col ) {
-    QListViewItem::okRename( col );
+    Q3ListViewItem::okRename( col );
     UMLDoc* doc = s_pListView->getDocument();
     if (m_bCreating) {
         m_bCreating = false;
@@ -414,7 +416,7 @@ void UMLListViewItem::okRename( int col ) {
                                     Umbrello::psText(st),
                                     i18n("Rename canceled") );
             }
-            QListViewItem::setText(0, m_Label);
+            Q3ListViewItem::setText(0, m_Label);
             break;
         }
 
@@ -443,7 +445,7 @@ void UMLListViewItem::okRename( int col ) {
                                     Umbrello::psText(st),
                                     i18n("Rename canceled") );
             }
-            QListViewItem::setText(0, m_Label);
+            Q3ListViewItem::setText(0, m_Label);
             break;
         }
 
@@ -471,7 +473,7 @@ void UMLListViewItem::okRename( int col ) {
                                     Umbrello::psText(st),
                                     i18n("Rename canceled") );
             }
-            QListViewItem::setText(0, m_Label);
+            Q3ListViewItem::setText(0, m_Label);
             break;
         }
 
@@ -511,7 +513,7 @@ void UMLListViewItem::okRename( int col ) {
         KMessageBox::error( kapp->mainWidget() ,
                             i18n("Renaming an item of listview type %1 is not yet implemented.").arg(m_Type),
                             i18n("Function Not Implemented") );
-        QListViewItem::setText(0, m_Label);
+        Q3ListViewItem::setText(0, m_Label);
         break;
     }
     doc->setModified(true);
@@ -521,11 +523,11 @@ void UMLListViewItem::cancelRenameWithMsg() {
     KMessageBox::error( kapp->mainWidget() ,
                         i18n("The name you entered was invalid.\nRenaming process has been canceled."),
                         i18n("Name Not Valid") );
-    QListViewItem::setText(0, m_Label);
+    Q3ListViewItem::setText(0, m_Label);
 }
 
 void UMLListViewItem::cancelRename(int col) {
-    QListViewItem::cancelRename(col);
+    Q3ListViewItem::cancelRename(col);
     if (m_bCreating) {
         s_pListView->cancelRename(this);
     }
@@ -533,7 +535,7 @@ void UMLListViewItem::cancelRename(int col) {
 
 // Sort the listview items by type and position within the corresponding list
 // of UMLObjects. If the item does not have an UMLObject then sort alphabetically.
-int UMLListViewItem::compare(QListViewItem *other, int col, bool ascending) const
+int UMLListViewItem::compare(Q3ListViewItem *other, int col, bool ascending) const
 {
     UMLListViewItem *ulvi = static_cast<UMLListViewItem*>(other);
     Uml::ListView_Type ourType = getType();
@@ -643,7 +645,7 @@ void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement,
             itemElement.setAttribute( "external_file", m_FolderFile );
             if (saveSubmodelFiles) {
                 folderFile.setName(umldoc->URL().directory(false) + m_FolderFile);
-                if( !folderFile.open( IO_WriteOnly ) ) {
+                if( !folderFile.open( QIODevice::WriteOnly ) ) {
                     KMessageBox::error(0,
                                        i18n("There was a problem saving file: %1").arg(m_FolderFile),
                                        i18n("Save Error"));
@@ -659,7 +661,7 @@ void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement,
                     // in the main model file.)
                     m_FolderFile = QString::null;
                     m_Label.remove( QRegExp("\\s+\\(.*$") );
-                    QListViewItem::setText(0, m_Label);
+                    Q3ListViewItem::setText(0, m_Label);
                 } else {
                     saveExternalFolder = true;
                 }

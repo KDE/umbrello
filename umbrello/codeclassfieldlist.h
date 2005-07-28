@@ -10,12 +10,12 @@
 #ifndef _CODECLASSFIELDLIST_H
 #define _CODECLASSFIELDLIST_H
 
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 
 // forward declarations
 class CodeClassField;
 
-typedef QPtrList<CodeClassField> CodeClassFieldList;
-typedef QPtrListIterator<CodeClassField> CodeClassFieldListIt;
+typedef Q3PtrList<CodeClassField> CodeClassFieldList;
+typedef Q3PtrListIterator<CodeClassField> CodeClassFieldListIt;
 
 #endif

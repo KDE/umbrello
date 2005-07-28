@@ -19,11 +19,14 @@
 #include "toolbarstate.h"
 
 #include "worktoolbar.h"
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <Q3PtrList>
 
 class QMouseEvent;
 class UMLView;
 
-class QCanvasLine;
+class Q3CanvasLine;
 
 class ToolBarStateArrow : public ToolBarState
 {
@@ -42,7 +45,7 @@ protected:
 
     virtual void changeTool();
 
-    QPtrList<QCanvasLine> m_SelectionRect;
+    Q3PtrList<Q3CanvasLine> m_SelectionRect;
     bool m_bDrawRectangle;
 
     Qt::ButtonState m_ButtonPressed;

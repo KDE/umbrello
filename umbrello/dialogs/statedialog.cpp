@@ -19,8 +19,12 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qlineedit.h>
-#include <qmultilineedit.h>
-#include <qgroupbox.h>
+#include <q3multilineedit.h>
+#include <q3groupbox.h>
+//Added by qt3to4:
+#include <Q3Frame>
+#include <QHBoxLayout>
+#include <QGridLayout>
 
 //kde includes
 #include <kiconloader.h>
@@ -88,8 +92,8 @@ void StateDialog::setupGeneralPage() {
     QString types[ ] = { i18n("Initial state"), i18n("State"), i18n("End state") };
     StateWidget::StateType type = m_pStateWidget -> getStateType();
 
-    QVBox * page = addVBoxPage( i18n("General"), i18n("General Properties"), DesktopIcon( "misc") );
-    m_GenPageWidgets.generalGB = new QGroupBox( i18n( "Properties"), (QWidget *)page );
+    Q3VBox * page = addVBoxPage( i18n("General"), i18n("General Properties"), DesktopIcon( "misc") );
+    m_GenPageWidgets.generalGB = new Q3GroupBox( i18n( "Properties"), (QWidget *)page );
 
     QGridLayout * generalLayout = new QGridLayout( m_GenPageWidgets.generalGB, 2, 2 );
     generalLayout -> setSpacing( spacingHint() );
@@ -104,13 +108,13 @@ void StateDialog::setupGeneralPage() {
                                     m_GenPageWidgets.nameL, i18n("State name:"),
                                     m_GenPageWidgets.nameLE );
 
-    m_GenPageWidgets.docGB = new QGroupBox( i18n( "Documentation"), (QWidget *)page );
+    m_GenPageWidgets.docGB = new Q3GroupBox( i18n( "Documentation"), (QWidget *)page );
 
     QHBoxLayout * docLayout = new QHBoxLayout( m_GenPageWidgets.docGB );
     docLayout -> setSpacing( spacingHint() );
     docLayout -> setMargin(  fontMetrics().height()  );
 
-    m_GenPageWidgets.docMLE = new QMultiLineEdit( m_GenPageWidgets.docGB );
+    m_GenPageWidgets.docMLE = new Q3MultiLineEdit( m_GenPageWidgets.docGB );
     m_GenPageWidgets.docMLE -> setText( m_pStateWidget -> getDoc() );
     docLayout -> addWidget( m_GenPageWidgets.docMLE );
 
@@ -124,20 +128,20 @@ void StateDialog::setupGeneralPage() {
 void StateDialog::setupFontPage() {
     if ( !m_pStateWidget )
         return;
-    QVBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
+    Q3VBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
     m_pChooser = new KFontChooser( (QWidget*)page, "font", false, QStringList(), false);
     m_pChooser -> setFont( m_pStateWidget -> getFont() );
 }
 
 void StateDialog::setupColorPage() {
-    QFrame * colorPage = addPage( i18n("Color"), i18n("Widget Color"), DesktopIcon( "colors") );
+    Q3Frame * colorPage = addPage( i18n("Color"), i18n("Widget Color"), DesktopIcon( "colors") );
     QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
     m_pColorPage = new UMLWidgetColorPage( colorPage, m_pStateWidget );
     m_pColorLayout -> addWidget(m_pColorPage);
 }
 
 void StateDialog::setupActivityPage() {
-    QFrame * activityPage = addPage( i18n("Activities"), i18n("Activities"), DesktopIcon( "misc") );
+    Q3Frame * activityPage = addPage( i18n("Activities"), i18n("Activities"), DesktopIcon( "misc") );
     QHBoxLayout * activityLayout = new QHBoxLayout( activityPage );
     m_pActivityPage = new ActivityPage( activityPage, m_pStateWidget );
     activityLayout -> addWidget( m_pActivityPage );

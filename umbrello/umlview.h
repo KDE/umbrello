@@ -17,7 +17,16 @@
 // system includes
 #include <kurl.h>
 #include <qdom.h>
-#include <qcanvas.h>
+#include <q3canvas.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QHideEvent>
+#include <QCloseEvent>
+#include <Q3PtrList>
+#include <QDropEvent>
+#include <QShowEvent>
+#include <QDragEnterEvent>
+#include <QMouseEvent>
 
 //local includes
 #include "umlobjectlist.h"
@@ -53,7 +62,7 @@ class ToolBarStateFactory;
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLView : public QCanvasView {
+class UMLView : public Q3CanvasView {
     Q_OBJECT
 public:
     /**
@@ -882,7 +891,7 @@ public:
      * Return the line used to show a join between objects as an association
      * is being made.
      */
-    QCanvasLine * getAssocLine() {
+    Q3CanvasLine * getAssocLine() {
         return m_pAssocLine;
     }
 
@@ -890,7 +899,7 @@ public:
      * Set the line used to show a join between objects as an association
      * is being made.
      */
-    void setAssocLine(QCanvasLine * line) {
+    void setAssocLine(Q3CanvasLine * line) {
         m_pAssocLine = line;
     }
 
@@ -1240,12 +1249,12 @@ private:
     /**
      * Holds the Canvas lines for the selection rectangle.
      */
-    QPtrList<QCanvasLine> m_SelectionRect;
+    Q3PtrList<Q3CanvasLine> m_SelectionRect;
 
     /**
      * The Line used to show a join between objects as an association is being made.
      */
-    QCanvasLine * m_pAssocLine;
+    Q3CanvasLine * m_pAssocLine;
 
     /**
      * The offset at which to paste the clipboard.
@@ -1255,7 +1264,7 @@ private:
     /**
      * Holds a list of all the sequence lines on a sequence diagram.
      */
-    QPtrList<SeqLineWidget> m_SeqLineList;
+    Q3PtrList<SeqLineWidget> m_SeqLineList;
 
     /**
      * Pointer to the UMLDoc

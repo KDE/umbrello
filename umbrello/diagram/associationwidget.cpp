@@ -18,8 +18,8 @@
 #include "diagramwidget.h"
 
 #include <qpoint.h>
-#include <qpointarray.h>
-#include <qpopupmenu.h>
+#include <q3pointarray.h>
+#include <q3popupmenu.h>
 #include <klocale.h>
 
 #include <kdebug.h>
@@ -38,7 +38,7 @@ AssociationWidget::AssociationWidget( Diagram *diagram, uint id, DiagramWidget *
 	m_endSpot = m_endWidget->closestHotSpot(QPoint( (int)(( m_startWidget->x() + m_startWidget->width())*0.5) ,
 							(int)(( m_startWidget->y() + m_startWidget->height())*0.5) ) );
 	QPoint endPoint = m_endWidget->hotSpotPosition( m_endSpot );
-	QPointArray a(2);
+	Q3PointArray a(2);
 	a[0] = startPoint;
 	a[1] = endPoint;
 	setPathPoints(a);
@@ -86,7 +86,7 @@ void AssociationWidget::moveBy( int dx, int dy)
 }
 
 //reimplemented to make sure the end points are hotspots
-void AssociationWidget::setPathPoints( const QPointArray &a )
+void AssociationWidget::setPathPoints( const Q3PointArray &a )
 {
 	Path::setPathPoints(a);
 	QPoint start, end;
@@ -106,9 +106,9 @@ void AssociationWidget::setPathPoints( const QPointArray &a )
 }
 
 
-void AssociationWidget::fillContextMenu(QPopupMenu &menu)
+void AssociationWidget::fillContextMenu(Q3PopupMenu &menu)
 {
-	QPopupMenu *subMenu = new QPopupMenu(&menu, "association popup");
+	Q3PopupMenu *subMenu = new Q3PopupMenu(&menu, "association popup");
 	subMenu->setCheckable(true);
 	subMenu->insertItem(i18n("AutoAdjust"),this,SLOT(setAutoAdjust()),0,1);
 	subMenu->insertItem(i18n("Fixed to Widget"),this,SLOT(setFixedSpots()),0,0);

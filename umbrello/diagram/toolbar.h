@@ -29,9 +29,9 @@ class ToolBar : public KToolBar
 Q_OBJECT
 public:
 	typedef QMap<int,Tool*> ToolMap;
-	ToolBar( QMainWindow *parentWindow, DiagramView *view, bool newLine = false, 
+	ToolBar( Q3MainWindow *parentWindow, DiagramView *view, bool newLine = false, 
 	        const char *name = 0, bool honor_style = false, bool readConfig = true);
-	ToolBar( QMainWindow *parentWindow, DiagramView *view, QMainWindow::Dock, bool newLine = false, 
+	ToolBar( Q3MainWindow *parentWindow, DiagramView *view, Qt::ToolBarDock, bool newLine = false, 
 	        const char *name = 0, bool honor_style = false, bool readConfig = true);
 	virtual ~ToolBar();
 	

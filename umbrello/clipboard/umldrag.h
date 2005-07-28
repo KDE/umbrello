@@ -15,9 +15,12 @@
 #ifndef UMLDRAG_H
 #define UMLDRAG_H
 
-#include <qdragobject.h>
+#include <q3dragobject.h>
 #include <qobject.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <Q3CString>
 
 #include "../umllistviewitemlist.h"
 #include "../associationwidgetlist.h"
@@ -38,7 +41,7 @@ class UMLListView;
 class UMLDragPrivate;
 class UMLClassifier;
 
-class Q_EXPORT UMLDrag : public QDragObject  {
+class Q_EXPORT UMLDrag : public Q3DragObject  {
     Q_OBJECT
     UMLDragPrivate* data;
 public:
@@ -137,7 +140,7 @@ public:
      * Sets the type of the clip to "application/x-uml-" + sub
      *	sub should be clip[1-5]
      */
-    virtual void setSubType(const QCString& sub, int index);
+    virtual void setSubType(const Q3CString& sub, int index);
 
     /**
      * Sets the data in the clip
@@ -187,8 +190,8 @@ public:
         Uml::ListView_Type type;
         Uml::IDType id;
     };
-    typedef QPtrList<LvTypeAndID> LvTypeAndID_List;
-    typedef QPtrListIterator<LvTypeAndID> LvTypeAndID_It;
+    typedef Q3PtrList<LvTypeAndID> LvTypeAndID_List;
+    typedef Q3PtrListIterator<LvTypeAndID> LvTypeAndID_It;
 
     /**
      * Return just the LvTypeAndID of a Clip3.

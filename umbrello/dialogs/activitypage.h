@@ -16,8 +16,8 @@
 #define ACTIVITYPAGE_H
 //qt includes
 #include <qwidget.h>
-#include <qgroupbox.h>
-#include <qlistbox.h>
+#include <q3groupbox.h>
+#include <q3listbox.h>
 //kde includes
 #include <karrowbutton.h>
 //app includes
@@ -26,7 +26,7 @@ class StateWidget;
 class ListPopupMenu;
 
 /**
- *		@author Paul Hensgen
+ * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ActivityPage : public QWidget {
@@ -70,8 +70,8 @@ protected:
      */
     ListPopupMenu * m_pMenu;
     //GUI widgets
-    QListBox * m_pActivityLB;
-    QGroupBox * m_pActivityGB;
+    Q3ListBox * m_pActivityLB;
+    Q3GroupBox * m_pActivityGB;
     KArrowButton * m_pUpArrowB, * m_pDownArrowB;
     QPushButton* m_pDeleteActivityButton;
     QPushButton* m_pRenameButton;
@@ -81,10 +81,10 @@ public slots:
      *	Popup menu item selected
      */
     void slotMenuSelection( int sel );
-    void slotClicked( QListBoxItem* item );
-    void slotDoubleClicked( QListBoxItem* item );
-    void slotRightButtonClicked(QListBoxItem* item, const QPoint& p);
-    void slotRightButtonPressed(QListBoxItem* item, const QPoint& p);
+    void slotClicked( Q3ListBoxItem* item );
+    void slotDoubleClicked( Q3ListBoxItem* item );
+    void slotRightButtonClicked(Q3ListBoxItem* item, const QPoint& p);
+    void slotRightButtonPressed(Q3ListBoxItem* item, const QPoint& p);
     void slotUpClicked();
     void slotDownClicked();
     void slotNewActivity();

@@ -14,6 +14,11 @@
 
 //qt includes
 #include <qpainter.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <Q3PointArray>
+#include <QMoveEvent>
+#include <QResizeEvent>
 //kde includes
 #include <klineeditdlg.h>
 #include <kdebug.h>
@@ -97,7 +102,7 @@ void MessageWidget::drawSolidArrowhead(QPainter& p, int x, int y, Qt::ArrowType 
     if (direction == Qt::RightArrow) {
         arrowheadExtentX = -arrowheadExtentX;
     }
-    QPointArray points;
+    Q3PointArray points;
     points.putPoints(0, 3, x, y, x + arrowheadExtentX, y - 3, x + arrowheadExtentX, y + 3);
     p.setBrush( QBrush(p.pen().color()) );
     p.drawPolygon(points);

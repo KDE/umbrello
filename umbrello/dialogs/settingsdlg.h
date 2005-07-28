@@ -16,13 +16,13 @@
 #ifndef SETTINGSDLG_H
 #define SETTINGSDLG_H
 //qt includes
-#include <qgroupbox.h>
+#include <q3groupbox.h>
 #include <qcheckbox.h>
 #include <qpushbutton.h>
 #include <qlabel.h>
 #include <qradiobutton.h>
-#include <qbuttongroup.h>
-#include <qdict.h>
+#include <q3buttongroup.h>
+#include <q3dict.h>
 //kde includes
 #include <kcombobox.h>
 #include <kfontdialog.h>
@@ -64,7 +64,7 @@ public:
 private:
     //private structs
     struct UIWidgets {
-        QGroupBox * colorGB;
+        Q3GroupBox * colorGB;
 
         QLabel * lineColorL;
         QLabel * fillColorL;
@@ -83,9 +83,9 @@ private:
     ;//end struct UIWidgets
 
     struct GeneralWidgets {
-        QGroupBox * miscGB;
-        QGroupBox * autosaveGB;
-        QGroupBox * startupGB;
+        Q3GroupBox * miscGB;
+        Q3GroupBox * autosaveGB;
+        Q3GroupBox * startupGB;
 
         KIntSpinBox * timeISB;
         KComboBox * diagramKB;
@@ -110,8 +110,8 @@ private:
     ;//end struct GeneralWidgets
 
     struct ClassWidgets {
-        QGroupBox * visibilityGB;
-        QGroupBox * scopeGB;
+        Q3GroupBox * visibilityGB;
+        Q3GroupBox * scopeGB;
 
         QCheckBox * showScopeCB;
         QCheckBox * showAttsCB;

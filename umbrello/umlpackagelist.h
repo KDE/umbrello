@@ -10,11 +10,11 @@
 #ifndef UMLPACKAGELIST_H
 #define UMLPACKAGELIST_H
 
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 
 class UMLPackage;
 
-typedef QPtrList<UMLPackage> UMLPackageList;
-typedef QPtrListIterator<UMLPackage> UMLPackageListIt;
+typedef Q3PtrList<UMLPackage> UMLPackageList;
+typedef Q3PtrListIterator<UMLPackage> UMLPackageListIt;
 
 #endif

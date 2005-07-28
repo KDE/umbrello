@@ -16,6 +16,8 @@
 #include <qrect.h>
 #include <qcolor.h>
 #include <qpainter.h>
+//Added by qt3to4:
+#include <Q3PointArray>
 #include <kiconloader.h>
 #include <klocale.h>
 
@@ -47,9 +49,9 @@ void DiagramWidget::setSize( uint w, uint h )
 
 
 
-QPointArray DiagramWidget::areaPoints() const
+Q3PointArray DiagramWidget::areaPoints() const
 {
-	QPointArray pa(4);
+	Q3PointArray pa(4);
 	int pw = (pen().width()+1)/2;
 	if ( pw < 1 ) pw = 1;
 	if ( pen() == NoPen ) pw = 0;

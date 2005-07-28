@@ -17,6 +17,8 @@
 #define CPPHEADERCODEDOCUMENT_H
 
 #include <qstring.h>
+//Added by qt3to4:
+#include <Q3PtrList>
 
 #include "../classifiercodedocument.h"
 #include "../hierarchicalcodeblock.h"
@@ -94,7 +96,7 @@ protected:
     */
     virtual void loadChildTextBlocksFromNode ( QDomElement & root);
 
-    void addOrUpdateCodeClassFieldMethodsInCodeBlock(QPtrList<CodeClassField> &list, CPPHeaderClassDeclarationBlock * codeBlock);
+    void addOrUpdateCodeClassFieldMethodsInCodeBlock(Q3PtrList<CodeClassField> &list, CPPHeaderClassDeclarationBlock * codeBlock);
 
     /**
      * create a new code comment. IN this case it is a CPPCodeDocumentation object.

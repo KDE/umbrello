@@ -27,7 +27,7 @@
 
 CodeViewerDialog::CodeViewerDialog ( QWidget* parent, CodeDocument * doc,
                                      Settings::CodeViewerState state,
-                                     const char* name, bool modal, WFlags fl )
+                                     const char* name, bool modal, Qt::WFlags fl )
         : CodeViewerDialogBase ( parent, name, modal, fl )
 
 {

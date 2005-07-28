@@ -19,6 +19,9 @@
 
 #include <klistview.h>
 #include <qpixmap.h>
+//Added by qt3to4:
+#include <Q3PopupMenu>
+#include <QDropEvent>
 #include <map>
 
 
@@ -28,7 +31,7 @@ class UMLAttribute;
 class UMLOperation;
 class UMLDoc;
 
-class QPopupMenu;
+class Q3PopupMenu;
 class QPoint;
 
 
@@ -36,7 +39,7 @@ class RefactoringAssistant : public KListView
 {
     Q_OBJECT
 public:
-    typedef std::map<QListViewItem*, UMLObject*> UMLObjectMap;
+    typedef std::map<Q3ListViewItem*, UMLObject*> UMLObjectMap;
 
     RefactoringAssistant( UMLDoc *doc, UMLClassifier *obj = 0, QWidget *parent = 0, const char *name = 0 );
     virtual ~RefactoringAssistant();
@@ -60,8 +63,8 @@ public slots:
     void attributeAdded( UMLAttribute *att );
     void attributeRemoved( UMLAttribute *att );
 
-    void itemExecuted( QListViewItem *item );
-    void showContextMenu( KListView*, QListViewItem*, const QPoint&);
+    void itemExecuted( Q3ListViewItem *item );
+    void showContextMenu( KListView*, Q3ListViewItem*, const QPoint&);
 
 protected:
     struct { QPixmap Public,
@@ -71,17 +74,17 @@ protected:
         Subclass;
     } m_pixmaps;
 
-    UMLObject* findUMLObject( const QListViewItem* );
-    QListViewItem* findListViewItem( const UMLObject *obj );
+    UMLObject* findUMLObject( const Q3ListViewItem* );
+    Q3ListViewItem* findListViewItem( const UMLObject *obj );
     void editProperties( UMLObject *obj );
-    void addClassifier( UMLClassifier *classifier, QListViewItem *parent = 0, bool addSuper = true, bool addSub = true, bool recurse = false );
+    void addClassifier( UMLClassifier *classifier, Q3ListViewItem *parent = 0, bool addSuper = true, bool addSub = true, bool recurse = false );
     void loadPixmaps();
     virtual bool acceptDrag(QDropEvent *event) const;
-    virtual void movableDropEvent (QListViewItem* parent, QListViewItem* afterme);
-    void setVisibilityIcon( QListViewItem *item , const UMLObject *obj );
+    virtual void movableDropEvent (Q3ListViewItem* parent, Q3ListViewItem* afterme);
+    void setVisibilityIcon( Q3ListViewItem *item , const UMLObject *obj );
     UMLClassifier *m_umlObject;
     UMLDoc *m_doc;
-    QPopupMenu *m_menu;
+    Q3PopupMenu *m_menu;
     UMLObjectMap m_umlObjectMap;
 
 

@@ -67,7 +67,7 @@ void ClassWizard::setupPages() {
 }
 
 void ClassWizard::showPage( QWidget * pWidget ) {
-    QWizard::showPage( pWidget );
+    Q3Wizard::showPage( pWidget );
     if( pWidget == m_pOpPage )
         finishButton() -> setEnabled( true );
 }
@@ -79,7 +79,7 @@ void ClassWizard::next() {
     } else if( pWidget == m_pAttPage ) {
         m_pAttPage -> updateObject();
     }
-    QWizard::next();
+    Q3Wizard::next();
 }
 
 void ClassWizard::back() {
@@ -89,7 +89,7 @@ void ClassWizard::back() {
     } else if( pWidget == m_pOpPage ) {
         m_pOpPage -> updateObject();
     }
-    QWizard::back();
+    Q3Wizard::back();
 }
 
 void ClassWizard::accept() {
@@ -107,12 +107,12 @@ void ClassWizard::accept() {
         listView->childObjectAdded(operation, m_pClass);
     }
 
-    QWizard::accept();
+    Q3Wizard::accept();
 }
 
 void ClassWizard::reject() {
     delete m_pClass;
-    QWizard::reject();
+    Q3Wizard::reject();
 }
 
 void ClassWizard::help() {

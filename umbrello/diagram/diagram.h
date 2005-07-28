@@ -16,11 +16,16 @@
 #define UMBRELLO_DIAGRAM_H
 
 
-#include <qcanvas.h>
+#include <q3canvas.h>
+//Added by qt3to4:
+#include <QDragEnterEvent>
+#include <Q3PointArray>
+#include <Q3PopupMenu>
+#include <QDropEvent>
 #include <map>
 #include <list>
 #include <typeinfo>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 #include "../umlnamespace.h"
 
 class UMLDoc;
@@ -28,8 +33,8 @@ class UMLObject;
 class UMLAssociation;
 class QDropEvent;
 class QDragEnterEvent;
-class QPopupMenu;
-class QPointArray;
+class Q3PopupMenu;
+class Q3PointArray;
 class QRect;
 
 namespace Umbrello{
@@ -40,7 +45,7 @@ class DiagramView;
 
 
 /** Diagram. Use a DiagramView to view/modify the contents of this diagram */
-class Diagram : public QCanvas
+class Diagram : public Q3Canvas
 {
 Q_OBJECT
 
@@ -61,7 +66,7 @@ public:
 	
 	void registerElement( DiagramElement* );
 	
-	void fillContextMenu(QPopupMenu &menu) const;
+	void fillContextMenu(Q3PopupMenu &menu) const;
 	
 	UMLDoc* document() const;
 	
@@ -106,8 +111,8 @@ protected:
 
 private:
 	void initAllowedTypesMap();
-	QPtrList<DiagramElement> m_elements;
-	QPtrList<DiagramElement> m_selected;
+	Q3PtrList<DiagramElement> m_elements;
+	Q3PtrList<DiagramElement> m_selected;
 
 };
 

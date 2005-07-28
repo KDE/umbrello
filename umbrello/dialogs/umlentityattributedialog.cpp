@@ -19,10 +19,14 @@
 #include <qlayout.h>
 #include <qlineedit.h>
 #include <qcheckbox.h>
-#include <qgroupbox.h>
-#include <qbuttongroup.h>
+#include <q3groupbox.h>
+#include <q3buttongroup.h>
 #include <qradiobutton.h>
 #include <qlabel.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QGridLayout>
 
 // kde includes
 #include <kcombobox.h>
@@ -52,7 +56,7 @@ void UMLEntityAttributeDialog::setupDialog() {
 
     QVBoxLayout * mainLayout = new QVBoxLayout( plainPage() );
 
-    m_pValuesGB = new QGroupBox(i18n("General Properties"), plainPage() );
+    m_pValuesGB = new Q3GroupBox(i18n("General Properties"), plainPage() );
     QGridLayout * valuesLayout = new QGridLayout(m_pValuesGB, 5, 2);
     valuesLayout -> setMargin(margin);
     valuesLayout -> setSpacing(10);
@@ -103,7 +107,7 @@ void UMLEntityAttributeDialog::setupDialog() {
 
     mainLayout -> addWidget(m_pValuesGB);
 
-    m_pScopeBG = new QButtonGroup(i18n("Indexing"), plainPage() );
+    m_pScopeBG = new Q3ButtonGroup(i18n("Indexing"), plainPage() );
     QHBoxLayout* scopeLayout = new QHBoxLayout(m_pScopeBG);
     scopeLayout->setMargin(margin);
 

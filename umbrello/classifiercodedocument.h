@@ -19,7 +19,7 @@
 
 #include <qmap.h>
 #include <qstring.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 
 #include "attribute.h"
 #include "classifier.h"
@@ -109,7 +109,7 @@ public:
      * Get a list of codeoperation objects held by this classifiercodedocument.
      * @return      QPtrList<CodeOperation>
      */
-    QPtrList<CodeOperation> getCodeOperations ( );
+    Q3PtrList<CodeOperation> getCodeOperations ( );
 
     /** Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
      * @return      CodeClassFieldList

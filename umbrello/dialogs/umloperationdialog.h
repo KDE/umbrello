@@ -18,6 +18,8 @@
 
 //kde includes
 #include <kdialogbase.h>
+//Added by qt3to4:
+#include <QLabel>
 
 /**
  * @author Paul Hensgen
@@ -26,9 +28,9 @@
 
 class UMLOperation;
 class ListPopupMenu;
-class QGroupBox;
-class QListBox;
-class QButtonGroup;
+class Q3GroupBox;
+class Q3ListBox;
+class Q3ButtonGroup;
 class QRadioButton;
 class QPushButton;
 class QLabel;
@@ -90,9 +92,9 @@ protected:
     void insertStereotype( const QString& type, int index = -1 );
 
     //GUI widgets
-    QGroupBox  * m_pParmsGB, * m_pGenGB;
-    QListBox * m_pParmsLB;
-    QButtonGroup * m_pScopeBG;
+    Q3GroupBox  * m_pParmsGB, * m_pGenGB;
+    Q3ListBox * m_pParmsLB;
+    Q3ButtonGroup * m_pScopeBG;
     QRadioButton * m_pPublicRB, * m_pPrivateRB,  * m_pProtectedRB;
     QLabel * m_pRtypeL, * m_pNameL, * m_pStereoTypeL;
     KComboBox * m_pRtypeCB, * m_pStereoTypeCB;
@@ -105,9 +107,9 @@ protected:
     KArrowButton* m_pDownButton;
 
 public slots:
-    void slotParmRightButtonPressed(QListBoxItem *item, const QPoint &p);
-    void slotParmRightButtonClicked(QListBoxItem *item, const QPoint &p);
-    void slotParmDoubleClick(QListBoxItem *item);
+    void slotParmRightButtonPressed(Q3ListBoxItem *item, const QPoint &p);
+    void slotParmRightButtonClicked(Q3ListBoxItem *item, const QPoint &p);
+    void slotParmDoubleClick(Q3ListBoxItem *item);
     void slotParmPopupMenuSel(int id);
     void slotNewParameter();
     void slotDeleteParameter();
@@ -118,7 +120,7 @@ public slots:
     /**
      * enables or disables buttons
      */
-    void slotParamsBoxClicked(QListBoxItem* parameterItem);
+    void slotParamsBoxClicked(Q3ListBoxItem* parameterItem);
 
     /**
      * I don't think this is used, but if we had an apply button

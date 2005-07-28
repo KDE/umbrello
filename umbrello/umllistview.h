@@ -17,6 +17,13 @@
 
 #include <qdom.h>
 #include <qpixmap.h>
+//Added by qt3to4:
+#include <QContextMenuEvent>
+#include <QMouseEvent>
+#include <QFocusEvent>
+#include <QKeyEvent>
+#include <QEvent>
+#include <QDropEvent>
 #include <klistview.h>
 #include "umlnamespace.h"
 #include "umllistviewitemlist.h"
@@ -180,7 +187,7 @@ public:
      * Method will take care of signalling anyone needed on creation of new item.
      * e.g. UMLDoc if an UMLObject is created.
      */
-    void addNewItem( QListViewItem * parent, Uml::ListView_Type type );
+    void addNewItem( Q3ListViewItem * parent, Uml::ListView_Type type );
 
     /**
      * Find an UMLObject in the listview.
@@ -251,7 +258,7 @@ public:
     /**
      * Cancel rename event has occurred for the given item.
      */
-    void  cancelRename( QListViewItem * item );
+    void  cancelRename( Q3ListViewItem * item );
 
     /**
      * Set the variable m_bStartedCut
@@ -366,8 +373,8 @@ protected:
     void contentsMousePressEvent(QMouseEvent *me);
     void contentsMouseDoubleClickEvent(QMouseEvent * me);
     void focusOutEvent ( QFocusEvent * fe);
-    bool goodName(QListViewItem *i);
-    QDragObject* dragObject();
+    bool goodName(Q3ListViewItem *i);
+    Q3DragObject* dragObject();
     void startDrag();
     void tidyChangeItem();
     bool acceptDrag (QDropEvent* event) const;
@@ -411,7 +418,7 @@ protected:
     /**
      * Deletes all child-items of @p parent.
      */
-    void deleteChildrenOf( QListViewItem *parent );
+    void deleteChildrenOf( Q3ListViewItem *parent );
 
 public slots:
 
@@ -484,27 +491,27 @@ public slots:
     /**
      * Something has been dragged and dropped onto the list view
      */
-    void slotDropped(QDropEvent* de, QListViewItem* parent, QListViewItem* item);
+    void slotDropped(QDropEvent* de, Q3ListViewItem* parent, Q3ListViewItem* item);
 
     /**
      * calls updateFolder() on the item to update the icon to open
      */
-    void slotExpanded(QListViewItem* item);
+    void slotExpanded(Q3ListViewItem* item);
 
     /**
      * calls updateFolder() on the item to update the icon to closed
      */
-    void slotCollapsed(QListViewItem* item);
+    void slotCollapsed(Q3ListViewItem* item);
 
     /**
      * Open all items in the list view
      */
-    void expandAll(QListViewItem *item);
+    void expandAll(Q3ListViewItem *item);
 
     /**
      * Close all items in the list view
      */
-    void collapseAll(QListViewItem *item);
+    void collapseAll(Q3ListViewItem *item);
 
     /**
      * 	Connects to the signal that @ref UMLApp emits when a
@@ -517,7 +524,7 @@ public slots:
      *     to then verify the item.  The class only connects to the
      *     rename signal while needed.
      */
-    bool slotItemRenamed(QListViewItem* item , int col);
+    bool slotItemRenamed(Q3ListViewItem* item , int col);
 
 signals:
 

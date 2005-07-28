@@ -22,6 +22,9 @@
 #include <qdatetime.h>
 #include <qregexp.h>
 #include <qdir.h>
+//Added by qt3to4:
+#include <QTextStream>
+#include <Q3PtrList>
 
 // kde includes
 #include <kdebug.h>
@@ -158,7 +161,7 @@ bool CodeGenerator::removeCodeDocument ( CodeDocument * remove_object ) {
  * @return QPtrList<CodeDocument *> list of CodeDocument objects held by
  * m_codedocumentVector
  */
-QPtrList<CodeDocument> * CodeGenerator::getCodeDocumentList ( ) {
+Q3PtrList<CodeDocument> * CodeGenerator::getCodeDocumentList ( ) {
     return &m_codedocumentVector;
 }
 
@@ -247,7 +250,7 @@ void CodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
     QDomElement docElement = doc.createElement( "codegenerator" );
     docElement.setAttribute("language",langType);
 
-    QPtrList<CodeDocument> * docList = getCodeDocumentList();
+    Q3PtrList<CodeDocument> * docList = getCodeDocumentList();
     for (CodeDocument * codeDoc = docList->first(); codeDoc; codeDoc= docList->next())
         codeDoc->saveToXMI(doc, docElement);
 
@@ -345,7 +348,7 @@ void CodeGenerator::writeCodeToFile ( )
 }
 
 void CodeGenerator::writeCodeToFile ( UMLClassifierList & concepts) {
-    QPtrList<CodeDocument> docs;
+    Q3PtrList<CodeDocument> docs;
     docs.setAutoDelete(false);
 
     for (UMLClassifier *concept= concepts.first(); concept; concept= concepts.next())
@@ -359,7 +362,7 @@ void CodeGenerator::writeCodeToFile ( UMLClassifierList & concepts) {
 }
 
 // Main method. Will write out passed code documents to file as appropriate.
-void CodeGenerator::writeListedCodeDocsToFile ( QPtrList<CodeDocument> * docs ) {
+void CodeGenerator::writeListedCodeDocsToFile ( Q3PtrList<CodeDocument> * docs ) {
 
     // iterate thru all code documents
     for (CodeDocument *doc = docs->first(); doc; doc = docs->next())
@@ -497,7 +500,7 @@ bool CodeGenerator::openFile (QFile & file, const QString &fileName ) {
     } else {
         QDir outputDirectory = getPolicy()->getOutputDirectory();
         file.setName(outputDirectory.absFilePath(fileName));
-        if(!file.open(IO_WriteOnly)) {
+        if(!file.open(QIODevice::WriteOnly)) {
             KMessageBox::sorry(0,i18n("Cannot open file %1 for writing. Please make sure the folder exists and you have permissions to write to it.").arg(file.name()),i18n("Cannot Open File"));
             return false;
         }

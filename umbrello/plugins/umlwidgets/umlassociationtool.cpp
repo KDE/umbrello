@@ -23,7 +23,9 @@
 #include "../../association.h"
 
 #include <qcursor.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
+//Added by qt3to4:
+#include <Q3PointArray>
 #include <kdebug.h>
 #include <klocale.h>
 
@@ -156,7 +158,7 @@ void UMLAssociationTool::createPath( )
 		w = 0;
 	}
 
-	QPointArray points( m_linePath.count() + 1 );
+	Q3PointArray points( m_linePath.count() + 1 );
 	points[0] = m_linePath.at(0)->startPoint();
 	for( uint i = 0; i < m_linePath.count(); i++ )
 	{

@@ -16,6 +16,9 @@
 #define UMBRELLO_ASSOCIATIONWIDGET_H
 
 #include "path.h"
+//Added by qt3to4:
+#include <Q3PointArray>
+#include <Q3PopupMenu>
 
 
 namespace Umbrello{
@@ -52,12 +55,12 @@ public:
 	  * the start and end points of the path will be set to the closest
 	  * hotspots of the start/end widgets to the first/last points in the array, respectively
 	  */
-	virtual void setPathPoints( const QPointArray& );
+	virtual void setPathPoints( const Q3PointArray& );
 	
 	/** Populate a context menu with items / actions for this element
 	*  @param menu The popup menu to insert the actions in
 	*/
-	virtual void fillContextMenu(QPopupMenu &menu);
+	virtual void fillContextMenu(Q3PopupMenu &menu);
 	
 	inline DiagramWidget* startWidget() const;
 	inline DiagramWidget* endWidget() const;

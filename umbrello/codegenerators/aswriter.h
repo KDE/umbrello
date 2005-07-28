@@ -21,8 +21,10 @@
 #include "simplecodegenerator.h"
 #include "../umloperationlist.h"
 
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 #include <qstringlist.h>
+//Added by qt3to4:
+#include <QTextStream>
 
 /**
   * class ASWriter is a ActionScript code generator for UMLClassifier objects

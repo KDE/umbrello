@@ -20,8 +20,14 @@
 #include <qpoint.h>
 #include <qrect.h>
 #include <qevent.h>
-#include <qheader.h>
+#include <q3header.h>
 #include <qtooltip.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QFocusEvent>
+#include <QKeyEvent>
+#include <QDropEvent>
+#include <QMouseEvent>
 #include <kiconloader.h>
 #include <kapplication.h>
 #include <kdebug.h>
@@ -129,11 +135,11 @@ UMLListView::UMLListView(QWidget *parent, const char *name)
 #endif
     init();
     //setup slots/signals
-    connect(this, SIGNAL(dropped(QDropEvent *, QListViewItem *, QListViewItem *)),
-            this, SLOT(slotDropped(QDropEvent *, QListViewItem *, QListViewItem *)));
-    connect( this, SIGNAL( collapsed( QListViewItem * ) ),
-             this, SLOT( slotCollapsed( QListViewItem * ) ) );
-    connect( this, SIGNAL( expanded( QListViewItem * ) ), this, SLOT( slotExpanded( QListViewItem * ) ) );
+    connect(this, SIGNAL(dropped(QDropEvent *, Q3ListViewItem *, Q3ListViewItem *)),
+            this, SLOT(slotDropped(QDropEvent *, Q3ListViewItem *, Q3ListViewItem *)));
+    connect( this, SIGNAL( collapsed( Q3ListViewItem * ) ),
+             this, SLOT( slotCollapsed( Q3ListViewItem * ) ) );
+    connect( this, SIGNAL( expanded( Q3ListViewItem * ) ), this, SLOT( slotExpanded( Q3ListViewItem * ) ) );
     connect( UMLApp::app(), SIGNAL( sigCutSuccessful() ), this, SLOT( slotCutSuccessful() ) );
 }
 
@@ -141,7 +147,7 @@ UMLListView::~UMLListView() {}
 
 bool UMLListView::eventFilter(QObject *o, QEvent *e) {
     if (e->type() != QEvent::MouseButtonPress || !o->isA("QHeader"))
-        return QListView::eventFilter(o, e);
+        return Q3ListView::eventFilter(o, e);
     QMouseEvent *me = static_cast<QMouseEvent*>(e);
     if (me->button() == RightButton) {
         if (m_pMenu) {
@@ -154,7 +160,7 @@ bool UMLListView::eventFilter(QObject *o, QEvent *e) {
         connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(popupMenuSel(int)));
         return true;
     }
-    return QListView::eventFilter(o, e);
+    return Q3ListView::eventFilter(o, e);
 }
 
 void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
@@ -162,7 +168,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
         m_doc -> getCurrentView() -> clearSelected();
     if( me -> state() != ShiftButton )
         clearSelection();
-    QPoint pt = this->QScrollView::contentsToViewport( me->pos() );
+    QPoint pt = this->Q3ScrollView::contentsToViewport( me->pos() );
     UMLListViewItem * item = (UMLListViewItem*)itemAt(pt);
 
     if(  me -> button() != RightButton && me -> button() != LeftButton  ) {
@@ -217,7 +223,7 @@ void UMLListView::contentsMouseReleaseEvent(QMouseEvent *me) {
         this->KListView::contentsMouseReleaseEvent(me);
         return;
     }
-    const QPoint pt = this->QScrollView::contentsToViewport( me->pos() );
+    const QPoint pt = this->Q3ScrollView::contentsToViewport( me->pos() );
     UMLListViewItem *item = dynamic_cast<UMLListViewItem*>(itemAt(pt));
     if (item == NULL || !typeIsDiagram(item->getType())) {
         this->KListView::contentsMouseReleaseEvent(me);
@@ -238,7 +244,7 @@ void UMLListView::keyPressEvent(QKeyEvent *ke) {
         // assume they handle the keypress.
         ke->accept();                 // munge and do nothing
     } else {
-        QListView::keyPressEvent(ke); // let parent handle it
+        Q3ListView::keyPressEvent(ke); // let parent handle it
     }
 }
 
@@ -825,7 +831,7 @@ void UMLListView::slotDiagramRemoved(Uml::IDType id) {
     UMLApp::app()->getDocWindow()->updateDocumentation(true);
 }
 
-QDragObject* UMLListView::dragObject() {
+Q3DragObject* UMLListView::dragObject() {
     UMLListViewItemList selecteditems;
     getSelectedItems(selecteditems);
     selecteditems.setAutoDelete( FALSE );
@@ -848,7 +854,7 @@ QDragObject* UMLListView::dragObject() {
 }
 
 void UMLListView::startDrag() {
-    QDragObject *o = dragObject();
+    Q3DragObject *o = dragObject();
     if (o)
         o->dragCopy();
 }
@@ -962,7 +968,7 @@ UMLListViewItem* UMLListView::recursiveSearchForView(UMLListViewItem* listViewIt
 
 UMLListViewItem* UMLListView::findItem(Uml::IDType id) {
     UMLListViewItem *temp;
-    QListViewItemIterator it(this);
+    Q3ListViewItemIterator it(this);
     for( ; (temp = (UMLListViewItem*)it.current()); ++it ) {
         UMLListViewItem * item = temp->findItem(id);
         if (item)
@@ -1060,7 +1066,7 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
         << endl;
         return false;
     }
-    ((QListView*)this)->setCurrentItem( (QListViewItem*)item );
+    ((Q3ListView*)this)->setCurrentItem( (Q3ListViewItem*)item );
 
     UMLDrag::LvTypeAndID_List list;
     if (! UMLDrag::getClip3TypeAndID(event, list)) {
@@ -1347,7 +1353,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
     return newItem;
 }
 
-void UMLListView::slotDropped(QDropEvent* de, QListViewItem* /* parent */, QListViewItem* item) {
+void UMLListView::slotDropped(QDropEvent* de, Q3ListViewItem* /* parent */, Q3ListViewItem* item) {
     item = (UMLListViewItem *)currentItem();
     if(!item) {
         kdDebug() << "UMLListView::slotDropped: item is NULL - doing nothing"
@@ -1371,7 +1377,7 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* /* parent */, QList
 
 int UMLListView::getSelectedItems(UMLListViewItemList &ItemList) {
     ItemList.setAutoDelete( FALSE );
-    QListViewItemIterator it(this);
+    Q3ListViewItemIterator it(this);
     // iterate through all items of the list view
     for ( ; it.current(); ++it ) {
         if ( it.current()->isSelected() ) {
@@ -1516,7 +1522,7 @@ UMLListViewItem* UMLListView::determineParentItem(Uml::ListView_Type lvt) const 
 }
 
 int UMLListView::getSelectedCount() {
-    QListViewItemIterator it(this);
+    Q3ListViewItemIterator it(this);
     int count = 0;
     // iterate through all items of the list view
     for ( ; it.current(); ++it ) {
@@ -1536,7 +1542,7 @@ void UMLListView::focusOutEvent ( QFocusEvent * fe) {
     }
     //repaint();
 
-    QListView::focusOutEvent(fe);
+    Q3ListView::focusOutEvent(fe);
 }
 
 Uml::ListView_Type UMLListView::convert_DT_LVT(Uml::Diagram_Type dt) {
@@ -1939,7 +1945,7 @@ void UMLListView::loadPixmaps() {
     m_Pixmaps.Protected_Attribute.load( dataDir + "CVprotected_var.png" );
 }
 
-void UMLListView::slotExpanded( QListViewItem * item ) {
+void UMLListView::slotExpanded( Q3ListViewItem * item ) {
     UMLListViewItem * myItem= (UMLListViewItem *)item;
     switch( myItem -> getType() ) {
     case Uml::lvt_Logical_View:
@@ -1961,7 +1967,7 @@ void UMLListView::slotExpanded( QListViewItem * item ) {
     }//end switch
 }
 
-void UMLListView::slotCollapsed( QListViewItem * item ) {
+void UMLListView::slotCollapsed( Q3ListViewItem * item ) {
     UMLListViewItem * myItem = (UMLListViewItem *)item;
     switch( myItem -> getType() ) {
     case Uml::lvt_Logical_View:
@@ -1991,7 +1997,7 @@ void UMLListView::slotCutSuccessful() {
     }
 }
 
-void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) {
+void UMLListView::addNewItem( Q3ListViewItem * parent, Uml::ListView_Type type ) {
     QString name = i18n("folder");
     if (type == Uml::lvt_Datatype)  {
         parent = datatypeFolder;
@@ -2159,7 +2165,7 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
     // is called (automatically by QListViewItem.)
 }
 
-bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
+bool UMLListView::slotItemRenamed( Q3ListViewItem * item , int /*col*/ ) {
     //if true the item was cancel before this message
     if( m_bIgnoreCancelRename ) {
         return true;
@@ -2546,7 +2552,7 @@ bool UMLListView::isUnique( UMLListViewItem * item, const QString &name ) {
     return false;
 }
 
-void UMLListView::cancelRename( QListViewItem * item ) {
+void UMLListView::cancelRename( Q3ListViewItem * item ) {
     if( !m_bIgnoreCancelRename ) {
         delete item;
         m_bIgnoreCancelRename = true;
@@ -2797,14 +2803,14 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 }
 
 /** Open all items in the list view*/
-void UMLListView::expandAll(QListViewItem *item) {
+void UMLListView::expandAll(Q3ListViewItem *item) {
     if(!item) item = firstChild();
     for (item = item->firstChild(); item; item = item->nextSibling())  {
         item->setOpen(true);
     }
 }
 /** Close all items in the list view*/
-void UMLListView::collapseAll(QListViewItem *item) {
+void UMLListView::collapseAll(Q3ListViewItem *item) {
     if(!item) item = firstChild();
     for( item = item->firstChild(); item; item = item->nextSibling())
         item->setOpen(false);
@@ -2879,7 +2885,7 @@ bool UMLListView::typeIsDiagram(Uml::ListView_Type type) {
     }
 }
 
-void UMLListView::deleteChildrenOf(QListViewItem* parent) {
+void UMLListView::deleteChildrenOf(Q3ListViewItem* parent) {
     if ( !parent ) {
         return;
     }

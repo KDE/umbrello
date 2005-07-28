@@ -17,6 +17,8 @@
 
 #include "umlwidget.h"
 #include <qstringlist.h>
+//Added by qt3to4:
+#include <Q3PopupMenu>
 
 class Diagram;
 class UMLPackage;
@@ -41,7 +43,7 @@ public: enum DisplayOptions { ShowPackage = 1, ShowStereotype = 2 };
 	/** Destructor */
 	virtual ~PackageWidget();
 	
-	virtual void fillContextMenu(QPopupMenu &menu);
+	virtual void fillContextMenu(Q3PopupMenu &menu);
 	
 	
 public slots:

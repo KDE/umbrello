@@ -25,6 +25,11 @@
 #include <qbrush.h>
 #include <qlayout.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QKeyEvent>
+#include <Q3PopupMenu>
+#include <Q3PtrList>
 
 #include "codeeditor.h"
 
@@ -50,13 +55,13 @@
 #include "umloperationdialog.h"
 
 CodeEditor::CodeEditor ( const QString & text, const QString & context, CodeViewerDialog * parent, const char * name , CodeDocument * doc)
-        : QTextEdit ( text, context, parent, name)
+        : Q3TextEdit ( text, context, parent, name)
 {
     init(parent, doc);
 }
 
 CodeEditor::CodeEditor ( CodeViewerDialog * parent, const char* name, CodeDocument * doc )
-        : QTextEdit ( parent, name )
+        : Q3TextEdit ( parent, name )
 {
     init(parent, doc);
 }
@@ -106,7 +111,7 @@ bool CodeEditor::close ( bool alsoDelete )
         m_lastTextBlockToBeEdited = 0;
     }
 
-    return QTextEdit::close(alsoDelete);
+    return Q3TextEdit::close(alsoDelete);
 
 }
 
@@ -189,7 +194,7 @@ void CodeEditor::keyPressEvent ( QKeyEvent * e ) {
     if((e->ascii() == 10) || (e->ascii() == 13) || (e->text() == "\r\n"))
         m_newLinePressed = true;
 
-    QTextEdit::keyPressEvent(e);
+    Q3TextEdit::keyPressEvent(e);
 }
 
 void CodeEditor::loadFromDocument ()
@@ -210,7 +215,7 @@ void CodeEditor::loadFromDocument ()
                getState().nonEditBlockColor,0,componentName);
 
     // now all the text blocks in the document
-    QPtrList<TextBlock> * items = m_parentDoc->getTextBlockList();
+    Q3PtrList<TextBlock> * items = m_parentDoc->getTextBlockList();
     appendText(items);
 
     setCursorPosition(0,0);
@@ -229,12 +234,12 @@ void CodeEditor::insert (const QString & text, TextBlock * parent, bool editable
     if(startLine == -1)
     {
         startLine = paragraphs()-1;
-        QTextEdit::append(text); // put actual text in. Use insert instead of append so history is preserved?
+        Q3TextEdit::append(text); // put actual text in. Use insert instead of append so history is preserved?
     }
     else
     {
         isInsert = true;
-        QTextEdit::insertAt(text, startLine, 0);
+        Q3TextEdit::insertAt(text, startLine, 0);
     }
 
     // actual put in text
@@ -322,7 +327,7 @@ void CodeEditor::insert (const QString & text, TextBlock * parent, bool editable
 
 }
 
-void CodeEditor::appendText(QPtrList<TextBlock> * items)
+void CodeEditor::appendText(Q3PtrList<TextBlock> * items)
 {
 
     for (TextBlock *tb = items->first(); tb; tb = items->next())
@@ -538,7 +543,7 @@ void CodeEditor::appendText(HierarchicalCodeBlock * hblock)
     if(!hblock->getWriteOutText() && m_showHiddenBlocks)
         paperColor = getState().hiddenColor;
 
-    QPtrList<TextBlock> * items = hblock->getTextBlockList();
+    Q3PtrList<TextBlock> * items = hblock->getTextBlockList();
     QString indent = hblock->getIndentationString();
     QString startText = hblock->formatMultiLineText ( hblock->getStartText(), indent, "\n");
     QString endText = hblock->formatMultiLineText( hblock->getEndText(), indent, "\n");
@@ -555,12 +560,12 @@ void CodeEditor::appendText(HierarchicalCodeBlock * hblock)
 
 void CodeEditor::insertParagraph ( const QString & text, int para )
 {
-    QTextEdit::insertParagraph(text,para);
+    Q3TextEdit::insertParagraph(text,para);
 }
 
 void CodeEditor::removeParagraph ( int para )
 {
-    QTextEdit::removeParagraph(para);
+    Q3TextEdit::removeParagraph(para);
 }
 
 // All umlobjects which may have pop-up boxes should return true here
@@ -646,13 +651,13 @@ void CodeEditor::slotInsertCodeBlockAfterSelected()
 
 }
 
-QPopupMenu * CodeEditor::createPopupMenu ( const QPoint & pos )
+Q3PopupMenu * CodeEditor::createPopupMenu ( const QPoint & pos )
 {
 
     TextBlock * tb = m_selectedTextBlock;
     m_lastPara = paragraphAt(pos);
 
-    QPopupMenu * menu = new QPopupMenu(this);
+    Q3PopupMenu * menu = new Q3PopupMenu(this);
     // ugh. A bug in the Qt interaction between QTextEdit and Menu
     // can sometimes trigger a clear() call of the text area after
     // the popup menu is destroyed. The workaround is to disable
@@ -662,26 +667,26 @@ QPopupMenu * CodeEditor::createPopupMenu ( const QPoint & pos )
     if (m_selectedTextBlock)
     {
         if(tb->getWriteOutText())
-            menu->insertItem("Hide",this,SLOT(slotChangeSelectedBlockView()), Key_H, 0);
+            menu->insertItem("Hide",this,SLOT(slotChangeSelectedBlockView()), Qt::Key_H, 0);
         else
-            menu->insertItem("Show",this,SLOT(slotChangeSelectedBlockView()), Key_S, 0);
+            menu->insertItem("Show",this,SLOT(slotChangeSelectedBlockView()), Qt::Key_S, 0);
 
         CodeBlockWithComments * cb = dynamic_cast<CodeBlockWithComments*>(tb);
         if(cb)
             if(cb->getComment()->getWriteOutText())
-                menu->insertItem("Hide Comment",this,SLOT(slotChangeSelectedBlockCommentView()), CTRL+Key_H, 1);
+                menu->insertItem("Hide Comment",this,SLOT(slotChangeSelectedBlockCommentView()), Qt::CTRL+Qt::Key_H, 1);
             else
-                menu->insertItem("Show Comment",this,SLOT(slotChangeSelectedBlockCommentView()), CTRL+Key_S, 1);
+                menu->insertItem("Show Comment",this,SLOT(slotChangeSelectedBlockCommentView()), Qt::CTRL+Qt::Key_S, 1);
         menu->insertSeparator();
 
-        menu->insertItem("Insert Code Block Before",this,SLOT(slotInsertCodeBlockBeforeSelected()), CTRL+Key_B, 2);
-        menu->insertItem("Insert Code Block After",this,SLOT(slotInsertCodeBlockAfterSelected()), CTRL+Key_A, 3);
+        menu->insertItem("Insert Code Block Before",this,SLOT(slotInsertCodeBlockBeforeSelected()), Qt::CTRL+Qt::Key_B, 2);
+        menu->insertItem("Insert Code Block After",this,SLOT(slotInsertCodeBlockAfterSelected()), Qt::CTRL+Qt::Key_A, 3);
 
         menu->insertSeparator();
 
-        menu->insertItem("Copy",this,SLOT(slotCopyTextBlock()), CTRL+Key_C, 4);
-        menu->insertItem("Paste",this,SLOT(slotPasteTextBlock()), CTRL+Key_V, 5);
-        menu->insertItem("Cut",this,SLOT(slotCutTextBlock()), CTRL+Key_X, 6);
+        menu->insertItem("Copy",this,SLOT(slotCopyTextBlock()), Qt::CTRL+Qt::Key_C, 4);
+        menu->insertItem("Paste",this,SLOT(slotPasteTextBlock()), Qt::CTRL+Qt::Key_V, 5);
+        menu->insertItem("Cut",this,SLOT(slotCutTextBlock()), Qt::CTRL+Qt::Key_X, 6);
 
         // enable/disable based on conditions
         if(m_selectedTextBlock == m_parentDoc->getHeader())
@@ -831,7 +836,7 @@ void CodeEditor::updateTextBlockFromText (TextBlock * block) {
         QString content = "";
 
         // Assemble content from editiable paras
-        QPtrList<ParaInfo> list = info->m_paraList;
+        Q3PtrList<ParaInfo> list = info->m_paraList;
         for(ParaInfo * item = list.first(); item; item=list.next())
         {
             if(item->isEditable)
@@ -1002,7 +1007,7 @@ bool CodeEditor::paraIsNotSingleLine (int para)
     {
         int pstart = m_textBlockList.findRef(tBlock);
         TextBlockInfo *info = (*m_tbInfoMap)[tBlock];
-        QPtrList<ParaInfo> list = info->m_paraList;
+        Q3PtrList<ParaInfo> list = info->m_paraList;
 
         for(ParaInfo * item = list.first(); item; item=list.next())
             if((pstart+item->start) <= para && (item->start+pstart+item->size) >= para )
@@ -1026,7 +1031,7 @@ bool CodeEditor::isParaEditable (int para) {
         TextBlockInfo *info = (*m_tbInfoMap)[tBlock];
         int pstart = m_textBlockList.findRef(tBlock);
         int relativeLine = para - pstart;
-        QPtrList<ParaInfo> list = info->m_paraList;
+        Q3PtrList<ParaInfo> list = info->m_paraList;
         for(ParaInfo * item = list.first(); item; item=list.next())
         {
             if((item->start+pstart) <= para && (item->start+pstart+item->size) >= para)
@@ -1048,7 +1053,7 @@ void CodeEditor::changeTextBlockHighlighting(TextBlock * tBlock, bool selected) 
     if(tBlock)
     {
         TextBlockInfo *info = (*m_tbInfoMap)[tBlock];
-        QPtrList<ParaInfo> list = info->m_paraList;
+        Q3PtrList<ParaInfo> list = info->m_paraList;
         int pstart = m_textBlockList.findRef(tBlock);
         for(ParaInfo * item = list.first(); item; item=list.next())
             for(int p=(item->start+pstart);p<=(item->start+pstart+item->size);p++)
@@ -1109,7 +1114,7 @@ void CodeEditor::contractSelectedParagraph( int paraToRemove ) {
     {
         int pstart = m_textBlockList.findRef(tBlock);
         TextBlockInfo *info = (*m_tbInfoMap)[tBlock];
-        QPtrList<ParaInfo> list = info->m_paraList;
+        Q3PtrList<ParaInfo> list = info->m_paraList;
 
         bool lowerStartPosition = false;
         for(ParaInfo * item = list.first(); item; item=list.next())
@@ -1142,7 +1147,7 @@ void CodeEditor::expandSelectedParagraph( int priorPara ) {
         // add this tBlock in
         m_textBlockList.insert(priorPara,tBlock);
         TextBlockInfo *info = (*m_tbInfoMap)[tBlock];
-        QPtrList<ParaInfo> list = info->m_paraList;
+        Q3PtrList<ParaInfo> list = info->m_paraList;
         int pstart = m_textBlockList.findRef(tBlock);
 
         // now update the paragraph information

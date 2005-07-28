@@ -17,9 +17,12 @@
 
 #include "diagramelement.h"
 #include "pathsegment.h"
-#include <qptrlist.h>
+#include <q3ptrlist.h>
+//Added by qt3to4:
+#include <Q3PointArray>
+#include <Q3PopupMenu>
 
-class QPointArray;
+class Q3PointArray;
 
 namespace Umbrello{
 
@@ -45,7 +48,7 @@ public:
 	virtual void setVisible(bool);
 	
 	/** Set the points for the path. */
-	virtual void setPathPoints( const QPointArray& );
+	virtual void setPathPoints( const Q3PointArray& );
 	
 	/** Move the complete path to an absolute position in the diagram.
 	* Reimplemented from DiagramElement : the absolute position refers to
@@ -72,7 +75,7 @@ public:
 	/** Populate a context menu with items / actions for this element
 	*  @param menu The popup menu to insert the actions in
 	*/
-	virtual void fillContextMenu(QPopupMenu &menu);
+	virtual void fillContextMenu(Q3PopupMenu &menu);
 	
 	/** Execute teh default action for Paths: create/delete
 	 * hotspots in the path
@@ -80,7 +83,7 @@ public:
 	virtual void execDefaultAction();
 	virtual void toggleHotSpot( const QPoint& );
 	
-	virtual QPointArray areaPoints() const;
+	virtual Q3PointArray areaPoints() const;
 
 		
 public slots:
@@ -97,7 +100,7 @@ protected:
 	virtual void createHotSpots(  );
 	
 	
-	QPtrList<PathSegment> m_segments;
+	Q3PtrList<PathSegment> m_segments;
 	PathStyle m_style;
 };
 

@@ -19,6 +19,8 @@
 
 
 #include "codeaccessormethod.h"
+//Added by qt3to4:
+#include <Q3PtrList>
 
 class CodeBlock;
 class CodeBlockWithComments;
@@ -77,7 +79,7 @@ public:
      * Get the list of TextBlock objects held by m_textblockVector
      * @return QPtrList<TextBlock> list of TextBlock objects held by m_textblockVector
      */
-    QPtrList<TextBlock> * getTextBlockList ( );
+    Q3PtrList<TextBlock> * getTextBlockList ( );
 
     /**
             * Will get a hierarchicalcodeblock from the document with given tag. IF the codeblock
@@ -184,7 +186,7 @@ protected:
     virtual void resetTextBlocks();
 
     QMap<QString, TextBlock *> * m_textBlockTagMap;
-    QPtrList<TextBlock> m_textblockVector;
+    Q3PtrList<TextBlock> m_textblockVector;
 
     // this is needed in order to use findTextBlocksByTag
     virtual CodeDocument * getCodeDocument() = 0;

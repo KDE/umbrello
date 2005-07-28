@@ -24,6 +24,8 @@
 
 #include <qregexp.h>
 #include <qstring.h>
+//Added by qt3to4:
+#include <QTextStream>
 
 JSWriter::JSWriter( UMLDoc *parent, const char *name )
         :SimpleCodeGenerator( parent, name) {

@@ -16,13 +16,15 @@
 #define TOOLBARSTATEMESSAGES_H
 
 #include <qpoint.h>
+//Added by qt3to4:
+#include <QMouseEvent>
 #include "toolbarstatepool.h"
 
 
 class QMouseEvent;
 class UMLView;
 class UMLWidget;
-class QCanvasLine;
+class Q3CanvasLine;
 
 class ToolBarStateMessages : public ToolBarStatePool
 {
@@ -45,7 +47,7 @@ protected:
 
 protected:
     UMLWidget* m_pSelectedWidget;
-    QCanvasLine* m_pLine;
+    Q3CanvasLine* m_pLine;
     QPoint m_FirstMousePos;
 };
 

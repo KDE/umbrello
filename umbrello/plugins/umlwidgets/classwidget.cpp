@@ -25,11 +25,13 @@
 #include "../../operation.h"
 
 #include <qapplication.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 #include <klocale.h>
 #include <qpainter.h>
-#include <qpopupmenu.h>
-#include <qvbox.h>
-#include <qptrlist.h>
+#include <q3popupmenu.h>
+#include <q3vbox.h>
+#include <q3ptrlist.h>
 
 #include <kdebug.h>
 
@@ -67,7 +69,7 @@ void ClassWidget::umlObjectModified()
 	canvas()->update();
 }
 
-void ClassWidget::fillContextMenu(QPopupMenu &menu)
+void ClassWidget::fillContextMenu(Q3PopupMenu &menu)
 {
 	UMLWidget::fillContextMenu(menu);
 	menu.insertItem(i18n("Refactor"),this, SLOT(refactor()));
@@ -118,8 +120,8 @@ void ClassWidget::drawShape(QPainter &p)
 		}
 		p.setPen(textPen);
 
-		QValueList<AttString>::Iterator atts_end(m_atts.end());
-		for(QValueList<AttString>::Iterator it = m_atts.begin(); it != atts_end; ++it )
+		Q3ValueList<AttString>::Iterator atts_end(m_atts.end());
+		for(Q3ValueList<AttString>::Iterator it = m_atts.begin(); it != atts_end; ++it )
 		{
 			font.setUnderline( ((*it).flags & Underline) );
 			p.setFont(font);
@@ -136,8 +138,8 @@ void ClassWidget::drawShape(QPainter &p)
 		currentY += vMargin;
 		p.setPen(textPen);
 
-		QValueList<OpString>::Iterator ops_end(m_ops.end());
-		for(QValueList<OpString>::Iterator it = m_ops.begin(); it != ops_end; ++it )
+		Q3ValueList<OpString>::Iterator ops_end(m_ops.end());
+		for(Q3ValueList<OpString>::Iterator it = m_ops.begin(); it != ops_end; ++it )
 		{
 			font.setUnderline( ((*it).flags & Underline) );
 			font.setItalic( ((*it).flags & Italics) );
@@ -188,7 +190,7 @@ void ClassWidget::calculateSize()
 
 	if (m_attsDisplayOpts & ShowAtts )
 	{
-		QPtrList<UMLAttribute> *atts = obj->getFilteredAttributeList();
+		Q3PtrList<UMLAttribute> *atts = obj->getFilteredAttributeList();
 		UMLAttribute *att;
 		for( att=atts->first(); att != 0 ;att=atts->next() )
 		{
@@ -227,7 +229,7 @@ void ClassWidget::calculateSize()
 	if (m_opsDisplayOpts & ShowOps )
 	{
 
-		QPtrList<UMLOperation> *ops = obj->getFilteredOperationsList();//FIXME probably want getOpsList()
+		Q3PtrList<UMLOperation> *ops = obj->getFilteredOperationsList();//FIXME probably want getOpsList()
 		UMLOperation *op;
 		for( op=ops->first();op != 0;op=ops->next() )
 		{
@@ -248,7 +250,7 @@ void ClassWidget::calculateSize()
 					break;
 			}
 			opString.string += op->getName() + "( ";
-			QPtrList<UMLAttribute> *params = op->getParmList();
+			Q3PtrList<UMLAttribute> *params = op->getParmList();
 			for( UMLAttribute *last = params->last(), *param = params->first();
 				param &&  (m_opsDisplayOpts & ShowParameterList);
 				param = params->next() )
@@ -267,11 +269,11 @@ void ClassWidget::calculateSize()
 			opString.string+=" : " + op->getReturnType();
 			if( op->getAbstract() )
 			{
-				opString.flags = (TextFlags)(opString.flags|Italics);
+				opString.flags = (Qt::TextFlag)(opString.flags|Italics);
 			}
 			if( op->getStatic() )
 			{
-				opString.flags = (TextFlags)(opString.flags|Underline);
+				opString.flags = (Qt::TextFlag)(opString.flags|Underline);
 			}
 			m_ops.append(opString);
 		}
@@ -292,14 +294,14 @@ void ClassWidget::calculateSize()
 	maxWidth = kMax(maxWidth,fm.width(m_stereotype));
 	maxWidth = kMax(maxWidth, fm.width(m_name));
 
-	QValueList<AttString>::Iterator atts_end(m_atts.end());
-	for(QValueList<AttString>::Iterator it(m_atts.begin()); it != atts_end; ++it )
+	Q3ValueList<AttString>::Iterator atts_end(m_atts.end());
+	for(Q3ValueList<AttString>::Iterator it(m_atts.begin()); it != atts_end; ++it )
 	{
 		maxWidth = kMax(maxWidth,fm.width((*it).string));
 	}
 
-	QValueList<OpString>::Iterator ops_end(m_ops.end());
-	for(QValueList<OpString>::Iterator it(m_ops.begin()); it != ops_end; ++it )
+	Q3ValueList<OpString>::Iterator ops_end(m_ops.end());
+	for(Q3ValueList<OpString>::Iterator it(m_ops.begin()); it != ops_end; ++it )
 	{
 		maxWidth = kMax(maxWidth,fm.width((*it).string));
 	}

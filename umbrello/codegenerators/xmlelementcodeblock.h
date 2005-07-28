@@ -18,7 +18,7 @@
 #define XMLELEMENTCODEBLOCK_H
 
 #include <qstring.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 
 #include "../hierarchicalcodeblock.h"
 
@@ -53,7 +53,7 @@ public:
      */
     virtual void loadFromXMI ( QDomElement & root );
 
-    virtual QPtrList<UMLAttribute> * getAttributeList();
+    virtual Q3PtrList<UMLAttribute> * getAttributeList();
 
     virtual void setNodeName (const QString &name);
     virtual QString getNodeName ();
@@ -79,7 +79,7 @@ protected:
 
 private:
 
-    QPtrList<UMLAttribute> m_attList;
+    Q3PtrList<UMLAttribute> m_attList;
     QString m_nodeName;
     void init (CodeDocument * parent, const QString &nodeName, const QString &comment);
 

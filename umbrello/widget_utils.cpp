@@ -16,7 +16,7 @@
 #include "widget_utils.h"
 
 // qt/kde includes
-#include <qcanvas.h>
+#include <q3canvas.h>
 #include <qbrush.h>
 #include <qpen.h>
 #include <kiconloader.h>
@@ -58,8 +58,8 @@ UMLWidget* findWidget(Uml::IDType id,
     return NULL;
 }
 
-QIconSet iconSet(Uml::Diagram_Type dt) {
-    QIconSet diagramIconSet;
+QIcon iconSet(Uml::Diagram_Type dt) {
+    QIcon diagramIconSet;
     switch (dt) {
     case Uml::dt_UseCase:
         diagramIconSet = BarIconSet("umbrello_diagram_usecase");
@@ -95,13 +95,13 @@ QIconSet iconSet(Uml::Diagram_Type dt) {
     return diagramIconSet;
 }
 
-QCanvasRectangle *decoratePoint(QPoint p) {
+Q3CanvasRectangle *decoratePoint(QPoint p) {
     const int SIZE = 4;
     UMLView *currentView = UMLApp::app()->getCurrentView();
-    QCanvasRectangle *rect;
-    rect = new QCanvasRectangle(p.x() - SIZE / 2,
-                                p.y() - SIZE / 2,
-                                SIZE, SIZE, currentView->canvas());
+    Q3CanvasRectangle *rect;
+    rect = new Q3CanvasRectangle(p.x() - SIZE / 2,
+                                 p.y() - SIZE / 2,
+                                 SIZE, SIZE, currentView->canvas());
     rect->setBrush( QBrush(Qt::blue) );
     rect->setPen( QPen(Qt::blue) );
     rect->setVisible(true);

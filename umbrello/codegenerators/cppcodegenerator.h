@@ -19,6 +19,8 @@
 #define CPPCODEGENERATOR_H
 
 #include <qstring.h>
+//Added by qt3to4:
+#include <Q3PtrList>
 #include "../codeviewerstate.h"
 #include "../codegenerator.h"
 #include "../umldoc.h"
@@ -170,7 +172,7 @@ private:
     bool m_createMakefile;
 
     // a separate list for recording the header documents
-    QPtrList<CodeDocument> m_headercodedocumentVector;
+    Q3PtrList<CodeDocument> m_headercodedocumentVector;
 
     void initAttributes ( ) ;
 

@@ -19,7 +19,7 @@
 #include <kmessagebox.h>
 #include <qlabel.h>
 #include <qregexp.h>
-#include <qlistview.h>
+#include <q3listview.h>
 #include "cppcodegenerationform.h"
 
 CPPCodeGenerationForm::CPPCodeGenerationForm( QWidget *parent, const char *name )
@@ -28,32 +28,32 @@ CPPCodeGenerationForm::CPPCodeGenerationForm( QWidget *parent, const char *name 
     init();
 
     GeneralOptionsListView->addColumn(tr2i18n("General Options"));
-    pOptionPackageIsANamespace = new QCheckListItem( GeneralOptionsListView,
+    pOptionPackageIsANamespace = new Q3CheckListItem( GeneralOptionsListView,
                                  tr2i18n("Package is a namespace"),
-                                 QCheckListItem::CheckBox );
-    pOptionVirtualDestructors = new QCheckListItem( GeneralOptionsListView,
+                                 Q3CheckListItem::CheckBox );
+    pOptionVirtualDestructors = new Q3CheckListItem( GeneralOptionsListView,
                                 tr2i18n("Virtual destructors"),
-                                QCheckListItem::CheckBox );
-    pOptionGenerateEmptyConstructors = new QCheckListItem( GeneralOptionsListView,
+                                Q3CheckListItem::CheckBox );
+    pOptionGenerateEmptyConstructors = new Q3CheckListItem( GeneralOptionsListView,
                                        tr2i18n("Generate empty constructors"),
-                                       QCheckListItem::CheckBox );
-    pOptionGenerateAccessorMethods = new QCheckListItem( GeneralOptionsListView,
+                                       Q3CheckListItem::CheckBox );
+    pOptionGenerateAccessorMethods = new Q3CheckListItem( GeneralOptionsListView,
                                      tr2i18n("Generate accessor methods"),
-                                     QCheckListItem::CheckBox );
-    pOptionOperationsAreInline = new QCheckListItem( GeneralOptionsListView,
+                                     Q3CheckListItem::CheckBox );
+    pOptionOperationsAreInline = new Q3CheckListItem( GeneralOptionsListView,
                                  tr2i18n("Operations are inline"),
-                                 QCheckListItem::CheckBox );
-    pOptionAccessorsAreInline = new QCheckListItem( GeneralOptionsListView,
+                                 Q3CheckListItem::CheckBox );
+    pOptionAccessorsAreInline = new Q3CheckListItem( GeneralOptionsListView,
                                 tr2i18n("Accessors are inline"),
-                                QCheckListItem::CheckBox );
+                                Q3CheckListItem::CheckBox );
 
     pOptionAccessorsArePublic = new QCheckListItem( GeneralOptionsListView,
                                 tr2i18n("Accessors are public"),
-                                QCheckListItem::CheckBox );
+                                Q3CheckListItem::CheckBox );
 
     connect(GeneralOptionsListView,
-            SIGNAL(clicked(QListViewItem *)), this,
-            SLOT(generalOptionsListViewClicked(QListViewItem *))
+            SIGNAL(clicked(Q3ListViewItem *)), this,
+            SLOT(generalOptionsListViewClicked(Q3ListViewItem *))
            );
 
 }
@@ -80,7 +80,7 @@ void CPPCodeGenerationForm::browseClicked()
     }
 }
 
-void CPPCodeGenerationForm::generalOptionsListViewClicked(QListViewItem *pSender) {
+void CPPCodeGenerationForm::generalOptionsListViewClicked(Q3ListViewItem *pSender) {
 
     // operations are inline and accessors are operations :)
     if (pOptionOperationsAreInline->isOn() && pOptionGenerateAccessorMethods->isOn())

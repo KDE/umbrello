@@ -23,7 +23,11 @@
 #include "generatorinfo.h"
 
 #include <qmap.h>
-#include <qdict.h>
+#include <q3dict.h>
+#include <q3progressbar.h>
+//Added by qt3to4:
+#include <QKeyEvent>
+#include <Q3PopupMenu>
 
 #include <kdockwidget.h>
 #include <kdeversion.h>
@@ -57,7 +61,7 @@ class KToolBarButton;
 class KPopupMenu;
 
 // Qt forward declarations
-class QWidgetStack;
+class Q3WidgetStack;
 class QMenuData;
 class QClipboard;
 class QToolButton;
@@ -708,7 +712,7 @@ public slots:
      * @param menu	The QPopupMenu or QMenuBar to search through.
      * @param name	The name of the menu to search for (name, not text)
      */
-    QPopupMenu* findMenu(QMenuData* menu, const QString &name);
+    Q3PopupMenu* findMenu(QMenuData* menu, const QString &name);
 
     /**
      * called when the tab has changed
@@ -741,12 +745,12 @@ private:
     /**
      * For selecting the active language.
      */
-    QPopupMenu *m_langSelect;
+    Q3PopupMenu *m_langSelect;
 
     /**
     * Popup menu for zoom selection.
     */
-    QPopupMenu *m_zoomSelect;
+    Q3PopupMenu *m_zoomSelect;
 
     /**
      * Active language.
@@ -916,7 +920,7 @@ private:
      * Shows, and is parent of, all the UMLViews (diagrams)
      * if tabbed diagrams are not enabled.
      */
-    QWidgetStack* m_viewStack;
+    Q3WidgetStack* m_viewStack;
 
     /**
      * Shows, and is parent of, all the UMLViews (diagrams)

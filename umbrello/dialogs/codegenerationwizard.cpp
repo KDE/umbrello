@@ -17,8 +17,10 @@
 
 #include <kdebug.h>
 #include <qdir.h>
-#include <qlistview.h>
+#include <q3listview.h>
 #include <qfileinfo.h>
+//Added by qt3to4:
+#include <QPixmap>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <qapplication.h>
@@ -39,11 +41,11 @@ CodeGenerationWizard::CodeGenerationWizard(UMLDoc *doc,
     m_doc = doc;
     m_app = parent;
     m_availableList -> setAllColumnsShowFocus(true);
-    m_availableList -> setResizeMode(QListView::AllColumns);
+    m_availableList -> setResizeMode(Q3ListView::AllColumns);
     m_selectedList  -> setAllColumnsShowFocus(true);
-    m_selectedList  -> setResizeMode(QListView::AllColumns);
+    m_selectedList  -> setResizeMode(Q3ListView::AllColumns);
     m_statusList    -> setAllColumnsShowFocus(true);
-    m_statusList    -> setResizeMode(QListView::AllColumns);
+    m_statusList    -> setResizeMode(Q3ListView::AllColumns);
 
     m_CodeGenerationOptionsPage = new CodeGenerationOptionsPage(doc->getCurrentCodeGenerator(),
                                   activeLanguage, this);
@@ -58,7 +60,7 @@ CodeGenerationWizard::CodeGenerationWizard(UMLDoc *doc,
         classList = &cList;
     }
     for (UMLClassifier *c = classList->first(); c ; c = classList->next()) {
-        new QListViewItem( m_selectedList, c->getFullyQualifiedName());
+        new Q3ListViewItem( m_selectedList, c->getFullyQualifiedName());
     }
 
     setNextEnabled(page(0),m_selectedList->childCount() > 0);
@@ -84,7 +86,7 @@ void CodeGenerationWizard::selectClass() {
     }
     QString name = m_availableList->selectedItem()->text(0);
     if( !m_selectedList->findItem( name,0 ) ) {
-        new QListViewItem(m_selectedList, name);
+        new Q3ListViewItem(m_selectedList, name);
     }
     m_availableList->removeItem( m_availableList->selectedItem() );
     setNextEnabled(currentPage(),true);
@@ -96,7 +98,7 @@ void CodeGenerationWizard::deselectClass() {
     }
     QString name = m_selectedList->selectedItem()->text(0);
     if( !m_availableList->findItem(name, 0) ) {
-        new QListViewItem(m_availableList, name);
+        new Q3ListViewItem(m_availableList, name);
     }
     if(m_selectedList->childCount() == 0) {
         setNextEnabled(currentPage(),false);
@@ -119,7 +121,7 @@ void CodeGenerationWizard::generateCode() {
         UMLClassifierList cList;
         cList.setAutoDelete(false);
 
-        for(QListViewItem *item = m_statusList->firstChild(); item;
+        for(Q3ListViewItem *item = m_statusList->firstChild(); item;
                 item = item-> nextSibling()) {
             UMLClassifier *concept =  m_doc->findUMLClassifier(item->text(0));
             cList.append(concept);
@@ -133,7 +135,7 @@ void CodeGenerationWizard::generateCode() {
 }
 
 void CodeGenerationWizard::classGenerated(UMLClassifier* concept, bool generated) {
-    QListViewItem* item = m_statusList->findItem( concept->getFullyQualifiedName(), 0 );
+    Q3ListViewItem* item = m_statusList->findItem( concept->getFullyQualifiedName(), 0 );
     if( !item ) {
         kdError()<<"GenerationStatusPage::Error finding class in list view"<<endl;
     } else if (generated) {
@@ -145,8 +147,8 @@ void CodeGenerationWizard::classGenerated(UMLClassifier* concept, bool generated
 
 void CodeGenerationWizard::populateStatusList() {
     m_statusList->clear();
-    for(QListViewItem* item = m_selectedList->firstChild(); item; item = item->nextSibling()) {
-        new QListViewItem(m_statusList,item->text(0),i18n("Not Yet Generated"));
+    for(Q3ListViewItem* item = m_selectedList->firstChild(); item; item = item->nextSibling()) {
+        new Q3ListViewItem(m_statusList,item->text(0),i18n("Not Yet Generated"));
     }
 }
 
@@ -154,7 +156,7 @@ void CodeGenerationWizard::showPage(QWidget *page) {
     if (indexOf(page) == 2)
     {
         // first save the settings to the selected generator policy
-        ((CodeGenerationOptionsPage*)QWizard::page(1))->apply();
+        ((CodeGenerationOptionsPage*)Q3Wizard::page(1))->apply();
 
         // before going on to the final page, check that the output directory exists and is
         // writable
@@ -203,7 +205,7 @@ void CodeGenerationWizard::showPage(QWidget *page) {
         }
     }
     populateStatusList();
-    QWizard::showPage(page);
+    Q3Wizard::showPage(page);
 }
 
 CodeGenerator* CodeGenerationWizard::generator() {

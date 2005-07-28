@@ -15,6 +15,9 @@
 //qt includes
 #include <qlayout.h>
 #include <qlabel.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 //kde includes
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -22,15 +25,15 @@
 #include "notedialog.h"
 //qt includes
 #include <qlineedit.h>
-#include <qgroupbox.h>
-#include <qtextedit.h>
+#include <q3groupbox.h>
+#include <q3textedit.h>
 
 
 NoteDialog::NoteDialog( QWidget * parent, NoteWidget * pNote ) : KDialogBase(Plain, i18n("Note Documentation"), Help | Ok | Cancel , Ok, parent, "_NOTEDIALOG_", true, true) {
     m_pNoteWidget = pNote;
     int margin = fontMetrics().height();
 
-    m_pDocGB = new QGroupBox(i18n("Documentation"), plainPage());
+    m_pDocGB = new Q3GroupBox(i18n("Documentation"), plainPage());
     QVBoxLayout * mainLayout = new QVBoxLayout(plainPage());
     mainLayout -> addWidget(m_pDocGB);
     mainLayout -> setSpacing(10);
@@ -40,7 +43,7 @@ NoteDialog::NoteDialog( QWidget * parent, NoteWidget * pNote ) : KDialogBase(Pla
     docLayout -> setSpacing(10);
     docLayout -> setMargin(margin);
 
-    m_pDocTE = new QTextEdit( m_pDocGB );
+    m_pDocTE = new Q3TextEdit( m_pDocGB );
     m_pDocTE -> setFocus();
     docLayout -> addWidget( m_pDocTE );
     m_pDocTE -> setText( pNote -> getDoc() );

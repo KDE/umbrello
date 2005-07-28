@@ -15,10 +15,10 @@
 #ifndef LINEPATH_H
 #define LINEPATH_H
 #include <qobject.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 #include <qpoint.h>
-#include <qpointarray.h>
-#include <qcanvas.h>
+#include <q3pointarray.h>
+#include <q3canvas.h>
 #include <qpainter.h>
 #include "umlnamespace.h"
 
@@ -34,11 +34,11 @@ class QDomDocument;
 class QDomElement;
 
 // typedefs
-typedef QPtrList<QCanvasLine> LineList;
-typedef QPtrListIterator<QCanvasLine> LineListIt;
+typedef Q3PtrList<Q3CanvasLine> LineList;
+typedef Q3PtrListIterator<Q3CanvasLine> LineListIt;
 
-typedef QPtrList<QCanvasRectangle> RectList;
-typedef QPtrListIterator<QCanvasRectangle> RectListIt;
+typedef Q3PtrList<Q3CanvasRectangle> RectList;
+typedef Q3PtrListIterator<Q3CanvasRectangle> RectListIt;
 
 
 /**
@@ -132,7 +132,7 @@ public:
     /**
     *   Sets the canvas to be used.
     */
-    void setCanvas( QCanvas * canvas );
+    void setCanvas( Q3Canvas * canvas );
 
     /**
     *   Sets the Association type.
@@ -194,9 +194,9 @@ protected:
      * We can't use QCanvasEllipse directly for this because it doesn't
      * use the pen, i.e. QCanvasEllipse only draws filled ellipses.
      */
-class Circle : public QCanvasEllipse {
+class Circle : public Q3CanvasEllipse {
     public:
-        Circle(QCanvas * canvas, int radius = 0);
+        Circle(Q3Canvas * canvas, int radius = 0);
         void setRadius(int radius);
         int getRadius() const;
         void setX(int x);
@@ -214,7 +214,7 @@ class Circle : public QCanvasEllipse {
     *   This class doesn't hold this information but is a wrapper
     *   method to stop calls to undefined variable like m_pAssociation.
     */
-    QCanvas * getCanvas();
+    Q3Canvas * getCanvas();
 
     /**
     *   Returns the Association type.
@@ -325,7 +325,7 @@ class Circle : public QCanvasEllipse {
     /**
     *   Contains calculated points used to draw the line head.
     */
-    QPointArray m_PointArray;
+    Q3PointArray m_PointArray;
 
     /**
     *   Contains calculated points used to draw the line head.
@@ -335,7 +335,7 @@ class Circle : public QCanvasEllipse {
     /**
     *   A polygon object to blank out any lines we don't want to see.
     */
-    QCanvasPolygon * m_pClearPoly;
+    Q3CanvasPolygon * m_pClearPoly;
 
     /**
      *  The transparent circle required by containment associations.
@@ -346,7 +346,7 @@ class Circle : public QCanvasEllipse {
     *   Contains the calculated points for the parallel line
     *   on a collaboration message to use.
     */
-    QPointArray m_ParallelLines;
+    Q3PointArray m_ParallelLines;
 
     /**
     *   Region where the line docks

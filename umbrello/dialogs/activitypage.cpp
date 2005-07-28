@@ -23,6 +23,10 @@
 #include <kdebug.h>
 #include <qlayout.h>
 #include <qstringlist.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QGridLayout>
 
 ActivityPage::ActivityPage( QWidget * pParent, StateWidget * pWidget ) : QWidget( pParent ) {
     m_pStateWidget = pWidget;
@@ -37,9 +41,9 @@ void ActivityPage::setupPage() {
     QHBoxLayout * mainLayout = new QHBoxLayout( this );
     mainLayout -> setSpacing(10);
 
-    m_pActivityGB = new QGroupBox(i18n("Activities"), this );
+    m_pActivityGB = new Q3GroupBox(i18n("Activities"), this );
     QGridLayout* activityLayout = new QGridLayout( m_pActivityGB, 2, 2 );
-    m_pActivityLB = new QListBox(m_pActivityGB );
+    m_pActivityLB = new Q3ListBox(m_pActivityGB );
     activityLayout -> setMargin(margin);
     activityLayout -> setSpacing ( 10 );
     activityLayout -> addWidget(m_pActivityLB, 0, 0);
@@ -71,16 +75,16 @@ void ActivityPage::setupPage() {
     }
 
     //now setup the signals
-    connect(m_pActivityLB, SIGNAL(clicked(QListBoxItem *)), this, SLOT(slotClicked(QListBoxItem *)));
-    connect(m_pActivityLB, SIGNAL(rightButtonPressed(QListBoxItem *, const QPoint &)),
-            this, SLOT(slotRightButtonPressed(QListBoxItem *, const QPoint &)));
+    connect(m_pActivityLB, SIGNAL(clicked(Q3ListBoxItem *)), this, SLOT(slotClicked(Q3ListBoxItem *)));
+    connect(m_pActivityLB, SIGNAL(rightButtonPressed(Q3ListBoxItem *, const QPoint &)),
+            this, SLOT(slotRightButtonPressed(Q3ListBoxItem *, const QPoint &)));
 
-    connect(m_pActivityLB, SIGNAL(rightButtonClicked(QListBoxItem *, const QPoint &)),
-            this, SLOT(slotRightButtonClicked(QListBoxItem *, const QPoint &)));
+    connect(m_pActivityLB, SIGNAL(rightButtonClicked(Q3ListBoxItem *, const QPoint &)),
+            this, SLOT(slotRightButtonClicked(Q3ListBoxItem *, const QPoint &)));
 
     connect( m_pUpArrowB, SIGNAL( clicked() ), this, SLOT( slotUpClicked() ) );
     connect( m_pDownArrowB, SIGNAL( clicked() ), this, SLOT( slotDownClicked() ) );
-    connect( m_pActivityLB, SIGNAL( doubleClicked( QListBoxItem* ) ), this, SLOT( slotDoubleClicked( QListBoxItem* ) ) );
+    connect( m_pActivityLB, SIGNAL( doubleClicked( Q3ListBoxItem* ) ), this, SLOT( slotDoubleClicked( Q3ListBoxItem* ) ) );
 
     enableWidgets(false);
 }
@@ -139,7 +143,7 @@ void ActivityPage::slotRename() {
     }
 }
 
-void ActivityPage::slotRightButtonClicked(QListBoxItem * /*item*/, const QPoint &/* p*/) {
+void ActivityPage::slotRightButtonClicked(Q3ListBoxItem * /*item*/, const QPoint &/* p*/) {
     if(m_pMenu) {
         m_pMenu->hide();
         disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotMenuSelection(int)));
@@ -148,7 +152,7 @@ void ActivityPage::slotRightButtonClicked(QListBoxItem * /*item*/, const QPoint 
     }
 }
 
-void ActivityPage::slotRightButtonPressed(QListBoxItem * item, const QPoint & p)
+void ActivityPage::slotRightButtonPressed(Q3ListBoxItem * item, const QPoint & p)
 {
     ListPopupMenu::Menu_Type type = ListPopupMenu::mt_Undefined;
     if( item ) { //pressed on an item
@@ -182,7 +186,7 @@ void ActivityPage::slotUpClicked() {
     m_pActivityLB -> changeItem( currentString, index -1 );
     m_pActivityLB -> changeItem( aboveString, index );
     //set the moved atttribute selected
-    QListBoxItem * item = m_pActivityLB -> item( index - 1 );
+    Q3ListBoxItem * item = m_pActivityLB -> item( index - 1 );
     m_pActivityLB -> setSelected( item, true );
     slotClicked(item);
 }
@@ -201,12 +205,12 @@ void ActivityPage::slotDownClicked() {
     m_pActivityLB -> changeItem( currentString, index + 1 );
     m_pActivityLB -> changeItem( belowString, index );
     //set the moved atttribute selected
-    QListBoxItem * item = m_pActivityLB -> item( index + 1 );
+    Q3ListBoxItem * item = m_pActivityLB -> item( index + 1 );
     m_pActivityLB -> setSelected( item, true );
     slotClicked(item);
 }
 
-void ActivityPage::slotClicked(QListBoxItem *item) {
+void ActivityPage::slotClicked(Q3ListBoxItem *item) {
     //make sure clicked on an item
     if(!item) {
         enableWidgets(false);
@@ -216,7 +220,7 @@ void ActivityPage::slotClicked(QListBoxItem *item) {
     }
 }
 
-void ActivityPage::slotDoubleClicked(QListBoxItem* item) {
+void ActivityPage::slotDoubleClicked(Q3ListBoxItem* item) {
     if (item) {
         slotRename();
     }

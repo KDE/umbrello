@@ -17,6 +17,9 @@
 
 // qt includes
 #include <qlayout.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <QGridLayout>
 
 // kde includes
 #include <klocale.h>
@@ -35,7 +38,7 @@ SelectOpDlg::SelectOpDlg(UMLView * parent, UMLClassifier * c)
     m_pView = parent;
     QVBoxLayout * topLayout = new QVBoxLayout(plainPage());
 
-    m_pOpGB = new QGroupBox(i18n("Select Operation"), plainPage());
+    m_pOpGB = new Q3GroupBox(i18n("Select Operation"), plainPage());
     topLayout -> addWidget(m_pOpGB);
 
     QGridLayout * mainLayout = new QGridLayout(m_pOpGB, 3, 2);
@@ -58,7 +61,7 @@ SelectOpDlg::SelectOpDlg(UMLView * parent, UMLClassifier * c)
     m_pOpLE = new QLineEdit(m_pOpGB);
     mainLayout -> addWidget(m_pOpLE, 2, 1);
 
-    m_pOpBG = new QButtonGroup(0);
+    m_pOpBG = new Q3ButtonGroup(0);
     m_pOpBG -> insert(m_pOpRB, OP);
     m_pOpBG -> insert(m_pCustomRB, CUSTOM);
     m_pOpBG -> setExclusive(true);

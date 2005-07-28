@@ -19,7 +19,7 @@
 #include <qobject.h>
 #include <qmap.h>
 #include <qstring.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 
 #include "codegenerationpolicy.h"
 #include "codegenobjectwithtextblocks.h"

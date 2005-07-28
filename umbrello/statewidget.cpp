@@ -21,6 +21,8 @@
 #include "umlview.h"
 #include "dialogs/statedialog.h"
 #include "listpopupmenu.h"
+//Added by qt3to4:
+#include <QMouseEvent>
 
 StateWidget::StateWidget(UMLView * view, StateType stateType, Uml::IDType id)
         : UMLWidget(view, id) {

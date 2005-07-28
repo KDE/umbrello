@@ -16,6 +16,8 @@
 #define UMLWIDGETCOLORPAGE_H
 
 #include <qwidget.h>
+//Added by qt3to4:
+#include <QLabel>
 #include "../optionstate.h"
 
 /**
@@ -28,7 +30,7 @@ class KColorButton;
 class QLabel;
 class QPushButton;
 class QCheckBox;
-class QGroupBox;
+class Q3GroupBox;
 
 class UMLWidgetColorPage : public QWidget {
     Q_OBJECT
@@ -76,7 +78,7 @@ protected:
     Settings::OptionState *m_options;
 
     //GUI widgets
-    QGroupBox * m_pColorGB;
+    Q3GroupBox * m_pColorGB;
     QLabel * m_pLineColorL, * m_pFillColorL;
     QCheckBox * m_pUseFillColorCB;
     QPushButton * m_pLineDefaultB, * m_pFillDefaultB;

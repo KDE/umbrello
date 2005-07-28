@@ -22,6 +22,9 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <qlayout.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 
 using namespace Uml;
 
@@ -61,14 +64,14 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
     mainLayout->setSpacing(10);
 
     //top group box, contains a vertical layout with list box above and buttons below
-    m_pItemListGB = new QGroupBox(typeName, this );
+    m_pItemListGB = new Q3GroupBox(typeName, this );
     QVBoxLayout* listVBoxLayout = new QVBoxLayout( m_pItemListGB );
     listVBoxLayout->setMargin(margin);
     listVBoxLayout->setSpacing ( 10 );
 
     //horizontal box contains the list box and the move up/down buttons
     QHBoxLayout* listHBoxLayout = new QHBoxLayout( listVBoxLayout );
-    m_pItemListLB = new QListBox(m_pItemListGB);
+    m_pItemListLB = new Q3ListBox(m_pItemListGB);
     listHBoxLayout->addWidget(m_pItemListLB);
 
     //the move up/down buttons (another vertical box)
@@ -91,9 +94,9 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
 
     mainLayout->addWidget(m_pItemListGB);
 
-    m_pDocGB = new QGroupBox(i18n("Documentation"), this);
+    m_pDocGB = new Q3GroupBox(i18n("Documentation"), this);
     QVBoxLayout* docLayout = new QVBoxLayout( m_pDocGB );
-    m_pDocTE = new QTextEdit( m_pDocGB );
+    m_pDocTE = new Q3TextEdit( m_pDocGB );
     docLayout->setMargin(margin);
     docLayout->setSpacing ( 10 );
     docLayout->addWidget( m_pDocTE );
@@ -110,20 +113,20 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
 
     enableWidgets(false);//disable widgets until an att is chosen
     m_pOldListItem = 0;
-    connect(m_pItemListLB, SIGNAL(clicked(QListBoxItem*)), this, SLOT(slotClicked(QListBoxItem*)));
-    connect(m_pItemListLB, SIGNAL(selectionChanged(QListBoxItem*)), this, SLOT(slotClicked(QListBoxItem*)));
+    connect(m_pItemListLB, SIGNAL(clicked(Q3ListBoxItem*)), this, SLOT(slotClicked(Q3ListBoxItem*)));
+    connect(m_pItemListLB, SIGNAL(selectionChanged(Q3ListBoxItem*)), this, SLOT(slotClicked(Q3ListBoxItem*)));
 
-    connect(m_pItemListLB, SIGNAL(rightButtonPressed(QListBoxItem*, const QPoint&)),
-            this, SLOT(slotRightButtonPressed(QListBoxItem*, const QPoint&)));
+    connect(m_pItemListLB, SIGNAL(rightButtonPressed(Q3ListBoxItem*, const QPoint&)),
+            this, SLOT(slotRightButtonPressed(Q3ListBoxItem*, const QPoint&)));
 
-    connect(m_pItemListLB, SIGNAL(rightButtonClicked(QListBoxItem*, const QPoint&)),
-            this, SLOT(slotRightButtonClicked(QListBoxItem*, const QPoint&)));
+    connect(m_pItemListLB, SIGNAL(rightButtonClicked(Q3ListBoxItem*, const QPoint&)),
+            this, SLOT(slotRightButtonClicked(Q3ListBoxItem*, const QPoint&)));
     connect(m_pDoc, SIGNAL(sigObjectCreated(UMLObject*)), this, SLOT(slotListItemCreated(UMLObject*)));
 
     connect( m_pUpArrowB, SIGNAL( clicked() ), this, SLOT( slotUpClicked() ) );
     connect( m_pDownArrowB, SIGNAL( clicked() ), this, SLOT( slotDownClicked() ) );
-    connect( m_pItemListLB, SIGNAL( doubleClicked( QListBoxItem* ) ),
-             this, SLOT( slotDoubleClick( QListBoxItem* ) ) );
+    connect( m_pItemListLB, SIGNAL( doubleClicked( Q3ListBoxItem* ) ),
+             this, SLOT( slotDoubleClick( Q3ListBoxItem* ) ) );
 }
 
 ClassifierListPage::~ClassifierListPage() {
@@ -165,7 +168,7 @@ void ClassifierListPage::enableWidgets(bool state) {
     m_pPropertiesButton->setEnabled(true);
 }
 
-void ClassifierListPage::slotClicked(QListBoxItem*item) {
+void ClassifierListPage::slotClicked(Q3ListBoxItem*item) {
     //if not first time an item is highlighted
     //save old highlighted item first
     if(m_pOldListItem) {
@@ -201,7 +204,7 @@ void ClassifierListPage::slotClicked(QListBoxItem*item) {
 
 void ClassifierListPage::updateObject() {
     saveCurrentItemDocumentation();
-    QListBoxItem*i = m_pItemListLB->item(m_pItemListLB->currentItem());
+    Q3ListBoxItem*i = m_pItemListLB->item(m_pItemListLB->currentItem());
     slotClicked(i);
 
     // The rest of this function does nothing?!
@@ -239,7 +242,7 @@ void ClassifierListPage::slotListItemModified() {
     m_bSigWaiting = false;
 }
 
-void ClassifierListPage::slotRightButtonClicked(QListBoxItem* /*item*/, const QPoint& /* p*/) {
+void ClassifierListPage::slotRightButtonClicked(Q3ListBoxItem* /*item*/, const QPoint& /* p*/) {
     if (m_pMenu) {
         m_pMenu->hide();
         disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotPopupMenuSel(int)));
@@ -248,7 +251,7 @@ void ClassifierListPage::slotRightButtonClicked(QListBoxItem* /*item*/, const QP
     }
 }
 
-void ClassifierListPage::slotRightButtonPressed(QListBoxItem* item, const QPoint& p) {
+void ClassifierListPage::slotRightButtonPressed(Q3ListBoxItem* item, const QPoint& p) {
     ListPopupMenu::Menu_Type type = ListPopupMenu::mt_Undefined;
     if (item) { //pressed on a list item
         if (m_itemType == ot_Attribute) {
@@ -334,7 +337,7 @@ void ClassifierListPage::slotUpClicked() {
     m_pItemListLB->changeItem( currentString, index -1 );
     m_pItemListLB->changeItem( aboveString, index );
     //set the moved item selected
-    QListBoxItem* item = m_pItemListLB->item( index - 1 );
+    Q3ListBoxItem* item = m_pItemListLB->item( index - 1 );
     m_pItemListLB->setSelected( item, true );
 
     //now change around in the list
@@ -361,7 +364,7 @@ void ClassifierListPage::slotDownClicked() {
     m_pItemListLB->changeItem( currentString, index + 1 );
     m_pItemListLB->changeItem( belowString, index );
     //set the moved item selected
-    QListBoxItem* item = m_pItemListLB->item( index + 1 );
+    Q3ListBoxItem* item = m_pItemListLB->item( index + 1 );
     m_pItemListLB->setSelected( item, true );
     //now change around in the list
     UMLClassifierListItem* currentAtt = getItemList().at( index );
@@ -374,7 +377,7 @@ void ClassifierListPage::slotDownClicked() {
     slotClicked( item );
 }
 
-void ClassifierListPage::slotDoubleClick( QListBoxItem* item ) {
+void ClassifierListPage::slotDoubleClick( Q3ListBoxItem* item ) {
     if( !item )
         return;
 

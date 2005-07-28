@@ -18,6 +18,11 @@
 // qt includes
 #include <qlayout.h>
 #include <qtooltip.h>
+//Added by qt3to4:
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QGridLayout>
 
 // kde includes
 #include <klocale.h>
@@ -51,7 +56,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
     topLayout -> setSpacing(10);
     topLayout -> setMargin(margin);
 
-    m_pParmGB = new QGroupBox(i18n("Properties"), plainPage());
+    m_pParmGB = new Q3GroupBox(i18n("Properties"), plainPage());
     topLayout -> addWidget(m_pParmGB);
 
     QGridLayout * propLayout = new QGridLayout(m_pParmGB, 4, 2);
@@ -77,7 +82,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
                                     m_pStereoTypeL, i18n("&Stereotype name:"),
                                     m_pStereoTypeLE, m_pAtt->getStereotype(false) );
 
-    m_pKind =  new QButtonGroup(i18n("Passing Direction"), plainPage());
+    m_pKind =  new Q3ButtonGroup(i18n("Passing Direction"), plainPage());
     m_pKind->setExclusive(true);
     QToolTip::add(m_pKind, i18n("\"in\" is a readonly parameter, \"out\" is a writeonly parameter and \"inout\" is a parameter for reading and writing."));
 
@@ -95,13 +100,13 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
 
     topLayout -> addWidget(m_pKind);
 
-    m_pDocGB = new QGroupBox(i18n("Documentation"), plainPage());
+    m_pDocGB = new Q3GroupBox(i18n("Documentation"), plainPage());
     QHBoxLayout * docLayout = new QHBoxLayout(m_pDocGB);
     docLayout -> setMargin(margin);
 
-    m_pDoc = new QMultiLineEdit(m_pDocGB);
+    m_pDoc = new Q3MultiLineEdit(m_pDocGB);
     ///////////
-    m_pDoc->setWordWrap(QMultiLineEdit::WidgetWidth);
+    m_pDoc->setWordWrap(Q3MultiLineEdit::WidgetWidth);
     //////////
     m_pDoc -> setText(text);
     docLayout -> addWidget(m_pDoc);

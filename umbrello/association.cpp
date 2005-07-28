@@ -358,22 +358,22 @@ bool UMLAssociation::load( QDomElement & element ) {
         // In an earlier version, the natural assoctype names were saved.
         const QString assocTypeString[nAssocTypes] = {
                     "generalization",	// at_Generalization
-                    "aggregation",	// at_Aggregation
-                    "dependency",	// at_Dependency
-                    "association",	// at_Association
+                    "aggregation",		// at_Aggregation
+                    "dependency",		// at_Dependency
+                    "association",		// at_Association
                     "associationself",	// at_Association_Self
-                    "collmessage",	// at_Coll_Message
-                    "seqmessage",	// at_Seq_Message
+                    "collmessage",		// at_Coll_Message
+                    "seqmessage",		// at_Seq_Message
                     "collmessageself",	// at_Coll_Message_Self
                     "seqmessageself",	// at_Seq_Message_Self
                     "implementation",	// at_Implementation
-                    "composition",	// at_Composition
-                    "realization",	// at_Realization
+                    "composition",		// at_Composition
+                    "realization",		// at_Realization
                     "uniassociation",	// at_UniAssociation
                     "anchor",		// at_Anchor
                     "state",		// at_State
                     "activity",		// at_Activity
-                    "relationship" 	// at_Relationship
+                    "relationship" 		// at_Relationship
                 };
 
         unsigned index;
@@ -468,7 +468,7 @@ Uml::IDType UMLAssociation::getObjectId(Role_Type role) {
 
 /* CURRENTLY UNUSED
 Uml::IDType UMLAssociation::getRoleId(Role_Type role) const {
-    return m_pRole[role]->getID();
+	return m_pRole[role]->getID();
 }
  */
 

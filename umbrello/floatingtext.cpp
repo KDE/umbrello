@@ -16,6 +16,9 @@
 // system includes
 #include <qregexp.h>
 #include <qpainter.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QResizeEvent>
 #include <klocale.h>
 #include <kdebug.h>
 

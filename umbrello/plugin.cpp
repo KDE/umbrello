@@ -23,6 +23,8 @@
 // U2 includes
 #include "pluginloader.h"
 #include "plugin.h"
+//Added by qt3to4:
+#include <Q3CString>
 
 using namespace Umbrello;
 
@@ -104,7 +106,7 @@ Plugin::shutdown()
     return true;
 }
 
-QCString
+Q3CString
 Plugin::instanceName() const
 {
     return _instanceName;

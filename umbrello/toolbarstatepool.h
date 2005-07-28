@@ -18,6 +18,8 @@
 #include "toolbarstate.h"
 
 #include "worktoolbar.h"
+//Added by qt3to4:
+#include <QMouseEvent>
 
 class QMouseEvent;
 class UMLView;

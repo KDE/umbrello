@@ -17,7 +17,7 @@
 #include "umlview.h"
 #include <kdebug.h>
 #include <qpainter.h>
-#include <qpointarray.h>
+#include <q3pointarray.h>
 
 ArtifactWidget::ArtifactWidget(UMLView *view, UMLArtifact *a) : UMLWidget(view, a) {
     init();
@@ -88,7 +88,7 @@ void ArtifactWidget::drawAsFile(QPainter& p, int offsetX, int offsetY) {
 
     int startX = offsetX + (w/2) - 25;
     int iconHeight = h - fontHeight;
-    QPointArray pointArray(5);
+    Q3PointArray pointArray(5);
     pointArray.setPoint(0, startX, offsetY);
     pointArray.setPoint(1, startX + 40, offsetY);
     pointArray.setPoint(2, startX + 50, offsetY + 10);
@@ -122,7 +122,7 @@ void ArtifactWidget::drawAsLibrary(QPainter& p, int offsetX, int offsetY) {
 
     int startX = offsetX + (w/2) - 25;
     int iconHeight = h - fontHeight;
-    QPointArray pointArray(5);
+    Q3PointArray pointArray(5);
     pointArray.setPoint(0, startX, offsetY);
     pointArray.setPoint(1, startX + 40, offsetY);
     pointArray.setPoint(2, startX + 50, offsetY + 10);

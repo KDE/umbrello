@@ -15,14 +15,24 @@
 #ifndef UMBRELLO_DIAGRAMVIEW_H
 #define UMBRELLO_DIAGRAMVIEW_H
 
-#include <qcanvas.h>
+#include <q3canvas.h>
+//Added by qt3to4:
+#include <QContextMenuEvent>
+#include <QMouseEvent>
+#include <QDragEnterEvent>
+#include <QHideEvent>
+#include <QShowEvent>
+#include <QFocusEvent>
+#include <QKeyEvent>
+#include <Q3PopupMenu>
+#include <QDropEvent>
 //#include <map>
 //#include <typeinfo>
 
 //#include "../umlnamespace.h"
 #include "toolbar.h"
 
-class QPopupMenu;
+class Q3PopupMenu;
 
 
 namespace Umbrello {
@@ -31,12 +41,12 @@ class Diagram;
 class Tool;
 class ToolBar;
 
-class DiagramView : public QCanvasView
+class DiagramView : public Q3CanvasView
 {
 Q_OBJECT
 
 public:
-	DiagramView( Diagram *diagram, QWidget *parent = 0, const char *name = 0, WFlags f = 0);
+	DiagramView( Diagram *diagram, QWidget *parent = 0, const char *name = 0, Qt::WFlags f = 0);
 	virtual ~DiagramView();
 	
 	Diagram* diagram() const;
@@ -63,7 +73,7 @@ protected:
 private:
 	ToolBar *m_toolBar;
 	Tool *m_tool;
-	QPopupMenu *m_contextMenu;
+	Q3PopupMenu *m_contextMenu;
 	
 };
 

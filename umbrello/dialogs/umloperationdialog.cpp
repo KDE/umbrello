@@ -17,14 +17,18 @@
 
 //qt includes
 #include <qlayout.h>
-#include <qgroupbox.h>
-#include <qlistbox.h>
-#include <qbuttongroup.h>
+#include <q3groupbox.h>
+#include <q3listbox.h>
+#include <q3buttongroup.h>
 #include <qpushbutton.h>
 #include <qradiobutton.h>
 #include <qlabel.h>
 #include <qcheckbox.h>
 #include <qlineedit.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QGridLayout>
 
 //kde includes
 #include <kcombobox.h>
@@ -63,7 +67,7 @@ void UMLOperationDialog::setupDialog() {
     int margin = fontMetrics().height();
     QVBoxLayout * topLayout = new QVBoxLayout( plainPage() );
 
-    m_pGenGB = new QGroupBox(i18n("General Properties"), plainPage() );
+    m_pGenGB = new Q3GroupBox(i18n("General Properties"), plainPage() );
     QGridLayout * genLayout = new QGridLayout(m_pGenGB, 3, 4 );
     genLayout -> setMargin(margin);
     genLayout -> setSpacing(10);
@@ -93,7 +97,7 @@ void UMLOperationDialog::setupDialog() {
 
     topLayout -> addWidget( m_pGenGB );
 
-    m_pScopeBG = new QButtonGroup(i18n("Visibility"), plainPage() );
+    m_pScopeBG = new Q3ButtonGroup(i18n("Visibility"), plainPage() );
 
     QHBoxLayout * scopeLayout = new QHBoxLayout(m_pScopeBG);
     scopeLayout -> setMargin(margin);
@@ -108,14 +112,14 @@ void UMLOperationDialog::setupDialog() {
     scopeLayout -> addWidget(m_pProtectedRB);
     topLayout -> addWidget(m_pScopeBG);
 
-    m_pParmsGB = new QGroupBox(i18n("Parameters"), plainPage() );
+    m_pParmsGB = new Q3GroupBox(i18n("Parameters"), plainPage() );
     QVBoxLayout* parmsLayout = new QVBoxLayout(m_pParmsGB);
     parmsLayout->setMargin(margin);
     parmsLayout->setSpacing(10);
 
     //horizontal box contains the list box and the move up/down buttons
     QHBoxLayout* parmsHBoxLayout = new QHBoxLayout(parmsLayout);
-    m_pParmsLB = new QListBox(m_pParmsGB);
+    m_pParmsLB = new Q3ListBox(m_pParmsGB);
     parmsHBoxLayout->addWidget(m_pParmsLB);
 
     //the move up/down buttons (another vertical box)
@@ -224,18 +228,18 @@ void UMLOperationDialog::setupDialog() {
     connect( m_pUpButton, SIGNAL( clicked() ), this, SLOT( slotParameterUp() ) );
     connect( m_pDownButton, SIGNAL( clicked() ), this, SLOT( slotParameterDown() ) );
 
-    connect(m_pParmsLB, SIGNAL(clicked(QListBoxItem*)),
-            this, SLOT(slotParamsBoxClicked(QListBoxItem*)));
+    connect(m_pParmsLB, SIGNAL(clicked(Q3ListBoxItem*)),
+            this, SLOT(slotParamsBoxClicked(Q3ListBoxItem*)));
 
-    connect(m_pParmsLB, SIGNAL(rightButtonPressed(QListBoxItem *, const QPoint &)),
-            this, SLOT(slotParmRightButtonPressed(QListBoxItem *, const QPoint &)));
+    connect(m_pParmsLB, SIGNAL(rightButtonPressed(Q3ListBoxItem *, const QPoint &)),
+            this, SLOT(slotParmRightButtonPressed(Q3ListBoxItem *, const QPoint &)));
 
-    connect(m_pParmsLB, SIGNAL(rightButtonClicked(QListBoxItem *, const QPoint &)),
-            this, SLOT(slotParmRightButtonClicked(QListBoxItem *, const QPoint &)));
+    connect(m_pParmsLB, SIGNAL(rightButtonClicked(Q3ListBoxItem *, const QPoint &)),
+            this, SLOT(slotParmRightButtonClicked(Q3ListBoxItem *, const QPoint &)));
 
 
-    connect(m_pParmsLB, SIGNAL(doubleClicked(QListBoxItem *)),
-            this, SLOT(slotParmDoubleClick(QListBoxItem *)));
+    connect(m_pParmsLB, SIGNAL(doubleClicked(Q3ListBoxItem *)),
+            this, SLOT(slotParmDoubleClick(Q3ListBoxItem *)));
 
     m_pNameLE->setFocus();
     connect( m_pNameLE, SIGNAL( textChanged ( const QString & ) ), SLOT( slotNameChanged( const QString & ) ) );
@@ -249,7 +253,7 @@ void UMLOperationDialog::slotNameChanged( const QString &_text )
 }
 
 
-void UMLOperationDialog::slotParmRightButtonPressed(QListBoxItem *item, const QPoint &p) {
+void UMLOperationDialog::slotParmRightButtonPressed(Q3ListBoxItem *item, const QPoint &p) {
     ListPopupMenu::Menu_Type type = ListPopupMenu::mt_Undefined;
     if(item)//pressed on an item
     {
@@ -270,7 +274,7 @@ void UMLOperationDialog::slotParmRightButtonPressed(QListBoxItem *item, const QP
 
 }
 
-void UMLOperationDialog::slotParmRightButtonClicked(QListBoxItem */*item*/, const QPoint &/*p*/) {
+void UMLOperationDialog::slotParmRightButtonClicked(Q3ListBoxItem */*item*/, const QPoint &/*p*/) {
     if(m_pMenu) {
         m_pMenu -> hide();
         disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotParmPopupMenuSel(int)));
@@ -279,7 +283,7 @@ void UMLOperationDialog::slotParmRightButtonClicked(QListBoxItem */*item*/, cons
     }
 }
 
-void UMLOperationDialog::slotParmDoubleClick(QListBoxItem *item) {
+void UMLOperationDialog::slotParmDoubleClick(Q3ListBoxItem *item) {
     if(!item)
         return;
     slotParmPopupMenuSel(ListPopupMenu::mt_Properties);
@@ -428,7 +432,7 @@ void UMLOperationDialog::slotParameterDown()
     slotParamsBoxClicked( m_pParmsLB->selectedItem() );
 }
 
-void UMLOperationDialog::slotParamsBoxClicked(QListBoxItem* parameterItem) {
+void UMLOperationDialog::slotParamsBoxClicked(Q3ListBoxItem* parameterItem) {
     if (parameterItem) {
         m_pDeleteButton->setEnabled(true);
         m_pPropertiesButton->setEnabled(true);

@@ -23,7 +23,7 @@
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 
-AlignToolBar::AlignToolBar(QMainWindow* parentWindow, const char* name)
+AlignToolBar::AlignToolBar(Q3MainWindow* parentWindow, const char* name)
         : KToolBar(parentWindow,Qt::DockRight,false,name)
 {
     // load images for the buttons

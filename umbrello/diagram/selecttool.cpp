@@ -19,7 +19,7 @@
 #include "path.h"
 
 #include <qcursor.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <kdebug.h>
 #include <klocale.h>
 
@@ -101,7 +101,7 @@ bool SelectTool::mouseDragEvent( )
 	{
 		diagram()->deselectAll();
 		m_selectFrom = savedPos();
-		m_selectionRect = new QCanvasRectangle(m_selectFrom.x(),m_selectFrom.y(),1,1,diagram());
+		m_selectionRect = new Q3CanvasRectangle(m_selectFrom.x(),m_selectFrom.y(),1,1,diagram());
 		m_selectionRect->setPen(QPen(QColor("grey"), 1, Qt::DotLine));
 		m_selectionRect->show();
 		diagram()->update();

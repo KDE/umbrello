@@ -21,7 +21,10 @@
 #include <ktoolbar.h>
 #include <ktoolbarbutton.h>
 #include <qtooltip.h>
-#include <qwhatsthis.h>
+#include <q3whatsthis.h>
+//Added by qt3to4:
+#include <Q3Frame>
+#include <QKeyEvent>
 
 #include <kdebug.h>
 
@@ -33,11 +36,11 @@ void KPlayerPopupFrame::keyPressEvent (QKeyEvent* ev)
 {
     switch ( ev -> key() )
     {
-    case Key_Alt:
-    case Key_Tab:
-    case Key_Escape:
-    case Key_Return:
-    case Key_Enter:
+    case Qt::Key_Alt:
+    case Qt::Key_Tab:
+    case Qt::Key_Escape:
+    case Qt::Key_Return:
+    case Qt::Key_Enter:
         close();
     }
 }
@@ -71,7 +74,7 @@ KPlayerPopupSliderAction::KPlayerPopupSliderAction (const QString& text,
         : KAction (text, pix, shortcut, parent, name)
 {
     m_frame = new KPlayerPopupFrame;
-    m_frame -> setFrameStyle (QFrame::PopupPanel | QFrame::Raised);
+    m_frame -> setFrameStyle (Q3Frame::PopupPanel | Q3Frame::Raised);
     m_frame -> setLineWidth (2);
     m_slider = new KPlayerSlider (Qt::Vertical, m_frame);
     m_frame -> resize (36, m_slider -> sizeHint().height() + 4);
@@ -248,7 +251,7 @@ void KPlayerSliderAction::unplug (QWidget* widget)
     }
 }*/
 
-void KPlayerSliderAction::orientationChanged (Orientation orientation)
+void KPlayerSliderAction::orientationChanged (Qt::Orientation orientation)
 {
     //if ( sender() && sender() -> inherits ("KToolBar") )
     //  setupToolbar (orientation, (KToolBar*) sender());
@@ -269,7 +272,7 @@ KPlayerSlider::KPlayerSlider (Qt::Orientation orientation, QWidget* parent, cons
         : QSlider (300, 2200, 400, 1000, orientation, parent, name)
 {
     m_changing_orientation = false;
-    setTickmarks (QSlider::Both);
+    setTickmarks (QSlider::TicksBothSides);
     connect (this, SIGNAL (valueChanged (int)), this, SLOT (sliderValueChanged (int)));
 }
 
@@ -315,7 +318,7 @@ QSize KPlayerSlider::minimumSizeHint() const
     return hint;
 }
 
-void KPlayerSlider::setOrientation (Orientation o)
+void KPlayerSlider::setOrientation (Qt::Orientation o)
 {
     if ( o == orientation() )
         return;

@@ -15,19 +15,19 @@
 #ifndef UMLATTRIBUTELIST_H
 #define UMLATTRIBUTELIST_H
 
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 
 // forward declaration
 class UMLAttribute;
 
 //typedef QPtrList<UMLAttribute> UMLAttributeList;
-typedef QPtrListIterator<UMLAttribute> UMLAttributeListIt;
+typedef Q3PtrListIterator<UMLAttribute> UMLAttributeListIt;
 
 /**
  * This sub-class adds copyInto and clone to the QPtrList<UMLAttribute>
  * base class.
  */
-class UMLAttributeList : public QPtrList<UMLAttribute>
+class UMLAttributeList : public Q3PtrList<UMLAttribute>
 {
 public:
 

@@ -26,7 +26,7 @@
 
 #include <qregexp.h>
 #include <qmap.h>
-#include <qvaluelist.h>
+#include <q3valuelist.h>
 
 #if defined( KDEVELOP_BGPARSER )
 #include <qthread.h>
@@ -55,7 +55,7 @@ using namespace std;
 struct LexerData
 {
     typedef QMap<QString, QString> Scope;
-    typedef QValueList<Scope> StaticChain;
+    typedef Q3ValueList<Scope> StaticChain;
 
     StaticChain staticChain;
 
@@ -232,7 +232,7 @@ void Lexer::nextToken( Token& tk, bool stopOnNewline )
         m_startLine = false;
         int ppe = preprocessorEnabled();
 	setPreprocessorEnabled( false );
-	while( currentChar() && currentChar() != '\n' ){
+	while( !currentChar().isNull() && currentChar() != '\n' ){
             Token tok;
             nextToken( tok, true );
         }
@@ -300,7 +300,7 @@ void Lexer::nextToken( Token& tk, bool stopOnNewline )
 		    nextChar();
 		    int argIdx = 0;
 		    int argCount = m.argumentList().size();
-		    while( currentChar() && argIdx<argCount ){
+		    while( !currentChar().isNull() && argIdx<argCount ){
 			readWhiteSpaces();
 
                         QString argName = m.argumentList()[ argIdx ];
@@ -355,7 +355,7 @@ void Lexer::nextToken( Token& tk, bool stopOnNewline )
             QString textToInsert;
 
             m_endPtr = currentPosition() + m.body().length();
-            while( currentChar() ){
+            while( !currentChar().isNull() ){
 
                 readWhiteSpaces();
 
@@ -538,7 +538,7 @@ QString Lexer::readArgument()
     QString arg;
 
     readWhiteSpaces();
-    while( currentChar() ){
+    while( !currentChar().isNull() ){
 
 	readWhiteSpaces();
 	QChar ch = currentChar();
@@ -600,7 +600,7 @@ void Lexer::handleDirective( const QString& directive )
     }
 
     // skip line
-    while( currentChar() && currentChar() != '\n' ){
+    while( !currentChar().isNull() && currentChar() != '\n' ){
         Token tk;
         nextToken( tk, true );
     }
@@ -646,7 +646,7 @@ void Lexer::processDefine( Macro& m )
 
         readWhiteSpaces( false );
 
-	while( currentChar() && currentChar() != ')' ){
+	while( !currentChar().isNull() && currentChar() != ')' ){
 	    readWhiteSpaces( false );
 
 	    int startArg = currentPosition();
@@ -674,7 +674,7 @@ void Lexer::processDefine( Macro& m )
     setPreprocessorEnabled( true );
 
     QString body;
-    while( currentChar() && currentChar() != '\n' ){
+    while( !currentChar().isNull() && currentChar() != '\n' ){
 
         if( currentChar().isSpace() ){
 	    readWhiteSpaces( false );
@@ -776,16 +776,16 @@ void Lexer::processInclude()
 	return;
 
     readWhiteSpaces( false );
-    if( currentChar() ){
+    if( !currentChar().isNull() ){
 	QChar ch = currentChar();
 	if( ch == '"' || ch == '<' ){
 	    nextChar();
 	    QChar ch2 = ch == QChar('"') ? QChar('"') : QChar('>');
 
 	    int startWord = currentPosition();
-	    while( currentChar() && currentChar() != ch2 )
+	    while( !currentChar().isNull() && currentChar() != ch2 )
 		nextChar();
-	    if( currentChar() ){
+	    if( !currentChar().isNull() ){
 		QString word = m_source.mid( startWord, int(currentPosition()-startWord) );
 		m_driver->addDependence( m_driver->currentFileName(),
 					 Dependence(word, ch == '"' ? Dep_Local : Dep_Global) );

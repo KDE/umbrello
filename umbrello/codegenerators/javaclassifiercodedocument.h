@@ -19,6 +19,8 @@
 #define JAVACLASSIFIERCODEDOCUMENT_H
 
 #include <qstring.h>
+//Added by qt3to4:
+#include <Q3PtrList>
 #include "../classifiercodedocument.h"
 #include "../classifier.h"
 #include "../hierarchicalcodeblock.h"
@@ -113,7 +115,7 @@ protected:
     virtual CodeClassField * newCodeClassField( UMLAttribute *at);
     virtual CodeClassField * newCodeClassField( UMLRole *role);
 
-    void addOrUpdateCodeClassFieldMethodsInCodeBlock(QPtrList<CodeClassField> &list, JavaClassDeclarationBlock * codeBlock);
+    void addOrUpdateCodeClassFieldMethodsInCodeBlock(Q3PtrList<CodeClassField> &list, JavaClassDeclarationBlock * codeBlock);
 
     bool forceDoc ();
 

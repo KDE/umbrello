@@ -17,7 +17,7 @@
 #define CLASSOPTIONSPAGE_H
 
 #include <qwidget.h>
-#include <qgroupbox.h>
+#include <q3groupbox.h>
 #include <qcheckbox.h>
 
 #include "../optionstate.h"
@@ -91,7 +91,7 @@ protected:
     void updateOptionState();
 
     //GUI widgets
-    QGroupBox * m_pVisibilityGB;
+    Q3GroupBox * m_pVisibilityGB;
     QCheckBox * m_pShowScopeCB, * m_pShowAttSigCB;
     QCheckBox * m_pShowOpSigCB, * m_pShowAttsCB, * m_pShowOpsCB;
     QCheckBox * m_pShowStereotypeCB, * m_pShowPackageCB;

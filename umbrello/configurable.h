@@ -1,3 +1,5 @@
+//Added by qt3to4:
+#include <Q3PtrList>
 /***************************************************************************
                           configurable.h
                              -------------------
@@ -107,7 +109,7 @@ protected:
     bool unloadPlugins();
 
 private:
-    typedef QPtrList<Plugin> PluginList;
+    typedef Q3PtrList<Plugin> PluginList;
 
     PluginList	_plugins;	///< List of loaded plugins
 };

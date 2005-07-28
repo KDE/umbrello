@@ -17,7 +17,7 @@
 
 #include "cppcodegenerationformbase.h"
 
-class QCheckListItem;
+class Q3CheckListItem;
 
 /**
  * @author Brian Thomas
@@ -124,20 +124,20 @@ public slots:
     virtual void browseClicked();
 
 private slots:
-    virtual void generalOptionsListViewClicked(QListViewItem *);
+    virtual void generalOptionsListViewClicked(Q3ListViewItem *);
 
 private:
 
     /*
      * check boxes for the available options
      */
-    QCheckListItem *pOptionPackageIsANamespace;
-    QCheckListItem *pOptionVirtualDestructors;
-    QCheckListItem *pOptionGenerateEmptyConstructors;
-    QCheckListItem *pOptionGenerateAccessorMethods;
-    QCheckListItem *pOptionOperationsAreInline;
-    QCheckListItem *pOptionAccessorsAreInline;
-    QCheckListItem *pOptionAccessorsArePublic;
+    Q3CheckListItem *pOptionPackageIsANamespace;
+    Q3CheckListItem *pOptionVirtualDestructors;
+    Q3CheckListItem *pOptionGenerateEmptyConstructors;
+    Q3CheckListItem *pOptionGenerateAccessorMethods;
+    Q3CheckListItem *pOptionOperationsAreInline;
+    Q3CheckListItem *pOptionAccessorsAreInline;
+    Q3CheckListItem *pOptionAccessorsArePublic;
 
     /**
      * initialize all attributes

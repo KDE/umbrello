@@ -23,11 +23,13 @@
 #include "../../attribute.h"
 
 #include <qapplication.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 #include <klocale.h>
 #include <qpainter.h>
-#include <qpopupmenu.h>
-#include <qvbox.h>
-#include <qptrlist.h>
+#include <q3popupmenu.h>
+#include <q3vbox.h>
+#include <q3ptrlist.h>
 
 #include <kdebug.h>
 
@@ -64,7 +66,7 @@ void InterfaceWidget::umlObjectModified()
 	canvas()->update();
 }
 
-void InterfaceWidget::fillContextMenu(QPopupMenu &menu)
+void InterfaceWidget::fillContextMenu(Q3PopupMenu &menu)
 {
 	UMLWidget::fillContextMenu(menu);
 	menu.insertItem(i18n("Refactor"),this, SLOT(refactor()));
@@ -112,8 +114,8 @@ void InterfaceWidget::drawShape(QPainter &p)
 		currentY += vMargin;
 		p.setPen(textPen);
 
-		QValueList<OpString>::Iterator end(m_ops.end());
-		for(QValueList<OpString>::Iterator it(m_ops.begin()); it != end; ++it )
+		Q3ValueList<OpString>::Iterator end(m_ops.end());
+		for(Q3ValueList<OpString>::Iterator it(m_ops.begin()); it != end; ++it )
 		{
 			font.setUnderline( ((*it).flags & Underline) );
 			font.setItalic( ((*it).flags & Italics) );
@@ -164,7 +166,7 @@ void InterfaceWidget::calculateSize()
 	if (m_opsDisplayOpts & ShowOps )
 	{
 
-		QPtrList<UMLOperation> *ops = obj->getFilteredOperationsList(); //FIXME probably want getOpsList()
+		Q3PtrList<UMLOperation> *ops = obj->getFilteredOperationsList(); //FIXME probably want getOpsList()
 		UMLOperation *op;
 		for( op=ops->first();op != 0;op=ops->next() )
 		{
@@ -185,7 +187,7 @@ void InterfaceWidget::calculateSize()
 					break;
 			}
 			opString.string += op->getName() + "( ";
-			QPtrList<UMLAttribute> *params = op->getParmList();
+			Q3PtrList<UMLAttribute> *params = op->getParmList();
 			for( UMLAttribute *last = params->last(), *param = params->first();
 				param &&  (m_opsDisplayOpts & ShowParameterList);
 				param = params->next() )
@@ -204,11 +206,11 @@ void InterfaceWidget::calculateSize()
 			opString.string+=" : " + op->getReturnType();
 			if( op->getAbstract() )
 			{
-				opString.flags = (TextFlags)(opString.flags|Italics);
+				opString.flags = (Qt::TextFlag)(opString.flags|Italics);
 			}
 			if( op->getStatic() )
 			{
-				opString.flags = (TextFlags)(opString.flags|Underline);
+				opString.flags = (Qt::TextFlag)(opString.flags|Underline);
 			}
 			m_ops.append(opString);
 		}
@@ -230,8 +232,8 @@ void InterfaceWidget::calculateSize()
 	maxWidth = kMax(maxWidth,fm.width(m_stereotype));
 	maxWidth = kMax(maxWidth, fm.width(m_name));
 
-	QValueList<OpString>::Iterator end(m_ops.end());
-	for(QValueList<OpString>::Iterator it(m_ops.begin()); it != end; ++it )
+	Q3ValueList<OpString>::Iterator end(m_ops.end());
+	for(Q3ValueList<OpString>::Iterator it(m_ops.begin()); it != end; ++it )
 	{
 		maxWidth = kMax(maxWidth,fm.width((*it).string));
 	}

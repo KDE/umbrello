@@ -16,15 +16,17 @@
 #define UMLATTRIBUTEDIALOG_H
 
 #include <kdialogbase.h>
+//Added by qt3to4:
+#include <QLabel>
 
 /**
  * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class QButtonGroup;
+class Q3ButtonGroup;
 class QCheckBox;
-class QGroupBox;
+class Q3GroupBox;
 class QRadioButton;
 class UMLAttribute;
 class KComboBox;
@@ -59,8 +61,8 @@ protected:
     UMLAttribute * m_pAttribute;
 
     //GUI Widgets
-    QGroupBox * m_pAttsGB, * m_pValuesGB;
-    QButtonGroup * m_pScopeBG;
+    Q3GroupBox * m_pAttsGB, * m_pValuesGB;
+    Q3ButtonGroup * m_pScopeBG;
     QRadioButton * m_pPublicRB, * m_pPrivateRB,  * m_pProtectedRB;
     QLabel * m_pTypeL, * m_pNameL, * m_pInitialL, * m_pStereoTypeL;
     KComboBox * m_pTypeCB;

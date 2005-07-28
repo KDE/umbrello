@@ -26,6 +26,8 @@
 
 #include <kdebug.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <Q3PtrList>
 
 #include "cppsourcecodedocument.h"
 #include "cppcodegenerator.h"
@@ -168,19 +170,19 @@ void CPPSourceCodeDocument::updateContent( )
     QString endLine = gen->getNewLineEndingChars(); // a shortcut..so we dont have to call this all the time
 
     // first, set the global flag on whether or not to show classfield info
-    QPtrList<CodeClassField> * cfList = getCodeClassFieldList();
+    Q3PtrList<CodeClassField> * cfList = getCodeClassFieldList();
     for(CodeClassField * field = cfList->first(); field; field = cfList->next())
         field->setWriteOutMethods(gen->getAutoGenerateAccessors());
 
     // attribute-based ClassFields
     // we do it this way to have the static fields sorted out from regular ones
-    QPtrList<CodeClassField> staticAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true);
-    QPtrList<CodeClassField> attribClassFields = getSpecificClassFields (CodeClassField::Attribute, false);
+    Q3PtrList<CodeClassField> staticAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true);
+    Q3PtrList<CodeClassField> attribClassFields = getSpecificClassFields (CodeClassField::Attribute, false);
     // association-based ClassFields
     // dont care if they are static or not..all are lumped together
-    QPtrList<CodeClassField> plainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation );
-    QPtrList<CodeClassField> aggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation );
-    QPtrList<CodeClassField> compositionClassFields = getSpecificClassFields ( CodeClassField::Composition );
+    Q3PtrList<CodeClassField> plainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation );
+    Q3PtrList<CodeClassField> aggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation );
+    Q3PtrList<CodeClassField> compositionClassFields = getSpecificClassFields ( CodeClassField::Composition );
 
     // START GENERATING CODE/TEXT BLOCKS and COMMENTS FOR THE DOCUMENT
     //

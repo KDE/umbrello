@@ -25,7 +25,7 @@ namespace Umbrello
 {
 
 
-ToolBar::ToolBar( QMainWindow *parentWindow, DiagramView *view, bool newLine,
+ToolBar::ToolBar( Q3MainWindow *parentWindow, DiagramView *view, bool newLine,
 		const char *name, bool honor_style, bool readConfig):
 		KToolBar( parentWindow, view , newLine, name, honor_style, readConfig ),
 		m_view(view),m_currentTool(0)
@@ -33,7 +33,7 @@ ToolBar::ToolBar( QMainWindow *parentWindow, DiagramView *view, bool newLine,
 	init();
 }
 
-ToolBar::ToolBar( QMainWindow *parentWindow, DiagramView *view, QMainWindow::Dock dock, bool newLine,
+ToolBar::ToolBar( Q3MainWindow *parentWindow, DiagramView *view, Qt::ToolBarDock dock, bool newLine,
 		const char *name, bool honor_style, bool readConfig):
 		KToolBar( parentWindow, dock , newLine, name, honor_style, readConfig ),
 		m_view(view),m_currentTool(0)

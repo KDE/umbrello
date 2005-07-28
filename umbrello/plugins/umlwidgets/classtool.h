@@ -16,6 +16,8 @@
 #define UMBRELLO_CLASSTOOL_H
 
 #include "../../diagram/tool.h"
+//Added by qt3to4:
+#include <QMouseEvent>
 
 class QMouseEvent;
 

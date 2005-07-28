@@ -46,7 +46,7 @@ CodeOperation::~CodeOperation ( ) { }
  */
 /*
 void CodeOperation::addParameter ( CodeParameter * add_object ) {
-    m_parameterVector.append(add_object);
+	m_parameterVector.append(add_object);
 }
 */
 
@@ -55,7 +55,7 @@ void CodeOperation::addParameter ( CodeParameter * add_object ) {
  */
 /*
 void CodeOperation::removeParameter ( CodeParameter * remove_object ) {
-    m_parameterVector.remove(remove_object);
+	m_parameterVector.remove(remove_object);
 }
 */
 
@@ -66,7 +66,7 @@ void CodeOperation::removeParameter ( CodeParameter * remove_object ) {
  */
 /*
 QPtrList<CodeParameter> CodeOperation::getParameterList ( ) {
-    return m_parameterVector;
+	return m_parameterVector;
 }
 */
 

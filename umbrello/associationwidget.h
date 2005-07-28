@@ -21,13 +21,17 @@
 #include "messagewidgetlist.h"
 #include "associationwidgetlist.h"
 #include "linepath.h"
+//Added by qt3to4:
+#include <QPixmap>
+#include <QMouseEvent>
+#include <QMoveEvent>
 
 class IDChangeLog;
 class ListPopupMenu;
 class QBitmap;
 class QPixmap;
 class QDataStream;
-class QCanvasLine;
+class Q3CanvasLine;
 class ClassifierWidget;
 class UMLDoc;
 class UMLView;
@@ -896,9 +900,9 @@ private:
     bool 		m_bSelected;
     int 		m_nMovingPoint;
     int		m_nLinePathSegmentIndex; ///< anchor for m_pAssocClassLine
-    QCanvasLine	*m_pAssocClassLine;  ///< used for connecting assoc. class
+    Q3CanvasLine	*m_pAssocClassLine;  ///< used for connecting assoc. class
     /// selection adornment for the endpoints of the assoc. class connecting line
-    QCanvasRectangle *m_pAssocClassLineSel0, *m_pAssocClassLineSel1;
+    Q3CanvasRectangle *m_pAssocClassLineSel0, *m_pAssocClassLineSel1;
 
     ClassifierWidget *m_pAssocClassWidget;  ///< used if we have an assoc. class
 

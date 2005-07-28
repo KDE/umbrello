@@ -19,10 +19,14 @@
 #ifndef CODEEDITOR_H
 #define CODEEDITOR_H
 
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qstring.h>
 #include <qlabel.h>
-#include <qtextedit.h>
+#include <q3textedit.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QKeyEvent>
+#include <Q3PtrList>
 #include "../codeviewerstate.h"
 
 class UMLObject;
@@ -39,7 +43,7 @@ class TextBlockInfo;
 class TextBlock;
 class ParaInfo;
 
-class CodeEditor : public QTextEdit
+class CodeEditor : public Q3TextEdit
 {
     Q_OBJECT
 public:
@@ -59,7 +63,7 @@ protected:
     void appendText (TextBlock * tblock);
     void appendText (HierarchicalCodeBlock * hblock);
     void appendText (CodeClassFieldDeclarationBlock * db );
-    void appendText (QPtrList<TextBlock> * items);
+    void appendText (Q3PtrList<TextBlock> * items);
     void appendText (CodeMethodBlock * mb);
     void appendText (CodeComment * comment, TextBlock * parent, UMLObject * umlObj = 0, const QString & compName="");
     void appendText (CodeBlockWithComments * cb );
@@ -85,7 +89,7 @@ protected:
     void loadFromDocument();
 
     // specialized popup menu for our tool
-    QPopupMenu * createPopupMenu ( const QPoint & pos );
+    Q3PopupMenu * createPopupMenu ( const QPoint & pos );
 
 private:
 
@@ -106,7 +110,7 @@ private:
     TextBlock * m_lastTextBlockToBeEdited;
 
     QMap<TextBlock*, TextBlockInfo*> *m_tbInfoMap;
-    QPtrList<TextBlock> m_textBlockList;
+    Q3PtrList<TextBlock> m_textBlockList;
 
     // main insert routine. Will append if startline is not supplied.
     void insert (const QString & text, TextBlock * parent, bool isEditable = false,
@@ -175,7 +179,7 @@ public:
 
 class TextBlockInfo {
 public:
-    QPtrList<ParaInfo> m_paraList;
+    Q3PtrList<ParaInfo> m_paraList;
     UMLObject * m_parent;
     QString displayName;
     bool isClickable;

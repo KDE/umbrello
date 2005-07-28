@@ -21,9 +21,14 @@
 
 #include <qcolor.h>
 #include <qmap.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 #include <qstring.h>
-#include <qtextedit.h>
+#include <q3textedit.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <Q3Frame>
+#include <QHBoxLayout>
+#include <QGridLayout>
 #include "../codeviewerstate.h"
 #include "codeviewerdialogbase.h"
 
@@ -31,7 +36,7 @@ class CodeDocument;
 class QVBoxLayout;
 class QHBoxLayout;
 class QGridLayout;
-class QFrame;
+class Q3Frame;
 
 class UMLObject;
 
@@ -45,7 +50,7 @@ class CodeViewerDialog : public CodeViewerDialogBase
 public:
 
     CodeViewerDialog ( QWidget* parent, CodeDocument * doc, Settings::CodeViewerState state,
-                       const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+                       const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
     ~CodeViewerDialog ();
 
     /** return the code viewer state */

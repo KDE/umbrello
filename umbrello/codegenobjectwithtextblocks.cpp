@@ -20,6 +20,8 @@
 #include "codedocument.h"
 #include "codeoperation.h"
 #include "hierarchicalcodeblock.h"
+//Added by qt3to4:
+#include <Q3PtrList>
 
 // Constructors/Destructors
 //
@@ -54,7 +56,7 @@ CodeGenObjectWithTextBlocks::~CodeGenObjectWithTextBlocks ( ) {
  * @return QPtrList<TextBlock *> list of TextBlock objects held by
  * m_textblockVector
  */
-QPtrList<TextBlock> * CodeGenObjectWithTextBlocks::getTextBlockList ( ) {
+Q3PtrList<TextBlock> * CodeGenObjectWithTextBlocks::getTextBlockList ( ) {
     return &m_textblockVector;
 }
 
@@ -350,7 +352,7 @@ void CodeGenObjectWithTextBlocks::resetTextBlocks() {
 
 void CodeGenObjectWithTextBlocks::setAttributesFromObject (CodeGenObjectWithTextBlocks * obj)
 {
-    QPtrList<TextBlock> * list = obj->getTextBlockList();
+    Q3PtrList<TextBlock> * list = obj->getTextBlockList();
     for (TextBlock * tb = list->first(); tb; tb=list->next())
     {
         // FIX : we need some functionality like
@@ -364,7 +366,7 @@ void CodeGenObjectWithTextBlocks::setAttributesOnNode (QDomDocument & doc, QDomE
     QDomElement tblockElement = doc.createElement( "textblocks" );
 
     // only concrete calls to textblocks are saved
-    QPtrList<TextBlock> * tbList = getTextBlockList();
+    Q3PtrList<TextBlock> * tbList = getTextBlockList();
     for (TextBlock * block = tbList->first(); block; block= tbList->next())
         block->saveToXMI(doc, tblockElement);
 

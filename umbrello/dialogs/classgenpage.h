@@ -17,11 +17,11 @@
 
 //quicktime class includes
 #include <qwidget.h>
-#include <qgroupbox.h>
+#include <q3groupbox.h>
 #include <qlabel.h>
 #include <qlineedit.h>
-#include <qbuttongroup.h>
-#include <qmultilineedit.h>
+#include <q3buttongroup.h>
+#include <q3multilineedit.h>
 #include <qradiobutton.h>
 #include <qcheckbox.h>
 
@@ -34,7 +34,7 @@
  * Displays properties of a UMLObject in a dialog box.  This is not usually directly
  * called.  The class @ref ClassPropDlg	will set this up for you.
  *
- * @short Display properties on a UMLObject.
+ * @short	Display properties on a UMLObject.
  * @author Paul Hensgen	<phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
@@ -81,18 +81,18 @@ public:
      */
     void updateObject();
 private:
-    QGroupBox *m_pDocGB;
-    QButtonGroup	* m_pButtonBG;
+    Q3GroupBox *m_pDocGB;
+    Q3ButtonGroup	* m_pButtonBG;
     QLabel * m_pNameL, * m_pInstanceL, * m_pStereoTypeL, * m_pPackageL;
     QLineEdit * m_pClassNameLE, *m_pInstanceLE, * m_pStereoTypeLE, * m_pPackageLE;
     QRadioButton * m_pPublicRB, * m_pPrivateRB, * m_pProtectedRB;
     QCheckBox * m_pMultiCB, * m_pDrawActorCB, * m_pAbstractCB, * m_pDeconCB;
-    QMultiLineEdit * m_pDoc;
+    Q3MultiLineEdit * m_pDoc;
     UMLObject * m_pObject;
     UMLDoc * m_pUmldoc;
     ObjectWidget * m_pWidget;
     UMLWidget* m_pInstanceWidget;
-    QButtonGroup* m_pDrawAsBG;
+    Q3ButtonGroup* m_pDrawAsBG;
     QRadioButton* m_pDefaultRB,* m_pFileRB,* m_pLibraryRB,* m_pTableRB;
     QCheckBox* m_pExecutableCB;
 

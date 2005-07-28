@@ -15,7 +15,7 @@
 #ifndef UMBRELLO_TOOLFACTORY_H
 #define UMBRELLO_TOOLFACTORY_H
 
-#include <qvaluelist.h>
+#include <q3valuelist.h>
 
 namespace Umbrello
 {
@@ -27,7 +27,7 @@ class DiagramView;
 class ToolFactory
 {
 public:
-	typedef QValueList<WidgetSet*> WidgetSetList;
+	typedef Q3ValueList<WidgetSet*> WidgetSetList;
 	
 	static ToolFactory* instance();
 	virtual ~ToolFactory();

@@ -15,10 +15,12 @@
 // own header
 #include "notewidget.h"
 //qt includes
-#include <qpointarray.h>
+#include <q3pointarray.h>
 #include <qpainter.h>
-#include <qtextedit.h>
-#include <qframe.h>
+#include <q3textedit.h>
+#include <q3frame.h>
+//Added by qt3to4:
+#include <QMouseEvent>
 // kde includes
 #include <kdebug.h>
 #include <kcursor.h>
@@ -40,10 +42,10 @@ NoteWidget::NoteWidget(UMLView * view, Uml::IDType id) : UMLWidget(view, id) {
 #ifdef NOTEWIDGET_EMBED_EDITOR
     // NB: This code is currently deactivated because
     // Zoom does not yet work with the embedded text editor.
-    m_pEditor = new QTextEdit(view);
-    m_pEditor->setFrameStyle(QFrame::NoFrame | QFrame::Plain);
-    m_pEditor->setHScrollBarMode(QScrollView::AlwaysOff);
-    m_pEditor->setVScrollBarMode(QScrollView::AlwaysOff);
+    m_pEditor = new Q3TextEdit(view);
+    m_pEditor->setFrameStyle(Q3Frame::NoFrame | Q3Frame::Plain);
+    m_pEditor->setHScrollBarMode(Q3ScrollView::AlwaysOff);
+    m_pEditor->setVScrollBarMode(Q3ScrollView::AlwaysOff);
     m_pEditor->setTextFormat(Qt::RichText);
     m_pEditor->setShown(true);
     setEditorGeometry();
@@ -142,7 +144,7 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
     int w = width()-1;
 
     int h= height()-1;
-    QPointArray poly(6);
+    Q3PointArray poly(6);
     poly.setPoint(0, offsetX, offsetY);
     poly.setPoint(1, offsetX, offsetY + h);
     poly.setPoint(2, offsetX + w, offsetY + h);

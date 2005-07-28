@@ -17,12 +17,15 @@
 
 // qt includes
 #include <qclipboard.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qtimer.h>
-#include <qwidgetstack.h>
+#include <q3widgetstack.h>
 #include <qslider.h>
 #include <qregexp.h>
 #include <qtoolbutton.h>
+//Added by qt3to4:
+#include <QKeyEvent>
+#include <Q3Frame>
 
 // kde includes
 #include <kaction.h>
@@ -107,13 +110,13 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
     editRedo->setEnabled(false);
 
     //get a reference to the Code->Active Lanugage and to the Diagram->Zoom menu
-    QPopupMenu* menu = findMenu( menuBar(), QString("code") );
+    Q3PopupMenu* menu = findMenu( menuBar(), QString("code") );
     m_langSelect = findMenu( menu, QString("active_lang_menu") );
 
     //in case langSelect hasnt been initialized we create the Popup menu.
     //it will be hidden, but at least we wont crash if someone takes the entry away from the ui.rc file
     if (m_langSelect == NULL) {
-        m_langSelect = new QPopupMenu(this);
+        m_langSelect = new Q3PopupMenu(this);
     }
 
     menu = findMenu( menuBar(), QString("views") );
@@ -122,7 +125,7 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
     //in case zoomSelect hasnt been initialized we create the Popup menu.
     //it will be hidden, but at least we wont crash if some one takes the entry away from the ui.rc file
     if (m_zoomSelect == NULL) {
-        m_zoomSelect = new QPopupMenu(this);
+        m_zoomSelect = new Q3PopupMenu(this);
     }
 
     //connect zoomSelect menu
@@ -268,7 +271,7 @@ void UMLApp::initActions() {
     viewExportImage->setEnabled(false);
     viewProperties->setEnabled(false);
 
-    zoomAction = new KPlayerPopupSliderAction(i18n("&Zoom Slider"), "viewmag", Key_F9,
+    zoomAction = new KPlayerPopupSliderAction(i18n("&Zoom Slider"), "viewmag", Qt::Key_F9,
                  this, SLOT(slotZoomSliderMoved(int)),
                  actionCollection(), "popup_zoom");
     zoom100Action = new KAction(i18n( "Z&oom to 100%" ), "viewmag1", 0,
@@ -308,7 +311,7 @@ void UMLApp::initActions() {
 #else
     createGUI();
 #endif
-    QPopupMenu* menu = findMenu( menuBar(), QString("settings") );
+    Q3PopupMenu* menu = findMenu( menuBar(), QString("settings") );
     menu->insertItem(i18n("&Windows"), dockHideShowMenu(), -1, 0);
 }
 
@@ -361,7 +364,7 @@ void UMLApp::initStatusBar() {
     m_statusLabel = new KStatusBarLabel( i18n("Ready."), 0, statusBar() );
     m_statusLabel->setFixedHeight( m_statusLabel->sizeHint().height() );
 
-    m_statusLabel->setFrameStyle( QFrame::NoFrame | QFrame::Plain );
+    m_statusLabel->setFrameStyle( Q3Frame::NoFrame | Q3Frame::Plain );
     m_statusLabel->setMargin( 0 );
     m_statusLabel->setLineWidth(0);
 
@@ -423,8 +426,8 @@ void UMLApp::initView() {
         connect(m_closeDiagramButton, SIGNAL(clicked()), SLOT(slotDeleteDiagram()));
         connect(m_tabWidget, SIGNAL(currentChanged(QWidget*)), SLOT(slotTabChanged(QWidget*)));
         connect(m_tabWidget, SIGNAL(contextMenu(QWidget*,const QPoint&)), m_doc, SLOT(slotDiagramPopupMenu(QWidget*,const QPoint&)));
-        m_tabWidget->setCornerWidget( m_newSessionButton, TopLeft );
-        m_tabWidget->setCornerWidget( m_closeDiagramButton, TopRight );
+        m_tabWidget->setCornerWidget( m_newSessionButton, Qt::TopLeftCorner );
+        m_tabWidget->setCornerWidget( m_closeDiagramButton, Qt::TopRightCorner );
         m_newSessionButton->installEventFilter(this);
 
         m_mainDock->setWidget(m_tabWidget);
@@ -433,7 +436,7 @@ void UMLApp::initView() {
 #endif
     {
         m_tabWidget = NULL;
-        m_viewStack = new QWidgetStack(m_mainDock, "viewstack");
+        m_viewStack = new Q3WidgetStack(m_mainDock, "viewstack");
         m_mainDock->setWidget(m_viewStack);
     }
     m_mainDock->setDockSite(KDockWidget::DockCorner);
@@ -1365,7 +1368,7 @@ void UMLApp::setDiagramMenuItemsState(bool bState) {
 }
 
 void UMLApp::slotUpdateViews() {
-    QPopupMenu* menu = findMenu( menuBar(), QString("views") );
+    Q3PopupMenu* menu = findMenu( menuBar(), QString("views") );
     if (!menu) {
         kdWarning() << "view menu not found" << endl;
         return;
@@ -1631,14 +1634,14 @@ UMLView* UMLApp::getCurrentView() {
     return m_view;
 }
 
-QPopupMenu* UMLApp::findMenu(QMenuData* menu, const QString &name) {
+Q3PopupMenu* UMLApp::findMenu(QMenuData* menu, const QString &name) {
 
     if (menu) {
         int menuCount = menu->count();
 
         for (int i=0; i<menuCount; i++) {
             int idAt = menu->idAt(i);
-            QPopupMenu* popupMenu = menu->findItem(idAt)->popup();
+            Q3PopupMenu* popupMenu = menu->findItem(idAt)->popup();
             if (popupMenu) {
                 QString menuName = popupMenu->name();
                 if( menuName == name) {

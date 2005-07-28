@@ -14,6 +14,8 @@
 
 #include <qstringlist.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <Q3PtrList>
 
 #include <klocale.h>
 #include <kdebug.h>
@@ -37,8 +39,8 @@ AST* findNodeAt( AST* node, int line, int column )
     if( (line > startLine || (line == startLine && column >= startColumn)) &&
         (line < endLine || (line == endLine && column < endColumn)) ){
 
-        QPtrList<AST> children = node->children();
-	QPtrListIterator<AST> it( children );
+        Q3PtrList<AST> children = node->children();
+	Q3PtrListIterator<AST> it( children );
 	while( it.current() ){
 	    AST* a = it.current();
 	    ++it;
@@ -90,8 +92,8 @@ void scopeOfNode( AST* ast, QStringList& scope )
 	if ( !d->declaratorId() )
 		break;
 	
-	QPtrList<ClassOrNamespaceNameAST> l = d->declaratorId()->classOrNamespaceNameList();
-	QPtrListIterator<ClassOrNamespaceNameAST> nameIt( l );
+	Q3PtrList<ClassOrNamespaceNameAST> l = d->declaratorId()->classOrNamespaceNameList();
+	Q3PtrListIterator<ClassOrNamespaceNameAST> nameIt( l );
 	while( nameIt.current() ){
 	    AST* name = nameIt.current()->name();
 	    scope.push_back( name->text() );
@@ -123,8 +125,8 @@ QString declaratorToString( DeclaratorAST* declarator, const QString& scope, boo
    QString text;
 
    if( !skipPtrOp ){
-       QPtrList<AST> ptrOpList = declarator->ptrOpList();
-       for( QPtrListIterator<AST> it(ptrOpList); it.current(); ++it ){
+       Q3PtrList<AST> ptrOpList = declarator->ptrOpList();
+       for( Q3PtrListIterator<AST> it(ptrOpList); it.current(); ++it ){
 	  text += it.current()->text();
        }
        text += " ";
@@ -138,8 +140,8 @@ QString declaratorToString( DeclaratorAST* declarator, const QString& scope, boo
    if( declarator->declaratorId() )
        text += declarator->declaratorId()->text();
 
-   QPtrList<AST> arrays = declarator->arrayDimensionList();
-   QPtrListIterator<AST> it( arrays );
+   Q3PtrList<AST> arrays = declarator->arrayDimensionList();
+   Q3PtrListIterator<AST> it( arrays );
    while( it.current() ){
        text += "[]";
        ++it;
@@ -150,8 +152,8 @@ QString declaratorToString( DeclaratorAST* declarator, const QString& scope, boo
 
        ParameterDeclarationListAST* l = declarator->parameterDeclarationClause()->parameterDeclarationList();
        if( l != 0 ){
-           QPtrList<ParameterDeclarationAST> params = l->parameterList();
-	   QPtrListIterator<ParameterDeclarationAST> it( params );
+           Q3PtrList<ParameterDeclarationAST> params = l->parameterList();
+	   Q3PtrListIterator<ParameterDeclarationAST> it( params );
 
            while( it.current() ){
 	       QString type = typeSpecToString( it.current()->typeSpec() );

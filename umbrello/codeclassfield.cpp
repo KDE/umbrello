@@ -14,6 +14,8 @@
  */
 
 #include <qregexp.h>
+//Added by qt3to4:
+#include <Q3PtrList>
 #include <kdebug.h>
 
 #include "codeclassfield.h"
@@ -49,7 +51,7 @@ CodeClassField::CodeClassField ( ClassifierCodeDocument * doc , UMLAttribute * a
 CodeClassField::~CodeClassField ( ) {
 
     // remove methods from parent document
-    QPtrList<CodeAccessorMethod> list = m_methodVector;
+    Q3PtrList<CodeAccessorMethod> list = m_methodVector;
     for(CodeAccessorMethod * m = list.first(); m ; m=list.next())
     {
         getParentDocument()->removeTextBlock(m);
@@ -151,7 +153,7 @@ CodeClassField::ClassFieldType CodeClassField::getClassFieldType() {
  */
 /*
 CodeClassFieldDialog * CodeClassField::getDialog ( ) {
-    return m_dialog;
+	return m_dialog;
 }
 */
 
@@ -197,7 +199,7 @@ bool CodeClassField::removeMethod ( CodeAccessorMethod * remove_object ) {
  * @return QPtrList<CodeMethodBlock *> list of Method objects held by
  * m_methodVector
  */
-QPtrList<CodeAccessorMethod> * CodeClassField::getMethodList ( ) {
+Q3PtrList<CodeAccessorMethod> * CodeClassField::getMethodList ( ) {
     return &m_methodVector;
 }
 
@@ -262,7 +264,7 @@ void CodeClassField::setAttributesOnNode ( QDomDocument & doc, QDomElement & cfE
     m_declCodeBlock->saveToXMI(doc, cfElem);
 
     // now record the tags on our accessormethods
-    QPtrList<CodeAccessorMethod> * list = getMethodList ( );
+    Q3PtrList<CodeAccessorMethod> * list = getMethodList ( );
     for(CodeAccessorMethod * method=list->first(); method; method=list->next())
     {
         method->saveToXMI(doc,cfElem);
@@ -387,7 +389,7 @@ QString CodeClassField::fixInitialStringDeclValue(QString value, const QString &
 void CodeClassField::synchronize ()
 {
     updateContent();
-    QPtrList<CodeAccessorMethod> * list = getMethodList();
+    Q3PtrList<CodeAccessorMethod> * list = getMethodList();
     for(CodeAccessorMethod * method=list->first(); method; method=list->next())
         method->syncToParent();
 

@@ -22,7 +22,7 @@
  */
 class UMLView;
 
-class UMLViewCanvas : public QCanvas {
+class UMLViewCanvas : public Q3Canvas {
 public:
     /**
     *	Constructor

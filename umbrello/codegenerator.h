@@ -20,7 +20,9 @@
 #define CODEGENERATOR_H
 
 
-#include <qdict.h>
+#include <q3dict.h>
+//Added by qt3to4:
+#include <Q3PtrList>
 
 #include "codegenerationpolicy.h"
 #include "umlclassifierlist.h"
@@ -141,7 +143,7 @@ public:
      * @return QPtrList<CodeDocument *> list of CodeDocument objects held by
      * m_codedocumentVector
      */
-    QPtrList<CodeDocument> * getCodeDocumentList ( );
+    Q3PtrList<CodeDocument> * getCodeDocumentList ( );
 
     /**
      * Set the codeGeneratorPolicy for this generator.
@@ -380,12 +382,12 @@ protected:
 
     /** the actual internal routine which writes code documents
      */
-    void writeListedCodeDocsToFile(QPtrList<CodeDocument> * docs);
+    void writeListedCodeDocsToFile(Q3PtrList<CodeDocument> * docs);
 
     static const char * hierarchicalCodeBlockNodeName;
 
     // map of what code documents we currently have in this generator.
-    QDict<CodeDocument> m_codeDocumentDictionary;
+    Q3Dict<CodeDocument> m_codeDocumentDictionary;
 
     /**
      * used by overwriteDialogue to know if the apply to all
@@ -401,7 +403,7 @@ protected:
     /**
      * convert a NULL terminated char * list of reserved keywords to a new QPtrList<const char *>
      */
-    QPtrList<const char *> * convertListOfReservedKeywords(const char **);
+    Q3PtrList<const char *> * convertListOfReservedKeywords(const char **);
 
 private:
 
@@ -412,7 +414,7 @@ private:
     // this seems silly and overkill now. -b.t.
     // QMap<CodeDocument*,QString> *m_fileMap;
 
-    QPtrList<CodeDocument> m_codedocumentVector;
+    Q3PtrList<CodeDocument> m_codedocumentVector;
     CodeGenerationPolicy * m_codegeneratorpolicy;
     int lastIDIndex;
 

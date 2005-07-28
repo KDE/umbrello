@@ -14,12 +14,14 @@
 #include "toolbarstatearrow.h"
 
 #include <qevent.h>
+//Added by qt3to4:
+#include <QMouseEvent>
 
 #include "uml.h"
 #include "umlview.h"
 #include "umldoc.h"
-#include <qptrlist.h>
-#include <qwmatrix.h> // need for inverseWorldMatrix.map
+#include <q3ptrlist.h>
+#include <qmatrix.h> // need for inverseWorldMatrix.map
 
 
 ToolBarStateArrow::ToolBarStateArrow(UMLView *umlView): ToolBarState(umlView)
@@ -52,7 +54,7 @@ void ToolBarStateArrow::mousePress(QMouseEvent* ome)
         // TODO  createSelectionRectangle
         for (int i = 0; i < 4; i++)
         {
-            QCanvasLine* line = new QCanvasLine( m_pUMLView->canvas() );
+            Q3CanvasLine* line = new Q3CanvasLine( m_pUMLView->canvas() );
             line->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y());
             line->setPen( QPen(QColor("grey"), 0, m_pUMLView->DotLine) );
             line->setVisible(true);
@@ -109,7 +111,7 @@ void ToolBarStateArrow::mouseMove(QMouseEvent* ome)
         if( m_SelectionRect.count() == 4)
         {
             // TODO  updateSelectionRectangle
-            QCanvasLine * line = m_SelectionRect.at( 0 );
+            Q3CanvasLine * line = m_SelectionRect.at( 0 );
             line -> setPoints( m_StartPosition.x(), m_StartPosition.y(), m_pMouseEvent->x(), m_StartPosition.y() );
 
             line = m_SelectionRect.at( 1 );

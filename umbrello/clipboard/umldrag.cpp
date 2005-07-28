@@ -13,6 +13,10 @@
  ***************************************************************************/
 #include <kdebug.h>
 #include <qdom.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QTextStream>
+#include <Q3CString>
 
 #include "umldrag.h"
 #include "idchangelog.h"
@@ -29,21 +33,21 @@
 #define nfmt 4
 class UMLDragPrivate {
 public:
-    QCString fmt[nfmt];
-    QCString subtype;
+    Q3CString fmt[nfmt];
+    Q3CString subtype;
     QByteArray enc[nfmt];
 
     UMLDragPrivate() {
         setSubType("clip1", 0);
     }
 
-    void setType(const QCString& st, int index) {
+    void setType(const Q3CString& st, int index) {
         if (index < nfmt) {
             fmt[index] = st.lower();
         }
     }
 
-    void setSubType(const QCString& st, int index) {
+    void setSubType(const Q3CString& st, int index) {
         if (index < nfmt) {
             subtype = st.lower();
             fmt[index] = "application/x-uml-";
@@ -60,19 +64,19 @@ public:
 };
 
 UMLDrag::UMLDrag(UMLObjectList& objects, UMLListViewItemList& umlListViewItems,
-                 QWidget* dragSource /*= 0*/, const char* name /*= 0*/ ): QDragObject(dragSource, name) {
+                 QWidget* dragSource /*= 0*/, const char* name /*= 0*/ ): Q3DragObject(dragSource, name) {
     data = new UMLDragPrivate;
     setUMLDataClip1(objects, umlListViewItems);
 }
 
 UMLDrag::UMLDrag(UMLObjectList& objects, UMLListViewItemList& umlListViewItems, UMLViewList& diagrams,
-                 QWidget* dragSource /*= 0*/, const char* name /*= 0*/ ): QDragObject(dragSource, name) {
+                 QWidget* dragSource /*= 0*/, const char* name /*= 0*/ ): Q3DragObject(dragSource, name) {
     data = new UMLDragPrivate;
     setUMLDataClip2(objects, umlListViewItems, diagrams);
 }
 
 UMLDrag::UMLDrag(UMLListViewItemList& umlListViewItems, QWidget* dragSource /*= 0*/,
-                 const char* name /*= 0*/ ): QDragObject(dragSource, name) {
+                 const char* name /*= 0*/ ): Q3DragObject(dragSource, name) {
     data = new UMLDragPrivate;
     setUMLDataClip3(umlListViewItems);
 }
@@ -80,7 +84,7 @@ UMLDrag::UMLDrag(UMLListViewItemList& umlListViewItems, QWidget* dragSource /*= 
 UMLDrag::UMLDrag(UMLObjectList& objects, UMLListViewItemList& umlListViewItems,
                  UMLWidgetList& widgets, AssociationWidgetList& associationDatas,
                  QPixmap& pngImage, Uml::Diagram_Type dType, QWidget * dragSource /*= 0*/,
-                 const char * name /*= 0*/ ): QDragObject(dragSource, name) {
+                 const char * name /*= 0*/ ): Q3DragObject(dragSource, name) {
     data = new UMLDragPrivate;
     setUMLDataClip4(objects, umlListViewItems, widgets, associationDatas, pngImage, dType);
 }
@@ -91,7 +95,7 @@ UMLDrag::UMLDrag(UMLObjectList& objects, UMLListViewItemList& umlListViewItems, 
     setUMLDataClip5(objects, umlListViewItems);
 }
 
-UMLDrag::UMLDrag(QWidget* dragSource /*= 0*/, const char * name /*= 0*/ ): QDragObject(dragSource, name) {
+UMLDrag::UMLDrag(QWidget* dragSource /*= 0*/, const char * name /*= 0*/ ): Q3DragObject(dragSource, name) {
     data = new UMLDragPrivate;
 }
 
@@ -99,7 +103,7 @@ UMLDrag::~UMLDrag() {
     delete data;
 }
 
-void UMLDrag::setSubType(const QCString& string, int index) {
+void UMLDrag::setSubType(const Q3CString& string, int index) {
     data->setSubType(string, index);
 }
 
@@ -263,7 +267,7 @@ void UMLDrag::setUMLDataClip4(UMLObjectList& objects, UMLListViewItemList& umlLi
     long l_size = (pngImage.convertToImage()).numBytes();
     QByteArray clipdata;
     clipdata.resize(l_size);
-    QDataStream clipstream(clipdata, IO_WriteOnly);
+    QDataStream clipstream( &clipdata,QIODevice::WriteOnly);
     clipstream << pngImage;
     setEncodedData(clipdata, 1);
 }
@@ -542,7 +546,7 @@ bool UMLDrag::getClip3TypeAndID(const QMimeSource* mimeSource,
     if ( !payload.size() ) {
         return false;
     }
-    QTextStream clipdata(payload, IO_ReadOnly);
+    QTextStream clipdata(payload, QIODevice::ReadOnly);
     QString xmiClip = QString::fromUtf8(payload);
 
     QString error;
@@ -600,7 +604,7 @@ bool UMLDrag::decodeClip3(const QMimeSource* mimeSource,
     if ( !payload.size() ) {
         return false;
     }
-    QTextStream clipdata(payload, IO_ReadOnly);
+    QTextStream clipdata(payload, QIODevice::ReadOnly);
     QString xmiClip = QString::fromUtf8(payload);
 
     QString error;

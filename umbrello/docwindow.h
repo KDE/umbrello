@@ -18,8 +18,8 @@
 #include <qwidget.h>
 
 class AssociationWidget;
-class QGroupBox;
-class QMultiLineEdit;
+class Q3GroupBox;
+class Q3MultiLineEdit;
 class UMLObject;
 class UMLDoc;
 class UMLView;
@@ -147,8 +147,8 @@ private:
     Showing_Type m_Showing;
 
     //visual widgets
-    QMultiLineEdit	* m_pDocMLE;
-    QGroupBox	* m_pDocGB;
+    Q3MultiLineEdit	* m_pDocMLE;
+    Q3GroupBox	* m_pDocGB;
 
 };
 

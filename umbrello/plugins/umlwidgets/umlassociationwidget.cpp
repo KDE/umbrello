@@ -18,11 +18,13 @@
 #include "../../association.h"
 
 
-#include <qwmatrix.h>
+#include <qmatrix.h>
 #include <qpainter.h>
 #include <qbrush.h>
 #include <qcolor.h>
-#include <qpointarray.h>
+#include <q3pointarray.h>
+//Added by qt3to4:
+#include <Q3PopupMenu>
 
 #include <math.h>
 
@@ -42,12 +44,12 @@ public:
 	void move( const QPoint &);
 	void update( );
 	void adjustPosition( );
-	void setPoints( const QPointArray &a );
+	void setPoints( const Q3PointArray &a );
 private:
-	QPointArray m_points;
+	Q3PointArray m_points;
 	PathSegment *m_segment;
 	Side m_side;
-	QCanvasPolygon *m_shape;
+	Q3CanvasPolygon *m_shape;
 
 };
 
@@ -81,7 +83,7 @@ void UMLAssociationWidget::moveBy( int dx, int dy)
 	m_tail->adjustPosition( );
 }
 
-void UMLAssociationWidget::setPathPoints( const QPointArray &a )
+void UMLAssociationWidget::setPathPoints( const Q3PointArray &a )
 {
 	AssociationWidget::setPathPoints( a );
 	createHead();
@@ -103,7 +105,7 @@ void UMLAssociationWidget::widgetMoved( )
 }
 
 
-void UMLAssociationWidget::fillContextMenu(QPopupMenu &menu)
+void UMLAssociationWidget::fillContextMenu(Q3PopupMenu &menu)
 {
 	AssociationWidget::fillContextMenu(menu);
 }
@@ -121,7 +123,7 @@ void UMLAssociationWidget::createHead( )
 	if(m_head)
 		delete m_head;
 	m_head = new AssociationEnd( m_segments.first(), AssociationEnd::Start );
-	QPointArray a;
+	Q3PointArray a;
 	switch( m_association->getAssocType() )
 	{
 		case Uml::at_Generalization:
@@ -142,7 +144,7 @@ void UMLAssociationWidget::createTail( )
 	if(m_tail)
 		delete m_tail;
 	m_tail = new AssociationEnd( m_segments.last(), AssociationEnd::End );
-	QPointArray a;
+	Q3PointArray a;
 	switch( m_association->getAssocType() )
 	{
 		case Uml::at_Generalization:
@@ -192,7 +194,7 @@ void UMLAssociationWidget::drawShape(QPainter &p )
 AssociationEnd::AssociationEnd( PathSegment *segment, Side side ):
                 m_segment(segment), m_side(side)
 {
-	m_shape = new QCanvasPolygon( m_segment->canvas() );
+	m_shape = new Q3CanvasPolygon( m_segment->canvas() );
 	m_shape->setBrush(QBrush(QColor(Qt::blue)));
 	kdDebug()<<"segment's z = "<<m_segment->z()<<endl;
 	m_shape->setZ( 1000 ); //FIXME
@@ -208,7 +210,7 @@ AssociationEnd::~AssociationEnd()
 void AssociationEnd::adjustPosition( )
 {
 	QPoint p;
-	QWMatrix m;
+	QMatrix m;
 	if( m_side == Start )
 	{
 		p = m_segment->startPoint();
@@ -237,7 +239,7 @@ void AssociationEnd::adjustPosition( )
 	m_segment->canvas()->update();
 }
 
-void AssociationEnd::setPoints( const QPointArray &a )
+void AssociationEnd::setPoints( const Q3PointArray &a )
 {
 	m_points = a;
 	adjustPosition( );

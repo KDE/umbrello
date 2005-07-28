@@ -17,9 +17,9 @@
 #define ASSOCPAGE_H
 
 #include <qwidget.h>
-#include <qgroupbox.h>
-#include <qlistbox.h>
-#include <qptrlist.h>
+#include <q3groupbox.h>
+#include <q3listbox.h>
+#include <q3ptrlist.h>
 
 #include "../umlobject.h"
 #include "../umlview.h"
@@ -60,8 +60,8 @@ public:
 private:
     UMLObject * m_pObject;
     UMLView * m_pView;
-    QListBox * m_pAssocLB;
-    QGroupBox * m_pAssocGB;
+    Q3ListBox * m_pAssocLB;
+    Q3GroupBox * m_pAssocGB;
     AssociationWidgetList m_List;
     ListPopupMenu * m_pMenu;
 
@@ -70,9 +70,9 @@ private:
      */
     void fillListBox();
 public slots:
-    void slotDoubleClick(QListBoxItem * i);
-    void slotRightButtonClicked(QListBoxItem */* item*/, const QPoint &/* p*/);
-    void slotRightButtonPressed(QListBoxItem * item, const QPoint & p);
+    void slotDoubleClick(Q3ListBoxItem * i);
+    void slotRightButtonClicked(Q3ListBoxItem */* item*/, const QPoint &/* p*/);
+    void slotRightButtonPressed(Q3ListBoxItem * item, const QPoint & p);
     void slotPopupMenuSel(int id);
 };
 

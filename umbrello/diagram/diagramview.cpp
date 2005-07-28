@@ -25,9 +25,18 @@
 
 
 #include <qpoint.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qcursor.h>
 #include <qpainter.h>
+//Added by qt3to4:
+#include <QContextMenuEvent>
+#include <QMouseEvent>
+#include <QDragEnterEvent>
+#include <QHideEvent>
+#include <QShowEvent>
+#include <QFocusEvent>
+#include <QKeyEvent>
+#include <QDropEvent>
 
 #include <kdebug.h>
 
@@ -35,14 +44,14 @@
 
 namespace Umbrello{
 
-DiagramView::DiagramView( Diagram *diagram, QWidget *parent, const char *name, WFlags f) :
-             QCanvasView( diagram, parent, name, f ),m_tool(0L)
+DiagramView::DiagramView( Diagram *diagram, QWidget *parent, const char *name, Qt::WFlags f) :
+             Q3CanvasView( diagram, parent, name, f ),m_tool(0L)
 {
 	if( parent )
-		m_toolBar = new ToolBar( UMLApp::app(), this, QMainWindow::DockTop );
+		m_toolBar = new ToolBar( UMLApp::app(), this, Q3MainWindow::DockTop );
 	else
 		m_toolBar = new ToolBar( UMLApp::app(), this );
-	m_contextMenu = new QPopupMenu( this, "diagram context menu");
+	m_contextMenu = new Q3PopupMenu( this, "diagram context menu");
 	m_toolBar->showTools( "selecttool" );
 	m_toolBar->showTools( "pathtool" );
 	m_toolBar->showTools( "classtool" );
@@ -185,19 +194,19 @@ void DiagramView::keyReleaseEvent( QKeyEvent *e )
 
 void DiagramView::focusInEvent(QFocusEvent *e)
 {
-	QCanvasView::focusInEvent(e);
+	Q3CanvasView::focusInEvent(e);
 }
 
 void DiagramView::hideEvent(QHideEvent *e)
 {
 	m_toolBar->hide();
-	QCanvasView::hideEvent(e);
+	Q3CanvasView::hideEvent(e);
 }
 
 void DiagramView::showEvent(QShowEvent *e)
 {
 	m_toolBar->show();
-	QCanvasView::showEvent(e);
+	Q3CanvasView::showEvent(e);
 }
 
 }

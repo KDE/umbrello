@@ -1,3 +1,5 @@
+//Added by qt3to4:
+#include <Q3PtrList>
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -14,7 +16,7 @@
 // forward declaration
 class UMLEnumLiteral;
 
-typedef QPtrList<UMLEnumLiteral> UMLEnumLiteralList;
-typedef QPtrListIterator<UMLEnumLiteral> UMLEnumLiteralListIt;
+typedef Q3PtrList<UMLEnumLiteral> UMLEnumLiteralList;
+typedef Q3PtrListIterator<UMLEnumLiteral> UMLEnumLiteralListIt;
 
 #endif

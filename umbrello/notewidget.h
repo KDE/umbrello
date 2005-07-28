@@ -17,12 +17,14 @@
 
 //app includes
 #include "umlwidget.h"
+//Added by qt3to4:
+#include <QMouseEvent>
 
 // forward declarations
 
 // Qt forward declarations
 class QPainter;
-class QTextEdit;
+class Q3TextEdit;
 
 /**
  * Displays a note box to allow multiple lines of text to be displayed.
@@ -157,7 +159,7 @@ private:
 
     void setEditorGeometry(int dx = 0, int dy = 0);
 #if defined (NOTEWIDGET_EMBED_EDITOR)
-    QTextEdit *m_pEditor;
+    Q3TextEdit *m_pEditor;
 #else
     QString m_Text;
 #endif

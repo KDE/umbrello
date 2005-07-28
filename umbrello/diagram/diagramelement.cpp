@@ -16,7 +16,7 @@
 #include <kiconloader.h>
 #include <klocale.h>
 #include <qpoint.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qpainter.h>
 #include <qrect.h>
 
@@ -28,7 +28,7 @@
 namespace Umbrello{
 
 DiagramElement::DiagramElement( Diagram *diagram, int id):
-        QCanvasPolygonalItem(diagram),m_id(id), m_useOwnPen(false), m_useOwnBrush(false)
+        Q3CanvasPolygonalItem(diagram),m_id(id), m_useOwnPen(false), m_useOwnBrush(false)
 {
 	diagram->registerElement( this );
 	setZ(100);  // default depth
@@ -53,7 +53,7 @@ int DiagramElement::getID() const
 
 void DiagramElement::moveAbs( int x, int y )
 {
-	QCanvasItem::move(x,y);
+	Q3CanvasItem::move(x,y);
 	canvas()->update();
 	emit moved();
 }
@@ -65,7 +65,7 @@ void DiagramElement::moveAbs( const QPoint &point )
 
 void DiagramElement::moveBy( int dx, int dy)
 {
-	QCanvasPolygonalItem::moveBy(dx,dy);
+	Q3CanvasPolygonalItem::moveBy(dx,dy);
 	canvas()->update();
 	emit moved();
 }
@@ -200,9 +200,9 @@ void DiagramElement::moveHotSpotBy( int /* h */, int dx, int dy )
 }
 
 
-void DiagramElement::fillContextMenu(QPopupMenu &menu)
+void DiagramElement::fillContextMenu(Q3PopupMenu &menu)
 {
-	QPopupMenu *submenu = new QPopupMenu( &menu, "diagramelement submenu");
+	Q3PopupMenu *submenu = new Q3PopupMenu( &menu, "diagramelement submenu");
 	submenu->insertItem(SmallIcon("foreground"),i18n("To Foreground"),this,SLOT(moveToForeground()));
 	submenu->insertItem(SmallIcon("raise"),i18n("Raise"),this,SLOT(raise()));
 	submenu->insertItem(SmallIcon("lower"),i18n("Lower"),this,SLOT(lower()));
@@ -216,14 +216,14 @@ void DiagramElement::fillContextMenu(QPopupMenu &menu)
 
 void DiagramElement::moveToForeground()
 {
-	QCanvasItemList l = collisions(false);
+	Q3CanvasItemList l = collisions(false);
 	if(l.empty())
 		return; // nothing to do
 
 	double maxZ = z();
 
-	QCanvasItemList::iterator it;
-        QCanvasItemList::iterator end(l.end());
+	Q3CanvasItemList::iterator it;
+        Q3CanvasItemList::iterator end(l.end());
 
         for(it = l.begin(); it != end; ++it )
 	{
@@ -248,13 +248,13 @@ void DiagramElement::moveToForeground()
 
 void DiagramElement::moveToBackground()
 {
-	QCanvasItemList l = collisions(false);
+	Q3CanvasItemList l = collisions(false);
 	if(l.empty()) return; // nothing to do
 
 	double minZ = z();
 
-	QCanvasItemList::iterator it;
-        QCanvasItemList::iterator end(l.end());
+	Q3CanvasItemList::iterator it;
+        Q3CanvasItemList::iterator end(l.end());
 
         for(it = l.begin(); it != end; ++it )
 	{
@@ -278,14 +278,14 @@ void DiagramElement::moveToBackground()
 
 void DiagramElement::raise()
 {
-	QCanvasItemList l = collisions(false);
+	Q3CanvasItemList l = collisions(false);
 	if(l.empty()) return; // nothing to do
 
 	double next = z();
 
 
-        QCanvasItemList::iterator it;
-        QCanvasItemList::iterator end(l.end());
+        Q3CanvasItemList::iterator it;
+        Q3CanvasItemList::iterator end(l.end());
 
 	for( it = l.begin() ; it != end ; ++it )
 	{
@@ -311,13 +311,13 @@ void DiagramElement::raise()
 
 void DiagramElement::lower()
 {
-	QCanvasItemList l = collisions(false);
+	Q3CanvasItemList l = collisions(false);
 	if(l.empty()) return; // nothing to do
 
 	double prev = z();
 
-        QCanvasItemList::iterator it;
-        QCanvasItemList::iterator end(l.end());
+        Q3CanvasItemList::iterator it;
+        Q3CanvasItemList::iterator end(l.end());
 
 	for( it = l.begin() ; it != end ; ++it )
 	{
@@ -346,7 +346,7 @@ void DiagramElement::setSelected(bool sel)
 {
 	if( isSelected() != sel )
 	{
-		QCanvasPolygonalItem::setSelected(sel);
+		Q3CanvasPolygonalItem::setSelected(sel);
 		update();
 		canvas()->update();
 		emit selected(sel);

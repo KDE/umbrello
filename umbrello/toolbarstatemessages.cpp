@@ -16,8 +16,10 @@
 
 // system includes
 #include <qevent.h>
-#include <qcanvas.h>
-#include <qwmatrix.h> // need for inverseWorldMatrix.map
+#include <q3canvas.h>
+#include <qmatrix.h> // need for inverseWorldMatrix.map
+//Added by qt3to4:
+#include <QMouseEvent>
 #include <kdebug.h>
 
 // local includes
@@ -92,7 +94,7 @@ void ToolBarStateMessages::mouseRelease(QMouseEvent* ome)
 
             m_pUMLView->viewport()->setMouseTracking( true );
 
-            m_pLine = new QCanvasLine( m_pUMLView->canvas() );
+            m_pLine = new Q3CanvasLine( m_pUMLView->canvas() );
             m_pLine->setPoints( m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y() );
             m_pLine->setPen( QPen( m_pUMLView->getLineColor(), m_pUMLView->getLineWidth(), m_pUMLView->DashLine ) );
             m_pLine->setVisible( true );

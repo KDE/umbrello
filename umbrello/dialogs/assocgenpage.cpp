@@ -17,6 +17,11 @@
 
 // qt includes
 #include <qlayout.h>
+//Added by qt3to4:
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QGridLayout>
 
 // kde includes
 #include <klocale.h>
@@ -52,8 +57,8 @@ void AssocGenPage::constructWidget() {
     topLayout -> setSpacing(6);
 
     // group boxes for name, documentation properties
-    QGroupBox *nameGB = new QGroupBox(this);
-    QGroupBox *docGB = new QGroupBox(this);
+    Q3GroupBox *nameGB = new Q3GroupBox(this);
+    Q3GroupBox *docGB = new Q3GroupBox(this);
     nameGB -> setTitle(i18n("Properties"));
     docGB -> setTitle(i18n("Documentation"));
     topLayout -> addWidget(nameGB);
@@ -74,7 +79,7 @@ void AssocGenPage::constructWidget() {
     QHBoxLayout * docLayout = new QHBoxLayout(docGB);
     docLayout -> setMargin(margin);
 
-    m_pDoc = new QMultiLineEdit(docGB);
+    m_pDoc = new Q3MultiLineEdit(docGB);
     docLayout -> addWidget(m_pDoc);
     m_pDoc-> setText(m_pAssociationWidget-> getDoc());
 
@@ -85,7 +90,7 @@ void AssocGenPage::constructWidget() {
                                     m_pTypeLE, UMLAssociation::typeAsString(m_pAssociationWidget->getAssocType()) );
     m_pTypeLE->setEnabled(false);
 
-    m_pDoc->setWordWrap(QMultiLineEdit::WidgetWidth);
+    m_pDoc->setWordWrap(Q3MultiLineEdit::WidgetWidth);
 
 }
 

@@ -30,8 +30,8 @@
 
 //qt include
 #include <qlineedit.h>
-#include <qlistview.h>
-#include <qbuttongroup.h>
+#include <q3listview.h>
+#include <q3buttongroup.h>
 
 CodeGenerationOptionsPage::CodeGenerationOptionsPage( CodeGenerator * gen,
         QString activeLanguage,

@@ -16,10 +16,12 @@
 #include <qpainter.h>
 #include <qpoint.h>
 #include <qrect.h>
+//Added by qt3to4:
+#include <Q3PointArray>
 
 namespace Umbrello{
 
-PathSegment::PathSegment( Path *path ) : QCanvasLine( path->diagram() ), m_path(path)
+PathSegment::PathSegment( Path *path ) : Q3CanvasLine( path->diagram() ), m_path(path)
 {
 }
 
@@ -37,7 +39,7 @@ void PathSegment::moveBy( double dx, double dy)
 
 void PathSegment::drawShape(QPainter &p )
 {
-	QCanvasLine::drawShape(p);
+	Q3CanvasLine::drawShape(p);
 /*	QPen  pen(p.pen());
 	QBrush brush(p.brush());
  	if(m_path->isSelected())
@@ -54,10 +56,10 @@ void PathSegment::drawShape(QPainter &p )
 	p.setBrush(brush);*/
 }
 
-QPointArray PathSegment::areaPoints() const
+Q3PointArray PathSegment::areaPoints() const
 {
 //code from QCanvasLine::areaPoints() - (c) Trolltech
-    QPointArray p(4);
+    Q3PointArray p(4);
     int xi = int(x());
     int yi = int(y());
     ////////// make the area thicker - the size of the hotspots

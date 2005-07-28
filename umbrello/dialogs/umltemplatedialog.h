@@ -16,11 +16,13 @@
 #define UMLTEMPLATEDIALOG_H
 
 #include <kdialogbase.h>
+//Added by qt3to4:
+#include <QLabel>
 
-class QButtonGroup;
+class Q3ButtonGroup;
 class QCheckBox;
 class QComboBox;
-class QGroupBox;
+class Q3GroupBox;
 class QLineEdit;
 class QRadioButton;
 class UMLTemplate;
@@ -56,8 +58,8 @@ protected:
     UMLTemplate* m_pTemplate;
 
     //GUI Widgets
-    QGroupBox* m_pTemplateGB;
-    QGroupBox* m_pValuesGB;
+    Q3GroupBox* m_pTemplateGB;
+    Q3GroupBox* m_pValuesGB;
     QLabel *m_pTypeL, *m_pNameL, *m_pStereoTypeL;
     QComboBox* m_pTypeCB;
     QLineEdit *m_pNameLE, *m_pStereoTypeLE;

@@ -17,8 +17,10 @@
 #include <qpen.h>
 #include <qbrush.h>
 #include <qpoint.h>
-#include <qpointarray.h>
-#include <qpopupmenu.h>
+#include <q3pointarray.h>
+#include <q3popupmenu.h>
+//Added by qt3to4:
+#include <Q3PtrList>
 #include <klocale.h>
 #include <kdebug.h>
 
@@ -38,7 +40,7 @@ Path::~Path()
 	canvas()->update();
 }
 
-void Path::setPathPoints( const QPointArray &a )
+void Path::setPathPoints( const Q3PointArray &a )
 {
 	int count = a.size();
 	if( count < 2 )
@@ -64,7 +66,7 @@ void Path::setVisible(bool v)
 	{
 		segment->setVisible(v);
 	}
-	QCanvasPolygonalItem::setVisible(v);
+	Q3CanvasPolygonalItem::setVisible(v);
 }
 
 void Path::moveAbs( int x, int y )
@@ -135,9 +137,9 @@ void Path::moveHotSpotBy( int h, int dx, int dy )
 	diagram()->update();
 }
 
-void Path::fillContextMenu(QPopupMenu &menu)
+void Path::fillContextMenu(Q3PopupMenu &menu)
 {
-	QPopupMenu *pathMenu = new QPopupMenu(&menu, "path popup");
+	Q3PopupMenu *pathMenu = new Q3PopupMenu(&menu, "path popup");
 	pathMenu->setCheckable(true);
 	pathMenu->insertItem(i18n("Direct Lines"),this,SLOT(setDirectStyle()),0,Direct);
 	pathMenu->insertItem(i18n("Orthogonal Lines"),this,SLOT(setOrthogonalStyle()),0,Orthogonal);
@@ -166,7 +168,7 @@ void Path::toggleHotSpot( const QPoint &p )
 			kdDebug()<<"Request to move HS "<<hs<<" ignored - cannot move first/last hs"<<endl;
 			return;
 		}
-		QPointArray a(m_segments.count());
+		Q3PointArray a(m_segments.count());
 		a[0] = m_segments.first()->startPoint();
 		int i;
 		PathSegment *segment;
@@ -184,7 +186,7 @@ void Path::toggleHotSpot( const QPoint &p )
 	else //insert HotSpot
 	{
 		PathSegment *tobreak;
-		QCanvasRectangle *test = new QCanvasRectangle( p.x()-3, p.y()-3, 3, 3, diagram() );
+		Q3CanvasRectangle *test = new Q3CanvasRectangle( p.x()-3, p.y()-3, 3, 3, diagram() );
 		for( tobreak = m_segments.first(); tobreak; tobreak = m_segments.next() )
 		{
 			if( tobreak->collidesWith( test ) )
@@ -196,7 +198,7 @@ void Path::toggleHotSpot( const QPoint &p )
 			kdDebug()<<"Request to create hotspot at ( "<<p.x()<<","<<p.y()<<") ignored - not on path"<<endl;
 			return;
 		}
-		QPointArray a(m_segments.count() + 1 + 1);
+		Q3PointArray a(m_segments.count() + 1 + 1);
 		kdDebug()<<"a( "<<m_segments.count() + 1 + 1<<" )"<<endl;
 		a[0] = m_segments.first()->startPoint();
 		int i;
@@ -253,15 +255,15 @@ void Path::drawHotSpots(QPainter &p)
 
 
 
-QPointArray Path::areaPoints() const
+Q3PointArray Path::areaPoints() const
 {//FIXME - is this ok? optimize?
-	QPtrList<PathSegment> &list = const_cast<QPtrList<PathSegment>& >(m_segments);
+	Q3PtrList<PathSegment> &list = const_cast<Q3PtrList<PathSegment>& >(m_segments);
 	QRect r;
 	for( PathSegment *segment = list.first(); segment; segment = list.next() )
 	{
 		r |= segment->areaPoints().boundingRect();
 	}
-	return QPointArray(r);
+	return Q3PointArray(r);
 }
 
 void Path::drawShape(QPainter &p)

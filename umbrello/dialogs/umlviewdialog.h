@@ -20,6 +20,8 @@
 #include "classoptionspage.h"
 #include "umlwidgetcolorpage.h"
 #include "../optionstate.h"
+//Added by qt3to4:
+#include <QLabel>
 
 /**
  * @author Paul Hensgen
@@ -31,8 +33,8 @@ class ClassWidget;
 class QCheckBox;
 class QLabel;
 class QLineEdit;
-class QGroupBox;
-class QTextEdit;
+class Q3GroupBox;
+class Q3TextEdit;
 class QSpinBox;
 class KFontChooser;
 class DiagramPropertiesPage;
@@ -109,9 +111,9 @@ protected:
     //GUI widgets
     QLabel * m_pNameL, * m_pSpinXL, * m_pSpinYL;
     QLineEdit * m_pNameLE;
-    QGroupBox * m_pDocGB, * m_pValuesGB;
+    Q3GroupBox * m_pDocGB, * m_pValuesGB;
     QCheckBox * m_pSnapToGridCB, * m_pShowSnapCB;
-    QTextEdit * m_pDocTE;
+    Q3TextEdit * m_pDocTE;
     QSpinBox * m_pSnapXSB, * m_pSnapYSB;
     QSpinBox * m_pLineWidthSB;
 public slots:

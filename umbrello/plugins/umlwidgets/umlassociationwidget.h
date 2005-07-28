@@ -16,7 +16,10 @@
 #define UMBRELLO_UMLASSOCIATIONWIDGET_H
 
 #include "../../diagram/associationwidget.h"
-#include <qcanvas.h>
+#include <q3canvas.h>
+//Added by qt3to4:
+#include <Q3PointArray>
+#include <Q3PopupMenu>
 
 
 namespace Umbrello{
@@ -44,9 +47,9 @@ public:
 	/** Populate a context menu with items / actions for this element
 	*  @param menu The popup menu to insert the actions in
 	*/
-	virtual void fillContextMenu(QPopupMenu &menu);
+	virtual void fillContextMenu(Q3PopupMenu &menu);
 	virtual void moveHotSpotBy( int h, int dx, int dy );
-	virtual void setPathPoints( const QPointArray &a );
+	virtual void setPathPoints( const Q3PointArray &a );
 public slots:
 	virtual void widgetMoved( );
 	virtual void umlObjectModified( );

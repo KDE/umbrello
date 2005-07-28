@@ -11,7 +11,7 @@
 #define GENERATORINFO_H
 
 #include <qstring.h>
-#include <qdict.h>
+#include <q3dict.h>
 
 /**
  * This is really a leftover from the time when the code generators
@@ -28,7 +28,7 @@ public:
 /**
  * Type for the dictionary of available languages and their generator names.
  */
-typedef QDict<GeneratorInfo> GeneratorDict;
-typedef QDictIterator<GeneratorInfo> GeneratorDictIt;
+typedef Q3Dict<GeneratorInfo> GeneratorDict;
+typedef Q3DictIterator<GeneratorInfo> GeneratorDictIt;
 
 #endif

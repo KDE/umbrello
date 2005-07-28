@@ -22,7 +22,9 @@
 #include "../dialogs/umlattributedialog.h"
 
 #include <qpoint.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
+//Added by qt3to4:
+#include <QDropEvent>
 
 #include <typeinfo>
 #include <kstandarddirs.h>
@@ -53,11 +55,11 @@ RefactoringAssistant::RefactoringAssistant( UMLDoc *doc, UMLClassifier *obj, QWi
 
     addColumn("Name ");
 
-    m_menu = new QPopupMenu(this);
+    m_menu = new Q3PopupMenu(this);
 
-    connect(this,SIGNAL(doubleClicked(QListViewItem*)),this,SLOT(itemExecuted(QListViewItem*)));
-    connect(this,SIGNAL(contextMenu(KListView*, QListViewItem*, const QPoint&)),
-            this,SLOT(showContextMenu(KListView*,QListViewItem*,const QPoint&)));
+    connect(this,SIGNAL(doubleClicked(Q3ListViewItem*)),this,SLOT(itemExecuted(Q3ListViewItem*)));
+    connect(this,SIGNAL(contextMenu(KListView*, Q3ListViewItem*, const QPoint&)),
+            this,SLOT(showContextMenu(KListView*,Q3ListViewItem*,const QPoint&)));
 
     resize(300,400);
 
@@ -81,16 +83,16 @@ void RefactoringAssistant::refactor( UMLClassifier *obj )
     }
 
     addClassifier( obj, 0, true, true, true );
-    QListViewItem *item = firstChild();
+    Q3ListViewItem *item = firstChild();
     item->setOpen(true);
     for( item = item->firstChild(); item ; item = item->nextSibling() )
         item->setOpen(true);
 }
 
 
-UMLObject* RefactoringAssistant::findUMLObject( const QListViewItem *item )
+UMLObject* RefactoringAssistant::findUMLObject( const Q3ListViewItem *item )
 {
-    QListViewItem *i = const_cast<QListViewItem*>(item);
+    Q3ListViewItem *i = const_cast<Q3ListViewItem*>(item);
     if( m_umlObjectMap.find(i) == m_umlObjectMap.end() )
     {
         kdWarning()<<"RefactoringAssistant::findUMLObject( QListViewItem *item )"
@@ -101,7 +103,7 @@ UMLObject* RefactoringAssistant::findUMLObject( const QListViewItem *item )
 
 }
 
-QListViewItem* RefactoringAssistant::findListViewItem( const UMLObject *obj )
+Q3ListViewItem* RefactoringAssistant::findListViewItem( const UMLObject *obj )
 {
     UMLObjectMap::iterator end(m_umlObjectMap.end());
     for( UMLObjectMap::iterator it(m_umlObjectMap.begin()) ; it != end ; ++it )
@@ -114,13 +116,13 @@ QListViewItem* RefactoringAssistant::findListViewItem( const UMLObject *obj )
 }
 
 
-void RefactoringAssistant::itemExecuted( QListViewItem *item )
+void RefactoringAssistant::itemExecuted( Q3ListViewItem *item )
 {
     UMLObject *o = findUMLObject( item );
     if(o) editProperties( );
 }
 
-void RefactoringAssistant::setVisibilityIcon( QListViewItem *item , const UMLObject *obj )
+void RefactoringAssistant::setVisibilityIcon( Q3ListViewItem *item , const UMLObject *obj )
 {
     switch(obj->getScope())
     {
@@ -140,7 +142,7 @@ void RefactoringAssistant::umlObjectModified( const UMLObject *obj )
 {
     if( !obj )
         obj = dynamic_cast<const UMLObject*>(sender());
-    QListViewItem *item = findListViewItem( obj );
+    Q3ListViewItem *item = findListViewItem( obj );
     if( !item )
         return;
     item->setText( 0, obj->getName() );
@@ -160,12 +162,12 @@ void RefactoringAssistant::operationAdded( UMLOperation *op )
         <<" - Parent of operation is not a classifier!"<<endl;
         return;
     }
-    QListViewItem *item = findListViewItem( c );
+    Q3ListViewItem *item = findListViewItem( c );
     if( !item )
     {
         return;
     }
-    for( QListViewItem *folder = item->firstChild(); folder; folder = folder->nextSibling() )
+    for( Q3ListViewItem *folder = item->firstChild(); folder; folder = folder->nextSibling() )
     {
         if( folder->text(1) == "operations" )
         {
@@ -180,7 +182,7 @@ void RefactoringAssistant::operationAdded( UMLOperation *op )
 
 void RefactoringAssistant::operationRemoved( UMLOperation *op )
 {
-    QListViewItem *item = findListViewItem( op );
+    Q3ListViewItem *item = findListViewItem( op );
     if( !item )
     {
         return;
@@ -200,12 +202,12 @@ void RefactoringAssistant::attributeAdded( UMLAttribute *att )
         <<" - Parent is not a class!"<<endl;
         return;
     }
-    QListViewItem *item = findListViewItem( c );
+    Q3ListViewItem *item = findListViewItem( c );
     if( !item )
     {
         return;
     }
-    for( QListViewItem *folder = item->firstChild(); folder; folder = folder->nextSibling() )
+    for( Q3ListViewItem *folder = item->firstChild(); folder; folder = folder->nextSibling() )
     {
         if( folder->text(1) == "attributes" )
         {
@@ -220,7 +222,7 @@ void RefactoringAssistant::attributeAdded( UMLAttribute *att )
 
 void RefactoringAssistant::attributeRemoved( UMLAttribute *att )
 {
-    QListViewItem *item = findListViewItem( att );
+    Q3ListViewItem *item = findListViewItem( att );
     if( !item )
     {
         return;
@@ -232,7 +234,7 @@ void RefactoringAssistant::attributeRemoved( UMLAttribute *att )
 
 void RefactoringAssistant::editProperties( )
 {
-    QListViewItem *item = selectedItem();
+    Q3ListViewItem *item = selectedItem();
     if( item )
     {
         UMLObject *o = findUMLObject( item );
@@ -268,7 +270,7 @@ void RefactoringAssistant::editProperties( UMLObject *obj )
     delete dia;
 }
 
-void RefactoringAssistant::showContextMenu(KListView* ,QListViewItem *item, const QPoint &p)
+void RefactoringAssistant::showContextMenu(KListView* ,Q3ListViewItem *item, const QPoint &p)
 {
     m_menu->clear();
     UMLObject *obj = findUMLObject( item );
@@ -319,7 +321,7 @@ void RefactoringAssistant::showContextMenu(KListView* ,QListViewItem *item, cons
 
 void RefactoringAssistant::addBaseClassifier()
 {
-    QListViewItem *item = selectedItem();
+    Q3ListViewItem *item = selectedItem();
     if(!item)
     {
         kdWarning()<<"RefactoringAssistant::addBaseClassifier() "
@@ -342,7 +344,7 @@ void RefactoringAssistant::addBaseClassifier()
     m_doc->createUMLAssociation( obj, super, Uml::at_Generalization );
     //////////////////////   Manually add the classifier to the assitant - would be nicer to do it with
     /////////////////////    a signal, like operations and attributes
-    QListViewItem *baseFolder = item->firstChild();
+    Q3ListViewItem *baseFolder = item->firstChild();
     while( baseFolder->text(0) != i18n("Base Classifiers") )
         baseFolder = baseFolder->nextSibling();
     if(!baseFolder)
@@ -360,7 +362,7 @@ void RefactoringAssistant::addBaseClassifier()
 
 void RefactoringAssistant::addDerivedClassifier()
 {
-    QListViewItem *item = selectedItem();
+    Q3ListViewItem *item = selectedItem();
     if(!item)
     {
         kdWarning()<<"RefactoringAssistant::addDerivedClassifier() "
@@ -384,7 +386,7 @@ void RefactoringAssistant::addDerivedClassifier()
 
     //////////////////////   Manually add the classifier to the assitant - would be nicer to do it with
     /////////////////////    a signal, like operations and attributes
-    QListViewItem *derivedFolder = item->firstChild();
+    Q3ListViewItem *derivedFolder = item->firstChild();
     while( derivedFolder->text(0) != i18n("Derived Classifiers") )
         derivedFolder = derivedFolder->nextSibling();
     if(!derivedFolder)
@@ -418,7 +420,7 @@ void RefactoringAssistant::addInterfaceImplementation()
 
 void RefactoringAssistant::createOperation()
 {
-    QListViewItem *item = selectedItem();
+    Q3ListViewItem *item = selectedItem();
     if(!item)
     {
         kdWarning()<<"RefactoringAssistant::createOperation() "
@@ -433,7 +435,7 @@ void RefactoringAssistant::createOperation()
 
 void RefactoringAssistant::createAttribute()
 {
-    QListViewItem *item = selectedItem();
+    Q3ListViewItem *item = selectedItem();
     if(!item)
     {
         kdWarning()<<"RefactoringAssistant::createAttribute() "
@@ -447,9 +449,9 @@ void RefactoringAssistant::createAttribute()
 }
 
 
-void RefactoringAssistant::addClassifier( UMLClassifier *classifier, QListViewItem *parent, bool addSuper, bool addSub, bool recurse)
+void RefactoringAssistant::addClassifier( UMLClassifier *classifier, Q3ListViewItem *parent, bool addSuper, bool addSub, bool recurse)
 {
-    QListViewItem *classifierItem, *item;
+    Q3ListViewItem *classifierItem, *item;
     if( parent )
     {
         classifierItem = parent;
@@ -470,7 +472,7 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, QListViewIt
         connect( classifier, SIGNAL(attributeRemoved(UMLAttribute*)),
                  this,SLOT( attributeRemoved(UMLAttribute*)));
 
-        QListViewItem *attsFolder = new KListViewItem( classifierItem, i18n("Attributes"), "attributes" );
+        Q3ListViewItem *attsFolder = new KListViewItem( classifierItem, i18n("Attributes"), "attributes" );
         attsFolder->setPixmap(0,SmallIcon("folder_green_open"));
         attsFolder->setExpandable( true );
         UMLAttributeList atts = klass->getAttributeList();
@@ -487,7 +489,7 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, QListViewIt
     connect( classifier, SIGNAL(operationRemoved(UMLOperation*)),
              this,SLOT( operationRemoved(UMLOperation*)));
 
-    QListViewItem *opsFolder = new KListViewItem( classifierItem, i18n("Operations"), "operations" );
+    Q3ListViewItem *opsFolder = new KListViewItem( classifierItem, i18n("Operations"), "operations" );
     opsFolder->setPixmap(0,SmallIcon("folder_blue_open"));
     opsFolder->setExpandable( true );
     UMLOperationList ops(classifier->getOpList());
@@ -499,7 +501,7 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, QListViewIt
     //if add parents
     if(addSuper)
     {
-        QListViewItem *superFolder = new KListViewItem( classifierItem, i18n("Base Classifiers") );
+        Q3ListViewItem *superFolder = new KListViewItem( classifierItem, i18n("Base Classifiers") );
         superFolder->setExpandable( true );
         UMLClassifierList super = classifier->findSuperClassConcepts();
         for( UMLClassifier *cl = super.first(); cl ; cl = super.next() )
@@ -518,7 +520,7 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, QListViewIt
     if(addSub)
     {
         //add derived classifiers
-        QListViewItem *derivedFolder = new KListViewItem( classifierItem, i18n("Derived Classifiers") );
+        Q3ListViewItem *derivedFolder = new KListViewItem( classifierItem, i18n("Derived Classifiers") );
         derivedFolder->setExpandable( true );
         UMLClassifierList derived = classifier->findSubClassConcepts();
         for( UMLClassifier *d = derived.first(); d ; d = derived.next() )
@@ -549,7 +551,7 @@ bool RefactoringAssistant::acceptDrag(QDropEvent *event) const
     RefactoringAssistant *me = const_cast<RefactoringAssistant*>(this);
 
     //ok, check if the move is valid
-    QListViewItem *movingItem = 0, *afterme = 0, *parentItem = 0;
+    Q3ListViewItem *movingItem = 0, *afterme = 0, *parentItem = 0;
     me->findDrop(event->pos(), parentItem, afterme);
     for( movingItem = firstChild(); movingItem != 0; movingItem = movingItem->itemBelow() )
     {
@@ -604,12 +606,12 @@ bool RefactoringAssistant::acceptDrag(QDropEvent *event) const
 }
 
 
-void RefactoringAssistant::movableDropEvent (QListViewItem* parentItem, QListViewItem* afterme)
+void RefactoringAssistant::movableDropEvent (Q3ListViewItem* parentItem, Q3ListViewItem* afterme)
 {
     //when dropping on a class, we have to put the item in the appropriate folder!
     UMLObject *movingObject;
     UMLClassifier *newClassifier;
-    QListViewItem *movingItem;
+    Q3ListViewItem *movingItem;
 
     for( movingItem = firstChild(); movingItem != 0; movingItem = movingItem->itemBelow() )
     {

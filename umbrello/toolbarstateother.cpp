@@ -18,6 +18,8 @@
 // qt/kde includes
 #include <qstring.h>
 #include <qevent.h>
+//Added by qt3to4:
+#include <QMouseEvent>
 #include <klocale.h>
 #include <kdebug.h>
 

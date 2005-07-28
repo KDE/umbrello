@@ -15,14 +15,14 @@
 #ifndef WIDGET_UTILS_H
 #define WIDGET_UTILS_H
 
-#include <qiconset.h>
+#include <qicon.h>
 #include <qpoint.h>
 #include "umlnamespace.h"
 #include "umlwidgetlist.h"
 #include "messagewidgetlist.h"
 
 // forward declarations
-class QCanvasRectangle;
+class Q3CanvasRectangle;
 
 /**
  * General purpose widget utilities.
@@ -46,9 +46,9 @@ UMLWidget* findWidget(Uml::IDType id,
 /**
  * Return the icon corresponding to the given Diagram_Type.
  */
-QIconSet iconSet(Uml::Diagram_Type dt);
+QIcon iconSet(Uml::Diagram_Type dt);
 
-QCanvasRectangle *decoratePoint(QPoint p);
+Q3CanvasRectangle *decoratePoint(QPoint p);
 
 }
 

@@ -26,7 +26,7 @@
  */
 
 #include <qstring.h>
-#include <qvaluevector.h>
+#include <q3valuevector.h>
 
 #include "../umlnamespace.h"
 
@@ -108,15 +108,15 @@ private:
     private:
         Uml::IDType m_x, m_y;
     };
-class PointArray : QValueVector<Point> {
+class PointArray : Q3ValueVector<Point> {
     public:
         void  setPoint(uint i, const Uml::IDType &x, const Uml::IDType &y) {
             Point point(x, y);
-            QValueVector<Point>::at(i) = point;
+            Q3ValueVector<Point>::at(i) = point;
         }
-        const Point& point( uint i ) const { return QValueVector<Point>::at(i); }
-        uint   size() const          { return QValueVector<Point>::size(); }
-        bool   resize( uint size )   { QValueVector<Point>::resize(size); return true; }
+        const Point& point( uint i ) const { return Q3ValueVector<Point>::at(i); }
+        uint   size() const          { return Q3ValueVector<Point>::size(); }
+        bool   resize( uint size )   { Q3ValueVector<Point>::resize(size); return true; }
     };
     PointArray m_LogArray;
 

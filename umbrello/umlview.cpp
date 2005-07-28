@@ -11,20 +11,28 @@
 
 // include files for Qt
 #include <qpixmap.h>
-#include <qpicture.h>
+#include <q3picture.h>
 #include <qprinter.h>
 #include <qpainter.h>
 #include <qstring.h>
 #include <qstringlist.h>
-#include <qobjectlist.h>
-#include <qobjectdict.h>
-#include <qdragobject.h>
-#include <qpaintdevicemetrics.h>
+#include <qobject.h>
+#include <q3objectdict.h>
+#include <q3dragobject.h>
+#include <q3paintdevicemetrics.h>
 #include <qfileinfo.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 #include <qcolor.h>
-#include <qwmatrix.h>
+#include <qmatrix.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <QTextStream>
+#include <QHideEvent>
+#include <QCloseEvent>
+#include <QDropEvent>
+#include <QShowEvent>
+#include <QDragEnterEvent>
+#include <QMouseEvent>
 
 //kde include files
 #include <ktempfile.h>
@@ -107,7 +115,7 @@ using namespace Uml;
 
 
 // constructor
-UMLView::UMLView() : QCanvasView(UMLApp::app()->getMainViewWidget(), "AnUMLView") {
+UMLView::UMLView() : Q3CanvasView(UMLApp::app()->getMainViewWidget(), "AnUMLView") {
     init();
     m_pDoc = UMLApp::app()->getDocument();
 }
@@ -226,7 +234,7 @@ int UMLView::generateCollaborationId() {
 void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
     int height, width;
     //get the size of the page
-    QPaintDeviceMetrics metrics(pPrinter);
+    Q3PaintDeviceMetrics metrics(pPrinter);
     QFontMetrics fm = pPainter.fontMetrics(); // use the painter font metrics, not the screen fm!
     int fontHeight  = fm.lineSpacing();
     int marginX = pPrinter->margins().width();
@@ -292,7 +300,7 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
             QColor textColor(50, 50, 50);
             pPainter.setPen(textColor);
             pPainter.drawLine(0, height + 2, width, height + 2);
-            pPainter.drawText(0, height + 4, width, fontHeight, AlignLeft, string);
+            pPainter.drawText(0, height + 4, width, fontHeight, Qt::AlignLeft, string);
 
             if(pageX+1 < numPagesX || pageY+1 < numPagesY) {
                 pPrinter -> newPage();
@@ -994,7 +1002,7 @@ void UMLView::clearSelected() {
 }
 
 void UMLView::moveSelected(UMLWidget * w, int x, int y) {
-    QMouseEvent me(QMouseEvent::MouseMove, QPoint(x,y), LeftButton, ShiftButton);
+    QMouseEvent me(QMouseEvent::MouseMove, QPoint(x,y), Qt::LeftButton, Qt::ShiftModifier);
     UMLWidget * temp = 0;
     //loop through list and move all widgets
     //don't move the widget that started call
@@ -1378,14 +1386,14 @@ void UMLView::fixEPS(const QString &filename, QRect rect) {
     // now open the file and make a correct eps out of it
     QFile epsfile(filename);
     QString fileContent;
-    if (epsfile.open(IO_ReadOnly )) {
+    if (epsfile.open(QIODevice::ReadOnly )) {
         // read
         QTextStream ts(&epsfile);
         fileContent = ts.read();
         epsfile.close();
 
         // write new content to file
-        if (epsfile.open(IO_WriteOnly | IO_Truncate)) {
+        if (epsfile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
             // read information
             QRegExp rx("%%BoundingBox:\\s*(-?[\\d\\.]+)\\s*(-?[\\d\\.]+)\\s*(-?[\\d\\.]+)\\s*(-?[\\d\\.]+)");
             int pos = rx.search(fileContent);
@@ -1523,7 +1531,7 @@ void UMLView::exportImage() {
         if (imageMimetype == "image/x-eps") {
             printToFile(s,true);
         } else if (imageMimetype == "image/svg+xml") {
-            QPicture* diagram = new QPicture();
+            Q3Picture* diagram = new Q3Picture();
 
             // do not call printer.setup(); because we want no user
             // interaction here
@@ -2071,7 +2079,7 @@ bool UMLView::setAssoc(UMLWidget *pWidget) {
             m_pAssocLine = NULL;
         }
 
-        m_pAssocLine = new QCanvasLine( canvas() );
+        m_pAssocLine = new Q3CanvasLine( canvas() );
         m_pAssocLine -> setPoints( pos.x(), pos.y(), pos.x(), pos.y() );
         m_pAssocLine -> setPen( QPen( getLineColor(), getLineWidth(), DashLine ) );
 
@@ -3172,7 +3180,7 @@ void UMLView::setZoom(int zoom) {
         zoom = 500;
     }
 
-    QWMatrix wm;
+    QMatrix wm;
     wm.scale(zoom/100.0,zoom/100.0);
     setWorldMatrix(wm);
 
@@ -3185,13 +3193,13 @@ int UMLView::currentZoom() {
 }
 
 void UMLView::zoomIn() {
-    QWMatrix wm = worldMatrix();
+    QMatrix wm = worldMatrix();
     wm.scale(1.5,1.5); // adjust zooming step here
     setZoom( (int)(wm.m11()*100.0) );
 }
 
 void UMLView::zoomOut() {
-    QWMatrix wm = worldMatrix();
+    QMatrix wm = worldMatrix();
     wm.scale(2.0/3.0, 2.0/3.0); //adjust zooming step here
     setZoom( (int)(wm.m11()*100.0) );
 }

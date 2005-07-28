@@ -11,7 +11,10 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <qwmatrix.h> // need for inverseWorldMatrix.map
+#include <qmatrix.h> // need for inverseWorldMatrix.map
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QEvent>
 
 #include "toolbarstate.h"
 #include "umlview.h"

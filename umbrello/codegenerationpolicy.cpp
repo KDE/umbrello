@@ -22,6 +22,8 @@
 #include <qstringlist.h>
 #include <qregexp.h>
 #include <qdatastream.h>
+//Added by qt3to4:
+#include <QTextStream>
 
 #include "dialogs/codegenerationpolicypage.h"
 #include "codegenerationpolicy.h"
@@ -71,12 +73,12 @@ CodeGenerationPolicy::~CodeGenerationPolicy ( ) { }
 
 /*
 void CodeGenerationPolicy::setNewCodegen (bool new_var) {
-    m_newCodegen = new_var;
-    emit modifiedCodeContent();
+	m_newCodegen = new_var;
+	emit modifiedCodeContent();
 }
 
 bool CodeGenerationPolicy::getNewCodegen () const {
-    return m_newCodegen;
+	return m_newCodegen;
 }
 */
 
@@ -443,7 +445,7 @@ QString CodeGenerationPolicy::getHeadingFile(QString str) {
     }
 
     QFile f(filename);
-    if(!f.open(IO_ReadOnly)) {
+    if(!f.open(QIODevice::ReadOnly)) {
         //                kdWarning() << "Error opening heading file: " << f.name() << endl;
         //                kdWarning() << "Headings directory was " << m_headingFiles.absPath() << endl;
         return QString("");

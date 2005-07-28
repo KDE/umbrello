@@ -17,11 +17,11 @@
 
 //quicktime class includes
 #include <qwidget.h>
-#include <qgroupbox.h>
+#include <q3groupbox.h>
 #include <qlabel.h>
 #include <qlineedit.h>
-#include <qbuttongroup.h>
-#include <qmultilineedit.h>
+#include <q3buttongroup.h>
+#include <q3multilineedit.h>
 #include <qradiobutton.h>
 #include <qcheckbox.h>
 
@@ -65,7 +65,7 @@ public:
 
 private:
     QLineEdit *m_pRoleALE, *m_pRoleBLE, *m_pMultiALE, *m_pMultiBLE;
-    QMultiLineEdit *m_pDocA, *m_pDocB;
+    Q3MultiLineEdit *m_pDocA, *m_pDocB;
     AssociationWidget *m_pAssociationWidget;
     UMLDoc * m_pUmldoc;
     ObjectWidget *m_pWidget;

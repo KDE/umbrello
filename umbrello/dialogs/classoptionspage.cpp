@@ -13,6 +13,9 @@
  ***************************************************************************/
 
 #include <qlayout.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <QGridLayout>
 #include <klocale.h>
 #include <kdebug.h>
 
@@ -54,7 +57,7 @@ void ClassOptionsPage::setupPage() {
 
     QVBoxLayout * topLayout = new QVBoxLayout(this);
     topLayout -> setSpacing(6);
-    m_pVisibilityGB = new QGroupBox(i18n("Show"), this);
+    m_pVisibilityGB = new Q3GroupBox(i18n("Show"), this);
     topLayout -> addWidget(m_pVisibilityGB);
     QGridLayout * visibilityLayout = new QGridLayout(m_pVisibilityGB);
     visibilityLayout -> setSpacing(10);
@@ -115,7 +118,7 @@ void ClassOptionsPage::setupClassPageOption() {
 
     QVBoxLayout * topLayout = new QVBoxLayout(this);
     topLayout -> setSpacing(6);
-    m_pVisibilityGB = new QGroupBox(i18n("Show"), this);
+    m_pVisibilityGB = new Q3GroupBox(i18n("Show"), this);
     topLayout -> addWidget(m_pVisibilityGB);
     QGridLayout * visibilityLayout = new QGridLayout(m_pVisibilityGB);
     visibilityLayout -> setSpacing(10);

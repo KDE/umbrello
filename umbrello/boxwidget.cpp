@@ -13,7 +13,9 @@
  ***************************************************************************/
 
 //qt includes
-#include <qpointarray.h>
+#include <q3pointarray.h>
+//Added by qt3to4:
+#include <QMouseEvent>
 //kde includes
 #include <kcursor.h>
 #include <kcolordialog.h>

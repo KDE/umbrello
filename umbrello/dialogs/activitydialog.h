@@ -18,8 +18,8 @@
 //qt class includes
 #include <qlabel.h>
 #include <qlineedit.h>
-#include <qmultilineedit.h>
-#include <qgroupbox.h>
+#include <q3multilineedit.h>
+#include <q3groupbox.h>
 
 //kde class includes
 #include <kdialogbase.h>
@@ -127,9 +127,9 @@ protected:
     struct GeneralPageWidgets {
         QLabel * nameL, * typeL;
         QLineEdit * nameLE, * typeLE;
-        QMultiLineEdit * docMLE;
+        Q3MultiLineEdit * docMLE;
 
-        QGroupBox * docGB, * generalGB;
+        Q3GroupBox * docGB, * generalGB;
     }
     m_GenPageWidgets;
 };

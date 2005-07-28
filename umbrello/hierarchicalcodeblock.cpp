@@ -19,6 +19,8 @@
 #include "codedocument.h"
 #include "classifiercodedocument.h"
 #include "codeclassfield.h"
+//Added by qt3to4:
+#include <Q3PtrList>
 
 // Constructors/Destructors
 //
@@ -245,7 +247,7 @@ void HierarchicalCodeBlock::addCodeClassFieldMethods(CodeClassFieldList &list )
     for (CodeClassFieldListIt ccflit(list); ccflit.current(); ++ccflit)
     {
         CodeClassField * field = ccflit.current();
-        QPtrList <CodeAccessorMethod> * list = field->getMethodList();
+        Q3PtrList <CodeAccessorMethod> * list = field->getMethodList();
         for (CodeAccessorMethod * method = list->first(); method; method = list->next())
         {
             QString tag = method->getTag();
@@ -373,7 +375,7 @@ QString HierarchicalCodeBlock::toString ( ) {
 }
 
 QString  HierarchicalCodeBlock::childTextBlocksToString() {
-    QPtrList<TextBlock>* list = getTextBlockList();
+    Q3PtrList<TextBlock>* list = getTextBlockList();
     QString retString = "";
     for(TextBlock *block = list->first() ; block; block=list->next())
     {

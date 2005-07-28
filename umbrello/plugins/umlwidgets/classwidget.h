@@ -17,6 +17,9 @@
 
 #include "umlwidget.h"
 #include <qstringlist.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <Q3PopupMenu>
 
 class Diagram;
 class UMLClass;
@@ -43,7 +46,7 @@ public: enum DisplayOptions { ShowPackage = 1, ShowStereotype = 2,
 	/** Destructor */
 	virtual ~ClassWidget();
 	
-	virtual void fillContextMenu(QPopupMenu &menu);
+	virtual void fillContextMenu(Q3PopupMenu &menu);
 	
 	inline int  nameDisplayOptions( ) const;
 	void setNameDisplayOptions( int );
@@ -77,8 +80,8 @@ protected:
 	
 	QString m_stereotype;
 	QString m_name;
-	QValueList<AttString> m_atts;
-	QValueList<OpString>  m_ops;
+	Q3ValueList<AttString> m_atts;
+	Q3ValueList<OpString>  m_ops;
 
 	static const int vMargin = 10;
 	static const int hMargin = 10;

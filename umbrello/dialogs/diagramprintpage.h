@@ -1,3 +1,5 @@
+//Added by qt3to4:
+#include <Q3ValueList>
 /*
  *  copyright (C) 2002-2004
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
@@ -15,25 +17,25 @@
 #ifndef DIAGRAMPRINTPAGE_H
 #define DIAGRAMPRINTPAGE_H
 
-class QListBox;
+class Q3ListBox;
 class QRadioButton;
 class QComboBox;
-class QButtonGroup;
-class QGroupBox;
+class Q3ButtonGroup;
+class Q3GroupBox;
 
 #include <kdeprint/kprintdialogpage.h>
 
 #include "../umldoc.h"
 #include "../umlview.h"
 /**
- *	This is a page on the print dialog to select what diagram(s)
- *	you wish to print.  You add it to the @ref KPrinter instance.
+ * This is a page on the print dialog to select what diagram(s)
+ * you wish to print.  You add it to the @ref KPrinter instance.
  *
- *	You will then need to get the options as shown in @ref KPrinter.
+ * You will then need to get the options as shown in @ref KPrinter.
  *
- *	@short	A print dialog page.
- *	@author Paul Hensgen	<phensgen@techie.com>
- *	@see	KPrinter
+ * @short A print dialog page.
+ * @author Paul Hensgen	<phensgen@techie.com>
+ * @see	KPrinter
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
@@ -70,9 +72,9 @@ public:
     bool isValid( QString& msg );
 
 private:
-    QButtonGroup * m_pFilterBG;
-    QGroupBox * m_pSelectGB, m_pOptionsGB;
-    QListBox * m_pSelectLB;
+    Q3ButtonGroup * m_pFilterBG;
+    Q3GroupBox * m_pSelectGB, m_pOptionsGB;
+    Q3ListBox * m_pSelectLB;
     QRadioButton * m_pAllRB, * m_pCurrentRB, * m_pSelectRB, * m_pTypeRB;
     QComboBox * m_pTypeCB;
 
@@ -82,7 +84,7 @@ private:
     /**
      * list containing the IDs of diagrams to print
      */
-    QValueList<Uml::IDType> m_nIdList;
+    Q3ValueList<Uml::IDType> m_nIdList;
 
     enum FilterType{Current = 0, All, Select, Type};
 public slots:

@@ -14,6 +14,8 @@
 #include "toolbarstateassociation.h"
 
 #include <qevent.h>
+//Added by qt3to4:
+#include <QMouseEvent>
 
 #include "umlview.h"
 #include "umldoc.h"
@@ -21,11 +23,11 @@
 #include "objectwidget.h"
 #include "floatingtext.h"
 #include "messagewidget.h"
-#include <qcanvas.h>
+#include <q3canvas.h>
 
 #include <kdebug.h>
 
-#include <qwmatrix.h> // needed for inverseWorldMatrix.map
+#include <qmatrix.h> // needed for inverseWorldMatrix.map
 
 
 ToolBarStateAssociation::ToolBarStateAssociation(UMLView *umlView) : ToolBarStatePool(umlView)
@@ -40,7 +42,7 @@ void ToolBarStateAssociation::mousePress(QMouseEvent* ome)
 {
     ToolBarStatePool::mousePress(ome);
 
-    QCanvasLine *line = m_pUMLView->getAssocLine();
+    Q3CanvasLine *line = m_pUMLView->getAssocLine();
     if (line)
     {
         delete line;
@@ -65,7 +67,7 @@ void ToolBarStateAssociation::mouseMove(QMouseEvent* ome)
 
     if( m_pUMLView->getFirstSelectedWidget() )
     {
-        QCanvasLine *line = m_pUMLView->getAssocLine();
+        Q3CanvasLine *line = m_pUMLView->getAssocLine();
         if (line)
         {
             QPoint sp = line->startPoint();
@@ -78,7 +80,7 @@ void ToolBarStateAssociation::init()
 {
     m_pUMLView->setFirstSelectedWidget( NULL );
 
-    QCanvasLine *line = m_pUMLView->getAssocLine();
+    Q3CanvasLine *line = m_pUMLView->getAssocLine();
     if (line)
     {
         delete line;

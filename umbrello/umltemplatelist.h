@@ -10,12 +10,12 @@
 #ifndef UMLTEMPLATELIST_H
 #define UMLTEMPLATELIST_H
 
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 
 // forward declaration
 class UMLTemplate;
 
-typedef QPtrList<UMLTemplate> UMLTemplateList;
-typedef QPtrListIterator<UMLTemplate> UMLTemplateListIt;
+typedef Q3PtrList<UMLTemplate> UMLTemplateList;
+typedef Q3PtrListIterator<UMLTemplate> UMLTemplateListIt;
 
 #endif

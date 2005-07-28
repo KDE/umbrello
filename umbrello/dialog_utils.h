@@ -16,8 +16,11 @@
 #define DIALOG_UTILS_H
 
 #include <qstring.h>
+//Added by qt3to4:
+#include <QLabel>
+#include <QGridLayout>
 
-class QGroupBox;
+class Q3GroupBox;
 class QGridLayout;
 class QLabel;
 class QLineEdit;
@@ -42,7 +45,7 @@ namespace Umbrello {
  * @param editFieldText		Initialization text in the editField (optional.)
  * @return a pointer to the QLineEdit so you can setFocus() if necessary
  */
-QLineEdit* makeLabeledEditField(QGroupBox *containingBox, QGridLayout *layout, int row,
+QLineEdit* makeLabeledEditField(Q3GroupBox *containingBox, QGridLayout *layout, int row,
                                 QLabel * &label, QString labelText,
                                 QLineEdit * &editField, QString editFieldText = QString::null);
 

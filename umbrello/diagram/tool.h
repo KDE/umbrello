@@ -17,9 +17,12 @@
 
 #include <qstring.h>
 #include <qpoint.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QEvent>
 
 class QMouseEvent;
-class QCanvasItemList;
+class Q3CanvasItemList;
 
 namespace Umbrello
 {

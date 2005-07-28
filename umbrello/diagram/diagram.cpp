@@ -38,9 +38,12 @@
 #include <typeinfo>
 #include <algorithm>
 #include <list>
-#include <qpointarray.h>
-#include <qpopupmenu.h>
+#include <q3pointarray.h>
+#include <q3popupmenu.h>
 #include <qcolor.h>
+//Added by qt3to4:
+#include <QDragEnterEvent>
+#include <QDropEvent>
 #include <klocale.h>
 
 
@@ -75,7 +78,7 @@ namespace {
 namespace Umbrello{
 
 Diagram::Diagram( DiagramType type, UMLDoc *docparent, int id, const QString &name) :
-	QCanvas(docparent,name.latin1()), m_type(type), m_doc(docparent), m_id(id), m_name(name)
+	Q3Canvas(docparent,name.latin1()), m_type(type), m_doc(docparent), m_id(id), m_name(name)
 {
 	if(allowedTypes.empty())
 	{
@@ -109,7 +112,7 @@ Diagram::~Diagram()
 }
 
 
-void Diagram::fillContextMenu(QPopupMenu &menu) const
+void Diagram::fillContextMenu(Q3PopupMenu &menu) const
 {
 	menu.insertItem(i18n("Create View"),this,SLOT(createView()));
 	menu.insertItem(i18n("Diagram Properties"),this,SLOT(properties()));
@@ -136,10 +139,10 @@ kdDebug()<<"diagram::properties : show dialog here"<<endl;
 
 void Diagram::selectAll()
 {
-	QCanvasItemList list = allItems();
-	QCanvasItemList::iterator end(list.end());
+	Q3CanvasItemList list = allItems();
+	Q3CanvasItemList::iterator end(list.end());
 
-	for(QCanvasItemList::iterator it(list.begin()); it != end; ++it)
+	for(Q3CanvasItemList::iterator it(list.begin()); it != end; ++it)
 	{
   		(*it)->setSelected(true);
 	}
@@ -156,10 +159,10 @@ void Diagram::deselectAll()
 
 void Diagram::setItemsSelected(const QRect &rect, bool selected)
 {
-	QCanvasItemList list = collisions(rect);
-	QCanvasItemList::iterator end(list.end());
+	Q3CanvasItemList list = collisions(rect);
+	Q3CanvasItemList::iterator end(list.end());
 
-	for(QCanvasItemList::iterator it(list.begin()); it != end; ++it)
+	for(Q3CanvasItemList::iterator it(list.begin()); it != end; ++it)
 	{
 		(*it)->setSelected(selected);
 	}
@@ -272,7 +275,7 @@ UMLDoc* Diagram::document() const
 
 DiagramElement* Diagram::firstDiagramElement( const QPoint &pos )
 {
-	QCanvasItemList list = collisions(pos);
+	Q3CanvasItemList list = collisions(pos);
 	DiagramElement *element(0);
 	Path *path(0);
 	PathSegment *segment(0);
@@ -283,8 +286,8 @@ DiagramElement* Diagram::firstDiagramElement( const QPoint &pos )
 		return m_selected.first();
 	}
 
-	QCanvasItemList::Iterator end(list.end());
-	for(QCanvasItemList::Iterator it(list.begin()) ; it != end; ++it)
+	Q3CanvasItemList::Iterator end(list.end());
+	for(Q3CanvasItemList::Iterator it(list.begin()) ; it != end; ++it)
 	{
 		path = dynamic_cast<Path*>(*it);
 		if( path )
@@ -304,7 +307,7 @@ DiagramElement* Diagram::firstDiagramElement( const QPoint &pos )
 
 DiagramWidget* Diagram::firstDiagramWidget( const QPoint &pos )
 {
-	QCanvasItemList list = collisions(pos);
+	Q3CanvasItemList list = collisions(pos);
 	DiagramWidget *widget(0);
 	//TEST
 	if(m_selected.count() == 1 &&
@@ -314,8 +317,8 @@ DiagramWidget* Diagram::firstDiagramWidget( const QPoint &pos )
 		return dynamic_cast<DiagramWidget*>(m_selected.first());
 	}
 	//endtest
-	QCanvasItemList::Iterator end(list.end());
-	for(QCanvasItemList::Iterator it(list.begin()) ; it != end; ++it)
+	Q3CanvasItemList::Iterator end(list.end());
+	for(Q3CanvasItemList::Iterator it(list.begin()) ; it != end; ++it)
 	{
 		//neither paths nor segments are diagramwidgets, so a simple test does it
 		widget = dynamic_cast<DiagramWidget*>(*it);

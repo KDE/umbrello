@@ -23,6 +23,9 @@
 
 #include "messagewidgetlist.h"
 #include "messagewidget.h"
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QMoveEvent>
 
 
 class SeqLineWidget;

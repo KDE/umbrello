@@ -14,6 +14,8 @@
 
 #include "pkgcontentspage.h"
 #include <qlayout.h>
+//Added by qt3to4:
+#include <QHBoxLayout>
 #include <klocale.h>
 #include "../umlobjectlist.h"
 #include "../uml.h"
@@ -29,41 +31,41 @@ PkgContentsPage::PkgContentsPage(QWidget *parent, UMLPackage *pkg)
     QHBoxLayout * mainLayout = new QHBoxLayout(this);
     mainLayout -> setSpacing(10);
 
-    m_pContentGB = new QGroupBox(i18n("Contained Items"), this);
+    m_pContentGB = new Q3GroupBox(i18n("Contained Items"), this);
     mainLayout -> addWidget(m_pContentGB);
 
     QHBoxLayout * layout = new QHBoxLayout(m_pContentGB);
     layout -> setSpacing(10);
     layout -> setMargin(margin);
 
-    m_pContentLB = new QListBox(m_pContentGB);
+    m_pContentLB = new Q3ListBox(m_pContentGB);
     layout -> addWidget(m_pContentLB);
     setMinimumSize(310, 330);
     fillListBox();
     m_pMenu = 0;
 
-    connect(m_pContentLB, SIGNAL(doubleClicked(QListBoxItem *)),
-            this, SLOT(slotDoubleClick(QListBoxItem *)));
+    connect(m_pContentLB, SIGNAL(doubleClicked(Q3ListBoxItem *)),
+            this, SLOT(slotDoubleClick(Q3ListBoxItem *)));
 
-    connect(m_pContentLB, SIGNAL(rightButtonPressed(QListBoxItem *, const QPoint &)),
-            this, SLOT(slotRightButtonPressed(QListBoxItem *, const QPoint &)));
+    connect(m_pContentLB, SIGNAL(rightButtonPressed(Q3ListBoxItem *, const QPoint &)),
+            this, SLOT(slotRightButtonPressed(Q3ListBoxItem *, const QPoint &)));
 
-    connect(m_pContentLB, SIGNAL(rightButtonClicked(QListBoxItem *, const QPoint &)),
-            this, SLOT(slotRightButtonClicked(QListBoxItem *, const QPoint &)));
+    connect(m_pContentLB, SIGNAL(rightButtonClicked(Q3ListBoxItem *, const QPoint &)),
+            this, SLOT(slotRightButtonClicked(Q3ListBoxItem *, const QPoint &)));
 }
 
 PkgContentsPage::~PkgContentsPage() {
-    disconnect(m_pContentLB, SIGNAL(doubleClicked(QListBoxItem *)),
-               this, SLOT(slotDoubleClick(QListBoxItem *)));
+    disconnect(m_pContentLB, SIGNAL(doubleClicked(Q3ListBoxItem *)),
+               this, SLOT(slotDoubleClick(Q3ListBoxItem *)));
 
-    disconnect(m_pContentLB, SIGNAL(rightButtonPressed(QListBoxItem *, const QPoint &)),
-               this, SLOT(slotRightButtonPressed(QListBoxItem *, const QPoint &)));
+    disconnect(m_pContentLB, SIGNAL(rightButtonPressed(Q3ListBoxItem *, const QPoint &)),
+               this, SLOT(slotRightButtonPressed(Q3ListBoxItem *, const QPoint &)));
 
-    disconnect(m_pContentLB, SIGNAL(rightButtonClicked(QListBoxItem *, const QPoint &)),
-               this, SLOT(slotRightButtonClicked(QListBoxItem *, const QPoint &)));
+    disconnect(m_pContentLB, SIGNAL(rightButtonClicked(Q3ListBoxItem *, const QPoint &)),
+               this, SLOT(slotRightButtonClicked(Q3ListBoxItem *, const QPoint &)));
 }
 
-void PkgContentsPage::slotDoubleClick(QListBoxItem * i) {
+void PkgContentsPage::slotDoubleClick(Q3ListBoxItem * i) {
     if (!i)
         return;
     int item = m_pContentLB -> currentItem();
@@ -83,7 +85,7 @@ void PkgContentsPage::fillListBox() {
     }
 }
 
-void PkgContentsPage::slotRightButtonClicked(QListBoxItem */* item*/, const QPoint &/* p*/) {
+void PkgContentsPage::slotRightButtonClicked(Q3ListBoxItem */* item*/, const QPoint &/* p*/) {
     if(m_pMenu) {
         m_pMenu -> hide();
         disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotPopupMenuSel(int)));
@@ -92,7 +94,7 @@ void PkgContentsPage::slotRightButtonClicked(QListBoxItem */* item*/, const QPoi
     }
 }
 
-void PkgContentsPage::slotRightButtonPressed(QListBoxItem * item, const QPoint & p) {
+void PkgContentsPage::slotRightButtonPressed(Q3ListBoxItem * item, const QPoint & p) {
     if(!item)
         return;
     if(m_pMenu) {

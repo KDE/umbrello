@@ -13,6 +13,11 @@
  ***************************************************************************/
 
 #include <qlayout.h>
+//Added by qt3to4:
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QGridLayout>
 
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -123,7 +128,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
 
     if (t == Uml::ot_Artifact) {
         //setup artifact draw as
-        m_pDrawAsBG = new QButtonGroup(i18n("Draw As"), this);
+        m_pDrawAsBG = new Q3ButtonGroup(i18n("Draw As"), this);
         QHBoxLayout* drawAsLayout = new QHBoxLayout(m_pDrawAsBG);
         drawAsLayout->setMargin(margin);
         m_pDrawAsBG->setExclusive(true);
@@ -156,7 +161,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
     }
 
     //setup scope
-    m_pButtonBG = new QButtonGroup(i18n("Visibility"), this);
+    m_pButtonBG = new Q3ButtonGroup(i18n("Visibility"), this);
     QHBoxLayout * scopeLayout = new QHBoxLayout(m_pButtonBG);
     scopeLayout -> setMargin(margin);
     m_pButtonBG -> setExclusive(true);
@@ -171,12 +176,12 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
     scopeLayout -> addWidget(m_pProtectedRB);
     topLayout -> addWidget(m_pButtonBG);
     //setup documentation
-    m_pDocGB = new QGroupBox(this);
+    m_pDocGB = new Q3GroupBox(this);
     QHBoxLayout * docLayout = new QHBoxLayout(m_pDocGB);
     docLayout -> setMargin(margin);
     m_pDocGB -> setTitle(i18n("Documentation"));
 
-    m_pDoc = new QMultiLineEdit(m_pDocGB);
+    m_pDoc = new Q3MultiLineEdit(m_pDocGB);
     docLayout -> addWidget(m_pDoc);
     topLayout -> addWidget(m_pDocGB);
 
@@ -193,7 +198,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
         m_pProtectedRB -> setChecked(true);
 
     ///////////
-    m_pDoc->setWordWrap(QMultiLineEdit::WidgetWidth);
+    m_pDoc->setWordWrap(Q3MultiLineEdit::WidgetWidth);
     //////////
 }
 
@@ -247,14 +252,14 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidge
         m_pNameLayout -> addWidget(m_pDeconCB, 2,1);
     }
     //setup documentation
-    m_pDocGB = new QGroupBox(this);
+    m_pDocGB = new Q3GroupBox(this);
     topLayout -> addWidget(m_pDocGB, 1, 0);
     QHBoxLayout * docLayout = new QHBoxLayout(m_pDocGB);
     docLayout -> setMargin(margin);
     m_pDocGB -> setTitle(i18n("Documentation"));
 
-    m_pDoc = new QMultiLineEdit(m_pDocGB);
-    m_pDoc->setWordWrap(QMultiLineEdit::WidgetWidth);
+    m_pDoc = new Q3MultiLineEdit(m_pDocGB);
+    m_pDoc->setWordWrap(Q3MultiLineEdit::WidgetWidth);
     m_pDoc-> setText(o -> getDoc());
     docLayout -> addWidget(m_pDoc);
     m_pObject = 0;//needs to be set to zero
@@ -309,14 +314,14 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget) : QWid
     m_pNameLayout->addWidget(m_pInstanceLE, 2, 1);
 
     //setup documentation
-    m_pDocGB = new QGroupBox(this);
+    m_pDocGB = new Q3GroupBox(this);
     topLayout->addWidget(m_pDocGB, 1, 0);
     QHBoxLayout* docLayout = new QHBoxLayout(m_pDocGB);
     docLayout->setMargin(margin);
     m_pDocGB->setTitle(i18n("Documentation"));
 
-    m_pDoc = new QMultiLineEdit(m_pDocGB);
-    m_pDoc->setWordWrap(QMultiLineEdit::WidgetWidth);
+    m_pDoc = new Q3MultiLineEdit(m_pDocGB);
+    m_pDoc->setWordWrap(Q3MultiLineEdit::WidgetWidth);
     m_pDoc->setText(widget->getDoc());
     docLayout->addWidget(m_pDoc);
     m_pObject = 0;//needs to be set to zero

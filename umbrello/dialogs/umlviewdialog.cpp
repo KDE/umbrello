@@ -21,11 +21,14 @@
 #include <qcheckbox.h>
 #include <qlabel.h>
 #include <qlineedit.h>
-#include <qgroupbox.h>
-#include <qtextedit.h>
+#include <q3groupbox.h>
+#include <q3textedit.h>
 #include <qspinbox.h>
+//Added by qt3to4:
+#include <Q3Frame>
+#include <QHBoxLayout>
 #include <knuminput.h>
-#include <qvbox.h>
+#include <q3vbox.h>
 
 #include "umlviewdialog.h"
 #include "../umlview.h"
@@ -65,7 +68,7 @@ void UMLViewDialog::setupPages()
 
 void UMLViewDialog::setupDiagramPropertiesPage()
 {
-    QVBox *page = addVBoxPage( i18n("General"), i18n("General Settings"), DesktopIcon( "misc") );
+    Q3VBox *page = addVBoxPage( i18n("General"), i18n("General Settings"), DesktopIcon( "misc") );
     m_diagramProperties = new DiagramPropertiesPage(page);
 
     m_diagramProperties->diagramName->setText( m_pView->getName() );
@@ -88,21 +91,21 @@ void UMLViewDialog::setupClassPage() {
         return;
     }
 
-    QFrame * newPage = addPage( i18n("Display"), i18n("Classes Display Options"), DesktopIcon( "info") );
+    Q3Frame * newPage = addPage( i18n("Display"), i18n("Classes Display Options"), DesktopIcon( "info") );
     QHBoxLayout * m_pOptionsLayout = new QHBoxLayout( newPage );
     m_pOptionsPage = new ClassOptionsPage( newPage, &m_options );
     m_pOptionsLayout -> addWidget( m_pOptionsPage );
 }
 
 void UMLViewDialog::setupColorPage() {
-    QFrame * colorPage = addPage( i18n("Color"), i18n("Diagram Colors"), DesktopIcon( "colors") );
+    Q3Frame * colorPage = addPage( i18n("Color"), i18n("Diagram Colors"), DesktopIcon( "colors") );
     QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
     m_pColorPage = new UMLWidgetColorPage( colorPage, &m_options );
     m_pColorLayout -> addWidget(m_pColorPage);
 }
 
 void UMLViewDialog::setupFontPage() {
-    QVBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
+    Q3VBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
     m_pChooser = new KFontChooser( (QWidget*)page, "font", false, QStringList(), false);
     m_pChooser -> setFont( m_pView -> getOptionState().uiState.font );
 }

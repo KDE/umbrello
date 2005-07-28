@@ -20,8 +20,10 @@
 
 #include "simplecodegenerator.h"
 
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 #include <qstringlist.h>
+//Added by qt3to4:
+#include <QTextStream>
 #include "../umloperationlist.h"
 
 /**

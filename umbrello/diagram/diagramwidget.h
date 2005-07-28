@@ -16,7 +16,9 @@
 #define DIAGRAMWIDGET_H
 
 #include "diagramelement.h"
-#include <qptrlist.h>
+#include <q3ptrlist.h>
+//Added by qt3to4:
+#include <Q3PointArray>
 
 
 namespace Umbrello{
@@ -48,7 +50,7 @@ public:
 	/** Return the points bounding the widget. This is used to calculate the bounding rectanle
 	 * The default implementation returns the points given by the widget's position and size
 	 * For rectangular shapes this should be ok, but you can reimplement this for fine tuning*/
-	virtual QPointArray areaPoints() const;
+	virtual Q3PointArray areaPoints() const;
 		
 protected:
 	virtual void drawShape(QPainter& ) = 0;

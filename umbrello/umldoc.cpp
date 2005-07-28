@@ -22,6 +22,9 @@
 #include <qdir.h>
 #include <qregexp.h>
 #include <qlabel.h>
+//Added by qt3to4:
+#include <QTextStream>
+#include <Q3PtrList>
 
 // kde includes
 #include <kapplication.h>
@@ -257,7 +260,7 @@ void UMLDoc::closeDocument() {
     }
 
     // remove all code generators
-    QDictIterator<CodeGenerator> it( m_codeGeneratorDictionary );
+    Q3DictIterator<CodeGenerator> it( m_codeGeneratorDictionary );
     for( ; it.current(); ++it )
         removeCodeGenerator(it.current());
 
@@ -400,7 +403,7 @@ bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
     if (mimetype.isEmpty() == false)
     {
         KTar archive(tmpfile, mimetype);
-        if (archive.open(IO_ReadOnly) == false)
+        if (archive.open(QIODevice::ReadOnly) == false)
         {
             KMessageBox::error(0, i18n("The file %1 seems to be corrupted.").arg(d.path()), i18n("Load Error"));
             m_doc_url.setFileName(i18n("Untitled"));
@@ -468,7 +471,7 @@ bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
 
             // now open the extracted file for reading
             QFile xmi_file(tmp_dir.name() + *it);
-            if( !xmi_file.open( IO_ReadOnly ) )
+            if( !xmi_file.open( QIODevice::ReadOnly ) )
             {
                 KMessageBox::error(0, i18n("There was a problem loading the extracted file: %1").arg(d.path()), i18n("Load Error"));
                 m_doc_url.setFileName(i18n("Untitled"));
@@ -495,7 +498,7 @@ bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
 # endif
     {
         // no, it seems to be an ordinary file
-        if( !file.open( IO_ReadOnly ) ) {
+        if( !file.open( QIODevice::ReadOnly ) ) {
             KMessageBox::error(0, i18n("There was a problem loading file: %1").arg(d.path()), i18n("Load Error"));
             m_doc_url.setFileName(i18n("Untitled"));
             m_bLoading = false;
@@ -576,7 +579,7 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
         }
 
         // now check if we can write to the file
-        if (archive->open(IO_WriteOnly) == false)
+        if (archive->open(QIODevice::WriteOnly) == false)
         {
             KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save Error"));
             return false;
@@ -586,7 +589,7 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
         // we will add this file later to the archive
         KTempFile tmp_xmi_file;
         file.setName(tmp_xmi_file.name());
-        if( !file.open( IO_WriteOnly ) ) {
+        if( !file.open( QIODevice::WriteOnly ) ) {
             KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save Error"));
             return false;
         }
@@ -643,7 +646,7 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
         file.setName( tmpfile.name() );
 
         // lets open the file for writing
-        if( !file.open( IO_WriteOnly ) ) {
+        if( !file.open( QIODevice::WriteOnly ) ) {
             KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save Error"));
             return false;
         }
@@ -769,7 +772,7 @@ UMLView * UMLDoc::findView(Diagram_Type type, const QString &name,
         }
         return NULL;
     }
-    for (QListViewItemIterator it(currentItem); it.current(); ++it) {
+    for (Q3ListViewItemIterator it(currentItem); it.current(); ++it) {
         UMLListViewItem *item = static_cast<UMLListViewItem*>(it.current());
         if (! UMLListView::typeIsDiagram(item->getType()))
             continue;
@@ -1687,7 +1690,7 @@ void UMLDoc::saveToXMI(QIODevice& file, bool saveSubmodelFiles /* = false */) {
 
     // save code generators
     QDomElement codeGenElement = doc.createElement( "codegeneration" );
-    QDictIterator<CodeGenerator> it( m_codeGeneratorDictionary );
+    Q3DictIterator<CodeGenerator> it( m_codeGeneratorDictionary );
     for( ; it.current(); ++it )
         it.current()->saveToXMI ( doc, codeGenElement );
     extensions.appendChild( codeGenElement );
@@ -1780,7 +1783,7 @@ bool UMLDoc::loadFolderFile( QString filename ) {
         KMessageBox::error(0, i18n("The folderfile %1 does not exist.").arg(filename), i18n("Load Error"));
         return false;
     }
-    if ( !file.open(IO_ReadOnly) ) {
+    if ( !file.open(QIODevice::ReadOnly) ) {
         KMessageBox::error(0, i18n("The folderfile %1 cannot be opened.").arg(filename), i18n("Load Error"));
         return false;
     }
@@ -2430,8 +2433,8 @@ UMLClassifierList UMLDoc::getInterfaces(bool includeNested /* =true */) {
     return interfaceList;
 }
 
-QPtrList<UMLDatatype> UMLDoc::getDatatypes() {
-    QPtrList<UMLDatatype> datatypeList;
+Q3PtrList<UMLDatatype> UMLDoc::getDatatypes() {
+    Q3PtrList<UMLDatatype> datatypeList;
     for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
         UMLObject *obj = oit.current();
         if(obj->getBaseType() == ot_Datatype) {
@@ -2690,7 +2693,7 @@ void UMLDoc::addToUndoStack() {
     Settings::OptionState optionState = UMLApp::app()->getOptionState();
     if (!m_bLoading && optionState.generalState.undo) {
         QBuffer* buffer = new QBuffer();
-        buffer->open(IO_WriteOnly);
+        buffer->open(QIODevice::WriteOnly);
         QDataStream* undoData = new QDataStream();
         undoData->setDevice(buffer);
         saveToXMI(*buffer);
@@ -2739,7 +2742,7 @@ void UMLDoc::loadUndoData() {
     redoStack.prepend( undoStack.take(0) );
     QDataStream* undoData = undoStack.getFirst();
     QBuffer* buffer = static_cast<QBuffer*>( undoData->device() );
-    buffer->open(IO_ReadOnly);
+    buffer->open(QIODevice::ReadOnly);
     loadFromXMI(*buffer);
     buffer->close();
 
@@ -2776,7 +2779,7 @@ void UMLDoc::loadRedoData() {
         QDataStream* redoData = redoStack.getFirst();
         redoStack.removeFirst();
         QBuffer* buffer = static_cast<QBuffer*>( redoData->device() );
-        buffer->open(IO_ReadOnly);
+        buffer->open(QIODevice::ReadOnly);
         loadFromXMI(*buffer);
         buffer->close();
 

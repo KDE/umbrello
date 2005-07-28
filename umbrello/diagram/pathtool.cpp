@@ -21,7 +21,9 @@
 #include "../umldoc.h"
 
 #include <qcursor.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
+//Added by qt3to4:
+#include <Q3PointArray>
 #include <kdebug.h>
 #include <qcolor.h>
 #include <qpen.h>
@@ -86,7 +88,7 @@ void PathTool::cancelPathCreation( )
 
 bool PathTool::createNextPathPoint( )
 {
-	QCanvasLine *line;
+	Q3CanvasLine *line;
 	QPoint point;
 	if( m_linePath.count() > 0 )
 	{
@@ -96,7 +98,7 @@ bool PathTool::createNextPathPoint( )
 	{
 		point = currentPos();
 	}
-	line = new QCanvasLine(diagram());
+	line = new Q3CanvasLine(diagram());
 	line->setPoints(point.x(),point.y(),point.x(),point.y());
 	line->setPen(QPen( QColor(Qt::red), 0, QPen::DashLine ));
 	line->show();
@@ -112,7 +114,7 @@ bool PathTool::mouseReleaseEvent( )
 
 bool PathTool::mouseMoveEvent( )
 {
-	QCanvasLine *line;
+	Q3CanvasLine *line;
 	if( m_linePath.count() > 0 )
 	{
 		line = m_linePath.last();
@@ -130,7 +132,7 @@ bool PathTool::mouseMoveEvent( )
 
 QPoint PathTool::findNextPathPoint( )
 {
-	QCanvasLine *line = m_linePath.last( );
+	Q3CanvasLine *line = m_linePath.last( );
 	if( !line || !ctrlPressed( ) )
 		return currentPos( );
 	// control key is pressed, so adjust the next positon
@@ -185,7 +187,7 @@ bool PathTool::mouseDblClickEvent( )
 void PathTool::createPath( )
 {
 	Path *path = new Path(diagram(),diagram()->document()->getUniqueID());
-	QPointArray points( m_linePath.count() + 1 );
+	Q3PointArray points( m_linePath.count() + 1 );
 	points[0] = m_linePath.at(0)->startPoint();
 	for( uint i = 0; i < m_linePath.count(); i++ )
 	{

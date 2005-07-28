@@ -21,6 +21,8 @@
 #define CPPWRITER_H
 
 #include <qstringlist.h>
+//Added by qt3to4:
+#include <QTextStream>
 #include "simplecodegenerator.h"
 #include "../umloperationlist.h"
 #include "../umlattributelist.h"

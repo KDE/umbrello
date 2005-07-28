@@ -10,7 +10,7 @@
 #ifndef CLASSIMPORT_H
 #define CLASSIMPORT_H
 
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 #include <qstringlist.h>
 #include "umlnamespace.h"
 #include "umlattributelist.h"

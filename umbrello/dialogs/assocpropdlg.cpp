@@ -15,6 +15,9 @@
 
 #include <qlayout.h>
 #include <qlabel.h>
+//Added by qt3to4:
+#include <Q3Frame>
+#include <QHBoxLayout>
 
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -84,14 +87,14 @@ void AssocPropDlg::setupPages (AssociationWidget *assocWidget)
 {
 
     // general page
-    QFrame *page = addPage( i18n("General"), i18n("General Settings"), DesktopIcon( "misc") );
+    Q3Frame *page = addPage( i18n("General"), i18n("General Settings"), DesktopIcon( "misc") );
     QHBoxLayout *genLayout = new QHBoxLayout(page);
     page -> setMinimumSize(310, 330);
     m_pGenPage = new AssocGenPage (m_pDoc, page, assocWidget);
     genLayout -> addWidget(m_pGenPage);
 
     // role page
-    QFrame * newPage = addPage( i18n("Roles"), i18n("Role Settings"), DesktopIcon( "misc") );
+    Q3Frame * newPage = addPage( i18n("Roles"), i18n("Role Settings"), DesktopIcon( "misc") );
     QHBoxLayout * roleLayout = new QHBoxLayout(newPage);
     // newPage -> setMinimumSize(310, 330);
     m_pRolePage = new AssocRolePage(m_pDoc, newPage, assocWidget);
@@ -106,7 +109,7 @@ void AssocPropDlg::setupFontPage()
     if( !m_pAssoc)
         return;
 
-    QVBox *page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts"));
+    Q3VBox *page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts"));
     m_pChooser = new KFontChooser( (QWidget*)page, "font", false, QStringList(), false);
     m_pChooser->setFont( m_pAssoc->getFont());
     m_pChooser->setSampleText(i18n("Association font"));

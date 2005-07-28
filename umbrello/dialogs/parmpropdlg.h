@@ -16,24 +16,24 @@
 #define PARMPROPDLG_H
 
 #include <kdialogbase.h>
-#include <qgroupbox.h>
+#include <q3groupbox.h>
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qradiobutton.h>
 #include <qlineedit.h>
-#include <qbuttongroup.h>
-#include <qmultilineedit.h>
+#include <q3buttongroup.h>
+#include <q3multilineedit.h>
 #include <qcombobox.h>
 #include "../attribute.h"
 
 class UMLDoc;
 /**
- *	Displays a dialog box that displays properties of a paramater.
- *	You need to make sure that @ref UMLDoc is made to be the
- *	parent.
+ * Displays a dialog box that displays properties of a paramater.
+ * You need to make sure that @ref UMLDoc is made to be the
+ * parent.
  *
- *	@short	A properties dialog box for a parameter.
- *	@author Paul Hensgen	<phensgen@techie.com>
+ * @short A properties dialog box for a parameter.
+ * @author Paul Hensgen	<phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ParmPropDlg : public KDialogBase {
@@ -99,13 +99,13 @@ public slots:
     void slotOk();
 
 private:
-    QGroupBox * m_pParmGB, * m_pDocGB;
-    QButtonGroup *m_pKind;
+    Q3GroupBox * m_pParmGB, * m_pDocGB;
+    Q3ButtonGroup *m_pKind;
     QRadioButton * m_pIn, * m_pOut, *m_pInOut;
     QLabel * m_pTypeL, * m_pNameL, * m_pInitialL, * m_pStereoTypeL;
     QComboBox * m_pTypeCB;
     QLineEdit * m_pNameLE, * m_pInitialLE, * m_pStereoTypeLE;
-    QMultiLineEdit * m_pDoc;
+    Q3MultiLineEdit * m_pDoc;
     UMLDoc * m_pUmldoc;
     UMLAttribute * m_pAtt;
 };

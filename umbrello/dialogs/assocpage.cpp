@@ -14,6 +14,8 @@
 
 #include "assocpage.h"
 #include <qlayout.h>
+//Added by qt3to4:
+#include <QHBoxLayout>
 #include <klocale.h>
 #include "assocpropdlg.h"
 
@@ -25,41 +27,41 @@ AssocPage::AssocPage(QWidget *parent, UMLView * v, UMLObject * o) : QWidget(pare
     QHBoxLayout * mainLayout = new QHBoxLayout(this);
     mainLayout -> setSpacing(10);
 
-    m_pAssocGB = new QGroupBox(i18n("Associations"), this);
+    m_pAssocGB = new Q3GroupBox(i18n("Associations"), this);
     mainLayout -> addWidget(m_pAssocGB);
 
     QHBoxLayout * layout = new QHBoxLayout(m_pAssocGB);
     layout -> setSpacing(10);
     layout -> setMargin(margin);
 
-    m_pAssocLB = new QListBox(m_pAssocGB);
+    m_pAssocLB = new Q3ListBox(m_pAssocGB);
     layout -> addWidget(m_pAssocLB);
     setMinimumSize(310, 330);
     fillListBox();
     m_pMenu = 0;
 
-    connect(m_pAssocLB, SIGNAL(doubleClicked(QListBoxItem *)),
-            this, SLOT(slotDoubleClick(QListBoxItem *)));
+    connect(m_pAssocLB, SIGNAL(doubleClicked(Q3ListBoxItem *)),
+            this, SLOT(slotDoubleClick(Q3ListBoxItem *)));
 
-    connect(m_pAssocLB, SIGNAL(rightButtonPressed(QListBoxItem *, const QPoint &)),
-            this, SLOT(slotRightButtonPressed(QListBoxItem *, const QPoint &)));
+    connect(m_pAssocLB, SIGNAL(rightButtonPressed(Q3ListBoxItem *, const QPoint &)),
+            this, SLOT(slotRightButtonPressed(Q3ListBoxItem *, const QPoint &)));
 
-    connect(m_pAssocLB, SIGNAL(rightButtonClicked(QListBoxItem *, const QPoint &)),
-            this, SLOT(slotRightButtonClicked(QListBoxItem *, const QPoint &)));
+    connect(m_pAssocLB, SIGNAL(rightButtonClicked(Q3ListBoxItem *, const QPoint &)),
+            this, SLOT(slotRightButtonClicked(Q3ListBoxItem *, const QPoint &)));
 }
 
 AssocPage::~AssocPage() {
-    disconnect(m_pAssocLB, SIGNAL(doubleClicked(QListBoxItem *)),
-               this, SLOT(slotDoubleClick(QListBoxItem *)));
+    disconnect(m_pAssocLB, SIGNAL(doubleClicked(Q3ListBoxItem *)),
+               this, SLOT(slotDoubleClick(Q3ListBoxItem *)));
 
-    disconnect(m_pAssocLB, SIGNAL(rightButtonPressed(QListBoxItem *, const QPoint &)),
-               this, SLOT(slotRightButtonPressed(QListBoxItem *, const QPoint &)));
+    disconnect(m_pAssocLB, SIGNAL(rightButtonPressed(Q3ListBoxItem *, const QPoint &)),
+               this, SLOT(slotRightButtonPressed(Q3ListBoxItem *, const QPoint &)));
 
-    disconnect(m_pAssocLB, SIGNAL(rightButtonClicked(QListBoxItem *, const QPoint &)),
-               this, SLOT(slotRightButtonClicked(QListBoxItem *, const QPoint &)));
+    disconnect(m_pAssocLB, SIGNAL(rightButtonClicked(Q3ListBoxItem *, const QPoint &)),
+               this, SLOT(slotRightButtonClicked(Q3ListBoxItem *, const QPoint &)));
 }
 
-void AssocPage::slotDoubleClick(QListBoxItem * i) {
+void AssocPage::slotDoubleClick(Q3ListBoxItem * i) {
 
     if(!i)
         return;
@@ -87,7 +89,7 @@ void AssocPage::fillListBox() {
     }
 }
 
-void AssocPage::slotRightButtonClicked(QListBoxItem */* item*/, const QPoint &/* p*/) {
+void AssocPage::slotRightButtonClicked(Q3ListBoxItem */* item*/, const QPoint &/* p*/) {
     if(m_pMenu) {
         m_pMenu -> hide();
         disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotPopupMenuSel(int)));
@@ -96,7 +98,7 @@ void AssocPage::slotRightButtonClicked(QListBoxItem */* item*/, const QPoint &/*
     }
 }
 
-void AssocPage::slotRightButtonPressed(QListBoxItem * item, const QPoint & p) {
+void AssocPage::slotRightButtonPressed(Q3ListBoxItem * item, const QPoint & p) {
     if(!item)
         return;
     if(m_pMenu) {

@@ -17,6 +17,10 @@
 
 // qt includes
 #include <qlayout.h>
+//Added by qt3to4:
+#include <QLabel>
+#include <QHBoxLayout>
+#include <QGridLayout>
 
 // kde includes
 #include <klocale.h>
@@ -64,14 +68,14 @@ void AssocRolePage::constructWidget() {
     mainLayout -> setSpacing(6);
 
     // group boxes for role, documentation properties
-    QGroupBox *propsAGB = new QGroupBox(this);
-    QGroupBox *propsBGB = new QGroupBox(this);
-    QButtonGroup * scopeABG = new QButtonGroup(i18n("Role A Visibility"), this );
-    QButtonGroup * scopeBBG = new QButtonGroup(i18n("Role B Visibility"), this );
-    QButtonGroup * changeABG = new QButtonGroup(i18n("Role A Changeability"), this );
-    QButtonGroup * changeBBG = new QButtonGroup(i18n("Role B Changeability"), this );
-    QGroupBox *docAGB = new QGroupBox(this);
-    QGroupBox *docBGB = new QGroupBox(this);
+    Q3GroupBox *propsAGB = new Q3GroupBox(this);
+    Q3GroupBox *propsBGB = new Q3GroupBox(this);
+    Q3ButtonGroup * scopeABG = new Q3ButtonGroup(i18n("Role A Visibility"), this );
+    Q3ButtonGroup * scopeBBG = new Q3ButtonGroup(i18n("Role B Visibility"), this );
+    Q3ButtonGroup * changeABG = new Q3ButtonGroup(i18n("Role A Changeability"), this );
+    Q3ButtonGroup * changeBBG = new Q3ButtonGroup(i18n("Role B Changeability"), this );
+    Q3GroupBox *docAGB = new Q3GroupBox(this);
+    Q3GroupBox *docBGB = new Q3GroupBox(this);
     propsAGB -> setTitle(titleA);
     propsBGB -> setTitle(titleB);
     docAGB -> setTitle(i18n("Documentation"));
@@ -211,21 +215,21 @@ void AssocRolePage::constructWidget() {
     // Document A
     QHBoxLayout * docALayout = new QHBoxLayout(docAGB);
     docALayout -> setMargin(margin);
-    m_pDocA = new QMultiLineEdit(docAGB);
+    m_pDocA = new Q3MultiLineEdit(docAGB);
     docALayout -> addWidget(m_pDocA);
     m_pDocA-> setText(m_pAssociationWidget-> getRoleDoc(Uml::A));
     // m_pDocA-> setText("<<not implemented yet>>");
     // m_pDocA-> setEnabled(false);
-    m_pDocA->setWordWrap(QMultiLineEdit::WidgetWidth);
+    m_pDocA->setWordWrap(Q3MultiLineEdit::WidgetWidth);
 
     // Document B
     QHBoxLayout * docBLayout = new QHBoxLayout(docBGB);
     docBLayout -> setMargin(margin);
-    m_pDocB = new QMultiLineEdit(docBGB);
+    m_pDocB = new Q3MultiLineEdit(docBGB);
     docBLayout -> addWidget(m_pDocB);
     m_pDocB-> setText(m_pAssociationWidget-> getRoleDoc(Uml::B));
     // m_pDocB-> setEnabled(false);
-    m_pDocB->setWordWrap(QMultiLineEdit::WidgetWidth);
+    m_pDocB->setWordWrap(Q3MultiLineEdit::WidgetWidth);
 
 }
 

@@ -20,8 +20,10 @@
 // qt includes
 #include <qdatastream.h>
 #include <qmap.h>
-#include <qdict.h>
-#include <qptrstack.h>
+#include <q3dict.h>
+#include <q3ptrstack.h>
+//Added by qt3to4:
+#include <Q3PtrList>
 
 // kde includes
 #include <kurl.h>
@@ -941,7 +943,7 @@ private:
      * A dictionary of various code generators we currently have
      * configured for this UML document.
      */
-    QDict<CodeGenerator> m_codeGeneratorDictionary;
+    Q3Dict<CodeGenerator> m_codeGeneratorDictionary;
 
     /**
      * Contains all the UMLObject id changes of paste session.
@@ -974,13 +976,13 @@ private:
      * QPtrStack to be able to remove the ones off the bottom once
      * the stack gets too big.
      */
-    QPtrList<QDataStream> undoStack;
+    Q3PtrList<QDataStream> undoStack;
 
     /**
      * The stack of images of the document added to each time
      * undo is called.
      */
-    QPtrList<QDataStream> redoStack;
+    Q3PtrList<QDataStream> redoStack;
 
     /**
      * Auxiliary to <docsettings> processing

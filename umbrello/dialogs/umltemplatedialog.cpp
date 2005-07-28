@@ -17,10 +17,13 @@
 
 // qt includes
 #include <qlayout.h>
-#include <qgroupbox.h>
+#include <q3groupbox.h>
 #include <qcombobox.h>
 #include <qlabel.h>
 #include <qlineedit.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <QGridLayout>
 
 // kde includes
 #include <klocale.h>
@@ -47,7 +50,7 @@ void UMLTemplateDialog::setupDialog() {
 
     QVBoxLayout* mainLayout = new QVBoxLayout( plainPage() );
 
-    m_pValuesGB = new QGroupBox(i18n("General Properties"), plainPage() );
+    m_pValuesGB = new Q3GroupBox(i18n("General Properties"), plainPage() );
     QGridLayout* valuesLayout = new QGridLayout(m_pValuesGB, 3, 2);
     valuesLayout->setMargin(margin);
     valuesLayout->setSpacing(10);

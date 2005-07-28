@@ -24,6 +24,8 @@
 #include <qregexp.h>
 #include <qstring.h>
 #include <qdir.h>
+//Added by qt3to4:
+#include <QTextStream>
 
 PerlWriter::PerlWriter( UMLDoc * doc, const char *name )
         : SimpleCodeGenerator ( doc, name )

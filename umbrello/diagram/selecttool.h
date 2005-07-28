@@ -17,7 +17,7 @@
 
 #include "tool.h"
 
-class QCanvasRectangle;
+class Q3CanvasRectangle;
 
 namespace Umbrello
 {
@@ -45,7 +45,7 @@ protected:
 	virtual bool keyReleased( Qt::Key );
 	
 	QPoint m_selectFrom;
-	QCanvasRectangle *m_selectionRect;
+	Q3CanvasRectangle *m_selectionRect;
 };
 
 

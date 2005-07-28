@@ -23,9 +23,9 @@
  * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class QGroupBox;
+class Q3GroupBox;
 class QLineEdit;
-class QTextEdit;
+class Q3TextEdit;
 
 class NoteDialog : public KDialogBase {
 public:
@@ -43,8 +43,8 @@ public slots:
     void slotOk();
 private:
     //GUI widgets
-    QGroupBox * m_pDocGB;
-    QTextEdit * m_pDocTE;
+    Q3GroupBox * m_pDocGB;
+    Q3TextEdit * m_pDocTE;
 
     /**
      *	Note widget to show documentation for.

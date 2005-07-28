@@ -17,7 +17,10 @@
 
 // qt includes
 #include <qlayout.h>
-#include <qvbox.h>
+#include <q3vbox.h>
+//Added by qt3to4:
+#include <QLabel>
+#include <QGridLayout>
 // kde includes
 #include <kdebug.h>
 #include <kiconloader.h>
@@ -47,9 +50,9 @@ SettingsDlg::~SettingsDlg() {}
 
 void SettingsDlg::setupUIPage() {
     //setup UI page
-    QVBox * page = addVBoxPage( i18n("User Interface"), i18n("User Interface Settings"), DesktopIcon( "window_list") );
+    Q3VBox * page = addVBoxPage( i18n("User Interface"), i18n("User Interface Settings"), DesktopIcon( "window_list") );
 
-    m_UiWidgets.colorGB = new QGroupBox( i18n("Color"), page );
+    m_UiWidgets.colorGB = new Q3GroupBox( i18n("Color"), page );
     QGridLayout * colorLayout = new QGridLayout( m_UiWidgets.colorGB, 3, 3 );
     colorLayout -> setSpacing( spacingHint() );
     colorLayout -> setMargin( fontMetrics().height() );
@@ -99,10 +102,10 @@ void SettingsDlg::setupUIPage() {
 void SettingsDlg::setupGeneralPage() {
     //setup General page
 
-    QVBox * page = addVBoxPage( i18n("General"), i18n("General Settings"), DesktopIcon( "misc")  );
+    Q3VBox * page = addVBoxPage( i18n("General"), i18n("General Settings"), DesktopIcon( "misc")  );
 
     // Set up undo setting
-    m_GeneralWidgets.miscGB = new QGroupBox( i18n("Miscellaneous"), page );
+    m_GeneralWidgets.miscGB = new Q3GroupBox( i18n("Miscellaneous"), page );
 
     QGridLayout * miscLayout = new QGridLayout( m_GeneralWidgets.miscGB, 2, 2 );
     miscLayout -> setSpacing( spacingHint() );
@@ -122,7 +125,7 @@ void SettingsDlg::setupGeneralPage() {
 
     //setup autosave settings
 
-    m_GeneralWidgets.autosaveGB = new QGroupBox( i18n("Autosave"), page );
+    m_GeneralWidgets.autosaveGB = new Q3GroupBox( i18n("Autosave"), page );
 
     QGridLayout * autosaveLayout = new QGridLayout( m_GeneralWidgets.autosaveGB, 3, 2 );
     autosaveLayout -> setSpacing( spacingHint() );
@@ -146,7 +149,7 @@ void SettingsDlg::setupGeneralPage() {
                                     m_GeneralWidgets.autosaveSuffixT, m_pOptionState->generalState.autosavesuffix );
 
     //setup startup settings
-    m_GeneralWidgets.startupGB = new QGroupBox( i18n("Startup"), page );
+    m_GeneralWidgets.startupGB = new Q3GroupBox( i18n("Startup"), page );
 
     QGridLayout * startupLayout = new QGridLayout( m_GeneralWidgets.startupGB, 3, 2 );
     startupLayout -> setSpacing( spacingHint() );
@@ -188,8 +191,8 @@ void SettingsDlg::setupGeneralPage() {
 void SettingsDlg::setupClassPage() {
     //setup class settings page
 
-    QVBox * page = addVBoxPage( i18n("Class"), i18n("Class Settings"), DesktopIcon( "edit")  );
-    m_ClassWidgets.visibilityGB = new QGroupBox( i18n("Visibility"), page );
+    Q3VBox * page = addVBoxPage( i18n("Class"), i18n("Class Settings"), DesktopIcon( "edit")  );
+    m_ClassWidgets.visibilityGB = new Q3GroupBox( i18n("Visibility"), page );
 
     QGridLayout * visibilityLayout = new QGridLayout( m_ClassWidgets.visibilityGB );
     visibilityLayout -> setSpacing( spacingHint() );
@@ -225,7 +228,7 @@ void SettingsDlg::setupClassPage() {
     visibilityLayout -> addWidget( m_ClassWidgets.showOpSigCB, 3, 0 );
     visibilityLayout -> setRowStretch( 3, 1 );
 
-    m_ClassWidgets.scopeGB = new QGroupBox( i18n("Starting Scope"), page );
+    m_ClassWidgets.scopeGB = new Q3GroupBox( i18n("Starting Scope"), page );
     QGridLayout * scopeLayout = new QGridLayout( m_ClassWidgets.scopeGB );
     scopeLayout -> setSpacing( spacingHint() );
     scopeLayout -> setMargin(  fontMetrics().height()  );
@@ -254,19 +257,19 @@ void SettingsDlg::setupClassPage() {
 
 void SettingsDlg::setupCodeGenPage(CodeGenerator *gen, const QString &activeLanguage) {
     //setup code generation settings page
-    QVBox * page = addVBoxPage( i18n("Code Generation"), i18n("Code Generation Settings"), DesktopIcon( "source") );
+    Q3VBox * page = addVBoxPage( i18n("Code Generation"), i18n("Code Generation Settings"), DesktopIcon( "source") );
     m_pCodeGenPage = new CodeGenerationOptionsPage(gen, activeLanguage, page);
     connect( m_pCodeGenPage, SIGNAL(languageChanged()), this, SLOT(slotApply()) );
 }
 
 void SettingsDlg::setupCodeViewerPage(Settings::CodeViewerState options) {
     //setup code generation settings page
-    QVBox * page = addVBoxPage( i18n("Code Viewer"), i18n("Code Viewer Settings"), DesktopIcon( "source") );
+    Q3VBox * page = addVBoxPage( i18n("Code Viewer"), i18n("Code Viewer Settings"), DesktopIcon( "source") );
     m_pCodeViewerPage = new CodeViewerOptionsPage(options, page);
 }
 
 void SettingsDlg::setupFontPage() {
-    QVBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
+    Q3VBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
     m_FontWidgets.chooser = new KFontChooser( page, "font", false, QStringList(), false);
     m_FontWidgets.chooser->setFont( m_pOptionState->uiState.font );
 

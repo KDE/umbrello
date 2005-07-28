@@ -15,12 +15,12 @@
 #ifndef UMLCLASSIFIERLIST_H
 #define UMLCLASSIFIERLIST_H
 
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 
 // forward declaration
 class UMLClassifier;
 
-typedef QPtrList<UMLClassifier> UMLClassifierList;
-typedef QPtrListIterator<UMLClassifier> UMLClassifierListIt;
+typedef Q3PtrList<UMLClassifier> UMLClassifierList;
+typedef Q3PtrListIterator<UMLClassifier> UMLClassifierListIt;
 
 #endif

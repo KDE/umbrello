@@ -15,6 +15,8 @@
 
 #include <kdebug.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <Q3PtrList>
 
 #include "codedocument.h"
 #include "codegenerator.h"
@@ -287,7 +289,7 @@ bool CodeDocument::insertTextBlock(TextBlock * newBlock, TextBlock * existingBlo
  */
 /*
 CodeDocumentDialog * CodeDocument::getDialog ( ) {
-    return m_dialog;
+	return m_dialog;
 }
 */
 
@@ -336,7 +338,7 @@ QString CodeDocument::toString ( ) {
     // update the time/date
 
     // comments, import, package codeblocks go next
-    QPtrList<TextBlock> * items = getTextBlockList();
+    Q3PtrList<TextBlock> * items = getTextBlockList();
     for (TextBlock *c = items->first(); c; c = items->next())
     {
         if(c->getWriteOutText()) {

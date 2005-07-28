@@ -10,12 +10,12 @@
 #ifndef UMLSTEREOTYPELIST_H
 #define UMLSTEREOTYPELIST_H
 
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 
 // forward declaration
 class UMLStereotype;
 
-typedef QPtrList<UMLStereotype> UMLStereotypeList;
-typedef QPtrListIterator<UMLStereotype> UMLStereotypeListIt;
+typedef Q3PtrList<UMLStereotype> UMLStereotypeList;
+typedef Q3PtrListIterator<UMLStereotype> UMLStereotypeListIt;
 
 #endif

@@ -18,10 +18,10 @@
 
 #include <kdialogbase.h>
 
-#include <qgroupbox.h>
+#include <q3groupbox.h>
 #include <qcombobox.h>
 #include <qradiobutton.h>
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
 #include <qlineedit.h>
 #include <qlabel.h>
 #include "../classifier.h"
@@ -32,10 +32,10 @@ class UMLView;
 #define CUSTOM 	1
 
 /**
- *	A dialog used to select an operation.
+ * A dialog used to select an operation.
  *
- *	@short A dialog to select an operation.
- *	@author Paul Hensgen	<phensgen@techie.com>
+ * @short A dialog to select an operation.
+ * @author Paul Hensgen	<phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
@@ -84,12 +84,12 @@ public:
      */
     void setCustomOp(const QString &op);
 private:
-    QGroupBox * m_pOpGB;
+    Q3GroupBox * m_pOpGB;
     QComboBox *	m_pOpCB;
     QLabel * m_pSeqL;
     QLineEdit * m_pOpLE, * m_pSeqLE;
     QRadioButton * m_pCustomRB, * m_pOpRB;
-    QButtonGroup * m_pOpBG, * m_pDocGB;
+    Q3ButtonGroup * m_pOpBG, * m_pDocGB;
     QString m_Text;
     int m_nOpCount;
     UMLView *m_pView;

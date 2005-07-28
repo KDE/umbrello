@@ -11,6 +11,8 @@
 // system includes
 #include <qpainter.h>
 #include <qcolor.h>
+//Added by qt3to4:
+#include <QMouseEvent>
 #include <kdebug.h>
 #include <kcursor.h>
 #include <kcolordialog.h>
@@ -43,7 +45,7 @@ using namespace Uml;
 
 
 UMLWidget::UMLWidget( UMLView * view, UMLObject * o )
-        : WidgetBase(view), QCanvasRectangle( view->canvas() ),
+        : WidgetBase(view), Q3CanvasRectangle( view->canvas() ),
         m_pMenu(0)
 {
     init();
@@ -55,7 +57,7 @@ UMLWidget::UMLWidget( UMLView * view, UMLObject * o )
 }
 
 UMLWidget::UMLWidget(UMLView * view, Uml::IDType id /* = Uml::id_None */)
-        : WidgetBase(view), QCanvasRectangle( view->canvas() ),
+        : WidgetBase(view), Q3CanvasRectangle( view->canvas() ),
         m_pMenu(0)
 {
     init();
@@ -82,7 +84,7 @@ UMLWidget& UMLWidget::operator=(const UMLWidget& other) {
     setY( other.getY() );
     m_Assocs = other.m_Assocs;
     m_Font = other.m_Font;
-    QCanvasRectangle::setSize( other.width(), other.height() );
+    Q3CanvasRectangle::setSize( other.width(), other.height() );
     m_bUsesDiagramFillColour = other.m_bUsesDiagramFillColour;
     m_bUsesDiagramLineColour = other.m_bUsesDiagramLineColour;
     m_bUsesDiagramLineWidth  = other.m_bUsesDiagramLineWidth;
@@ -641,7 +643,7 @@ void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY, bool resize
     int w = width();
     int h = height();
     int s = 4;
-    QBrush brush(blue);
+    QBrush brush(Qt::blue);
     p -> fillRect(offsetX, offsetY, s,  s, brush);
     p -> fillRect(offsetX, offsetY + h - s, s, s, brush);
     p -> fillRect(offsetX + w - s, offsetY, s, s, brush);
@@ -894,7 +896,7 @@ void UMLWidget::setX( int x ) {
         const int halfWidth =  width() / 2;
         x = m_pView->snappedX(x + halfWidth) - halfWidth;
     }
-    QCanvasItem::setX( (double)x );
+    Q3CanvasItem::setX( (double)x );
 }
 
 void UMLWidget::setY( int y ) {
@@ -902,7 +904,7 @@ void UMLWidget::setY( int y ) {
         const int halfHeight = height() / 2;
         y = m_pView->snappedX(y + halfHeight) - halfHeight;
     }
-    QCanvasItem::setY( (double)y );
+    Q3CanvasItem::setY( (double)y );
 }
 
 void UMLWidget::setName(const QString &strName) {
@@ -966,7 +968,7 @@ void UMLWidget::setSize(int width,int height) {
             height = (numY + 1) * m_pView->getSnapY();
     }
 
-    QCanvasRectangle::setSize(width,height);
+    Q3CanvasRectangle::setSize(width,height);
 }
 
 void UMLWidget::updateComponentSize(){

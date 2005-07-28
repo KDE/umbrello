@@ -31,6 +31,8 @@
 #include "../umlview.h"
 #include "../umlwidget.h"
 #include "../uml.h"
+//Added by qt3to4:
+#include <QPixmap>
 
 UMLClipboard::UMLClipboard() {
     m_type = clip1;

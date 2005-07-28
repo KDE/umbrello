@@ -21,20 +21,22 @@
 //local class includes
 #include "umlwidgetcolorpage.h"
 #include "activitypage.h"
+//Added by qt3to4:
+#include <QLabel>
 
 //forward declarations
 class UMLView;
 class StateWidget;
 class QLabel;
 class QLineEdit;
-class QMultiLineEdit;
-class QGroupBox;
+class Q3MultiLineEdit;
+class Q3GroupBox;
 class KFontChooser;
 
 /**
- *   Displays the properties for a @ref StateWidget
+ * Displays the properties for a @ref StateWidget
  *
- *   @author   Paul Hensgen
+ * @author   Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
@@ -137,9 +139,9 @@ protected:
     struct GeneralPageWidgets {
         QLabel * nameL, * typeL;
         QLineEdit * nameLE, * typeLE;
-        QMultiLineEdit * docMLE;
+        Q3MultiLineEdit * docMLE;
 
-        QGroupBox * docGB, * generalGB;
+        Q3GroupBox * docGB, * generalGB;
     }
     m_GenPageWidgets;
 };

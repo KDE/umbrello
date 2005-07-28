@@ -18,6 +18,8 @@
 #include <ktoolbar.h>
 #include "umlnamespace.h"
 #include "umlwidgetlist.h"
+//Added by qt3to4:
+#include <QPixmap>
 
 
 /**
@@ -38,7 +40,7 @@ public:
      * @param parentWindow	The parent of the toolbar.
      * @param name		The name of the toolbar.
      */
-    AlignToolBar(QMainWindow* parentWindow, const char* name);
+    AlignToolBar(Q3MainWindow* parentWindow, const char* name);
 
     /**
      * Standard deconstructor.

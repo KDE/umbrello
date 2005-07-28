@@ -18,6 +18,9 @@
 
 #include <kaction.h>
 #include <qslider.h>
+//Added by qt3to4:
+#include <Q3Frame>
+#include <QKeyEvent>
 
 /**KPlayer's slider widget. Works around the Qt upside-down slider bug.
  * Taken from kplayer CVS 2003-09-21 (kplayer > 0.3.1) by Jonathan Riddell
@@ -78,7 +81,7 @@ public:
     void setup (int minValue, int maxValue, int value, int pageStep, int lineStep = 1);
     /** Sets the slider orientation.
       */
-    virtual void setOrientation (Orientation);
+    virtual void setOrientation (Qt::Orientation);
 
 signals:
     /** Emitted when the slider value changes.
@@ -101,7 +104,7 @@ protected:
 /**KPlayer popup frame.
   *@author kiriuja
   */
-class KPlayerPopupFrame : public QFrame
+class KPlayerPopupFrame : public Q3Frame
 {
     Q_OBJECT
 
@@ -109,7 +112,7 @@ public:
     /** The KPlayerPopupFrame constructor. Parameters are passed on to QFrame.
       */
     KPlayerPopupFrame (QWidget* parent = 0, const char* name = 0)
-            : QFrame (parent, name, WType_Popup) { }
+            : Q3Frame (parent, name, Qt::WType_Popup) { }
     /** The KPlayerPopupFrame destructor. Does nothing.
       */
     virtual ~KPlayerPopupFrame() { }
@@ -191,7 +194,7 @@ public:
 protected slots:
     /** Changes the slider orientation when the toolbar orientation changes.
       */
-    void orientationChanged (Orientation);
+    void orientationChanged (Qt::Orientation);
 
 protected:
     /** The slider.

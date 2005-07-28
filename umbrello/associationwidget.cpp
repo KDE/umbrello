@@ -18,7 +18,10 @@
 #include <cstdlib>
 #include <cmath>
 // qt/kde includes
-#include <qcanvas.h>
+#include <q3canvas.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QMoveEvent>
 #include <kdebug.h>
 #include <klocale.h>
 // app includes
@@ -2039,9 +2042,9 @@ void AssociationWidget::removeAssocClassLine() {
 
 void AssociationWidget::createAssocClassLine() {
     if (m_pAssocClassLine == NULL)
-        m_pAssocClassLine = new QCanvasLine(m_pView->canvas());
+        m_pAssocClassLine = new Q3CanvasLine(m_pView->canvas());
     computeAssocClassLine();
-    QPen pen(m_pView->getLineColor(), m_pView->getLineWidth(), DashLine);
+    QPen pen(m_pView->getLineColor(), m_pView->getLineWidth(), Qt::DashLine);
     m_pAssocClassLine->setPen(pen);
     m_pAssocClassLine->setVisible(true);
 }
@@ -2896,9 +2899,9 @@ void AssociationWidget::setSelected(bool _select /* = true */) {
 bool AssociationWidget::onAssocClassLine(const QPoint &point) {
     if (m_pAssocClassLine == NULL)
         return false;
-    QCanvasItemList list = m_pView->canvas()->collisions(point);
-    QCanvasItemList::iterator end(list.end());
-    for (QCanvasItemList::iterator item_it(list.begin()); item_it != end; ++item_it) {
+    Q3CanvasItemList list = m_pView->canvas()->collisions(point);
+    Q3CanvasItemList::iterator end(list.end());
+    for (Q3CanvasItemList::iterator item_it(list.begin()); item_it != end; ++item_it) {
         if (*item_it == m_pAssocClassLine)
             return true;
     }

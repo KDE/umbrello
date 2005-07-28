@@ -27,6 +27,8 @@
 
 #include <kdebug.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <Q3PtrList>
 
 #include "cppheadercodedocument.h"
 #include "cppcodegenerator.h"
@@ -391,32 +393,32 @@ void CPPHeaderCodeDocument::updateContent( )
     CPPCodeGenerationPolicy * policy = (CPPCodeGenerationPolicy*)getPolicy();
 
     // first, set the global flag on whether or not to show classfield info
-    QPtrList<CodeClassField> * cfList = getCodeClassFieldList();
+    Q3PtrList<CodeClassField> * cfList = getCodeClassFieldList();
     for(CodeClassField * field = cfList->first(); field; field = cfList->next())
         field->setWriteOutMethods(gen->getAutoGenerateAccessors());
 
     // attribute-based ClassFields
     // we do it this way to have the static fields sorted out from regular ones
-    QPtrList<CodeClassField> staticPublicAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true, Uml::Public );
-    QPtrList<CodeClassField> publicAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, false, Uml::Public );
-    QPtrList<CodeClassField> staticProtectedAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true, Uml::Protected );
-    QPtrList<CodeClassField> protectedAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, false, Uml::Protected );
-    QPtrList<CodeClassField> staticPrivateAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true, Uml::Private );
-    QPtrList<CodeClassField> privateAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, false, Uml::Private);
+    Q3PtrList<CodeClassField> staticPublicAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true, Uml::Public );
+    Q3PtrList<CodeClassField> publicAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, false, Uml::Public );
+    Q3PtrList<CodeClassField> staticProtectedAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true, Uml::Protected );
+    Q3PtrList<CodeClassField> protectedAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, false, Uml::Protected );
+    Q3PtrList<CodeClassField> staticPrivateAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true, Uml::Private );
+    Q3PtrList<CodeClassField> privateAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, false, Uml::Private);
 
     // association-based ClassFields
     // dont care if they are static or not..all are lumped together
-    QPtrList<CodeClassField> publicPlainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation , Uml::Public);
-    QPtrList<CodeClassField> publicAggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation, Uml::Public);
-    QPtrList<CodeClassField> publicCompositionClassFields = getSpecificClassFields ( CodeClassField::Composition, Uml::Public );
+    Q3PtrList<CodeClassField> publicPlainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation , Uml::Public);
+    Q3PtrList<CodeClassField> publicAggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation, Uml::Public);
+    Q3PtrList<CodeClassField> publicCompositionClassFields = getSpecificClassFields ( CodeClassField::Composition, Uml::Public );
 
-    QPtrList<CodeClassField> protPlainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation , Uml::Protected);
-    QPtrList<CodeClassField> protAggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation, Uml::Protected);
-    QPtrList<CodeClassField> protCompositionClassFields = getSpecificClassFields ( CodeClassField::Composition, Uml::Protected);
+    Q3PtrList<CodeClassField> protPlainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation , Uml::Protected);
+    Q3PtrList<CodeClassField> protAggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation, Uml::Protected);
+    Q3PtrList<CodeClassField> protCompositionClassFields = getSpecificClassFields ( CodeClassField::Composition, Uml::Protected);
 
-    QPtrList<CodeClassField> privPlainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation , Uml::Private);
-    QPtrList<CodeClassField> privAggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation, Uml::Private);
-    QPtrList<CodeClassField> privCompositionClassFields = getSpecificClassFields ( CodeClassField::Composition, Uml::Private);
+    Q3PtrList<CodeClassField> privPlainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation , Uml::Private);
+    Q3PtrList<CodeClassField> privAggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation, Uml::Private);
+    Q3PtrList<CodeClassField> privCompositionClassFields = getSpecificClassFields ( CodeClassField::Composition, Uml::Private);
 
     bool hasOperationMethods = c->getOpList().last() ? true : false;
     bool hasNamespace = false;

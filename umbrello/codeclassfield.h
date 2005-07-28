@@ -22,6 +22,8 @@
 #include "codeclassfielddeclarationblock.h"
 #include "codeparameter.h"
 #include "codeaccessormethod.h"
+//Added by qt3to4:
+#include <Q3PtrList>
 
 // #include "codeclassfielddialog.h"
 
@@ -85,7 +87,7 @@ public:
      * @return QPtrList<CodeAccessorMethod> list of Method objects held by
      * m_methodVector
      */
-    QPtrList<CodeAccessorMethod> * getMethodList ( );
+    Q3PtrList<CodeAccessorMethod> * getMethodList ( );
 
     /** Utility method to allow finding particular accessor method of this
     	 *  code class field by its type identifier.
@@ -198,7 +200,7 @@ private:
     QString m_listClassName;
     ClassFieldType m_classFieldType;
     CodeClassFieldDeclarationBlock * m_declCodeBlock;
-    QPtrList<CodeAccessorMethod> m_methodVector; // the list of methods related to this codeclassfield
+    Q3PtrList<CodeAccessorMethod> m_methodVector; // the list of methods related to this codeclassfield
     bool m_parentIsAttribute;
 
     // these are just some utility functions

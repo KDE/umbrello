@@ -10,10 +10,13 @@
 #ifndef UMLWIDGET_H
 #define UMLWIDGET_H
 
-#include <qcanvas.h>
+#include <q3canvas.h>
 #include <qdom.h>
 #include <qdatetime.h>
 #include <qfont.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QMoveEvent>
 
 #include "umlnamespace.h"
 #include "widgetbase.h"
@@ -37,7 +40,7 @@ class QFontMetrics;
  * @author 	Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLWidget : public WidgetBase, public QCanvasRectangle {
+class UMLWidget : public WidgetBase, public Q3CanvasRectangle {
     Q_OBJECT
 public:
     /**
@@ -287,28 +290,28 @@ public:
      * Gets the x-coordinate.
      */
     int getX() const {
-        return (int)QCanvasItem::x();
+        return (int)Q3CanvasItem::x();
     }
 
     /**
      * Gets the y-coordinate.
      */
     int getY() const {
-        return (int)QCanvasItem::y();
+        return (int)Q3CanvasItem::y();
     }
 
     /**
      * Returns the height of widget.
      */
     int getHeight() const {
-        return QCanvasRectangle::height();
+        return Q3CanvasRectangle::height();
     }
 
     /**
      * Returns the width of the widget.
      */
     int getWidth() const {
-        return QCanvasRectangle::width();
+        return Q3CanvasRectangle::width();
     }
 
     /**

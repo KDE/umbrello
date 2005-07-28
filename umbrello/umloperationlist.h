@@ -10,12 +10,12 @@
 #ifndef UMLOPERATIONLIST_H
 #define UMLOPERATIONLIST_H
 
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 
 // forward declaration
 class UMLOperation;
 
-typedef QPtrList<UMLOperation> UMLOperationList;
-typedef QPtrListIterator<UMLOperation> UMLOperationListIt;
+typedef Q3PtrList<UMLOperation> UMLOperationList;
+typedef Q3PtrListIterator<UMLOperation> UMLOperationListIt;
 
 #endif

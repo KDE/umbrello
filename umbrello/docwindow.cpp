@@ -19,23 +19,25 @@
 #include "umlview.h"
 #include "umlwidget.h"
 #include <klocale.h>
-#include <qgroupbox.h>
+#include <q3groupbox.h>
 #include <qlayout.h>
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
+//Added by qt3to4:
+#include <QHBoxLayout>
 
 DocWindow::DocWindow( UMLDoc * doc, QWidget *parent, const char *name ) : QWidget( parent, name ) {
     //setup visual display
     QHBoxLayout * mainLayout = new QHBoxLayout( this );
 
-    m_pDocGB = new QGroupBox( i18n( "Documentation" ), this );
+    m_pDocGB = new Q3GroupBox( i18n( "Documentation" ), this );
     mainLayout -> addWidget( m_pDocGB );
 
     QHBoxLayout * docLayout = new QHBoxLayout( m_pDocGB );
-    m_pDocMLE = new QMultiLineEdit( m_pDocGB );
+    m_pDocMLE = new Q3MultiLineEdit( m_pDocGB );
     m_pDocMLE -> setText( "" );
     docLayout -> setMargin( fontMetrics().height() );
     docLayout -> addWidget( m_pDocMLE);
-    m_pDocMLE -> setWordWrap(QMultiLineEdit::WidgetWidth);
+    m_pDocMLE -> setWordWrap(Q3MultiLineEdit::WidgetWidth);
 
     //setup the documentation variables
     //show projects documentation to start

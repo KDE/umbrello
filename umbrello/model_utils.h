@@ -16,7 +16,7 @@
 #define MODEL_UTILS_H
 
 #include <qstring.h>
-#include <qvaluelist.h>
+#include <q3valuelist.h>
 
 #include "umlnamespace.h"
 #include "umlobjectlist.h"
@@ -125,8 +125,8 @@ struct NameAndType {
 /**
  * Auxiliary type for OpDescriptor
  */
-typedef QValueList<NameAndType> NameAndType_List;
-typedef QValueListIterator<NameAndType> NameAndType_ListIt;
+typedef Q3ValueList<NameAndType> NameAndType_List;
+typedef Q3ValueListIterator<NameAndType> NameAndType_ListIt;
 
 /**
  * Data structure filled by parseOperation()

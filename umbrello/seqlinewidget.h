@@ -25,7 +25,7 @@ class ObjectWidget;
  * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class SeqLineWidget : public QCanvasLine {
+class SeqLineWidget : public Q3CanvasLine {
 public:
     /**
      * Constructor.
@@ -112,9 +112,9 @@ protected:
 
     /// The destruction box.
     struct {
-        QCanvasRectangle * rect;
-        QCanvasLine * line1;
-        QCanvasLine * line2;
+        Q3CanvasRectangle * rect;
+        Q3CanvasLine * line1;
+        Q3CanvasLine * line2;
     } m_pDestructionBox;
 
     /**

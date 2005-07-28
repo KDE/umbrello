@@ -16,18 +16,21 @@
 #define DIAGRAMELEMENT_H
 
 #include <qobject.h>
-#include <qcanvas.h>
+#include <q3canvas.h>
 #include <qpoint.h>
+//Added by qt3to4:
+#include <Q3PopupMenu>
+#include <Q3PtrList>
 
 #include "diagram.h"
 
-class QPopupMenu;
+class Q3PopupMenu;
 
 namespace Umbrello{
 class Diagram;
 
 /** @short Base class for all elements shown in a Diagram */
-class DiagramElement :  public QObject, public QCanvasPolygonalItem
+class DiagramElement :  public QObject, public Q3CanvasPolygonalItem
 {
 	Q_OBJECT
 
@@ -73,7 +76,7 @@ public:
 	/** Populate a context menu with items / actions for this element
 	*  @param menu The popup menu to insert the actions in
 	*/
-	virtual void fillContextMenu(QPopupMenu &menu);
+	virtual void fillContextMenu(Q3PopupMenu &menu);
 
 	/** Sets the selected status of the element*/
 	virtual void setSelected(bool);
@@ -126,7 +129,7 @@ protected:
 	int  m_id;
 	bool m_useOwnPen;
 	bool m_useOwnBrush;
-	mutable QPtrList<QPoint> m_hotSpots;
+	mutable Q3PtrList<QPoint> m_hotSpots;
 private:
 	int m_highlightHotSpot;
 	int m_hotSpotSize;

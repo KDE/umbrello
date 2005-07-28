@@ -17,14 +17,14 @@
 #include "umlview.h"
 #include "umlviewcanvas.h"
 
-UMLViewCanvas::UMLViewCanvas( UMLView * pView ) : QCanvas( pView ) {
+UMLViewCanvas::UMLViewCanvas( UMLView * pView ) : Q3Canvas( pView ) {
     m_pView = pView;
 }
 
 UMLViewCanvas::~UMLViewCanvas() {}
 
 void UMLViewCanvas::drawBackground( QPainter & painter, const QRect & clip ) {
-    QCanvas::drawBackground( painter, clip );
+    Q3Canvas::drawBackground( painter, clip );
     if( m_pView -> getShowSnapGrid() ) {
         painter.setPen( gray );
         int gridX = m_pView -> getSnapX();

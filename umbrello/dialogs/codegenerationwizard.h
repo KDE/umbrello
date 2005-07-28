@@ -20,7 +20,7 @@
 #define CODEGENERATIONWIZARD_H
 
 #include <qwidget.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 #include "codegenerationwizardbase.h"
 #include "settingsdlg.h"
 #include "../umlclassifierlist.h"
@@ -46,7 +46,7 @@ public:
     void showPage(QWidget *);
 
     int exec() {
-        return QWizard::exec();
+        return Q3Wizard::exec();
     }
 protected slots:
     void selectClass();

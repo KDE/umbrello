@@ -14,6 +14,8 @@
 
 #include <kdebug.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <Q3PtrList>
 
 #include "codegenerator.h"
 #include "classifiercodedocument.h"
@@ -242,12 +244,12 @@ UMLClassifier * ClassifierCodeDocument::getParentClassifier ( ) {
 /**
  * @return      QPtrList<CodeOperation>
  */
-QPtrList<CodeOperation> ClassifierCodeDocument::getCodeOperations ( ) {
+Q3PtrList<CodeOperation> ClassifierCodeDocument::getCodeOperations ( ) {
 
-    QPtrList<CodeOperation> list;
+    Q3PtrList<CodeOperation> list;
     list.setAutoDelete(false);
 
-    QPtrList<TextBlock> * tlist = getTextBlockList();
+    Q3PtrList<TextBlock> * tlist = getTextBlockList();
     for (TextBlock *tb = tlist->first(); tb; tb=tlist->next())
     {
         CodeOperation * cop = dynamic_cast<CodeOperation*>(tb);
@@ -310,7 +312,7 @@ void ClassifierCodeDocument::addCodeClassFieldMethods(CodeClassFieldList &list )
     for (CodeClassFieldListIt ccflit(list); ccflit.current(); ++ccflit)
     {
         CodeClassField * field = ccflit.current();
-        QPtrList <CodeAccessorMethod> * list = field->getMethodList();
+        Q3PtrList <CodeAccessorMethod> * list = field->getMethodList();
         for (CodeAccessorMethod * method = list->first(); method; method = list->next())
         {
             /*
@@ -698,7 +700,7 @@ TextBlock * ClassifierCodeDocument::findCodeClassFieldTextBlockByTag (const QStr
         if(decl && decl->getTag() == tag)
             return decl;
         // well, if not in the decl block, then in the methods perhaps?
-        QPtrList<CodeAccessorMethod> * mlist = cf->getMethodList();
+        Q3PtrList<CodeAccessorMethod> * mlist = cf->getMethodList();
         for(CodeAccessorMethod * m = mlist->first(); m; m=mlist->next())
             if(m->getTag() == tag)
                 return m;

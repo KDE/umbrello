@@ -86,10 +86,10 @@ QString ClassImport::formatComment(const QString &comment) {
 
 /*
 UMLObject* ClassImport::findUMLObject(QString name,
-                                      Uml::Object_Type type) {
-    // Why an extra wrapper? See comment at addMethodParameter()
-    UMLObject * o = umldoc->findUMLObject(name, type);
-    return o;
+				      Uml::Object_Type type) {
+	// Why an extra wrapper? See comment at addMethodParameter()
+	UMLObject * o = umldoc->findUMLObject(name, type);
+	return o;
 }
  */
 

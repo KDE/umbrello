@@ -15,19 +15,19 @@
 #ifndef UMLCLASSIFIERLISTITEMLIST_H
 #define UMLCLASSIFIERLISTITEMLIST_H
 
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 
 // forward declaration
 class UMLClassifierListItem;
 
 //typedef QPtrList<UMLClassifierListItem> UMLClassifierListItemList;
-typedef QPtrListIterator<UMLClassifierListItem> UMLClassifierListItemListIt;
+typedef Q3PtrListIterator<UMLClassifierListItem> UMLClassifierListItemListIt;
 
 /**
  * This sub-class adds copyInto and clone to the QPtrList<UMLClassifierListItem>
  * base class.
  */
-class UMLClassifierListItemList : public QPtrList<UMLClassifierListItem>
+class UMLClassifierListItemList : public Q3PtrList<UMLClassifierListItem>
 {
 
 public:
