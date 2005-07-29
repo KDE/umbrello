@@ -26,7 +26,6 @@
 #include "rubycodegenerator.h"
 #include "xmlschemawriter.h"
 
-// the old
 #include "adawriter.h"
 #include "cppwriter.h"
 // #include "cswriter.h" // missing in action?!?
@@ -40,6 +39,7 @@
 #include "sqlwriter.h"
 #include "aswriter.h"
 #include "jswriter.h"
+#include "tclwriter.h"
 
 #include "qstringlist.h"
 #include <kdebug.h>
@@ -55,8 +55,8 @@ QStringList CodeGeneratorFactory::languagesAvailable() {
     kdDebug()<<"Querying languages available"<<endl;
 
     QStringList l;
-    l.append("Ada");
     l.append("ActionScript");
+    l.append("Ada");
     l.append("Cpp");
     //	l.append("C#");
     l.append("IDL");
@@ -68,6 +68,7 @@ QStringList CodeGeneratorFactory::languagesAvailable() {
     l.append("Python");
     l.append("Ruby");
     l.append("SQL");
+    l.append("Tcl");
     l.append("XMLSchema");
     return l;
 }
@@ -102,6 +103,8 @@ QString CodeGeneratorFactory::generatorName(const QString &l) {
         return "RubyWriter";
     if (l == "SQL")
         return "SQLWriter";
+    if (l == "Tcl")
+        return "TclWriter";
     if (l == "XMLSchema")
         return "XMLSchemaWriter";
     //else...
@@ -150,6 +153,8 @@ CodeGenerator* CodeGeneratorFactory::createObject(UMLDoc* doc, const char* name)
                 obj = new RubyWriter(doc, name);
         } else if (cname == "SQLWriter") {
             obj = new SQLWriter( doc, name);
+        } else if (cname == "TclWriter") {
+            obj = new TclWriter( doc, name);
         } else if (cname == "XMLSchemaWriter") {
             obj = new XMLSchemaWriter( doc, name);
         } else {

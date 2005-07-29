@@ -2,11 +2,12 @@ Version 1.5
 
 * Association classes
 * Advanced code generator for Ruby
+* Code generator for Tcl
 * Externalization of folders (i.e. submodel files)
 * Change interface into class and vice versa (if abstract and no attributes)
 
 * Bugs fixed / wishes implemented (see http://bugs.kde.org)
-57588 67719 72016 79433 87252 88117 97162 105564 108223 109591
+57588 67719 72016 79433 87252 88117 97162 105564 108223 109591 109636
 
 Version 1.4.2 (maintenance release)
 
