@@ -134,14 +134,14 @@ void StateDialog::setupFontPage() {
 }
 
 void StateDialog::setupColorPage() {
-    Q3Frame * colorPage = addPage( i18n("Color"), i18n("Widget Color"), DesktopIcon( "colors") );
+    QFrame * colorPage = addPage( i18n("Color"), i18n("Widget Color"), DesktopIcon( "colors") );
     QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
     m_pColorPage = new UMLWidgetColorPage( colorPage, m_pStateWidget );
     m_pColorLayout -> addWidget(m_pColorPage);
 }
 
 void StateDialog::setupActivityPage() {
-    Q3Frame * activityPage = addPage( i18n("Activities"), i18n("Activities"), DesktopIcon( "misc") );
+    QFrame * activityPage = addPage( i18n("Activities"), i18n("Activities"), DesktopIcon( "misc") );
     QHBoxLayout * activityLayout = new QHBoxLayout( activityPage );
     m_pActivityPage = new ActivityPage( activityPage, m_pStateWidget );
     activityLayout -> addWidget( m_pActivityPage );

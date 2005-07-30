@@ -87,14 +87,14 @@ void AssocPropDlg::setupPages (AssociationWidget *assocWidget)
 {
 
     // general page
-    Q3Frame *page = addPage( i18n("General"), i18n("General Settings"), DesktopIcon( "misc") );
+    QFrame *page = addPage( i18n("General"), i18n("General Settings"), DesktopIcon( "misc") );
     QHBoxLayout *genLayout = new QHBoxLayout(page);
     page -> setMinimumSize(310, 330);
     m_pGenPage = new AssocGenPage (m_pDoc, page, assocWidget);
     genLayout -> addWidget(m_pGenPage);
 
     // role page
-    Q3Frame * newPage = addPage( i18n("Roles"), i18n("Role Settings"), DesktopIcon( "misc") );
+    QFrame * newPage = addPage( i18n("Roles"), i18n("Role Settings"), DesktopIcon( "misc") );
     QHBoxLayout * roleLayout = new QHBoxLayout(newPage);
     // newPage -> setMinimumSize(310, 330);
     m_pRolePage = new AssocRolePage(m_pDoc, newPage, assocWidget);

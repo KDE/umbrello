@@ -91,14 +91,14 @@ void UMLViewDialog::setupClassPage() {
         return;
     }
 
-    Q3Frame * newPage = addPage( i18n("Display"), i18n("Classes Display Options"), DesktopIcon( "info") );
+    QFrame * newPage = addPage( i18n("Display"), i18n("Classes Display Options"), DesktopIcon( "info") );
     QHBoxLayout * m_pOptionsLayout = new QHBoxLayout( newPage );
     m_pOptionsPage = new ClassOptionsPage( newPage, &m_options );
     m_pOptionsLayout -> addWidget( m_pOptionsPage );
 }
 
 void UMLViewDialog::setupColorPage() {
-    Q3Frame * colorPage = addPage( i18n("Color"), i18n("Diagram Colors"), DesktopIcon( "colors") );
+    QFrame * colorPage = addPage( i18n("Color"), i18n("Diagram Colors"), DesktopIcon( "colors") );
     QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
     m_pColorPage = new UMLWidgetColorPage( colorPage, &m_options );
     m_pColorLayout -> addWidget(m_pColorPage);

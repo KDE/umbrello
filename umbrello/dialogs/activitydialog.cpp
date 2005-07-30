@@ -118,7 +118,7 @@ void ActivityDialog::setupFontPage() {
 }
 
 void ActivityDialog::setupColorPage() {
-    Q3Frame * colorPage = addPage( i18n("Color"), i18n("Widget Colors"), DesktopIcon( "colors") );
+    QFrame * colorPage = addPage( i18n("Color"), i18n("Widget Colors"), DesktopIcon( "colors") );
     QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
     m_pColorPage = new UMLWidgetColorPage( colorPage, m_pActivityWidget );
     m_pColorLayout -> addWidget(m_pColorPage);
