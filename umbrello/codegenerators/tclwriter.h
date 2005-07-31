@@ -90,21 +90,21 @@ private:
     /**
      * write the source codei text.
      */
-    void            TclWriter::writeCode(QString text);
+    void            writeCode(QString text);
 
     /**
      * write comment text.
      */
-    void            TclWriter::writeComm(QString text);
+    void            writeComm(QString text);
 
     /**
      * write documentation text.
      */
-    void            TclWriter::writeDocu(QString text);
+    void            writeDocu(QString text);
 
-    void            TclWriter::writeConstructorDecl();
+    void            writeConstructorDecl();
 
-    void            TclWriter::writeDestructorDecl();
+    void            writeDestructorDecl();
 
     /**
      * Summary information about current classifier.
@@ -122,7 +122,7 @@ private:
      */
     void            writeAttributeDecl(Uml::Scope visibility, bool writeStatic);
 
-    void            TclWriter::writeAssociationIncl(UMLAssociationList list,
+    void            writeAssociationIncl(UMLAssociationList list,
             Uml::IDType myId, QString type);
     /**
      * Searches a list of associations for appropriate ones to write out as attributes
