@@ -1426,10 +1426,13 @@ void UMLApp::slotAddDefaultDatatypes() {
 }
 
 void UMLApp::slotCurrentViewChanged() {
-    if ( m_doc->getCurrentView() ) {
-        connect(m_doc->getCurrentView(), SIGNAL( sigShowGridToggled(bool) ),
+    UMLView *viewAtDoc = m_doc->getCurrentView();
+    // FIXME: This whole business of UMLDoc::getCurrentView() vs.
+    //        UMLApp::getCurrentView() is a shame.
+    if (viewAtDoc) {
+        connect(viewAtDoc, SIGNAL( sigShowGridToggled(bool) ),
                 this, SLOT( slotShowGridToggled(bool) ) );
-        connect(m_doc->getCurrentView(), SIGNAL( sigSnapToGridToggled(bool) ),
+        connect(viewAtDoc, SIGNAL( sigSnapToGridToggled(bool) ),
                 this, SLOT( slotSnapToGridToggled(bool) ) );
     }
 }
