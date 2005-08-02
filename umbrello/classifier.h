@@ -434,14 +434,8 @@ public:
      */
     bool hasAbstractOps ();
 
-    /**
-     * Emit the UMLObject::childObjectAdded signal for the given child object.
-     */
-    void signalChildObjectAdded(UMLClassifierListItem *childObj);
-
 signals:
     /** Signals that a new UMLOperation has been added to the classifer.
-     * The signal is emitted in addition to the generic childObjectAdded()
      */
     void operationAdded(UMLOperation *);
 

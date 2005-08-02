@@ -547,12 +547,15 @@ void UMLWidget::slotMenuSelection(int sel) {
         {
             UMLObject *pClone = m_pObject->clone();
             m_pView->addObject(pClone);
+            // Update the list view.
+            // CHECK: This smells of hack.
+            UMLListView *listview = UMLApp::app()->getListView();
             if (dynamic_cast<UMLClassifier*>(pClone)) {
                 UMLClassifier *c = static_cast<UMLClassifier*>(pClone);
                 UMLClassifierListItemList items = c->getFilteredList(Uml::ot_UMLObject);
                 for (UMLClassifierListItemListIt it(items); it.current(); ++it) {
                     UMLClassifierListItem *item = it.current();
-                    c->signalChildObjectAdded(item);
+                    listview->childObjectAdded(item, c);
                 }
             }
         }

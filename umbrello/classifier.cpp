@@ -65,10 +65,6 @@ bool UMLClassifier::isInterface() const {
     return (m_BaseType == ot_Interface);
 }
 
-void UMLClassifier::signalChildObjectAdded(UMLClassifierListItem *childObj) {
-    emit childObjectAdded(childObj);
-}
-
 UMLOperation * UMLClassifier::checkOperationSignature( QString name,
         UMLAttributeList *opParams,
         UMLOperation *exemptOp)
@@ -212,7 +208,13 @@ bool UMLClassifier::addOperation(UMLOperation* op, int position )
         m_List.insert(position,op);
     else
         m_List.append( op );
-    emit childObjectAdded(op);
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    if (!umldoc->loading()) {
+        // This adds operations at the listview. (Strangely, attributes don't
+        // need it.)    FIXME: Smells of hack.
+        UMLListView *listView = UMLApp::app()->getListView();
+        listView->childObjectAdded(op, this);
+    }
     emit operationAdded(op);
     emit modified();
     connect(op,SIGNAL(modified()),this,SIGNAL(modified()));
@@ -242,7 +244,8 @@ int UMLClassifier::removeOperation(UMLOperation *op) {
     // disconnection needed.
     // note that we dont delete the operation, just remove it from the Classifier
     disconnect(op,SIGNAL(modified()),this,SIGNAL(modified()));
-    emit childObjectRemoved(op);
+    UMLListView *listView = UMLApp::app()->getListView();
+    listView->childObjectRemoved(op);
     emit operationRemoved(op);
     emit modified();
     return m_List.count();
@@ -430,10 +433,12 @@ bool UMLClassifier::resolveRef() {
         for (UMLClassifierListItem *obj = m_List.first(); obj; obj = m_List.next())
          {  ....  }
          ****/
-        if (! obj->resolveRef())
+        if (! obj->resolveRef()) {
             success = false;
-        else
-            emit childObjectAdded(obj);
+        } else {
+            UMLListView *listView = UMLApp::app()->getListView();
+            listView->childObjectAdded(obj, this);
+        }
     }
     return success;
 }

@@ -334,18 +334,6 @@ signals:
       * itself emits the corresponding signal as well.
       */
     void modified();
-    /** Signals that a new UMLObject has been added to this object.
-      * More specialized classes like UMLPackage or UMLClassifier emit
-      * more specialized signals, like "classAdded" or "operationAdded" in
-      * addition to this one.
-      */
-    void childObjectAdded( UMLObject *obj );
-    /** Signals that a UMLObject has been removed from this object.
-      * More specialized classes like UMLPackage or UMLClassifier emit
-      * more specialized signals, like "classRemoved" or "operationRemoved" in
-      * addition to this one.
-      */
-    void childObjectRemoved( UMLObject *obj );
 
 protected:
     /**

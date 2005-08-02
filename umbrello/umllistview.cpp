@@ -687,10 +687,6 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object) {
                 this,SLOT(childObjectAdded(UMLObject*)));
         connect(object,SIGNAL(attributeRemoved(UMLObject*)),
                 this,SLOT(childObjectRemoved(UMLObject*)));
-        connect(object,SIGNAL(childObjectAdded(UMLObject*)), // for operations
-                this,SLOT(childObjectAdded(UMLObject*)));
-        connect(object,SIGNAL(childObjectRemoved(UMLObject*)),
-                this,SLOT(childObjectRemoved(UMLObject*)));
         connect(object,SIGNAL(templateAdded(UMLObject*)),
                 this,SLOT(childObjectAdded(UMLObject*)));
         connect(object,SIGNAL(templateRemoved(UMLObject*)),
@@ -698,10 +694,6 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object) {
         connect(object,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
         break;
     case Uml::ot_Interface:
-        connect(object,SIGNAL(childObjectAdded(UMLObject*)),
-                this,SLOT(childObjectAdded(UMLObject*)));
-        connect(object,SIGNAL(childObjectRemoved(UMLObject*)), // for operations
-                this,SLOT(childObjectRemoved(UMLObject*)));
         connect(object,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
         break;
     case Uml::ot_Datatype:
