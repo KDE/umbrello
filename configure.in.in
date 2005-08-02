@@ -7,13 +7,15 @@ AC_CHECK_HEADER(FlexLexer.h,
 if test "$kde_have_flex" = "no"; then
   DO_NOT_COMPILE="$DO_NOT_COMPILE umbrello"
 fi
-AC_CHECK_HEADER(graphviz/dot.h,
-  [kde_have_graphviz=yes],
-  [kde_have_graphviz=no])
 
-if test "$kde_have_graphviz" = "no"; then
-  DO_NOT_COMPILE="$DO_NOT_COMPILE umbrello"
-fi
+dnl Not GPL compatible
+dnl AC_CHECK_HEADER(graphviz/dot.h,
+dnl   [kde_have_graphviz=yes],
+dnl   [kde_have_graphviz=no])
+dnl
+dnl if test "$kde_have_graphviz" = "no"; then
+dnl   DO_NOT_COMPILE="$DO_NOT_COMPILE umbrello"
+dnl fi
 AC_LANG_RESTORE
 
 
