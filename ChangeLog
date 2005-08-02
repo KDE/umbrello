@@ -5,6 +5,7 @@ Version 1.5
 * Code generator for Tcl
 * Externalization of folders (i.e. submodel files)
 * Change interface into class and vice versa (if abstract and no attributes)
+* Automatic Diagram Layout (67059, not yet closed)
 
 * Bugs fixed / wishes implemented (see http://bugs.kde.org)
 57588 67719 72016 79433 87252 88117 97162 105564 108223 109591 109636

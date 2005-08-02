@@ -59,6 +59,7 @@
 #include "umllistview.h"
 #include "umlviewlist.h"
 #include "worktoolbar.h"
+#include "autolayout/autolayoutdlg.h"//dimitri
 
 #include "clipboard/umlclipboard.h"
 #include "dialogs/classwizard.h"
@@ -215,6 +216,8 @@ void UMLApp::initActions() {
     classDiagram = new KAction( i18n( "&Class Diagram..." ), SmallIconSet("umbrello_diagram_class"), 0,
                                 this, SLOT( slotClassDiagram() ), actionCollection(), "new_class_diagram" );
 
+    autolayout = new KAction(i18n("&Autolayout..."),0,0,this,SLOT(slotAutolayout()),
+                                              actionCollection(),"autolayout");
     sequenceDiagram= new KAction( i18n( "&Sequence Diagram..." ), SmallIconSet("umbrello_diagram_sequence"), 0,
                                   this, SLOT( slotSequenceDiagram() ), actionCollection(), "new_sequence_diagram" );
 
@@ -1680,6 +1683,54 @@ void UMLApp::slotMoveTabLeft() {
 void UMLApp::slotMoveTabRight() {
     //causes problems
     //m_tabWidget->moveTab( m_tabWidget->currentPageIndex(), m_tabWidget->currentPageIndex() + 1 );
+}
+
+void UMLApp::slotAutolayout(){
+ QDialog* d = new AutolayoutDlg(getCurrentView());
+ d->show();
+
+/*if ( getCurrentView()->getType()== Uml::dt_Class){
+using namespace Autolayout;
+       int max_x = getCurrentView()->getCanvasWidth();
+       int max_y = getCurrentView()->getCanvasHeight();
+        
+	
+       Diagram d= Diagram(max_x,max_y);
+       UMLWidgetList list = getCurrentView()->getWidgetList();
+ UMLWidget* widget;
+       for ( widget = list.first(); widget; widget= list.next() ){
+        if (widget->getBaseType() == Uml::wt_Class){
+
+         
+         d.addNode(widget->getID().c_str(),widget->getWidth(),
+         widget->getHeight());
+        }
+}
+        AssociationWidgetList as_list=getCurrentView()->getAssociationList();
+        AssociationWidget* assoc;
+        AssociationWidgetListIt it(as_list);
+        while ( (assoc = it.current()) != 0 ) {
+          ++it;
+          d.addEdge(assoc->getWidgetID(Uml::A).c_str(),
+           assoc->getWidgetID(Uml::B).c_str());
+        }
+         d.autolayout();
+        for ( widget = list.first(); widget; widget= list.next() )
+        if (widget->getBaseType() == Uml::wt_Class){
+		Node n =d.getNode(widget->getID().c_str());
+               //printf("old values widgets %s x,y:%d,%d\n",widget->getID().c_str(),widget->getX(),widget->getY());
+                int x_old=widget->getX();
+                int x_calc=n.getX();
+                int x_calc2=30 +n.getX()-widget->getWidth()/2;
+               widget->setX(30 +n.getX()-widget->getWidth()/2);
+                int x=widget->getX();
+               widget->setY(max_y/2-(n.getY()+(widget->getHeight()/2)));
+               widget->updateWidget();
+
+        }
+//         d.save();
+       
+*/
 }
 
 KTabWidget* UMLApp::tabWidget() {
