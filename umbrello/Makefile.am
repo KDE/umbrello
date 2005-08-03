@@ -102,8 +102,8 @@ worktoolbar.cpp
 #umbrello_LDADD   = ./refactoring/librefactoring.la ./classparser/libclassparser.la ./clipboard/libclipboard.la ./dialogs/libdialogs.la ./codegenerators/libcodegenerator.la ./autolayout/libautolayout.la  $(LIB_KDEPRINT) $(LIB_KIO) 
 umbrello_LDADD   = ./refactoring/librefactoring.la ./classparser/libclassparser.la ./clipboard/libclipboard.la ./dialogs/libdialogs.la ./codegenerators/libcodegenerator.la $(LIB_KDEPRINT) $(LIB_KIO) 
 
-#SUBDIRS = classparser dialogs clipboard pics codegenerators headings diagram refactoring plugins autolayout
-SUBDIRS = classparser dialogs clipboard pics codegenerators headings diagram refactoring plugins
+#SUBDIRS = classparser dialogs clipboard pics codegenerators headings refactoring autolayout
+SUBDIRS = classparser dialogs clipboard pics codegenerators headings refactoring
 
 KDE_ICON=AUTO
 
