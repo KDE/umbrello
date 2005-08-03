@@ -19,33 +19,33 @@
 #include "graphvizgraph.h"
 
 namespace Autolayout
-  {
+{
 
-  /**
-  @author 
-  */
-  class GraphvizAutolayouter : virtual public Autolayout::AutolayouterAdapter
-    {
-    public:
-      GraphvizAutolayouter();
+/**
+@author 
+*/
+class GraphvizAutolayouter : virtual public Autolayout::AutolayouterAdapter
+{
+public:
+    GraphvizAutolayouter();
 
 
-      virtual void setCompressShapes(bool b);
+    virtual void setCompressShapes(bool b);
 
-      virtual void setCenterDiagram(bool b);
+    virtual void setCenterDiagram(bool b);
 
-      virtual void setShapeSeparation(int i);
+    virtual void setShapeSeparation(int i);
 
-      ~GraphvizAutolayouter(){agclose(gg->_agraph);delete gg;};
+    virtual ~GraphvizAutolayouter();
 
-    protected:
-      virtual Graph* getGraph(){if (!gg) gg=new GraphvizGraph(); return gg;};
+protected:
+    virtual Graph* getGraph(){if (!gg) gg=new GraphvizGraph(); return gg;}
 
-      virtual void run()=0;
-      GraphvizGraph* gg;
+    virtual void run()=0;
+    GraphvizGraph* gg;
 
-    };
+};
 
-  }
+}
 
 #endif

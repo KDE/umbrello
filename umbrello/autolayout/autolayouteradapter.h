@@ -21,38 +21,38 @@
 
 
 namespace Autolayout
-  {
+{
 
-  /**
-  @author 
-  */
-  class AutolayouterAdapter : virtual public Autolayout::Autolayouter
-    {
-    public:
-      AutolayouterAdapter();
+/**
+@author 
+*/
+class AutolayouterAdapter : virtual public Autolayout::Autolayouter
+{
+public:
+    AutolayouterAdapter();
 
-      ~AutolayouterAdapter();
-      virtual void setAssociationWeight(int i);
+    virtual ~AutolayouterAdapter();
+    virtual void setAssociationWeight(int i);
 
-      virtual void setDependenciesWeight(int i);
+    virtual void setDependenciesWeight(int i);
 
-      virtual void setGeneralizationWeight(int i);
+    virtual void setGeneralizationWeight(int i);
 
-      virtual void setGeneralizationAsEdges(bool b);
+    virtual void setGeneralizationAsEdges(bool b);
 
-      virtual void setDependenciesAsEdges(bool b);
+    virtual void setDependenciesAsEdges(bool b);
 
-      virtual void setAssociationAsEdges(bool b);
+    virtual void setAssociationAsEdges(bool b);
 
-      virtual void setCompressShapes(bool b);
+    virtual void setCompressShapes(bool b);
 
-      virtual void setCenterDiagram(bool b);
+    virtual void setCenterDiagram(bool b);
 
-      virtual void setClusterizeHierarchies(bool b);
+    virtual void setClusterizeHierarchies(bool b);
 
-      virtual void setShapeSeparation(int i);
-      virtual void setNoteConnectionsAsEdges(bool b);
-      virtual void setNoteConnectionWeight(int i);
+    virtual void setShapeSeparation(int i);
+    virtual void setNoteConnectionsAsEdges(bool b);
+    virtual void setNoteConnectionWeight(int i);
 
 
 protected:
@@ -64,28 +64,28 @@ protected:
     virtual void addRelationship(AssociationWidget* a);
     virtual Canvas* setCanvas(UMLView* view);
 
-      UMLView *view;
-      int associationWeight;
-      int dependenciesWeight;
-      int generalizationWeight;
-      bool genralizationAsEdges;
-      bool dependenciesAsEdges;
-      bool associationAsEdges;
-      bool compressShapes;
-      bool centerDiagram;
-      bool clusterizeHierarchies;
-      int shapeSeparation;
-      int noteConnectionWeight;
-      bool noteConnectionAsEdges;
-      bool anchorsAsEdges;
-      int  anchorsWeight;
-      Canvas* canvas;
+    UMLView *view;
+    int associationWeight;
+    int dependenciesWeight;
+    int generalizationWeight;
+    bool genralizationAsEdges;
+    bool dependenciesAsEdges;
+    bool associationAsEdges;
+    bool compressShapes;
+    bool centerDiagram;
+    bool clusterizeHierarchies;
+    int shapeSeparation;
+    int noteConnectionWeight;
+    bool noteConnectionAsEdges;
+    bool anchorsAsEdges;
+    int  anchorsWeight;
+    Canvas* canvas;
 private:
-      //Graph* graph;
-      
+    //Graph* graph;
 
-    };
 
-  }
+};
+
+}
 
 #endif

@@ -25,11 +25,11 @@ class Node{
     //Node(Agnode_t* n);
 
 
-     //
+    //
 public:
-    //~Node();
-     virtual int getX()=0;
-     virtual int getY()=0;
+    //virtual ~Node();
+    virtual int getX()=0;
+    virtual int getY()=0;
 
 
 

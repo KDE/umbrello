@@ -13,6 +13,10 @@
  ***************************************************************************/
 #include "graphviznode.h"
 
+#include <stdio.h>
+#include <graphviz/types.h>
+#include <graphviz/graph.h>
+
 namespace Autolayout {
 
 
@@ -24,19 +28,19 @@ GraphvizNode::~GraphvizNode()
 
 int GraphvizNode::getX()
 {
-point p = ND_coord_i(n);
-return p.x;
+    point p = ND_coord_i(n);
+    return p.x;
 }
 
 int GraphvizNode::getY()
 {
-point p = ND_coord_i(n);
-return p.y;
+    point p = ND_coord_i(n);
+    return p.y;
 }
 
 }
 
 Autolayout::GraphvizNode::GraphvizNode( Agnode_t * node )
 {
-n=node;
+    n=node;
 }

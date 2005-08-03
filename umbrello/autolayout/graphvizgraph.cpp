@@ -12,26 +12,30 @@
  *                                                                         *
  ***************************************************************************/
 #include "graphvizgraph.h"
-#define DPI 96
-char* _strcpy(const char* name)
-  {
-  char *a;
-  strlen(name);
-  a=new char[strlen(name)+1];
-  a=strcpy(a,name);
-  return a;
-  }
-namespace Autolayout
-  {
 
-  /**
-   *
-   * @return
-   */
-  GraphvizGraph::GraphvizGraph()
-      : Autolayout::Graph()
-    {
-aginit();
+#include <graphviz/graph.h>
+
+#define DPI 96
+
+char* _strcpy(const char* name)
+{
+    char *a;
+    strlen(name);
+    a=new char[strlen(name)+1];
+    a=strcpy(a,name);
+    return a;
+}
+namespace Autolayout
+{
+
+/**
+ *
+ * @return
+ */
+GraphvizGraph::GraphvizGraph()
+        : Autolayout::Graph()
+{
+    aginit();
     empty_flag=true;
     _agraph = agopen("graph",AGDIGRAPH);
     a_width= agnodeattr(_agraph, "width", "");;
@@ -41,30 +45,30 @@ aginit();
     agnodeattr(_agraph, "fixedsize", "true");
     agnodeattr(_agraph, "margin", "0.01,0.01");
     agnodeattr(_agraph, "shape", "box");
-    
 
 
-    }
+
+}
 
 
-  GraphvizGraph::~GraphvizGraph()
-    {
+GraphvizGraph::~GraphvizGraph()
+{
     nodelist.clear();
-agclose(_agraph);
-/* Free graph structures */
-//#ifndef internal_renderizer
+    agclose(_agraph);
+    /* Free graph structures */
+    //#ifndef internal_renderizer
 
-/* Clean up output file and errors */
-// dotneato_terminate(gvc);
-//dotneato_eof(gvc);
+    /* Clean up output file and errors */
+    // dotneato_terminate(gvc);
+    //dotneato_eof(gvc);
 
-    }
-
-
+}
 
 
-  void GraphvizGraph::addEdge(const char* nodea, const char* nodeb, int weight)
-    {
+
+
+void GraphvizGraph::addEdge(const char* nodea, const char* nodeb, int weight)
+{
     char *a=_strcpy(nodea);
     char *b=_strcpy(nodeb);
     char *weight_str;
@@ -75,10 +79,10 @@ agclose(_agraph);
     agxset(e,a_weight->index,weight_str);
 
 
-    }
+}
 
-  void GraphvizGraph::addNode(const char* name, int width, int height)
-    {
+void GraphvizGraph::addNode(const char* name, int width, int height)
+{
     char *a =_strcpy(name);
     char *w_str,*h_str;
     Agnode_t* node =agnode(_agraph,a);
@@ -91,47 +95,47 @@ agclose(_agraph);
     agxset(node, a_width->index, w_str);
     free (w_str);
     empty_flag = false;
-    }
+}
 
 
-  void Autolayout::GraphvizGraph::setCompressShapes( bool b )
-    {
+void Autolayout::GraphvizGraph::setCompressShapes( bool b )
+{
     if (empty())
-      {
-      if (b) agraphattr(_agraph,"ratio","compress");
-      else agraphattr(_agraph,"ratio","");
-      }
-    }
-
-  void Autolayout::GraphvizGraph::setCenterDiagram( bool b )
     {
+        if (b) agraphattr(_agraph,"ratio","compress");
+        else agraphattr(_agraph,"ratio","");
+    }
+}
+
+void Autolayout::GraphvizGraph::setCenterDiagram( bool b )
+{
     if (empty())
-      {
-      if (b)  agraphattr(_agraph,"center","true");
-      else  agraphattr(_agraph,"center","false");
-      }
-    }
-
-  void Autolayout::GraphvizGraph::setShapeSeparation( int i )
     {
+        if (b)  agraphattr(_agraph,"center","true");
+        else  agraphattr(_agraph,"center","false");
+    }
+}
+
+void Autolayout::GraphvizGraph::setShapeSeparation( int i )
+{
     char* a;
     asprintf(&a,"%f",((float) i)/10.0);
     agraphattr(_agraph,"nodesep",a);
     free (a);
-    }
+}
 
-  bool Autolayout::GraphvizGraph::empty( )
-    {
+bool Autolayout::GraphvizGraph::empty( )
+{
     return empty_flag;
-    }
+}
 
-  Autolayout::Node* Autolayout::GraphvizGraph::getNode( const char * arg1 )
-    {
+Autolayout::Node* Autolayout::GraphvizGraph::getNode( const char * arg1 )
+{
     char *a = _strcpy(arg1);
-     Autolayout::GraphvizNode* b= 
-          new Autolayout::GraphvizNode(agnode(_agraph,a));
+    Autolayout::GraphvizNode* b=
+        new Autolayout::GraphvizNode(agnode(_agraph,a));
     delete[](a);
     nodelist.push_back(b);
     return b;
-    }
-  }
+}
+}

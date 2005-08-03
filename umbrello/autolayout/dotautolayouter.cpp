@@ -13,29 +13,31 @@
  ***************************************************************************/
 #include "dotautolayouter.h"
 
+#include <graphviz/dotprocs.h>
+
 namespace Autolayout {
 
 DotAutolayouter::DotAutolayouter()
- : Autolayout::GraphvizAutolayouter()
+        : Autolayout::GraphvizAutolayouter()
 {
 }
 
 
 DotAutolayouter::~DotAutolayouter()
 {
-dot_cleanup(gg->_agraph);
+    dot_cleanup(gg->_agraph);
 }
 
 
 void DotAutolayouter::run()
 {
-//#ifndef internal_renderizer
-/* bind graph to GV context - currently must be done before layout */
-//  gvBindContext(gvc,g);
-//#endif
-// do layout
-//dot_layout();
- dot_layout( gg->_agraph );
+    //#ifndef internal_renderizer
+    /* bind graph to GV context - currently must be done before layout */
+    //  gvBindContext(gvc,g);
+    //#endif
+    // do layout
+    //dot_layout();
+    dot_layout( gg->_agraph );
 }
 
 }

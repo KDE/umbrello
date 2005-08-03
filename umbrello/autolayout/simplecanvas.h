@@ -31,7 +31,7 @@ public:
     virtual int getMaxY(){return max_y;}
     virtual int getBaseX(){return 0;}
     virtual int getBaseY(){return 0;}
-int max_x,max_y;
+    int max_x,max_y;
 };
 
 }

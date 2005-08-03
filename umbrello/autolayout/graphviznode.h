@@ -14,8 +14,10 @@
 #ifndef AUTOLAYOUTGRAPHVIZNODE_H
 #define AUTOLAYOUTGRAPHVIZNODE_H
 
-#include <node.h>
-#include <dotneato.h>
+#include "node.h"
+
+class Agnode_t;
+
 namespace Autolayout {
 
 /**
@@ -26,13 +28,13 @@ class GraphvizNode : virtual public Autolayout::Node
 
     GraphvizNode (Agnode_t* n);
     Agnode_t* n;
-    ~GraphvizNode();
+    virtual ~GraphvizNode();
 public:
 
 
     int getX();
     int getY();
-friend class GraphvizGraph;
+    friend class GraphvizGraph;
 };
 
 }

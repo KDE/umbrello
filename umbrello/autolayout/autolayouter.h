@@ -28,27 +28,27 @@ class Autolayouter {
 public:
 
     virtual void setNoteConnectionWeight(int i)=0;
-    virtual void setNoteConnectionsAsEdges(bool b)=0; 
+    virtual void setNoteConnectionsAsEdges(bool b)=0;
     virtual void setAssociationWeight(int i)=0;
- 
+
     virtual void setDependenciesWeight(int i)=0;
- 
+
     virtual void setGeneralizationWeight(int i)=0;
- 
+
     virtual void setGeneralizationAsEdges(bool b)=0;
- 
+
     virtual void setDependenciesAsEdges(bool b)=0;
- 
+
     virtual void setAssociationAsEdges(bool b)=0;
- 
+
     virtual void setCompressShapes(bool b)=0;
- 
+
     virtual void setCenterDiagram(bool b)=0;
- 
+
     virtual void setClusterizeHierarchies(bool b)=0;
- 
+
     virtual void setShapeSeparation(int i)=0;
-    
+
     virtual void autolayout(UMLView* v);
 protected:
     virtual void run()=0;

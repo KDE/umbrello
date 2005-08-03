@@ -27,7 +27,7 @@ class DotAutolayouter : virtual public Autolayout::GraphvizAutolayouter
 public:
     DotAutolayouter();
 
-    ~DotAutolayouter();
+    virtual ~DotAutolayouter();
 
     virtual void run();
 

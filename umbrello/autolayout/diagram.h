@@ -24,18 +24,18 @@ namespace Autolayout{
 class Diagram//: public virtual Graph, public virtual Canvas{
 {
 private:
-Agraph_t* g;
-Agsym_t* a_width;
-Agsym_t* a_height;
-Agsym_t* a_label;
+    Agraph_t* g;
+    Agsym_t* a_width;
+    Agsym_t* a_height;
+    Agsym_t* a_label;
 #ifndef internal_renderizer
-GVC_t* gvc;
+    GVC_t* gvc;
 #endif
 public:
     Diagram(int,int);
-    
+
     ~Diagram();
-    
+
     void addNode(const char *name, int width,int heigt);
     void addEdge(const char* nodea,const char*nodeb);
     void autolayout();

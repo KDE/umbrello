@@ -18,96 +18,96 @@
 #include "autolayout.h"
 
 AutolayoutDlg::AutolayoutDlg(UMLView* v,QWidget *parent, const char *name)
-    :MyDialog1(parent, name)
-  {
-  view=v;
-  }
+        :MyDialog1(parent, name)
+{
+    view=v;
+}
 
 void AutolayoutDlg::slotSetAssociationWeight(int i)
-  {
-  associationWeight=i;
-  }
+{
+    associationWeight=i;
+}
 
 
 void AutolayoutDlg::slotSetDependenciesWeight(int i)
-  {
-  dependenciesWeight=i;
-  }
+{
+    dependenciesWeight=i;
+}
 
 
 void AutolayoutDlg::slotSetGeneralizationWeight(int i)
-  {
-  generalizationWeight=i;
-  }
+{
+    generalizationWeight=i;
+}
 void AutolayoutDlg::slotSetGenralizationAsEdges(bool b)
-  {
-  genralizationAsEdges=b;
-  }
+{
+    genralizationAsEdges=b;
+}
 
 
 void AutolayoutDlg::slotSetDependenciesAsEdges(bool b)
-  {
-  dependenciesAsEdges=b;
-  }
+{
+    dependenciesAsEdges=b;
+}
 
 
 void AutolayoutDlg::slotSetAssociationAsEdges(bool b)
-  {
-  associationAsEdges=b;
-  }
+{
+    associationAsEdges=b;
+}
 
 
 
 void AutolayoutDlg::slotSetCompressShapes(bool b)
-  {
-  compressShapes=b;
-  }
+{
+    compressShapes=b;
+}
 
 
 void AutolayoutDlg::slotSetCenterDiagram(bool b)
-  {
-  centerDiagram=b;
-  }
+{
+    centerDiagram=b;
+}
 
 
 void AutolayoutDlg::slotSetClusterizeHierarchies(bool b)
 
-  {
-  clusterizeHierarchies=b;
-  }
+{
+    clusterizeHierarchies=b;
+}
 
 
 void AutolayoutDlg::slotSetShapeSeparation(int i)
-  {
-  shapeSeparation=i;
-  }
+{
+    shapeSeparation=i;
+}
 
 void AutolayoutDlg::slotReloadSettings()
-  {}
+{}
 
 
 void AutolayoutDlg::slotSaveSettings()
-  {}
+{}
 
 
 void AutolayoutDlg::slotDoAutolayout()
-  {
-  Autolayout::Autolayouter* a= new Autolayout::DotAutolayouter();
-  a->setAssociationAsEdges( associationAsEdges);
-  a->setAssociationWeight( associationWeight );
-  a->setCenterDiagram( centerDiagram);
-  a->setDependenciesAsEdges( dependenciesAsEdges);
-  a->setClusterizeHierarchies( clusterizeHierarchies);
-  a->setCompressShapes( compressShapes);
-  a->setDependenciesWeight( dependenciesWeight);
-  a->setGeneralizationAsEdges( genralizationAsEdges);
-  a->setGeneralizationWeight( generalizationWeight);
-  a->setNoteConnectionWeight( 1);
-  a->setNoteConnectionsAsEdges(true);
-  a->setShapeSeparation( shapeSeparation);
-  a->autolayout( view);
-  accept();
-  }
+{
+    Autolayout::Autolayouter* a= new Autolayout::DotAutolayouter();
+    a->setAssociationAsEdges( associationAsEdges);
+    a->setAssociationWeight( associationWeight );
+    a->setCenterDiagram( centerDiagram);
+    a->setDependenciesAsEdges( dependenciesAsEdges);
+    a->setClusterizeHierarchies( clusterizeHierarchies);
+    a->setCompressShapes( compressShapes);
+    a->setDependenciesWeight( dependenciesWeight);
+    a->setGeneralizationAsEdges( genralizationAsEdges);
+    a->setGeneralizationWeight( generalizationWeight);
+    a->setNoteConnectionWeight( 1);
+    a->setNoteConnectionsAsEdges(true);
+    a->setShapeSeparation( shapeSeparation);
+    a->autolayout( view);
+    accept();
+}
 
 
 

@@ -19,9 +19,9 @@ namespace Autolayout {
 
 void Autolayouter::autolayout( UMLView * v )
 {
-setCanvas(v);
-setGraph(v);
-run();
-updateView();
+    setCanvas(v);
+    setGraph(v);
+    run();
+    updateView();
 }
 }

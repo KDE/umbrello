@@ -13,32 +13,37 @@
  ***************************************************************************/
 #include "graphvizautolayouter.h"
 
+#include <graphviz/graph.h>
+
 namespace Autolayout {
 
 GraphvizAutolayouter::GraphvizAutolayouter()
- : Autolayout::AutolayouterAdapter()
+        : Autolayout::AutolayouterAdapter()
 {
-
-gg=new GraphvizGraph();
+    gg = new GraphvizGraph();
 }
 
-
-}
-
-void Autolayout::GraphvizAutolayouter::setCompressShapes( bool b )
+GraphvizAutolayouter::~GraphvizAutolayouter()
 {
-
-gg->setCompressShapes(b);
+    agclose(gg->_agraph);
+    delete gg;
 }
 
-void Autolayout::GraphvizAutolayouter::setCenterDiagram( bool b )
+void GraphvizAutolayouter::setCompressShapes( bool b )
 {
-
-gg->setCenterDiagram(b);
+    gg->setCompressShapes(b);
 }
 
-void Autolayout::GraphvizAutolayouter::setShapeSeparation( int i )
+void GraphvizAutolayouter::setCenterDiagram( bool b )
 {
-
-gg->setShapeSeparation(i);
+    gg->setCenterDiagram(b);
 }
+
+void GraphvizAutolayouter::setShapeSeparation( int i )
+{
+    gg->setShapeSeparation(i);
+}
+
+
+} // end namespace AutoLayout
+

@@ -20,35 +20,35 @@
 #include "autolayout.h"
 
 class AutolayoutDlg: public MyDialog1
-  {
+{
     Q_OBJECT
-  public:
+public:
     AutolayoutDlg(UMLView* v, QWidget *parent = 0, const char *name = 0);
-  public slots:
+public slots:
     virtual void slotSetAssociationWeight(int i);
-  public slots:
+public slots:
     virtual void slotSetDependenciesWeight(int i);
-  public slots:
+public slots:
     virtual void slotSetGeneralizationWeight(int i);
-  public slots:
+public slots:
     virtual void slotSetGenralizationAsEdges(bool b);
-  public slots:
+public slots:
     virtual void slotSetDependenciesAsEdges(bool b);
-  public slots:
+public slots:
     virtual void slotSetAssociationAsEdges(bool b);
-  public slots:
+public slots:
     virtual void slotSetCompressShapes(bool b);
-  public slots:
+public slots:
     virtual void slotSetCenterDiagram(bool b);
-  public slots:
+public slots:
     virtual void slotSetClusterizeHierarchies(bool b);
-  public slots:
+public slots:
     virtual void slotSetShapeSeparation(int i);
     virtual void slotReloadSettings();
     virtual void slotSaveSettings();
     virtual void slotDoAutolayout();
 
-  private:
+private:
     UMLView *view;
     int associationWeight;
     int dependenciesWeight;
@@ -61,6 +61,6 @@ class AutolayoutDlg: public MyDialog1
     bool clusterizeHierarchies;
     int shapeSeparation;
 
-  };
+};
 
 #endif
