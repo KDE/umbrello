@@ -59,7 +59,9 @@
 #include "umllistview.h"
 #include "umlviewlist.h"
 #include "worktoolbar.h"
-// #include "autolayout/autolayoutdlg.h"//dimitri
+#ifdef HAVE_DOT
+# include "autolayout/autolayoutdlg.h" //dimitri
+#endif
 
 #include "clipboard/umlclipboard.h"
 #include "dialogs/classwizard.h"
@@ -216,8 +218,10 @@ void UMLApp::initActions() {
     classDiagram = new KAction( i18n( "&Class Diagram..." ), SmallIconSet("umbrello_diagram_class"), 0,
                                 this, SLOT( slotClassDiagram() ), actionCollection(), "new_class_diagram" );
 
-    //    autolayout = new KAction(i18n("&Autolayout..."),0,0,this,SLOT(slotAutolayout()),
-    //                                              actionCollection(),"autolayout");
+#if defined (HAVE_DOT)
+    autolayout = new KAction(i18n("&Autolayout..."),0,0,this,SLOT(slotAutolayout()),
+                             actionCollection(),"autolayout");
+#endif
     sequenceDiagram= new KAction( i18n( "&Sequence Diagram..." ), SmallIconSet("umbrello_diagram_sequence"), 0,
                                   this, SLOT( slotSequenceDiagram() ), actionCollection(), "new_sequence_diagram" );
 
@@ -1685,12 +1689,12 @@ void UMLApp::slotMoveTabRight() {
     //m_tabWidget->moveTab( m_tabWidget->currentPageIndex(), m_tabWidget->currentPageIndex() + 1 );
 }
 
-/*
 void UMLApp::slotAutolayout(){
- QDialog* d = new AutolayoutDlg(getCurrentView());
- d->show();
+#ifdef HAVE_DOT
+    QDialog* d = new AutolayoutDlg(getCurrentView());
+    d->show();
+#endif
 }
-*/
 
 KTabWidget* UMLApp::tabWidget() {
     return m_tabWidget;

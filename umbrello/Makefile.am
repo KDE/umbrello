@@ -99,11 +99,9 @@ widgetbase.cpp \
 widget_utils.cpp \
 worktoolbar.cpp
 
-#umbrello_LDADD   = ./refactoring/librefactoring.la ./classparser/libclassparser.la ./clipboard/libclipboard.la ./dialogs/libdialogs.la ./codegenerators/libcodegenerator.la ./autolayout/libautolayout.la  $(LIB_KDEPRINT) $(LIB_KIO) 
-umbrello_LDADD   = ./refactoring/librefactoring.la ./classparser/libclassparser.la ./clipboard/libclipboard.la ./dialogs/libdialogs.la ./codegenerators/libcodegenerator.la $(LIB_KDEPRINT) $(LIB_KIO) 
+umbrello_LDADD   = ./refactoring/librefactoring.la ./classparser/libclassparser.la ./clipboard/libclipboard.la ./dialogs/libdialogs.la ./codegenerators/libcodegenerator.la $(AUTOLAYOUT_LIBS) $(LIB_KDEPRINT) $(LIB_KIO)
 
-#SUBDIRS = classparser dialogs clipboard pics codegenerators headings refactoring autolayout
-SUBDIRS = classparser dialogs clipboard pics codegenerators headings refactoring
+SUBDIRS = $(AUTOLAYOUT_DIR) classparser dialogs clipboard pics codegenerators headings refactoring
 
 KDE_ICON=AUTO
 
@@ -116,7 +114,7 @@ mimedir = $(kde_mimedir)/application
 mime_DATA = x-umbrello.desktop
 
 #INCLUDES= -Idialogs -Irefactoring $(all_includes) -I/usr/include/graphviz/
-INCLUDES= -Idialogs -Irefactoring $(all_includes) -I/usr/include/graphviz/
+INCLUDES= -Idialogs -Irefactoring $(all_includes)
 
 METASOURCES = AUTO
 

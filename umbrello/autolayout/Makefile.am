@@ -1,8 +1,8 @@
 noinst_LTLIBRARIES = libautolayout.la
 
-INCLUDES = -I/usr/include/graphviz/ -Idialogs -Irefactoring \
+INCLUDES = -Idialogs -Irefactoring \
 	$(all_includes)
-AM_CXXFLAGS = -I/usr/include/graphviz/
+#AM_CXXFLAGS = -I/usr/include/graphviz/
 
 libautolayout_la_METASOURCES = AUTO
 #noinst_HEADERS = node.h autolayout.h autolayoutdlg.h autolayouter.h canvas.h \
@@ -14,6 +14,6 @@ libautolayout_la_SOURCES = newautolayoutdialog.ui autolayoutdlg.cpp \
 	graphvizgraph.cpp graphviznode.cpp dotautolayouter.cpp
 
 #libautolayout_la_LIBADD = /usr/lib/graphviz/libdotneato.la
-libautolayout_la_LDFLAGS = -ldotneato -L/usr/lib/graphviz
+#libautolayout_la_LDFLAGS = -ldotneato -L/usr/lib/graphviz
 
 

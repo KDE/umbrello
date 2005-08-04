@@ -501,7 +501,7 @@ public slots:
     /**
      * Autolayouts the current class diagram
      */
-    //void slotAutolayout();
+    void slotAutolayout();
 
     /**
      * Changes the statusbar contents for the standard label
@@ -887,7 +887,9 @@ private:
     KAction* classWizard;
     KAction* deleteSelectedWidget;
     KAction* deleteDiagram;
-    //KAction* autolayout;
+#ifdef HAVE_DOT
+    KAction* autolayout;
+#endif
 
     KAction* changeTabLeft;
     KAction* changeTabRight;

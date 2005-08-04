@@ -9,13 +9,23 @@ if test "$kde_have_flex" = "no"; then
 fi
 
 dnl Not GPL compatible
-dnl AC_CHECK_HEADER(graphviz/dot.h,
+dnl AC_PATH_PROG(DOT_FOUND, dot, no)
+dnl KDE_CHECK_HEADER(graphviz/pathgeom.h,
 dnl   [kde_have_graphviz=yes],
 dnl   [kde_have_graphviz=no])
-dnl
-dnl if test "$kde_have_graphviz" = "no"; then
-dnl   DO_NOT_COMPILE="$DO_NOT_COMPILE umbrello"
+dnl  
+dnl if test "$DOT_FOUND" != "no" -a "$kde_have_graphviz" = "yes"; then
+dnl   CXXFLAGS="$CXXFLAGS -DHAVE_DOT"
+dnl   GRAPHVIZ_LIB=`pkg-config --libs libgraph`
+dnl   AUTOLAYOUT_DIR="autolayout"
+dnl   AUTOLAYOUT_LIBS="autolayout/libautolayout.la $GRAPHVIZ_LIB -ldotgen -lgvc"
+dnl else
+dnl   AUTOLAYOUT_DIR=""
+dnl   AUTOLAYOUT_LIBS=""
 dnl fi
+dnl AC_SUBST(AUTOLAYOUT_DIR)
+dnl AC_SUBST(AUTOLAYOUT_LIBS)
+
 AC_LANG_RESTORE
 
 
