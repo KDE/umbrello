@@ -14,7 +14,8 @@
 
 #include "uml.h"
 #include "version.h"
-
+#include "umlview.h"
+#include "exportviewaction.h"
 #include "kstartuplogo.h"
 
 #include <kaboutdata.h>
@@ -36,6 +37,7 @@ static const char description[] =
 static KCmdLineOptions options[] =
     {
         { "+[File]", I18N_NOOP("File to open"), 0 },
+        { "export <extension>", I18N_NOOP("export diagrams to extension and exit"), 0},
         // INSERT YOUR COMMANDLINE OPTIONS HERE
         KCmdLineLastOption
     };
@@ -82,7 +84,7 @@ int main(int argc, char *argv[]) {
         KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
         if ( args -> count() ) {
             uml -> openDocumentFile( args -> url( 0 ) );
-            args -> clear();
+            // args -> clear();  // Why is this necessary?
         } else {
             cfg -> setGroup( "General Options" );
             bool last = cfg -> readBoolEntry( "loadlast", false );
@@ -92,6 +94,17 @@ int main(int argc, char *argv[]) {
             } else {
                 uml->newDocument();
             }
+        }
+        QCStringList exportOpt = args->getOptionList("export");
+        if (exportOpt.size() > 0) {
+        for (QCStringList::iterator itr = exportOpt.begin();
+            itr != exportOpt.end(); ++itr) {
+                QString extension = QString(*itr);
+                kdDebug() << "extension: " << extension << endl;
+                ExportViewAction eva(extension);
+                eva.exportAllViews();
+            }
+            return 0;
         }
         if ( showLogo && !start_logo->isHidden() ) {
             start_logo->raise();

@@ -43,6 +43,7 @@ entitywidget.cpp \
 enum.cpp \
 enumliteral.cpp \
 enumwidget.cpp \
+exportviewaction.cpp \
 floatingtext.cpp \
 kplayerslideraction.cpp \
 hierarchicalcodeblock.cpp \

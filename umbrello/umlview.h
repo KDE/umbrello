@@ -669,6 +669,17 @@ public:
     void copyAsImage(QPixmap*& pix);
 
     /**
+     * Does not pop up any dialogs, but tries to save this
+     * image to the last-saved name. can be called from
+     * command line.
+     * @param mimetype - an alternate mimetype to save as
+     * @todo test further, and later refactor the redundant
+     *     code from exportImage() -- SAE left
+     *     exportImage alone for this exercise
+     */
+    void exportImageTo(QString mimetype);
+
+    /**
      * Saves a png file to the given url.
      */
     void exportImage();

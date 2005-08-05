@@ -1444,6 +1444,54 @@ void UMLView::printToFile(const QString &filename,bool isEPS) {
 
 }
 
+void UMLView::exportImageTo(QString imageMimetype) {
+    KTempFile tmpfile;
+    QString extDef = mimeTypeToImageType(imageMimetype).lower();
+    QString file = getName() + "." + extDef;
+    kdDebug() << "m_ImageURL: " << m_ImageURL.fileName() << endl;
+    if (!m_ImageURL.isEmpty()) {
+      file = tmpfile.name();
+    }
+    
+    QFileInfo info(file);
+    QString ext = info.extension(false);
+
+    QRect rect = getDiagramRect();
+    if (rect.isEmpty()) {
+        kdDebug() << "Can not save an empty diagram" << endl;
+        return;
+    }
+    kdDebug() << "ExportImageTo: " << file << endl;
+    if (imageMimetype == "image/x-eps") {
+        printToFile(file,true);
+    } else if (imageMimetype == "image/svg+xml") {
+        QPicture* diagram = new QPicture();
+        QPainter* painter = new QPainter();
+        painter->begin( diagram );
+
+        /* make sure the widget sizes will be according to the
+         actually used printer font, important for getDiagramRect()
+         and the actual painting */
+        forceUpdateWidgetFontMetrics(painter);
+
+        QRect rect = getDiagramRect();
+        painter->translate(-rect.x(),-rect.y());
+        getDiagram(rect,*painter);
+        painter->end();
+        diagram->save(file, mimeTypeToImageType(imageMimetype).ascii());
+
+        // delete painter and printer before we try to open and fix the file
+        delete painter;
+        delete diagram;
+        // next painting will most probably be to a different device (i.e. the screen)
+         forceUpdateWidgetFontMetrics(0);
+    } else {
+        QPixmap diagram(rect.width(), rect.height());
+        getDiagram(rect, diagram);
+        diagram.save(file, mimeTypeToImageType(imageMimetype).ascii());
+    }
+}
+
 void UMLView::exportImage() {
     UMLApp *app = UMLApp::app();
     QStringList fmt = QImage::outputFormatList();
