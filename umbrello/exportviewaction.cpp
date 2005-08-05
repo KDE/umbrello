@@ -14,7 +14,7 @@ ExportViewAction::ExportViewAction(QString extension)
         m_mimetype = "image/png";
     }
     else if (extension == "svg") {
-        m_mimetype = "image/svg_xml";
+        m_mimetype = "image/svg+xml";
     }
     kdDebug() << "m_mimetype:  " << m_mimetype;
 }
