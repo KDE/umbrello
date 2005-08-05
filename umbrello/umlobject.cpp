@@ -22,6 +22,7 @@
 #include "package.h"
 #include "stereotype.h"
 #include "model_utils.h"
+#include "classimport.h"
 
 UMLObject::UMLObject(const UMLObject * parent, const QString &name, Uml::IDType id)
         : QObject(const_cast<UMLObject*>(parent), "UMLObject" ) {
@@ -395,6 +396,8 @@ bool UMLObject::resolveRef() {
     // Assume we're dealing with the older Umbrello format where
     // the type name was saved in the "type" attribute rather
     // than the xmi.id of the model object of the attribute type.
+    if (m_SecondaryId == "const QModelIndex&")
+        kdDebug() << "Yow! const QModelIndex&" << endl;
     m_pSecondary = pDoc->findUMLObject( m_SecondaryId, Uml::ot_UMLObject, this );
     if (m_pSecondary) {
         m_SecondaryId = "";
@@ -405,12 +408,18 @@ bool UMLObject::resolveRef() {
     // of on-the-fly scope creation:
     if (m_SecondaryId.contains("::")) {
         m_SecondaryId.replace("::", ".");
-        m_pSecondary = pDoc->findUMLObject( m_SecondaryId, Uml::ot_UMLObject, this );
+        // TODO: Merge ClassImport::createUMLObject() into UMLDoc::createUMLObject()
+        m_pSecondary = ClassImport::createUMLObject(Uml::ot_UMLObject, m_SecondaryId, NULL);
         if (m_pSecondary) {
             m_SecondaryId = "";
             maybeSignalObjectCreated();
+            kdDebug() << "UMLObject::resolveRef: Created a new type for " << m_SecondaryId
+                      << " using ClassImport::createUMLObject()" << endl;
             return true;
         }
+        kdError() << "UMLObject::resolveRef: ClassImport::createUMLObject() "
+                  << "failed to create a new type for " << m_SecondaryId << endl;
+        return false;
     }
     kdDebug() << "UMLObject::resolveRef: Creating new type for "
     << m_SecondaryId << endl;
