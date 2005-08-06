@@ -740,14 +740,19 @@ void UMLListView::childObjectAdded(UMLObject* obj) {
 
 void UMLListView::childObjectAdded(UMLObject* obj, UMLObject* parent) {
     Uml::Object_Type ot = obj->getBaseType();
-    /* kdDebug() << "UMLListView::childObjectAdded(" << obj->getName()
-    		  << ", type " << ot << "): ID is " << obj->getID() << endl;
-     */
     if (ot == Uml::ot_Stereotype || m_bIgnoreChildCreationSignal) {
         return;
     }
     if (!m_bCreatingChildObject) {
         UMLListViewItem *parentItem = findUMLObject(parent);
+        if (parentItem == NULL) {
+            kdDebug() << "UMLListView::childObjectAdded(" << obj->getName()
+    		  << ", type " << ot << "): parent " << parent->getName()
+                  << " does not yet exist, creating it now." << endl;
+            parentItem = new UMLListViewItem(m_lv, parent->getName(),
+                                             convert_OT_LVT(parent->getBaseType()),
+                                             parent);
+        }
         UMLClassifierListItem *child = static_cast<UMLClassifierListItem*>(obj);
         QString text = child->toString(Uml::st_SigNoScope);
         UMLListViewItem *newItem = new UMLListViewItem(parentItem, text,
