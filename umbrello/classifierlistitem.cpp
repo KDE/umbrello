@@ -19,6 +19,7 @@
 #include "classifier.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "model_utils.h"
 
 UMLClassifierListItem::UMLClassifierListItem(const UMLObject *parent, QString Name, Uml::IDType id)
         : UMLObject(parent, Name, id) {
@@ -79,21 +80,7 @@ void UMLClassifierListItem::setTypeName(const QString &type) {
     m_pSecondary = pDoc->findUMLObject(type);
     if (m_pSecondary == NULL) {
         // Make data type for easily identified cases
-        const int n_types = 12;
-        const char *types[] = {
-                                  "void", "bool",
-                                  "char", "unsigned char",
-                                  "short", "unsigned short",
-                                  "int", "unsigned int",
-                                  "long", "unsigned long",
-                                  "float", "double"
-                              };
-        int i = 0;
-        for (; i < n_types; i++) {
-            if (type == types[i])
-                break;
-        }
-        if (i < n_types || type.contains('*')) {
+        if (Umbrello::isCommonDataType(type) || type.contains('*')) {
             m_pSecondary = pDoc->createUMLObject(Uml::ot_Datatype, type);
             kdDebug() << "UMLClassifierListItem::setTypeName: "
             << "created datatype for " << type << endl;

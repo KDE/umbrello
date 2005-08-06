@@ -80,6 +80,13 @@ UMLObject* findUMLObject( UMLObjectList inList, QString name,
 bool isCommonXMIAttribute(const QString &tag);
 
 /**
+ * Return true if the given type is common among the majority
+ * of programming languages, such as "bool" or "boolean".
+ * TODO: Make this depend on the active programming language.
+ */
+bool isCommonDataType(QString type);
+
+/**
  * Convert Scope value into QString representation.
 *
 * @param scope		The Scope enum value to convert.

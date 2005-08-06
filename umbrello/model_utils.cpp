@@ -212,6 +212,25 @@ bool isCommonXMIAttribute( const QString &tag ) {
     return retval;
 }
 
+bool isCommonDataType(QString type) {
+    const int n_types = 12;
+    const char *types[] = { "void", "string",
+                            "bool", "boolean",
+                            "char", "unsigned char",
+                            "short", "unsigned short",
+                            "int", "unsigned int",
+                            "long", "unsigned long",
+                            "float", "double"
+                          };
+    const QString lcType = type.lower();
+    int i = 0;
+    for (; i < n_types; i++) {
+        if (lcType == types[i])
+            return true;
+    }
+    return false;
+}
+
 QString scopeToString(Uml::Scope scope, bool mnemonic) {
     switch (scope) {
     case Uml::Protected:

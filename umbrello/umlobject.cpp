@@ -405,14 +405,18 @@ bool UMLObject::resolveRef() {
     // Work around UMLDoc::createUMLObject()'s incapability
     // of on-the-fly scope creation:
     if (m_SecondaryId.contains("::")) {
-        m_SecondaryId.replace("::", ".");
         // TODO: Merge ClassImport::createUMLObject() into UMLDoc::createUMLObject()
         m_pSecondary = ClassImport::createUMLObject(Uml::ot_UMLObject, m_SecondaryId, NULL);
         if (m_pSecondary) {
+            if (ClassImport::newUMLObjectWasCreated()) {
+                maybeSignalObjectCreated();
+                kdDebug() << "UMLObject::resolveRef: ClassImport::createUMLObject() "
+                          << "created a new type for " << m_SecondaryId << endl;
+            } else {
+                kdDebug() << "UMLObject::resolveRef: ClassImport::createUMLObject() "
+                          << "returned an existing type for " << m_SecondaryId << endl;
+            }
             m_SecondaryId = "";
-            maybeSignalObjectCreated();
-            kdDebug() << "UMLObject::resolveRef: Created a new type for " << m_SecondaryId
-                      << " using ClassImport::createUMLObject()" << endl;
             return true;
         }
         kdError() << "UMLObject::resolveRef: ClassImport::createUMLObject() "
@@ -430,22 +434,7 @@ bool UMLObject::resolveRef() {
     if (isReferenceType) {
         ot = Uml::ot_Datatype;
     } else {
-        // Make data type for easily identified cases
-        const int n_types = 12;
-        const char *types[] = {
-                                  "void", "bool",
-                                  "char", "unsigned char",
-                                  "short", "unsigned short",
-                                  "int", "unsigned int",
-                                  "long", "unsigned long",
-                                  "float", "double"
-                              };
-        int i = 0;
-        for (; i < n_types; i++) {
-            if (m_SecondaryId == types[i])
-                break;
-        }
-        if (i < n_types)
+        if (Umbrello::isCommonDataType(m_SecondaryId))
             ot = Uml::ot_Datatype;
     }
     m_pSecondary = pDoc->createUMLObject(ot, m_SecondaryId, NULL);
