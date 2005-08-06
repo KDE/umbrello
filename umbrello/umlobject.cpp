@@ -396,8 +396,6 @@ bool UMLObject::resolveRef() {
     // Assume we're dealing with the older Umbrello format where
     // the type name was saved in the "type" attribute rather
     // than the xmi.id of the model object of the attribute type.
-    if (m_SecondaryId == "const QModelIndex&")
-        kdDebug() << "Yow! const QModelIndex&" << endl;
     m_pSecondary = pDoc->findUMLObject( m_SecondaryId, Uml::ot_UMLObject, this );
     if (m_pSecondary) {
         m_SecondaryId = "";
