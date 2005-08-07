@@ -55,11 +55,6 @@ bool LinkWidget::showDialog() {
     return true;
 }
 
-void LinkWidget::constrainTextPos(int & /*textX*/, int & /*textY*/,
-                                  int /*textWidth*/, int /*textHeight*/,
-                                  Uml::Text_Role /*tr*/) {
-}
-
 void LinkWidget::calculateNameTextSegment() {
 }
 

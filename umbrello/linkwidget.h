@@ -113,11 +113,12 @@ public:
     virtual void setSeqNumAndOp(const QString &seqNum, const QString &op) = 0;
 
     /**
+     * Abstract operation implemented by inheriting classes.
      * Motivated by FloatingText::mouseMoveEvent()
-     * Only applies to MessageWidget.
      */
-    virtual void constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
-                                  Uml::Text_Role tr);
+    virtual void constrainTextPos(int &textX, int &textY,
+                                  int textWidth, int textHeight,
+                                  Uml::Text_Role tr) = 0;
 
     /**
      * Motivated by FloatingText::setLink().

@@ -304,10 +304,7 @@ void FloatingText::mouseMoveEvent(QMouseEvent* me) {
     int newX = newPosition.x();
     int newY = newPosition.y();
 
-    //implement specific rules for a sequence diagram
-    if (m_Role == Uml::tr_Seq_Message || m_Role == Uml::tr_Seq_Message_Self) {
-        m_pLink->constrainTextPos(newX, newY, width(), height(), m_Role);
-    }
+    m_pLink->constrainTextPos(newX, newY, width(), height(), m_Role);
     m_nOldX = newX;
     m_nOldY = newY;
     setX( newX );

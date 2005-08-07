@@ -490,6 +490,19 @@ public:
     void resetTextPositions();
 
     /**
+     * Constrains the FloatingText X and Y values supplied.
+     * Implements the abstract operation from LinkWidget.
+     *
+     * @param textX       Candidate X value (may be modified by the constraint.)
+     * @param textY       Candidate Y value (may be modified by the constraint.)
+     * @param textWidth   Width of the text.
+     * @param textHeight  Height of the text.
+     * @param tr          Uml::Text_Role of the text.
+     */
+    void constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
+                          Uml::Text_Role tr);
+
+    /**
      * Shows the association properties dialog and updates the
      * corresponding texts if its execution is successful.
      * Returns true for success.

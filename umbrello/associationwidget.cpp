@@ -1870,6 +1870,113 @@ QPoint AssociationWidget::calculateTextPosition(Text_Role role) {
     return p;
 }
 
+void AssociationWidget::constrainTextPos(int &textX, int &textY,
+                                         int textWidth, int textHeight,
+                                         Uml::Text_Role tr) {
+    const int CORRIDOR_HALFWIDTH = 30;
+    const int textHalfWidth = textWidth / 2;
+    const int textHalfHeight = textHeight / 2;
+    const int textCenterX = textX + textHalfWidth;
+    const int textCenterY = textY + textHalfHeight;
+    const uint lastSegment = m_LinePath.count() - 1;
+    QPoint p0, p1;
+    bool atBSide = false;
+    switch (tr) {
+        case tr_RoleAName:
+        case tr_MultiA:
+        case tr_ChangeA:
+            p0 = m_LinePath.getPoint(0);
+            p1 = m_LinePath.getPoint(1);
+            break;
+        case tr_RoleBName:
+        case tr_MultiB:
+        case tr_ChangeB:
+            p0 = m_LinePath.getPoint(lastSegment - 1);
+            p1 = m_LinePath.getPoint(lastSegment);
+            atBSide = true;
+            break;
+        case tr_Name:
+            // @todo Find the linepath segment to which the (textX,textY) is closest
+            //       and constrain to the corridor of that segment.
+            return;
+            break;
+        default:
+            kdError() << "AssociationWidget::constrainTextPos(): unexpected Text_Role "
+                      << tr << endl;
+            return;
+            break;
+    }
+    if (p0.x() == p1.x()) {
+        // vertical line
+        // CAUTION: This is calculated in Qt coordinates!
+        ////////////////////////// constrain horizontally /////////////////////////
+        const int lineX = p0.x();
+        if (textX + textWidth < lineX - CORRIDOR_HALFWIDTH)  // constrain at left
+            textX = lineX - CORRIDOR_HALFWIDTH - textWidth;
+        else if (textX > lineX + CORRIDOR_HALFWIDTH)         // constrain at right
+            textX = lineX + CORRIDOR_HALFWIDTH;
+        ////////////////////////// constrain vertically ///////////////////////////
+        // pre-constrain the corridor to the appropriate half:
+        if (atBSide) {
+            if (p0.y() > p1.y())
+                p0.setY(p1.y() + (p0.y() - p1.y()) / 2);
+            else
+                p0.setY(p1.y() - (p1.y() - p0.y()) / 2);
+        } else {
+            if (p0.y() < p1.y())
+                p1.setY(p0.y() + (p1.y() - p0.y()) / 2);
+            else
+                p1.setY(p0.y() - (p0.y() - p1.y()) / 2);
+        }
+        // swap points so that p0 contains the one with the smaller Y
+        if (p0.y() > p1.y()) {
+            QPoint tmp = p0;
+            p0 = p1;
+            p1 = tmp;
+        }
+        if (textY + textHeight < p0.y())  // constrain at top
+            textY = p0.y() - textHeight;
+        else if (textY > p1.y())          // constrain at bottom
+            textY = p1.y();
+        return;
+    }
+    if (p0.y() == p1.y()) {
+        // horizontal line
+        // CAUTION: This is calculated in Qt coordinates!
+        ////////////////////////// constrain verticallly ///////////////////////////
+        const int lineY = p0.y();
+        if (textY + textHeight < lineY - CORRIDOR_HALFWIDTH)  // constrain at top
+            textY = lineY - CORRIDOR_HALFWIDTH - textHeight;
+        else if (textY > lineY + CORRIDOR_HALFWIDTH)          // constrain at bottom
+            textY = lineY + CORRIDOR_HALFWIDTH;
+        ////////////////////////// constrain horizontally //////////////////////////
+        // pre-constrain the corridor to the appropriate half:
+        if (atBSide) {
+            if (p0.x() < p1.x())
+                p0.setX(p1.x() - (p1.x() - p0.x()) / 2);
+            else
+                p0.setX(p1.x() + (p0.x() - p1.x()) / 2);
+        } else {
+            if (p0.x() < p1.x())
+                p1.setX(p0.x() + (p1.x() - p0.x()) / 2);
+            else
+                p1.setX(p0.x() - (p0.x() - p1.x()) / 2);
+        }
+        // swap points so that p0 contains the one with the smaller X
+        if (p0.x() > p1.x()) {
+            QPoint tmp = p0;
+            p0 = p1;
+            p1 = tmp;
+        }
+        if (textX + textWidth < p0.x())   // constrain at left
+            textX = p0.x() - textWidth;
+        else if (textX > p1.x())          // constrain at right
+            textX = p1.x();
+        return;
+    }
+    // @todo: deal with slopes
+}
+
 void AssociationWidget::calculateNameTextSegment() {
     if(!m_pName) {
         return;
