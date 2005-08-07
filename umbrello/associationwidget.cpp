@@ -1866,6 +1866,12 @@ QPoint AssociationWidget::calculateTextPosition(Text_Role role) {
         else
             x = p.x() - textW - SPACE;
     }
+    if (text) {
+        constrainTextPos(x, y, textW, textH, role);
+        // kdDebug() << "AssociationWidget::calculateTextPosition(" 
+        //   << p.x() << "," << p.y() << "): newPoint=("
+     	//   << x << "," << y << ")" << endl;
+    }
     p = QPoint( x, y );
     return p;
 }
@@ -1874,31 +1880,55 @@ void AssociationWidget::constrainTextPos(int &textX, int &textY,
                                          int textWidth, int textHeight,
                                          Uml::Text_Role tr) {
     const int CORRIDOR_HALFWIDTH = 30;
-    const int textHalfWidth = textWidth / 2;
-    const int textHalfHeight = textHeight / 2;
-    const int textCenterX = textX + textHalfWidth;
-    const int textCenterY = textY + textHalfHeight;
     const uint lastSegment = m_LinePath.count() - 1;
     QPoint p0, p1;
-    bool atBSide = false;
+    bool atSideA = false, atSideB = false;
     switch (tr) {
         case tr_RoleAName:
         case tr_MultiA:
         case tr_ChangeA:
             p0 = m_LinePath.getPoint(0);
             p1 = m_LinePath.getPoint(1);
+            atSideA = true;
             break;
         case tr_RoleBName:
         case tr_MultiB:
         case tr_ChangeB:
             p0 = m_LinePath.getPoint(lastSegment - 1);
             p1 = m_LinePath.getPoint(lastSegment);
-            atBSide = true;
+            atSideB = true;
             break;
         case tr_Name:
-            // @todo Find the linepath segment to which the (textX,textY) is closest
-            //       and constrain to the corridor of that segment.
-            return;
+            // Find the linepath segment to which the (textX,textY) is closest
+            // and constrain to the corridor of that segment (see farther below)
+            {
+                const int textCenterX = textX + textWidth / 2;
+                const int textCenterY = textY + textHeight / 2;
+                int minDistSquare = 100000;  // utopian initial value
+                int lpIndex = 0;
+                for (uint i = 0; i < lastSegment; i++) {
+                    p0 = m_LinePath.getPoint(i);
+                    p1 = m_LinePath.getPoint(i + 1);
+                    QPoint midPoint;
+                    if (p0.x() < p1.x())
+                        midPoint.setX(p0.x() + (p1.x() - p0.x()) / 2);
+                    else
+                        midPoint.setX(p1.x() + (p0.x() - p1.x()) / 2);
+                    if (p0.y() < p1.y())
+                        midPoint.setY(p0.y() + (p1.y() - p0.y()) / 2);
+                    else
+                        midPoint.setY(p1.y() + (p0.y() - p1.y()) / 2);
+                    const int deltaX = textCenterX - midPoint.x();
+                    const int deltaY = textCenterY - midPoint.y();
+                    const int cSquare = deltaX * deltaX + deltaY * deltaY;
+                    if (cSquare < minDistSquare) {
+                        minDistSquare = cSquare;
+                        lpIndex = i;
+                    }
+                }
+                p0 = m_LinePath.getPoint(lpIndex);
+                p1 = m_LinePath.getPoint(lpIndex + 1);
+            }
             break;
         default:
             kdError() << "AssociationWidget::constrainTextPos(): unexpected Text_Role "
@@ -1917,16 +1947,16 @@ void AssociationWidget::constrainTextPos(int &textX, int &textY,
             textX = lineX + CORRIDOR_HALFWIDTH;
         ////////////////////////// constrain vertically ///////////////////////////
         // pre-constrain the corridor to the appropriate half:
-        if (atBSide) {
-            if (p0.y() > p1.y())
-                p0.setY(p1.y() + (p0.y() - p1.y()) / 2);
-            else
-                p0.setY(p1.y() - (p1.y() - p0.y()) / 2);
-        } else {
+        if (atSideA) {
             if (p0.y() < p1.y())
                 p1.setY(p0.y() + (p1.y() - p0.y()) / 2);
             else
                 p1.setY(p0.y() - (p0.y() - p1.y()) / 2);
+        } else if (atSideB) {
+            if (p0.y() > p1.y())
+                p0.setY(p1.y() + (p0.y() - p1.y()) / 2);
+            else
+                p0.setY(p1.y() - (p1.y() - p0.y()) / 2);
         }
         // swap points so that p0 contains the one with the smaller Y
         if (p0.y() > p1.y()) {
@@ -1951,16 +1981,16 @@ void AssociationWidget::constrainTextPos(int &textX, int &textY,
             textY = lineY + CORRIDOR_HALFWIDTH;
         ////////////////////////// constrain horizontally //////////////////////////
         // pre-constrain the corridor to the appropriate half:
-        if (atBSide) {
-            if (p0.x() < p1.x())
-                p0.setX(p1.x() - (p1.x() - p0.x()) / 2);
-            else
-                p0.setX(p1.x() + (p0.x() - p1.x()) / 2);
-        } else {
+        if (atSideA) {
             if (p0.x() < p1.x())
                 p1.setX(p0.x() + (p1.x() - p0.x()) / 2);
             else
                 p1.setX(p0.x() - (p0.x() - p1.x()) / 2);
+        } else if (atSideB) {
+            if (p0.x() < p1.x())
+                p0.setX(p1.x() - (p1.x() - p0.x()) / 2);
+            else
+                p0.setX(p1.x() + (p0.x() - p1.x()) / 2);
         }
         // swap points so that p0 contains the one with the smaller X
         if (p0.x() > p1.x()) {
