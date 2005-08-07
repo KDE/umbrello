@@ -1699,7 +1699,7 @@ QPoint AssociationWidget::calculateTextPosition(Text_Role role) {
     int textW = 0, textH = 0;
     int slope = 0, divisor = 1;
     const int SPACE = 2;
-    FloatingText const * text = 0;
+    FloatingText *text = 0;
 
     if(role == tr_MultiA) {
         text = getMultiWidget(A);
@@ -1778,6 +1778,8 @@ QPoint AssociationWidget::calculateTextPosition(Text_Role role) {
 
     } else if(role == tr_Name) {
 
+        calculateNameTextSegment();
+        text = m_pName;
         x = (int)( ( m_LinePath.getPoint(m_unNameLineSegment).x() +
                      m_LinePath.getPoint(m_unNameLineSegment + 1).x() ) / 2 );
 
@@ -1868,9 +1870,14 @@ QPoint AssociationWidget::calculateTextPosition(Text_Role role) {
     }
     if (text) {
         constrainTextPos(x, y, textW, textH, role);
-        // kdDebug() << "AssociationWidget::calculateTextPosition(" 
-        //   << p.x() << "," << p.y() << "): newPoint=("
-     	//   << x << "," << y << ")" << endl;
+        if (x != p.x() || y != p.y()) {
+            // kdDebug() << "AssociationWidget::calculateTextPosition(" 
+            //   << text->getName() << ") textrole " << role
+            //   << ": oldpoint=(" << p.x() << "," << p.y() << ")"
+            //   << ", newPoint=(" << x << "," << y << ")" << endl;
+            text->setX(x);
+            text->setY(y);
+        }
     }
     p = QPoint( x, y );
     return p;
@@ -1973,7 +1980,7 @@ void AssociationWidget::constrainTextPos(int &textX, int &textY,
     if (p0.y() == p1.y()) {
         // horizontal line
         // CAUTION: This is calculated in Qt coordinates!
-        ////////////////////////// constrain verticallly ///////////////////////////
+        ////////////////////////// constrain vertically /////////////////////////////
         const int lineY = p0.y();
         if (textY + textHeight < lineY - CORRIDOR_HALFWIDTH)  // constrain at top
             textY = lineY - CORRIDOR_HALFWIDTH - textHeight;
