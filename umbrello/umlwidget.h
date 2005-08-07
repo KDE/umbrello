@@ -33,8 +33,8 @@ class QFontMetrics;
 /**
  * This is the base class for nearly all graphical widgets.
  *
- * @short	The base class for graphical UML objects.
- * @author 	Paul Hensgen <phensgen@techie.com>
+ * @short The base class for graphical UML objects.
+ * @author  Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLWidget : public WidgetBase, public QCanvasRectangle {
@@ -43,17 +43,17 @@ public:
     /**
      * Creates a UMLWidget object.
      *
-     * @param view	The view to be displayed on.
-     * @param o	The UMLObject to represent.
+     * @param view The view to be displayed on.
+     * @param o The UMLObject to represent.
      */
     UMLWidget( UMLView * view, UMLObject * o );
 
     /**
      * Creates a UMLWidget object.
      *
-     * @param view	The view to be displayed on.
-     * @param id	The id of the widget.
-     *		The default value (id_None) will prompt generation of a new ID.
+     * @param view The view to be displayed on.
+     * @param id The id of the widget.
+     *  The default value (id_None) will prompt generation of a new ID.
      */
     UMLWidget( UMLView * view, Uml::IDType id = Uml::id_None );
 
@@ -104,7 +104,7 @@ public:
     /**
      * Set the status of using fill color.
      *
-     * @param	fc the status of using fill color.
+     * @param fc the status of using fill color.
      */
     void setUseFillColour(bool fc);
 
@@ -450,7 +450,7 @@ public:
 
     /**
      * Sets the name in the corresponding UMLObject.
-     * No-op if m_pObject is NULL.
+     * Sets the local m_Text if m_pObject is NULL.
      *
      * @param strName The name to be set.
      */
@@ -458,7 +458,7 @@ public:
 
     /**
      * Gets the name from the corresponding UMLObject.
-     * Returns an empty string if m_pObject is NULL.
+     * Returns the local m_Text if m_pObject is NULL.
      *
      * @return The currently set name.
      */
@@ -602,7 +602,8 @@ protected:
      *  true by default, false if the colours have
      *  been explicity set for this widget
      */
-    bool m_bUsesDiagramFillColour, m_bUsesDiagramLineColour, m_bUsesDiagramLineWidth, m_bUsesDiagramUseFillColour;
+    bool m_bUsesDiagramFillColour, m_bUsesDiagramLineColour,
+         m_bUsesDiagramLineWidth, m_bUsesDiagramUseFillColour;
 
     /**
      * Color of the lines of the widget
@@ -625,7 +626,14 @@ protected:
     AssociationWidgetList m_Assocs;
 
     /**
-     * 	The font the widget will use.
+     * getName() returns the name from the UMLObject if this widget has an
+     * underlying UMLObject; if it does not, then getName() returns the local
+     * m_Text (notably the case for FloatingText.)
+     */
+    QString m_Text;
+
+    /**
+     *  The font the widget will use.
      */
     QFont m_Font;
 
@@ -641,10 +649,7 @@ protected:
 
     ///////////////// End of Data Loaded/Saved //////////////////////////
 
-    bool 		m_bMouseDown,
-    m_bMouseOver,
-    m_bSelected,
-    m_bStartMove;
+    bool m_bMouseDown, m_bMouseOver, m_bSelected, m_bStartMove;
 
     /**
      * True if the object was moved during mouseMoveEvent
@@ -656,17 +661,13 @@ protected:
      */
     bool m_bShiftPressed;
 
-    int  		m_nOldX,
-    m_nOldY,
-    m_nPosX;
-    ListPopupMenu 	*m_pMenu;
-    UMLDoc		*m_pDoc;  ///< shortcut for UMLApp::app()->getDocument()
-    bool 		m_bResizing;
-    int 		m_nPressOffsetX,
-    m_nPressOffsetY;
-    int 		m_nOldH,
-    m_nOldW;
-    QFontMetrics	*m_pFontMetrics[FT_INVALID];
+    int            m_nOldX, m_nOldY, m_nPosX;
+    ListPopupMenu *m_pMenu;
+    UMLDoc        *m_pDoc;  ///< shortcut for UMLApp::app()->getDocument()
+    bool           m_bResizing;
+    int            m_nPressOffsetX, m_nPressOffsetY;
+    int            m_nOldH, m_nOldW;
+    QFontMetrics  *m_pFontMetrics[FT_INVALID];
 
     /**
      * It is true if the Activate Function has been called for this

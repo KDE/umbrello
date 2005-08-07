@@ -137,8 +137,8 @@ bool UMLWidget::operator==(const UMLWidget& other) {
         return false;
     }
 
-    //	if(getBaseType() != wt_Text) // DONT do this for floatingtext widgets, an infinite loop will result
-    //	{
+    // if(getBaseType() != wt_Text) // DONT do this for floatingtext widgets, an infinite loop will result
+    // {
     AssociationWidgetListIt assoc_it( m_Assocs );
     AssociationWidgetListIt assoc_it2( other.m_Assocs );
     AssociationWidget * assoc = 0, *assoc2 = 0;
@@ -149,21 +149,21 @@ bool UMLWidget::operator==(const UMLWidget& other) {
             return false;
         }
     }
-    //	}
+    // }
     return true;
     // NOTE:  In the comparison tests we are going to do, we don't need these values.
     // They will actually stop things functioning correctly so if you change these, be aware of that.
     /*
     if(m_bUseFillColour != other.m_bUseFillColour)
-    	return false;
+        return false;
     if(m_nId != other.m_nId)
-    	return false;
+        return false;
     if( m_Font != other.m_Font )
-    	return false;
+        return false;
     if(m_nX  != other.m_nX)
-    	return false;
+        return false;
     if(m_nY != other.m_nY)
-    	return false;
+        return false;
      */
 }
 
@@ -246,8 +246,8 @@ void UMLWidget::mouseMoveEvent(QMouseEvent* me) {
         int newX = newPosition.x();
         int newY = newPosition.y();
         // kdDebug() << "UMLWidget::mouseMoveEvent(" << me->pos().x()
-        // 	  << "," << me->pos().y() << "): newPoint=("
-        // 	  << newX << "," << newY << ")" << endl;
+        //           << "," << me->pos().y() << "): newPoint=("
+        //           << newX << "," << newY << ")" << endl;
 
         m_nOldX = newX;
         m_nOldY = newY;
@@ -421,7 +421,7 @@ void UMLWidget::init() {
     connect( m_pView, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
 
 
-    //	connect( m_pView, SIGNAL(sigColorChanged(int)), this, SLOT(slotColorChanged(int)));
+    // connect( m_pView, SIGNAL(sigColorChanged(int)), this, SLOT(slotColorChanged(int)));
     m_pObject = NULL;
     setZ( 1 );
 }
@@ -911,13 +911,15 @@ void UMLWidget::setY( int y ) {
 void UMLWidget::setName(const QString &strName) {
     if (m_pObject)
         m_pObject->setName(strName);
+    else
+        m_Text = strName;
     calculateSize();
 }
 
 QString UMLWidget::getName() const {
     if (m_pObject)
         return m_pObject->getName();
-    return "";
+    return m_Text;
 }
 
 void UMLWidget::cleanup() {
