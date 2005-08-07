@@ -112,6 +112,12 @@ public:
      */
     static QStringList includePathList();
 
+    /**
+     * Returns whether the last createUMLObject() actually created
+     * a new object or just returned an existing one.
+     */
+    static bool newUMLObjectWasCreated();
+
 private:
     /**
     * Auxiliary method for recursively traversing the #include dependencies
@@ -133,6 +139,14 @@ private:
      * I.e. before calling createUMLObject() we set this flag to true.
      */
     static bool ms_putAtGlobalScope;
+
+    /**
+     * Flag manipulated by createUMLObject().
+     * Global state is generally bad, I know.
+     * It would be cleaner to make this into a return value from
+     * createUMLObject().
+     */
+    static bool ms_newUMLObjectWasCreated;
 };
 
 #endif

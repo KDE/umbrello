@@ -38,6 +38,7 @@
 CppDriver * ClassImport::ms_driver;
 QStringList ClassImport::ms_seenFiles;
 bool ClassImport::ms_putAtGlobalScope;
+bool ClassImport::ms_newUMLObjectWasCreated;
 
 class CppDriver : public Driver {
 public:
@@ -53,6 +54,10 @@ ClassImport::ClassImport() {
 }
 
 ClassImport::~ClassImport() {}
+
+bool ClassImport::newUMLObjectWasCreated() {
+    return ms_newUMLObjectWasCreated;
+}
 
 QString ClassImport::formatComment(const QString &comment) {
     QStringList lines = QStringList::split("\n", comment);
@@ -100,6 +105,7 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
                                         QString stereotype) {
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     UMLObject * o = umldoc->findUMLObject(name, type, parentPkg);
+    ms_newUMLObjectWasCreated = false;
     if (o == NULL) {
         // Strip possible adornments and look again.
         int isConst = name.contains(QRegExp("^const "));
@@ -141,6 +147,7 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
             if (type == Uml::ot_UMLObject || isConst || isRef || isPointer)
                 t = Uml::ot_Class;
             origType = umldoc->createUMLObject(t, typeName, parentPkg);
+            ms_newUMLObjectWasCreated = true;
         }
         if (isConst || isPointer || isRef) {
             // Create the full given type (including adornments.)
