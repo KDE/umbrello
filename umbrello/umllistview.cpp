@@ -980,8 +980,6 @@ void UMLListView::init() {
     deleteChildrenOf( componentView );
     deleteChildrenOf( deploymentView );
     deleteChildrenOf( entityRelationshipModel );
-    //Uncomment for using Luis diagram display code
-    //	deleteChildrenOf( diagramFolder );
 
     m_rv->setOpen(true);
     m_ucv->setOpen(true);
@@ -2563,8 +2561,6 @@ bool UMLListView::loadFromXMI( QDomElement & element ) {
     	deleteChildrenOf( m_lv );
     	deleteChildrenOf( componentView );
     	deleteChildrenOf( deploymentView );
-    //Uncomment for using Luis diagram display code
-    //	deleteChildrenOf( diagramFolder );
      */
     QDomNode node = element.firstChild();
     QDomElement domElement = node.toElement();
@@ -2631,8 +2627,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
             if (pObject && label.isEmpty())
                 label = pObject->getName();
 
-        } else if (typeIsFolder(lvType) ||
-                   lvType == Uml::lvt_Diagrams) {
+        } else if (typeIsFolder(lvType)) {
             // Pre-1.2 format: Folders did not have their ID set.
             // Pull a new ID now.
             nID = m_doc->getUniqueID();
@@ -2708,8 +2703,10 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
                 << lvType << ") does not yet exist..."
                 << endl;
                 UMLObject* umlObject = parent->getUMLObject();
-                if (!umlObject)
+                if (!umlObject) {
+                    kdDebug() << "And also the parent->getUMLObject() does not exist" << endl;
                     return false;
+                }
                 if (nID == Uml::id_None) {
                     kdWarning() << "UMLListView::loadChildrenFromXMI: lvtype " << lvType
                     << " has id -1" << endl;
@@ -2750,10 +2747,6 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
             break;
         case Uml::lvt_EntityRelationship_Model:
             item = entityRelationshipModel;
-            break;
-        case Uml::lvt_Diagrams:
-            //Uncomment for using Luis diagram display code
-            //				item = diagramFolder;
             break;
         default:
             {

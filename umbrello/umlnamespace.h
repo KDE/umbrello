@@ -169,7 +169,7 @@ enum ListView_Type
     lvt_Component_Folder,
     lvt_Component_View,
     lvt_Component,
-    lvt_Diagrams,
+    lvt_Diagrams,  // currently unused
     lvt_Artifact,
     lvt_Deployment_Diagram,
     lvt_Deployment_Folder,
