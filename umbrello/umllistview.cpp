@@ -576,10 +576,13 @@ void UMLListView::slotDiagramCreated( Uml::IDType id ) {
 }
 
 void UMLListView::slotObjectCreated(UMLObject* object) {
-    /* kdDebug() << "UMLListView::slotObjectCreated(" << object->getName()
-    	  << "): ID is " << object->getID() << endl;
-     */
-    UMLListViewItem* newItem = 0;
+    UMLListViewItem* newItem = findUMLObject(object);
+    if (newItem) {
+        kdDebug() << "UMLListView::slotObjectCreated(" << object->getName()
+                  << ", id= " << ID2STR(object->getID())
+                  << "): item already exists." << endl;
+        return;
+    }
     UMLListViewItem* parentItem = 0;
     UMLListViewItem* current = (UMLListViewItem*) currentItem();
     Uml::Object_Type type = object->getBaseType();
