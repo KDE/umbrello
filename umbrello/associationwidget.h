@@ -157,6 +157,13 @@ public:
     FloatingText* getRoleWidget(Uml::Role_Type role);
 
     /**
+     * Return the FloatingText object indicated by the given Text_Role.
+     *
+     * @return	Pointer to the text role's FloatingText widget.
+     */
+    FloatingText* getTextWidgetByRole(Uml::Text_Role tr);
+
+    /**
      * Returns the documentation about this association.
      *
      * @return	The AssociationWidget's documentation text.

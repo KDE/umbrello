@@ -279,6 +279,28 @@ FloatingText* AssociationWidget::getChangeWidget(Role_Type role) {
     return m_role[role].m_pChangeWidget;
 }
 
+FloatingText* AssociationWidget::getTextWidgetByRole(Uml::Text_Role tr) {
+    switch (tr) {
+        case tr_MultiA:
+            return m_role[A].m_pMulti;
+        case tr_MultiB:
+            return m_role[B].m_pMulti;
+        case tr_Name:
+            return m_pName;
+        case tr_RoleAName:
+            return m_role[A].m_pRole;
+        case tr_RoleBName:
+            return m_role[B].m_pRole;
+        case tr_ChangeA:
+            return m_role[A].m_pChangeWidget;
+        case tr_ChangeB:
+            return m_role[B].m_pChangeWidget;
+        default:
+            break;
+    }
+    return NULL;
+}
+
 QString AssociationWidget::getRoleName(Role_Type role) const {
     if (m_role[role].m_pRole == NULL)
         return "";
@@ -1692,30 +1714,38 @@ float AssociationWidget::perpendicularProjection(QPoint P1, QPoint P2, QPoint P3
 }
 
 QPoint AssociationWidget::calculateTextPosition(Text_Role role) {
-    QPoint p( -1, -1 ), q( -1, -1 );
-    uint size = m_LinePath.count();
-    uint pos = size - 1;
-    int x = 0, y = 0;
-    int textW = 0, textH = 0;
-    int slope = 0, divisor = 1;
     const int SPACE = 2;
-    FloatingText *text = 0;
-
-    if(role == tr_MultiA) {
-        text = getMultiWidget(A);
-        if( text ) {
-            textW = text -> width();
-            textH = text -> height();
-        }
+    QPoint p(-1, -1), q(-1, -1);
+    if (role == tr_MultiA || role == tr_ChangeA || role == tr_RoleAName) {
         p = m_LinePath.getPoint( 0 );
         q = m_LinePath.getPoint( 1 );
-        divisor = (p.x()-q.x());
+    } else if (role == tr_MultiB || role == tr_ChangeB || role == tr_RoleBName) {
+        const uint lastSegment = m_LinePath.count() - 1;
+        p = m_LinePath.getPoint(lastSegment);
+        q = m_LinePath.getPoint(lastSegment - 1);
+    } else if (role != tr_Name) {
+        kdError() << "AssociationWidget::calculateTextPosition called with unsupported Text_Role "
+                  << role << endl;
+        return QPoint(-1, -1);
+    }
+
+    FloatingText *text = getTextWidgetByRole(role);
+    int textW = 0, textH = 0;
+    if (text) {
+        textW = text->width();
+        textH = text->height();
+    }
+
+    int x = 0, y = 0;
+
+    if (role == tr_MultiA || role == tr_MultiB) {
+
+        int slope, divisor = p.x() - q.x();
         if (divisor != 0)
-            slope = (p.y()-q.y())/divisor;
+            slope = (p.y() - q.y()) / divisor;
         else
             slope = 10000;
 
-
         if( p.y() > q.y() )
             if(slope == 0)
                 y = p.y() + SPACE;
@@ -1738,67 +1768,10 @@ QPoint AssociationWidget::calculateTextPosition(Text_Role role) {
             else
                 x = p.x() + SPACE;
 
-    } else if(role == tr_MultiB) {
-        text = getMultiWidget(B);
-        if( text ) {
-            textW = text -> width();
-            textH = text -> height();
-        }
-        p = m_LinePath.getPoint( pos );
-        q = m_LinePath.getPoint( pos - 1 );
-        divisor = (p.x()-q.x());
-        if (divisor != 0)
-            slope = (p.y()-q.y())/divisor;
-        else
-            slope = 10000000;
+    } else if (role == tr_ChangeA || role == tr_ChangeB) {
 
         if( p.y() > q.y() )
-        {
-            if(slope == 0)
-                y = p.y() - SPACE;
-            else
-                y = p.y() - textH - SPACE;
-        } else
-            if(slope == 0)
-                y = p.y() - textH - SPACE;
-            else
-                y = p.y() + SPACE;
-
-
-        if( p.x() < q.x() )
-            if(slope == 0)
-                x = p.x() + SPACE;
-            else
-                x = p.x() - textW + SPACE;
-        else
-            if(slope == 0)
-                x = p.x() - textW + SPACE;
-            else
-                x = p.x() + SPACE;
-
-    } else if(role == tr_Name) {
-
-        calculateNameTextSegment();
-        text = m_pName;
-        x = (int)( ( m_LinePath.getPoint(m_unNameLineSegment).x() +
-                     m_LinePath.getPoint(m_unNameLineSegment + 1).x() ) / 2 );
-
-        y = (int)( ( m_LinePath.getPoint(m_unNameLineSegment).y() +
-                     m_LinePath.getPoint(m_unNameLineSegment + 1).y() ) / 2 );
-
-    } else if(role == tr_ChangeA) {
-
-        text = getChangeWidget(A);
-
-        if( text ) {
-            textW = text -> width();
-            textH = text -> height();
-        }
-        p = m_LinePath.getPoint( 0 );
-        q = m_LinePath.getPoint( 1 );
-
-        if( p.y() > q.y() )
-            y = p.y() - SPACE - (textH *2);
+            y = p.y() - SPACE - (textH * 2);
         else
             y = p.y() + SPACE + textH;
 
@@ -1807,36 +1780,7 @@ QPoint AssociationWidget::calculateTextPosition(Text_Role role) {
         else
             x = p.x() - SPACE - textW;
 
-    } else if(role == tr_ChangeB) {
-
-        text = getChangeWidget(B);
-        if( text ) {
-            textW = text -> width();
-            textH = text -> height();
-        }
-
-        p = m_LinePath.getPoint( pos );
-        q = m_LinePath.getPoint( pos - 1 );
-
-        if( p.y() > q.y() )
-            y = p.y() - (textH*2) - SPACE;
-        else
-            y = p.y() + textH + SPACE;
-
-        if( p.x() < q.x() )
-            x = p.x() + SPACE;
-        else
-            x = p.x() - textW - SPACE;
-
-    } else if(role == tr_RoleAName) {
-
-        text = getRoleWidget(A);
-        if( text ) {
-            textW = text -> width();
-            textH = text -> height();
-        }
-        p = m_LinePath.getPoint( 0 );
-        q = m_LinePath.getPoint( 1 );
+    } else if (role == tr_RoleAName || role == tr_RoleBName) {
 
         if( p.y() > q.y() )
             y = p.y() - SPACE - textH;
@@ -1847,27 +1791,17 @@ QPoint AssociationWidget::calculateTextPosition(Text_Role role) {
             x = p.x() + SPACE;
         else
             x = p.x() - SPACE - textW;
-    }
-    else if(role == tr_RoleBName)
-    {
-        text = getRoleWidget(B);
-        if( text ) {
-            textW = text -> width();
-            textH = text -> height();
-        }
 
-        p = m_LinePath.getPoint( pos );
-        q = m_LinePath.getPoint( pos - 1 );
-        if( p.y() > q.y() )
-            y = p.y() - textH - SPACE;
-        else
-            y = p.y() + SPACE;
+    } else if (role == tr_Name) {
 
-        if( p.x() < q.x() )
-            x = p.x() + SPACE;
-        else
-            x = p.x() - textW - SPACE;
+        calculateNameTextSegment();
+        x = (int)( ( m_LinePath.getPoint(m_unNameLineSegment).x() +
+                     m_LinePath.getPoint(m_unNameLineSegment + 1).x() ) / 2 );
+
+        y = (int)( ( m_LinePath.getPoint(m_unNameLineSegment).y() +
+                     m_LinePath.getPoint(m_unNameLineSegment + 1).y() ) / 2 );
     }
+
     if (text) {
         constrainTextPos(x, y, textW, textH, role);
         if (x != p.x() || y != p.y()) {
@@ -1943,7 +1877,7 @@ void AssociationWidget::constrainTextPos(int &textX, int &textY,
             return;
             break;
     }
-    if (p0.x() == p1.x()) {
+    if (p0.x() >= p1.x() - 1 && p0.x() <= p1.x() + 1) {
         // vertical line
         // CAUTION: This is calculated in Qt coordinates!
         ////////////////////////// constrain horizontally /////////////////////////
@@ -1954,16 +1888,21 @@ void AssociationWidget::constrainTextPos(int &textX, int &textY,
             textX = lineX + CORRIDOR_HALFWIDTH;
         ////////////////////////// constrain vertically ///////////////////////////
         // pre-constrain the corridor to the appropriate half:
-        if (atSideA) {
-            if (p0.y() < p1.y())
-                p1.setY(p0.y() + (p1.y() - p0.y()) / 2);
-            else
-                p1.setY(p0.y() - (p0.y() - p1.y()) / 2);
-        } else if (atSideB) {
-            if (p0.y() > p1.y())
-                p0.setY(p1.y() + (p0.y() - p1.y()) / 2);
-            else
-                p0.setY(p1.y() - (p1.y() - p0.y()) / 2);
+        // This is only done for simple (i.e. non multi-segment) linepaths.
+        // With multi-segment linepaths, the user probably wants the freedom to
+        // place role related labels anywhere within the start and end segment.
+        if (lastSegment == 1) {
+            if (atSideA) {
+                if (p0.y() < p1.y())
+                    p1.setY(p0.y() + (p1.y() - p0.y()) / 2);
+                else
+                    p1.setY(p0.y() - (p0.y() - p1.y()) / 2);
+            } else if (atSideB) {
+                if (p0.y() > p1.y())
+                    p0.setY(p1.y() + (p0.y() - p1.y()) / 2);
+                else
+                    p0.setY(p1.y() - (p1.y() - p0.y()) / 2);
+            }
         }
         // swap points so that p0 contains the one with the smaller Y
         if (p0.y() > p1.y()) {
@@ -1977,7 +1916,7 @@ void AssociationWidget::constrainTextPos(int &textX, int &textY,
             textY = p1.y();
         return;
     }
-    if (p0.y() == p1.y()) {
+    if (p0.y() >= p1.y() - 1 && p0.y() <= p1.y() + 1) {
         // horizontal line
         // CAUTION: This is calculated in Qt coordinates!
         ////////////////////////// constrain vertically /////////////////////////////
@@ -1988,16 +1927,21 @@ void AssociationWidget::constrainTextPos(int &textX, int &textY,
             textY = lineY + CORRIDOR_HALFWIDTH;
         ////////////////////////// constrain horizontally //////////////////////////
         // pre-constrain the corridor to the appropriate half:
-        if (atSideA) {
-            if (p0.x() < p1.x())
-                p1.setX(p0.x() + (p1.x() - p0.x()) / 2);
-            else
-                p1.setX(p0.x() - (p0.x() - p1.x()) / 2);
-        } else if (atSideB) {
-            if (p0.x() < p1.x())
-                p0.setX(p1.x() - (p1.x() - p0.x()) / 2);
-            else
-                p0.setX(p1.x() + (p0.x() - p1.x()) / 2);
+        // This is only done for simple (i.e. non multi-segment) linepaths.
+        // With multi-segment linepaths, the user probably wants the freedom to
+        // place role related labels anywhere within the start and end segment.
+        if (lastSegment == 1) {
+            if (atSideA) {
+                if (p0.x() < p1.x())
+                    p1.setX(p0.x() + (p1.x() - p0.x()) / 2);
+                else
+                    p1.setX(p0.x() - (p0.x() - p1.x()) / 2);
+            } else if (atSideB) {
+                if (p0.x() < p1.x())
+                    p0.setX(p1.x() - (p1.x() - p0.x()) / 2);
+                else
+                    p0.setX(p1.x() + (p0.x() - p1.x()) / 2);
+            }
         }
         // swap points so that p0 contains the one with the smaller X
         if (p0.x() > p1.x()) {
