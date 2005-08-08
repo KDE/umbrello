@@ -304,7 +304,8 @@ void FloatingText::mouseMoveEvent(QMouseEvent* me) {
     int newX = newPosition.x();
     int newY = newPosition.y();
 
-    m_pLink->constrainTextPos(newX, newY, width(), height(), m_Role);
+    if (m_pLink)
+        m_pLink->constrainTextPos(newX, newY, width(), height(), m_Role);
     m_nOldX = newX;
     m_nOldY = newY;
     setX( newX );
