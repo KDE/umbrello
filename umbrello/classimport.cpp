@@ -12,13 +12,15 @@
 // qt/kde includes
 #include <qmap.h>
 #include <qregexp.h>
-//#include <kapplication.h>
+#include <kapplication.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
 #include <klocale.h>
 // app includes
 #include "uml.h"
 #include "umldoc.h"
+#include "umllistview.h"
+#include "umllistviewitem.h"
 #include "umlobject.h"
 #include "docwindow.h"
 #include "package.h"
@@ -132,13 +134,21 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
                         parentPkg = static_cast<UMLPackage*>(o);
                         continue;
                     }
-                    int wantNamespace = KMessageBox::questionYesNo(NULL,
+                    int wantNamespace = 1;
+                    /* We know std and Qt are always a namespaces */
+                    if (scopeName != "std" && scopeName != "Qt") {
+                        wantNamespace = KMessageBox::questionYesNo(NULL,
                                         i18n("Is the scope %1 a namespace or a class?").arg(scopeName),
                                         i18n("C++ Import Requests Your Help"),
                                         i18n("Namespace"), i18n("Class"));
+                    }
                     Uml::Object_Type ot = (wantNamespace == KMessageBox::Yes ? Uml::ot_Package : Uml::ot_Class);
                     o = umldoc->createUMLObject(ot, scopeName, parentPkg);
+                    kapp->processEvents();
                     parentPkg = static_cast<UMLPackage*>(o);
+                    UMLListView *listView = UMLApp::app()->getListView();
+                    UMLListViewItem *lvitem = listView->findUMLObject(o);
+                    listView->setCurrentItem(lvitem);
                 }
                 // All scope qualified datatypes live in the global scope.
                 ms_putAtGlobalScope = true;
@@ -148,6 +158,7 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
                 t = Uml::ot_Class;
             origType = umldoc->createUMLObject(t, typeName, parentPkg);
             ms_newUMLObjectWasCreated = true;
+            kapp->processEvents();
         }
         if (isConst || isPointer || isRef) {
             // Create the full given type (including adornments.)
@@ -156,6 +167,7 @@ UMLObject *ClassImport::createUMLObject(Uml::Object_Type type,
             if (ms_putAtGlobalScope)
                 parentPkg = NULL;
             o = umldoc->createUMLObject(Uml::ot_Datatype, name, parentPkg);
+            kapp->processEvents();
             UMLDatatype *dt = static_cast<UMLDatatype*>(o);
             UMLClassifier *c = dynamic_cast<UMLClassifier*>(origType);
             if (c)
