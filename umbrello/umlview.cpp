@@ -385,8 +385,8 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
     // TODO: Not inserted into the toolbar state. Is this really needed?
     /*
     if ( m_CurrentCursor < WorkToolBar::tbb_Actor || m_CurrentCursor > WorkToolBar::tbb_State ) {
-    	m_pFirstSelectedWidget = 0;
-    	return;
+        m_pFirstSelectedWidget = 0;
+        return;
     }
     */
 }
@@ -405,14 +405,14 @@ void UMLView::slotToolBarChanged(int c)
 
 void UMLView::showEvent(QShowEvent* /*se*/) {
 
-#	ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
+# ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
     //kdWarning() << "Show Event for " << getName() << endl;
     canvas()->setDoubleBuffering( true );
     // as the diagram gets now visible again,
     // the update of the diagram elements shall be
     // at the normal value of 20
     canvas()-> setUpdatePeriod( 20 );
-#	endif
+# endif
 
     UMLApp* theApp = UMLApp::app();
     WorkToolBar* tb = theApp->getWorkToolBar();
@@ -431,7 +431,7 @@ void UMLView::hideEvent(QHideEvent* /*he*/) {
     disconnect(this,SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
     disconnect(m_pDoc, SIGNAL(sigObjectCreated(UMLObject *)), this, SLOT(slotObjectCreated(UMLObject *)));
 
-#	ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
+# ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
     //kdWarning() << "Hide Event for " << getName() << endl;
     canvas()->setDoubleBuffering( false );
     // a periodic update of all - also invisible - diagrams
@@ -439,7 +439,7 @@ void UMLView::hideEvent(QHideEvent* /*he*/) {
     // are inside a project - and this without any need
     // => switch the update of for hidden diagrams
     canvas()-> setUpdatePeriod( -1 );
-#	endif
+# endif
 }
 
 void UMLView::slotObjectCreated(UMLObject* o) {
@@ -961,11 +961,11 @@ QRect UMLView::getDiagramRect() {
     }
 
     /* Margin causes problems of black border around the edge
-    	// Margin:
-    	startx -= 24;
-    	starty -= 20;
-    	endx += 24;
-    	endy += 20;
+       // Margin:
+       startx -= 24;
+       starty -= 20;
+       endx += 24;
+       endy += 20;
     */
 
     return QRect(startx, starty,  endx - startx, endy - starty);
@@ -1121,8 +1121,8 @@ void UMLView::selectionToggleShow(int sel)
 void UMLView::deleteSelection()
 {
     /*
-    	Don't delete text widget that are connect to associations as these will
-    	be cleaned up by the associations.
+       Don't delete text widget that are connect to associations as these will
+       be cleaned up by the associations.
     */
     UMLWidget * temp = 0;
     for(temp=(UMLWidget *) m_SelectedList.first();
@@ -1346,7 +1346,8 @@ void  UMLView::getDiagram(const QRect &area, QPainter & painter) {
     return;
 }
 
-QString imageTypeToMimeType(QString imagetype) {
+QString UMLView::imageTypeToMimeType(QString imagetype) {
+    imagetype = imagetype.upper();
     if (QString("BMP") == imagetype) return "image/x-bmp";
     if (QString("JPEG") == imagetype) return "image/jpeg";
     if (QString("PBM") == imagetype) return "image/x-portable-bitmap";
@@ -1360,7 +1361,8 @@ QString imageTypeToMimeType(QString imagetype) {
     return QString::null;
 }
 
-QString mimeTypeToImageType(QString mimetype) {
+
+QString UMLView::mimeTypeToImageType(QString mimetype) {
     if (QString("image/x-bmp") == mimetype) return "BMP";
     if (QString("image/jpeg") == mimetype) return "JPEG";
     if (QString("image/x-portable-bitmap") == mimetype) return "PBM";
@@ -1442,54 +1444,6 @@ void UMLView::printToFile(const QString &filename,bool isEPS) {
     // next painting will most probably be to a different device (i.e. the screen)
     forceUpdateWidgetFontMetrics(0);
 
-}
-
-void UMLView::exportImageTo(QString imageMimetype) {
-    KTempFile tmpfile;
-    QString extDef = mimeTypeToImageType(imageMimetype).lower();
-    QString file = getName() + "." + extDef;
-    kdDebug() << "m_ImageURL: " << m_ImageURL.fileName() << endl;
-    if (!m_ImageURL.isEmpty()) {
-      file = tmpfile.name();
-    }
-    
-    QFileInfo info(file);
-    QString ext = info.extension(false);
-
-    QRect rect = getDiagramRect();
-    if (rect.isEmpty()) {
-        kdDebug() << "Can not save an empty diagram" << endl;
-        return;
-    }
-    kdDebug() << "ExportImageTo: " << file << endl;
-    if (imageMimetype == "image/x-eps") {
-        printToFile(file,true);
-    } else if (imageMimetype == "image/svg+xml") {
-        QPicture* diagram = new QPicture();
-        QPainter* painter = new QPainter();
-        painter->begin( diagram );
-
-        /* make sure the widget sizes will be according to the
-         actually used printer font, important for getDiagramRect()
-         and the actual painting */
-        forceUpdateWidgetFontMetrics(painter);
-
-        QRect rect = getDiagramRect();
-        painter->translate(-rect.x(),-rect.y());
-        getDiagram(rect,*painter);
-        painter->end();
-        diagram->save(file, mimeTypeToImageType(imageMimetype).ascii());
-
-        // delete painter and printer before we try to open and fix the file
-        delete painter;
-        delete diagram;
-        // next painting will most probably be to a different device (i.e. the screen)
-         forceUpdateWidgetFontMetrics(0);
-    } else {
-        QPixmap diagram(rect.width(), rect.height());
-        getDiagram(rect, diagram);
-        diagram.save(file, mimeTypeToImageType(imageMimetype).ascii());
-    }
 }
 
 void UMLView::exportImage() {
@@ -1936,8 +1890,8 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation)
             return false;
         }
         // cant do this anymore.. may cause problem for pasting
-        //		pAssoc->setWidgetID(ida, A);
-        //		pAssoc->setWidgetID(idb, B);
+        //      pAssoc->setWidgetID(ida, A);
+        //      pAssoc->setWidgetID(idb, B);
         pAssoc->setWidget(findWidget(ida), A);
         pAssoc->setWidget(findWidget(idb), B);
     }
@@ -2617,7 +2571,7 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
             a->setVisibility(attr->getScope(), B);
             /*
             if (assocType == at_Aggregation || assocType == at_UniAssociation)
-            	a->setMulti("0..1", B);
+               a->setMulti("0..1", B);
              */
             a->setRoleName(attr->getName(), B);
             a->setActivated(true);
@@ -3386,7 +3340,7 @@ void UMLView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
             assoc -> saveToXMI( qDoc, assocElement );
         }
         // kdDebug() << "UMLView::saveToXMI() saved "
-        //	<< m_AssociationList.count() << " assocData." << endl;
+        //   << m_AssociationList.count() << " assocData." << endl;
     }
     viewElement.appendChild( assocElement );
     qElement.appendChild( viewElement );
@@ -3665,7 +3619,7 @@ bool UMLView::loadAssociationsFromXMI( QDomElement & qElement ) {
                 if(!addAssociation(assoc, false))
                 {
                     kdError()<<"Couldnt addAssociation("<<assoc<<") to umlview, deleting."<<endl;
-                    //					assoc->cleanup();
+                    //               assoc->cleanup();
                     delete assoc;
                     //return false; // soften error.. may not be that bad
                 }

@@ -99,7 +99,7 @@ int main(int argc, char *argv[]) {
         if (exportOpt.size() > 0) {
         for (QCStringList::iterator itr = exportOpt.begin();
             itr != exportOpt.end(); ++itr) {
-                QString extension = QString(*itr);
+                QString extension(*itr);
                 kdDebug() << "extension: " << extension << endl;
                 ExportViewAction eva(extension);
                 eva.exportAllViews();

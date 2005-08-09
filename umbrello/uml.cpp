@@ -71,6 +71,7 @@
 
 #include "refactoring/refactoringassistant.h"
 #include "codegenerators/simplecodegenerator.h"
+#include "exportviewaction.h"
 
 #include "kplayerslideraction.h"
 
@@ -265,6 +266,7 @@ void UMLApp::initActions() {
     viewProperties = new KAction(i18n("&Properties"), SmallIconSet("info"), 0,
                                  this, SLOT( slotCurrentViewProperties() ), actionCollection(), "view_properties");
 
+    viewExportAll = new ExportViewAction(actionCollection());
     viewSnapToGrid->setChecked(false);
     viewShowGrid->setChecked(false);
 
@@ -450,7 +452,6 @@ void UMLApp::initView() {
 
     m_listDock = createDockWidget( "Model", 0L, 0L, i18n("&Tree View") );
     m_listView = new UMLListView(m_listDock ,"LISTVIEW");
-    //m_listView->setSorting(-1);
     m_listDock->setWidget(m_listView);
     m_listDock->setDockSite(KDockWidget::DockCorner);
     m_listDock->manualDock(m_mainDock, KDockWidget::DockLeft, 20);
@@ -980,9 +981,9 @@ void UMLApp::initClip() {
     // changes anyway (see dataChanged() signal above), albeit only when a Qt application
     // changes the clipboard. Work is in progress to make this work with other toolkits
     // as well. (pfeiffer)
-    //	m_clipTimer = new QTimer(this, "timer");
-    //	m_clipTimer->start(1000, FALSE);
-    //	connect(m_clipTimer, SIGNAL(timeout()), this, SLOT(slotClipDataChanged()));
+    // m_clipTimer = new QTimer(this, "timer");
+    // m_clipTimer->start(1000, FALSE);
+    // connect(m_clipTimer, SIGNAL(timeout()), this, SLOT(slotClipDataChanged()));
 
     m_copyTimer = new QTimer(this, "copytimer");
     m_copyTimer->start(500, FALSE);
@@ -1419,7 +1420,7 @@ void UMLApp::slotImportClasses() {
     else if (firstFile.contains( QRegExp("\\.ad[sba]$") ))
         /* m_classImporter->importAda( fileList ) */;
     else
-        m_classImporter->importCPP( fileList );	 // the default.
+        m_classImporter->importCPP( fileList );  // the default.
     m_doc->setLoading(false);
 }
 
