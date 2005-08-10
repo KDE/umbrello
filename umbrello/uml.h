@@ -43,7 +43,8 @@ class UMLView;
 class WorkToolBar;
 class InfoWidget;
 class SettingsDlg;
-
+class ExportViewAction;
+class RefactoringAssistant;
 class KPlayerPopupSliderAction;
 
 // KDE forward declarations
@@ -61,8 +62,6 @@ class QWidgetStack;
 class QMenuData;
 class QClipboard;
 class QToolButton;
-
-class RefactoringAssistant;
 
 /**
  * The base class for UML application windows. It sets up the main
@@ -932,6 +931,7 @@ private:
      */
     KTabWidget* m_tabWidget;
 
+    ExportViewAction* viewExportAll;
 
     /**
      * Default Mimetype to use for image export.
