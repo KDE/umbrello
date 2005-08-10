@@ -31,7 +31,6 @@
 
 // forward declaration of the UML classes
 class AlignToolBar;
-class ClassImport;
 class CodeDocument;
 class CodeGenerator;
 class CodeGenerationPolicy;
@@ -268,11 +267,6 @@ public:
      *
      */
     UMLView* getCurrentView();
-
-    /**
-     * Return the ClassImport object.
-     */
-    ClassImport * classImport();
 
     /**
      * Sets the default mimetype for all diagrams that are exported as 
@@ -763,11 +757,6 @@ private:
      * Language (so that the user can choose), library and object name.
      */
     GeneratorDict m_generatorDict;
-
-    /**
-     * Reverse engineering object.
-     */
-    ClassImport * m_classImporter;
 
     /**
      *  Returns whether we can decode the given mimesource

@@ -1,6 +1,3 @@
-#ifndef IDLIMPORT_H
-#define IDLIMPORT_H
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,45 +9,43 @@
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
-#include <qstring.h>
-#include <qstringlist.h>
-#include "classimport.h"
-#include "umlnamespace.h"
+#ifndef CPPIMPORT_H
+#define CPPIMPORT_H
 
-class UMLPackage;
-class UMLClassifier;
+#include <qstring.h>
+#include "classimport.h"
+
+class CppDriver;
 
 /**
- * CORBA IDL code import
+ * C++ code import
  * @author Oliver Kellogg
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class IDLImport : public ClassImport {
+
+class CppImport : public ClassImport {
 public:
-    IDLImport();
-    virtual ~IDLImport();
+    CppImport();
+    virtual ~CppImport();
 
     /**
-     * Implement abstract operation from ClassImport for IDL.
+     * Implement abstract operation from ClassImport for C++.
      */
-    void importFiles(QStringList idlFiles);
+    void importFiles(QStringList headerFiles);
 
-protected:
-    void skipStmt(QString until = ";");
-    QString joinTypename();
-    void scan(QString line);
-    void parseFile(QString file);
+private:
+    /**
+    * Auxiliary method for recursively traversing the #include dependencies
+    * in order to feed innermost includes to the model before dependent
+    * includes.  It is important that includefiles are fed to the model
+    * in proper order so that references between UML objects are created
+    * properly.
+    */
+    void feedTheModel(QString fileName);
 
-    QStringList m_source;
-    int m_srcIndex;
-    UMLPackage *m_scope[32];
-    int m_scopeIndex;  // index 0 is reserved for global scope
-    UMLClassifier *m_klass;
-    bool m_isAbstract, m_isOneway, m_isReadonly, m_isAttribute;
-    Uml::Scope m_currentAccess;
-    bool m_inComment;
-    QString m_comment;
+    static CppDriver * ms_driver;
+    static QStringList ms_seenFiles;  ///< auxiliary buffer for feedTheModel()
+
 };
 
 #endif
-

@@ -17,10 +17,12 @@
 // #include <qprocess.h>  //should use this instead of popen()
 #include <qstringlist.h>
 #include <qregexp.h>
+#include <klocale.h>
 #include <kdebug.h>
 // app includes
-#include "classimport.h"
+#include "import_utils.h"
 #include "uml.h"
+#include "umldoc.h"
 #include "umlpackagelist.h"
 #include "package.h"
 #include "classifier.h"
@@ -28,70 +30,70 @@
 #include "operation.h"
 #include "attribute.h"
 
-namespace IDLImport {
+IDLImport::IDLImport() {
+    m_srcIndex = 0;
+    m_scopeIndex = 0;  // index 0 is reserved for global scope
+    m_klass = NULL;
+    m_isAbstract = m_isOneway = m_isReadonly = m_isAttribute = false;
+    m_currentAccess = Uml::Public;
+    m_inComment = false;
+}
 
-QStringList source;
-int srcIndex = 0;
-UMLPackage *scope[32];
-int scopeIndex = 0;  // index 0 is reserved for global scope
-UMLClassifier *klass = NULL;
-bool isAbstract = false, isOneway = false, isReadonly = false, isAttribute = false;
-Uml::Scope currentAccess = Uml::Public;
-bool inComment = false;
-QString comment;
+IDLImport::~IDLImport() {
+}
 
-void skipStmt(QString until = ";") {
-    const int srcLength = source.count();
-    while (srcIndex < srcLength && source[srcIndex] != until)
-        srcIndex++;
+void IDLImport::skipStmt(QString until /* = ";" */) {
+    const int srcLength = m_source.count();
+    while (m_srcIndex < srcLength && m_source[m_srcIndex] != until)
+        m_srcIndex++;
 }
 
 /// Check for split type names (e.g. unsigned long long)
-QString joinTypename() {
-    QString typeName = source[srcIndex];
-    if (source[srcIndex] == "unsigned")
-        typeName += ' ' + source[++srcIndex];
-    if (source[srcIndex] == "long" &&
-            (source[srcIndex + 1] == "long" || source[srcIndex + 1] == "double"))
-        typeName += ' ' + source[++srcIndex];
+QString IDLImport::joinTypename() {
+    QString typeName = m_source[m_srcIndex];
+    if (m_source[m_srcIndex] == "unsigned")
+        typeName += ' ' + m_source[++m_srcIndex];
+    if (m_source[m_srcIndex] == "long" &&
+            (m_source[m_srcIndex + 1] == "long" || m_source[m_srcIndex + 1] == "double"))
+        typeName += ' ' + m_source[++m_srcIndex];
     return typeName;
 }
 
-/// The lexer. Tokenizes the given string and fills `source'.
-/// Stores possible comments in `comment'.
-void scan(QString line) {
+/// The lexer. Tokenizes the given string and fills `m_source'.
+/// Stores possible comments in `m_comment'.
+void IDLImport::scan(QString line) {
     // Ignore C preprocessor generated lines.
     if (line.startsWith("#"))
         return;
     // Check for end of multi line comment.
-    if (inComment) {
+    if (m_inComment) {
         int pos = line.find("*/");
         if (pos == -1) {
-            comment += line + "\n";
+            m_comment += line + "\n";
             return;
         }
         if (pos > 0) {
             QString text = line.mid(0, pos - 1);
-            comment += text.stripWhiteSpace();
+            m_comment += text.stripWhiteSpace();
         }
-        source.append("//" + comment);  // "//" denotes comments in `source'
-        comment = "";
-        inComment = false;
+        m_source.append("//" + m_comment);  // "//" denotes comments in `m_source'
+        m_comment = "";
+        m_inComment = false;
         pos++;  // pos now points at the slash in the "*/"
         if (pos == (int)line.length() - 1)
             return;
         line = line.mid(pos + 1);
     }
-    // If we get here then inComment is false.
+    // If we get here then m_inComment is false.
     // Check for start of multi line comment.
     int pos = line.find("/*");
     if (pos != -1) {
         int endpos = line.find("*/");
         if (endpos == -1) {
-            inComment = true;
+            m_inComment = true;
             if (pos + 1 < (int)line.length() - 1) {
                 QString cmnt = line.mid(pos + 2);
-                comment += cmnt.stripWhiteSpace() + "\n";
+                m_comment += cmnt.stripWhiteSpace() + "\n";
             }
             if (pos == 0)
                 return;
@@ -101,7 +103,7 @@ void scan(QString line) {
                 QString cmnt = line.mid(pos + 2, endpos - pos - 2);
                 cmnt = cmnt.stripWhiteSpace();
                 if (!cmnt.isEmpty())
-                    source.append("//" + cmnt);
+                    m_source.append("//" + cmnt);
             }
             endpos++;  // endpos now points at the slash of "*/"
             QString pre;
@@ -117,7 +119,7 @@ void scan(QString line) {
     pos = line.find("//");
     if (pos != -1) {
         QString cmnt = line.mid(pos);
-        source.append(cmnt);
+        m_source.append(cmnt);
         if (pos == 0)
             return;
         line = line.left(pos);
@@ -152,19 +154,19 @@ void scan(QString line) {
                 } while (tmp[i] != '>' && ++i < len);
             } else {
                 if (!word.isEmpty()) {
-                    source.append(word);
+                    m_source.append(word);
                     word = QString::null;
                 }
-                source.append(c);
+                m_source.append(c);
             }
         }
         if (!word.isEmpty())
-            source.append(word);
+            m_source.append(word);
     }
 }
 
-void parseFile(QString filename) {
-    QStringList includePaths = ClassImport::includePathList();
+void IDLImport::parseFile(QString filename) {
+    QStringList includePaths = Umbrello::includePathList();
     //QProcess command("cpp", UMLAp::app());
     QString command("cpp -C");   // -C means "preserve comments"
     for (QStringList::Iterator pathIt = includePaths.begin();
@@ -180,8 +182,8 @@ void parseFile(QString filename) {
         kdError() << "IDLImport::parseFile: cannot popen(" << command << ")" << endl;
         return;
     }
-    // Scan the input file into the QStringList source.
-    source.clear();
+    // Scan the input file into the QStringList m_source.
+    m_source.clear();
     char buf[256];
     while (fgets(buf, sizeof(buf), fp) != NULL) {
         int len = strlen(buf);
@@ -189,48 +191,48 @@ void parseFile(QString filename) {
             buf[--len] = '\0';
         scan( QString(buf) );
     }
-    // Parse the QStringList source.
-    const int srcLength = source.count();
-    for (srcIndex = 0; srcIndex < srcLength; srcIndex++) {
-        const QString& keyword = source[srcIndex];
+    // Parse the QStringList m_source.
+    const int srcLength = m_source.count();
+    for (m_srcIndex = 0; m_srcIndex < srcLength; m_srcIndex++) {
+        const QString& keyword = m_source[m_srcIndex];
         kdDebug() << '"' << keyword << '"' << endl;
         if (keyword.startsWith("//")) {
-            comment = keyword.mid(2);
+            m_comment = keyword.mid(2);
             continue;
         }
         if (keyword == "module") {
-            const QString& name = source[++srcIndex];
-            UMLObject *ns = ClassImport::createUMLObject(Uml::ot_Package,
-                            name, scope[scopeIndex], comment);
-            scope[++scopeIndex] = static_cast<UMLPackage*>(ns);
-            scope[scopeIndex]->setStereotype("CORBAModule");
-            if (source[++srcIndex] != "{") {
-                kdError() << "importIDL: unexpected: " << source[srcIndex] << endl;
+            const QString& name = m_source[++m_srcIndex];
+            UMLObject *ns = Umbrello::createUMLObject(Uml::ot_Package,
+                            name, m_scope[m_scopeIndex], m_comment);
+            m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
+            m_scope[m_scopeIndex]->setStereotype("CORBAModule");
+            if (m_source[++m_srcIndex] != "{") {
+                kdError() << "importIDL: unexpected: " << m_source[m_srcIndex] << endl;
                 skipStmt("{");
             }
-            comment = QString::null;
+            m_comment = QString::null;
             continue;
         }
         if (keyword == "interface") {
-            const QString& name = source[++srcIndex];
-            UMLObject *ns = ClassImport::createUMLObject(Uml::ot_Class,
-                            name, scope[scopeIndex], comment);
-            scope[++scopeIndex] = klass = static_cast<UMLClassifier*>(ns);
-            klass->setStereotype("CORBAInterface");
-            klass->setAbstract(isAbstract);
-            isAbstract = false;
-            comment = QString::null;
-            if (source[++srcIndex] == ";")   // forward declaration
+            const QString& name = m_source[++m_srcIndex];
+            UMLObject *ns = Umbrello::createUMLObject(Uml::ot_Class,
+                            name, m_scope[m_scopeIndex], m_comment);
+            m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
+            m_klass->setStereotype("CORBAInterface");
+            m_klass->setAbstract(m_isAbstract);
+            m_isAbstract = false;
+            m_comment = QString::null;
+            if (m_source[++m_srcIndex] == ";")   // forward declaration
                 continue;
-            if (source[srcIndex] == ":") {
-                while (++srcIndex < srcLength && source[srcIndex] != "{") {
-                    const QString& baseName = source[srcIndex];
-                    ClassImport::createGeneralization(klass, baseName);
-                    if (source[++srcIndex] != ",")
+            if (m_source[m_srcIndex] == ":") {
+                while (++m_srcIndex < srcLength && m_source[m_srcIndex] != "{") {
+                    const QString& baseName = m_source[m_srcIndex];
+                    Umbrello::createGeneralization(m_klass, baseName);
+                    if (m_source[++m_srcIndex] != ",")
                         break;
                 }
             }
-            if (source[srcIndex] != "{") {
+            if (m_source[m_srcIndex] != "{") {
                 kdError() << "importIDL: ignoring excess chars at "
                 << name << endl;
                 skipStmt("{");
@@ -238,47 +240,47 @@ void parseFile(QString filename) {
             continue;
         }
         if (keyword == "struct" || keyword == "exception") {
-            const QString& name = source[++srcIndex];
-            UMLObject *ns = ClassImport::createUMLObject(Uml::ot_Class,
-                            name, scope[scopeIndex], comment);
-            scope[++scopeIndex] = klass = static_cast<UMLClassifier*>(ns);
+            const QString& name = m_source[++m_srcIndex];
+            UMLObject *ns = Umbrello::createUMLObject(Uml::ot_Class,
+                            name, m_scope[m_scopeIndex], m_comment);
+            m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
             if (keyword == "struct")
-                klass->setStereotype("CORBAStruct");
+                m_klass->setStereotype("CORBAStruct");
             else
-                klass->setStereotype("CORBAException");
-            if (source[++srcIndex] != "{") {
+                m_klass->setStereotype("CORBAException");
+            if (m_source[++m_srcIndex] != "{") {
                 kdError() << "importIDL: expecting '{' at " << name << endl;
                 skipStmt("{");
             }
-            comment = QString::null;
+            m_comment = QString::null;
             continue;
         }
         if (keyword == "union") {
             // TBD. <gulp>
             skipStmt("}");
-            srcIndex++;  // advance to ';'
+            m_srcIndex++;  // advance to ';'
             continue;
         }
         if (keyword == "enum") {
-            const QString& name = source[++srcIndex];
-            UMLObject *ns = ClassImport::createUMLObject(Uml::ot_Enum,
-                            name, scope[scopeIndex], comment);
+            const QString& name = m_source[++m_srcIndex];
+            UMLObject *ns = Umbrello::createUMLObject(Uml::ot_Enum,
+                            name, m_scope[m_scopeIndex], m_comment);
             UMLEnum *enumType = static_cast<UMLEnum*>(ns);
-            srcIndex++;  // skip name
-            while (++srcIndex < srcLength && source[srcIndex] != "}") {
-                ClassImport::addEnumLiteral(enumType, source[srcIndex]);
-                if (source[++srcIndex] != ",")
+            m_srcIndex++;  // skip name
+            while (++m_srcIndex < srcLength && m_source[m_srcIndex] != "}") {
+                Umbrello::addEnumLiteral(enumType, m_source[m_srcIndex]);
+                if (m_source[++m_srcIndex] != ",")
                     break;
             }
             skipStmt();
-            comment = QString::null;
+            m_comment = QString::null;
             continue;
         }
         if (keyword == "typedef") {
-            const QString& existingType = source[++srcIndex];
-            const QString& newType = source[++srcIndex];
-            ClassImport::createUMLObject(Uml::ot_Class, newType, scope[scopeIndex],
-                                         comment, "CORBATypedef" /* stereotype */);
+            const QString& existingType = m_source[++m_srcIndex];
+            const QString& newType = m_source[++m_srcIndex];
+            Umbrello::createUMLObject(Uml::ot_Class, newType, m_scope[m_scopeIndex],
+                                         m_comment, "CORBATypedef" /* stereotype */);
             // @todo How do we convey the existingType ?
             skipStmt();
             continue;
@@ -291,62 +293,62 @@ void parseFile(QString filename) {
             continue;
         }
         if (keyword == "abstract") {
-            isAbstract = true;
+            m_isAbstract = true;
             continue;
         }
         if (keyword == "valuetype") {
-            const QString& name = source[++srcIndex];
-            UMLObject *ns = ClassImport::createUMLObject(Uml::ot_Class,
-                            name, scope[scopeIndex], comment);
-            scope[++scopeIndex] = klass = static_cast<UMLClassifier*>(ns);
-            klass->setAbstract(isAbstract);
-            isAbstract = false;
-            if (source[++srcIndex] == ";")   // forward declaration
+            const QString& name = m_source[++m_srcIndex];
+            UMLObject *ns = Umbrello::createUMLObject(Uml::ot_Class,
+                            name, m_scope[m_scopeIndex], m_comment);
+            m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
+            m_klass->setAbstract(m_isAbstract);
+            m_isAbstract = false;
+            if (m_source[++m_srcIndex] == ";")   // forward declaration
                 continue;
-            if (source[srcIndex] == ":") {
-                if (source[++srcIndex] == "truncatable")
-                    srcIndex++;
-                while (srcIndex < srcLength && source[srcIndex] != "{") {
-                    const QString& baseName = source[srcIndex];
-                    ClassImport::createGeneralization(klass, baseName);
-                    if (source[++srcIndex] != ",")
+            if (m_source[m_srcIndex] == ":") {
+                if (m_source[++m_srcIndex] == "truncatable")
+                    m_srcIndex++;
+                while (m_srcIndex < srcLength && m_source[m_srcIndex] != "{") {
+                    const QString& baseName = m_source[m_srcIndex];
+                    Umbrello::createGeneralization(m_klass, baseName);
+                    if (m_source[++m_srcIndex] != ",")
                         break;
-                    srcIndex++;
+                    m_srcIndex++;
                 }
             }
-            if (source[srcIndex] != "{") {
+            if (m_source[m_srcIndex] != "{") {
                 kdError() << "importIDL: ignoring excess chars at "
                 << name << endl;
                 skipStmt("{");
             }
-            comment = QString::null;
+            m_comment = QString::null;
             continue;
         }
         if (keyword == "public") {
             continue;
         }
         if (keyword == "private") {
-            currentAccess = Uml::Private;
+            m_currentAccess = Uml::Private;
             continue;
         }
         if (keyword == "readonly") {
-            isReadonly = true;
+            m_isReadonly = true;
             continue;
         }
         if (keyword == "attribute") {
-            isAttribute = true;
+            m_isAttribute = true;
             continue;
         }
         if (keyword == "oneway") {
-            isOneway = true;
+            m_isOneway = true;
             continue;
         }
         if (keyword == "}") {
-            if (scopeIndex)
-                klass = dynamic_cast<UMLClassifier*>(scope[--scopeIndex]);
+            if (m_scopeIndex)
+                m_klass = dynamic_cast<UMLClassifier*>(m_scope[--m_scopeIndex]);
             else
                 kdError() << "importIDL: too many }" << endl;
-            srcIndex++;  // skip ';'
+            m_srcIndex++;  // skip ';'
             continue;
         }
         if (keyword == ";")
@@ -361,64 +363,71 @@ void parseFile(QString filename) {
             continue;
         }
         QString typeName = joinTypename();
-        QString name = source[++srcIndex];
+        QString name = m_source[++m_srcIndex];
         if (name.contains( QRegExp("\\W") )) {
             kdError() << "importIDL: expecting name in " << name << endl;
             skipStmt();
             continue;
         }
         // At this point we most definitely need a class.
-        if (klass == NULL) {
+        if (m_klass == NULL) {
             kdError() << "importIDL: no class set for " << name << endl;
             continue;
         }
-        if (source[++srcIndex] == "(") {
+        if (m_source[++m_srcIndex] == "(") {
             // operation
-            UMLOperation *op = ClassImport::makeOperation(klass, name);
-            srcIndex++;
-            while (srcIndex < srcLength && source[srcIndex] != ")") {
-                const QString &direction = source[srcIndex++];
+            UMLOperation *op = Umbrello::makeOperation(m_klass, name);
+            m_srcIndex++;
+            while (m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
+                const QString &direction = m_source[m_srcIndex++];
                 QString typeName = joinTypename();
-                const QString &parName = source[++srcIndex];
-                UMLAttribute *att = ClassImport::addMethodParameter(op, typeName, parName);
+                const QString &parName = m_source[++m_srcIndex];
+                UMLAttribute *att = Umbrello::addMethodParameter(op, typeName, parName);
                 Uml::Parameter_Direction dir;
                 if (Umbrello::stringToDirection(direction, dir))
                     att->setParmKind(dir);
                 else
                     kdError() << "importIDL: expecting parameter direction at "
                     << direction << endl;
-                if (source[++srcIndex] != ",")
+                if (m_source[++m_srcIndex] != ",")
                     break;
-                srcIndex++;
+                m_srcIndex++;
             }
-            ClassImport::insertMethod(klass, op, Uml::Public, typeName,
-                                      false, false, false, false, comment);
-            if (isOneway) {
+            Umbrello::insertMethod(m_klass, op, Uml::Public, typeName,
+                                      false, false, false, false, m_comment);
+            if (m_isOneway) {
                 op->setStereotype("oneway");
-                isOneway = false;
+                m_isOneway = false;
             }
             skipStmt();  // skip possible "raises" clause
-            comment = QString::null;
+            m_comment = QString::null;
             continue;
         }
         // At this point we know it's some kind of attribute declaration.
-        UMLObject *o = ClassImport::insertAttribute(klass, currentAccess, name, typeName, comment);
+        UMLObject *o = Umbrello::insertAttribute(m_klass, m_currentAccess, name, typeName, m_comment);
         UMLAttribute *attr = static_cast<UMLAttribute*>(o);
-        if (isReadonly) {
+        if (m_isReadonly) {
             attr->setStereotype("readonly");
-            isReadonly = false;
+            m_isReadonly = false;
         }
-        currentAccess = Uml::Public;
-        if (source[srcIndex] != ";") {
+        m_currentAccess = Uml::Public;
+        if (m_source[m_srcIndex] != ";") {
             kdError() << "importIDL: ignoring trailing items at " << name << endl;
             skipStmt();
         }
-        comment = QString::null;
+        m_comment = QString::null;
     }
     pclose(fp);
 }
 
 
-}  // end namespace IDLImport
-
+void IDLImport::importFiles(QStringList idlFileList) {
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    for (QStringList::Iterator fileIT = idlFileList.begin();
+            fileIT != idlFileList.end(); ++fileIT) {
+        QString fileName = (*fileIT);
+        umldoc->writeToStatusBar(i18n("Importing file: %1").arg(fileName));
+        IDLImport::parseFile(fileName);
+    }
+}
 

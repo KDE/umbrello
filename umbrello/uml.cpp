@@ -48,7 +48,8 @@
 // app includes
 #include "aligntoolbar.h"
 #include "infowidget.h"
-#include "classimport.h"
+#include "cppimport.h"
+#include "idlimport.h"
 #include "docwindow.h"
 #include "codegenerator.h"
 #include "generatorinfo.h"
@@ -94,7 +95,6 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
     // call inits to invoke all other construction parts
     readOptionState();
     m_doc = new UMLDoc();
-    m_classImporter = new ClassImport();
     initActions(); //now calls initStatusBar() because it is affected by setupGUI()
     initView();
     initClip();
@@ -1394,10 +1394,6 @@ void UMLApp::slotUpdateViews() {
     }
 }
 
-ClassImport * UMLApp::classImport() {
-    return m_classImporter;
-}
-
 void UMLApp::slotImportClasses() {
     m_doc->setLoading(true);
     // File selection is separated from invocation of ClassImport::import()
@@ -1414,13 +1410,16 @@ void UMLApp::slotImportClasses() {
     preselectedExtension.append("\n*|" + i18n("All Files"));
     QStringList fileList = KFileDialog::getOpenFileNames(":import-classes", preselectedExtension,
                            this, i18n("Select Code to Import") );
+    ClassImport *classImporter = NULL;
     const QString& firstFile = fileList.first();
     if (firstFile.endsWith(".idl"))
-        m_classImporter->importIDL( fileList );
+        classImporter = new IDLImport();
     else if (firstFile.contains( QRegExp("\\.ad[sba]$") ))
-        /* m_classImporter->importAda( fileList ) */;
+        /* classImporter = new AdaImport(); */;
     else
-        m_classImporter->importCPP( fileList );  // the default.
+        classImporter = new CppImport();  // the default.
+    classImporter->importFiles(fileList);
+    delete classImporter;
     m_doc->setLoading(false);
 }
 

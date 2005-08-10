@@ -14,6 +14,7 @@
 
 #include <qregexp.h>
 #include <kdebug.h>
+#include <kapplication.h>
 #include "umlobject.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -22,7 +23,7 @@
 #include "package.h"
 #include "stereotype.h"
 #include "model_utils.h"
-#include "classimport.h"
+#include "import_utils.h"
 
 UMLObject::UMLObject(const UMLObject * parent, const QString &name, Uml::IDType id)
         : QObject(const_cast<UMLObject*>(parent), "UMLObject" ) {
@@ -402,24 +403,26 @@ bool UMLObject::resolveRef() {
         maybeSignalObjectCreated();
         return true;
     }
+    pDoc->setIsOldFile(true);
     // Work around UMLDoc::createUMLObject()'s incapability
     // of on-the-fly scope creation:
     if (m_SecondaryId.contains("::")) {
-        // TODO: Merge ClassImport::createUMLObject() into UMLDoc::createUMLObject()
-        m_pSecondary = ClassImport::createUMLObject(Uml::ot_UMLObject, m_SecondaryId, NULL);
+        // TODO: Merge Umbrello::createUMLObject() into UMLDoc::createUMLObject()
+        m_pSecondary = Umbrello::createUMLObject(Uml::ot_UMLObject, m_SecondaryId, NULL);
         if (m_pSecondary) {
-            if (ClassImport::newUMLObjectWasCreated()) {
+            if (Umbrello::newUMLObjectWasCreated()) {
                 maybeSignalObjectCreated();
-                kdDebug() << "UMLObject::resolveRef: ClassImport::createUMLObject() "
+                kapp->processEvents();
+                kdDebug() << "UMLObject::resolveRef: Umbrello::createUMLObject() "
                           << "created a new type for " << m_SecondaryId << endl;
             } else {
-                kdDebug() << "UMLObject::resolveRef: ClassImport::createUMLObject() "
+                kdDebug() << "UMLObject::resolveRef: Umbrello::createUMLObject() "
                           << "returned an existing type for " << m_SecondaryId << endl;
             }
             m_SecondaryId = "";
             return true;
         }
-        kdError() << "UMLObject::resolveRef: ClassImport::createUMLObject() "
+        kdError() << "UMLObject::resolveRef: Umbrello::createUMLObject() "
                   << "failed to create a new type for " << m_SecondaryId << endl;
         return false;
     }
@@ -442,6 +445,7 @@ bool UMLObject::resolveRef() {
         return false;
     m_SecondaryId = "";
     maybeSignalObjectCreated();
+    //kapp->processEvents();
     return true;
 }
 
@@ -671,6 +675,7 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
             m_pUMLPackage->addObject(this);
         else
             umldoc->addUMLObject(this);
+        //kapp->processEvents();
     }
     return load(element);
 }

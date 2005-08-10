@@ -16,7 +16,6 @@ classifier.cpp \
 classifiercodedocument.cpp \
 classifierlistitem.cpp \
 classifierwidget.cpp \
-classimport.cpp \
 codeaccessormethod.cpp \
 codeblock.cpp \
 codeblockwithcomments.cpp \
@@ -33,6 +32,7 @@ codeparameter.cpp \
 component.cpp \
 componentwidget.cpp \
 configurable.cpp \
+cppimport.cpp \
 datatype.cpp \
 datatypewidget.cpp \
 dialog_utils.cpp \
@@ -48,6 +48,7 @@ floatingtext.cpp \
 kplayerslideraction.cpp \
 hierarchicalcodeblock.cpp \
 idlimport.cpp \
+import_utils.cpp \
 infowidget.cpp \
 kstartuplogo.cpp \
 linepath.cpp \
