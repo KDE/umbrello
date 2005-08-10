@@ -13,6 +13,7 @@
 #include "nativeimportbase.h"
 
 // qt/kde includes
+#include <qregexp.h>
 #include <klocale.h>
 #include <kdebug.h>
 // app includes
@@ -35,6 +36,37 @@ void NativeImportBase::skipStmt(QString until /* = ";" */) {
     const int srcLength = m_source.count();
     while (m_srcIndex < srcLength && m_source[m_srcIndex] != until)
         m_srcIndex++;
+}
+
+bool NativeImportBase::preprocess(QString&) {
+    // The default is that no preprocessing is needed.
+    return false;  // The return value indicates that we are not done yet.
+}
+
+/// The lexer. Tokenizes the given string and fills `m_source'.
+/// Stores possible comments in `m_comment'.
+void NativeImportBase::scan(QString line) {
+    if (preprocess(line))
+        return;
+    // Check for single line comment.
+    int pos = line.find(m_singleLineCommentIntro);
+    if (pos != -1) {
+        QString cmnt = line.mid(pos);
+        m_source.append(cmnt);
+        if (pos == 0)
+            return;
+        line = line.left(pos);
+    }
+    line = line.simplifyWhiteSpace();
+    if (line.isEmpty())
+        return;
+    QStringList lexemes = QStringList::split( QRegExp("\\s+"), line );
+    for (QStringList::Iterator it = lexemes.begin(); it != lexemes.end(); ++it) {
+        QString lexeme = (*it).stripWhiteSpace();
+        if (lexeme.isEmpty())
+            continue;
+        fillSource(lexeme);
+    }
 }
 
 void NativeImportBase::importFiles(QStringList fileList) {

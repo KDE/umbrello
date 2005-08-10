@@ -49,18 +49,16 @@ QString IDLImport::joinTypename() {
     return typeName;
 }
 
-/// The lexer. Tokenizes the given string and fills `m_source'.
-/// Stores possible comments in `m_comment'.
-void IDLImport::scan(QString line) {
+bool IDLImport::preprocess(QString& line) {
     // Ignore C preprocessor generated lines.
     if (line.startsWith("#"))
-        return;
+        return true;  // done
     // Check for end of multi line comment.
     if (m_inComment) {
         int pos = line.find("*/");
         if (pos == -1) {
             m_comment += line + "\n";
-            return;
+            return true;  // done
         }
         if (pos > 0) {
             QString text = line.mid(0, pos - 1);
@@ -71,7 +69,7 @@ void IDLImport::scan(QString line) {
         m_inComment = false;
         pos++;  // pos now points at the slash in the "*/"
         if (pos == (int)line.length() - 1)
-            return;
+            return true;  // done
         line = line.mid(pos + 1);
     }
     // If we get here then m_inComment is false.
@@ -86,7 +84,7 @@ void IDLImport::scan(QString line) {
                 m_comment += cmnt.stripWhiteSpace() + "\n";
             }
             if (pos == 0)
-                return;
+                return true;  // done
             line = line.left(pos);
         } else {   // It's a multiline comment on a single line.
             if (endpos > pos + 2)  {
@@ -105,54 +103,35 @@ void IDLImport::scan(QString line) {
             line = pre + post;
         }
     }
-    // Check for single line comment.
-    pos = line.find(m_singleLineCommentIntro);
-    if (pos != -1) {
-        QString cmnt = line.mid(pos);
-        m_source.append(cmnt);
-        if (pos == 0)
-            return;
-        line = line.left(pos);
-    }
-    line = line.simplifyWhiteSpace();
-    if (line.isEmpty())
-        return;
-    //kdDebug() << "line: " << line << endl;
+    return false;  // Not done yet: There is still stuff to do.
+}
 
-    // doesn't work:
-    // QStringList tmpList = QStringList::split( QRegExp("\\b"), line );
-    // instead:
-    QStringList tmpList = QStringList::split( QRegExp("\\s+"), line );
-    for (QStringList::Iterator tmpIt = tmpList.begin(); tmpIt != tmpList.end(); ++tmpIt) {
-        QString tmp = (*tmpIt).stripWhiteSpace();
-        if (tmp.isEmpty())
-            continue;
-        QString word;
-        const uint len = tmp.length();
-        for (uint i = 0; i < len; i++) {
-            QChar c = tmp[i];
-            if (c.isLetterOrNumber() || c == '_') {
-                word += c;
-            } else if (c == ':' && tmp[i + 1] == ':') {
-                // compress scoped name into word
-                word += "::";
-                i++;
-            } else if (c == '<') {
-                // compress sequence or bounded string into word
-                do {
-                    word += tmp[i];
-                } while (tmp[i] != '>' && ++i < len);
-            } else {
-                if (!word.isEmpty()) {
-                    m_source.append(word);
-                    word = QString::null;
-                }
-                m_source.append(c);
+void IDLImport::fillSource(QString lexeme) {
+    QString word;
+    const uint len = lexeme.length();
+    for (uint i = 0; i < len; i++) {
+        QChar c = lexeme[i];
+        if (c.isLetterOrNumber() || c == '_') {
+            word += c;
+        } else if (c == ':' && lexeme[i + 1] == ':') {
+            // compress scoped name into word
+            word += "::";
+            i++;
+        } else if (c == '<') {
+            // compress sequence or bounded string into word
+            do {
+                word += lexeme[i];
+            } while (lexeme[i] != '>' && ++i < len);
+        } else {
+            if (!word.isEmpty()) {
+                m_source.append(word);
+                word = QString::null;
             }
+            m_source.append(c);
         }
-        if (!word.isEmpty())
-            m_source.append(word);
     }
+    if (!word.isEmpty())
+        m_source.append(word);
 }
 
 void IDLImport::parseFile(QString filename) {
@@ -179,13 +158,15 @@ void IDLImport::parseFile(QString filename) {
         int len = strlen(buf);
         if (buf[len - 1] == '\n')
             buf[--len] = '\0';
-        scan( QString(buf) );
+        NativeImportBase::scan( QString(buf) );
     }
     // Parse the QStringList m_source.
+    m_scopeIndex = 0;
+    m_scope[0] = NULL;
     const int srcLength = m_source.count();
     for (m_srcIndex = 0; m_srcIndex < srcLength; m_srcIndex++) {
         const QString& keyword = m_source[m_srcIndex];
-        kdDebug() << '"' << keyword << '"' << endl;
+        //kdDebug() << '"' << keyword << '"' << endl;
         if (keyword.startsWith(m_singleLineCommentIntro)) {
             m_comment = keyword.mid(2);
             continue;

@@ -51,13 +51,33 @@ protected:
     virtual void parseFile(QString file) = 0;
 
     /**
-     * Scan a single line, advancing `m_srcIndex' and filling `m_source'.
-     * To be provided by the programming language specific code import
-     * implementation class.
+     * Scan a single line.
+     * The specific importer class is expected to call this for each line
+     * read from the input file.
+     * This in turn calls other methods such as preprocess() and fillSource().
      *
      * @param line  The line to scan.
      */
-    virtual void scan(QString line) = 0;
+    void scan(QString line);
+
+    /**
+     * Preprocess a line.
+     * May modify the given line to remove items consumed by the
+     * preprocessing such as comments or preprocessor directives.
+     * The default implementation is a no-op.
+     *
+     * @param line  The line to preprocess.
+     * @return      True if the line was completely consumed,
+     *              false if there are still items left in the line
+     *              for further analysis.
+     */
+    virtual bool preprocess(QString& line);
+
+    /**
+     * Advance `m_srcIndex' and fill `m_source' given a single lexeme.
+     * To be provided by the specific importer class.
+     */
+    virtual void fillSource(QString lexeme) = 0;
 
     /**
      * Advance m_srcIndex until m_souce[m_srcIndex] contains the lexeme

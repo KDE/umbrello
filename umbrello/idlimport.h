@@ -32,7 +32,12 @@ public:
     /**
      * Implement abstract operation from NativeImportBase.
      */
-    void scan(QString line);
+    bool preprocess(QString& line);
+
+    /**
+     * Implement abstract operation from NativeImportBase.
+     */
+    void fillSource(QString lexeme);
 
 protected:
     QString joinTypename();
