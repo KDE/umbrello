@@ -403,7 +403,7 @@ bool UMLObject::resolveRef() {
         maybeSignalObjectCreated();
         return true;
     }
-    pDoc->setIsOldFile(true);
+    //pDoc->setIsOldFile(true);
     // Work around UMLDoc::createUMLObject()'s incapability
     // of on-the-fly scope creation:
     if (m_SecondaryId.contains("::")) {
