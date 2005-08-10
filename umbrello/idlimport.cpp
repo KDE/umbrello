@@ -30,22 +30,12 @@
 #include "operation.h"
 #include "attribute.h"
 
-IDLImport::IDLImport() {
-    m_srcIndex = 0;
-    m_scopeIndex = 0;  // index 0 is reserved for global scope
-    m_klass = NULL;
+IDLImport::IDLImport() : NativeImportBase("//") {
     m_isAbstract = m_isOneway = m_isReadonly = m_isAttribute = false;
-    m_currentAccess = Uml::Public;
     m_inComment = false;
 }
 
 IDLImport::~IDLImport() {
-}
-
-void IDLImport::skipStmt(QString until /* = ";" */) {
-    const int srcLength = m_source.count();
-    while (m_srcIndex < srcLength && m_source[m_srcIndex] != until)
-        m_srcIndex++;
 }
 
 /// Check for split type names (e.g. unsigned long long)
@@ -76,7 +66,7 @@ void IDLImport::scan(QString line) {
             QString text = line.mid(0, pos - 1);
             m_comment += text.stripWhiteSpace();
         }
-        m_source.append("//" + m_comment);  // "//" denotes comments in `m_source'
+        m_source.append(m_singleLineCommentIntro + m_comment);  // denotes comments in `m_source'
         m_comment = "";
         m_inComment = false;
         pos++;  // pos now points at the slash in the "*/"
@@ -103,7 +93,7 @@ void IDLImport::scan(QString line) {
                 QString cmnt = line.mid(pos + 2, endpos - pos - 2);
                 cmnt = cmnt.stripWhiteSpace();
                 if (!cmnt.isEmpty())
-                    m_source.append("//" + cmnt);
+                    m_source.append(m_singleLineCommentIntro + cmnt);
             }
             endpos++;  // endpos now points at the slash of "*/"
             QString pre;
@@ -116,7 +106,7 @@ void IDLImport::scan(QString line) {
         }
     }
     // Check for single line comment.
-    pos = line.find("//");
+    pos = line.find(m_singleLineCommentIntro);
     if (pos != -1) {
         QString cmnt = line.mid(pos);
         m_source.append(cmnt);
@@ -196,7 +186,7 @@ void IDLImport::parseFile(QString filename) {
     for (m_srcIndex = 0; m_srcIndex < srcLength; m_srcIndex++) {
         const QString& keyword = m_source[m_srcIndex];
         kdDebug() << '"' << keyword << '"' << endl;
-        if (keyword.startsWith("//")) {
+        if (keyword.startsWith(m_singleLineCommentIntro)) {
             m_comment = keyword.mid(2);
             continue;
         }
@@ -420,14 +410,4 @@ void IDLImport::parseFile(QString filename) {
     pclose(fp);
 }
 
-
-void IDLImport::importFiles(QStringList idlFileList) {
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-    for (QStringList::Iterator fileIT = idlFileList.begin();
-            fileIT != idlFileList.end(); ++fileIT) {
-        QString fileName = (*fileIT);
-        umldoc->writeToStatusBar(i18n("Importing file: %1").arg(fileName));
-        IDLImport::parseFile(fileName);
-    }
-}
 

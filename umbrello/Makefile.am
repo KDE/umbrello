@@ -57,6 +57,7 @@ listpopupmenu.cpp \
 main.cpp \
 messagewidget.cpp \
 model_utils.cpp \
+nativeimportbase.cpp \
 node.cpp \
 nodewidget.cpp \
 notewidget.cpp \

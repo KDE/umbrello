@@ -12,44 +12,32 @@
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
-#include <qstring.h>
-#include <qstringlist.h>
-#include "classimport.h"
-#include "umlnamespace.h"
-
-class UMLPackage;
-class UMLClassifier;
+#include "nativeimportbase.h"
 
 /**
  * CORBA IDL code import
  * @author Oliver Kellogg
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class IDLImport : public ClassImport {
+class IDLImport : public NativeImportBase {
 public:
     IDLImport();
     virtual ~IDLImport();
 
     /**
-     * Implement abstract operation from ClassImport for IDL.
+     * Implement abstract operation from NativeImportBase.
      */
-    void importFiles(QStringList idlFiles);
-
-protected:
-    void skipStmt(QString until = ";");
-    QString joinTypename();
-    void scan(QString line);
     void parseFile(QString file);
 
-    QStringList m_source;
-    int m_srcIndex;
-    UMLPackage *m_scope[32];
-    int m_scopeIndex;  // index 0 is reserved for global scope
-    UMLClassifier *m_klass;
+    /**
+     * Implement abstract operation from NativeImportBase.
+     */
+    void scan(QString line);
+
+protected:
+    QString joinTypename();
     bool m_isAbstract, m_isOneway, m_isReadonly, m_isAttribute;
-    Uml::Scope m_currentAccess;
     bool m_inComment;
-    QString m_comment;
 };
 
 #endif
