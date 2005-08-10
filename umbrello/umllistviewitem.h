@@ -233,7 +233,7 @@ protected:
     /**
      * Initializes key variables of the class.
      */
-    void init();
+    void init(UMLListView * parent = 0);
 
     /**
      * This function is called if the user presses Enter during in-place renaming

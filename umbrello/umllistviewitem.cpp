@@ -34,14 +34,14 @@
 #include "umlobjectlist.h"
 #include "umlview.h"
 #include "model_utils.h"
+#include "uml.h"
 
 UMLListView* UMLListViewItem::s_pListView = 0;
 
 UMLListViewItem::UMLListViewItem( UMLListView * parent, const QString &name,
                                   Uml::ListView_Type t, UMLObject* o)
         : QListViewItem(parent, name) {
-    init();
-    s_pListView = parent;
+    init(parent);
     m_Type = t;
     m_pObject = o;
     if (o)
@@ -53,10 +53,8 @@ UMLListViewItem::UMLListViewItem( UMLListView * parent, const QString &name,
 
 UMLListViewItem::UMLListViewItem(UMLListView * parent)
         : QListViewItem(parent) {
-    init();
-    if (parent != NULL)
-        s_pListView = parent;
-    else
+    init(parent);
+    if (parent == NULL)
         kdDebug() << "UMLListViewItem constructor called with a NULL listview parent" << endl;
 }
 
@@ -67,10 +65,6 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent)
 
 UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, Uml::ListView_Type t,UMLObject*o)
         : QListViewItem(parent, name) {
-    if (s_pListView == NULL) {
-        kdDebug() << "UMLListViewItem internal error 1: s_pListView is NULL" << endl;
-        exit(1);
-    }
     init();
     m_Type = t;
     m_pObject = o;
@@ -93,10 +87,6 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
 
 UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, Uml::ListView_Type t,Uml::IDType id)
         : QListViewItem(parent, name) {
-    if (s_pListView == NULL) {
-        kdDebug() << "UMLListViewItem internal error 2: s_pListView is NULL" << endl;
-        exit(1);
-    }
     init();
     m_Type = t;
     m_nId = id;
@@ -139,12 +129,17 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
 
 UMLListViewItem::~UMLListViewItem() {}
 
-void UMLListViewItem::init() {
+void UMLListViewItem::init(UMLListView * parent) {
     m_Type = Uml::lvt_Unknown;
     m_bCreating = false;
     m_pObject = NULL;
     m_nId = Uml::id_None;
     m_nChildren = 0;
+    if (s_pListView == NULL && parent != NULL) {
+        kdDebug() << "UMLListViewItem::init: s_pListView still NULL, setting it now "
+                  << endl;
+        s_pListView = parent;
+    }
 }
 
 Uml::ListView_Type UMLListViewItem::getType() const {
