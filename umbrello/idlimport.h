@@ -37,7 +37,7 @@ public:
     /**
      * Implement abstract operation from NativeImportBase.
      */
-    void fillSource(QString lexeme);
+    void fillSource(QString word);
 
 protected:
     QString joinTypename();

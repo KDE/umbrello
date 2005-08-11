@@ -60,12 +60,12 @@ void NativeImportBase::scan(QString line) {
     line = line.simplifyWhiteSpace();
     if (line.isEmpty())
         return;
-    QStringList lexemes = QStringList::split( QRegExp("\\s+"), line );
-    for (QStringList::Iterator it = lexemes.begin(); it != lexemes.end(); ++it) {
-        QString lexeme = (*it).stripWhiteSpace();
-        if (lexeme.isEmpty())
+    QStringList words = QStringList::split( QRegExp("\\s+"), line );
+    for (QStringList::Iterator it = words.begin(); it != words.end(); ++it) {
+        QString word = (*it).stripWhiteSpace();
+        if (word.isEmpty())
             continue;
-        fillSource(lexeme);
+        fillSource(word);
     }
 }
 
@@ -75,6 +75,8 @@ void NativeImportBase::importFiles(QStringList fileList) {
             fileIT != fileList.end(); ++fileIT) {
         QString fileName = (*fileIT);
         umldoc->writeToStatusBar(i18n("Importing file: %1").arg(fileName));
+        m_source.clear();
+        m_srcIndex = 0;
         parseFile(fileName);
     }
 }

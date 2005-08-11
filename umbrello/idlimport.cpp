@@ -103,35 +103,35 @@ bool IDLImport::preprocess(QString& line) {
             line = pre + post;
         }
     }
-    return false;  // Not done yet: There is still stuff to do.
+    return false;  // The input was not completely consumed by preprocessing.
 }
 
-void IDLImport::fillSource(QString lexeme) {
-    QString word;
-    const uint len = lexeme.length();
+void IDLImport::fillSource(QString word) {
+    QString lexeme;
+    const uint len = word.length();
     for (uint i = 0; i < len; i++) {
-        QChar c = lexeme[i];
+        QChar c = word[i];
         if (c.isLetterOrNumber() || c == '_') {
-            word += c;
-        } else if (c == ':' && lexeme[i + 1] == ':') {
-            // compress scoped name into word
-            word += "::";
+            lexeme += c;
+        } else if (c == ':' && word[i + 1] == ':') {
+            // compress scoped name into lexeme
+            lexeme += "::";
             i++;
         } else if (c == '<') {
-            // compress sequence or bounded string into word
+            // compress sequence or bounded string into lexeme
             do {
-                word += lexeme[i];
-            } while (lexeme[i] != '>' && ++i < len);
+                lexeme += word[i];
+            } while (word[i] != '>' && ++i < len);
         } else {
-            if (!word.isEmpty()) {
-                m_source.append(word);
-                word = QString::null;
+            if (!lexeme.isEmpty()) {
+                m_source.append(lexeme);
+                lexeme = QString::null;
             }
             m_source.append(c);
         }
     }
-    if (!word.isEmpty())
-        m_source.append(word);
+    if (!lexeme.isEmpty())
+        m_source.append(lexeme);
 }
 
 void IDLImport::parseFile(QString filename) {

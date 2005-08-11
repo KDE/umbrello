@@ -74,10 +74,11 @@ protected:
     virtual bool preprocess(QString& line);
 
     /**
-     * Advance `m_srcIndex' and fill `m_source' given a single lexeme.
+     * Analyze the given word and fill `m_source'.
+     * A "word" is a whitespace delimited item from the input line.
      * To be provided by the specific importer class.
      */
-    virtual void fillSource(QString lexeme) = 0;
+    virtual void fillSource(QString word) = 0;
 
     /**
      * Advance m_srcIndex until m_souce[m_srcIndex] contains the lexeme
