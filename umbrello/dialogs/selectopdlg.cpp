@@ -42,7 +42,7 @@ SelectOpDlg::SelectOpDlg(UMLView * parent, UMLClassifier * c)
     mainLayout -> setSpacing(spacingHint());
     mainLayout -> setMargin(fontMetrics().height());
 
-    Umbrello::makeLabeledEditField( m_pOpGB, mainLayout, 0,
+    Dialog_Utils::makeLabeledEditField( m_pOpGB, mainLayout, 0,
                                     m_pSeqL, i18n("Sequence number:"),
                                     m_pSeqLE );
 

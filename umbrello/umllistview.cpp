@@ -1309,7 +1309,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                 // QObject does not permit changing the parent().
                 if (op) {
                     bool isExistingOp;
-                    Umbrello::NameAndType_List ntDummyList;
+                    Model_Utils::NameAndType_List ntDummyList;
                     // We need to provide a dummy NameAndType_List
                     // else UMLClassifier::createOperation will
                     // bring up an operation dialog.
@@ -2363,11 +2363,11 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
     UMLObject* newObject = NULL;
     if ( type == Uml::ot_Template )  {
         UMLClassifier *owningClassifier = static_cast<UMLClassifier*>(parent);
-        Umbrello::NameAndType nt;
-        Umbrello::Parse_Status st = Umbrello::parseTemplate(text, nt, owningClassifier);
+        Model_Utils::NameAndType nt;
+        Model_Utils::Parse_Status st = Model_Utils::parseTemplate(text, nt, owningClassifier);
         if (st) {
             KMessageBox::error( kapp->mainWidget(),
-                                Umbrello::psText(st),
+                                Model_Utils::psText(st),
                                 i18n("Creation canceled") );
             delete item;
             m_bCreatingChildObject = false;
@@ -2379,11 +2379,11 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
         text = tmplParm->toString(Uml::st_SigNoScope);
     } else if ( type == Uml::ot_Attribute )  {
         UMLClassifier *owningClass = static_cast<UMLClassifier*>(parent);
-        Umbrello::NameAndType nt;
-        Umbrello::Parse_Status st = Umbrello::parseAttribute(text, nt, owningClass);
+        Model_Utils::NameAndType nt;
+        Model_Utils::Parse_Status st = Model_Utils::parseAttribute(text, nt, owningClass);
         if (st) {
             KMessageBox::error( kapp->mainWidget(),
-                                Umbrello::psText(st),
+                                Model_Utils::psText(st),
                                 i18n("Creation canceled") );
             delete item;
             m_bCreatingChildObject = false;
@@ -2396,11 +2396,11 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
         text = att->toString(Uml::st_SigNoScope);
     } else if ( type == Uml::ot_Operation ) {
         UMLClassifier *owningClassifier = static_cast<UMLClassifier*>(parent);
-        Umbrello::OpDescriptor od;
-        Umbrello::Parse_Status st = Umbrello::parseOperation(text, od, owningClassifier);
+        Model_Utils::OpDescriptor od;
+        Model_Utils::Parse_Status st = Model_Utils::parseOperation(text, od, owningClassifier);
         if (st) {
             KMessageBox::error( kapp->mainWidget(),
-                                Umbrello::psText(st),
+                                Model_Utils::psText(st),
                                 i18n("Creation canceled") );
             delete item;
             m_bCreatingChildObject = false;

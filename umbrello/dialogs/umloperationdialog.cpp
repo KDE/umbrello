@@ -68,7 +68,7 @@ void UMLOperationDialog::setupDialog() {
     genLayout -> setMargin(margin);
     genLayout -> setSpacing(10);
 
-    Umbrello::makeLabeledEditField( m_pGenGB, genLayout, 0,
+    Dialog_Utils::makeLabeledEditField( m_pGenGB, genLayout, 0,
                                     m_pNameL, i18n("&Name:"),
                                     m_pNameLE, m_pOperation->getName() );
 

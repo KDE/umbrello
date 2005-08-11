@@ -268,9 +268,9 @@ void FloatingText::showOpDlg() {
     }
     seqNum = selectDlg.getSeqNumber();
     opText = selectDlg.getOpText();
-    Umbrello::OpDescriptor od;
-    Umbrello::Parse_Status st = Umbrello::parseOperation(opText, od, c);
-    if (st == Umbrello::PS_OK) {
+    Model_Utils::OpDescriptor od;
+    Model_Utils::Parse_Status st = Model_Utils::parseOperation(opText, od, c);
+    if (st == Model_Utils::PS_OK) {
         UMLClassifierList selfAndAncestors = c->findSuperClassConcepts();
         selfAndAncestors.prepend(c);
         UMLOperation *op = NULL;

@@ -31,7 +31,7 @@ class CppDriver;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-namespace Umbrello {
+namespace Import_Utils {
 
     /**
      * Find or create a document object.
@@ -106,6 +106,6 @@ namespace Umbrello {
      */
     bool newUMLObjectWasCreated();
 
-} // end namespace Umbrello
+} // end namespace Import_Utils
 
 #endif

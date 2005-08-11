@@ -106,7 +106,7 @@ UMLOperation * UMLClassifier::checkOperationSignature( QString name,
     return NULL;
 }
 
-UMLOperation* UMLClassifier::findOperation(QString name, Umbrello::NameAndType_List params) {
+UMLOperation* UMLClassifier::findOperation(QString name, Model_Utils::NameAndType_List params) {
     UMLObjectList list = findChildObject(Uml::ot_Operation, name);
     if (list.count() == 0)
         return NULL;
@@ -123,7 +123,7 @@ UMLOperation* UMLClassifier::findOperation(QString name, Umbrello::NameAndType_L
             continue;
         int i = 0;
         for (; i < pCount; ++i) {
-            Umbrello::NameAndType_ListIt nt(params.at(i));
+            Model_Utils::NameAndType_ListIt nt(params.at(i));
             UMLObject *c = (*nt).m_type;
             QString typeName = testParams->at(i)->getTypeName();
             if (c == NULL) {       //template parameter
@@ -140,11 +140,11 @@ UMLOperation* UMLClassifier::findOperation(QString name, Umbrello::NameAndType_L
 
 UMLOperation* UMLClassifier::createOperation(const QString &name /*=null*/,
         bool *isExistingOp  /*=NULL*/,
-        Umbrello::NameAndType_List *params  /*=NULL*/)
+        Model_Utils::NameAndType_List *params  /*=NULL*/)
 {
     bool nameNotSet = (name.isNull() || name.isEmpty());
     if (! nameNotSet) {
-        Umbrello::NameAndType_List parList;
+        Model_Utils::NameAndType_List parList;
         if (params)
             parList = *params;
         UMLOperation* existingOp = findOperation(name, parList);
@@ -157,8 +157,8 @@ UMLOperation* UMLClassifier::createOperation(const QString &name /*=null*/,
     // we did not find an exact match, so the signature is unique
     UMLOperation *op = new UMLOperation(this, name);
     if (params) {
-        for (Umbrello::NameAndType_ListIt it = params->begin(); it != params->end(); ++it ) {
-            const Umbrello::NameAndType &nt = *it;
+        for (Model_Utils::NameAndType_ListIt it = params->begin(); it != params->end(); ++it ) {
+            const Model_Utils::NameAndType &nt = *it;
             UMLAttribute *par = new UMLAttribute(op, nt.m_name);
             par->setType(nt.m_type);
             par->setInitialValue(nt.m_initialValue);
@@ -845,7 +845,7 @@ bool UMLClassifier::load(QDomElement& element) {
                 return false;
             }
             addAttribute(pAtt);
-        } else if (!Umbrello::isCommonXMIAttribute(tag)) {
+        } else if (!Model_Utils::isCommonXMIAttribute(tag)) {
             UMLDoc *umldoc = UMLApp::app()->getDocument();
             UMLObject *pObject = UMLDoc::makeNewUMLObject(tag);
             if( !pObject )

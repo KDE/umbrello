@@ -446,14 +446,14 @@ void LinePath::setupSelected() {
     LineListIt it( m_LineList );
     while( ( line = it.current() ) ) {
         QPoint sp = line -> startPoint();
-        QCanvasRectangle *rect = Umbrello::decoratePoint(sp);
+        QCanvasRectangle *rect = Widget_Utils::decoratePoint(sp);
         m_RectList.append( rect );
         ++it;
     }
     //special case for last point
     line = m_LineList.last();
     QPoint p = line -> endPoint();
-    QCanvasRectangle *rect = Umbrello::decoratePoint(p);
+    QCanvasRectangle *rect = Widget_Utils::decoratePoint(p);
     m_RectList.append( rect );
     update();
 }

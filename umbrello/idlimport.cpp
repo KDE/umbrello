@@ -135,7 +135,7 @@ void IDLImport::fillSource(QString lexeme) {
 }
 
 void IDLImport::parseFile(QString filename) {
-    QStringList includePaths = Umbrello::includePathList();
+    QStringList includePaths = Import_Utils::includePathList();
     //QProcess command("cpp", UMLAp::app());
     QString command("cpp -C");   // -C means "preserve comments"
     for (QStringList::Iterator pathIt = includePaths.begin();
@@ -173,7 +173,7 @@ void IDLImport::parseFile(QString filename) {
         }
         if (keyword == "module") {
             const QString& name = m_source[++m_srcIndex];
-            UMLObject *ns = Umbrello::createUMLObject(Uml::ot_Package,
+            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package,
                             name, m_scope[m_scopeIndex], m_comment);
             m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
             m_scope[m_scopeIndex]->setStereotype("CORBAModule");
@@ -186,7 +186,7 @@ void IDLImport::parseFile(QString filename) {
         }
         if (keyword == "interface") {
             const QString& name = m_source[++m_srcIndex];
-            UMLObject *ns = Umbrello::createUMLObject(Uml::ot_Class,
+            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
                             name, m_scope[m_scopeIndex], m_comment);
             m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
             m_klass->setStereotype("CORBAInterface");
@@ -198,7 +198,7 @@ void IDLImport::parseFile(QString filename) {
             if (m_source[m_srcIndex] == ":") {
                 while (++m_srcIndex < srcLength && m_source[m_srcIndex] != "{") {
                     const QString& baseName = m_source[m_srcIndex];
-                    Umbrello::createGeneralization(m_klass, baseName);
+                    Import_Utils::createGeneralization(m_klass, baseName);
                     if (m_source[++m_srcIndex] != ",")
                         break;
                 }
@@ -212,7 +212,7 @@ void IDLImport::parseFile(QString filename) {
         }
         if (keyword == "struct" || keyword == "exception") {
             const QString& name = m_source[++m_srcIndex];
-            UMLObject *ns = Umbrello::createUMLObject(Uml::ot_Class,
+            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
                             name, m_scope[m_scopeIndex], m_comment);
             m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
             if (keyword == "struct")
@@ -234,12 +234,12 @@ void IDLImport::parseFile(QString filename) {
         }
         if (keyword == "enum") {
             const QString& name = m_source[++m_srcIndex];
-            UMLObject *ns = Umbrello::createUMLObject(Uml::ot_Enum,
+            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Enum,
                             name, m_scope[m_scopeIndex], m_comment);
             UMLEnum *enumType = static_cast<UMLEnum*>(ns);
             m_srcIndex++;  // skip name
             while (++m_srcIndex < srcLength && m_source[m_srcIndex] != "}") {
-                Umbrello::addEnumLiteral(enumType, m_source[m_srcIndex]);
+                Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
                 if (m_source[++m_srcIndex] != ",")
                     break;
             }
@@ -250,7 +250,7 @@ void IDLImport::parseFile(QString filename) {
         if (keyword == "typedef") {
             const QString& existingType = m_source[++m_srcIndex];
             const QString& newType = m_source[++m_srcIndex];
-            Umbrello::createUMLObject(Uml::ot_Class, newType, m_scope[m_scopeIndex],
+            Import_Utils::createUMLObject(Uml::ot_Class, newType, m_scope[m_scopeIndex],
                                          m_comment, "CORBATypedef" /* stereotype */);
             // @todo How do we convey the existingType ?
             skipStmt();
@@ -269,7 +269,7 @@ void IDLImport::parseFile(QString filename) {
         }
         if (keyword == "valuetype") {
             const QString& name = m_source[++m_srcIndex];
-            UMLObject *ns = Umbrello::createUMLObject(Uml::ot_Class,
+            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
                             name, m_scope[m_scopeIndex], m_comment);
             m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
             m_klass->setAbstract(m_isAbstract);
@@ -281,7 +281,7 @@ void IDLImport::parseFile(QString filename) {
                     m_srcIndex++;
                 while (m_srcIndex < srcLength && m_source[m_srcIndex] != "{") {
                     const QString& baseName = m_source[m_srcIndex];
-                    Umbrello::createGeneralization(m_klass, baseName);
+                    Import_Utils::createGeneralization(m_klass, baseName);
                     if (m_source[++m_srcIndex] != ",")
                         break;
                     m_srcIndex++;
@@ -347,15 +347,15 @@ void IDLImport::parseFile(QString filename) {
         }
         if (m_source[++m_srcIndex] == "(") {
             // operation
-            UMLOperation *op = Umbrello::makeOperation(m_klass, name);
+            UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
             m_srcIndex++;
             while (m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
                 const QString &direction = m_source[m_srcIndex++];
                 QString typeName = joinTypename();
                 const QString &parName = m_source[++m_srcIndex];
-                UMLAttribute *att = Umbrello::addMethodParameter(op, typeName, parName);
+                UMLAttribute *att = Import_Utils::addMethodParameter(op, typeName, parName);
                 Uml::Parameter_Direction dir;
-                if (Umbrello::stringToDirection(direction, dir))
+                if (Model_Utils::stringToDirection(direction, dir))
                     att->setParmKind(dir);
                 else
                     kdError() << "importIDL: expecting parameter direction at "
@@ -364,7 +364,7 @@ void IDLImport::parseFile(QString filename) {
                     break;
                 m_srcIndex++;
             }
-            Umbrello::insertMethod(m_klass, op, Uml::Public, typeName,
+            Import_Utils::insertMethod(m_klass, op, Uml::Public, typeName,
                                       false, false, false, false, m_comment);
             if (m_isOneway) {
                 op->setStereotype("oneway");
@@ -375,7 +375,7 @@ void IDLImport::parseFile(QString filename) {
             continue;
         }
         // At this point we know it's some kind of attribute declaration.
-        UMLObject *o = Umbrello::insertAttribute(m_klass, m_currentAccess, name, typeName, m_comment);
+        UMLObject *o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name, typeName, m_comment);
         UMLAttribute *attr = static_cast<UMLAttribute*>(o);
         if (m_isReadonly) {
             attr->setStereotype("readonly");

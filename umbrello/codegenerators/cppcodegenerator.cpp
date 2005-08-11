@@ -384,15 +384,15 @@ void CPPCodeGenerator::initAttributes ( )
 }
 
 void CPPCodeGenerator::createDefaultDatatypes() {
-    Umbrello::createCppDatatypes();
+    Codegen_Utils::createCppDatatypes();
 }
 
 const QStringList CPPCodeGenerator::reservedKeywords() const {
-    return Umbrello::reservedCppKeywords();
+    return Codegen_Utils::reservedCppKeywords();
 }
 
 void CPPCodeGenerator::createDefaultStereotypes (){
-    Umbrello::createCppStereotypes();
+    Codegen_Utils::createCppStereotypes();
 }
 
 #include "cppcodegenerator.moc"

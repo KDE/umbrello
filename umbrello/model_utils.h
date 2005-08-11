@@ -31,7 +31,7 @@
 // forward declarations
 class UMLClassifier;
 
-namespace Umbrello {
+namespace Model_Utils {
 
 /**
  * Determines whether the given widget type is cloneable.

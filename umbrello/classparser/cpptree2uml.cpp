@@ -78,7 +78,7 @@ void CppTree2Uml::parseNamespace( NamespaceAST* ast )
 #ifdef DEBUG_CPPTREE2UML
     kdDebug() << "CppTree2Uml::parseNamespace: " << nsName << endl;
 #endif
-    UMLObject * o = Umbrello::createUMLObject( Uml::ot_Package, nsName,
+    UMLObject * o = Import_Utils::createUMLObject( Uml::ot_Package, nsName,
 						 m_currentNamespace[m_nsCnt],
 						 ast->comment());
     UMLPackage *ns = (UMLPackage *)o;
@@ -146,16 +146,16 @@ void CppTree2Uml::parseTypedef( TypedefAST* ast )
 	             whether to build a Datatype (for pointers.)  */
 	    if (type.contains('*')) {
 		UMLObject *inner =
-	        Umbrello::createUMLObject( Uml::ot_Class, typeId,
+	        Import_Utils::createUMLObject( Uml::ot_Class, typeId,
 					     m_currentNamespace[m_nsCnt] );
 	        UMLObject *typedefObj =
-		Umbrello::createUMLObject( Uml::ot_Datatype, id,
+		Import_Utils::createUMLObject( Uml::ot_Datatype, id,
 					     m_currentNamespace[m_nsCnt] );
 	        UMLDatatype *dt = static_cast<UMLDatatype*>(typedefObj);
 		dt->setIsReference();
 		dt->setOriginType(static_cast<UMLClassifier*>(inner));
 	    } else {
-	        Umbrello::createUMLObject( Uml::ot_Class, id,
+	        Import_Utils::createUMLObject( Uml::ot_Class, id,
 					     m_currentNamespace[m_nsCnt],
 	 				     "" /* doc */,
 					     "typedef" /* stereotype */);
@@ -180,7 +180,7 @@ void CppTree2Uml::parseTemplateDeclaration( TemplateDeclarationAST* ast )
 	    NameAST* nameNode = typeParmNode->name();
 	    if (nameNode) {
 		QString typeName = nameNode->unqualifiedName()->text();
-		Umbrello::NameAndType nt(typeName, NULL);
+		Model_Utils::NameAndType nt(typeName, NULL);
 		m_templateParams.append(nt);
 	    } else {
 		kdError() << "CppTree2Uml::parseTemplateDeclaration(type):"
@@ -197,7 +197,7 @@ void CppTree2Uml::parseTemplateDeclaration( TemplateDeclarationAST* ast )
 		continue;
 	    }
 	    QString typeName = typeSpec->name()->text();
-	    UMLObject *t = Umbrello::createUMLObject( Uml::ot_UMLObject, typeName,
+	    UMLObject *t = Import_Utils::createUMLObject( Uml::ot_UMLObject, typeName,
 							m_currentNamespace[m_nsCnt] );
 	    DeclaratorAST* declNode = valueNode->declarator();
 	    NameAST* nameNode = declNode->declaratorId();
@@ -207,7 +207,7 @@ void CppTree2Uml::parseTemplateDeclaration( TemplateDeclarationAST* ast )
 		continue;
 	    }
 	    QString paramName = nameNode->unqualifiedName()->text();
-	    Umbrello::NameAndType nt(paramName, t);
+	    Model_Utils::NameAndType nt(paramName, t);
 	    m_templateParams.append(nt);
 	}
     }
@@ -289,14 +289,14 @@ void CppTree2Uml::parseFunctionDefinition( FunctionDefinitionAST* ast )
     }
 
     QString returnType = typeOfDeclaration( typeSpec, d );
-    UMLOperation *m = Umbrello::makeOperation(c, id);
+    UMLOperation *m = Import_Utils::makeOperation(c, id);
     // if a class has no return type, it could be a constructor or
     // a destructor
     if (d && returnType.isEmpty() && id.find("~") == -1)
         isConstructor = true;
 
     parseFunctionArguments( d, m );
-    Umbrello::insertMethod( c, m, (Uml::Scope)m_currentAccess, returnType,
+    Import_Utils::insertMethod( c, m, (Uml::Scope)m_currentAccess, returnType,
 			      isStatic, false /*isAbstract*/, isFriend, isConstructor, m_comment);
     m_comment = "";
 
@@ -345,7 +345,7 @@ void CppTree2Uml::parseClassSpecifier( ClassSpecifierAST* ast )
 	className = "anon_" + QString::number(m_anon);
 	m_anon++;
     }
-    UMLObject * o = Umbrello::createUMLObject( Uml::ot_Class, className,
+    UMLObject * o = Import_Utils::createUMLObject( Uml::ot_Class, className,
 						 m_currentNamespace[m_nsCnt],
 						 ast->comment() );
     UMLClassifier *klass = static_cast<UMLClassifier*>(o);
@@ -385,7 +385,7 @@ void CppTree2Uml::parseEnumSpecifier( EnumSpecifierAST* ast )
     QString typeName = nameNode->unqualifiedName()->text().stripWhiteSpace();
     if (typeName.isEmpty())
 	return;  // skip constants
-    UMLObject *o = Umbrello::createUMLObject( Uml::ot_Enum, typeName,
+    UMLObject *o = Import_Utils::createUMLObject( Uml::ot_Enum, typeName,
 						m_currentNamespace[m_nsCnt],
 						ast->comment() );
 
@@ -393,7 +393,7 @@ void CppTree2Uml::parseEnumSpecifier( EnumSpecifierAST* ast )
     QPtrListIterator<EnumeratorAST> it( l );
     while ( it.current() ) {
 	QString enumLiteral = it.current()->id()->text();
-	Umbrello::addEnumLiteral( (UMLEnum*)o, enumLiteral );
+	Import_Utils::addEnumLiteral( (UMLEnum*)o, enumLiteral );
 	++it;
     }
 }
@@ -407,7 +407,7 @@ void CppTree2Uml::parseElaboratedTypeSpecifier( ElaboratedTypeSpecifierAST* type
     QString text = typeSpec->text();
     kdDebug() << "CppTree2Uml::parseElaboratedTypeSpecifier: text is " << text << endl;
     text.remove(QRegExp("^class\\s+"));
-    UMLObject *o = Umbrello::createUMLObject( Uml::ot_Class, text );
+    UMLObject *o = Import_Utils::createUMLObject( Uml::ot_Class, text );
     flushTemplateParams( static_cast<UMLClassifier*>(o) );
 }
 
@@ -462,7 +462,7 @@ void CppTree2Uml::parseDeclaration( GroupAST* funSpec, GroupAST* storageSpec,
 	}
     }
 
-    Umbrello::insertAttribute( c, (Uml::Scope)m_currentAccess, id, typeName,
+    Import_Utils::insertAttribute( c, (Uml::Scope)m_currentAccess, id, typeName,
 				 m_comment, isStatic);
     m_comment = "";
 }
@@ -530,14 +530,14 @@ void CppTree2Uml::parseFunctionDeclaration(  GroupAST* funSpec, GroupAST* storag
     }
 
     QString returnType = typeOfDeclaration( typeSpec, d );
-    UMLOperation *m = Umbrello::makeOperation(c, id);
+    UMLOperation *m = Import_Utils::makeOperation(c, id);
     // if a class has no return type, it could de a constructor or
     // a destructor
     if (d && returnType.isEmpty() && id.find("~") == -1)
         isConstructor = true;
 
     parseFunctionArguments( d, m );
-    Umbrello::insertMethod( c, m, (Uml::Scope)m_currentAccess, returnType,
+    Import_Utils::insertMethod( c, m, (Uml::Scope)m_currentAccess, returnType,
 			      isStatic, isPure, isFriend, isConstructor, m_comment);
     m_comment = "";
 }
@@ -562,7 +562,7 @@ void CppTree2Uml::parseFunctionArguments(DeclaratorAST* declarator,
 	    QString tp = typeOfDeclaration( param->typeSpec(), param->declarator() );
 
 	    if (tp != "void")
-		Umbrello::addMethodParameter( method, tp, name );
+		Import_Utils::addMethodParameter( method, tp, name );
 	}
     }
 }
@@ -599,7 +599,7 @@ void CppTree2Uml::parseBaseClause( BaseClauseAST * baseClause, UMLClassifier* kl
 	}
 
 	QString baseName = baseSpecifier->name()->text();
-	Umbrello::createGeneralization( klass, baseName );
+	Import_Utils::createGeneralization( klass, baseName );
     }
 }
 
@@ -629,9 +629,9 @@ QStringList CppTree2Uml::scopeOfDeclarator( DeclaratorAST* d, const QStringList&
 
 void CppTree2Uml::flushTemplateParams(UMLClassifier *klass) {
     if (m_templateParams.count()) {
-	Umbrello::NameAndType_ListIt it;
+	Model_Utils::NameAndType_ListIt it;
 	for (it = m_templateParams.begin(); it != m_templateParams.end(); ++it) {
-	    const Umbrello::NameAndType &nt = *it;
+	    const Model_Utils::NameAndType &nt = *it;
 	    kdDebug() << "CppTree2Uml::parseClassSpecifier: adding template param: "
 	    	      << nt.m_name << endl;
 	    UMLTemplate *tmpl = klass->addTemplate(nt.m_name);

@@ -401,7 +401,7 @@ bool AssociationWidget::setRoleName (const QString &strRole, Role_Type role) {
         m_role[role].m_pRole->setLink(this);
         m_pView->addWidget(m_role[role].m_pRole);
         Scope scope = getVisibility(role);
-        m_role[role].m_pRole->setPreText(Umbrello::scopeToString(scope));
+        m_role[role].m_pRole->setPreText(Model_Utils::scopeToString(scope));
     } else {
         if (m_role[role].m_pRole->getText().isEmpty()) {
             newLabel = true;
@@ -471,7 +471,7 @@ void AssociationWidget::setVisibility (Scope value, Role_Type role)
     m_role[role].m_Visibility = value;
     // update role pre-text attribute as appropriate
     if (m_role[role].m_pRole) {
-        QString scopeString = Umbrello::scopeToString(value);
+        QString scopeString = Model_Utils::scopeToString(value);
         m_role[role].m_pRole->setPreText(scopeString);
     }
 }
@@ -594,7 +594,7 @@ bool AssociationWidget::activate() {
             Text_Role tr = (r == A ? tr_RoleAName : tr_RoleBName);
             robj.m_pRole->setRole(tr);
             Scope scope = getVisibility((Role_Type)r);
-            robj.m_pRole->setPreText(Umbrello::scopeToString(scope));
+            robj.m_pRole->setPreText(Model_Utils::scopeToString(scope));
 
             if (FloatingText::isTextValid(robj.m_pRole->getText()))
                 robj.m_pRole -> show();
@@ -2176,10 +2176,10 @@ void AssociationWidget::selectAssocClassLine(bool sel /* =true */) {
     }
     if (m_pAssocClassLineSel0)
         delete m_pAssocClassLineSel0;
-    m_pAssocClassLineSel0 = Umbrello::decoratePoint(m_pAssocClassLine->startPoint());
+    m_pAssocClassLineSel0 = Widget_Utils::decoratePoint(m_pAssocClassLine->startPoint());
     if (m_pAssocClassLineSel1)
         delete m_pAssocClassLineSel1;
-    m_pAssocClassLineSel1 = Umbrello::decoratePoint(m_pAssocClassLine->endPoint());
+    m_pAssocClassLineSel1 = Widget_Utils::decoratePoint(m_pAssocClassLine->endPoint());
 }
 
 void AssociationWidget::mousePressEvent(QMouseEvent * me) {
@@ -3303,13 +3303,13 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
     QString widgetbid = qElement.attribute( "widgetbid", "-1" );
     Uml::IDType aId = STR2ID(widgetaid);
     Uml::IDType bId = STR2ID(widgetbid);
-    UMLWidget *pWidgetA = Umbrello::findWidget( aId, widgets, pMessages );
+    UMLWidget *pWidgetA = Widget_Utils::findWidget( aId, widgets, pMessages );
     if (!pWidgetA) {
         kdError() << "AssociationWidget::loadFromXMI(): "
         << "cannot find widget for roleA id " << ID2STR(aId) << endl;
         return false;
     }
-    UMLWidget *pWidgetB = Umbrello::findWidget( bId, widgets, pMessages );
+    UMLWidget *pWidgetB = Widget_Utils::findWidget( bId, widgets, pMessages );
     if (!pWidgetB) {
         kdError() << "AssociationWidget::loadFromXMI(): "
         << "cannot find widget for roleB id " << ID2STR(bId) << endl;
@@ -3435,7 +3435,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
     QString assocclassid = qElement.attribute("assocclass", "");
     if (! assocclassid.isEmpty()) {
         Uml::IDType acid = STR2ID(assocclassid);
-        UMLWidget *w = Umbrello::findWidget(acid, widgets);
+        UMLWidget *w = Widget_Utils::findWidget(acid, widgets);
         if (w) {
             m_pAssocClassWidget = static_cast<ClassifierWidget*>(w);
             m_pAssocClassWidget->setClassAssocWidget(this);

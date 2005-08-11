@@ -864,9 +864,9 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
             // instead of the xmi.id of the operation.
             // For backward compatibility, attempt to determine the
             // m_pOperation from the operation text:
-            Umbrello::OpDescriptor od;
-            Umbrello::Parse_Status st = Umbrello::parseOperation(m_CustomOp, od, c);
-            if (st == Umbrello::PS_OK) {
+            Model_Utils::OpDescriptor od;
+            Model_Utils::Parse_Status st = Model_Utils::parseOperation(m_CustomOp, od, c);
+            if (st == Model_Utils::PS_OK) {
                 bool isExistingOp = false;
                 UMLObject *o = c->createOperation(od.m_name, &isExistingOp, &od.m_args);
                 op = static_cast<UMLOperation*>(o);

@@ -219,7 +219,7 @@ bool UMLAssociation::load( QDomElement & element ) {
                     continue;
                 QDomElement tempElement = node.toElement();
                 QString tag = tempElement.tagName();
-                if (Umbrello::isCommonXMIAttribute(tag))
+                if (Model_Utils::isCommonXMIAttribute(tag))
                     continue;
                 bool isGeneralization = (m_AssocType == Uml::at_Generalization &&
                                          (tagEq(tag, "child") || tagEq(tag, "parent") ||
@@ -281,7 +281,7 @@ bool UMLAssociation::load( QDomElement & element ) {
             continue;
         QDomElement tempElement = node.toElement();
         QString tag = tempElement.tagName();
-        if (Umbrello::isCommonXMIAttribute(tag))
+        if (Model_Utils::isCommonXMIAttribute(tag))
             continue;
         if (!tagEq(tag, "Association.connection") &&
                 !tagEq(tag, "Namespace.ownedElement") &&

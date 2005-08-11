@@ -371,9 +371,9 @@ void UMLListViewItem::okRename( int col ) {
             }
             UMLOperation *op = static_cast<UMLOperation*>(m_pObject);
             UMLClassifier *parent = static_cast<UMLClassifier *>( op -> parent() );
-            Umbrello::OpDescriptor od;
-            Umbrello::Parse_Status st = Umbrello::parseOperation(newText, od, parent);
-            if (st == Umbrello::PS_OK) {
+            Model_Utils::OpDescriptor od;
+            Model_Utils::Parse_Status st = Model_Utils::parseOperation(newText, od, parent);
+            if (st == Model_Utils::PS_OK) {
                 // TODO: Check that no operation with the exact same profile exists.
                 op->setName( od.m_name );
                 op->setType( od.m_pReturnType );
@@ -385,9 +385,9 @@ void UMLListViewItem::okRename( int col ) {
                     }
                     i = 0;
                 }
-                for (Umbrello::NameAndType_ListIt lit = od.m_args.begin();
+                for (Model_Utils::NameAndType_ListIt lit = od.m_args.begin();
                         lit != od.m_args.end(); ++lit, ++i) {
-                    const Umbrello::NameAndType& nm_tp = *lit;
+                    const Model_Utils::NameAndType& nm_tp = *lit;
                     UMLAttribute *a;
                     if (i < parmList->count()) {
                         a = parmList->at(i);
@@ -406,7 +406,7 @@ void UMLListViewItem::okRename( int col ) {
                 m_Label = op->toString(Uml::st_SigNoScope);
             } else {
                 KMessageBox::error( kapp->mainWidget(),
-                                    Umbrello::psText(st),
+                                    Model_Utils::psText(st),
                                     i18n("Rename canceled") );
             }
             QListViewItem::setText(0, m_Label);
@@ -420,9 +420,9 @@ void UMLListViewItem::okRename( int col ) {
                 return;
             }
             UMLClassifier *parent = static_cast<UMLClassifier*>(m_pObject->parent());
-            Umbrello::NameAndType nt;
-            Umbrello::Parse_Status st = Umbrello::parseAttribute(newText, nt, parent);
-            if (st == Umbrello::PS_OK) {
+            Model_Utils::NameAndType nt;
+            Model_Utils::Parse_Status st = Model_Utils::parseAttribute(newText, nt, parent);
+            if (st == Model_Utils::PS_OK) {
                 UMLObjectList list = parent->findChildObject( m_pObject->getBaseType(), newText );
                 if (! list.isEmpty()) {
                     cancelRenameWithMsg();
@@ -435,7 +435,7 @@ void UMLListViewItem::okRename( int col ) {
                 m_Label = pAtt->toString(Uml::st_SigNoScope);
             } else {
                 KMessageBox::error( kapp->mainWidget(),
-                                    Umbrello::psText(st),
+                                    Model_Utils::psText(st),
                                     i18n("Rename canceled") );
             }
             QListViewItem::setText(0, m_Label);
@@ -449,9 +449,9 @@ void UMLListViewItem::okRename( int col ) {
                 return;
             }
             UMLClassifier *parent = static_cast<UMLClassifier*>(m_pObject->parent());
-            Umbrello::NameAndType nt;
-            Umbrello::Parse_Status st = Umbrello::parseTemplate(newText, nt, parent);
-            if (st == Umbrello::PS_OK) {
+            Model_Utils::NameAndType nt;
+            Model_Utils::Parse_Status st = Model_Utils::parseTemplate(newText, nt, parent);
+            if (st == Model_Utils::PS_OK) {
                 UMLObjectList list = parent->findChildObject( m_pObject->getBaseType(), newText );
                 if (! list.isEmpty()) {
                     cancelRenameWithMsg();
@@ -463,7 +463,7 @@ void UMLListViewItem::okRename( int col ) {
                 m_Label = tmpl->toString(Uml::st_SigNoScope);
             } else {
                 KMessageBox::error( kapp->mainWidget(),
-                                    Umbrello::psText(st),
+                                    Model_Utils::psText(st),
                                     i18n("Rename canceled") );
             }
             QListViewItem::setText(0, m_Label);

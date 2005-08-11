@@ -97,7 +97,7 @@ void CppImport::importFiles(QStringList headerFileList) {
     ms_driver->addIncludePath( "/usr/include/c++" );
     ms_driver->addIncludePath( "/usr/include/g++" );
     ms_driver->addIncludePath( "/usr/local/include" );
-    QStringList incPathList = Umbrello::includePathList();
+    QStringList incPathList = Import_Utils::includePathList();
     if (incPathList.count()) {
         QStringList::Iterator end(incPathList.end());
         for (QStringList::Iterator i(incPathList.begin()); i != end; ++i) {

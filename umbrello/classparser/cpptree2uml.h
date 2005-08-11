@@ -82,7 +82,7 @@ private:
     bool m_inStorageSpec;
     bool m_inTypedef;
     QString m_comment;
-    Umbrello::NameAndType_List m_templateParams;
+    Model_Utils::NameAndType_List m_templateParams;
 
     DeclaratorAST* m_currentDeclarator;
 #   define STACKSIZE 30

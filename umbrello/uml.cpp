@@ -411,15 +411,15 @@ void UMLApp::initView() {
         m_newSessionButton->setAutoRaise(true);
         m_diagramMenu = new KPopupMenu(m_newSessionButton);
 
-        m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_Class), i18n("Class Diagram..."), this, SLOT(slotClassDiagram()) );
-        m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_Sequence), i18n("Sequence Diagram..."), this, SLOT(slotSequenceDiagram()) );
-        m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_Collaboration), i18n("Collaboration Diagram..."), this, SLOT(slotCollaborationDiagram()) );
-        m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_UseCase), i18n("Use Case Diagram..."), this, SLOT(slotUseCaseDiagram()) );
-        m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_State), i18n("State Diagram..."), this, SLOT(slotStateDiagram()) );
-        m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_Activity), i18n("Activity Diagram..."), this, SLOT(slotActivityDiagram()) );
-        m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_Component), i18n("Component Diagram..."), this, SLOT(slotComponentDiagram()) );
-        m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_Deployment), i18n("Deployment Diagram..."), this, SLOT(slotDeploymentDiagram()) );
-        m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_EntityRelationship), i18n("Entity Relationship Diagram..."), this, SLOT(slotEntityRelationshipDiagram()) );
+        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_Class), i18n("Class Diagram..."), this, SLOT(slotClassDiagram()) );
+        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_Sequence), i18n("Sequence Diagram..."), this, SLOT(slotSequenceDiagram()) );
+        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_Collaboration), i18n("Collaboration Diagram..."), this, SLOT(slotCollaborationDiagram()) );
+        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_UseCase), i18n("Use Case Diagram..."), this, SLOT(slotUseCaseDiagram()) );
+        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_State), i18n("State Diagram..."), this, SLOT(slotStateDiagram()) );
+        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_Activity), i18n("Activity Diagram..."), this, SLOT(slotActivityDiagram()) );
+        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_Component), i18n("Component Diagram..."), this, SLOT(slotComponentDiagram()) );
+        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_Deployment), i18n("Deployment Diagram..."), this, SLOT(slotDeploymentDiagram()) );
+        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_EntityRelationship), i18n("Entity Relationship Diagram..."), this, SLOT(slotEntityRelationshipDiagram()) );
         m_newSessionButton->setPopup(m_diagramMenu);
         //FIXME why doesn't this work?
         //m_newSessionButton->setPopup(newDiagram->popupMenu());

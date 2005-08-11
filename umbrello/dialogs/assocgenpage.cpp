@@ -65,7 +65,7 @@ void AssocGenPage::constructWidget() {
 
     //Association name
     QLabel *pAssocNameL = NULL;
-    QLineEdit* nameField = Umbrello::makeLabeledEditField( nameGB, nameLayout, 0,
+    QLineEdit* nameField = Dialog_Utils::makeLabeledEditField( nameGB, nameLayout, 0,
                            pAssocNameL, i18n("Name:"),
                            m_pAssocNameLE, m_pAssociationWidget->getName() );
     nameField->setFocus();
@@ -80,9 +80,10 @@ void AssocGenPage::constructWidget() {
 
     // Association Type
     QLabel *pTypeL = NULL;
-    Umbrello::makeLabeledEditField( nameGB, nameLayout, 1,
+    Dialog_Utils::makeLabeledEditField( nameGB, nameLayout, 1,
                                     pTypeL, i18n("Type:"),
-                                    m_pTypeLE, UMLAssociation::typeAsString(m_pAssociationWidget->getAssocType()) );
+                                    m_pTypeLE,
+                                    UMLAssociation::typeAsString(m_pAssociationWidget->getAssocType()) );
     m_pTypeLE->setEnabled(false);
 
     m_pDoc->setWordWrap(QMultiLineEdit::WidgetWidth);

@@ -127,11 +127,11 @@ bool ToolBarStateOther::newWidget()
 
     // Special treatment for some buttons
     if (getButton() == WorkToolBar::tbb_Activity)
-        Umbrello::askNameForWidget(
+        Dialog_Utils::askNameForWidget(
             umlWidget, i18n("Enter Activity Name"),
             i18n("Enter the name of the new activity:"), i18n("new activity") );
     else if (getButton() == WorkToolBar::tbb_State )
-        Umbrello::askNameForWidget(
+        Dialog_Utils::askNameForWidget(
             umlWidget, i18n("Enter State Name"),
             i18n("Enter the name of the new state:"), i18n("new state") );
 else if (getButton() == WorkToolBar::tbb_Text) {

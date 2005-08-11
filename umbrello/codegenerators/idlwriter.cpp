@@ -342,7 +342,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
                 } else {
                     if (scope != Uml::Public) {
                         idl << "// visibility should be: "
-                        << Umbrello::scopeToString(scope, false)
+                        << Model_Utils::scopeToString(scope, false)
                         << m_endl;
                         idl << getIndent();
                     }

@@ -144,7 +144,7 @@ void UMLDoc::addView(UMLView *view) {
     if (optionState.generalState.tabdiagrams) {
         tabWidget = UMLApp::app()->tabWidget();
         tabWidget->addTab(view, view->getName());
-        tabWidget->setTabIconSet(view, Umbrello::iconSet(view->getType()));
+        tabWidget->setTabIconSet(view, Widget_Utils::iconSet(view->getType()));
     }
 #endif
     pApp->setDiagramMenuItemsState(true);
@@ -780,7 +780,7 @@ UMLView * UMLDoc::findView(Diagram_Type type, const QString &name,
 }
 
 UMLObject* UMLDoc::findObjectById(Uml::IDType id) {
-    return Umbrello::findObjectInList(id, m_objectList);
+    return Model_Utils::findObjectInList(id, m_objectList);
 }
 
 UMLStereotype * UMLDoc::findStereotypeById(Uml::IDType id) {
@@ -794,7 +794,7 @@ UMLStereotype * UMLDoc::findStereotypeById(Uml::IDType id) {
 UMLObject* UMLDoc::findUMLObject(const QString &name,
                                  Object_Type type /* = ot_UMLObject */,
                                  UMLObject *currentObj /* = NULL */) {
-    return Umbrello::findUMLObject(m_objectList, name, type, currentObj);
+    return Model_Utils::findUMLObject(m_objectList, name, type, currentObj);
 }
 
 UMLClassifier* UMLDoc::findUMLClassifier(const QString &name) {
@@ -2117,7 +2117,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
             }
             continue;
         }
-        if (Umbrello::isCommonXMIAttribute(type))
+        if (Model_Utils::isCommonXMIAttribute(type))
             continue;
         if (! tempElement.hasAttribute("xmi.id")) {
             QString idref = tempElement.attribute("xmi.idref", "");

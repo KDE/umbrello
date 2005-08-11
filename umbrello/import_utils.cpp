@@ -32,7 +32,7 @@
 #include "template.h"
 #include "association.h"
 
-namespace Umbrello {
+namespace Import_Utils {
 
 /**
  * Flag manipulated by createUMLObject().
@@ -317,5 +317,5 @@ QStringList includePathList() {
     return includePathList;
 }
 
-}  // end namespace Umbrello
+}  // end namespace Import_Utils
 

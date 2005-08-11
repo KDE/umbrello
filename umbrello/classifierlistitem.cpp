@@ -80,7 +80,7 @@ void UMLClassifierListItem::setTypeName(const QString &type) {
     m_pSecondary = pDoc->findUMLObject(type);
     if (m_pSecondary == NULL) {
         // Make data type for easily identified cases
-        if (Umbrello::isCommonDataType(type) || type.contains('*')) {
+        if (Model_Utils::isCommonDataType(type) || type.contains('*')) {
             m_pSecondary = pDoc->createUMLObject(Uml::ot_Datatype, type);
             kdDebug() << "UMLClassifierListItem::setTypeName: "
             << "created datatype for " << type << endl;

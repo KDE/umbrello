@@ -28,7 +28,7 @@
 #include "umlwidget.h"
 #include "objectwidget.h"
 
-namespace Umbrello {
+namespace Widget_Utils {
 
 UMLWidget* findWidget(Uml::IDType id,
                       const UMLWidgetList& widgets,
@@ -89,7 +89,7 @@ QIconSet iconSet(Uml::Diagram_Type dt) {
         diagramIconSet = BarIconSet("umbrello_diagram_entityrelationship");
         break;
     default:
-        kdDebug() << "Umbrello::iconSet: unknown diagram type " << dt << endl;
+        kdDebug() << "Widget_Utils::iconSet: unknown diagram type " << dt << endl;
         diagramIconSet = BarIconSet("unknown");
     }
     return diagramIconSet;
@@ -109,5 +109,5 @@ QCanvasRectangle *decoratePoint(QPoint p) {
 }
 
 
-}  // namespace Umbrello
+}  // namespace Widget_Utils
 

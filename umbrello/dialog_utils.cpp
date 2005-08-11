@@ -22,7 +22,7 @@
 #include "uml.h"
 #include "umlwidget.h"
 
-namespace Umbrello {
+namespace Dialog_Utils {
 
 QLineEdit* makeLabeledEditField(QGroupBox *containingBox, QGridLayout *layout, int row,
                                 QLabel * &label, QString labelText,
@@ -54,5 +54,5 @@ void askNameForWidget(
 }
 
 
-}  // end namespace Umbrello
+}  // end namespace Dialog_Utils
 

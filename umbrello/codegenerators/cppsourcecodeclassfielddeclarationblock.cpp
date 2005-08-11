@@ -53,7 +53,7 @@ void CPPSourceCodeClassFieldDeclarationBlock::updateContent( )
 
             // Set the body
             QString staticValue = getParentObject()->getStatic() ? "static " : "";
-            QString scopeStr = Umbrello::scopeToString(getParentObject()->getScope(), false);
+            QString scopeStr = Model_Utils::scopeToString(getParentObject()->getScope(), false);
 
             QString typeName = jcf->getTypeName();
             QString fieldName = jcf->getFieldName();

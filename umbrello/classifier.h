@@ -178,7 +178,7 @@ public:
     */
     UMLOperation* createOperation( const QString &name = QString::null,
                                    bool *isExistingOp = NULL,
-                                   Umbrello::NameAndType_List *params = NULL);
+                                   Model_Utils::NameAndType_List *params = NULL);
 
     /**
      * Adds an operation to the classifier, at the given position.
@@ -385,7 +385,7 @@ public:
      *
      * @return	The operation found.  Will return 0 if none found.
      */
-    UMLOperation* findOperation(QString name, Umbrello::NameAndType_List params);
+    UMLOperation* findOperation(QString name, Model_Utils::NameAndType_List params);
 
     /**
      * Returns a list of concepts which this concept inherits from.

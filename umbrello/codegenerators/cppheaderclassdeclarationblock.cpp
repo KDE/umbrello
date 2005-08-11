@@ -127,7 +127,7 @@ void CPPHeaderClassDeclarationBlock::updateContent ( )
         startText.append(" : ");
     for (UMLClassifier * concept= superclasses.first(); concept; concept = superclasses.next())
     {
-        startText.append(Umbrello::scopeToString(concept->getScope(), false)+" "+parentDoc->getCPPClassName(concept->getName()));
+        startText.append(Model_Utils::scopeToString(concept->getScope(), false)+" "+parentDoc->getCPPClassName(concept->getName()));
         if(i != (nrof_superclasses-1))
             startText.append(", ");
         i++;

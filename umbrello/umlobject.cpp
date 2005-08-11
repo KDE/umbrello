@@ -407,22 +407,22 @@ bool UMLObject::resolveRef() {
     // Work around UMLDoc::createUMLObject()'s incapability
     // of on-the-fly scope creation:
     if (m_SecondaryId.contains("::")) {
-        // TODO: Merge Umbrello::createUMLObject() into UMLDoc::createUMLObject()
-        m_pSecondary = Umbrello::createUMLObject(Uml::ot_UMLObject, m_SecondaryId, NULL);
+        // TODO: Merge Import_Utils::createUMLObject() into UMLDoc::createUMLObject()
+        m_pSecondary = Import_Utils::createUMLObject(Uml::ot_UMLObject, m_SecondaryId, NULL);
         if (m_pSecondary) {
-            if (Umbrello::newUMLObjectWasCreated()) {
+            if (Import_Utils::newUMLObjectWasCreated()) {
                 maybeSignalObjectCreated();
                 kapp->processEvents();
-                kdDebug() << "UMLObject::resolveRef: Umbrello::createUMLObject() "
+                kdDebug() << "UMLObject::resolveRef: Import_Utils::createUMLObject() "
                           << "created a new type for " << m_SecondaryId << endl;
             } else {
-                kdDebug() << "UMLObject::resolveRef: Umbrello::createUMLObject() "
+                kdDebug() << "UMLObject::resolveRef: Import_Utils::createUMLObject() "
                           << "returned an existing type for " << m_SecondaryId << endl;
             }
             m_SecondaryId = "";
             return true;
         }
-        kdError() << "UMLObject::resolveRef: Umbrello::createUMLObject() "
+        kdError() << "UMLObject::resolveRef: Import_Utils::createUMLObject() "
                   << "failed to create a new type for " << m_SecondaryId << endl;
         return false;
     }
@@ -437,7 +437,7 @@ bool UMLObject::resolveRef() {
     if (isReferenceType) {
         ot = Uml::ot_Datatype;
     } else {
-        if (Umbrello::isCommonDataType(m_SecondaryId))
+        if (Model_Utils::isCommonDataType(m_SecondaryId))
             ot = Uml::ot_Datatype;
     }
     m_pSecondary = pDoc->createUMLObject(ot, m_SecondaryId, NULL);
@@ -474,7 +474,7 @@ QDomElement UMLObject::save( const QString &tag, QDomDocument & qDoc ) {
     if (m_pUMLPackage)             //FIXME: uml13.dtd compliance
         qElement.setAttribute( "package", m_pUMLPackage->getID() );
 #endif
-    QString visibility = Umbrello::scopeToString(m_Scope, false);
+    QString visibility = Model_Utils::scopeToString(m_Scope, false);
     qElement.setAttribute( "visibility", visibility);
     if (m_pStereotype != NULL)
         qElement.setAttribute( "stereotype", ID2STR(m_pStereotype->getID()) );

@@ -32,7 +32,7 @@
 #include "umldoc.h"
 #include "uml.h"
 
-namespace Umbrello {
+namespace Model_Utils {
 
 bool isCloneable(Uml::Widget_Type type) {
     switch (type) {
@@ -367,5 +367,5 @@ QString psText(Parse_Status value) {
     return text[(unsigned) value];
 }
 
-}  // namespace Umbrello
+}  // namespace Model_Utils
 

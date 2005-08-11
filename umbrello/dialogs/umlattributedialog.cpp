@@ -65,15 +65,15 @@ void UMLAttributeDialog::setupDialog() {
     valuesLayout -> addWidget(m_pTypeCB, 0, 1);
     m_pTypeL->setBuddy(m_pTypeCB);
 
-    Umbrello::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
+    Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
                                     m_pNameL, i18n("&Name:"),
                                     m_pNameLE, m_pAttribute->getName() );
 
-    Umbrello::makeLabeledEditField( m_pValuesGB, valuesLayout, 2,
+    Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 2,
                                     m_pInitialL, i18n("&Initial value:"),
                                     m_pInitialLE, m_pAttribute->getInitialValue() );
 
-    Umbrello::makeLabeledEditField( m_pValuesGB, valuesLayout, 3,
+    Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 3,
                                     m_pStereoTypeL, i18n("Stereotype name:"),
                                     m_pStereoTypeLE, m_pAttribute->getStereotype(false) );
 

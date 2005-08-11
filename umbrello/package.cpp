@@ -88,7 +88,7 @@ UMLObject * UMLPackage::findObject(const QString &name) {
 }
 
 UMLObject * UMLPackage::findObjectById(Uml::IDType id) {
-    return Umbrello::findObjectInList(id, m_objects);
+    return Model_Utils::findObjectInList(id, m_objects);
 }
 
 void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
@@ -189,7 +189,7 @@ bool UMLPackage::load(QDomElement& element) {
             continue;
         QDomElement tempElement = node.toElement();
         QString type = tempElement.tagName();
-        if (Umbrello::isCommonXMIAttribute(type))
+        if (Model_Utils::isCommonXMIAttribute(type))
             continue;
         if (tagEq(type, "Namespace.ownedElement") ||
                 tagEq(type, "Namespace.contents")) {

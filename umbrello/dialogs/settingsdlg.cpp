@@ -141,7 +141,7 @@ void SettingsDlg::setupGeneralPage() {
 
     // 2004-05-17 Achim Spangler: Allow definition of Suffix for autosave
     // ( default: ".xmi" )
-    Umbrello::makeLabeledEditField( m_GeneralWidgets.autosaveGB, autosaveLayout, 2,
+    Dialog_Utils::makeLabeledEditField( m_GeneralWidgets.autosaveGB, autosaveLayout, 2,
                                     m_GeneralWidgets.autosaveSuffixL, i18n("Set autosave suffix:"),
                                     m_GeneralWidgets.autosaveSuffixT, m_pOptionState->generalState.autosavesuffix );
 

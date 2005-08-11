@@ -28,7 +28,7 @@ class UMLWidget;
  * @author Oliver Kellogg
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-namespace Umbrello {
+namespace Dialog_Utils {
 
 /**
  * Create a labeled text lineedit widget.

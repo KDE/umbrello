@@ -28,7 +28,7 @@ class QCanvasRectangle;
  * General purpose widget utilities.
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-namespace Umbrello {
+namespace Widget_Utils {
 
 /**
  * Find the widget identified by the given ID in the given widget

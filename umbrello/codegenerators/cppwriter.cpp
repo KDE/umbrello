@@ -539,7 +539,7 @@ void CppWriter::writeAttributeDecls (Uml::Scope visibility, bool writeStatic, QT
     //write documentation
     if(forceDoc() || list->count() > 0)
     {
-        QString strVis = capitalizeFirstLetter(Umbrello::scopeToString(visibility, false));
+        QString strVis = capitalizeFirstLetter(Model_Utils::scopeToString(visibility, false));
         QString strStatic = writeStatic ? "Static ":"";
         writeComment(strStatic+strVis+" attributes",getIndent(), stream);
         writeComment(" ",getIndent(), stream);
@@ -632,7 +632,7 @@ void CppWriter::writeAttributeMethods(UMLAttributeList *attribs,
 
     if(forceDoc() || attribs->count()>0)
     {
-        QString strVis = capitalizeFirstLetter(Umbrello::scopeToString(visibility));
+        QString strVis = capitalizeFirstLetter(Model_Utils::scopeToString(visibility));
         QString strStatic = (isStatic ? " static" : "");
         writeBlankLine(stream);
         writeComment(strVis+strStatic+" attribute accessor methods",getIndent(),stream);
@@ -1323,10 +1323,10 @@ QString CppWriter::getAttributeVariableName (UMLAttribute *at)
 }
 
 void CppWriter::createDefaultDatatypes() {
-    Umbrello::createCppDatatypes();
+    Codegen_Utils::createCppDatatypes();
 }
 
 const QStringList CppWriter::reservedKeywords() const {
-    return Umbrello::reservedCppKeywords();
+    return Codegen_Utils::reservedCppKeywords();
 }
 

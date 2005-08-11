@@ -497,7 +497,7 @@ TclWriter::writeAttributeDecl(Uml::Scope visibility, bool writeStatic)
     if (classifierInfo->isInterface)
         return;
 
-    QString         scope = Umbrello::scopeToString(visibility, false);
+    QString         scope = Model_Utils::scopeToString(visibility, false);
     QString         type;
     if (writeStatic) {
         type = "common";
@@ -573,7 +573,7 @@ TclWriter::writeAssociationDecl(UMLAssociationList associations,
                     cleanName(getUMLObjectName(a->getObject(Uml::B)));
                 writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::B),
                                          a->getMulti(Uml::B), a->getRoleDoc(Uml::B),
-                                         Umbrello::scopeToString(permitScope, false));
+                                         Model_Utils::scopeToString(permitScope, false));
             }
             // print RoleA decl
             if (printRoleA && a->getVisibility(Uml::A) == permitScope) {
@@ -581,7 +581,7 @@ TclWriter::writeAssociationDecl(UMLAssociationList associations,
                     cleanName(getUMLObjectName(a->getObject(Uml::A)));
                 writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::A),
                                          a->getMulti(Uml::A), a->getRoleDoc(Uml::A),
-                                         Umbrello::scopeToString(permitScope, false));
+                                         Model_Utils::scopeToString(permitScope, false));
             }
             // reset for next association in our loop
             printRoleA = false;
@@ -721,7 +721,7 @@ TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Scope permitScope)
         QString         code = "";
         QString         methodReturnType = fixTypeName(op->getTypeName());
         QString         name = cleanName(op->getName());
-        QString         scope = Umbrello::scopeToString(permitScope, false);
+        QString         scope = Model_Utils::scopeToString(permitScope, false);
         if (op->getAbstract() || classifierInfo->isInterface) {
             //TODO declare abstract method as 'virtual'
             // str += "virtual ";
