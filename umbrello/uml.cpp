@@ -50,6 +50,7 @@
 #include "infowidget.h"
 #include "cppimport.h"
 #include "idlimport.h"
+#include "adaimport.h"
 #include "docwindow.h"
 #include "codegenerator.h"
 #include "generatorinfo.h"
@@ -1415,7 +1416,7 @@ void UMLApp::slotImportClasses() {
     if (firstFile.endsWith(".idl"))
         classImporter = new IDLImport();
     else if (firstFile.contains( QRegExp("\\.ad[sba]$") ))
-        /* classImporter = new AdaImport(); */;
+        classImporter = new AdaImport();
     else
         classImporter = new CppImport();  // the default.
     classImporter->importFiles(fileList);
