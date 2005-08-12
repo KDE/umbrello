@@ -40,7 +40,7 @@ void AdaImport::fillSource(QString lexeme) {
     const uint len = lexeme.length();
     for (uint i = 0; i < len; i++) {
         QChar c = lexeme[i];
-        if (c.isLetterOrNumber() || c == '_' || c == '.') {
+        if (c.isLetterOrNumber() || c == '_' || c == '.' || c == '#') {
             word += c;
         } else {
             if (!word.isEmpty()) {
@@ -105,6 +105,27 @@ void AdaImport::parseFile(QString filename) {
         kdDebug() << '"' << keyword << '"' << endl;
         if (keyword.startsWith("--")) {
             m_comment = keyword.mid(2);
+            continue;
+        }
+        if (keyword == "with") {
+            while (++m_srcIndex < srcLength && m_source[m_srcIndex] != ";") {
+                QString filename = m_source[m_srcIndex].lower();
+                QStringList components = QStringList::split(".", filename);
+                const QString& prefix = components.first();
+                if (prefix == "system" || prefix == "ada" || prefix == "gnat" ||
+                    prefix == "text_io" ||
+                    prefix == "unchecked_conversion" ||
+                    prefix == "unchecked_deallocation") {
+                    if (advance() != ",")
+                        break;
+                    continue;
+                }
+                filename.replace(".", "-");
+                filename.append(".ads");
+                parseFile(filename);
+                if (advance() != ",")
+                    break;
+            }
             continue;
         }
         if (keyword == "package") {
@@ -273,9 +294,6 @@ void AdaImport::parseFile(QString filename) {
                                        false, false, false, false, m_comment);
             m_comment = QString::null;
             continue;
-        }
-        if (keyword == "with") {
-            // To Be Done
         }
         // Still lots To Be Done.......
         skipStmt();
