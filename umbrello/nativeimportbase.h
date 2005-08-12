@@ -128,6 +128,10 @@ protected:
      * Intermediate accumulator for comment text.
      */
     QString m_comment;
+    /**
+     * Accumulator for abstractness
+     */
+    bool m_isAbstract;
 
 };
 

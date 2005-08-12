@@ -27,6 +27,7 @@ NativeImportBase::NativeImportBase(QString singleLineCommentIntro) {
     m_scopeIndex = 0;  // index 0 is reserved for global scope
     m_klass = NULL;
     m_currentAccess = Uml::Public;
+    m_isAbstract = false;
 }
 
 NativeImportBase::~NativeImportBase() {

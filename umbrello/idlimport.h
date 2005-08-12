@@ -41,7 +41,7 @@ public:
 
 protected:
     QString joinTypename();
-    bool m_isAbstract, m_isOneway, m_isReadonly, m_isAttribute;
+    bool m_isOneway, m_isReadonly, m_isAttribute;
     bool m_inComment;
 };
 

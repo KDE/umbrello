@@ -88,6 +88,7 @@ void AdaImport::parseFile(QString filename) {
         return;
     }
     // Scan the input file into the QStringList m_source.
+    m_srcIndex = 0;
     QTextStream stream(&file);
     while (! stream.atEnd()) {
         QString line = stream.readLine();
@@ -95,7 +96,9 @@ void AdaImport::parseFile(QString filename) {
     }
     file.close();
     // Parse the QStringList m_source.
+    m_klass = NULL;
     m_currentAccess = Uml::Public;
+    m_isAbstract = false;
     const uint srcLength = m_source.count();
     for (m_srcIndex = 0; m_srcIndex < srcLength; m_srcIndex++) {
         const QString& keyword = m_source[m_srcIndex];
@@ -144,6 +147,40 @@ void AdaImport::parseFile(QString filename) {
                         break;
                 }
                 skipStmt();
+                m_comment = QString::null;
+                continue;
+            }
+            if (m_source[m_srcIndex] == "abstract") {
+                m_isAbstract = true;
+                m_srcIndex++;
+            }
+            if (m_source[m_srcIndex] == "tagged") {
+                UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
+                                name, m_scope[m_scopeIndex], m_comment);
+                m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
+                m_klass->setAbstract(m_isAbstract);
+            }
+            if (m_source[m_srcIndex] == "limited") {
+                m_srcIndex++;  // we can't (yet?) represent that
+            }
+            if (m_source[m_srcIndex] == "private" ||
+                (m_source[m_srcIndex] == "null" &&
+                 m_source[m_srcIndex+1] == "record")) {
+                skipStmt();
+                continue;
+            }
+            if (m_source[m_srcIndex] == "record") {
+                UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
+                                name, m_scope[m_scopeIndex], m_comment);
+                m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
+                if (keyword == "struct")
+                    m_klass->setStereotype("CORBAStruct");
+                else
+                    m_klass->setStereotype("CORBAException");
+                if (advance() != "{") {
+                    kdError() << "importIDL: expecting '{' at " << name << endl;
+                    skipStmt("{");
+                }
                 m_comment = QString::null;
                 continue;
             }

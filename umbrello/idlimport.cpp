@@ -31,7 +31,7 @@
 #include "attribute.h"
 
 IDLImport::IDLImport() : NativeImportBase("//") {
-    m_isAbstract = m_isOneway = m_isReadonly = m_isAttribute = false;
+    m_isOneway = m_isReadonly = m_isAttribute = false;
     m_inComment = false;
 }
 
