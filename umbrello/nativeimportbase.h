@@ -81,10 +81,17 @@ protected:
     virtual void fillSource(QString word) = 0;
 
     /**
-     * Advance m_srcIndex until m_souce[m_srcIndex] contains the lexeme
+     * Advance m_srcIndex until m_source[m_srcIndex] contains the lexeme
      * given by `until'.
      */
     void skipStmt(QString until = ";");
+
+    /**
+     * Advance m_srcIndex until m_source[m_srcIndex] contains a non-comment.
+     * Comments encountered during advancement are accumulated in `m_comment'.
+     * if m_srcIndex hits the end of m_source then QString::null is returned.
+     */
+    QString advance();
 
     /**
      * How to start a single line comment in this programming language.
@@ -98,7 +105,7 @@ protected:
     /**
      * Used for indexing m_source.
      */
-    int m_srcIndex;
+    uint m_srcIndex;
 
     /**
      * Stack of scopes.
@@ -107,7 +114,7 @@ protected:
     /**
      * Indexes m_scope. Index 0 is reserved for global scope.
      */
-    int m_scopeIndex;
+    uint m_scopeIndex;
 
     /**
      * The class currently being processed.

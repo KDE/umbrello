@@ -93,9 +93,10 @@ void AdaImport::parseFile(QString filename) {
         QString line = stream.readLine();
         scan(line);
     }
+    file.close();
     // Parse the QStringList m_source.
     m_currentAccess = Uml::Public;
-    const int srcLength = m_source.count();
+    const uint srcLength = m_source.count();
     for (m_srcIndex = 0; m_srcIndex < srcLength; m_srcIndex++) {
         const QString& keyword = m_source[m_srcIndex];
         kdDebug() << '"' << keyword << '"' << endl;
@@ -104,11 +105,11 @@ void AdaImport::parseFile(QString filename) {
             continue;
         }
         if (keyword == "package") {
-            const QString& name = m_source[++m_srcIndex];
+            const QString& name = advance();
             UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package,
                             name, m_scope[m_scopeIndex], m_comment);
             m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
-            if (m_source[++m_srcIndex] != "is") {
+            if (advance() != "is") {
                 kdError() << "AdaImport::parseFile: unexpected: " << m_source[m_srcIndex] << endl;
                 skipStmt("is");
             }
@@ -116,24 +117,30 @@ void AdaImport::parseFile(QString filename) {
             continue;
         }
         if (keyword == "type") {
-            const QString& name = m_source[++m_srcIndex];
-            if (m_source[++m_srcIndex] == ";") {
+            const QString& name = advance();
+            if (advance() == "(") {
+                kdDebug() << "AdaImport::parseFile(" << name << "): "
+                    << "discriminant handling is not yet implemented" << endl;
+                skipStmt(")");
+            }
+            if (m_source[m_srcIndex] == ";") {
                 // forward declaration
                 // To Be Done
                 continue;
             }
             if (m_source[m_srcIndex] != "is") {
                 kdError() << "AdaImport::parseFile: expecting \"is\"" << endl;
+                skipStmt();
                 continue;
             }
-            if (m_source[++m_srcIndex] == "(") {
+            if (advance() == "(") {
                 // enum type
                 UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Enum,
                                 name, m_scope[m_scopeIndex], m_comment);
                 UMLEnum *enumType = static_cast<UMLEnum*>(ns);
                 while (++m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
                     Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
-                    if (m_source[++m_srcIndex] != ",")
+                    if (advance() != ",")
                         break;
                 }
                 skipStmt();
@@ -141,7 +148,7 @@ void AdaImport::parseFile(QString filename) {
                 continue;
             }
             if (m_source[m_srcIndex] == "new") {
-                QString ancestor = m_source[++m_srcIndex];
+                QString ancestor = advance();
                 // Handle ancestor: To Be Done
             }
             UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
@@ -156,22 +163,33 @@ void AdaImport::parseFile(QString filename) {
             continue;
         }
         if (keyword == "end") {
-            if (m_scopeIndex)
+            if (m_scopeIndex) {
+                if (advance() != ";" && m_source[m_srcIndex] != "record") {
+                    const QString& scopeName = m_scope[m_scopeIndex]->getName();
+                    if (scopeName != m_source[m_srcIndex])
+                        kdError() << "end: expecting " << scopeName << ", found "
+                                  << m_source[m_srcIndex] << endl;
+                }
                 m_klass = dynamic_cast<UMLClassifier*>(m_scope[--m_scopeIndex]);
-            else
+            } else {
                 kdError() << "importAda: too many \"end\"" << endl;
+            }
             skipStmt();
             continue;
         }
         if (keyword == "function" || keyword == "procedure") {
-            QString name = m_source[++m_srcIndex];
+            QString name = advance();
             QString returnType;
-            // At this point we most definitely need a class.
             if (m_klass == NULL) {
-                kdError() << "importIDL: no class set for " << name << endl;
+                // Unlike an Ada package, a UML package does not support
+                // subprograms.
+                // In order to map those, we would need to create a UML
+                // class with stereotype <<utility>> for the Ada package.
+                kdDebug() << "importAda: no class set for " << name << endl;
+                skipStmt();
                 continue;
             }
-            if (m_source[++m_srcIndex] != "(") {
+            if (advance() != "(") {
                 kdDebug() << "ignoring parameterless " << keyword << " " << name << endl;
                 skipStmt();
                 continue;
@@ -179,13 +197,13 @@ void AdaImport::parseFile(QString filename) {
             UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
             m_srcIndex++;
             while (m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
-                const QString &parName = m_source[++m_srcIndex];
-                if (m_source[++m_srcIndex] != ":") {
+                const QString &parName = advance();
+                if (advance() != ":") {
                     kdError() << "importAda: expecting ':'" << endl;
                     skipStmt();
                     continue;
                 }
-                const QString &direction = m_source[++m_srcIndex];
+                const QString &direction = advance();
                 QString typeName;
                 Uml::Parameter_Direction dir = Uml::pd_In;
                 if (direction == "in") {
@@ -193,26 +211,26 @@ void AdaImport::parseFile(QString filename) {
                         dir = Uml::pd_InOut;
                         m_srcIndex++;
                     }
-                    typeName = m_source[++m_srcIndex];
+                    typeName = advance();
                 } else if (direction == "out") {
                     dir = Uml::pd_Out;
-                    typeName = m_source[++m_srcIndex];
+                    typeName = advance();
                 } else {
                     typeName = direction;  // In Ada, the default direction is "in"
                 }
                 UMLAttribute *att = Import_Utils::addMethodParameter(op, typeName, parName);
                 att->setParmKind(dir);
-                if (m_source[++m_srcIndex] != ";")
+                if (advance() != ";")
                     break;
                 m_srcIndex++;
             }
             if (keyword == "function") {
-                if (m_source[++m_srcIndex] != "return") {
+                if (advance() != "return") {
                     kdError() << "importAda: expecting \"return\" at function " << name << endl;
                     skipStmt();
                     continue;
                 }
-                returnType = m_source[++m_srcIndex];
+                returnType = advance();
             }
             Import_Utils::insertMethod(m_klass, op, Uml::Public, returnType,
                                        false, false, false, false, m_comment);
@@ -235,7 +253,6 @@ void AdaImport::parseFile(QString filename) {
         m_comment = QString::null;
          */
     }
-    file.close();
 }
 
 

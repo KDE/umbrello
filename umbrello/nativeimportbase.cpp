@@ -33,9 +33,21 @@ NativeImportBase::~NativeImportBase() {
 }
 
 void NativeImportBase::skipStmt(QString until /* = ";" */) {
-    const int srcLength = m_source.count();
+    const uint srcLength = m_source.count();
     while (m_srcIndex < srcLength && m_source[m_srcIndex] != until)
         m_srcIndex++;
+}
+
+QString NativeImportBase::advance() {
+    while (m_srcIndex < m_source.count() - 1) {
+        if (m_source[++m_srcIndex].startsWith(m_singleLineCommentIntro))
+            m_comment += m_source[m_srcIndex];
+    }
+    if (m_source[m_srcIndex].startsWith(m_singleLineCommentIntro)) {
+        // last item in m_source is a comment
+        return QString::null;
+    }
+    return m_source[m_srcIndex];
 }
 
 bool NativeImportBase::preprocess(QString&) {

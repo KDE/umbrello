@@ -42,10 +42,10 @@ IDLImport::~IDLImport() {
 QString IDLImport::joinTypename() {
     QString typeName = m_source[m_srcIndex];
     if (m_source[m_srcIndex] == "unsigned")
-        typeName += ' ' + m_source[++m_srcIndex];
+        typeName += ' ' + advance();
     if (m_source[m_srcIndex] == "long" &&
             (m_source[m_srcIndex + 1] == "long" || m_source[m_srcIndex + 1] == "double"))
-        typeName += ' ' + m_source[++m_srcIndex];
+        typeName += ' ' + advance();
     return typeName;
 }
 
@@ -163,7 +163,7 @@ void IDLImport::parseFile(QString filename) {
     // Parse the QStringList m_source.
     m_scopeIndex = 0;
     m_scope[0] = NULL;
-    const int srcLength = m_source.count();
+    const uint srcLength = m_source.count();
     for (m_srcIndex = 0; m_srcIndex < srcLength; m_srcIndex++) {
         const QString& keyword = m_source[m_srcIndex];
         //kdDebug() << '"' << keyword << '"' << endl;
@@ -172,12 +172,12 @@ void IDLImport::parseFile(QString filename) {
             continue;
         }
         if (keyword == "module") {
-            const QString& name = m_source[++m_srcIndex];
+            const QString& name = advance();
             UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package,
                             name, m_scope[m_scopeIndex], m_comment);
             m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
             m_scope[m_scopeIndex]->setStereotype("CORBAModule");
-            if (m_source[++m_srcIndex] != "{") {
+            if (advance() != "{") {
                 kdError() << "importIDL: unexpected: " << m_source[m_srcIndex] << endl;
                 skipStmt("{");
             }
@@ -185,7 +185,7 @@ void IDLImport::parseFile(QString filename) {
             continue;
         }
         if (keyword == "interface") {
-            const QString& name = m_source[++m_srcIndex];
+            const QString& name = advance();
             UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
                             name, m_scope[m_scopeIndex], m_comment);
             m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
@@ -193,13 +193,13 @@ void IDLImport::parseFile(QString filename) {
             m_klass->setAbstract(m_isAbstract);
             m_isAbstract = false;
             m_comment = QString::null;
-            if (m_source[++m_srcIndex] == ";")   // forward declaration
+            if (advance() == ";")   // forward declaration
                 continue;
             if (m_source[m_srcIndex] == ":") {
                 while (++m_srcIndex < srcLength && m_source[m_srcIndex] != "{") {
                     const QString& baseName = m_source[m_srcIndex];
                     Import_Utils::createGeneralization(m_klass, baseName);
-                    if (m_source[++m_srcIndex] != ",")
+                    if (advance() != ",")
                         break;
                 }
             }
@@ -211,7 +211,7 @@ void IDLImport::parseFile(QString filename) {
             continue;
         }
         if (keyword == "struct" || keyword == "exception") {
-            const QString& name = m_source[++m_srcIndex];
+            const QString& name = advance();
             UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
                             name, m_scope[m_scopeIndex], m_comment);
             m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
@@ -219,7 +219,7 @@ void IDLImport::parseFile(QString filename) {
                 m_klass->setStereotype("CORBAStruct");
             else
                 m_klass->setStereotype("CORBAException");
-            if (m_source[++m_srcIndex] != "{") {
+            if (advance() != "{") {
                 kdError() << "importIDL: expecting '{' at " << name << endl;
                 skipStmt("{");
             }
@@ -233,14 +233,14 @@ void IDLImport::parseFile(QString filename) {
             continue;
         }
         if (keyword == "enum") {
-            const QString& name = m_source[++m_srcIndex];
+            const QString& name = advance();
             UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Enum,
                             name, m_scope[m_scopeIndex], m_comment);
             UMLEnum *enumType = static_cast<UMLEnum*>(ns);
             m_srcIndex++;  // skip name
             while (++m_srcIndex < srcLength && m_source[m_srcIndex] != "}") {
                 Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
-                if (m_source[++m_srcIndex] != ",")
+                if (advance() != ",")
                     break;
             }
             skipStmt();
@@ -248,8 +248,8 @@ void IDLImport::parseFile(QString filename) {
             continue;
         }
         if (keyword == "typedef") {
-            const QString& existingType = m_source[++m_srcIndex];
-            const QString& newType = m_source[++m_srcIndex];
+            const QString& existingType = advance();
+            const QString& newType = advance();
             Import_Utils::createUMLObject(Uml::ot_Class, newType, m_scope[m_scopeIndex],
                                          m_comment, "CORBATypedef" /* stereotype */);
             // @todo How do we convey the existingType ?
@@ -268,21 +268,21 @@ void IDLImport::parseFile(QString filename) {
             continue;
         }
         if (keyword == "valuetype") {
-            const QString& name = m_source[++m_srcIndex];
+            const QString& name = advance();
             UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
                             name, m_scope[m_scopeIndex], m_comment);
             m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
             m_klass->setAbstract(m_isAbstract);
             m_isAbstract = false;
-            if (m_source[++m_srcIndex] == ";")   // forward declaration
+            if (advance() == ";")   // forward declaration
                 continue;
             if (m_source[m_srcIndex] == ":") {
-                if (m_source[++m_srcIndex] == "truncatable")
+                if (advance() == "truncatable")
                     m_srcIndex++;
                 while (m_srcIndex < srcLength && m_source[m_srcIndex] != "{") {
                     const QString& baseName = m_source[m_srcIndex];
                     Import_Utils::createGeneralization(m_klass, baseName);
-                    if (m_source[++m_srcIndex] != ",")
+                    if (advance() != ",")
                         break;
                     m_srcIndex++;
                 }
@@ -334,7 +334,7 @@ void IDLImport::parseFile(QString filename) {
             continue;
         }
         QString typeName = joinTypename();
-        QString name = m_source[++m_srcIndex];
+        QString name = advance();
         if (name.contains( QRegExp("\\W") )) {
             kdError() << "importIDL: expecting name in " << name << endl;
             skipStmt();
@@ -345,14 +345,14 @@ void IDLImport::parseFile(QString filename) {
             kdError() << "importIDL: no class set for " << name << endl;
             continue;
         }
-        if (m_source[++m_srcIndex] == "(") {
+        if (advance() == "(") {
             // operation
             UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
             m_srcIndex++;
             while (m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
                 const QString &direction = m_source[m_srcIndex++];
                 QString typeName = joinTypename();
-                const QString &parName = m_source[++m_srcIndex];
+                const QString &parName = advance();
                 UMLAttribute *att = Import_Utils::addMethodParameter(op, typeName, parName);
                 Uml::Parameter_Direction dir;
                 if (Model_Utils::stringToDirection(direction, dir))
@@ -360,7 +360,7 @@ void IDLImport::parseFile(QString filename) {
                 else
                     kdError() << "importIDL: expecting parameter direction at "
                     << direction << endl;
-                if (m_source[++m_srcIndex] != ",")
+                if (advance() != ",")
                     break;
                 m_srcIndex++;
             }
