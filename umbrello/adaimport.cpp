@@ -178,8 +178,8 @@ void AdaImport::parseFile(QString filename) {
             if (m_source[m_srcIndex] == "tagged") {
                 UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
                                 name, m_scope[m_scopeIndex], m_comment);
-                m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
-                m_klass->setAbstract(m_isAbstract);
+                ns->setAbstract(m_isAbstract);
+                m_comment = QString::null;
             }
             if (m_source[m_srcIndex] == "limited") {
                 m_srcIndex++;  // we can't (yet?) represent that
@@ -193,15 +193,7 @@ void AdaImport::parseFile(QString filename) {
             if (m_source[m_srcIndex] == "record") {
                 UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
                                 name, m_scope[m_scopeIndex], m_comment);
-                m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
-                if (keyword == "struct")
-                    m_klass->setStereotype("CORBAStruct");
-                else
-                    m_klass->setStereotype("CORBAException");
-                if (advance() != "{") {
-                    kdError() << "importIDL: expecting '{' at " << name << endl;
-                    skipStmt("{");
-                }
+                m_klass = static_cast<UMLClassifier*>(ns);
                 m_comment = QString::null;
                 continue;
             }
@@ -209,9 +201,6 @@ void AdaImport::parseFile(QString filename) {
                 QString ancestor = advance();
                 // Handle ancestor: To Be Done
             }
-            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
-                                     name, m_scope[m_scopeIndex], m_comment);
-            m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
             // TO BE DONE
             skipStmt();
             continue;
