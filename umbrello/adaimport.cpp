@@ -179,6 +179,7 @@ void AdaImport::parseFile(QString filename) {
                 UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
                                 name, m_scope[m_scopeIndex], m_comment);
                 ns->setAbstract(m_isAbstract);
+                m_isAbstract = false;
                 m_comment = QString::null;
             }
             if (m_source[m_srcIndex] == "limited") {
@@ -206,8 +207,9 @@ void AdaImport::parseFile(QString filename) {
                                     base, NULL);
                     parent = static_cast<UMLClassifier*>(ns);
                     ns = Import_Utils::createUMLObject(Uml::ot_Class, name,
-                                                       parent, m_comment);
+                                           m_scope[m_scopeIndex], m_comment);
                     m_klass = static_cast<UMLClassifier*>(ns);
+                    Import_Utils::createGeneralization(m_klass, parent);
                 }
             }
             // Datatypes: TO BE DONE

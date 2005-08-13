@@ -1337,6 +1337,14 @@ void UMLApp::setActiveLanguage( const QString &activeLanguage ) {
     setGenerator(createGenerator());
 }
 
+QString UMLApp::getActiveLanguage() const {
+    return m_activeLanguage;
+}
+
+bool UMLApp::activeLanguageIsCaseSensitive() const {
+    return (m_activeLanguage != "Ada");
+}
+
 void UMLApp::slotCurrentViewClearDiagram() {
     m_doc->getCurrentView()->clearDiagram();
 }

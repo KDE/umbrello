@@ -52,6 +52,10 @@ bool bNewUMLObjectWasCreated = false;
  */
 bool bPutAtGlobalScope = false;
 
+void putAtGlobalScope(bool yesno) {
+    bPutAtGlobalScope = yesno;
+}
+
 bool newUMLObjectWasCreated() {
     return bNewUMLObjectWasCreated;
 }
@@ -299,13 +303,17 @@ void addEnumLiteral(UMLEnum *enumType, const QString &literal) {
     enumType->addEnumLiteral( literal );
 }
 
-void createGeneralization(UMLClassifier *child, const QString &parentName) {
-    UMLObject *parentObj = createUMLObject( Uml::ot_Class, parentName );
-    UMLClassifier *parent = static_cast<UMLClassifier*>(parentObj);
+void createGeneralization(UMLClassifier *child, UMLClassifier *parent) {
     UMLAssociation *assoc = new UMLAssociation( Uml::at_Generalization,
                             child, parent );
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     umldoc->addAssociation(assoc);
+}
+
+void createGeneralization(UMLClassifier *child, const QString &parentName) {
+    UMLObject *parentObj = createUMLObject( Uml::ot_Class, parentName );
+    UMLClassifier *parent = static_cast<UMLClassifier*>(parentObj);
+    createGeneralization(child, parent);
 }
 
 QStringList includePathList() {

@@ -594,6 +594,16 @@ public slots:
     void setActiveLanguage( const QString &activeLanguage );
 
     /**
+     * Get the language for import and code generation.
+     */
+    QString getActiveLanguage() const;
+
+    /**
+     * Return true if the active language is case sensitive.
+     */
+    bool activeLanguageIsCaseSensitive() const;
+
+    /**
      * Menu selection for clear current view.
      */
     void slotCurrentViewClearDiagram();

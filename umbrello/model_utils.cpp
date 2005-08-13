@@ -97,6 +97,7 @@ UMLObject * findObjectInList(Uml::IDType id, UMLObjectList inList) {
 UMLObject* findUMLObject(UMLObjectList inList, QString name,
                          Uml::Object_Type type /* = ot_UMLObject */,
                          UMLObject *currentObj /* = NULL */) {
+    const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     QStringList components;
     if (name.contains("::"))
         components = QStringList::split("::", name);
@@ -109,8 +110,12 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
             // Scope qualified datatypes live in the global scope.
             for (UMLObjectListIt oit(inList); oit.current(); ++oit) {
                 UMLObject *obj = oit.current();
-                if (obj->getName() == name)
+                if (caseSensitive) {
+                    if (obj->getName() == name)
+                        return obj;
+                } else if (obj->getName().lower() == name.lower()) {
                     return obj;
+                }
             }
             return NULL;
         }
@@ -138,8 +143,12 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
             UMLObjectList objectsInCurrentScope = pkg->containedObjects();
             for (UMLObjectListIt oit(objectsInCurrentScope); oit.current(); ++oit) {
                 UMLObject *obj = oit.current();
-                if (obj->getName() != name)
+                if (caseSensitive) {
+                    if (obj->getName() != name)
+                        continue;
+                } else if (obj->getName().lower() != name.lower()) {
                     continue;
+                }
                 Uml::Object_Type foundType = obj->getBaseType();
                 if (nameWithoutFirstPrefix.isEmpty()) {
                     if (type != Uml::ot_UMLObject && type != foundType) {
@@ -167,8 +176,12 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
     }
     for (UMLObjectListIt oit(inList); oit.current(); ++oit) {
         UMLObject *obj = oit.current();
-        if (obj->getName() != name)
+        if (caseSensitive) {
+            if (obj->getName() != name)
+                continue;
+        } else if (obj->getName().lower() != name.lower()) {
             continue;
+        }
         Uml::Object_Type foundType = obj->getBaseType();
         if (nameWithoutFirstPrefix.isEmpty()) {
             if (type != Uml::ot_UMLObject && type != foundType) {

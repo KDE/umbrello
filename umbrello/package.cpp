@@ -79,10 +79,15 @@ UMLObjectList& UMLPackage::containedObjects() {
 }
 
 UMLObject * UMLPackage::findObject(const QString &name) {
+    const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     for (UMLObjectListIt oit(m_objects); oit.current(); ++oit) {
         UMLObject *obj = oit.current();
-        if (obj->getName() == name)
+        if (caseSensitive) {
+            if (obj->getName() == name)
+                return obj;
+        } else if (obj->getName().lower() == name.lower()) {
             return obj;
+        }
     }
     return NULL;
 }

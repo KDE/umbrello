@@ -41,6 +41,14 @@ namespace Import_Utils {
                                UMLPackage *parentPkg = NULL,
                                QString comment = QString::null,
                                QString stereotype = QString::null);
+    /**
+     * Control whether an object which is newly created by createUMLObject()
+     * is put at the global scope.
+     *
+     * @param yesno  When set to false, the object is created at the scope
+     *               given by the parentPkg argument of createUMLObject().
+     */
+    void putAtGlobalScope(bool yesno);
 
     /**
      * Create a UMLAttribute and insert it into the document.
@@ -83,6 +91,12 @@ namespace Import_Utils {
      * Add an enum literal to an UMLEnum.
      */
     void addEnumLiteral(UMLEnum *enumType, const QString &literal);
+
+    /**
+     * Create a generalization from the given child classifier to the given
+     * parent classifier.
+     */
+    void createGeneralization(UMLClassifier *child, UMLClassifier *parent);
 
     /**
      * Create a generalization from the existing child UMLObject to the given
