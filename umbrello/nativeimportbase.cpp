@@ -43,8 +43,11 @@ QString NativeImportBase::advance() {
     while (m_srcIndex < m_source.count() - 1) {
         if (m_source[++m_srcIndex].startsWith(m_singleLineCommentIntro))
             m_comment += m_source[m_srcIndex];
+        else
+            break;
     }
-    if (m_source[m_srcIndex].startsWith(m_singleLineCommentIntro)) {
+    if (m_srcIndex ==  m_source.count() - 1 &&
+            m_source[m_srcIndex].startsWith(m_singleLineCommentIntro)) {
         // last item in m_source is a comment
         return QString::null;
     }
@@ -90,6 +93,8 @@ void NativeImportBase::importFiles(QStringList fileList) {
         umldoc->writeToStatusBar(i18n("Importing file: %1").arg(fileName));
         m_source.clear();
         m_srcIndex = 0;
+        m_scope[0] = NULL;  // index 0 is reserved for global scope
+        m_scopeIndex = 0;
         parseFile(fileName);
     }
 }
