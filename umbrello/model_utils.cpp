@@ -213,7 +213,6 @@ bool isCommonXMIAttribute( const QString &tag ) {
 }
 
 bool isCommonDataType(QString type) {
-    const int n_types = 12;
     const char *types[] = { "void", "string",
                             "bool", "boolean",
                             "char", "unsigned char",
@@ -222,6 +221,7 @@ bool isCommonDataType(QString type) {
                             "long", "unsigned long",
                             "float", "double"
                           };
+    const int n_types = sizeof(types) / sizeof(const char *);
     const QString lcType = type.lower();
     int i = 0;
     for (; i < n_types; i++) {
