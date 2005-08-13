@@ -38,16 +38,30 @@ AdaImport::~AdaImport() {
 void AdaImport::fillSource(QString word) {
     QString lexeme;
     const uint len = word.length();
+    bool inString = false;
     for (uint i = 0; i < len; i++) {
         QChar c = word[i];
-        if (c.isLetterOrNumber() || c == '_' || c == '.' || c == '#') {
+        if (c == '"') {
+            lexeme += c;
+            if (inString) {
+                m_source.append(lexeme);
+                lexeme = QString::null;
+            }
+            inString = !inString;
+        } else if (inString ||
+                   c.isLetterOrNumber() || c == '_' || c == '.' || c == '#') {
             lexeme += c;
         } else {
             if (!lexeme.isEmpty()) {
                 m_source.append(lexeme);
                 lexeme = QString::null;
             }
-            m_source.append(c);
+            if (c == ':' && word[i + 1] == '=') {
+                m_source.append(":=");
+                i++;
+            } else {
+                m_source.append(c);
+            }
         }
     }
     if (!lexeme.isEmpty())
@@ -181,6 +195,7 @@ void AdaImport::parseFile(QString filename) {
                 ns->setAbstract(m_isAbstract);
                 m_isAbstract = false;
                 m_comment = QString::null;
+                m_srcIndex++;
             }
             if (m_source[m_srcIndex] == "limited") {
                 m_srcIndex++;  // we can't (yet?) represent that
@@ -194,22 +209,34 @@ void AdaImport::parseFile(QString filename) {
             if (m_source[m_srcIndex] == "record") {
                 UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
                                 name, m_scope[m_scopeIndex], m_comment);
+                // If it's a tagged record then the class was already created
+                // above (see processing for "tagged".) Doesn't matter;
+                // in that case Import_Utils::createUMLObject() just returns
+                // the existing class instead of creating a new one.
                 m_klass = static_cast<UMLClassifier*>(ns);
                 m_comment = QString::null;
                 continue;
             }
             if (m_source[m_srcIndex] == "new") {
                 QString base = advance();
-                QString nextLexeme = advance();
                 UMLClassifier *parent = NULL;
-                if (nextLexeme == "with") {
+                if (advance() == "with") {
                     UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
                                     base, NULL);
                     parent = static_cast<UMLClassifier*>(ns);
                     ns = Import_Utils::createUMLObject(Uml::ot_Class, name,
                                            m_scope[m_scopeIndex], m_comment);
-                    m_klass = static_cast<UMLClassifier*>(ns);
-                    Import_Utils::createGeneralization(m_klass, parent);
+                    m_comment = QString::null;
+                    QString nextLexeme = advance();
+                    if (nextLexeme == "null" || nextLexeme == "record") {
+                        UMLClassifier *klass = static_cast<UMLClassifier*>(ns);
+                        Import_Utils::createGeneralization(klass, parent);
+                        if (nextLexeme == "record") {
+                            // Set the m_klass for attributes.
+                            m_klass = klass;
+                            continue;
+                        }
+                    }
                 }
             }
             // Datatypes: TO BE DONE
@@ -222,14 +249,20 @@ void AdaImport::parseFile(QString filename) {
             continue;
         }
         if (keyword == "end") {
-            if (m_scopeIndex) {
-                if (advance() != ";" && m_source[m_srcIndex] != "record") {
+            if (m_klass) {
+                if (advance() != "record") {
+                    kdError() << "end: expecting \"record\" at "
+                              << m_source[m_srcIndex] << endl;
+                }
+                m_klass = NULL;
+            } else if (m_scopeIndex) {
+                if (advance() != ";") {
                     const QString& scopeName = m_scope[m_scopeIndex]->getName();
                     if (scopeName != m_source[m_srcIndex])
                         kdError() << "end: expecting " << scopeName << ", found "
                                   << m_source[m_srcIndex] << endl;
                 }
-                m_klass = dynamic_cast<UMLClassifier*>(m_scope[--m_scopeIndex]);
+                m_scopeIndex--;
             } else {
                 kdError() << "importAda: too many \"end\"" << endl;
             }
@@ -308,20 +341,42 @@ void AdaImport::parseFile(QString filename) {
                 Import_Utils::insertMethod(m_klass, op, Uml::Public, returnType,
                                            false, false, false, false, m_comment);
             m_comment = QString::null;
+            skipStmt();
             continue;
         }
-        // Still lots To Be Done.......
-        skipStmt();
-        /* At this point we know it's some kind of attribute declaration.
+        // At this point we're only interested in attribute declarations.
+        if (m_klass == NULL || keyword == "null") {
+            skipStmt();
+            continue;
+        }
+        if (keyword == "task") {
+            // Tasks and task types are TBD - How to map them to UML?
+            skipStmt("end");
+            skipStmt();
+            continue;
+        }
+        const QString& name = keyword;
+        if (advance() != ":") {
+            kdError() << "adaImport: expecting \":\" at " << name << " "
+                      << m_source[m_srcIndex] << endl;
+            skipStmt();
+            continue;
+        }
+        QString typeName = advance();
+        QString initialValue;
+        if (advance() == ":=") {
+            QString expr = advance();
+            QString token;
+            while ((token = advance()) != ";") {
+                expr.append(" " + token);
+            }
+        }
         UMLObject *o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name,
                                                      typeName, m_comment);
         UMLAttribute *attr = static_cast<UMLAttribute*>(o);
-        if (m_source[m_srcIndex] != ";") {
-            kdError() << "importAda: ignoring trailing items at " << name << endl;
-            skipStmt();
-        }
+        attr->setInitialValue(initialValue);
         m_comment = QString::null;
-         */
+        skipStmt();
     }
 }
 
