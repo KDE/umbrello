@@ -22,7 +22,7 @@
 // app includes
 #include "import_utils.h"
 #include "uml.h"
-#include "umlpackagelist.h"
+#include "umldoc.h"
 #include "package.h"
 #include "classifier.h"
 #include "enum.h"
@@ -198,11 +198,21 @@ void AdaImport::parseFile(QString filename) {
                 continue;
             }
             if (m_source[m_srcIndex] == "new") {
-                QString ancestor = advance();
-                // Handle ancestor: To Be Done
+                QString base = advance();
+                QString nextLexeme = advance();
+                UMLClassifier *parent = NULL;
+                if (nextLexeme == "with") {
+                    UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
+                                    base, NULL);
+                    parent = static_cast<UMLClassifier*>(ns);
+                    ns = Import_Utils::createUMLObject(Uml::ot_Class, name,
+                                                       parent, m_comment);
+                    m_klass = static_cast<UMLClassifier*>(ns);
+                }
             }
-            // TO BE DONE
+            // Datatypes: TO BE DONE
             skipStmt();
+            m_comment = QString::null;
             continue;
         }
         if (keyword == "private") {
@@ -225,24 +235,18 @@ void AdaImport::parseFile(QString filename) {
             continue;
         }
         if (keyword == "function" || keyword == "procedure") {
-            QString name = advance();
+            const QString& name = advance();
             QString returnType;
-            if (m_klass == NULL) {
+            if (advance() != "(") {
                 // Unlike an Ada package, a UML package does not support
                 // subprograms.
                 // In order to map those, we would need to create a UML
                 // class with stereotype <<utility>> for the Ada package.
-                kdDebug() << "importAda: no class set for " << name << endl;
-                skipStmt();
-                continue;
-            }
-            if (advance() != "(") {
                 kdDebug() << "ignoring parameterless " << keyword << " " << name << endl;
                 skipStmt();
                 continue;
             }
-            UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
-            m_srcIndex++;
+            UMLOperation *op = NULL;
             while (m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
                 const QString &parName = advance();
                 if (advance() != ":") {
@@ -253,7 +257,14 @@ void AdaImport::parseFile(QString filename) {
                 const QString &direction = advance();
                 QString typeName;
                 Uml::Parameter_Direction dir = Uml::pd_In;
-                if (direction == "in") {
+                if (direction == "access") {
+                    // Oops, we have to improvise here because there
+                    // is no such thing as "access" in UML.
+                    // So we use the next best thing, "inout".
+                    // Better ideas, anyone?
+                    dir = Uml::pd_InOut;
+                    typeName = advance();
+                } else if (direction == "in") {
                     if (m_source[m_srcIndex + 1] == "out") {
                         dir = Uml::pd_InOut;
                         m_srcIndex++;
@@ -265,11 +276,23 @@ void AdaImport::parseFile(QString filename) {
                 } else {
                     typeName = direction;  // In Ada, the default direction is "in"
                 }
+                if (op == NULL) {
+                    // In Ada, the first parameter indicates the class.
+                    UMLDoc *umldoc = UMLApp::app()->getDocument();
+                    UMLObject *klass = umldoc->findUMLObject(typeName, Uml::ot_Class, m_scope[m_scopeIndex]);
+                    if (klass == NULL) {
+                        kdError() << "importAda: cannot find UML object for "
+                                  << typeName << endl;
+                        skipStmt();
+                        break;
+                    }
+                    m_klass = static_cast<UMLClassifier*>(klass);
+                    op = Import_Utils::makeOperation(m_klass, name);
+                }
                 UMLAttribute *att = Import_Utils::addMethodParameter(op, typeName, parName);
                 att->setParmKind(dir);
                 if (advance() != ";")
                     break;
-                m_srcIndex++;
             }
             if (keyword == "function") {
                 if (advance() != "return") {
@@ -279,8 +302,9 @@ void AdaImport::parseFile(QString filename) {
                 }
                 returnType = advance();
             }
-            Import_Utils::insertMethod(m_klass, op, Uml::Public, returnType,
-                                       false, false, false, false, m_comment);
+            if (op != NULL)
+                Import_Utils::insertMethod(m_klass, op, Uml::Public, returnType,
+                                           false, false, false, false, m_comment);
             m_comment = QString::null;
             continue;
         }
