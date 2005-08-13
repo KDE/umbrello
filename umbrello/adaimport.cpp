@@ -35,23 +35,23 @@ AdaImport::AdaImport() : NativeImportBase("--") {
 AdaImport::~AdaImport() {
 }
 
-void AdaImport::fillSource(QString lexeme) {
-    QString word;
-    const uint len = lexeme.length();
+void AdaImport::fillSource(QString word) {
+    QString lexeme;
+    const uint len = word.length();
     for (uint i = 0; i < len; i++) {
-        QChar c = lexeme[i];
+        QChar c = word[i];
         if (c.isLetterOrNumber() || c == '_' || c == '.' || c == '#') {
-            word += c;
+            lexeme += c;
         } else {
-            if (!word.isEmpty()) {
-                m_source.append(word);
-                word = QString::null;
+            if (!lexeme.isEmpty()) {
+                m_source.append(lexeme);
+                lexeme = QString::null;
             }
             m_source.append(c);
         }
     }
-    if (!word.isEmpty())
-        m_source.append(word);
+    if (!lexeme.isEmpty())
+        m_source.append(lexeme);
 }
 
 void AdaImport::parseFile(QString filename) {
