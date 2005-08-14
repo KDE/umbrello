@@ -96,7 +96,7 @@ public:
     /**
      * Reimplement method from UMLObject.
      */
-    QString getFullyQualifiedName(const QString &separator = ".") const;
+    QString getFullyQualifiedName(QString separator = QString::null) const;
 
     /**
      * Creates the <UML:Attribute> XMI element.

@@ -604,6 +604,11 @@ public slots:
     bool activeLanguageIsCaseSensitive() const;
 
     /**
+     * Return the target language depedent scope separator.
+     */
+    QString activeLanguageScopeSeparator() const;
+
+    /**
      * Menu selection for clear current view.
      */
     void slotCurrentViewClearDiagram();

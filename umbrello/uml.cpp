@@ -1345,6 +1345,14 @@ bool UMLApp::activeLanguageIsCaseSensitive() const {
     return (m_activeLanguage != "Ada");
 }
 
+QString UMLApp::activeLanguageScopeSeparator() const {
+    if (m_activeLanguage == "Ada" ||
+        m_activeLanguage == "Java" ||
+        m_activeLanguage == "JavaScript")  // CHECK: more?
+        return ".";
+    return "::";
+}
+
 void UMLApp::slotCurrentViewClearDiagram() {
     m_doc->getCurrentView()->clearDiagram();
 }

@@ -115,7 +115,7 @@ QString UMLAttribute::toString(Uml::Signature_Type sig) {
         return s + getName();
 }
 
-QString UMLAttribute::getFullyQualifiedName(const QString &separator) const {
+QString UMLAttribute::getFullyQualifiedName(QString separator) const {
     UMLOperation *op = NULL;
     UMLObject *owningObject = static_cast<UMLObject*>(parent());
     if (owningObject->getBaseType() == Uml::ot_Operation) {
@@ -129,6 +129,8 @@ QString UMLAttribute::getFullyQualifiedName(const QString &separator) const {
         << " is not a UMLClassifier" << endl;
         return "";
     }
+    if (separator.isEmpty())
+        separator = UMLApp::app()->activeLanguageScopeSeparator();
     QString fqn = ownParent->getFullyQualifiedName(separator);
     if (op)
         fqn.append(separator + op->getName());

@@ -188,7 +188,7 @@ public:
      *			individual package prefixes (optional.)
      * @return	The UMLObject's enclosing package(s) as a text.
      */
-    QString getPackage(const QString &separator = ".");
+    QString getPackage(QString separator = QString::null);
 
     /**
      * Return a list of the packages in which this class is embedded.
@@ -223,10 +223,13 @@ public:
     /**
      * Returns the fully qualified name, i.e. all package prefixes and then m_Name.
      *
-     * @param separator	The separator string to use.
+     * @param separator	The separator string to use (optional.)
+     *                  If not given then the separator is chosen according
+     *                  to the currently selected active programming language
+     *                  of import and code generation.
      * @return	The fully qualified name of this UMLObject.
      */
-    virtual QString getFullyQualifiedName(const QString &separator = "::" ) const;
+    virtual QString getFullyQualifiedName(QString separator = QString::null) const;
 
     /**
      * Returns the abstract state of the object.
