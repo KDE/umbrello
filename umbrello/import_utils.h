@@ -70,8 +70,6 @@ namespace Import_Utils {
 
     /**
      * Insert the UMLOperation into the document.
-     * The parentPkg arg is only used for resolving possible scope
-     * prefixes in the `type'.
      */
     void insertMethod(UMLClassifier *klass, UMLOperation *op,
                       Uml::Scope scope, QString type,
