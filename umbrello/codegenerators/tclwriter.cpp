@@ -550,7 +550,8 @@ TclWriter::writeAttributeDecl(Uml::Scope visibility, bool writeStatic)
 
 void
 TclWriter::writeAssociationDecl(UMLAssociationList associations,
-                                Uml::Scope permitScope, Uml::IDType id, QString type)
+                                Uml::Scope permitScope, Uml::IDType id,
+                                QString /*type*/)
 {
     if (forceSections() || !associations.isEmpty()) {
         bool            printRoleA = false, printRoleB = false;
