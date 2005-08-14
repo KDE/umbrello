@@ -21,7 +21,7 @@
 static QStringList supportedTypes;
 
 ExportViewAction::ExportViewAction(KActionCollection* parent) :
-    KAction(i18n("Export all Diagrams as Images"),
+    KAction(i18n("Export All Diagrams as Images"),
             SmallIconSet("image"),  0, 
             0, 0, parent, "view_export_all"), 
     m_extension(QString::null),
@@ -34,7 +34,7 @@ ExportViewAction::ExportViewAction(KActionCollection* parent) :
  
 
 ExportViewAction::ExportViewAction(QString extension, QObject *parent) :
-    KAction(i18n("Export all Diagrams as Images"),
+    KAction(i18n("Export All Diagrams as Images"),
             SmallIconSet("image"), 0, parent),
     m_extension(extension) {
     m_mimetype = "unknown";
