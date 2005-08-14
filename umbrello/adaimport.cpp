@@ -69,6 +69,12 @@ void AdaImport::fillSource(QString word) {
 }
 
 void AdaImport::parseFile(QString filename) {
+    if (filename.contains('/')) {
+        QString path = filename;
+        path.remove( QRegExp("/[^/]+$") );
+        kdDebug() << "IDLImport::parseFile: adding path " << path << endl;
+        Import_Utils::addIncludePath(path);
+    }
     if (! QFile::exists(filename)) {
         if (filename.startsWith("/")) {
             kdError() << "AdaImport::parseFile(" << filename
@@ -136,7 +142,17 @@ void AdaImport::parseFile(QString filename) {
                 }
                 filename.replace(".", "-");
                 filename.append(".ads");
+                // Save current m_source and m_srcIndex.
+                QStringList source(m_source);
+                uint srcIndex = m_srcIndex;
+                m_source.clear();
                 parseFile(filename);
+                // Restore m_source and m_srcIndex.
+                m_source = source;
+                m_srcIndex = srcIndex;
+                // Also reset m_currentAccess.
+                // CHECK: need to reset more stuff?
+                m_currentAccess = Uml::Public;
                 if (advance() != ",")
                     break;
             }
