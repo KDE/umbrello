@@ -110,6 +110,7 @@ UMLOperation* UMLClassifier::findOperation(QString name, Model_Utils::NameAndTyp
     UMLObjectList list = findChildObject(Uml::ot_Operation, name);
     if (list.count() == 0)
         return NULL;
+    const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     // If there are operation(s) with the same name then compare the parameter list
     const int inputParmCount = params.count();
     UMLOperation* test = NULL;
@@ -129,7 +130,8 @@ UMLOperation* UMLClassifier::findOperation(QString name, Model_Utils::NameAndTyp
             if (c == NULL) {       //template parameter
                 if (typeName != "class")
                     break;
-            } else if (typeName != c->getName())
+            } else if ((caseSensitive && typeName != c->getName()) ||
+                       (!caseSensitive && typeName.lower() != c->getName().lower()))
                 break;
         }
         if (i == pCount)
@@ -314,13 +316,18 @@ UMLObjectList UMLClassifier::findChildObject(Object_Type t , const QString &n) {
     if (t == ot_Association) {
         return UMLCanvasObject::findChildObject(t, n);
     }
+    const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     UMLObjectList list;
     for (UMLClassifierListItemListIt lit(m_List); lit.current(); ++lit) {
         UMLClassifierListItem* obj = lit.current();
         if (obj->getBaseType() != t)
             continue;
-        if (obj->getName() == n)
+        if (caseSensitive) {
+            if (obj->getName() == n)
+                list.append( obj );
+        } else if (obj->getName().lower() == n.lower()) {
             list.append( obj );
+        }
     }
     return list;
 }
