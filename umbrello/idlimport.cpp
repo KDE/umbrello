@@ -135,6 +135,12 @@ void IDLImport::fillSource(QString word) {
 }
 
 void IDLImport::parseFile(QString filename) {
+    if (filename.contains('/')) {
+        QString path = filename;
+        path.remove( QRegExp("/[^/]+$") );
+        kdDebug() << "IDLImport::parseFile: adding path " << path << endl;
+        Import_Utils::addIncludePath(path);
+    }
     QStringList includePaths = Import_Utils::includePathList();
     //QProcess command("cpp", UMLAp::app());
     QString command("cpp -C");   // -C means "preserve comments"
