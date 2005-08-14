@@ -90,7 +90,7 @@ void DatatypeWidget::calculateSize() {
     //now set the width of the concept
     //set width to name to start with
     //set width to name to start with
-    width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_pObject->getPackage() + "." + getName()).width();
+    width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_pObject->getFullyQualifiedName()).width();
     int w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->getStereotype()).width();
 
     width = w > width?w:width;

@@ -66,7 +66,7 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY) {
     int fontHeight  = fm.lineSpacing();
     QString name;
     if ( m_bShowPackage ) {
-        name = m_pObject -> getPackage() + "." + this -> getName();
+        name = m_pObject->getFullyQualifiedName();
     } else {
         name = this -> getName();
     }
@@ -144,7 +144,7 @@ void EnumWidget::calculateSize() {
     //now set the width of the concept
     //set width to name to start with
     if (m_bShowPackage)  {
-        width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_pObject->getPackage() + "." + getName()).width();
+        width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_pObject->getFullyQualifiedName()).width();
     } else {
         width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(getName()).width();
     }
