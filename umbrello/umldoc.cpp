@@ -1406,7 +1406,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
                 return;
             }
             if (type == ot_Attribute) {
-                pClass->removeAttribute(umlobject);
+                pClass->removeAttribute(static_cast<UMLAttribute*>(umlobject));
             } else if (type == ot_Template) {
                 pClass->removeTemplate(static_cast<UMLTemplate*>(umlobject));
             } else {

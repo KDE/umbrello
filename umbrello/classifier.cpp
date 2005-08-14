@@ -210,13 +210,6 @@ bool UMLClassifier::addOperation(UMLOperation* op, int position )
         m_List.insert(position,op);
     else
         m_List.append( op );
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-    if (!umldoc->loading()) {
-        // This adds operations at the listview. (Strangely, attributes don't
-        // need it.)    FIXME: Smells of hack.
-        UMLListView *listView = UMLApp::app()->getListView();
-        listView->childObjectAdded(op, this);
-    }
     emit operationAdded(op);
     emit modified();
     connect(op,SIGNAL(modified()),this,SIGNAL(modified()));
@@ -246,8 +239,6 @@ int UMLClassifier::removeOperation(UMLOperation *op) {
     // disconnection needed.
     // note that we dont delete the operation, just remove it from the Classifier
     disconnect(op,SIGNAL(modified()),this,SIGNAL(modified()));
-    UMLListView *listView = UMLApp::app()->getListView();
-    listView->childObjectRemoved(op);
     emit operationRemoved(op);
     emit modified();
     return m_List.count();
@@ -561,8 +552,8 @@ bool UMLClassifier::addAttribute(UMLAttribute* att, IDChangeLog* Log /* = 0 */,
     return false;
 }
 
-int UMLClassifier::removeAttribute(UMLObject* a) {
-    if (!m_List.remove((UMLAttribute *)a)) {
+int UMLClassifier::removeAttribute(UMLAttribute* a) {
+    if (!m_List.remove(a)) {
         kdDebug() << "can't find att given in list" << endl;
         return -1;
     }

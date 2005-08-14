@@ -24,13 +24,11 @@
 
 class UMLObject;
 class UMLClassifier;
-class UMLAttribute;
-class UMLOperation;
+class UMLClassifierListItem;
 class UMLDoc;
 
 class QPopupMenu;
 class QPoint;
-
 
 class RefactoringAssistant : public KListView
 {
@@ -54,11 +52,11 @@ public slots:
 
     void umlObjectModified( const UMLObject *obj = 0 );
 
-    void operationAdded( UMLOperation *op );
-    void operationRemoved( UMLOperation *op );
+    void operationAdded( UMLClassifierListItem *o );
+    void operationRemoved( UMLClassifierListItem *o );
 
-    void attributeAdded( UMLAttribute *att );
-    void attributeRemoved( UMLAttribute *att );
+    void attributeAdded( UMLClassifierListItem *a );
+    void attributeRemoved( UMLClassifierListItem *a );
 
     void itemExecuted( QListViewItem *item );
     void showContextMenu( KListView*, QListViewItem*, const QPoint&);

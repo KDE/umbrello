@@ -151,13 +151,14 @@ void RefactoringAssistant::umlObjectModified( const UMLObject *obj )
     }
 }
 
-void RefactoringAssistant::operationAdded( UMLOperation *op )
+void RefactoringAssistant::operationAdded( UMLClassifierListItem *o )
 {
+    UMLOperation *op = static_cast<UMLOperation*>(o);
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(op->parent());
     if(!c)
     {
-        kdWarning()<<"RefactoringAssistant::operationAdded( UMLObject *obj ) "
-        <<" - Parent of operation is not a classifier!"<<endl;
+        kdWarning() << "RefactoringAssistant::operationAdded(" << op->getName()
+            << ") - Parent of operation is not a classifier!" << endl;
         return;
     }
     QListViewItem *item = findListViewItem( c );
@@ -178,8 +179,9 @@ void RefactoringAssistant::operationAdded( UMLOperation *op )
     }
 }
 
-void RefactoringAssistant::operationRemoved( UMLOperation *op )
+void RefactoringAssistant::operationRemoved( UMLClassifierListItem *o )
 {
+    UMLOperation *op = static_cast<UMLOperation*>(o);
     QListViewItem *item = findListViewItem( op );
     if( !item )
     {
@@ -191,13 +193,14 @@ void RefactoringAssistant::operationRemoved( UMLOperation *op )
 }
 
 
-void RefactoringAssistant::attributeAdded( UMLAttribute *att )
+void RefactoringAssistant::attributeAdded( UMLClassifierListItem *a )
 {
+    UMLAttribute *att = static_cast<UMLAttribute*>(a);
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(att->parent());
     if(!c)
     {
-        kdWarning()<<"RefactoringAssistant::attributeAdded( UMLAttribute * ) "
-        <<" - Parent is not a class!"<<endl;
+        kdWarning() << "RefactoringAssistant::attributeAdded(" << att->getName()
+            << ") - Parent is not a class!" << endl;
         return;
     }
     QListViewItem *item = findListViewItem( c );
@@ -218,8 +221,9 @@ void RefactoringAssistant::attributeAdded( UMLAttribute *att )
     }
 }
 
-void RefactoringAssistant::attributeRemoved( UMLAttribute *att )
+void RefactoringAssistant::attributeRemoved( UMLClassifierListItem *a )
 {
+    UMLAttribute *att = static_cast<UMLAttribute*>(a);
     QListViewItem *item = findListViewItem( att );
     if( !item )
     {
@@ -465,10 +469,10 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, QListViewIt
     UMLClassifier *klass = dynamic_cast<UMLClassifier*>(classifier);
     if( klass )
     {// only Classes have attributes...
-        connect( classifier, SIGNAL(attributeAdded(UMLAttribute*)),
-                 this,SLOT( attributeAdded(UMLAttribute*)));
-        connect( classifier, SIGNAL(attributeRemoved(UMLAttribute*)),
-                 this,SLOT( attributeRemoved(UMLAttribute*)));
+        connect( classifier, SIGNAL(attributeAdded(UMLClassifierListItem*)),
+                 this, SLOT(attributeAdded(UMLClassifierListItem*)));
+        connect( classifier, SIGNAL(attributeRemoved(UMLClassifierListItem*)),
+                 this, SLOT(attributeRemoved(UMLClassifierListItem*)));
 
         QListViewItem *attsFolder = new KListViewItem( classifierItem, i18n("Attributes"), "attributes" );
         attsFolder->setPixmap(0,SmallIcon("folder_green_open"));
@@ -482,10 +486,10 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, QListViewIt
     }
 
     // add operations
-    connect( classifier, SIGNAL(operationAdded(UMLOperation*)),
-             this,SLOT( operationAdded(UMLOperation*)));
-    connect( classifier, SIGNAL(operationRemoved(UMLOperation*)),
-             this,SLOT( operationRemoved(UMLOperation*)));
+    connect( classifier, SIGNAL(operationAdded(UMLClassifierListItem*)),
+             this, SLOT(operationAdded(UMLClassifierListItem*)));
+    connect( classifier, SIGNAL(operationRemoved(UMLClassifierListItem*)),
+             this, SLOT(operationRemoved(UMLClassifierListItem*)));
 
     QListViewItem *opsFolder = new KListViewItem( classifierItem, i18n("Operations"), "operations" );
     opsFolder->setPixmap(0,SmallIcon("folder_blue_open"));

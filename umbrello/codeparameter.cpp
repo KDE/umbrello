@@ -16,10 +16,12 @@
 #include <kdebug.h>
 #include "codeparameter.h"
 #include "association.h"
+#include "attribute.h"
 #include "codegenerator.h"
 #include "classifiercodedocument.h"
 #include "umldoc.h"
 #include "umlobject.h"
+#include "umlrole.h"
 
 // Constructors/Destructors
 //

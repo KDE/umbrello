@@ -19,6 +19,8 @@
 #include "classifiercodedocument.h"
 #include "association.h"
 #include "attribute.h"
+#include "operation.h"
+#include "classifierlistitem.h"
 #include "classifier.h"
 #include "umldoc.h"
 #include "umlrole.h"
@@ -173,7 +175,7 @@ bool ClassifierCodeDocument::addCodeClassField ( CodeClassField * add_object ) {
 }
 
 // this is a slot..should only be called from a signal
-void ClassifierCodeDocument::addAttributeClassField (UMLObject *obj, bool syncToParentIfAdded) {
+void ClassifierCodeDocument::addAttributeClassField (UMLClassifierListItem *obj, bool syncToParentIfAdded) {
     UMLAttribute *at = (UMLAttribute*)obj;
     CodeClassField * cf = newCodeClassField(at);
     if(cf)
@@ -199,7 +201,7 @@ bool ClassifierCodeDocument::removeCodeClassField ( CodeClassField * remove_obje
     return false;
 }
 
-void ClassifierCodeDocument::removeAttributeClassField(UMLObject *obj)
+void ClassifierCodeDocument::removeAttributeClassField(UMLClassifierListItem *obj)
 {
     CodeClassField * remove_object = (*m_classFieldMap)[obj];
     if(remove_object)
@@ -260,7 +262,7 @@ QPtrList<CodeOperation> ClassifierCodeDocument::getCodeOperations ( ) {
 /**
  * @param       op
  */
-void ClassifierCodeDocument::addOperation (UMLOperation * op ) {
+void ClassifierCodeDocument::addOperation (UMLClassifierListItem * op ) {
 
     QString tag = CodeOperation::findTag((UMLOperation*)op);
     CodeOperation * codeOp = dynamic_cast<CodeOperation*>(findTextBlockByTag(tag, true));
@@ -285,7 +287,7 @@ void ClassifierCodeDocument::addOperation (UMLOperation * op ) {
 /**
  * @param       op
  */
-void ClassifierCodeDocument::removeOperation (UMLOperation * op ) {
+void ClassifierCodeDocument::removeOperation (UMLClassifierListItem * op ) {
 
     QString tag = CodeOperation::findTag((UMLOperation*)op);
     TextBlock *tb = findTextBlockByTag(tag, true);
@@ -385,14 +387,14 @@ void ClassifierCodeDocument::init (UMLClassifier * c )
 
     // slots
     if (parentIsClass())  {
-        connect(c,SIGNAL(attributeAdded(UMLObject*)),this,SLOT(addAttributeClassField(UMLObject*)));
-        connect(c,SIGNAL(attributeRemoved(UMLObject*)),this,SLOT(removeAttributeClassField(UMLObject*)));
+        connect(c,SIGNAL(attributeAdded(UMLClassifierListItem*)),this,SLOT(addAttributeClassField(UMLClassifierListItem*)));
+        connect(c,SIGNAL(attributeRemoved(UMLClassifierListItem*)),this,SLOT(removeAttributeClassField(UMLClassifierListItem*)));
     }
 
     connect(c,SIGNAL(sigAssociationAdded(UMLAssociation*)),this,SLOT(addAssociationClassField(UMLAssociation*)));
     connect(c,SIGNAL(sigAssociationRemoved(UMLAssociation*)),this,SLOT(removeAssociationClassField(UMLAssociation*)));
-    connect(c,SIGNAL(operationAdded(UMLOperation*)),this,SLOT(addOperation(UMLOperation*)));
-    connect(c,SIGNAL(operationRemoved(UMLOperation*)),this,SLOT(removeOperation(UMLOperation*)));
+    connect(c,SIGNAL(operationAdded(UMLClassifierListItem*)),this,SLOT(addOperation(UMLClassifierListItem*)));
+    connect(c,SIGNAL(operationRemoved(UMLClassifierListItem*)),this,SLOT(removeOperation(UMLClassifierListItem*)));
     connect(c,SIGNAL(modified()),this,SLOT(syncToParent()));
 
 }

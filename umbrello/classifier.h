@@ -125,7 +125,7 @@ public:
      * @return	Count of the remaining attributes after removal.
      *		Returns -1 if the given attribute was not found.
      */
-    int removeAttribute(UMLObject *a);
+    int removeAttribute(UMLAttribute *a);
 
     /**
      * Take and return an attribute from class.
@@ -437,19 +437,19 @@ public:
 signals:
     /** Signals that a new UMLOperation has been added to the classifer.
      */
-    void operationAdded(UMLOperation *);
+    void operationAdded(UMLClassifierListItem *);
 
     /** Signals that a UMLOperation has been removed from the classifer.
      * The signal is emitted in addition to the generic childObjectRemoved()
      */
-    void operationRemoved(UMLOperation *);
+    void operationRemoved(UMLClassifierListItem *);
 
-    void templateAdded(UMLObject*);
-    void templateRemoved(UMLObject*);
+    void templateAdded(UMLClassifierListItem*);
+    void templateRemoved(UMLClassifierListItem*);
 
     // only applies when (m_Type == ot_Class)
-    void attributeAdded(UMLObject*);
-    void attributeRemoved(UMLObject*);
+    void attributeAdded(UMLClassifierListItem*);
+    void attributeRemoved(UMLClassifierListItem*);
 
 protected:
 

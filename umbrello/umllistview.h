@@ -42,6 +42,7 @@ class UMLDoc;
 class UMLListViewItem;
 class UMLView;
 class UMLObject;
+class UMLClassifierListItem;
 
 class UMLListView : public KListView {
     Q_OBJECT
@@ -442,15 +443,15 @@ public slots:
      * Adds a new operation, attribute or template item to a classifier
      * @param obj the child object
      */
-    void childObjectAdded(UMLObject* obj);
+    void childObjectAdded(UMLClassifierListItem* obj);
 
     /**
      * Adds a new operation, attribute or template item to a classifier, identical to
-     * childObjectAdded(UMLObject* obj) but with an explicit parent.  Used by ClassWizard.
-     * @param obj the child object
+     * childObjectAdded(obj) but with an explicit parent.  Used by ClassWizard.
+     * @param child the child object
      * @param parent the parent object 
      */
-    void childObjectAdded(UMLObject* obj, UMLObject* parent);
+    void childObjectAdded(UMLClassifierListItem* child, UMLClassifier* parent);
 
     /**
      * disconnects signals and removes the list view item
@@ -462,7 +463,7 @@ public slots:
      * deletes the list view item
      * @param obj the object to remove
      */
-    void childObjectRemoved(UMLObject* obj);
+    void childObjectRemoved(UMLClassifierListItem* obj);
 
     /**
      * calls updateObject() on the item representing the sending object

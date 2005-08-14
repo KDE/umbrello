@@ -686,18 +686,23 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object) {
     switch( type )
     {
     case Uml::ot_Class:
-        connect(object,SIGNAL(attributeAdded(UMLObject*)),
-                this,SLOT(childObjectAdded(UMLObject*)));
-        connect(object,SIGNAL(attributeRemoved(UMLObject*)),
-                this,SLOT(childObjectRemoved(UMLObject*)));
-        connect(object,SIGNAL(templateAdded(UMLObject*)),
-                this,SLOT(childObjectAdded(UMLObject*)));
-        connect(object,SIGNAL(templateRemoved(UMLObject*)),
-                this,SLOT(childObjectRemoved(UMLObject*)));
-        connect(object,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
-        break;
     case Uml::ot_Interface:
-        connect(object,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
+        {
+            UMLClassifier *c = static_cast<UMLClassifier*>(object);
+            connect(c, SIGNAL(attributeAdded(UMLClassifierListItem*)),
+                    this, SLOT(childObjectAdded(UMLClassifierListItem*)));
+            connect(c, SIGNAL(attributeRemoved(UMLClassifierListItem*)),
+                    this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
+            connect(c, SIGNAL(operationAdded(UMLClassifierListItem*)),
+                    this, SLOT(childObjectAdded(UMLClassifierListItem*)));
+            connect(c, SIGNAL(operationRemoved(UMLClassifierListItem*)),
+                    this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
+            connect(c, SIGNAL(templateAdded(UMLClassifierListItem*)),
+                    this, SLOT(childObjectAdded(UMLClassifierListItem*)));
+            connect(c, SIGNAL(templateRemoved(UMLClassifierListItem*)),
+                    this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
+            connect(object,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
+        }
         break;
     case Uml::ot_Datatype:
     case Uml::ot_Enum:
@@ -736,41 +741,39 @@ void UMLListView::slotObjectChanged() {
     }
 }
 
-void UMLListView::childObjectAdded(UMLObject* obj) {
-    UMLObject *parent = const_cast<UMLObject*>(dynamic_cast<const UMLObject*>(sender()));
+void UMLListView::childObjectAdded(UMLClassifierListItem* obj) {
+    UMLClassifier *parent = const_cast<UMLClassifier*>(dynamic_cast<const UMLClassifier*>(sender()));
     childObjectAdded(obj, parent);
 }
 
-void UMLListView::childObjectAdded(UMLObject* obj, UMLObject* parent) {
-    Uml::Object_Type ot = obj->getBaseType();
-    if (ot == Uml::ot_Stereotype || m_bIgnoreChildCreationSignal) {
+void UMLListView::childObjectAdded(UMLClassifierListItem* child, UMLClassifier* parent) {
+    if (m_bIgnoreChildCreationSignal) {
         return;
     }
     if (!m_bCreatingChildObject) {
         UMLListViewItem *parentItem = findUMLObject(parent);
         if (parentItem == NULL) {
-            kdDebug() << "UMLListView::childObjectAdded(" << obj->getName()
-    		  << ", type " << ot << "): parent " << parent->getName()
+            kdDebug() << "UMLListView::childObjectAdded(" << child->getName()
+    		  << "): parent " << parent->getName()
                   << " does not yet exist, creating it now." << endl;
             parentItem = new UMLListViewItem(m_lv, parent->getName(),
                                              convert_OT_LVT(parent->getBaseType()),
                                              parent);
         }
-        UMLClassifierListItem *child = static_cast<UMLClassifierListItem*>(obj);
         QString text = child->toString(Uml::st_SigNoScope);
         UMLListViewItem *newItem = new UMLListViewItem(parentItem, text,
-                                   convert_OT_LVT(obj->getBaseType()), obj);
+                                   convert_OT_LVT(child->getBaseType()), child);
         if (! m_doc->loading()) {
             ensureItemVisible(newItem);
             clearSelection();
             setSelected(newItem, true);
         }
     }
-    connectNewObjectsSlots(obj);
+    connectNewObjectsSlots(child);
 }
 
-void UMLListView::childObjectRemoved(UMLObject* obj) {
-    UMLObject *parent = const_cast<UMLObject*>(dynamic_cast<const UMLObject*>(sender()));
+void UMLListView::childObjectRemoved(UMLClassifierListItem* obj) {
+    UMLClassifier *parent = const_cast<UMLClassifier*>(dynamic_cast<const UMLClassifier*>(sender()));
     UMLListViewItem *item(0);
     UMLListViewItem *parentItem = findUMLObject(parent);
     for( item = static_cast<UMLListViewItem*>(parentItem->firstChild());
