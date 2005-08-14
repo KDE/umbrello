@@ -52,6 +52,11 @@ bool bNewUMLObjectWasCreated = false;
  */
 bool bPutAtGlobalScope = false;
 
+/**
+ * The include path list (see addIncludePath() and includePathList())
+ */
+QStringList incPathList;
+
 void putAtGlobalScope(bool yesno) {
     bPutAtGlobalScope = yesno;
 }
@@ -317,12 +322,17 @@ void createGeneralization(UMLClassifier *child, const QString &parentName) {
 }
 
 QStringList includePathList() {
-    QStringList includePathList;
+    QStringList includePathList(incPathList);
     char *umbrello_incpath = getenv( "UMBRELLO_INCPATH" );
     if (umbrello_incpath) {
-        includePathList = QStringList::split( ':', umbrello_incpath );
+        includePathList += QStringList::split( ':', umbrello_incpath );
     }
     return includePathList;
+}
+
+void addIncludePath(QString path) {
+    if (! incPathList.contains(path))
+        incPathList.append(path);
 }
 
 }  // end namespace Import_Utils

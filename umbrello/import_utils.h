@@ -110,9 +110,17 @@ namespace Import_Utils {
     QString formatComment(const QString &comment);
 
     /**
-     * Return the list of paths set by the environment variable UMBRELLO_INCPATH.
+     * Return the list of paths set by previous calls to addIncludePath()
+     * and the environment variable UMBRELLO_INCPATH.
+     * This list can be used for finding #included (or Ada with'ed or...)
+     * files.
      */
     QStringList includePathList();
+
+    /**
+     * Add a path to the include path list.
+     */
+    void addIncludePath(QString path);
 
     /**
      * Returns whether the last createUMLObject() actually created
