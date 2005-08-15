@@ -163,6 +163,7 @@ UMLOperation* UMLClassifier::createOperation(const QString &name /*=null*/,
             const Model_Utils::NameAndType &nt = *it;
             UMLAttribute *par = new UMLAttribute(op, nt.m_name);
             par->setType(nt.m_type);
+            par->setParmKind(nt.m_direction);
             par->setInitialValue(nt.m_initialValue);
             op->addParm(par);
         }

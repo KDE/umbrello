@@ -303,12 +303,23 @@ Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningSc
 Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningScope) {
     UMLDoc *pDoc = UMLApp::app()->getDocument();
 
-    a = a.stripWhiteSpace();
+    a = a.simplifyWhiteSpace();
     if (a.isEmpty())
         return PS_Empty;
 
     QStringList nameAndType = QStringList::split( QRegExp("\\s*:\\s*"), a);
-    const QString &name = nameAndType[0];
+    QString name = nameAndType[0];
+    Uml::Parameter_Direction pd = Uml::pd_In;
+    if (name.startsWith("in ")) {
+        pd = Uml::pd_In;
+        name = name.mid(3);
+    } else if (name.startsWith("inout ")) {
+        pd = Uml::pd_InOut;
+        name = name.mid(6);
+    } else if (name.startsWith("out ")) {
+        pd = Uml::pd_Out;
+        name = name.mid(4);
+    }
     UMLObject *pType = NULL;
     QString initialValue;
     if (nameAndType.count() == 2) {
@@ -321,7 +332,7 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
             initialValue = typeAndInitialValue[1];
         }
     }
-    nmTp = NameAndType(name, pType, initialValue);
+    nmTp = NameAndType(name, pType, pd, initialValue);
     return PS_OK;
 }
 

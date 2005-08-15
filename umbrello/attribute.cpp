@@ -82,14 +82,16 @@ QString UMLAttribute::toString(Uml::Signature_Type sig) {
             s = "- ";
         else if(m_Scope == Uml::Protected)
             s= "# ";
-    } else
-        s = "";
+    }
 
     if(sig == Uml::st_ShowSig || sig == Uml::st_SigNoScope) {
         // Determine whether the type name needs to be scoped.
         UMLObject *owningObject = static_cast<UMLObject*>(parent());
-        if (owningObject->getBaseType() == Uml::ot_Operation)
+        if (owningObject->getBaseType() == Uml::ot_Operation) {
+            // The immediate parent() is the UMLOperation but we want
+            // the UMLClassifier:
             owningObject = static_cast<UMLObject*>(owningObject->parent());
+        }
         UMLClassifier *ownParent = dynamic_cast<UMLClassifier*>(owningObject);
         if (ownParent == NULL) {
             kdError() << "UMLAttribute::toString: parent "
@@ -106,13 +108,20 @@ QString UMLAttribute::toString(Uml::Signature_Type sig) {
             else
                 typeName = type->getName();
         }
+        // The default direction, "in", is not mentioned.
+        // Perhaps we should include a pd_Unspecified in
+        // Uml::Parameter_Direction to have better control over this.
+        if (m_ParmKind == Uml::pd_InOut)
+            s += "inout ";
+        else if (m_ParmKind == Uml::pd_Out)
+            s += "out ";
         // Construct the attribute text.
         QString string = s + getName() + " : " + typeName;
         if(m_InitialValue.length() > 0)
             string += " = " + m_InitialValue;
         return string;
-    } else
-        return s + getName();
+    }
+    return s + getName();
 }
 
 QString UMLAttribute::getFullyQualifiedName(QString separator) const {

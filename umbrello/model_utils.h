@@ -121,11 +121,15 @@ enum Parse_Status {
 struct NameAndType {
     QString m_name;
     UMLObject *m_type;
+    Uml::Parameter_Direction m_direction;
     QString m_initialValue;
-    NameAndType() : m_type(0) {
+    NameAndType() : m_type(0), m_direction(Uml::pd_In) {
     }
-    NameAndType(QString name, UMLObject *type, QString initialValue = QString::null)
-            : m_name(name), m_type(type), m_initialValue(initialValue) {
+    NameAndType(QString name, UMLObject *type,
+                Uml::Parameter_Direction direction = Uml::pd_In,
+                QString initialValue = QString::null)
+            : m_name(name), m_type(type),
+              m_direction(direction), m_initialValue(initialValue) {
     }
 };
 

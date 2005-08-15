@@ -1326,6 +1326,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                         UMLAttribute *newParm = new UMLAttribute(newParentClassifier, parm->getName());
                         newParm->setScope(parm->getScope());
                         newParm->setType(parm->getType());
+                        newParm->setParmKind(parm->getParmKind());
                         newParm->setInitialValue(parm->getInitialValue());
                         newOp->addParm(newParm);
                     }
@@ -2395,6 +2396,7 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
         newObject = owningClass->createAttribute(nt.m_name);
         UMLAttribute *att = static_cast<UMLAttribute*>(newObject);
         att->setType(nt.m_type);
+        att->setParmKind(nt.m_direction);
         att->setInitialValue(nt.m_initialValue);
         text = att->toString(Uml::st_SigNoScope);
     } else if ( type == Uml::ot_Operation ) {
