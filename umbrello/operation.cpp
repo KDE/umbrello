@@ -318,8 +318,8 @@ bool UMLOperation::load( QDomElement & element ) {
                     break;
                 }
                 if (kind.isEmpty()) {
-                    kdDebug() << "UMLOperation::load(" << m_Name << "): "
-                    << "cannot find kind, using default \"in\"." << endl;
+                    // kdDebug() << "UMLOperation::load(" << m_Name << "): "
+                    //  << "cannot find kind, using default \"in\"." << endl;
                     kind = "in";
                 }
             }
