@@ -367,9 +367,9 @@ void UMLObject::maybeSignalObjectCreated() {
             m_BaseType != Uml::ot_Stereotype &&
             m_BaseType != Uml::ot_Association &&
             m_BaseType != Uml::ot_Role) {
+        m_bCreationWasSignalled = true;
         UMLDoc* umldoc = UMLApp::app()->getDocument();
         umldoc->signalUMLObjectCreated(this);
-        m_bCreationWasSignalled = true;
     }
 }
 
