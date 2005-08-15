@@ -2546,9 +2546,9 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
         UMLAttribute *attr = ait.current();
         UMLClassifier *attrType = attr->getType();
         if (attrType == NULL) {
-            kdError() << "UMLView::createAutoAttributeAssociations("
-            << klass->getName() << "): type is NULL for "
-            << "attribute " << attr->getName() << endl;
+            // kdDebug() << "UMLView::createAutoAttributeAssociations("
+            //     << klass->getName() << "): type is NULL for "
+            //     << "attribute " << attr->getName() << endl;
             continue;
         }
         Uml::Association_Type assocType = Uml::at_Composition;
