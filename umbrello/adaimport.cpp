@@ -124,7 +124,7 @@ void AdaImport::parseFile(QString filename) {
         const QString& keyword = m_source[m_srcIndex];
         kdDebug() << '"' << keyword << '"' << endl;
         if (keyword.startsWith("--")) {
-            m_comment = keyword.mid(2);
+            m_comment += keyword.mid(2) + '\n';
             continue;
         }
         if (keyword == "with") {
@@ -133,7 +133,7 @@ void AdaImport::parseFile(QString filename) {
                 QStringList components = QStringList::split(".", filename);
                 const QString& prefix = components.first();
                 if (prefix == "system" || prefix == "ada" || prefix == "gnat" ||
-                    prefix == "text_io" ||
+                    prefix == "interfaces" || prefix == "text_io" ||
                     prefix == "unchecked_conversion" ||
                     prefix == "unchecked_deallocation") {
                     if (advance() != ",")
@@ -162,8 +162,14 @@ void AdaImport::parseFile(QString filename) {
             const QString& name = advance();
             UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package,
                             name, m_scope[m_scopeIndex], m_comment);
-            m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
-            if (advance() != "is") {
+            if (advance() == "is") {
+                if (m_source[m_srcIndex + 1] == "new") {
+                    // generic package instantiation: TDB
+                    skipStmt();
+                } else {
+                    m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
+                }
+            } else if (m_source[m_srcIndex] != "renames") {
                 kdError() << "AdaImport::parseFile: unexpected: " << m_source[m_srcIndex] << endl;
                 skipStmt("is");
             }
@@ -298,12 +304,21 @@ void AdaImport::parseFile(QString filename) {
                 continue;
             }
             UMLOperation *op = NULL;
+            const uint MAX_PARNAMES = 16;
             while (m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
-                const QString &parName = advance();
-                if (advance() != ":") {
+                QString parName[MAX_PARNAMES];
+                uint parNameCount = 0;
+                do {
+                    if (parNameCount >= MAX_PARNAMES) {
+                        kdError() << "MAX_PARNAMES is exceeded at " << name << endl;
+                        break;
+                    }
+                    parName[parNameCount++] = advance();
+                } while (advance() == ",");
+                if (m_source[m_srcIndex] != ":") {
                     kdError() << "importAda: expecting ':'" << endl;
                     skipStmt();
-                    continue;
+                    break;
                 }
                 const QString &direction = advance();
                 QString typeName;
@@ -336,18 +351,30 @@ void AdaImport::parseFile(QString filename) {
                                   << typeName << endl;
                         skipStmt();
                         break;
+                        /*** better:
+                        if (advance() == ";") {
+                            m_srcIndex++;
+                            continue;
+                        } else {
+                            break;
+                        }
+                         ****/
                     }
                     m_klass = static_cast<UMLClassifier*>(klass);
                     op = Import_Utils::makeOperation(m_klass, name);
                 }
-                UMLAttribute *att = Import_Utils::addMethodParameter(op, typeName, parName);
-                att->setParmKind(dir);
+                for (uint i = 0; i < parNameCount; i++) {
+                    UMLAttribute *att = Import_Utils::addMethodParameter(op, typeName, parName[i]);
+                    att->setParmKind(dir);
+                }
                 if (advance() != ";")
                     break;
             }
             if (keyword == "function") {
                 if (advance() != "return") {
-                    kdError() << "importAda: expecting \"return\" at function " << name << endl;
+                    if (m_klass)
+                        kdError() << "importAda: expecting \"return\" at function "
+                            << name << endl;
                     skipStmt();
                     continue;
                 }
