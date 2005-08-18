@@ -1191,7 +1191,7 @@ protected:
      */
     int m_nCollaborationId;
 
-    QPoint m_Pos, m_LineToPos;
+    QPoint m_Pos;
     bool m_bCreateObject, m_bDrawRect, m_bDrawSelectedOnly, m_bPaste;
     ListPopupMenu * m_pMenu;
     UMLWidgetList m_SelectedList;

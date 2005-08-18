@@ -1268,7 +1268,6 @@ void UMLView::selectWidgets(int px, int py, int qx, int qy) {
         QRect rect2(x, y, w, h);
         ++it;
         //see if any part of widget is in the rectangle
-        //made of points pos and m_LineToPos
         if( !rect.intersects(rect2) )
             continue;
         //if it is text that is part of an association then select the association
