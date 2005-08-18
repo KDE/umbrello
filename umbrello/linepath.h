@@ -263,9 +263,9 @@ class Circle : public QCanvasEllipse {
     void createHeadLines();
 
     /**
-     * Create a number of new lines and append them to m_HeadList.
+     * Create a number of new lines and append them to the given list.
      *
-     * @param by		The number of lines to insert into m_HeadList.
+     * @param by  The number of lines to insert into the given list.
      */
     void growList(LineList &list, int by);
 
