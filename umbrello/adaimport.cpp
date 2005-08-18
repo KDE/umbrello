@@ -215,6 +215,7 @@ void AdaImport::parseFile(QString filename) {
                 m_comment = QString::null;
                 continue;
             }
+            bool isTaggedType = false;
             if (m_source[m_srcIndex] == "abstract") {
                 m_isAbstract = true;
                 m_srcIndex++;
@@ -237,12 +238,14 @@ void AdaImport::parseFile(QString filename) {
                 continue;
             }
             if (m_source[m_srcIndex] == "record") {
-                UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
-                                name, m_scope[m_scopeIndex], m_comment);
                 // If it's a tagged record then the class was already created
                 // above (see processing for "tagged".) Doesn't matter;
                 // in that case Import_Utils::createUMLObject() just returns
                 // the existing class instead of creating a new one.
+                UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
+                                name, m_scope[m_scopeIndex], m_comment);
+                if (! isTaggedType)
+                    ns->setStereotype("record");
                 m_klass = static_cast<UMLClassifier*>(ns);
                 m_comment = QString::null;
                 continue;
