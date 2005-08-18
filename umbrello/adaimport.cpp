@@ -129,8 +129,7 @@ void AdaImport::parseFile(QString filename) {
         }
         if (keyword == "with") {
             while (++m_srcIndex < srcLength && m_source[m_srcIndex] != ";") {
-                QString filename = m_source[m_srcIndex].lower();
-                QStringList components = QStringList::split(".", filename);
+                QStringList components = QStringList::split(".", m_source[m_srcIndex].lower());
                 const QString& prefix = components.first();
                 if (prefix == "system" || prefix == "ada" || prefix == "gnat" ||
                     prefix == "interfaces" || prefix == "text_io" ||
@@ -140,19 +139,28 @@ void AdaImport::parseFile(QString filename) {
                         break;
                     continue;
                 }
-                filename.replace(".", "-");
-                filename.append(".ads");
-                // Save current m_source and m_srcIndex.
-                QStringList source(m_source);
-                uint srcIndex = m_srcIndex;
-                m_source.clear();
-                parseFile(filename);
-                // Restore m_source and m_srcIndex.
-                m_source = source;
-                m_srcIndex = srcIndex;
-                // Also reset m_currentAccess.
-                // CHECK: need to reset more stuff?
-                m_currentAccess = Uml::Public;
+                QString base = prefix;
+                uint i = 0;
+                while (1) {
+                    if (! m_parsedFiles.contains(base)) {
+                        m_parsedFiles.append(base);
+                        QString filename = base + ".ads";
+                        // Save current m_source and m_srcIndex.
+                        QStringList source(m_source);
+                        uint srcIndex = m_srcIndex;
+                        m_source.clear();
+                        parseFile(filename);
+                        // Restore m_source and m_srcIndex.
+                        m_source = source;
+                        m_srcIndex = srcIndex;
+                        // Also reset m_currentAccess.
+                        // CHECK: need to reset more stuff?
+                        m_currentAccess = Uml::Public;
+                    }
+                    if (++i >= components.count())
+                        break;
+                    base += '-' + components[i];
+                }
                 if (advance() != ",")
                     break;
             }
@@ -362,6 +370,12 @@ void AdaImport::parseFile(QString filename) {
                     }
                     m_klass = static_cast<UMLClassifier*>(klass);
                     op = Import_Utils::makeOperation(m_klass, name);
+                    // The controlling parameter is suppressed.
+                    parNameCount--;
+                    if (parNameCount) {
+                        for (uint i = 0; i < parNameCount; i++)
+                            parName[i] = parName[i + 1];
+                    }
                 }
                 for (uint i = 0; i < parNameCount; i++) {
                     UMLAttribute *att = Import_Utils::addMethodParameter(op, typeName, parName[i]);
