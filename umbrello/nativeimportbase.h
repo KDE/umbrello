@@ -133,6 +133,11 @@ protected:
      */
     bool m_isAbstract;
 
+    /**
+     * List of parsed files. The exact syntax of the items
+     * stored here depend on the specific code importer.
+     */
+    QStringList m_parsedFiles;
 };
 
 #endif
