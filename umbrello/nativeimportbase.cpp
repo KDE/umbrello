@@ -87,6 +87,7 @@ void NativeImportBase::scan(QString line) {
 
 void NativeImportBase::importFiles(QStringList fileList) {
     UMLDoc *umldoc = UMLApp::app()->getDocument();
+    m_parsedFiles.clear();
     for (QStringList::Iterator fileIT = fileList.begin();
             fileIT != fileList.end(); ++fileIT) {
         QString fileName = (*fileIT);
