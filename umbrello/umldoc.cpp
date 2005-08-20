@@ -2378,7 +2378,7 @@ UMLClassifierList UMLDoc::getConcepts(bool includeNested /* =true */) {
             conceptList.append((UMLClassifier *)obj);
         } else if (includeNested && ot == ot_Package) {
             UMLPackage *pkg = static_cast<UMLPackage *>(obj);
-            pkg->appendInterfaces(conceptList);
+            pkg->appendClassifiers(conceptList);
         }
     }
     return conceptList;
