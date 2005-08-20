@@ -105,7 +105,9 @@ worktoolbar.cpp
 
 umbrello_LDADD   = ./refactoring/librefactoring.la ./classparser/libclassparser.la ./clipboard/libclipboard.la ./dialogs/libdialogs.la ./codegenerators/libcodegenerator.la $(AUTOLAYOUT_LIBS) $(LIB_KDEPRINT) $(LIB_KIO)
 
-SUBDIRS = $(AUTOLAYOUT_DIR) classparser dialogs clipboard pics codegenerators headings refactoring
+## See section "dnl Not GPL compatible" in ../configure.in.in
+# SUBDIRS = $(AUTOLAYOUT_DIR) classparser dialogs clipboard pics codegenerators headings refactoring
+SUBDIRS = classparser dialogs clipboard pics codegenerators headings refactoring
 
 KDE_ICON=AUTO
 
