@@ -1246,11 +1246,6 @@ private:
     UMLWidget * m_pOnWidget;
 
     /**
-     * Holds the Canvas lines for the selection rectangle.
-     */
-    QPtrList<QCanvasLine> m_SelectionRect;
-
-    /**
      * The Line used to show a join between objects as an association is being made.
      */
     QCanvasLine * m_pAssocLine;

@@ -165,7 +165,6 @@ void UMLView::init() {
     setDragAutoScroll(false);
 
     viewport() -> setMouseTracking(false);
-    //m_SelectionRect.setAutoDelete( true );
 
     // TODO: Still needed at some places.
     m_CurrentCursor = WorkToolBar::tbb_Arrow;
@@ -193,7 +192,6 @@ UMLView::~UMLView() {
         delete m_pAssocLine;
         m_pAssocLine = NULL;
     }
-    //m_SelectionRect.clear();
 
     // before we can delete the QCanvas, all widgets must be explicitly
     // removed
@@ -2042,7 +2040,6 @@ void UMLView::removeAssocInViewAndDoc(AssociationWidget* a) {
 bool UMLView::setAssoc(UMLWidget *pWidget) {
     Association_Type type = convert_TBB_AT(m_CurrentCursor);
     m_bDrawRect = false;
-    m_SelectionRect.clear();
     //if this we are not concerned here so return
     if (m_CurrentCursor < WorkToolBar::tbb_Generalization ||
             m_CurrentCursor > WorkToolBar::tbb_Anchor) {
