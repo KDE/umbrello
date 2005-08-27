@@ -260,8 +260,11 @@ void FloatingText::showOpDlg() {
 
     SelectOpDlg selectDlg(m_pView, c);
     selectDlg.setSeqNumber( seqNum );
-    if (m_pLink->getOperation() == NULL)
+    if (m_pLink->getOperation() == NULL) {
         selectDlg.setCustomOp( opText );
+    } else {
+        selectDlg.setClassOp( opText );
+    }
     int result = selectDlg.exec();
     if(!result) {
         return;

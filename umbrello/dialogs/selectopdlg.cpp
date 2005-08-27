@@ -110,6 +110,19 @@ void SelectOpDlg::setCustomOp(const QString &op) {
     }
 }
 
+bool SelectOpDlg::setClassOp(const QString &op) {
+    for (int i = 1; i!= m_pOpCB->count(); ++i)
+    {
+        if ( m_pOpCB->text(i) == op ) {
+            m_pOpCB->setCurrentItem(i);
+            m_pCustomRB -> setChecked(false);
+            slotSelected(OP);
+            return true;
+        }
+    }
+    return false;
+}
+
 QString SelectOpDlg::getSeqNumber() {
     return m_pSeqLE->text();
 }

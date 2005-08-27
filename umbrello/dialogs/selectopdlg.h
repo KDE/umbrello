@@ -83,6 +83,13 @@ public:
      *	@param op The operation to set as the custom operation.
      */
     void setCustomOp(const QString &op);
+    /**
+     * Set the class operation text.
+     *
+     *	@param op The operation to set as the class operation.
+     * @return false if no such operation exists.
+     */
+    bool setClassOp(const QString &op);
 private:
     QGroupBox * m_pOpGB;
     QComboBox *	m_pOpCB;
