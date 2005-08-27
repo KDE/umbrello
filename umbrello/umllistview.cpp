@@ -656,6 +656,21 @@ UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const {
     return parentItem;
 }
 
+bool UMLListView::mayHaveChildItems(Uml::Object_Type type) {
+    bool retval = false;
+    switch (type) {
+        case Uml::ot_Class:
+        case Uml::ot_Interface:
+        case Uml::ot_Enum:
+        case Uml::ot_Entity:  // CHECK: more?
+            retval = true;
+            break;
+        default:
+            break;
+    }
+    return retval;
+}
+
 void UMLListView::slotObjectCreated(UMLObject* object) {
     UMLListViewItem* newItem = findUMLObject(object);
     if (newItem) {
@@ -671,6 +686,13 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 
     connectNewObjectsSlots(object);
     newItem = new UMLListViewItem(parentItem, object->getName(), convert_OT_LVT(type), object);
+    if (mayHaveChildItems(type)) {
+        UMLClassifier *c = static_cast<UMLClassifier*>(object);
+        UMLClassifierListItemList cListItems = c->getFilteredList(Uml::ot_UMLObject);
+        UMLClassifierListItem *cli;
+        for (UMLClassifierListItemListIt it(cListItems); (cli = it.current()) != NULL; ++it)
+            childObjectAdded(cli, c);
+    }
     if (m_doc->loading())
         return;
     ensureItemVisible(newItem);
@@ -747,6 +769,8 @@ void UMLListView::childObjectAdded(UMLClassifierListItem* obj) {
 
 void UMLListView::childObjectAdded(UMLClassifierListItem* child, UMLClassifier* parent) {
     if (!m_bCreatingChildObject) {
+        const QString text = child->toString(Uml::st_SigNoScope);
+        UMLListViewItem *childItem = NULL;
         UMLListViewItem *parentItem = findUMLObject(parent);
         if (parentItem == NULL) {
             kdDebug() << "UMLListView::childObjectAdded(" << child->getName()
@@ -755,17 +779,22 @@ void UMLListView::childObjectAdded(UMLClassifierListItem* child, UMLClassifier* 
             parentItem = new UMLListViewItem(m_lv, parent->getName(),
                                              convert_OT_LVT(parent->getBaseType()),
                                              parent);
+        } else {
+            childItem = parentItem->findUMLObject(child);
         }
-        QString text = child->toString(Uml::st_SigNoScope);
-        UMLListViewItem *newItem = new UMLListViewItem(parentItem, text,
+        if (childItem) {
+            childItem->setText(text);
+        } else {
+            childItem = new UMLListViewItem(parentItem, text,
                                    convert_OT_LVT(child->getBaseType()), child);
-        if (! m_doc->loading()) {
-            ensureItemVisible(newItem);
-            clearSelection();
-            setSelected(newItem, true);
+            if (! m_doc->loading()) {
+                ensureItemVisible(childItem);
+                clearSelection();
+                setSelected(childItem, true);
+            }
+            connectNewObjectsSlots(child);
         }
     }
-    connectNewObjectsSlots(child);
 }
 
 void UMLListView::childObjectRemoved(UMLClassifierListItem* obj) {

@@ -169,6 +169,13 @@ public:
     UMLListViewItem* determineParentItem(Uml::ListView_Type lvt) const;
 
     /**
+     * Return true if the given Object_Type permits child items.
+     * A "child item" is anything that qualifies as a UMLClassifierListItem,
+     * e.g. operations and attributes of classifiers.
+     */
+    static bool mayHaveChildItems(Uml::Object_Type type);
+
+    /**
      *  Return the amount of items selected.
      */
     int getSelectedCount();
@@ -423,6 +430,14 @@ protected:
      */
     void deleteChildrenOf( QListViewItem *parent );
 
+    /**
+     * Adds a new operation, attribute or template item to a classifier, identical to
+     * childObjectAdded(obj) but with an explicit parent.
+     * @param child the child object
+     * @param parent the parent object 
+     */
+    void childObjectAdded(UMLClassifierListItem* child, UMLClassifier* parent);
+
 public slots:
 
     /**
@@ -453,14 +468,6 @@ public slots:
      * @param obj the child object
      */
     void childObjectAdded(UMLClassifierListItem* obj);
-
-    /**
-     * Adds a new operation, attribute or template item to a classifier, identical to
-     * childObjectAdded(obj) but with an explicit parent.  Used by ClassWizard.
-     * @param child the child object
-     * @param parent the parent object 
-     */
-    void childObjectAdded(UMLClassifierListItem* child, UMLClassifier* parent);
 
     /**
      * disconnects signals and removes the list view item
