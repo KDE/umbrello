@@ -17,7 +17,6 @@
 // #include <qprocess.h>  //should use this instead of popen()
 #include <qstringlist.h>
 #include <qregexp.h>
-#include <klocale.h>
 #include <kdebug.h>
 // app includes
 #include "import_utils.h"
@@ -351,7 +350,8 @@ void IDLImport::parseFile(QString filename) {
             kdError() << "importIDL: no class set for " << name << endl;
             continue;
         }
-        if (advance() == "(") {
+        QString nextToken = advance();
+        if (nextToken == "(") {
             // operation
             UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
             m_srcIndex++;
@@ -381,11 +381,21 @@ void IDLImport::parseFile(QString filename) {
             continue;
         }
         // At this point we know it's some kind of attribute declaration.
-        UMLObject *o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name, typeName, m_comment);
-        UMLAttribute *attr = static_cast<UMLAttribute*>(o);
-        if (m_isReadonly) {
-            attr->setStereotype("readonly");
-            m_isReadonly = false;
+        while (1) {
+            while (nextToken != "," && nextToken != ";") {
+                name += nextToken;  // add possible array dimensions to `name'
+                nextToken = advance();
+            }
+            UMLObject *o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name, typeName, m_comment);
+            UMLAttribute *attr = static_cast<UMLAttribute*>(o);
+            if (m_isReadonly) {
+                attr->setStereotype("readonly");
+                m_isReadonly = false;
+            }
+            if (nextToken != ",")
+                break;
+            name = advance();
+            nextToken = advance();
         }
         m_currentAccess = Uml::Public;
         if (m_source[m_srcIndex] != ";") {
