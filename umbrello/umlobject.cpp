@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -197,7 +197,7 @@ void UMLObject::copyInto(UMLObject *rhs) const
     rhs->m_pUMLPackage = m_pUMLPackage;
 
     // We don't want the same name existing twice.
-    rhs->m_Name = umldoc->uniqObjectName(m_BaseType, m_Name);
+    rhs->m_Name = umldoc->uniqObjectName(m_BaseType, m_Name, m_pUMLPackage);
 
     // Create a new ID.
     rhs->m_nId = umldoc->getUniqueID();
@@ -293,7 +293,6 @@ void UMLObject::setStereotype(const QString &_name) {
 }
 
 void UMLObject::setPackage(const QString &_name) {
-    // TBD: Resolve nested packages given in _name (e.g. A::B::C)
     UMLObject *pkgObj = NULL;
     if (!_name.isEmpty()) {
         UMLDoc* umldoc = UMLApp::app()->getDocument();
@@ -306,7 +305,7 @@ void UMLObject::setPackage(const QString &_name) {
         if (pkgObj == NULL) {
             kdDebug() << "UMLObject::setPackage: creating UMLPackage "
             << _name << " for " << m_Name << endl;
-            pkgObj = umldoc->createUMLObject(Uml::ot_Package, _name);
+            pkgObj = Import_Utils::createUMLObject(Uml::ot_Package, _name);
         }
     }
     setUMLPackage( static_cast<UMLPackage *>(pkgObj) );
