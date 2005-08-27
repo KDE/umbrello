@@ -655,6 +655,15 @@ public:
     bool assignNewIDs(UMLObject* Obj);
 
     /**
+     * Adds a UMLObject thats already created but doesn't change
+     * any ids or signal.  Use AddUMLObjectPaste if pasting.
+     *
+     * @param object   The object to add.
+     * @return  True if the object was actually added.
+     */
+    bool addUMLObject(UMLObject * object);
+
+    /**
      * Adds an already created UMLView to the document, it gets
      * assigned a new ID, if its name is already in use then the
      * function appends a number to it to differentiate it from
@@ -696,18 +705,18 @@ public:
     /**
      * Returns the documentation for the project.
      *
-     * @return	The documentation text of this UMLDoc.
+     * @return  The documentation text of this UMLDoc.
      */
-    QString getDoc() const {
+    QString getDocumentation() const {
         return m_Doc;
     }
 
     /**
      * Sets the documentation for the project.
      *
-     * @param doc		The documentation to set for this UMLDoc.
+     * @param doc   The documentation to set for this UMLDoc.
      */
-    void setDoc( const QString &doc ) {
+    void setDocumentation(const QString &doc) {
         m_Doc = doc;
     }
 
@@ -828,11 +837,6 @@ public:
     void createDatatype(const QString &name);
 
     /**
-     * Add a UMLObject to the application.
-     */
-    void addObject(UMLObject *o);
-
-    /**
      * Find a UMLStereotype by its unique ID.
      */
     UMLStereotype * findStereotypeById(Uml::IDType id);
@@ -868,8 +872,11 @@ public:
      * @param prefix	The prefix to use (optional.)
      *			If no prefix is given then a type related
      *			prefix will be chosen internally.
+     * @param parentPkg The package in which to compare the name (optional.)
+     *                  If not given then comparisons are done in the global scope.
      */
-    QString uniqObjectName(const Uml::Object_Type type, QString prefix = "");
+    QString uniqObjectName(const Uml::Object_Type type, QString prefix = QString::null,
+                           UMLPackage *parentPkg = 0);
 
     /**
      * Write text to the status bar.
@@ -1004,13 +1011,6 @@ private:
     KPopupMenu* m_pTabPopupMenu;
 
 public slots:
-
-    /**
-     * Adds a UMLObject thats already created but doesn't change
-     * any ids or signal.  Used by the list view.  Use
-     * AddUMLObjectPaste if pasting.
-     */
-    void addUMLObject( UMLObject * object );
 
     void slotRemoveUMLObject(UMLObject*o);
 

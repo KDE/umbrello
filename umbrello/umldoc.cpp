@@ -803,8 +803,9 @@ UMLClassifier* UMLDoc::findUMLClassifier(const QString &name) {
     return dynamic_cast<UMLClassifier*>(obj);
 }
 
-QString UMLDoc::uniqObjectName(const Object_Type type, QString prefix) {
-    QString	currentName = prefix;
+QString UMLDoc::uniqObjectName(const Object_Type type, QString prefix,
+                               UMLPackage *parentPkg /* = NULL */) {
+    QString currentName = prefix;
     if (currentName.isEmpty()) {
         if(type == ot_Class)
             currentName = i18n("new_class");
@@ -836,7 +837,7 @@ QString UMLDoc::uniqObjectName(const Object_Type type, QString prefix) {
         }
     }
     QString name = currentName;
-    for (int number = 1; !isUnique(name); number++)  {
+    for (int number = 1; !isUnique(name, parentPkg); number++)  {
         name = currentName + "_" + QString::number(number);
     }
     return name;
@@ -847,40 +848,34 @@ QString UMLDoc::uniqObjectName(const Object_Type type, QString prefix) {
   *   any ids or signal.  Used by the list view.  Use
   *   AddUMLObjectPaste if pasting.
   */
-void UMLDoc::addUMLObject(UMLObject* object) {
+bool UMLDoc::addUMLObject(UMLObject* object) {
     Object_Type ot = object->getBaseType();
     if (ot == ot_Attribute || ot == ot_Operation || ot == ot_EnumLiteral
             || ot == ot_EntityAttribute || ot == ot_Template || ot == ot_Stereotype) {
         kdDebug() << "UMLDoc::addUMLObject(" << object->getName()
         << "): not adding type " << ot << endl;
-        return;
+        return false;
     }
     UMLPackage *pkg = object->getUMLPackage();
     if (pkg != NULL) {
-        // CHECK: If UMLDoc::addUMLObject is invoked on an object
-        // that is inside a package then that is really a misuse.
-        // The following is nothing but a hack to deal with such
-        // misuse:
-        pkg->addObject(object);
         kdDebug() << "UMLDoc::addUMLObject(" << object->getName()
-        << "): bad call, adding at containing package instead"
-        << endl;
-        // end of hack
-        return;
+                  << "): adding at containing package instead" << endl;
+        return pkg->addObject(object);
     }
     //stop it being added twice
-    if ( m_objectList.find(object) == -1)  {
-        m_objectList.append( object );
-        Uml::IDType id = object->getID();
-        int nId = INTERNALIZE_ID(id);
-        if (nId > m_highestIDforForeignFile)
-            m_highestIDforForeignFile = nId;
-    } else {
-#ifdef VERBOSE_DEBUGGING
+    if (m_objectList.find(object) != -1)  {
         kdDebug() << "UMLDoc::addUMLObject: not adding " << object->getName()
-        << " because already there." << endl;
-#endif
+                  << " because it's already there." << endl;
+        return false;
     }
+    m_objectList.append( object );
+    // CHECK: Can we remove this m_highestIDforForeignFile voodoo ///
+    Uml::IDType id = object->getID();
+    int nId = INTERNALIZE_ID(id);
+    if (nId > m_highestIDforForeignFile)
+        m_highestIDforForeignFile = nId;
+    // end CHECK ////////////////////////////////////////////////////
+    return true;
 }
 
 void UMLDoc::addStereotype(const UMLStereotype *s) {
@@ -938,7 +933,6 @@ bool UMLDoc::isUnique(const QString &name)
 
 bool UMLDoc::isUnique(const QString &name, UMLPackage *package)
 {
-
     // if a package, then only do check in that
     if (package)
         return (package->findObject(name) == NULL);
@@ -964,7 +958,7 @@ UMLObject* UMLDoc::createUMLObject(Object_Type type, const QString &n,
     }
     else
     {
-        name = uniqObjectName(type);
+        name = uniqObjectName(type, n, parentPkg);
         bool bValidNameEntered = false;
         do {
             name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), name, &ok, (QWidget*)UMLApp::app());
@@ -1020,7 +1014,9 @@ UMLObject* UMLDoc::createUMLObject(Object_Type type, const QString &n,
         return (UMLObject*)0L;
     }
     o->setUMLPackage(parentPkg);
-    if (prepend)
+    if (parentPkg)
+        parentPkg->addObject(o);
+    else if (prepend)
         m_objectList.prepend(o);
     else
         m_objectList.append(o);
@@ -1235,7 +1231,7 @@ void UMLDoc::setLoading(bool state /* = true */) {
 
 void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
     bool ok = true;
-    QString	name,
+    QString name,
     dname = uniqViewName(type);
 
     while(true) {
@@ -1301,9 +1297,7 @@ void UMLDoc::renameUMLObject(UMLObject *o) {
             break;
         if(name.length() == 0)
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-        else if (isUnique(name))  /* o->getBaseType() used to be considered here
-            			     but I don't think it should be  --okellogg */
-        {
+        else if (isUnique(name)) {
             o->setName(name);
             setModified(true);
             break;
@@ -1369,10 +1363,10 @@ void UMLDoc::removeDiagram(Uml::IDType id) {
         removeView(umlview);
         emit sigDiagramRemoved(id);
         setModified(true);
-        /*		if(infoWidget->isVisible()) {
-        			emit sigDiagramChanged(dt_Undefined);
-        			UMLApp::app()->enablePrint(false);
-        		}
+        /* if (infoWidget->isVisible()) {
+               emit sigDiagramChanged(dt_Undefined);
+               UMLApp::app()->enablePrint(false);
+           }
         */ //FIXME sort out all the KActions for when there's no diagram
         //also remove the buttons from the WorkToolBar, then get rid of infowidget
     }
@@ -1528,24 +1522,24 @@ void UMLDoc::saveToXMI(QIODevice& file, bool saveSubmodelFiles /* = false */) {
     QDomElement model = doc.createElement( "XMI.model" );
     QFile* qfile = dynamic_cast<QFile*>(&file);
     if (qfile) {
-    	QString modelName = qfile->name();
-    	modelName = modelName.section('/', -1 );
-    	modelName = modelName.section('.', 0, 0);
-    	model.setAttribute( "xmi.name", modelName );
-    	model.setAttribute( "href", qfile->name() );
+        QString modelName = qfile->name();
+        modelName = modelName.section('/', -1 );
+        modelName = modelName.section('.', 0, 0);
+        model.setAttribute( "xmi.name", modelName );
+        model.setAttribute( "href", qfile->name() );
     }
      */
 
     QDomElement documentation = doc.createElement( "XMI.documentation" );
 
     // If we consider it useful we might add user and contact details
-    //	QDomElement owner = doc.createElement( "XMI.owner" );
-    //	owner.appendChild( doc.createTextNode( "Jens Kruger" ) ); // Add a User
-    //	documentation.appendChild( owner );
+    // QDomElement owner = doc.createElement( "XMI.owner" );
+    // owner.appendChild( doc.createTextNode( "Jens Kruger" ) ); // Add a User
+    // documentation.appendChild( owner );
 
-    //	QDomElement contact = doc.createElement( "XMI.contact" );
-    //	contact.appendChild( doc.createTextNode( "je.krueger@web.de" ) );       // add a contact
-    //	documentation.appendChild( contact );
+    // QDomElement contact = doc.createElement( "XMI.contact" );
+    // contact.appendChild( doc.createTextNode( "je.krueger@web.de" ) );       // add a contact
+    // documentation.appendChild( contact );
 
     QDomElement exporter = doc.createElement( "XMI.exporter" );
     exporter.appendChild( doc.createTextNode( "umbrello uml modeller http://uml.sf.net" ) );
@@ -1833,7 +1827,8 @@ bool UMLDoc::loadFolderFile( QString filename ) {
                     << "): Error loading type " << type << endl;
                     delete pObject;
                 } else {
-                    addObject(pObject);
+                    if (addUMLObject(pObject))
+                        signalUMLObjectCreated(pObject);
                 }
             } else {
                 kdError() << "UMLDoc::loadFolderFile(" << filename
@@ -2061,11 +2056,11 @@ bool UMLDoc::validateXMIHeader(QDomNode& headerNode) {
     while ( !headerNode.isNull() ) {
         /*  //Seems older Umbrello files used a different metamodel, so don't validate it for now
           if( !headerElement.isNull() && headerElement.tagName() == "XMI.metamodel" ) {
-        			QString metamodel = headerElement.attribute("xmi.name", "");
-        			if (metamodel != "UML") {
-        				return false;
-        			}
-        		}
+              String metamodel = headerElement.attribute("xmi.name", "");
+              if (metamodel != "UML") {
+                  return false;
+              }
+          }
         */
         headerNode = headerNode.nextSibling();
         headerElement = headerNode.toElement();
@@ -2264,10 +2259,10 @@ UMLObject* UMLDoc::makeNewUMLObject(const QString &type) {
         c->setInterface();
         pObject = c;
     } else if (tagEq(type, "DataType") || tagEq(type, "Primitive")
-               || tagEq(type, "Datatype")) {	// for bkwd compat.
+               || tagEq(type, "Datatype")) {   // for bkwd compat.
         pObject = new UMLDatatype();
     } else if (tagEq(type, "Enumeration") ||
-               tagEq(type, "Enum")) {	// for bkwd compat.
+               tagEq(type, "Enum")) {   // for bkwd compat.
         pObject = new UMLEnum();
     } else if (tagEq(type, "Entity")) {
         pObject = new UMLEntity();
@@ -2810,11 +2805,6 @@ void UMLDoc::createDatatype(const QString &name)  {
         createUMLObject(ot_Datatype, name);
     }
     UMLApp::app()->getListView()->closeDatatypesFolder();
-}
-
-void UMLDoc::addObject(UMLObject* o) {
-    m_objectList.append(o);
-    signalUMLObjectCreated(o);
 }
 
 void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point) {

@@ -435,7 +435,7 @@ void UMLView::hideEvent(QHideEvent* /*he*/) {
     // a periodic update of all - also invisible - diagrams
     // can cause a very high CPU load if more than 100diagrams
     // are inside a project - and this without any need
-    // => switch the update of for hidden diagrams
+    // => switch the update off for hidden diagrams
     canvas()-> setUpdatePeriod( -1 );
 # endif
 }
@@ -1678,11 +1678,11 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
         return false;
     }
     if (!isPasteOperation && findWidget(pWidget->getID())) {
-        kdDebug() << "UMLView::addWidget: Not adding "
-        << "(id=" << ID2STR(pWidget->getID())
-        << "/type=" << pWidget->getBaseType()
-        << "/name=" << pWidget->getName()
-        << ") because it's already there" << endl;
+        kdError() << "UMLView::addWidget: Not adding "
+                  << "(id=" << ID2STR(pWidget->getID())
+                  << "/type=" << pWidget->getBaseType()
+                  << "/name=" << pWidget->getName()
+                  << ") because it's already there" << endl;
         return false;
     }
     Widget_Type type = pWidget->getBaseType();
@@ -1751,8 +1751,15 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
             }
             pWidget -> setUMLObject( pObject );
             //make sure it doesn't already exist.
-            if( findWidget( newID ) )
+            if (findWidget(newID)) {
+                kdDebug() << "UMLView::addWidget: Not adding "
+                          << "(id=" << ID2STR(pWidget->getID())
+                          << "/type=" << pWidget->getBaseType()
+                          << "/name=" << pWidget->getName()
+                          << ") because it's already there" << endl;
+                delete pWidget; // Not nice but if _we_ don't do it nobody else will
                 return true;//don't stop paste just because widget found.
+            }
             m_WidgetList.append( pWidget );
         }
         break;
@@ -1856,11 +1863,10 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation)
 
         Uml::IDType ida = Uml::id_None, idb = Uml::id_None;
         Association_Type type = pAssoc -> getAssocType();
-        IDChangeLog* localLog = getLocalIDChangeLog();
         if( getType() == dt_Collaboration || getType() == dt_Sequence ) {
             //check local log first
-            ida = localLog->findNewID( pAssoc->getWidgetID(A) );
-            idb = localLog->findNewID( pAssoc->getWidgetID(B) );
+            ida = m_pIDChangesLog->findNewID( pAssoc->getWidgetID(A) );
+            idb = m_pIDChangesLog->findNewID( pAssoc->getWidgetID(B) );
             //if either is still not found and assoc type is anchor
             //we are probably linking to a notewidet - else an error
             if( ida == Uml::id_None && type == at_Anchor )
@@ -1986,10 +1992,6 @@ void UMLView::endPartialWidgetPaste() {
     m_pIDChangesLog = 0;
 
     m_bPaste = false;
-}
-
-IDChangeLog* UMLView::getLocalIDChangeLog() {
-    return m_pIDChangesLog;
 }
 
 void UMLView::removeAssoc(AssociationWidget* pAssoc) {
@@ -3627,7 +3629,10 @@ bool UMLView::loadAssociationsFromXMI( QDomElement & qElement ) {
 void UMLView::addObject(UMLObject *object)
 {
     m_bCreateObject = true;
-    m_pDoc->addObject(object);
+    if (m_pDoc->addUMLObject(object))
+        m_pDoc->signalUMLObjectCreated(object);  // m_bCreateObject is reset by slotObjectCreated()
+    else
+        m_bCreateObject = false;
 }
 
 bool UMLView::loadUisDiagramPresentation(QDomElement & qElement) {

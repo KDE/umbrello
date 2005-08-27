@@ -586,18 +586,7 @@ public:
      */
     bool activateAfterLoad( bool bUseLog = false );
 
-    /**
-     *  FIXME Gustavo ???
-     */
-    IDChangeLog* getLocalIDChangeLog();
-
-    /**
-    * FIXME Gustavo ???
-    */
     void endPartialWidgetPaste();
-    /**
-     * FIXME Gustavo ???
-     */
     void beginPartialWidgetPaste();
 
     /**
