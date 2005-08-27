@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2004
+ *  copyright (C) 2004-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -126,10 +126,11 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
     if (currentObj) {
         UMLPackage *pkg = NULL;
         if (dynamic_cast<UMLClassifierListItem*>(currentObj)) {
-            pkg = dynamic_cast<UMLPackage*>(currentObj->parent());
-        } else {
-            pkg = currentObj->getUMLPackage();
+            currentObj = static_cast<UMLObject*>(currentObj->parent());
         }
+        pkg = dynamic_cast<UMLPackage*>(currentObj);
+        if (pkg == NULL)
+            pkg = currentObj->getUMLPackage();
         // Remember packages that we've seen - for avoiding cycles.
         UMLPackageList seenPkgs;
         for (; pkg; pkg = currentObj->getUMLPackage()) {
