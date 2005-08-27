@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -41,7 +41,7 @@ public:
      * @param rt		The return type of the operation.
      */
     UMLOperation(const UMLClassifier * parent, QString Name, Uml::IDType id = Uml::id_None,
-                 Uml::Scope s = Uml::Public, QString rt = "void");
+                 Uml::Scope s = Uml::Public, QString rt = QString::null);
 
     /**
      * Constructs an UMLOperation.
