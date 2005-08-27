@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2003-2004
+ *  copyright (C) 2003-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -71,8 +71,9 @@ public:
      * Adds an object in this package.
      *
      * @param pObject	Pointer to the UMLObject to add.
+     * @return    True if the object was actually added.
      */
-    void addObject(const UMLObject *pObject);
+    bool addObject(const UMLObject *pObject);
 
     /**
      * Removes an object from this package.
