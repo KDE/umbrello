@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -95,22 +95,6 @@ public:
      */
     void setInstanceName(const QString &name) {
         m_InstanceName = name;
-    }
-
-    /**
-     * Returns the documentation for the object.
-     *
-     * @return	The documentation for the object.
-     */
-    QString getDoc() const;
-
-    /**
-     * Sets the documentation.
-     *
-     * @param _doc		The documentation to set to.
-     */
-    void setDoc(const QString &_doc) {
-        m_Doc = _doc;
     }
 
     /**
@@ -270,7 +254,6 @@ public slots:
     void slotMessageMoved();
 
 protected:
-    QString m_Doc;
     SeqLineWidget * m_pLine;
 
     /**

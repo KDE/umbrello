@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2004
+ *  copyright (C) 2004-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -40,12 +40,14 @@ void WidgetBase::setUMLObject(UMLObject * o) {
 QString WidgetBase::getDoc() const {
     if (m_pObject != NULL)
         return m_pObject->getDoc();
-    return "";
+    return m_Doc;
 }
 
 void WidgetBase::setDoc( const QString &doc ) {
     if (m_pObject != NULL)
         m_pObject->setDoc( doc );
+    else
+        m_Doc = doc;
 }
 
 #include "widgetbase.moc"

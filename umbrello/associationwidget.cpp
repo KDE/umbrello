@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -265,12 +265,6 @@ QString AssociationWidget::getName() const {
     return m_pName->getText();
 }
 
-QString AssociationWidget::getDoc() const {
-    if (m_pObject)
-        return m_pObject->getDoc();
-    return m_Doc;
-}
-
 FloatingText* AssociationWidget::getRoleWidget(Role_Type role) {
     return m_role[role].m_pRole;
 }
@@ -425,13 +419,6 @@ bool AssociationWidget::setRoleName (const QString &strRole, Role_Type role) {
     else
         m_role[role].m_pRole -> hide();
     return true;
-}
-
-void AssociationWidget::setDoc (const QString &doc) {
-    if (m_pObject)
-        m_pObject->setDoc(doc);
-    else
-        m_Doc = doc;
 }
 
 void AssociationWidget::setRoleDoc (const QString &doc, Role_Type role) {
@@ -1955,7 +1942,7 @@ void AssociationWidget::constrainTextPos(int &textX, int &textY,
             textX = p1.x();
         return;
     }
-    // @todo: deal with slopes
+    // @todo deal with slopes
 }
 
 void AssociationWidget::calculateNameTextSegment() {

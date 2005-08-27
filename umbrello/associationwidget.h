@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -162,13 +162,6 @@ public:
      * @return	Pointer to the text role's FloatingText widget.
      */
     FloatingText* getTextWidgetByRole(Uml::Text_Role tr);
-
-    /**
-     * Returns the documentation about this association.
-     *
-     * @return	The AssociationWidget's documentation text.
-     */
-    QString getDoc() const;
 
     /**
      * Return the given role's FloatingText widget text.
@@ -417,11 +410,6 @@ public:
      *  should already be set.
      */
     bool setRoleName(const QString &strRole, Uml::Role_Type role);
-
-    /**
-     * Set the documentation on this association.
-     */
-    void setDoc(const QString &doc);
 
     /**
      * Set the documentation on the given role.
@@ -928,7 +916,6 @@ private:
     LinePath m_LinePath;
 
     // The following items are only used if m_pObject is not set.
-    QString m_Doc;
     Uml::Association_Type m_AssocType;
 
 public slots:

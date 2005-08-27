@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -80,16 +80,6 @@ public:
     virtual QString getName() const;
 
     /**
-     * Returns the documentation of the state.
-     */
-    QString getDoc() const;
-
-    /**
-     * Sets the documenation of the state.
-     */
-    void setDoc( const QString &doc );
-
-    /**
      * Returns the type of state.
      */
     StateType getStateType() const;
@@ -159,16 +149,6 @@ protected:
      * Type of state.
      */
     StateType m_StateType;
-
-    /**
-     * Name of the state.
-     */
-    QString m_Name;
-
-    /**
-     * Documentation for the state
-     */
-    QString m_Doc;
 
     /**
      * List of activities for the state.

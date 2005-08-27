@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -116,14 +116,6 @@ void ActivityWidget::setName( const QString &strName ) {
 
 QString ActivityWidget::getName() const {
     return m_Name;
-}
-
-QString ActivityWidget::getDoc() const {
-    return m_Doc;
-}
-
-void ActivityWidget::setDoc( const QString &doc ) {
-    m_Doc = doc;
 }
 
 ActivityWidget::ActivityType ActivityWidget::getActivityType() const {

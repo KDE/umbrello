@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -79,16 +79,6 @@ public:
     virtual QString getName() const;
 
     /**
-     * Returns the documentation of the activity.
-     */
-    QString getDoc() const;
-
-    /**
-     * Sets the documenation of the activity.
-     */
-    void setDoc( const QString &doc );
-
-    /**
      * Returns the type of activity.
      */
     ActivityType getActivityType() const;
@@ -139,11 +129,6 @@ protected:
      * Name of the activity.
      */
     QString m_Name;
-
-    /**
-     * Documentation for the activity.
-     */
-    QString m_Doc;
 
 public slots:
 

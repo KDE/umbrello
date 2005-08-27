@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -26,7 +26,7 @@ StateWidget::StateWidget(UMLView * view, StateType stateType, Uml::IDType id)
         : UMLWidget(view, id) {
     UMLWidget::setBaseType(Uml::wt_State);
     m_StateType = stateType;
-    m_Name = "State";
+    m_Text = "State";
     calculateSize();
 }
 
@@ -130,21 +130,13 @@ void StateWidget::calculateSize() {
 }
 
 void StateWidget::setName(const QString &strName) {
-    m_Name = strName;
+    m_Text = strName;
     calculateSize();
     adjustAssocs( getX(), getY() );
 }
 
 QString StateWidget::getName() const {
-    return m_Name;
-}
-
-QString StateWidget::getDoc() const {
-    return m_Doc;
-}
-
-void StateWidget::setDoc( const QString &doc ) {
-    m_Doc = doc;
+    return m_Text;
 }
 
 StateWidget::StateType StateWidget::getStateType() const {
@@ -249,7 +241,7 @@ bool StateWidget::isState(WorkToolBar::ToolBar_Buttons tbb, StateType& resultTyp
 void StateWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement stateElement = qDoc.createElement( "statewidget" );
     UMLWidget::saveToXMI( qDoc, stateElement );
-    stateElement.setAttribute( "statename", m_Name );
+    stateElement.setAttribute( "statename", m_Text );
     stateElement.setAttribute( "documentation", m_Doc );
     stateElement.setAttribute( "statetype", m_StateType );
     //save states activities
@@ -268,7 +260,7 @@ void StateWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 bool StateWidget::loadFromXMI( QDomElement & qElement ) {
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
-    m_Name = qElement.attribute( "statename", "" );
+    m_Text = qElement.attribute( "statename", "" );
     m_Doc = qElement.attribute( "documentation", "" );
     QString type = qElement.attribute( "statetype", "1" );
     m_StateType = (StateType)type.toInt();

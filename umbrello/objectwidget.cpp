@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -44,7 +44,6 @@ ObjectWidget::ObjectWidget(UMLView * view, UMLObject *o, Uml::IDType lid)
 
 void ObjectWidget::init() {
     UMLWidget::setBaseType(Uml::wt_Object);
-    m_Doc = "";
     m_nLocalID = Uml::id_None;
     m_InstanceName = "";
     m_bMultipleInstance = false;
@@ -143,10 +142,6 @@ void ObjectWidget::calculateSize() {
     setSize(width, height);
     adjustAssocs( getX(), getY() );//adjust assoc lines
     moveEvent( 0 );
-}
-
-QString ObjectWidget::getDoc() const {
-    return m_Doc;
 }
 
 void ObjectWidget::setDrawAsActor( bool drawAsActor ) {

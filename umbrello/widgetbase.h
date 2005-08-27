@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2004
+ *  copyright (C) 2004-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -96,6 +96,7 @@ protected:
 
     UMLView   *m_pView;
     UMLObject *m_pObject;
+    QString m_Doc;  ///< Only used if m_pObject is not set.
 };
 
 #endif
