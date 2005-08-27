@@ -1,10 +1,6 @@
 /***************************************************************************
-    begin                : Sat Jan 4 2003
-    copyright            : (C) 2003 by Oliver Kellogg
-    email                : okellogg@users.sourceforge.net
- ***************************************************************************/
-
-/***************************************************************************
+ *  copyright (C) 2003-2005                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -16,7 +12,6 @@
 #include "idlwriter.h"
 
 #include <kdebug.h>
-#include <klocale.h>
 #include <kmessagebox.h>
 #include <qfile.h>
 #include <qptrlist.h>

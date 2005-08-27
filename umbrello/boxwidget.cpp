@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2003-2004
+ *  copyright (C) 2003-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -12,13 +12,10 @@
  *                                                                         *
  ***************************************************************************/
 
-//qt includes
-#include <qpointarray.h>
-//kde includes
+// qt/kde includes
 #include <kcursor.h>
-#include <kcolordialog.h>
 #include <kdebug.h>
-//app includes
+// app includes
 #include "umlview.h"
 #include "boxwidget.h"
 

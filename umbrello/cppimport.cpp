@@ -20,8 +20,6 @@
 #include "import_utils.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "umllistview.h"
-#include "umllistviewitem.h"
 #include "umlobject.h"
 #include "docwindow.h"
 #include "package.h"
