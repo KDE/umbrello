@@ -761,7 +761,7 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement) {
         for (UMLClassifierListItem *tmpl = list.first(); tmpl; tmpl = list.next() ) {
             tmpl->saveToXMI(qDoc, tmplElement);
         }
-        qElement.appendChild( tmplElement );
+        classifierElement.appendChild( tmplElement );
     }
 
     //save generalizations (we are the subclass, the other end is the superclass)
