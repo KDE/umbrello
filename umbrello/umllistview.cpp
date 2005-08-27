@@ -575,35 +575,27 @@ void UMLListView::slotDiagramCreated( Uml::IDType id ) {
     UMLApp::app() -> getDocWindow() -> showDocumentation( v , false );
 }
 
-void UMLListView::slotObjectCreated(UMLObject* object) {
-    UMLListViewItem* newItem = findUMLObject(object);
-    if (newItem) {
-        kdDebug() << "UMLListView::slotObjectCreated(" << object->getName()
-                  << ", id= " << ID2STR(object->getID())
-                  << "): item already exists." << endl;
-        return;
-    }
-    UMLListViewItem* parentItem = 0;
+UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const {
+    UMLListViewItem* parentItem = NULL;
     UMLListViewItem* current = (UMLListViewItem*) currentItem();
-    Uml::Object_Type type = object->getBaseType();
     Uml::ListView_Type lvt = Uml::lvt_Unknown;
     if (current)
         lvt = current->getType();
+    Uml::Object_Type type = object->getBaseType();
 
-    switch( type )
-    {
+    switch (type) {
     case Uml::ot_Attribute:
     case Uml::ot_Operation:
     case Uml::ot_Template:
     case Uml::ot_EnumLiteral:
     case Uml::ot_EntityAttribute:
         //this will be handled by childObjectAdded
-        return;
+        return NULL;
         break;
     case Uml::ot_Association:
     case Uml::ot_Role:
     case Uml::ot_Stereotype:
-        return;  // currently no representation in list view
+        return NULL;  // currently no representation in list view
         break;
     case Uml::ot_Class:
     case Uml::ot_Interface:
@@ -615,18 +607,10 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
             if (pkg) {
                 UMLListViewItem* pkgItem = findUMLObject(pkg);
                 if (pkgItem == NULL)
-                    kdDebug() << "UMLListView::slotObjectCreated: could not find "
+                    kdError() << "UMLListView::slotObjectCreated: could not find "
                     << "parent package " << pkg->getName() << endl;
                 else
                     parentItem = pkgItem;
-            }
-            if (parentItem) {
-                //CHECK: Are these assignments necessary here?
-                // They should already have been done at object creation.
-                UMLPackage *pkg = (UMLPackage*)parentItem->getUMLObject();
-                object->setUMLPackage(pkg);
-                if (pkg)
-                    pkg->addObject(object);
             } else if (lvt == Uml::lvt_Logical_Folder)
                 parentItem = current;
             else if (type == Uml::ot_Datatype)
@@ -637,14 +621,14 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
         break;
     case Uml::ot_Actor:
     case Uml::ot_UseCase:
-        if ( lvt == Uml::lvt_UseCase_Folder )
+        if (lvt == Uml::lvt_UseCase_Folder)
             parentItem = current;
         else
             parentItem = m_ucv;
         break;
     case Uml::ot_Component:
     case Uml::ot_Artifact:
-        if( lvt == Uml::lvt_Component_Folder )
+        if (lvt == Uml::lvt_Component_Folder)
             parentItem = current;
         else
             parentItem = componentView;
@@ -667,8 +651,23 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
         kdWarning() << "UMLListView::slotObjectCreated("<< object->getName()
         << ") : no appropriate parent found for type " << type
         << endl;
+        return NULL;
+    }
+    return parentItem;
+}
+
+void UMLListView::slotObjectCreated(UMLObject* object) {
+    UMLListViewItem* newItem = findUMLObject(object);
+    if (newItem) {
+        kdDebug() << "UMLListView::slotObjectCreated(" << object->getName()
+                  << ", id= " << ID2STR(object->getID())
+                  << "): item already exists." << endl;
         return;
     }
+    UMLListViewItem* parentItem = determineParentItem(object);
+    if (parentItem == NULL)
+        return;
+    Uml::Object_Type type = object->getBaseType();
 
     connectNewObjectsSlots(object);
     newItem = new UMLListViewItem(parentItem, object->getName(), convert_OT_LVT(type), object);

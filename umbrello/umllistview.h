@@ -151,6 +151,15 @@ public:
                                 UMLListViewItem* parent = 0);
 
     /**
+     * Determine the parent ListViewItem given an UMLObject.
+     *
+     * @param object   Pointer to the UMLObject for which to look up the parent.
+     * @return    Pointer to the parent UMLListViewItem chosen.
+     *            Returns NULL on error (no parent could be determined.)
+     */
+    UMLListViewItem* determineParentItem(UMLObject* object) const;
+
+    /**
      * Determine the parent ListViewItem given a ListView_Type.
      * This parent is used for creating new UMLListViewItems.
      *
