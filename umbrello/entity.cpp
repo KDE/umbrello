@@ -79,7 +79,7 @@ UMLObject* UMLEntity::createEntityAttribute(const QString &name /*=null*/) {
 
         if(name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-        } else if ( findChildObject(Uml::ot_EntityAttribute, name) != NULL ) {
+        } else if ( findChildObject(name) != NULL ) {
             KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
         } else {
             goodName = true;
@@ -107,7 +107,7 @@ UMLObject* UMLEntity::addEntityAttribute(const QString& name, Uml::IDType id) {
 
 bool UMLEntity::addEntityAttribute(UMLEntityAttribute* attribute, IDChangeLog* Log /* = 0*/) {
     QString name = (QString)attribute->getName();
-    if (findChildObject(Uml::ot_EntityAttribute, name) == NULL) {
+    if (findChildObject(name) == NULL) {
         attribute->parent()->removeChild(attribute);
         this->insertChild(attribute);
         m_List.append(attribute);
@@ -124,7 +124,7 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* attribute, IDChangeLog* L
 
 bool UMLEntity::addEntityAttribute(UMLEntityAttribute* attribute, int position) {
     QString name = (QString)attribute->getName();
-    if (findChildObject( Uml::ot_EntityAttribute, name) == NULL) {
+    if (findChildObject(name) == NULL) {
         attribute->parent()->removeChild(attribute);
         this->insertChild(attribute);
         if ( position >= 0 && position <= (int)m_List.count() )  {

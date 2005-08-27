@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2003-2004
+ *  copyright (C) 2003-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -128,7 +128,7 @@ bool UMLTemplateDialog::apply() {
 
     UMLClassifier * pClass = dynamic_cast<UMLClassifier *>( m_pTemplate->parent() );
     if (pClass) {
-        UMLObject *o = pClass->findChildObject(Uml::ot_Attribute, name);
+        UMLObject *o = pClass->findChildObject(name);
         if (o) {
             KMessageBox::error(this, i18n("The template parameter name you have chosen is already being used in this operation."),
                                i18n("Template Name Not Unique"), false);

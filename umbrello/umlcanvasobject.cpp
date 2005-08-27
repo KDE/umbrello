@@ -113,17 +113,17 @@ QString UMLCanvasObject::uniqChildName( const Uml::Object_Type type,
     }
 
     QString name = currentName;
-    for (int number = 1; findChildObject(type, name); ++number) {
+    for (int number = 1; findChildObject(name); ++number) {
         name = currentName + "_" + QString::number(number);
     }
     return name;
 }
 
-UMLObject * UMLCanvasObject::findChildObject(Uml::Object_Type t, const QString &n) {
+UMLObject * UMLCanvasObject::findChildObject(const QString &n, Uml::Object_Type t) {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     UMLObject *obj;
     for (UMLObjectListIt oit(m_List); (obj = oit.current()) != NULL; ++oit) {
-        if (obj->getBaseType() != t)
+        if (t != Uml::ot_UMLObject && obj->getBaseType() != t)
             continue;
         if (caseSensitive) {
             if (obj->getName() == n)

@@ -160,13 +160,14 @@ public:
     UMLAssociationList getRelationships();
 
     /**
-     * Find a child object with the given type and name.
+     * Find a child object with the given name.
      *
-     * @param t		The type to find.
-     * @param n		The name of the object to find.
-     * @return	Pointer to the object found; NULL if none found.
+     * @param n         The name of the object to find.
+     * @param t         The type to find (optional.) If not given then
+     *                  any object type will match.
+     * @return  Pointer to the object found; NULL if none found.
      */
-    virtual UMLObject *findChildObject(Uml::Object_Type t, const QString &n);
+    virtual UMLObject *findChildObject(const QString &n, Uml::Object_Type t = Uml::ot_UMLObject);
 
     /**
      * Find an association.

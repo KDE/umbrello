@@ -268,7 +268,7 @@ UMLObject* UMLClassifier::createTemplate(QString currentName /*= QString::null*/
 
         if(name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-        } else if ( findChildObject(Uml::ot_Template, name) != NULL ) {
+        } else if ( findChildObject(name) != NULL ) {
             KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
         } else {
             goodName = true;
@@ -484,7 +484,7 @@ UMLObject* UMLClassifier::createAttribute(const QString &name /*=null*/) {
 
         if(name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-        } else if ( findChildObject(Uml::ot_Attribute, name) != NULL ) {
+        } else if ( findChildObject(name) != NULL ) {
             KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
         } else {
             goodName = true;
@@ -530,7 +530,7 @@ UMLAttribute* UMLClassifier::addAttribute(const QString &name, UMLObject *type, 
 
 bool UMLClassifier::addAttribute(UMLAttribute* att, IDChangeLog* Log /* = 0 */,
                                  int position /* = -1 */) {
-    if (findChildObject(Uml::ot_Attribute, att->getName()) == NULL) {
+    if (findChildObject(att->getName()) == NULL) {
         att->parent()->removeChild( att );
         this->insertChild( att );
         if (position >= 0 && position < (int)m_List.count())
@@ -652,7 +652,7 @@ UMLTemplate* UMLClassifier::addTemplate(const QString &name, Uml::IDType id) {
 
 bool UMLClassifier::addTemplate(UMLTemplate* newTemplate, IDChangeLog* log /* = 0*/) {
     QString name = newTemplate->getName();
-    if (findChildObject(Uml::ot_Template, name) == NULL) {
+    if (findChildObject(name) == NULL) {
         newTemplate->parent()->removeChild(newTemplate);
         this->insertChild(newTemplate);
         m_List.append(newTemplate);
@@ -670,7 +670,7 @@ bool UMLClassifier::addTemplate(UMLTemplate* newTemplate, IDChangeLog* log /* = 
 bool UMLClassifier::addTemplate(UMLTemplate* Template, int position)
 {
     QString name = Template->getName();
-    if (findChildObject(Uml::ot_Template, name) == NULL) {
+    if (findChildObject(name) == NULL) {
         Template->parent()->removeChild(Template);
         this->insertChild(Template);
         if( position >= 0 && position <= (int)m_List.count() )

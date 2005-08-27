@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -196,7 +196,7 @@ bool UMLEntityAttributeDialog::apply() {
         return false;
     }
     UMLClassifier * pConcept = dynamic_cast<UMLClassifier *>( m_pEntityAttribute->parent() );
-    UMLObject *o = pConcept->findChildObject(Uml::ot_EntityAttribute, name);
+    UMLObject *o = pConcept->findChildObject(name);
     if (o) {
         KMessageBox::error(this, i18n("The entity attribute name you have chosen is already being used in this operation."),
                            i18n("Entity Attribute Name Not Unique"), false);

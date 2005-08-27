@@ -94,7 +94,7 @@ UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::IDType id) {
 
 bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log /* = 0*/) {
     QString name = (QString)literal->getName();
-    if (findChildObject(Uml::ot_EnumLiteral, name) == NULL) {
+    if (findChildObject(name) == NULL) {
         literal->parent()->removeChild(literal);
         this->insertChild(literal);
         m_List.append(literal);
@@ -111,7 +111,7 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log /* = 0*/)
 
 bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, int position) {
     QString name = (QString)literal->getName();
-    if (findChildObject( Uml::ot_EnumLiteral, name) == NULL) {
+    if (findChildObject(name) == NULL) {
         literal->parent()->removeChild(literal);
         this->insertChild(literal);
         if ( position >= 0 && position <= (int)m_List.count() )  {

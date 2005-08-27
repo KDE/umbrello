@@ -1330,7 +1330,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o) {
         if(name.length() == 0)
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
         else {
-            if (p->findChildObject(o->getBaseType(), name) == NULL
+            if (p->findChildObject(name) == NULL
                     || ((o->getBaseType() == Uml::ot_Operation) && KMessageBox::warningYesNo( kapp -> mainWidget() ,
                             i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
                             i18n( "Name Not Unique"),i18n("Use Name"),i18n("Enter New Name")) == KMessageBox::Yes) ) {

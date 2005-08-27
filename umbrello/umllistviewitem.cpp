@@ -423,7 +423,7 @@ void UMLListViewItem::okRename( int col ) {
             Model_Utils::NameAndType nt;
             Model_Utils::Parse_Status st = Model_Utils::parseAttribute(newText, nt, parent);
             if (st == Model_Utils::PS_OK) {
-                UMLObject *exists = parent->findChildObject(Uml::ot_Attribute, newText);
+                UMLObject *exists = parent->findChildObject(newText);
                 if (exists) {
                     cancelRenameWithMsg();
                     return;
@@ -453,7 +453,7 @@ void UMLListViewItem::okRename( int col ) {
             Model_Utils::NameAndType nt;
             Model_Utils::Parse_Status st = Model_Utils::parseTemplate(newText, nt, parent);
             if (st == Model_Utils::PS_OK) {
-                UMLObject *exists = parent->findChildObject(Uml::ot_Template, newText);
+                UMLObject *exists = parent->findChildObject(newText);
                 if (exists) {
                     cancelRenameWithMsg();
                     return;

@@ -2534,8 +2534,7 @@ bool UMLListView::isUnique( UMLListViewItem * item, const QString &name ) {
     case Uml::lvt_Operation:
         {
             UMLClassifier *parent = static_cast<UMLClassifier*>(parentItem->getUMLObject());
-            Uml::Object_Type ot = convert_LVT_OT(type);
-            return (parent->findChildObject(ot, name) == NULL);
+            return (parent->findChildObject(name) == NULL);
             break;
         }
 

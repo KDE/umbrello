@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -152,7 +152,7 @@ bool UMLAttributeDialog::apply() {
         return false;
     }
     UMLClassifier * pConcept = dynamic_cast<UMLClassifier *>( m_pAttribute->parent() );
-    UMLObject *o = pConcept->findChildObject(Uml::ot_Attribute, name);
+    UMLObject *o = pConcept->findChildObject(name);
     if (o) {
         KMessageBox::error(this, i18n("The attribute name you have chosen is already being used in this operation."),
                            i18n("Attribute Name Not Unique"), false);
