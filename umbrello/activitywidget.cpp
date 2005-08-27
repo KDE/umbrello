@@ -12,14 +12,17 @@
  *                                                                         *
  ***************************************************************************/
 
+// own header
 #include "activitywidget.h"
+// qt/kde includes
+#include <qpainter.h>
+#include <klocale.h>
+#include <kdebug.h>
+// app includes
 #include "umlview.h"
 #include "listpopupmenu.h"
-#include "dialogs/activitydialog.h"
-
 #include "inputdialog.h"
-#include <klocale.h>
-#include <qpainter.h>
+#include "dialogs/activitydialog.h"
 
 ActivityWidget::ActivityWidget(UMLView * view, ActivityType activityType, Uml::IDType id )
         : UMLWidget(view, id)
@@ -49,7 +52,8 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
             p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
             p.setPen(black);
             p.setFont( UMLWidget::getFont() );
-            p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + textStartY, w - ACTIVITY_MARGIN * 2, fontHeight, AlignCenter, getName());
+            p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + textStartY,
+                       w - ACTIVITY_MARGIN * 2, fontHeight, AlignCenter, getName());
         }
         UMLWidget::setPen(p);
         break;
@@ -80,8 +84,8 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
             p.drawPolyline( array );
         }
         break;
-    case Fork :
-        p.fillRect( offsetX, offsetY, width(), height(), QBrush( black ));
+    case Fork_DEPRECATED :  // to be removed
+        p.fillRect( offsetX, offsetY, width(), height(), QBrush( darkYellow ));
         break;
     }
     if(m_bSelected)
@@ -101,21 +105,8 @@ void ActivityWidget::calculateSize() {
         height += ACTIVITY_MARGIN * 2;
     } else if ( m_ActivityType == Branch ) {
         width = height = 20;
-    } else if ( m_ActivityType == Fork ) {
-        width = 40;
-        height = 4;
     }
     setSize(width, height);
-}
-
-void ActivityWidget::setName( const QString &strName ) {
-    m_Name = strName;
-    calculateSize();
-    adjustAssocs( getX(), getY() );
-}
-
-QString ActivityWidget::getName() const {
-    return m_Name;
 }
 
 ActivityWidget::ActivityType ActivityWidget::getActivityType() const {
@@ -130,13 +121,13 @@ void ActivityWidget::slotMenuSelection(int sel) {
     bool done = false;
 
     bool ok = false;
-    QString name = m_Name;
+    QString name = m_Text;
 
     switch( sel ) {
     case ListPopupMenu::mt_Rename:
-        name = KInputDialog::getText( i18n("Enter Activity Name"), i18n("Enter the name of the new activity:"), m_Name, &ok );
+        name = KInputDialog::getText( i18n("Enter Activity Name"), i18n("Enter the name of the new activity:"), m_Text, &ok );
         if( ok && name.length() > 0 )
-            m_Name = name;
+            m_Text = name;
         done = true;
         break;
 
@@ -179,7 +170,8 @@ bool ActivityWidget::isActivity(WorkToolBar::ToolBar_Buttons tbb,
         resultType = Branch;
         break;
     case WorkToolBar::tbb_Fork:
-        resultType = Fork;
+        kdError() << "ActivityWidget::isActivity returns Fork_DEPRECATED" << endl;
+        resultType = Fork_DEPRECATED;
         break;
     default:
         status = false;
@@ -191,7 +183,7 @@ bool ActivityWidget::isActivity(WorkToolBar::ToolBar_Buttons tbb,
 void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement activityElement = qDoc.createElement( "activitywidget" );
     UMLWidget::saveToXMI( qDoc, activityElement );
-    activityElement.setAttribute( "activityname", m_Name );
+    activityElement.setAttribute( "activityname", m_Text );
     activityElement.setAttribute( "documentation", m_Doc );
     activityElement.setAttribute( "activitytype", m_ActivityType );
     qElement.appendChild( activityElement );
@@ -200,7 +192,7 @@ void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 bool ActivityWidget::loadFromXMI( QDomElement & qElement ) {
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
-    m_Name = qElement.attribute( "activityname", "" );
+    m_Text = qElement.attribute( "activityname", "" );
     m_Doc = qElement.attribute( "documentation", "" );
     QString type = qElement.attribute( "activitytype", "1" );
     m_ActivityType = (ActivityType)type.toInt();

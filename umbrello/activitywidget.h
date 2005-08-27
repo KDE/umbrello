@@ -45,7 +45,7 @@ public:
         Normal,
         End,
         Branch,
-        Fork
+        Fork_DEPRECATED  // use ForkJoinWidget instead
     };
 
     /**
@@ -69,16 +69,6 @@ public:
     void draw(QPainter & p, int offsetX, int offsetY);
 
     /**
-     * Sets the name of the Activity.
-     */
-    virtual void setName(const QString &strName);
-
-    /**
-     * Returns the name of the Activity.
-     */
-    virtual QString getName() const;
-
-    /**
      * Returns the type of activity.
      */
     ActivityType getActivityType() const;
@@ -95,6 +85,7 @@ public:
 
     /**
      * Determines whether a toolbar button represents an Activity.
+     * CHECK: currently unused - can this be removed?
      *
      * @param tbb		The toolbar button enum input value.
      * @param resultType	The ActivityType corresponding to tbb.
@@ -124,11 +115,6 @@ protected:
      * Type of activity.
      */
     ActivityWidget::ActivityType m_ActivityType;
-
-    /**
-     * Name of the activity.
-     */
-    QString m_Name;
 
 public slots:
 

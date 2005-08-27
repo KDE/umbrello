@@ -78,6 +78,7 @@
 #include "objectwidget.h"
 #include "messagewidget.h"
 #include "statewidget.h"
+#include "forkjoinwidget.h"
 #include "activitywidget.h"
 #include "seqlinewidget.h"
 
@@ -3472,7 +3473,7 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
     QString tag  = widgetElement.tagName();
 
     if (tag == "statewidget" || tag == "notewidget" || tag == "boxwidget" ||
-            tag == "floatingtext" || tag == "activitywidget" ||
+        tag == "floatingtext" || tag == "activitywidget" || tag == "forkjoin" ||
             // tests for backward compatibility:
             tag == "UML:StateWidget" || tag == "UML:NoteWidget" ||
             tag == "UML:FloatingTextWidget" || tag == "UML:ActivityWidget")
@@ -3494,7 +3495,14 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
             widget = new FloatingText(this, Uml::tr_Floating, "", Uml::id_Reserved);
         } else if (tag == "activitywidget"
                    || tag == "UML:ActivityWidget") {      // for bkwd compatibility
-            widget = new ActivityWidget(this, ActivityWidget::Normal, Uml::id_Reserved);
+            int type = widgetElement.attribute("activitytype", "1").toInt();
+            if (type == ActivityWidget::Fork_DEPRECATED)  // for bkwd compatibility
+                widget = new ForkJoinWidget(this, false, Uml::id_Reserved);
+            else
+                widget = new ActivityWidget(this, (ActivityWidget::ActivityType)type,
+                                            Uml::id_Reserved);
+        } else if (tag == "forkjoin") {
+            widget = new ForkJoinWidget(this, false, Uml::id_Reserved);
         }
     }
     else

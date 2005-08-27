@@ -46,6 +46,7 @@ enumliteral.cpp \
 enumwidget.cpp \
 exportviewaction.cpp \
 floatingtext.cpp \
+forkjoinwidget.cpp \
 kplayerslideraction.cpp \
 hierarchicalcodeblock.cpp \
 idlimport.cpp \

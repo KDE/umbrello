@@ -31,6 +31,7 @@
 #include "boxwidget.h"
 #include "floatingtext.h"
 #include "activitywidget.h"
+#include "forkjoinwidget.h"
 #include "statewidget.h"
 
 using namespace Uml;
@@ -75,48 +76,49 @@ bool ToolBarStateOther::newWidget()
 
     switch (getButton())
     {
-    case (WorkToolBar::tbb_Note):
+    case WorkToolBar::tbb_Note:
         umlWidget = new NoteWidget(m_pUMLView);
         break;
 
-    case (WorkToolBar::tbb_Box):
+    case WorkToolBar::tbb_Box:
         umlWidget = new BoxWidget(m_pUMLView);
         break;
 
-    case (WorkToolBar::tbb_Text):
+    case WorkToolBar::tbb_Text:
         umlWidget = new FloatingText(m_pUMLView, tr_Floating, "");
         break;
 
         // Activity buttons
-    case (WorkToolBar::tbb_Initial_Activity):
+    case WorkToolBar::tbb_Initial_Activity:
         umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::Initial);
         break;
 
-    case (WorkToolBar::tbb_Activity):
+    case WorkToolBar::tbb_Activity:
         umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::Normal);
         break;
 
-    case (WorkToolBar::tbb_End_Activity):
+    case WorkToolBar::tbb_End_Activity:
         umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::End);
         break;
 
-    case (WorkToolBar::tbb_Branch):
+    case WorkToolBar::tbb_Branch:
         umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::Branch);
         break;
 
-    case (WorkToolBar::tbb_Fork):
-        umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::Fork);
+    case WorkToolBar::tbb_Fork:
+    case WorkToolBar::tbb_StateFork:
+        umlWidget = new ForkJoinWidget(m_pUMLView);
         break;
 
-    case (WorkToolBar::tbb_Initial_State):
+    case WorkToolBar::tbb_Initial_State:
         umlWidget = new StateWidget(m_pUMLView, StateWidget::Initial);
         break;
 
-    case (WorkToolBar::tbb_State):
+    case WorkToolBar::tbb_State:
         umlWidget = new StateWidget(m_pUMLView, StateWidget::Normal);
         break;
 
-    case (WorkToolBar::tbb_End_State):
+    case WorkToolBar::tbb_End_State:
         umlWidget = new StateWidget(m_pUMLView, StateWidget::End);
         break;
     default: break;

@@ -78,11 +78,17 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
         break;
 
     case at_State:
-        return ( static_cast<StateWidget*>(widget)->getStateType() != StateWidget::End );
+        {
+            StateWidget *pState = dynamic_cast<StateWidget*>(widget);
+            return (pState == NULL || pState->getStateType() != StateWidget::End);
+        }
         break;
 
     case at_Activity:
-        return ( static_cast<ActivityWidget*>(widget)->getActivityType() != ActivityWidget::End );
+        {
+            ActivityWidget *pActivity = dynamic_cast<ActivityWidget*>(widget);
+            return (pActivity == NULL || pActivity->getActivityType() != ActivityWidget::End);
+        }
         break;
 
     case at_Anchor:
@@ -164,11 +170,17 @@ bool AssocRules::allowAssociation( Association_Type assocType,
         break;
 
     case at_State:
-        if( static_cast<StateWidget*>(widgetB)->getStateType() == StateWidget::Initial )
-            return false;
-        if( static_cast<StateWidget*>(widgetB)->getStateType() == StateWidget::End &&
-                static_cast<StateWidget*>(widgetA)->getStateType() != StateWidget::Normal )
-            return false;
+        {
+            StateWidget *stateA = dynamic_cast<StateWidget*>(widgetA);
+            StateWidget *stateB = dynamic_cast<StateWidget*>(widgetB);
+            if (stateA && stateB) {
+                if (stateB->getStateType() == StateWidget::Initial)
+                    return false;
+                if (stateB->getStateType() == StateWidget::End &&
+                    stateA->getStateType() != StateWidget::Normal)
+                    return false;
+            }
+        }
         return true;
         break;
 
@@ -185,12 +197,12 @@ bool AssocRules::allowAssociation( Association_Type assocType,
                 static_cast<ActivityWidget*>(widgetA)->getActivityType() !=
                 ActivityWidget::Branch &&
                 static_cast<ActivityWidget*>(widgetA)->getActivityType() !=
-                ActivityWidget::Fork ) {
+                ActivityWidget::Fork_DEPRECATED ) {
             return false;
         }
         // only Forks and Branches can have more than one "outgoing" transition
         if( static_cast<ActivityWidget*>(widgetA)->getActivityType() !=
-                ActivityWidget::Fork &&
+                ActivityWidget::Fork_DEPRECATED &&
                 static_cast<ActivityWidget*>(widgetA)->getActivityType() !=
                 ActivityWidget::Branch ) {
             AssociationWidgetList list = widgetA->getAssocList();
@@ -326,7 +338,11 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
     { at_Containment,	wt_Interface,	wt_Enum,	false,	false,	true,	false },
     { at_Coll_Message,	wt_Object,	wt_Object,	true,	false,	true,	true  },
     { at_State,		wt_State,	wt_State,	true,	false,	true,	true  },
+    { at_State,		wt_ForkJoin,	wt_State,	true,	false,	true,	true  },
+    { at_State,		wt_State,	wt_ForkJoin,	true,	false,	true,	true  },
     { at_Activity,	wt_Activity,	wt_Activity,	true,	false,	true,	true  },
+    { at_Activity,	wt_ForkJoin,	wt_Activity,	true,	false,	true,	true  },
+    { at_Activity,	wt_Activity,	wt_ForkJoin,	true,	false,	true,	true  },
     { at_Anchor,	wt_Class,	wt_Note,	false,	false,	false,	false },
     { at_Anchor,	wt_Package,	wt_Note,	false,	false,	false,	false },
     { at_Anchor,	wt_Interface,	wt_Note,	false,	false,	false,	false },

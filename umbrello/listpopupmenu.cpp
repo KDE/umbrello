@@ -26,6 +26,7 @@
 #include "umlview.h"
 #include "statewidget.h"
 #include "activitywidget.h"
+#include "forkjoinwidget.h"
 #include "objectwidget.h"
 
 //ListPopupMenu for a UMLView (diagram)
@@ -349,6 +350,16 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
             insertItem(i18n("Change State Name..."), mt_Rename);
             insertStdItem(mt_Change_Font);
             insertStdItem(mt_Properties);
+        }
+        break;
+
+    case Uml::wt_ForkJoin:
+        {
+            ForkJoinWidget *pForkJoin = static_cast<ForkJoinWidget*>(object);
+            if (pForkJoin->getDrawVertical())
+                insertItem(i18n("Flip Horizontal"), mt_Flip);
+            else
+                insertItem(i18n("Flip Vertical"), mt_Flip);
         }
         break;
 

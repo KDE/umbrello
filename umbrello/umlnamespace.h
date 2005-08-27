@@ -57,26 +57,27 @@ enum Scope
 
 enum Widget_Type
 {
-    wt_UMLWidget  =  300,	// does not have UMLObject representation
-    wt_Actor,			// has UMLObject representation
-    wt_UseCase,			// has UMLObject representation
-    wt_Class,			// has UMLObject representation
-    wt_Interface,		// has UMLObject representation
-    wt_Datatype,		// has UMLObject representation
-    wt_Enum,			// has UMLObject representation
-    wt_Entity,			// has UMLObject representation
-    wt_Package,			// has UMLObject representation
-    wt_Object,			// has UMLObject representation
-    wt_Note,			// does not have UMLObject representation
-    wt_Box,			// does not have UMLObject representation
-    wt_Message,			// does not have UMLObject representation
-    wt_Text,			// does not have UMLObject representation
-    wt_State,			// does not have UMLObject representation
-    wt_Activity,		// does not have UMLObject representation
-    wt_Component,		// has UMLObject representation
-    wt_Artifact,		// has UMLObject representation
-    wt_Node,			// has UMLObject representation
-    wt_Association		// has UMLObject representation
+    wt_UMLWidget = 300,         // does not have UMLObject representation
+    wt_Actor,                   // has UMLObject representation
+    wt_UseCase,                 // has UMLObject representation
+    wt_Class,                   // has UMLObject representation
+    wt_Interface,               // has UMLObject representation
+    wt_Datatype,                // has UMLObject representation
+    wt_Enum,                    // has UMLObject representation
+    wt_Entity,                  // has UMLObject representation
+    wt_Package,                 // has UMLObject representation
+    wt_Object,                  // has UMLObject representation
+    wt_Note,                    // does not have UMLObject representation
+    wt_Box,                     // does not have UMLObject representation
+    wt_Message,                 // does not have UMLObject representation
+    wt_Text,                    // does not have UMLObject representation
+    wt_State,                   // does not have UMLObject representation
+    wt_Activity,                // does not have UMLObject representation
+    wt_Component,               // has UMLObject representation
+    wt_Artifact,                // has UMLObject representation
+    wt_Node,                    // has UMLObject representation
+    wt_Association,             // has UMLObject representation
+    wt_ForkJoin                 // does not have UMLObject representation
 };
 
 enum Diagram_Type
@@ -234,8 +235,8 @@ typedef std::string IDType;
 const IDType id_None = "-1";
 const IDType id_Reserved = "0";
 
-#	define STR2ID(id)  id.ascii()
-#	define ID2STR(id)  QString(id.c_str())
+# define STR2ID(id)  id.ascii()
+# define ID2STR(id)  QString(id.c_str())
 
 
 /**

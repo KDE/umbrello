@@ -2859,21 +2859,6 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
     WidgetRole& robj = m_role[role];
     UMLWidget * pWidget = robj.m_pWidget;
 
-    // If a fork (ActivityWidget) for widget B then all associations should
-    // meet in the middle.
-    if (pWidget->getBaseType() == Uml::wt_Activity) {
-        ActivityWidget *act = static_cast<ActivityWidget*>(pWidget);
-        ActivityWidget::ActivityType atype = act->getActivityType();
-        if (atype == ActivityWidget::Fork) {
-            totalCount = 2;
-            index = 1;
-        } else if (atype == ActivityWidget::Initial ||
-                   atype == ActivityWidget::End) {
-            region = Center;
-            totalCount = 2;
-            index = 1;
-        }
-    }
     robj.m_nIndex = index;
     robj.m_nTotalCount = totalCount;
     int x = pWidget->getX();
