@@ -1412,7 +1412,7 @@ void UMLView::printToFile(const QString &filename,bool isEPS) {
     // of the printer (which should be 72dpi here)
     QPrinter *printer;
 
-    if (isEPS == true)
+    if (isEPS == false)
     {
         printer = new QPrinter(QPrinter::PrinterResolution);
     } else {
