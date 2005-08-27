@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2003-2004
+ *  copyright (C) 2003-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -71,9 +71,9 @@ void UMLClassifierListItem::setType(UMLObject *type) {
 }
 
 void UMLClassifierListItem::setTypeName(const QString &type) {
-    if (type.isEmpty()) {
+    if (type.isEmpty() || type == "void") {
         m_pSecondary = NULL;
-        m_SecondaryId = type;
+        m_SecondaryId = QString::null;
         return;
     }
     UMLDoc *pDoc = UMLApp::app()->getDocument();
