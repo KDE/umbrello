@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -222,7 +222,7 @@ void UMLOperation::copyInto(UMLOperation *rhs) const
 UMLObject* UMLOperation::clone() const
 {
     //FIXME: The new operation should be slaved to the NEW parent not the old.
-    UMLOperation *clone = new UMLOperation( (UMLClassifier *) parent());
+    UMLOperation *clone = new UMLOperation( static_cast<UMLClassifier*>(parent()) );
     copyInto(clone);
 
     return clone;

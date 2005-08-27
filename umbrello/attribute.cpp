@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -177,7 +177,7 @@ void UMLAttribute::copyInto(UMLAttribute *rhs) const
 UMLObject* UMLAttribute::clone() const
 {
     //FIXME: The new attribute should be slaved to the NEW parent not the old.
-    UMLAttribute *clone = new UMLAttribute( (UMLAttribute *)parent() );
+    UMLAttribute *clone = new UMLAttribute( static_cast<UMLObject*>(parent()) );
     copyInto(clone);
 
     return clone;
