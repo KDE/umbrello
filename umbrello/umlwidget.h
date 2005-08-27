@@ -329,7 +329,7 @@ public:
     bool getIgnoreSnapToGrid() const;
 
     /**
-     * Move the widget by an X and Y offseti relative to
+     * Move the widget by an X and Y offset relative to
      * the current position.
      */
     void moveBy(int dx, int dy);
@@ -546,7 +546,7 @@ protected:
     /**
      * Overrides default method.
      *
-     * @param p Device on which the shape has to be drawn.^
+     * @param p Device on which the shape has to be drawn.
      */
     virtual void drawShape(QPainter &p );
 
