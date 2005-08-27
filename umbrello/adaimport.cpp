@@ -120,6 +120,7 @@ void AdaImport::parseFile(QString filename) {
     m_currentAccess = Uml::Public;
     m_isAbstract = false;
     const uint srcLength = m_source.count();
+    bool inGenericFormalPart = false;
     for (m_srcIndex = 0; m_srcIndex < srcLength; m_srcIndex++) {
         const QString& keyword = m_source[m_srcIndex];
         kdDebug() << '"' << keyword << '"' << endl;
@@ -128,6 +129,11 @@ void AdaImport::parseFile(QString filename) {
             continue;
         }
         if (keyword == "with") {
+            if (inGenericFormalPart) {
+                // mapping of generic formal subprograms or packages is not yet implemented
+                skipStmt();
+                continue;
+            }
             while (++m_srcIndex < srcLength && m_source[m_srcIndex] != ";") {
                 QStringList components = QStringList::split(".", m_source[m_srcIndex].lower());
                 const QString& prefix = components.first();
@@ -166,13 +172,17 @@ void AdaImport::parseFile(QString filename) {
             }
             continue;
         }
+        if (keyword == "generic") {
+            inGenericFormalPart = true;
+            continue;
+        }
         if (keyword == "package") {
             const QString& name = advance();
             UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package,
                             name, m_scope[m_scopeIndex], m_comment);
             if (advance() == "is") {
                 if (m_source[m_srcIndex + 1] == "new") {
-                    // generic package instantiation: TDB
+                    // generic package instantiation: TBD
                     skipStmt();
                 } else {
                     m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
@@ -180,6 +190,10 @@ void AdaImport::parseFile(QString filename) {
             } else if (m_source[m_srcIndex] != "renames") {
                 kdError() << "AdaImport::parseFile: unexpected: " << m_source[m_srcIndex] << endl;
                 skipStmt("is");
+            }
+            if (inGenericFormalPart) {
+                // handling of generic formal parameters: TBD
+                inGenericFormalPart = false;
             }
             m_comment = QString::null;
             continue;
@@ -227,6 +241,7 @@ void AdaImport::parseFile(QString filename) {
                 m_isAbstract = false;
                 m_comment = QString::null;
                 m_srcIndex++;
+                isTaggedType = true;
             }
             if (m_source[m_srcIndex] == "limited") {
                 m_srcIndex++;  // we can't (yet?) represent that
@@ -296,6 +311,7 @@ void AdaImport::parseFile(QString filename) {
                                   << m_source[m_srcIndex] << endl;
                 }
                 m_scopeIndex--;
+                m_currentAccess = Uml::Public;   // @todo make a stack for this
             } else {
                 kdError() << "importAda: too many \"end\"" << endl;
             }
@@ -314,6 +330,7 @@ void AdaImport::parseFile(QString filename) {
                 skipStmt();
                 continue;
             }
+            UMLClassifier *klass = NULL;
             UMLOperation *op = NULL;
             const uint MAX_PARNAMES = 16;
             while (m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
@@ -356,10 +373,9 @@ void AdaImport::parseFile(QString filename) {
                 if (op == NULL) {
                     // In Ada, the first parameter indicates the class.
                     UMLDoc *umldoc = UMLApp::app()->getDocument();
-                    UMLObject *klass = umldoc->findUMLObject(typeName, Uml::ot_Class, m_scope[m_scopeIndex]);
-                    if (klass == NULL) {
-                        kdError() << "importAda: cannot find UML object for "
-                                  << typeName << endl;
+                    UMLObject *type = umldoc->findUMLObject(typeName, Uml::ot_Class, m_scope[m_scopeIndex]);
+                    if (type == NULL) {
+                        kdError() << "importAda: cannot find UML object for " << typeName << endl;
                         skipStmt();
                         break;
                         /*** better:
@@ -371,8 +387,15 @@ void AdaImport::parseFile(QString filename) {
                         }
                          ****/
                     }
-                    m_klass = static_cast<UMLClassifier*>(klass);
-                    op = Import_Utils::makeOperation(m_klass, name);
+                    Uml::Object_Type t = type->getBaseType();
+                    if (t != Uml::ot_Interface &&
+                        (t != Uml::ot_Class || type->getStereotype(false) == "record")) {
+                        // Not an instance bound method - we cannot represent it.
+                        skipStmt(")");
+                        break;
+                    }
+                    klass = static_cast<UMLClassifier*>(type);
+                    op = Import_Utils::makeOperation(klass, name);
                     // The controlling parameter is suppressed.
                     parNameCount--;
                     if (parNameCount) {
@@ -389,7 +412,7 @@ void AdaImport::parseFile(QString filename) {
             }
             if (keyword == "function") {
                 if (advance() != "return") {
-                    if (m_klass)
+                    if (klass)
                         kdError() << "importAda: expecting \"return\" at function "
                             << name << endl;
                     skipStmt();
@@ -397,9 +420,54 @@ void AdaImport::parseFile(QString filename) {
                 }
                 returnType = advance();
             }
-            if (op != NULL)
-                Import_Utils::insertMethod(m_klass, op, Uml::Public, returnType,
-                                           false, false, false, false, m_comment);
+            bool isAbstract = false;
+            if (advance() == "is" && advance() == "abstract")
+                isAbstract = true;
+            if (klass != NULL && op != NULL)
+                Import_Utils::insertMethod(klass, op, m_currentAccess, returnType,
+                                           false, isAbstract, false, false, m_comment);
+            m_comment = QString::null;
+            skipStmt();
+            continue;
+        }
+        if (keyword == "subtype") {    // FIXMEnow: potentially important but not yet implemented
+            m_comment = QString::null;
+            skipStmt();
+            continue;
+        }
+        if (keyword == "task" || keyword == "protected") {
+            // Can task and protected objects/types be mapped to UML?
+            bool isType = false;
+            QString name = advance();
+            if (name == "type") {
+                isType = true;
+                name = advance();
+            }
+            QString next = advance();
+            if (next == "(") {
+                skipStmt(")");  // skip discriminant
+                next = advance();
+            }
+            if (next == "is")
+                skipStmt("end");
+            skipStmt();
+            m_comment = QString::null;
+            continue;
+        }
+        if (keyword == "for") {    // rep spec (yuck)
+            QString typeName = advance();
+            QString next = advance();
+            if (next == "'") {
+                advance();  // skip qualifier
+                next = advance();
+            }
+            if (next == "use") {
+                if (advance() == "record")
+                    skipStmt("end");
+            } else {
+                kdError() << "importAda: expecting \"use\" at rep spec of "
+                          << typeName << endl;
+            }
             m_comment = QString::null;
             skipStmt();
             continue;
@@ -407,12 +475,7 @@ void AdaImport::parseFile(QString filename) {
         // At this point we're only interested in attribute declarations.
         if (m_klass == NULL || keyword == "null") {
             skipStmt();
-            continue;
-        }
-        if (keyword == "task") {
-            // Tasks and task types are TBD - How to map them to UML?
-            skipStmt("end");
-            skipStmt();
+            m_comment = QString::null;
             continue;
         }
         const QString& name = keyword;
