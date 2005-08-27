@@ -46,6 +46,8 @@ void UMLClassifier::init(bool bIsInterface /* = false */) {
 }
 
 void UMLClassifier::setInterface(bool b /* = true */) {
+    // @todo get rid of direct dependencies to UMLListView
+    //  (e.g. move utility methods to Model_Utils and/or use signals)
     UMLListView::Icon_Type newIcon;
     if (b) {
         m_BaseType = ot_Interface;
@@ -428,11 +430,21 @@ bool UMLClassifier::resolveRef() {
         for (UMLObject *obj = m_List.first(); obj; obj = m_List.next())
          {  ....  }
          ****/
-        if (! obj->resolveRef()) {
-            success = false;
-        } else if (obj->getBaseType() != Uml::ot_Association) {
-            UMLListView *listView = UMLApp::app()->getListView();
-            listView->childObjectAdded(static_cast<UMLClassifierListItem*>(obj), this);
+        if (obj->resolveRef()) {
+            UMLClassifierListItem *cli = static_cast<UMLClassifierListItem*>(obj);
+            switch (cli->getBaseType()) {
+                case Uml::ot_Attribute:
+                    emit attributeAdded(cli);
+                    break;
+                case Uml::ot_Operation:
+                    emit operationAdded(cli);
+                    break;
+                case Uml::ot_Template:
+                    emit templateAdded(cli);
+                    break;
+                default:
+                    break;
+            }
         }
     }
     return success;

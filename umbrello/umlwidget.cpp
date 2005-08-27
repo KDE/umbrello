@@ -22,7 +22,6 @@
 #include "classifier.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "umllistview.h"
 #include "umlview.h"
 #include "umlclassifierlistitemlist.h"
 #include "codegenerator.h"
@@ -34,8 +33,6 @@
 #include "dialogs/settingsdlg.h"
 #include "codedocument.h"
 #include "floatingtext.h"
-#include "objectwidget.h"
-#include "messagewidget.h"
 
 #include "clipboard/idchangelog.h"
 
@@ -547,17 +544,6 @@ void UMLWidget::slotMenuSelection(int sel) {
         {
             UMLObject *pClone = m_pObject->clone();
             m_pView->addObject(pClone);
-            // Update the list view.
-            // CHECK: This smells of hack.
-            UMLListView *listview = UMLApp::app()->getListView();
-            if (dynamic_cast<UMLClassifier*>(pClone)) {
-                UMLClassifier *c = static_cast<UMLClassifier*>(pClone);
-                UMLClassifierListItemList items = c->getFilteredList(Uml::ot_UMLObject);
-                for (UMLClassifierListItemListIt it(items); it.current(); ++it) {
-                    UMLClassifierListItem *item = it.current();
-                    listview->childObjectAdded(item, c);
-                }
-            }
         }
         break;
 
@@ -681,17 +667,13 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
 
             case wt_Text:
                 ft = static_cast<FloatingText *>( this );
-                switch( ft  -> getRole() ) {
-                case tr_Seq_Message:
+                if (ft->getRole() == tr_Seq_Message) {
                     setX( x );
                     setY( getY() );
-                    break;
-
-                default:
+                } else {
                     setX( getX() );
                     setY( getY() );
-                    break;
-                }//end switch role
+                }
                 break;
 
             default:
@@ -914,6 +896,7 @@ void UMLWidget::setName(const QString &strName) {
     else
         m_Text = strName;
     calculateSize();
+    adjustAssocs( getX(), getY() );
 }
 
 QString UMLWidget::getName() const {
