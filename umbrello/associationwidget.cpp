@@ -778,7 +778,7 @@ void AssociationWidget::setUMLAssociation (UMLAssociation * assoc)
         if (assoc && umla == assoc)
             return;
 
-        umla->disconnect(this);
+        //umla->disconnect(this);  //Qt does disconnect automatically upon destruction.
         umla->nrof_parent_widgets--;
 
         // we are the last "owner" of this association, so delete it

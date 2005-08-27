@@ -72,16 +72,15 @@ void UMLCanvasObject::removeAllAssociations() {
     for (UMLAssociationListIt ait(m_AssocsList); ait.current(); ++ait) {
         UMLAssociation *assoc = ait.current();
         umldoc->slotRemoveUMLObject(assoc);
-        UMLCanvasObject *other = NULL;
         UMLObject* objA = assoc->getObject(Uml::A);
         UMLObject* objB = assoc->getObject(Uml::B);
-        if (objA == this)
-            other = dynamic_cast<UMLCanvasObject*>(objA);
-        else
-            other = dynamic_cast<UMLCanvasObject*>(objB);
-        if (other)
-            other->removeAssociation(assoc);
-        delete assoc;
+        UMLCanvasObject *roleAObj = dynamic_cast<UMLCanvasObject*>(objA);
+        if (roleAObj)
+            roleAObj->removeAssociation(assoc);
+        UMLCanvasObject *roleBObj = dynamic_cast<UMLCanvasObject*>(objB);
+        if (roleBObj)
+            roleBObj->removeAssociation(assoc);
+        //delete assoc;  cannot do this! AssociationWidgets may exist!
     }
     m_AssocsList.clear();
 }
