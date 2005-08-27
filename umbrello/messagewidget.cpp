@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -854,7 +854,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
     UMLClassifier *c = dynamic_cast<UMLClassifier*>( pWB->getUMLObject() );
     if (c) {
         Uml::IDType opId = STR2ID(m_CustomOp);
-        UMLOperation *op = dynamic_cast<UMLOperation*>( c->findChildObject(opId, true) );
+        UMLOperation *op = dynamic_cast<UMLOperation*>( c->findChildObjectById(opId, true) );
         if (op) {
             // If the UMLOperation is set, m_CustomOp isn't used anyway.
             // Just setting it empty for the sake of sanity.

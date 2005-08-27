@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -1316,7 +1316,7 @@ void UMLDoc::renameUMLObject(UMLObject *o) {
 
 void UMLDoc::renameChildUMLObject(UMLObject *o) {
     bool ok = false;
-    UMLObject* p = (UMLObject *)o->parent();
+    UMLClassifier* p = dynamic_cast<UMLClassifier *>(o->parent());
     if(!p) {
         kdDebug() << "Can't create object, no parent found" << endl;
         return;
@@ -1330,8 +1330,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o) {
         if(name.length() == 0)
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
         else {
-            if((dynamic_cast<UMLClassifier *>(p)->findChildObject(o->getBaseType(), name)
-                    .count() == 0)
+            if (p->findChildObject(o->getBaseType(), name) == NULL
                     || ((o->getBaseType() == Uml::ot_Operation) && KMessageBox::warningYesNo( kapp -> mainWidget() ,
                             i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
                             i18n( "Name Not Unique"),i18n("Use Name"),i18n("Enter New Name")) == KMessageBox::Yes) ) {

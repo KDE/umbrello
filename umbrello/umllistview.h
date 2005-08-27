@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -310,7 +310,7 @@ protected:
     ListPopupMenu * m_pMenu;
     QString oldText, message;
     UMLDoc *m_doc;
-    bool m_bStartedCut, m_bStartedCopy, m_bIgnoreCancelRename, m_bIgnoreChildCreationSignal;
+    bool m_bStartedCut, m_bStartedCopy, m_bIgnoreCancelRename;
 
     /**
      * Used when creating an attribute or an operation to stop it adding a second listViewItem

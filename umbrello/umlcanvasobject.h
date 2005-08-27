@@ -103,10 +103,10 @@ public:
     *
     * @return	The list of associations for the CanvasObject.
     */
-    const UMLAssociationList& getAssociations();
+    UMLAssociationList getAssociations();
 
     /**
-     * Return the subset of m_AssocsList that matches the given type.
+     * Return the subset of m_List that matches the given type.
      *
      * @param assocType	The Association_Type to match.
      * @return	The list of associations that match assocType.
@@ -160,13 +160,13 @@ public:
     UMLAssociationList getRelationships();
 
     /**
-     * Find a list of associations with the given name.
+     * Find a child object with the given type and name.
      *
      * @param t		The type to find.
      * @param n		The name of the object to find.
-     * @return	List of objects found (empty if none found.)
+     * @return	Pointer to the object found; NULL if none found.
      */
-    virtual UMLObjectList findChildObject(Uml::Object_Type t, const QString &n);
+    virtual UMLObject *findChildObject(Uml::Object_Type t, const QString &n);
 
     /**
      * Find an association.
@@ -174,7 +174,7 @@ public:
      * @param id		The id of the object to find.
      * @return	Pointer to the object found (NULL if not found.)
      */
-    UMLObject* findAssoc(Uml::IDType id);
+    virtual UMLObject *findChildObjectById(Uml::IDType id, bool considerAncestors = false);
 
     /**
      * Returns a name for the new association, operation, template
@@ -195,9 +195,11 @@ public:
 protected:
 
     /**
-     * List of all the associations in this class.
+     * List of all the associations in this object.
+     * Inheriting classes add more types of objects that are possible in this list;
+     * for example, UMLClassifier adds operations, attributes, and templates.
      */
-    UMLAssociationList m_AssocsList;
+    UMLObjectList m_List;
 
 private:
 

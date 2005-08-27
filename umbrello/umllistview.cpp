@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -747,9 +747,6 @@ void UMLListView::childObjectAdded(UMLClassifierListItem* obj) {
 }
 
 void UMLListView::childObjectAdded(UMLClassifierListItem* child, UMLClassifier* parent) {
-    if (m_bIgnoreChildCreationSignal) {
-        return;
-    }
     if (!m_bCreatingChildObject) {
         UMLListViewItem *parentItem = findUMLObject(parent);
         if (parentItem == NULL) {
@@ -1001,7 +998,6 @@ void UMLListView::init() {
     m_bStartedCut = m_bStartedCopy = false;
     m_bIgnoreCancelRename = true;
     m_bCreatingChildObject = false;
-    m_bIgnoreChildCreationSignal = false;
 }
 
 void UMLListView::setView(UMLView * v) {
@@ -1276,7 +1272,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
             newItem = move->deepCopy(newParent);
             delete move;
             // update model objects
-            m_bIgnoreChildCreationSignal = true;
+            m_bCreatingChildObject = true;
             UMLClassifier *oldParentClassifier = dynamic_cast<UMLClassifier*>(srcObj->parent());
             UMLClassifier *newParentClassifier = dynamic_cast<UMLClassifier*>(newParentObj);
             if (srcType == Uml::lvt_Attribute) {
@@ -1340,7 +1336,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                     << endl;
                 }
             }
-            m_bIgnoreChildCreationSignal = false;
+            m_bCreatingChildObject = false;
         }
         break;
     default:
@@ -1444,7 +1440,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
         {
             UMLClassifier *pClass =  static_cast<UMLClassifier*>(parent->getUMLObject());
             Uml::IDType newID = IDChanges.findNewID( Data.getID() );
-            pObject = pClass -> findChildObject( newID );
+            pObject = pClass->findChildObjectById(newID);
             if (pObject) {
                 item = new UMLListViewItem( parent, Data.getText(), lvt, pObject );
             } else {
@@ -1457,7 +1453,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
         {
             UMLClassifier * pConcept =  (UMLClassifier *)parent -> getUMLObject();
             Uml::IDType newID = IDChanges.findNewID( Data.getID() );
-            pObject = pConcept->findChildObject( newID );
+            pObject = pConcept->findChildObjectById(newID);
             if (pObject) {
                 item = new UMLListViewItem( parent, Data.getText(), lvt, pObject );
             } else {
@@ -2539,7 +2535,7 @@ bool UMLListView::isUnique( UMLListViewItem * item, const QString &name ) {
         {
             UMLClassifier *parent = static_cast<UMLClassifier*>(parentItem->getUMLObject());
             Uml::Object_Type ot = convert_LVT_OT(type);
-            return (parent->findChildObject(ot, name).count() == 0);
+            return (parent->findChildObject(ot, name) == NULL);
             break;
         }
 
@@ -2721,7 +2717,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
                 } else {
                     UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(umlObject);
                     if (classifier) {
-                        umlObject = classifier->findChildObject(nID);
+                        umlObject = classifier->findChildObjectById(nID);
                         if (umlObject) {
                             connectNewObjectsSlots(umlObject);
                             label = umlObject->getName();

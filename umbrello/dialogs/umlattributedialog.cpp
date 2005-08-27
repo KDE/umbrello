@@ -152,8 +152,8 @@ bool UMLAttributeDialog::apply() {
         return false;
     }
     UMLClassifier * pConcept = dynamic_cast<UMLClassifier *>( m_pAttribute->parent() );
-    UMLObjectList list= pConcept->findChildObject(Uml::ot_Attribute, name);
-    if( list.count() != 0 && list.findRef( m_pAttribute ) ) {
+    UMLObject *o = pConcept->findChildObject(Uml::ot_Attribute, name);
+    if (o) {
         KMessageBox::error(this, i18n("The attribute name you have chosen is already being used in this operation."),
                            i18n("Attribute Name Not Unique"), false);
         m_pNameLE->setText( m_pAttribute->getName() );

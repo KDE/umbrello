@@ -69,7 +69,7 @@ UMLObject * findObjectInList(Uml::IDType id, UMLObjectList inList) {
         case Uml::ot_Class:
         case Uml::ot_Enum:
         case Uml::ot_Entity:
-            o = ((UMLClassifier*)obj)->findChildObject(id);
+            o = ((UMLClassifier*)obj)->findChildObjectById(id);
             if (o == NULL &&
                     (t == Uml::ot_Interface || t == Uml::ot_Class))
                 o = ((UMLPackage*)obj)->findObjectById(id);

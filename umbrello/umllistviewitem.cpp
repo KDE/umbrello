@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -423,8 +423,8 @@ void UMLListViewItem::okRename( int col ) {
             Model_Utils::NameAndType nt;
             Model_Utils::Parse_Status st = Model_Utils::parseAttribute(newText, nt, parent);
             if (st == Model_Utils::PS_OK) {
-                UMLObjectList list = parent->findChildObject( m_pObject->getBaseType(), newText );
-                if (! list.isEmpty()) {
+                UMLObject *exists = parent->findChildObject(Uml::ot_Attribute, newText);
+                if (exists) {
                     cancelRenameWithMsg();
                     return;
                 }
@@ -453,8 +453,8 @@ void UMLListViewItem::okRename( int col ) {
             Model_Utils::NameAndType nt;
             Model_Utils::Parse_Status st = Model_Utils::parseTemplate(newText, nt, parent);
             if (st == Model_Utils::PS_OK) {
-                UMLObjectList list = parent->findChildObject( m_pObject->getBaseType(), newText );
-                if (! list.isEmpty()) {
+                UMLObject *exists = parent->findChildObject(Uml::ot_Template, newText);
+                if (exists) {
                     cancelRenameWithMsg();
                     return;
                 }

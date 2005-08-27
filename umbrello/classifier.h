@@ -359,14 +359,12 @@ public:
     virtual bool resolveRef();
 
     /**
-     * Find a list of attributes, operations, associations or
-     * templates with the given name.
+     * Find a list of operations with the given name.
      *
-     * @param t		The type to find.
-     * @param n		The name of the object to find.
+     * @param n		The name of the operation to find.
      * @return	The list of objects found; will be empty if none found.
      */
-    virtual UMLObjectList findChildObject(Uml::Object_Type t, const QString &n);
+    UMLOperationList findOperations(const QString &n);
 
     /**
      * Find an attribute, operation, association or template.
@@ -375,7 +373,7 @@ public:
      *
      * @return	The object found.  Will return 0 if none found.
      */
-    virtual UMLObject* findChildObject(Uml::IDType id, bool considerAncestors = false);
+    virtual UMLObject* findChildObjectById(Uml::IDType id, bool considerAncestors = false);
 
     /**
      * Find an operation of the given name and parameter signature.
@@ -450,13 +448,6 @@ signals:
     // only applies when (m_Type == ot_Class)
     void attributeAdded(UMLClassifierListItem*);
     void attributeRemoved(UMLClassifierListItem*);
-
-protected:
-
-    /**
-     * List of items (operations/attributes/templates) in this classifier.
-     */
-    UMLClassifierListItemList m_List;
 
 private:
 

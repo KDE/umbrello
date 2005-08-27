@@ -31,8 +31,11 @@ UMLCanvasObject::~UMLCanvasObject() {
 
 UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::Association_Type assocType) {
     UMLAssociationList list;
-    for (UMLAssociationListIt ait(m_AssocsList); ait.current(); ++ait) {
-        UMLAssociation *a = ait.current();
+    UMLObject *o;
+    for (UMLObjectListIt oit(m_List); (o = oit.current()) != NULL; ++oit) {
+        if (o->getBaseType() != Uml::ot_Association)
+            continue;
+        UMLAssociation *a = static_cast<UMLAssociation*>(o);
         if (a->getAssocType() == assocType)
             list.append(a);
     }
@@ -43,7 +46,7 @@ bool UMLCanvasObject::addAssociation(UMLAssociation* assoc) {
     // add association only if not already present in list
     if(!hasAssociation(assoc))
     {
-        m_AssocsList.append( assoc );
+        m_List.append( assoc );
         emit modified();
         emit sigAssociationAdded(assoc);
         return true;
@@ -52,25 +55,28 @@ bool UMLCanvasObject::addAssociation(UMLAssociation* assoc) {
 }
 
 bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc) {
-    if(m_AssocsList.containsRef(assoc) > 0)
+    if(m_List.containsRef(assoc) > 0)
         return true;
     return false;
 }
 
 int UMLCanvasObject::removeAssociation(UMLAssociation * assoc) {
-    if(!hasAssociation(assoc) || !m_AssocsList.remove(assoc)) {
+    if(!hasAssociation(assoc) || !m_List.remove(assoc)) {
         kdWarning() << "can't find assoc given in list" << endl;
         return -1;
     }
     emit modified();
     emit sigAssociationRemoved(assoc);
-    return m_AssocsList.count();
+    return m_List.count();
 }
 
 void UMLCanvasObject::removeAllAssociations() {
     UMLDoc *umldoc = UMLApp::app()->getDocument();
-    for (UMLAssociationListIt ait(m_AssocsList); ait.current(); ++ait) {
-        UMLAssociation *assoc = ait.current();
+    UMLObject *o;
+    for (UMLObjectListIt oit(m_List); (o = oit.current()) != NULL; ++oit) {
+        if (o->getBaseType() != Uml::ot_Association)
+            continue;
+        UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
         umldoc->slotRemoveUMLObject(assoc);
         UMLObject* objA = assoc->getObject(Uml::A);
         UMLObject* objB = assoc->getObject(Uml::B);
@@ -82,7 +88,6 @@ void UMLCanvasObject::removeAllAssociations() {
             roleBObj->removeAssociation(assoc);
         //delete assoc;  cannot do this! AssociationWidgets may exist!
     }
-    m_AssocsList.clear();
 }
 
 QString UMLCanvasObject::uniqChildName( const Uml::Object_Type type,
@@ -108,39 +113,39 @@ QString UMLCanvasObject::uniqChildName( const Uml::Object_Type type,
     }
 
     QString name = currentName;
-    for (int number = 1; findChildObject(type, name).count(); ++number) {
+    for (int number = 1; findChildObject(type, name); ++number) {
         name = currentName + "_" + QString::number(number);
     }
     return name;
 }
 
-UMLObjectList UMLCanvasObject::findChildObject(Uml::Object_Type t, const QString &n) {
-    UMLObjectList list;
-    if (t == Uml::ot_Association) {
-        for (UMLAssociationListIt ait(m_AssocsList); ait.current(); ++ait) {
-            UMLAssociation *obj = ait.current();
-            if (obj->getBaseType() != t)
-                continue;
+UMLObject * UMLCanvasObject::findChildObject(Uml::Object_Type t, const QString &n) {
+    const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
+    UMLObject *obj;
+    for (UMLObjectListIt oit(m_List); (obj = oit.current()) != NULL; ++oit) {
+        if (obj->getBaseType() != t)
+            continue;
+        if (caseSensitive) {
             if (obj->getName() == n)
-                list.append( obj );
+                return obj;
+        } else if (obj->getName().lower() == n.lower()) {
+            return obj;
         }
-    } else {
-        kdWarning() << "unknown type in findChildObject()" << endl;
     }
-    return list;
+    return NULL;
 }
 
-UMLObject* UMLCanvasObject::findAssoc(Uml::IDType id) {
-    for (UMLAssociationListIt ait(m_AssocsList); ait.current(); ++ait) {
-        UMLAssociation *asso = ait.current();
-        if (asso->getID() == id)
-            return asso;
+UMLObject* UMLCanvasObject::findChildObjectById(Uml::IDType id, bool /* considerAncestors */) {
+    UMLObject *o;
+    for (UMLObjectListIt oit(m_List); (o = oit.current()) != NULL; ++oit) {
+        if (o->getID() == id)
+            return o;
     }
     return 0;
 }
 
 void UMLCanvasObject::init() {
-    m_AssocsList.setAutoDelete(false);
+    m_List.setAutoDelete(false);
 }
 
 bool UMLCanvasObject::operator==(UMLCanvasObject& rhs) {
@@ -150,10 +155,10 @@ bool UMLCanvasObject::operator==(UMLCanvasObject& rhs) {
     if ( !UMLObject::operator==(rhs) ) {
         return false;
     }
-    if ( m_AssocsList.count() != rhs.m_AssocsList.count() ) {
+    if ( m_List.count() != rhs.m_List.count() ) {
         return false;
     }
-    if ( &m_AssocsList != &(rhs.m_AssocsList) ) {
+    if ( &m_List != &(rhs.m_List) ) {
         return false;
     }
     return true;
@@ -166,20 +171,35 @@ void UMLCanvasObject::copyInto(UMLCanvasObject *rhs) const
     // TODO Associations are not copied at the moment. This because
     // the duplicate function (on umlwidgets) do not copy the associations.
     //
-    //rhs->m_AssocsList = m_AssocsList;
+    //rhs->m_List = m_List;
 }
 
 int UMLCanvasObject::associations() {
-    return m_AssocsList.count();
+    int count = 0;
+    UMLObject *obj;
+    for (UMLObjectListIt oit(m_List); (obj = oit.current()) != NULL; ++oit) {
+        if (obj->getBaseType() == Uml::ot_Association)
+            count++;
+    }
+    return count;
 }
 
-const UMLAssociationList& UMLCanvasObject::getAssociations() {
-    return m_AssocsList;
+UMLAssociationList UMLCanvasObject::getAssociations() {
+    UMLAssociationList assocs;
+    UMLObject *o;
+    for (UMLObjectListIt oit(m_List); (o = oit.current()) != NULL; ++oit) {
+        if (o->getBaseType() != Uml::ot_Association)
+            continue;
+        UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
+        assocs.append(assoc);
+    }
+    return assocs;
 }
 
 UMLClassifierList UMLCanvasObject::getSuperClasses() {
     UMLClassifierList list;
-    for (UMLAssociation* a = m_AssocsList.first(); a; a = m_AssocsList.next()) {
+    UMLAssociationList assocs = getAssociations();
+    for (UMLAssociation* a = assocs.first(); a; a = assocs.next()) {
         if ( a->getAssocType() != Uml::at_Generalization ||
                 a->getObjectId(Uml::A) != getID() )
             continue;
@@ -197,8 +217,8 @@ UMLClassifierList UMLCanvasObject::getSuperClasses() {
 
 UMLClassifierList UMLCanvasObject::getSubClasses() {
     UMLClassifierList list;
-    // WARNING: See remark at getSuperClasses()
-    for (UMLAssociation* a = m_AssocsList.first(); a; a = m_AssocsList.next()) {
+    UMLAssociationList assocs = getAssociations();
+    for (UMLAssociation* a = assocs.first(); a; a = assocs.next()) {
         if ( a->getAssocType() != Uml::at_Generalization ||
                 a->getObjectId(Uml::B) != getID() )
             continue;

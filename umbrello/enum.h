@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2003-2004
+ *  copyright (C) 2003-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -131,15 +131,6 @@ public:
      * @return	The number of enumliterals for the class.
      */
     int enumLiterals();
-
-    /**
-     * Find a list of enumliterals with the given name.
-     *
-     * @param t		The type to find.
-     * @param n		The name of the object to find.
-     * @return	List of objects found.  Will be empty if none found.
-     */
-    virtual UMLObjectList findChildObject(Uml::Object_Type t, const QString &n);
 
     /**
      * Creates the <UML:Enum> element including its enumliterals.

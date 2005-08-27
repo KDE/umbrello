@@ -128,8 +128,8 @@ bool UMLTemplateDialog::apply() {
 
     UMLClassifier * pClass = dynamic_cast<UMLClassifier *>( m_pTemplate->parent() );
     if (pClass) {
-        UMLObjectList list= pClass->findChildObject(Uml::ot_Attribute, name);
-        if( list.count() != 0 && list.findRef( m_pTemplate ) ) {
+        UMLObject *o = pClass->findChildObject(Uml::ot_Attribute, name);
+        if (o) {
             KMessageBox::error(this, i18n("The template parameter name you have chosen is already being used in this operation."),
                                i18n("Template Name Not Unique"), false);
             m_pNameLE->setText( m_pTemplate->getName() );

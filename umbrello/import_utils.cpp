@@ -227,9 +227,9 @@ UMLObject* insertAttribute(UMLClassifier *owner, Uml::Scope scope, QString name,
         << owner->getName() << " (object type " << ot << ")" << endl;
         return NULL;
     }
-    UMLObjectList atts = owner->findChildObject(Uml::ot_Attribute, name);
-    if (atts.count()) {
-        return atts.first();
+    UMLObject *o = owner->findChildObject(Uml::ot_Attribute, name);
+    if (o) {
+        return o;
     }
     UMLObject *attrType = owner->findTemplate(type);
     if (attrType == NULL) {

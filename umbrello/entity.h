@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2003-2004
+ *  copyright (C) 2003-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -16,8 +16,8 @@
 #define ENTITY_H
 
 #include "classifier.h"
-#include "umlentityattributelist.h"
-#include "umlclassifierlistitemlist.h"
+
+class UMLEntityAttribute;
 
 /**
  * This class contains the non-graphical information required for a UML
@@ -134,15 +134,6 @@ public:
      * @return	The number of entityAttributes for the class.
      */
     int entityAttributes();
-
-    /**
-     * Find a list of entityAttributes with the given name.
-     *
-     * @param t		The type to find.
-     * @param n		The name of the object to find.
-     * @return	List of objects found.  Will be empty if none found.
-     */
-    virtual UMLObjectList findChildObject(Uml::Object_Type t, const QString &n);
 
     /**
      * Creates the <UML:Entity> element including its entityliterals.
