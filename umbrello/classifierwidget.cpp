@@ -316,23 +316,15 @@ void ClassifierWidget::calculateSize() {
 
     const QFontMetrics &fm = getFontMetrics(UMLWidget::FT_NORMAL);
     const int fontHeight = fm.lineSpacing();
+    // width is the width of the longest 'word'
     int width = 0, height = 0;
-
-    // consider template box
-    QSize templatesBoxSize = calculateTemplatesBoxSize();
-    if (templatesBoxSize.width() != 0) {
-        width += templatesBoxSize.width() / 2;
-    }
-    if (templatesBoxSize.height() != 0) {
-        height += templatesBoxSize.height() - MARGIN;
-    }
 
     // consider stereotype
     if (m_bShowStereotype && !m_pObject->getStereotype(false).isEmpty()) {
         height += fontHeight;
         // ... width
         const QFontMetrics &bfm = UMLWidget::getFontMetrics(UMLWidget::FT_BOLD);
-        const int stereoWidth = bfm.width(m_pObject->getStereotype());
+        const int stereoWidth = bfm.size(0,m_pObject->getStereotype()).width();
         if (stereoWidth > width)
             width = stereoWidth;
     }
@@ -347,7 +339,7 @@ void ClassifierWidget::calculateSize() {
         displayedName = m_pObject->getName();
     const UMLWidget::FontType nft = (m_pObject->getAbstract() ? FT_BOLD_ITALIC : FT_BOLD);
     //const int nameWidth = getFontMetrics(nft).boundingRect(displayName).width();
-    const int nameWidth = UMLWidget::getFontMetrics(nft).width(displayedName);
+    const int nameWidth = UMLWidget::getFontMetrics(nft).size(0,displayedName).width();
     if (nameWidth > width)
         width = nameWidth;
 
@@ -362,7 +354,7 @@ void ClassifierWidget::calculateSize() {
         for (UMLClassifierListItem *a = list.first(); a; a = list.next()) {
             if (m_bShowPublicOnly && a->getScope() != Uml::Public)
                 continue;
-            const int attWidth = fm.width(a->toString(m_ShowAttSigs));
+            const int attWidth = fm.size(0,a->toString(m_ShowAttSigs)).width();
             if (attWidth > width)
                 width = attWidth;
         }
@@ -382,11 +374,22 @@ void ClassifierWidget::calculateSize() {
             const QString displayedOp = op->toString(m_ShowOpSigs);
             UMLWidget::FontType oft;
             oft = (op->getAbstract() ? UMLWidget::FT_ITALIC : UMLWidget::FT_BOLD);
-            const int w = UMLWidget::getFontMetrics(oft).width(displayedOp);
+            const int w = UMLWidget::getFontMetrics(oft).size(0,displayedOp).width();
             if (w > width)
                 width = w;
         }
     }
+
+    // consider template box _as last_ !
+    QSize templatesBoxSize = calculateTemplatesBoxSize();
+    if (templatesBoxSize.width() != 0) {
+        // add width to largest 'word'
+        width += templatesBoxSize.width() / 2;
+    }
+    if (templatesBoxSize.height() != 0) {
+        height += templatesBoxSize.height() - MARGIN;
+    }
+
 
     // allow for height margin
     if (!m_bShowOperations && !m_bShowAttributes && !m_bShowStereotype) {
@@ -500,7 +503,7 @@ QSize ClassifierWidget::calculateTemplatesBoxSize() {
     height = count * fm.lineSpacing() + (MARGIN*2);
 
     for (UMLTemplate *t = list.first(); t; t = list.next()) {
-        int textWidth = fm.width( t->toString() );
+        int textWidth = fm.size(0, t->toString() ).width();
         if (textWidth > width)
             width = textWidth;
     }
@@ -578,7 +581,7 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
         int y = offsetY + MARGIN;
         for ( UMLTemplate *t = tlist.first(); t; t = tlist.next() ) {
             QString text = t->toString();
-            p.drawText(x, y, fm.width(text), fontHeight, AlignVCenter, text);
+            p.drawText(x, y, fm.size(0,text).width(), fontHeight, AlignVCenter, text);
             y += fontHeight;
         }
     }
@@ -689,7 +692,7 @@ void ClassifierWidget::calculateAsCircleSize() {
     } else {
         displayedName = m_pObject->getName();
     }
-    const int nameWidth = fm.width(displayedName);
+    const int nameWidth = fm.size(0,displayedName).width();
     if (nameWidth > width)
         width = nameWidth;
     width += MARGIN * 2;
@@ -711,7 +714,7 @@ void ClassifierWidget::drawMembers(QPainter & p, Uml::Object_Type ot, Uml::Signa
         f.setUnderline( obj->getStatic() );
         p.setFont( f );
         QFontMetrics fontMetrics(f);
-        p.drawText(x, y, fontMetrics.width(text), fontHeight, AlignVCenter, text);
+        p.drawText(x, y, fontMetrics.size(0,text).width(), fontHeight, AlignVCenter, text);
         f.setItalic(false);
         f.setUnderline(false);
         p.setFont(f);
