@@ -26,7 +26,22 @@ UMLCanvasObject::UMLCanvasObject(const QString & name, Uml::IDType id)
 }
 
 UMLCanvasObject::~UMLCanvasObject() {
-    removeAllAssociations();
+    //removeAllAssociations();
+    /* No! This is way too late to do that.
+      It should have been called explicitly before destructing the
+      UMLCanvasObject.
+      Here is an example crash that happens if we rely on
+      removeAllAssociations() at this point:
+#4  0x415aac7f in __dynamic_cast () from /usr/lib/libstdc++.so.5
+#5  0x081acdbd in UMLCanvasObject::removeAllAssociations() (this=0x89e5b08)
+    at umlcanvasobject.cpp:83
+#6  0x081ac9fa in ~UMLCanvasObject (this=0x89e5b08) at umlcanvasobject.cpp:29
+#7  0x08193ffc in ~UMLPackage (this=0x89e5b08) at package.cpp:35
+#8  0x0813cbf6 in ~UMLClassifier (this=0x89e5b08) at classifier.cpp:40
+#9  0x081af3a6 in UMLDoc::closeDocument() (this=0x8468b10) at umldoc.cpp:284
+     */
+    if (associations())
+        kdDebug() << "UMLCanvasObject destructor: FIXME: there are still associations()" << endl;
 }
 
 UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::Association_Type assocType) {
