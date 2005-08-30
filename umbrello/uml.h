@@ -951,6 +951,9 @@ public:
     Settings::OptionState getOptionState() {
         return m_optionState;
     }
+    void setOptionState(Settings::OptionState optstate) {
+        m_optionState = optstate;
+    }
 
 signals:
 

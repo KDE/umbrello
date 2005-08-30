@@ -160,13 +160,18 @@ bool UMLAttributeDialog::apply() {
         return false;
     }
     m_pAttribute->setName(name);
+    Uml::Scope scope = Uml::Protected;
     if ( m_pPublicRB->isChecked() ) {
-        m_pAttribute->setScope(Uml::Public);
+        scope = Uml::Public;
     } else if ( m_pPrivateRB -> isChecked() ) {
-        m_pAttribute->setScope(Uml::Private);
-    } else {
-        m_pAttribute->setScope(Uml::Protected);
+        scope = Uml::Private;
     }
+    m_pAttribute->setScope(scope);
+    // Set the scope as the default in the option state
+    Settings::OptionState optionState = UMLApp::app()->getOptionState();
+    optionState.classState.defaultAttributeScope = scope;
+    UMLApp::app()->setOptionState(optionState);
+
     m_pAttribute->setInitialValue( m_pInitialLE->text() );
     m_pAttribute->setStereotype( m_pStereoTypeLE->text() );
     m_pAttribute->setStatic( m_pStaticCB->isChecked() );
