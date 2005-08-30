@@ -65,7 +65,7 @@ bool UMLDatatype::isReference() {
 
 void UMLDatatype::init() {
     m_BaseType = Uml::ot_Datatype;
-    setStereotype( i18n("datatype") );
+    setStereotype( "datatype" );
     m_pSecondary = NULL;
     m_isRef = false;
 }

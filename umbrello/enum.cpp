@@ -51,7 +51,7 @@ UMLObject* UMLEnum::clone() const
 
 void UMLEnum::init() {
     m_BaseType = Uml::ot_Enum;
-    setStereotype( i18n("enum") );
+    setStereotype( "enum" );
 }
 
 UMLObject* UMLEnum::createEnumLiteral() {
