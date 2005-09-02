@@ -133,8 +133,12 @@ public:
     /** Using the parent object's UML ID, find the corresponding
      * codeclassfield object in this classifiercodedocument. Returns
      * NULL if no such codeclassfield object exists in this document.
+     *
+     * @param role_id  0 for role A of the asssociation
+     *                 1 for role B of the asssociation
+     *                -1 if this is an attribute.
      */
-    CodeClassField * findCodeClassFieldFromParentID (Uml::IDType id, Uml::Role_Type role_id);
+    CodeClassField * findCodeClassFieldFromParentID (Uml::IDType id, int role_id = -1);
 
     /**
      * Get the value of m_parentclassifier

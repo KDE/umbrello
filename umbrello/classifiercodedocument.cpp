@@ -576,17 +576,18 @@ void ClassifierCodeDocument::setAttributesFromNode ( QDomElement & elem )
 // by parent object ID and Role ID (needed for self-association CF's)
 CodeClassField *
 ClassifierCodeDocument::findCodeClassFieldFromParentID (Uml::IDType id,
-        Uml::Role_Type role_id)
+        int role_id)
 {
     for (CodeClassFieldListIt ccflit(m_classfieldVector); ccflit.current(); ++ccflit)
     {
         CodeClassField * cf = ccflit.current();
-        if((int)role_id == -1) { // attribute-based
+        if(role_id == -1) { // attribute-based
             if (STR2ID(cf->getID()) == id)
                 return cf;
         } else { // association(role)-based
+            const Uml::Role_Type r = (Uml::Role_Type)role_id;
             UMLRole * role = dynamic_cast<UMLRole *>(cf->getParentObject());
-            if(role && STR2ID(cf->getID()) == id && role->getRole() == role_id)
+            if(role && STR2ID(cf->getID()) == id && role->getRole() == r)
                 return cf;
         }
     }
@@ -610,8 +611,7 @@ void ClassifierCodeDocument::loadClassFieldsFromXMI( QDomElement & elem) {
         {
             QString id = childElem.attribute("parent_id","-1");
             int role_id = childElem.attribute("role_id","-1").toInt();
-            Uml::Role_Type r = (role_id == 1 ? Uml::A : Uml::B);
-            CodeClassField * cf = findCodeClassFieldFromParentID(STR2ID(id), r);
+            CodeClassField * cf = findCodeClassFieldFromParentID(STR2ID(id), role_id);
             if(cf)
             {
                 // Because we just may change the parent object here,
