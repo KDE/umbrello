@@ -301,8 +301,7 @@ void CodeClassField::setAttributesFromNode ( QDomElement & root) {
             if( tag == "codeaccessormethod" ) {
                 int type = element.attribute("accessType","0").toInt();
                 int role_id = element.attribute("role_id","-1").toInt();
-                Uml::Role_Type r = (role_id == 1 ? Uml::A : Uml::B);
-                CodeAccessorMethod * method = findMethodByType((CodeAccessorMethod::AccessorType) type, r);
+                CodeAccessorMethod * method = findMethodByType((CodeAccessorMethod::AccessorType) type, role_id);
                 if(method)
                     method->loadFromXMI(element);
                 else
