@@ -32,6 +32,7 @@ class ClassifierWidget;
 class UMLDoc;
 class UMLView;
 class UMLAssociation;
+class UMLClassifierListItem;
 class UMLAttribute;
 class UMLOperation;
 
@@ -943,7 +944,7 @@ public slots:
      *
      * @param obj		The UMLAttribute removed.
      */
-    void slotAttributeRemoved(UMLObject* obj);
+    void slotAttributeRemoved(UMLClassifierListItem* obj);
 
     /**
      * Synchronize this widget from the UMLAssociation.

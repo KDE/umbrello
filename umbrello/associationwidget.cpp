@@ -3051,13 +3051,16 @@ void AssociationWidget::setUMLObject(UMLObject *obj) {
     WidgetBase::setUMLObject(obj);
     if (obj && obj->getBaseType() == Uml::ot_Attribute) {
         UMLClassifier *klass = static_cast<UMLClassifier*>(obj->parent());
-        connect(klass, SIGNAL(attributeRemoved(UMLObject*)),
-                this, SLOT(slotAttributeRemoved(UMLObject*)));
+        connect(klass, SIGNAL(attributeRemoved(UMLClassifierListItem*)),
+                this, SLOT(slotAttributeRemoved(UMLClassifierListItem*)));
     }
 }
 
-void AssociationWidget::slotAttributeRemoved(UMLObject* obj) {
-    kdDebug() << "AssociationWidget::slotAttributeRemoved(" << obj->getName() << ")" << endl;
+void AssociationWidget::slotAttributeRemoved(UMLClassifierListItem* obj) {
+    if (obj != m_pObject)
+        kdDebug() << "AssociationWidget::slotAttributeRemoved:(obj=" << obj
+                  << "): m_pObject=" << m_pObject << endl;
+    m_pObject = NULL;
     m_pView->removeAssoc(this);
 }
 
