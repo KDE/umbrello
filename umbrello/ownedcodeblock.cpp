@@ -84,6 +84,10 @@ void OwnedCodeBlock::setAttributesOnNode(QDomDocument& /*doc*/, QDomElement& ele
     if(role)
     {
         elem.setAttribute("parent_id",ID2STR(role->getParentAssociation()->getID()));
+        // CAUTION: role_id here is numerically inverted wrt Uml::Role_Type,
+        //          i.e. role A is 1 and role B is 0.
+        //          I'll resist the temptation to change this -
+        //          in order to maintain backward compatibility.
         elem.setAttribute("role_id", (role->getRole() == Uml::A));
     }
     else
@@ -126,6 +130,7 @@ void OwnedCodeBlock::setAttributesFromNode ( QDomElement & elem) {
             // In this case we init with indicated role child obj.
             UMLRole * role = 0;
             int role_id = elem.attribute("role_id","-1").toInt();
+            // see comment on role_id at setAttributesOnNode()
             if(role_id == 1)
                 role = assoc->getUMLRole(Uml::A);
             else if(role_id == 0)
