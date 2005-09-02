@@ -73,7 +73,7 @@ cursor-junction.png \
 cursor-shallow-history.png \
 cursor-state-fork.png \
 cursor-usecase.png \
-cursor-initial-state.png \
+cursor-initial_state.png \
 cursor-package.png \
 cursor-aggregation.png \
 cursor-component.png \
@@ -91,7 +91,7 @@ cursor-dependency.png \
 cursor-message-synchronous.png \
 cursor-uniassociation.png \
 cursor-association.png \
-cursor-end-state.png \
+cursor-end_state.png \
 cursor-node.png \
 cursor-box.png \
 cursor-fork.png \
