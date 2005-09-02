@@ -121,13 +121,13 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
         insertHotBtn(tbb_State);
         insertHotBtn(tbb_End_State);
         insertHotBtn(tbb_State_Transition);
-        insertHotBtn(tbb_DeepHistory);
-        insertHotBtn(tbb_ShallowHistory);
-        insertHotBtn(tbb_Join);
+        //insertHotBtn(tbb_DeepHistory);        //NotYetImplemented
+        //insertHotBtn(tbb_ShallowHistory);     //NotYetImplemented
+        //insertHotBtn(tbb_Join);               //NotYetImplemented
         insertHotBtn(tbb_StateFork);
-        insertHotBtn(tbb_Junction);
-        insertHotBtn(tbb_Choice);
-        insertHotBtn(tbb_Andline);
+        //insertHotBtn(tbb_Junction);           //NotYetImplemented
+        //insertHotBtn(tbb_Choice);             //NotYetImplemented
+        //insertHotBtn(tbb_Andline);            //NotYetImplemented
         break;
 
     case Uml::dt_Activity:
@@ -233,9 +233,63 @@ QPixmap WorkToolBar::load(const QString & fileName) {
 }
 
 void WorkToolBar::loadPixmaps() {
+    const struct {
+        const ToolBar_Buttons tbb;
+        const QString btnName;
+        const char *pngName;
+    } buttonInfo[] = {
+        { tbb_Object, i18n("Object"), "object.png" },
+        { tbb_Seq_Message_Synchronous, i18n("Synchronous Message"), "message-synchronous.png" },
+        { tbb_Seq_Message_Asynchronous, i18n("Asynchronous Message"), "message-asynchronous.png" },
+        { tbb_Association, i18n("Association"), "association.png" },
+        { tbb_Containment, i18n("Containment"), "containment.png" },
+        { tbb_Anchor, i18n("Anchor"), "anchor.png" },
+        { tbb_Text, i18n("Label"), "text.png" },
+        { tbb_Note, i18n("Note"), "note.png" },
+        { tbb_Box, i18n("Box"), "box.png" },
+        { tbb_Actor, i18n("Actor"), "actor.png" },
+        { tbb_Dependency, i18n("Dependency"), "dependency.png" },
+        { tbb_Aggregation, i18n("Aggregation"), "aggregation.png" },
+        { tbb_Relationship, i18n("Relationship"), "relationship.png" },
+        { tbb_UniAssociation, i18n("Directional Association"), "uniassociation.png" },
+        { tbb_Generalization, i18n("Implements (Generalisation/Realisation)"), "generalisation.png" },
+        { tbb_Composition, i18n("Composition"), "composition.png" },
+        { tbb_UseCase, i18n("Use Case"), "usecase.png" },
+        { tbb_Class, i18n("Class"), "class.png" },
+        { tbb_Initial_State, i18n("Initial State"), "initial_state.png" },
+        { tbb_End_State, i18n("End State"), "end_state.png" },
+        { tbb_Branch, i18n("Branch/Merge"), "branch.png" },
+        { tbb_Fork, i18n("Fork/Join"), "fork.png" },
+        { tbb_Package, i18n("Package"), "package.png" },
+        { tbb_Component, i18n("Component"), "component.png" },
+        { tbb_Node, i18n("Node"), "node.png" },
+        { tbb_Artifact, i18n("Artifact"), "artifact.png" },
+        { tbb_Interface, i18n("Interface"), "interface.png" },
+        { tbb_Datatype, i18n("Datatype"), "datatype.png" },
+        { tbb_Enum, i18n("Enum"), "enum.png" },
+        { tbb_Entity, i18n("Entity"), "entity.png" },
+        { tbb_DeepHistory, i18n("Deep History"), "deep-history.png" },          //NotYetImplemented
+        { tbb_ShallowHistory, i18n("Shallow History"), "shallow-history.png" }, //NotYetImplemented
+        { tbb_Join, i18n("Join"), "join.png" },    //NotYetImplemented
+        { tbb_StateFork, i18n("Fork"), "state-fork.png" },
+        { tbb_Junction, i18n("Junction"), "junction.png" },    //NotYetImplemented
+        { tbb_Choice, i18n("Choice"), "choice-round.png" },    //NotYetImplemented
+    //:TODO: let the user decide which symbol he wants (setting an option)
+    //    { tbb_Choice, i18n("Choice"), "choice-rhomb.png" },    //NotYetImplemented
+        //{ tbb_Andline, i18n("And Line"), "andline.png" },    //NotYetImplemented
+        { tbb_State_Transition, i18n("State Transition"), "uniassociation.png" },
+        { tbb_Activity_Transition, i18n("Activity Transition"), "uniassociation.png" },
+        { tbb_Activity, i18n("Activity"), "usecase.png" },
+        { tbb_State, i18n("State"), "usecase.png" },
+        { tbb_End_Activity, i18n("End Activity"), "end_state.png" },
+        { tbb_Initial_Activity, i18n("Initial Activity"), "initial_state.png" },
+        { tbb_Coll_Message, i18n("Message"), "message-asynchronous.png" }
+    };
     KStandardDirs * dirs = KGlobal::dirs();
     QString dataDir = dirs->findResourceDir( "data", "umbrello/pics/object.png" );
     dataDir += "/umbrello/pics/";
+    const size_t n_buttonInfos = sizeof(buttonInfo) /
+                                 (sizeof(ToolBar_Buttons) + sizeof(QString) + sizeof(char*));
 
     m_ToolButtons.insert(tbb_Undefined,
                          ToolButton(i18n("UNDEFINED"),
@@ -245,187 +299,13 @@ void WorkToolBar::loadPixmaps() {
                          ToolButton(i18n("Select"),
                                     load(dataDir + "arrow.png"),
                                     QCursor()) );
-    m_ToolButtons.insert(tbb_Object,
-                         ToolButton(i18n("Object"),
-                                    load(dataDir + "object.png"),
-                                    QCursor(load(dataDir + "cursor-object.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Seq_Message_Synchronous,
-                         ToolButton(i18n("Synchronous Message"),
-                                    load(dataDir + "message-synchronous.png"),
-                                    QCursor(load(dataDir + "cursor-message-synchronous.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Seq_Message_Asynchronous,
-                         ToolButton(i18n("Asynchronous Message"),
-                                    load(dataDir + "message-asynchronous.png"),
-                                    QCursor(load(dataDir + "cursor-message-asynchronous.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Association,
-                         ToolButton(i18n("Association"),
-                                    load(dataDir + "association.png"),
-                                    QCursor(load(dataDir + "cursor-association.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Containment,
-                         ToolButton(i18n("Containment"),
-                                    load(dataDir + "containment.png"),
-                                    QCursor(load(dataDir + "cursor-containment.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Anchor,
-                         ToolButton(i18n("Anchor"),
-                                    load(dataDir + "anchor.png"),
-                                    QCursor(load(dataDir + "cursor-anchor.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Text,
-                         ToolButton(i18n("Label"),
-                                    load(dataDir + "text.png"),
-                                    QCursor(load(dataDir + "cursor-text.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Note,
-                         ToolButton(i18n("Note"),
-                                    load(dataDir + "note.png"),
-                                    QCursor(load(dataDir + "cursor-note.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Box,
-                         ToolButton(i18n("Box"),
-                                    load(dataDir + "box.png"),
-                                    QCursor(load(dataDir + "cursor-box.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Actor,
-                         ToolButton(i18n("Actor"),
-                                    load(dataDir + "actor.png"),
-                                    QCursor(load(dataDir + "cursor-actor.png"), 9, 9)));
-    m_ToolButtons.insert(tbb_Dependency,
-                         ToolButton(i18n("Dependency"),
-                                    load(dataDir + "dependency.png"),
-                                    QCursor(load(dataDir + "cursor-dependency.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Aggregation,
-                         ToolButton(i18n("Aggregation"),
-                                    load(dataDir + "aggregation.png"),
-                                    QCursor(load(dataDir + "cursor-aggregation.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Relationship,
-                         ToolButton(i18n("Relationship"),
-                                    load(dataDir + "relationship.png"),
-                                    QCursor(load(dataDir + "cursor-relationship.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_UniAssociation,
-                         ToolButton(i18n("Directional Association"),
-                                    load(dataDir + "uniassociation.png"),
-                                    QCursor(load(dataDir + "cursor-uniassociation.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Generalization,
-                         ToolButton(i18n("Implements (Generalisation/Realisation)"),
-                                    load(dataDir + "generalisation.png"),
-                                    QCursor(load(dataDir + "cursor-generalisation.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Composition,
-                         ToolButton(i18n("Composition"),
-                                    load(dataDir + "composition.png"),
-                                    QCursor(load(dataDir + "cursor-composition.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_UseCase,
-                         ToolButton(i18n("Use Case"),
-                                    load(dataDir + "usecase.png"),
-                                    QCursor(load(dataDir + "cursor-usecase.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Class,
-                         ToolButton(i18n("Class"),
-                                    load(dataDir + "class.png"),
-                                    QCursor(load(dataDir + "cursor-class.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Initial_State,
-                         ToolButton(i18n("Initial State"),
-                                    load(dataDir + "initial_state.png"),
-                                    QCursor(load(dataDir + "cursor-initial-state.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_End_State,
-                         ToolButton(i18n("End State"),
-                                    load(dataDir + "end_state.png"),
-                                    QCursor(load(dataDir + "cursor-end-state.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Branch,
-                         ToolButton(i18n("Branch/Merge"),
-                                    load(dataDir + "branch.png"),
-                                    QCursor(load(dataDir + "cursor-branch.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Fork,
-                         ToolButton(i18n("Fork/Join"),
-                                    load(dataDir + "fork.png"),
-                                    QCursor(load(dataDir + "cursor-fork.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Package,
-                         ToolButton(i18n("Package"),
-                                    load(dataDir + "package.png"),
-                                    QCursor(load(dataDir + "cursor-package.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Component,
-                         ToolButton(i18n("Component"),
-                                    load(dataDir + "component.png"),
-                                    QCursor(load(dataDir + "cursor-component.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Node,
-                         ToolButton(i18n("Node"),
-                                    load(dataDir + "node.png"),
-                                    QCursor(load(dataDir + "cursor-node.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Artifact,
-                         ToolButton(i18n("Artifact"),
-                                    load(dataDir + "artifact.png"),
-                                    QCursor(load(dataDir + "cursor-artifact.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Interface,
-                         ToolButton(i18n("Interface"),
-                                    load(dataDir + "interface.png"),
-                                    QCursor(load(dataDir + "cursor-interface.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Datatype,
-                         ToolButton(i18n("Datatype"),
-                                    load(dataDir + "datatype.png"),
-                                    QCursor(load(dataDir + "cursor-datatype.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Enum,
-                         ToolButton(i18n("Enum"),
-                                    load(dataDir + "enum.png"),
-                                    QCursor(load(dataDir + "cursor-enum.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Entity,
-                         ToolButton(i18n("Entity"),
-                                    load(dataDir + "entity.png"),
-                                    QCursor(load(dataDir + "cursor-entity.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_DeepHistory,
-                         ToolButton(i18n("Deep History"),
-                                    load(dataDir + "deep-history.png"),
-                                    QCursor(load(dataDir + "cursor-deep-history.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_ShallowHistory,
-                         ToolButton(i18n("Shallow History"),
-                                    load(dataDir + "shallow-history.png"),
-                                    QCursor(load(dataDir + "cursor-shallow-history.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Join,
-                         ToolButton(i18n("Join"),
-                                    load(dataDir + "join.png"),
-                                    QCursor(load(dataDir + "cursor-join.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_StateFork,
-                         ToolButton(i18n("Fork"),
-                                    load(dataDir + "state-fork.png"),
-                                    QCursor(load(dataDir + "cursor-state-fork.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Junction,
-                         ToolButton(i18n("Junction"),
-                                    load(dataDir + "junction.png"),
-                                    QCursor(load(dataDir + "cursor-junction.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Choice,
-                         ToolButton(i18n("Choice"),
-                                    load(dataDir + "choice-round.png"),
-                                    QCursor(load(dataDir + "cursor-choice-round.png"), 9, 9)) );
-    //:TODO: let the user decide which symbol he wants (setting an option)
-    //m_ToolButtons.insert(tbb_Choice,
-    //	ToolButton(i18n("Choice"),
-    //		load(dataDir + "choice-rhomb.png"),
-    //		QCursor(load(dataDir + "cursor-choice-rhomb.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Andline,
-                         ToolButton(i18n("And Line"),
-                                    load(dataDir + "andline.png"),
-                                    QCursor(load(dataDir + "cursor-andline.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_State_Transition,
-                         ToolButton(i18n("State Transition"),
-                                    load(dataDir + "uniassociation.png"),
-                                    QCursor(load(dataDir + "cursor-uniassociation.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Activity_Transition,
-                         ToolButton(i18n("Activity Transition"),
-                                    load(dataDir + "uniassociation.png"),
-                                    QCursor(load(dataDir + "cursor-uniassociation.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Activity,
-                         ToolButton(i18n("Activity"),
-                                    load(dataDir + "usecase.png"),
-                                    QCursor(load(dataDir + "cursor-usecase.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_State,
-                         ToolButton(i18n("State"),
-                                    load(dataDir + "usecase.png"),
-                                    QCursor(load(dataDir + "cursor-usecase.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_End_Activity,
-                         ToolButton(i18n("End Activity"),
-                                    load(dataDir + "end_state.png"),
-                                    QCursor(load(dataDir + "cursor-end-state.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Initial_Activity,
-                         ToolButton(i18n("Initial Activity"),
-                                    load(dataDir + "initial_state.png"),
-                                    QCursor(load(dataDir + "cursor-initial-state.png"), 9, 9)) );
-    m_ToolButtons.insert(tbb_Coll_Message,
-                         ToolButton(i18n("Message"),
-                                    load(dataDir + "message-asynchronous.png"),
-                                    QCursor(load(dataDir + "cursor-message-asynchronous.png"), 9, 9)) );
+    kdDebug() << "WorkToolBar::loadPixmaps: n_buttonInfos = " << n_buttonInfos << endl;
+    for (uint i = 0; i < n_buttonInfos; i++) {
+        m_ToolButtons.insert(buttonInfo[i].tbb,
+            ToolButton(buttonInfo[i].btnName,
+                       load(dataDir + buttonInfo[i].pngName),
+                       QCursor(load(dataDir + "cursor-" + buttonInfo[i].pngName), 9, 9)));
+    }
 }
 
 #include "worktoolbar.moc"
