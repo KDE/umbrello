@@ -64,7 +64,8 @@ protected:
      * Preprocess a line.
      * May modify the given line to remove items consumed by the
      * preprocessing such as comments or preprocessor directives.
-     * The default implementation is a no-op.
+     * The default implementation handles C style multi-line comments
+     * (slash-star, star-slash.)
      *
      * @param line  The line to preprocess.
      * @return      True if the line was completely consumed,
@@ -128,6 +129,11 @@ protected:
      * Intermediate accumulator for comment text.
      */
     QString m_comment;
+    /**
+     * True if we are currently in a multi-line comment.
+     * Only applies to languages with multi-line comments.
+     */
+    bool m_inComment;
     /**
      * Accumulator for abstractness
      */

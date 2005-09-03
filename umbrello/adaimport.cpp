@@ -35,6 +35,10 @@ AdaImport::AdaImport() : NativeImportBase("--") {
 AdaImport::~AdaImport() {
 }
 
+bool AdaImport::preprocess(QString&) {
+    return false;
+}
+
 void AdaImport::fillSource(QString word) {
     QString lexeme;
     const uint len = word.length();

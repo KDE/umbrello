@@ -30,7 +30,7 @@ public:
     void parseFile(QString file);
 
     /**
-     * Implement abstract operation from NativeImportBase.
+     * Override operation from NativeImportBase.
      */
     bool preprocess(QString& line);
 
@@ -42,7 +42,6 @@ public:
 protected:
     QString joinTypename();
     bool m_isOneway, m_isReadonly, m_isAttribute;
-    bool m_inComment;
 };
 
 #endif

@@ -34,6 +34,12 @@ public:
      */
     void fillSource(QString word);
 
+    /**
+     * Reimplement operation from NativeImportBase to be a no-op.
+     * Ada does not require preprocessing.
+     */
+    bool preprocess(QString& line);
+
 };
 
 #endif
