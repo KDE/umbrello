@@ -169,9 +169,38 @@ bool ToolBarState::setSelectedWidget(QMouseEvent * me)
     UMLWidget* backup = 0;
     UMLWidget* boxBackup = 0;
 
+    // Check associations.
+    AssociationWidgetListIt assoc_it(m_pUMLView->getAssociationList());
+    AssociationWidget* assocwidget = 0;
+    while ((assocwidget = assoc_it.current()) != NULL) {
+        if (assocwidget->onAssociation( me->pos() ))
+        {
+            // TODO: Fix this. It makes a callback to the association mousePressEvent function.
+            assocwidget->mousePressEvent(me);
+            m_pUMLView->setMoveAssoc(assocwidget);
+            m_bWidgetSelected = true;
+            return true;
+        }
+        ++assoc_it;
+    }
+    m_pUMLView->setMoveAssoc(NULL);
+
+    // Check messages.
+    MessageWidgetListIt mit( m_pUMLView->getMessageList() );
+    UMLWidget *obj = 0;
+    while ((obj = (UMLWidget*)mit.current()) != 0) {
+        if (obj->isVisible() && obj->onWidget(me->pos())) {
+            m_pUMLView->setOnWidget( obj );
+            obj ->  mousePressEvent( me );
+            m_bWidgetSelected = true;
+            return true;
+        }
+        ++mit;
+    }
+
     // Check widgets.
     UMLWidgetListIt it( m_pUMLView->getWidgetList() );
-    UMLWidget* obj = 0;
+    obj = 0;
     while ( (obj = it.current()) != 0 ) {
         ++it;
         if( !obj->isVisible() || !obj->onWidget(me->pos()) )
@@ -192,7 +221,7 @@ bool ToolBarState::setSelectedWidget(QMouseEvent * me)
         } else {
             backup = obj;
         }
-    }//end while
+    }
     //if backup is set then let it have the event
     if(backup) {
         backup -> mousePressEvent( me );
@@ -201,20 +230,6 @@ bool ToolBarState::setSelectedWidget(QMouseEvent * me)
         m_bWidgetSelected = true;
         return true;
     }
-
-    // Check messages.
-    MessageWidgetListIt mit( m_pUMLView->getMessageList() );
-    obj = 0;
-    while ((obj = (UMLWidget*)mit.current()) != 0) {
-        if (obj->isVisible() && obj->onWidget(me->pos())) {
-            m_pUMLView->setOnWidget( obj );
-            obj ->  mousePressEvent( me );
-            m_bWidgetSelected = true;
-            return true;
-        }
-        ++mit;
-    }
-
     // Boxes have lower priority.
     if (boxBackup) {
         boxBackup -> mousePressEvent( me );
@@ -224,22 +239,6 @@ bool ToolBarState::setSelectedWidget(QMouseEvent * me)
         return true;
     }
 
-    // Check associations.
-    AssociationWidgetListIt assoc_it(m_pUMLView->getAssociationList());
-    AssociationWidget* assocwidget = 0;
-    while((assocwidget=assoc_it.current())) {
-        if( assocwidget -> onAssociation( me -> pos() ))
-        {
-            // TODO: Fix this. It makes a callback to the association mousePressEvent function.
-            assocwidget->mousePressEvent(me);
-            m_pUMLView->setMoveAssoc(assocwidget);
-
-            m_bWidgetSelected = true;
-            return true;
-        }
-        ++assoc_it;
-    }
-    m_pUMLView->setMoveAssoc(NULL);
     m_pUMLView->setOnWidget(NULL);
 
     m_bWidgetSelected = false;
