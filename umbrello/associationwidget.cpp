@@ -2489,7 +2489,7 @@ void AssociationWidget::mouseMoveEvent(QMouseEvent* me) {
     // Prevent the moving vertex from disappearing underneath a widget
     // (else there's no way to get it back.)
     UMLWidget *onW = m_pView->testOnWidget(p);
-    if (onW) {
+    if (onW && onW->getBaseType() != Uml::wt_Box) {  // boxes are transparent
         const int pX = p.x();
         const int pY = p.y();
         const int wX = onW->getX();
