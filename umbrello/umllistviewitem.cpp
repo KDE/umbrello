@@ -544,34 +544,18 @@ int UMLListViewItem::compare(QListViewItem *other, int col, bool ascending) cons
     UMLObject *otherObj = ulvi->getUMLObject();
     if (m_pObject == NULL || otherObj == NULL)
         return alphaOrder;
-    if (ourType == Uml::lvt_Attribute) {
-        UMLClassifier *ourParent = dynamic_cast<UMLClassifier*>(m_pObject->parent());
-        UMLClassifier *otherParent = dynamic_cast<UMLClassifier*>(otherObj->parent());
-        if (ourParent == NULL || otherParent == NULL || ourParent != otherParent) {
-            kdError() << "UMLListViewItem::compare(UMLAttribute): ourParent="
-            << ourParent << ", otherParent=" << otherParent << endl;
-            return alphaOrder;
-        }
-        UMLAttributeList atts = ourParent->getAttributeList();
-        int myIndex = atts.findRef( static_cast<UMLAttribute*>(m_pObject) );
-        int otherIndex = atts.findRef( static_cast<UMLAttribute*>(otherObj) );
-        return (myIndex < otherIndex ? -1 : myIndex > otherIndex ? 1 : 0);
-    } else if (ourType == Uml::lvt_Operation) {
-        UMLClassifier *ourParent = dynamic_cast<UMLClassifier*>(m_pObject->parent());
-        UMLClassifier *otherParent = dynamic_cast<UMLClassifier*>(otherObj->parent());
-        if (ourParent == NULL || otherParent == NULL || ourParent != otherParent) {
-            kdError() << "UMLListViewItem::compare(UMLOperation): ourParent="
-            << ourParent << ", otherParent=" << otherParent << endl;
-            return alphaOrder;
-        }
-        UMLOperationList ops = ourParent->getOpList();
-        int myIndex = ops.findRef( static_cast<UMLOperation*>(m_pObject) );
-        int otherIndex = ops.findRef( static_cast<UMLOperation*>(otherObj) );
-        return (myIndex < otherIndex ? -1 : myIndex > otherIndex ? 1 : 0);
-    } else {
+    UMLClassifier *ourParent = dynamic_cast<UMLClassifier*>(m_pObject->parent());
+    UMLClassifier *otherParent = dynamic_cast<UMLClassifier*>(otherObj->parent());
+    if (ourParent == NULL || otherParent == NULL || ourParent != otherParent)
         return alphaOrder;
-    }
-    return 0;
+    UMLClassifierListItem *thisUmlItem = dynamic_cast<UMLClassifierListItem*>(m_pObject);
+    UMLClassifierListItem *otherUmlItem = dynamic_cast<UMLClassifierListItem*>(otherObj);
+    if (thisUmlItem == NULL || otherUmlItem == NULL)
+        return alphaOrder;
+    UMLClassifierListItemList items = ourParent->getFilteredList(thisUmlItem->getBaseType());
+    int myIndex = items.findRef(thisUmlItem);
+    int otherIndex = items.findRef(otherUmlItem);
+    return (myIndex < otherIndex ? -1 : myIndex > otherIndex ? 1 : 0);
 }
 
 UMLListViewItem* UMLListViewItem::deepCopy(UMLListViewItem *newParent) {
