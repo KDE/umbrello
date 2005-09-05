@@ -607,7 +607,7 @@ UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const {
             if (pkg) {
                 UMLListViewItem* pkgItem = findUMLObject(pkg);
                 if (pkgItem == NULL)
-                    kdError() << "UMLListView::slotObjectCreated: could not find "
+                    kdError() << "UMLListView::determineParentItem: could not find "
                     << "parent package " << pkg->getName() << endl;
                 else
                     parentItem = pkgItem;
@@ -648,7 +648,7 @@ UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const {
         }
         break;
     default:
-        kdWarning() << "UMLListView::slotObjectCreated("<< object->getName()
+        kdWarning() << "UMLListView::determineParentItem("<< object->getName()
         << ") : no appropriate parent found for type " << type
         << endl;
         return NULL;
@@ -725,8 +725,17 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object) {
             connect(object,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
         }
         break;
-    case Uml::ot_Datatype:
     case Uml::ot_Enum:
+        {
+            UMLEnum *e = static_cast<UMLEnum*>(object);
+            connect(e, SIGNAL(enumLiteralAdded(UMLClassifierListItem*)),
+                    this, SLOT(childObjectAdded(UMLClassifierListItem*)));
+            connect(e, SIGNAL(enumLiteralRemoved(UMLClassifierListItem*)),
+                    this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
+        }
+        connect(object,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
+        break;
+    case Uml::ot_Datatype:
     case Uml::ot_Entity:
     case Uml::ot_Attribute:
     case Uml::ot_Operation:
@@ -768,32 +777,32 @@ void UMLListView::childObjectAdded(UMLClassifierListItem* obj) {
 }
 
 void UMLListView::childObjectAdded(UMLClassifierListItem* child, UMLClassifier* parent) {
-    if (!m_bCreatingChildObject) {
-        const QString text = child->toString(Uml::st_SigNoScope);
-        UMLListViewItem *childItem = NULL;
-        UMLListViewItem *parentItem = findUMLObject(parent);
-        if (parentItem == NULL) {
-            kdDebug() << "UMLListView::childObjectAdded(" << child->getName()
-    		  << "): parent " << parent->getName()
-                  << " does not yet exist, creating it now." << endl;
-            parentItem = new UMLListViewItem(m_lv, parent->getName(),
-                                             convert_OT_LVT(parent->getBaseType()),
-                                             parent);
-        } else {
-            childItem = parentItem->findUMLObject(child);
+    if (m_bCreatingChildObject)
+        return;
+    const QString text = child->toString(Uml::st_SigNoScope);
+    UMLListViewItem *childItem = NULL;
+    UMLListViewItem *parentItem = findUMLObject(parent);
+    if (parentItem == NULL) {
+        kdDebug() << "UMLListView::childObjectAdded(" << child->getName()
+		  << "): parent " << parent->getName()
+              << " does not yet exist, creating it now." << endl;
+        parentItem = new UMLListViewItem(m_lv, parent->getName(),
+                                         convert_OT_LVT(parent->getBaseType()),
+                                         parent);
+    } else {
+        childItem = parentItem->findUMLObject(child);
+    }
+    if (childItem) {
+        childItem->setText(text);
+    } else {
+        childItem = new UMLListViewItem(parentItem, text,
+                               convert_OT_LVT(child->getBaseType()), child);
+        if (! m_doc->loading()) {
+            ensureItemVisible(childItem);
+            clearSelection();
+            setSelected(childItem, true);
         }
-        if (childItem) {
-            childItem->setText(text);
-        } else {
-            childItem = new UMLListViewItem(parentItem, text,
-                                   convert_OT_LVT(child->getBaseType()), child);
-            if (! m_doc->loading()) {
-                ensureItemVisible(childItem);
-                clearSelection();
-                setSelected(childItem, true);
-            }
-            connectNewObjectsSlots(child);
-        }
+        connectNewObjectsSlots(child);
     }
 }
 

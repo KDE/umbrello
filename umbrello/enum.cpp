@@ -127,8 +127,8 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, int position) {
     return false;
 }
 
-int UMLEnum::removeEnumLiteral(UMLObject* literal) {
-    if (!m_List.remove((UMLEnumLiteral*)literal)) {
+int UMLEnum::removeEnumLiteral(UMLEnumLiteral* literal) {
+    if (!m_List.remove(literal)) {
         kdDebug() << "can't find att given in list" << endl;
         return -1;
     }

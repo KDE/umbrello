@@ -1388,7 +1388,8 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
         if (type == ot_Operation) {
             parent->removeOperation(static_cast<UMLOperation*>(umlobject));
         } else if (type == ot_EnumLiteral) {
-            static_cast<UMLEnum*>(parent)->removeEnumLiteral(umlobject);
+            UMLEnum *e = static_cast<UMLEnum*>(parent);
+            e->removeEnumLiteral(static_cast<UMLEnumLiteral*>(umlobject));
         } else if (type == ot_EntityAttribute) {
             static_cast<UMLEntity*>(parent)->removeEntityAttribute(umlobject);
         } else {
