@@ -1388,13 +1388,15 @@ void UMLView::fixEPS(const QString &filename, QRect rect) {
         if (epsfile.open(IO_WriteOnly | IO_Truncate)) {
             // read information
             QRegExp rx("%%BoundingBox:\\s*(-?[\\d\\.]+)\\s*(-?[\\d\\.]+)\\s*(-?[\\d\\.]+)\\s*(-?[\\d\\.]+)");
-            int pos = rx.search(fileContent);
-            float left = rx.cap(1).toFloat();
-            float top = rx.cap(4).toFloat();
+            const int pos = rx.search(fileContent);
+            const int left = (int)rx.cap(1).toFloat();
+            const int right = left + rect.width();
+            const int top = (int)rx.cap(4).toFloat();
+            const int bottom = top - rect.height();
 
             // modify content
             fileContent.replace(pos,rx.cap(0).length(),
-                                QString("%%BoundingBox: %1 %2 %3 %4").arg(left).arg(top-rect.height()).arg(left+rect.width()).arg(top));
+                                QString("%%BoundingBox: %1 %2 %3 %4").arg(left).arg(bottom).arg(right).arg(top));
 
             ts << fileContent;
             epsfile.close();
