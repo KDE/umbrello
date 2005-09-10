@@ -12,16 +12,33 @@
  *                                                                         *
  ***************************************************************************/
 
+// my own header
+#include "classgenpage.h"
+
+// qt includes
 #include <qlayout.h>
+#include <qgroupbox.h>
+#include <qlabel.h>
+#include <qlineedit.h>
+#include <qbuttongroup.h>
+#include <qmultilineedit.h>
+#include <qradiobutton.h>
+#include <qcheckbox.h>
 
+// kde includes
 #include <klocale.h>
-#include <kmessagebox.h>
 #include <kdebug.h>
+#include <kmessagebox.h>
+#include <kcombobox.h>
 
+// my class includes
+#include "../umlobject.h"
+#include "../objectwidget.h"
+#include "../umldoc.h"
 #include "../artifact.h"
 #include "../component.h"
 #include "../umlview.h"
-#include "classgenpage.h"
+#include "../stereotype.h"
 
 ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(parent) {
     m_pWidget = 0;
@@ -70,7 +87,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
     m_pClassNameLE->setFocus();
     m_pNameL->setBuddy(m_pClassNameLE);
 
-    m_pStereoTypeLE = 0;
+    m_pStereoTypeCB = 0;
     m_pPackageLE = 0;
     m_pAbstractCB = 0;
     m_pDeconCB = 0;
@@ -81,14 +98,14 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
         m_pStereoTypeL = new QLabel(i18n("&Stereotype name:"), this);
         m_pNameLayout -> addWidget(m_pStereoTypeL, 1, 0);
 
-        m_pStereoTypeLE = new QLineEdit(this);
-        m_pNameLayout -> addWidget(m_pStereoTypeLE, 1, 1);
+        m_pStereoTypeCB = new KComboBox(true, this);
+        m_pNameLayout -> addWidget(m_pStereoTypeCB, 1, 1);
 
-        m_pStereoTypeLE -> setText(o -> getStereotype(false));
-        m_pStereoTypeL->setBuddy(m_pStereoTypeLE);
+        m_pStereoTypeCB->setCurrentText( o->getStereotype() );
+        m_pStereoTypeL->setBuddy(m_pStereoTypeCB);
     }
     if (t == Uml::ot_Interface || t == Uml::ot_Datatype || t == Uml::ot_Enum) {
-        m_pStereoTypeLE->setEnabled(false);
+        m_pStereoTypeCB->setEditable(false);
     }
 
     if (t == Uml::ot_Class || t == Uml::ot_Interface) {
@@ -191,6 +208,26 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
         m_pPrivateRB->setChecked(true);
     else
         m_pProtectedRB -> setChecked(true);
+
+    // manage stereotypes
+    m_pStereoTypeCB -> setDuplicatesEnabled(false);//only allow one of each type in box
+    insertStereotype (QString("")); // an empty stereotype is the default
+    int defaultStereotype=0;
+    bool foundDefaultStereotype = false;
+    for (UMLStereotypeListIt it(m_pUmldoc->getStereotypes()); it.current(); ++it) {
+        if (!foundDefaultStereotype) {
+            if ( m_pObject->getStereotype() == it.current()->getName()) {
+                foundDefaultStereotype = true;
+            }
+            defaultStereotype++;
+        }
+        insertStereotype (it.current()->getName());
+    }
+    // lookup for a default stereotype, if the operation doesn't have one
+    if (foundDefaultStereotype)
+        m_pStereoTypeCB -> setCurrentItem(defaultStereotype);
+    else
+        m_pStereoTypeCB -> setCurrentItem(-1);
 
     ///////////
     m_pDoc->setWordWrap(QMultiLineEdit::WidgetWidth);
@@ -295,10 +332,10 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget) : QWid
     m_pStereoTypeL = new QLabel(i18n("Stereotype name:"), this);
     m_pNameLayout->addWidget(m_pStereoTypeL, 1, 0);
 
-    m_pStereoTypeLE = new QLineEdit(this);
-    m_pNameLayout->addWidget(m_pStereoTypeLE, 1, 1);
+    m_pStereoTypeCB = new KComboBox(true, this);
+    m_pNameLayout->addWidget(m_pStereoTypeCB, 1, 1);
 
-    m_pStereoTypeLE->setText( widget->getUMLObject()->getStereotype(false) );
+    m_pStereoTypeCB->setCurrentText( widget->getUMLObject()->getStereotype() );
 
     m_pInstanceL = new QLabel(this);
     m_pInstanceL->setText(i18n("Instance name:"));
@@ -324,14 +361,20 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget) : QWid
 
 ClassGenPage::~ClassGenPage() {}
 
+void ClassGenPage::insertStereotype( const QString& type, int index )
+{
+    m_pStereoTypeCB->insertItem( type, index );
+    m_pStereoTypeCB->completionObject()->addItem( type );
+}
+
 void ClassGenPage::updateObject() {
     if(m_pObject) {
         QString name = m_pClassNameLE -> text();
 
         m_pObject -> setDoc(m_pDoc -> text());
 
-        if(m_pStereoTypeLE)
-            m_pObject -> setStereotype(m_pStereoTypeLE -> text());
+        if(m_pStereoTypeCB)
+            m_pObject -> setStereotype(m_pStereoTypeCB->currentText());
         if(m_pPackageLE)
             m_pObject -> setPackage(m_pPackageLE -> text());
         if( m_pAbstractCB )
@@ -400,7 +443,7 @@ void ClassGenPage::updateObject() {
         } else {
             o->setName(name);
         }
-        o->setStereotype( m_pStereoTypeLE->text() );
+        o->setStereotype( m_pStereoTypeCB->currentText() );
     }
 }
 

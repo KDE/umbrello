@@ -15,20 +15,21 @@
 #ifndef CLASSGENPAGE_H
 #define CLASSGENPAGE_H
 
-//quicktime class includes
 #include <qwidget.h>
-#include <qgroupbox.h>
-#include <qlabel.h>
-#include <qlineedit.h>
-#include <qbuttongroup.h>
-#include <qmultilineedit.h>
-#include <qradiobutton.h>
-#include <qcheckbox.h>
 
-//my class includes
-#include "../umlobject.h"
-#include "../objectwidget.h"
-#include "../umldoc.h"
+class QGroupBox;
+class QLabel;
+class QLineEdit;
+class QButtonGroup;
+class QMultiLineEdit;
+class QRadioButton;
+class QCheckBox;
+class KComboBox;
+
+class UMLObject;
+class UMLWidget;
+class ObjectWidget;
+class UMLDoc;
 
 /**
  * Displays properties of a UMLObject in a dialog box.  This is not usually directly
@@ -84,7 +85,8 @@ private:
     QGroupBox *m_pDocGB;
     QButtonGroup        * m_pButtonBG;
     QLabel * m_pNameL, * m_pInstanceL, * m_pStereoTypeL, * m_pPackageL;
-    QLineEdit * m_pClassNameLE, *m_pInstanceLE, * m_pStereoTypeLE, * m_pPackageLE;
+    QLineEdit * m_pClassNameLE, *m_pInstanceLE, * m_pPackageLE;
+    KComboBox * m_pStereoTypeCB;
     QRadioButton * m_pPublicRB, * m_pPrivateRB, * m_pProtectedRB;
     QCheckBox * m_pMultiCB, * m_pDrawActorCB, * m_pAbstractCB, * m_pDeconCB;
     QMultiLineEdit * m_pDoc;
@@ -95,6 +97,8 @@ private:
     QButtonGroup* m_pDrawAsBG;
     QRadioButton* m_pDefaultRB,* m_pFileRB,* m_pLibraryRB,* m_pTableRB;
     QCheckBox* m_pExecutableCB;
+
+    void insertStereotype(const QString& type, int index = -1);
 
 public slots:
     /**
