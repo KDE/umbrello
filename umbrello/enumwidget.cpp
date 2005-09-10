@@ -79,7 +79,7 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY) {
     p.setFont(font);
     p.drawText(offsetX + ENUM_MARGIN, offsetY,
                w - ENUM_MARGIN * 2,fontHeight,
-               AlignCenter, m_pObject -> getStereotype());
+               AlignCenter, m_pObject->getStereotype(true));
 
     font.setItalic( m_pObject -> getAbstract() );
     p.setFont(font);
@@ -148,7 +148,7 @@ void EnumWidget::calculateSize() {
     } else {
         width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(getName()).width();
     }
-    int w = getFontMetrics(FT_BOLD).boundingRect("«" + m_pObject->getStereotype() + "»").width();
+    int w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->getStereotype(true)).width();
 
 
     width = w > width?w:width;

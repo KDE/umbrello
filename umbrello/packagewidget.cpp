@@ -71,7 +71,7 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
         QString stereotype = m_pObject->getStereotype();
         if (!stereotype.isEmpty()) {
             p.drawText(offsetX, offsetY + fontHeight + PACKAGE_MARGIN,
-                       w, fontHeight, AlignCenter, stereotype);
+                       w, fontHeight, AlignCenter, m_pObject->getStereotype(true));
             lines = 2;
         }
     }
@@ -93,18 +93,14 @@ void PackageWidget::calculateSize() {
     QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
     int fontHeight  = fm.lineSpacing();
 
-    int lines;
-    if (!m_pObject->getStereotype().isEmpty()) {
-        lines = 2;
-    } else {
-        lines = 1;
-    }
+    int lines = 1;
 
     width = fm.width( m_pObject->getName() );
 
     int tempWidth = 0;
-    if(!m_pObject->getStereotype().isEmpty()) {
-        tempWidth = fm.width(m_pObject->getStereotype());
+    if (!m_pObject->getStereotype().isEmpty()) {
+        tempWidth = fm.width(m_pObject->getStereotype(true));
+        lines = 2;
     }
     width = tempWidth>width ? tempWidth : width;
     width += PACKAGE_MARGIN * 2;

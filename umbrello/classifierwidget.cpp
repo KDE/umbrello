@@ -320,11 +320,11 @@ void ClassifierWidget::calculateSize() {
     int width = 0, height = 0;
 
     // consider stereotype
-    if (m_bShowStereotype && !m_pObject->getStereotype(false).isEmpty()) {
+    if (m_bShowStereotype && !m_pObject->getStereotype().isEmpty()) {
         height += fontHeight;
         // ... width
         const QFontMetrics &bfm = UMLWidget::getFontMetrics(UMLWidget::FT_BOLD);
-        const int stereoWidth = bfm.size(0,m_pObject->getStereotype()).width();
+        const int stereoWidth = bfm.size(0,m_pObject->getStereotype(true)).width();
         if (stereoWidth > width)
             width = stereoWidth;
     }
@@ -593,7 +593,7 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
 
     // draw stereotype
     font.setBold(true);
-    QString stereo = m_pObject->getStereotype(false);
+    QString stereo = m_pObject->getStereotype();
     /* if no stereotype is given we don't want to show the empty << >> */
     const bool showStereotype = (m_bShowStereotype && !stereo.isEmpty());
     const bool showNameOnly = (!m_bShowOperations && !m_bShowAttributes && !showStereotype);

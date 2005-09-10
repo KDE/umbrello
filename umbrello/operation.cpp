@@ -396,7 +396,7 @@ bool UMLOperation::isConstructorOperation() {
     // if an operation has the stereotype constructor
     // return true
     QString strConstructor ("constructor");
-    if (getStereotype(false) == strConstructor)
+    if (getStereotype() == strConstructor)
         return true;
     // It's a constructor operation if the operation name
     // matches that of the parent classifier.

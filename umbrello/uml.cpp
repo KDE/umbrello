@@ -1708,8 +1708,10 @@ void UMLApp::slotMoveTabRight() {
 
 void UMLApp::slotAutolayout(){
 #ifdef HAVE_DOT
+/*
     QDialog* d = new AutolayoutDlg(getCurrentView());
     d->show();
+ */
 #endif
 }
 

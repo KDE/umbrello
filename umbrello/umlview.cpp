@@ -2561,7 +2561,7 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
                 AssocRules::allowAssociation(assocType, widget, w, false)) {
             // Create a composition AssocWidget, or, if the attribute type is
             // stereotyped <<CORBAInterface>>, create a UniAssociation widget.
-            if (attrType->getStereotype(false) == "CORBAInterface")
+            if (attrType->getStereotype() == "CORBAInterface")
                 assocType = at_UniAssociation;
             AssociationWidget *a = new AssociationWidget (this, widget, assocType, w);
             a->setUMLObject(attr);

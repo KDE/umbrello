@@ -75,7 +75,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
 
     Dialog_Utils::makeLabeledEditField( m_pParmGB, propLayout, 3,
                                     m_pStereoTypeL, i18n("&Stereotype name:"),
-                                    m_pStereoTypeLE, m_pAtt->getStereotype(false) );
+                                    m_pStereoTypeLE, m_pAtt->getStereotype() );
 
     m_pKind =  new QButtonGroup(i18n("Passing Direction"), plainPage());
     m_pKind->setExclusive(true);

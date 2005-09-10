@@ -75,16 +75,12 @@ void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY) {
     p.setPen( QPen(black) );
     p.setFont(font);
 
+    int lines = 1;
+
     if (!stereotype.isEmpty()) {
         p.drawText(offsetX + (COMPONENT_MARGIN*4), offsetY + (h/2) - fontHeight,
-                   w - (COMPONENT_MARGIN*4), fontHeight, AlignCenter, stereotype);
-    }
-
-    int lines;
-
-    if (stereotype.isEmpty()) {
-        lines = 1;
-    } else {
+                   w - (COMPONENT_MARGIN*4), fontHeight, AlignCenter,
+                   m_pObject->getStereotype(true));
         lines = 2;
     }
 
@@ -125,7 +121,7 @@ void ComponentWidget::calculateSize() {
 
     int tempWidth = 0;
     if(!m_pObject->getStereotype().isEmpty()) {
-        tempWidth = fm.width(m_pObject->getStereotype());
+        tempWidth = fm.width(m_pObject->getStereotype(true));
     }
     width = tempWidth>width ? tempWidth : width;
     width += COMPONENT_MARGIN * 6;

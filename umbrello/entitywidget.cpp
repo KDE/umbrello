@@ -72,7 +72,7 @@ void EntityWidget::draw(QPainter& p, int offsetX, int offsetY) {
     if ( !m_pObject->getStereotype().isEmpty() ) {
         p.drawText(offsetX + ENTITY_MARGIN, offsetY,
                    w - ENTITY_MARGIN * 2,fontHeight,
-                   AlignCenter, m_pObject -> getStereotype());
+                   AlignCenter, m_pObject->getStereotype(true));
         font.setItalic( m_pObject -> getAbstract() );
         p.setFont(font);
         p.drawText(offsetX + ENTITY_MARGIN, offsetY + fontHeight,
@@ -151,7 +151,7 @@ void EntityWidget::calculateSize() {
     // investigate UMLWidget::getFontMetrics()
     width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(" " + getName() + " ").width();
 
-    int w = getFontMetrics(FT_BOLD).boundingRect("«" + m_pObject->getStereotype() + "»").width();
+    int w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->getStereotype(true)).width();
 
     width = w > width?w:width;
 

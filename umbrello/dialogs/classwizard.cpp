@@ -22,6 +22,7 @@
 // local includes
 #include "classifierlistpage.h"
 #include "../uml.h"
+#include "../umldoc.h"
 #include "../classifier.h"
 #include "../attribute.h"
 #include "../operation.h"

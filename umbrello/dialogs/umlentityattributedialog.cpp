@@ -74,7 +74,7 @@ void UMLEntityAttributeDialog::setupDialog() {
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 3,
                                     m_pStereoTypeL, i18n("Stereotype name:"),
-                                    m_pStereoTypeLE, m_pEntityAttribute->getStereotype(false) );
+                                    m_pStereoTypeLE, m_pEntityAttribute->getStereotype() );
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 4,
                                     m_pValuesL, i18n("Length/Values:"),

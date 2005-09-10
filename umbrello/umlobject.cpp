@@ -320,7 +320,7 @@ const UMLStereotype * UMLObject::getUMLStereotype() {
     return m_pStereotype;
 }
 
-QString UMLObject::getStereotype(bool includeAdornments /* = true */) {
+QString UMLObject::getStereotype(bool includeAdornments /* = false */) {
     if (m_pStereotype == NULL)
         return "";
     QString name = m_pStereotype->getName();

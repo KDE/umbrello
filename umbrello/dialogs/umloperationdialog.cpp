@@ -36,6 +36,7 @@
 
 //app includes
 #include "../uml.h"
+#include "../umldoc.h"
 #include "../operation.h"
 #include "../classifier.h"
 #include "../template.h"
@@ -205,20 +206,18 @@ void UMLOperationDialog::setupDialog() {
     bool foundDefaultStereotype = false;
     for (UMLStereotypeListIt it(m_doc->getStereotypes()); it.current(); ++it) {
         if (!foundDefaultStereotype) {
-            if ( m_pOperation->getStereotype(false) == it.current()->getName()) {
+            if ( m_pOperation->getStereotype() == it.current()->getName()) {
                 foundDefaultStereotype = true;
-                defaultStereotype++;
             }
-            else
-                defaultStereotype++;
+            defaultStereotype++;
         }
         insertStereotype (it.current()->getName());
     }
     // lookup for a default stereotype, if the operation doesn't have one
     if (foundDefaultStereotype)
-        m_pStereoTypeCB -> setCurrentItem(defaultStereotype);
+        m_pStereoTypeCB->setCurrentItem(defaultStereotype);
     else
-        m_pStereoTypeCB -> setCurrentItem(-1);
+        m_pStereoTypeCB->setCurrentItem(-1);
 
     //setup parm list box signals
     connect( m_pUpButton, SIGNAL( clicked() ), this, SLOT( slotParameterUp() ) );

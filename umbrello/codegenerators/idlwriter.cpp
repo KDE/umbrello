@@ -35,7 +35,7 @@ IDLWriter::IDLWriter(UMLDoc *parent, const char *name)
 IDLWriter::~IDLWriter() {}
 
 bool IDLWriter::isOOClass(UMLClassifier *c) {
-    QString stype = c->getStereotype(false);
+    QString stype = c->getStereotype();
     if (stype == "CORBAConstant" || stype == "CORBAEnum" ||
             stype == "CORBAStruct" || stype == "CORBAUnion" ||
             stype == "CORBASequence" || stype == "CORBAArray" ||
@@ -200,7 +200,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
         return;
     }
     if (! isOOClass(c)) {
-        QString stype = c->getStereotype(false);
+        QString stype = c->getStereotype();
         if (stype == "CORBAConstant") {
             kdError() << "The stereotype " << stype << " cannot be applied to "
             << c->getName() << ", but only to attributes." << endl;
@@ -279,7 +279,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
     idl << getIndent();
     if (c->getAbstract())
         idl << "abstract ";
-    bool isValuetype = (c->getStereotype(false) == "CORBAValue");
+    bool isValuetype = (c->getStereotype() == "CORBAValue");
     if (isValuetype)
         idl << "valuetype ";
     else

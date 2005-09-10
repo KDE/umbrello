@@ -165,10 +165,10 @@ void CPPHeaderCodeOperation::applyStereotypes (QString& prototype, UMLOperation 
        prototype = "static " + prototype;
     }
     // apply the stereotypes
-    if (!pOp->getStereotype(false).isEmpty()) {
-        if ((pOp->getStereotype(false) == "friend") || (pOp->getStereotype(false) == "virtual")) {
+    if (!pOp->getStereotype().isEmpty()) {
+        if ((pOp->getStereotype() == "friend") || (pOp->getStereotype(false) == "virtual")) {
             if (!pOp->isConstructorOperation() && !(interface || pOp->getAbstract()) && !pOp->getStatic())
-                prototype = pOp->getStereotype(false) + " " + prototype; 
+                prototype = pOp->getStereotype() + " " + prototype; 
         }
     }
 }

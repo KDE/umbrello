@@ -95,7 +95,7 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
     // if a property has a friend stereotype, the operation should
     // not be a class name
     QString startText;
-    if (!o->getStereotype(false).isEmpty() && o->getStereotype(false) == "friend")
+    if (!o->getStereotype().isEmpty() && o->getStereotype(false) == "friend")
         startText = returnType + " " + methodName + " ("+paramStr+") {";
     else
         startText = returnType + " " + className + "::" + methodName + " ("+paramStr+") {";

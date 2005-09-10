@@ -393,7 +393,7 @@ void AdaImport::parseFile(QString filename) {
                     }
                     Uml::Object_Type t = type->getBaseType();
                     if (t != Uml::ot_Interface &&
-                        (t != Uml::ot_Class || type->getStereotype(false) == "record")) {
+                        (t != Uml::ot_Class || type->getStereotype() == "record")) {
                         // Not an instance bound method - we cannot represent it.
                         skipStmt(")");
                         break;

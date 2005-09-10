@@ -75,7 +75,7 @@ void UMLAttributeDialog::setupDialog() {
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 3,
                                     m_pStereoTypeL, i18n("Stereotype name:"),
-                                    m_pStereoTypeLE, m_pAttribute->getStereotype(false) );
+                                    m_pStereoTypeLE, m_pAttribute->getStereotype() );
 
     m_pStaticCB = new QCheckBox( i18n("Classifier &scope (\"static\")"), m_pValuesGB );
     m_pStaticCB -> setChecked( m_pAttribute -> getStatic() );

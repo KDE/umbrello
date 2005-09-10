@@ -178,7 +178,7 @@ public:
      *                          "«" and "»".
      * @return  Returns the classes stereotype name.
      */
-    QString getStereotype(bool includeAdornments = true);
+    QString getStereotype(bool includeAdornments = false);
 
     /**
      * Return the package(s) in which this UMLObject is contained
