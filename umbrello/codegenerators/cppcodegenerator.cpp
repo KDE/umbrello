@@ -375,12 +375,12 @@ void CPPCodeGenerator::checkRemoveUMLObject (UMLObject * obj)
 
 void CPPCodeGenerator::initAttributes ( )
 {
+    m_createMakefile = false;
 
     setPolicy ( new CPPCodeGenerationPolicy(getPolicy()) );
 
     // load Classifier documents from parent document
     initFromParentDocument();
-
 }
 
 void CPPCodeGenerator::createDefaultDatatypes() {
