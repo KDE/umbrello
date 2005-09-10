@@ -87,9 +87,7 @@ void ObjectWidget::slotMenuSelection(int sel) {
                     m_InstanceName,
                     &ok,
                     m_pView,
-#if KDE_IS_VERSION(3,1,90)
                     "renameobject",
-#endif
                     validator);
             if (ok) {
                 m_InstanceName = name;

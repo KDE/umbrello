@@ -404,13 +404,8 @@ void CodeGenerationPolicy::writeConfig (KConfig * config) {
     config->writeEntry("indentationType",getIndentationType());
     config->writeEntry("indentationAmount",getIndentationAmount());
 
-#if KDE_IS_VERSION(3,1,3)
     config->writePathEntry("outputDirectory",getOutputDirectory().absPath());
     config->writePathEntry("headingsDirectory",getHeadingFileDir());
-#else
-    config->writeEntry("outputDirectory",getOutputDirectory().absPath());
-    config->writeEntry("headingsDirectory",getHeadingFileDir());
-#endif
     config->writeEntry("includeHeadings",getIncludeHeadings());
     config->writeEntry("overwritePolicy",getOverwritePolicy());
     config->writeEntry("modnamePolicy",  getModifyPolicy());

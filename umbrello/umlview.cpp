@@ -1561,9 +1561,7 @@ void UMLView::exportImage() {
         }
         if (!m_ImageURL.isLocalFile()) {
             if (!KIO::NetAccess::upload( tmpfile.name(), m_ImageURL
-#if KDE_IS_VERSION(3,1,90)
                                          , UMLApp::app()
-#endif
                                        )) {
                 KMessageBox::error(0,
                                    i18n("There was a problem saving file: %1").arg(m_ImageURL.path()),

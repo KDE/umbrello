@@ -37,14 +37,10 @@
 #include <kmimetype.h>
 #include <kprinter.h>
 #include <ktar.h>
-#if KDE_IS_VERSION(3,2,0)
 # include <ktempdir.h>
-#endif
 #include <ktempfile.h>
 #include <kiconloader.h>
-#if KDE_IS_VERSION(3,1,90)
 #include <ktabwidget.h>
-#endif
 
 // app includes
 #include "actor.h"
@@ -141,7 +137,6 @@ void UMLDoc::addView(UMLView *view) {
         }
     }
 
-#if KDE_IS_VERSION(3,1,90)
     Settings::OptionState optionState = UMLApp::app()->getOptionState();
     KTabWidget* tabWidget = NULL;
     if (optionState.generalState.tabdiagrams) {
@@ -149,16 +144,13 @@ void UMLDoc::addView(UMLView *view) {
         tabWidget->addTab(view, view->getName());
         tabWidget->setTabIconSet(view, Umbrello::iconSet(view->getType()));
     }
-#endif
     pApp->setDiagramMenuItemsState(true);
     pApp->slotUpdateViews();
     pApp->setCurrentView(view);
-#if KDE_IS_VERSION(3,1,90)
     if (tabWidget) {
         tabWidget->showPage(view);
         tabWidget->setCurrentPage(tabWidget->currentPageIndex());
     }
-#endif
 }
 
 void UMLDoc::removeView(UMLView *view , bool enforceCurrentView ) {
@@ -373,9 +365,7 @@ bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
     m_bLoading = true;
     QString tmpfile;
     KIO::NetAccess::download( url, tmpfile
-#if KDE_IS_VERSION(3,1,90)
                               , UMLApp::app()
-#endif
                             );
     QFile file( tmpfile );
     if ( !file.exists() ) {
@@ -389,7 +379,6 @@ bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
     // status of XMI loading
     bool status = false;
 
-# if KDE_IS_VERSION(3,1,90)
     // check if the xmi file is a compressed archive like tar.bzip2 or tar.gz
     QString filetype = m_doc_url.fileName(true);
     QString mimetype = "";
@@ -495,7 +484,6 @@ bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
 
         archive.close();
     } else
-# endif
     {
         // no, it seems to be an ordinary file
         if( !file.open( QIODevice::ReadOnly ) ) {
@@ -554,7 +542,6 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
 
     initSaveTimer();
 
-#if KDE_IS_VERSION(3,2,0)
     if (fileFormat == "tgz" || fileFormat == "bz2")
     {
         KTar * archive;
@@ -607,13 +594,11 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
         archive->addLocalFile(tmp_xmi_file.name(), tmpQString);
         archive->close();
 
-#if KDE_IS_VERSION(3,4,89)
         if (!archive->closeSucceeded())
         {
             KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save Error"));
             return false;
         }
-#endif
         // now the xmi file was added to the archive, so we can delete it
         tmp_xmi_file.close();
         tmp_xmi_file.unlink();
@@ -631,7 +616,6 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
         delete archive;
 
     } else
-#endif
     {
         // save as normal uncompressed XMI
 
@@ -657,16 +641,12 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
         // if it is a remote file, we have to upload the tmp file
         if ( !url.isLocalFile() ) {
             uploaded = KIO::NetAccess::upload( tmpfile.name(), m_doc_url
-# if KDE_IS_VERSION(3,1,90)
                                                , UMLApp::app()
-# endif
                                              );
         } else {
             // now remove the original file
             if ( KIO::
-#if KDE_IS_VERSION(3,1,90)
                     NetAccess::
-#endif
                     file_move( tmpfile.name(), d.path(), -1, true ) == false ) {
                 KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save Error"));
                 m_doc_url.setFileName(i18n("Untitled"));
@@ -2015,13 +1995,11 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
         viewToBeSet = findView( m_nViewID );
     if (viewToBeSet) {
         changeCurrentView( m_nViewID );
-#if KDE_IS_VERSION(3,1,90)
         Settings::OptionState optionState = UMLApp::app()->getOptionState();
         if (optionState.generalState.tabdiagrams) {
             UMLApp::app()->tabWidget()->showPage(viewToBeSet);
         }
         else
-#endif
         {
             // Make sure we have a treeview item for each diagram.
             // It may happen that we are missing them after switching off
@@ -2681,11 +2659,9 @@ void UMLDoc::slotAutoSave() {
 }
 
 void UMLDoc::signalDiagramRenamed(UMLView* pView ) {
-#if KDE_IS_VERSION(3,1,90)
     Settings::OptionState optionState = UMLApp::app()->getOptionState();
     if (optionState.generalState.tabdiagrams)
         UMLApp::app()->tabWidget()->setTabLabel( pView, pView->getName() );
-#endif
     emit sigDiagramRenamed( pView -> getID() );
 }
 

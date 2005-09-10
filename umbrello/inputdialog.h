@@ -16,12 +16,6 @@
 #ifndef INPUTDIALOG_H
 #define INPUTDIALOG_H
 
-#include <kdeversion.h>
-#if !KDE_IS_VERSION(3,1,90)
-# include <klineeditdlg.h>  //deprecated
-# define KInputDialog       KLineEditDlg
-#else
 # include <kinputdialog.h>
-#endif
 
 #endif // INPUTDIALOG_H

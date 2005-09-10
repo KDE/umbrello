@@ -891,11 +891,9 @@ private:
     KAction* changeTabRight;
     KAction* moveTabLeft;
     KAction* moveTabRight;
-#if KDE_IS_VERSION(3,1,90)
     KToolBarButton* m_newSessionButton;
     KPopupMenu* m_diagramMenu;
     QToolButton* m_closeDiagramButton;
-#endif
     KToggleAction* viewToolBar;
     KToggleAction* viewStatusBar;
     WorkToolBar* toolsbar;

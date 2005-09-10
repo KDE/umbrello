@@ -42,9 +42,7 @@
 #include <kstandarddirs.h>
 #include <kstatusbar.h>
 #include <ktip.h>
-#if KDE_IS_VERSION(3,1,90)
 #include <ktabwidget.h>
-#endif
 #include <ktoolbarbutton.h>
 #include <kpopupmenu.h>
 
@@ -166,13 +164,8 @@ void UMLApp::initActions() {
     editCut = KStdAction::cut(this, SLOT(slotEditCut()), actionCollection());
     editCopy = KStdAction::copy(this, SLOT(slotEditCopy()), actionCollection());
     editPaste = KStdAction::paste(this, SLOT(slotEditPaste()), actionCollection());
-#if KDE_IS_VERSION(3,1,90)
     createStandardStatusBarAction();
     setStandardToolBarMenuEnabled(true);
-#else
-    viewToolBar = KStdAction::showToolbar(this, SLOT(slotViewToolBar()), actionCollection());
-    viewStatusBar = KStdAction::showStatusbar(this, SLOT(slotViewStatusBar()), actionCollection());
-#endif
     selectAll = KStdAction::selectAll(this,  SLOT( slotSelectAll() ), actionCollection());
 
     classWizard = new KAction(i18n("&New Class Wizard..."),0,this,SLOT(slotClassWizard()),
@@ -201,10 +194,6 @@ void UMLApp::initActions() {
     editCut->setToolTip(i18n("Cuts the selected section and puts it to the clipboard"));
     editCopy->setToolTip(i18n("Copies the selected section to the clipboard"));
     editPaste->setToolTip(i18n("Pastes the contents of the clipboard"));
-#if !KDE_IS_VERSION(3,1,90)
-    viewToolBar->setToolTip(i18n("Enables/disables the toolbar"));
-    viewStatusBar->setToolTip(i18n("Enables/disables the statusbar"));
-#endif
     preferences->setToolTip( i18n( "Set the default program preferences") );
 
     deleteSelectedWidget = new KAction( i18n("Delete &Selected"),
@@ -306,11 +295,7 @@ void UMLApp::initActions() {
     initStatusBar(); //call this here because the statusBar is shown/hidden by setupGUI()
 
     // use the absolute path to your umbrelloui.rc file for testing purpose in setupGUI();
-#if KDE_IS_VERSION(3,2,90)
     setupGUI();
-#else
-    createGUI();
-#endif
     Q3PopupMenu* menu = findMenu( menuBar(), QString("settings") );
     menu->insertItem(i18n("&Windows"), dockHideShowMenu(), -1, 0);
 }
@@ -387,7 +372,6 @@ void UMLApp::initView() {
     addToolBar(m_alignToolBar, Qt::DockTop, false);
 
     m_mainDock = createDockWidget("maindock", 0L, 0L, "main dock");
-#if KDE_IS_VERSION(3,1,90)
     m_newSessionButton = NULL;
     m_diagramMenu = NULL;
     m_closeDiagramButton = NULL;
@@ -395,9 +379,7 @@ void UMLApp::initView() {
         m_viewStack = NULL;
         m_tabWidget = new KTabWidget(m_mainDock, "tab_widget");
 
-#if KDE_IS_VERSION(3,3,89)
         m_tabWidget->setAutomaticResizeTabs( true );
-#endif
 
         m_newSessionButton = new KToolBarButton("tab_new", 0, m_tabWidget);
         m_newSessionButton->setIconSet( SmallIcon( "tab_new" ) );
@@ -433,7 +415,6 @@ void UMLApp::initView() {
         m_mainDock->setWidget(m_tabWidget);
     }
     else
-#endif
     {
         m_tabWidget = NULL;
         m_viewStack = new Q3WidgetStack(m_mainDock, "viewstack");
@@ -512,11 +493,7 @@ void UMLApp::saveOptions() {
     if( m_doc->URL().fileName() == i18n( "Untitled" ) ) {
         m_config -> writeEntry( "lastFile", "" );
     } else {
-#if KDE_IS_VERSION(3,1,3)
         m_config -> writePathEntry( "lastFile", m_doc -> URL().prettyURL() );
-#else
-        m_config -> writeEntry( "lastFile", m_doc -> URL().prettyURL() );
-#endif
     }
     m_config->writeEntry( "imageMimetype", getImageMimetype() );
 
@@ -599,11 +576,7 @@ void UMLApp::saveProperties(KConfig *_config) {
 
     } else {
         KURL url=m_doc->URL();
-#if KDE_IS_VERSION(3,1,3)
         _config->writePathEntry("filename", url.url());
-#else
-        _config->writeEntry("filename", url.url());
-#endif
         _config->writeEntry("modified", m_doc->isModified());
         QString tempname = kapp->tempSaveName(url.url());
         QString tempurl= KURL::encode_string(tempname);
@@ -1075,11 +1048,7 @@ void UMLApp::readOptionState() {
     m_config -> setGroup( "General Options" );
     m_optionState.generalState.undo = m_config -> readBoolEntry( "undo", true );
     m_optionState.generalState.tabdiagrams = m_config -> readBoolEntry( "tabdiagrams",
-#if KDE_IS_VERSION(3,1,90)
             true
-#else
-            false
-#endif
                                                                       );
     m_optionState.generalState.newcodegen = m_config -> readBoolEntry( "newcodegen", true );
     m_optionState.generalState.autosave = m_config -> readBoolEntry( "autosave", true );
@@ -1611,10 +1580,8 @@ void UMLApp::initSavedCodeGenerators() {
 }
 
 QWidget* UMLApp::getMainViewWidget() {
-#if KDE_IS_VERSION(3,1,90)
     if (m_optionState.generalState.tabdiagrams)
         return m_tabWidget;
-#endif
     return m_viewStack;
 }
 
@@ -1659,15 +1626,11 @@ void UMLApp::slotTabChanged(QWidget* view) {
 }
 
 void UMLApp::slotChangeTabLeft() {
-#if KDE_IS_VERSION(3,1,90)
     m_tabWidget->setCurrentPage( m_tabWidget->currentPageIndex() - 1 );
-#endif
 }
 
 void UMLApp::slotChangeTabRight() {
-#if KDE_IS_VERSION(3,1,90)
     m_tabWidget->setCurrentPage( m_tabWidget->currentPageIndex() + 1 );
-#endif
 }
 
 void UMLApp::slotMoveTabLeft() {

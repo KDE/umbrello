@@ -254,9 +254,7 @@ void AlignToolBar::slotButtonChanged(int btn)
         KMessageBox::messageBox(0, KMessageBox::Information,
                                 i18n("For alignment you have to select at least 2 objects like classes or actors. You can not align associations."),
                                 i18n("Information"), i18n("&OK"), QString("")
-#if KDE_IS_VERSION(3,2,0)
                                 , "showAlignInformation"
-#endif
                                );
     } // if (widgetList.count() > 1)
 
