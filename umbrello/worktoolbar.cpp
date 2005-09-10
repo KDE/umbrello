@@ -32,7 +32,7 @@ WorkToolBar::WorkToolBar(QMainWindow *parentWindow, const char*name)
     m_CurrentButtonID = tbb_Undefined;
     loadPixmaps();
     m_Type = Uml::dt_Class; /* first time in just want it to load arrow,
-    			   needs anything but dt_Undefined  */
+                           needs anything but dt_Undefined  */
     setOrientation( Vertical );
     setVerticalStretchable( true );
     //intialize old tool map, everything starts with select tool (arrow)

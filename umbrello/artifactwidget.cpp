@@ -29,11 +29,11 @@ ArtifactWidget::ArtifactWidget(UMLView *view, UMLArtifact *a) : UMLWidget(view, 
 void ArtifactWidget::init() {
     UMLWidget::setBaseType( Uml::wt_Artifact );
     m_pMenu = 0;
-    // 	//maybe loading and this may not be set.
-    // 	if (m_pObject) {
+    //  //maybe loading and this may not be set.
+    //  if (m_pObject) {
     calculateSize();
     update();
-    // 	}
+    //  }
 }
 
 ArtifactWidget::~ArtifactWidget() {}

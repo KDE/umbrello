@@ -87,8 +87,8 @@ public:
      *
      * This is usually called before displaying a properties dialog.
      *
-     * @param clear	If true, show the documentation of current project
-     * @param startup	If true, no setModified(true) calls will be done and nothing is pushed to the undo stack
+     * @param clear     If true, show the documentation of current project
+     * @param startup   If true, no setModified(true) calls will be done and nothing is pushed to the undo stack
      */
     void updateDocumentation( bool clear = false, bool startup = false );
 
@@ -147,8 +147,8 @@ private:
     Showing_Type m_Showing;
 
     //visual widgets
-    QMultiLineEdit	* m_pDocMLE;
-    QGroupBox	* m_pDocGB;
+    QMultiLineEdit      * m_pDocMLE;
+    QGroupBox   * m_pDocGB;
 
 };
 

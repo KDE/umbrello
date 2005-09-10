@@ -34,10 +34,10 @@ CodeGenObjectWithTextBlocks::~CodeGenObjectWithTextBlocks ( ) {
     /*
             // delete all the text blocks we have
             for (TextBlock *tb = m_textblockVector.first(); tb; tb=m_textblockVector.next())
-    		tb->release();
+                tb->release();
 
             m_textBlockTagMap->clear();
-    	m_textblockVector.clear();
+        m_textblockVector.clear();
     */
 }
 
@@ -189,10 +189,10 @@ CodeGenObjectWithTextBlocks * CodeGenObjectWithTextBlocks::findParentObjectForTa
 }
 
 /**
- * @return	HierarchicalCodeBlock
- * @param	tag
- * @param	comment
- * @param	indentLevel
+ * @return      HierarchicalCodeBlock
+ * @param       tag
+ * @param       comment
+ * @param       indentLevel
  */
 HierarchicalCodeBlock * CodeGenObjectWithTextBlocks::getHierarchicalCodeBlock ( const QString &tag, const QString &comment, int indentLevel ) {
 
@@ -221,10 +221,10 @@ HierarchicalCodeBlock * CodeGenObjectWithTextBlocks::getHierarchicalCodeBlock ( 
 
 
 /**
- * @return	CodeBlockWithComments
- * @param	tag
- * @param	comment
- * @param	indentLevel
+ * @return      CodeBlockWithComments
+ * @param       tag
+ * @param       comment
+ * @param       indentLevel
  */
 CodeBlockWithComments * CodeGenObjectWithTextBlocks::getCodeBlockWithComments ( const QString &tag, const QString &comment, int indentLevel ) {
 
@@ -249,10 +249,10 @@ CodeBlockWithComments * CodeGenObjectWithTextBlocks::getCodeBlockWithComments ( 
 
 
 /**
- * @return	CodeComment
- * @param	tag
- * @param	text
- * @param	indentationLevel
+ * @return      CodeComment
+ * @param       tag
+ * @param       text
+ * @param       indentationLevel
  */
 CodeComment * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeComment ( const QString &tag, const QString &text, int indentationLevel)
 {
@@ -286,12 +286,12 @@ CodeComment * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeComment ( const 
 
 
 /**
- * @return	CodeBlockWithComments
- * @param	tag
- * @param	text
- * @param	comment
- * @param	indentLevel
- * @param	forceUserBlockUpdate
+ * @return      CodeBlockWithComments
+ * @param       tag
+ * @param       text
+ * @param       comment
+ * @param       indentLevel
+ * @param       forceUserBlockUpdate
  */
 CodeBlockWithComments * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeBlockWithComments (const QString &tag, const QString &text, const QString &ctext, int indentLevel, bool forceUserBlockUpdate )
 {
@@ -489,8 +489,8 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                                                 kdError()<<"loadFromXMI : unable to create codeoperation for obj id:"<<id<<endl;
                                         }
                 /*
-                				// only needed for extreme debuging conditions (E.g. making new codeclassdocument loader)
-                				else
+                                                // only needed for extreme debuging conditions (E.g. making new codeclassdocument loader)
+                                                else
                                                         kdWarning()<<" LoadFromXMI: Got strange tag in text block stack:"<<name.latin1()<<", ignorning"<<endl;
                 */
 

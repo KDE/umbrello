@@ -28,8 +28,8 @@ class UMLObject;
  * and object information is required to be stored.
  *
  * @short  Items used by @ref UMLListView.
- * @author Paul Hensgen	<phensgen@techie.com>
- * @see	   UMLListView
+ * @author Paul Hensgen <phensgen@techie.com>
+ * @see    UMLListView
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
@@ -38,44 +38,44 @@ public:
     /**
      * Sets up an instance.
      *
-     * @param parent	The parent to this instance.
-     * @param name		The name of this instance.
-     * @param t		The type of this instance.
-     * @param o		The object it represents.
+     * @param parent    The parent to this instance.
+     * @param name              The name of this instance.
+     * @param t         The type of this instance.
+     * @param o         The object it represents.
      */
     UMLListViewItem(UMLListView * parent, const QString &name, Uml::ListView_Type t, UMLObject*o=0);
 
     /**
      * Sets up an instance for subsequent loadFromXMI().
      *
-     * @param parent	The parent to this instance.
+     * @param parent    The parent to this instance.
      */
     UMLListViewItem(UMLListView * parent);
 
     /**
      * Sets up an instance for subsequent loadFromXMI().
      *
-     * @param parent	The parent to this instance.
+     * @param parent    The parent to this instance.
      */
     UMLListViewItem(UMLListViewItem * parent);
 
     /**
      * Sets up an instance.
      *
-     * @param parent	The parent to this instance.
-     * @param name		The name of this instance.
-     * @param t		The type of this instance.
-     * @param o		The object it represents.
+     * @param parent    The parent to this instance.
+     * @param name              The name of this instance.
+     * @param t         The type of this instance.
+     * @param o         The object it represents.
      */
     UMLListViewItem(UMLListViewItem * parent, const QString &name, Uml::ListView_Type t, UMLObject*o=0);
 
     /**
      * Sets up an instance.
      *
-     * @param parent	The parent to this instance.
-     * @param name		The name of this instance.
-     * @param t		The type of this instance.
-     * @param id		The id of this instance.
+     * @param parent    The parent to this instance.
+     * @param name              The name of this instance.
+     * @param t         The type of this instance.
+     * @param id                The id of this instance.
      */
     UMLListViewItem(UMLListViewItem * parent, const QString &name, Uml::ListView_Type t, Uml::IDType id);
 
@@ -87,7 +87,7 @@ public:
     /**
      * Returns the type this instance represents.
      *
-     * @return	The type this instance represents.
+     * @return  The type this instance represents.
      */
     Uml::ListView_Type getType() const;
 
@@ -96,14 +96,14 @@ public:
      * This only sets the ID locally, not at the UMLObject that is perhaps
      * associated to this UMLListViewItem.
      *
-     * @return	The id this class represents.
+     * @return  The id this class represents.
      */
     void setID(Uml::IDType id);
 
     /**
      * Returns the id this class represents.
      *
-     * @return	The id this class represents.
+     * @return  The id this class represents.
      */
     Uml::IDType getID() const;
 
@@ -119,7 +119,7 @@ public:
     /**
      * Return the UMLObject associated with this instance.
      *
-     * @return	The object this class represents.
+     * @return  The object this class represents.
      */
     UMLObject * getUMLObject() {
         return m_pObject;
@@ -213,8 +213,8 @@ public:
      * the current UMLListViewItem.
      * Return a pointer to the item or NULL if not found.
      *
-     * @param id		The ID to search for.
-     * @return	The item with the given ID or NULL if not found.
+     * @param id                The ID to search for.
+     * @return  The item with the given ID or NULL if not found.
      */
     UMLListViewItem * findItem(Uml::IDType id);
 

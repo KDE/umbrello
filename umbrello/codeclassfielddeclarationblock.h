@@ -56,7 +56,7 @@ public:
     CodeClassField * getParentClassField ( );
 
     /** A Utility method to get the parent object of the parentCodeClassfield
-    	 */
+         */
     UMLObject * getParentObject ( );
 
     // get the parent document

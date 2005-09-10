@@ -223,14 +223,14 @@ bool HierarchicalCodeBlock::removeTextBlock ( TextBlock * remove_object ) {
 }
 
 /**
- * @param	text
+ * @param       text
  */
 void HierarchicalCodeBlock::setStartText ( const QString &text ) {
     m_startText = text;
 }
 
 /**
- * @return	QString
+ * @return      QString
  */
 QString HierarchicalCodeBlock::getStartText ( ) {
     return m_startText;
@@ -336,7 +336,7 @@ void HierarchicalCodeBlock::setAttributesFromObject (TextBlock * obj) {
 
 
 /**
- * @return	QString
+ * @return      QString
  */
 QString HierarchicalCodeBlock::toString ( ) {
 

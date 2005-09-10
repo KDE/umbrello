@@ -40,7 +40,7 @@ public:
 
 protected:
     /**
-    *	Sets up the dialog
+    *   Sets up the dialog
     */
     void setupDialog();
 
@@ -51,7 +51,7 @@ protected:
     bool apply();
 
     /**
-    *	The Attribute to represent
+    *   The Attribute to represent
     */
     UMLTemplate* m_pTemplate;
 

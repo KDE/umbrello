@@ -41,8 +41,8 @@ public:
      * Return whether on seq. line.
      * Takes into account destruction box if shown.
      *
-     * @param p	The point to investigate.
-     * @return	True if point is on this sequence line.
+     * @param p The point to investigate.
+     * @return  True if point is on this sequence line.
      */
     bool onWidget( const QPoint & p );
 
@@ -59,15 +59,15 @@ public:
     /**
      * Set the start point of the line.
      *
-     * @param startX	X coordinate of the start point.
-     * @param startY	Y coordinate of the start point.
+     * @param startX    X coordinate of the start point.
+     * @param startY    Y coordinate of the start point.
      */
     void setStartPoint( int startX, int startY );
 
     /**
      * Gets the length of the line.
      *
-     * @return	Length of the line.
+     * @return  Length of the line.
      */
     int getLineLength() {
         return m_nLengthY;
@@ -76,7 +76,7 @@ public:
     /**
      * Returns the @ref ObjectWidget associated with this sequence line.
      *
-     * @return	Pointer to the associated ObjectWidget.
+     * @return  Pointer to the associated ObjectWidget.
      */
     ObjectWidget * getObjectWidget() {
         return m_pObject;
@@ -85,7 +85,7 @@ public:
     /**
      * Sets the y position of the bottom of the vertical line.
      *
-     * @param yPosition	The y coordinate for the bottom of the line.
+     * @param yPosition The y coordinate for the bottom of the line.
      */
     void setEndOfLine(int yPosition);
 

@@ -44,8 +44,8 @@ public:
     /**
      * Creates a work tool bar.
      *
-     * @param parentWindow	The parent of the toolbar.
-     * @param name		The name of the toolbar.
+     * @param parentWindow      The parent of the toolbar.
+     * @param name              The name of the toolbar.
      */
     WorkToolBar(QMainWindow *parentWindow, const char *name);
 
@@ -139,10 +139,10 @@ private:
 
     typedef QMap<ToolBar_Buttons, ToolButton> ToolButtonMap;
 
-    ToolBar_Buttons 	m_CurrentButtonID;
-    OldToolMap		m_map;
-    Uml::Diagram_Type	m_Type;
-    ToolButtonMap		m_ToolButtons;
+    ToolBar_Buttons     m_CurrentButtonID;
+    OldToolMap          m_map;
+    Uml::Diagram_Type   m_Type;
+    ToolButtonMap               m_ToolButtons;
 
     /**
      * Loads a pixmap from file

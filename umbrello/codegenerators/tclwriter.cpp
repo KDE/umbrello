@@ -279,7 +279,7 @@ TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
         writeDestructorHeader();
     }
     // attributes
-    writeAttributeDecl(Uml::Public, true);	// write static attributes first
+    writeAttributeDecl(Uml::Public, true);      // write static attributes first
     writeAttributeDecl(Uml::Public, false);
     // associations
     writeAssociationDecl(classifierInfo->plainAssociations, Uml::Public,
@@ -294,7 +294,7 @@ TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     // PROTECTED attribs/methods
     //
     // attributes
-    writeAttributeDecl(Uml::Protected, true);	// write static attributes first
+    writeAttributeDecl(Uml::Protected, true);   // write static attributes first
     writeAttributeDecl(Uml::Protected, false);
     // associations
     writeAssociationDecl(classifierInfo->plainAssociations, Uml::Protected,
@@ -309,7 +309,7 @@ TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     // PRIVATE attribs/methods
     //
     // attributes
-    writeAttributeDecl(Uml::Private, true);	// write static attributes first
+    writeAttributeDecl(Uml::Private, true);     // write static attributes first
     writeAttributeDecl(Uml::Private, false);
     // associations
     writeAssociationDecl(classifierInfo->plainAssociations, Uml::Private,
@@ -320,7 +320,7 @@ TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
                          "Compositions");
     //TODO  writeHeaderAccessorMethodDecl(c, Uml::Public, stream);
     writeOperationHeader(c, Uml::Private);
-    writeInitAttributeHeader();	// this is always private, used by constructors to initialize class
+    writeInitAttributeHeader(); // this is always private, used by constructors to initialize class
 
     // end of class header
     m_indentLevel--;
@@ -677,8 +677,8 @@ TclWriter::writeInitAttributeSource()
             writeCode("set " + varName + " [list]");
         }
         // clean up
-        ObjectFieldVariables.clear();	// shouldnt be needed?
-        VectorFieldVariables.clear();	// shouldnt be needed?
+        ObjectFieldVariables.clear();   // shouldnt be needed?
+        VectorFieldVariables.clear();   // shouldnt be needed?
 
         m_indentLevel--;
         writeCode("}" + m_endl);
@@ -754,7 +754,7 @@ TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Scope permitScope)
             }
         }
         if (methodReturnType != "void") {
-            doc += "@return	" + methodReturnType + m_endl;
+            doc += "@return     " + methodReturnType + m_endl;
         }
         writeDocu(doc + op->getDoc());
         writeCode(code + "} {}" + m_endl);

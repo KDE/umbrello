@@ -59,7 +59,7 @@ public:
     //
 
     /**
-     * @return	QString
+     * @return  QString
      */
     virtual QString toString ( );
 
@@ -97,13 +97,13 @@ protected:
 
     /** this is the method called from within syncToparent().
       * to update the start and end Method text. It is called
-        	  * whether or not the method is Auto or User generated.
+                  * whether or not the method is Auto or User generated.
       */
     virtual void updateMethodDeclaration ( ) = 0;
 
     /** this is the method called from within syncToparent().
       * to update the *body* of the method
-        	  * It is only called if the method is Auto-generated.
+                  * It is only called if the method is Auto-generated.
       */
     virtual void updateContent ( ) = 0;
 

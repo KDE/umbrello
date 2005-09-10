@@ -59,7 +59,7 @@ public:
     virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
     /**
-     * @return	QString
+     * @return  QString
      */
     QString toString ( );
 

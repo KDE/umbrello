@@ -75,7 +75,7 @@ void CodeClassFieldDeclarationBlock::release () {
 void CodeClassFieldDeclarationBlock::forceRelease () {
     if(m_parentclassfield)
     {
-        //		m_parentclassfield->getParentObject()->disconnect(this);
+        //              m_parentclassfield->getParentObject()->disconnect(this);
         m_parentclassfield->disconnect(this);
     }
     m_parentclassfield = 0;

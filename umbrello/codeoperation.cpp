@@ -157,7 +157,7 @@ void CodeOperation::init (UMLOperation * parentOp)
     setTag(CodeOperation::findTag(parentOp));
 
     // not needed.. done by parent "ownedcodeblock" class
-    //	connect(parentOp,SIGNAL(modified()),this,SLOT(syncToParent()));
+    //  connect(parentOp,SIGNAL(modified()),this,SLOT(syncToParent()));
 
 }
 

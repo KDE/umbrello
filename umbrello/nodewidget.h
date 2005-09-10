@@ -27,7 +27,7 @@ class UMLNode;
  *
  * @short A graphical version of a Node.
  * @author Jonathan Riddell
- * @see	UMLWidget
+ * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class NodeWidget : public UMLWidget {
@@ -36,8 +36,8 @@ public:
     /**
      * Constructs a NodeWidget.
      *
-     * @param view		The parent of this NodeWidget.
-     * @param o		The UMLNode this will be representing.
+     * @param view              The parent of this NodeWidget.
+     * @param o         The UMLNode this will be representing.
      */
     NodeWidget(UMLView * view, UMLNode *n );
 
@@ -49,14 +49,14 @@ public:
     /**
      * Returns the status of whether to show StereoType.
      *
-     * @return	True if stereotype is shown.
+     * @return  True if stereotype is shown.
      */
     bool getShowStereotype() const;
 
     /**
      * Set the status of whether to show StereoType
      *
-     * @param _status	True if stereotype is shown.
+     * @param _status   True if stereotype is shown.
      */
     void setShowStereotype(bool _status);
 

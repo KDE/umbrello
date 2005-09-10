@@ -31,7 +31,7 @@ class ClassifierWidget;
  *
  * @short A dialog page to display the options for a UMLWidget.
  * @author Paul Hensgen <phensgen@techie.com>
- * @see	ClassPropDlg
+ * @see ClassPropDlg
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ClassOptionsPage : public QWidget {

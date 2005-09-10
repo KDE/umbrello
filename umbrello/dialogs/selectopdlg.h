@@ -28,14 +28,14 @@
 
 class UMLView;
 
-#define OP 				0
-#define CUSTOM 	1
+#define OP                              0
+#define CUSTOM  1
 
 /**
- *	A dialog used to select an operation.
+ *      A dialog used to select an operation.
  *
- *	@short A dialog to select an operation.
- *	@author Paul Hensgen	<phensgen@techie.com>
+ *      @short A dialog to select an operation.
+ *      @author Paul Hensgen    <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
@@ -44,55 +44,55 @@ class SelectOpDlg : public KDialogBase
     Q_OBJECT
 public:
     /**
-     *	Constructs a SelectOpDlg instance.
+     *  Constructs a SelectOpDlg instance.
      *
-     *	@param	parent	The parent to this instance.
-     *	@param	c	The concept to get the operations from.
+     *  @param  parent  The parent to this instance.
+     *  @param  c       The concept to get the operations from.
      */
     SelectOpDlg(UMLView * parent, UMLClassifier * c);
 
     /**
-     *	Standard deconstructor.
+     *  Standard deconstructor.
      */
     ~SelectOpDlg();
 
     /**
-     *	Returns the operation to display.
+     *  Returns the operation to display.
      *
-     *	@return The operation to display.
+     *  @return The operation to display.
      */
     QString getOpText();
 
     /**
-     *	Returns the sequence number for the operation.
+     *  Returns the sequence number for the operation.
      *
-     *	@return Returns the sequence number for the operation.
+     *  @return Returns the sequence number for the operation.
      */
     QString getSeqNumber();
 
     /**
      * Set the sequence number text.
      *
-     *	@param	num	The number to set the sequence to.
+     *  @param  num     The number to set the sequence to.
      */
     void setSeqNumber(const QString &num);
 
     /**
      * Set the custom operation text.
      *
-     *	@param op The operation to set as the custom operation.
+     *  @param op The operation to set as the custom operation.
      */
     void setCustomOp(const QString &op);
     /**
      * Set the class operation text.
      *
-     *	@param op The operation to set as the class operation.
+     *  @param op The operation to set as the class operation.
      * @return false if no such operation exists.
      */
     bool setClassOp(const QString &op);
 private:
     QGroupBox * m_pOpGB;
-    QComboBox *	m_pOpCB;
+    QComboBox * m_pOpCB;
     QLabel * m_pSeqL;
     QLineEdit * m_pOpLE, * m_pSeqLE;
     QRadioButton * m_pCustomRB, * m_pOpRB;

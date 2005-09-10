@@ -209,9 +209,9 @@ void NoteWidget::slotMenuSelection(int sel) {
     switch(sel) {
         ///OBSOLETE - remove ListPopupMenu::mt_Link_Docs
         // case ListPopupMenu::mt_Link_Docs:
-        // 	m_pView->updateNoteWidgets();
-        // 	doc -> setModified(true);
-        // 	break;
+        //      m_pView->updateNoteWidgets();
+        //      doc -> setModified(true);
+        //      break;
 
     case ListPopupMenu::mt_Rename:
         m_pView -> updateDocumentation( false );

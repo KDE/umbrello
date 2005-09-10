@@ -318,7 +318,7 @@ bool UMLRole::load( QDomElement & element ) {
         else if (aggregation == "shared")
             m_pAssoc->setAssocType(Uml::at_Aggregation);
         /* else
-        	m_pAssoc->setAssocType(Uml::at_Association);  */
+                m_pAssoc->setAssocType(Uml::at_Association);  */
     }
 
     if (!element.hasAttribute("isNavigable")) {

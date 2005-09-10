@@ -50,20 +50,20 @@ Uml::Object_Type ToolBarStateOther::getObjectType(WorkToolBar::ToolBar_Buttons t
 
     switch(tbb)
     {
-    case WorkToolBar::tbb_Actor: 	ot = ot_Actor; 		break;
-    case WorkToolBar::tbb_UseCase: 	ot = ot_UseCase; 	break;
-    case WorkToolBar::tbb_Class: 	ot = ot_Class; 		break;
-    case WorkToolBar::tbb_Object: 	ot = ot_Class; 		break;  // Object is a class.
-    case WorkToolBar::tbb_Package: 	ot = ot_Package; 	break;
-    case WorkToolBar::tbb_Component: 	ot = ot_Component; 	break;
-    case WorkToolBar::tbb_Node: 	ot = ot_Node; 		break;
-    case WorkToolBar::tbb_Artifact: 	ot = ot_Artifact; 	break;
-    case WorkToolBar::tbb_Interface: 	ot = ot_Interface; 	break;
-    case WorkToolBar::tbb_Enum: 	ot = ot_Enum; 		break;
-    case WorkToolBar::tbb_Entity: 	ot = ot_Entity; 	break;
-    case WorkToolBar::tbb_Datatype: 	ot = ot_Datatype; 	break;
+    case WorkToolBar::tbb_Actor:        ot = ot_Actor;          break;
+    case WorkToolBar::tbb_UseCase:      ot = ot_UseCase;        break;
+    case WorkToolBar::tbb_Class:        ot = ot_Class;          break;
+    case WorkToolBar::tbb_Object:       ot = ot_Class;          break;  // Object is a class.
+    case WorkToolBar::tbb_Package:      ot = ot_Package;        break;
+    case WorkToolBar::tbb_Component:    ot = ot_Component;      break;
+    case WorkToolBar::tbb_Node:         ot = ot_Node;           break;
+    case WorkToolBar::tbb_Artifact:     ot = ot_Artifact;       break;
+    case WorkToolBar::tbb_Interface:    ot = ot_Interface;      break;
+    case WorkToolBar::tbb_Enum:         ot = ot_Enum;           break;
+    case WorkToolBar::tbb_Entity:       ot = ot_Entity;         break;
+    case WorkToolBar::tbb_Datatype:     ot = ot_Datatype;       break;
 
-    default: 				ot = ot_UMLObject; 	break;
+    default:                            ot = ot_UMLObject;      break;
     }
 
     return ot;

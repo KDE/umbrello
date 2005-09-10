@@ -31,7 +31,7 @@ class IDChangeLog;
  *
  * @short Non-graphical information for a Artifact.
  * @author Jonathan Riddell
- * @see	UMLCanvasObject
+ * @see UMLCanvasObject
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLArtifact : public UMLCanvasObject {
@@ -51,8 +51,8 @@ public:
     /**
      * Sets up a Artifact.
      *
-     * @param name		The name of the Concept.
-     * @param id		The unique id of the Concept.
+     * @param name              The name of the Concept.
+     * @param id                The unique id of the Concept.
      */
     UMLArtifact(const QString & Name = "", Uml::IDType id = Uml::id_None);
 

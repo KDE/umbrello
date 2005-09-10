@@ -1,7 +1,7 @@
 /***************************************************************************
     begin                : Mon Jun 17 2002
     copyright            : (C) 2002 by Luis De la Parra Blum
-					and Brian Thomas
+                                        and Brian Thomas
     email                : luis@delaparra.org
  ***************************************************************************/
 
@@ -58,7 +58,7 @@ QStringList CodeGeneratorFactory::languagesAvailable() {
     l.append("ActionScript");
     l.append("Ada");
     l.append("Cpp");
-    //	l.append("C#");
+    //  l.append("C#");
     l.append("IDL");
     l.append("Java");
     l.append("JavaScript");
@@ -84,8 +84,8 @@ QString CodeGeneratorFactory::generatorName(const QString &l) {
     if (l == "ActionScript")
         return "ASWriter";
     /*
-    	if (l=="C#")
-    		return "C#Writer";
+        if (l=="C#")
+                return "C#Writer";
     */
     if (l=="IDL")
         return "IDLWriter";
@@ -127,8 +127,8 @@ CodeGenerator* CodeGeneratorFactory::createObject(UMLDoc* doc, const char* name)
                 obj = new CPPCodeGenerator(doc, name);
             else
                 obj = new CppWriter(doc, name);
-            //		} else if(cname == "C#Writer") {
-            //			obj = new CsWriter( doc, name );
+            //          } else if(cname == "C#Writer") {
+            //                  obj = new CsWriter( doc, name );
         } else if(cname == "IDLWriter") {
             obj = new IDLWriter( doc, name );
         } else if(cname =="JavaCodeGenerator") {

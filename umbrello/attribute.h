@@ -32,12 +32,12 @@ public:
     /**
      * Sets up an attribute.
      *
-     * @param parent	The parent of this UMLAttribute.
-     * @param name		The name of this UMLAttribute.
-     * @param id		The unique id given to this UMLAttribute.
-     * @param s		The scope of the UMLAttribute.
-     * @param type		The type of this UMLAttribute.
-     * @param iv		The initial value of the attribute.
+     * @param parent    The parent of this UMLAttribute.
+     * @param name              The name of this UMLAttribute.
+     * @param id                The unique id given to this UMLAttribute.
+     * @param s         The scope of the UMLAttribute.
+     * @param type              The type of this UMLAttribute.
+     * @param iv                The initial value of the attribute.
      */
     UMLAttribute(const UMLObject *parent, QString name, Uml::IDType id = Uml::id_None,
                  Uml::Scope s = Uml::Private, QString type = "int", QString iv = 0);
@@ -45,7 +45,7 @@ public:
     /**
      * Sets up an attribute.
      *
-     * @param parent	The parent of this UMLAttribute.
+     * @param parent    The parent of this UMLAttribute.
      */
     UMLAttribute(const UMLObject *parent);
 
@@ -73,23 +73,23 @@ public:
     /**
      * Returns The initial value of the UMLAttribute.
      *
-     * @return	The inital value of the Atrtibute.
+     * @return  The inital value of the Atrtibute.
      */
     QString getInitialValue();
 
     /**
      * Sets the initial value of the UMLAttribute.
      *
-     * @param iv		The inital value of the UMLAttribute.
+     * @param iv                The inital value of the UMLAttribute.
      */
     void setInitialValue( const QString &iv );
 
     /**
      * Returns a string representation of the UMLAttribute.
      *
-     * @param sig		If true will show the attribute type and
-     *			inital value.
-     * @return	Returns a string representation of the UMLAttribute.
+     * @param sig               If true will show the attribute type and
+     *                  inital value.
+     * @return  Returns a string representation of the UMLAttribute.
      */
     QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
 

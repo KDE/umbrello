@@ -784,7 +784,7 @@ void UMLListView::childObjectAdded(UMLClassifierListItem* child, UMLClassifier* 
     UMLListViewItem *parentItem = findUMLObject(parent);
     if (parentItem == NULL) {
         kdDebug() << "UMLListView::childObjectAdded(" << child->getName()
-		  << "): parent " << parent->getName()
+                  << "): parent " << parent->getName()
               << " does not yet exist, creating it now." << endl;
         parentItem = new UMLListViewItem(m_lv, parent->getName(),
                                          convert_OT_LVT(parent->getBaseType()),
@@ -1182,7 +1182,7 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
     }
 
     //kdDebug() << "UMLListView::acceptDrag: dstType = " << dstType
-    //	  << ", accept=" << accept << endl;
+    //    << ", accept=" << accept << endl;
     return accept;
 }
 
@@ -1459,8 +1459,8 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
         //if there is no ListViewItem associated with the new ID,
         //it could exist an Item already asocciated if the user chose to reuse an uml object
         if(!(item = findItem(newID))) {
-        	pObject = m_doc->findObjectById( IDChanges.findNewID(Data.getID()) );
-        	item = new UMLListViewItem(parent, Data.getText(), lvt, pObject);
+                pObject = m_doc->findObjectById( IDChanges.findNewID(Data.getID()) );
+                item = new UMLListViewItem(parent, Data.getText(), lvt, pObject);
         } ***/
         pObject = m_doc->findObjectById( Data.getID() );
         item = new UMLListViewItem(parent, Data.getText(), lvt, pObject);
@@ -2597,10 +2597,10 @@ void UMLListView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement,
 
 bool UMLListView::loadFromXMI( QDomElement & element ) {
     /*
-    	deleteChildrenOf( m_ucv );
-    	deleteChildrenOf( m_lv );
-    	deleteChildrenOf( componentView );
-    	deleteChildrenOf( deploymentView );
+        deleteChildrenOf( m_ucv );
+        deleteChildrenOf( m_lv );
+        deleteChildrenOf( componentView );
+        deleteChildrenOf( deploymentView );
      */
     QDomNode node = element.firstChild();
     QDomElement domElement = node.toElement();
@@ -2726,7 +2726,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
                 // listview item might be located in a user created folder.
                 // Thanks to Achim Spangler for spotting the problem.
                 /* kdDebug() << "UMLListView::loadChildrenFromXMI: Reparenting "
-                	  << item->getText() << endl;
+                          << item->getText() << endl;
                  */
                 UMLListViewItem *newItem = item->deepCopy(parent);
                 delete item;

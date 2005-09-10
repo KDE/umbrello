@@ -353,12 +353,12 @@ bool UMLClipboard::pasteClip1(QMimeSource* data) {
     UMLListViewItem* itemdata = 0;
     UMLListViewItemListIt it(itemdatalist);
     while ( (itemdata=it.current()) != 0 ) {
-    	if(itemdata -> childCount()) {
-    		if(!pasteChildren(itemdata, idchanges)) {
-    			return false;
-    		}
-    	}
-    	++it;
+        if(itemdata -> childCount()) {
+                if(!pasteChildren(itemdata, idchanges)) {
+                        return false;
+                }
+        }
+        ++it;
     }
      */
     return true;
@@ -371,7 +371,7 @@ bool UMLClipboard::pasteClip2(QMimeSource* data) {
     UMLListViewItemList itemdatalist;
     UMLObjectList objects;
     objects.setAutoDelete(false);
-    UMLViewList		views;
+    UMLViewList         views;
     IDChangeLog* idchanges = 0;
 
     bool result = UMLDrag::decodeClip2(data, objects, itemdatalist, views);
@@ -464,10 +464,10 @@ bool UMLClipboard::pasteClip4(QMimeSource* data) {
     objects.setAutoDelete(false);
 
 
-    UMLWidgetList		widgets;
+    UMLWidgetList               widgets;
     widgets.setAutoDelete(false);
 
-    AssociationWidgetList	assocs;
+    AssociationWidgetList       assocs;
     assocs.setAutoDelete(false);
 
     IDChangeLog* idchanges = 0;
@@ -584,7 +584,7 @@ bool UMLClipboard::pasteClip5(QMimeSource* data) {
     }
 
     bool objectAlreadyExists = false;
-    UMLObject 	*obj = 0;
+    UMLObject   *obj = 0;
     UMLObjectListIt object_it(objects);
     doc->setModified(true);
     idchanges = doc->getChangeLog();
@@ -595,7 +595,7 @@ bool UMLClipboard::pasteClip5(QMimeSource* data) {
         case Uml::ot_Attribute :
             {
                 if (parent->addAttribute(dynamic_cast<UMLAttribute*>(obj), idchanges)) {
-                    //FIXME					doc -> signalChildUMLObjectCreated(obj);
+                    //FIXME                                     doc -> signalChildUMLObjectCreated(obj);
                 } else {
                     objectAlreadyExists = true;
                 }
@@ -605,7 +605,7 @@ bool UMLClipboard::pasteClip5(QMimeSource* data) {
             {
                 UMLClassifier * parent = dynamic_cast<UMLClassifier *>(lvitem -> getUMLObject());
                 if (parent -> addOperation(dynamic_cast<UMLOperation*>(obj), idchanges)) {
-                    //FIXME				doc -> signalChildUMLObjectCreated(obj);
+                    //FIXME                             doc -> signalChildUMLObjectCreated(obj);
                 } else {
                     objectAlreadyExists = true;
                 }

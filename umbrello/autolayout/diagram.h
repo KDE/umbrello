@@ -1,6 +1,6 @@
 /*
  *  copyright (C) 2005
- *  Dimitri Ognibene <ognibened @yahoo.it>
+ *  Umbrello UML Modeller Authors <uml-devel @uml.sf.net>
  */
 
 /***************************************************************************
@@ -18,7 +18,8 @@
 #define internal_renderizer
 #include "autolayout.h"
 /**
-@author Umbrello UML Modeller Authors
+@author Dimitri Ognibene <ognibened @yahoo.it>
+Umbrello UML Modeller Authors
 */
 namespace Autolayout{
 class Diagram//: public virtual Graph, public virtual Canvas{

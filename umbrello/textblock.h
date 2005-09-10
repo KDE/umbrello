@@ -60,8 +60,8 @@ public:
 
     /**
      * Add text to this object.
-     	 *
-    	 */
+         *
+         */
     void appendText ( const QString &new_text );
 
     /**
@@ -88,7 +88,7 @@ public:
     /**
      * Get the value of m_parentDoc
      * @return the value of m_parentDoc
-    	 */
+         */
     CodeDocument * getParentDocument ( );
 
     /**
@@ -140,7 +140,7 @@ public:
     virtual QString unformatText ( const QString & text, const QString & indent = "");
 
     /**
-     * @return	QString
+     * @return  QString
      */
     virtual QString toString ( );
 
@@ -200,7 +200,7 @@ protected:
      * and any other text blocks that it 'owns'.
      * needed to be called prior to deletion of the textblock.
      */
-    virtual	void release ();
+    virtual     void release ();
 
     /**
      * Set the value of m_parentDocument

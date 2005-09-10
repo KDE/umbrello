@@ -173,13 +173,13 @@ public:
     /**
      * Lookup a certain textblock by its tag value, returns NULL if it cant
      * find the TextBlock with such a tag. If descendIntoChildren is true, then
-    	 * any child hierarchical textblocks will also be searched for a match.
-      	 */
+         * any child hierarchical textblocks will also be searched for a match.
+         */
     TextBlock * findTextBlockByTag( const QString &tag , bool descendIntoChildren = false);
 
     /**
      * create the string representation of this object.
-     * @return	QString
+     * @return  QString
      */
     virtual QString toString ( );
 
@@ -189,7 +189,7 @@ public:
     virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
     /**
-    	 * load params from the appropriate XMI element node.
+         * load params from the appropriate XMI element node.
      */
     virtual void loadFromXMI ( QDomElement & root );
 
@@ -201,13 +201,13 @@ public:
 
     /**
      * create a new HierarchicalCodeBlock object belonging to this CodeDocument.
-     * @return 	HierarchicalCodeBlock
+     * @return  HierarchicalCodeBlock
      */
     virtual HierarchicalCodeBlock * newHierarchicalCodeBlock ( );
 
     /**
      * create a new CodeBlockWithComments object belonging to this CodeDocument.
-     * @return	CodeBlockWithComments
+     * @return  CodeBlockWithComments
      */
     virtual CodeBlockWithComments * newCodeBlockWithComments ( );
 
@@ -218,7 +218,7 @@ public:
      * Wrapper around call to either getCodeGenerationPolicy().getOverwritePolicy() OR
      * (if no individual codegeneration policy for this Code Document) then to 
      * getParentPackage().getDefaultCodeGenerationPolicy().getOverwritePolicy() 
-     * @return	QString
+     * @return  QString
      */
     CodeGenerationPolicy::OverwritePolicy getOverwritePolicy ( );
 
@@ -227,7 +227,7 @@ public:
      * getCodeGenerationPolicy().getCodeVerboseSectionComments() OR (if no individual
      * codegeneration policy for this Code Document) then to 
      * getParentPackage().getDefaultCodeGenerationPolicy().getCodeVerboseSectionComments() 
-     * @return	bool
+     * @return  bool
      */
     bool getCodeVerboseSectionComments ( );
 
@@ -236,7 +236,7 @@ public:
      * getCodeGenerationPolicy().getCodeVerboseDocumentComments() OR (if no individual
      * codegeneration policy for this Code Document) then to 
      * getParentPackage().getDefaultCodeGenerationPolicy().getCodeVerboseDocumentComments()
-     * @return	bool
+     * @return  bool
      */
     bool getVerboseDocumentComments ( );
 

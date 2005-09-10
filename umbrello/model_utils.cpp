@@ -268,7 +268,7 @@ int stringToDirection(QString input, Uml::Parameter_Direction & result) {
     const QString& dirStr = dirx.capturedTexts().first();
     uint dirLen = dirStr.length();
     if (input.length() > dirLen && !input[dirLen].isSpace())
-        return 0;	// no match after all.
+        return 0;       // no match after all.
     if (dirStr == "out")
         result = Uml::pd_Out;
     else if (dirStr == "inout")

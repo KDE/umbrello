@@ -55,7 +55,7 @@ void CPPCodeDocumentation::saveToXMI ( QDomDocument & doc, QDomElement & root ) 
 }
 
 /**
- * @return	QString
+ * @return      QString
  */
 QString CPPCodeDocumentation::toString ( )
 {

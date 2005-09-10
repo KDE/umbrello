@@ -1,6 +1,6 @@
 /*
  *  copyright (C) 2005
- *  Dimitri Ognibene <ognibened @yahoo.it>
+ *  Umbrello UML Modeller Authors <uml-devel @uml.sf.net>
  */
 
 /***************************************************************************
@@ -25,7 +25,7 @@ namespace Autolayout
 {
 
 /**
-@author 
+@author Dimitri Ognibene <ognibened @yahoo.it>
 */
 class GraphvizGraph : virtual public Autolayout::Graph
 {

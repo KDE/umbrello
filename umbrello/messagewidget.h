@@ -35,9 +35,9 @@ class UMLOperation;
  *
  * @short Displays a message.
  * @author Paul Hensgen
- * @see	UMLWidget
- * @see	ObjectWidget
- * @see	FloatingText
+ * @see UMLWidget
+ * @see ObjectWidget
+ * @see FloatingText
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class MessageWidget : public UMLWidget, public LinkWidget {
@@ -47,12 +47,12 @@ public:
     /**
      * Constructs a MessageWidget.
      *
-     * @param view	The parent to this class.
-     * @param a	The role A widget for this message.
-     * @param b	The role B widget for this message.
-     * @param y	The vertical position to display this message.
+     * @param view      The parent to this class.
+     * @param a The role A widget for this message.
+     * @param b The role B widget for this message.
+     * @param y The vertical position to display this message.
      * @param sequenceMessageType Whether synchronous or asynchronous
-     * @param id	A unique id used for deleting this object cleanly.
+     * @param id        A unique id used for deleting this object cleanly.
      *              The default (-1) will prompt generation of a new ID.
      */
     MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
@@ -62,8 +62,8 @@ public:
     /**
      * Constructs a MessageWidget.
      *
-     * @param view		The parent to this class.
-     * @param id		The ID to assign (-1 will prompt a new ID.)
+     * @param view              The parent to this class.
+     * @param id                The ID to assign (-1 will prompt a new ID.)
      */
     MessageWidget(UMLView * view, Uml::Sequence_Message_Type sequenceMessageType, Uml::IDType id = Uml::id_None);
 
@@ -97,29 +97,29 @@ public:
     /**
      * Check to see if the given ObjectWidget is involved in the message.
      *
-     * @param w	The ObjectWidget to check for.
-     * @return 	true - if is contained, false - not contained.
+     * @param w The ObjectWidget to check for.
+     * @return  true - if is contained, false - not contained.
      */
     bool contains(ObjectWidget * w);
 
     /**
      * Returns the related widget on the given side.
      *
-     * @return	The ObjectWidget we are related to.
+     * @return  The ObjectWidget we are related to.
      */
     ObjectWidget* getWidget(Uml::Role_Type role);
 
     /**
      * Sets the related widget on the given side.
      *
-     * @param ow	The ObjectWidget we are related to.
+     * @param ow        The ObjectWidget we are related to.
      */
     void setWidget(ObjectWidget * ow, Uml::Role_Type role) ;
 
     /**
      * Returns the text widget it is related to.
      *
-     * @return	The text widget we are related to.
+     * @return  The text widget we are related to.
      */
     FloatingText * getFloatingText() {
         return m_pFText;
@@ -128,7 +128,7 @@ public:
     /**
      * Sets the text widget it is related to.
      *
-     * @param f	The text widget we are related to.
+     * @param f The text widget we are related to.
      */
     void setFloatingText(FloatingText * f) {
         m_pFText = f;
@@ -175,7 +175,7 @@ public:
      * Overrides operation from LinkWidget.
      * Required by FloatingText.
      *
-     * @param ft	The text widget which to update.
+     * @param ft        The text widget which to update.
      */
     void setMessageText(FloatingText *ft);
 
@@ -183,8 +183,8 @@ public:
      * Overrides operation from LinkWidget.
      * Required by FloatingText.
      *
-     * @param ft	The text widget which to update.
-     * @param newText	The new text to set.
+     * @param ft        The text widget which to update.
+     * @param newText   The new text to set.
      */
     void setText(FloatingText *ft, const QString &newText);
 
@@ -192,8 +192,8 @@ public:
      * Overrides operation from LinkWidget.
      * Required by FloatingText.
      *
-     * @param seqNum	The new sequence number string to set.
-     * @param op		The new operation string to set.
+     * @param seqNum    The new sequence number string to set.
+     * @param op                The new operation string to set.
      */
     void setSeqNumAndOp(const QString &seqNum, const QString &op);
 
@@ -201,8 +201,8 @@ public:
      * Overrides operation from LinkWidget.
      * Required by FloatingText.
      *
-     * @param seqNum	Return this MessageWidget's sequence number string.
-     * @param op		Return this MessageWidget's operation string.
+     * @param seqNum    Return this MessageWidget's sequence number string.
+     * @param op                Return this MessageWidget's operation string.
      */
     UMLClassifier * getSeqNumAndOp(QString& seqNum, QString& op);
 
@@ -273,11 +273,11 @@ public:
      * Constrains the FloatingText X and Y values supplied.
      * Overrides operation from LinkWidget.
      *
-     * @param textX		Candidate X value (may be modified by the constraint.)
-     * @param textY		Candidate Y value (may be modified by the constraint.)
-     * @param textWidth	Width of the text.
-     * @param textHeight	Height of the text.
-     * @param tr		Uml::Text_Role of the text.
+     * @param textX             Candidate X value (may be modified by the constraint.)
+     * @param textY             Candidate Y value (may be modified by the constraint.)
+     * @param textWidth Width of the text.
+     * @param textHeight        Height of the text.
+     * @param tr                Uml::Text_Role of the text.
      */
     void constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
                           Uml::Text_Role tr);
@@ -295,7 +295,7 @@ public:
     /**
      * Sets the state of whether the widget is selected.
      *
-     * @param _select	True if the widget is selected.
+     * @param _select   True if the widget is selected.
      */
     void setSelected(bool _select);
 

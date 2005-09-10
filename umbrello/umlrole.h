@@ -4,12 +4,12 @@
  */
 
 /***************************************************************************
- *									   *
+ *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.				   *
- *									   *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
  ***************************************************************************/
 
 #ifndef UMLROLE_H
@@ -23,7 +23,7 @@ class UMLAssociation;
  * This class contains the non-graphic representation of an association role.
  *
  * @author Brian Thomas <brian.thomas@gsfc.nasa.gov>
- * @see	UMLObject
+ * @see UMLObject
  */
 
 class UMLRole : public UMLObject {
@@ -32,7 +32,7 @@ public:
     /**
      * Sets up an association.
      *
-     * @param parent	The parent of this UMLRole.
+     * @param parent    The parent of this UMLRole.
      */
     UMLRole (UMLAssociation * parent, UMLObject * parentUMLObject, Uml::Role_Type role);
 
@@ -48,84 +48,84 @@ public:
 
     /**
      * Returns the UMLObject assigned to the role.
-     * @return	Pointer to the UMLObject in role.
+     * @return  Pointer to the UMLObject in role.
      */
     UMLObject* getObject();
 
     /**
      * Returns the Changeablity of the role.
      *
-     * @return	Changeability_Type of role.
+     * @return  Changeability_Type of role.
      */
     Uml::Changeability_Type getChangeability() const;
 
     /**
      * Returns the Visibility of the role.
      *
-     * @return	Scope of role.
+     * @return  Scope of role.
      */
     Uml::Scope getVisibility() const;
 
     /**
      * Returns the multiplicity assigned to the role.
      *
-     * @return	The multiplicity assigned to the role.
+     * @return  The multiplicity assigned to the role.
      */
     QString getMultiplicity() const;
 
     /**
      * Returns the name assigned to the role.
      *
-     * @return	The name assigned to the role.
+     * @return  The name assigned to the role.
      */
     QString getName() const;
 
     /**
      * Returns the documentation for the role.
      *
-     * @return	The documentation text for the role.
+     * @return  The documentation text for the role.
      */
     QString getDoc() const;
 
     /**
      * Sets the UMLObject playing the role in the association.
      *
-     * @param obj		Pointer to the UMLObject of role.
+     * @param obj               Pointer to the UMLObject of role.
      */
     void setObject(UMLObject *obj);
 
     /**
      * Sets the visibility of the role.
      *
-     * @param value 	Scope of role visibility.
+     * @param value     Scope of role visibility.
      */
     void setVisibility(Uml::Scope value);
 
     /**
      * Sets the changeability of the role.
      *
-     * @param value 	Changeability_Type of role changeability.
+     * @param value     Changeability_Type of role changeability.
      */
     void setChangeability (Uml::Changeability_Type value);
 
     /**
      * Sets the multiplicity of the role.
      *
-     * @param multi		The multiplicity of role.
+     * @param multi             The multiplicity of role.
      */
     void setMultiplicity ( const QString &multi );
 
     /**
      * Sets the name of the role.
      *
-     * @param roleName	The name of role.
+     * @param roleName  The name of role.
      */
     void setName( const QString &roleName );
 
     /**
      *  Sets the documentation on the role.
      *
-     *  @param doc		The string with the documentation.
+     *  @param doc              The string with the documentation.
      */
     void setDoc( const QString &doc );
 

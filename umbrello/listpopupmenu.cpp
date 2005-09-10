@@ -862,8 +862,8 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         insertStdItem(mt_UseCase_Diagram);
         insertFileNew();
         insertSeparator();
-        //			insertStdItem(mt_Cut);
-        //			insertStdItem(mt_Copy);
+        //                      insertStdItem(mt_Cut);
+        //                      insertStdItem(mt_Copy);
         insertStdItem(mt_Paste);
         insertSeparator();
         insertStdItem(mt_Expand_All);
@@ -1193,10 +1193,10 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         break;
 
     case mt_Collaboration_Message:
-        //			insertStdItem(mt_Cut);
-        //			insertStdItem(mt_Copy);
-        //			insertStdItem(mt_Paste);
-        //			insertSeparator();
+        //                      insertStdItem(mt_Cut);
+        //                      insertStdItem(mt_Copy);
+        //                      insertStdItem(mt_Paste);
+        //                      insertSeparator();
         insertStdItem(mt_Delete);
         insertStdItem(mt_Change_Font);
         insertStdItem(mt_New_Operation);

@@ -32,7 +32,7 @@ class UMLObject;
 class UMLWidget;
 
 /**
- * @author Paul Hensgen	<phensgen@techie.com>
+ * @author Paul Hensgen <phensgen@techie.com>
  * @version 1.0
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
@@ -40,34 +40,34 @@ class ClassPropDlg : public KDialogBase {
     Q_OBJECT
 public:
     /**
-     *	Sets up a ClassPropDlg.
+     *  Sets up a ClassPropDlg.
      *
-     *	@param	parent	The parent of the ClassPropDlg
-     *	@param	c	The UMLObject to display properties of.
-     *	@param	pageNum	The page to show first.
-     *	@param assoc	Determines whether to display associations
+     *  @param  parent  The parent of the ClassPropDlg
+     *  @param  c       The UMLObject to display properties of.
+     *  @param  pageNum The page to show first.
+     *  @param assoc    Determines whether to display associations
      */
     ClassPropDlg(QWidget *parent, UMLObject *c, int pageNum = 0, bool assoc = false);
 
     /**
-     *	Sets up a ClassPropDlg.
+     *  Sets up a ClassPropDlg.
      *
-     *	@param	parent	The parent of the ClassPropDlg
-     *	@param	o	The ObjectWidget to display properties of.
+     *  @param  parent  The parent of the ClassPropDlg
+     *  @param  o       The ObjectWidget to display properties of.
      */
     ClassPropDlg(QWidget *parent, ObjectWidget * o);
 
     /**
-     *	Sets up a ClassPropDlg.
+     *  Sets up a ClassPropDlg.
      *
-     *	@param	parent	The parent of the ClassPropDlg
-     *	@param	o	The UMLWidget to display properties of.
+     *  @param  parent  The parent of the ClassPropDlg
+     *  @param  o       The UMLWidget to display properties of.
      */
     ClassPropDlg(QWidget *parent, UMLWidget * o);
 
 
     /**
-     *	Standard deconstructor
+     *  Standard deconstructor
      */
     ~ClassPropDlg();
 

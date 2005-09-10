@@ -40,8 +40,8 @@ public:
     /**
      * Sets up an entity.
      *
-     * @param name		The name of the Entity.
-     * @param id		The unique id of the Entity.
+     * @param name              The name of the Entity.
+     * @param id                The unique id of the Entity.
      */
     UMLEntity(const QString& name = "", Uml::IDType id = Uml::id_None);
 
@@ -69,29 +69,29 @@ public:
     /**
      * Creates an entity attribute for the parent concept.
      *
-     * @param o	The parent concept
+     * @param o The parent concept
      * @param name  An optional name, used by when creating through UMLListView
-     * @return	The UMLEntityAttribute created
+     * @return  The UMLEntityAttribute created
      */
     UMLObject* createEntityAttribute(const QString &name = QString::null);
 
     /**
-    	 * Adds an entityAttribute to the entity.
-    	 *
-    	 * @param name		The name of the entityAttribute.
-    * @param id		The id of the entityAttribute (optional.)
-    *			If omitted a new ID is assigned internally.
-    * @return	Pointer to the UMLEntityAttribute created.
+         * Adds an entityAttribute to the entity.
+         *
+         * @param name          The name of the entityAttribute.
+    * @param id         The id of the entityAttribute (optional.)
+    *                   If omitted a new ID is assigned internally.
+    * @return   Pointer to the UMLEntityAttribute created.
     */
     UMLObject* addEntityAttribute(const QString &name, Uml::IDType id = Uml::id_None);
 
     /**
      * Adds an already created entityAttribute.
      * The entityAttribute object must not belong to any other concept.
-     	 *
-     	 * @param Att		Pointer to the UMLEntityAttribute.
-     * @param Log		Pointer to the IDChangeLog.
-     * @return	True if the entityAttribute was sucessfully added.
+         *
+         * @param Att           Pointer to the UMLEntityAttribute.
+     * @param Log               Pointer to the IDChangeLog.
+     * @return  True if the entityAttribute was sucessfully added.
      */
     bool addEntityAttribute(UMLEntityAttribute* att, IDChangeLog* Log = 0);
 
@@ -99,10 +99,10 @@ public:
      * Adds an entityAttribute to the entity, at the given position.
      * If position is negative or too large, the entityAttribute is added
      * to the end of the list.
-     	 *
-     	 * @param Att		Pointer to the UMLEntityAttribute.
-     * @param position	Position index for the insertion.
-     * @return	True if the entityAttribute was sucessfully added.
+         *
+         * @param Att           Pointer to the UMLEntityAttribute.
+     * @param position  Position index for the insertion.
+     * @return  True if the entityAttribute was sucessfully added.
      */
     //TODO:  give default value -1 to position (append) - now it conflicts with the method above..
     bool addEntityAttribute(UMLEntityAttribute* att, int position );
@@ -110,9 +110,9 @@ public:
     /**
      * Removes an entityAttribute from the class.
      *
-     * @param a		The entityAttribute to remove.
-     * @return	Count of the remaining entityAttributes after removal.
-     *		Returns -1 if the given entityAttribute was not found.
+     * @param a         The entityAttribute to remove.
+     * @return  Count of the remaining entityAttributes after removal.
+     *          Returns -1 if the given entityAttribute was not found.
      */
     int removeEntityAttribute(UMLObject* a);
 
@@ -122,8 +122,8 @@ public:
      * the returned entityAttribute (or to delete the entityAttribute)
      *
      * @param  el entityAttribute to tkae
-     * @param wasAtIndex	if given, the index in m_List of the item taken
-     *			is returned in the int pointed-to.
+     * @param wasAtIndex        if given, the index in m_List of the item taken
+     *                  is returned in the int pointed-to.
      * @return pointer to the entityAttribute or null if not found.
      */
     UMLEntityAttribute* takeEntityAttribute(UMLEntityAttribute* el, int *wasAtIndex = NULL);
@@ -131,7 +131,7 @@ public:
     /**
      * Returns the number of entityAttributes for the class.
      *
-     * @return	The number of entityAttributes for the class.
+     * @return  The number of entityAttributes for the class.
      */
     int entityAttributes();
 

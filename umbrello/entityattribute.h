@@ -32,12 +32,12 @@ public:
     /**
      * Sets up an entityattribute.
      *
-     * @param parent	The parent of this UMLEntityAttribute.
-     * @param name		The name of this UMLEntityAttribute.
-     * @param id		The unique id given to this UMLEntityAttribute.
-     * @param s		The scope of the UMLEntityAttribute.
-     * @param type		The type of this UMLEntityAttribute.
-     * @param iv		The initial value of the entityattribute.
+     * @param parent    The parent of this UMLEntityAttribute.
+     * @param name              The name of this UMLEntityAttribute.
+     * @param id                The unique id given to this UMLEntityAttribute.
+     * @param s         The scope of the UMLEntityAttribute.
+     * @param type              The type of this UMLEntityAttribute.
+     * @param iv                The initial value of the entityattribute.
      */
     UMLEntityAttribute(const UMLObject* parent, QString name, Uml::IDType id = Uml::id_None,
                        Uml::Scope s = Uml::Private, QString type = "int", QString iv = 0);
@@ -45,7 +45,7 @@ public:
     /**
      * Sets up an entityattribute.
      *
-     * @param parent	The parent of this UMLEntityAttribute.
+     * @param parent    The parent of this UMLEntityAttribute.
      */
     UMLEntityAttribute(const UMLObject* parent);
 
@@ -73,21 +73,21 @@ public:
     /**
      * Returns The initial value of the UMLEntityAttribute.
      *
-     * @return	The inital value of the Atrtibute.
+     * @return  The inital value of the Atrtibute.
      */
     QString getInitialValue();
 
     /**
      * Sets the initial value of the UMLEntityAttribute.
      *
-     * @param iv		The inital value of the UMLEntityAttribute.
+     * @param iv                The inital value of the UMLEntityAttribute.
      */
     void setInitialValue( const QString& iv );
 
     /**
      * Returns The value of the UMLEntityAttribute's attributes property.
      *
-     * @return	The value of the UMLEntityAttribute's attributes property.
+     * @return  The value of the UMLEntityAttribute's attributes property.
      */
     QString getAttributes();
 
@@ -101,65 +101,65 @@ public:
     /**
      * Returns The initial value of the UMLEntityAttribute's index type property.
      *
-     * @return	The inital value of the UMLEntityAttribute's index type property.
+     * @return  The inital value of the UMLEntityAttribute's index type property.
      */
     Uml::DBIndex_Type getIndexType();
 
     /**
      * Sets the initial value of the UMLEntityAttribute's index type property.
      *
-     * @param iv	The inital value of the UMLEntityAttribute's index type property.
+     * @param iv        The inital value of the UMLEntityAttribute's index type property.
      */
     void setIndexType(const Uml::DBIndex_Type indexType);
 
     /**
      * Returns The initial value of the UMLEntityAttribute's length/values property.
      *
-     * @return	The inital value of the UMLEntityAttribute's length/values property.
+     * @return  The inital value of the UMLEntityAttribute's length/values property.
      */
     QString getValues();
 
     /**
      * Sets the initial value of the UMLEntityAttribute's length/values property.
      *
-     * @param iv	The inital value of the UMLEntityAttribute's length/values property.
+     * @param iv        The inital value of the UMLEntityAttribute's length/values property.
      */
     void setValues(const QString& values);
 
     /**
      * Returns The initial value of the UMLEntityAttribute's auto_increment boolean
      *
-     * @return	The inital value of the UMLEntityAttribute's auto_increment boolean
+     * @return  The inital value of the UMLEntityAttribute's auto_increment boolean
      */
     bool getAutoIncrement();
 
     /**
      * Sets the initial value of the UMLEntityAttribute's auto_increment boolean
      *
-     * @param iv	The inital value of the UMLEntityAttribute's auto_increment boolean
+     * @param iv        The inital value of the UMLEntityAttribute's auto_increment boolean
      */
     void setAutoIncrement(const bool autoIncrement);
 
     /**
      * Returns The initial value of the UMLEntityAttribute's allow null value.
      *
-     * @return	The inital value of the UMLEntityAttribute's allow null value.
+     * @return  The inital value of the UMLEntityAttribute's allow null value.
      */
     bool getNull();
 
     /**
      * Sets the initial value of the UMLEntityAttribute's allow null value.
      *
-     * @param iv	The inital value of the UMLEntityAttribute's allow null value.
+     * @param iv        The inital value of the UMLEntityAttribute's allow null value.
      */
     void setNull(const bool null);
 
     /**
      * Returns a string representation of the UMLEntityAttribute.
      *
-     * @param sig		If true will show the entityattribute type and
-     *			inital value.
-     * @return	Returns a string representation of the UMLEntityAttribute.
+     * @param sig               If true will show the entityattribute type and
+     *                  inital value.
+     * @return  Returns a string representation of the UMLEntityAttribute.
      */
     QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
 

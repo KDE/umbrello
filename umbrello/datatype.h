@@ -39,8 +39,8 @@ public:
     /**
      * Sets up an datatype.
      *
-     * @param name		The name of the Concept.
-     * @param id		The unique id of the Concept.
+     * @param name              The name of the Concept.
+     * @param id                The unique id of the Concept.
      */
     UMLDatatype(const QString & name = "", Uml::IDType id = Uml::id_None);
 

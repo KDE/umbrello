@@ -190,11 +190,11 @@ UMLObject *createUMLObject(Uml::Object_Type type,
             dt->setIsReference();
             /*
             if (isPointer) {
-            	UMLObject *pointerDecl = umldoc->createUMLObject(Uml::ot_Datatype, type);
-            	UMLDatatype *dt = static_cast<UMLDatatype*>(pointerDecl);
-            	dt->setOriginType(classifier);
-            	dt->setIsReference();
-            	classifier = dt;
+                UMLObject *pointerDecl = umldoc->createUMLObject(Uml::ot_Datatype, type);
+                UMLDatatype *dt = static_cast<UMLDatatype*>(pointerDecl);
+                dt->setOriginType(classifier);
+                dt->setIsReference();
+                classifier = dt;
             }  */
         } else {
             o = origType;

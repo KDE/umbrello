@@ -25,17 +25,17 @@ public:
     /**
      * If auto apply is true, the observed object will be modified
      * inmediatly when the user changes something in the dialog 
-     */	
+     */ 
     inline void setAutoApply( bool a ) {m_autoApply = a;}
 
 
     // the following signals and slots are expected to be implemented:
     //
     //public slots:
-    // 	void cancel();
-    // 	void apply();
+    //  void cancel();
+    //  void apply();
     // signals:
-    // 	void pageModified( );
+    //  void pageModified( );
 
 protected:
     bool m_autoApply;

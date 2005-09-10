@@ -22,13 +22,13 @@
 #include "umllistviewitemlist.h"
 
 /**
- *	This is one of the main classes used in this program.
- *	Information is displayed here in a tree view.  No objects are created
- *	here.  A call to @ref UMLDoc make any additions/deletion or updates to
- *	objects.  This class will then wait for a signal before updating the tree view.
+ *      This is one of the main classes used in this program.
+ *      Information is displayed here in a tree view.  No objects are created
+ *      here.  A call to @ref UMLDoc make any additions/deletion or updates to
+ *      objects.  This class will then wait for a signal before updating the tree view.
  *
- *	@short	Displays the list view for the program.
- *	@author Paul Hensgen	<phensgen@techie.com>
+ *      @short  Displays the list view for the program.
+ *      @author Paul Hensgen    <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
@@ -48,7 +48,7 @@ class UMLListView : public KListView {
     Q_OBJECT
 public:
 
-    enum Icon_Type	{
+    enum Icon_Type      {
         it_Home = 0,
         it_Folder_Cyan,
         it_Folder_Cyan_Open,
@@ -95,13 +95,13 @@ public:
     /**
      * Constructs the tree view.
      *
-     * @param parent	The parent to this.
-     * @param name		The internal name for this class.
+     * @param parent    The parent to this.
+     * @param name              The internal name for this class.
      */
     UMLListView(QWidget *parent,const char *name);
 
     /**
-     *	Standard deconstructor.
+     *  Standard deconstructor.
      */
     ~UMLListView();
 
@@ -109,7 +109,7 @@ public:
      * Sets the document his is associated with.  This is important as
      * this is required as to setup the callbacks.
      *
-     * @param d		The document to associate with this class.
+     * @param d         The document to associate with this class.
      */
     void setDocument(UMLDoc * d);
 
@@ -121,22 +121,22 @@ public:
     /**
      * Set the current view to the given view.
      *
-     * @param v		The current view.
+     * @param v         The current view.
      */
     void setView(UMLView* v);
 
     /**
      * Get selected items.
      *
-     * @param ItemList	List of UMLListViewItems returned.
-     * @return		The number of selected items.
+     * @param ItemList  List of UMLListViewItems returned.
+     * @return          The number of selected items.
      */
     int getSelectedItems(UMLListViewItemList &ItemList);
 
     /**
      * Create a listview item for an existing diagram.
      *
-     * @param v		The existing diagram.
+     * @param v         The existing diagram.
      */
     UMLListViewItem* createDiagramItem(UMLView *v);
 
@@ -163,8 +163,8 @@ public:
      * Determine the parent ListViewItem given a ListView_Type.
      * This parent is used for creating new UMLListViewItems.
      *
-     * @param lvt	The ListView_Type for which to lookup the parent.
-     * @return	Pointer to the parent UMLListViewItem chosen.
+     * @param lvt       The ListView_Type for which to lookup the parent.
+     * @return  Pointer to the parent UMLListViewItem chosen.
      */
     UMLListViewItem* determineParentItem(Uml::ListView_Type lvt) const;
 
@@ -202,16 +202,16 @@ public:
     /**
      * Find an UMLObject in the listview.
      *
-     * @param p		Pointer to the object to find in the list view.
-     * @return	Pointer to the UMLObject found or NULL if not found.
+     * @param p         Pointer to the object to find in the list view.
+     * @return  Pointer to the UMLObject found or NULL if not found.
      */
     UMLListViewItem * findUMLObject(UMLObject *p) const;
 
     /**
      * Searches through the tree for the item with the given ID.
      *
-     * @param id		The ID to search for.
-     * @return	The item with the given ID or NULL if not found.
+     * @param id                The ID to search for.
+     * @return  The item with the given ID or NULL if not found.
      */
     UMLListViewItem * findItem(Uml::IDType id);
 
@@ -414,14 +414,14 @@ protected:
     /**
      * Converts a list view type enum to the equivalent object type.
      *
-     * @param lvt		The ListView_Type to convert.
-     * @return	The converted Object_Type if the listview type
-     *		has a Object_Type representation, else 0.
+     * @param lvt               The ListView_Type to convert.
+     * @return  The converted Object_Type if the listview type
+     *          has a Object_Type representation, else 0.
      */
     static Uml::Object_Type convert_LVT_OT(Uml::ListView_Type lvt);
 
     /**
-     * 	Loads the pixmaps to use in the list items.
+     *  Loads the pixmaps to use in the list items.
      */
     void loadPixmaps();
 
@@ -524,8 +524,8 @@ public slots:
     void collapseAll(QListViewItem *item);
 
     /**
-     * 	Connects to the signal that @ref UMLApp emits when a
-     * 	cut operation is successful.
+     *  Connects to the signal that @ref UMLApp emits when a
+     *  cut operation is successful.
      */
     void slotCutSuccessful();
 

@@ -36,8 +36,8 @@ namespace Model_Utils {
 /**
  * Determines whether the given widget type is cloneable.
  *
- * @param type		The input Widget_Type.
- * @return	True if the given type is cloneable.
+ * @param type          The input Widget_Type.
+ * @return      True if the given type is cloneable.
  */
 bool isCloneable(Uml::Widget_Type type);
 
@@ -46,26 +46,26 @@ bool isCloneable(Uml::Widget_Type type);
  * Each list element may itself contain other objects
  * and the search is done recursively.
  *
- * @param id		The unique ID to seek.
- * @param inList	The UMLObjectList in which to search.
- * @return	Pointer to the UMLObject that matches the ID
- *		(NULL if none matches.)
+ * @param id            The unique ID to seek.
+ * @param inList        The UMLObjectList in which to search.
+ * @return      Pointer to the UMLObject that matches the ID
+ *              (NULL if none matches.)
  */
 UMLObject * findObjectInList(Uml::IDType id, UMLObjectList inList);
 
 /**
  * Find the UML object of the given type and name in the passed-in list.
  *
- * @param inList	List in which to seek the object.
- * @param name		Name of the object to find.
- * @param type		Object_Type of the object to find (optional.)
- *			When the given type is ot_UMLObject the type is
- *			disregarded, i.e. the given name is the only
- *			search criterion.
- * @param currentObj	Object relative to which to search (optional.)
- *			If given then the enclosing scope(s) of this
- *			object are searched before the global scope.
- * @return	Pointer to the UMLObject found, or NULL if not found.
+ * @param inList        List in which to seek the object.
+ * @param name          Name of the object to find.
+ * @param type          Object_Type of the object to find (optional.)
+ *                      When the given type is ot_UMLObject the type is
+ *                      disregarded, i.e. the given name is the only
+ *                      search criterion.
+ * @param currentObj    Object relative to which to search (optional.)
+ *                      If given then the enclosing scope(s) of this
+ *                      object are searched before the global scope.
+ * @return      Pointer to the UMLObject found, or NULL if not found.
  */
 UMLObject* findUMLObject( UMLObjectList inList, QString name,
                           Uml::Object_Type type = Uml::ot_UMLObject,
@@ -89,8 +89,8 @@ bool isCommonDataType(QString type);
 /**
  * Convert Scope value into QString representation.
 *
-* @param scope		The Scope enum value to convert.
-* @param mnemonic	If true then return a single character:
+* @param scope          The Scope enum value to convert.
+* @param mnemonic       If true then return a single character:
 *                      "+" for public, "-" for private, or
 *                      "#" for protected.
 */
@@ -99,11 +99,11 @@ QString scopeToString(Uml::Scope scope, bool mnemonic = true);
 /**
  * Parse a direction string into the Uml::Parameter_Direction.
 *
-* @param input		The string to parse: "in", "out", or "inout"
-*			optionally followed by whitespace.
-* @param result	The corresponding Uml::Parameter_Direction.
-* @return	Length of the string matched, excluding the optional
-*		whitespace.
+* @param input          The string to parse: "in", "out", or "inout"
+*                       optionally followed by whitespace.
+* @param result The corresponding Uml::Parameter_Direction.
+* @return       Length of the string matched, excluding the optional
+*               whitespace.
 */
 int stringToDirection(QString input, Uml::Parameter_Direction & result);
 
@@ -151,35 +151,35 @@ struct OpDescriptor {
 /**
  * Parses a template parameter given in UML syntax.
  *
- * @param t		Input text of the template parameter.
- *			Example:  parname : partype
- *			or just:  parname          (for class type)
- * @param nmTp		NameAndType returned by this method.
- * @param owningScope	Pointer to the owning scope of the template param.
- * @return	Error status of the parse, PS_OK for success.
+ * @param t             Input text of the template parameter.
+ *                      Example:  parname : partype
+ *                      or just:  parname          (for class type)
+ * @param nmTp          NameAndType returned by this method.
+ * @param owningScope   Pointer to the owning scope of the template param.
+ * @return      Error status of the parse, PS_OK for success.
  */
 Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningScope);
 
 /**
  * Parses an attribute given in UML syntax.
  *
- * @param a		Input text of the attribute in UML syntax.
- *			Example:  argname : argtype
- * @param nmTp		NameAndType returned by this method.
- * @param owningScope	Pointer to the owning scope of the attribute.
- * @return	Error status of the parse, PS_OK for success.
+ * @param a             Input text of the attribute in UML syntax.
+ *                      Example:  argname : argtype
+ * @param nmTp          NameAndType returned by this method.
+ * @param owningScope   Pointer to the owning scope of the attribute.
+ * @return      Error status of the parse, PS_OK for success.
  */
 Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningScope);
 
 /**
  * Parses an operation given in UML syntax.
  *
- * @param m		Input text of the operation in UML syntax.
- *			Example of a two-argument operation returning "void":
- *			methodname (arg1name : arg1type, arg2name : arg2type) : void
- * @param desc		OpDescriptor returned by this method.
- * @param owningScope	Pointer to the owning scope of the operation.
- * @return	Error status of the parse, PS_OK for success.
+ * @param m             Input text of the operation in UML syntax.
+ *                      Example of a two-argument operation returning "void":
+ *                      methodname (arg1name : arg1type, arg2name : arg2type) : void
+ * @param desc          OpDescriptor returned by this method.
+ * @param owningScope   Pointer to the owning scope of the operation.
+ * @return      Error status of the parse, PS_OK for success.
  */
 Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owningScope);
 

@@ -119,8 +119,8 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
         setPixmap(0, s_pListView->getPixmap( UMLListView::it_Diagram ) );
     }
     /*
-    	Constructor also used by folder so just make sure we don't need to
-    	to set pixmap to folder.  doesn't hurt diagrams.
+        Constructor also used by folder so just make sure we don't need to
+        to set pixmap to folder.  doesn't hurt diagrams.
     */
     updateFolder();
     setText( name );
@@ -607,7 +607,7 @@ void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement,
     Uml::IDType id = getID();
     QString idStr = ID2STR(id);
     //kdDebug() << "UMLListViewItem::saveToXMI: id = " << idStr
-    //	  << ", type = " << m_Type << endl;
+    //    << ", type = " << m_Type << endl;
     if (id != Uml::id_None)
         itemElement.setAttribute( "id", idStr );
     itemElement.setAttribute( "type", m_Type );

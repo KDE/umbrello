@@ -25,24 +25,24 @@ class UMLView;
 class UMLViewCanvas : public QCanvas {
 public:
     /**
-    *	Constructor
+    *   Constructor
     */
     UMLViewCanvas( UMLView * pView );
 
     /**
-    *	Deconstructor
+    *   Deconstructor
     */
     virtual ~UMLViewCanvas();
 
 protected:
 
     /**
-    * 	Overrides default method.
+    *   Overrides default method.
     */
     virtual void drawBackground( QPainter & painter, const QRect & clip );
 
     /**
-    * 	The view the canvas is associated with.
+    *   The view the canvas is associated with.
     */
     UMLView * m_pView;
 };

@@ -24,8 +24,8 @@ class UMLView;
 class UMLObject;
 
 /**
- * @short	Common base class for UMLWidget and AssociationWidget
- * @author 	Oliver Kellogg <okellogg@users.sourceforge.net>
+ * @short       Common base class for UMLWidget and AssociationWidget
+ * @author      Oliver Kellogg <okellogg@users.sourceforge.net>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class WidgetBase : public QObject {
@@ -34,7 +34,7 @@ public:
     /**
      * Creates a WidgetBase object.
      *
-     * @param view	The view to be displayed on.
+     * @param view      The view to be displayed on.
      */
     WidgetBase(UMLView * view);
 
@@ -69,22 +69,22 @@ public:
     /**
      * Sets the @ref UMLObject to represent.
      *
-     * @param o	The object to represent.
+     * @param o The object to represent.
      */
     virtual void setUMLObject(UMLObject * o);
 
     /**
      * Used by some child classes to get documentation.
      *
-     * @return	The documentation from the UMLObject (if m_pObject is set.)
+     * @return  The documentation from the UMLObject (if m_pObject is set.)
      */
     virtual QString getDoc() const;
 
     /**
      * Used by some child classes to set documentation.
      *
-     * @param doc	The documentation to be set in the UMLObject
-     *		(if m_pObject is set.)
+     * @param doc       The documentation to be set in the UMLObject
+     *          (if m_pObject is set.)
      */
     virtual void setDoc( const QString &doc );
 

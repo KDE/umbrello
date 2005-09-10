@@ -28,12 +28,12 @@
 
 class UMLDoc;
 /**
- *	Displays a dialog box that displays properties of a paramater.
- *	You need to make sure that @ref UMLDoc is made to be the
- *	parent.
+ *      Displays a dialog box that displays properties of a paramater.
+ *      You need to make sure that @ref UMLDoc is made to be the
+ *      parent.
  *
- *	@short	A properties dialog box for a parameter.
- *	@author Paul Hensgen	<phensgen@techie.com>
+ *      @short  A properties dialog box for a parameter.
+ *      @author Paul Hensgen    <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ParmPropDlg : public KDialogBase {
@@ -41,8 +41,8 @@ public:
     /**
      * Constructs a ParmPropDlg.
      *
-     * @param parent	The parent of the dialog.
-     * @param a	The parameter to represent.
+     * @param parent    The parent of the dialog.
+     * @param a The parameter to represent.
      */
     ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a);
 
@@ -54,7 +54,7 @@ public:
     /**
      * Returns the documentation.
      *
-     * @return	Returns the documentation.
+     * @return  Returns the documentation.
      */
     QString getDoc() {
         return m_pDoc -> text();
@@ -63,7 +63,7 @@ public:
     /**
      * Return the name of the parameter.
      *
-     * @return	Return the name of the parameter.
+     * @return  Return the name of the parameter.
      */
     QString getName() {
         return m_pNameLE -> text();
@@ -72,7 +72,7 @@ public:
     /**
      * Return the initial value of the parameter.
      *
-     * @return	Return the initial value of the parameter.
+     * @return  Return the initial value of the parameter.
      */
     QString getInitialValue() {
         return m_pInitialLE -> text();
@@ -90,8 +90,8 @@ public:
     /**
      * Return the kind of the parameter (in, out, or inout).
      *
-     * @return	The Uml::Parameter_Direction corresponding to
-     *		the selected "Kind" radiobutton.
+     * @return  The Uml::Parameter_Direction corresponding to
+     *          the selected "Kind" radiobutton.
      */
     Uml::Parameter_Direction getParmKind();
 

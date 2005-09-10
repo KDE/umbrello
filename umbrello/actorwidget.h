@@ -38,8 +38,8 @@ class UMLActor;
  *
  * @short A graphical version of a UML Actor.
  * @author Paul Hensgen <phensgen@techie.com>
- * @see	UMLWidget
- * @see	UMLView
+ * @see UMLWidget
+ * @see UMLView
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
@@ -49,8 +49,8 @@ public:
     /**
      * Constructs an ActorWidget.
      *
-     * @param view 	The parent of this ActorWidget.
-     * @param o 	The Actor class this ActorWidget will display.
+     * @param view      The parent of this ActorWidget.
+     * @param o         The Actor class this ActorWidget will display.
      */
     ActorWidget(UMLView * view, UMLActor *o);
 

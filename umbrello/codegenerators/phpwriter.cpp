@@ -1,7 +1,7 @@
 /***************************************************************************
-    begin		: Thu Oct 17 2002
-    copyright	    : (C) 2002 by Heiko Nardmann
-    email		: h.nardmann@secunet.de
+    begin               : Thu Oct 17 2002
+    copyright       : (C) 2002 by Heiko Nardmann
+    email               : h.nardmann@secunet.de
  ***************************************************************************/
 
 /***************************************************************************
@@ -9,7 +9,7 @@
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.				   *
+ *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
 
@@ -3054,7 +3054,7 @@ void PhpWriter::writeClass(UMLClassifier *c) {
     UMLAssociation *a;
 
     //check if class is abstract and / or has abstract methods
-    //FG	if(c->getAbstract() && !hasAbstractOps(c))
+    //FG        if(c->getAbstract() && !hasAbstractOps(c))
     if(c->getAbstract())
         php << "/******************************* Abstract Class ****************************" << m_endl << "  "
         << classname << " does not have any pure virtual methods, but its author" << m_endl

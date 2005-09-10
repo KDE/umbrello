@@ -85,7 +85,7 @@ protected:
     void setupGeneralPage();
 
     /**
-    * 	Sets up the color page.
+    *   Sets up the color page.
     */
     void setupColorPage();
 
@@ -95,7 +95,7 @@ protected:
     void setupFontPage();
 
     /**
-    *	Sets up the activity page.
+    *   Sets up the activity page.
     */
     void setupActivityPage();
 
@@ -110,12 +110,12 @@ protected:
     KFontChooser * m_pChooser;
 
     /**
-    * 	Color page
+    *   Color page
     */
     UMLWidgetColorPage * m_pColorPage;
 
     /**
-    *	Activity page.
+    *   Activity page.
     */
     ActivityPage * m_pActivityPage;
 

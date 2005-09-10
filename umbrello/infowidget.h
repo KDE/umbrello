@@ -18,26 +18,26 @@
 #include <qwidget.h>
 
 /**
- *	This is used to display information to the user when no diagrams
- *	have been displayed.
+ *      This is used to display information to the user when no diagrams
+ *      have been displayed.
  *
- *	@short	Displays an information widget.
- *	@author Paul Hensgen	<phensgen@techie.com>
- *	@version	1.0
+ *      @short  Displays an information widget.
+ *      @author Paul Hensgen    <phensgen@techie.com>
+ *      @version        1.0
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class InfoWidget : public QWidget {
 public:
     /**
-     *	Constructs an InfoWidget.
+     *  Constructs an InfoWidget.
      *
-     *	@param	parent	The parent of this InfoWidget.
-     *	@param	name	The name of this widget.
+     *  @param  parent  The parent of this InfoWidget.
+     *  @param  name    The name of this widget.
      */
     InfoWidget(QWidget *parent=0, const char *name=0);
 
     /**
-     *	Standard deconstructor.
+     *  Standard deconstructor.
      */
     ~InfoWidget();
 };

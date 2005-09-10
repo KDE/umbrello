@@ -346,10 +346,10 @@ void CodeEditor::appendText(QPtrList<TextBlock> * items)
         else if ( (cb = dynamic_cast<CodeBlockWithComments*>(tb)) )
             appendText(cb);
         /*
-        		// no! shouldnt be any 'naked' comments floating about. Always
-        		// are assocated with a parent code block
+                        // no! shouldnt be any 'naked' comments floating about. Always
+                        // are assocated with a parent code block
                         else if ( (cm = dynamic_cast<CodeComment*>(tb)) )  
-        			appendText(cm);
+                                appendText(cm);
         */
         else
             appendText(tb); // no cast worked. Just do a text block

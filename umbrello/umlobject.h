@@ -33,7 +33,7 @@ class UMLObject;
  * the generic information needed for all UMLObjects.
  *
  * @short The base class for UML objects.
- * @author Paul Hensgen	<phensgen@techie.com>
+ * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLObject : public QObject {
@@ -43,25 +43,25 @@ public:
     /**
      * Creates a UMLObject.
      *
-     * @param parent	The parent of the object.
-     * @param name		The name of the object.
-     * @param id		The ID of the object (optional.) If omitted
-     *			then a new ID will be assigned internally.
+     * @param parent    The parent of the object.
+     * @param name              The name of the object.
+     * @param id                The ID of the object (optional.) If omitted
+     *                  then a new ID will be assigned internally.
      */
     UMLObject(const UMLObject * parent, const QString &name, Uml::IDType id = Uml::id_None);
 
     /**
      * Creates a UMLObject.
      *
-     * @param	parent		The parent of the object.
+     * @param   parent          The parent of the object.
      */
     UMLObject(const UMLObject * parent);
 
     /**
      * Creates a UMLObject with a given name and unique ID.
      *
-     * @param	name		The name of the object.
-     * @param	id		The unique ID of the object.
+     * @param   name            The name of the object.
+     * @param   id              The unique ID of the object.
      */
     UMLObject(const QString &name = "" , Uml::IDType id = Uml::id_None);
 
@@ -90,42 +90,42 @@ public:
     /**
      * Returns the type of the object.
      *
-     * @return	Returns the type of the object.
+     * @return  Returns the type of the object.
      */
     Uml::Object_Type getBaseType() const;
 
     /**
      * Returns the ID of the object.
      *
-     * @return	Returns the ID of the object.
+     * @return  Returns the ID of the object.
      */
     virtual Uml::IDType getID() const;
 
     /**
      * Sets the documentation for the object.
      *
-     * @param d	The documentation for the object.
+     * @param d The documentation for the object.
      */
     void setDoc(const QString &d);
 
     /**
      * Returns the documentation for the object.
      *
-     * @return	Returns the documentation for the object.
+     * @return  Returns the documentation for the object.
      */
     QString getDoc() const;
 
     /**
      * Returns the scope of the object.
      *
-     * @return	Returns the scope of the object.
+     * @return  Returns the scope of the object.
      */
     Uml::Scope getScope() const;
 
     /**
      * Sets the scope of the object.
      *
-     * @param s	The scope of the object.
+     * @param s The scope of the object.
      */
     void setScope(Uml::Scope s);
 
@@ -133,7 +133,7 @@ public:
      * Sets the classes stereotype name.
      * Internally uses setUMLStereotype().
      *
-     * @param _name	Sets the classes stereotype name.
+     * @param _name     Sets the classes stereotype name.
      */
     void setStereotype(const QString &_name);
 
@@ -144,7 +144,7 @@ public:
      * to zero then the UMLStereotype is removed at the UMLDoc and
      * it is then physically deleted.
      *
-     * @param s	Sets the classes UMLStereotype.
+     * @param s Sets the classes UMLStereotype.
      */
     void setUMLStereotype(UMLStereotype *s);
 
@@ -152,21 +152,21 @@ public:
      * Sets the classes Package.
      * DEPRECATED - use SetUMLPackage instead.
      *
-     * @param _name	The classes Package name.
+     * @param _name     The classes Package name.
      */
     void setPackage(const QString &_name);
 
     /**
      * Sets the UMLPackage in which this class is located.
      *
-     * @param pPkg		Pointer to the class' UMLPackage.
+     * @param pPkg              Pointer to the class' UMLPackage.
      */
     void setUMLPackage(UMLPackage* pPkg);
 
     /**
      * Returns the classes UMLStereotype object.
      *
-     * @return	Returns the classes UMLStereotype object.
+     * @return  Returns the classes UMLStereotype object.
      */
     const UMLStereotype * getUMLStereotype();
 
@@ -174,9 +174,9 @@ public:
      * Returns the classes stereotype name.
      * Returns an empty string if no stereotype object is set.
      *
-     * @param includeAdornments	Include surrounding angled brackets
-     *				"«" and "»".
-     * @return	Returns the classes stereotype name.
+     * @param includeAdornments Include surrounding angled brackets
+     *                          "«" and "»".
+     * @return  Returns the classes stereotype name.
      */
     QString getStereotype(bool includeAdornments = true);
 
@@ -184,9 +184,9 @@ public:
      * Return the package(s) in which this UMLObject is contained
      * as a text.
      *
-     * @param separator	Separator string for joining together the
-     *			individual package prefixes (optional.)
-     * @return	The UMLObject's enclosing package(s) as a text.
+     * @param separator Separator string for joining together the
+     *                  individual package prefixes (optional.)
+     * @return  The UMLObject's enclosing package(s) as a text.
      */
     QString getPackage(QString separator = QString::null);
 
@@ -194,14 +194,14 @@ public:
      * Return a list of the packages in which this class is embedded.
      * The outermost package is first in the list.
      *
-     * @return	UMLPackageList of the containing packages.
+     * @return  UMLPackageList of the containing packages.
      */
     UMLPackageList getPackages() const;
 
     /**
      * Returns the UMLPackage that this class is located in.
      *
-     * @return	Pointer to the UMLPackage of this class.
+     * @return  Pointer to the UMLPackage of this class.
      */
     UMLPackage* getUMLPackage();
 
@@ -223,11 +223,11 @@ public:
     /**
      * Returns the fully qualified name, i.e. all package prefixes and then m_Name.
      *
-     * @param separator	The separator string to use (optional.)
+     * @param separator The separator string to use (optional.)
      *                  If not given then the separator is chosen according
      *                  to the currently selected active programming language
      *                  of import and code generation.
-     * @return	The fully qualified name of this UMLObject.
+     * @return  The fully qualified name of this UMLObject.
      */
     virtual QString getFullyQualifiedName(QString separator = QString::null) const;
 
@@ -255,7 +255,7 @@ public:
      * reference.
      * The default implementation attempts resolution of the m_SecondaryId.
      *
-     * @return	True for success.
+     * @return  True for success.
      */
     virtual bool resolveRef();
 
@@ -273,7 +273,7 @@ public:
      * Instead, it invokes the load() method which implements the loading
      * of the specifics of each child class.
      *
-     * @param element	The QDomElement from which to load.
+     * @param element   The QDomElement from which to load.
      */
     virtual bool loadFromXMI( QDomElement & element );
 

@@ -42,9 +42,9 @@ void CPPSourceCodeClassFieldDeclarationBlock::updateContent( )
 {
 
     /*
-    	CodeClassField * cf = getParentClassField();
-    	ClassifierCodeDocument * doc = cf->getParentDocument();
-    	CPPCodeClassField * jcf = (CPPCodeClassField*) cf;
+        CodeClassField * cf = getParentClassField();
+        ClassifierCodeDocument * doc = cf->getParentDocument();
+        CPPCodeClassField * jcf = (CPPCodeClassField*) cf;
             CPPClassifierCodeDocument* jdoc = (CPPClassifierCodeDocument*) doc;
 
             // Set the comment

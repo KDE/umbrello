@@ -31,7 +31,7 @@ class IDChangeLog;
  *
  * @short Non-graphical information for a Node.
  * @author Jonathan Riddell
- * @see	UMLCanvasObject
+ * @see UMLCanvasObject
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLNode : public UMLCanvasObject {
@@ -40,8 +40,8 @@ public:
     /**
      * Sets up a Node.
      *
-     * @param name		The name of the Concept.
-     * @param id		The unique id of the Concept.
+     * @param name              The name of the Concept.
+     * @param id                The unique id of the Concept.
      */
     UMLNode(const QString & name = "", Uml::IDType id = Uml::id_None);
 

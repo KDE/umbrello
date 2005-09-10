@@ -1,6 +1,6 @@
 /*
  *  copyright (C) 2005
- *  Dimitri Ognibene <ognibened @yahoo.it>
+ *  Umbrello UML Modeller Authors <uml-devel @uml.sf.net>
  */
 
 /***************************************************************************

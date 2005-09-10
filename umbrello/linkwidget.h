@@ -32,8 +32,8 @@ class UMLView;
  * example, if the class FloatingText is redesigned), it can be
  * cleaned up.
  *
- * @short	Interface to FloatingText for AssociationWidget and MessageWidget.
- * @author 	Oliver Kellogg <okellogg@users.sourceforge.net>
+ * @short       Interface to FloatingText for AssociationWidget and MessageWidget.
+ * @author      Oliver Kellogg <okellogg@users.sourceforge.net>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class LinkWidget {
@@ -46,7 +46,7 @@ public:
      * Abstract operation implemented by inheriting classes.
      * Motivated by FloatingText::slotMenuSelection(mt_Operation)
      *
-     * @param font		Font to be set.
+     * @param font              Font to be set.
      */
     virtual void lwSetFont(QFont font) = 0;
 

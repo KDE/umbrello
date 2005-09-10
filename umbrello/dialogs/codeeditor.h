@@ -156,8 +156,8 @@ protected slots:
 signals:
 
     /*
-    	void sigNewLinePressed ();
-    	void sigBackspacePressed ();
+        void sigNewLinePressed ();
+        void sigBackspacePressed ();
     */
 
 };

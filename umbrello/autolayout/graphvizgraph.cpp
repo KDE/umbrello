@@ -1,9 +1,6 @@
-/*
- *  copyright (C) 2005
- *  Dimitri Ognibene <ognibened @yahoo.it>
- */
-
 /***************************************************************************
+ *  copyright (C) 2005
+ *  Umbrello UML Modeller Authors <uml-devel @uml.sf.net>
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -14,6 +11,7 @@
 #include "graphvizgraph.h"
 
 #include <graphviz/graph.h>
+#include <kdebug.h>
 
 #define DPI 96
 
@@ -45,7 +43,7 @@ GraphvizGraph::GraphvizGraph()
     agnodeattr(_agraph, "fixedsize", "true");
     agnodeattr(_agraph, "margin", "0.01,0.01");
     agnodeattr(_agraph, "shape", "box");
-
+    agraphattr(_agraph, "dpi", "DPI/0");
 
 
 }
@@ -138,4 +136,15 @@ Autolayout::Node* Autolayout::GraphvizGraph::getNode( const char * arg1 )
     nodelist.push_back(b);
     return b;
 }
+
+void GraphvizGraph::setCanvas( Autolayout::Canvas * canvas)
+{
+    char buf[100];
+    sprintf(buf,"%f,%f",((float)canvas->getMaxX()/DPI),((float)canvas->getMaxY()/DPI));
+    kdDebug() << "size: " << buf << endl;
+    agraphattr(_agraph, "size", buf);
+    agraphattr(_agraph, "page", buf);
 }
+
+}  // end namespace Autolayout
+

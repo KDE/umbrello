@@ -135,7 +135,7 @@ public:
 
     /**
      * Sets the type of the clip to "application/x-uml-" + sub
-     *	sub should be clip[1-5]
+     *  sub should be clip[1-5]
      */
     virtual void setSubType(const QCString& sub, int index);
 
@@ -193,9 +193,9 @@ public:
     /**
      * Return just the LvTypeAndID of a Clip3.
      *
-     * @param mimeSource	The encoded source.
-     * @param type		The LvTypeAndID_List decoded from the source.
-     * @return	True if decoding was successful.
+     * @param mimeSource        The encoded source.
+     * @param type              The LvTypeAndID_List decoded from the source.
+     * @return  True if decoding was successful.
      */
     static bool getClip3TypeAndID(const QMimeSource* mimeSource,
                                   LvTypeAndID_List& typeAndIdList);

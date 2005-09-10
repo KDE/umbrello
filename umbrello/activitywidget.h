@@ -51,9 +51,9 @@ public:
     /**
      * Creates a Activity widget.
      *
-     * @param view		The parent of the widget.
-     * @param activityType	The type of activity.
-     * @param id		The ID to assign (-1 will prompt a new ID.)
+     * @param view              The parent of the widget.
+     * @param activityType      The type of activity.
+     * @param id                The ID to assign (-1 will prompt a new ID.)
      */
     ActivityWidget( UMLView * view, ActivityType activityType = Normal, Uml::IDType id = Uml::id_None );
 
@@ -87,10 +87,10 @@ public:
      * Determines whether a toolbar button represents an Activity.
      * CHECK: currently unused - can this be removed?
      *
-     * @param tbb		The toolbar button enum input value.
-     * @param resultType	The ActivityType corresponding to tbb.
-     *			This is only set if tbb is an Activity.
-     * @return	True if tbb represents an Activity.
+     * @param tbb               The toolbar button enum input value.
+     * @param resultType        The ActivityType corresponding to tbb.
+     *                  This is only set if tbb is an Activity.
+     * @return  True if tbb represents an Activity.
      */
     static bool isActivity( WorkToolBar::ToolBar_Buttons tbb,
                             ActivityType& resultType );

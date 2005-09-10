@@ -143,12 +143,12 @@ void UMLViewDialog::applyPage( Page page ) {
         }
         m_pOptionsPage->updateUMLWidget();
         m_pView->setClassWidgetOptions( m_pOptionsPage );
-        // 			sig = m_pTempWidget->getShowOpSigs();
-        // 			showSig = !( sig == Uml::st_NoSig || sig == Uml::st_NoSigNoScope );
-        // 			options.classState.showOpSig = showSig;
-        //			sig = m_pTempWidget->getShowAttSigs();
-        // 			showSig = !( sig == Uml::st_NoSig || sig == Uml::st_NoSigNoScope );
-        // 			options.classState.showAttSig = showSig;
+        //                      sig = m_pTempWidget->getShowOpSigs();
+        //                      showSig = !( sig == Uml::st_NoSig || sig == Uml::st_NoSigNoScope );
+        //                      options.classState.showOpSig = showSig;
+        //                      sig = m_pTempWidget->getShowAttSigs();
+        //                      showSig = !( sig == Uml::st_NoSig || sig == Uml::st_NoSigNoScope );
+        //                      options.classState.showAttSig = showSig;
         m_pView->setOptionState( m_options );
         break;
     }

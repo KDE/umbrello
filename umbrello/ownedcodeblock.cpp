@@ -35,8 +35,8 @@ OwnedCodeBlock::OwnedCodeBlock ( UMLObject * parent )
 
 OwnedCodeBlock::~OwnedCodeBlock ( ) {
     /*
-    	if(m_parentObject)
-    		m_parentObject->disconnect(this);
+        if(m_parentObject)
+                m_parentObject->disconnect(this);
     */
 }
 

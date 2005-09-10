@@ -42,26 +42,26 @@ class UseCaseWidget : public UMLWidget {
 public:
 
     /**
-     *	Creates a UseCase widget.
+     *  Creates a UseCase widget.
      *
-     *	@param	view		The parent of the widget.
-     *	@param	o		The UMLObject to represent.
+     *  @param  view            The parent of the widget.
+     *  @param  o               The UMLObject to represent.
      */
     UseCaseWidget(UMLView * view, UMLUseCase *o);
 
 
     /**
-     *	destructor
+     *  destructor
      */
     virtual ~UseCaseWidget();
 
     /**
-    *	Overrides the standard paint event.
+    *   Overrides the standard paint event.
     */
     void draw(QPainter & p, int offsetX, int offsetY);
 
     /**
-    *	Saves this UseCase to file.
+    *   Saves this UseCase to file.
     */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
@@ -69,7 +69,7 @@ public:
 
 protected:
     /**
-     *	Calculates the size of the widget.
+     *  Calculates the size of the widget.
      */
     void calculateSize();
 };

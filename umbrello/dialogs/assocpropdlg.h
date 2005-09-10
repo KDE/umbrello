@@ -37,16 +37,16 @@ class AssocPropDlg : public KDialogBase {
 public:
 
     /**
-     *	Sets up a Association Properties Dialog.
-     *	@param	parent	The parent of the AssocPropDlg
-     *	@param	a	The Association Widget to display properties of.
-     *	@param	pageNum	The page to show first.
+     *  Sets up a Association Properties Dialog.
+     *  @param  parent  The parent of the AssocPropDlg
+     *  @param  a       The Association Widget to display properties of.
+     *  @param  pageNum The page to show first.
      */
 
     AssocPropDlg(QWidget *parent, AssociationWidget *a, int pageNum = 0);
 
     /**
-     *	Standard deconstructor
+     *  Standard deconstructor
      */
     ~AssocPropDlg();
 

@@ -317,7 +317,7 @@ void UMLOperationDialog::slotNewParameter() {
         if( !pAtt ) {
             /*
             m_pOperation->addParm( dlg.getTypeName(), name, dlg.getInitialValue(),
-            		       dlg.getDoc(), dlg.getParmKind() );
+                               dlg.getDoc(), dlg.getParmKind() );
              */
             newAttribute->setID( m_doc->getUniqueID() );
             newAttribute->setName( name );

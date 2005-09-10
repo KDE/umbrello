@@ -73,7 +73,7 @@ class QToolButton;
  * @see KApplication
  * @see KConfig
  *
- * @author Paul Hensgen	<phensgen@techie.com>
+ * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
@@ -112,14 +112,14 @@ public:
     /**
      * Returns a pointer to the list view.
      *
-     * @return	The listview being used.
+     * @return  The listview being used.
      */
     UMLListView* getListView();
 
     /**
      * Returns the toolbar being used.
      *
-     * @return	The toolbar being used.
+     * @return  The toolbar being used.
      */
     WorkToolBar* getWorkToolBar();
 
@@ -127,7 +127,7 @@ public:
      * Sets whether the program has been modified.
      * This will change how the program saves/exits.
      *
-     * @param _m	true - modified.
+     * @param _m        true - modified.
      */
     void setModified(bool _m);
 
@@ -135,7 +135,7 @@ public:
      * Set whether to allow printing.
      * It will enable/disable the menu/toolbar options.
      *
-     * @param enable	Set whether to allow printing.
+     * @param enable    Set whether to allow printing.
      */
     void enablePrint(bool enable);
 
@@ -143,7 +143,7 @@ public:
      * Set whether to allow printing.
      * It will enable/disable the menu/toolbar options.
      *
-     * @param enable	Set whether to allow printing.
+     * @param enable    Set whether to allow printing.
      */
     void enableUndo(bool enable);
 
@@ -151,14 +151,14 @@ public:
      * Set whether to allow printing.
      * It will enable/disable the menu/toolbar options.
      *
-     * @param enable	Set whether to allow printing.
+     * @param enable    Set whether to allow printing.
      */
     void enableRedo(bool enable);
 
     /**
      * Returns a pointer to the documentation window.
      *
-     * @return	Pointer to the DocWindow.
+     * @return  Pointer to the DocWindow.
      */
     DocWindow * getDocWindow() {
         return m_pDocWindow;
@@ -167,35 +167,35 @@ public:
     /**
      * Returns the undo state.
      *
-     * @return	True if Undo is enabled.
+     * @return  True if Undo is enabled.
      */
     bool getUndoEnabled();
 
     /**
      * Returns the redo state.
      *
-     * @return	True if Redo is enabled.
+     * @return  True if Redo is enabled.
      */
     bool getRedoEnabled();
 
     /**
      * Returns the paste state.
      *
-     * @return	True if Paste is enabled.
+     * @return  True if Paste is enabled.
      */
     bool getPasteState();
 
     /**
      * Returns the state on Cut/Copy.
      *
-     * @return	True if Cut/Copy is enabled.
+     * @return  True if Cut/Copy is enabled.
      */
     bool getCutCopyState();
 
     /**
      * Gets the appropriate CodeGenerator.
      *
-     * @return	Pointer to the CodeGenerator.
+     * @return  Pointer to the CodeGenerator.
      */
     CodeGenerator* getGenerator(bool warnMissing = true);
 
@@ -205,49 +205,49 @@ public:
      * code generation library is out-of-date will show if you
      * attempt to set the generator to NULL.
      *
-     * @param gen		Pointer to the CodeGenerator to set.
-     * @param giveWarning	True to enable out-of-date warning.
+     * @param gen               Pointer to the CodeGenerator to set.
+     * @param giveWarning       True to enable out-of-date warning.
             */
     void setGenerator(CodeGenerator* gen, bool giveWarning = true);
 
     /**
      * Creates a new code generator for the given active language.
      *
-     * @return	Pointer to the CodeGenerator created.
-     	 */
+     * @return  Pointer to the CodeGenerator created.
+         */
     CodeGenerator* createGenerator();
 
     /**
      * Returns the dictionary of available languages.
      *
-     * @return	Pointer to the dictionary of available languages.
+     * @return  Pointer to the dictionary of available languages.
      */
     GeneratorDict& generatorDict();
 
     /**
      * Call the refactoring assistant on a classifier.
      *
-     * @param	Pointer to the classifier to refactor.
+     * @param   Pointer to the classifier to refactor.
      */
     void refactor(UMLClassifier* classifier);
 
     /**
      * Call the code viewing assistant on a given UMLClassifier.
      *
-     * @param	Pointer to the classifier to view.
+     * @param   Pointer to the classifier to view.
      */
     void viewCodeDocument(UMLClassifier* classifier);
 
     /**
      * Sets the state of the view properties menu item.
      *
-     * @param	Boolean, true to enable the view properties item.
+     * @param   Boolean, true to enable the view properties item.
      */
     void setDiagramMenuItemsState(bool bState);
 
     /**
      * Returns the widget used as the parent for UMLViews.
-     * @return	The main view widget.
+     * @return  The main view widget.
      */
     QWidget* getMainViewWidget();
 
@@ -256,7 +256,7 @@ public:
      * visible to the user.  If no view is specified the blank
      * infoWidget is shown instead.
      *
-     * @param view		Pointer to the UMLView to push.
+     * @param view              Pointer to the UMLView to push.
      */
     void setCurrentView(UMLView* view = 0);
 
@@ -272,7 +272,7 @@ public:
      * Sets the default mimetype for all diagrams that are exported as 
      * images.
      *
-     * @param mimetype	The MIME type to set as the default.
+     * @param mimetype  The MIME type to set as the default.
      */
     void setImageMimetype(QString const & mimetype){m_imageMimetype=mimetype;};
 
@@ -280,7 +280,7 @@ public:
      * Gets the default mimetype for all diagrams that are exported as 
      * images.
      *
-     * @return	The default MIME type for images.
+     * @return  The default MIME type for images.
      */
     QString const & getImageMimetype()const{return m_imageMimetype;};
 
@@ -348,7 +348,7 @@ protected:
      * @see KMainWindow#queryClose
      * @see KMainWindow#closeEvent
      *
-     * @return	True if window may be closed.
+     * @return  True if window may be closed.
      */
     virtual bool queryClose();
 
@@ -362,7 +362,7 @@ protected:
      * @see KMainWindow#queryExit
      * @see KMainWindow#closeEvent
      *
-     * @return	True if window may be closed.
+     * @return  True if window may be closed.
      */
     virtual bool queryExit();
 
@@ -499,7 +499,7 @@ public slots:
     /**
      * Changes the statusbar contents for the standard label
      * permanently, used to indicate current actions.
-     * @param text	The text that is displayed in the statusbar
+     * @param text      The text that is displayed in the statusbar
      */
     void slotStatusMsg(const QString &text);
 
@@ -581,8 +581,8 @@ public slots:
     /**
      * Set the language for which code will be generated.
      *
-     * @param menuID	the ID of the langSelect menu item for 
-     *			the relevant language.
+     * @param menuID    the ID of the langSelect menu item for 
+     *                  the relevant language.
      */
     void setActiveLanguage(int menuID);
 
@@ -681,7 +681,7 @@ public slots:
     /**
      * Set the zoom factor of the current diagram.
      *
-     * @param zoom		Zoom factor in percentage.
+     * @param zoom              Zoom factor in percentage.
      */
     void setZoom(int zoom);
 
@@ -718,8 +718,8 @@ public slots:
     /**
      * Searches for a menu with the given name
      *
-     * @param menu	The QPopupMenu or QMenuBar to search through.
-     * @param name	The name of the menu to search for (name, not text)
+     * @param menu      The QPopupMenu or QMenuBar to search through.
+     * @param name      The name of the menu to search for (name, not text)
      */
     QPopupMenu* findMenu(QMenuData* menu, const QString &name);
 

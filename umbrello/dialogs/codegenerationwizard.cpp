@@ -209,41 +209,41 @@ void CodeGenerationWizard::showPage(QWidget *page) {
 CodeGenerator* CodeGenerationWizard::generator() {
     // FIX
     /*
-    	GeneratorInfo* info;
-    	if( m_CodeGenerationOptionsPage->getCodeGenerationLanguage().isEmpty() ) {
-    		KMessageBox::sorry(this,i18n("There is no Active Language defined.\nPlease select\
-    		                             one of the installed languages to generate the code in."),
-    				   i18n("No Language Selected"));
-    		return 0;
-    	}
-    	GeneratorDict ldict = UMLApp::app()->generatorDict();
-    	info = ldict.find( m_CodeGenerationOptionsPage->getCodeGenerationLanguage() );
-    	if(!info) {
-    		kdDebug()<<"error looking up library information (dictionary)"<<endl;
-    		return 0;
-    	}
+        GeneratorInfo* info;
+        if( m_CodeGenerationOptionsPage->getCodeGenerationLanguage().isEmpty() ) {
+                KMessageBox::sorry(this,i18n("There is no Active Language defined.\nPlease select\
+                                             one of the installed languages to generate the code in."),
+                                   i18n("No Language Selected"));
+                return 0;
+        }
+        GeneratorDict ldict = UMLApp::app()->generatorDict();
+        info = ldict.find( m_CodeGenerationOptionsPage->getCodeGenerationLanguage() );
+        if(!info) {
+                kdDebug()<<"error looking up library information (dictionary)"<<endl;
+                return 0;
+        }
 
-    	KLibLoader* loader = KLibLoader::self();
-    	if(!loader) {
-    		kdDebug()<<"error getting KLibLoader!"<<endl;
-    		return 0;
-    	}
+        KLibLoader* loader = KLibLoader::self();
+        if(!loader) {
+                kdDebug()<<"error getting KLibLoader!"<<endl;
+                return 0;
+        }
 
-    	KLibFactory* fact = loader->factory(info->library.latin1());
-    	if(!fact) {
-    		kdDebug()<<"error getting the Factory"<<endl;
-    		return 0;
-    	}
+        KLibFactory* fact = loader->factory(info->library.latin1());
+        if(!fact) {
+                kdDebug()<<"error getting the Factory"<<endl;
+                return 0;
+        }
 
-    	QObject* o=fact->create(m_doc, 0, info->object.latin1());
-    	if(!o) {
-    		kdDebug()<<"could not create object"<<endl;
-    		return 0;
-    	}
+        QObject* o=fact->create(m_doc, 0, info->object.latin1());
+        if(!o) {
+                kdDebug()<<"could not create object"<<endl;
+                return 0;
+        }
 
-    	CodeGenerator* g = (CodeGenerator*)o;
-    	// g->setDocument(m_doc);
-    	return g;
+        CodeGenerator* g = (CodeGenerator*)o;
+        // g->setDocument(m_doc);
+        return g;
     */
     return (CodeGenerator*) NULL;
 }

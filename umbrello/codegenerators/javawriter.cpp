@@ -682,7 +682,7 @@ void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
       if(forceSections() || oppub.count())
       {
       writeComment("public operations",m_indentation,java);
-    	writeBlankLine(java);
+        writeBlankLine(java);
       }
     */
     writeOperations(oppub,java);
@@ -691,7 +691,7 @@ void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
       if(forceSections() || opprot.count())
       {
       writeComment("protected operations",m_indentation,java);
-    	writeBlankLine(java);
+        writeBlankLine(java);
       }
     */
     writeOperations(opprot,java);
@@ -700,7 +700,7 @@ void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
       if(forceSections() || oppriv.count())
       {
       writeComment("private operations",m_indentation,java);
-    	writeBlankLine(java);
+        writeBlankLine(java);
       }
     */
     writeOperations(oppriv,java);
@@ -723,7 +723,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java) {
 
         QString methodReturnType = fixTypeName(op->getTypeName());
         if(methodReturnType != "void")
-            returnStr += "@return	"+methodReturnType+"\n";
+            returnStr += "@return       "+methodReturnType+"\n";
 
         str = ""; // reset for next method
         str += ((op->getAbstract() || isInterface) ? "abstract ":"");
@@ -742,7 +742,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java) {
                     (QString(" = ")+at->getInitialValue()) :
                     QString(""))
                    + ((j < i-1)?", ":"");
-            returnStr += "@param	"+atName+" "+at->getDoc()+"\n";
+            returnStr += "@param        "+atName+" "+at->getDoc()+"\n";
         }
         str+= " )";
 

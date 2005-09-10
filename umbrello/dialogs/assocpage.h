@@ -38,23 +38,23 @@
  * @see ConceptWidget
  *
  * @short The page shows all the Associations that belong to a @ref ConceptWidget.
- * @author Paul Hensgen	<phensgen@techie.com>
+ * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class AssocPage : public QWidget {
     Q_OBJECT
 public:
     /**
-     *	Constructs an instance of AssocPage.
+     *  Constructs an instance of AssocPage.
      *
-     *	@param	parent	The parent of the page
-     *	@param	v	The view the UMLObject being represented.
-     *	@param	o	The UMLObject being represented
+     *  @param  parent  The parent of the page
+     *  @param  v       The view the UMLObject being represented.
+     *  @param  o       The UMLObject being represented
      */
     AssocPage(QWidget *parent, UMLView * v, UMLObject * o);
 
     /**
-     *	Standard deconstructor.
+     *  Standard deconstructor.
      */
     ~AssocPage();
 private:
@@ -66,7 +66,7 @@ private:
     ListPopupMenu * m_pMenu;
 
     /**
-     *	Fills the list box with the objects associations.
+     *  Fills the list box with the objects associations.
      */
     void fillListBox();
 public slots:

@@ -109,9 +109,9 @@ void CPPHeaderClassDeclarationBlock::updateContent ( )
     */
 
     /*
-    	if(parentDoc->parentIsInterface())
-    		startText.append("interface ");
-    	else
+        if(parentDoc->parentIsInterface())
+                startText.append("interface ");
+        else
     */
     startText.append("class ");
 

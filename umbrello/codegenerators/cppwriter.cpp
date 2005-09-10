@@ -1,20 +1,20 @@
 /***************************************************************************
-			  cppwriter.cpp  -  description
+                          cppwriter.cpp  -  description
     This is the "old" code generator that does not support code editing
     in the Modeller but uses significantly less file space because the
     source code is not replicated in the XMI file.
                              -------------------
-    copyright	    : (C) 2003 Brian Thomas brian.thomas@gsfc.nasa.gov
+    copyright       : (C) 2003 Brian Thomas brian.thomas@gsfc.nasa.gov
          (C) 2004  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
 ***************************************************************************/
 
 /***************************************************************************
- *									 *
+ *                                                                       *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.				   *
- *									 *
+ *   (at your option) any later version.                                   *
+ *                                                                       *
  ***************************************************************************/
 
 // own header
@@ -61,9 +61,9 @@ CppWriter::CppWriter( UMLDoc *parent, const char *name )
     VECTOR_METHOD_REMOVE = "int i, size = %VARNAME%.size();\nfor ( i = 0; i < size; i++) {\n\t%ITEMCLASS% item = %VARNAME%.at(i);\n\tif(item == remove_object) {\n\t\tvector<%ITEMCLASS%>::iterator it = %VARNAME%.begin() + i;\n\t\t%VARNAME%.erase(it);\n\t\treturn;\n\t}\n }"; // for std::vector
     VECTOR_METHOD_INIT = ""; // nothing to be done
     /*
-    	VECTOR_METHOD_APPEND = "%VARNAME%.append(&add_object);"; // Qt lib implementation
-    	VECTOR_METHOD_REMOVE = "%VARNAME%.removeRef(&remove_object);"; // Qt lib implementation
-    	VECTOR_METHOD_INIT = "%VARNAME%.setAutoDelete(false);"; // Qt library
+        VECTOR_METHOD_APPEND = "%VARNAME%.append(&add_object);"; // Qt lib implementation
+        VECTOR_METHOD_REMOVE = "%VARNAME%.removeRef(&remove_object);"; // Qt lib implementation
+        VECTOR_METHOD_INIT = "%VARNAME%.setAutoDelete(false);"; // Qt library
     */
 
     OBJECT_METHOD_INIT = "%VARNAME% = new %ITEMCLASS%( );"; // Qt library
@@ -80,7 +80,7 @@ CppWriter::CppWriter( UMLDoc *parent, const char *name )
 
     // should this go away?? Not currently used.. but might be by new code generator
     /// to specifically 'tag' virtual classes and fields and methods.
-    //	FieldIsVirtual = false;
+    //  FieldIsVirtual = false;
 
 }
 
@@ -239,7 +239,7 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
                 h << ",";
             h << m_endl;
         }
-        h << m_endl << "};" << m_endl;	// end of class header
+        h << m_endl << "};" << m_endl;  // end of class header
         if(!c->getPackage().isEmpty() && WRITE_PACKAGE_NAMESPACE)
             h << "}  // end of package namespace" << m_endl;
         h << m_endl << "#endif // " << hashDefine + "_H" << m_endl;
@@ -554,13 +554,13 @@ void CppWriter::writeAttributeDecls (Uml::Scope visibility, bool writeStatic, QT
         for(UMLAttribute *at=list->first(); at; at=list->next())
         {
 
-            //	                bool noPriorDocExists = documentation.isEmpty();
+            //                  bool noPriorDocExists = documentation.isEmpty();
             documentation = at->getDoc();
 
             // add a line for code clarity IF PRIOR attrib has comment on it
             // OR this line has documentation
-            //	                if(!isFirstAttrib && (!documentation.isEmpty()||!noPriorDocExists))
-            //	                        writeBlankLine(stream);
+            //                  if(!isFirstAttrib && (!documentation.isEmpty()||!noPriorDocExists))
+            //                          writeBlankLine(stream);
 
             isFirstAttrib = false;
 
@@ -575,8 +575,8 @@ void CppWriter::writeAttributeDecls (Uml::Scope visibility, bool writeStatic, QT
         }
 
         /*
-        	        if(list->count() > 0)
-        	                writeBlankLine(stream);
+                        if(list->count() > 0)
+                                writeBlankLine(stream);
         */
 
     }
@@ -1163,7 +1163,7 @@ void CppWriter::writeOperations(UMLClassifier *c, bool isHeaderMethod,
       if(forceSections() || oppub.count())
       {
       writeComment("public operations",getIndent(),cpp);
-    	writeBlankLine(cpp);
+        writeBlankLine(cpp);
       }
     */
     writeOperations(oplist,isHeaderMethod, cpp);
@@ -1192,7 +1192,7 @@ void CppWriter::writeOperations(UMLOperationList &oplist, bool isHeaderMethod, Q
         {
             methodReturnType = fixTypeName(op->getTypeName());
             if(methodReturnType != "void")
-                returnStr += "@return	"+methodReturnType+"\n";
+                returnStr += "@return   "+methodReturnType+"\n";
         }
 
         str = ""; // reset for next method
@@ -1227,7 +1227,7 @@ void CppWriter::writeOperations(UMLOperationList &oplist, bool isHeaderMethod, Q
                     (QString(" = ")+at->getInitialValue()) :
                     QString(""))
                    + ((j < i-1)?", ":"");
-            returnStr += "@param	"+atName+" "+at->getDoc()+"\n";
+            returnStr += "@param        "+atName+" "+at->getDoc()+"\n";
         }
         str+= " )";
 

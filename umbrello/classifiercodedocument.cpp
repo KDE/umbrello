@@ -316,12 +316,12 @@ void ClassifierCodeDocument::addCodeClassFieldMethods(CodeClassFieldList &list )
         for (CodeAccessorMethod * method = list->first(); method; method = list->next())
         {
             /*
-            			QString tag = method->getTag();
-            			if(tag.isEmpty())
-            			{
-            				tag = getUniqueTag();
-            				method->setTag(tag);
-            			}
+                                QString tag = method->getTag();
+                                if(tag.isEmpty())
+                                {
+                                        tag = getUniqueTag();
+                                        method->setTag(tag);
+                                }
             */
             addTextBlock(method); // wont add if already exists in document, will add a tag if missing;
 
@@ -342,18 +342,18 @@ void ClassifierCodeDocument::declareClassFields (CodeClassFieldList & list ,
         CodeClassFieldDeclarationBlock * declBlock = field->getDeclarationCodeBlock();
 
         /*
-        		// if it has a tag, check
-        		if(!declBlock->getTag().isEmpty())
-        		{
-        			// In C++, because we may shift the declaration to a different parent
-        			// block for a change in scope, we need to track down any pre-existing
-        			// location, and remove FIRST before adding to new parent
-        			CodeGenObjectWithTextBlocks * oldParent = findParentObjectForTaggedTextBlock (declBlock->getTag());
-        			if(oldParent) {
-        				if(oldParent != parent)
-        					oldParent->removeTextBlock(declBlock);
-        			}
-        		}
+                        // if it has a tag, check
+                        if(!declBlock->getTag().isEmpty())
+                        {
+                                // In C++, because we may shift the declaration to a different parent
+                                // block for a change in scope, we need to track down any pre-existing
+                                // location, and remove FIRST before adding to new parent
+                                CodeGenObjectWithTextBlocks * oldParent = findParentObjectForTaggedTextBlock (declBlock->getTag());
+                                if(oldParent) {
+                                        if(oldParent != parent)
+                                                oldParent->removeTextBlock(declBlock);
+                                }
+                        }
         */
 
         parent->addTextBlock(declBlock); // wont add it IF its already present. Will give it a tag if missing
@@ -371,8 +371,8 @@ bool ClassifierCodeDocument::parentIsInterface() {
 
 /**
  * Init from a UMLClassifier object.
- * @param	classifier
- * @param	package
+ * @param       classifier
+ * @param       package
  */
 void ClassifierCodeDocument::init (UMLClassifier * c )
 {

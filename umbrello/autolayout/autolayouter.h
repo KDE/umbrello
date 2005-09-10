@@ -1,9 +1,6 @@
-/*
- *  copyright (C) 2005
- *  Dimitri Ognibene <ognibened @yahoo.it>
- */
-
 /***************************************************************************
+ *  copyright (C) 2005
+ *  Umbrello UML Modeller Authors <uml-devel @uml.sf.net>
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -22,7 +19,7 @@ namespace Autolayout {
 This is the super class of any class which encapsulate an autolayout algorithm
 
 
-@author 
+@author Dimitri Ognibene <ognibened @yahoo.it>
 */
 class Autolayouter {
 public:
@@ -52,7 +49,7 @@ public:
     virtual void autolayout(UMLView* v);
 protected:
     virtual void run()=0;
-    virtual void updateView()=0;
+    virtual void updateView(UMLView*)=0;
     virtual Autolayout::Canvas* getCanvas()=0;
     virtual Autolayout::Graph* getGraph()=0;
     virtual Autolayout::Graph* setGraph(UMLView* view)=0;

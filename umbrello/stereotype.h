@@ -32,17 +32,17 @@ public:
     /**
      * Sets up a stereotype.
      *
-     * @param name		The name of this UMLStereotype.
-     * @param id		The unique id given to this UMLStereotype.
-     * @param listType	The list which this stereotype is part of
-     *			(attribute, operation etc)
+     * @param name              The name of this UMLStereotype.
+     * @param id                The unique id given to this UMLStereotype.
+     * @param listType  The list which this stereotype is part of
+     *                  (attribute, operation etc)
      */
     UMLStereotype(const QString &name, Uml::IDType id = Uml::id_None);
 
     /**
      * Sets up a stereotype.
      *
-     * @param parent	The parent of this UMLStereotype.
+     * @param parent    The parent of this UMLStereotype.
      */
     UMLStereotype();
 

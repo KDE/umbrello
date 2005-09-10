@@ -142,10 +142,10 @@ void ClassifierListPage::enableWidgets(bool state) {
         return;
     }
     /*now check the order buttons.
-    	Double check an item is selected
-    	If only one item in list make sure they are disabled.
-    	If at top item, only allow down arrow to be enabled.
-    	If at bottom item, only allow up arrow to be enabled.
+        Double check an item is selected
+        If only one item in list make sure they are disabled.
+        If at top item, only allow down arrow to be enabled.
+        If at bottom item, only allow up arrow to be enabled.
     */
     int index = m_pItemListLB->currentItem();
     if( m_pItemListLB->count() == 1 || index == -1 ) {

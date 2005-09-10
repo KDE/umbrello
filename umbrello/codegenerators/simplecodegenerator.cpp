@@ -221,9 +221,9 @@ bool SimpleCodeGenerator::hasAbstractOps(UMLClassifier *c) {
 }
 
 /**
- * @return	ClassifierCodeDocument
- * @param	classifier
- * @param	this This package generator object.
+ * @return      ClassifierCodeDocument
+ * @param       classifier
+ * @param       this This package generator object.
  */
 CodeDocument * SimpleCodeGenerator::newClassifierCodeDocument(UMLClassifier* /*classifier*/)
 {

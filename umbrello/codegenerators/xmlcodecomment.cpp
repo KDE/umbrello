@@ -39,7 +39,7 @@ XMLCodeComment::~XMLCodeComment ( ) { }
 //
 
 /**
- * @return	QString
+ * @return      QString
  */
 QString XMLCodeComment::toString ( )
 {

@@ -31,7 +31,7 @@
  *
  * @short Non-graphical information for a Package.
  * @author Jonathan Riddell
- * @see	UMLCanvasObject
+ * @see UMLCanvasObject
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
@@ -41,8 +41,8 @@ public:
     /**
      * Sets up a Package.
      *
-     * @param name		The name of the Concept.
-     * @param id		The unique id of the Concept.
+     * @param name              The name of the Concept.
+     * @param id                The unique id of the Concept.
      */
     UMLPackage(const QString & Name = "", Uml::IDType id = Uml::id_None);
 
@@ -70,7 +70,7 @@ public:
     /**
      * Adds an object in this package.
      *
-     * @param pObject	Pointer to the UMLObject to add.
+     * @param pObject   Pointer to the UMLObject to add.
      * @return    True if the object was actually added.
      */
     bool addObject(const UMLObject *pObject);
@@ -78,7 +78,7 @@ public:
     /**
      * Removes an object from this package.
      *
-     * @param pObject	Pointer to the UMLObject to be removed.
+     * @param pObject   Pointer to the UMLObject to be removed.
      */
     void removeObject(const UMLObject *pObject);
 
@@ -90,16 +90,16 @@ public:
     /**
      * Find the object of the given name in the list of contained objects.
      *
-     * @param name		The name to seek.
-     * @return	Pointer to the UMLObject found or NULL if not found.
+     * @param name              The name to seek.
+     * @return  Pointer to the UMLObject found or NULL if not found.
      */
     UMLObject * findObject(const QString &name);
 
     /**
      * Find the object of the given ID in the list of contained objects.
      *
-     * @param id		The ID to seek.
-     * @return	Pointer to the UMLObject found or NULL if not found.
+     * @param id                The ID to seek.
+     * @return  Pointer to the UMLObject found or NULL if not found.
      */
     UMLObject * findObjectById(Uml::IDType id);
 
@@ -107,9 +107,9 @@ public:
      * Append all classifiers from this package (and those from
      * nested packages) to the given UMLClassifierList.
      *
-     * @param classifiers		The list to append to.
-     * @param includeNested		Whether to include the classifiers from
-     *				nested packages (default: true.)
+     * @param classifiers               The list to append to.
+     * @param includeNested             Whether to include the classifiers from
+     *                          nested packages (default: true.)
      */
     void appendClassifiers( UMLClassifierList& classifiers,
                             bool includeNested = true );
@@ -118,9 +118,9 @@ public:
      * Append all classes from this package (and those from
      * nested packages) to the given UMLClassifierList.
      *
-     * @param classes		The list to append to.
-     * @param includeNested		Whether to include the classes from
-     *				nested packages (default: true.)
+     * @param classes           The list to append to.
+     * @param includeNested             Whether to include the classes from
+     *                          nested packages (default: true.)
      */
     void appendClasses( UMLClassifierList& classes, bool includeNested = true );
 
@@ -128,9 +128,9 @@ public:
      * Append all classes and interfaces from this package (and those
      * from nested packages) to the given UMLClassifierList.
      *
-     * @param classifiers		The list to append to.
-     * @param includeNested		Whether to include the classifiers from
-     *				nested packages (default: true.)
+     * @param classifiers               The list to append to.
+     * @param includeNested             Whether to include the classifiers from
+     *                          nested packages (default: true.)
      */
     void appendClassesAndInterfaces(UMLClassifierList& classifiers,
                                     bool includeNested = true);
@@ -139,9 +139,9 @@ public:
      * Append all interfaces from this package (and those from
      * nested packages) to the given UMLClassifierList.
      *
-     * @param interfaces		The list to append to.
-     * @param includeNested		Whether to include the interfaces from
-     *				nested packages (default: true.)
+     * @param interfaces                The list to append to.
+     * @param includeNested             Whether to include the interfaces from
+     *                          nested packages (default: true.)
      */
     void appendInterfaces(UMLClassifierList& interfaces,
                           bool includeNested = true );
@@ -152,7 +152,7 @@ public:
      * Overrides the method from UMLObject.
      * Calls resolveRef() on each contained object.
      *
-     * @return	True for overall success.
+     * @return  True for overall success.
      */
     virtual bool resolveRef();
 

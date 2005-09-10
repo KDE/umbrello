@@ -34,11 +34,11 @@ public:
      * umbrello's Qt signalling for object creation.
      * If you want to create an Operation use the method in UMLDoc instead.
      *
-     * @param parent	The parent to this operation.
-     * @param name		The name of the operation.
-     * @param id		The id of the operation.
-     * @param s		The scope of the operation.
-     * @param rt		The return type of the operation.
+     * @param parent    The parent to this operation.
+     * @param name              The name of the operation.
+     * @param id                The id of the operation.
+     * @param s         The scope of the operation.
+     * @param rt                The return type of the operation.
      */
     UMLOperation(const UMLClassifier * parent, QString Name, Uml::IDType id = Uml::id_None,
                  Uml::Scope s = Uml::Public, QString rt = QString::null);
@@ -49,7 +49,7 @@ public:
      * umbrello's Qt signalling for object creation.
      * If you want to create an Operation use the method in UMLDoc instead.
      *
-     * @param parent	The parent to this operation.
+     * @param parent    The parent to this operation.
      */
     UMLOperation(const UMLClassifier * parent);
 public:
@@ -78,12 +78,12 @@ public:
     /**
      * Add a parameter to the operation.
      *
-     * @param type		The type of the parameter.
-     * @param name		The name of the parameter.
-     * @param initialValue	The initial value of the parameter.
-     * @param kind		Optional: The parameter kind (in|inout|out).
+     * @param type              The type of the parameter.
+     * @param name              The name of the parameter.
+     * @param initialValue      The initial value of the parameter.
+     * @param kind              Optional: The parameter kind (in|inout|out).
      *                      Default is "in".
-     * @return	Pointer to the UMLAttribute created.
+     * @return  Pointer to the UMLAttribute created.
      */
     UMLAttribute * addParm(QString type, QString name, QString initialValue, QString doc,
                            Uml::Parameter_Direction kind = Uml::pd_In);
@@ -91,21 +91,21 @@ public:
     /**
      * Move a parameter one position to the left.
      *
-     * @param a		The parameter to move.
+     * @param a         The parameter to move.
      */
     void moveParmLeft(UMLAttribute *a);
 
     /**
      *Move a parameter one position to the right.
      *
-     * @param a		The parameter to move.
+     * @param a         The parameter to move.
      */
     void moveParmRight(UMLAttribute *a);
 
     /**
      * Remove a parameter from the operation.
      *
-     * @param a		The paramter to remove.
+     * @param a         The paramter to remove.
      */
     void removeParm(UMLAttribute *a);
 
@@ -121,26 +121,26 @@ public:
     /**
      * Finds a parameter of the operation.
      *
-     * @param name	The parameter name to search for.
-     * @return	The found parameter, 0 if not found.
+     * @param name      The parameter name to search for.
+     * @return  The found parameter, 0 if not found.
      */
     UMLAttribute * findParm(const QString &name);
 
     /**
      * Returns a string representation of the operation.
      *
-     * @param sig	What type of operation string to show.
-     * @return	The string representation of the operation.
+     * @param sig       What type of operation string to show.
+     * @return  The string representation of the operation.
      */
     QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
 
     /**
      * Add a parameter to the operation.
      *
-     * @param parameter	The paramter to add.
-     * @param position	The position in the parameter list.
-     *			If position = -1 the parameter will be
-     *			appended to the list.
+     * @param parameter The paramter to add.
+     * @param position  The position in the parameter list.
+     *                  If position = -1 the parameter will be
+     *                  appended to the list.
      */
     void addParm(UMLAttribute *parameter, int position = -1);
 
@@ -148,7 +148,7 @@ public:
      * Calls resolveRef() on all parameters.
      * Needs to be called after all UML objects are loaded from file.
      *
-     * @return	True for success.
+     * @return  True for success.
      */
     bool resolveRef();
 
@@ -170,7 +170,7 @@ public:
     /**
      * Returns whether this operation is a constructor.
      *
-     * @return	True if this operation is a constructor.
+     * @return  True if this operation is a constructor.
      */
     bool isConstructorOperation();
 

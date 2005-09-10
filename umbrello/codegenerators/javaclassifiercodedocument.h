@@ -56,7 +56,7 @@ public:
 
     /**
      * Get the dialog widget which allows user interaction with the object parameters.
-     * @return	CodeDocumentDialog
+     * @return  CodeDocumentDialog
      */
     //CodeDocumentDialog getDialog ( );
 

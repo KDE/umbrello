@@ -124,8 +124,8 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
     UMLClassifierList imports;
     findObjectsRelated(c,imports);
     for(UMLClassifier *con = imports.first(); con ; con = imports.next())
-    	if(con->getPackage() != c->getPackage())
-    		XMLschema<<"import "<<con->getPackage()<<"."<<cleanName(con->getName())<<";"<<m_endl;
+        if(con->getPackage() != c->getPackage())
+                XMLschema<<"import "<<con->getPackage()<<"."<<cleanName(con->getName())<<";"<<m_endl;
     */
 
     // 4. BODY of the schema.
@@ -598,13 +598,13 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
             // between different classes are to be treated
             if (printRoleB)
             {
-            	UMLClassifier *classifierB = dynamic_cast<UMLClassifier*>(a->getObjectB());
-            	if (classifierB) {
-            		// ONLY write out IF there is a rolename given
-            		// otherwise its not meant to be declared
-            		if (!a->getRoleNameB().isEmpty() || noRoleNameOK)
-            			writeAssociationRoleDecl(classifierB, a->getMultiB(), XMLschema);
-            	}
+                UMLClassifier *classifierB = dynamic_cast<UMLClassifier*>(a->getObjectB());
+                if (classifierB) {
+                        // ONLY write out IF there is a rolename given
+                        // otherwise its not meant to be declared
+                        if (!a->getRoleNameB().isEmpty() || noRoleNameOK)
+                                writeAssociationRoleDecl(classifierB, a->getMultiB(), XMLschema);
+                }
             }
             */
 
@@ -746,8 +746,8 @@ void XMLSchemaWriter::writeAssociationRoleDecl( UMLClassifier *c, const QString 
 // Same thing again for "bool" to "boolean"
 QString XMLSchemaWriter::fixTypeName(QString string)
 {
-    //	string.replace(QRegExp("^string$"),schemaNamespaceTag+":string");
-    //	string.replace(QRegExp("^bool$"),schemaNamespaceTag+":boolean");
+    //  string.replace(QRegExp("^string$"),schemaNamespaceTag+":string");
+    //  string.replace(QRegExp("^bool$"),schemaNamespaceTag+":boolean");
     string.prepend(schemaNamespaceTag+":");
     return string;
 }

@@ -11,7 +11,8 @@ libautolayout_la_METASOURCES = AUTO
 #noinst_LIBRARIES = libautolayout.la
 libautolayout_la_SOURCES = newautolayoutdialog.ui autolayoutdlg.cpp \
 	autolayouter.cpp autolayouteradapter.cpp graphvizautolayouter.cpp simplecanvas.cpp \
-	graphvizgraph.cpp graphviznode.cpp dotautolayouter.cpp
+	graphvizgraph.cpp graphviznode.cpp dotautolayouter.cpp neatoautolayouter.cpp \
+	circoautolayouter.cpp
 
 #libautolayout_la_LIBADD = /usr/lib/graphviz/libdotneato.la
 #libautolayout_la_LDFLAGS = -ldotneato -L/usr/lib/graphviz

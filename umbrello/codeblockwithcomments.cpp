@@ -143,7 +143,7 @@ void CodeBlockWithComments::setAttributesFromNode( QDomElement & root)
 }
 
 /**
- * @return	QString
+ * @return      QString
  */
 QString CodeBlockWithComments::toString ( ) {
 

@@ -743,11 +743,11 @@ void AssociationWidget::cleanup() {
            explicitly delete a UMLAssociation.  The Right Thing would
            be to have a ListView representation for UMLAssociation.
         `
-        	IF we are cut n pasting, why are we handling this association as a pointer?
-        	We should be using the XMI representation for a cut and paste. This
-        	allows us to be clean here, AND a choice of recreating the object
-        	w/ same id IF its a "cut", or a new object if its a "copy" operation
-        	(in which case we wouldnt be here, in cleanup()).
+                IF we are cut n pasting, why are we handling this association as a pointer?
+                We should be using the XMI representation for a cut and paste. This
+                allows us to be clean here, AND a choice of recreating the object
+                w/ same id IF its a "cut", or a new object if its a "copy" operation
+                (in which case we wouldnt be here, in cleanup()).
          */
         setUMLAssociation(0);
     }
@@ -927,11 +927,11 @@ void AssociationWidget::mouseDoubleClickEvent(QMouseEvent * me) {
             const int midSegY = segStart.y() + (segEnd.y() - segStart.y()) / 2;
             /*
             kdDebug() << "AssociationWidget::mouseDoubleClickEvent: "
-            	  << "segStart=(" << segStart.x() << "," << segStart.y()
-            	  << "), segEnd=(" << segEnd.x() << "," << segEnd.y()
-            	  << "), midSeg=(" << midSegX << "," << midSegY
-            	  << "), mp=(" << mp.x() << "," << mp.y() << ")"
-            	  << endl;
+                  << "segStart=(" << segStart.x() << "," << segStart.y()
+                  << "), segEnd=(" << segEnd.x() << "," << segEnd.y()
+                  << "), midSeg=(" << midSegX << "," << midSegY
+                  << "), mp=(" << mp.x() << "," << mp.y() << ")"
+                  << endl;
              */
             if (midSegX > mp.x() || midSegY < mp.y()) {
                 m_nLinePathSegmentIndex++;
@@ -1429,26 +1429,26 @@ QPoint AssociationWidget::calculatePointAtDistance(const QPoint &P1, const QPoin
     /*
       the distance D between points (x1, y1) and (x3, y3) has the following formula:
           ---     ------------------------------
-      D =    \   /	   2	     2
-    	  \ /   (x3 - x1)  +  (y3 - y1)
+      D =    \   /         2         2
+              \ /   (x3 - x1)  +  (y3 - y1)
 
       D, x1 and y1 are known and the point (x3, y3) is inside line (x1,y1)(x2,y2), so if the
       that line has the formula y = mx + b
       then y3 = m*x3 + b
 
-       2	     2	     2
+       2             2             2
       D   = (x3 - x1)  +  (y3 - y1)
 
-       2       2		 2      2		 2
+       2       2                 2      2                 2
       D    = x3    - 2*x3*x1 + x1   + y3   - 2*y3*y1  + y1
 
-       2       2       2       2		  2
+       2       2       2       2                  2
       D    - x1    - y1    = x3    - 2*x3*x1  + y3   - 2*y3*y1
 
-       2       2       2       2			  2
+       2       2       2       2                          2
       D    - x1    - y1    = x3    - 2*x3*x1  + (m*x3 + b)  - 2*(m*x3 + b)*y1
 
-       2       2       2	      2       2	2
+       2       2       2              2       2 2
       D    - x1    - y1   + 2*b*y1 - b   =  (m  + 1)*x3   + (-2*x1 + 2*m*b -2*m*y1)*x3
 
        2      2       2       2
@@ -1464,18 +1464,18 @@ QPoint AssociationWidget::calculatePointAtDistance(const QPoint &P1, const QPoin
        2
       A * x3 + B * x3 - C = 0
 
-    			 ---------------
-    	     -B +  ---  /  2
-    		      \/  B   - 4*A*C
+                         ---------------
+             -B +  ---  /  2
+                      \/  B   - 4*A*C
       sol_1  = --------------------------------
-    		       2*A
+                       2*A
 
 
-    			 ---------------
-    	     -B -  ---  /  2
-    		      \/  B   - 4*A*C
+                         ---------------
+             -B -  ---  /  2
+                      \/  B   - 4*A*C
       sol_2  = --------------------------------
-    		       2*A
+                       2*A
 
 
       then in the distance formula we have only one variable x3 and that is easy
@@ -1548,35 +1548,35 @@ QPoint AssociationWidget::calculatePointAtDistanceOnPerpendicular(const QPoint &
       the distance D between points (x2, y2) and (x3, y3) has the following formula:
 
            ---     ------------------------------
-      D =     \   /	   2	     2
-    	   \ /   (x3 - x2)  +  (y3 - y2)
+      D =     \   /        2         2
+           \ /   (x3 - x2)  +  (y3 - y2)
 
       D, x2 and y2 are known and line P2P3 is perpendicular to line (x1,y1)(x2,y2), so if the
       line P1P2 has the formula y = m*x + b,
-      then	  (x1 - x2)
-    	  m =  -----------    , because it is perpendicular to line P1P2
-    		(y2 - y1)
+      then        (x1 - x2)
+          m =  -----------    , because it is perpendicular to line P1P2
+                (y2 - y1)
 
       also y2 = m*x2 + b
       => b = y2 - m*x2
 
       then P3 = (x3, m*x3 + b)
 
-       2	     2	    2
+       2             2      2
       D  = (x3 - x2)  + (y3 - y2)
 
-       2     2		 2      2		 2
+       2     2           2      2                2
       D  = x3    - 2*x3*x2 + x2   + y3   - 2*y3*y2  + y2
 
-       2       2       2       2		  2
+       2       2       2       2                  2
       D    - x2    - y2    = x3    - 2*x3*x2  + y3   - 2*y3*y2
 
 
 
-       2       2       2       2			  2
+       2       2       2       2                          2
       D    - x2    - y2    = x3    - 2*x3*x2  + (m*x3 + b)  - 2*(m*x3 + b)*y2
 
-       2       2       2		2       2	2
+       2       2       2                2       2       2
       D    - x2    - y2     + 2*b*y2 - b   =  (m  + 1)*x3     + (-2*x2 + 2*m*b -2*m*y2)*x3
 
        2      2       2       2
@@ -1592,18 +1592,18 @@ QPoint AssociationWidget::calculatePointAtDistanceOnPerpendicular(const QPoint &
       A * x3 + B * x3 - C = 0
 
 
-    			 ---------------
-    	     -B +  ---  /  2
-    		      \/  B   - 4*A*C
+                         ---------------
+             -B +  ---  /  2
+                      \/  B   - 4*A*C
       sol_1  = --------------------------------
-    		       2*A
+                       2*A
 
 
-    			 ---------------
+                         ---------------
       sol_2  =   -B -  ---  /  2
-    		      \/  B   - 4*A*C
-    	   --------------------------------
-    		       2*A
+                      \/  B   - 4*A*C
+           --------------------------------
+                       2*A
 
       then in the distance formula we have only one variable x3 and that is easy
       to calculate
@@ -1638,7 +1638,7 @@ QPoint AssociationWidget::calculatePointAtDistanceOnPerpendicular(const QPoint &
         return sol2Point;
     } else if(sol_1 >= 0 && sol_2 < 0) {
         return sol1Point;
-    } else {	// Choose one solution , either will work fine
+    } else {    // Choose one solution , either will work fine
         if(slope >= 0) {
             if(sol_1 <= sol_2)
                 return sol2Point;
@@ -2546,7 +2546,7 @@ int AssociationWidget::getRegionCount(AssociationWidget::Region region, Role_Typ
         //don't count associations to self if both of their end points are on the same region
         //they are different and placement won't interfere with them
         if( a == b && otherA.m_WidgetRegion == otherB.m_WidgetRegion )
-        	continue;
+                continue;
          */
         if (m_role[role].m_pWidget == a && region == otherA.m_WidgetRegion)
             widgetCount++;
@@ -2560,14 +2560,14 @@ QPoint AssociationWidget::findIntercept(const QRect &rect, const QPoint &point) 
     Region region = findPointRegion(rect, point.x(), point.y());
     /*
     const char *regionStr[] = { "Error",
-    	"West", "North", "East", "South",
-    	"NorthWest", "NorthEast", "SouthEast", "SouthWest",
-    	"Center"
+        "West", "North", "East", "South",
+        "NorthWest", "NorthEast", "SouthEast", "SouthWest",
+        "Center"
     };
     kdDebug() << "findPointRegion(rect(" << rect.x() << "," << rect.y()
-    	  << "," << rect.width() << "," << rect.height() << "), p("
-    	  << point.x() << "," << point.y() << ")) = " << regionStr[region]
-    	  << endl;
+          << "," << rect.width() << "," << rect.height() << "), p("
+          << point.x() << "," << point.y() << ")) = " << regionStr[region]
+          << endl;
      */
     // Move some regions to the standard ones.
     switch (region) {
@@ -2934,10 +2934,10 @@ void AssociationWidget::setSelected(bool _select /* = true */) {
     // overwrites the docwindow, but we want the main association doc
     // to win.
     if( _select ) {
-    	if( m_pView -> getSelectCount() == 0 )
-    		m_pView -> showDocumentation( this, false );
+        if( m_pView -> getSelectCount() == 0 )
+                m_pView -> showDocumentation( this, false );
     } else
-    	m_pView -> updateDocumentation( true );
+        m_pView -> updateDocumentation( true );
      */
     /** @fixme Had to pull the m_LinePath.setSelected() call down here
      *         because otherwise the blue selection markers would not show

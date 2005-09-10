@@ -71,7 +71,7 @@ public:
      * create a new CodeBlockWithComments object belonging to this CodeDocument.
      * @return      CodeBlockWithComments
      */
-    //	virtual CodeBlockWithComments * newCodeBlockWithComments ( );
+    //  virtual CodeBlockWithComments * newCodeBlockWithComments ( );
 
     // create a code comment for this document
     virtual CodeComment * newCodeComment();

@@ -81,22 +81,22 @@ bool UMLAssociation::operator==(UMLAssociation &rhs) {
 const QString UMLAssociation::assocTypeStr[UMLAssociation::nAssocTypes] = {
             /* The elements must be listed in the same order as in the
                Uml::Association_Type.  */
-            i18n("Generalization"),		// at_Generalization
-            i18n("Aggregation"),		// at_Aggregation
-            i18n("Dependency"),			// at_Dependency
-            i18n("Association"),		// at_Association
-            i18n("Self Association"),		// at_Association_Self
-            i18n("Collaboration Message"),	// at_Coll_Message
-            i18n("Sequence Message"),		// at_Seq_Message
-            i18n("Collaboration Self Message"),	// at_Coll_Message_Self
-            i18n("Sequence Self Message"),	// at_Seq_Message_Self
-            i18n("Containment"),		// at_Containment
-            i18n("Composition"),		// at_Composition
-            i18n("Realization"),		// at_Realization
-            i18n("Uni Association"),		// at_UniAssociation
-            i18n("Anchor"),			// at_Anchor
-            i18n("State Transition"),		// at_State
-            i18n("Activity"), 			// at_Activity
+            i18n("Generalization"),             // at_Generalization
+            i18n("Aggregation"),                // at_Aggregation
+            i18n("Dependency"),                 // at_Dependency
+            i18n("Association"),                // at_Association
+            i18n("Self Association"),           // at_Association_Self
+            i18n("Collaboration Message"),      // at_Coll_Message
+            i18n("Sequence Message"),           // at_Seq_Message
+            i18n("Collaboration Self Message"), // at_Coll_Message_Self
+            i18n("Sequence Self Message"),      // at_Seq_Message_Self
+            i18n("Containment"),                // at_Containment
+            i18n("Composition"),                // at_Composition
+            i18n("Realization"),                // at_Realization
+            i18n("Uni Association"),            // at_UniAssociation
+            i18n("Anchor"),                     // at_Anchor
+            i18n("State Transition"),           // at_State
+            i18n("Activity"),                   // at_Activity
         };
 
 Uml::Association_Type UMLAssociation::getAssocType() const {
@@ -357,23 +357,23 @@ bool UMLAssociation::load( QDomElement & element ) {
     if (assocTypeStr[0] >= 'a' && assocTypeStr[0] <= 'z') {
         // In an earlier version, the natural assoctype names were saved.
         const QString assocTypeString[nAssocTypes] = {
-                    "generalization",	// at_Generalization
-                    "aggregation",	// at_Aggregation
-                    "dependency",	// at_Dependency
-                    "association",	// at_Association
-                    "associationself",	// at_Association_Self
-                    "collmessage",	// at_Coll_Message
-                    "seqmessage",	// at_Seq_Message
-                    "collmessageself",	// at_Coll_Message_Self
-                    "seqmessageself",	// at_Seq_Message_Self
-                    "implementation",	// at_Implementation
-                    "composition",	// at_Composition
-                    "realization",	// at_Realization
-                    "uniassociation",	// at_UniAssociation
-                    "anchor",		// at_Anchor
-                    "state",		// at_State
-                    "activity",		// at_Activity
-                    "relationship" 	// at_Relationship
+                    "generalization",   // at_Generalization
+                    "aggregation",      // at_Aggregation
+                    "dependency",       // at_Dependency
+                    "association",      // at_Association
+                    "associationself",  // at_Association_Self
+                    "collmessage",      // at_Coll_Message
+                    "seqmessage",       // at_Seq_Message
+                    "collmessageself",  // at_Coll_Message_Self
+                    "seqmessageself",   // at_Seq_Message_Self
+                    "implementation",   // at_Implementation
+                    "composition",      // at_Composition
+                    "realization",      // at_Realization
+                    "uniassociation",   // at_UniAssociation
+                    "anchor",           // at_Anchor
+                    "state",            // at_State
+                    "activity",         // at_Activity
+                    "relationship"      // at_Relationship
                 };
 
         unsigned index;

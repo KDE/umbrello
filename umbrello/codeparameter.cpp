@@ -259,7 +259,7 @@ void CodeParameter::setAttributesFromNode ( QDomElement & root) {
 
 /**
  * create the string representation of this code parameter.
- * @return	QString
+ * @return      QString
  */
 void CodeParameter::syncToParent( ) {
 

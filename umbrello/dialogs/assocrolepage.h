@@ -33,10 +33,10 @@
 
 /**
  * Displays properties of a UMLObject in a dialog box.  This is not usually directly
- * called.  The class @ref AssocPropDlg	will set this up for you.
+ * called.  The class @ref AssocPropDlg will set this up for you.
  *
  * @short Display properties on a UMLObject.
- * @author Paul Hensgen	<phensgen@techie.com>
+ * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class AssocRolePage : public QWidget {
@@ -44,22 +44,22 @@ class AssocRolePage : public QWidget {
 public:
 
     /**
-     *	Sets up the AssocRolePage.
+     *  Sets up the AssocRolePage.
      *
-     *	@param	d	The UMLDoc which controls controls object creation.
-     *	@param	parent	The parent to the AssocRolePage.
-     *	@param	o	The ObjectWidget to display the properties of.
+     *  @param  d       The UMLDoc which controls controls object creation.
+     *  @param  parent  The parent to the AssocRolePage.
+     *  @param  o       The ObjectWidget to display the properties of.
      */
     AssocRolePage(UMLDoc *d, QWidget *parent, AssociationWidget *a);
 
     /**
-     *	Standard deconstructor.
+     *  Standard deconstructor.
      */
     ~AssocRolePage();
 
     /**
-     *	Will move information from the dialog into the object.
-     *	Call when the ok or apply button is pressed.
+     *  Will move information from the dialog into the object.
+     *  Call when the ok or apply button is pressed.
      */
     void updateObject();
 
@@ -78,9 +78,9 @@ private:
 
 public slots:
     /**
-     * 	When the draw as actor check box is toggled, the draw
-     * 	as multi instance need to be enabled/disabled.  They
-     * 	both can't be available at the same time.
+     *  When the draw as actor check box is toggled, the draw
+     *  as multi instance need to be enabled/disabled.  They
+     *  both can't be available at the same time.
      */
     // void slotActorToggled( bool state );
 };

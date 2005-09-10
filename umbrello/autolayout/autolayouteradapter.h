@@ -1,9 +1,6 @@
-/*
- *  copyright (C) 2005
- *  Dimitri Ognibene <ognibened @yahoo.it>
- */
-
 /***************************************************************************
+ *  copyright (C) 2005
+ *  Umbrello UML Modeller Authors <uml-devel @uml.sf.net>
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -24,7 +21,7 @@ namespace Autolayout
 {
 
 /**
-@author 
+@author Dimitri Ognibene <ognibened @yahoo.it>
 */
 class AutolayouterAdapter : virtual public Autolayout::Autolayouter
 {
@@ -57,14 +54,13 @@ public:
 
 protected:
     virtual void run()=0;
-    virtual void updateView();
+    virtual void updateView(UMLView* view);
     virtual Canvas* getCanvas(){return canvas;};
     virtual Graph* getGraph()=0;
     virtual Graph* setGraph(UMLView* view);
     virtual void addRelationship(AssociationWidget* a);
     virtual Canvas* setCanvas(UMLView* view);
 
-    UMLView *view;
     int associationWeight;
     int dependenciesWeight;
     int generalizationWeight;

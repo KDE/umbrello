@@ -1,6 +1,6 @@
 /*
  *  copyright (C) 2005
- *  Dimitri Ognibene <ognibened @yahoo.it>
+ *  Umbrello UML Modeller Authors <uml-devel @uml.sf.net>
  */
 
 /***************************************************************************
@@ -21,7 +21,7 @@ class Agnode_t;
 namespace Autolayout {
 
 /**
-@author 
+@author Dimitri Ognibene <ognibened @yahoo.it>
 */
 class GraphvizNode : virtual public Autolayout::Node
 {

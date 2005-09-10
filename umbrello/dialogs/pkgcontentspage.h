@@ -34,8 +34,8 @@ public:
     /**
      * Constructs an instance of PkgContentsPage.
      *
-     * @param parent	The parent of the page.
-     * @param pkg		The UMLPackage being represented.
+     * @param parent    The parent of the page.
+     * @param pkg               The UMLPackage being represented.
      */
     PkgContentsPage(QWidget *parent, UMLPackage *pkg);
 

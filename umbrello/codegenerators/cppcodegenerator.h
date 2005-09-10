@@ -93,7 +93,7 @@ public:
 
     /**
      * Remove a header CodeDocument object from m_headercodedocumentVector List
-    	 */
+         */
     bool removeHeaderCodeDocument ( CPPHeaderCodeDocument * remove_object );
 
     /**
@@ -151,8 +151,8 @@ public:
 protected:
 
     /**
-     * @return	CPPMakeCodeDocument
-     * @param	this 
+     * @return  CPPMakeCodeDocument
+     * @param   this 
      */
     CPPMakefileCodeDocument * newMakefileCodeDocument ( );
 

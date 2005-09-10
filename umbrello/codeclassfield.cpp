@@ -135,7 +135,7 @@ QString CodeClassField::getListObjectType() {
  */
 bool CodeClassField::parentIsAttribute ( ) {
     return m_parentIsAttribute;
-    //	return (m_classFieldType == Attribute) ? true : false;
+    //  return (m_classFieldType == Attribute) ? true : false;
 }
 
 /**
@@ -171,11 +171,11 @@ bool CodeClassField::addMethod ( CodeAccessorMethod * add_object ) {
     if(findMethodByType(type))
         return false;
     /*
-    	// this wont work as the key for QMap needs to inherit from QObject
-    	if(m_methodMap->contains(type))
-    		return false; // return false, we already have some object with this tag in the list
-    	else
-    		m_methodMap->insert(type, add_object);
+        // this wont work as the key for QMap needs to inherit from QObject
+        if(m_methodMap->contains(type))
+                return false; // return false, we already have some object with this tag in the list
+        else
+                m_methodMap->insert(type, add_object);
     */
 
     m_methodVector.append(add_object);
@@ -398,10 +398,10 @@ CodeAccessorMethod * CodeClassField::findMethodByType ( CodeAccessorMethod::Acce
 {
     //if we already know to which file this class was written/should be written, just return it.
     /*
-    	// argh. this wont work because "accessorType' doesnt inherit from QObject.
-    	if(m_methodMap->contains(type))
-    		return ((*m_methodMap)[type]);
-    	CodeAccessorMethod * obj = NULL;
+        // argh. this wont work because "accessorType' doesnt inherit from QObject.
+        if(m_methodMap->contains(type))
+                return ((*m_methodMap)[type]);
+        CodeAccessorMethod * obj = NULL;
     */
     if(role_id > 1 || role_id < 0)
     {

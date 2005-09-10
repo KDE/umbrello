@@ -1,6 +1,6 @@
 /*
  *  copyright (C) 2005
- *  Dimitri Ognibene <ognibened @yahoo.it>
+ *  Umbrello UML Modeller Authors <uml-devel @uml.sf.net>
  */
 
 /***************************************************************************
@@ -44,6 +44,11 @@ void GraphvizAutolayouter::setShapeSeparation( int i )
     gg->setShapeSeparation(i);
 }
 
+Autolayout::Canvas * GraphvizAutolayouter::setCanvas( UMLView * view )
+{
+    Canvas* canvas= AutolayouterAdapter::setCanvas(view);
+    gg->setCanvas(canvas);
+}
 
 } // end namespace AutoLayout
 

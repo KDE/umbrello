@@ -38,31 +38,31 @@ class ClassifierListPage : public QWidget {
     Q_OBJECT
 public:
     /**
-     *	Sets up the ClassifierListPage
+     *  Sets up the ClassifierListPage
      *
-     *	@param parent	The parent to the ClassAttPage.
-     *	@param classifier	The Concept to display the properties of.
+     *  @param parent   The parent to the ClassAttPage.
+     *  @param classifier       The Concept to display the properties of.
      *      @param doc The UMLDoc document
      *      @param type The type of listItem this handles
      */
     ClassifierListPage(QWidget* parent, UMLClassifier* classifier, UMLDoc* doc, Uml::Object_Type type);
 
     /**
-     *	Standard deconstructor.
+     *  Standard deconstructor.
      */
     ~ClassifierListPage();
 
     /**
-     *	Will move information from the dialogue into the object.
-     *	Call when the ok or apply button is pressed.
+     *  Will move information from the dialogue into the object.
+     *  Call when the ok or apply button is pressed.
      */
     void updateObject();
 
 private:
     /**
-     *	Set the state of the widgets on the page with the given value.
+     *  Set the state of the widgets on the page with the given value.
      *
-     *	@param	state	The state to set the widgets as.
+     *  @param  state   The state to set the widgets as.
      */
     void enableWidgets(bool state);
 
@@ -79,8 +79,8 @@ private:
     /**
      * Attempts to add classifier to the appropriate list
      *
-     * @param classifier	Pointer to the classifier to add.
-     * @param position	Index at which to insert into the list.
+     * @param classifier        Pointer to the classifier to add.
+     * @param position  Index at which to insert into the list.
      * @return true if the classifier could be added
      *
      */
@@ -89,10 +89,10 @@ private:
     /**
      * Take classifier, It is the client responsibility to hand over
      * ownership of the classifier, or to delete it.
-     * @param classifier	Classifier to take.
-     * @param wasAtIndex	Return value: Index in the UMLClassifier's item
-     *			list at which the item was taken.
-     * @return	Pointer to the UMLClassifierListItem taken.
+     * @param classifier        Classifier to take.
+     * @param wasAtIndex        Return value: Index in the UMLClassifier's item
+     *                  list at which the item was taken.
+     * @return  Pointer to the UMLClassifierListItem taken.
      */
     UMLClassifierListItem* takeClassifier(UMLClassifierListItem* classifier,
                                           int &wasAtIndex);

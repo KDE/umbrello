@@ -30,69 +30,69 @@ class UMLDoc;
 class ClassWizard : public KWizard {
 public:
     /**
-     *	Consrtuctor
+     *  Consrtuctor
      */
     ClassWizard( UMLDoc * pDoc );
 
     /**
-     *	Deconstructor
+     *  Deconstructor
      */
     ~ClassWizard();
 
 protected:
 
     /**
-     *	Overrides the default method.
+     *  Overrides the default method.
      */
     void showPage( QWidget * pWidget );
 
     /**
-     *	Overrides the default method.
+     *  Overrides the default method.
      */
     void next();
 
     /**
-     *	Overrides the default method.
+     *  Overrides the default method.
      */
     void back();
 
     /**
-     *	Overrides the default method.
+     *  Overrides the default method.
      */
     void accept();
 
     /**
-    *	Overrides the default method.
+    *   Overrides the default method.
     */
     void reject();
 
     /**
-    *	Setup the wizard pages.
+    *   Setup the wizard pages.
     */
     void setupPages();
 
     /**
-    *	Page 1 - General class info
+    *   Page 1 - General class info
     */
     ClassGenPage * m_pGenPage;
 
     /**
-    *	Page 2 - Class Attributes
+    *   Page 2 - Class Attributes
     */
     ClassifierListPage* m_pAttPage;
 
     /**
-    *	Page 3 - Class Operations
+    *   Page 3 - Class Operations
     */
     ClassifierListPage* m_pOpPage;
 
     /**
-    *	Document currently opened
+    *   Document currently opened
     */
     UMLDoc * m_pDoc;
 
     /**
-    *	Class to create
+    *   Class to create
     */
     UMLClassifier * m_pClass;
 

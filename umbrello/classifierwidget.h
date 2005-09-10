@@ -24,7 +24,7 @@ class AssociationWidget;
 /**
  * @short Common implementation for class widget and interface widget
  * @author Oliver Kellogg
- * @see	UMLWidget
+ * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ClassifierWidget : public UMLWidget {
@@ -33,8 +33,8 @@ public:
     /**
      * Constructs a ClassifierWidget.
      *
-     * @param view	The parent of this ClassifierWidget.
-     * @param o	The UMLObject to represent.
+     * @param view      The parent of this ClassifierWidget.
+     * @param o The UMLObject to represent.
      */
     ClassifierWidget(UMLView * view, UMLClassifier * o);
 
@@ -46,14 +46,14 @@ public:
     /**
      * Returns the status of whether to show StereoType.
      *
-     * @return	True if stereotype is shown.
+     * @return  True if stereotype is shown.
      */
     bool getShowStereotype() const;
 
     /**
      * Set the status of whether to show StereoType
      *
-     * @param _show		True if stereotype shall be shown.
+     * @param _show             True if stereotype shall be shown.
      */
     void setShowStereotype(bool _status);
 
@@ -65,14 +65,14 @@ public:
     /**
      * Return the status of showing operations.
      *
-     * @return	Return the status of showing operations.
+     * @return  Return the status of showing operations.
      */
     bool getShowOps() const;
 
     /**
      *  Set the status of whether to show Operations
      *
-     * @param _show		True if operations shall be shown.
+     * @param _show             True if operations shall be shown.
      */
     void setShowOps(bool _show);
 
@@ -99,14 +99,14 @@ public:
     /**
      * Returns the status of whether to show scope.
      *
-     * @return	True if scope is shown.
+     * @return  True if scope is shown.
      */
     bool getShowScope() const;
 
     /**
      * Set the status of whether to show scope
      *
-     * @param _scope	True if scope shall be shown.
+     * @param _scope    True if scope shall be shown.
      */
     void setShowScope(bool _scope);
 
@@ -118,14 +118,14 @@ public:
     /**
      * Return the status of showing operation signatures.
      *
-     * @return	Status of showing operation signatures.
+     * @return  Status of showing operation signatures.
      */
     Uml::Signature_Type getShowOpSigs() const;
 
     /**
      * Set the status of whether to show Operation signature
      *
-     * @param _show		True if operation signatures shall be shown.
+     * @param _show             True if operation signatures shall be shown.
      */
     void setShowOpSigs(bool _show);
 
@@ -137,14 +137,14 @@ public:
     /**
      * Returns the status of whether to show Package.
      *
-     * @return	True if package is shown.
+     * @return  True if package is shown.
      */
     bool getShowPackage() const;
 
     /**
      * Set the status of whether to show Package.
      *
-     * @param _show		True if package shall be shown.
+     * @param _show             True if package shall be shown.
      */
     void setShowPackage(bool _status);
 
@@ -156,7 +156,7 @@ public:
     /**
      * Set the type of signature to display for an Operation
      *
-     * @param sig	Type of signature to display for an operation.
+     * @param sig       Type of signature to display for an operation.
      */
     void setOpSignature(Uml::Signature_Type sig);
 
@@ -174,7 +174,7 @@ public:
      * Returns whether to show attributes.
      * Only applies when m_pObject->getBaseType() is ot_Class.
      *
-     * @return	True if attributes are shown.
+     * @return  True if attributes are shown.
      */
     bool getShowAtts() const {
         return m_bShowAttributes;
@@ -190,7 +190,7 @@ public:
      * Returns whether to show attribute signatures.
      * Only applies when m_pObject->getBaseType() is ot_Class.
      *
-     * @return	Status of how attribute signatures are shown.
+     * @return  Status of how attribute signatures are shown.
      */
     Uml::Signature_Type getShowAttSigs() {
         return m_ShowAttSigs;
@@ -206,7 +206,7 @@ public:
      * Sets whether to show attributes.
      * Only applies when m_pObject->getBaseType() is ot_Class.
      *
-     * @param _show		True if attributes shall be shown.
+     * @param _show             True if attributes shall be shown.
      */
     void setShowAtts(bool _show);
 
@@ -214,7 +214,7 @@ public:
      * Sets whether to show attribute signature
      * Only applies when m_pObject->getBaseType() is ot_Class.
      *
-     * @param _show		True if attribute signatures shall be shown.
+     * @param _show             True if attribute signatures shall be shown.
      */
     void setShowAttSigs(bool _show);
 
@@ -222,7 +222,7 @@ public:
      * Sets the type of signature to display for an attribute.
      * Only applies when m_pObject->getBaseType() is ot_Class.
      *
-     * @param sig	Type of signature to display for an attribute.
+     * @param sig       Type of signature to display for an attribute.
      */
     void setAttSignature(Uml::Signature_Type sig);
 
@@ -230,7 +230,7 @@ public:
      * Returns whether to draw as circle.
      * Only applies when m_pObject->getBaseType() is ot_Interface.
      *
-     * @return	True if widget is drawn as circle.
+     * @return  True if widget is drawn as circle.
      */
     bool getDrawAsCircle() const;
 
@@ -244,7 +244,7 @@ public:
      * Sets whether to draw as circle.
      * Only applies when m_pObject->getBaseType() is ot_Interface.
      *
-     * @param _show		True if widget shall be drawn as circle.
+     * @param _show             True if widget shall be drawn as circle.
      */
     void setDrawAsCircle(bool drawAsCircle);
 
@@ -292,7 +292,7 @@ public slots:
      * Will be called when a menu selection has been made from the
      * popup menu.
      *
-     * @param sel	The selection id that has been selected.
+     * @param sel       The selection id that has been selected.
      */
     void slotMenuSelection(int sel);
 
@@ -307,7 +307,7 @@ protected:
      * Calculcates the size of the templates box in the top left
      * if it exists, returns QSize(0,0) if it doesn't.
      *
-     * @return	QSize of the templates flap.
+     * @return  QSize of the templates flap.
      */
     QSize calculateTemplatesBoxSize();
 
@@ -349,12 +349,12 @@ protected:
      * Auxiliary method for draw() of child classes:
      * Draw the attributes or operations.
      *
-     * @param p		QPainter to paint to.
-     * @param ot		Object type to draw, either ot_Attribute or ot_Operation.
-     * @param sigType	Governs details of the member display.
-     * @param x		X coordinate at which to draw the texts.
-     * @param y		Y coordinate at which text drawing commences.
-     * @param fontHeight	The font height.
+     * @param p         QPainter to paint to.
+     * @param ot                Object type to draw, either ot_Attribute or ot_Operation.
+     * @param sigType   Governs details of the member display.
+     * @param x         X coordinate at which to draw the texts.
+     * @param y         Y coordinate at which text drawing commences.
+     * @param fontHeight        The font height.
      */
     void drawMembers(QPainter & p, Uml::Object_Type ot, Uml::Signature_Type sigType,
                      int x, int y, int fontHeight);

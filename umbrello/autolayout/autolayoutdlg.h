@@ -1,9 +1,6 @@
-/*
- *  copyright (C) 2005
- *  Dimitri Ognibene <ognibened @yahoo.it>
- */
-
 /***************************************************************************
+ *  copyright (C) 2005                                                     *
+ *  Umbrello UML Modeller Authors <uml-devel @uml.sf.net>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,38 +14,35 @@
 
 #include "newautolayoutdialog.h"
 #include "../umlview.h"
+#include <qobject.h>
+#include <kconfig.h>
 #include "autolayout.h"
 
-class AutolayoutDlg: public MyDialog1
+class AutolayoutDlg : public MyDialog1
 {
     Q_OBJECT
-public:
-    AutolayoutDlg(UMLView* v, QWidget *parent = 0, const char *name = 0);
-public slots:
+  public:
+    AutolayoutDlg(KConfig* c,UMLView* v, QWidget *parent = 0, const char *name = 0);
+  public slots:
     virtual void slotSetAssociationWeight(int i);
-public slots:
     virtual void slotSetDependenciesWeight(int i);
-public slots:
     virtual void slotSetGeneralizationWeight(int i);
-public slots:
     virtual void slotSetGenralizationAsEdges(bool b);
-public slots:
     virtual void slotSetDependenciesAsEdges(bool b);
-public slots:
     virtual void slotSetAssociationAsEdges(bool b);
-public slots:
     virtual void slotSetCompressShapes(bool b);
-public slots:
     virtual void slotSetCenterDiagram(bool b);
-public slots:
     virtual void slotSetClusterizeHierarchies(bool b);
-public slots:
     virtual void slotSetShapeSeparation(int i);
     virtual void slotReloadSettings();
     virtual void slotSaveSettings();
     virtual void slotDoAutolayout();
+    void readConfig(KConfig*);
+    void writeConfig(KConfig*);
+    virtual void slotSelectAlgorithm(const QString&);
+  
 
-private:
+  private:
     UMLView *view;
     int associationWeight;
     int dependenciesWeight;
@@ -60,6 +54,9 @@ private:
     bool centerDiagram;
     bool clusterizeHierarchies;
     int shapeSeparation;
+    KConfig* config;
+    QString algname;
+    Autolayout::Autolayouter* getAutolayouter();
 
 };
 

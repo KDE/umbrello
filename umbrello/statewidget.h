@@ -53,9 +53,9 @@ public:
     /**
      * Creates a State widget.
      *
-     * @param view		The parent of the widget.
-     * @param stateType	The type of state.
-     * @param id		The ID to assign (-1 will prompt a new ID.)
+     * @param view              The parent of the widget.
+     * @param stateType The type of state.
+     * @param id                The ID to assign (-1 will prompt a new ID.)
      */
     StateWidget( UMLView * view, StateType stateType = Normal, Uml::IDType id = Uml::id_None );
 
@@ -122,9 +122,9 @@ public:
     /**
      * Returns true if the given toolbar button represents a State.
      *
-     * @param tbb		Input value of type WorkToolBar::ToolBar_Buttons.
-     * @param resultType	Output value, the StateType that corresponds to tbb.
-     *			Only set if the method returns true.
+     * @param tbb               Input value of type WorkToolBar::ToolBar_Buttons.
+     * @param resultType        Output value, the StateType that corresponds to tbb.
+     *                  Only set if the method returns true.
      */
     static bool isState( WorkToolBar::ToolBar_Buttons tbb,
                          StateType& resultType );

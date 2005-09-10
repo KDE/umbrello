@@ -37,26 +37,26 @@ public:
     /**
      * Constructor.  Empty.
      *
-     * @param parent	The parent to this operation.
-     *		At first sight it would appear that the type of the
-     *		parent should be UMLClassifier. However, the class
-     *		UMLAttribute is also used for the parameters of
-     *		operations, and in this case the UMLOperation is the
-     *		parent.
-     * @param name		The name of the operation.
-     * @param id		The id of the operation.
+     * @param parent    The parent to this operation.
+     *          At first sight it would appear that the type of the
+     *          parent should be UMLClassifier. However, the class
+     *          UMLAttribute is also used for the parameters of
+     *          operations, and in this case the UMLOperation is the
+     *          parent.
+     * @param name              The name of the operation.
+     * @param id                The id of the operation.
      */
     UMLClassifierListItem(const UMLObject *parent, QString Name, Uml::IDType id = Uml::id_None);
 
     /**
      * Constructor.  Empty.
      *
-     * @param parent	The parent to this operation.
-     *		At first sight it would appear that the type of the
-     *		parent should be UMLClassifier. However, the class
-     *		UMLAttribute is also used for the parameters of
-     *		operations, and in this case the UMLOperation is the
-     *		parent.
+     * @param parent    The parent to this operation.
+     *          At first sight it would appear that the type of the
+     *          parent should be UMLClassifier. However, the class
+     *          UMLAttribute is also used for the parameters of
+     *          operations, and in this case the UMLOperation is the
+     *          parent.
      */
     UMLClassifierListItem(const UMLObject *parent);
 
@@ -68,14 +68,14 @@ public:
     /**
      * Returns the type of the UMLClassifierListItem.
      *
-     * @return	The type of the UMLClassifierListItem.
+     * @return  The type of the UMLClassifierListItem.
      */
     UMLClassifier * getType();
 
     /**
      * Returns the type name of the UMLClassifierListItem.
      *
-     * @return	The type name of the UMLClassifierListItem.
+     * @return  The type name of the UMLClassifierListItem.
      */
     virtual QString getTypeName();
 
@@ -83,30 +83,30 @@ public:
      * Sets the type name of the UMLClassifierListItem.
      * DEPRECATED - use setType() instead.
      *
-     * @param type	The type name of the UMLClassifierListItem.
+     * @param type      The type name of the UMLClassifierListItem.
      */
     void setTypeName( const QString &type );
 
     /**
      * Sets the type of the UMLAttribute.
      *
-     * @param type	Pointer to the UMLObject of the type.
+     * @param type      Pointer to the UMLObject of the type.
      */
     void setType(UMLObject *type);
 
     /**
      * Returns a string representation of the list item.
      *
-     * @param sig		What type of operation string to show.
-     * @return	The string representation of the operation.
+     * @param sig               What type of operation string to show.
+     * @return  The string representation of the operation.
      */
     virtual QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
 
     /**
      * Display the properties configuration dialogue for the list item.
      *
-     * @param parent	The parent widget.
-     * @return	True for success of this operation.
+     * @param parent    The parent widget.
+     * @return  True for success of this operation.
      */
     virtual bool showPropertiesDialogue(QWidget* parent) = 0;
 

@@ -476,23 +476,23 @@ void LinePath::calculateHead() {
         farPoint = getPoint(1);
         m_EgdePoint = getPoint(0);
         if (diamond) {
-            arrowAngle *= 1.5;	// wider
-            halfLength += 1;	// longer
+            arrowAngle *= 1.5;  // wider
+            halfLength += 1;    // longer
         } else {
             // Containment has a circle-plus symbol at the
             // containing object.  What we are tweaking here
             // is the perpendicular line through the circle
             // (i.e. the horizontal line of the plus sign if
             // the objects are oriented north/south)
-            arrowAngle *= 2.5;	// wider
-            halfLength -= 4;	// shorter
+            arrowAngle *= 2.5;  // wider
+            halfLength -= 4;    // shorter
         }
     } else {
         farPoint = getPoint(size - 1);
         m_EgdePoint = getPoint(size);
         // We have an arrow.
-        arrowAngle *= 2.0;	// wider
-        halfLength += 3;	// longer
+        arrowAngle *= 2.0;      // wider
+        halfLength += 3;        // longer
     }
     int xa = farPoint.x();
     int ya = farPoint.y();
@@ -501,7 +501,7 @@ void LinePath::calculateHead() {
     double deltaX = xb - xa;
     double deltaY = yb - ya;
     double hypotenuse = sqrt(deltaX*deltaX + deltaY*deltaY); // the length
-    double slope = atan2(deltaY, deltaX);	//slope of line
+    double slope = atan2(deltaY, deltaX);       //slope of line
     double arrowSlope = slope + arrowAngle;
     double cosx, siny;
     if (hypotenuse < 1.0e-6) {

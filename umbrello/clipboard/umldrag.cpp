@@ -815,29 +815,29 @@ bool UMLDrag::decodeClip5(const QMimeSource* mimeSource, UMLObjectList& objects,
         element = objectElement.toElement();
     }
     /*
-    	//listviewitems
-    	QDomNode listItemNode = objectsNode.nextSibling();
-    	QDomNode listItems = listItemNode.firstChild();
-    	QDomElement listItemElement = listItems.toElement();
-    	if ( listItemElement.isNull() ) {
-    		kdWarning() << "no listitems in XMI clip" << endl;
-    		return false;
-    	}
-    	UMLListView *listView = UMLApp::app()->getListView();
-    	UMLListViewItem *currentItem = (UMLListViewItem*)listView->currentItem();
-    	while ( !listItemElement.isNull() ) {
-    		UMLListViewItem* itemData;
-    		if (currentItem)
-    			itemData = new UMLListViewItem( currentItem );
-    		else
-    			itemData = new UMLListViewItem( listView );
-    		if ( itemData->loadFromXMI(listItemElement) )
-    			umlListViewItems.append(itemData);
-    		else
-    			delete itemData;
-    		listItems = listItems.nextSibling();
-    		listItemElement = listItems.toElement();
-    	}
+        //listviewitems
+        QDomNode listItemNode = objectsNode.nextSibling();
+        QDomNode listItems = listItemNode.firstChild();
+        QDomElement listItemElement = listItems.toElement();
+        if ( listItemElement.isNull() ) {
+                kdWarning() << "no listitems in XMI clip" << endl;
+                return false;
+        }
+        UMLListView *listView = UMLApp::app()->getListView();
+        UMLListViewItem *currentItem = (UMLListViewItem*)listView->currentItem();
+        while ( !listItemElement.isNull() ) {
+                UMLListViewItem* itemData;
+                if (currentItem)
+                        itemData = new UMLListViewItem( currentItem );
+                else
+                        itemData = new UMLListViewItem( listView );
+                if ( itemData->loadFromXMI(listItemElement) )
+                        umlListViewItems.append(itemData);
+                else
+                        delete itemData;
+                listItems = listItems.nextSibling();
+                listItemElement = listItems.toElement();
+        }
      */
     return true;
 }

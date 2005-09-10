@@ -49,7 +49,7 @@ public:
     virtual ~CPPMakefileCodeDocument ( );
 
     /**
-     * @return	QString
+     * @return  QString
      */
     QString toString ( );
 

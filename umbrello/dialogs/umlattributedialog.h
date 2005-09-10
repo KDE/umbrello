@@ -38,7 +38,7 @@ public:
 
 protected:
     /**
-    *	Sets up the dialog
+    *   Sets up the dialog
     */
     void setupDialog();
 
@@ -54,7 +54,7 @@ protected:
     void insertType( const QString& type, int index = -1 );
 
     /**
-    *	The Attribute to represent
+    *   The Attribute to represent
     */
     UMLAttribute * m_pAttribute;
 

@@ -159,26 +159,26 @@ bool UMLObject::operator==(UMLObject & rhs ) {
     // If two objects are the same but differ only in their documentation,
     // what does that mean?
     //if( m_Doc != rhs.m_Doc )
-    //	return false;
+    //  return false;
 
     // The scope should not be part of the equality test.
     // What does it mean if two objects are the same but differ in their
     // scope? - I'm not aware of any programming language that would
     // support that.
     //if( m_Scope != rhs.m_Scope )
-    //	return false;
+    //  return false;
 
     // See comments above
     //if( m_pStereotype != rhs.m_pStereotype )
-    //	return false;
+    //  return false;
 
     // See comments above
     //if( m_bAbstract != rhs.m_bAbstract )
-    //	return false;
+    //  return false;
 
     // See comments above
     //if( m_bStatic != rhs.m_bStatic )
-    //	return false;
+    //  return false;
 
     return true;
 }
@@ -484,7 +484,7 @@ QDomElement UMLObject::save( const QString &tag, QDomDocument & qDoc ) {
     if (m_bStatic)
         qElement.setAttribute( "ownerScope", "classifier" );
     /* else
-    	qElement.setAttribute( "ownerScope", "instance" );
+        qElement.setAttribute( "ownerScope", "instance" );
      *** ownerScope defaults to instance if not set **********/
     return qElement;
 }

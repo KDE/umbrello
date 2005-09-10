@@ -1,6 +1,6 @@
 /*
  *  copyright (C) 2005
- *  Dimitri Ognibene <ognibened @yahoo.it>
+ *  Umbrello UML Modeller Authors <uml-devel @uml.sf.net>
  */
 
 /***************************************************************************
@@ -22,6 +22,8 @@ void Autolayouter::autolayout( UMLView * v )
     setCanvas(v);
     setGraph(v);
     run();
-    updateView();
+    updateView(v);
 }
-}
+
+}  // end namespace Autolayout
+
