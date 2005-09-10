@@ -41,6 +41,13 @@ void BoxWidget::draw(QPainter& p, int offsetX, int offsetY) {
     }
 }
 
+void BoxWidget::constrain(int& width, int& height) {
+    if (width < 20)
+        width = 20;
+    if (height < 20)
+        height = 20;
+}
+
 void BoxWidget::mouseMoveEvent(QMouseEvent *me) {
     if(!m_bResizing) {
         UMLWidget::mouseMoveEvent(me);
@@ -56,8 +63,7 @@ void BoxWidget::mouseMoveEvent(QMouseEvent *me) {
     }
     int newW = m_nOldW + newX - m_nOldX - m_nPressOffsetX;
     int newH = m_nOldH + newY - m_nOldY - m_nPressOffsetY;
-    newW = newW < 20?20:newW;
-    newH = newH < 20?20:newH;
+    constrain(newW, newH);
     setSize( newW, newH );
     adjustAssocs( getX(), getY() );
 }

@@ -49,6 +49,11 @@ public:
     virtual ~BoxWidget();
 
     /**
+     * Apply possible constraints to the given candidate width and height.
+     */
+    virtual void constrain(int& width, int& height);
+
+    /**
      * Overrides the standard function.
      * Changes the cursor if in the lower right corner.
      */
