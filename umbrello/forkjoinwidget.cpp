@@ -24,7 +24,7 @@
 #include "listpopupmenu.h"
 
 ForkJoinWidget::ForkJoinWidget(UMLView * view, bool drawVertical, Uml::IDType id)
-  : UMLWidget(view, id), m_drawVertical(drawVertical) {
+  : BoxWidget(view, id), m_drawVertical(drawVertical) {
     init();
 }
 
@@ -38,10 +38,9 @@ ForkJoinWidget::~ForkJoinWidget() {
 }
 
 void ForkJoinWidget::calculateSize() {
-    if (m_drawVertical)
-        setSize(4, 40);
-    else
-        setSize(40, 4);
+    int w = width(), h = height();
+    constrain(w, h);
+    setSize(w, h);
 }
 
 void ForkJoinWidget::draw(QPainter& p, int offsetX, int offsetY) {
@@ -52,7 +51,23 @@ void ForkJoinWidget::draw(QPainter& p, int offsetX, int offsetY) {
     }
 }
 
-void ForkJoinWidget::drawSelected(QPainter *, int, int, bool) {
+void ForkJoinWidget::drawSelected(QPainter * p, int offsetX, int offsetY, bool resizeable) {
+    if (! resizeable) {
+        UMLWidget::drawSelected(p, offsetX, offsetY, resizeable);
+        return;
+    }
+}
+
+void ForkJoinWidget::constrain(int& width, int& height) {
+    if (m_drawVertical) {
+        width = 4;
+        if (height < 40)
+            height = 40;
+    } else {
+        height = 4;
+        if (width < 40)
+            width = 40;
+    }
 }
 
 void ForkJoinWidget::slotMenuSelection(int sel) {

@@ -14,7 +14,7 @@
 //qt includes
 #include <qpainter.h>
 //app includes
-#include "umlwidget.h"
+#include "boxwidget.h"
 
 // fwd decl.
 class UMLView;
@@ -25,7 +25,7 @@ class UMLView;
  * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ForkJoinWidget : public UMLWidget {
+class ForkJoinWidget : public BoxWidget {
 public:
 
     /**
@@ -64,6 +64,11 @@ public:
     void slotMenuSelection(int sel);
 
     /**
+     * Reimplement method from BoxWidget.
+     */
+    void constrain(int& width, int& height);
+
+    /**
      * Draws a slim solid black rectangle.
      */
     void draw(QPainter & p, int offsetX, int offsetY);
@@ -80,7 +85,9 @@ public:
 
 protected:
     /**
-     * Reimplements method from UMLWidget. Disables selection adornments and resize.
+     * Reimplement method from UMLWidget to suppress the resize corner.
+     * Although the ForkJoinWidget supports resizing, we suppress the
+     * resize corner because it is too large for this very slim widget.
      */
     void drawSelected(QPainter * p, int offsetX, int offsetY, bool resizeable = false);
 
