@@ -233,7 +233,7 @@ QPixmap WorkToolBar::load(const QString & fileName) {
 }
 
 void WorkToolBar::loadPixmaps() {
-    const struct {
+    const struct ButtonInfo {
         const ToolBar_Buttons tbb;
         const QString btnName;
         const char *pngName;
@@ -301,10 +301,11 @@ void WorkToolBar::loadPixmaps() {
                                     QCursor()) );
     kdDebug() << "WorkToolBar::loadPixmaps: n_buttonInfos = " << n_buttonInfos << endl;
     for (uint i = 0; i < n_buttonInfos; i++) {
-        m_ToolButtons.insert(buttonInfo[i].tbb,
-            ToolButton(buttonInfo[i].btnName,
-                       load(dataDir + buttonInfo[i].pngName),
-                       QCursor(load(dataDir + "cursor-" + buttonInfo[i].pngName), 9, 9)));
+        const ButtonInfo& info = buttonInfo[i];
+        m_ToolButtons.insert(info.tbb,
+            ToolButton(info.btnName,
+                       load(dataDir + info.pngName),
+                       QCursor(load(dataDir + "cursor-" + info.pngName), 9, 9)));
     }
 }
 
