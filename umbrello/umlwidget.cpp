@@ -775,8 +775,7 @@ void UMLWidget::startPopupMenu( const QPoint &At) {
         unique = m_pView -> checkUniqueSelection();
 
     // create the right click context menu
-    m_pMenu = new ListPopupMenu(static_cast<QWidget*>(m_pView), this,
-                                multi, unique);
+    m_pMenu = new ListPopupMenu(m_pView, this, multi, unique);
 
     // disable the "view code" menu for simple code generators
     CodeGenerator * currentCG = m_pDoc->getCurrentCodeGenerator();
