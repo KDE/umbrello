@@ -187,6 +187,15 @@ public:
      */
     QPen getPen();
 
+    /**
+    *   Sets the line color used by the line.
+    */
+    void setLineColor( const QColor &color );
+    /**
+    *   Sets the line width used by the line.
+    */
+    void setLineWidth( uint width );
+
 protected:
 
     /**
@@ -358,15 +367,6 @@ protected:
     bool m_bParallelLineCreated;
 
 public slots:
-
-    /**
-    *   Sets the line color used by the line.
-    */
-    void setLineColor( const QColor &color );
-    /**
-    *   Sets the line width used by the line.
-    */
-    void setLineWidth( uint width );
 
     /**
     *   Sets the line color used by the line.

@@ -84,15 +84,15 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
         }
         break;
     case Initial :
-        p.setBrush( UMLWidget::getLineColour() );
+        p.setBrush( WidgetBase::getLineColor() );
         p.drawEllipse( offsetX, offsetY, w, h );
         break;
     case End :
-        p.setBrush( UMLWidget::getLineColour() );
+        p.setBrush( WidgetBase::getLineColor() );
         p.drawEllipse( offsetX, offsetY, w, h );
         p.setBrush( white );
         p.drawEllipse( offsetX + 1, offsetY + 1, w - 2, h - 2 );
-        p.setBrush( UMLWidget::getLineColour() );
+        p.setBrush( WidgetBase::getLineColor() );
         p.drawEllipse( offsetX + 3, offsetY + 3, w - 6, h - 6 );
         break;
     default:

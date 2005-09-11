@@ -1031,22 +1031,28 @@ void UMLView::selectionSetFont( const QFont &font )
 void UMLView::selectionSetLineColor( const QColor &color )
 {
     UMLWidget * temp = 0;
-    for(temp=(UMLWidget *) m_SelectedList.first();
-            temp;
-            temp=(UMLWidget *)m_SelectedList.next()) {
-        temp -> setLineColour( color );
-        temp -> setUsesDiagramLineColour(false);
+    for (temp = m_SelectedList.first(); temp; temp = m_SelectedList.next()) {
+        temp->setLineColor(color);
+        temp->setUsesDiagramLineColour(false);
+    }
+    AssociationWidgetList assoclist = getSelectedAssocs();
+    for (AssociationWidget *aw = assoclist.first(); aw; aw = assoclist.next()) {
+        aw->setLineColor(color);
+        aw->setUsesDiagramLineColour(false);
     }
 }
 
 void UMLView::selectionSetLineWidth( uint width )
 {
     UMLWidget * temp = 0;
-    for(temp=(UMLWidget *) m_SelectedList.first();
-            temp;
-            temp=(UMLWidget *)m_SelectedList.next()) {
-        temp -> setLineWidth( width );
-        temp -> setUsesDiagramLineWidth(false);
+    for (temp = m_SelectedList.first(); temp; temp = m_SelectedList.next()) {
+        temp->setLineWidth(width);
+        temp->setUsesDiagramLineWidth(false);
+    }
+    AssociationWidgetList assoclist = getSelectedAssocs();
+    for (AssociationWidget *aw = assoclist.first(); aw; aw = assoclist.next()) {
+        aw->setLineWidth(width);
+        aw->setUsesDiagramLineWidth(false);
     }
 }
 
@@ -1664,7 +1670,8 @@ bool UMLView::getSelectedWidgets(UMLWidgetList&WidgetList)
     return true;
 }
 
-bool UMLView::getSelectedAssocs(AssociationWidgetList & assocWidgetList) {
+AssociationWidgetList UMLView::getSelectedAssocs() {
+    AssociationWidgetList assocWidgetList;
     AssociationWidgetListIt assoc_it( m_AssociationList );
     AssociationWidget* assocwidget = 0;
     while((assocwidget=assoc_it.current())) {
@@ -1672,7 +1679,7 @@ bool UMLView::getSelectedAssocs(AssociationWidgetList & assocWidgetList) {
         if( assocwidget -> getSelected() )
             assocWidgetList.append(assocwidget);
     }
-    return true;
+    return assocWidgetList;
 }
 
 bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {

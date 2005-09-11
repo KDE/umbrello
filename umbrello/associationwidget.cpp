@@ -21,6 +21,7 @@
 #include <qcanvas.h>
 #include <kdebug.h>
 #include <klocale.h>
+#include <kcolordialog.h>
 // app includes
 #include "activitywidget.h"
 #include "uml.h"
@@ -2320,7 +2321,6 @@ void AssociationWidget::slotMenuSelection(int sel) {
         }
         break;
 
-
     case ListPopupMenu::mt_Rename_MultiB:
         if(m_role[B].m_pMulti)
             oldText = m_role[B].m_pMulti -> getText();
@@ -2377,6 +2377,17 @@ void AssociationWidget::slotMenuSelection(int sel) {
         if( KFontDialog::getFont( font, false, m_pView ) ) {
             m_pView -> selectionSetFont( font );
             m_umldoc->setModified(true);
+        }
+        break;
+
+    case ListPopupMenu::mt_Line_Color:
+    case ListPopupMenu::mt_Line_Color_Selection:
+        {
+            QColor newColour;
+            if( KColorDialog::getColor(newColour) ) {
+                m_pView->selectionSetLineColor(newColour);
+                m_umldoc->setModified(true);
+            }
         }
         break;
 
@@ -2444,6 +2455,16 @@ QFont AssociationWidget::getFont() const {
         font = m_role[A].m_pWidget -> getFont();
 
     return font;
+}
+
+void AssociationWidget::setLineColor(const QColor &colour) {
+    WidgetBase::setLineColor(colour);
+    m_LinePath.setLineColor(colour);
+}
+
+void AssociationWidget::setLineWidth(uint width) {
+    WidgetBase::setLineWidth(width);
+    m_LinePath.setLineWidth(width);
 }
 
 void AssociationWidget::checkPoints(const QPoint &p) {
@@ -3066,8 +3087,7 @@ void AssociationWidget::slotAttributeRemoved(UMLClassifierListItem* obj) {
 
 void AssociationWidget::init (UMLView *view)
 {
-    m_pView = view;  // pointer to parent viewwidget object
-    m_Type = wt_Association;
+    WidgetBase::init(view, wt_Association);
 
     // pointers to floating text widgets objects owned by this association
     m_pName = 0;
@@ -3215,6 +3235,7 @@ void AssociationWidget::setWidget( UMLWidget* widget, Role_Type role) {
 void AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement assocElement = qDoc.createElement( "assocwidget" );
 
+    WidgetBase::saveToXMI(qDoc, assocElement);
     if (m_pObject) {
         assocElement.setAttribute( "xmi.id", ID2STR(m_pObject->getID()) );
     }
@@ -3272,6 +3293,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
                                      const UMLWidgetList& widgets,
                                      const MessageWidgetList* pMessages )
 {
+    WidgetBase::loadFromXMI(qElement);
 
     // load child widgets first
     QString widgetaid = qElement.attribute( "widgetaid", "-1" );

@@ -16,6 +16,8 @@
 #define WIDGETBASE_H
 
 #include <qobject.h>
+#include <qcolor.h>
+#include <qdom.h>
 
 #include "umlnamespace.h"
 
@@ -88,7 +90,72 @@ public:
      */
     virtual void setDoc( const QString &doc );
 
+    /**
+     * Sets the line colour
+     *
+     * @param colour the new line colour
+     */
+    virtual void setLineColor(const QColor &colour);
+
+    /**
+     * Sets the line width
+     *
+     * @param width the new line width
+     */
+    virtual void setLineWidth(uint width);
+
+    /**
+     * Read property of m_LineColour.
+     */
+    QColor getLineColor() const {
+        return m_LineColour;
+    }
+
+    /**
+     * Read property of m_LineWidth.
+     */
+    uint getLineWidth() const {
+        return m_LineWidth;
+    }
+
+    /**
+     * Returns m_bUsesDiagramLineColour
+     */
+    bool getUsesDiagramLineColour() const {
+        return m_bUsesDiagramLineColour;
+    }
+
+    /**
+     * Returns m_bUsesDiagramLineWidth
+     */
+    bool getUsesDiagramLineWidth() const {
+        return m_bUsesDiagramLineWidth;
+    }
+
+    /**
+     * Sets m_bUsesDiagramLineColour
+     */
+    void setUsesDiagramLineColour(bool usesDiagramLineColour) {
+        m_bUsesDiagramLineColour = usesDiagramLineColour;
+    }
+
+    /**
+     * Sets m_bUsesDiagramLineWidth
+     */
+    void setUsesDiagramLineWidth(bool usesDiagramLineWidth) {
+        m_bUsesDiagramLineWidth = usesDiagramLineWidth;
+    }
+
+    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+
+    virtual bool loadFromXMI( QDomElement & qElement );
+
 protected:
+    /**
+     * Initialize members.
+     */
+    void init(UMLView *view, Uml::Widget_Type type = Uml::wt_UMLWidget);
+
     /**
      * Type of widget.
      */
@@ -97,6 +164,24 @@ protected:
     UMLView   *m_pView;
     UMLObject *m_pObject;
     QString m_Doc;  ///< Only used if m_pObject is not set.
+
+    /**
+     * Color of the lines of the widget. Is saved to XMI.
+     */
+    QColor m_LineColour;
+
+    /**
+     * Width of the lines of the widget. Is saved to XMI.
+     */
+    uint m_LineWidth;
+
+    /**
+     * true by default, false if the colours have
+     * been explicitly set for this widget.
+     * These are saved to XMI.
+     */
+    bool m_bUsesDiagramLineColour, m_bUsesDiagramLineWidth;
+
 };
 
 #endif

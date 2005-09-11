@@ -16,9 +16,29 @@
 #include <kdebug.h>
 #include "umlview.h"
 #include "umlobject.h"
+#include "optionstate.h"
 
-WidgetBase::WidgetBase(UMLView *view)
-        : QObject(view), m_Type(Uml::wt_UMLWidget), m_pView(view), m_pObject(NULL) {
+WidgetBase::WidgetBase(UMLView *view) : QObject(view) {
+    init(view);
+}
+
+void WidgetBase::init(UMLView *view, Uml::Widget_Type type /* = Uml::wt_UMLWidget */) {
+    m_pView = view;
+    m_Type = type;
+    m_pObject = NULL;
+    if (m_pView) {
+        m_bUsesDiagramLineColour = true;
+        m_bUsesDiagramLineWidth  = true;
+        const Settings::OptionState& optionState = m_pView->getOptionState();
+        m_LineColour = optionState.uiState.lineColor;
+        m_LineWidth  = optionState.uiState.lineWidth;
+    } else {
+        kdError() << "WidgetBase constructor: SERIOUS PROBLEM - m_pView is NULL" << endl;
+        m_bUsesDiagramLineColour = false;
+        m_bUsesDiagramLineWidth  = false;
+        m_LineColour = QColor("black");
+        m_LineWidth = 0; // initialize with 0 to have valid start condition
+    }
 }
 
 void WidgetBase::setBaseType( Uml::Widget_Type type ) {
@@ -48,6 +68,48 @@ void WidgetBase::setDoc( const QString &doc ) {
         m_pObject->setDoc( doc );
     else
         m_Doc = doc;
+}
+
+void WidgetBase::setLineColor(const QColor &colour) {
+    m_LineColour = colour;
+    m_bUsesDiagramLineColour = false;
+}
+
+void WidgetBase::setLineWidth(uint width) {
+    m_LineWidth = width;
+    m_bUsesDiagramLineWidth = false;
+}
+
+void WidgetBase::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
+    if (m_bUsesDiagramLineColour) {
+        qElement.setAttribute( "linecolour", "none" );
+    } else {
+        qElement.setAttribute( "linecolour", m_LineColour.name() );
+    }
+    if (m_bUsesDiagramLineWidth) {
+        qElement.setAttribute( "linewidth", "none" );
+    } else {
+        qElement.setAttribute( "linewidth", m_LineWidth );
+    }
+}
+
+bool WidgetBase::loadFromXMI( QDomElement & qElement ) {
+    QString lineColour = qElement.attribute( "linecolour", "none" );
+    QString lineWidth = qElement.attribute( "linewidth", "none" );
+    if (lineColour != "none") {
+        m_LineColour = QColor(lineColour);
+        m_bUsesDiagramLineColour = false;
+    } else if ( m_pView ) {
+        m_LineColour = m_pView->getLineColor();
+        m_bUsesDiagramLineColour = true;
+    }
+    if (lineWidth != "none") {
+        m_LineWidth = lineWidth.toInt();
+        m_bUsesDiagramLineWidth = false;
+    } else if ( m_pView ) {
+        m_LineWidth = m_pView->getLineWidth();
+        m_bUsesDiagramLineWidth = true;
+    }
 }
 
 #include "widgetbase.moc"

@@ -184,11 +184,11 @@ void ObjectWidget::moveEvent(QMoveEvent */*m*/) {
 }
 
 void ObjectWidget::slotColorChanged(Uml::IDType /*viewID*/) {
-    UMLWidget::getFillColour() = m_pView->getFillColor();
-    UMLWidget::getLineColour() = m_pView->getLineColor();
+    UMLWidget::setFillColour( m_pView->getFillColor() );
+    UMLWidget::setLineColor( m_pView->getLineColor() );
 
     if( m_pLine)
-        m_pLine -> setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth(), DashLine ) );
+        m_pLine -> setPen( QPen( UMLWidget::getLineColor(), UMLWidget::getLineWidth(), DashLine ) );
 }
 
 void ObjectWidget::cleanup() {

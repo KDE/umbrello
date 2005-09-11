@@ -570,9 +570,9 @@ public:
     bool activate();
 
     /**
-     * Fills the List with all the selected associations from the diagram
+     * Returns a list with all the selected associations from the diagram
      */
-    bool getSelectedAssocs(AssociationWidgetList & assocWidgetList);
+    AssociationWidgetList getSelectedAssocs();
 
     /**
      * Fills the List with all the selected widgets from the diagram

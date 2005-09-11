@@ -469,6 +469,9 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
     case mt_Change_Font:
         insertItem(SmallIcon("fonts"), i18n("Change Font..."), mt_Change_Font);
         break;
+    case mt_Line_Color:
+        insertItem(SmallIcon("color_line"), i18n("Line Color..."), mt_Line_Color);
+        break;
     case mt_Expand_All:
         insertItem(i18n("Expand All"), mt_Expand_All);
         break;
@@ -1155,6 +1158,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
     case mt_Association_Selected:
         insertStdItem(mt_Delete);
+        insertStdItem(mt_Line_Color);
         insertStdItem(mt_Properties);
         break;
 
@@ -1189,6 +1193,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         insertItem(i18n("Change Role B Name..."), mt_Rename_RoleBName);
         insertStdItem(mt_Change_Font);
         insertStdItem(mt_Reset_Label_Positions);
+        insertStdItem(mt_Line_Color);
         insertStdItem(mt_Properties);
         break;
 

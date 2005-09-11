@@ -391,8 +391,18 @@ public:
     /**
      * Return the first font found being used by any child widget. (They
      * could be different fonts, so this is a slightly misleading method.)
-            */
+     */
     QFont getFont () const;
+
+    /**
+     * Overrides the method from WidgetBase.
+     */
+    void setLineColor(const QColor &colour);
+
+    /**
+     * Overrides the method from WidgetBase.
+     */
+    void setLineWidth(uint width);
 
     /**
      * Set all 'owned' child widgets to this font.

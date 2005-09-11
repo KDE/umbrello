@@ -11,7 +11,6 @@
 #define UMLWIDGET_H
 
 #include <qcanvas.h>
-#include <qdom.h>
 #include <qdatetime.h>
 #include <qfont.h>
 
@@ -116,32 +115,14 @@ public:
     }
 
     /**
-     * Sets the line colour
-     *
-     * @param colour the new line colour
+     * Overrides the method from WidgetBase.
      */
-    void setLineColour(const QColor &colour);
+    void setLineColor(const QColor &colour);
 
     /**
-     * Sets the line width
-     *
-     * @param width the new line width
+     * Overrides the method from WidgetBase.
      */
     void setLineWidth(uint width);
-
-    /**
-     * Read property of QColor m_LineColour.
-     */
-    QColor getLineColour() const {
-        return m_LineColour;
-    }
-
-    /**
-     * Read property of QColor m_LineWidth.
-     */
-    uint getLineWidth() const {
-        return m_LineWidth;
-    }
 
     /**
      * Sets the background fill colour
@@ -361,20 +342,6 @@ public:
     }
 
     /**
-     * Returns m_bUsesDiagramLineColour
-     */
-    bool getUsesDiagramLineColour() const {
-        return m_bUsesDiagramLineColour;
-    }
-
-    /**
-     * Returns m_bUsesDiagramLineWidth
-     */
-    bool getUsesDiagramLineWidth() const {
-        return m_bUsesDiagramLineWidth;
-    }
-
-    /**
      * Returns m_bUsesDiagramUseFillColour
      */
     bool getUsesDiagramUseFillColour() const {
@@ -386,20 +353,6 @@ public:
      */
     void setUsesDiagramFillColour(bool usesDiagramFillColour) {
         m_bUsesDiagramFillColour = usesDiagramFillColour;
-    }
-
-    /**
-     * Sets m_bUsesDiagramLineColour
-     */
-    void setUsesDiagramLineColour(bool usesDiagramLineColour) {
-        m_bUsesDiagramLineColour = usesDiagramLineColour;
-    }
-
-    /**
-     * Sets m_bUsesDiagramLineWidth
-     */
-    void setUsesDiagramLineWidth(bool usesDiagramLineWidth) {
-        m_bUsesDiagramLineWidth = usesDiagramLineWidth;
     }
 
     /**
@@ -600,20 +553,10 @@ protected:
 
     /**
      *  true by default, false if the colours have
-     *  been explicity set for this widget
+     *  been explicitly set for this widget
      */
-    bool m_bUsesDiagramFillColour, m_bUsesDiagramLineColour,
-         m_bUsesDiagramLineWidth, m_bUsesDiagramUseFillColour;
-
-    /**
-     * Color of the lines of the widget
-     */
-    QColor m_LineColour;
-
-    /**
-     * Width of the lines of the widget
-     */
-    uint m_LineWidth;
+    bool m_bUsesDiagramFillColour;
+    bool m_bUsesDiagramUseFillColour;
 
     /**
      * Color of the background of the widget

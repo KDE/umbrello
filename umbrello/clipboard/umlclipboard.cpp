@@ -64,9 +64,7 @@ QMimeSource* UMLClipboard::copy(bool fromView/*=false*/) {
         if(!m_WidgetList.count()) {
             return 0;
         }
-        if(!view->getSelectedAssocs(m_AssociationList)) {
-            return 0;
-        }
+        m_AssociationList = view->getSelectedAssocs();
         view->copyAsImage(png);
     } else { //if the copy action is being performed from the ListView
         if(!listView->getSelectedItems(selectedItems)) {
