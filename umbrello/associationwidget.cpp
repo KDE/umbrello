@@ -2117,7 +2117,7 @@ void AssociationWidget::createAssocClassLine() {
     if (m_pAssocClassLine == NULL)
         m_pAssocClassLine = new QCanvasLine(m_pView->canvas());
     computeAssocClassLine();
-    QPen pen(m_pView->getLineColor(), m_pView->getLineWidth(), DashLine);
+    QPen pen(getLineColor(), getLineWidth(), DashLine);
     m_pAssocClassLine->setPen(pen);
     m_pAssocClassLine->setVisible(true);
 }
