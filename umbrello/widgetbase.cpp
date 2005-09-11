@@ -99,7 +99,7 @@ bool WidgetBase::loadFromXMI( QDomElement & qElement ) {
     if (lineColour != "none") {
         m_LineColour = QColor(lineColour);
         m_bUsesDiagramLineColour = false;
-    } else if ( m_pView ) {
+    } else if (m_Type != Uml::wt_Box && m_pView != NULL) {
         m_LineColour = m_pView->getLineColor();
         m_bUsesDiagramLineColour = true;
     }

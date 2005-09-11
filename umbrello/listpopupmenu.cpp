@@ -335,6 +335,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 
     case Uml::wt_Box:
         insertStdItems(false, type);
+        insertStdItem(mt_Line_Color);
         break;
 
     case Uml::wt_State:

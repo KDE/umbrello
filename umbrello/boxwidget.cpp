@@ -26,6 +26,8 @@ BoxWidget::BoxWidget(UMLView * view, Uml::IDType id) : UMLWidget( view, id ) {
 void BoxWidget::init() {
     setSize(100,80);
     UMLWidget::setBaseType( Uml::wt_Box );
+    WidgetBase::m_bUsesDiagramLineColour = false;  // boxes be black
+    WidgetBase::m_LineColour = QColor("black");
     setZ(0);
 }
 
@@ -34,6 +36,7 @@ BoxWidget::~BoxWidget() {
 }
 
 void BoxWidget::draw(QPainter& p, int offsetX, int offsetY) {
+    UMLWidget::setPen(p);
     p.drawRect( offsetX, offsetY, width(), height() );
 
     if (m_bSelected) {
