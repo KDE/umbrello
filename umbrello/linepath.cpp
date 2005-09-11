@@ -83,7 +83,7 @@ void LinePath::setAssociation(AssociationWidget * association ) {
     if( getAssocType() == Uml::at_Coll_Message )
         setupParallelLine();
     UMLView * view =  (UMLView *)m_pAssociation -> parent();
-    connect( view, SIGNAL( sigLineColorChanged( Uml::IDType ) ), this, SLOT( slotLineColorChanged( Uml::IDType ) ) );
+    connect( view, SIGNAL( sigColorChanged( Uml::IDType ) ), this, SLOT( slotLineColorChanged( Uml::IDType ) ) );
     connect( view, SIGNAL( sigLineWidthChanged( Uml::IDType ) ), this, SLOT( slotLineWidthChanged( Uml::IDType ) ) );
 }
 
@@ -845,7 +845,7 @@ void LinePath::cleanup() {
     if( m_pAssociation ) {
         UMLView * view =  (UMLView *)m_pAssociation -> parent();
         if(view) {
-            disconnect( view, SIGNAL( sigLineColorChanged( Uml::IDType ) ), this, SLOT( slotLineColorChanged( Uml::IDType ) ) );
+            disconnect( view, SIGNAL( sigColorChanged( Uml::IDType ) ), this, SLOT( slotLineColorChanged( Uml::IDType ) ) );
             disconnect( view, SIGNAL( sigLineWidthChanged( Uml::IDType ) ), this, SLOT( slotLineWidthChanged( Uml::IDType ) ) );
         }
         m_pAssociation = NULL;

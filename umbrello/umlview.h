@@ -1317,7 +1317,6 @@ signals:
     void sigColorChanged( Uml::IDType );
     void sigRemovePopupMenu();
     void sigClearAllSelected();
-    void sigLineColorChanged( Uml::IDType );
     void sigLineWidthChanged( Uml::IDType );
     void sigSnapToGridToggled(bool);
     void sigSnapComponentSizeToGridToggled(bool);

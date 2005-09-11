@@ -194,7 +194,7 @@ protected:
      * We can't use QCanvasEllipse directly for this because it doesn't
      * use the pen, i.e. QCanvasEllipse only draws filled ellipses.
      */
-class Circle : public QCanvasEllipse {
+    class Circle : public QCanvasEllipse {
     public:
         Circle(QCanvas * canvas, int radius = 0);
         void setRadius(int radius);
