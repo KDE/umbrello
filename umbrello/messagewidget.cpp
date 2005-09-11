@@ -506,12 +506,7 @@ UMLClassifier * MessageWidget::getSeqNumAndOp(QString& seqNum, QString& op) {
     seqNum = m_SequenceNumber;
     UMLOperation *pOperation = getOperation();
     if (pOperation != NULL) {
-        Uml::Signature_Type sigType;
-        if (m_pView->getShowOpSig())
-            sigType = Uml::st_SigNoScope;
-        else
-            sigType = Uml::st_NoSigNoScope;
-        op = pOperation->toString(sigType);
+        op = pOperation->toString(Uml::st_SigNoScope);
     } else {
         op = m_CustomOp;
     }

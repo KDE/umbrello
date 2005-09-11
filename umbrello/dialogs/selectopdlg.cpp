@@ -64,14 +64,9 @@ SelectOpDlg::SelectOpDlg(UMLView * parent, UMLClassifier * c)
     m_pOpBG -> setExclusive(true);
     m_pOpBG -> setButton(OP);
 
-    Uml::Signature_Type sigType;
-    if (m_pView->getShowOpSig())
-        sigType = Uml::st_SigNoScope;
-    else
-        sigType = Uml::st_NoSigNoScope;
     UMLOperationList list = c -> getOpList(true);
     for (UMLOperation *obj = list.first(); obj; obj=list.next()) {
-        m_pOpCB->insertItem( obj->toString(sigType) );
+        m_pOpCB->insertItem( obj->toString(Uml::st_SigNoScope) );
     }
     //disableResize();
     connect(m_pOpBG, SIGNAL(clicked(int)), this, SLOT(slotSelected(int)));

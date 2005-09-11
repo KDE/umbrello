@@ -193,9 +193,11 @@ void FloatingText::setText(const QString &t) {
     if (m_Role == Uml::tr_Seq_Message || m_Role == Uml::tr_Seq_Message_Self) {
         QString seqNum, op;
         m_pLink->getSeqNumAndOp(seqNum, op);
-        if (seqNum.length() > 0 || op.length() > 0)
+        if (seqNum.length() > 0 || op.length() > 0) {
+            if (! m_pView->getShowOpSig())
+                op.replace( QRegExp("\\(.*\\)"), "()" );
             m_Text = seqNum.append(": ").append( op );
-        else
+        } else
             m_Text = t;
     } else
         m_Text = t;
