@@ -1173,29 +1173,25 @@ void CppWriter::writeOperations(UMLClassifier *c, bool isHeaderMethod,
 // write operation in either header or
 // a source file
 void CppWriter::writeOperations(UMLOperationList &oplist, bool isHeaderMethod, QTextStream &cpp) {
-    UMLOperation *op;
-    UMLAttribute *at;
-    int i,j;
-    QString str;
-
     QString className = classifierInfo->className;
 
     // generate method decl for each operation given
-    for( op=oplist.first(); op ;op=oplist.next())
-    {
+    for (UMLOperation *op = oplist.first(); op; op = oplist.next()) {
 
-        QString returnStr = "";
-        // write documentation
-
+        QString returnStr = "";  // buffer for documentation
         QString methodReturnType = "";
-        if (!op->isConstructorOperation())
-        {
+        UMLAttributeList *atl = op->getParmList();  // method parameters
+
+        if (op->isConstructorOperation()) {
+            if (WRITE_EMPTY_CONSTRUCTOR && atl->count() == 0)
+                continue;  // it's already been written, see writeConstructor{Decls,Methods}
+        } else {
             methodReturnType = fixTypeName(op->getTypeName());
             if(methodReturnType != "void")
                 returnStr += "@return   "+methodReturnType+"\n";
         }
 
-        str = ""; // reset for next method
+        QString str;
         if (op->getAbstract() || classifierInfo->isInterface) {
             if (isHeaderMethod) {
                 // declare abstract method as 'virtual'
@@ -1215,21 +1211,20 @@ void CppWriter::writeOperations(UMLOperationList &oplist, bool isHeaderMethod, Q
 
         str += cleanName(op->getName()) + " (";
 
-        // method parameters
-        UMLAttributeList *atl = op->getParmList();
-        i= atl->count();
-        j=0;
-        for( at = atl->first(); at ;at = atl->next(),j++) {
+        // generate parameters
+        uint j = 0;
+        for (UMLAttribute *at = atl->first(); at; at = atl->next(), j++) {
             QString typeName = fixTypeName(at->getTypeName());
             QString atName = cleanName(at->getName());
-            str += typeName + " " + atName +
-                   (!(at->getInitialValue().isEmpty()) ?
-                    (QString(" = ")+at->getInitialValue()) :
-                    QString(""))
-                   + ((j < i-1)?", ":"");
-            returnStr += "@param        "+atName+" "+at->getDoc()+"\n";
+            str += typeName + " " + atName;
+            const QString initVal = at->getInitialValue();
+            if (! initVal.isEmpty())
+                str += " = " + initVal;
+            if (j < atl->count() - 1)
+                str += ", ";
+            returnStr += "@param  " + atName + " " + at->getDoc() + "\n";
         }
-        str+= " )";
+        str += " )";
 
         // method body : only gets IF its not in a header
         if (isHeaderMethod && !INLINE_OPERATION_METHODS)
