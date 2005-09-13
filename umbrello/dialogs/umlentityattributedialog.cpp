@@ -197,7 +197,7 @@ bool UMLEntityAttributeDialog::apply() {
     }
     UMLClassifier * pConcept = dynamic_cast<UMLClassifier *>( m_pEntityAttribute->parent() );
     UMLObject *o = pConcept->findChildObject(name);
-    if (o) {
+    if (o && o != m_pEntityAttribute) {
         KMessageBox::error(this, i18n("The entity attribute name you have chosen is already being used in this operation."),
                            i18n("Entity Attribute Name Not Unique"), false);
         m_pNameLE->setText( m_pEntityAttribute->getName() );
