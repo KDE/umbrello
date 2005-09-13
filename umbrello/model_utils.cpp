@@ -340,17 +340,25 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
 Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owningScope) {
     UMLDoc *pDoc = UMLApp::app()->getDocument();
 
-    m = m.stripWhiteSpace();
+    m = m.simplifyWhiteSpace();
     if (m.isEmpty())
         return PS_Empty;
+    /**
+     * We don't apply programming-language style syntax checking on the name
+     * because UML also permits non programming-language oriented designs
+     * using narrative names, for example "check water temperature".
     QRegExp pat( "^(\\w+)" );
     int pos = pat.search(m);
     if (pos == -1)
         return PS_Illegal_MethodName;
     desc.m_name = pat.cap(1);
+     */
+    // Remove possible empty parentheses ()
+    m.remove( QRegExp("\\s*\\(\\s*\\)") );
+    desc.m_name = m;
     desc.m_pReturnType = NULL;
-    pat = QRegExp( ":\\s*(\\w[\\w\\. ]*)$" );
-    pos = pat.search(m);
+    QRegExp pat( ":\\s*(\\w[\\w\\. ]*)$" );
+    int pos = pat.search(m);
     if (pos != -1) {  // return type is optional
         QString retType = pat.cap(1);
         if (retType != "void") {
