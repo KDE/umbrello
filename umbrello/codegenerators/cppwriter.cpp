@@ -1185,10 +1185,13 @@ void CppWriter::writeOperations(UMLOperationList &oplist, bool isHeaderMethod, Q
         if (op->isConstructorOperation()) {
             if (WRITE_EMPTY_CONSTRUCTOR && atl->count() == 0)
                 continue;  // it's already been written, see writeConstructor{Decls,Methods}
+        } else if (op->isDestructorOperation()) {
+            if (WRITE_EMPTY_DESTRUCTOR)
+                continue;  // it's already been written, see writeConstructor{Decls,Methods}
         } else {
             methodReturnType = fixTypeName(op->getTypeName());
             if(methodReturnType != "void")
-                returnStr += "@return   "+methodReturnType+"\n";
+                returnStr += "@return " + methodReturnType + "\n";
         }
 
         QString str;

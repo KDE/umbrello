@@ -292,7 +292,7 @@ void CPPHeaderCodeDocument::syncNamesToParent( )
 bool CPPHeaderCodeDocument::addCodeOperation (CodeOperation * op ) {
 
     Uml::Scope scope = op->getParentOperation()->getScope();
-    if(!op->getParentOperation()->isConstructorOperation())
+    if(!op->getParentOperation()->isLifeOperation())
     {
         switch (scope) {
         default:

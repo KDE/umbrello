@@ -95,7 +95,7 @@ void CPPSourceCodeDocument::init ( ) {
 // of the document
 bool CPPSourceCodeDocument::addCodeOperation (CodeOperation * op ) {
 
-    if(!op->getParentOperation()->isConstructorOperation())
+    if(!op->getParentOperation()->isLifeOperation())
     {
         return methodsBlock->addTextBlock(op);
     } else

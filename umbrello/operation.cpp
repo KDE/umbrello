@@ -138,10 +138,12 @@ QString UMLOperation::toString(Uml::Signature_Type sig) {
     }
 
     s += getName();
-    s.append("(");
+    if (!s.contains("("))
+        s.append("(");
 
     if(sig == Uml::st_NoSig || sig == Uml::st_NoSigNoScope) {
-        s.append(")");
+        if (!s.contains(")"))
+            s.append(")");
         return s;
     }
     UMLAttribute * obj=0;
@@ -152,7 +154,8 @@ QString UMLOperation::toString(Uml::Signature_Type sig) {
         if(i < last)
             s.append(", ");
     }
-    s.append(")");
+    if (!s.contains(")"))
+        s.append(")");
     UMLClassifier *ownParent = static_cast<UMLClassifier*>(parent());
     QString returnType;
     UMLClassifier *retType = UMLClassifierListItem::getType();
@@ -237,6 +240,46 @@ bool UMLOperation::resolveRef() {
             overallSuccess = false;
     }
     return overallSuccess;
+}
+
+bool UMLOperation::isConstructorOperation() {
+    // if an operation has the stereotype constructor
+    // return true
+    QString strConstructor ("constructor");
+    if (getStereotype() == strConstructor)
+        return true;
+
+    UMLClassifier * c = static_cast<UMLClassifier*>(this->parent());
+    QString cName = c->getName();
+    QString opName = getName();
+    // It's a constructor operation if the operation name
+    // matches that of the parent classifier.
+    return (cName == opName);
+}
+
+bool UMLOperation::isDestructorOperation() {
+    if (getStereotype() == "destructor")
+        return true;
+    UMLClassifier * c = static_cast<UMLClassifier*>(this->parent());
+
+    QString cName = c->getName();
+    QString opName = getName();
+    // Special support for C++ syntax:
+    // It's a destructor operation if the operation name begins
+    // with "~" followed by the name of the parent classifier.
+    if (! opName.startsWith("~"))
+        return false;
+    opName.remove( QRegExp("^~\\s*") );
+    return (cName == opName);
+}
+
+bool UMLOperation::isLifeOperation() {
+    return (isConstructorOperation() || isDestructorOperation());
+}
+
+bool UMLOperation::showPropertiesDialogue(QWidget* parent) {
+    UMLOperationDialog dialogue(parent, this);
+    return dialogue.exec();
 }
 
 void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
@@ -386,26 +429,6 @@ bool UMLOperation::load( QDomElement & element ) {
         attElement = node.toElement();
     }//end while
     return true;
-}
-
-bool UMLOperation::isConstructorOperation() {
-    UMLClassifier * c = dynamic_cast<UMLClassifier*>(this->parent());
-
-    QString cName = c->getName();
-    QString opName = getName();
-    // if an operation has the stereotype constructor
-    // return true
-    QString strConstructor ("constructor");
-    if (getStereotype() == strConstructor)
-        return true;
-    // It's a constructor operation if the operation name
-    // matches that of the parent classifier.
-    return (cName == opName);
-}
-
-bool UMLOperation::showPropertiesDialogue(QWidget* parent) {
-    UMLOperationDialog dialogue(parent, this);
-    return dialogue.exec();
 }
 
 

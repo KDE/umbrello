@@ -163,16 +163,30 @@ public:
     bool showPropertiesDialogue(QWidget* parent);
 
     /**
-     * Saves to the <UML:Operation> XMI element.
-     */
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-
-    /**
      * Returns whether this operation is a constructor.
      *
      * @return  True if this operation is a constructor.
      */
     bool isConstructorOperation();
+
+    /**
+     * Returns whether this operation is a destructor.
+     *
+     * @return  True if this operation is a destructor.
+     */
+    bool isDestructorOperation();
+
+    /**
+     * Shortcut for (isConstructorOperation() || isDestructorOperation())
+     *
+     * @return  True if this operation is a constructor or destructor.
+     */
+    bool isLifeOperation();
+
+    /**
+     * Saves to the <UML:Operation> XMI element.
+     */
+    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:
     /**

@@ -130,7 +130,7 @@ void JavaClassifierCodeDocument::init ( ) {
 // of the document
 bool JavaClassifierCodeDocument::addCodeOperation (CodeOperation * op ) {
 
-    if(!op->getParentOperation()->isConstructorOperation())
+    if(!op->getParentOperation()->isLifeOperation())
         return operationsBlock->addTextBlock(op);
     else
         return constructorBlock->addTextBlock(op);
