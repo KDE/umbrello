@@ -9,22 +9,22 @@ if test "$kde_have_flex" = "no"; then
 fi
 
 dnl Not GPL compatible
-AC_PATH_PROG(DOT_FOUND, dot, no)
-KDE_CHECK_HEADER(graphviz/pathgeom.h,
-  [kde_have_graphviz=yes],
-  [kde_have_graphviz=no])
- 
-if test "$DOT_FOUND" != "no" -a "$kde_have_graphviz" = "yes"; then
-  CXXFLAGS="$CXXFLAGS -DHAVE_DOT"
-  GRAPHVIZ_LIB=`pkg-config --libs libgraph`
-  AUTOLAYOUT_DIR="autolayout"
-  AUTOLAYOUT_LIBS="autolayout/libautolayout.la $GRAPHVIZ_LIB -ldotgen -lgvc"
-else
-  AUTOLAYOUT_DIR=""
-  AUTOLAYOUT_LIBS=""
-fi
-AC_SUBST(AUTOLAYOUT_DIR)
-AC_SUBST(AUTOLAYOUT_LIBS)
+dnl AC_PATH_PROG(DOT_FOUND, dot, no)
+dnl KDE_CHECK_HEADER(graphviz/pathgeom.h,
+dnl   [kde_have_graphviz=yes],
+dnl   [kde_have_graphviz=no])
+dnl  
+dnl if test "$DOT_FOUND" != "no" -a "$kde_have_graphviz" = "yes"; then
+dnl   CXXFLAGS="$CXXFLAGS -DHAVE_DOT"
+dnl   GRAPHVIZ_LIB=`pkg-config --libs libgraph`
+dnl   AUTOLAYOUT_DIR="autolayout"
+dnl   AUTOLAYOUT_LIBS="autolayout/libautolayout.la $GRAPHVIZ_LIB -ldotgen -lgvc"
+dnl else
+dnl   AUTOLAYOUT_DIR=""
+dnl   AUTOLAYOUT_LIBS=""
+dnl fi
+dnl AC_SUBST(AUTOLAYOUT_DIR)
+dnl AC_SUBST(AUTOLAYOUT_LIBS)
 dnl End of Not GPL compatible
 
 AC_LANG_RESTORE
