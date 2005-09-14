@@ -71,9 +71,9 @@ void ClassifierWidget::init() {
 
     m_bShowAttributes = ops.classState.showAtts;
     m_bShowStereotype = ops.classState.showStereoType;
+    m_bDrawAsCircle = false;
     setShowAttSigs( ops.classState.showAttSig );
     m_pAssocWidget = NULL;
-    m_bDrawAsCircle = false;
 }
 
 void ClassifierWidget::updateSigs() {
@@ -260,6 +260,8 @@ void ClassifierWidget::setShowAttSigs(bool _status) {
         m_ShowAttSigs = Uml::st_ShowSig;
     else
         m_ShowAttSigs = Uml::st_SigNoScope;
+    if (UMLApp::app()->getDocument()->loading())
+        return;
     calculateSize();
     update();
 }
