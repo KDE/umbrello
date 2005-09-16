@@ -159,7 +159,7 @@ public:
 
     /** Will add the code operation in the correct place in the document.
      *  @return bool which is true IF the code operation was added successfully
-         */
+     */
     virtual bool addCodeOperation (CodeOperation *opBlock) = 0;
 
     /**
@@ -237,7 +237,7 @@ private:
 
     /**
      * Maps CodeClassFields to UMLObjects. Used to prevent re-adding a class
-                 * field.
+     * field.
      */
     QMap<UMLObject *,CodeClassField *> * m_classFieldMap;
 
