@@ -84,6 +84,12 @@ UMLObject* UMLEnum::createEnumLiteral() {
 }
 
 UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::IDType id) {
+    UMLObject *el = UMLCanvasObject::findChildObject(name);
+    if (el != NULL) {
+        kdDebug() << "UMLEnum::addEnumLiteral: " << name
+                  << " is already present" << endl; 
+        return el;
+    }
     UMLEnumLiteral* literal = new UMLEnumLiteral(this, name, id);
     m_List.append(literal);
     emit modified();
