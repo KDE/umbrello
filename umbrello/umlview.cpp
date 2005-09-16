@@ -1382,31 +1382,40 @@ QString UMLView::mimeTypeToImageType(QString mimetype) {
 void UMLView::fixEPS(const QString &filename, QRect rect) {
     // now open the file and make a correct eps out of it
     QFile epsfile(filename);
-    QString fileContent;
-    if (epsfile.open(IO_ReadOnly )) {
-        // read
-        QTextStream ts(&epsfile);
-        fileContent = ts.read();
-        epsfile.close();
-
-        // write new content to file
-        if (epsfile.open(IO_WriteOnly | IO_Truncate)) {
-            // read information
-            QRegExp rx("%%BoundingBox:\\s*(-?[\\d\\.]+)\\s*(-?[\\d\\.]+)\\s*(-?[\\d\\.]+)\\s*(-?[\\d\\.]+)");
-            const int pos = rx.search(fileContent);
-            const int left = (int)rx.cap(1).toFloat();
-            const int right = left + rect.width();
-            const int top = (int)rx.cap(4).toFloat();
-            const int bottom = top - rect.height();
-
-            // modify content
-            fileContent.replace(pos,rx.cap(0).length(),
-                                QString("%%BoundingBox: %1 %2 %3 %4").arg(left).arg(bottom).arg(right).arg(top));
-
-            ts << fileContent;
-            epsfile.close();
-        }
+    if (! epsfile.open(IO_ReadOnly)) {
+        return;
     }
+    // read
+    QTextStream ts(&epsfile);
+    QString fileContent = ts.read();
+    epsfile.close();
+
+    // read information
+    QRegExp rx("%%BoundingBox:\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)");
+    const int pos = rx.search(fileContent);
+    if (pos < 0) {
+        kdError() << "UMLView::fixEPS(" << filename
+                  << "): cannot find %%BoundingBox" << endl;
+        return;
+    }
+
+    // write new content to file
+    if (! epsfile.open(IO_WriteOnly | IO_Truncate)) {
+        kdError() << "UMLView::fixEPS(" << filename
+                  << "): cannot open file for writing" << endl;
+        return;
+    }
+    const int left = (int)rx.cap(1).replace(':', '0').toFloat();
+    const int right = left + rect.width();
+    const int top = (int)rx.cap(4).replace(':', '0').toFloat();
+    const int bottom = top - rect.height();
+
+    // modify content
+    fileContent.replace(pos,rx.cap(0).length(),
+                        QString("%%BoundingBox: %1 %2 %3 %4").arg(left).arg(bottom).arg(right).arg(top));
+
+    ts << fileContent;
+    epsfile.close();
 }
 
 void UMLView::printToFile(const QString &filename,bool isEPS) {
