@@ -478,6 +478,8 @@ bool UMLClipboard::pasteClip4(QMimeSource* data) {
 
     if( diagramType != doc->getCurrentView()->getType() ) {
         if( !checkPasteWidgets(widgets) ) {
+            assocs.setAutoDelete(true);
+            assocs.clear();
             return false;
         }
     }
@@ -636,6 +638,7 @@ bool UMLClipboard::insertItemChildren( UMLListViewItem * item ) {
 }
 
 bool UMLClipboard::checkPasteWidgets( UMLWidgetList & widgetList ) {
+    bool retval = true;
     UMLWidget * p = 0;
     UMLWidgetListIt it( widgetList );
     while ( ( p = it.current()) != 0 ) {
@@ -645,17 +648,24 @@ bool UMLClipboard::checkPasteWidgets( UMLWidgetList & widgetList ) {
             break;
 
         case Uml::wt_Text:
-            if( static_cast<FloatingText *>( p )->
-                    getRole() != Uml::tr_Floating )
-                return false;
+            {
+                FloatingText *ft = static_cast<FloatingText*>(p);
+                if (ft->getRole() != Uml::tr_Floating) {
+                    widgetList.remove(p);
+                    delete ft;
+                    retval = false;
+                }
+            }
             break;
 
         default:
-            return false;
+            widgetList.remove(p);
+            delete p;
+            retval = false;
             break;
         }
     }
-    return true;
+    return retval;
 }
 
 void UMLClipboard::pasteItemAlreadyExists() {
