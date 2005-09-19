@@ -144,6 +144,8 @@ void CodeClassFieldDeclarationBlock::syncToParent () {
     if(!(getParentClassField()->parentIsAttribute()))
     {
         UMLRole * parent = (UMLRole*)getParentObject();
+        if (parent == NULL)
+            return;
         if(parent->getName().isEmpty())
         {
             getComment()->setWriteOutText(false);
