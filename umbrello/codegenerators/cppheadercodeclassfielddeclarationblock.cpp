@@ -41,12 +41,16 @@ CPPHeaderCodeClassFieldDeclarationBlock::~CPPHeaderCodeClassFieldDeclarationBloc
  */
 void CPPHeaderCodeClassFieldDeclarationBlock::updateContent( )
 {
+    UMLObject *umlparent = CodeClassFieldDeclarationBlock::getParentObject();
+    if (umlparent == NULL) {
+        return;
+    }
 
     CodeClassField * cf = getParentClassField();
     CPPCodeClassField * hcppcf = (CPPCodeClassField*) cf;
 
     // Set the comment
-    QString notes = getParentObject()->getDoc();
+    QString notes = umlparent->getDoc();
     getComment()->setText(notes);
     if(notes.isEmpty())
         getComment()->setWriteOutText(false);
@@ -55,7 +59,7 @@ void CPPHeaderCodeClassFieldDeclarationBlock::updateContent( )
 
 
     // Set the body
-    QString staticValue = getParentObject()->getStatic() ? "static " : "";
+    QString staticValue = umlparent->getStatic() ? "static " : "";
     QString typeName = hcppcf->getTypeName();
     QString fieldName = hcppcf->getFieldName();
 
