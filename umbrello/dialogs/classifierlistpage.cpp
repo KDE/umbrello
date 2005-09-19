@@ -179,12 +179,13 @@ void ClassifierListPage::slotClicked(QListBoxItem*item) {
     //
     // for more information see Qt doc for void QListBox::clearSelection()
     UMLClassifierListItem* listItem;
-    if(!item && m_pItemListLB->count() == 0) {
-        enableWidgets(false);
-        m_pOldListItem = 0;
-        m_pItemListLB->clearSelection();
-        return;
-    } else if (!item && m_pItemListLB->count() > 0) {
+    if (item == NULL) {
+        if (m_pItemListLB->count() == 0) {
+            enableWidgets(false);
+            m_pOldListItem = 0;
+            m_pItemListLB->clearSelection();
+            return;
+        }
         m_pItemListLB->setSelected(0, true);
         listItem = getItemList().at(0);
     } else {
@@ -327,6 +328,7 @@ void ClassifierListPage::slotUpClicked() {
     //shouldn't occur, but just in case
     if( count <= 1 || index <= 0 )
         return;
+    m_pOldListItem = NULL;
 
     //swap the text around in the ListBox
     QString aboveString = m_pItemListLB->text( index - 1 );
@@ -354,6 +356,7 @@ void ClassifierListPage::slotDownClicked() {
     //shouldn't occur, but just in case
     if( count <= 1 || index >= count - 1 )
         return;
+    m_pOldListItem = NULL;
 
     //swap the text around in the ListBox
     QString belowString = m_pItemListLB->text( index + 1 );
