@@ -132,9 +132,9 @@ private:
         QString Label;
         QPixmap Symbol;
         QCursor Cursor;
-        ToolButton() { Label = QString("?"); Symbol = QPixmap(); Cursor = QCursor(); };
+        ToolButton() : Label(QString("?")), Symbol(QPixmap()), Cursor(QCursor()) { }
         ToolButton(const QString& lbl, const QPixmap& smb, const QCursor& cur) :
-        Label(lbl), Symbol(smb), Cursor(cur) { };
+        Label(lbl), Symbol(smb), Cursor(cur) { }
     };
 
     typedef QMap<ToolBar_Buttons, ToolButton> ToolButtonMap;
@@ -142,7 +142,7 @@ private:
     ToolBar_Buttons     m_CurrentButtonID;
     OldToolMap          m_map;
     Uml::Diagram_Type   m_Type;
-    ToolButtonMap               m_ToolButtons;
+    ToolButtonMap       m_ToolButtons;
 
     /**
      * Loads a pixmap from file
