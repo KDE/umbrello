@@ -110,6 +110,7 @@ bool WidgetBase::loadFromXMI( QDomElement & qElement ) {
         m_LineWidth = m_pView->getLineWidth();
         m_bUsesDiagramLineWidth = true;
     }
+    return true;
 }
 
 #include "widgetbase.moc"
