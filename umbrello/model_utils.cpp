@@ -344,21 +344,20 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
     if (m.isEmpty())
         return PS_Empty;
     /**
-     * We don't apply programming-language style syntax checking on the name
+     * The search pattern includes everything until the opening parenthesis
      * because UML also permits non programming-language oriented designs
      * using narrative names, for example "check water temperature".
-    QRegExp pat( "^(\\w+)" );
+     */
+    QRegExp pat( "^([^\\(]+)" );
     int pos = pat.search(m);
     if (pos == -1)
         return PS_Illegal_MethodName;
     desc.m_name = pat.cap(1);
-     */
     // Remove possible empty parentheses ()
     m.remove( QRegExp("\\s*\\(\\s*\\)") );
-    desc.m_name = m;
     desc.m_pReturnType = NULL;
-    QRegExp pat( ":\\s*(\\w[\\w\\. ]*)$" );
-    int pos = pat.search(m);
+    pat = QRegExp( ":\\s*(\\w[\\w\\. ]*)$" );
+    pos = pat.search(m);
     if (pos != -1) {  // return type is optional
         QString retType = pat.cap(1);
         if (retType != "void") {
