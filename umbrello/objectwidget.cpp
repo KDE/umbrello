@@ -322,11 +322,22 @@ int ObjectWidget::getEndLineY() {
 }
 
 void ObjectWidget::messageAdded(MessageWidget* message) {
+    if (messageWidgetList.containsRef(message) ) {
+        kdError() << "ObjectWidget::messageAdded("
+                  << message->getName() << ") : duplicate entry !"
+                  << endl;
+        return ;
+    }
     messageWidgetList.append(message);
 }
 
 void ObjectWidget::messageRemoved(MessageWidget* message) {
-    messageWidgetList.remove(message);
+    if ( messageWidgetList.remove(message) == false ) {
+        kdError() << "ObjectWidget::messageRemoved("
+                  << message->getName() << ") : missing entry !"
+                  << endl;
+        return ;
+    }
 }
 
 void ObjectWidget::slotMessageMoved() {

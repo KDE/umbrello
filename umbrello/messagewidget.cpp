@@ -43,17 +43,21 @@ MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
         m_pOw[Uml::B]->setY(y);
     }
 
-    connect(m_pOw[Uml::A], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
-    connect(m_pOw[Uml::B], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
+    // This is done in activate()
+//     connect(m_pOw[Uml::A], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
+//     connect(m_pOw[Uml::B], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
     calculateWidget();
     y = y < getMinHeight() ? getMinHeight() : y;
     y = y > getMaxHeight() ? getMaxHeight() : y;
     m_nY = y;
 
-    connect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::A], SLOT(slotMessageMoved()) );
-    connect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::B], SLOT(slotMessageMoved()) );
-    m_pOw[Uml::A] -> messageAdded(this);
-    m_pOw[Uml::B] -> messageAdded(this);
+    // This is done in activate()
+//     connect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::A], SLOT(slotMessageMoved()) );
+//     connect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::B], SLOT(slotMessageMoved()) );
+//     m_pOw[Uml::A] -> messageAdded(this);
+//     m_pOw[Uml::B] -> messageAdded(this);
+
+    this->activate();
 }
 
 MessageWidget::MessageWidget(UMLView * view, Uml::Sequence_Message_Type seqMsgType, Uml::IDType id)

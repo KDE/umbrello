@@ -118,7 +118,8 @@ void ToolBarStateMessages::mouseRelease(QMouseEvent* ome)
             m_pUMLView->connect(m_pUMLView, SIGNAL(sigColorChanged(Uml::IDType)),
                                 message, SLOT(slotColorChanged(Uml::IDType)));
 
-            message->activate();
+            // According to contract only call from serialisation _not_ when newly added to existing diagram.
+            //message->activate();
 
             m_pSelectedWidget = 0;
             m_pUMLView->getMessageList().append(message);
