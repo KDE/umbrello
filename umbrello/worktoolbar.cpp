@@ -288,8 +288,7 @@ void WorkToolBar::loadPixmaps() {
     KStandardDirs * dirs = KGlobal::dirs();
     QString dataDir = dirs->findResourceDir( "data", "umbrello/pics/object.png" );
     dataDir += "/umbrello/pics/";
-    const size_t n_buttonInfos = sizeof(buttonInfo) /
-                                 (sizeof(ToolBar_Buttons) + sizeof(QString) + sizeof(char*));
+    const size_t n_buttonInfos = sizeof(buttonInfo) / sizeof(ButtonInfo);
 
     m_ToolButtons.insert(tbb_Undefined,
                          ToolButton(i18n("UNDEFINED"),
