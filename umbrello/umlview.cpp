@@ -1500,6 +1500,8 @@ void UMLView::exportImage() {
 
     if (fileDialog.selectedURL().isEmpty())
         return;
+    clearSelected();   // Thanks to Peter Soetens for the idea
+
     // save
     imageMimetype = fileDialog.currentMimeFilter();
     if (app) app->setImageMimetype(imageMimetype);
