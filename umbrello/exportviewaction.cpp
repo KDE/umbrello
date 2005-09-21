@@ -79,6 +79,10 @@ void ExportViewAction::exportView(UMLView* view, QString imageMimetype) {
         kdDebug() << "Can not save an empty diagram" << endl;
         return;
     }
+
+    // remove 'blue squares' from exported picture.
+    view->clearSelected();
+
     kdDebug() << "ExportImageTo: " << file << endl;
     if (imageMimetype == "image/x-eps") {
         view->printToFile(file,true);
