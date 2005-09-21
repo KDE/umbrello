@@ -375,7 +375,7 @@ void ClassifierWidget::calculateSize() {
                 continue;
             const QString displayedOp = op->toString(m_ShowOpSigs);
             UMLWidget::FontType oft;
-            oft = (op->getAbstract() ? UMLWidget::FT_ITALIC : UMLWidget::FT_BOLD);
+            oft = (op->getAbstract() ? UMLWidget::FT_ITALIC : UMLWidget::FT_NORMAL);
             const int w = UMLWidget::getFontMetrics(oft).size(0,displayedOp).width();
             if (w > width)
                 width = w;
