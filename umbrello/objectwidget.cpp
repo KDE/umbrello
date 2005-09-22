@@ -158,13 +158,9 @@ void ObjectWidget::setMultipleInstance(bool multiple) {
     update();
 }
 
-bool ObjectWidget::activate(IDChangeLog* ChangeLog /*= 0*/) {
-    bool status = UMLWidget::activate(ChangeLog);
-    if (status) {
-        calculateSize();
-    }
+void ObjectWidget::activate(IDChangeLog* ChangeLog /*= 0*/) {
+    UMLWidget::activate(ChangeLog);
     moveEvent(0);
-    return status;
 }
 
 void ObjectWidget::setX( int x ) {

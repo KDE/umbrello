@@ -118,14 +118,6 @@ void PackageWidget::setShowStereotype(bool _status) {
     update();
 }
 
-bool PackageWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
-    bool status = UMLWidget::activate(ChangeLog);
-    if(status) {
-        calculateSize();
-    }
-    return status;
-}
-
 bool PackageWidget::getShowStereotype() {
     return m_bShowStereotype;
 }

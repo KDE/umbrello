@@ -110,10 +110,8 @@ public:
 
     /**
      * Activates the AssociationWidget after a load.
-     *
-     * @return  True if activation successful.
      */
-    bool activate();
+    void activate();
 
     /**
      * Set the widget of the given role.

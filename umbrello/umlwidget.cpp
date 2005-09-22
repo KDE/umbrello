@@ -636,7 +636,7 @@ void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY, bool resize
     }
 }
 
-bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
+void UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
     setFont( m_Font );
     setSize( getWidth(), getHeight() );
     m_bActivated = true;
@@ -683,7 +683,7 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
     }
     if ( m_pView -> getPaste() )
         m_pView -> createAutoAssociations( this );
-    return true;
+    calculateSize();
 }
 
 /** Read property of bool m_bActivated. */

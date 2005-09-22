@@ -102,14 +102,6 @@ void DatatypeWidget::calculateSize() {
     adjustAssocs( getX(), getY() );//adjust assoc lines
 }
 
-bool DatatypeWidget::activate(IDChangeLog* ChangeLog /* = 0*/) {
-    bool status = UMLWidget::activate(ChangeLog);
-    if (status) {
-        calculateSize();
-    }
-    return status;
-}
-
 void DatatypeWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement conceptElement = qDoc.createElement("datatypewidget");
     UMLWidget::saveToXMI(qDoc, conceptElement);

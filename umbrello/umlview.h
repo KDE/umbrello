@@ -567,7 +567,7 @@ public:
     /**
      * Activate all the objects and associations after a load from the clipboard
      */
-    bool activate();
+    void activate();
 
     /**
      * Returns a list with all the selected associations from the diagram
@@ -581,10 +581,8 @@ public:
 
     /**
      * Activate the view after a load a new file
-     *
-     * @return Return true if the activate was succesful
      */
-    bool activateAfterLoad( bool bUseLog = false );
+    void activateAfterLoad( bool bUseLog = false );
 
     void endPartialWidgetPaste();
     void beginPartialWidgetPaste();

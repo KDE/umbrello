@@ -125,7 +125,7 @@ public:
     /**
      * Activate the object after serializing it from a QDataStream
      */
-    virtual bool activate(IDChangeLog* ChangeLog = 0);
+    void activate(IDChangeLog* ChangeLog = 0);
 
     /**
      * Override default method.

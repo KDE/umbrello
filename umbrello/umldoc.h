@@ -726,7 +726,7 @@ public:
      *
      * @return  True if operation successful.
      */
-    bool activateAllViews();
+    void activateAllViews();
 
     /**
      * Sets the default settings to the given settings.

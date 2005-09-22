@@ -43,19 +43,10 @@ MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
         m_pOw[Uml::B]->setY(y);
     }
 
-    // This is done in activate()
-//     connect(m_pOw[Uml::A], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
-//     connect(m_pOw[Uml::B], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
     calculateWidget();
     y = y < getMinHeight() ? getMinHeight() : y;
     y = y > getMaxHeight() ? getMaxHeight() : y;
     m_nY = y;
-
-    // This is done in activate()
-//     connect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::A], SLOT(slotMessageMoved()) );
-//     connect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::B], SLOT(slotMessageMoved()) );
-//     m_pOw[Uml::A] -> messageAdded(this);
-//     m_pOw[Uml::B] -> messageAdded(this);
 
     this->activate();
 }
@@ -409,14 +400,12 @@ void MessageWidget::mouseDoubleClickEvent(QMouseEvent * /*me*/) {
         m_pFText -> slotMenuSelection(ListPopupMenu::mt_Select_Operation);
 }
 
-bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
+void MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
     m_pView->resetPastePoint();
-    bool status = UMLWidget::activate(Log);
-    if(!status)
-        return false;
+    UMLWidget::activate(Log);
     if (m_pOw[Uml::A] == NULL || m_pOw[Uml::B] == NULL) {
         kdDebug() << "MessageWidget::activate: can't make message" << endl;
-        return false;
+        return;
     }
     if( !m_pFText ) {
         Uml::Text_Role tr = Uml::tr_Seq_Message;
@@ -448,7 +437,6 @@ bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
     m_pOw[Uml::B] -> messageAdded(this);
 
     emit sigMessageMoved();
-    return status;
 }
 
 void MessageWidget::setMessageText(FloatingText *ft) {

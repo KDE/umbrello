@@ -230,11 +230,6 @@ void NoteWidget::slotMenuSelection(int sel) {
     }
 }
 
-bool NoteWidget::activate ( IDChangeLog* ChangeLog /*= 0*/ ) {
-    bool status = UMLWidget::activate( ChangeLog );
-    return status;
-}
-
 void NoteWidget::mouseReleaseEvent( QMouseEvent * me ) {
     UMLWidget::mouseReleaseEvent( me );
     if ( m_bResizing ) {

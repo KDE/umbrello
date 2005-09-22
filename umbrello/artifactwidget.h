@@ -49,11 +49,6 @@ public:
     virtual ~ArtifactWidget();
 
     /**
-     * Activate the object after loading it
-     */
-    virtual bool activate(IDChangeLog* ChangeLog  = 0 );
-
-    /**
      * Overrides standard method
      */
     void draw(QPainter& p, int offsetX, int offsetY);

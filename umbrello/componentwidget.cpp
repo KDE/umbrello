@@ -139,14 +139,6 @@ void ComponentWidget::setShowStereotype(bool _status) {
     update();
 }
 
-bool ComponentWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
-    bool status = UMLWidget::activate(ChangeLog);
-    if(status) {
-        calculateSize();
-    }
-    return status;
-}
-
 bool ComponentWidget::getShowStereotype() const {
     return m_bShowStereotype;
 }

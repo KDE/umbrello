@@ -261,14 +261,6 @@ void ArtifactWidget::calculateSize() {
     }
 }
 
-bool ArtifactWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
-    bool status = UMLWidget::activate(ChangeLog);
-    if(status) {
-        calculateSize();
-    }
-    return status;
-}
-
 void ArtifactWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     QDomElement conceptElement = qDoc.createElement("artifactwidget");
     UMLWidget::saveToXMI(qDoc, conceptElement);

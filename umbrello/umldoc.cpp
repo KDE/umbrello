@@ -2590,10 +2590,7 @@ bool UMLDoc::addUMLView(UMLView * pView ) {
     Uml::IDType result = assignNewID(pView->getID());
     pView->setID(result);
 
-    if (!pView->activateAfterLoad( true ) ) {
-        kdDebug()<<"Error activating diagram"<<endl;
-        return false;
-    }
+    pView->activateAfterLoad( true );
     pView->endPartialWidgetPaste();
     pView->setOptionState( UMLApp::app()->getOptionState() );
     addView(pView);
@@ -2601,16 +2598,14 @@ bool UMLDoc::addUMLView(UMLView * pView ) {
     return true;
 }
 
-bool UMLDoc::activateAllViews() {
-    bool status = true;
+void UMLDoc::activateAllViews() {
     // store old setting - for restore of last setting
     bool m_bLoading_old = m_bLoading;
     m_bLoading = true; //this is to prevent document becoming modified when activating a view
 
     for(UMLView *v = m_ViewList.first(); v; v = m_ViewList.next() )
-        status = status && v->activateAfterLoad();
+        v->activateAfterLoad();
     m_bLoading = m_bLoading_old;
-    return status;
 }
 
 void UMLDoc::settingsChanged(Settings::OptionState optionState) {

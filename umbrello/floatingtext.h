@@ -183,9 +183,8 @@ public:
      * Activate the FloatingText after the saved data has been loaded
      *
      * @param ChangeLog Pointer to the IDChangeLog.
-     * @return True if activation was successful.
      */
-    virtual bool activate( IDChangeLog* ChangeLog = 0 );
+    void activate( IDChangeLog* ChangeLog = 0 );
 
     /**
      * Sets the role type of this FloatingText.

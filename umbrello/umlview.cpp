@@ -1612,7 +1612,10 @@ UMLObjectList UMLView::getUMLObjects() {
     return list;
 }
 
-bool UMLView::activate() {
+void UMLView::activate() {
+    if (!m_pDoc->loading()) {
+        kdError() << "UMLView::activate() called while not loading ?!?" << endl;
+    }
     UMLWidgetListIt it( m_WidgetList );
     UMLWidget *obj;
 
@@ -1623,9 +1626,8 @@ bool UMLView::activate() {
         if(obj->isActivated() || obj->getBaseType() == wt_Message)
             continue;
 
-        if (!obj->activate())
-            continue;
-        obj -> setVisible( true );
+        obj->activate();
+        obj->setVisible( true );
     }//end while
 
     MessageWidgetListIt it2( m_MessageList );
@@ -1636,11 +1638,8 @@ bool UMLView::activate() {
         if(obj->isActivated())
             continue;
 
-        if(!m_pDoc->loading() || !obj->activate(m_pDoc->getChangeLog())) {
-            kdDebug() << "Couldn't activate message widget" << endl;
-            continue;
-        }
-        obj -> setVisible( true );
+        obj->activate(m_pDoc->getChangeLog());
+        obj->setVisible( true );
 
     }//end while
 
@@ -1659,8 +1658,6 @@ bool UMLView::activate() {
             assocwidget -> moveEntireAssoc( x, y );
         }
     }//end while
-
-    return true;
 }
 
 
@@ -1977,26 +1974,22 @@ void UMLView::addAssocInViewAndDoc(AssociationWidget* a) {
 
 }
 
-bool UMLView::activateAfterLoad(bool bUseLog) {
-    bool status = true;
-    if ( !m_bActivated ) {
-        if( bUseLog ) {
-            beginPartialWidgetPaste();
-        }
-
-        //now activate them all
-        status = activate();
-
-        if( bUseLog ) {
-            endPartialWidgetPaste();
-        }
-        resizeCanvasToItems();
-        setZoom( getZoom() );
-    }//end if active
-    if(status) {
-        m_bActivated = true;
+void UMLView::activateAfterLoad(bool bUseLog) {
+    if (m_bActivated)
+        return;
+    if( bUseLog ) {
+        beginPartialWidgetPaste();
     }
-    return true;
+
+    //now activate them all
+    activate();
+
+    if( bUseLog ) {
+        endPartialWidgetPaste();
+    }
+    resizeCanvasToItems();
+    setZoom( getZoom() );
+    m_bActivated = true;
 }
 
 void UMLView::beginPartialWidgetPaste() {

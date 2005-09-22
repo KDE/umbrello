@@ -189,14 +189,6 @@ bool EnumWidget::getShowPackage() const {
     return m_bShowPackage;
 }
 
-bool EnumWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
-    bool status = UMLWidget::activate(ChangeLog);
-    if (status) {
-        calculateSize();
-    }
-    return status;
-}
-
 void EnumWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement ) {
     QDomElement conceptElement = qDoc.createElement("enumwidget");
     UMLWidget::saveToXMI(qDoc, conceptElement);

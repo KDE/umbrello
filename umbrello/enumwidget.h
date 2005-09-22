@@ -71,11 +71,6 @@ public:
     void setShowPackage(bool _status);
 
     /**
-     * Activate the object after serializing it from a QDataStream.
-     */
-    virtual bool activate(IDChangeLog* ChangeLog  = 0 );
-
-    /**
      * Draws the enum as a rectangle with a box underneith with a list of literals
      */
     void draw(QPainter& p, int offsetX, int offsetY);

@@ -267,11 +267,6 @@ public:
     UMLClassifier *getClassifier();
 
     /**
-     * Activate the object after serializing it from a QDataStream.
-     */
-    bool activate(IDChangeLog* ChangeLog  = 0 );
-
-    /**
      * Overrides standard method.
      * Auxiliary to reimplementations in the derived classes.
      */

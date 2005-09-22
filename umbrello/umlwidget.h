@@ -195,10 +195,8 @@ public:
      * Activate the object after serializing it from a QDataStream
      *
      * @param ChangeLog
-     *
-     * @return
      */
-    virtual bool activate(IDChangeLog* ChangeLog = 0);
+    virtual void activate(IDChangeLog* ChangeLog = 0);
 
     /**
      * Returns true if the given point is in the boundaries of the widget

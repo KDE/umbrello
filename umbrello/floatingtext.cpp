@@ -349,11 +349,9 @@ QString FloatingText::getDisplayText() const
     return displayText;
 }
 
-bool FloatingText::activate( IDChangeLog* ChangeLog /*= 0 */) {
-    bool status = UMLWidget::activate( ChangeLog );
-    calculateSize();
+void FloatingText::activate( IDChangeLog* ChangeLog /*= 0 */) {
+    UMLWidget::activate( ChangeLog );
     update();
-    return status;
 }
 
 void FloatingText::setLink(LinkWidget * l) {

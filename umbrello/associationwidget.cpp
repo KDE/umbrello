@@ -553,9 +553,9 @@ void AssociationWidget::setText(FloatingText *ft, const QString &text) {
     }
 }
 
-bool AssociationWidget::activate() {
+void AssociationWidget::activate() {
     if(isActivated())
-        return true;
+        return;
 
     bool status = true;
     Association_Type type = getAssocType();
@@ -567,7 +567,7 @@ bool AssociationWidget::activate() {
 
     if(!m_role[A].m_pWidget || !m_role[B].m_pWidget) {
         kdDebug() << "Can't make association" << endl;
-        return false;
+        return;
     }
 
     calculateEndingPoints();
@@ -647,7 +647,6 @@ bool AssociationWidget::activate() {
     if(status) {
         m_bActivated = true;
     }
-    return status;
 }
 
 /** This function calculates which role should be set for the m_pName FloatingText */

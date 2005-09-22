@@ -181,14 +181,6 @@ void EntityWidget::slotMenuSelection(int sel) {
     UMLWidget::slotMenuSelection(sel);
 }
 
-bool EntityWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
-    bool status = UMLWidget::activate(ChangeLog);
-    if (status) {
-        calculateSize();
-    }
-    return status;
-}
-
 void EntityWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement ) {
     QDomElement conceptElement = qDoc.createElement("entitywidget");
     UMLWidget::saveToXMI(qDoc, conceptElement);

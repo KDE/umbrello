@@ -741,14 +741,6 @@ void ClassifierWidget::toggleDrawAsCircle() {
     update();
 }
 
-bool ClassifierWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
-    bool status = UMLWidget::activate(ChangeLog);
-    if (status) {
-        calculateSize();
-    }
-    return status;
-}
-
 void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement) {
     QDomElement conceptElement;
     UMLClassifier *umlc = getClassifier();

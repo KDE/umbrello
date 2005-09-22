@@ -135,14 +135,6 @@ void NodeWidget::setShowStereotype(bool _status) {
     update();
 }
 
-bool NodeWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
-    bool status = UMLWidget::activate(ChangeLog);
-    if(status) {
-        calculateSize();
-    }
-    return status;
-}
-
 bool NodeWidget::getShowStereotype() const {
     return m_bShowStereotype;
 }

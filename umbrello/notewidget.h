@@ -103,11 +103,6 @@ public:
     Uml::IDType getDiagramLink() const;
 
     /**
-     * Activate the NoteWidget after the saved data has been loaded.
-     */
-    virtual bool activate( IDChangeLog* ChangeLog = 0 );
-
-    /**
      * Override default method.
      */
     void draw(QPainter & p, int offsetX, int offsetY);

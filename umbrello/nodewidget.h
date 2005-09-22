@@ -61,11 +61,6 @@ public:
     void setShowStereotype(bool _status);
 
     /**
-     * Activate the object after serializing it from a QDataStream.
-     */
-    virtual bool activate(IDChangeLog* ChangeLog  = 0 );
-
-    /**
      * Overrides standard method.
      */
     void draw(QPainter& p, int offsetX, int offsetY);

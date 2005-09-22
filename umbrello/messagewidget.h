@@ -215,7 +215,7 @@ public:
      * Activates a MessageWidget.  Connects its m_pOw[] pointers
      * to UMLObjects and also send signals about its FloatingText.
      */
-    bool activate(IDChangeLog * Log = 0);
+    void activate(IDChangeLog * Log = 0);
 
     /**
      * Calculates the size of the widget by calling

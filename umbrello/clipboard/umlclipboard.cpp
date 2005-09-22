@@ -528,10 +528,7 @@ bool UMLClipboard::pasteClip4(QMimeSource* data) {
     }
 
     //Activate all the pasted associations and widgets
-    if(!doc->getCurrentView()->activate()) {
-        doc->getCurrentView()->endPartialWidgetPaste();
-        return false;
-    }
+    doc->getCurrentView()->activate();
     doc->getCurrentView()->endPartialWidgetPaste();
 
     UMLListView *listView = UMLApp::app()->getListView();
