@@ -111,7 +111,6 @@ UMLOperation* UMLClassifier::findOperation(QString name, Model_Utils::NameAndTyp
     UMLOperationList list = findOperations(name);
     if (list.count() == 0)
         return NULL;
-    const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     // If there are operation(s) with the same name then compare the parameter list
     const int inputParmCount = params.count();
     UMLOperation* test = NULL;
@@ -125,13 +124,12 @@ UMLOperation* UMLClassifier::findOperation(QString name, Model_Utils::NameAndTyp
         int i = 0;
         for (; i < pCount; ++i) {
             Model_Utils::NameAndType_ListIt nt(params.at(i));
-            UMLObject *c = (*nt).m_type;
-            QString typeName = testParams->at(i)->getTypeName();
+            UMLClassifier *c = dynamic_cast<UMLClassifier*>((*nt).m_type);
+            UMLClassifier *testType = testParams->at(i)->getType();
             if (c == NULL) {       //template parameter
-                if (typeName != "class")
+                if (testType->getName() != "class")
                     break;
-            } else if ((caseSensitive && typeName != c->getName()) ||
-                       (!caseSensitive && typeName.lower() != c->getName().lower()))
+            } else if (c != testType)
                 break;
         }
         if (i == pCount)
