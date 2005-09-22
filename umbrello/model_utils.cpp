@@ -308,8 +308,12 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
     if (a.isEmpty())
         return PS_Empty;
 
-    QStringList nameAndType = QStringList::split( QRegExp("\\s*:\\s*"), a);
-    QString name = nameAndType[0];
+    int colonPos = a.find(':');
+    if (colonPos < 0) {
+        nmTp = NameAndType(a, NULL);
+        return PS_OK;
+    }
+    QString name = a.left(colonPos).stripWhiteSpace();
     Uml::Parameter_Direction pd = Uml::pd_In;
     if (name.startsWith("in ")) {
         pd = Uml::pd_In;
@@ -321,17 +325,21 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
         pd = Uml::pd_Out;
         name = name.mid(4);
     }
-    UMLObject *pType = NULL;
+    a = a.mid(colonPos + 1).stripWhiteSpace();
+    if (a.isEmpty()) {
+        nmTp = NameAndType(name, NULL, pd);
+        return PS_OK;
+    }
+    QStringList typeAndInitialValue = QStringList::split( QRegExp("\\s*=\\s*"), a );
+    const QString &type = typeAndInitialValue[0];
+    UMLObject *pType = pDoc->findUMLObject(type, Uml::ot_UMLObject, owningScope);
+    if (pType == NULL) {
+        nmTp = NameAndType(name, NULL, pd);
+        return PS_Unknown_ArgType;
+    }
     QString initialValue;
-    if (nameAndType.count() == 2) {
-        QStringList typeAndInitialValue = QStringList::split( QRegExp("\\s*=\\s*"), nameAndType[1] );
-        const QString &type = typeAndInitialValue[0];
-        pType = pDoc->findUMLObject(type, Uml::ot_UMLObject, owningScope);
-        if (pType == NULL)
-            return PS_Unknown_ArgType;
-        if (typeAndInitialValue.count() == 2) {
-            initialValue = typeAndInitialValue[1];
-        }
+    if (typeAndInitialValue.count() == 2) {
+        initialValue = typeAndInitialValue[1];
     }
     nmTp = NameAndType(name, pType, pd, initialValue);
     return PS_OK;
