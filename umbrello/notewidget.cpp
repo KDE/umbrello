@@ -197,7 +197,7 @@ void NoteWidget::mousePressEvent(QMouseEvent *me) {
     //bottomRight
     if( m_nOldX + m_nPressOffsetX >= getX() + m_nOldW - m &&
             m_nOldY + m_nPressOffsetY >= getY() + m_nOldH - m &&
-            me -> button() == LeftButton) {
+            me -> button() == Qt::LeftButton) {
         m_bResizing = true;
         m_pView -> setCursor(KCursor::sizeFDiagCursor());
     }
@@ -241,7 +241,7 @@ void NoteWidget::mouseReleaseEvent( QMouseEvent * me ) {
 }
 
 void NoteWidget::mouseDoubleClickEvent( QMouseEvent * me ) {
-    if( me -> button() != LeftButton )
+    if( me -> button() != Qt::LeftButton )
         return;
     if (m_DiagramLink == Uml::id_None) {
         slotMenuSelection( ListPopupMenu::mt_Rename );
@@ -266,7 +266,7 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
     if reach height exit and don't print anymore
     start new line on \n character
     */
-    p->setPen( black );
+    p->setPen( Qt::black );
     QFont font = UMLWidget::getFont();
     p->setFont( font );
     QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -294,13 +294,13 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
                     textY += fontHeight;
                     if( textY > height )
                         return;
-                    p->drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, AlignLeft, word );
+                    p->drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, Qt::AlignLeft, word );
                 }//end if
                 else
                 {
                     if ( textY > height )
                         return;
-                    p->drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, AlignLeft, word );
+                    p->drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, Qt::AlignLeft, word );
                 }
             }//end if
             textX = margin;
@@ -317,13 +317,13 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
                     textX = margin;
                     if( textY > height )
                         return;
-                    p->drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, AlignLeft, word );
+                    p->drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, Qt::AlignLeft, word );
                 }//end if
                 else
                 {
                     if ( textY > height )
                         return;
-                    p->drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, AlignLeft, word );
+                    p->drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, Qt::AlignLeft, word );
                 }
                 textX += textWidth;
             }//end if
@@ -341,13 +341,13 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
             textY += fontHeight;
             if( textY > height )
                 return;
-            p->drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, AlignLeft, word );
+            p->drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, Qt::AlignLeft, word );
         }//end if
         else
         {
             if ( textY > height )
                 return;
-            p->drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, AlignLeft, word );
+            p->drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, Qt::AlignLeft, word );
         }
     }//end if
 #endif

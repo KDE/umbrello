@@ -47,8 +47,8 @@ void ActorWidget::draw(QPainter & p, int offsetX, int offsetY) {
     p.drawLine(offsetX + middleX, offsetY +  2 * thirdY, offsetX + middleX + A_WIDTH / 2, offsetY + A_HEIGHT);//right leg
     p.drawLine(offsetX + middleX - A_WIDTH / 2, offsetY + thirdY + thirdY / 2, offsetX + middleX + A_WIDTH / 2, offsetY + thirdY + thirdY / 2);//arms
     //draw text
-    p.setPen(QPen(black));
-    p.drawText(offsetX + A_MARGIN, offsetY + textStartY, w - A_MARGIN * 2, fontHeight, AlignCenter, getName());
+    p.setPen(QPen(Qt::black));
+    p.drawText(offsetX + A_MARGIN, offsetY + textStartY, w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
     if(m_bSelected)
         drawSelected(&p, offsetX, offsetY);
 }

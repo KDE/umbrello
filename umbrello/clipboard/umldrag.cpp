@@ -104,7 +104,6 @@ void UMLDrag::setSubType(const QCString& string, int index) {
 }
 
 void UMLDrag::setEncodedData(const QByteArray& encodedData, int index) {
-    encodedData.copy();
     data->enc[index] = encodedData.copy();
 }
 

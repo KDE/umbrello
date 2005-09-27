@@ -54,19 +54,19 @@ void DatatypeWidget::draw(QPainter& p, int offsetX, int offsetY) {
     QString name = getName();
 
     p.drawRect(offsetX, offsetY, w, h);
-    p.setPen(QPen(black));
+    p.setPen(QPen(Qt::black));
 
     QFont font = UMLWidget::getFont();
     font.setBold(true);
     p.setFont(font);
     p.drawText(offsetX + DATATYPE_MARGIN, offsetY,
                w - DATATYPE_MARGIN* 2,fontHeight,
-               AlignCenter, m_pObject->getStereotype(true));
+               Qt::AlignCenter, m_pObject->getStereotype(true));
 
     font.setItalic( m_pObject->getAbstract() );
     p.setFont(font);
     p.drawText(offsetX + DATATYPE_MARGIN, offsetY + fontHeight,
-               w - DATATYPE_MARGIN * 2, fontHeight, AlignCenter, name);
+               w - DATATYPE_MARGIN * 2, fontHeight, Qt::AlignCenter, name);
 
     if (m_bSelected) {
         drawSelected(&p, offsetX, offsetY);

@@ -158,7 +158,7 @@ void ToolBarStateOther::mouseRelease(QMouseEvent* ome)
 {
     ToolBarStatePool::mouseRelease(ome);
 
-    if (ome->state() == QMouseEvent::LeftButton)
+    if (ome->state() == Qt::LeftButton)
     {
         if (!newWidget())
         {

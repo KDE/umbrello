@@ -238,7 +238,7 @@ QPoint UMLWidget::doMouseMove(QMouseEvent* me) {
 }
 
 void UMLWidget::mouseMoveEvent(QMouseEvent* me) {
-    if( m_bMouseDown || me->button() == LeftButton ) {
+    if( m_bMouseDown || me->button() == Qt::LeftButton ) {
         QPoint newPosition = doMouseMove(me);
         int newX = newPosition.x();
         int newY = newPosition.y();
@@ -280,17 +280,17 @@ void UMLWidget::mousePressEvent(QMouseEvent *me) {
         //anything else needed??
         return;
     }
-    if (me->button() != LeftButton && me->button() != RightButton) {
+    if (me->button() != Qt::LeftButton && me->button() != Qt::RightButton) {
         m_pView->clearSelected();
         m_pView->resetToolbar();
         setSelected(false);
         return;
     }
-    if( me -> state() == ShiftButton || me -> state() == ControlButton )
+    if( me -> state() == Qt::ShiftButton || me -> state() == Qt::ControlButton )
     {
         /* we have to save the shift state, because in ReleaseEvent it is lost */
         m_bShiftPressed = true;
-        if( me -> button() == LeftButton ) {
+        if( me -> button() == Qt::LeftButton ) {
             m_bMouseDown = true;
             m_bStartMove = true;
             setSelected( !m_bSelected );
@@ -304,7 +304,7 @@ void UMLWidget::mousePressEvent(QMouseEvent *me) {
     }
     m_bShiftPressed = false;
     bool _select;
-    if( me -> button() == LeftButton ) {
+    if( me -> button() == Qt::LeftButton ) {
         m_bMouseDown = true;
         m_bStartMove = true;
 
@@ -340,13 +340,13 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
     m_bStartMove = false;
     m_bMouseDown = false;
 
-    if( me->button() == RightButton ) {
+    if( me->button() == Qt::RightButton ) {
         if (m_pMenu) {
             return;
         }
         startPopupMenu( me->globalPos() );
         return;
-    } else if (me->button() !=  LeftButton) {
+    } else if (me->button() !=  Qt::LeftButton) {
         return;
     }
     /* if multiple elements were not moved with the left mouse button,
@@ -363,7 +363,7 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
         m_pDoc->setModified(true);
     }
 
-    if (me->stateAfter() != ShiftButton || me->stateAfter() != ControlButton) {
+    if (me->stateAfter() != Qt::ShiftButton || me->stateAfter() != Qt::ControlButton) {
         m_pView->setAssoc(this);
     }
 }
@@ -584,7 +584,7 @@ void UMLWidget::slotLineWidthChanged(Uml::IDType viewID) {
 }
 
 void UMLWidget::mouseDoubleClickEvent( QMouseEvent * me ) {
-    if( me -> button() != LeftButton ||
+    if( me -> button() != Qt::LeftButton ||
             m_pView->getCurrentCursor() != WorkToolBar::tbb_Arrow)
         return;
 
@@ -627,7 +627,7 @@ void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY, bool resize
     p -> fillRect(offsetX + w - s, offsetY, s, s, brush);
 
     if (resizeable) {
-        brush.setColor(red);
+        brush.setColor(Qt::red);
         p->drawLine(offsetX + w - s, offsetY + h - 1, offsetX + w - 1, offsetY + h - s);
         p->drawLine(offsetX + w - (s*2), offsetY + h - 1, offsetX + w - 1, offsetY + h - (s*2) );
         p->drawLine(offsetX + w - (s*3), offsetY + h - 1, offsetX + w - 1, offsetY + h - (s*3) );

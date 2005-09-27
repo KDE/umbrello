@@ -128,7 +128,7 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY) {
     bool messageOverlaps = m_pOw[Uml::A] -> messageOverlap( getY(), this );
 
     if(m_pOw[Uml::A] == m_pOw[Uml::B]) {
-        p.fillRect( offsetX, offsetY, 17, h,  QBrush(white) );                  //box
+        p.fillRect( offsetX, offsetY, 17, h,  QBrush(Qt::white) );              //box
         p.drawRect(offsetX, offsetY, 17, h);                                    //box
         offsetX += 17;
         w -= 17;
@@ -149,7 +149,7 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY) {
         }
         QPen pen = p.pen();
         int startX = offsetX + w - 16;
-        p.fillRect(startX, offsetY, 17, h,  QBrush(white));             //box
+        p.fillRect(startX, offsetY, 17, h,  QBrush(Qt::white));         //box
         p.drawRect(startX, offsetY, 17, h);                             //box
         p.drawLine(offsetX, offsetY + 4, startX, offsetY + 4);          //arrow line
         drawSolidArrowhead(p, startX - 1, offsetY + 4, Qt::RightArrow);
@@ -162,7 +162,7 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY) {
             w -=8;
         }
         QPen pen = p.pen();
-        p.fillRect( offsetX, offsetY, 17, h,  QBrush(white) );                  //box
+        p.fillRect( offsetX, offsetY, 17, h,  QBrush(Qt::white) );              //box
         p.drawRect(offsetX, offsetY, 17, h);                                    //box
         p.drawLine(offsetX + 18, offsetY + 4, offsetX + w, offsetY + 4);        //arrow line
         drawSolidArrowhead(p, offsetX + 17, offsetY + 4, Qt::LeftArrow);
@@ -652,7 +652,7 @@ void MessageWidget::mouseMoveEvent(QMouseEvent *me) {
         m_pView -> setSelected( this, me );
     m_bSelected = true;
     if( !m_bMouseDown )
-        if( me -> button() != LeftButton )
+        if( me -> button() != Qt::LeftButton )
             return;
     int count = m_pView -> getSelectCount();
 
@@ -752,7 +752,7 @@ void MessageWidget::mousePressEvent(QMouseEvent* me) {
     int m = 10;
     //see if clicked on bottom right corner
     if( (m_nOldX + m_nPressOffsetX) >= (getX() + width() - m) &&
-            (m_nOldY + m_nPressOffsetY) >= (getY() + height() - m) && me->button() == LeftButton) {
+        (m_nOldY + m_nPressOffsetY) >= (getY() + height() - m) && me->button() == Qt::LeftButton) {
         m_bResizing = true;
         m_pView->setCursor(KCursor::sizeVerCursor());
         m_nOldH = height();

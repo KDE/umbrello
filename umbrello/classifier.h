@@ -438,7 +438,6 @@ signals:
     void operationAdded(UMLClassifierListItem *);
 
     /** Signals that a UMLOperation has been removed from the classifer.
-     * The signal is emitted in addition to the generic childObjectRemoved()
      */
     void operationRemoved(UMLClassifierListItem *);
 

@@ -26,14 +26,14 @@ class QGroupBox;
 #include "../umldoc.h"
 #include "../umlview.h"
 /**
- *      This is a page on the print dialog to select what diagram(s)
- *      you wish to print.  You add it to the @ref KPrinter instance.
+ * This is a page on the print dialog to select what diagram(s)
+ * you wish to print.  You add it to the @ref KPrinter instance.
  *
- *      You will then need to get the options as shown in @ref KPrinter.
+ * You will then need to get the options as shown in @ref KPrinter.
  *
- *      @short  A print dialog page.
- *      @author Paul Hensgen    <phensgen@techie.com>
- *      @see    KPrinter
+ * @short  A print dialog page.
+ * @author Paul Hensgen <phensgen@techie.com>
+ * @see    KPrinter
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 

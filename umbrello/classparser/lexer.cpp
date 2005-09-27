@@ -465,7 +465,7 @@ void Lexer::nextToken( Token& tk, bool stopOnNewline )
 	tk.setStartPosition( startLine, startColumn );
 	tk.setEndPosition( m_currentLine, m_currentColumn );
     } else {
-	tk = CREATE_TOKEN( ch, currentPosition(), 1 );
+	tk = CREATE_TOKEN( ch.unicode(), currentPosition(), 1 );
 	nextChar();
 	tk.setStartPosition( startLine, startColumn );
 	tk.setEndPosition( m_currentLine, m_currentColumn );
@@ -808,7 +808,7 @@ int Lexer::macroPrimary()
 {
     readWhiteSpaces( false );
     int result = 0;
-    switch( currentChar() ) {
+    switch( currentChar().unicode() ) {
     case '(':
 	nextChar();
 	result = macroExpression();

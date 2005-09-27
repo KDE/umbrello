@@ -72,14 +72,14 @@ void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY) {
     p.drawRect(offsetX, offsetY + COMPONENT_MARGIN, COMPONENT_MARGIN*4, fontHeight);
     p.drawRect(offsetX, offsetY + COMPONENT_MARGIN*2 + fontHeight, COMPONENT_MARGIN*4, fontHeight);
 
-    p.setPen( QPen(black) );
+    p.setPen( QPen(Qt::black) );
     p.setFont(font);
 
     int lines = 1;
 
     if (!stereotype.isEmpty()) {
         p.drawText(offsetX + (COMPONENT_MARGIN*4), offsetY + (h/2) - fontHeight,
-                   w - (COMPONENT_MARGIN*4), fontHeight, AlignCenter,
+                   w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter,
                    m_pObject->getStereotype(true));
         lines = 2;
     }
@@ -92,10 +92,10 @@ void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY) {
 
     if (lines == 1) {
         p.drawText(offsetX + (COMPONENT_MARGIN*4), offsetY + (h/2) - (fontHeight/2),
-                   w - (COMPONENT_MARGIN*4), fontHeight, AlignCenter, name );
+                   w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter, name );
     } else {
         p.drawText(offsetX + (COMPONENT_MARGIN*4), offsetY + (h/2),
-                   w - (COMPONENT_MARGIN*4), fontHeight, AlignCenter, name );
+                   w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter, name );
     }
 
     if(m_bSelected) {

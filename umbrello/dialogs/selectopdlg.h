@@ -28,14 +28,14 @@
 
 class UMLView;
 
-#define OP                              0
+#define OP     0
 #define CUSTOM  1
 
 /**
- *      A dialog used to select an operation.
+ * A dialog used to select an operation.
  *
- *      @short A dialog to select an operation.
- *      @author Paul Hensgen    <phensgen@techie.com>
+ * @short A dialog to select an operation.
+ * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 

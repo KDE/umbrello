@@ -203,7 +203,6 @@ private:
 
     // these are just some utility functions
     CodeAccessorMethod * newCodeAccessorMethod (CodeAccessorMethod::AccessorType type);
-    CodeClassFieldDeclarationBlock * newDeclarationCodeBlock();
 
     /** This flag tells if we want the methods to have the possibility
       * of being written out. IF the value is false, then all methods

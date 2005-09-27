@@ -50,10 +50,10 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
             //int middleX = w / 2;
             int textStartY = (h / 2) - (fontHeight / 2);
             p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
-            p.setPen(black);
+            p.setPen(Qt::black);
             p.setFont( UMLWidget::getFont() );
             p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + textStartY,
-                       w - ACTIVITY_MARGIN * 2, fontHeight, AlignCenter, getName());
+                       w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
         }
         UMLWidget::setPen(p);
         break;
@@ -66,7 +66,7 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
         UMLWidget::setPen(p);
         p.setBrush( WidgetBase::getLineColor() );
         p.drawEllipse( offsetX, offsetY, w, h );
-        p.setBrush( white );
+        p.setBrush( Qt::white );
         p.drawEllipse( offsetX + 1, offsetY + 1, w - 2, h - 2 );
         p.setBrush( WidgetBase::getLineColor() );
         p.drawEllipse( offsetX + 3, offsetY + 3, w - 6, h - 6 );
@@ -85,7 +85,7 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
         }
         break;
     case Fork_DEPRECATED :  // to be removed
-        p.fillRect( offsetX, offsetY, width(), height(), QBrush( darkYellow ));
+        p.fillRect( offsetX, offsetY, width(), height(), QBrush( Qt::darkYellow ));
         break;
     }
     if(m_bSelected)

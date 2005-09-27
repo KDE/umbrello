@@ -143,7 +143,7 @@ void CodeClassFieldDeclarationBlock::syncToParent () {
     // the name of the role is not defined.
     if(!(getParentClassField()->parentIsAttribute()))
     {
-        UMLRole * parent = (UMLRole*)getParentObject();
+        UMLRole * parent = dynamic_cast<UMLRole*>(getParentObject());
         if (parent == NULL)
             return;
         if(parent->getName().isEmpty())

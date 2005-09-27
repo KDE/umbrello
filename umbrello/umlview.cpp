@@ -150,7 +150,7 @@ void UMLView::init() {
     m_pFirstSelectedWidget = 0;
     m_pMenu = 0;
     //setup graphical items
-    viewport() -> setBackgroundMode( NoBackground );
+    viewport() -> setBackgroundMode( Qt::NoBackground );
     setCanvas( new UMLViewCanvas( this ) );
     // don't set the quite frequent update rate for each
     // diagram, as that causes also an update of invisible
@@ -291,7 +291,7 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
             QColor textColor(50, 50, 50);
             pPainter.setPen(textColor);
             pPainter.drawLine(0, height + 2, width, height + 2);
-            pPainter.drawText(0, height + 4, width, fontHeight, AlignLeft, string);
+            pPainter.drawText(0, height + 4, width, fontHeight, Qt::AlignLeft, string);
 
             if(pageX+1 < numPagesX || pageY+1 < numPagesY) {
                 pPrinter -> newPage();
@@ -351,7 +351,7 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
     QColor textColor(50, 50, 50);
     pPainter.setPen(textColor);
     pPainter.drawLine(rect.x(), footTop    , windowWidth, footTop);
-    pPainter.drawText(rect.x(), footTop + 3, windowWidth, fontHeight, AlignLeft, string);
+    pPainter.drawText(rect.x(), footTop + 3, windowWidth, fontHeight, Qt::AlignLeft, string);
 
     // now restore scaling
     pPainter.restore();
@@ -992,7 +992,7 @@ void UMLView::clearSelected() {
 }
 
 void UMLView::moveSelected(UMLWidget * w, int x, int y) {
-    QMouseEvent me(QMouseEvent::MouseMove, QPoint(x,y), LeftButton, ShiftButton);
+    QMouseEvent me(QMouseEvent::MouseMove, QPoint(x,y), Qt::LeftButton, Qt::ShiftButton);
     UMLWidget * temp = 0;
     //loop through list and move all widgets
     //don't move the widget that started call
@@ -2083,7 +2083,7 @@ bool UMLView::setAssoc(UMLWidget *pWidget) {
 
         m_pAssocLine = new QCanvasLine( canvas() );
         m_pAssocLine -> setPoints( pos.x(), pos.y(), pos.x(), pos.y() );
-        m_pAssocLine -> setPen( QPen( getLineColor(), getLineWidth(), DashLine ) );
+        m_pAssocLine -> setPen( QPen( getLineColor(), getLineWidth(), Qt::DashLine ) );
 
         m_pAssocLine -> setVisible( true );
 

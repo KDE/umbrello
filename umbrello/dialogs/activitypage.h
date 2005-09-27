@@ -26,7 +26,7 @@ class StateWidget;
 class ListPopupMenu;
 
 /**
- *              @author Paul Hensgen
+ * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ActivityPage : public QWidget {

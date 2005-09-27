@@ -50,12 +50,12 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY) {
 
     p.drawRect(offsetX, offsetY, w, h);
 
-    p.setPen( QPen(black) );
+    p.setPen( QPen(Qt::black) );
     p.setFont(font);
 
     if (!stereotype.isEmpty()) {
         p.drawText(offsetX + ARTIFACT_MARGIN, offsetY + (h/2) - fontHeight,
-                   w, fontHeight, AlignCenter, m_pObject->getStereotype(true));
+                   w, fontHeight, Qt::AlignCenter, m_pObject->getStereotype(true));
     }
 
     int lines;
@@ -67,10 +67,10 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY) {
 
     if (lines == 1) {
         p.drawText(offsetX, offsetY + (h/2) - (fontHeight/2),
-                   w, fontHeight, AlignCenter, name);
+                   w, fontHeight, Qt::AlignCenter, name);
     } else {
         p.drawText(offsetX, offsetY + (h/2),
-                   w, fontHeight, AlignCenter, name);
+                   w, fontHeight, Qt::AlignCenter, name);
     }
 
     if(m_bSelected) {
@@ -100,11 +100,11 @@ void ArtifactWidget::drawAsFile(QPainter& p, int offsetX, int offsetY) {
     p.drawLine(startX + 40, offsetY + 10, startX + 50, offsetY + 10);
     p.drawLine(startX + 40, offsetY, startX + 50, offsetY + 10);
 
-    p.setPen( QPen(black) );
+    p.setPen( QPen(Qt::black) );
     p.setFont(font);
 
     p.drawText(offsetX, offsetY + h - fontHeight,
-               w, fontHeight, AlignCenter, name);
+               w, fontHeight, Qt::AlignCenter, name);
 
     if(m_bSelected) {
         drawSelected(&p, offsetX, offsetY);
@@ -134,11 +134,11 @@ void ArtifactWidget::drawAsLibrary(QPainter& p, int offsetX, int offsetY) {
     p.drawLine(startX + 40, offsetY + 10, startX + 50, offsetY + 10);
     p.drawLine(startX + 40, offsetY, startX + 50, offsetY + 10);
 
-    p.setPen( QPen(black) );
+    p.setPen( QPen(Qt::black) );
     p.setFont(font);
 
     p.drawText(offsetX, offsetY + h - fontHeight,
-               w, fontHeight, AlignCenter, name);
+               w, fontHeight, Qt::AlignCenter, name);
 
     if(m_bSelected) {
         drawSelected(&p, offsetX, offsetY);
@@ -170,11 +170,11 @@ void ArtifactWidget::drawAsTable(QPainter& p, int offsetX, int offsetY) {
     p.drawLine(startX + 10, offsetY, startX + 10, offsetY + iconHeight);
     p.drawLine(startX, offsetY + (iconHeight/4), startX + 50, offsetY + (iconHeight/4));
 
-    p.setPen( QPen(black) );
+    p.setPen( QPen(Qt::black) );
     p.setFont(font);
 
     p.drawText(offsetX, offsetY + h - fontHeight,
-               w, fontHeight, AlignCenter, name);
+               w, fontHeight, Qt::AlignCenter, name);
 
     if(m_bSelected) {
         drawSelected(&p, offsetX, offsetY);

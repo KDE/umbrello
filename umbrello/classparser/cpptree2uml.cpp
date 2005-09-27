@@ -531,7 +531,7 @@ void CppTree2Uml::parseFunctionDeclaration(  GroupAST* funSpec, GroupAST* storag
 
     QString returnType = typeOfDeclaration( typeSpec, d );
     UMLOperation *m = Import_Utils::makeOperation(c, id);
-    // if a class has no return type, it could de a constructor or
+    // if a class has no return type, it could be a constructor or
     // a destructor
     if (d && returnType.isEmpty() && id.find("~") == -1)
         isConstructor = true;

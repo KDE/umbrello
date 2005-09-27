@@ -72,19 +72,19 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY) {
     }
 
     p.drawRect(offsetX, offsetY, w, h);
-    p.setPen(QPen(black));
+    p.setPen(QPen(Qt::black));
 
     QFont font = UMLWidget::getFont();
     font.setBold(true);
     p.setFont(font);
     p.drawText(offsetX + ENUM_MARGIN, offsetY,
                w - ENUM_MARGIN * 2,fontHeight,
-               AlignCenter, m_pObject->getStereotype(true));
+               Qt::AlignCenter, m_pObject->getStereotype(true));
 
     font.setItalic( m_pObject -> getAbstract() );
     p.setFont(font);
     p.drawText(offsetX + ENUM_MARGIN, offsetY + fontHeight,
-               w - ENUM_MARGIN * 2, fontHeight, AlignCenter, name);
+               w - ENUM_MARGIN * 2, fontHeight, Qt::AlignCenter, name);
     font.setBold(false);
     font.setItalic(false);
     p.setFont(font);
@@ -101,9 +101,9 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY) {
     UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EnumLiteral);
     for (enumLiteral = list.first(); enumLiteral; enumLiteral = list.next()) {
         QString text = enumLiteral->getName();
-        p.setPen( QPen(black) );
+        p.setPen( QPen(Qt::black) );
         p.drawText(offsetX + ENUM_MARGIN, offsetY + y,
-                   fontMetrics.width(text), fontHeight, AlignVCenter, text);
+                   fontMetrics.width(text), fontHeight, Qt::AlignVCenter, text);
         y+=fontHeight;
     }
 

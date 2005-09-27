@@ -907,14 +907,14 @@ QString AssociationWidget::toString() {
 }
 
 void AssociationWidget::mouseDoubleClickEvent(QMouseEvent * me) {
-    if (me->button() != RightButton && me->button() != LeftButton)
+    if (me->button() != Qt::RightButton && me->button() != Qt::LeftButton)
         return;
     int i = m_LinePath.onLinePath(me->pos());
     if (i == -1) {
         m_LinePath.setSelected(false);
         return;
     }
-    if (me->button() != LeftButton)
+    if (me->button() != Qt::LeftButton)
         return;
     const QPoint mp(me->pos());
     /* if there is no point around the mouse pointer, we insert a new one */
@@ -2116,7 +2116,7 @@ void AssociationWidget::createAssocClassLine() {
     if (m_pAssocClassLine == NULL)
         m_pAssocClassLine = new QCanvasLine(m_pView->canvas());
     computeAssocClassLine();
-    QPen pen(getLineColor(), getLineWidth(), DashLine);
+    QPen pen(getLineColor(), getLineWidth(), Qt::DashLine);
     m_pAssocClassLine->setPen(pen);
     m_pAssocClassLine->setVisible(true);
 }
@@ -2172,7 +2172,7 @@ void AssociationWidget::selectAssocClassLine(bool sel /* =true */) {
 void AssociationWidget::mousePressEvent(QMouseEvent * me) {
     m_nMovingPoint = -1;
     //make sure we should be here depending on the button
-    if(me -> button() != RightButton && me->button() != LeftButton)
+    if(me -> button() != Qt::RightButton && me->button() != Qt::LeftButton)
         return;
     QPoint mep = me->pos();
     // See if `mep' is on the connecting line to the association class
@@ -2184,19 +2184,19 @@ void AssociationWidget::mousePressEvent(QMouseEvent * me) {
     // See if the user has clicked on a point to start moving the line segment
     // from that point
     checkPoints(mep);
-    if( me -> state() != ShiftButton )
+    if( me -> state() != Qt::ShiftButton )
         m_pView -> clearSelected();
     setSelected( !m_bSelected );
 }
 
 void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
-    if(me -> button() != RightButton && me->button() != LeftButton) {
+    if(me -> button() != Qt::RightButton && me->button() != Qt::LeftButton) {
         setSelected( false );
         return;
     }
     m_nMovingPoint = -1;
     const QPoint p = me->pos();
-    if (me->button() == LeftButton) {
+    if (me->button() == Qt::LeftButton) {
         UMLWidget *otherWidget = m_pView->getFirstSelectedWidget();
         if (otherWidget == NULL || otherWidget->getBaseType() != Uml::wt_Class)
             return;
@@ -2491,7 +2491,7 @@ void AssociationWidget::checkPoints(const QPoint &p) {
 void AssociationWidget::mouseMoveEvent(QMouseEvent* me) {
     //make sure we have a moving point
     //I don't think there is another reason for being here
-    if( m_nMovingPoint == -1 || me->state() != LeftButton) {
+    if( m_nMovingPoint == -1 || me->state() != Qt::LeftButton) {
         return;
     }
     setSelected();

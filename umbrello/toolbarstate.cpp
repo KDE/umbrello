@@ -88,7 +88,7 @@ void ToolBarState::mouseRelease(QMouseEvent* ome)
 
 void ToolBarState::changeTool()
 {
-    if (m_pMouseEvent->state() == QMouseEvent::RightButton)
+    if (m_pMouseEvent->state() == Qt::RightButton)
     {
         /* if the user right clicks on the diagram, first the default tool is
          * selected from the toolbar; this only happens when the default tool
@@ -99,7 +99,7 @@ void ToolBarState::changeTool()
         UMLApp::app()->getWorkToolBar()->setDefaultTool();
     }
 
-    if (m_pMouseEvent->state() != QMouseEvent::LeftButton)
+    if (m_pMouseEvent->state() != Qt::LeftButton)
     {
         m_pUMLView->viewport()->setMouseTracking( false );
     }

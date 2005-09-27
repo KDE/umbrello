@@ -62,7 +62,7 @@ CodeClassField::~CodeClassField ( ) {
     {
         getParentDocument()->removeTextBlock(m_declCodeBlock);
         m_declCodeBlock->forceRelease();
-        m_declCodeBlock = 0;
+        delete m_declCodeBlock;
     }
 
 }
@@ -199,10 +199,6 @@ bool CodeClassField::removeMethod ( CodeAccessorMethod * remove_object ) {
  */
 QPtrList<CodeAccessorMethod> * CodeClassField::getMethodList ( ) {
     return &m_methodVector;
-}
-
-CodeClassFieldDeclarationBlock * CodeClassField::newDeclarationCodeBlock() {
-    return getParentDocument()->newDeclarationCodeBlock(this);
 }
 
 /** determine if we will *allow* methods to be viewable.
@@ -603,7 +599,7 @@ void CodeClassField::initFields ( ) {
 
     m_writeOutMethods = false;
     m_listClassName = QString ("");
-    m_declCodeBlock = newDeclarationCodeBlock();
+    m_declCodeBlock = getParentDocument()->newDeclarationCodeBlock(this);
 
     m_methodVector.setAutoDelete(false);
     // m_methodMap = new QMap<CodeAccessorMethod::AccessorType, CodeAccessorMethod *>;

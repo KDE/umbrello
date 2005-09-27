@@ -96,7 +96,7 @@ UMLListView::UMLListView(QWidget *parent, const char *name)
     loadPixmaps();
 
     //setup list view
-    setBackgroundColor(white);
+    setBackgroundColor(Qt::white);
     setAcceptDrops(true);
     setDropVisualizer(false);
     setItemsMovable(true);
@@ -143,7 +143,7 @@ bool UMLListView::eventFilter(QObject *o, QEvent *e) {
     if (e->type() != QEvent::MouseButtonPress || !o->isA("QHeader"))
         return QListView::eventFilter(o, e);
     QMouseEvent *me = static_cast<QMouseEvent*>(e);
-    if (me->button() == RightButton) {
+    if (me->button() == Qt::RightButton) {
         if (m_pMenu) {
             m_pMenu->hide();
             disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(popupMenuSel(int)));
@@ -160,19 +160,19 @@ bool UMLListView::eventFilter(QObject *o, QEvent *e) {
 void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
     if( m_doc -> getCurrentView() )
         m_doc -> getCurrentView() -> clearSelected();
-    if( me -> state() != ShiftButton )
+    if( me -> state() != Qt::ShiftButton )
         clearSelection();
     QPoint pt = this->QScrollView::contentsToViewport( me->pos() );
     UMLListViewItem * item = (UMLListViewItem*)itemAt(pt);
 
-    if(  me -> button() != RightButton && me -> button() != LeftButton  ) {
+    if(  me -> button() != Qt::RightButton && me -> button() != Qt::LeftButton  ) {
         UMLApp::app() -> getDocWindow() -> updateDocumentation( true );
         return;
     }
 
     Uml::ListView_Type type;
     type = item ? item->getType() : Uml::lvt_Unknown;
-    if (me->button() == LeftButton) {
+    if (me->button() == Qt::LeftButton) {
         switch( type ) {
 
         case Uml::lvt_UseCase:
@@ -196,7 +196,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
             break;
         }
     }
-    if(me->button() == RightButton) {
+    if(me->button() == Qt::RightButton) {
         if(m_pMenu != 0) {
             m_pMenu->hide();
             disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(popupMenuSel(int)));
@@ -213,7 +213,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 }
 
 void UMLListView::contentsMouseReleaseEvent(QMouseEvent *me) {
-    if (me->button() != LeftButton) {
+    if (me->button() != Qt::LeftButton) {
         this->KListView::contentsMouseReleaseEvent(me);
         return;
     }
@@ -1047,7 +1047,7 @@ void UMLListView::setView(UMLView * v) {
 
 void UMLListView::contentsMouseDoubleClickEvent(QMouseEvent * me) {
     UMLListViewItem * item = static_cast<UMLListViewItem *>( currentItem() );
-    if( !item || me -> button() != LeftButton )
+    if( !item || me -> button() != Qt::LeftButton )
         return;
     //see if on view
     Uml::ListView_Type lvType = item -> getType();

@@ -63,7 +63,7 @@ void EntityWidget::draw(QPainter& p, int offsetX, int offsetY) {
     QString name = this->getName();
 
     p.drawRect(offsetX, offsetY, w, h);
-    p.setPen(QPen(black));
+    p.setPen(QPen(Qt::black));
 
     QFont font = UMLWidget::getFont();
     font.setBold(true);
@@ -72,11 +72,11 @@ void EntityWidget::draw(QPainter& p, int offsetX, int offsetY) {
     if ( !m_pObject->getStereotype().isEmpty() ) {
         p.drawText(offsetX + ENTITY_MARGIN, offsetY,
                    w - ENTITY_MARGIN * 2,fontHeight,
-                   AlignCenter, m_pObject->getStereotype(true));
+                   Qt::AlignCenter, m_pObject->getStereotype(true));
         font.setItalic( m_pObject -> getAbstract() );
         p.setFont(font);
         p.drawText(offsetX + ENTITY_MARGIN, offsetY + fontHeight,
-                   w - ENTITY_MARGIN * 2, fontHeight, AlignCenter, name);
+                   w - ENTITY_MARGIN * 2, fontHeight, Qt::AlignCenter, name);
         font.setBold(false);
         font.setItalic(false);
         p.setFont(font);
@@ -85,7 +85,7 @@ void EntityWidget::draw(QPainter& p, int offsetX, int offsetY) {
         font.setItalic( m_pObject -> getAbstract() );
         p.setFont(font);
         p.drawText(offsetX + ENTITY_MARGIN, offsetY,
-                   w - ENTITY_MARGIN * 2, fontHeight, AlignCenter, name);
+                   w - ENTITY_MARGIN * 2, fontHeight, Qt::AlignCenter, name);
         font.setBold(false);
         font.setItalic(false);
         p.setFont(font);
@@ -103,9 +103,9 @@ void EntityWidget::draw(QPainter& p, int offsetX, int offsetY) {
     UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EntityAttribute);
     for (entityattribute = list.first(); entityattribute; entityattribute = list.next()) {
         QString text = entityattribute->getName();
-        p.setPen( QPen(black) );
+        p.setPen( QPen(Qt::black) );
         p.drawText(offsetX + ENTITY_MARGIN, offsetY + y,
-                   fontMetrics.width(text), fontHeight, AlignVCenter, text);
+                   fontMetrics.width(text), fontHeight, Qt::AlignVCenter, text);
         y+=fontHeight;
     }
 

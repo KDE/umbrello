@@ -63,7 +63,7 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
     p.drawRect(offsetX, offsetY, 50, fontHeight);
     p.drawRect(offsetX, offsetY + fontHeight - 1, w, h - fontHeight);
 
-    p.setPen( QPen(black) );
+    p.setPen( QPen(Qt::black) );
     p.setFont(font);
 
     int lines = 1;
@@ -71,13 +71,13 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
         QString stereotype = m_pObject->getStereotype();
         if (!stereotype.isEmpty()) {
             p.drawText(offsetX, offsetY + fontHeight + PACKAGE_MARGIN,
-                       w, fontHeight, AlignCenter, m_pObject->getStereotype(true));
+                       w, fontHeight, Qt::AlignCenter, m_pObject->getStereotype(true));
             lines = 2;
         }
     }
 
     p.drawText(offsetX, offsetY + (fontHeight*lines) + PACKAGE_MARGIN,
-               w, fontHeight, AlignCenter, name );
+               w, fontHeight, Qt::AlignCenter, name );
 
     if(m_bSelected) {
         drawSelected(&p, offsetX, offsetY);

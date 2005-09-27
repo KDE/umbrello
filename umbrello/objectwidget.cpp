@@ -184,7 +184,7 @@ void ObjectWidget::slotColorChanged(Uml::IDType /*viewID*/) {
     UMLWidget::setLineColor( m_pView->getLineColor() );
 
     if( m_pLine)
-        m_pLine -> setPen( QPen( UMLWidget::getLineColor(), UMLWidget::getLineWidth(), DashLine ) );
+        m_pLine -> setPen( QPen( UMLWidget::getLineColor(), UMLWidget::getLineWidth(), Qt::DashLine ) );
 }
 
 void ObjectWidget::cleanup() {
@@ -220,10 +220,10 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY) {
         multiInstOfst = 10;
     }
     p.drawRect(offsetX, offsetY, w - multiInstOfst, h - multiInstOfst);
-    p.setPen(QPen(black));
+    p.setPen(QPen(Qt::black));
     p.drawText(offsetX + O_MARGIN, offsetY + O_MARGIN,
                w - O_MARGIN * 2 - multiInstOfst, h - O_MARGIN * 2 - multiInstOfst,
-               AlignCenter, t);
+               Qt::AlignCenter, t);
 
     p.setFont( oldFont );
 }
@@ -251,14 +251,14 @@ void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY) {
     p.drawLine(middleX - A_WIDTH / 2, offsetY + thirdH + thirdH / 2,
                middleX + A_WIDTH / 2, offsetY + thirdH + thirdH / 2);//arms
     //draw text
-    p.setPen(QPen(black));
+    p.setPen(QPen(Qt::black));
     QString t = m_InstanceName + " : " + m_pObject -> getName();
     p.drawText(offsetX + A_MARGIN, offsetY + textStartY,
-               w - A_MARGIN * 2, fontHeight, AlignCenter, t);
+               w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, t);
 }
 
 void ObjectWidget::mouseMoveEvent(QMouseEvent* me) {
-    if (!m_bMouseDown && me->button() != LeftButton)
+    if (!m_bMouseDown && me->button() != Qt::LeftButton)
         return;
     QPoint newPosition = doMouseMove(me);
     int newX = newPosition.x();

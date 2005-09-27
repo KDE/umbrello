@@ -65,7 +65,7 @@ void FloatingText::draw(QPainter & p, int offsetX, int offsetY) {
     p.setFont( UMLWidget::getFont() );
     QColor textColor(50, 50, 50);
     p.setPen(textColor);
-    p.drawText( offsetX , offsetY,w,h, AlignCenter, getDisplayText() );
+    p.drawText( offsetX , offsetY,w,h, Qt::AlignCenter, getDisplayText() );
     if(m_bSelected)
         drawSelected(&p, offsetX, offsetY);
 }
@@ -301,7 +301,7 @@ void FloatingText::showOpDlg() {
 }
 
 void FloatingText::mouseMoveEvent(QMouseEvent* me) {
-    if (!m_bMouseDown && me->button() != LeftButton)
+    if (!m_bMouseDown && me->button() != Qt::LeftButton)
         return;
     if (m_Role == Uml::tr_Seq_Message_Self)
         return;

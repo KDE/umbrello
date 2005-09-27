@@ -368,7 +368,7 @@ void LinePath::setLineColor( const QColor &color ) {
     }
 
     if( getAssocType() == Uml::at_Aggregation )
-        if (m_pClearPoly) m_pClearPoly -> setBrush( QBrush( white ) );
+        if (m_pClearPoly) m_pClearPoly -> setBrush( QBrush( Qt::white ) );
         else if( getAssocType() == Uml::at_Composition )
             if (m_pClearPoly) m_pClearPoly -> setBrush( QBrush( color ) );
 
@@ -461,7 +461,7 @@ void LinePath::setupSelected() {
 QPen LinePath::getPen() {
     Uml::Association_Type type = getAssocType();
     if( type == Uml::at_Dependency || type == Uml::at_Realization || type == Uml::at_Anchor )
-        return QPen( getLineColor(), getLineWidth(), DashLine );
+        return QPen( getLineColor(), getLineWidth(), Qt::DashLine );
     return QPen( getLineColor(), getLineWidth() );
 }
 
@@ -660,7 +660,7 @@ void LinePath::createHeadLines() {
         growList(m_HeadList, 3);
         m_pClearPoly = new QCanvasPolygon( canvas );
         m_pClearPoly -> setVisible( true );
-        m_pClearPoly -> setBrush( QBrush( white ) );
+        m_pClearPoly -> setBrush( QBrush( Qt::white ) );
         m_pClearPoly -> setZ( -1 );
         break;
 
@@ -670,7 +670,7 @@ void LinePath::createHeadLines() {
         m_pClearPoly = new QCanvasPolygon( canvas );
         m_pClearPoly -> setVisible( true );
         if( getAssocType() == Uml::at_Aggregation )
-            m_pClearPoly -> setBrush( QBrush( white ) );
+            m_pClearPoly -> setBrush( QBrush( Qt::white ) );
         else
             m_pClearPoly -> setBrush( QBrush( getLineColor() ) );
         m_pClearPoly -> setZ( -1 );
@@ -809,7 +809,7 @@ Uml::Association_Type LinePath::getAssocType() {
 
 QColor LinePath::getLineColor() {
     if( !m_pAssociation )
-        return black;
+        return Qt::black;
     UMLView * view =  (UMLView *)m_pAssociation -> parent();
     return view -> getLineColor();
 }

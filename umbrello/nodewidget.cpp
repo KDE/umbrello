@@ -67,7 +67,7 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
     p.drawRect(offsetX, bodyOffsetY, bodyWidth, bodyHeight);
     p.drawLine(offsetX + w - 1, offsetY, offsetX + bodyWidth - 2, bodyOffsetY + 1);
 
-    p.setPen( QPen(black) );
+    p.setPen( QPen(Qt::black) );
     p.setFont(font);
 
     int lines = 1;
@@ -75,7 +75,7 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
         QString stereotype = m_pObject->getStereotype();
         if (!stereotype.isEmpty()) {
             p.drawText(offsetX, bodyOffsetY + (bodyHeight/2) - fontHeight,
-                       bodyWidth, fontHeight, AlignCenter, m_pObject->getStereotype(true));
+                       bodyWidth, fontHeight, Qt::AlignCenter, m_pObject->getStereotype(true));
             lines = 2;
         }
     }
@@ -88,10 +88,10 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
 
     if (lines == 1) {
         p.drawText(offsetX, bodyOffsetY + (bodyHeight/2) - (fontHeight/2),
-                   bodyWidth, fontHeight, AlignCenter, name);
+                   bodyWidth, fontHeight, Qt::AlignCenter, name);
     } else {
         p.drawText(offsetX, bodyOffsetY + (bodyHeight/2),
-                   bodyWidth, fontHeight, AlignCenter, name);
+                   bodyWidth, fontHeight, Qt::AlignCenter, name);
     }
 
     if(m_bSelected) {

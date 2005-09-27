@@ -94,7 +94,7 @@ void ToolBarStateMessages::mouseRelease(QMouseEvent* ome)
 
             m_pLine = new QCanvasLine( m_pUMLView->canvas() );
             m_pLine->setPoints( m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y() );
-            m_pLine->setPen( QPen( m_pUMLView->getLineColor(), m_pUMLView->getLineWidth(), m_pUMLView->DashLine ) );
+            m_pLine->setPen( QPen( m_pUMLView->getLineColor(), m_pUMLView->getLineWidth(), Qt::DashLine ) );
             m_pLine->setVisible( true );
         }
         else

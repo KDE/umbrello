@@ -48,23 +48,23 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
             int count = m_Activities.count();
             if( count == 0 ) {
                 p.drawRoundRect(offsetX, offsetY, w, h, (h*40)/w, (w*40)/h);
-                p.setPen(black);
+                p.setPen(Qt::black);
                 QFont font = UMLWidget::getFont();
                 font.setBold( false );
                 p.setFont( font );
                 p.drawText(offsetX + STATE_MARGIN, offsetY + textStartY,
                            w - STATE_MARGIN * 2, fontHeight,
-                           AlignCenter, getName());
+                           Qt::AlignCenter, getName());
                 UMLWidget::setPen(p);
             } else {
                 p.drawRoundRect(offsetX, offsetY, w, h, (h*40)/w, (w*40)/h);
                 textStartY = offsetY + STATE_MARGIN;
-                p.setPen(black);
+                p.setPen(Qt::black);
                 QFont font = UMLWidget::getFont();
                 font.setBold( true );
                 p.setFont( font );
                 p.drawText(offsetX + STATE_MARGIN, textStartY, w - STATE_MARGIN * 2,
-                           fontHeight, AlignCenter, getName());
+                           fontHeight, Qt::AlignCenter, getName());
                 font.setBold( false );
                 p.setFont( font );
                 UMLWidget::setPen(p);
@@ -74,9 +74,9 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
                 for( QStringList::Iterator it(m_Activities.begin()); it != end; ++it ) {
                     textStartY += fontHeight;
                     p.drawLine( offsetX, linePosY, offsetX + w - 1, linePosY );
-                    p.setPen(black);
+                    p.setPen(Qt::black);
                     p.drawText(offsetX + STATE_MARGIN, textStartY, w - STATE_MARGIN * 2 - 1,
-                               fontHeight, AlignCenter, *it);
+                               fontHeight, Qt::AlignCenter, *it);
                     UMLWidget::setPen(p);
                     linePosY += fontHeight;
                 }//end for
@@ -90,7 +90,7 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
     case End :
         p.setBrush( WidgetBase::getLineColor() );
         p.drawEllipse( offsetX, offsetY, w, h );
-        p.setBrush( white );
+        p.setBrush( Qt::white );
         p.drawEllipse( offsetX + 1, offsetY + 1, w - 2, h - 2 );
         p.setBrush( WidgetBase::getLineColor() );
         p.drawEllipse( offsetX + 3, offsetY + 3, w - 6, h - 6 );

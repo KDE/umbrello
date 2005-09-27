@@ -27,7 +27,7 @@ int const SeqLineWidget::m_nMouseDownEpsilonX = 20;
 SeqLineWidget::SeqLineWidget( UMLView * pView, ObjectWidget * pObject ) : QCanvasLine( pView -> canvas() ) {
     m_pView = pView;
     m_pObject = pObject;
-    setPen( QPen( m_pObject->getLineColor(), 0, DashLine ) );
+    setPen( QPen( m_pObject->getLineColor(), 0, Qt::DashLine ) );
     setZ( 0 );
     setVisible( true );
     m_pDestructionBox.line1 = 0;

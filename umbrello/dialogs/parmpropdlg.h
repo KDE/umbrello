@@ -28,12 +28,12 @@
 
 class UMLDoc;
 /**
- *      Displays a dialog box that displays properties of a paramater.
- *      You need to make sure that @ref UMLDoc is made to be the
- *      parent.
+ * Displays a dialog box that displays properties of a paramater.
+ * You need to make sure that @ref UMLDoc is made to be the
+ * parent.
  *
- *      @short  A properties dialog box for a parameter.
- *      @author Paul Hensgen    <phensgen@techie.com>
+ * @short A properties dialog box for a parameter.
+ * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ParmPropDlg : public KDialogBase {

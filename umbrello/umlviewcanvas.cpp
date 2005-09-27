@@ -26,7 +26,7 @@ UMLViewCanvas::~UMLViewCanvas() {}
 void UMLViewCanvas::drawBackground( QPainter & painter, const QRect & clip ) {
     QCanvas::drawBackground( painter, clip );
     if( m_pView -> getShowSnapGrid() ) {
-        painter.setPen( gray );
+        painter.setPen( Qt::gray );
         int gridX = m_pView -> getSnapX();
         int gridY = m_pView -> getSnapY();
         int numX = width() / gridX;

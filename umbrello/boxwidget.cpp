@@ -12,12 +12,13 @@
  *                                                                         *
  ***************************************************************************/
 
+// own header
+#include "boxwidget.h"
 // qt/kde includes
 #include <kcursor.h>
 #include <kdebug.h>
 // app includes
 #include "umlview.h"
-#include "boxwidget.h"
 
 BoxWidget::BoxWidget(UMLView * view, Uml::IDType id) : UMLWidget( view, id ) {
     init();
@@ -80,7 +81,7 @@ void BoxWidget::mousePressEvent(QMouseEvent *me) {
     int m = 10;
     //bottomRight
     if( (m_nOldX + m_nPressOffsetX) >= (getX() + width() - m) &&
-            (m_nOldY + m_nPressOffsetY) >= (getY() + height() - m) && me->button() == LeftButton) {
+        (m_nOldY + m_nPressOffsetY) >= (getY() + height() - m) && me->button() == Qt::LeftButton) {
         m_bResizing = true;
         m_pView->setCursor(KCursor::sizeFDiagCursor());
     }

@@ -44,7 +44,7 @@ void ForkJoinWidget::calculateSize() {
 }
 
 void ForkJoinWidget::draw(QPainter& p, int offsetX, int offsetY) {
-    p.fillRect( offsetX, offsetY, width(), height(), QBrush( black ));
+    p.fillRect( offsetX, offsetY, width(), height(), QBrush( Qt::black ));
 
     if (m_bSelected) {
         drawSelected(&p, offsetX, offsetY, true);

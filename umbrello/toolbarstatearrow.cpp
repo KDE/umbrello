@@ -42,7 +42,7 @@ void ToolBarStateArrow::mousePress(QMouseEvent* ome)
     m_StartPosition = m_pMouseEvent->pos();
 
     // If we are not on a widget
-    if (!m_bWidgetSelected && m_ButtonPressed == QMouseEvent::LeftButton)
+    if (!m_bWidgetSelected && m_ButtonPressed == Qt::LeftButton)
     {
         m_bDrawRectangle = true;
 
@@ -54,7 +54,7 @@ void ToolBarStateArrow::mousePress(QMouseEvent* ome)
         {
             QCanvasLine* line = new QCanvasLine( m_pUMLView->canvas() );
             line->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y());
-            line->setPen( QPen(QColor("grey"), 0, m_pUMLView->DotLine) );
+            line->setPen( QPen(QColor("grey"), 0, Qt::DotLine) );
             line->setVisible(true);
             line->setZ(100);
             m_SelectionRect.append(line);
@@ -74,7 +74,7 @@ void ToolBarStateArrow::changeTool()
 {
     m_pUMLView->viewport()->setMouseTracking( false );
 
-    if (m_pMouseEvent->state() == QMouseEvent::RightButton)
+    if (m_pMouseEvent->state() == Qt::RightButton)
     {
 
         if (m_bWidgetSelected)

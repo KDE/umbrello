@@ -377,7 +377,7 @@ void UMLApp::initStatusBar() {
 
     statusBar()->addWidget( m_statusLabel, 1, false );
 
-    m_statusLabel->setAlignment(AlignLeft|AlignVCenter);
+    m_statusLabel->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
 
     connect(m_doc, SIGNAL( sigWriteToStatusBar(const QString &) ), this, SLOT( slotStatusMsg(const QString &) ));
 }

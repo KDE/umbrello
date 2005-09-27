@@ -75,7 +75,7 @@ void IDLImport::fillSource(QString word) {
                 m_source.append(lexeme);
                 lexeme = QString::null;
             }
-            m_source.append(c);
+            m_source.append(QString(c));
         }
     }
     if (!lexeme.isEmpty())

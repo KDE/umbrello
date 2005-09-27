@@ -20,6 +20,7 @@
 #define RUBYCLASSIFIERCODEDOCUMENT_H
 
 #include <qstring.h>
+#include "../codeclassfieldlist.h"
 #include "../classifiercodedocument.h"
 #include "../classifier.h"
 #include "../hierarchicalcodeblock.h"
@@ -114,7 +115,7 @@ protected:
     virtual CodeClassField * newCodeClassField( UMLAttribute *at);
     virtual CodeClassField * newCodeClassField( UMLRole *role);
 
-    void addOrUpdateCodeClassFieldMethodsInCodeBlock(QPtrList<CodeClassField> &list, RubyClassDeclarationBlock * codeBlock);
+    void addOrUpdateCodeClassFieldMethodsInCodeBlock(CodeClassFieldList &list, RubyClassDeclarationBlock * codeBlock);
 
     // IF the classifier object is modified, this will get called.
     // Possible mods include changing the filename and package
