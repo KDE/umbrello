@@ -273,9 +273,9 @@ CPPHeaderCodeDocument * CPPCodeGenerator::findHeaderCodeDocumentByClassifier (UM
 }
 
 /**
- * @return	ClassifierCodeDocument
- * @param	classifier
- * @param	this This package generator object.
+ * @return      ClassifierCodeDocument
+ * @param       classifier
+ * @param       this This package generator object.
  */
 // source document version.
 CodeDocument * CPPCodeGenerator::newClassifierCodeDocument (UMLClassifier * classifier)
@@ -293,8 +293,8 @@ CPPHeaderCodeDocument * CPPCodeGenerator::newHeaderClassifierCodeDocument (UMLCl
 }
 
 /**
- * @return	CPPMakefileCodeDocument
- * @param	this
+ * @return      CPPMakefileCodeDocument
+ * @param       this
  */
 CPPMakefileCodeDocument * CPPCodeGenerator::newMakefileCodeDocument ( ) {
     return new CPPMakefileCodeDocument (this);
@@ -377,24 +377,24 @@ void CPPCodeGenerator::checkRemoveUMLObject (UMLObject * obj)
 
 void CPPCodeGenerator::initAttributes ( )
 {
+    m_createMakefile = false;
 
     setPolicy ( new CPPCodeGenerationPolicy(getPolicy()) );
 
     // load Classifier documents from parent document
     initFromParentDocument();
-
 }
 
 void CPPCodeGenerator::createDefaultDatatypes() {
-    Umbrello::createCppDatatypes();
+    Codegen_Utils::createCppDatatypes();
 }
 
 const QStringList CPPCodeGenerator::reservedKeywords() const {
-    return Umbrello::reservedCppKeywords();
+    return Codegen_Utils::reservedCppKeywords();
 }
 
 void CPPCodeGenerator::createDefaultStereotypes (){
-    Umbrello::createCppStereotypes();
+    Codegen_Utils::createCppStereotypes();
 }
 
 #include "cppcodegenerator.moc"

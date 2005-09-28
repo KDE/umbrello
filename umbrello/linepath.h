@@ -187,6 +187,15 @@ public:
      */
     QPen getPen();
 
+    /**
+    *   Sets the line color used by the line.
+    */
+    void setLineColor( const QColor &color );
+    /**
+    *   Sets the line width used by the line.
+    */
+    void setLineWidth( uint width );
+
 protected:
 
     /**
@@ -194,7 +203,7 @@ protected:
      * We can't use QCanvasEllipse directly for this because it doesn't
      * use the pen, i.e. QCanvasEllipse only draws filled ellipses.
      */
-class Circle : public Q3CanvasEllipse {
+    class Circle : public Q3CanvasEllipse {
     public:
         Circle(Q3Canvas * canvas, int radius = 0);
         void setRadius(int radius);
@@ -263,9 +272,9 @@ class Circle : public Q3CanvasEllipse {
     void createHeadLines();
 
     /**
-     * Create a number of new lines and append them to m_HeadList.
+     * Create a number of new lines and append them to the given list.
      *
-     * @param by		The number of lines to insert into m_HeadList.
+     * @param by  The number of lines to insert into the given list.
      */
     void growList(LineList &list, int by);
 
@@ -358,15 +367,6 @@ class Circle : public Q3CanvasEllipse {
     bool m_bParallelLineCreated;
 
 public slots:
-
-    /**
-    *   Sets the line color used by the line.
-    */
-    void setLineColor( const QColor &color );
-    /**
-    *   Sets the line width used by the line.
-    */
-    void setLineWidth( uint width );
 
     /**
     *   Sets the line color used by the line.

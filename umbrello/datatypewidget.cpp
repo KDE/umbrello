@@ -54,19 +54,19 @@ void DatatypeWidget::draw(QPainter& p, int offsetX, int offsetY) {
     QString name = getName();
 
     p.drawRect(offsetX, offsetY, w, h);
-    p.setPen(QPen(black));
+    p.setPen(QPen(Qt::black));
 
     QFont font = UMLWidget::getFont();
     font.setBold(true);
     p.setFont(font);
     p.drawText(offsetX + DATATYPE_MARGIN, offsetY,
                w - DATATYPE_MARGIN* 2,fontHeight,
-               AlignCenter, m_pObject->getStereotype());
+               Qt::AlignCenter, m_pObject->getStereotype(true));
 
     font.setItalic( m_pObject->getAbstract() );
     p.setFont(font);
     p.drawText(offsetX + DATATYPE_MARGIN, offsetY + fontHeight,
-               w - DATATYPE_MARGIN * 2, fontHeight, AlignCenter, name);
+               w - DATATYPE_MARGIN * 2, fontHeight, Qt::AlignCenter, name);
 
     if (m_bSelected) {
         drawSelected(&p, offsetX, offsetY);
@@ -90,8 +90,8 @@ void DatatypeWidget::calculateSize() {
     //now set the width of the concept
     //set width to name to start with
     //set width to name to start with
-    width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_pObject->getPackage() + "." + getName()).width();
-    int w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->getStereotype()).width();
+    width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_pObject->getFullyQualifiedName()).width();
+    int w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->getStereotype(true)).width();
 
     width = w > width?w:width;
 
@@ -100,14 +100,6 @@ void DatatypeWidget::calculateSize() {
 
     setSize(width, height);
     adjustAssocs( getX(), getY() );//adjust assoc lines
-}
-
-bool DatatypeWidget::activate(IDChangeLog* ChangeLog /* = 0*/) {
-    bool status = UMLWidget::activate(ChangeLog);
-    if (status) {
-        calculateSize();
-    }
-    return status;
 }
 
 void DatatypeWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {

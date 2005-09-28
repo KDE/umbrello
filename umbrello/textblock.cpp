@@ -284,7 +284,7 @@ QString TextBlock::decodeText( QString text, const QString &endLine) {
 }
 
 /**
- * @return	QString
+ * @return      QString
  */
 QString TextBlock::toString ( )
 {

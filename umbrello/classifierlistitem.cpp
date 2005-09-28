@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2003-2004
+ *  copyright (C) 2003-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -19,6 +19,7 @@
 #include "classifier.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "model_utils.h"
 
 UMLClassifierListItem::UMLClassifierListItem(const UMLObject *parent, QString Name, Uml::IDType id)
         : UMLObject(parent, Name, id) {
@@ -70,30 +71,16 @@ void UMLClassifierListItem::setType(UMLObject *type) {
 }
 
 void UMLClassifierListItem::setTypeName(const QString &type) {
-    if (type.isEmpty()) {
+    if (type.isEmpty() || type == "void") {
         m_pSecondary = NULL;
-        m_SecondaryId = type;
+        m_SecondaryId = QString::null;
         return;
     }
     UMLDoc *pDoc = UMLApp::app()->getDocument();
     m_pSecondary = pDoc->findUMLObject(type);
     if (m_pSecondary == NULL) {
         // Make data type for easily identified cases
-        const int n_types = 12;
-        const char *types[] = {
-                                  "void", "bool",
-                                  "char", "unsigned char",
-                                  "short", "unsigned short",
-                                  "int", "unsigned int",
-                                  "long", "unsigned long",
-                                  "float", "double"
-                              };
-        int i = 0;
-        for (; i < n_types; i++) {
-            if (type == types[i])
-                break;
-        }
-        if (i < n_types || type.contains('*')) {
+        if (Model_Utils::isCommonDataType(type) || type.contains('*')) {
             m_pSecondary = pDoc->createUMLObject(Uml::ot_Datatype, type);
             kdDebug() << "UMLClassifierListItem::setTypeName: "
             << "created datatype for " << type << endl;

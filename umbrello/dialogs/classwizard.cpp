@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -22,10 +22,10 @@
 // local includes
 #include "classifierlistpage.h"
 #include "../uml.h"
+#include "../umldoc.h"
 #include "../classifier.h"
 #include "../attribute.h"
 #include "../operation.h"
-#include "../umllistview.h"
 #include "../umlclassifierlistitemlist.h"
 #include "../classifierlistitem.h"
 
@@ -95,17 +95,6 @@ void ClassWizard::back() {
 void ClassWizard::accept() {
     m_pDoc -> addUMLObject( m_pClass );
     m_pDoc->signalUMLObjectCreated(m_pClass);
-
-    UMLListView *listView = UMLApp::app()->getListView();
-    UMLClassifierListItemList attributes = m_pClass->getFilteredList(Uml::ot_Attribute);
-    for ( UMLClassifierListItem* attribute = attributes.first(); attribute; attribute = attributes.next() )  {
-        listView->childObjectAdded(attribute, m_pClass);
-    }
-
-    UMLOperationList operations = m_pClass->getOpList();
-    for ( UMLOperation* operation = operations.first(); operation; operation = operations.next() )  {
-        listView->childObjectAdded(operation, m_pClass);
-    }
 
     Q3Wizard::accept();
 }

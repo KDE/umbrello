@@ -36,15 +36,15 @@ PerlWriter::~PerlWriter() {}
 
 
 void PerlWriter::writeClass(UMLClassifier *c) {
-    /*	if(!c) {
-    		kdDebug()<<"Cannot write class of NULL concept!" << endl;
-    		return;
-    	}
+    /*  if(!c) {
+                kdDebug()<<"Cannot write class of NULL concept!" << endl;
+                return;
+        }
     */
     QString classname = cleanName(c->getName());// this is fine: cleanName is "::-clean"
     QString fileName;
 
-    fileName = findFileName(c, ".pm"); 	//lower-cases my nice class names. That is bad.
+    fileName = findFileName(c, ".pm");  //lower-cases my nice class names. That is bad.
     // correct solution: refactor,
     // split massive findFileName up, reimplement
     // parts here

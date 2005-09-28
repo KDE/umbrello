@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -47,7 +47,6 @@ ObjectWidget::ObjectWidget(UMLView * view, UMLObject *o, Uml::IDType lid)
 
 void ObjectWidget::init() {
     UMLWidget::setBaseType(Uml::wt_Object);
-    m_Doc = "";
     m_nLocalID = Uml::id_None;
     m_InstanceName = "";
     m_bMultipleInstance = false;
@@ -146,10 +145,6 @@ void ObjectWidget::calculateSize() {
     moveEvent( 0 );
 }
 
-QString ObjectWidget::getDoc() const {
-    return m_Doc;
-}
-
 void ObjectWidget::setDrawAsActor( bool drawAsActor ) {
     m_bDrawAsActor = drawAsActor;
     calculateSize();
@@ -164,13 +159,9 @@ void ObjectWidget::setMultipleInstance(bool multiple) {
     update();
 }
 
-bool ObjectWidget::activate(IDChangeLog* ChangeLog /*= 0*/) {
-    bool status = UMLWidget::activate(ChangeLog);
-    if (status) {
-        calculateSize();
-    }
+void ObjectWidget::activate(IDChangeLog* ChangeLog /*= 0*/) {
+    UMLWidget::activate(ChangeLog);
     moveEvent(0);
-    return status;
 }
 
 void ObjectWidget::setX( int x ) {
@@ -190,11 +181,11 @@ void ObjectWidget::moveEvent(QMoveEvent */*m*/) {
 }
 
 void ObjectWidget::slotColorChanged(Uml::IDType /*viewID*/) {
-    UMLWidget::getFillColour() = m_pView->getFillColor();
-    UMLWidget::getLineColour() = m_pView->getLineColor();
+    UMLWidget::setFillColour( m_pView->getFillColor() );
+    UMLWidget::setLineColor( m_pView->getLineColor() );
 
     if( m_pLine)
-        m_pLine -> setPen( QPen( UMLWidget::getLineColour(), UMLWidget::getLineWidth(), DashLine ) );
+        m_pLine -> setPen( QPen( UMLWidget::getLineColor(), UMLWidget::getLineWidth(), Qt::DashLine ) );
 }
 
 void ObjectWidget::cleanup() {
@@ -230,10 +221,10 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY) {
         multiInstOfst = 10;
     }
     p.drawRect(offsetX, offsetY, w - multiInstOfst, h - multiInstOfst);
-    p.setPen(QPen(black));
+    p.setPen(QPen(Qt::black));
     p.drawText(offsetX + O_MARGIN, offsetY + O_MARGIN,
                w - O_MARGIN * 2 - multiInstOfst, h - O_MARGIN * 2 - multiInstOfst,
-               AlignCenter, t);
+               Qt::AlignCenter, t);
 
     p.setFont( oldFont );
 }
@@ -261,14 +252,14 @@ void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY) {
     p.drawLine(middleX - A_WIDTH / 2, offsetY + thirdH + thirdH / 2,
                middleX + A_WIDTH / 2, offsetY + thirdH + thirdH / 2);//arms
     //draw text
-    p.setPen(QPen(black));
+    p.setPen(QPen(Qt::black));
     QString t = m_InstanceName + " : " + m_pObject -> getName();
     p.drawText(offsetX + A_MARGIN, offsetY + textStartY,
-               w - A_MARGIN * 2, fontHeight, AlignCenter, t);
+               w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, t);
 }
 
 void ObjectWidget::mouseMoveEvent(QMouseEvent* me) {
-    if (!m_bMouseDown && me->button() != LeftButton)
+    if (!m_bMouseDown && me->button() != Qt::LeftButton)
         return;
     QPoint newPosition = doMouseMove(me);
     int newX = newPosition.x();
@@ -328,11 +319,22 @@ int ObjectWidget::getEndLineY() {
 }
 
 void ObjectWidget::messageAdded(MessageWidget* message) {
+    if (messageWidgetList.containsRef(message) ) {
+        kdError() << "ObjectWidget::messageAdded("
+                  << message->getName() << ") : duplicate entry !"
+                  << endl;
+        return ;
+    }
     messageWidgetList.append(message);
 }
 
 void ObjectWidget::messageRemoved(MessageWidget* message) {
-    messageWidgetList.remove(message);
+    if ( messageWidgetList.remove(message) == false ) {
+        kdError() << "ObjectWidget::messageRemoved("
+                  << message->getName() << ") : missing entry !"
+                  << endl;
+        return ;
+    }
 }
 
 void ObjectWidget::slotMessageMoved() {

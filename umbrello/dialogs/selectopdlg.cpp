@@ -45,7 +45,7 @@ SelectOpDlg::SelectOpDlg(UMLView * parent, UMLClassifier * c)
     mainLayout -> setSpacing(spacingHint());
     mainLayout -> setMargin(fontMetrics().height());
 
-    Umbrello::makeLabeledEditField( m_pOpGB, mainLayout, 0,
+    Dialog_Utils::makeLabeledEditField( m_pOpGB, mainLayout, 0,
                                     m_pSeqL, i18n("Sequence number:"),
                                     m_pSeqLE );
 
@@ -67,14 +67,9 @@ SelectOpDlg::SelectOpDlg(UMLView * parent, UMLClassifier * c)
     m_pOpBG -> setExclusive(true);
     m_pOpBG -> setButton(OP);
 
-    Uml::Signature_Type sigType;
-    if (m_pView->getShowOpSig())
-        sigType = Uml::st_SigNoScope;
-    else
-        sigType = Uml::st_NoSigNoScope;
     UMLOperationList list = c -> getOpList(true);
     for (UMLOperation *obj = list.first(); obj; obj=list.next()) {
-        m_pOpCB->insertItem( obj->toString(sigType) );
+        m_pOpCB->insertItem( obj->toString(Uml::st_SigNoScope) );
     }
     //disableResize();
     connect(m_pOpBG, SIGNAL(clicked(int)), this, SLOT(slotSelected(int)));
@@ -111,6 +106,19 @@ void SelectOpDlg::setCustomOp(const QString &op) {
         slotSelected(CUSTOM);
         m_pCustomRB -> setChecked(true);
     }
+}
+
+bool SelectOpDlg::setClassOp(const QString &op) {
+    for (int i = 1; i!= m_pOpCB->count(); ++i)
+    {
+        if ( m_pOpCB->text(i) == op ) {
+            m_pOpCB->setCurrentItem(i);
+            m_pCustomRB -> setChecked(false);
+            slotSelected(OP);
+            return true;
+        }
+    }
+    return false;
 }
 
 QString SelectOpDlg::getSeqNumber() {

@@ -85,7 +85,7 @@ protected:
     void setupGeneralPage();
 
     /**
-    * 		Sets up the color page.
+    *           Sets up the color page.
     */
     void setupColorPage();
 
@@ -105,7 +105,7 @@ protected:
     KFontChooser * m_pChooser;
 
     /**
-    * 	Color page
+    *   Color page
     */
     UMLWidgetColorPage * m_pColorPage;
 

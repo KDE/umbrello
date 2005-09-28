@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -34,8 +34,8 @@ class SeqLineWidget;
  * Displays an instance UMLObject of a concept.
  *
  * @short Displays an instance of a Concept.
- * @author Paul Hensgen	<phensgen@techie.com>
- * @see	UMLWidget
+ * @author Paul Hensgen <phensgen@techie.com>
+ * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ObjectWidget : public UMLWidget {
@@ -44,9 +44,9 @@ public:
     /**
      * Creates an ObjectWidget.
      *
-     * @param view		The parent to this object.
-     * @param o		The object it will be representing.
-     * @param lid		The local id for the object.
+     * @param view              The parent to this object.
+     * @param o         The object it will be representing.
+     * @param lid               The local id for the object.
      */
     ObjectWidget(UMLView * view, UMLObject *o, Uml::IDType lid = Uml::id_None );
 
@@ -76,7 +76,7 @@ public:
      * many objects of the same @ref UMLObject instance can be on the
      * same diagram.
      *
-     * @return	The local ID.
+     * @return  The local ID.
      */
     Uml::IDType getLocalID() const {
         return m_nLocalID;
@@ -85,7 +85,7 @@ public:
     /**
      * Returns the instance name.
      *
-     * @return	The instance name.
+     * @return  The instance name.
      */
     QString getInstanceName() const {
         return m_InstanceName;
@@ -94,32 +94,16 @@ public:
     /**
      * Sets the instance name.
      *
-     * @param name		The name to set the instance name to.
+     * @param name              The name to set the instance name to.
      */
     void setInstanceName(const QString &name) {
         m_InstanceName = name;
     }
 
     /**
-     * Returns the documentation for the object.
-     *
-     * @return	The documentation for the object.
-     */
-    QString getDoc() const;
-
-    /**
-     * Sets the documentation.
-     *
-     * @param _doc		The documentation to set to.
-     */
-    void setDoc(const QString &_doc) {
-        m_Doc = _doc;
-    }
-
-    /**
      * Returns whether object is representing a multi-object.
      *
-     * @return	True if object is representing a multi-object.
+     * @return  True if object is representing a multi-object.
      */
     bool getMultipleInstance() const {
         return m_bMultipleInstance;
@@ -128,14 +112,14 @@ public:
     /**
      * Sets whether representing a multi-instance object.
      *
-     * @param multiple	Object state. true- multi, false - single.
+     * @param multiple  Object state. true- multi, false - single.
      */
     void setMultipleInstance(bool multiple);
 
     /**
      * Sets the local id of the object.
      *
-     * @param id		The local id of the object.
+     * @param id                The local id of the object.
      */
     void setLocalID(Uml::IDType id) {
         m_nLocalID = id;
@@ -144,7 +128,7 @@ public:
     /**
      * Activate the object after serializing it from a QDataStream
      */
-    virtual bool activate(IDChangeLog* ChangeLog = 0);
+    void activate(IDChangeLog* ChangeLog = 0);
 
     /**
      * Override default method.
@@ -164,7 +148,7 @@ public:
     /**
      * Returns whether to draw as an Actor or not.
      *
-     * @return	True if widget is drawn as an actor.
+     * @return  True if widget is drawn as an actor.
      */
     bool getDrawAsActor() const {
         return m_bDrawAsActor;
@@ -173,7 +157,7 @@ public:
     /**
      * Sets whether to draw as an Actor.
      *
-     * @param drawAsActor	True if widget shall be drawn as an actor.
+     * @param drawAsActor       True if widget shall be drawn as an actor.
      */
     void setDrawAsActor( bool drawAsActor );
 
@@ -185,14 +169,14 @@ public:
     /**
      * Sets whether to show deconstruction on sequence line.
      *
-     * @param bShow		True if destruction on line shall be shown.
+     * @param bShow             True if destruction on line shall be shown.
      */
     void setShowDestruction( bool bShow );
 
     /**
      * Returns whether to show deconstruction on sequence line.
      *
-     * @return	True if destruction on sequence line is shown.
+     * @return  True if destruction on sequence line is shown.
      */
     bool getShowDestruction() const {
         return m_bShowDestruction;
@@ -201,36 +185,36 @@ public:
     /**
      * Returns the top margin constant (Y axis value)
      *
-     * @return	Y coordinate of the space between the diagram top
-     *		and the upper edge of the ObjectWidget.
+     * @return  Y coordinate of the space between the diagram top
+     *          and the upper edge of the ObjectWidget.
      */
     int topMargin();
 
     /**
      * Returns the end Y co-ord of the seq. line.
      *
-     * @return	Y coordinate of the endpoint of the sequence line.
+     * @return  Y coordinate of the endpoint of the sequence line.
      */
     int getEndLineY();
 
     /**
      * Add a message widget to the list.
      *
-     * @param message	Pointer to the MessageWidget to add.
+     * @param message   Pointer to the MessageWidget to add.
      */
     void messageAdded(MessageWidget* message);
 
     /**
      * Remove a message widget from the list.
      *
-     * @param message	Pointer to the MessageWidget to remove.
+     * @param message   Pointer to the MessageWidget to remove.
      */
     void messageRemoved(MessageWidget* message);
 
     /**
      * Returns whether or not the widget can be moved vertically up.
      *
-     * @return	True if widget can be moved upwards vertically.
+     * @return  True if widget can be moved upwards vertically.
      */
     bool canTabUp();
 
@@ -238,9 +222,9 @@ public:
      * Returns whether a message is overlapping with another message.
      * Used by MessageWidget::draw() methods.
      * 
-     * @param y		The top of your message.
-     * @param messageWidget	A pointer to your message so it doesn't
-     *			check against itself.
+     * @param y         The top of your message.
+     * @param messageWidget     A pointer to your message so it doesn't
+     *                  check against itself.
      */
     bool messageOverlap(int y, MessageWidget* messageWidget);
 
@@ -273,7 +257,6 @@ public slots:
     void slotMessageMoved();
 
 protected:
-    QString m_Doc;
     SeqLineWidget * m_pLine;
 
     /**

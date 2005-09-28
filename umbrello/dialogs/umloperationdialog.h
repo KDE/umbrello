@@ -45,18 +45,18 @@ class UMLOperationDialog : public KDialogBase {
 
 public:
     /**
-    *	Constructor
+    *   Constructor
     */
     UMLOperationDialog( QWidget * parent, UMLOperation * pOperation );
 
     /**
-    *	Deconstructor
+    *   Deconstructor
     */
     ~UMLOperationDialog();
 
 protected:
     /**
-    *	Sets up the dialog
+    *   Sets up the dialog
     */
     void setupDialog();
 
@@ -72,7 +72,7 @@ protected:
     void insertType( const QString& type, int index = -1 );
 
     /**
-    *	The operation to represent.
+    *   The operation to represent.
     */
     UMLOperation * m_pOperation;
 
@@ -82,7 +82,7 @@ protected:
     UMLDoc *m_doc;
 
     /**
-    * 	Menu used in paramater list box.
+    *   Menu used in paramater list box.
     */
     ListPopupMenu * m_pMenu;
 

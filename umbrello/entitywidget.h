@@ -27,7 +27,7 @@ class UMLView;
  *
  * @short A graphical version of an entity.
  * @author Jonathan Riddell
- * @see	UMLWidget
+ * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class EntityWidget : public UMLWidget {
@@ -36,8 +36,8 @@ public:
     /**
      * Constructs an EntityWidget.
      *
-     * @param view		The parent of this EntityWidget.
-     * @param o		The UMLObject this will be representing.
+     * @param view              The parent of this EntityWidget.
+     * @param o         The UMLObject this will be representing.
      */
     EntityWidget(UMLView* view, UMLObject* o);
 
@@ -50,11 +50,6 @@ public:
      * Initializes key variables of the class.
      */
     void init();
-
-    /**
-     * Activate the object after serializing it from a QDataStream.
-     */
-    virtual bool activate(IDChangeLog* ChangeLog  = 0 );
 
     /**
      * Draws the entity as a rectangle with a box underneith with a list of literals
@@ -87,7 +82,7 @@ public slots:
      * Will be called when a menu selection has been made from the
      * popup menu.
      *
-     * @param sel	The selection id that has been selected.
+     * @param sel       The selection id that has been selected.
      */
     void slotMenuSelection(int sel);
 };

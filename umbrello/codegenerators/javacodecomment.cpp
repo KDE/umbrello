@@ -62,7 +62,7 @@ QString JavaCodeComment::unformatText ( const QString & text , const QString & i
 }
 
 /**
- * @return	QString
+ * @return      QString
  */
 QString JavaCodeComment::toString ( )
 {

@@ -101,7 +101,10 @@ void PythonWriter::writeClass(UMLClassifier *c) {
             first = headerName.at(0);
             first = first.upper();
             headerName = headerName.replace(0, 1, first);
-            h<<"from "<<headerName<<" import *"<<m_endl;
+            if (headerName.find('/') > 0)
+                h<<"from "<<headerName.replace(QChar('/'),QChar('.'))<<" import *"<<m_endl;
+            else
+                h<<"from "<<headerName<<" import *"<<m_endl;
         }
     }
     h<<m_endl;

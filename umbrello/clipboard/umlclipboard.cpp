@@ -66,9 +66,7 @@ QMimeSource* UMLClipboard::copy(bool fromView/*=false*/) {
         if(!m_WidgetList.count()) {
             return 0;
         }
-        if(!view->getSelectedAssocs(m_AssociationList)) {
-            return 0;
-        }
+        m_AssociationList = view->getSelectedAssocs();
         view->copyAsImage(png);
     } else { //if the copy action is being performed from the ListView
         if(!listView->getSelectedItems(selectedItems)) {
@@ -355,12 +353,12 @@ bool UMLClipboard::pasteClip1(QMimeSource* data) {
     UMLListViewItem* itemdata = 0;
     UMLListViewItemListIt it(itemdatalist);
     while ( (itemdata=it.current()) != 0 ) {
-    	if(itemdata -> childCount()) {
-    		if(!pasteChildren(itemdata, idchanges)) {
-    			return false;
-    		}
-    	}
-    	++it;
+        if(itemdata -> childCount()) {
+                if(!pasteChildren(itemdata, idchanges)) {
+                        return false;
+                }
+        }
+        ++it;
     }
      */
     return true;
@@ -373,7 +371,7 @@ bool UMLClipboard::pasteClip2(QMimeSource* data) {
     UMLListViewItemList itemdatalist;
     UMLObjectList objects;
     objects.setAutoDelete(false);
-    UMLViewList		views;
+    UMLViewList         views;
     IDChangeLog* idchanges = 0;
 
     bool result = UMLDrag::decodeClip2(data, objects, itemdatalist, views);
@@ -466,10 +464,10 @@ bool UMLClipboard::pasteClip4(QMimeSource* data) {
     objects.setAutoDelete(false);
 
 
-    UMLWidgetList		widgets;
+    UMLWidgetList               widgets;
     widgets.setAutoDelete(false);
 
-    AssociationWidgetList	assocs;
+    AssociationWidgetList       assocs;
     assocs.setAutoDelete(false);
 
     IDChangeLog* idchanges = 0;
@@ -482,6 +480,8 @@ bool UMLClipboard::pasteClip4(QMimeSource* data) {
 
     if( diagramType != doc->getCurrentView()->getType() ) {
         if( !checkPasteWidgets(widgets) ) {
+            assocs.setAutoDelete(true);
+            assocs.clear();
             return false;
         }
     }
@@ -530,10 +530,7 @@ bool UMLClipboard::pasteClip4(QMimeSource* data) {
     }
 
     //Activate all the pasted associations and widgets
-    if(!doc->getCurrentView()->activate()) {
-        doc->getCurrentView()->endPartialWidgetPaste();
-        return false;
-    }
+    doc->getCurrentView()->activate();
     doc->getCurrentView()->endPartialWidgetPaste();
 
     UMLListView *listView = UMLApp::app()->getListView();
@@ -586,7 +583,7 @@ bool UMLClipboard::pasteClip5(QMimeSource* data) {
     }
 
     bool objectAlreadyExists = false;
-    UMLObject 	*obj = 0;
+    UMLObject   *obj = 0;
     UMLObjectListIt object_it(objects);
     doc->setModified(true);
     idchanges = doc->getChangeLog();
@@ -597,7 +594,7 @@ bool UMLClipboard::pasteClip5(QMimeSource* data) {
         case Uml::ot_Attribute :
             {
                 if (parent->addAttribute(dynamic_cast<UMLAttribute*>(obj), idchanges)) {
-                    //FIXME					doc -> signalChildUMLObjectCreated(obj);
+                    //FIXME                                     doc -> signalChildUMLObjectCreated(obj);
                 } else {
                     objectAlreadyExists = true;
                 }
@@ -607,7 +604,7 @@ bool UMLClipboard::pasteClip5(QMimeSource* data) {
             {
                 UMLClassifier * parent = dynamic_cast<UMLClassifier *>(lvitem -> getUMLObject());
                 if (parent -> addOperation(dynamic_cast<UMLOperation*>(obj), idchanges)) {
-                    //FIXME				doc -> signalChildUMLObjectCreated(obj);
+                    //FIXME                             doc -> signalChildUMLObjectCreated(obj);
                 } else {
                     objectAlreadyExists = true;
                 }
@@ -640,6 +637,7 @@ bool UMLClipboard::insertItemChildren( UMLListViewItem * item ) {
 }
 
 bool UMLClipboard::checkPasteWidgets( UMLWidgetList & widgetList ) {
+    bool retval = true;
     UMLWidget * p = 0;
     UMLWidgetListIt it( widgetList );
     while ( ( p = it.current()) != 0 ) {
@@ -649,17 +647,24 @@ bool UMLClipboard::checkPasteWidgets( UMLWidgetList & widgetList ) {
             break;
 
         case Uml::wt_Text:
-            if( static_cast<FloatingText *>( p )->
-                    getRole() != Uml::tr_Floating )
-                return false;
+            {
+                FloatingText *ft = static_cast<FloatingText*>(p);
+                if (ft->getRole() != Uml::tr_Floating) {
+                    widgetList.remove(p);
+                    delete ft;
+                    retval = false;
+                }
+            }
             break;
 
         default:
-            return false;
+            widgetList.remove(p);
+            delete p;
+            retval = false;
             break;
         }
     }
-    return true;
+    return retval;
 }
 
 void UMLClipboard::pasteItemAlreadyExists() {

@@ -50,8 +50,8 @@ public:
     /**
      * Inserts the clipboard's contents.
      *
-     * @param Data		Pointer to the MIME format clipboard data.
-     * @return	True for successful operation.
+     * @param Data              Pointer to the MIME format clipboard data.
+     * @return  True for successful operation.
      */
     bool paste(QMimeSource* Data);
 
@@ -59,7 +59,7 @@ public:
      * Copies the selected stuff from the list view or current diagram
      * to a QMimeSource ready to be put in the clipboard.
      *
-     * @return	Pointer to the created clipboard data.
+     * @return  Pointer to the created clipboard data.
      */
     QMimeSource* copy(bool fromView = false);
 
@@ -78,7 +78,7 @@ private:
      * Cleans the list of associations taking out the ones
      * that point to an object not in m_ObjectList.
      *
-     * @param associations	The list of associations to process.
+     * @param associations      The list of associations to process.
      */
     void CleanAssociations(AssociationWidgetList& associations);
 
@@ -86,8 +86,8 @@ private:
      * If clipboard has mime type application/x-uml-clip1,
      * pastes the data from the clipboard.
      *
-     * @param data		Pointer to the source clip.
-     * @return	True for successful operation.
+     * @param data              Pointer to the source clip.
+     * @return  True for successful operation.
      */
     bool pasteClip1(QMimeSource* data);
 
@@ -95,8 +95,8 @@ private:
      * If clipboard has mime type application/x-uml-clip2,
      * pastes the data from the clipboard.
      *
-     * @param data		Pointer to the source clip.
-     * @return	True for successful operation.
+     * @param data              Pointer to the source clip.
+     * @return  True for successful operation.
      */
     bool pasteClip2(QMimeSource* data);
 
@@ -104,8 +104,8 @@ private:
      * If clipboard has mime type application/x-uml-clip3,
      * pastes the data from the clipboard.
      *
-     * @param data		Pointer to the source clip.
-     * @return	True for successful operation.
+     * @param data              Pointer to the source clip.
+     * @return  True for successful operation.
      */
     bool pasteClip3(QMimeSource* data);
 
@@ -113,8 +113,8 @@ private:
      * If clipboard has mime type application/x-uml-clip4,
      * pastes the data from the clipboard.
      *
-     * @param data		Pointer to the source clip.
-     * @return	True for successful operation.
+     * @param data              Pointer to the source clip.
+     * @return  True for successful operation.
      */
     bool pasteClip4(QMimeSource* data);
 
@@ -122,8 +122,8 @@ private:
      * If clipboard has mime type application/x-uml-clip5,
      * pastes the data from the clipboard.
      *
-     * @param data		Pointer to the source clip.
-     * @return	True for successful operation.
+     * @param data              Pointer to the source clip.
+     * @return  True for successful operation.
      */
     bool pasteClip5(QMimeSource* data);
 
@@ -133,8 +133,8 @@ private:
      * widgets to be pasted can be.  At the moment this only
      * includes NoteWidgets and lines of text.
      *
-     * @param widgetList	List of widgets to examine.
-     * @return	True if all widgets can be put on different diagrams.
+     * @param widgetList        List of widgets to examine.
+     * @return  True if all widgets can be put on different diagrams.
      */
     bool checkPasteWidgets(UMLWidgetList & widgetList);
 

@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -82,14 +82,16 @@ QString UMLAttribute::toString(Uml::Signature_Type sig) {
             s = "- ";
         else if(m_Scope == Uml::Protected)
             s= "# ";
-    } else
-        s = "";
+    }
 
     if(sig == Uml::st_ShowSig || sig == Uml::st_SigNoScope) {
         // Determine whether the type name needs to be scoped.
         UMLObject *owningObject = static_cast<UMLObject*>(parent());
-        if (owningObject->getBaseType() == Uml::ot_Operation)
+        if (owningObject->getBaseType() == Uml::ot_Operation) {
+            // The immediate parent() is the UMLOperation but we want
+            // the UMLClassifier:
             owningObject = static_cast<UMLObject*>(owningObject->parent());
+        }
         UMLClassifier *ownParent = dynamic_cast<UMLClassifier*>(owningObject);
         if (ownParent == NULL) {
             kdError() << "UMLAttribute::toString: parent "
@@ -106,16 +108,23 @@ QString UMLAttribute::toString(Uml::Signature_Type sig) {
             else
                 typeName = type->getName();
         }
+        // The default direction, "in", is not mentioned.
+        // Perhaps we should include a pd_Unspecified in
+        // Uml::Parameter_Direction to have better control over this.
+        if (m_ParmKind == Uml::pd_InOut)
+            s += "inout ";
+        else if (m_ParmKind == Uml::pd_Out)
+            s += "out ";
         // Construct the attribute text.
         QString string = s + getName() + " : " + typeName;
         if(m_InitialValue.length() > 0)
             string += " = " + m_InitialValue;
         return string;
-    } else
-        return s + getName();
+    }
+    return s + getName();
 }
 
-QString UMLAttribute::getFullyQualifiedName(const QString &separator) const {
+QString UMLAttribute::getFullyQualifiedName(QString separator) const {
     UMLOperation *op = NULL;
     UMLObject *owningObject = static_cast<UMLObject*>(parent());
     if (owningObject->getBaseType() == Uml::ot_Operation) {
@@ -129,6 +138,8 @@ QString UMLAttribute::getFullyQualifiedName(const QString &separator) const {
         << " is not a UMLClassifier" << endl;
         return "";
     }
+    if (separator.isEmpty())
+        separator = UMLApp::app()->activeLanguageScopeSeparator();
     QString fqn = ownParent->getFullyQualifiedName(separator);
     if (op)
         fqn.append(separator + op->getName());
@@ -166,7 +177,7 @@ void UMLAttribute::copyInto(UMLAttribute *rhs) const
 UMLObject* UMLAttribute::clone() const
 {
     //FIXME: The new attribute should be slaved to the NEW parent not the old.
-    UMLAttribute *clone = new UMLAttribute( (UMLAttribute *)parent() );
+    UMLAttribute *clone = new UMLAttribute( static_cast<UMLObject*>(parent()) );
     copyInto(clone);
 
     return clone;

@@ -46,8 +46,8 @@ void UseCaseWidget::draw(QPainter & p, int offsetX, int offsetY) {
     int textStartY = (h / 2) - (fontHeight / 2);
 
     p.drawEllipse(offsetX, offsetY, w, h);
-    p.setPen(black);
-    p.drawText(offsetX + UC_MARGIN, offsetY + textStartY, w - UC_MARGIN * 2, fontHeight, AlignCenter, getName());
+    p.setPen(Qt::black);
+    p.drawText(offsetX + UC_MARGIN, offsetY + textStartY, w - UC_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
     UMLWidget::setPen(p);
     if(m_bSelected)
         drawSelected(&p, offsetX, offsetY);

@@ -64,7 +64,7 @@ CodeClassField::~CodeClassField ( ) {
     {
         getParentDocument()->removeTextBlock(m_declCodeBlock);
         m_declCodeBlock->forceRelease();
-        m_declCodeBlock = 0;
+        delete m_declCodeBlock;
     }
 
 }
@@ -137,7 +137,7 @@ QString CodeClassField::getListObjectType() {
  */
 bool CodeClassField::parentIsAttribute ( ) {
     return m_parentIsAttribute;
-    //	return (m_classFieldType == Attribute) ? true : false;
+    //  return (m_classFieldType == Attribute) ? true : false;
 }
 
 /**
@@ -173,11 +173,11 @@ bool CodeClassField::addMethod ( CodeAccessorMethod * add_object ) {
     if(findMethodByType(type))
         return false;
     /*
-    	// this wont work as the key for QMap needs to inherit from QObject
-    	if(m_methodMap->contains(type))
-    		return false; // return false, we already have some object with this tag in the list
-    	else
-    		m_methodMap->insert(type, add_object);
+        // this wont work as the key for QMap needs to inherit from QObject
+        if(m_methodMap->contains(type))
+                return false; // return false, we already have some object with this tag in the list
+        else
+                m_methodMap->insert(type, add_object);
     */
 
     m_methodVector.append(add_object);
@@ -201,10 +201,6 @@ bool CodeClassField::removeMethod ( CodeAccessorMethod * remove_object ) {
  */
 Q3PtrList<CodeAccessorMethod> * CodeClassField::getMethodList ( ) {
     return &m_methodVector;
-}
-
-CodeClassFieldDeclarationBlock * CodeClassField::newDeclarationCodeBlock() {
-    return getParentDocument()->newDeclarationCodeBlock(this);
 }
 
 /** determine if we will *allow* methods to be viewable.
@@ -303,8 +299,7 @@ void CodeClassField::setAttributesFromNode ( QDomElement & root) {
             if( tag == "codeaccessormethod" ) {
                 int type = element.attribute("accessType","0").toInt();
                 int role_id = element.attribute("role_id","-1").toInt();
-                Uml::Role_Type r = (role_id == 1 ? Uml::A : Uml::B);
-                CodeAccessorMethod * method = findMethodByType((CodeAccessorMethod::AccessorType) type, r);
+                CodeAccessorMethod * method = findMethodByType((CodeAccessorMethod::AccessorType) type, role_id);
                 if(method)
                     method->loadFromXMI(element);
                 else
@@ -401,10 +396,10 @@ CodeAccessorMethod * CodeClassField::findMethodByType ( CodeAccessorMethod::Acce
 {
     //if we already know to which file this class was written/should be written, just return it.
     /*
-    	// argh. this wont work because "accessorType' doesnt inherit from QObject.
-    	if(m_methodMap->contains(type))
-    		return ((*m_methodMap)[type]);
-    	CodeAccessorMethod * obj = NULL;
+        // argh. this wont work because "accessorType' doesnt inherit from QObject.
+        if(m_methodMap->contains(type))
+                return ((*m_methodMap)[type]);
+        CodeAccessorMethod * obj = NULL;
     */
     if(role_id > 1 || role_id < 0)
     {
@@ -606,7 +601,7 @@ void CodeClassField::initFields ( ) {
 
     m_writeOutMethods = false;
     m_listClassName = QString ("");
-    m_declCodeBlock = newDeclarationCodeBlock();
+    m_declCodeBlock = getParentDocument()->newDeclarationCodeBlock(this);
 
     m_methodVector.setAutoDelete(false);
     // m_methodMap = new QMap<CodeAccessorMethod::AccessorType, CodeAccessorMethod *>;

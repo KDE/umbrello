@@ -46,8 +46,8 @@ public:
     /**
      * Creates a work tool bar.
      *
-     * @param parentWindow	The parent of the toolbar.
-     * @param name		The name of the toolbar.
+     * @param parentWindow      The parent of the toolbar.
+     * @param name              The name of the toolbar.
      */
     WorkToolBar(Q3MainWindow *parentWindow, const char *name);
 
@@ -134,17 +134,17 @@ private:
         QString Label;
         QPixmap Symbol;
         QCursor Cursor;
-        ToolButton() { Label = QString("?"); Symbol = QPixmap(); Cursor = QCursor(); };
+        ToolButton() : Label(QString("?")), Symbol(QPixmap()), Cursor(QCursor()) { }
         ToolButton(const QString& lbl, const QPixmap& smb, const QCursor& cur) :
-        Label(lbl), Symbol(smb), Cursor(cur) { };
+        Label(lbl), Symbol(smb), Cursor(cur) { }
     };
 
     typedef QMap<ToolBar_Buttons, ToolButton> ToolButtonMap;
 
-    ToolBar_Buttons 	m_CurrentButtonID;
-    OldToolMap		m_map;
-    Uml::Diagram_Type	m_Type;
-    ToolButtonMap		m_ToolButtons;
+    ToolBar_Buttons     m_CurrentButtonID;
+    OldToolMap          m_map;
+    Uml::Diagram_Type   m_Type;
+    ToolButtonMap       m_ToolButtons;
 
     /**
      * Loads a pixmap from file

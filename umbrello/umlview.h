@@ -65,6 +65,10 @@ class ToolBarStateFactory;
 class UMLView : public Q3CanvasView {
     Q_OBJECT
 public:
+    friend class ExportViewAction;
+    static QString imageTypeToMimeType(QString imagetype);
+    static QString mimeTypeToImageType(QString mimetype);
+    
     /**
      * Constructor for the main view
      */
@@ -123,7 +127,7 @@ public:
     /**
      * Set the background color.
      *
-     * @param color		The color to use.
+     * @param color  The color to use.
      */
     void setFillColor( const QColor &color );
 
@@ -135,7 +139,7 @@ public:
     /**
      * Sets the line color.
      *
-     * @param color		The color to use.
+     * @param color  The color to use.
      */
     void setLineColor( const QColor &color );
 
@@ -147,7 +151,7 @@ public:
     /**
      * Sets the line width.
      *
-     * @param width		The width to use.
+     * @param width  The width to use.
      */
     void setLineWidth( uint width );
 
@@ -343,8 +347,8 @@ public:
 
     /**
      * Print the entire diagram in this view to the file 'filename'
-     * @param isEPS		The file is an eps file and needs adjusting
-     *			of the eps bounding box values.
+     * @param isEPS  The file is an eps file and needs adjusting
+     *   of the eps bounding box values.
      */
     void printToFile(const QString &filename, bool isEPS);
 
@@ -369,57 +373,57 @@ public:
      * Sets an association to include the given widget.  If this is the second
      * widget set for the association it creates the association.
      *
-     * @param w	The widget to set for the association.
+     * @param w The widget to set for the association.
      */
     bool setAssoc(UMLWidget *w);
 
     /**
      * Sees if a message is relevant to the given widget.  If it does delete it.
-     * @param w	The widget to check messages against.
+     * @param w The widget to check messages against.
      */
     void checkMessages(ObjectWidget * w);
 
     /**
      * Finds a widget with the given ID.
      *
-     * @param id	The ID of the widget to find.
+     * @param id The ID of the widget to find.
      *
-     * @return	Returns the widget found, returns 0 if no widget found.
+     * @return Returns the widget found, returns 0 if no widget found.
      */
     UMLWidget * findWidget(Uml::IDType id);
 
     /**
      * Finds an association widget with the given ID.
      *
-     * @param id	The ID of the widget to find.
+     * @param id The ID of the widget to find.
      *
-     * @return	Returns the widget found, returns 0 if no widget found.
+     * @return Returns the widget found, returns 0 if no widget found.
      */
     AssociationWidget * findAssocWidget(Uml::IDType id);
 
     /**
      * Finds an association widget with the given type and widgets.
      *
-     * @param at		The Association_Type of the widget to find.
-     * @param pWidgetA	Pointer to the UMLWidget of role A.
-     * @param pWidgetB	Pointer to the UMLWidget of role B.
+     * @param at  The Association_Type of the widget to find.
+     * @param pWidgetA Pointer to the UMLWidget of role A.
+     * @param pWidgetB Pointer to the UMLWidget of role B.
      *
-     * @return	Returns the widget found, returns 0 if no widget found.
+     * @return Returns the widget found, returns 0 if no widget found.
      */
     AssociationWidget * findAssocWidget(Uml::Association_Type at,
                                         UMLWidget *pWidgetA, UMLWidget *pWidgetB);
     /**
      * Remove a widget from view.
      *
-     * @param o		The widget to remove.
+     * @param o  The widget to remove.
      */
     void removeWidget(UMLWidget * o);
 
     /**
      * Sets a widget to a selected state and adds it to a list of selected widgets.
      *
-     * @param w	The widget to set to selected.
-     * @param me	The mouse event containing the information about the selection.
+     * @param w The widget to set to selected.
+     * @param me The mouse event containing the information about the selection.
      */
     void setSelected(UMLWidget * w, QMouseEvent * me);
 
@@ -431,17 +435,17 @@ public:
     /**
      * Move all the selected widgets.
      *
-     * @param w	The widget in the selected list to move in reference to.
-     * @param x	The distance to move horizontally.
-     * @param y	The distance to move vertically.
+     * @param w The widget in the selected list to move in reference to.
+     * @param x The distance to move horizontally.
+     * @param y The distance to move vertically.
      */
     void moveSelected(UMLWidget * w, int x, int y);
 
     /**
      * Move all the selected widgets by a relative X and Y offset.
      *
-     * @param dX	The distance to move horizontally.
-     * @param dY	The distance to move vertically.
+     * @param dX The distance to move horizontally.
+     * @param dY The distance to move vertically.
      */
     void moveSelectedBy(int dX, int dY);
 
@@ -457,7 +461,7 @@ public:
     /**
      * Set the useFillColor variable to all selected widgets
      *
-     * @param	useFC	The state to set the widget to.
+     * @param useFC The state to set the widget to.
      */
     void selectionUseFillColor(bool useFC);
 
@@ -506,9 +510,9 @@ public:
     /**
      * Returns whether a widget is already on the diagram.
      *
-     * @param id	The id of the widget to check for.
+     * @param id The id of the widget to check for.
      *
-     * @return	Returns true if the widget is already on the diagram, false if not.
+     * @return Returns true if the widget is already on the diagram, false if not.
      */
     bool widgetOnDiagram(Uml::IDType id);
 
@@ -528,7 +532,7 @@ public:
     /**
      * Set the pos variable.  Used internally to keep track of the cursor.
      *
-     * @param _pos	The position to set to.
+     * @param _pos The position to set to.
      */
     void setPos(const QPoint &_pos) {
         m_Pos = _pos;
@@ -572,12 +576,12 @@ public:
     /**
      * Activate all the objects and associations after a load from the clipboard
      */
-    bool activate();
+    void activate();
 
     /**
-     * Fills the List with all the selected associations from the diagram
+     * Returns a list with all the selected associations from the diagram
      */
-    bool getSelectedAssocs(AssociationWidgetList & assocWidgetList);
+    AssociationWidgetList getSelectedAssocs();
 
     /**
      * Fills the List with all the selected widgets from the diagram
@@ -586,36 +590,23 @@ public:
 
     /**
      * Activate the view after a load a new file
-     *
-     * @return Return true if the activate was succesful
      */
-    bool activateAfterLoad( bool bUseLog = false );
+    void activateAfterLoad( bool bUseLog = false );
 
-    /**
-     *  FIXME Gustavo ???
-     */
-    IDChangeLog* getLocalIDChangeLog();
-
-    /**
-    * FIXME Gustavo ???
-    */
     void endPartialWidgetPaste();
-    /**
-     * FIXME Gustavo ???
-     */
     void beginPartialWidgetPaste();
 
     /**
      * Removes a AssociationWidget from a diagram
      *
-     * @param pAssoc		Pointer to the AssociationWidget.
+     * @param pAssoc  Pointer to the AssociationWidget.
      */
     void removeAssoc(AssociationWidget* pAssoc);
 
     /**
      * Removes all the associations related to Widget
      *
-     * @param pWidget		Pointer to the widget to remove.
+     * @param pWidget  Pointer to the widget to remove.
      */
     void removeAssociations(UMLWidget* pWidget);
 
@@ -677,8 +668,10 @@ public:
      */
     void copyAsImage(QPixmap*& pix);
 
+   
     /**
      * Saves a png file to the given url.
+     @todo - rewrite this in terms of ExportViewAction? 
      */
     void exportImage();
 
@@ -740,9 +733,9 @@ public:
      * Refreshes containment association, i.e. removes possible old
      * containment and adds new containment association if applicable.
      *
-     * @param self		Pointer to the contained object for which
-     *			the association to the containing object is
-     *			recomputed.
+     * @param self  Pointer to the contained object for which
+     *   the association to the containing object is
+     *   recomputed.
      */
     void updateContainment(UMLCanvasObject *self);
 
@@ -882,8 +875,8 @@ public:
      * Determine whether on a sequence diagram we have clicked on a line
      * of an Object.
      *
-     * @return	The widget thats line was clicked on.
-     *		Returns 0 if no line was clicked on.
+     * @return The widget thats line was clicked on.
+     *  Returns 0 if no line was clicked on.
      */
     ObjectWidget * onWidgetLine( const QPoint &point );
 
@@ -1032,7 +1025,7 @@ protected:
     /**
      * Options used by view
      */
-    Settings::OptionState	m_Options;
+    Settings::OptionState m_Options;
 
     /**
      * Contains all the data items for @ref MessageWidgets on the diagram.
@@ -1116,6 +1109,14 @@ protected:
     void addAssocInViewAndDoc(AssociationWidget* assoc);
 
     /**
+     * Gets the smallest area to print.
+     *
+     * @return Returns the smallest area to print.
+     */
+    QRect getDiagramRect();
+
+    
+    /**
      * Initializes key variables.
      */
     void init();
@@ -1140,12 +1141,6 @@ protected:
      */
     void contentsMousePressEvent(QMouseEvent* mouseEvent);
 
-    /**
-     * Gets the smallest area to print.
-     *
-     * @return	Returns the smallest area to print.
-     */
-    QRect getDiagramRect();
 
     /**
      * Selects all the widgets of the given association widget.
@@ -1168,19 +1163,19 @@ protected:
      * Find the maximum bounding rectangle of FloatingText widgets.
      * Auxiliary to copyAsImage().
      *
-     * @param ft	Pointer to the FloatingText widget to consider.
-     * @param px	X coordinate of lower left corner. This value will be
-     *		updated if the X coordinate of the lower left corner
-     *		of ft is smaller than the px value passed in.
-     * @param py	Y coordinate of lower left corner. This value will be
-     *		updated if the Y coordinate of the lower left corner
-     *		of ft is smaller than the py value passed in.
-     * @param qx	X coordinate of upper right corner. This value will be
-     *		updated if the X coordinate of the upper right corner
-     *		of ft is larger than the qx value passed in.
-     * @param qy	Y coordinate of upper right corner. This value will be
-     *		updated if the Y coordinate of the upper right corner
-     *		of ft is larger than the qy value passed in.
+     * @param ft Pointer to the FloatingText widget to consider.
+     * @param px  X coordinate of lower left corner. This value will be
+     *            updated if the X coordinate of the lower left corner
+     *            of ft is smaller than the px value passed in.
+     * @param py  Y coordinate of lower left corner. This value will be
+     *            updated if the Y coordinate of the lower left corner
+     *            of ft is smaller than the py value passed in.
+     * @param qx  X coordinate of upper right corner. This value will be
+     *            updated if the X coordinate of the upper right corner
+     *            of ft is larger than the qx value passed in.
+     * @param qy  Y coordinate of upper right corner. This value will be
+     *            updated if the Y coordinate of the upper right corner
+     *            of ft is larger than the qy value passed in.
      */
     void findMaxBoundingRectangle(const FloatingText* ft,
                                   int& px, int& py, int& qx, int& qy);
@@ -1192,7 +1187,7 @@ protected:
      */
     int m_nCollaborationId;
 
-    QPoint m_Pos, m_LineToPos;
+    QPoint m_Pos;
     bool m_bCreateObject, m_bDrawRect, m_bDrawSelectedOnly, m_bPaste;
     ListPopupMenu * m_pMenu;
     UMLWidgetList m_SelectedList;
@@ -1245,11 +1240,6 @@ private:
      * kept so we can monitor for a leave event.
      */
     UMLWidget * m_pOnWidget;
-
-    /**
-     * Holds the Canvas lines for the selection rectangle.
-     */
-    Q3PtrList<Q3CanvasLine> m_SelectionRect;
 
     /**
      * The Line used to show a join between objects as an association is being made.
@@ -1334,7 +1324,6 @@ signals:
     void sigColorChanged( Uml::IDType );
     void sigRemovePopupMenu();
     void sigClearAllSelected();
-    void sigLineColorChanged( Uml::IDType );
     void sigLineWidthChanged( Uml::IDType );
     void sigSnapToGridToggled(bool);
     void sigSnapComponentSizeToGridToggled(bool);

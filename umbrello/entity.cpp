@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2003-2004
+ *  copyright (C) 2003-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -79,7 +79,7 @@ UMLObject* UMLEntity::createEntityAttribute(const QString &name /*=null*/) {
 
         if(name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-        } else if ( findChildObject(Uml::ot_EntityAttribute, name).count() > 0 ) {
+        } else if ( findChildObject(name) != NULL ) {
             KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
         } else {
             goodName = true;
@@ -107,7 +107,7 @@ UMLObject* UMLEntity::addEntityAttribute(const QString& name, Uml::IDType id) {
 
 bool UMLEntity::addEntityAttribute(UMLEntityAttribute* attribute, IDChangeLog* Log /* = 0*/) {
     QString name = (QString)attribute->getName();
-    if (findChildObject(Uml::ot_EntityAttribute, name).count() == 0) {
+    if (findChildObject(name) == NULL) {
         attribute->parent()->removeChild(attribute);
         this->insertChild(attribute);
         m_List.append(attribute);
@@ -124,7 +124,7 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* attribute, IDChangeLog* L
 
 bool UMLEntity::addEntityAttribute(UMLEntityAttribute* attribute, int position) {
     QString name = (QString)attribute->getName();
-    if (findChildObject( Uml::ot_EntityAttribute, name).count() == 0) {
+    if (findChildObject(name) == NULL) {
         attribute->parent()->removeChild(attribute);
         this->insertChild(attribute);
         if ( position >= 0 && position <= (int)m_List.count() )  {
@@ -166,25 +166,6 @@ UMLEntityAttribute* UMLEntity::takeEntityAttribute(UMLEntityAttribute* el, int *
     return el;
 }
 
-UMLObjectList UMLEntity::findChildObject(Uml::Object_Type t, const QString &n) {
-    UMLObjectList list;
-    if (t == Uml::ot_Association) {
-        return UMLClassifier::findChildObject(t, n);
-    } else if (t == Uml::ot_EntityAttribute) {
-        UMLClassifierListItem * obj=0;
-        for (obj = m_List.first(); obj != 0; obj = m_List.next()) {
-            if (obj->getBaseType() != t)
-                continue;
-            if (obj->getName() == n)
-                list.append( obj );
-        }
-    } else {
-        kdWarning() << "finding child object of unknown type" <<t<<" (requested name = "<<n<<")"<<endl;
-    }
-
-    return list;
-}
-
 int UMLEntity::entityAttributes() {
     return m_List.count();
 }
@@ -193,9 +174,10 @@ int UMLEntity::entityAttributes() {
 void UMLEntity::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     QDomElement entityElement = UMLObject::save("UML:Entity", qDoc);
     //save operations
+    UMLClassifierListItemList entityAttributes = getFilteredList(Uml::ot_EntityAttribute);
     UMLClassifierListItem* pEntityAttribute = 0;
-    for ( pEntityAttribute = m_List.first(); pEntityAttribute != 0;
-            pEntityAttribute = m_List.next() ) {
+    for (UMLClassifierListItemListIt it(entityAttributes);
+         (pEntityAttribute = it.current()) != NULL; ++it) {
         pEntityAttribute->saveToXMI(qDoc, entityElement);
     }
     qElement.appendChild(entityElement);

@@ -29,7 +29,7 @@ class IDChangeLog;
  *
  * @short Non-graphical information for a UMLCanvasObject.
  * @author Jonathan Riddell
- * @see	UMLObject
+ * @see UMLObject
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
@@ -39,8 +39,8 @@ public:
     /**
      * Sets up a UMLCanvasObject.
      *
-     * @param name		The name of the Concept.
-     * @param id		The unique id of the Concept.
+     * @param name              The name of the Concept.
+     * @param id                The unique id of the Concept.
      */
     UMLCanvasObject(const QString & name = "", Uml::IDType id = Uml::id_None);
 
@@ -67,21 +67,21 @@ public:
     /**
      * Adds an association.
      *
-     * @param assoc		The association to add.
+     * @param assoc             The association to add.
      */
     bool addAssociation(UMLAssociation* assoc);
 
     /**
      * Determine if this canvasobject has the given association.
      *
-     * @param assoc		The association to check.
+     * @param assoc             The association to check.
      */
     bool hasAssociation(UMLAssociation* assoc);
 
     /**
      * Remove an association from the CanvasObject.
      *
-     * @param o		The association to remove.
+     * @param o         The association to remove.
      */
     int removeAssociation(UMLAssociation *assoc);
 
@@ -94,22 +94,22 @@ public:
      * Returns the number of associations for the CanvasObject.
      * This is the sum of the aggregations and compositions.
      *
-     * @return	The number of associations for the Concept.
+     * @return  The number of associations for the Concept.
      */
     int associations();
 
     /**
     * Return the list of associations for the CanvasObject.
     *
-    * @return	The list of associations for the CanvasObject.
+    * @return   The list of associations for the CanvasObject.
     */
-    const UMLAssociationList& getAssociations();
+    UMLAssociationList getAssociations();
 
     /**
-     * Return the subset of m_AssocsList that matches the given type.
+     * Return the subset of m_List that matches the given type.
      *
-     * @param assocType	The Association_Type to match.
-     * @return	The list of associations that match assocType.
+     * @param assocType The Association_Type to match.
+     * @return  The list of associations that match assocType.
      */
     UMLAssociationList getSpecificAssocs(Uml::Association_Type assocType);
 
@@ -118,7 +118,7 @@ public:
      * TODO: This overlaps with UMLClassifier::findSuperClassConcepts(),
      *       see if we can merge the two.
      *
-     * @return	The list of superclasses for the concept.
+     * @return  The list of superclasses for the concept.
      */
     UMLClassifierList getSuperClasses();
 
@@ -127,64 +127,65 @@ public:
      * TODO: This overlaps with UMLClassifier::findSubClassConcepts(),
      *       see if we can merge the two.
      *
-     * @return	The list of classes inheriting from the concept.
+     * @return  The list of classes inheriting from the concept.
      */
     UMLClassifierList getSubClasses();
 
     /**
      * Shorthand for getSpecificAssocs(Uml::at_Realization)
      *
-     * @return	The list of realizations for the Concept.
+     * @return  The list of realizations for the Concept.
      */
     virtual UMLAssociationList getRealizations();
 
     /**
      * Shorthand for getSpecificAssocs(Uml::at_Aggregation)
      *
-     * @return	The list of aggregations for the Concept.
+     * @return  The list of aggregations for the Concept.
      */
     UMLAssociationList getAggregations();
 
     /**
      * Shorthand for getSpecificAssocs(Uml::at_Composition)
      *
-     * @return	The list of compositions for the Concept.
+     * @return  The list of compositions for the Concept.
      */
     UMLAssociationList getCompositions();
 
     /**
      * Shorthand for getSpecificAssocs(Uml::at_Relationship)
      *
-     * @return	The list of relationships for the entity.
+     * @return  The list of relationships for the entity.
      */
     UMLAssociationList getRelationships();
 
     /**
-     * Find a list of associations with the given name.
+     * Find a child object with the given name.
      *
-     * @param t		The type to find.
-     * @param n		The name of the object to find.
-     * @return	List of objects found (empty if none found.)
+     * @param n         The name of the object to find.
+     * @param t         The type to find (optional.) If not given then
+     *                  any object type will match.
+     * @return  Pointer to the object found; NULL if none found.
      */
-    virtual UMLObjectList findChildObject(Uml::Object_Type t, const QString &n);
+    virtual UMLObject *findChildObject(const QString &n, Uml::Object_Type t = Uml::ot_UMLObject);
 
     /**
      * Find an association.
      *
-     * @param id		The id of the object to find.
-     * @return	Pointer to the object found (NULL if not found.)
+     * @param id                The id of the object to find.
+     * @return  Pointer to the object found (NULL if not found.)
      */
-    UMLObject* findAssoc(Uml::IDType id);
+    virtual UMLObject *findChildObjectById(Uml::IDType id, bool considerAncestors = false);
 
     /**
      * Returns a name for the new association, operation, template
      * or attribute appended with a number if the default name is
      * taken e.g. new_association, new_association_1 etc.
      *
-     * @param type		The object type for which to make a name.
-     * @param seekStereo	Set this true if we should look at the object's
-     *			stereotype instead of its name.
-     * @return	Unique name string for the Object_Type given.
+     * @param type              The object type for which to make a name.
+     * @param seekStereo        Set this true if we should look at the object's
+     *                  stereotype instead of its name.
+     * @return  Unique name string for the Object_Type given.
      */
     virtual QString uniqChildName(const Uml::Object_Type type,
                                   bool seekStereo = false);
@@ -195,9 +196,11 @@ public:
 protected:
 
     /**
-     * List of all the associations in this class.
+     * List of all the associations in this object.
+     * Inheriting classes add more types of objects that are possible in this list;
+     * for example, UMLClassifier adds operations, attributes, and templates.
      */
-    UMLAssociationList m_AssocsList;
+    UMLObjectList m_List;
 
 private:
 

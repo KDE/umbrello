@@ -75,7 +75,7 @@ void CodeClassFieldDeclarationBlock::release () {
 void CodeClassFieldDeclarationBlock::forceRelease () {
     if(m_parentclassfield)
     {
-        //		m_parentclassfield->getParentObject()->disconnect(this);
+        //              m_parentclassfield->getParentObject()->disconnect(this);
         m_parentclassfield->disconnect(this);
     }
     m_parentclassfield = 0;
@@ -143,7 +143,9 @@ void CodeClassFieldDeclarationBlock::syncToParent () {
     // the name of the role is not defined.
     if(!(getParentClassField()->parentIsAttribute()))
     {
-        UMLRole * parent = (UMLRole*)getParentObject();
+        UMLRole * parent = dynamic_cast<UMLRole*>(getParentObject());
+        if (parent == NULL)
+            return;
         if(parent->getName().isEmpty())
         {
             getComment()->setWriteOutText(false);

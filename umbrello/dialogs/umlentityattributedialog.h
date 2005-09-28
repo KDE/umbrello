@@ -40,7 +40,7 @@ public:
 
 protected:
     /**
-    *	Sets up the dialog
+    *   Sets up the dialog
     */
     void setupDialog();
 
@@ -56,7 +56,7 @@ protected:
     void insertType( const QString& type, int index = -1 );
 
     /**
-    *	The EntityAttribute to represent
+    *   The EntityAttribute to represent
     */
     UMLEntityAttribute * m_pEntityAttribute;
 

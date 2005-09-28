@@ -54,7 +54,7 @@ public:
     //
 
     /**
-     * @return	QString
+     * @return  QString
      */
     QString toString ( );
 

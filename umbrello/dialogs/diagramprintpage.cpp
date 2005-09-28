@@ -110,7 +110,7 @@ void DiagramPrintPage::getOptions( QMap<QString,QString>& opts, bool /*incldef =
     int count = 0;
 
     QString diagram(i18n("kde-uml-Diagram"));
-    for(int	i=0;i<listCount;i++) {
+    for(int     i=0;i<listCount;i++) {
         if(m_pSelectLB -> isSelected(i)) {
             UMLView *view = (UMLView *)m_pDoc -> findView(m_nIdList[i]);
             QString sCount = QString("%1").arg(count);

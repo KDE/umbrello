@@ -92,8 +92,8 @@ protected:
      * and actually load the plugins. The string is a set of space separated names.
      * Each name corresponds the the share object implementing the plugin.
      *
-     * @param config	The object used for configuration.
-     * @param plugins	The key in the group that contains libraries to load.
+     * @param config    The object used for configuration.
+     * @param plugins   The key in the group that contains libraries to load.
      *
      * @return True on success, false on failure.
      */
@@ -111,7 +111,7 @@ protected:
 private:
     typedef Q3PtrList<Plugin> PluginList;
 
-    PluginList	_plugins;	///< List of loaded plugins
+    PluginList  _plugins;       ///< List of loaded plugins
 };
 }
 

@@ -12,18 +12,37 @@
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
-#include <qstring.h>
+#include "nativeimportbase.h"
 
 /**
  * CORBA IDL code import
  * @author Oliver Kellogg
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-namespace IDLImport {
+class IDLImport : public NativeImportBase {
+public:
+    IDLImport();
+    virtual ~IDLImport();
 
-void parseFile(QString filename);
+    /**
+     * Implement abstract operation from NativeImportBase.
+     */
+    void parseFile(QString file);
 
-}
+    /**
+     * Override operation from NativeImportBase.
+     */
+    bool preprocess(QString& line);
+
+    /**
+     * Implement abstract operation from NativeImportBase.
+     */
+    void fillSource(QString word);
+
+protected:
+    QString joinTypename();
+    bool m_isOneway, m_isReadonly, m_isAttribute;
+};
 
 #endif
 

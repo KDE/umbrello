@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -102,7 +102,7 @@ UMLListView::UMLListView(QWidget *parent, const char *name)
     loadPixmaps();
 
     //setup list view
-    setBackgroundColor(white);
+    setBackgroundColor(Qt::white);
     setAcceptDrops(true);
     setDropVisualizer(false);
     setItemsMovable(true);
@@ -149,7 +149,7 @@ bool UMLListView::eventFilter(QObject *o, QEvent *e) {
     if (e->type() != QEvent::MouseButtonPress || !o->isA("QHeader"))
         return Q3ListView::eventFilter(o, e);
     QMouseEvent *me = static_cast<QMouseEvent*>(e);
-    if (me->button() == RightButton) {
+    if (me->button() == Qt::RightButton) {
         if (m_pMenu) {
             m_pMenu->hide();
             disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(popupMenuSel(int)));
@@ -166,19 +166,19 @@ bool UMLListView::eventFilter(QObject *o, QEvent *e) {
 void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
     if( m_doc -> getCurrentView() )
         m_doc -> getCurrentView() -> clearSelected();
-    if( me -> state() != ShiftButton )
+    if( me -> state() != Qt::ShiftButton )
         clearSelection();
     QPoint pt = this->Q3ScrollView::contentsToViewport( me->pos() );
     UMLListViewItem * item = (UMLListViewItem*)itemAt(pt);
 
-    if(  me -> button() != RightButton && me -> button() != LeftButton  ) {
+    if(  me -> button() != Qt::RightButton && me -> button() != Qt::LeftButton  ) {
         UMLApp::app() -> getDocWindow() -> updateDocumentation( true );
         return;
     }
 
     Uml::ListView_Type type;
     type = item ? item->getType() : Uml::lvt_Unknown;
-    if (me->button() == LeftButton) {
+    if (me->button() == Qt::LeftButton) {
         switch( type ) {
 
         case Uml::lvt_UseCase:
@@ -202,7 +202,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
             break;
         }
     }
-    if(me->button() == RightButton) {
+    if(me->button() == Qt::RightButton) {
         if(m_pMenu != 0) {
             m_pMenu->hide();
             disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(popupMenuSel(int)));
@@ -219,7 +219,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
 }
 
 void UMLListView::contentsMouseReleaseEvent(QMouseEvent *me) {
-    if (me->button() != LeftButton) {
+    if (me->button() != Qt::LeftButton) {
         this->KListView::contentsMouseReleaseEvent(me);
         return;
     }
@@ -581,32 +581,27 @@ void UMLListView::slotDiagramCreated( Uml::IDType id ) {
     UMLApp::app() -> getDocWindow() -> showDocumentation( v , false );
 }
 
-void UMLListView::slotObjectCreated(UMLObject* object) {
-    /* kdDebug() << "UMLListView::slotObjectCreated(" << object->getName()
-    	  << "): ID is " << object->getID() << endl;
-     */
-    UMLListViewItem* newItem = 0;
-    UMLListViewItem* parentItem = 0;
+UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const {
+    UMLListViewItem* parentItem = NULL;
     UMLListViewItem* current = (UMLListViewItem*) currentItem();
-    Uml::Object_Type type = object->getBaseType();
     Uml::ListView_Type lvt = Uml::lvt_Unknown;
     if (current)
         lvt = current->getType();
+    Uml::Object_Type type = object->getBaseType();
 
-    switch( type )
-    {
+    switch (type) {
     case Uml::ot_Attribute:
     case Uml::ot_Operation:
     case Uml::ot_Template:
     case Uml::ot_EnumLiteral:
     case Uml::ot_EntityAttribute:
         //this will be handled by childObjectAdded
-        return;
+        return NULL;
         break;
     case Uml::ot_Association:
     case Uml::ot_Role:
     case Uml::ot_Stereotype:
-        return;  // currently no representation in list view
+        return NULL;  // currently no representation in list view
         break;
     case Uml::ot_Class:
     case Uml::ot_Interface:
@@ -618,18 +613,10 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
             if (pkg) {
                 UMLListViewItem* pkgItem = findUMLObject(pkg);
                 if (pkgItem == NULL)
-                    kdDebug() << "UMLListView::slotObjectCreated: could not find "
+                    kdError() << "UMLListView::determineParentItem: could not find "
                     << "parent package " << pkg->getName() << endl;
                 else
                     parentItem = pkgItem;
-            }
-            if (parentItem) {
-                //CHECK: Are these assignments necessary here?
-                // They should already have been done at object creation.
-                UMLPackage *pkg = (UMLPackage*)parentItem->getUMLObject();
-                object->setUMLPackage(pkg);
-                if (pkg)
-                    pkg->addObject(object);
             } else if (lvt == Uml::lvt_Logical_Folder)
                 parentItem = current;
             else if (type == Uml::ot_Datatype)
@@ -640,14 +627,14 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
         break;
     case Uml::ot_Actor:
     case Uml::ot_UseCase:
-        if ( lvt == Uml::lvt_UseCase_Folder )
+        if (lvt == Uml::lvt_UseCase_Folder)
             parentItem = current;
         else
             parentItem = m_ucv;
         break;
     case Uml::ot_Component:
     case Uml::ot_Artifact:
-        if( lvt == Uml::lvt_Component_Folder )
+        if (lvt == Uml::lvt_Component_Folder)
             parentItem = current;
         else
             parentItem = componentView;
@@ -667,14 +654,51 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
         }
         break;
     default:
-        kdWarning() << "UMLListView::slotObjectCreated("<< object->getName()
+        kdWarning() << "UMLListView::determineParentItem("<< object->getName()
         << ") : no appropriate parent found for type " << type
         << endl;
+        return NULL;
+    }
+    return parentItem;
+}
+
+bool UMLListView::mayHaveChildItems(Uml::Object_Type type) {
+    bool retval = false;
+    switch (type) {
+        case Uml::ot_Class:
+        case Uml::ot_Interface:
+        case Uml::ot_Enum:
+        case Uml::ot_Entity:  // CHECK: more?
+            retval = true;
+            break;
+        default:
+            break;
+    }
+    return retval;
+}
+
+void UMLListView::slotObjectCreated(UMLObject* object) {
+    UMLListViewItem* newItem = findUMLObject(object);
+    if (newItem) {
+        kdDebug() << "UMLListView::slotObjectCreated(" << object->getName()
+                  << ", id= " << ID2STR(object->getID())
+                  << "): item already exists." << endl;
         return;
     }
+    UMLListViewItem* parentItem = determineParentItem(object);
+    if (parentItem == NULL)
+        return;
+    Uml::Object_Type type = object->getBaseType();
 
     connectNewObjectsSlots(object);
     newItem = new UMLListViewItem(parentItem, object->getName(), convert_OT_LVT(type), object);
+    if (mayHaveChildItems(type)) {
+        UMLClassifier *c = static_cast<UMLClassifier*>(object);
+        UMLClassifierListItemList cListItems = c->getFilteredList(Uml::ot_UMLObject);
+        UMLClassifierListItem *cli;
+        for (UMLClassifierListItemListIt it(cListItems); (cli = it.current()) != NULL; ++it)
+            childObjectAdded(cli, c);
+    }
     if (m_doc->loading())
         return;
     ensureItemVisible(newItem);
@@ -689,29 +713,35 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object) {
     switch( type )
     {
     case Uml::ot_Class:
-        connect(object,SIGNAL(attributeAdded(UMLObject*)),
-                this,SLOT(childObjectAdded(UMLObject*)));
-        connect(object,SIGNAL(attributeRemoved(UMLObject*)),
-                this,SLOT(childObjectRemoved(UMLObject*)));
-        connect(object,SIGNAL(childObjectAdded(UMLObject*)), // for operations
-                this,SLOT(childObjectAdded(UMLObject*)));
-        connect(object,SIGNAL(childObjectRemoved(UMLObject*)),
-                this,SLOT(childObjectRemoved(UMLObject*)));
-        connect(object,SIGNAL(templateAdded(UMLObject*)),
-                this,SLOT(childObjectAdded(UMLObject*)));
-        connect(object,SIGNAL(templateRemoved(UMLObject*)),
-                this,SLOT(childObjectRemoved(UMLObject*)));
-        connect(object,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
-        break;
     case Uml::ot_Interface:
-        connect(object,SIGNAL(childObjectAdded(UMLObject*)),
-                this,SLOT(childObjectAdded(UMLObject*)));
-        connect(object,SIGNAL(childObjectRemoved(UMLObject*)), // for operations
-                this,SLOT(childObjectRemoved(UMLObject*)));
+        {
+            UMLClassifier *c = static_cast<UMLClassifier*>(object);
+            connect(c, SIGNAL(attributeAdded(UMLClassifierListItem*)),
+                    this, SLOT(childObjectAdded(UMLClassifierListItem*)));
+            connect(c, SIGNAL(attributeRemoved(UMLClassifierListItem*)),
+                    this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
+            connect(c, SIGNAL(operationAdded(UMLClassifierListItem*)),
+                    this, SLOT(childObjectAdded(UMLClassifierListItem*)));
+            connect(c, SIGNAL(operationRemoved(UMLClassifierListItem*)),
+                    this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
+            connect(c, SIGNAL(templateAdded(UMLClassifierListItem*)),
+                    this, SLOT(childObjectAdded(UMLClassifierListItem*)));
+            connect(c, SIGNAL(templateRemoved(UMLClassifierListItem*)),
+                    this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
+            connect(object,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
+        }
+        break;
+    case Uml::ot_Enum:
+        {
+            UMLEnum *e = static_cast<UMLEnum*>(object);
+            connect(e, SIGNAL(enumLiteralAdded(UMLClassifierListItem*)),
+                    this, SLOT(childObjectAdded(UMLClassifierListItem*)));
+            connect(e, SIGNAL(enumLiteralRemoved(UMLClassifierListItem*)),
+                    this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
+        }
         connect(object,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
         break;
     case Uml::ot_Datatype:
-    case Uml::ot_Enum:
     case Uml::ot_Entity:
     case Uml::ot_Attribute:
     case Uml::ot_Operation:
@@ -747,36 +777,43 @@ void UMLListView::slotObjectChanged() {
     }
 }
 
-void UMLListView::childObjectAdded(UMLObject* obj) {
-    UMLObject *parent = const_cast<UMLObject*>(dynamic_cast<const UMLObject*>(sender()));
+void UMLListView::childObjectAdded(UMLClassifierListItem* obj) {
+    UMLClassifier *parent = const_cast<UMLClassifier*>(dynamic_cast<const UMLClassifier*>(sender()));
     childObjectAdded(obj, parent);
 }
 
-void UMLListView::childObjectAdded(UMLObject* obj, UMLObject* parent) {
-    Uml::Object_Type ot = obj->getBaseType();
-    /* kdDebug() << "UMLListView::childObjectAdded(" << obj->getName()
-    		  << ", type " << ot << "): ID is " << obj->getID() << endl;
-     */
-    if (ot == Uml::ot_Stereotype || m_bIgnoreChildCreationSignal) {
+void UMLListView::childObjectAdded(UMLClassifierListItem* child, UMLClassifier* parent) {
+    if (m_bCreatingChildObject)
         return;
+    const QString text = child->toString(Uml::st_SigNoScope);
+    UMLListViewItem *childItem = NULL;
+    UMLListViewItem *parentItem = findUMLObject(parent);
+    if (parentItem == NULL) {
+        kdDebug() << "UMLListView::childObjectAdded(" << child->getName()
+                  << "): parent " << parent->getName()
+              << " does not yet exist, creating it now." << endl;
+        parentItem = new UMLListViewItem(m_lv, parent->getName(),
+                                         convert_OT_LVT(parent->getBaseType()),
+                                         parent);
+    } else {
+        childItem = parentItem->findUMLObject(child);
     }
-    if (!m_bCreatingChildObject) {
-        UMLListViewItem *parentItem = findUMLObject(parent);
-        UMLClassifierListItem *child = static_cast<UMLClassifierListItem*>(obj);
-        QString text = child->toString(Uml::st_SigNoScope);
-        UMLListViewItem *newItem = new UMLListViewItem(parentItem, text,
-                                   convert_OT_LVT(obj->getBaseType()), obj);
+    if (childItem) {
+        childItem->setText(text);
+    } else {
+        childItem = new UMLListViewItem(parentItem, text,
+                               convert_OT_LVT(child->getBaseType()), child);
         if (! m_doc->loading()) {
-            ensureItemVisible(newItem);
+            ensureItemVisible(childItem);
             clearSelection();
-            setSelected(newItem, true);
+            setSelected(childItem, true);
         }
+        connectNewObjectsSlots(child);
     }
-    connectNewObjectsSlots(obj);
 }
 
-void UMLListView::childObjectRemoved(UMLObject* obj) {
-    UMLObject *parent = const_cast<UMLObject*>(dynamic_cast<const UMLObject*>(sender()));
+void UMLListView::childObjectRemoved(UMLClassifierListItem* obj) {
+    UMLClassifier *parent = const_cast<UMLClassifier*>(dynamic_cast<const UMLClassifier*>(sender()));
     UMLListViewItem *item(0);
     UMLListViewItem *parentItem = findUMLObject(parent);
     for( item = static_cast<UMLListViewItem*>(parentItem->firstChild());
@@ -989,8 +1026,6 @@ void UMLListView::init() {
     deleteChildrenOf( componentView );
     deleteChildrenOf( deploymentView );
     deleteChildrenOf( entityRelationshipModel );
-    //Uncomment for using Luis diagram display code
-    //	deleteChildrenOf( diagramFolder );
 
     m_rv->setOpen(true);
     m_ucv->setOpen(true);
@@ -1006,7 +1041,6 @@ void UMLListView::init() {
     m_bStartedCut = m_bStartedCopy = false;
     m_bIgnoreCancelRename = true;
     m_bCreatingChildObject = false;
-    m_bIgnoreChildCreationSignal = false;
 }
 
 void UMLListView::setView(UMLView * v) {
@@ -1019,7 +1053,7 @@ void UMLListView::setView(UMLView * v) {
 
 void UMLListView::contentsMouseDoubleClickEvent(QMouseEvent * me) {
     UMLListViewItem * item = static_cast<UMLListViewItem *>( currentItem() );
-    if( !item || me -> button() != LeftButton )
+    if( !item || me -> button() != Qt::LeftButton )
         return;
     //see if on view
     Uml::ListView_Type lvType = item -> getType();
@@ -1154,7 +1188,7 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
     }
 
     //kdDebug() << "UMLListView::acceptDrag: dstType = " << dstType
-    //	  << ", accept=" << accept << endl;
+    //    << ", accept=" << accept << endl;
     return accept;
 }
 
@@ -1281,7 +1315,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
             newItem = move->deepCopy(newParent);
             delete move;
             // update model objects
-            m_bIgnoreChildCreationSignal = true;
+            m_bCreatingChildObject = true;
             UMLClassifier *oldParentClassifier = dynamic_cast<UMLClassifier*>(srcObj->parent());
             UMLClassifier *newParentClassifier = dynamic_cast<UMLClassifier*>(newParentObj);
             if (srcType == Uml::lvt_Attribute) {
@@ -1317,7 +1351,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                 // QObject does not permit changing the parent().
                 if (op) {
                     bool isExistingOp;
-                    Umbrello::NameAndType_List ntDummyList;
+                    Model_Utils::NameAndType_List ntDummyList;
                     // We need to provide a dummy NameAndType_List
                     // else UMLClassifier::createOperation will
                     // bring up an operation dialog.
@@ -1331,6 +1365,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                         UMLAttribute *newParm = new UMLAttribute(newParentClassifier, parm->getName());
                         newParm->setScope(parm->getScope());
                         newParm->setType(parm->getType());
+                        newParm->setParmKind(parm->getParmKind());
                         newParm->setInitialValue(parm->getInitialValue());
                         newOp->addParm(newParm);
                     }
@@ -1344,7 +1379,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                     << endl;
                 }
             }
-            m_bIgnoreChildCreationSignal = false;
+            m_bCreatingChildObject = false;
         }
         break;
     default:
@@ -1430,8 +1465,8 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
         //if there is no ListViewItem associated with the new ID,
         //it could exist an Item already asocciated if the user chose to reuse an uml object
         if(!(item = findItem(newID))) {
-        	pObject = m_doc->findObjectById( IDChanges.findNewID(Data.getID()) );
-        	item = new UMLListViewItem(parent, Data.getText(), lvt, pObject);
+                pObject = m_doc->findObjectById( IDChanges.findNewID(Data.getID()) );
+                item = new UMLListViewItem(parent, Data.getText(), lvt, pObject);
         } ***/
         pObject = m_doc->findObjectById( Data.getID() );
         item = new UMLListViewItem(parent, Data.getText(), lvt, pObject);
@@ -1448,7 +1483,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
         {
             UMLClassifier *pClass =  static_cast<UMLClassifier*>(parent->getUMLObject());
             Uml::IDType newID = IDChanges.findNewID( Data.getID() );
-            pObject = pClass -> findChildObject( newID );
+            pObject = pClass->findChildObjectById(newID);
             if (pObject) {
                 item = new UMLListViewItem( parent, Data.getText(), lvt, pObject );
             } else {
@@ -1461,7 +1496,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
         {
             UMLClassifier * pConcept =  (UMLClassifier *)parent -> getUMLObject();
             Uml::IDType newID = IDChanges.findNewID( Data.getID() );
-            pObject = pConcept->findChildObject( newID );
+            pObject = pConcept->findChildObjectById(newID);
             if (pObject) {
                 item = new UMLListViewItem( parent, Data.getText(), lvt, pObject );
             } else {
@@ -2371,11 +2406,11 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
     UMLObject* newObject = NULL;
     if ( type == Uml::ot_Template )  {
         UMLClassifier *owningClassifier = static_cast<UMLClassifier*>(parent);
-        Umbrello::NameAndType nt;
-        Umbrello::Parse_Status st = Umbrello::parseTemplate(text, nt, owningClassifier);
+        Model_Utils::NameAndType nt;
+        Model_Utils::Parse_Status st = Model_Utils::parseTemplate(text, nt, owningClassifier);
         if (st) {
             KMessageBox::error( kapp->mainWidget(),
-                                Umbrello::psText(st),
+                                Model_Utils::psText(st),
                                 i18n("Creation canceled") );
             delete item;
             m_bCreatingChildObject = false;
@@ -2387,11 +2422,11 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
         text = tmplParm->toString(Uml::st_SigNoScope);
     } else if ( type == Uml::ot_Attribute )  {
         UMLClassifier *owningClass = static_cast<UMLClassifier*>(parent);
-        Umbrello::NameAndType nt;
-        Umbrello::Parse_Status st = Umbrello::parseAttribute(text, nt, owningClass);
+        Model_Utils::NameAndType nt;
+        Model_Utils::Parse_Status st = Model_Utils::parseAttribute(text, nt, owningClass);
         if (st) {
             KMessageBox::error( kapp->mainWidget(),
-                                Umbrello::psText(st),
+                                Model_Utils::psText(st),
                                 i18n("Creation canceled") );
             delete item;
             m_bCreatingChildObject = false;
@@ -2400,15 +2435,16 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
         newObject = owningClass->createAttribute(nt.m_name);
         UMLAttribute *att = static_cast<UMLAttribute*>(newObject);
         att->setType(nt.m_type);
+        att->setParmKind(nt.m_direction);
         att->setInitialValue(nt.m_initialValue);
         text = att->toString(Uml::st_SigNoScope);
     } else if ( type == Uml::ot_Operation ) {
         UMLClassifier *owningClassifier = static_cast<UMLClassifier*>(parent);
-        Umbrello::OpDescriptor od;
-        Umbrello::Parse_Status st = Umbrello::parseOperation(text, od, owningClassifier);
+        Model_Utils::OpDescriptor od;
+        Model_Utils::Parse_Status st = Model_Utils::parseOperation(text, od, owningClassifier);
         if (st) {
             KMessageBox::error( kapp->mainWidget(),
-                                Umbrello::psText(st),
+                                Model_Utils::psText(st),
                                 i18n("Creation canceled") );
             delete item;
             m_bCreatingChildObject = false;
@@ -2541,8 +2577,7 @@ bool UMLListView::isUnique( UMLListViewItem * item, const QString &name ) {
     case Uml::lvt_Operation:
         {
             UMLClassifier *parent = static_cast<UMLClassifier*>(parentItem->getUMLObject());
-            Uml::Object_Type ot = convert_LVT_OT(type);
-            return (parent->findChildObject(ot, name).count() == 0);
+            return (parent->findChildObject(name) == NULL);
             break;
         }
 
@@ -2568,12 +2603,10 @@ void UMLListView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement,
 
 bool UMLListView::loadFromXMI( QDomElement & element ) {
     /*
-    	deleteChildrenOf( m_ucv );
-    	deleteChildrenOf( m_lv );
-    	deleteChildrenOf( componentView );
-    	deleteChildrenOf( deploymentView );
-    //Uncomment for using Luis diagram display code
-    //	deleteChildrenOf( diagramFolder );
+        deleteChildrenOf( m_ucv );
+        deleteChildrenOf( m_lv );
+        deleteChildrenOf( componentView );
+        deleteChildrenOf( deploymentView );
      */
     QDomNode node = element.firstChild();
     QDomElement domElement = node.toElement();
@@ -2640,8 +2673,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
             if (pObject && label.isEmpty())
                 label = pObject->getName();
 
-        } else if (typeIsFolder(lvType) ||
-                   lvType == Uml::lvt_Diagrams) {
+        } else if (typeIsFolder(lvType)) {
             // Pre-1.2 format: Folders did not have their ID set.
             // Pull a new ID now.
             nID = m_doc->getUniqueID();
@@ -2700,7 +2732,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
                 // listview item might be located in a user created folder.
                 // Thanks to Achim Spangler for spotting the problem.
                 /* kdDebug() << "UMLListView::loadChildrenFromXMI: Reparenting "
-                	  << item->getText() << endl;
+                          << item->getText() << endl;
                  */
                 UMLListViewItem *newItem = item->deepCopy(parent);
                 delete item;
@@ -2717,15 +2749,17 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
                 << lvType << ") does not yet exist..."
                 << endl;
                 UMLObject* umlObject = parent->getUMLObject();
-                if (!umlObject)
+                if (!umlObject) {
+                    kdDebug() << "And also the parent->getUMLObject() does not exist" << endl;
                     return false;
+                }
                 if (nID == Uml::id_None) {
                     kdWarning() << "UMLListView::loadChildrenFromXMI: lvtype " << lvType
                     << " has id -1" << endl;
                 } else {
                     UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(umlObject);
                     if (classifier) {
-                        umlObject = classifier->findChildObject(nID);
+                        umlObject = classifier->findChildObjectById(nID);
                         if (umlObject) {
                             connectNewObjectsSlots(umlObject);
                             label = umlObject->getName();
@@ -2759,10 +2793,6 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
             break;
         case Uml::lvt_EntityRelationship_Model:
             item = entityRelationshipModel;
-            break;
-        case Uml::lvt_Diagrams:
-            //Uncomment for using Luis diagram display code
-            //				item = diagramFolder;
             break;
         default:
             {

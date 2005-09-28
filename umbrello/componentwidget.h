@@ -27,7 +27,7 @@ class UMLComponent;
  *
  * @short A graphical version of a Component.
  * @author Jonathan Riddell
- * @see	UMLWidget
+ * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ComponentWidget : public UMLWidget {
@@ -36,8 +36,8 @@ public:
     /**
      * Constructs a ComponentWidget.
      *
-     * @param view	The parent of this ComponentWidget.
-     * @param c	The UMLComponent this will be representing.
+     * @param view      The parent of this ComponentWidget.
+     * @param c The UMLComponent this will be representing.
      */
     ComponentWidget(UMLView * view, UMLComponent *c);
 
@@ -49,21 +49,16 @@ public:
     /**
      * Returns the status of whether to show StereoType.
      *
-     * @return	Status of whether to show stereotype.
+     * @return  Status of whether to show stereotype.
      */
     bool getShowStereotype() const;
 
     /**
      * Set the status of whether to show StereoType
      *
-     * @param _show		True if stereotype shall be shown.
+     * @param _show             True if stereotype shall be shown.
      */
     void setShowStereotype(bool _status);
-
-    /**
-     * Activate the object after serializing it from a QDataStream
-     */
-    virtual bool activate(IDChangeLog* ChangeLog  = 0 );
 
     /**
      * Overrides standard method

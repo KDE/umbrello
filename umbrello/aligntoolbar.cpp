@@ -37,7 +37,7 @@ AlignToolBar::AlignToolBar(Q3MainWindow* parentWindow, const char* name)
     insertButton(m_Pixmaps[alac_align_vertical_middle], alac_align_vertical_middle, true, i18n("Align Vertical Middle"));
     insertButton(m_Pixmaps[alac_align_horizontal_middle], alac_align_horizontal_middle, true, i18n("Align Horizontal Middle"));
 
-    setOrientation( Vertical );
+    setOrientation( Qt::Vertical );
     setVerticalStretchable( true );
 
     // gets called whenever a button in the toolbar is clicked

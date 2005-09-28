@@ -30,21 +30,21 @@ class UMLRoleProperties : public UMLRolePropertiesBase {
 public:
 
     /**
-     *	Sets up the UMLRoleProperties.
+     *  Sets up the UMLRoleProperties.
      *
-     *	@param	parent	The parent widget to the UMLRoleProperties.
-     *	@param	role	The UMLRole to display the properties of.
+     *  @param  parent  The parent widget to the UMLRoleProperties.
+     *  @param  role    The UMLRole to display the properties of.
      */
     UMLRoleProperties( QWidget *parent, UMLRole *role);
 
     /**
-     *	Standard deconstructor.
+     *  Standard deconstructor.
      */
     ~UMLRoleProperties();
 
     /**
-     *	Will move information from the dialog into the object.
-     *	Call when the ok or apply button is pressed.
+     *  Will move information from the dialog into the object.
+     *  Call when the ok or apply button is pressed.
      */
     void updateObject();
 

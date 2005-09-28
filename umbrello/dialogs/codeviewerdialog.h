@@ -60,7 +60,7 @@ public:
 
     /**
      *  Adds a code document to the tabbed output
-    	 */
+         */
     void addCodeDocument( CodeDocument * doc);
 
 protected:

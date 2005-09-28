@@ -44,12 +44,12 @@ class UMLViewDialog : public KDialogBase {
     Q_OBJECT
 public:
     /**
-    *	Constructor
+    *   Constructor
     */
     UMLViewDialog( QWidget * pParent, UMLView * pView );
 
     /**
-    *	Deconstructor
+    *   Deconstructor
     */
     ~UMLViewDialog();
 protected:
@@ -62,42 +62,42 @@ protected:
     };
 
     /**
-    * 	Sets up the dialog pages.
+    *   Sets up the dialog pages.
     */
     void setupPages();
 
     /**
-    *	Sets up the general Diagram Properties Page
+    *   Sets up the general Diagram Properties Page
     */
     void setupDiagramPropertiesPage();
 
     /**
-    *	Sets up the Class page
+    *   Sets up the Class page
     */
     void setupClassPage();
 
     /**
-    *	Sets up the color page.
+    *   Sets up the color page.
     */
     void setupColorPage();
 
     /**
-    *	Sets up font page.
+    *   Sets up font page.
     */
     void setupFontPage();
 
     /**
-    *	Applys the properties of the given page.
+    *   Applys the properties of the given page.
     */
     void applyPage( Page page );
 
     /**
-    *	Checks whether the name is unique and sets it if it is.
+    *   Checks whether the name is unique and sets it if it is.
     */
     void checkName();
 
     /**
-    *	The view to represent.
+    *   The view to represent.
     */
     UMLView * m_pView;
 

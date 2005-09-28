@@ -37,41 +37,41 @@ class UMLWidgetColorPage : public QWidget {
 public:
 
     /**
-    * 	Constructor - Observe a UMLWidget
+    *   Constructor - Observe a UMLWidget
     */
     UMLWidgetColorPage( QWidget * pParent, UMLWidget * pWidget );
 
     /**
-    * 	Constructor - Observe an OptionState structure
+    *   Constructor - Observe an OptionState structure
     */
     UMLWidgetColorPage( QWidget * pParent, Settings::OptionState *options );
 
     /**
-    *	destructor
+    *   destructor
     */
     virtual ~UMLWidgetColorPage();
 
     /**
-    * 	Updates the @ref UMLWidget with the dialog properties.
+    *   Updates the @ref UMLWidget with the dialog properties.
     */
     void updateUMLWidget();
 
 public slots:
     /**
-    *	Sets the default line color when default line button
-    *	clicked.
+    *   Sets the default line color when default line button
+    *   clicked.
     */
     void slotLineButtonClicked();
 
     /**
-    *	Sets the default fill color when default fill button
-    *	clicked.
+    *   Sets the default fill color when default fill button
+    *   clicked.
     */
     void slotFillButtonClicked();
 
 protected:
     /**
-    * 	The widget to set the color for.
+    *   The widget to set the color for.
     */
     UMLWidget * m_pUMLWidget;
 

@@ -63,7 +63,7 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
     p.drawRect(offsetX, offsetY, 50, fontHeight);
     p.drawRect(offsetX, offsetY + fontHeight - 1, w, h - fontHeight);
 
-    p.setPen( QPen(black) );
+    p.setPen( QPen(Qt::black) );
     p.setFont(font);
 
     int lines = 1;
@@ -71,13 +71,13 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
         QString stereotype = m_pObject->getStereotype();
         if (!stereotype.isEmpty()) {
             p.drawText(offsetX, offsetY + fontHeight + PACKAGE_MARGIN,
-                       w, fontHeight, AlignCenter, stereotype);
+                       w, fontHeight, Qt::AlignCenter, m_pObject->getStereotype(true));
             lines = 2;
         }
     }
 
     p.drawText(offsetX, offsetY + (fontHeight*lines) + PACKAGE_MARGIN,
-               w, fontHeight, AlignCenter, name );
+               w, fontHeight, Qt::AlignCenter, name );
 
     if(m_bSelected) {
         drawSelected(&p, offsetX, offsetY);
@@ -93,18 +93,14 @@ void PackageWidget::calculateSize() {
     QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
     int fontHeight  = fm.lineSpacing();
 
-    int lines;
-    if (!m_pObject->getStereotype().isEmpty()) {
-        lines = 2;
-    } else {
-        lines = 1;
-    }
+    int lines = 1;
 
     width = fm.width( m_pObject->getName() );
 
     int tempWidth = 0;
-    if(!m_pObject->getStereotype().isEmpty()) {
-        tempWidth = fm.width(m_pObject->getStereotype());
+    if (!m_pObject->getStereotype().isEmpty()) {
+        tempWidth = fm.width(m_pObject->getStereotype(true));
+        lines = 2;
     }
     width = tempWidth>width ? tempWidth : width;
     width += PACKAGE_MARGIN * 2;
@@ -120,14 +116,6 @@ void PackageWidget::setShowStereotype(bool _status) {
     m_bShowStereotype = _status;
     calculateSize();
     update();
-}
-
-bool PackageWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
-    bool status = UMLWidget::activate(ChangeLog);
-    if(status) {
-        calculateSize();
-    }
-    return status;
 }
 
 bool PackageWidget::getShowStereotype() {

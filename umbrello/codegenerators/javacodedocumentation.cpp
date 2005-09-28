@@ -55,7 +55,7 @@ void JavaCodeDocumentation::saveToXMI ( QDomDocument & doc, QDomElement & root )
 }
 
 /**
- * @return	QString
+ * @return      QString
  */
 QString JavaCodeDocumentation::toString ( )
 {

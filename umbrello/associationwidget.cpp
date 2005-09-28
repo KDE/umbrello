@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -24,6 +24,7 @@
 #include <QMoveEvent>
 #include <kdebug.h>
 #include <klocale.h>
+#include <kcolordialog.h>
 // app includes
 #include "activitywidget.h"
 #include "uml.h"
@@ -268,18 +269,34 @@ QString AssociationWidget::getName() const {
     return m_pName->getText();
 }
 
-QString AssociationWidget::getDoc() const {
-    if (m_pObject)
-        return m_pObject->getDoc();
-    return m_Doc;
-}
-
 FloatingText* AssociationWidget::getRoleWidget(Role_Type role) {
     return m_role[role].m_pRole;
 }
 
 FloatingText* AssociationWidget::getChangeWidget(Role_Type role) {
     return m_role[role].m_pChangeWidget;
+}
+
+FloatingText* AssociationWidget::getTextWidgetByRole(Uml::Text_Role tr) {
+    switch (tr) {
+        case tr_MultiA:
+            return m_role[A].m_pMulti;
+        case tr_MultiB:
+            return m_role[B].m_pMulti;
+        case tr_Name:
+            return m_pName;
+        case tr_RoleAName:
+            return m_role[A].m_pRole;
+        case tr_RoleBName:
+            return m_role[B].m_pRole;
+        case tr_ChangeA:
+            return m_role[A].m_pChangeWidget;
+        case tr_ChangeB:
+            return m_role[B].m_pChangeWidget;
+        default:
+            break;
+    }
+    return NULL;
 }
 
 QString AssociationWidget::getRoleName(Role_Type role) const {
@@ -382,7 +399,7 @@ bool AssociationWidget::setRoleName (const QString &strRole, Role_Type role) {
         m_role[role].m_pRole->setLink(this);
         m_pView->addWidget(m_role[role].m_pRole);
         Scope scope = getVisibility(role);
-        m_role[role].m_pRole->setPreText(Umbrello::scopeToString(scope));
+        m_role[role].m_pRole->setPreText(Model_Utils::scopeToString(scope));
     } else {
         if (m_role[role].m_pRole->getText().isEmpty()) {
             newLabel = true;
@@ -406,13 +423,6 @@ bool AssociationWidget::setRoleName (const QString &strRole, Role_Type role) {
     else
         m_role[role].m_pRole -> hide();
     return true;
-}
-
-void AssociationWidget::setDoc (const QString &doc) {
-    if (m_pObject)
-        m_pObject->setDoc(doc);
-    else
-        m_Doc = doc;
 }
 
 void AssociationWidget::setRoleDoc (const QString &doc, Role_Type role) {
@@ -452,7 +462,7 @@ void AssociationWidget::setVisibility (Scope value, Role_Type role)
     m_role[role].m_Visibility = value;
     // update role pre-text attribute as appropriate
     if (m_role[role].m_pRole) {
-        QString scopeString = Umbrello::scopeToString(value);
+        QString scopeString = Model_Utils::scopeToString(value);
         m_role[role].m_pRole->setPreText(scopeString);
     }
 }
@@ -546,9 +556,9 @@ void AssociationWidget::setText(FloatingText *ft, const QString &text) {
     }
 }
 
-bool AssociationWidget::activate() {
+void AssociationWidget::activate() {
     if(isActivated())
-        return true;
+        return;
 
     bool status = true;
     Association_Type type = getAssocType();
@@ -560,7 +570,7 @@ bool AssociationWidget::activate() {
 
     if(!m_role[A].m_pWidget || !m_role[B].m_pWidget) {
         kdDebug() << "Can't make association" << endl;
-        return false;
+        return;
     }
 
     calculateEndingPoints();
@@ -575,7 +585,7 @@ bool AssociationWidget::activate() {
             Text_Role tr = (r == A ? tr_RoleAName : tr_RoleBName);
             robj.m_pRole->setRole(tr);
             Scope scope = getVisibility((Role_Type)r);
-            robj.m_pRole->setPreText(Umbrello::scopeToString(scope));
+            robj.m_pRole->setPreText(Model_Utils::scopeToString(scope));
 
             if (FloatingText::isTextValid(robj.m_pRole->getText()))
                 robj.m_pRole -> show();
@@ -640,7 +650,6 @@ bool AssociationWidget::activate() {
     if(status) {
         m_bActivated = true;
     }
-    return status;
 }
 
 /** This function calculates which role should be set for the m_pName FloatingText */
@@ -737,11 +746,11 @@ void AssociationWidget::cleanup() {
            explicitly delete a UMLAssociation.  The Right Thing would
            be to have a ListView representation for UMLAssociation.
         `
-        	IF we are cut n pasting, why are we handling this association as a pointer?
-        	We should be using the XMI representation for a cut and paste. This
-        	allows us to be clean here, AND a choice of recreating the object
-        	w/ same id IF its a "cut", or a new object if its a "copy" operation
-        	(in which case we wouldnt be here, in cleanup()).
+                IF we are cut n pasting, why are we handling this association as a pointer?
+                We should be using the XMI representation for a cut and paste. This
+                allows us to be clean here, AND a choice of recreating the object
+                w/ same id IF its a "cut", or a new object if its a "copy" operation
+                (in which case we wouldnt be here, in cleanup()).
          */
         setUMLAssociation(0);
     }
@@ -759,7 +768,7 @@ void AssociationWidget::setUMLAssociation (UMLAssociation * assoc)
         if (assoc && umla == assoc)
             return;
 
-        umla->disconnect(this);
+        //umla->disconnect(this);  //Qt does disconnect automatically upon destruction.
         umla->nrof_parent_widgets--;
 
         // we are the last "owner" of this association, so delete it
@@ -901,14 +910,14 @@ QString AssociationWidget::toString() {
 }
 
 void AssociationWidget::mouseDoubleClickEvent(QMouseEvent * me) {
-    if (me->button() != RightButton && me->button() != LeftButton)
+    if (me->button() != Qt::RightButton && me->button() != Qt::LeftButton)
         return;
     int i = m_LinePath.onLinePath(me->pos());
     if (i == -1) {
         m_LinePath.setSelected(false);
         return;
     }
-    if (me->button() != LeftButton)
+    if (me->button() != Qt::LeftButton)
         return;
     const QPoint mp(me->pos());
     /* if there is no point around the mouse pointer, we insert a new one */
@@ -921,11 +930,11 @@ void AssociationWidget::mouseDoubleClickEvent(QMouseEvent * me) {
             const int midSegY = segStart.y() + (segEnd.y() - segStart.y()) / 2;
             /*
             kdDebug() << "AssociationWidget::mouseDoubleClickEvent: "
-            	  << "segStart=(" << segStart.x() << "," << segStart.y()
-            	  << "), segEnd=(" << segEnd.x() << "," << segEnd.y()
-            	  << "), midSeg=(" << midSegX << "," << midSegY
-            	  << "), mp=(" << mp.x() << "," << mp.y() << ")"
-            	  << endl;
+                  << "segStart=(" << segStart.x() << "," << segStart.y()
+                  << "), segEnd=(" << segEnd.x() << "," << segEnd.y()
+                  << "), midSeg=(" << midSegX << "," << midSegY
+                  << "), mp=(" << mp.x() << "," << mp.y() << ")"
+                  << endl;
              */
             if (midSegX > mp.x() || midSegY < mp.y()) {
                 m_nLinePathSegmentIndex++;
@@ -1423,26 +1432,26 @@ QPoint AssociationWidget::calculatePointAtDistance(const QPoint &P1, const QPoin
     /*
       the distance D between points (x1, y1) and (x3, y3) has the following formula:
           ---     ------------------------------
-      D =    \   /	   2	     2
-    	  \ /   (x3 - x1)  +  (y3 - y1)
+      D =    \   /         2         2
+              \ /   (x3 - x1)  +  (y3 - y1)
 
       D, x1 and y1 are known and the point (x3, y3) is inside line (x1,y1)(x2,y2), so if the
       that line has the formula y = mx + b
       then y3 = m*x3 + b
 
-       2	     2	     2
+       2             2             2
       D   = (x3 - x1)  +  (y3 - y1)
 
-       2       2		 2      2		 2
+       2       2                 2      2                 2
       D    = x3    - 2*x3*x1 + x1   + y3   - 2*y3*y1  + y1
 
-       2       2       2       2		  2
+       2       2       2       2                  2
       D    - x1    - y1    = x3    - 2*x3*x1  + y3   - 2*y3*y1
 
-       2       2       2       2			  2
+       2       2       2       2                          2
       D    - x1    - y1    = x3    - 2*x3*x1  + (m*x3 + b)  - 2*(m*x3 + b)*y1
 
-       2       2       2	      2       2	2
+       2       2       2              2       2 2
       D    - x1    - y1   + 2*b*y1 - b   =  (m  + 1)*x3   + (-2*x1 + 2*m*b -2*m*y1)*x3
 
        2      2       2       2
@@ -1458,18 +1467,18 @@ QPoint AssociationWidget::calculatePointAtDistance(const QPoint &P1, const QPoin
        2
       A * x3 + B * x3 - C = 0
 
-    			 ---------------
-    	     -B +  ---  /  2
-    		      \/  B   - 4*A*C
+                         ---------------
+             -B +  ---  /  2
+                      \/  B   - 4*A*C
       sol_1  = --------------------------------
-    		       2*A
+                       2*A
 
 
-    			 ---------------
-    	     -B -  ---  /  2
-    		      \/  B   - 4*A*C
+                         ---------------
+             -B -  ---  /  2
+                      \/  B   - 4*A*C
       sol_2  = --------------------------------
-    		       2*A
+                       2*A
 
 
       then in the distance formula we have only one variable x3 and that is easy
@@ -1542,35 +1551,35 @@ QPoint AssociationWidget::calculatePointAtDistanceOnPerpendicular(const QPoint &
       the distance D between points (x2, y2) and (x3, y3) has the following formula:
 
            ---     ------------------------------
-      D =     \   /	   2	     2
-    	   \ /   (x3 - x2)  +  (y3 - y2)
+      D =     \   /        2         2
+           \ /   (x3 - x2)  +  (y3 - y2)
 
       D, x2 and y2 are known and line P2P3 is perpendicular to line (x1,y1)(x2,y2), so if the
       line P1P2 has the formula y = m*x + b,
-      then	  (x1 - x2)
-    	  m =  -----------    , because it is perpendicular to line P1P2
-    		(y2 - y1)
+      then        (x1 - x2)
+          m =  -----------    , because it is perpendicular to line P1P2
+                (y2 - y1)
 
       also y2 = m*x2 + b
       => b = y2 - m*x2
 
       then P3 = (x3, m*x3 + b)
 
-       2	     2	    2
+       2             2      2
       D  = (x3 - x2)  + (y3 - y2)
 
-       2     2		 2      2		 2
+       2     2           2      2                2
       D  = x3    - 2*x3*x2 + x2   + y3   - 2*y3*y2  + y2
 
-       2       2       2       2		  2
+       2       2       2       2                  2
       D    - x2    - y2    = x3    - 2*x3*x2  + y3   - 2*y3*y2
 
 
 
-       2       2       2       2			  2
+       2       2       2       2                          2
       D    - x2    - y2    = x3    - 2*x3*x2  + (m*x3 + b)  - 2*(m*x3 + b)*y2
 
-       2       2       2		2       2	2
+       2       2       2                2       2       2
       D    - x2    - y2     + 2*b*y2 - b   =  (m  + 1)*x3     + (-2*x2 + 2*m*b -2*m*y2)*x3
 
        2      2       2       2
@@ -1586,18 +1595,18 @@ QPoint AssociationWidget::calculatePointAtDistanceOnPerpendicular(const QPoint &
       A * x3 + B * x3 - C = 0
 
 
-    			 ---------------
-    	     -B +  ---  /  2
-    		      \/  B   - 4*A*C
+                         ---------------
+             -B +  ---  /  2
+                      \/  B   - 4*A*C
       sol_1  = --------------------------------
-    		       2*A
+                       2*A
 
 
-    			 ---------------
+                         ---------------
       sol_2  =   -B -  ---  /  2
-    		      \/  B   - 4*A*C
-    	   --------------------------------
-    		       2*A
+                      \/  B   - 4*A*C
+           --------------------------------
+                       2*A
 
       then in the distance formula we have only one variable x3 and that is easy
       to calculate
@@ -1632,7 +1641,7 @@ QPoint AssociationWidget::calculatePointAtDistanceOnPerpendicular(const QPoint &
         return sol2Point;
     } else if(sol_1 >= 0 && sol_2 < 0) {
         return sol1Point;
-    } else {	// Choose one solution , either will work fine
+    } else {    // Choose one solution , either will work fine
         if(slope >= 0) {
             if(sol_1 <= sol_2)
                 return sol2Point;
@@ -1695,30 +1704,38 @@ float AssociationWidget::perpendicularProjection(QPoint P1, QPoint P2, QPoint P3
 }
 
 QPoint AssociationWidget::calculateTextPosition(Text_Role role) {
-    QPoint p( -1, -1 ), q( -1, -1 );
-    uint size = m_LinePath.count();
-    uint pos = size - 1;
-    int x = 0, y = 0;
-    int textW = 0, textH = 0;
-    int slope = 0, divisor = 1;
     const int SPACE = 2;
-    FloatingText const * text = 0;
-
-    if(role == tr_MultiA) {
-        text = getMultiWidget(A);
-        if( text ) {
-            textW = text -> width();
-            textH = text -> height();
-        }
+    QPoint p(-1, -1), q(-1, -1);
+    if (role == tr_MultiA || role == tr_ChangeA || role == tr_RoleAName) {
         p = m_LinePath.getPoint( 0 );
         q = m_LinePath.getPoint( 1 );
-        divisor = (p.x()-q.x());
+    } else if (role == tr_MultiB || role == tr_ChangeB || role == tr_RoleBName) {
+        const uint lastSegment = m_LinePath.count() - 1;
+        p = m_LinePath.getPoint(lastSegment);
+        q = m_LinePath.getPoint(lastSegment - 1);
+    } else if (role != tr_Name) {
+        kdError() << "AssociationWidget::calculateTextPosition called with unsupported Text_Role "
+                  << role << endl;
+        return QPoint(-1, -1);
+    }
+
+    FloatingText *text = getTextWidgetByRole(role);
+    int textW = 0, textH = 0;
+    if (text) {
+        textW = text->width();
+        textH = text->height();
+    }
+
+    int x = 0, y = 0;
+
+    if (role == tr_MultiA || role == tr_MultiB) {
+
+        int slope, divisor = p.x() - q.x();
         if (divisor != 0)
-            slope = (p.y()-q.y())/divisor;
+            slope = (p.y() - q.y()) / divisor;
         else
             slope = 10000;
 
-
         if( p.y() > q.y() )
             if(slope == 0)
                 y = p.y() + SPACE;
@@ -1741,65 +1758,10 @@ QPoint AssociationWidget::calculateTextPosition(Text_Role role) {
             else
                 x = p.x() + SPACE;
 
-    } else if(role == tr_MultiB) {
-        text = getMultiWidget(B);
-        if( text ) {
-            textW = text -> width();
-            textH = text -> height();
-        }
-        p = m_LinePath.getPoint( pos );
-        q = m_LinePath.getPoint( pos - 1 );
-        divisor = (p.x()-q.x());
-        if (divisor != 0)
-            slope = (p.y()-q.y())/divisor;
-        else
-            slope = 10000000;
+    } else if (role == tr_ChangeA || role == tr_ChangeB) {
 
         if( p.y() > q.y() )
-        {
-            if(slope == 0)
-                y = p.y() - SPACE;
-            else
-                y = p.y() - textH - SPACE;
-        } else
-            if(slope == 0)
-                y = p.y() - textH - SPACE;
-            else
-                y = p.y() + SPACE;
-
-
-        if( p.x() < q.x() )
-            if(slope == 0)
-                x = p.x() + SPACE;
-            else
-                x = p.x() - textW + SPACE;
-        else
-            if(slope == 0)
-                x = p.x() - textW + SPACE;
-            else
-                x = p.x() + SPACE;
-
-    } else if(role == tr_Name) {
-
-        x = (int)( ( m_LinePath.getPoint(m_unNameLineSegment).x() +
-                     m_LinePath.getPoint(m_unNameLineSegment + 1).x() ) / 2 );
-
-        y = (int)( ( m_LinePath.getPoint(m_unNameLineSegment).y() +
-                     m_LinePath.getPoint(m_unNameLineSegment + 1).y() ) / 2 );
-
-    } else if(role == tr_ChangeA) {
-
-        text = getChangeWidget(A);
-
-        if( text ) {
-            textW = text -> width();
-            textH = text -> height();
-        }
-        p = m_LinePath.getPoint( 0 );
-        q = m_LinePath.getPoint( 1 );
-
-        if( p.y() > q.y() )
-            y = p.y() - SPACE - (textH *2);
+            y = p.y() - SPACE - (textH * 2);
         else
             y = p.y() + SPACE + textH;
 
@@ -1808,36 +1770,7 @@ QPoint AssociationWidget::calculateTextPosition(Text_Role role) {
         else
             x = p.x() - SPACE - textW;
 
-    } else if(role == tr_ChangeB) {
-
-        text = getChangeWidget(B);
-        if( text ) {
-            textW = text -> width();
-            textH = text -> height();
-        }
-
-        p = m_LinePath.getPoint( pos );
-        q = m_LinePath.getPoint( pos - 1 );
-
-        if( p.y() > q.y() )
-            y = p.y() - (textH*2) - SPACE;
-        else
-            y = p.y() + textH + SPACE;
-
-        if( p.x() < q.x() )
-            x = p.x() + SPACE;
-        else
-            x = p.x() - textW - SPACE;
-
-    } else if(role == tr_RoleAName) {
-
-        text = getRoleWidget(A);
-        if( text ) {
-            textW = text -> width();
-            textH = text -> height();
-        }
-        p = m_LinePath.getPoint( 0 );
-        q = m_LinePath.getPoint( 1 );
+    } else if (role == tr_RoleAName || role == tr_RoleBName) {
 
         if( p.y() > q.y() )
             y = p.y() - SPACE - textH;
@@ -1848,29 +1781,171 @@ QPoint AssociationWidget::calculateTextPosition(Text_Role role) {
             x = p.x() + SPACE;
         else
             x = p.x() - SPACE - textW;
+
+    } else if (role == tr_Name) {
+
+        calculateNameTextSegment();
+        x = (int)( ( m_LinePath.getPoint(m_unNameLineSegment).x() +
+                     m_LinePath.getPoint(m_unNameLineSegment + 1).x() ) / 2 );
+
+        y = (int)( ( m_LinePath.getPoint(m_unNameLineSegment).y() +
+                     m_LinePath.getPoint(m_unNameLineSegment + 1).y() ) / 2 );
     }
-    else if(role == tr_RoleBName)
-    {
-        text = getRoleWidget(B);
-        if( text ) {
-            textW = text -> width();
-            textH = text -> height();
+
+    if (text) {
+        constrainTextPos(x, y, textW, textH, role);
+        if (x != p.x() || y != p.y()) {
+            // kdDebug() << "AssociationWidget::calculateTextPosition(" 
+            //   << text->getName() << ") textrole " << role
+            //   << ": oldpoint=(" << p.x() << "," << p.y() << ")"
+            //   << ", newPoint=(" << x << "," << y << ")" << endl;
+            text->setX(x);
+            text->setY(y);
         }
-
-        p = m_LinePath.getPoint( pos );
-        q = m_LinePath.getPoint( pos - 1 );
-        if( p.y() > q.y() )
-            y = p.y() - textH - SPACE;
-        else
-            y = p.y() + SPACE;
-
-        if( p.x() < q.x() )
-            x = p.x() + SPACE;
-        else
-            x = p.x() - textW - SPACE;
     }
     p = QPoint( x, y );
     return p;
+}
+
+void AssociationWidget::constrainTextPos(int &textX, int &textY,
+                                         int textWidth, int textHeight,
+                                         Uml::Text_Role tr) {
+    const int CORRIDOR_HALFWIDTH = 30;
+    const uint lastSegment = m_LinePath.count() - 1;
+    QPoint p0, p1;
+    bool atSideA = false, atSideB = false;
+    switch (tr) {
+        case tr_RoleAName:
+        case tr_MultiA:
+        case tr_ChangeA:
+            p0 = m_LinePath.getPoint(0);
+            p1 = m_LinePath.getPoint(1);
+            atSideA = true;
+            break;
+        case tr_RoleBName:
+        case tr_MultiB:
+        case tr_ChangeB:
+            p0 = m_LinePath.getPoint(lastSegment - 1);
+            p1 = m_LinePath.getPoint(lastSegment);
+            atSideB = true;
+            break;
+        case tr_Name:
+            // Find the linepath segment to which the (textX,textY) is closest
+            // and constrain to the corridor of that segment (see farther below)
+            {
+                const int textCenterX = textX + textWidth / 2;
+                const int textCenterY = textY + textHeight / 2;
+                int minDistSquare = 100000;  // utopian initial value
+                int lpIndex = 0;
+                for (uint i = 0; i < lastSegment; i++) {
+                    p0 = m_LinePath.getPoint(i);
+                    p1 = m_LinePath.getPoint(i + 1);
+                    QPoint midPoint;
+                    if (p0.x() < p1.x())
+                        midPoint.setX(p0.x() + (p1.x() - p0.x()) / 2);
+                    else
+                        midPoint.setX(p1.x() + (p0.x() - p1.x()) / 2);
+                    if (p0.y() < p1.y())
+                        midPoint.setY(p0.y() + (p1.y() - p0.y()) / 2);
+                    else
+                        midPoint.setY(p1.y() + (p0.y() - p1.y()) / 2);
+                    const int deltaX = textCenterX - midPoint.x();
+                    const int deltaY = textCenterY - midPoint.y();
+                    const int cSquare = deltaX * deltaX + deltaY * deltaY;
+                    if (cSquare < minDistSquare) {
+                        minDistSquare = cSquare;
+                        lpIndex = i;
+                    }
+                }
+                p0 = m_LinePath.getPoint(lpIndex);
+                p1 = m_LinePath.getPoint(lpIndex + 1);
+            }
+            break;
+        default:
+            kdError() << "AssociationWidget::constrainTextPos(): unexpected Text_Role "
+                      << tr << endl;
+            return;
+            break;
+    }
+    if (p0.x() >= p1.x() - 1 && p0.x() <= p1.x() + 1) {
+        // vertical line
+        // CAUTION: This is calculated in Qt coordinates!
+        ////////////////////////// constrain horizontally /////////////////////////
+        const int lineX = p0.x();
+        if (textX + textWidth < lineX - CORRIDOR_HALFWIDTH)  // constrain at left
+            textX = lineX - CORRIDOR_HALFWIDTH - textWidth;
+        else if (textX > lineX + CORRIDOR_HALFWIDTH)         // constrain at right
+            textX = lineX + CORRIDOR_HALFWIDTH;
+        ////////////////////////// constrain vertically ///////////////////////////
+        // pre-constrain the corridor to the appropriate half:
+        // This is only done for simple (i.e. non multi-segment) linepaths.
+        // With multi-segment linepaths, the user probably wants the freedom to
+        // place role related labels anywhere within the start and end segment.
+        if (lastSegment == 1) {
+            if (atSideA) {
+                if (p0.y() < p1.y())
+                    p1.setY(p0.y() + (p1.y() - p0.y()) / 2);
+                else
+                    p1.setY(p0.y() - (p0.y() - p1.y()) / 2);
+            } else if (atSideB) {
+                if (p0.y() > p1.y())
+                    p0.setY(p1.y() + (p0.y() - p1.y()) / 2);
+                else
+                    p0.setY(p1.y() - (p1.y() - p0.y()) / 2);
+            }
+        }
+        // swap points so that p0 contains the one with the smaller Y
+        if (p0.y() > p1.y()) {
+            QPoint tmp = p0;
+            p0 = p1;
+            p1 = tmp;
+        }
+        if (textY + textHeight < p0.y())  // constrain at top
+            textY = p0.y() - textHeight;
+        else if (textY > p1.y())          // constrain at bottom
+            textY = p1.y();
+        return;
+    }
+    if (p0.y() >= p1.y() - 1 && p0.y() <= p1.y() + 1) {
+        // horizontal line
+        // CAUTION: This is calculated in Qt coordinates!
+        ////////////////////////// constrain vertically /////////////////////////////
+        const int lineY = p0.y();
+        if (textY + textHeight < lineY - CORRIDOR_HALFWIDTH)  // constrain at top
+            textY = lineY - CORRIDOR_HALFWIDTH - textHeight;
+        else if (textY > lineY + CORRIDOR_HALFWIDTH)          // constrain at bottom
+            textY = lineY + CORRIDOR_HALFWIDTH;
+        ////////////////////////// constrain horizontally //////////////////////////
+        // pre-constrain the corridor to the appropriate half:
+        // This is only done for simple (i.e. non multi-segment) linepaths.
+        // With multi-segment linepaths, the user probably wants the freedom to
+        // place role related labels anywhere within the start and end segment.
+        if (lastSegment == 1) {
+            if (atSideA) {
+                if (p0.x() < p1.x())
+                    p1.setX(p0.x() + (p1.x() - p0.x()) / 2);
+                else
+                    p1.setX(p0.x() - (p0.x() - p1.x()) / 2);
+            } else if (atSideB) {
+                if (p0.x() < p1.x())
+                    p0.setX(p1.x() - (p1.x() - p0.x()) / 2);
+                else
+                    p0.setX(p1.x() + (p0.x() - p1.x()) / 2);
+            }
+        }
+        // swap points so that p0 contains the one with the smaller X
+        if (p0.x() > p1.x()) {
+            QPoint tmp = p0;
+            p0 = p1;
+            p1 = tmp;
+        }
+        if (textX + textWidth < p0.x())   // constrain at left
+            textX = p0.x() - textWidth;
+        else if (textX > p1.x())          // constrain at right
+            textX = p1.x();
+        return;
+    }
+    // @todo deal with slopes
 }
 
 void AssociationWidget::calculateNameTextSegment() {
@@ -2044,7 +2119,7 @@ void AssociationWidget::createAssocClassLine() {
     if (m_pAssocClassLine == NULL)
         m_pAssocClassLine = new Q3CanvasLine(m_pView->canvas());
     computeAssocClassLine();
-    QPen pen(m_pView->getLineColor(), m_pView->getLineWidth(), Qt::DashLine);
+    QPen pen(getLineColor(), getLineWidth(), Qt::DashLine);
     m_pAssocClassLine->setPen(pen);
     m_pAssocClassLine->setVisible(true);
 }
@@ -2091,16 +2166,16 @@ void AssociationWidget::selectAssocClassLine(bool sel /* =true */) {
     }
     if (m_pAssocClassLineSel0)
         delete m_pAssocClassLineSel0;
-    m_pAssocClassLineSel0 = Umbrello::decoratePoint(m_pAssocClassLine->startPoint());
+    m_pAssocClassLineSel0 = Widget_Utils::decoratePoint(m_pAssocClassLine->startPoint());
     if (m_pAssocClassLineSel1)
         delete m_pAssocClassLineSel1;
-    m_pAssocClassLineSel1 = Umbrello::decoratePoint(m_pAssocClassLine->endPoint());
+    m_pAssocClassLineSel1 = Widget_Utils::decoratePoint(m_pAssocClassLine->endPoint());
 }
 
 void AssociationWidget::mousePressEvent(QMouseEvent * me) {
     m_nMovingPoint = -1;
     //make sure we should be here depending on the button
-    if(me -> button() != RightButton && me->button() != LeftButton)
+    if(me -> button() != Qt::RightButton && me->button() != Qt::LeftButton)
         return;
     QPoint mep = me->pos();
     // See if `mep' is on the connecting line to the association class
@@ -2112,19 +2187,19 @@ void AssociationWidget::mousePressEvent(QMouseEvent * me) {
     // See if the user has clicked on a point to start moving the line segment
     // from that point
     checkPoints(mep);
-    if( me -> state() != ShiftButton )
+    if( me -> state() != Qt::ShiftButton )
         m_pView -> clearSelected();
     setSelected( !m_bSelected );
 }
 
 void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
-    if(me -> button() != RightButton && me->button() != LeftButton) {
+    if(me -> button() != Qt::RightButton && me->button() != Qt::LeftButton) {
         setSelected( false );
         return;
     }
     m_nMovingPoint = -1;
     const QPoint p = me->pos();
-    if (me->button() == LeftButton) {
+    if (me->button() == Qt::LeftButton) {
         UMLWidget *otherWidget = m_pView->getFirstSelectedWidget();
         if (otherWidget == NULL || otherWidget->getBaseType() != Uml::wt_Class)
             return;
@@ -2248,7 +2323,6 @@ void AssociationWidget::slotMenuSelection(int sel) {
         }
         break;
 
-
     case ListPopupMenu::mt_Rename_MultiB:
         if(m_role[B].m_pMulti)
             oldText = m_role[B].m_pMulti -> getText();
@@ -2305,6 +2379,17 @@ void AssociationWidget::slotMenuSelection(int sel) {
         if( KFontDialog::getFont( font, false, m_pView ) ) {
             m_pView -> selectionSetFont( font );
             m_umldoc->setModified(true);
+        }
+        break;
+
+    case ListPopupMenu::mt_Line_Color:
+    case ListPopupMenu::mt_Line_Color_Selection:
+        {
+            QColor newColour;
+            if( KColorDialog::getColor(newColour) ) {
+                m_pView->selectionSetLineColor(newColour);
+                m_umldoc->setModified(true);
+            }
         }
         break;
 
@@ -2374,6 +2459,16 @@ QFont AssociationWidget::getFont() const {
     return font;
 }
 
+void AssociationWidget::setLineColor(const QColor &colour) {
+    WidgetBase::setLineColor(colour);
+    m_LinePath.setLineColor(colour);
+}
+
+void AssociationWidget::setLineWidth(uint width) {
+    WidgetBase::setLineWidth(width);
+    m_LinePath.setLineWidth(width);
+}
+
 void AssociationWidget::checkPoints(const QPoint &p) {
     m_nMovingPoint = -1;
     //only check if more than the two endpoints
@@ -2399,7 +2494,7 @@ void AssociationWidget::checkPoints(const QPoint &p) {
 void AssociationWidget::mouseMoveEvent(QMouseEvent* me) {
     //make sure we have a moving point
     //I don't think there is another reason for being here
-    if( m_nMovingPoint == -1 || me->state() != LeftButton) {
+    if( m_nMovingPoint == -1 || me->state() != Qt::LeftButton) {
         return;
     }
     setSelected();
@@ -2417,7 +2512,7 @@ void AssociationWidget::mouseMoveEvent(QMouseEvent* me) {
     // Prevent the moving vertex from disappearing underneath a widget
     // (else there's no way to get it back.)
     UMLWidget *onW = m_pView->testOnWidget(p);
-    if (onW) {
+    if (onW && onW->getBaseType() != Uml::wt_Box) {  // boxes are transparent
         const int pX = p.x();
         const int pY = p.y();
         const int wX = onW->getX();
@@ -2474,7 +2569,7 @@ int AssociationWidget::getRegionCount(AssociationWidget::Region region, Role_Typ
         //don't count associations to self if both of their end points are on the same region
         //they are different and placement won't interfere with them
         if( a == b && otherA.m_WidgetRegion == otherB.m_WidgetRegion )
-        	continue;
+                continue;
          */
         if (m_role[role].m_pWidget == a && region == otherA.m_WidgetRegion)
             widgetCount++;
@@ -2488,14 +2583,14 @@ QPoint AssociationWidget::findIntercept(const QRect &rect, const QPoint &point) 
     Region region = findPointRegion(rect, point.x(), point.y());
     /*
     const char *regionStr[] = { "Error",
-    	"West", "North", "East", "South",
-    	"NorthWest", "NorthEast", "SouthEast", "SouthWest",
-    	"Center"
+        "West", "North", "East", "South",
+        "NorthWest", "NorthEast", "SouthEast", "SouthWest",
+        "Center"
     };
     kdDebug() << "findPointRegion(rect(" << rect.x() << "," << rect.y()
-    	  << "," << rect.width() << "," << rect.height() << "), p("
-    	  << point.x() << "," << point.y() << ")) = " << regionStr[region]
-    	  << endl;
+          << "," << rect.width() << "," << rect.height() << "), p("
+          << point.x() << "," << point.y() << ")) = " << regionStr[region]
+          << endl;
      */
     // Move some regions to the standard ones.
     switch (region) {
@@ -2787,21 +2882,6 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
     WidgetRole& robj = m_role[role];
     UMLWidget * pWidget = robj.m_pWidget;
 
-    // If a fork (ActivityWidget) for widget B then all associations should
-    // meet in the middle.
-    if (pWidget->getBaseType() == Uml::wt_Activity) {
-        ActivityWidget *act = static_cast<ActivityWidget*>(pWidget);
-        ActivityWidget::ActivityType atype = act->getActivityType();
-        if (atype == ActivityWidget::Fork) {
-            totalCount = 2;
-            index = 1;
-        } else if (atype == ActivityWidget::Initial ||
-                   atype == ActivityWidget::End) {
-            region = Center;
-            totalCount = 2;
-            index = 1;
-        }
-    }
     robj.m_nIndex = index;
     robj.m_nTotalCount = totalCount;
     int x = pWidget->getX();
@@ -2877,10 +2957,10 @@ void AssociationWidget::setSelected(bool _select /* = true */) {
     // overwrites the docwindow, but we want the main association doc
     // to win.
     if( _select ) {
-    	if( m_pView -> getSelectCount() == 0 )
-    		m_pView -> showDocumentation( this, false );
+        if( m_pView -> getSelectCount() == 0 )
+                m_pView -> showDocumentation( this, false );
     } else
-    	m_pView -> updateDocumentation( true );
+        m_pView -> updateDocumentation( true );
      */
     /** @fixme Had to pull the m_LinePath.setSelected() call down here
      *         because otherwise the blue selection markers would not show
@@ -2994,20 +3074,22 @@ void AssociationWidget::setUMLObject(UMLObject *obj) {
     WidgetBase::setUMLObject(obj);
     if (obj && obj->getBaseType() == Uml::ot_Attribute) {
         UMLClassifier *klass = static_cast<UMLClassifier*>(obj->parent());
-        connect(klass, SIGNAL(attributeRemoved(UMLObject*)),
-                this, SLOT(slotAttributeRemoved(UMLObject*)));
+        connect(klass, SIGNAL(attributeRemoved(UMLClassifierListItem*)),
+                this, SLOT(slotAttributeRemoved(UMLClassifierListItem*)));
     }
 }
 
-void AssociationWidget::slotAttributeRemoved(UMLObject* obj) {
-    kdDebug() << "AssociationWidget::slotAttributeRemoved(" << obj->getName() << ")" << endl;
+void AssociationWidget::slotAttributeRemoved(UMLClassifierListItem* obj) {
+    if (obj != m_pObject)
+        kdDebug() << "AssociationWidget::slotAttributeRemoved:(obj=" << obj
+                  << "): m_pObject=" << m_pObject << endl;
+    m_pObject = NULL;
     m_pView->removeAssoc(this);
 }
 
 void AssociationWidget::init (UMLView *view)
 {
-    m_pView = view;  // pointer to parent viewwidget object
-    m_Type = wt_Association;
+    WidgetBase::init(view, wt_Association);
 
     // pointers to floating text widgets objects owned by this association
     m_pName = 0;
@@ -3155,6 +3237,7 @@ void AssociationWidget::setWidget( UMLWidget* widget, Role_Type role) {
 void AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement assocElement = qDoc.createElement( "assocwidget" );
 
+    WidgetBase::saveToXMI(qDoc, assocElement);
     if (m_pObject) {
         assocElement.setAttribute( "xmi.id", ID2STR(m_pObject->getID()) );
     }
@@ -3212,19 +3295,20 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
                                      const UMLWidgetList& widgets,
                                      const MessageWidgetList* pMessages )
 {
+    WidgetBase::loadFromXMI(qElement);
 
     // load child widgets first
     QString widgetaid = qElement.attribute( "widgetaid", "-1" );
     QString widgetbid = qElement.attribute( "widgetbid", "-1" );
     Uml::IDType aId = STR2ID(widgetaid);
     Uml::IDType bId = STR2ID(widgetbid);
-    UMLWidget *pWidgetA = Umbrello::findWidget( aId, widgets, pMessages );
+    UMLWidget *pWidgetA = Widget_Utils::findWidget( aId, widgets, pMessages );
     if (!pWidgetA) {
         kdError() << "AssociationWidget::loadFromXMI(): "
         << "cannot find widget for roleA id " << ID2STR(aId) << endl;
         return false;
     }
-    UMLWidget *pWidgetB = Umbrello::findWidget( bId, widgets, pMessages );
+    UMLWidget *pWidgetB = Widget_Utils::findWidget( bId, widgets, pMessages );
     if (!pWidgetB) {
         kdError() << "AssociationWidget::loadFromXMI(): "
         << "cannot find widget for roleB id " << ID2STR(bId) << endl;
@@ -3350,7 +3434,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
     QString assocclassid = qElement.attribute("assocclass", "");
     if (! assocclassid.isEmpty()) {
         Uml::IDType acid = STR2ID(assocclassid);
-        UMLWidget *w = Umbrello::findWidget(acid, widgets);
+        UMLWidget *w = Widget_Utils::findWidget(acid, widgets);
         if (w) {
             m_pAssocClassWidget = static_cast<ClassifierWidget*>(w);
             m_pAssocClassWidget->setClassAssocWidget(this);

@@ -4,6 +4,7 @@ umbrello_COMPILE_FIRST = version.h
 umbrello_SOURCES = activitywidget.cpp \
 actor.cpp \
 actorwidget.cpp \
+adaimport.cpp \
 aligntoolbar.cpp \
 artifact.cpp \
 artifactwidget.cpp \
@@ -16,7 +17,6 @@ classifier.cpp \
 classifiercodedocument.cpp \
 classifierlistitem.cpp \
 classifierwidget.cpp \
-classimport.cpp \
 codeaccessormethod.cpp \
 codeblock.cpp \
 codeblockwithcomments.cpp \
@@ -33,6 +33,7 @@ codeparameter.cpp \
 component.cpp \
 componentwidget.cpp \
 configurable.cpp \
+cppimport.cpp \
 datatype.cpp \
 datatypewidget.cpp \
 dialog_utils.cpp \
@@ -43,10 +44,13 @@ entitywidget.cpp \
 enum.cpp \
 enumliteral.cpp \
 enumwidget.cpp \
+exportviewaction.cpp \
 floatingtext.cpp \
+forkjoinwidget.cpp \
 kplayerslideraction.cpp \
 hierarchicalcodeblock.cpp \
 idlimport.cpp \
+import_utils.cpp \
 infowidget.cpp \
 kstartuplogo.cpp \
 linepath.cpp \
@@ -55,6 +59,7 @@ listpopupmenu.cpp \
 main.cpp \
 messagewidget.cpp \
 model_utils.cpp \
+nativeimportbase.cpp \
 node.cpp \
 nodewidget.cpp \
 notewidget.cpp \
@@ -99,9 +104,10 @@ widgetbase.cpp \
 widget_utils.cpp \
 worktoolbar.cpp
 
-umbrello_LDADD   = ./refactoring/librefactoring.la ./classparser/libclassparser.la ./clipboard/libclipboard.la ./dialogs/libdialogs.la ./codegenerators/libcodegenerator.la  $(LIB_KDEPRINT) $(LIB_KIO)
+#umbrello_LDADD   = ./refactoring/librefactoring.la ./classparser/libclassparser.la ./clipboard/libclipboard.la ./dialogs/libdialogs.la ./codegenerators/libcodegenerator.la $(LIB_KDEPRINT) $(LIB_KIO)
+umbrello_LDADD   = ./refactoring/librefactoring.la ./classparser/libclassparser.la ./clipboard/libclipboard.la ./dialogs/libdialogs.la ./codegenerators/libcodegenerator.la $(LIB_KDEPRINT) $(LIB_KIO)
 
-SUBDIRS = classparser dialogs clipboard pics codegenerators headings diagram refactoring plugins
+SUBDIRS = classparser dialogs clipboard pics codegenerators headings refactoring
 
 KDE_ICON=AUTO
 
@@ -113,6 +119,7 @@ xdg_apps_DATA = umbrello.desktop
 mimedir = $(kde_mimedir)/application
 mime_DATA = x-umbrello.desktop
 
+#INCLUDES= -Idialogs -Irefactoring $(all_includes) -I/usr/include/graphviz/
 INCLUDES= -Idialogs -Irefactoring $(all_includes)
 
 METASOURCES = AUTO

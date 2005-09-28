@@ -27,7 +27,7 @@ class UMLDatatype;
  *
  * @short A graphical version of an datatype.
  * @author Jonathan Riddell
- * @see	UMLWidget
+ * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class DatatypeWidget : public UMLWidget {
@@ -36,8 +36,8 @@ public:
     /**
      * Constructs an DatatypeWidget.
      *
-     * @param view		The parent of this DatatypeWidget.
-     * @param d		The UMLDatatype this will be representing.
+     * @param view              The parent of this DatatypeWidget.
+     * @param d         The UMLDatatype this will be representing.
      */
     DatatypeWidget(UMLView* view, UMLDatatype *d);
 
@@ -45,11 +45,6 @@ public:
      * Standard deconstructor.
      */
     virtual ~DatatypeWidget();
-
-    /**
-     * Activate the object after serializing it from a QDataStream.
-     */
-    virtual bool activate(IDChangeLog* ChangeLog  = 0 );
 
     /**
      * Overrides standard method.

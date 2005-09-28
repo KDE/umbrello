@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2003-2004
+ *  copyright (C) 2003-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -12,17 +12,16 @@
  *                                                                         *
  ***************************************************************************/
 
+// own header
+#include "boxwidget.h"
 //qt includes
-#include <q3pointarray.h>
 //Added by qt3to4:
 #include <QMouseEvent>
 //kde includes
 #include <kcursor.h>
-#include <kcolordialog.h>
 #include <kdebug.h>
 //app includes
 #include "umlview.h"
-#include "boxwidget.h"
 
 BoxWidget::BoxWidget(UMLView * view, Uml::IDType id) : UMLWidget( view, id ) {
     init();
@@ -31,6 +30,8 @@ BoxWidget::BoxWidget(UMLView * view, Uml::IDType id) : UMLWidget( view, id ) {
 void BoxWidget::init() {
     setSize(100,80);
     UMLWidget::setBaseType( Uml::wt_Box );
+    WidgetBase::m_bUsesDiagramLineColour = false;  // boxes be black
+    WidgetBase::m_LineColour = QColor("black");
     setZ(0);
 }
 
@@ -39,11 +40,19 @@ BoxWidget::~BoxWidget() {
 }
 
 void BoxWidget::draw(QPainter& p, int offsetX, int offsetY) {
+    UMLWidget::setPen(p);
     p.drawRect( offsetX, offsetY, width(), height() );
 
     if (m_bSelected) {
         drawSelected(&p, offsetX, offsetY, true);
     }
+}
+
+void BoxWidget::constrain(int& width, int& height) {
+    if (width < 20)
+        width = 20;
+    if (height < 20)
+        height = 20;
 }
 
 void BoxWidget::mouseMoveEvent(QMouseEvent *me) {
@@ -61,8 +70,7 @@ void BoxWidget::mouseMoveEvent(QMouseEvent *me) {
     }
     int newW = m_nOldW + newX - m_nOldX - m_nPressOffsetX;
     int newH = m_nOldH + newY - m_nOldY - m_nPressOffsetY;
-    newW = newW < 20?20:newW;
-    newH = newH < 20?20:newH;
+    constrain(newW, newH);
     setSize( newW, newH );
     adjustAssocs( getX(), getY() );
 }
@@ -76,7 +84,7 @@ void BoxWidget::mousePressEvent(QMouseEvent *me) {
     int m = 10;
     //bottomRight
     if( (m_nOldX + m_nPressOffsetX) >= (getX() + width() - m) &&
-            (m_nOldY + m_nPressOffsetY) >= (getY() + height() - m) && me->button() == LeftButton) {
+        (m_nOldY + m_nPressOffsetY) >= (getY() + height() - m) && me->button() == Qt::LeftButton) {
         m_bResizing = true;
         m_pView->setCursor(KCursor::sizeFDiagCursor());
     }

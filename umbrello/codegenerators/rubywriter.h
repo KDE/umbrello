@@ -21,7 +21,6 @@
 #include "../umloperationlist.h"
 #include "../umlattributelist.h"
 
-#include <qptrlist.h>
 #include <qstringlist.h>
 
 class ClassifierInfo;

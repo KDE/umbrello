@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -68,19 +68,19 @@ void UMLEntityAttributeDialog::setupDialog() {
     valuesLayout -> addWidget(m_pTypeCB, 0, 1);
     m_pTypeL->setBuddy(m_pTypeCB);
 
-    Umbrello::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
+    Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
                                     m_pNameL, i18n("&Name:"),
                                     m_pNameLE, m_pEntityAttribute->getName() );
 
-    Umbrello::makeLabeledEditField( m_pValuesGB, valuesLayout, 2,
+    Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 2,
                                     m_pInitialL, i18n("&Default value:"),
                                     m_pInitialLE, m_pEntityAttribute->getInitialValue() );
 
-    Umbrello::makeLabeledEditField( m_pValuesGB, valuesLayout, 3,
+    Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 3,
                                     m_pStereoTypeL, i18n("Stereotype name:"),
-                                    m_pStereoTypeLE, m_pEntityAttribute->getStereotype(false) );
+                                    m_pStereoTypeLE, m_pEntityAttribute->getStereotype() );
 
-    Umbrello::makeLabeledEditField( m_pValuesGB, valuesLayout, 4,
+    Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 4,
                                     m_pValuesL, i18n("Length/Values:"),
                                     m_pValuesLE, m_pEntityAttribute->getValues() );
 
@@ -200,8 +200,8 @@ bool UMLEntityAttributeDialog::apply() {
         return false;
     }
     UMLClassifier * pConcept = dynamic_cast<UMLClassifier *>( m_pEntityAttribute->parent() );
-    UMLObjectList list= pConcept->findChildObject(Uml::ot_EntityAttribute, name);
-    if( list.count() != 0 && list.findRef( m_pEntityAttribute ) ) {
+    UMLObject *o = pConcept->findChildObject(name);
+    if (o && o != m_pEntityAttribute) {
         KMessageBox::error(this, i18n("The entity attribute name you have chosen is already being used in this operation."),
                            i18n("Entity Attribute Name Not Unique"), false);
         m_pNameLE->setText( m_pEntityAttribute->getName() );

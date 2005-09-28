@@ -126,11 +126,11 @@ public:
      * Replace (or possiblity Add a new) CodeDocument object to the m_codedocumentVector List. 
      * As names must be unique and each code document must have a name.
      * @return  boolean value which will be true if the passed document was able to replace some
-     *	  other document OR was added(no prior document existed..only when addIfPriorDocumentNotPresent is true). 
-     *	  The document which was replaced will be deleted IF deleteReplacedDocument is true.
+     *    other document OR was added(no prior document existed..only when addIfPriorDocumentNotPresent is true). 
+     *    The document which was replaced will be deleted IF deleteReplacedDocument is true.
      */
     // bool replaceCodeDocument (  CodeDocument * replace_doc=0, bool addIfPriorDocumentNotPresent=true,
-    //				      bool deleteReplacedDocument=true );
+    //                                bool deleteReplacedDocument=true );
 
     /**
      * Remove a CodeDocument object from m_codedocumentVector List
@@ -171,8 +171,8 @@ public:
 
     /**
      * Find a code document by the given id string.
-     * @return	CodeDocument
-      	 */
+     * @return  CodeDocument
+         */
     CodeDocument * findCodeDocumentByID (const QString &id );
 
     /**
@@ -291,7 +291,7 @@ public:
     virtual CodeGenerationPolicy * newCodeGenerationPolicy ( KConfig * config );
 
     /**
-    	 * Create a new Code document belonging to this package.
+         * Create a new Code document belonging to this package.
      * @return CodeDocument pointer to new code document.
      */
     virtual CodeDocument * newCodeDocument ( );

@@ -30,12 +30,12 @@ class Q3TextEdit;
 class NoteDialog : public KDialogBase {
 public:
     /**
-     *	Constructs an NoteDialog.
+     *  Constructs an NoteDialog.
      */
     NoteDialog( QWidget * parent, NoteWidget * pNote );
 
     /**
-     *	Standard deconstructor.
+     *  Standard deconstructor.
      */
     ~NoteDialog();
 
@@ -47,7 +47,7 @@ private:
     Q3TextEdit * m_pDocTE;
 
     /**
-     *	Note widget to show documentation for.
+     *  Note widget to show documentation for.
      */
     NoteWidget * m_pNoteWidget;
 };

@@ -66,25 +66,25 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY) {
     int fontHeight  = fm.lineSpacing();
     QString name;
     if ( m_bShowPackage ) {
-        name = m_pObject -> getPackage() + "." + this -> getName();
+        name = m_pObject->getFullyQualifiedName();
     } else {
         name = this -> getName();
     }
 
     p.drawRect(offsetX, offsetY, w, h);
-    p.setPen(QPen(black));
+    p.setPen(QPen(Qt::black));
 
     QFont font = UMLWidget::getFont();
     font.setBold(true);
     p.setFont(font);
     p.drawText(offsetX + ENUM_MARGIN, offsetY,
                w - ENUM_MARGIN * 2,fontHeight,
-               AlignCenter, m_pObject -> getStereotype());
+               Qt::AlignCenter, m_pObject->getStereotype(true));
 
     font.setItalic( m_pObject -> getAbstract() );
     p.setFont(font);
     p.drawText(offsetX + ENUM_MARGIN, offsetY + fontHeight,
-               w - ENUM_MARGIN * 2, fontHeight, AlignCenter, name);
+               w - ENUM_MARGIN * 2, fontHeight, Qt::AlignCenter, name);
     font.setBold(false);
     font.setItalic(false);
     p.setFont(font);
@@ -101,9 +101,9 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY) {
     UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EnumLiteral);
     for (enumLiteral = list.first(); enumLiteral; enumLiteral = list.next()) {
         QString text = enumLiteral->getName();
-        p.setPen( QPen(black) );
+        p.setPen( QPen(Qt::black) );
         p.drawText(offsetX + ENUM_MARGIN, offsetY + y,
-                   fontMetrics.width(text), fontHeight, AlignVCenter, text);
+                   fontMetrics.width(text), fontHeight, Qt::AlignVCenter, text);
         y+=fontHeight;
     }
 
@@ -144,11 +144,11 @@ void EnumWidget::calculateSize() {
     //now set the width of the concept
     //set width to name to start with
     if (m_bShowPackage)  {
-        width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_pObject->getPackage() + "." + getName()).width();
+        width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_pObject->getFullyQualifiedName()).width();
     } else {
         width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(getName()).width();
     }
-    int w = getFontMetrics(FT_BOLD).boundingRect("«" + m_pObject->getStereotype() + "»").width();
+    int w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->getStereotype(true)).width();
 
 
     width = w > width?w:width;
@@ -187,14 +187,6 @@ void EnumWidget::setShowPackage(bool _status) {
 
 bool EnumWidget::getShowPackage() const {
     return m_bShowPackage;
-}
-
-bool EnumWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
-    bool status = UMLWidget::activate(ChangeLog);
-    if (status) {
-        calculateSize();
-    }
-    return status;
 }
 
 void EnumWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement ) {

@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -14,6 +14,7 @@
 
 #include <qregexp.h>
 #include <kdebug.h>
+#include <kapplication.h>
 #include "umlobject.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -22,6 +23,7 @@
 #include "package.h"
 #include "stereotype.h"
 #include "model_utils.h"
+#include "import_utils.h"
 
 UMLObject::UMLObject(const UMLObject * parent, const QString &name, Uml::IDType id)
         : QObject(const_cast<UMLObject*>(parent), "UMLObject" ) {
@@ -115,9 +117,11 @@ QString UMLObject::getName() const {
     return m_Name;
 }
 
-QString UMLObject::getFullyQualifiedName(const QString &separator /* = "::" */) const {
+QString UMLObject::getFullyQualifiedName(QString separator) const {
     QString fqn;
     if (m_pUMLPackage) {
+        if (separator.isEmpty())
+            separator = UMLApp::app()->activeLanguageScopeSeparator();
         fqn = m_pUMLPackage->getFullyQualifiedName(separator);
         fqn.append(separator);
     }
@@ -155,26 +159,26 @@ bool UMLObject::operator==(UMLObject & rhs ) {
     // If two objects are the same but differ only in their documentation,
     // what does that mean?
     //if( m_Doc != rhs.m_Doc )
-    //	return false;
+    //  return false;
 
     // The scope should not be part of the equality test.
     // What does it mean if two objects are the same but differ in their
     // scope? - I'm not aware of any programming language that would
     // support that.
     //if( m_Scope != rhs.m_Scope )
-    //	return false;
+    //  return false;
 
     // See comments above
     //if( m_pStereotype != rhs.m_pStereotype )
-    //	return false;
+    //  return false;
 
     // See comments above
     //if( m_bAbstract != rhs.m_bAbstract )
-    //	return false;
+    //  return false;
 
     // See comments above
     //if( m_bStatic != rhs.m_bStatic )
-    //	return false;
+    //  return false;
 
     return true;
 }
@@ -193,7 +197,7 @@ void UMLObject::copyInto(UMLObject *rhs) const
     rhs->m_pUMLPackage = m_pUMLPackage;
 
     // We don't want the same name existing twice.
-    rhs->m_Name = umldoc->uniqObjectName(m_BaseType, m_Name);
+    rhs->m_Name = umldoc->uniqObjectName(m_BaseType, m_Name, m_pUMLPackage);
 
     // Create a new ID.
     rhs->m_nId = umldoc->getUniqueID();
@@ -289,7 +293,6 @@ void UMLObject::setStereotype(const QString &_name) {
 }
 
 void UMLObject::setPackage(const QString &_name) {
-    // TBD: Resolve nested packages given in _name (e.g. A::B::C)
     UMLObject *pkgObj = NULL;
     if (!_name.isEmpty()) {
         UMLDoc* umldoc = UMLApp::app()->getDocument();
@@ -302,7 +305,7 @@ void UMLObject::setPackage(const QString &_name) {
         if (pkgObj == NULL) {
             kdDebug() << "UMLObject::setPackage: creating UMLPackage "
             << _name << " for " << m_Name << endl;
-            pkgObj = umldoc->createUMLObject(Uml::ot_Package, _name);
+            pkgObj = Import_Utils::createUMLObject(Uml::ot_Package, _name);
         }
     }
     setUMLPackage( static_cast<UMLPackage *>(pkgObj) );
@@ -317,7 +320,7 @@ const UMLStereotype * UMLObject::getUMLStereotype() {
     return m_pStereotype;
 }
 
-QString UMLObject::getStereotype(bool includeAdornments /* = true */) {
+QString UMLObject::getStereotype(bool includeAdornments /* = false */) {
     if (m_pStereotype == NULL)
         return "";
     QString name = m_pStereotype->getName();
@@ -326,7 +329,7 @@ QString UMLObject::getStereotype(bool includeAdornments /* = true */) {
     return name;
 }
 
-QString UMLObject::getPackage(const QString &separator /* ="." */) {
+QString UMLObject::getPackage(QString separator) {
     if (m_pUMLPackage == NULL)
         return "";
     QStringList pkgList;
@@ -335,6 +338,8 @@ QString UMLObject::getPackage(const QString &separator /* ="." */) {
         pkgList.prepend(pkg->getName());
         pkg = pkg->getUMLPackage();
     }
+    if (separator.isEmpty())
+        separator = UMLApp::app()->activeLanguageScopeSeparator();
     return pkgList.join(separator);
 }
 
@@ -361,9 +366,9 @@ void UMLObject::maybeSignalObjectCreated() {
             m_BaseType != Uml::ot_Stereotype &&
             m_BaseType != Uml::ot_Association &&
             m_BaseType != Uml::ot_Role) {
+        m_bCreationWasSignalled = true;
         UMLDoc* umldoc = UMLApp::app()->getDocument();
         umldoc->signalUMLObjectCreated(this);
-        m_bCreationWasSignalled = true;
     }
 }
 
@@ -401,16 +406,28 @@ bool UMLObject::resolveRef() {
         maybeSignalObjectCreated();
         return true;
     }
+    //pDoc->setIsOldFile(true);
     // Work around UMLDoc::createUMLObject()'s incapability
     // of on-the-fly scope creation:
     if (m_SecondaryId.contains("::")) {
-        m_SecondaryId.replace("::", ".");
-        m_pSecondary = pDoc->findUMLObject( m_SecondaryId, Uml::ot_UMLObject, this );
+        // TODO: Merge Import_Utils::createUMLObject() into UMLDoc::createUMLObject()
+        m_pSecondary = Import_Utils::createUMLObject(Uml::ot_UMLObject, m_SecondaryId, NULL);
         if (m_pSecondary) {
+            if (Import_Utils::newUMLObjectWasCreated()) {
+                maybeSignalObjectCreated();
+                kapp->processEvents();
+                kdDebug() << "UMLObject::resolveRef: Import_Utils::createUMLObject() "
+                          << "created a new type for " << m_SecondaryId << endl;
+            } else {
+                kdDebug() << "UMLObject::resolveRef: Import_Utils::createUMLObject() "
+                          << "returned an existing type for " << m_SecondaryId << endl;
+            }
             m_SecondaryId = "";
-            maybeSignalObjectCreated();
             return true;
         }
+        kdError() << "UMLObject::resolveRef: Import_Utils::createUMLObject() "
+                  << "failed to create a new type for " << m_SecondaryId << endl;
+        return false;
     }
     kdDebug() << "UMLObject::resolveRef: Creating new type for "
     << m_SecondaryId << endl;
@@ -423,22 +440,7 @@ bool UMLObject::resolveRef() {
     if (isReferenceType) {
         ot = Uml::ot_Datatype;
     } else {
-        // Make data type for easily identified cases
-        const int n_types = 12;
-        const char *types[] = {
-                                  "void", "bool",
-                                  "char", "unsigned char",
-                                  "short", "unsigned short",
-                                  "int", "unsigned int",
-                                  "long", "unsigned long",
-                                  "float", "double"
-                              };
-        int i = 0;
-        for (; i < n_types; i++) {
-            if (m_SecondaryId == types[i])
-                break;
-        }
-        if (i < n_types)
+        if (Model_Utils::isCommonDataType(m_SecondaryId))
             ot = Uml::ot_Datatype;
     }
     m_pSecondary = pDoc->createUMLObject(ot, m_SecondaryId, NULL);
@@ -446,6 +448,7 @@ bool UMLObject::resolveRef() {
         return false;
     m_SecondaryId = "";
     maybeSignalObjectCreated();
+    //kapp->processEvents();
     return true;
 }
 
@@ -474,14 +477,14 @@ QDomElement UMLObject::save( const QString &tag, QDomDocument & qDoc ) {
     if (m_pUMLPackage)             //FIXME: uml13.dtd compliance
         qElement.setAttribute( "package", m_pUMLPackage->getID() );
 #endif
-    QString visibility = Umbrello::scopeToString(m_Scope, false);
+    QString visibility = Model_Utils::scopeToString(m_Scope, false);
     qElement.setAttribute( "visibility", visibility);
     if (m_pStereotype != NULL)
         qElement.setAttribute( "stereotype", ID2STR(m_pStereotype->getID()) );
     if (m_bStatic)
         qElement.setAttribute( "ownerScope", "classifier" );
     /* else
-    	qElement.setAttribute( "ownerScope", "instance" );
+        qElement.setAttribute( "ownerScope", "instance" );
      *** ownerScope defaults to instance if not set **********/
     return qElement;
 }
@@ -675,6 +678,7 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
             m_pUMLPackage->addObject(this);
         else
             umldoc->addUMLObject(this);
+        //kapp->processEvents();
     }
     return load(element);
 }

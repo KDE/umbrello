@@ -33,9 +33,9 @@ class Q3GroupBox;
  *
  * You will then need to get the options as shown in @ref KPrinter.
  *
- * @short A print dialog page.
- * @author Paul Hensgen	<phensgen@techie.com>
- * @see	KPrinter
+ * @short  A print dialog page.
+ * @author Paul Hensgen <phensgen@techie.com>
+ * @see    KPrinter
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
@@ -46,12 +46,12 @@ public:
      *  Constructs the diagram print page.
      *
      *  @param parent The parent to the page.
-     *  @param doc	The @ref UMLDoc class instance being used.
+     *  @param doc      The @ref UMLDoc class instance being used.
      */
     DiagramPrintPage(QWidget * parent, UMLDoc *doc);
 
     /**
-     *	Stnadard deconstructor.
+     *  Stnadard deconstructor.
      */
     ~DiagramPrintPage();
 

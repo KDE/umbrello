@@ -61,7 +61,7 @@ public:
     CodeComment * getComment ( );
 
     /**
-     * @return	QString
+     * @return  QString
      */
     virtual QString toString ( );
 

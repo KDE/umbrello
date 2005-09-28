@@ -46,7 +46,7 @@ void CPPMakefileCodeDocument::updateContent( ) {
 }
 
 /**
- * @return	QString
+ * @return      QString
  */
 QString CPPMakefileCodeDocument::toString ( ) {
     return "# cpp make build document";

@@ -122,9 +122,9 @@ private:
     /** Private constructor - This must be created through the instance method */
     PluginLoader();
 
-    static PluginLoader	       *_instance;	///< Singleton instance
-    PluginMap			_plugins;	///< The plugin mapping
-    CategoryMap			_categories;	///< Categories of plugins
+    static PluginLoader        *_instance;      ///< Singleton instance
+    PluginMap                   _plugins;       ///< The plugin mapping
+    CategoryMap                 _categories;    ///< Categories of plugins
 };
 }
 

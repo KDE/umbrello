@@ -86,6 +86,7 @@
 #include "objectwidget.h"
 #include "messagewidget.h"
 #include "statewidget.h"
+#include "forkjoinwidget.h"
 #include "activitywidget.h"
 #include "seqlinewidget.h"
 
@@ -157,7 +158,7 @@ void UMLView::init() {
     m_pFirstSelectedWidget = 0;
     m_pMenu = 0;
     //setup graphical items
-    viewport() -> setBackgroundMode( NoBackground );
+    viewport() -> setBackgroundMode( Qt::NoBackground );
     setCanvas( new UMLViewCanvas( this ) );
     // don't set the quite frequent update rate for each
     // diagram, as that causes also an update of invisible
@@ -173,7 +174,6 @@ void UMLView::init() {
     setDragAutoScroll(false);
 
     viewport() -> setMouseTracking(false);
-    //m_SelectionRect.setAutoDelete( true );
 
     // TODO: Still needed at some places.
     m_CurrentCursor = WorkToolBar::tbb_Arrow;
@@ -201,7 +201,6 @@ UMLView::~UMLView() {
         delete m_pAssocLine;
         m_pAssocLine = NULL;
     }
-    //m_SelectionRect.clear();
 
     // before we can delete the QCanvas, all widgets must be explicitly
     // removed
@@ -360,7 +359,7 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
     QColor textColor(50, 50, 50);
     pPainter.setPen(textColor);
     pPainter.drawLine(rect.x(), footTop    , windowWidth, footTop);
-    pPainter.drawText(rect.x(), footTop + 3, windowWidth, fontHeight, AlignLeft, string);
+    pPainter.drawText(rect.x(), footTop + 3, windowWidth, fontHeight, Qt::AlignLeft, string);
 
     // now restore scaling
     pPainter.restore();
@@ -393,8 +392,8 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
     // TODO: Not inserted into the toolbar state. Is this really needed?
     /*
     if ( m_CurrentCursor < WorkToolBar::tbb_Actor || m_CurrentCursor > WorkToolBar::tbb_State ) {
-    	m_pFirstSelectedWidget = 0;
-    	return;
+        m_pFirstSelectedWidget = 0;
+        return;
     }
     */
 }
@@ -413,14 +412,14 @@ void UMLView::slotToolBarChanged(int c)
 
 void UMLView::showEvent(QShowEvent* /*se*/) {
 
-#	ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
+# ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
     //kdWarning() << "Show Event for " << getName() << endl;
     canvas()->setDoubleBuffering( true );
     // as the diagram gets now visible again,
     // the update of the diagram elements shall be
     // at the normal value of 20
     canvas()-> setUpdatePeriod( 20 );
-#	endif
+# endif
 
     UMLApp* theApp = UMLApp::app();
     WorkToolBar* tb = theApp->getWorkToolBar();
@@ -439,15 +438,15 @@ void UMLView::hideEvent(QHideEvent* /*he*/) {
     disconnect(this,SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
     disconnect(m_pDoc, SIGNAL(sigObjectCreated(UMLObject *)), this, SLOT(slotObjectCreated(UMLObject *)));
 
-#	ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
+# ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
     //kdWarning() << "Hide Event for " << getName() << endl;
     canvas()->setDoubleBuffering( false );
     // a periodic update of all - also invisible - diagrams
     // can cause a very high CPU load if more than 100diagrams
     // are inside a project - and this without any need
-    // => switch the update of for hidden diagrams
+    // => switch the update off for hidden diagrams
     canvas()-> setUpdatePeriod( -1 );
-#	endif
+# endif
 }
 
 void UMLView::slotObjectCreated(UMLObject* o) {
@@ -894,7 +893,6 @@ QColor UMLView::getLineColor() const {
 void UMLView::setLineColor(const QColor &color) {
     m_Options.uiState.lineColor = color;
     emit sigColorChanged( getID() );
-    emit sigLineColorChanged( getID() );
     canvas() -> setAllChanged();
 }
 
@@ -969,11 +967,11 @@ QRect UMLView::getDiagramRect() {
     }
 
     /* Margin causes problems of black border around the edge
-    	// Margin:
-    	startx -= 24;
-    	starty -= 20;
-    	endx += 24;
-    	endy += 20;
+       // Margin:
+       startx -= 24;
+       starty -= 20;
+       endx += 24;
+       endy += 20;
     */
 
     return QRect(startx, starty,  endx - startx, endy - starty);
@@ -1041,22 +1039,28 @@ void UMLView::selectionSetFont( const QFont &font )
 void UMLView::selectionSetLineColor( const QColor &color )
 {
     UMLWidget * temp = 0;
-    for(temp=(UMLWidget *) m_SelectedList.first();
-            temp;
-            temp=(UMLWidget *)m_SelectedList.next()) {
-        temp -> setLineColour( color );
-        temp -> setUsesDiagramLineColour(false);
+    for (temp = m_SelectedList.first(); temp; temp = m_SelectedList.next()) {
+        temp->setLineColor(color);
+        temp->setUsesDiagramLineColour(false);
+    }
+    AssociationWidgetList assoclist = getSelectedAssocs();
+    for (AssociationWidget *aw = assoclist.first(); aw; aw = assoclist.next()) {
+        aw->setLineColor(color);
+        aw->setUsesDiagramLineColour(false);
     }
 }
 
 void UMLView::selectionSetLineWidth( uint width )
 {
     UMLWidget * temp = 0;
-    for(temp=(UMLWidget *) m_SelectedList.first();
-            temp;
-            temp=(UMLWidget *)m_SelectedList.next()) {
-        temp -> setLineWidth( width );
-        temp -> setUsesDiagramLineWidth(false);
+    for (temp = m_SelectedList.first(); temp; temp = m_SelectedList.next()) {
+        temp->setLineWidth(width);
+        temp->setUsesDiagramLineWidth(false);
+    }
+    AssociationWidgetList assoclist = getSelectedAssocs();
+    for (AssociationWidget *aw = assoclist.first(); aw; aw = assoclist.next()) {
+        aw->setLineWidth(width);
+        aw->setUsesDiagramLineWidth(false);
     }
 }
 
@@ -1129,8 +1133,8 @@ void UMLView::selectionToggleShow(int sel)
 void UMLView::deleteSelection()
 {
     /*
-    	Don't delete text widget that are connect to associations as these will
-    	be cleaned up by the associations.
+       Don't delete text widget that are connect to associations as these will
+       be cleaned up by the associations.
     */
     UMLWidget * temp = 0;
     for(temp=(UMLWidget *) m_SelectedList.first();
@@ -1276,7 +1280,6 @@ void UMLView::selectWidgets(int px, int py, int qx, int qy) {
         QRect rect2(x, y, w, h);
         ++it;
         //see if any part of widget is in the rectangle
-        //made of points pos and m_LineToPos
         if( !rect.intersects(rect2) )
             continue;
         //if it is text that is part of an association then select the association
@@ -1354,7 +1357,8 @@ void  UMLView::getDiagram(const QRect &area, QPainter & painter) {
     return;
 }
 
-QString imageTypeToMimeType(QString imagetype) {
+QString UMLView::imageTypeToMimeType(QString imagetype) {
+    imagetype = imagetype.upper();
     if (QString("BMP") == imagetype) return "image/x-bmp";
     if (QString("JPEG") == imagetype) return "image/jpeg";
     if (QString("PBM") == imagetype) return "image/x-portable-bitmap";
@@ -1368,7 +1372,8 @@ QString imageTypeToMimeType(QString imagetype) {
     return QString::null;
 }
 
-QString mimeTypeToImageType(QString mimetype) {
+
+QString UMLView::mimeTypeToImageType(QString mimetype) {
     if (QString("image/x-bmp") == mimetype) return "BMP";
     if (QString("image/jpeg") == mimetype) return "JPEG";
     if (QString("image/x-portable-bitmap") == mimetype) return "PBM";
@@ -1385,29 +1390,40 @@ QString mimeTypeToImageType(QString mimetype) {
 void UMLView::fixEPS(const QString &filename, QRect rect) {
     // now open the file and make a correct eps out of it
     QFile epsfile(filename);
-    QString fileContent;
-    if (epsfile.open(QIODevice::ReadOnly )) {
-        // read
-        QTextStream ts(&epsfile);
-        fileContent = ts.read();
-        epsfile.close();
-
-        // write new content to file
-        if (epsfile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-            // read information
-            QRegExp rx("%%BoundingBox:\\s*(-?[\\d\\.]+)\\s*(-?[\\d\\.]+)\\s*(-?[\\d\\.]+)\\s*(-?[\\d\\.]+)");
-            int pos = rx.search(fileContent);
-            float left = rx.cap(1).toFloat();
-            float top = rx.cap(4).toFloat();
-
-            // modify content
-            fileContent.replace(pos,rx.cap(0).length(),
-                                QString("%%BoundingBox: %1 %2 %3 %4").arg(left).arg(top-rect.height()).arg(left+rect.width()).arg(top));
-
-            ts << fileContent;
-            epsfile.close();
-        }
+    if (! epsfile.open(IO_ReadOnly)) {
+        return;
     }
+    // read
+    QTextStream ts(&epsfile);
+    QString fileContent = ts.read();
+    epsfile.close();
+
+    // read information
+    QRegExp rx("%%BoundingBox:\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)");
+    const int pos = rx.search(fileContent);
+    if (pos < 0) {
+        kdError() << "UMLView::fixEPS(" << filename
+                  << "): cannot find %%BoundingBox" << endl;
+        return;
+    }
+
+    // write new content to file
+    if (! epsfile.open(IO_WriteOnly | IO_Truncate)) {
+        kdError() << "UMLView::fixEPS(" << filename
+                  << "): cannot open file for writing" << endl;
+        return;
+    }
+    const int left = (int)rx.cap(1).replace(':', '0').toFloat();
+    const int right = left + rect.width();
+    const int top = (int)rx.cap(4).replace(':', '0').toFloat();
+    const int bottom = top - rect.height();
+
+    // modify content
+    fileContent.replace(pos,rx.cap(0).length(),
+                        QString("%%BoundingBox: %1 %2 %3 %4").arg(left).arg(bottom).arg(right).arg(top));
+
+    ts << fileContent;
+    epsfile.close();
 }
 
 void UMLView::printToFile(const QString &filename,bool isEPS) {
@@ -1420,7 +1436,7 @@ void UMLView::printToFile(const QString &filename,bool isEPS) {
     // of the printer (which should be 72dpi here)
     QPrinter *printer;
 
-    if (isEPS == true)
+    if (isEPS == false)
     {
         printer = new QPrinter(QPrinter::PrinterResolution);
     } else {
@@ -1492,6 +1508,8 @@ void UMLView::exportImage() {
 
     if (fileDialog.selectedURL().isEmpty())
         return;
+    clearSelected();   // Thanks to Peter Soetens for the idea
+
     // save
     imageMimetype = fileDialog.currentMimeFilter();
     if (app) app->setImageMimetype(imageMimetype);
@@ -1600,7 +1618,10 @@ UMLObjectList UMLView::getUMLObjects() {
     return list;
 }
 
-bool UMLView::activate() {
+void UMLView::activate() {
+    if (!m_pDoc->loading()) {
+        kdError() << "UMLView::activate() called while not loading ?!?" << endl;
+    }
     UMLWidgetListIt it( m_WidgetList );
     UMLWidget *obj;
 
@@ -1611,9 +1632,8 @@ bool UMLView::activate() {
         if(obj->isActivated() || obj->getBaseType() == wt_Message)
             continue;
 
-        if (!obj->activate())
-            continue;
-        obj -> setVisible( true );
+        obj->activate();
+        obj->setVisible( true );
     }//end while
 
     MessageWidgetListIt it2( m_MessageList );
@@ -1624,11 +1644,8 @@ bool UMLView::activate() {
         if(obj->isActivated())
             continue;
 
-        if(!m_pDoc->loading() || !obj->activate(m_pDoc->getChangeLog())) {
-            kdDebug() << "Couldn't activate message widget" << endl;
-            continue;
-        }
-        obj -> setVisible( true );
+        obj->activate(m_pDoc->getChangeLog());
+        obj->setVisible( true );
 
     }//end while
 
@@ -1647,8 +1664,6 @@ bool UMLView::activate() {
             assocwidget -> moveEntireAssoc( x, y );
         }
     }//end while
-
-    return true;
 }
 
 
@@ -1669,7 +1684,8 @@ bool UMLView::getSelectedWidgets(UMLWidgetList&WidgetList)
     return true;
 }
 
-bool UMLView::getSelectedAssocs(AssociationWidgetList & assocWidgetList) {
+AssociationWidgetList UMLView::getSelectedAssocs() {
+    AssociationWidgetList assocWidgetList;
     AssociationWidgetListIt assoc_it( m_AssociationList );
     AssociationWidget* assocwidget = 0;
     while((assocwidget=assoc_it.current())) {
@@ -1677,7 +1693,7 @@ bool UMLView::getSelectedAssocs(AssociationWidgetList & assocWidgetList) {
         if( assocwidget -> getSelected() )
             assocWidgetList.append(assocwidget);
     }
-    return true;
+    return assocWidgetList;
 }
 
 bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
@@ -1685,11 +1701,11 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
         return false;
     }
     if (!isPasteOperation && findWidget(pWidget->getID())) {
-        kdDebug() << "UMLView::addWidget: Not adding "
-        << "(id=" << ID2STR(pWidget->getID())
-        << "/type=" << pWidget->getBaseType()
-        << "/name=" << pWidget->getName()
-        << ") because it's already there" << endl;
+        kdError() << "UMLView::addWidget: Not adding "
+                  << "(id=" << ID2STR(pWidget->getID())
+                  << "/type=" << pWidget->getBaseType()
+                  << "/name=" << pWidget->getName()
+                  << ") because it's already there" << endl;
         return false;
     }
     Widget_Type type = pWidget->getBaseType();
@@ -1758,8 +1774,15 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
             }
             pWidget -> setUMLObject( pObject );
             //make sure it doesn't already exist.
-            if( findWidget( newID ) )
+            if (findWidget(newID)) {
+                kdDebug() << "UMLView::addWidget: Not adding "
+                          << "(id=" << ID2STR(pWidget->getID())
+                          << "/type=" << pWidget->getBaseType()
+                          << "/name=" << pWidget->getName()
+                          << ") because it's already there" << endl;
+                delete pWidget; // Not nice but if _we_ don't do it nobody else will
                 return true;//don't stop paste just because widget found.
+            }
             m_WidgetList.append( pWidget );
         }
         break;
@@ -1863,11 +1886,10 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation)
 
         Uml::IDType ida = Uml::id_None, idb = Uml::id_None;
         Association_Type type = pAssoc -> getAssocType();
-        IDChangeLog* localLog = getLocalIDChangeLog();
         if( getType() == dt_Collaboration || getType() == dt_Sequence ) {
             //check local log first
-            ida = localLog->findNewID( pAssoc->getWidgetID(A) );
-            idb = localLog->findNewID( pAssoc->getWidgetID(B) );
+            ida = m_pIDChangesLog->findNewID( pAssoc->getWidgetID(A) );
+            idb = m_pIDChangesLog->findNewID( pAssoc->getWidgetID(B) );
             //if either is still not found and assoc type is anchor
             //we are probably linking to a notewidet - else an error
             if( ida == Uml::id_None && type == at_Anchor )
@@ -1894,8 +1916,8 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation)
             return false;
         }
         // cant do this anymore.. may cause problem for pasting
-        //		pAssoc->setWidgetID(ida, A);
-        //		pAssoc->setWidgetID(idb, B);
+        //      pAssoc->setWidgetID(ida, A);
+        //      pAssoc->setWidgetID(idb, B);
         pAssoc->setWidget(findWidget(ida), A);
         pAssoc->setWidget(findWidget(idb), B);
     }
@@ -1958,26 +1980,22 @@ void UMLView::addAssocInViewAndDoc(AssociationWidget* a) {
 
 }
 
-bool UMLView::activateAfterLoad(bool bUseLog) {
-    bool status = true;
-    if ( !m_bActivated ) {
-        if( bUseLog ) {
-            beginPartialWidgetPaste();
-        }
-
-        //now activate them all
-        status = activate();
-
-        if( bUseLog ) {
-            endPartialWidgetPaste();
-        }
-        resizeCanvasToItems();
-        setZoom( getZoom() );
-    }//end if active
-    if(status) {
-        m_bActivated = true;
+void UMLView::activateAfterLoad(bool bUseLog) {
+    if (m_bActivated)
+        return;
+    if( bUseLog ) {
+        beginPartialWidgetPaste();
     }
-    return true;
+
+    //now activate them all
+    activate();
+
+    if( bUseLog ) {
+        endPartialWidgetPaste();
+    }
+    resizeCanvasToItems();
+    setZoom( getZoom() );
+    m_bActivated = true;
 }
 
 void UMLView::beginPartialWidgetPaste() {
@@ -1995,10 +2013,6 @@ void UMLView::endPartialWidgetPaste() {
     m_bPaste = false;
 }
 
-IDChangeLog* UMLView::getLocalIDChangeLog() {
-    return m_pIDChangesLog;
-}
-
 void UMLView::removeAssoc(AssociationWidget* pAssoc) {
     if(!pAssoc)
         return;
@@ -2010,11 +2024,8 @@ void UMLView::removeAssoc(AssociationWidget* pAssoc) {
 
         m_pMoveAssoc = 0;
     }
-    // Remove the association in this view - but set the document
-    // modified BEFORE physically deleting it because it is still
-    // needed for an entry in the undo stack (when Undo is enabled.)
-    m_pDoc->setModified();
     m_AssociationList.remove(pAssoc); // will delete our association
+    m_pDoc->setModified();
 }
 
 void UMLView::removeAssocInViewAndDoc(AssociationWidget* a) {
@@ -2047,7 +2058,6 @@ void UMLView::removeAssocInViewAndDoc(AssociationWidget* a) {
 bool UMLView::setAssoc(UMLWidget *pWidget) {
     Association_Type type = convert_TBB_AT(m_CurrentCursor);
     m_bDrawRect = false;
-    m_SelectionRect.clear();
     //if this we are not concerned here so return
     if (m_CurrentCursor < WorkToolBar::tbb_Generalization ||
             m_CurrentCursor > WorkToolBar::tbb_Anchor) {
@@ -2079,7 +2089,7 @@ bool UMLView::setAssoc(UMLWidget *pWidget) {
 
         m_pAssocLine = new Q3CanvasLine( canvas() );
         m_pAssocLine -> setPoints( pos.x(), pos.y(), pos.x(), pos.y() );
-        m_pAssocLine -> setPen( QPen( getLineColor(), getLineWidth(), DashLine ) );
+        m_pAssocLine -> setPen( QPen( getLineColor(), getLineWidth(), Qt::DashLine ) );
 
         m_pAssocLine -> setVisible( true );
 
@@ -2550,9 +2560,9 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
         UMLAttribute *attr = ait.current();
         UMLClassifier *attrType = attr->getType();
         if (attrType == NULL) {
-            kdError() << "UMLView::createAutoAttributeAssociations("
-            << klass->getName() << "): type is NULL for "
-            << "attribute " << attr->getName() << endl;
+            // kdDebug() << "UMLView::createAutoAttributeAssociations("
+            //     << klass->getName() << "): type is NULL for "
+            //     << "attribute " << attr->getName() << endl;
             continue;
         }
         Uml::Association_Type assocType = Uml::at_Composition;
@@ -2567,7 +2577,7 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
                 AssocRules::allowAssociation(assocType, widget, w, false)) {
             // Create a composition AssocWidget, or, if the attribute type is
             // stereotyped <<CORBAInterface>>, create a UniAssociation widget.
-            if (attrType->getStereotype(false) == "CORBAInterface")
+            if (attrType->getStereotype() == "CORBAInterface")
                 assocType = at_UniAssociation;
             AssociationWidget *a = new AssociationWidget (this, widget, assocType, w);
             a->setUMLObject(attr);
@@ -2575,7 +2585,7 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
             a->setVisibility(attr->getScope(), B);
             /*
             if (assocType == at_Aggregation || assocType == at_UniAssociation)
-            	a->setMulti("0..1", B);
+               a->setMulti("0..1", B);
              */
             a->setRoleName(attr->getName(), B);
             a->setActivated(true);
@@ -3344,7 +3354,7 @@ void UMLView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
             assoc -> saveToXMI( qDoc, assocElement );
         }
         // kdDebug() << "UMLView::saveToXMI() saved "
-        //	<< m_AssociationList.count() << " assocData." << endl;
+        //   << m_AssociationList.count() << " assocData." << endl;
     }
     viewElement.appendChild( assocElement );
     qElement.appendChild( viewElement );
@@ -3481,7 +3491,7 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
     QString tag  = widgetElement.tagName();
 
     if (tag == "statewidget" || tag == "notewidget" || tag == "boxwidget" ||
-            tag == "floatingtext" || tag == "activitywidget" ||
+        tag == "floatingtext" || tag == "activitywidget" || tag == "forkjoin" ||
             // tests for backward compatibility:
             tag == "UML:StateWidget" || tag == "UML:NoteWidget" ||
             tag == "UML:FloatingTextWidget" || tag == "UML:ActivityWidget")
@@ -3503,7 +3513,14 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
             widget = new FloatingText(this, Uml::tr_Floating, "", Uml::id_Reserved);
         } else if (tag == "activitywidget"
                    || tag == "UML:ActivityWidget") {      // for bkwd compatibility
-            widget = new ActivityWidget(this, ActivityWidget::Normal, Uml::id_Reserved);
+            int type = widgetElement.attribute("activitytype", "1").toInt();
+            if (type == ActivityWidget::Fork_DEPRECATED)  // for bkwd compatibility
+                widget = new ForkJoinWidget(this, false, Uml::id_Reserved);
+            else
+                widget = new ActivityWidget(this, (ActivityWidget::ActivityType)type,
+                                            Uml::id_Reserved);
+        } else if (tag == "forkjoin") {
+            widget = new ForkJoinWidget(this, false, Uml::id_Reserved);
         }
     }
     else
@@ -3623,7 +3640,7 @@ bool UMLView::loadAssociationsFromXMI( QDomElement & qElement ) {
                 if(!addAssociation(assoc, false))
                 {
                     kdError()<<"Couldnt addAssociation("<<assoc<<") to umlview, deleting."<<endl;
-                    //					assoc->cleanup();
+                    //               assoc->cleanup();
                     delete assoc;
                     //return false; // soften error.. may not be that bad
                 }
@@ -3638,7 +3655,10 @@ bool UMLView::loadAssociationsFromXMI( QDomElement & qElement ) {
 void UMLView::addObject(UMLObject *object)
 {
     m_bCreateObject = true;
-    m_pDoc->addObject(object);
+    if (m_pDoc->addUMLObject(object))
+        m_pDoc->signalUMLObjectCreated(object);  // m_bCreateObject is reset by slotObjectCreated()
+    else
+        m_bCreateObject = false;
 }
 
 bool UMLView::loadUisDiagramPresentation(QDomElement & qElement) {

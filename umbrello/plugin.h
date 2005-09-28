@@ -41,15 +41,15 @@ class KConfig;
  * the .cpp file implementing the plugin.
  *
  *
- * @param libname	The name of the plugin. This corresponds to
- *			the name of the shared object without the ".so"
- *			extension.
- * @param factory	The type of factory. Typically, this will be
- *			KGenericFactory<> with the name of the plugin
- *			as the parameter.
+ * @param libname       The name of the plugin. This corresponds to
+ *                      the name of the shared object without the ".so"
+ *                      extension.
+ * @param factory       The type of factory. Typically, this will be
+ *                      KGenericFactory<> with the name of the plugin
+ *                      as the parameter.
  */
 #define UMBRELLO_EXPORT_PLUGIN_FACTORY(libname, factory) \
-	extern "C" { KDE_EXPORT void *init_##libname() { return new factory(#libname); } }
+        extern "C" { KDE_EXPORT void *init_##libname() { return new factory(#libname); } }
 
 namespace Umbrello
 {
@@ -156,9 +156,9 @@ private:
     void ref();
 
 protected:
-    uint	_ref;		///< Reference counter
-    Q3CString	_instanceName;	///< Instance name of the plugin
-    KConfig    *_config;	///< Configuration record
+    uint        _ref;           ///< Reference counter
+    Q3CString    _instanceName;  ///< Instance name of the plugin
+    KConfig    *_config;        ///< Configuration record
 };
 }
 

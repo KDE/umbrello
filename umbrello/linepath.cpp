@@ -83,7 +83,7 @@ void LinePath::setAssociation(AssociationWidget * association ) {
     if( getAssocType() == Uml::at_Coll_Message )
         setupParallelLine();
     UMLView * view =  (UMLView *)m_pAssociation -> parent();
-    connect( view, SIGNAL( sigLineColorChanged( Uml::IDType ) ), this, SLOT( slotLineColorChanged( Uml::IDType ) ) );
+    connect( view, SIGNAL( sigColorChanged( Uml::IDType ) ), this, SLOT( slotLineColorChanged( Uml::IDType ) ) );
     connect( view, SIGNAL( sigLineWidthChanged( Uml::IDType ) ), this, SLOT( slotLineWidthChanged( Uml::IDType ) ) );
 }
 
@@ -368,7 +368,7 @@ void LinePath::setLineColor( const QColor &color ) {
     }
 
     if( getAssocType() == Uml::at_Aggregation )
-        if (m_pClearPoly) m_pClearPoly -> setBrush( QBrush( white ) );
+        if (m_pClearPoly) m_pClearPoly -> setBrush( QBrush( Qt::white ) );
         else if( getAssocType() == Uml::at_Composition )
             if (m_pClearPoly) m_pClearPoly -> setBrush( QBrush( color ) );
 
@@ -446,14 +446,14 @@ void LinePath::setupSelected() {
     LineListIt it( m_LineList );
     while( ( line = it.current() ) ) {
         QPoint sp = line -> startPoint();
-        Q3CanvasRectangle *rect = Umbrello::decoratePoint(sp);
+        Q3CanvasRectangle *rect = Widget_Utils::decoratePoint(sp);
         m_RectList.append( rect );
         ++it;
     }
     //special case for last point
     line = m_LineList.last();
     QPoint p = line -> endPoint();
-    Q3CanvasRectangle *rect = Umbrello::decoratePoint(p);
+    Q3CanvasRectangle *rect = Widget_Utils::decoratePoint(p);
     m_RectList.append( rect );
     update();
 }
@@ -461,7 +461,7 @@ void LinePath::setupSelected() {
 QPen LinePath::getPen() {
     Uml::Association_Type type = getAssocType();
     if( type == Uml::at_Dependency || type == Uml::at_Realization || type == Uml::at_Anchor )
-        return QPen( getLineColor(), getLineWidth(), DashLine );
+        return QPen( getLineColor(), getLineWidth(), Qt::DashLine );
     return QPen( getLineColor(), getLineWidth() );
 }
 
@@ -476,23 +476,23 @@ void LinePath::calculateHead() {
         farPoint = getPoint(1);
         m_EgdePoint = getPoint(0);
         if (diamond) {
-            arrowAngle *= 1.5;	// wider
-            halfLength += 1;	// longer
+            arrowAngle *= 1.5;  // wider
+            halfLength += 1;    // longer
         } else {
             // Containment has a circle-plus symbol at the
             // containing object.  What we are tweaking here
             // is the perpendicular line through the circle
             // (i.e. the horizontal line of the plus sign if
             // the objects are oriented north/south)
-            arrowAngle *= 2.5;	// wider
-            halfLength -= 4;	// shorter
+            arrowAngle *= 2.5;  // wider
+            halfLength -= 4;    // shorter
         }
     } else {
         farPoint = getPoint(size - 1);
         m_EgdePoint = getPoint(size);
         // We have an arrow.
-        arrowAngle *= 2.0;	// wider
-        halfLength += 3;	// longer
+        arrowAngle *= 2.0;      // wider
+        halfLength += 3;        // longer
     }
     int xa = farPoint.x();
     int ya = farPoint.y();
@@ -501,7 +501,7 @@ void LinePath::calculateHead() {
     double deltaX = xb - xa;
     double deltaY = yb - ya;
     double hypotenuse = sqrt(deltaX*deltaX + deltaY*deltaY); // the length
-    double slope = atan2(deltaY, deltaX);	//slope of line
+    double slope = atan2(deltaY, deltaX);       //slope of line
     double arrowSlope = slope + arrowAngle;
     double cosx, siny;
     if (hypotenuse < 1.0e-6) {
@@ -660,7 +660,7 @@ void LinePath::createHeadLines() {
         growList(m_HeadList, 3);
         m_pClearPoly = new Q3CanvasPolygon( canvas );
         m_pClearPoly -> setVisible( true );
-        m_pClearPoly -> setBrush( QBrush( white ) );
+        m_pClearPoly -> setBrush( QBrush( Qt::white ) );
         m_pClearPoly -> setZ( -1 );
         break;
 
@@ -670,7 +670,7 @@ void LinePath::createHeadLines() {
         m_pClearPoly = new Q3CanvasPolygon( canvas );
         m_pClearPoly -> setVisible( true );
         if( getAssocType() == Uml::at_Aggregation )
-            m_pClearPoly -> setBrush( QBrush( white ) );
+            m_pClearPoly -> setBrush( QBrush( Qt::white ) );
         else
             m_pClearPoly -> setBrush( QBrush( getLineColor() ) );
         m_pClearPoly -> setZ( -1 );
@@ -809,7 +809,7 @@ Uml::Association_Type LinePath::getAssocType() {
 
 QColor LinePath::getLineColor() {
     if( !m_pAssociation )
-        return black;
+        return Qt::black;
     UMLView * view =  (UMLView *)m_pAssociation -> parent();
     return view -> getLineColor();
 }
@@ -845,7 +845,7 @@ void LinePath::cleanup() {
     if( m_pAssociation ) {
         UMLView * view =  (UMLView *)m_pAssociation -> parent();
         if(view) {
-            disconnect( view, SIGNAL( sigLineColorChanged( Uml::IDType ) ), this, SLOT( slotLineColorChanged( Uml::IDType ) ) );
+            disconnect( view, SIGNAL( sigColorChanged( Uml::IDType ) ), this, SLOT( slotLineColorChanged( Uml::IDType ) ) );
             disconnect( view, SIGNAL( sigLineWidthChanged( Uml::IDType ) ), this, SLOT( slotLineWidthChanged( Uml::IDType ) ) );
         }
         m_pAssociation = NULL;

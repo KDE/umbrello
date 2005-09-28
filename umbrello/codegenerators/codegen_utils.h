@@ -13,7 +13,7 @@
 
 #include <qstringlist.h>
 
-namespace Umbrello {
+namespace Codegen_Utils {
 
 /**
  * Add C++ primitives as datatypes

@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2003-2004
+ *  copyright (C) 2003-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -54,20 +54,14 @@ UMLObject* UMLPackage::clone() const
     return clone;
 }
 
-void UMLPackage::addObject(const UMLObject *pObject) {
-    Uml::IDType id = pObject->getID();
-    for (UMLObjectListIt oit(m_objects); oit.current(); ++oit) {
-        UMLObject *o = oit.current();
-        if (o->getID() == id) {
-#ifdef VERBOSE_DEBUGGING
-            kdDebug() << "UMLPackage::addObject: "
-            << pObject->getName()
-            << " is already there" << endl;
-#endif
-            return;
-        }
+bool UMLPackage::addObject(const UMLObject *pObject) {
+    if (m_objects.find(pObject) != -1) {
+        kdDebug() << "UMLPackage::addObject: " << pObject->getName()
+                  << " is already there" << endl;
+        return false;
     }
     m_objects.append( pObject );
+    return true;
 }
 
 void UMLPackage::removeObject(const UMLObject *pObject) {
@@ -79,16 +73,21 @@ UMLObjectList& UMLPackage::containedObjects() {
 }
 
 UMLObject * UMLPackage::findObject(const QString &name) {
+    const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     for (UMLObjectListIt oit(m_objects); oit.current(); ++oit) {
         UMLObject *obj = oit.current();
-        if (obj->getName() == name)
+        if (caseSensitive) {
+            if (obj->getName() == name)
+                return obj;
+        } else if (obj->getName().lower() == name.lower()) {
             return obj;
+        }
     }
     return NULL;
 }
 
 UMLObject * UMLPackage::findObjectById(Uml::IDType id) {
-    return Umbrello::findObjectInList(id, m_objects);
+    return Model_Utils::findObjectInList(id, m_objects);
 }
 
 void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
@@ -189,7 +188,7 @@ bool UMLPackage::load(QDomElement& element) {
             continue;
         QDomElement tempElement = node.toElement();
         QString type = tempElement.tagName();
-        if (Umbrello::isCommonXMIAttribute(type))
+        if (Model_Utils::isCommonXMIAttribute(type))
             continue;
         if (tagEq(type, "Namespace.ownedElement") ||
                 tagEq(type, "Namespace.contents")) {

@@ -30,19 +30,19 @@ class UMLRoleDialog : public KDialogBase {
     Q_OBJECT
 public:
     /**
-    *	Constructor
+    *   Constructor
     */
     UMLRoleDialog( QWidget * parent, UMLRole * pRole );
 
     /**
-    *	Deconstructor
+    *   Deconstructor
     */
     ~UMLRoleDialog();
 
 protected:
 
     /**
-    *	Sets up the dialog
+    *   Sets up the dialog
     */
     void setupDialog();
 

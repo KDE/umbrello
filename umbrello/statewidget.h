@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -55,9 +55,9 @@ public:
     /**
      * Creates a State widget.
      *
-     * @param view		The parent of the widget.
-     * @param stateType	The type of state.
-     * @param id		The ID to assign (-1 will prompt a new ID.)
+     * @param view              The parent of the widget.
+     * @param stateType The type of state.
+     * @param id                The ID to assign (-1 will prompt a new ID.)
      */
     StateWidget( UMLView * view, StateType stateType = Normal, Uml::IDType id = Uml::id_None );
 
@@ -80,16 +80,6 @@ public:
      * Returns the name of the State.
      */
     virtual QString getName() const;
-
-    /**
-     * Returns the documentation of the state.
-     */
-    QString getDoc() const;
-
-    /**
-     * Sets the documenation of the state.
-     */
-    void setDoc( const QString &doc );
 
     /**
      * Returns the type of state.
@@ -134,9 +124,9 @@ public:
     /**
      * Returns true if the given toolbar button represents a State.
      *
-     * @param tbb		Input value of type WorkToolBar::ToolBar_Buttons.
-     * @param resultType	Output value, the StateType that corresponds to tbb.
-     *			Only set if the method returns true.
+     * @param tbb               Input value of type WorkToolBar::ToolBar_Buttons.
+     * @param resultType        Output value, the StateType that corresponds to tbb.
+     *                  Only set if the method returns true.
      */
     static bool isState( WorkToolBar::ToolBar_Buttons tbb,
                          StateType& resultType );
@@ -161,16 +151,6 @@ protected:
      * Type of state.
      */
     StateType m_StateType;
-
-    /**
-     * Name of the state.
-     */
-    QString m_Name;
-
-    /**
-     * Documentation for the state
-     */
-    QString m_Doc;
 
     /**
      * List of activities for the state.

@@ -24,7 +24,7 @@ class ClassifierWidget;
  * display a different menu.
  *
  * @short Displays a popup menu.
- * @author Paul Hensgen	<phensgen@techie.com>
+ * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
@@ -166,6 +166,7 @@ public:
         mt_Up,
         mt_Down,
         mt_Branch,
+        mt_Flip,
 
         mt_Expand_All,                     //Expand all items in the list
         mt_Collapse_All,                   //Collapse all items in the list
@@ -184,27 +185,27 @@ public:
     /**
      * Constructs the popup menu for a diagram
      *
-     * @param parent	The parent to ListPopupMenu.
-     * @param type		The type of menu to display.
+     * @param parent    The parent to ListPopupMenu.
+     * @param type              The type of menu to display.
      */
     ListPopupMenu(QWidget* parent, Menu_Type type = mt_Undefined, UMLView* view = 0);
 
     /**
      * Constructs the popup menu for a list view item.
      *
-     * @param parent	The parent to ListPopupMenu.
-     * @param type		The type of menu to display.
+     * @param parent    The parent to ListPopupMenu.
+     * @param type              The type of menu to display.
      */
     ListPopupMenu(QWidget* parent, Uml::ListView_Type type);
 
     /**
      * Constructs the popup menu for a canvas widget.
      *
-     * @param parent	The parent to ListPopupMenu.
-     * @param object	The UMLWidget to represent a menu for.
-     * @param multi		True if multiple items are selected.
-     * @param unique	True if multiple selected items all have
-     *			the same type (e.g. Class, Interface)
+     * @param parent    The parent to ListPopupMenu.
+     * @param object    The UMLWidget to represent a menu for.
+     * @param multi             True if multiple items are selected.
+     * @param unique    True if multiple selected items all have
+     *                  the same type (e.g. Class, Interface)
      */
     ListPopupMenu(QWidget* parent, UMLWidget* object, bool multi = false, bool unique = false);
 
@@ -237,7 +238,7 @@ private:
     /**
      * Shortcut for the most frequently used insertItem() calls.
      *
-     * @param m	The Menu_Type for which to insert a menu item.
+     * @param m The Menu_Type for which to insert a menu item.
      */
     void insertStdItem(Menu_Type m);
 
@@ -245,10 +246,10 @@ private:
      * Shortcut for the most frequently used insertStdItem() calls.
      *
      * @param insertLeadingSeparator  Set this true if the group shall
-     *				  start with a separator.
-     * @param type	The Widget_Type for which to insert the menu items.
-     *		If no argument is supplied then a Rename item will be
-     *		included.
+     *                            start with a separator.
+     * @param type      The Widget_Type for which to insert the menu items.
+     *          If no argument is supplied then a Rename item will be
+     *          included.
      */
     void insertStdItems(bool insertLeadingSeparator = true,
                         Uml::Widget_Type type = Uml::wt_UMLWidget);
@@ -257,8 +258,8 @@ private:
      * Shortcut for inserting standard model items (Class, Interface,
      * Datatype, Enum, Package) as well as diagram choices.
      *
-     * @param folderAndDiagrams	Set this true if folders and diagram
-     *				types shall be included as choices.
+     * @param folderAndDiagrams Set this true if folders and diagram
+     *                          types shall be included as choices.
      */
     void insertContainerItems(bool folderAndDiagrams);
 
@@ -266,8 +267,8 @@ private:
      * Inserts a menu item for an association related text
      * (such as name, role, multiplicity etc.)
      *
-     * @param label		The menu text.
-     * @param mt		The menu type.
+     * @param label             The menu text.
+     * @param mt                The menu type.
      */
     void insertAssocItem(const QString &label, Menu_Type mt);
 
@@ -291,8 +292,8 @@ private:
     /**
      * Shortcut for commonly used menu initializations.
      *
-     * @param type	The Menu_Type for which to set up the menu.
-     * @param view	The UMLView parent of the menu.
+     * @param type      The Menu_Type for which to set up the menu.
+     * @param view      The UMLView parent of the menu.
      */
     void setupMenu(Menu_Type type, UMLView * view = 0);
 

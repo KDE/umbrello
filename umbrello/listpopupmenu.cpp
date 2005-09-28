@@ -26,6 +26,7 @@
 #include "umlview.h"
 #include "statewidget.h"
 #include "activitywidget.h"
+#include "forkjoinwidget.h"
 #include "objectwidget.h"
 
 //ListPopupMenu for a UMLView (diagram)
@@ -334,6 +335,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 
     case Uml::wt_Box:
         insertStdItems(false, type);
+        insertStdItem(mt_Line_Color);
         break;
 
     case Uml::wt_State:
@@ -349,6 +351,16 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
             insertItem(i18n("Change State Name..."), mt_Rename);
             insertStdItem(mt_Change_Font);
             insertStdItem(mt_Properties);
+        }
+        break;
+
+    case Uml::wt_ForkJoin:
+        {
+            ForkJoinWidget *pForkJoin = static_cast<ForkJoinWidget*>(object);
+            if (pForkJoin->getDrawVertical())
+                insertItem(i18n("Flip Horizontal"), mt_Flip);
+            else
+                insertItem(i18n("Flip Vertical"), mt_Flip);
         }
         break;
 
@@ -458,6 +470,9 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
     case mt_Change_Font:
         insertItem(SmallIcon("fonts"), i18n("Change Font..."), mt_Change_Font);
         break;
+    case mt_Line_Color:
+        insertItem(SmallIcon("color_line"), i18n("Line Color..."), mt_Line_Color);
+        break;
     case mt_Expand_All:
         insertItem(i18n("Expand All"), mt_Expand_All);
         break;
@@ -490,7 +505,7 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
         m_pInsert->insertItem(m_pixmap[pm_Node], i18n("Node"), mt_Node);
         break;
     case mt_Deployment_Diagram:
-        m_pInsert->insertItem(Umbrello::iconSet(Uml::dt_Deployment), i18n("Deployment Diagram..."),
+        m_pInsert->insertItem(Widget_Utils::iconSet(Uml::dt_Deployment), i18n("Deployment Diagram..."),
                               mt_Deployment_Diagram);
         break;
     case mt_Deployment_Folder:
@@ -503,7 +518,7 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
         m_pInsert->insertItem(m_pixmap[pm_Entity], i18n("Entity"), mt_Entity);
         break;
     case mt_EntityRelationship_Diagram:
-        m_pInsert->insertItem(Umbrello::iconSet(Uml::dt_EntityRelationship), i18n("Entity Relationship Diagram..."),
+        m_pInsert->insertItem(Widget_Utils::iconSet(Uml::dt_EntityRelationship), i18n("Entity Relationship Diagram..."),
                               mt_EntityRelationship_Diagram);
         break;
     case mt_Actor:
@@ -513,7 +528,7 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
         m_pInsert->insertItem(m_pixmap[pm_Usecase], i18n("Use Case"), mt_UseCase);
         break;
     case mt_UseCase_Diagram:
-        m_pInsert->insertItem(Umbrello::iconSet(Uml::dt_UseCase), i18n("Use Case Diagram..."),
+        m_pInsert->insertItem(Widget_Utils::iconSet(Uml::dt_UseCase), i18n("Use Case Diagram..."),
                               mt_UseCase_Diagram);
         break;
     case mt_FloatText:
@@ -563,7 +578,7 @@ void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
     insertSeparator();
     if (type == Uml::wt_UMLWidget)
         insertStdItem(mt_Rename);
-    else if (Umbrello::isCloneable(type))
+    else if (Model_Utils::isCloneable(type))
         insertStdItem(mt_Clone);
     insertStdItem(mt_Delete);
 }
@@ -577,11 +592,11 @@ void ListPopupMenu::insertContainerItems(bool folderAndDiagrams) {
     m_pInsert -> insertItem(m_pixmap[pm_Enum], i18n("Enum"), mt_Enum);
     m_pInsert -> insertItem(m_pixmap[pm_Package], i18n("Package"), mt_Package);
     if (folderAndDiagrams) {
-        m_pInsert->insertItem(Umbrello::iconSet(Uml::dt_Class), i18n("Class Diagram..."), mt_Class_Diagram);
-        m_pInsert->insertItem(Umbrello::iconSet(Uml::dt_State), i18n("State Diagram..."), mt_State_Diagram);
-        m_pInsert->insertItem(Umbrello::iconSet(Uml::dt_Activity), i18n("Activity Diagram..."), mt_Activity_Diagram);
-        m_pInsert->insertItem(Umbrello::iconSet(Uml::dt_Sequence), i18n("Sequence Diagram..."), mt_Sequence_Diagram);
-        m_pInsert->insertItem(Umbrello::iconSet(Uml::dt_Collaboration), i18n("Collaboration Diagram..."), mt_Collaboration_Diagram);
+        m_pInsert->insertItem(Widget_Utils::iconSet(Uml::dt_Class), i18n("Class Diagram..."), mt_Class_Diagram);
+        m_pInsert->insertItem(Widget_Utils::iconSet(Uml::dt_State), i18n("State Diagram..."), mt_State_Diagram);
+        m_pInsert->insertItem(Widget_Utils::iconSet(Uml::dt_Activity), i18n("Activity Diagram..."), mt_Activity_Diagram);
+        m_pInsert->insertItem(Widget_Utils::iconSet(Uml::dt_Sequence), i18n("Sequence Diagram..."), mt_Sequence_Diagram);
+        m_pInsert->insertItem(Widget_Utils::iconSet(Uml::dt_Collaboration), i18n("Collaboration Diagram..."), mt_Collaboration_Diagram);
     }
     insertFileNew();
 }
@@ -851,8 +866,8 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         insertStdItem(mt_UseCase_Diagram);
         insertFileNew();
         insertSeparator();
-        //			insertStdItem(mt_Cut);
-        //			insertStdItem(mt_Copy);
+        //                      insertStdItem(mt_Cut);
+        //                      insertStdItem(mt_Copy);
         insertStdItem(mt_Paste);
         insertSeparator();
         insertStdItem(mt_Expand_All);
@@ -1144,6 +1159,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
     case mt_Association_Selected:
         insertStdItem(mt_Delete);
+        insertStdItem(mt_Line_Color);
         insertStdItem(mt_Properties);
         break;
 
@@ -1178,14 +1194,15 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         insertItem(i18n("Change Role B Name..."), mt_Rename_RoleBName);
         insertStdItem(mt_Change_Font);
         insertStdItem(mt_Reset_Label_Positions);
+        insertStdItem(mt_Line_Color);
         insertStdItem(mt_Properties);
         break;
 
     case mt_Collaboration_Message:
-        //			insertStdItem(mt_Cut);
-        //			insertStdItem(mt_Copy);
-        //			insertStdItem(mt_Paste);
-        //			insertSeparator();
+        //                      insertStdItem(mt_Cut);
+        //                      insertStdItem(mt_Copy);
+        //                      insertStdItem(mt_Paste);
+        //                      insertSeparator();
         insertStdItem(mt_Delete);
         insertStdItem(mt_Change_Font);
         insertStdItem(mt_New_Operation);

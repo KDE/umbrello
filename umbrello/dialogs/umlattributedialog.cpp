@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -69,17 +69,17 @@ void UMLAttributeDialog::setupDialog() {
     valuesLayout -> addWidget(m_pTypeCB, 0, 1);
     m_pTypeL->setBuddy(m_pTypeCB);
 
-    Umbrello::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
+    Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
                                     m_pNameL, i18n("&Name:"),
                                     m_pNameLE, m_pAttribute->getName() );
 
-    Umbrello::makeLabeledEditField( m_pValuesGB, valuesLayout, 2,
+    Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 2,
                                     m_pInitialL, i18n("&Initial value:"),
                                     m_pInitialLE, m_pAttribute->getInitialValue() );
 
-    Umbrello::makeLabeledEditField( m_pValuesGB, valuesLayout, 3,
+    Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 3,
                                     m_pStereoTypeL, i18n("Stereotype name:"),
-                                    m_pStereoTypeLE, m_pAttribute->getStereotype(false) );
+                                    m_pStereoTypeLE, m_pAttribute->getStereotype() );
 
     m_pStaticCB = new QCheckBox( i18n("Classifier &scope (\"static\")"), m_pValuesGB );
     m_pStaticCB -> setChecked( m_pAttribute -> getStatic() );
@@ -156,21 +156,26 @@ bool UMLAttributeDialog::apply() {
         return false;
     }
     UMLClassifier * pConcept = dynamic_cast<UMLClassifier *>( m_pAttribute->parent() );
-    UMLObjectList list= pConcept->findChildObject(Uml::ot_Attribute, name);
-    if( list.count() != 0 && list.findRef( m_pAttribute ) ) {
+    UMLObject *o = pConcept->findChildObject(name);
+    if (o && o != m_pAttribute) {
         KMessageBox::error(this, i18n("The attribute name you have chosen is already being used in this operation."),
                            i18n("Attribute Name Not Unique"), false);
         m_pNameLE->setText( m_pAttribute->getName() );
         return false;
     }
     m_pAttribute->setName(name);
+    Uml::Scope scope = Uml::Protected;
     if ( m_pPublicRB->isChecked() ) {
-        m_pAttribute->setScope(Uml::Public);
+        scope = Uml::Public;
     } else if ( m_pPrivateRB -> isChecked() ) {
-        m_pAttribute->setScope(Uml::Private);
-    } else {
-        m_pAttribute->setScope(Uml::Protected);
+        scope = Uml::Private;
     }
+    m_pAttribute->setScope(scope);
+    // Set the scope as the default in the option state
+    Settings::OptionState optionState = UMLApp::app()->getOptionState();
+    optionState.classState.defaultAttributeScope = scope;
+    UMLApp::app()->setOptionState(optionState);
+
     m_pAttribute->setInitialValue( m_pInitialLE->text() );
     m_pAttribute->setStereotype( m_pStereoTypeLE->text() );
     m_pAttribute->setStatic( m_pStaticCB->isChecked() );

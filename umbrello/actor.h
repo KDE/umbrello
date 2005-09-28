@@ -28,7 +28,7 @@
  *
  * @short Information for a non-graphical UML Actor.
  * @author Paul Hensgen <phensgen@techie.com>
- * @see	UMLCanvasObject
+ * @see UMLCanvasObject
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLActor : public UMLCanvasObject {
@@ -37,8 +37,8 @@ public:
     /**
      * Constructs an Actor.
      *
-     * @param name		The name of the Actor.
-     * @param id		The unique id to assign to this Actor.
+     * @param name              The name of the Actor.
+     * @param id                The unique id to assign to this Actor.
      */
     UMLActor(const QString & name = "", Uml::IDType id = Uml::id_None);
 

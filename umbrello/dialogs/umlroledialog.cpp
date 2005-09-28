@@ -34,13 +34,13 @@ UMLRoleDialog::UMLRoleDialog( QWidget * parent, UMLRole * pRole )
 UMLRoleDialog::~UMLRoleDialog() {}
 
 void UMLRoleDialog::setupDialog() {
-    //   	UMLRoleDialogLayout = new QGridLayout( this, 1, 1, 11, 6, "UMLRoleLayout");
+    //          UMLRoleDialogLayout = new QGridLayout( this, 1, 1, 11, 6, "UMLRoleLayout");
     m_pRoleProps = new UMLRoleProperties(this, m_pRole);
     setMainWidget( m_pRoleProps );
 
     resize( QSize(425, 620).expandedTo(minimumSizeHint()) );
 
-    //	topLayout -> addWidget( m_pParmsGB);
+    //  topLayout -> addWidget( m_pParmsGB);
 
 }
 

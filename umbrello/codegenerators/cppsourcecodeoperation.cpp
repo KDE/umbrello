@@ -63,8 +63,7 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
     QString comment = o->getDoc();
     getComment()->setText(comment);
 
-    // no return type for constructors
-    QString returnType = o->isConstructorOperation() ? QString("") : o->getTypeName();
+    QString returnType = o->getTypeName();
     QString methodName = o->getName();
     QString paramStr = QString("");
     QString className = gen->getCPPClassName(c->getName());
@@ -84,18 +83,18 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
             paramStr  += ", ";
     }
 
+    // no return type for constructors/destructors
+    if (o->isLifeOperation())
+        returnType = "";
     // if an operation isn't a constructor/destructor and it has no return type
     // this operation should be  void
-    if (returnType.isEmpty() && !o->isConstructorOperation() && (methodName.find("~") == -1))
+    else if (returnType.isEmpty())
         returnType = QString("void");
-    // check for destructor, destructor has no type
-    if (methodName.find("~") != -1)
-        returnType = "";
 
     // if a property has a friend stereotype, the operation should
     // not be a class name
     QString startText;
-    if (!o->getStereotype(false).isEmpty() && o->getStereotype(false) == "friend")
+    if (!o->getStereotype().isEmpty() && o->getStereotype(false) == "friend")
         startText = returnType + " " + methodName + " ("+paramStr+") {";
     else
         startText = returnType + " " + className + "::" + methodName + " ("+paramStr+") {";

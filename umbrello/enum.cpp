@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2003-2004
+ *  copyright (C) 2003-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -51,7 +51,7 @@ UMLObject* UMLEnum::clone() const
 
 void UMLEnum::init() {
     m_BaseType = Uml::ot_Enum;
-    setStereotype( i18n("enum") );
+    setStereotype( "enum" );
 }
 
 UMLObject* UMLEnum::createEnumLiteral() {
@@ -84,6 +84,12 @@ UMLObject* UMLEnum::createEnumLiteral() {
 }
 
 UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::IDType id) {
+    UMLObject *el = UMLCanvasObject::findChildObject(name);
+    if (el != NULL) {
+        kdDebug() << "UMLEnum::addEnumLiteral: " << name
+                  << " is already present" << endl; 
+        return el;
+    }
     UMLEnumLiteral* literal = new UMLEnumLiteral(this, name, id);
     m_List.append(literal);
     emit modified();
@@ -94,7 +100,7 @@ UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::IDType id) {
 
 bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log /* = 0*/) {
     QString name = (QString)literal->getName();
-    if (findChildObject(Uml::ot_EnumLiteral, name).count() == 0) {
+    if (findChildObject(name) == NULL) {
         literal->parent()->removeChild(literal);
         this->insertChild(literal);
         m_List.append(literal);
@@ -111,7 +117,7 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log /* = 0*/)
 
 bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, int position) {
     QString name = (QString)literal->getName();
-    if (findChildObject( Uml::ot_EnumLiteral, name).count() == 0) {
+    if (findChildObject(name) == NULL) {
         literal->parent()->removeChild(literal);
         this->insertChild(literal);
         if ( position >= 0 && position <= (int)m_List.count() )  {
@@ -127,8 +133,8 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, int position) {
     return false;
 }
 
-int UMLEnum::removeEnumLiteral(UMLObject* literal) {
-    if (!m_List.remove((UMLEnumLiteral*)literal)) {
+int UMLEnum::removeEnumLiteral(UMLEnumLiteral* literal) {
+    if (!m_List.remove(literal)) {
         kdDebug() << "can't find att given in list" << endl;
         return -1;
     }
@@ -153,24 +159,6 @@ UMLEnumLiteral* UMLEnum::takeEnumLiteral(UMLEnumLiteral* el, int *wasAtIndex) {
     return el;
 }
 
-UMLObjectList UMLEnum::findChildObject(Uml::Object_Type t, const QString &n) {
-    UMLObjectList list;
-    if (t == Uml::ot_Association) {
-        return UMLClassifier::findChildObject(t, n);
-    } else if (t == Uml::ot_EnumLiteral) {
-        UMLClassifierListItem * obj=0;
-        for (obj = m_List.first(); obj != 0; obj = m_List.next()) {
-            if (obj->getBaseType() != t)
-                continue;
-            if (obj->getName() == n)
-                list.append( obj );
-        }
-    } else {
-        kdWarning() << "finding child object of unknown type" <<t<<" (requested name = "<<n<<")"<<endl;
-    }
-
-    return list;
-}
 
 int UMLEnum::enumLiterals() {
     return m_List.count();
@@ -179,10 +167,11 @@ int UMLEnum::enumLiterals() {
 
 void UMLEnum::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     QDomElement enumElement = UMLObject::save("UML:Enumeration", qDoc);
-    //save operations
+    // save enum literals
+    UMLClassifierListItemList enumLiterals = getFilteredList(Uml::ot_EnumLiteral);
     UMLClassifierListItem* pEnumLiteral = 0;
-    for ( pEnumLiteral = m_List.first(); pEnumLiteral != 0;
-            pEnumLiteral = m_List.next() ) {
+    for (UMLClassifierListItemListIt it(enumLiterals);
+         (pEnumLiteral = it.current()) != NULL; ++it) {
         pEnumLiteral->saveToXMI(qDoc, enumElement);
     }
     qElement.appendChild(enumElement);

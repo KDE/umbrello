@@ -72,7 +72,7 @@ void CPPHeaderCodeOperation::updateMethodDeclaration()
     }
 
     // no return type for constructors
-    QString methodReturnType = (o->isConstructorOperation() ? QString("") : o->getTypeName());
+    QString methodReturnType = o->getTypeName();
     QString methodName = o->getName();
     QString paramStr = QString("");
 
@@ -96,12 +96,10 @@ void CPPHeaderCodeOperation::updateMethodDeclaration()
     }
 
     // if an operation isn't a constructor or a destructor and it has no return type
-    // this operation should be  void
-    if (methodReturnType.isEmpty() && !o->isConstructorOperation() && (methodName.find("~") == -1))
-        methodReturnType = QString("void");
-    // check for destructor, desctructor has no type
-    if (methodName.find("~") != -1)
+    if (o->isLifeOperation())         // constructor/destructor has no type
         methodReturnType = "";
+    else if (methodReturnType.isEmpty())  // this operation should be 'void'
+        methodReturnType = QString("void");
 
     // set start/end method text
     QString prototype = methodReturnType+" "+methodName+" ("+paramStr+")";
@@ -153,7 +151,7 @@ void CPPHeaderCodeOperation::applyStereotypes (QString& prototype, UMLOperation 
     end = (inlinePolicy ? "}" : "");
     if (interface || pOp->getAbstract()) {
        // constructor can't be virtual or abstract
-       if (!pOp->isConstructorOperation()) {
+       if (!pOp->isLifeOperation()) {
            prototype = "virtual " + prototype + " = 0";
            if (inlinePolicy) {
                start = ";";
@@ -161,14 +159,14 @@ void CPPHeaderCodeOperation::applyStereotypes (QString& prototype, UMLOperation 
            }
        }
     } // constructors could not be declared as static
-    else if (pOp->getStatic() && !pOp->isConstructorOperation()) {
+    else if (pOp->getStatic() && !pOp->isLifeOperation()) {
        prototype = "static " + prototype;
     }
     // apply the stereotypes
-    if (!pOp->getStereotype(false).isEmpty()) {
-        if ((pOp->getStereotype(false) == "friend") || (pOp->getStereotype(false) == "virtual")) {
-            if (!pOp->isConstructorOperation() && !(interface || pOp->getAbstract()) && !pOp->getStatic())
-                prototype = pOp->getStereotype(false) + " " + prototype; 
+    if (!pOp->getStereotype().isEmpty()) {
+        if ((pOp->getStereotype() == "friend") || (pOp->getStereotype(false) == "virtual")) {
+            if (!pOp->isLifeOperation() && !(interface || pOp->getAbstract()) && !pOp->getStatic())
+                prototype = pOp->getStereotype() + " " + prototype; 
         }
     }
 }

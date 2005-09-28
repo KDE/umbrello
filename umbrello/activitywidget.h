@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -47,15 +47,15 @@ public:
         Normal,
         End,
         Branch,
-        Fork
+        Fork_DEPRECATED  // use ForkJoinWidget instead
     };
 
     /**
      * Creates a Activity widget.
      *
-     * @param view		The parent of the widget.
-     * @param activityType	The type of activity.
-     * @param id		The ID to assign (-1 will prompt a new ID.)
+     * @param view              The parent of the widget.
+     * @param activityType      The type of activity.
+     * @param id                The ID to assign (-1 will prompt a new ID.)
      */
     ActivityWidget( UMLView * view, ActivityType activityType = Normal, Uml::IDType id = Uml::id_None );
 
@@ -69,26 +69,6 @@ public:
      * Overrides the standard paint event.
      */
     void draw(QPainter & p, int offsetX, int offsetY);
-
-    /**
-     * Sets the name of the Activity.
-     */
-    virtual void setName(const QString &strName);
-
-    /**
-     * Returns the name of the Activity.
-     */
-    virtual QString getName() const;
-
-    /**
-     * Returns the documentation of the activity.
-     */
-    QString getDoc() const;
-
-    /**
-     * Sets the documenation of the activity.
-     */
-    void setDoc( const QString &doc );
 
     /**
      * Returns the type of activity.
@@ -107,11 +87,12 @@ public:
 
     /**
      * Determines whether a toolbar button represents an Activity.
+     * CHECK: currently unused - can this be removed?
      *
-     * @param tbb		The toolbar button enum input value.
-     * @param resultType	The ActivityType corresponding to tbb.
-     *			This is only set if tbb is an Activity.
-     * @return	True if tbb represents an Activity.
+     * @param tbb               The toolbar button enum input value.
+     * @param resultType        The ActivityType corresponding to tbb.
+     *                  This is only set if tbb is an Activity.
+     * @return  True if tbb represents an Activity.
      */
     static bool isActivity( WorkToolBar::ToolBar_Buttons tbb,
                             ActivityType& resultType );
@@ -136,16 +117,6 @@ protected:
      * Type of activity.
      */
     ActivityWidget::ActivityType m_ActivityType;
-
-    /**
-     * Name of the activity.
-     */
-    QString m_Name;
-
-    /**
-     * Documentation for the activity.
-     */
-    QString m_Doc;
 
 public slots:
 

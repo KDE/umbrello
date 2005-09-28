@@ -21,8 +21,6 @@
 #include <kdebug.h>
 #include <kapplication.h>
 
-#include <ktexteditor/editinterface.h>
-
 AST* findNodeAt( AST* node, int line, int column )
 {
     // kdDebug(9007) << "findNodeAt(" << node << ")" << endl;

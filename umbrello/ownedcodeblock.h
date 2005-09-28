@@ -51,7 +51,7 @@ public:
     virtual ~OwnedCodeBlock ( );
 
     /**
-     * @return	UMLObject
+     * @return  UMLObject
      */
     UMLObject * getParentObject ( );
 

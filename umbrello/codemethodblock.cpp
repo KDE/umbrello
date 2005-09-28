@@ -138,7 +138,7 @@ void CodeMethodBlock::setAttributesFromObject(TextBlock * obj)
 }
 
 /**
- * @return	QString
+ * @return      QString
  */
 QString CodeMethodBlock::toString ( ) {
 

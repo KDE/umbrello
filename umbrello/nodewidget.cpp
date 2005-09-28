@@ -69,7 +69,7 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
     p.drawRect(offsetX, bodyOffsetY, bodyWidth, bodyHeight);
     p.drawLine(offsetX + w - 1, offsetY, offsetX + bodyWidth - 2, bodyOffsetY + 1);
 
-    p.setPen( QPen(black) );
+    p.setPen( QPen(Qt::black) );
     p.setFont(font);
 
     int lines = 1;
@@ -77,7 +77,7 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
         QString stereotype = m_pObject->getStereotype();
         if (!stereotype.isEmpty()) {
             p.drawText(offsetX, bodyOffsetY + (bodyHeight/2) - fontHeight,
-                       bodyWidth, fontHeight, AlignCenter, stereotype);
+                       bodyWidth, fontHeight, Qt::AlignCenter, m_pObject->getStereotype(true));
             lines = 2;
         }
     }
@@ -90,10 +90,10 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
 
     if (lines == 1) {
         p.drawText(offsetX, bodyOffsetY + (bodyHeight/2) - (fontHeight/2),
-                   bodyWidth, fontHeight, AlignCenter, name);
+                   bodyWidth, fontHeight, Qt::AlignCenter, name);
     } else {
         p.drawText(offsetX, bodyOffsetY + (bodyHeight/2),
-                   bodyWidth, fontHeight, AlignCenter, name);
+                   bodyWidth, fontHeight, Qt::AlignCenter, name);
     }
 
     if(m_bSelected) {
@@ -116,8 +116,8 @@ void NodeWidget::calculateSize() {
     int width = fm.width(name);
 
     int tempWidth = 0;
-    if(!m_pObject->getStereotype().isEmpty()) {
-        tempWidth = fm.width(m_pObject->getStereotype());
+    if (!m_pObject->getStereotype().isEmpty()) {
+        tempWidth = fm.width(m_pObject->getStereotype(true));
     }
     width = tempWidth>width ? tempWidth : width;
     width += NODE_MARGIN * 2;
@@ -135,14 +135,6 @@ void NodeWidget::setShowStereotype(bool _status) {
     m_bShowStereotype = _status;
     calculateSize();
     update();
-}
-
-bool NodeWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
-    bool status = UMLWidget::activate(ChangeLog);
-    if(status) {
-        calculateSize();
-    }
-    return status;
 }
 
 bool NodeWidget::getShowStereotype() const {

@@ -37,8 +37,8 @@ public:
     /**
      * Creates a bar with tools for alignment.
      *
-     * @param parentWindow	The parent of the toolbar.
-     * @param name		The name of the toolbar.
+     * @param parentWindow      The parent of the toolbar.
+     * @param name              The name of the toolbar.
      */
     AlignToolBar(Q3MainWindow* parentWindow, const char* name);
 

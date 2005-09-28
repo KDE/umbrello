@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2004
+ *  copyright (C) 2004-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -32,7 +32,7 @@
 #include "umldoc.h"
 #include "uml.h"
 
-namespace Umbrello {
+namespace Model_Utils {
 
 bool isCloneable(Uml::Widget_Type type) {
     switch (type) {
@@ -69,7 +69,7 @@ UMLObject * findObjectInList(Uml::IDType id, UMLObjectList inList) {
         case Uml::ot_Class:
         case Uml::ot_Enum:
         case Uml::ot_Entity:
-            o = ((UMLClassifier*)obj)->findChildObject(id);
+            o = ((UMLClassifier*)obj)->findChildObjectById(id);
             if (o == NULL &&
                     (t == Uml::ot_Interface || t == Uml::ot_Class))
                 o = ((UMLPackage*)obj)->findObjectById(id);
@@ -97,6 +97,7 @@ UMLObject * findObjectInList(Uml::IDType id, UMLObjectList inList) {
 UMLObject* findUMLObject(UMLObjectList inList, QString name,
                          Uml::Object_Type type /* = ot_UMLObject */,
                          UMLObject *currentObj /* = NULL */) {
+    const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     QStringList components;
     if (name.contains("::"))
         components = QStringList::split("::", name);
@@ -109,8 +110,12 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
             // Scope qualified datatypes live in the global scope.
             for (UMLObjectListIt oit(inList); oit.current(); ++oit) {
                 UMLObject *obj = oit.current();
-                if (obj->getName() == name)
+                if (caseSensitive) {
+                    if (obj->getName() == name)
+                        return obj;
+                } else if (obj->getName().lower() == name.lower()) {
                     return obj;
+                }
             }
             return NULL;
         }
@@ -121,10 +126,11 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
     if (currentObj) {
         UMLPackage *pkg = NULL;
         if (dynamic_cast<UMLClassifierListItem*>(currentObj)) {
-            pkg = dynamic_cast<UMLPackage*>(currentObj->parent());
-        } else {
-            pkg = currentObj->getUMLPackage();
+            currentObj = static_cast<UMLObject*>(currentObj->parent());
         }
+        pkg = dynamic_cast<UMLPackage*>(currentObj);
+        if (pkg == NULL)
+            pkg = currentObj->getUMLPackage();
         // Remember packages that we've seen - for avoiding cycles.
         UMLPackageList seenPkgs;
         for (; pkg; pkg = currentObj->getUMLPackage()) {
@@ -138,8 +144,12 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
             UMLObjectList objectsInCurrentScope = pkg->containedObjects();
             for (UMLObjectListIt oit(objectsInCurrentScope); oit.current(); ++oit) {
                 UMLObject *obj = oit.current();
-                if (obj->getName() != name)
+                if (caseSensitive) {
+                    if (obj->getName() != name)
+                        continue;
+                } else if (obj->getName().lower() != name.lower()) {
                     continue;
+                }
                 Uml::Object_Type foundType = obj->getBaseType();
                 if (nameWithoutFirstPrefix.isEmpty()) {
                     if (type != Uml::ot_UMLObject && type != foundType) {
@@ -167,8 +177,12 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
     }
     for (UMLObjectListIt oit(inList); oit.current(); ++oit) {
         UMLObject *obj = oit.current();
-        if (obj->getName() != name)
+        if (caseSensitive) {
+            if (obj->getName() != name)
+                continue;
+        } else if (obj->getName().lower() != name.lower()) {
             continue;
+        }
         Uml::Object_Type foundType = obj->getBaseType();
         if (nameWithoutFirstPrefix.isEmpty()) {
             if (type != Uml::ot_UMLObject && type != foundType) {
@@ -212,6 +226,25 @@ bool isCommonXMIAttribute( const QString &tag ) {
     return retval;
 }
 
+bool isCommonDataType(QString type) {
+    const char *types[] = { "void", "string",
+                            "bool", "boolean",
+                            "char", "unsigned char",
+                            "short", "unsigned short",
+                            "int", "unsigned int",
+                            "long", "unsigned long",
+                            "float", "double"
+                          };
+    const int n_types = sizeof(types) / sizeof(const char *);
+    const QString lcType = type.lower();
+    int i = 0;
+    for (; i < n_types; i++) {
+        if (lcType == types[i])
+            return true;
+    }
+    return false;
+}
+
 QString scopeToString(Uml::Scope scope, bool mnemonic) {
     switch (scope) {
     case Uml::Protected:
@@ -235,7 +268,7 @@ int stringToDirection(QString input, Uml::Parameter_Direction & result) {
     const QString& dirStr = dirx.capturedTexts().first();
     uint dirLen = dirStr.length();
     if (input.length() > dirLen && !input[dirLen].isSpace())
-        return 0;	// no match after all.
+        return 0;       // no match after all.
     if (dirStr == "out")
         result = Uml::pd_Out;
     else if (dirStr == "inout")
@@ -271,39 +304,65 @@ Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningSc
 Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningScope) {
     UMLDoc *pDoc = UMLApp::app()->getDocument();
 
-    a = a.stripWhiteSpace();
+    a = a.simplifyWhiteSpace();
     if (a.isEmpty())
         return PS_Empty;
 
-    QStringList nameAndType = QStringList::split( QRegExp("\\s*:\\s*"), a);
-    const QString &name = nameAndType[0];
-    UMLObject *pType = NULL;
-    QString initialValue;
-    if (nameAndType.count() == 2) {
-        QStringList typeAndInitialValue = QStringList::split( QRegExp("\\s*=\\s*"), nameAndType[1] );
-        const QString &type = typeAndInitialValue[0];
-        pType = pDoc->findUMLObject(type, Uml::ot_UMLObject, owningScope);
-        if (pType == NULL)
-            return PS_Unknown_ArgType;
-        if (typeAndInitialValue.count() == 2) {
-            initialValue = typeAndInitialValue[1];
-        }
+    int colonPos = a.find(':');
+    if (colonPos < 0) {
+        nmTp = NameAndType(a, NULL);
+        return PS_OK;
     }
-    nmTp = NameAndType(name, pType, initialValue);
+    QString name = a.left(colonPos).stripWhiteSpace();
+    Uml::Parameter_Direction pd = Uml::pd_In;
+    if (name.startsWith("in ")) {
+        pd = Uml::pd_In;
+        name = name.mid(3);
+    } else if (name.startsWith("inout ")) {
+        pd = Uml::pd_InOut;
+        name = name.mid(6);
+    } else if (name.startsWith("out ")) {
+        pd = Uml::pd_Out;
+        name = name.mid(4);
+    }
+    a = a.mid(colonPos + 1).stripWhiteSpace();
+    if (a.isEmpty()) {
+        nmTp = NameAndType(name, NULL, pd);
+        return PS_OK;
+    }
+    QStringList typeAndInitialValue = QStringList::split( QRegExp("\\s*=\\s*"), a );
+    const QString &type = typeAndInitialValue[0];
+    UMLObject *pType = pDoc->findUMLObject(type, Uml::ot_UMLObject, owningScope);
+    if (pType == NULL) {
+        nmTp = NameAndType(name, NULL, pd);
+        return PS_Unknown_ArgType;
+    }
+    QString initialValue;
+    if (typeAndInitialValue.count() == 2) {
+        initialValue = typeAndInitialValue[1];
+    }
+    nmTp = NameAndType(name, pType, pd, initialValue);
     return PS_OK;
 }
 
 Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owningScope) {
     UMLDoc *pDoc = UMLApp::app()->getDocument();
 
-    m = m.stripWhiteSpace();
+    m = m.simplifyWhiteSpace();
     if (m.isEmpty())
         return PS_Empty;
-    QRegExp pat( "^(\\w+)" );
+    /**
+     * The search pattern includes everything until the opening parenthesis
+     * because UML also permits non programming-language oriented designs
+     * using narrative names, for example "check water temperature".
+     */
+    QRegExp pat( "^([^\\(]+)" );
     int pos = pat.search(m);
     if (pos == -1)
         return PS_Illegal_MethodName;
     desc.m_name = pat.cap(1);
+    // Remove possible empty parentheses ()
+    m.remove( QRegExp("\\s*\\(\\s*\\)") );
     desc.m_pReturnType = NULL;
     pat = QRegExp( ":\\s*(\\w[\\w\\. ]*)$" );
     pos = pat.search(m);
@@ -348,5 +407,5 @@ QString psText(Parse_Status value) {
     return text[(unsigned) value];
 }
 
-}  // namespace Umbrello
+}  // namespace Model_Utils
 

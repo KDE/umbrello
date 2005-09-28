@@ -29,11 +29,11 @@ ArtifactWidget::ArtifactWidget(UMLView *view, UMLArtifact *a) : UMLWidget(view, 
 void ArtifactWidget::init() {
     UMLWidget::setBaseType( Uml::wt_Artifact );
     m_pMenu = 0;
-    // 	//maybe loading and this may not be set.
-    // 	if (m_pObject) {
+    //  //maybe loading and this may not be set.
+    //  if (m_pObject) {
     calculateSize();
     update();
-    // 	}
+    //  }
 }
 
 ArtifactWidget::~ArtifactWidget() {}
@@ -50,12 +50,12 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY) {
 
     p.drawRect(offsetX, offsetY, w, h);
 
-    p.setPen( QPen(black) );
+    p.setPen( QPen(Qt::black) );
     p.setFont(font);
 
     if (!stereotype.isEmpty()) {
         p.drawText(offsetX + ARTIFACT_MARGIN, offsetY + (h/2) - fontHeight,
-                   w, fontHeight, AlignCenter, stereotype);
+                   w, fontHeight, Qt::AlignCenter, m_pObject->getStereotype(true));
     }
 
     int lines;
@@ -67,10 +67,10 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY) {
 
     if (lines == 1) {
         p.drawText(offsetX, offsetY + (h/2) - (fontHeight/2),
-                   w, fontHeight, AlignCenter, name);
+                   w, fontHeight, Qt::AlignCenter, name);
     } else {
         p.drawText(offsetX, offsetY + (h/2),
-                   w, fontHeight, AlignCenter, name);
+                   w, fontHeight, Qt::AlignCenter, name);
     }
 
     if(m_bSelected) {
@@ -100,11 +100,11 @@ void ArtifactWidget::drawAsFile(QPainter& p, int offsetX, int offsetY) {
     p.drawLine(startX + 40, offsetY + 10, startX + 50, offsetY + 10);
     p.drawLine(startX + 40, offsetY, startX + 50, offsetY + 10);
 
-    p.setPen( QPen(black) );
+    p.setPen( QPen(Qt::black) );
     p.setFont(font);
 
     p.drawText(offsetX, offsetY + h - fontHeight,
-               w, fontHeight, AlignCenter, name);
+               w, fontHeight, Qt::AlignCenter, name);
 
     if(m_bSelected) {
         drawSelected(&p, offsetX, offsetY);
@@ -134,11 +134,11 @@ void ArtifactWidget::drawAsLibrary(QPainter& p, int offsetX, int offsetY) {
     p.drawLine(startX + 40, offsetY + 10, startX + 50, offsetY + 10);
     p.drawLine(startX + 40, offsetY, startX + 50, offsetY + 10);
 
-    p.setPen( QPen(black) );
+    p.setPen( QPen(Qt::black) );
     p.setFont(font);
 
     p.drawText(offsetX, offsetY + h - fontHeight,
-               w, fontHeight, AlignCenter, name);
+               w, fontHeight, Qt::AlignCenter, name);
 
     if(m_bSelected) {
         drawSelected(&p, offsetX, offsetY);
@@ -170,11 +170,11 @@ void ArtifactWidget::drawAsTable(QPainter& p, int offsetX, int offsetY) {
     p.drawLine(startX + 10, offsetY, startX + 10, offsetY + iconHeight);
     p.drawLine(startX, offsetY + (iconHeight/4), startX + 50, offsetY + (iconHeight/4));
 
-    p.setPen( QPen(black) );
+    p.setPen( QPen(Qt::black) );
     p.setFont(font);
 
     p.drawText(offsetX, offsetY + h - fontHeight,
-               w, fontHeight, AlignCenter, name);
+               w, fontHeight, Qt::AlignCenter, name);
 
     if(m_bSelected) {
         drawSelected(&p, offsetX, offsetY);
@@ -237,7 +237,7 @@ QSize ArtifactWidget::calculateNormalSize() {
 
     int tempWidth = 0;
     if(!m_pObject->getStereotype().isEmpty()) {
-        tempWidth = fm.width("«" + m_pObject->getStereotype() + "»");
+        tempWidth = fm.width( m_pObject->getStereotype(true) );
     }
     width = tempWidth>width ? tempWidth : width;
     width += ARTIFACT_MARGIN * 2;
@@ -259,14 +259,6 @@ void ArtifactWidget::calculateSize() {
     } else {
         calculateIconSize();
     }
-}
-
-bool ArtifactWidget::activate(IDChangeLog* ChangeLog /* = 0 */) {
-    bool status = UMLWidget::activate(ChangeLog);
-    if(status) {
-        calculateSize();
-    }
-    return status;
 }
 
 void ArtifactWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {

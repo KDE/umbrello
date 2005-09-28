@@ -68,7 +68,7 @@ void FloatingText::draw(QPainter & p, int offsetX, int offsetY) {
     p.setFont( UMLWidget::getFont() );
     QColor textColor(50, 50, 50);
     p.setPen(textColor);
-    p.drawText( offsetX , offsetY,w,h, AlignCenter, getDisplayText() );
+    p.drawText( offsetX , offsetY,w,h, Qt::AlignCenter, getDisplayText() );
     if(m_bSelected)
         drawSelected(&p, offsetX, offsetY);
 }
@@ -196,9 +196,11 @@ void FloatingText::setText(const QString &t) {
     if (m_Role == Uml::tr_Seq_Message || m_Role == Uml::tr_Seq_Message_Self) {
         QString seqNum, op;
         m_pLink->getSeqNumAndOp(seqNum, op);
-        if (seqNum.length() > 0 || op.length() > 0)
+        if (seqNum.length() > 0 || op.length() > 0) {
+            if (! m_pView->getShowOpSig())
+                op.replace( QRegExp("\\(.*\\)"), "()" );
             m_Text = seqNum.append(": ").append( op );
-        else
+        } else
             m_Text = t;
     } else
         m_Text = t;
@@ -263,17 +265,20 @@ void FloatingText::showOpDlg() {
 
     SelectOpDlg selectDlg(m_pView, c);
     selectDlg.setSeqNumber( seqNum );
-    if (m_pLink->getOperation() == NULL)
+    if (m_pLink->getOperation() == NULL) {
         selectDlg.setCustomOp( opText );
+    } else {
+        selectDlg.setClassOp( opText );
+    }
     int result = selectDlg.exec();
     if(!result) {
         return;
     }
     seqNum = selectDlg.getSeqNumber();
     opText = selectDlg.getOpText();
-    Umbrello::OpDescriptor od;
-    Umbrello::Parse_Status st = Umbrello::parseOperation(opText, od, c);
-    if (st == Umbrello::PS_OK) {
+    Model_Utils::OpDescriptor od;
+    Model_Utils::Parse_Status st = Model_Utils::parseOperation(opText, od, c);
+    if (st == Model_Utils::PS_OK) {
         UMLClassifierList selfAndAncestors = c->findSuperClassConcepts();
         selfAndAncestors.prepend(c);
         UMLOperation *op = NULL;
@@ -299,7 +304,7 @@ void FloatingText::showOpDlg() {
 }
 
 void FloatingText::mouseMoveEvent(QMouseEvent* me) {
-    if (!m_bMouseDown && me->button() != LeftButton)
+    if (!m_bMouseDown && me->button() != Qt::LeftButton)
         return;
     if (m_Role == Uml::tr_Seq_Message_Self)
         return;
@@ -307,10 +312,8 @@ void FloatingText::mouseMoveEvent(QMouseEvent* me) {
     int newX = newPosition.x();
     int newY = newPosition.y();
 
-    //implement specific rules for a sequence diagram
-    if (m_Role == Uml::tr_Seq_Message || m_Role == Uml::tr_Seq_Message_Self) {
+    if (m_pLink)
         m_pLink->constrainTextPos(newX, newY, width(), height(), m_Role);
-    }
     m_nOldX = newX;
     m_nOldY = newY;
     setX( newX );
@@ -349,11 +352,9 @@ QString FloatingText::getDisplayText() const
     return displayText;
 }
 
-bool FloatingText::activate( IDChangeLog* ChangeLog /*= 0 */) {
-    bool status = UMLWidget::activate( ChangeLog );
-    calculateSize();
+void FloatingText::activate( IDChangeLog* ChangeLog /*= 0 */) {
+    UMLWidget::activate( ChangeLog );
     update();
-    return status;
 }
 
 void FloatingText::setLink(LinkWidget * l) {

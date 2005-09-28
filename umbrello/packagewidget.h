@@ -27,7 +27,7 @@ class UMLPackage;
  *
  * @short A graphical version of a Package.
  * @author Jonathan Riddell
- * @see	UMLWidget
+ * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class PackageWidget : public UMLWidget {
@@ -36,8 +36,8 @@ public:
     /**
      * Constructs a PackageWidget.
      *
-     * @param view		The parent of this PackageWidget.
-     * @param o		The UMLObject this will be representing.
+     * @param view              The parent of this PackageWidget.
+     * @param o         The UMLObject this will be representing.
      */
     PackageWidget(UMLView * view, UMLPackage * o);
 
@@ -49,21 +49,16 @@ public:
     /**
      * Returns the status of whether to show StereoType.
      *
-     * @return	True if stereotype is shown.
+     * @return  True if stereotype is shown.
      */
     bool getShowStereotype();
 
     /**
      * Set the status of whether to show StereoType.
      *
-     * @param _show		True if stereotype shall be shown.
+     * @param _show             True if stereotype shall be shown.
      */
     void setShowStereotype(bool _status);
-
-    /**
-     * Activate the object after serializing it from a QDataStream.
-     */
-    virtual bool activate(IDChangeLog* ChangeLog  = 0 );
 
     /**
      * Overrides standard method.

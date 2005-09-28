@@ -27,7 +27,7 @@ class UMLView;
  *
  * @short A graphical version of an enum.
  * @author Jonathan Riddell
- * @see	UMLWidget
+ * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class EnumWidget : public UMLWidget {
@@ -36,8 +36,8 @@ public:
     /**
      * Constructs an EnumWidget.
      *
-     * @param view		The parent of this EnumWidget.
-     * @param o		The UMLObject this will be representing.
+     * @param view              The parent of this EnumWidget.
+     * @param o         The UMLObject this will be representing.
      */
     EnumWidget(UMLView* view, UMLObject* o);
 
@@ -54,7 +54,7 @@ public:
     /**
      * Returns the status of whether to show Package.
      *
-     * @return	True if package is shown.
+     * @return  True if package is shown.
      */
     bool getShowPackage() const;
 
@@ -66,14 +66,9 @@ public:
     /**
      * Set the status of whether to show Package.
      *
-     * @param _show		True if package shall be shown.
+     * @param _show             True if package shall be shown.
      */
     void setShowPackage(bool _status);
-
-    /**
-     * Activate the object after serializing it from a QDataStream.
-     */
-    virtual bool activate(IDChangeLog* ChangeLog  = 0 );
 
     /**
      * Draws the enum as a rectangle with a box underneith with a list of literals
@@ -109,7 +104,7 @@ public slots:
      * Will be called when a menu selection has been made from the
      * popup menu.
      *
-     * @param sel	The selection id that has been selected.
+     * @param sel       The selection id that has been selected.
      */
     void slotMenuSelection(int sel);
 };

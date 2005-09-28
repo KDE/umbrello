@@ -153,13 +153,14 @@ void RefactoringAssistant::umlObjectModified( const UMLObject *obj )
     }
 }
 
-void RefactoringAssistant::operationAdded( UMLOperation *op )
+void RefactoringAssistant::operationAdded( UMLClassifierListItem *o )
 {
+    UMLOperation *op = static_cast<UMLOperation*>(o);
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(op->parent());
     if(!c)
     {
-        kdWarning()<<"RefactoringAssistant::operationAdded( UMLObject *obj ) "
-        <<" - Parent of operation is not a classifier!"<<endl;
+        kdWarning() << "RefactoringAssistant::operationAdded(" << op->getName()
+            << ") - Parent of operation is not a classifier!" << endl;
         return;
     }
     Q3ListViewItem *item = findListViewItem( c );
@@ -180,8 +181,9 @@ void RefactoringAssistant::operationAdded( UMLOperation *op )
     }
 }
 
-void RefactoringAssistant::operationRemoved( UMLOperation *op )
+void RefactoringAssistant::operationRemoved( UMLClassifierListItem *o )
 {
+    UMLOperation *op = static_cast<UMLOperation*>(o);
     Q3ListViewItem *item = findListViewItem( op );
     if( !item )
     {
@@ -193,13 +195,14 @@ void RefactoringAssistant::operationRemoved( UMLOperation *op )
 }
 
 
-void RefactoringAssistant::attributeAdded( UMLAttribute *att )
+void RefactoringAssistant::attributeAdded( UMLClassifierListItem *a )
 {
+    UMLAttribute *att = static_cast<UMLAttribute*>(a);
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(att->parent());
     if(!c)
     {
-        kdWarning()<<"RefactoringAssistant::attributeAdded( UMLAttribute * ) "
-        <<" - Parent is not a class!"<<endl;
+        kdWarning() << "RefactoringAssistant::attributeAdded(" << att->getName()
+            << ") - Parent is not a class!" << endl;
         return;
     }
     Q3ListViewItem *item = findListViewItem( c );
@@ -220,8 +223,9 @@ void RefactoringAssistant::attributeAdded( UMLAttribute *att )
     }
 }
 
-void RefactoringAssistant::attributeRemoved( UMLAttribute *att )
+void RefactoringAssistant::attributeRemoved( UMLClassifierListItem *a )
 {
+    UMLAttribute *att = static_cast<UMLAttribute*>(a);
     Q3ListViewItem *item = findListViewItem( att );
     if( !item )
     {
@@ -281,7 +285,7 @@ void RefactoringAssistant::showContextMenu(KListView* ,Q3ListViewItem *item, con
         {
             m_menu->insertItem(i18n("Add Base Class"),this,SLOT(addBaseClassifier()));
             m_menu->insertItem(i18n("Add Derived Class"),this,SLOT(addDerivedClassifier()));
-            // 		m_menu->insertItem(i18n("Add Interface Implementation"),this,SLOT(addInterfaceImplementation()));
+            //          m_menu->insertItem(i18n("Add Interface Implementation"),this,SLOT(addInterfaceImplementation()));
             m_menu->insertItem(i18n("Add Operation"),this,SLOT(createOperation()));
             m_menu->insertItem(i18n("Add Attribute"),this,SLOT(createAttribute()));
         }
@@ -291,11 +295,11 @@ void RefactoringAssistant::showContextMenu(KListView* ,Q3ListViewItem *item, con
             m_menu->insertItem(i18n("Add Derived Interface"),this,SLOT(addDerivedClassifier()));
             m_menu->insertItem(i18n("Add Operation"),this,SLOT(createOperation()));
         }
-        // 		else
-        // 		{
-        // 		kdDebug()<<"No context menu for objects of type "<<typeid(*obj).name()<<endl;
-        // 		return;
-        // 		}
+        //              else
+        //              {
+        //              kdDebug()<<"No context menu for objects of type "<<typeid(*obj).name()<<endl;
+        //              return;
+        //              }
         m_menu->insertSeparator();
         m_menu->insertItem(i18n("Properties"),this,SLOT(editProperties()));
     }
@@ -407,15 +411,15 @@ void RefactoringAssistant::addInterfaceImplementation()
     kdWarning()<<"RefactoringAssistant::addInterfaceImplementation()"
     <<"not implemented... finish addSuperClassifier() first!!"<<endl;
     return;
-    // 	QListViewItem *item = selectedListViewItem( );
-    // 	UMLObject *obj = findUMLObject( item );
-    // 	if( !dynamic_cast<UMLClassifier*>(obj) )
-    // 		return;
-    // 	UMLObject *n = m_doc->createUMLObject( Uml::ot_Interface) );
-    // 	if(!n)
-    // 		return;
-    // 	m_doc->createUMLAssociation( n, obj, Uml::at_Realization );
-    // 	//refresh, add classifier to assistant
+    //  Q3ListViewItem *item = selectedListViewItem( );
+    //  UMLObject *obj = findUMLObject( item );
+    //  if( !dynamic_cast<UMLClassifier*>(obj) )
+    //          return;
+    //  UMLObject *n = m_doc->createUMLObject( Uml::ot_Interface) );
+    //  if(!n)
+    //          return;
+    //  m_doc->createUMLAssociation( n, obj, Uml::at_Realization );
+    //  //refresh, add classifier to assistant
 }
 
 void RefactoringAssistant::createOperation()
@@ -467,10 +471,10 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, Q3ListViewI
     UMLClassifier *klass = dynamic_cast<UMLClassifier*>(classifier);
     if( klass )
     {// only Classes have attributes...
-        connect( classifier, SIGNAL(attributeAdded(UMLAttribute*)),
-                 this,SLOT( attributeAdded(UMLAttribute*)));
-        connect( classifier, SIGNAL(attributeRemoved(UMLAttribute*)),
-                 this,SLOT( attributeRemoved(UMLAttribute*)));
+        connect( classifier, SIGNAL(attributeAdded(UMLClassifierListItem*)),
+                 this, SLOT(attributeAdded(UMLClassifierListItem*)));
+        connect( classifier, SIGNAL(attributeRemoved(UMLClassifierListItem*)),
+                 this, SLOT(attributeRemoved(UMLClassifierListItem*)));
 
         Q3ListViewItem *attsFolder = new KListViewItem( classifierItem, i18n("Attributes"), "attributes" );
         attsFolder->setPixmap(0,SmallIcon("folder_green_open"));
@@ -484,10 +488,10 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, Q3ListViewI
     }
 
     // add operations
-    connect( classifier, SIGNAL(operationAdded(UMLOperation*)),
-             this,SLOT( operationAdded(UMLOperation*)));
-    connect( classifier, SIGNAL(operationRemoved(UMLOperation*)),
-             this,SLOT( operationRemoved(UMLOperation*)));
+    connect( classifier, SIGNAL(operationAdded(UMLClassifierListItem*)),
+             this, SLOT(operationAdded(UMLClassifierListItem*)));
+    connect( classifier, SIGNAL(operationRemoved(UMLClassifierListItem*)),
+             this, SLOT(operationRemoved(UMLClassifierListItem*)));
 
     Q3ListViewItem *opsFolder = new KListViewItem( classifierItem, i18n("Operations"), "operations" );
     opsFolder->setPixmap(0,SmallIcon("folder_blue_open"));
@@ -559,7 +563,7 @@ bool RefactoringAssistant::acceptDrag(QDropEvent *event) const
             break;
     }
     if(!movingItem || !parentItem)
-    {	kdDebug()<<"moving/parent items not found - can't accept drag!"<<endl;
+    {   kdDebug()<<"moving/parent items not found - can't accept drag!"<<endl;
         return false;
     }
 
@@ -656,17 +660,17 @@ void RefactoringAssistant::movableDropEvent (Q3ListViewItem* parentItem, Q3ListV
     }
     else if (t == Uml::ot_Attribute)
     {kdDebug()<<"moving attribute - not implemented"<<endl;
-        // 		UMLAttribute *att = static_cast<UMLAttribute*>(movingObject);
-        // 		if(!newClassifier->checkAttributeSignature(att))
-        // 		{
-        // 			QString msg = QString(i18n("An attribute with that signature already exists in %1.\n")).arg(newClassifier->getName())
-        // 				+
-        // 			      QString(i18n("Choose a different name or parameter list." ));
-        // 			KMessageBox::error(this, msg, i18n("Operation Name Invalid"), false);
-        // 			return;
-        // 		}
-        // 		oldClassifier->removeAttribute( att );
-        // 		newClassifier->addAttribute( att );
+        //              UMLAttribute *att = static_cast<UMLAttribute*>(movingObject);
+        //              if(!newClassifier->checkAttributeSignature(att))
+        //              {
+        //                      QString msg = QString(i18n("An attribute with that signature already exists in %1.\n")).arg(newClassifier->getName())
+        //                              +
+        //                            QString(i18n("Choose a different name or parameter list." ));
+        //                      KMessageBox::error(this, msg, i18n("Operation Name Invalid"), false);
+        //                      return;
+        //              }
+        //              oldClassifier->removeAttribute( att );
+        //              newClassifier->addAttribute( att );
     }
     //emit moved(moving, afterFirst, afterme);
     emit moved();

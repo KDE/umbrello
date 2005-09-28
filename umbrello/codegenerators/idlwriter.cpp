@@ -1,10 +1,6 @@
 /***************************************************************************
-    begin                : Sat Jan 4 2003
-    copyright            : (C) 2003 by Oliver Kellogg
-    email                : okellogg@users.sourceforge.net
- ***************************************************************************/
-
-/***************************************************************************
+ *  copyright (C) 2003-2005                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -16,7 +12,6 @@
 #include "idlwriter.h"
 
 #include <kdebug.h>
-#include <klocale.h>
 #include <kmessagebox.h>
 #include <qfile.h>
 #include <q3ptrlist.h>
@@ -42,7 +37,7 @@ IDLWriter::IDLWriter(UMLDoc *parent, const char *name)
 IDLWriter::~IDLWriter() {}
 
 bool IDLWriter::isOOClass(UMLClassifier *c) {
-    QString stype = c->getStereotype(false);
+    QString stype = c->getStereotype();
     if (stype == "CORBAConstant" || stype == "CORBAEnum" ||
             stype == "CORBAStruct" || stype == "CORBAUnion" ||
             stype == "CORBASequence" || stype == "CORBAArray" ||
@@ -207,7 +202,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
         return;
     }
     if (! isOOClass(c)) {
-        QString stype = c->getStereotype(false);
+        QString stype = c->getStereotype();
         if (stype == "CORBAConstant") {
             kdError() << "The stereotype " << stype << " cannot be applied to "
             << c->getName() << ", but only to attributes." << endl;
@@ -286,7 +281,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
     idl << getIndent();
     if (c->getAbstract())
         idl << "abstract ";
-    bool isValuetype = (c->getStereotype(false) == "CORBAValue");
+    bool isValuetype = (c->getStereotype() == "CORBAValue");
     if (isValuetype)
         idl << "valuetype ";
     else
@@ -344,7 +339,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
                 } else {
                     if (scope != Uml::Public) {
                         idl << "// visibility should be: "
-                        << Umbrello::scopeToString(scope, false)
+                        << Model_Utils::scopeToString(scope, false)
                         << m_endl;
                         idl << getIndent();
                     }

@@ -36,25 +36,25 @@ void CodeViewerOptionsPage::init( Settings::CodeViewerState options )
 
     // set widget stuff
     /*
-    	fontChooser->setFont( options.font );
-    	selectColorButton -> setColor (options.selectedColor);
-    	fontColorButton -> setColor (options.fontColor);
-    	paperColorButton -> setColor (options.paperColor);
-    	editBlockColorButton -> setColor (options.editBlockColor);
-    	nonEditBlockColorButton -> setColor (options.nonEditBlockColor);
-    	umlObjectColorButton -> setColor (options.umlObjectColor);
+        fontChooser->setFont( options.font );
+        selectColorButton -> setColor (options.selectedColor);
+        fontColorButton -> setColor (options.fontColor);
+        paperColorButton -> setColor (options.paperColor);
+        editBlockColorButton -> setColor (options.editBlockColor);
+        nonEditBlockColorButton -> setColor (options.nonEditBlockColor);
+        umlObjectColorButton -> setColor (options.umlObjectColor);
      */
 }
 
 void CodeViewerOptionsPage::apply() {
     /*
-    	m_options.umlObjectColor = umlObjectColorButton->color();
-    	m_options.editBlockColor = editBlockColorButton->color();
-    	m_options.nonEditBlockColor = nonEditBlockColorButton->color();
-    	m_options.selectedColor = selectColorButton->color();
-    	m_options.paperColor = paperColorButton->color();
-    	m_options.fontColor = fontColorButton->color();
-    	m_options.font = fontChooser->font();
+        m_options.umlObjectColor = umlObjectColorButton->color();
+        m_options.editBlockColor = editBlockColorButton->color();
+        m_options.nonEditBlockColor = nonEditBlockColorButton->color();
+        m_options.selectedColor = selectColorButton->color();
+        m_options.paperColor = paperColorButton->color();
+        m_options.fontColor = fontColorButton->color();
+        m_options.font = fontChooser->font();
      */
     emit applyClicked();
 }

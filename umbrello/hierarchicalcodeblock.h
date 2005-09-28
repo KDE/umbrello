@@ -79,12 +79,12 @@ public:
     bool removeTextBlock ( TextBlock * remove_object );
 
     /**
-     * @param	text 
+     * @param   text 
      */
     void setStartText ( const QString &text );
 
     /**
-     * @return	QString
+     * @return  QString
      */
     QString getStartText ( );
 
@@ -99,7 +99,7 @@ public:
     virtual void loadFromXMI ( QDomElement & root );
 
     /**
-     * @return	QString
+     * @return  QString
      */
     virtual QString toString ( );
 

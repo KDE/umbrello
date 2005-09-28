@@ -29,7 +29,7 @@ class UMLArtifact;
  *
  * @short A graphical version of a Artifact.
  * @author Jonathan Riddell
- * @see	UMLWidget
+ * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ArtifactWidget : public UMLWidget {
@@ -38,8 +38,8 @@ public:
     /**
      * Constructs a ArtifactWidget.
      *
-     * @param view		The parent of this ArtifactWidget.
-     * @param a		The Artifact this widget will be representing.
+     * @param view              The parent of this ArtifactWidget.
+     * @param a         The Artifact this widget will be representing.
      */
     ArtifactWidget(UMLView *view, UMLArtifact *a);
 
@@ -47,11 +47,6 @@ public:
      * destructor
      */
     virtual ~ArtifactWidget();
-
-    /**
-     * Activate the object after loading it
-     */
-    virtual bool activate(IDChangeLog* ChangeLog  = 0 );
 
     /**
      * Overrides standard method

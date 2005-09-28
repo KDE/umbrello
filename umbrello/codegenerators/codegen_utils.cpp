@@ -14,7 +14,7 @@
 #include "../uml.h"
 #include "../umldoc.h"
 
-namespace Umbrello {
+namespace Codegen_Utils {
 
 void createCppDatatypes() {
     UMLDoc *umldoc = UMLApp::app()->getDocument();
@@ -399,5 +399,5 @@ void createCppStereotypes(){
     umldoc->findOrCreateStereotype("virtual");
 }
 
-}  // end namespace Umbrello
+}  // end namespace Codegen_Utils
 

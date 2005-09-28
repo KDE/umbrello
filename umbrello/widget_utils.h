@@ -28,16 +28,16 @@ class Q3CanvasRectangle;
  * General purpose widget utilities.
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-namespace Umbrello {
+namespace Widget_Utils {
 
 /**
  * Find the widget identified by the given ID in the given widget
  * or message list.
  *
- * @param id		The unique ID to find.
- * @param widgets	The UMLWidgetList to search in.
- * @param pMessages	Optional pointer to a MessageWidgetList to
- *			search in.
+ * @param id            The unique ID to find.
+ * @param widgets       The UMLWidgetList to search in.
+ * @param pMessages     Optional pointer to a MessageWidgetList to
+ *                      search in.
  */
 UMLWidget* findWidget(Uml::IDType id,
                       const UMLWidgetList& widgets,

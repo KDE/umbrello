@@ -331,8 +331,8 @@ void CodeGenerator::checkRemoveUMLObject (UMLObject * obj)
 }
 
 /**
- * @return	CodeDocument
- * @param	classifier
+ * @return      CodeDocument
+ * @param       classifier
  */
 CodeDocument * CodeGenerator::findCodeDocumentByClassifier ( UMLClassifier * classifier ) {
     return findCodeDocumentByID(ID2STR(classifier->getID()));
@@ -397,7 +397,7 @@ void CodeGenerator::writeListedCodeDocsToFile ( Q3PtrList<CodeDocument> * docs )
 
 /**
  * Create a new Code document belonging to this package.
- * @return	CodeDocument
+ * @return      CodeDocument
  */
 CodeDocument * CodeGenerator::newCodeDocument ( ) {
     CodeDocument * newCodeDoc = new CodeDocument (this);
@@ -409,8 +409,8 @@ CodeGenerationPolicy * CodeGenerator::newCodeGenerationPolicy ( KConfig * config
 }
 
 /**
- * @return	QString
- * @param	file
+ * @return      QString
+ * @param       file
  */
 
 QString CodeGenerator::getHeadingFile( const QString &file ) {
@@ -418,9 +418,9 @@ QString CodeGenerator::getHeadingFile( const QString &file ) {
 }
 
 /**
- * @return	QString
- * @param	codeDoc
- * @param	name
+ * @return      QString
+ * @param       codeDoc
+ * @param       name
  */
 QString CodeGenerator::overwritableName( QString name, const QString &extension ) {
 
@@ -434,10 +434,10 @@ QString CodeGenerator::overwritableName( QString name, const QString &extension 
     OverwriteDialogue overwriteDialogue( name, outputDirectory.absPath(),
                                          m_applyToAllRemaining, kapp -> mainWidget() );
     switch(overwritePolicy()) {  //if it exists, check the OverwritePolicy we should use
-    case CodeGenerationPolicy::Ok:		//ok to overwrite file
+    case CodeGenerationPolicy::Ok:              //ok to overwrite file
         name = name + extension;
         break;
-    case CodeGenerationPolicy::Ask:	       //ask if we can overwrite
+    case CodeGenerationPolicy::Ask:            //ask if we can overwrite
         switch(overwriteDialogue.exec()) {
         case KDialogBase::Yes:  //overwrite file
             if ( overwriteDialogue.applyToAllRemaining() ) {
@@ -488,9 +488,9 @@ QString CodeGenerator::overwritableName( QString name, const QString &extension 
 
 
 /**
- * @return	bool
- * @param	file
- * @param	name
+ * @return      bool
+ * @param       file
+ * @param       name
  */
 bool CodeGenerator::openFile (QFile & file, const QString &fileName ) {
     //open files for writing.
@@ -511,8 +511,8 @@ bool CodeGenerator::openFile (QFile & file, const QString &fileName ) {
 
 
 /**
- * @return	QString
- * @param	name
+ * @return      QString
+ * @param       name
  */
 QString CodeGenerator::cleanName ( const QString &name ) {
     return name;
@@ -604,9 +604,9 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
             // shall include it. The individual code generators will need to know
             // what to do with a "role-less" uni-associated classifier. -b.t.
             /* if(a->getWidgetID(Uml::A)!=c->getID()){
-            //					temp = (UMLClassifier*)m_document->findObjectById(a->getWidgetID(Uml::A));
-            	// Remove the link from child->base, since it breaks
-            	// C++ code generation.
+            //                                  temp = (UMLClassifier*)m_document->findObjectById(a->getWidgetID(Uml::A));
+                // Remove the link from child->base, since it breaks
+                // C++ code generation.
             }
             else */
             if(a->getWidgetID(Uml::B)!=c->getID()){
@@ -667,10 +667,10 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
 
 /**
  * Format an output document.
- * @return	QString
- * @param	text
- * @param	lineprefix
- * @param	linewidth
+ * @return      QString
+ * @param       text
+ * @param       lineprefix
+ * @param       linewidth
  */
 QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix, int lineWidth) {
     QString output;
@@ -690,7 +690,7 @@ QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix,
             if (index == -1)
                 break;
             output += linePrefix + input.left(index) + endLine; // add line
-            input.remove(0, index + 1);	//and remove processed string, including
+            input.remove(0, index + 1); //and remove processed string, including
             // white space
         } while(index > 0 );
     }

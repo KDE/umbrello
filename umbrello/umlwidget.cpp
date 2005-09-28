@@ -24,7 +24,6 @@
 #include "classifier.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "umllistview.h"
 #include "umlview.h"
 #include "umlclassifierlistitemlist.h"
 #include "codegenerator.h"
@@ -36,8 +35,6 @@
 #include "dialogs/settingsdlg.h"
 #include "codedocument.h"
 #include "floatingtext.h"
-#include "objectwidget.h"
-#include "messagewidget.h"
 
 #include "clipboard/idchangelog.h"
 
@@ -139,8 +136,8 @@ bool UMLWidget::operator==(const UMLWidget& other) {
         return false;
     }
 
-    //	if(getBaseType() != wt_Text) // DONT do this for floatingtext widgets, an infinite loop will result
-    //	{
+    // if(getBaseType() != wt_Text) // DONT do this for floatingtext widgets, an infinite loop will result
+    // {
     AssociationWidgetListIt assoc_it( m_Assocs );
     AssociationWidgetListIt assoc_it2( other.m_Assocs );
     AssociationWidget * assoc = 0, *assoc2 = 0;
@@ -151,21 +148,21 @@ bool UMLWidget::operator==(const UMLWidget& other) {
             return false;
         }
     }
-    //	}
+    // }
     return true;
     // NOTE:  In the comparison tests we are going to do, we don't need these values.
     // They will actually stop things functioning correctly so if you change these, be aware of that.
     /*
     if(m_bUseFillColour != other.m_bUseFillColour)
-    	return false;
+        return false;
     if(m_nId != other.m_nId)
-    	return false;
+        return false;
     if( m_Font != other.m_Font )
-    	return false;
+        return false;
     if(m_nX  != other.m_nX)
-    	return false;
+        return false;
     if(m_nY != other.m_nY)
-    	return false;
+        return false;
      */
 }
 
@@ -243,13 +240,13 @@ QPoint UMLWidget::doMouseMove(QMouseEvent* me) {
 }
 
 void UMLWidget::mouseMoveEvent(QMouseEvent* me) {
-    if( m_bMouseDown || me->button() == LeftButton ) {
+    if( m_bMouseDown || me->button() == Qt::LeftButton ) {
         QPoint newPosition = doMouseMove(me);
         int newX = newPosition.x();
         int newY = newPosition.y();
         // kdDebug() << "UMLWidget::mouseMoveEvent(" << me->pos().x()
-        // 	  << "," << me->pos().y() << "): newPoint=("
-        // 	  << newX << "," << newY << ")" << endl;
+        //           << "," << me->pos().y() << "): newPoint=("
+        //           << newX << "," << newY << ")" << endl;
 
         m_nOldX = newX;
         m_nOldY = newY;
@@ -285,17 +282,17 @@ void UMLWidget::mousePressEvent(QMouseEvent *me) {
         //anything else needed??
         return;
     }
-    if (me->button() != LeftButton && me->button() != RightButton) {
+    if (me->button() != Qt::LeftButton && me->button() != Qt::RightButton) {
         m_pView->clearSelected();
         m_pView->resetToolbar();
         setSelected(false);
         return;
     }
-    if( me -> state() == ShiftButton || me -> state() == ControlButton )
+    if( me -> state() == Qt::ShiftButton || me -> state() == Qt::ControlButton )
     {
         /* we have to save the shift state, because in ReleaseEvent it is lost */
         m_bShiftPressed = true;
-        if( me -> button() == LeftButton ) {
+        if( me -> button() == Qt::LeftButton ) {
             m_bMouseDown = true;
             m_bStartMove = true;
             setSelected( !m_bSelected );
@@ -309,7 +306,7 @@ void UMLWidget::mousePressEvent(QMouseEvent *me) {
     }
     m_bShiftPressed = false;
     bool _select;
-    if( me -> button() == LeftButton ) {
+    if( me -> button() == Qt::LeftButton ) {
         m_bMouseDown = true;
         m_bStartMove = true;
 
@@ -345,13 +342,13 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
     m_bStartMove = false;
     m_bMouseDown = false;
 
-    if( me->button() == RightButton ) {
+    if( me->button() == Qt::RightButton ) {
         if (m_pMenu) {
             return;
         }
         startPopupMenu( me->globalPos() );
         return;
-    } else if (me->button() !=  LeftButton) {
+    } else if (me->button() !=  Qt::LeftButton) {
         return;
     }
     /* if multiple elements were not moved with the left mouse button,
@@ -368,7 +365,7 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
         m_pDoc->setModified(true);
     }
 
-    if (me->stateAfter() != ShiftButton || me->stateAfter() != ControlButton) {
+    if (me->stateAfter() != Qt::ShiftButton || me->stateAfter() != Qt::ControlButton) {
         m_pView->setAssoc(this);
     }
 }
@@ -379,22 +376,15 @@ void UMLWidget::init() {
     if (m_pView) {
         m_bUseFillColour = true;
         m_bUsesDiagramFillColour = true;
-        m_bUsesDiagramLineColour = true;
-        m_bUsesDiagramLineWidth  = true;
         m_bUsesDiagramUseFillColour = true;
         const Settings::OptionState& optionState = m_pView->getOptionState();
         m_FillColour = optionState.uiState.fillColor;
-        m_LineColour = optionState.uiState.lineColor;
-        m_LineWidth  = optionState.uiState.lineWidth;
         m_Font       = optionState.uiState.font;
     } else {
         kdError() << "UMLWidget::init: SERIOUS PROBLEM - m_pView is NULL" << endl;
         m_bUseFillColour = false;
         m_bUsesDiagramFillColour = false;
-        m_bUsesDiagramLineColour = false;
-        m_bUsesDiagramLineWidth  = false;
         m_bUsesDiagramUseFillColour = false;
-        m_LineWidth = 0; // initialize with 0 to have valid start condition
     }
 
     for (int i = 0; i < (int)FT_INVALID; ++i)
@@ -423,7 +413,7 @@ void UMLWidget::init() {
     connect( m_pView, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
 
 
-    //	connect( m_pView, SIGNAL(sigColorChanged(int)), this, SLOT(slotColorChanged(int)));
+    // connect( m_pView, SIGNAL(sigColorChanged(int)), this, SLOT(slotColorChanged(int)));
     m_pObject = NULL;
     setZ( 1 );
 }
@@ -549,14 +539,6 @@ void UMLWidget::slotMenuSelection(int sel) {
         {
             UMLObject *pClone = m_pObject->clone();
             m_pView->addObject(pClone);
-            if (dynamic_cast<UMLClassifier*>(pClone)) {
-                UMLClassifier *c = static_cast<UMLClassifier*>(pClone);
-                UMLClassifierListItemList items = c->getFilteredList(Uml::ot_UMLObject);
-                for (UMLClassifierListItemListIt it(items); it.current(); ++it) {
-                    UMLClassifierListItem *item = it.current();
-                    c->signalChildObjectAdded(item);
-                }
-            }
         }
         break;
 
@@ -604,7 +586,7 @@ void UMLWidget::slotLineWidthChanged(Uml::IDType viewID) {
 }
 
 void UMLWidget::mouseDoubleClickEvent( QMouseEvent * me ) {
-    if( me -> button() != LeftButton ||
+    if( me -> button() != Qt::LeftButton ||
             m_pView->getCurrentCursor() != WorkToolBar::tbb_Arrow)
         return;
 
@@ -621,15 +603,13 @@ void UMLWidget::setUseFillColour(bool fc) {
     update();
 }
 
-void UMLWidget::setLineColour(const QColor &colour) {
-    m_LineColour = colour;
-    m_bUsesDiagramLineColour = false;
+void UMLWidget::setLineColor(const QColor &colour) {
+    WidgetBase::setLineColor(colour);
     update();
 }
 
 void UMLWidget::setLineWidth(uint width) {
-    m_LineWidth = width;
-    m_bUsesDiagramLineWidth = false;
+    WidgetBase::setLineWidth(width);
     update();
 }
 
@@ -649,7 +629,7 @@ void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY, bool resize
     p -> fillRect(offsetX + w - s, offsetY, s, s, brush);
 
     if (resizeable) {
-        brush.setColor(red);
+        brush.setColor(Qt::red);
         p->drawLine(offsetX + w - s, offsetY + h - 1, offsetX + w - 1, offsetY + h - s);
         p->drawLine(offsetX + w - (s*2), offsetY + h - 1, offsetX + w - 1, offsetY + h - (s*2) );
         p->drawLine(offsetX + w - (s*3), offsetY + h - 1, offsetX + w - 1, offsetY + h - (s*3) );
@@ -658,7 +638,7 @@ void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY, bool resize
     }
 }
 
-bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
+void UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
     setFont( m_Font );
     setSize( getWidth(), getHeight() );
     m_bActivated = true;
@@ -680,17 +660,13 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
 
             case wt_Text:
                 ft = static_cast<FloatingText *>( this );
-                switch( ft  -> getRole() ) {
-                case tr_Seq_Message:
+                if (ft->getRole() == tr_Seq_Message) {
                     setX( x );
                     setY( getY() );
-                    break;
-
-                default:
+                } else {
                     setX( getX() );
                     setY( getY() );
-                    break;
-                }//end switch role
+                }
                 break;
 
             default:
@@ -709,7 +685,7 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
     }
     if ( m_pView -> getPaste() )
         m_pView -> createAutoAssociations( this );
-    return true;
+    calculateSize();
 }
 
 /** Read property of bool m_bActivated. */
@@ -801,8 +777,7 @@ void UMLWidget::startPopupMenu( const QPoint &At) {
         unique = m_pView -> checkUniqueSelection();
 
     // create the right click context menu
-    m_pMenu = new ListPopupMenu(static_cast<QWidget*>(m_pView), this,
-                                multi, unique);
+    m_pMenu = new ListPopupMenu(m_pView, this, multi, unique);
 
     // disable the "view code" menu for simple code generators
     CodeGenerator * currentCG = m_pDoc->getCurrentCodeGenerator();
@@ -910,13 +885,16 @@ void UMLWidget::setY( int y ) {
 void UMLWidget::setName(const QString &strName) {
     if (m_pObject)
         m_pObject->setName(strName);
+    else
+        m_Text = strName;
     calculateSize();
+    adjustAssocs( getX(), getY() );
 }
 
 QString UMLWidget::getName() const {
     if (m_pObject)
         return m_pObject->getName();
-    return "";
+    return m_Text;
 }
 
 void UMLWidget::cleanup() {
@@ -1073,11 +1051,12 @@ void UMLWidget::forceUpdateFontMetrics(QPainter *painter) {
     calculateSize();
 }
 
-void UMLWidget::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
+void UMLWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     /*
       Call after required actions in child class.
       Type must be set in the child class.
     */
+    WidgetBase::saveToXMI(qDoc, qElement);
     qElement.setAttribute( "xmi.id", ID2STR(getID()) );
     qElement.setAttribute( "font", m_Font.toString() );
     qElement.setAttribute( "usefillcolor", m_bUseFillColour );
@@ -1086,23 +1065,11 @@ void UMLWidget::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
     qElement.setAttribute( "width", getWidth() );
     qElement.setAttribute( "height", getHeight() );
     qElement.setAttribute( "usesdiagramfillcolour", m_bUsesDiagramFillColour );
-    qElement.setAttribute( "usesdiagramlinecolour", m_bUsesDiagramLineColour );
-    qElement.setAttribute( "usesdiagramlinewidth", m_bUsesDiagramLineWidth );
     qElement.setAttribute( "usesdiagramusefillcolour", m_bUsesDiagramUseFillColour );
     if (m_bUsesDiagramFillColour) {
         qElement.setAttribute( "fillcolour", "none" );
     } else {
         qElement.setAttribute( "fillcolour", m_FillColour.name() );
-    }
-    if (m_bUsesDiagramLineColour) {
-        qElement.setAttribute( "linecolour", "none" );
-    } else {
-        qElement.setAttribute( "linecolour", m_LineColour.name() );
-    }
-    if (m_bUsesDiagramLineWidth) {
-        qElement.setAttribute( "linewidth", "none" );
-    } else {
-        qElement.setAttribute( "linewidth", m_LineWidth );
     }
     qElement.setAttribute("isinstance", m_bIsInstance);
     if (!m_instanceName.isEmpty())
@@ -1110,6 +1077,7 @@ void UMLWidget::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
 }
 
 bool UMLWidget::loadFromXMI( QDomElement & qElement ) {
+    WidgetBase::loadFromXMI(qElement);
     QString id = qElement.attribute( "xmi.id", "-1" );
     QString font = qElement.attribute( "font", "" );
     QString usefillcolor = qElement.attribute( "usefillcolor", "1" );
@@ -1118,11 +1086,7 @@ bool UMLWidget::loadFromXMI( QDomElement & qElement ) {
     QString h = qElement.attribute( "height", "0" );
     QString w = qElement.attribute( "width", "0" );
     QString fillColour = qElement.attribute( "fillcolour", "none" );
-    QString lineColour = qElement.attribute( "linecolour", "none" );
-    QString lineWidth = qElement.attribute( "linewidth", "none" );
     QString usesDiagramFillColour = qElement.attribute( "usesdiagramfillcolour", "1" );
-    QString usesDiagramLineColour = qElement.attribute( "usesdiagramlinecolour", "1" );
-    QString usesDiagramLineWidth  = qElement.attribute( "usesdiagramlinewidth", "1" );
     QString usesDiagramUseFillColour = qElement.attribute( "usesdiagramusefillcolour", "1" );
 
     m_nId = STR2ID(id);
@@ -1138,23 +1102,12 @@ bool UMLWidget::loadFromXMI( QDomElement & qElement ) {
     }
     m_bUseFillColour = (bool)usefillcolor.toInt();
     m_bUsesDiagramFillColour = (bool)usesDiagramFillColour.toInt();
-    m_bUsesDiagramLineColour = (bool)usesDiagramLineColour.toInt();
-    m_bUsesDiagramLineWidth = (bool)usesDiagramLineWidth.toInt();
     m_bUsesDiagramUseFillColour = (bool)usesDiagramUseFillColour.toInt();
     setSize( w.toInt(), h.toInt() );
     setX( x.toInt() );
     setY( y.toInt() );
     if (fillColour != "none") {
         m_FillColour = QColor(fillColour);
-    }
-    if (lineColour != "none") {
-        m_LineColour = QColor(lineColour);
-    }
-    if (lineWidth != "none") {
-        m_LineWidth = lineWidth.toInt();
-    }
-    else if ( m_pView ) {
-        m_LineWidth = m_pView->getLineWidth();
     }
     QString isinstance = qElement.attribute("isinstance", "0");
     m_bIsInstance = (bool)isinstance.toInt();

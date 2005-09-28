@@ -62,7 +62,7 @@ public:
     CodeClassField * getParentClassField ( );
 
     /** return the type of accessor method this is
-    	 */
+         */
     AccessorType getType( );
 
     /** Set the type of accessor method this is

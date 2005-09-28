@@ -294,7 +294,7 @@ void CPPHeaderCodeDocument::syncNamesToParent( )
 bool CPPHeaderCodeDocument::addCodeOperation (CodeOperation * op ) {
 
     Uml::Scope scope = op->getParentOperation()->getScope();
-    if(!op->getParentOperation()->isConstructorOperation())
+    if(!op->getParentOperation()->isLifeOperation())
     {
         switch (scope) {
         default:
@@ -367,11 +367,11 @@ CodeClassFieldDeclarationBlock * CPPHeaderCodeDocument::newDeclarationCodeBlock 
  */
 /*
 void CPPHeaderCodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-	QDomElement docElement = doc.createElement( "" );
+        QDomElement docElement = doc.createElement( "" );
 
-	setAttributesOnNode(doc, docElement);
+        setAttributesOnNode(doc, docElement);
 
-	root.appendChild( docElement );
+        root.appendChild( docElement );
 }
 */
 

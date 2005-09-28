@@ -24,7 +24,7 @@
  *
  * @short Sets up template information.
  * @author Jonathan Riddell
- * @see	UMLObject
+ * @see UMLObject
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
@@ -33,10 +33,10 @@ public:
     /**
      * Sets up a template.
      *
-     * @param parent	The parent of this UMLTemplate (i.e. its concept).
-     * @param name		The name of this UMLTemplate.
-     * @param id		The unique id given to this UMLTemplate.
-     * @param type		The type of this UMLTemplate.
+     * @param parent    The parent of this UMLTemplate (i.e. its concept).
+     * @param name              The name of this UMLTemplate.
+     * @param id                The unique id given to this UMLTemplate.
+     * @param type              The type of this UMLTemplate.
      */
     UMLTemplate(const UMLObject *parent, QString name, Uml::IDType id = Uml::id_None,
                 QString type = "class");
@@ -44,7 +44,7 @@ public:
     /**
      * Sets up a template.
      *
-     * @param parent	The parent of this UMLTemplate (i.e. its concept).
+     * @param parent    The parent of this UMLTemplate (i.e. its concept).
      */
     UMLTemplate(const UMLObject *parent);
 
@@ -72,8 +72,8 @@ public:
     /**
      * Returns a string representation of the UMLTemplate.
      *
-     * @param sig		Currently unused.
-     * @return	Returns a string representation of the UMLTemplate.
+     * @param sig               Currently unused.
+     * @return  Returns a string representation of the UMLTemplate.
      */
     QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
 
@@ -83,14 +83,14 @@ public:
      * If the template parameter is a class, there is no separate
      * type object. In this case, getTypeName() returns "class".
      *
-     * @return	The type name of the UMLClassifierListItem.
+     * @return  The type name of the UMLClassifierListItem.
      */
     virtual QString getTypeName();
 
     /**
      * Display the properties configuration dialogue for the template.
      *
-     * @return	Success status.
+     * @return  Success status.
      */
     bool showPropertiesDialogue(QWidget* parent);
 

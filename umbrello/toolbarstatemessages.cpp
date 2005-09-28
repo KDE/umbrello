@@ -96,7 +96,7 @@ void ToolBarStateMessages::mouseRelease(QMouseEvent* ome)
 
             m_pLine = new Q3CanvasLine( m_pUMLView->canvas() );
             m_pLine->setPoints( m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y() );
-            m_pLine->setPen( QPen( m_pUMLView->getLineColor(), m_pUMLView->getLineWidth(), m_pUMLView->DashLine ) );
+            m_pLine->setPen( QPen( m_pUMLView->getLineColor(), m_pUMLView->getLineWidth(), Qt::DashLine ) );
             m_pLine->setVisible( true );
         }
         else
@@ -119,8 +119,6 @@ void ToolBarStateMessages::mouseRelease(QMouseEvent* ome)
             // TODO Do we really need a connect? It makes the code so hard to read.
             m_pUMLView->connect(m_pUMLView, SIGNAL(sigColorChanged(Uml::IDType)),
                                 message, SLOT(slotColorChanged(Uml::IDType)));
-
-            message->activate();
 
             m_pSelectedWidget = 0;
             m_pUMLView->getMessageList().append(message);

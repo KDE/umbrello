@@ -29,6 +29,7 @@
 #include <kapplication.h>
 // app includes
 #include "../dialogs/overwritedialogue.h"
+#include "../model_utils.h"
 #include "../attribute.h"
 #include "../umloperationlist.h"
 #include "../umlattributelist.h"
@@ -220,9 +221,9 @@ bool SimpleCodeGenerator::hasAbstractOps(UMLClassifier *c) {
 }
 
 /**
- * @return	ClassifierCodeDocument
- * @param	classifier
- * @param	this This package generator object.
+ * @return      ClassifierCodeDocument
+ * @param       classifier
+ * @param       this This package generator object.
  */
 CodeDocument * SimpleCodeGenerator::newClassifierCodeDocument(UMLClassifier* /*classifier*/)
 {
@@ -233,8 +234,10 @@ CodeDocument * SimpleCodeGenerator::newClassifierCodeDocument(UMLClassifier* /*c
 void SimpleCodeGenerator::writeCodeToFile ( ) {
     m_fileMap->clear(); // yeah, need to do this, if not, just keep getting same damn directory to write to.
     UMLClassifierList concepts = m_doc->getClassesAndInterfaces();
-    for (UMLClassifier *c = concepts.first(); c; c = concepts.next())
-        this->writeClass(c); // call the writer for each class.
+    for (UMLClassifier *c = concepts.first(); c; c = concepts.next()) {
+        if (! Model_Utils::isCommonDataType(c->getName()))
+            this->writeClass(c); // call the writer for each class.
+    }
 }
 
 // write only selected concepts to file

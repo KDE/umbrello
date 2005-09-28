@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2003-2004
+ *  copyright (C) 2003-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -62,13 +62,13 @@ void UMLTemplateDialog::setupDialog() {
     valuesLayout->addWidget(m_pTypeCB, 0, 1);
     m_pTypeL->setBuddy(m_pTypeCB);
 
-    Umbrello::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
+    Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
                                     m_pNameL, i18n("&Name:"),
                                     m_pNameLE, m_pTemplate->getName() );
 
-    Umbrello::makeLabeledEditField( m_pValuesGB, valuesLayout, 2,
+    Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 2,
                                     m_pStereoTypeL, i18n("&Stereotype name:"),
-                                    m_pStereoTypeLE, m_pTemplate->getStereotype(false) );
+                                    m_pStereoTypeLE, m_pTemplate->getStereotype() );
 
     mainLayout->addWidget(m_pValuesGB);
 
@@ -131,8 +131,8 @@ bool UMLTemplateDialog::apply() {
 
     UMLClassifier * pClass = dynamic_cast<UMLClassifier *>( m_pTemplate->parent() );
     if (pClass) {
-        UMLObjectList list= pClass->findChildObject(Uml::ot_Attribute, name);
-        if( list.count() != 0 && list.findRef( m_pTemplate ) ) {
+        UMLObject *o = pClass->findChildObject(name);
+        if (o && o != m_pTemplate) {
             KMessageBox::error(this, i18n("The template parameter name you have chosen is already being used in this operation."),
                                i18n("Template Name Not Unique"), false);
             m_pNameLE->setText( m_pTemplate->getName() );

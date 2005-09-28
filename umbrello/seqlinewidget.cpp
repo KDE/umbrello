@@ -27,7 +27,7 @@ int const SeqLineWidget::m_nMouseDownEpsilonX = 20;
 SeqLineWidget::SeqLineWidget( UMLView * pView, ObjectWidget * pObject ) : Q3CanvasLine( pView -> canvas() ) {
     m_pView = pView;
     m_pObject = pObject;
-    setPen( QPen( m_pObject -> getLineColour(), 0, DashLine ) );
+    setPen( QPen( m_pObject->getLineColor(), 0, Qt::DashLine ) );
     setZ( 0 );
     setVisible( true );
     m_pDestructionBox.line1 = 0;
@@ -88,13 +88,13 @@ void SeqLineWidget::setupDestructionBox() {
     m_pDestructionBox.line1->setPoints( rect.x(), rect.y(),
                                         rect.x() + rect.width(), rect.y() + rect.height() );
     m_pDestructionBox.line1->setVisible( true );
-    m_pDestructionBox.line1->setPen( QPen(m_pObject->getLineColour(), 2) );
+    m_pDestructionBox.line1->setPen( QPen(m_pObject->getLineColor(), 2) );
     m_pDestructionBox.line1->setZ( 2 );
 
     m_pDestructionBox.line2 = new Q3CanvasLine( m_pView -> canvas() );
     m_pDestructionBox.line2->setPoints( rect.x(), rect.y() + rect.height(), rect.x() + rect.width(), rect.y() );
     m_pDestructionBox.line2->setVisible( true );
-    m_pDestructionBox.line2->setPen( QPen(m_pObject->getLineColour(), 2) );
+    m_pDestructionBox.line2->setPen( QPen(m_pObject->getLineColor(), 2) );
     m_pDestructionBox.line2->setZ( 2 );
 }
 

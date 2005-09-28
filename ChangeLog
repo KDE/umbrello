@@ -2,16 +2,22 @@ Version 1.5
 
 * Association classes
 * Advanced code generator for Ruby
+* Code generator for Tcl
 * Externalization of folders (i.e. submodel files)
 * Change interface into class and vice versa (if abstract and no attributes)
+* Image export via command line
+* Automatic Diagram Layout (67059, not yet closed)
 
 * Bugs fixed / wishes implemented (see http://bugs.kde.org)
-57588 67719 79433 87252 88117 97162 105564 108223 109591
+ 57588  57672  58809  66461  67120  67719  72016  79433  87252  88117
+ 97162 101550 105564 108223 109591 109636 110073 110216 110231 110379
+110843 111088 111470 111502 111759 111768 112017 112292 112293 112333
+112531 112552 112936 112991 112992
 
 Version 1.4.2 (maintenance release)
 
 * Bugs fixed from http://bugs.kde.org :
-72016 97188 103170 106183 106356 106632 106673 107101 107551 108688
+97188 103170 106183 106356 106632 106673 107101 107551 108688
 
 Version 1.4.1 (maintenance release)
 

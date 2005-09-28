@@ -33,7 +33,7 @@ UMLWidgetColorPage::UMLWidgetColorPage( QWidget *pParent, UMLWidget *pWidget ) :
     m_pUMLWidget = pWidget;
     m_options = 0;
     init();
-    m_pLineColorB->setColor( pWidget -> getLineColour() );
+    m_pLineColorB->setColor( pWidget->getLineColor() );
     m_pFillColorB->setColor( pWidget->getFillColour() );
     m_pUseFillColorCB->setChecked( pWidget -> getUseFillColour() );
 }
@@ -93,12 +93,12 @@ void UMLWidgetColorPage::init()
 UMLWidgetColorPage::~UMLWidgetColorPage() {}
 
 void UMLWidgetColorPage::slotLineButtonClicked() {
-    //	UMLView * pView = dynamic_cast<UMLView *>( m_pUMLWidget -> parent() );
+    //  UMLView * pView = dynamic_cast<UMLView *>( m_pUMLWidget -> parent() );
     m_pLineColorB -> setColor( UMLApp::app() -> getOptionState().uiState.lineColor );
 }
 
 void UMLWidgetColorPage::slotFillButtonClicked() {
-    //	UMLView * pView = dynamic_cast<UMLView *>( m_pUMLWidget -> parent() );
+    //  UMLView * pView = dynamic_cast<UMLView *>( m_pUMLWidget -> parent() );
     m_pFillColorB -> setColor( UMLApp::app() -> getOptionState().uiState.fillColor );
 }
 
@@ -106,7 +106,7 @@ void UMLWidgetColorPage::updateUMLWidget() {
     if(m_pUMLWidget)
     {
         m_pUMLWidget->setUseFillColour( m_pUseFillColorCB -> isChecked() );
-        m_pUMLWidget->setLineColour( m_pLineColorB -> color() );
+        m_pUMLWidget->setLineColor( m_pLineColorB -> color() );
         m_pUMLWidget->setFillColour( m_pFillColorB -> color() );
     }
     else if(m_options)

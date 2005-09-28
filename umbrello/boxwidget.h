@@ -31,7 +31,7 @@ class UMLView;
  *
  * @short Displays a box.
  * @author Jonathan Riddell
- * @see	UMLWidget
+ * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class BoxWidget : public UMLWidget {
@@ -40,8 +40,8 @@ public:
     /**
      * Constructs a BoxWidget.
      *
-     * @param view		The parent to this widget.
-     * @param id		The ID to assign (-1 will prompt a new ID.)
+     * @param view              The parent to this widget.
+     * @param id                The ID to assign (-1 will prompt a new ID.)
      */
     BoxWidget(UMLView * view, Uml::IDType id = Uml::id_None);
 
@@ -49,6 +49,11 @@ public:
      * destructor
      */
     virtual ~BoxWidget();
+
+    /**
+     * Apply possible constraints to the given candidate width and height.
+     */
+    virtual void constrain(int& width, int& height);
 
     /**
      * Overrides the standard function.

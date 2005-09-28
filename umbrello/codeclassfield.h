@@ -72,13 +72,13 @@ public:
      * Get the value of m_dialog
      * @return the value of m_dialog
      */
-    //	CodeClassFieldDialog getDialog ( );
+    //  CodeClassFieldDialog getDialog ( );
 
     // Determine if this cf is attribute or some type of association
     QString getTypeName ( );
 
     /**
-     * @return	CodeClassFieldDeclarationBlock representing the declaration statement of this class field
+     * @return  CodeClassFieldDeclarationBlock representing the declaration statement of this class field
      */
     CodeClassFieldDeclarationBlock * getDeclarationCodeBlock( );
 
@@ -90,7 +90,7 @@ public:
     Q3PtrList<CodeAccessorMethod> * getMethodList ( );
 
     /** Utility method to allow finding particular accessor method of this
-    	 *  code class field by its type identifier.
+         *  code class field by its type identifier.
      */ 
     CodeAccessorMethod * findMethodByType(CodeAccessorMethod::AccessorType type, int role_id = -1);
 
@@ -154,7 +154,7 @@ public:
     virtual void loadFromXMI ( QDomElement & root );
 
     /** Force the syncronization of the content (methods and declarations)
-      	 *  of this class field.
+         *  of this class field.
      */
     virtual void synchronize ();
 
@@ -164,7 +164,7 @@ protected:
      */
     void setParentUMLObject (UMLObject * obj);
 
-    //	CodeClassFieldDialog * m_dialog;
+    //  CodeClassFieldDialog * m_dialog;
 
     /** a little utility method to make life easier for code document programmers
      */
@@ -205,7 +205,6 @@ private:
 
     // these are just some utility functions
     CodeAccessorMethod * newCodeAccessorMethod (CodeAccessorMethod::AccessorType type);
-    CodeClassFieldDeclarationBlock * newDeclarationCodeBlock();
 
     /** This flag tells if we want the methods to have the possibility
       * of being written out. IF the value is false, then all methods

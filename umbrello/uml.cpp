@@ -49,7 +49,9 @@
 // app includes
 #include "aligntoolbar.h"
 #include "infowidget.h"
-#include "classimport.h"
+#include "cppimport.h"
+#include "idlimport.h"
+#include "adaimport.h"
 #include "docwindow.h"
 #include "codegenerator.h"
 #include "generatorinfo.h"
@@ -69,6 +71,7 @@
 
 #include "refactoring/refactoringassistant.h"
 #include "codegenerators/simplecodegenerator.h"
+#include "exportviewaction.h"
 
 #include "kplayerslideraction.h"
 
@@ -91,7 +94,6 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
     // call inits to invoke all other construction parts
     readOptionState();
     m_doc = new UMLDoc();
-    m_classImporter = new ClassImport();
     initActions(); //now calls initStatusBar() because it is affected by setupGUI()
     initView();
     initClip();
@@ -250,6 +252,7 @@ void UMLApp::initActions() {
     viewProperties = new KAction(i18n("&Properties"), SmallIconSet("info"), 0,
                                  this, SLOT( slotCurrentViewProperties() ), actionCollection(), "view_properties");
 
+    viewExportAll = new ExportViewAction(actionCollection());
     viewSnapToGrid->setChecked(false);
     viewShowGrid->setChecked(false);
 
@@ -355,7 +358,7 @@ void UMLApp::initStatusBar() {
 
     statusBar()->addWidget( m_statusLabel, 1, false );
 
-    m_statusLabel->setAlignment(AlignLeft|AlignVCenter);
+    m_statusLabel->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
 
     connect(m_doc, SIGNAL( sigWriteToStatusBar(const QString &) ), this, SLOT( slotStatusMsg(const QString &) ));
 }
@@ -387,15 +390,15 @@ void UMLApp::initView() {
         m_newSessionButton->setAutoRaise(true);
         m_diagramMenu = new KPopupMenu(m_newSessionButton);
 
-        m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_Class), i18n("Class Diagram..."), this, SLOT(slotClassDiagram()) );
-        m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_Sequence), i18n("Sequence Diagram..."), this, SLOT(slotSequenceDiagram()) );
-        m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_Collaboration), i18n("Collaboration Diagram..."), this, SLOT(slotCollaborationDiagram()) );
-        m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_UseCase), i18n("Use Case Diagram..."), this, SLOT(slotUseCaseDiagram()) );
-        m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_State), i18n("State Diagram..."), this, SLOT(slotStateDiagram()) );
-        m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_Activity), i18n("Activity Diagram..."), this, SLOT(slotActivityDiagram()) );
-        m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_Component), i18n("Component Diagram..."), this, SLOT(slotComponentDiagram()) );
-        m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_Deployment), i18n("Deployment Diagram..."), this, SLOT(slotDeploymentDiagram()) );
-        m_diagramMenu->insertItem(Umbrello::iconSet(Uml::dt_EntityRelationship), i18n("Entity Relationship Diagram..."), this, SLOT(slotEntityRelationshipDiagram()) );
+        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_Class), i18n("Class Diagram..."), this, SLOT(slotClassDiagram()) );
+        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_Sequence), i18n("Sequence Diagram..."), this, SLOT(slotSequenceDiagram()) );
+        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_Collaboration), i18n("Collaboration Diagram..."), this, SLOT(slotCollaborationDiagram()) );
+        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_UseCase), i18n("Use Case Diagram..."), this, SLOT(slotUseCaseDiagram()) );
+        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_State), i18n("State Diagram..."), this, SLOT(slotStateDiagram()) );
+        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_Activity), i18n("Activity Diagram..."), this, SLOT(slotActivityDiagram()) );
+        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_Component), i18n("Component Diagram..."), this, SLOT(slotComponentDiagram()) );
+        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_Deployment), i18n("Deployment Diagram..."), this, SLOT(slotDeploymentDiagram()) );
+        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_EntityRelationship), i18n("Entity Relationship Diagram..."), this, SLOT(slotEntityRelationshipDiagram()) );
         m_newSessionButton->setPopup(m_diagramMenu);
         //FIXME why doesn't this work?
         //m_newSessionButton->setPopup(newDiagram->popupMenu());
@@ -427,7 +430,6 @@ void UMLApp::initView() {
 
     m_listDock = createDockWidget( "Model", 0L, 0L, i18n("&Tree View") );
     m_listView = new UMLListView(m_listDock ,"LISTVIEW");
-    //m_listView->setSorting(-1);
     m_listDock->setWidget(m_listView);
     m_listDock->setDockSite(KDockWidget::DockCorner);
     m_listDock->manualDock(m_mainDock, KDockWidget::DockLeft, 20);
@@ -949,9 +951,9 @@ void UMLApp::initClip() {
     // changes anyway (see dataChanged() signal above), albeit only when a Qt application
     // changes the clipboard. Work is in progress to make this work with other toolkits
     // as well. (pfeiffer)
-    //	m_clipTimer = new QTimer(this, "timer");
-    //	m_clipTimer->start(1000, FALSE);
-    //	connect(m_clipTimer, SIGNAL(timeout()), this, SLOT(slotClipDataChanged()));
+    // m_clipTimer = new QTimer(this, "timer");
+    // m_clipTimer->start(1000, FALSE);
+    // connect(m_clipTimer, SIGNAL(timeout()), this, SLOT(slotClipDataChanged()));
 
     m_copyTimer = new QTimer(this, "copytimer");
     m_copyTimer->start(500, FALSE);
@@ -1300,6 +1302,22 @@ void UMLApp::setActiveLanguage( const QString &activeLanguage ) {
     setGenerator(createGenerator());
 }
 
+QString UMLApp::getActiveLanguage() const {
+    return m_activeLanguage;
+}
+
+bool UMLApp::activeLanguageIsCaseSensitive() const {
+    return (m_activeLanguage != "Ada");
+}
+
+QString UMLApp::activeLanguageScopeSeparator() const {
+    if (m_activeLanguage == "Ada" ||
+        m_activeLanguage == "Java" ||
+        m_activeLanguage == "JavaScript")  // CHECK: more?
+        return ".";
+    return "::";
+}
+
 void UMLApp::slotCurrentViewClearDiagram() {
     m_doc->getCurrentView()->clearDiagram();
 }
@@ -1358,10 +1376,6 @@ void UMLApp::slotUpdateViews() {
     }
 }
 
-ClassImport * UMLApp::classImport() {
-    return m_classImporter;
-}
-
 void UMLApp::slotImportClasses() {
     m_doc->setLoading(true);
     // File selection is separated from invocation of ClassImport::import()
@@ -1378,13 +1392,16 @@ void UMLApp::slotImportClasses() {
     preselectedExtension.append("\n*|" + i18n("All Files"));
     QStringList fileList = KFileDialog::getOpenFileNames(":import-classes", preselectedExtension,
                            this, i18n("Select Code to Import") );
+    ClassImport *classImporter = NULL;
     const QString& firstFile = fileList.first();
     if (firstFile.endsWith(".idl"))
-        m_classImporter->importIDL( fileList );
+        classImporter = new IDLImport();
     else if (firstFile.contains( QRegExp("\\.ad[sba]$") ))
-        /* m_classImporter->importAda( fileList ) */;
+        classImporter = new AdaImport();
     else
-        m_classImporter->importCPP( fileList );	 // the default.
+        classImporter = new CppImport();  // the default.
+    classImporter->importFiles(fileList);
+    delete classImporter;
     m_doc->setLoading(false);
 }
 
@@ -1398,10 +1415,13 @@ void UMLApp::slotAddDefaultDatatypes() {
 }
 
 void UMLApp::slotCurrentViewChanged() {
-    if ( m_doc->getCurrentView() ) {
-        connect(m_doc->getCurrentView(), SIGNAL( sigShowGridToggled(bool) ),
+    UMLView *viewAtDoc = m_doc->getCurrentView();
+    // FIXME: This whole business of UMLDoc::getCurrentView() vs.
+    //        UMLApp::getCurrentView() is a shame.
+    if (viewAtDoc) {
+        connect(viewAtDoc, SIGNAL( sigShowGridToggled(bool) ),
                 this, SLOT( slotShowGridToggled(bool) ) );
-        connect(m_doc->getCurrentView(), SIGNAL( sigSnapToGridToggled(bool) ),
+        connect(viewAtDoc, SIGNAL( sigSnapToGridToggled(bool) ),
                 this, SLOT( slotSnapToGridToggled(bool) ) );
     }
 }

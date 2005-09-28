@@ -16,10 +16,12 @@
 #include <kdebug.h>
 #include "codeparameter.h"
 #include "association.h"
+#include "attribute.h"
 #include "codegenerator.h"
 #include "classifiercodedocument.h"
 #include "umldoc.h"
 #include "umlobject.h"
+#include "umlrole.h"
 
 // Constructors/Destructors
 //
@@ -257,7 +259,7 @@ void CodeParameter::setAttributesFromNode ( QDomElement & root) {
 
 /**
  * create the string representation of this code parameter.
- * @return	QString
+ * @return      QString
  */
 void CodeParameter::syncToParent( ) {
 

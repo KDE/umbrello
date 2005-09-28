@@ -32,16 +32,16 @@ public:
     /**
      * Sets up an enum literal.
      *
-     * @param parent	The parent of this UMLEnumLiteral.
-     * @param name		The name of this UMLEnumLiteral.
-     * @param id		The unique id given to this UMLEnumLiteral.
+     * @param parent    The parent of this UMLEnumLiteral.
+     * @param name              The name of this UMLEnumLiteral.
+     * @param id                The unique id given to this UMLEnumLiteral.
      */
     UMLEnumLiteral(const UMLObject* parent, QString name, Uml::IDType id = Uml::id_None);
 
     /**
      * Sets up an enum literal.
      *
-     * @param parent	The parent of this UMLEnumLiteral.
+     * @param parent    The parent of this UMLEnumLiteral.
      */
     UMLEnumLiteral(const UMLObject* parent);
 

@@ -46,8 +46,8 @@ CodeDocument::CodeDocument (CodeGenerator * gen )
 CodeDocument::~CodeDocument ( ) {
 
     // delete all the text blocks we have
-    //	for (TextBlock *tb = m_textblockVector.first(); tb; tb=m_textblockVector.next())
-    //		delete tb;
+    //  for (TextBlock *tb = m_textblockVector.first(); tb; tb=m_textblockVector.next())
+    //          delete tb;
     m_textblockVector.clear();
 }
 
@@ -324,7 +324,7 @@ void CodeDocument::updateHeader () {
 
 /**
  * create the string representation of this object.
- * @return	QString
+ * @return      QString
  */
 QString CodeDocument::toString ( ) {
 
@@ -455,7 +455,7 @@ CodeBlock * CodeDocument::newCodeBlock ( ) {
 
 /**
  * create a new CodeBlockWithComments object belonging to this CodeDocument.
- * @return	CodeBlockWithComments
+ * @return      CodeBlockWithComments
  */
 CodeBlockWithComments * CodeDocument::newCodeBlockWithComments ( ) {
     return new CodeBlockWithComments(this);
@@ -477,7 +477,7 @@ HierarchicalCodeBlock * CodeDocument::newHierarchicalCodeBlock ( ) {
  * Wrapper around call to either getPolicy().getOverwritePolicy() OR
  * (if no individual codegeneration policy for this Code Document) then to
  * getParentPackage().getDefaultCodeGenerationPolicy().getOverwritePolicy()
- * @return	QString
+ * @return      QString
  */
 CodeGenerationPolicy::OverwritePolicy CodeDocument::getOverwritePolicy ( ) {
     return getPolicy()->getOverwritePolicy();
@@ -489,7 +489,7 @@ CodeGenerationPolicy::OverwritePolicy CodeDocument::getOverwritePolicy ( ) {
  * getPolicy().getCodeVerboseSectionComments() OR (if no individual
  * codegeneration policy for this Code Document) then to
  * getParentPackage().getDefaultCodeGenerationPolicy().getCodeVerboseSectionComments()
- * @return	bool
+ * @return      bool
  */
 bool CodeDocument::getCodeVerboseSectionComments ( ) {
     return getPolicy()->getCodeVerboseSectionComments();
@@ -501,7 +501,7 @@ bool CodeDocument::getCodeVerboseSectionComments ( ) {
  * getPolicy().getCodeVerboseDocumentComments() OR (if no individual
  * codegeneration policy for this Code Document) then to
  * getParentPackage().getDefaultCodeGenerationPolicy().getCodeVerboseDocumentComments()
- * @return	bool
+ * @return      bool
  */
 bool CodeDocument::getVerboseDocumentComments ( ) {
     return getPolicy()->getCodeVerboseDocumentComments();
@@ -544,7 +544,7 @@ void CodeDocument::initDoc ( CodeGenerator * gen ) {
 
     //m_textblockVector.setAutoDelete(false);
 
-    //	m_textBlockTagMap = new QMap<QString, TextBlock *>;
+    //  m_textBlockTagMap = new QMap<QString, TextBlock *>;
     m_childTextBlockTagMap = new QMap<QString, TextBlock *>;
     m_codegeneratorpolicy = gen->getPolicy(); // default to parent code gen policy
 
@@ -552,7 +552,7 @@ void CodeDocument::initDoc ( CodeGenerator * gen ) {
 
     lastTagIndex = 0;
 
-    //	m_dialog = new CodeDocumentDialog( );
+    //  m_dialog = new CodeDocumentDialog( );
 
 }
 

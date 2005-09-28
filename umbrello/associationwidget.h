@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -36,6 +36,7 @@ class ClassifierWidget;
 class UMLDoc;
 class UMLView;
 class UMLAssociation;
+class UMLClassifierListItem;
 class UMLAttribute;
 class UMLOperation;
 
@@ -74,18 +75,18 @@ public:
     /**
      * Constructor.
      *
-     * @param view		The parent view of this widget.
+     * @param view              The parent view of this widget.
      */
     AssociationWidget(UMLView *view);
 
     /**
      * Constructor.
      *
-     * @param view		The parent view of this widget.
-     * @param WidgetA	Pointer the role A widget for the association.
-     * @param Type		The Association_Type for this association.
-     * @param WidgetB	Pointer the role B widget for the association.
-     * @param umlassoc	Pointer the underlying UMLAssociation (if applicable.)
+     * @param view              The parent view of this widget.
+     * @param WidgetA   Pointer the role A widget for the association.
+     * @param Type              The Association_Type for this association.
+     * @param WidgetB   Pointer the role B widget for the association.
+     * @param umlassoc  Pointer the underlying UMLAssociation (if applicable.)
      */
     AssociationWidget(UMLView *view, UMLWidget* WidgetA,
                       Uml::Association_Type Type, UMLWidget* WidgetB,
@@ -113,64 +114,62 @@ public:
 
     /**
      * Activates the AssociationWidget after a load.
-     *
-     * @return	True if activation successful.
      */
-    bool activate();
+    void activate();
 
     /**
      * Set the widget of the given role.
      *
-     * @param widget	Pointer to the UMLWidget.
+     * @param widget    Pointer to the UMLWidget.
      */
     void setWidget(UMLWidget* widget, Uml::Role_Type role);
 
     /**
      * Return the multiplicity FloatingText widget of the given role.
      *
-     * @return	Pointer to the multiplicity FloatingText object.
+     * @return  Pointer to the multiplicity FloatingText object.
      */
     FloatingText* getMultiWidget(Uml::Role_Type role);
 
     /**
      * Return the given role's multiplicity text.
      *
-     * @return	Text of the given role's multiplicity widget.
+     * @return  Text of the given role's multiplicity widget.
      */
     QString getMulti(Uml::Role_Type role) const;
 
     /**
      * Read property of FloatingText* m_pName.
      *
-     * @return	Pointer to the FloatingText name widget.
+     * @return  Pointer to the FloatingText name widget.
      */
     FloatingText* getNameWidget();
 
     /**
      * Returns the m_pName's text.
      *
-     * @return	Text of the FloatingText name widget.
+     * @return  Text of the FloatingText name widget.
      */
     QString getName() const;
 
     /**
      * Return the given role's FloatingText object.
      *
-     * @return	Pointer to the role's FloatingText widget.
+     * @return  Pointer to the role's FloatingText widget.
      */
     FloatingText* getRoleWidget(Uml::Role_Type role);
 
     /**
-     * Returns the documentation about this association.
+     * Return the FloatingText object indicated by the given Text_Role.
      *
-     * @return	The AssociationWidget's documentation text.
+     * @return  Pointer to the text role's FloatingText widget.
      */
-    QString getDoc() const;
+    FloatingText* getTextWidgetByRole(Uml::Text_Role tr);
 
     /**
      * Return the given role's FloatingText widget text.
      *
-     * @return	The name set at the FloatingText.
+     * @return  The name set at the FloatingText.
      */
     QString getRoleName(Uml::Role_Type role) const;
 
@@ -219,16 +218,16 @@ public:
     /**
      * Gets the given role widget.
      *
-     * @return	Pointer to the role's UMLWidget.
+     * @return  Pointer to the role's UMLWidget.
      */
     UMLWidget* getWidget(Uml::Role_Type role);
 
     /**
      * Sets the associated widgets.
      *
-     * @param widgetA	Pointer the role A widget for the association.
-     * @param assocType	The Association_Type for this association.
-     * @param widgetB	Pointer the role B widget for the association.
+     * @param widgetA   Pointer the role A widget for the association.
+     * @param assocType The Association_Type for this association.
+     * @param widgetB   Pointer the role B widget for the association.
      */
     bool setWidgets( UMLWidget* widgetA, Uml::Association_Type assocType, UMLWidget* widgetB);
 
@@ -236,9 +235,9 @@ public:
      * Returns true if this association associates widgetA to widgetB,
      * otherwise it returns false.
      *
-     * @param widgetA	Pointer the role A widget to check.
-     * @param widgetB	Pointer the role B widget to check.
-     * @return	True if widgetA and widgetB are associated.
+     * @param widgetA   Pointer the role A widget to check.
+     * @param widgetB   Pointer the role B widget to check.
+     * @return  True if widgetA and widgetB are associated.
      */
     bool checkAssoc(UMLWidget * widgetA, UMLWidget *widgetB);
 
@@ -246,35 +245,35 @@ public:
      * Returns true if the Widget is either at the starting or ending side
      * of the association.
      *
-     * @return	True if widget plays role A or B in this assoc.
+     * @return  True if widget plays role A or B in this assoc.
      */
     bool contains(UMLWidget* widget);
 
     /**
      * Gets the association's type.
      *
-     * @return	This AssociationWidget's Association_Type.
+     * @return  This AssociationWidget's Association_Type.
      */
     Uml::Association_Type getAssocType() const;
 
     /**
      * Sets the association's type.
      *
-     * @param type		The Association_Type to set.
+     * @param type              The Association_Type to set.
      */
     void setAssocType(Uml::Association_Type type);
 
     /**
      * Returns a QString object representing this AssociationWidget.
      *
-     * @return	Textual representation of the AssociationWidget.
+     * @return  Textual representation of the AssociationWidget.
      */
     QString toString();
 
     /**
      * Read property of bool m_bActivated.
      *
-     * @return	True if this AssociationWidget has been activated.
+     * @return  True if this AssociationWidget has been activated.
      */
     const bool isActivated();
 
@@ -282,21 +281,21 @@ public:
      * Set the m_bActivated flag of a widget but does not perform the
      * activate method.
      *
-     * @param active	The flag status to set.
+     * @param active    The flag status to set.
      */
     void setActivated(bool active /*=true*/);
 
     /**
      * Sets the state of whether the widget is selected.
      *
-     * @param _select	The state of whether the widget is selected.
+     * @param _select   The state of whether the widget is selected.
      */
     void setSelected(bool _select = true);
 
     /**
      * Returns the state of whether the widget is selected.
      *
-     * @return	Returns the state of whether the widget is selected.
+     * @return  Returns the state of whether the widget is selected.
      */
     bool getSelected() const {
         return m_bSelected;
@@ -312,9 +311,9 @@ public:
     /**
      * Adjusts the ending point of the association that connects to Widget
      *
-     * @param widget	Pointer to the widget that was moved.
-     * @param x		New X coordinate of the widget.
-     * @param y		New Y coordinate of the widget.
+     * @param widget    Pointer to the widget that was moved.
+     * @param x         New X coordinate of the widget.
+     * @param y         New Y coordinate of the widget.
      */
     void widgetMoved(UMLWidget* widget, int x, int y);
 
@@ -394,8 +393,18 @@ public:
     /**
      * Return the first font found being used by any child widget. (They
      * could be different fonts, so this is a slightly misleading method.)
-            */
+     */
     QFont getFont () const;
+
+    /**
+     * Overrides the method from WidgetBase.
+     */
+    void setLineColor(const QColor &colour);
+
+    /**
+     * Overrides the method from WidgetBase.
+     */
+    void setLineWidth(uint width);
 
     /**
      * Set all 'owned' child widgets to this font.
@@ -414,11 +423,6 @@ public:
      *  should already be set.
      */
     bool setRoleName(const QString &strRole, Uml::Role_Type role);
-
-    /**
-     * Set the documentation on this association.
-     */
-    void setDoc(const QString &doc);
 
     /**
      * Set the documentation on the given role.
@@ -460,23 +464,23 @@ public:
      * Overrides operation from LinkWidget.
      * Required by FloatingText.
      *
-     * @param ft	The text widget which to update.
+     * @param ft        The text widget which to update.
      */
     void setMessageText(FloatingText *ft);
 
     /**
      * Returns the UMLAssociation representation of this object.
      *
-     * @return	Pointer to the UMLAssociation that is represented by
-     *		this AsociationWidget.
+     * @return  Pointer to the UMLAssociation that is represented by
+     *          this AsociationWidget.
      */
     UMLAssociation * getAssociation ();
 
     /**
      * Returns the UMLAttribute representation of this object.
      *
-     * @return	Pointer to the UMLAttribute that is represented by
-     *		this AsociationWidget.
+     * @return  Pointer to the UMLAttribute that is represented by
+     *          this AsociationWidget.
      */
     UMLAttribute * getAttribute ();
 
@@ -492,6 +496,19 @@ public:
      * Overrides operation from LinkWidget.
      */
     void resetTextPositions();
+
+    /**
+     * Constrains the FloatingText X and Y values supplied.
+     * Implements the abstract operation from LinkWidget.
+     *
+     * @param textX       Candidate X value (may be modified by the constraint.)
+     * @param textY       Candidate Y value (may be modified by the constraint.)
+     * @param textWidth   Width of the text.
+     * @param textHeight  Height of the text.
+     * @param tr          Uml::Text_Role of the text.
+     */
+    void constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
+                          Uml::Text_Role tr);
 
     /**
      * Shows the association properties dialog and updates the
@@ -529,8 +546,8 @@ public:
      * Overrides operation from LinkWidget.
      * Required by FloatingText.
      *
-     * @param seqNum	The new sequence number string to set.
-     * @param op		The new operation string to set.
+     * @param seqNum    The new sequence number string to set.
+     * @param op                The new operation string to set.
      */
     void setSeqNumAndOp(const QString &seqNum, const QString &op);
 
@@ -538,8 +555,8 @@ public:
      * Overrides operation from LinkWidget.
      * Required by FloatingText.
      *
-     * @param seqNum	Return this AssociationWidget's sequence number string.
-     * @param op		Return this AssociationWidget's operation string.
+     * @param seqNum    Return this AssociationWidget's sequence number string.
+     * @param op                Return this AssociationWidget's operation string.
      */
     UMLClassifier * getSeqNumAndOp(QString& seqNum, QString& op);
 
@@ -624,19 +641,19 @@ private:
      *                         Region 4
      *
      *
-     * @param Rect		The bounding rectangle to investigate.
-     * @param PosX		X coordinate of the point to seek.
-     * @param PosY		Y coordinate of the point to seek.
-     * @return	The region number of the region containing the point.
-     *		1 = Region 1
-     *		2 = Region 2
-     *		3 = Region 3
-     *		4 = Region 4
-     *		5 = On diagonal 2 between Region 1 and 2
-     *		6 = On diagonal 1 between Region 2 and 3
-     *		7 = On diagonal 2 between Region 3 and 4
-     *		8 = On diagonal 1 between Region4 and 1
-     *		9 = On diagonal 1 and On diagonal 2 (the center)
+     * @param Rect              The bounding rectangle to investigate.
+     * @param PosX              X coordinate of the point to seek.
+     * @param PosY              Y coordinate of the point to seek.
+     * @return  The region number of the region containing the point.
+     *          1 = Region 1
+     *          2 = Region 2
+     *          3 = Region 3
+     *          4 = Region 4
+     *          5 = On diagonal 2 between Region 1 and 2
+     *          6 = On diagonal 1 between Region 2 and 3
+     *          7 = On diagonal 2 between Region 3 and 4
+     *          8 = On diagonal 1 between Region4 and 1
+     *          9 = On diagonal 1 and On diagonal 2 (the center)
      */
     static Region findPointRegion(QRect Rect, int PosX, int PosY);
 
@@ -894,13 +911,13 @@ private:
      * This segment is:
      * m_LinePath[m_unNameLineSegment] -- m_LinePath[m_unNameLineSegment+1]
      */
-    uint 		m_unNameLineSegment;
+    uint                m_unNameLineSegment;
     UMLDoc * m_umldoc;  ///< just a shorthand for UMLApp::app()->getDocument()
-    ListPopupMenu 	*m_pMenu;
-    bool 		m_bSelected;
-    int 		m_nMovingPoint;
-    int		m_nLinePathSegmentIndex; ///< anchor for m_pAssocClassLine
-    Q3CanvasLine	*m_pAssocClassLine;  ///< used for connecting assoc. class
+    ListPopupMenu       *m_pMenu;
+    bool                m_bSelected;
+    int                 m_nMovingPoint;
+    int         m_nLinePathSegmentIndex; ///< anchor for m_pAssocClassLine
+    Q3CanvasLine *m_pAssocClassLine;  ///< used for connecting assoc. class
     /// selection adornment for the endpoints of the assoc. class connecting line
     Q3CanvasRectangle *m_pAssocClassLineSel0, *m_pAssocClassLineSel1;
 
@@ -912,7 +929,6 @@ private:
     LinePath m_LinePath;
 
     // The following items are only used if m_pObject is not set.
-    QString m_Doc;
     Uml::Association_Type m_AssocType;
 
 public slots:
@@ -938,9 +954,9 @@ public slots:
      * Connected to UMLClassifier::attributeRemoved() in case this
      * AssociationWidget is linked to a classifer's attribute type.
      *
-     * @param obj		The UMLAttribute removed.
+     * @param obj               The UMLAttribute removed.
      */
-    void slotAttributeRemoved(UMLObject* obj);
+    void slotAttributeRemoved(UMLClassifierListItem* obj);
 
     /**
      * Synchronize this widget from the UMLAssociation.

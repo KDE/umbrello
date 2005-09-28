@@ -21,16 +21,15 @@
 #include <qstring.h>
 #include <q3ptrlist.h>
 
-#include "attribute.h"
 #include "classifier.h"
 #include "codeaccessormethod.h"
 #include "codedocument.h"
 #include "codeoperation.h"
 #include "codeclassfield.h"
 #include "codeclassfieldlist.h"
-#include "operation.h"
-#include "umlrole.h"
 #include "umlassociationlist.h"
+
+class UMLRole;
 
 /**
   * class ClassifierCodeDocument
@@ -134,8 +133,12 @@ public:
     /** Using the parent object's UML ID, find the corresponding
      * codeclassfield object in this classifiercodedocument. Returns
      * NULL if no such codeclassfield object exists in this document.
+     *
+     * @param role_id  0 for role A of the asssociation
+     *                 1 for role B of the asssociation
+     *                -1 if this is an attribute.
      */
-    CodeClassField * findCodeClassFieldFromParentID (Uml::IDType id, Uml::Role_Type role_id);
+    CodeClassField * findCodeClassFieldFromParentID (Uml::IDType id, int role_id = -1);
 
     /**
      * Get the value of m_parentclassifier
@@ -156,7 +159,7 @@ public:
 
     /** Will add the code operation in the correct place in the document.
      *  @return bool which is true IF the code operation was added successfully
-    	 */
+     */
     virtual bool addCodeOperation (CodeOperation *opBlock) = 0;
 
     /**
@@ -226,7 +229,7 @@ private:
     UMLClassifier* m_parentclassifier;
 
     // using the passed list, update our inventory of CodeClassFields which are
-    // based on UMLRoles (e.g. dervied from associations with other classifiers).
+    // based on UMLRoles (e.g. derived from associations with other classifiers).
     void updateAssociationClassFields ( UMLAssociationList &assocList );
 
     // update code operations in this document using the parent classifier
@@ -234,7 +237,7 @@ private:
 
     /**
      * Maps CodeClassFields to UMLObjects. Used to prevent re-adding a class
-        	 * field.
+     * field.
      */
     QMap<UMLObject *,CodeClassField *> * m_classFieldMap;
 
@@ -249,12 +252,12 @@ public slots:
     /**
      * Synchronize this document to the attributes/associations of the parent classifier.
      */
-    void addAttributeClassField(UMLObject *at=0, bool syncToParentIfAdded = true);
-    void addAssociationClassField (UMLAssociation * assoc=0, bool syncToParentIfAdded = true);
-    void removeAttributeClassField(UMLObject *at);
+    void addAttributeClassField(UMLClassifierListItem *at, bool syncToParentIfAdded = true);
+    void addAssociationClassField (UMLAssociation * assoc, bool syncToParentIfAdded = true);
+    void removeAttributeClassField(UMLClassifierListItem *at);
     void removeAssociationClassField(UMLAssociation *assoc);
-    void addOperation (UMLOperation * obj);
-    void removeOperation (UMLOperation * obj);
+    void addOperation (UMLClassifierListItem * obj);
+    void removeOperation (UMLClassifierListItem * obj);
     void syncToParent( );
 
 };

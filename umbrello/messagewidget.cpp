@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -48,17 +48,12 @@ MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
         m_pOw[Uml::B]->setY(y);
     }
 
-    connect(m_pOw[Uml::A], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
-    connect(m_pOw[Uml::B], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
     calculateWidget();
     y = y < getMinHeight() ? getMinHeight() : y;
     y = y > getMaxHeight() ? getMaxHeight() : y;
     m_nY = y;
 
-    connect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::A], SLOT(slotMessageMoved()) );
-    connect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::B], SLOT(slotMessageMoved()) );
-    m_pOw[Uml::A] -> messageAdded(this);
-    m_pOw[Uml::B] -> messageAdded(this);
+    this->activate();
 }
 
 MessageWidget::MessageWidget(UMLView * view, Uml::Sequence_Message_Type seqMsgType, Uml::IDType id)
@@ -138,8 +133,8 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY) {
     bool messageOverlaps = m_pOw[Uml::A] -> messageOverlap( getY(), this );
 
     if(m_pOw[Uml::A] == m_pOw[Uml::B]) {
-        p.fillRect( offsetX, offsetY, 17, h,  QBrush(white) );			//box
-        p.drawRect(offsetX, offsetY, 17, h);					//box
+        p.fillRect( offsetX, offsetY, 17, h,  QBrush(Qt::white) );              //box
+        p.drawRect(offsetX, offsetY, 17, h);                                    //box
         offsetX += 17;
         w -= 17;
         offsetY += 3;
@@ -159,22 +154,22 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY) {
         }
         QPen pen = p.pen();
         int startX = offsetX + w - 16;
-        p.fillRect(startX, offsetY, 17, h,  QBrush(white));		//box
-        p.drawRect(startX, offsetY, 17, h);				//box
-        p.drawLine(offsetX, offsetY + 4, startX, offsetY + 4);		//arrow line
+        p.fillRect(startX, offsetY, 17, h,  QBrush(Qt::white));         //box
+        p.drawRect(startX, offsetY, 17, h);                             //box
+        p.drawLine(offsetX, offsetY + 4, startX, offsetY + 4);          //arrow line
         drawSolidArrowhead(p, startX - 1, offsetY + 4, Qt::RightArrow);
         drawArrow(p, offsetX, offsetY + h - 3, w - 16, Qt::LeftArrow, true); // return arrow
         if (messageOverlaps)  {
             offsetX -= 8; //reset for drawSelected()
         }
-    } else	{
+    } else      {
         if (messageOverlaps)  {
             w -=8;
         }
         QPen pen = p.pen();
-        p.fillRect( offsetX, offsetY, 17, h,  QBrush(white) );			//box
-        p.drawRect(offsetX, offsetY, 17, h);					//box
-        p.drawLine(offsetX + 18, offsetY + 4, offsetX + w, offsetY + 4);	//arrow line
+        p.fillRect( offsetX, offsetY, 17, h,  QBrush(Qt::white) );              //box
+        p.drawRect(offsetX, offsetY, 17, h);                                    //box
+        p.drawLine(offsetX + 18, offsetY + 4, offsetX + w, offsetY + 4);        //arrow line
         drawSolidArrowhead(p, offsetX + 17, offsetY + 4, Qt::LeftArrow);
         drawArrow(p, offsetX + 18, offsetY + h - 3, w - 18, Qt::RightArrow, true); // return arrow
     }
@@ -216,7 +211,7 @@ void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY) {
         if (messageOverlapsA)  {
             offsetX -= 7;
         }
-    } else	{
+    } else      {
         if (messageOverlapsA)  {
             w -= 7;
         }
@@ -248,7 +243,7 @@ void MessageWidget::drawCreation(QPainter& p, int offsetX, int offsetY) {
         if (messageOverlapsA)  {
             offsetX -= 7;
         }
-    } else	{
+    } else      {
         if (messageOverlapsA)  {
             w -= 7;
         }
@@ -410,14 +405,12 @@ void MessageWidget::mouseDoubleClickEvent(QMouseEvent * /*me*/) {
         m_pFText -> slotMenuSelection(ListPopupMenu::mt_Select_Operation);
 }
 
-bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
+void MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
     m_pView->resetPastePoint();
-    bool status = UMLWidget::activate(Log);
-    if(!status)
-        return false;
+    UMLWidget::activate(Log);
     if (m_pOw[Uml::A] == NULL || m_pOw[Uml::B] == NULL) {
         kdDebug() << "MessageWidget::activate: can't make message" << endl;
-        return false;
+        return;
     }
     if( !m_pFText ) {
         Uml::Text_Role tr = Uml::tr_Seq_Message;
@@ -449,7 +442,6 @@ bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
     m_pOw[Uml::B] -> messageAdded(this);
 
     emit sigMessageMoved();
-    return status;
 }
 
 void MessageWidget::setMessageText(FloatingText *ft) {
@@ -511,12 +503,7 @@ UMLClassifier * MessageWidget::getSeqNumAndOp(QString& seqNum, QString& op) {
     seqNum = m_SequenceNumber;
     UMLOperation *pOperation = getOperation();
     if (pOperation != NULL) {
-        Uml::Signature_Type sigType;
-        if (m_pView->getShowOpSig())
-            sigType = Uml::st_SigNoScope;
-        else
-            sigType = Uml::st_NoSigNoScope;
-        op = pOperation->toString(sigType);
+        op = pOperation->toString(Uml::st_SigNoScope);
     } else {
         op = m_CustomOp;
     }
@@ -670,7 +657,7 @@ void MessageWidget::mouseMoveEvent(QMouseEvent *me) {
         m_pView -> setSelected( this, me );
     m_bSelected = true;
     if( !m_bMouseDown )
-        if( me -> button() != LeftButton )
+        if( me -> button() != Qt::LeftButton )
             return;
     int count = m_pView -> getSelectCount();
 
@@ -770,7 +757,7 @@ void MessageWidget::mousePressEvent(QMouseEvent* me) {
     int m = 10;
     //see if clicked on bottom right corner
     if( (m_nOldX + m_nPressOffsetX) >= (getX() + width() - m) &&
-            (m_nOldY + m_nPressOffsetY) >= (getY() + height() - m) && me->button() == LeftButton) {
+        (m_nOldY + m_nPressOffsetY) >= (getY() + height() - m) && me->button() == Qt::LeftButton) {
         m_bResizing = true;
         m_pView->setCursor(KCursor::sizeVerCursor());
         m_nOldH = height();
@@ -859,7 +846,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
     UMLClassifier *c = dynamic_cast<UMLClassifier*>( pWB->getUMLObject() );
     if (c) {
         Uml::IDType opId = STR2ID(m_CustomOp);
-        UMLOperation *op = dynamic_cast<UMLOperation*>( c->findChildObject(opId, true) );
+        UMLOperation *op = dynamic_cast<UMLOperation*>( c->findChildObjectById(opId, true) );
         if (op) {
             // If the UMLOperation is set, m_CustomOp isn't used anyway.
             // Just setting it empty for the sake of sanity.
@@ -869,9 +856,9 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
             // instead of the xmi.id of the operation.
             // For backward compatibility, attempt to determine the
             // m_pOperation from the operation text:
-            Umbrello::OpDescriptor od;
-            Umbrello::Parse_Status st = Umbrello::parseOperation(m_CustomOp, od, c);
-            if (st == Umbrello::PS_OK) {
+            Model_Utils::OpDescriptor od;
+            Model_Utils::Parse_Status st = Model_Utils::parseOperation(m_CustomOp, od, c);
+            if (st == Model_Utils::PS_OK) {
                 bool isExistingOp = false;
                 UMLObject *o = c->createOperation(od.m_name, &isExistingOp, &od.m_args);
                 op = static_cast<UMLOperation*>(o);

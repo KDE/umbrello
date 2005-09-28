@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -59,7 +59,7 @@ void DocWindow::showDocumentation( UMLObject * object, bool overwrite ) {
         updateDocumentation( true );
     m_Showing = st_UMLObject;
     if( !object ) {
-        m_pDocMLE -> setText( m_pUMLDoc -> getDoc() );
+        m_pDocMLE->setText( m_pUMLDoc->getDocumentation() );
         m_pUMLObject = 0;
         return;
     }
@@ -115,12 +115,12 @@ void DocWindow::updateDocumentation( bool clear, bool startup ) {
         // the file is marked modified, if the documentation differs
         // we don't do this on startup/load of a xmi file, because every time
         // modified is set, we get another undo/redo backup point
-        if ( startup == false && m_pDocMLE -> text() != m_pUMLDoc -> getDoc() )
+        if ( startup == false && m_pDocMLE -> text() != m_pUMLDoc->getDocumentation() )
         {
             mark_modified = true;
         }
 
-        m_pUMLDoc -> setDoc( m_pDocMLE -> text() );
+        m_pUMLDoc->setDocumentation( m_pDocMLE->text() );
     }
 
     // now do the setModified call
@@ -129,7 +129,7 @@ void DocWindow::updateDocumentation( bool clear, bool startup ) {
 
     // we should show the documentation of the whole project
     if( clear ) {
-        m_pDocMLE -> setText( m_pUMLDoc -> getDoc() );
+        m_pDocMLE->setText( m_pUMLDoc->getDocumentation() );
         m_pUMLObject = 0;
         m_pUMLView = 0;
         m_pUMLWidget = 0;
@@ -147,7 +147,7 @@ void DocWindow::showDocumentation( UMLView * view, bool overwrite ) {
         updateDocumentation( true );
     m_Showing = st_UMLView;
     if( !view ) {
-        m_pDocMLE -> setText( m_pUMLDoc -> getDoc() );
+        m_pDocMLE->setText( m_pUMLDoc->getDocumentation() );
         m_pUMLView = 0;
         return;
     }
@@ -162,7 +162,7 @@ void DocWindow::showDocumentation( UMLWidget * widget, bool overwrite ) {
         updateDocumentation( true );
     m_Showing = st_UMLWidget;
     if( !widget ) {
-        m_pDocMLE -> setText( m_pUMLDoc -> getDoc() );
+        m_pDocMLE->setText( m_pUMLDoc->getDocumentation() );
         m_pUMLWidget = 0;
         return;
     }
@@ -177,7 +177,7 @@ void DocWindow::showDocumentation( AssociationWidget * widget, bool overwrite ) 
         updateDocumentation( true );
     m_Showing = st_Association;
     if( !widget ) {
-        m_pDocMLE -> setText( m_pUMLDoc -> getDoc() );
+        m_pDocMLE->setText( m_pUMLDoc->getDocumentation() );
         m_pAssocWidget = 0;
         return;
     }
@@ -191,7 +191,7 @@ void DocWindow::newDocumentation( ) {
     m_pUMLWidget = 0;
     m_pAssocWidget = 0;
     m_Showing = st_Project;
-    m_pDocMLE -> setText( m_pUMLDoc -> getDoc() );
+    m_pDocMLE->setText( m_pUMLDoc->getDocumentation() );
 }
 
 bool DocWindow::isTyping()

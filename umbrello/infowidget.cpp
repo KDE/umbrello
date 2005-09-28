@@ -16,7 +16,7 @@
 #include <kdebug.h>
 
 InfoWidget::InfoWidget(QWidget* parent, const char* name) : QWidget(parent,name) {
-    setBackgroundColor(white);
+    setBackgroundColor(Qt::white);
 }
 
 InfoWidget::~InfoWidget() {}

@@ -33,6 +33,7 @@
 #include "boxwidget.h"
 #include "floatingtext.h"
 #include "activitywidget.h"
+#include "forkjoinwidget.h"
 #include "statewidget.h"
 
 using namespace Uml;
@@ -51,20 +52,20 @@ Uml::Object_Type ToolBarStateOther::getObjectType(WorkToolBar::ToolBar_Buttons t
 
     switch(tbb)
     {
-    case WorkToolBar::tbb_Actor: 	ot = ot_Actor; 		break;
-    case WorkToolBar::tbb_UseCase: 	ot = ot_UseCase; 	break;
-    case WorkToolBar::tbb_Class: 	ot = ot_Class; 		break;
-    case WorkToolBar::tbb_Object: 	ot = ot_Class; 		break;  // Object is a class.
-    case WorkToolBar::tbb_Package: 	ot = ot_Package; 	break;
-    case WorkToolBar::tbb_Component: 	ot = ot_Component; 	break;
-    case WorkToolBar::tbb_Node: 	ot = ot_Node; 		break;
-    case WorkToolBar::tbb_Artifact: 	ot = ot_Artifact; 	break;
-    case WorkToolBar::tbb_Interface: 	ot = ot_Interface; 	break;
-    case WorkToolBar::tbb_Enum: 	ot = ot_Enum; 		break;
-    case WorkToolBar::tbb_Entity: 	ot = ot_Entity; 	break;
-    case WorkToolBar::tbb_Datatype: 	ot = ot_Datatype; 	break;
+    case WorkToolBar::tbb_Actor:        ot = ot_Actor;          break;
+    case WorkToolBar::tbb_UseCase:      ot = ot_UseCase;        break;
+    case WorkToolBar::tbb_Class:        ot = ot_Class;          break;
+    case WorkToolBar::tbb_Object:       ot = ot_Class;          break;  // Object is a class.
+    case WorkToolBar::tbb_Package:      ot = ot_Package;        break;
+    case WorkToolBar::tbb_Component:    ot = ot_Component;      break;
+    case WorkToolBar::tbb_Node:         ot = ot_Node;           break;
+    case WorkToolBar::tbb_Artifact:     ot = ot_Artifact;       break;
+    case WorkToolBar::tbb_Interface:    ot = ot_Interface;      break;
+    case WorkToolBar::tbb_Enum:         ot = ot_Enum;           break;
+    case WorkToolBar::tbb_Entity:       ot = ot_Entity;         break;
+    case WorkToolBar::tbb_Datatype:     ot = ot_Datatype;       break;
 
-    default: 				ot = ot_UMLObject; 	break;
+    default:                            ot = ot_UMLObject;      break;
     }
 
     return ot;
@@ -77,48 +78,49 @@ bool ToolBarStateOther::newWidget()
 
     switch (getButton())
     {
-    case (WorkToolBar::tbb_Note):
+    case WorkToolBar::tbb_Note:
         umlWidget = new NoteWidget(m_pUMLView);
         break;
 
-    case (WorkToolBar::tbb_Box):
+    case WorkToolBar::tbb_Box:
         umlWidget = new BoxWidget(m_pUMLView);
         break;
 
-    case (WorkToolBar::tbb_Text):
+    case WorkToolBar::tbb_Text:
         umlWidget = new FloatingText(m_pUMLView, tr_Floating, "");
         break;
 
         // Activity buttons
-    case (WorkToolBar::tbb_Initial_Activity):
+    case WorkToolBar::tbb_Initial_Activity:
         umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::Initial);
         break;
 
-    case (WorkToolBar::tbb_Activity):
+    case WorkToolBar::tbb_Activity:
         umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::Normal);
         break;
 
-    case (WorkToolBar::tbb_End_Activity):
+    case WorkToolBar::tbb_End_Activity:
         umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::End);
         break;
 
-    case (WorkToolBar::tbb_Branch):
+    case WorkToolBar::tbb_Branch:
         umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::Branch);
         break;
 
-    case (WorkToolBar::tbb_Fork):
-        umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::Fork);
+    case WorkToolBar::tbb_Fork:
+    case WorkToolBar::tbb_StateFork:
+        umlWidget = new ForkJoinWidget(m_pUMLView);
         break;
 
-    case (WorkToolBar::tbb_Initial_State):
+    case WorkToolBar::tbb_Initial_State:
         umlWidget = new StateWidget(m_pUMLView, StateWidget::Initial);
         break;
 
-    case (WorkToolBar::tbb_State):
+    case WorkToolBar::tbb_State:
         umlWidget = new StateWidget(m_pUMLView, StateWidget::Normal);
         break;
 
-    case (WorkToolBar::tbb_End_State):
+    case WorkToolBar::tbb_End_State:
         umlWidget = new StateWidget(m_pUMLView, StateWidget::End);
         break;
     default: break;
@@ -129,11 +131,11 @@ bool ToolBarStateOther::newWidget()
 
     // Special treatment for some buttons
     if (getButton() == WorkToolBar::tbb_Activity)
-        Umbrello::askNameForWidget(
+        Dialog_Utils::askNameForWidget(
             umlWidget, i18n("Enter Activity Name"),
             i18n("Enter the name of the new activity:"), i18n("new activity") );
     else if (getButton() == WorkToolBar::tbb_State )
-        Umbrello::askNameForWidget(
+        Dialog_Utils::askNameForWidget(
             umlWidget, i18n("Enter State Name"),
             i18n("Enter the name of the new state:"), i18n("new state") );
 else if (getButton() == WorkToolBar::tbb_Text) {
@@ -158,7 +160,7 @@ void ToolBarStateOther::mouseRelease(QMouseEvent* ome)
 {
     ToolBarStatePool::mouseRelease(ome);
 
-    if (ome->state() == QMouseEvent::LeftButton)
+    if (ome->state() == Qt::LeftButton)
     {
         if (!newWidget())
         {

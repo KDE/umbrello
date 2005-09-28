@@ -1,5 +1,5 @@
 /************************************************************************
-  			%filename% - Copyright %author%
+                        %filename% - Copyright %author%
 
 Here you can write a license for your code, some comments or any other
 information you want to have in your generated code. To to this simply
