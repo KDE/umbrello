@@ -17,7 +17,7 @@
 #ifndef CODEGENOBJECTWITHTEXTBLOCKS_H
 #define CODEGENOBJECTWITHTEXTBLOCKS_H
 
-
+#include <qmap.h>
 #include "codeaccessormethod.h"
 
 class CodeBlock;

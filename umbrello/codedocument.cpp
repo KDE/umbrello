@@ -15,6 +15,7 @@
 
 #include <kdebug.h>
 #include <qregexp.h>
+#include <qdatetime.h>
 
 #include "codedocument.h"
 #include "codegenerator.h"

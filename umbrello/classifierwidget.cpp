@@ -572,7 +572,7 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
     if ( tlist.count() > 0 ) {
         UMLWidget::setPen(p);
         QPen pen = p.pen();
-        pen.setStyle(DotLine);
+        pen.setStyle(Qt::DotLine);
         p.setPen(pen);
         p.drawRect( offsetX + width() - templatesBoxSize.width(), offsetY,
                     templatesBoxSize.width(), templatesBoxSize.height() );

@@ -15,7 +15,6 @@
 //qt includes
 #include <qpainter.h>
 //kde includes
-#include <klineeditdlg.h>
 #include <kdebug.h>
 #include <kcursor.h>
 //app includes

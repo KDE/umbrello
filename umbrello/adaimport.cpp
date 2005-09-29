@@ -64,7 +64,7 @@ void AdaImport::fillSource(QString word) {
                 m_source.append(":=");
                 i++;
             } else {
-                m_source.append(c);
+                m_source.append(QString(c));
             }
         }
     }
