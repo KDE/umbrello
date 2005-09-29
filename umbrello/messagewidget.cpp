@@ -20,7 +20,6 @@
 #include <QMoveEvent>
 #include <QResizeEvent>
 //kde includes
-#include <klineeditdlg.h>
 #include <kdebug.h>
 #include <kcursor.h>
 //app includes
