@@ -468,7 +468,7 @@ Uml::IDType UMLAssociation::getObjectId(Role_Type role) {
 
 /* CURRENTLY UNUSED
 Uml::IDType UMLAssociation::getRoleId(Role_Type role) const {
-	return m_pRole[role]->getID();
+    return m_pRole[role]->getID();
 }
  */
 
