@@ -74,7 +74,7 @@ CodeBlock::ContentType CodeBlock::getContentType ( ) {
  */
 /*
 CodeBlockDialog * CodeBlock::getDialog ( ) {
-	return m_dialog;
+    return m_dialog;
 }
 */
 

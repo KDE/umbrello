@@ -290,7 +290,7 @@ bool CodeDocument::insertTextBlock(TextBlock * newBlock, TextBlock * existingBlo
  */
 /*
 CodeDocumentDialog * CodeDocument::getDialog ( ) {
-	return m_dialog;
+    return m_dialog;
 }
 */
 

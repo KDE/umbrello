@@ -153,7 +153,7 @@ CodeClassField::ClassFieldType CodeClassField::getClassFieldType() {
  */
 /*
 CodeClassFieldDialog * CodeClassField::getDialog ( ) {
-	return m_dialog;
+    return m_dialog;
 }
 */
 
