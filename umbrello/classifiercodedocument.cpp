@@ -251,7 +251,7 @@ Q3PtrList<CodeOperation> ClassifierCodeDocument::getCodeOperations ( ) {
     Q3PtrList<CodeOperation> list;
     list.setAutoDelete(false);
 
-    Q3PtrList<TextBlock> * tlist = getTextBlockList();
+    TextBlockList * tlist = getTextBlockList();
     for (TextBlock *tb = tlist->first(); tb; tb=tlist->next())
     {
         CodeOperation * cop = dynamic_cast<CodeOperation*>(tb);
@@ -314,7 +314,7 @@ void ClassifierCodeDocument::addCodeClassFieldMethods(CodeClassFieldList &list )
     for (CodeClassFieldListIt ccflit(list); ccflit.current(); ++ccflit)
     {
         CodeClassField * field = ccflit.current();
-        Q3PtrList <CodeAccessorMethod> * list = field->getMethodList();
+        CodeAccessorMethodList * list = field->getMethodList();
         for (CodeAccessorMethod * method = list->first(); method; method = list->next())
         {
             /*
@@ -702,7 +702,7 @@ TextBlock * ClassifierCodeDocument::findCodeClassFieldTextBlockByTag (const QStr
         if(decl && decl->getTag() == tag)
             return decl;
         // well, if not in the decl block, then in the methods perhaps?
-        Q3PtrList<CodeAccessorMethod> * mlist = cf->getMethodList();
+        CodeAccessorMethodList * mlist = cf->getMethodList();
         for(CodeAccessorMethod * m = mlist->first(); m; m=mlist->next())
             if(m->getTag() == tag)
                 return m;

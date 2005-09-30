@@ -19,7 +19,6 @@
 #define CODEMETHODBLOCK_H
 
 #include <qstring.h>
-#include <q3ptrlist.h>
 
 #include "ownedcodeblock.h"
 #include "codeblockwithcomments.h"

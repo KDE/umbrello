@@ -56,7 +56,7 @@ CodeGenObjectWithTextBlocks::~CodeGenObjectWithTextBlocks ( ) {
  * @return QPtrList<TextBlock *> list of TextBlock objects held by
  * m_textblockVector
  */
-Q3PtrList<TextBlock> * CodeGenObjectWithTextBlocks::getTextBlockList ( ) {
+TextBlockList * CodeGenObjectWithTextBlocks::getTextBlockList ( ) {
     return &m_textblockVector;
 }
 
@@ -352,7 +352,7 @@ void CodeGenObjectWithTextBlocks::resetTextBlocks() {
 
 void CodeGenObjectWithTextBlocks::setAttributesFromObject (CodeGenObjectWithTextBlocks * obj)
 {
-    Q3PtrList<TextBlock> * list = obj->getTextBlockList();
+    TextBlockList * list = obj->getTextBlockList();
     for (TextBlock * tb = list->first(); tb; tb=list->next())
     {
         // FIX : we need some functionality like
@@ -366,7 +366,7 @@ void CodeGenObjectWithTextBlocks::setAttributesOnNode (QDomDocument & doc, QDomE
     QDomElement tblockElement = doc.createElement( "textblocks" );
 
     // only concrete calls to textblocks are saved
-    Q3PtrList<TextBlock> * tbList = getTextBlockList();
+    TextBlockList * tbList = getTextBlockList();
     for (TextBlock * block = tbList->first(); block; block= tbList->next())
         block->saveToXMI(doc, tblockElement);
 

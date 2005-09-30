@@ -25,7 +25,6 @@
 #include "../umlassociationlist.h"
 #include "simplecodegenerator.h"
 
-#include <q3ptrlist.h>
 #include <qstringlist.h>
 //Added by qt3to4:
 #include <QTextStream>

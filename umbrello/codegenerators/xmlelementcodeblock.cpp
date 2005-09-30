@@ -20,7 +20,7 @@
 #include "../attribute.h"
 #include "../codedocument.h"
 //Added by qt3to4:
-#include <Q3PtrList>
+//#include <Q3PtrList>
 
 // Constructors/Destructors
 //
@@ -98,7 +98,7 @@ void XMLElementCodeBlock::addAttribute (UMLAttribute * at) {
     m_attList.append(at);
 }
 
-Q3PtrList<UMLAttribute> * XMLElementCodeBlock::getAttributeList() {
+UMLAttributeList * XMLElementCodeBlock::getAttributeList() {
     return & m_attList;
 }
 
@@ -120,7 +120,7 @@ void XMLElementCodeBlock::updateContent ( )
     QString startText = "<"+nodeName;
     QString endText = "";
 
-    Q3PtrList<UMLAttribute> * alist = getAttributeList();
+    UMLAttributeList * alist = getAttributeList();
     for (UMLAttribute *at = alist->first(); at; at=alist->next())
     {
         if(at->getInitialValue().isEmpty())

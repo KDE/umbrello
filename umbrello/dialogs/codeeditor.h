@@ -28,6 +28,7 @@
 #include <QKeyEvent>
 #include <Q3PtrList>
 #include "../codeviewerstate.h"
+#include "../textblocklist.h"
 
 class UMLObject;
 
@@ -63,7 +64,7 @@ protected:
     void appendText (TextBlock * tblock);
     void appendText (HierarchicalCodeBlock * hblock);
     void appendText (CodeClassFieldDeclarationBlock * db );
-    void appendText (Q3PtrList<TextBlock> * items);
+    void appendText (TextBlockList * items);
     void appendText (CodeMethodBlock * mb);
     void appendText (CodeComment * comment, TextBlock * parent, UMLObject * umlObj = 0, const QString & compName="");
     void appendText (CodeBlockWithComments * cb );
@@ -110,7 +111,7 @@ private:
     TextBlock * m_lastTextBlockToBeEdited;
 
     QMap<TextBlock*, TextBlockInfo*> *m_tbInfoMap;
-    Q3PtrList<TextBlock> m_textBlockList;
+    TextBlockList m_textBlockList;
 
     // main insert routine. Will append if startline is not supplied.
     void insert (const QString & text, TextBlock * parent, bool isEditable = false,

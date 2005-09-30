@@ -24,7 +24,6 @@
 #include "../umlattributelist.h"
 #include "../umloperationlist.h"
 
-#include <q3ptrlist.h>
 #include <qstringlist.h>
 //Added by qt3to4:
 #include <QTextStream>

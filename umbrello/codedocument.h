@@ -19,7 +19,6 @@
 #include <qobject.h>
 #include <qmap.h>
 #include <qstring.h>
-#include <q3ptrlist.h>
 
 #include "codegenerationpolicy.h"
 #include "codegenobjectwithtextblocks.h"
@@ -318,7 +317,7 @@ private:
 
     void initDoc ( CodeGenerator * parent ) ;
 
-    // QPtrList<TextBlock> m_textblockVector;
+    // TextBlockList m_textblockVector;
     // QMap<QString, TextBlock *> * m_textBlockTagMap;
 
     // for recording all of the textblocks held by child hierarchical codeblocks

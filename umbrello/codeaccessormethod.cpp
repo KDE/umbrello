@@ -60,7 +60,7 @@ bool CodeAccessorMethod::parentIsAttribute( ) {
  */
 /*
 UMLObject * CodeAccessorMethod::getParentObject ( ) {
-	return getParentClassField()->getParentObject();
+    return getParentClassField()->getParentObject();
 }
 */
 

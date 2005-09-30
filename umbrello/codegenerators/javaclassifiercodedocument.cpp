@@ -23,8 +23,6 @@
 */
 #include <kdebug.h>
 #include <qregexp.h>
-//Added by qt3to4:
-#include <Q3PtrList>
 
 #include "javaclassifiercodedocument.h"
 #include "javacodegenerator.h"
@@ -378,7 +376,7 @@ void JavaClassifierCodeDocument::updateContent( )
 
     // first, set the global flag on whether or not to show classfield info
     // This depends on whether or not we have attribute/association classes
-    Q3PtrList<CodeClassField> * cfList = getCodeClassFieldList();
+    CodeClassFieldList * cfList = getCodeClassFieldList();
     for(CodeClassField * field = cfList->first(); field; field = cfList->next())
         if(field->parentIsAttribute())
             field->setWriteOutMethods(gen->getAutoGenerateAttribAccessors());
@@ -387,13 +385,13 @@ void JavaClassifierCodeDocument::updateContent( )
 
     // attribute-based ClassFields
     // we do it this way to have the static fields sorted out from regular ones
-    Q3PtrList<CodeClassField> staticAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true);
-    Q3PtrList<CodeClassField> attribClassFields = getSpecificClassFields (CodeClassField::Attribute, false);
+    CodeClassFieldList staticAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true);
+    CodeClassFieldList attribClassFields = getSpecificClassFields (CodeClassField::Attribute, false);
     // association-based ClassFields
     // dont care if they are static or not..all are lumped together
-    Q3PtrList<CodeClassField> plainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation );
-    Q3PtrList<CodeClassField> aggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation );
-    Q3PtrList<CodeClassField> compositionClassFields = getSpecificClassFields ( CodeClassField::Composition );
+    CodeClassFieldList plainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation );
+    CodeClassFieldList aggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation );
+    CodeClassFieldList compositionClassFields = getSpecificClassFields ( CodeClassField::Composition );
 
     bool isInterface = parentIsInterface();
     bool hasOperationMethods = c->getOpList().last() ? true : false;

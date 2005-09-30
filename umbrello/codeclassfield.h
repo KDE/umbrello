@@ -18,7 +18,7 @@
 #ifndef CODECLASSFIELD_H
 #define CODECLASSFIELD_H
 
-
+#include "codeaccessormethodlist.h"
 #include "codeclassfielddeclarationblock.h"
 #include "codeparameter.h"
 #include "codeaccessormethod.h"
@@ -84,10 +84,10 @@ public:
 
     /**
      * Get the list of Method objects held by m_methodVector
-     * @return QPtrList<CodeAccessorMethod> list of Method objects held by
+     * @return CodeAccessorMethodList list of Method objects held by
      * m_methodVector
      */
-    Q3PtrList<CodeAccessorMethod> * getMethodList ( );
+    CodeAccessorMethodList * getMethodList ( );
 
     /** Utility method to allow finding particular accessor method of this
          *  code class field by its type identifier.
@@ -200,7 +200,7 @@ private:
     QString m_listClassName;
     ClassFieldType m_classFieldType;
     CodeClassFieldDeclarationBlock * m_declCodeBlock;
-    Q3PtrList<CodeAccessorMethod> m_methodVector; // the list of methods related to this codeclassfield
+    CodeAccessorMethodList m_methodVector; // the list of methods related to this codeclassfield
     bool m_parentIsAttribute;
 
     // these are just some utility functions
