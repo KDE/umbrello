@@ -12,7 +12,6 @@
 #ifndef IMPORT_UTILS_H
 #define IMPORT_UTILS_H
 
-#include <qptrlist.h>
 #include <qstringlist.h>
 #include "umlnamespace.h"
 #include "umlattributelist.h"

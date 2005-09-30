@@ -78,7 +78,7 @@ public:
     void setup (int minValue, int maxValue, int value, int pageStep, int lineStep = 1);
     /** Sets the slider orientation.
       */
-    virtual void setOrientation (Orientation);
+    virtual void setOrientation (Qt::Orientation);
 
 signals:
     /** Emitted when the slider value changes.
@@ -109,7 +109,7 @@ public:
     /** The KPlayerPopupFrame constructor. Parameters are passed on to QFrame.
       */
     KPlayerPopupFrame (QWidget* parent = 0, const char* name = 0)
-            : QFrame (parent, name, WType_Popup) { }
+            : QFrame (parent, name, Qt::WType_Popup) { }
     /** The KPlayerPopupFrame destructor. Does nothing.
       */
     virtual ~KPlayerPopupFrame() { }
@@ -191,7 +191,7 @@ public:
 protected slots:
     /** Changes the slider orientation when the toolbar orientation changes.
       */
-    void orientationChanged (Orientation);
+    void orientationChanged (Qt::Orientation);
 
 protected:
     /** The slider.
