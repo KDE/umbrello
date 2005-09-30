@@ -26,7 +26,7 @@ public:
     virtual int getMaxY()=0;
     virtual int getBaseX()=0;
     virtual int getBaseY()=0;
-
+    virtual ~Canvas() {}
 };
 
 }

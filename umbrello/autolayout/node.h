@@ -27,10 +27,9 @@ class Node{
 
     //
 public:
-    //virtual ~Node();
+    virtual ~Node() {}
     virtual int getX()=0;
     virtual int getY()=0;
-
 
 
 };

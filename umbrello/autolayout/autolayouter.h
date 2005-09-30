@@ -23,6 +23,7 @@ This is the super class of any class which encapsulate an autolayout algorithm
 */
 class Autolayouter {
 public:
+    virtual ~Autolayouter() {}
 
     virtual void setNoteConnectionWeight(int i)=0;
     virtual void setNoteConnectionsAsEdges(bool b)=0;

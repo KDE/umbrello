@@ -22,6 +22,7 @@ namespace Autolayout {
 */
 class Graph{
 public:
+    virtual ~Graph() {}
     virtual void addNode(const char *name, int width,int heigt)=0;
     virtual void addEdge(const char* nodea,const char*nodeb,int weight=100)=0;
     virtual Node* getNode(const char*)=0;

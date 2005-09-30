@@ -25,8 +25,8 @@ namespace Autolayout {
 class SimpleCanvas: public Canvas
 {
 public:
-    SimpleCanvas(int i, int j):max_x(i),max_y(j){};
-
+    SimpleCanvas(int i, int j):max_x(i),max_y(j){}
+    virtual ~SimpleCanvas() {}
     virtual int getMaxX(){return max_x;}
     virtual int getMaxY(){return max_y;}
     virtual int getBaseX(){return 0;}
