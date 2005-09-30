@@ -96,7 +96,7 @@ void XMLElementCodeBlock::addAttribute (UMLAttribute * at) {
     m_attList.append(at);
 }
 
-QPtrList<UMLAttribute> * XMLElementCodeBlock::getAttributeList() {
+UMLAttributeList * XMLElementCodeBlock::getAttributeList() {
     return & m_attList;
 }
 
@@ -118,7 +118,7 @@ void XMLElementCodeBlock::updateContent ( )
     QString startText = "<"+nodeName;
     QString endText = "";
 
-    QPtrList<UMLAttribute> * alist = getAttributeList();
+    UMLAttributeList * alist = getAttributeList();
     for (UMLAttribute *at = alist->first(); at; at=alist->next())
     {
         if(at->getInitialValue().isEmpty())

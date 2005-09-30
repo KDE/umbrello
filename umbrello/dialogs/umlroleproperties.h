@@ -20,10 +20,10 @@
 #include "../umlrole.h"
 
 /**
- *      Displays properties of a UMLRole in a widget which may be used as 
- *      a properties page or a stand-alone dialog.
+ * Displays properties of a UMLRole in a widget which may be used as 
+ * a properties page or a stand-alone dialog.
  *
- *      @author Brian Thomas <brian.thomas@gsfc.nasa.gov>
+ * @author Brian Thomas <brian.thomas@gsfc.nasa.gov>
  */
 class UMLRoleProperties : public UMLRolePropertiesBase {
     Q_OBJECT

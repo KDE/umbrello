@@ -19,7 +19,6 @@
 #define CODEACCESSORMETHOD_H
 
 #include <qstring.h>
-#include <qptrlist.h>
 #include "codemethodblock.h"
 
 class CodeClassField;

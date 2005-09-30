@@ -22,7 +22,6 @@
 #include "../umlattributelist.h"
 #include "../umloperationlist.h"
 
-#include <qptrlist.h>
 #include <qstringlist.h>
 
 /**

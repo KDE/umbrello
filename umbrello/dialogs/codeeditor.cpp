@@ -210,7 +210,7 @@ void CodeEditor::loadFromDocument ()
                getState().nonEditBlockColor,0,componentName);
 
     // now all the text blocks in the document
-    QPtrList<TextBlock> * items = m_parentDoc->getTextBlockList();
+    TextBlockList * items = m_parentDoc->getTextBlockList();
     appendText(items);
 
     setCursorPosition(0,0);
@@ -322,7 +322,7 @@ void CodeEditor::insert (const QString & text, TextBlock * parent, bool editable
 
 }
 
-void CodeEditor::appendText(QPtrList<TextBlock> * items)
+void CodeEditor::appendText(TextBlockList * items)
 {
 
     for (TextBlock *tb = items->first(); tb; tb = items->next())
@@ -538,7 +538,7 @@ void CodeEditor::appendText(HierarchicalCodeBlock * hblock)
     if(!hblock->getWriteOutText() && m_showHiddenBlocks)
         paperColor = getState().hiddenColor;
 
-    QPtrList<TextBlock> * items = hblock->getTextBlockList();
+    TextBlockList * items = hblock->getTextBlockList();
     QString indent = hblock->getIndentationString();
     QString startText = hblock->formatMultiLineText ( hblock->getStartText(), indent, "\n");
     QString endText = hblock->formatMultiLineText( hblock->getEndText(), indent, "\n");

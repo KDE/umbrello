@@ -18,7 +18,6 @@
 #define CODEOPERATION_H
 
 #include <qstring.h>
-#include <qptrlist.h>
 
 #include "codemethodblock.h"
 #include "operation.h"

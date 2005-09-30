@@ -18,6 +18,7 @@
 
 #include <qstring.h>
 
+#include "../codeclassfieldlist.h"
 #include "../classifiercodedocument.h"
 #include "../hierarchicalcodeblock.h"
 #include "classifierinfo.h"
@@ -94,7 +95,7 @@ protected:
     */
     virtual void loadChildTextBlocksFromNode ( QDomElement & root);
 
-    void addOrUpdateCodeClassFieldMethodsInCodeBlock(QPtrList<CodeClassField> &list, CPPHeaderClassDeclarationBlock * codeBlock);
+    void addOrUpdateCodeClassFieldMethodsInCodeBlock(CodeClassFieldList &list, CPPHeaderClassDeclarationBlock * codeBlock);
 
     /**
      * create a new code comment. IN this case it is a CPPCodeDocumentation object.

@@ -337,7 +337,7 @@ QString CodeDocument::toString ( ) {
     // update the time/date
 
     // comments, import, package codeblocks go next
-    QPtrList<TextBlock> * items = getTextBlockList();
+    TextBlockList * items = getTextBlockList();
     for (TextBlock *c = items->first(); c; c = items->next())
     {
         if(c->getWriteOutText()) {

@@ -20,7 +20,6 @@
 #include "simplecodegenerator.h"
 #include "../umloperationlist.h"
 
-#include <qptrlist.h>
 #include <qstringlist.h>
 
 enum Access {PRIVATE, PUBLIC, PROTECTED};

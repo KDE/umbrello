@@ -20,7 +20,6 @@
 
 #include "simplecodegenerator.h"
 
-#include <qptrlist.h>
 #include <qstringlist.h>
 #include "../umloperationlist.h"
 

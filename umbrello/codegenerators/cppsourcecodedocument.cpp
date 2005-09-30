@@ -168,19 +168,19 @@ void CPPSourceCodeDocument::updateContent( )
     QString endLine = gen->getNewLineEndingChars(); // a shortcut..so we dont have to call this all the time
 
     // first, set the global flag on whether or not to show classfield info
-    QPtrList<CodeClassField> * cfList = getCodeClassFieldList();
+    CodeClassFieldList * cfList = getCodeClassFieldList();
     for(CodeClassField * field = cfList->first(); field; field = cfList->next())
         field->setWriteOutMethods(gen->getAutoGenerateAccessors());
 
     // attribute-based ClassFields
     // we do it this way to have the static fields sorted out from regular ones
-    QPtrList<CodeClassField> staticAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true);
-    QPtrList<CodeClassField> attribClassFields = getSpecificClassFields (CodeClassField::Attribute, false);
+    CodeClassFieldList staticAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true);
+    CodeClassFieldList attribClassFields = getSpecificClassFields (CodeClassField::Attribute, false);
     // association-based ClassFields
     // dont care if they are static or not..all are lumped together
-    QPtrList<CodeClassField> plainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation );
-    QPtrList<CodeClassField> aggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation );
-    QPtrList<CodeClassField> compositionClassFields = getSpecificClassFields ( CodeClassField::Composition );
+    CodeClassFieldList plainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation );
+    CodeClassFieldList aggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation );
+    CodeClassFieldList compositionClassFields = getSpecificClassFields ( CodeClassField::Composition );
 
     // START GENERATING CODE/TEXT BLOCKS and COMMENTS FOR THE DOCUMENT
     //

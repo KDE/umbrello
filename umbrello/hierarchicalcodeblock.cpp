@@ -245,7 +245,7 @@ void HierarchicalCodeBlock::addCodeClassFieldMethods(CodeClassFieldList &list )
     for (CodeClassFieldListIt ccflit(list); ccflit.current(); ++ccflit)
     {
         CodeClassField * field = ccflit.current();
-        QPtrList <CodeAccessorMethod> * list = field->getMethodList();
+        CodeAccessorMethodList * list = field->getMethodList();
         for (CodeAccessorMethod * method = list->first(); method; method = list->next())
         {
             QString tag = method->getTag();
@@ -373,7 +373,7 @@ QString HierarchicalCodeBlock::toString ( ) {
 }
 
 QString  HierarchicalCodeBlock::childTextBlocksToString() {
-    QPtrList<TextBlock>* list = getTextBlockList();
+    TextBlockList* list = getTextBlockList();
     QString retString = "";
     for(TextBlock *block = list->first() ; block; block=list->next())
     {

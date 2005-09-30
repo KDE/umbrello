@@ -25,7 +25,6 @@
 #include "../umlassociationlist.h"
 #include "simplecodegenerator.h"
 
-#include <qptrlist.h>
 #include <qstringlist.h>
 
 
