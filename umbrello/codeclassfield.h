@@ -22,8 +22,6 @@
 #include "codeclassfielddeclarationblock.h"
 #include "codeparameter.h"
 #include "codeaccessormethod.h"
-//Added by qt3to4:
-#include <Q3PtrList>
 
 // #include "codeclassfielddialog.h"
 

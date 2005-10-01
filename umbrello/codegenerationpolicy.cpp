@@ -21,9 +21,7 @@
 
 #include <qstringlist.h>
 #include <qregexp.h>
-#include <qdatastream.h>
-//Added by qt3to4:
-#include <QTextStream>
+#include <qtextstream.h>
 
 #include "dialogs/codegenerationpolicypage.h"
 #include "codegenerationpolicy.h"
@@ -73,12 +71,12 @@ CodeGenerationPolicy::~CodeGenerationPolicy ( ) { }
 
 /*
 void CodeGenerationPolicy::setNewCodegen (bool new_var) {
-	m_newCodegen = new_var;
-	emit modifiedCodeContent();
+    m_newCodegen = new_var;
+    emit modifiedCodeContent();
 }
 
 bool CodeGenerationPolicy::getNewCodegen () const {
-	return m_newCodegen;
+    return m_newCodegen;
 }
 */
 

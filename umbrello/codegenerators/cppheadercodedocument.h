@@ -17,8 +17,6 @@
 #define CPPHEADERCODEDOCUMENT_H
 
 #include <qstring.h>
-//Added by qt3to4:
-#include <Q3PtrList>
 
 #include "../codeclassfieldlist.h"
 #include "../classifiercodedocument.h"

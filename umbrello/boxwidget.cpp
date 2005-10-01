@@ -17,10 +17,10 @@
 //qt includes
 //Added by qt3to4:
 #include <QMouseEvent>
-//kde includes
+// kde includes
 #include <kcursor.h>
 #include <kdebug.h>
-//app includes
+// app includes
 #include "umlview.h"
 
 BoxWidget::BoxWidget(UMLView * view, Uml::IDType id) : UMLWidget( view, id ) {

@@ -22,10 +22,6 @@
 #include "../umlattributelist.h"
 #include "../umloperationlist.h"
 
-#include <qstringlist.h>
-//Added by qt3to4:
-#include <QTextStream>
-
 /**
   * class PhpWriter is a PHP code generator for UMLClassifier objects
   * Just call writeClass and feed it a UMLClassifier;

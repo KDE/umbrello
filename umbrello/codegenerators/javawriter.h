@@ -24,10 +24,7 @@
 #include "../umloperationlist.h"
 #include "../umlattributelist.h"
 #include "../umlassociationlist.h"
-//Added by qt3to4:
-#include <QTextStream>
 
-class QTextStream;
 class UMLOperation;
 
 /**

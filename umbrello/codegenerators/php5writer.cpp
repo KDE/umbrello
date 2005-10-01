@@ -19,9 +19,7 @@
 
 #include <kdebug.h>
 #include <qregexp.h>
-#include <qstring.h>
-//Added by qt3to4:
-#include <QTextStream>
+#include <qtextstream.h>
 
 #include "../umldoc.h"
 #include "../classifier.h"

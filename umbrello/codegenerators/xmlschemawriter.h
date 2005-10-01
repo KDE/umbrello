@@ -25,11 +25,6 @@
 #include "../umlassociationlist.h"
 #include "simplecodegenerator.h"
 
-#include <qstringlist.h>
-//Added by qt3to4:
-#include <QTextStream>
-
-
 /**
   * Class XMLSchemaWriter is a code generator for UMLClassifier objects.
   * Create an instance of this class, and feed it a UMLClassifier when

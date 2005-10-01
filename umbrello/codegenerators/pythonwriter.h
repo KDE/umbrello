@@ -20,10 +20,6 @@
 #include "simplecodegenerator.h"
 #include "../umloperationlist.h"
 
-#include <qstringlist.h>
-//Added by qt3to4:
-#include <QTextStream>
-
 enum Access {PRIVATE, PUBLIC, PROTECTED};
 
 /**

@@ -24,7 +24,6 @@
 #include "../umlassociationlist.h"
 #include "../umlattributelist.h"
 
-#include <q3ptrlist.h>
 #include <qstring.h>
 
 /**

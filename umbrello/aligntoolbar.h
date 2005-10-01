@@ -18,8 +18,6 @@
 #include <ktoolbar.h>
 #include "umlnamespace.h"
 #include "umlwidgetlist.h"
-//Added by qt3to4:
-#include <QPixmap>
 
 
 /**

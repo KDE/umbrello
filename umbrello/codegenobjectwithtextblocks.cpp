@@ -20,8 +20,6 @@
 #include "codedocument.h"
 #include "codeoperation.h"
 #include "hierarchicalcodeblock.h"
-//Added by qt3to4:
-#include <Q3PtrList>
 
 // Constructors/Destructors
 //

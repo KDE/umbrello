@@ -17,8 +17,6 @@
 
 #include "umlwidget.h"
 #include "worktoolbar.h"
-//Added by qt3to4:
-#include <QMouseEvent>
 
 #define ACTIVITY_MARGIN 5
 #define ACTIVITY_WIDTH 30

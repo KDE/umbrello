@@ -19,10 +19,6 @@
 #define JSWRITER_H
 
 #include "simplecodegenerator.h"
-
-#include <qstringlist.h>
-//Added by qt3to4:
-#include <QTextStream>
 #include "../umloperationlist.h"
 
 /**

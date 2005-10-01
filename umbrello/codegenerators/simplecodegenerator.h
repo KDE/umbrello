@@ -19,12 +19,14 @@
 #ifndef SIMPLECODEGENERATOR_H
 #define SIMPLECODEGENERATOR_H
 
+#include <qstringlist.h>
 #include <qstring.h>
 #include <qmap.h>
 
 #include "../codegenerator.h"
 #include "../umlnamespace.h"
 
+class QTextStream;
 class UMLDoc;
 class UMLAttribute;
 class CodeBlockWithComments;

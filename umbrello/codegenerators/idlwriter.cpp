@@ -14,10 +14,8 @@
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <qfile.h>
-#include <q3ptrlist.h>
 #include <qregexp.h>
-//Added by qt3to4:
-#include <QTextStream>
+#include <qtextstream.h>
 
 #include "../umldoc.h"
 #include "../classifier.h"
