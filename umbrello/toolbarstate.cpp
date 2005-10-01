@@ -12,6 +12,7 @@
  *                                                                         *
  ***************************************************************************/
 #include <qwmatrix.h> // need for inverseWorldMatrix.map
+#include <qevent.h>
 
 #include "toolbarstate.h"
 #include "umlview.h"

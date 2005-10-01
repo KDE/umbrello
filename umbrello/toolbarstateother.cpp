@@ -18,6 +18,7 @@
 // qt/kde includes
 #include <qstring.h>
 #include <qevent.h>
+#include <qevent.h>
 #include <klocale.h>
 #include <kdebug.h>
 

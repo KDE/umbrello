@@ -15,6 +15,7 @@
 // own header
 #include "boxwidget.h"
 // qt/kde includes
+#include <qevent.h>
 #include <kcursor.h>
 #include <kdebug.h>
 // app includes

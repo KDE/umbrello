@@ -16,6 +16,7 @@
 // system includes
 #include <qpainter.h>
 #include <qvalidator.h>
+#include <qevent.h>
 #include <klocale.h>
 #include <kdebug.h>
 // local includes

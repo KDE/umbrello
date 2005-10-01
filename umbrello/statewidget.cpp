@@ -14,6 +14,7 @@
 
 #include "statewidget.h"
 
+#include <qevent.h>
 #include <klocale.h>
 #include <kdebug.h>
 #include "inputdialog.h"

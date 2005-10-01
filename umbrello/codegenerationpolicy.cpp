@@ -21,7 +21,7 @@
 
 #include <qstringlist.h>
 #include <qregexp.h>
-#include <qdatastream.h>
+#include <qtextstream.h>
 
 #include "dialogs/codegenerationpolicypage.h"
 #include "codegenerationpolicy.h"

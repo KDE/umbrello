@@ -16,6 +16,7 @@
 // system includes
 #include <qregexp.h>
 #include <qpainter.h>
+#include <qevent.h>
 #include <klocale.h>
 #include <kdebug.h>
 

@@ -28,6 +28,7 @@
 #include "cppheadercodedocument.h"
 #include "codegen_utils.h"
 #include "codeviewerdialog.h"
+#include "../codedocumentlist.h"
 
 const bool CPPCodeGenerator::DEFAULT_BUILD_MAKEFILE = false;
 
@@ -43,7 +44,7 @@ CPPCodeGenerator::CPPCodeGenerator ( UMLDoc * parentDoc , const char * name)
 
 CPPCodeGenerator::~CPPCodeGenerator ( ) {
     // destroy all separately owned codedocuments (e.g. header docs)
-    QPtrList<CodeDocument> * list = &m_headercodedocumentVector;
+    CodeDocumentList * list = &m_headercodedocumentVector;
     for (CodeDocument *doc = list->first(); doc; doc=list->next())
         delete doc;
 }
@@ -200,7 +201,7 @@ void CPPCodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
     QDomElement docElement = doc.createElement( "codegenerator" );
     docElement.setAttribute("language",langType);
 
-    QPtrList<CodeDocument> * docList = getCodeDocumentList();
+    CodeDocumentList * docList = getCodeDocumentList();
     for (CodeDocument * codeDoc = docList->first(); codeDoc; codeDoc= docList->next())
         codeDoc->saveToXMI(doc, docElement);
 
@@ -216,7 +217,7 @@ void CPPCodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
  */
 void CPPCodeGenerator::syncCodeToDocument ( ) {
 
-    QPtrList<CodeDocument> * docList = getCodeDocumentList();
+    CodeDocumentList * docList = getCodeDocumentList();
 
     for (CodeDocument * doc = docList->first(); doc; doc=docList->next())
         doc->synchronize();
@@ -242,7 +243,7 @@ void CPPCodeGenerator::writeCodeToFile ( )
 // overridden because we need to be able to generate code for
 // both the header and source documents
 void CPPCodeGenerator::writeCodeToFile ( UMLClassifierList & concepts) {
-    QPtrList<CodeDocument> docs;
+    CodeDocumentList docs;
     docs.setAutoDelete(false);
 
     for (UMLClassifier *concept= concepts.first(); concept; concept= concepts.next())
