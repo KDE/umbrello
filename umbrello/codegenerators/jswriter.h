@@ -19,8 +19,6 @@
 #define JSWRITER_H
 
 #include "simplecodegenerator.h"
-
-#include <qstringlist.h>
 #include "../umloperationlist.h"
 
 /**

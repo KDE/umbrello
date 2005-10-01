@@ -17,7 +17,7 @@
 
 #include <kdebug.h>
 #include <qregexp.h>
-#include <qstring.h>
+#include <qtextstream.h>
 
 #include "../umldoc.h"
 #include "../classifier.h"

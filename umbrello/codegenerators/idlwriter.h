@@ -19,7 +19,6 @@
 #define IDLWRITER_H
 
 #include "simplecodegenerator.h"
-#include <qtextstream.h>
 
 class UMLAssociation;
 class UMLOperation;

@@ -25,7 +25,6 @@
 #include "../umlattributelist.h"
 #include "../umlassociationlist.h"
 
-class QTextStream;
 class UMLOperation;
 
 /**

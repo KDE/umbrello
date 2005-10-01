@@ -20,14 +20,12 @@
 #ifndef CPPWRITER_H
 #define CPPWRITER_H
 
-#include <qstringlist.h>
 #include "simplecodegenerator.h"
 #include "../umloperationlist.h"
 #include "../umlattributelist.h"
 #include "../umlassociationlist.h"
 
 class QFile;
-class QTextStream;
 class ClassifierInfo;
 
 /**

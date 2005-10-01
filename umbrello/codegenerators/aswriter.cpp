@@ -22,7 +22,7 @@
 
 #include <kdebug.h>
 #include <qregexp.h>
-#include <qstring.h>
+#include <qtextstream.h>
 
 ASWriter::ASWriter( UMLDoc *parent, const char *name )
         :SimpleCodeGenerator( parent, name) {

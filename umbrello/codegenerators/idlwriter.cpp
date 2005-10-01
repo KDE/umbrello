@@ -14,8 +14,8 @@
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <qfile.h>
-#include <qptrlist.h>
 #include <qregexp.h>
+#include <qtextstream.h>
 
 #include "../umldoc.h"
 #include "../classifier.h"

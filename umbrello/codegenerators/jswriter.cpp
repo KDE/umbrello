@@ -23,7 +23,7 @@
 #include <kdebug.h>
 
 #include <qregexp.h>
-#include <qstring.h>
+#include <qtextstream.h>
 
 JSWriter::JSWriter( UMLDoc *parent, const char *name )
         :SimpleCodeGenerator( parent, name) {

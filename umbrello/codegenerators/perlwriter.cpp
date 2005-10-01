@@ -25,6 +25,7 @@
 #include <qstring.h>
 #include <qdir.h>
 #include <qdatetime.h>
+#include <qtextstream.h>
 
 PerlWriter::PerlWriter( UMLDoc * doc, const char *name )
         : SimpleCodeGenerator ( doc, name )

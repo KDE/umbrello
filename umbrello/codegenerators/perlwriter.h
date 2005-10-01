@@ -22,8 +22,6 @@
 #include "../umlattributelist.h"
 #include "../umloperationlist.h"
 
-#include <qstringlist.h>
-
 class UMLOperation;
 class UMLAttribute;
 class UMLClassifier;

@@ -21,9 +21,6 @@
 #include "simplecodegenerator.h"
 #include "../umloperationlist.h"
 
-#include <qptrlist.h>
-#include <qstringlist.h>
-
 /**
   * class ASWriter is a ActionScript code generator for UMLClassifier objects
   * Just call writeClass and feed it a UMLClassifier;

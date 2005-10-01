@@ -21,9 +21,6 @@
 #include "simplecodegenerator.h"
 #include "../umlattributelist.h"
 
-#include <qstringlist.h>
-
-
 /**
   * class SQLWriter is a code generator for UMLClassifier objects.
   * Create an instance of this class, and feed it a UMLClassifier when

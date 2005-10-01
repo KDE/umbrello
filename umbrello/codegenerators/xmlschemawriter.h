@@ -25,9 +25,6 @@
 #include "../umlassociationlist.h"
 #include "simplecodegenerator.h"
 
-#include <qstringlist.h>
-
-
 /**
   * Class XMLSchemaWriter is a code generator for UMLClassifier objects.
   * Create an instance of this class, and feed it a UMLClassifier when
