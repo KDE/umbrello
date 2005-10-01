@@ -26,6 +26,7 @@
 
 #include "codegenerationpolicy.h"
 #include "umlclassifierlist.h"
+#include "codedocumentlist.h"
 
 class UMLAttribute;
 class UMLDoc;
@@ -140,10 +141,10 @@ public:
 
     /**
      * Get the list of CodeDocument objects held by m_codedocumentVector
-     * @return QPtrList<CodeDocument *> list of CodeDocument objects held by
+     * @return CodeDocumentList list of CodeDocument objects held by
      * m_codedocumentVector
      */
-    Q3PtrList<CodeDocument> * getCodeDocumentList ( );
+    CodeDocumentList * getCodeDocumentList ( );
 
     /**
      * Set the codeGeneratorPolicy for this generator.
@@ -382,7 +383,7 @@ protected:
 
     /** the actual internal routine which writes code documents
      */
-    void writeListedCodeDocsToFile(Q3PtrList<CodeDocument> * docs);
+    void writeListedCodeDocsToFile(CodeDocumentList * docs);
 
     static const char * hierarchicalCodeBlockNodeName;
 
@@ -414,7 +415,7 @@ private:
     // this seems silly and overkill now. -b.t.
     // QMap<CodeDocument*,QString> *m_fileMap;
 
-    Q3PtrList<CodeDocument> m_codedocumentVector;
+    CodeDocumentList m_codedocumentVector;
     CodeGenerationPolicy * m_codegeneratorpolicy;
     int lastIDIndex;
 

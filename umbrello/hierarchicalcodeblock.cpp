@@ -19,8 +19,6 @@
 #include "codedocument.h"
 #include "classifiercodedocument.h"
 #include "codeclassfield.h"
-//Added by qt3to4:
-#include <Q3PtrList>
 
 // Constructors/Destructors
 //

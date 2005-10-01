@@ -16,8 +16,6 @@
 #define BOXWIDGET_H
 //qt includes
 #include <qpainter.h>
-//Added by qt3to4:
-#include <QMouseEvent>
 //app includes
 #include "umlwidget.h"
 

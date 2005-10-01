@@ -14,7 +14,6 @@
 #include "umlobjectlist.h"
 #include "umlclassifierlist.h"
 #include "umlassociationlist.h"
-#include <q3ptrlist.h>
 
 class IDChangeLog;
 

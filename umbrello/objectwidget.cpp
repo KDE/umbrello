@@ -16,9 +16,7 @@
 // system includes
 #include <qpainter.h>
 #include <qvalidator.h>
-//Added by qt3to4:
-#include <QMouseEvent>
-#include <QMoveEvent>
+#include <qevent.h>
 #include <klocale.h>
 #include <kdebug.h>
 // local includes

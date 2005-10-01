@@ -12,8 +12,6 @@
 
 #include <kpopupmenu.h>
 #include "umlnamespace.h"
-//Added by qt3to4:
-#include <QPixmap>
 
 class UMLView;
 class UMLWidget;

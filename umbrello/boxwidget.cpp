@@ -14,10 +14,8 @@
 
 // own header
 #include "boxwidget.h"
-//qt includes
-//Added by qt3to4:
-#include <QMouseEvent>
-// kde includes
+// qt/kde includes
+#include <qevent.h>
 #include <kcursor.h>
 #include <kdebug.h>
 // app includes

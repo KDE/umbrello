@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,28 +7,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef TOOLBARSTATEPOOL_H
-#define TOOLBARSTATEPOOL_H
+#ifndef _CODEDOCUMENTLIST_H
+#define _CODEDOCUMENTLIST_H
 
-#include "toolbarstate.h"
+#include <q3ptrlist.h>
 
-#include "worktoolbar.h"
+// forward declarations
+class CodeDocument;
 
-class QMouseEvent;
-class UMLView;
-class UMLWidget;
+typedef Q3PtrList<CodeDocument> CodeDocumentList;
+typedef Q3PtrListIterator<CodeDocument> CodeDocumentListIt;
 
-class ToolBarStatePool : public ToolBarState
-{
-
-public:
-    ToolBarStatePool(UMLView *umlView);
-
-    virtual void setButton(const WorkToolBar::ToolBar_Buttons &button);
-    virtual WorkToolBar::ToolBar_Buttons getButton() const;
-
-private:
-    WorkToolBar::ToolBar_Buttons m_ToolBarButton;
-};
-
-#endif //TOOLBARSTATEPOOL_H
+#endif

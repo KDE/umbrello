@@ -22,9 +22,7 @@
 #include <qdatetime.h>
 #include <qregexp.h>
 #include <qdir.h>
-//Added by qt3to4:
-#include <QTextStream>
-#include <Q3PtrList>
+#include <qtextstream.h>
 
 // kde includes
 #include <kdebug.h>
@@ -161,7 +159,7 @@ bool CodeGenerator::removeCodeDocument ( CodeDocument * remove_object ) {
  * @return QPtrList<CodeDocument *> list of CodeDocument objects held by
  * m_codedocumentVector
  */
-Q3PtrList<CodeDocument> * CodeGenerator::getCodeDocumentList ( ) {
+CodeDocumentList * CodeGenerator::getCodeDocumentList ( ) {
     return &m_codedocumentVector;
 }
 
@@ -250,7 +248,7 @@ void CodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
     QDomElement docElement = doc.createElement( "codegenerator" );
     docElement.setAttribute("language",langType);
 
-    Q3PtrList<CodeDocument> * docList = getCodeDocumentList();
+    CodeDocumentList * docList = getCodeDocumentList();
     for (CodeDocument * codeDoc = docList->first(); codeDoc; codeDoc= docList->next())
         codeDoc->saveToXMI(doc, docElement);
 
@@ -348,7 +346,7 @@ void CodeGenerator::writeCodeToFile ( )
 }
 
 void CodeGenerator::writeCodeToFile ( UMLClassifierList & concepts) {
-    Q3PtrList<CodeDocument> docs;
+    CodeDocumentList docs;
     docs.setAutoDelete(false);
 
     for (UMLClassifier *concept= concepts.first(); concept; concept= concepts.next())
@@ -362,7 +360,7 @@ void CodeGenerator::writeCodeToFile ( UMLClassifierList & concepts) {
 }
 
 // Main method. Will write out passed code documents to file as appropriate.
-void CodeGenerator::writeListedCodeDocsToFile ( Q3PtrList<CodeDocument> * docs ) {
+void CodeGenerator::writeListedCodeDocsToFile ( CodeDocumentList * docs ) {
 
     // iterate thru all code documents
     for (CodeDocument *doc = docs->first(); doc; doc = docs->next())
