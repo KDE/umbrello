@@ -72,7 +72,7 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
     // find an appropriate name for our file
     QString fileName = findFileName(c,".xsd");
 
-    if (!fileName) {
+    if (fileName.isEmpty()) {
         emit codeGenerated(c, false);
         return;
     }

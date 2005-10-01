@@ -124,7 +124,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 
     //find an appropriate name for our file
     QString fileName = findFileName(c, ".idl");
-    if (!fileName) {
+    if (fileName.isEmpty()) {
         emit codeGenerated(c, false);
         return;
     }

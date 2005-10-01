@@ -24,6 +24,7 @@
 #include <qregexp.h>
 #include <qstring.h>
 #include <qdir.h>
+#include <qdatetime.h>
 
 PerlWriter::PerlWriter( UMLDoc * doc, const char *name )
         : SimpleCodeGenerator ( doc, name )
@@ -72,7 +73,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
         }
         fileName = fragment;
     }
-    if (!fileName) {
+    if (fileName.isEmpty()) {
         emit codeGenerated(c, false);
         return;
     }

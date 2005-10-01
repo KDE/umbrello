@@ -109,7 +109,7 @@ void CppWriter::writeClass(UMLClassifier *c)
 
     // find an appropriate name for our file
     QString fileName = findFileName(c,".cpp");
-    if (!fileName) {
+    if (fileName.isEmpty()) {
         emit codeGenerated(c, false);
         return;
     }
