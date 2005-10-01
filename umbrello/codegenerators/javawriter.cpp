@@ -63,7 +63,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
 
     //find an appropriate name for our file
     fileName = findFileName(c,".java");
-    if (!fileName) {
+    if (fileName.isEmpty()) {
         emit codeGenerated(c, false);
         return;
     }

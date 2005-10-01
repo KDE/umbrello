@@ -24,6 +24,7 @@
 #include <qregexp.h>
 #include <qstring.h>
 #include <qdir.h>
+#include <qdatetime.h>
 //Added by qt3to4:
 #include <QTextStream>
 
@@ -74,7 +75,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
         }
         fileName = fragment;
     }
-    if (!fileName) {
+    if (fileName.isEmpty()) {
         emit codeGenerated(c, false);
         return;
     }
