@@ -48,11 +48,29 @@ enum Object_Type
     ot_EntityAttribute
 };
 
-enum Scope
-{
-    Public  =  200,
-    Private,
-    Protected
+class Visibility {
+  public:
+    enum Value {
+        Public  =  200,
+        Private,
+        Protected,
+        Implementation // objects marked with this are declared in the implementation file.
+    };
+    Visibility();
+    Visibility(Value v);
+    static QString toString(Value value,bool mnemonic);
+    static Visibility fromString(const QString& vis);
+    /**
+     * Convert Visibility value into QString representation.
+     *
+     * @param mnemonic    If true then return a single character:
+     *              "+" for public, "-" for private, 
+     *              "#" for protected or "~" for implementation
+     */
+    QString toString(bool mnemonic=false) const;
+    operator Value () const;
+  private:
+    Value _v;
 };
 
 enum Widget_Type
@@ -122,8 +140,8 @@ enum Signature_Type
 {
     st_NoSig  =  600,
     st_ShowSig,
-    st_SigNoScope,
-    st_NoSigNoScope
+    st_SigNoVis,
+    st_NoSigNoVis
 };
 
 enum Text_Role

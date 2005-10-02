@@ -643,17 +643,17 @@ void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
     m_pShow->setItemChecked(mt_Show_Operations_Selection, c->getShowOps());
     m_pShow->insertItem(i18n("Public Only"), mt_Show_Public_Only_Selection);
     m_pShow->setItemChecked(mt_Show_Public_Only_Selection, c->getShowPublicOnly());
-    m_pShow->insertItem(i18n("Visibility"), mt_Scope_Selection);
-    m_pShow->setItemChecked(mt_Scope_Selection, c->getShowScope());
+    m_pShow->insertItem(i18n("Visibility"), mt_Visibility_Selection);
+    m_pShow->setItemChecked(mt_Visibility_Selection, c->getShowVisibility());
     m_pShow->insertItem(i18n("Operation Signature"),
                         mt_Show_Operation_Signature_Selection);
-    bool sig = (c->getShowOpSigs() == Uml::st_SigNoScope ||
+    bool sig = (c->getShowOpSigs() == Uml::st_SigNoVis ||
                 c->getShowOpSigs() == Uml::st_ShowSig);
     m_pShow->setItemChecked(mt_Show_Operation_Signature_Selection, sig);
     if (type == Uml::wt_Class) {
         m_pShow->insertItem(i18n("Attribute Signature"),
                             mt_Show_Attribute_Signature_Selection);
-        sig = (cls->getShowAttSigs() == Uml::st_SigNoScope ||
+        sig = (cls->getShowAttSigs() == Uml::st_SigNoVis ||
                cls->getShowAttSigs() == Uml::st_ShowSig);
         m_pShow->setItemChecked(mt_Show_Attribute_Signature_Selection, sig);
     }

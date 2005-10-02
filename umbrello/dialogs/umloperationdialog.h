@@ -93,7 +93,7 @@ protected:
     QGroupBox  * m_pParmsGB, * m_pGenGB;
     QListBox * m_pParmsLB;
     QButtonGroup * m_pScopeBG;
-    QRadioButton * m_pPublicRB, * m_pPrivateRB,  * m_pProtectedRB;
+    QRadioButton * m_pPublicRB, * m_pPrivateRB,  * m_pProtectedRB, *m_pImplementationRB;
     QLabel * m_pRtypeL, * m_pNameL, * m_pStereoTypeL;
     KComboBox * m_pRtypeCB, * m_pStereoTypeCB;
     QLineEdit * m_pNameLE;

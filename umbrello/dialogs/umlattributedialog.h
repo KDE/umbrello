@@ -61,7 +61,7 @@ protected:
     //GUI Widgets
     QGroupBox * m_pAttsGB, * m_pValuesGB;
     QButtonGroup * m_pScopeBG;
-    QRadioButton * m_pPublicRB, * m_pPrivateRB,  * m_pProtectedRB;
+    QRadioButton * m_pPublicRB, * m_pPrivateRB,  * m_pProtectedRB, * m_pImplementationRB;
     QLabel * m_pTypeL, * m_pNameL, * m_pInitialL, * m_pStereoTypeL;
     KComboBox * m_pTypeCB;
     QLineEdit * m_pNameLE, * m_pInitialLE, * m_pStereoTypeLE;

@@ -429,9 +429,9 @@ bool UMLAssociation::load( QDomElement & element ) {
     QString visibilityA = element.attribute( "visibilitya", "0");
     QString visibilityB = element.attribute( "visibilityb", "0");
     if (visibilityA.toInt() > 0)
-        setVisibility( (Scope) visibilityA.toInt(), A);
+        setVisibility((Uml::Visibility::Value)visibilityA.toInt(), A);
     if (visibilityB.toInt() > 0)
-        setVisibility( (Scope) visibilityB.toInt(), B);
+        setVisibility((Uml::Visibility::Value)visibilityB.toInt(), B);
 
     // Changeability defaults to Changeable if it cant set it here..
     QString changeabilityA = element.attribute( "changeabilitya", "0");
@@ -476,7 +476,7 @@ Changeability_Type UMLAssociation::getChangeability(Role_Type role) const {
     return m_pRole[role]->getChangeability();
 }
 
-Scope UMLAssociation::getVisibility(Role_Type role) const {
+Uml::Visibility UMLAssociation::getVisibility(Role_Type role) const {
     return m_pRole[role]->getVisibility();
 }
 
@@ -521,7 +521,7 @@ void UMLAssociation::setObject(UMLObject *obj, Role_Type role) {
     m_pRole[role]->setObject(obj);
 }
 
-void UMLAssociation::setVisibility(Scope value, Role_Type role) {
+void UMLAssociation::setVisibility(Uml::Visibility value, Role_Type role) {
     m_pRole[role]->setVisibility(value);
 }
 

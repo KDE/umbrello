@@ -479,7 +479,7 @@ UMLObject* UMLClassifier::createAttribute(const QString &name /*=null*/) {
         currentName = name;
     }
     const Settings::OptionState optionState = UMLApp::app()->getOptionState();
-    Uml::Scope scope = optionState.classState.defaultAttributeScope;
+    Uml::Visibility scope = optionState.classState.defaultAttributeScope;
     UMLAttribute* newAttribute = new UMLAttribute(this, currentName, id, scope);
 
     int button = QDialog::Accepted;
@@ -518,7 +518,7 @@ UMLAttribute* UMLClassifier::addAttribute(const QString &name, Uml::IDType id /*
             return static_cast<UMLAttribute*>(obj);
     }
     UMLApp *app = UMLApp::app();
-    Uml::Scope scope = app->getOptionState().classState.defaultAttributeScope;
+    Uml::Visibility scope = app->getOptionState().classState.defaultAttributeScope;
     UMLAttribute *a = new UMLAttribute(this, name, id, scope);
     m_List.append(a);
     emit modified();
@@ -527,7 +527,7 @@ UMLAttribute* UMLClassifier::addAttribute(const QString &name, Uml::IDType id /*
     return a;
 }
 
-UMLAttribute* UMLClassifier::addAttribute(const QString &name, UMLObject *type, Uml::Scope scope) {
+UMLAttribute* UMLClassifier::addAttribute(const QString &name, UMLObject *type, Uml::Visibility scope) {
     UMLAttribute *a = new UMLAttribute(this, name, Uml::id_None, scope);
     if (type)
         a->setType(type);
@@ -622,10 +622,10 @@ UMLOperationList UMLClassifier::getOpList(bool includeInherited) {
             UMLOperationList pops = pit.current()->getOpList(true);
             // add these operations to operation list, but only if unique.
             for (UMLOperation *po = pops.first(); po; po = pops.next()) {
-                QString po_as_string(po->toString(Uml::st_SigNoScope));
+                QString po_as_string(po->toString(Uml::st_SigNoVis));
                 UMLOperation *o = NULL;
                 for (o = ops.first(); o; o = ops.next())
-                    if (o->toString(Uml::st_SigNoScope) == po_as_string)
+                    if (o->toString(Uml::st_SigNoVis) == po_as_string)
                         break;
                 if (!o)
                     ops.append(po);

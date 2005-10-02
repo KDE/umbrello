@@ -66,7 +66,7 @@ SelectOpDlg::SelectOpDlg(UMLView * parent, UMLClassifier * c)
 
     UMLOperationList list = c -> getOpList(true);
     for (UMLOperation *obj = list.first(); obj; obj=list.next()) {
-        m_pOpCB->insertItem( obj->toString(Uml::st_SigNoScope) );
+        m_pOpCB->insertItem( obj->toString(Uml::st_SigNoVis) );
     }
     //disableResize();
     connect(m_pOpBG, SIGNAL(clicked(int)), this, SLOT(slotSelected(int)));

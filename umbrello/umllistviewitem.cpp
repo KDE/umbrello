@@ -189,12 +189,12 @@ void UMLListViewItem::updateObject() {
     if( m_pObject == NULL )
         return;
 
-    Uml::Scope scope = m_pObject->getScope();
+    Uml::Visibility scope = m_pObject->getVisibility();
     Uml::Object_Type ot = m_pObject->getBaseType();
     QString modelObjText = m_pObject->getName();
     if (ot == Uml::ot_Operation || ot == Uml::ot_Attribute || ot == Uml::ot_Template) {
         UMLClassifierListItem *pNarrowed = static_cast<UMLClassifierListItem*>(m_pObject);
-        modelObjText = pNarrowed->toString(Uml::st_SigNoScope);
+        modelObjText = pNarrowed->toString(Uml::st_SigNoVis);
     }
     setText(modelObjText);
 
@@ -249,19 +249,23 @@ void UMLListViewItem::updateObject() {
         break;
 
     case Uml::ot_Operation:
-        if( scope == Uml::Public )
+              if( scope == Uml::Visibility::Public )
             icon =  UMLListView::it_Public_Method;
-        else if( scope == Uml::Private )
-            icon =  UMLListView::it_Private_Method;
+            else if( scope == Uml::Visibility::Private )
+              icon =  UMLListView::it_Private_Method;
+            else if( scope == Uml::Visibility::Implementation )
+              icon =  UMLListView::it_Private_Method;
         else
             icon =  UMLListView::it_Protected_Method;
         break;
 
     case Uml::ot_Attribute:
-        if( scope == Uml::Public )
+              if( scope == Uml::Visibility::Public )
             icon =  UMLListView::it_Public_Attribute;
-        else if( scope == Uml::Private )
-            icon =  UMLListView::it_Private_Attribute;
+            else if( scope == Uml::Visibility::Private )
+              icon =  UMLListView::it_Private_Attribute;
+            else if( scope == Uml::Visibility::Implementation )
+              icon =  UMLListView::it_Private_Attribute;
         else
             icon =  UMLListView::it_Protected_Attribute;
         break;
@@ -403,7 +407,7 @@ void UMLListViewItem::okRename( int col ) {
                         op->addParm(a);
                     }
                 }
-                m_Label = op->toString(Uml::st_SigNoScope);
+                m_Label = op->toString(Uml::st_SigNoVis);
             } else {
                 KMessageBox::error( kapp->mainWidget(),
                                     Model_Utils::psText(st),
@@ -433,7 +437,7 @@ void UMLListViewItem::okRename( int col ) {
                 pAtt->setType(nt.m_type);
                 pAtt->setParmKind(nt.m_direction);
                 pAtt->setInitialValue(nt.m_initialValue);
-                m_Label = pAtt->toString(Uml::st_SigNoScope);
+                m_Label = pAtt->toString(Uml::st_SigNoVis);
             } else {
                 KMessageBox::error( kapp->mainWidget(),
                                     Model_Utils::psText(st),
@@ -461,7 +465,7 @@ void UMLListViewItem::okRename( int col ) {
                 m_pObject->setName(nt.m_name);
                 UMLTemplate *tmpl = static_cast<UMLTemplate*>(m_pObject);
                 tmpl->setType(nt.m_type);
-                m_Label = tmpl->toString(Uml::st_SigNoScope);
+                m_Label = tmpl->toString(Uml::st_SigNoVis);
             } else {
                 KMessageBox::error( kapp->mainWidget(),
                                     Model_Utils::psText(st),

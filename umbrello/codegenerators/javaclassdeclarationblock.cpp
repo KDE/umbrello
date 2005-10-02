@@ -87,7 +87,7 @@ void JavaClassDeclarationBlock::updateContent ( )
     if (c->getAbstract() && !isInterface)
         startText.append("abstract ");
 
-    if (c->getScope() != Uml::Public) {
+    if (c->getVisibility() != Uml::Visibility::Public) {
         // We should probably emit a warning in here .. java doesnt like to allow
         // private/protected classes. The best we can do (I believe)
         // is to let these declarations default to "package visibility"

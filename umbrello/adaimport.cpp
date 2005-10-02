@@ -121,7 +121,7 @@ void AdaImport::parseFile(QString filename) {
     file.close();
     // Parse the QStringList m_source.
     m_klass = NULL;
-    m_currentAccess = Uml::Public;
+    m_currentAccess = Uml::Visibility::Public;
     m_isAbstract = false;
     const uint srcLength = m_source.count();
     bool inGenericFormalPart = false;
@@ -165,7 +165,7 @@ void AdaImport::parseFile(QString filename) {
                         m_srcIndex = srcIndex;
                         // Also reset m_currentAccess.
                         // CHECK: need to reset more stuff?
-                        m_currentAccess = Uml::Public;
+                        m_currentAccess = Uml::Visibility::Public;
                     }
                     if (++i >= components.count())
                         break;
@@ -297,7 +297,7 @@ void AdaImport::parseFile(QString filename) {
             continue;
         }
         if (keyword == "private") {
-            m_currentAccess = Uml::Private;
+            m_currentAccess = Uml::Visibility::Private;
             continue;
         }
         if (keyword == "end") {
@@ -315,7 +315,7 @@ void AdaImport::parseFile(QString filename) {
                                   << m_source[m_srcIndex] << endl;
                 }
                 m_scopeIndex--;
-                m_currentAccess = Uml::Public;   // @todo make a stack for this
+                m_currentAccess = Uml::Visibility::Public;   // @todo make a stack for this
             } else {
                 kdError() << "importAda: too many \"end\"" << endl;
             }

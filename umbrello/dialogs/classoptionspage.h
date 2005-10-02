@@ -92,7 +92,7 @@ protected:
 
     //GUI widgets
     QGroupBox * m_pVisibilityGB;
-    QCheckBox * m_pShowScopeCB, * m_pShowAttSigCB;
+    QCheckBox * m_pShowVisibilityCB, * m_pShowAttSigCB;
     QCheckBox * m_pShowOpSigCB, * m_pShowAttsCB, * m_pShowOpsCB;
     QCheckBox * m_pShowStereotypeCB, * m_pShowPackageCB;
     QCheckBox* m_pDrawAsCircleCB;

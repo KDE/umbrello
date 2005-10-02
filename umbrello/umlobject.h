@@ -116,18 +116,18 @@ public:
     QString getDoc() const;
 
     /**
-     * Returns the scope of the object.
+     * Returns the visibility of the object.
      *
-     * @return  Returns the scope of the object.
+     * @return  Returns the visibility of the object.
      */
-    Uml::Scope getScope() const;
+    Uml::Visibility getVisibility() const;
 
     /**
-     * Sets the scope of the object.
+     * Sets the visibility of the object.
      *
-     * @param s The scope of the object.
+     * @param s The visibility of the object.
      */
-    void setScope(Uml::Scope s);
+    void setVisibility(Uml::Visibility s);
 
     /**
      * Sets the classes stereotype name.
@@ -389,9 +389,9 @@ protected:
     Uml::Object_Type m_BaseType;
 
     /**
-     * The objects scope.
+     * The objects visibility.
      */
-    Uml::Scope m_Scope;
+    Uml::Visibility m_Vis;
 
     /**
      * The state of whether the object is abstract or not.

@@ -97,7 +97,7 @@ public:
      * The visibility of this code parameter.
      * @return the value of m_visibility
      */
-    Uml::Scope getVisibility ( ) const;
+    Uml::Visibility getVisibility ( ) const;
 
     /**
      * Set the value of m_initialValue

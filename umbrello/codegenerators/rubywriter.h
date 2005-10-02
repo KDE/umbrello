@@ -80,7 +80,7 @@ private:
      * calls @ref writeSingleAttributeAccessorMethods() on each of the attributes in attribs list.
      */
     void writeAttributeMethods(UMLAttributeList *attribs,
-                               Uml::Scope visibility, QTextStream &stream);
+                               Uml::Visibility visibility, QTextStream &stream);
 
 
     /**
@@ -105,7 +105,7 @@ private:
       * @param h output stream for the header file
       */
     void writeOperations(QString classname, UMLOperationList &opList,
-                         Uml::Scope permitScope, QTextStream &h);
+                         Uml::Visibility permitScope, QTextStream &h);
 
     /**
      * Summary information about current classifier.

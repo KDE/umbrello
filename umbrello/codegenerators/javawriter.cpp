@@ -92,23 +92,23 @@ void JavaWriter::writeClass(UMLClassifier *c)
     if (!isInterface) {
         UMLAttributeList atl = c->getAttributeList();
         for (UMLAttribute *at = atl.first(); at ; at = atl.next()) {
-            switch(at->getScope())
+            switch(at->getVisibility())
             {
-            case Uml::Public:
+              case Uml::Visibility::Public:
                 if(at->getStatic())
                     final_atpub.append(at);
                 else
                     atpub.append(at);
                 break;
-            case Uml::Protected:
+              case Uml::Visibility::Protected:
                 if(at->getStatic())
                     final_atprot.append(at);
                 else
                     atprot.append(at);
                 break;
-            case Uml::Private:
+              case Uml::Visibility::Private:
                 if(at->getStatic())
-                    final_atprot.append(at);
+                    final_atpriv.append(at);
                 else
                     atpriv.append(at);
                 break;
@@ -224,12 +224,12 @@ void JavaWriter::writeClass(UMLClassifier *c)
     }
 
     // Accessors for attributes
-    writeAttributeMethods(final_atpub, Uml::Public, java);
-    writeAttributeMethods(final_atprot, Uml::Protected, java);
-    writeAttributeMethods(final_atpriv, Uml::Private, java);
-    writeAttributeMethods(atpub, Uml::Public, java);
-    writeAttributeMethods(atprot, Uml::Protected, java);
-    writeAttributeMethods(atpriv, Uml::Private, java);
+    writeAttributeMethods(final_atpub, Uml::Visibility::Public, java);
+    writeAttributeMethods(final_atprot, Uml::Visibility::Protected, java);
+    writeAttributeMethods(final_atpriv, Uml::Visibility::Private, java);
+    writeAttributeMethods(atpub, Uml::Visibility::Public, java);
+    writeAttributeMethods(atprot, Uml::Visibility::Protected, java);
+    writeAttributeMethods(atpriv, Uml::Visibility::Private, java);
 
     // accessor methods for associations
 
@@ -275,8 +275,8 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
     }
 
     // Now write the actual class declaration
-    QString scope = ""; // = scopeToJavaDecl(c->getScope());
-    if (c->getScope() != Uml::Public) {
+    QString scope = ""; // = scopeToJavaDecl(c->getVisibility());
+    if (c->getVisibility() != Uml::Visibility::Public) {
         // We should emit a warning in here .. java doesnt like to allow
         // private/protected classes. The best we can do (I believe)
         // is to let these declarations default to "package visibility"
@@ -355,7 +355,7 @@ void JavaWriter::writeAttributeDecls(UMLAttributeList &atpub, UMLAttributeList &
 
 }
 
-void JavaWriter::writeAttributeMethods(UMLAttributeList &atpub, Uml::Scope visibility, QTextStream &java)
+void JavaWriter::writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility visibility, QTextStream &java)
 {
 
     UMLAttribute *at;
@@ -469,7 +469,7 @@ void JavaWriter::writeAssociationDecls(UMLAssociationList associations, Uml::IDT
 
 void JavaWriter::writeAssociationRoleDecl(QString fieldClassName,
         QString roleName, QString multi,
-        QString doc, Uml::Scope visib, QTextStream &java)
+        QString doc, Uml::Visibility visib, QTextStream &java)
 {
     // ONLY write out IF there is a rolename given
     // otherwise its not meant to be declared in the code
@@ -543,7 +543,7 @@ void JavaWriter::writeAssociationMethods (UMLAssociationList associations, UMLCl
 }
 
 void JavaWriter::writeAssociationRoleMethod (QString fieldClassName, QString roleName, QString multi,
-        QString description, Uml::Scope visib, Uml::Changeability_Type change,
+        QString description, Uml::Visibility visib, Uml::Changeability_Type change,
         QTextStream &java)
 {
     if(multi.isEmpty() || multi.contains(QRegExp("^[01]$")))
@@ -562,7 +562,7 @@ void JavaWriter::writeAssociationRoleMethod (QString fieldClassName, QString rol
 
 void JavaWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QString fieldVarName,
         QString fieldName, QString description,
-        Uml::Scope visibility, Uml::Changeability_Type changeType,
+        Uml::Visibility visibility, Uml::Changeability_Type changeType,
         QTextStream &java)
 {
 
@@ -600,7 +600,7 @@ void JavaWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QS
 
 void JavaWriter::writeSingleAttributeAccessorMethods(QString fieldClassName, QString fieldVarName,
         QString fieldName, QString description,
-        Uml::Scope visibility, Uml::Changeability_Type change,
+        Uml::Visibility visibility, Uml::Changeability_Type change,
         bool isFinal, QTextStream &java)
 {
 
@@ -664,14 +664,14 @@ void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
     //sort operations by scope first and see if there are abstrat methods
     opl = c->getOpList();
     for (UMLOperation *op = opl.first(); op; op = opl.next()) {
-        switch(op->getScope()) {
-        case Uml::Public:
+        switch(op->getVisibility()) {
+          case Uml::Visibility::Public:
             oppub.append(op);
             break;
-        case Uml::Protected:
+          case Uml::Visibility::Protected:
             opprot.append(op);
             break;
-        case Uml::Private:
+          case Uml::Visibility::Private:
             oppriv.append(op);
             break;
         }
@@ -728,7 +728,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java) {
         str = ""; // reset for next method
         str += ((op->getAbstract() || isInterface) ? "abstract ":"");
         str += (op->getStatic() ? "static":"");
-        str += scopeToJavaDecl(op->getScope()) + " ";
+        str += scopeToJavaDecl(op->getVisibility()) + " ";
         str += methodReturnType + " " +cleanName(op->getName()) + "( ";
 
         atl = op->getParmList();
@@ -770,18 +770,18 @@ QString JavaWriter::fixInitialStringDeclValue(QString value, QString type)
     return value;
 }
 
-QString JavaWriter::scopeToJavaDecl(Uml::Scope scope)
+QString JavaWriter::scopeToJavaDecl(Uml::Visibility scope)
 {
     QString scopeString;
     switch(scope)
     {
-    case Uml::Public:
+      case Uml::Visibility::Public:
         scopeString = "public";
         break;
-    case Uml::Protected:
+      case Uml::Visibility::Protected:
         scopeString = "protected";
         break;
-    case Uml::Private:
+      case Uml::Visibility::Private:
     default:
         scopeString = "private";
         break;

@@ -24,11 +24,11 @@
 #include "dialogs/umlentityattributedialog.h"
 
 UMLEntityAttribute::UMLEntityAttribute( const UMLObject *parent, QString Name, Uml::IDType id,
-                                        Uml::Scope s, QString type, QString iv )
+                                        Uml::Visibility s, QString type, QString iv )
         : UMLClassifierListItem(parent, Name, id) {
     m_InitialValue = iv;
     m_BaseType = Uml::ot_EntityAttribute;
-    m_Scope = s;
+    m_Vis = s;
     m_ParmKind = Uml::pd_In;
     m_indexType = Uml::None;
     m_values = "";
@@ -46,7 +46,7 @@ UMLEntityAttribute::UMLEntityAttribute( const UMLObject *parent, QString Name, U
 
 UMLEntityAttribute::UMLEntityAttribute(const UMLObject *parent) : UMLClassifierListItem(parent) {
     m_BaseType = Uml::ot_EntityAttribute;
-    m_Scope = Uml::Private;
+    m_Vis = Uml::Visibility::Private;
     m_ParmKind = Uml::pd_In;
 }
 
@@ -116,16 +116,11 @@ QString UMLEntityAttribute::toString(Uml::Signature_Type sig) {
     //FIXME
 
     if(sig == Uml::st_ShowSig || sig == Uml::st_NoSig) {
-        if(m_Scope == Uml::Public)
-            s = "+ ";
-        else if(m_Scope == Uml::Private)
-            s = "- ";
-        else if(m_Scope == Uml::Protected)
-            s= "# ";
+        s=m_Vis.toString(true) + " ";
     } else
         s = "";
 
-    if(sig == Uml::st_ShowSig || sig == Uml::st_SigNoScope) {
+    if(sig == Uml::st_ShowSig || sig == Uml::st_SigNoVis) {
         QString string = s + getName() + " : " + getTypeName();
         if(m_InitialValue.length() > 0)
             string += " = " + m_InitialValue;

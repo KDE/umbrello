@@ -64,7 +64,7 @@ UMLObject* UMLEntity::createEntityAttribute(const QString &name /*=null*/) {
         currentName = name;
     }
     const Settings::OptionState optionState = UMLApp::app()->getOptionState();
-    Uml::Scope scope = optionState.classState.defaultAttributeScope;
+    Uml::Visibility scope = optionState.classState.defaultAttributeScope;
     UMLEntityAttribute* newAttribute = new UMLEntityAttribute(this, currentName, id, scope);
 
     int button = QDialog::Accepted;

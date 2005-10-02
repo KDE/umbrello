@@ -60,13 +60,6 @@ public:
     Uml::Changeability_Type getChangeability() const;
 
     /**
-     * Returns the Visibility of the role.
-     *
-     * @return  Scope of role.
-     */
-    Uml::Scope getVisibility() const;
-
-    /**
      * Returns the multiplicity assigned to the role.
      *
      * @return  The multiplicity assigned to the role.
@@ -93,13 +86,6 @@ public:
      * @param obj               Pointer to the UMLObject of role.
      */
     void setObject(UMLObject *obj);
-
-    /**
-     * Sets the visibility of the role.
-     *
-     * @param value     Scope of role visibility.
-     */
-    void setVisibility(Uml::Scope value);
 
     /**
      * Sets the changeability of the role.

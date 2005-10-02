@@ -46,7 +46,7 @@ void CppTree2Uml::parseTranslationUnit( TranslationUnitAST* ast )
     m_nsCnt = 0;
     m_clsCnt = 0;
 
-    m_currentAccess = Uml::Public;
+    m_currentAccess = Uml::Visibility::Public;
     m_inSlots = false;
     m_inSignals = false;
     m_inStorageSpec = false;
@@ -296,7 +296,7 @@ void CppTree2Uml::parseFunctionDefinition( FunctionDefinitionAST* ast )
         isConstructor = true;
 
     parseFunctionArguments( d, m );
-    Import_Utils::insertMethod( c, m, (Uml::Scope)m_currentAccess, returnType,
+    Import_Utils::insertMethod( c, m, m_currentAccess, returnType,
                               isStatic, false /*isAbstract*/, isFriend, isConstructor, m_comment);
     m_comment = "";
 
@@ -311,15 +311,12 @@ void CppTree2Uml::parseFunctionDefinition( FunctionDefinitionAST* ast )
 
 void CppTree2Uml::parseClassSpecifier( ClassSpecifierAST* ast )
 {
-    int oldAccess = m_currentAccess;
+    Uml::Visibility oldAccess = m_currentAccess;
     bool oldInSlots = m_inSlots;
     bool oldInSignals = m_inSignals;
 
     QString kind = ast->classKey()->text();
-    if( kind == "class" )
-        m_currentAccess = Uml::Private;
-    else
-        m_currentAccess = Uml::Public;
+    m_currentAccess=Uml::Visibility::fromString(kind);
     m_inSlots = false;
     m_inSignals = false;
 
@@ -462,7 +459,7 @@ void CppTree2Uml::parseDeclaration( GroupAST* funSpec, GroupAST* storageSpec,
         }
     }
 
-    Import_Utils::insertAttribute( c, (Uml::Scope)m_currentAccess, id, typeName,
+    Import_Utils::insertAttribute( c, m_currentAccess, id, typeName,
                                  m_comment, isStatic);
     m_comment = "";
 }
@@ -472,16 +469,8 @@ void CppTree2Uml::parseAccessDeclaration( AccessDeclarationAST * access )
     QPtrList<AST> l = access->accessList();
 
     QString accessStr = l.at( 0 )->text();
-    if( accessStr == "public" )
-        m_currentAccess = Uml::Public;
-    else if( accessStr == "protected" )
-        m_currentAccess = Uml::Protected;
-    else if( accessStr == "private" )
-        m_currentAccess = Uml::Private;
-    else if( accessStr == "signals" )
-        m_currentAccess = Uml::Protected;
-    else
-        m_currentAccess = Uml::Public;
+    
+    m_currentAccess=Uml::Visibility::fromString(accessStr);
 
     m_inSlots = l.count() > 1 ? l.at( 1 )->text() == "slots" : false;
     m_inSignals = l.count() >= 1 ? l.at( 0 )->text() == "signals" : false;
@@ -537,7 +526,7 @@ void CppTree2Uml::parseFunctionDeclaration(  GroupAST* funSpec, GroupAST* storag
         isConstructor = true;
 
     parseFunctionArguments( d, m );
-    Import_Utils::insertMethod( c, m, (Uml::Scope)m_currentAccess, returnType,
+    Import_Utils::insertMethod( c, m, m_currentAccess, returnType,
                               isStatic, isPure, isFriend, isConstructor, m_comment);
     m_comment = "";
 }

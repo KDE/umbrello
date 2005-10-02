@@ -69,8 +69,8 @@ private:
     AssociationWidget *m_pAssociationWidget;
     UMLDoc * m_pUmldoc;
     ObjectWidget *m_pWidget;
-    QRadioButton *m_PublicARB, *m_ProtectedARB, *m_PrivateARB;
-    QRadioButton *m_PublicBRB, *m_ProtectedBRB, *m_PrivateBRB;
+    QRadioButton *m_PublicARB, *m_ProtectedARB, *m_PrivateARB, *m_ImplementationARB;
+    QRadioButton *m_PublicBRB, *m_ProtectedBRB, *m_PrivateBRB, *m_ImplementationBRB;
     QRadioButton *m_ChangeableARB, *m_AddOnlyARB, *m_FrozenARB;
     QRadioButton *m_ChangeableBRB, *m_AddOnlyBRB, *m_FrozenBRB;
 

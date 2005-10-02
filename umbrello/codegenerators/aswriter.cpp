@@ -186,7 +186,7 @@ void ASWriter::writeClass(UMLClassifier *c)
         UMLAttributeList atl = c->getAttributeList();
         for (UMLAttribute *at = atl.first(); at ; at = atl.next())
         {
-            if (at->getScope() == Uml::Protected)
+          if (at->getVisibility() == Uml::Visibility::Protected)
             {
                 as << m_indentation << "ASSetPropFlags (this, \"" << cleanName(at->getName()) << "\", 1);" << m_endl;
             }
@@ -196,7 +196,7 @@ void ASWriter::writeClass(UMLClassifier *c)
     UMLOperationList opList(c->getOpList());
     for (UMLOperation *op = opList.first(); op; op = opList.next())
     {
-        if (op->getScope() == Uml::Protected)
+          if (op->getVisibility() == Uml::Visibility::Protected)
         {
             as << m_indentation << "ASSetPropFlags (this, \"" << cleanName(op->getName()) << "\", 1);" << m_endl;
         }
@@ -207,7 +207,7 @@ void ASWriter::writeClass(UMLClassifier *c)
         UMLAttributeList atl = c->getAttributeList();
         for (UMLAttribute *at = atl.first(); at; at = atl.next())
         {
-            if (at->getScope() == Uml::Private)
+              if (at->getVisibility() == Uml::Visibility::Private)
             {
                 as << m_indentation << "ASSetPropFlags (this, \"" << cleanName(at->getName()) << "\", 7);" << m_endl;
             }
@@ -216,7 +216,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 
     for (UMLOperation *op = opList.first(); op; op = opList.next())
     {
-        if (op->getScope() == Uml::Protected)
+          if (op->getVisibility() == Uml::Visibility::Protected)
         {
             as << m_indentation << "ASSetPropFlags (this, \"" << cleanName(op->getName()) << "\", 7);" << m_endl;
         }

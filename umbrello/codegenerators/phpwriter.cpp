@@ -3155,14 +3155,14 @@ void PhpWriter::writeOperations(UMLClassifier *c, QTextStream &php) {
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList opl(c->getOpList());
     for(UMLOperation *op = opl.first(); op ; op = opl.next()) {
-        switch(op->getScope()) {
-        case Uml::Public:
+        switch(op->getVisibility()) {
+          case Uml::Visibility::Public:
             oppub.append(op);
             break;
-        case Uml::Protected:
+          case Uml::Visibility::Protected:
             opprot.append(op);
             break;
-        case Uml::Private:
+          case Uml::Visibility::Private:
             oppriv.append(op);
             break;
         }
@@ -3214,14 +3214,14 @@ void PhpWriter::writeOperations(QString /* classname */, UMLOperationList &opLis
             php << m_indentation << " * @return " << op->getTypeName() << m_endl;
             if (op->getAbstract()) php << m_indentation << " * @abstract" << m_endl;
             if (op->getStatic()) php << m_indentation << " * @static" << m_endl;
-            switch(op->getScope()) {
-            case Uml::Public:
+            switch(op->getVisibility()) {
+              case Uml::Visibility::Public:
                 php << m_indentation << " * @access public" << m_endl;
                 break;
-            case Uml::Protected:
+              case Uml::Visibility::Protected:
                 php << m_indentation << " * @access protected" << m_endl;
                 break;
-            case Uml::Private:
+              case Uml::Visibility::Private:
                 php << m_indentation << " * @access private" << m_endl;
                 break;
             }
@@ -3257,14 +3257,14 @@ void PhpWriter::writeAttributes(UMLClassifier *c, QTextStream &php) {
     for(at = atl.first(); at ; at = atl.next()) {
         if(!at->getInitialValue().isEmpty())
             atdefval.append(at);
-        switch(at->getScope()) {
-        case Uml::Public:
+        switch(at->getVisibility()) {
+          case Uml::Visibility::Public:
             atpub.append(at);
             break;
-        case Uml::Protected:
+          case Uml::Visibility::Protected:
             atprot.append(at);
             break;
-        case Uml::Private:
+          case Uml::Visibility::Private:
             atpriv.append(at);
             break;
         }
@@ -3291,14 +3291,14 @@ void PhpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &php) {
     for (UMLAttribute *at = atList.first(); at ; at = atList.next()) {
         if (forceDoc() || !at->getDoc().isEmpty()) {
             php << m_indentation << "/**" << m_endl << formatDoc(at->getDoc(), m_indentation + " * ");
-            switch(at->getScope()) {
-            case Uml::Public:
+            switch(at->getVisibility()) {
+              case Uml::Visibility::Public:
                 php << m_indentation << " * @access public" << m_endl;
                 break;
-            case Uml::Protected:
+              case Uml::Visibility::Protected:
                 php << m_indentation << " * @access protected" << m_endl;
                 break;
-            case Uml::Private:
+              case Uml::Visibility::Private:
                 php << m_indentation << " * @access private" << m_endl;
                 break;
             }

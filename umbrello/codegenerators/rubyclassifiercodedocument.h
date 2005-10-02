@@ -62,7 +62,7 @@ public:
      */
     //CodeDocumentDialog getDialog ( );
 
-    QString scopeToRubyDecl(Uml::Scope scope);
+    QString scopeToRubyDecl(Uml::Visibility scope);
     QString capitalizeFirstLetter(const QString &string);
 
     // Make it easier on ourselves

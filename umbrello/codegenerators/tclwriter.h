@@ -120,7 +120,7 @@ private:
      * @param writeStatic whether to write static or non-static attributes out
      * @param stream text stream
      */
-    void            writeAttributeDecl(Uml::Scope visibility, bool writeStatic);
+    void            writeAttributeDecl(Uml::Visibility visibility, bool writeStatic);
 
     void            writeAssociationIncl(UMLAssociationList list,
             Uml::IDType myId, QString type);
@@ -128,7 +128,7 @@ private:
      * Searches a list of associations for appropriate ones to write out as attributes
      */
     void            writeAssociationDecl(UMLAssociationList associations,
-                                         Uml::Scope permit, Uml::IDType id, QString type);
+                                         Uml::Visibility permit, Uml::IDType id, QString type);
 
     /**
      * Writes out an association as an attribute using Vector
@@ -147,9 +147,9 @@ private:
     void            writeDestructorHeader();
     void            writeDestructorSource();
     void            writeOperationHeader(UMLClassifier * c,
-                                         Uml::Scope permitScope);
+                                         Uml::Visibility permitScope);
     void            writeOperationSource(UMLClassifier * c,
-                                         Uml::Scope permitScope);
+                                         Uml::Visibility permitScope);
     void            writeAttributeSource();
     void            writeAssociationSource(UMLAssociationList associations,
                                            Uml::IDType id);

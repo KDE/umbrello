@@ -104,7 +104,7 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
     // add each item in the list to the ListBox and connect each item modified signal
     // to the ListItemModified slot in this class
     for (UMLClassifierListItem* listItem = itemList.first(); listItem != 0; listItem = itemList.next() ) {
-        m_pItemListLB->insertItem(listItem->toString(Uml::st_SigNoScope));
+        m_pItemListLB->insertItem(listItem->toString(Uml::st_SigNoVis));
         connect( listItem, SIGNAL(modified()),this,SLOT(slotListItemModified()) );
     }
 

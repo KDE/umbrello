@@ -42,27 +42,27 @@ void CPPSourceCodeClassFieldDeclarationBlock::updateContent( )
 {
 
     /*
-        CodeClassField * cf = getParentClassField();
-        ClassifierCodeDocument * doc = cf->getParentDocument();
-        CPPCodeClassField * jcf = (CPPCodeClassField*) cf;
-            CPPClassifierCodeDocument* jdoc = (CPPClassifierCodeDocument*) doc;
+    CodeClassField * cf = getParentClassField();
+    ClassifierCodeDocument * doc = cf->getParentDocument();
+    CPPCodeClassField * jcf = (CPPCodeClassField*) cf;
+    CPPClassifierCodeDocument* jdoc = (CPPClassifierCodeDocument*) doc;
 
-            // Set the comment
-            QString notes = getParentObject()->getDoc();
-            getComment()->setText(notes);
+    // Set the comment
+    QString notes = getParentObject()->getDoc();
+    getComment()->setText(notes);
 
-            // Set the body
-            QString staticValue = getParentObject()->getStatic() ? "static " : "";
-            QString scopeStr = Model_Utils::scopeToString(getParentObject()->getScope(), false);
+    // Set the body
+    QString staticValue = getParentObject()->getStatic() ? "static " : "";
+    QString scopeStr = getParentObject()->getVisibility().toString();
 
-            QString typeName = jcf->getTypeName();
-            QString fieldName = jcf->getFieldName();
-            QString initialV = jcf->getInitialValue();
+    QString typeName = jcf->getTypeName();
+    QString fieldName = jcf->getFieldName();
+    QString initialV = jcf->getInitialValue();
 
-            QString body = staticValue+scopeStr+" "+typeName+" "+fieldName;
-            if (!initialV.isEmpty())
-                    body.append(" = " + initialV);
-            setText(body+";");
+    QString body = staticValue+scopeStr+" "+typeName+" "+fieldName;
+    if (!initialV.isEmpty())
+            body.append(" = " + initialV);
+    setText(body+";");
     */
     setText("FIX ME;");
 

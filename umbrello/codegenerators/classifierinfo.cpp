@@ -50,23 +50,24 @@ void ClassifierInfo::init(UMLClassifier *c) {
     if(!isInterface) {
         UMLAttributeList atl = c->getAttributeList();
         for(UMLAttribute *at=atl.first(); at ; at=atl.next()) {
-            switch(at->getScope())
+            switch(at->getVisibility())
             {
-            case Uml::Public:
+              case Uml::Visibility::Public:
                 if(at->getStatic())
                     static_atpub.append(at);
                 else
                     atpub.append(at);
                 break;
-            case Uml::Protected:
+              case Uml::Visibility::Protected:
                 if(at->getStatic())
                     static_atprot.append(at);
                 else
                     atprot.append(at);
                 break;
-            case Uml::Private:
-                if(at->getStatic())
-                    static_atprot.append(at);
+              case Uml::Visibility::Private:
+              case Uml::Visibility::Implementation:
+                    if(at->getStatic())
+                    static_atpriv.append(at);
                 else
                     atpriv.append(at);
                 break;

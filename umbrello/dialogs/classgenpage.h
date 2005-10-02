@@ -87,7 +87,7 @@ private:
     QLabel * m_pNameL, * m_pInstanceL, * m_pStereoTypeL, * m_pPackageL;
     QLineEdit * m_pClassNameLE, *m_pInstanceLE, * m_pPackageLE;
     KComboBox * m_pStereoTypeCB;
-    QRadioButton * m_pPublicRB, * m_pPrivateRB, * m_pProtectedRB;
+    QRadioButton *m_pPublicRB, *m_pPrivateRB, *m_pProtectedRB, *m_pImplementationRB;
     QCheckBox * m_pMultiCB, * m_pDrawActorCB, * m_pAbstractCB, * m_pDeconCB;
     QMultiLineEdit * m_pDoc;
     UMLObject * m_pObject;

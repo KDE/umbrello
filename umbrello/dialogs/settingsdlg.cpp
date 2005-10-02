@@ -195,9 +195,9 @@ void SettingsDlg::setupClassPage() {
     visibilityLayout -> setSpacing( spacingHint() );
     visibilityLayout -> setMargin(  fontMetrics().height()  );
 
-    m_ClassWidgets.showScopeCB = new QCheckBox(i18n("Show &visibility"), m_ClassWidgets.visibilityGB);
-    m_ClassWidgets.showScopeCB -> setChecked(  m_pOptionState->classState.showScope );
-    visibilityLayout -> addWidget( m_ClassWidgets.showScopeCB, 0, 0 );
+    m_ClassWidgets.showVisibilityCB = new QCheckBox(i18n("Show &visibility"), m_ClassWidgets.visibilityGB);
+    m_ClassWidgets.showVisibilityCB -> setChecked(  m_pOptionState->classState.showVisibility );
+    visibilityLayout -> addWidget( m_ClassWidgets.showVisibilityCB, 0, 0 );
 
     m_ClassWidgets.showAttsCB = new QCheckBox( i18n("Show attributes"), m_ClassWidgets.visibilityGB );
     m_ClassWidgets.showAttsCB -> setChecked(  m_pOptionState->classState.showAtts );
@@ -316,7 +316,7 @@ void SettingsDlg::slotDefault() {
         break;
 
     case Settings::page_class:
-        m_ClassWidgets.showScopeCB -> setChecked( false );
+        m_ClassWidgets.showVisibilityCB -> setChecked( false );
         m_ClassWidgets.showAttsCB -> setChecked( true );
         m_ClassWidgets.showOpsCB -> setChecked( true );
         m_ClassWidgets.showStereotypeCB -> setChecked( false );
@@ -363,15 +363,15 @@ void SettingsDlg::applyPage( Settings::Page page ) {
         break;
 
     case Settings::page_class:
-        m_pOptionState->classState.showScope = m_ClassWidgets.showScopeCB -> isChecked();
+        m_pOptionState->classState.showVisibility = m_ClassWidgets.showVisibilityCB -> isChecked();
         m_pOptionState->classState.showAtts = m_ClassWidgets.showAttsCB -> isChecked();
         m_pOptionState->classState.showOps = m_ClassWidgets.showOpsCB -> isChecked();
         m_pOptionState->classState.showStereoType = m_ClassWidgets.showStereotypeCB -> isChecked();
         m_pOptionState->classState.showAttSig = m_ClassWidgets.showAttSigCB -> isChecked();
         m_pOptionState->classState.showOpSig = m_ClassWidgets.showOpSigCB -> isChecked();
         m_pOptionState->classState.showPackage = m_ClassWidgets.showPackageCB -> isChecked();
-        m_pOptionState->classState.defaultAttributeScope = (Uml::Scope) (m_ClassWidgets.m_pAttribScopeCB->currentItem() + 200);
-        m_pOptionState->classState.defaultOperationScope = (Uml::Scope) (m_ClassWidgets.m_pOperationScopeCB->currentItem() + 200);
+            m_pOptionState->classState.defaultAttributeScope = (Uml::Visibility::Value) (m_ClassWidgets.m_pAttribScopeCB->currentItem() + 200);
+            m_pOptionState->classState.defaultOperationScope = (Uml::Visibility::Value) (m_ClassWidgets.m_pOperationScopeCB->currentItem() + 200);
         break;
 
     case Settings::page_codegen:

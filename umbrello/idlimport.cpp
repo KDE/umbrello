@@ -253,7 +253,7 @@ void IDLImport::parseFile(QString filename) {
             continue;
         }
         if (keyword == "private") {
-            m_currentAccess = Uml::Private;
+            m_currentAccess = Uml::Visibility::Private;
             continue;
         }
         if (keyword == "readonly") {
@@ -319,7 +319,7 @@ void IDLImport::parseFile(QString filename) {
                     break;
                 m_srcIndex++;
             }
-            Import_Utils::insertMethod(m_klass, op, Uml::Public, typeName,
+            Import_Utils::insertMethod(m_klass, op, Uml::Visibility::Public, typeName,
                                       false, false, false, false, m_comment);
             if (m_isOneway) {
                 op->setStereotype("oneway");
@@ -346,7 +346,7 @@ void IDLImport::parseFile(QString filename) {
             name = advance();
             nextToken = advance();
         }
-        m_currentAccess = Uml::Public;
+        m_currentAccess = Uml::Visibility::Public;
         if (m_source[m_srcIndex] != ";") {
             kdError() << "importIDL: ignoring trailing items at " << name << endl;
             skipStmt();

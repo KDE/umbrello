@@ -395,8 +395,8 @@ bool AssociationWidget::setRoleName (const QString &strRole, Role_Type role) {
         m_role[role].m_pRole = new FloatingText(m_pView, tr, strRole);
         m_role[role].m_pRole->setLink(this);
         m_pView->addWidget(m_role[role].m_pRole);
-        Scope scope = getVisibility(role);
-        m_role[role].m_pRole->setPreText(Model_Utils::scopeToString(scope));
+        Uml::Visibility scope = getVisibility(role);
+        m_role[role].m_pRole->setPreText(scope.toString());
     } else {
         if (m_role[role].m_pRole->getText().isEmpty()) {
             newLabel = true;
@@ -443,14 +443,14 @@ void AssociationWidget::setMessageText(FloatingText *ft) {
     ft->setText(message);
 }
 
-Scope AssociationWidget::getVisibility(Role_Type role) const {
+Uml::Visibility AssociationWidget::getVisibility(Role_Type role) const {
     if (m_pObject == NULL || m_pObject->getBaseType() != ot_Association)
         return m_role[role].m_Visibility;
     UMLAssociation *umla = static_cast<UMLAssociation*>(m_pObject);
     return umla->getVisibility(role);
 }
 
-void AssociationWidget::setVisibility (Scope value, Role_Type role)
+void AssociationWidget::setVisibility(Uml::Visibility value, Role_Type role)
 {
     if (value == getVisibility(role))
         return;
@@ -459,7 +459,7 @@ void AssociationWidget::setVisibility (Scope value, Role_Type role)
     m_role[role].m_Visibility = value;
     // update role pre-text attribute as appropriate
     if (m_role[role].m_pRole) {
-        QString scopeString = Model_Utils::scopeToString(value);
+        QString scopeString = value.toString();
         m_role[role].m_pRole->setPreText(scopeString);
     }
 }
@@ -581,8 +581,8 @@ void AssociationWidget::activate() {
             robj.m_pRole->setLink(this);
             Text_Role tr = (r == A ? tr_RoleAName : tr_RoleBName);
             robj.m_pRole->setRole(tr);
-            Scope scope = getVisibility((Role_Type)r);
-            robj.m_pRole->setPreText(Model_Utils::scopeToString(scope));
+            Uml::Visibility scope = getVisibility((Role_Type)r);
+            robj.m_pRole->setPreText(scope.toString());
 
             if (FloatingText::isTextValid(robj.m_pRole->getText()))
                 robj.m_pRole -> show();
@@ -2256,7 +2256,7 @@ bool AssociationWidget::showDialog() {
     QString roleADoc = getRoleDoc(A), roleBDoc = getRoleDoc(B);
     QString rnA = getRoleName(A), rnB = getRoleName(B);
     QString ma = getMulti(A), mb = getMulti(B);
-    Scope vA = getVisibility(A), vB = getVisibility(B);
+    Uml::Visibility vA = getVisibility(A), vB = getVisibility(B);
     Changeability_Type cA = getChangeability(A), cB = getChangeability(B);
     //rules built into these functions to stop updating incorrect values
     setName(name);
@@ -3106,8 +3106,8 @@ void AssociationWidget::init (UMLView *view)
     m_role[B].m_nIndex = 0;
     m_role[A].m_nTotalCount = 0;
     m_role[B].m_nTotalCount = 0;
-    m_role[A].m_Visibility = Uml::Public;
-    m_role[B].m_Visibility = Uml::Public;
+    m_role[A].m_Visibility = Uml::Visibility::Public;
+    m_role[B].m_Visibility = Uml::Visibility::Public;
     m_role[A].m_Changeability = Uml::chg_Changeable;
     m_role[B].m_Changeability = Uml::chg_Changeable;
     m_bActivated = false;
@@ -3122,8 +3122,8 @@ void AssociationWidget::init (UMLView *view)
 
     // Initialize local members.
     // These are only used if we don't have a UMLAssociation attached.
-    m_role[A].m_Visibility = Public;
-    m_role[B].m_Visibility = Public;
+    m_role[A].m_Visibility = Uml::Visibility::Public;
+    m_role[B].m_Visibility = Uml::Visibility::Public;
     m_role[A].m_Changeability = chg_Changeable;
     m_role[B].m_Changeability = chg_Changeable;
     m_AssocType = Uml::at_Association;
@@ -3372,11 +3372,11 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
         // visibilty defaults to Public if it cant set it here..
         QString visibilityA = qElement.attribute( "visibilityA", "0");
         if (visibilityA.toInt() > 0)
-            setVisibility( (Scope)visibilityA.toInt(), A);
+          setVisibility( (Uml::Visibility::Value)visibilityA.toInt(), A);
 
         QString visibilityB = qElement.attribute( "visibilityB", "0");
         if (visibilityB.toInt() > 0)
-            setVisibility( (Scope)visibilityB.toInt(), B);
+          setVisibility( (Uml::Visibility::Value)visibilityB.toInt(), B);
 
         // Changeability defaults to "Changeable" if it cant set it here..
         QString changeabilityA = qElement.attribute( "changeabilityA", "0");

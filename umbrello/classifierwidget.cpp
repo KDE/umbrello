@@ -50,7 +50,7 @@ void ClassifierWidget::init() {
     WidgetBase::setBaseType(Uml::wt_Class);
 
     const Settings::OptionState& ops = m_pView->getOptionState();
-    m_bShowAccess = ops.classState.showScope;
+    m_bShowAccess = ops.classState.showVisibility;
     m_bShowOperations = ops.classState.showOps;
     m_bShowPublicOnly = false;
     m_bShowPackage = ops.classState.showPackage;
@@ -62,12 +62,12 @@ void ClassifierWidget::init() {
         if (m_bShowAccess)
             m_ShowOpSigs = Uml::st_NoSig;
         else
-            m_ShowOpSigs = Uml::st_NoSigNoScope;
+            m_ShowOpSigs = Uml::st_NoSigNoVis;
 
     } else if (m_bShowAccess)
         m_ShowOpSigs = Uml::st_ShowSig;
     else
-        m_ShowOpSigs = Uml::st_SigNoScope;
+        m_ShowOpSigs = Uml::st_SigNoVis;
 
     m_bShowAttributes = ops.classState.showAtts;
     m_bShowStereotype = ops.classState.showStereoType;
@@ -79,28 +79,28 @@ void ClassifierWidget::init() {
 void ClassifierWidget::updateSigs() {
     //turn on scope
     if (m_bShowAccess) {
-        if (m_ShowOpSigs == Uml::st_NoSigNoScope) {
+        if (m_ShowOpSigs == Uml::st_NoSigNoVis) {
             m_ShowOpSigs = Uml::st_NoSig;
-        } else if (m_ShowOpSigs == Uml::st_SigNoScope) {
+        } else if (m_ShowOpSigs == Uml::st_SigNoVis) {
             m_ShowOpSigs = Uml::st_ShowSig;
         }
     } else { //turn off scope
         if (m_ShowOpSigs == Uml::st_ShowSig) {
-            m_ShowOpSigs = Uml::st_SigNoScope;
+            m_ShowOpSigs = Uml::st_SigNoVis;
         } else if (m_ShowOpSigs == Uml::st_NoSig) {
-            m_ShowOpSigs = Uml::st_NoSigNoScope;
+            m_ShowOpSigs = Uml::st_NoSigNoVis;
         }
     }
     if (m_bShowAccess) {
-        if (m_ShowAttSigs == Uml::st_NoSigNoScope)
+        if (m_ShowAttSigs == Uml::st_NoSigNoVis)
             m_ShowAttSigs = Uml::st_NoSig;
-        else if (m_ShowAttSigs == Uml::st_SigNoScope)
+        else if (m_ShowAttSigs == Uml::st_SigNoVis)
             m_ShowAttSigs = Uml::st_ShowSig;
     } else {
         if (m_ShowAttSigs == Uml::st_ShowSig)
-            m_ShowAttSigs = Uml::st_SigNoScope;
+            m_ShowAttSigs = Uml::st_SigNoVis;
         else if(m_ShowAttSigs == Uml::st_NoSig)
-            m_ShowAttSigs = Uml::st_NoSigNoScope;
+            m_ShowAttSigs = Uml::st_NoSigNoVis;
     }
     calculateSize();
     update();
@@ -158,18 +158,18 @@ void ClassifierWidget::toggleShowPublicOnly() {
     update();
 }
 
-bool ClassifierWidget::getShowScope() const {
+bool ClassifierWidget::getShowVisibility() const {
     return m_bShowAccess;
 }
 
-void ClassifierWidget::setShowScope(bool _scope) {
-    m_bShowAccess = _scope;
+void ClassifierWidget::setShowVisibility(bool _visibility) {
+    m_bShowAccess = _visibility;
     updateSigs();
     calculateSize();
     update();
 }
 
-void ClassifierWidget::toggleShowScope() {
+void ClassifierWidget::toggleShowVisibility() {
     m_bShowAccess = !m_bShowAccess;
     updateSigs();
     calculateSize();
@@ -185,26 +185,26 @@ void ClassifierWidget::setShowOpSigs(bool _status) {
         if (m_bShowAccess)
             m_ShowOpSigs = Uml::st_NoSig;
         else
-            m_ShowOpSigs = Uml::st_NoSigNoScope;
+            m_ShowOpSigs = Uml::st_NoSigNoVis;
     } else if (m_bShowAccess)
         m_ShowOpSigs = Uml::st_ShowSig;
     else
-        m_ShowOpSigs = Uml::st_SigNoScope;
+        m_ShowOpSigs = Uml::st_SigNoVis;
     calculateSize();
     update();
 }
 
 void ClassifierWidget::toggleShowOpSigs() {
-    if (m_ShowOpSigs == Uml::st_ShowSig || m_ShowOpSigs == Uml::st_SigNoScope) {
+    if (m_ShowOpSigs == Uml::st_ShowSig || m_ShowOpSigs == Uml::st_SigNoVis) {
         if (m_bShowAccess) {
             m_ShowOpSigs = Uml::st_NoSig;
         } else {
-            m_ShowOpSigs = Uml::st_NoSigNoScope;
+            m_ShowOpSigs = Uml::st_NoSigNoVis;
         }
     } else if (m_bShowAccess) {
         m_ShowOpSigs = Uml::st_ShowSig;
     } else {
-        m_ShowOpSigs = Uml::st_SigNoScope;
+        m_ShowOpSigs = Uml::st_SigNoVis;
     }
     calculateSize();
     update();
@@ -254,12 +254,12 @@ void ClassifierWidget::setShowAttSigs(bool _status) {
         if (m_bShowAccess)
             m_ShowAttSigs = Uml::st_NoSig;
         else
-            m_ShowAttSigs = Uml::st_NoSigNoScope;
+            m_ShowAttSigs = Uml::st_NoSigNoVis;
     }
     else if (m_bShowAccess)
         m_ShowAttSigs = Uml::st_ShowSig;
     else
-        m_ShowAttSigs = Uml::st_SigNoScope;
+        m_ShowAttSigs = Uml::st_SigNoVis;
     if (UMLApp::app()->getDocument()->loading())
         return;
     calculateSize();
@@ -277,16 +277,16 @@ void ClassifierWidget::toggleShowAtts()
 void ClassifierWidget::toggleShowAttSigs()
 {
     if (m_ShowAttSigs == Uml::st_ShowSig ||
-            m_ShowAttSigs == Uml::st_SigNoScope) {
+            m_ShowAttSigs == Uml::st_SigNoVis) {
         if (m_bShowAccess) {
             m_ShowAttSigs = Uml::st_NoSig;
         } else {
-            m_ShowAttSigs = Uml::st_NoSigNoScope;
+            m_ShowAttSigs = Uml::st_NoSigNoVis;
         }
     } else if (m_bShowAccess) {
         m_ShowAttSigs = Uml::st_ShowSig;
     } else {
-        m_ShowAttSigs = Uml::st_SigNoScope;
+        m_ShowAttSigs = Uml::st_SigNoVis;
     }
     calculateSize();
     update();
@@ -296,7 +296,7 @@ int ClassifierWidget::displayedMembers(Uml::Object_Type ot) {
     int count = 0;
     UMLClassifierListItemList list = getClassifier()->getFilteredList(ot);
     for (UMLClassifierListItem *m = list.first(); m; m = list.next()) {
-        if (!(m_bShowPublicOnly && m->getScope() != Uml::Public))
+      if (!(m_bShowPublicOnly && m->getVisibility() != Uml::Visibility::Public))
             count++;
     }
     return count;
@@ -354,7 +354,7 @@ void ClassifierWidget::calculateSize() {
         // calculate width of the attributes
         UMLClassifierListItemList list = getClassifier()->getFilteredList(Uml::ot_Attribute);
         for (UMLClassifierListItem *a = list.first(); a; a = list.next()) {
-            if (m_bShowPublicOnly && a->getScope() != Uml::Public)
+            if (m_bShowPublicOnly && a->getVisibility() != Uml::Visibility::Public)
                 continue;
             const int attWidth = fm.size(0,a->toString(m_ShowAttSigs)).width();
             if (attWidth > width)
@@ -371,7 +371,7 @@ void ClassifierWidget::calculateSize() {
         // ... width
         UMLOperationList list(getClassifier()->getOpList());
         for (UMLOperation* op = list.first(); op; op = list.next()) {
-            if (m_bShowPublicOnly && op->getScope() != Uml::Public)
+                  if (m_bShowPublicOnly && op->getVisibility() != Uml::Visibility::Public)
                 continue;
             const QString displayedOp = op->toString(m_ShowOpSigs);
             UMLWidget::FontType oft;
@@ -444,9 +444,9 @@ void ClassifierWidget::slotMenuSelection(int sel) {
         toggleShowAttSigs();
         break;
 
-    case ListPopupMenu::mt_Scope:
-    case ListPopupMenu::mt_Scope_Selection:
-        toggleShowScope();
+    case ListPopupMenu::mt_Visibility:
+    case ListPopupMenu::mt_Visibility_Selection:
+        toggleShowVisibility();
         break;
 
     case ListPopupMenu::mt_Show_Packages:
@@ -709,7 +709,7 @@ void ClassifierWidget::drawMembers(QPainter & p, Uml::Object_Type ot, Uml::Signa
     f.setBold(false);
     UMLClassifierListItemList list = getClassifier()->getFilteredList(ot);
     for (UMLClassifierListItem *obj = list.first(); obj; obj = list.next()) {
-        if (m_bShowPublicOnly && obj->getScope() != Uml::Public)
+          if (m_bShowPublicOnly && obj->getVisibility() != Uml::Visibility::Public)
             continue;
         QString text = obj->toString(sigType);
         f.setItalic( obj->getAbstract() );

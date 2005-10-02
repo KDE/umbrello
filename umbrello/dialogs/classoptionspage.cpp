@@ -65,12 +65,12 @@ void ClassOptionsPage::setupPage() {
     m_pShowOpsCB -> setChecked(m_pWidget -> getShowOps());
     visibilityLayout -> addWidget(m_pShowOpsCB, 0, 0);
 
-    m_pShowScopeCB = new QCheckBox(i18n("&Visibility"), m_pVisibilityGB);
-    m_pShowScopeCB -> setChecked(m_pWidget -> getShowScope());
-    visibilityLayout -> addWidget(m_pShowScopeCB, 0, 1);
+    m_pShowVisibilityCB = new QCheckBox(i18n("&Visibility"), m_pVisibilityGB);
+    m_pShowVisibilityCB -> setChecked(m_pWidget -> getShowVisibility());
+    visibilityLayout -> addWidget(m_pShowVisibilityCB, 0, 1);
 
     sigtype = m_pWidget -> getShowOpSigs();
-    if(sigtype == Uml::st_NoSig || sigtype == Uml::st_NoSigNoScope)
+    if(sigtype == Uml::st_NoSig || sigtype == Uml::st_NoSigNoVis)
         sig = false;
     else
         sig = true;
@@ -95,7 +95,7 @@ void ClassOptionsPage::setupPage() {
 
         m_pShowAttSigCB = new QCheckBox(i18n("Attr&ibute signature"), m_pVisibilityGB);
         sigtype = m_pWidget->getShowAttSigs();
-        if(sigtype == Uml::st_NoSig || sigtype == Uml::st_NoSigNoScope)
+        if(sigtype == Uml::st_NoSig || sigtype == Uml::st_NoSigNoVis)
             sig = false;
         else
             sig = true;
@@ -138,9 +138,9 @@ void ClassOptionsPage::setupClassPageOption() {
     m_pShowAttSigCB -> setChecked(m_options->classState.showAttSig);
     visibilityLayout -> addWidget(m_pShowAttSigCB, 3, 0);
 
-    m_pShowScopeCB = new QCheckBox(i18n("&Visibility"), m_pVisibilityGB);
-    m_pShowScopeCB -> setChecked(m_options->classState.showScope);
-    visibilityLayout -> addWidget(m_pShowScopeCB, 0, 1);
+    m_pShowVisibilityCB = new QCheckBox(i18n("&Visibility"), m_pVisibilityGB);
+    m_pShowVisibilityCB -> setChecked(m_options->classState.showVisibility);
+    visibilityLayout -> addWidget(m_pShowVisibilityCB, 0, 1);
 
     m_pShowPackageCB = new QCheckBox(i18n("Pac&kage"), m_pVisibilityGB);
     m_pShowPackageCB -> setChecked(m_options->classState.showPackage);
@@ -162,7 +162,7 @@ void ClassOptionsPage::updateUMLWidget() {
 
 void ClassOptionsPage::updateWidget() {
     m_pWidget->setShowPackage( m_pShowPackageCB->isChecked() );
-    m_pWidget->setShowScope( m_pShowScopeCB->isChecked() );
+    m_pWidget->setShowVisibility( m_pShowVisibilityCB->isChecked() );
     m_pWidget->setShowOps( m_pShowOpsCB->isChecked() );
     m_pWidget->setShowOpSigs( m_pShowOpSigCB->isChecked() );
     Uml::Widget_Type type = m_pWidget->getBaseType();
@@ -177,7 +177,7 @@ void ClassOptionsPage::updateWidget() {
 }
 
 void ClassOptionsPage::updateOptionState() {
-    m_options->classState.showScope = m_pShowScopeCB->isChecked();
+    m_options->classState.showVisibility = m_pShowVisibilityCB->isChecked();
     if (m_pShowAttsCB)
         m_options->classState.showAtts = m_pShowAttsCB->isChecked();
     m_options->classState.showOps = m_pShowOpsCB->isChecked();

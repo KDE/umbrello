@@ -84,8 +84,8 @@ QString CodeParameter::getTypeName ( ) {
  * The visibility of this code parameter.
  * @return the value of parent object scope
  */
-Uml::Scope CodeParameter::getVisibility ( ) const {
-    return m_parentObject->getScope();
+Uml::Visibility CodeParameter::getVisibility ( ) const {
+    return m_parentObject->getVisibility();
 }
 
 /**

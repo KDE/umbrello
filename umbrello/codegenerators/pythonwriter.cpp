@@ -160,14 +160,14 @@ void PythonWriter::writeOperations(UMLClassifier *c,QTextStream &h) {
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList opl(c->getOpList());
     for(UMLOperation *op = opl.first(); op ; op = opl.next()) {
-        switch(op->getScope()) {
-        case Uml::Public:
+        switch(op->getVisibility()) {
+          case Uml::Visibility::Public:
             oppub.append(op);
             break;
-        case Uml::Protected:
+          case Uml::Visibility::Protected:
             opprot.append(op);
             break;
-        case Uml::Private:
+          case Uml::Visibility::Private:
             oppriv.append(op);
             break;
         }
