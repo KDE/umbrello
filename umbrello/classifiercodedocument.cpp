@@ -88,7 +88,7 @@ CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassFiel
 
 /** get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
  */
-CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassField::ClassFieldType cfType, Uml::Scope visibility)
+CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassField::ClassFieldType cfType, Uml::Visibility visibility)
 {
     CodeClassFieldList list;
     list.setAutoDelete(false);
@@ -103,7 +103,7 @@ CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassFiel
 
 /** get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
  */
-CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassField::ClassFieldType cfType, bool isStatic, Uml::Scope visibility)
+CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassField::ClassFieldType cfType, bool isStatic, Uml::Visibility visibility)
 {
     CodeClassFieldList list;
     list.setAutoDelete(false);

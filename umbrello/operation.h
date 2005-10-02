@@ -35,13 +35,13 @@ public:
      * If you want to create an Operation use the method in UMLDoc instead.
      *
      * @param parent    The parent to this operation.
-     * @param name              The name of the operation.
-     * @param id                The id of the operation.
-     * @param s         The scope of the operation.
-     * @param rt                The return type of the operation.
+     * @param name      The name of the operation.
+     * @param id        The id of the operation.
+     * @param s         The visibility of the operation.
+     * @param rt        The return type of the operation.
      */
     UMLOperation(const UMLClassifier * parent, QString Name, Uml::IDType id = Uml::id_None,
-                 Uml::Scope s = Uml::Public, QString rt = QString::null);
+                 Uml::Visibility s = Uml::Visibility::Public, QString rt = QString::null);
 
     /**
      * Constructs an UMLOperation.

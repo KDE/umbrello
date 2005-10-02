@@ -198,14 +198,14 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl) {
     //keep this for documentation only!
     UMLOperationList opl(c->getOpList());
     for(UMLOperation *op = opl.first(); op ; op = opl.next()) {
-        switch(op->getScope()) {
-        case Uml::Public:
+        switch(op->getVisibility()) {
+          case Uml::Visibility::Public:
             oppub.append(op);
             break;
-        case Uml::Protected:
+          case Uml::Visibility::Protected:
             opprot.append(op);
             break;
-        case Uml::Private:
+          case Uml::Visibility::Private:
             oppriv.append(op);
             break;
         }
@@ -314,14 +314,14 @@ void PerlWriter::writeAttributes(UMLClassifier *c, QTextStream &perl) {
     for(at = atl.first(); at ; at = atl.next()) {
         if(!at->getInitialValue().isEmpty())
             atdefval.append(at);
-        switch(at->getScope()) {
-        case Uml::Public:
+        switch(at->getVisibility()) {
+          case Uml::Visibility::Public:
             atpub.append(at);
             break;
-        case Uml::Protected:
+          case Uml::Visibility::Protected:
             atprot.append(at);
             break;
-        case Uml::Private:
+          case Uml::Visibility::Private:
             atpriv.append(at);
             break;
         }

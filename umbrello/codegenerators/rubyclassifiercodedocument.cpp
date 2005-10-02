@@ -148,31 +148,31 @@ void RubyClassifierCodeDocument::syncNamesToParent( )
 // of the document
 bool RubyClassifierCodeDocument::addCodeOperation (CodeOperation * op ) 
 {
-    Uml::Scope scope = op->getParentOperation()->getScope();
+    Uml::Visibility scope = op->getParentOperation()->getVisibility();
     if(!op->getParentOperation()->isConstructorOperation())
     {
         switch (scope) {
         default:
-        case Uml::Public:
+        case Uml::Visibility::Public:
             return pubOperationsBlock->addTextBlock(op);
             break;
-        case Uml::Protected:
+        case Uml::Visibility::Protected:
             return protOperationsBlock->addTextBlock(op);
             break;
-        case Uml::Private:
+        case Uml::Visibility::Private:
             return privOperationsBlock->addTextBlock(op);
             break;
         }
     } else {
         switch (scope) {
         default:
-        case Uml::Public:
+        case Uml::Visibility::Public:
             return pubConstructorBlock->addTextBlock(op);
             break;
-        case Uml::Protected:
+        case Uml::Visibility::Protected:
             return protConstructorBlock->addTextBlock(op);
             break;
-        case Uml::Private:
+        case Uml::Visibility::Private:
             return privConstructorBlock->addTextBlock(op);
             break;
         }
@@ -362,18 +362,18 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
 
 }
 
-QString RubyClassifierCodeDocument::scopeToRubyDecl(Uml::Scope scope)
+QString RubyClassifierCodeDocument::scopeToRubyDecl(Uml::Visibility scope)
 {
     QString scopeString;
     switch(scope)
     {
-    case Uml::Public:
+    case Uml::Visibility::Public:
         scopeString = "public";
         break;
-    case Uml::Protected:
+    case Uml::Visibility::Protected:
         scopeString = "protected";
         break;
-    case Uml::Private:
+    case Uml::Visibility::Private:
     default:
         scopeString = "private";
         break;
@@ -428,26 +428,26 @@ void RubyClassifierCodeDocument::updateContent( )
 
     // attribute-based ClassFields
     // we do it this way to have the static fields sorted out from regular ones
-    CodeClassFieldList staticPublicAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true, Uml::Public );
-    CodeClassFieldList publicAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, false, Uml::Public );
-    CodeClassFieldList staticProtectedAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true, Uml::Protected );
-    CodeClassFieldList protectedAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, false, Uml::Protected );
-    CodeClassFieldList staticPrivateAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true, Uml::Private );
-    CodeClassFieldList privateAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, false, Uml::Private);
+    CodeClassFieldList staticPublicAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true, Uml::Visibility::Public );
+    CodeClassFieldList publicAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, false, Uml::Visibility::Public );
+    CodeClassFieldList staticProtectedAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true, Uml::Visibility::Protected );
+    CodeClassFieldList protectedAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, false, Uml::Visibility::Protected );
+    CodeClassFieldList staticPrivateAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true, Uml::Visibility::Private );
+    CodeClassFieldList privateAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, false, Uml::Visibility::Private);
 
     // association-based ClassFields
     // dont care if they are static or not..all are lumped together
-    CodeClassFieldList publicPlainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation , Uml::Public);
-    CodeClassFieldList publicAggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation, Uml::Public);
-    CodeClassFieldList publicCompositionClassFields = getSpecificClassFields ( CodeClassField::Composition, Uml::Public );
+    CodeClassFieldList publicPlainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation , Uml::Visibility::Public);
+    CodeClassFieldList publicAggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation, Uml::Visibility::Public);
+    CodeClassFieldList publicCompositionClassFields = getSpecificClassFields ( CodeClassField::Composition, Uml::Visibility::Public );
 
-    CodeClassFieldList protPlainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation , Uml::Protected);
-    CodeClassFieldList protAggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation, Uml::Protected);
-    CodeClassFieldList protCompositionClassFields = getSpecificClassFields ( CodeClassField::Composition, Uml::Protected);
+    CodeClassFieldList protPlainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation , Uml::Visibility::Protected);
+    CodeClassFieldList protAggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation, Uml::Visibility::Protected);
+    CodeClassFieldList protCompositionClassFields = getSpecificClassFields ( CodeClassField::Composition, Uml::Visibility::Protected);
 
-    CodeClassFieldList privPlainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation , Uml::Private);
-    CodeClassFieldList privAggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation, Uml::Private);
-    CodeClassFieldList privCompositionClassFields = getSpecificClassFields ( CodeClassField::Composition, Uml::Private);
+    CodeClassFieldList privPlainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation , Uml::Visibility::Private);
+    CodeClassFieldList privAggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation, Uml::Visibility::Private);
+    CodeClassFieldList privCompositionClassFields = getSpecificClassFields ( CodeClassField::Composition, Uml::Visibility::Private);
 
     bool isInterface = parentIsInterface();
     bool hasOperationMethods = c->getOpList().last() ? true : false;

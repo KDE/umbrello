@@ -512,7 +512,7 @@ void UMLApp::saveOptions() {
     m_config->writeEntry( "font", m_optionState.uiState.font );
 
     m_config->setGroup( "Class Options" );
-    m_config->writeEntry( "showVisibility", m_optionState.classState.showScope );
+    m_config->writeEntry( "showVisibility", m_optionState.classState.showVisibility );
     m_config->writeEntry( "showAtts", m_optionState.classState.showAtts);
     m_config->writeEntry( "showOps", m_optionState.classState.showOps );
     m_config->writeEntry( "showStereoType", m_optionState.classState.showStereoType );
@@ -1090,15 +1090,15 @@ void UMLApp::readOptionState() {
 
     m_config -> setGroup( "Class Options" );
 
-    m_optionState.classState.showScope = m_config -> readBoolEntry("showVisibility", true);
+    m_optionState.classState.showVisibility = m_config -> readBoolEntry("showVisibility", true);
     m_optionState.classState.showAtts = m_config -> readBoolEntry("showAtts", true);
     m_optionState.classState.showOps = m_config -> readBoolEntry("showOps", true);
     m_optionState.classState.showStereoType = m_config -> readBoolEntry("showStereoType", false);
     m_optionState.classState.showAttSig = m_config -> readBoolEntry("showAttSig", true);
     m_optionState.classState.showOpSig = m_config -> readBoolEntry("ShowOpSig", true);
     m_optionState.classState.showPackage = m_config -> readBoolEntry("showPackage", false);
-    m_optionState.classState.defaultAttributeScope = (Uml::Scope) m_config -> readNumEntry("defaultAttributeScope", Uml::Private);
-    m_optionState.classState.defaultOperationScope = (Uml::Scope) m_config -> readNumEntry("defaultOperationScope", Uml::Public);
+    m_optionState.classState.defaultAttributeScope = (Uml::Visibility::Value) m_config -> readNumEntry("defaultAttributeScope", Uml::Visibility::Private);
+    m_optionState.classState.defaultOperationScope = (Uml::Visibility::Value) m_config -> readNumEntry("defaultOperationScope", Uml::Visibility::Public);
 
     m_config -> setGroup( "Code Viewer Options" );
 

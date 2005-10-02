@@ -327,17 +327,17 @@ void IDLWriter::writeClass(UMLClassifier *c) {
             idl << getIndent() << "// Attributes:" << m_endl << m_endl;
             for (UMLAttribute *at = atl.first(); at; at = atl.next()) {
                 QString attName = cleanName(at->getName());
-                Uml::Scope scope = at->getScope();
+                Uml::Visibility scope = at->getVisibility();
                 idl << getIndent();
                 if (isValuetype) {
-                    if (scope == Uml::Public)
+                    if (scope == Uml::Visibility::Public)
                         idl << "public ";
                     else
                         idl << "private ";
                 } else {
-                    if (scope != Uml::Public) {
+                    if (scope != Uml::Visibility::Public) {
                         idl << "// visibility should be: "
-                        << Model_Utils::scopeToString(scope, false)
+                        << scope.toString()
                         << m_endl;
                         idl << getIndent();
                     }
@@ -354,7 +354,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
     UMLOperationList oppub;
     UMLOperation *op;
     for (op = opl.first(); op; op = opl.next()) {
-        if (op->getScope() == Uml::Public)
+          if (op->getVisibility() == Uml::Visibility::Public)
             oppub.append(op);
     }
     if (forceSections() || oppub.count()) {

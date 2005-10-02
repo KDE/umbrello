@@ -105,8 +105,8 @@ public:
         mt_Show_Packages_Selection,       //SHOWPACKAGE, multiple items
         mt_Show_Stereotypes,
         mt_Show_Stereotypes_Selection,    //SHOWSTEREOTYPE, multiple items
-        mt_Scope,
-        mt_Scope_Selection,               //SCOPE, multiple items
+        mt_Visibility,
+        mt_Visibility_Selection,               //SCOPE, multiple items
         mt_DrawAsCircle,
         mt_DrawAsCircle_Selection,        //DRAWASCIRCLE, multiple items
         mt_ChangeToClass,

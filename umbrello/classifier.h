@@ -101,7 +101,7 @@ public:
      */
     UMLAttribute* addAttribute(const QString &name, Uml::IDType id = Uml::id_None);
 
-    UMLAttribute* addAttribute(const QString &name, UMLObject *type, Uml::Scope scope);
+    UMLAttribute* addAttribute(const QString &name, UMLObject *type, Uml::Visibility scope);
 
     /**
      * Adds an already created attribute.

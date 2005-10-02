@@ -65,15 +65,15 @@ struct UIState {
 };
 
 struct ClassState {
-    bool showScope;
+    bool showVisibility;
     bool showAtts;
     bool showOps;
     bool showStereoType;
     bool showAttSig;
     bool showOpSig;
     bool showPackage;
-    Uml::Scope defaultAttributeScope;
-    Uml::Scope defaultOperationScope;
+    Uml::Visibility defaultAttributeScope;
+    Uml::Visibility defaultOperationScope;
 };
 
 struct OptionState {

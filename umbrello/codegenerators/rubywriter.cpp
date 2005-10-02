@@ -126,9 +126,9 @@ void RubyWriter::writeClass(UMLClassifier *c) {
         h << m_indentation << "#" << m_endl << m_endl;
 
         // Accessor methods for attributes
-        writeAttributeMethods(&(classifierInfo->atpub), Uml::Public, h);
-        writeAttributeMethods(&(classifierInfo->atprot), Uml::Protected, h);
-        writeAttributeMethods(&(classifierInfo->atpriv), Uml::Private, h);
+        writeAttributeMethods(&(classifierInfo->atpub), Uml::Visibility::Public, h);
+        writeAttributeMethods(&(classifierInfo->atprot), Uml::Visibility::Protected, h);
+        writeAttributeMethods(&(classifierInfo->atpriv), Uml::Visibility::Private, h);
         h << m_endl;
     }
 
@@ -183,14 +183,14 @@ void RubyWriter::writeOperations(UMLClassifier *c,QTextStream &h) {
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList opl(c->getOpList());
     for(UMLOperation *op = opl.first(); op ; op = opl.next()) {
-        switch(op->getScope()) {
-        case Uml::Public:
+        switch(op->getVisibility()) {
+        case Uml::Visibility::Public:
             oppub.append(op);
             break;
-        case Uml::Protected:
+        case Uml::Visibility::Protected:
             opprot.append(op);
             break;
-        case Uml::Private:
+        case Uml::Visibility::Private:
             oppriv.append(op);
             break;
         }
@@ -200,34 +200,34 @@ void RubyWriter::writeOperations(UMLClassifier *c,QTextStream &h) {
 
     //write operations to file
     if(forceSections() || !oppub.isEmpty()) {
-        writeOperations(classname, oppub, Uml::Public, h);
+        writeOperations(classname, oppub, Uml::Visibility::Public, h);
     }
 
     if(forceSections() || !opprot.isEmpty()) {
-        writeOperations(classname, opprot, Uml::Protected, h);
+        writeOperations(classname, opprot, Uml::Visibility::Protected, h);
     }
 
     if(forceSections() || !oppriv.isEmpty()) {
-        writeOperations(classname, oppriv, Uml::Private, h);
+        writeOperations(classname, oppriv, Uml::Visibility::Private, h);
     }
 
 }
 
 void RubyWriter::writeOperations(QString classname, UMLOperationList &opList,
-                                   Uml::Scope permitScope, QTextStream &h) 
+                                   Uml::Visibility permitScope, QTextStream &h) 
 {
     UMLOperation *op;
     UMLAttributeList *atl;
     UMLAttribute *at;
 
     switch (permitScope) {
-    case Uml::Public:
+    case Uml::Visibility::Public:
         h << m_indentation << "public" << endl << endl;
         break;
-    case Uml::Protected:
+    case Uml::Visibility::Protected:
         h << m_indentation << "protected" << endl << endl;
         break;
-    case Uml::Private:
+    case Uml::Visibility::Private:
      h << m_indentation << "private" << endl << endl;
         break;
     }
@@ -353,10 +353,10 @@ void RubyWriter::writeOperations(QString classname, UMLOperationList &opList,
 // this is for writing file attribute methods
 //
 void RubyWriter::writeAttributeMethods(UMLAttributeList *attribs,
-                                      Uml::Scope visibility, QTextStream &stream)
+                                      Uml::Visibility visibility, QTextStream &stream)
 {
     // return now if NO attributes to work on
-    if (attribs->count() == 0 || visibility == Uml::Private)
+    if (attribs->count() == 0 || visibility == Uml::Visibility::Private)
         return;
 
     UMLAttribute *at;

@@ -33,14 +33,14 @@ public:
      * Sets up an entityattribute.
      *
      * @param parent    The parent of this UMLEntityAttribute.
-     * @param name              The name of this UMLEntityAttribute.
-     * @param id                The unique id given to this UMLEntityAttribute.
-     * @param s         The scope of the UMLEntityAttribute.
-     * @param type              The type of this UMLEntityAttribute.
-     * @param iv                The initial value of the entityattribute.
+     * @param name      The name of this UMLEntityAttribute.
+     * @param id        The unique id given to this UMLEntityAttribute.
+     * @param s         The visibility of the UMLEntityAttribute.
+     * @param type      The type of this UMLEntityAttribute.
+     * @param iv        The initial value of the entityattribute.
      */
     UMLEntityAttribute(const UMLObject* parent, QString name, Uml::IDType id = Uml::id_None,
-                       Uml::Scope s = Uml::Private, QString type = "int", QString iv = 0);
+               Uml::Visibility s = Uml::Visibility::Private, QString type = "int", QString iv = 0);
 
     /**
      * Sets up an entityattribute.

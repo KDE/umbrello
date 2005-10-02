@@ -51,10 +51,6 @@ Uml::Changeability_Type UMLRole::getChangeability() const {
     return m_Changeability;
 }
 
-Uml::Scope UMLRole::getVisibility() const {
-    return getScope();
-}
-
 QString UMLRole::getMultiplicity() const {
     return m_Multi;
 }
@@ -81,10 +77,6 @@ void UMLRole::setObject (UMLObject *obj) {
 
     m_pSecondary = obj;
     emit modified();
-}
-
-void UMLRole::setVisibility (Uml::Scope value) {
-    setScope(value);
 }
 
 void UMLRole::setChangeability (Uml::Changeability_Type value) {
@@ -166,18 +158,9 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
             roleElement.setAttribute("relationship", "true");
         }
     }
-    switch (getScope()) {
-    case Uml::Private:
-        roleElement.setAttribute("visibility", "private");
-        break;
-    case Uml::Protected:
-        roleElement.setAttribute("visibility", "protected");
-        break;
-    default:
-    case Uml::Public:
-        roleElement.setAttribute("visibility", "public");
-        break;
-    }
+    
+    roleElement.setAttribute("visibility", getVisibility().toString(false));
+    
     switch (m_Changeability) {
     case Uml::chg_Frozen:
         roleElement.setAttribute("changeability", "frozen");

@@ -108,9 +108,13 @@ void UMLOperationDialog::setupDialog() {
 
     m_pPrivateRB = new QRadioButton(i18n("P&rivate"), m_pScopeBG);
     scopeLayout -> addWidget(m_pPrivateRB);
-
+    
     m_pProtectedRB = new QRadioButton(i18n("Prot&ected"), m_pScopeBG);
     scopeLayout -> addWidget(m_pProtectedRB);
+    
+    m_pImplementationRB = new QRadioButton(i18n("I&mplementation"), m_pScopeBG);
+    scopeLayout -> addWidget(m_pImplementationRB);
+
     topLayout -> addWidget(m_pScopeBG);
 
     m_pParmsGB = new Q3GroupBox(i18n("Parameters"), plainPage() );
@@ -195,13 +199,15 @@ void UMLOperationDialog::setupDialog() {
         m_pParmsLB -> insertItem( pAtt -> getName() );
 
     //set scope
-    Uml::Scope scope = m_pOperation -> getScope();
-    if( scope == Uml::Public )
-        m_pPublicRB -> setChecked( true );
-    else if( scope == Uml::Private )
-        m_pPrivateRB -> setChecked( true );
-    else
-        m_pProtectedRB -> setChecked( true );
+    Uml::Visibility scope = m_pOperation -> getVisibility();
+    if( scope == Uml::Visibility::Public )
+      m_pPublicRB -> setChecked( true );
+    else if( scope == Uml::Visibility::Private )
+      m_pPrivateRB -> setChecked( true );
+    else if( scope == Uml::Visibility::Protected )
+      m_pProtectedRB -> setChecked( true );
+    else if( scope == Uml::Visibility::Implementation )
+      m_pImplementationRB -> setChecked( true );
 
     // manage stereotypes
     m_pStereoTypeCB -> setDuplicatesEnabled(false);//only allow one of each type in box
@@ -468,11 +474,13 @@ bool UMLOperationDialog::apply()
     m_pOperation -> setName( name );
 
     if( m_pPublicRB -> isChecked() )
-        m_pOperation -> setScope( Uml::Public );
+      m_pOperation -> setVisibility( Uml::Visibility::Public );
     else if( m_pPrivateRB -> isChecked() )
-        m_pOperation -> setScope( Uml::Private );
-    else
-        m_pOperation -> setScope( Uml::Protected );
+      m_pOperation -> setVisibility( Uml::Visibility::Private );
+    else if (m_pProtectedRB -> isChecked() )
+      m_pOperation -> setVisibility( Uml::Visibility::Protected );
+    else if (m_pImplementationRB -> isChecked() )
+      m_pOperation -> setVisibility( Uml::Visibility::Implementation );
 
     QString typeName = m_pRtypeCB->currentText();
     UMLTemplate *tmplParam = classifier->findTemplate(typeName);

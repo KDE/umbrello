@@ -279,47 +279,47 @@ TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
         writeDestructorHeader();
     }
     // attributes
-    writeAttributeDecl(Uml::Public, true);      // write static attributes first
-    writeAttributeDecl(Uml::Public, false);
+    writeAttributeDecl(Uml::Visibility::Public, true);      // write static attributes first
+    writeAttributeDecl(Uml::Visibility::Public, false);
     // associations
-    writeAssociationDecl(classifierInfo->plainAssociations, Uml::Public,
+    writeAssociationDecl(classifierInfo->plainAssociations, Uml::Visibility::Public,
                          c->getID(), "Associations");
-    writeAssociationDecl(classifierInfo->aggregations, Uml::Public, c->getID(),
+    writeAssociationDecl(classifierInfo->aggregations, Uml::Visibility::Public, c->getID(),
                          "Aggregations");
-    writeAssociationDecl(classifierInfo->compositions, Uml::Public, c->getID(),
+    writeAssociationDecl(classifierInfo->compositions, Uml::Visibility::Public, c->getID(),
                          "Compositions");
-    //TODO  writeHeaderAccessorMethodDecl(c, Uml::Public, stream);
-    writeOperationHeader(c, Uml::Public);
+    //TODO  writeHeaderAccessorMethodDecl(c, Uml::Visibility::Public, stream);
+    writeOperationHeader(c, Uml::Visibility::Public);
 
     // PROTECTED attribs/methods
     //
     // attributes
-    writeAttributeDecl(Uml::Protected, true);   // write static attributes first
-    writeAttributeDecl(Uml::Protected, false);
+    writeAttributeDecl(Uml::Visibility::Protected, true);   // write static attributes first
+    writeAttributeDecl(Uml::Visibility::Protected, false);
     // associations
-    writeAssociationDecl(classifierInfo->plainAssociations, Uml::Protected,
+    writeAssociationDecl(classifierInfo->plainAssociations, Uml::Visibility::Protected,
                          c->getID(), "Association");
-    writeAssociationDecl(classifierInfo->aggregations, Uml::Protected,
+    writeAssociationDecl(classifierInfo->aggregations, Uml::Visibility::Protected,
                          c->getID(), "Aggregation");
-    writeAssociationDecl(classifierInfo->compositions, Uml::Protected,
+    writeAssociationDecl(classifierInfo->compositions, Uml::Visibility::Protected,
                          c->getID(), "Composition");
-    //TODO  writeHeaderAccessorMethodDecl(c, Uml::Protected, stream);
-    writeOperationHeader(c, Uml::Protected);
+    //TODO  writeHeaderAccessorMethodDecl(c, Uml::Visibility::Protected, stream);
+    writeOperationHeader(c, Uml::Visibility::Protected);
 
     // PRIVATE attribs/methods
     //
     // attributes
-    writeAttributeDecl(Uml::Private, true);     // write static attributes first
-    writeAttributeDecl(Uml::Private, false);
+    writeAttributeDecl(Uml::Visibility::Private, true);     // write static attributes first
+    writeAttributeDecl(Uml::Visibility::Private, false);
     // associations
-    writeAssociationDecl(classifierInfo->plainAssociations, Uml::Private,
+    writeAssociationDecl(classifierInfo->plainAssociations, Uml::Visibility::Private,
                          c->getID(), "Associations");
-    writeAssociationDecl(classifierInfo->aggregations, Uml::Private, c->getID(),
+    writeAssociationDecl(classifierInfo->aggregations, Uml::Visibility::Private, c->getID(),
                          "Aggregations");
-    writeAssociationDecl(classifierInfo->compositions, Uml::Private, c->getID(),
+    writeAssociationDecl(classifierInfo->compositions, Uml::Visibility::Private, c->getID(),
                          "Compositions");
-    //TODO  writeHeaderAccessorMethodDecl(c, Uml::Public, stream);
-    writeOperationHeader(c, Uml::Private);
+    //TODO  writeHeaderAccessorMethodDecl(c, Uml::Visibility::Public, stream);
+    writeOperationHeader(c, Uml::Visibility::Private);
     writeInitAttributeHeader(); // this is always private, used by constructors to initialize class
 
     // end of class header
@@ -363,9 +363,9 @@ TclWriter::writeSourceFile(UMLClassifier * c, QFile & filetcl)
     writeAssociationSource(classifierInfo->aggregations, c->getID());
     writeAssociationSource(classifierInfo->compositions, c->getID());
     // Procedures and methods
-    writeOperationSource(c, Uml::Public);
-    writeOperationSource(c, Uml::Protected);
-    writeOperationSource(c, Uml::Private);
+    writeOperationSource(c, Uml::Visibility::Public);
+    writeOperationSource(c, Uml::Visibility::Protected);
+    writeOperationSource(c, Uml::Visibility::Private);
     // Yep, bringing up the back of the bus, our initialization method for attributes
     writeInitAttributeSource();
 }
@@ -492,13 +492,13 @@ TclWriter::writeDestructorSource()
 }
 
 void
-TclWriter::writeAttributeDecl(Uml::Scope visibility, bool writeStatic)
+TclWriter::writeAttributeDecl(Uml::Visibility visibility, bool writeStatic)
 {
     if (classifierInfo->isInterface)
         return;
 
-    QString         scope = Model_Utils::scopeToString(visibility, false);
-    QString         type;
+    QString scope = visibility.toString();
+    QString type;
     if (writeStatic) {
         type = "common";
     } else {
@@ -506,7 +506,7 @@ TclWriter::writeAttributeDecl(Uml::Scope visibility, bool writeStatic)
     }
     UMLAttributeList *list;
     switch (visibility) {
-    case Uml::Private:
+    case Uml::Visibility::Private:
         if (writeStatic) {
             list = &(classifierInfo->static_atpriv);
         } else {
@@ -514,7 +514,7 @@ TclWriter::writeAttributeDecl(Uml::Scope visibility, bool writeStatic)
         }
         break;
 
-    case Uml::Protected:
+    case Uml::Visibility::Protected:
         if (writeStatic) {
             list = &(classifierInfo->static_atprot);
         } else {
@@ -522,7 +522,7 @@ TclWriter::writeAttributeDecl(Uml::Scope visibility, bool writeStatic)
         }
         break;
 
-    case Uml::Public:
+    case Uml::Visibility::Public:
     default:
         if (writeStatic) {
             list = &(classifierInfo->static_atpub);
@@ -550,7 +550,7 @@ TclWriter::writeAttributeDecl(Uml::Scope visibility, bool writeStatic)
 
 void
 TclWriter::writeAssociationDecl(UMLAssociationList associations,
-                                Uml::Scope permitScope, Uml::IDType id,
+                                Uml::Visibility permitScope, Uml::IDType id,
                                 QString /*type*/)
 {
     if (forceSections() || !associations.isEmpty()) {
@@ -574,7 +574,7 @@ TclWriter::writeAssociationDecl(UMLAssociationList associations,
                     cleanName(getUMLObjectName(a->getObject(Uml::B)));
                 writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::B),
                                          a->getMulti(Uml::B), a->getRoleDoc(Uml::B),
-                                         Model_Utils::scopeToString(permitScope, false));
+                                         permitScope.toString());
             }
             // print RoleA decl
             if (printRoleA && a->getVisibility(Uml::A) == permitScope) {
@@ -582,7 +582,7 @@ TclWriter::writeAssociationDecl(UMLAssociationList associations,
                     cleanName(getUMLObjectName(a->getObject(Uml::A)));
                 writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::A),
                                          a->getMulti(Uml::A), a->getRoleDoc(Uml::A),
-                                         Model_Utils::scopeToString(permitScope, false));
+                                         permitScope.toString());
             }
             // reset for next association in our loop
             printRoleA = false;
@@ -686,7 +686,7 @@ TclWriter::writeInitAttributeSource()
 }
 
 void
-TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Scope permitScope)
+TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility permitScope)
 {
 
     UMLOperationList oplist;
@@ -697,17 +697,17 @@ TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Scope permitScope)
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList inputlist = c->getOpList();
     for (UMLOperation * op = inputlist.first(); op; op = inputlist.next()) {
-        switch (op->getScope()) {
-        case Uml::Public:
-            if (permitScope == Uml::Public)
+        switch (op->getVisibility()) {
+        case Uml::Visibility::Public:
+            if (permitScope == Uml::Visibility::Public)
                 oplist.append(op);
             break;
-        case Uml::Protected:
-            if (permitScope == Uml::Protected)
+        case Uml::Visibility::Protected:
+            if (permitScope == Uml::Visibility::Protected)
                 oplist.append(op);
             break;
-        case Uml::Private:
-            if (permitScope == Uml::Private)
+        case Uml::Visibility::Private:
+            if (permitScope == Uml::Visibility::Private)
                 oplist.append(op);
             break;
         }
@@ -722,7 +722,7 @@ TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Scope permitScope)
         QString         code = "";
         QString         methodReturnType = fixTypeName(op->getTypeName());
         QString         name = cleanName(op->getName());
-        QString         scope = Model_Utils::scopeToString(permitScope, false);
+        QString         scope = permitScope.toString();
         if (op->getAbstract() || classifierInfo->isInterface) {
             //TODO declare abstract method as 'virtual'
             // str += "virtual ";
@@ -762,7 +762,7 @@ TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Scope permitScope)
 }
 
 void
-TclWriter::writeOperationSource(UMLClassifier * c, Uml::Scope permitScope)
+TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility permitScope)
 {
 
     UMLOperationList oplist;
@@ -773,17 +773,17 @@ TclWriter::writeOperationSource(UMLClassifier * c, Uml::Scope permitScope)
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList inputlist = c->getOpList();
     for (UMLOperation * op = inputlist.first(); op; op = inputlist.next()) {
-        switch (op->getScope()) {
-        case Uml::Public:
-            if (permitScope == Uml::Public)
+        switch (op->getVisibility()) {
+        case Uml::Visibility::Public:
+            if (permitScope == Uml::Visibility::Public)
                 oplist.append(op);
             break;
-        case Uml::Protected:
-            if (permitScope == Uml::Protected)
+        case Uml::Visibility::Protected:
+            if (permitScope == Uml::Visibility::Protected)
                 oplist.append(op);
             break;
-        case Uml::Private:
-            if (permitScope == Uml::Private)
+        case Uml::Visibility::Private:
+            if (permitScope == Uml::Visibility::Private)
                 oplist.append(op);
             break;
         }
@@ -857,7 +857,7 @@ TclWriter::writeAssociationSource(UMLAssociationList associations,
             printRoleA = true;
 
         // print RoleB source
-        if (printRoleB && a->getVisibility(Uml::B) == Uml::Public) {
+        if (printRoleB && a->getVisibility(Uml::B) == Uml::Visibility::Public) {
 
             QString         fieldClassName =
                 cleanName(getUMLObjectName(a->getObject(Uml::B)));
@@ -865,7 +865,7 @@ TclWriter::writeAssociationSource(UMLAssociationList associations,
                                        a->getMulti(Uml::B));
         }
         // print RoleA source
-        if (printRoleA && a->getVisibility(Uml::A) == Uml::Public) {
+        if (printRoleA && a->getVisibility(Uml::A) == Uml::Visibility::Public) {
             QString         fieldClassName =
                 cleanName(getUMLObjectName(a->getObject(Uml::A)));
             writeAssociationRoleSource(fieldClassName, a->getRoleName(Uml::A),

@@ -19,6 +19,10 @@ composition.png \
 containment.png \
 CVglobal_meth.png \
 CVglobal_var.png \
+CVimplementation_meth.png \
+CVimplementation_signal.png \
+CVimplementation_slot.png \
+CVimplementation_var.png \
 CVnamespace.png \
 CVprivate_meth.png \
 CVprivate_signal.png \

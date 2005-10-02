@@ -93,13 +93,13 @@ private:
      * write all field declarations, for both attributes and associations for the
      * given permitted scope.
      */
-    void writeFieldDecl(UMLClassifier *c, Uml::Scope permitScope, QTextStream &stream);
+    void writeFieldDecl(UMLClassifier *c, Uml::Visibility permitScope, QTextStream &stream);
 
     /**
      * write all method declarations, for attributes and associations 
      * for the given permitted scope.
      */
-    void writeAccessorMethodDecl(UMLClassifier *c, Uml::Scope permitScope, QTextStream &stream);
+    void writeAccessorMethodDecl(UMLClassifier *c, Uml::Visibility permitScope, QTextStream &stream);
 
     /**
      * write all operations for a given class
@@ -108,7 +108,7 @@ private:
      * @param permitScope what type of method to write (by Scope)
      * @param j the stream associated with the output file
      */
-    void writeOperations(UMLClassifier *c, bool isHeaderMethod, Uml::Scope permitScope, QTextStream &j);
+    void writeOperations(UMLClassifier *c, bool isHeaderMethod, Uml::Visibility permitScope, QTextStream &j);
 
     /**
      * write a list of operations for a given class
@@ -131,24 +131,24 @@ private:
      * @param writeStatic whether to write static or non-static attributes out
      * @param stream text stream
      */
-    void writeAttributeDecls (Uml::Scope visibility, bool writeStatic, QTextStream &stream );
+    void writeAttributeDecls (Uml::Visibility visibility, bool writeStatic, QTextStream &stream );
 
     /**
      * Write out fields and operations for this class selected on a particular
      * visibility.
      */
-    void writeHeaderFieldDecl(UMLClassifier *c, Uml::Scope permitVisibility, QTextStream &stream);
+    void writeHeaderFieldDecl(UMLClassifier *c, Uml::Visibility permitVisibility, QTextStream &stream);
 
-    void writeHeaderAttributeAccessorMethods (Uml::Scope visibility, bool writeStatic, QTextStream &stream );
+    void writeHeaderAttributeAccessorMethods (Uml::Visibility visibility, bool writeStatic, QTextStream &stream );
 
-    void writeHeaderAttributeAccessorMethodDecls(UMLClassifier *c, Uml::Scope permitVisibility, QTextStream &stream);
-    void writeHeaderAccessorMethodDecl(UMLClassifier *c, Uml::Scope permitScope, QTextStream &stream);
+    void writeHeaderAttributeAccessorMethodDecls(UMLClassifier *c, Uml::Visibility permitVisibility, QTextStream &stream);
+    void writeHeaderAccessorMethodDecl(UMLClassifier *c, Uml::Visibility permitScope, QTextStream &stream);
 
 
     /**
      * Searches a list of associations for appropriate ones to write out as attributes
      */
-    void writeAssociationDecls(UMLAssociationList associations, Uml::Scope permit, Uml::IDType id, QTextStream &stream);
+    void writeAssociationDecls(UMLAssociationList associations, Uml::Visibility permit, Uml::IDType id, QTextStream &stream);
 
     /**
      * Writes out an association as an attribute using Vector
@@ -159,14 +159,14 @@ private:
     /**
      * calls @ref writeSingleAttributeAccessorMethods() on each of the attributes in attribs list.
      */
-    void writeAttributeMethods(UMLAttributeList *attribs, Uml::Scope visib, bool isHeaderMethod,
+    void writeAttributeMethods(UMLAttributeList *attribs, Uml::Visibility visib, bool isHeaderMethod,
                                bool isStatic,
                                bool writeMethodBody, QTextStream &stream);
 
     /**
      * calls @ref writeAssociationRoleMethod() on each of the associations in the given list
      */
-    void writeAssociationMethods(UMLAssociationList associations, Uml::Scope permitVisib,
+    void writeAssociationMethods(UMLAssociationList associations, Uml::Visibility permitVisib,
                                  bool isHeaderMethod,
                                  bool writeMethodBody, bool writePointerVar, Uml::IDType id, QTextStream &stream);
 

@@ -125,13 +125,18 @@ void AssocRolePage::constructWidget() {
     m_ProtectedARB = new QRadioButton(i18n("Protected"), scopeABG);
     scopeALayout -> addWidget(m_ProtectedARB);
 
-    Uml::Scope scope = m_pAssociationWidget->getVisibility(Uml::A);
-    if( scope == Uml::Public )
+    m_ImplementationARB = new QRadioButton(i18n("Implementation"), scopeABG);
+    scopeALayout -> addWidget(m_ImplementationARB);
+
+    Uml::Visibility scope = m_pAssociationWidget->getVisibility(Uml::A);
+    if( scope == Uml::Visibility::Public )
         m_PublicARB -> setChecked( true );
-    else if( scope == Uml::Private )
-        m_PrivateARB -> setChecked( true );
+    else if( scope == Uml::Visibility::Private )
+      m_PrivateARB -> setChecked( true );
+    else if( scope == Uml::Visibility::Implementation )
+      m_PrivateARB -> setChecked( true );
     else
-        m_ProtectedARB -> setChecked( true );
+      m_ProtectedARB -> setChecked( true );
 
     // Changeability A
     QHBoxLayout * changeALayout = new QHBoxLayout(changeABG);
@@ -180,13 +185,18 @@ void AssocRolePage::constructWidget() {
     m_ProtectedBRB = new QRadioButton(i18n("Protected"), scopeBBG);
     scopeBLayout -> addWidget(m_ProtectedBRB);
 
+    m_ImplementationBRB = new QRadioButton(i18n("Implementation"), scopeBBG);
+    scopeBLayout -> addWidget(m_ImplementationBRB);
+    
     scope = m_pAssociationWidget->getVisibility(Uml::B);
-    if( scope == Uml::Public )
+    if( scope == Uml::Visibility::Public )
         m_PublicBRB -> setChecked( true );
-    else if( scope == Uml::Private )
+    else if( scope == Uml::Visibility::Private )
         m_PrivateBRB -> setChecked( true );
+    else if( scope == Uml::Visibility::Protected )
+          m_ProtectedBRB -> setChecked( true );
     else
-        m_ProtectedBRB -> setChecked( true );
+        m_ImplementationBRB -> setChecked( true );
 
     // Changeability B
     QHBoxLayout * changeBLayout = new QHBoxLayout(changeBBG);
@@ -244,18 +254,22 @@ void AssocRolePage::updateObject() {
         m_pAssociationWidget->setMulti(m_pMultiBLE->text(), Uml::B);
 
         if(m_PrivateARB->isChecked())
-            m_pAssociationWidget->setVisibility(Uml::Private, Uml::A);
+              m_pAssociationWidget->setVisibility(Uml::Visibility::Private, Uml::A);
         else if(m_ProtectedARB->isChecked())
-            m_pAssociationWidget->setVisibility(Uml::Protected, Uml::A);
-        else
-            m_pAssociationWidget->setVisibility(Uml::Public, Uml::A);
+              m_pAssociationWidget->setVisibility(Uml::Visibility::Protected, Uml::A);
+        else if(m_PublicARB->isChecked())
+            m_pAssociationWidget->setVisibility(Uml::Visibility::Public, Uml::A);
+        else if(m_ImplementationARB->isChecked())
+              m_pAssociationWidget->setVisibility(Uml::Visibility::Implementation, Uml::A);
 
         if(m_PrivateBRB->isChecked())
-            m_pAssociationWidget->setVisibility(Uml::Private, Uml::B);
+              m_pAssociationWidget->setVisibility(Uml::Visibility::Private, Uml::B);
         else if(m_ProtectedBRB->isChecked())
-            m_pAssociationWidget->setVisibility(Uml::Protected, Uml::B);
-        else
-            m_pAssociationWidget->setVisibility(Uml::Public, Uml::B);
+              m_pAssociationWidget->setVisibility(Uml::Visibility::Protected, Uml::B);
+        else if(m_PublicBRB->isChecked())
+              m_pAssociationWidget->setVisibility(Uml::Visibility::Public, Uml::B);
+        else if(m_ImplementationBRB->isChecked())
+              m_pAssociationWidget->setVisibility(Uml::Visibility::Implementation, Uml::B);
 
         if(m_FrozenARB->isChecked())
             m_pAssociationWidget->setChangeability(Uml::chg_Frozen, Uml::A);

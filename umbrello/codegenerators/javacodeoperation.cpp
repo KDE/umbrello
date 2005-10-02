@@ -45,7 +45,7 @@ void JavaCodeOperation::updateMethodDeclaration()
     QString endLine = getNewLineEndingChars();
 
     // now, the starting text.
-    QString strVis = javadoc->scopeToJavaDecl(o->getScope());
+    QString strVis = javadoc->scopeToJavaDecl(o->getVisibility());
     // no return type for constructors
     QString fixedReturn = gen->fixTypeName(o->getTypeName());
     QString returnType = o->isConstructorOperation() ? QString("") : (fixedReturn + QString(" "));
@@ -103,7 +103,7 @@ void JavaCodeOperation::updateMethodDeclaration()
     if(isInterface)
     {
         UMLOperation * o = getParentOperation();
-        if(o->getScope() != Uml::Public)
+        if(o->getVisibility() != Uml::Visibility::Public)
             setWriteOutText(false);
     }
 

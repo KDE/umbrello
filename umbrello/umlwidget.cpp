@@ -471,7 +471,7 @@ void UMLWidget::slotMenuSelection(int sel) {
         break;
     case ListPopupMenu::mt_Show_Attributes_Selection:
     case ListPopupMenu::mt_Show_Operations_Selection:
-    case ListPopupMenu::mt_Scope_Selection:
+    case ListPopupMenu::mt_Visibility_Selection:
     case ListPopupMenu::mt_DrawAsCircle_Selection:
     case ListPopupMenu::mt_Show_Operation_Signature_Selection:
     case ListPopupMenu::mt_Show_Attribute_Signature_Selection:

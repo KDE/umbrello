@@ -123,12 +123,12 @@ public:
     /** Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
      * @return      CodeClassFieldList
      */
-    CodeClassFieldList getSpecificClassFields (CodeClassField::ClassFieldType cfType, Uml::Scope visibility);
+    CodeClassFieldList getSpecificClassFields (CodeClassField::ClassFieldType cfType, Uml::Visibility visibility);
 
     /** Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
      * @return      CodeClassFieldList
      */
-    CodeClassFieldList getSpecificClassFields (CodeClassField::ClassFieldType cfType, bool isStatic, Uml::Scope visibility);
+    CodeClassFieldList getSpecificClassFields (CodeClassField::ClassFieldType cfType, bool isStatic, Uml::Visibility visibility);
 
     /** Using the parent object's UML ID, find the corresponding
      * codeclassfield object in this classifiercodedocument. Returns

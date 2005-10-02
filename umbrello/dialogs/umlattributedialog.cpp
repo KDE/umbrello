@@ -101,14 +101,20 @@ void UMLAttributeDialog::setupDialog() {
 
     m_pProtectedRB = new QRadioButton(i18n("Prot&ected"), m_pScopeBG);
     scopeLayout -> addWidget(m_pProtectedRB);
+    
+    m_pImplementationRB = new QRadioButton(i18n("I&mplementation"), m_pScopeBG);
+    scopeLayout -> addWidget(m_pImplementationRB);
+    
     mainLayout -> addWidget(m_pScopeBG);
-    Uml::Scope scope = m_pAttribute -> getScope();
-    if( scope == Uml::Public )
+    Uml::Visibility scope = m_pAttribute -> getVisibility();
+    if( scope == Uml::Visibility::Public )
         m_pPublicRB -> setChecked( true );
-    else if( scope == Uml::Private )
-        m_pPrivateRB -> setChecked( true );
-    else
-        m_pProtectedRB -> setChecked( true );
+    else if( scope == Uml::Visibility::Private )
+          m_pPrivateRB -> setChecked( true );
+    else if( scope == Uml::Visibility::Protected )
+          m_pProtectedRB -> setChecked( true );
+    else if( scope == Uml::Visibility::Implementation )
+          m_pImplementationRB -> setChecked( true );
 
     m_pTypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
 
@@ -164,13 +170,15 @@ bool UMLAttributeDialog::apply() {
         return false;
     }
     m_pAttribute->setName(name);
-    Uml::Scope scope = Uml::Protected;
+    Uml::Visibility scope = Uml::Visibility::Protected;
     if ( m_pPublicRB->isChecked() ) {
-        scope = Uml::Public;
-    } else if ( m_pPrivateRB -> isChecked() ) {
-        scope = Uml::Private;
+        scope = Uml::Visibility::Public;
+    } else if ( m_pPrivateRB->isChecked() ) {
+        scope = Uml::Visibility::Private;
+    } else if ( m_pImplementationRB->isChecked() ) {
+        scope = Uml::Visibility::Implementation;
     }
-    m_pAttribute->setScope(scope);
+    m_pAttribute->setVisibility(scope);
     // Set the scope as the default in the option state
     Settings::OptionState optionState = UMLApp::app()->getOptionState();
     optionState.classState.defaultAttributeScope = scope;

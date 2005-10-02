@@ -502,7 +502,7 @@ UMLClassifier * MessageWidget::getSeqNumAndOp(QString& seqNum, QString& op) {
     seqNum = m_SequenceNumber;
     UMLOperation *pOperation = getOperation();
     if (pOperation != NULL) {
-        op = pOperation->toString(Uml::st_SigNoScope);
+        op = pOperation->toString(Uml::st_SigNoVis);
     } else {
         op = m_CustomOp;
     }

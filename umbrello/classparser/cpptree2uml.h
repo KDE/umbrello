@@ -75,7 +75,7 @@ private:
     //FileDom m_file;
     QString m_fileName;
     QStringList m_currentScope;
-    int m_currentAccess;
+    Uml::Visibility m_currentAccess;
     bool m_inSlots;
     bool m_inSignals;
     int m_anon;

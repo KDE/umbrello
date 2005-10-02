@@ -61,7 +61,7 @@ void RubyCodeClassFieldDeclarationBlock::updateContent( )
 
     // Set the body
     QString staticValue = getParentObject()->getStatic() ? "static " : "";
-    QString scopeStr = rdoc->scopeToRubyDecl(getParentObject()->getScope());
+    QString scopeStr = rdoc->scopeToRubyDecl(getParentObject()->getVisibility());
 
     // IF this is from an association, then scope taken as appropriate to policy
     if(!rcf->parentIsAttribute())
@@ -70,7 +70,7 @@ void RubyCodeClassFieldDeclarationBlock::updateContent( )
         case RubyCodeGenerationPolicy::Public:
         case RubyCodeGenerationPolicy::Private:
         case RubyCodeGenerationPolicy::Protected:
-            scopeStr = rdoc->scopeToRubyDecl((Uml::Scope) scopePolicy);
+            scopeStr = rdoc->scopeToRubyDecl((Uml::Visibility::Value) scopePolicy);
             break;
         default:
         case RubyCodeGenerationPolicy::FromParent:

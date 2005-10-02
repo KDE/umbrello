@@ -20,7 +20,7 @@
 
 /**
  * This class is used to set up information for an attribute.  This is like
- * a programming attribute.  It has a type, name, scope and initial value.
+ * a programming attribute.  It has a type, name, visibility and initial value.
  *
  * @short Sets up attribute information.
  * @author Paul Hensgen <phensgen@techie.com>
@@ -33,14 +33,14 @@ public:
      * Sets up an attribute.
      *
      * @param parent    The parent of this UMLAttribute.
-     * @param name              The name of this UMLAttribute.
-     * @param id                The unique id given to this UMLAttribute.
-     * @param s         The scope of the UMLAttribute.
-     * @param type              The type of this UMLAttribute.
-     * @param iv                The initial value of the attribute.
+     * @param name      The name of this UMLAttribute.
+     * @param id        The unique id given to this UMLAttribute.
+     * @param s         The visibility of the UMLAttribute.
+     * @param type      The type of this UMLAttribute.
+     * @param iv        The initial value of the attribute.
      */
     UMLAttribute(const UMLObject *parent, QString name, Uml::IDType id = Uml::id_None,
-                 Uml::Scope s = Uml::Private, QString type = "int", QString iv = 0);
+             Uml::Visibility s = Uml::Visibility::Private, QString type = "int", QString iv = 0);
 
     /**
      * Sets up an attribute.

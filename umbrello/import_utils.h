@@ -52,7 +52,7 @@ namespace Import_Utils {
     /**
      * Create a UMLAttribute and insert it into the document.
      */
-    UMLObject* insertAttribute(UMLClassifier *klass, Uml::Scope scope, QString name,
+    UMLObject* insertAttribute(UMLClassifier *klass, Uml::Visibility scope, QString name,
                                QString type, QString comment = QString::null,
                                bool isStatic = false);
 
@@ -71,7 +71,7 @@ namespace Import_Utils {
      * Insert the UMLOperation into the document.
      */
     void insertMethod(UMLClassifier *klass, UMLOperation *op,
-                      Uml::Scope scope, QString type,
+                      Uml::Visibility scope, QString type,
                       bool isStatic, bool isAbstract,
                       bool isFriend = false, bool isConstructor = false,
                       QString comment = QString::null);

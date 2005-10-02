@@ -124,7 +124,7 @@ protected:
     /**
      * The current access (public/protected/private)
      */
-    Uml::Scope m_currentAccess;
+    Uml::Visibility m_currentAccess;
     /**
      * Intermediate accumulator for comment text.
      */

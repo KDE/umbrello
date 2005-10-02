@@ -27,11 +27,11 @@
 
 
 UMLAttribute::UMLAttribute( const UMLObject *parent, QString Name, Uml::IDType id,
-                            Uml::Scope s, QString type, QString iv )
+                            Uml::Visibility s, QString type, QString iv )
         : UMLClassifierListItem(parent, Name, id) {
     m_InitialValue = iv;
     m_BaseType = Uml::ot_Attribute;
-    m_Scope = s;
+    m_Vis = s;
     m_ParmKind = Uml::pd_In;
     if (!type.isEmpty()) {
         UMLDoc *pDoc = UMLApp::app()->getDocument();
@@ -47,7 +47,7 @@ UMLAttribute::UMLAttribute( const UMLObject *parent, QString Name, Uml::IDType i
 
 UMLAttribute::UMLAttribute(const UMLObject *parent) : UMLClassifierListItem(parent) {
     m_BaseType = Uml::ot_Attribute;
-    m_Scope = Uml::Private;
+    m_Vis = Uml::Visibility::Private;
     m_ParmKind = Uml::pd_In;
 }
 
@@ -76,15 +76,10 @@ QString UMLAttribute::toString(Uml::Signature_Type sig) {
     QString s;
 
     if(sig == Uml::st_ShowSig || sig == Uml::st_NoSig) {
-        if(m_Scope == Uml::Public)
-            s = "+ ";
-        else if(m_Scope == Uml::Private)
-            s = "- ";
-        else if(m_Scope == Uml::Protected)
-            s= "# ";
+        s = m_Vis.toString(true) + " ";
     }
 
-    if(sig == Uml::st_ShowSig || sig == Uml::st_SigNoScope) {
+    if(sig == Uml::st_ShowSig || sig == Uml::st_SigNoVis) {
         // Determine whether the type name needs to be scoped.
         UMLObject *owningObject = static_cast<UMLObject*>(parent());
         if (owningObject->getBaseType() == Uml::ot_Operation) {

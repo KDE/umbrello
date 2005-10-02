@@ -113,7 +113,7 @@ private:
         Q3GroupBox * visibilityGB;
         Q3GroupBox * scopeGB;
 
-        QCheckBox * showScopeCB;
+        QCheckBox * showVisibilityCB;
         QCheckBox * showAttsCB;
         QCheckBox * showOpsCB;
         QCheckBox * showStereotypeCB;

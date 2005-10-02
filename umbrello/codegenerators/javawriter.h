@@ -117,12 +117,12 @@ private:
      * Writes out an association as an attribute using Vector
      */
     void writeAssociationRoleDecl(QString fieldClassName, QString roleName, QString multi,
-                                  QString doc, Uml::Scope visib, QTextStream &java);
+                                  QString doc, Uml::Visibility visib, QTextStream &java);
 
     /**
      * calls @ref writeSingleAttributeAccessorMethods() on each of the attributes in atpub
      */
-    void writeAttributeMethods(UMLAttributeList &atpub, Uml::Scope visibility, QTextStream &java);
+    void writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility visibility, QTextStream &java);
 
     /**
      * calls @ref writeAssociationRoleMethod() on each of the associations in the given list
@@ -136,7 +136,7 @@ private:
      * role
      */
     void writeAssociationRoleMethod(QString fieldClassName, QString roleName, QString multi,
-                                    QString description, Uml::Scope visib, Uml::Changeability_Type change,
+                                    QString description, Uml::Visibility visib, Uml::Changeability_Type change,
                                     QTextStream &java);
 
     /**
@@ -144,7 +144,7 @@ private:
      */
     void writeSingleAttributeAccessorMethods(QString fieldClassName, QString fieldVarName,
             QString fieldName, QString description,
-            Uml::Scope visibility, Uml::Changeability_Type change,
+            Uml::Visibility visibility, Uml::Changeability_Type change,
             bool isFinal, QTextStream &java);
 
     /**
@@ -152,7 +152,7 @@ private:
      */
     void writeVectorAttributeAccessorMethods(QString fieldClassName, QString fieldVarName,
             QString fieldName, QString description,
-            Uml::Scope visibility, Uml::Changeability_Type change,
+            Uml::Visibility visibility, Uml::Changeability_Type change,
             QTextStream &java);
 
     /**
@@ -193,7 +193,7 @@ private:
     /**
      * a little method for converting scope to string value
      */
-    QString scopeToJavaDecl(Uml::Scope scope);
+    QString scopeToJavaDecl(Uml::Visibility scope);
 
     /**
      * A \n, used at the end of each line

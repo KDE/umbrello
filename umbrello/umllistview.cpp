@@ -785,7 +785,7 @@ void UMLListView::childObjectAdded(UMLClassifierListItem* obj) {
 void UMLListView::childObjectAdded(UMLClassifierListItem* child, UMLClassifier* parent) {
     if (m_bCreatingChildObject)
         return;
-    const QString text = child->toString(Uml::st_SigNoScope);
+    const QString text = child->toString(Uml::st_SigNoVis);
     UMLListViewItem *childItem = NULL;
     UMLListViewItem *parentItem = findUMLObject(parent);
     if (parentItem == NULL) {
@@ -1330,7 +1330,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                                                newParentClassifier->createAttribute(
                                                    att->getName()));
                     newAtt->setType(att->getType());
-                    newAtt->setScope(att->getScope());
+                    newAtt->setVisibility(att->getVisibility());
                     newAtt->setInitialValue(att->getInitialValue());
                     newItem->setUMLObject(newAtt);
                     // Let's not forget to update the DocWindow::m_pObject
@@ -1358,12 +1358,12 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                     UMLOperation *newOp = newParentClassifier->createOperation(
                                               op->getName(), &isExistingOp, &ntDummyList);
                     newOp->setType(op->getType());
-                    newOp->setScope(op->getScope());
+                    newOp->setVisibility(op->getVisibility());
                     UMLAttributeList *parmList = op->getParmList();
                     for (UMLAttributeListIt plit(*parmList); plit.current(); ++plit) {
                         UMLAttribute *parm = plit.current();
                         UMLAttribute *newParm = new UMLAttribute(newParentClassifier, parm->getName());
-                        newParm->setScope(parm->getScope());
+                        newParm->setVisibility(parm->getVisibility());
                         newParm->setType(parm->getType());
                         newParm->setParmKind(parm->getParmKind());
                         newParm->setInitialValue(parm->getInitialValue());
@@ -2419,7 +2419,7 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
         newObject = owningClassifier->createTemplate(nt.m_name);
         UMLTemplate *tmplParm = static_cast<UMLTemplate*>(newObject);
         tmplParm->setType(nt.m_type);
-        text = tmplParm->toString(Uml::st_SigNoScope);
+        text = tmplParm->toString(Uml::st_SigNoVis);
     } else if ( type == Uml::ot_Attribute )  {
         UMLClassifier *owningClass = static_cast<UMLClassifier*>(parent);
         Model_Utils::NameAndType nt;
@@ -2437,7 +2437,7 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
         att->setType(nt.m_type);
         att->setParmKind(nt.m_direction);
         att->setInitialValue(nt.m_initialValue);
-        text = att->toString(Uml::st_SigNoScope);
+        text = att->toString(Uml::st_SigNoVis);
     } else if ( type == Uml::ot_Operation ) {
         UMLClassifier *owningClassifier = static_cast<UMLClassifier*>(parent);
         Model_Utils::OpDescriptor od;
@@ -2465,7 +2465,7 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
         if (od.m_pReturnType) {
             op->setType(od.m_pReturnType);
         }
-        text = op->toString(Uml::st_SigNoScope);
+        text = op->toString(Uml::st_SigNoVis);
     } else {
         kdError() << "UMLListView::createChildUMLObject called for type "
         << type << " (ignored)" << endl;

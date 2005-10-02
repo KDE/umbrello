@@ -194,13 +194,13 @@ UMLAttributeList XMLSchemaWriter::findAttributes (UMLClassifier *c)
     if (!c->isInterface()) {
         UMLAttributeList atl = c->getAttributeList();
         for(UMLAttribute *at=atl.first(); at ; at=atl.next()) {
-            switch(at->getScope())
+            switch(at->getVisibility())
             {
-            case Uml::Public:
-            case Uml::Protected:
+              case Uml::Visibility::Public:
+              case Uml::Visibility::Protected:
                 attribs.append(at);
                 break;
-            case Uml::Private:
+              case Uml::Visibility::Private:
                 // DO NOTHING! no way to print in the schema
                 break;
             }
@@ -572,10 +572,10 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
             // it may seem counter intuitive, but you want to insert the role of the
             // *other* class into *this* class.
 
-            if (a->getObjectId(Uml::A) == id && a->getVisibility(Uml::B) != Uml::Private)
+            if (a->getObjectId(Uml::A) == id && a->getVisibility(Uml::B) != Uml::Visibility::Private)
                 printRoleB = true;
 
-            if (a->getObjectId(Uml::B) == id && a->getVisibility(Uml::A) != Uml::Private)
+            if (a->getObjectId(Uml::B) == id && a->getVisibility(Uml::A) != Uml::Visibility::Private)
                 printRoleA = true;
 
             // First: we insert documentaion for association IF it has either role
@@ -633,13 +633,13 @@ UMLObjectList XMLSchemaWriter::findChildObjsInAssociations (UMLClassifier *c, UM
     for(UMLAssociation *a = associations.first(); a; a = associations.next())
     {
         if (a->getObjectId(Uml::A) == id
-                && a->getVisibility(Uml::B) != Uml::Private
+                && a->getVisibility(Uml::B) != Uml::Visibility::Private
                 && !a->getRoleName(Uml::B).isEmpty()
            )
             list.append(a->getObject(Uml::B));
 
         if (a->getObjectId(Uml::B) == id
-                && a->getVisibility(Uml::A) != Uml::Private
+                && a->getVisibility(Uml::A) != Uml::Visibility::Private
                 && !a->getRoleName(Uml::A).isEmpty()
            )
             list.append(a->getObject(Uml::A));

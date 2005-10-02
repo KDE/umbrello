@@ -124,16 +124,20 @@ void RefactoringAssistant::itemExecuted( Q3ListViewItem *item )
 
 void RefactoringAssistant::setVisibilityIcon( Q3ListViewItem *item , const UMLObject *obj )
 {
-    switch(obj->getScope())
+    switch(obj->getVisibility())
     {
-    case Uml::Public:
+      case Uml::Visibility::Public:
         item->setPixmap(0,m_pixmaps.Public);
         break;
-    case Uml::Protected:
+      case Uml::Visibility::Protected:
         item->setPixmap(0,m_pixmaps.Protected);
         break;
-    case Uml::Private:
+      case Uml::Visibility::Private:
         item->setPixmap(0,m_pixmaps.Private);
+        break;
+      case Uml::Visibility::Implementation:
+        item->setPixmap(0,m_pixmaps.Implementation);
+        break;
         break;
     }
 }
@@ -685,6 +689,7 @@ void RefactoringAssistant::loadPixmaps()
     m_pixmaps.Public.load( dataDir + "CVpublic_var.png" );
     m_pixmaps.Protected.load( dataDir + "CVprotected_var.png" );
     m_pixmaps.Private.load( dataDir + "CVprivate_var.png" );
+    m_pixmaps.Implementation.load( dataDir + "CVimplementation_var.png" );
     m_pixmaps.Generalization.load( dataDir + "generalisation.png" );
     m_pixmaps.Subclass.load( dataDir + "uniassociation.png" );
 

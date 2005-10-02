@@ -149,7 +149,7 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
         case JavaCodeGenerationPolicy::Public:
         case JavaCodeGenerationPolicy::Private:
         case JavaCodeGenerationPolicy::Protected:
-            strVis = javadoc->scopeToJavaDecl((Uml::Scope) scopePolicy);
+              strVis = javadoc->scopeToJavaDecl((Uml::Visibility::Value) scopePolicy);
             break;
         default:
         case JavaCodeGenerationPolicy::FromParent:

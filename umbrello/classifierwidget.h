@@ -97,23 +97,23 @@ public:
     void toggleShowPublicOnly();
 
     /**
-     * Returns the status of whether to show scope.
+     * Returns the status of whether to show visibility.
      *
-     * @return  True if scope is shown.
+     * @return  True if visibility is shown.
      */
-    bool getShowScope() const;
+    bool getShowVisibility() const;
 
     /**
-     * Set the status of whether to show scope
+     * Set the status of whether to show visibility
      *
-     * @param _scope    True if scope shall be shown.
+     * @param _visibility    True if visibility shall be shown.
      */
-    void setShowScope(bool _scope);
+    void setShowVisibility(bool _visibility);
 
     /**
-     * Toggles the status of whether to show scope
+     * Toggles the status of whether to show visibility
      */
-    void toggleShowScope();
+    void toggleShowVisibility();
 
     /**
      * Return the status of showing operation signatures.
@@ -330,7 +330,7 @@ protected:
     void calculateAsConceptSize();
 
     /**
-     * Updates m_ShowOpSigs to match m_bShowScope.
+     * Updates m_ShowOpSigs to match m_bShowVisibility.
      */
     void updateSigs();
 

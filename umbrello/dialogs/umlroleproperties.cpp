@@ -45,13 +45,15 @@ void UMLRoleProperties::constructWidget() {
     m_pMultiLE -> setText(m_pRole->getMultiplicity());
 
     // Visibility
-    Uml::Scope scope = m_pRole->getVisibility();
-    if( scope == Uml::Public )
+    Uml::Visibility scope = m_pRole->getVisibility();
+    if( scope == Uml::Visibility::Public )
         m_pPublicRB -> setChecked( true );
-    else if( scope == Uml::Private )
+    else if( scope == Uml::Visibility::Private )
         m_pPrivateRB -> setChecked( true );
-    else
+    else if( scope == Uml::Visibility::Protected )
         m_pProtectedRB -> setChecked( true );
+    else if( scope == Uml::Visibility::Implementation )
+        m_pImplementationRB -> setChecked( true );
 
     // Changeability
     Uml::Changeability_Type changeability = m_pRole->getChangeability();
@@ -84,11 +86,13 @@ void UMLRoleProperties::updateObject() {
         m_pRole->setMultiplicity(m_pMultiLE->text());
 
         if(m_pPrivateRB->isChecked())
-            m_pRole->setVisibility(Uml::Private);
+            m_pRole->setVisibility(Uml::Visibility::Private);
         else if(m_pProtectedRB->isChecked())
-            m_pRole->setVisibility(Uml::Protected);
-        else
-            m_pRole->setVisibility(Uml::Public);
+            m_pRole->setVisibility(Uml::Visibility::Protected);
+        else if(m_pPublicRB->isChecked())
+            m_pRole->setVisibility(Uml::Visibility::Public);
+        else if(m_pImplementationRB->isChecked())
+            m_pRole->setVisibility(Uml::Visibility::Implementation);
 
         if(m_pFrozenRB->isChecked())
             m_pRole->setChangeability(Uml::chg_Frozen);

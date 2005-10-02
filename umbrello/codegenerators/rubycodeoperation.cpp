@@ -50,7 +50,7 @@ void RubyCodeOperation::updateMethodDeclaration()
     QString endLine = getNewLineEndingChars();
 
     // now, the starting text.
-    QString strVis = rubydoc->scopeToRubyDecl(o->getScope());
+    QString strVis = rubydoc->scopeToRubyDecl(o->getVisibility());
     // no return type for constructors
     QString fixedReturn = gen->cppToRubyType(o->getTypeName());
     QString returnType = o->isConstructorOperation() ? QString("") : (fixedReturn + QString(" "));
@@ -195,7 +195,7 @@ void RubyCodeOperation::updateMethodDeclaration()
     // method declarations. And for Ruby modules?
     if (isInterface) {
         UMLOperation * o = getParentOperation();
-        if(o->getScope() != Uml::Public)
+        if(o->getVisibility() != Uml::Visibility::Public)
             setWriteOutText(false);
     }
 

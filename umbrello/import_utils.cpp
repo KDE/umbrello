@@ -218,7 +218,7 @@ UMLOperation* makeOperation(UMLClassifier *parent, const QString &name) {
     return op;
 }
 
-UMLObject* insertAttribute(UMLClassifier *owner, Uml::Scope scope, QString name,
+UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope, QString name,
                                         QString type, QString comment /* ="" */,
                                         bool isStatic /* =false */) {
     Uml::Object_Type ot = owner->getBaseType();
@@ -250,11 +250,11 @@ UMLObject* insertAttribute(UMLClassifier *owner, Uml::Scope scope, QString name,
 }
 
 void insertMethod(UMLClassifier *klass, UMLOperation *op,
-                               Uml::Scope scope, QString type,
+                               Uml::Visibility scope, QString type,
                                bool isStatic, bool isAbstract, 
                                bool isFriend, bool isConstructor,
                                QString comment) {
-    op->setScope(scope);
+    op->setVisibility(scope);
     if (!type.isEmpty()) {  // return type may be missing (constructor/destructor)
         if (type == klass->getName()) {
             op->setType(klass);

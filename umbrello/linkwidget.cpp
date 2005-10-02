@@ -41,9 +41,9 @@ QString LinkWidget::getOperationText(UMLView *view /* = NULL */) {
         view = UMLApp::app()->getCurrentView();
     Uml::Signature_Type sigType;
     if (view && view->getShowOpSig())
-        sigType = Uml::st_SigNoScope;
+        sigType = Uml::st_SigNoVis;
     else
-        sigType = Uml::st_NoSigNoScope;
+        sigType = Uml::st_NoSigNoVis;
     QString opText = op->toString(sigType);
     return opText;
 }

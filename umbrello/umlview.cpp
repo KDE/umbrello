@@ -1096,9 +1096,9 @@ void UMLView::selectionToggleShow(int sel)
             if (cw)
                 cw -> toggleShowOps();
             break;
-        case ListPopupMenu::mt_Scope_Selection:
+        case ListPopupMenu::mt_Visibility_Selection:
             if (cw)
-                cw -> toggleShowScope();
+                cw -> toggleShowVisibility();
             break;
         case ListPopupMenu::mt_DrawAsCircle_Selection:
             if (type == wt_Interface)
@@ -2582,7 +2582,7 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
             AssociationWidget *a = new AssociationWidget (this, widget, assocType, w);
             a->setUMLObject(attr);
             a->calculateEndingPoints();
-            a->setVisibility(attr->getScope(), B);
+            a->setVisibility(attr->getVisibility(), B);
             /*
             if (assocType == at_Aggregation || assocType == at_UniAssociation)
                a->setMulti("0..1", B);
@@ -2611,7 +2611,7 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
                                            (this, widget, at_Aggregation, w);
                     a->setUMLObject(attr);
                     a->calculateEndingPoints();
-                    a->setVisibility(attr->getScope(), B);
+                    a->setVisibility(attr->getVisibility(), B);
                     //a->setChangeability(true, B);
                     a->setMulti("0..1", B);
                     a->setRoleName(attr->getName(), B);
@@ -3297,7 +3297,7 @@ void UMLView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     viewElement.setAttribute( "showopsig", m_Options.classState.showOpSig );
     viewElement.setAttribute( "showops", m_Options.classState.showOps );
     viewElement.setAttribute( "showpackage", m_Options.classState.showPackage );
-    viewElement.setAttribute( "showscope", m_Options.classState.showScope );
+    viewElement.setAttribute( "showscope", m_Options.classState.showVisibility );
     viewElement.setAttribute( "showstereotype", m_Options.classState.showStereoType );
     //misc
     viewElement.setAttribute( "localid", m_nLocalID );
@@ -3392,7 +3392,7 @@ bool UMLView::loadFromXMI( QDomElement & qElement ) {
     temp = qElement.attribute( "showpackage", "0" );
     m_Options.classState.showPackage = (bool)temp.toInt();
     temp = qElement.attribute( "showscope", "0" );
-    m_Options.classState.showScope = (bool)temp.toInt();
+    m_Options.classState.showVisibility = (bool)temp.toInt();
     temp = qElement.attribute( "showstereotype", "0" );
     m_Options.classState.showStereoType = (bool)temp.toInt();
     //misc

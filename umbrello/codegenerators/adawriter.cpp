@@ -300,7 +300,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 
         UMLAttribute *at;
         for (at = atl.first(); at; at = atl.next()) {
-            if (at->getScope() == Uml::Public)
+              if (at->getVisibility() == Uml::Visibility::Public)
                 atpub.append(at);
         }
         if (forceSections() || atpub.count())
@@ -325,7 +325,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     oppub.setAutoDelete(false);
     UMLOperation *op;
     for (op = opl.first(); op; op = opl.next()) {
-        if (op->getScope() == Uml::Public)
+         if (op->getVisibility() == Uml::Visibility::Public)
             oppub.append(op);
     }
     if (forceSections() || oppub.count())
@@ -429,7 +429,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
                 seen_static_attr = true;
             }
             ada << getIndent();
-            if (at->getScope() == Uml::Private)
+            if (at->getVisibility() == Uml::Visibility::Private)
                 ada << "-- Private:  ";
             ada << cleanName(at->getName()) << " : " << at->getTypeName();
             if (at && at->getInitialValue().latin1() && ! at->getInitialValue().isEmpty())
@@ -443,7 +443,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     UMLOperationList opprot;
     opprot.setAutoDelete(false);
     for (op = opl.first(); op; op = opl.next()) {
-        if (op->getScope() == Uml::Protected)
+      if (op->getVisibility() == Uml::Visibility::Protected)
             opprot.append(op);
     }
     if (forceSections() || opprot.count())
@@ -460,7 +460,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     UMLOperationList oppriv;
     oppriv.setAutoDelete(false);
     for (op = opl.first(); op; op = opl.next()) {
-        if (op->getScope() == Uml::Private)
+          if (op->getVisibility() == Uml::Visibility::Private)
             oppriv.append(op);
     }
     if (forceSections() || oppriv.count())

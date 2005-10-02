@@ -126,9 +126,9 @@ public:
     /**
      * Returns the Visibility of the given role.
      *
-     * @return  Scope of the given role.
+     * @return  Visibility of the given role.
      */
-    Uml::Scope getVisibility(Uml::Role_Type role) const;
+    Uml::Visibility getVisibility(Uml::Role_Type role) const;
 
     /**
      * Returns the multiplicity assigned to the given role.
@@ -168,9 +168,9 @@ public:
     /**
      * Sets the visibility of the given role of the UMLAssociation.
      *
-     * @param value     Scope of role A visibility.
+     * @param value     Visibility of role A visibility.
      */
-    void setVisibility(Uml::Scope value, Uml::Role_Type role);
+    void setVisibility(Uml::Visibility value, Uml::Role_Type role);
 
     /**
      * Sets the changeability of the given role of the UMLAssociation.

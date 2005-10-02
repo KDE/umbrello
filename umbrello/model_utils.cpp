@@ -245,21 +245,6 @@ bool isCommonDataType(QString type) {
     return false;
 }
 
-QString scopeToString(Uml::Scope scope, bool mnemonic) {
-    switch (scope) {
-    case Uml::Protected:
-        return (mnemonic ? "#" : "protected");
-        break;
-    case Uml::Private:
-        return (mnemonic ? "-" : "private");
-        break;
-    case Uml::Public:
-    default:
-        return (mnemonic ? "+" : "public");
-        break;
-    }
-}
-
 int stringToDirection(QString input, Uml::Parameter_Direction & result) {
     QRegExp dirx("^(in|out|inout)");
     int pos = dirx.search(input);

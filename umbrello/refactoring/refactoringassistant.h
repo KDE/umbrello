@@ -68,6 +68,7 @@ protected:
     struct { QPixmap Public,
         Protected,
         Private,
+             Implementation,
         Generalization,
         Subclass;
     } m_pixmaps;

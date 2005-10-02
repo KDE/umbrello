@@ -192,6 +192,10 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
     m_pProtectedRB = new QRadioButton(i18n("Pro&tected"), m_pButtonBG);
     scopeLayout -> addWidget(m_pProtectedRB);
     topLayout -> addWidget(m_pButtonBG);
+    
+    m_pImplementationRB = new QRadioButton(i18n("Imple&mentation"), m_pButtonBG);
+    scopeLayout -> addWidget(m_pImplementationRB);
+    topLayout -> addWidget(m_pButtonBG);
     //setup documentation
     m_pDocGB = new Q3GroupBox(this);
     QHBoxLayout * docLayout = new QHBoxLayout(m_pDocGB);
@@ -206,13 +210,15 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
     //setup fields
     m_pClassNameLE -> setText(o -> getName());
     m_pDoc-> setText(o -> getDoc());
-    Uml::Scope s = o -> getScope();
-    if(s == Uml::Public)
+    Uml::Visibility s = o -> getVisibility();
+    if(s == Uml::Visibility::Public)
         m_pPublicRB->setChecked(true);
-    else if(s == Uml::Private)
+    else if(s == Uml::Visibility::Private)
         m_pPrivateRB->setChecked(true);
+    else if(s == Uml::Visibility::Protected)
+          m_pProtectedRB->setChecked(true);
     else
-        m_pProtectedRB -> setChecked(true);
+        m_pImplementationRB -> setChecked(true);
 
     // manage stereotypes
     m_pStereoTypeCB -> setDuplicatesEnabled(false);//only allow one of each type in box
@@ -392,14 +398,16 @@ void ClassGenPage::updateObject() {
             m_pClassNameLE -> setText( m_pObject -> getName() );
         } else
             m_pObject -> setName(name);
-        Uml::Scope s;
+        Uml::Visibility s;
         if(m_pPublicRB -> isChecked())
-            s = Uml::Public;
+          s = Uml::Visibility::Public;
         else if(m_pPrivateRB -> isChecked())
-            s = Uml::Private;
+          s = Uml::Visibility::Private;
+        else if(m_pProtectedRB->isChecked())
+          s = Uml::Visibility::Protected;
         else
-            s = Uml::Protected;
-        m_pObject -> setScope(s);
+          s = Uml::Visibility::Implementation;
+        m_pObject -> setVisibility(s);
 
         if (m_pObject->getBaseType() == Uml::ot_Component) {
             (static_cast<UMLComponent*>(m_pObject))->setExecutable( m_pExecutableCB->isChecked() );

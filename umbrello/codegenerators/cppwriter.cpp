@@ -291,23 +291,23 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
     // for public: constructors are first ops we print out
     if(!classifierInfo->isInterface)
         writeConstructorDecls(h);
-    writeHeaderFieldDecl(c,Uml::Public, h);
-    writeHeaderAccessorMethodDecl(c, Uml::Public, h);
-    writeOperations(c,true,Uml::Public,h);
+    writeHeaderFieldDecl(c,Uml::Visibility::Public, h);
+    writeHeaderAccessorMethodDecl(c, Uml::Visibility::Public, h);
+    writeOperations(c,true,Uml::Visibility::Public,h);
 
     // PROTECTED attribs/methods
     //
     h<<"protected"<<":"<<m_endl<<m_endl; // print visibility decl.
-    writeHeaderFieldDecl(c,Uml::Protected, h);
-    writeHeaderAccessorMethodDecl(c, Uml::Protected, h);
-    writeOperations(c,true,Uml::Protected,h);
+    writeHeaderFieldDecl(c,Uml::Visibility::Protected, h);
+    writeHeaderAccessorMethodDecl(c, Uml::Visibility::Protected, h);
+    writeOperations(c,true,Uml::Visibility::Protected,h);
 
     // PRIVATE attribs/methods
     //
     h<<"private"<<":"<<m_endl<<m_endl; // print visibility decl.
-    writeHeaderFieldDecl(c,Uml::Private, h);
-    writeHeaderAccessorMethodDecl(c, Uml::Private, h);
-    writeOperations(c,true,Uml::Private,h);
+    writeHeaderFieldDecl(c,Uml::Visibility::Private, h);
+    writeHeaderAccessorMethodDecl(c, Uml::Visibility::Private, h);
+    writeOperations(c,true,Uml::Visibility::Private,h);
     writeInitAttibuteDecl(h); // this is always private, used by constructors to initialize class
 
     // end of class header
@@ -323,7 +323,7 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
 
 }
 
-void CppWriter::writeHeaderAccessorMethodDecl(UMLClassifier *c, Uml::Scope permitScope, QTextStream &stream)
+void CppWriter::writeHeaderAccessorMethodDecl(UMLClassifier *c, Uml::Visibility permitScope, QTextStream &stream)
 {
 
     // attributes
@@ -342,7 +342,7 @@ void CppWriter::writeHeaderAccessorMethodDecl(UMLClassifier *c, Uml::Scope permi
 
 }
 
-void CppWriter::writeHeaderFieldDecl(UMLClassifier *c, Uml::Scope permitScope, QTextStream &stream)
+void CppWriter::writeHeaderFieldDecl(UMLClassifier *c, Uml::Visibility permitScope, QTextStream &stream)
 {
     // attributes
     writeAttributeDecls(permitScope, true, stream); // write static attributes first
@@ -412,39 +412,39 @@ void CppWriter::writeSourceFile (UMLClassifier *c, QFile &filecpp ) {
     // Accessor methods for attributes
     if (!INLINE_ATTRIBUTE_METHODS && classifierInfo->hasAttributes)
     {
-        writeAttributeMethods(&(classifierInfo->static_atpub), Uml::Public, false, true, !INLINE_ATTRIBUTE_METHODS, cpp);
-        writeAttributeMethods(&(classifierInfo->atpub), Uml::Public, false, false, !INLINE_ATTRIBUTE_METHODS, cpp);
-        writeAttributeMethods(&(classifierInfo->static_atprot), Uml::Protected, false, true, !INLINE_ATTRIBUTE_METHODS, cpp);
-        writeAttributeMethods(&(classifierInfo->atprot), Uml::Protected, false, false, !INLINE_ATTRIBUTE_METHODS, cpp);
-        writeAttributeMethods(&(classifierInfo->static_atpriv), Uml::Private, false, true, !INLINE_ATTRIBUTE_METHODS, cpp);
-        writeAttributeMethods(&(classifierInfo->atpriv), Uml::Private, false, false, !INLINE_ATTRIBUTE_METHODS, cpp);
+        writeAttributeMethods(&(classifierInfo->static_atpub), Uml::Visibility::Public, false, true, !INLINE_ATTRIBUTE_METHODS, cpp);
+        writeAttributeMethods(&(classifierInfo->atpub), Uml::Visibility::Public, false, false, !INLINE_ATTRIBUTE_METHODS, cpp);
+        writeAttributeMethods(&(classifierInfo->static_atprot), Uml::Visibility::Protected, false, true, !INLINE_ATTRIBUTE_METHODS, cpp);
+        writeAttributeMethods(&(classifierInfo->atprot), Uml::Visibility::Protected, false, false, !INLINE_ATTRIBUTE_METHODS, cpp);
+        writeAttributeMethods(&(classifierInfo->static_atpriv), Uml::Visibility::Private, false, true, !INLINE_ATTRIBUTE_METHODS, cpp);
+        writeAttributeMethods(&(classifierInfo->atpriv), Uml::Visibility::Private, false, false, !INLINE_ATTRIBUTE_METHODS, cpp);
     }
 
     // accessor methods for associations
 
     // public
-    writeAssociationMethods(classifierInfo->plainAssociations, Uml::Public, false,
+    writeAssociationMethods(classifierInfo->plainAssociations, Uml::Visibility::Public, false,
                             !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
-    writeAssociationMethods(classifierInfo->aggregations, Uml::Public, false,
+    writeAssociationMethods(classifierInfo->aggregations, Uml::Visibility::Public, false,
                             !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
-    writeAssociationMethods(classifierInfo->compositions, Uml::Public, false,
+    writeAssociationMethods(classifierInfo->compositions, Uml::Visibility::Public, false,
                             !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
 
     // protected
-    writeAssociationMethods(classifierInfo->plainAssociations, Uml::Protected, false,
+    writeAssociationMethods(classifierInfo->plainAssociations, Uml::Visibility::Protected, false,
                             !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
-    writeAssociationMethods(classifierInfo->aggregations, Uml::Protected, false,
+    writeAssociationMethods(classifierInfo->aggregations, Uml::Visibility::Protected, false,
                             !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
-    writeAssociationMethods(classifierInfo->compositions, Uml::Protected, false,
+    writeAssociationMethods(classifierInfo->compositions, Uml::Visibility::Protected, false,
                             !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
 
 
     // private
-    writeAssociationMethods(classifierInfo->plainAssociations, Uml::Private, false,
+    writeAssociationMethods(classifierInfo->plainAssociations, Uml::Visibility::Private, false,
                             !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
-    writeAssociationMethods(classifierInfo->aggregations, Uml::Private, false,
+    writeAssociationMethods(classifierInfo->aggregations, Uml::Visibility::Private, false,
                             !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
-    writeAssociationMethods(classifierInfo->compositions, Uml::Private, false,
+    writeAssociationMethods(classifierInfo->compositions, Uml::Visibility::Private, false,
                             !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
     writeBlankLine(cpp);
 
@@ -461,9 +461,9 @@ void CppWriter::writeSourceFile (UMLClassifier *c, QFile &filecpp ) {
 
     if(!INLINE_OPERATION_METHODS)
     {
-        writeOperations(c,false,Uml::Public,cpp);
-        writeOperations(c,false,Uml::Protected,cpp);
-        writeOperations(c,false,Uml::Private,cpp);
+        writeOperations(c,false,Uml::Visibility::Public,cpp);
+        writeOperations(c,false,Uml::Visibility::Protected,cpp);
+        writeOperations(c,false,Uml::Visibility::Private,cpp);
     }
 
     // Yep, bringing up the back of the bus, our initialization method for attributes
@@ -504,7 +504,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
 
 }
 
-void CppWriter::writeAttributeDecls (Uml::Scope visibility, bool writeStatic, QTextStream &stream )
+void CppWriter::writeAttributeDecls (Uml::Visibility visibility, bool writeStatic, QTextStream &stream )
 {
 
     if(classifierInfo->isInterface)
@@ -513,21 +513,21 @@ void CppWriter::writeAttributeDecls (Uml::Scope visibility, bool writeStatic, QT
     UMLAttributeList * list;
     switch (visibility)
     {
-    case Uml::Private:
+      case Uml::Visibility::Private:
         if(writeStatic)
             list = &(classifierInfo->static_atpriv);
         else
             list = &(classifierInfo->atpriv);
         break;
 
-    case Uml::Protected:
+      case Uml::Visibility::Protected:
         if(writeStatic)
             list = &(classifierInfo->static_atprot);
         else
             list = &(classifierInfo->atprot);
         break;
 
-    case Uml::Public:
+      case Uml::Visibility::Public:
     default:
         if(writeStatic)
             list = &(classifierInfo->static_atpub);
@@ -539,7 +539,7 @@ void CppWriter::writeAttributeDecls (Uml::Scope visibility, bool writeStatic, QT
     //write documentation
     if(forceDoc() || list->count() > 0)
     {
-        QString strVis = capitalizeFirstLetter(Model_Utils::scopeToString(visibility, false));
+        QString strVis = capitalizeFirstLetter(visibility.toString());
         QString strStatic = writeStatic ? "Static ":"";
         writeComment(strStatic+strVis+" attributes",getIndent(), stream);
         writeComment(" ",getIndent(), stream);
@@ -585,27 +585,27 @@ void CppWriter::writeAttributeDecls (Uml::Scope visibility, bool writeStatic, QT
 
 }
 
-void CppWriter::writeHeaderAttributeAccessorMethods (Uml::Scope visibility, bool writeStatic, QTextStream &stream )
+void CppWriter::writeHeaderAttributeAccessorMethods (Uml::Visibility visibility, bool writeStatic, QTextStream &stream )
 {
     // check the current policy about generate accessors as public
     UMLAttributeList * list;
     switch (visibility)
     {
-    case Uml::Private:
+      case Uml::Visibility::Private:
         if(writeStatic)
             list = &(classifierInfo->static_atpriv);
         else
             list = &(classifierInfo->atpriv);
         break;
 
-    case Uml::Protected:
+      case Uml::Visibility::Protected:
         if(writeStatic)
             list = &(classifierInfo->static_atprot);
         else
             list = &(classifierInfo->atprot);
         break;
 
-    case Uml::Public:
+      case Uml::Visibility::Public:
     default:
         if(writeStatic)
             list = &(classifierInfo->static_atpub);
@@ -622,7 +622,7 @@ void CppWriter::writeHeaderAttributeAccessorMethods (Uml::Scope visibility, bool
 // this is for writing *source* or *header* file attribute methods
 //
 void CppWriter::writeAttributeMethods(UMLAttributeList *attribs,
-                                      Uml::Scope visibility, bool isHeaderMethod,
+                                      Uml::Visibility visibility, bool isHeaderMethod,
                                       bool isStatic,
                                       bool writeMethodBody, QTextStream &stream)
 {
@@ -632,7 +632,7 @@ void CppWriter::writeAttributeMethods(UMLAttributeList *attribs,
 
     if(forceDoc() || attribs->count()>0)
     {
-        QString strVis = capitalizeFirstLetter(Model_Utils::scopeToString(visibility));
+        QString strVis = capitalizeFirstLetter(visibility.toString());
         QString strStatic = (isStatic ? " static" : "");
         writeBlankLine(stream);
         writeComment(strVis+strStatic+" attribute accessor methods",getIndent(),stream);
@@ -702,7 +702,7 @@ void CppWriter::writeDocumentation(QString header, QString body, QString end, QT
     cpp<<indent<<" */"<<m_endl;
 }
 
-void CppWriter::writeAssociationDecls(UMLAssociationList associations, Uml::Scope permitScope, Uml::IDType id, QTextStream &h)
+void CppWriter::writeAssociationDecls(UMLAssociationList associations, Uml::Visibility permitScope, Uml::IDType id, QTextStream &h)
 {
 
     if( forceSections() || !associations.isEmpty() )
@@ -797,7 +797,7 @@ void CppWriter::writeAssociationRoleDecl(QString fieldClassName, QString roleNam
 
 // for either source or header files
 void CppWriter::writeAssociationMethods (UMLAssociationList associations,
-        Uml::Scope permitVisib,
+        Uml::Visibility permitVisib,
         bool isHeaderMethod,
         bool writeMethodBody,
         bool writePointerVar,
@@ -1135,24 +1135,24 @@ QString CppWriter::fixTypeName(QString string)
 }
 
 void CppWriter::writeOperations(UMLClassifier *c, bool isHeaderMethod,
-                                Uml::Scope permitScope, QTextStream &cpp) {
+                                Uml::Visibility permitScope, QTextStream &cpp) {
 
     UMLOperationList oplist;
 
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList inputlist = c->getOpList();
     for (UMLOperation *op = inputlist.first(); op; op = inputlist.next()) {
-        switch(op->getScope()) {
-        case Uml::Public:
-            if(permitScope == Uml::Public)
+        switch(op->getVisibility()) {
+          case Uml::Visibility::Public:
+            if(permitScope == Uml::Visibility::Public)
                 oplist.append(op);
             break;
-        case Uml::Protected:
-            if(permitScope == Uml::Protected)
+          case Uml::Visibility::Protected:
+            if(permitScope == Uml::Visibility::Protected)
                 oplist.append(op);
             break;
-        case Uml::Private:
-            if(permitScope == Uml::Private)
+          case Uml::Visibility::Private:
+            if(permitScope == Uml::Visibility::Private)
                 oplist.append(op);
             break;
         }

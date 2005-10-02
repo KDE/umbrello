@@ -58,7 +58,7 @@ void UMLObject::init() {
     m_nId = Uml::id_None;
     m_pUMLPackage = NULL;
     m_Name = "";
-    m_Scope = Uml::Public;
+    m_Vis = Uml::Visibility::Public;
     m_pStereotype = NULL;
     m_Doc = "";
     m_bAbstract = false;
@@ -165,7 +165,7 @@ bool UMLObject::operator==(UMLObject & rhs ) {
     // What does it mean if two objects are the same but differ in their
     // scope? - I'm not aware of any programming language that would
     // support that.
-    //if( m_Scope != rhs.m_Scope )
+    //if( m_Vis != rhs.m_Vis )
     //  return false;
 
     // See comments above
@@ -193,7 +193,7 @@ void UMLObject::copyInto(UMLObject *rhs) const
     rhs->m_bAbstract = m_bAbstract;
     rhs->m_bStatic = m_bStatic;
     rhs->m_BaseType = m_BaseType;
-    rhs->m_Scope = m_Scope;
+    rhs->m_Vis = m_Vis;
     rhs->m_pUMLPackage = m_pUMLPackage;
 
     // We don't want the same name existing twice.
@@ -255,12 +255,12 @@ QString UMLObject::getDoc() const {
     return m_Doc;
 }
 
-Uml::Scope UMLObject::getScope() const {
-    return m_Scope;
+Uml::Visibility UMLObject::getVisibility() const {
+    return m_Vis;
 }
 
-void UMLObject::setScope(Uml::Scope s) {
-    m_Scope = s;
+void UMLObject::setVisibility(Uml::Visibility s) {
+    m_Vis = s;
     emit modified();
 }
 
@@ -477,7 +477,7 @@ QDomElement UMLObject::save( const QString &tag, QDomDocument & qDoc ) {
     if (m_pUMLPackage)             //FIXME: uml13.dtd compliance
         qElement.setAttribute( "package", m_pUMLPackage->getID() );
 #endif
-    QString visibility = Model_Utils::scopeToString(m_Scope, false);
+    QString visibility = m_Vis.toString(false);
     qElement.setAttribute( "visibility", visibility);
     if (m_pStereotype != NULL)
         qElement.setAttribute( "stereotype", ID2STR(m_pStereotype->getID()) );
@@ -524,7 +524,7 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
     else
         m_Doc = element.attribute( "comment", "" );  //CHECK: need a UML:Comment?
 
-    m_Scope = Uml::Public;
+    m_Vis = Uml::Visibility::Public;
     if (element.hasAttribute("scope")) {        // for bkwd compat.
         QString scope = element.attribute( "scope", "" );
         if (scope == "instance_level")         // nsuml compat.
@@ -533,8 +533,8 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
             m_bStatic = true;
         else {
             int nScope = scope.toInt();
-            if (nScope >= Uml::Public && nScope <= Uml::Protected)
-                m_Scope = (Uml::Scope)nScope;
+            if (nScope >= Uml::Visibility::Public && nScope <= Uml::Visibility::Protected)
+              m_Vis = (Uml::Visibility::Value)nScope;
             else
                 kdError() << "UMLObject::loadFromXMI(" << m_Name
                 << "): illegal scope" << endl;  // soft error
@@ -543,10 +543,12 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
         QString visibility = element.attribute( "visibility", "public" );
         if (visibility == "private"
                 || visibility == "private_vis")    // for compatibility with other programs
-            m_Scope = Uml::Private;
+              m_Vis = Uml::Visibility::Private;
         else if (visibility == "protected"
-                 || visibility == "protected_vis")  // for compatibility with other programs
-            m_Scope = Uml::Protected;
+                       || visibility == "protected_vis")  // for compatibility with other programs
+          m_Vis = Uml::Visibility::Protected;
+        else if (visibility == "implementation")
+          m_Vis = Uml::Visibility::Implementation;
     }
 
     QString stereo = element.attribute( "stereotype", "" );
@@ -632,9 +634,11 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
                 if (vis.isEmpty())
                     vis = elem.text();
                 if (vis == "private" || vis == "private_vis")
-                    m_Scope = Uml::Private;
+                      m_Vis = Uml::Visibility::Private;
                 else if (vis == "protected" || vis == "protected_vis")
-                    m_Scope = Uml::Protected;
+                  m_Vis = Uml::Visibility::Protected;
+                else if (vis == "implementation")
+                  m_Vis = Uml::Visibility::Implementation;
             } else if (Uml::tagEq(tag, "isAbstract")) {
                 QString isAbstract = elem.attribute("xmi.value", "");
                 if (isAbstract.isEmpty())

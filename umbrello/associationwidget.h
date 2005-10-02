@@ -193,12 +193,12 @@ public:
     /**
      * Gets the visibility on the given role of the association.
      */
-    Uml::Scope getVisibility (Uml::Role_Type role) const;
+    Uml::Visibility getVisibility (Uml::Role_Type role) const;
 
     /**
      * Sets the visibility on the given role of the association.
      */
-    void setVisibility (Uml::Scope visibility, Uml::Role_Type role );
+    void setVisibility (Uml::Visibility visibility, Uml::Role_Type role );
 
     /**
      * Gets the changeability on the the given end of the Association.
@@ -825,7 +825,7 @@ private:
         int m_nTotalCount;
 
         // The following items are only used if m_pObject is not set.
-        Uml::Scope m_Visibility;
+        Uml::Visibility m_Visibility;
         Uml::Changeability_Type m_Changeability;
         QString m_RoleDoc;
         QString m_RoleName;

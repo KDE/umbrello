@@ -28,12 +28,12 @@
 #include "dialogs/umloperationdialog.h"
 
 UMLOperation::UMLOperation(const UMLClassifier *parent, QString Name, Uml::IDType id,
-                           Uml::Scope s, QString rt)
+                           Uml::Visibility s, QString rt)
         : UMLClassifierListItem(parent, Name, id)
 {
     if (!rt.isEmpty())
         setTypeName( rt );
-    m_Scope = s;
+    m_Vis = s;
     m_BaseType = Uml::ot_Operation;
     m_List.setAutoDelete(false);
 }
@@ -52,7 +52,7 @@ UMLAttribute * UMLOperation::addParm(QString type, QString name, QString initial
                                      QString doc, Uml::Parameter_Direction kind) {
     // make the new parameter (attribute) public, just to be safe
     UMLDoc *umldoc = UMLApp::app()->getDocument();
-    UMLAttribute * a = new UMLAttribute(this, name, umldoc->getUniqueID(), Uml::Public, type);
+    UMLAttribute * a = new UMLAttribute(this, name, umldoc->getUniqueID(), Uml::Visibility::Public, type);
     a -> setDoc(doc);
     a -> setInitialValue(initialValue);
     a -> setParmKind(kind);
@@ -128,20 +128,14 @@ UMLAttribute* UMLOperation::findParm(const QString &name) {
 QString UMLOperation::toString(Uml::Signature_Type sig) {
     QString s = "";
 
-    if(sig == Uml::st_ShowSig || sig == Uml::st_NoSig) {
-        if(m_Scope == Uml::Public)
-            s = "+ ";
-        else if(m_Scope == Uml::Private)
-            s = "- ";
-        else if(m_Scope == Uml::Protected)
-            s = "# ";
-    }
-
+    if(sig == Uml::st_ShowSig || sig == Uml::st_NoSig) 
+          s = m_Vis.toString(true) + " ";
+    
     s += getName();
     if (!s.contains("("))
         s.append("(");
 
-    if(sig == Uml::st_NoSig || sig == Uml::st_NoSigNoScope) {
+    if(sig == Uml::st_NoSig || sig == Uml::st_NoSigNoVis) {
         if (!s.contains(")"))
             s.append(")");
         return s;
@@ -150,7 +144,7 @@ QString UMLOperation::toString(Uml::Signature_Type sig) {
     int last = m_List.count(), i = 0;
     for(obj=m_List.first();obj != 0;obj=m_List.next()) {
         i++;
-        s.append(obj -> toString(Uml::st_SigNoScope));
+        s.append(obj -> toString(Uml::st_SigNoVis));
         if(i < last)
             s.append(", ");
     }
@@ -160,8 +154,8 @@ QString UMLOperation::toString(Uml::Signature_Type sig) {
     QString returnType;
     UMLClassifier *retType = UMLClassifierListItem::getType();
     if (retType) {
-        UMLPackage *retScope = retType->getUMLPackage();
-        if (retScope != ownParent && retScope != ownParent->getUMLPackage())
+        UMLPackage *retVisibility = retType->getUMLPackage();
+        if (retVisibility != ownParent && retVisibility != ownParent->getUMLPackage())
             returnType = retType->getFullyQualifiedName();
         else
             returnType = retType->getName();
