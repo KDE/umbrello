@@ -278,7 +278,7 @@ private:
     /**
      * Summary information about current classifier.
      */
-    ClassifierInfo * classifierInfo;
+    ClassifierInfo * m_classifierInfo;
 
     /**
      * When we create a string variable, what do we use? this is the default..
