@@ -398,8 +398,8 @@ bool AssociationWidget::setRoleName (const QString &strRole, Role_Type role) {
         m_role[role].m_pRole = new FloatingText(m_pView, tr, strRole);
         m_role[role].m_pRole->setLink(this);
         m_pView->addWidget(m_role[role].m_pRole);
-        Uml::Visibility scope = getVisibility(role);
-        m_role[role].m_pRole->setPreText(scope.toString());
+        Uml::Visibility vis = getVisibility(role);
+        m_role[role].m_pRole->setPreText(vis.toString(true));
     } else {
         if (m_role[role].m_pRole->getText().isEmpty()) {
             newLabel = true;
@@ -462,7 +462,7 @@ void AssociationWidget::setVisibility(Uml::Visibility value, Role_Type role)
     m_role[role].m_Visibility = value;
     // update role pre-text attribute as appropriate
     if (m_role[role].m_pRole) {
-        QString scopeString = value.toString();
+        QString scopeString = value.toString(true);
         m_role[role].m_pRole->setPreText(scopeString);
     }
 }
@@ -584,8 +584,8 @@ void AssociationWidget::activate() {
             robj.m_pRole->setLink(this);
             Text_Role tr = (r == A ? tr_RoleAName : tr_RoleBName);
             robj.m_pRole->setRole(tr);
-            Uml::Visibility scope = getVisibility((Role_Type)r);
-            robj.m_pRole->setPreText(scope.toString());
+            Uml::Visibility vis = getVisibility((Role_Type)r);
+            robj.m_pRole->setPreText(vis.toString(true));
 
             if (FloatingText::isTextValid(robj.m_pRole->getText()))
                 robj.m_pRole -> show();
