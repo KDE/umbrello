@@ -44,7 +44,7 @@
 #include <ktip.h>
 #include <ktabwidget.h>
 #include <ktoolbarbutton.h>
-#include <kpopupmenu.h>
+#include <kmenu.h>
 
 // app includes
 #include "aligntoolbar.h"
@@ -388,7 +388,7 @@ void UMLApp::initView() {
         m_newSessionButton->setIconSet( SmallIcon( "tab_new" ) );
         m_newSessionButton->adjustSize();
         m_newSessionButton->setAutoRaise(true);
-        m_diagramMenu = new KPopupMenu(m_newSessionButton);
+        m_diagramMenu = new KMenu(m_newSessionButton);
 
         m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_Class), i18n("Class Diagram..."), this, SLOT(slotClassDiagram()) );
         m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_Sequence), i18n("Sequence Diagram..."), this, SLOT(slotSequenceDiagram()) );

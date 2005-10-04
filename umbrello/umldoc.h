@@ -27,8 +27,8 @@
 
 // kde includes
 #include <kurl.h>
-#include <kdockwidget.h>
-#include <kpopupmenu.h>
+#include <k3dockwidget.h>
+#include <kmenu.h>
 
 // app includes
 #include "umlnamespace.h"
@@ -1010,7 +1010,7 @@ private:
      * the context menu on the tabs, 
      * plugs into umlview::slotMenuSelection()
      */
-    KPopupMenu* m_pTabPopupMenu;
+    KMenu* m_pTabPopupMenu;
 
 public slots:
 

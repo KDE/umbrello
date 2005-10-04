@@ -10,7 +10,7 @@
 #ifndef LISTPOPUPMENU_H
 #define LISTPOPUPMENU_H
 
-#include <kpopupmenu.h>
+#include <kmenu.h>
 #include "umlnamespace.h"
 
 class UMLView;
@@ -26,7 +26,7 @@ class ClassifierWidget;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class ListPopupMenu : public KPopupMenu {
+class ListPopupMenu : public KMenu {
 public:
 
     /// This type hosts all possible menu types.
@@ -315,7 +315,7 @@ private:
         pm_NUMBER_OF_PIXMAPS
     };
     QPixmap m_pixmap[pm_NUMBER_OF_PIXMAPS];
-    KPopupMenu * m_pInsert, * m_pShow, * m_pColor;
+    KMenu * m_pInsert, * m_pShow, * m_pColor;
     void setupColor(bool fc);
     void setupColorSelection(bool fc);
     void setupDiagramMenu(UMLView* view);

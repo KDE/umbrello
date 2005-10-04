@@ -29,7 +29,7 @@
 #include <QKeyEvent>
 #include <Q3PopupMenu>
 
-#include <kdockwidget.h>
+#include <k3dockwidget.h>
 #include <kdeversion.h>
 #include <kurl.h>
 
@@ -58,7 +58,7 @@ class KToggleAction;
 class KDockWidget;
 class KTabWidget;
 class KToolBarButton;
-class KPopupMenu;
+class KMenu;
 
 // Qt forward declarations
 class Q3WidgetStack;
@@ -898,7 +898,7 @@ private:
     KAction* moveTabLeft;
     KAction* moveTabRight;
     KToolBarButton* m_newSessionButton;
-    KPopupMenu* m_diagramMenu;
+    KMenu* m_diagramMenu;
     QToolButton* m_closeDiagramButton;
     KToggleAction* viewToolBar;
     KToggleAction* viewStatusBar;
