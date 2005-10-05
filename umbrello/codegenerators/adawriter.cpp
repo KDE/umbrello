@@ -1,13 +1,10 @@
 /***************************************************************************
-                          adawriter.cpp  -  description
-                             -------------------
-    Based on javawriter.cpp by Luis De la Parra Blum
-    begin                : Sat Dec 14 2002
-    copyright            : (C) 2002 by Oliver Kellogg
-    email                : okellogg@users.sourceforge.net
- ***************************************************************************/
-
-/***************************************************************************
+ *                        adawriter.cpp  -  description                    *
+ *                           -------------------                           *
+ *  Based on javawriter.cpp by Luis De la Parra Blum                       *
+ *  copyright            : (C) 2002 by Oliver Kellogg                      *
+ *    (C) 2003-2005 Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>  *
+ ***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -116,10 +113,6 @@ QString AdaWriter::qualifiedName(UMLClassifier *c, bool withType, bool byValue) 
 
 void AdaWriter::computeAssocTypeAndRole
 (UMLAssociation *a, QString& typeName, QString& roleName) {
-    UMLClassifier* c = (UMLClassifier*)a->getObject(Uml::A);
-    typeName = cleanName(c->getName());
-    if (! a->getMulti(Uml::A).isEmpty())
-        typeName.append("_Array_Access");
     roleName = a->getRoleName(Uml::A);
     if (roleName.isEmpty()) {
         if (a->getMulti(Uml::A).isEmpty()) {
@@ -130,6 +123,12 @@ void AdaWriter::computeAssocTypeAndRole
             roleName.append("_Vector");
         }
     }
+    UMLClassifier* c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::A));
+    if (c == NULL)
+        return;
+    typeName = cleanName(c->getName());
+    if (! a->getMulti(Uml::A).isEmpty())
+        typeName.append("_Array_Access");
 }
 
 void AdaWriter::writeClass(UMLClassifier *c) {
@@ -460,7 +459,9 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     UMLOperationList oppriv;
     oppriv.setAutoDelete(false);
     for (op = opl.first(); op; op = opl.next()) {
-          if (op->getVisibility() == Uml::Visibility::Private)
+          const Uml::Visibility::Value vis = op->getVisibility();
+          if (vis == Uml::Visibility::Private ||
+              vis == Uml::Visibility::Implementation)
             oppriv.append(op);
     }
     if (forceSections() || oppriv.count())
