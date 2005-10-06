@@ -1413,10 +1413,15 @@ void UMLView::fixEPS(const QString &filename, QRect rect) {
                   << "): cannot open file for writing" << endl;
         return;
     }
-    const int left = (int)rx.cap(1).replace(':', '0').toFloat();
-    const int right = left + rect.width();
-    const int top = (int)rx.cap(4).replace(':', '0').toFloat();
-    const int bottom = top - rect.height();
+
+    // be careful when rounding (ceil/floor) the BB, these roundings
+    // were mainly obtained experimentally...
+    const double epsleft = rx.cap(1).toFloat();
+    const double epstop = rx.cap(4).toFloat();
+    const int left = int(floor(epsleft));
+    const int right = int(ceil(epsleft)) + rect.width();
+    const int top = int(ceil(epstop)) + 1;
+    const int bottom = int(floor(epstop)) - rect.height() + 1;
 
     // modify content
     fileContent.replace(pos,rx.cap(0).length(),
@@ -1459,10 +1464,17 @@ void UMLView::printToFile(const QString &filename,bool isEPS) {
     painter->translate(-rect.x(),-rect.y());
     getDiagram(rect,*painter);
 
+    int resolution = printer->resolution();
+
     // delete painter and printer before we try to open and fix the file
     delete painter;
     delete printer;
-    if (isEPS) fixEPS(filename,rect);
+    if (isEPS) {
+        // modify bounding box from screen to eps resolution.
+        rect.setWidth( int(ceil(rect.width() * 72.0/resolution)) );
+        rect.setHeight( int(ceil(rect.height() * 72.0/resolution)) );
+        fixEPS(filename,rect);
+    }
     // next painting will most probably be to a different device (i.e. the screen)
     forceUpdateWidgetFontMetrics(0);
 
