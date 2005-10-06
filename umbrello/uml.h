@@ -81,7 +81,7 @@ class QToolButton;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class UMLApp : public KDockMainWindow {
+class UMLApp : public K3DockMainWindow {
     Q_OBJECT
 public:
     /**
