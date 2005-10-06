@@ -134,7 +134,8 @@ public:
     /** The KPlayerPopupSliderAction constructor. Parameters are passed on to KAction.
       */
     KPlayerPopupSliderAction (const QString& text, const QString& pix, const KShortcut& shortcut,
-                              const QObject* receiver, const char* slot, QObject* parent = 0, const char* name = 0);
+                              const QObject* receiver, const char* slot,
+                              KActionCollection* parent = 0, const char* name = 0);
     /** The KPlayerPopupSliderAction destructor. Deletes the KPlayerPopupFrame.
       */
     virtual ~KPlayerPopupSliderAction();

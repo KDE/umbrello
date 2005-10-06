@@ -90,9 +90,9 @@ int main(int argc, char *argv[]) {
                 uml->newDocument();
             }
         }
-        QCStringList exportOpt = args->getOptionList("export");
+        QByteArrayList exportOpt = args->getOptionList("export");
         if (exportOpt.size() > 0) {
-        for (QCStringList::iterator itr = exportOpt.begin();
+        for (QByteArrayList::iterator itr = exportOpt.begin();
             itr != exportOpt.end(); ++itr) {
                 QString extension(*itr);
                 kdDebug() << "extension: " << extension << endl;

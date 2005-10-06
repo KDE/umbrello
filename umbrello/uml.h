@@ -55,7 +55,6 @@ class KActionMenu;
 class KRecentFilesAction;
 class KStatusBarLabel;
 class KToggleAction;
-class KDockWidget;
 class KTabWidget;
 class KToolBarButton;
 class KMenu;
@@ -825,17 +824,17 @@ private:
     /**
      * The widget which shows the diagrams.
      */
-    KDockWidget* m_mainDock;
+    K3DockWidget* m_mainDock;
 
     /**
      * Contains the UMLListView tree view.
      */
-    KDockWidget* m_listDock;
+    K3DockWidget* m_listDock;
 
     /**
      * Contains the documentation DocWindow widget.
      */
-    KDockWidget* m_documentationDock;
+    K3DockWidget* m_documentationDock;
 
     /**
      * Documentation window.

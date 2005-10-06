@@ -78,7 +78,7 @@
 #include "configurable.h"
 
 
-UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
+UMLApp::UMLApp(QWidget* , const char* name) : K3DockMainWindow(0, name) {
     s_instance = this;
     m_pDocWindow = 0;
     m_config = kapp->config();
@@ -200,7 +200,7 @@ void UMLApp::initActions() {
 
     deleteSelectedWidget = new KAction( i18n("Delete &Selected"),
                                         SmallIconSet("editdelete"),
-                                        KShortcut(Key_Delete), this,
+                                        KShortcut(Qt::Key_Delete), this,
                                         SLOT( slotDeleteSelectedWidget() ), actionCollection(),
                                         "delete_selected" );
 
@@ -423,22 +423,22 @@ void UMLApp::initView() {
         m_viewStack = new Q3WidgetStack(m_mainDock, "viewstack");
         m_mainDock->setWidget(m_viewStack);
     }
-    m_mainDock->setDockSite(KDockWidget::DockCorner);
-    m_mainDock->setEnableDocking(KDockWidget::DockNone);
+    m_mainDock->setDockSite(K3DockWidget::DockCorner);
+    m_mainDock->setEnableDocking(K3DockWidget::DockNone);
     setView(m_mainDock);
     setMainDockWidget(m_mainDock);
 
     m_listDock = createDockWidget( "Model", 0L, 0L, i18n("&Tree View") );
     m_listView = new UMLListView(m_listDock ,"LISTVIEW");
     m_listDock->setWidget(m_listView);
-    m_listDock->setDockSite(KDockWidget::DockCorner);
-    m_listDock->manualDock(m_mainDock, KDockWidget::DockLeft, 20);
+    m_listDock->setDockSite(K3DockWidget::DockCorner);
+    m_listDock->manualDock(m_mainDock, K3DockWidget::DockLeft, 20);
 
     m_documentationDock = createDockWidget( "Documentation", 0L, 0L, i18n("&Documentation") );
     m_pDocWindow = new DocWindow(m_doc, m_documentationDock, "DOCWINDOW");
     m_documentationDock->setWidget(m_pDocWindow);
-    m_documentationDock->setDockSite(KDockWidget::DockCorner);
-    m_documentationDock->manualDock(m_listDock, KDockWidget::DockBottom, 80);
+    m_documentationDock->setDockSite(K3DockWidget::DockCorner);
+    m_documentationDock->manualDock(m_listDock, K3DockWidget::DockBottom, 80);
 
     m_listView->setDocument(m_doc);
     m_doc->setupSignals();//make sure gets signal from list view
@@ -1081,6 +1081,7 @@ void UMLApp::readOptionState() {
     m_config -> setGroup( "UI Options" );
     m_optionState.uiState.useFillColor = m_config -> readBoolEntry( "useFillColor", true );
     QColor defaultYellow = QColor( 255, 255, 192 );
+    QColor red ( Qt::red );
 
     m_optionState.uiState.fillColor = m_config -> readColorEntry( "fillColor", &defaultYellow );
     m_optionState.uiState.lineColor = m_config -> readColorEntry( "lineColor", &red );
