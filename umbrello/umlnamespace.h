@@ -58,16 +58,16 @@ class Visibility {
     };
     Visibility();
     Visibility(Value v);
-    static QString toString(Value value,bool mnemonic);
+    static QString toString(Value value, bool mnemonic);
     static Visibility fromString(const QString& vis);
     /**
      * Convert Visibility value into QString representation.
      *
      * @param mnemonic    If true then return a single character:
-     *              "+" for public, "-" for private, 
+     *              "+" for public, "-" for private,
      *              "#" for protected or "~" for implementation
      */
-    QString toString(bool mnemonic=false) const;
+    QString toString(bool mnemonic = false) const;
     operator Value () const;
   private:
     Value _v;
@@ -230,7 +230,7 @@ enum DBIndex_Type
 };
 
 /**
- * Constants used for indexing the roles of associations. 
+ * Constants used for indexing the roles of associations.
  */
 enum Role_Type { A, B };
 
