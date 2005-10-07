@@ -61,6 +61,7 @@
 #include "dialogs/umloperationdialog.h"
 #include "dialogs/umltemplatedialog.h"
 
+#ifdef WANT_LVTOOLTIP
 class LVToolTip : public QToolTip
 {
 public:
@@ -88,6 +89,7 @@ protected:
         tip(rect, text);
     }
 };
+#endif
 
 
 UMLListView::UMLListView(QWidget *parent, const char *name)

@@ -211,7 +211,7 @@ void UMLApp::initActions() {
 
     deleteSelectedWidget = new KAction( i18n("Delete &Selected"),
                                         SmallIconSet("editdelete"),
-                                        KShortcut(Key_Delete), this,
+                                        KShortcut(Qt::Key_Delete), this,
                                         SLOT( slotDeleteSelectedWidget() ), actionCollection(),
                                         "delete_selected" );
 
@@ -1116,6 +1116,7 @@ void UMLApp::readOptionState() {
     m_config -> setGroup( "UI Options" );
     m_optionState.uiState.useFillColor = m_config -> readBoolEntry( "useFillColor", true );
     QColor defaultYellow = QColor( 255, 255, 192 );
+    QColor red ( Qt::red );
 
     m_optionState.uiState.fillColor = m_config -> readColorEntry( "fillColor", &defaultYellow );
     m_optionState.uiState.lineColor = m_config -> readColorEntry( "lineColor", &red );

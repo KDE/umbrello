@@ -35,7 +35,7 @@ ExportViewAction::ExportViewAction(KActionCollection* parent) :
 
 ExportViewAction::ExportViewAction(QString extension, QObject *parent) :
     KAction(i18n("Export All Diagrams as Images"),
-            SmallIconSet("image"), 0, parent),
+            SmallIconSet("image"), KShortcut::null(), parent),
     m_extension(extension) {
     m_mimetype = "unknown";
     updateMimetype();
