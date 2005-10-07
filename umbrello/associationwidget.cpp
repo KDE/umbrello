@@ -1706,18 +1706,29 @@ float AssociationWidget::perpendicularProjection(QPoint P1, QPoint P2, QPoint P3
 QPoint AssociationWidget::calculateTextPosition(Text_Role role) {
     const int SPACE = 2;
     QPoint p(-1, -1), q(-1, -1);
+
+    // used to find out if association end point (p)
+    // is at top or bottom edge of widget.
+    bool is_top_or_bottom(false);
+    UMLWidget *pWidget(0);
+        
     if (role == tr_MultiA || role == tr_ChangeA || role == tr_RoleAName) {
         p = m_LinePath.getPoint( 0 );
         q = m_LinePath.getPoint( 1 );
+        pWidget = m_role[A].m_pWidget;
     } else if (role == tr_MultiB || role == tr_ChangeB || role == tr_RoleBName) {
         const uint lastSegment = m_LinePath.count() - 1;
         p = m_LinePath.getPoint(lastSegment);
         q = m_LinePath.getPoint(lastSegment - 1);
+        pWidget = m_role[B].m_pWidget;
     } else if (role != tr_Name) {
         kdError() << "AssociationWidget::calculateTextPosition called with unsupported Text_Role "
                   << role << endl;
         return QPoint(-1, -1);
     }
+
+    if ( pWidget && ( pWidget->getY() == p.y() || pWidget->getY() + pWidget->height() == p.y() ))
+        is_top_or_bottom = true;
 
     FloatingText *text = getTextWidgetByRole(role);
     int textW = 0, textH = 0;
@@ -1730,33 +1741,15 @@ QPoint AssociationWidget::calculateTextPosition(Text_Role role) {
 
     if (role == tr_MultiA || role == tr_MultiB) {
 
-        int slope, divisor = p.x() - q.x();
-        if (divisor != 0)
-            slope = (p.y() - q.y()) / divisor;
+        if( (p.y() > q.y()) != is_top_or_bottom )
+            y = p.y() + SPACE;
         else
-            slope = 10000;
+            y = p.y() - SPACE - textH;
 
-        if( p.y() > q.y() )
-            if(slope == 0)
-                y = p.y() + SPACE;
-            else
-                y = p.y() - SPACE - textH;
+        if( p.x() < q.x() != is_top_or_bottom )
+            x = p.x() + SPACE;
         else
-            if(slope == 0)
-                y = p.y() - SPACE - textH;
-            else
-                y = p.y() + SPACE;
-
-        if( p.x() < q.x() )
-            if(slope == 0)
-                x = p.x() + SPACE;
-            else
-                x = p.x() - SPACE - textW;
-        else
-            if(slope == 0)
-                x = p.x() - SPACE - textW;
-            else
-                x = p.x() + SPACE;
+            x = p.x() - SPACE - textW;
 
     } else if (role == tr_ChangeA || role == tr_ChangeB) {
 
