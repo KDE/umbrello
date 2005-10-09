@@ -28,7 +28,7 @@
 #include "listpopupmenu.h"
 
 ClassifierWidget::ClassifierWidget(UMLView * view, UMLClassifier *c)
-        : UMLWidget(view, c) {
+  : StereotypedWidget(view, c) {
     init();
     if (c != NULL && c->isInterface()) {
         WidgetBase::setBaseType(Uml::wt_Interface);
@@ -102,16 +102,6 @@ void ClassifierWidget::updateSigs() {
         else if(m_ShowAttSigs == Uml::st_NoSig)
             m_ShowAttSigs = Uml::st_NoSigNoVis;
     }
-    calculateSize();
-    update();
-}
-
-bool ClassifierWidget::getShowStereotype() const {
-    return m_bShowStereotype;
-}
-
-void ClassifierWidget::setShowStereotype(bool _status) {
-    m_bShowStereotype = _status;
     calculateSize();
     update();
 }
@@ -748,12 +738,11 @@ void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement) {
         conceptElement = qDoc.createElement("interfacewidget");
     else
         conceptElement = qDoc.createElement("classwidget");
-    UMLWidget::saveToXMI( qDoc, conceptElement );
+    StereotypedWidget::saveToXMI( qDoc, conceptElement );
     conceptElement.setAttribute( "showoperations", m_bShowOperations );
     conceptElement.setAttribute( "showpubliconly", m_bShowPublicOnly );
     conceptElement.setAttribute( "showopsigs", m_ShowOpSigs );
     conceptElement.setAttribute( "showpackage", m_bShowPackage );
-    conceptElement.setAttribute( "showstereotype", m_bShowStereotype );
     conceptElement.setAttribute( "showscope", m_bShowAccess );
     if (! umlc->isInterface()) {
         conceptElement.setAttribute("showattributes", m_bShowAttributes);
@@ -765,7 +754,7 @@ void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement) {
 }
 
 bool ClassifierWidget::loadFromXMI(QDomElement & qElement) {
-    if (!UMLWidget::loadFromXMI(qElement))
+    if (!StereotypedWidget::loadFromXMI(qElement))
         return false;
     QString showatts = qElement.attribute( "showattributes", "0" );
     QString showops = qElement.attribute( "showoperations", "1" );
@@ -773,7 +762,6 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement) {
     QString showattsigs = qElement.attribute( "showattsigs", "600" );
     QString showopsigs = qElement.attribute( "showopsigs", "600" );
     QString showpackage = qElement.attribute( "showpackage", "0" );
-    QString showstereo = qElement.attribute( "showstereotype", "1" );
     QString showscope = qElement.attribute( "showscope", "0" );
     QString drawascircle = qElement.attribute("drawascircle", "0");
 
@@ -783,7 +771,6 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement) {
     m_ShowAttSigs = (Uml::Signature_Type)showattsigs.toInt();
     m_ShowOpSigs = (Uml::Signature_Type)showopsigs.toInt();
     m_bShowPackage = (bool)showpackage.toInt();
-    m_bShowStereotype = (bool)showstereo.toInt();
     m_bShowAccess = (bool)showscope.toInt();
     m_bDrawAsCircle = (bool)drawascircle.toInt();
 

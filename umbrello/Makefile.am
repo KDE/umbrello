@@ -74,6 +74,7 @@ pluginloader.cpp \
 seqlinewidget.cpp \
 statewidget.cpp \
 stereotype.cpp \
+stereotypedwidget.cpp \
 template.cpp \
 textblock.cpp \
 toolbarstate.cpp \

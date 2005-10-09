@@ -15,7 +15,7 @@
 #ifndef PACKAGEWIDGET_H
 #define PACKAGEWIDGET_H
 
-#include "umlwidget.h"
+#include "stereotypedwidget.h"
 
 class UMLPackage;
 
@@ -30,7 +30,7 @@ class UMLPackage;
  * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class PackageWidget : public UMLWidget {
+class PackageWidget : public StereotypedWidget {
 public:
 
     /**
@@ -47,20 +47,6 @@ public:
     virtual ~PackageWidget();
 
     /**
-     * Returns the status of whether to show StereoType.
-     *
-     * @return  True if stereotype is shown.
-     */
-    bool getShowStereotype();
-
-    /**
-     * Set the status of whether to show StereoType.
-     *
-     * @param _show             True if stereotype shall be shown.
-     */
-    void setShowStereotype(bool _status);
-
-    /**
      * Overrides standard method.
      */
     void draw(QPainter& p, int offsetX, int offsetY);
@@ -69,20 +55,6 @@ public:
      * Saves to the <packagewidget> XMI element.
      */
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
-
-    /**
-     * Loads from a <packagewidget> XMI element.
-     */
-    bool loadFromXMI(QDomElement& qElement);
-
-protected:
-    // Data loaded/saved
-
-    /**
-     * Should it show the <<stereotype>> of the package, currently ignored
-     * (stereotype is shown if it isn't empty).
-     */
-    bool m_bShowStereotype;
 
 private:
     /**
