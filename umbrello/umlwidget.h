@@ -605,9 +605,7 @@ protected:
     int            m_nOldX, m_nOldY, m_nPosX;
     ListPopupMenu *m_pMenu;
     UMLDoc        *m_pDoc;  ///< shortcut for UMLApp::app()->getDocument()
-    bool           m_bResizing;
     int            m_nPressOffsetX, m_nPressOffsetY;
-    int            m_nOldH, m_nOldW;
     QFontMetrics  *m_pFontMetrics[FT_INVALID];
 
     /**

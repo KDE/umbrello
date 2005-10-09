@@ -16,16 +16,10 @@
 #include "boxwidget.h"
 // qt/kde includes
 #include <qevent.h>
-#include <kcursor.h>
 #include <kdebug.h>
-// app includes
-#include "umlview.h"
 
-BoxWidget::BoxWidget(UMLView * view, Uml::IDType id) : UMLWidget( view, id ) {
-    init();
-}
-
-void BoxWidget::init() {
+BoxWidget::BoxWidget(UMLView * view, Uml::IDType id)
+        : ResizableWidget(view, id) {
     setSize(100,80);
     UMLWidget::setBaseType( Uml::wt_Box );
     WidgetBase::m_bUsesDiagramLineColour = false;  // boxes be black
@@ -34,7 +28,6 @@ void BoxWidget::init() {
 }
 
 BoxWidget::~BoxWidget() {
-
 }
 
 void BoxWidget::draw(QPainter& p, int offsetX, int offsetY) {
@@ -51,47 +44,6 @@ void BoxWidget::constrain(int& width, int& height) {
         width = 20;
     if (height < 20)
         height = 20;
-}
-
-void BoxWidget::mouseMoveEvent(QMouseEvent *me) {
-    if(!m_bResizing) {
-        UMLWidget::mouseMoveEvent(me);
-        return;
-    }
-    if( !m_bMouseDown )
-        return;
-    int newX = me->x();
-    int newY = me->y();
-    if (! m_bIgnoreSnapToGrid) {
-        newX = m_pView->snappedX( newX );
-        newY = m_pView->snappedY( newY );
-    }
-    int newW = m_nOldW + newX - m_nOldX - m_nPressOffsetX;
-    int newH = m_nOldH + newY - m_nOldY - m_nPressOffsetY;
-    constrain(newW, newH);
-    setSize( newW, newH );
-    adjustAssocs( getX(), getY() );
-}
-
-void BoxWidget::mousePressEvent(QMouseEvent *me) {
-    UMLWidget::mousePressEvent(me);
-    int w = width();
-    int h = height();
-    m_nOldW = w;
-    m_nOldH = h;
-    int m = 10;
-    //bottomRight
-    if( (m_nOldX + m_nPressOffsetX) >= (getX() + width() - m) &&
-        (m_nOldY + m_nPressOffsetY) >= (getY() + height() - m) && me->button() == Qt::LeftButton) {
-        m_bResizing = true;
-        m_pView->setCursor(KCursor::sizeFDiagCursor());
-    }
-}
-
-void BoxWidget::mouseReleaseEvent(QMouseEvent* me) {
-    UMLWidget::mouseReleaseEvent(me);
-    m_bResizing = false;
-    m_pView->setCursor( KCursor::arrowCursor() );
 }
 
 void BoxWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
