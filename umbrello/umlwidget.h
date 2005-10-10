@@ -388,6 +388,20 @@ public:
         return m_instanceName;
     }
 
+    /**
+     * Returns the status of whether to show Stereotype.
+     *
+     * @return  True if stereotype is shown.
+     */
+    bool getShowStereotype() const;
+
+    /**
+     * Set the status of whether to show Stereotype.
+     *
+     * @param _show             True if stereotype shall be shown.
+     */
+    virtual void setShowStereotype(bool _status);
+
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     virtual bool loadFromXMI( QDomElement & qElement );
@@ -587,6 +601,11 @@ protected:
      * The instance name (used if on a deployment diagram)
      */
     QString m_instanceName;
+
+    /**
+     * Should it show the <<stereotype>> of the widget
+     */
+    bool m_bShowStereotype;
 
     ///////////////// End of Data Loaded/Saved //////////////////////////
 

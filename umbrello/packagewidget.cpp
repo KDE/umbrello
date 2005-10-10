@@ -20,7 +20,7 @@
 #include <qpainter.h>
 
 PackageWidget::PackageWidget(UMLView * view, UMLPackage *o)
-  : StereotypedWidget(view, o) {
+  : UMLWidget(view, o) {
     init();
     setSize(100, 30);
     calculateSize();
@@ -115,7 +115,7 @@ void PackageWidget::calculateSize() {
 
 void PackageWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     QDomElement conceptElement = qDoc.createElement("packagewidget");
-    StereotypedWidget::saveToXMI(qDoc, conceptElement);
+    UMLWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
 

@@ -1044,6 +1044,16 @@ void UMLWidget::forceUpdateFontMetrics(QPainter *painter) {
     calculateSize();
 }
 
+void UMLWidget::setShowStereotype(bool _status) {
+    m_bShowStereotype = _status;
+    calculateSize();
+    update();
+}
+
+bool UMLWidget::getShowStereotype() const {
+    return m_bShowStereotype;
+}
+
 void UMLWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     /*
       Call after required actions in child class.
@@ -1067,6 +1077,8 @@ void UMLWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     qElement.setAttribute("isinstance", m_bIsInstance);
     if (!m_instanceName.isEmpty())
         qElement.setAttribute("instancename", m_instanceName);
+    if (m_bShowStereotype)
+        qElement.setAttribute("showstereotype", m_bShowStereotype);
 }
 
 bool UMLWidget::loadFromXMI( QDomElement & qElement ) {
@@ -1105,6 +1117,8 @@ bool UMLWidget::loadFromXMI( QDomElement & qElement ) {
     QString isinstance = qElement.attribute("isinstance", "0");
     m_bIsInstance = (bool)isinstance.toInt();
     m_instanceName = qElement.attribute("instancename", "");
+    QString showstereo = qElement.attribute("showstereotype", "0");
+    m_bShowStereotype = (bool)showstereo.toInt();
     return true;
 }
 

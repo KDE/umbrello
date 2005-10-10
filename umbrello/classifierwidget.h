@@ -15,7 +15,7 @@
 #ifndef CLASSIFIERWIDGET_H
 #define CLASSIFIERWIDGET_H
 
-#include "stereotypedwidget.h"
+#include "umlwidget.h"
 
 class QPainter;
 class UMLClassifier;
@@ -27,7 +27,7 @@ class AssociationWidget;
  * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ClassifierWidget : public StereotypedWidget {
+class ClassifierWidget : public UMLWidget {
 public:
 
     /**
