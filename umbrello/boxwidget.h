@@ -17,7 +17,7 @@
 //qt includes
 #include <qpainter.h>
 //app includes
-#include "umlwidget.h"
+#include "resizablewidget.h"
 
 // fwd decl.
 class UMLView;
@@ -32,7 +32,7 @@ class UMLView;
  * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class BoxWidget : public UMLWidget {
+class BoxWidget : public ResizableWidget {
 public:
 
     /**
@@ -54,24 +54,6 @@ public:
     virtual void constrain(int& width, int& height);
 
     /**
-     * Overrides the standard function.
-     * Changes the cursor if in the lower right corner.
-     */
-    void mousePressEvent(QMouseEvent* me);
-
-    /**
-     * Overrides the standard function.
-     * Resizes the widget if necessary.
-     */
-    void mouseMoveEvent(QMouseEvent* me);
-
-    /**
-     * Overrides the standard operation.
-     * Stops the resize event and resets the mouse cursor.
-     */
-    void mouseReleaseEvent(QMouseEvent* me);
-
-    /**
      * Draws a rectangle.
      */
     void draw(QPainter & p, int offsetX, int offsetY);
@@ -81,12 +63,6 @@ public:
      * Note: For loading from XMI, the inherited parent method is used.
      */
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
-private:
-    /**
-     * Initializes key variables for the class.
-     */
-    void init();
-
 };
 
 #endif

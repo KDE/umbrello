@@ -35,7 +35,8 @@
 
 #define NOTEMARGIN 10
 
-NoteWidget::NoteWidget(UMLView * view, Uml::IDType id) : UMLWidget(view, id) {
+NoteWidget::NoteWidget(UMLView * view, Uml::IDType id)
+        : ResizableWidget(view, id) {
     init();
     setSize(100,80);
 #ifdef NOTEWIDGET_EMBED_EDITOR
@@ -170,39 +171,15 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
 }
 
 void NoteWidget::mouseMoveEvent(QMouseEvent *me) {
-    if(!m_bResizing) {
-        UMLWidget::mouseMoveEvent(me);
-        return;
-    }
-    if( !m_bMouseDown )
-        return;
-    int newX = me->x();
-    int newY = me->y();
-    if (! m_bIgnoreSnapToGrid) {
-        newX = m_pView->snappedX( newX );
-        newY = m_pView->snappedY( newY );
-    }
-    int newW = m_nOldW + newX - m_nOldX - m_nPressOffsetX;
-    int newH = m_nOldH + newY - m_nOldY - m_nPressOffsetY;
-    newW = newW < 50?50:newW;
-    newH = newH < 50?50:newH;
-    setSize( newW, newH );
-    adjustAssocs( getX(), getY() );
+    ResizableWidget::mouseMoveEvent(me);
     setEditorGeometry();
 }
 
-void NoteWidget::mousePressEvent(QMouseEvent *me) {
-    UMLWidget::mousePressEvent(me);
-    m_nOldW = getWidth();
-    m_nOldH = getHeight();
-    int m = 10;
-    //bottomRight
-    if( m_nOldX + m_nPressOffsetX >= getX() + m_nOldW - m &&
-            m_nOldY + m_nPressOffsetY >= getY() + m_nOldH - m &&
-            me -> button() == Qt::LeftButton) {
-        m_bResizing = true;
-        m_pView -> setCursor(KCursor::sizeFDiagCursor());
-    }
+void NoteWidget::constrain(int& width, int& height) {
+    if (width < 50)
+        width = 50;
+    if (height < 50)
+        height = 50;
 }
 
 void NoteWidget::slotMenuSelection(int sel) {
@@ -233,12 +210,9 @@ void NoteWidget::slotMenuSelection(int sel) {
 }
 
 void NoteWidget::mouseReleaseEvent( QMouseEvent * me ) {
-    UMLWidget::mouseReleaseEvent( me );
-    if ( m_bResizing ) {
-        m_bResizing = false;
-        m_pView -> setCursor( KCursor::arrowCursor() );
+    if (m_bResizing) {
         drawText();
-        UMLApp::app()->getDocument()->setModified(true);
+        ResizableWidget::mouseReleaseEvent(me);
     }
 }
 

@@ -105,11 +105,8 @@ UMLWidget& UMLWidget::operator=(const UMLWidget& other) {
     m_pObject = other.m_pObject;
     m_pView = other.m_pView;
     m_pMenu = other.m_pMenu;
-    m_bResizing = other.m_bResizing;
     m_nPressOffsetX = other.m_nPressOffsetX;
     m_nPressOffsetY = other.m_nPressOffsetY;
-    m_nOldH = other.m_nOldH;
-    m_nOldW = other.m_nOldW;
     for (unsigned i = 0; i < FT_INVALID; i++)
         m_pFontMetrics[i] = other.m_pFontMetrics[i];
     m_bActivated = other.m_bActivated;
@@ -390,7 +387,6 @@ void UMLWidget::init() {
     for (int i = 0; i < (int)FT_INVALID; ++i)
         m_pFontMetrics[(UMLWidget::FontType)i] = 0;
 
-    m_bResizing = false;
     m_bMouseOver = false;
 
     m_bMouseDown = false;
@@ -405,7 +401,6 @@ void UMLWidget::init() {
     m_pMenu = 0;
     m_pDoc = UMLApp::app()->getDocument();
     m_nPosX = m_nOldX = m_nOldY = 0;
-    m_nOldH = m_nOldW = 0;
     connect( m_pView, SIGNAL( sigRemovePopupMenu() ), this, SLOT( slotRemovePopupMenu() ) );
     connect( m_pView, SIGNAL( sigClearAllSelected() ), this, SLOT( slotClearAllSelected() ) );
 

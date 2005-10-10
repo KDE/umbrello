@@ -36,7 +36,7 @@
 MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
                              int y, Uml::Sequence_Message_Type sequenceMessageType,
                              Uml::IDType id /* = Uml::id_None */)
-        : UMLWidget(view, id) {
+        : ResizableWidget(view, id) {
     init();
     m_pOw[Uml::A] = a;
     m_pOw[Uml::B] = b;
@@ -56,7 +56,7 @@ MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
 }
 
 MessageWidget::MessageWidget(UMLView * view, Uml::Sequence_Message_Type seqMsgType, Uml::IDType id)
-        : UMLWidget(view, id) {
+        : ResizableWidget(view, id) {
     init();
     m_sequenceMessageType = seqMsgType;
 }
@@ -744,32 +744,12 @@ int MessageWidget::getMaxHeight() {
 }
 
 void MessageWidget::mousePressEvent(QMouseEvent* me) {
-    UMLWidget::mousePressEvent(me);
-    if ( m_pView->getCurrentCursor() != WorkToolBar::tbb_Arrow ) {
-        return;
-    }
-    //resize only interests a message to self or an asynchronous message
+    // resize only applies to asynchronous messages between different objects
     if ( m_sequenceMessageType == Uml::sequence_message_asynchronous &&
             m_pOw[Uml::A] != m_pOw[Uml::B] ) {
         return;
     }
-    int m = 10;
-    //see if clicked on bottom right corner
-    if( (m_nOldX + m_nPressOffsetX) >= (getX() + width() - m) &&
-        (m_nOldY + m_nPressOffsetY) >= (getY() + height() - m) && me->button() == Qt::LeftButton) {
-        m_bResizing = true;
-        m_pView->setCursor(KCursor::sizeVerCursor());
-        m_nOldH = height();
-    } else {
-        m_bResizing = false;
-        m_pView -> setCursor(KCursor::arrowCursor());
-    }
-}
-
-void MessageWidget::mouseReleaseEvent( QMouseEvent * me ) {
-    UMLWidget::mouseReleaseEvent( me );
-    m_bResizing = false;
-    m_pView->setCursor( KCursor::arrowCursor() );
+    ResizableWidget::mousePressEvent(me);
 }
 
 void MessageWidget::setWidget(ObjectWidget * ow, Uml::Role_Type role) {

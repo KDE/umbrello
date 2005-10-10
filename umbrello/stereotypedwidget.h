@@ -53,17 +53,14 @@ public:
     virtual void setShowStereotype(bool _status);
 
     /**
-     * Overrides standard method.
-    virtual void draw(QPainter& p, int offsetX, int offsetY);
-     */
-
-    /**
-     * Saves to the <packagewidget> XMI element.
+     * Intermediate method. Invokes UMLWidget::saveToXMI()
+     * and additionally saves the m_bShowStereotype.
      */
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
     /**
-     * Loads from a <packagewidget> XMI element.
+     * Intermediate method. Invokes UMLWidget::loadFromXMI()
+     * and additionally loads the m_bShowStereotype.
      */
     bool loadFromXMI(QDomElement& qElement);
 

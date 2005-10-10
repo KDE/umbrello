@@ -21,21 +21,12 @@
 #include <Q3PointArray>
 
 NodeWidget::NodeWidget(UMLView * view, UMLNode *n )
-  : StereotypedWidget(view, n) {
-    init();
-    setSize(100, 30);
-    calculateSize();
-}
-
-void NodeWidget::init() {
+  : ResizableWidget(view, n) {
     UMLWidget::setBaseType(Uml::wt_Node);
-    m_pMenu = 0;
-
-    const Settings::OptionState& ops = m_pView->getOptionState();
-    m_bShowStereotype = ops.classState.showStereoType;
-
     calculateSize();
     update();
+    setSize(100, 30);
+    calculateSize();
 }
 
 NodeWidget::~NodeWidget() {}
@@ -47,25 +38,25 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
     } else {
         p.setBrush( m_pView->viewport()->backgroundColor() );
     }
-
-    int w = width();
-    int h = height();
-    int bodyOffsetY = offsetY + (h/3);
-    int bodyWidth = w - (w/3);
-    int bodyHeight = h - (h/3);
+    const int w = width();
+    const int h = height();
+    const int wDepth = (w/3 > DEPTH ? DEPTH : w/3);
+    const int hDepth = (h/3 > DEPTH ? DEPTH : h/3);
+    const int bodyOffsetY = offsetY + hDepth;
+    const int bodyWidth = w - wDepth;
+    const int bodyHeight = h - hDepth;
     QFont font = UMLWidget::getFont();
     font.setBold(true);
     QFontMetrics &fm = getFontMetrics(FT_BOLD);
     int fontHeight  = fm.lineSpacing();
     QString name = getName();
 
-    Q3PointArray pointArray(6);
+    Q3PointArray pointArray(5);
     pointArray.setPoint(0, offsetX, bodyOffsetY);
-    pointArray.setPoint(1, offsetX + (w/3), offsetY);
+    pointArray.setPoint(1, offsetX + wDepth, offsetY);
     pointArray.setPoint(2, offsetX + w - 1, offsetY);
-    pointArray.setPoint(3, offsetX + w - 1, offsetY + ((h/3)*2) );
+    pointArray.setPoint(3, offsetX + w - 1, offsetY + bodyHeight );
     pointArray.setPoint(4, offsetX + bodyWidth, offsetY + h - 1);
-    pointArray.setPoint(5, offsetX, offsetY + h - 1);
     p.drawPolygon(pointArray);
     p.drawRect(offsetX, bodyOffsetY, bodyWidth, bodyHeight);
     p.drawLine(offsetX + w - 1, offsetY, offsetX + bodyWidth - 2, bodyOffsetY + 1);
@@ -103,8 +94,21 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
 }
 
 void NodeWidget::calculateSize() {
-    if (m_pObject == NULL)
+    int width, height;
+    calcMinWidthAndHeight(width, height);
+    if (getWidth() >= width && getHeight() >= height)
         return;
+
+    setSize(width, height);
+    adjustAssocs( getX(), getY() );//adjust assoc lines
+}
+
+void NodeWidget::calcMinWidthAndHeight(int& width, int& height) {
+    width = height = 0;
+    if (m_pObject == NULL) {
+        kdDebug() << "NodeWidget::calcMinWidthAndHeight: m_pObject is NULL" << endl;
+        return;
+    }
 
     QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
     int fontHeight  = fm.lineSpacing();
@@ -114,27 +118,31 @@ void NodeWidget::calculateSize() {
         name = UMLWidget::getInstanceName() + " : " + name;
     }
 
-    int width = fm.width(name);
+    width = fm.width(name);
 
     int tempWidth = 0;
     if (!m_pObject->getStereotype().isEmpty()) {
         tempWidth = fm.width(m_pObject->getStereotype(true));
     }
-    width = tempWidth>width ? tempWidth : width;
-    width += NODE_MARGIN * 2;
+    if (tempWidth > width)
+        width = tempWidth;
+    width += DEPTH;
 
-    int height = (2*fontHeight) + (NODE_MARGIN * 2);
+    height = (2*fontHeight) + DEPTH;
+}
 
-    width = static_cast<int>(width * 1.5);
-    height = static_cast<int>(height * 1.5);
-
-    setSize(width, height);
-    adjustAssocs( getX(), getY() );//adjust assoc lines
+void NodeWidget::constrain(int& width, int& height) {
+    int minWidth, minHeight;
+    calcMinWidthAndHeight(minWidth, minHeight);
+    if (width < minWidth)
+        width = minWidth;
+    if (height < minHeight)
+        height = minHeight;
 }
 
 void NodeWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     QDomElement conceptElement = qDoc.createElement("nodewidget");
-    StereotypedWidget::saveToXMI(qDoc, conceptElement);
+    UMLWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
 

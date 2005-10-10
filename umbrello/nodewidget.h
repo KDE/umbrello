@@ -15,11 +15,9 @@
 #ifndef NODEWIDGET_H
 #define NODEWIDGET_H
 
-#include "stereotypedwidget.h"
+#include "resizablewidget.h"
 
 class UMLNode;
-
-#define NODE_MARGIN 10
 
 /**
  * Defines a graphical version of the Node.  Most of the functionality
@@ -30,7 +28,7 @@ class UMLNode;
  * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class NodeWidget : public StereotypedWidget {
+class NodeWidget : public ResizableWidget {
 public:
 
     /**
@@ -52,26 +50,31 @@ public:
     void draw(QPainter& p, int offsetX, int offsetY);
 
     /**
+     * Overrides method from ResizableWidget.
+     */
+    void constrain(int& width, int& height);
+
+    /**
      * Saves to the <nodewidget> XMI element.
-     * Note: For loading we use the method inherited from the parent.
+     * Note: For loading we use the method inherited from UMLWidget.
      */
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-private:
-    /**
-     * Initializes key variables of the class.
-     */
-    void init();
-
+protected:
     /**
      * Automatically calculates the size of the object.
      */
     void calculateSize();
 
     /**
-     * The right mouse button menu.
+     * Compute the minimum possible width and height.
+     *
+     * @param width  return value, computed width
+     * @param height return value, computed height
      */
-    ListPopupMenu* m_pMenu;
+    void calcMinWidthAndHeight(int& width, int& height);
+
+    static const int DEPTH = 30;  ///< pixels on Z axis
 };
 
 #endif

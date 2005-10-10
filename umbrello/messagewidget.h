@@ -15,7 +15,7 @@
 #ifndef MESSAGEWIDGET_H
 #define MESSAGEWIDGET_H
 
-#include "umlwidget.h"
+#include "resizablewidget.h"
 #include "linkwidget.h"
 //Added by qt3to4:
 #include <QMouseEvent>
@@ -44,7 +44,7 @@ class UMLOperation;
  * @see FloatingText
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class MessageWidget : public UMLWidget, public LinkWidget {
+class MessageWidget : public ResizableWidget, public LinkWidget {
     Q_OBJECT
 public:
 
@@ -325,11 +325,6 @@ public:
      * @return True if the point is on a visual part of the MessageWidget
      */
     bool onWidget(const QPoint & p);
-
-    /**
-     * Overrides the standard operation.
-     */
-    virtual void mouseReleaseEvent(QMouseEvent * me);
 
     /**
      * Overrides the standard operation.
