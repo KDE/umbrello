@@ -28,7 +28,7 @@
 #include "listpopupmenu.h"
 
 ClassifierWidget::ClassifierWidget(UMLView * view, UMLClassifier *c)
-  : StereotypedWidget(view, c) {
+  : UMLWidget(view, c) {
     init();
     if (c != NULL && c->isInterface()) {
         WidgetBase::setBaseType(Uml::wt_Interface);
@@ -738,7 +738,7 @@ void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement) {
         conceptElement = qDoc.createElement("interfacewidget");
     else
         conceptElement = qDoc.createElement("classwidget");
-    StereotypedWidget::saveToXMI( qDoc, conceptElement );
+    UMLWidget::saveToXMI( qDoc, conceptElement );
     conceptElement.setAttribute( "showoperations", m_bShowOperations );
     conceptElement.setAttribute( "showpubliconly", m_bShowPublicOnly );
     conceptElement.setAttribute( "showopsigs", m_ShowOpSigs );
@@ -754,7 +754,7 @@ void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement) {
 }
 
 bool ClassifierWidget::loadFromXMI(QDomElement & qElement) {
-    if (!StereotypedWidget::loadFromXMI(qElement))
+    if (!UMLWidget::loadFromXMI(qElement))
         return false;
     QString showatts = qElement.attribute( "showattributes", "0" );
     QString showops = qElement.attribute( "showoperations", "1" );

@@ -15,7 +15,7 @@
 #ifndef COMPONENTWIDGET_H
 #define COMPONENTWIDGET_H
 
-#include "stereotypedwidget.h"
+#include "umlwidget.h"
 
 class UMLComponent;
 
@@ -30,7 +30,7 @@ class UMLComponent;
  * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ComponentWidget : public StereotypedWidget {
+class ComponentWidget : public UMLWidget {
 public:
 
     /**

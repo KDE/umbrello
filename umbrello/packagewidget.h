@@ -15,7 +15,7 @@
 #ifndef PACKAGEWIDGET_H
 #define PACKAGEWIDGET_H
 
-#include "stereotypedwidget.h"
+#include "umlwidget.h"
 
 class UMLPackage;
 
@@ -30,7 +30,7 @@ class UMLPackage;
  * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class PackageWidget : public StereotypedWidget {
+class PackageWidget : public UMLWidget {
 public:
 
     /**

@@ -19,7 +19,7 @@
 #include <qpainter.h>
 
 ComponentWidget::ComponentWidget(UMLView * view, UMLComponent *c)
-  : StereotypedWidget(view, c) {
+  : UMLWidget(view, c) {
     init();
     setSize(100, 30);
     calculateSize();
@@ -136,7 +136,7 @@ void ComponentWidget::calculateSize() {
 
 void ComponentWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     QDomElement conceptElement = qDoc.createElement("componentwidget");
-    StereotypedWidget::saveToXMI(qDoc, conceptElement);
+    UMLWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
 
