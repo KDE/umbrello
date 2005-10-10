@@ -15,7 +15,7 @@
 #ifndef NODEWIDGET_H
 #define NODEWIDGET_H
 
-#include "umlwidget.h"
+#include "stereotypedwidget.h"
 
 class UMLNode;
 
@@ -30,7 +30,7 @@ class UMLNode;
  * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class NodeWidget : public UMLWidget {
+class NodeWidget : public StereotypedWidget {
 public:
 
     /**
@@ -47,20 +47,6 @@ public:
     virtual ~NodeWidget();
 
     /**
-     * Returns the status of whether to show StereoType.
-     *
-     * @return  True if stereotype is shown.
-     */
-    bool getShowStereotype() const;
-
-    /**
-     * Set the status of whether to show StereoType
-     *
-     * @param _status   True if stereotype is shown.
-     */
-    void setShowStereotype(bool _status);
-
-    /**
      * Overrides standard method.
      */
     void draw(QPainter& p, int offsetX, int offsetY);
@@ -70,13 +56,6 @@ public:
      * Note: For loading we use the method inherited from the parent.
      */
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
-
-protected:
-    /**
-     * Should it show the <<stereotype>> of the node, currently ignored
-     * (stereotype is shown if it isn't empty).
-     */
-    bool m_bShowStereotype;
 
 private:
     /**

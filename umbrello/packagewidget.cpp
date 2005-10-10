@@ -19,7 +19,8 @@
 #include <kdebug.h>
 #include <qpainter.h>
 
-PackageWidget::PackageWidget(UMLView * view, UMLPackage *o) : UMLWidget(view, o) {
+PackageWidget::PackageWidget(UMLView * view, UMLPackage *o)
+  : StereotypedWidget(view, o) {
     init();
     setSize(100, 30);
     calculateSize();
@@ -112,29 +113,9 @@ void PackageWidget::calculateSize() {
     adjustAssocs( getX(), getY() );//adjust assoc lines
 }
 
-void PackageWidget::setShowStereotype(bool _status) {
-    m_bShowStereotype = _status;
-    calculateSize();
-    update();
-}
-
-bool PackageWidget::getShowStereotype() {
-    return m_bShowStereotype;
-}
-
 void PackageWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     QDomElement conceptElement = qDoc.createElement("packagewidget");
-    UMLWidget::saveToXMI(qDoc, conceptElement);
-    conceptElement.setAttribute("showstereotype", m_bShowStereotype);
+    StereotypedWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
-}
-
-bool PackageWidget::loadFromXMI(QDomElement& qElement) {
-    if ( !UMLWidget::loadFromXMI(qElement) ) {
-        return false;
-    }
-    QString showstereo = qElement.attribute("showstereotype", "0");
-    m_bShowStereotype = (bool)showstereo.toInt();
-    return true;
 }
 

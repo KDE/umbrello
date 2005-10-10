@@ -15,7 +15,7 @@
 #ifndef CLASSIFIERWIDGET_H
 #define CLASSIFIERWIDGET_H
 
-#include "umlwidget.h"
+#include "stereotypedwidget.h"
 
 class QPainter;
 class UMLClassifier;
@@ -27,7 +27,7 @@ class AssociationWidget;
  * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ClassifierWidget : public UMLWidget {
+class ClassifierWidget : public StereotypedWidget {
 public:
 
     /**
@@ -42,20 +42,6 @@ public:
      * Destructor.
      */
     virtual ~ClassifierWidget();
-
-    /**
-     * Returns the status of whether to show StereoType.
-     *
-     * @return  True if stereotype is shown.
-     */
-    bool getShowStereotype() const;
-
-    /**
-     * Set the status of whether to show StereoType
-     *
-     * @param _show             True if stereotype shall be shown.
-     */
-    void setShowStereotype(bool _status);
 
     /**
      * Toggles the status of whether to show StereoType.
@@ -358,7 +344,6 @@ protected:
     bool m_bShowPublicOnly;            ///< Loaded/saved item.
     bool m_bShowAccess;                ///< Loaded/saved item.
     bool m_bShowPackage;               ///< Loaded/saved item.
-    bool m_bShowStereotype;            ///< Loaded/saved item.
     bool m_bShowAttributes;            ///< Loaded/saved item.
     bool m_bDrawAsCircle;              ///< Loaded/saved item.
     Uml::Signature_Type m_ShowAttSigs; ///< Loaded/saved item.

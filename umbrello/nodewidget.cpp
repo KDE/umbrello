@@ -20,7 +20,8 @@
 //Added by qt3to4:
 #include <Q3PointArray>
 
-NodeWidget::NodeWidget(UMLView * view, UMLNode *n ) : UMLWidget(view, n) {
+NodeWidget::NodeWidget(UMLView * view, UMLNode *n )
+  : StereotypedWidget(view, n) {
     init();
     setSize(100, 30);
     calculateSize();
@@ -131,20 +132,9 @@ void NodeWidget::calculateSize() {
     adjustAssocs( getX(), getY() );//adjust assoc lines
 }
 
-void NodeWidget::setShowStereotype(bool _status) {
-    m_bShowStereotype = _status;
-    calculateSize();
-    update();
-}
-
-bool NodeWidget::getShowStereotype() const {
-    return m_bShowStereotype;
-}
-
 void NodeWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     QDomElement conceptElement = qDoc.createElement("nodewidget");
-    UMLWidget::saveToXMI(qDoc, conceptElement);
-    conceptElement.setAttribute("showstereotype", m_bShowStereotype);
+    StereotypedWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
 

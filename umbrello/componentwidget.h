@@ -15,7 +15,7 @@
 #ifndef COMPONENTWIDGET_H
 #define COMPONENTWIDGET_H
 
-#include "umlwidget.h"
+#include "stereotypedwidget.h"
 
 class UMLComponent;
 
@@ -30,7 +30,7 @@ class UMLComponent;
  * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ComponentWidget : public UMLWidget {
+class ComponentWidget : public StereotypedWidget {
 public:
 
     /**
@@ -47,20 +47,6 @@ public:
     virtual ~ComponentWidget();
 
     /**
-     * Returns the status of whether to show StereoType.
-     *
-     * @return  Status of whether to show stereotype.
-     */
-    bool getShowStereotype() const;
-
-    /**
-     * Set the status of whether to show StereoType
-     *
-     * @param _show             True if stereotype shall be shown.
-     */
-    void setShowStereotype(bool _status);
-
-    /**
      * Overrides standard method
      */
     void draw(QPainter& p, int offsetX, int offsetY);
@@ -69,18 +55,6 @@ public:
      * Saves to the <componentwidget> XMI element.
      */
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
-
-    /**
-     * Loads from a <componentwidget> XMI element.
-     */
-    bool loadFromXMI(QDomElement& qElement);
-
-protected:
-    /**
-     * Should it show the <<stereotype>> of the component, currently ignored
-     * (stereotype is shown if it isn't empty).
-     */
-    bool m_bShowStereotype;
 
 private:
     /**
