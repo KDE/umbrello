@@ -42,9 +42,9 @@ public:
      * Takes into account destruction box if shown.
      *
      * @param p The point to investigate.
-     * @return  True if point is on this sequence line.
+     * @return  Non-zero if point is on this sequence line.
      */
-    bool onWidget( const QPoint & p );
+    int onWidget(const QPoint & p);
 
     /**
      * Clean up anything before deletion.

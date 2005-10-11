@@ -38,8 +38,8 @@ SeqLineWidget::SeqLineWidget( UMLView * pView, ObjectWidget * pObject ) : QCanva
 
 SeqLineWidget::~SeqLineWidget() {}
 
-bool SeqLineWidget::onWidget( const QPoint & p ) {
-    bool bOnWidget = false;
+int SeqLineWidget::onWidget( const QPoint & p ) {
+    int nOnWidget = 0;
     QPoint sp = startPoint();
     QPoint ep = endPoint();
     //see if on widget ( for message creation )
@@ -47,9 +47,9 @@ bool SeqLineWidget::onWidget( const QPoint & p ) {
             && ep.x() + m_nMouseDownEpsilonX > p.x()
             && sp.y() < p.y() && ep.y() + 3 > p.y() )
     {
-        bOnWidget = true;
+        nOnWidget = 1;
     }
-    return bOnWidget;
+    return nOnWidget;
 }
 
 void SeqLineWidget::cleanup() {
@@ -89,13 +89,13 @@ void SeqLineWidget::setupDestructionBox() {
                                         rect.x() + rect.width(), rect.y() + rect.height() );
     m_pDestructionBox.line1->setVisible( true );
     m_pDestructionBox.line1->setPen( QPen(m_pObject->getLineColor(), 2) );
-    m_pDestructionBox.line1->setZ( 2 );
+    m_pDestructionBox.line1->setZ( 3 );
 
     m_pDestructionBox.line2 = new QCanvasLine( m_pView -> canvas() );
     m_pDestructionBox.line2->setPoints( rect.x(), rect.y() + rect.height(), rect.x() + rect.width(), rect.y() );
     m_pDestructionBox.line2->setVisible( true );
     m_pDestructionBox.line2->setPen( QPen(m_pObject->getLineColor(), 2) );
-    m_pDestructionBox.line2->setZ( 2 );
+    m_pDestructionBox.line2->setZ( 3 );
 }
 
 void SeqLineWidget::moveDestructionBox() {

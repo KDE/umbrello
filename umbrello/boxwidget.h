@@ -49,11 +49,6 @@ public:
     virtual ~BoxWidget();
 
     /**
-     * Apply possible constraints to the given candidate width and height.
-     */
-    virtual void constrain(int& width, int& height);
-
-    /**
      * Draws a rectangle.
      */
     void draw(QPainter & p, int offsetX, int offsetY);

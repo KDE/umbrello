@@ -920,6 +920,7 @@ public:
     /**
      * Tests the given point against all widgets and returns the
      * widget for which the point is within its bounding rectangle.
+     * In case of multiple matches, returns the smallest widget.
      * Returns NULL if the point is not inside any widget.
      * Does not use or modify the m_pOnWidget member.
      */

@@ -20,7 +20,7 @@
 #include <qpainter.h>
 
 PackageWidget::PackageWidget(UMLView * view, UMLPackage *o)
-  : UMLWidget(view, o) {
+  : ResizableWidget(view, o) {
     init();
     setSize(100, 30);
     calculateSize();
@@ -28,6 +28,7 @@ PackageWidget::PackageWidget(UMLView * view, UMLPackage *o)
 
 void PackageWidget::init() {
     UMLWidget::setBaseType(Uml::wt_Package);
+    setZ(m_origZ = 1);  // above box but below UMLWidget because may embed widgets
     m_pMenu = 0;
     //set defaults from m_pView
     if (m_pView) {
@@ -85,11 +86,11 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
     }
 }
 
-void PackageWidget::calculateSize() {
+void PackageWidget::calcMinWidthAndHeight(int& width, int& height) {
+    width = height = 0;
     if ( !m_pObject ) {
         return;
     }
-    int width, height;
 
     QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
     int fontHeight  = fm.lineSpacing();
@@ -103,11 +104,20 @@ void PackageWidget::calculateSize() {
         tempWidth = fm.width(m_pObject->getStereotype(true));
         lines = 2;
     }
-    width = tempWidth>width ? tempWidth : width;
+    if (tempWidth > width)
+        width = tempWidth;
     width += PACKAGE_MARGIN * 2;
-    width = 70>width ? 70 : width; //minumin width of 70
+    if (width < 70)
+        width = 70;  // minumin width of 70
 
     height = (lines*fontHeight) + fontHeight + (PACKAGE_MARGIN * 2);
+}
+
+void PackageWidget::calculateSize() {
+    int width, height;
+    calcMinWidthAndHeight(width, height);
+    if (getWidth() >= width && getHeight() >= height)
+        return;
 
     setSize(width, height);
     adjustAssocs( getX(), getY() );//adjust assoc lines

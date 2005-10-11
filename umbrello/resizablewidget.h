@@ -47,9 +47,13 @@ public:
     virtual ~ResizableWidget();
 
     /**
-     * Apply possible constraints to the given candidate width and height.
+     * Compute the minimum possible width and height.
+     * The default implementation returns width=20, height=20.
+     *
+     * @param width  return value, computed width
+     * @param height return value, computed height
      */
-    virtual void constrain(int& width, int& height);
+    virtual void calcMinWidthAndHeight(int& width, int& height);
 
     /**
      * Overrides the standard function.
@@ -70,6 +74,17 @@ public:
     void mouseReleaseEvent(QMouseEvent* me);
 
 protected:
+    /**
+     * Apply possible constraints to the given candidate width and height.
+     * The default implementation calls calcMinWidthAndHeight() and
+     * assigns the returned values if they are greater than the
+     * input values.
+     *
+     * @param width  input value, may be modified by the constraint
+     * @param height input value, may be modified by the constraint
+     */
+    virtual void constrain(int& width, int& height);
+
     bool m_bResizing;
     int  m_nOldH, m_nOldW;
 private:

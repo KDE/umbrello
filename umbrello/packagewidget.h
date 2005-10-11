@@ -15,7 +15,7 @@
 #ifndef PACKAGEWIDGET_H
 #define PACKAGEWIDGET_H
 
-#include "umlwidget.h"
+#include "resizablewidget.h"
 
 class UMLPackage;
 
@@ -30,7 +30,7 @@ class UMLPackage;
  * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class PackageWidget : public UMLWidget {
+class PackageWidget : public ResizableWidget {
 public:
 
     /**
@@ -45,6 +45,15 @@ public:
      * destructor
      */
     virtual ~PackageWidget();
+
+    /**
+     * Compute the minimum possible width and height.
+     * Reimplement method from ResizableWidget.
+     *
+     * @param width  return value, computed width
+     * @param height return value, computed height
+     */
+    void calcMinWidthAndHeight(int& width, int& height);
 
     /**
      * Overrides standard method.

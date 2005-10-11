@@ -21,6 +21,7 @@
 NodeWidget::NodeWidget(UMLView * view, UMLNode *n )
   : ResizableWidget(view, n) {
     UMLWidget::setBaseType(Uml::wt_Node);
+    setZ(m_origZ = 1);  // above box but below UMLWidget because may embed widgets
     calculateSize();
     update();
     setSize(100, 30);
@@ -127,15 +128,6 @@ void NodeWidget::calcMinWidthAndHeight(int& width, int& height) {
     width += DEPTH;
 
     height = (2*fontHeight) + DEPTH;
-}
-
-void NodeWidget::constrain(int& width, int& height) {
-    int minWidth, minHeight;
-    calcMinWidthAndHeight(minWidth, minHeight);
-    if (width < minWidth)
-        width = minWidth;
-    if (height < minHeight)
-        height = minHeight;
 }
 
 void NodeWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
