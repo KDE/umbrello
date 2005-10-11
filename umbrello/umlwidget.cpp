@@ -410,7 +410,7 @@ void UMLWidget::init() {
 
     // connect( m_pView, SIGNAL(sigColorChanged(int)), this, SLOT(slotColorChanged(int)));
     m_pObject = NULL;
-    setZ( 1 );
+    setZ(m_origZ = 2);  // default for most widgets
 }
 
 void UMLWidget::slotMenuSelection(int sel) {
@@ -794,9 +794,17 @@ void UMLWidget::slotRemovePopupMenu() {
     }
 }
 
-bool UMLWidget::onWidget(const QPoint & p) {
-    return ( x() <= p.x() && x() + width() >= p.x() &&
-             y() <= p.y() && y() + height() >= p.y() );
+int UMLWidget::onWidget(const QPoint & p) {
+    const int w = width();
+    const int h = height();
+    const int left = getX();
+    const int right = left + w;
+    const int top = getY();
+    const int bottom = top + h;
+    if (p.x() < left || p.x() > right ||
+        p.y() < top || p.y() > bottom)   // Qt coord.sys. origin in top left corner
+        return 0;
+    return (w + h) / 2;
 }
 
 void UMLWidget::moveBy(int dx, int dy) {
@@ -826,11 +834,11 @@ void UMLWidget::setSelected(bool _select) {
             }
         }//end if
         if (wt != wt_Text && wt != wt_Box) {
-            setZ(2);//keep text on top and boxes behind so don't touch Z value
+            setZ(9);//keep text on top and boxes behind so don't touch Z value
         }
     } else {
         if (wt != wt_Text && wt != wt_Box) {
-            setZ(1);
+            setZ(m_origZ);
         }
         if( m_bSelected )
             m_pView -> updateDocumentation( true );

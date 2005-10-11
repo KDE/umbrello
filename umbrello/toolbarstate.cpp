@@ -17,6 +17,7 @@
 #include "toolbarstate.h"
 #include "umlview.h"
 #include "umlwidget.h"
+#include "messagewidget.h"
 #include "associationwidget.h"
 #include "uml.h"
 
@@ -167,9 +168,6 @@ bool ToolBarState::setSelectedWidget(QMouseEvent * me)
     m_pUMLView->setMoveAssoc(NULL);
     m_pUMLView->setOnWidget(NULL);
 
-    UMLWidget* backup = 0;
-    UMLWidget* boxBackup = 0;
-
     // Check associations.
     AssociationWidgetListIt assoc_it(m_pUMLView->getAssociationList());
     AssociationWidget* assocwidget = 0;
@@ -187,12 +185,11 @@ bool ToolBarState::setSelectedWidget(QMouseEvent * me)
     m_pUMLView->setMoveAssoc(NULL);
 
     // Check messages.
-    MessageWidgetListIt mit( m_pUMLView->getMessageList() );
-    UMLWidget *obj = 0;
-    while ((obj = (UMLWidget*)mit.current()) != 0) {
+    for (MessageWidgetListIt mit(m_pUMLView->getMessageList()); mit.current(); ++mit) {
+        MessageWidget *obj = mit.current();
         if (obj->isVisible() && obj->onWidget(me->pos())) {
             m_pUMLView->setOnWidget( obj );
-            obj ->  mousePressEvent( me );
+            obj->mousePressEvent( me );
             m_bWidgetSelected = true;
             return true;
         }
@@ -200,42 +197,23 @@ bool ToolBarState::setSelectedWidget(QMouseEvent * me)
     }
 
     // Check widgets.
-    UMLWidgetListIt it( m_pUMLView->getWidgetList() );
-    obj = 0;
-    while ( (obj = it.current()) != 0 ) {
-        ++it;
-        if( !obj->isVisible() || !obj->onWidget(me->pos()) )
+    UMLWidget *smallestObj = 0;
+    int relativeSize = 10000;   // start with an arbitrary large number
+    for (UMLWidgetListIt it(m_pUMLView->getWidgetList()); it.current(); ++it) {
+        UMLWidget *obj = it.current();
+        if (!obj->isVisible())
             continue;
-        //Give text object priority,
-        //they can easily get into a position where
-        //you can't touch them.
-        //Give Boxes lowest priority, we want to be able to move things that
-        //are on top of them.
-        if (obj->getBaseType() == Uml::wt_Text)
-        {
-            m_pUMLView->setOnWidget( obj );
-            obj ->  mousePressEvent( me );
-            m_bWidgetSelected = true;
-            return true;
-        } else if (obj->getBaseType() == Uml::wt_Box) {
-            boxBackup = obj;
-        } else {
-            backup = obj;
+        const int s = obj->onWidget(me->pos());
+        if (!s)
+            continue;
+        if (s < relativeSize) {
+            relativeSize = s;
+            smallestObj = obj;
         }
     }
-    //if backup is set then let it have the event
-    if(backup) {
-        backup -> mousePressEvent( me );
-        m_pUMLView->setOnWidget( backup );
-
-        m_bWidgetSelected = true;
-        return true;
-    }
-    // Boxes have lower priority.
-    if (boxBackup) {
-        boxBackup -> mousePressEvent( me );
-        m_pUMLView->setOnWidget( boxBackup );
-
+    if (smallestObj) {
+        m_pUMLView->setOnWidget(smallestObj);
+        smallestObj->mousePressEvent(me);
         m_bWidgetSelected = true;
         return true;
     }

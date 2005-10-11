@@ -202,13 +202,15 @@ public:
     virtual void activate(IDChangeLog* ChangeLog = 0);
 
     /**
-     * Returns true if the given point is in the boundaries of the widget
+     * Returns 0 if the given point is not in the boundaries of the widget,
+     * else returns a number which is proportional to the size of the widget.
      *
      * @param p Point to be checked.
      *
-     * @return
+     * @return 0 if the given point is not in the boundaries of the widget;
+     *         (width()+height())/2 if the point is within the boundaries.
      */
-    virtual bool onWidget(const QPoint & p);
+    virtual int onWidget(const QPoint & p);
 
     /**
      * Draws the UMLWidget on the given paint device
@@ -624,7 +626,7 @@ protected:
      */
     bool m_bShiftPressed;
 
-    int            m_nOldX, m_nOldY, m_nPosX;
+    int            m_nOldX, m_nOldY, m_nPosX, m_origZ;
     ListPopupMenu *m_pMenu;
     UMLDoc        *m_pDoc;  ///< shortcut for UMLApp::app()->getDocument()
     int            m_nPressOffsetX, m_nPressOffsetY;

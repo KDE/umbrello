@@ -723,13 +723,19 @@ ObjectWidget * UMLView::onWidgetLine( const QPoint &point ) {
 }
 
 UMLWidget *UMLView::testOnWidget(QPoint p) {
-    UMLWidget *obj;
+    int relativeSize = 10000;  // start with an arbitrary large number
+    UMLWidget *obj, *retObj = NULL;
     UMLWidgetListIt it(m_WidgetList);
     for (UMLWidgetListIt it(m_WidgetList); (obj = it.current()) != NULL; ++it) {
-        if (obj->onWidget(p))
-            return obj;
+        const int s = obj->onWidget(p);
+        if (!s)
+            continue;
+        if (s < relativeSize) {
+            relativeSize = s;
+            retObj = obj;
+        }
     }
-    return NULL;
+    return retObj;
 }
 
 void UMLView::checkMessages(ObjectWidget * w) {

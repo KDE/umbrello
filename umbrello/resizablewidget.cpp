@@ -91,6 +91,17 @@ void ResizableWidget::mouseReleaseEvent(QMouseEvent* me) {
     }
 }
 
-void ResizableWidget::constrain(int& /*width*/, int& /*height*/) {
+void ResizableWidget::calcMinWidthAndHeight(int& width, int& height) {
+    width = 20;
+    height = 20;
+}
+
+void ResizableWidget::constrain(int& width, int& height) {
+    int minW, minH;
+    calcMinWidthAndHeight(minW, minH);
+    if (width < minW)
+        width = minW;
+    if (height < minH)
+        height = minH;
 }
 

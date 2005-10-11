@@ -322,9 +322,12 @@ public:
      *
      * @param p Point to be checked.
      *
-     * @return True if the point is on a visual part of the MessageWidget
+     * @return Non-zero if the point is on a part of the MessageWidget.
+     *         NB In case of a synchronous message, the empty space
+     *         between call line and return line does not count, i.e. if
+     *         the point is located in that space the function returns 0.
      */
-    bool onWidget(const QPoint & p);
+    int onWidget(const QPoint & p);
 
     /**
      * Overrides the standard operation.

@@ -256,25 +256,25 @@ void MessageWidget::drawCreation(QPainter& p, int offsetX, int offsetY) {
     }
 }
 
-bool MessageWidget::onWidget(const QPoint & p) {
+int MessageWidget::onWidget(const QPoint & p) {
     if (m_sequenceMessageType == Uml::sequence_message_asynchronous) {
         return UMLWidget::onWidget(p);
     }
     // Synchronous message:
     // Consists of top arrow (call) and bottom arrow (return.)
     if (p.x() < getX() || p.x() > getX() + getWidth())
-        return false;
+        return 0;
     const int tolerance = 5;  // pixels
     const int pY = p.y();
     const int topArrowY = getY() + 3;
     const int bottomArrowY = getY() + getHeight() - 3;
     if (pY < topArrowY - tolerance || pY > bottomArrowY + tolerance)
-        return false;
+        return 0;
     if (getHeight() <= 2 * tolerance)
-        return true;
+        return 1;
     if (pY > topArrowY + tolerance && pY < bottomArrowY - tolerance)
-        return false;
-    return true;
+        return 0;
+    return 1;
 }
 
 void MessageWidget::setTextPosition() {

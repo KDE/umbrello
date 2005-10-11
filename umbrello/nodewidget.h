@@ -50,9 +50,13 @@ public:
     void draw(QPainter& p, int offsetX, int offsetY);
 
     /**
-     * Overrides method from ResizableWidget.
+     * Compute the minimum possible width and height.
+     * Reimplement method from ResizableWidget.
+     *
+     * @param width  return value, computed width
+     * @param height return value, computed height
      */
-    void constrain(int& width, int& height);
+    void calcMinWidthAndHeight(int& width, int& height);
 
     /**
      * Saves to the <nodewidget> XMI element.
@@ -65,14 +69,6 @@ protected:
      * Automatically calculates the size of the object.
      */
     void calculateSize();
-
-    /**
-     * Compute the minimum possible width and height.
-     *
-     * @param width  return value, computed width
-     * @param height return value, computed height
-     */
-    void calcMinWidthAndHeight(int& width, int& height);
 
     static const int DEPTH = 30;  ///< pixels on Z axis
 };
