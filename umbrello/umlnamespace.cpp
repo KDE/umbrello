@@ -67,7 +67,7 @@ QString Visibility::toString(bool mnemonic) const {
     return toString(_v, mnemonic);
 }
 
-Visibility::operator Value() const {
+Visibility::operator Visibility::Value() const {
     return _v;
 }
 

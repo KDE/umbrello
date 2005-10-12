@@ -2379,7 +2379,9 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
     //   if this object is capable of containing nested objects then
     //     for each of the object's containedObjects
     //       if the containedObject has a widget representation on this view then
-    //         create the containment AssocWidget
+    //         if the containedWidget is not physically located inside this widget
+    //           create the containment AssocWidget
+    //         end if
     //       end if
     //     end loop
     //   end if
@@ -2487,6 +2489,9 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
             for (UMLWidget *w = m_WidgetList.first(); w; w = m_WidgetList.next()) {
                 if (w->getID() != id)
                     continue;
+                // if the containedWidget is not physically located inside this widget
+                if (widget->rect().contains(w->rect()))
+                    continue;
                 // create the containment AssocWidget
                 AssociationWidget *a = new AssociationWidget(this, widget,
                                        at_Containment, w);
@@ -2510,7 +2515,7 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
         if (pWidget->getID() == pkgID)
             break;
     }
-    if (pWidget == NULL)
+    if (pWidget == NULL || pWidget->rect().contains(widget->rect()))
         return;
     // create the containment AssocWidget
     AssociationWidget *a = new AssociationWidget(this, pWidget, at_Containment, widget);
