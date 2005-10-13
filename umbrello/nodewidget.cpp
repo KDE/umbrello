@@ -88,7 +88,7 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
     }
 
     if(m_bSelected) {
-        drawSelected(&p, offsetX, offsetY);
+        drawSelected(&p, offsetX, offsetY, true);
     }
 }
 
