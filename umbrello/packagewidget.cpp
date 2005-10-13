@@ -82,7 +82,7 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
                w, fontHeight, Qt::AlignCenter, name );
 
     if(m_bSelected) {
-        drawSelected(&p, offsetX, offsetY);
+        drawSelected(&p, offsetX, offsetY, true);
     }
 }
 
