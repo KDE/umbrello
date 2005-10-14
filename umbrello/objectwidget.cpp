@@ -159,6 +159,8 @@ void ObjectWidget::setMultipleInstance(bool multiple) {
 
 void ObjectWidget::activate(IDChangeLog* ChangeLog /*= 0*/) {
     UMLWidget::activate(ChangeLog);
+    if (m_bShowDestruction && m_pLine)
+        m_pLine->setupDestructionBox();
     moveEvent(0);
 }
 
