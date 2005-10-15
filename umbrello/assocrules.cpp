@@ -138,15 +138,15 @@ bool AssocRules::allowAssociation( Association_Type assocType,
     case at_Coll_Message:
     case at_Aggregation:
     case at_Relationship:
-    case at_Composition:
-    case at_Containment:
-        return true;//doesn't matter whats already connected to widget
+        return true;  // doesn't matter what's already connected to widget
         break;
 
+    case at_Composition:   // can't have mutual composition
+    case at_Containment:   // can't have mutual containment
     case at_Generalization://can have many sub/super types but can't sup/sub each
         while( ( assoc = it.current() ) ) {
             if( ( widgetA == assoc -> getWidget(A) || widgetA == assoc -> getWidget(B) )
-                    && assoc -> getAssocType() == at_Generalization )
+                    && assoc->getAssocType() == assocType )
                 return false;
             ++it;
         }
