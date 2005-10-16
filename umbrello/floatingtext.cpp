@@ -17,6 +17,7 @@
 #include <qregexp.h>
 #include <qpainter.h>
 #include <qevent.h>
+#include <qvalidator.h>
 #include <klocale.h>
 #include <kdebug.h>
 
@@ -29,6 +30,7 @@
 #include "listpopupmenu.h"
 #include "operation.h"
 #include "model_utils.h"
+#include "messagewidget.h"
 #include "inputdialog.h"
 #include "dialogs/assocpropdlg.h"
 #include "dialogs/selectopdlg.h"
@@ -150,6 +152,7 @@ void FloatingText::slotMenuSelection(int sel) {
 }
 
 void FloatingText::handleRename() {
+    QRegExpValidator v(QRegExp(".*"), 0);
     QString t;
     if( m_Role == Uml::tr_RoleAName || m_Role == Uml::tr_RoleBName ) {
         t = i18n("Enter role name:");
@@ -168,15 +171,43 @@ void FloatingText::handleRename() {
         t = i18n("ERROR");
     }
     bool ok = false;
-    QString newText = KInputDialog::getText(i18n("Rename"), t, getText(), &ok, m_pView);
-    if (!ok)
+    QString newText = KInputDialog::getText(i18n("Rename"), t, getText(), &ok,
+                                            m_pView, NULL, &v);
+    if (!ok || newText == getText())
         return;
-    bool valid = isTextValid(newText);
-    if (!valid || newText == getText()) {
-        if (!valid && m_Role == Uml::tr_Floating)
-            m_pView -> removeWidget(this);
-        calculateSize();
-        update();
+    if (m_pLink && !isTextValid(newText)) {
+        AssociationWidget *assoc = dynamic_cast<AssociationWidget*>(m_pLink);
+        if (assoc) {
+            switch (m_Role) {
+              case Uml::tr_MultiA:
+                assoc->setMulti(QString::null, Uml::A);
+                break;
+              case Uml::tr_MultiB:
+                assoc->setMulti(QString::null, Uml::B);
+                break;
+              case Uml::tr_RoleAName:
+                assoc->setRoleName(QString::null, Uml::A);
+                break;
+              case Uml::tr_RoleBName:
+                assoc->setRoleName(QString::null, Uml::B);
+                break;
+              case Uml::tr_ChangeA:
+                assoc->setChangeability(Uml::chg_Changeable, Uml::A);
+                break;
+              case Uml::tr_ChangeB:
+                assoc->setChangeability(Uml::chg_Changeable, Uml::B);
+                break;
+              default:
+                assoc->setName(QString::null);
+                break;
+            }
+        } else {
+            MessageWidget *msg = dynamic_cast<MessageWidget*>(m_pLink);
+            if (msg) {
+                msg->setName(QString::null);
+            }
+        }
+        m_pView->removeWidget(this);
         return;
     }
     if (m_pLink && m_Role != Uml::tr_Seq_Message && m_Role != Uml::tr_Seq_Message_Self) {
