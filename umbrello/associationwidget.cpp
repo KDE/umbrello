@@ -19,6 +19,7 @@
 #include <cmath>
 // qt/kde includes
 #include <qcanvas.h>
+#include <qvalidator.h>
 #include <kdebug.h>
 #include <klocale.h>
 #include <kcolordialog.h>
@@ -323,6 +324,11 @@ void AssociationWidget::setName(const QString &strName) {
             m_pName->setUMLObject(m_role[B].m_pWidget->getUMLObject());
     } else {
         m_pName->setText(strName);
+        if (strName.isEmpty()) {
+            m_pName->hide();
+            m_pName = NULL;
+            return;
+        }
     }
 
     // set attribute of UMLAssociation associated with this associationwidget
@@ -360,6 +366,11 @@ void AssociationWidget::setMulti(const QString &strMulti, Role_Type role) {
             newLabel = true;
         }
         m_role[role].m_pMulti->setText(strMulti);
+        if (strMulti.isEmpty()) {
+            m_role[role].m_pMulti->hide();
+            m_role[role].m_pMulti = NULL;
+            return;
+        }
     }
 
     m_role[role].m_pMulti->setActivated();
@@ -377,19 +388,19 @@ void AssociationWidget::setMulti(const QString &strMulti, Role_Type role) {
         getAssociation()->setMulti(strMulti, role);
 }
 
-bool AssociationWidget::setRoleName (const QString &strRole, Role_Type role) {
+void AssociationWidget::setRoleName (const QString &strRole, Role_Type role) {
     bool newLabel = false;
     Association_Type type = getAssocType();
     //if the association is not supposed to have a Role FloatingText
-    if( !AssocRules::allowRole( type ) )  {
-        return false;
+    if (!AssocRules::allowRole(type))  {
+        return;
     }
 
     Text_Role tr = (role == A ? tr_RoleAName : tr_RoleBName);
     if(!m_role[role].m_pRole) {
         // Don't construct the FloatingText if the string is empty.
         if (strRole.isEmpty())
-            return true;
+            return;
 
         newLabel = true;
         m_role[role].m_pRole = new FloatingText(m_pView, tr, strRole);
@@ -402,6 +413,11 @@ bool AssociationWidget::setRoleName (const QString &strRole, Role_Type role) {
             newLabel = true;
         }
         m_role[role].m_pRole->setText(strRole);
+        if (strRole.isEmpty()) {
+            m_role[role].m_pRole->hide();
+            m_role[role].m_pRole = NULL;
+            return;
+        }
     }
 
     // set attribute of UMLAssociation associated with this associationwidget
@@ -419,7 +435,6 @@ bool AssociationWidget::setRoleName (const QString &strRole, Role_Type role) {
         m_role[role].m_pRole -> show();
     else
         m_role[role].m_pRole -> hide();
-    return true;
 }
 
 void AssociationWidget::setRoleDoc (const QString &doc, Role_Type role) {
@@ -2206,17 +2221,16 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
     //work out if the association allows rolenames, multiplicity, etc
     //also must be within a certain distance to be a multiplicity menu
     ListPopupMenu::Menu_Type menuType = ListPopupMenu::mt_Undefined;
-    int pos = m_LinePath.count() - 1;
-    int DISTANCE = 40;//must be within this many pixels for it to be a multi menu
-    QPoint lpStart = m_LinePath.getPoint(0);
-    QPoint lpEnd = m_LinePath.getPoint(pos);
-    int startXDiff = lpStart.x() - p.x();
-    int startYDiff = lpStart.y() - p.y();
-    int endXDiff = lpEnd.x() - p.x();
-    int endYDiff = lpEnd.y() - p.y();
-    float lengthMAP = sqrt( double(startXDiff * startXDiff + startYDiff * startYDiff) );
-    float lengthMBP = sqrt( double(endXDiff * endXDiff + endYDiff * endYDiff) );
-    Association_Type type = getAssocType();
+    const int DISTANCE = 40;//must be within this many pixels for it to be a multi menu
+    const QPoint lpStart = m_LinePath.getPoint(0);
+    const QPoint lpEnd = m_LinePath.getPoint(m_LinePath.count() - 1);
+    const int startXDiff = lpStart.x() - p.x();
+    const int startYDiff = lpStart.y() - p.y();
+    const int endXDiff = lpEnd.x() - p.x();
+    const int endYDiff = lpEnd.y() - p.y();
+    const float lengthMAP = sqrt( double(startXDiff * startXDiff + startYDiff * startYDiff) );
+    const float lengthMBP = sqrt( double(endXDiff * endXDiff + endYDiff * endYDiff) );
+    const Association_Type type = getAssocType();
     //allow multiplicity
     if( AssocRules::allowMultiplicity( type, getWidget(A) -> getBaseType() ) ) {
         if(lengthMAP < DISTANCE)
@@ -2271,7 +2285,9 @@ bool AssociationWidget::showDialog() {
 void AssociationWidget::slotMenuSelection(int sel) {
     QString oldText, newText;
     QFont font;
+    QRegExpValidator v(QRegExp(".*"), 0);
     Uml::Association_Type atype = getAssocType();
+    Uml::Role_Type r = Uml::B;
 
     //if it's a collaboration message we now just use the code in floatingtextwidget
     //this means there's some redundant code below but that's better than duplicated code
@@ -2303,58 +2319,60 @@ void AssociationWidget::slotMenuSelection(int sel) {
         break;
 
     case ListPopupMenu::mt_Rename_MultiA:
-        if(m_role[A].m_pMulti)
-            oldText = m_role[A].m_pMulti -> getText();
-        else
-            oldText = "";
-        newText = KInputDialog::getText(i18n("Multiplicity"), i18n("Enter multiplicity:") , oldText, 0, m_pView);
-        if ( newText != oldText && FloatingText::isTextValid(newText) ) {
-            setMulti(newText, A);
-        }
-        break;
-
+        r = Uml::A;   // fall through
     case ListPopupMenu::mt_Rename_MultiB:
-        if(m_role[B].m_pMulti)
-            oldText = m_role[B].m_pMulti -> getText();
+        if (m_role[r].m_pMulti)
+            oldText = m_role[r].m_pMulti->getText();
         else
             oldText = "";
-        newText = KInputDialog::getText(i18n("Multiplicity"), i18n("Enter multiplicity:"), oldText, 0, m_pView);
-        if ( newText != oldText && FloatingText::isTextValid(newText) ) {
-            setMulti(newText, B);
+        newText = KInputDialog::getText(i18n("Multiplicity"),
+                                        i18n("Enter multiplicity:"),
+                                        oldText, NULL, m_pView, NULL, &v);
+        if (newText != oldText) {
+            if (FloatingText::isTextValid(newText)) {
+                setMulti(newText, r);
+            } else {
+                m_pView->removeWidget(m_role[r].m_pMulti);
+                m_role[r].m_pMulti = NULL;
+            }
         }
         break;
 
     case ListPopupMenu::mt_Rename_Name:
         if(m_pName)
-            oldText = m_pName-> getText();
+            oldText = m_pName->getText();
         else
             oldText = "";
-
-        newText = KInputDialog::getText(i18n("Association Name"), i18n("Enter association name:"), oldText, 0, m_pView);
-        if ( newText != oldText && FloatingText::isTextValid(newText) )
-            setName(newText);
-
-        break;
-
-    case ListPopupMenu::mt_Rename_RoleAName:
-        if(m_role[A].m_pRole)
-            oldText = m_role[A].m_pRole -> getText();
-        else
-            oldText = "";
-        newText = KInputDialog::getText(i18n("Role Name"), i18n("Enter role name:"), oldText, 0, m_pView);
-        if ( newText != oldText && FloatingText::isTextValid(newText) ) {
-            setRoleName(newText, A);
+        newText = KInputDialog::getText(i18n("Association Name"),
+                                        i18n("Enter association name:"),
+                                        oldText, NULL, m_pView, NULL, &v);
+        if (newText != oldText) {
+            if (FloatingText::isTextValid(newText)) {
+                setName(newText);
+            } else {
+                m_pView->removeWidget(m_pName);
+                m_pName = NULL;
+            }
         }
         break;
 
+    case ListPopupMenu::mt_Rename_RoleAName:
+        r = Uml::A;   // fall through
     case ListPopupMenu::mt_Rename_RoleBName:
-        if(m_role[B].m_pRole)
-            oldText = m_role[B].m_pRole -> getText();
+        if (m_role[r].m_pRole)
+            oldText = m_role[r].m_pRole->getText();
         else
             oldText = "";
-        newText = KInputDialog::getText(i18n("Role Name"), i18n("Enter role name:"), oldText, 0, m_pView);
-        if ( newText != oldText && FloatingText::isTextValid(newText) ) {
-            setRoleName(newText, B);
+        newText = KInputDialog::getText(i18n("Role Name"),
+                                        i18n("Enter role name:"),
+                                        oldText, NULL, m_pView, NULL, &v);
+        if (newText != oldText) {
+            if (FloatingText::isTextValid(newText)) {
+                setRoleName(newText, r);
+            } else {
+                m_pView->removeWidget(m_role[r].m_pRole);
+                m_role[r].m_pRole = NULL;
+            }
         }
         break;
 

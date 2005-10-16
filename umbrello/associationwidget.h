@@ -418,7 +418,7 @@ public:
      * For this function to work properly, the associated widget
      *  should already be set.
      */
-    bool setRoleName(const QString &strRole, Uml::Role_Type role);
+    void setRoleName(const QString &strRole, Uml::Role_Type role);
 
     /**
      * Set the documentation on the given role.
