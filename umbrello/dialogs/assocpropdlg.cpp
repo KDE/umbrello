@@ -109,7 +109,7 @@ void AssocPropDlg::setupFontPage()
     if( !m_pAssoc)
         return;
 
-    Q3VBox *page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts"));
+    KVBox *page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts"));
     m_pChooser = new KFontChooser( (QWidget*)page, "font", false, QStringList(), false);
     m_pChooser->setFont( m_pAssoc->getFont());
     m_pChooser->setSampleText(i18n("Association font"));

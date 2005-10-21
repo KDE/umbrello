@@ -92,7 +92,7 @@ void StateDialog::setupGeneralPage() {
     QString types[ ] = { i18n("Initial state"), i18n("State"), i18n("End state") };
     StateWidget::StateType type = m_pStateWidget -> getStateType();
 
-    Q3VBox * page = addVBoxPage( i18n("General"), i18n("General Properties"), DesktopIcon( "misc") );
+    KVBox * page = addVBoxPage( i18n("General"), i18n("General Properties"), DesktopIcon( "misc") );
     m_GenPageWidgets.generalGB = new Q3GroupBox( i18n( "Properties"), (QWidget *)page );
 
     QGridLayout * generalLayout = new QGridLayout( m_GenPageWidgets.generalGB, 2, 2 );
@@ -128,7 +128,7 @@ void StateDialog::setupGeneralPage() {
 void StateDialog::setupFontPage() {
     if ( !m_pStateWidget )
         return;
-    Q3VBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
+    KVBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
     m_pChooser = new KFontChooser( (QWidget*)page, "font", false, QStringList(), false);
     m_pChooser -> setFont( m_pStateWidget -> getFont() );
 }

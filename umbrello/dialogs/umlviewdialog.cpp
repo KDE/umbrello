@@ -68,7 +68,7 @@ void UMLViewDialog::setupPages()
 
 void UMLViewDialog::setupDiagramPropertiesPage()
 {
-    Q3VBox *page = addVBoxPage( i18n("General"), i18n("General Settings"), DesktopIcon( "misc") );
+    KVBox *page = addVBoxPage( i18n("General"), i18n("General Settings"), DesktopIcon( "misc") );
     m_diagramProperties = new DiagramPropertiesPage(page);
 
     m_diagramProperties->diagramName->setText( m_pView->getName() );
@@ -105,7 +105,7 @@ void UMLViewDialog::setupColorPage() {
 }
 
 void UMLViewDialog::setupFontPage() {
-    Q3VBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
+    KVBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
     m_pChooser = new KFontChooser( (QWidget*)page, "font", false, QStringList(), false);
     m_pChooser -> setFont( m_pView -> getOptionState().uiState.font );
 }

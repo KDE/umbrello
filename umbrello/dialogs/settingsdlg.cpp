@@ -50,7 +50,7 @@ SettingsDlg::~SettingsDlg() {}
 
 void SettingsDlg::setupUIPage() {
     //setup UI page
-    Q3VBox * page = addVBoxPage( i18n("User Interface"), i18n("User Interface Settings"), DesktopIcon( "window_list") );
+    KVBox * page = addVBoxPage( i18n("User Interface"), i18n("User Interface Settings"), DesktopIcon( "window_list") );
 
     m_UiWidgets.colorGB = new Q3GroupBox( i18n("Color"), page );
     QGridLayout * colorLayout = new QGridLayout( m_UiWidgets.colorGB, 3, 3 );
@@ -60,7 +60,8 @@ void SettingsDlg::setupUIPage() {
     m_UiWidgets.lineColorL = new QLabel( i18n("Line color:"), m_UiWidgets.colorGB );
     colorLayout -> addWidget( m_UiWidgets.lineColorL, 0, 0 );
 
-    m_UiWidgets.lineColorB = new KColorButton( m_pOptionState->uiState.lineColor, m_UiWidgets.colorGB );
+    m_UiWidgets.lineColorB = new KColorButton( m_pOptionState->uiState.lineColor );
+    m_UiWidgets.lineColorB->setObjectName( m_UiWidgets.colorGB );
     colorLayout -> addWidget( m_UiWidgets.lineColorB, 0, 1 );
 
     m_UiWidgets.lineDefaultB = new QPushButton( i18n("D&efault Color"), m_UiWidgets.colorGB );
@@ -69,7 +70,8 @@ void SettingsDlg::setupUIPage() {
     m_UiWidgets.fillColorL = new QLabel( i18n("Fill color:"), m_UiWidgets.colorGB );
     colorLayout -> addWidget( m_UiWidgets.fillColorL, 1, 0 );
 
-    m_UiWidgets.fillColorB = new KColorButton( m_pOptionState->uiState.fillColor, m_UiWidgets.colorGB );
+    m_UiWidgets.fillColorB = new KColorButton( m_pOptionState->uiState.fillColor );
+    m_UiWidgets.fillColorB->setObjectName( m_UiWidgets.colorGB );
     colorLayout -> addWidget( m_UiWidgets.fillColorB, 1, 1 );
 
     m_UiWidgets.fillDefaultB = new QPushButton( i18n("De&fault Color"), m_UiWidgets.colorGB );
@@ -102,7 +104,7 @@ void SettingsDlg::setupUIPage() {
 void SettingsDlg::setupGeneralPage() {
     //setup General page
 
-    Q3VBox * page = addVBoxPage( i18n("General"), i18n("General Settings"), DesktopIcon( "misc")  );
+    KVBox * page = addVBoxPage( i18n("General"), i18n("General Settings"), DesktopIcon( "misc")  );
 
     // Set up undo setting
     m_GeneralWidgets.miscGB = new Q3GroupBox( i18n("Miscellaneous"), page );
@@ -191,7 +193,7 @@ void SettingsDlg::setupGeneralPage() {
 void SettingsDlg::setupClassPage() {
     //setup class settings page
 
-    Q3VBox * page = addVBoxPage( i18n("Class"), i18n("Class Settings"), DesktopIcon( "edit")  );
+    KVBox * page = addVBoxPage( i18n("Class"), i18n("Class Settings"), DesktopIcon( "edit")  );
     m_ClassWidgets.visibilityGB = new Q3GroupBox( i18n("Visibility"), page );
 
     QGridLayout * visibilityLayout = new QGridLayout( m_ClassWidgets.visibilityGB );
@@ -257,19 +259,19 @@ void SettingsDlg::setupClassPage() {
 
 void SettingsDlg::setupCodeGenPage(CodeGenerator *gen, const QString &activeLanguage) {
     //setup code generation settings page
-    Q3VBox * page = addVBoxPage( i18n("Code Generation"), i18n("Code Generation Settings"), DesktopIcon( "source") );
+    KVBox * page = addVBoxPage( i18n("Code Generation"), i18n("Code Generation Settings"), DesktopIcon( "source") );
     m_pCodeGenPage = new CodeGenerationOptionsPage(gen, activeLanguage, page);
     connect( m_pCodeGenPage, SIGNAL(languageChanged()), this, SLOT(slotApply()) );
 }
 
 void SettingsDlg::setupCodeViewerPage(Settings::CodeViewerState options) {
     //setup code generation settings page
-    Q3VBox * page = addVBoxPage( i18n("Code Viewer"), i18n("Code Viewer Settings"), DesktopIcon( "source") );
+    KVBox * page = addVBoxPage( i18n("Code Viewer"), i18n("Code Viewer Settings"), DesktopIcon( "source") );
     m_pCodeViewerPage = new CodeViewerOptionsPage(options, page);
 }
 
 void SettingsDlg::setupFontPage() {
-    Q3VBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
+    KVBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
     m_FontWidgets.chooser = new KFontChooser( page, "font", false, QStringList(), false);
     m_FontWidgets.chooser->setFont( m_pOptionState->uiState.font );
 
