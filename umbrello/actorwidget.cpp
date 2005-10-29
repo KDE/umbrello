@@ -38,7 +38,9 @@ void ActorWidget::draw(QPainter & p, int offsetX, int offsetY) {
     const int textWidth = fm.width(getName());
     const int fontHeight = fm.lineSpacing();
     const int a_height = h - fontHeight - A_MARGIN;
-    const int a_width = (a_height/2 > w || w > textWidth + A_MARGIN * 2 ? w : a_height/2);
+    const int h2 = a_height / 2;
+    const int w2 = w - A_MARGIN * 2;
+    const int a_width = (h2 > w2 || w > textWidth + A_MARGIN * 2 ?  w2 : h2);
     const int middleX = w / 2;
     const int thirdY = a_height / 3;
 
