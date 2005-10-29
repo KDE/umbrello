@@ -102,7 +102,7 @@ void ClassifierWidget::updateSigs() {
         else if(m_ShowAttSigs == Uml::st_NoSig)
             m_ShowAttSigs = Uml::st_NoSigNoVis;
     }
-    calculateSize();
+    updateComponentSize();
     update();
 }
 
@@ -110,7 +110,7 @@ void ClassifierWidget::toggleShowStereotype()
 {
     m_bShowStereotype = !m_bShowStereotype;
     updateSigs();
-    calculateSize();
+    updateComponentSize();
     update();
 }
 
@@ -121,14 +121,14 @@ bool ClassifierWidget::getShowOps() const {
 void ClassifierWidget::setShowOps(bool _show) {
     m_bShowOperations = _show;
     updateSigs();
-    calculateSize();
+    updateComponentSize();
     update();
 }
 
 void ClassifierWidget::toggleShowOps() {
     m_bShowOperations = !m_bShowOperations;
     updateSigs();
-    calculateSize();
+    updateComponentSize();
     update();
 }
 
@@ -138,13 +138,13 @@ bool ClassifierWidget::getShowPublicOnly() const {
 
 void ClassifierWidget::setShowPublicOnly(bool _status) {
     m_bShowPublicOnly = _status;
-    calculateSize();
+    updateComponentSize();
     update();
 }
 
 void ClassifierWidget::toggleShowPublicOnly() {
     m_bShowPublicOnly = !m_bShowPublicOnly;
-    calculateSize();
+    updateComponentSize();
     update();
 }
 
@@ -155,14 +155,14 @@ bool ClassifierWidget::getShowVisibility() const {
 void ClassifierWidget::setShowVisibility(bool _visibility) {
     m_bShowAccess = _visibility;
     updateSigs();
-    calculateSize();
+    updateComponentSize();
     update();
 }
 
 void ClassifierWidget::toggleShowVisibility() {
     m_bShowAccess = !m_bShowAccess;
     updateSigs();
-    calculateSize();
+    updateComponentSize();
     update();
 }
 
@@ -180,7 +180,7 @@ void ClassifierWidget::setShowOpSigs(bool _status) {
         m_ShowOpSigs = Uml::st_ShowSig;
     else
         m_ShowOpSigs = Uml::st_SigNoVis;
-    calculateSize();
+    updateComponentSize();
     update();
 }
 
@@ -196,7 +196,7 @@ void ClassifierWidget::toggleShowOpSigs() {
     } else {
         m_ShowOpSigs = Uml::st_SigNoVis;
     }
-    calculateSize();
+    updateComponentSize();
     update();
 }
 
@@ -206,21 +206,21 @@ bool ClassifierWidget::getShowPackage() const {
 
 void ClassifierWidget::setShowPackage(bool _status) {
     m_bShowPackage = _status;
-    calculateSize();
+    updateComponentSize();
     update();
 }
 
 void ClassifierWidget::toggleShowPackage() {
     m_bShowPackage = !m_bShowPackage;
     updateSigs();
-    calculateSize();
+    updateComponentSize();
     update();
 }
 
 void ClassifierWidget::setOpSignature(Uml::Signature_Type sig) {
     m_ShowOpSigs = sig;
     updateSigs();
-    calculateSize();
+    updateComponentSize();
     update();
 }
 
@@ -228,14 +228,14 @@ void ClassifierWidget::setShowAtts(bool _show) {
     m_bShowAttributes = _show;
     updateSigs();
 
-    calculateSize();
+    updateComponentSize();
     update();
 }
 
 void ClassifierWidget::setAttSignature(Uml::Signature_Type sig) {
     m_ShowAttSigs = sig;
     updateSigs();
-    calculateSize();
+    updateComponentSize();
     update();
 }
 
@@ -252,7 +252,7 @@ void ClassifierWidget::setShowAttSigs(bool _status) {
         m_ShowAttSigs = Uml::st_SigNoVis;
     if (UMLApp::app()->getDocument()->loading())
         return;
-    calculateSize();
+    updateComponentSize();
     update();
 }
 
@@ -260,7 +260,7 @@ void ClassifierWidget::toggleShowAtts()
 {
     m_bShowAttributes = !m_bShowAttributes;
     updateSigs();
-    calculateSize();
+    updateComponentSize();
     update();
 }
 
@@ -278,7 +278,7 @@ void ClassifierWidget::toggleShowAttSigs()
     } else {
         m_ShowAttSigs = Uml::st_SigNoVis;
     }
-    calculateSize();
+    updateComponentSize();
     update();
 }
 
@@ -298,12 +298,12 @@ int ClassifierWidget::displayedOperations() {
     return displayedMembers(Uml::ot_Operation);
 }
 
-void ClassifierWidget::calculateSize() {
-    if( !m_pObject )
-        return;
+QSize ClassifierWidget::calculateSize() {
+    if (!m_pObject) {
+        return UMLWidget::calculateSize();
+    }
     if (m_bDrawAsCircle) {
-        calculateAsCircleSize();
-        return;
+        return calculateAsCircleSize();
     }
 
     const QFontMetrics &fm = getFontMetrics(UMLWidget::FT_NORMAL);
@@ -391,8 +391,7 @@ void ClassifierWidget::calculateSize() {
     // allow for width margin
     width += MARGIN * 2;
 
-    setSize(width, height);
-    adjustUnselectedAssocs( getX(), getY() );
+    return QSize(width, height);
 }
 
 void ClassifierWidget::slotMenuSelection(int sel) {
@@ -405,7 +404,7 @@ void ClassifierWidget::slotMenuSelection(int sel) {
             Uml::Object_Type ot = ListPopupMenu::convert_MT_OT(mt);
             if (doc->createChildObject(m_pObject, ot))
                 doc->setModified();
-            calculateSize();
+            updateComponentSize();
             update();
             break;
         }
@@ -458,7 +457,7 @@ void ClassifierWidget::slotMenuSelection(int sel) {
     case ListPopupMenu::mt_ChangeToClass_Selection:
         WidgetBase::m_Type = Uml::wt_Class;
         getClassifier()->setInterface(false);
-        calculateSize();
+        updateComponentSize();
         update();
         break;
 
@@ -466,7 +465,7 @@ void ClassifierWidget::slotMenuSelection(int sel) {
     case ListPopupMenu::mt_ChangeToInterface_Selection:
         WidgetBase::m_Type = Uml::wt_Interface;
         getClassifier()->setInterface(true);
-        calculateSize();
+        updateComponentSize();
         update();
         break;
 
@@ -490,7 +489,7 @@ QSize ClassifierWidget::calculateTemplatesBoxSize() {
     font.setItalic(false);
     font.setUnderline(false);
     font.setBold(false);
-    QFontMetrics fm(font);
+    const QFontMetrics fm(font);
 
     height = count * fm.lineSpacing() + (MARGIN*2);
 
@@ -554,7 +553,7 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
     QFont font = UMLWidget::getFont();
     font.setUnderline(false);
     font.setItalic(false);
-    QFontMetrics fm = UMLWidget::getFontMetrics(UMLWidget::FT_NORMAL);
+    const QFontMetrics fm = UMLWidget::getFontMetrics(UMLWidget::FT_NORMAL);
     const int fontHeight = fm.lineSpacing();
 
     //If there are any templates then draw them
@@ -671,8 +670,8 @@ void ClassifierWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY) {
     }
 }
 
-void ClassifierWidget::calculateAsCircleSize() {
-    QFontMetrics &fm = UMLWidget::getFontMetrics(UMLWidget::FT_ITALIC_UNDERLINE);
+QSize ClassifierWidget::calculateAsCircleSize() {
+    const QFontMetrics &fm = UMLWidget::getFontMetrics(UMLWidget::FT_ITALIC_UNDERLINE);
     const int fontHeight = fm.lineSpacing();
 
     int height = CIRCLE_SIZE + fontHeight;
@@ -689,8 +688,7 @@ void ClassifierWidget::calculateAsCircleSize() {
         width = nameWidth;
     width += MARGIN * 2;
 
-    setSize(width, height);
-    adjustAssocs( getX(), getY() );//adjust assoc lines
+    return QSize(width, height);
 }
 
 void ClassifierWidget::drawMembers(QPainter & p, Uml::Object_Type ot, Uml::Signature_Type sigType,
@@ -716,7 +714,7 @@ void ClassifierWidget::drawMembers(QPainter & p, Uml::Object_Type ot, Uml::Signa
 
 void ClassifierWidget::setDrawAsCircle(bool drawAsCircle) {
     m_bDrawAsCircle = drawAsCircle;
-    calculateSize();
+    updateComponentSize();
     update();
 }
 
@@ -727,7 +725,7 @@ bool ClassifierWidget::getDrawAsCircle() const {
 void ClassifierWidget::toggleDrawAsCircle() {
     m_bDrawAsCircle = !m_bDrawAsCircle;
     updateSigs();
-    calculateSize();
+    updateComponentSize();
     update();
 }
 

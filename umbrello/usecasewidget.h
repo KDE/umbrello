@@ -69,9 +69,9 @@ public:
 
 protected:
     /**
-     *  Calculates the size of the widget.
+     * Overrides method from UMLWidget
      */
-    void calculateSize();
+    QSize calculateSize();
 };
 
 #endif

@@ -16,7 +16,7 @@
 #define NOTEWIDGET_H
 
 //app includes
-#include "resizablewidget.h"
+#include "umlwidget.h"
 
 // forward declarations
 
@@ -34,7 +34,7 @@ class QTextEdit;
  * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class NoteWidget : public ResizableWidget {
+class NoteWidget : public UMLWidget {
     Q_OBJECT
 public:
 
@@ -68,9 +68,9 @@ public:
     void mouseDoubleClickEvent(QMouseEvent * /*me*/);
 
     /**
-     * Overrides method from ResizableWidget.
+     * Overrides method from UMLWidget.
      */
-    void constrain(int& width, int& height);
+    QSize calculateSize();
 
     /**
      * Returns the text in the box.

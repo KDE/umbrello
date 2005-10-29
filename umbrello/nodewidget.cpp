@@ -19,13 +19,13 @@
 #include <qpainter.h>
 
 NodeWidget::NodeWidget(UMLView * view, UMLNode *n )
-  : ResizableWidget(view, n) {
+  : UMLWidget(view, n) {
     UMLWidget::setBaseType(Uml::wt_Node);
     setZ(m_origZ = 1);  // above box but below UMLWidget because may embed widgets
-    calculateSize();
+    updateComponentSize();
     update();
     setSize(100, 30);
-    calculateSize();
+    updateComponentSize();
 }
 
 NodeWidget::~NodeWidget() {}
@@ -46,8 +46,8 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
     const int bodyHeight = h - hDepth;
     QFont font = UMLWidget::getFont();
     font.setBold(true);
-    QFontMetrics &fm = getFontMetrics(FT_BOLD);
-    int fontHeight  = fm.lineSpacing();
+    const QFontMetrics &fm = getFontMetrics(FT_BOLD);
+    const int fontHeight  = fm.lineSpacing();
     QString name = getName();
 
     QPointArray pointArray(5);
@@ -88,36 +88,25 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
     }
 
     if(m_bSelected) {
-        drawSelected(&p, offsetX, offsetY, true);
+        drawSelected(&p, offsetX, offsetY);
     }
 }
 
-void NodeWidget::calculateSize() {
-    int width, height;
-    calcMinWidthAndHeight(width, height);
-    if (getWidth() >= width && getHeight() >= height)
-        return;
-
-    setSize(width, height);
-    adjustAssocs( getX(), getY() );//adjust assoc lines
-}
-
-void NodeWidget::calcMinWidthAndHeight(int& width, int& height) {
-    width = height = 0;
+QSize NodeWidget::calculateSize() {
     if (m_pObject == NULL) {
-        kdDebug() << "NodeWidget::calcMinWidthAndHeight: m_pObject is NULL" << endl;
-        return;
+        kdDebug() << "NodeWidget::calculateSize: m_pObject is NULL" << endl;
+        return UMLWidget::calculateSize();
     }
 
-    QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
-    int fontHeight  = fm.lineSpacing();
+    const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
+    const int fontHeight  = fm.lineSpacing();
 
     QString name = m_pObject->getName();
     if ( UMLWidget::getIsInstance() ) {
         name = UMLWidget::getInstanceName() + " : " + name;
     }
 
-    width = fm.width(name);
+    int width = fm.width(name);
 
     int tempWidth = 0;
     if (!m_pObject->getStereotype().isEmpty()) {
@@ -127,7 +116,9 @@ void NodeWidget::calcMinWidthAndHeight(int& width, int& height) {
         width = tempWidth;
     width += DEPTH;
 
-    height = (2*fontHeight) + DEPTH;
+    int height = (2*fontHeight) + DEPTH;
+
+    return QSize(width, height);
 }
 
 void NodeWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {

@@ -1970,7 +1970,7 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation)
     for (int i = 0; i < 5; i++) {
         FloatingText *flotxt = ft[i];
         if (flotxt) {
-            flotxt->calculateSize();
+            flotxt->updateComponentSize();
             addWidget(flotxt);
         }
     }

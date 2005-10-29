@@ -15,7 +15,7 @@
 #ifndef PACKAGEWIDGET_H
 #define PACKAGEWIDGET_H
 
-#include "resizablewidget.h"
+#include "umlwidget.h"
 
 class UMLPackage;
 
@@ -30,7 +30,7 @@ class UMLPackage;
  * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class PackageWidget : public ResizableWidget {
+class PackageWidget : public UMLWidget {
 public:
 
     /**
@@ -47,15 +47,6 @@ public:
     virtual ~PackageWidget();
 
     /**
-     * Compute the minimum possible width and height.
-     * Reimplement method from ResizableWidget.
-     *
-     * @param width  return value, computed width
-     * @param height return value, computed height
-     */
-    void calcMinWidthAndHeight(int& width, int& height);
-
-    /**
      * Overrides standard method.
      */
     void draw(QPainter& p, int offsetX, int offsetY);
@@ -65,16 +56,17 @@ public:
      */
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
+protected:
+    /**
+     * Overrides method from UMLWidget
+     */
+    QSize calculateSize();
+
 private:
     /**
      * Initializes key variables of the class.
      */
     void init();
-
-    /**
-     * Automatically calculates the size of the object.
-     */
-    void calculateSize();
 
     /**
      * The right mouse button menu.

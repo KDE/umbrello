@@ -62,16 +62,16 @@ public:
     bool loadFromXMI(QDomElement& qElement);
 
 protected:
+    /**
+     * Overrides method from UMLWidget.
+     */
+    QSize calculateSize();
 
 private:
     /**
      * Initializes key variables of the class.
      */
     void init();
-    /**
-     * Automatically calculates the size of the object.
-     */
-    void calculateSize();
 
     /**
      * The right mouse button menu.

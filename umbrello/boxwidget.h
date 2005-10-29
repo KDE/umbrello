@@ -17,7 +17,7 @@
 //qt includes
 #include <qpainter.h>
 //app includes
-#include "resizablewidget.h"
+#include "umlwidget.h"
 
 // fwd decl.
 class UMLView;
@@ -32,7 +32,7 @@ class UMLView;
  * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class BoxWidget : public ResizableWidget {
+class BoxWidget : public UMLWidget {
 public:
 
     /**

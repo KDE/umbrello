@@ -103,8 +103,11 @@ UMLWidget& UMLWidget::operator=(const UMLWidget& other) {
     m_pObject = other.m_pObject;
     m_pView = other.m_pView;
     m_pMenu = other.m_pMenu;
+    m_bResizing = other.m_bResizing;
     m_nPressOffsetX = other.m_nPressOffsetX;
     m_nPressOffsetY = other.m_nPressOffsetY;
+    m_nOldH = other.m_nOldH;
+    m_nOldW = other.m_nOldW;
     for (unsigned i = 0; i < FT_INVALID; i++)
         m_pFontMetrics[i] = other.m_pFontMetrics[i];
     m_bActivated = other.m_bActivated;
@@ -235,30 +238,47 @@ QPoint UMLWidget::doMouseMove(QMouseEvent* me) {
 }
 
 void UMLWidget::mouseMoveEvent(QMouseEvent* me) {
-    if( m_bMouseDown || me->button() == Qt::LeftButton ) {
-        QPoint newPosition = doMouseMove(me);
-        int newX = newPosition.x();
-        int newY = newPosition.y();
-        // kdDebug() << "UMLWidget::mouseMoveEvent(" << me->pos().x()
-        //           << "," << me->pos().y() << "): newPoint=("
-        //           << newX << "," << newY << ")" << endl;
-
-        m_nOldX = newX;
-        m_nOldY = newY;
-        setX( newX );
-        setY( newY );
-        if (lastUpdate.elapsed() > 25) {
-            //adjustAssocs(newX, newY);
-            adjustUnselectedAssocs(newX, newY);
-            if (m_Type == Uml::wt_Class) {
-                ClassifierWidget *cw = static_cast<ClassifierWidget*>(this);
-                AssociationWidget *clAssocW = cw->getClassAssocWidget();
-                if (clAssocW)
-                    clAssocW->computeAssocClassLine();
-            }
-            m_pView->resizeCanvasToItems();
-            lastUpdate.restart();
+    if (m_bResizing) {
+        if (!m_bMouseDown)
+            return;
+        int newX = me->x();
+        int newY = me->y();
+        if (! m_bIgnoreSnapToGrid) {
+            newX = m_pView->snappedX( newX );
+            newY = m_pView->snappedY( newY );
         }
+        int newW = m_nOldW + newX - m_nOldX - m_nPressOffsetX;
+        int newH = m_nOldH + newY - m_nOldY - m_nPressOffsetY;
+        constrain(newW, newH);
+        setSize(newW, newH);
+        adjustAssocs(getX(), getY());
+        return;
+    }
+    if (!m_bMouseDown && me->button() != Qt::LeftButton)
+        return;
+
+    QPoint newPosition = doMouseMove(me);
+    int newX = newPosition.x();
+    int newY = newPosition.y();
+    // kdDebug() << "UMLWidget::mouseMoveEvent(" << me->pos().x()
+    //           << "," << me->pos().y() << "): newPoint=("
+    //           << newX << "," << newY << ")" << endl;
+
+    m_nOldX = newX;
+    m_nOldY = newY;
+    setX( newX );
+    setY( newY );
+    if (lastUpdate.elapsed() > 25) {
+        //adjustAssocs(newX, newY);
+        adjustUnselectedAssocs(newX, newY);
+        if (m_Type == Uml::wt_Class) {
+            ClassifierWidget *cw = static_cast<ClassifierWidget*>(this);
+            AssociationWidget *clAssocW = cw->getClassAssocWidget();
+            if (clAssocW)
+                clAssocW->computeAssocClassLine();
+        }
+        m_pView->resizeCanvasToItems();
+        lastUpdate.restart();
     }
 }
 
@@ -319,17 +339,43 @@ void UMLWidget::mousePressEvent(QMouseEvent *me) {
     m_bSelected = _select;
     setSelected(m_bSelected);
     m_pView->setSelected(this, me);
+
+    m_nOldW = width();
+    m_nOldH = height();
+    const int m = 10;
+    //see if clicked on bottom right corner
+    if( (m_nOldX + m_nPressOffsetX) >= (getX() + width() - m) &&
+        (m_nOldY + m_nPressOffsetY) >= (getY() + height() - m) && me->button() == Qt::LeftButton) {
+        m_bResizing = true;
+        m_pView->setCursor(WidgetBase::m_Type == Uml::wt_Message ?
+                           KCursor::sizeVerCursor() : KCursor::sizeFDiagCursor());
+    } else {
+        m_bResizing = false;
+        m_pView -> setCursor(KCursor::arrowCursor());
+    }
 }
 
 void UMLWidget::updateWidget()
 {
-    calculateSize();
+    updateComponentSize();
     adjustAssocs( getX(), getY() ); //adjust assoc lines.
     if (m_Type == Uml::wt_Class) {
         m_pView->createAutoAttributeAssociations(this);
     }
     if(isVisible())
         update();
+}
+
+QSize UMLWidget::calculateSize() {
+    return QSize(20, 20);
+}
+
+void UMLWidget::constrain(int& width, int& height) {
+    const QSize minSize = calculateSize();
+    if (width < minSize.width())
+        width = minSize.width();
+    if (height < minSize.height())
+        height = minSize.height();
 }
 
 void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
@@ -363,6 +409,12 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
     if (me->stateAfter() != Qt::ShiftButton || me->stateAfter() != Qt::ControlButton) {
         m_pView->setAssoc(this);
     }
+
+    if (m_bResizing) {
+        m_bResizing = false;
+        m_pView->setCursor( KCursor::arrowCursor() );
+        UMLApp::app()->getDocument()->setModified(true);
+    }
 }
 
 void UMLWidget::init() {
@@ -385,6 +437,7 @@ void UMLWidget::init() {
     for (int i = 0; i < (int)FT_INVALID; ++i)
         m_pFontMetrics[(UMLWidget::FontType)i] = 0;
 
+    m_bResizing = false;
     m_bMouseOver = false;
 
     m_bMouseDown = false;
@@ -399,6 +452,7 @@ void UMLWidget::init() {
     m_pMenu = 0;
     m_pDoc = UMLApp::app()->getDocument();
     m_nPosX = m_nOldX = m_nOldY = 0;
+    m_nOldH = m_nOldW = 0;
     connect( m_pView, SIGNAL( sigRemovePopupMenu() ), this, SLOT( slotRemovePopupMenu() ) );
     connect( m_pView, SIGNAL( sigClearAllSelected() ), this, SLOT( slotClearAllSelected() ) );
 
@@ -612,7 +666,7 @@ void UMLWidget::setFillColour(const QColor &colour) {
     update();
 }
 
-void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY, bool resizeable /*=false*/) {
+void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY, bool resizeable) {
     int w = width();
     int h = height();
     int s = 4;
@@ -621,21 +675,24 @@ void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY, bool resize
     p -> fillRect(offsetX, offsetY + h - s, s, s, brush);
     p -> fillRect(offsetX + w - s, offsetY, s, s, brush);
 
+    // Draw the resize anchor in the lower right corner.
     if (resizeable) {
         brush.setColor(Qt::red);
-        p->drawLine(offsetX + w - s, offsetY + h - 1, offsetX + w - 1, offsetY + h - s);
-        p->drawLine(offsetX + w - (s*2), offsetY + h - 1, offsetX + w - 1, offsetY + h - (s*2) );
-        p->drawLine(offsetX + w - (s*3), offsetY + h - 1, offsetX + w - 1, offsetY + h - (s*3) );
-    } else {
-        p->fillRect(offsetX + w - s, offsetY + h - s, s, s, brush);
-    }
+        const int right = offsetX + w;
+        const int bottom = offsetY + h;
+        p->drawLine(right - s, offsetY + h - 1, offsetX + w - 1, offsetY + h - s);
+        p->drawLine(right - (s*2), bottom - 1, right - 1, bottom - (s*2) );
+        p->drawLine(right - (s*3), bottom - 1, right - 1, bottom - (s*3) );
+     } else {
+         p->fillRect(offsetX + w - s, offsetY + h - s, s, s, brush);
+     }
 }
 
 void UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
     setFont( m_Font );
     setSize( getWidth(), getHeight() );
     m_bActivated = true;
-    calculateSize();
+    updateComponentSize();
     if( m_pView -> getPastePoint().x() != 0 ) {
         FloatingText * ft = 0;
         QPoint point = m_pView -> getPastePoint();
@@ -678,7 +735,7 @@ void UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
     }
     if ( m_pView -> getPaste() )
         m_pView -> createAutoAssociations( this );
-    calculateSize();
+    updateComponentSize();
 }
 
 /** Read property of bool m_bActivated. */
@@ -888,7 +945,7 @@ void UMLWidget::setName(const QString &strName) {
         m_pObject->setName(strName);
     else
         m_Text = strName;
-    calculateSize();
+    updateComponentSize();
     adjustAssocs( getX(), getY() );
 }
 
@@ -950,8 +1007,14 @@ void UMLWidget::setSize(int width,int height) {
     QCanvasRectangle::setSize(width,height);
 }
 
-void UMLWidget::updateComponentSize(){
-    calculateSize();
+void UMLWidget::updateComponentSize() {
+    const QSize minSize = calculateSize();
+    const int w = minSize.width();
+    const int h = minSize.height();
+    if (getWidth() >= w && getHeight() >= h)
+        return;
+    setSize(w, h);
+    adjustAssocs( getX(), getY() );  // adjust assoc lines
 }
 
 void UMLWidget::setDefaultFontMetrics(UMLWidget::FontType fontType) {
@@ -1049,12 +1112,12 @@ void UMLWidget::forceUpdateFontMetrics(QPainter *painter) {
         }
     }
     // calculate the size, based on the new font metric
-    calculateSize();
+    updateComponentSize();
 }
 
 void UMLWidget::setShowStereotype(bool _status) {
     m_bShowStereotype = _status;
-    calculateSize();
+    updateComponentSize();
     update();
 }
 

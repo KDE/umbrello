@@ -22,7 +22,7 @@ ComponentWidget::ComponentWidget(UMLView * view, UMLComponent *c)
   : UMLWidget(view, c) {
     init();
     setSize(100, 30);
-    calculateSize();
+    updateComponentSize();
     UMLWidget::setBaseType(Uml::wt_Component);
 }
 
@@ -36,7 +36,7 @@ void ComponentWidget::init() {
     }
     //maybe loading and this may not be set.
     if (m_pObject) {
-        calculateSize();
+        updateComponentSize();
         update();
     }
 }
@@ -59,19 +59,18 @@ void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY) {
         p.setBrush( m_pView->viewport()->backgroundColor() );
     }
 
-    int w = width();
-    int h = height();
+    const int w = width();
+    const int h = height();
     QFont font = UMLWidget::getFont();
     font.setBold(true);
-    QFontMetrics &fm = getFontMetrics(FT_BOLD);
-    int fontHeight  = fm.lineSpacing();
+    const QFontMetrics &fm = getFontMetrics(FT_BOLD);
+    const int fontHeight = fm.lineSpacing();
     QString name = getName();
-    QString stereotype = m_pObject->getStereotype();
+    const QString stereotype = m_pObject->getStereotype();
 
-    p.drawRect(offsetX + 2*COMPONENT_MARGIN, offsetY,
-               w - 2*COMPONENT_MARGIN, 3*COMPONENT_MARGIN + 2*fontHeight);
-    p.drawRect(offsetX, offsetY + COMPONENT_MARGIN, COMPONENT_MARGIN*4, fontHeight);
-    p.drawRect(offsetX, offsetY + COMPONENT_MARGIN*2 + fontHeight, COMPONENT_MARGIN*4, fontHeight);
+    p.drawRect(offsetX + 2*COMPONENT_MARGIN, offsetY, w - 2*COMPONENT_MARGIN, h);
+    p.drawRect(offsetX, offsetY + h/2 - fontHeight/2 - fontHeight, COMPONENT_MARGIN*4, fontHeight);
+    p.drawRect(offsetX, offsetY + h/2 + fontHeight/2, COMPONENT_MARGIN*4, fontHeight);
 
     p.setPen( QPen(Qt::black) );
     p.setFont(font);
@@ -104,34 +103,32 @@ void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY) {
     }
 }
 
-void ComponentWidget::calculateSize() {
+QSize ComponentWidget::calculateSize() {
     if ( !m_pObject) {
-        return;
+        return QSize(70, 70);
     }
-    int width, height;
-
-    QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
-    int fontHeight  = fm.lineSpacing();
+    const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
+    const int fontHeight = fm.lineSpacing();
 
     QString name = m_pObject->getName();
     if ( UMLWidget::getIsInstance() ) {
         name = UMLWidget::getInstanceName() + " : " + name;
     }
 
-    width = fm.width(name);
+    int width = fm.width(name);
 
-    int tempWidth = 0;
-    if(!m_pObject->getStereotype().isEmpty()) {
-        tempWidth = fm.width(m_pObject->getStereotype(true));
+    int stereoWidth = 0;
+    if (!m_pObject->getStereotype().isEmpty()) {
+        stereoWidth = fm.width(m_pObject->getStereotype(true));
     }
-    width = tempWidth>width ? tempWidth : width;
+    if (stereoWidth > width)
+        width = stereoWidth;
     width += COMPONENT_MARGIN * 6;
     width = 70>width ? 70 : width; //minumin width of 70
 
-    height = (2*fontHeight) + (COMPONENT_MARGIN * 3);
+    int height = (2*fontHeight) + (COMPONENT_MARGIN * 3);
 
-    setSize(width, height);
-    adjustAssocs( getX(), getY() );//adjust assoc lines
+    return QSize(width, height);
 }
 
 void ComponentWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {

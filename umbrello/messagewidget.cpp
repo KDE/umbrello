@@ -31,7 +31,7 @@
 MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
                              int y, Uml::Sequence_Message_Type sequenceMessageType,
                              Uml::IDType id /* = Uml::id_None */)
-        : ResizableWidget(view, id) {
+        : UMLWidget(view, id) {
     init();
     m_pOw[Uml::A] = a;
     m_pOw[Uml::B] = b;
@@ -51,7 +51,7 @@ MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
 }
 
 MessageWidget::MessageWidget(UMLView * view, Uml::Sequence_Message_Type seqMsgType, Uml::IDType id)
-        : ResizableWidget(view, id) {
+        : UMLWidget(view, id) {
     init();
     m_sequenceMessageType = seqMsgType;
 }
@@ -169,7 +169,7 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY) {
     }
 
     if(m_bSelected) {
-        drawSelected(&p, offsetX, offsetY, true);
+        drawSelected(&p, offsetX, offsetY);
     }
 }
 
@@ -212,11 +212,8 @@ void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY) {
         drawArrow(p, offsetX, offsetY + 4, w, Qt::LeftArrow);
     }
 
-    if (m_bSelected && m_pOw[Uml::A] == m_pOw[Uml::B]) {
-        drawSelected(&p, offsetX, offsetY, true);
-    } else if (m_bSelected) {
-        drawSelected(&p, offsetX, offsetY);
-    }
+    if (m_bSelected)
+        drawSelected(&p, offsetX, offsetY, m_pOw[Uml::A] == m_pOw[Uml::B]);
 }
 
 void MessageWidget::drawCreation(QPainter& p, int offsetX, int offsetY) {
@@ -244,11 +241,8 @@ void MessageWidget::drawCreation(QPainter& p, int offsetX, int offsetY) {
         drawArrow(p, offsetX, lineY, w, Qt::LeftArrow);
     }
 
-    if (m_bSelected && m_pOw[Uml::A] == m_pOw[Uml::B]) {
-        drawSelected(&p, offsetX, offsetY, true);
-    } else if (m_bSelected) {
-        drawSelected(&p, offsetX, offsetY);
-    }
+    if (m_bSelected)
+        drawSelected(&p, offsetX, offsetY, false);
 }
 
 int MessageWidget::onWidget(const QPoint & p) {
@@ -280,7 +274,7 @@ void MessageWidget::setTextPosition() {
     }
     if (m_pFText->getText().isEmpty())
         return;
-    m_pFText->calculateSize();
+    m_pFText->updateComponentSize();
     int ftX = constrainX(m_pFText->getX(), m_pFText->getWidth(), m_pFText->getRole());
     int ftY = getY() - m_pFText->getHeight();
     m_pFText->setX( ftX );
@@ -744,7 +738,7 @@ void MessageWidget::mousePressEvent(QMouseEvent* me) {
             m_pOw[Uml::A] != m_pOw[Uml::B] ) {
         return;
     }
-    ResizableWidget::mousePressEvent(me);
+    UMLWidget::mousePressEvent(me);
 }
 
 void MessageWidget::setWidget(ObjectWidget * ow, Uml::Role_Type role) {

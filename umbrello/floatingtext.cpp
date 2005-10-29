@@ -42,7 +42,7 @@ FloatingText::FloatingText(UMLView * view, Uml::Text_Role role, QString text, Um
     m_Text = text;
     m_Role = role;
     if ( ! UMLApp::app()->getDocument()->loading() ) {
-        calculateSize();
+        updateComponentSize();
         setZ( 10 );//make sure always on top.
         update();
     }
@@ -75,11 +75,11 @@ void FloatingText::draw(QPainter & p, int offsetX, int offsetY) {
 
 void FloatingText::resizeEvent(QResizeEvent * /*re*/) {}
 
-void FloatingText::calculateSize() {
-    QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+QSize FloatingText::calculateSize() {
+    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     int h = fm.lineSpacing();
     int w = fm.width( getDisplayText() );
-    setSize( w + 8, h + 4 );//give a small margin
+    return QSize(w + 8, h + 4);  // give a small margin
 }
 
 void FloatingText::slotMenuSelection(int sel) {
@@ -217,7 +217,7 @@ void FloatingText::handleRename() {
         UMLApp::app()->getDocument()->setModified(true);
     }
     setVisible( true );
-    calculateSize();
+    updateComponentSize();
     update();
 }
 
@@ -233,20 +233,20 @@ void FloatingText::setText(const QString &t) {
             m_Text = t;
     } else
         m_Text = t;
-    calculateSize();
+    updateComponentSize();
     update();
 }
 
 void FloatingText::setPreText (const QString &t)
 {
     m_PreText = t;
-    calculateSize();
+    updateComponentSize();
     update();
 }
 
 void FloatingText::setPostText(const QString &t) {
     m_PostText = t;
-    calculateSize();
+    updateComponentSize();
     update();
 }
 
@@ -257,7 +257,7 @@ void FloatingText::changeTextDlg() {
     if(ok && newText != getText() && isTextValid(newText)) {
         setText( newText );
         setVisible( ( getText().length() > 0 ) );
-        calculateSize();
+        updateComponentSize();
         update();
     }
     if(!isTextValid(newText))
@@ -456,7 +456,7 @@ void FloatingText::setMessageText() {
     if (m_pLink)
         m_pLink->setMessageText(this);
     setVisible(getText().length() > 0);
-    calculateSize();
+    updateComponentSize();
 }
 
 

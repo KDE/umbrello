@@ -293,9 +293,9 @@ protected:
     QSize calculateTemplatesBoxSize();
 
     /**
-     * Method for automatically computing the size of the object.
+     * Overrides method from UMLWidget.
      */
-    void calculateSize();
+    QSize calculateSize();
 
     /**
      * Draws the interface as a circle with name underneath.
@@ -307,13 +307,7 @@ protected:
      * Calculates the size of the object when drawn as a circle.
      * Only applies when m_pObject->getBaseType() is ot_Interface.
      */
-    void calculateAsCircleSize();
-
-    /**
-     * Automatically calculates the size of the object when drawn as
-     * a concept.
-     */
-    void calculateAsConceptSize();
+    QSize calculateAsCircleSize();
 
     /**
      * Updates m_ShowOpSigs to match m_bShowVisibility.

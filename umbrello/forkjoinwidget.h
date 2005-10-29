@@ -43,11 +43,6 @@ public:
     virtual ~ForkJoinWidget();
 
     /**
-     * Overrides the function from UMLWidget.
-     */
-    void calculateSize();
-
-    /**
      * Set whether to draw the plate vertically.
      */
     void setDrawVertical(bool to);
@@ -62,11 +57,6 @@ public:
      * @param sel  The command to be executed.
      */
     void slotMenuSelection(int sel);
-
-    /**
-     * Reimplement method from BoxWidget.
-     */
-    void constrain(int& width, int& height);
 
     /**
      * Draws a slim solid black rectangle.
@@ -89,7 +79,17 @@ protected:
      * Although the ForkJoinWidget supports resizing, we suppress the
      * resize corner because it is too large for this very slim widget.
      */
-    void drawSelected(QPainter * p, int offsetX, int offsetY, bool resizeable = false);
+    void drawSelected(QPainter * p, int offsetX, int offsetY, bool resizeable = true);
+
+    /**
+    * Overrides the function from UMLWidget.
+    */
+    QSize calculateSize();
+
+    /**
+     * Reimplement method from UMLWidget.
+     */
+    void constrain(int& width, int& height);
 
 private:
     /**

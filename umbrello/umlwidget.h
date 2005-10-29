@@ -502,13 +502,24 @@ public:
 
 protected:
     /**
+     * Apply possible constraints to the given candidate width and height.
+     * The default implementation calls calculateSize() and
+     * assigns the returned values if they are greater than the
+     * input values.
+     *
+     * @param width  input value, may be modified by the constraint
+     * @param height input value, may be modified by the constraint
+     */
+    virtual void constrain(int& width, int& height);
+
+    /**
      * Draws that the widget is selected.
      *
      * @param p Device on which is the selection is to be drawn.
      * @param offsetX The x-coordinate for drawing.
      * @param offsetY The y-coordinate for drawing.
      */
-    virtual void drawSelected(QPainter * p, int offsetX, int offsetY, bool resizeable = false);
+    virtual void drawSelected(QPainter * p, int offsetX, int offsetY, bool resizeable = true);
 
     /**
      * Overrides default method.
@@ -518,9 +529,12 @@ protected:
     virtual void drawShape(QPainter &p );
 
     /**
-     * Calculates the size of the widget.
+     * Compute the minimum possible width and height.
+     * The default implementation returns width=20, height=20.
+     *
+     * @return QSize(mininum_width, minimum_height)
      */
-    virtual void calculateSize() {}
+    virtual QSize calculateSize();
 
     typedef enum {
         FT_NORMAL = 0,
@@ -626,7 +640,9 @@ protected:
     int            m_nOldX, m_nOldY, m_nPosX, m_origZ;
     ListPopupMenu *m_pMenu;
     UMLDoc        *m_pDoc;  ///< shortcut for UMLApp::app()->getDocument()
+    bool           m_bResizing;
     int            m_nPressOffsetX, m_nPressOffsetY;
+    int            m_nOldH, m_nOldW;
     QFontMetrics  *m_pFontMetrics[FT_INVALID];
 
     /**

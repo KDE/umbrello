@@ -21,7 +21,7 @@
 
 ActorWidget::ActorWidget(UMLView * view, UMLActor *a) : UMLWidget(view, a) {
     UMLWidget::setBaseType( Uml::wt_Actor );
-    //calculateSize();  Doing this during loadFromXMI() gives futile updates.
+    //updateComponentSize();  Doing this during loadFromXMI() gives futile updates.
     //                  Instead, it is done afterwards by UMLWidget::activate()
 }
 
@@ -31,38 +31,43 @@ void ActorWidget::draw(QPainter & p, int offsetX, int offsetY) {
     UMLWidget::setPen(p);
     if( UMLWidget::getUseFillColour() )
         p.setBrush( UMLWidget::getFillColour() );
-    int w = width();
-    int textStartY = A_HEIGHT + A_MARGIN;
+    const int w = width();
+    const int h = height();
     p.setFont( UMLWidget::getFont() );
-    QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    int fontHeight  = fm.lineSpacing();
-
-    int middleX = w / 2;
-    int thirdY = A_HEIGHT / 3;
+    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+    const int textWidth = fm.width(getName());
+    const int fontHeight = fm.lineSpacing();
+    const int a_height = h - fontHeight - A_MARGIN;
+    const int a_width = (a_height/2 > w || w > textWidth + A_MARGIN * 2 ? w : a_height/2);
+    const int middleX = w / 2;
+    const int thirdY = a_height / 3;
 
     //draw actor
-    p.drawEllipse(offsetX + middleX - A_WIDTH / 2, offsetY,  A_WIDTH, thirdY);//head
-    p.drawLine(offsetX + middleX, offsetY + thirdY, offsetX + middleX, offsetY + thirdY * 2);//body
-    p.drawLine(offsetX + middleX, offsetY + 2 * thirdY, offsetX + middleX - A_WIDTH / 2, offsetY + A_HEIGHT);//left leg
-    p.drawLine(offsetX + middleX, offsetY +  2 * thirdY, offsetX + middleX + A_WIDTH / 2, offsetY + A_HEIGHT);//right leg
-    p.drawLine(offsetX + middleX - A_WIDTH / 2, offsetY + thirdY + thirdY / 2, offsetX + middleX + A_WIDTH / 2, offsetY + thirdY + thirdY / 2);//arms
+    p.drawEllipse(offsetX + middleX - a_width / 2, offsetY, a_width, thirdY); //head
+    p.drawLine(offsetX + middleX, offsetY + thirdY,
+               offsetX + middleX, offsetY + thirdY * 2); //body
+    p.drawLine(offsetX + middleX, offsetY + 2 * thirdY,
+               offsetX + middleX - a_width / 2, offsetY + a_height); //left leg
+    p.drawLine(offsetX + middleX, offsetY +  2 * thirdY,
+               offsetX + middleX + a_width / 2, offsetY + a_height); //right leg
+    p.drawLine(offsetX + middleX - a_width / 2, offsetY + thirdY + thirdY / 2,
+               offsetX + middleX + a_width / 2, offsetY + thirdY + thirdY / 2); //arms
     //draw text
     p.setPen(QPen(Qt::black));
-    p.drawText(offsetX + A_MARGIN, offsetY + textStartY, w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
+    p.drawText(offsetX + A_MARGIN, offsetY + h - fontHeight,
+               w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
     if(m_bSelected)
         drawSelected(&p, offsetX, offsetY);
 }
 
-void ActorWidget::calculateSize() {
-    QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    int fontHeight  = fm.lineSpacing();
-    int textWidth = fm.width(getName());
-    int width = textWidth > A_WIDTH?textWidth:A_WIDTH;
+QSize ActorWidget::calculateSize() {
+    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+    const int fontHeight  = fm.lineSpacing();
+    const int textWidth = fm.width(getName());
+    int width = textWidth > A_WIDTH ? textWidth : A_WIDTH;
     int height = A_HEIGHT + fontHeight + A_MARGIN;
-
     width += A_MARGIN * 2;
-    setSize(width, height);
-    adjustAssocs( getX(), getY() );//adjust assoc lines
+    return QSize(width, height);
 }
 
 void ActorWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
