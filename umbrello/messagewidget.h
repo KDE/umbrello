@@ -15,7 +15,7 @@
 #ifndef MESSAGEWIDGET_H
 #define MESSAGEWIDGET_H
 
-#include "resizablewidget.h"
+#include "umlwidget.h"
 #include "linkwidget.h"
 //Added by qt3to4:
 #include <QMouseEvent>
@@ -44,7 +44,7 @@ class UMLOperation;
  * @see FloatingText
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class MessageWidget : public ResizableWidget, public LinkWidget {
+class MessageWidget : public UMLWidget, public LinkWidget {
     Q_OBJECT
 public:
 

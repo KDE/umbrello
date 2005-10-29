@@ -257,9 +257,9 @@ protected:
     SeqLineWidget * m_pLine;
 
     /**
-     * Calculates the size of the widget.
+     * Overrides method from UMLWidget
      */
-    void calculateSize();
+    QSize calculateSize();
 
     /**
      * Draw the object as an actor.

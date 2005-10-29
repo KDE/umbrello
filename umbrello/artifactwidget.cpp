@@ -22,7 +22,7 @@
 ArtifactWidget::ArtifactWidget(UMLView *view, UMLArtifact *a) : UMLWidget(view, a) {
     init();
     setSize(100, 30);
-    calculateSize();
+    updateComponentSize();
 }
 
 
@@ -31,7 +31,7 @@ void ArtifactWidget::init() {
     m_pMenu = 0;
     //  //maybe loading and this may not be set.
     //  if (m_pObject) {
-    calculateSize();
+    updateComponentSize();
     update();
     //  }
 }
@@ -43,8 +43,8 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY) {
     int h = height();
     QFont font = UMLWidget::getFont();
     font.setBold(true);
-    QFontMetrics &fm = getFontMetrics(FT_BOLD);
-    int fontHeight  = fm.lineSpacing();
+    const QFontMetrics &fm = getFontMetrics(FT_BOLD);
+    const int fontHeight  = fm.lineSpacing();
     QString name = getName();
     QString stereotype = m_pObject->getStereotype();
 
@@ -79,12 +79,12 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY) {
 }
 
 void ArtifactWidget::drawAsFile(QPainter& p, int offsetX, int offsetY) {
-    int w = width();
-    int h = height();
+    const int w = width();
+    const int h = height();
     QFont font = UMLWidget::getFont();
-    QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    int fontHeight  = fm.lineSpacing();
-    QString name = getName();
+    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+    const int fontHeight  = fm.lineSpacing();
+    const QString name = getName();
 
     int startX = offsetX + (w/2) - 25;
     int iconHeight = h - fontHeight;
@@ -113,15 +113,15 @@ void ArtifactWidget::drawAsFile(QPainter& p, int offsetX, int offsetY) {
 
 void ArtifactWidget::drawAsLibrary(QPainter& p, int offsetX, int offsetY) {
     //FIXME this should have gears on it
-    int w = width();
-    int h = height();
-    QFont font = UMLWidget::getFont();
-    QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    int fontHeight  = fm.lineSpacing();
-    QString name = getName();
+    const int w = width();
+    const int h = height();
+    const QFont font = UMLWidget::getFont();
+    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+    const int fontHeight  = fm.lineSpacing();
+    const QString name = getName();
 
-    int startX = offsetX + (w/2) - 25;
-    int iconHeight = h - fontHeight;
+    const int startX = offsetX + (w/2) - 25;
+    const int iconHeight = h - fontHeight;
     Q3PointArray pointArray(5);
     pointArray.setPoint(0, startX, offsetY);
     pointArray.setPoint(1, startX + 40, offsetY);
@@ -146,15 +146,15 @@ void ArtifactWidget::drawAsLibrary(QPainter& p, int offsetX, int offsetY) {
 }
 
 void ArtifactWidget::drawAsTable(QPainter& p, int offsetX, int offsetY) {
-    int w = width();
-    int h = height();
-    QFont font = UMLWidget::getFont();
-    QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    int fontHeight  = fm.lineSpacing();
-    QString name = getName();
+    const int w = width();
+    const int h = height();
+    const QFont font = UMLWidget::getFont();
+    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+    const int fontHeight  = fm.lineSpacing();
+    const QString name = getName();
 
-    int startX = offsetX + (w/2) - 25;
-    int iconHeight = h - fontHeight;
+    const int startX = offsetX + (w/2) - 25;
+    const int iconHeight = h - fontHeight;
 
     p.drawRect(startX, offsetY, 50, h - fontHeight + 1);
     p.drawLine(startX + 20, offsetY, startX + 20, offsetY + iconHeight);
@@ -211,29 +211,23 @@ void ArtifactWidget::draw(QPainter& p, int offsetX, int offsetY) {
 }
 
 QSize ArtifactWidget::calculateIconSize() {
-    int width, height;
+    const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
+    const int fontHeight  = fm.lineSpacing();
 
-    QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
-    int fontHeight  = fm.lineSpacing();
-
-    width = fm.width( m_pObject->getName() );
+    int width = fm.width( m_pObject->getName() );
 
     width = width<50 ? 50 : width;
 
-    height = 50 + fontHeight;
+    int height = 50 + fontHeight;
 
-    setSize(width, height);
-    adjustAssocs( getX(), getY() );//adjust assoc lines
     return QSize(width, height);
 }
 
 QSize ArtifactWidget::calculateNormalSize() {
-    int width, height;
+    const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
+    const int fontHeight  = fm.lineSpacing();
 
-    QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
-    int fontHeight  = fm.lineSpacing();
-
-    width = fm.width( m_pObject->getName() );
+    int width = fm.width( m_pObject->getName() );
 
     int tempWidth = 0;
     if(!m_pObject->getStereotype().isEmpty()) {
@@ -242,22 +236,20 @@ QSize ArtifactWidget::calculateNormalSize() {
     width = tempWidth>width ? tempWidth : width;
     width += ARTIFACT_MARGIN * 2;
 
-    height = (2*fontHeight) + (ARTIFACT_MARGIN * 2);
+    int height = (2*fontHeight) + (ARTIFACT_MARGIN * 2);
 
-    setSize(width, height);
-    adjustAssocs( getX(), getY() );//adjust assoc lines
     return QSize(width, height);
 }
 
-void ArtifactWidget::calculateSize() {
+QSize ArtifactWidget::calculateSize() {
     if ( !m_pObject) {
-        return;
+        return UMLWidget::calculateSize();
     }
     UMLArtifact *umlart = static_cast<UMLArtifact*>(m_pObject);
     if (umlart->getDrawAsType() == UMLArtifact::defaultDraw) {
-        calculateNormalSize();
+        return calculateNormalSize();
     } else {
-        calculateIconSize();
+        return calculateIconSize();
     }
 }
 

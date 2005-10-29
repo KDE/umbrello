@@ -19,7 +19,7 @@
 #include <kdebug.h>
 
 BoxWidget::BoxWidget(UMLView * view, Uml::IDType id)
-        : ResizableWidget(view, id) {
+        : UMLWidget(view, id) {
     setSize(100,80);
     UMLWidget::setBaseType( Uml::wt_Box );
     WidgetBase::m_bUsesDiagramLineColour = false;  // boxes be black
@@ -35,7 +35,7 @@ void BoxWidget::draw(QPainter& p, int offsetX, int offsetY) {
     p.drawRect( offsetX, offsetY, width(), height() );
 
     if (m_bSelected) {
-        drawSelected(&p, offsetX, offsetY, true);
+        drawSelected(&p, offsetX, offsetY);
     }
 }
 

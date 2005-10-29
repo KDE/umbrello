@@ -15,7 +15,7 @@
 #ifndef NODEWIDGET_H
 #define NODEWIDGET_H
 
-#include "resizablewidget.h"
+#include "umlwidget.h"
 
 class UMLNode;
 
@@ -28,7 +28,7 @@ class UMLNode;
  * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class NodeWidget : public ResizableWidget {
+class NodeWidget : public UMLWidget {
 public:
 
     /**
@@ -50,15 +50,6 @@ public:
     void draw(QPainter& p, int offsetX, int offsetY);
 
     /**
-     * Compute the minimum possible width and height.
-     * Reimplement method from ResizableWidget.
-     *
-     * @param width  return value, computed width
-     * @param height return value, computed height
-     */
-    void calcMinWidthAndHeight(int& width, int& height);
-
-    /**
      * Saves to the <nodewidget> XMI element.
      * Note: For loading we use the method inherited from UMLWidget.
      */
@@ -66,9 +57,9 @@ public:
 
 protected:
     /**
-     * Automatically calculates the size of the object.
+     * Overrides method from UMLWidget
      */
-    void calculateSize();
+    QSize calculateSize();
 
     static const int DEPTH = 30;  ///< pixels on Z axis
 };

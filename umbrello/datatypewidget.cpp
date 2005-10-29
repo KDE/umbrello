@@ -28,7 +28,7 @@
 DatatypeWidget::DatatypeWidget(UMLView* view, UMLDatatype *d) : UMLWidget(view, d) {
     init();
     setSize(100,30);
-    calculateSize();
+    updateComponentSize();
 }
 
 DatatypeWidget::~DatatypeWidget() {}
@@ -73,13 +73,13 @@ void DatatypeWidget::draw(QPainter& p, int offsetX, int offsetY) {
     }
 }
 
-void DatatypeWidget::calculateSize() {
+QSize DatatypeWidget::calculateSize() {
     if (!m_pObject)  {
-        return;
+        return UMLWidget::calculateSize();
     }
     int width, height;
-    QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    int fontHeight = fm.lineSpacing();
+    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+    const int fontHeight = fm.lineSpacing();
 
     int lines = 1;//always have one line - for name
     lines++; //for the stereotype
@@ -98,8 +98,7 @@ void DatatypeWidget::calculateSize() {
     //allow for width margin
     width += DATATYPE_MARGIN * 2;
 
-    setSize(width, height);
-    adjustAssocs( getX(), getY() );//adjust assoc lines
+    return QSize(width, height);
 }
 
 void DatatypeWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {

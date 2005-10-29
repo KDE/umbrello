@@ -33,7 +33,7 @@ ActivityWidget::ActivityWidget(UMLView * view, ActivityType activityType, Uml::I
 {
     m_ActivityType = activityType;
     UMLWidget::setBaseType( Uml::wt_Activity );
-    calculateSize();
+    updateComponentSize();
 }
 
 ActivityWidget::~ActivityWidget() {}
@@ -49,8 +49,8 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
             p.setBrush( UMLWidget::getFillColour() );
         }
         {
-            QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-            int fontHeight  = fm.lineSpacing();
+            const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+            const int fontHeight  = fm.lineSpacing();
             //int middleX = w / 2;
             int textStartY = (h / 2) - (fontHeight / 2);
             p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
@@ -96,21 +96,21 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
         drawSelected(&p, offsetX, offsetY);
 }
 
-void ActivityWidget::calculateSize() {
+QSize ActivityWidget::calculateSize() {
     int width = 10, height = 10;
     if ( m_ActivityType == Normal ) {
-        QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-        int fontHeight  = fm.lineSpacing();
-        int textWidth = fm.width(getName());
+        const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+        const int fontHeight  = fm.lineSpacing();
+        const int textWidth = fm.width(getName());
         height = fontHeight;
-        width = textWidth > ACTIVITY_WIDTH?textWidth:ACTIVITY_WIDTH;
-        height = height > ACTIVITY_HEIGHT?height:ACTIVITY_HEIGHT;
+        width = textWidth > ACTIVITY_WIDTH ? textWidth : ACTIVITY_WIDTH;
+        height = height > ACTIVITY_HEIGHT ? height : ACTIVITY_HEIGHT;
         width += ACTIVITY_MARGIN * 2;
         height += ACTIVITY_MARGIN * 2;
     } else if ( m_ActivityType == Branch ) {
         width = height = 20;
     }
-    setSize(width, height);
+    return QSize(width, height);
 }
 
 ActivityWidget::ActivityType ActivityWidget::getActivityType() const {

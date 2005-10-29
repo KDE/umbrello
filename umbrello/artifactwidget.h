@@ -59,6 +59,12 @@ public:
      */
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
+protected:
+    /**
+     * Overrides method from UMLWidget.
+     */
+    QSize calculateSize();
+
 private:
     /**
      * Initializes key variables of the class.
@@ -66,17 +72,12 @@ private:
     void init();
 
     /**
-     * Automatically calculates the size of the object.
-     */
-    void calculateSize();
-
-    /**
-     * calculates and sets the size when drawing as an icon (it's the same size for all icons)
+     * calculates the size when drawing as an icon (it's the same size for all icons)
      */
     QSize calculateIconSize();
 
     /**
-     * calculates and sets the size for drawing as a box
+     * calculates the size for drawing as a box
      */
     QSize calculateNormalSize();
 

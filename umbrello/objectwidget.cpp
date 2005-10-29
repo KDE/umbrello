@@ -39,7 +39,8 @@ ObjectWidget::ObjectWidget(UMLView * view, UMLObject *o, Uml::IDType lid)
     init();
     if( lid != Uml::id_None )
         m_nLocalID = lid;
-    //calculateSize();  Doing this during loadFromXMI() gives futile updates.
+    //updateComponentSize();
+    //                  Doing this during loadFromXMI() gives futile updates.
     //                  Instead, it is done afterwards by UMLWidget::activate()
 }
 
@@ -88,7 +89,7 @@ void ObjectWidget::slotMenuSelection(int sel) {
                     validator);
             if (ok) {
                 m_InstanceName = name;
-                calculateSize();
+                updateComponentSize();
                 moveEvent( 0 );
                 update();
                 UMLApp::app()->getDocument()->setModified(true);
@@ -98,7 +99,7 @@ void ObjectWidget::slotMenuSelection(int sel) {
         }
     case ListPopupMenu::mt_Properties:
         UMLApp::app()->getDocument() -> showProperties(this);
-        calculateSize();
+        updateComponentSize();
         moveEvent( 0 );
         update();
         break;
@@ -117,19 +118,17 @@ void ObjectWidget::slotMenuSelection(int sel) {
     }
 }
 
-void ObjectWidget::calculateSize() {
-    int width, height, textWidth;
-    QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
-    int fontHeight  = fm.lineSpacing();
+QSize ObjectWidget::calculateSize() {
+    int width, height;
+    const QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
+    const int fontHeight  = fm.lineSpacing();
+    const QString t = m_InstanceName + " : " + m_pObject->getName();
+    const int textWidth = fm.width(t);
     if ( m_bDrawAsActor ) {
-        QString t = m_InstanceName + " : " + m_pObject -> getName();
-        textWidth = fm.width( t );
         width = textWidth > A_WIDTH?textWidth:A_WIDTH;
         height = A_HEIGHT + fontHeight + A_MARGIN;
         width += A_MARGIN * 2;
     } else {
-        QString t = m_InstanceName + " : " + m_pObject -> getName();
-        textWidth = fm.width(t);
         width = textWidth > O_WIDTH?textWidth:O_WIDTH;
         height = fontHeight + O_MARGIN * 2;
         width += O_MARGIN * 2;
@@ -138,14 +137,13 @@ void ObjectWidget::calculateSize() {
             height += 10;
         }
     }//end else drawasactor
-    setSize(width, height);
-    adjustAssocs( getX(), getY() );//adjust assoc lines
-    moveEvent( 0 );
+
+    return QSize(width, height);
 }
 
 void ObjectWidget::setDrawAsActor( bool drawAsActor ) {
     m_bDrawAsActor = drawAsActor;
-    calculateSize();
+    updateComponentSize();
 }
 
 void ObjectWidget::setMultipleInstance(bool multiple) {
@@ -153,7 +151,7 @@ void ObjectWidget::setMultipleInstance(bool multiple) {
     if(m_pView -> getType() != Uml::dt_Collaboration)
         return;
     m_bMultipleInstance = multiple;
-    calculateSize();
+    updateComponentSize();
     update();
 }
 
@@ -230,7 +228,7 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY) {
 }
 
 void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY) {
-    QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
+    const QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
 
     UMLWidget::setPen(p);
     if ( UMLWidget::getUseFillColour() )

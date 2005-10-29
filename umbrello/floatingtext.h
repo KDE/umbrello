@@ -210,11 +210,6 @@ public:
     static bool isTextValid(const QString &text);
 
     /**
-     * Calculates the size of the widget.
-     */
-    void calculateSize();
-
-    /**
      * Overrides default method
      */
     void draw(QPainter & p, int offsetX, int offsetY);
@@ -262,6 +257,12 @@ public slots:
      * diagram message or a collaboration diagram message.
      */
     void setMessageText();
+
+protected:
+    /**
+     * Overrides method from UMLWidget.
+     */
+    QSize calculateSize();
 
 private:
     /**

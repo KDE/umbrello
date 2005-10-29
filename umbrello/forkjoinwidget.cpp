@@ -30,43 +30,54 @@ ForkJoinWidget::ForkJoinWidget(UMLView * view, bool drawVertical, Uml::IDType id
 
 void ForkJoinWidget::init() {
     WidgetBase::setBaseType( Uml::wt_ForkJoin );
-    calculateSize();
-    UMLWidget::adjustAssocs( getX(), getY() );
+    UMLWidget::updateComponentSize();
 }
 
 ForkJoinWidget::~ForkJoinWidget() {
 }
 
-void ForkJoinWidget::calculateSize() {
-    int w = width(), h = height();
-    constrain(w, h);
-    setSize(w, h);
+QSize ForkJoinWidget::calculateSize() {
+    if (m_drawVertical) {
+        return QSize(4, 40);
+    } else {
+        return QSize(40, 4);
+    }
 }
 
 void ForkJoinWidget::draw(QPainter& p, int offsetX, int offsetY) {
     p.fillRect( offsetX, offsetY, width(), height(), QBrush( Qt::black ));
 
     if (m_bSelected) {
-        drawSelected(&p, offsetX, offsetY, true);
+        drawSelected(&p, offsetX, offsetY);
     }
 }
 
 void ForkJoinWidget::drawSelected(QPainter * p, int offsetX, int offsetY, bool resizeable) {
     if (! resizeable) {
-        UMLWidget::drawSelected(p, offsetX, offsetY, resizeable);
+        UMLWidget::drawSelected(p, offsetX, offsetY, false);
         return;
     }
 }
 
 void ForkJoinWidget::constrain(int& width, int& height) {
     if (m_drawVertical) {
-        width = 4;
+        if (width < 4)
+            width = 4;
+        else if (width > 10)
+            width = 10;
         if (height < 40)
             height = 40;
+        else if (height > 100)
+            height = 100;
     } else {
-        height = 4;
+        if (height < 4)
+            height = 4;
+        else if (height > 10)
+            height = 10;
         if (width < 40)
             width = 40;
+        else if (width > 100)
+            width = 100;
     }
 }
 
@@ -82,7 +93,7 @@ void ForkJoinWidget::slotMenuSelection(int sel) {
 
 void ForkJoinWidget::setDrawVertical(bool to) {
     m_drawVertical = to;
-    calculateSize();
+    updateComponentSize();
     UMLWidget::adjustAssocs( getX(), getY() );
 }
 

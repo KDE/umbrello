@@ -20,10 +20,10 @@
 #include <qpainter.h>
 
 PackageWidget::PackageWidget(UMLView * view, UMLPackage *o)
-  : ResizableWidget(view, o) {
+  : UMLWidget(view, o) {
     init();
     setSize(100, 30);
-    calculateSize();
+    updateComponentSize();
 }
 
 void PackageWidget::init() {
@@ -38,7 +38,7 @@ void PackageWidget::init() {
     }
     //maybe loading and this may not be set.
     if (m_pObject) {
-        calculateSize();
+        updateComponentSize();
         update();
     }
 }
@@ -58,8 +58,8 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
     font.setBold(true);
     //FIXME italic is true when a package is first created until you click elsewhere, not sure why
     font.setItalic(false);
-    QFontMetrics &fm = getFontMetrics(FT_BOLD);
-    int fontHeight  = fm.lineSpacing();
+    const QFontMetrics &fm = getFontMetrics(FT_BOLD);
+    const int fontHeight  = fm.lineSpacing();
     QString name = getName();
 
     p.drawRect(offsetX, offsetY, 50, fontHeight);
@@ -82,22 +82,21 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
                w, fontHeight, Qt::AlignCenter, name );
 
     if(m_bSelected) {
-        drawSelected(&p, offsetX, offsetY, true);
+        drawSelected(&p, offsetX, offsetY);
     }
 }
 
-void PackageWidget::calcMinWidthAndHeight(int& width, int& height) {
-    width = height = 0;
+QSize PackageWidget::calculateSize() {
     if ( !m_pObject ) {
-        return;
+        return UMLWidget::calculateSize();
     }
 
-    QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
-    int fontHeight  = fm.lineSpacing();
+    const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
+    const int fontHeight = fm.lineSpacing();
 
     int lines = 1;
 
-    width = fm.width( m_pObject->getName() );
+    int width = fm.width( m_pObject->getName() );
 
     int tempWidth = 0;
     if (!m_pObject->getStereotype().isEmpty()) {
@@ -110,17 +109,9 @@ void PackageWidget::calcMinWidthAndHeight(int& width, int& height) {
     if (width < 70)
         width = 70;  // minumin width of 70
 
-    height = (lines*fontHeight) + fontHeight + (PACKAGE_MARGIN * 2);
-}
+    int height = (lines*fontHeight) + fontHeight + (PACKAGE_MARGIN * 2);
 
-void PackageWidget::calculateSize() {
-    int width, height;
-    calcMinWidthAndHeight(width, height);
-    if (getWidth() >= width && getHeight() >= height)
-        return;
-
-    setSize(width, height);
-    adjustAssocs( getX(), getY() );//adjust assoc lines
+    return QSize(width, height);
 }
 
 void PackageWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {

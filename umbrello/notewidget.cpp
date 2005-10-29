@@ -36,7 +36,7 @@
 #define NOTEMARGIN 10
 
 NoteWidget::NoteWidget(UMLView * view, Uml::IDType id)
-        : ResizableWidget(view, id) {
+        : UMLWidget(view, id) {
     init();
     setSize(100,80);
 #ifdef NOTEWIDGET_EMBED_EDITOR
@@ -164,22 +164,19 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
     p.drawLine(offsetX + w - margin, offsetY, offsetX + w - margin, offsetY + margin);
     p.drawLine(offsetX + w - margin, offsetY + margin, offsetX + w, offsetY + margin);
     if(m_bSelected) {
-        drawSelected(&p, offsetX, offsetY,  true);
+        drawSelected(&p, offsetX, offsetY);
     }
 
     drawText(&p, offsetX, offsetY);
 }
 
 void NoteWidget::mouseMoveEvent(QMouseEvent *me) {
-    ResizableWidget::mouseMoveEvent(me);
+    UMLWidget::mouseMoveEvent(me);
     setEditorGeometry();
 }
 
-void NoteWidget::constrain(int& width, int& height) {
-    if (width < 50)
-        width = 50;
-    if (height < 50)
-        height = 50;
+QSize NoteWidget::calculateSize() {
+    return QSize(50, 50);
 }
 
 void NoteWidget::slotMenuSelection(int sel) {
@@ -212,7 +209,7 @@ void NoteWidget::slotMenuSelection(int sel) {
 void NoteWidget::mouseReleaseEvent( QMouseEvent * me ) {
     if (m_bResizing) {
         drawText();
-        ResizableWidget::mouseReleaseEvent(me);
+        UMLWidget::mouseReleaseEvent(me);
     }
 }
 
@@ -245,18 +242,18 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
     p->setPen( Qt::black );
     QFont font = UMLWidget::getFont();
     p->setFont( font );
-    QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    int fontHeight  = fm.lineSpacing();
+    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+    const int fontHeight  = fm.lineSpacing();
     QString text = getDoc();
     if( text.length() == 0 )
         return;
     uint i = 0;
     QString word = "";
-    int margin = fm.width( "W" );
+    const int margin = fm.width( "W" );
     int textY = fontHeight / 2;
     int textX = margin;
-    int width = this -> width() - margin * 2;
-    int height = this -> height() - fontHeight;
+    const int width = this -> width() - margin * 2;
+    const int height = this -> height() - fontHeight;
     QChar returnChar('\n');
     while( i <= text.length() ) {
         QChar c = text[ i++ ];
@@ -310,7 +307,7 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
         }
     }//end while
     if( word.length() > 0 ) {
-        int textWidth = fm.width( word );
+        const int textWidth = fm.width( word );
         if( ( textWidth + textX ) > width )//wrap word
         {
             textX = margin;

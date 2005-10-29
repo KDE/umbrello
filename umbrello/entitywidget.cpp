@@ -32,7 +32,7 @@ EntityWidget::EntityWidget(UMLView* view, UMLObject* o): UMLWidget(view, o) {
     { // set default size - but only if we aren't loading a XMI file at the
         // moment - then just recreate the saved settings
         setSize(100,30);
-        calculateSize();
+        updateComponentSize();
     }
 }
 
@@ -55,12 +55,12 @@ void EntityWidget::draw(QPainter& p, int offsetX, int offsetY) {
     else
         p.setBrush(m_pView -> viewport() -> backgroundColor());
 
-    int w = width();
-    int h = height();
+    const int w = width();
+    const int h = height();
 
-    QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     int fontHeight  = fm.lineSpacing();
-    QString name = this->getName();
+    const QString name = this->getName();
 
     p.drawRect(offsetX, offsetY, w, h);
     p.setPen(QPen(Qt::black));
@@ -114,9 +114,9 @@ void EntityWidget::draw(QPainter& p, int offsetX, int offsetY) {
     }
 }
 
-void EntityWidget::calculateSize() {
-    if (!m_pObject)  {
-        return;
+QSize EntityWidget::calculateSize() {
+    if (!m_pObject) {
+        return UMLWidget::calculateSize();
     }
 
     int width, height;
@@ -124,16 +124,16 @@ void EntityWidget::calculateSize() {
     font.setItalic(false);
     font.setUnderline(false);
     font.setBold(false);
-    QFontMetrics fm(font);
+    const QFontMetrics fm(font);
 
-    int fontHeight = fm.lineSpacing();
+    const int fontHeight = fm.lineSpacing();
 
     int lines = 1;//always have one line - for name
     if ( !m_pObject->getStereotype().isEmpty() ) {
         lines++;
     }
 
-    int numberOfEntityAttributes = ((UMLEntity*)m_pObject)->entityAttributes();
+    const int numberOfEntityAttributes = ((UMLEntity*)m_pObject)->entityAttributes();
 
     height = width = 0;
     //set the height of the entity
@@ -151,7 +151,7 @@ void EntityWidget::calculateSize() {
     // investigate UMLWidget::getFontMetrics()
     width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(" " + getName() + " ").width();
 
-    int w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->getStereotype(true)).width();
+    const int w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->getStereotype(true)).width();
 
     width = w > width?w:width;
 
@@ -166,8 +166,7 @@ void EntityWidget::calculateSize() {
     //allow for width margin
     width += ENTITY_MARGIN * 2;
 
-    setSize(width, height);
-    adjustAssocs( getX(), getY() );//adjust assoc lines
+    return QSize(width, height);
 }
 
 void EntityWidget::slotMenuSelection(int sel) {

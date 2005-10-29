@@ -28,25 +28,25 @@ StateWidget::StateWidget(UMLView * view, StateType stateType, Uml::IDType id)
     UMLWidget::setBaseType(Uml::wt_State);
     m_StateType = stateType;
     m_Text = "State";
-    calculateSize();
+    updateComponentSize();
 }
 
 StateWidget::~StateWidget() {}
 
 void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
     UMLWidget::setPen(p);
-    int w = width();
-    int h = height();
+    const int w = width();
+    const int h = height();
     switch (m_StateType)
     {
     case Normal :
         if(UMLWidget::getUseFillColour())
             p.setBrush(UMLWidget::getFillColour());
         {
-            QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-            int fontHeight  = fm.lineSpacing();
+            const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+            const int fontHeight  = fm.lineSpacing();
             int textStartY = (h / 2) - (fontHeight / 2);
-            int count = m_Activities.count();
+            const int count = m_Activities.count();
             if( count == 0 ) {
                 p.drawRoundRect(offsetX, offsetY, w, h, (h*40)/w, (w*40)/h);
                 p.setPen(Qt::black);
@@ -104,13 +104,13 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
         drawSelected(&p, offsetX, offsetY);
 }
 
-void StateWidget::calculateSize() {
+QSize StateWidget::calculateSize() {
     int width = 10, height = 10;
     if ( m_StateType == Normal ) {
-        QFontMetrics &fm = getFontMetrics(FT_BOLD);
-        int fontHeight  = fm.lineSpacing();
+        const QFontMetrics &fm = getFontMetrics(FT_BOLD);
+        const int fontHeight  = fm.lineSpacing();
         int textWidth = fm.width(getName());
-        int count = m_Activities.count();
+        const int count = m_Activities.count();
         height = fontHeight;
         if( count > 0 ) {
             height = fontHeight * ( count + 1);
@@ -127,12 +127,13 @@ void StateWidget::calculateSize() {
         width += STATE_MARGIN * 2;
         height += STATE_MARGIN * 2;
     }
-    setSize(width, height);
+
+    return QSize(width, height);
 }
 
 void StateWidget::setName(const QString &strName) {
     m_Text = strName;
-    calculateSize();
+    updateComponentSize();
     adjustAssocs( getX(), getY() );
 }
 
@@ -189,7 +190,7 @@ void StateWidget::mouseDoubleClickEvent(QMouseEvent * /*me*/) {
 
 bool StateWidget::addActivity( const QString &activity ) {
     m_Activities.append( activity );
-    calculateSize();
+    updateComponentSize();
     return true;
 }
 
@@ -198,13 +199,13 @@ bool StateWidget::removeActivity( const QString &activity ) {
     if( ( index = m_Activities.findIndex( activity ) ) == -1 )
         return false;
     m_Activities.remove( m_Activities.at( index ) );
-    calculateSize();
+    updateComponentSize();
     return true;
 }
 
 void StateWidget::setActivities( QStringList & list ) {
     m_Activities = list;
-    calculateSize();
+    updateComponentSize();
 }
 
 QStringList & StateWidget::getActivityList() {

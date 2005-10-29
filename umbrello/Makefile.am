@@ -71,7 +71,6 @@ package.cpp \
 packagewidget.cpp \
 plugin.cpp \
 pluginloader.cpp \
-resizablewidget.cpp \
 seqlinewidget.cpp \
 statewidget.cpp \
 stereotype.cpp \
