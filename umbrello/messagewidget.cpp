@@ -415,19 +415,12 @@ void MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
 
     connect(m_pOw[Uml::A], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
     connect(m_pOw[Uml::B], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
-    if ( ! UMLApp::app()->getDocument()->loading() )
-    { // calculate the dimensions only if no XMI file is loaded
-        // - this functions derives the dimension properties of this widget ( as said by the
-        //   function
-        // - thus it calls also the UMLWidget::adjustAssocs() function - which is bad
-        // Despite in case of a _NEW_ message widget, this calculation is important
-        calculateDimensions();
-    }
 
     connect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::A], SLOT(slotMessageMoved()) );
     connect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::B], SLOT(slotMessageMoved()) );
     m_pOw[Uml::A] -> messageAdded(this);
     m_pOw[Uml::B] -> messageAdded(this);
+    calculateDimensions();
 
     emit sigMessageMoved();
 }
@@ -510,6 +503,9 @@ void MessageWidget::calculateDimensions() {
     } else {
         kdWarning() << "Unknown message type" << endl;
     }
+    if (! UMLApp::app()->getDocument()->loading()) {
+        adjustAssocs( getX(), getY() );  // adjust assoc lines
+    }
 }
 
 void MessageWidget::calculateDimensionsSynchronous() {
@@ -543,7 +539,6 @@ void MessageWidget::calculateDimensionsSynchronous() {
 
     m_nPosX = x;
     setSize(widgetWidth, widgetHeight);
-    adjustAssocs( getX(), getY() );//adjust assoc lines
 }
 
 void MessageWidget::calculateDimensionsAsynchronous() {
@@ -577,7 +572,6 @@ void MessageWidget::calculateDimensionsAsynchronous() {
     widgetWidth -= 2;
     m_nPosX = x;
     setSize(widgetWidth, widgetHeight);
-    adjustAssocs( getX(), getY() );//adjust assoc lines
 }
 
 void MessageWidget::calculateDimensionsCreation() {
@@ -604,7 +598,6 @@ void MessageWidget::calculateDimensionsCreation() {
     widgetWidth -= 2;
     m_nPosX = x;
     setSize(widgetWidth, widgetHeight);
-    adjustAssocs( getX(), getY() );//adjust assoc lines
 }
 
 void MessageWidget::cleanup() {
