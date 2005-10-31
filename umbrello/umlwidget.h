@@ -265,6 +265,13 @@ public:
     virtual void setY( int y );
 
     /**
+     * Sets the z-coordinate.
+     *
+     * @param z The z-coordinate to be set.
+     */
+    virtual void setZ( int z );
+
+    /**
      * Gets the x-coordinate.
      */
     int getX() const {
@@ -276,6 +283,13 @@ public:
      */
     int getY() const {
         return (int)QCanvasItem::y();
+    }
+
+    /**
+     * Gets the z-coordinate.
+     */
+    int getZ() const {
+        return (int)QCanvasItem::z();
     }
 
     /**
