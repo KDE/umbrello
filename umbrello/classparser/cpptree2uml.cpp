@@ -170,6 +170,8 @@ void CppTree2Uml::parseTypedef( TypedefAST* ast )
 void CppTree2Uml::parseTemplateDeclaration( TemplateDeclarationAST* ast )
 {
     TemplateParameterListAST* parmListAST = ast->templateParameterList();
+    if (parmListAST == NULL)
+        return;
     QPtrList<TemplateParameterAST> parmList = parmListAST->templateParameterList();
     for (QPtrListIterator<TemplateParameterAST> it(parmList); it.current(); ++it) {
         // The template is either a typeParameter or a typeValueParameter.

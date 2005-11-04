@@ -927,7 +927,8 @@ bool Parser::parseTemplateDeclaration( DeclarationAST::Node& node )
     TemplateParameterListAST::Node params;
     if( lex->lookAhead(0) == '<' ){
 	lex->nextToken();
-	parseTemplateParameterList( params );
+	if (lex->lookAhead(0) != '>')
+	    parseTemplateParameterList( params );
 
 	ADVANCE( '>', ">" );
     }
