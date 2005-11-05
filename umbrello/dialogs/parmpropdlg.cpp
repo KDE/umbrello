@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2005
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -204,10 +204,13 @@ void ParmPropDlg::slotOk() {
             }
         }
         if (obj == NULL) {
-            // Nothing found: set type name directly. Bad.
+            // Nothing found: Create a new type on the fly.
+            // @todo There should be an extra dialog to decide whether to
+            // create a datatype or a class. For now, we create a class.
             kdDebug() << "ParmPropDlg::slotOk: " << typeName << " not found."
-            << endl;
-            m_pAtt->setTypeName( typeName );
+                << " Creating a new class for the type." << endl;
+            UMLObject *o = m_pUmldoc->createUMLObject(Uml::ot_Class, typeName);
+            m_pAtt->setType(o);
         }
 
     }
