@@ -20,7 +20,7 @@
 #include <kdialogbase.h>
 //Added by qt3to4:
 #include <QLabel>
-
+#include <Q3ListBoxItem>
 /**
  * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
