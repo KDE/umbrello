@@ -526,6 +526,13 @@ is empty</string>
     <slot access="protected">activeLanguageChanged(int id)</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
+<customwidgets>
+    <customwidget>
+        <class>KIntNumInput</class>
+        <header location="global">knuminput.h</header>
+        <container>0</container>
+    </customwidget>
+</customwidgets>
 <includehints>
     <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
