@@ -193,7 +193,6 @@ bool ToolBarState::setSelectedWidget(QMouseEvent * me)
             m_bWidgetSelected = true;
             return true;
         }
-        ++mit;
     }
 
     // Check widgets.
