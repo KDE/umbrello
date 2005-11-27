@@ -434,6 +434,12 @@ public:
     QString getName() const;
 
     /**
+     * Return the m_modelID (currently this a fixed value:
+     * Umbrello supports only a single document.)
+     */
+    Uml::IDType getModelID() const;
+
+    /**
      * Used to give a unique ID to any sort of object.
      *
      * @return  A new unique ID.
@@ -933,6 +939,7 @@ private:
     int m_uniqueID;
 
     QString m_Name; ///< name of this model as stored in the <UML:Model> tag
+    Uml::IDType m_modelID; ///< xmi.id of this model in the <UML:Model>
     int m_count;   ///< auxiliary counter for the progress bar
     bool m_modified;
     KURL m_doc_url;
