@@ -90,6 +90,7 @@ static const uint undoMax = 30;
 
 UMLDoc::UMLDoc() {
     m_Name = i18n("UML Model");
+    m_modelID = "m1";
     m_currentView = 0;
     m_uniqueID = 0;
     m_count = 0;
@@ -1494,6 +1495,10 @@ QString UMLDoc::getName() const {
     return m_Name;
 }
 
+Uml::IDType UMLDoc::getModelID() const {
+    return m_modelID;
+}
+
 void UMLDoc::saveToXMI(QIODevice& file, bool saveSubmodelFiles /* = false */) {
     QDomDocument doc;
 
@@ -1570,6 +1575,7 @@ void UMLDoc::saveToXMI(QIODevice& file, bool saveSubmodelFiles /* = false */) {
     QDomElement contentNS = doc.createElement( "UML:Namespace.contents" );
 
     QDomElement objectsElement = doc.createElement( "UML:Model" );
+    objectsElement.setAttribute( "xmi.id", ID2STR(m_modelID) );
     objectsElement.setAttribute( "name", m_Name );
     objectsElement.setAttribute( "isSpecification", "false" );
     objectsElement.setAttribute( "isAbstract", "false" );
