@@ -37,6 +37,7 @@
 #include "../codedocument.h"
 #include "../operation.h"
 #include "../umldoc.h"
+#include "../uml.h"
 
 // Constructors/Destructors
 //
@@ -102,7 +103,7 @@ QString SimpleCodeGenerator::findFileName(UMLClassifier* concept, QString ext) {
         name = concept->getFullyQualifiedName("-");
     }
 
-    if (ext != ".idl" && ext != ".java" && ext != ".pm" && ext != ".py") {
+    if (! UMLApp::app()->activeLanguageIsCaseSensitive()) {
         package = package.lower();
         name = name.lower();
     }
