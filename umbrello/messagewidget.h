@@ -326,11 +326,6 @@ public:
     int onWidget(const QPoint & p);
 
     /**
-     * Overrides the standard operation.
-     */
-    virtual void mousePressEvent(QMouseEvent *me);
-
-    /**
      * Saves to the <messagewidget> XMI element.
      */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
