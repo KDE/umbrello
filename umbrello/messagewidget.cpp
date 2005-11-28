@@ -251,7 +251,7 @@ void MessageWidget::drawCreation(QPainter& p, int offsetX, int offsetY) {
 }
 
 int MessageWidget::onWidget(const QPoint & p) {
-    if (m_sequenceMessageType == Uml::sequence_message_asynchronous) {
+    if (m_sequenceMessageType != Uml::sequence_message_synchronous) {
         return UMLWidget::onWidget(p);
     }
     // Synchronous message:
@@ -354,12 +354,20 @@ void MessageWidget::calculateWidget() {
 }
 
 void MessageWidget::slotWidgetMoved(Uml::IDType id) {
-    if(m_pOw[Uml::A] -> getLocalID() == id || m_pOw[Uml::B] -> getLocalID() == id) {
-        m_nY = getY();
-        m_nY = m_nY < getMinHeight()?getMinHeight():m_nY;
-        m_nY = m_nY > getMaxHeight()?getMaxHeight():m_nY;
-        calculateWidget();
+    const Uml::IDType idA = m_pOw[Uml::A]->getLocalID();
+    const Uml::IDType idB = m_pOw[Uml::B]->getLocalID();
+    if (idA != id && idB != id) {
+        kdDebug() << "MessageWidget::slotWidgetMoved(" << ID2STR(id)
+            << "): ignoring for idA=" << ID2STR(idA)
+            << ", idB=" << ID2STR(idB) << endl;
+        return;
     }
+    m_nY = getY();
+    if (m_nY < getMinHeight())
+        m_nY = getMinHeight();
+    if (m_nY > getMaxHeight())
+        m_nY = getMaxHeight();
+    calculateWidget();
     if( !m_pFText )
         return;
     if( m_pView -> getSelectCount() > 1 )
@@ -519,7 +527,7 @@ void MessageWidget::calculateDimensionsSynchronous() {
     int x1 = m_pOw[Uml::A]->getX();
     int x2 = m_pOw[Uml::B]->getX();
     int w1 = m_pOw[Uml::A]->getWidth() / 2;
-    int w2 =  m_pOw[Uml::B]->getWidth() / 2;
+    int w2 = m_pOw[Uml::B]->getWidth() / 2;
     x1 += w1;
     x2 += w2;
 
@@ -551,8 +559,8 @@ void MessageWidget::calculateDimensionsAsynchronous() {
 
     int x1 = m_pOw[Uml::A]->getX();
     int x2 = m_pOw[Uml::B]->getX();
-    int w1 = m_pOw[Uml::A] -> getWidth() / 2;
-    int w2 =  m_pOw[Uml::B] -> getWidth() / 2;
+    int w1 = m_pOw[Uml::A]->getWidth() / 2;
+    int w2 = m_pOw[Uml::B]->getWidth() / 2;
     x1 += w1;
     x2 += w2;
 
@@ -584,8 +592,8 @@ void MessageWidget::calculateDimensionsCreation() {
 
     int x1 = m_pOw[Uml::A]->getX();
     int x2 = m_pOw[Uml::B]->getX();
-    int w1 = m_pOw[Uml::A] -> getWidth() / 2;
-    int w2 =  m_pOw[Uml::B] -> getWidth();
+    int w1 = m_pOw[Uml::A]->getWidth() / 2;
+    int w2 = m_pOw[Uml::B]->getWidth();
     x1 += w1;
     if (x1 > x2)
         x2 += w2;
@@ -602,6 +610,7 @@ void MessageWidget::calculateDimensionsCreation() {
     x += 1;
     widgetWidth -= 2;
     m_nPosX = x;
+    m_nY = m_pOw[Uml::B]->getY() + m_pOw[Uml::B]->getHeight() / 2;
     setSize(widgetWidth, widgetHeight);
 }
 
@@ -728,15 +737,6 @@ int MessageWidget::getMaxHeight() {
         height = heightB;
     }
     return (height - this->height());
-}
-
-void MessageWidget::mousePressEvent(QMouseEvent* me) {
-    // resize only applies to asynchronous messages between different objects
-    if ( m_sequenceMessageType == Uml::sequence_message_asynchronous &&
-            m_pOw[Uml::A] != m_pOw[Uml::B] ) {
-        return;
-    }
-    UMLWidget::mousePressEvent(me);
 }
 
 void MessageWidget::setWidget(ObjectWidget * ow, Uml::Role_Type role) {
