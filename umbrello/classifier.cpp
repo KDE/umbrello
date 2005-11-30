@@ -775,7 +775,7 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement) {
             genElement.appendChild(gElem);
         }
         if (genElement.hasChildNodes())
-            qElement.appendChild( genElement );
+            classifierElement.appendChild( genElement );
     }
 
     // save attributes

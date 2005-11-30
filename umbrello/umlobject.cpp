@@ -471,12 +471,16 @@ QDomElement UMLObject::save( const QString &tag, QDomDocument & qDoc ) {
     }
     qElement.setAttribute( "xmi.id", ID2STR(m_nId) );
     qElement.setAttribute( "name", m_Name );
-    Uml::IDType nmSpc;
-    if (m_pUMLPackage)
-        nmSpc = m_pUMLPackage->getID();
-    else
-        nmSpc = UMLApp::app()->getDocument()->getModelID();
-    qElement.setAttribute( "namespace", ID2STR(nmSpc) );
+    if (m_BaseType != Uml::ot_Operation &&
+            m_BaseType != Uml::ot_Role &&
+            m_BaseType != Uml::ot_Attribute) {
+        Uml::IDType nmSpc;
+        if (m_pUMLPackage)
+            nmSpc = m_pUMLPackage->getID();
+        else
+            nmSpc = UMLApp::app()->getDocument()->getModelID();
+        qElement.setAttribute( "namespace", ID2STR(nmSpc) );
+    }
     if (! m_Doc.isEmpty())
         qElement.setAttribute( "comment", m_Doc );  //CHECK: uml13.dtd compliance
 #ifdef XMI_FLAT_PACKAGES
