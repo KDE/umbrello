@@ -1835,6 +1835,8 @@ void AssociationWidget::constrainTextPos(int &textX, int &textY,
             atSideB = true;
             break;
         case tr_Name:
+        case tr_Seq_Message:
+        case tr_State:
             // Find the linepath segment to which the (textX,textY) is closest
             // and constrain to the corridor of that segment (see farther below)
             {
