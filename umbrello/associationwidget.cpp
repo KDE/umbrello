@@ -1799,14 +1799,6 @@ QPoint AssociationWidget::calculateTextPosition(Text_Role role) {
 
     if (text) {
         constrainTextPos(x, y, textW, textH, role);
-        if (x != p.x() || y != p.y()) {
-            // kdDebug() << "AssociationWidget::calculateTextPosition(" 
-            //   << text->getName() << ") textrole " << role
-            //   << ": oldpoint=(" << p.x() << "," << p.y() << ")"
-            //   << ", newPoint=(" << x << "," << y << ")" << endl;
-            text->setX(x);
-            text->setY(y);
-        }
     }
     p = QPoint( x, y );
     return p;
@@ -1835,8 +1827,8 @@ void AssociationWidget::constrainTextPos(int &textX, int &textY,
             atSideB = true;
             break;
         case tr_Name:
-        case tr_Seq_Message:
-        case tr_State:
+        case tr_Coll_Message:  // CHECK: collab.msg texts seem to be tr_Name
+        case tr_State:         // CHECK: is this used?
             // Find the linepath segment to which the (textX,textY) is closest
             // and constrain to the corridor of that segment (see farther below)
             {
