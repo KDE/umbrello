@@ -412,6 +412,15 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
         m_pView->setAssoc(this);
     }
 
+    UMLWidget *bkgnd = m_pView->testOnWidget(me->pos());
+    if (bkgnd) {
+        kdDebug() << "UMLWidget::mouseReleaseEvent: setting Z to "
+            << bkgnd->getZ() + 1 << endl;
+        setZ( bkgnd->getZ() + 1 );
+    } else {
+        setZ( 0 );
+    }
+
     if (m_bResizing) {
         m_bResizing = false;
         m_pView->setCursor( KCursor::arrowCursor() );
@@ -890,17 +899,28 @@ void UMLWidget::setSelected(bool _select) {
                 m_pView->showDocumentation(this, false);
             }
         }//end if
-        if (wt != wt_Text && wt != wt_Box) {
+        /* if (wt != wt_Text && wt != wt_Box) {
             setZ(9);//keep text on top and boxes behind so don't touch Z value
-        }
+        } */
     } else {
-        if (wt != wt_Text && wt != wt_Box) {
+        /* if (wt != wt_Text && wt != wt_Box) {
             setZ(m_origZ);
-        }
+        } */
         if( m_bSelected )
             m_pView -> updateDocumentation( true );
     }
     m_bSelected = _select;
+
+    const QPoint pos(getX(), getY());
+    UMLWidget *bkgnd = m_pView->testOnWidget(pos);
+    if (bkgnd) {
+        kdDebug() << "UMLWidget::setSelected: setting Z to "
+            << bkgnd->getZ() + 1 << endl;
+        setZ( bkgnd->getZ() + 1 );
+    } else {
+        setZ( 0 );
+    }
+
     update();
 
     /* selection changed, we have to make sure the copy and paste items
@@ -940,6 +960,11 @@ void UMLWidget::setY( int y ) {
         y = m_pView->snappedX(y + halfHeight) - halfHeight;
     }
     Q3CanvasItem::setY( (double)y );
+}
+
+void UMLWidget::setZ(int z) {
+    m_origZ = getZ();
+    QCanvasItem::setZ(z);
 }
 
 void UMLWidget::setName(const QString &strName) {
