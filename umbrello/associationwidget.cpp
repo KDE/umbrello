@@ -1562,13 +1562,13 @@ QPoint AssociationWidget::calculatePointAtDistanceOnPerpendicular(const QPoint &
     /*
       the distance D between points (x2, y2) and (x3, y3) has the following formula:
 
-           ---     ------------------------------
-      D =     \   /        2         2
-           \ /   (x3 - x2)  +  (y3 - y2)
+          ---     ------------------------------
+      D =    \   /         2             2
+              \ / (x3 - x2)  +  (y3 - y2)
 
       D, x2 and y2 are known and line P2P3 is perpendicular to line (x1,y1)(x2,y2), so if the
       line P1P2 has the formula y = m*x + b,
-      then        (x1 - x2)
+      then      (x1 - x2)
           m =  -----------    , because it is perpendicular to line P1P2
                 (y2 - y1)
 
@@ -1577,28 +1577,28 @@ QPoint AssociationWidget::calculatePointAtDistanceOnPerpendicular(const QPoint &
 
       then P3 = (x3, m*x3 + b)
 
-       2             2      2
+       2            2            2
       D  = (x3 - x2)  + (y3 - y2)
 
-       2     2           2      2                2
-      D  = x3    - 2*x3*x2 + x2   + y3   - 2*y3*y2  + y2
+       2     2               2     2               2
+      D  = x3  - 2*x3*x2 + x2  + y3  - 2*y3*y2 + y2
 
-       2       2       2       2                  2
-      D    - x2    - y2    = x3    - 2*x3*x2  + y3   - 2*y3*y2
+       2     2     2     2               2
+      D  - x2  - y2  = x3  - 2*x3*x2 + y3  - 2*y3*y2
 
 
 
-       2       2       2       2                          2
-      D    - x2    - y2    = x3    - 2*x3*x2  + (m*x3 + b)  - 2*(m*x3 + b)*y2
+       2     2     2     2                       2
+      D  - x2  - y2  = x3  - 2*x3*x2 + (m*x3 + b)  - 2*(m*x3 + b)*y2
 
-       2       2       2                2       2       2
-      D    - x2    - y2     + 2*b*y2 - b   =  (m  + 1)*x3     + (-2*x2 + 2*m*b -2*m*y2)*x3
+       2     2     2                   2        2       2
+      D  - x2  - y2  + 2*b*y2 - b  = (m  + 1)*x3  + (-2*x2 + 2*m*b -2*m*y2)*x3
 
-       2      2       2       2
+              2       2       2              2
       C  = - D    + x2    + y2   - 2*b*y2 + b
 
-       2
-      A  = (m    + 1)
+             2
+      A  = (m  + 1)
 
       B  = (-2*x2 + 2*m*b -2*m*y2)
 
@@ -1607,37 +1607,37 @@ QPoint AssociationWidget::calculatePointAtDistanceOnPerpendicular(const QPoint &
       A * x3 + B * x3 - C = 0
 
 
-                         ---------------
-             -B +  ---  /  2
-                      \/  B   - 4*A*C
-      sol_1  = --------------------------------
-                       2*A
+                           ---------------
+                     ---  /  2
+                -B +    \/  B   - 4*A*C
+      sol_1 = --------------------------------
+                        2*A
 
 
-                         ---------------
-      sol_2  =   -B -  ---  /  2
-                      \/  B   - 4*A*C
-           --------------------------------
-                       2*A
+                           ---------------
+                     ---  /  2
+                -B -    \/  B   - 4*A*C
+      sol_2 = --------------------------------
+                        2*A
 
       then in the distance formula we have only one variable x3 and that is easy
       to calculate
     */
-    int x1 = P1.y();
-    int y1 = P1.x();
-    int x2 = P2.y();
-    int y2 = P2.x();
-
-    if(x2 == x1) {
-        return QPoint((int)(x2+ Distance), y2);
+    if (P1.x() == P2.x()) {
+        return QPoint((int)(P2.x() + Distance), P2.y());
     }
+    const int x1 = P1.y();
+    const int y1 = P1.x();
+    const int x2 = P2.y();
+    const int y2 = P2.x();
+
     float slope = ((float)x1 - (float)x2) / ((float)y2 - (float)y1);
     float b = (y2 - slope*x2);
     float A = (slope * slope) + 1;
-    float B = (2*slope*b) - (2*x2)  - (2*slope*y2);
+    float B = (2*slope*b) - (2*x2) - (2*slope*y2);
     float C = (b*b) - (Distance*Distance) + (x2*x2) + (y2*y2) - (2*b*y2);
     float t = B*B - 4*A*C;
-    if(t < 0) {
+    if (t < 0) {
         return QPoint(-1, -1);
     }
     float sol_1 = ((-1* B) + sqrt(t) ) / (2*A);
@@ -1804,10 +1804,24 @@ QPoint AssociationWidget::calculateTextPosition(Text_Role role) {
     return p;
 }
 
+QPoint AssociationWidget::midPoint(QPoint p0, QPoint p1) {
+    QPoint midP;
+    if (p0.x() < p1.x())
+        midP.setX(p0.x() + (p1.x() - p0.x()) / 2);
+    else
+        midP.setX(p1.x() + (p0.x() - p1.x()) / 2);
+    if (p0.y() < p1.y())
+        midP.setY(p0.y() + (p1.y() - p0.y()) / 2);
+    else
+        midP.setY(p1.y() + (p0.y() - p1.y()) / 2);
+    return midP;
+}
+
 void AssociationWidget::constrainTextPos(int &textX, int &textY,
                                          int textWidth, int textHeight,
                                          Uml::Text_Role tr) {
-    const int CORRIDOR_HALFWIDTH = 30;
+    const int textCenterX = textX + textWidth / 2;
+    const int textCenterY = textY + textHeight / 2;
     const uint lastSegment = m_LinePath.count() - 1;
     QPoint p0, p1;
     bool atSideA = false, atSideB = false;
@@ -1832,24 +1846,14 @@ void AssociationWidget::constrainTextPos(int &textX, int &textY,
             // Find the linepath segment to which the (textX,textY) is closest
             // and constrain to the corridor of that segment (see farther below)
             {
-                const int textCenterX = textX + textWidth / 2;
-                const int textCenterY = textY + textHeight / 2;
                 int minDistSquare = 100000;  // utopian initial value
                 int lpIndex = 0;
                 for (uint i = 0; i < lastSegment; i++) {
                     p0 = m_LinePath.getPoint(i);
                     p1 = m_LinePath.getPoint(i + 1);
-                    QPoint midPoint;
-                    if (p0.x() < p1.x())
-                        midPoint.setX(p0.x() + (p1.x() - p0.x()) / 2);
-                    else
-                        midPoint.setX(p1.x() + (p0.x() - p1.x()) / 2);
-                    if (p0.y() < p1.y())
-                        midPoint.setY(p0.y() + (p1.y() - p0.y()) / 2);
-                    else
-                        midPoint.setY(p1.y() + (p0.y() - p1.y()) / 2);
-                    const int deltaX = textCenterX - midPoint.x();
-                    const int deltaY = textCenterY - midPoint.y();
+                    QPoint midP = midPoint(p0, p1);
+                    const int deltaX = textCenterX - midP.x();
+                    const int deltaY = textCenterY - midP.y();
                     const int cSquare = deltaX * deltaX + deltaY * deltaY;
                     if (cSquare < minDistSquare) {
                         minDistSquare = cSquare;
@@ -1866,85 +1870,31 @@ void AssociationWidget::constrainTextPos(int &textX, int &textY,
             return;
             break;
     }
-    if (p0.x() >= p1.x() - 1 && p0.x() <= p1.x() + 1) {
-        // vertical line
-        // CAUTION: This is calculated in Qt coordinates!
-        ////////////////////////// constrain horizontally /////////////////////////
-        const int lineX = p0.x();
-        if (textX + textWidth < lineX - CORRIDOR_HALFWIDTH)  // constrain at left
-            textX = lineX - CORRIDOR_HALFWIDTH - textWidth;
-        else if (textX > lineX + CORRIDOR_HALFWIDTH)         // constrain at right
-            textX = lineX + CORRIDOR_HALFWIDTH;
-        ////////////////////////// constrain vertically ///////////////////////////
-        // pre-constrain the corridor to the appropriate half:
-        // This is only done for simple (i.e. non multi-segment) linepaths.
-        // With multi-segment linepaths, the user probably wants the freedom to
-        // place role related labels anywhere within the start and end segment.
-        if (lastSegment == 1) {
-            if (atSideA) {
-                if (p0.y() < p1.y())
-                    p1.setY(p0.y() + (p1.y() - p0.y()) / 2);
-                else
-                    p1.setY(p0.y() - (p0.y() - p1.y()) / 2);
-            } else if (atSideB) {
-                if (p0.y() > p1.y())
-                    p0.setY(p1.y() + (p0.y() - p1.y()) / 2);
-                else
-                    p0.setY(p1.y() - (p1.y() - p0.y()) / 2);
-            }
-        }
-        // swap points so that p0 contains the one with the smaller Y
-        if (p0.y() > p1.y()) {
-            QPoint tmp = p0;
-            p0 = p1;
-            p1 = tmp;
-        }
-        if (textY + textHeight < p0.y())  // constrain at top
-            textY = p0.y() - textHeight;
-        else if (textY > p1.y())          // constrain at bottom
-            textY = p1.y();
+    /* Constraint:
+       The midpoint between p0 and p1 is taken to be the center of a circle
+       with radius D/2 where D is the distance between p0 and p1.
+       The text center needs to be within this circle else it is constrained
+       to the midpoint.
+     */
+    p0 = swapXY(p0);    // go to the natural coordinate system
+    p1 = swapXY(p1);    // with (0,0) in the lower left corner
+    QPoint midP = midPoint(p0, p1);
+    // If (textX,textY) is not inside the circle around midP  then
+    // constrain (textX,textY) to the nearest point on that circle.
+    const int x0 = p0.x();
+    const int y0 = p0.y();
+    const int x1 = p1.x();
+    const int y1 = p1.y();
+    const double r = sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0)) / 2;
+    const int relX = textCenterY - midP.x();  // NB: text{X,Y} are swapped to
+    const int relY = textCenterX - midP.y();  //     convert from Qt coord.system.
+    // circle equation:  x*x + y*y - r*r = 0
+    const double negativeWhenInsideCircle = relX * relX + relY * relY - r * r;
+    if (negativeWhenInsideCircle <= 0.0) {
         return;
     }
-    if (p0.y() >= p1.y() - 1 && p0.y() <= p1.y() + 1) {
-        // horizontal line
-        // CAUTION: This is calculated in Qt coordinates!
-        ////////////////////////// constrain vertically /////////////////////////////
-        const int lineY = p0.y();
-        if (textY + textHeight < lineY - CORRIDOR_HALFWIDTH)  // constrain at top
-            textY = lineY - CORRIDOR_HALFWIDTH - textHeight;
-        else if (textY > lineY + CORRIDOR_HALFWIDTH)          // constrain at bottom
-            textY = lineY + CORRIDOR_HALFWIDTH;
-        ////////////////////////// constrain horizontally //////////////////////////
-        // pre-constrain the corridor to the appropriate half:
-        // This is only done for simple (i.e. non multi-segment) linepaths.
-        // With multi-segment linepaths, the user probably wants the freedom to
-        // place role related labels anywhere within the start and end segment.
-        if (lastSegment == 1) {
-            if (atSideA) {
-                if (p0.x() < p1.x())
-                    p1.setX(p0.x() + (p1.x() - p0.x()) / 2);
-                else
-                    p1.setX(p0.x() - (p0.x() - p1.x()) / 2);
-            } else if (atSideB) {
-                if (p0.x() < p1.x())
-                    p0.setX(p1.x() - (p1.x() - p0.x()) / 2);
-                else
-                    p0.setX(p1.x() + (p0.x() - p1.x()) / 2);
-            }
-        }
-        // swap points so that p0 contains the one with the smaller X
-        if (p0.x() > p1.x()) {
-            QPoint tmp = p0;
-            p0 = p1;
-            p1 = tmp;
-        }
-        if (textX + textWidth < p0.x())   // constrain at left
-            textX = p0.x() - textWidth;
-        else if (textX > p1.x())          // constrain at right
-            textX = p1.x();
-        return;
-    }
-    // @todo deal with slopes
+    textX = midP.y() - textWidth / 2;   // go back to Qt coord.sys.
+    textY = midP.x() - textHeight / 2;  // go back to Qt coord.sys.
 }
 
 void AssociationWidget::calculateNameTextSegment() {

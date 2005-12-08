@@ -724,6 +724,11 @@ private:
     static float perpendicularProjection(QPoint P1, QPoint P2, QPoint P3, QPoint& ResultingPoint);
 
     /**
+     * Return the mid point between p0 and p1
+     */
+    static QPoint midPoint(QPoint p0, QPoint p1);
+
+    /**
      * Calculates the position of the text widget depending on the role
      * that widget is playing.
      * Returns the point at which to put the widget.
