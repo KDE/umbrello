@@ -175,7 +175,7 @@ public:
      * Returns an empty string if no stereotype object is set.
      *
      * @param includeAdornments Include surrounding angled brackets
-     *                          "«" and "»".
+     *                          "Â«" and "Â»".
      * @return  Returns the classes stereotype name.
      */
     QString getStereotype(bool includeAdornments = false);

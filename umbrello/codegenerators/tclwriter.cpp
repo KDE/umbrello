@@ -217,7 +217,7 @@ TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     }
     // check on enum classes
     if (!classifierInfo->isInterface) {
-        // use tcl-list for enum´s
+        // use tcl-list for enum's
         if (c->getBaseType() == Uml::ot_Enum) {
             UMLClassifierListItemList litList =
                 c->getFilteredList(Uml::ot_EnumLiteral);

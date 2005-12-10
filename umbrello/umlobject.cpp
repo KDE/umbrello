@@ -325,7 +325,7 @@ QString UMLObject::getStereotype(bool includeAdornments /* = false */) {
         return "";
     QString name = m_pStereotype->getName();
     if (includeAdornments)
-        name = "«" + name + "»";
+        name = QString::fromUtf8("Â«") + name + QString::fromUtf8("Â»");
     return name;
 }
 
