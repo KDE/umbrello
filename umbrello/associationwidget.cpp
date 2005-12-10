@@ -1888,7 +1888,9 @@ void AssociationWidget::constrainTextPos(int &textX, int &textY,
     const int y0 = p0.y();
     const int x1 = p1.x();
     const int y1 = p1.y();
-    const double r = sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0)) / 2;
+    double r = sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0)) / 2;
+    if (textWidth > r)
+        r = textWidth;
     const int relX = textCenterY - midP.x();  // NB: text{X,Y} are swapped to
     const int relY = textCenterX - midP.y();  //     convert from Qt coord.system.
     // circle equation:  x*x + y*y - r*r = 0
