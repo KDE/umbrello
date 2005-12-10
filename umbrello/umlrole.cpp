@@ -298,7 +298,8 @@ bool UMLRole::load( QDomElement & element ) {
         QString aggregation = element.attribute("aggregation", "none");
         if (aggregation == "composite")
             m_pAssoc->setAssocType(Uml::at_Composition);
-        else if (aggregation == "shared")
+        else if (aggregation == "shared"       // UML1.3
+              || aggregation == "aggregate")   // UML1.4
             m_pAssoc->setAssocType(Uml::at_Aggregation);
         /* else
                 m_pAssoc->setAssocType(Uml::at_Association);  */
