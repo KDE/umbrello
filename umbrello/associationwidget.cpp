@@ -1891,15 +1891,67 @@ void AssociationWidget::constrainTextPos(int &textX, int &textY,
     double r = sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0)) / 2;
     if (textWidth > r)
         r = textWidth;
-    const int relX = textCenterY - midP.x();  // NB: text{X,Y} are swapped to
-    const int relY = textCenterX - midP.y();  //     convert from Qt coord.system.
-    // circle equation:  x*x + y*y - r*r = 0
+    // swap textCenter{X,Y} to convert from Qt coord.system.
+    const QPoint origTextCenter(textCenterY, textCenterX);
+    const int relX = abs(origTextCenter.x() - midP.x());
+    const int relY = abs(origTextCenter.y() - midP.y());
     const double negativeWhenInsideCircle = relX * relX + relY * relY - r * r;
     if (negativeWhenInsideCircle <= 0.0) {
         return;
     }
+    /*
+     The original constraint was to snap the text position to the
+     midpoint but that creates unpleasant visual jitter:
     textX = midP.y() - textWidth / 2;   // go back to Qt coord.sys.
     textY = midP.x() - textHeight / 2;  // go back to Qt coord.sys.
+
+     Rather, we project the text position onto the closest point
+     on the circle:
+
+     Circle equation:
+       relX^2 + relY^2 - r^2 = 0   , or in other words
+       relY^2 = r^2 - relX^2       , or
+       relY = sqrt(r^2 - relX^2)
+     Line equation:
+       relY = a * relX + b
+         We can omit "b" because relX and relY are already relative to
+         the circle origin, therefore we can also write:
+       a = relY / relX
+     To obtain the point of intersection between the circle of radius r
+     and the line connecting the circle origin with the point (relX, relY),
+     we equate the relY:
+       a * x = sqrt(r^2 - x^2)     , or in other words
+       a^2 * x^2 = r^2 - x^2       , or
+       x^2 * (a^2 + 1) = r^2       , or
+       x^2 = r^2 / (a^2 + 1)       , or
+       x = sqrt(r^2 / (a^2 + 1))
+     and then
+       y = a * x
+     The resulting x and y are relative to the circle origin so we just add
+     the circle origin (X,Y) to obtain the constrained (textX,textY).
+     */
+    // Handle the special case, relX = 0.
+    if (relX == 0) {
+        if (origTextCenter.y() > midP.y())
+            textX = midP.y() + (int)r;   // go back to Qt coord.sys.
+        else
+            textX = midP.y() - (int)r;   // go back to Qt coord.sys.
+        textX -= textWidth / 2;
+        return;
+    }
+    const double a = (double)relY / (double)relX;
+    const double x = sqrt(r*r / (a*a + 1));
+    const double y = a * x;
+    if (origTextCenter.x() > midP.x())
+        textY = midP.x() + (int)x;   // go back to Qt coord.sys.
+    else
+        textY = midP.x() - (int)x;   // go back to Qt coord.sys.
+    textY -= textHeight / 2;
+    if (origTextCenter.y() > midP.y())
+        textX = midP.y() + (int)y;   // go back to Qt coord.sys.
+    else
+        textX = midP.y() - (int)y;   // go back to Qt coord.sys.
+    textX -= textWidth / 2;
 }
 
 void AssociationWidget::calculateNameTextSegment() {
