@@ -964,7 +964,7 @@ void UMLWidget::setY( int y ) {
 
 void UMLWidget::setZ(int z) {
     m_origZ = getZ();
-    QCanvasItem::setZ(z);
+    Q3CanvasItem::setZ(z);
 }
 
 void UMLWidget::setName(const QString &strName) {

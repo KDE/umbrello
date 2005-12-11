@@ -292,7 +292,7 @@ public:
      * Gets the z-coordinate.
      */
     int getZ() const {
-        return (int)QCanvasItem::z();
+        return (int)Q3CanvasItem::z();
     }
 
     /**
