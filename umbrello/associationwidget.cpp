@@ -1824,21 +1824,26 @@ void AssociationWidget::constrainTextPos(int &textX, int &textY,
     const int textCenterY = textY + textHeight / 2;
     const uint lastSegment = m_LinePath.count() - 1;
     QPoint p0, p1;
-    bool atSideA = false, atSideB = false;
     switch (tr) {
         case tr_RoleAName:
         case tr_MultiA:
         case tr_ChangeA:
             p0 = m_LinePath.getPoint(0);
             p1 = m_LinePath.getPoint(1);
-            atSideA = true;
+            // If we are dealing with a single line then tie the
+            // role label to the proper half of the line, i.e.
+            // the role label must be closer to the "other"
+            // role object.
+            if (lastSegment == 1)
+                p1 = midPoint(p0, p1);
             break;
         case tr_RoleBName:
         case tr_MultiB:
         case tr_ChangeB:
             p0 = m_LinePath.getPoint(lastSegment - 1);
             p1 = m_LinePath.getPoint(lastSegment);
-            atSideB = true;
+            if (lastSegment == 1)
+                p0 = midPoint(p0, p1);
             break;
         case tr_Name:
         case tr_Coll_Message:  // CHECK: collab.msg texts seem to be tr_Name
@@ -1874,12 +1879,12 @@ void AssociationWidget::constrainTextPos(int &textX, int &textY,
        The midpoint between p0 and p1 is taken to be the center of a circle
        with radius D/2 where D is the distance between p0 and p1.
        The text center needs to be within this circle else it is constrained
-       to the midpoint.
+       to the nearest point on the circle.
      */
     p0 = swapXY(p0);    // go to the natural coordinate system
     p1 = swapXY(p1);    // with (0,0) in the lower left corner
     QPoint midP = midPoint(p0, p1);
-    // If (textX,textY) is not inside the circle around midP  then
+    // If (textX,textY) is not inside the circle around midP then
     // constrain (textX,textY) to the nearest point on that circle.
     const int x0 = p0.x();
     const int y0 = p0.y();
