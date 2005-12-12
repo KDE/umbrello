@@ -24,12 +24,16 @@
 #include <q3multilineedit.h>
 #include <qradiobutton.h>
 #include <qcheckbox.h>
+#include <q3valuelist.h>
 
 //my class includes
 #include "../umlobject.h"
 #include "../objectwidget.h"
 #include "../umldoc.h"
 #include "../associationwidget.h"
+
+class QComboBox;
+
 
 /**
  * Displays properties of a UMLObject in a dialog box.  This is not usually directly
@@ -64,7 +68,13 @@ public:
     void updateObject();
 
 private:
-    QLineEdit * m_pAssocNameLE, *m_pTypeLE;
+    QLineEdit * m_pAssocNameLE;
+    QComboBox *m_pTypeCB;
+
+    /* Choices for the QComboBox, and we store ints and strings
+       so we can translate both ways */
+    Q3ValueList<Uml::Association_Type> m_AssocTypes;
+    QStringList m_AssocTypeStrings;
     Q3MultiLineEdit * m_pDoc;
 
     AssociationWidget *m_pAssociationWidget;

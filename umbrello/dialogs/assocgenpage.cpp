@@ -17,6 +17,7 @@
 
 // qt includes
 #include <qlayout.h>
+#include <qcombobox.h>
 //Added by qt3to4:
 #include <QLabel>
 #include <QVBoxLayout>
@@ -38,7 +39,7 @@ AssocGenPage::AssocGenPage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc
 
     m_pAssociationWidget = assoc;
     m_pWidget = 0;
-    m_pTypeLE = 0;
+    m_pTypeCB = 0;
     m_pAssocNameLE = 0;
     m_pUmldoc = d;
 
@@ -82,14 +83,38 @@ void AssocGenPage::constructWidget() {
     m_pDoc = new Q3MultiLineEdit(docGB);
     docLayout -> addWidget(m_pDoc);
     m_pDoc-> setText(m_pAssociationWidget-> getDoc());
+    Uml::Association_Type currentType =  m_pAssociationWidget->getAssocType();
+    QString currentTypeAsString = UMLAssociation::typeAsString(currentType);
+    QLabel *pTypeL = new QLabel(i18n("Type:"), nameGB);
+    nameLayout->addWidget(pTypeL, 1, 0);
 
-    // Association Type
-    QLabel *pTypeL = NULL;
-    Dialog_Utils::makeLabeledEditField( nameGB, nameLayout, 1,
-                                    pTypeL, i18n("Type:"),
-                                    m_pTypeLE,
-                                    UMLAssociation::typeAsString(m_pAssociationWidget->getAssocType()) );
-    m_pTypeLE->setEnabled(false);
+    /* Here is a list of all the supported choices for changing
+       association types */
+    m_AssocTypes.clear();
+    m_AssocTypes <<  Uml::at_Aggregation
+        << Uml::at_Composition << Uml::at_Containment;
+
+    bool found=false;
+    m_AssocTypeStrings.clear();
+    for (int i=0; i<m_AssocTypes.size(); ++i) {
+        if (m_AssocTypes[i] == currentType) found=true;
+        QString typeStr = UMLAssociation::typeAsString(m_AssocTypes[i]);
+        m_AssocTypeStrings << typeStr;
+    }
+    
+    if (!found) {
+        m_AssocTypes.clear();
+        m_AssocTypes << currentType;
+        m_AssocTypeStrings.clear();
+        m_AssocTypeStrings << currentTypeAsString;
+    }
+    
+    m_pTypeCB = new QComboBox(nameGB);
+    pTypeL->setBuddy(m_pTypeCB);
+    m_pTypeCB->insertStringList(m_AssocTypeStrings);
+    m_pTypeCB->setCurrentText(currentTypeAsString);
+    m_pDoc->setWordWrap(Q3MultiLineEdit::WidgetWidth);
+    nameLayout->addWidget(m_pTypeCB, 1, 1);
 
     m_pDoc->setWordWrap(Q3MultiLineEdit::WidgetWidth);
 
@@ -100,7 +125,9 @@ void AssocGenPage::updateObject() {
 
     if(m_pAssociationWidget) {
         QString name = m_pAssocNameLE -> text();
-
+        int comboBoxItem = m_pTypeCB->currentItem();
+        Uml::Association_Type newType = m_AssocTypes[comboBoxItem];
+        m_pAssociationWidget->setAssocType(newType);
         m_pAssociationWidget->setName(m_pAssocNameLE->text());
         m_pAssociationWidget->setDoc(m_pDoc->text());
 

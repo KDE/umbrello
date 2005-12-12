@@ -412,6 +412,13 @@ public:
      */
     AssociationWidget * findAssocWidget(Uml::Association_Type at,
                                         UMLWidget *pWidgetA, UMLWidget *pWidgetB);
+
+
+    /**
+        calls findAssocWidget on three possible types:
+        Uml::at_Aggregation << Uml::at_Composition << Uml::at_Containment
+        */
+    AssociationWidget * findAssocWidget(UMLWidget *pWidgetA, UMLWidget *pWidgetB);
     /**
      * Remove a widget from view.
      *
