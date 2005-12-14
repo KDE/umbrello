@@ -200,7 +200,10 @@ UMLObject *createUMLObject(Uml::Object_Type type,
             o = origType;
         }
     } else if (parentPkg && !bPutAtGlobalScope) {
+        if (o->getUMLPackage())
+            o->getUMLPackage()->removeObject(o);
         o->setUMLPackage(parentPkg);
+        parentPkg->addObject(o);
     }
     QString strippedComment = formatComment(comment);
     if (! strippedComment.isEmpty()) {
