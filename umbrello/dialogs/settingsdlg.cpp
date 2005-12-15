@@ -311,7 +311,7 @@ void SettingsDlg::slotDefault() {
     case Settings::page_UI:
         m_UiWidgets.useFillColorCB -> setChecked( true );
         m_UiWidgets.fillColorB -> setColor( QColor( 255, 255, 192 ) );
-        m_UiWidgets.lineColorB -> setColor( red );
+        m_UiWidgets.lineColorB -> setColor( Qt::red );
         m_UiWidgets.lineWidthB -> setValue( 0 );
         break;
 
@@ -386,7 +386,7 @@ void SettingsDlg::applyPage( Settings::Page page ) {
 }
 
 void SettingsDlg::slotLineBClicked() {
-    m_UiWidgets.lineColorB -> setColor( red );
+    m_UiWidgets.lineColorB -> setColor( Qt::red );
 }
 
 void SettingsDlg::slotFillBClicked() {
