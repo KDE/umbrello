@@ -246,7 +246,7 @@ void CodeEditor::insert (const QString & text, TextBlock * parent, bool editable
 
     // now do 'paragraph' background highlighting
     //        int endLine = paragraphs()-2;
-    int endLine = text.contains(QRegExp("\n")) + startLine -1;
+    int endLine = text.indexOf(QRegExp("\n")) + startLine -1;
     if(m_isHighlighted)
         for(int para=startLine;para<=endLine;para++)
             setParagraphBackgroundColor(para,bgcolor);

@@ -114,11 +114,11 @@ UMLObject *createUMLObject(Uml::Object_Type type,
     bNewUMLObjectWasCreated = false;
     if (o == NULL) {
         // Strip possible adornments and look again.
-        int isConst = name.contains(QRegExp("^const "));
+        const bool isConst = name.contains(QRegExp("^const "));
         name.remove(QRegExp("^const\\s+"));
         QString typeName(name);
-        int isPointer = typeName.contains('*');
-        int isRef = typeName.contains('&');
+        const bool isPointer = typeName.contains('*');
+        const bool isRef = typeName.contains('&');
         typeName.remove(QRegExp("[^\\w: ].*$"));
         UMLObject *origType = umldoc->findUMLObject(typeName, Uml::ot_UMLObject, parentPkg);
         if (origType == NULL) {

@@ -197,7 +197,7 @@ QString TextBlock::formatMultiLineText ( const QString &work, const QString &lin
     QString output = "";
     QString text = work;
     QString endLine = getNewLineEndingChars();
-    int matches = text.contains(QRegExp(breakStr));
+    int matches = text.indexOf(QRegExp(breakStr));
     if(matches)
     {
         // check that last part of string matches, if not, then

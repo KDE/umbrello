@@ -20,7 +20,7 @@
 #include <q3groupbox.h>
 #include <qlabel.h>
 #include <qlineedit.h>
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
 #include <q3multilineedit.h>
 #include <qradiobutton.h>
 #include <qcheckbox.h>

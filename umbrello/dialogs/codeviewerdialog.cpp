@@ -62,7 +62,7 @@ void CodeViewerDialog::initGUI ( const char * name) {
     m_highlightCheckBox->setChecked( getState().blocksAreHighlighted );
     m_showHiddenCodeCB->setChecked ( getState().showHiddenBlocks );
 
-    CodeViewerDialogBaseLayout->setMargin(margin);
+    CodeViewerDialogBase::gridLayout->setMargin(margin);
 
     resize( QSize(width, height).expandedTo(minimumSizeHint()) );
 
