@@ -98,8 +98,8 @@ protected:
 #endif
 
 
-UMLListView::UMLListView(QWidget *parent, const char *name)
-        : KListView(parent,name), m_pMenu(0), m_doc(UMLApp::app()->getDocument())
+UMLListView::UMLListView(QWidget *parent, const char *)
+        : KListView(parent), m_pMenu(0), m_doc(UMLApp::app()->getDocument())
 {
     loadPixmaps();
 
@@ -110,7 +110,7 @@ UMLListView::UMLListView(QWidget *parent, const char *name)
     setItemsMovable(true);
     setItemsRenameable( true );
     setSelectionModeExt(FileManager);
-    setFocusPolicy(QWidget::StrongFocus);
+    setFocusPolicy(Qt::StrongFocus);
     setDragEnabled(TRUE);
     setColumnWidthMode( 0, Manual );
     setDefaultRenameAction( Accept );
@@ -1572,8 +1572,8 @@ int UMLListView::getSelectedCount() {
 }
 
 void UMLListView::focusOutEvent ( QFocusEvent * fe) {
-    QFocusEvent::Reason reason = fe->reason();
-    if (reason != QFocusEvent::Popup) {
+    Qt::FocusReason reason = fe->reason();
+    if (reason != Qt::PopupFocusReason) {
         clearSelection();
         triggerUpdate();
     }
