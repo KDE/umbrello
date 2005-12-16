@@ -47,7 +47,7 @@ CPPCodeGenerationForm::CPPCodeGenerationForm( QWidget *parent, const char *name 
                                 tr2i18n("Accessors are inline"),
                                 Q3CheckListItem::CheckBox );
 
-    pOptionAccessorsArePublic = new QCheckListItem( GeneralOptionsListView,
+    pOptionAccessorsArePublic = new Q3CheckListItem( GeneralOptionsListView,
                                 tr2i18n("Accessors are public"),
                                 Q3CheckListItem::CheckBox );
 

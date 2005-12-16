@@ -19,6 +19,7 @@
 //Added by qt3to4:
 #include <QPixmap>
 #include <QMouseEvent>
+#include <QDesktopWidget>
 
 KStartupLogo::KStartupLogo(QWidget * parent, const char *name)
         : QWidget(parent,name, Qt::WStyle_NoBorder | Qt::WStyle_Customize | Qt::WDestructiveClose )
