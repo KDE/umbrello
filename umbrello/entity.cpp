@@ -167,7 +167,8 @@ UMLEntityAttribute* UMLEntity::takeEntityAttribute(UMLEntityAttribute* el, int *
 }
 
 int UMLEntity::entityAttributes() {
-    return m_List.count();
+    UMLClassifierListItemList entityAttributes = getFilteredList(Uml::ot_EntityAttribute);
+    return entityAttributes.count();
 }
 
 
