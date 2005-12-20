@@ -104,8 +104,16 @@ void EntityWidget::draw(QPainter& p, int offsetX, int offsetY) {
     for (entityattribute = list.first(); entityattribute; entityattribute = list.next()) {
         QString text = entityattribute->getName();
         p.setPen( QPen(Qt::black) );
+        UMLEntityAttribute* casted = dynamic_cast<UMLEntityAttribute*>( entityattribute );
+        if( casted && casted->getIndexType() == Uml::Primary )
+        {
+            font.setUnderline( true );
+            p.setFont( font );
+            font.setUnderline( false );
+        }
         p.drawText(offsetX + ENTITY_MARGIN, offsetY + y,
                    fontMetrics.width(text), fontHeight, Qt::AlignVCenter, text);
+        p.setFont( font );
         y+=fontHeight;
     }
 
