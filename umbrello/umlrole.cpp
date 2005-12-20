@@ -55,14 +55,6 @@ QString UMLRole::getMultiplicity() const {
     return m_Multi;
 }
 
-QString UMLRole::getName() const {
-    return m_Name;
-}
-
-QString UMLRole::getDoc() const {
-    return m_Doc;
-}
-
 void UMLRole::setObject (UMLObject *obj) {
     // because we will get the id of this role from the parent
     // object, we CANT allow UMLRoles to take other UMLRoles as
@@ -86,16 +78,6 @@ void UMLRole::setChangeability (Uml::Changeability_Type value) {
 
 void UMLRole::setMultiplicity ( const QString &multi ) {
     m_Multi = multi;
-    emit modified();
-}
-
-void UMLRole::setName( const QString &roleName ) {
-    m_Name = roleName;
-    emit modified();
-}
-
-void UMLRole::setDoc( const QString &doc ) {
-    m_Doc = doc;
     emit modified();
 }
 
@@ -294,16 +276,17 @@ bool UMLRole::load( QDomElement & element ) {
     // the component roles/linked items needs to be done in order to get things
     // right. *sigh* -b.t.
 
-    if (m_role == Uml::A) {  // setting association type from the role (A)
-        QString aggregation = element.attribute("aggregation", "none");
-        if (aggregation == "composite")
-            m_pAssoc->setAssocType(Uml::at_Composition);
-        else if (aggregation == "shared"       // UML1.3
-              || aggregation == "aggregate")   // UML1.4
-            m_pAssoc->setAssocType(Uml::at_Aggregation);
-        /* else
-                m_pAssoc->setAssocType(Uml::at_Association);  */
-    }
+    // Setting association type from the role (A)
+    // Determination of the "aggregation" attribute used to be done only
+    // when (m_role == Uml::A) but some XMI writers (e.g. StarUML) place
+    // the aggregation attribute at role B.
+    // The role end with the aggregation unequal to "none" wins.
+    QString aggregation = element.attribute("aggregation", "none");
+    if (aggregation == "composite")
+        m_pAssoc->setAssocType(Uml::at_Composition);
+    else if (aggregation == "shared"       // UML1.3
+          || aggregation == "aggregate")   // UML1.4
+        m_pAssoc->setAssocType(Uml::at_Aggregation);
 
     if (!element.hasAttribute("isNavigable")) {
         /* Backward compatibility mode: In Umbrello version 1.3.x the

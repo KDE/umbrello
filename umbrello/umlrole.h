@@ -67,20 +67,6 @@ public:
     QString getMultiplicity() const;
 
     /**
-     * Returns the name assigned to the role.
-     *
-     * @return  The name assigned to the role.
-     */
-    QString getName() const;
-
-    /**
-     * Returns the documentation for the role.
-     *
-     * @return  The documentation text for the role.
-     */
-    QString getDoc() const;
-
-    /**
      * Sets the UMLObject playing the role in the association.
      *
      * @param obj               Pointer to the UMLObject of role.
@@ -100,20 +86,6 @@ public:
      * @param multi             The multiplicity of role.
      */
     void setMultiplicity ( const QString &multi );
-
-    /**
-     * Sets the name of the role.
-     *
-     * @param roleName  The name of role.
-     */
-    void setName( const QString &roleName );
-
-    /**
-     *  Sets the documentation on the role.
-     *
-     *  @param doc              The string with the documentation.
-     */
-    void setDoc( const QString &doc );
 
     UMLAssociation * getParentAssociation ();
 
@@ -152,13 +124,10 @@ private:
     /** do some initialization at construction time */
     void init (UMLAssociation * parent, UMLObject * parentObj, Uml::Role_Type r);
 
-    QString m_Doc;
     UMLAssociation * m_pAssoc;
     Uml::Role_Type m_role;
-    QString m_Name;
     QString m_Multi;
     Uml::Changeability_Type m_Changeability;
-
 };
 
 #endif
