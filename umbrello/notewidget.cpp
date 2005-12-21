@@ -205,6 +205,7 @@ void NoteWidget::slotMenuSelection(int sel) {
 }
 
 void NoteWidget::mouseReleaseEvent( QMouseEvent * me ) {
+    UMLWidget::mouseReleaseEvent( me );
     if (m_bResizing) {
         drawText();
         UMLWidget::mouseReleaseEvent(me);
