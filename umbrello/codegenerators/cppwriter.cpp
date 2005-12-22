@@ -1196,6 +1196,9 @@ void CppWriter::writeOperations(UMLOperationList &oplist, bool isHeaderMethod, Q
         }
         str += " )";
 
+        if (op->getConst())
+            str += " const";
+
         // method body : only gets IF its not in a header
         if (isHeaderMethod && !INLINE_OPERATION_METHODS)
             str +=";"; // terminate now

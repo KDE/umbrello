@@ -86,11 +86,14 @@ void UMLOperationDialog::setupDialog() {
     genLayout -> addWidget(m_pStereoTypeCB, 1, 1);
 
     m_pAbstractCB = new QCheckBox( i18n("&Abstract operation"), m_pGenGB );
-    m_pAbstractCB -> setChecked( m_pOperation -> getAbstract() );
-    m_pStaticCB = new QCheckBox( i18n("Classifier &scope (\"static\")"), m_pGenGB );
-    m_pStaticCB -> setChecked( m_pOperation -> getStatic() );
+    m_pAbstractCB -> setChecked( m_pOperation->getAbstract() );
     genLayout -> addWidget( m_pAbstractCB, 2, 0 );
+    m_pStaticCB = new QCheckBox( i18n("Classifier &scope (\"static\")"), m_pGenGB );
+    m_pStaticCB -> setChecked( m_pOperation->getStatic() );
     genLayout -> addWidget( m_pStaticCB, 2, 1 );
+    m_pQueryCB = new QCheckBox( i18n("&Query (\"const\")"), m_pGenGB );
+    m_pQueryCB -> setChecked( m_pOperation->getConst() );
+    genLayout -> addWidget( m_pQueryCB, 2, 2 );
 
     topLayout -> addWidget( m_pGenGB );
 
@@ -485,6 +488,8 @@ bool UMLOperationDialog::apply()
     else
         m_pOperation->setTypeName(typeName);
 
+    m_pOperation->setStereotype( m_pStereoTypeCB->currentText() );
+
     bool isAbstract = m_pAbstractCB->isChecked();
     m_pOperation -> setAbstract( isAbstract );
     if (isAbstract) {
@@ -495,8 +500,8 @@ bool UMLOperationDialog::apply()
          */
         classifier->setAbstract(true);
     }
-    m_pOperation -> setStatic( m_pStaticCB -> isChecked() );
-    m_pOperation -> setStereotype( m_pStereoTypeCB->currentText() );
+    m_pOperation->setStatic( m_pStaticCB->isChecked() );
+    m_pOperation->setConst( m_pQueryCB->isChecked() );
 
     return true;
 }
