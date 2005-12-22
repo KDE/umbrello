@@ -149,6 +149,8 @@ void CPPHeaderCodeOperation::applyStereotypes (QString& prototype, UMLOperation 
     // virtual functions
     start = (inlinePolicy ? " {" : ";");
     end = (inlinePolicy ? "}" : "");
+    if (pOp->getConst())
+        prototype += " const";
     if (interface || pOp->getAbstract()) {
        // constructor can't be virtual or abstract
        if (!pOp->isLifeOperation()) {

@@ -184,6 +184,16 @@ public:
     bool isLifeOperation();
 
     /**
+     * Sets whether this operation is a query (C++ "const".)
+     */
+    void setConst(bool b);
+
+    /**
+     * Returns whether this operation is a query (C++ "const".)
+     */
+    bool getConst() const;
+
+    /**
      * Saves to the <UML:Operation> XMI element.
      */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
@@ -196,6 +206,7 @@ protected:
 
 private:
     UMLAttributeList m_List;
+    bool m_bConst;
 };
 
 #endif

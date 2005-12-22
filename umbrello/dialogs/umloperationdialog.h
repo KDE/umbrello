@@ -101,6 +101,7 @@ protected:
     QLineEdit * m_pNameLE;
     QCheckBox * m_pAbstractCB;
     QCheckBox * m_pStaticCB;
+    QCheckBox * m_pQueryCB;
     QPushButton* m_pDeleteButton;
     QPushButton* m_pPropertiesButton;
     KArrowButton* m_pUpButton;

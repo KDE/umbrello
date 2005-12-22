@@ -271,6 +271,14 @@ bool UMLOperation::isLifeOperation() {
     return (isConstructorOperation() || isDestructorOperation());
 }
 
+void UMLOperation::setConst(bool b) {
+    m_bConst = b;
+}
+
+bool UMLOperation::getConst() const {
+    return m_bConst;
+}
+
 bool UMLOperation::showPropertiesDialogue(QWidget* parent) {
     UMLOperationDialog dialogue(parent, this);
     return dialogue.exec();
@@ -278,6 +286,7 @@ bool UMLOperation::showPropertiesDialogue(QWidget* parent) {
 
 void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement operationElement = UMLObject::save("UML:Operation", qDoc);
+    operationElement.setAttribute( "isQuery", m_bConst ? "true" : "false" );
     QDomElement featureElement = qDoc.createElement( "UML:BehavioralFeature.parameter" );
     if (m_pSecondary) {
         QDomElement retElement = qDoc.createElement("UML:Parameter");
@@ -287,7 +296,6 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
         retElement.setAttribute( "kind", "return" );
         featureElement.appendChild( retElement );
     } else {
-        //operationElement.setAttribute( "type", m_SecondaryId );
         kdDebug() << "UMLOperation::saveToXMI: m_SecondaryId is "
         << m_SecondaryId << endl;
     }
@@ -330,6 +338,12 @@ bool UMLOperation::load( QDomElement & element ) {
                 << " for return type " << type << endl;
             }
         }
+    }
+    QString isQuery = element.attribute( "isQuery", "" );
+    if (!isQuery.isEmpty()) {
+        // We need this extra test for isEmpty() because load() might have been
+        // called again by the processing for BehavioralFeature.parameter (see below)
+        m_bConst = (isQuery == "true");
     }
     QDomNode node = element.firstChild();
     if (node.isComment())
