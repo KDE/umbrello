@@ -103,6 +103,7 @@ UMLWidget& UMLWidget::operator=(const UMLWidget& other) {
     m_pObject = other.m_pObject;
     m_pView = other.m_pView;
     m_pMenu = other.m_pMenu;
+    m_bResizable = other.m_bResizable;
     m_bResizing = other.m_bResizing;
     m_nPressOffsetX = other.m_nPressOffsetX;
     m_nPressOffsetY = other.m_nPressOffsetY;
@@ -344,8 +345,9 @@ void UMLWidget::mousePressEvent(QMouseEvent *me) {
     m_nOldH = height();
     const int m = 10;
     //see if clicked on bottom right corner
-    if( (m_nOldX + m_nPressOffsetX) >= (getX() + width() - m) &&
-        (m_nOldY + m_nPressOffsetY) >= (getY() + height() - m) && me->button() == Qt::LeftButton) {
+    if( m_bResizable && me->button() == Qt::LeftButton &&
+        (m_nOldX + m_nPressOffsetX) >= (getX() + width() - m) &&
+        (m_nOldY + m_nPressOffsetY) >= (getY() + height() - m)) {
         m_bResizing = true;
         m_pView->setCursor(WidgetBase::m_Type == Uml::wt_Message ?
                            KCursor::sizeVerCursor() : KCursor::sizeFDiagCursor());
@@ -446,6 +448,7 @@ void UMLWidget::init() {
     for (int i = 0; i < (int)FT_INVALID; ++i)
         m_pFontMetrics[(UMLWidget::FontType)i] = 0;
 
+    m_bResizable = true;
     m_bResizing = false;
     m_bMouseOver = false;
 
@@ -675,7 +678,7 @@ void UMLWidget::setFillColour(const QColor &colour) {
     update();
 }
 
-void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY, bool resizeable) {
+void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY) {
     int w = width();
     int h = height();
     int s = 4;
@@ -685,7 +688,7 @@ void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY, bool resize
     p -> fillRect(offsetX + w - s, offsetY, s, s, brush);
 
     // Draw the resize anchor in the lower right corner.
-    if (resizeable) {
+    if (m_bResizable) {
         brush.setColor(Qt::red);
         const int right = offsetX + w;
         const int bottom = offsetY + h;

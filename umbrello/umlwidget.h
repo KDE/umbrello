@@ -533,7 +533,7 @@ protected:
      * @param offsetX The x-coordinate for drawing.
      * @param offsetY The y-coordinate for drawing.
      */
-    virtual void drawSelected(QPainter * p, int offsetX, int offsetY, bool resizeable = true);
+    virtual void drawSelected(QPainter * p, int offsetX, int offsetY);
 
     /**
      * Overrides default method.
@@ -654,7 +654,7 @@ protected:
     int            m_nOldX, m_nOldY, m_nPosX, m_origZ;
     ListPopupMenu *m_pMenu;
     UMLDoc        *m_pDoc;  ///< shortcut for UMLApp::app()->getDocument()
-    bool           m_bResizing;
+    bool           m_bResizable, m_bResizing;
     int            m_nPressOffsetX, m_nPressOffsetY;
     int            m_nOldH, m_nOldW;
     QFontMetrics  *m_pFontMetrics[FT_INVALID];

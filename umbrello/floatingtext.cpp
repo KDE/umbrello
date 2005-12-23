@@ -57,6 +57,7 @@ void FloatingText::init() {
     m_Type = Uml::wt_Text;
     // initialize non-saved (i.e. volatile) data
     m_pLink = NULL;
+    UMLWidget::m_bResizable = false;
 }
 
 FloatingText::~FloatingText() {
