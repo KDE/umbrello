@@ -52,11 +52,7 @@ void ForkJoinWidget::draw(QPainter& p, int offsetX, int offsetY) {
     }
 }
 
-void ForkJoinWidget::drawSelected(QPainter * p, int offsetX, int offsetY, bool resizeable) {
-    if (! resizeable) {
-        UMLWidget::drawSelected(p, offsetX, offsetY, false);
-        return;
-    }
+void ForkJoinWidget::drawSelected(QPainter *, int /*offsetX*/, int /*offsetY*/) {
 }
 
 void ForkJoinWidget::constrain(int& width, int& height) {

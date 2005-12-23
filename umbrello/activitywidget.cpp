@@ -31,8 +31,8 @@
 ActivityWidget::ActivityWidget(UMLView * view, ActivityType activityType, Uml::IDType id )
         : UMLWidget(view, id)
 {
-    m_ActivityType = activityType;
     UMLWidget::setBaseType( Uml::wt_Activity );
+    setActivityType( activityType );
     updateComponentSize();
 }
 
@@ -119,6 +119,7 @@ ActivityWidget::ActivityType ActivityWidget::getActivityType() const {
 
 void ActivityWidget::setActivityType( ActivityType activityType ) {
     m_ActivityType = activityType;
+    UMLWidget::m_bResizable = (m_ActivityType == Normal);
 }
 
 void ActivityWidget::slotMenuSelection(int sel) {
@@ -199,7 +200,7 @@ bool ActivityWidget::loadFromXMI( QDomElement & qElement ) {
     m_Text = qElement.attribute( "activityname", "" );
     m_Doc = qElement.attribute( "documentation", "" );
     QString type = qElement.attribute( "activitytype", "1" );
-    m_ActivityType = (ActivityType)type.toInt();
+    setActivityType( (ActivityType)type.toInt() );
     return true;
 }
 

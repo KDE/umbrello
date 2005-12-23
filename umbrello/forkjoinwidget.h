@@ -79,7 +79,7 @@ protected:
      * Although the ForkJoinWidget supports resizing, we suppress the
      * resize corner because it is too large for this very slim widget.
      */
-    void drawSelected(QPainter * p, int offsetX, int offsetY, bool resizeable = true);
+    void drawSelected(QPainter * p, int offsetX, int offsetY);
 
     /**
     * Overrides the function from UMLWidget.
