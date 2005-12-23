@@ -117,6 +117,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
         const bool isConst = name.contains(QRegExp("^const "));
         name.remove(QRegExp("^const\\s+"));
         QString typeName(name);
+        const bool isAdorned = typeName.contains( QRegExp("[^\\w: ]") );
         const bool isPointer = typeName.contains('*');
         const bool isRef = typeName.contains('&');
         typeName.remove(QRegExp("[^\\w: ].*$"));
@@ -163,13 +164,13 @@ UMLObject *createUMLObject(Uml::Object_Type type,
                 bPutAtGlobalScope = true;
             }
             Uml::Object_Type t = type;
-            if (type == Uml::ot_UMLObject || isConst || isRef || isPointer)
+            if (type == Uml::ot_UMLObject || isAdorned)
                 t = Uml::ot_Class;
             origType = umldoc->createUMLObject(t, typeName, parentPkg);
             bNewUMLObjectWasCreated = true;
             kapp->processEvents();
         }
-        if (isConst || isPointer || isRef) {
+        if (isConst || isAdorned) {
             // Create the full given type (including adornments.)
             if (isConst)
                 name.prepend("const ");
@@ -187,7 +188,8 @@ UMLObject *createUMLObject(Uml::Object_Type type,
                 kdError() << "createUMLObject(" << name << "): "
                 << "origType " << typeName << " is not a UMLClassifier"
                 << endl;
-            dt->setIsReference();
+            if (isRef || isPointer)
+                dt->setIsReference();
             /*
             if (isPointer) {
                 UMLObject *pointerDecl = umldoc->createUMLObject(Uml::ot_Datatype, type);
