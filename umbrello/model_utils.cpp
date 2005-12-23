@@ -346,13 +346,12 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
     if (pos == -1)
         return PS_Illegal_MethodName;
     desc.m_name = pat.cap(1);
-    // Remove possible empty parentheses ()
-    m.remove( QRegExp("\\s*\\(\\s*\\)") );
     desc.m_pReturnType = NULL;
-    pat = QRegExp( ":\\s*(\\w[\\w\\. ]*)$" );
+    pat = QRegExp("\\) *:(.*)$");
     pos = pat.search(m);
     if (pos != -1) {  // return type is optional
         QString retType = pat.cap(1);
+        retType = retType.stripWhiteSpace();
         if (retType != "void") {
             UMLObject *pRetType = owningScope->findTemplate(retType);
             if (pRetType == NULL) {
@@ -363,6 +362,8 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
             desc.m_pReturnType = pRetType;
         }
     }
+    // Remove possible empty parentheses ()
+    m.remove( QRegExp("\\s*\\(\\s*\\)") );
     desc.m_args.clear();
     pat = QRegExp( "\\((.*)\\)" );
     pos = pat.search(m);
