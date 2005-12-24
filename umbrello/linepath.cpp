@@ -810,15 +810,13 @@ Uml::Association_Type LinePath::getAssocType() {
 QColor LinePath::getLineColor() {
     if( !m_pAssociation )
         return Qt::black;
-    UMLView * view =  (UMLView *)m_pAssociation -> parent();
-    return view -> getLineColor();
+    return m_pAssociation -> getLineColor();
 }
 
 uint LinePath::getLineWidth() {
     if( !m_pAssociation )
         return 0;
-    UMLView * view =  (UMLView *)m_pAssociation -> parent();
-    int viewLineWidth = view->getLineWidth();
+    int viewLineWidth = m_pAssociation -> getLineWidth();
     if ( viewLineWidth >= 0 && viewLineWidth <= 10 )
         return viewLineWidth;
     else {

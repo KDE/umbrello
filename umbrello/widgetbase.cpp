@@ -97,17 +97,17 @@ bool WidgetBase::loadFromXMI( QDomElement & qElement ) {
     QString lineColour = qElement.attribute( "linecolour", "none" );
     QString lineWidth = qElement.attribute( "linewidth", "none" );
     if (lineColour != "none") {
-        m_LineColour = QColor(lineColour);
+        setLineColor( QColor(lineColour) );
         m_bUsesDiagramLineColour = false;
     } else if (m_Type != Uml::wt_Box && m_pView != NULL) {
-        m_LineColour = m_pView->getLineColor();
+        setLineColor( m_pView->getLineColor() );
         m_bUsesDiagramLineColour = true;
     }
     if (lineWidth != "none") {
-        m_LineWidth = lineWidth.toInt();
+        setLineWidth( lineWidth.toInt() );
         m_bUsesDiagramLineWidth = false;
     } else if ( m_pView ) {
-        m_LineWidth = m_pView->getLineWidth();
+        setLineWidth( m_pView->getLineWidth() );
         m_bUsesDiagramLineWidth = true;
     }
     return true;
