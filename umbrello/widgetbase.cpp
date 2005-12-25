@@ -82,9 +82,9 @@ void WidgetBase::setLineWidth(uint width) {
 
 void WidgetBase::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
     if (m_bUsesDiagramLineColour) {
-        qElement.setAttribute( "linecolour", "none" );
+        qElement.setAttribute( "linecolor", "none" );
     } else {
-        qElement.setAttribute( "linecolour", m_LineColour.name() );
+        qElement.setAttribute( "linecolor", m_LineColour.name() );
     }
     if (m_bUsesDiagramLineWidth) {
         qElement.setAttribute( "linewidth", "none" );
@@ -94,10 +94,15 @@ void WidgetBase::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
 }
 
 bool WidgetBase::loadFromXMI( QDomElement & qElement ) {
-    QString lineColour = qElement.attribute( "linecolour", "none" );
+    // first load from "linecolour" and then overwrite with the "linecolor"
+    // attribute if that one is present. The "linecolour" name was a "typo" in
+    // earlier versions of Umbrello
+    QString lineColor = qElement.attribute( "linecolour", "none" );
+    lineColor = qElement.attribute( "linecolor", lineColor );
+
     QString lineWidth = qElement.attribute( "linewidth", "none" );
-    if (lineColour != "none") {
-        setLineColor( QColor(lineColour) );
+    if (lineColor != "none") {
+        setLineColor( QColor(lineColor) );
         m_bUsesDiagramLineColour = false;
     } else if (m_Type != Uml::wt_Box && m_pView != NULL) {
         setLineColor( m_pView->getLineColor() );
