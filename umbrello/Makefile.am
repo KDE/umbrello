@@ -52,6 +52,7 @@ hierarchicalcodeblock.cpp \
 idlimport.cpp \
 import_utils.cpp \
 infowidget.cpp \
+javaimport.cpp \
 kstartuplogo.cpp \
 linepath.cpp \
 linkwidget.cpp \

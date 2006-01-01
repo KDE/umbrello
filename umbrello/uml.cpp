@@ -51,6 +51,7 @@
 #include "cppimport.h"
 #include "idlimport.h"
 #include "adaimport.h"
+#include "javaimport.h"
 #include "docwindow.h"
 #include "codegenerator.h"
 #include "generatorinfo.h"
@@ -1420,6 +1421,8 @@ void UMLApp::slotImportClasses() {
     QString preselectedExtension;
     if (m_activeLanguage == "IDL") {
         preselectedExtension = i18n("*.idl|IDL Files (*.idl)");
+    } else if (m_activeLanguage == "Java") {
+        preselectedExtension = i18n("*.java|Java Files (*.java)");
     } else if (m_activeLanguage == "Ada") {
         preselectedExtension = i18n("*.ads *.ada|Ada Files (*.ads *.ada)");
     } else {
@@ -1432,6 +1435,8 @@ void UMLApp::slotImportClasses() {
     const QString& firstFile = fileList.first();
     if (firstFile.endsWith(".idl"))
         classImporter = new IDLImport();
+    else if (firstFile.endsWith(".java"))
+        classImporter = new JavaImport();
     else if (firstFile.contains( QRegExp("\\.ad[sba]$") ))
         classImporter = new AdaImport();
     else
