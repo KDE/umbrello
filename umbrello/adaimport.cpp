@@ -76,7 +76,7 @@ void AdaImport::parseFile(QString filename) {
     if (filename.contains('/')) {
         QString path = filename;
         path.remove( QRegExp("/[^/]+$") );
-        kdDebug() << "IDLImport::parseFile: adding path " << path << endl;
+        kdDebug() << "AdaImport::parseFile: adding path " << path << endl;
         Import_Utils::addIncludePath(path);
     }
     if (! QFile::exists(filename)) {
