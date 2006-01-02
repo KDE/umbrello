@@ -51,111 +51,50 @@ CodeGeneratorFactory::CodeGeneratorFactory()  {
 CodeGeneratorFactory::~CodeGeneratorFactory() {
 }
 
-QStringList CodeGeneratorFactory::languagesAvailable() {
-    kdDebug()<<"Querying languages available"<<endl;
-
-    QStringList l;
-    l.append("ActionScript");
-    l.append("Ada");
-    l.append("Cpp");
-    //  l.append("C#");
-    l.append("IDL");
-    l.append("Java");
-    l.append("JavaScript");
-    l.append("Perl");
-    l.append("PHP");
-    l.append("PHP5");
-    l.append("Python");
-    l.append("Ruby");
-    l.append("SQL");
-    l.append("Tcl");
-    l.append("XMLSchema");
-    return l;
-}
-
-QString CodeGeneratorFactory::generatorName(const QString &l) {
-    kdDebug()<<"Looking up generator for language "<<l<<endl;
-    if (l=="Java")
-        return "JavaCodeGenerator";
-    if (l=="Cpp")
-        return "CppCodeGenerator";
-    if (l == "Ada")
-        return "AdaWriter";
-    if (l == "ActionScript")
-        return "ASWriter";
-    /*
-        if (l=="C#")
-                return "C#Writer";
-    */
-    if (l=="IDL")
-        return "IDLWriter";
-    if (l == "JavaScript")
-        return "JSWriter";
-    if (l == "PHP")
-        return "PHPWriter";
-    if (l == "PHP5")
-        return "PHP5Writer";
-    if (l == "Perl")
-        return "PerlWriter";
-    if (l == "Python")
-        return "PythonWriter";
-    if (l == "Ruby")
-        return "RubyWriter";
-    if (l == "SQL")
-        return "SQLWriter";
-    if (l == "Tcl")
-        return "TclWriter";
-    if (l == "XMLSchema")
-        return "XMLSchemaWriter";
-    //else...
-    kdDebug()<<"CodeGeneratorFactory::Error: no generator for language "<<l<<endl;
-    return "";
-}
-
 CodeGenerator* CodeGeneratorFactory::createObject(UMLDoc* doc, const char* name)  {
     CodeGenerator* obj = 0;
     QString cname(name);
 
     if (doc) {
         Settings::OptionState optionState = UMLApp::app()->getOptionState();
-        if (cname == "AdaWriter") {
+        if (cname == "Ada") {
             obj = new AdaWriter(doc, name);
-        } else if(cname == "ASWriter") {
+        } else if (cname == "ActionScript") {
             obj = new ASWriter( doc, name );
-        } else if(cname == "CppCodeGenerator") {
+        } else if (cname == "C++") {
             if (optionState.generalState.newcodegen)
                 obj = new CPPCodeGenerator(doc, name);
             else
                 obj = new CppWriter(doc, name);
-            //          } else if(cname == "C#Writer") {
-            //                  obj = new CsWriter( doc, name );
-        } else if(cname == "IDLWriter") {
+        // } else if (cname == "C#") {
+        //     obj = new CsWriter( doc, name );
+        } else if (cname == "IDL") {
             obj = new IDLWriter( doc, name );
-        } else if(cname =="JavaCodeGenerator") {
+        } else if (cname =="Java") {
             if (optionState.generalState.newcodegen)
                 obj = new JavaCodeGenerator(doc, name);
             else
                 obj = new JavaWriter(doc, name);
-        } else if(cname == "JSWriter") {
+        } else if (cname == "JavaScript") {
             obj = new JSWriter( doc, name );
-        } else if (cname == "PHPWriter") {
+        } else if (cname == "PHP") {
             obj = new PhpWriter( doc, name);
-        } else if (cname == "PHP5Writer") {
+        } else if (cname == "PHP5") {
             obj = new Php5Writer( doc, name);
-        } else if (cname == "PerlWriter") {
+        } else if (cname == "Perl") {
             obj = new PerlWriter( doc, name);
-        } else if (cname == "PythonWriter") {
+        } else if (cname == "Python") {
             obj = new PythonWriter( doc, name);
-        } else if (cname == "RubyWriter") {
+        } else if (cname == "Ruby") {
             if (optionState.generalState.newcodegen)
                 obj = new RubyCodeGenerator(doc, name);
             else
                 obj = new RubyWriter(doc, name);
-        } else if (cname == "SQLWriter") {
+        } else if (cname == "SQL") {
             obj = new SQLWriter( doc, name);
-        } else if (cname == "TclWriter") {
+        } else if (cname == "Tcl") {
             obj = new TclWriter( doc, name);
-        } else if (cname == "XMLSchemaWriter") {
+        } else if (cname == "XMLSchema") {
             obj = new XMLSchemaWriter( doc, name);
         } else {
             kdWarning() << "cannot create object of type " << name <<

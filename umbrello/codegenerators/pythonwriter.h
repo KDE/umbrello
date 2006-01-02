@@ -40,13 +40,6 @@ public:
     virtual void writeClass(UMLClassifier *c);
 
     /**
-     * checks whether type is "PythonWriter"
-     *
-     * @param type
-     */
-    virtual bool isType (QString & type);
-
-    /**
      * returns "Python"
      */
     virtual QString getLanguage();

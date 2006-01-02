@@ -293,18 +293,6 @@ QString ASWriter::getLanguage() {
     return "ActionScript";
 }
 
-/**
- * checks whether type is "ASWriter"
- *
- * @param type
- */
-bool ASWriter::isType (QString & type)
-{
-    if(type == "ASWriter")
-        return true;
-    return false;
-}
-
 const QStringList ASWriter::reservedKeywords() const {
 
     static QStringList keywords;

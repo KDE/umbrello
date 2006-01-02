@@ -39,13 +39,6 @@ public:
     virtual void writeClass(UMLClassifier *c);
 
     /**
-     * checks whether type is "JSWriter"
-     *
-     * @param type
-     */
-    virtual bool isType (QString & type);
-
-    /**
      * returns "JavaScript"
      */
     virtual QString getLanguage();

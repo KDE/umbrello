@@ -198,18 +198,6 @@ QString SQLWriter::getLanguage() {
     return "SQL";
 }
 
-/**
- * checks whether type is "SQLWriter"
- *
- * @param type
- */
-bool SQLWriter::isType (QString & type)
-{
-    if(type == "SQLWriter")
-        return true;
-    return false;
-}
-
 const QStringList SQLWriter::reservedKeywords() const {
 
     static QStringList keywords;

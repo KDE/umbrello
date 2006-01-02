@@ -3318,18 +3318,6 @@ QString PhpWriter::getLanguage() {
     return "PHP";
 }
 
-/**
- * checks whether type is "PhpWriter"
- *
- * @param type
- */
-bool PhpWriter::isType (QString & type)
-{
-    if(type == "PhpWriter")
-        return true;
-    return false;
-}
-
 const QStringList PhpWriter::reservedKeywords() const {
 
     static QStringList keywords;

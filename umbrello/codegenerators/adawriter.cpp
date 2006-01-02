@@ -50,18 +50,6 @@ QString AdaWriter::getLanguage() {
     return "Ada";
 }
 
-/**
- * checks whether type is "AdaWriter"
- *
- * @param type
- */
-bool AdaWriter::isType (QString & type)
-{
-    if(type == "AdaWriter")
-        return true;
-    return false;
-}
-
 
 bool AdaWriter::isOOClass(UMLClassifier *c) {
     Uml::Object_Type ot = c->getBaseType();

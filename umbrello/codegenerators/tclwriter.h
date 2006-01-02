@@ -56,14 +56,7 @@ public:
     virtual void    writeClass(UMLClassifier * c);
 
     /**
-     * checks whether type is "TclWriter"
-     *
-     * @param type
-     */
-    virtual bool    isType(QString & type);
-
-    /**
-     * returns "C++"
+     * returns "Tcl"
      */
     virtual QString getLanguage();
 

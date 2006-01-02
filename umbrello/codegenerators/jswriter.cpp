@@ -249,18 +249,6 @@ QString JSWriter::getLanguage() {
     return "JavaScript";
 }
 
-/**
- * checks whether type is "JSWriter"
- *
- * @param type
- */
-bool JSWriter::isType (QString & type)
-{
-    if(type == "JSWriter")
-        return true;
-    return false;
-}
-
 const QStringList JSWriter::reservedKeywords() const {
 
     static QStringList keywords;

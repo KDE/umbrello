@@ -57,22 +57,10 @@ CPPCodeGenerator::~CPPCodeGenerator ( ) {
 //
 
 /**
- * returns "Cpp"
+ * returns "C++"
  */
 QString CPPCodeGenerator::getLanguage() {
-    return "Cpp";
-}
-
-/**
- * checks whether type is "CPPCodeGenerator"
- *
- * @param type
- */
-bool CPPCodeGenerator::isType (QString & type)
-{
-    if(type == "CPPCodeGenerator")
-        return true;
-    return false;
+    return "C++";
 }
 
 /**

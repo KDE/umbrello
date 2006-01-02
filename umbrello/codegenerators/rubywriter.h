@@ -43,13 +43,6 @@ public:
     virtual void writeClass(UMLClassifier *c);
 
     /**
-     * checks whether type is "RubyWriter"
-     *
-     * @param type
-     */
-    virtual bool isType (QString & type);
-
-    /**
      * returns "Ruby"
      */
     virtual QString getLanguage();

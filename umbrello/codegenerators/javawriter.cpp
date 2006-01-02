@@ -42,13 +42,6 @@ QString JavaWriter::getLanguage() {
     return "Java";
 }
 
-bool JavaWriter::isType (QString & type)
-{
-    if (type == "JavaCodeGenerator")
-        return true;
-    return false;
-}
-
 void JavaWriter::writeClass(UMLClassifier *c)
 {
 

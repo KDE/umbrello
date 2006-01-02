@@ -55,7 +55,6 @@
 #include "javaimport.h"
 #include "docwindow.h"
 #include "codegenerator.h"
-#include "generatorinfo.h"
 #include "codegenerationpolicy.h"
 #include "codegenerators/codegenfactory.h"
 #include "widget_utils.h"
@@ -63,7 +62,7 @@
 #include "umllistview.h"
 #include "umlviewlist.h"
 #include "worktoolbar.h"
-
+#include "model_utils.h"
 #include "clipboard/umlclipboard.h"
 #include "dialogs/classwizard.h"
 #include "dialogs/codegenerationwizard.h"
@@ -84,7 +83,6 @@ UMLApp::UMLApp(QWidget* , const char* name) : K3DockMainWindow(0, name) {
     m_pDocWindow = 0;
     m_config = kapp->config();
     m_listView = 0;
-    m_generatorDict.setAutoDelete(true);
     m_langSelect = NULL;
     m_zoomSelect = NULL;
     m_loading = false;
@@ -544,10 +542,9 @@ void UMLApp::saveOptions() {
         m_defaultcodegenerationpolicy->setDefaults(gen->getPolicy());
 
     // write the config for each language-specific code gen policies
-    GeneratorDictIt it( m_generatorDict );
-    for(it.toFirst() ; it.current(); ++it )
-    {
-        CodeGenerator * gen = m_doc->findCodeGeneratorByLanguage(it.current()->language);
+    for (int i = 0; i < Uml::pl_Reserved; i++) {
+        QString language = Model_Utils::progLang((Uml::Programming_Language) i);
+        CodeGenerator * gen = m_doc->findCodeGeneratorByLanguage(language);
         if (gen)
             gen->getPolicy()->writeConfig(m_config);
     }
@@ -1200,18 +1197,10 @@ CodeGenerator* UMLApp::getGenerator(bool warnMissing ) {
 }
 
 CodeGenerator* UMLApp::createGenerator() {
-    GeneratorInfo* info;
     CodeGenerator* g = 0;
 
     if(m_activeLanguage.isEmpty()) {
         KMessageBox::sorry(this,i18n("There is no active language defined.\nPlease select "
-                                     "one of the installed languages to generate the code with."),
-                           i18n("No Language Selected"));
-        return 0;
-    }
-    info = m_generatorDict.find(m_activeLanguage);
-    if(!info) {
-        KMessageBox::sorry(this,i18n("Could not find active language.\nPlease select "
                                      "one of the installed languages to generate the code with."),
                            i18n("No Language Selected"));
         return 0;
@@ -1225,8 +1214,7 @@ CodeGenerator* UMLApp::createGenerator() {
     }
 
     CodeGeneratorFactory codeGeneratorFactory;
-    QString generatorName = codeGeneratorFactory.generatorName(m_activeLanguage);
-    g = codeGeneratorFactory.createObject(getDocument(), generatorName.latin1());
+    g = codeGeneratorFactory.createObject(getDocument(), m_activeLanguage.latin1());
     if (getDocument()->getCurrentCodeGenerator() == NULL)
         getDocument()->setCurrentCodeGenerator(g);
 
@@ -1247,10 +1235,6 @@ CodeGenerator* UMLApp::createGenerator() {
 
     return g;
 
-}
-
-GeneratorDict& UMLApp::generatorDict() {
-    return m_generatorDict;
 }
 
 void UMLApp::generateAllCode() {
@@ -1457,32 +1441,20 @@ void UMLApp::slotDeleteDiagram() {
 
 void UMLApp::initGenerators() {
     m_config->setGroup("Code Generation");
-    m_activeLanguage = m_config->readEntry("activeLanguage", "Cpp");
-
-    CodeGeneratorFactory codeGeneratorFactory;
-    QStringList languages = codeGeneratorFactory.languagesAvailable();
-
-    QStringList::Iterator end(languages.end());
-    for ( QStringList::Iterator langit(languages.begin()); langit != end; ++langit ) {
-        GeneratorInfo* info;
-        info = new GeneratorInfo;
-        info->language = *langit;  //language name
-        info->object = codeGeneratorFactory.generatorName(*langit);
-        m_generatorDict.insert(info->language,info);
-    }
-
+    m_activeLanguage = m_config->readEntry("activeLanguage", "C++");
+    if (m_activeLanguage == "Cpp")   // for backward compatibility
+        m_activeLanguage = "C++";
     updateLangSelectMenu();
 }
 
 void UMLApp::updateLangSelectMenu() {
     m_langSelect->clear();
     m_langSelect->setCheckable(true);
-    int id;
     bool foundActive = false;
-    GeneratorDictIt it( m_generatorDict );
-    for(it.toFirst() ; it.current(); ++it ) {
-        id = m_langSelect->insertItem(it.current()->language,this,SLOT(setActiveLanguage(int)));
-        if(m_activeLanguage == it.current()->language) {
+    for (int i = 0; i < Uml::pl_Reserved; i++) {
+        QString language = Model_Utils::progLang((Uml::Programming_Language) i);
+        int id = m_langSelect->insertItem(language,this,SLOT(setActiveLanguage(int)));
+        if(m_activeLanguage == language) {
             m_langSelect->setItemChecked(id,true);
             foundActive = true;
         } else
@@ -1492,7 +1464,7 @@ void UMLApp::updateLangSelectMenu() {
     //if we could not find the active language, we try to fall back to C++
     if(!foundActive) {
         for(uint index=0; index <m_langSelect->count(); index++)
-            if ( m_langSelect->text(m_langSelect->idAt(index)) == "Cpp" ) {
+            if ( m_langSelect->text(m_langSelect->idAt(index)) == "C++" ) {
                 m_langSelect->setItemChecked(m_langSelect->idAt(index),true);
                 m_activeLanguage = m_langSelect->text(m_langSelect->idAt(index));
                 break;
@@ -1592,10 +1564,8 @@ void UMLApp::newDocument() {
 
 void UMLApp::initSavedCodeGenerators() {
     QString activeLang = m_activeLanguage;
-    GeneratorDictIt it( m_generatorDict );
-    for(it.toFirst() ; it.current(); ++it )
-    {
-        m_activeLanguage = it.current()->language;
+    for (int i = 0; i < Uml::pl_Reserved; i++) {
+        m_activeLanguage = Model_Utils::progLang((Uml::Programming_Language) i);
         if( m_doc->hasCodeGeneratorXMIParams(m_activeLanguage))
             createGenerator();
     }

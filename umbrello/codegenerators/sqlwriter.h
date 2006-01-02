@@ -41,13 +41,6 @@ public:
     virtual void writeClass(UMLClassifier *c);
 
     /**
-     * checks whether type is "SQLWriter"
-     *
-     * @param type
-     */
-    virtual bool isType (QString & type);
-
-    /**
      * returns "SQL"
      */
     virtual QString getLanguage();

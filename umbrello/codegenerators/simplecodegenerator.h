@@ -57,7 +57,6 @@ public:
     // Public attribute accessor methods
     //
 
-    virtual bool isType (QString & type) = 0;
     virtual QString getLanguage() = 0;
 
     void writeCodeToFile ( UMLClassifierList & concepts);

@@ -170,18 +170,6 @@ QString PerlWriter::getLanguage() {
     return "Perl";
 }
 
-/**
- * checks whether type is "PerlWriter"
- *
- * @param type
- */
-bool PerlWriter::isType (QString & type)
-{
-    if(type == "PerlWriter")
-        return true;
-    return false;
-}
-
 ////////////////////////////////////////////////////////////////////////////////////
 //  Helper Methods
 

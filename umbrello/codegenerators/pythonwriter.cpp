@@ -261,18 +261,6 @@ QString PythonWriter::getLanguage() {
     return "Python";
 }
 
-/**
- * checks whether type is "PythonWriter"
- *
- * @param type
- */
-bool PythonWriter::isType (QString & type)
-{
-    if(type == "PythonWriter")
-        return true;
-    return false;
-}
-
 const QStringList PythonWriter::reservedKeywords() const {
 
     static QStringList keywords;

@@ -42,13 +42,6 @@ public:
     virtual void writeClass (UMLClassifier *c);
 
     /**
-     * checks whether type is "IDLWriter"
-     *
-     * @param type
-     */
-    virtual bool isType (QString & type);
-
-    /**
      * returns "IDL"
      */
     virtual QString getLanguage();

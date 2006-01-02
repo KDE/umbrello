@@ -392,18 +392,6 @@ QString RubyWriter::getLanguage() {
     return "Ruby";
 }
 
-/**
- * checks whether type is "RubyWriter"
- *
- * @param type
- */
-bool RubyWriter::isType (QString & type)
-{
-    if(type == "RubyWriter")
-        return true;
-    return false;
-}
-
 const QStringList RubyWriter::reservedKeywords() const {
 
     static QStringList keywords;
