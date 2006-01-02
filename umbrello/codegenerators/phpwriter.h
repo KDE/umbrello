@@ -40,13 +40,6 @@ public:
     virtual void writeClass(UMLClassifier *c);
 
     /**
-     * checks whether type is "PhpWriter"
-     *
-     * @param type
-     */
-    virtual bool isType (QString & type);
-
-    /**
      * returns "PHP"
      */
     virtual QString getLanguage();

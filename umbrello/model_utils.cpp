@@ -393,5 +393,43 @@ QString psText(Parse_Status value) {
     return text[(unsigned) value];
 }
 
+QString progLang(Uml::Programming_Language pl) {
+    switch (pl) {
+        case Uml::pl_ActionScript:
+            return "ActionScript";
+        case Uml::pl_Ada:
+            return "Ada";
+        case Uml::pl_Cpp:
+            return "C++";
+        // case Uml::pl_Csharp:
+            // return "C#";
+        case Uml::pl_IDL:
+            return "IDL";
+        case Uml::pl_Java:
+            return "Java";
+        case Uml::pl_JavaScript:
+            return "JavaScript";
+        case Uml::pl_Perl:
+            return "Perl";
+        case Uml::pl_PHP:
+            return "PHP";
+        case Uml::pl_PHP5:
+            return "PHP5";
+        case Uml::pl_Python:
+            return "Python";
+        case Uml::pl_Ruby:
+            return "Ruby";
+        case Uml::pl_SQL:
+            return "SQL";
+        case Uml::pl_Tcl:
+            return "Tcl";
+        case Uml::pl_XMLSchema:
+            return "XMLSchema";
+        default:
+            break;
+    }
+    return QString::null;
+}
+
 }  // namespace Model_Utils
 

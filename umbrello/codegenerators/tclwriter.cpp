@@ -92,14 +92,6 @@ TclWriter::getLanguage()
     return "Tcl";
 }
 
-bool
-TclWriter::isType(QString & type)
-{
-    if (type == "TclWriter")
-        return true;
-    return false;
-}
-
 void
 TclWriter::writeClass(UMLClassifier * c)
 {

@@ -48,18 +48,6 @@ QString XMLSchemaWriter::getLanguage() {
     return "XMLSchema";
 }
 
-/**
- * checks whether type is "XMLSchemaWriter"
- *
- * @param type
- */
-bool XMLSchemaWriter::isType (QString & type)
-{
-    if(type == "XMLSchemaWriter")
-        return true;
-    return false;
-}
-
 // main method for invoking..
 void XMLSchemaWriter::writeClass(UMLClassifier *c)
 {

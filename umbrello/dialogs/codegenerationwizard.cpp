@@ -27,7 +27,6 @@
 #include "codegenerationoptionspage.h"
 #include "../classifier.h"
 #include "../codegenerator.h"
-#include "../generatorinfo.h"
 #include "../uml.h"
 #include "../umldoc.h"
 
@@ -209,20 +208,6 @@ void CodeGenerationWizard::showPage(QWidget *page) {
 CodeGenerator* CodeGenerationWizard::generator() {
     // FIX
     /*
-        GeneratorInfo* info;
-        if( m_CodeGenerationOptionsPage->getCodeGenerationLanguage().isEmpty() ) {
-                KMessageBox::sorry(this,i18n("There is no Active Language defined.\nPlease select\
-                                             one of the installed languages to generate the code in."),
-                                   i18n("No Language Selected"));
-                return 0;
-        }
-        GeneratorDict ldict = UMLApp::app()->generatorDict();
-        info = ldict.find( m_CodeGenerationOptionsPage->getCodeGenerationLanguage() );
-        if(!info) {
-                kdDebug()<<"error looking up library information (dictionary)"<<endl;
-                return 0;
-        }
-
         KLibLoader* loader = KLibLoader::self();
         if(!loader) {
                 kdDebug()<<"error getting KLibLoader!"<<endl;

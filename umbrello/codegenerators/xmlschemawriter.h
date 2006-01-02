@@ -60,13 +60,6 @@ public:
     virtual void writeClass(UMLClassifier *c);
 
     /**
-     * checks whether type is "XMLSchemaWriter"
-     *
-     * @param type
-     */
-    virtual bool isType (QString & type);
-
-    /**
      * returns "XMLSchema"
      */
     virtual QString getLanguage();

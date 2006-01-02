@@ -98,13 +98,6 @@ public:
     bool removeHeaderCodeDocument ( CPPHeaderCodeDocument * remove_object );
 
     /**
-     * checks whether type is "CPPCodeGenerator"
-     *
-     * @param type
-     */
-    virtual bool isType (QString & type);
-
-    /**
      * returns "Cpp"
      */
     QString getLanguage();

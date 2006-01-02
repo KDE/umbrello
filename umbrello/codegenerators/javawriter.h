@@ -53,13 +53,6 @@ public:
     virtual void writeClass(UMLClassifier *c);
 
     /**
-     * checks whether type is "JavaCodeGenerator"
-     *
-     * @param type
-     */
-    virtual bool isType (QString & type);
-
-    /**
      * returns "Java"
      */
     virtual QString getLanguage();

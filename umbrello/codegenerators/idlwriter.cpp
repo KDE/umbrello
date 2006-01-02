@@ -59,18 +59,6 @@ QString IDLWriter::getLanguage() {
     return "IDL";
 }
 
-/**
- * checks whether type is "IDLWriter"
- *
- * @param type
- */
-bool IDLWriter::isType (QString & type)
-{
-    if(type == "IDLWriter")
-        return true;
-    return false;
-}
-
 void IDLWriter::computeAssocTypeAndRole
 (UMLAssociation *a, UMLClassifier *c, QString& typeName, QString& roleName)
 {

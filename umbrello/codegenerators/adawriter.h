@@ -51,13 +51,6 @@ public:
     virtual void writeClass (UMLClassifier *c);
 
     /**
-     * checks whether type is "AdaWriter"
-     *
-     * @param type
-     */
-    virtual bool isType (QString & type);
-
-    /**
      * returns "Ada"
      */
     virtual QString getLanguage();

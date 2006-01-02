@@ -20,7 +20,6 @@
 #endif
 
 #include "optionstate.h"
-#include "generatorinfo.h"
 
 #include <qmap.h>
 #include <qdict.h>
@@ -218,13 +217,6 @@ public:
     CodeGenerator* createGenerator();
 
     /**
-     * Returns the dictionary of available languages.
-     *
-     * @return  Pointer to the dictionary of available languages.
-     */
-    GeneratorDict& generatorDict();
-
-    /**
      * Call the refactoring assistant on a classifier.
      *
      * @param   Pointer to the classifier to refactor.
@@ -403,10 +395,8 @@ protected slots:
 
 public slots:
 
-
     /**
-     * Sets up generatorDict with all the available code
-     * generators and calls updateLangSelectMenu()
+     * Fills in m_activeLanguage and calls updateLangSelectMenu()
      */
     void initGenerators();
 
@@ -765,13 +755,6 @@ private:
      * Active language.
      */
     QString m_activeLanguage;
-
-    /**
-     * Dictionary containing all the info needed to load a Code Generator
-     * at run time:
-     * Language (so that the user can choose), library and object name.
-     */
-    GeneratorDict m_generatorDict;
 
     /**
      *  Returns whether we can decode the given mimesource

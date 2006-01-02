@@ -90,13 +90,6 @@ QString CppWriter::getLanguage() {
     return "C++";
 }
 
-bool CppWriter::isType (QString & type)
-{
-    if (type == "CppWriter")
-        return true;
-    return false;
-}
-
 void CppWriter::writeClass(UMLClassifier *c)
 {
 

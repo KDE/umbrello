@@ -244,6 +244,28 @@ enum Role_Type { A, B };
 enum Parameter_Direction { pd_In, pd_InOut, pd_Out };
 
 /**
+ * Supported programming languages
+ */
+enum Programming_Language {
+    pl_ActionScript,
+    pl_Ada,
+    pl_Cpp,
+    // pl_Csharp,
+    pl_IDL,
+    pl_Java,
+    pl_JavaScript,
+    pl_Perl,
+    pl_PHP,
+    pl_PHP5,
+    pl_Python,
+    pl_Ruby,
+    pl_SQL,
+    pl_Tcl,
+    pl_XMLSchema,
+    pl_Reserved
+};
+
+/**
  * The data type used for unique IDs.
  */
 typedef std::string IDType;

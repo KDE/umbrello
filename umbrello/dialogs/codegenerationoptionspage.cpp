@@ -20,7 +20,7 @@
 // app includes
 #include "codegenerationpolicypage.h"
 #include "defaultcodegenpolicypage.h"
-#include "../generatorinfo.h"
+#include "../model_utils.h"
 #include "../uml.h"
 
 //kde include
@@ -95,14 +95,12 @@ void CodeGenerationOptionsPage::setCodeGenerator ( CodeGenerator * gen) {
 
 void CodeGenerationOptionsPage::setupActiveLanguageBox(QString activeLanguage)
 {
-    GeneratorDict ldict = UMLApp::app()->generatorDict();
-    //last but not least.. populate language list
     bool foundActive = false;
-    GeneratorDictIt it(ldict);
     int indexCounter = 0;
-    for (it.toFirst(); it.current(); ++it) {
-        m_SelectLanguageBox->insertItem(it.current()->language, indexCounter);
-        if(activeLanguage == it.current()->language) {
+    while (indexCounter < Uml::pl_Reserved) {
+        QString language = Model_Utils::progLang((Uml::Programming_Language) indexCounter);
+        m_SelectLanguageBox->insertItem(language, indexCounter);
+        if (activeLanguage == language) {
             m_SelectLanguageBox->setCurrentItem(indexCounter);
             foundActive = true;
         }
@@ -111,14 +109,8 @@ void CodeGenerationOptionsPage::setupActiveLanguageBox(QString activeLanguage)
 
     //if we could not find the active language, we try to fall back to C++
     if (!foundActive) {
-        indexCounter = 0;
-        for(it.toFirst(); it.current(); ++it) {
-            if (it.current()->language == "Cpp") {
-                m_SelectLanguageBox->setCurrentItem(indexCounter);
-                activeLanguage = it.current()->language;
-                break;
-            }
-        }
+        m_SelectLanguageBox->setCurrentItem(Uml::pl_Cpp);
+        activeLanguage = "C++";
     }
 
     //last try... if we dont have a activeLanguage and we have no Cpp installed we just
