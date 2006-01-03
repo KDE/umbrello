@@ -2146,6 +2146,8 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
         if (tagEq(type, "Association") ||
                 tagEq(type, "AssociationClass") ||
                 tagEq(type, "Generalization") ||
+                tagEq(type, "Realization") ||
+                tagEq(type, "Abstraction") ||
                 tagEq(type, "Dependency")) {
             if ( !status ) {
                 // Some interim umbrello versions saved empty UML:Associations,
@@ -2279,6 +2281,9 @@ UMLObject* UMLDoc::makeNewUMLObject(const QString &type) {
         pObject = new UMLAssociation();
     } else if (tagEq(type, "Generalization")) {
         pObject = new UMLAssociation(Uml::at_Generalization);
+    } else if (tagEq(type, "Realization") ||
+               tagEq(type, "Abstraction")) {
+        pObject = new UMLAssociation(Uml::at_Realization);
     } else if (tagEq(type, "Dependency")) {
         pObject = new UMLAssociation(Uml::at_Dependency);
     }
