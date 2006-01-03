@@ -192,7 +192,8 @@ bool UMLAssociation::load( QDomElement & element ) {
     UMLDoc * doc = UMLApp::app()->getDocument();
     UMLObject * obj[2] = { NULL, NULL };
     if (m_AssocType == Uml::at_Generalization ||
-            m_AssocType == Uml::at_Dependency) {
+        m_AssocType == Uml::at_Realization ||
+        m_AssocType == Uml::at_Dependency) {
         for (unsigned r = Uml::A; r <= Uml::B; r++) {
             const QString fetch = (m_AssocType == Uml::at_Generalization ?
                                    r == Uml::A ? "child" : "parent"
@@ -221,15 +222,9 @@ bool UMLAssociation::load( QDomElement & element ) {
                 QString tag = tempElement.tagName();
                 if (Model_Utils::isCommonXMIAttribute(tag))
                     continue;
-                bool isGeneralization = (m_AssocType == Uml::at_Generalization &&
-                                         (tagEq(tag, "child") || tagEq(tag, "parent") ||
-                                          tagEq(tag, "subtype") || tagEq(tag, "supertype")));
-                bool isDependency = (m_AssocType == Uml::at_Dependency &&
-                                     (tagEq(tag, "client") || tagEq(tag, "supplier")));
-                if (!isGeneralization && !isDependency) {
-                    kdDebug() << "UMLAssociation::load: cannot load " << tag << endl;
-                    continue;
-                }
+                // Permitted tag names:
+                //  roleA: "child" "subtype" "client"
+                //  roleB: "parent" "supertype" "supplier"
                 QString idStr = tempElement.attribute( "xmi.id", "" );
                 if (idStr.isEmpty())
                     idStr = tempElement.attribute( "xmi.idref", "" );
@@ -242,8 +237,8 @@ bool UMLAssociation::load( QDomElement & element ) {
                 }
                 if (idStr.isEmpty()) {
                     kdError() << "UMLAssociation::load (type " << m_AssocType
-                    << ", id " << ID2STR(getID()) << "): "
-                    << "xmi id not given for " << tag << endl;
+                        << ", id " << ID2STR(getID()) << "): "
+                        << "xmi id not given for " << tag << endl;
                     continue;
                 }
                 // Since we know for sure that we're dealing with a non
