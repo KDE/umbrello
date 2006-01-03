@@ -40,7 +40,7 @@ public:
     /**
      * Constructor, initialises a couple of variables
      */
-    CppWriter(UMLDoc* parent = 0, const char* name = 0);
+    CppWriter();
 
     /**
      * Destructor, empty
@@ -56,7 +56,7 @@ public:
     /**
      * returns "C++"
      */
-    virtual QString getLanguage();
+    virtual Uml::Programming_Language getLanguage();
 
     /**
      * Add C++ primitives as datatypes

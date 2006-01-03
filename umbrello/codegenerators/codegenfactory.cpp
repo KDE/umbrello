@@ -51,58 +51,69 @@ CodeGeneratorFactory::CodeGeneratorFactory()  {
 CodeGeneratorFactory::~CodeGeneratorFactory() {
 }
 
-CodeGenerator* CodeGeneratorFactory::createObject(UMLDoc* doc, const char* name)  {
+CodeGenerator* CodeGeneratorFactory::createObject(Uml::Programming_Language pl)  {
     CodeGenerator* obj = 0;
-    QString cname(name);
-
-    if (doc) {
-        Settings::OptionState optionState = UMLApp::app()->getOptionState();
-        if (cname == "Ada") {
-            obj = new AdaWriter(doc, name);
-        } else if (cname == "ActionScript") {
-            obj = new ASWriter( doc, name );
-        } else if (cname == "C++") {
+    Settings::OptionState optionState = UMLApp::app()->getOptionState();
+    switch (pl) {
+        case Uml::pl_Ada:
+            obj = new AdaWriter();
+            break;
+        case Uml::pl_ActionScript:
+            obj = new ASWriter();
+            break;
+        case Uml::pl_Cpp:
             if (optionState.generalState.newcodegen)
-                obj = new CPPCodeGenerator(doc, name);
+                obj = new CPPCodeGenerator();
             else
-                obj = new CppWriter(doc, name);
-        // } else if (cname == "C#") {
-        //     obj = new CsWriter( doc, name );
-        } else if (cname == "IDL") {
-            obj = new IDLWriter( doc, name );
-        } else if (cname =="Java") {
+                obj = new CppWriter();
+            break;
+        // case Uml::pl_Csharp:
+        //     obj = new CsWriter();
+        //     break;
+        case Uml::pl_IDL:
+            obj = new IDLWriter();
+            break;
+        case Uml::pl_Java:
             if (optionState.generalState.newcodegen)
-                obj = new JavaCodeGenerator(doc, name);
+                obj = new JavaCodeGenerator();
             else
-                obj = new JavaWriter(doc, name);
-        } else if (cname == "JavaScript") {
-            obj = new JSWriter( doc, name );
-        } else if (cname == "PHP") {
-            obj = new PhpWriter( doc, name);
-        } else if (cname == "PHP5") {
-            obj = new Php5Writer( doc, name);
-        } else if (cname == "Perl") {
-            obj = new PerlWriter( doc, name);
-        } else if (cname == "Python") {
-            obj = new PythonWriter( doc, name);
-        } else if (cname == "Ruby") {
+                obj = new JavaWriter();
+            break;
+        case Uml::pl_JavaScript:
+            obj = new JSWriter();
+            break;
+        case Uml::pl_PHP:
+            obj = new PhpWriter();
+            break;
+        case Uml::pl_PHP5:
+            obj = new Php5Writer();
+            break;
+        case Uml::pl_Perl:
+            obj = new PerlWriter();
+            break;
+        case Uml::pl_Python:
+            obj = new PythonWriter();
+            break;
+        case Uml::pl_Ruby:
             if (optionState.generalState.newcodegen)
-                obj = new RubyCodeGenerator(doc, name);
+                obj = new RubyCodeGenerator();
             else
-                obj = new RubyWriter(doc, name);
-        } else if (cname == "SQL") {
-            obj = new SQLWriter( doc, name);
-        } else if (cname == "Tcl") {
-            obj = new TclWriter( doc, name);
-        } else if (cname == "XMLSchema") {
-            obj = new XMLSchemaWriter( doc, name);
-        } else {
-            kdWarning() << "cannot create object of type " << name <<
-            ". Type unknown" << endl;
-        }
-
-    } else {
-        kdWarning() << "cannot create parent UML document" << endl;
+                obj = new RubyWriter();
+            break;
+        case Uml::pl_SQL:
+            obj = new SQLWriter();
+            break;
+        case Uml::pl_Tcl:
+            obj = new TclWriter();
+            break;
+        case Uml::pl_XMLSchema:
+            obj = new XMLSchemaWriter();
+            break;
+        default:
+            kdWarning() << "cannot create object of type " << pl
+                        << ". Type unknown" << endl;
+            break;
     }
+
     return obj;
 }

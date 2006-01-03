@@ -50,7 +50,7 @@ class SettingsDlg : public KDialogBase {
 
 public:
     SettingsDlg( QWidget * parent, Settings::OptionState *state,
-                 QString activeLanguage, CodeGenerator * gen);
+                 Uml::Programming_Language activeLanguage, CodeGenerator * gen);
     ~SettingsDlg();
 
     //public methods
@@ -140,7 +140,7 @@ private:
     void setupUIPage();
     void setupGeneralPage();
     void setupClassPage();
-    void setupCodeGenPage( CodeGenerator *gen, const QString &activeLanguage);
+    void setupCodeGenPage( CodeGenerator *gen, Uml::Programming_Language activeLanguage);
     void setupCodeViewerPage(Settings::CodeViewerState options);
     void applyPage( Settings::Page page );
 

@@ -810,7 +810,7 @@ public:
     /**
      * Find a code generator by the given language.
      */
-    CodeGenerator * findCodeGeneratorByLanguage (const QString &lang);
+    CodeGenerator * findCodeGeneratorByLanguage (Uml::Programming_Language lang);
 
     /**
      * Add a CodeGenerator object to this UMLDoc
@@ -955,7 +955,9 @@ private:
      * A dictionary of various code generators we currently have
      * configured for this UML document.
      */
-    QDict<CodeGenerator> m_codeGeneratorDictionary;
+    typedef QPtrList<CodeGenerator> CodeGeneratorList;
+    typedef QPtrListIterator<CodeGenerator> CodeGeneratorListIt;
+    CodeGeneratorList m_codeGenerators;
 
     /**
      * Contains all the UMLObject id changes of paste session.

@@ -30,7 +30,7 @@ class PhpWriter : public SimpleCodeGenerator {
     Q_OBJECT
 public:
 
-    PhpWriter( UMLDoc * parent, const char* name = 0 );
+    PhpWriter();
     virtual ~PhpWriter();
 
     /**
@@ -42,7 +42,7 @@ public:
     /**
      * returns "PHP"
      */
-    virtual QString getLanguage();
+    virtual Uml::Programming_Language getLanguage();
 
     /**
      * get list of reserved keywords

@@ -2988,8 +2988,7 @@ static const char *words[] =
         0
     };
 
-Php5Writer::Php5Writer( UMLDoc *parent, const char *name )
-        :SimpleCodeGenerator( parent, name) {
+Php5Writer::Php5Writer() {
 }
 
 Php5Writer::~Php5Writer() {}
@@ -3357,8 +3356,8 @@ void Php5Writer::writeAttributes(UMLAttributeList &atList, QTextStream &php) {
 /**
  * returns "PHP"
  */
-QString Php5Writer::getLanguage() {
-    return "PHP";
+Uml::Programming_Language Php5Writer::getLanguage() {
+    return Uml::pl_PHP;
 }
 
 const QStringList Php5Writer::reservedKeywords() const {

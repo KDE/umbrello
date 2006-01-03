@@ -32,7 +32,7 @@
 
 CodeGenerationWizard::CodeGenerationWizard(UMLDoc *doc,
         UMLClassifierList *classList,
-        QString activeLanguage,
+        Uml::Programming_Language activeLanguage,
         UMLApp *parent, const char *name)
         :CodeGenerationWizardBase((QWidget*)parent,name) {
     m_doc = doc;

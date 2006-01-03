@@ -28,8 +28,7 @@
 #include "../operation.h"
 #include "../umlnamespace.h"
 
-IDLWriter::IDLWriter(UMLDoc *parent, const char *name)
-        : SimpleCodeGenerator(parent, name, false) {
+IDLWriter::IDLWriter() : SimpleCodeGenerator(false) {
 }
 
 IDLWriter::~IDLWriter() {}
@@ -55,8 +54,8 @@ bool IDLWriter::assocTypeIsMappableToAttribute(Uml::Association_Type at) {
 /**
  * returns "IDL"
  */
-QString IDLWriter::getLanguage() {
-    return "IDL";
+Uml::Programming_Language IDLWriter::getLanguage() {
+    return Uml::pl_IDL;
 }
 
 void IDLWriter::computeAssocTypeAndRole

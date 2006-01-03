@@ -31,15 +31,13 @@ const bool JavaCodeGenerator::DEFAULT_BUILD_ANT_DOC = false;
 // Constructors/Destructors
 //
 
-JavaCodeGenerator::JavaCodeGenerator ( UMLDoc * parentDoc , const char * name, QDomElement & elem )
-        : CodeGenerator ( parentDoc , name)
+JavaCodeGenerator::JavaCodeGenerator (QDomElement & elem)
 {
     initFields();
     loadFromXMI(elem);
 }
 
-JavaCodeGenerator::JavaCodeGenerator ( UMLDoc * parentDoc, const char * name )
-        : CodeGenerator ( parentDoc , name)
+JavaCodeGenerator::JavaCodeGenerator ()
 {
     initFields();
 }
@@ -54,8 +52,8 @@ JavaCodeGenerator::~JavaCodeGenerator ( ) { }
 //
 
 // return our language
-QString JavaCodeGenerator::getLanguage() {
-    return "Java";
+Uml::Programming_Language JavaCodeGenerator::getLanguage() {
+    return Uml::pl_Java;
 }
 
 /**

@@ -98,9 +98,14 @@ bool isCommonDataType(QString type);
 int stringToDirection(QString input, Uml::Parameter_Direction & result);
 
 /**
- * Return string corresponding to the Uml::Programming_Language.
+ * Return string corresponding to the given Uml::Programming_Language.
  */
-QString progLang(Uml::Programming_Language pl);
+QString progLangToString(Uml::Programming_Language pl);
+
+/**
+ * Return Uml::Programming_Language corresponding to the given string.
+ */
+Uml::Programming_Language stringToProgLang(QString str);
 
 /**
  * Return type of parseOperation()

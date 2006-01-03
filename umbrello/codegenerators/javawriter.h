@@ -39,7 +39,7 @@ public:
     /**
      * Constructor, initialises a couple of variables
      */
-    JavaWriter(UMLDoc* parent = 0, const char* name = 0);
+    JavaWriter();
 
     /**
      * Destructor, empty
@@ -55,7 +55,7 @@ public:
     /**
      * returns "Java"
      */
-    virtual QString getLanguage();
+    virtual Uml::Programming_Language getLanguage();
 
 private:
 

@@ -33,7 +33,7 @@ class RubyWriter : public SimpleCodeGenerator {
     Q_OBJECT
 public:
 
-    RubyWriter( UMLDoc * parent, const char* name = 0 );
+    RubyWriter();
     virtual ~RubyWriter();
 
     /**
@@ -45,7 +45,7 @@ public:
     /**
      * returns "Ruby"
      */
-    virtual QString getLanguage();
+    virtual Uml::Programming_Language getLanguage();
 
     /**
      * get list of reserved keywords

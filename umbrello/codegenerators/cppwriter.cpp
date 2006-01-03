@@ -39,8 +39,7 @@
 // 3-14-2003: this code developed from the javawriter with parts of the
 // original cppwriter by Luis De la Parra Blum
 
-CppWriter::CppWriter( UMLDoc *parent, const char *name )
-        : SimpleCodeGenerator(parent, name)
+CppWriter::CppWriter()
 {
 
     // set some general parameters for how to generate code in this class
@@ -86,8 +85,8 @@ CppWriter::CppWriter( UMLDoc *parent, const char *name )
 
 CppWriter::~CppWriter() { }
 
-QString CppWriter::getLanguage() {
-    return "C++";
+Uml::Programming_Language CppWriter::getLanguage() {
+    return Uml::pl_Cpp;
 }
 
 void CppWriter::writeClass(UMLClassifier *c)

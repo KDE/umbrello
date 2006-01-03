@@ -27,8 +27,7 @@
 #include <qdatetime.h>
 #include <qtextstream.h>
 
-PerlWriter::PerlWriter( UMLDoc * doc, const char *name )
-        : SimpleCodeGenerator ( doc, name )
+PerlWriter::PerlWriter()
 {
 }
 
@@ -166,8 +165,8 @@ void PerlWriter::writeClass(UMLClassifier *c) {
 /**
  * returns "Perl"
  */
-QString PerlWriter::getLanguage() {
-    return "Perl";
+Uml::Programming_Language PerlWriter::getLanguage() {
+    return Uml::pl_Perl;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

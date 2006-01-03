@@ -32,7 +32,7 @@ class Php5Writer : public SimpleCodeGenerator {
     Q_OBJECT
 public:
 
-    Php5Writer( UMLDoc * parent, const char* name = 0 );
+    Php5Writer();
     virtual ~Php5Writer();
 
     /**
@@ -44,7 +44,7 @@ public:
     /**
      * returns "PHP"
      */
-    virtual QString getLanguage();
+    virtual Uml::Programming_Language getLanguage();
 
     /**
      * get list of reserved keywords

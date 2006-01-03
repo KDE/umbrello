@@ -25,6 +25,8 @@
 #include "codegenerationpolicy.h"
 #include "umlclassifierlist.h"
 #include "codedocumentlist.h"
+#include "codeviewerstate.h"
+#include "umlnamespace.h"
 
 class UMLAttribute;
 class UMLDoc;
@@ -44,8 +46,6 @@ class CodeOperation;
 class CodeViewerDialog;
 
 class KConfig;
-
-#include "codeviewerstate.h"
 
 /**
   * class CodeGenerator
@@ -94,7 +94,7 @@ public:
      * @return      CodeGenerator
      * @param       doc 
      */
-    CodeGenerator (UMLDoc * doc, const char *name);
+    CodeGenerator ();
 
     /**
      * Build a code generator and then initialize it from an XMI element.
@@ -102,15 +102,12 @@ public:
      * @param       doc 
      * @param       element an element from an XMI document 
      */
-    CodeGenerator (UMLDoc * doc, const char *name, QDomElement & element );
+    CodeGenerator (QDomElement & element );
 
     /**
      * Empty Destructor
      */
     virtual ~CodeGenerator ( );
-
-    // Public attributes
-    //
 
     // Public attribute accessor methods
     //
@@ -296,9 +293,9 @@ public:
     virtual CodeDocument * newCodeDocument ( );
 
     /**
-     * Return the unique language string that identifies this type of code generator
+     * Return the unique language enum that identifies this type of code generator
      */
-    virtual QString getLanguage() = 0;
+    virtual Uml::Programming_Language getLanguage() = 0;
 
     /**
      * Find a code document by the given classifier.

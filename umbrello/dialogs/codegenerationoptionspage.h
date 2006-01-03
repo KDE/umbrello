@@ -22,6 +22,7 @@
 #include <qwidget.h>
 #include "codegenerationoptionsbase.h"
 #include "../codegenerator.h"
+#include "../umlnamespace.h"
 
 /**
  * @author Luis De la Parra
@@ -35,7 +36,8 @@ class CodeGenerationOptionsPage : public CodeGenerationOptionsBase  {
     Q_OBJECT
 public:
     CodeGenerationOptionsPage(CodeGenerator * gen,
-                              QString activeLanguage, QWidget *parent=0, const char *name=0);
+                              Uml::Programming_Language activeLanguage,
+                              QWidget *parent=0, const char *name=0);
     ~CodeGenerationOptionsPage();
     void setDefaults();
     QString getCodeGenerationLanguage();
@@ -50,11 +52,11 @@ private:
 
     CodeGenerator * m_pCodeGenerator;
     CodeGenerationPolicyPage * m_pCodePolicyPage;
-    void init (CodeGenerator * gen, const QString &activeLanguage);
+    void init (CodeGenerator * gen, Uml::Programming_Language activeLanguage);
     int overwriteToInteger(CodeGenerationPolicy::OverwritePolicy value);
     int newLineToInteger(CodeGenerationPolicy::NewLineType value);
     int indentTypeToInteger(CodeGenerationPolicy::IndentationType value);
-    void setupActiveLanguageBox(QString activeLanguage);
+    void setupActiveLanguageBox(Uml::Programming_Language activeLanguage);
 
 protected slots:
     void activeLanguageChanged(int id);

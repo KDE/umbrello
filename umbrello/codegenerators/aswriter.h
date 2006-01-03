@@ -29,7 +29,7 @@ class ASWriter : public SimpleCodeGenerator {
     Q_OBJECT
 public:
 
-    ASWriter( UMLDoc* parent, const char* name = 0 );
+    ASWriter();
     virtual ~ASWriter();
 
     /**
@@ -41,7 +41,7 @@ public:
     /**
      * returns "ActionScript"
      */
-    virtual QString getLanguage();
+    virtual Uml::Programming_Language getLanguage();
 
     /**
      * get list of reserved keywords

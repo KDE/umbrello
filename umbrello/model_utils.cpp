@@ -393,7 +393,7 @@ QString psText(Parse_Status value) {
     return text[(unsigned) value];
 }
 
-QString progLang(Uml::Programming_Language pl) {
+QString progLangToString(Uml::Programming_Language pl) {
     switch (pl) {
         case Uml::pl_ActionScript:
             return "ActionScript";
@@ -429,6 +429,40 @@ QString progLang(Uml::Programming_Language pl) {
             break;
     }
     return QString::null;
+}
+
+Uml::Programming_Language stringToProgLang(QString str) {
+    if (str == "ActionScript")
+        return Uml::pl_ActionScript;
+    if (str == "Ada")
+        return Uml::pl_Ada;
+    if (str == "C++" || str == "Cpp")  // "Cpp" only for bkwd compatibility
+        return Uml::pl_Cpp;
+    // if (str == "C#")
+        // return Uml::pl_Csharp;
+    if (str == "IDL")
+        return Uml::pl_IDL;
+    if (str == "Java")
+        return Uml::pl_Java;
+    if (str == "JavaScript")
+        return Uml::pl_JavaScript;
+    if (str == "Perl")
+        return Uml::pl_Perl;
+    if (str == "PHP")
+        return Uml::pl_PHP;
+    if (str == "PHP5")
+        return Uml::pl_PHP5;
+    if (str == "Python")
+        return Uml::pl_Python;
+    if (str == "Ruby")
+        return Uml::pl_Ruby;
+    if (str == "SQL")
+        return Uml::pl_SQL;
+    if (str == "Tcl")
+        return Uml::pl_Tcl;
+    if (str == "XMLSchema")
+        return Uml::pl_XMLSchema;
+    return Uml::pl_Reserved;
 }
 
 }  // namespace Model_Utils

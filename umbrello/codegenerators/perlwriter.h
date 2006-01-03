@@ -34,7 +34,7 @@ class PerlWriter : public SimpleCodeGenerator {
     Q_OBJECT
 public:
 
-    PerlWriter( UMLDoc *doc, const char* name = 0 );
+    PerlWriter();
     virtual ~PerlWriter();
 
     /**
@@ -46,7 +46,7 @@ public:
     /**
      * returns "Perl"
      */
-    virtual QString getLanguage();
+    virtual Uml::Programming_Language getLanguage();
 
     /**
      * get list of reserved keywords

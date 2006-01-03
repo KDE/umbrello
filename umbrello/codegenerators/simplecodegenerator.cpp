@@ -42,11 +42,10 @@
 // Constructors/Destructors
 //
 
-SimpleCodeGenerator::SimpleCodeGenerator (UMLDoc * parentDoc , const char * name,
-        bool createDirHierarchyForPackages /* =true */)
-        : CodeGenerator( parentDoc, name )
+SimpleCodeGenerator::SimpleCodeGenerator (bool createDirHierarchyForPackages /* =true */)
 {
     m_indentLevel = 0;
+    UMLDoc * parentDoc = UMLApp::app()->getDocument();
     parentDoc->disconnect(this); // disconnect from UMLDoc.. we arent planning to be synced at all
     m_createDirHierarchyForPackages = createDirHierarchyForPackages;
     initFields(parentDoc);
