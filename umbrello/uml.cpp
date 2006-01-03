@@ -89,6 +89,7 @@ UMLApp::UMLApp(QWidget* , const char* name) : K3DockMainWindow(0, name) {
     m_clipTimer = 0;
     m_copyTimer = 0;
     m_defaultcodegenerationpolicy = 0;
+    m_activeLanguage = Uml::pl_Reserved;
     ///////////////////////////////////////////////////////////////////
     // call inits to invoke all other construction parts
     readOptionState();
@@ -108,7 +109,7 @@ UMLApp::UMLApp(QWidget* , const char* name) : K3DockMainWindow(0, name) {
     editUndo->setEnabled(false);
     editRedo->setEnabled(false);
 
-    //get a reference to the Code->Active Lanugage and to the Diagram->Zoom menu
+    //get a reference to the Code->Active Language and to the Diagram->Zoom menu
     Q3PopupMenu* menu = findMenu( menuBar(), QString("code") );
     m_langSelect = findMenu( menu, QString("active_lang_menu") );
 
@@ -543,8 +544,7 @@ void UMLApp::saveOptions() {
 
     // write the config for each language-specific code gen policies
     for (int i = 0; i < Uml::pl_Reserved; i++) {
-        QString language = Model_Utils::progLang((Uml::Programming_Language) i);
-        CodeGenerator * gen = m_doc->findCodeGeneratorByLanguage(language);
+        CodeGenerator * gen = m_doc->findCodeGeneratorByLanguage((Uml::Programming_Language) i);
         if (gen)
             gen->getPolicy()->writeConfig(m_config);
     }
@@ -554,7 +554,7 @@ void UMLApp::saveOptions() {
 
     // next, we record the activeLanguage in the Code Generation Group
     m_config->setGroup("Code Generation");
-    m_config->writeEntry("activeLanguage", m_activeLanguage);
+    m_config->writeEntry("activeLanguage", Model_Utils::progLangToString(m_activeLanguage));
 }
 
 void UMLApp::readOptions() {
@@ -1199,7 +1199,7 @@ CodeGenerator* UMLApp::getGenerator(bool warnMissing ) {
 CodeGenerator* UMLApp::createGenerator() {
     CodeGenerator* g = 0;
 
-    if(m_activeLanguage.isEmpty()) {
+    if (m_activeLanguage == Uml::pl_Reserved) {
         KMessageBox::sorry(this,i18n("There is no active language defined.\nPlease select "
                                      "one of the installed languages to generate the code with."),
                            i18n("No Language Selected"));
@@ -1214,7 +1214,7 @@ CodeGenerator* UMLApp::createGenerator() {
     }
 
     CodeGeneratorFactory codeGeneratorFactory;
-    g = codeGeneratorFactory.createObject(getDocument(), m_activeLanguage.latin1());
+    g = codeGeneratorFactory.createObject(m_activeLanguage);
     if (getDocument()->getCurrentCodeGenerator() == NULL)
         getDocument()->setCurrentCodeGenerator(g);
 
@@ -1227,7 +1227,8 @@ CodeGenerator* UMLApp::createGenerator() {
     g->getPolicy()->setDefaults(m_defaultcodegenerationpolicy, false);
 
     // configure it from XMI
-    QDomElement elem = getDocument()->getCodeGeneratorXMIParams( g->getLanguage() );
+    QString language = Model_Utils::progLangToString( g->getLanguage() );
+    QDomElement elem = getDocument()->getCodeGeneratorXMIParams(language);
     g->loadFromXMI(elem);
 
     // add to our UML document
@@ -1249,19 +1250,21 @@ void UMLApp::generationWizard() {
     wizard.exec();
 }
 
-void UMLApp::setActiveLanguage(int id) {
+void UMLApp::setActiveLanguage(int menuId) {
 
     // only change the active language IF different from one we currently have
-    if (!m_langSelect->isItemChecked(id))
+    if (!m_langSelect->isItemChecked(menuId))
     {
-
+        uint index = 0;
         for(unsigned int i=0; i < m_langSelect->count(); i++) {
-            m_langSelect->setItemChecked(m_langSelect->idAt(i),false);  //uncheck everything
+            int id = m_langSelect->idAt(i);
+            m_langSelect->setItemChecked(id, false);  //uncheck everything
+            if (id == menuId)
+                index = i;
         }
 
-
-        m_langSelect->setItemChecked(id,true);
-        m_activeLanguage = m_langSelect->text(id).remove('&');
+        m_langSelect->setItemChecked(menuId,true);
+        m_activeLanguage = (Uml::Programming_Language)index;
 
         // update the generator
         setGenerator(createGenerator());
@@ -1283,23 +1286,23 @@ void UMLApp::setActiveLanguage( const QString &activeLanguage ) {
         //uncheck everything except the active language
         m_langSelect->setItemChecked(m_langSelect->idAt(i), isActiveLang);
     }
-    this->m_activeLanguage = activeLanguage;
+    this->m_activeLanguage = Model_Utils::stringToProgLang(activeLanguage);
 
     setGenerator(createGenerator());
 }
 
-QString UMLApp::getActiveLanguage() const {
+Uml::Programming_Language UMLApp::getActiveLanguage() const {
     return m_activeLanguage;
 }
 
 bool UMLApp::activeLanguageIsCaseSensitive() const {
-    return (m_activeLanguage != "Ada");
+    return (m_activeLanguage != Uml::pl_Ada);
 }
 
 QString UMLApp::activeLanguageScopeSeparator() const {
-    if (m_activeLanguage == "Ada" ||
-        m_activeLanguage == "Java" ||
-        m_activeLanguage == "JavaScript")  // CHECK: more?
+    if (m_activeLanguage == Uml::pl_Ada ||
+        m_activeLanguage == Uml::pl_Java ||
+        m_activeLanguage == Uml::pl_JavaScript)  // CHECK: more?
         return ".";
     return "::";
 }
@@ -1368,11 +1371,11 @@ void UMLApp::slotImportClasses() {
     // because the user might decide to choose a language different from
     // the m_activeLanguage (by using the "All Files" option).
     QString preselectedExtension;
-    if (m_activeLanguage == "IDL") {
+    if (m_activeLanguage == Uml::pl_IDL) {
         preselectedExtension = i18n("*.idl|IDL Files (*.idl)");
-    } else if (m_activeLanguage == "Java") {
+    } else if (m_activeLanguage == Uml::pl_Java) {
         preselectedExtension = i18n("*.java|Java Files (*.java)");
-    } else if (m_activeLanguage == "Ada") {
+    } else if (m_activeLanguage == Uml::pl_Ada) {
         preselectedExtension = i18n("*.ads *.ada|Ada Files (*.ads *.ada)");
     } else {
         preselectedExtension = i18n("*.h *.hh *.hpp *.hxx *.H|Header Files (*.h *.hh *.hpp *.hxx *.H)");
@@ -1441,9 +1444,8 @@ void UMLApp::slotDeleteDiagram() {
 
 void UMLApp::initGenerators() {
     m_config->setGroup("Code Generation");
-    m_activeLanguage = m_config->readEntry("activeLanguage", "C++");
-    if (m_activeLanguage == "Cpp")   // for backward compatibility
-        m_activeLanguage = "C++";
+    QString activeLanguage = m_config->readEntry("activeLanguage", "C++");
+    m_activeLanguage = Model_Utils::stringToProgLang(activeLanguage);
     updateLangSelectMenu();
 }
 
@@ -1452,9 +1454,9 @@ void UMLApp::updateLangSelectMenu() {
     m_langSelect->setCheckable(true);
     bool foundActive = false;
     for (int i = 0; i < Uml::pl_Reserved; i++) {
-        QString language = Model_Utils::progLang((Uml::Programming_Language) i);
+        QString language = Model_Utils::progLangToString((Uml::Programming_Language) i);
         int id = m_langSelect->insertItem(language,this,SLOT(setActiveLanguage(int)));
-        if(m_activeLanguage == language) {
+        if (m_activeLanguage == i) {
             m_langSelect->setItemChecked(id,true);
             foundActive = true;
         } else
@@ -1463,20 +1465,22 @@ void UMLApp::updateLangSelectMenu() {
 
     //if we could not find the active language, we try to fall back to C++
     if(!foundActive) {
-        for(uint index=0; index <m_langSelect->count(); index++)
+        for(uint index=0; index < m_langSelect->count(); index++)
             if ( m_langSelect->text(m_langSelect->idAt(index)) == "C++" ) {
                 m_langSelect->setItemChecked(m_langSelect->idAt(index),true);
-                m_activeLanguage = m_langSelect->text(m_langSelect->idAt(index));
+                m_activeLanguage = Uml::pl_Cpp;
                 break;
             }
     }
     //last try... if we dont have an activeLanguage and we have no Cpp installed we just
     //take the first language we find as "active"
-    if(m_activeLanguage.isEmpty() && m_langSelect->count() > 0) {
-        m_langSelect -> setItemChecked(m_langSelect->idAt(0),true);
-        m_activeLanguage = m_langSelect -> text(m_langSelect->idAt(0));
+    if (m_activeLanguage == Uml::pl_Reserved && m_langSelect->count() > 0) {
+        int id = m_langSelect->idAt(0);
+        m_langSelect -> setItemChecked(id, true);
+        QString language = m_langSelect->text(id);
+        m_activeLanguage = Model_Utils::stringToProgLang(language);
+        kdDebug() << "UMLApp::updateLangSelectMenu: defaulting to " << language << endl;
     }
-
 }
 
 void UMLApp::tipOfTheDay()
@@ -1563,15 +1567,11 @@ void UMLApp::newDocument() {
 }
 
 void UMLApp::initSavedCodeGenerators() {
-    QString activeLang = m_activeLanguage;
     for (int i = 0; i < Uml::pl_Reserved; i++) {
-        m_activeLanguage = Model_Utils::progLang((Uml::Programming_Language) i);
-        if( m_doc->hasCodeGeneratorXMIParams(m_activeLanguage))
+        QString activeLang = Model_Utils::progLangToString((Uml::Programming_Language) i);
+        if (m_doc->hasCodeGeneratorXMIParams(activeLang))
             createGenerator();
     }
-
-    // now set back to old activeLanguage
-    m_activeLanguage = activeLang;
     setGenerator(createGenerator());
 }
 

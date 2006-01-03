@@ -29,15 +29,13 @@
 // Constructors/Destructors
 //
 
-RubyCodeGenerator::RubyCodeGenerator ( UMLDoc * parentDoc , const char * name, QDomElement & elem )
-        : CodeGenerator ( parentDoc , name)
+RubyCodeGenerator::RubyCodeGenerator (QDomElement & elem )
 {
     initFields();
     loadFromXMI(elem);
 }
 
-RubyCodeGenerator::RubyCodeGenerator ( UMLDoc * parentDoc, const char * name )
-        : CodeGenerator ( parentDoc , name)
+RubyCodeGenerator::RubyCodeGenerator ()
 {
     initFields();
 }
@@ -52,8 +50,8 @@ RubyCodeGenerator::~RubyCodeGenerator ( ) { }
 //
 
 // return our language
-QString RubyCodeGenerator::getLanguage() {
-    return "Ruby";
+Uml::Programming_Language RubyCodeGenerator::getLanguage() {
+    return Uml::pl_Ruby;
 }
 
 // In the Java version, we make the ANT build file also available.

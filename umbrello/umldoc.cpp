@@ -253,8 +253,7 @@ void UMLDoc::closeDocument() {
     }
 
     // remove all code generators
-    Q3DictIterator<CodeGenerator> it( m_codeGeneratorDictionary );
-    for( ; it.current(); ++it )
+    for (CodeGeneratorListIt it(m_codeGenerators); it.current(); ++it)
         removeCodeGenerator(it.current());
 
     m_currentcodegenerator = 0;
@@ -687,14 +686,10 @@ bool UMLDoc::addCodeGenerator ( CodeGenerator * gen)
 {
     if(!gen)
         return false;
-
-    QString tag = gen->getLanguage(); // this should be unique
-
-    if(m_codeGeneratorDictionary.find(tag))
-        return false; // return false, we already have some object with this tag in the list
+    if (m_codeGenerators.find(gen) >= 0)
+        return false; // return false, we already have the object in the list
     else
-        m_codeGeneratorDictionary.insert(tag, gen);
-
+        m_codeGenerators.append(gen);
     return true;
 }
 
@@ -714,11 +709,11 @@ QDomElement UMLDoc::getCodeGeneratorXMIParams ( const QString &lang )
  * Remove a CodeGenerator object
  */
 bool UMLDoc::removeCodeGenerator ( CodeGenerator * remove_object ) {
-    QString lang = remove_object->getLanguage();
-    if(!(lang.isEmpty()) && m_codeGeneratorDictionary.find(lang))
+    QString lang = Model_Utils::progLangToString( remove_object->getLanguage() );
+    if(!(lang.isEmpty()) && m_codeGenerators.find(remove_object) >= 0)
     {
         m_codeGenerationXMIParamMap->erase(lang);
-        m_codeGeneratorDictionary.remove(lang);
+        m_codeGenerators.remove(remove_object);
         delete remove_object;
     } else
         return false;
@@ -726,8 +721,12 @@ bool UMLDoc::removeCodeGenerator ( CodeGenerator * remove_object ) {
     return true;
 }
 
-CodeGenerator * UMLDoc::findCodeGeneratorByLanguage (const QString &lang) {
-    return m_codeGeneratorDictionary.find(lang);
+CodeGenerator * UMLDoc::findCodeGeneratorByLanguage (Uml::Programming_Language lang) {
+    CodeGenerator *cg = NULL;
+    for (CodeGeneratorListIt it(m_codeGenerators); (cg = it.current()) != NULL; ++it)
+        if (cg->getLanguage() == lang)
+            break;
+    return cg;
 }
 
 UMLView * UMLDoc::findView(Uml::IDType id) {
@@ -1671,8 +1670,8 @@ void UMLDoc::saveToXMI(QIODevice& file, bool saveSubmodelFiles /* = false */) {
 
     // save code generators
     QDomElement codeGenElement = doc.createElement( "codegeneration" );
-    Q3DictIterator<CodeGenerator> it( m_codeGeneratorDictionary );
-    for( ; it.current(); ++it )
+    
+    for (CodeGeneratorListIt it(m_codeGenerators); it.current(); ++it)
         it.current()->saveToXMI ( doc, codeGenElement );
     extensions.appendChild( codeGenElement );
 

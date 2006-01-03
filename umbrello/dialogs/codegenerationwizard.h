@@ -39,7 +39,7 @@ class CodeGenerationWizard : public CodeGenerationWizardBase {
     Q_OBJECT
 public:
     CodeGenerationWizard(UMLDoc *doc, UMLClassifierList *classList,
-                         QString activeLanguage, UMLApp *parent,
+                         Uml::Programming_Language activeLanguage, UMLApp *parent,
                          const char *name=0);
     ~CodeGenerationWizard();
 

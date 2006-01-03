@@ -35,10 +35,7 @@ const bool CPPCodeGenerator::DEFAULT_BUILD_MAKEFILE = false;
 // Constructors/Destructors
 //
 
-CPPCodeGenerator::CPPCodeGenerator ( UMLDoc * parentDoc , const char * name)
-        : CodeGenerator( parentDoc, name ) {
-
-    //m_parentDoc = parentDoc; // this should be done by the call to the parent constructor?
+CPPCodeGenerator::CPPCodeGenerator () {
     initAttributes();
 }
 
@@ -59,8 +56,8 @@ CPPCodeGenerator::~CPPCodeGenerator ( ) {
 /**
  * returns "C++"
  */
-QString CPPCodeGenerator::getLanguage() {
-    return "C++";
+Uml::Programming_Language CPPCodeGenerator::getLanguage() {
+    return Uml::pl_Cpp;
 }
 
 /**
@@ -185,9 +182,8 @@ QString CPPCodeGenerator::fixTypeName(QString string)
 
 // special method needed so that we write out the header code documents
 void CPPCodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-    QString langType = getLanguage();
     QDomElement docElement = doc.createElement( "codegenerator" );
-    docElement.setAttribute("language",langType);
+    docElement.setAttribute("language", "C++");
 
     CodeDocumentList * docList = getCodeDocumentList();
     for (CodeDocument * codeDoc = docList->first(); codeDoc; codeDoc= docList->next())

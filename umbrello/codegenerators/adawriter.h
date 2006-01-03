@@ -37,7 +37,7 @@ public:
     /**
      * Basic Constructor
      */
-    AdaWriter (UMLDoc * parent = 0, const char* name = 0);
+    AdaWriter ();
 
     /**
      * Empty Destructor
@@ -53,7 +53,7 @@ public:
     /**
      * returns "Ada"
      */
-    virtual QString getLanguage();
+    virtual Uml::Programming_Language getLanguage();
 
     void createDefaultDatatypes();
 

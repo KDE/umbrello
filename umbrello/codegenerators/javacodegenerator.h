@@ -45,8 +45,8 @@ public:
     /**
      * Empty Constructor
      */
-    JavaCodeGenerator ( UMLDoc * doc , const char * name, QDomElement & element);
-    JavaCodeGenerator ( UMLDoc * doc , const char * name);
+    JavaCodeGenerator ();
+    JavaCodeGenerator (QDomElement & element);
 
     /**
      * Empty Destructor
@@ -126,7 +126,7 @@ public:
     CodeComment * newCodeComment ( CodeDocument * doc) ;
 
     // return "Java"
-    QString getLanguage();
+    Uml::Programming_Language getLanguage();
 
     /**
      * Adds Java's primitives as datatypes

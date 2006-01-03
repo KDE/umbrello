@@ -29,7 +29,7 @@ class JSWriter : public SimpleCodeGenerator {
     Q_OBJECT
 public:
 
-    JSWriter( UMLDoc * parent, const char* name = 0 );
+    JSWriter();
     virtual ~JSWriter();
 
     /**
@@ -41,7 +41,7 @@ public:
     /**
      * returns "JavaScript"
      */
-    virtual QString getLanguage();
+    virtual Uml::Programming_Language getLanguage();
 
     /**
      * get list of reserved keywords

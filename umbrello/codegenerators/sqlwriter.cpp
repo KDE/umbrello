@@ -29,14 +29,12 @@
 #include "../association.h"
 #include "../attribute.h"
 
-SQLWriter::SQLWriter( UMLDoc *parent, const char *name )
-        :SimpleCodeGenerator( parent, name) {
+SQLWriter::SQLWriter() {
 }
 
 SQLWriter::~SQLWriter() {}
 
 void SQLWriter::writeClass(UMLClassifier *c) {
-
 
     if(!c) {
         kdDebug()<<"Cannot write class of NULL concept!" << endl;
@@ -194,8 +192,8 @@ void SQLWriter::printAttributes(QTextStream& sql, UMLAttributeList attributeList
     return;
 }
 
-QString SQLWriter::getLanguage() {
-    return "SQL";
+Uml::Programming_Language SQLWriter::getLanguage() {
+    return Uml::pl_SQL;
 }
 
 const QStringList SQLWriter::reservedKeywords() const {

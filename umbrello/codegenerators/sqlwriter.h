@@ -31,7 +31,7 @@ class SQLWriter : public SimpleCodeGenerator {
     Q_OBJECT
 public:
 
-    SQLWriter( UMLDoc * parent, const char* name = 0 );
+    SQLWriter();
     virtual ~SQLWriter();
 
     /**
@@ -43,7 +43,7 @@ public:
     /**
      * returns "SQL"
      */
-    virtual QString getLanguage();
+    virtual Uml::Programming_Language getLanguage();
 
     /**
      * get list of reserved keywords

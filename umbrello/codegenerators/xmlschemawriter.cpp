@@ -27,8 +27,7 @@
 #include "../umlnamespace.h"
 
 // Constructor
-XMLSchemaWriter::XMLSchemaWriter( UMLDoc *doc, const char *name )
-        : SimpleCodeGenerator ( doc, name )
+XMLSchemaWriter::XMLSchemaWriter()
 {
 
     packageNamespaceTag = "tns";
@@ -44,8 +43,8 @@ XMLSchemaWriter::~XMLSchemaWriter() {
 /**
  * returns "XMLSchema"
  */
-QString XMLSchemaWriter::getLanguage() {
-    return "XMLSchema";
+Uml::Programming_Language XMLSchemaWriter::getLanguage() {
+    return Uml::pl_XMLSchema;
 }
 
 // main method for invoking..

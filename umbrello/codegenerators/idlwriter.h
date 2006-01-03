@@ -32,7 +32,7 @@ class UMLOperation;
 class IDLWriter : public SimpleCodeGenerator {
 public:
 
-    IDLWriter (UMLDoc * parent, const char* name = 0);
+    IDLWriter ();
     virtual ~IDLWriter ();
 
     /**
@@ -44,7 +44,7 @@ public:
     /**
      * returns "IDL"
      */
-    virtual QString getLanguage();
+    virtual Uml::Programming_Language getLanguage();
 
     void createDefaultDatatypes();
 

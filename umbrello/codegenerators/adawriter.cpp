@@ -37,8 +37,7 @@
 
 const QString AdaWriter::defaultPackageSuffix = "_Holder";
 
-AdaWriter::AdaWriter(UMLDoc *parent, const char *name)
-        : SimpleCodeGenerator(parent, name) {
+AdaWriter::AdaWriter() {
 }
 
 AdaWriter::~AdaWriter() {}
@@ -46,8 +45,8 @@ AdaWriter::~AdaWriter() {}
 /**
  * returns "Ada"
  */
-QString AdaWriter::getLanguage() {
-    return "Ada";
+Uml::Programming_Language AdaWriter::getLanguage() {
+    return Uml::pl_Ada;
 }
 
 

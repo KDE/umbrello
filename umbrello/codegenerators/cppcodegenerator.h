@@ -44,7 +44,7 @@ public:
     /**
      * Basic Constructor
      */
-    CPPCodeGenerator ( UMLDoc * doc , const char * name);
+    CPPCodeGenerator ();
 
     /**
      * Empty Destructor
@@ -100,7 +100,7 @@ public:
     /**
      * returns "Cpp"
      */
-    QString getLanguage();
+    Uml::Programming_Language getLanguage();
 
     // generate 2 different types of classifier code documents.
     CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier);

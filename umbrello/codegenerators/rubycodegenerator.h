@@ -42,8 +42,8 @@ public:
     /**
      * Empty Constructor
      */
-    RubyCodeGenerator ( UMLDoc * doc , const char * name, QDomElement & element);
-    RubyCodeGenerator ( UMLDoc * doc , const char * name);
+    RubyCodeGenerator ();
+    RubyCodeGenerator (QDomElement & element);
 
     /**
      * Empty Destructor
@@ -110,7 +110,7 @@ public:
     CodeComment * newCodeComment ( CodeDocument * doc) ;
 
     // return "Ruby"
-    QString getLanguage();
+    Uml::Programming_Language getLanguage();
 
     /**
      * Adds Ruby's primitives as datatypes

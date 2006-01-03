@@ -77,8 +77,7 @@ static const char *words[] = {
                                  0
                              };
 
-TclWriter::TclWriter(UMLDoc * parent, const char *name)
-        : SimpleCodeGenerator(parent, name)
+TclWriter::TclWriter()
 {
 }
 
@@ -86,10 +85,10 @@ TclWriter::~TclWriter()
 {
 }
 
-QString
+Uml::Programming_Language
 TclWriter::getLanguage()
 {
-    return "Tcl";
+    return Uml::pl_Tcl;
 }
 
 void

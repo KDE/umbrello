@@ -584,7 +584,7 @@ public slots:
     /**
      * Get the language for import and code generation.
      */
-    QString getActiveLanguage() const;
+    Uml::Programming_Language getActiveLanguage() const;
 
     /**
      * Return true if the active language is case sensitive.
@@ -752,7 +752,7 @@ private:
     /**
      * Active language.
      */
-    QString m_activeLanguage;
+    Uml::Programming_Language m_activeLanguage;
 
     /**
      *  Returns whether we can decode the given mimesource

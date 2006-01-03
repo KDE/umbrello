@@ -24,8 +24,7 @@
 #include <qregexp.h>
 #include <qtextstream.h>
 
-ASWriter::ASWriter( UMLDoc *parent, const char *name )
-        :SimpleCodeGenerator( parent, name) {
+ASWriter::ASWriter() {
 }
 
 ASWriter::~ASWriter() {}
@@ -289,8 +288,8 @@ void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
 /**
  * returns "ActionScript"
  */
-QString ASWriter::getLanguage() {
-    return "ActionScript";
+Uml::Programming_Language ASWriter::getLanguage() {
+    return Uml::pl_ActionScript;
 }
 
 const QStringList ASWriter::reservedKeywords() const {

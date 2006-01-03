@@ -46,7 +46,7 @@ public:
     /**
      * Constructor, initialises a couple of variables
      */
-    XMLSchemaWriter(UMLDoc * doc, const char* name = 0);
+    XMLSchemaWriter();
 
     /**
      * Destructor, empty
@@ -62,7 +62,7 @@ public:
     /**
      * returns "XMLSchema"
      */
-    virtual QString getLanguage();
+    virtual Uml::Programming_Language getLanguage();
 
     /**
      * get list of reserved keywords

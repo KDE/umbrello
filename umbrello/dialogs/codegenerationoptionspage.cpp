@@ -34,7 +34,7 @@
 #include <q3buttongroup.h>
 
 CodeGenerationOptionsPage::CodeGenerationOptionsPage( CodeGenerator * gen,
-        QString activeLanguage,
+        Uml::Programming_Language activeLanguage,
         QWidget *parent,
         const char *name )
         :CodeGenerationOptionsBase(parent,name)
@@ -45,8 +45,7 @@ CodeGenerationOptionsPage::CodeGenerationOptionsPage( CodeGenerator * gen,
 CodeGenerationOptionsPage::~CodeGenerationOptionsPage() { }
 
 void CodeGenerationOptionsPage::init( CodeGenerator * gen,
-                                      const QString &activeLanguage
-                                    )
+                                      Uml::Programming_Language activeLanguage)
 {
 
     m_pCodeGenerator = 0;
@@ -93,32 +92,18 @@ void CodeGenerationOptionsPage::setCodeGenerator ( CodeGenerator * gen) {
 
 }
 
-void CodeGenerationOptionsPage::setupActiveLanguageBox(QString activeLanguage)
+void CodeGenerationOptionsPage::setupActiveLanguageBox(Uml::Programming_Language activeLanguage)
 {
-    bool foundActive = false;
     int indexCounter = 0;
     while (indexCounter < Uml::pl_Reserved) {
-        QString language = Model_Utils::progLang((Uml::Programming_Language) indexCounter);
+        QString language = Model_Utils::progLangToString((Uml::Programming_Language) indexCounter);
         m_SelectLanguageBox->insertItem(language, indexCounter);
-        if (activeLanguage == language) {
-            m_SelectLanguageBox->setCurrentItem(indexCounter);
-            foundActive = true;
-        }
         indexCounter++;
     }
-
-    //if we could not find the active language, we try to fall back to C++
-    if (!foundActive) {
+    if (activeLanguage != Uml::pl_Reserved)
+        m_SelectLanguageBox->setCurrentItem(activeLanguage);
+    else
         m_SelectLanguageBox->setCurrentItem(Uml::pl_Cpp);
-        activeLanguage = "C++";
-    }
-
-    //last try... if we dont have a activeLanguage and we have no Cpp installed we just
-    //take the first language we find as "active"
-    if( activeLanguage.isEmpty() ) {
-        m_SelectLanguageBox->setCurrentItem(0);
-    }
-
 }
 
 int CodeGenerationOptionsPage::indentTypeToInteger(CodeGenerationPolicy::IndentationType value) {

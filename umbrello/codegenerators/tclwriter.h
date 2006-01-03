@@ -42,7 +42,7 @@ public:
     /**
      * Constructor, initialises a couple of variables
      */
-    TclWriter(UMLDoc * parent = 0, const char *name = 0);
+    TclWriter();
 
     /**
      * Destructor, empty
@@ -58,7 +58,7 @@ public:
     /**
      * returns "Tcl"
      */
-    virtual QString getLanguage();
+    virtual Uml::Programming_Language getLanguage();
 
     /**
      * get list of reserved keywords

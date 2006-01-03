@@ -32,14 +32,14 @@
 #include "../attribute.h"
 #include "../association.h"
 
-JavaWriter::JavaWriter( UMLDoc *parent, const char *name ) : SimpleCodeGenerator(parent, name) {
+JavaWriter::JavaWriter() {
     startline = m_endl + m_indentation;
 }
 
 JavaWriter::~JavaWriter() {}
 
-QString JavaWriter::getLanguage() {
-    return "Java";
+Uml::Programming_Language JavaWriter::getLanguage() {
+    return Uml::pl_Java;
 }
 
 void JavaWriter::writeClass(UMLClassifier *c)

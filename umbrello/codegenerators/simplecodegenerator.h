@@ -46,8 +46,7 @@ public:
     /**
      * Empty Constructor
      */
-    SimpleCodeGenerator (UMLDoc * doc, const char * name = 0,
-                         bool createDirHierarchyForPackages = true);
+    SimpleCodeGenerator (bool createDirHierarchyForPackages = true);
 
     /**
      * Empty Destructor
@@ -56,8 +55,6 @@ public:
 
     // Public attribute accessor methods
     //
-
-    virtual QString getLanguage() = 0;
 
     void writeCodeToFile ( UMLClassifierList & concepts);
     void writeCodeToFile ( );

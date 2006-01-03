@@ -34,8 +34,7 @@
 #include "../operation.h"
 #include "../umlnamespace.h"
 
-PythonWriter::PythonWriter( UMLDoc *parent, const char *name )
-  : SimpleCodeGenerator(parent, name), m_bNeedPass(true) {
+PythonWriter::PythonWriter() : m_bNeedPass(true) {
 }
 
 PythonWriter::~PythonWriter() {}
@@ -257,8 +256,8 @@ void PythonWriter::writeOperations(QString /*classname*/, UMLOperationList &opLi
 /**
  * returns "Python"
  */
-QString PythonWriter::getLanguage() {
-    return "Python";
+Uml::Programming_Language PythonWriter::getLanguage() {
+    return Uml::pl_Python;
 }
 
 const QStringList PythonWriter::reservedKeywords() const {

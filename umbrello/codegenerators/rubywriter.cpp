@@ -35,8 +35,7 @@
 #include "../operation.h"
 #include "../umlnamespace.h"
 
-RubyWriter::RubyWriter( UMLDoc *parent, const char *name ) :
-SimpleCodeGenerator( parent, name) {
+RubyWriter::RubyWriter() {
 }
 
 RubyWriter::~RubyWriter() {}
@@ -388,8 +387,8 @@ void RubyWriter::writeSingleAttributeAccessorMethods(QString fieldName, QString 
 /**
  * returns "Ruby"
  */
-QString RubyWriter::getLanguage() {
-    return "Ruby";
+Uml::Programming_Language RubyWriter::getLanguage() {
+    return Uml::pl_Ruby;
 }
 
 const QStringList RubyWriter::reservedKeywords() const {

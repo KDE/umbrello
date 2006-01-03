@@ -41,27 +41,28 @@
 #include "classifiercodedocument.h"
 #include "codedocument.h"
 #include "operation.h"
+#include "uml.h"
 #include "umldoc.h"
 #include "umlobject.h"
 #include "umlview.h"
 #include "umlattributelist.h"
 #include "umloperationlist.h"
-
+#include "model_utils.h"
 
 // Constructors/Destructors
 //
 
-CodeGenerator::CodeGenerator ( UMLDoc * doc , const char *name )
-        : QObject ( (QObject*) doc, name )
+CodeGenerator::CodeGenerator ()
+        : QObject (UMLApp::app()->getDocument())
 {
-    initFields( doc);
+    initFields(UMLApp::app()->getDocument());
 }
 
 // FIX
 // hmm. this should be pure virtual so that implemented in sub-class
-CodeGenerator::CodeGenerator ( UMLDoc * doc,  const char *name, QDomElement & element )
-        : QObject ( (QObject *)doc, name) {
-    initFields( doc);
+CodeGenerator::CodeGenerator (QDomElement & element )
+        : QObject (UMLApp::app()->getDocument()) {
+    initFields(UMLApp::app()->getDocument());
     loadFromXMI(element); // hmm. cant call this here.. its 'pure' virtual
 }
 
@@ -212,39 +213,38 @@ void CodeGenerator::loadFromXMI (QDomElement & qElement ) {
     //now look for our particular child element
     QDomNode node = qElement.firstChild();
     QDomElement element = node.toElement();
-    QString langType = getLanguage();
+    QString langType = Model_Utils::progLangToString( getLanguage() );
 
-    if( qElement.tagName() == "codegenerator"
-            && qElement.attribute( "language", "UNKNOWN" ) == langType )
-    {
-        // got our code generator element, now load
-        // codedocuments
-        QDomNode codeDocNode = qElement.firstChild();
-        QDomElement codeDocElement = codeDocNode.toElement();
-        while( !codeDocElement.isNull() ) {
+    if (qElement.tagName() != "codegenerator"
+            || qElement.attribute("language", "UNKNOWN") != langType)
+        return;
+    // got our code generator element, now load
+    // codedocuments
+    QDomNode codeDocNode = qElement.firstChild();
+    QDomElement codeDocElement = codeDocNode.toElement();
+    while( !codeDocElement.isNull() ) {
 
-            QString docTag = codeDocElement.tagName();
-            if( docTag == "codedocument" ||
-                    docTag == "classifiercodedocument"
-              ) {
-                QString id = codeDocElement.attribute( "id", "-1" );
-                CodeDocument * codeDoc = findCodeDocumentByID(id);
-                if(codeDoc)
-                    codeDoc->loadFromXMI(codeDocElement);
-                else {
-                    kdWarning()<<" loadFromXMI: missing code document w/ id:"<<id<<", plowing ahead with pre-generated one."<<endl;
-                }
-            } else
-                kdWarning()<<" loadFromXMI : got strange codegenerator child node:"<<docTag<<", ignoring."<<endl;
+        QString docTag = codeDocElement.tagName();
+        if( docTag == "codedocument" ||
+                docTag == "classifiercodedocument"
+          ) {
+            QString id = codeDocElement.attribute( "id", "-1" );
+            CodeDocument * codeDoc = findCodeDocumentByID(id);
+            if(codeDoc)
+                codeDoc->loadFromXMI(codeDocElement);
+            else {
+                kdWarning()<<" loadFromXMI: missing code document w/ id:"<<id<<", plowing ahead with pre-generated one."<<endl;
+            }
+        } else
+            kdWarning()<<" loadFromXMI : got strange codegenerator child node:"<<docTag<<", ignoring."<<endl;
 
-            codeDocNode = codeDocElement.nextSibling();
-            codeDocElement = codeDocNode.toElement();
-        }
+        codeDocNode = codeDocElement.nextSibling();
+        codeDocElement = codeDocNode.toElement();
     }
 }
 
 void CodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-    QString langType = getLanguage();
+    QString langType = Model_Utils::progLangToString( getLanguage() );
     QDomElement docElement = doc.createElement( "codegenerator" );
     docElement.setAttribute("language",langType);
 

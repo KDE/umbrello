@@ -25,8 +25,7 @@
 #include <qregexp.h>
 #include <qtextstream.h>
 
-JSWriter::JSWriter( UMLDoc *parent, const char *name )
-        :SimpleCodeGenerator( parent, name) {
+JSWriter::JSWriter() {
 }
 
 JSWriter::~JSWriter() {}
@@ -245,8 +244,8 @@ void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
 /**
  * returns "JavaScript"
  */
-QString JSWriter::getLanguage() {
-    return "JavaScript";
+Uml::Programming_Language JSWriter::getLanguage() {
+    return Uml::pl_JavaScript;
 }
 
 const QStringList JSWriter::reservedKeywords() const {
