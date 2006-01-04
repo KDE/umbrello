@@ -20,6 +20,7 @@
 #include "../dialogs/classpropdlg.h"
 #include "../dialogs/umloperationdialog.h"
 #include "../dialogs/umlattributedialog.h"
+#include "../object_factory.h"
 
 #include <qpoint.h>
 #include <q3popupmenu.h>
@@ -347,7 +348,7 @@ void RefactoringAssistant::addBaseClassifier()
 
     //classes have classes and interfaces interfaces as super/derived classifiers
     Uml::Object_Type t = obj->getBaseType();
-    UMLClassifier *super = static_cast<UMLClassifier*>(m_doc->createUMLObject(t));
+    UMLClassifier *super = static_cast<UMLClassifier*>(Object_Factory::createUMLObject(t));
     if(!super)
         return;
     m_doc->createUMLAssociation( obj, super, Uml::at_Generalization );
@@ -388,7 +389,7 @@ void RefactoringAssistant::addDerivedClassifier()
 
     //classes have classes and interfaces interfaces as super/derived classifiers
     Uml::Object_Type t = obj->getBaseType();
-    UMLClassifier *derived = static_cast<UMLClassifier*>(m_doc->createUMLObject(t));
+    UMLClassifier *derived = static_cast<UMLClassifier*>(Object_Factory::createUMLObject(t));
     if(!derived)
         return;
     m_doc->createUMLAssociation( derived, obj, Uml::at_Generalization );
@@ -420,7 +421,7 @@ void RefactoringAssistant::addInterfaceImplementation()
     //  UMLObject *obj = findUMLObject( item );
     //  if( !dynamic_cast<UMLClassifier*>(obj) )
     //          return;
-    //  UMLObject *n = m_doc->createUMLObject( Uml::ot_Interface) );
+    //  UMLObject *n = Object_Factory::createUMLObject( Uml::ot_Interface) );
     //  if(!n)
     //          return;
     //  m_doc->createUMLAssociation( n, obj, Uml::at_Realization );

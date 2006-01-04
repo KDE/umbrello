@@ -22,6 +22,7 @@
 #include "umldoc.h"
 #include "uml.h"
 #include "umllistview.h"
+#include "object_factory.h"
 #include "model_utils.h"
 #include "clipboard/idchangelog.h"
 #include "dialogs/umloperationdialog.h"
@@ -744,7 +745,6 @@ UMLTemplateList UMLClassifier::getTemplateList() {
     return templateList;
 }
 
-
 void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement) {
     QDomElement classifierElement;
     if (this->isInterface())
@@ -803,8 +803,22 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement) {
     qElement.appendChild( classifierElement );
 }
 
-bool UMLClassifier::load(QDomElement& element) {
+UMLClassifierListItem* UMLClassifier::makeChildObject(QString xmiTag) {
+    UMLClassifierListItem* pObject = NULL;
+    if (tagEq(xmiTag, "Operation")) {
+        pObject = new UMLOperation(this);
+    } else if (tagEq(xmiTag, "Attribute")) {
+        if (getBaseType() != Uml::ot_Class)
+            return NULL;
+        pObject = new UMLAttribute(this);
+    } else if (tagEq(xmiTag, "TemplateParameter")) {
+        pObject = new UMLTemplate(this);
+    }
+    return pObject;
+}
 
+bool UMLClassifier::load(QDomElement& element) {
+    UMLClassifierListItem *child = NULL;
     for (QDomNode node = element.firstChild(); !node.isNull();
             node = node.nextSibling()) {
         if (node.isComment())
@@ -817,44 +831,32 @@ bool UMLClassifier::load(QDomElement& element) {
                 tagEq(tag, "Namespace.contents")) {
             if (! load(element))
                 return false;
-        } else if (tagEq(tag, "TemplateParameter")) {
-            UMLTemplate* tmplParm = new UMLTemplate(this);
-            if (!tmplParm->loadFromXMI(element)) {
-                delete tmplParm;
+        } else if ((child = makeChildObject(tag)) != NULL) {
+            if (child->loadFromXMI(element)) {
+                switch (child->getBaseType()) {
+                    case Uml::ot_Template:
+                        addTemplate( static_cast<UMLTemplate*>(child) );
+                        break;
+                    case Uml::ot_Operation:
+                        if (! addOperation(static_cast<UMLOperation*>(child)) ) {
+                            kdError() << "UMLClassifier::load: error from addOperation(op)"
+                                      << endl;
+                            delete child;
+                        }
+                        break;
+                    case Uml::ot_Attribute:
+                        addAttribute( static_cast<UMLAttribute*>(child) );
+                        break;
+                    default:
+                        break;
+                }
             } else {
-                addTemplate(tmplParm);
+                kdWarning() << "UMLClassifier::load: failed to load " << tag << endl;
+                delete child;
             }
-        } else if (tagEq(tag, "Operation")) {
-            UMLOperation* op = new UMLOperation(this);
-            if (!op->loadFromXMI(element)) {
-                kdError() << "UMLClassifier::load: error from op->loadFromXMI()"
-                << endl;
-                delete op;
-                return true;
-                // Returning false here will spoil the entire load.
-                // At this point the user has been warned that
-                // something went wrong so let's still try to go on.
-            }
-            if (!addOperation(op) ) {
-                kdError() << "UMLClassifier::load: error from addOperation(op)"
-                << endl;
-                delete op;
-                //return false;
-                // Returning false here will spoil the entire
-                // load. At this point the user has been warned
-                // that something went wrong so let's still try
-                // our best effort.
-            }
-        } else if (Uml::tagEq(tag, "Attribute")) {
-            UMLAttribute * pAtt = new UMLAttribute(this);
-            if (!pAtt->loadFromXMI(element)) {
-                delete pAtt;
-                return false;
-            }
-            addAttribute(pAtt);
         } else if (!Model_Utils::isCommonXMIAttribute(tag)) {
             UMLDoc *umldoc = UMLApp::app()->getDocument();
-            UMLObject *pObject = UMLDoc::makeNewUMLObject(tag);
+            UMLObject *pObject = Object_Factory::makeObjectFromXMI(tag);
             if( !pObject )
                 continue;
             pObject->setUMLPackage(this);

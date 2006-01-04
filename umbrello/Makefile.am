@@ -65,6 +65,7 @@ node.cpp \
 nodewidget.cpp \
 notewidget.cpp \
 objectwidget.cpp \
+object_factory.cpp \
 operation.cpp \
 ownedcodeblock.cpp \
 ownedhierarchicalcodeblock.cpp \

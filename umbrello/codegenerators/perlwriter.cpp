@@ -346,10 +346,12 @@ void PerlWriter::writeAttributes(UMLAttributeList &atList, QTextStream &perl)
     return;
 }
 
-void PerlWriter::createDefaultDatatypes() {
-    m_doc->createDatatype("$");
-    m_doc->createDatatype("@");
-    m_doc->createDatatype("%");
+QStringList PerlWriter::defaultDatatypes() {
+    QStringList l;
+    l.append("$");
+    l.append("@");
+    l.append("%");
+    return l;
 }
 
 const QStringList PerlWriter::reservedKeywords() const {

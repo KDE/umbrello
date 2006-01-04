@@ -131,7 +131,7 @@ public:
     /**
      * Adds Java's primitives as datatypes
      */
-    virtual void createDefaultDatatypes();
+    virtual QStringList defaultDatatypes();
 
     /**
      * IF the type is "string" we need to declare it as

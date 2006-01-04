@@ -167,9 +167,6 @@ void RubyCodeGenerator::initFields() {
     initFromParentDocument();
 }
 
-void RubyCodeGenerator::createDefaultDatatypes() {
-}
-
 const QStringList RubyCodeGenerator::reservedKeywords() const {
 
     static QStringList keywords;

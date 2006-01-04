@@ -20,6 +20,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "model_utils.h"
+#include "object_factory.h"
 
 UMLClassifierListItem::UMLClassifierListItem(const UMLObject *parent, QString Name, Uml::IDType id)
         : UMLObject(parent, Name, id) {
@@ -81,7 +82,7 @@ void UMLClassifierListItem::setTypeName(const QString &type) {
     if (m_pSecondary == NULL) {
         // Make data type for easily identified cases
         if (Model_Utils::isCommonDataType(type) || type.contains('*')) {
-            m_pSecondary = pDoc->createUMLObject(Uml::ot_Datatype, type);
+            m_pSecondary = Object_Factory::createUMLObject(Uml::ot_Datatype, type);
             kdDebug() << "UMLClassifierListItem::setTypeName: "
             << "created datatype for " << type << endl;
         } else {

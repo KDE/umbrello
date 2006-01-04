@@ -53,7 +53,7 @@ public:
      */
     virtual const QStringList reservedKeywords() const;
 
-    void createDefaultDatatypes();
+    QStringList defaultDatatypes();
 
 private:
 

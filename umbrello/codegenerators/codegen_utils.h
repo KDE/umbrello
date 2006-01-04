@@ -16,9 +16,9 @@
 namespace Codegen_Utils {
 
 /**
- * Add C++ primitives as datatypes
+ * Return list of C++ datatypes
  */
-void createCppDatatypes();
+QStringList cppDatatypes();
 
 /**
  * Get list of C++ reserved keywords

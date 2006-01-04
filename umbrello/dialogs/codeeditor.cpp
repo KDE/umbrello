@@ -151,7 +151,7 @@ void CodeEditor::editTextBlock(TextBlock * tBlock, int para) {
                 }
                 else if( (dynamic_cast<UMLClassifier*>(obj)) )
                 {
-                    if(m_parentDoc->getParentGenerator()->getDocument()->showProperties(obj))
+                    if (obj->showProperties())
                         rebuildView(para);
                 }
                 else if( (role = dynamic_cast<UMLRole*>(obj)))

@@ -61,7 +61,7 @@ public:
     /**
      * Add C++ primitives as datatypes
      */
-    void createDefaultDatatypes();
+    QStringList defaultDatatypes();
 
     /**
      * get list of reserved keywords

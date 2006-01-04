@@ -22,6 +22,7 @@
 #include "umldoc.h"
 #include "uml.h"
 #include "listpopupmenu.h"
+#include "model_utils.h"
 
 #include <kdebug.h>
 #include <qpainter.h>
@@ -170,7 +171,7 @@ QSize EnumWidget::calculateSize() {
 void EnumWidget::slotMenuSelection(int sel) {
     switch(sel) {
     case ListPopupMenu::mt_EnumLiteral:
-        if ( UMLApp::app()->getDocument()->createChildObject(m_pObject, Uml::ot_EnumLiteral) )  {
+        if (Model_Utils::createChildObject(m_pObject, Uml::ot_EnumLiteral) )  {
             UMLApp::app()->getDocument()->setModified();
         }
         break;

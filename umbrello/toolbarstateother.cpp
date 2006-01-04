@@ -34,6 +34,7 @@
 #include "activitywidget.h"
 #include "forkjoinwidget.h"
 #include "statewidget.h"
+#include "object_factory.h"
 
 using namespace Uml;
 
@@ -166,7 +167,7 @@ void ToolBarStateOther::mouseRelease(QMouseEvent* ome)
             // Is UMLObject?
 
             m_pUMLView->setCreateObject(true);
-            UMLApp::app()->getDocument()->createUMLObject(getObjectType(getButton()));
+            Object_Factory::createUMLObject(getObjectType(getButton()));
         }
     }
 }

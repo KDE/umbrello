@@ -309,9 +309,10 @@ public:
     CodeDocument * findCodeDocumentByClassifier (UMLClassifier * classifier );
 
     /**
-     * Create the default datatypes for your language (bool, int etc)
+     * Return the default datatypes for your language (bool, int etc)
+     * Default implementation returns empty list.
      */
-    virtual void createDefaultDatatypes();
+    virtual QStringList defaultDatatypes();
 
     /** Get the editing dialog for this code document
      */

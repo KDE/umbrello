@@ -247,6 +247,17 @@ public:
     void setInPaste(bool bInPaste = true);
 
     /**
+     * This method is called if you wish to see the properties of a
+     * UMLObject.  A dialog box will be displayed from which you
+     * can change the object's properties.
+     *
+     * @param page              The page to show.
+     * @param assoc             Whether to show association page.
+     * @return          True if we modified the object.
+     */
+    bool showProperties(int page = 0, bool assoc = false);
+
+    /**
      * Resolve referenced objects (if any.)
      * Needs to be called after all UML objects are loaded from file.
      * This needs to be done after all model objects are loaded because

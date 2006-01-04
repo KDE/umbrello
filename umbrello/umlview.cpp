@@ -96,9 +96,9 @@
 #include "umlobjectlist.h"
 #include "association.h"
 #include "attribute.h"
-
+#include "model_utils.h"
+#include "object_factory.h"
 #include "umlwidget.h"
-
 #include "toolbarstatefactory.h"
 
 
@@ -2853,58 +2853,58 @@ void UMLView::slotMenuSelection(int sel) {
 
     case ListPopupMenu::mt_UseCase:
         m_bCreateObject = true;
-        m_pDoc->createUMLObject( ot_UseCase );
+        Object_Factory::createUMLObject( ot_UseCase );
         break;
 
     case ListPopupMenu::mt_Actor:
         m_bCreateObject = true;
-        m_pDoc->createUMLObject( ot_Actor );
+        Object_Factory::createUMLObject( ot_Actor );
         break;
 
     case ListPopupMenu::mt_Class:
     case ListPopupMenu::mt_Object:
         m_bCreateObject = true;
-        m_pDoc->createUMLObject( ot_Class);
+        Object_Factory::createUMLObject( ot_Class);
         break;
 
     case ListPopupMenu::mt_Package:
         m_bCreateObject = true;
-        m_pDoc->createUMLObject(ot_Package);
+        Object_Factory::createUMLObject(ot_Package);
         break;
 
     case ListPopupMenu::mt_Component:
         m_bCreateObject = true;
-        m_pDoc->createUMLObject(ot_Component);
+        Object_Factory::createUMLObject(ot_Component);
         break;
 
     case ListPopupMenu::mt_Node:
         m_bCreateObject = true;
-        m_pDoc->createUMLObject(ot_Node);
+        Object_Factory::createUMLObject(ot_Node);
         break;
 
     case ListPopupMenu::mt_Artifact:
         m_bCreateObject = true;
-        m_pDoc->createUMLObject(ot_Artifact);
+        Object_Factory::createUMLObject(ot_Artifact);
         break;
 
     case ListPopupMenu::mt_Interface:
         m_bCreateObject = true;
-        m_pDoc->createUMLObject(ot_Interface);
+        Object_Factory::createUMLObject(ot_Interface);
         break;
 
     case ListPopupMenu::mt_Enum:
         m_bCreateObject = true;
-        m_pDoc->createUMLObject(ot_Enum);
+        Object_Factory::createUMLObject(ot_Enum);
         break;
 
     case ListPopupMenu::mt_Entity:
         m_bCreateObject = true;
-        m_pDoc->createUMLObject(ot_Entity);
+        Object_Factory::createUMLObject(ot_Entity);
         break;
 
     case ListPopupMenu::mt_Datatype:
         m_bCreateObject = true;
-        m_pDoc->createUMLObject(ot_Datatype);
+        Object_Factory::createUMLObject(ot_Datatype);
         break;
 
     case ListPopupMenu::mt_Cut:

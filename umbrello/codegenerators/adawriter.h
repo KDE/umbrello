@@ -55,7 +55,7 @@ public:
      */
     virtual Uml::Programming_Language getLanguage();
 
-    void createDefaultDatatypes();
+    QStringList defaultDatatypes();
 
     /**
      * Check whether the given string is a reserved word for the

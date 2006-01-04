@@ -29,6 +29,8 @@
 #include "../umllistview.h"
 #include "../umllistviewitem.h"
 #include "../associationwidget.h"
+#include "../object_factory.h"
+#include "../model_utils.h"
 
 #define nfmt 4
 class UMLDragPrivate {
@@ -346,7 +348,7 @@ bool UMLDrag::decodeClip1(const QMimeSource* mimeSource, UMLObjectList& objects,
             element = objectElement.toElement();
             continue;
         }
-        pObject = UMLDoc::makeNewUMLObject(type);
+        pObject = Object_Factory::makeObjectFromXMI(type);
 
         if( !pObject ) {
             kdWarning() << "UMLDrag::decodeClip1: Given wrong type of umlobject to create: "
@@ -373,7 +375,7 @@ bool UMLDrag::decodeClip1(const QMimeSource* mimeSource, UMLObjectList& objects,
                 return false;
             }
             Uml::Object_Type type = pObject->getBaseType();
-            QString newName = doc->uniqObjectName(type, pObject->getName());
+            QString newName = Model_Utils::uniqObjectName(type, pObject->getName());
             pObject->setName(newName);
             /****************************************************************/
 
@@ -477,7 +479,7 @@ bool UMLDrag::decodeClip2(const QMimeSource* mimeSource, UMLObjectList& objects,
         pObject = 0;
         QString type = element.tagName();
         if (type != "UML:Association") {
-            pObject = UMLDoc::makeNewUMLObject(type);
+            pObject = Object_Factory::makeObjectFromXMI(type);
 
             if( !pObject ) {
                 kdWarning() << "Given wrong type of umlobject to create:" << type << endl;
@@ -695,7 +697,7 @@ bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
         //FIXME associations don't load
         if (type == "UML:Association")
             continue;
-        pObject = UMLDoc::makeNewUMLObject(type);
+        pObject = Object_Factory::makeObjectFromXMI(type);
 
         if ( !pObject ) {
             kdWarning() << "Given wrong type of umlobject to create: " << type << endl;
@@ -798,12 +800,9 @@ bool UMLDrag::decodeClip5(const QMimeSource* mimeSource, UMLObjectList& objects,
     if ( element.isNull() ) {
         return false;//return ok as it means there is no umlobjects
     }
-    UMLObject* pObject = 0;
     while ( !element.isNull() ) {
-        pObject = 0;
         QString type = element.tagName();
-        pObject = UMLDoc::makeNewClassifierObject(type, newParent);
-
+        UMLClassifierListItem *pObject = newParent->makeChildObject(type);
         if( !pObject ) {
             kdWarning() << "Given wrong type of umlobject to create:" << type << endl;
             return false;

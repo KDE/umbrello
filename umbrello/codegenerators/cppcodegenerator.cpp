@@ -368,8 +368,8 @@ void CPPCodeGenerator::initAttributes ( )
     initFromParentDocument();
 }
 
-void CPPCodeGenerator::createDefaultDatatypes() {
-    Codegen_Utils::createCppDatatypes();
+QStringList CPPCodeGenerator::defaultDatatypes() {
+    return Codegen_Utils::cppDatatypes();
 }
 
 const QStringList CPPCodeGenerator::reservedKeywords() const {

@@ -432,6 +432,15 @@ public:
      */
     bool hasAbstractOps ();
 
+    /**
+     * Create a new ClassifierListObject (attribute, operation, template)
+     * according to the given XMI tag.
+     * Returns NULL if the string given does not contain one of the tags
+     * <UML:Attribute>, <UML:Operation>, or <UML:TemplateParameter>.
+     * Used by the clipboard for paste operation.
+     */
+    UMLClassifierListItem* makeChildObject(QString xmiTag);
+
 signals:
     /** Signals that a new UMLOperation has been added to the classifer.
      */

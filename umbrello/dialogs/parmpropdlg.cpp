@@ -34,6 +34,7 @@
 #include "../template.h"
 #include "../umldoc.h"
 #include "../dialog_utils.h"
+#include "../object_factory.h"
 
 ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
         : KDialogBase(Plain, i18n("Parameter Properties"), Help | Ok | Cancel , Ok, parent, "_PARMPROPDLG_", true, true)
@@ -214,7 +215,7 @@ void ParmPropDlg::slotOk() {
             // create a datatype or a class. For now, we create a class.
             kdDebug() << "ParmPropDlg::slotOk: " << typeName << " not found."
                 << " Creating a new class for the type." << endl;
-            UMLObject *o = m_pUmldoc->createUMLObject(Uml::ot_Class, typeName);
+            UMLObject *o = Object_Factory::createUMLObject(Uml::ot_Class, typeName);
             m_pAtt->setType(o);
         }
 
