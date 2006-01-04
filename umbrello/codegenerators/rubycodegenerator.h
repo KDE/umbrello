@@ -113,11 +113,6 @@ public:
     Uml::Programming_Language getLanguage();
 
     /**
-     * Adds Ruby's primitives as datatypes
-     */
-    virtual void createDefaultDatatypes();
-
-    /**
      * Convert a C++ type such as 'int' or 'QWidget' to 
      * ruby types Integer and Qt::Widget
      *

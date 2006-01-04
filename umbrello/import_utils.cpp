@@ -31,6 +31,7 @@
 #include "attribute.h"
 #include "template.h"
 #include "association.h"
+#include "object_factory.h"
 
 namespace Import_Utils {
 
@@ -153,7 +154,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
                                         i18n("Namespace"), i18n("Class"));
                     }
                     Uml::Object_Type ot = (wantNamespace == KMessageBox::Yes ? Uml::ot_Package : Uml::ot_Class);
-                    o = umldoc->createUMLObject(ot, scopeName, parentPkg);
+                    o = Object_Factory::createUMLObject(ot, scopeName, parentPkg);
                     kapp->processEvents();
                     parentPkg = static_cast<UMLPackage*>(o);
                     UMLListView *listView = UMLApp::app()->getListView();
@@ -166,7 +167,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
             Uml::Object_Type t = type;
             if (type == Uml::ot_UMLObject || isAdorned)
                 t = Uml::ot_Class;
-            origType = umldoc->createUMLObject(t, typeName, parentPkg);
+            origType = Object_Factory::createUMLObject(t, typeName, parentPkg);
             bNewUMLObjectWasCreated = true;
             kapp->processEvents();
         }
@@ -178,7 +179,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
                 parentPkg = NULL;
                 bPutAtGlobalScope = false;
             }
-            o = umldoc->createUMLObject(Uml::ot_Datatype, name, parentPkg);
+            o = Object_Factory::createUMLObject(Uml::ot_Datatype, name, parentPkg);
             kapp->processEvents();
             UMLDatatype *dt = static_cast<UMLDatatype*>(o);
             UMLClassifier *c = dynamic_cast<UMLClassifier*>(origType);
@@ -192,7 +193,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
                 dt->setIsReference();
             /*
             if (isPointer) {
-                UMLObject *pointerDecl = umldoc->createUMLObject(Uml::ot_Datatype, type);
+                UMLObject *pointerDecl = Object_Factory::createUMLObject(Uml::ot_Datatype, type);
                 UMLDatatype *dt = static_cast<UMLDatatype*>(pointerDecl);
                 dt->setOriginType(classifier);
                 dt->setIsReference();

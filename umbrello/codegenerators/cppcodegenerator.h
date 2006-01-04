@@ -125,7 +125,7 @@ public:
     /**
      * Add C++ primitives as datatypes
      */
-    void createDefaultDatatypes();
+    QStringList defaultDatatypes();
 
     /**
      * Save the XMI representation of this object

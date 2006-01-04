@@ -26,6 +26,7 @@
 #include "umldoc.h"
 #include "uml.h"
 #include "listpopupmenu.h"
+#include "model_utils.h"
 
 ClassifierWidget::ClassifierWidget(UMLView * view, UMLClassifier *c)
   : UMLWidget(view, c) {
@@ -402,7 +403,7 @@ void ClassifierWidget::slotMenuSelection(int sel) {
         {
             UMLDoc *doc = UMLApp::app()->getDocument();
             Uml::Object_Type ot = ListPopupMenu::convert_MT_OT(mt);
-            if (doc->createChildObject(m_pObject, ot))
+            if (Model_Utils::createChildObject(m_pObject, ot))
                 doc->setModified();
             updateComponentSize();
             update();

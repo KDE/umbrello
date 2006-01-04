@@ -46,7 +46,7 @@ public:
      */
     virtual Uml::Programming_Language getLanguage();
 
-    void createDefaultDatatypes();
+    QStringList defaultDatatypes();
 
     /**
      * get list of reserved keywords

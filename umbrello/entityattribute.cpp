@@ -22,6 +22,7 @@
 #include "umldoc.h"
 #include "uml.h"
 #include "dialogs/umlentityattributedialog.h"
+#include "object_factory.h"
 
 UMLEntityAttribute::UMLEntityAttribute( const UMLObject *parent, QString Name, Uml::IDType id,
                                         Uml::Visibility s, QString type, QString iv )
@@ -39,7 +40,7 @@ UMLEntityAttribute::UMLEntityAttribute( const UMLObject *parent, QString Name, U
         UMLDoc* pDoc = UMLApp::app()->getDocument();
         m_pSecondary = pDoc->findUMLObject(type);
         if (m_pSecondary == NULL) {
-            m_pSecondary = pDoc->createUMLObject(Uml::ot_EntityAttribute, type);
+            m_pSecondary = Object_Factory::createUMLObject(Uml::ot_EntityAttribute, type);
         }
     }
 }

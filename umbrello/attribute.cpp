@@ -24,7 +24,7 @@
 #include "umldoc.h"
 #include "uml.h"
 #include "dialogs/umlattributedialog.h"
-
+#include "object_factory.h"
 
 UMLAttribute::UMLAttribute( const UMLObject *parent, QString Name, Uml::IDType id,
                             Uml::Visibility s, QString type, QString iv )
@@ -38,9 +38,9 @@ UMLAttribute::UMLAttribute( const UMLObject *parent, QString Name, Uml::IDType i
         m_pSecondary = pDoc->findUMLObject(type);
         if (m_pSecondary == NULL) {
             if (type.contains( QRegExp("[\\*\\&]") ))
-                m_pSecondary = pDoc->createUMLObject(Uml::ot_Datatype, type);
+                m_pSecondary = Object_Factory::createUMLObject(Uml::ot_Datatype, type);
             else
-                m_pSecondary = pDoc->createUMLObject(Uml::ot_Class, type);
+                m_pSecondary = Object_Factory::createUMLObject(Uml::ot_Class, type);
         }
     }
 }

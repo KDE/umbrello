@@ -37,6 +37,7 @@
 #include "../umldoc.h"
 #include "../uml.h"
 #include "../dialog_utils.h"
+#include "../object_factory.h"
 
 UMLEntityAttributeDialog::UMLEntityAttributeDialog( QWidget * pParent, UMLEntityAttribute * pEntityAttribute )
         : KDialogBase( Plain, i18n("Entity Attribute Properties"), Help | Ok | Cancel , Ok, pParent, "_UMLENTITYATTRIBUTEDLG_", true, true) {
@@ -230,7 +231,7 @@ bool UMLEntityAttributeDialog::apply() {
         // Else we don't know what it is so as a compromise create a class.
         Uml::Object_Type ot = (typeName.contains('*') ? Uml::ot_Datatype
                                : Uml::ot_Class);
-        obj = pDoc->createUMLObject(ot, typeName);
+        obj = Object_Factory::createUMLObject(ot, typeName);
         if (obj == NULL)
             return false;
         classifier = static_cast<UMLClassifier*>(obj);

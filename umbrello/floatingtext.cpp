@@ -112,7 +112,7 @@ void FloatingText::slotMenuSelection(int sel) {
                     m_pLink->setCustomOpText(opText);
                 return;
             }
-            UMLObject* umlObj = UMLApp::app()->getDocument()->createChildObject(c, Uml::ot_Operation);
+            UMLObject* umlObj = Model_Utils::createChildObject(c, Uml::ot_Operation);
             if (umlObj) {
                 UMLOperation* newOperation = static_cast<UMLOperation*>( umlObj );
                 m_pLink->setOperation(newOperation);

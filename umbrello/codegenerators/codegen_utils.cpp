@@ -16,16 +16,20 @@
 
 namespace Codegen_Utils {
 
-void createCppDatatypes() {
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-    umldoc->createDatatype("int");
-    umldoc->createDatatype("char");
-    umldoc->createDatatype("bool");
-    umldoc->createDatatype("float");
-    umldoc->createDatatype("double");
-    umldoc->createDatatype("long");
-    umldoc->createDatatype("short");
-    umldoc->createDatatype("string");
+QStringList cppDatatypes() {
+    QStringList l;
+    l.append("int");
+    l.append("char");
+    l.append("bool");
+    l.append("float");
+    l.append("double");
+    l.append("short");
+    l.append("long");
+    l.append("unsigned int");
+    l.append("unsigned short");
+    l.append("unsigned long");
+    l.append("string");
+    return l;
 }
 
 const QStringList reservedCppKeywords() {

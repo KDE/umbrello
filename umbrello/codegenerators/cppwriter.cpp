@@ -1282,8 +1282,8 @@ QString CppWriter::getAttributeVariableName (UMLAttribute *at)
     return fieldName;
 }
 
-void CppWriter::createDefaultDatatypes() {
-    Codegen_Utils::createCppDatatypes();
+QStringList CppWriter::defaultDatatypes() {
+    return Codegen_Utils::cppDatatypes();
 }
 
 const QStringList CppWriter::reservedKeywords() const {

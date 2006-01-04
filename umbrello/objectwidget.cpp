@@ -27,6 +27,8 @@
 #include "uml.h"
 #include "umlobject.h"
 #include "listpopupmenu.h"
+#include "docwindow.h"
+#include "dialogs/classpropdlg.h"
 
 /**
  * The number of pixels margin between the lowest message
@@ -100,7 +102,7 @@ void ObjectWidget::slotMenuSelection(int sel) {
             break;
         }
     case ListPopupMenu::mt_Properties:
-        UMLApp::app()->getDocument() -> showProperties(this);
+        showProperties();
         updateComponentSize();
         moveEvent( 0 );
         update();
@@ -197,6 +199,19 @@ void ObjectWidget::cleanup() {
     }
 }
 
+bool ObjectWidget::showProperties() {
+    DocWindow *docwindow = UMLApp::app()->getDocWindow();
+    docwindow->updateDocumentation(false);
+    ClassPropDlg *dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
+    bool modified = false;
+    if (dlg->exec()) {
+        docwindow->showDocumentation(this, true);
+        UMLApp::app()->getDocument()->setModified(true);
+        modified = true;
+    }
+    dlg->close(true);//wipe from memory
+    return modified;
+}
 
 void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY) {
 

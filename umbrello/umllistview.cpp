@@ -485,7 +485,7 @@ void UMLListView::popupMenuSel(int sel) {
         umlType = object->getBaseType();
 
         if ( typeIsCanvasWidget(lvt) ) {
-            m_doc->showProperties(object, ClassPropDlg::page_gen);
+            object->showProperties(ClassPropDlg::page_gen);
         } else if(umlType == Uml::ot_Attribute) {
             // show the attribute dialogue
             UMLAttribute* selectedAttribute = static_cast<UMLAttribute*>(object);
@@ -1082,7 +1082,7 @@ void UMLListView::contentsMouseDoubleClickEvent(QMouseEvent * me) {
     //FIXME for entityattributes
 
     if(object)
-        m_doc -> showProperties(object, page);
+        object->showProperties(page);
     item -> cancelRename( 0 );//double click can cause it to go into rename mode.
 }
 
@@ -2048,61 +2048,61 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
         break;
 
     case Uml::lvt_Actor:
-        name = m_doc->uniqObjectName( Uml::ot_Actor );
+        name = Model_Utils::uniqObjectName( Uml::ot_Actor );
         newItem = new UMLListViewItem( parentItem, name, type, (UMLObject *)0 );
         newItem -> setPixmap( 0, getPixmap( it_Actor ) );
         break;
 
     case Uml::lvt_Class:
-        name = m_doc->uniqObjectName( Uml::ot_Class);
+        name = Model_Utils::uniqObjectName( Uml::ot_Class);
         newItem = new UMLListViewItem( parentItem, name, type, (UMLObject *)0 );
         newItem -> setPixmap( 0, getPixmap( it_Class ) );
         break;
 
     case Uml::lvt_Package:
-        name = m_doc->uniqObjectName( Uml::ot_Package );
+        name = Model_Utils::uniqObjectName( Uml::ot_Package );
         newItem = new UMLListViewItem( parentItem, name, type, (UMLObject *)0 );
         newItem->setPixmap( 0, getPixmap( it_Package ) );
         break;
 
     case Uml::lvt_Component:
-        name = m_doc->uniqObjectName( Uml::ot_Component );
+        name = Model_Utils::uniqObjectName( Uml::ot_Component );
         newItem = new UMLListViewItem( parentItem, name, type, (UMLObject *)0 );
         newItem->setPixmap( 0, getPixmap( it_Component ) );
         break;
 
     case Uml::lvt_Node:
-        name = m_doc->uniqObjectName( Uml::ot_Node );
+        name = Model_Utils::uniqObjectName( Uml::ot_Node );
         newItem = new UMLListViewItem( parentItem, name, type, (UMLObject *)0 );
         newItem->setPixmap( 0, getPixmap( it_Node ) );
         break;
 
     case Uml::lvt_Artifact:
-        name = m_doc->uniqObjectName( Uml::ot_Artifact );
+        name = Model_Utils::uniqObjectName( Uml::ot_Artifact );
         newItem = new UMLListViewItem( parentItem, name, type, (UMLObject *)0 );
         newItem->setPixmap( 0, getPixmap( it_Artifact ) );
         break;
 
     case Uml::lvt_Interface:
-        name = m_doc->uniqObjectName( Uml::ot_Interface );
+        name = Model_Utils::uniqObjectName( Uml::ot_Interface );
         newItem = new UMLListViewItem( parentItem, name, type, (UMLObject*)0 );
         newItem->setPixmap( 0, getPixmap( it_Interface ) );
         break;
 
     case Uml::lvt_Datatype:
-        name = m_doc->uniqObjectName( Uml::ot_Datatype );
+        name = Model_Utils::uniqObjectName( Uml::ot_Datatype );
         newItem = new UMLListViewItem( parentItem, name, type, (UMLObject*)0 );
         newItem->setPixmap( 0, getPixmap( it_Datatype ) );
         break;
 
     case Uml::lvt_Enum:
-        name = m_doc->uniqObjectName( Uml::ot_Enum );
+        name = Model_Utils::uniqObjectName( Uml::ot_Enum );
         newItem = new UMLListViewItem( parentItem, name, type, (UMLObject*)0 );
         newItem->setPixmap( 0, getPixmap( it_Enum ) );
         break;
 
     case Uml::lvt_Entity:
-        name = m_doc->uniqObjectName( Uml::ot_Entity );
+        name = Model_Utils::uniqObjectName( Uml::ot_Entity );
         newItem = new UMLListViewItem( parentItem, name, type, (UMLObject*)0 );
         newItem->setPixmap( 0, getPixmap( it_Entity ) );
         break;
@@ -2132,7 +2132,7 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
             break;
         }
     case Uml::lvt_UseCase:
-        name = m_doc->uniqObjectName( Uml::ot_UseCase );
+        name = Model_Utils::uniqObjectName( Uml::ot_UseCase );
         newItem = new UMLListViewItem( parentItem, name, type, (UMLObject *)0 );
         newItem -> setPixmap( 0, getPixmap( it_UseCase ) );
         break;

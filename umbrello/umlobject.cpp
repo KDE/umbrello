@@ -22,8 +22,11 @@
 #include "umllistviewitem.h"
 #include "package.h"
 #include "stereotype.h"
+#include "object_factory.h"
 #include "model_utils.h"
 #include "import_utils.h"
+#include "docwindow.h"
+#include "dialogs/classpropdlg.h"
 
 UMLObject::UMLObject(const UMLObject * parent, const QString &name, Uml::IDType id)
         : QObject(const_cast<UMLObject*>(parent), "UMLObject" ) {
@@ -68,6 +71,19 @@ void UMLObject::init() {
     m_pSecondary = NULL;
 }
 
+bool UMLObject::showProperties(int page, bool assoc) {
+    DocWindow *docwindow = UMLApp::app()->getDocWindow();
+    docwindow->updateDocumentation(false);
+    ClassPropDlg* dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this, page, assoc);
+    bool modified = false;
+    if (dlg->exec()) {
+        docwindow->showDocumentation(this, true);
+        UMLApp::app()->getDocument()->setModified(true);
+        modified = true;
+    }
+    dlg->close(true); //wipe from memory
+    return modified;
+}
 
 bool UMLObject::isSavedInSeparateFile() {
     if (UMLApp::app()->getOptionState().generalState.tabdiagrams) {
@@ -197,7 +213,7 @@ void UMLObject::copyInto(UMLObject *rhs) const
     rhs->m_pUMLPackage = m_pUMLPackage;
 
     // We don't want the same name existing twice.
-    rhs->m_Name = umldoc->uniqObjectName(m_BaseType, m_Name, m_pUMLPackage);
+    rhs->m_Name = Model_Utils::uniqObjectName(m_BaseType, m_Name, m_pUMLPackage);
 
     // Create a new ID.
     rhs->m_nId = umldoc->getUniqueID();
@@ -407,10 +423,10 @@ bool UMLObject::resolveRef() {
         return true;
     }
     //pDoc->setIsOldFile(true);
-    // Work around UMLDoc::createUMLObject()'s incapability
+    // Work around Object_Factory::createUMLObject()'s incapability
     // of on-the-fly scope creation:
     if (m_SecondaryId.contains("::")) {
-        // TODO: Merge Import_Utils::createUMLObject() into UMLDoc::createUMLObject()
+        // TODO: Merge Import_Utils::createUMLObject() into Object_Factory::createUMLObject()
         m_pSecondary = Import_Utils::createUMLObject(Uml::ot_UMLObject, m_SecondaryId, NULL);
         if (m_pSecondary) {
             if (Import_Utils::newUMLObjectWasCreated()) {
@@ -443,7 +459,7 @@ bool UMLObject::resolveRef() {
         if (Model_Utils::isCommonDataType(m_SecondaryId))
             ot = Uml::ot_Datatype;
     }
-    m_pSecondary = pDoc->createUMLObject(ot, m_SecondaryId, NULL);
+    m_pSecondary = Object_Factory::createUMLObject(ot, m_SecondaryId, NULL);
     if (m_pSecondary == NULL)
         return false;
     m_SecondaryId = "";

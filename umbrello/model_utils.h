@@ -30,6 +30,7 @@
 
 // forward declarations
 class UMLClassifier;
+class UMLPackage;
 
 namespace Model_Utils {
 
@@ -70,6 +71,31 @@ UMLObject * findObjectInList(Uml::IDType id, UMLObjectList inList);
 UMLObject* findUMLObject( UMLObjectList inList, QString name,
                           Uml::Object_Type type = Uml::ot_UMLObject,
                           UMLObject *currentObj = NULL);
+
+/**
+ * Returns a name for the new object, appended with a number
+ * if the default name is taken e.g. new_actor, new_actor_1
+ * etc.
+ * @param type              The object type.
+ * @param prefix    The prefix to use (optional.)
+ *                  If no prefix is given then a type related
+ *                  prefix will be chosen internally.
+ * @param parentPkg The package in which to compare the name (optional.)
+ *                  If not given then comparisons are done in the global scope.
+ */
+QString uniqObjectName(Uml::Object_Type type,
+                       QString prefix = QString::null,
+                       UMLPackage *parentPkg = 0);
+
+/**
+ * Creates an operation, attribute, template, or enum literal
+ * for the parent concept.
+ *
+ * @param o The parent concept
+ * @param type      The type to create
+ * @return  The UMLObject created
+ */
+UMLObject* createChildObject(UMLObject* o, Uml::Object_Type type);
 
 /**
  * Return true if the given tag is a one of the common XMI

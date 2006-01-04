@@ -23,6 +23,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "classifier.h"
+#include "object_factory.h"
 #include "model_utils.h"
 
 using namespace Uml;
@@ -199,7 +200,7 @@ bool UMLPackage::load(QDomElement& element) {
                 return false;
             continue;
         }
-        UMLObject *pObject = UMLDoc::makeNewUMLObject(type);
+        UMLObject *pObject = Object_Factory::makeObjectFromXMI(type);
         if( !pObject ) {
             kdWarning() << "UMLPackage::load: "
             << "Unknown type of umlobject to create: "

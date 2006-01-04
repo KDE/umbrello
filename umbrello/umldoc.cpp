@@ -44,19 +44,14 @@
 #endif
 
 // app includes
-#include "actor.h"
 #include "associationwidget.h"
 #include "association.h"
 #include "package.h"
-#include "component.h"
 #include "codegenerator.h"
-#include "node.h"
-#include "artifact.h"
 #include "datatype.h"
 #include "enum.h"
 #include "entity.h"
 #include "docwindow.h"
-#include "objectwidget.h"
 #include "operation.h"
 #include "attribute.h"
 #include "template.h"
@@ -64,13 +59,13 @@
 #include "entityattribute.h"
 #include "stereotype.h"
 #include "classifierlistitem.h"
+#include "object_factory.h"
 #include "model_utils.h"
 #include "widget_utils.h"
 #include "uml.h"
 #include "umllistview.h"
 #include "umllistviewitem.h"
 #include "umlview.h"
-#include "usecase.h"
 #include "clipboard/idchangelog.h"
 #include "dialogs/classpropdlg.h"
 #include "inputdialog.h"
@@ -109,7 +104,6 @@ UMLDoc::UMLDoc() {
     m_bTypesAreResolved = false;
     m_pAutoSaveTimer = 0;
     m_nViewID = Uml::id_None;
-    m_highestIDforForeignFile = 0;
     m_pTabPopupMenu = 0;
     UMLApp * pApp = UMLApp::app();
     connect(this, SIGNAL(sigDiagramCreated(Uml::IDType)), pApp, SLOT(slotUpdateViews()));
@@ -803,52 +797,12 @@ UMLClassifier* UMLDoc::findUMLClassifier(const QString &name) {
     return dynamic_cast<UMLClassifier*>(obj);
 }
 
-QString UMLDoc::uniqObjectName(const Object_Type type, QString prefix,
-                               UMLPackage *parentPkg /* = NULL */) {
-    QString currentName = prefix;
-    if (currentName.isEmpty()) {
-        if(type == ot_Class)
-            currentName = i18n("new_class");
-        else if(type == ot_Actor)
-            currentName = i18n("new_actor");
-        else if(type == ot_UseCase)
-            currentName = i18n("new_usecase");
-        else if(type == ot_Package)
-            currentName = i18n("new_package");
-        else if(type == ot_Component)
-            currentName = i18n("new_component");
-        else if(type == ot_Node)
-            currentName = i18n("new_node");
-        else if(type == ot_Artifact)
-            currentName = i18n("new_artifact");
-        else if(type == ot_Interface)
-            currentName = i18n("new_interface");
-        else if(type == ot_Datatype)
-            currentName = i18n("new_datatype");
-        else if(type == ot_Enum)
-            currentName = i18n("new_enum");
-        else if(type == ot_Entity)
-            currentName = i18n("new_entity");
-        else if(type == ot_Association)
-            currentName = i18n("new_association");
-        else {
-            currentName = i18n("new_object");
-            kdWarning() << "unknown object type in umldoc::uniqObjectName()" << endl;
-        }
-    }
-    QString name = currentName;
-    for (int number = 1; !isUnique(name, parentPkg); number++)  {
-        name = currentName + "_" + QString::number(number);
-    }
-    return name;
-}
-
 /**
   *   Adds a UMLObject thats already created but doesn't change
   *   any ids or signal.  Used by the list view.  Use
   *   AddUMLObjectPaste if pasting.
   */
-bool UMLDoc::addUMLObject(UMLObject* object) {
+bool UMLDoc::addUMLObject(UMLObject* object, bool prepend) {
     Object_Type ot = object->getBaseType();
     if (ot == ot_Attribute || ot == ot_Operation || ot == ot_EnumLiteral
             || ot == ot_EntityAttribute || ot == ot_Template || ot == ot_Stereotype) {
@@ -868,13 +822,10 @@ bool UMLDoc::addUMLObject(UMLObject* object) {
                   << " because it's already there." << endl;
         return false;
     }
-    m_objectList.append( object );
-    // CHECK: Can we remove this m_highestIDforForeignFile voodoo ///
-    Uml::IDType id = object->getID();
-    int nId = INTERNALIZE_ID(id);
-    if (nId > m_highestIDforForeignFile)
-        m_highestIDforForeignFile = nId;
-    // end CHECK ////////////////////////////////////////////////////
+    if (prepend)
+        m_objectList.prepend(object);
+    else
+        m_objectList.append(object);
     return true;
 }
 
@@ -945,125 +896,6 @@ bool UMLDoc::isUnique(const QString &name, UMLPackage *package)
             return false;
     }
     return true;
-}
-
-UMLObject* UMLDoc::createUMLObject(Object_Type type, const QString &n,
-                                   UMLPackage *parentPkg /* = NULL */,
-                                   bool prepend /* = false */) {
-    bool ok = false;
-    QString name;
-    if( !n.isEmpty() && isUnique(n, parentPkg) )
-    {
-        name = n;
-    }
-    else
-    {
-        name = uniqObjectName(type, n, parentPkg);
-        bool bValidNameEntered = false;
-        do {
-            name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), name, &ok, (QWidget*)UMLApp::app());
-            if (!ok) {
-                return 0;
-            }
-            if (name.length() == 0) {
-                KMessageBox::error(0, i18n("That is an invalid name."),
-                                   i18n("Invalid Name"));
-                continue;
-            }
-            if (getCurrentCodeGenerator() != NULL &&
-                    getCurrentCodeGenerator()->isReservedKeyword(name)) {
-                KMessageBox::error(0, i18n("This is a reserved keyword for the language of the configured code generator."),
-                                   i18n("Reserved Keyword"));
-                continue;
-            }
-            if (! isUnique(name, parentPkg)) {
-                KMessageBox::error(0, i18n("That name is already being used."),
-                                   i18n("Not a Unique Name"));
-                continue;
-            }
-            bValidNameEntered = true;
-        } while (bValidNameEntered == false);
-    }
-    UMLObject *o = NULL;
-    if(type == ot_Actor) {
-        o = new UMLActor(name);
-    } else if(type == ot_UseCase) {
-        o = new UMLUseCase(name);
-    } else if(type == ot_Class ) {
-        o = new UMLClassifier(name);
-    } else if(type == ot_Package) {
-        o = new UMLPackage(name);
-    } else if(type == ot_Component) {
-        o = new UMLComponent(name);
-    } else if(type == ot_Node) {
-        o = new UMLNode(name);
-    } else if(type == ot_Artifact) {
-        o = new UMLArtifact(name);
-    } else if(type == ot_Interface) {
-        UMLClassifier *c = new UMLClassifier(name);
-        c->setInterface();
-        o = c;
-    } else if(type == ot_Datatype) {
-        o = new UMLDatatype(name);
-    } else if(type == ot_Enum) {
-        o = new UMLEnum(name);
-    } else if(type == ot_Entity) {
-        o = new UMLEntity(name);
-    } else {
-        kdWarning() << "CreateUMLObject(int) error unknown type: " << type << endl;
-        return (UMLObject*)0L;
-    }
-    o->setUMLPackage(parentPkg);
-    if (parentPkg)
-        parentPkg->addObject(o);
-    else if (prepend)
-        m_objectList.prepend(o);
-    else
-        m_objectList.append(o);
-    emit sigObjectCreated(o);
-    setModified(true);
-    return o;
-}
-
-UMLObject* UMLDoc::createChildObject(UMLObject* umlobject, Object_Type type) {
-    UMLObject* returnObject = NULL;
-    switch (type) {
-    case ot_Attribute: {
-            UMLClassifier *c = dynamic_cast<UMLClassifier*>(umlobject);
-            if (c && !c->isInterface())
-                returnObject = c->createAttribute();
-            break;
-        }
-    case ot_Operation: {
-            UMLClassifier *c = dynamic_cast<UMLClassifier*>(umlobject);
-            if (c)
-                returnObject = c->createOperation();
-            break;
-        }
-    case ot_Template: {
-            UMLClassifier *c = dynamic_cast<UMLClassifier*>(umlobject);
-            if (c)
-                returnObject = c->createTemplate();
-            break;
-        }
-    case ot_EnumLiteral: {
-            UMLEnum* umlenum = dynamic_cast<UMLEnum*>(umlobject);
-            if (umlenum) {
-                returnObject = umlenum->createEnumLiteral();
-            }
-            break;
-        }
-    case ot_EntityAttribute: {
-            UMLEntity* umlentity = dynamic_cast<UMLEntity*>(umlobject);
-            if (umlentity) {
-                returnObject = umlentity->createEntityAttribute();
-            }
-            break;
-        }
-    default:
-        kdDebug() << "ERROR UMLDoc::createChildObject type:" << type << endl;
-    }
-    return returnObject;
 }
 
 UMLStereotype* UMLDoc::findStereotype(const QString &name) {
@@ -1452,34 +1284,6 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
     setModified(true);
 }
 
-bool UMLDoc::showProperties(UMLObject* object, int page, bool assoc) {
-    UMLApp::app()->getDocWindow()->updateDocumentation( false );
-    ClassPropDlg* dialogue = new ClassPropDlg((QWidget*)UMLApp::app(), object, page, assoc);
-
-    bool modified = false;
-    if ( dialogue->exec() ) {
-        UMLApp::app()->getDocWindow()->showDocumentation(object, true);
-        setModified(true);
-        modified = true;
-    }
-    dialogue->close(true);//wipe from memory
-    return modified;
-}
-
-bool UMLDoc::showProperties(ObjectWidget *o) {
-    UMLApp::app()->getDocWindow() -> updateDocumentation( false );
-    ClassPropDlg *dlg = new ClassPropDlg((QWidget*)UMLApp::app(), o);
-
-    bool modified = false;
-    if(dlg->exec()) {
-        UMLApp::app()->getDocWindow() -> showDocumentation( o, true );
-        setModified(true);
-        modified = true;
-    }
-    dlg -> close(true);//wipe from memory
-    return modified;
-}
-
 void UMLDoc::signalUMLObjectCreated(UMLObject * o) {
     emit sigObjectCreated(o);
     if (!m_bLoading)
@@ -1826,7 +1630,7 @@ bool UMLDoc::loadFolderFile( QString filename ) {
             pView->hide();
             addView(pView);
         } else {
-            UMLObject *pObject = makeNewUMLObject(type);
+            UMLObject *pObject = Object_Factory::makeObjectFromXMI(type);
             if (pObject) {
                 if (! pObject->loadFromXMI(element)) {
                     kdError() << "UMLDoc::loadFolderFile(" << filename
@@ -1890,7 +1694,6 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
     }
 
     m_nViewID = Uml::id_None;
-    m_highestIDforForeignFile = 0;
     for (node = node.firstChild(); !node.isNull(); node = node.nextSibling()) {
         if (node.isComment())
             continue;
@@ -1989,19 +1792,6 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
     kdDebug() << "UMLDoc::m_objectList.count() is " << m_objectList.count() << endl;
 #endif
     resolveTypes();
-
-    if (m_nViewID == Uml::id_None) {
-        m_uniqueID = m_highestIDforForeignFile;
-        // We must do this because there is no <docsettings> to
-        // tell us the highest ID when loading foreign XMI files.
-        kdDebug() << "UMLDoc::loadFromXMI: Setting m_uniqueID to "
-        << m_uniqueID << " because no <docsettings> encountered"
-        << endl;
-        // Let's make it the next round number.
-        int roundUpFactor = (m_uniqueID < 1000 ? 100 :
-                             m_uniqueID < 10000 ? 1000 : 10000);
-        m_uniqueID = roundUpFactor * ((m_uniqueID - 1) / roundUpFactor + 1);
-    }
 
     emit sigWriteToStatusBar( i18n("Setting up the document...") );
     kapp->processEvents();  // give UI events a chance
@@ -2131,7 +1921,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
             }
             continue;
         }
-        UMLObject *pObject = makeNewUMLObject(type);
+        UMLObject *pObject = Object_Factory::makeObjectFromXMI(type);
         if( !pObject ) {
             kdWarning() << "Unknown type of umlobject to create: " << type << endl;
             // We want a best effort, therefore this is handled as a
@@ -2229,67 +2019,6 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node) {
     }
 }
 
-UMLObject* UMLDoc::makeNewClassifierObject(QString type, UMLClassifier *parent) {
-    if (parent == NULL)
-        return NULL;
-    UMLObject* pObject = NULL;
-    if (tagEq(type, "Operation")) {
-        pObject = new UMLOperation(parent);
-    } else if (tagEq(type, "Attribute")) {
-        if (parent->getBaseType() != Uml::ot_Class)
-            return NULL;
-        UMLClassifier *pClass = static_cast<UMLClassifier*>(parent);
-        pObject = new UMLAttribute(pClass);
-    } else if (tagEq(type, "Template")) {
-        pObject = new UMLTemplate(parent);
-    }
-    return pObject;
-}
-
-UMLObject* UMLDoc::makeNewUMLObject(const QString &type) {
-    UMLObject* pObject = 0;
-    if (tagEq(type, "UseCase")) {
-        pObject = new UMLUseCase();
-    } else if (tagEq(type, "Actor")) {
-        pObject = new UMLActor();
-    } else if (tagEq(type, "Class")) {
-        pObject = new UMLClassifier();
-    } else if (tagEq(type, "Package")) {
-        pObject = new UMLPackage();
-    } else if (tagEq(type, "Component")) {
-        pObject = new UMLComponent();
-    } else if (tagEq(type, "Node")) {
-        pObject = new UMLNode();
-    } else if (tagEq(type, "Artifact")) {
-        pObject = new UMLArtifact();
-    } else if (tagEq(type, "Interface")) {
-        UMLClassifier *c = new UMLClassifier();
-        c->setInterface();
-        pObject = c;
-    } else if (tagEq(type, "DataType") || tagEq(type, "Primitive")
-               || tagEq(type, "Datatype")) {   // for bkwd compat.
-        pObject = new UMLDatatype();
-    } else if (tagEq(type, "Enumeration") ||
-               tagEq(type, "Enum")) {   // for bkwd compat.
-        pObject = new UMLEnum();
-    } else if (tagEq(type, "Entity")) {
-        pObject = new UMLEntity();
-    } else if (tagEq(type, "Stereotype")) {
-        pObject = new UMLStereotype();
-    } else if (tagEq(type, "Association") ||
-               tagEq(type, "AssociationClass")) {
-        pObject = new UMLAssociation();
-    } else if (tagEq(type, "Generalization")) {
-        pObject = new UMLAssociation(Uml::at_Generalization);
-    } else if (tagEq(type, "Realization") ||
-               tagEq(type, "Abstraction")) {
-        pObject = new UMLAssociation(Uml::at_Realization);
-    } else if (tagEq(type, "Dependency")) {
-        pObject = new UMLAssociation(Uml::at_Dependency);
-    }
-    return pObject;
-}
-
 bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
     emit sigWriteToStatusBar( i18n("Loading diagrams...") );
     emit sigResetStatusbarProgress();
@@ -2344,34 +2073,6 @@ void UMLDoc::removeAllViews() {
     m_currentView = NULL;
     emit sigDiagramChanged(dt_Undefined);
     UMLApp::app()->setDiagramMenuItemsState(false);
-}
-
-QStringList UMLDoc::getModelTypes()
-{
-    QStringList types;
-    //insert "standard" (frequently used) types --FIXME, make this language dependant.
-    types.append("void");
-    types.append("int");
-    types.append("long");
-    types.append("bool");
-    types.append("string");
-    types.append("double");
-    types.append("float");
-    types.append("date");
-
-    // adding for perl The 3 base type (SV,AV,HV)
-    types.append("$");
-    types.append("@");
-    types.append("%");
-
-    //now add the Classes and Interfaces (both are Concepts)
-    UMLClassifierList namesList( getConcepts() );
-    UMLClassifier* pConcept = 0;
-    for(pConcept=namesList.first(); pConcept!=0 ;pConcept=namesList.next())
-    {
-        types.append( pConcept->getName() );
-    }
-    return types;
 }
 
 UMLClassifierList UMLDoc::getConcepts(bool includeNested /* =true */) {
@@ -2474,22 +2175,6 @@ void UMLDoc::print(KPrinter * pPrinter) {
         printView = 0;
     }
     painter.end();
-}
-
-bool UMLDoc::showProperties(UMLWidget * o) {
-    // will already be selected so make sure docWindow updates the doc
-    // back it the widget
-    UMLApp::app()->getDocWindow() -> updateDocumentation( false );
-    ClassPropDlg *dlg = new ClassPropDlg((QWidget*)UMLApp::app(), o);
-
-    bool modified = false;
-    if(dlg->exec()) {
-        UMLApp::app()->getDocWindow() -> showDocumentation( o -> getUMLObject() , true );
-        setModified(true);
-        modified = true;
-    }
-    dlg -> close(true);//wipe from memory
-    return modified;
 }
 
 void UMLDoc::setModified(bool modified /*=true*/, bool addToUndo /*=true*/) {
@@ -2802,13 +2487,16 @@ void UMLDoc::loadRedoData() {
 }
 
 void UMLDoc::addDefaultDatatypes() {
-    UMLApp::app()->getGenerator()->createDefaultDatatypes();
+    QStringList entries = UMLApp::app()->getGenerator()->defaultDatatypes();
+    QStringList::Iterator end(entries.end());
+    for (QStringList::Iterator it = entries.begin(); it != end; ++it)
+        createDatatype(*it);
 }
 
 void UMLDoc::createDatatype(const QString &name)  {
     UMLObject* umlobject = findUMLObject(name, ot_Datatype);
     if (!umlobject) {
-        createUMLObject(ot_Datatype, name);
+        Object_Factory::createUMLObject(ot_Datatype, name);
     }
     UMLApp::app()->getListView()->closeDatatypesFolder();
 }

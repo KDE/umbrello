@@ -22,15 +22,21 @@
 #include <kdebug.h>
 
 // app includes
+#include "inputdialog.h"
 #include "umlobject.h"
 #include "umlpackagelist.h"
 #include "package.h"
 #include "classifier.h"
+#include "enum.h"
+#include "entity.h"
 #include "template.h"
+#include "operation.h"
+#include "attribute.h"
 #include "association.h"
 #include "umlrole.h"
 #include "umldoc.h"
 #include "uml.h"
+#include "codegenerator.h"
 
 namespace Model_Utils {
 
@@ -208,6 +214,88 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
     return NULL;
 }
 
+QString uniqObjectName(Uml::Object_Type type, QString prefix,
+                       UMLPackage *parentPkg /* = NULL */) {
+    QString currentName = prefix;
+    if (currentName.isEmpty()) {
+        if(type == Uml::ot_Class)
+            currentName = i18n("new_class");
+        else if(type == Uml::ot_Actor)
+            currentName = i18n("new_actor");
+        else if(type == Uml::ot_UseCase)
+            currentName = i18n("new_usecase");
+        else if(type == Uml::ot_Package)
+            currentName = i18n("new_package");
+        else if(type == Uml::ot_Component)
+            currentName = i18n("new_component");
+        else if(type == Uml::ot_Node)
+            currentName = i18n("new_node");
+        else if(type == Uml::ot_Artifact)
+            currentName = i18n("new_artifact");
+        else if(type == Uml::ot_Interface)
+            currentName = i18n("new_interface");
+        else if(type == Uml::ot_Datatype)
+            currentName = i18n("new_datatype");
+        else if(type == Uml::ot_Enum)
+            currentName = i18n("new_enum");
+        else if(type == Uml::ot_Entity)
+            currentName = i18n("new_entity");
+        else if(type == Uml::ot_Association)
+            currentName = i18n("new_association");
+        else {
+            currentName = i18n("new_object");
+            kdWarning() << "unknown object type in umldoc::uniqObjectName()" << endl;
+        }
+    }
+    UMLDoc *doc = UMLApp::app()->getDocument();
+    QString name = currentName;
+    for (int number = 1; !doc->isUnique(name, parentPkg); number++)  {
+        name = currentName + "_" + QString::number(number);
+    }
+    return name;
+}
+
+UMLObject* createChildObject(UMLObject* umlobject, Uml::Object_Type type) {
+    UMLObject* returnObject = NULL;
+    switch (type) {
+    case Uml::ot_Attribute: {
+            UMLClassifier *c = dynamic_cast<UMLClassifier*>(umlobject);
+            if (c && !c->isInterface())
+                returnObject = c->createAttribute();
+            break;
+        }
+    case Uml::ot_Operation: {
+            UMLClassifier *c = dynamic_cast<UMLClassifier*>(umlobject);
+            if (c)
+                returnObject = c->createOperation();
+            break;
+        }
+    case Uml::ot_Template: {
+            UMLClassifier *c = dynamic_cast<UMLClassifier*>(umlobject);
+            if (c)
+                returnObject = c->createTemplate();
+            break;
+        }
+    case Uml::ot_EnumLiteral: {
+            UMLEnum* umlenum = dynamic_cast<UMLEnum*>(umlobject);
+            if (umlenum) {
+                returnObject = umlenum->createEnumLiteral();
+            }
+            break;
+        }
+    case Uml::ot_EntityAttribute: {
+            UMLEntity* umlentity = dynamic_cast<UMLEntity*>(umlobject);
+            if (umlentity) {
+                returnObject = umlentity->createEntityAttribute();
+            }
+            break;
+        }
+    default:
+        kdDebug() << "ERROR UMLDoc::createChildObject type:" << type << endl;
+    }
+    return returnObject;
+}
+
 bool isCommonXMIAttribute( const QString &tag ) {
     bool retval = (Uml::tagEq(tag, "name") ||
                    Uml::tagEq(tag, "visibility") ||
@@ -227,20 +315,16 @@ bool isCommonXMIAttribute( const QString &tag ) {
 }
 
 bool isCommonDataType(QString type) {
-    const char *types[] = { "void", "string",
-                            "bool", "boolean",
-                            "char", "unsigned char",
-                            "short", "unsigned short",
-                            "int", "unsigned int",
-                            "long", "unsigned long",
-                            "float", "double"
-                          };
-    const int n_types = sizeof(types) / sizeof(const char *);
-    const QString lcType = type.lower();
-    int i = 0;
-    for (; i < n_types; i++) {
-        if (lcType == types[i])
+    const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
+    QStringList dataTypes = UMLApp::app()->getGenerator()->defaultDatatypes();
+    QStringList::Iterator end(dataTypes.end());
+    for (QStringList::Iterator it = dataTypes.begin(); it != end; ++it) {
+        if (caseSensitive) {
+            if (type == *it)
+                return true;
+        } else if (type.lower() == (*it).lower()) {
             return true;
+        }
     }
     return false;
 }

@@ -418,17 +418,20 @@ void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comme
     idl << ");" << m_endl << m_endl;
 }
 
-void IDLWriter::createDefaultDatatypes() {
-    m_doc->createDatatype("boolean");
-    m_doc->createDatatype("char");
-    m_doc->createDatatype("octet");
-    m_doc->createDatatype("short");
-    m_doc->createDatatype("unsigned short");
-    m_doc->createDatatype("long");
-    m_doc->createDatatype("unsigned long");
-    m_doc->createDatatype("float");
-    m_doc->createDatatype("double");
-    m_doc->createDatatype("string");
+QStringList IDLWriter::defaultDatatypes() {
+    QStringList l;
+    l.append("boolean");
+    l.append("char");
+    l.append("octet");
+    l.append("short");
+    l.append("unsigned short");
+    l.append("long");
+    l.append("unsigned long");
+    l.append("float");
+    l.append("double");
+    l.append("string");
+    l.append("any");
+    return l;
 }
 
 const QStringList IDLWriter::reservedKeywords() const {

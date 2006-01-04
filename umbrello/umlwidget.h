@@ -418,9 +418,12 @@ public:
      */
     virtual void setShowStereotype(bool _status);
 
-    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-
-    virtual bool loadFromXMI( QDomElement & qElement );
+    /**
+     * Show a properties dialog for a UMLWidget.
+     *
+     * @return  True if the widget was modified.
+     */
+    bool showProperties();
 
     /**
      * Returns true if the Activate method has been called for this instance
@@ -513,6 +516,10 @@ public:
      * @param me The move event.
      */
     virtual void moveEvent(QMoveEvent *) { }
+
+    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+
+    virtual bool loadFromXMI( QDomElement & qElement );
 
 protected:
     /**

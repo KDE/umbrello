@@ -515,17 +515,19 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
     // for generating meaningful implementations.
 }
 
-void AdaWriter::createDefaultDatatypes() {
-    m_doc->createDatatype("Boolean");
-    m_doc->createDatatype("Character");
-    m_doc->createDatatype("Positive");
-    m_doc->createDatatype("Natural");
-    m_doc->createDatatype("Integer");
-    m_doc->createDatatype("Short_Integer");
-    m_doc->createDatatype("Long_Integer");
-    m_doc->createDatatype("Float");
-    m_doc->createDatatype("Long_Float");
-    m_doc->createDatatype("String");
+QStringList AdaWriter::defaultDatatypes() {
+    QStringList l;
+    l.append("Boolean");
+    l.append("Character");
+    l.append("Positive");
+    l.append("Natural");
+    l.append("Integer");
+    l.append("Short_Integer");
+    l.append("Long_Integer");
+    l.append("Float");
+    l.append("Long_Float");
+    l.append("String");
+    return l;
 }
 
 /**

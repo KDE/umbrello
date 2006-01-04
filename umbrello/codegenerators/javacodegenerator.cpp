@@ -190,15 +190,18 @@ void JavaCodeGenerator::initFields() {
 
 }
 
-void JavaCodeGenerator::createDefaultDatatypes() {
-    m_document->createDatatype("int");
-    m_document->createDatatype("char");
-    m_document->createDatatype("boolean");
-    m_document->createDatatype("float");
-    m_document->createDatatype("double");
-    m_document->createDatatype("byte");
-    m_document->createDatatype("short");
-    m_document->createDatatype("string");
+QStringList JavaCodeGenerator::defaultDatatypes() {
+    QStringList l;
+    l.append("int");
+    l.append("char");
+    l.append("boolean");
+    l.append("float");
+    l.append("double");
+    l.append("byte");
+    l.append("short");
+    l.append("long");
+    l.append("string");
+    return l;
 }
 
 const QStringList JavaCodeGenerator::reservedKeywords() const {

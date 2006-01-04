@@ -33,7 +33,8 @@
 #include "dialogs/settingsdlg.h"
 #include "codedocument.h"
 #include "floatingtext.h"
-
+#include "docwindow.h"
+#include "dialogs/classpropdlg.h"
 #include "clipboard/idchangelog.h"
 
 using namespace Uml;
@@ -498,9 +499,9 @@ void UMLWidget::slotMenuSelection(int sel) {
                 wt == wt_Component || wt == wt_Artifact ||
                 wt == wt_Node || wt == wt_Enum || wt == wt_Entity ||
                 (wt == wt_Class && m_pView -> getType() == dt_Class)) {
-            m_pDoc -> showProperties(this);
+            showProperties();
         } else if (wt == wt_Object) {
-            m_pDoc -> showProperties(m_pObject);
+            m_pObject->showProperties();
         } else {
             kdWarning() << "making properties dialogue for unknown widget type" << endl;
         }
@@ -803,6 +804,23 @@ void UMLWidget::adjustUnselectedAssocs(int x, int y)
         if(!assocwidget->getSelected())
             assocwidget->widgetMoved(this, x, y);
     }
+}
+
+bool UMLWidget::showProperties() {
+    // will already be selected so make sure docWindow updates the doc
+    // back it the widget
+    DocWindow *docwindow = UMLApp::app()->getDocWindow();
+    docwindow->updateDocumentation( false );
+    ClassPropDlg *dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
+
+    bool modified = false;
+    if (dlg->exec()) {
+        docwindow->showDocumentation( getUMLObject() , true );
+        UMLApp::app()->getDocument()->setModified(true);
+        modified = true;
+    }
+    dlg->close(true); //wipe from memory
+    return modified;
 }
 
 void UMLWidget::startPopupMenu( const QPoint &At) {

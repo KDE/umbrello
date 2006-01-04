@@ -204,31 +204,6 @@ public:
     bool isUnique(const QString &name, UMLPackage *package);
 
     /**
-     * Creates a @ref UMLObject of the given type.
-     *
-     * @param type              The type of @ref UMLObject to create.
-     *                  Used to create Actors, Use Cases and concepts.
-     * @param n         A name to give to the object (optional.)
-     * @param parentPkg The object's parent package (optional.)
-     * @param prepend   Set true if it is desired to prepend the new
-     *                  object to the list of objects.
-     *                  The default is to append.
-     */
-    UMLObject* createUMLObject(Uml::Object_Type type,
-                               const QString &n = QString::null,
-                               UMLPackage *parentPkg = NULL,
-                               bool prepend = false);
-
-    /**
-     * Creates either an operation or attribute for the parent concept.
-     *
-     * @param o The parent concept
-     * @param type      The type to create, either an operation or attribute.
-     * @return  The UMLObject created
-     */
-    UMLObject* createChildObject(UMLObject* o, Uml::Object_Type type);
-
-    /**
      * Finds or creates a stereotype for the parent object.
      */
     UMLStereotype* findOrCreateStereotype(const QString &name);
@@ -310,16 +285,6 @@ public:
      * @param id        The ID of the diagram to rename.
      */
     void renameDiagram(Uml::IDType id);
-
-    /**
-     * Returns a list of the predefined programming-language types
-     * supported.
-     *
-     * @return  A string list of the programming language types.
-     */
-    QStringList getModelTypes();
-    // FIXME: Investigate how to make this language dependent.
-    //        Currently only a fixed set of default types is supported.
 
     /**
      * Used to rename a @ref UMLObject.  The @ref UMLObject is to be an
@@ -445,18 +410,6 @@ public:
     Uml::IDType getUniqueID();
 
     /**
-     * This method is called if you wish to see the properties of a
-     * @ref UMLObject.  A dialog box will be displayed from which you
-     * can change the object's properties.
-     *
-     * @param o         The object to show properties for.
-     * @param page              The page to show.
-     * @param assoc             Whether to show association page.
-     * @return          True if we modified the object.
-     */
-    bool showProperties(UMLObject *o, int page = 0, bool assoc = false);
-
-    /**
      * This method is called for saving the given model as a XMI file.
      * It is virtual and calls the corresponding saveToXMI() functions
      * of the derived classes.
@@ -532,17 +485,6 @@ public:
     bool loadDiagramsFromXMI( QDomNode & node );
 
     /**
-     * Creates a new Classifier UMLObject (attribute, operation, template).
-     * Used by the clipboard when pasteing them.
-     */
-    static UMLObject* makeNewClassifierObject(QString type, UMLClassifier *parent);
-
-    /**
-     * Make a new UMLObject, used by loadFromXMI and clipboard paste.
-     */
-    static UMLObject* makeNewUMLObject(const QString &type);
-
-    /**
      * Signal a view/diagram has been renamed.
      */
     void signalDiagramRenamed(UMLView * pView );
@@ -558,22 +500,6 @@ public:
      * @param o The object that has been created.
      */
     void signalUMLObjectCreated(UMLObject * o);
-
-    /**
-     * Show a properties dialog for an @ref ObjectWidget.
-     *
-     * @param o The ObjectWidget to represent.
-     * @return  True if we modified the object.
-     */
-    bool showProperties(ObjectWidget * o);
-
-    /**
-     * Show a properties dialog for an @ref UMLWidget.
-     *
-     * @param o The UMLWidget to represent.
-     * @return  True if we modified the object.
-     */
-    bool showProperties(UMLWidget * o);
 
     /**
      * Returns the current view.
@@ -665,9 +591,11 @@ public:
      * any ids or signal.  Use AddUMLObjectPaste if pasting.
      *
      * @param object   The object to add.
+     * @param prepend  True if wish to prepend the object to the object list
+     *                 (default: append)
      * @return  True if the object was actually added.
      */
-    bool addUMLObject(UMLObject * object);
+    bool addUMLObject(UMLObject * object, bool prepend = false);
 
     /**
      * Adds an already created UMLView to the document, it gets
@@ -871,20 +799,6 @@ public:
     const UMLStereotypeList& getStereotypes();
 
     /**
-     * Returns a name for the new object, appended with a number
-     * if the default name is taken e.g. new_actor, new_actor_1
-     * etc.
-     * @param type              The object type.
-     * @param prefix    The prefix to use (optional.)
-     *                  If no prefix is given then a type related
-     *                  prefix will be chosen internally.
-     * @param parentPkg The package in which to compare the name (optional.)
-     *                  If not given then comparisons are done in the global scope.
-     */
-    QString uniqObjectName(const Uml::Object_Type type, QString prefix = QString::null,
-                           UMLPackage *parentPkg = 0);
-
-    /**
      * Write text to the status bar.
      */
     void writeToStatusBar(const QString &text);
@@ -942,8 +856,6 @@ private:
     bool m_modified;
     KURL m_doc_url;
     UMLView* m_currentView;
-    /// Auxiliary variable for loading foreign XMI files
-    int m_highestIDforForeignFile;
 
     /**
      * A dictionary of the parameters in the save XMI file

@@ -18,6 +18,7 @@
 #include "../template.h"
 #include "../enumliteral.h"
 #include "../entityattribute.h"
+#include "../model_utils.h"
 #include <kbuttonbox.h>
 #include <kdebug.h>
 #include <klocale.h>
@@ -410,7 +411,7 @@ void ClassifierListPage::slotProperties() {
 void ClassifierListPage::slotNewListItem() {
     saveCurrentItemDocumentation();
     m_bSigWaiting = true;
-    m_pDoc->createChildObject(m_pClassifier, m_itemType);
+    Model_Utils::createChildObject(m_pClassifier, m_itemType);
 }
 
 void ClassifierListPage::saveCurrentItemDocumentation() {

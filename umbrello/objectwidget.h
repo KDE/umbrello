@@ -143,6 +143,13 @@ public:
     void cleanup();
 
     /**
+     * Show a properties dialog for an ObjectWidget.
+     *
+     * @return  True if we modified the object.
+     */
+    bool showProperties();
+
+    /**
      * Returns whether to draw as an Actor or not.
      *
      * @return  True if widget is drawn as an actor.

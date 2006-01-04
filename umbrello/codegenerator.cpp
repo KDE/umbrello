@@ -780,9 +780,9 @@ bool CodeGenerator::forceSections() const {
     return m_codegeneratorpolicy->getCodeVerboseSectionComments();
 }
 
-void CodeGenerator::createDefaultDatatypes()  {
+QStringList CodeGenerator::defaultDatatypes()  {
+    return QStringList();
     //empty by default, override in your code generator
-    //e.g.  m_document->createDatatype("int");
 }
 
 bool CodeGenerator::isReservedKeyword(const QString & keyword) {
