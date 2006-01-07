@@ -17,6 +17,7 @@ classifier.cpp \
 classifiercodedocument.cpp \
 classifierlistitem.cpp \
 classifierwidget.cpp \
+classimport.cpp \
 codeaccessormethod.cpp \
 codeblock.cpp \
 codeblockwithcomments.cpp \
@@ -73,6 +74,7 @@ package.cpp \
 packagewidget.cpp \
 plugin.cpp \
 pluginloader.cpp \
+pythonimport.cpp \
 seqlinewidget.cpp \
 statewidget.cpp \
 stereotype.cpp \

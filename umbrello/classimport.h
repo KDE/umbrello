@@ -36,6 +36,11 @@ public:
      */
     virtual void importFiles(QStringList files) = 0;
 
+    /**
+     * Factory method.
+     */
+    static ClassImport *createImporterByFileExt(QString filename);
+
 };
 
 #endif
