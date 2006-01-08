@@ -122,238 +122,234 @@ void IDLImport::parseFile(QString filename) {
         const QString& keyword = m_source[m_srcIndex];
         //kdDebug() << '"' << keyword << '"' << endl;
         if (keyword.startsWith(m_singleLineCommentIntro)) {
-            m_comment = keyword.mid(2);
+            m_comment = keyword.mid(m_singleLineCommentIntro.length());
             continue;
         }
-        if (keyword == "module") {
-            const QString& name = advance();
-            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package,
-                            name, m_scope[m_scopeIndex], m_comment);
-            m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
-            m_scope[m_scopeIndex]->setStereotype("CORBAModule");
-            if (advance() != "{") {
-                kdError() << "importIDL: unexpected: " << m_source[m_srcIndex] << endl;
-                skipStmt("{");
-            }
-            m_comment = QString::null;
-            continue;
-        }
-        if (keyword == "interface") {
-            const QString& name = advance();
-            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
-                            name, m_scope[m_scopeIndex], m_comment);
-            m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
-            m_klass->setStereotype("CORBAInterface");
-            m_klass->setAbstract(m_isAbstract);
-            m_isAbstract = false;
-            m_comment = QString::null;
-            if (advance() == ";")   // forward declaration
-                continue;
-            if (m_source[m_srcIndex] == ":") {
-                while (++m_srcIndex < srcLength && m_source[m_srcIndex] != "{") {
-                    const QString& baseName = m_source[m_srcIndex];
-                    Import_Utils::createGeneralization(m_klass, baseName);
-                    if (advance() != ",")
-                        break;
-                }
-            }
-            if (m_source[m_srcIndex] != "{") {
-                kdError() << "importIDL: ignoring excess chars at "
-                << name << endl;
-                skipStmt("{");
-            }
-            continue;
-        }
-        if (keyword == "struct" || keyword == "exception") {
-            const QString& name = advance();
-            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
-                            name, m_scope[m_scopeIndex], m_comment);
-            m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
-            if (keyword == "struct")
-                m_klass->setStereotype("CORBAStruct");
-            else
-                m_klass->setStereotype("CORBAException");
-            if (advance() != "{") {
-                kdError() << "importIDL: expecting '{' at " << name << endl;
-                skipStmt("{");
-            }
-            m_comment = QString::null;
-            continue;
-        }
-        if (keyword == "union") {
-            // TBD. <gulp>
-            skipStmt("}");
-            m_srcIndex++;  // advance to ';'
-            continue;
-        }
-        if (keyword == "enum") {
-            const QString& name = advance();
-            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Enum,
-                            name, m_scope[m_scopeIndex], m_comment);
-            UMLEnum *enumType = static_cast<UMLEnum*>(ns);
-            m_srcIndex++;  // skip name
-            while (++m_srcIndex < srcLength && m_source[m_srcIndex] != "}") {
-                Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
-                if (advance() != ",")
-                    break;
-            }
+        if (! parseStmt())
             skipStmt();
-            m_comment = QString::null;
-            continue;
-        }
-        if (keyword == "typedef") {
-            const QString& existingType = advance();
-            const QString& newType = advance();
-            Import_Utils::createUMLObject(Uml::ot_Class, newType, m_scope[m_scopeIndex],
-                                         m_comment, "CORBATypedef" /* stereotype */);
-            // @todo How do we convey the existingType ?
-            skipStmt();
-            continue;
-        }
-        if (keyword == "const") {
-            skipStmt();
-            continue;
-        }
-        if (keyword == "custom") {
-            continue;
-        }
-        if (keyword == "abstract") {
-            m_isAbstract = true;
-            continue;
-        }
-        if (keyword == "valuetype") {
-            const QString& name = advance();
-            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
-                            name, m_scope[m_scopeIndex], m_comment);
-            m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
-            m_klass->setAbstract(m_isAbstract);
-            m_isAbstract = false;
-            if (advance() == ";")   // forward declaration
-                continue;
-            if (m_source[m_srcIndex] == ":") {
-                if (advance() == "truncatable")
-                    m_srcIndex++;
-                while (m_srcIndex < srcLength && m_source[m_srcIndex] != "{") {
-                    const QString& baseName = m_source[m_srcIndex];
-                    Import_Utils::createGeneralization(m_klass, baseName);
-                    if (advance() != ",")
-                        break;
-                    m_srcIndex++;
-                }
-            }
-            if (m_source[m_srcIndex] != "{") {
-                kdError() << "importIDL: ignoring excess chars at "
-                << name << endl;
-                skipStmt("{");
-            }
-            m_comment = QString::null;
-            continue;
-        }
-        if (keyword == "public") {
-            continue;
-        }
-        if (keyword == "private") {
-            m_currentAccess = Uml::Visibility::Private;
-            continue;
-        }
-        if (keyword == "readonly") {
-            m_isReadonly = true;
-            continue;
-        }
-        if (keyword == "attribute") {
-            m_isAttribute = true;
-            continue;
-        }
-        if (keyword == "oneway") {
-            m_isOneway = true;
-            continue;
-        }
-        if (keyword == "}") {
-            if (m_scopeIndex)
-                m_klass = dynamic_cast<UMLClassifier*>(m_scope[--m_scopeIndex]);
-            else
-                kdError() << "importIDL: too many }" << endl;
-            m_srcIndex++;  // skip ';'
-            continue;
-        }
-        if (keyword == ";")
-            continue;
-        // At this point, we expect `keyword' to be a type name
-        // (of a member of struct or valuetype, or return type
-        // of an operation.) Up next is the name of the attribute
-        // or operation.
-        if (! keyword.contains( QRegExp("^\\w") )) {
-            kdError() << "importIDL: ignoring " << keyword << endl;
-            skipStmt();
-            continue;
-        }
-        QString typeName = joinTypename();
-        QString name = advance();
-        if (name.contains( QRegExp("\\W") )) {
-            kdError() << "importIDL: expecting name in " << name << endl;
-            skipStmt();
-            continue;
-        }
-        // At this point we most definitely need a class.
-        if (m_klass == NULL) {
-            kdError() << "importIDL: no class set for " << name << endl;
-            continue;
-        }
-        QString nextToken = advance();
-        if (nextToken == "(") {
-            // operation
-            UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
-            m_srcIndex++;
-            while (m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
-                const QString &direction = m_source[m_srcIndex++];
-                QString typeName = joinTypename();
-                const QString &parName = advance();
-                UMLAttribute *att = Import_Utils::addMethodParameter(op, typeName, parName);
-                Uml::Parameter_Direction dir;
-                if (Model_Utils::stringToDirection(direction, dir))
-                    att->setParmKind(dir);
-                else
-                    kdError() << "importIDL: expecting parameter direction at "
-                    << direction << endl;
-                if (advance() != ",")
-                    break;
-                m_srcIndex++;
-            }
-            Import_Utils::insertMethod(m_klass, op, Uml::Visibility::Public, typeName,
-                                      false, false, false, false, m_comment);
-            if (m_isOneway) {
-                op->setStereotype("oneway");
-                m_isOneway = false;
-            }
-            skipStmt();  // skip possible "raises" clause
-            m_comment = QString::null;
-            continue;
-        }
-        // At this point we know it's some kind of attribute declaration.
-        while (1) {
-            while (nextToken != "," && nextToken != ";") {
-                name += nextToken;  // add possible array dimensions to `name'
-                nextToken = advance();
-            }
-            UMLObject *o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name, typeName, m_comment);
-            UMLAttribute *attr = static_cast<UMLAttribute*>(o);
-            if (m_isReadonly) {
-                attr->setStereotype("readonly");
-                m_isReadonly = false;
-            }
-            if (nextToken != ",")
-                break;
-            name = advance();
-            nextToken = advance();
-        }
         m_currentAccess = Uml::Visibility::Public;
-        if (m_source[m_srcIndex] != ";") {
-            kdError() << "importIDL: ignoring trailing items at " << name << endl;
-            skipStmt();
-        }
         m_comment = QString::null;
     }
     pclose(fp);
 }
 
+bool IDLImport::parseStmt() {
+    const QString& keyword = m_source[m_srcIndex];
+    const uint srcLength = m_source.count();
+    if (keyword == "module") {
+        const QString& name = advance();
+        UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package,
+                        name, m_scope[m_scopeIndex], m_comment);
+        m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
+        m_scope[m_scopeIndex]->setStereotype("CORBAModule");
+        if (advance() != "{") {
+            kdError() << "importIDL: unexpected: " << m_source[m_srcIndex] << endl;
+            skipStmt("{");
+        }
+        return true;
+    }
+    if (keyword == "interface") {
+        const QString& name = advance();
+        UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
+                        name, m_scope[m_scopeIndex], m_comment);
+        m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
+        m_klass->setStereotype("CORBAInterface");
+        m_klass->setAbstract(m_isAbstract);
+        m_isAbstract = false;
+        m_comment = QString::null;
+        if (advance() == ";")   // forward declaration
+            return true;
+        if (m_source[m_srcIndex] == ":") {
+            while (++m_srcIndex < srcLength && m_source[m_srcIndex] != "{") {
+                const QString& baseName = m_source[m_srcIndex];
+                Import_Utils::createGeneralization(m_klass, baseName);
+                if (advance() != ",")
+                    break;
+            }
+        }
+        if (m_source[m_srcIndex] != "{") {
+            kdError() << "importIDL: ignoring excess chars at "
+            << name << endl;
+            skipStmt("{");
+        }
+        return true;
+    }
+    if (keyword == "struct" || keyword == "exception") {
+        const QString& name = advance();
+        UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
+                        name, m_scope[m_scopeIndex], m_comment);
+        m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
+        if (keyword == "struct")
+            m_klass->setStereotype("CORBAStruct");
+        else
+            m_klass->setStereotype("CORBAException");
+        if (advance() != "{") {
+            kdError() << "importIDL: expecting '{' at " << name << endl;
+            skipStmt("{");
+        }
+        return true;
+    }
+    if (keyword == "union") {
+        // TBD. <gulp>
+        skipStmt("}");
+        m_srcIndex++;  // advance to ';'
+        return true;
+    }
+    if (keyword == "enum") {
+        const QString& name = advance();
+        UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Enum,
+                        name, m_scope[m_scopeIndex], m_comment);
+        UMLEnum *enumType = static_cast<UMLEnum*>(ns);
+        m_srcIndex++;  // skip name
+        while (++m_srcIndex < srcLength && m_source[m_srcIndex] != "}") {
+            Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
+            if (advance() != ",")
+                break;
+        }
+        skipStmt();
+        return true;
+    }
+    if (keyword == "typedef") {
+        const QString& existingType = advance();
+        const QString& newType = advance();
+        Import_Utils::createUMLObject(Uml::ot_Class, newType, m_scope[m_scopeIndex],
+                                     m_comment, "CORBATypedef" /* stereotype */);
+        // @todo How do we convey the existingType ?
+        skipStmt();
+        return true;
+    }
+    if (keyword == "const") {
+        skipStmt();
+        return true;
+    }
+    if (keyword == "custom") {
+        return true;
+    }
+    if (keyword == "abstract") {
+        m_isAbstract = true;
+        return true;
+    }
+    if (keyword == "valuetype") {
+        const QString& name = advance();
+        UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
+                        name, m_scope[m_scopeIndex], m_comment);
+        m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
+        m_klass->setAbstract(m_isAbstract);
+        m_isAbstract = false;
+        if (advance() == ";")   // forward declaration
+            return true;
+        if (m_source[m_srcIndex] == ":") {
+            if (advance() == "truncatable")
+                m_srcIndex++;
+            while (m_srcIndex < srcLength && m_source[m_srcIndex] != "{") {
+                const QString& baseName = m_source[m_srcIndex];
+                Import_Utils::createGeneralization(m_klass, baseName);
+                if (advance() != ",")
+                    break;
+                m_srcIndex++;
+            }
+        }
+        if (m_source[m_srcIndex] != "{") {
+            kdError() << "importIDL: ignoring excess chars at "
+            << name << endl;
+            skipStmt("{");
+        }
+        return true;
+    }
+    if (keyword == "public") {
+        return true;
+    }
+    if (keyword == "private") {
+        m_currentAccess = Uml::Visibility::Private;
+        return true;
+    }
+    if (keyword == "readonly") {
+        m_isReadonly = true;
+        return true;
+    }
+    if (keyword == "attribute") {
+        m_isAttribute = true;
+        return true;
+    }
+    if (keyword == "oneway") {
+        m_isOneway = true;
+        return true;
+    }
+    if (keyword == "}") {
+        if (m_scopeIndex)
+            m_klass = dynamic_cast<UMLClassifier*>(m_scope[--m_scopeIndex]);
+        else
+            kdError() << "importIDL: too many }" << endl;
+        m_srcIndex++;  // skip ';'
+        return true;
+    }
+    if (keyword == ";")
+        return true;
+    // At this point, we expect `keyword' to be a type name
+    // (of a member of struct or valuetype, or return type
+    // of an operation.) Up next is the name of the attribute
+    // or operation.
+    if (! keyword.contains( QRegExp("^\\w") )) {
+        kdError() << "importIDL: ignoring " << keyword << endl;
+        return false;
+    }
+    QString typeName = joinTypename();
+    QString name = advance();
+    if (name.contains( QRegExp("\\W") )) {
+        kdError() << "importIDL: expecting name in " << name << endl;
+        return false;
+    }
+    // At this point we most definitely need a class.
+    if (m_klass == NULL) {
+        kdError() << "importIDL: no class set for " << name << endl;
+        return false;
+    }
+    QString nextToken = advance();
+    if (nextToken == "(") {
+        // operation
+        UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
+        m_srcIndex++;
+        while (m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
+            const QString &direction = m_source[m_srcIndex++];
+            QString typeName = joinTypename();
+            const QString &parName = advance();
+            UMLAttribute *att = Import_Utils::addMethodParameter(op, typeName, parName);
+            Uml::Parameter_Direction dir;
+            if (Model_Utils::stringToDirection(direction, dir))
+                att->setParmKind(dir);
+            else
+                kdError() << "importIDL: expecting parameter direction at "
+                << direction << endl;
+            if (advance() != ",")
+                break;
+            m_srcIndex++;
+        }
+        Import_Utils::insertMethod(m_klass, op, Uml::Visibility::Public, typeName,
+                                  false, false, false, false, m_comment);
+        if (m_isOneway) {
+            op->setStereotype("oneway");
+            m_isOneway = false;
+        }
+        skipStmt();  // skip possible "raises" clause
+        return true;
+    }
+    // At this point we know it's some kind of attribute declaration.
+    while (1) {
+        while (nextToken != "," && nextToken != ";") {
+            name += nextToken;  // add possible array dimensions to `name'
+            nextToken = advance();
+        }
+        UMLObject *o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name, typeName, m_comment);
+        UMLAttribute *attr = static_cast<UMLAttribute*>(o);
+        if (m_isReadonly) {
+            attr->setStereotype("readonly");
+            m_isReadonly = false;
+        }
+        if (nextToken != ",")
+            break;
+        name = advance();
+        nextToken = advance();
+    }
+    return true;
+}
 

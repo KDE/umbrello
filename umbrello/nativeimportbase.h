@@ -23,6 +23,21 @@ class UMLClassifier;
 /**
  * Intermediate base class for native Umbrello implementations of
  * programming language import
+ *
+ * The default call sequence is as follows (RealizedLanguageImport
+ * is used as a placeholder name for the concrete language importer.)
+ *   NativeImportBase                      RealizedLanguageImport
+ * --> importFiles()
+ *       parseFile()
+ *         -----------------------------------> initVars()
+ *         scan()
+ *           preprocess() (may be reimplemented)
+ *           ---------------------------------> fillSource()
+ *         -----------------------------------> parseStmt()
+ * This sequence may be changed by overriding default implementations
+ * of virtual methods in NativeImportBase.
+ *
+ * @short Base class for native implementations of language import
  * @author Oliver Kellogg <okellogg@users.sourceforge.net>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
@@ -40,20 +55,27 @@ public:
      */
     void importFiles(QStringList files);
 
-protected:
     /**
      * Import a single file.
-     * To be provided by the programming language specific code import
-     * implementation class.
+     * The default implementation should be feasible for languages that
+     * don't depend on an external preprocessor.
      *
      * @param file  The file to import.
      */
-    virtual void parseFile(QString file) = 0;
+    virtual void parseFile(QString filename);
+
+protected:
+    /**
+     * Initialize auxiliary variables.
+     * This is called by the default implementation of parseFile()
+     * after scanning (before parsing the QStringList m_source.)
+     * The default implementation is empty.
+     */
+    virtual void initVars();
 
     /**
      * Scan a single line.
-     * The specific importer class is expected to call this for each line
-     * read from the input file.
+     * parseFile() calls this for each line read from the input file.
      * This in turn calls other methods such as preprocess() and fillSource().
      *
      * @param line  The line to scan.
@@ -82,6 +104,16 @@ protected:
     virtual void fillSource(QString word) = 0;
 
     /**
+     * Parse the statement which starts at m_source[m_srcIndex]
+     * leaving m_srcIndex pointing to the end of the recogized
+     * statement.
+     * To be provided by the concrete importer.
+     *
+     * @return   True if the statement was recognized.
+     */
+    virtual bool parseStmt() = 0;
+
+    /**
      * Advance m_srcIndex until m_source[m_srcIndex] contains the lexeme
      * given by `until'.
      */
@@ -90,7 +122,7 @@ protected:
     /**
      * Advance m_srcIndex until m_source[m_srcIndex] contains a non-comment.
      * Comments encountered during advancement are accumulated in `m_comment'.
-     * if m_srcIndex hits the end of m_source then QString::null is returned.
+     * If m_srcIndex hits the end of m_source then QString::null is returned.
      */
     QString advance();
 

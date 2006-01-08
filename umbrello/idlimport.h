@@ -27,6 +27,12 @@ public:
     /**
      * Implement abstract operation from NativeImportBase.
      */
+    bool parseStmt();
+
+    /**
+     * Reimplement operation from NativeImportBase.
+     * Need to do this because we use the external C preprocessor.
+     */
     void parseFile(QString file);
 
     /**

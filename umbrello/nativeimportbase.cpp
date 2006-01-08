@@ -13,6 +13,8 @@
 #include "nativeimportbase.h"
 
 // qt/kde includes
+#include <qfile.h>
+#include <qtextstream.h>
 #include <qregexp.h>
 #include <klocale.h>
 #include <kdebug.h>
@@ -132,6 +134,74 @@ void NativeImportBase::scan(QString line) {
         if (word.isEmpty())
             continue;
         fillSource(word);
+    }
+}
+
+void NativeImportBase::initVars() {
+}
+
+void NativeImportBase::parseFile(QString filename) {
+    const QString msgPrefix = "NativeImportBase::parseFile(" + filename + "): ";
+    if (filename.contains('/')) {
+        QString path = filename;
+        path.remove( QRegExp("/[^/]+$") );
+        kdDebug() << msgPrefix << "adding path " << path << endl;
+        Import_Utils::addIncludePath(path);
+    }
+    if (! QFile::exists(filename)) {
+        if (filename.startsWith("/")) {
+            kdError() << msgPrefix << "cannot find file" << endl;
+            return;
+        }
+        bool found = false;
+        QStringList includePaths = Import_Utils::includePathList();
+        for (QStringList::Iterator pathIt = includePaths.begin();
+                                   pathIt != includePaths.end(); ++pathIt) {
+            QString path = (*pathIt);
+            if (! path.endsWith("/")) {
+                path.append("/");
+            }
+            if (QFile::exists(path + filename)) {
+                filename.prepend(path);
+                found = true;
+                break;
+            }
+        }
+        if (! found) {
+            kdError() << msgPrefix << "cannot find file" << endl;
+            return;
+        }
+    }
+    QFile file(filename);
+    if (! file.open(IO_ReadOnly)) {
+        kdError() << msgPrefix << "cannot open file" << endl;
+        return;
+    }
+    // Scan the input file into the QStringList m_source.
+    m_srcIndex = 0;
+    initVars();
+    QTextStream stream(&file);
+    while (! stream.atEnd()) {
+        QString line = stream.readLine();
+        scan(line);
+    }
+    file.close();
+    // Parse the QStringList m_source.
+    m_klass = NULL;
+    m_currentAccess = Uml::Visibility::Public;
+    m_scopeIndex = 0;
+    m_scope[0] = NULL;
+    const uint srcLength = m_source.count();
+    for (m_srcIndex = 0; m_srcIndex < srcLength; m_srcIndex++) {
+        const QString& firstToken = m_source[m_srcIndex];
+        //kdDebug() << '"' << firstToken << '"' << endl;
+        if (firstToken.startsWith(m_singleLineCommentIntro)) {
+            m_comment = firstToken.mid(m_singleLineCommentIntro.length());
+            continue;
+        }
+        if (! parseStmt())
+           skipStmt();
+        m_comment = QString::null;
     }
 }
 

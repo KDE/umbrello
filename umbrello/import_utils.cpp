@@ -118,10 +118,10 @@ UMLObject *createUMLObject(Uml::Object_Type type,
         const bool isConst = name.contains(QRegExp("^const "));
         name.remove(QRegExp("^const\\s+"));
         QString typeName(name);
-        const bool isAdorned = typeName.contains( QRegExp("[^\\w: ]") );
+        const bool isAdorned = typeName.contains( QRegExp("[^\\w:\\. ]") );
         const bool isPointer = typeName.contains('*');
         const bool isRef = typeName.contains('&');
-        typeName.remove(QRegExp("[^\\w: ].*$"));
+        typeName.remove(QRegExp("[^\\w:\\. ].*$"));
         UMLObject *origType = umldoc->findUMLObject(typeName, Uml::ot_UMLObject, parentPkg);
         if (origType == NULL) {
             // Still not found. Create the stripped down type.

@@ -24,10 +24,16 @@ public:
     AdaImport();
     virtual ~AdaImport();
 
+protected:
+    /**
+     * Reimplement operation from NativeImportBase.
+     */
+    void initVars();
+
     /**
      * Implement abstract operation from NativeImportBase.
      */
-    void parseFile(QString file);
+    bool parseStmt();
 
     /**
      * Implement abstract operation from NativeImportBase.
@@ -40,6 +46,7 @@ public:
      */
     bool preprocess(QString& line);
 
+    bool m_inGenericFormalPart; ///< auxiliary variable
 };
 
 #endif
