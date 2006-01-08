@@ -48,10 +48,7 @@
 // app includes
 #include "aligntoolbar.h"
 #include "infowidget.h"
-#include "cppimport.h"
-#include "idlimport.h"
-#include "adaimport.h"
-#include "javaimport.h"
+#include "classimport.h"
 #include "docwindow.h"
 #include "codegenerator.h"
 #include "codegenerationpolicy.h"
@@ -1418,16 +1415,8 @@ void UMLApp::slotImportClasses() {
     preselectedExtension.append("\n*|" + i18n("All Files"));
     QStringList fileList = KFileDialog::getOpenFileNames(":import-classes", preselectedExtension,
                            this, i18n("Select Code to Import") );
-    ClassImport *classImporter = NULL;
     const QString& firstFile = fileList.first();
-    if (firstFile.endsWith(".idl"))
-        classImporter = new IDLImport();
-    else if (firstFile.endsWith(".java"))
-        classImporter = new JavaImport();
-    else if (firstFile.contains( QRegExp("\\.ad[sba]$") ))
-        classImporter = new AdaImport();
-    else
-        classImporter = new CppImport();  // the default.
+    ClassImport *classImporter = ClassImport::createImporterByFileExt(firstFile);
     classImporter->importFiles(fileList);
     delete classImporter;
     m_doc->setLoading(false);
