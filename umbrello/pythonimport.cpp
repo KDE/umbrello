@@ -12,10 +12,7 @@
 // own header
 #include "pythonimport.h"
 
-#include <stdio.h>
 // qt/kde includes
-#include <qfile.h>
-#include <qtextstream.h>
 #include <qstringlist.h>
 #include <qregexp.h>
 #include <kdebug.h>
@@ -31,12 +28,16 @@
 #include "attribute.h"
 
 PythonImport::PythonImport() : NativeImportBase("#") {
-    m_srcIndentIndex = 0;
-    m_srcIndent[m_srcIndentIndex] = 0;
-    m_braceWasOpened = false;
+    initVars();
 }
 
 PythonImport::~PythonImport() {
+}
+
+void PythonImport::initVars() {
+    m_srcIndentIndex = 0;
+    m_srcIndent[m_srcIndentIndex] = 0;
+    m_braceWasOpened = false;
 }
 
 bool PythonImport::preprocess(QString& line) {
@@ -193,162 +194,57 @@ void PythonImport::skipBody() {
     }
 }
 
-void PythonImport::parseFile(QString filename) {
-    if (filename.contains('/')) {
-        QString path = filename;
-        path.remove( QRegExp("/[^/]+$") );
-        kdDebug() << "PythonImport::parseFile: adding path " << path << endl;
-        Import_Utils::addIncludePath(path);
-    }
-    if (! QFile::exists(filename)) {
-        if (filename.startsWith("/")) {
-            kdError() << "PythonImport::parseFile(" << filename << "): cannot find file" << endl;
-            return;
-        }
-        bool found = false;
-        QStringList includePaths = Import_Utils::includePathList();
-        for (QStringList::Iterator pathIt = includePaths.begin();
-                                   pathIt != includePaths.end(); ++pathIt) {
-            QString path = (*pathIt);
-            if (! path.endsWith("/")) {
-                path.append("/");
-            }
-            if (QFile::exists(path + filename)) {
-                filename.prepend(path);
-                found = true;
-                break;
-            }
-        }
-        if (! found) {
-            kdError() << "PythonImport::parseFile(" << filename << "): cannot find file" << endl;
-            return;
-        }
-    }
-    QFile file(filename);
-    if (! file.open(IO_ReadOnly)) {
-        kdError() << "PythonImport::parseFile(" << filename << "): cannot open file" << endl;
-        return;
-    }
-    // Scan the input file into the QStringList m_source.
-    m_srcIndex = m_srcIndentIndex = 0;
-    m_braceWasOpened = false;
-    QTextStream stream(&file);
-    while (! stream.atEnd()) {
-        QString line = stream.readLine();
-        scan(line);
-    }
-    file.close();
-    // Parse the QStringList m_source.
-    m_klass = NULL;
-    m_currentAccess = Uml::Visibility::Public;
-    m_scopeIndex = 0;
-    m_scope[0] = NULL;
+bool PythonImport::parseStmt() {
     const uint srcLength = m_source.count();
-    for (m_srcIndex = 0; m_srcIndex < srcLength; m_srcIndex++) {
-        const QString& keyword = m_source[m_srcIndex];
-        //kdDebug() << '"' << keyword << '"' << endl;
-        if (keyword.startsWith(m_singleLineCommentIntro)) {
-            m_comment = keyword.mid(2);
-            continue;
-        }
-        if (keyword == "class") {
-            const QString& name = advance();
-            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
-                            name, m_scope[m_scopeIndex], m_comment);
-            m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
-            m_comment = QString::null;
-            if (advance() == "(") {
-                while (m_srcIndex < srcLength - 1 && advance() != ")") {
-                    const QString& baseName = m_source[m_srcIndex];
-                    Import_Utils::createGeneralization(m_klass, baseName);
-                    if (advance() != ",")
-                        break;
-                }
-            }
-            if (m_source[m_srcIndex] != "{") {
-                skipStmt("{");
-            }
-            continue;
-        }
-        if (keyword == "def") {
-            const QString& name = advance();
-            // operation
-            UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
-            if (advance() != "(") {
-                kdError() << "importPython def " << name << ": expecting \"(\"" << endl;
-                skipBody();
-                continue;
-            }
-            while (m_srcIndex < srcLength && advance() != ")") {
-                const QString& parName = m_source[m_srcIndex];
-                UMLAttribute *att = Import_Utils::addMethodParameter(op, "string", parName);
+    const QString& keyword = m_source[m_srcIndex];
+    if (keyword == "class") {
+        const QString& name = advance();
+        UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
+                        name, m_scope[m_scopeIndex], m_comment);
+        m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
+        m_comment = QString::null;
+        if (advance() == "(") {
+            while (m_srcIndex < srcLength - 1 && advance() != ")") {
+                const QString& baseName = m_source[m_srcIndex];
+                Import_Utils::createGeneralization(m_klass, baseName);
                 if (advance() != ",")
                     break;
             }
-            Import_Utils::insertMethod(m_klass, op, Uml::Visibility::Public, "string",
-                                       false /*isStatic*/, false /*isAbstract*/, false /*isFriend*/,
-                                       false /*isConstructor*/, m_comment);
-            m_comment = QString::null;
-            skipBody();
-            continue;
         }
-        if (keyword == "}") {
-            if (m_scopeIndex)
-                m_klass = dynamic_cast<UMLClassifier*>(m_scope[--m_scopeIndex]);
-            else
-                kdError() << "importPython: too many }" << endl;
-            continue;
+        if (m_source[m_srcIndex] != "{") {
+            skipStmt("{");
         }
-        skipStmt(); continue;
-        // At this point, we expect `keyword' to be a type name
-        // (of a member of class or interface, or return type
-        // of an operation.) Up next is the name of the attribute
-        // or operation.
-        if (! keyword.contains( QRegExp("^\\w") )) {
-            kdError() << "importPython: ignoring " << keyword << endl;
-            skipStmt();
-            continue;
-        }
-        QString typeName; // = joinTypename();
-        QString name;
-        if (typeName == m_klass->getName()) {
-            // Constructor.
-            name = typeName;
-            typeName = QString::null;
-        } else {
-            name = advance();
-        }
-        if (name.contains( QRegExp("\\W") )) {
-            kdError() << "importPython: expecting name in " << name << endl;
-            skipStmt();
-            continue;
-        }
-        // At this point we need a class.
-        if (m_klass == NULL) {
-            kdError() << "importPython: no class set for " << name << endl;
-            continue;
-        }
-        QString nextToken = advance();
-        // At this point we know it's some kind of attribute declaration.
-        while (1) {
-            while (nextToken != "," && nextToken != ";") {
-                name += nextToken;  // add possible array dimensions to `name'
-                nextToken = advance();
-            }
-            UMLObject *o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name, typeName, m_comment);
-            UMLAttribute *attr = static_cast<UMLAttribute*>(o);
-            if (nextToken != ",")
-                break;
-            name = advance();
-            nextToken = advance();
-        }
-        m_currentAccess = Uml::Visibility::Public;
-        if (m_source[m_srcIndex] != ";") {
-            kdError() << "importPython: ignoring trailing items at " << name << endl;
-            skipStmt();
-        }
-        m_comment = QString::null;
+        return true;
     }
+    if (keyword == "def") {
+        const QString& name = advance();
+        // operation
+        UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
+        if (advance() != "(") {
+            kdError() << "importPython def " << name << ": expecting \"(\"" << endl;
+            skipBody();
+            return true;
+        }
+        while (m_srcIndex < srcLength && advance() != ")") {
+            const QString& parName = m_source[m_srcIndex];
+            UMLAttribute *att = Import_Utils::addMethodParameter(op, "string", parName);
+            if (advance() != ",")
+                break;
+        }
+        Import_Utils::insertMethod(m_klass, op, Uml::Visibility::Public, "string",
+                                   false /*isStatic*/, false /*isAbstract*/, false /*isFriend*/,
+                                   false /*isConstructor*/, m_comment);
+        skipBody();
+        return true;
+    }
+    if (keyword == "}") {
+        if (m_scopeIndex)
+            m_klass = dynamic_cast<UMLClassifier*>(m_scope[--m_scopeIndex]);
+        else
+            kdError() << "importPython: too many }" << endl;
+        return true;
+    }
+    return false;  // @todo parsing of attributes
 }
 
 

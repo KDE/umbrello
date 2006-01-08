@@ -24,17 +24,22 @@ public:
     JavaImport();
     virtual ~JavaImport();
 
+protected:
+    /**
+     * Reimplement operation from NativeImportBase.
+     */
+    void initVars();
+
     /**
      * Implement abstract operation from NativeImportBase.
      */
-    void parseFile(QString file);
+    bool parseStmt();
 
     /**
      * Implement abstract operation from NativeImportBase.
      */
     void fillSource(QString word);
 
-protected:
     QString joinTypename();
     bool m_isStatic;
 };
