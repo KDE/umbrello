@@ -251,15 +251,6 @@ bool UMLAssociation::load( QDomElement & element ) {
             }
         }
 
-        // setting the association type:
-        //
-        // In the old days, we could just record this on the association,
-        // and be done with it. But thats not how the UML13.dtd does things.
-        // As a result, we are checking roleA for information about the
-        // parent association (!) which by this point in the parse, should
-        // be set. However, the information that the roles are allowed to have
-        // is not complete, so we need to finish the analysis here.
-
         // its a realization if either endpoint is an interface
         if (m_AssocType == Uml::at_Generalization &&
                 (obj[A] && obj[A]->getBaseType() == Uml::ot_Interface ||
