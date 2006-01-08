@@ -1299,7 +1299,8 @@ bool UMLApp::activeLanguageIsCaseSensitive() const {
 QString UMLApp::activeLanguageScopeSeparator() const {
     if (m_activeLanguage == Uml::pl_Ada ||
         m_activeLanguage == Uml::pl_Java ||
-        m_activeLanguage == Uml::pl_JavaScript)  // CHECK: more?
+        m_activeLanguage == Uml::pl_JavaScript ||
+        m_activeLanguage == Uml::pl_Python)  // CHECK: more?
         return ".";
     return "::";
 }
@@ -1370,6 +1371,8 @@ void UMLApp::slotImportClasses() {
     QString preselectedExtension;
     if (m_activeLanguage == Uml::pl_IDL) {
         preselectedExtension = i18n("*.idl|IDL Files (*.idl)");
+    } else if (m_activeLanguage == Uml::pl_Python) {
+        preselectedExtension = i18n("*.py|Python Files (*.py)");
     } else if (m_activeLanguage == Uml::pl_Java) {
         preselectedExtension = i18n("*.java|Java Files (*.java)");
     } else if (m_activeLanguage == Uml::pl_Ada) {
