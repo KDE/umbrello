@@ -35,14 +35,14 @@ UMLOperation::UMLOperation(const UMLClassifier *parent, QString Name, Uml::IDTyp
         setTypeName( rt );
     m_Vis = s;
     m_BaseType = Uml::ot_Operation;
-    m_List.setAutoDelete(false);
+    m_bConst = false;
 }
 
 UMLOperation::UMLOperation(const UMLClassifier * parent)
         : UMLClassifierListItem (parent)
 {
     m_BaseType = Uml::ot_Operation;
-    m_List.setAutoDelete(false);
+    m_bConst = false;
 }
 
 UMLOperation::~UMLOperation() {
