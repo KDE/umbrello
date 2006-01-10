@@ -161,12 +161,18 @@ bool UMLAssociation::resolveRef() {
 }
 
 void UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-    if (m_AssocType == Uml::at_Generalization ||
-            m_AssocType == Uml::at_Realization) {
+    if (m_AssocType == Uml::at_Generalization) {
         QDomElement assocElement = UMLObject::save("UML:Generalization", qDoc);
         assocElement.setAttribute( "discriminator", "" );
         assocElement.setAttribute( "child", ID2STR(getObjectId(A)) );
         assocElement.setAttribute( "parent", ID2STR(getObjectId(B)) );
+        qElement.appendChild( assocElement );
+        return;
+    }
+    if (m_AssocType == Uml::at_Realization) {
+        QDomElement assocElement = UMLObject::save("UML:Abstraction", qDoc);
+        assocElement.setAttribute( "client", ID2STR(getObjectId(A)) );
+        assocElement.setAttribute( "supplier", ID2STR(getObjectId(B)) );
         qElement.appendChild( assocElement );
         return;
     }
