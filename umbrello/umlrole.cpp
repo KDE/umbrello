@@ -118,7 +118,7 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
             roleElement.setAttribute("aggregation", "composite");
             break;
         case Uml::at_Aggregation:
-            roleElement.setAttribute("aggregation", "shared");
+            roleElement.setAttribute("aggregation", "aggregate");
             break;
         default:
             roleElement.setAttribute("aggregation", "none");
