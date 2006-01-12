@@ -87,7 +87,7 @@ void JavaImport::fillSource(QString word) {
 
 bool JavaImport::skipToClosing(QChar opener) {
     QString closing;
-    switch (opener) {
+    switch (opener.toLatin1()) {
         case '{':
             closing = "}";
             break;
