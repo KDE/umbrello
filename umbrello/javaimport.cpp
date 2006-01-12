@@ -45,10 +45,10 @@ QString JavaImport::joinTypename() {
     QString typeName = m_source[m_srcIndex];
     if (m_source[m_srcIndex + 1] == "<" ||
         m_source[m_srcIndex + 1] == "[") {
-        int start =  ++m_srcIndex;
+        uint start = ++m_srcIndex;
         if (! skipToClosing(m_source[start][0]))
             return typeName;
-        for (int i = start; i <= m_srcIndex; i++) {
+        for (uint i = start; i <= m_srcIndex; i++) {
             typeName += m_source[i];
         }
     }
@@ -145,14 +145,41 @@ bool JavaImport::parseStmt() {
     }
     if (keyword == "class" || keyword == "interface") {
         const QString& name = advance();
-        UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
-                        name, m_scope[m_scopeIndex], m_comment);
+        const Uml::Object_Type t = (keyword == "class" ? Uml::ot_Class : Uml::ot_Interface);
+        UMLObject *ns = Import_Utils::createUMLObject(t, name, m_scope[m_scopeIndex], m_comment);
         m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
         m_klass->setAbstract(m_isAbstract);
         m_klass->setStatic(m_isStatic);
         m_isAbstract = m_isStatic = false;
         if (advance() == ";")   // forward declaration
             return true;
+        if (m_source[m_srcIndex] == "<") {
+            // template args - preliminary, rudimentary implementation
+            // @todo implement all template arg syntax
+            uint start = m_srcIndex;
+            if (! skipToClosing('<')) {
+                kdError() << "importJava(" << name << "): template syntax error" << endl;
+                return false;
+            }
+            while (1) {
+                const QString arg = m_source[++start];
+                if (! arg.contains( QRegExp("^[A-Za-z_]") )) {
+                    kdDebug() << "importJava(" << name << "): cannot handle template syntax ("
+                        << arg << ")" << endl;
+                    break;
+                }
+                /* UMLTemplate *tmpl = */ m_klass->addTemplate(arg);
+                const QString next = m_source[++start];
+                if (next == ">")
+                    break;
+                if (next != ",") {
+                    kdDebug() << "importJava(" << name << "): can't handle template syntax ("
+                        << next << ")" << endl;
+                    break;
+                }
+            }
+            advance();  // skip over ">"
+        }
         if (m_source[m_srcIndex] == "extends") {
             const QString& baseName = advance();
             Import_Utils::createGeneralization(m_klass, baseName);
@@ -167,7 +194,8 @@ bool JavaImport::parseStmt() {
             }
         }
         if (m_source[m_srcIndex] != "{") {
-            kdError() << "importJava: ignoring excess chars at " << name << endl;
+            kdError() << "importJava: ignoring excess chars at " << name
+                << " (" << m_source[m_srcIndex] << ")" << endl;
             skipStmt("{");
         }
         return true;
