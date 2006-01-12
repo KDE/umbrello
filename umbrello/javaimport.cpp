@@ -12,7 +12,6 @@
 // own header
 #include "javaimport.h"
 
-#include <stdio.h>
 // qt/kde includes
 #include <qfile.h>
 #include <qtextstream.h>
@@ -42,30 +41,15 @@ void JavaImport::initVars() {
 }
 
 /// Catenate possible template arguments/array dimensions to the end of the type name.
-/// Currently this function does not advance() to the next token. (TBC should it?)
 QString JavaImport::joinTypename() {
     QString typeName = m_source[m_srcIndex];
-    const uint srcLength = m_source.count();
-    QString next = m_source[m_srcIndex + 1];
-    if (next == "<") {
-        m_srcIndex++;
-        typeName += '<';
-        while (m_srcIndex < srcLength) {
-            next = advance();
-            typeName += next;
-            if (next == ">")
-                break;
-        }
-        next = m_source[m_srcIndex + 1];
-    }
-    if (next == "[") {
-        m_srcIndex++;
-        typeName += '[';
-        while (m_srcIndex < srcLength) {
-            next = advance();
-            typeName += next;
-            if (next == "]")
-                break;
+    if (m_source[m_srcIndex + 1] == "<" ||
+        m_source[m_srcIndex + 1] == "[") {
+        int start =  ++m_srcIndex;
+        if (! skipToClosing(m_source[start][0]))
+            return typeName;
+        for (int i = start; i <= m_srcIndex; i++) {
+            typeName += m_source[i];
         }
     }
     return typeName;
@@ -99,6 +83,45 @@ void JavaImport::fillSource(QString word) {
     }
     if (!lexeme.isEmpty())
         m_source.append(lexeme);
+}
+
+bool JavaImport::skipToClosing(QChar opener) {
+    QString closing;
+    switch (opener) {
+        case '{':
+            closing = "}";
+            break;
+        case '[':
+            closing = "]";
+            break;
+        case '(':
+            closing = ")";
+            break;
+        case '<':
+            closing = ">";
+            break;
+        default:
+            kdError() << "JavaImport::skipToClosing(" << opener
+                << "): " << "illegal input character" << endl;
+            return false;
+    }
+    const QString opening(opener);
+    skipStmt(opening);
+    const uint srcLength = m_source.count();
+    int nesting = 0;
+    while (m_srcIndex < srcLength) {
+        QString nextToken = advance();
+        if (nextToken == closing) {
+            if (nesting <= 0)
+                break;
+            nesting--;
+        } else if (nextToken == opening) {
+            nesting++;
+        }
+    }
+    if (m_srcIndex == srcLength)
+        return false;
+    return true;
 }
 
 bool JavaImport::parseStmt() {
@@ -244,19 +267,7 @@ bool JavaImport::parseStmt() {
                                    m_isStatic, m_isAbstract, false /*isFriend*/,
                                    false /*isConstructor*/, m_comment);
         m_isAbstract = m_isStatic = false;
-        skipStmt("{");
-        int braceNesting = 0;
-        while (m_srcIndex < srcLength) {
-            nextToken = advance();
-            if (nextToken == "}") {
-                if (braceNesting <= 0)
-                    break;
-                braceNesting--;
-            } else if (nextToken == "{") {
-                braceNesting++;
-            }
-        }
-        return true;
+        return skipToClosing('{');
     }
     // At this point we know it's some kind of attribute declaration.
     while (1) {

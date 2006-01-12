@@ -40,6 +40,17 @@ protected:
      */
     void fillSource(QString word);
 
+    /**
+     * Advance NativeImportBase::m_srcIndex to the index of the
+     * corresponding closing character of the given opening.
+     * Nested opening/closing pairs are respected.
+     * Valid openers are:    '{'  '['  '('  '<'
+     *
+     * @return  True for success, false for misuse (invalid opener) or
+     *          if no matching closing character is found in m_source.
+     */
+    bool skipToClosing(QChar opener);
+
     QString joinTypename();
     bool m_isStatic;
 };
