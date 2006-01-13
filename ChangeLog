@@ -1,7 +1,17 @@
 Version 1.5.1
 
-* Bugs fixed / wishes implemented (see http://bugs.kde.org)
-109963 117791 117875 117990 118570 118719
+* fix loading of associationwidget with non-default color
+* fix moving of initial and end activity by inhibiting resize
+* fix operation parameter and return types including template expressions
+* Bugs/wishes from http://bugs.kde.org:
+* Code import for Java and Python (79648)
+* Support C++ const methods (aka queries, part of 60452)
+* Change associations, aggregations, etc. on-the-fly (109963)
+* Collaboration Diagram: labels are reset to default position after moving them (117791)
+* Imported C++ classes not saved correctly in the XMI file (117875)
+* In ER models adding associations will add blank space in the entity attributes (117990)
+* ER diagrams need to underline the attribute name of primary keys (118570)
+* Cannot anchor notes to activity elements in Activity Diagram (118719)
 
 Version 1.5
 
