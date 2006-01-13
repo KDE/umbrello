@@ -205,11 +205,25 @@ bool JavaImport::parseStmt() {
         UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Enum,
                         name, m_scope[m_scopeIndex], m_comment);
         UMLEnum *enumType = static_cast<UMLEnum*>(ns);
-        advance();  // skip name
+        skipStmt("{");
         while (m_srcIndex < srcLength - 1 && advance() != "}") {
             Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
-            if (advance() != ",")
+            QString next = advance();
+            if (next == "{" || next == "(") {
+                if (! skipToClosing(next[0]))
+                    return false;
+                next = advance();
+            }
+            if (next != ",") {
+                if (next == ";") {
+                    // @todo handle methods in enum
+                    // For now, we cheat (skip them)
+                    m_source[m_srcIndex] = "{";
+                    if (! skipToClosing('{'))
+                        return false;
+                }
                 break;
+            }
         }
         return true;
     }
