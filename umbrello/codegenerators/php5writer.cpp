@@ -3357,7 +3357,7 @@ void Php5Writer::writeAttributes(UMLAttributeList &atList, QTextStream &php) {
  * returns "PHP"
  */
 Uml::Programming_Language Php5Writer::getLanguage() {
-    return Uml::pl_PHP;
+    return Uml::pl_PHP5;
 }
 
 const QStringList Php5Writer::reservedKeywords() const {
