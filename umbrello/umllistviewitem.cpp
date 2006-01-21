@@ -338,9 +338,13 @@ void UMLListViewItem::okRename( int col ) {
     UMLDoc* doc = s_pListView->getDocument();
     if (m_bCreating) {
         m_bCreating = false;
+        QString savedLabel = m_Label;
+        m_Label = text(col);
         if ( s_pListView->slotItemRenamed( this, col ) ) {
-            m_Label = text(col);
+            s_pListView->ensureItemVisible(this);
             doc->setModified(true);
+        } else {
+            m_Label = savedLabel;
         }
         return;
     }
@@ -536,7 +540,7 @@ void UMLListViewItem::cancelRename(int col) {
 }
 
 // Sort the listview items by type and position within the corresponding list
-// of UMLObjects. If the item does not have an UMLObject then sort alphabetically.
+// of UMLObjects. If the item does not have an UMLObject then place it last.
 int UMLListViewItem::compare(Q3ListViewItem *other, int col, bool ascending) const
 {
     UMLListViewItem *ulvi = static_cast<UMLListViewItem*>(other);
@@ -548,21 +552,59 @@ int UMLListViewItem::compare(Q3ListViewItem *other, int col, bool ascending) con
     if ( ourType > otherType )
         return 1;
     // ourType == otherType
-    const int alphaOrder = key(col, ascending).compare(other->key(col, ascending));
     UMLObject *otherObj = ulvi->getUMLObject();
-    if (m_pObject == NULL || otherObj == NULL)
-        return alphaOrder;
+    if (m_pObject == NULL) {
+        kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
+            << "): return 1 because (m_pObject==NULL)" << endl;
+        return 1;
+    }
+    if (otherObj == NULL) {
+        kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
+            << "): return -1 because (otherObj==NULL)" << endl;
+        return -1;
+    }
     UMLClassifier *ourParent = dynamic_cast<UMLClassifier*>(m_pObject->parent());
     UMLClassifier *otherParent = dynamic_cast<UMLClassifier*>(otherObj->parent());
-    if (ourParent == NULL || otherParent == NULL || ourParent != otherParent)
-        return alphaOrder;
+    if (ourParent == NULL) {
+        kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
+            << "): return 1 because (ourParent==NULL)" << endl;
+        return 1;
+    }
+    if (otherParent == NULL) {
+        kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
+            << "): return -1 because (otherParent==NULL)" << endl;
+        return -1;
+    }
+    if (ourParent != otherParent) {
+        kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
+            << "): return 0 because (ourParent != otherParentL)" << endl;
+        return 0;
+    }
     UMLClassifierListItem *thisUmlItem = dynamic_cast<UMLClassifierListItem*>(m_pObject);
     UMLClassifierListItem *otherUmlItem = dynamic_cast<UMLClassifierListItem*>(otherObj);
-    if (thisUmlItem == NULL || otherUmlItem == NULL)
-        return alphaOrder;
+    if (thisUmlItem == NULL) {
+        kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
+            << "): return 1 because (thisUmlItem==NULL)" << endl;
+        return 1;
+    }
+    if (otherUmlItem == NULL) {
+        kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
+            << "): return -1 because (otherUmlItem==NULL)" << endl;
+        return -1;
+    }
     UMLClassifierListItemList items = ourParent->getFilteredList(thisUmlItem->getBaseType());
     int myIndex = items.findRef(thisUmlItem);
     int otherIndex = items.findRef(otherUmlItem);
+    if (myIndex < 0) {
+        kdError() << "compare(self=" << getText() << ", other=" << ulvi->getText()
+            << "): return -1 because (myIndex < 0)" << endl;
+        return -1;
+    }
+    if (otherIndex < 0) {
+        kdError() << "compare(self=" << getText() << ", other=" << ulvi->getText()
+            << "): return 1 because (otherIndex < 0)" << endl;
+        return 1;
+    }
     return (myIndex < otherIndex ? -1 : myIndex > otherIndex ? 1 : 0);
 }
 
