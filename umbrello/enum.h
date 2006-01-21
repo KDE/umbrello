@@ -113,17 +113,6 @@ public:
      *          Returns -1 if the given enumliteral was not found.
      */
     int removeEnumLiteral(UMLEnumLiteral *a);
-    /**
-     * Take and return an enumliteral from class.
-     * It is the callers responsibility to pass on ownership of
-     * the returned enumliteral (or to delete the enumliteral)
-     *
-     * @param el  enumliteral to take
-     * @param wasAtIndex  if given, the index in m_List of the item taken
-     *                    is returned in the int pointed to.
-     * @return pointer to the enumliteral or null if not found.
-     */
-    UMLEnumLiteral* takeEnumLiteral(UMLEnumLiteral* el, int *wasAtIndex = NULL);
 
     /**
      * Returns the number of enumliterals for the class.
@@ -131,6 +120,11 @@ public:
      * @return  The number of enumliterals for the class.
      */
     int enumLiterals();
+
+    /**
+     * Emit the enumLiteralRemoved signal.
+     */
+    void signalEnumLiteralRemoved(UMLClassifierListItem *elit);
 
     /**
      * Creates the <UML:Enum> element including its enumliterals.

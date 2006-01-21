@@ -87,15 +87,20 @@ private:
     bool addClassifier(UMLClassifierListItem* classifier, int position = -1);
 
     /**
-     * Take classifier, It is the client responsibility to hand over
-     * ownership of the classifier, or to delete it.
-     * @param classifier        Classifier to take.
-     * @param wasAtIndex        Return value: Index in the UMLClassifier's item
-     *                  list at which the item was taken.
-     * @return  Pointer to the UMLClassifierListItem taken.
+     * Take a classifier's subordinate item.
+     * Ownership of the classifier list item is transferred to the caller.
+     * @param listitem        UMLClassifierListItem to take.
+     * @param seekPeerBefore  True if a peer index should be sought which
+     *                        is smaller than the current listitem's index.
+     * @param peerIndex       Return value: Index in the UMLClassifier's
+     *                        item list at which a peer item, i.e. another
+     *                        UMLClassifierListItem of the same type as
+     *                        listItem, is found.  If no such item exists
+     *                        then return -1.
+     * @return   True for success.
      */
-    UMLClassifierListItem* takeClassifier(UMLClassifierListItem* classifier,
-                                          int &wasAtIndex);
+    bool takeItem(UMLClassifierListItem* listitem,
+                  bool seekPeerBefore, int &peerIndex);
 
     UMLClassifier* m_pClassifier;
     QGroupBox* m_pDocGB;

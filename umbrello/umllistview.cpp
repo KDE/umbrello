@@ -674,6 +674,12 @@ bool UMLListView::mayHaveChildItems(Uml::Object_Type type) {
 }
 
 void UMLListView::slotObjectCreated(UMLObject* object) {
+    if (m_bCreatingChildObject) {
+        // @todo eliminate futile signal traffic
+        // e.g. we get here thru various indirections from
+        // ClassifierListPage::slot{Up,Down}Clicked()
+        return;
+    }
     UMLListViewItem* newItem = findUMLObject(object);
     if (newItem) {
         kdDebug() << "UMLListView::slotObjectCreated(" << object->getName()
@@ -1316,12 +1322,11 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
             UMLClassifier *newParentClassifier = dynamic_cast<UMLClassifier*>(newParentObj);
             if (srcType == Uml::lvt_Attribute) {
                 UMLAttribute *att = dynamic_cast<UMLAttribute*>(srcObj);
-                att = oldParentClassifier->takeAttribute(att);
                 // We can't use the existing 'att' directly
                 // because its parent is fixed to the old classifier
                 // and we have no way of changing that:
                 // QObject does not permit changing the parent().
-                if (att) {
+                if (att && oldParentClassifier->takeItem(att) != -1) {
                     UMLAttribute *newAtt = static_cast<UMLAttribute*>(
                                                newParentClassifier->createAttribute(
                                                    att->getName()));
@@ -1335,17 +1340,16 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                     delete att;
 
                 } else {
-                    kdError() << "moveObject: oldParentClassifier->takeAttribute returns NULL"
+                    kdError() << "moveObject: oldParentClassifier->takeItem(att) returns NULL"
                     << endl;
                 }
             } else {
                 UMLOperation *op = dynamic_cast<UMLOperation*>(srcObj);
-                op = oldParentClassifier->takeOperation(op);
                 // We can't use the existing 'op' directly
                 // because its parent is fixed to the old classifier
                 // and we have no way of changing that:
                 // QObject does not permit changing the parent().
-                if (op) {
+                if (op && oldParentClassifier->takeItem(op) != -1) {
                     bool isExistingOp;
                     Model_Utils::NameAndType_List ntDummyList;
                     // We need to provide a dummy NameAndType_List
@@ -1371,7 +1375,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                     UMLApp::app()->getDocWindow()->showDocumentation(newOp, true);
                     delete op;
                 } else {
-                    kdError() << "moveObject: oldParentClassifier->takeOperation returns NULL"
+                    kdError() << "moveObject: oldParentClassifier->takeItem(op) returns NULL"
                     << endl;
                 }
             }
@@ -2448,11 +2452,12 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
         }
         bool isExistingOp = false;
         newObject = owningClassifier->createOperation(od.m_name, &isExistingOp, &od.m_args);
-        if (isExistingOp) {
-            KMessageBox::error(
-                kapp -> mainWidget(),
-                i18n( "The name you entered was not unique!\nCreation process has been canceled." ),
-                i18n( "Name Not Unique" ) );
+        if (newObject == NULL || isExistingOp) {
+            if (isExistingOp)
+                KMessageBox::error(
+                    kapp -> mainWidget(),
+                    i18n( "The name you entered was not unique!\nCreation process has been canceled." ),
+                    i18n( "Name Not Unique" ) );
             delete item;
             m_bCreatingChildObject = false;
             return false;
@@ -2471,6 +2476,7 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
 
     item->setUMLObject( newObject );
     item->setText( text );
+    ensureItemVisible(item);
     m_bCreatingChildObject = false;
 
     //m_doc->setModified();

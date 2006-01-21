@@ -18,6 +18,10 @@
 #include "operation.h"
 #include "attribute.h"
 #include "template.h"
+#include "enumliteral.h"
+#include "entityattribute.h"
+#include "enum.h"
+#include "entity.h"
 #include "stereotype.h"
 #include "umldoc.h"
 #include "uml.h"
@@ -185,7 +189,10 @@ UMLOperation* UMLClassifier::createOperation(const QString &name /*=null*/,
     }
 
     // operation name is ok, formally add it to the classifier
-    addOperation( op );
+    if (! addOperation(op)) {
+        delete op;
+        return NULL;
+    }
 
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     umldoc->signalUMLObjectCreated(op);
@@ -206,9 +213,17 @@ bool UMLClassifier::addOperation(UMLOperation* op, int position )
         return false;
     }
 
-    if( position >= 0 && position <= (int)m_List.count() )
+    if( position >= 0 && position <= (int)m_List.count() ) {
+        kdDebug() << "UMLClassifier::addOperation(" << op->getName()
+            << "): inserting at position " << position << endl;
         m_List.insert(position,op);
-    else
+        UMLClassifierListItemList itemList = getFilteredList(Uml::ot_Operation);
+        UMLClassifierListItem* currentAtt;
+        QString buf;
+        for (UMLClassifierListItemListIt it0(itemList); (currentAtt = it0.current()); ++it0)
+            buf.append(" " + currentAtt->getName());
+        kdDebug() << "  UMLClassifier::addOperation list after change: " << buf << endl;
+     } else
         m_List.append( op );
     emit operationAdded(op);
     emit modified();
@@ -242,16 +257,6 @@ int UMLClassifier::removeOperation(UMLOperation *op) {
     emit operationRemoved(op);
     emit modified();
     return m_List.count();
-}
-
-UMLOperation* UMLClassifier::takeOperation(UMLOperation* o, int *wasAtIndex) {
-    int index = m_List.findRef(o);
-    if (wasAtIndex)
-        *wasAtIndex = index;
-    if (removeOperation(o) >= 0) {
-        return o;
-    }
-    return 0;
 }
 
 UMLObject* UMLClassifier::createTemplate(QString currentName /*= QString::null*/) {
@@ -573,21 +578,6 @@ int UMLClassifier::removeAttribute(UMLAttribute* a) {
     return m_List.count();
 }
 
-UMLAttribute* UMLClassifier::takeAttribute(UMLAttribute* a, int *wasAtIndex) {
-    int index = m_List.findRef( a );
-    if (wasAtIndex)
-        *wasAtIndex = index;
-    UMLAttribute *retval = NULL;
-    if (index != -1)
-        retval = dynamic_cast<UMLAttribute*>(m_List.take( ));
-    if (retval) {
-        emit attributeRemoved(retval);
-        emit modified();
-    }
-    kdDebug() << "UMLClassifier::takeAttribute: findRef returns " << index
-    << ", a=" << a << ", retval=" << retval << endl;
-    return retval;
-}
 
 void UMLClassifier::setClassAssoc(UMLAssociation *assoc) {
     m_pClassAssoc = assoc;
@@ -708,17 +698,6 @@ int UMLClassifier::removeTemplate(UMLTemplate* umltemplate) {
     return m_List.count();
 }
 
-UMLTemplate* UMLClassifier::takeTemplate(UMLTemplate* t, int *wasAtIndex) {
-    int index = m_List.findRef( t );
-    if (wasAtIndex)
-        *wasAtIndex = index;
-    t = (index == -1 ? 0 : dynamic_cast<UMLTemplate*>(m_List.take( )));
-    if (t) {
-        emit templateRemoved(t);
-        emit modified();
-    }
-    return t;
-}
 
 UMLTemplate *UMLClassifier::findTemplate(QString name) {
     UMLTemplateList templParams = getTemplateList();
@@ -743,6 +722,75 @@ UMLTemplateList UMLClassifier::getTemplateList() {
         }
     }
     return templateList;
+}
+
+int UMLClassifier::takeItem(UMLClassifierListItem *item) {
+        UMLObject* currentAtt;
+        QString buf;
+        for (UMLObjectListIt it0(m_List);
+             (currentAtt = it0.current()); ++it0) {
+            QString txt = currentAtt->getName();
+            if (txt.isEmpty())
+              txt = "Type-" + QString::number((int) currentAtt->getBaseType());
+            buf.append(" " + currentAtt->getName());
+        }
+        kdDebug() << "  UMLClassifier::takeItem (before): m_List is " << buf << endl;
+    int index = m_List.findRef(item);
+    if (index == -1)
+        return -1;
+    switch (item->getBaseType()) {
+        case Uml::ot_Operation: {
+            if (removeOperation(dynamic_cast<UMLOperation*>(item)) < 0)
+                index = -1;
+            break;
+        }
+        case Uml::ot_Attribute: {
+            UMLAttribute *retval = dynamic_cast<UMLAttribute*>(m_List.take());
+            if (retval) {
+                emit attributeRemoved(retval);
+                emit modified();
+            } else {
+                index = -1;
+            }
+            break;
+        }
+        case Uml::ot_Template: {
+            UMLTemplate *t = dynamic_cast<UMLTemplate*>(m_List.take());
+            if (t) {
+                emit templateRemoved(t);
+                emit modified();
+            } else {
+                index = -1;
+            }
+            break;
+        }
+        case Uml::ot_EnumLiteral: {
+            UMLEnumLiteral *el = dynamic_cast<UMLEnumLiteral*>(m_List.take());
+            if (el) {
+                UMLEnum *e = static_cast<UMLEnum*>(this);
+                e->signalEnumLiteralRemoved(el);
+                emit modified();
+            } else {
+                index = -1;
+            }
+            break;
+        }
+        case Uml::ot_EntityAttribute: {
+            UMLEntityAttribute* el = dynamic_cast<UMLEntityAttribute*>(m_List.take());
+            if (el) {
+                UMLEntity *e = static_cast<UMLEntity*>(this);
+                e->signalEntityAttributeRemoved(el);
+                emit modified();
+            } else {
+                index = -1;
+            }
+            break;
+        }
+        default:
+            index = -1;
+            break;
+    }
+    return index;
 }
 
 void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement) {

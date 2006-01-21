@@ -114,19 +114,12 @@ public:
      * @return  Count of the remaining entityAttributes after removal.
      *          Returns -1 if the given entityAttribute was not found.
      */
-    int removeEntityAttribute(UMLObject* a);
+    int removeEntityAttribute(UMLClassifierListItem* a);
 
     /**
-     * Take and return an entityAttribute from class.
-     * It is the callers responsibility to pass on ownership of
-     * the returned entityAttribute (or to delete the entityAttribute)
-     *
-     * @param  el entityAttribute to tkae
-     * @param wasAtIndex        if given, the index in m_List of the item taken
-     *                  is returned in the int pointed-to.
-     * @return pointer to the entityAttribute or null if not found.
+     * Emit the entityAttributeRemoved signal.
      */
-    UMLEntityAttribute* takeEntityAttribute(UMLEntityAttribute* el, int *wasAtIndex = NULL);
+    void signalEntityAttributeRemoved(UMLClassifierListItem *eattr);
 
     /**
      * Returns the number of entityAttributes for the class.
@@ -141,8 +134,8 @@ public:
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 signals:
-    void entityAttributeAdded(UMLObject*);
-    void entityAttributeRemoved(UMLObject*);
+    void entityAttributeAdded(UMLClassifierListItem*);
+    void entityAttributeRemoved(UMLClassifierListItem*);
 
 protected:
     /**

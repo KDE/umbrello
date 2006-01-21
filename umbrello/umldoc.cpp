@@ -1223,7 +1223,8 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
             UMLEnum *e = static_cast<UMLEnum*>(parent);
             e->removeEnumLiteral(static_cast<UMLEnumLiteral*>(umlobject));
         } else if (type == ot_EntityAttribute) {
-            static_cast<UMLEntity*>(parent)->removeEntityAttribute(umlobject);
+            UMLEntity *ent = static_cast<UMLEntity*>(parent);
+            ent->removeEntityAttribute(static_cast<UMLClassifierListItem*>(umlobject));
         } else {
             UMLClassifier* pClass = dynamic_cast<UMLClassifier*>(parent);
             if (pClass == NULL)  {

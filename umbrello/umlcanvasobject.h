@@ -43,7 +43,6 @@ public:
      */
     UMLCanvasObject(const QString & name = "", Uml::IDType id = Uml::id_None);
 
-
     /**
      * Standard deconstructor.
      */
@@ -188,6 +187,13 @@ public:
      */
     virtual QString uniqChildName(const Uml::Object_Type type,
                                   bool seekStereo = false);
+
+    /**
+     * Return the list of subordinate items.
+     */
+    UMLObjectList subordinates() const {
+        return m_List;
+    }
 
     // The abstract method UMLObject::saveToXMI() is implemented
     // in the classes inheriting from UMLCanvasObject.
