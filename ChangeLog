@@ -1,3 +1,7 @@
+Version 1.5.2
+
+* fix problem reordering methods in classes/interfaces (http://bugs.debian.org/348940)
+
 Version 1.5.1
 
 * fix loading of associationwidget with non-default color

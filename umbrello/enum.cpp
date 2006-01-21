@@ -147,23 +147,13 @@ int UMLEnum::removeEnumLiteral(UMLEnumLiteral* literal) {
     return m_List.count();
 }
 
-UMLEnumLiteral* UMLEnum::takeEnumLiteral(UMLEnumLiteral* el, int *wasAtIndex) {
-    int index = m_List.findRef( el );
-    if (wasAtIndex)
-        *wasAtIndex = index;
-    el = (index == -1 ? 0 : dynamic_cast<UMLEnumLiteral*>(m_List.take( )));
-    if (el) {
-        emit enumLiteralRemoved(el);
-        emit modified();
-    }
-    return el;
-}
-
-
 int UMLEnum::enumLiterals() {
     return m_List.count();
 }
 
+void UMLEnum::signalEnumLiteralRemoved(UMLClassifierListItem *elit) {
+    emit enumLiteralRemoved(elit);
+}
 
 void UMLEnum::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     QDomElement enumElement = UMLObject::save("UML:Enumeration", qDoc);

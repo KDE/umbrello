@@ -344,13 +344,28 @@ void ClassifierListPage::slotUpClicked() {
     m_pItemListLB->setSelected( item, true );
 
     //now change around in the list
-    UMLClassifierListItem* currentAtt = getItemList().at( index );
+    UMLClassifierListItemList itemList = getItemList();
+    UMLClassifierListItem* currentAtt;
+    QString buf;
+    for (UMLClassifierListItemListIt it0(itemList); (currentAtt = it0.current()); ++it0)
+        buf.append(" " + currentAtt->getName());
+    kdDebug() << "itemList before change: " << buf << endl;
+    currentAtt = itemList.at( index );
     // NB: The index in the m_pItemListLB is not necessarily the same
     //     as the index in the UMLClassifier::m_List.
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
-    takeClassifier(currentAtt, index);  // now we index the UMLClassifier::m_List
-    addClassifier(currentAtt, index - 1);
+    takeItem(currentAtt, true, index);  // now we index the UMLClassifier::m_List
+    kdDebug() << "ClassifierListPage::slotUpClicked(" << currentAtt->getName()
+        << "): peer index in UMLCanvasItem::m_List is " << index << endl;
+    if (index == -1)
+        index = 0;
+    addClassifier(currentAtt, index);
+    itemList = getItemList();
+    buf = QString::null;
+    for (UMLClassifierListItemListIt it1(itemList); (currentAtt = it1.current()); ++it1)
+        buf.append(" " + currentAtt->getName());
+    kdDebug() << "itemList after change: " << buf << endl;
     slotClicked( item );
 }
 
@@ -371,13 +386,28 @@ void ClassifierListPage::slotDownClicked() {
     Q3ListBoxItem* item = m_pItemListLB->item( index + 1 );
     m_pItemListLB->setSelected( item, true );
     //now change around in the list
-    UMLClassifierListItem* currentAtt = getItemList().at( index );
+    UMLClassifierListItemList itemList = getItemList();
+    UMLClassifierListItem* currentAtt;
+    QString buf;
+    for (UMLClassifierListItemListIt it0(itemList); (currentAtt = it0.current()); ++it0)
+        buf.append(" " + currentAtt->getName());
+    kdDebug() << "itemList before change: " << buf << endl;
+    currentAtt = getItemList().at( index );
     // NB: The index in the m_pItemListLB is not necessarily the same
     //     as the index in the UMLClassifier::m_List.
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
-    takeClassifier(currentAtt, index);  // now we index the UMLClassifier::m_List
-    addClassifier(currentAtt, index + 1);
+    takeItem(currentAtt, false, index);  // now we index the UMLClassifier::m_List
+    kdDebug() << "ClassifierListPage::slotDownClicked(" << currentAtt->getName()
+        << "): peer index in UMLCanvasItem::m_List is " << index << endl;
+    if (index != -1)
+        index++;   // because we want to go _after_ the following peer item
+    addClassifier(currentAtt, index);
+    itemList = getItemList();
+    buf = QString::null;
+    for (UMLClassifierListItemListIt it1(itemList); (currentAtt = it1.current()); ++it1)
+        buf.append(" " + currentAtt->getName());
+    kdDebug() << "itemList after change: " << buf << endl;
     slotClicked( item );
 }
 
@@ -465,42 +495,32 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int posi
     return false;
 }
 
-UMLClassifierListItem* ClassifierListPage::takeClassifier(UMLClassifierListItem* listitem,
-        int &wasAtIndex) {
-    switch (m_itemType) {
-    case ot_Attribute: {
-            UMLAttribute *att = dynamic_cast<UMLAttribute*>(listitem);
-            return m_pClassifier->takeAttribute(att, &wasAtIndex);
-        }
-    case ot_Operation: {
-            UMLOperation *op = dynamic_cast<UMLOperation*>(listitem);
-            return m_pClassifier->takeOperation(op, &wasAtIndex);
-        }
-    case ot_Template: {
-            UMLTemplate* t = dynamic_cast<UMLTemplate*>(listitem);
-            return m_pClassifier->takeTemplate(t, &wasAtIndex);
-        }
-    case ot_EnumLiteral: {
-            UMLEnum* c = dynamic_cast<UMLEnum*>(m_pClassifier);
-            if (c) {
-                return c->takeEnumLiteral(dynamic_cast<UMLEnumLiteral*>(listitem), &wasAtIndex);
+bool ClassifierListPage::takeItem(UMLClassifierListItem* listItem,
+                                  bool seekPeerBefore, int &peerIndex) {
+    int wasAtIndex = m_pClassifier->takeItem(listItem);
+    if (wasAtIndex == -1)
+        return false;
+    peerIndex = -1;
+    UMLObject *o;
+    const Uml::Object_Type seekType = listItem->getBaseType();
+    UMLObjectList listItems = m_pClassifier->subordinates();
+    UMLObjectListIt it(listItems);
+    for (int i = 0; (o = it.current()) != NULL; ++i, ++it) {
+        if (seekPeerBefore) {
+            if (i >= wasAtIndex)
+                break;
+            if (o->getBaseType() == seekType)
+                peerIndex = i;
+        } else {    // seekPeerAfter
+            if (i < wasAtIndex)
+                continue;
+            if (o->getBaseType() == seekType) {
+                peerIndex = i;
+                break;
             }
-            break;
-        }
-    case ot_EntityAttribute: {
-            UMLEntity* c = dynamic_cast<UMLEntity*>(m_pClassifier);
-            if (c) {
-                return c->takeEntityAttribute(dynamic_cast<UMLEntityAttribute*>(listitem), &wasAtIndex);
-            }
-            break;
-        }
-    default: {
-            kdWarning() << "unknown type in ClassifierListPage" << endl;
-            return 0;
         }
     }
-    kdError() << "ClassifierListPage::takeClassifier unable to handle listitem type in current state" << endl;
-    return 0;
+    return true;
 }
 
 

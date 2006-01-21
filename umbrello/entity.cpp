@@ -140,7 +140,7 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* attribute, int position) 
     return false;
 }
 
-int UMLEntity::removeEntityAttribute(UMLObject* literal) {
+int UMLEntity::removeEntityAttribute(UMLClassifierListItem* literal) {
     if (!m_List.remove((UMLEntityAttribute*)literal)) {
         kdDebug() << "can't find att given in list" << endl;
         return -1;
@@ -154,23 +154,14 @@ int UMLEntity::removeEntityAttribute(UMLObject* literal) {
     return m_List.count();
 }
 
-UMLEntityAttribute* UMLEntity::takeEntityAttribute(UMLEntityAttribute* el, int *wasAtIndex) {
-    int index = m_List.findRef( el );
-    if (wasAtIndex)
-        *wasAtIndex = index;
-    el = (index == -1 ? 0 : dynamic_cast<UMLEntityAttribute*>(m_List.take( )));
-    if (el) {
-        emit entityAttributeRemoved(el);
-        emit modified();
-    }
-    return el;
-}
-
 int UMLEntity::entityAttributes() {
     UMLClassifierListItemList entityAttributes = getFilteredList(Uml::ot_EntityAttribute);
     return entityAttributes.count();
 }
 
+void UMLEntity::signalEntityAttributeRemoved(UMLClassifierListItem *eattr) {
+    emit entityAttributeRemoved(eattr);
+}
 
 void UMLEntity::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     QDomElement entityElement = UMLObject::save("UML:Entity", qDoc);

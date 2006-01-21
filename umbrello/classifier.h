@@ -128,18 +128,6 @@ public:
     int removeAttribute(UMLAttribute *a);
 
     /**
-     * Take and return an attribute from class.
-     * It is the callers responsibility to pass on ownership of
-     * the returned attribute (or to delete the attribute)
-     *
-     * @param  a                attribute to take
-     * @param wasAtIndex        if given, the index in m_List of the item taken
-     *                  is returned in the int pointed-to.
-     * @return  pointer to the attribute or null if not found.
-     */
-    UMLAttribute* takeAttribute(UMLAttribute* a, int *wasAtIndex = NULL);
-
-    /**
      * Returns the number of attributes for the class.
      *
      * @return  The number of attributes for the class.
@@ -231,18 +219,6 @@ public:
     int removeOperation(UMLOperation *op);
 
     /**
-     * Take and return an operation from class.
-     * It is the callers responsibility to pass on ownership of
-     * the returned operation (or to delete the operation)
-     *
-     * @param  o operation to take
-     * @param wasAtIndex        if given, the index in m_List of the item taken
-     *                  is returned in the int pointed-to.
-     * @return pointer to the operation or null if not found.
-     */
-    UMLOperation* takeOperation(UMLOperation* o, int *wasAtIndex = NULL);
-
-    /**
      * counts the number of operations in the Classifier.
      *
      * @return  The number of operations for the Classifier.
@@ -306,18 +282,6 @@ public:
     int removeTemplate(UMLTemplate* umltemplate);
 
     /**
-     * Take and return a template parameter from class.
-     * It is the callers responsibility to pass on ownership of
-     * the returned template (or to delete the template)
-     *
-     * @param t         template to take
-     * @param wasAtIndex        if given, the index in m_List of the item taken
-     *                  is returned in the int pointed-to.
-     * @return  pointer to the template or null if not found.
-     */
-    UMLTemplate* takeTemplate(UMLTemplate* t, int *wasAtIndex = NULL);
-
-    /**
      * Seeks the template parameter of the given name.
      */
     UMLTemplate *findTemplate(QString name);
@@ -338,6 +302,15 @@ public:
      */
     UMLTemplateList getTemplateList();
 
+    /**
+     * Take and return a subordinate item from this classifier.
+     * Ownership of the item is passed to the caller.
+     *
+     * @param item    Subordinate item to take.
+     * @return        Index in m_List of the item taken.
+     *                Return -1 if the item is not found in m_List.
+     */
+    int takeItem(UMLClassifierListItem* item);
 
     /**
      * Returns the entries in m_List that are of the requested type.
