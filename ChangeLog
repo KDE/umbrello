@@ -1,6 +1,9 @@
 Version 1.5.2
 
-* fix problem reordering methods in classes/interfaces (http://bugs.debian.org/348940)
+* fix problem reordering methods in classes/interfaces (http://bugs.debian.org/348940,
+  http://bugs.kde.org/119991)
+* Bugs/wishes from http://bugs.kde.org:
+* Multiplicity labels positioned incorrectly when moving entities (120598)
 
 Version 1.5.1
 
