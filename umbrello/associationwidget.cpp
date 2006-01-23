@@ -1755,16 +1755,13 @@ QPoint AssociationWidget::calculateTextPosition(Text_Role role) {
     int x = 0, y = 0;
 
     if (role == tr_MultiA || role == tr_MultiB) {
-
-        if( (p.y() > q.y()) != is_top_or_bottom )
-            y = p.y() + SPACE;
-        else
-            y = p.y() - SPACE - textH;
-
-        if( p.x() < q.x() != is_top_or_bottom )
-            x = p.x() + SPACE;
-        else
-            x = p.x() - SPACE - textW;
+        const bool isHorizontal = (p.y() == q.y());
+        const int atTop = p.y() + SPACE;
+        const int atBottom = p.y() - SPACE - textH;
+        const int atLeft = p.x() - SPACE - textW;
+        const int atRight = p.x() + SPACE;
+        y = (p.y() > q.y()) == isHorizontal ? atTop : atBottom;
+        x = (p.x() < q.x()) == isHorizontal ? atRight : atLeft;
 
     } else if (role == tr_ChangeA || role == tr_ChangeB) {
 
