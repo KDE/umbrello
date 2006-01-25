@@ -248,82 +248,74 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
     QString text = getDoc();
     if( text.length() == 0 )
         return;
-    uint i = 0;
     QString word = "";
+    QString fullLine = "";
+    QString testCombineLine = "";
     const int margin = fm.width( "W" );
     int textY = fontHeight / 2;
     int textX = margin;
     const int width = this -> width() - margin * 2;
     const int height = this -> height() - fontHeight;
     QChar returnChar('\n');
-    while( i <= text.length() ) {
-        QChar c = text[ i++ ];
-        if( c == returnChar ) {
-            if( word.length() > 0 ) {
-                int textWidth = fm.width( word );
-                if( ( textX + textWidth ) > width )//wrap word
-                {
-                    textWidth = textWidth < width ? textWidth: width;
+    QChar c;
+    for (uint i = 0; i <= text.length(); i++) {
+        if (i < text.length()) {
+            c = text[i];
+        } else {
+            // all chars of text have been handled already ->
+            // perform this last run to spool current content of "word"
+            c = returnChar; 
+        }
+        if (c == returnChar || c.isSpace()) {
+            // new word delimiter found -> its time to decide on word wrap
+            testCombineLine = fullLine + " " + word;
+            int textWidth = fm.width( testCombineLine );
+            if (textX + textWidth > width) {
+                // combination of "fullLine" and "word" doesn't fit into one line ->
+                // print "fullLine" in current line, update write position to next line
+                // and decide then on following actions
+                p->drawText(offsetX + textX, offsetY + textY,
+                            textWidth, fontHeight, Qt::AlignLeft, fullLine );
+                fullLine = word;
+                word = "";
+                // update write position
+                textX = margin;
+                textY += fontHeight;
+                if (textY > height)
+                    return;
+                // in case of c==newline ->
+                // print "word" and set write position one additional line lower
+                if (c == returnChar) {
+                    // print "word" - which is now "fullLine" and set to next line
+                    p->drawText(offsetX + textX, offsetY + textY,
+                                textWidth, fontHeight, Qt::AlignLeft, fullLine);
+                    fullLine = "";
                     textX = margin;
                     textY += fontHeight;
-                    if( textY > height )
-                        return;
-                    p->drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, Qt::AlignLeft, word );
-                }//end if
-                else
-                {
-                    if ( textY > height )
-                        return;
-                    p->drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, Qt::AlignLeft, word );
+                    if( textY > height ) return;
                 }
-            }//end if
-            textX = margin;
-            textY += fontHeight;
-            word = "";
-        } else if( c.isSpace() ) {
-            if( word.length() > 0 ) {
-                int textWidth = fm.width( word );
-                if( ( textX + textWidth ) > width )//wrap word
-                {
-                    textWidth = textWidth < width ? textWidth: width;
-                    if( textX != margin )
-                        textY += fontHeight;
-                    textX = margin;
-                    if( textY > height )
-                        return;
-                    p->drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, Qt::AlignLeft, word );
-                }//end if
-                else
-                {
-                    if ( textY > height )
-                        return;
-                    p->drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, Qt::AlignLeft, word );
-                }
-                textX += textWidth;
-            }//end if
-            textX += fm.width( " " );
-            word = "";
+            }
+            else if ( c == returnChar ) {
+                // newline found and combination of "fullLine" and "word" fits
+                // in one line
+                p->drawText(offsetX + textX, offsetY + textY,
+                            textWidth, fontHeight, Qt::AlignLeft, testCombineLine);
+                fullLine = word = "";
+                textX = margin;
+                textY += fontHeight;
+                if (textY > height)
+                    return;
+            } else {
+                // word delimiter found, and combination of "fullLine", space and "word" fits into one line
+                fullLine = testCombineLine;
+                word = "";
+            }
         } else {
-            if (c!='\0') word += c;
+            // no word delimiter found --> add current char to "word"
+            if (c != '\0')
+                word += c;
         }
-    }//end while
-    if( word.length() > 0 ) {
-        const int textWidth = fm.width( word );
-        if( ( textWidth + textX ) > width )//wrap word
-        {
-            textX = margin;
-            textY += fontHeight;
-            if( textY > height )
-                return;
-            p->drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, Qt::AlignLeft, word );
-        }//end if
-        else
-        {
-            if ( textY > height )
-                return;
-            p->drawText( offsetX + textX, offsetY + textY , textWidth, fontHeight, Qt::AlignLeft, word );
-        }
-    }//end if
+    }//end for
 #endif
 }
 
