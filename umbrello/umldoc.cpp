@@ -60,6 +60,7 @@
 #include "stereotype.h"
 #include "classifierlistitem.h"
 #include "object_factory.h"
+#include "import_rose.h"
 #include "model_utils.h"
 #include "widget_utils.h"
 #include "uml.h"
@@ -496,7 +497,10 @@ bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
             newDocument();
             return false;
         }
-        status = loadFromXMI( file, ENC_UNKNOWN );
+        if (filetype.endsWith(".mdl"))
+            status = Import_Rose::loadFromMDL(file);
+        else
+            status = loadFromXMI( file, ENC_UNKNOWN );
     }
 
     file.close();
