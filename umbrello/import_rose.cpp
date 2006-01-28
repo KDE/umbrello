@@ -159,6 +159,42 @@ QString extractImmediateValues(QStringList& l) {
     return result;
 }
 
+QString collectVerbatimText(QTextStream& stream) {
+    QString result;
+    const QRegExp closingParenth("^\\s*\\)");
+    QString line;
+    while ((line = stream.readLine()) != QString::null) {
+        linum++;
+        line = line.stripWhiteSpace();
+        if (line.isEmpty() || line.startsWith(")"))
+            break;
+        if (line[0] != '|') {
+            kdError() << "Import_Rose::collectVerbatimText " << linum
+                    << ": expecting '|' at start of verbatim text" << endl;
+            return QString::null;
+        } else {
+            result += line.mid(1) + "\n";
+        }
+    }
+    if (line == QString::null) {
+        kdError() << "Import_Rose::collectVerbatimText " << linum
+                << ": premature EOF" << endl;
+        return QString::null;
+    }
+    if (! line.isEmpty()) {
+        for (uint i = 0; i < line.length(); i++) {
+            const QChar& clParenth = line[i];
+            if (clParenth != ')') {
+                kdError() << "Import_Rose::collectVerbatimText " << linum
+                        << ": expected ')', found: " << clParenth << endl;
+                return QString::null;
+            }
+            nClosures++;
+        }
+    }
+    return result;
+}
+
 /**
  * Extract the stripped down value from a (value ...) element.
  * Example: for the input
@@ -175,7 +211,7 @@ QString extractImmediateValues(QStringList& l) {
  * |This is the first line of verbatim text.
  * |This is another line of verbatim text.
  *         )
- * (The '|' character is supposed to be in the first column of the file)
+ * (The '|' character is supposed to be in the first column of the line)
  * In this case the two lines are extracted without the leading '|'.
  * The line ending '\n' of each line is preserved.
  */
@@ -190,28 +226,9 @@ QString extractValue(QStringList& l, QTextStream& stream) {
     l.pop_front();  // remove the value type: could be e.g. "Text" or "cardinality"
     QString result;
     if (l.count() == 0) {  // expect verbatim text to follow on subsequent lines
-        const QRegExp closingParenth("^\\s*\\)");
-        QString line;
-        while ((line = stream.readLine()) != QString::null) {
-            linum++;
-            if (line.isEmpty())
-                continue;
-            if (line.contains(closingParenth))
-                break;
-            if (line[0] != '|') {
-                kdError() << "Import_Rose::extractValue " << linum
-                    << ": expecting '|' at start of verbatim text" << endl;
-                break;
-            } else {
-                result += line.mid(1) + "\n";
-            }
-        }
-        if (line == QString::null)
-            return QString::null;  // error - premature EOF
-        line.remove(closingParenth);
-        if (! line.isEmpty()) {
-            l = QStringList::split(QRegExp("\\b"), line);
-        }
+        QString text = collectVerbatimText(stream);
+        nClosures--;  // expect own closure
+        return text;
     } else {
         result = shift(l);
         if (l.first() != ")") {
@@ -261,29 +278,52 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
     QString line;
     while ((line = stream.readLine()) != QString::null) {
         linum++;
-        line = line.simplifyWhiteSpace();
+        line = line.stripWhiteSpace();
         if (line.isEmpty())
             continue;
         QStringList tokens = scan(line);
-        if (tokens.count() == 0)
-            return NULL;
         QString stringOrNodeOpener = shift(tokens);
         QString name;
-        if (nt == PetalNode::nt_object && !stringOrNodeOpener.contains(QRegExp("^[A-Za-z]")) ||
-            nt == PetalNode::nt_list && stringOrNodeOpener != "(") {
+        if (nt == PetalNode::nt_object && !stringOrNodeOpener.contains(QRegExp("^[A-Za-z]"))) {
             kdError() << "Import_Rose::readAttributes " << linum
                 << ": unexpected line " << line << endl;
             return NULL;
         }
+        PetalNode::StringOrNode value;
         if (nt == PetalNode::nt_object) {
             name = stringOrNodeOpener;
+            if (tokens.count() == 0) {  // expect verbatim text to follow on subsequent lines
+                value.string = collectVerbatimText(stream);
+                PetalNode::NameValue attr(name, value);
+                attrs.append(attr);
+                if (nClosures) {
+                    // Decrement nClosures exactly once, namely for the own scope.
+                    // Each recursion of readAttributes() is only responsible for
+                    // its own scope. I.e. each further scope closing is handled by
+                    // an outer recursion in case of multiple closing parentheses.
+                    nClosures--;
+                    break;
+                }
+                continue;
+            }
             stringOrNodeOpener = shift(tokens);
+        } else if (stringOrNodeOpener != "(") {
+            value.string = stringOrNodeOpener;
+            PetalNode::NameValue attr(QString::null, value);
+            attrs.append(attr);
+            if (tokens.count() && tokens.first() != ")") {
+                kdDebug() << "Import_Rose::readAttributes " << linum
+                        << ": NYI - immediate list entry with more than one item" << endl;
+            }
+            if (checkClosing(tokens))
+                break;
+            continue;
         }
-        PetalNode::StringOrNode value;
         if (stringOrNodeOpener == "(") {
-            if (isImmediateValue(tokens.first())) {
+            QString nxt = tokens.first();
+            if (isImmediateValue(nxt)) {
                 value.string = extractImmediateValues(tokens);
-            } else if (tokens.first() == "value" || tokens.first() == "\"") {
+            } else if (nxt == "value" || nxt.startsWith("\"")) {
                 value.string = extractValue(tokens, stream);
             } else {
                 value.node = readAttributes(tokens, stream);
@@ -292,7 +332,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
             }
             PetalNode::NameValue attr(name, value);
             attrs.append(attr);
-            if (nClosures) {  // && value.node
+            if (nClosures) {
                 // Decrement nClosures exactly once, namely for the own scope.
                 // Each recursion of readAttributes() is only responsible for
                 // its own scope. I.e. each further scope closing is handled by
@@ -318,6 +358,7 @@ bool loadFromMDL(QIODevice& file) {
     QTextStream stream(&file);
     QString line;
     PetalNode *root = NULL;
+    linum = 0;
     while ((line = stream.readLine()) != QString::null) {
         linum++;
         if (line.contains( QRegExp("^\\s*\\(object Petal") )) {
@@ -337,7 +378,7 @@ bool loadFromMDL(QIODevice& file) {
         }
     }
     file.close();
-    if (root -= NULL)
+    if (root == NULL)
         return false;
     // @todo traverse the PetalNode tree and create Umbrello model objects
     //
