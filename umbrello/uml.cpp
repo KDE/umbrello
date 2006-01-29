@@ -152,7 +152,7 @@ UMLApp* UMLApp::app()
 void UMLApp::initActions() {
     fileNew = KStdAction::openNew(this, SLOT(slotFileNew()), actionCollection());
     fileOpen = KStdAction::open(this, SLOT(slotFileOpen()), actionCollection());
-    fileOpenRecent = KStdAction::openRecent(this, SLOT(slotFileOpenRecent(const KURL&)), actionCollection());
+    fileOpenRecent = KStdAction::openRecent(this, SLOT(slotFileOpenRecent(const KUrl&)), actionCollection());
     fileSave = KStdAction::save(this, SLOT(slotFileSave()), actionCollection());
     fileSaveAs = KStdAction::saveAs(this, SLOT(slotFileSaveAs()), actionCollection());
     fileClose = KStdAction::close(this, SLOT(slotFileClose()), actionCollection());
@@ -443,7 +443,7 @@ void UMLApp::initView() {
     readDockConfig(); //reposition all the DockWindows to their saved positions
 }
 
-void UMLApp::openDocumentFile(const KURL& url) {
+void UMLApp::openDocumentFile(const KUrl& url) {
     slotStatusMsg(i18n("Opening file..."));
 
     m_doc->openDocument( url);
@@ -572,25 +572,25 @@ void UMLApp::saveProperties(KConfig *_config) {
         // saving to tempfile not necessary
 
     } else {
-        KURL url=m_doc->URL();
+        KUrl url=m_doc->URL();
         _config->writePathEntry("filename", url.url());
         _config->writeEntry("modified", m_doc->isModified());
         QString tempname = kapp->tempSaveName(url.url());
-        QString tempurl= KURL::encode_string(tempname);
+        QString tempurl= KUrl::encode_string(tempname);
 
-        KURL _url(tempurl);
+        KUrl _url(tempurl);
         m_doc->saveDocument(_url);
     }
 }
 
 void UMLApp::readProperties(KConfig* _config) {
     QString filename = _config->readPathEntry("filename");
-    KURL url(filename);
+    KUrl url(filename);
     bool modified = _config->readBoolEntry("modified", false);
     if(modified) {
         bool canRecover;
         QString tempname = kapp->checkRecoverFile(filename, canRecover);
-        KURL _url(tempname);
+        KUrl _url(tempname);
 
 
         if(canRecover) {
@@ -650,7 +650,7 @@ void UMLApp::slotFileOpen() {
         // here saving wasn't successful
 
     } else {
-        KURL url=KFileDialog::getOpenURL(":open-umbrello-file",
+        KUrl url=KFileDialog::getOpenURL(":open-umbrello-file",
                                          i18n("*.xmi *.xmi.tgz *.xmi.tar.bz2|All Supported Files (*.xmi, *.xmi.tgz, *.xmi.tar.bz2)\n*.xmi|Uncompressed XMI Files (*.xmi)\n*.xmi.tgz|Gzip Compressed XMI Files (*.xmi.tgz)\n*.xmi.tar.bz2|Bzip2 Compressed XMI Files (*.xmi.tar.bz2)"), this, i18n("Open File"));
         if(!url.isEmpty()) {
             if(m_doc->openDocument(url))
@@ -666,11 +666,11 @@ void UMLApp::slotFileOpen() {
     slotStatusMsg(i18n("Ready."));
 }
 
-void UMLApp::slotFileOpenRecent(const KURL& url) {
+void UMLApp::slotFileOpenRecent(const KUrl& url) {
     slotStatusMsg(i18n("Opening file..."));
     m_loading = true;
 
-    KURL oldURL = m_doc->URL();
+    KUrl oldURL = m_doc->URL();
 
     if(!m_doc->saveModified()) {
         // here saving wasn't successful
@@ -703,7 +703,7 @@ bool UMLApp::slotFileSaveAs()
 {
     slotStatusMsg(i18n("Saving file with a new filename..."));
     bool cont = true;
-    KURL url;
+    KUrl url;
     QString ext;
     while(cont) {
         url=KFileDialog::getSaveURL(":save-umbrello-file", i18n("*.xmi|XMI File\n*.xmi.tgz|Gzip Compressed XMI File\n*.xmi.tar.bz2|Bzip2 Compressed XMI File\n*|All Files"), this, i18n("Save As"));

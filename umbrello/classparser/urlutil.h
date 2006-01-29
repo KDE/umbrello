@@ -40,7 +40,7 @@ namespace URLUtil
   /**
    * Returns the relative path between a parent and child URL, or blank if the specified child is not a child of parent
    */
-  QString relativePath(const KURL & parent, const KURL & child, uint slashPolicy = SLASH_PREFIX);
+  QString relativePath(const KUrl & parent, const KUrl & child, uint slashPolicy = SLASH_PREFIX);
   /**
    * Returns the relative path between a parent and child URL, or blank if the specified child is not a child of parent
    */
@@ -65,7 +65,7 @@ namespace URLUtil
    *     child is /home/you/dir1/file1
    *   returns /home/me/dir1/fil1
    */
-  KURL mergeURL(const KURL & source, const KURL & dest, const KURL & child);
+  KUrl mergeURL(const KUrl & source, const KUrl & dest, const KUrl & child);
   /**
    * Returns the file extension for a filename or path
    */
@@ -76,7 +76,7 @@ namespace URLUtil
   * it will return the path relative to @p baseDirUrl.
   * If baseDirUrl == url.path() then it will return ".".
   * <code>
-  * KURL baseUrl, dirUrl;
+  * KUrl baseUrl, dirUrl;
   * baseUrl.setPath( "/home/mario/src/kdevelop/" );
   * dirUrl.setPath( "/home/mario/src/kdevelop/parts/cvs/" );
   * QString relPathName = extractDirPathRelative( baseUrl, url ); // == "parts/cvs/"
@@ -85,32 +85,32 @@ namespace URLUtil
   * Note that if you pass a file name in @p url (instead of a directory) or the @p baseUrl is not contained
   * in @p url then the function will return "" (void string).
   */
-  QString extractPathNameRelative(const KURL &baseDirUrl, const KURL &url );
-  QString extractPathNameRelative(const QString &basePath, const KURL &url );
+  QString extractPathNameRelative(const KUrl &baseDirUrl, const KUrl &url );
+  QString extractPathNameRelative(const QString &basePath, const KUrl &url );
   QString extractPathNameRelative(const QString &basePath, const QString &absFilePath );
 
   /**
   * Will return the absolute path name referred in @p url.
   * Look at above for an example.
   */
-  QString extractPathNameAbsolute( const KURL &url );
+  QString extractPathNameAbsolute( const KUrl &url );
 
   /**
   * Returns a QStringList of relative (to @p baseDir) paths from a list of KURLs in @p urls
   */
-  QStringList toRelativePaths( const QString &baseDir, const KURL::List &urls);
+  QStringList toRelativePaths( const QString &baseDir, const KUrl::List &urls);
 
   /**
   * If @p url is a directory will return true, false otherwise.
   */
-  bool isDirectory( const KURL &url );
+  bool isDirectory( const KUrl &url );
   bool isDirectory( const QString &absFilePath );
 
   /**
-  * Will dump the list of KURL @p urls on standard output, eventually printing @ aMessage if it
+  * Will dump the list of KUrl @p urls on standard output, eventually printing @ aMessage if it
   * is not null.
   */
-  void dump( const KURL::List &urls, const QString &aMessage = QString::null );
+  void dump( const KUrl::List &urls, const QString &aMessage = QString::null );
 
   /**
    * Same as QDir::canonicalPath in later versions of QT. Earlier versions of QT

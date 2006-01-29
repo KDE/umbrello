@@ -155,34 +155,34 @@ public:
      * Loads the document by filename and format and emits the
      * updateViews() signal.
      *
-     * @param url               The filename in KURL format.
+     * @param url               The filename in KUrl format.
      * @param format    The format (optional.)
      * @return  True if operation successful.
      */
-    bool openDocument(const KURL& url, const char *format=0);
+    bool openDocument(const KUrl& url, const char *format=0);
 
     /**
      * Saves the document using the given filename and format.
      *
-     * @param url               The filename in KURL format.
+     * @param url               The filename in KUrl format.
      * @param format    The format (optional.)
      * @return  True if operation successful.
      */
-    bool saveDocument(const KURL& url, const char *format=0);
+    bool saveDocument(const KUrl& url, const char *format=0);
 
     /**
-     * Returns the KURL of the document.
+     * Returns the KUrl of the document.
      *
-     * @return  The KURL of this UMLDoc.
+     * @return  The KUrl of this UMLDoc.
      */
-    const KURL& URL() const;
+    const KUrl& URL() const;
 
     /**
      * Sets the URL of the document.
      *
-     * @param url               The KURL to set.
+     * @param url               The KUrl to set.
      */
-    void setURL(const KURL& url);
+    void setURL(const KUrl& url);
 
     /**
      * Sets up the signals needed by the program for it to work.
@@ -856,7 +856,7 @@ private:
     Uml::IDType m_modelID; ///< xmi.id of this model in the <UML:Model>
     int m_count;   ///< auxiliary counter for the progress bar
     bool m_modified;
-    KURL m_doc_url;
+    KUrl m_doc_url;
     UMLView* m_currentView;
 
     /**

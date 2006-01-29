@@ -63,7 +63,7 @@ void ExportViewAction::askFormat() {
 void ExportViewAction::exportView(UMLView* view, QString imageMimetype) {
     UMLApp *app = UMLApp::app();
 
-    KURL url = app->getDocument()->URL();
+    KUrl url = app->getDocument()->URL();
     QString extDef = UMLView::mimeTypeToImageType(imageMimetype).lower();
     QString file =  view->getName() + "." + extDef;
 

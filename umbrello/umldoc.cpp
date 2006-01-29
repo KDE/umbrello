@@ -181,12 +181,12 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView ) {
     }
 }
 
-void UMLDoc::setURL(const KURL &url) {
+void UMLDoc::setURL(const KUrl &url) {
     m_doc_url = url;
     return;
 }
 
-const KURL& UMLDoc::URL() const {
+const KUrl& UMLDoc::URL() const {
     return m_doc_url;
 }
 
@@ -343,7 +343,7 @@ bool UMLDoc::newDocument() {
     return true;
 }
 
-bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
+bool UMLDoc::openDocument(const KUrl& url, const char* /*format =0*/) {
     if(url.fileName().length() == 0) {
         newDocument();
         return false;
@@ -512,7 +512,7 @@ bool UMLDoc::openDocument(const KURL& url, const char* /*format =0*/) {
     return true;
 }
 
-bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
+bool UMLDoc::saveDocument(const KUrl& url, const char * /* format */) {
     m_doc_url = url;
     QDir d = m_doc_url.path(1);
     QFile file;
@@ -2314,14 +2314,14 @@ void UMLDoc::slotAutoSave() {
     if( !m_modified ) {
         return;
     }
-    KURL tempURL = m_doc_url;
+    KUrl tempURL = m_doc_url;
     if( tempURL.fileName() == i18n("Untitled") ) {
         tempURL.setPath( QDir::homeDirPath() + i18n("/autosave%1").arg(".xmi") );
         saveDocument( tempURL );
         m_modified = true;
     } else {
         // 2004-05-17 Achim Spangler
-        KURL orgDocUrl = m_doc_url;
+        KUrl orgDocUrl = m_doc_url;
         QString orgFileName = m_doc_url.fileName();
         // don't overwrite manually saved file with autosave content
         QString fileName = tempURL.fileName();

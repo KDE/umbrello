@@ -97,7 +97,7 @@ public:
     /**
      * Opens a file specified by commandline option.
      */
-    void openDocumentFile(const KURL& url=KURL());
+    void openDocumentFile(const KUrl& url=KURL());
 
     /**
      * Calls the UMLDoc method to create a new Document.
@@ -422,7 +422,7 @@ public slots:
     /**
      * Opens a file from the recent files menu.
      */
-    void slotFileOpenRecent(const KURL& url);
+    void slotFileOpenRecent(const KUrl& url);
 
     /**
      * Save a document.
