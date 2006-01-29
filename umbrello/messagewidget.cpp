@@ -46,8 +46,7 @@ MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
         y -= m_pOw[Uml::B]->getHeight() / 2;
         m_pOw[Uml::B]->setY(y);
     }
-    UMLWidget::m_bResizable = (m_pOw[Uml::A] == m_pOw[Uml::B]);
-
+    updateResizability();
     calculateWidget();
     y = y < getMinHeight() ? getMinHeight() : y;
     y = y > getMaxHeight() ? getMaxHeight() : y;
@@ -74,6 +73,14 @@ void MessageWidget::init() {
 }
 
 MessageWidget::~MessageWidget() {
+}
+
+void MessageWidget::updateResizability() {
+    if (m_sequenceMessageType == Uml::sequence_message_synchronous ||
+        m_pOw[Uml::A] == m_pOw[Uml::B])
+        UMLWidget::m_bResizable = true;
+    else
+        UMLWidget::m_bResizable = false;
 }
 
 void MessageWidget::draw(QPainter& p, int offsetX, int offsetY) {
@@ -742,7 +749,7 @@ int MessageWidget::getMaxHeight() {
 
 void MessageWidget::setWidget(ObjectWidget * ow, Uml::Role_Type role) {
     m_pOw[role] = ow;
-    UMLWidget::m_bResizable = (m_pOw[Uml::A] == m_pOw[Uml::B]);
+    updateResizability();
 }
 
 ObjectWidget* MessageWidget::getWidget(Uml::Role_Type role) {
@@ -810,7 +817,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
         << ID2STR(bId) << " is not an ObjectWidget" << endl;
         return false;
     }
-    UMLWidget::m_bResizable = (m_pOw[Uml::A] == m_pOw[Uml::B]);
+    updateResizability();
 
     UMLClassifier *c = dynamic_cast<UMLClassifier*>( pWB->getUMLObject() );
     if (c) {
