@@ -49,7 +49,8 @@ public:
         QString string;
         PetalNode *node;
         StringOrNode() { node = 0; }
-        virtual ~StringOrNode() { /* if (node) delete node; */ }
+        virtual ~StringOrNode() { }
+        bool isEmpty() { return (string.isEmpty() && node == 0); }
     };
     typedef QPair<QString, StringOrNode> NameValue;
     typedef QValueList<NameValue> NameValueList;
@@ -62,11 +63,19 @@ public:
     // getters
     NodeType type() const;
     QStringList initialArgs() const;  // name and other initial args
+    QString name() const;  // convenience function: equal to initialArgs().first()
     NameValueList attributes() const;
     // setters
     //void setType(NodeType nt);   see constructor
     void setInitialArgs(QStringList args);
     void setAttributes(NameValueList vl);
+    // utilities
+    /**
+     * Find an attribute by name.
+     * @return  The value of the attribute. StringOrNode::isEmpty() returns true
+     *          if the name could not be found.
+     */
+    StringOrNode findAttribute(QString name) const;
 private:
     NodeType m_type;
     QStringList m_initialArgs;

@@ -23,6 +23,7 @@
 #include <kdebug.h>
 // app includes
 #include "petalnode.h"
+#include "petaltree2uml.h"
 
 namespace Import_Rose {
 
@@ -37,9 +38,17 @@ uint nClosures; // Multiple closing parentheses may appear on a single
                 // counter indicating how many additional node closings
                 // have been seen.
 
-QString comment;  // comment buffer
-
 uint linum;  // line number
+QString g_methodName;
+void methodName(QString m) {
+    g_methodName = m;
+}
+/**
+ * Auxiliary function for diagnostics: Return current location.
+ */
+QString loc() {
+    return "Import_Rose::" + g_methodName + " line " + linum + ": ";
+}
 
 /**
  * Split a line into lexemes.
@@ -96,18 +105,13 @@ bool checkClosing(QStringList& tokens) {
         return false;
     if (tokens.last() == ")") {
         // For a single closing parenthesis, we just return true.
-        // But if there are more closing parentheses, we need to set the
-        // seenClosure for each corresponding scope to true.
+        // But if there are more closing parentheses, we need to increment
+        // nClosures for each scope.
         tokens.pop_back();
         while (tokens.count() && tokens.last() == ")") {
             nClosures++;
             tokens.pop_back();
         }
-        /*
-        if (tokens.last() == ")") {
-            kdError() << "Import_Rose::checkClosing:" << linum
-                << " too many ')' in file " << endl;
-        }  */
         return true;
     }
     return false;
@@ -161,32 +165,29 @@ QString extractImmediateValues(QStringList& l) {
 
 QString collectVerbatimText(QTextStream& stream) {
     QString result;
-    const QRegExp closingParenth("^\\s*\\)");
     QString line;
+    methodName("collectVerbatimText");
     while ((line = stream.readLine()) != QString::null) {
         linum++;
         line = line.stripWhiteSpace();
         if (line.isEmpty() || line.startsWith(")"))
             break;
         if (line[0] != '|') {
-            kdError() << "Import_Rose::collectVerbatimText " << linum
-                    << ": expecting '|' at start of verbatim text" << endl;
+            kdError() << loc() << "expecting '|' at start of verbatim text" << endl;
             return QString::null;
         } else {
             result += line.mid(1) + "\n";
         }
     }
     if (line == QString::null) {
-        kdError() << "Import_Rose::collectVerbatimText " << linum
-                << ": premature EOF" << endl;
+        kdError() << loc() << "premature EOF" << endl;
         return QString::null;
     }
     if (! line.isEmpty()) {
         for (uint i = 0; i < line.length(); i++) {
             const QChar& clParenth = line[i];
             if (clParenth != ')') {
-                kdError() << "Import_Rose::collectVerbatimText " << linum
-                        << ": expected ')', found: " << clParenth << endl;
+                kdError() << loc() << "expected ')', found: " << clParenth << endl;
                 return QString::null;
             }
             nClosures++;
@@ -216,6 +217,7 @@ QString collectVerbatimText(QTextStream& stream) {
  * The line ending '\n' of each line is preserved.
  */
 QString extractValue(QStringList& l, QTextStream& stream) {
+    methodName("extractValue");
     if (l.count() == 0)
         return QString::null;
     if (l.first() == "(")
@@ -232,8 +234,7 @@ QString extractValue(QStringList& l, QTextStream& stream) {
     } else {
         result = shift(l);
         if (l.first() != ")") {
-            kdError() << "Import_Rose::extractValue " << linum
-                 << ": expecting closing parenthesis" << endl;
+            kdError() << loc() << "expecting closing parenthesis" << endl;
             return result;
         }
         l.pop_front();
@@ -253,10 +254,10 @@ QString extractValue(QStringList& l, QTextStream& stream) {
  * @return           Pointer to the created PetalNode or NULL on error.
  */
 PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
+    methodName("readAttributes");
     if (initialArgs.count() == 0) {
-        kdError() << "Import_Rose::readAttributes " << linum
-            << ": firstLine is empty" << endl;
-        return false;
+        kdError() << loc() << "initialArgs is empty" << endl;
+        return NULL;
     }
     PetalNode::NodeType nt;
     QString type = shift(initialArgs);
@@ -265,8 +266,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
     else if (type == "list")
         nt = PetalNode::nt_list;
     else {
-        kdError() << "Import_Rose::readAttributes " << linum
-            << ": unknown node type " << type << endl;
+        kdError() << loc() << "unknown node type " << type << endl;
         return NULL;
     }
     PetalNode *node = new PetalNode(nt);
@@ -285,8 +285,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
         QString stringOrNodeOpener = shift(tokens);
         QString name;
         if (nt == PetalNode::nt_object && !stringOrNodeOpener.contains(QRegExp("^[A-Za-z]"))) {
-            kdError() << "Import_Rose::readAttributes " << linum
-                << ": unexpected line " << line << endl;
+            kdError() << loc() << "unexpected line " << line << endl;
             return NULL;
         }
         PetalNode::StringOrNode value;
@@ -312,8 +311,8 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
             PetalNode::NameValue attr(QString::null, value);
             attrs.append(attr);
             if (tokens.count() && tokens.first() != ")") {
-                kdDebug() << "Import_Rose::readAttributes " << linum
-                        << ": NYI - immediate list entry with more than one item" << endl;
+                kdDebug() << loc()
+                    << "NYI - immediate list entry with more than one item" << endl;
             }
             if (checkClosing(tokens))
                 break;
@@ -380,9 +379,7 @@ bool loadFromMDL(QIODevice& file) {
     file.close();
     if (root == NULL)
         return false;
-    // @todo traverse the PetalNode tree and create Umbrello model objects
-    //
-    return true;
+    return petalTree2Uml(root);
 }
 
 }

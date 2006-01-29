@@ -74,6 +74,7 @@ ownedhierarchicalcodeblock.cpp \
 package.cpp \
 packagewidget.cpp \
 petalnode.cpp \
+petaltree2uml.cpp \
 plugin.cpp \
 pluginloader.cpp \
 pythonimport.cpp \

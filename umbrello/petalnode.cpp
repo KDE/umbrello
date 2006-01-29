@@ -27,6 +27,12 @@ QStringList PetalNode::initialArgs() const {
     return m_initialArgs;
 }
 
+QString PetalNode::name() const {
+    if (m_initialArgs.count() == 0)
+        return QString::null;
+    return m_initialArgs.first();
+}
+
 PetalNode::NameValueList PetalNode::attributes() const {
     return m_attributes;
 }
@@ -43,5 +49,13 @@ void PetalNode::setInitialArgs(QStringList args) {
 
 void PetalNode::setAttributes(PetalNode::NameValueList vl) {
     m_attributes = vl;
+}
+
+PetalNode::StringOrNode PetalNode::findAttribute(QString name) const {
+    for (uint i = 0; i < m_attributes.count(); i++) {
+        if (m_attributes[i].first == name)
+            return m_attributes[i].second;
+    }
+    return StringOrNode();
 }
 
