@@ -363,6 +363,12 @@ protected:
      */
     static void drawSolidArrowhead(QPainter& p, int x, int y, Qt::ArrowType direction);
 
+    /**
+     * Update the UMLWidget::m_bResizable flag according to the
+     * charactersitics of this message.
+     */
+    void updateResizability();
+
     // Data loaded/saved
     QString m_SequenceNumber;
     QString m_CustomOp;
