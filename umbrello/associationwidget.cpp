@@ -1726,7 +1726,7 @@ QPoint AssociationWidget::calculateTextPosition(Text_Role role) {
     // is at top or bottom edge of widget.
     bool is_top_or_bottom(false);
     UMLWidget *pWidget(0);
-        
+
     if (role == tr_MultiA || role == tr_ChangeA || role == tr_RoleAName) {
         p = m_LinePath.getPoint( 0 );
         q = m_LinePath.getPoint( 1 );
@@ -1756,11 +1756,11 @@ QPoint AssociationWidget::calculateTextPosition(Text_Role role) {
 
     if (role == tr_MultiA || role == tr_MultiB) {
         const bool isHorizontal = (p.y() == q.y());
-        const int atTop = p.y() + SPACE;
-        const int atBottom = p.y() - SPACE - textH;
+        const int atBottom = p.y() + SPACE;
+        const int atTop = p.y() - SPACE - textH;
         const int atLeft = p.x() - SPACE - textW;
         const int atRight = p.x() + SPACE;
-        y = (p.y() > q.y()) == isHorizontal ? atTop : atBottom;
+        y = (p.y() > q.y()) == isHorizontal ? atBottom : atTop;
         x = (p.x() < q.x()) == isHorizontal ? atRight : atLeft;
 
     } else if (role == tr_ChangeA || role == tr_ChangeB) {
