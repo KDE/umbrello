@@ -50,6 +50,15 @@ namespace Import_Utils {
     void putAtGlobalScope(bool yesno);
 
     /**
+     * Control whether the creation methods solicit a new unique ID for the
+     * created object.
+     * By default, unique ID generation is turned on.
+     *
+     * @param yesno   False turns UID generation off, true turns it on.
+     */
+    void assignUniqueIdOnCreation(bool yesno);
+
+    /**
      * Create a UMLAttribute and insert it into the document.
      */
     UMLObject* insertAttribute(UMLClassifier *klass, Uml::Visibility scope, QString name,

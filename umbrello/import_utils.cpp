@@ -62,6 +62,10 @@ void putAtGlobalScope(bool yesno) {
     bPutAtGlobalScope = yesno;
 }
 
+void assignUniqueIdOnCreation(bool yesno) {
+    Object_Factory::assignUniqueIdOnCreation(yesno);
+}
+
 bool newUMLObjectWasCreated() {
     return bNewUMLObjectWasCreated;
 }
@@ -145,7 +149,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
                         parentPkg = static_cast<UMLPackage*>(o);
                         continue;
                     }
-                    int wantNamespace = 1;
+                    int wantNamespace = KMessageBox::Yes;
                     /* We know std and Qt are always a namespaces */
                     if (scopeName != "std" && scopeName != "Qt") {
                         wantNamespace = KMessageBox::questionYesNo(NULL,
@@ -220,7 +224,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
 }
 
 UMLOperation* makeOperation(UMLClassifier *parent, const QString &name) {
-    UMLOperation *op = new UMLOperation(parent, name);
+    UMLOperation *op = Object_Factory::createOperation(parent, name);
     return op;
 }
 
@@ -304,7 +308,7 @@ UMLAttribute* addMethodParameter(UMLOperation *method,
         typeObj = createUMLObject(Uml::ot_UMLObject, type, owner);
         bPutAtGlobalScope = false;
     }
-    UMLAttribute *attr = new UMLAttribute(method, name);
+    UMLAttribute *attr = Object_Factory::createAttribute(method, name);
     attr->setType(typeObj);
     method->addParm(attr);
     return attr;
