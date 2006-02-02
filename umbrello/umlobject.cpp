@@ -377,6 +377,10 @@ QString UMLObject::getSecondaryId() const {
     return m_SecondaryId;
 }
 
+void UMLObject::setSecondaryId(QString id) {
+    m_SecondaryId = id;
+}
+
 void UMLObject::maybeSignalObjectCreated() {
     if (!m_bCreationWasSignalled &&
             m_BaseType != Uml::ot_Stereotype &&

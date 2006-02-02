@@ -320,6 +320,13 @@ public:
     QString getSecondaryId() const;
 
     /**
+     * Set the secondary ID.
+     * Currently only required by petalTree2Uml(); all other setting of the
+     * m_SecondaryID is internal to the UMLObject class hierarchy.
+     */
+    void setSecondaryId(QString id);
+
+    /**
      * Returns true if this object resides in an externalized folder.
      * CHECK: It is probably cleaner to move this to the UMLListViewItem.
      */
