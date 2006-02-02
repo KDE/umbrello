@@ -25,6 +25,8 @@
 #include "umlpackagelist.h"
 #include "package.h"
 #include "classifier.h"
+#include "attribute.h"
+#include "operation.h"
 #include "datatype.h"
 #include "enum.h"
 #include "entity.h"
@@ -41,6 +43,19 @@
 #include "model_utils.h"
 
 namespace Object_Factory {
+
+Uml::IDType g_predefinedId = Uml::id_None;
+
+void assignUniqueIdOnCreation(bool yesno) {
+    if (yesno)
+        g_predefinedId = Uml::id_None;
+    else
+        g_predefinedId = Uml::id_Reserved;
+}
+
+bool assignUniqueIdOnCreation() {
+    return (g_predefinedId == Uml::id_None);
+}
 
 UMLObject* createUMLObject(Uml::Object_Type type, const QString &n,
                            UMLPackage *parentPkg /* = NULL */,
@@ -81,38 +96,61 @@ UMLObject* createUMLObject(Uml::Object_Type type, const QString &n,
         } while (bValidNameEntered == false);
     }
     UMLObject *o = NULL;
-    if(type == Uml::ot_Actor) {
-        o = new UMLActor(name);
-    } else if(type == Uml::ot_UseCase) {
-        o = new UMLUseCase(name);
-    } else if(type == Uml::ot_Class ) {
-        o = new UMLClassifier(name);
-    } else if(type == Uml::ot_Package) {
-        o = new UMLPackage(name);
-    } else if(type == Uml::ot_Component) {
-        o = new UMLComponent(name);
-    } else if(type == Uml::ot_Node) {
-        o = new UMLNode(name);
-    } else if(type == Uml::ot_Artifact) {
-        o = new UMLArtifact(name);
-    } else if(type == Uml::ot_Interface) {
-        UMLClassifier *c = new UMLClassifier(name);
-        c->setInterface();
-        o = c;
-    } else if(type == Uml::ot_Datatype) {
-        o = new UMLDatatype(name);
-    } else if(type == Uml::ot_Enum) {
-        o = new UMLEnum(name);
-    } else if(type == Uml::ot_Entity) {
-        o = new UMLEntity(name);
-    } else {
-        kdWarning() << "CreateUMLObject(int) error unknown type: " << type << endl;
-        return (UMLObject*)0L;
+    switch (type) {
+        case Uml::ot_Actor:
+            o = new UMLActor(name, g_predefinedId);
+            break;
+        case Uml::ot_UseCase:
+            o = new UMLUseCase(name, g_predefinedId);
+            break;
+        case Uml::ot_Class:
+            o = new UMLClassifier(name, g_predefinedId);
+            break;
+        case Uml::ot_Package:
+            o = new UMLPackage(name, g_predefinedId);
+            break;
+        case Uml::ot_Component:
+            o = new UMLComponent(name, g_predefinedId);
+            break;
+        case Uml::ot_Node:
+            o = new UMLNode(name, g_predefinedId);
+            break;
+        case Uml::ot_Artifact:
+            o = new UMLArtifact(name, g_predefinedId);
+            break;
+        case Uml::ot_Interface: {
+            UMLClassifier *c = new UMLClassifier(name, g_predefinedId);
+            c->setInterface();
+            o = c;
+            break;
+        }
+        case Uml::ot_Datatype:
+            o = new UMLDatatype(name, g_predefinedId);
+            break;
+        case Uml::ot_Enum:
+            o = new UMLEnum(name, g_predefinedId);
+            break;
+        case Uml::ot_Entity:
+            o = new UMLEntity(name, g_predefinedId);
+            break;
+        default:
+            kdWarning() << "CreateUMLObject(int) error unknown type: " << type << endl;
+            return NULL;
     }
     o->setUMLPackage(parentPkg);
     doc->addUMLObject(o, prepend);
     doc->signalUMLObjectCreated(o);
     return o;
+}
+
+UMLAttribute *createAttribute(UMLObject *parent, QString name) {
+    UMLAttribute *attr = new UMLAttribute(parent, name, g_predefinedId);
+    return attr;
+}
+
+UMLOperation *createOperation(UMLClassifier *parent, QString name) {
+    UMLOperation *op = new UMLOperation(parent, name, g_predefinedId);
+    return op;
 }
 
 UMLObject* makeObjectFromXMI(const QString &xmiTag) {

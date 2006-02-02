@@ -17,6 +17,9 @@
 
 class UMLObject;
 class UMLPackage;
+class UMLClassifier;
+class UMLAttribute;
+class UMLOperation;
 
 namespace Object_Factory {
 
@@ -36,6 +39,24 @@ UMLObject* createUMLObject(Uml::Object_Type type,
                            const QString &n = QString::null,
                            UMLPackage *parentPkg = 0,
                            bool prepend = false);
+
+UMLAttribute *createAttribute(UMLObject *parent, QString name);
+
+UMLOperation *createOperation(UMLClassifier *parent, QString name);
+
+/**
+ * Control whether the createUMLObject() solicits a new unique ID for the
+ * created object.
+ * By default, unique ID generation is turned on.
+ *
+ * @param yesno   False turns UID generation off, true turns it on.
+ */
+void assignUniqueIdOnCreation(bool yesno);
+
+/**
+ * Return whether unique ID generation is on or off.
+ */
+bool assignUniqueIdOnCreation();
 
 /**
  * Make a new UMLObject according to the given XMI tag.
