@@ -1,9 +1,12 @@
 Version 1.5.2
 
-* fix problem reordering methods in classes/interfaces (http://bugs.debian.org/348940,
-  http://bugs.kde.org/119991)
+* fixed problem reordering methods in classes/interfaces
+  http://bugs.debian.org/348940 , http://bugs.kde.org/119991
+* fixed problem with font size computation/word wrap in note widgets
+  http://sourceforge.net/mailarchive/forum.php?thread_id=9558795&forum_id=472
 * Bugs/wishes from http://bugs.kde.org:
 * Multiplicity labels positioned incorrectly when moving entities (120598)
+* Cannot Resize Sequence Diagram Synchronous Messages (120910)
 
 Version 1.5.1
 

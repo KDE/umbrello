@@ -814,12 +814,12 @@ public:
      */
     bool loadFolderFile(QString filename);
 
-private:
     /**
      * Type resolution pass.
      */
     void resolveTypes();
 
+private:
     /**
      * Remove this association from concepts list. This might be
      * a public method if removeAssociation is removed.

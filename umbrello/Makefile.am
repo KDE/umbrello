@@ -51,6 +51,7 @@ forkjoinwidget.cpp \
 kplayerslideraction.cpp \
 hierarchicalcodeblock.cpp \
 idlimport.cpp \
+import_rose.cpp \
 import_utils.cpp \
 infowidget.cpp \
 javaimport.cpp \
@@ -72,6 +73,8 @@ ownedcodeblock.cpp \
 ownedhierarchicalcodeblock.cpp \
 package.cpp \
 packagewidget.cpp \
+petalnode.cpp \
+petaltree2uml.cpp \
 plugin.cpp \
 pluginloader.cpp \
 pythonimport.cpp \

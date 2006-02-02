@@ -651,7 +651,11 @@ void UMLApp::slotFileOpen() {
 
     } else {
         KUrl url=KFileDialog::getOpenURL(":open-umbrello-file",
-                                         i18n("*.xmi *.xmi.tgz *.xmi.tar.bz2|All Supported Files (*.xmi, *.xmi.tgz, *.xmi.tar.bz2)\n*.xmi|Uncompressed XMI Files (*.xmi)\n*.xmi.tgz|Gzip Compressed XMI Files (*.xmi.tgz)\n*.xmi.tar.bz2|Bzip2 Compressed XMI Files (*.xmi.tar.bz2)"), this, i18n("Open File"));
+            i18n("*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl|All Supported Files (*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.mdl)\n"
+                 "*.xmi|Uncompressed XMI Files (*.xmi)\n"
+                 "*.xmi.tgz|Gzip Compressed XMI Files (*.xmi.tgz)\n"
+                 "*.xmi.tar.bz2|Bzip2 Compressed XMI Files (*.xmi.tar.bz2)\n"
+                 "*.mdl|Rose model files"), this, i18n("Open File"));
         if(!url.isEmpty()) {
             if(m_doc->openDocument(url))
                 fileOpenRecent->addURL( url );
