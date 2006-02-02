@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2005
+ *  copyright (C) 2002-2006
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
