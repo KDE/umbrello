@@ -1,5 +1,5 @@
 /*
- *  copyright (C) 2002-2004
+ *  copyright (C) 2002-2006
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  */
 
@@ -318,6 +318,13 @@ public:
      * Return secondary ID. Required by resolveRef().
      */
     QString getSecondaryId() const;
+
+    /**
+     * Set the secondary ID.
+     * Currently only required by petalTree2Uml(); all other setting of the
+     * m_SecondaryID is internal to the UMLObject class hierarchy.
+     */
+    void setSecondaryId(QString id);
 
     /**
      * Returns true if this object resides in an externalized folder.
