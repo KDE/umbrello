@@ -47,7 +47,7 @@ void methodName(QString m) {
  * Auxiliary function for diagnostics: Return current location.
  */
 QString loc() {
-    return "Import_Rose::" + g_methodName + " line " + linum + ": ";
+    return "Import_Rose::" + g_methodName + " line " + QString::number(linum) + ": ";
 }
 
 /**
@@ -365,7 +365,7 @@ bool loadFromMDL(QIODevice& file) {
                 linum++; // CHECK: do we need petal version info?
             }
             if (line == QString::null)
-                return false;
+                break;
         } else {
             QRegExp objectRx("^\\s*\\(object ");
             if (line.contains(objectRx)) {
