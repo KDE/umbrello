@@ -18,6 +18,7 @@
 class UMLObject;
 class UMLPackage;
 class UMLClassifier;
+class UMLClassifierListItem;
 class UMLAttribute;
 class UMLOperation;
 
@@ -39,6 +40,16 @@ UMLObject* createUMLObject(Uml::Object_Type type,
                            const QString &n = QString::null,
                            UMLPackage *parentPkg = 0,
                            bool prepend = false);
+
+/**
+ * Creates an operation, attribute, template, or enum literal
+ * for the parent classifier.
+ *
+ * @param parent    The parent concept
+ * @param type      The type to create
+ * @return      Pointer to the UMLClassifierListItem created
+ */
+UMLClassifierListItem* createChildObject(UMLClassifier *parent, Uml::Object_Type type);
 
 UMLAttribute *createAttribute(UMLObject *parent, QString name);
 

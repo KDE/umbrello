@@ -153,6 +153,47 @@ UMLOperation *createOperation(UMLClassifier *parent, QString name) {
     return op;
 }
 
+UMLClassifierListItem* createChildObject(UMLClassifier* parent, Uml::Object_Type type) {
+    UMLObject* returnObject = NULL;
+    switch (type) {
+    case Uml::ot_Attribute: {
+            UMLClassifier *c = dynamic_cast<UMLClassifier*>(parent);
+            if (c && !c->isInterface())
+                returnObject = c->createAttribute();
+            break;
+        }
+    case Uml::ot_Operation: {
+            UMLClassifier *c = dynamic_cast<UMLClassifier*>(parent);
+            if (c)
+                returnObject = c->createOperation();
+            break;
+        }
+    case Uml::ot_Template: {
+            UMLClassifier *c = dynamic_cast<UMLClassifier*>(parent);
+            if (c)
+                returnObject = c->createTemplate();
+            break;
+        }
+    case Uml::ot_EnumLiteral: {
+            UMLEnum* umlenum = dynamic_cast<UMLEnum*>(parent);
+            if (umlenum) {
+                returnObject = umlenum->createEnumLiteral();
+            }
+            break;
+        }
+    case Uml::ot_EntityAttribute: {
+            UMLEntity* umlentity = dynamic_cast<UMLEntity*>(parent);
+            if (umlentity) {
+                returnObject = umlentity->createEntityAttribute();
+            }
+            break;
+        }
+    default:
+        kdDebug() << "ERROR UMLDoc::createChildObject type:" << type << endl;
+    }
+    return static_cast<UMLClassifierListItem*>(returnObject);
+}
+
 UMLObject* makeObjectFromXMI(const QString &xmiTag) {
     UMLObject* pObject = 0;
     if (Uml::tagEq(xmiTag, "UseCase")) {

@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2005
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2002-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
 // system includes
@@ -541,7 +538,7 @@ void UMLListViewItem::cancelRename(int col) {
 
 // Sort the listview items by type and position within the corresponding list
 // of UMLObjects. If the item does not have an UMLObject then place it last.
-int UMLListViewItem::compare(Q3ListViewItem *other, int col, bool ascending) const
+int UMLListViewItem::compare(Q3ListViewItem *other, int /*col*/, bool /*ascending*/) const
 {
     UMLListViewItem *ulvi = static_cast<UMLListViewItem*>(other);
     Uml::ListView_Type ourType = getType();
@@ -554,42 +551,56 @@ int UMLListViewItem::compare(Q3ListViewItem *other, int col, bool ascending) con
     // ourType == otherType
     UMLObject *otherObj = ulvi->getUMLObject();
     if (m_pObject == NULL) {
+#ifdef DEBUG_LVITEM_INSERTION_ORDER
         kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
             << "): return 1 because (m_pObject==NULL)" << endl;
+#endif
         return 1;
     }
     if (otherObj == NULL) {
+#ifdef DEBUG_LVITEM_INSERTION_ORDER
         kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
             << "): return -1 because (otherObj==NULL)" << endl;
+#endif
         return -1;
     }
     UMLClassifier *ourParent = dynamic_cast<UMLClassifier*>(m_pObject->parent());
     UMLClassifier *otherParent = dynamic_cast<UMLClassifier*>(otherObj->parent());
     if (ourParent == NULL) {
+#ifdef DEBUG_LVITEM_INSERTION_ORDER
         kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
             << "): return 1 because (ourParent==NULL)" << endl;
+#endif
         return 1;
     }
     if (otherParent == NULL) {
+#ifdef DEBUG_LVITEM_INSERTION_ORDER
         kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
             << "): return -1 because (otherParent==NULL)" << endl;
+#endif
         return -1;
     }
     if (ourParent != otherParent) {
+#ifdef DEBUG_LVITEM_INSERTION_ORDER
         kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
             << "): return 0 because (ourParent != otherParentL)" << endl;
+#endif
         return 0;
     }
     UMLClassifierListItem *thisUmlItem = dynamic_cast<UMLClassifierListItem*>(m_pObject);
     UMLClassifierListItem *otherUmlItem = dynamic_cast<UMLClassifierListItem*>(otherObj);
     if (thisUmlItem == NULL) {
+#ifdef DEBUG_LVITEM_INSERTION_ORDER
         kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
             << "): return 1 because (thisUmlItem==NULL)" << endl;
+#endif
         return 1;
     }
     if (otherUmlItem == NULL) {
+#ifdef DEBUG_LVITEM_INSERTION_ORDER
         kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
             << "): return -1 because (otherUmlItem==NULL)" << endl;
+#endif
         return -1;
     }
     UMLClassifierListItemList items = ourParent->getFilteredList(thisUmlItem->getBaseType());

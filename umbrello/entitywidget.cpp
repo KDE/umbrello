@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2003-2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2003-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
 #include "entitywidget.h"
@@ -22,7 +19,7 @@
 #include "umldoc.h"
 #include "uml.h"
 #include "listpopupmenu.h"
-#include "model_utils.h"
+#include "object_factory.h"
 
 #include <kdebug.h>
 #include <qpainter.h>
@@ -181,7 +178,8 @@ QSize EntityWidget::calculateSize() {
 void EntityWidget::slotMenuSelection(int sel) {
     switch(sel) {
     case ListPopupMenu::mt_EntityAttribute:
-        if (Model_Utils::createChildObject(m_pObject, Uml::ot_EntityAttribute) )  {
+        if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(m_pObject),
+                                              Uml::ot_EntityAttribute) )  {
             UMLApp::app()->getDocument()->setModified();
         }
         break;

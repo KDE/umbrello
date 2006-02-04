@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2004-2005
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2004-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
@@ -253,47 +250,6 @@ QString uniqObjectName(Uml::Object_Type type, QString prefix,
         name = currentName + "_" + QString::number(number);
     }
     return name;
-}
-
-UMLObject* createChildObject(UMLObject* umlobject, Uml::Object_Type type) {
-    UMLObject* returnObject = NULL;
-    switch (type) {
-    case Uml::ot_Attribute: {
-            UMLClassifier *c = dynamic_cast<UMLClassifier*>(umlobject);
-            if (c && !c->isInterface())
-                returnObject = c->createAttribute();
-            break;
-        }
-    case Uml::ot_Operation: {
-            UMLClassifier *c = dynamic_cast<UMLClassifier*>(umlobject);
-            if (c)
-                returnObject = c->createOperation();
-            break;
-        }
-    case Uml::ot_Template: {
-            UMLClassifier *c = dynamic_cast<UMLClassifier*>(umlobject);
-            if (c)
-                returnObject = c->createTemplate();
-            break;
-        }
-    case Uml::ot_EnumLiteral: {
-            UMLEnum* umlenum = dynamic_cast<UMLEnum*>(umlobject);
-            if (umlenum) {
-                returnObject = umlenum->createEnumLiteral();
-            }
-            break;
-        }
-    case Uml::ot_EntityAttribute: {
-            UMLEntity* umlentity = dynamic_cast<UMLEntity*>(umlobject);
-            if (umlentity) {
-                returnObject = umlentity->createEntityAttribute();
-            }
-            break;
-        }
-    default:
-        kdDebug() << "ERROR UMLDoc::createChildObject type:" << type << endl;
-    }
-    return returnObject;
 }
 
 bool isCommonXMIAttribute( const QString &tag ) {

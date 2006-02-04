@@ -5,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2003-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
 #include "classifierlistpage.h"
@@ -18,7 +20,7 @@
 #include "../template.h"
 #include "../enumliteral.h"
 #include "../entityattribute.h"
-#include "../model_utils.h"
+#include "../object_factory.h"
 #include <kbuttonbox.h>
 #include <kdebug.h>
 #include <klocale.h>
@@ -444,7 +446,7 @@ void ClassifierListPage::slotProperties() {
 void ClassifierListPage::slotNewListItem() {
     saveCurrentItemDocumentation();
     m_bSigWaiting = true;
-    Model_Utils::createChildObject(m_pClassifier, m_itemType);
+    Object_Factory::createChildObject(m_pClassifier, m_itemType);
 }
 
 void ClassifierListPage::saveCurrentItemDocumentation() {

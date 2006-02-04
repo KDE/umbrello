@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2002-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 #include "floatingtext.h"
 
@@ -30,6 +27,7 @@
 #include "listpopupmenu.h"
 #include "operation.h"
 #include "model_utils.h"
+#include "object_factory.h"
 #include "messagewidget.h"
 #include "inputdialog.h"
 #include "dialogs/assocpropdlg.h"
@@ -112,7 +110,7 @@ void FloatingText::slotMenuSelection(int sel) {
                     m_pLink->setCustomOpText(opText);
                 return;
             }
-            UMLObject* umlObj = Model_Utils::createChildObject(c, Uml::ot_Operation);
+            UMLClassifierListItem* umlObj = Object_Factory::createChildObject(c, Uml::ot_Operation);
             if (umlObj) {
                 UMLOperation* newOperation = static_cast<UMLOperation*>( umlObj );
                 m_pLink->setOperation(newOperation);
