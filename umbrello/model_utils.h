@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2004-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef MODEL_UTILS_H
@@ -86,16 +83,6 @@ UMLObject* findUMLObject( UMLObjectList inList, QString name,
 QString uniqObjectName(Uml::Object_Type type,
                        QString prefix = QString::null,
                        UMLPackage *parentPkg = 0);
-
-/**
- * Creates an operation, attribute, template, or enum literal
- * for the parent concept.
- *
- * @param o The parent concept
- * @param type      The type to create
- * @return  The UMLObject created
- */
-UMLObject* createChildObject(UMLObject* o, Uml::Object_Type type);
 
 /**
  * Return true if the given tag is a one of the common XMI
