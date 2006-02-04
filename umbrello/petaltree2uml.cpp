@@ -38,7 +38,7 @@ QString clean(QString quotedStr) {
 /**
  * Extract the quid attribute from a petal node and return it as a Uml::IDType.
  */
-Uml::IDType quid(PetalNode *node) {
+Uml::IDType quid(const PetalNode *node) {
     QString quidStr = node->findAttribute("quid").string;
     if (quidStr.isEmpty())
         return Uml::id_None;
@@ -49,7 +49,7 @@ Uml::IDType quid(PetalNode *node) {
 /**
  * Extract the quidu attribute from a petal node.
  */
-QString quidu(PetalNode *node) {
+QString quidu(const PetalNode *node) {
     QString quiduStr = node->findAttribute("quidu").string;
     if (quiduStr.isEmpty())
         return QString::null;
@@ -68,6 +68,141 @@ Uml::Object_Type typeToCreate(QString name) {
         t = Uml::ot_Class;
     return t;
 }
+
+/**
+ * Transfer the Rose attribute "exportControl" to the Umbrello object given.
+ *
+ * @param from   Pointer to PetalNode from which to read the "exportControl" attribute
+ * @param to     Pointer to UMLObject in which to set the Uml::Visibility
+ */
+void transferVisibility(const PetalNode *from, UMLObject *to) {
+    QString vis = from->findAttribute("exportControl").string;
+    if (vis != QString::null) {
+        Uml::Visibility v = Uml::Visibility::fromString(clean(vis.lower()));
+        to->setVisibility(v);
+    }
+}
+
+struct PropertyNames {
+    const QString m_attributeTag, m_elementName, m_itemTypeDesignator;
+    PropertyNames(const QString attributeTag,
+                  const QString elementName,
+                  const QString itemTypeDesignator) :
+        m_attributeTag(attributeTag),
+        m_elementName(elementName),
+        m_itemTypeDesignator(itemTypeDesignator) {
+    }
+    virtual ~PropertyNames() {}
+};
+
+template<const PropertyNames *pn>
+class ClassifierListReader {
+public:
+    ClassifierListReader() {}
+    virtual ~ClassifierListReader() {}
+    virtual UMLClassifierListItem *createListItem() = 0;
+    virtual void action(const PetalNode *node, UMLClassifierListItem *ucli) = 0;
+    void read(const PetalNode *node, QString name) {
+        PetalNode *attributes = node->findAttribute(pn->m_attributeTag).node;
+        if (attributes == NULL) {
+            kdDebug() << "umbrellify(" << name << "): no " << pn->m_attributeTag << " found"
+                      << endl;
+            return;
+        }
+        PetalNode::NameValueList attributeList = attributes->attributes();
+        for (uint i = 0; i < attributeList.count(); i++) {
+            PetalNode *attNode = attributeList[i].second.node;
+            QStringList initialArgs = attNode->initialArgs();
+            if (attNode->name() != pn->m_elementName) {
+                kdDebug() << "umbrellify(" << name << "): expecting " << pn->m_elementName
+                          << ", " << "found " << initialArgs[0] << endl;
+                continue;
+            }
+            UMLClassifierListItem *item = createListItem();
+            item->setName(clean(initialArgs[1]));
+            item->setID(quid(attNode));
+            QString type = clean(attNode->findAttribute(pn->m_itemTypeDesignator).string);
+            QString quidref = quidu(attNode);
+            if (type.isEmpty()) {
+                if (quidref.isEmpty())
+                    kdDebug() << "umbrellify(" << name << "): cannot find type of "
+                              << item->getName() << endl;
+                else
+                    item->setSecondaryId(quidref);
+            } else {
+                UMLObject *o = Import_Utils::createUMLObject(typeToCreate(type), type);
+                if (!quidref.isEmpty())
+                    o->setID(STR2ID(quidref));
+                item->setType(o);
+            }
+            transferVisibility(attNode, item);
+            QString doc = attNode->findAttribute("documentation").string;
+            if (! doc.isEmpty())
+                item->setDoc(doc);
+            action(attNode, item);
+        }
+    }
+};
+
+PropertyNames g_attPropNames("class_attributes", "ClassAttribute", "type");
+typedef ClassifierListReader<&g_attPropNames> AttributesReaderBase;
+
+class AttributesReader : public AttributesReaderBase {
+public:
+    AttributesReader(UMLClassifier *c) {
+        m_classifier = c;
+    }
+    virtual ~AttributesReader() {}
+    UMLClassifierListItem *createListItem() {
+        return new UMLAttribute(m_classifier);
+    }
+    void action(const PetalNode *, UMLClassifierListItem *item) {
+        m_classifier->addAttribute(static_cast<UMLAttribute*>(item));
+    }
+protected:
+    UMLClassifier *m_classifier;
+};
+
+PropertyNames g_parmPropNames("parameters", "Parameter", "type");
+typedef ClassifierListReader<&g_parmPropNames> ParametersReaderBase;
+
+class ParametersReader : public ParametersReaderBase {
+public:
+    ParametersReader(UMLOperation *op) {
+        m_operation = op;
+    }
+    virtual ~ParametersReader() {}
+    UMLClassifierListItem *createListItem() {
+        return new UMLAttribute(m_operation);
+    }
+    void action(const PetalNode *, UMLClassifierListItem *item) {
+        m_operation->addParm(static_cast<UMLAttribute*>(item));
+    }
+protected:
+    UMLOperation *m_operation;
+};
+ 
+PropertyNames g_opPropNames("operations", "Operation", "result");
+typedef ClassifierListReader<&g_opPropNames> OperationsReaderBase;
+
+class OperationsReader : public OperationsReaderBase {
+public:
+    OperationsReader(UMLClassifier *c) {
+        m_classifier = c;
+    }
+    virtual ~OperationsReader() {}
+    UMLClassifierListItem *createListItem() {
+        return new UMLOperation(m_classifier);
+    }
+    void action(const PetalNode *node, UMLClassifierListItem *item) {
+        UMLOperation *op = static_cast<UMLOperation*>(item);
+        ParametersReader parmReader(op);
+        parmReader.read(node, m_classifier->getName());
+        m_classifier->addOperation(op);
+    }
+protected:
+    UMLClassifier *m_classifier;
+};
 
 /**
  * Create an Umbrello object from a PetalNode.
@@ -103,79 +238,11 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
         o->setID(id);
         UMLClassifier *c = static_cast<UMLClassifier*>(o);
         // insert attributes
-        PetalNode *class_attributes = node->findAttribute("class_attributes").node;
-        if (class_attributes) {
-            PetalNode::NameValueList attributeList = class_attributes->attributes();
-            for (uint i = 0; i < attributeList.count(); i++) {
-                PetalNode *attNode = attributeList[i].second.node;
-                QStringList initialArgs = attNode->initialArgs();
-                if (initialArgs[0] != "ClassAttribute") {
-                    kdDebug() << "umbrellify(" << name << "): expecting ClassAttribute, "
-                              << "found " << initialArgs[0] << endl;
-                    continue;
-                }
-                UMLAttribute *att = new UMLAttribute(c);
-                att->setName(clean(initialArgs[1]));
-                att->setID(quid(attNode));
-                QString type = clean(attNode->findAttribute("type").string);
-                QString quidref = quidu(attNode);
-                if (type.isEmpty()) {
-                    if (quidref.isEmpty())
-                        kdError() << "umbrellify(" << name << "): cannot find type of attribute "
-                                  << att->getName() << endl;
-                    else
-                        att->setSecondaryId(quidref);
-                } else {
-                    UMLObject *o = Import_Utils::createUMLObject(typeToCreate(type), type);
-                    if (!quidref.isEmpty())
-                        o->setID(STR2ID(quidref));
-                    att->setType(o);
-                }
-                QString vis = attNode->findAttribute("exportControl").string;
-                if (vis != QString::null) {
-                    Uml::Visibility v = Uml::Visibility::fromString(clean(vis.lower()));
-                    att->setVisibility(v);
-                }
-                c->addAttribute(att);
-            }
-        }
+        AttributesReader attReader(c);
+        attReader.read(node, c->getName());
         // insert operations
-        PetalNode *operations = node->findAttribute("operations").node;
-        if (operations) {
-            PetalNode::NameValueList attributeList = operations->attributes();
-            for (uint i = 0; i < attributeList.count(); i++) {
-                PetalNode *opNode = attributeList[i].second.node;
-                QStringList initialArgs = opNode->initialArgs();
-                if (initialArgs[0] != "Operation") {
-                    kdDebug() << "umbrellify(" << name << "): expecting Operation, "
-                              << "found " << initialArgs[0] << endl;
-                    continue;
-                }
-                UMLOperation *op = new UMLOperation(c);
-                op->setName(clean(initialArgs[1]));
-                op->setID(quid(opNode));
-                QString type = clean(opNode->findAttribute("result").string);
-                QString quidref = quidu(opNode);
-                if (type.isEmpty()) {
-                    if (quidref.isEmpty())
-                        kdError() << "umbrellify(" << name << "): cannot find type of operation "
-                                  << op->getName() << endl;
-                    else
-                        op->setSecondaryId(quidref);
-                } else {
-                    UMLObject *o = Import_Utils::createUMLObject(typeToCreate(type), type);
-                    if (!quidref.isEmpty())
-                        o->setID(STR2ID(quidref));
-                    op->setType(o);
-                }
-                QString vis = opNode->findAttribute("exportControl").string;
-                if (vis != QString::null) {
-                    Uml::Visibility v = Uml::Visibility::fromString(clean(vis.lower()));
-                    op->setVisibility(v);
-                }
-                c->addOperation(op);
-            }
-        }
+        OperationsReader opReader(c);
+        opReader.read(node, c->getName());
     } else {
         kdDebug() << "umbrellify: object type " << objType
                   << " is not yet implemented" << endl;
