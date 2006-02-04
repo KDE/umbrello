@@ -30,6 +30,8 @@ namespace Import_Rose {
  * Return the given string without surrounding quotation marks.
  */
 QString clean(QString quotedStr) {
+    if (quotedStr.isNull())
+        return QString::null;
     return quotedStr.remove("\"");
 }
 
@@ -42,6 +44,29 @@ Uml::IDType quid(PetalNode *node) {
         return Uml::id_None;
     quidStr.remove("\"");
     return STR2ID(quidStr);
+}
+
+/**
+ * Extract the quidu attribute from a petal node.
+ */
+QString quidu(PetalNode *node) {
+    QString quiduStr = node->findAttribute("quidu").string;
+    if (quiduStr.isEmpty())
+        return QString::null;
+    quiduStr.remove("\"");
+    return quiduStr;
+}
+
+/**
+ * Determine the model type corresponding to a name.
+ * If the given name consists only of letters, digits, underscores, and
+ * scope separators, then return Uml::ot_Class, else return Uml::ot_Datatype.
+ */
+Uml::Object_Type typeToCreate(QString name) {
+    Uml::Object_Type t = Uml::ot_Datatype;
+    if (name.contains(QRegExp("^[\\w:\\. ]*$")))
+        t = Uml::ot_Class;
+    return t;
 }
 
 /**
@@ -92,7 +117,20 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
                 UMLAttribute *att = new UMLAttribute(c);
                 att->setName(clean(initialArgs[1]));
                 att->setID(quid(attNode));
-                att->setSecondaryId(clean(attNode->findAttribute("quidu").string));
+                QString type = clean(attNode->findAttribute("type").string);
+                QString quidref = quidu(attNode);
+                if (type.isEmpty()) {
+                    if (quidref.isEmpty())
+                        kdError() << "umbrellify(" << name << "): cannot find type of attribute "
+                                  << att->getName() << endl;
+                    else
+                        att->setSecondaryId(quidref);
+                } else {
+                    UMLObject *o = Import_Utils::createUMLObject(typeToCreate(type), type);
+                    if (!quidref.isEmpty())
+                        o->setID(STR2ID(quidref));
+                    att->setType(o);
+                }
                 QString vis = attNode->findAttribute("exportControl").string;
                 if (vis != QString::null) {
                     Uml::Visibility v = Uml::Visibility::fromString(clean(vis.lower()));
@@ -101,7 +139,43 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
                 c->addAttribute(att);
             }
         }
-        // .. to be continued: insert operations ..
+        // insert operations
+        PetalNode *operations = node->findAttribute("operations").node;
+        if (operations) {
+            PetalNode::NameValueList attributeList = operations->attributes();
+            for (uint i = 0; i < attributeList.count(); i++) {
+                PetalNode *opNode = attributeList[i].second.node;
+                QStringList initialArgs = opNode->initialArgs();
+                if (initialArgs[0] != "Operation") {
+                    kdDebug() << "umbrellify(" << name << "): expecting Operation, "
+                              << "found " << initialArgs[0] << endl;
+                    continue;
+                }
+                UMLOperation *op = new UMLOperation(c);
+                op->setName(clean(initialArgs[1]));
+                op->setID(quid(opNode));
+                QString type = clean(opNode->findAttribute("result").string);
+                QString quidref = quidu(opNode);
+                if (type.isEmpty()) {
+                    if (quidref.isEmpty())
+                        kdError() << "umbrellify(" << name << "): cannot find type of operation "
+                                  << op->getName() << endl;
+                    else
+                        op->setSecondaryId(quidref);
+                } else {
+                    UMLObject *o = Import_Utils::createUMLObject(typeToCreate(type), type);
+                    if (!quidref.isEmpty())
+                        o->setID(STR2ID(quidref));
+                    op->setType(o);
+                }
+                QString vis = opNode->findAttribute("exportControl").string;
+                if (vis != QString::null) {
+                    Uml::Visibility v = Uml::Visibility::fromString(clean(vis.lower()));
+                    op->setVisibility(v);
+                }
+                c->addOperation(op);
+            }
+        }
     } else {
         kdDebug() << "umbrellify: object type " << objType
                   << " is not yet implemented" << endl;
