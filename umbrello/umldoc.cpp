@@ -272,13 +272,56 @@ void UMLDoc::closeDocument() {
         removeAllViews();
         m_bLoading = m_bLoading_old;
         if (m_objectList.count() > 0) {
-            // Remove associations at their participating concepts first.
+            /* Remove associations at their participating concepts first.
+             * @fixme this SHOULD be done but it crashes as follows:
+==30179== Invalid read of size 4
+==30179==    at 0x813EFCA: ClassifierCodeDocument::getParentClassifier() (classifiercodedocument.cpp:241)
+==30179==    by 0x8196B0F: OwnedHierarchicalCodeBlock::syncToParent() (ownedhierarchicalcodeblock.cpp:103)
+==30179==    by 0x8196C2D: OwnedHierarchicalCodeBlock::qt_invoke(int, QUObject*) (ownedhierarchicalcodeblock.moc:84)
+==30179==    by 0x82AEE31: JavaClassDeclarationBlock::qt_invoke(int, QUObject*) (javaclassdeclarationblock.moc:77)
+==30179==    by 0x1C70AB45: QObject::activate_signal(QConnectionList*, QUObject*) (in /usr/lib/qt3/lib/libqt-mt.so.3.3.4)
+==30179==    by 0x1C70A9E6: QObject::activate_signal(int) (in /usr/lib/qt3/lib/libqt-mt.so.3.3.4)
+==30179==    by 0x81D9C64: UMLObject::modified() (umlobject.moc:86)
+==30179==    by 0x81B2C9C: UMLCanvasObject::removeAssociation(UMLAssociation*) (umlcanvasobject.cpp:83)
+==30179==    by 0x81B8E18: UMLDoc::removeAssocFromConcepts(UMLAssociation*) (umldoc.cpp:947)
+==30179==    by 0x81B541B: UMLDoc::closeDocument() (umldoc.cpp:279)
+
+==30179==  Address 0x1D48CF4C is 156 bytes inside a block of size 192 free'd
+==30179==    at 0x1B902BF5: operator delete(void*) (vg_replace_malloc.c:155)
+==30179==    by 0x82A5F39: JavaClassifierCodeDocument::~JavaClassifierCodeDocument() (javaclassifiercodedocument.cpp:44)
+==30179==    by 0x814F66B: CodeGenerator::~CodeGenerator() (codegenerator.cpp:72)
+==30179==    by 0x82A0F67: JavaCodeGenerator::~JavaCodeGenerator() (javacodegenerator.cpp:45)
+==30179==    by 0x81B80EE: UMLDoc::removeCodeGenerator(CodeGenerator*) (umldoc.cpp:737)
+==30179==    by 0x81B532E: UMLDoc::closeDocument() (umldoc.cpp:255)
+
+==30179== Invalid read of size 4
+==30179==    at 0x82AE56B: JavaClassDeclarationBlock::updateContent() (javaclassdeclarationblock.cpp:67)
+==30179==    by 0x8196B0F: OwnedHierarchicalCodeBlock::syncToParent() (ownedhierarchicalcodeblock.cpp:103)
+==30179==    by 0x8196C2D: OwnedHierarchicalCodeBlock::qt_invoke(int, QUObject*) (ownedhierarchicalcodeblock.moc:84)
+==30179==    by 0x82AEE31: JavaClassDeclarationBlock::qt_invoke(int, QUObject*) (javaclassdeclarationblock.moc:77)
+==30179==    by 0x1C70AB45: QObject::activate_signal(QConnectionList*, QUObject*) (in /usr/lib/qt3/lib/libqt-mt.so.3.3.4)
+==30179==    by 0x1C70A9E6: QObject::activate_signal(int) (in /usr/lib/qt3/lib/libqt-mt.so.3.3.4)
+==30179==    by 0x81D9C64: UMLObject::modified() (umlobject.moc:86)
+==30179==    by 0x81B2C9C: UMLCanvasObject::removeAssociation(UMLAssociation*) (umlcanvasobject.cpp:83)
+==30179==    by 0x81B8E18: UMLDoc::removeAssocFromConcepts(UMLAssociation*) (umldoc.cpp:947)
+==30179==    by 0x81B541B: UMLDoc::closeDocument() (umldoc.cpp:279)
+
+==30179==  Address 0x1D48CEB0 is 0 bytes inside a block of size 192 free'd
+==30179==    at 0x1B902BF5: operator delete(void*) (vg_replace_malloc.c:155)
+==30179==    by 0x82A5F39: JavaClassifierCodeDocument::~JavaClassifierCodeDocument() (javaclassifiercodedocument.cpp:44)
+==30179==    by 0x814F66B: CodeGenerator::~CodeGenerator() (codegenerator.cpp:72)
+==30179==    by 0x82A0F67: JavaCodeGenerator::~JavaCodeGenerator() (javacodegenerator.cpp:45)
+==30179==    by 0x81B80EE: UMLDoc::removeCodeGenerator(CodeGenerator*) (umldoc.cpp:737)
+==30179==    by 0x81B532E: UMLDoc::closeDocument() (umldoc.cpp:255)
+
             for (UMLObject * obj = m_objectList.first(); obj != 0; obj = m_objectList.next()) {
                 if (obj->getBaseType() == Uml::ot_Association) {
                     UMLAssociation *assoc = static_cast<UMLAssociation*>(obj);
                     removeAssocFromConcepts(assoc);
                 }
             }
+             */
+
             // clear our object list. We do this explicitly since setAutoDelete is false for the objectList now.
             for(UMLObject * obj = m_objectList.first(); obj != 0; obj = m_objectList.next())
                 delete obj;
