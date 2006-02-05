@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2003-2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2003-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 #include <kdebug.h>
 #include <klocale.h>
@@ -49,8 +46,6 @@ UMLAssociation::UMLAssociation( Association_Type type /* = Uml::at_Unknown */)
 
 // destructor
 UMLAssociation::~UMLAssociation( ) {
-    // delete ourselves from the parent document
-    UMLApp::app()->getDocument()->removeAssociation(this);
     if (m_pRole[A] == NULL) {
         kdError() << "UMLAssociation destructor: m_pRole[A] is NULL already"
         << endl;
@@ -214,7 +209,7 @@ bool UMLAssociation::load( QDomElement & element ) {
             obj[r] = doc->findObjectById(STR2ID(roleIdStr));
             Uml::Role_Type role = (Uml::Role_Type)r;
             if (obj[r] == NULL) {
-                getUMLRole(role)->setIdStr(roleIdStr);  // defer to resolveRef()
+                getUMLRole(role)->setSecondaryId(roleIdStr);  // defer to resolveRef()
             } else {
                 getUMLRole(role)->setObject(obj[r]);
             }
@@ -250,9 +245,9 @@ bool UMLAssociation::load( QDomElement & element ) {
                 // Since we know for sure that we're dealing with a non
                 // umbrello file, use deferred resolution unconditionally.
                 if (tagEq(tag, "child") || tagEq(tag, "subtype") || tagEq(tag, "client")) {
-                    getUMLRole(A)->setIdStr(idStr);
+                    getUMLRole(A)->setSecondaryId(idStr);
                 } else {
-                    getUMLRole(B)->setIdStr(idStr);
+                    getUMLRole(B)->setSecondaryId(idStr);
                 }
             }
         }
