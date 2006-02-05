@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2006
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2002-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
 #include <qregexp.h>
@@ -381,6 +378,14 @@ void UMLObject::setSecondaryId(QString id) {
     m_SecondaryId = id;
 }
 
+QString UMLObject::getSecondaryFallback() const {
+    return m_SecondaryFallback;
+}
+
+void UMLObject::setSecondaryFallback(QString id) {
+    m_SecondaryFallback = id;
+}
+
 void UMLObject::maybeSignalObjectCreated() {
     if (!m_bCreationWasSignalled &&
             m_BaseType != Uml::ot_Stereotype &&
@@ -393,7 +398,7 @@ void UMLObject::maybeSignalObjectCreated() {
 }
 
 bool UMLObject::resolveRef() {
-    if (m_pSecondary || m_SecondaryId.isEmpty()) {
+    if (m_pSecondary || (m_SecondaryId.isEmpty() && m_SecondaryFallback.isEmpty())) {
         maybeSignalObjectCreated();
         return true;
     }
@@ -404,18 +409,26 @@ bool UMLObject::resolveRef() {
     UMLDoc *pDoc = UMLApp::app()->getDocument();
     // In the new, XMI standard compliant save format,
     // the type is the xmi.id of a UMLClassifier.
-    Uml::IDType id = STR2ID(m_SecondaryId);
-    m_pSecondary = pDoc->findObjectById(id);
-    if (m_pSecondary != NULL) {
-        m_SecondaryId = "";
-        maybeSignalObjectCreated();
-        return true;
+    if (! m_SecondaryId.isEmpty()) {
+        m_pSecondary = pDoc->findObjectById(STR2ID(m_SecondaryId));
+        if (m_pSecondary != NULL) {
+            m_SecondaryId = "";
+            maybeSignalObjectCreated();
+            return true;
+        }
     }
     if (!pDoc->isNativeXMIFile() || !m_SecondaryId.contains(QRegExp("\\D"))) {
-        kdError() << "UMLObject::resolveRef(" << m_Name
-        << "): cannot find type with id "
-        << ID2STR(id) << endl;
-        return false;
+        if (m_SecondaryFallback.isEmpty()) {
+            kdError() << "UMLObject::resolveRef(" << m_Name
+                      << "): cannot find type with id "
+                      << m_SecondaryId << endl;
+            return false;
+        }
+        kdDebug() << "UMLObject::resolveRef(" << m_Name 
+                  << "): could not resolve secondary ID " << m_SecondaryId
+                  << ", using secondary fallback " << m_SecondaryFallback
+                  << endl;
+        m_SecondaryId = m_SecondaryFallback;
     }
     // Assume we're dealing with the older Umbrello format where
     // the type name was saved in the "type" attribute rather

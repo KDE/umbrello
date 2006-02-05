@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2006
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2002-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef UMLOBJECT_H
@@ -327,6 +324,18 @@ public:
     void setSecondaryId(QString id);
 
     /**
+     * Return secondary ID fallback.
+     * Required by resolveRef() for imported model files.
+     */
+    QString getSecondaryFallback() const;
+
+    /**
+     * Set the secondary ID fallback.
+     * Currently only used by petalTree2Uml().
+     */
+    void setSecondaryFallback(QString id);
+
+    /**
      * Returns true if this object resides in an externalized folder.
      * CHECK: It is probably cleaner to move this to the UMLListViewItem.
      */
@@ -446,6 +455,16 @@ protected:
      * in the course of resolveRef() at the end of loading.
      */
     QString m_SecondaryId;
+
+    /**
+     * Last-chance backup for when m_SecondaryId is not found.
+     * Used by Rose import: MDL files specify both a "quidu"
+     * (which corresponds to m_SecondaryId) and the human readable
+     * fully qualified target name of a reference.
+     * In case the quidu is not found, the human readable name is
+     * used which we store in m_SecondaryFallback.
+     */
+    QString m_SecondaryFallback;
 };
 
 /**
