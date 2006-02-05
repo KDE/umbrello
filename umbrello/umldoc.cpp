@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2005
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,7 +5,10 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2002-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
+
 // own header
 #include "umldoc.h"
 
@@ -269,6 +267,13 @@ void UMLDoc::closeDocument() {
         removeAllViews();
         m_bLoading = m_bLoading_old;
         if (m_objectList.count() > 0) {
+            // Remove associations at their participating concepts first.
+            for (UMLObject * obj = m_objectList.first(); obj != 0; obj = m_objectList.next()) {
+                if (obj->getBaseType() == Uml::ot_Association) {
+                    UMLAssociation *assoc = static_cast<UMLAssociation*>(obj);
+                    removeAssocFromConcepts(assoc);
+                }
+            }
             // clear our object list. We do this explicitly since setAutoDelete is false for the objectList now.
             for(UMLObject * obj = m_objectList.first(); obj != 0; obj = m_objectList.next())
                 delete obj;
