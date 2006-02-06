@@ -110,6 +110,15 @@ public:
      */
     virtual UMLObject *createListItem() = 0;
 
+    virtual void setTypeReferences(UMLObject *item, QString quid, QString type) {
+        if (!quid.isEmpty()) {
+            item->setSecondaryId(quid);
+        }
+        if (!type.isEmpty()) {
+            item->setSecondaryFallback(type);
+        }
+    }
+
     /**
      * Insert the given UMLClassifierListItem at the parent Umbrello object.
      * Abstract method to be implemented by inheriting classes.
@@ -151,13 +160,8 @@ public:
                 item->setName(clean(initialArgs[1]));
             item->setID(quid(attNode));
             QString quidref = quidu(attNode);
-            if (!quidref.isEmpty()) {
-                item->setSecondaryId(quidref);
-            }
             QString type = clean(attNode->findAttribute(m_itemTypeDesignator).string);
-            if (!type.isEmpty()) {
-                item->setSecondaryFallback(type);
-            }
+            setTypeReferences(item, quidref, type);
             transferVisibility(attNode, item);
             QString doc = attNode->findAttribute("documentation").string;
             if (! doc.isEmpty())
@@ -233,17 +237,54 @@ public:
     UMLObject *createListItem() {
         return new UMLAssociation(Uml::at_Generalization);
     }
+    /**
+     * Override parent implementation: The secondary data is not for the
+     * UMLAssociation itself but for its role B object.
+     */
+    void setTypeReferences(UMLObject *item, QString quid, QString type) {
+        UMLAssociation *assoc = static_cast<UMLAssociation*>(item);
+        if (!quid.isEmpty()) {
+            assoc->getUMLRole(Uml::B)->setSecondaryId(quid);
+        }
+        if (!type.isEmpty()) {
+            assoc->getUMLRole(Uml::B)->setSecondaryFallback(type);
+        }
+    }
     void insertAtParent(const PetalNode *, UMLObject *item) {
         UMLAssociation *assoc = static_cast<UMLAssociation*>(item);
         assoc->setObject(m_classifier, Uml::A);
-        // Move the secondary ID and fallback to the role B.
-        QString secondaryId = assoc->getSecondaryId();
-        QString secondaryFallback = assoc->getSecondaryFallback();
-        assoc->getUMLRole(Uml::B)->setSecondaryId(secondaryId);
-        assoc->getUMLRole(Uml::B)->setSecondaryFallback(secondaryFallback);
-        assoc->setSecondaryId(QString::null);
-        assoc->setSecondaryFallback(QString::null);
+        UMLApp::app()->getDocument()->addAssociation(assoc);
+    }
+protected:
+    UMLClassifier *m_classifier;
+};
 
+class RealizationsReader : public ClassifierListReader {
+public:
+    RealizationsReader(UMLClassifier *c)
+      : ClassifierListReader("realized_interfaces", "Realize_Relationship", "supplier") {
+        m_classifier = c;
+    }
+    virtual ~RealizationsReader() {}
+    UMLObject *createListItem() {
+        return new UMLAssociation(Uml::at_Realization);
+    }
+    /**
+     * Override parent implementation: The secondary data is not for the
+     * UMLAssociation itself but for its role B object.
+     */
+    void setTypeReferences(UMLObject *item, QString quid, QString type) {
+        UMLAssociation *assoc = static_cast<UMLAssociation*>(item);
+        if (!quid.isEmpty()) {
+            assoc->getUMLRole(Uml::B)->setSecondaryId(quid);
+        }
+        if (!type.isEmpty()) {
+            assoc->getUMLRole(Uml::B)->setSecondaryFallback(type);
+        }
+    }
+    void insertAtParent(const PetalNode *, UMLObject *item) {
+        UMLAssociation *assoc = static_cast<UMLAssociation*>(item);
+        assoc->setObject(m_classifier, Uml::A);
         UMLApp::app()->getDocument()->addAssociation(assoc);
     }
 protected:
@@ -283,6 +324,14 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
         UMLObject *o = Import_Utils::createUMLObject(Uml::ot_Class, name, parentPkg);
         o->setID(id);
         UMLClassifier *c = static_cast<UMLClassifier*>(o);
+        // set stereotype
+        QString stereotype = clean(node->findAttribute("stereotype").string);
+        if (!stereotype.isEmpty()) {
+            if (stereotype.lower() == "interface")
+                c->setInterface();
+            else
+                c->setStereotype(stereotype);
+        }
         // insert attributes
         AttributesReader attReader(c);
         attReader.read(node, c->getName());
@@ -292,6 +341,9 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
         // insert generalizations
         SuperclassesReader superReader(c);
         superReader.read(node, c->getName());
+        // insert realizations
+        RealizationsReader realReader(c);
+        realReader.read(node, c->getName());
     } else {
         kdDebug() << "umbrellify: object type " << objType
                   << " is not yet implemented" << endl;
