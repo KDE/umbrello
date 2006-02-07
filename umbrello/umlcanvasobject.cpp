@@ -41,7 +41,7 @@ UMLCanvasObject::~UMLCanvasObject() {
 #9  0x081af3a6 in UMLDoc::closeDocument() (this=0x8468b10) at umldoc.cpp:284
      */
     if (associations())
-        kdDebug() << "UMLCanvasObject destructor: FIXME: there are still associations()" << endl;
+        kDebug() << "UMLCanvasObject destructor: FIXME: there are still associations()" << endl;
 }
 
 UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::Association_Type assocType) {
@@ -77,7 +77,7 @@ bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc) {
 
 int UMLCanvasObject::removeAssociation(UMLAssociation * assoc) {
     if(!hasAssociation(assoc) || !m_List.remove(assoc)) {
-        kdWarning() << "can't find assoc given in list" << endl;
+        kWarning() << "can't find assoc given in list" << endl;
         return -1;
     }
     emit modified();
@@ -123,7 +123,7 @@ QString UMLCanvasObject::uniqChildName( const Uml::Object_Type type,
     } else if (type == Uml::ot_EntityAttribute) {
         currentName = i18n("new_field");
     } else {
-        kdWarning() << "uniqChildName() called for unknown child type " << type << endl;
+        kWarning() << "uniqChildName() called for unknown child type " << type << endl;
         return "ERROR_in_UMLCanvasObject_uniqChildName";
     }
 
@@ -222,7 +222,7 @@ UMLClassifierList UMLCanvasObject::getSuperClasses() {
         if (c)
             list.append(c);
         else
-            kdDebug() << "UMLCanvasObject::getSuperClasses(" << m_Name
+            kDebug() << "UMLCanvasObject::getSuperClasses(" << m_Name
             << "): generalization's other end is not a "
             << "UMLClassifier (id= " << ID2STR(a->getObjectId(Uml::B)) << ")"
             << endl;
@@ -241,7 +241,7 @@ UMLClassifierList UMLCanvasObject::getSubClasses() {
         if (c)
             list.append(c);
         else
-            kdDebug() << "UMLCanvasObject::getSubClasses: specialization's"
+            kDebug() << "UMLCanvasObject::getSubClasses: specialization's"
             << " other end is not a UMLClassifier"
             << " (id=" << ID2STR(a->getObjectId(Uml::A)) << ")" << endl;
     }

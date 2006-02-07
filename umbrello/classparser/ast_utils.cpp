@@ -23,7 +23,7 @@
 
 AST* findNodeAt( AST* node, int line, int column )
 {
-    // kdDebug(9007) << "findNodeAt(" << node << ")" << endl;
+    // kDebug(9007) << "findNodeAt(" << node << ")" << endl;
 
     if( !node )
 	return 0;

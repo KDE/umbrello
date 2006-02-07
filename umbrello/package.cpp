@@ -57,7 +57,7 @@ UMLObject* UMLPackage::clone() const
 
 bool UMLPackage::addObject(const UMLObject *pObject) {
     if (m_objects.find(pObject) != -1) {
-        kdDebug() << "UMLPackage::addObject: " << pObject->getName()
+        kDebug() << "UMLPackage::addObject: " << pObject->getName()
                   << " is already there" << endl;
         return false;
     }
@@ -202,7 +202,7 @@ bool UMLPackage::load(QDomElement& element) {
         }
         UMLObject *pObject = Object_Factory::makeObjectFromXMI(type);
         if( !pObject ) {
-            kdWarning() << "UMLPackage::load: "
+            kWarning() << "UMLPackage::load: "
             << "Unknown type of umlobject to create: "
             << type << endl;
             continue;

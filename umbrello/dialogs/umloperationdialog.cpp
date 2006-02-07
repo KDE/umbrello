@@ -369,7 +369,7 @@ void UMLOperationDialog::slotParameterProperties() {
     pOldAtt = m_pOperation->findParm( m_pParmsLB->currentText() );
 
     if( !pOldAtt ) {
-        kdDebug() << "THE impossible has occurred for:" << m_pParmsLB->currentText() << endl;
+        kDebug() << "THE impossible has occurred for:" << m_pParmsLB->currentText() << endl;
         return;
     }//should never occur
     ParmPropDlg dlg(this, m_doc, pOldAtt);
@@ -398,7 +398,7 @@ void UMLOperationDialog::slotParameterProperties() {
                 }
                 if (obj == NULL) {
                     // Nothing found: set type name directly. Bad.
-                    kdDebug() << "UMLOperationDialog::slotParameterProperties: "
+                    kDebug() << "UMLOperationDialog::slotParameterProperties: "
                     << typeName << " not found." << endl;
                     pOldAtt->setTypeName( typeName );  // Bad.
                 }
@@ -416,7 +416,7 @@ void UMLOperationDialog::slotParameterProperties() {
 
 void UMLOperationDialog::slotParameterUp()
 {
-    kdDebug() << k_funcinfo << endl;
+    kDebug() << k_funcinfo << endl;
     UMLAttribute* pOldAtt = m_pOperation->findParm( m_pParmsLB->currentText() );
 
     m_pOperation->moveParmLeft( pOldAtt );

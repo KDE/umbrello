@@ -60,7 +60,7 @@ void UMLRole::setObject (UMLObject *obj) {
     // for the time being. -b.t.
     if(obj && dynamic_cast<UMLRole*>(obj))
     {
-        kdError()<<"ERROR: UMLRole cant setObject() to another UMLRole!, ignoring"<<endl;
+        kError()<<"ERROR: UMLRole cant setObject() to another UMLRole!, ignoring"<<endl;
         return;
     }
 
@@ -100,7 +100,7 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     if (m_pSecondary)
         roleElement.setAttribute( "type", ID2STR(m_pSecondary->getID()) );
     else
-        kdError() << "UMLRole::saveToXMI(id " << ID2STR(m_nId)
+        kError() << "UMLRole::saveToXMI(id " << ID2STR(m_nId)
         << "): m_pSecondary is NULL" << endl;
     if (!m_Multi.isEmpty())
         roleElement.setAttribute("multiplicity", m_Multi);
@@ -155,7 +155,7 @@ bool UMLRole::load( QDomElement & element ) {
     QString type = element.attribute("type", "");
     if (!type.isEmpty()) {
         if (!m_SecondaryId.isEmpty())
-            kdWarning() << "UMLRole::load: overwriting old m_SecondaryId \""
+            kWarning() << "UMLRole::load: overwriting old m_SecondaryId \""
             << m_SecondaryId << " with new value \""
             << type << "\"" << endl;
         m_SecondaryId = type;
@@ -245,9 +245,9 @@ bool UMLRole::load( QDomElement & element ) {
         }
     }
     if (!m_Multi.isEmpty())
-        kdDebug() << "UMLRole::load(" << m_Name << "): m_Multi is " << m_Multi << endl;
+        kDebug() << "UMLRole::load(" << m_Name << "): m_Multi is " << m_Multi << endl;
     if (m_SecondaryId.isEmpty()) {
-        kdError() << "UMLRole::load: type not given or illegal" << endl;
+        kError() << "UMLRole::load: type not given or illegal" << endl;
         return false;
     }
     UMLObject * obj;

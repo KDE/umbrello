@@ -79,7 +79,7 @@ KPlayerPopupSliderAction::KPlayerPopupSliderAction (const QString& text,
     m_slider = new KPlayerSlider (Qt::Vertical, m_frame);
     m_frame -> resize (36, m_slider -> sizeHint().height() + 4);
     m_slider -> setGeometry (m_frame -> contentsRect());
-    //CHANGED  kdDebug() << "Popup slider size " << m_slider -> width() << "x" << m_slider -> height() << "\n";
+    //CHANGED  kDebug() << "Popup slider size " << m_slider -> width() << "x" << m_slider -> height() << "\n";
     connect (m_slider, SIGNAL (changed (int)), receiver, slot);
 }
 
@@ -123,7 +123,7 @@ void KPlayerPopupSliderAction::slotActivated (void)
     QWidget* button = 0;
     if ( sender() )
     {
-        //CHANGED    kdDebug() << "Sender class name: " << sender() -> className() << "\n";
+        //CHANGED    kDebug() << "Sender class name: " << sender() -> className() << "\n";
         if ( sender() -> inherits ("KToolBarButton") )
             button = (QWidget*) sender();
         else if ( sender() -> inherits ("KToolBar") )
@@ -149,7 +149,7 @@ void KPlayerPopupSliderAction::slotActivated (void)
         if ( point.y() < 0 )
             point.setY (0);
     }
-    //CHANGED  kdDebug() << "Point: " << point.x() << "x" << point.y() << "\n";
+    //CHANGED  kDebug() << "Point: " << point.x() << "x" << point.y() << "\n";
     m_frame -> move (point);
     /*if ( kapp && kapp -> activeWindow() )
       {
@@ -190,7 +190,7 @@ int KPlayerSliderAction::plug (QWidget* widget, int index)
         return result;
     KToolBar* toolbar = (KToolBar*) widget;
     //int id = getToolButtonID();
-    //kdDebug() << "Orientation: " << toolbar -> orientation() << "\n";
+    //kDebug() << "Orientation: " << toolbar -> orientation() << "\n";
     //m_slider -> reparent (toolbar, QPoint());
     //toolbar -> insertWidget (id, 0, m_slider, index);
     //toolbar -> setItemAutoSized (id, true);
@@ -278,7 +278,7 @@ KPlayerSlider::KPlayerSlider (Qt::Orientation orientation, QWidget* parent, cons
 
 KPlayerSlider::~KPlayerSlider()
 {
-    //CHANGED  kdDebug() << "KPlayerSlider destroyed\n";
+    //CHANGED  kDebug() << "KPlayerSlider destroyed\n";
 }
 
 QSize KPlayerSlider::sizeHint() const
@@ -301,7 +301,7 @@ QSize KPlayerSlider::sizeHint() const
 
 QSize KPlayerSlider::minimumSizeHint() const
 {
-    //kdDebug() << "KPlayerSlider minimum size hint\n";
+    //kDebug() << "KPlayerSlider minimum size hint\n";
     QSize hint = QSlider::minimumSizeHint();
     //CHANGED  int length = kPlayerSettings() -> minimumSliderLength();
     int length = 200;

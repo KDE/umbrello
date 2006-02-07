@@ -69,7 +69,7 @@ void NoteWidget::setDiagramLink(Uml::IDType viewID) {
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     UMLView *view = umldoc->findView(viewID);
     if (view == NULL) {
-        kdError() << "NoteWidget::setDiagramLink(" << ID2STR(viewID)
+        kError() << "NoteWidget::setDiagramLink(" << ID2STR(viewID)
         << "): no view found for this ID." << endl;
         return;
     }

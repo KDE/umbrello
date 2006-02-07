@@ -93,10 +93,10 @@ void FloatingText::slotMenuSelection(int sel) {
 
     case ListPopupMenu::mt_Operation:
         {
-            kdDebug() << "FloatingText::slotMenuSelection(mt_Operation) is called."
+            kDebug() << "FloatingText::slotMenuSelection(mt_Operation) is called."
             << endl;
             if (m_pLink == NULL) {
-                kdDebug() << "FloatingText::slotMenuSelection(mt_Operation): "
+                kDebug() << "FloatingText::slotMenuSelection(mt_Operation): "
                 << "m_pLink is NULL" << endl;
                 return;
             }
@@ -279,13 +279,13 @@ void FloatingText::mouseDoubleClickEvent(QMouseEvent * /* me*/) {
 
 void FloatingText::showOpDlg() {
     if (m_pLink == NULL) {
-        kdError() << "FloatingText::showOpDlg: m_pLink is NULL" << endl;
+        kError() << "FloatingText::showOpDlg: m_pLink is NULL" << endl;
         return;
     }
     QString seqNum, opText;
     UMLClassifier* c = m_pLink->getSeqNumAndOp(seqNum, opText);
     if (c == NULL) {
-        kdError() << "FloatingText::showOpDlg: "
+        kError() << "FloatingText::showOpDlg: "
         << "m_pLink->getSeqNumAndOp() returns a NULL classifier"
         << endl;
         return;

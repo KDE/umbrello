@@ -562,7 +562,7 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
         insertItem(SmallIcon("image"), i18n("Export as Picture..."), mt_Export_Image);
         break;
     default:
-        kdWarning() << "ListPopupMenu::insertStdItem called on unimplemented Menu_Type " << m << endl;
+        kWarning() << "ListPopupMenu::insertStdItem called on unimplemented Menu_Type " << m << endl;
         break;
     }
 }

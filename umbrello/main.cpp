@@ -95,7 +95,7 @@ int main(int argc, char *argv[]) {
         for (QByteArrayList::iterator itr = exportOpt.begin();
             itr != exportOpt.end(); ++itr) {
                 QString extension(*itr);
-                kdDebug() << "extension: " << extension << endl;
+                kDebug() << "extension: " << extension << endl;
                 ExportViewAction eva(extension);
                 eva.exportAllViews();
             }

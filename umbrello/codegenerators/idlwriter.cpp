@@ -102,7 +102,7 @@ void IDLWriter::computeAssocTypeAndRole
 
 void IDLWriter::writeClass(UMLClassifier *c) {
     if (!c) {
-        kdDebug() << "Cannot write class of NULL concept!" << endl;
+        kDebug() << "Cannot write class of NULL concept!" << endl;
         return;
     }
 
@@ -189,12 +189,12 @@ void IDLWriter::writeClass(UMLClassifier *c) {
     if (! isOOClass(c)) {
         QString stype = c->getStereotype();
         if (stype == "CORBAConstant") {
-            kdError() << "The stereotype " << stype << " cannot be applied to "
+            kError() << "The stereotype " << stype << " cannot be applied to "
             << c->getName() << ", but only to attributes." << endl;
             return;
         }
         if (!isClass) {
-            kdError() << "The stereotype " << stype
+            kError() << "The stereotype " << stype
             << " cannot be applied to " << c->getName()
             << ", but only to classes." << endl;
             return;

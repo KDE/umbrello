@@ -190,7 +190,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
             if (c)
                 dt->setOriginType(c);
             else
-                kdError() << "createUMLObject(" << name << "): "
+                kError() << "createUMLObject(" << name << "): "
                 << "origType " << typeName << " is not a UMLClassifier"
                 << endl;
             if (isRef || isPointer)
@@ -233,7 +233,7 @@ UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope, QString 
                                         bool isStatic /* =false */) {
     Uml::Object_Type ot = owner->getBaseType();
     if (ot != Uml::ot_Class) {
-        kdDebug() << "insertAttribute: Don't know what to do with "
+        kDebug() << "insertAttribute: Don't know what to do with "
         << owner->getName() << " (object type " << ot << ")" << endl;
         return NULL;
     }

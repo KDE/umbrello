@@ -45,7 +45,7 @@
 #include <kdebug.h>
 
 CodeGeneratorFactory::CodeGeneratorFactory()  {
-    kdDebug()<<"CodeGeneratorFactory created"<<endl;
+    kDebug()<<"CodeGeneratorFactory created"<<endl;
 }
 
 CodeGeneratorFactory::~CodeGeneratorFactory() {
@@ -110,7 +110,7 @@ CodeGenerator* CodeGeneratorFactory::createObject(Uml::Programming_Language pl) 
             obj = new XMLSchemaWriter();
             break;
         default:
-            kdWarning() << "cannot create object of type " << pl
+            kWarning() << "cannot create object of type " << pl
                         << ". Type unknown" << endl;
             break;
     }

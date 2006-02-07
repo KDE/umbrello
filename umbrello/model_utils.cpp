@@ -138,7 +138,7 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
         UMLPackageList seenPkgs;
         for (; pkg; pkg = currentObj->getUMLPackage()) {
             if (seenPkgs.findRef(pkg) != -1) {
-                kdError() << "findUMLObject(" << name << "): "
+                kError() << "findUMLObject(" << name << "): "
                 << "breaking out of cycle involving "
                 << pkg->getName() << endl;
                 break;
@@ -156,7 +156,7 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
                 Uml::Object_Type foundType = obj->getBaseType();
                 if (nameWithoutFirstPrefix.isEmpty()) {
                     if (type != Uml::ot_UMLObject && type != foundType) {
-                        kdDebug() << "findUMLObject: type mismatch for "
+                        kDebug() << "findUMLObject: type mismatch for "
                         << name << " (seeking type: "
                         << type << ", found type: "
                         << foundType << ")" << endl;
@@ -167,7 +167,7 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
                 if (foundType != Uml::ot_Package &&
                         foundType != Uml::ot_Class &&
                         foundType != Uml::ot_Interface) {
-                    kdDebug() << "findUMLObject: found \"" << name
+                    kDebug() << "findUMLObject: found \"" << name
                     << "\" is not a package (?)" << endl;
                     continue;
                 }
@@ -189,7 +189,7 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
         Uml::Object_Type foundType = obj->getBaseType();
         if (nameWithoutFirstPrefix.isEmpty()) {
             if (type != Uml::ot_UMLObject && type != foundType) {
-                kdDebug() << "findUMLObject: type mismatch for "
+                kDebug() << "findUMLObject: type mismatch for "
                 << name << " (seeking type: "
                 << type << ", found type: "
                 << foundType << ")" << endl;
@@ -200,7 +200,7 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
         if (foundType != Uml::ot_Package &&
                 foundType != Uml::ot_Class &&
                 foundType != Uml::ot_Interface) {
-            kdDebug() << "findUMLObject: found \"" << name
+            kDebug() << "findUMLObject: found \"" << name
             << "\" is not a package (?)" << endl;
             continue;
         }
@@ -241,7 +241,7 @@ QString uniqObjectName(Uml::Object_Type type, QString prefix,
             currentName = i18n("new_association");
         else {
             currentName = i18n("new_object");
-            kdWarning() << "unknown object type in umldoc::uniqObjectName()" << endl;
+            kWarning() << "unknown object type in umldoc::uniqObjectName()" << endl;
         }
     }
     UMLDoc *doc = UMLApp::app()->getDocument();

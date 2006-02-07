@@ -301,13 +301,13 @@ void CodeClassField::setAttributesFromNode ( QDomElement & root) {
                 if(method)
                     method->loadFromXMI(element);
                 else
-                    kdError()<<"Cant load code accessor method for type:"<<type<<" which doesnt exist in this codeclassfield. Is XMI out-dated or corrupt?"<<endl;
+                    kError()<<"Cant load code accessor method for type:"<<type<<" which doesnt exist in this codeclassfield. Is XMI out-dated or corrupt?"<<endl;
 
             } else
                 if( tag == "header" ) {
                     // this is treated in parent.. skip over here
                 } else
-                    kdWarning()<<"ERROR: bad savefile? code classfield loadFromXMI got child element with unknown tag:"<<tag<<" ignoring node."<<endl;
+                    kWarning()<<"ERROR: bad savefile? code classfield loadFromXMI got child element with unknown tag:"<<tag<<" ignoring node."<<endl;
 
         node = element.nextSibling();
         element = node.toElement();
@@ -411,7 +411,7 @@ CodeAccessorMethod * CodeClassField::findMethodByType ( CodeAccessorMethod::Acce
         {
             UMLRole * role = dynamic_cast<UMLRole*>(m->getParentObject());
             if(!role)
-                kdError()<<"    FindMethodByType()  cant create role for method type:"<<m->getType()<<endl;
+                kError()<<"    FindMethodByType()  cant create role for method type:"<<m->getType()<<endl;
             if( role && m->getType() == type && role->getRole() == role_id)
                 return m;
         }

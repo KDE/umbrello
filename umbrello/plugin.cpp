@@ -75,14 +75,14 @@ Plugin::init()
     // initialize this plugin first - then load other plugins
     ret = onInit();
     if(!ret) {
-        kdError() << "failed to initialize " << instanceName() << endl;
+        kError() << "failed to initialize " << instanceName() << endl;
     }
 
     // configure on load plugins
     if(ret) {
         ret = configure();
         if(!ret) {
-            kdError() << "failed configuration " << instanceName() << endl;
+            kError() << "failed configuration " << instanceName() << endl;
         }
     }
 
@@ -100,7 +100,7 @@ Plugin::shutdown()
     // shutdown this plugin
     ret = onShutdown();
     if(!ret) {
-        kdError() << "failed to shutdown " << instanceName() << endl;
+        kError() << "failed to shutdown " << instanceName() << endl;
     }
 
     return true;
@@ -138,7 +138,7 @@ Plugin::configure()
     // grab the OnStartup map
     KConfig *conf = config();
     if(!conf) {
-        kdDebug() << "no configuration for " << instanceName() << endl;
+        kDebug() << "no configuration for " << instanceName() << endl;
         ret = false;
     }
 

@@ -190,14 +190,14 @@ void URLUtil::dump( const KUrl::List &urls, const QString &aMessage )
 {
   if (!aMessage.isNull())
   {
-    kdDebug(9000) << aMessage << endl;
+    kDebug(9000) << aMessage << endl;
   }
-  kdDebug(9000) << " List has " << urls.count() << " elements." << endl;
+  kDebug(9000) << " List has " << urls.count() << " elements." << endl;
 
   for (size_t i = 0; i<urls.count(); ++i)
   {
     KUrl url = urls[ i ];
-//    kdDebug(9000) << " * Element = "  << url.path() << endl;
+//    kDebug(9000) << " * Element = "  << url.path() << endl;
   }
 }
 

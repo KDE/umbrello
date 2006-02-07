@@ -54,7 +54,7 @@ UMLListViewItem::UMLListViewItem(UMLListView * parent)
         : Q3ListViewItem(parent) {
     init(parent);
     if (parent == NULL)
-        kdDebug() << "UMLListViewItem constructor called with a NULL listview parent" << endl;
+        kDebug() << "UMLListViewItem constructor called with a NULL listview parent" << endl;
 }
 
 UMLListViewItem::UMLListViewItem(UMLListViewItem * parent)
@@ -135,7 +135,7 @@ void UMLListViewItem::init(UMLListView * parent) {
     m_nId = Uml::id_None;
     m_nChildren = 0;
     if (s_pListView == NULL && parent != NULL) {
-        kdDebug() << "UMLListViewItem::init: s_pListView still NULL, setting it now "
+        kDebug() << "UMLListViewItem::init: s_pListView still NULL, setting it now "
                   << endl;
         s_pListView = parent;
     }
@@ -155,7 +155,7 @@ void UMLListViewItem::setID(Uml::IDType id) {
     if (m_pObject) {
         Uml::IDType oid = m_pObject->getID();
         if (id != Uml::id_None && oid != id)
-            kdDebug() << "UMLListViewItem::setID: new id " << ID2STR(id)
+            kDebug() << "UMLListViewItem::setID: new id " << ID2STR(id)
             << " does not agree with object id " << ID2STR(oid)
             << endl;
     }
@@ -173,7 +173,7 @@ QString UMLListViewItem::getFolderFile() {
 bool UMLListViewItem::isOwnParent(Uml::IDType listViewItemID) {
     Q3ListViewItem *lvi = (Q3ListViewItem*)s_pListView->findItem(listViewItemID);
     if (lvi == NULL) {
-        kdError() << "UMLListViewItem::isOwnParent: ListView->findItem("
+        kError() << "UMLListViewItem::isOwnParent: ListView->findItem("
         << ID2STR(listViewItemID) << ") returns NULL" << endl;
         return true;
     }
@@ -552,14 +552,14 @@ int UMLListViewItem::compare(Q3ListViewItem *other, int /*col*/, bool /*ascendin
     UMLObject *otherObj = ulvi->getUMLObject();
     if (m_pObject == NULL) {
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
+        kDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
             << "): return 1 because (m_pObject==NULL)" << endl;
 #endif
         return 1;
     }
     if (otherObj == NULL) {
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
+        kDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
             << "): return -1 because (otherObj==NULL)" << endl;
 #endif
         return -1;
@@ -568,21 +568,21 @@ int UMLListViewItem::compare(Q3ListViewItem *other, int /*col*/, bool /*ascendin
     UMLClassifier *otherParent = dynamic_cast<UMLClassifier*>(otherObj->parent());
     if (ourParent == NULL) {
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
+        kDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
             << "): return 1 because (ourParent==NULL)" << endl;
 #endif
         return 1;
     }
     if (otherParent == NULL) {
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
+        kDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
             << "): return -1 because (otherParent==NULL)" << endl;
 #endif
         return -1;
     }
     if (ourParent != otherParent) {
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
+        kDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
             << "): return 0 because (ourParent != otherParentL)" << endl;
 #endif
         return 0;
@@ -591,14 +591,14 @@ int UMLListViewItem::compare(Q3ListViewItem *other, int /*col*/, bool /*ascendin
     UMLClassifierListItem *otherUmlItem = dynamic_cast<UMLClassifierListItem*>(otherObj);
     if (thisUmlItem == NULL) {
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
+        kDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
             << "): return 1 because (thisUmlItem==NULL)" << endl;
 #endif
         return 1;
     }
     if (otherUmlItem == NULL) {
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
+        kDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
             << "): return -1 because (otherUmlItem==NULL)" << endl;
 #endif
         return -1;
@@ -607,12 +607,12 @@ int UMLListViewItem::compare(Q3ListViewItem *other, int /*col*/, bool /*ascendin
     int myIndex = items.findRef(thisUmlItem);
     int otherIndex = items.findRef(otherUmlItem);
     if (myIndex < 0) {
-        kdError() << "compare(self=" << getText() << ", other=" << ulvi->getText()
+        kError() << "compare(self=" << getText() << ", other=" << ulvi->getText()
             << "): return -1 because (myIndex < 0)" << endl;
         return -1;
     }
     if (otherIndex < 0) {
-        kdError() << "compare(self=" << getText() << ", other=" << ulvi->getText()
+        kError() << "compare(self=" << getText() << ", other=" << ulvi->getText()
             << "): return 1 because (otherIndex < 0)" << endl;
         return 1;
     }
@@ -667,7 +667,7 @@ void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement,
     QDomElement itemElement = qDoc.createElement( "listitem" );
     Uml::IDType id = getID();
     QString idStr = ID2STR(id);
-    //kdDebug() << "UMLListViewItem::saveToXMI: id = " << idStr
+    //kDebug() << "UMLListViewItem::saveToXMI: id = " << idStr
     //    << ", type = " << m_Type << endl;
     if (id != Uml::id_None)
         itemElement.setAttribute( "id", idStr );
@@ -708,11 +708,11 @@ void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement,
         }
     } else if (m_pObject->getID() == Uml::id_None) {
         if (m_Label.isEmpty()) {
-            kdDebug() << "UMLListViewItem::saveToXMI(): Skipping empty item"
+            kDebug() << "UMLListViewItem::saveToXMI(): Skipping empty item"
             << endl;
             return;
         }
-        kdDebug() << "UMLListViewItem::saveToXMI(): saving local label "
+        kDebug() << "UMLListViewItem::saveToXMI(): saving local label "
         << m_Label << " because umlobject ID is not set" << endl;
         itemElement.setAttribute( "label", m_Label );
     }
@@ -747,12 +747,12 @@ void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement,
                     // Thus we defer diagram saving to a later pass.
                     viewList.append(v);
                 } else {
-                    kdError() << "saveExternalFolder: UMLDoc::findView("
+                    kError() << "saveExternalFolder: UMLDoc::findView("
                     << ID2STR(viewID) << ") returns NULL"
                     << endl;
                 }
             } else {
-                kdError() << "saveExternalFolder: saving of lvtype "
+                kError() << "saveExternalFolder: saving of lvtype "
                 << childItem->getType() << " is Not Yet Implemented"
                 << endl;
             }
@@ -779,7 +779,7 @@ bool UMLListViewItem::loadFromXMI(QDomElement& qElement) {
     if (!label.isEmpty())
         setText( label );
     else if (id == "-1") {
-        kdError() << "UMLListViewItem::loadFromXMI: Item of type "
+        kError() << "UMLListViewItem::loadFromXMI: Item of type "
         << type << " has neither ID nor label" << endl;
         return false;
     }

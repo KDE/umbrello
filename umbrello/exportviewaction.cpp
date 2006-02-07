@@ -39,7 +39,7 @@ ExportViewAction::ExportViewAction(QString extension, QObject *parent) :
     m_extension(extension) {
     m_mimetype = "unknown";
     updateMimetype();
-    kdDebug() << "m_mimetype:  " << m_mimetype << endl;
+    kDebug() << "m_mimetype:  " << m_mimetype << endl;
     connect(this, SIGNAL(activated()),
             this, SLOT(exportAllViews()));
 
@@ -76,14 +76,14 @@ void ExportViewAction::exportView(UMLView* view, QString imageMimetype) {
 
     QRect rect = view->getDiagramRect();
     if (rect.isEmpty()) {
-        kdDebug() << "Can not save an empty diagram" << endl;
+        kDebug() << "Can not save an empty diagram" << endl;
         return;
     }
 
     // remove 'blue squares' from exported picture.
     view->clearSelected();
 
-    kdDebug() << "ExportImageTo: " << file << endl;
+    kDebug() << "ExportImageTo: " << file << endl;
     if (imageMimetype == "image/x-eps") {
         view->printToFile(file,true);
     } else if (imageMimetype == "image/svg+xml") {
@@ -118,7 +118,7 @@ void ExportViewAction::exportAllViews() {
     if (m_extension == QString::null)
         askFormat();
     UMLApp *app = UMLApp::app();
-    kdDebug() << "Exporting All Views..." << endl;
+    kDebug() << "Exporting All Views..." << endl;
     UMLViewList views = app->getDocument()->getViewIterator();
     for(UMLView *view = views.first(); view; view = views.next()) {
         exportView(view,m_mimetype);

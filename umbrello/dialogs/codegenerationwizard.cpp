@@ -136,7 +136,7 @@ void CodeGenerationWizard::generateCode() {
 void CodeGenerationWizard::classGenerated(UMLClassifier* concept, bool generated) {
     Q3ListViewItem* item = m_statusList->findItem( concept->getFullyQualifiedName(), 0 );
     if( !item ) {
-        kdError()<<"GenerationStatusPage::Error finding class in list view"<<endl;
+        kError()<<"GenerationStatusPage::Error finding class in list view"<<endl;
     } else if (generated) {
         item->setText( 1, i18n("Code Generated") );
     } else {
@@ -212,19 +212,19 @@ CodeGenerator* CodeGenerationWizard::generator() {
     /*
         KLibLoader* loader = KLibLoader::self();
         if(!loader) {
-                kdDebug()<<"error getting KLibLoader!"<<endl;
+                kDebug()<<"error getting KLibLoader!"<<endl;
                 return 0;
         }
 
         KLibFactory* fact = loader->factory(info->library.latin1());
         if(!fact) {
-                kdDebug()<<"error getting the Factory"<<endl;
+                kDebug()<<"error getting the Factory"<<endl;
                 return 0;
         }
 
         QObject* o=fact->create(m_doc, 0, info->object.latin1());
         if(!o) {
-                kdDebug()<<"could not create object"<<endl;
+                kDebug()<<"could not create object"<<endl;
                 return 0;
         }
 

@@ -70,7 +70,7 @@ PluginLoader::loadPlugin(const QString &name)
     // use KLibLoader to get a reference to the library
     lib = KLibLoader::self()->library(name.latin1());
     if(!lib) {
-        kdError() << "failed loading plugin library " << name << endl;
+        kError() << "failed loading plugin library " << name << endl;
         success = false;
     }
 
@@ -78,7 +78,7 @@ PluginLoader::loadPlugin(const QString &name)
     if(success) {
         factory = lib->factory();
         if(!factory) {
-            kdError() << "failed to find factory for " << name << endl;
+            kError() << "failed to find factory for " << name << endl;
             success = false;
         }
     }
@@ -87,7 +87,7 @@ PluginLoader::loadPlugin(const QString &name)
     if(success) {
         plugin = dynamic_cast<Plugin *>(factory->create((QObject*)0, name.latin1()));
         if(!plugin) {
-            kdError() << "failed to create a plugin object for " << name << endl;
+            kError() << "failed to create a plugin object for " << name << endl;
             success = false;
         }
         else {
@@ -104,7 +104,7 @@ PluginLoader::loadPlugin(const QString &name)
         if(!success) {
             // on failure, delete the plugin. this should cause the
             // library to unload.
-            kdError() << "failure initializing " << name << endl;
+            kError() << "failure initializing " << name << endl;
             _categories[plugin->category()].remove(plugin);
             _plugins.remove(name);
             delete plugin;
@@ -163,7 +163,7 @@ PluginLoader::slotDestroyed(QObject *obj)
     for(PluginMap::iterator i = _plugins.begin(); i != end; ++i) {
         Plugin *p = i.data();
         if(p == plugin) {
-            kdDebug() << "unloading plugin " << i.key() << endl;
+            kDebug() << "unloading plugin " << i.key() << endl;
 
             // remove it from the mapping
             _plugins.remove(i);

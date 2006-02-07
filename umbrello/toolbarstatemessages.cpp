@@ -104,7 +104,7 @@ void ToolBarStateMessages::mouseRelease(QMouseEvent* ome)
             // Second object
             ObjectWidget* pFirstSelectedObj = dynamic_cast<ObjectWidget*>(m_pSelectedWidget);
             if (pFirstSelectedObj == NULL) {
-                kdDebug() << "first selected widget is not an object" << endl;
+                kDebug() << "first selected widget is not an object" << endl;
                 return;
             }
             Uml::Sequence_Message_Type msgType = getMessageType();

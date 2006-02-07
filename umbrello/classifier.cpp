@@ -202,19 +202,19 @@ UMLOperation* UMLClassifier::createOperation(const QString &name /*=null*/,
 bool UMLClassifier::addOperation(UMLOperation* op, int position )
 {
     if (m_List.findRef(op) != -1) {
-        kdDebug() << "UMLClassifier::addOperation: findRef("
+        kDebug() << "UMLClassifier::addOperation: findRef("
         << op->getName() << ") finds op (bad)"
         << endl;
         return false;
     }
     if (checkOperationSignature(op->getName(), op->getParmList()) ) {
-        kdDebug() << "UMLClassifier::addOperation: checkOperationSignature("
+        kDebug() << "UMLClassifier::addOperation: checkOperationSignature("
         << op->getName() << ") op is non-unique" << endl;
         return false;
     }
 
     if( position >= 0 && position <= (int)m_List.count() ) {
-        kdDebug() << "UMLClassifier::addOperation(" << op->getName()
+        kDebug() << "UMLClassifier::addOperation(" << op->getName()
             << "): inserting at position " << position << endl;
         m_List.insert(position,op);
         UMLClassifierListItemList itemList = getFilteredList(Uml::ot_Operation);
@@ -222,7 +222,7 @@ bool UMLClassifier::addOperation(UMLOperation* op, int position )
         QString buf;
         for (UMLClassifierListItemListIt it0(itemList); (currentAtt = it0.current()); ++it0)
             buf.append(" " + currentAtt->getName());
-        kdDebug() << "  UMLClassifier::addOperation list after change: " << buf << endl;
+        kDebug() << "  UMLClassifier::addOperation list after change: " << buf << endl;
      } else
         m_List.append( op );
     emit operationAdded(op);
@@ -242,12 +242,12 @@ bool UMLClassifier::addOperation(UMLOperation* Op, IDChangeLog* Log) {
 
 int UMLClassifier::removeOperation(UMLOperation *op) {
     if (op == NULL) {
-        kdDebug() << "UMLClassifier::removeOperation called on NULL op"
+        kDebug() << "UMLClassifier::removeOperation called on NULL op"
         << endl;
         return -1;
     }
     if(!m_List.remove(op)) {
-        kdDebug() << "UMLClassifier::removeOperation: can't find op "
+        kDebug() << "UMLClassifier::removeOperation: can't find op "
         << op->getName() << " in list" << endl;
         return -1;
     }
@@ -566,7 +566,7 @@ bool UMLClassifier::addAttribute(UMLAttribute* att, IDChangeLog* Log /* = 0 */,
 
 int UMLClassifier::removeAttribute(UMLAttribute* a) {
     if (!m_List.remove(a)) {
-        kdDebug() << "can't find att given in list" << endl;
+        kDebug() << "can't find att given in list" << endl;
         return -1;
     }
     emit attributeRemoved(a);
@@ -689,7 +689,7 @@ bool UMLClassifier::addTemplate(UMLTemplate* Template, int position)
 
 int UMLClassifier::removeTemplate(UMLTemplate* umltemplate) {
     if ( !m_List.remove(umltemplate) ) {
-        kdWarning() << "can't find att given in list" << endl;
+        kWarning() << "can't find att given in list" << endl;
         return -1;
     }
     emit templateRemoved(umltemplate);
@@ -734,7 +734,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item) {
               txt = "Type-" + QString::number((int) currentAtt->getBaseType());
             buf.append(" " + currentAtt->getName());
         }
-        kdDebug() << "  UMLClassifier::takeItem (before): m_List is " << buf << endl;
+        kDebug() << "  UMLClassifier::takeItem (before): m_List is " << buf << endl;
     int index = m_List.findRef(item);
     if (index == -1)
         return -1;
@@ -887,7 +887,7 @@ bool UMLClassifier::load(QDomElement& element) {
                         break;
                     case Uml::ot_Operation:
                         if (! addOperation(static_cast<UMLOperation*>(child)) ) {
-                            kdError() << "UMLClassifier::load: error from addOperation(op)"
+                            kError() << "UMLClassifier::load: error from addOperation(op)"
                                       << endl;
                             delete child;
                         }
@@ -899,7 +899,7 @@ bool UMLClassifier::load(QDomElement& element) {
                         break;
                 }
             } else {
-                kdWarning() << "UMLClassifier::load: failed to load " << tag << endl;
+                kWarning() << "UMLClassifier::load: failed to load " << tag << endl;
                 delete child;
             }
         } else if (!Model_Utils::isCommonXMIAttribute(tag)) {

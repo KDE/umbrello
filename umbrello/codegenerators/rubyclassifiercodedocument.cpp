@@ -247,7 +247,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                     block->loadFromXMI(element);
                     if(!addTextBlock(block))
                     {
-                        kdError()<<"loadFromXMI : unable to add codeComment to :"<<this<<endl;
+                        kError()<<"loadFromXMI : unable to add codeComment to :"<<this<<endl;
                         block->deleteLater();
                     } else
                         loadCheckForChildrenOK= true;
@@ -260,7 +260,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                         TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
                         if(!tb || !addTextBlock(tb))
                         {
-                            kdError()<<"loadFromXMI : unable to add codeclassfield child method to:"<<this<<endl;
+                            kError()<<"loadFromXMI : unable to add codeclassfield child method to:"<<this<<endl;
                             // DONT delete
                         } else
                             loadCheckForChildrenOK= true;
@@ -271,7 +271,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                             block->loadFromXMI(element);
                             if(!addTextBlock(block))
                             {
-                                kdError()<<"loadFromXMI : unable to add codeBlock to :"<<this<<endl;
+                                kError()<<"loadFromXMI : unable to add codeBlock to :"<<this<<endl;
                                 block->deleteLater();
                             } else
                                 loadCheckForChildrenOK= true;
@@ -281,7 +281,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                 block->loadFromXMI(element);
                                 if(!addTextBlock(block))
                                 {
-                                    kdError()<<"loadFromXMI : unable to add codeBlockwithcomments to:"<<this<<endl;
+                                    kError()<<"loadFromXMI : unable to add codeBlockwithcomments to:"<<this<<endl;
                                     block->deleteLater();
                                 } else
                                     loadCheckForChildrenOK= true;
@@ -294,7 +294,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                         block->loadFromXMI(element);
                                         if(!addTextBlock(block))
                                         {
-                                            kdError()<<"Unable to add hierarchicalcodeBlock to:"<<this<<endl;
+                                            kError()<<"Unable to add hierarchicalcodeBlock to:"<<this<<endl;
                                             block->deleteLater();
                                         } else
                                             loadCheckForChildrenOK= true;
@@ -311,11 +311,11 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                                     loadCheckForChildrenOK= true;
                                                 else
                                                 {
-                                                    kdError()<<"Unable to add codeoperation to:"<<this<<endl;
+                                                    kError()<<"Unable to add codeoperation to:"<<this<<endl;
                                                     block->deleteLater();
                                                 }
                                             } else
-                                                kdError()<<"Unable to find operation create codeoperation for:"<<this<<endl;
+                                                kError()<<"Unable to find operation create codeoperation for:"<<this<<endl;
                                         } else
                                             if( name == "rubyclassdeclarationblock" )
                                             {
@@ -323,7 +323,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                                 block->loadFromXMI(element);
                                                 if(!addTextBlock(block))
                                                 {
-                                                    kdError()<<"Unable to add ruby code declaration block to:"<<this<<endl;
+                                                    kError()<<"Unable to add ruby code declaration block to:"<<this<<endl;
                                                     // DONT delete.
                                                     // block->deleteLater();
                                                 } else
@@ -332,7 +332,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                 // This last item is only needed for extreme debugging conditions
                 // (E.g. making new codeclassdocument loader)
                 // else
-                //        kdDebug()<<" LoadFromXMI: Got strange tag in text block stack:"<<name<<", ignorning"<<endl;
+                //        kDebug()<<" LoadFromXMI: Got strange tag in text block stack:"<<name<<", ignorning"<<endl;
 
                 node = element.nextSibling();
                 element = node.toElement();
@@ -349,13 +349,13 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
         CodeDocument * test = dynamic_cast<CodeDocument*>(this);
         if(test)
         {
-            kdWarning()<<" loadChildBlocks : unable to initialize any child blocks in doc: "<<test->getFileName()<<" "<<this<<endl;
+            kWarning()<<" loadChildBlocks : unable to initialize any child blocks in doc: "<<test->getFileName()<<" "<<this<<endl;
         } else {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(this);
             if(hb)
-                kdWarning()<<" loadChildBlocks : unable to initialize any child blocks in Hblock: "<<hb->getTag()<<" "<<this<<endl;
+                kWarning()<<" loadChildBlocks : unable to initialize any child blocks in Hblock: "<<hb->getTag()<<" "<<this<<endl;
             else
-                kdDebug()<<" loadChildBlocks : unable to initialize any child blocks in UNKNOWN OBJ:"<<this<<endl;
+                kDebug()<<" loadChildBlocks : unable to initialize any child blocks in UNKNOWN OBJ:"<<this<<endl;
         }
     }
 

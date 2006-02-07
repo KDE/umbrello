@@ -253,7 +253,7 @@ bool CodeDocument::insertTextBlock(TextBlock * newBlock, TextBlock * existingBlo
                 return true; // found, and inserted, otherwise keep going
         }
         // ugh. where is the child block?
-        kdWarning()<<" Warning: couldnt insert text block (tag:"<<newBlock->getTag()<<"). Reference text block (tag:"<<existingBlock->getTag()<<") not found."<<endl;
+        kWarning()<<" Warning: couldnt insert text block (tag:"<<newBlock->getTag()<<"). Reference text block (tag:"<<existingBlock->getTag()<<") not found."<<endl;
         return false;
     }
 
@@ -556,7 +556,7 @@ void CodeDocument::initDoc ( CodeGenerator * gen ) {
 }
 
 TextBlock * CodeDocument::findCodeClassFieldTextBlockByTag ( const QString &tag ) {
-    kdWarning()<<"Called findCodeClassFieldMethodByTag("<<tag<<") for a regular CodeDocument"<<endl;
+    kWarning()<<"Called findCodeClassFieldMethodByTag("<<tag<<") for a regular CodeDocument"<<endl;
     return (TextBlock *) NULL;
 }
 

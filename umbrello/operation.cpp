@@ -62,16 +62,16 @@ UMLAttribute * UMLOperation::addParm(QString type, QString name, QString initial
 
 void UMLOperation::moveParmLeft(UMLAttribute * a) {
     if (a == NULL) {
-        kdDebug() << "UMLOperation::moveParmLeft called on NULL attribute"
+        kDebug() << "UMLOperation::moveParmLeft called on NULL attribute"
         << endl;
         return;
     }
-    kdDebug() << "UMLOperation::moveParmLeft(" << a->getName() << ") called"
+    kDebug() << "UMLOperation::moveParmLeft(" << a->getName() << ") called"
     << endl;
     disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
     int idx;
     if ( (idx=m_List.find( a )) == -1 ) {
-        kdDebug() << "Error move parm left " << a->getName() << endl;
+        kDebug() << "Error move parm left " << a->getName() << endl;
         return;
     }
     if ( idx == 0 )
@@ -82,16 +82,16 @@ void UMLOperation::moveParmLeft(UMLAttribute * a) {
 
 void UMLOperation::moveParmRight(UMLAttribute * a) {
     if (a == NULL) {
-        kdDebug() << "UMLOperation::moveParmRight called on NULL attribute"
+        kDebug() << "UMLOperation::moveParmRight called on NULL attribute"
         << endl;
         return;
     }
-    kdDebug() << "UMLOperation::moveParmRight(" << a->getName() << ") called"
+    kDebug() << "UMLOperation::moveParmRight(" << a->getName() << ") called"
     << endl;
     disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
     int idx;
     if ( (idx=m_List.find( a )) == -1 ) {
-        kdDebug() << "Error move parm right " << a->getName() << endl;
+        kDebug() << "Error move parm right " << a->getName() << endl;
         return;
     }
     int count = m_List.count();
@@ -103,15 +103,15 @@ void UMLOperation::moveParmRight(UMLAttribute * a) {
 
 void UMLOperation::removeParm(UMLAttribute * a) {
     if (a == NULL) {
-        kdDebug() << "UMLOperation::removeParm called on NULL attribute"
+        kDebug() << "UMLOperation::removeParm called on NULL attribute"
         << endl;
         return;
     }
-    kdDebug() << "UMLOperation::removeParm(" << a->getName() << ") called"
+    kDebug() << "UMLOperation::removeParm(" << a->getName() << ") called"
     << endl;
     disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
     if(!m_List.remove(a))
-        kdDebug() << "Error removing parm " << a->getName() << endl;
+        kDebug() << "Error removing parm " << a->getName() << endl;
 
     emit modified();
 }
@@ -296,7 +296,7 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
         retElement.setAttribute( "kind", "return" );
         featureElement.appendChild( retElement );
     } else {
-        kdDebug() << "UMLOperation::saveToXMI: m_SecondaryId is "
+        kDebug() << "UMLOperation::saveToXMI: m_SecondaryId is "
         << m_SecondaryId << endl;
     }
     //save each attribute here, type different
@@ -334,7 +334,7 @@ bool UMLOperation::load( QDomElement & element ) {
             UMLDoc *pDoc = UMLApp::app()->getDocument();
             m_pSecondary = pDoc->findObjectById( STR2ID(type) );
             if (m_pSecondary == NULL) {
-                kdError() << "UMLOperation::load: Cannot find UML object"
+                kError() << "UMLOperation::load: Cannot find UML object"
                 << " for return type " << type << endl;
             }
         }
@@ -369,7 +369,7 @@ bool UMLOperation::load( QDomElement & element ) {
                     break;
                 }
                 if (kind.isEmpty()) {
-                    // kdDebug() << "UMLOperation::load(" << m_Name << "): "
+                    // kDebug() << "UMLOperation::load(" << m_Name << "): "
                     //  << "cannot find kind, using default \"in\"." << endl;
                     kind = "in";
                 }
@@ -403,7 +403,7 @@ bool UMLOperation::load( QDomElement & element ) {
                         break;
                     }
                     if (m_SecondaryId.isEmpty()) {
-                        kdError() << "UMLOperation::load(" << m_Name << "): "
+                        kError() << "UMLOperation::load(" << m_Name << "): "
                         << "cannot find return type." << endl;
                         return false;
                     }

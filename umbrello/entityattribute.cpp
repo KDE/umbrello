@@ -169,7 +169,7 @@ UMLObject* UMLEntityAttribute::clone() const
 void UMLEntityAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement entityattributeElement = UMLObject::save("UML:EntityAttribute", qDoc);
     if (m_pSecondary == NULL) {
-        kdDebug() << "UMLEntityAttribute::saveToXMI(" << m_Name
+        kDebug() << "UMLEntityAttribute::saveToXMI(" << m_Name
         << "): m_pSecondary is NULL, using local name "
         << m_SecondaryId << endl;
         entityattributeElement.setAttribute( "type", m_SecondaryId );
@@ -220,7 +220,7 @@ bool UMLEntityAttribute::load( QDomElement & element ) {
             break;
         }
         if (m_SecondaryId.isEmpty()) {
-            kdError() << "UMLEntityAttribute::load(" << m_Name << "): "
+            kError() << "UMLEntityAttribute::load(" << m_Name << "): "
             << "cannot find type." << endl;
             return false;
         }

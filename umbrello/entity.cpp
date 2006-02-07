@@ -142,7 +142,7 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* attribute, int position) 
 
 int UMLEntity::removeEntityAttribute(UMLClassifierListItem* literal) {
     if (!m_List.remove((UMLEntityAttribute*)literal)) {
-        kdDebug() << "can't find att given in list" << endl;
+        kDebug() << "can't find att given in list" << endl;
         return -1;
     }
     emit entityAttributeRemoved(literal);
@@ -191,10 +191,10 @@ bool UMLEntity::load(QDomElement& element) {
             }
             m_List.append(pEntityAttribute);
         } else if (tag == "stereotype") {
-            kdDebug() << "UMLEntity::load(" << m_Name
+            kDebug() << "UMLEntity::load(" << m_Name
             << "): losing old-format stereotype." << endl;
         } else {
-            kdWarning() << "unknown child type in UMLEntity::load" << endl;
+            kWarning() << "unknown child type in UMLEntity::load" << endl;
         }
         node = node.nextSibling();
     }//end while

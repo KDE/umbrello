@@ -1348,13 +1348,13 @@ void UMLApp::setDiagramMenuItemsState(bool bState) {
 void UMLApp::slotUpdateViews() {
     Q3PopupMenu* menu = findMenu( menuBar(), QString("views") );
     if (!menu) {
-        kdWarning() << "view menu not found" << endl;
+        kWarning() << "view menu not found" << endl;
         return;
     }
 
     menu = findMenu( menu, QString("show_view") );
     if (!menu) {
-        kdWarning() << "show menu not found" << endl;
+        kWarning() << "show menu not found" << endl;
         return;
     }
 
@@ -1430,7 +1430,7 @@ void UMLApp::slotDeleteSelectedWidget() {
     if ( m_doc->getCurrentView() ) {
         m_doc->getCurrentView()->deleteSelection();
     } else {
-        kdWarning() << " trying to delete widgets when there is no current view (see bug 59774)" << endl;
+        kWarning() << " trying to delete widgets when there is no current view (see bug 59774)" << endl;
     }
 }
 
@@ -1475,7 +1475,7 @@ void UMLApp::updateLangSelectMenu() {
         m_langSelect -> setItemChecked(id, true);
         QString language = m_langSelect->text(id);
         m_activeLanguage = Model_Utils::stringToProgLang(language);
-        kdDebug() << "UMLApp::updateLangSelectMenu: defaulting to " << language << endl;
+        kDebug() << "UMLApp::updateLangSelectMenu: defaulting to " << language << endl;
     }
 }
 

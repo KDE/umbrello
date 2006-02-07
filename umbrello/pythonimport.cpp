@@ -111,7 +111,7 @@ bool PythonImport::preprocess(QString& line) {
     int leadingWhite = line.left(pos).count( QRegExp("\\s") );
     if (leadingWhite > m_srcIndent[m_srcIndentIndex]) {
         if (m_srcIndex == 0) {
-            kdError() << "PythonImport::preprocess(): internal error 1" << endl;
+            kError() << "PythonImport::preprocess(): internal error 1" << endl;
             return true;
         }
         if (m_braceWasOpened) {
@@ -221,7 +221,7 @@ bool PythonImport::parseStmt() {
         // operation
         UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
         if (advance() != "(") {
-            kdError() << "importPython def " << name << ": expecting \"(\"" << endl;
+            kError() << "importPython def " << name << ": expecting \"(\"" << endl;
             skipBody();
             return true;
         }
@@ -241,7 +241,7 @@ bool PythonImport::parseStmt() {
         if (m_scopeIndex)
             m_klass = dynamic_cast<UMLClassifier*>(m_scope[--m_scopeIndex]);
         else
-            kdError() << "importPython: too many }" << endl;
+            kError() << "importPython: too many }" << endl;
         return true;
     }
     return false;  // @todo parsing of attributes

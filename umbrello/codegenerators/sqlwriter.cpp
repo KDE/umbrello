@@ -37,7 +37,7 @@ SQLWriter::~SQLWriter() {}
 void SQLWriter::writeClass(UMLClassifier *c) {
 
     if(!c) {
-        kdDebug()<<"Cannot write class of NULL concept!" << endl;
+        kDebug()<<"Cannot write class of NULL concept!" << endl;
         return;
     }
 

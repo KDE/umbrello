@@ -95,7 +95,7 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
         return true;
         break;
     default:
-        kdWarning() << "allowAssociation() on unknown type" << endl;
+        kWarning() << "allowAssociation() on unknown type" << endl;
         break;
     }
     return false;
@@ -220,7 +220,7 @@ bool AssocRules::allowAssociation( Association_Type assocType,
         break;
 
     default:
-        kdWarning() << "allowAssociation() on unknown type" << endl;
+        kWarning() << "allowAssociation() on unknown type" << endl;
         break;
     }
     return false;

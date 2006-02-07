@@ -171,7 +171,7 @@ bool UMLWidget::operator==(const UMLWidget& other) {
 void UMLWidget::setID(Uml::IDType id) {
     if (m_Type != wt_Text && m_pObject && m_pObject->getBaseType() == ot_Association) {
         if (m_pObject->getID() != Uml::id_None)
-            kdWarning() << "UMLWidget::setID(): changing old UMLObject "
+            kWarning() << "UMLWidget::setID(): changing old UMLObject "
             << ID2STR(m_pObject->getID()) << " to "
             << ID2STR(id) << endl;
         m_pObject->setID( id );
@@ -264,7 +264,7 @@ void UMLWidget::mouseMoveEvent(QMouseEvent* me) {
     QPoint newPosition = doMouseMove(me);
     int newX = newPosition.x();
     int newY = newPosition.y();
-    // kdDebug() << "UMLWidget::mouseMoveEvent(" << me->pos().x()
+    // kDebug() << "UMLWidget::mouseMoveEvent(" << me->pos().x()
     //           << "," << me->pos().y() << "): newPoint=("
     //           << newX << "," << newY << ")" << endl;
 
@@ -417,7 +417,7 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
 
     UMLWidget *bkgnd = m_pView->testOnWidget(me->pos());
     if (bkgnd) {
-        kdDebug() << "UMLWidget::mouseReleaseEvent: setting Z to "
+        kDebug() << "UMLWidget::mouseReleaseEvent: setting Z to "
             << bkgnd->getZ() + 1 << endl;
         setZ( bkgnd->getZ() + 1 );
     } else {
@@ -442,7 +442,7 @@ void UMLWidget::init() {
         m_FillColour = optionState.uiState.fillColor;
         m_Font       = optionState.uiState.font;
     } else {
-        kdError() << "UMLWidget::init: SERIOUS PROBLEM - m_pView is NULL" << endl;
+        kError() << "UMLWidget::init: SERIOUS PROBLEM - m_pView is NULL" << endl;
         m_bUseFillColour = false;
         m_bUsesDiagramFillColour = false;
         m_bUsesDiagramUseFillColour = false;
@@ -505,7 +505,7 @@ void UMLWidget::slotMenuSelection(int sel) {
         } else if (wt == wt_Object) {
             m_pObject->showProperties();
         } else {
-            kdWarning() << "making properties dialogue for unknown widget type" << endl;
+            kWarning() << "making properties dialogue for unknown widget type" << endl;
         }
         // adjustAssocs( getX(), getY() );//adjust assoc lines
         break;
@@ -935,7 +935,7 @@ void UMLWidget::setSelected(bool _select) {
     const QPoint pos(getX(), getY());
     UMLWidget *bkgnd = m_pView->testOnWidget(pos);
     if (bkgnd) {
-        kdDebug() << "UMLWidget::setSelected: setting Z to "
+        kDebug() << "UMLWidget::setSelected: setting Z to "
             << bkgnd->getZ() + 1 << endl;
         setZ( bkgnd->getZ() + 1 );
     } else {
@@ -1220,7 +1220,7 @@ bool UMLWidget::loadFromXMI( QDomElement & qElement ) {
         m_Font.fromString(font);
         //setFont(newFont);
     } else {
-        kdWarning() << "Using default font " << m_Font.toString()
+        kWarning() << "Using default font " << m_Font.toString()
         << " for widget with xmi.id " << ID2STR(m_nId) << endl;
         //setFont( m_Font );
     }

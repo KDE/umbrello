@@ -96,7 +96,7 @@ TclWriter::writeClass(UMLClassifier * c)
 {
 
     if (!c) {
-        kdDebug() << "Cannot write class of NULL concept!\n";
+        kDebug() << "Cannot write class of NULL concept!\n";
         return;
     }
     QFile           fileh, filetcl;

@@ -291,7 +291,7 @@ bool UMLClipboard::insertItemChildren(UMLListViewItem * Item, UMLListViewItemLis
 
 bool UMLClipboard::pasteChildren(UMLListViewItem *parent, IDChangeLog *chgLog) {
     if (!parent) {
-        kdWarning() << "Paste Children Error, parent missing" << endl;
+        kWarning() << "Paste Children Error, parent missing" << endl;
         return false;
     }
     UMLDoc *doc = UMLApp::app()->getDocument();
@@ -302,19 +302,19 @@ bool UMLClipboard::pasteChildren(UMLListViewItem *parent, IDChangeLog *chgLog) {
         Uml::IDType newID = chgLog->findNewID(oldID);
         UMLListViewItem *shouldNotExist = listView->findItem(newID);
         if (shouldNotExist) {
-            kdError() << "UMLClipboard::pasteChildren: new list view item " << ID2STR(newID)
+            kError() << "UMLClipboard::pasteChildren: new list view item " << ID2STR(newID)
             << " already exists (internal error)" << endl;
             childItem = static_cast<UMLListViewItem*>(childItem->nextSibling());
             continue;
         }
         UMLObject *newObj = doc->findObjectById(newID);
         if (newObj) {
-            kdDebug() << "UMLClipboard::pasteChildren: adjusting lvitem(" << ID2STR(oldID)
+            kDebug() << "UMLClipboard::pasteChildren: adjusting lvitem(" << ID2STR(oldID)
             << ") to new UMLObject(" << ID2STR(newID) << ")" << endl;
             childItem->setUMLObject(newObj);
             childItem->setText(newObj->getName());
         } else {
-            kdDebug() << "UMLClipboard::pasteChildren: no UMLObject found for lvitem "
+            kDebug() << "UMLClipboard::pasteChildren: no UMLObject found for lvitem "
             << ID2STR(newID) << endl;
         }
         childItem = static_cast<UMLListViewItem*>(childItem->nextSibling());
@@ -387,7 +387,7 @@ bool UMLClipboard::pasteClip2(QMimeSource* data) {
     while ( (obj=object_it.current()) != 0 ) {
         ++object_it;
         if(!doc->assignNewIDs(obj)) {
-            kdDebug()<<"UMLClipboard: error adding umlobject"<<endl;
+            kDebug()<<"UMLClipboard: error adding umlobject"<<endl;
             return false;
         }
     }
@@ -568,7 +568,7 @@ bool UMLClipboard::pasteClip5(QMimeSource* data) {
     }
     UMLClassifier *parent = dynamic_cast<UMLClassifier *>(lvitem->getUMLObject());
     if (parent == NULL) {
-        kdError() << "UMLClipboard::pasteClip5: parent is not a UMLClassifier"
+        kError() << "UMLClipboard::pasteClip5: parent is not a UMLClassifier"
         << endl;
         return false;
     }
@@ -611,7 +611,7 @@ bool UMLClipboard::pasteClip5(QMimeSource* data) {
                 break;
             }
         default :
-            kdWarning() << "pasteing unknown children type in clip type 5" << endl;
+            kWarning() << "pasteing unknown children type in clip type 5" << endl;
             return false;
         }
         ++object_it;
