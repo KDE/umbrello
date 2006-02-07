@@ -1,6 +1,7 @@
 /***************************************************************************
     begin                : Wed Jan 22 2003
     copyright            : (C) 2003 by David Hugh-Jones
+      (C) 2004-2006  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
     email                : hughjonesd@yahoo.co.uk
  ***************************************************************************/
 
@@ -195,6 +196,8 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl) {
           case Uml::Visibility::Private:
             oppriv.append(op);
             break;
+          default:
+            break;
         }
     }
 
@@ -310,6 +313,8 @@ void PerlWriter::writeAttributes(UMLClassifier *c, QTextStream &perl) {
             break;
           case Uml::Visibility::Private:
             atpriv.append(at);
+            break;
+          default:
             break;
         }
     }

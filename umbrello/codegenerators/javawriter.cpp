@@ -5,7 +5,7 @@
     source code is not replicated in the XMI file.
                              -------------------
     copyright            : (C) 2003 Brian Thomas brian.thomas@gsfc.nasa.gov
-         (C) 2004  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+      (C) 2004-2006  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
 ***************************************************************************/
 
 /***************************************************************************
@@ -104,6 +104,8 @@ void JavaWriter::writeClass(UMLClassifier *c)
                     final_atpriv.append(at);
                 else
                     atpriv.append(at);
+                break;
+              default:
                 break;
             }
         }
@@ -666,6 +668,8 @@ void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
             break;
           case Uml::Visibility::Private:
             oppriv.append(op);
+            break;
+          default:
             break;
         }
     }

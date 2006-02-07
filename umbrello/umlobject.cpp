@@ -398,13 +398,21 @@ void UMLObject::maybeSignalObjectCreated() {
 }
 
 bool UMLObject::resolveRef() {
-    if (m_pSecondary || (m_SecondaryId.isEmpty() && m_SecondaryFallback.isEmpty())) {
+    if (m_pSecondary) {
         maybeSignalObjectCreated();
+        return true;
+    }
+    if (m_SecondaryId.isEmpty() && m_SecondaryFallback.isEmpty()) {
+#ifdef VERBOSE_DEBUGGING
+        kDebug() << "UMLObject::resolveRef(" << m_Name
+                  << "): neither m_SecondaryId nor m_SecondaryFallback is set"
+                  << endl;
+#endif
         return true;
     }
 #ifdef VERBOSE_DEBUGGING
     kDebug() << "UMLObject::resolveRef(" << m_Name << "): m_SecondaryId is "
-    << m_SecondaryId << endl;
+              << m_SecondaryId << endl;
 #endif
     UMLDoc *pDoc = UMLApp::app()->getDocument();
     // In the new, XMI standard compliant save format,
@@ -424,10 +432,12 @@ bool UMLObject::resolveRef() {
                       << m_SecondaryId << endl;
             return false;
         }
+#ifdef VERBOSE_DEBUGGING
         kDebug() << "UMLObject::resolveRef(" << m_Name 
                   << "): could not resolve secondary ID " << m_SecondaryId
                   << ", using secondary fallback " << m_SecondaryFallback
                   << endl;
+#endif
         m_SecondaryId = m_SecondaryFallback;
     }
     // Assume we're dealing with the older Umbrello format where

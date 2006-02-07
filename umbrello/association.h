@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2003-2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2003-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef ASSOCIATION_H
@@ -201,7 +198,7 @@ public:
     void setRoleDoc(const QString &doc, Uml::Role_Type role);
 
     /**
-            * Convert Changeability_Type value into QString representation.
+     * Convert Changeability_Type value into QString representation.
      *
      * @param type              The Changeability_Type enum value to convert.
      */
