@@ -142,8 +142,10 @@ public:
     void read(const PetalNode *node, QString name) {
         PetalNode *attributes = node->findAttribute(m_attributeTag).node;
         if (attributes == NULL) {
+#ifdef VERBOSE_DEBUGGING
             kdDebug() << "umbrellify(" << name << "): no " << m_attributeTag << " found"
                       << endl;
+#endif
             return;
         }
         PetalNode::NameValueList attributeList = attributes->attributes();
@@ -307,6 +309,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
     QString objType = args[0];
     QString name = clean(args[1]);
     Uml::IDType id = quid(node);
+
     if (objType == "Class_Category") {
         UMLObject *o = Import_Utils::createUMLObject(Uml::ot_Package, name, parentPkg);
         o->setID(id);
@@ -320,6 +323,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
         for (uint i = 0; i < atts.count(); i++) {
             umbrellify(atts[i].second.node, localParent);
         }
+
     } else if (objType == "Class") {
         UMLObject *o = Import_Utils::createUMLObject(Uml::ot_Class, name, parentPkg);
         o->setID(id);
@@ -344,6 +348,90 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
         // insert realizations
         RealizationsReader realReader(c);
         realReader.read(node, c->getName());
+
+    } else if (objType == "Association") {
+        PetalNode *roles = node->findAttribute("roles").node;
+        if (node == NULL) {
+            kdError() << "umbrellify: cannot find roles of Association" << endl;
+            return false;
+        }
+        UMLAssociation *assoc = new UMLAssociation(Uml::at_UniAssociation);
+/* (object Association "$UNNAMED$8"
+	quid       	"32B5D7EE02FF"
+	roles      	(list role_list
+	    (object Role "owner"
+		quid       	"32B5D7EF03D3"
+		label      	"owner"
+		supplier   	"Logical View::UML 1.4::Foundation::Core::Classifier"
+		quidu      	"32989FB2023D"
+		client_cardinality 	(value cardinality "0..1")
+		is_navigable 	TRUE
+		is_aggregate 	TRUE
+		friend     	TRUE)
+	    (object Role "feature"
+		quid       	"32B5D7EF03DD"
+		label      	"feature"
+		supplier   	"Logical View::UML 1.4::Foundation::Core::Feature"
+		quidu      	"32989F9700FE"
+		client_cardinality 	(value cardinality "*")
+		Constraints 	"ordered"
+		Containment 	"By Value"
+		is_navigable 	TRUE)))
+  */
+        PetalNode::NameValueList roleList = roles->attributes();
+        for (uint i = Uml::A; i <= Uml::B; i++) {
+            PetalNode *roleNode = roleList[i].second.node;
+            if (roleNode == NULL) {
+                kdError() << "umbrellify: roleNode of Association is NULL" << endl;
+                return false;
+            }
+            if (roleNode->name() != "Role") {
+                kdDebug() << "umbrellify(" << name << "): expecting Role, found \""
+                          << roleNode->name() << endl;
+                continue;
+            }
+            UMLRole *role = assoc->getUMLRole((Uml::Role_Type) i);
+            QStringList initialArgs = roleNode->initialArgs();
+            if (initialArgs.count() > 1) {
+                QString roleName = clean(initialArgs[1]);
+                if (! roleName.startsWith("$UNNAMED"))
+                    role->setName(roleName);
+            }
+            role->setID(quid(roleNode));
+            QString quidref = quidu(roleNode);
+            QString type = clean(roleNode->findAttribute("supplier").string);
+            if (!quidref.isEmpty()) {
+                role->setSecondaryId(quidref);
+            }
+            if (!type.isEmpty()) {
+                role->setSecondaryFallback(type);
+            }
+            QString label = clean(roleNode->findAttribute("label").string);
+            if (!label.isEmpty()) {
+                role->setName(label);
+            }
+            QString client_cardinality = clean(roleNode->findAttribute("client_cardinality").string);
+            if (!client_cardinality.isEmpty()) {
+                role->setMultiplicity(client_cardinality);
+            }
+            QString is_navigable = clean(roleNode->findAttribute("is_navigable").string);
+            if (is_navigable == "FALSE") {
+                assoc->setAssocType(Uml::at_Association);
+            }
+            QString is_aggregate = clean(roleNode->findAttribute("is_aggregate").string);
+            if (is_aggregate == "TRUE") {
+                assoc->setAssocType(Uml::at_Aggregation);
+            }
+            QString containment = clean(roleNode->findAttribute("Containment").string);
+            if (containment == "By Value") {
+                assoc->setAssocType(Uml::at_Composition);
+            }
+            QString doc = roleNode->findAttribute("documentation").string;
+            if (! doc.isEmpty())
+                role->setDoc(doc);
+        }
+        UMLApp::app()->getDocument()->addAssociation(assoc);
+
     } else {
         kdDebug() << "umbrellify: object type " << objType
                   << " is not yet implemented" << endl;
