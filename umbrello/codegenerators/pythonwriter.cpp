@@ -4,6 +4,7 @@
     begin                : Sat Dec 21 2002
     copyright            : Vincent Decorges
     email                : vincent.decorges@eivd.ch
+      (C) 2003-2006  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,9 +18,7 @@
 
 #include "pythonwriter.h"
 
-
 #include <kdebug.h>
-
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <qfile.h>
@@ -168,6 +167,8 @@ void PythonWriter::writeOperations(UMLClassifier *c,QTextStream &h) {
             break;
           case Uml::Visibility::Private:
             oppriv.append(op);
+            break;
+          default:
             break;
         }
     }

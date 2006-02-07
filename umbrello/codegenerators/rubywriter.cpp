@@ -4,6 +4,7 @@
     begin                : Sat Dec 21 2002
     copyright            : Vincent Decorges
     email                : vincent.decorges@eivd.ch
+      (C) 2003-2006  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,9 +18,7 @@
 
 #include "rubywriter.h"
 
-
 #include <kdebug.h>
-
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <qfile.h>
@@ -192,6 +191,8 @@ void RubyWriter::writeOperations(UMLClassifier *c,QTextStream &h) {
         case Uml::Visibility::Private:
             oppriv.append(op);
             break;
+        default:
+            break;
         }
     }
 
@@ -227,7 +228,9 @@ void RubyWriter::writeOperations(QString classname, UMLOperationList &opList,
         h << m_indentation << "protected" << endl << endl;
         break;
     case Uml::Visibility::Private:
-     h << m_indentation << "private" << endl << endl;
+        h << m_indentation << "private" << endl << endl;
+        break;
+    default:
         break;
     }
 

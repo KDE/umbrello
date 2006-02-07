@@ -2,7 +2,7 @@
     begin               : Thu Oct 17 2002
     copyright           : (C) 2002 by Heiko Nardmann
     email               : h.nardmann@secunet.de
-
+      (C) 2003-2006  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
     php5 version by Thorsten Kunz (tk AT bytecrash DOT net)
  ***************************************************************************/
 
@@ -3173,6 +3173,8 @@ void Php5Writer::writeOperations(UMLClassifier *c, QTextStream &php) {
           case Uml::Visibility::Private:
             oppriv.append(op);
             break;
+          default:
+            break;
         }
     }
 
@@ -3232,6 +3234,8 @@ void Php5Writer::writeOperations(QString /* classname */, UMLOperationList &opLi
               case Uml::Visibility::Private:
                 php << m_indentation << " * @access private" << m_endl;
                 break;
+              default:
+                break;
             }
             php <<m_indentation << " */" << m_endl;
         }//end if : write method documentation
@@ -3247,6 +3251,8 @@ void Php5Writer::writeOperations(QString /* classname */, UMLOperationList &opLi
             break;
           case Uml::Visibility::Private:
             php << "private ";
+            break;
+          default:
             break;
         }
         if (op->getStatic()) php << "static ";
@@ -3293,6 +3299,8 @@ void Php5Writer::writeAttributes(UMLClassifier *c, QTextStream &php) {
           case Uml::Visibility::Private:
             atpriv.append(at);
             break;
+          default:
+            break;
         }
     }
 
@@ -3329,6 +3337,8 @@ void Php5Writer::writeAttributes(UMLAttributeList &atList, QTextStream &php) {
               case Uml::Visibility::Private:
                 php << m_indentation << " * @access private" << m_endl;
                 break;
+              default:
+                break;
             }
             php << m_indentation << " */" << m_endl;
         }
@@ -3342,6 +3352,8 @@ void Php5Writer::writeAttributes(UMLAttributeList &atList, QTextStream &php) {
             break;
           case Uml::Visibility::Private:
             php << "private ";
+            break;
+          default:
             break;
         }
         if(isStatic) php << "static ";

@@ -1,5 +1,6 @@
 /***************************************************************************
     copyright            : (C) 2003 Brian Thomas brian.thomas@gsfc.nasa.gov
+      (C) 2004-2006  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
 ***************************************************************************/
 
 /***************************************************************************
@@ -189,6 +190,8 @@ UMLAttributeList XMLSchemaWriter::findAttributes (UMLClassifier *c)
                 break;
               case Uml::Visibility::Private:
                 // DO NOTHING! no way to print in the schema
+                break;
+              default:
                 break;
             }
         }

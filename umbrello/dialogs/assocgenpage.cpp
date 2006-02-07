@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2003-2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2003-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
@@ -91,7 +88,7 @@ void AssocGenPage::constructWidget() {
 
     bool found=false;
     m_AssocTypeStrings.clear();
-    for (int i=0; i<m_AssocTypes.size(); ++i) {
+    for (uint i=0; i<m_AssocTypes.size(); ++i) {
         if (m_AssocTypes[i] == currentType) found=true;
         QString typeStr = UMLAssociation::typeAsString(m_AssocTypes[i]);
         m_AssocTypeStrings << typeStr;

@@ -2,6 +2,7 @@
     begin               : Thu Oct 17 2002
     copyright       : (C) 2002 by Heiko Nardmann
     email               : h.nardmann@secunet.de
+      (C) 2003-2006  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  ***************************************************************************/
 
 /***************************************************************************
@@ -3164,6 +3165,8 @@ void PhpWriter::writeOperations(UMLClassifier *c, QTextStream &php) {
           case Uml::Visibility::Private:
             oppriv.append(op);
             break;
+          default:
+            break;
         }
     }
 
@@ -3223,6 +3226,8 @@ void PhpWriter::writeOperations(QString /* classname */, UMLOperationList &opLis
               case Uml::Visibility::Private:
                 php << m_indentation << " * @access private" << m_endl;
                 break;
+              default:
+                break;
             }
             php <<m_indentation << " */" << m_endl;
         }//end if : write method documentation
@@ -3266,6 +3271,8 @@ void PhpWriter::writeAttributes(UMLClassifier *c, QTextStream &php) {
           case Uml::Visibility::Private:
             atpriv.append(at);
             break;
+          default:
+            break;
         }
     }
 
@@ -3299,6 +3306,8 @@ void PhpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &php) {
                 break;
               case Uml::Visibility::Private:
                 php << m_indentation << " * @access private" << m_endl;
+                break;
+              default:
                 break;
             }
 

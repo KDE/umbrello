@@ -2,7 +2,7 @@
     begin               : Thu Jul 26 2005
     copyright           : (C) 2005 by Rene Meyer
     email               : rene.meyer@sturmit.de
-
+      (C) 2006  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
  ***************************************************************************/
 
 /***************************************************************************
@@ -495,7 +495,7 @@ TclWriter::writeAttributeDecl(Uml::Visibility visibility, bool writeStatic)
     } else {
         type = "variable";
     }
-    UMLAttributeList *list;
+    UMLAttributeList *list = NULL;
     switch (visibility) {
     case Uml::Visibility::Private:
         if (writeStatic) {
@@ -514,16 +514,17 @@ TclWriter::writeAttributeDecl(Uml::Visibility visibility, bool writeStatic)
         break;
 
     case Uml::Visibility::Public:
-    default:
         if (writeStatic) {
             list = &(classifierInfo->static_atpub);
         } else {
             list = &(classifierInfo->atpub);
         }
         break;
+    default:
+        break;
     }
 
-    if (list->count() > 0) {
+    if (list && list->count() > 0) {
         writeComm(m_endl + scope + " " + type + " attributes" + m_endl);
         // write attrib declarations now
         QString         documentation;
@@ -536,7 +537,6 @@ TclWriter::writeAttributeDecl(Uml::Visibility visibility, bool writeStatic)
             writeCode(scope + " " + type + " " + varName + m_endl);
         }
     }
-    return;
 }
 
 void
@@ -701,6 +701,8 @@ TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility permitScope)
             if (permitScope == Uml::Visibility::Private)
                 oplist.append(op);
             break;
+        default:
+            break;
         }
     }
 
@@ -776,6 +778,8 @@ TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility permitScope)
         case Uml::Visibility::Private:
             if (permitScope == Uml::Visibility::Private)
                 oplist.append(op);
+            break;
+        default:
             break;
         }
     }
