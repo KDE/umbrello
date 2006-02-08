@@ -398,16 +398,8 @@ void UMLObject::maybeSignalObjectCreated() {
 }
 
 bool UMLObject::resolveRef() {
-    if (m_pSecondary) {
+    if (m_pSecondary || (m_SecondaryId.isEmpty() && m_SecondaryFallback.isEmpty())) {
         maybeSignalObjectCreated();
-        return true;
-    }
-    if (m_SecondaryId.isEmpty() && m_SecondaryFallback.isEmpty()) {
-#ifdef VERBOSE_DEBUGGING
-        kDebug() << "UMLObject::resolveRef(" << m_Name
-                  << "): neither m_SecondaryId nor m_SecondaryFallback is set"
-                  << endl;
-#endif
         return true;
     }
 #ifdef VERBOSE_DEBUGGING
