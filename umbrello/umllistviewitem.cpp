@@ -536,7 +536,7 @@ void UMLListViewItem::cancelRename(int col) {
 
 // Sort the listview items by type and position within the corresponding list
 // of UMLObjects. If the item does not have an UMLObject then place it last.
-int UMLListViewItem::compare(QListViewItem *other, int /*col*/, bool /*ascending*/) const
+int UMLListViewItem::compare(QListViewItem *other, int col, bool ascending) const
 {
     UMLListViewItem *ulvi = static_cast<UMLListViewItem*>(other);
     Uml::ListView_Type ourType = getType();
@@ -547,72 +547,78 @@ int UMLListViewItem::compare(QListViewItem *other, int /*col*/, bool /*ascending
     if ( ourType > otherType )
         return 1;
     // ourType == otherType
+    const bool subItem = UMLListView::typeIsClassifierList(ourType);
+    const int alphaOrder = key(col, ascending).compare(other->key(col, ascending));
+    int retval = 0;
+    QString dbgPfx = "compare(type=" + QString::number((int)ourType)
+                   + ", self=" + getText() + ", other=" + ulvi->getText()
+                   + "): return ";
     UMLObject *otherObj = ulvi->getUMLObject();
     if (m_pObject == NULL) {
+        retval = (subItem ? 1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
-            << "): return 1 because (m_pObject==NULL)" << endl;
+        kdDebug() << dbgPfx << retval << " because (m_pObject==NULL)" << endl;
 #endif
-        return 1;
+        return retval;
     }
     if (otherObj == NULL) {
+        retval = (subItem ? -1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
-            << "): return -1 because (otherObj==NULL)" << endl;
+        kdDebug() << dbgPfx << retval << " because (otherObj==NULL)" << endl;
 #endif
-        return -1;
+        return retval;
     }
     UMLClassifier *ourParent = dynamic_cast<UMLClassifier*>(m_pObject->parent());
     UMLClassifier *otherParent = dynamic_cast<UMLClassifier*>(otherObj->parent());
     if (ourParent == NULL) {
+        retval = (subItem ? 1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
-            << "): return 1 because (ourParent==NULL)" << endl;
+        kdDebug() << dbgPfx << retval << " because (ourParent==NULL)" << endl;
 #endif
-        return 1;
+        return retval;
     }
     if (otherParent == NULL) {
+        retval = (subItem ? -1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
-            << "): return -1 because (otherParent==NULL)" << endl;
+        kdDebug() << dbgPfx << retval << " because (otherParent==NULL)" << endl;
 #endif
-        return -1;
+        return retval;
     }
     if (ourParent != otherParent) {
+        retval = (subItem ? 0 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
-            << "): return 0 because (ourParent != otherParentL)" << endl;
+        kdDebug() << dbgPfx << retval << " because (ourParent != otherParentL)" << endl;
 #endif
-        return 0;
+        return retval;
     }
     UMLClassifierListItem *thisUmlItem = dynamic_cast<UMLClassifierListItem*>(m_pObject);
     UMLClassifierListItem *otherUmlItem = dynamic_cast<UMLClassifierListItem*>(otherObj);
     if (thisUmlItem == NULL) {
+        retval = (subItem ? 1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
-            << "): return 1 because (thisUmlItem==NULL)" << endl;
+        kdDebug() << dbgPfx << retval << " because (thisUmlItem==NULL)" << endl;
 #endif
-        return 1;
+        return retval;
     }
     if (otherUmlItem == NULL) {
+        retval = (subItem ? -1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kdDebug() << "compare(self=" << getText() << ", other=" << ulvi->getText()
-            << "): return -1 because (otherUmlItem==NULL)" << endl;
+        kdDebug() << dbgPfx << retval << " because (otherUmlItem==NULL)" << endl;
 #endif
-        return -1;
+        return retval;
     }
     UMLClassifierListItemList items = ourParent->getFilteredList(thisUmlItem->getBaseType());
     int myIndex = items.findRef(thisUmlItem);
     int otherIndex = items.findRef(otherUmlItem);
     if (myIndex < 0) {
-        kdError() << "compare(self=" << getText() << ", other=" << ulvi->getText()
-            << "): return -1 because (myIndex < 0)" << endl;
-        return -1;
+        retval = (subItem ? -1 : alphaOrder);
+        kdError() << dbgPfx << retval << " because (myIndex < 0)" << endl;
+        return retval;
     }
     if (otherIndex < 0) {
-        kdError() << "compare(self=" << getText() << ", other=" << ulvi->getText()
-            << "): return 1 because (otherIndex < 0)" << endl;
-        return 1;
+        retval = (subItem ? 1 : alphaOrder);
+        kdError() << dbgPfx << retval << " because (otherIndex < 0)" << endl;
+        return retval;
     }
     return (myIndex < otherIndex ? -1 : myIndex > otherIndex ? 1 : 0);
 }
