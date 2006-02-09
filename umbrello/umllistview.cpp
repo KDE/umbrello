@@ -2893,8 +2893,10 @@ bool UMLListView::typeIsFolder(Uml::ListView_Type type) {
 
 bool UMLListView::typeIsClassifierList(Uml::ListView_Type type) {
     if (type == Uml::lvt_Attribute ||
-            type == Uml::lvt_Operation ||
-            type == Uml::lvt_Template) {
+        type == Uml::lvt_Operation ||
+        type == Uml::lvt_Template ||
+        type == Uml::lvt_EntityAttribute ||
+        type == Uml::lvt_Unknown) {  // used for enum literal
         return true;
     } else {
         return false;
