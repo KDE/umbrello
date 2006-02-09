@@ -352,7 +352,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
     } else if (objType == "Association") {
         PetalNode *roles = node->findAttribute("roles").node;
         if (node == NULL) {
-            kdError() << "umbrellify: cannot find roles of Association" << endl;
+            kError() << "umbrellify: cannot find roles of Association" << endl;
             return false;
         }
         UMLAssociation *assoc = new UMLAssociation(Uml::at_UniAssociation);
@@ -382,11 +382,11 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
         for (uint i = Uml::A; i <= Uml::B; i++) {
             PetalNode *roleNode = roleList[i].second.node;
             if (roleNode == NULL) {
-                kdError() << "umbrellify: roleNode of Association is NULL" << endl;
+                kError() << "umbrellify: roleNode of Association is NULL" << endl;
                 return false;
             }
             if (roleNode->name() != "Role") {
-                kdDebug() << "umbrellify(" << name << "): expecting Role, found \""
+                kDebug() << "umbrellify(" << name << "): expecting Role, found \""
                           << roleNode->name() << endl;
                 continue;
             }
