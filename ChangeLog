@@ -8,6 +8,8 @@ Version 1.5.2
 * Multiplicity labels positioned incorrectly when moving entities (120598)
 * Types of entity's attributes are displayed instead of their names (120742)
 * Unable to delete entity from entity list in "UML Model" frame (120750)
+* Unable to delete entity from entity list in "UML Model" frame (120750)
+* Changing font style has no effect on classes (120761)
 * Cannot Resize Sequence Diagram Synchronous Messages (120910)
 
 Version 1.5.1

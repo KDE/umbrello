@@ -57,6 +57,7 @@ void UMLClassifier::setInterface(bool b /* = true */) {
     if (b) {
         m_BaseType = ot_Interface;
         UMLObject::setStereotype("interface");
+        UMLObject::m_bAbstract = true;
         newIcon = UMLListView::it_Interface;
     } else {
         m_BaseType = ot_Class;
