@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,12 +5,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2002-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef ENTITYATTRIBUTE_H
 #define ENTITYATTRIBUTE_H
 
-#include "classifierlistitem.h"
+#include "attribute.h"
 #include "umlnamespace.h"
 
 /**
@@ -27,7 +24,7 @@
  * @see UMLObject
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLEntityAttribute : public UMLClassifierListItem {
+class UMLEntityAttribute : public UMLAttribute {
 public:
     /**
      * Sets up an entityattribute.
@@ -69,20 +66,6 @@ public:
      * Make a clone of the UMLEntityAttribute.
      */
     virtual UMLObject* clone() const;
-
-    /**
-     * Returns The initial value of the UMLEntityAttribute.
-     *
-     * @return  The inital value of the Atrtibute.
-     */
-    QString getInitialValue();
-
-    /**
-     * Sets the initial value of the UMLEntityAttribute.
-     *
-     * @param iv                The inital value of the UMLEntityAttribute.
-     */
-    void setInitialValue( const QString& iv );
 
     /**
      * Returns The value of the UMLEntityAttribute's attributes property.
@@ -173,18 +156,19 @@ public:
      */
     bool showPropertiesDialogue(QWidget* parent);
 
-    void setParmKind (Uml::Parameter_Direction pk);
-    Uml::Parameter_Direction getParmKind () const;
-
 protected:
+    /**
+     * Initialize members of this class.
+     * Auxiliary method used by constructors.
+     */
+    void init();
+
     /**
      * Loads the <UML:EntityAttribute> XMI element.
      */
     bool load(QDomElement& element);
 
 private:
-    QString m_InitialValue; ///< text for the entityattribute's initial value.
-    Uml::Parameter_Direction m_ParmKind;
     Uml::DBIndex_Type m_indexType;
     QString m_values;
     QString m_attributes;

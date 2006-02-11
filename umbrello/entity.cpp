@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2003-2005
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2003-2005                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
@@ -54,7 +51,7 @@ void UMLEntity::init() {
     m_BaseType = Uml::ot_Entity;
 }
 
-UMLObject* UMLEntity::createEntityAttribute(const QString &name /*=null*/) {
+UMLObject* UMLEntity::createAttribute(const QString &name /*=null*/) {
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     Uml::IDType id = umldoc->getUniqueID();
     QString currentName;
@@ -161,6 +158,19 @@ int UMLEntity::entityAttributes() {
 
 void UMLEntity::signalEntityAttributeRemoved(UMLClassifierListItem *eattr) {
     emit entityAttributeRemoved(eattr);
+}
+
+bool UMLEntity::resolveRef() {
+    bool success = UMLClassifier::resolveRef();
+    for (UMLObjectListIt oit(m_List); oit.current(); ++oit) {
+        UMLObject* obj = oit.current();
+        if (obj->resolveRef()) {
+            UMLClassifierListItem *cli = static_cast<UMLClassifierListItem*>(obj);
+            if (cli->getBaseType() == Uml::ot_EntityAttribute)
+                emit entityAttributeAdded(cli);
+        }
+    }
+    return success;
 }
 
 void UMLEntity::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {

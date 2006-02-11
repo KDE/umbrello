@@ -5,14 +5,20 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2002-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
+// own header
+#include "listpopupmenu.h"
+
+// qt/kde includes
 #include <kstandarddirs.h>
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kdebug.h>
 
-#include "listpopupmenu.h"
+// app includes
 #include "umlwidget.h"
 #include "umldoc.h"
 #include "umllistview.h"
@@ -1066,6 +1072,14 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         insertSeparator();
         insertStdItem(mt_Expand_All);
         insertStdItem(mt_Collapse_All);
+        break;
+
+    case mt_Entity:
+        m_pInsert = new KPopupMenu(this,"New");
+        m_pInsert->insertItem(SmallIcon("source"), i18n("Entity Attribute..."), mt_EntityAttribute);
+        insertFileNew();
+        insertStdItems();
+        insertStdItem(mt_Properties);
         break;
 
     case mt_Datatype:

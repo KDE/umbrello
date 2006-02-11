@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2002-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
@@ -26,42 +23,24 @@
 
 UMLEntityAttribute::UMLEntityAttribute( const UMLObject *parent, QString Name, Uml::IDType id,
                                         Uml::Visibility s, QString type, QString iv )
-        : UMLClassifierListItem(parent, Name, id) {
-    m_InitialValue = iv;
-    m_BaseType = Uml::ot_EntityAttribute;
-    m_Vis = s;
-    m_ParmKind = Uml::pd_In;
-    m_indexType = Uml::None;
-    m_values = "";
-    m_attributes = "";
-    m_autoIncrement = false;
-    m_null = false;
-    if (!type.isEmpty()) {
-        UMLDoc* pDoc = UMLApp::app()->getDocument();
-        m_pSecondary = pDoc->findUMLObject(type);
-        if (m_pSecondary == NULL) {
-            m_pSecondary = Object_Factory::createUMLObject(Uml::ot_EntityAttribute, type);
-        }
+        : UMLAttribute(parent, Name, id, s, type, iv) {
+    init();
+    if (m_pSecondary) {
+        m_pSecondary->setBaseType(Uml::ot_Entity);
     }
 }
 
-UMLEntityAttribute::UMLEntityAttribute(const UMLObject *parent) : UMLClassifierListItem(parent) {
-    m_BaseType = Uml::ot_EntityAttribute;
-    m_Vis = Uml::Visibility::Private;
-    m_ParmKind = Uml::pd_In;
+UMLEntityAttribute::UMLEntityAttribute(const UMLObject *parent) : UMLAttribute(parent) {
+    init();
 }
 
 UMLEntityAttribute::~UMLEntityAttribute() { }
 
-QString UMLEntityAttribute::getInitialValue() {
-    return m_InitialValue;
-}
-
-void UMLEntityAttribute::setInitialValue(const QString &iv) {
-    if (m_InitialValue != iv) {
-        m_InitialValue = iv;
-        emit modified();
-    }
+void UMLEntityAttribute::init() {
+    m_BaseType = Uml::ot_EntityAttribute;
+    m_indexType = Uml::None;
+    m_autoIncrement = false;
+    m_null = false;
 }
 
 QString UMLEntityAttribute::getAttributes() {
@@ -102,14 +81,6 @@ bool UMLEntityAttribute::getNull() {
 
 void UMLEntityAttribute::setNull(const bool nullIn) {
     m_null = nullIn;
-}
-
-void UMLEntityAttribute::setParmKind(Uml::Parameter_Direction pk) {
-    m_ParmKind = pk;
-}
-
-Uml::Parameter_Direction UMLEntityAttribute::getParmKind() const {
-    return m_ParmKind;
 }
 
 QString UMLEntityAttribute::toString(Uml::Signature_Type sig) {
@@ -186,50 +157,8 @@ void UMLEntityAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement 
 }
 
 bool UMLEntityAttribute::load( QDomElement & element ) {
-    m_SecondaryId = element.attribute( "type", "" );
-    // We use the m_SecondaryId as a temporary store for the xmi.id
-    // of the attribute type model object.
-    // It is resolved later on, when all classes have been loaded.
-    // This deferred resolution is required because the xmi.id may
-    // be a forward reference, i.e. it may identify a model object
-    // that has not yet been loaded.
-    if (m_SecondaryId.isEmpty()) {
-        // Perhaps the type is stored in a child node:
-        QDomNode node = element.firstChild();
-        while (!node.isNull()) {
-            if (node.isComment()) {
-                node = node.nextSibling();
-                continue;
-            }
-            QDomElement tempElement = node.toElement();
-            QString tag = tempElement.tagName();
-            if (!Uml::tagEq(tag, "type")) {
-                node = node.nextSibling();
-                continue;
-            }
-            m_SecondaryId = tempElement.attribute( "xmi.id", "" );
-            if (m_SecondaryId.isEmpty())
-                m_SecondaryId = tempElement.attribute( "xmi.idref", "" );
-            if (m_SecondaryId.isEmpty()) {
-                QDomNode inner = node.firstChild();
-                QDomElement tmpElem = inner.toElement();
-                m_SecondaryId = tmpElem.attribute( "xmi.id", "" );
-                if (m_SecondaryId.isEmpty())
-                    m_SecondaryId = tmpElem.attribute( "xmi.idref", "" );
-            }
-            break;
-        }
-        if (m_SecondaryId.isEmpty()) {
-            kError() << "UMLEntityAttribute::load(" << m_Name << "): "
-            << "cannot find type." << endl;
-            return false;
-        }
-    }
-    m_InitialValue = element.attribute( "initialValue", "" );
-    if (m_InitialValue.isEmpty()) {
-        // for backward compatibility
-        m_InitialValue = element.attribute( "value", "" );
-    }
+    if (! UMLAttribute::load(element))
+        return false;
     int indexType = element.attribute( "dbindex_type", "1100" ).toInt();
     m_indexType = ( Uml::DBIndex_Type )indexType;
     m_values = element.attribute( "values", "" );

@@ -156,7 +156,8 @@ UMLOperation *createOperation(UMLClassifier *parent, QString name) {
 UMLClassifierListItem* createChildObject(UMLClassifier* parent, Uml::Object_Type type) {
     UMLObject* returnObject = NULL;
     switch (type) {
-    case Uml::ot_Attribute: {
+    case Uml::ot_Attribute:
+    case Uml::ot_EntityAttribute: {
             UMLClassifier *c = dynamic_cast<UMLClassifier*>(parent);
             if (c && !c->isInterface())
                 returnObject = c->createAttribute();
@@ -178,13 +179,6 @@ UMLClassifierListItem* createChildObject(UMLClassifier* parent, Uml::Object_Type
             UMLEnum* umlenum = dynamic_cast<UMLEnum*>(parent);
             if (umlenum) {
                 returnObject = umlenum->createEnumLiteral();
-            }
-            break;
-        }
-    case Uml::ot_EntityAttribute: {
-            UMLEntity* umlentity = dynamic_cast<UMLEntity*>(parent);
-            if (umlentity) {
-                returnObject = umlentity->createEntityAttribute();
             }
             break;
         }

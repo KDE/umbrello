@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2005
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2002-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
@@ -37,6 +34,7 @@
 #include "listpopupmenu.h"
 #include "classifierwidget.h"
 #include "classifier.h"
+#include "entity.h"
 #include "attribute.h"
 #include "operation.h"
 #include "association.h"
@@ -243,7 +241,10 @@ UMLAssociation * AssociationWidget::getAssociation () {
 }
 
 UMLAttribute * AssociationWidget::getAttribute () {
-    if (m_pObject == NULL || m_pObject->getBaseType() != ot_Attribute)
+    if (m_pObject == NULL)
+        return NULL;
+    Uml::Object_Type ot = m_pObject->getBaseType();
+    if (ot != ot_Attribute && ot != ot_EntityAttribute)
         return NULL;
     return static_cast<UMLAttribute*>(m_pObject);
 }
@@ -3083,9 +3084,16 @@ QRect AssociationWidget::getAssocLineRectangle()
 
 void AssociationWidget::setUMLObject(UMLObject *obj) {
     WidgetBase::setUMLObject(obj);
-    if (obj && obj->getBaseType() == Uml::ot_Attribute) {
+    if (obj == NULL)
+        return;
+    Uml::Object_Type ot = obj->getBaseType();
+    if (ot == Uml::ot_Attribute) {
         UMLClassifier *klass = static_cast<UMLClassifier*>(obj->parent());
         connect(klass, SIGNAL(attributeRemoved(UMLClassifierListItem*)),
+                this, SLOT(slotAttributeRemoved(UMLClassifierListItem*)));
+    } else if (ot == Uml::ot_EntityAttribute) {
+        UMLEntity *ent = static_cast<UMLEntity*>(obj->parent());
+        connect(ent, SIGNAL(entityAttributeRemoved(UMLClassifierListItem*)),
                 this, SLOT(slotAttributeRemoved(UMLClassifierListItem*)));
     }
 }
@@ -3420,7 +3428,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
             return false;
         } else {
             const Uml::Object_Type ot = myObj->getBaseType();
-            if (ot == ot_Attribute || ot == ot_Operation) {
+            if (ot == ot_Attribute || ot_EntityAttribute) {
                 setUMLObject(myObj);
                 QString type = qElement.attribute( "type", "-1" );
                 Uml::Association_Type aType = (Uml::Association_Type) type.toInt();

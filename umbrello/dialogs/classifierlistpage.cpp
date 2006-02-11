@@ -223,11 +223,12 @@ void ClassifierListPage::slotListItemCreated(UMLObject* object) {
     if(!m_bSigWaiting) {
         return;
     }
-    if (object->getBaseType() == ot_Datatype)  {
+    UMLClassifierListItem *listItem = dynamic_cast<UMLClassifierListItem*>(object);
+    if (listItem == NULL)  {
         return;
     }
     int index = m_pItemListLB->count();
-    m_pItemListLB->insertItem(object->getName(), index);
+    m_pItemListLB->insertItem(listItem->toString(Uml::st_SigNoVis), index);
     m_bSigWaiting = false;
 
     // now select the new item, so that the user can go on adding doc or calling
@@ -242,8 +243,10 @@ void ClassifierListPage::slotListItemModified() {
     }
     //is this safe???
     UMLClassifierListItem* object = const_cast<UMLClassifierListItem*>(dynamic_cast<const UMLClassifierListItem*>(sender()));
+    if (object == NULL)
+        return;
     int index = m_pItemListLB->currentItem();
-    m_pItemListLB->changeItem(object->getName(), index);
+    m_pItemListLB->changeItem(object->toString(Uml::st_SigNoVis), index);
     m_bSigWaiting = false;
 }
 

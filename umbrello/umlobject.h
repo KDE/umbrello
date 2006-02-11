@@ -92,6 +92,13 @@ public:
     Uml::Object_Type getBaseType() const;
 
     /**
+     * Set the type of the object.
+     *
+     * @param  The Uml::Object_Type to set.
+     */
+    void setBaseType(Uml::Object_Type ot);
+
+    /**
      * Returns the ID of the object.
      *
      * @return  Returns the ID of the object.
