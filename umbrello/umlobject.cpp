@@ -260,6 +260,10 @@ Uml::Object_Type UMLObject::getBaseType() const {
     return m_BaseType;
 }
 
+void UMLObject::setBaseType(Uml::Object_Type ot) {
+    m_BaseType = ot;
+}
+
 Uml::IDType UMLObject::getID() const {
     return m_nId;
 }

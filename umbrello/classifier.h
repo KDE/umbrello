@@ -5,10 +5,12 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2002-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
-#ifndef CONCEPT_H
-#define CONCEPT_H
+#ifndef CLASSIFIER__H
+#define CLASSIFIER__H
 
 #include "package.h"
 #include "umlattributelist.h"
@@ -85,7 +87,7 @@ public:
      * @param name  An optional name, used by when creating through UMLListView
      * @return  The UMLAttribute created
      */
-    UMLObject* createAttribute(const QString &name = QString::null);
+    virtual UMLObject* createAttribute(const QString &name = QString::null);
 
     /**
      * Adds an attribute to the class.

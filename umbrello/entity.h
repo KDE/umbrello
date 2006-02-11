@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2003-2005
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2003-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef ENTITY_H
@@ -68,12 +65,13 @@ public:
 
     /**
      * Creates an entity attribute for the parent concept.
+     * Reimplementation of method from UMLClassifier.
      *
      * @param o The parent concept
      * @param name  An optional name, used by when creating through UMLListView
      * @return  The UMLEntityAttribute created
      */
-    UMLObject* createEntityAttribute(const QString &name = QString::null);
+    UMLObject* createAttribute(const QString &name = QString::null);
 
     /**
          * Adds an entityAttribute to the entity.
@@ -127,6 +125,12 @@ public:
      * @return  The number of entityAttributes for the class.
      */
     int entityAttributes();
+
+    /**
+     * Resolve the types referenced by our UMLEntityAttributes.
+     * Reimplements the method from UMLClassifier.
+     */
+    virtual bool resolveRef();
 
     /**
      * Creates the <UML:Entity> element including its entityliterals.

@@ -285,6 +285,18 @@ bool isCommonDataType(QString type) {
     return false;
 }
 
+bool isClassifierListitem(Uml::Object_Type type) {
+    if (type == Uml::ot_Attribute ||
+        type == Uml::ot_Operation ||
+        type == Uml::ot_Template ||
+        type == Uml::ot_EntityAttribute ||
+        type == Uml::ot_EnumLiteral) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 int stringToDirection(QString input, Uml::Parameter_Direction & result) {
     QRegExp dirx("^(in|out|inout)");
     int pos = dirx.search(input);

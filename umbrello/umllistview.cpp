@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2005
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2002-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
@@ -47,6 +44,7 @@
 #include "template.h"
 #include "operation.h"
 #include "attribute.h"
+#include "entityattribute.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umllistviewitemlist.h"
@@ -58,6 +56,7 @@
 #include "clipboard/umldrag.h"
 #include "dialogs/classpropdlg.h"
 #include "dialogs/umlattributedialog.h"
+#include "dialogs/umlentityattributedialog.h"
 #include "dialogs/umloperationdialog.h"
 #include "dialogs/umltemplatedialog.h"
 
@@ -188,8 +187,10 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
         case Uml::lvt_Entity:
         case Uml::lvt_Actor:
         case Uml::lvt_Attribute:
+        case Uml::lvt_EntityAttribute:
         case Uml::lvt_Operation:
         case Uml::lvt_Template:
+        case Uml::lvt_Unknown:  // used for EnumLiteral
             UMLApp::app() -> getDocWindow() -> showDocumentation( item -> getUMLObject(), false );
             break;
 
@@ -344,6 +345,10 @@ void UMLListView::popupMenuSel(int sel) {
         addNewItem( temp, Uml::lvt_Attribute );
         break;
 
+    case ListPopupMenu::mt_EntityAttribute:
+        addNewItem( temp, Uml::lvt_EntityAttribute );
+        break;
+
     case ListPopupMenu::mt_Operation:
         addNewItem( temp, Uml::lvt_Operation );
         break;
@@ -490,6 +495,11 @@ void UMLListView::popupMenuSel(int sel) {
             // show the attribute dialogue
             UMLAttribute* selectedAttribute = static_cast<UMLAttribute*>(object);
             UMLAttributeDialog dialogue( this, selectedAttribute );
+            dialogue.exec();
+        } else if(umlType == Uml::ot_EntityAttribute) {
+            // show the attribute dialogue
+            UMLEntityAttribute* selectedAttribute = static_cast<UMLEntityAttribute*>(object);
+            UMLEntityAttributeDialog dialogue( this, selectedAttribute );
             dialogue.exec();
         } else if(umlType == Uml::ot_Operation) {
             // show the operation dialogue
@@ -743,8 +753,17 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object) {
         }
         connect(object,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
         break;
-    case Uml::ot_Datatype:
     case Uml::ot_Entity:
+        {
+            UMLEntity *ent = static_cast<UMLEntity*>(object);
+            connect(ent, SIGNAL(entityAttributeAdded(UMLClassifierListItem*)),
+                    this, SLOT(childObjectAdded(UMLClassifierListItem*)));
+            connect(ent, SIGNAL(entityAttributeRemoved(UMLClassifierListItem*)),
+                    this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
+        }
+        connect(object,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
+        break;
+    case Uml::ot_Datatype:
     case Uml::ot_Attribute:
     case Uml::ot_Operation:
     case Uml::ot_Template:
@@ -882,7 +901,7 @@ QDragObject* UMLListView::dragObject() {
         ++it;
         Uml::ListView_Type type = item->getType();
         if ( !typeIsCanvasWidget(type) && !typeIsDiagram(type) && !typeIsFolder(type)
-                && type != Uml::lvt_Attribute && type != Uml::lvt_Operation) {
+                && !typeIsClassifierList(type)) {
             return 0;
         }
         list.append(item);
@@ -1133,6 +1152,11 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
             break;
         case Uml::lvt_Attribute:
             if (dstType == Uml::lvt_Class) {
+                accept = !item->isOwnParent(data->id);
+            }
+            break;
+        case Uml::lvt_EntityAttribute:
+            if (dstType == Uml::lvt_Entity) {
                 accept = !item->isOwnParent(data->id);
             }
             break;
@@ -1480,23 +1504,14 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
         item = new UMLListViewItem(parent, Data.getText(), lvt);
         break;
     case Uml::lvt_Attribute:
+    case Uml::lvt_EntityAttribute:
+    case Uml::lvt_Operation:
+    case Uml::lvt_Template:
+    case Uml::lvt_Unknown:  // used for EnumLiteral
         {
             UMLClassifier *pClass =  static_cast<UMLClassifier*>(parent->getUMLObject());
             Uml::IDType newID = IDChanges.findNewID( Data.getID() );
             pObject = pClass->findChildObjectById(newID);
-            if (pObject) {
-                item = new UMLListViewItem( parent, Data.getText(), lvt, pObject );
-            } else {
-                item = 0;
-            }
-            break;
-        }
-    case Uml::lvt_Operation:
-    case Uml::lvt_Template:
-        {
-            UMLClassifier * pConcept =  (UMLClassifier *)parent -> getUMLObject();
-            Uml::IDType newID = IDChanges.findNewID( Data.getID() );
-            pObject = pConcept->findChildObjectById(newID);
             if (pObject) {
                 item = new UMLListViewItem( parent, Data.getText(), lvt, pObject );
             } else {
@@ -1672,6 +1687,10 @@ Uml::ListView_Type UMLListView::convert_OT_LVT(Uml::Object_Type ot) {
         type = Uml::lvt_Entity;
         break;
 
+    case Uml::ot_EntityAttribute:
+        type = Uml::lvt_EntityAttribute;
+        break;
+
     case Uml::ot_Attribute:
         type = Uml::lvt_Attribute;
         break;
@@ -1750,6 +1769,10 @@ Uml::Object_Type UMLListView::convert_LVT_OT(Uml::ListView_Type lvt) {
 
     case Uml::lvt_Template:
         ot = Uml::ot_Template;
+        break;
+
+    case Uml::lvt_Unknown:   // @todo make a proper lvt_EnumLiteral
+        ot = Uml::ot_EnumLiteral;
         break;
 
     default:
@@ -2127,6 +2150,14 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
             newItem -> setPixmap( 0, getPixmap( it_Private_Attribute ) );
             break;
         }
+    case Uml::lvt_EntityAttribute:
+        {
+            UMLEntity *umlParent = static_cast<UMLEntity*>(parentItem->getUMLObject());
+            name = umlParent->uniqChildName( Uml::ot_EntityAttribute );
+            newItem = new UMLListViewItem( parentItem, name, type, (UMLObject *)0 );
+            newItem -> setPixmap( 0, getPixmap( it_Private_Attribute ) );
+            break;
+        }
     case Uml::lvt_Operation:
         {
             UMLClassifier * childParent = static_cast<UMLClassifier *>( parentItem->getUMLObject() );
@@ -2267,16 +2298,12 @@ bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
         }
         break;
 
-    case Uml::lvt_Template:
-        return createChildUMLObject( renamedItem, Uml::ot_Template );
-        break;
-
     case Uml::lvt_Attribute:
-        return createChildUMLObject( renamedItem, Uml::ot_Attribute );
-        break;
-
+    case Uml::lvt_EntityAttribute:
     case Uml::lvt_Operation:
-        return createChildUMLObject( renamedItem, Uml::ot_Operation );
+    case Uml::lvt_Template:
+    case Uml::lvt_Unknown:  // used for EnumLiteral
+        return createChildUMLObject( renamedItem, convert_LVT_OT(type) );
         break;
 
     case Uml::lvt_Class_Diagram:
@@ -2420,7 +2447,7 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
         UMLTemplate *tmplParm = static_cast<UMLTemplate*>(newObject);
         tmplParm->setType(nt.m_type);
         text = tmplParm->toString(Uml::st_SigNoVis);
-    } else if ( type == Uml::ot_Attribute )  {
+    } else if (type == Uml::ot_Attribute || type == Uml::ot_EntityAttribute)  {
         UMLClassifier *owningClass = static_cast<UMLClassifier*>(parent);
         Model_Utils::NameAndType nt;
         Model_Utils::Parse_Status st = Model_Utils::parseAttribute(text, nt, owningClass);
@@ -2576,7 +2603,9 @@ bool UMLListView::isUnique( UMLListViewItem * item, const QString &name ) {
 
     case Uml::lvt_Template:
     case Uml::lvt_Attribute:
+    case Uml::lvt_EntityAttribute:
     case Uml::lvt_Operation:
+    case Uml::lvt_Unknown:  // used for EnumLiteral
         {
             UMLClassifier *parent = static_cast<UMLClassifier*>(parentItem->getUMLObject());
             return (parent->findChildObject(name) == NULL);
@@ -2742,8 +2771,10 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
             }
             break;
         case Uml::lvt_Attribute:
+        case Uml::lvt_EntityAttribute:
         case Uml::lvt_Template:
         case Uml::lvt_Operation:
+        case Uml::lvt_Unknown:  // used for EnumLiteral
             item = findItem(nID);
             if (item == NULL) {
                 kdDebug() << "UMLListView::loadChildrenFromXMI: "

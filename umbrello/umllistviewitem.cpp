@@ -189,7 +189,7 @@ void UMLListViewItem::updateObject() {
     Uml::Visibility scope = m_pObject->getVisibility();
     Uml::Object_Type ot = m_pObject->getBaseType();
     QString modelObjText = m_pObject->getName();
-    if (ot == Uml::ot_Operation || ot == Uml::ot_Attribute || ot == Uml::ot_Template) {
+    if (Model_Utils::isClassifierListitem(ot)) {
         UMLClassifierListItem *pNarrowed = static_cast<UMLClassifierListItem*>(m_pObject);
         modelObjText = pNarrowed->toString(Uml::st_SigNoVis);
     }
@@ -246,23 +246,24 @@ void UMLListViewItem::updateObject() {
         break;
 
     case Uml::ot_Operation:
-              if( scope == Uml::Visibility::Public )
+        if (scope == Uml::Visibility::Public)
             icon =  UMLListView::it_Public_Method;
-            else if( scope == Uml::Visibility::Private )
-              icon =  UMLListView::it_Private_Method;
-            else if( scope == Uml::Visibility::Implementation )
-              icon =  UMLListView::it_Private_Method;
+        else if (scope == Uml::Visibility::Private)
+            icon =  UMLListView::it_Private_Method;
+        else if (scope == Uml::Visibility::Implementation)
+            icon =  UMLListView::it_Private_Method;
         else
             icon =  UMLListView::it_Protected_Method;
         break;
 
     case Uml::ot_Attribute:
-              if( scope == Uml::Visibility::Public )
+    case Uml::ot_EntityAttribute:
+        if (scope == Uml::Visibility::Public)
             icon =  UMLListView::it_Public_Attribute;
-            else if( scope == Uml::Visibility::Private )
-              icon =  UMLListView::it_Private_Attribute;
-            else if( scope == Uml::Visibility::Implementation )
-              icon =  UMLListView::it_Private_Attribute;
+        else if (scope == Uml::Visibility::Private)
+            icon =  UMLListView::it_Private_Attribute;
+        else if (scope == Uml::Visibility::Implementation)
+            icon =  UMLListView::it_Private_Attribute;
         else
             icon =  UMLListView::it_Protected_Attribute;
         break;
@@ -421,6 +422,7 @@ void UMLListViewItem::okRename( int col ) {
         }
 
     case Uml::lvt_Attribute:
+    case Uml::lvt_EntityAttribute:
         {
             if (m_pObject == NULL) {
                 cancelRenameWithMsg();

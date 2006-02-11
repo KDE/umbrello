@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2002-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef ATTRIBUTE_H
@@ -106,7 +103,7 @@ public:
     /**
      * Display the properties configuration dialogue for the attribute.
      */
-    bool showPropertiesDialogue(QWidget* parent);
+    virtual bool showPropertiesDialogue(QWidget* parent);
 
     void setParmKind (Uml::Parameter_Direction pk);
     Uml::Parameter_Direction getParmKind () const;
@@ -117,7 +114,6 @@ protected:
      */
     bool load( QDomElement & element );
 
-private:
     QString m_InitialValue; ///< text for the attribute's initial value.
     Uml::Parameter_Direction m_ParmKind;
 };

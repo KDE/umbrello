@@ -100,6 +100,11 @@ bool isCommonXMIAttribute(const QString &tag);
 bool isCommonDataType(QString type);
 
 /**
+ * Return true if the given object type is a classifier list item type.
+ */
+bool isClassifierListitem(Uml::Object_Type ot);
+
+/**
  * Parse a direction string into the Uml::Parameter_Direction.
  *
  * @param input  The string to parse: "in", "out", or "inout"
