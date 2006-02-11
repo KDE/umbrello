@@ -5,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2005-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
@@ -126,6 +128,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
         const bool isPointer = typeName.contains('*');
         const bool isRef = typeName.contains('&');
         typeName.remove(QRegExp("[^\\w:\\. ].*$"));
+        typeName = typeName.simplifyWhiteSpace();
         UMLObject *origType = umldoc->findUMLObject(typeName, Uml::ot_UMLObject, parentPkg);
         if (origType == NULL) {
             // Still not found. Create the stripped down type.
