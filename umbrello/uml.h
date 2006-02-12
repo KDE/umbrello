@@ -97,7 +97,7 @@ public:
     /**
      * Opens a file specified by commandline option.
      */
-    void openDocumentFile(const KUrl& url=KURL());
+    void openDocumentFile(const KUrl& url=KUrl());
 
     /**
      * Calls the UMLDoc method to create a new Document.

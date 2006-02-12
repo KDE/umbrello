@@ -68,7 +68,7 @@ QString URLUtil::relativePath(const KUrl & parent, const KUrl & child, uint slas
 ///////////////////////////////////////////////////////////////////////////////
 
 QString URLUtil::relativePath(const QString & parent, const QString & child, uint slashPolicy) {
-  return relativePath(KURL(parent), KURL(child), slashPolicy);
+  return relativePath(KUrl(parent), KUrl(child), slashPolicy);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -87,7 +87,7 @@ KUrl URLUtil::mergeURL(const KUrl & source, const KUrl & dest, const KUrl & chil
   if (source.isParentOf(child) || source == child) return child;
 
   // if not a child of dest, return blank URL (error)
-  if (!dest.isParentOf(child) && dest != child) return KURL();
+  if (!dest.isParentOf(child) && dest != child) return KUrl();
 
   // if child is same as dest, return source
   if (dest == child) return source;
@@ -96,7 +96,7 @@ KUrl URLUtil::mergeURL(const KUrl & source, const KUrl & dest, const KUrl & chil
   QString childUrlStr = child.url(-1);
   QString destStemStr = dest.url(1);
   QString sourceStemStr = source.url(1);
-  return KURL(sourceStemStr.append( childUrlStr.mid( destStemStr.length() ) ) );
+  return KUrl(sourceStemStr.append( childUrlStr.mid( destStemStr.length() ) ) );
 
 }
 

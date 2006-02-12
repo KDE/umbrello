@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
             bool last = cfg -> readBoolEntry( "loadlast", false );
             QString file = cfg -> readPathEntry( "lastFile" );
             if( last && !file.isEmpty() ) {
-                uml->openDocumentFile( KURL( file ) );
+                uml->openDocumentFile( KUrl( file ) );
             } else {
                 uml->newDocument();
             }
