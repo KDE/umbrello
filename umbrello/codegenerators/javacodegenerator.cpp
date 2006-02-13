@@ -200,7 +200,7 @@ QStringList JavaCodeGenerator::defaultDatatypes() {
     l.append("byte");
     l.append("short");
     l.append("long");
-    l.append("string");
+    l.append("String");
     return l;
 }
 
