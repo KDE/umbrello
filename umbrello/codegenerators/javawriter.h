@@ -57,6 +57,11 @@ public:
      */
     virtual Uml::Programming_Language getLanguage();
 
+    /**
+     * Overrides method from class CodeGenerator
+     */
+    QStringList defaultDatatypes();
+
 private:
 
     /**
