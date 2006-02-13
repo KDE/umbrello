@@ -484,7 +484,11 @@ UMLOperation *MessageWidget::getOperation() {
 }
 
 void MessageWidget::setOperation(UMLOperation *op) {
+    if (m_pObject && m_pFText)
+        disconnect(m_pObject, SIGNAL(modified()), m_pFText, SLOT(setMessageText()));
     m_pObject = op;
+    if (m_pObject && m_pFText)
+        connect(m_pObject, SIGNAL(modified()), m_pFText, SLOT(setMessageText()));
 }
 
 QString MessageWidget::getCustomOpText() {
@@ -815,9 +819,10 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
     updateResizability();
 
     UMLClassifier *c = dynamic_cast<UMLClassifier*>( pWB->getUMLObject() );
+    UMLOperation *op = NULL;
     if (c) {
         Uml::IDType opId = STR2ID(m_CustomOp);
-        UMLOperation *op = dynamic_cast<UMLOperation*>( c->findChildObjectById(opId, true) );
+        op = dynamic_cast<UMLOperation*>( c->findChildObjectById(opId, true) );
         if (op) {
             // If the UMLOperation is set, m_CustomOp isn't used anyway.
             // Just setting it empty for the sake of sanity.
@@ -839,7 +844,6 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
                 m_CustomOp = QString::null;
             }
         }
-        setOperation(op);
     }
 
     Uml::IDType textId = STR2ID(textid);
@@ -878,6 +882,8 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
             << tag << endl;
         }
     }
+    if (op)                // Do it here and not earlier because now we have the
+        setOperation(op);  // m_pFText and setOperation() can make connections.
 
     // always need this
     setLinkAndTextPos();
