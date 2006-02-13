@@ -649,6 +649,20 @@ QString JavaWriter::fixTypeName(QString string)
     return string;
 }
 
+QStringList JavaWriter::defaultDatatypes() {
+    QStringList l;
+    l.append("int");
+    l.append("char");
+    l.append("boolean");
+    l.append("float");
+    l.append("double");
+    l.append("byte");
+    l.append("short");
+    l.append("long");
+    l.append("String");
+    return l;
+}
+
 void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
     UMLOperationList opl;
     UMLOperationList oppub,opprot,oppriv;

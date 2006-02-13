@@ -5,6 +5,7 @@ Version 1.5.2
 * fixed problem with font size computation/word wrap in note widgets
   http://sourceforge.net/mailarchive/forum.php?thread_id=9558795&forum_id=472
 * Bugs/wishes from http://bugs.kde.org:
+* Umbrello doesnt allow some keywords for return types (115991)
 * Multiplicity labels positioned incorrectly when moving entities (120598)
 * Types of entity's attributes are displayed instead of their names (120742)
 * Unable to delete entity from entity list in "UML Model" frame (120750)
