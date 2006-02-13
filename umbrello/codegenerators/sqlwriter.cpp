@@ -199,6 +199,35 @@ Uml::Programming_Language SQLWriter::getLanguage() {
     return Uml::pl_SQL;
 }
 
+QStringList SQLWriter::defaultDatatypes() {
+    QStringList l;
+    l.append("varchar");
+    l.append("tinyint");
+    l.append("smallint");
+    l.append("mediumint");
+    l.append("bigint");
+    l.append("float");
+    l.append("double");
+    l.append("decimal");
+    l.append("date");
+    l.append("datetime");
+    l.append("time");
+    l.append("timestamp");
+    l.append("year");
+    l.append("char");
+    l.append("tinyblob");
+    l.append("blob");
+    l.append("mediumblob");
+    l.append("longblob");
+    l.append("tinytext");
+    l.append("text");
+    l.append("mediumtext");
+    l.append("longtext");
+    l.append("enum");
+    l.append("set");
+    return l;
+}
+
 const QStringList SQLWriter::reservedKeywords() const {
 
     static QStringList keywords;

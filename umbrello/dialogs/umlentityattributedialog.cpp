@@ -40,6 +40,7 @@
 #include "../classifier.h"
 #include "../umldoc.h"
 #include "../uml.h"
+#include "../codegenerator.h"
 #include "../dialog_utils.h"
 #include "../object_factory.h"
 
@@ -52,7 +53,7 @@ UMLEntityAttributeDialog::UMLEntityAttributeDialog( QWidget * pParent, UMLEntity
 UMLEntityAttributeDialog::~UMLEntityAttributeDialog() {}
 
 void UMLEntityAttributeDialog::setupDialog() {
-    UMLDoc * pDoc = UMLApp::app()->getDocument();
+    //UMLDoc * pDoc = UMLApp::app()->getDocument();
     int margin = fontMetrics().height();
 
     QVBoxLayout * mainLayout = new QVBoxLayout( plainPage() );
@@ -138,31 +139,17 @@ void UMLEntityAttributeDialog::setupDialog() {
 
     m_pTypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
 
-    //now add the Concepts
-    insertType("varchar");
-    insertType("tinyint");
-    insertType("smallint");
-    insertType("mediumint");
-    insertType("bigint");
-    insertType("float");
-    insertType("double");
-    insertType("decimal");
-    insertType("date");
-    insertType("datetime");
-    insertType("time");
-    insertType("timestamp");
-    insertType("year");
-    insertType("char");
-    insertType("tinyblob");
-    insertType("blob");
-    insertType("mediumblob");
-    insertType("longblob");
-    insertType("tinytext");
-    insertType("text");
-    insertType("mediumtext");
-    insertType("longtext");
-    insertType("enum");
-    insertType("set");
+    // Add the data types.
+    QStringList dataTypes = UMLApp::app()->getGenerator()->defaultDatatypes();
+    if (dataTypes.count() == 0) {
+        // Switch to SQL as the active language if not datatypes are set.
+        UMLApp::app()->setActiveLanguage("SQL");
+        dataTypes = UMLApp::app()->getGenerator()->defaultDatatypes();
+    }
+    QStringList::Iterator dend(dataTypes.end());
+    for (QStringList::Iterator dit = dataTypes.begin(); dit != dend; ++dit) {
+        insertType(*dit);
+    }
 
     //work out which one to select
     int typeBoxCount = 0;
