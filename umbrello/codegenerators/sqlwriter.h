@@ -46,6 +46,11 @@ public:
     virtual Uml::Programming_Language getLanguage();
 
     /**
+     * Reimplement method from CodeGenerator.
+     */
+    virtual QStringList defaultDatatypes();
+
+    /**
      * get list of reserved keywords
      */
     virtual const QStringList reservedKeywords() const;
