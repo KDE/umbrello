@@ -13,13 +13,13 @@ can take as a starting point.
 
 <para>
 The Unified Modelling Language (&UML;) is a diagramming language or notation to specify, visualize and document
-models of Object Orientated software systems. &UML; is not a development method, that means it does not tell you
+models of Object Oriented software systems. &UML; is not a development method, that means it does not tell you
 what to do first and what to do next or how to design your system, but it helps you to visualize
 your design and communicate with others. &UML; is controlled by the Object Management Group (<acronym>OMG</acronym>) and is the
 industry standard for graphically describing software.
 </para>
 <para>
-&UML; is designed for Object Orientated software design and has limited use for other programming paradigms.
+&UML; is designed for Object Oriented software design and has limited use for other programming paradigms.
 </para>
 <para>
 &UML; is composed of many model elements that represent the different parts of a software system.
@@ -253,7 +253,7 @@ they will be called Generics.
 <para>Classes can relate (be associated with) to each other in different ways:</para>
 <sect4 id="generalization">
 <title>Generalization</title>
-<para>Inheritance is one of the fundamental concepts of Object Orientated programming, in which a class
+<para>Inheritance is one of the fundamental concepts of Object Oriented programming, in which a class
 <quote>gains</quote> all of the attributes and operations of the class it inherits from, and can
 override/modify some of them, as well as add more attributes and operations of its own.</para>
 <para>
