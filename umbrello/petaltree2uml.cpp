@@ -379,7 +379,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
 		is_navigable 	TRUE)))
   */
         PetalNode::NameValueList roleList = roles->attributes();
-        for (uint i = Uml::A; i <= Uml::B; i++) {
+        for (uint i = 0; i <= 1; i++) {
             PetalNode *roleNode = roleList[i].second.node;
             if (roleNode == NULL) {
                 kError() << "umbrellify: roleNode of Association is NULL" << endl;
@@ -390,7 +390,9 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
                           << roleNode->name() << endl;
                 continue;
             }
-            UMLRole *role = assoc->getUMLRole((Uml::Role_Type) i);
+            // index 0 corresponds to Umbrello roleB
+            // index 1 corresponds to Umbrello roleA
+            UMLRole *role = assoc->getUMLRole((Uml::Role_Type) !i);
             QStringList initialArgs = roleNode->initialArgs();
             if (initialArgs.count() > 1) {
                 QString roleName = clean(initialArgs[1]);
