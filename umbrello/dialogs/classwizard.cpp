@@ -29,7 +29,7 @@
 #include "../umlclassifierlistitemlist.h"
 #include "../classifierlistitem.h"
 
-ClassWizard::ClassWizard( UMLDoc * pDoc ) : KWizard( (QWidget*)pDoc -> parent(), "_CLASSWIZARD_", true) {
+ClassWizard::ClassWizard( UMLDoc * pDoc ) : K3Wizard( (QWidget*)pDoc -> parent(), "_CLASSWIZARD_", true) {
     m_pDoc = pDoc;
     //create a unique class to start with
     UMLObject * pTemp = 0;

@@ -17,7 +17,7 @@
 
 // qt includes
 #include <qlayout.h>
-#include <q3vbox.h>
+#include <kvbox.h>
 //Added by qt3to4:
 #include <QLabel>
 #include <QGridLayout>

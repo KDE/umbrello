@@ -15,7 +15,7 @@
 #ifndef CLASSWIZARD_H
 #define CLASSWIZARD_H
 //kde includes
-#include <kwizard.h>
+#include <k3wizard.h>
 //app includes
 #include "classgenpage.h"
 
@@ -27,7 +27,7 @@ class UMLDoc;
  * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ClassWizard : public KWizard {
+class ClassWizard : public K3Wizard {
 public:
     /**
      *  Consrtuctor
