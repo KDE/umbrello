@@ -17,7 +17,7 @@
             <family>Courier</family>
         </font>
     </property>
-    <property name="caption">
+    <property name="windowTitle">
         <string>Code Viewer</string>
     </property>
     <property name="sizeGripEnabled">

@@ -20,7 +20,7 @@
             <verstretch>0</verstretch>
         </sizepolicy>
     </property>
-    <property name="caption">
+    <property name="windowTitle">
         <string>Code Generation Options</string>
     </property>
     <grid>
