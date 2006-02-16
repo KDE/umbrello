@@ -60,8 +60,8 @@ void SettingsDlg::setupUIPage() {
     m_UiWidgets.lineColorL = new QLabel( i18n("Line color:"), m_UiWidgets.colorGB );
     colorLayout -> addWidget( m_UiWidgets.lineColorL, 0, 0 );
 
-    m_UiWidgets.lineColorB = new KColorButton( m_pOptionState->uiState.lineColor );
-    m_UiWidgets.lineColorB->setObjectName( m_UiWidgets.colorGB );
+    m_UiWidgets.lineColorB = new KColorButton( m_pOptionState->uiState.lineColor ,m_UiWidgets.colorGB);
+    //m_UiWidgets.lineColorB->setObjectName( m_UiWidgets.colorGB );
     colorLayout -> addWidget( m_UiWidgets.lineColorB, 0, 1 );
 
     m_UiWidgets.lineDefaultB = new QPushButton( i18n("D&efault Color"), m_UiWidgets.colorGB );
@@ -70,8 +70,8 @@ void SettingsDlg::setupUIPage() {
     m_UiWidgets.fillColorL = new QLabel( i18n("Fill color:"), m_UiWidgets.colorGB );
     colorLayout -> addWidget( m_UiWidgets.fillColorL, 1, 0 );
 
-    m_UiWidgets.fillColorB = new KColorButton( m_pOptionState->uiState.fillColor );
-    m_UiWidgets.fillColorB->setObjectName( m_UiWidgets.colorGB );
+    m_UiWidgets.fillColorB = new KColorButton( m_pOptionState->uiState.fillColor,m_UiWidgets.colorGB  );
+    //m_UiWidgets.fillColorB->setObjectName( m_UiWidgets.colorGB );
     colorLayout -> addWidget( m_UiWidgets.fillColorB, 1, 1 );
 
     m_UiWidgets.fillDefaultB = new QPushButton( i18n("De&fault Color"), m_UiWidgets.colorGB );
@@ -272,7 +272,7 @@ void SettingsDlg::setupCodeViewerPage(Settings::CodeViewerState options) {
 
 void SettingsDlg::setupFontPage() {
     KVBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
-    m_FontWidgets.chooser = new KFontChooser( page, "font", false, QStringList(), false);
+    m_FontWidgets.chooser = new KFontChooser( page,  false, QStringList(), false);
     m_FontWidgets.chooser->setFont( m_pOptionState->uiState.font );
 
 }
