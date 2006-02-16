@@ -49,9 +49,10 @@ QString NativeImportBase::advance() {
         else
             break;
     }
-    if (m_srcIndex ==  m_source.count() - 1 &&
-            m_source[m_srcIndex].startsWith(m_singleLineCommentIntro)) {
-        // last item in m_source is a comment
+    if (m_srcIndex >= m_source.count() - 1 ||
+        // if last item in m_source is a comment then it is dropped too
+        (m_srcIndex == m_source.count() - 1 &&
+         m_source[m_srcIndex].startsWith(m_singleLineCommentIntro))) {
         return QString::null;
     }
     return m_source[m_srcIndex];

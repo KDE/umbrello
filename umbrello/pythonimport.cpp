@@ -53,6 +53,7 @@ bool PythonImport::preprocess(QString& line) {
             m_comment += text.stripWhiteSpace();
         }
         m_source.append(m_singleLineCommentIntro + m_comment);  // denotes comments in `m_source'
+        m_srcIndex++;
         m_comment = "";
         m_inComment = false;
         pos += 3;  // pos now points behind the closed comment
@@ -78,8 +79,10 @@ bool PythonImport::preprocess(QString& line) {
             if (endpos > pos + 3)  {
                 QString cmnt = line.mid(pos + 3, endpos - pos - 3);
                 cmnt = cmnt.stripWhiteSpace();
-                if (!cmnt.isEmpty())
+                if (!cmnt.isEmpty()) {
                     m_source.append(m_singleLineCommentIntro + cmnt);
+                    m_srcIndex++;
+                }
             }
             endpos += 3;  // endpos now points behind the closed comment
             QString pre;
@@ -98,6 +101,7 @@ bool PythonImport::preprocess(QString& line) {
     if (pos != -1) {
         QString cmnt = line.mid(pos);
         m_source.append(cmnt);
+        m_srcIndex++;
         if (pos == 0)
             return true;
         line = line.left(pos);
@@ -217,6 +221,11 @@ bool PythonImport::parseStmt() {
         return true;
     }
     if (keyword == "def") {
+        if (m_klass == NULL) {
+            // skip functions outside of a class
+            skipBody();
+            return true;
+        }
         const QString& name = advance();
         // operation
         UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
