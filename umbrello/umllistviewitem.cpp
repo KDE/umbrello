@@ -338,11 +338,11 @@ void UMLListViewItem::okRename( int col ) {
         m_bCreating = false;
         QString savedLabel = m_Label;
         m_Label = text(col);
-        if ( s_pListView->slotItemRenamed( this, col ) ) {
+        if ( s_pListView->itemRenamed( this, col ) ) {
             s_pListView->ensureItemVisible(this);
             doc->setModified(true);
         } else {
-            m_Label = savedLabel;
+            delete this;
         }
         return;
     }
