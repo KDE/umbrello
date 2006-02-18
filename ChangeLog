@@ -7,6 +7,7 @@ Version 1.5.2
 * Bugs/wishes from http://bugs.kde.org:
 * Import Rose model files (81364)
 * Default data types not added for old Java generator (115991)
+* Custom operations in sequence diagrams become class operations (120337)
 * Multiplicity labels positioned incorrectly when moving entities (120598)
 * Types of entity's attributes are displayed instead of their names (120742)
 * Unable to delete entity from entity list in "UML Model" frame (120750)

@@ -304,26 +304,30 @@ void FloatingText::showOpDlg() {
     }
     seqNum = selectDlg.getSeqNumber();
     opText = selectDlg.getOpText();
-    Model_Utils::OpDescriptor od;
-    Model_Utils::Parse_Status st = Model_Utils::parseOperation(opText, od, c);
-    if (st == Model_Utils::PS_OK) {
-        UMLClassifierList selfAndAncestors = c->findSuperClassConcepts();
-        selfAndAncestors.prepend(c);
-        UMLOperation *op = NULL;
-        for (UMLClassifier *cl = selfAndAncestors.first(); cl; cl = selfAndAncestors.next()) {
-            op = cl->findOperation(od.m_name, od.m_args);
-            if (op != NULL)
-                break;
+    if (selectDlg.isClassOp()) {
+        Model_Utils::OpDescriptor od;
+        Model_Utils::Parse_Status st = Model_Utils::parseOperation(opText, od, c);
+        if (st == Model_Utils::PS_OK) {
+            UMLClassifierList selfAndAncestors = c->findSuperClassConcepts();
+            selfAndAncestors.prepend(c);
+            UMLOperation *op = NULL;
+            for (UMLClassifier *cl = selfAndAncestors.first(); cl; cl = selfAndAncestors.next()) {
+                op = cl->findOperation(od.m_name, od.m_args);
+                if (op != NULL)
+                    break;
+            }
+            if (op == NULL) {
+                // The op does not yet exist. Create a new one.
+                UMLObject *o = c->createOperation(od.m_name, NULL, &od.m_args);
+                op = static_cast<UMLOperation*>(o);
+            }
+            if (od.m_pReturnType)
+                op->setType(od.m_pReturnType);
+            m_pLink->setOperation(op);
+            opText = QString::null;
+        } else {
+            m_pLink->setOperation(NULL);
         }
-        if (op == NULL) {
-            // The op does not yet exist. Create a new one.
-            UMLObject *o = c->createOperation(od.m_name, NULL, &od.m_args);
-            op = static_cast<UMLOperation*>(o);
-        }
-        if (od.m_pReturnType)
-            op->setType(od.m_pReturnType);
-        m_pLink->setOperation(op);
-        opText = QString::null;
     } else {
         m_pLink->setOperation(NULL);
     }

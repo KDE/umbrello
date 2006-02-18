@@ -64,6 +64,15 @@ public:
     QString getOpText();
 
     /**
+     * Return whether the user selected a class operation
+     * or a custom operation.
+     *
+     * @return  True if user selected a class operation,
+     *          false if user selected a custom operation
+     */
+    bool isClassOp() const;
+
+    /**
      *  Returns the sequence number for the operation.
      *
      *  @return Returns the sequence number for the operation.
@@ -99,6 +108,7 @@ private:
     Q3ButtonGroup * m_pOpBG, * m_pDocGB;
     QString m_Text;
     int m_nOpCount;
+    int m_id;  ///< takes on the value OP or CUSTOM according to what the user selected
     UMLView *m_pView;
 public slots:
     void slotSelected(int id);

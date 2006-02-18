@@ -89,6 +89,10 @@ QString SelectOpDlg::getOpText() {
         return m_pOpLE -> text();
 }
 
+bool SelectOpDlg::isClassOp() const {
+    return (m_id == OP);
+}
+
 void SelectOpDlg::slotSelected(int id) {
     if(id == OP) {
         m_pOpLE -> setEnabled(false);
@@ -98,6 +102,7 @@ void SelectOpDlg::slotSelected(int id) {
         m_pOpLE -> setEnabled(true);
         m_pOpCB -> setEnabled(false);
     }
+    m_id = id;
 }
 
 void SelectOpDlg::setCustomOp(const QString &op) {
