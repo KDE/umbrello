@@ -2231,7 +2231,7 @@ void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) 
     // is called (automatically by QListViewItem.)
 }
 
-bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
+bool UMLListView::itemRenamed( QListViewItem * item , int /*col*/ ) {
     //if true the item was cancel before this message
     if( m_bIgnoreCancelRename ) {
         return true;
@@ -2242,13 +2242,12 @@ bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
     QString newText = renamedItem -> text( 0 );
     renamedItem -> setCreating( false );
 
-    //if the length of any type then delete it.
-    if( newText.length() == 0 ) {
+    // If the type is empty then delete it.
+    if (newText.isEmpty() || newText.contains(QRegExp("^\\s+$"))) {
         KMessageBox::error(
             kapp -> mainWidget(),
             i18n( "The name you entered was invalid.\nCreation process has been canceled." ),
             i18n( "Name Not Valid" ) );
-        delete item;
         return false;
     }
     // No need to do anything for folders if the string length was > 0
@@ -2271,7 +2270,6 @@ bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
                 kapp -> mainWidget(),
                 i18n( "The name you entered was not unique!\nCreation process has been canceled." ),
                 i18n( "Name Not Unique" ) );
-            delete item;
             return false;
         }
     }
@@ -2291,7 +2289,7 @@ bool UMLListView::slotItemRenamed( QListViewItem * item , int /*col*/ ) {
         {
             Uml::Object_Type ot = convert_LVT_OT(type);
             if (! ot) {
-                kdError() << "UMLListView::slotItemRenamed() internal" << endl;
+                kdError() << "UMLListView::itemRenamed() internal" << endl;
                 return false;
             }
             createUMLObject( renamedItem, ot );

@@ -302,6 +302,11 @@ public:
     UMLListViewItem * moveObject(Uml::IDType srcId, Uml::ListView_Type srcType,
                                  UMLListViewItem *newParent);
 
+    /**
+     * Called for informing the list view that an item was renamed.
+     */
+    bool itemRenamed(QListViewItem* item , int col);
+
     void closeDatatypesFolder();
 
     UMLListViewItem *theRootView() { return m_rv; }
@@ -528,13 +533,6 @@ public slots:
      *  cut operation is successful.
      */
     void slotCutSuccessful();
-
-    /**
-     *     When a user requests a new item we wait for the signal
-     *     to then verify the item.  The class only connects to the
-     *     rename signal while needed.
-     */
-    bool slotItemRenamed(QListViewItem* item , int col);
 
 signals:
 
