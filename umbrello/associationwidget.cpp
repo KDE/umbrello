@@ -20,6 +20,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kcolordialog.h>
+#include <kapplication.h>
 // app includes
 #include "activitywidget.h"
 #include "uml.h"
@@ -2956,11 +2957,7 @@ void AssociationWidget::setSelected(bool _select /* = true */) {
         m_role[A].m_pChangeWidget-> setSelected( _select );
     if( m_role[B].m_pChangeWidget)
         m_role[B].m_pChangeWidget-> setSelected( _select );
-    /**
-     * @fixme MYSTERY:
-     *        If the following code is activated and the m_LinePath.setSelected()
-     *        precedes it then the blue selection markers sometimes disappear
-     *        (notably on messages in collaboration diagrams.)
+    kapp->processEvents();
     //Update the docwindow for this association.
     // This is done last because each of the above setSelected calls
     // overwrites the docwindow, but we want the main association doc
@@ -2970,11 +2967,7 @@ void AssociationWidget::setSelected(bool _select /* = true */) {
                 m_pView -> showDocumentation( this, false );
     } else
         m_pView -> updateDocumentation( true );
-     */
-    /** @fixme Had to pull the m_LinePath.setSelected() call down here
-     *         because otherwise the blue selection markers would not show
-     *         when selecting collaboration messages.
-     */
+    kapp->processEvents();
     m_LinePath.setSelected( _select );
     if (! _select) {
         // For now, if _select is true we don't make the assoc class line
