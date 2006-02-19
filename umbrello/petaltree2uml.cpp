@@ -23,8 +23,13 @@
 #include "operation.h"
 #include "association.h"
 #include "umlrole.h"
+#include "usecase.h"
+#include "component.h"
+#include "node.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "umllistview.h"
+#include "umllistviewitem.h"
 
 namespace Import_Rose {
 
@@ -143,7 +148,7 @@ public:
         PetalNode *attributes = node->findAttribute(m_attributeTag).node;
         if (attributes == NULL) {
 #ifdef VERBOSE_DEBUGGING
-            kdDebug() << "umbrellify(" << name << "): no " << m_attributeTag << " found"
+            kdDebug() << "read(" << name << "): no " << m_attributeTag << " found"
                       << endl;
 #endif
             return;
@@ -153,7 +158,7 @@ public:
             PetalNode *attNode = attributeList[i].second.node;
             QStringList initialArgs = attNode->initialArgs();
             if (attNode->name() != m_elementName) {
-                kdDebug() << "umbrellify(" << name << "): expecting " << m_elementName
+                kdDebug() << "read(" << name << "): expecting " << m_elementName
                           << ", " << "found " << initialArgs[0] << endl;
                 continue;
             }
@@ -294,7 +299,7 @@ protected:
 };
 
 /**
- * Create an Umbrello object from a PetalNode.
+ * Create an Umbrello object from a PetalNode of the Logical View.
  *
  * @return   True for success.
  *           Given a PetalNode for which the mapping to Umbrello is not yet
@@ -441,6 +446,78 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
     return true;
 }
 
+Uml::ListView_Type folderType(UMLListViewItem *parent) {
+    Uml::ListView_Type type = Uml::lvt_Unknown;
+    switch (parent->getType()) {
+        case Uml::lvt_Logical_View:
+        case Uml::lvt_Logical_Folder:
+            type = Uml::lvt_Logical_Folder;
+            break;
+        case Uml::lvt_UseCase_View:
+        case Uml::lvt_UseCase_Folder:
+            type = Uml::lvt_UseCase_Folder;
+            break;
+        case Uml::lvt_Component_View:
+        case Uml::lvt_Component_Folder:
+            type = Uml::lvt_Component_Folder;
+            break;
+        case Uml::lvt_Deployment_View:
+        case Uml::lvt_Deployment_Folder:
+            type = Uml::lvt_Deployment_Folder;
+            break;
+        default:
+            break;
+    }
+    return type;
+}
+
+/**
+ * Create an Umbrello object from a PetalNode of the UseCase, Component,
+ * or Deployment View.
+ *
+ * @return   True for success.
+ *           Given a PetalNode for which the mapping to Umbrello is not yet
+ *           implemented umbrellify() is a no-op but also returns true.
+ */
+bool umbrellify(PetalNode *node, UMLListViewItem *parent) {
+    if (node == NULL) {
+        kdError() << "umbrellify: node is NULL" << endl;
+        return false;
+    }
+    QStringList args = node->initialArgs();
+    QString objType = args[0];
+    QString name = clean(args[1]);
+    Uml::IDType id = quid(node);
+
+    if (objType == "Class_Category") {
+        Uml::ListView_Type lvType = folderType(parent);
+        UMLListViewItem *item = new UMLListViewItem( parent, name, lvType, id );
+        PetalNode *logical_models = node->findAttribute("logical_models").node;
+        if (logical_models == NULL) {
+            kdError() << "umbrellify: cannot find logical_models" << endl;
+            return false;
+        }
+        PetalNode::NameValueList atts = logical_models->attributes();
+        for (uint i = 0; i < atts.count(); i++) {
+            umbrellify(atts[i].second.node, item);
+        }
+    } else if (objType == "UseCase") {
+        UMLUseCase *uc = new UMLUseCase(name, id);
+        UMLListViewItem *item = new UMLListViewItem(parent, name, Uml::lvt_UseCase, uc);
+    } else if (objType == "SubSystem") {
+        UMLComponent *comp = new UMLComponent(name, id);
+        UMLListViewItem *item = new UMLListViewItem(parent, name, Uml::lvt_Component, comp);
+    } else if (objType == "Processor" || objType == "Device") {
+        UMLNode *un = new UMLNode(name, id);
+        un->setStereotype(objType.lower());
+        UMLListViewItem *item = new UMLListViewItem(parent, name, Uml::lvt_Node, un);
+    } else {
+        kdDebug() << "umbrellify: object type " << objType
+                  << " is not yet implemented" << endl;
+    }
+    return true;
+}
+
 bool petalTree2Uml(PetalNode *root) {
     if (root == NULL) {
         kdError() << "petalTree2Uml: root is NULL" << endl;
@@ -450,6 +527,7 @@ bool petalTree2Uml(PetalNode *root) {
         kdError() << "petalTree2Uml: expecting root name Design" << endl;
         return false;
     }
+    /********************************** import  Logical View *************************************/
     PetalNode *root_category = root->findAttribute("root_category").node;
     if (root_category == NULL) {
         kdError() << "petalTree2Uml: cannot find root_category" << endl;
@@ -471,6 +549,50 @@ bool petalTree2Uml(PetalNode *root) {
     for (uint i = 0; i < atts.count(); i++) {
         umbrellify(atts[i].second.node);
     }
+
+    /** Shorthand for UMLApp::app()->getListView() **/
+    UMLListView *lv = UMLApp::app()->getListView();
+
+    /********************************** import Use Case View *************************************/
+    PetalNode *root_usecase_package = root->findAttribute("root_usecase_package").node;
+    if (root_usecase_package) {
+        PetalNode *logical_models = root_usecase_package->findAttribute("logical_models").node;
+        if (logical_models == NULL) {
+            kdError() << "petalTree2Uml: cannot find logical_models of root_usecase_package" << endl;
+            return false;
+        }
+        PetalNode::NameValueList atts = logical_models->attributes();
+        for (uint i = 0; i < atts.count(); i++) {
+            umbrellify(atts[i].second.node, lv->theUseCaseView());
+        }
+    }
+    /********************************** import Component View ************************************/
+    PetalNode *root_subsystem = root->findAttribute("root_subsystem").node;
+    if (root_subsystem) {
+        PetalNode *physical_models = root_subsystem->findAttribute("physical_models").node;
+        if (physical_models == NULL) {
+            kdError() << "petalTree2Uml: cannot find physical_models of root_subsystem" << endl;
+            return false;
+        }
+        PetalNode::NameValueList atts = physical_models->attributes();
+        for (uint i = 0; i < atts.count(); i++) {
+            umbrellify(atts[i].second.node, lv->theComponentView());
+        }
+    }
+    /********************************** import Deployment View ***********************************/
+    PetalNode *process_structure = root->findAttribute("process_structure").node;
+    if (process_structure) {
+        PetalNode *ProcsNDevs = process_structure->findAttribute("ProcsNDevs").node;
+        if (ProcsNDevs == NULL) {
+            kdError() << "petalTree2Uml: cannot find ProcsNDevs of process_structure" << endl;
+            return false;
+        }
+        PetalNode::NameValueList atts = ProcsNDevs->attributes();
+        for (uint i = 0; i < atts.count(); i++) {
+            umbrellify(atts[i].second.node, lv->theDeploymentView());
+        }
+    }
+    /**********************************       wrap up        *************************************/
     Import_Utils::assignUniqueIdOnCreation(true);
     umldoc->resolveTypes();
     return true;
