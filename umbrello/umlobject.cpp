@@ -416,6 +416,11 @@ bool UMLObject::resolveRef() {
     if (! m_SecondaryId.isEmpty()) {
         m_pSecondary = pDoc->findObjectById(STR2ID(m_SecondaryId));
         if (m_pSecondary != NULL) {
+            if (m_pSecondary->getBaseType() == Uml::ot_Stereotype) {
+                m_pStereotype = static_cast<UMLStereotype*>(m_pSecondary);
+                m_pStereotype->incrRefCount();
+                m_pSecondary = NULL;
+            }
             m_SecondaryId = "";
             maybeSignalObjectCreated();
             return true;
@@ -665,9 +670,9 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
     }
     /**** End of XMI_FLAT_PACKAGES and old files handling ****************/
 
-    // If the name is not set, let's check whether the attributes are saved
-    // as child nodes.
-    if (m_Name.isEmpty()) {
+    // If the node has child nodes, check whether attributes can be
+    // extracted from them.
+    if (element.hasChildNodes()) {
         QDomNode node = element.firstChild();
         if (node.isComment())
             node = node.nextSibling();
@@ -698,6 +703,29 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
                 if (ownerScope.isEmpty())
                     ownerScope = elem.text();
                 m_bStatic = (ownerScope == "classifier");
+            } else if (Uml::tagEq(tag, "stereotype")) {
+                QString stereo = elem.attribute("xmi.value", "");
+                if (stereo.isEmpty() && elem.hasChildNodes()) {
+                    /* like so:
+                     <UML:ModelElement.stereotype>
+                       <UML:Stereotype xmi.idref = '07CD'/>
+                     </UML:ModelElement.stereotype>
+                     */
+                    QDomNode stereoNode = elem.firstChild();
+                    QDomElement stereoElem = stereoNode.toElement();
+                    tag = stereoElem.tagName();
+                    if (Uml::tagEq(tag, "Stereotype")) {
+                        stereo = stereoElem.attribute("xmi.idref", "");
+                    }
+                }
+                if (! stereo.isEmpty()) {
+                    Uml::IDType stereoID = STR2ID(stereo);
+                    m_pStereotype = umldoc->findStereotypeById(stereoID);
+                    if (m_pStereotype)
+                        m_pStereotype->incrRefCount();
+                    else
+                        m_SecondaryId = stereo;  // leave it to resolveRef()
+                }
             }
             node = node.nextSibling();
             if (node.isComment())

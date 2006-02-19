@@ -809,7 +809,10 @@ UMLView * UMLDoc::findView(Diagram_Type type, const QString &name,
 }
 
 UMLObject* UMLDoc::findObjectById(Uml::IDType id) {
-    return Model_Utils::findObjectInList(id, m_objectList);
+    UMLObject *o = Model_Utils::findObjectInList(id, m_objectList);
+    if (o == NULL)
+        o = findStereotypeById(id);
+    return o;
 }
 
 UMLStereotype * UMLDoc::findStereotypeById(Uml::IDType id) {
