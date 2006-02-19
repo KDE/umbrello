@@ -318,6 +318,9 @@ public:
 
     UMLListViewItem *theRootView() { return m_rv; }
     UMLListViewItem *theLogicalView() { return m_lv; }
+    UMLListViewItem *theUseCaseView() { return m_ucv; }
+    UMLListViewItem *theComponentView() { return m_cmpv; }
+    UMLListViewItem *theDeploymentView() { return m_dplv; }
 
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement,
                     bool saveSubmodelFiles = false );
@@ -327,11 +330,11 @@ public:
     bool loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & element );
 
 protected:
-    UMLListViewItem* m_rv;//root view
-    UMLListViewItem* m_ucv;//use case view item
-    UMLListViewItem* m_lv;//logical view item
-    UMLListViewItem* componentView;//component view item
-    UMLListViewItem* deploymentView;//deployment view item
+    UMLListViewItem* m_rv;    // root view
+    UMLListViewItem* m_ucv;   // use case view item
+    UMLListViewItem* m_lv;    // logical view item
+    UMLListViewItem* m_cmpv;  // component view item
+    UMLListViewItem* m_dplv;  // deployment view item
     UMLListViewItem* entityRelationshipModel;//entity relationship view item
     UMLListViewItem* datatypeFolder;
     UMLListViewItem* diagramFolder;
@@ -395,10 +398,8 @@ protected:
     void contentsMousePressEvent(QMouseEvent *me);
     void contentsMouseDoubleClickEvent(QMouseEvent * me);
     void focusOutEvent ( QFocusEvent * fe);
-    bool goodName(Q3ListViewItem *i);
     Q3DragObject* dragObject();
     void startDrag();
-    void tidyChangeItem();
     bool acceptDrag (QDropEvent* event) const;
     void keyPressEvent(QKeyEvent *);
 
