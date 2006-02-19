@@ -6,6 +6,7 @@ Version 1.5.2
   http://sourceforge.net/mailarchive/forum.php?thread_id=9558795&forum_id=472
 * Bugs/wishes from http://bugs.kde.org:
 * Import Rose model files (81364)
+* Documentation for association roles not saved (105661)
 * Default data types not added for old Java generator (115991)
 * Custom operations in sequence diagrams become class operations (120337)
 * Multiplicity labels positioned incorrectly when moving entities (120598)
@@ -13,6 +14,7 @@ Version 1.5.2
 * Unable to delete entity from entity list in "UML Model" frame (120750)
 * Interface names not italicized in diagram view (120761)
 * Cannot Resize Sequence Diagram Synchronous Messages (120910)
+* Documentation for associations is not retained (121478, 122063)
 * Crash when importing Python files (121952)
 * "void" is imported as class and not datatypes (122184)
 * Crash when creating a datatype with the same name as a class (122188)
