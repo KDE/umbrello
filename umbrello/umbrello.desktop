@@ -9,6 +9,7 @@ Terminal=false
 Name=Umbrello
 Name[x-test]=xxUmbrelloxx
 GenericName=UML Modeller
+GenericName[fr]=Modeleur UML
 GenericName[x-test]=xxUML Modellerxx
 MimeType=application/x-uml
 Categories=Qt;KDE;Development;

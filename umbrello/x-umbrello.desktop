@@ -6,4 +6,5 @@ Icon=umbrellofile
 DefaultApp=umbrello
 Patterns=*.xmi;*.XMI;*.xmi.tgz;*.xmi.tar.bz2;
 Comment=Umbrello UML Modeller File
+Comment[fr]=Fichier du modeleur UML Umbrello
 Comment[x-test]=xxUmbrello UML Modeller Filexx
