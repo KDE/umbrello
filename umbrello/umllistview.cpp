@@ -115,8 +115,8 @@ UMLListView::UMLListView(QWidget *parent, const char *name)
     m_rv =  new UMLListViewItem(this, i18n("Views"), Uml::lvt_View);
     m_ucv = new UMLListViewItem(m_rv, i18n("Use Case View"), Uml::lvt_UseCase_View);
     m_lv = new UMLListViewItem(m_rv, i18n("Logical View"), Uml::lvt_Logical_View);
-    componentView = new UMLListViewItem(m_rv, i18n("Component View"), Uml::lvt_Component_View);
-    deploymentView = new UMLListViewItem(m_rv, i18n("Deployment View"), Uml::lvt_Deployment_View);
+    m_cmpv = new UMLListViewItem(m_rv, i18n("Component View"), Uml::lvt_Component_View);
+    m_dplv = new UMLListViewItem(m_rv, i18n("Deployment View"), Uml::lvt_Deployment_View);
     entityRelationshipModel = new UMLListViewItem(m_rv, i18n("Entity Relationship Model"), Uml::lvt_EntityRelationship_Model);
     datatypeFolder = new UMLListViewItem(m_lv, i18n("Datatypes"), Uml::lvt_Datatype_Folder);
 
@@ -574,9 +574,9 @@ void UMLListView::slotDiagramCreated( Uml::IDType id ) {
     } else if (v->getType() == Uml::dt_UseCase) {
         p = m_ucv;
     } else if (v->getType() == Uml::dt_Component) {
-        p = componentView;
+        p = m_cmpv;
     } else if (v->getType() == Uml::dt_Deployment) {
-        p = deploymentView;
+        p = m_dplv;
     } else if (v->getType() == Uml::dt_EntityRelationship) {
         p = entityRelationshipModel;
     } else {
@@ -643,13 +643,13 @@ UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const {
         if (lvt == Uml::lvt_Component_Folder)
             parentItem = current;
         else
-            parentItem = componentView;
+            parentItem = m_cmpv;
         break;
     case Uml::ot_Node:
         if (lvt == Uml::lvt_Deployment_Folder) {
             parentItem = current;
         } else {
-            parentItem = deploymentView;
+            parentItem = m_dplv;
         }
         break;
     case Uml::ot_Entity:
@@ -986,9 +986,9 @@ UMLListViewItem* UMLListView::findView(UMLView* v) {
     if (dType == Uml::dt_UseCase) {
         item = m_ucv;
     } else if (dType == Uml::dt_Component) {
-        item = componentView;
+        item = m_cmpv;
     } else if (dType == Uml::dt_Deployment) {
-        item = deploymentView;
+        item = m_dplv;
     } else if (dType == Uml::dt_EntityRelationship) {
         item = entityRelationshipModel;
     } else {
@@ -1044,16 +1044,16 @@ UMLListViewItem* UMLListView::findItem(Uml::IDType id) {
 void UMLListView::init() {
     deleteChildrenOf( m_ucv );
     deleteChildrenOf( m_lv );
-    deleteChildrenOf( componentView );
-    deleteChildrenOf( deploymentView );
+    deleteChildrenOf( m_cmpv );
+    deleteChildrenOf( m_dplv );
     deleteChildrenOf( entityRelationshipModel );
 
     m_rv->setOpen(true);
     m_ucv->setOpen(true);
     m_lv->setOpen(true);
     datatypeFolder->setOpen(false);
-    componentView->setOpen(true);
-    deploymentView->setOpen(true);
+    m_cmpv->setOpen(true);
+    m_dplv->setOpen(true);
     entityRelationshipModel->setOpen(true);
 
     //setup misc.
@@ -1553,11 +1553,11 @@ UMLListViewItem* UMLListView::determineParentItem(Uml::ListView_Type lvt) const 
     case Uml::lvt_Component_Diagram:
     case Uml::lvt_Component:
     case Uml::lvt_Artifact:
-        parent = componentView;
+        parent = m_cmpv;
         break;
     case Uml::lvt_Deployment_Diagram:
     case Uml::lvt_Node:
-        parent = deploymentView;
+        parent = m_dplv;
         break;
     case Uml::lvt_EntityRelationship_Diagram:
     case Uml::lvt_Entity:
@@ -2634,8 +2634,8 @@ bool UMLListView::loadFromXMI( QDomElement & element ) {
     /*
         deleteChildrenOf( m_ucv );
         deleteChildrenOf( m_lv );
-        deleteChildrenOf( componentView );
-        deleteChildrenOf( deploymentView );
+        deleteChildrenOf( m_cmpv );
+        deleteChildrenOf( m_dplv );
      */
     QDomNode node = element.firstChild();
     QDomElement domElement = node.toElement();
@@ -2817,10 +2817,10 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
             item = m_ucv;
             break;
         case Uml::lvt_Component_View:
-            item = componentView;
+            item = m_cmpv;
             break;
         case Uml::lvt_Deployment_View:
-            item = deploymentView;
+            item = m_dplv;
             break;
         case Uml::lvt_EntityRelationship_Model:
             item = entityRelationshipModel;
