@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2005
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2002-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
@@ -33,6 +30,7 @@
 #include <kcompletion.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <kapplication.h>
 #include <kdebug.h>
 
 // app includes
@@ -43,6 +41,8 @@
 #include "../codegenerator.h"
 #include "../dialog_utils.h"
 #include "../object_factory.h"
+#include "../datatype.h"
+#include "../umldatatypelist.h"
 
 UMLEntityAttributeDialog::UMLEntityAttributeDialog( QWidget * pParent, UMLEntityAttribute * pEntityAttribute )
         : KDialogBase( Plain, i18n("Entity Attribute Properties"), Help | Ok | Cancel , Ok, pParent, "_UMLENTITYATTRIBUTEDLG_", true, true) {
@@ -53,7 +53,7 @@ UMLEntityAttributeDialog::UMLEntityAttributeDialog( QWidget * pParent, UMLEntity
 UMLEntityAttributeDialog::~UMLEntityAttributeDialog() {}
 
 void UMLEntityAttributeDialog::setupDialog() {
-    //UMLDoc * pDoc = UMLApp::app()->getDocument();
+    UMLDoc * pDoc = UMLApp::app()->getDocument();
     int margin = fontMetrics().height();
 
     QVBoxLayout * mainLayout = new QVBoxLayout( plainPage() );
@@ -140,15 +140,17 @@ void UMLEntityAttributeDialog::setupDialog() {
     m_pTypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
 
     // Add the data types.
-    QStringList dataTypes = UMLApp::app()->getGenerator()->defaultDatatypes();
+    UMLDatatypeList dataTypes = pDoc->getDatatypes();
     if (dataTypes.count() == 0) {
-        // Switch to SQL as the active language if not datatypes are set.
+        // Switch to SQL as the active language if no datatypes are set.
         UMLApp::app()->setActiveLanguage("SQL");
-        dataTypes = UMLApp::app()->getGenerator()->defaultDatatypes();
+        pDoc->addDefaultDatatypes();
+        kapp->processEvents();
+        dataTypes = pDoc->getDatatypes();
     }
-    QStringList::Iterator dend(dataTypes.end());
-    for (QStringList::Iterator dit = dataTypes.begin(); dit != dend; ++dit) {
-        insertType(*dit);
+    UMLDatatype *dat;
+    for (UMLDatatypeListIt dit(dataTypes); (dat = dit.current()) != NULL; ++dit) {
+        insertType(dat->getName());
     }
 
     //work out which one to select
@@ -214,7 +216,15 @@ bool UMLEntityAttributeDialog::apply() {
     }
 
     QString typeName = m_pTypeCB->currentText();
-    UMLDoc * pDoc = UMLApp::app()->getDocument();
+    UMLDoc *pDoc = UMLApp::app()->getDocument();
+    UMLDatatypeList dataTypes = pDoc->getDatatypes();
+    UMLDatatype *dat;
+    for (UMLDatatypeListIt dit(dataTypes); (dat = dit.current()) != NULL; ++dit) {
+        if (typeName == dat->getName()) {
+            m_pEntityAttribute->setType(dat);
+            return true;
+        }
+    }
     UMLObject *obj = pDoc->findUMLObject(typeName);
     UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
     if (classifier == NULL) {
