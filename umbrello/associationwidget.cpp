@@ -2204,6 +2204,20 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
         setSelected( false );
         return;
     }
+
+    // Check whether a point was moved and whether the moved point is
+    // located on the straight line between its neighbours.
+    // if yes, remove it
+    ///@todo: check for non-horizontal / -vertical lines
+    if (m_nMovingPoint > 0 && m_nMovingPoint < m_LinePath.count() - 1)
+    {
+        QPoint m = m_LinePath.getPoint(m_nMovingPoint);
+        QPoint b = m_LinePath.getPoint(m_nMovingPoint - 1);
+        QPoint a = m_LinePath.getPoint(m_nMovingPoint + 1);
+        if ( (b.x() == m.x() && a.x() == m.x()) ||
+             (b.y() == m.y() && a.y() == m.y()) )
+            m_LinePath.removePoint(m_nMovingPoint, m, POINT_DELTA);
+    }
     m_nMovingPoint = -1;
     const QPoint p = me->pos();
     if (me->button() == Qt::LeftButton) {
@@ -2502,11 +2516,24 @@ void AssociationWidget::checkPoints(const QPoint &p) {
 }
 
 void AssociationWidget::mouseMoveEvent(QMouseEvent* me) {
-    //make sure we have a moving point
-    //I don't think there is another reason for being here
-    if( m_nMovingPoint == -1 || me->state() != Qt::LeftButton) {
+    if( me->state() != Qt::LeftButton) {
         return;
     }
+
+    // if we have no moving point,create one
+    if (m_nMovingPoint == -1)
+    {
+        //create moving point near the mouse on the line
+        int i = m_LinePath.onLinePath(me->pos());
+
+        if (i > -1)
+        {
+            m_LinePath.insertPoint( i + 1, me->pos() );
+            m_nMovingPoint = i + 1;
+        } else
+            return;
+    }
+    
     setSelected();
     //new position for point
     QPoint p = me->pos();
@@ -2845,6 +2872,7 @@ void AssociationWidget::updateAssociations(int totalCount,
 void AssociationWidget::updateRegionLineCount(int index, int totalCount,
         AssociationWidget::Region region,
         Role_Type role) {
+            ///@todo remove parameter totalCount (no longer needed)
     if( region == Error )
         return;
     // If the association is to self and the line ends are on the same region then
@@ -2900,16 +2928,35 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
     robj.m_OldCorner.setY(y);
     int ww = pWidget->getWidth();
     int wh = pWidget->getHeight();
-    int ch = wh * index / totalCount;
-    int cw = ww * index / totalCount;
+//    int ch = wh * index / totalCount;
+//    int cw = ww * index / totalCount;
+    uint nind = role == A ? 1: m_LinePath.count() - 2;
+    QPoint neighbour = m_LinePath.getPoint(nind);
+    int ch = 0;
+    int cw = 0;
+    if (neighbour.x() < x)
+        cw = 0;
+    else if (neighbour.x() > x + ww)
+        cw = 0 + ww;
+    else
+        cw = neighbour.x() - x;
+
+    if (neighbour.y() < y)
+        ch = 0;
+    else if (neighbour.y() > y + wh)
+        ch = 0 + wh;
+    else
+        ch = neighbour.y() - y;
+
     int snapX = m_pView->snappedX(x + cw);
     int snapY = m_pView->snappedY(y + ch);
 
-    QPoint pt;
+    QPoint pt(snapX, snapY);
 
-    switch(region) {
-    case West:
-        pt.setX(x);
+/*    switch(region) {
+    default:
+//     case West:
+        pt.setX(snapX);
         pt.setY(snapY);
         break;
     case North:
@@ -2928,9 +2975,9 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
         pt.setX(x + ww / 2);
         pt.setY(y + wh / 2);
         break;
-    default:
+//     default:
         break;
-    }
+    }*/
     if (role == A)
         m_LinePath.setPoint( 0, pt );
     else {
