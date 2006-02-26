@@ -134,6 +134,11 @@ namespace Import_Utils {
      */
     bool newUMLObjectWasCreated();
 
+    /**
+     * Returns true if a type is an actual Datatype
+     */
+    bool isDatatype(QString name, UMLPackage *parentPkg = NULL);
+
 } // end namespace Import_Utils
 
 #endif

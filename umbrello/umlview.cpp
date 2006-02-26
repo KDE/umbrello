@@ -697,7 +697,7 @@ void UMLView::contentsDropEvent(QDropEvent *e) {
         return;
     }
     m_bCreateObject = true;
-    m_Pos = e->pos();
+    m_Pos = (e->pos() * 100 ) / m_nZoom;
 
     slotObjectCreated(o);
 
