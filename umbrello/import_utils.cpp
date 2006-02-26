@@ -349,5 +349,12 @@ void addIncludePath(QString path) {
         incPathList.append(path);
 }
 
+
+bool isDatatype(QString name, UMLPackage *parentPkg) {
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    UMLObject * o = umldoc->findUMLObject(name, Uml::ot_Datatype, parentPkg);
+    return (o!=NULL);
+}
+
 }  // end namespace Import_Utils
 

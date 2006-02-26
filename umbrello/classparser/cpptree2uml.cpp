@@ -146,7 +146,14 @@ void CppTree2Uml::parseTypedef( TypedefAST* ast )
 //#endif
             /* @todo Trace typedefs back to their root type for deciding
                      whether to build a Datatype (for pointers.)  */
-            if (type.contains('*')) {
+            /* check out if the ID type is a Datatype 
+               ex: typedef unsigned int uint; 
+               where unsigned int is a known datatype
+               I'm not sure if setIsReference() should be run
+             */
+            bool isDatatype = Import_Utils::isDatatype(typeId, m_currentNamespace[m_nsCnt]);
+
+            if (type.contains('*') || isDatatype) {
                 UMLObject *inner =
                 Import_Utils::createUMLObject( Uml::ot_Class, typeId,
                                              m_currentNamespace[m_nsCnt] );
