@@ -265,12 +265,14 @@ void PerlWriter::writeOperations(QString /* classname */, UMLOperationList &opLi
             perl << cleanName(op->getName()) << m_endl << m_endl;
 
             perl << "   Parameters :" << m_endl ;
-            for(at = atl->first(); at ; at = atl -> next())  //write parameter documentation
-            {
-                if(forceDoc() || !at->getDoc().isEmpty())
-                {
-                    perl << "      " << at->getTypeName() <<cleanName(at->getName()) << "  " << at->getDoc();
-                    perl << m_endl;
+          //write parameter documentation
+          for(at = atl->first(); at ; at = atl -> next()) {
+            if(forceDoc() || !at->getDoc().isEmpty()) {
+              perl << "      "
+                   << cleanName(at->getName()) << " : "
+                   << at->getTypeName() << " : "
+                   << at->getDoc()
+                   << m_endl;
                 }
             }//end for : write parameter documentation
 
@@ -282,7 +284,23 @@ void PerlWriter::writeOperations(QString /* classname */, UMLOperationList &opLi
             perl << "      " << op->getDoc();
             perl << m_endl << m_endl << "=cut" << m_endl << m_endl;
         }//end if : write method documentation
+
         perl <<  "sub " << cleanName(op->getName()) << m_endl << "{" << m_endl;
+        perl << "  my($self";
+
+        bool bStartPrinted = false;
+        //write parameters
+        for(at = atl->first(); at ; at = atl -> next()) {
+          if(!bStartPrinted){
+            bStartPrinted = true;
+            perl << "," << m_endl;
+          }
+          perl << "     $"<< cleanName(at->getName()) << ", # "
+               << at->getTypeName() << " : " << at->getDoc() << m_endl;
+        } //  END for(at = atl->first(); at ; at = atl -> next())
+
+        perl << "    ) = @_;" << m_endl;
+
         perl << "#UML_MODELER_BEGIN_PERSONAL_CODE_" << cleanName(op->getName());
         perl << m_endl << "#UML_MODELER_END_PERSONAL_CODE_" << cleanName(op->getName()) << m_endl;
         perl << "}" << m_endl;
