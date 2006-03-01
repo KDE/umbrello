@@ -482,6 +482,8 @@ void UMLWidget::slotMenuSelection(int sel) {
     QFont font;
     QColor newColour;
     const Uml::Widget_Type wt = m_Type;
+    UMLWidget* widget = 0; // use for select the first object properties (fill, line color)
+
     switch(sel) {
     case ListPopupMenu::mt_Rename:
         m_pDoc -> renameUMLObject(m_pObject);
@@ -510,6 +512,8 @@ void UMLWidget::slotMenuSelection(int sel) {
 
     case ListPopupMenu::mt_Line_Color:
     case ListPopupMenu::mt_Line_Color_Selection:
+        widget = m_pView->getFirstMultiSelectedWidget();
+        if (widget) { newColour = widget->getLineColor(); }
         if( KColorDialog::getColor(newColour) ) {
             m_pView -> selectionSetLineColor( newColour );
             m_pDoc -> setModified(true);
@@ -518,6 +522,8 @@ void UMLWidget::slotMenuSelection(int sel) {
 
     case ListPopupMenu::mt_Fill_Color:
     case ListPopupMenu::mt_Fill_Color_Selection:
+        widget = m_pView->getFirstMultiSelectedWidget();
+        if (widget) { newColour = widget->getFillColour(); }
         if ( KColorDialog::getColor(newColour) ) {
             m_pView -> selectionSetFillColor( newColour );
             m_pDoc -> setModified(true);

@@ -911,6 +911,13 @@ public:
     }
 
     /**
+     * Return pointer to the first selected widget (for multi-selection)
+     */
+    UMLWidget* getFirstMultiSelectedWidget() {
+        return m_SelectedList.first();
+    }
+
+    /**
      * Return the current UMLWidget we are on.
      */
     UMLWidget * getOnWidget() {
