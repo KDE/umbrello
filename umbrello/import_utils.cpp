@@ -14,7 +14,6 @@
 // qt/kde includes
 #include <qmap.h>
 #include <qregexp.h>
-#include <kapplication.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
 #include <klocale.h>
@@ -153,7 +152,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
                         continue;
                     }
                     int wantNamespace = KMessageBox::Yes;
-                    /* We know std and Qt are always a namespaces */
+                    /* We know std and Qt are namespaces */
                     if (scopeName != "std" && scopeName != "Qt") {
                         wantNamespace = KMessageBox::questionYesNo(NULL,
                                         i18n("Is the scope %1 a namespace or a class?").arg(scopeName),
@@ -162,7 +161,6 @@ UMLObject *createUMLObject(Uml::Object_Type type,
                     }
                     Uml::Object_Type ot = (wantNamespace == KMessageBox::Yes ? Uml::ot_Package : Uml::ot_Class);
                     o = Object_Factory::createUMLObject(ot, scopeName, parentPkg);
-                    kapp->processEvents();
                     parentPkg = static_cast<UMLPackage*>(o);
                     UMLListView *listView = UMLApp::app()->getListView();
                     UMLListViewItem *lvitem = listView->findUMLObject(o);
@@ -176,7 +174,6 @@ UMLObject *createUMLObject(Uml::Object_Type type,
                 t = Uml::ot_Class;
             origType = Object_Factory::createUMLObject(t, typeName, parentPkg);
             bNewUMLObjectWasCreated = true;
-            kapp->processEvents();
         }
         if (isConst || isAdorned) {
             // Create the full given type (including adornments.)
@@ -186,8 +183,9 @@ UMLObject *createUMLObject(Uml::Object_Type type,
                 parentPkg = NULL;
                 bPutAtGlobalScope = false;
             }
-            o = Object_Factory::createUMLObject(Uml::ot_Datatype, name, parentPkg);
-            kapp->processEvents();
+            o = Object_Factory::createUMLObject(Uml::ot_Datatype, name, parentPkg,
+                                                false,  //prepend
+                                                false); //solicitNewName
             UMLDatatype *dt = static_cast<UMLDatatype*>(o);
             UMLClassifier *c = dynamic_cast<UMLClassifier*>(origType);
             if (c)

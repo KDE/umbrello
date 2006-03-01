@@ -15,6 +15,7 @@
 // qt/kde includes
 #include <qregexp.h>
 #include <qstringlist.h>
+#include <kapplication.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
@@ -57,44 +58,9 @@ bool assignUniqueIdOnCreation() {
     return (g_predefinedId == Uml::id_None);
 }
 
-UMLObject* createUMLObject(Uml::Object_Type type, const QString &n,
-                           UMLPackage *parentPkg /* = NULL */,
-                           bool prepend /* = false */) {
-    UMLDoc *doc = UMLApp::app()->getDocument();
-    bool ok = false;
-    QString name;
-    if( !n.isEmpty() && doc->isUnique(n, parentPkg) )
-    {
-        name = n;
-    }
-    else
-    {
-        name = Model_Utils::uniqObjectName(type, n, parentPkg);
-        bool bValidNameEntered = false;
-        do {
-            name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), name, &ok, (QWidget*)UMLApp::app());
-            if (!ok) {
-                return 0;
-            }
-            if (name.length() == 0) {
-                KMessageBox::error(0, i18n("That is an invalid name."),
-                                   i18n("Invalid Name"));
-                continue;
-            }
-            if (doc->getCurrentCodeGenerator() != NULL &&
-                    doc->getCurrentCodeGenerator()->isReservedKeyword(name)) {
-                KMessageBox::error(0, i18n("This is a reserved keyword for the language of the configured code generator."),
-                                   i18n("Reserved Keyword"));
-                continue;
-            }
-            if (! doc->isUnique(name, parentPkg)) {
-                KMessageBox::error(0, i18n("That name is already being used."),
-                                   i18n("Not a Unique Name"));
-                continue;
-            }
-            bValidNameEntered = true;
-        } while (bValidNameEntered == false);
-    }
+UMLObject* createNewUMLObject(Uml::Object_Type type, const QString &name,
+                              UMLPackage *parentPkg = NULL,
+                              bool prepend = false) {
     UMLObject *o = NULL;
     switch (type) {
         case Uml::ot_Actor:
@@ -134,12 +100,59 @@ UMLObject* createUMLObject(Uml::Object_Type type, const QString &n,
             o = new UMLEntity(name, g_predefinedId);
             break;
         default:
-            kdWarning() << "CreateUMLObject(int) error unknown type: " << type << endl;
+            kdWarning() << "createNewUMLObject error unknown type: " << type << endl;
             return NULL;
     }
     o->setUMLPackage(parentPkg);
+    UMLDoc *doc = UMLApp::app()->getDocument();
     doc->addUMLObject(o, prepend);
     doc->signalUMLObjectCreated(o);
+    kapp->processEvents();
+    return o;
+}
+
+UMLObject* createUMLObject(Uml::Object_Type type, const QString &n,
+                           UMLPackage *parentPkg /* = NULL */,
+                           bool prepend /* = false */,
+                           bool solicitNewName /* = true */) {
+    UMLDoc *doc = UMLApp::app()->getDocument();
+    if (!n.isEmpty()) {
+        UMLObject *o = doc->findUMLObject(n, type, parentPkg);
+        if (o) {
+            if (!solicitNewName)
+                return o;
+        } else {
+            o = createNewUMLObject(type, n, parentPkg, prepend);
+            return o;
+        }
+    }
+    bool ok = false;
+    QString name = Model_Utils::uniqObjectName(type, n, parentPkg);
+    bool bValidNameEntered = false;
+    do {
+        name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), name, &ok, (QWidget*)UMLApp::app());
+        if (!ok) {
+            return 0;
+        }
+        if (name.length() == 0) {
+            KMessageBox::error(0, i18n("That is an invalid name."),
+                               i18n("Invalid Name"));
+            continue;
+        }
+        if (doc->getCurrentCodeGenerator() != NULL &&
+                doc->getCurrentCodeGenerator()->isReservedKeyword(name)) {
+            KMessageBox::error(0, i18n("This is a reserved keyword for the language of the configured code generator."),
+                               i18n("Reserved Keyword"));
+            continue;
+        }
+        if (! doc->isUnique(name, parentPkg)) {
+            KMessageBox::error(0, i18n("That name is already being used."),
+                               i18n("Not a Unique Name"));
+            continue;
+        }
+        bValidNameEntered = true;
+    } while (bValidNameEntered == false);
+    UMLObject *o = createNewUMLObject(type, name, parentPkg, prepend);
     return o;
 }
 

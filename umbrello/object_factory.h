@@ -35,11 +35,17 @@ namespace Object_Factory {
  * @param prepend   Set true if it is desired to prepend the new
  *                  object to the list of objects.
  *                  The default is to append.
+ * @param solicitNewName  Ask user for a different name if an object
+ *                        of the given name already exists.
+ *                        If set to false and the name already exists
+ *                        then the existing object is returned.
+ *                        The default is to ask for the new name.
  */
 UMLObject* createUMLObject(Uml::Object_Type type,
                            const QString &n = QString::null,
                            UMLPackage *parentPkg = 0,
-                           bool prepend = false);
+                           bool prepend = false,
+                           bool solicitNewName = true);
 
 /**
  * Creates an operation, attribute, template, or enum literal

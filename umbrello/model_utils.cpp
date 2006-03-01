@@ -102,10 +102,12 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
                          UMLObject *currentObj /* = NULL */) {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     QStringList components;
-    if (name.contains("::"))
-        components = QStringList::split("::", name);
-    else if (name.contains("."))
-        components = QStringList::split(".", name);
+    if (type != Uml::ot_Datatype) {
+        if (name.contains("::"))
+            components = QStringList::split("::", name);
+        else if (name.contains("."))
+            components = QStringList::split(".", name);
+    }
     QString nameWithoutFirstPrefix;
     if (components.size() > 1) {
         if (name.contains(QRegExp("[^\\w:\\.]"))) {
