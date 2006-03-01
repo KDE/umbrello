@@ -92,6 +92,10 @@ private:
       * @param perl output stream for the Perl file
       */
     void writeAttributes(UMLAttributeList &atList, QTextStream &perl);
+
+    bool GetUseStatements(UMLClassifier *c, QString &Ret,
+                          QString &ThisPkgName);
+
 };
 
 #endif //PERLWRITER

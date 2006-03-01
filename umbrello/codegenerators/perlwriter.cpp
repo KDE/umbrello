@@ -34,133 +34,219 @@ PerlWriter::PerlWriter()
 
 PerlWriter::~PerlWriter() {}
 
+bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
+                                  QString &ThisPkgName){
+
+  if(!c){
+    return(false);
+  }
+
+  UMLClassifierList includes;
+  findObjectsRelated(c,includes);
+  UMLClassifier *conc;
+  QString AV = "@";
+  QString SV = "$";
+  QString HV = "%";
+  for(conc = includes.first(); conc ;conc = includes.next()) {
+    if (   (cleanName(conc->getName()) != AV)
+        && (cleanName(conc->getName()) != SV)
+        && (cleanName(conc->getName()) != HV)){
+      // ***TODO***
+      // Need to remove things like int, string, boolean etc...
+      QString OtherPkgName =  conc->getPackage(".");
+      OtherPkgName.replace(QRegExp("\\."),"::");
+      QString OtherName = OtherPkgName + "::" + cleanName(conc->getName());
+
+      // Only print out the use statement if the other package isn't the
+      // same as the one we are working on. (This happens for the
+      // "Singleton" design pattern.)
+      if(OtherName != ThisPkgName){
+        Ret += "use ";
+        Ret += OtherName;
+        Ret += ";";
+        Ret += m_endl;
+      }
+    }
+  }
+  UMLClassifierList  superclasses = c->getSuperClasses();
+  if (superclasses.count()) {
+    Ret += m_endl;
+    Ret += "use base qw( ";
+    for (UMLClassifier *obj = superclasses.first();
+         obj; obj = superclasses.next()) {
+      QString packageName =  obj->getPackage(".");
+      packageName.replace(QRegExp("\\."),"::");
+
+      Ret += packageName + "::" + cleanName(obj->getName()) + " ";
+    }
+    Ret += ");" + m_endl;
+  }
+
+  return(true);
+}
 
 void PerlWriter::writeClass(UMLClassifier *c) {
-    /*  if(!c) {
-                kdDebug()<<"Cannot write class of NULL concept!" << endl;
-                return;
+
+  /*  if(!c) {
+      kdDebug()<<"Cannot write class of NULL concept!" << endl;
+      return;
+      }
+  */
+  QString classname = cleanName(c->getName());// this is fine: cleanName is "::-clean"
+  QString packageName =  c->getPackage(".");
+  QString fileName;
+
+  // Replace all white spaces with blanks
+  packageName.simplifyWhiteSpace();
+
+  // Replace all blanks with underscore
+  packageName.replace(QRegExp(" "), "_");
+
+  // Replace all dots (".") with double colon scope resolution operators
+  // ("::")
+  packageName.replace(QRegExp("\\."),"::");
+
+  // Store complete package name
+  QString ThisPkgName = packageName + "::" + classname;
+
+  fileName = findFileName(c, ".pm");
+  // the above lower-cases my nice class names. That is bad.
+  // correct solution: refactor,
+  // split massive findFileName up, reimplement
+  // parts here
+  // actual solution: shameful ".pm" hack in codegenerator
+
+  QString curDir = outputDirectory();
+  if (fileName.contains("::")) {
+    // create new directories for each level
+    QString newDir;
+    newDir = curDir;
+    QString fragment = fileName;
+    QDir* existing = new QDir (curDir);
+    QRegExp regEx("(.*)(::)");
+    regEx.setMinimal(true);
+    while (regEx.search(fragment) > -1) {
+      newDir = regEx.cap(1);
+      fragment.remove(0, (regEx.pos(2) + 2)); // get round strange minimal matching bug
+      existing->setPath(curDir + "/" + newDir);
+      if (! existing->exists()) {
+        existing->setPath(curDir);
+        if (! existing->mkdir(newDir)) {
+          emit codeGenerated(c, false);
+          return;
         }
-    */
-    QString classname = cleanName(c->getName());// this is fine: cleanName is "::-clean"
-    QString fileName;
-
-    fileName = findFileName(c, ".pm");  //lower-cases my nice class names. That is bad.
-    // correct solution: refactor,
-    // split massive findFileName up, reimplement
-    // parts here
-    // actual solution: shameful ".pm" hack in codegenerator
-
-    QString curDir = outputDirectory();
-    if (fileName.contains("::")) {
-        // create new directories for each level
-        QString newDir;
-        newDir = curDir;
-        QString fragment = fileName;
-        QDir* existing = new QDir (curDir);
-        QRegExp regEx("(.*)(::)");
-        regEx.setMinimal(true);
-        while (regEx.search(fragment) > -1) {
-            newDir = regEx.cap(1);
-            fragment.remove(0, (regEx.pos(2) + 2)); // get round strange minimal matching bug
-            existing->setPath(curDir + "/" + newDir);
-            if (! existing->exists()) {
-                existing->setPath(curDir);
-                if (! existing->mkdir(newDir)) {
-                    emit codeGenerated(c, false);
-                    return;
-                }
-            }
-            curDir += "/" + newDir;
-        }
-        fileName = fragment;
+      }
+      curDir += "/" + newDir;
     }
-    if (fileName.isEmpty()) {
-        emit codeGenerated(c, false);
-        return;
-    }
-    QString oldDir = outputDirectory();
-    setOutputDirectory(curDir);
-    QFile fileperl;
-    if(!openFile(fileperl,fileName+".pm")) {
-        emit codeGenerated(c, false);
-        return;
-    }
-    QTextStream perl(&fileperl);
-    setOutputDirectory(oldDir);
-    //////////////////////////////
-    //Start generating the code!!
-    /////////////////////////////
+    fileName = fragment;
+  }
+  if (fileName.isEmpty()) {
+    emit codeGenerated(c, false);
+    return;
+  }
+  QString oldDir = outputDirectory();
+  setOutputDirectory(curDir);
+  QFile fileperl;
+  if(!openFile(fileperl,fileName+".pm")) {
+    emit codeGenerated(c, false);
+    return;
+  }
+  QTextStream perl(&fileperl);
+  setOutputDirectory(oldDir);
 
+  //======================================================================
+  // Start generating the code!!
+  //======================================================================
 
-    //try to find a heading file (license, coments, etc)
-    QString str;
-    QString AV = "@";
-    QString SV = "$";
-    QString HV = "%";
-    str = getHeadingFile(".pm");   // what this mean?
-    if(!str.isEmpty()) {
-        str.replace(QRegExp("%filename%"),fileName+".pm");
-        str.replace(QRegExp("%filepath%"),fileperl.name());
-        str.replace(QRegExp("%date%"),QDate::currentDate().toString());
-        str.replace(QRegExp("%time%"),QTime::currentTime().toString());
-        perl<<str<<m_endl;
+  // try to find a heading file (license, comments, etc)
+  QString str;
+  bool bPackageDeclared = false;
+  bool bUseStmsWritten  = false;
+
+  str = getHeadingFile(".pm");   // what this mean?
+  if(!str.isEmpty()) {
+    str.replace(QRegExp("%filename%"),fileName+".pm");
+    str.replace(QRegExp("%filepath%"),fileperl.name());
+    str.replace(QRegExp("%year%"),QDate::currentDate().toString("yyyy"));
+    str.replace(QRegExp("%date%"),QDate::currentDate().toString());
+    str.replace(QRegExp("%time%"),QTime::currentTime().toString());
+    str.replace(QRegExp("%package-name%"),ThisPkgName);
+    if(str.find(QRegExp("%PACKAGE-DECLARE%"))){
+      str.replace(QRegExp("%PACKAGE-DECLARE%"),
+                  "package " + ThisPkgName + ";"
+                  + m_endl + m_endl
+                  + "#UML_MODELER_BEGIN_PERSONAL_VARS_" + classname
+                  + m_endl + m_endl
+                  + "#UML_MODELER_END_PERSONAL_VARS_" + classname
+                  + m_endl
+                  );
+      bPackageDeclared = true;
     }
-    perl << m_endl << m_endl << "package " << classname << ";" << m_endl << m_endl;
+
+    if(str.find(QRegExp("%USE-STATEMENTS%"))){
+      QString UseStms;
+      if(GetUseStatements(c,UseStms,ThisPkgName)){
+        str.replace(QRegExp("%USE-STATEMENTS%"), UseStms);
+        bUseStmsWritten = true;
+      }
+    }
+
+    perl<<str<<m_endl;
+  }
+
+  // if the package wasn't declared above during keyword substitution,
+  // add it now. (At the end of the file.)
+  if(! bPackageDeclared){
+    perl << m_endl << m_endl << "package " <<ThisPkgName << ";" << m_endl
+         << m_endl;
     //write includes
-    perl << m_endl << "#UML_MODELER_BEGIN_PERSONAL_VARS_" << classname << m_endl ;
-    perl << m_endl << "#UML_MODELER_END_PERSONAL_VARS_" << classname << m_endl << m_endl ;
-    UMLClassifierList includes;//ca existe en perl??
-    findObjectsRelated(c,includes);
-    UMLClassifier *conc;
-    for(conc = includes.first(); conc ;conc = includes.next()) {
-        if ((cleanName(conc->getName()) != AV) && (cleanName(conc->getName()) != SV ) && (cleanName(conc->getName()) != HV))
-        {
-            perl << "use " << cleanName(conc->getName()) << ";" << m_endl; // seems OK
-        }
-    }
-    perl << m_endl;
+    perl << m_endl << "#UML_MODELER_BEGIN_PERSONAL_VARS_" << classname
+         << m_endl ;
+    perl << m_endl << "#UML_MODELER_END_PERSONAL_VARS_" << classname
+         << m_endl << m_endl ;
+  }
 
-    UMLClassifierList superclasses = c->getSuperClasses();
-    UMLAssociationList aggregations = c->getAggregations();
-    UMLAssociationList compositions = c->getCompositions();
-
-    if (superclasses.count()) {
-        perl << "use base qw( ";
-        for (UMLClassifier *obj = superclasses.first();
-                obj; obj = superclasses.next()) {
-            perl << cleanName(obj->getName()) << " ";
-        }
-        perl << ");" << m_endl;
+  if(! bUseStmsWritten){
+    QString UseStms;
+    if(GetUseStatements(c,UseStms,ThisPkgName)){
+      perl<<UseStms<<m_endl;
     }
+  }
+
+  perl << m_endl;
+
+  // Do we really need these for anything???
+  UMLAssociationList aggregations = c->getAggregations();
+  UMLAssociationList compositions = c->getCompositions();
 
     //Write class Documentation
-    if(forceDoc() || !c->getDoc().isEmpty()) {
-        perl << m_endl << "=head1";
-        perl << " " << classname.upper() << m_endl << m_endl;
-        perl << c->getDoc();
-        perl << m_endl << m_endl << "=cut" << m_endl << m_endl;
-    }
+  if(forceDoc() || !c->getDoc().isEmpty()) {
+    perl << m_endl << "=head1";
+    perl << " " << classname.upper() << m_endl << m_endl;
+    perl << c->getDoc();
+    perl << m_endl << m_endl << "=cut" << m_endl << m_endl;
+  }
 
-    //check if class is abstract and / or has abstract methods
-    if(c->getAbstract())
-        perl << "=head1 ABSTRACT CLASS" << m_endl << m_endl << "=cut" << m_endl;
+  //check if class is abstract and / or has abstract methods
+  if(c->getAbstract())
+    perl << "=head1 ABSTRACT CLASS" << m_endl << m_endl << "=cut" << m_endl;
 
-    //attributes
-    if (! c->isInterface())
-        writeAttributes(c, perl);      // keep for documentation's sake
+  //attributes
+  if (! c->isInterface())
+    writeAttributes(c, perl);      // keep for documentation's sake
 
-    //operations
-    writeOperations(c,perl);
+  //operations
+  writeOperations(c,perl);
 
-    perl << m_endl;
+  perl << m_endl;
 
-    //finish file
-    //perl << m_endl << m_endl << "=cut" << m_endl;
-    perl << m_endl << m_endl << "return 1;" << m_endl;
+  //finish file
+  //perl << m_endl << m_endl << "=cut" << m_endl;
+  perl << m_endl << m_endl << "return 1;" << m_endl;
 
-    //close files and notify we are done
-    fileperl.close();
-    emit codeGenerated(c, true);
+  //close files and notify we are done
+  fileperl.close();
+  emit codeGenerated(c, true);
 }
 
 /**
@@ -265,12 +351,14 @@ void PerlWriter::writeOperations(QString /* classname */, UMLOperationList &opLi
             perl << cleanName(op->getName()) << m_endl << m_endl;
 
             perl << "   Parameters :" << m_endl ;
-            for(at = atl->first(); at ; at = atl -> next())  //write parameter documentation
-            {
-                if(forceDoc() || !at->getDoc().isEmpty())
-                {
-                    perl << "      " << at->getTypeName() <<cleanName(at->getName()) << "  " << at->getDoc();
-                    perl << m_endl;
+          //write parameter documentation
+          for(at = atl->first(); at ; at = atl -> next()) {
+            if(forceDoc() || !at->getDoc().isEmpty()) {
+              perl << "      "
+                   << cleanName(at->getName()) << " : "
+                   << at->getTypeName() << " : "
+                   << at->getDoc()
+                   << m_endl;
                 }
             }//end for : write parameter documentation
 
@@ -282,7 +370,23 @@ void PerlWriter::writeOperations(QString /* classname */, UMLOperationList &opLi
             perl << "      " << op->getDoc();
             perl << m_endl << m_endl << "=cut" << m_endl << m_endl;
         }//end if : write method documentation
+
         perl <<  "sub " << cleanName(op->getName()) << m_endl << "{" << m_endl;
+        perl << "  my($self";
+
+        bool bStartPrinted = false;
+        //write parameters
+        for(at = atl->first(); at ; at = atl -> next()) {
+          if(!bStartPrinted){
+            bStartPrinted = true;
+            perl << "," << m_endl;
+          }
+          perl << "     $"<< cleanName(at->getName()) << ", # "
+               << at->getTypeName() << " : " << at->getDoc() << m_endl;
+        } //  END for(at = atl->first(); at ; at = atl -> next())
+
+        perl << "    ) = @_;" << m_endl;
+
         perl << "#UML_MODELER_BEGIN_PERSONAL_CODE_" << cleanName(op->getName());
         perl << m_endl << "#UML_MODELER_END_PERSONAL_CODE_" << cleanName(op->getName()) << m_endl;
         perl << "}" << m_endl;
