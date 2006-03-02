@@ -75,12 +75,13 @@ void ToolBarStateMessages::mouseRelease(QMouseEvent* ome)
         UMLWidget* obj = 0;
         while ( (obj = it.current()) != 0 ) {
             ++it;
-            if ( obj->isVisible() &&
-                    obj->getBaseType() == Uml::wt_Object &&
-                    obj->onWidget(ome->pos()) ) {
-                clickedOnWidget = static_cast<ObjectWidget*>(obj);
-                isCreationMessage = true;
-                break;
+            if (obj->isVisible() && obj->getBaseType() == Uml::wt_Object) {
+                const QPoint zoomAdjustedPos = (ome->pos() * 100) / m_pUMLView->getZoom();
+                if (obj->onWidget(zoomAdjustedPos)) {
+                    clickedOnWidget = static_cast<ObjectWidget*>(obj);
+                    isCreationMessage = true;
+                    break;
+                }
             }
         }
     }
