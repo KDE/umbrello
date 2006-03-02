@@ -117,8 +117,8 @@ UMLListView::UMLListView(QWidget *parent, const char *name)
     m_lv = new UMLListViewItem(m_rv, i18n("Logical View"), Uml::lvt_Logical_View);
     m_cmpv = new UMLListViewItem(m_rv, i18n("Component View"), Uml::lvt_Component_View);
     m_dplv = new UMLListViewItem(m_rv, i18n("Deployment View"), Uml::lvt_Deployment_View);
-    entityRelationshipModel = new UMLListViewItem(m_rv, i18n("Entity Relationship Model"), Uml::lvt_EntityRelationship_Model);
-    datatypeFolder = new UMLListViewItem(m_lv, i18n("Datatypes"), Uml::lvt_Datatype_Folder);
+    m_entityRelationshipModel = new UMLListViewItem(m_rv, i18n("Entity Relationship Model"), Uml::lvt_EntityRelationship_Model);
+    m_datatypeFolder = new UMLListViewItem(m_lv, i18n("Datatypes"), Uml::lvt_Datatype_Folder);
 
 #ifdef WANT_LVTOOLTIP
     /* In KDE-3.3, we cannot use KListView's builtin mechanism for
@@ -241,7 +241,18 @@ void UMLListView::keyPressEvent(QKeyEvent *ke) {
         // assume they handle the keypress.
         ke->accept();                 // munge and do nothing
     } else {
-        QListView::keyPressEvent(ke); // let parent handle it
+        const int k = ke->key();
+        if (k == Qt::Key_Delete || k == Qt::Key_Backspace) {
+            // delete every selected item
+            UMLListViewItemList selecteditems;
+            getSelectedItemsRoot(selecteditems);
+            UMLListViewItemListIt it(selecteditems);
+            for (UMLListViewItem *item = 0; (item = it.current()); ++it) {
+                deleteItem(dynamic_cast<UMLListViewItem*>(item));
+            }
+        } else {
+            QListView::keyPressEvent(ke); // let parent handle it
+        }
     }
 }
 
@@ -428,47 +439,8 @@ void UMLListView::popupMenuSel(int sel) {
         break;
 
     case ListPopupMenu::mt_Delete:
-        if ( typeIsDiagram(lvt) ) {
-            m_doc->removeDiagram( temp->getID() );
-        } else if( typeIsFolder(lvt) ) {
-            if ( temp->firstChild() ) {
-                KMessageBox::error(
-                    kapp->mainWidget(),
-                    i18n("The folder must be emptied before it can be deleted."),
-                    i18n("Folder Not Empty"));
-            } else {
-                delete temp;
-            }
-        } else if ( typeIsCanvasWidget(lvt) || typeIsClassifierList(lvt) ) {
-            if (lvt == Uml::lvt_Package || lvt == Uml::lvt_Class) {
-                UMLPackage *nmSpc = dynamic_cast<UMLPackage*>(object);
-                if (nmSpc == NULL) {
-                    kdError() << "internal problem: object is not a package" << endl;
-                    return;
-                }
-                UMLObjectList contained = nmSpc->containedObjects();
-                for (UMLObjectListIt it(contained); it.current(); ++it) {
-                    UMLObject *obj = it.current();
-                    moveObject(obj->getID(), convert_OT_LVT(obj->getBaseType()), m_lv);
-                }
-            }
-            UMLCanvasObject *canvasObj = dynamic_cast<UMLCanvasObject*>(object);
-            if (canvasObj) {
-                /**
-                 * We cannot just delete canvasObj here: What if the object
-                 * is still being used by others (for example, as a parameter
-                 * or return type of an operation) ?
-                 * Deletion should not have been permitted in the first place
-                 * if the object still has users - but Umbrello is lacking
-                 * that logic.
-                        */
-                canvasObj->removeAllAssociations();
-            }
-            m_doc->removeUMLObject(object);
-        } else {
-            kdWarning() << "umllistview::listpopupmenu::mt_Delete called with unknown type"
-            << endl;
-        }
+        deleteItem(temp);
+
         return;
         break;
 
@@ -578,7 +550,7 @@ void UMLListView::slotDiagramCreated( Uml::IDType id ) {
     } else if (v->getType() == Uml::dt_Deployment) {
         p = m_dplv;
     } else if (v->getType() == Uml::dt_EntityRelationship) {
-        p = entityRelationshipModel;
+        p = m_entityRelationshipModel;
     } else {
         p = m_lv;
     }
@@ -626,7 +598,7 @@ UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const {
             } else if (lvt == Uml::lvt_Logical_Folder)
                 parentItem = current;
             else if (type == Uml::ot_Datatype)
-                parentItem = datatypeFolder;
+                parentItem = m_datatypeFolder;
             else
                 parentItem = m_lv;
         }
@@ -656,7 +628,7 @@ UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const {
         if (lvt == Uml::lvt_EntityRelationship_Folder) {
             parentItem = current;
         } else {
-            parentItem = entityRelationshipModel;
+            parentItem = m_entityRelationshipModel;
         }
         break;
     default:
@@ -990,7 +962,7 @@ UMLListViewItem* UMLListView::findView(UMLView* v) {
     } else if (dType == Uml::dt_Deployment) {
         item = m_dplv;
     } else if (dType == Uml::dt_EntityRelationship) {
-        item = entityRelationshipModel;
+        item = m_entityRelationshipModel;
     } else {
         item = m_lv;
     }
@@ -1046,15 +1018,15 @@ void UMLListView::init() {
     deleteChildrenOf( m_lv );
     deleteChildrenOf( m_cmpv );
     deleteChildrenOf( m_dplv );
-    deleteChildrenOf( entityRelationshipModel );
+    deleteChildrenOf( m_entityRelationshipModel );
 
     m_rv->setOpen(true);
     m_ucv->setOpen(true);
     m_lv->setOpen(true);
-    datatypeFolder->setOpen(false);
+    m_datatypeFolder->setOpen(false);
     m_cmpv->setOpen(true);
     m_dplv->setOpen(true);
-    entityRelationshipModel->setOpen(true);
+    m_entityRelationshipModel->setOpen(true);
 
     //setup misc.
     delete m_pMenu;
@@ -1450,6 +1422,28 @@ int UMLListView::getSelectedItems(UMLListViewItemList &ItemList) {
     return (int)ItemList.count();
 }
 
+int UMLListView::getSelectedItemsRoot(UMLListViewItemList &ItemList) {
+    ItemList.setAutoDelete( FALSE );
+    QListViewItemIterator it(this);
+
+    // iterate through all items of the list view
+    for ( ; it.current(); ++it ) {
+        if ( it.current()->isSelected() ) {
+            UMLListViewItem *item = (UMLListViewItem*)it.current();
+            // this is the trick, we select only the item with a parent unselected
+            // since we can't select a child and its grandfather without its parent
+            // we would be able to delete each item individually, without an invalid iterator
+            if (item && item->parent() && item->parent()->isSelected()==false) {
+              ItemList.append(item);
+            }
+        }
+    }
+    kdDebug() << "UMLListView::getSelectedItemsRoot: selItems = "
+    << ItemList.count() << endl;
+
+    return (int)ItemList.count();
+}
+
 UMLListViewItem* UMLListView::createDiagramItem(UMLView *v) {
     Uml::ListView_Type lvt = convert_DT_LVT(v->getType());
     UMLListViewItem *parent = determineParentItem(lvt);
@@ -1561,7 +1555,7 @@ UMLListViewItem* UMLListView::determineParentItem(Uml::ListView_Type lvt) const 
         break;
     case Uml::lvt_EntityRelationship_Diagram:
     case Uml::lvt_Entity:
-        parent = entityRelationshipModel;
+        parent = m_entityRelationshipModel;
         break;
     default:
         if (typeIsDiagram(lvt) || !typeIsClassifierList(lvt))
@@ -2058,7 +2052,7 @@ void UMLListView::slotCutSuccessful() {
 void UMLListView::addNewItem( QListViewItem * parent, Uml::ListView_Type type ) {
     QString name = i18n("folder");
     if (type == Uml::lvt_Datatype)  {
-        parent = datatypeFolder;
+        parent = m_datatypeFolder;
     }
     UMLListViewItem * parentItem = static_cast<UMLListViewItem *>( parent );
     UMLListViewItem * newItem = NULL;
@@ -2811,7 +2805,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
             item = m_lv;
             break;
         case Uml::lvt_Datatype_Folder:
-            item = datatypeFolder;
+            item = m_datatypeFolder;
             break;
         case Uml::lvt_UseCase_View:
             item = m_ucv;
@@ -2823,7 +2817,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
             item = m_dplv;
             break;
         case Uml::lvt_EntityRelationship_Model:
-            item = entityRelationshipModel;
+            item = m_entityRelationshipModel;
             break;
         default:
             {
@@ -2957,12 +2951,67 @@ void UMLListView::deleteChildrenOf(QListViewItem* parent) {
         delete parent->firstChild();
     }
     if (parent == m_lv)  {
-        datatypeFolder = new UMLListViewItem(m_lv, i18n("Datatypes"), Uml::lvt_Datatype_Folder);
+        m_datatypeFolder = new UMLListViewItem(m_lv, i18n("Datatypes"), Uml::lvt_Datatype_Folder);
     }
 }
 
 void UMLListView::closeDatatypesFolder()  {
-    datatypeFolder->setOpen(false);
+    m_datatypeFolder->setOpen(false);
 }
+
+
+bool UMLListView::deleteItem(UMLListViewItem *temp) {
+    if (!temp)
+        return false; 
+    UMLObject *object = temp->getUMLObject();
+    Uml::ListView_Type lvt = temp->getType();
+    if ( typeIsDiagram(lvt) ) {
+        m_doc->removeDiagram( temp->getID() );
+    } else if( typeIsFolder(lvt) ) {
+        // we can't delete the datatypeFolder because umbrello will crash without a special handling
+        if ( temp == m_datatypeFolder ) {
+            return false;
+        }
+        if ( temp->firstChild() ) {
+            KMessageBox::error(
+                kapp->mainWidget(),
+                i18n("The folder must be emptied before it can be deleted."),
+                i18n("Folder Not Empty"));
+        } else {
+            delete temp;
+        }
+    } else if ( typeIsCanvasWidget(lvt) || typeIsClassifierList(lvt) ) {
+        if (lvt == Uml::lvt_Package || lvt == Uml::lvt_Class) {
+            UMLPackage *nmSpc = dynamic_cast<UMLPackage*>(object);
+            if (nmSpc == NULL) {
+                kdError() << "internal problem: object is not a package" << endl;
+                return false;
+            }
+            UMLObjectList contained = nmSpc->containedObjects();
+            for (UMLObjectListIt it(contained); it.current(); ++it) {
+                UMLObject *obj = it.current();
+                moveObject(obj->getID(), convert_OT_LVT(obj->getBaseType()), m_lv);
+            }
+        }
+        UMLCanvasObject *canvasObj = dynamic_cast<UMLCanvasObject*>(object);
+        if (canvasObj) {
+            /**
+             * We cannot just delete canvasObj here: What if the object
+             * is still being used by others (for example, as a parameter
+             * or return type of an operation) ?
+             * Deletion should not have been permitted in the first place
+             * if the object still has users - but Umbrello is lacking
+             * that logic.
+             */
+            canvasObj->removeAllAssociations();
+        }
+        m_doc->removeUMLObject(object);
+    } else {
+        kdWarning() << "umllistview::listpopupmenu::mt_Delete called with unknown type"
+        << endl;
+    }
+    return true;
+}
+
 
 #include "umllistview.moc"

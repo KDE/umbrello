@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2005
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2002-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef UMLLISTVIEW_H
@@ -22,13 +19,13 @@
 #include "umllistviewitemlist.h"
 
 /**
- *      This is one of the main classes used in this program.
- *      Information is displayed here in a tree view.  No objects are created
- *      here.  A call to @ref UMLDoc make any additions/deletion or updates to
- *      objects.  This class will then wait for a signal before updating the tree view.
+ * This is one of the main classes used in this program.
+ * Information is displayed here in a tree view.  No objects are created
+ * here.  A call to @ref UMLDoc make any additions/deletion or updates to
+ * objects.  This class will then wait for a signal before updating the tree view.
  *
- *      @short  Displays the list view for the program.
- *      @author Paul Hensgen    <phensgen@techie.com>
+ * @short  Displays the list view for the program.
+ * @author Paul Hensgen    <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
@@ -132,6 +129,14 @@ public:
      * @return          The number of selected items.
      */
     int getSelectedItems(UMLListViewItemList &ItemList);
+
+    /**
+     * Get selected items, but only root elements selected (without children).
+     *
+     * @param ItemList  List of UMLListViewItems returned.
+     * @return          The number of selected items.
+     */
+    int getSelectedItemsRoot(UMLListViewItemList &ItemList);
 
     /**
      * Create a listview item for an existing diagram.
@@ -328,9 +333,8 @@ protected:
     UMLListViewItem* m_lv;    // logical view item
     UMLListViewItem* m_cmpv;  // component view item
     UMLListViewItem* m_dplv;  // deployment view item
-    UMLListViewItem* entityRelationshipModel;//entity relationship view item
-    UMLListViewItem* datatypeFolder;
-    UMLListViewItem* diagramFolder;
+    UMLListViewItem* m_entityRelationshipModel;//entity relationship view item
+    UMLListViewItem* m_datatypeFolder;
     ListPopupMenu * m_pMenu;
     QString oldText, message;
     UMLDoc *m_doc;
@@ -435,6 +439,14 @@ protected:
      * Deletes all child-items of @p parent.
      */
     void deleteChildrenOf( QListViewItem *parent );
+
+    /**
+     * Delete a listview item.
+     * @param temp a non-null UMLListViewItem, for example:
+                             (UMLListViewItem*)currentItem()
+     * @return     true if correctly deleted
+     */
+    bool deleteItem( UMLListViewItem *temp );
 
     /**
      * Adds a new operation, attribute or template item to a classifier, identical to
