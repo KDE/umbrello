@@ -83,7 +83,7 @@ void SettingsDlg::setupUIPage() {
 
     // Low-Limit: 0, High-Limit: 10, Step: 1, Initial-Val: m_pOptionState->uiState.lineWidth
     // Number-Base: 10 ( decimal ), Parent: m_UiWidgets.colorGB
-    m_UiWidgets.lineWidthB = new KIntSpinBox( 0, 10, 1, m_pOptionState->uiState.lineWidth, 10, m_UiWidgets.colorGB );
+    m_UiWidgets.lineWidthB = new KIntSpinBox( 0, 10, 1, m_pOptionState->uiState.lineWidth, m_UiWidgets.colorGB );
     colorLayout -> addWidget( m_UiWidgets.lineWidthB, 2, 1 );
 
     m_UiWidgets.lineWidthDefaultB = new QPushButton( i18n("D&efault Width"), m_UiWidgets.colorGB );
@@ -140,7 +140,7 @@ void SettingsDlg::setupGeneralPage() {
     m_GeneralWidgets.autosaveL = new QLabel( i18n("Select auto-save time interval (mins):"), m_GeneralWidgets.autosaveGB );
     autosaveLayout -> addWidget( m_GeneralWidgets.autosaveL, 1, 0 );
 
-    m_GeneralWidgets.timeISB = new KIntSpinBox( 1, 600, 1, m_pOptionState->generalState.autosavetime, 10, m_GeneralWidgets.autosaveGB );
+    m_GeneralWidgets.timeISB = new KIntSpinBox( 1, 600, 1, m_pOptionState->generalState.autosavetime, m_GeneralWidgets.autosaveGB );
     m_GeneralWidgets.timeISB -> setEnabled( m_pOptionState->generalState.autosave );
     autosaveLayout -> addWidget( m_GeneralWidgets.timeISB, 1, 1 );
 

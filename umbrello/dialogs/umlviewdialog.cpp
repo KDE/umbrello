@@ -29,7 +29,7 @@
 #include <QHBoxLayout>
 #include <knuminput.h>
 #include <q3vbox.h>
-
+#include <kvbox.h>
 #include "umlviewdialog.h"
 #include "../umlview.h"
 #include "../umldoc.h"
@@ -106,7 +106,7 @@ void UMLViewDialog::setupColorPage() {
 
 void UMLViewDialog::setupFontPage() {
     KVBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
-    m_pChooser = new KFontChooser( (QWidget*)page, "font", false, QStringList(), false);
+    m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
     m_pChooser -> setFont( m_pView -> getOptionState().uiState.font );
 }
 
