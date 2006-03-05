@@ -474,8 +474,13 @@
     <slot>browseClicked()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
+<customwidgets>
+    <customwidget>
+    <class>KHistoryCombo</class>
+    <header>kcombobox.h</header>
+    </customwidget>
+</customwidgets>
 <includehints>
-    <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>
 </includehints>
 </UI>

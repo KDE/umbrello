@@ -163,9 +163,9 @@ void RubyCodeGenerationPolicy::writeConfig ( KConfig * config )
     // write ONLY the Ruby specific stuff
     config->setGroup("Ruby Code Generation");
 
-    config->writeEntry("defaultAttributeAccessorScope",getAttributeAccessorScope());
-    config->writeEntry("defaultAssocFieldScope",getAssociationFieldScope());
-    config->writeEntry("commentStyle",getCommentStyle());
+    config->writeEntry("defaultAttributeAccessorScope",int(getAttributeAccessorScope()));
+    config->writeEntry("defaultAssocFieldScope",int(getAssociationFieldScope()));
+    config->writeEntry("commentStyle",int(getCommentStyle()));
     config->writeEntry("autoGenEmptyConstructors",getAutoGenerateConstructors());
     config->writeEntry("autoGenAccessors",getAutoGenerateAttribAccessors());
     config->writeEntry("autoGenAssocAccessors",getAutoGenerateAssocAccessors());

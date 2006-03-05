@@ -317,7 +317,7 @@ void CPPCodeGenerationPolicy::writeConfig ( KConfig * config )
     // write ONLY the CPP specific stuff
     config->setGroup("CPP Code Generation");
 
-    config->writeEntry("commentStyle",getCommentStyle());
+    config->writeEntry("commentStyle",int(getCommentStyle()));
     config->writeEntry("autoGenEmptyConstructors",getAutoGenerateConstructors());
     config->writeEntry("autoGenAccessors",getAutoGenerateAccessors());
 

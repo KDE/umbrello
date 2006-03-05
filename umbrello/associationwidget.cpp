@@ -2346,7 +2346,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
             oldText = "";
         newText = KInputDialog::getText(i18n("Multiplicity"),
                                         i18n("Enter multiplicity:"),
-                                        oldText, NULL, m_pView, NULL, &v);
+                                        oldText, NULL, m_pView,&v);
         if (newText != oldText) {
             if (FloatingText::isTextValid(newText)) {
                 setMulti(newText, r);
@@ -2364,7 +2364,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
             oldText = "";
         newText = KInputDialog::getText(i18n("Association Name"),
                                         i18n("Enter association name:"),
-                                        oldText, NULL, m_pView, NULL, &v);
+                                        oldText, NULL, m_pView, &v);
         if (newText != oldText) {
             if (FloatingText::isTextValid(newText)) {
                 setName(newText);
@@ -2384,7 +2384,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
             oldText = "";
         newText = KInputDialog::getText(i18n("Role Name"),
                                         i18n("Enter role name:"),
-                                        oldText, NULL, m_pView, NULL, &v);
+                                        oldText, NULL, m_pView, &v);
         if (newText != oldText) {
             if (FloatingText::isTextValid(newText)) {
                 setRoleName(newText, r);

@@ -398,15 +398,15 @@ void CodeGenerationPolicy::writeConfig (KConfig * config) {
     config->writeEntry("forceDoc",getCodeVerboseDocumentComments());
     config->writeEntry("forceSections",getCodeVerboseSectionComments());
 
-    config->writeEntry("lineEndingType",getLineEndingType());
-    config->writeEntry("indentationType",getIndentationType());
+    config->writeEntry("lineEndingType",int(getLineEndingType()));
+    config->writeEntry("indentationType",int(getIndentationType()));
     config->writeEntry("indentationAmount",getIndentationAmount());
 
     config->writePathEntry("outputDirectory",getOutputDirectory().absPath());
     config->writePathEntry("headingsDirectory",getHeadingFileDir());
     config->writeEntry("includeHeadings",getIncludeHeadings());
-    config->writeEntry("overwritePolicy",getOverwritePolicy());
-    config->writeEntry("modnamePolicy",  getModifyPolicy());
+    config->writeEntry("overwritePolicy",int(getOverwritePolicy()));
+    config->writeEntry("modnamePolicy",  int(getModifyPolicy()));
 
 }
 
