@@ -4,21 +4,28 @@ Version 1.5.2
   http://bugs.debian.org/348940 , http://bugs.kde.org/119991
 * fixed problem with font size computation/word wrap in note widgets
   http://sourceforge.net/mailarchive/forum.php?thread_id=9558795&forum_id=472
+* Automatically fill useful info into the Perl writer heading template
 * Bugs/wishes from http://bugs.kde.org:
 * Fixed connection points for associations on widgets (67223)
 * Import Rose model files (81364)
 * Documentation for association roles not saved (105661)
 * Default data types not added for old Java generator (115991)
 * Custom operations in sequence diagrams become class operations (120337)
+* Fork/join symbol appears as a black box (120455)
 * Multiplicity labels positioned incorrectly when moving entities (120598)
 * Types of entity's attributes are displayed instead of their names (120742)
 * Unable to delete entity from entity list in "UML Model" frame (120750)
 * Interface names not italicized in diagram view (120761)
 * Cannot Resize Sequence Diagram Synchronous Messages (120910)
+* Sequencediagram: messages as constructor works only properly at 100% zoom (121238)
+* drag 'n drop a class when the zoom is not 1:1 don't put the class under mouse cursor (122293)
 * Documentation for associations is not retained (121478, 122063)
+* Crash when a non existing data type is used for an argument of a new method (122497)
 * Crash when importing Python files (121952)
 * "void" is imported as class and not datatypes (122184)
 * Crash when creating a datatype with the same name as a class (122188)
+* Memory problem when importing classes from c++ sources (122668)
+* Crash when refusing to rename a class on importing typedef (122914)
 
 Version 1.5.1
 

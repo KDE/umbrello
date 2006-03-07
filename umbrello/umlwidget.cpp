@@ -1065,7 +1065,7 @@ void UMLWidget::updateComponentSize() {
     const QSize minSize = calculateSize();
     const int w = minSize.width();
     const int h = minSize.height();
-    if (getWidth() >= w && getHeight() >= h)
+    if (m_Type != Uml::wt_ForkJoin && getWidth() >= w && getHeight() >= h)
         return;
     setSize(w, h);
     adjustAssocs( getX(), getY() );  // adjust assoc lines
