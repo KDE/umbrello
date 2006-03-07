@@ -11,6 +11,7 @@ Version 1.5.2
 * Documentation for association roles not saved (105661)
 * Default data types not added for old Java generator (115991)
 * Custom operations in sequence diagrams become class operations (120337)
+* Fork/join symbol appears as a black box (120455)
 * Multiplicity labels positioned incorrectly when moving entities (120598)
 * Types of entity's attributes are displayed instead of their names (120742)
 * Unable to delete entity from entity list in "UML Model" frame (120750)
