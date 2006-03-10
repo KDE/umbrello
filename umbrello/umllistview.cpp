@@ -2262,7 +2262,6 @@ bool UMLListView::itemRenamed( Q3ListViewItem * item , int /*col*/ ) {
                         kapp -> mainWidget(),
                         i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
                         i18n( "Name Not Unique" ), i18n("Use Name"), i18n("Enter New Name") ) == KMessageBox::No ) {
-                delete item;
                 return false;
             }
         } else {
@@ -2422,7 +2421,6 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
     if( !parent ) {
         kError() << "UMLListView::createChildUMLObject: parent UMLObject is NULL"
         << endl;
-        delete item;
         m_bCreatingChildObject = false;
         return false;
     }
@@ -2437,7 +2435,6 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
             KMessageBox::error( kapp->mainWidget(),
                                 Model_Utils::psText(st),
                                 i18n("Creation canceled") );
-            delete item;
             m_bCreatingChildObject = false;
             return false;
         }
@@ -2453,7 +2450,6 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
             KMessageBox::error( kapp->mainWidget(),
                                 Model_Utils::psText(st),
                                 i18n("Creation canceled") );
-            delete item;
             m_bCreatingChildObject = false;
             return false;
         }
@@ -2471,7 +2467,6 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
             KMessageBox::error( kapp->mainWidget(),
                                 Model_Utils::psText(st),
                                 i18n("Creation canceled") );
-            delete item;
             m_bCreatingChildObject = false;
             return false;
         }
@@ -2483,7 +2478,6 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
                     kapp -> mainWidget(),
                     i18n( "The name you entered was not unique!\nCreation process has been canceled." ),
                     i18n( "Name Not Unique" ) );
-            delete item;
             m_bCreatingChildObject = false;
             return false;
         }
