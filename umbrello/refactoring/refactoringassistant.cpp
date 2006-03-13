@@ -38,7 +38,7 @@ using std::type_info;
 
 
 RefactoringAssistant::RefactoringAssistant( UMLDoc *doc, UMLClassifier *obj, QWidget *parent, const char *name ):
-        KListView( parent), m_doc( doc )
+        K3ListView( parent), m_doc( doc )
 {
 	setObjectName(name);
     loadPixmaps();
@@ -60,8 +60,8 @@ RefactoringAssistant::RefactoringAssistant( UMLDoc *doc, UMLClassifier *obj, QWi
     m_menu = new Q3PopupMenu(this);
 
     connect(this,SIGNAL(doubleClicked(Q3ListViewItem*)),this,SLOT(itemExecuted(Q3ListViewItem*)));
-    connect(this,SIGNAL(contextMenu(KListView*, Q3ListViewItem*, const QPoint&)),
-            this,SLOT(showContextMenu(KListView*,Q3ListViewItem*,const QPoint&)));
+    connect(this,SIGNAL(contextMenu(K3ListView*, Q3ListViewItem*, const QPoint&)),
+            this,SLOT(showContextMenu(K3ListView*,Q3ListViewItem*,const QPoint&)));
 
     resize(300,400);
 
@@ -178,7 +178,7 @@ void RefactoringAssistant::operationAdded( UMLClassifierListItem *o )
     {
         if( folder->text(1) == "operations" )
         {
-            item = new KListViewItem( folder, op->getName() );
+            item = new K3ListViewItem( folder, op->getName() );
             m_umlObjectMap[item] = op;
             connect( op, SIGNAL( modified() ), this, SLOT( umlObjectModified() ) );
             setVisibilityIcon( item, op );
@@ -220,7 +220,7 @@ void RefactoringAssistant::attributeAdded( UMLClassifierListItem *a )
     {
         if( folder->text(1) == "attributes" )
         {
-            item = new KListViewItem( folder, att->getName() );
+            item = new K3ListViewItem( folder, att->getName() );
             m_umlObjectMap[item] = att;
             connect( att, SIGNAL( modified() ), this, SLOT( umlObjectModified() ) );
             setVisibilityIcon( item, att );
@@ -280,7 +280,7 @@ void RefactoringAssistant::editProperties( UMLObject *obj )
     delete dia;
 }
 
-void RefactoringAssistant::showContextMenu(KListView* ,Q3ListViewItem *item, const QPoint &p)
+void RefactoringAssistant::showContextMenu(K3ListView* ,Q3ListViewItem *item, const QPoint &p)
 {
     m_menu->clear();
     UMLObject *obj = findUMLObject( item );
@@ -362,7 +362,7 @@ void RefactoringAssistant::addBaseClassifier()
         kWarning()<<"Cannot find Base Folder"<<endl;
         return;
     }
-    item = new KListViewItem( baseFolder, super->getName() );
+    item = new K3ListViewItem( baseFolder, super->getName() );
     item->setPixmap(0,m_pixmaps.Generalization);
     item->setExpandable( true );
     m_umlObjectMap[item] = super;
@@ -404,7 +404,7 @@ void RefactoringAssistant::addDerivedClassifier()
         kWarning()<<"Cannot find Derived Folder"<<endl;
         return;
     }
-    item = new KListViewItem( derivedFolder, derived->getName() );
+    item = new K3ListViewItem( derivedFolder, derived->getName() );
     item->setPixmap(0,m_pixmaps.Subclass);
     item->setExpandable( true );
     m_umlObjectMap[item] = derived;
@@ -468,7 +468,7 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, Q3ListViewI
     }
     else
     {
-        classifierItem= new KListViewItem( this, classifier->getName() );
+        classifierItem= new K3ListViewItem( this, classifier->getName() );
         m_umlObjectMap[classifierItem] = classifier;
     }
 
@@ -482,7 +482,7 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, Q3ListViewI
         connect( classifier, SIGNAL(attributeRemoved(UMLClassifierListItem*)),
                  this, SLOT(attributeRemoved(UMLClassifierListItem*)));
 
-        Q3ListViewItem *attsFolder = new KListViewItem( classifierItem, i18n("Attributes"), "attributes" );
+        Q3ListViewItem *attsFolder = new K3ListViewItem( classifierItem, i18n("Attributes"), "attributes" );
         attsFolder->setPixmap(0,SmallIcon("folder_green_open"));
         attsFolder->setExpandable( true );
         UMLAttributeList atts = klass->getAttributeList();
@@ -499,7 +499,7 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, Q3ListViewI
     connect( classifier, SIGNAL(operationRemoved(UMLClassifierListItem*)),
              this, SLOT(operationRemoved(UMLClassifierListItem*)));
 
-    Q3ListViewItem *opsFolder = new KListViewItem( classifierItem, i18n("Operations"), "operations" );
+    Q3ListViewItem *opsFolder = new K3ListViewItem( classifierItem, i18n("Operations"), "operations" );
     opsFolder->setPixmap(0,SmallIcon("folder_blue_open"));
     opsFolder->setExpandable( true );
     UMLOperationList ops(classifier->getOpList());
@@ -511,12 +511,12 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, Q3ListViewI
     //if add parents
     if(addSuper)
     {
-        Q3ListViewItem *superFolder = new KListViewItem( classifierItem, i18n("Base Classifiers") );
+        Q3ListViewItem *superFolder = new K3ListViewItem( classifierItem, i18n("Base Classifiers") );
         superFolder->setExpandable( true );
         UMLClassifierList super = classifier->findSuperClassConcepts();
         for( UMLClassifier *cl = super.first(); cl ; cl = super.next() )
         {
-            item = new KListViewItem( superFolder, cl->getName() );
+            item = new K3ListViewItem( superFolder, cl->getName() );
             item->setPixmap(0,m_pixmaps.Generalization);
             item->setExpandable( true );
             m_umlObjectMap[item] = cl;
@@ -530,12 +530,12 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, Q3ListViewI
     if(addSub)
     {
         //add derived classifiers
-        Q3ListViewItem *derivedFolder = new KListViewItem( classifierItem, i18n("Derived Classifiers") );
+        Q3ListViewItem *derivedFolder = new K3ListViewItem( classifierItem, i18n("Derived Classifiers") );
         derivedFolder->setExpandable( true );
         UMLClassifierList derived = classifier->findSubClassConcepts();
         for( UMLClassifier *d = derived.first(); d ; d = derived.next() )
         {
-            item = new KListViewItem( derivedFolder, d->getName() );
+            item = new K3ListViewItem( derivedFolder, d->getName() );
             item->setPixmap(0,m_pixmaps.Subclass);
             item->setExpandable( true );
             m_umlObjectMap[item] = d;

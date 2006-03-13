@@ -77,7 +77,7 @@ protected:
      * Reimplemented from QToolTip for internal reasons.
      * At classifiers, only the method names are shown in the list view -
      * we use a tooltip for the full signature display.
-     * Once KListView's tooltip overriding mechanism works, we can kick
+     * Once K3ListView's tooltip overriding mechanism works, we can kick
      * this class out.
      */
     virtual void maybeTip (const QPoint& pos) {
@@ -98,7 +98,7 @@ protected:
 
 
 UMLListView::UMLListView(QWidget *parent, const char *)
-        : KListView(parent), m_pMenu(0), m_doc(UMLApp::app()->getDocument())
+        : K3ListView(parent), m_pMenu(0), m_doc(UMLApp::app()->getDocument())
 {
     loadPixmaps();
 
@@ -127,7 +127,7 @@ UMLListView::UMLListView(QWidget *parent, const char *)
     m_datatypeFolder = new UMLListViewItem(m_lv, i18n("Datatypes"), Uml::lvt_Datatype_Folder);
 
 #ifdef WANT_LVTOOLTIP
-    /* In KDE-3.3, we cannot use KListView's builtin mechanism for
+    /* In KDE-3.3, we cannot use K3ListView's builtin mechanism for
        overriding the tooltips. Instead, see the above class LVToolTip.
     setShowToolTips( true );
     setTooltipColumn( 0 );
@@ -218,18 +218,18 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
         connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(popupMenuSel(int)));
     }//end if right button
 
-    this->KListView::contentsMousePressEvent(me);
+    this->K3ListView::contentsMousePressEvent(me);
 }
 
 void UMLListView::contentsMouseReleaseEvent(QMouseEvent *me) {
     if (me->button() != Qt::LeftButton) {
-        this->KListView::contentsMouseReleaseEvent(me);
+        this->K3ListView::contentsMouseReleaseEvent(me);
         return;
     }
     const QPoint pt = this->Q3ScrollView::contentsToViewport( me->pos() );
     UMLListViewItem *item = dynamic_cast<UMLListViewItem*>(itemAt(pt));
     if (item == NULL || !typeIsDiagram(item->getType())) {
-        this->KListView::contentsMouseReleaseEvent(me);
+        this->K3ListView::contentsMouseReleaseEvent(me);
         return;
     }
     // Switch to diagram on mouse release - not on mouse press
@@ -237,7 +237,7 @@ void UMLListView::contentsMouseReleaseEvent(QMouseEvent *me) {
     m_doc->changeCurrentView( item->getID() );
     emit diagramSelected( item->getID() );
     UMLApp::app()->getDocWindow()->showDocumentation(m_doc->findView(item->getID()), false);
-    this->KListView::contentsMouseReleaseEvent(me);
+    this->K3ListView::contentsMouseReleaseEvent(me);
 }
 
 void UMLListView::keyPressEvent(QKeyEvent *ke) {

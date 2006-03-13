@@ -17,7 +17,7 @@
 #define REFACTORING_ASSISTANT
 
 
-#include <klistview.h>
+#include <k3listview.h>
 #include <qpixmap.h>
 //Added by qt3to4:
 #include <Q3PopupMenu>
@@ -33,7 +33,7 @@ class UMLDoc;
 class Q3PopupMenu;
 class QPoint;
 
-class RefactoringAssistant : public KListView
+class RefactoringAssistant : public K3ListView
 {
     Q_OBJECT
 public:
@@ -62,7 +62,7 @@ public slots:
     void attributeRemoved( UMLClassifierListItem *a );
 
     void itemExecuted( Q3ListViewItem *item );
-    void showContextMenu( KListView*, Q3ListViewItem*, const QPoint&);
+    void showContextMenu( K3ListView*, Q3ListViewItem*, const QPoint&);
 
 protected:
     struct { QPixmap Public,

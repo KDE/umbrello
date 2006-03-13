@@ -21,7 +21,7 @@
 #include <QKeyEvent>
 #include <QEvent>
 #include <QDropEvent>
-#include <klistview.h>
+#include <k3listview.h>
 #include "umlnamespace.h"
 #include "umllistviewitemlist.h"
 
@@ -48,7 +48,7 @@ class UMLView;
 class UMLObject;
 class UMLClassifierListItem;
 
-class UMLListView : public KListView {
+class UMLListView : public K3ListView {
     Q_OBJECT
 public:
 
