@@ -21,6 +21,7 @@
 #include "associationwidget.h"
 #include "statewidget.h"
 #include "activitywidget.h"
+#include "forkjoinwidget.h"
 
 using namespace Uml;
 
@@ -197,13 +198,15 @@ bool AssocRules::allowAssociation( Association_Type assocType,
                 static_cast<ActivityWidget*>(widgetA)->getActivityType() !=
                 ActivityWidget::Branch &&
                 static_cast<ActivityWidget*>(widgetA)->getActivityType() !=
-                ActivityWidget::Fork_DEPRECATED ) {
+                ActivityWidget::Fork_DEPRECATED &&
+		dynamic_cast<ForkJoinWidget*>(widgetA) == NULL ) {
             return false;
         }
         // only Forks and Branches can have more than one "outgoing" transition
         if( static_cast<ActivityWidget*>(widgetA)->getActivityType() !=
                 ActivityWidget::Fork_DEPRECATED &&
-                static_cast<ActivityWidget*>(widgetA)->getActivityType() !=
+		dynamic_cast<ForkJoinWidget*>(widgetA) == NULL &&
+               static_cast<ActivityWidget*>(widgetA)->getActivityType() !=
                 ActivityWidget::Branch ) {
             AssociationWidgetList list = widgetA->getAssocList();
             for (AssociationWidget* assoc = list.first(); assoc; assoc = list.next()) {
