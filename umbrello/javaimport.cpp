@@ -309,7 +309,16 @@ bool JavaImport::parseStmt() {
                                    m_isStatic, m_isAbstract, false /*isFriend*/,
                                    false /*isConstructor*/, m_comment);
         m_isAbstract = m_isStatic = false;
-        return skipToClosing('{');
+        // At this point we do not know whether the method has a body or not.
+        do {
+            nextToken = advance();
+        } while (nextToken != "{" && nextToken != ";");
+        if (nextToken == ";") {
+            // No body (interface or abstract)
+            return true;
+        } else {
+            return skipToClosing('{');
+        }
     }
     // At this point we know it's some kind of attribute declaration.
     while (1) {
