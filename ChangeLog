@@ -26,6 +26,7 @@ Version 1.5.2
 * Crash when creating a datatype with the same name as a class (122188)
 * Memory problem when importing classes from c++ sources (122668)
 * Crash when refusing to rename a class on importing typedef (122914)
+* Java import fails at abstract methods or interfaces (123661)
 
 Version 1.5.1
 
