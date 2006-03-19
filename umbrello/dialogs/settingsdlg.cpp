@@ -17,6 +17,7 @@
 
 // qt includes
 #include <qlayout.h>
+#include <qtooltip.h>
 #include <kvbox.h>
 //Added by qt3to4:
 #include <QLabel>
@@ -149,6 +150,14 @@ void SettingsDlg::setupGeneralPage() {
     Dialog_Utils::makeLabeledEditField( m_GeneralWidgets.autosaveGB, autosaveLayout, 2,
                                     m_GeneralWidgets.autosaveSuffixL, i18n("Set autosave suffix:"),
                                     m_GeneralWidgets.autosaveSuffixT, m_pOptionState->generalState.autosavesuffix );
+    QString autoSaveSuffixToolTip = i18n( "<qt><p>The autosave file will be saved to ~/autosave.xmi if the autosaving occurs "
+                                          "before you have manually saved the file.</p>"
+                                          "<p>If you've already saved it, the autosave file will be saved in the same folder as the file "
+                                          "and will be named like the file's name, followed by the suffix specified.</p>"
+                                          "<p>If the suffix is equal to the suffix of the file you've saved, "
+                                          "the autosave will overwrite your file automatically.</p></qt>" );
+    QToolTip::add( m_GeneralWidgets.autosaveSuffixL, autoSaveSuffixToolTip );
+    QToolTip::add( m_GeneralWidgets.autosaveSuffixT, autoSaveSuffixToolTip );
 
     //setup startup settings
     m_GeneralWidgets.startupGB = new Q3GroupBox( i18n("Startup"), page );
