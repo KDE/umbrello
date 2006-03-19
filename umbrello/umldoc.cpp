@@ -2373,7 +2373,9 @@ void UMLDoc::slotAutoSave() {
     if( tempURL.fileName() == i18n("Untitled") ) {
         tempURL.setPath( QDir::homeDirPath() + i18n("/autosave%1").arg(".xmi") );
         saveDocument( tempURL );
+        m_doc_url.setFileName( i18n("Untitled") );
         m_modified = true;
+        UMLApp::app()->setModified( m_modified );
     } else {
         // 2004-05-17 Achim Spangler
         KUrl orgDocUrl = m_doc_url;
@@ -2389,8 +2391,10 @@ void UMLDoc::slotAutoSave() {
         // 2004-05-17 Achim Spangler
         // re-activate m_modified if autosave is writing to other file
         // than the main project file -> autosave-suffix != ".xmi"
-        if ( ".xmi" != optionState.generalState.autosavesuffix )
-            setModified( true );
+        if ( ".xmi" != optionState.generalState.autosavesuffix ) {
+            m_modified = true;
+            UMLApp::app()->setModified( m_modified );
+        }
         // restore original file name -
         // UMLDoc::saveDocument() sets doc_url to filename which is given as autosave-filename
         setURL( orgDocUrl );
