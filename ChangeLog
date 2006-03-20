@@ -1,5 +1,6 @@
 Version 1.5.3
 
+* Switch to arrow after object creation (http://bugs.debian.org/353344)
 * Bugs/wishes from http://bugs.kde.org:
 * Static variables in java code are not marked static (59190)
 * Save autosave file to a more obvious place (72019)

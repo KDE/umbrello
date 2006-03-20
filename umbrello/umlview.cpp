@@ -2158,6 +2158,9 @@ bool UMLView::setAssoc(UMLWidget *pWidget) {
             }
         }
         m_pDoc->setModified();
+        // go back to arrow tool
+        UMLApp::app()->getWorkToolBar()->setDefaultTool();
+        setCursor( KCursor::arrowCursor() );
     } else {
         KMessageBox::error(0, i18n("Incorrect use of associations."), i18n("Association Error"));
     }
