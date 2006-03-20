@@ -1,6 +1,7 @@
 Version 1.5.3
 
 * Bugs/wishes from http://bugs.kde.org:
+* Static variables in java code are not marked static (5591190)
 * Save autosave file to a more obvious place (72019)
 
 Version 1.5.2

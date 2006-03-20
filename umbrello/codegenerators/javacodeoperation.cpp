@@ -66,8 +66,10 @@ void JavaCodeOperation::updateMethodDeclaration()
         if (paramNum != nrofParam )
             paramStr  += ", ";
     }
-
-    QString startText = strVis + " "+ returnType + methodName + " ( "+paramStr+")";
+    QString maybeStatic;
+    if (o->getStatic())
+        maybeStatic = "static ";
+    QString startText = strVis + " " + maybeStatic + returnType + methodName + " (" + paramStr + ")";
 
     // IF the parent is an interface, our operations look different
     // e.g. they have no body
