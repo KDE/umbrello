@@ -738,8 +738,8 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java) {
 
         str = ""; // reset for next method
         str += ((op->getAbstract() || isInterface) ? "abstract ":"");
-        str += (op->getStatic() ? "static":"");
         str += scopeToJavaDecl(op->getVisibility()) + " ";
+        str += (op->getStatic() ? "static ":"");
         str += methodReturnType + " " +cleanName(op->getName()) + "( ";
 
         atl = op->getParmList();

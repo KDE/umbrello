@@ -142,6 +142,8 @@ QString JavaCodeGenerator::capitalizeFirstLetter(QString string)
 // Same thing again for "bool" to "boolean"
 QString JavaCodeGenerator::fixTypeName(QString string)
 {
+    if (string.isEmpty() || string.contains(QRegExp("^\\s+$")))
+        return "void";
     string.replace(QRegExp("^string$"),"String");
     string.replace(QRegExp("^bool$"),"boolean");
     return cleanName(string);
