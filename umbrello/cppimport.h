@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2005                                                     *
+ *  copyright (C) 2005-2006                                                *
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
@@ -28,10 +28,18 @@ public:
     CppImport();
     virtual ~CppImport();
 
+protected:
     /**
      * Implement abstract operation from ClassImport for C++.
      */
-    void importFiles(QStringList headerFiles);
+    void initialize();
+
+    /**
+     * Import a single file.
+     *
+     * @param filename  The file to import.
+     */
+    void parseFile(QString filename);
 
 private:
     /**

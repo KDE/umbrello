@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2005                                                     *
+ *  copyright (C) 2005-2006                                                *
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
@@ -29,17 +29,32 @@ public:
 
     /**
      * Import files.
-     * To be provided by the programming language specific code import
-     * implementation class.
      *
      * @param files  List of files to import.
      */
-    virtual void importFiles(QStringList files) = 0;
+    void importFiles(QStringList files);
 
     /**
      * Factory method.
      */
     static ClassImport *createImporterByFileExt(QString filename);
+
+protected:
+    /**
+     * Initialize the importer.
+     * This is called by importFiles() once, before entering
+     * the loop for importing one or more files.
+     * To be implemented by inheriting classes.
+     */
+    virtual void initialize() = 0;
+
+    /**
+     * Import a single file.
+     * To be implemented by inheriting classes.
+     *
+     * @param filename  The file to import.
+     */
+    virtual void parseFile(QString filename) = 0;
 
 };
 
