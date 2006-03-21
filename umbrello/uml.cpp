@@ -1427,6 +1427,11 @@ void UMLApp::slotImportClasses() {
     classImporter->importFiles(fileList);
     delete classImporter;
     m_doc->setLoading(false);
+    //Modification is set after the import is made, because the file was modified when adding the classes
+    //Allowing undo of the whole class importing. I think it eats a lot of memory
+    //m_doc->setModified(true);
+    //Setting the modification, but without allowing undo
+    m_doc->setModified(true, false);
 }
 
 void UMLApp::slotClassWizard() {

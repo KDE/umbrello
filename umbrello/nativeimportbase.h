@@ -8,7 +8,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2005                                                     *
+ *  copyright (C) 2005-2006                                                *
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
@@ -50,10 +50,11 @@ public:
     NativeImportBase(QString singleLineCommentIntro);
     virtual ~NativeImportBase();
 
+protected:
     /**
      * Implement abstract operation from ClassImport.
      */
-    void importFiles(QStringList files);
+    void initialize();
 
     /**
      * Import a single file.
@@ -64,7 +65,6 @@ public:
      */
     virtual void parseFile(QString filename);
 
-protected:
     /**
      * Initialize auxiliary variables.
      * This is called by the default implementation of parseFile()

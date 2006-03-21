@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2005                                                     *
+ *  copyright (C) 2005-2006                                                *
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
@@ -20,8 +20,6 @@
 #include <kdebug.h>
 // app includes
 #include "import_utils.h"
-#include "uml.h"
-#include "umldoc.h"
 
 NativeImportBase::NativeImportBase(QString singleLineCommentIntro) {
     m_singleLineCommentIntro = singleLineCommentIntro;
@@ -179,6 +177,7 @@ void NativeImportBase::parseFile(QString filename) {
         return;
     }
     // Scan the input file into the QStringList m_source.
+    m_source.clear();
     m_srcIndex = 0;
     initVars();
     QTextStream stream(&file);
@@ -191,7 +190,7 @@ void NativeImportBase::parseFile(QString filename) {
     m_klass = NULL;
     m_currentAccess = Uml::Visibility::Public;
     m_scopeIndex = 0;
-    m_scope[0] = NULL;
+    m_scope[0] = NULL;  // index 0 is reserved for global scope
     const uint srcLength = m_source.count();
     for (m_srcIndex = 0; m_srcIndex < srcLength; m_srcIndex++) {
         const QString& firstToken = m_source[m_srcIndex];
@@ -206,18 +205,7 @@ void NativeImportBase::parseFile(QString filename) {
     }
 }
 
-void NativeImportBase::importFiles(QStringList fileList) {
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
+void NativeImportBase::initialize() {
     m_parsedFiles.clear();
-    for (QStringList::Iterator fileIT = fileList.begin();
-            fileIT != fileList.end(); ++fileIT) {
-        QString fileName = (*fileIT);
-        umldoc->writeToStatusBar(i18n("Importing file: %1").arg(fileName));
-        m_source.clear();
-        m_srcIndex = 0;
-        m_scope[0] = NULL;  // index 0 is reserved for global scope
-        m_scopeIndex = 0;
-        parseFile(fileName);
-    }
 }
 

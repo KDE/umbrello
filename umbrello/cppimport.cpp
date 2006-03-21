@@ -5,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2005-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
@@ -15,11 +17,8 @@
 #include <kapplication.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
-#include <klocale.h>
 // app includes
 #include "import_utils.h"
-#include "uml.h"
-#include "umldoc.h"
 #include "umlobject.h"
 #include "docwindow.h"
 #include "package.h"
@@ -80,12 +79,10 @@ void CppImport::feedTheModel(QString fileName) {
         return;
     }
     CppTree2Uml modelFeeder( fileName );
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-    umldoc->writeToStatusBar(i18n("Importing file: %1").arg(fileName));
     modelFeeder.parseTranslationUnit( ast );
 }
 
-void CppImport::importFiles(QStringList headerFileList) {
+void CppImport::initialize() {
     // Reset the driver
     ms_driver->reset();
     // The driver shall attempt to parse included files.
@@ -104,22 +101,12 @@ void CppImport::importFiles(QStringList headerFileList) {
 
     }
     ms_seenFiles.clear();
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-    for (QStringList::Iterator fileIT = headerFileList.begin();
-            fileIT != headerFileList.end(); ++fileIT) {
-        QString fileName = (*fileIT);
-        umldoc->writeToStatusBar(i18n("Importing file: %1").arg(fileName));
+}
 
-        /// kapp->processEvents();
-        // Invoking kapp->processEvents() improves responsiveness when importing
-        // many large header files but slows down import because the list view is
-        // intermittently updated.
-
-        if (ms_seenFiles.find(fileName) != ms_seenFiles.end())
-            continue;
-        ms_driver->parseFile( fileName );
-        feedTheModel(fileName);
-    }
-    umldoc->writeToStatusBar("Ready.");
+void CppImport::parseFile(QString fileName) {
+    if (ms_seenFiles.find(fileName) != ms_seenFiles.end())
+        return;
+    ms_driver->parseFile( fileName );
+    feedTheModel(fileName);
 }
 

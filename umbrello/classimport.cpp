@@ -13,12 +13,29 @@
 #include "classimport.h"
 // qt/kde includes
 #include <qregexp.h>
+#include <klocale.h>
 // app includes
+#include "umldoc.h"
+#include "uml.h"
 #include "idlimport.h"
 #include "pythonimport.h"
 #include "javaimport.h"
 #include "adaimport.h"
 #include "cppimport.h"
+
+void ClassImport::importFiles(QStringList fileList) {
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    uint processedFilesCount = 0;
+    for (QStringList::Iterator fileIT = fileList.begin();
+            fileIT != fileList.end(); ++fileIT) {
+        QString fileName = (*fileIT);
+        umldoc->writeToStatusBar(i18n("Importing file: %1 Progress: %2/%3").
+                                 arg(fileName).arg(processedFilesCount).arg(fileList.size()));
+        parseFile(fileName);
+        processedFilesCount++;
+    }
+    umldoc->writeToStatusBar(i18n("Ready."));
+}
 
 ClassImport *ClassImport::createImporterByFileExt(QString filename) {
     ClassImport *classImporter;
