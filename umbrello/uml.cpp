@@ -43,7 +43,7 @@
 #include <kstatusbar.h>
 #include <ktip.h>
 #include <ktabwidget.h>
-#include <ktoolbarbutton.h>
+
 #include <kmenu.h>
 
 // app includes
@@ -447,7 +447,7 @@ void UMLApp::openDocumentFile(const KUrl& url) {
     slotStatusMsg(i18n("Opening file..."));
 
     m_doc->openDocument( url);
-    fileOpenRecent->addURL( url );
+    fileOpenRecent->addUrl( url );
     slotStatusMsg(i18n("Ready."));
     setCaption(m_doc->URL().fileName(), false);
     enablePrint(true);
@@ -658,7 +658,7 @@ void UMLApp::slotFileOpen() {
                  "*.mdl|Rose model files"), this, i18n("Open File"));
         if(!url.isEmpty()) {
             if(m_doc->openDocument(url))
-                fileOpenRecent->addURL( url );
+                fileOpenRecent->addUrl( url );
             enablePrint(true);
             setCaption(m_doc->URL().fileName(), false);
         }
@@ -680,7 +680,7 @@ void UMLApp::slotFileOpenRecent(const KUrl& url) {
         // here saving wasn't successful
     } else {
         if(!m_doc->openDocument(url)) {
-            fileOpenRecent->removeURL(url);
+            fileOpenRecent->removeUrl(url);
             fileOpenRecent->setCurrentItem( -1 );
         }
         enablePrint(true);
@@ -738,7 +738,7 @@ bool UMLApp::slotFileSaveAs()
     if(!url.isEmpty()) {
         bool b = m_doc->saveDocument(url);
         if (b) {
-            fileOpenRecent->addURL(url);
+            fileOpenRecent->addUrl(url);
             setCaption(url.fileName(),m_doc->isModified());
             slotStatusMsg(i18n("Ready."));
         }

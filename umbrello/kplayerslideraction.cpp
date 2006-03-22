@@ -19,7 +19,7 @@
 
 #include <kapplication.h>
 #include <ktoolbar.h>
-#include <ktoolbarbutton.h>
+
 #include <qtooltip.h>
 #include <q3whatsthis.h>
 //Added by qt3to4:

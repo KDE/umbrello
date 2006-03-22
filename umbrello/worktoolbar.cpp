@@ -18,7 +18,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
-#include <ktoolbarbutton.h>
+
 
 // application specific includes
 #include "uml.h"
