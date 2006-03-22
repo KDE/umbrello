@@ -128,7 +128,7 @@ kde4_automoc(${umbrello_SRCS})
 
 kde4_add_executable(umbrello ${umbrello_SRCS})
 
-target_link_libraries(umbrello  ${QT_AND_KDECORE_LIBS} refactoring classparser clipboard dialogs codegenerator kdeprint kio )
+target_link_libraries(umbrello  ${KDE4_KDECORE_LIBS} refactoring classparser clipboard dialogs codegenerator kdeprint kio )
 
 install_targets(/bin umbrello )
 
