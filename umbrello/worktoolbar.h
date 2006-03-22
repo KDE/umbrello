@@ -20,7 +20,7 @@
 #include <QPixmap>
 #include <ktoolbar.h>
 #include "umlnamespace.h"
-
+#include <Q3MainWindow>
 
 /**
  * This is the toolbar that is displayed on the right-hand side of the program
