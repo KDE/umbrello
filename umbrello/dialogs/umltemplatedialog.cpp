@@ -23,6 +23,7 @@
 #include <qlineedit.h>
 
 // kde includes
+#include <kcombobox.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
@@ -55,7 +56,7 @@ void UMLTemplateDialog::setupDialog() {
     m_pTypeL = new QLabel(i18n("&Type:"), m_pValuesGB);
     valuesLayout->addWidget(m_pTypeL, 0, 0);
 
-    m_pTypeCB = new QComboBox(m_pValuesGB);
+    m_pTypeCB = new KComboBox(m_pValuesGB);
     valuesLayout->addWidget(m_pTypeCB, 0, 1);
     m_pTypeL->setBuddy(m_pTypeCB);
 
@@ -81,7 +82,8 @@ void UMLTemplateDialog::setupDialog() {
 
     m_pTypeCB->setEditable(true);
     m_pTypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
-    m_pTypeCB->setAutoCompletion(true);
+    m_pTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
+//    m_pTypeCB->setAutoCompletion(true);
 
     //work out which one to select
     int typeBoxCount = 0;

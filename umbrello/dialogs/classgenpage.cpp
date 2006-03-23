@@ -214,6 +214,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
 
     // manage stereotypes
     m_pStereoTypeCB -> setDuplicatesEnabled(false);//only allow one of each type in box
+    m_pStereoTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
     insertStereotype (QString("")); // an empty stereotype is the default
     int defaultStereotype=0;
     bool foundDefaultStereotype = false;

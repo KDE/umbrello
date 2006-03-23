@@ -62,7 +62,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
     m_pTypeL = new QLabel(i18n("&Type:"), m_pParmGB);
     propLayout -> addWidget(m_pTypeL, 0, 0);
 
-    m_pTypeCB = new QComboBox(m_pParmGB);
+    m_pTypeCB = new KComboBox(m_pParmGB);
     propLayout -> addWidget(m_pTypeCB, 0, 1);
     m_pTypeL->setBuddy(m_pTypeCB);
 
@@ -122,7 +122,8 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
 
     m_pTypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
     m_pTypeCB->setEditable(true);
-    m_pTypeCB->setAutoCompletion(false);
+    m_pTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
+//    m_pTypeCB->setAutoCompletion(false);
 
     //add template parameters
     UMLClassifier *pConcept = dynamic_cast<UMLClassifier*>( m_pAtt->parent()->parent() );

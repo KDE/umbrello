@@ -114,6 +114,7 @@ void UMLAttributeDialog::setupDialog() {
           m_pImplementationRB -> setChecked( true );
 
     m_pTypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
+    m_pTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
 
     //now add the Concepts
     UMLClassifierList namesList( pDoc->getConcepts() );

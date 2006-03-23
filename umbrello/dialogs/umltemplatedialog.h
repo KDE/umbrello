@@ -19,7 +19,7 @@
 
 class QButtonGroup;
 class QCheckBox;
-class QComboBox;
+class KComboBox;
 class QGroupBox;
 class QLineEdit;
 class QRadioButton;
@@ -59,7 +59,7 @@ protected:
     QGroupBox* m_pTemplateGB;
     QGroupBox* m_pValuesGB;
     QLabel *m_pTypeL, *m_pNameL, *m_pStereoTypeL;
-    QComboBox* m_pTypeCB;
+    KComboBox* m_pTypeCB;
     QLineEdit *m_pNameLE, *m_pStereoTypeLE;
 
 public slots:
