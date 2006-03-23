@@ -24,6 +24,7 @@
 #include "cppimport.h"
 
 void ClassImport::importFiles(QStringList fileList) {
+    initialize();
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     uint processedFilesCount = 0;
     for (QStringList::Iterator fileIT = fileList.begin();
