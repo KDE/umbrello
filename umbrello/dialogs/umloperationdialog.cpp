@@ -162,6 +162,7 @@ void UMLOperationDialog::setupDialog() {
     insertType( "void" );
 
     m_pRtypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
+    m_pRtypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
 
     // add template parameters
     UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(m_pOperation->parent());
@@ -214,6 +215,7 @@ void UMLOperationDialog::setupDialog() {
 
     // manage stereotypes
     m_pStereoTypeCB -> setDuplicatesEnabled(false);//only allow one of each type in box
+    m_pStereoTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
     insertStereotype (QString("")); // an empty stereotype is the default
     int defaultStereotype=0;
     bool foundDefaultStereotype = false;

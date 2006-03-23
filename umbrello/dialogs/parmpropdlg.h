@@ -16,6 +16,7 @@
 #define PARMPROPDLG_H
 
 #include <kdialogbase.h>
+#include <kcombobox.h>
 #include <q3groupbox.h>
 #include <qlabel.h>
 #include <qlayout.h>
@@ -27,6 +28,7 @@
 #include "../attribute.h"
 
 class UMLDoc;
+
 /**
  * Displays a dialog box that displays properties of a paramater.
  * You need to make sure that @ref UMLDoc is made to be the
@@ -103,7 +105,7 @@ private:
     Q3ButtonGroup *m_pKind;
     QRadioButton * m_pIn, * m_pOut, *m_pInOut;
     QLabel * m_pTypeL, * m_pNameL, * m_pInitialL, * m_pStereoTypeL;
-    QComboBox * m_pTypeCB;
+    KComboBox * m_pTypeCB;
     QLineEdit * m_pNameLE, * m_pInitialLE, * m_pStereoTypeLE;
     Q3MultiLineEdit * m_pDoc;
     UMLDoc * m_pUmldoc;

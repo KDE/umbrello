@@ -21,7 +21,7 @@
 
 class Q3ButtonGroup;
 class QCheckBox;
-class QComboBox;
+class KComboBox;
 class Q3GroupBox;
 class QLineEdit;
 class QRadioButton;
@@ -61,7 +61,7 @@ protected:
     Q3GroupBox* m_pTemplateGB;
     Q3GroupBox* m_pValuesGB;
     QLabel *m_pTypeL, *m_pNameL, *m_pStereoTypeL;
-    QComboBox* m_pTypeCB;
+    KComboBox* m_pTypeCB;
     QLineEdit *m_pNameLE, *m_pStereoTypeLE;
 
 public slots:

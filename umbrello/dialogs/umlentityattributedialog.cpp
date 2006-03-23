@@ -138,6 +138,7 @@ void UMLEntityAttributeDialog::setupDialog() {
     }
 
     m_pTypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
+    m_pTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
 
     // Add the data types.
     UMLDatatypeList dataTypes = pDoc->getDatatypes();
