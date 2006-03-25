@@ -87,7 +87,6 @@ void ObjectWidget::slotMenuSelection(int sel) {
                     m_InstanceName,
                     &ok,
                     m_pView,
-                    "renameobject",
                     validator);
             if (ok) {
                 m_InstanceName = name;

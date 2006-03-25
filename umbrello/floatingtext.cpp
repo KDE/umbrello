@@ -171,7 +171,7 @@ void FloatingText::handleRename() {
     }
     bool ok = false;
     QString newText = KInputDialog::getText(i18n("Rename"), t, getText(), &ok,
-                                            m_pView, NULL, &v);
+                                            m_pView, &v);
     if (!ok || newText == getText())
         return;
     if (m_pLink && !isTextValid(newText)) {

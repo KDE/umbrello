@@ -19,12 +19,13 @@
 #include "umlwidget.h"
 #include "umlwidgetlist.h"
 
+#include <QMainWindow>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 
-AlignToolBar::AlignToolBar(Q3MainWindow* parentWindow, const char* name)
-        : KToolBar(parentWindow,Qt::DockRight,false,name)
+AlignToolBar::AlignToolBar(QMainWindow* parentWindow, const char*)
+        : KToolBar(parentWindow,Qt::DockRight,false)
 {
     // load images for the buttons
     loadPixmaps();

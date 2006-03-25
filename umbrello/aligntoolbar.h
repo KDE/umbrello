@@ -15,10 +15,12 @@
 #ifndef ALIGNTOOLBAR_H
 #define ALIGNTOOLBAR_H
 
+#include <QPixmap>
 #include <ktoolbar.h>
 #include "umlnamespace.h"
 #include "umlwidgetlist.h"
 
+class QMainWindow;
 
 /**
  * This toolbar provides tools for alignment. Widgets can only be aligned, when
@@ -38,7 +40,7 @@ public:
      * @param parentWindow      The parent of the toolbar.
      * @param name              The name of the toolbar.
      */
-    AlignToolBar(Q3MainWindow* parentWindow, const char* name);
+    AlignToolBar(QMainWindow* parentWindow, const char* name);
 
     /**
      * Standard deconstructor.
