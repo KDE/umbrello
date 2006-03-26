@@ -5,6 +5,7 @@ Version 1.5.3
 * Static variables in java code are not marked static (59190)
 * Save autosave file to a more obvious place (72019)
 * Usability and responsiveness improvements to code import (93296)
+* Memory problem when importing classes from c++ sources (122668)
 
 Version 1.5.2
 
@@ -32,7 +33,6 @@ Version 1.5.2
 * Crash when importing Python files (121952)
 * "void" is imported as class and not datatypes (122184)
 * Crash when creating a datatype with the same name as a class (122188)
-* Memory problem when importing classes from c++ sources (122668)
 * Crash when refusing to rename a class on importing typedef (122914)
 * Java import fails at abstract methods or interfaces (123661)
 

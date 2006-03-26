@@ -137,6 +137,14 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
         // Remember packages that we've seen - for avoiding cycles.
         UMLPackageList seenPkgs;
         for (; pkg; pkg = currentObj->getUMLPackage()) {
+            if (nameWithoutFirstPrefix.isEmpty()) {
+                if (caseSensitive) {
+                    if (pkg->getName() == name)
+                        return pkg;
+                } else if (pkg->getName().lower() == name.lower()) {
+                    return pkg;
+                }
+            }
             if (seenPkgs.findRef(pkg) != -1) {
                 kError() << "findUMLObject(" << name << "): "
                 << "breaking out of cycle involving "
