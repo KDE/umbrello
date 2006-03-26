@@ -46,6 +46,7 @@
 #include "widget_utils.h"
 #include "dialogs/assocpropdlg.h"
 #include "inputdialog.h"
+#include "optionstate.h"
 
 using namespace Uml;
 
@@ -2502,7 +2503,7 @@ void AssociationWidget::checkPoints(const QPoint &p) {
     int size = m_LinePath.count();
     if( size <= 2 )
         return;
-    //check all points except the end points to se if we clicked on one of them
+    //check all points except the end points to see if we clicked on one of them
     QPoint tempPoint;
     int x, y;
     const int BOUNDARY = 4; // check for pixels around the point
@@ -2875,7 +2876,6 @@ void AssociationWidget::updateAssociations(int totalCount,
 void AssociationWidget::updateRegionLineCount(int index, int totalCount,
         AssociationWidget::Region region,
         Role_Type role) {
-            ///@todo remove parameter totalCount (no longer needed)
     if( region == Error )
         return;
     // If the association is to self and the line ends are on the same region then
@@ -2931,56 +2931,61 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
     robj.m_OldCorner.setY(y);
     int ww = pWidget->getWidth();
     int wh = pWidget->getHeight();
-//    int ch = wh * index / totalCount;
-//    int cw = ww * index / totalCount;
-    uint nind = role == A ? 1: m_LinePath.count() - 2;
-    QPoint neighbour = m_LinePath.getPoint(nind);
+    const bool angular = UMLApp::app()->getOptionState().generalState.angularlines;
     int ch = 0;
     int cw = 0;
-    if (neighbour.x() < x)
-        cw = 0;
-    else if (neighbour.x() > x + ww)
-        cw = 0 + ww;
-    else
-        cw = neighbour.x() - x;
-
-    if (neighbour.y() < y)
-        ch = 0;
-    else if (neighbour.y() > y + wh)
-        ch = 0 + wh;
-    else
-        ch = neighbour.y() - y;
+    if (angular) {
+        uint nind = (role == A ? 1 : m_LinePath.count() - 2);
+        QPoint neighbour = m_LinePath.getPoint(nind);
+        if (neighbour.x() < x)
+            cw = 0;
+        else if (neighbour.x() > x + ww)
+            cw = 0 + ww;
+        else
+            cw = neighbour.x() - x;
+        if (neighbour.y() < y)
+            ch = 0;
+        else if (neighbour.y() > y + wh)
+            ch = 0 + wh;
+        else
+            ch = neighbour.y() - y;
+    } else {
+        ch = wh * index / totalCount;
+        cw = ww * index / totalCount;
+    }
 
     int snapX = m_pView->snappedX(x + cw);
     int snapY = m_pView->snappedY(y + ch);
 
-    QPoint pt(snapX, snapY);
-
-/*    switch(region) {
-    default:
-//     case West:
-        pt.setX(snapX);
-        pt.setY(snapY);
-        break;
-    case North:
-        pt.setX(snapX);
-        pt.setY(y);
-        break;
-    case East:
-        pt.setX(x + ww);
-        pt.setY(snapY);
-        break;
-    case South:
-        pt.setX(snapX);
-        pt.setY(y + wh);
-        break;
-    case Center:
-        pt.setX(x + ww / 2);
-        pt.setY(y + wh / 2);
-        break;
-//     default:
-        break;
-    }*/
+    QPoint pt;
+    if (angular) {
+        pt = QPoint(snapX, snapY);
+    } else {
+        switch(region) {
+            case West:
+                pt.setX(x);
+                pt.setY(snapY);
+                break;
+            case North:
+                pt.setX(snapX);
+                pt.setY(y);
+                break;
+            case East:
+                pt.setX(x + ww);
+                pt.setY(snapY);
+                break;
+            case South:
+                pt.setX(snapX);
+                pt.setY(y + wh);
+                break;
+            case Center:
+                pt.setX(x + ww / 2);
+                pt.setY(y + wh / 2);
+                break;
+            default:
+                break;
+        }
+    }
     if (role == A)
         m_LinePath.setPoint( 0, pt );
     else {

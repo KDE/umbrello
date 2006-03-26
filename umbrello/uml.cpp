@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2002-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
@@ -480,6 +477,7 @@ void UMLApp::saveOptions() {
     m_config->writeEntry( "undo", m_optionState.generalState.undo );
     m_config->writeEntry( "tabdiagrams", m_optionState.generalState.tabdiagrams );
     m_config->writeEntry( "newcodegen", m_optionState.generalState.newcodegen );
+    m_config->writeEntry( "angularlines", m_optionState.generalState.angularlines );
     m_config->writeEntry( "autosave", m_optionState.generalState.autosave );
     m_config->writeEntry( "time", m_optionState.generalState.time );
     m_config->writeEntry( "autosavetime", m_optionState.generalState.autosavetime );
@@ -1052,6 +1050,7 @@ void UMLApp::readOptionState() {
             true
                                                                       );
     m_optionState.generalState.newcodegen = m_config -> readBoolEntry( "newcodegen", true );
+    m_optionState.generalState.angularlines = m_config->readBoolEntry("angularlines", false);
     m_optionState.generalState.autosave = m_config -> readBoolEntry( "autosave", true );
     m_optionState.generalState.time = m_config -> readNumEntry( "time", 0 ); //old autosavetime value kept for compatibility
     m_optionState.generalState.autosavetime = m_config -> readNumEntry( "autosavetime", 0 );

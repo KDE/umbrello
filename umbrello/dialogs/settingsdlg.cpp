@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2002-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
@@ -125,6 +122,10 @@ void SettingsDlg::setupGeneralPage() {
     m_GeneralWidgets.newcodegenCB = new QCheckBox( i18n("Use new C++/Java/Ruby generators"), m_GeneralWidgets.miscGB );
     m_GeneralWidgets.newcodegenCB -> setChecked( m_pOptionState->generalState.newcodegen );
     miscLayout -> addWidget( m_GeneralWidgets.newcodegenCB, 1, 0 );
+
+    m_GeneralWidgets.angularLinesCB = new QCheckBox( i18n("Use angular association lines"), m_GeneralWidgets.miscGB );
+    m_GeneralWidgets.angularLinesCB -> setChecked( m_pOptionState->generalState.angularlines );
+    miscLayout -> addWidget( m_GeneralWidgets.angularLinesCB, 1, 1 );
 
     //setup autosave settings
 
@@ -355,6 +356,7 @@ void SettingsDlg::applyPage( Settings::Page page ) {
         m_pOptionState->generalState.undo = m_GeneralWidgets.undoCB -> isChecked();
         m_pOptionState->generalState.tabdiagrams = m_GeneralWidgets.tabdiagramsCB->isChecked();
         m_pOptionState->generalState.newcodegen = m_GeneralWidgets.newcodegenCB->isChecked();
+        m_pOptionState->generalState.angularlines = m_GeneralWidgets.angularLinesCB->isChecked();
         m_pOptionState->generalState.autosave = m_GeneralWidgets.autosaveCB -> isChecked();
         m_pOptionState->generalState.autosavetime = m_GeneralWidgets.timeISB -> value();
         // 2004-05-17 Achim Spangler: retrieve Suffix setting from dialog entry
