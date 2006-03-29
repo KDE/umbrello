@@ -53,12 +53,12 @@ int main(int argc, char *argv[]) {
     KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 
     KApplication app;
-    if( app.isRestored() ) {
+    if( app.isSessionRestored() ) {
         RESTORE( UMLApp );
     } else {
         KStartupLogo* start_logo = 0L;
         UMLApp *uml = new UMLApp();
-        KConfig * cfg = app.config();
+        KConfig * cfg = app.sessionConfig();
         //see if we want a logo shown
         cfg -> setGroup( "General Options" );
         bool showLogo = cfg -> readBoolEntry( "logo", true );
