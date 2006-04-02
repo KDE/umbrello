@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,12 +5,15 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 #include "uml.h"
 #include "version.h"
+#include "umldoc.h"
 #include "umlview.h"
-#include "exportviewaction.h"
+#include "umlviewimageexportermodel.h"
 #include "kstartuplogo.h"
 
 #include <kaboutdata.h>
@@ -38,9 +36,17 @@ static KCmdLineOptions options[] =
     {
         { "+[File]", I18N_NOOP("File to open"), 0 },
         { "export <extension>", I18N_NOOP("export diagrams to extension and exit"), 0},
+        { "directory <url>", I18N_NOOP("the local directory to save the exported diagrams in"), I18N_NOOP("the directory of the file")},
+        { "use-folders", I18N_NOOP("keep the tree structure used to store the views in the document in the target directory"), 0},
         // INSERT YOUR COMMANDLINE OPTIONS HERE
         KCmdLineLastOption
     };
+
+/**
+ * Export all the views in the document using the command line args set by the user.
+ * The errors occured while exporting, if any, are shown using kdError().
+ */
+void exportAllViews(KCmdLineArgs *args, const QCStringList &exportOpt);
 
 int main(int argc, char *argv[]) {
     KAboutData aboutData( "umbrello", I18N_NOOP("Umbrello UML Modeller"),
@@ -95,20 +101,42 @@ int main(int argc, char *argv[]) {
                 uml->newDocument();
             }
         }
+
+        // export option
         QCStringList exportOpt = args->getOptionList("export");
         if (exportOpt.size() > 0) {
-        for (QCStringList::iterator itr = exportOpt.begin();
-            itr != exportOpt.end(); ++itr) {
-                QString extension(*itr);
-                kdDebug() << "extension: " << extension << endl;
-                ExportViewAction eva(extension);
-                eva.exportAllViews();
-            }
-            return 0;
+             exportAllViews(args, exportOpt);
+             kapp->processEvents();
+             return 0;
         }
+
         if ( showLogo && !start_logo->isHidden() ) {
             start_logo->raise();
         }
     }
     return app.exec();
+}
+
+void exportAllViews(KCmdLineArgs *args, const QCStringList &exportOpt) {
+    QString extension(exportOpt.last());
+    kdDebug() << "extension: " << extension << endl;
+
+    // export to the specified directory, or the directory where the file is saved
+    // if no directory was specified
+    KURL directory;
+    QCStringList directoryOpt = args->getOptionList("directory");
+    if (directoryOpt.size() > 0) {
+        directory = KURL(directoryOpt.last());
+    } else {
+        directory = KURL(UMLApp::app()->getDocument()->URL().directory());
+    }
+
+    kdDebug() << "directory: " << directory.prettyURL() << endl;
+    QStringList errors = UMLViewImageExporterModel().exportAllViews(extension, directory, args->isSet("use-folders"));
+    if (!errors.isEmpty()) {
+        kdError() << "Errors while exporting:" << endl;
+        for (QStringList::Iterator it = errors.begin(); it != errors.end(); ++it) {
+            kdError() << *it << endl;
+        }
+    }
 }

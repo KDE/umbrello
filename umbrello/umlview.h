@@ -38,6 +38,7 @@ class ObjectWidget;
 class UMLApp;
 class UMLDoc;
 class UMLCanvasObject;
+class UMLViewImageExporter;
 
 class KPrinter;
 class ToolBarState;
@@ -56,10 +57,8 @@ class ToolBarStateFactory;
 class UMLView : public QCanvasView {
     Q_OBJECT
 public:
-    friend class ExportViewAction;
-    static QString imageTypeToMimeType(QString imagetype);
-    static QString mimeTypeToImageType(QString mimetype);
-    
+    friend class UMLViewImageExporterModel;
+
     /**
      * Constructor for the main view
      */
@@ -335,20 +334,6 @@ public:
      * contains the implementation for printing functionality
      */
     void print(KPrinter *pPrinter, QPainter & pPainter);
-
-    /**
-     * Print the entire diagram in this view to the file 'filename'
-     * @param isEPS  The file is an eps file and needs adjusting
-     *   of the eps bounding box values.
-     */
-    void printToFile(const QString &filename, bool isEPS);
-
-    /**
-     * Fix the file 'filename' to be a valid EPS containing the
-     * specified area (rect) of the diagram.
-     * Corrects the bounding box.
-     */
-    void fixEPS(const QString &filename, QRect rect);
 
     /**
      * Overrides the standard operation.
@@ -666,12 +651,12 @@ public:
      */
     void copyAsImage(QPixmap*& pix);
 
-   
     /**
-     * Saves a png file to the given url.
-     @todo - rewrite this in terms of ExportViewAction? 
+     * Returns the imageExporter used to export the view.
+     *
+     * @return The imageExporter used to export the view.
      */
-    void exportImage();
+    UMLViewImageExporter* getImageExporter();
 
     /**
      * Adds an association to the view from the given data.
@@ -1268,9 +1253,9 @@ private:
     UMLDoc* m_pDoc;
 
     /**
-     * The url of the last saved image
+     * The UMLViewImageExporter used to export the view.
      */
-    KURL m_ImageURL;
+    UMLViewImageExporter* m_pImageExporter;
 
     /**
      * Used by @ref contentsMouseMoveEvent() to know if a mouse button is pressed.

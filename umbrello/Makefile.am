@@ -45,7 +45,6 @@ entitywidget.cpp \
 enum.cpp \
 enumliteral.cpp \
 enumwidget.cpp \
-exportviewaction.cpp \
 floatingtext.cpp \
 forkjoinwidget.cpp \
 kplayerslideraction.cpp \
@@ -104,6 +103,9 @@ umlobjectlist.cpp \
 umlrole.cpp \
 umlview.cpp \
 umlviewcanvas.cpp \
+umlviewimageexporter.cpp \
+umlviewimageexporterall.cpp \
+umlviewimageexportermodel.cpp \
 umlwidget.cpp \
 usecase.cpp \
 usecasewidget.cpp \

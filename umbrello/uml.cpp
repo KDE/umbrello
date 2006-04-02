@@ -5,8 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2006                                                *
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 // own header
@@ -67,7 +67,8 @@
 
 #include "refactoring/refactoringassistant.h"
 #include "codegenerators/simplecodegenerator.h"
-#include "exportviewaction.h"
+#include "umlviewimageexporter.h"
+#include "umlviewimageexporterall.h"
 
 #include "kplayerslideraction.h"
 
@@ -133,9 +134,12 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
 
     m_defaultcodegenerationpolicy = new CodeGenerationPolicy(m_config);
 
+    m_imageExporterAll = new UMLViewImageExporterAll();
 }
 
 UMLApp::~UMLApp() {
+    delete m_imageExporterAll;
+
     delete m_clipTimer;
     delete m_copyTimer;
 
@@ -258,10 +262,11 @@ void UMLApp::initActions() {
                                 this, SLOT( slotDeleteDiagram() ), actionCollection(), "view_delete");
     viewExportImage = new KAction(i18n("&Export as Picture..."), SmallIconSet("image"), 0,
                                   this, SLOT( slotCurrentViewExportImage() ), actionCollection(), "view_export_image");
+    viewExportImageAll = new KAction(i18n("Export &All Diagrams as Pictures..."), SmallIconSet("image"), 0,
+                                     this, SLOT( slotAllViewsExportImage() ), actionCollection(), "view_export_image_all");
     viewProperties = new KAction(i18n("&Properties"), SmallIconSet("info"), 0,
                                  this, SLOT( slotCurrentViewProperties() ), actionCollection(), "view_properties");
 
-    viewExportAll = new ExportViewAction(actionCollection());
     viewSnapToGrid->setChecked(false);
     viewShowGrid->setChecked(false);
 
@@ -519,7 +524,7 @@ void UMLApp::saveOptions() {
         m_config -> writeEntry( "lastFile", m_doc -> URL().prettyURL() );
 #endif
     }
-    m_config->writeEntry( "imageMimetype", getImageMimetype() );
+    m_config->writeEntry( "imageMimeType", getImageMimeType() );
 
     m_config->setGroup( "TipOfDay");
     m_optionState.generalState.tip = m_config -> readBoolEntry( "RunOnStart", true );
@@ -587,7 +592,7 @@ void UMLApp::readOptions() {
     m_alignToolBar->applySettings(m_config, "aligntoolbar");
     fileOpenRecent->loadEntries(m_config,"Recent Files");
     m_config->setGroup("General Options");
-    setImageMimetype(m_config->readEntry("imageMimetype","image/png"));
+    setImageMimeType(m_config->readEntry("imageMimeType","image/png"));
     QSize tmpQSize(630,460);
     resize( m_config->readSizeEntry("Geometry", & tmpQSize) );
 }
@@ -650,6 +655,8 @@ bool UMLApp::queryClose() {
 }
 
 bool UMLApp::queryExit() {
+    kapp->processEvents();
+    sleep(1);
     saveOptions();
     m_doc -> closeDocument();
     return true;
@@ -1358,7 +1365,11 @@ void UMLApp::slotCurrentViewToggleShowGrid() {
 }
 
 void UMLApp::slotCurrentViewExportImage() {
-    m_doc->getCurrentView()->exportImage();
+    m_doc->getCurrentView()->getImageExporter()->exportView();
+}
+
+void UMLApp::slotAllViewsExportImage() {
+    m_imageExporterAll->exportAllViews();
 }
 
 void UMLApp::slotCurrentViewProperties() {

@@ -221,6 +221,12 @@ public:
     UMLListViewItem * findItem(Uml::IDType id);
 
     /**
+     * Returns true if the listview type is one of the root views,
+     * Logical/UseCase/Component/Deployment/EntityRelation View.
+     */
+    static bool typeIsRootView(Uml::ListView_Type type);
+
+    /**
      * Returns true if the listview type also has a widget representation in diagrams.
      */
     static bool typeIsCanvasWidget(Uml::ListView_Type type);

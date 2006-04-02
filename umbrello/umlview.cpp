@@ -38,6 +38,7 @@
 
 // application specific includes
 #include "umlview.h"
+#include "umlviewimageexporter.h"
 #include "listpopupmenu.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -149,6 +150,9 @@ void UMLView::init() {
     m_pIDChangesLog = 0;
     m_pFirstSelectedWidget = 0;
     m_pMenu = 0;
+
+    m_pImageExporter = new UMLViewImageExporter(this);
+
     //setup graphical items
     viewport() -> setBackgroundMode( Qt::NoBackground );
     setCanvas( new UMLViewCanvas( this ) );
@@ -183,6 +187,8 @@ void UMLView::init() {
 }
 
 UMLView::~UMLView() {
+    delete m_pImageExporter;
+
     if(m_pIDChangesLog) {
         delete    m_pIDChangesLog;
         m_pIDChangesLog = 0;
@@ -1372,252 +1378,9 @@ void  UMLView::getDiagram(const QRect &area, QPainter & painter) {
     return;
 }
 
-QString UMLView::imageTypeToMimeType(QString imagetype) {
-    imagetype = imagetype.upper();
-    if (QString("BMP") == imagetype) return "image/x-bmp";
-    if (QString("JPEG") == imagetype) return "image/jpeg";
-    if (QString("PBM") == imagetype) return "image/x-portable-bitmap";
-    if (QString("PGM") == imagetype) return "image/x-portable-greymap";
-    if (QString("PNG") == imagetype) return "image/png";
-    if (QString("PPM") == imagetype) return "image/x-portable-pixmap";
-    if (QString("XBM") == imagetype) return "image/x-xbm";
-    if (QString("XPM") == imagetype) return "image/x-xpm";
-    if (QString("EPS") == imagetype) return "image/x-eps";
-    if (QString("SVG") == imagetype) return "image/svg+xml";
-    return QString::null;
+UMLViewImageExporter* UMLView::getImageExporter() {
+    return m_pImageExporter;
 }
-
-
-QString UMLView::mimeTypeToImageType(QString mimetype) {
-    if (QString("image/x-bmp") == mimetype) return "BMP";
-    if (QString("image/jpeg") == mimetype) return "JPEG";
-    if (QString("image/x-portable-bitmap") == mimetype) return "PBM";
-    if (QString("image/x-portable-greymap") == mimetype) return "PGM";
-    if (QString("image/png") == mimetype) return "PNG";
-    if (QString("image/x-portable-pixmap") == mimetype) return "PPM";
-    if (QString("image/x-xbm") == mimetype) return "XBM";
-    if (QString("image/x-xpm") == mimetype) return "XPM";
-    if (QString("image/x-eps") == mimetype) return "EPS";
-    if (QString("image/svg+xml") == mimetype) return "SVG";
-    return QString::null;
-}
-
-void UMLView::fixEPS(const QString &filename, QRect rect) {
-    // now open the file and make a correct eps out of it
-    QFile epsfile(filename);
-    if (! epsfile.open(IO_ReadOnly)) {
-        return;
-    }
-    // read
-    QTextStream ts(&epsfile);
-    QString fileContent = ts.read();
-    epsfile.close();
-
-    // read information
-    QRegExp rx("%%BoundingBox:\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)");
-    const int pos = rx.search(fileContent);
-    if (pos < 0) {
-        kdError() << "UMLView::fixEPS(" << filename
-                  << "): cannot find %%BoundingBox" << endl;
-        return;
-    }
-
-    // write new content to file
-    if (! epsfile.open(IO_WriteOnly | IO_Truncate)) {
-        kdError() << "UMLView::fixEPS(" << filename
-                  << "): cannot open file for writing" << endl;
-        return;
-    }
-
-    // be careful when rounding (ceil/floor) the BB, these roundings
-    // were mainly obtained experimentally...
-    const double epsleft = rx.cap(1).toFloat();
-    const double epstop = rx.cap(4).toFloat();
-    const int left = int(floor(epsleft));
-    const int right = int(ceil(epsleft)) + rect.width();
-    const int top = int(ceil(epstop)) + 1;
-    const int bottom = int(floor(epstop)) - rect.height() + 1;
-
-    // modify content
-    fileContent.replace(pos,rx.cap(0).length(),
-                        QString("%%BoundingBox: %1 %2 %3 %4").arg(left).arg(bottom).arg(right).arg(top));
-
-    ts << fileContent;
-    epsfile.close();
-}
-
-void UMLView::printToFile(const QString &filename,bool isEPS) {
-    // print the image to a normal postscript file,
-    // do not clip so that everything ends up in the file
-    // regardless of "paper size"
-
-    // because we want to work with postscript
-    // user-coordinates, set to the resolution
-    // of the printer (which should be 72dpi here)
-    QPrinter *printer;
-
-    if (isEPS == false)
-    {
-        printer = new QPrinter(QPrinter::PrinterResolution);
-    } else {
-        printer = new QPrinter(QPrinter::ScreenResolution);
-    }
-    printer->setOutputToFile(true);
-    printer->setOutputFileName(filename);
-    printer->setColorMode(QPrinter::Color);
-
-    // do not call printer.setup(); because we want no user
-    // interaction here
-    QPainter *painter = new QPainter(printer);
-
-    // make sure the widget sizes will be according to the
-    // actually used printer font, important for getDiagramRect()
-    // and the actual painting
-    forceUpdateWidgetFontMetrics(painter);
-
-    QRect rect = getDiagramRect();
-    painter->translate(-rect.x(),-rect.y());
-    getDiagram(rect,*painter);
-
-    int resolution = printer->resolution();
-
-    // delete painter and printer before we try to open and fix the file
-    delete painter;
-    delete printer;
-    if (isEPS) {
-        // modify bounding box from screen to eps resolution.
-        rect.setWidth( int(ceil(rect.width() * 72.0/resolution)) );
-        rect.setHeight( int(ceil(rect.height() * 72.0/resolution)) );
-        fixEPS(filename,rect);
-    }
-    // next painting will most probably be to a different device (i.e. the screen)
-    forceUpdateWidgetFontMetrics(0);
-
-}
-
-void UMLView::exportImage() {
-    UMLApp *app = UMLApp::app();
-    QStringList fmt = QImage::outputFormatList();
-    QString imageMimetype = "image/png";
-
-    // get all supported mimetypes
-    QStringList mimetypes;
-    // special image types that are handled separately
-    mimetypes.append("image/x-eps");
-    mimetypes.append("image/svg+xml");
-    // "normal" image types that are present
-    QString m;
-    QStringList::Iterator it;
-
-    QStringList::Iterator end(fmt.end());
-    for( it = fmt.begin(); it != end; ++it ) {
-        m = imageTypeToMimeType(*it);
-        if (!m.isNull()) mimetypes.append(m);
-    }
-
-    // configure & show the file dialog
-    KFileDialog fileDialog(QString::null, QString::null, this,
-                           ":export-image",true);
-    fileDialog.setCaption(i18n("Save As"));
-    fileDialog.setOperationMode(KFileDialog::Saving);
-    if (app)
-        imageMimetype = app->getImageMimetype();
-    fileDialog.setMimeFilter(mimetypes, imageMimetype);
-
-    // set a sensible default filename
-    if (m_ImageURL.isEmpty()) {
-        fileDialog.setSelection(getName()+"."+mimeTypeToImageType(imageMimetype).lower());
-    } else {
-        fileDialog.setURL(m_ImageURL);
-        fileDialog.setSelection(m_ImageURL.fileName());
-    }
-    fileDialog.exec();
-
-    if (fileDialog.selectedURL().isEmpty())
-        return;
-    clearSelected();   // Thanks to Peter Soetens for the idea
-
-    // save
-    imageMimetype = fileDialog.currentMimeFilter();
-    if (app) app->setImageMimetype(imageMimetype);
-    m_ImageURL = fileDialog.selectedURL();
-
-    QString s;
-    KTempFile tmpfile;
-
-    if (m_ImageURL.isLocalFile()) {
-        QString file = m_ImageURL.path(-1);
-        QFileInfo info(file);
-        QString ext = info.extension(false);
-        QString extDef = mimeTypeToImageType(imageMimetype).lower();
-        if(ext != extDef) {
-            m_ImageURL.setFileName(m_ImageURL.fileName() + "."+extDef);
-        }
-        s = m_ImageURL.path();
-        info = QFileInfo(s);
-        if (info.exists())
-        {
-            int want_save = KMessageBox::warningContinueCancel(0, i18n("The selected file %1 exists.\nDo you want to overwrite it?").arg(m_ImageURL.fileName()),
-                            i18n("File Already Exists"), i18n("&Overwrite"));
-            if (want_save == KMessageBox::Cancel)
-                // another possibility would be to show the save dlg again
-                return;
-        }
-    } else {
-        s = tmpfile.name();
-    }
-
-    QRect rect = getDiagramRect();
-    if (rect.isEmpty()) {
-        KMessageBox::sorry(0, i18n("Can not save an empty diagram"),
-                           i18n("Diagram Save Error."));
-    } else {
-        //  eps requested
-        if (imageMimetype == "image/x-eps") {
-            printToFile(s,true);
-        } else if (imageMimetype == "image/svg+xml") {
-            QPicture* diagram = new QPicture();
-
-            // do not call printer.setup(); because we want no user
-            // interaction here
-            QPainter* painter = new QPainter();
-            painter->begin( diagram );
-
-            // make sure the widget sizes will be according to the
-            // actually used printer font, important for getDiagramRect()
-            // and the actual painting
-            forceUpdateWidgetFontMetrics(painter);
-
-            QRect rect = getDiagramRect();
-            painter->translate(-rect.x(),-rect.y());
-            getDiagram(rect,*painter);
-            painter->end();
-            diagram->save(s, mimeTypeToImageType(imageMimetype).ascii());
-
-            // delete painter and printer before we try to open and fix the file
-            delete painter;
-            delete diagram;
-            // next painting will most probably be to a different device (i.e. the screen)
-            forceUpdateWidgetFontMetrics(0);
-        } else {
-            QPixmap diagram(rect.width(), rect.height());
-            getDiagram(rect, diagram);
-            diagram.save(s, mimeTypeToImageType(imageMimetype).ascii());
-        }
-        if (!m_ImageURL.isLocalFile()) {
-            if (!KIO::NetAccess::upload( tmpfile.name(), m_ImageURL
-#if KDE_IS_VERSION(3,1,90)
-                                         , UMLApp::app()
-#endif
-                                       )) {
-                KMessageBox::error(0,
-                                   i18n("There was a problem saving file: %1").arg(m_ImageURL.path()),
-                                   i18n("Save Error"));
-            }
-            tmpfile.unlink();
-        } //!isLocalFile
-    } //rect.isEmpty()
-}//exportImage()
 
 void UMLView::slotActivate() {
     m_pDoc->changeCurrentView(getID());
@@ -2831,7 +2594,7 @@ void UMLView::slotMenuSelection(int sel) {
         break;
 
     case ListPopupMenu::mt_Export_Image:
-        exportImage();
+        m_pImageExporter->exportView();
         break;
 
     case ListPopupMenu::mt_FloatText:

@@ -50,6 +50,7 @@
 #include "umllistviewitemlist.h"
 #include "umllistviewitem.h"
 #include "umlview.h"
+#include "umlviewimageexporter.h"
 #include "usecase.h"
 #include "model_utils.h"
 #include "clipboard/idchangelog.h"
@@ -377,7 +378,7 @@ void UMLListView::popupMenuSel(int sel) {
         break;
 
     case ListPopupMenu::mt_Export_Image:
-        m_doc->getCurrentView()->exportImage();
+        m_doc->findView(temp->getID())->getImageExporter()->exportView();
         break;
 
     case ListPopupMenu::mt_Externalize_Folder:
@@ -2875,6 +2876,22 @@ void UMLListView::setStartedCopy(bool startedCopy) {
 
 bool UMLListView::startedCopy() const {
     return m_bStartedCopy;
+}
+
+bool UMLListView::typeIsRootView(Uml::ListView_Type type) {
+    switch (type) {
+        case Uml::lvt_View:
+        case Uml::lvt_Logical_View:
+        case Uml::lvt_UseCase_View:
+        case Uml::lvt_Component_View:
+        case Uml::lvt_Deployment_View:
+        case Uml::lvt_EntityRelationship_Model:
+            return true;
+            break;
+        default:
+            break;
+    }
+    return false;
 }
 
 bool UMLListView::typeIsCanvasWidget(Uml::ListView_Type type) {

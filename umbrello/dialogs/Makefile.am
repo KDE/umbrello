@@ -11,6 +11,7 @@ libdialogs_la_SOURCES = \
 			codeviewerdialogbase.ui \
 			codevieweroptionsbase.ui \
 			diagrampropertiespage.ui \
+			exportallviewsdialogbase.ui \
 			umlrolepropertiesbase.ui \
 activitydialog.cpp \
 activitypage.cpp \
@@ -31,6 +32,7 @@ codeviewerdialog.cpp \
 codevieweroptionspage.cpp \
 defaultcodegenpolicypage.cpp \
 diagramprintpage.cpp \
+exportallviewsdialog.cpp \
 notedialog.cpp \
 overwritedialogue.cpp \
 pkgcontentspage.cpp \

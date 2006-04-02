@@ -19,7 +19,7 @@
     <Action name="view_clear_diagram"/>
     <Action name="view_delete"/>
     <Action name="view_export_image"/>
-    <Action name="view_export_all"/>
+    <Action name="view_export_image_all"/>
     <Action name="autolayout" />
     <Separator/>
     <Menu name="show_view"><text>Sh&amp;ow</text>
