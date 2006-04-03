@@ -99,9 +99,6 @@
                     <property name="text">
                         <string>Use &amp;folders</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+F</string>
-                    </property>
                     <property name="toolTip" stdset="0">
                         <string>Create in the target directory the same tree structure used
 in the document to store the views</string>
