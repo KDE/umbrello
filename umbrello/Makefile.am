@@ -18,6 +18,7 @@ classifiercodedocument.cpp \
 classifierlistitem.cpp \
 classifierwidget.cpp \
 classimport.cpp \
+cmdlineexportallviewsevent.cpp \
 codeaccessormethod.cpp \
 codeblock.cpp \
 codeblockwithcomments.cpp \

@@ -74,6 +74,7 @@
 
 #include "configurable.h"
 
+#include "cmdlineexportallviewsevent.h"
 
 UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
     s_instance = this;
@@ -655,8 +656,6 @@ bool UMLApp::queryClose() {
 }
 
 bool UMLApp::queryExit() {
-    kapp->processEvents();
-    sleep(1);
     saveOptions();
     m_doc -> closeDocument();
     return true;
@@ -1545,6 +1544,13 @@ void UMLApp::keyPressEvent(QKeyEvent *e) {
         e->ignore();
     }
 
+}
+
+void UMLApp::customEvent(QCustomEvent* e) {
+    if (e->type() == CmdLineExportAllViewsEvent::getType()) {
+        CmdLineExportAllViewsEvent* exportAllViewsEvent = static_cast<CmdLineExportAllViewsEvent*>(e);
+        exportAllViewsEvent->exportAllViews();
+    }
 }
 
 void UMLApp::handleCursorKeyReleaseEvent(QKeyEvent* e) {

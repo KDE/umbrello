@@ -57,6 +57,7 @@ class QWidgetStack;
 class QMenuData;
 class QClipboard;
 class QToolButton;
+class QCustomEvent;
 
 /**
  * The base class for UML application windows. It sets up the main
@@ -292,6 +293,13 @@ public:
 protected:
     virtual void keyPressEvent(QKeyEvent* e);
     virtual void keyReleaseEvent(QKeyEvent* e);
+
+    /**
+     * Event handler to receive custom events.
+     * It handles events such as exporting all views from command line (in
+     * that case, it executes the exportAllViews method in the event).
+     */
+    virtual void customEvent(QCustomEvent* e);
 
     /**
      * Helper method for handling cursor key release events (refactoring).

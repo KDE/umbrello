@@ -9,13 +9,9 @@
  *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
-#include "uml.h"
-#include "version.h"
-#include "umldoc.h"
-#include "umlview.h"
-#include "umlviewimageexportermodel.h"
-#include "kstartuplogo.h"
+#include <unistd.h>
 
+// kde includes
 #include <kaboutdata.h>
 #include <kapplication.h>
 #include <kcmdlineargs.h>
@@ -25,7 +21,12 @@
 #include <kdebug.h>
 #include <kwin.h>
 
-#include <unistd.h>
+// app includes
+#include "uml.h"
+#include "version.h"
+#include "umldoc.h"
+#include "cmdlineexportallviewsevent.h"
+#include "kstartuplogo.h"
 
 static const char description[] =
     I18N_NOOP("Umbrello UML Modeller");
@@ -43,8 +44,41 @@ static KCmdLineOptions options[] =
     };
 
 /**
+ * Determines if the application GUI should be shown based on command line arguments.
+ *
+ * @param args The command line arguments given.
+ * @return True if the GUI should be shown, false otherwise.
+ */
+bool getShowGUI(KCmdLineArgs *args);
+
+/**
+ * Creates, shows and returns the startup logo for the application if it should be shown,
+ * else returns null pointer.
+ * The startup logo is shown if it is configured to be shown and also the GUI must be shown.
+ *
+ * @param cfg The application configuration.
+ * @param showGUI If the GUI should be shown.
+ * @return The startup logo for the application, or a null pointer if it shouldn't be shown.
+ */
+KStartupLogo* showStartupLogo(KConfig* cfg, bool showGUI);
+
+/**
+ * Initializes the document used by the application.
+ * If a file was specified in command line arguments, opens that file. Else, it
+ * opens the last opened file, or a new file if there isn't any "last file used"
+ * in the configuration.
+ *
+ * @param args The command line arguments given.
+ * @param cfg The application configuration.
+ */
+void initDocument(KCmdLineArgs *args, KConfig* cfg);
+
+/**
  * Export all the views in the document using the command line args set by the user.
  * The errors occured while exporting, if any, are shown using kdError().
+ *
+ * @param args The command line arguments given.
+ * @param exportOpt A list containing all the "export" arguments given.
  */
 void exportAllViews(KCmdLineArgs *args, const QCStringList &exportOpt);
 
@@ -62,59 +96,82 @@ int main(int argc, char *argv[]) {
     if( app.isRestored() ) {
         RESTORE( UMLApp );
     } else {
-        KStartupLogo* start_logo = 0L;
+        KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+        bool showGUI = getShowGUI(args);
+
         UMLApp *uml = new UMLApp();
         KConfig * cfg = app.config();
-        //see if we want a logo shown
-        cfg -> setGroup( "General Options" );
-        bool showLogo = cfg -> readBoolEntry( "logo", true );
-        if (showLogo) {
-#if KDE_IS_VERSION(3,3,90)
-            start_logo = new KStartupLogo(0);
-            start_logo->setHideEnabled(true);
-            KWin::setMainWindow(start_logo, uml->winId());
-#else
-            start_logo = new KStartupLogo(uml);
-            start_logo->setHideEnabled(true);
-#endif
-            KWin::setState(start_logo->winId(), NET::KeepAbove);
-            start_logo->show();
-            QApplication::flushX();
+
+        KStartupLogo* startLogo = showStartupLogo(cfg, showGUI);
+
+        if (showGUI) {
+            uml->show();
         }
-        uml->show();
         uml->initGenerators();
 
         //show tips if wanted
-        KTipDialog::showTip();
-
-        KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-        if ( args -> count() ) {
-            uml -> openDocumentFile( args -> url( 0 ) );
-            // args -> clear();  // Why is this necessary?
-        } else {
-            cfg -> setGroup( "General Options" );
-            bool last = cfg -> readBoolEntry( "loadlast", false );
-            QString file = cfg -> readPathEntry( "lastFile" );
-            if( last && !file.isEmpty() ) {
-                uml->openDocumentFile( KURL( file ) );
-            } else {
-                uml->newDocument();
-            }
+        if (showGUI) {
+            KTipDialog::showTip();
         }
+
+        initDocument(args, cfg);
 
         // export option
         QCStringList exportOpt = args->getOptionList("export");
         if (exportOpt.size() > 0) {
              exportAllViews(args, exportOpt);
-             kapp->processEvents();
-             return 0;
         }
 
-        if ( showLogo && !start_logo->isHidden() ) {
-            start_logo->raise();
+        if ( showGUI && (startLogo != 0L) && !startLogo->isHidden() ) {
+            startLogo->raise();
         }
     }
     return app.exec();
+}
+
+bool getShowGUI(KCmdLineArgs *args) {
+    if (args->getOptionList("export").size() > 0) {
+        return false;
+    }
+
+    return true;
+}
+
+KStartupLogo* showStartupLogo(KConfig* cfg, bool showGUI) {
+    KStartupLogo* startLogo = 0L;
+
+    cfg->setGroup( "General Options" );
+    bool showLogo = cfg->readBoolEntry( "logo", true );
+    if (showGUI && showLogo) {
+#if KDE_IS_VERSION(3,3,90)
+        startLogo = new KStartupLogo(0);
+        startLogo->setHideEnabled(true);
+        KWin::setMainWindow(startLogo, UMLApp::app()->winId());
+#else
+        startLogo = new KStartupLogo(UMLApp::app());
+        startLogo->setHideEnabled(true);
+#endif
+        KWin::setState(startLogo->winId(), NET::KeepAbove);
+        startLogo->show();
+        QApplication::flushX();
+    }
+
+    return startLogo;
+}
+
+void initDocument(KCmdLineArgs *args, KConfig* cfg) {
+    if ( args -> count() ) {
+        UMLApp::app()->openDocumentFile( args->url( 0 ) );
+    } else {
+        cfg->setGroup( "General Options" );
+        bool last = cfg->readBoolEntry( "loadlast", false );
+        QString file = cfg->readPathEntry( "lastFile" );
+        if( last && !file.isEmpty() ) {
+            UMLApp::app()->openDocumentFile( KURL( file ) );
+        } else {
+            UMLApp::app()->newDocument();
+        }
+    }
 }
 
 void exportAllViews(KCmdLineArgs *args, const QCStringList &exportOpt) {
@@ -131,12 +188,12 @@ void exportAllViews(KCmdLineArgs *args, const QCStringList &exportOpt) {
         directory = KURL(UMLApp::app()->getDocument()->URL().directory());
     }
 
+    bool useFolders = args->isSet("use-folders");
+
     kdDebug() << "directory: " << directory.prettyURL() << endl;
-    QStringList errors = UMLViewImageExporterModel().exportAllViews(extension, directory, args->isSet("use-folders"));
-    if (!errors.isEmpty()) {
-        kdError() << "Errors while exporting:" << endl;
-        for (QStringList::Iterator it = errors.begin(); it != errors.end(); ++it) {
-            kdError() << *it << endl;
-        }
-    }
+
+    // the event is posted so when the QT loop begins it's processed. UMLApp process this event executing
+    // the method it provides for exporting the views. Once all the views were exported, a quit event
+    // is sent and the app finishes without user interaction
+    kapp->postEvent(UMLApp::app(), new CmdLineExportAllViewsEvent(extension, directory, useFolders));
 }
