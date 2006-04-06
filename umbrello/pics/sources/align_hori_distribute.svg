@@ -17,7 +17,10 @@
    width="22pt"
    height="22pt"
    sodipodi:docbase="/home/dani/Proyectos/umbrello-svn/kdesdk/umbrello/umbrello/pics/sources"
-   sodipodi:docname="align_bottom.svg">
+   sodipodi:docname="align_hori_distribute.svg"
+   inkscape:export-filename="/home/dani/Proyectos/umbrello-svn/kdesdk/umbrello/umbrello/pics/align_hori_distribute.png"
+   inkscape:export-xdpi="72.000000"
+   inkscape:export-ydpi="72.000000">
   <metadata
      id="metadata1589">
     <rdf:RDF>
@@ -207,9 +210,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="22.627417"
+     inkscape:zoom="16.000000"
      inkscape:cx="13.750000"
-     inkscape:cy="11.418942"
+     inkscape:cy="13.186709"
      inkscape:window-width="1016"
      inkscape:window-height="713"
      gridspacingy="1.0000000pt"
@@ -233,7 +236,8 @@
        id="guide876" />
   </sodipodi:namedview>
   <g
-     id="g4550">
+     id="g4550"
+     transform="matrix(0.000000,-1.000000,1.000000,0.000000,0.000000,27.50000)">
     <rect
        height="1.0000000"
        style="fill:#ff0000;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:1.0000000;stroke-miterlimit:4.0000000;stroke-dasharray:none"
@@ -258,4 +262,12 @@
          style="font-size:12.000000px;fill:#ff0000;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:1.0000000pt" />
     </g>
   </g>
+  <use
+     x="0.0000000"
+     y="0.0000000"
+     xlink:href="#g4550"
+     id="use1412"
+     transform="matrix(-1.000000,0.000000,0.000000,-1.000000,27.50000,27.50000)"
+     width="27.500000"
+     height="27.500000" />
 </svg>

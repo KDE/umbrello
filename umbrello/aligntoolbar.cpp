@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,8 +5,22 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2004-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
+#include <algorithm>
+#include <vector>
+
+// qt includes
+#include <qmainwindow.h>
+
+// kde includes
+#include <klocale.h>
+#include <kmessagebox.h>
+#include <kstandarddirs.h>
+
+// app includes
 #include "aligntoolbar.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -19,14 +28,8 @@
 #include "umlwidget.h"
 #include "umlwidgetlist.h"
 
-#include <qmainwindow.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-#include <kstandarddirs.h>
-
 AlignToolBar::AlignToolBar(QMainWindow* parentWindow, const char* )
-        : KToolBar(parentWindow,Qt::DockRight,false)
-{
+        : KToolBar(parentWindow,Qt::DockRight,false) {
     // load images for the buttons
     loadPixmaps();
 
@@ -37,6 +40,8 @@ AlignToolBar::AlignToolBar(QMainWindow* parentWindow, const char* )
     insertButton(m_Pixmaps[alac_align_bottom], alac_align_bottom, true, i18n("Align Bottom"));
     insertButton(m_Pixmaps[alac_align_vertical_middle], alac_align_vertical_middle, true, i18n("Align Vertical Middle"));
     insertButton(m_Pixmaps[alac_align_horizontal_middle], alac_align_horizontal_middle, true, i18n("Align Horizontal Middle"));
+    insertButton(m_Pixmaps[alac_align_vertical_distribute], alac_align_vertical_distribute, true, i18n("Align Vertical Distribute"));
+    insertButton(m_Pixmaps[alac_align_horizontal_distribute], alac_align_horizontal_distribute, true, i18n("Align Horizontal Distribute"));
 
     setOrientation( Qt::Vertical );
     setVerticalStretchable( true );
@@ -45,90 +50,22 @@ AlignToolBar::AlignToolBar(QMainWindow* parentWindow, const char* )
     connect( this, SIGNAL( released( int ) ), this, SLOT( slotButtonChanged (int ) ) );
 }
 
-AlignToolBar::~AlignToolBar()
-{
+AlignToolBar::~AlignToolBar() {
 }
 
 /* ------ private functions ------ */
 
-int AlignToolBar::getSmallestX(UMLWidgetList widgetList)
-{
-    UMLWidgetListIt it(widgetList);
-    UMLWidget * widget;
-
-    int smallest_x = it.toFirst()->getX();
-    ++it;
-
-    while ((widget = it.current()) != 0)
-    {
-        ++it;
-        if (smallest_x > widget->getX())
-            smallest_x = widget->getX();
-    }
-
-    return smallest_x;
+bool AlignToolBar::hasWidgetSmallerX(const UMLWidget* widget1, const UMLWidget* widget2) {
+    return widget1->getX() < widget2->getX();
 }
 
-int AlignToolBar::getSmallestY(UMLWidgetList widgetList)
-{
-    UMLWidgetListIt it(widgetList);
-    UMLWidget * widget;
-
-    int smallest_y = it.toFirst()->getY();
-    ++it;
-
-    while ((widget = it.current()) != 0)
-    {
-        ++it;
-        if (smallest_y > widget->getY())
-            smallest_y = widget->getY();
-    }
-
-    return smallest_y;
+bool AlignToolBar::hasWidgetSmallerY(const UMLWidget* widget1, const UMLWidget* widget2) {
+    return widget1->getY() < widget2->getY();
 }
 
-int AlignToolBar::getBiggestX(UMLWidgetList widgetList)
-{
-    UMLWidgetListIt it(widgetList);
-    UMLWidget * widget;
-
-    int biggest_x = it.toFirst()->getX();
-    biggest_x += it.current()->getWidth();
-    ++it;
-
-    while ((widget = it.current()) != 0)
-    {
-        ++it;
-        if (biggest_x < widget->getX() + widget->getWidth())
-            biggest_x = widget->getX() + widget->getWidth();
-    }
-
-    return biggest_x;
-}
-
-int AlignToolBar::getBiggestY(UMLWidgetList widgetList)
-{
-    UMLWidgetListIt it(widgetList);
-    UMLWidget * widget;
-
-    int biggest_y = it.toFirst()->getY();
-    biggest_y += it.current()->getHeight();
-    ++it;
-
-    while ((widget = it.current()) != 0)
-    {
-        ++it;
-        if (biggest_y < widget->getY() + widget->getHeight())
-            biggest_y = widget->getY() + widget->getHeight();
-    }
-
-    return biggest_y;
-}
-
-void AlignToolBar::loadPixmaps()
-{
-    KStandardDirs * dirs = KGlobal::dirs();
-    QString dataDir = dirs -> findResourceDir( "data", "umbrello/pics/object.png" );
+void AlignToolBar::loadPixmaps() {
+    KStandardDirs* dirs = KGlobal::dirs();
+    QString dataDir = dirs->findResourceDir( "data", "umbrello/pics/object.png" );
     dataDir += "/umbrello/pics/";
 
     m_Pixmaps[alac_align_left].load( dataDir + "align_left.png" );
@@ -137,116 +74,305 @@ void AlignToolBar::loadPixmaps()
     m_Pixmaps[alac_align_bottom].load( dataDir + "align_bottom.png" );
     m_Pixmaps[alac_align_vertical_middle].load( dataDir + "align_vert_middle.png" );
     m_Pixmaps[alac_align_horizontal_middle].load( dataDir + "align_hori_middle.png" );
+    m_Pixmaps[alac_align_vertical_distribute].load( dataDir + "align_vert_distribute.png" );
+    m_Pixmaps[alac_align_horizontal_distribute].load( dataDir + "align_hori_distribute.png" );
 
     return;
 }
 
+int AlignToolBar::getSmallestX(const UMLWidgetList &widgetList) {
+    UMLWidgetListIt it(widgetList);
+    UMLWidget* widget;
+
+    int smallestX = it.toFirst()->getX();
+    ++it;
+
+    while ((widget = it.current()) != 0) {
+        ++it;
+        if (smallestX > widget->getX())
+            smallestX = widget->getX();
+    }
+
+    return smallestX;
+}
+
+int AlignToolBar::getSmallestY(const UMLWidgetList &widgetList) {
+    UMLWidgetListIt it(widgetList);
+    UMLWidget* widget;
+
+    int smallestY = it.toFirst()->getY();
+    ++it;
+
+    while ((widget = it.current()) != 0) {
+        ++it;
+        if (smallestY > widget->getY())
+            smallestY = widget->getY();
+    }
+
+    return smallestY;
+}
+
+int AlignToolBar::getBiggestX(const UMLWidgetList &widgetList) {
+    UMLWidgetListIt it(widgetList);
+    UMLWidget* widget;
+
+    int biggestX = it.toFirst()->getX();
+    biggestX += it.current()->getWidth();
+    ++it;
+
+    while ((widget = it.current()) != 0) {
+        ++it;
+        if (biggestX < widget->getX() + widget->getWidth())
+            biggestX = widget->getX() + widget->getWidth();
+    }
+
+    return biggestX;
+}
+
+int AlignToolBar::getBiggestY(const UMLWidgetList &widgetList) {
+    UMLWidgetListIt it(widgetList);
+    UMLWidget* widget;
+
+    int biggestY = it.toFirst()->getY();
+    biggestY += it.current()->getHeight();
+    ++it;
+
+    while ((widget = it.current()) != 0) {
+        ++it;
+        if (biggestY < widget->getY() + widget->getHeight())
+            biggestY = widget->getY() + widget->getHeight();
+    }
+
+    return biggestY;
+}
+
+int AlignToolBar::getHeightsSum(const UMLWidgetList &widgetList) {
+    UMLWidget* widget;
+    UMLWidgetListIt it(widgetList);
+
+    int heightsSum = 0;
+
+    it.toFirst();
+    while ((widget = it.current()) != 0) {
+        ++it;
+        heightsSum += widget->getHeight();
+    }
+
+    return heightsSum;
+}
+
+int AlignToolBar::getWidthsSum(const UMLWidgetList &widgetList) {
+    UMLWidget* widget;
+    UMLWidgetListIt it(widgetList);
+
+    int widthsSum = 0;
+
+    it.toFirst();
+    while ((widget = it.current()) != 0) {
+        ++it;
+        widthsSum += widget->getWidth();
+    }
+
+    return widthsSum;
+}
+
+void AlignToolBar::alignLeft(UMLWidgetList &widgetList) {
+    int smallestX = getSmallestX(widgetList);
+
+    UMLWidget* widget;
+    UMLWidgetListIt it(widgetList);
+
+    it.toFirst();
+    while ((widget = it.current()) != 0) {
+        ++it;
+        widget->setX(smallestX);
+    }
+}
+
+void AlignToolBar::alignRight(UMLWidgetList &widgetList) {
+    int biggestX = getBiggestX(widgetList);
+
+    UMLWidget* widget;
+    UMLWidgetListIt it(widgetList);
+
+    it.toFirst();
+    while ((widget = it.current()) != 0) {
+        ++it;
+        widget->setX(biggestX - widget->getWidth());
+    }
+}
+
+void AlignToolBar::alignTop(UMLWidgetList &widgetList) {
+    int smallestY = getSmallestY(widgetList);
+
+    UMLWidget* widget;
+    UMLWidgetListIt it(widgetList);
+
+    it.toFirst();
+    while ((widget = it.current()) != 0) {
+        ++it;
+        widget->setY(smallestY);
+    }
+}
+
+void AlignToolBar::alignBottom(UMLWidgetList &widgetList) {
+    int biggestY = getBiggestY(widgetList);
+
+    UMLWidget* widget;
+    UMLWidgetListIt it(widgetList);
+
+    it.toFirst();
+    while ((widget = it.current()) != 0) {
+        ++it;
+        widget->setY(biggestY - widget->getHeight());
+    }
+}
+
+void AlignToolBar::alignVerticalMiddle(UMLWidgetList &widgetList) {
+    int smallestX = getSmallestX(widgetList);
+    int biggestX = getBiggestX(widgetList);
+    int middle = int((biggestX - smallestX) / 2) + smallestX;
+
+    UMLWidget* widget;
+    UMLWidgetListIt it(widgetList);
+
+    it.toFirst();
+    while ((widget = it.current()) != 0) {
+        ++it;
+        widget->setX(middle - int(widget->getWidth() / 2));
+    }
+}
+
+void AlignToolBar::alignHorizontalMiddle(UMLWidgetList &widgetList) {
+    int smallestY = getSmallestY(widgetList);
+    int biggestY = getBiggestY(widgetList);
+    int middle = int((biggestY - smallestY) / 2) + smallestY;
+
+    UMLWidget* widget;
+    UMLWidgetListIt it(widgetList);
+
+    it.toFirst();
+    while ((widget = it.current()) != 0) {
+        ++it;
+        widget->setY(middle - int(widget->getHeight() / 2));
+    }
+}
+
+void AlignToolBar::alignVerticalDistribute(UMLWidgetList &widgetList) {
+    int smallestY = getSmallestY(widgetList);
+    int biggestY = getBiggestY(widgetList);
+    int heightsSum = getHeightsSum(widgetList);
+    int distance = ((biggestY - smallestY) - heightsSum) / (int)(widgetList.count()-1);
+
+    sortWidgetList(widgetList, hasWidgetSmallerY);
+
+    UMLWidget* widget;
+    UMLWidgetListIt it(widgetList);
+
+    it = UMLWidgetListIt(widgetList);
+
+    UMLWidget* widgetPrev = it.toFirst();
+    ++it;
+    while ((widget = it.current()) != 0) {
+        ++it;
+        widget->setY((widgetPrev->getY() + int(widgetPrev->getHeight() / 2)) +
+                        distance + int(widget->getHeight() / 2));
+        widgetPrev = widget;
+    }
+}
+
+void AlignToolBar::alignHorizontalDistribute(UMLWidgetList &widgetList) {
+    int smallestX = getSmallestX(widgetList);
+    int biggestX = getBiggestX(widgetList);
+    int widthsSum = getWidthsSum(widgetList);
+    int distance = ((biggestX - smallestX) - widthsSum) / (int)(widgetList.count()-1);
+
+    sortWidgetList(widgetList, hasWidgetSmallerX);
+
+    UMLWidget* widget;
+    UMLWidgetListIt it(widgetList);
+
+    it = UMLWidgetListIt(widgetList);
+
+    UMLWidget* widgetPrev = it.toFirst();
+    ++it;
+    while ((widget = it.current()) != 0) {
+        ++it;
+        widget->setX((widgetPrev->getX() + int(widgetPrev->getWidth() / 2)) +
+                        distance + int(widget->getWidth() / 2));
+        widgetPrev = widget;
+    }
+}
+
+template<typename Compare>
+void AlignToolBar::sortWidgetList(UMLWidgetList &widgetList, Compare comp) {
+    std::vector<UMLWidget*> widgetVector;
+    UMLWidgetListIt it(widgetList);
+    while (it.current() != 0) {
+        widgetVector.push_back(*it);
+        ++it;
+    }
+    sort(widgetVector.begin(), widgetVector.end(), comp);
+
+    widgetList.clear();
+
+    for (std::vector<UMLWidget*>::iterator it=widgetVector.begin(); it != widgetVector.end(); ++it) {
+        widgetList.append(*it);
+    }
+}
+
 /* ------ private slots ------ */
 
-void AlignToolBar::slotButtonChanged(int btn)
-{
+void AlignToolBar::slotButtonChanged(int btn) {
     UMLView* view = UMLApp::app()->getDocument()->getCurrentView();
     UMLWidgetList widgetList;
-    UMLWidget * widget;
-
-    int smallest_x = 0;
-    int biggest_x = 0;
-    int smallest_y = 0;
-    int biggest_y = 0;
-    int middle = 0;
+    UMLWidget* widget;
 
     // get the list with selected widgets (not associations)
     view->getSelectedWidgets(widgetList);
     UMLWidgetListIt it(widgetList);
 
     // at least 2 widgets must be selected
-    if (widgetList.count() > 1)
-    {
+    if (widgetList.count() > 1) {
         // now perform alignment according to the clicked button
-        switch (btn)
-        {
-            // align left
+        switch (btn) {
         case alac_align_left:
-            smallest_x = getSmallestX(widgetList);
-
-            it.toFirst();
-            while ((widget = it.current()) != 0)
-            {
-                ++it;
-                widget->setX(smallest_x);
-            }
+            alignLeft(widgetList);
             break;
 
-            // align right
         case alac_align_right:
-            biggest_x = getBiggestX(widgetList);
-
-            it.toFirst();
-            while ((widget = it.current()) != 0)
-            {
-                ++it;
-                widget->setX(biggest_x - widget->getWidth());
-            }
+            alignRight(widgetList);
             break;
 
-            // align top
         case alac_align_top:
-            smallest_y = getSmallestY(widgetList);
-
-            it.toFirst();
-            while ((widget = it.current()) != 0)
-            {
-                ++it;
-                widget->setY(smallest_y);
-            }
+            alignTop(widgetList);
             break;
 
-            // align bottom
         case alac_align_bottom:
-            biggest_y = getBiggestY(widgetList);
-
-            it.toFirst();
-            while ((widget = it.current()) != 0)
-            {
-                ++it;
-                widget->setY(biggest_y - widget->getHeight());
-            }
+            alignBottom(widgetList);
             break;
 
-            // align vertical middle
         case alac_align_vertical_middle:
-            smallest_x = getSmallestX(widgetList);
-            biggest_x = getBiggestX(widgetList);
-            middle = int((biggest_x - smallest_x) / 2) + smallest_x;
-
-            it.toFirst();
-            while ((widget = it.current()) != 0)
-            {
-                ++it;
-                widget->setX(middle - int(widget->getWidth() / 2));
-            }
+            alignVerticalMiddle(widgetList);
             break;
 
-            // align horizontal middle
         case alac_align_horizontal_middle:
-            smallest_y = getSmallestY(widgetList);
-            biggest_y = getBiggestY(widgetList);
-            middle = int((biggest_y - smallest_y) / 2) + smallest_y;
+            alignHorizontalMiddle(widgetList);
+            break;
 
-            it.toFirst();
-            while ((widget = it.current()) != 0)
-            {
-                ++it;
-                widget->setY(middle - int(widget->getHeight() / 2));
-            }
+        case alac_align_vertical_distribute:
+            alignVerticalDistribute(widgetList);
+            break;
+
+        case alac_align_horizontal_distribute:
+            alignHorizontalDistribute(widgetList);
             break;
 
         } // switch (btn)
 
         // update associations
         it.toFirst();
-        while ((widget = it.current()) != 0)
-        {
+        while ((widget = it.current()) != 0) {
             ++it;
             widget->updateWidget();
         }
