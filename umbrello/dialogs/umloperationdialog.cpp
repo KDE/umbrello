@@ -470,9 +470,9 @@ bool UMLOperationDialog::apply()
     if( classifier != 0L &&
             classifier->checkOperationSignature(name, m_pOperation->getParmList(), m_pOperation) )
     {
-        QString msg = QString(i18n("An operation with that signature already exists in %1.\n")).arg(classifier->getName())
+        QString msg = i18n("An operation with that signature already exists in %1.\n", classifier->getName())
                       +
-                      QString(i18n("Choose a different name or parameter list." ));
+                      i18n("Choose a different name or parameter list.");
         KMessageBox::error(this, msg, i18n("Operation Name Invalid"), false);
         return false;
     }

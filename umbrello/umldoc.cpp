@@ -412,7 +412,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* /*format =0*/) {
                             );
     QFile file( tmpfile );
     if ( !file.exists() ) {
-        KMessageBox::error(0, i18n("The file %1 does not exist.").arg(d.path()), i18n("Load Error"));
+        KMessageBox::error(0, i18n("The file %1 does not exist.", d.path()), i18n("Load Error"));
         m_doc_url.setFileName(i18n("Untitled"));
         m_bLoading = false;
         newDocument();
@@ -437,7 +437,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* /*format =0*/) {
         KTar archive(tmpfile, mimetype);
         if (archive.open(QIODevice::ReadOnly) == false)
         {
-            KMessageBox::error(0, i18n("The file %1 seems to be corrupted.").arg(d.path()), i18n("Load Error"));
+            KMessageBox::error(0, i18n("The file %1 seems to be corrupted.", d.path()), i18n("Load Error"));
             m_doc_url.setFileName(i18n("Untitled"));
             m_bLoading = false;
             newDocument();
@@ -479,7 +479,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* /*format =0*/) {
             entry = const_cast<KArchiveEntry*>(rootDir->entry(*it));
             if (entry == 0)
             {
-                KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.").arg(d.path()), i18n("Load Error"));
+                KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.", d.path()), i18n("Load Error"));
                 m_doc_url.setFileName(i18n("Untitled"));
                 m_bLoading = false;
                 newDocument();
@@ -491,7 +491,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* /*format =0*/) {
             fileEntry = dynamic_cast<KArchiveFile*>(entry);
             if (fileEntry == 0)
             {
-                KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.").arg(d.path()), i18n("Load Error"));
+                KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.", d.path()), i18n("Load Error"));
                 m_doc_url.setFileName(i18n("Untitled"));
                 m_bLoading = false;
                 newDocument();
@@ -505,7 +505,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* /*format =0*/) {
             QFile xmi_file(tmp_dir.name() + *it);
             if( !xmi_file.open( QIODevice::ReadOnly ) )
             {
-                KMessageBox::error(0, i18n("There was a problem loading the extracted file: %1").arg(d.path()), i18n("Load Error"));
+                KMessageBox::error(0, i18n("There was a problem loading the extracted file: %1", d.path()), i18n("Load Error"));
                 m_doc_url.setFileName(i18n("Untitled"));
                 m_bLoading = false;
                 newDocument();
@@ -518,7 +518,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* /*format =0*/) {
             tmp_dir.unlink();
 
         } else {
-            KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.").arg(d.path()), i18n("Load Error"));
+            KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.", d.path()), i18n("Load Error"));
             m_doc_url.setFileName(i18n("Untitled"));
             m_bLoading = false;
             newDocument();
@@ -530,7 +530,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* /*format =0*/) {
     {
         // no, it seems to be an ordinary file
         if( !file.open( QIODevice::ReadOnly ) ) {
-            KMessageBox::error(0, i18n("There was a problem loading file: %1").arg(d.path()), i18n("Load Error"));
+            KMessageBox::error(0, i18n("There was a problem loading file: %1", d.path()), i18n("Load Error"));
             m_doc_url.setFileName(i18n("Untitled"));
             m_bLoading = false;
             newDocument();
@@ -546,7 +546,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* /*format =0*/) {
     KIO::NetAccess::removeTempFile( tmpfile );
     if( !status )
     {
-        KMessageBox::error(0, i18n("There was a problem loading file: %1").arg(d.path()), i18n("Load Error"));
+        KMessageBox::error(0, i18n("There was a problem loading file: %1", d.path()), i18n("Load Error"));
         m_bLoading = false;
         newDocument();
         return false;
@@ -614,7 +614,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * /* format */) {
         // now check if we can write to the file
         if (archive->open(QIODevice::WriteOnly) == false)
         {
-            KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save Error"));
+            KMessageBox::error(0, i18n("There was a problem saving file: %1", d.path()), i18n("Save Error"));
             return false;
         }
 
@@ -623,7 +623,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * /* format */) {
         KTempFile tmp_xmi_file;
         file.setName(tmp_xmi_file.name());
         if( !file.open( QIODevice::WriteOnly ) ) {
-            KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save Error"));
+            KMessageBox::error(0, i18n("There was a problem saving file: %1", d.path()), i18n("Save Error"));
             return false;
         }
         saveToXMI(file, true); // save XMI to this file...
@@ -642,7 +642,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * /* format */) {
 
         if (!archive->closeSucceeded())
         {
-            KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save Error"));
+            KMessageBox::error(0, i18n("There was a problem saving file: %1", d.path()), i18n("Save Error"));
             return false;
         }
         // now the xmi file was added to the archive, so we can delete it
@@ -677,7 +677,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * /* format */) {
 
         // lets open the file for writing
         if( !file.open( QIODevice::WriteOnly ) ) {
-            KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save Error"));
+            KMessageBox::error(0, i18n("There was a problem saving file: %1", d.path()), i18n("Save Error"));
             return false;
         }
         saveToXMI( file, true ); // save the xmi stuff to it
@@ -694,7 +694,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * /* format */) {
             if ( KIO::
                     NetAccess::
                     file_move( tmpfile.name(), d.path(), -1, true ) == false ) {
-                KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save Error"));
+                KMessageBox::error(0, i18n("There was a problem saving file: %1", d.path()), i18n("Save Error"));
                 m_doc_url.setFileName(i18n("Untitled"));
                 return false;
             }
@@ -702,7 +702,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * /* format */) {
     }
     if( !uploaded )
     {
-        KMessageBox::error(0, i18n("There was a problem uploading file: %1").arg(d.path()), i18n("Save Error"));
+        KMessageBox::error(0, i18n("There was a problem uploading file: %1", d.path()), i18n("Save Error"));
         m_doc_url.setFileName(i18n("Untitled"));
     }
     setModified(false);
@@ -1229,7 +1229,7 @@ void UMLDoc::removeDiagram(Uml::IDType id) {
         kError()<<"Request to remove diagram " << ID2STR(id) << ": Diagram not found!"<<endl;
         return;
     }
-    if (KMessageBox::warningContinueCancel(0, i18n("Are you sure you want to delete diagram %1?").arg(umlview->getName()), i18n("Delete Diagram"),KGuiItem( i18n("&Delete"), "editdelete")) == KMessageBox::Continue) {
+    if (KMessageBox::warningContinueCancel(0, i18n("Are you sure you want to delete diagram %1?", umlview->getName()), i18n("Delete Diagram"),KGuiItem( i18n("&Delete"), "editdelete")) == KMessageBox::Continue) {
         removeView(umlview);
         emit sigDiagramRemoved(id);
         setModified(true);
@@ -1620,11 +1620,11 @@ short UMLDoc::getEncoding(QIODevice & file)
 bool UMLDoc::loadFolderFile( QString filename ) {
     QFile file( filename );
     if ( !file.exists() ) {
-        KMessageBox::error(0, i18n("The folderfile %1 does not exist.").arg(filename), i18n("Load Error"));
+        KMessageBox::error(0, i18n("The folderfile %1 does not exist.", filename), i18n("Load Error"));
         return false;
     }
     if ( !file.open(QIODevice::ReadOnly) ) {
-        KMessageBox::error(0, i18n("The folderfile %1 cannot be opened.").arg(filename), i18n("Load Error"));
+        KMessageBox::error(0, i18n("The folderfile %1 cannot be opened.", filename), i18n("Load Error"));
         return false;
     }
     QTextStream stream( &file );
@@ -2371,7 +2371,7 @@ void UMLDoc::slotAutoSave() {
     }
     KUrl tempURL = m_doc_url;
     if( tempURL.fileName() == i18n("Untitled") ) {
-        tempURL.setPath( QDir::homeDirPath() + i18n("/autosave%1").arg(".xmi") );
+        tempURL.setPath( QDir::homeDirPath() + i18n( "/autosave%1", QString(".xmi") ) );
         saveDocument( tempURL );
         m_doc_url.setFileName( i18n("Untitled") );
         m_modified = true;

@@ -22,13 +22,15 @@
 
 #include <qstring.h>
 
+class KLocalizedString;
+
 
 struct Error{
     int code;
     int level;
-    QString text;
+    KLocalizedString text;
 
-    Error( int c, int l, const QString& s )
+    Error( int c, int l, const KLocalizedString& s )
         : code( c ), level( l ), text( s )
         {}
 };

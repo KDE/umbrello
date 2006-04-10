@@ -653,9 +653,9 @@ void RefactoringAssistant::movableDropEvent (Q3ListViewItem* parentItem, Q3ListV
         UMLOperation *op = static_cast<UMLOperation*>(movingObject);
         if(newClassifier->checkOperationSignature(op->getName(), op->getParmList()))
         {
-            QString msg = QString(i18n("An operation with that signature already exists in %1.\n")).arg(newClassifier->getName())
+            QString msg = i18n("An operation with that signature already exists in %1.\n", newClassifier->getName())
                           +
-                          QString(i18n("Choose a different name or parameter list." ));
+                          i18n("Choose a different name or parameter list.");
             KMessageBox::error(this, msg, i18n("Operation Name Invalid"), false);
             return;
         }

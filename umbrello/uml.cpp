@@ -725,7 +725,7 @@ bool UMLApp::slotFileSaveAs()
             QDir d = url.path(-1);
 
             if(QFile::exists(d.path())) {
-                int want_save = KMessageBox::warningContinueCancel(this, i18n("The file %1 exists.\nDo you wish to overwrite it?").arg(url.path()), i18n("Warning"), i18n("Overwrite"));
+                int want_save = KMessageBox::warningContinueCancel(this, i18n("The file %1 exists.\nDo you wish to overwrite it?", url.path()), i18n("Warning"), i18n("Overwrite"));
                 if(want_save == KMessageBox::Continue)
                     cont = false;
             } else
@@ -764,7 +764,7 @@ void UMLApp::slotFilePrint()
     DiagramPrintPage * selectPage = new DiagramPrintPage(0, m_doc);
     printer.addDialogPage(selectPage);
     QString msg;
-    if (printer.setup(this, i18n("Print %1").arg(m_doc->URL().prettyURL()))) {
+    if (printer.setup(this, i18n("Print %1", m_doc->URL().prettyURL()))) {
 
         m_doc -> print(&printer);
     }

@@ -30,8 +30,8 @@ void ClassImport::importFiles(QStringList fileList) {
     for (QStringList::Iterator fileIT = fileList.begin();
             fileIT != fileList.end(); ++fileIT) {
         QString fileName = (*fileIT);
-        umldoc->writeToStatusBar(i18n("Importing file: %1 Progress: %2/%3").
-                                 arg(fileName).arg(processedFilesCount).arg(fileList.size()));
+        umldoc->writeToStatusBar(i18n("Importing file: %1 Progress: %2/%3", 
+                                 fileName, processedFilesCount, fileList.size()));
         parseFile(fileName);
         processedFilesCount++;
     }

@@ -37,7 +37,7 @@ using namespace std;
 { \
   const Token& token = lex->lookAhead( 0 ); \
   if( token != tk ){ \
-      reportError( i18n("'%1' expected found '%2'").arg(descr).arg(token.text()) ); \
+      reportError( i18n("'%1' expected found '%2'", descr, token.text()) ); \
       return false; \
   } \
   lex->nextToken(); \
@@ -47,7 +47,7 @@ using namespace std;
 { \
   const Token& token = lex->lookAhead( 0 ); \
   if( token != tk ){ \
-      reportError( i18n("'%1' expected found '%2'").arg(descr).arg(token.text()) ); \
+      reportError( i18n("'%1' expected found '%2'", descr, token.text()) ); \
   } \
   else \
       lex->nextToken(); \
@@ -137,7 +137,7 @@ bool Parser::reportError( const Error& err )
 	if( s.isEmpty() )
 	    s = i18n( "<eof>" );
 
-	m_driver->addProblem( m_driver->currentFileName(), Problem(err.text.arg(s), line, col) );
+	m_driver->addProblem( m_driver->currentFileName(), Problem(err.text.subs(s).toString(), line, col) );
     }
 
     return true;

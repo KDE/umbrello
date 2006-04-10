@@ -295,7 +295,7 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
             pPainter.translate(offsetX,offsetY);
 
             //draw foot note
-            QString string = i18n("Diagram: %2 Page %1").arg(page + 1).arg(getName());
+            QString string = i18n("Diagram: %2 Page %1", page + 1, getName());
             QColor textColor(50, 50, 50);
             pPainter.setPen(textColor);
             pPainter.drawLine(0, height + 2, width, height + 2);
@@ -355,7 +355,7 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
     getDiagram(QRect(rect.x(), rect.y(), windowWidth, diagramHeight), pPainter);
 
     //draw foot note
-    QString string = i18n("Diagram: %2 Page %1").arg( 1).arg(getName());
+    QString string = i18n("Diagram: %2 Page %1", 1, getName());
     QColor textColor(50, 50, 50);
     pPainter.setPen(textColor);
     pPainter.drawLine(rect.x(), footTop    , windowWidth, footTop);
@@ -1565,7 +1565,7 @@ void UMLView::exportImage() {
         info = QFileInfo(s);
         if (info.exists())
         {
-            int want_save = KMessageBox::warningContinueCancel(0, i18n("The selected file %1 exists.\nDo you want to overwrite it?").arg(m_ImageURL.fileName()),
+            int want_save = KMessageBox::warningContinueCancel(0, i18n("The selected file %1 exists.\nDo you want to overwrite it?", m_ImageURL.fileName()),
                             i18n("File Already Exists"), i18n("&Overwrite"));
             if (want_save == KMessageBox::Cancel)
                 // another possibility would be to show the save dlg again
@@ -1617,7 +1617,7 @@ void UMLView::exportImage() {
                                          , UMLApp::app()
                                        )) {
                 KMessageBox::error(0,
-                                   i18n("There was a problem saving file: %1").arg(m_ImageURL.path()),
+                                   i18n("There was a problem saving file: %1", m_ImageURL.path()),
                                    i18n("Save Error"));
             }
             tmpfile.unlink();

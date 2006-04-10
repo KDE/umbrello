@@ -168,7 +168,7 @@ void CodeGenerationWizard::showPage(QWidget *page) {
         if(!info.exists())
         {
             if (KMessageBox::questionYesNo(this,
-                                           i18n("The folder %1 does not exist. Do you want to create it now?").arg(info.filePath()),
+                                           i18n("The folder %1 does not exist. Do you want to create it now?", info.filePath()),
                                            i18n("Output Folder Does Not Exist"), i18n("Create Folder"), i18n("Do Not Create")) == KMessageBox::Yes)
             {
                 QDir dir;
@@ -197,7 +197,7 @@ void CodeGenerationWizard::showPage(QWidget *page) {
             // it exits and we can write... make sure it is a directory
             if(!info.isDir())
             {
-                KMessageBox::sorry(this,i18n("%1 does not seem to be a folder. Please choose a valid folder.").arg(info.filePath()),
+                KMessageBox::sorry(this,i18n("%1 does not seem to be a folder. Please choose a valid folder.", info.filePath()),
                                    i18n("Please Choose Valid Folder"));
                 return;
             }

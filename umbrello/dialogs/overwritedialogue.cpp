@@ -28,7 +28,7 @@ KDialogBase(Plain, i18n("Destination File Already Exists"), Ok|Apply|Cancel, Yes
 
     QVBoxLayout* layout = new QVBoxLayout( plainPage(), 0, spacingHint() );
 
-    QLabel* dialogueLabel = new QLabel(i18n("The file %1 already exists in %2.\n\nUmbrello can overwrite the file, generate a similar\nfile name or not generate this file.").arg(fileName).arg(outputDirectory), plainPage() );
+    QLabel* dialogueLabel = new QLabel(i18n("The file %1 already exists in %2.\n\nUmbrello can overwrite the file, generate a similar\nfile name or not generate this file.", fileName, outputDirectory), plainPage() );
     layout->addWidget(dialogueLabel);
 
     m_applyToAllRemaining = new QCheckBox( i18n("&Apply to all remaining files"), plainPage() );

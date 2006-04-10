@@ -516,7 +516,7 @@ void UMLListViewItem::okRename( int col ) {
         break;
     default:
         KMessageBox::error( kapp->mainWidget() ,
-                            i18n("Renaming an item of listview type %1 is not yet implemented.").arg(m_Type),
+                            i18n("Renaming an item of listview type %1 is not yet implemented.", m_Type),
                             i18n("Function Not Implemented") );
         Q3ListViewItem::setText(0, m_Label);
         break;
@@ -694,7 +694,7 @@ void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement,
                 folderFile.setName(umldoc->URL().directory(false) + m_FolderFile);
                 if( !folderFile.open( QIODevice::WriteOnly ) ) {
                     KMessageBox::error(0,
-                                       i18n("There was a problem saving file: %1").arg(m_FolderFile),
+                                       i18n("There was a problem saving file: %1", m_FolderFile),
                                        i18n("Save Error"));
                     // TODO:
                     // Resetting the m_FolderFile here is too late -
