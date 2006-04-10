@@ -64,6 +64,7 @@ UMLObject * findObjectInList(Uml::IDType id, UMLObjectList inList) {
         Uml::Object_Type t = obj->getBaseType();
         switch (t) {
         case Uml::ot_Package:
+        case Uml::ot_Component:
             o = ((UMLPackage*)obj)->findObjectById(id);
             if (o)
                 return o;
@@ -175,8 +176,9 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
                     return obj;
                 }
                 if (foundType != Uml::ot_Package &&
-                        foundType != Uml::ot_Class &&
-                        foundType != Uml::ot_Interface) {
+                    foundType != Uml::ot_Class &&
+                    foundType != Uml::ot_Interface &&
+                    foundType != Uml::ot_Component) {
                     kdDebug() << "findUMLObject: found \"" << name
                     << "\" is not a package (?)" << endl;
                     continue;
@@ -208,8 +210,9 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
             return obj;
         }
         if (foundType != Uml::ot_Package &&
-                foundType != Uml::ot_Class &&
-                foundType != Uml::ot_Interface) {
+            foundType != Uml::ot_Class &&
+            foundType != Uml::ot_Interface &&
+            foundType != Uml::ot_Component) {
             kdDebug() << "findUMLObject: found \"" << name
             << "\" is not a package (?)" << endl;
             continue;

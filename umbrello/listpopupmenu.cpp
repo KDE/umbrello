@@ -268,7 +268,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         break;
 
     case Uml::wt_Enum:
-        m_pInsert = new KPopupMenu(this,"New");
+        m_pInsert = new KPopupMenu(this);
         m_pInsert->insertItem(SmallIcon("source"), i18n("Enum Literal..."), mt_EnumLiteral);
         insertFileNew();
         setupColor(object->getUseFillColour());
@@ -279,7 +279,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         break;
 
     case Uml::wt_Entity:
-        m_pInsert = new KPopupMenu(this,"New");
+        m_pInsert = new KPopupMenu(this);
         m_pInsert->insertItem(SmallIcon("source"), i18n("Entity Attribute..."), mt_EntityAttribute);
         insertFileNew();
         setupColor(object->getUseFillColour());
@@ -347,7 +347,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     case Uml::wt_State:
         pState = static_cast< StateWidget *>( object );
         if( pState -> getStateType() == StateWidget::Normal ) {
-            m_pInsert = new KPopupMenu(this,"New");
+            m_pInsert = new KPopupMenu(this);
             m_pInsert -> insertItem(SmallIcon( "filenew"), i18n("Activity..."), mt_New_Activity);
             insertFileNew();
         }
@@ -637,7 +637,7 @@ void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
     Uml::Widget_Type type = c->getBaseType();
     ClassifierWidget *cls = NULL;
 
-    m_pShow = new KPopupMenu(this, "Show");
+    m_pShow = new KPopupMenu(this);
     m_pShow->setCheckable(true);
     if (type == Uml::wt_Class) {
         cls = static_cast<ClassifierWidget*>(c);
@@ -676,7 +676,7 @@ void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
 void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
 {
     Uml::Widget_Type type = c->getBaseType();
-    m_pInsert = new KPopupMenu(this,"New");
+    m_pInsert = new KPopupMenu(this);
     if (type == Uml::wt_Class)
         m_pInsert->insertItem(SmallIcon( "CVpublic_var" ), i18n("Attribute..."), mt_Attribute);
     m_pInsert->insertItem( SmallIcon( "CVpublic_meth"), i18n("Operation..."), mt_Operation);
@@ -704,7 +704,7 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
 
 void ListPopupMenu::setupColor(bool fc)
 {
-    m_pColor = new KPopupMenu( this, "Colour");
+    m_pColor = new KPopupMenu(this);
     m_pColor -> insertItem(SmallIcon( "color_line"), i18n("Line Color..."), mt_Line_Color);
     m_pColor -> insertItem(SmallIcon( "color_fill"), i18n("Fill Color..."), mt_Fill_Color);
     m_pColor -> insertItem( i18n("Use Fill Color"), mt_Use_Fill_Color);
@@ -715,7 +715,7 @@ void ListPopupMenu::setupColor(bool fc)
 
 void ListPopupMenu::setupColorSelection(bool fc)
 {
-    m_pColor = new KPopupMenu( this, "Colour");
+    m_pColor = new KPopupMenu(this);
     m_pColor -> insertItem(SmallIcon( "color_line"), i18n("Line Color..."), mt_Line_Color_Selection);
     m_pColor -> insertItem(SmallIcon( "color_fill"), i18n("Fill Color..."), mt_Fill_Color_Selection);
     m_pColor -> insertItem( i18n("Use Fill Color"), mt_Use_Fill_Color);
@@ -813,7 +813,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
     switch(type) {
     case mt_Logical_View:
-        m_pInsert = new KPopupMenu(this, "New");
+        m_pInsert = new KPopupMenu(this);
         insertContainerItems(true);
         insertSeparator();
         insertStdItem(mt_Paste);
@@ -825,7 +825,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         break;
 
     case mt_Component_View:
-        m_pInsert = new KPopupMenu(this, "New");
+        m_pInsert = new KPopupMenu(this);
         insertStdItem(mt_Component_Folder);
         insertStdItem(mt_Component);
         insertStdItem(mt_Artifact);
@@ -839,7 +839,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         break;
 
     case mt_Deployment_View:
-        m_pInsert = new KPopupMenu(this, "New");
+        m_pInsert = new KPopupMenu(this);
         insertStdItem(mt_Deployment_Folder);
         insertStdItem(mt_Node);
         insertStdItem(mt_Deployment_Diagram);
@@ -852,7 +852,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         break;
 
     case mt_EntityRelationship_Model:
-        m_pInsert = new KPopupMenu(this, "New");
+        m_pInsert = new KPopupMenu(this);
         insertStdItem(mt_EntityRelationship_Folder);
         insertStdItem(mt_Entity);
         insertStdItem(mt_EntityRelationship_Diagram);
@@ -865,7 +865,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         break;
 
     case mt_UseCase_View:
-        m_pInsert = new KPopupMenu(this,"New");
+        m_pInsert = new KPopupMenu(this);
         insertStdItem(mt_UseCase_Folder);
         insertStdItem(mt_Actor);
         insertStdItem(mt_UseCase);
@@ -881,7 +881,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         break;
 
     case mt_Logical_Folder:
-        m_pInsert = new KPopupMenu(this, "New");
+        m_pInsert = new KPopupMenu(this);
         insertContainerItems(true);
         insertStdItems();
         insertStdItem(mt_Import_Classes);
@@ -892,7 +892,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         break;
 
     case mt_Component_Folder:
-        m_pInsert = new KPopupMenu(this, "New");
+        m_pInsert = new KPopupMenu(this);
         insertStdItem(mt_Component_Folder);
         insertStdItem(mt_Component);
         insertStdItem(mt_Artifact);
@@ -906,7 +906,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         break;
 
     case mt_Deployment_Folder:
-        m_pInsert = new KPopupMenu(this, "New");
+        m_pInsert = new KPopupMenu(this);
         insertStdItem(mt_Deployment_Folder);
         insertStdItem(mt_Node);
         insertStdItem(mt_Deployment_Diagram);
@@ -919,7 +919,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         break;
 
     case mt_UseCase_Folder:
-        m_pInsert = new KPopupMenu(this,"New");
+        m_pInsert = new KPopupMenu(this);
         insertStdItem(mt_UseCase_Folder);
         insertStdItem(mt_Actor);
         insertStdItem(mt_UseCase);
@@ -933,7 +933,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         break;
 
     case mt_EntityRelationship_Folder:
-        m_pInsert = new KPopupMenu(this,"New");
+        m_pInsert = new KPopupMenu(this);
         insertStdItem(mt_EntityRelationship_Folder);
         insertStdItem(mt_Entity);
         insertStdItem(mt_EntityRelationship_Diagram);
@@ -965,7 +965,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
         //FIXME a lot of these insertItem()s could be insertStandardItem()s
     case mt_On_UseCase_Diagram:
-        m_pInsert = new KPopupMenu( this, "New" );
+        m_pInsert = new KPopupMenu( this );
         m_pInsert -> insertItem(m_pixmap[pm_Actor], i18n( "Actor..." ), mt_Actor );
         m_pInsert -> insertItem(m_pixmap[pm_Usecase], i18n( "Use Case..."), mt_UseCase );
         insertStdItem(mt_FloatText );
@@ -975,7 +975,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         break;
 
     case mt_On_Class_Diagram:
-        m_pInsert = new KPopupMenu( this, "New" );
+        m_pInsert = new KPopupMenu( this );
         m_pInsert -> insertItem(m_pixmap[pm_Class], i18n("Class..."), mt_Class);
         m_pInsert->insertItem(m_pixmap[pm_Interface], i18n("Interface..."), mt_Interface);
         m_pInsert->insertItem(m_pixmap[pm_Datatype], i18n("Datatype..."), mt_Datatype);
@@ -988,7 +988,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         break;
 
     case mt_On_State_Diagram:
-        m_pInsert = new KPopupMenu( this, "New" );
+        m_pInsert = new KPopupMenu( this );
         m_pInsert -> insertItem(m_pixmap[pm_InitialState], i18n("Initial State"), mt_Initial_State );
         m_pInsert -> insertItem(m_pixmap[pm_EndState], i18n("End State"), mt_End_State );
         m_pInsert -> insertItem(m_pixmap[pm_Usecase], i18n("State..."), mt_State );
@@ -999,7 +999,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         break;
 
     case mt_On_Activity_Diagram:
-        m_pInsert = new KPopupMenu( this, "New" );
+        m_pInsert = new KPopupMenu( this );
         m_pInsert -> insertItem(m_pixmap[pm_InitialState], i18n("Initial Activity"), mt_Initial_Activity );
         m_pInsert -> insertItem(m_pixmap[pm_EndState], i18n("End Activity"), mt_End_Activity );
         m_pInsert -> insertItem(m_pixmap[pm_Usecase], i18n("Activity..."), mt_Activity );
@@ -1011,7 +1011,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         break;
 
     case mt_On_Component_Diagram:
-        m_pInsert = new KPopupMenu(this, "New");
+        m_pInsert = new KPopupMenu(this);
         m_pInsert->insertItem(m_pixmap[pm_Component], i18n("Component..."), mt_Component);
         m_pInsert->insertItem(m_pixmap[pm_Artifact], i18n("Artifact..."), mt_Artifact);
         insertFileNew();
@@ -1020,7 +1020,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         break;
 
     case mt_On_Deployment_Diagram:
-        m_pInsert = new KPopupMenu(this, "New");
+        m_pInsert = new KPopupMenu(this);
         m_pInsert->insertItem(m_pixmap[pm_Node], i18n("Node..."), mt_Node);
         insertFileNew();
         insertSeparator();
@@ -1028,7 +1028,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         break;
 
     case mt_On_EntityRelationship_Diagram:
-        m_pInsert = new KPopupMenu(this, "New");
+        m_pInsert = new KPopupMenu(this);
         m_pInsert->insertItem(m_pixmap[pm_Entity], i18n("Entity..."), mt_Entity);
         insertFileNew();
         insertSeparator();
@@ -1037,7 +1037,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
     case mt_On_Sequence_Diagram:
     case mt_On_Collaboration_Diagram:
-        m_pInsert = new KPopupMenu( this, "New" );
+        m_pInsert = new KPopupMenu( this );
         m_pInsert -> insertItem(m_pixmap[pm_Object], i18n("Object..."), mt_Object);
         insertStdItem(mt_FloatText);
         insertFileNew();
@@ -1046,7 +1046,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         break;
 
     case mt_Class:
-        m_pInsert = new KPopupMenu(this,"New");
+        m_pInsert = new KPopupMenu(this);
         m_pInsert -> insertItem(SmallIcon( "CVpublic_var"), i18n("Attribute"), mt_Attribute);
         m_pInsert -> insertItem(SmallIcon( "CVpublic_meth"), i18n("Operation"), mt_Operation);
         m_pInsert -> insertItem(SmallIcon("source"), i18n("Template"), mt_Template);
@@ -1056,7 +1056,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         break;
 
     case mt_Interface:
-        m_pInsert = new KPopupMenu(this,"New");
+        m_pInsert = new KPopupMenu(this);
         m_pInsert->insertItem(SmallIcon("CVpublic_meth"), i18n("Operation"), mt_Operation);
         m_pInsert -> insertItem(SmallIcon("source"), i18n("Template"), mt_Template);
         insertFileNew();
@@ -1065,7 +1065,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         break;
 
     case mt_Package:
-        m_pInsert = new KPopupMenu(this, "New");
+        m_pInsert = new KPopupMenu(this);
         insertContainerItems(false);
         insertStdItems();
         insertStdItem(mt_Properties);
@@ -1074,8 +1074,20 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         insertStdItem(mt_Collapse_All);
         break;
 
+    case mt_Component:
+        m_pInsert = new KPopupMenu(this);
+        insertStdItem(mt_Component);
+        insertStdItem(mt_Artifact);
+        insertFileNew();
+        insertStdItems();
+        insertStdItem(mt_Properties);
+        insertSeparator();
+        insertStdItem(mt_Expand_All);
+        insertStdItem(mt_Collapse_All);
+        break;
+
     case mt_Entity:
-        m_pInsert = new KPopupMenu(this,"New");
+        m_pInsert = new KPopupMenu(this);
         m_pInsert->insertItem(SmallIcon("source"), i18n("Entity Attribute..."), mt_EntityAttribute);
         insertFileNew();
         insertStdItems();
@@ -1084,7 +1096,6 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
     case mt_Datatype:
     case mt_Enum:
-    case mt_Component:
     case mt_Node:
     case mt_Artifact:
     case mt_Actor:
@@ -1121,13 +1132,13 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         break;
 
     case mt_New_Activity:
-        m_pInsert = new KPopupMenu(this,"New");
+        m_pInsert = new KPopupMenu(this);
         insertStdItem(mt_New_Activity);
         insertFileNew();
         break;
 
     case mt_Activity_Selected:
-        m_pInsert = new KPopupMenu(this,"New");
+        m_pInsert = new KPopupMenu(this);
         insertStdItem(mt_New_Activity);
         insertFileNew();
         insertStdItem(mt_Rename);

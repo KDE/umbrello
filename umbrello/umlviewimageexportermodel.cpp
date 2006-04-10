@@ -178,7 +178,7 @@ QString UMLViewImageExporterModel::getDiagramFileName(UMLView *view, const QStri
     // Relies on the tree structure of the UMLListView. There are a base "Views" folder
     // and five children, one for each view type (Logical, use case, components, deployment
     // and entity relationship)
-    while (! UMLListView::typeIsRootView(listViewItem->getType())) {
+    while (listView->rootView(listViewItem->getType()) == NULL) {
         name.insert(0, listViewItem->getText() + "/");
         listViewItem = static_cast<UMLListViewItem*>(listViewItem->parent());
         if (listViewItem == NULL)

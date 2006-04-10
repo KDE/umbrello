@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2003-2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,19 +5,21 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2003-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
-#include "umlcanvasobject.h"
+#include "package.h"
 
 class IDChangeLog;
 
 /**
  * This class contains the non-graphical information required for a
  * UML Component.
- * This class inherits from @ref UMLCanvasObject which contains most
+ * This class inherits from @ref UMLPackage which contains most
  * of the information.
  *
  * The @ref UMLDoc class creates instances of this type.
@@ -36,7 +33,7 @@ class IDChangeLog;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class UMLComponent : public UMLCanvasObject {
+class UMLComponent : public UMLPackage {
     Q_OBJECT
 public:
     /**

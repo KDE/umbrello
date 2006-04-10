@@ -618,7 +618,7 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
     }
     //make sure can find UMLObject
     if( !(temp = m_pDoc->findObjectById(id) ) ) {
-        kdDebug() << " object not found" << endl;
+        kdDebug() << "object " << ID2STR(id) << " not found" << endl;
         e->accept(false);
         return;
     }
@@ -626,47 +626,58 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
     // concept - class,seq,coll diagram
     // actor,usecase - usecase diagram
     Object_Type ot = temp->getBaseType();
-    if(diagramType == dt_UseCase && (ot != ot_Actor && ot != ot_UseCase) ) {
-        e->accept(false);
-        return;
+    bool bAccept = true;
+    switch (diagramType) {
+        case dt_UseCase:
+            if (widgetOnDiagram(id) ||
+                (ot != ot_Actor && ot != ot_UseCase))
+                bAccept = false;
+            break;
+        case dt_Class:
+            if (widgetOnDiagram(id) ||
+                (ot != ot_Class &&
+                 ot != ot_Package &&
+                 ot != ot_Interface &&
+                 ot != ot_Enum &&
+                 ot != ot_Datatype)) {
+                bAccept = false;
+            }
+            break;
+        case dt_Sequence:
+        case dt_Collaboration:
+            if (ot != ot_Class &&
+                ot != ot_Interface &&
+                ot != ot_Actor)
+                bAccept = false;
+            break;
+        case dt_Deployment:
+            if (widgetOnDiagram(id) ||
+                (ot != ot_Interface &&
+                 ot != ot_Package &&
+                 ot != ot_Component &&
+                 ot != ot_Class &&
+                 ot != ot_Node))
+                bAccept = false;
+            break;
+        case dt_Component:
+            if (widgetOnDiagram(id) ||
+                (ot != ot_Interface &&
+                 ot != ot_Package &&
+                 ot != ot_Component &&
+                 ot != ot_Artifact &&
+                 ot != ot_Class))
+                bAccept = false;
+            if (ot == ot_Class && !temp->getAbstract())
+                bAccept = false;
+            break;
+        case dt_EntityRelationship:
+            if (ot != ot_Entity)
+                bAccept = false;
+            break;
+        default:
+            break;
     }
-    if(diagramType == dt_Class &&
-            (ot != ot_Class && ot != ot_Package && ot != ot_Interface && ot != ot_Enum && ot != ot_Datatype)) {
-        e->accept(false);
-        return;
-    }
-    if((diagramType == dt_Sequence || diagramType == dt_Collaboration) &&
-            ot != ot_Class && ot != ot_Interface && ot != ot_Actor) {
-        e->accept(false);
-        return;
-    }
-    if (diagramType == dt_Deployment &&
-            (ot != ot_Interface && ot != ot_Component && ot != ot_Class && ot != ot_Node)) {
-        e->accept(false);
-        return;
-    }
-    if (diagramType == dt_Component) {
-        if (ot != ot_Interface && ot != ot_Component && ot != ot_Artifact && ot != ot_Class) {
-            e->accept(false);
-            return;
-        }
-        if (ot == ot_Class && !temp->getAbstract()) {
-            e->accept(false);
-            return;
-        }
-    }
-    if (diagramType == dt_EntityRelationship &&
-            (ot != ot_Entity )) {
-        e->accept(false);
-        return;
-    }
-    if((diagramType == dt_UseCase || diagramType == dt_Class ||
-            diagramType == dt_Component || diagramType == dt_Deployment)
-            && widgetOnDiagram(id) ) {
-        e->accept(false);
-        return;
-    }
-    e->accept(true);
+    e->accept(bAccept);
 }
 
 void UMLView::contentsDropEvent(QDropEvent *e) {
@@ -829,7 +840,7 @@ AssociationWidget * UMLView::findAssocWidget(UMLWidget *pWidgetA, UMLWidget *pWi
         << Uml::at_Composition << Uml::at_Containment;
     }
     AssociationWidget* retval = NULL;
-    for (int i=0; i<assocTypes.size(); ++i) {
+    for (uint i=0; i < assocTypes.size(); ++i) {
         retval = findAssocWidget(assocTypes[i], pWidgetA, pWidgetB);
         if (retval != NULL) return retval;
     }
@@ -2096,7 +2107,7 @@ void UMLView::updateDocumentation( bool clear ) {
 }
 
 void UMLView::updateContainment(UMLCanvasObject *self) {
-    if (self == NULL || m_Type != Uml::dt_Class)
+    if (self == NULL)
         return;
     // See if the object has a widget representation in this view.
     // While we're at it, also see if the new parent has a widget here.
@@ -2145,7 +2156,10 @@ void UMLView::updateContainment(UMLCanvasObject *self) {
 }
 
 void UMLView::createAutoAssociations( UMLWidget * widget ) {
-    if (widget == NULL || m_Type != Uml::dt_Class)
+    if (widget == NULL ||
+        (m_Type != Uml::dt_Class &&
+         m_Type != Uml::dt_Component &&
+         m_Type != Uml::dt_Deployment))
         return;
     // Recipe:
     // If this widget has an underlying UMLCanvasObject then
@@ -2262,7 +2276,7 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
     createAutoAttributeAssociations(widget);
     // if this object is capable of containing nested objects then
     Uml::Object_Type t = umlObj->getBaseType();
-    if (t == ot_Package || t == ot_Class || t == ot_Interface) {
+    if (t == ot_Package || t == ot_Class || t == ot_Interface || t == ot_Component) {
         // for each of the object's containedObjects
         UMLPackage *umlPkg = static_cast<UMLPackage*>(umlObj);
         UMLObjectList& lst = umlPkg->containedObjects();
