@@ -49,7 +49,9 @@ SelectOpDlg::SelectOpDlg(UMLView * parent, UMLClassifier * c)
     m_pOpRB = new QRadioButton(i18n("Class operation:"), m_pOpGB);
     mainLayout -> addWidget(m_pOpRB, 1, 0);
 
-    m_pOpCB = new QComboBox(m_pOpGB);
+    m_pOpCB = new KComboBox(m_pOpGB);
+    m_pOpCB->setCompletionMode( KGlobalSettings::CompletionPopup );
+    m_pOpCB->setDuplicatesEnabled(false);//only allow one of each type in box
     mainLayout -> addWidget(m_pOpCB, 1, 1);
 
     m_pCustomRB = new QRadioButton(i18n("Custom operation:"), m_pOpGB);
@@ -66,7 +68,7 @@ SelectOpDlg::SelectOpDlg(UMLView * parent, UMLClassifier * c)
 
     UMLOperationList list = c -> getOpList(true);
     for (UMLOperation *obj = list.first(); obj; obj=list.next()) {
-        m_pOpCB->insertItem( obj->toString(Uml::st_SigNoVis) );
+        insertOperation( obj->toString(Uml::st_SigNoVis) );
     }
     //disableResize();
     connect(m_pOpBG, SIGNAL(clicked(int)), this, SLOT(slotSelected(int)));
@@ -77,6 +79,12 @@ SelectOpDlg::SelectOpDlg(UMLView * parent, UMLClassifier * c)
 SelectOpDlg::~SelectOpDlg() {
     disconnect(m_pOpBG, SIGNAL(clicked(int)), this, SLOT(slotSelected(int)));
     delete m_pOpBG;
+}
+
+void SelectOpDlg::insertOperation( const QString& type, int index )
+{
+    m_pOpCB->insertItem( type, index );
+    m_pOpCB->completionObject()->addItem( type );
 }
 
 QString SelectOpDlg::getOpText() {

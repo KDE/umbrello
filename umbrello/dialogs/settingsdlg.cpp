@@ -178,6 +178,7 @@ void SettingsDlg::setupGeneralPage() {
     startupLayout -> addWidget( m_GeneralWidgets.startL, 2, 0 );
 
     m_GeneralWidgets.diagramKB = new KComboBox( m_GeneralWidgets.startupGB );
+    m_GeneralWidgets.diagramKB->setCompletionMode( KGlobalSettings::CompletionPopup );
     startupLayout -> addWidget( m_GeneralWidgets.diagramKB, 2, 1 );
 
     QString diagrams [] = { i18n("No Diagram"), i18n("Class Diagram"),
@@ -188,11 +189,20 @@ void SettingsDlg::setupGeneralPage() {
 
     //start at 1 because we don't allow No Diagram any more
     for (int i=1; i<9; i++) {
-        m_GeneralWidgets.diagramKB->insertItem( diagrams[i] );
+        insertDiagram( diagrams[i] );
     }
 
     m_GeneralWidgets.diagramKB->setCurrentItem( (int)m_pOptionState->generalState.diagram-1 );
     connect( m_GeneralWidgets.autosaveCB, SIGNAL(clicked()), this, SLOT(slotAutosaveCBClicked()) );
+}
+
+/**
+* Inserts @p type into the type-combobox as well as its completion object.
+*/
+void SettingsDlg::insertDiagram( const QString& type, int index )
+{
+    m_GeneralWidgets.diagramKB->insertItem( type, index );
+    m_GeneralWidgets.diagramKB->completionObject()->addItem( type );
 }
 
 void SettingsDlg::setupClassPage() {
@@ -246,20 +256,38 @@ void SettingsDlg::setupClassPage() {
     m_ClassWidgets.operationLabel = new QLabel( i18n("Default operation scope:"), m_ClassWidgets.scopeGB);
     scopeLayout -> addWidget( m_ClassWidgets.operationLabel, 1, 0 );
 
-    m_ClassWidgets.m_pAttribScopeCB = new QComboBox(m_ClassWidgets.scopeGB);
-    m_ClassWidgets.m_pAttribScopeCB->insertItem( tr2i18n( "Public" ) );
-    m_ClassWidgets.m_pAttribScopeCB->insertItem( tr2i18n( "Private" ) );
-    m_ClassWidgets.m_pAttribScopeCB->insertItem( tr2i18n( "Protected" ) );
+    m_ClassWidgets.m_pAttribScopeCB = new KComboBox(m_ClassWidgets.scopeGB);
+    insertAttribScope( tr2i18n( "Public" ) );
+    insertAttribScope( tr2i18n( "Private" ) );
+    insertAttribScope( tr2i18n( "Protected" ) );
     m_ClassWidgets.m_pAttribScopeCB->setCurrentItem((m_pOptionState->classState.defaultAttributeScope - 200));
+    m_ClassWidgets.m_pAttribScopeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
     scopeLayout -> addWidget( m_ClassWidgets.m_pAttribScopeCB, 0, 1 );
 
-    m_ClassWidgets.m_pOperationScopeCB = new QComboBox(m_ClassWidgets.scopeGB);
-    m_ClassWidgets.m_pOperationScopeCB->insertItem( tr2i18n( "Public" ) );
-    m_ClassWidgets.m_pOperationScopeCB->insertItem( tr2i18n( "Private" ) );
-    m_ClassWidgets.m_pOperationScopeCB->insertItem( tr2i18n( "Protected" ) );
+    m_ClassWidgets.m_pOperationScopeCB = new KComboBox(m_ClassWidgets.scopeGB);
+    insertOperationScope( tr2i18n( "Public" ) );
+    insertOperationScope( tr2i18n( "Private" ) );
+    insertOperationScope( tr2i18n( "Protected" ) );
     m_ClassWidgets.m_pOperationScopeCB->setCurrentItem((m_pOptionState->classState.defaultOperationScope - 200));
+    m_ClassWidgets.m_pOperationScopeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
     scopeLayout -> addWidget( m_ClassWidgets.m_pOperationScopeCB, 1, 1 );
 
+}
+/**
+* Inserts @p type into the type-combobox as well as its completion object.
+*/
+void SettingsDlg::insertAttribScope( const QString& type, int index )
+{
+    m_ClassWidgets.m_pAttribScopeCB->insertItem( type, index );
+    m_ClassWidgets.m_pAttribScopeCB->completionObject()->addItem( type );
+}
+/**
+* Inserts @p type into the type-combobox as well as its completion object.
+*/
+void SettingsDlg::insertOperationScope( const QString& type, int index )
+{
+    m_ClassWidgets.m_pOperationScopeCB->insertItem( type, index );
+    m_ClassWidgets.m_pOperationScopeCB->completionObject()->addItem( type );
 }
 
 void SettingsDlg::setupCodeGenPage(CodeGenerator *gen, Uml::Programming_Language activeLanguage) {

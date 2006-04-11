@@ -57,6 +57,19 @@ public:
 
     void setCodeGenerator(CodeGenerator *gen);
     QString getCodeGenerationLanguage();
+protected:
+    /**
+    * Inserts @p type into the type-combobox as well as its completion object.
+    */
+    void insertDiagram( const QString& type, int index = -1 );
+    /**
+    * Inserts @p type into the type-combobox as well as its completion object.
+    */
+    void insertAttribScope( const QString& type, int index = -1 );
+    /**
+    * Inserts @p type into the type-combobox as well as its completion object.
+    */
+    void insertOperationScope( const QString& type, int index = -1 );
 
 private:
     //private structs
@@ -123,8 +136,8 @@ private:
         QLabel * attributeLabel;
         QLabel * operationLabel;
 
-        QComboBox* m_pAttribScopeCB;
-        QComboBox* m_pOperationScopeCB;
+        KComboBox* m_pAttribScopeCB;
+        KComboBox* m_pOperationScopeCB;
 
     }
     ;//end struct ClassWidgets

@@ -19,7 +19,7 @@
 #include <kdialogbase.h>
 
 #include <qgroupbox.h>
-#include <qcombobox.h>
+#include <kcombobox.h>
 #include <qradiobutton.h>
 #include <qbuttongroup.h>
 #include <qlineedit.h>
@@ -99,9 +99,14 @@ public:
      * @return false if no such operation exists.
      */
     bool setClassOp(const QString &op);
+protected:
+    /**
+    * Inserts @p type into the type-combobox as well as its completion object.
+    */
+    void insertOperation( const QString& type, int index = -1 );
 private:
     QGroupBox * m_pOpGB;
-    QComboBox * m_pOpCB;
+    KComboBox * m_pOpCB;
     QLabel * m_pSeqL;
     QLineEdit * m_pOpLE, * m_pSeqLE;
     QRadioButton * m_pCustomRB, * m_pOpRB;

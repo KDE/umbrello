@@ -4,10 +4,12 @@ Version 1.5.3
 * Bugs/wishes from http://bugs.kde.org:
 * "Export all views" feature contributed by Daniel Calviño Sánchez (extension of 58809)
 * Static variables in java code are not marked static (59190)
-* New alignment type "distribute hotizontally/vertically" (extension of 67058)
+* New alignment type "distribute horizontally/vertically" (extension of 67058)
 * Save autosave file to a more obvious place (72019)
 * Usability and responsiveness improvements to code import (93296)
+* Auto-complete in parameter properties dialog in class diagram (104477)
 * Memory problem when importing classes from c++ sources (122668)
+* Nestable components and subsystems in Component diagram (124326)
 
 Version 1.5.2
 

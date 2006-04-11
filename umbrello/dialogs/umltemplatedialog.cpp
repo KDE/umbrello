@@ -71,13 +71,13 @@ void UMLTemplateDialog::setupDialog() {
     mainLayout->addWidget(m_pValuesGB);
 
     // "class" is the nominal type of template parameter
-    m_pTypeCB->insertItem( "class" );
+    insertType( "class" );
     // Add the active data types to combo box
     UMLDoc *pDoc = UMLApp::app()->getDocument();
     UMLClassifierList namesList( pDoc->getConcepts() );
     UMLClassifier* obj = 0;
     for (obj = namesList.first(); obj; obj = namesList.next()) {
-        m_pTypeCB->insertItem( obj->getName() );
+        insertType( obj->getName() );
     }
 
     m_pTypeCB->setEditable(true);
@@ -99,11 +99,17 @@ void UMLTemplateDialog::setupDialog() {
     }
 
     if (!foundType) {
-        m_pTypeCB->insertItem( m_pTemplate->getTypeName(), 0 );
+        insertType( m_pTemplate->getTypeName(), 0 );
         m_pTypeCB->setCurrentItem(0);
     }
 
     m_pNameLE->setFocus();
+}
+
+void UMLTemplateDialog::insertType( const QString& type, int index )
+{
+    m_pTypeCB->insertItem( type, index );
+    m_pTypeCB->completionObject()->addItem( type );
 }
 
 bool UMLTemplateDialog::apply() {
