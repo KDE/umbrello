@@ -651,12 +651,16 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
                 bAccept = false;
             break;
         case dt_Deployment:
-            if (widgetOnDiagram(id) ||
-                (ot != ot_Interface &&
-                 ot != ot_Package &&
-                 ot != ot_Component &&
-                 ot != ot_Class &&
-                 ot != ot_Node))
+            if (widgetOnDiagram(id))
+                bAccept = false;
+            else if (ot != ot_Interface &&
+                     ot != ot_Package &&
+                     ot != ot_Component &&
+                     ot != ot_Class &&
+                     ot != ot_Node)
+                bAccept = false;
+            else if (ot == ot_Package &&
+                     temp->getStereotype() != "subsystem")
                 bAccept = false;
             break;
         case dt_Component:

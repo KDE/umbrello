@@ -214,7 +214,10 @@ void UMLListViewItem::updateObject() {
         break;
 
     case Uml::ot_Package:
-        icon =  UMLListView::it_Package;
+        if (m_pObject->getStereotype() == "subsystem")
+            icon =  UMLListView::it_Subsystem;
+        else
+            icon =  UMLListView::it_Package;
         break;
 
     case Uml::ot_Component:
@@ -360,6 +363,7 @@ void UMLListViewItem::okRename( int col ) {
     case Uml::lvt_Interface:
     case Uml::lvt_Datatype:
     case Uml::lvt_Enum:
+    case Uml::lvt_Subsystem:
     case Uml::lvt_Component:
     case Uml::lvt_Node:
         if (m_pObject == NULL || !doc->isUnique(newText)) {

@@ -62,6 +62,7 @@ branch.png \
 fork.png \
 state-fork.png \
 package.png \
+subsystem.png \
 artifact.png \
 box.png \
 node.png \

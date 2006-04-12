@@ -63,6 +63,7 @@ public:
         mt_EntityRelationship_Folder,
         mt_Class,
         mt_Package,
+        mt_Subsystem,
         mt_Component,
         mt_Node,
         mt_Artifact,
@@ -312,6 +313,7 @@ private:
         pm_Artifact,
         pm_Text,
         pm_Entity,
+        pm_Subsystem,
         pm_NUMBER_OF_PIXMAPS
     };
     QPixmap m_pixmap[pm_NUMBER_OF_PIXMAPS];

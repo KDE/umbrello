@@ -141,6 +141,10 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type)
         mt = mt_Package;
         break;
 
+    case Uml::lvt_Subsystem:
+        mt = mt_Subsystem;
+        break;
+
     case Uml::lvt_Component:
         mt = mt_Component;
         break;
@@ -497,6 +501,11 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
     case mt_Import_Classes:
         insertItem(BarIcon("source_cpp"), i18n("Import Classes..."), mt_Import_Classes);
         break;
+    case mt_Package:
+        m_pInsert->insertItem(m_pixmap[pm_Package], i18n("Package"), mt_Package);
+    case mt_Subsystem:
+        m_pInsert->insertItem(m_pixmap[pm_Subsystem], i18n("Subsystem"), mt_Subsystem);
+        break;
     case mt_Component:
         m_pInsert->insertItem(m_pixmap[pm_Component], i18n("Component"), mt_Component);
         break;
@@ -596,7 +605,7 @@ void ListPopupMenu::insertContainerItems(bool folderAndDiagrams) {
     m_pInsert -> insertItem(m_pixmap[pm_Interface], i18n("Interface"), mt_Interface);
     m_pInsert -> insertItem(m_pixmap[pm_Datatype], i18n("Datatype"), mt_Datatype);
     m_pInsert -> insertItem(m_pixmap[pm_Enum], i18n("Enum"), mt_Enum);
-    m_pInsert -> insertItem(m_pixmap[pm_Package], i18n("Package"), mt_Package);
+    insertStdItem(mt_Package);
     if (folderAndDiagrams) {
         m_pInsert->insertItem(Widget_Utils::iconSet(Uml::dt_Class), i18n("Class Diagram..."), mt_Class_Diagram);
         m_pInsert->insertItem(Widget_Utils::iconSet(Uml::dt_State), i18n("State Diagram..."), mt_State_Diagram);
@@ -810,6 +819,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
     m_pixmap[pm_Entity]      .load(dataDir+"entity.png",        "PNG");
     m_pixmap[pm_Artifact]    .load(dataDir+"artifact.png",      "PNG");
     m_pixmap[pm_Text]        .load(dataDir+"text.png",          "PNG");
+    m_pixmap[pm_Subsystem]   .load(dataDir+"subsystem.png",     "PNG");
 
     switch(type) {
     case mt_Logical_View:
@@ -827,6 +837,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
     case mt_Component_View:
         m_pInsert = new KPopupMenu(this);
         insertStdItem(mt_Component_Folder);
+        insertStdItem(mt_Subsystem);
         insertStdItem(mt_Component);
         insertStdItem(mt_Artifact);
         insertStdItem(mt_Component_Diagram);
@@ -894,6 +905,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
     case mt_Component_Folder:
         m_pInsert = new KPopupMenu(this);
         insertStdItem(mt_Component_Folder);
+        insertStdItem(mt_Subsystem);
         insertStdItem(mt_Component);
         insertStdItem(mt_Artifact);
         insertStdItem(mt_Component_Diagram);
@@ -1012,6 +1024,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
     case mt_On_Component_Diagram:
         m_pInsert = new KPopupMenu(this);
+        m_pInsert->insertItem(m_pixmap[pm_Subsystem], i18n("Subsystem..."), mt_Subsystem);
         m_pInsert->insertItem(m_pixmap[pm_Component], i18n("Component..."), mt_Component);
         m_pInsert->insertItem(m_pixmap[pm_Artifact], i18n("Artifact..."), mt_Artifact);
         insertFileNew();
@@ -1067,6 +1080,19 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
     case mt_Package:
         m_pInsert = new KPopupMenu(this);
         insertContainerItems(false);
+        insertStdItems();
+        insertStdItem(mt_Properties);
+        insertSeparator();
+        insertStdItem(mt_Expand_All);
+        insertStdItem(mt_Collapse_All);
+        break;
+
+    case mt_Subsystem:
+        m_pInsert = new KPopupMenu(this);
+        insertStdItem(mt_Subsystem);
+        insertStdItem(mt_Component);
+        insertStdItem(mt_Artifact);
+        insertFileNew();
         insertStdItems();
         insertStdItem(mt_Properties);
         insertSeparator();
