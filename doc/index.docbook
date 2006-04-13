@@ -1,5 +1,6 @@
 <?xml version="1.0" ?>
-<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1.2-Based Variant V1.1//EN"
+
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN"
  "dtd/kdex.dtd" [
  <!ENTITY umbrello "<application>Umbrello &UML; Modeller</application>">
  <!ENTITY kappname "&umbrello;">
@@ -24,6 +25,7 @@
 
 <authorgroup>
 <corpauthor>&umbrello; Authors</corpauthor>
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
 </authorgroup>
 
 <copyright>
