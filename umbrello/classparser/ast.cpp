@@ -711,7 +711,7 @@ void DeclaratorAST::addArrayDimension( AST::Node& arrayDimension )
     m_arrayDimensionList.append( arrayDimension.release() );
 }
 
-void DeclaratorAST::setParameterDeclarationClause( ParameterDeclarationClauseAST::Node& parameterDeclarationClause )
+void DeclaratorAST::setParameterDeclarationClause( AUTO_PTR<class ParameterDeclarationClauseAST>& parameterDeclarationClause )
 {
     m_parameterDeclarationClause = parameterDeclarationClause;
     if( m_parameterDeclarationClause.get() ) m_parameterDeclarationClause->setParent( this );
@@ -1102,7 +1102,7 @@ void TypeParameterAST::setKind( AST::Node& kind )
     if( m_kind.get() ) m_kind->setParent( this );
 }
 
-void TypeParameterAST::setTemplateParameterList( TemplateParameterListAST::Node& templateParameterList )
+void TypeParameterAST::setTemplateParameterList( AUTO_PTR<TemplateParameterListAST>& templateParameterList )
 {
     m_templateParameterList = templateParameterList;
     if( m_templateParameterList.get() ) m_templateParameterList->setParent( this );
