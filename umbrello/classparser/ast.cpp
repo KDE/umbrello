@@ -1102,7 +1102,7 @@ void TypeParameterAST::setKind( AST::Node& kind )
     if( m_kind.get() ) m_kind->setParent( this );
 }
 
-void TypeParameterAST::setTemplateParameterList( AUTO_PTR<TemplateParameterListAST>& templateParameterList )
+void TypeParameterAST::setTemplateParameterList( AUTO_PTR<class TemplateParameterListAST>& templateParameterList )
 {
     m_templateParameterList = templateParameterList;
     if( m_templateParameterList.get() ) m_templateParameterList->setParent( this );
