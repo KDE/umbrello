@@ -78,11 +78,6 @@ RubyCodeGenerationPolicy * RubyCodeGenerator::getRubyPolicy() {
     return m_rubycodegenerationpolicy;
 }
 
-RubyCodeGenerationPolicy::RubyCommentStyle RubyCodeGenerator::getCommentStyle ( )
-{
-    return getRubyPolicy()->getCommentStyle();
-}
-
 bool RubyCodeGenerator::getAutoGenerateConstructors ( )
 {
     return getRubyPolicy()->getAutoGenerateConstructors();

@@ -58,17 +58,12 @@ public:
     //
 
     /**
-           * A utility method to get the rubyCodeGenerationPolicy()->getCommentStyle() value.
-            */
-    RubyCodeGenerationPolicy::RubyCommentStyle getCommentStyle ( );
-
-    /**
-           * A utility method to get the rubyCodeGenerationPolicy()->getAutoGenerateConstructors() value.
+     * A utility method to get the rubyCodeGenerationPolicy()->getAutoGenerateConstructors() value.
      */
     bool getAutoGenerateConstructors ( );
 
     /**
-           * A utility method to get the rubyCodeGenerationPolicy()->getAutoGenerateAttribAccessors() value.
+     * A utility method to get the rubyCodeGenerationPolicy()->getAutoGenerateAttribAccessors() value.
      */
     bool getAutoGenerateAttribAccessors( );
 
@@ -136,8 +131,8 @@ public:
 protected:
 
     /** create the codeblock that will represent the class declaration
-            *  for this classifier
-         */
+     *  for this classifier
+     */
     CodeBlockWithComments * createClassDecl ( UMLClassifier *c, ClassifierInfo *info, RubyClassifierCodeDocument * doc);
 
 

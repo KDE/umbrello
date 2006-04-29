@@ -29,7 +29,7 @@ CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage( QWidget *parent, const
         :CodeGenerationPolicyPage(parent,name,(CodeGenerationPolicy*)policy)
 {
     form = new CPPCodeGenerationForm(this);
-    form->m_SelectCommentStyle->setCurrentItem(commentTypeToInteger(policy->getCommentStyle()));
+    form->m_SelectCommentStyle->setCurrentItem((int)(policy->getCommentStyle()));
     form->setPackageIsANamespace(policy->getPackageIsNamespace());
     form->setVirtualDestructors(policy->getDestructorsAreVirtual());
     form->setGenerateAccessorMethods(policy->getAutoGenerateAccessors());
@@ -52,16 +52,6 @@ CPPCodeGenerationPolicyPage::~CPPCodeGenerationPolicyPage()
 {
 }
 
-int CPPCodeGenerationPolicyPage::commentTypeToInteger(CPPCodeGenerationPolicy::CPPCommentStyle type) {
-    switch (type) {
-    case CPPCodeGenerationPolicy::DoubleSlash:
-        return 1;
-    case CPPCodeGenerationPolicy::SlashStar:
-    default:
-        return 0;
-    }
-}
-
 void CPPCodeGenerationPolicyPage::apply()
 {
 
@@ -72,7 +62,7 @@ void CPPCodeGenerationPolicyPage::apply()
     // documents
     parent->blockSignals(true);
 
-    parent->setCommentStyle((CPPCodeGenerationPolicy::CPPCommentStyle ) form->m_SelectCommentStyle->currentItem());
+    parent->setCommentStyle((CodeGenerationPolicy::CommentStyle ) form->m_SelectCommentStyle->currentItem());
     parent->setAutoGenerateConstructors(form->getGenerateEmptyConstructors());
     parent->setAutoGenerateAccessors(form->getGenerateAccessorMethods());
 

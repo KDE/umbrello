@@ -29,7 +29,7 @@ JavaCodeGenerationPolicyPage::JavaCodeGenerationPolicyPage( QWidget *parent, con
         :CodeGenerationPolicyPage(parent,name,(CodeGenerationPolicy*)policy)
 {
     form = new JavaCodeGenerationFormBase(this);
-    form->m_SelectCommentStyle->setCurrentItem(commentTypeToInteger(policy->getCommentStyle()));
+    form->m_SelectCommentStyle->setCurrentItem((int)(policy->getCommentStyle()));
     form->m_generateConstructors->setChecked(policy->getAutoGenerateConstructors());
     form->m_generateAttribAccessors->setChecked(policy->getAutoGenerateAttribAccessors());
     form->m_generateAssocAccessors->setChecked(policy->getAutoGenerateAssocAccessors());
@@ -46,16 +46,6 @@ JavaCodeGenerationPolicyPage::~JavaCodeGenerationPolicyPage()
 {
 }
 
-int JavaCodeGenerationPolicyPage::commentTypeToInteger(JavaCodeGenerationPolicy::JavaCommentStyle type) {
-    switch (type) {
-    case JavaCodeGenerationPolicy::DoubleSlash:
-        return 1;
-    default:
-    case JavaCodeGenerationPolicy::SlashStar:
-        return 0;
-    }
-}
-
 void JavaCodeGenerationPolicyPage::apply()
 {
 
@@ -65,7 +55,7 @@ void JavaCodeGenerationPolicyPage::apply()
     // block signals so we dont cause too many update content calls to code documents
     parent->blockSignals(true);
 
-    parent->setCommentStyle((JavaCodeGenerationPolicy::JavaCommentStyle ) form->m_SelectCommentStyle->currentItem());
+    parent->setCommentStyle((CodeGenerationPolicy::CommentStyle ) form->m_SelectCommentStyle->currentItem());
     parent->setAttributeAccessorScope((JavaCodeGenerationPolicy::ScopePolicy) (form->m_accessorScopeCB->currentItem()+200));
     parent->setAssociationFieldScope((JavaCodeGenerationPolicy::ScopePolicy) (form->m_assocFieldScopeCB->currentItem()+200));
     parent->setAutoGenerateConstructors(form->m_generateConstructors->isChecked());

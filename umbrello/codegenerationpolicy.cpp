@@ -101,6 +101,23 @@ CodeGenerationPolicy::OverwritePolicy CodeGenerationPolicy::getOverwritePolicy (
 }
 
 /**
+ * Set the value of m_commentStyle
+ * @param new_var the new value of m_commentStyle
+ */
+void CodeGenerationPolicy::setCommentStyle ( CommentStyle new_var ) {
+    m_commentStyle = new_var;
+    emit modifiedCodeContent();
+}
+
+/**
+ * Get the value of m_commentStyle
+ * @return the value of m_commentStyle
+ */
+CodeGenerationPolicy::CommentStyle CodeGenerationPolicy::getCommentStyle ( ) {
+    return m_commentStyle;
+}
+
+/**
  * Set the value of m_codeVerboseSectionComments
  * Whether or not verbose code commenting for sections is desired. If true, comments
  * for sections will be written even if the section is empty.

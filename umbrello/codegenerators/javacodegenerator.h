@@ -74,17 +74,12 @@ public:
     bool getCreateANTBuildFile ( );
 
     /**
-         * A utility method to get the javaCodeGenerationPolicy()->getCommentStyle() value.
-            */
-    JavaCodeGenerationPolicy::JavaCommentStyle getCommentStyle ( );
-
-    /**
-         * A utility method to get the javaCodeGenerationPolicy()->getAutoGenerateConstructors() value.
+     * A utility method to get the javaCodeGenerationPolicy()->getAutoGenerateConstructors() value.
      */
     bool getAutoGenerateConstructors ( );
 
     /**
-         * A utility method to get the javaCodeGenerationPolicy()->getAutoGenerateAttribAccessors() value.
+     * A utility method to get the javaCodeGenerationPolicy()->getAutoGenerateAttribAccessors() value.
      */
     bool getAutoGenerateAttribAccessors( );
 
@@ -148,8 +143,8 @@ public:
 protected:
 
     /** create the codeblock that will represent the class declaration
-            *  for this classifier
-         */
+     *  for this classifier
+     */
     CodeBlockWithComments * createClassDecl ( UMLClassifier *c, ClassifierInfo *info, JavaClassifierCodeDocument * doc);
 
     /**

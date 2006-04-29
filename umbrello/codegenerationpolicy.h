@@ -283,6 +283,20 @@ public:
 
     void emitModifiedCodeContentSig();
 
+    enum CommentStyle { SingleLine, MultiLine };
+
+    /**
+     * Set the value of m_commentStyle
+     * @param new_var the new value of m_commentStyle
+     */
+    void setCommentStyle ( CommentStyle new_var );
+
+    /**
+     * Get the value of m_commentStyle
+     * @return the value of m_commentStyle
+     */
+    CommentStyle getCommentStyle ( );
+
 signals:
 
     // this signal is sent whenever a change is made to the policy
@@ -310,6 +324,8 @@ protected:
     IndentationType m_indentationType; // The amount and type of whitespace to indent with.
     int m_indentationAmount; // The amount of units to indent with.
     ModifyNamePolicy m_modifyPolicy;
+
+    CommentStyle m_commentStyle;
 
     // these 2 private fields 'cache' the string values of other fields we may frequently call for
     QString m_lineEndingChars;

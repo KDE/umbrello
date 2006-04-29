@@ -152,11 +152,6 @@ QString CPPCodeGenerator::getCPPClassName (const QString &name) {
     return cleanName(name);
 }
 
-CPPCodeGenerationPolicy::CPPCommentStyle CPPCodeGenerator::getCommentStyle ( )
-{
-    return ((CPPCodeGenerationPolicy*)getPolicy())->getCommentStyle();
-}
-
 bool CPPCodeGenerator::getAutoGenerateConstructors ( )
 {
     return ((CPPCodeGenerationPolicy*)getPolicy())->getAutoGenerateConstructors();

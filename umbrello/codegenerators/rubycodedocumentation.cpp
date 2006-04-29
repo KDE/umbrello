@@ -71,7 +71,7 @@ QString RubyCodeDocumentation::toString ( )
 
         // need to figure out output type from ruby policy
         RubyCodeGenerationPolicy * p = ((RubyClassifierCodeDocument*)getParentDocument())->getRubyPolicy();
-        if(p->getCommentStyle() == RubyCodeGenerationPolicy::BeginEnd)
+        if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
              useHashOutput = false;
 
         QString indent = getIndentationString();
@@ -94,7 +94,7 @@ QString RubyCodeDocumentation::toString ( )
 QString RubyCodeDocumentation::getNewEditorLine ( int amount )
 {
     RubyCodeGenerationPolicy * p = ((RubyClassifierCodeDocument*)getParentDocument())->getRubyPolicy();
-    if(p->getCommentStyle() == RubyCodeGenerationPolicy::BeginEnd)
+    if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
         return getIndentationString(amount) + " ";
     else
         return getIndentationString(amount) + "# ";
@@ -102,14 +102,14 @@ QString RubyCodeDocumentation::getNewEditorLine ( int amount )
 
 int RubyCodeDocumentation::firstEditableLine() {
     RubyCodeGenerationPolicy * p = ((RubyClassifierCodeDocument*)getParentDocument())->getRubyPolicy();
-    if(p->getCommentStyle() == RubyCodeGenerationPolicy::BeginEnd)
+    if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
         return 1;
     return 0;
 }
 
 int RubyCodeDocumentation::lastEditableLine() {
     RubyCodeGenerationPolicy * p = ((RubyClassifierCodeDocument*)getParentDocument())->getRubyPolicy();
-    if(p->getCommentStyle() == RubyCodeGenerationPolicy::BeginEnd)
+    if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
     {
         return -1; // very last line is NOT editable
     }
@@ -126,7 +126,7 @@ QString RubyCodeDocumentation::unformatText ( const QString & text , const QStri
     RubyCodeGenerationPolicy * p = ((RubyClassifierCodeDocument*)getParentDocument())->getRubyPolicy();
     // remove leading or trailing comment stuff
     mytext.remove(QRegExp("^"+indent));
-    if(p->getCommentStyle() == RubyCodeGenerationPolicy::BeginEnd)
+    if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
     {
         mytext.remove(QRegExp("^=begin\\s*(rdoc)?\\s*\n?"));
         mytext.remove(QRegExp("^=end\\s*\n?$"));

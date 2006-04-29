@@ -239,12 +239,12 @@
                         <widget class="QComboBox">
                             <item>
                                 <property name="text">
-                                    <string>Slash-Star (/**  */)</string>
+                                    <string>Slash-Slash (//)</string>
                                 </property>
                             </item>
                             <item>
                                 <property name="text">
-                                    <string>Slash-Slash (//)</string>
+                                    <string>Slash-Star (/**  */)</string>
                                 </property>
                             </item>
                             <property name="name">

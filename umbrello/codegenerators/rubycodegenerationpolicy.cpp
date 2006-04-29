@@ -26,7 +26,7 @@
 
 const RubyCodeGenerationPolicy::ScopePolicy RubyCodeGenerationPolicy::DEFAULT_ATTRIB_ACCESSOR_SCOPE = FromParent;
 const RubyCodeGenerationPolicy::ScopePolicy RubyCodeGenerationPolicy::DEFAULT_ASSOC_FIELD_SCOPE = FromParent;
-const RubyCodeGenerationPolicy::RubyCommentStyle RubyCodeGenerationPolicy::DEFAULT_COMMENT = Hash;
+const CodeGenerationPolicy::CommentStyle RubyCodeGenerationPolicy::DEFAULT_COMMENT = CodeGenerationPolicy::SingleLine;
 const bool RubyCodeGenerationPolicy::DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS = false;
 const bool RubyCodeGenerationPolicy::DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS = true;
 const bool RubyCodeGenerationPolicy::DEFAULT_AUTO_GEN_ASSOC_ACCESSORS = true;
@@ -84,23 +84,6 @@ RubyCodeGenerationPolicy::ScopePolicy RubyCodeGenerationPolicy::getAssociationFi
 void RubyCodeGenerationPolicy::setAssociationFieldScope (ScopePolicy scope) {
     m_defaultAssociationFieldScope = scope;
     emit modifiedCodeContent();
-}
-
-/**
- * Set the value of m_commentStyle
- * @param new_var the new value of m_commentStyle
- */
-void RubyCodeGenerationPolicy::setCommentStyle ( RubyCommentStyle new_var ) {
-    m_commentStyle = new_var;
-    emit modifiedCodeContent();
-}
-
-/**
- * Get the value of m_commentStyle
- * @return the value of m_commentStyle
- */
-RubyCodeGenerationPolicy::RubyCommentStyle RubyCodeGenerationPolicy::getCommentStyle ( ) {
-    return m_commentStyle;
 }
 
 /**
@@ -224,7 +207,7 @@ void RubyCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSig
 
     setAttributeAccessorScope((ScopePolicy)config->readNumEntry("defaultAttributeAccessorScope",DEFAULT_ATTRIB_ACCESSOR_SCOPE));
     setAssociationFieldScope((ScopePolicy)config->readNumEntry("defaultAssocFieldScope",DEFAULT_ASSOC_FIELD_SCOPE));
-    setCommentStyle((RubyCommentStyle)config->readNumEntry("commentStyle",DEFAULT_COMMENT));
+    setCommentStyle((CommentStyle)config->readNumEntry("commentStyle",DEFAULT_COMMENT));
     setAutoGenerateConstructors(config->readBoolEntry("autoGenEmptyConstructors",DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS));
     setAutoGenerateAttribAccessors(config->readBoolEntry("autoGenAccessors",DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS));
     setAutoGenerateAssocAccessors(config->readBoolEntry("autoGenAssocAccessors",DEFAULT_AUTO_GEN_ASSOC_ACCESSORS));

@@ -67,11 +67,6 @@ public:
     //
 
     /**
-     * A utility method to get the cppCodeGenerationPolicy()->getCommentStyle() value.
-     */
-    CPPCodeGenerationPolicy::CPPCommentStyle getCommentStyle ( );
-
-    /**
      * A utility method to get the javaCodeGenerationPolicy()->getAutoGenerateConstructors() value.
      */
     bool getAutoGenerateConstructors ( );

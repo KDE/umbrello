@@ -24,7 +24,7 @@
 #include "cppcodegenerator.h"
 #include "../uml.h"
 
-const CPPCodeGenerationPolicy::CPPCommentStyle CPPCodeGenerationPolicy::DEFAULT_COMMENT = SlashStar;
+const CodeGenerationPolicy::CommentStyle CPPCodeGenerationPolicy::DEFAULT_COMMENT = CodeGenerationPolicy::MultiLine;
 const bool CPPCodeGenerationPolicy::DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS = false;
 const bool CPPCodeGenerationPolicy::DEFAULT_AUTO_GEN_ACCESSORS = true;
 const bool CPPCodeGenerationPolicy::DEFAULT_INLINE_ACCESSORS = false;
@@ -160,23 +160,6 @@ void CPPCodeGenerationPolicy::setPackageIsNamespace ( bool var ) {
  */
 bool CPPCodeGenerationPolicy::getPackageIsNamespace( ) {
     return m_packageIsNamespace;
-}
-
-/**
- * Set the value of m_commentStyle
- * @param new_var the new value of m_commentStyle
- */
-void CPPCodeGenerationPolicy::setCommentStyle ( CPPCommentStyle new_var ) {
-    m_commentStyle = new_var;
-    emit modifiedCodeContent();
-}
-
-/**
- * Get the value of m_commentStyle
- * @return the value of m_commentStyle
- */
-CPPCodeGenerationPolicy::CPPCommentStyle CPPCodeGenerationPolicy::getCommentStyle ( ) {
-    return m_commentStyle;
 }
 
 /**
@@ -399,7 +382,7 @@ void CPPCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSign
     // now do cpp specific stuff
     config -> setGroup("CPP Code Generation");
 
-    setCommentStyle((CPPCommentStyle)config->readNumEntry("commentStyle",DEFAULT_COMMENT));
+    setCommentStyle((CommentStyle)config->readNumEntry("commentStyle",DEFAULT_COMMENT));
     setAutoGenerateConstructors(config->readBoolEntry("autoGenEmptyConstructors",DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS));
     setAutoGenerateAccessors(config->readBoolEntry("autoGenAccessors",DEFAULT_AUTO_GEN_ACCESSORS));
 

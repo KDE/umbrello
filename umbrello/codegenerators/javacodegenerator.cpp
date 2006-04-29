@@ -101,11 +101,6 @@ JavaCodeGenerationPolicy * JavaCodeGenerator::getJavaPolicy() {
     return m_javacodegenerationpolicy;
 }
 
-JavaCodeGenerationPolicy::JavaCommentStyle JavaCodeGenerator::getCommentStyle ( )
-{
-    return getJavaPolicy()->getCommentStyle();
-}
-
 bool JavaCodeGenerator::getAutoGenerateConstructors ( )
 {
     return getJavaPolicy()->getAutoGenerateConstructors();

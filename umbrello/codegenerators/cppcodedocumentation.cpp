@@ -69,7 +69,7 @@ QString CPPCodeDocumentation::toString ( )
 
         // need to figure out output type from cpp policy
         CPPCodeGenerationPolicy * p = (CPPCodeGenerationPolicy*)getParentDocument()->getPolicy();
-        if(p->getCommentStyle() == CPPCodeGenerationPolicy::SlashStar)
+        if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
             useDoubleDashOutput = false;
 
         QString indent = getIndentationString();
@@ -92,7 +92,7 @@ QString CPPCodeDocumentation::toString ( )
 QString CPPCodeDocumentation::getNewEditorLine ( int amount )
 {
     CPPCodeGenerationPolicy * p = (CPPCodeGenerationPolicy*)getParentDocument()->getPolicy();
-    if(p->getCommentStyle() == CPPCodeGenerationPolicy::SlashStar)
+    if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
         return getIndentationString(amount) + " * ";
     else
         return getIndentationString(amount) + "// ";
@@ -100,14 +100,14 @@ QString CPPCodeDocumentation::getNewEditorLine ( int amount )
 
 int CPPCodeDocumentation::firstEditableLine() {
     CPPCodeGenerationPolicy * p = (CPPCodeGenerationPolicy*)getParentDocument()->getPolicy();
-    if(p->getCommentStyle() == CPPCodeGenerationPolicy::SlashStar)
+    if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
         return 1;
     return 0;
 }
 
 int CPPCodeDocumentation::lastEditableLine() {
     CPPCodeGenerationPolicy * p = (CPPCodeGenerationPolicy*)getParentDocument()->getPolicy();
-    if(p->getCommentStyle() == CPPCodeGenerationPolicy::SlashStar)
+    if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
     {
         return -1; // very last line is NOT editable
     }
@@ -124,7 +124,7 @@ QString CPPCodeDocumentation::unformatText ( const QString & text , const QStrin
     CPPCodeGenerationPolicy * p = (CPPCodeGenerationPolicy*)getParentDocument()->getPolicy();
     // remove leading or trailing comment stuff
     mytext.remove(QRegExp("^"+indent));
-    if(p->getCommentStyle() == CPPCodeGenerationPolicy::SlashStar)
+    if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
     {
         mytext.remove(QRegExp("^\\/\\*\\*\\s*\n?"));
         mytext.remove(QRegExp("\\s*\\*\\/\\s*\n?$"));
