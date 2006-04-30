@@ -51,8 +51,23 @@ public:
     enum ModifyNamePolicy {No=0, Underscore, Capitalise};
     enum NewLineType {UNIX=0, DOS, MAC};
     enum IndentationType {NONE=0, TAB, SPACE};
+    enum CommentStyle { SingleLine=0, MultiLine };
+    enum ScopePolicy { Public=200, Private, Protected, FromParent };
 
     // set some reasonable defaults
+    virtual OverwritePolicy  defaultOverwritePolicy()          const;
+    virtual bool             defaultVerboseSectionComments()   const;
+    virtual bool             defaultVerboseDocumentComments()  const;
+    virtual bool             defaultIncludeHeadings()          const;
+    virtual NewLineType      defaultLineEndingType()           const;
+    virtual IndentationType  defaultIndentType()               const;
+    virtual int              defaultIndentAmount()             const;
+    virtual ModifyNamePolicy defaultModifyNamePolicy()         const;
+    virtual CommentStyle     defaultCommentStyle()             const;
+    virtual ScopePolicy      defaultAttribAccessorScope()      const;
+    virtual ScopePolicy      defaultAssocFieldScope()          const;
+    virtual bool             defaultAutoGenerateConstructors() const;
+    /*
     static const OverwritePolicy DEFAULT_OVERWRITE_POLICY;
     static const bool DEFAULT_VERBOSE_SECTION_COMMENTS;
     static const bool DEFAULT_VERBOSE_DOCUMENT_COMMENTS;
@@ -61,6 +76,7 @@ public:
     static const IndentationType DEFAULT_INDENT_TYPE;
     static const int DEFAULT_INDENT_AMOUNT;
     static const ModifyNamePolicy DEFAULT_MODIFY_NAME_POLICY;
+     */
 
 
     // Constructors/Destructors
@@ -88,17 +104,17 @@ public:
     /**
      * Set the value of m_overwritePolicy
      * Policy of how to deal with overwriting existing files. 
-            * OverwritePolicy  can have the following values
-            *  - Ok: if there is a file named the same as what you want to name your output file,
-            *        you can overwrite the old file.
-            *  - Ask:if there is a file named the same as what you want to name your output file,
-            *        you should ask the User what to do, and give him the option to overwrite the file
-            *        write the code to a different file, or to abort the generation of this class.
-            *  - Never: you cannot overwrite any files. Generates a new file name like "fileName1.h", "fileName2.h"
-            *        until you find an appropiate name.
-            *  - Cancel: Do not output anything.  This is only set if the user chooses Apply to All Remaining Files
-            *            and clicks on Do not Output  in the Ask dialogue
-            *
+     * OverwritePolicy  can have the following values
+     *  - Ok: if there is a file named the same as what you want to name your output file,
+     *        you can overwrite the old file.
+     *  - Ask:if there is a file named the same as what you want to name your output file,
+     *        you should ask the User what to do, and give him the option to overwrite the file
+     *        write the code to a different file, or to abort the generation of this class.
+     *  - Never: you cannot overwrite any files. Generates a new file name like "fileName1.h", "fileName2.h"
+     *        until you find an appropiate name.
+     *  - Cancel: Do not output anything.  This is only set if the user chooses Apply to All Remaining Files
+     *            and clicks on Do not Output  in the Ask dialogue
+     *
      * @param new_var the new value of m_overwritePolicy
      */
     void setOverwritePolicy ( OverwritePolicy new_var );
@@ -220,7 +236,7 @@ public:
     IndentationType getIndentationType ( );
 
     /** How many units to indent for each indentation level.
-            */
+     */
     void  setIndentationAmount ( int amount );
     int getIndentationAmount ( );
 
@@ -242,6 +258,18 @@ public:
      * @return the value of m_modifyPolicy
      */
     ModifyNamePolicy getModifyPolicy ( ) const;
+
+    /**
+     * Set the value of m_autoGenerateConstructors
+     * @param new_var the new value
+     */
+    void setAutoGenerateConstructors ( bool var );
+
+    /**
+      * Get the value of m_autoGenerateConstructors
+      * @return value the boolean value of m_autoGenerateConstructors
+      */
+    bool getAutoGenerateConstructors ( );
 
     /**
      * Create a new dialog interface for this object. 
@@ -283,8 +311,6 @@ public:
 
     void emitModifiedCodeContentSig();
 
-    enum CommentStyle { SingleLine, MultiLine };
-
     /**
      * Set the value of m_commentStyle
      * @param new_var the new value of m_commentStyle
@@ -324,8 +350,10 @@ protected:
     IndentationType m_indentationType; // The amount and type of whitespace to indent with.
     int m_indentationAmount; // The amount of units to indent with.
     ModifyNamePolicy m_modifyPolicy;
-
+    bool m_autoGenerateConstructors;
     CommentStyle m_commentStyle;
+    ScopePolicy m_defaultAttributeAccessorScope;
+    ScopePolicy m_defaultAssociationFieldScope;
 
     // these 2 private fields 'cache' the string values of other fields we may frequently call for
     QString m_lineEndingChars;
@@ -333,7 +361,7 @@ protected:
 
     void calculateIndentation ( );
 
-private:
+protected:
 
     void initFields ( );
 

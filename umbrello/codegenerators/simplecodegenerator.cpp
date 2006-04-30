@@ -109,7 +109,7 @@ QString SimpleCodeGenerator::findFileName(UMLClassifier* concept, QString ext) {
 
     // if a package name exists check the existence of the package directory
     if (!package.isEmpty() && m_createDirHierarchyForPackages) {
-        QDir pathDir(m_outputDirectory.absPath() + package);
+        QDir pathDir(outputDirectory().absPath() + package);
         // does our complete output directory exist yet? if not, try to create it
         if (!pathDir.exists())
         {
@@ -144,41 +144,41 @@ QString SimpleCodeGenerator::findFileName(UMLClassifier* concept, QString ext) {
 
 QString SimpleCodeGenerator::overwritableName(UMLClassifier* concept, QString name, const QString &ext) {
     //check if a file named "name" with extension "ext" already exists
-    if(!m_outputDirectory.exists(name+ext)) {
+    if(!outputDirectory().exists(name+ext)) {
         m_fileMap->insert(concept,name);
         return name; //if not, "name" is OK and we have not much to to
     }
 
     int suffix;
-    OverwriteDialogue overwriteDialogue( name+ext, m_outputDirectory.absPath(),
+    OverwriteDialogue overwriteDialogue( name+ext, outputDirectory().absPath(),
                                          m_applyToAllRemaining, kapp -> mainWidget() );
-    switch(m_overwrite) {  //if it exists, check the OverwritePolicy we should use
+    switch(overwritePolicy()) {  //if it exists, check the OverwritePolicy we should use
     case CodeGenerationPolicy::Ok:                //ok to overwrite file
         break;
     case CodeGenerationPolicy::Ask:               //ask if we can overwrite
         switch(overwriteDialogue.exec()) {
         case KDialogBase::Yes:  //overwrite file
             if ( overwriteDialogue.applyToAllRemaining() ) {
-                m_overwrite = CodeGenerationPolicy::Ok;
+                setOverwritePolicy(CodeGenerationPolicy::Ok);
             } else {
                 m_applyToAllRemaining = false;
             }
             break;
         case KDialogBase::No: //generate similar name
             suffix = 1;
-            while( m_outputDirectory.exists(name + "__" + QString::number(suffix) + ext) ) {
+            while( outputDirectory().exists(name + "__" + QString::number(suffix) + ext) ) {
                 suffix++;
             }
             name = name + "__" + QString::number(suffix);
             if ( overwriteDialogue.applyToAllRemaining() ) {
-                m_overwrite = CodeGenerationPolicy::Never;
+                setOverwritePolicy(CodeGenerationPolicy::Never);
             } else {
                 m_applyToAllRemaining = false;
             }
             break;
         case KDialogBase::Cancel: //don't output anything
             if ( overwriteDialogue.applyToAllRemaining() ) {
-                m_overwrite = CodeGenerationPolicy::Cancel;
+                setOverwritePolicy(CodeGenerationPolicy::Cancel);
             } else {
                 m_applyToAllRemaining = false;
             }
@@ -189,7 +189,7 @@ QString SimpleCodeGenerator::overwritableName(UMLClassifier* concept, QString na
         break;
     case CodeGenerationPolicy::Never: //generate similar name
         suffix = 1;
-        while( m_outputDirectory.exists(name + "__" + QString::number(suffix) + ext) ) {
+        while( outputDirectory().exists(name + "__" + QString::number(suffix) + ext) ) {
             suffix++;
         }
         name = name + "__" + QString::number(suffix);
@@ -267,12 +267,6 @@ void SimpleCodeGenerator::syncCodeToDocument() {
 
     CodeGenerationPolicy *policy = getPolicy();
 
-    m_overwrite = policy->getOverwritePolicy();
-    m_modname = policy->getModifyPolicy();
-    m_forceDoc = policy->getCodeVerboseDocumentComments();
-    m_forceSections = policy->getCodeVerboseSectionComments();
-    m_outputDirectory = QDir(policy->getOutputDirectory().absPath());
-    m_headingFiles = QDir(policy->getHeadingFileDir());
     m_indentation = policy->getIndentation();
     m_endl = policy->getNewLineEndingChars();
 

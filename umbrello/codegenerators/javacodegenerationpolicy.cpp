@@ -21,10 +21,10 @@
 #include "javacodegenerator.h"
 #include "../uml.h"
 
-const JavaCodeGenerationPolicy::ScopePolicy JavaCodeGenerationPolicy::DEFAULT_ATTRIB_ACCESSOR_SCOPE = FromParent;
-const JavaCodeGenerationPolicy::ScopePolicy JavaCodeGenerationPolicy::DEFAULT_ASSOC_FIELD_SCOPE = FromParent;
-const CodeGenerationPolicy::CommentStyle JavaCodeGenerationPolicy::DEFAULT_COMMENT = CodeGenerationPolicy::MultiLine;
-const bool JavaCodeGenerationPolicy::DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS = false;
+CodeGenerationPolicy::CommentStyle JavaCodeGenerationPolicy::defaultComment() const {
+    return CodeGenerationPolicy::MultiLine;
+}
+
 const bool JavaCodeGenerationPolicy::DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS = true;
 const bool JavaCodeGenerationPolicy::DEFAULT_AUTO_GEN_ASSOC_ACCESSORS = true;
 
@@ -81,23 +81,6 @@ JavaCodeGenerationPolicy::ScopePolicy JavaCodeGenerationPolicy::getAssociationFi
 void JavaCodeGenerationPolicy::setAssociationFieldScope (ScopePolicy scope) {
     m_defaultAssociationFieldScope = scope;
     emit modifiedCodeContent();
-}
-
-/**
- * Set the value of m_autoGenerateConstructors
- * @param new_var the new value
- */
-void JavaCodeGenerationPolicy::setAutoGenerateConstructors( bool var ) {
-    m_autoGenerateConstructors = var;
-    emit modifiedCodeContent();
-}
-
-/**
- * Get the value of m_autoGenerateConstructors
- * @return the value of m_autoGenerateConstructors
- */
-bool JavaCodeGenerationPolicy::getAutoGenerateConstructors( ){
-    return m_autoGenerateConstructors;
 }
 
 /**
@@ -208,10 +191,10 @@ void JavaCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSig
     // now do java specific stuff
     config -> setGroup("Java Code Generation");
 
-    setAttributeAccessorScope((ScopePolicy)config->readNumEntry("defaultAttributeAccessorScope",DEFAULT_ATTRIB_ACCESSOR_SCOPE));
-    setAssociationFieldScope((ScopePolicy)config->readNumEntry("defaultAssocFieldScope",DEFAULT_ASSOC_FIELD_SCOPE));
-    setCommentStyle((CommentStyle)config->readNumEntry("commentStyle",DEFAULT_COMMENT));
-    setAutoGenerateConstructors(config->readBoolEntry("autoGenEmptyConstructors",DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS));
+    setAttributeAccessorScope((ScopePolicy)config->readNumEntry("defaultAttributeAccessorScope",defaultAttribAccessorScope()));
+    setAssociationFieldScope((ScopePolicy)config->readNumEntry("defaultAssocFieldScope",defaultAssocFieldScope()));
+    setCommentStyle((CommentStyle)config->readNumEntry("commentStyle",defaultComment()));
+    setAutoGenerateConstructors(config->readBoolEntry("autoGenEmptyConstructors",defaultAutoGenerateConstructors()));
     setAutoGenerateAttribAccessors(config->readBoolEntry("autoGenAccessors",DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS));
     setAutoGenerateAssocAccessors(config->readBoolEntry("autoGenAssocAccessors",DEFAULT_AUTO_GEN_ASSOC_ACCESSORS));
 
@@ -238,14 +221,9 @@ CodeGenerationPolicyPage * JavaCodeGenerationPolicy::createPage ( QWidget *paren
 }
 
 void JavaCodeGenerationPolicy::init() {
-
-    m_defaultAttributeAccessorScope = DEFAULT_ATTRIB_ACCESSOR_SCOPE;
-    m_defaultAssociationFieldScope = DEFAULT_ASSOC_FIELD_SCOPE;
-    m_commentStyle = DEFAULT_COMMENT;
-    m_autoGenerateConstructors = DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS;
+    CodeGenerationPolicy::initFields();
     m_autoGenerateAttribAccessors = DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS;
     m_autoGenerateAssocAccessors = DEFAULT_AUTO_GEN_ASSOC_ACCESSORS;
-
 }
 
 

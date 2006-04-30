@@ -60,9 +60,9 @@ public:
     void writeCodeToFile ( );
 
     /**
-             * call this method to generate code for a UMLClassifier
-             * @param c the class you want to generate code for.
-             */
+     * call this method to generate code for a UMLClassifier
+     * @param c the class you want to generate code for.
+     */
     virtual void writeClass(UMLClassifier *c) = 0;
 
     /**
@@ -104,13 +104,6 @@ protected:
     bool m_createDirHierarchyForPackages;
 
     /* Old Attributes writers will look for */
-    QDir m_outputDirectory;
-    CodeGenerationPolicy::OverwritePolicy m_overwrite;
-    CodeGenerationPolicy::ModifyNamePolicy m_modname;
-    QDir m_headingFiles;
-    bool m_forceDoc;
-    bool m_forceSections;
-    bool m_includeHeadings;
     QString m_indentation;
     int m_indentLevel;
     QString m_endl;

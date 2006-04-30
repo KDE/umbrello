@@ -24,10 +24,6 @@
 #include "rubycodegenerator.h"
 #include "../uml.h"
 
-const RubyCodeGenerationPolicy::ScopePolicy RubyCodeGenerationPolicy::DEFAULT_ATTRIB_ACCESSOR_SCOPE = FromParent;
-const RubyCodeGenerationPolicy::ScopePolicy RubyCodeGenerationPolicy::DEFAULT_ASSOC_FIELD_SCOPE = FromParent;
-const CodeGenerationPolicy::CommentStyle RubyCodeGenerationPolicy::DEFAULT_COMMENT = CodeGenerationPolicy::SingleLine;
-const bool RubyCodeGenerationPolicy::DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS = false;
 const bool RubyCodeGenerationPolicy::DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS = true;
 const bool RubyCodeGenerationPolicy::DEFAULT_AUTO_GEN_ASSOC_ACCESSORS = true;
 
@@ -84,23 +80,6 @@ RubyCodeGenerationPolicy::ScopePolicy RubyCodeGenerationPolicy::getAssociationFi
 void RubyCodeGenerationPolicy::setAssociationFieldScope (ScopePolicy scope) {
     m_defaultAssociationFieldScope = scope;
     emit modifiedCodeContent();
-}
-
-/**
- * Set the value of m_autoGenerateConstructors
- * @param new_var the new value
- */
-void RubyCodeGenerationPolicy::setAutoGenerateConstructors( bool var ) {
-    m_autoGenerateConstructors = var;
-    emit modifiedCodeContent();
-}
-
-/**
- * Get the value of m_autoGenerateConstructors
- * @return the value of m_autoGenerateConstructors
- */
-bool RubyCodeGenerationPolicy::getAutoGenerateConstructors( ){
-    return m_autoGenerateConstructors;
 }
 
 /**
@@ -205,10 +184,10 @@ void RubyCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSig
     // now do ruby specific stuff
     config -> setGroup("Ruby Code Generation");
 
-    setAttributeAccessorScope((ScopePolicy)config->readNumEntry("defaultAttributeAccessorScope",DEFAULT_ATTRIB_ACCESSOR_SCOPE));
-    setAssociationFieldScope((ScopePolicy)config->readNumEntry("defaultAssocFieldScope",DEFAULT_ASSOC_FIELD_SCOPE));
-    setCommentStyle((CommentStyle)config->readNumEntry("commentStyle",DEFAULT_COMMENT));
-    setAutoGenerateConstructors(config->readBoolEntry("autoGenEmptyConstructors",DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS));
+    setAttributeAccessorScope((ScopePolicy)config->readNumEntry("defaultAttributeAccessorScope",defaultAttribAccessorScope()));
+    setAssociationFieldScope((ScopePolicy)config->readNumEntry("defaultAssocFieldScope",defaultAssocFieldScope()));
+    setCommentStyle((CommentStyle)config->readNumEntry("commentStyle",defaultCommentStyle()));
+    setAutoGenerateConstructors(config->readBoolEntry("autoGenEmptyConstructors",defaultAutoGenerateConstructors()));
     setAutoGenerateAttribAccessors(config->readBoolEntry("autoGenAccessors",DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS));
     setAutoGenerateAssocAccessors(config->readBoolEntry("autoGenAssocAccessors",DEFAULT_AUTO_GEN_ASSOC_ACCESSORS));
 
@@ -228,14 +207,10 @@ CodeGenerationPolicyPage * RubyCodeGenerationPolicy::createPage ( QWidget *paren
 }
 
 void RubyCodeGenerationPolicy::init() {
-
-    m_defaultAttributeAccessorScope = DEFAULT_ATTRIB_ACCESSOR_SCOPE;
-    m_defaultAssociationFieldScope = DEFAULT_ASSOC_FIELD_SCOPE;
-    m_commentStyle = DEFAULT_COMMENT;
-    m_autoGenerateConstructors = DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS;
+    CodeGenerationPolicy::initFields();
+    m_autoGenerateConstructors = defaultAutoGenerateConstructors();
     m_autoGenerateAttribAccessors = DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS;
     m_autoGenerateAssocAccessors = DEFAULT_AUTO_GEN_ASSOC_ACCESSORS;
-
 }
 
 

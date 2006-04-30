@@ -24,8 +24,10 @@
 #include "cppcodegenerator.h"
 #include "../uml.h"
 
-const CodeGenerationPolicy::CommentStyle CPPCodeGenerationPolicy::DEFAULT_COMMENT = CodeGenerationPolicy::MultiLine;
-const bool CPPCodeGenerationPolicy::DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS = false;
+CodeGenerationPolicy::CommentStyle CPPCodeGenerationPolicy::defaultComment() const {
+    return CodeGenerationPolicy::MultiLine;
+}
+
 const bool CPPCodeGenerationPolicy::DEFAULT_AUTO_GEN_ACCESSORS = true;
 const bool CPPCodeGenerationPolicy::DEFAULT_INLINE_ACCESSORS = false;
 const bool CPPCodeGenerationPolicy::DEFAULT_INLINE_OPERATIONS = false;
@@ -160,23 +162,6 @@ void CPPCodeGenerationPolicy::setPackageIsNamespace ( bool var ) {
  */
 bool CPPCodeGenerationPolicy::getPackageIsNamespace( ) {
     return m_packageIsNamespace;
-}
-
-/**
- * Set the value of m_autoGenerateConstructors
- * @param new_var the new value
- */
-void CPPCodeGenerationPolicy::setAutoGenerateConstructors( bool var ) {
-    m_autoGenerateConstructors = var;
-    emit modifiedCodeContent();
-}
-
-/**
- * Get the value of m_autoGenerateConstructors
- * @return the value of m_autoGenerateConstructors
- */
-bool CPPCodeGenerationPolicy::getAutoGenerateConstructors( ){
-    return m_autoGenerateConstructors;
 }
 
 /**
@@ -382,8 +367,8 @@ void CPPCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSign
     // now do cpp specific stuff
     config -> setGroup("CPP Code Generation");
 
-    setCommentStyle((CommentStyle)config->readNumEntry("commentStyle",DEFAULT_COMMENT));
-    setAutoGenerateConstructors(config->readBoolEntry("autoGenEmptyConstructors",DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS));
+    setCommentStyle((CommentStyle)config->readNumEntry("commentStyle",defaultComment()));
+    setAutoGenerateConstructors(config->readBoolEntry("autoGenEmptyConstructors",defaultAutoGenerateConstructors()));
     setAutoGenerateAccessors(config->readBoolEntry("autoGenAccessors",DEFAULT_AUTO_GEN_ACCESSORS));
 
     setAccessorsAreInline(config->readBoolEntry("inlineAccessors",DEFAULT_INLINE_ACCESSORS));
@@ -416,10 +401,7 @@ CodeGenerationPolicyPage * CPPCodeGenerationPolicy::createPage ( QWidget *parent
 }
 
 void CPPCodeGenerationPolicy::init() {
-
-    m_commentStyle = DEFAULT_COMMENT;
-    m_autoGenerateConstructors = DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS;
-    m_autoGenerateAccessors = DEFAULT_AUTO_GEN_ACCESSORS;
+    CodeGenerationPolicy::initFields();
 
     m_inlineAccessors = DEFAULT_INLINE_ACCESSORS;
     m_publicAccessors = DEFAULT_PUBLIC_ACCESSORS;

@@ -21,6 +21,7 @@
 
 
 #include <qdict.h>
+#include <qdir.h>
 
 #include "codegenerationpolicy.h"
 #include "umlclassifierlist.h"
@@ -187,7 +188,7 @@ public:
     QString getNewLineEndingChars ( );
 
     void setOutputDirectory(const QString &d);
-    QString outputDirectory() const;
+    QDir outputDirectory() const;
 
     void setOverwritePolicy(CodeGenerationPolicy::OverwritePolicy p);
     CodeGenerationPolicy::OverwritePolicy overwritePolicy() const;

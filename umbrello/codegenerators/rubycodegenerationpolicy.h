@@ -31,12 +31,6 @@ class RubyCodeGenerationPolicy : public CodeGenerationPolicy
     Q_OBJECT
 public:
 
-    enum ScopePolicy { Public=200, Private, Protected, FromParent };
-
-    static const ScopePolicy DEFAULT_ATTRIB_ACCESSOR_SCOPE;
-    static const ScopePolicy DEFAULT_ASSOC_FIELD_SCOPE;
-    static const CodeGenerationPolicy::CommentStyle DEFAULT_COMMENT;
-    static const bool DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS;
     static const bool DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS;
     static const bool DEFAULT_AUTO_GEN_ASSOC_ACCESSORS;
 
@@ -103,18 +97,6 @@ public:
     bool getAutoGenerateAssocAccessors( );
 
     /**
-     * Set the value of m_autoGenerateConstructors
-     * @param new_var the new value
-     */
-    void setAutoGenerateConstructors ( bool var );
-
-    /**
-      * Get the value of m_autoGenerateConstructors
-      * @return value the boolean value of m_autoGenerateConstructors
-      */
-    bool getAutoGenerateConstructors ( );
-
-    /**
      * set the defaults for this code generator from the passed generator.
      */
     virtual void setDefaults (CodeGenerationPolicy * defaults, bool emitUpdateSignal = true);
@@ -143,9 +125,6 @@ protected:
 
 private:
 
-    ScopePolicy m_defaultAttributeAccessorScope;
-    ScopePolicy m_defaultAssociationFieldScope;
-    bool m_autoGenerateConstructors;
     bool m_autoGenerateAttribAccessors;
     bool m_autoGenerateAssocAccessors;
 

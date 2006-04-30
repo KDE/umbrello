@@ -28,7 +28,7 @@ class CPPCodeGenerationPolicy : public CodeGenerationPolicy
     Q_OBJECT
 public:
 
-    static const CodeGenerationPolicy::CommentStyle DEFAULT_COMMENT;
+    CodeGenerationPolicy::CommentStyle defaultComment() const;
     static const bool DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS;
     static const bool DEFAULT_AUTO_GEN_ACCESSORS;
     static const bool DEFAULT_INLINE_ACCESSORS;
@@ -128,18 +128,6 @@ public:
     bool getAutoGenerateAccessors( );
 
     /**
-     * Set the value of m_autoGenerateConstructors
-     * @param new_var the new value
-     */
-    void setAutoGenerateConstructors ( bool var );
-
-    /**
-      * Get the value of m_autoGenerateConstructors
-      * @return value the boolean value of m_autoGenerateConstructors
-      */
-    bool getAutoGenerateConstructors ( );
-
-    /**
      * Set the value of m_publicAccessors
      * @param new_var the new value
      */
@@ -215,7 +203,6 @@ protected:
 
 private:
 
-    bool m_autoGenerateConstructors;
     bool m_autoGenerateAccessors;
 
     bool m_inlineAccessors;

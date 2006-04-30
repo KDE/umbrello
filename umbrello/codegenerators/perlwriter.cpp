@@ -116,7 +116,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
   // parts here
   // actual solution: shameful ".pm" hack in codegenerator
 
-  QString curDir = outputDirectory();
+  QString curDir = outputDirectory().absPath();
   if (fileName.contains("::")) {
     // create new directories for each level
     QString newDir;
@@ -144,7 +144,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
     emit codeGenerated(c, false);
     return;
   }
-  QString oldDir = outputDirectory();
+  QString oldDir = outputDirectory().absPath();
   setOutputDirectory(curDir);
   QFile fileperl;
   if(!openFile(fileperl,fileName+".pm")) {
