@@ -121,11 +121,11 @@ public:
     void setWidget(UMLWidget* widget, Uml::Role_Type role);
 
     /**
-     * Return the multiplicity FloatingText widget of the given role.
+     * Return the multiplicity FloatingTextWidget widget of the given role.
      *
-     * @return  Pointer to the multiplicity FloatingText object.
+     * @return  Pointer to the multiplicity FloatingTextWidget object.
      */
-    FloatingText* getMultiWidget(Uml::Role_Type role);
+    FloatingTextWidget* getMultiWidget(Uml::Role_Type role);
 
     /**
      * Return the given role's multiplicity text.
@@ -135,37 +135,37 @@ public:
     QString getMulti(Uml::Role_Type role) const;
 
     /**
-     * Read property of FloatingText* m_pName.
+     * Read property of FloatingTextWidget* m_pName.
      *
-     * @return  Pointer to the FloatingText name widget.
+     * @return  Pointer to the FloatingTextWidget name widget.
      */
-    FloatingText* getNameWidget();
+    FloatingTextWidget* getNameWidget();
 
     /**
      * Returns the m_pName's text.
      *
-     * @return  Text of the FloatingText name widget.
+     * @return  Text of the FloatingTextWidget name widget.
      */
     QString getName() const;
 
     /**
-     * Return the given role's FloatingText object.
+     * Return the given role's FloatingTextWidget object.
      *
-     * @return  Pointer to the role's FloatingText widget.
+     * @return  Pointer to the role's FloatingTextWidget widget.
      */
-    FloatingText* getRoleWidget(Uml::Role_Type role);
+    FloatingTextWidget* getRoleWidget(Uml::Role_Type role);
 
     /**
-     * Return the FloatingText object indicated by the given Text_Role.
+     * Return the FloatingTextWidget object indicated by the given Text_Role.
      *
-     * @return  Pointer to the text role's FloatingText widget.
+     * @return  Pointer to the text role's FloatingTextWidget widget.
      */
-    FloatingText* getTextWidgetByRole(Uml::Text_Role tr);
+    FloatingTextWidget* getTextWidgetByRole(Uml::Text_Role tr);
 
     /**
-     * Return the given role's FloatingText widget text.
+     * Return the given role's FloatingTextWidget widget text.
      *
-     * @return  The name set at the FloatingText.
+     * @return  The name set at the FloatingTextWidget.
      */
     QString getRoleName(Uml::Role_Type role) const;
 
@@ -175,13 +175,13 @@ public:
     QString getRoleDoc(Uml::Role_Type role) const;
 
     /**
-     * Sets the text in the FloatingText widget representing the Name
+     * Sets the text in the FloatingTextWidget widget representing the Name
      * of this association.
      */
     void setName (const QString &strRole);
 
     /**
-     * Sets the text in the FloatingText representing the multiplicity
+     * Sets the text in the FloatingTextWidget representing the multiplicity
      * at the given side of the association.
      */
     void setMulti(const QString &strMulti, Uml::Role_Type role);
@@ -324,7 +324,7 @@ public:
      * of the chosen segment.
      *
      * Overrides operation from LinkWidget (i.e. this method is also
-     * required by FloatingText.)
+     * required by FloatingTextWidget.)
      */
     void calculateNameTextSegment();
 
@@ -408,12 +408,12 @@ public:
     void lwSetFont (QFont font);
 
     /**
-     * Return the given role's changeability FloatingText widget.
+     * Return the given role's changeability FloatingTextWidget widget.
      */
-    FloatingText* getChangeWidget(Uml::Role_Type role);
+    FloatingTextWidget* getChangeWidget(Uml::Role_Type role);
 
     /**
-     * Sets the text to the FloatingText that display the Role text of this
+     * Sets the text to the FloatingTextWidget that display the Role text of this
      * association.
      * For this function to work properly, the associated widget
      *  should already be set.
@@ -427,42 +427,42 @@ public:
 
     /**
      * Overrides operation from LinkWidget.
-     * Required by FloatingText.
+     * Required by FloatingTextWidget.
      * @todo Move to LinkWidget.
      */
     UMLClassifier *getOperationOwner();
 
     /**
      * Implements operation from LinkWidget.
-     * Motivated by FloatingText.
+     * Motivated by FloatingTextWidget.
      */
     UMLOperation *getOperation();
 
     /**
      * Implements operation from LinkWidget.
-     * Motivated by FloatingText.
+     * Motivated by FloatingTextWidget.
      */
     void setOperation(UMLOperation *op);
 
     /**
      * Overrides operation from LinkWidget.
-     * Required by FloatingText.
+     * Required by FloatingTextWidget.
      */
     QString getCustomOpText();
 
     /**
      * Overrides operation from LinkWidget.
-     * Required by FloatingText.
+     * Required by FloatingTextWidget.
      */
     void setCustomOpText(const QString &opText);
 
     /**
      * Overrides operation from LinkWidget.
-     * Required by FloatingText.
+     * Required by FloatingTextWidget.
      *
      * @param ft        The text widget which to update.
      */
-    void setMessageText(FloatingText *ft);
+    void setMessageText(FloatingTextWidget *ft);
 
     /**
      * Returns the UMLAssociation representation of this object.
@@ -481,11 +481,11 @@ public:
     UMLAttribute * getAttribute ();
 
     /**
-     * Sets the text of the FloatingText identified by the ft's Text_Role.
+     * Sets the text of the FloatingTextWidget identified by the ft's Text_Role.
      * Overrides operation from LinkWidget.
-     * Required by FloatingText.
+     * Required by FloatingTextWidget.
      */
-    void setText(FloatingText *ft, const QString &text);
+    void setText(FloatingTextWidget *ft, const QString &text);
 
     /**
      * Calls @ref setTextPosition() on all the labels.
@@ -494,7 +494,7 @@ public:
     void resetTextPositions();
 
     /**
-     * Constrains the FloatingText X and Y values supplied.
+     * Constrains the FloatingTextWidget X and Y values supplied.
      * Implements the abstract operation from LinkWidget.
      *
      * @param textX       Candidate X value (may be modified by the constraint.)
@@ -540,7 +540,7 @@ public:
 
     /**
      * Overrides operation from LinkWidget.
-     * Required by FloatingText.
+     * Required by FloatingTextWidget.
      *
      * @param seqNum    The new sequence number string to set.
      * @param op                The new operation string to set.
@@ -549,7 +549,7 @@ public:
 
     /**
      * Overrides operation from LinkWidget.
-     * Required by FloatingText.
+     * Required by FloatingTextWidget.
      *
      * @param seqNum    Return this AssociationWidget's sequence number string.
      * @param op                Return this AssociationWidget's operation string.
@@ -675,7 +675,7 @@ private:
 
     /**
      * This function calculates which role should be set for the m_pName
-     * FloatingText.
+     * FloatingTextWidget.
      */
     Uml::Text_Role CalculateNameType(Uml::Text_Role defaultRoleType);
 
@@ -736,10 +736,10 @@ private:
     QPoint calculateTextPosition(Uml::Text_Role role);
 
     /**
-     * Returns the FloatingText identified by the given text role.
-     * Returns NULL if there is no FloatingText active for the text role.
+     * Returns the FloatingTextWidget identified by the given text role.
+     * Returns NULL if there is no FloatingTextWidget active for the text role.
      */
-    FloatingText* floatingText(Uml::Text_Role role);
+    FloatingTextWidget* floatingText(Uml::Text_Role role);
 
     /**
      * Puts the text widget with the given role at the given position.
@@ -770,7 +770,7 @@ private:
      * This is a pointer to the Floating Text widget which displays the
      * name of this association.
      */
-    FloatingText* m_pName;
+    FloatingTextWidget* m_pName;
 
     /**
      * The WidgetRole struct gathers all information pertaining to the role.
@@ -782,22 +782,22 @@ private:
         /**
          * This is a pointer to the Floating Text widget at the role's side
          * of the association.
-         * This FloatingText displays the information regarding multiplicity.
+         * This FloatingTextWidget displays the information regarding multiplicity.
          */
-        FloatingText* m_pMulti;
+        FloatingTextWidget* m_pMulti;
 
         /**
          * This is a pointer to the Floating Text widget at the role's side
          * of the association.
-         * This FloatingText displays the information regarding changeability.
+         * This FloatingTextWidget displays the information regarding changeability.
          */
-        FloatingText* m_pChangeWidget;
+        FloatingTextWidget* m_pChangeWidget;
 
         /**
          * This member holds a pointer to the floating text that displays
          * the role's label of this association.
          */
-        FloatingText* m_pRole;
+        FloatingTextWidget* m_pRole;
 
         /**
          * This member holds a pointer to the UMLWidget at this role's side

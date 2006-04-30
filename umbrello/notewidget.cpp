@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2005
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 // own header
@@ -21,9 +18,9 @@
 #include <qframe.h>
 // kde includes
 #include <kdebug.h>
-#include <kcursor.h>
 #include <kcolordialog.h>
 // app includes
+#include "notewidgetcontroller.h"
 #include "dialogs/notedialog.h"
 #include "clipboard/umldrag.h"
 #include "umldoc.h"
@@ -34,7 +31,7 @@
 #define NOTEMARGIN 10
 
 NoteWidget::NoteWidget(UMLView * view, Uml::IDType id)
-        : UMLWidget(view, id) {
+        : UMLWidget(view, id, new NoteWidgetController(this)) {
     init();
     setSize(100,80);
 #ifdef NOTEWIDGET_EMBED_EDITOR
@@ -168,11 +165,6 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
     drawText(&p, offsetX, offsetY);
 }
 
-void NoteWidget::mouseMoveEvent(QMouseEvent *me) {
-    UMLWidget::mouseMoveEvent(me);
-    setEditorGeometry();
-}
-
 QSize NoteWidget::calculateSize() {
     return QSize(50, 50);
 }
@@ -201,25 +193,6 @@ void NoteWidget::slotMenuSelection(int sel) {
     default:
         UMLWidget::slotMenuSelection(sel);
         break;
-    }
-}
-
-void NoteWidget::mouseReleaseEvent( QMouseEvent * me ) {
-    UMLWidget::mouseReleaseEvent( me );
-    if (m_bResizing) {
-        drawText();
-        UMLWidget::mouseReleaseEvent(me);
-    }
-}
-
-void NoteWidget::mouseDoubleClickEvent( QMouseEvent * me ) {
-    if( me -> button() != Qt::LeftButton )
-        return;
-    if (m_DiagramLink == Uml::id_None) {
-        slotMenuSelection( ListPopupMenu::mt_Rename );
-    } else {
-        UMLDoc *umldoc = UMLApp::app()->getDocument();
-        umldoc->changeCurrentView(m_DiagramLink);
     }
 }
 

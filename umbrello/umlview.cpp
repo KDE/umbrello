@@ -5,7 +5,10 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
+
 #include <climits>
 #include <math.h>
 
@@ -52,7 +55,7 @@
 #include "inputdialog.h"
 #include "clipboard/idchangelog.h"
 #include "clipboard/umldrag.h"
-#include "floatingtext.h"
+#include "floatingtextwidget.h"
 #include "classifierwidget.h"
 #include "classifier.h"
 #include "packagewidget.h"
@@ -1035,24 +1038,25 @@ void UMLView::clearSelected() {
     //m_pDoc -> enableCutCopy(false);
 }
 
-void UMLView::moveSelected(UMLWidget * w, int x, int y) {
-    QMouseEvent me(QMouseEvent::MouseMove, QPoint(x,y), Qt::LeftButton, Qt::ShiftButton);
-    UMLWidget * temp = 0;
-    //loop through list and move all widgets
-    //don't move the widget that started call
-    for(temp=(UMLWidget *)m_SelectedList.first();temp;temp=(UMLWidget *)m_SelectedList.next())
-        if(temp != w)
-            temp -> mouseMoveEvent(&me);
-
-    // Move any selected associations.
-    AssociationWidgetListIt assoc_it( m_AssociationList );
-    AssociationWidget* assocwidget = NULL;
-    while ((assocwidget = assoc_it.current()) != NULL) {
-        ++assoc_it;
-        if (assocwidget->getSelected())
-            assocwidget->moveEntireAssoc(x, y);
-    }
-}
+//FIXME Doesn't work with the new UMLWidgetController
+// void UMLView::moveSelected(UMLWidget * w, int x, int y) {
+//     QMouseEvent me(QMouseEvent::MouseMove, QPoint(x,y), Qt::LeftButton, Qt::ShiftButton);
+//     UMLWidget * temp = 0;
+//     //loop through list and move all widgets
+//     //don't move the widget that started call
+//     for(temp=(UMLWidget *)m_SelectedList.first();temp;temp=(UMLWidget *)m_SelectedList.next())
+//         if(temp != w)
+//             temp -> mouseMoveEvent(&me);
+// 
+//     // Move any selected associations.
+//     AssociationWidgetListIt assoc_it( m_AssociationList );
+//     AssociationWidget* assocwidget = NULL;
+//     while ((assocwidget = assoc_it.current()) != NULL) {
+//         ++assoc_it;
+//         if (assocwidget->getSelected())
+//             assocwidget->moveEntireAssoc(x, y);
+//     }
+// }
 
 void UMLView::moveSelectedBy(int dX, int dY) {
     for (UMLWidget *w = m_SelectedList.first(); w; w = m_SelectedList.next())
@@ -1178,7 +1182,7 @@ void UMLView::deleteSelection()
             temp=(UMLWidget *)m_SelectedList.next())
     {
         if( temp -> getBaseType() == wt_Text &&
-                ((FloatingText *)temp) -> getRole() != tr_Floating )
+                ((FloatingTextWidget *)temp) -> getRole() != tr_Floating )
         {
             m_SelectedList.remove(); // remove advances the iterator to the next position,
             m_SelectedList.prev();      // let's allow for statement do the advancing
@@ -1321,7 +1325,7 @@ void UMLView::selectWidgets(int px, int py, int qx, int qy) {
         //if it is text that is part of an association then select the association
         //and the objects that are connected to it.
         if (temp -> getBaseType() == wt_Text) {
-            FloatingText *ft = static_cast<FloatingText*>(temp);
+            FloatingTextWidget *ft = static_cast<FloatingTextWidget*>(temp);
             Text_Role t = ft -> getRole();
             LinkWidget *lw = ft->getLink();
             MessageWidget * mw = dynamic_cast<MessageWidget*>(lw);
@@ -1474,14 +1478,13 @@ void UMLView::activate() {
 }
 
 
-bool UMLView::getSelectedWidgets(UMLWidgetList&WidgetList)
-{
+bool UMLView::getSelectedWidgets(UMLWidgetList &WidgetList, bool filterText /*= true*/) {
     UMLWidget * temp = 0;
     int type;
     for(temp=(UMLWidget *)m_SelectedList.first();temp;temp=(UMLWidget *)m_SelectedList.next()) {
         type = temp->getBaseType();
-        if (type == wt_Text) {
-            if( ((FloatingText*)temp)->getRole() == tr_Floating ) {
+        if (filterText && type == wt_Text) {
+            if( ((FloatingTextWidget*)temp)->getRole() == tr_Floating ) {
                 WidgetList.append(temp);
             }
         } else {
@@ -1524,12 +1527,12 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
     }
     int wX = pWidget -> getX();
     int wY = pWidget -> getY();
-    bool xIsOutOfRange = (wX <= 0 || wX >= FloatingText::restrictPositionMax);
-    bool yIsOutOfRange = (wY <= 0 || wY >= FloatingText::restrictPositionMax);
+    bool xIsOutOfRange = (wX <= 0 || wX >= FloatingTextWidget::restrictPositionMax);
+    bool yIsOutOfRange = (wY <= 0 || wY >= FloatingTextWidget::restrictPositionMax);
     if (xIsOutOfRange || yIsOutOfRange) {
         QString name = pWidget->getName();
         if (name.isEmpty()) {
-            FloatingText *ft = dynamic_cast<FloatingText*>(pWidget);
+            FloatingTextWidget *ft = dynamic_cast<FloatingTextWidget*>(pWidget);
             if (ft)
                 name = ft->getDisplayText();
         }
@@ -1629,9 +1632,9 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
             // are pristine in the sense that we may freely change their local IDs.
             objWidgetA -> setLocalID( newWAID );
             objWidgetB -> setLocalID( newWBID );
-            FloatingText *ft = pMessage->getFloatingText();
+            FloatingTextWidget *ft = pMessage->getFloatingTextWidget();
             if (ft == NULL)
-                kdDebug() << "UMLView::addWidget: FloatingText of Message is NULL" << endl;
+                kdDebug() << "UMLView::addWidget: FloatingTextWidget of Message is NULL" << endl;
             else if (ft->getID() == Uml::id_None)
                 ft->setID( m_pDoc->getUniqueID() );
             else {
@@ -1757,13 +1760,13 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation)
 
     m_AssociationList.append(pAssoc);
 
-    FloatingText *ft[5] = { pAssoc->getNameWidget(),
+    FloatingTextWidget *ft[5] = { pAssoc->getNameWidget(),
                             pAssoc->getRoleWidget(A),
                             pAssoc->getRoleWidget(B),
                             pAssoc->getMultiWidget(A),
                             pAssoc->getMultiWidget(B) };
     for (int i = 0; i < 5; i++) {
-        FloatingText *flotxt = ft[i];
+        FloatingTextWidget *flotxt = ft[i];
         if (flotxt) {
             flotxt->updateComponentSize();
             addWidget(flotxt);
@@ -2018,7 +2021,7 @@ void UMLView::removeAllWidgets() {
         // I had to take this condition back in, else umbrello
         // crashes on exit. Still to be analyzed.  --okellogg
         if( !( temp -> getBaseType() == wt_Text &&
-                ((FloatingText *)temp)-> getRole() != tr_Floating ) ) {
+                ((FloatingTextWidget *)temp)-> getRole() != tr_Floating ) ) {
             removeWidget( temp );
         }
     }
@@ -2444,7 +2447,7 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
     }
 }
 
-void UMLView::findMaxBoundingRectangle(const FloatingText* ft, int& px, int& py, int& qx, int& qy)
+void UMLView::findMaxBoundingRectangle(const FloatingTextWidget* ft, int& px, int& py, int& qx, int& qy)
 {
     if (ft == NULL || !ft->isVisible())
         return;
@@ -2508,12 +2511,12 @@ void UMLView::copyAsImage(QPixmap*& pix) {
         ++assoc_it;
         if (! a->getSelected())
             continue;
-        const FloatingText* multiA = const_cast<FloatingText*>(a->getMultiWidget(A));
-        const FloatingText* multiB = const_cast<FloatingText*>(a->getMultiWidget(B));
-        const FloatingText* roleA = const_cast<FloatingText*>(a->getRoleWidget(A));
-        const FloatingText* roleB = const_cast<FloatingText*>(a->getRoleWidget(B));
-        const FloatingText* changeA = const_cast<FloatingText*>(a->getChangeWidget(A));
-        const FloatingText* changeB = const_cast<FloatingText*>(a->getChangeWidget(B));
+        const FloatingTextWidget* multiA = const_cast<FloatingTextWidget*>(a->getMultiWidget(A));
+        const FloatingTextWidget* multiB = const_cast<FloatingTextWidget*>(a->getMultiWidget(B));
+        const FloatingTextWidget* roleA = const_cast<FloatingTextWidget*>(a->getRoleWidget(A));
+        const FloatingTextWidget* roleB = const_cast<FloatingTextWidget*>(a->getRoleWidget(B));
+        const FloatingTextWidget* changeA = const_cast<FloatingTextWidget*>(a->getChangeWidget(A));
+        const FloatingTextWidget* changeB = const_cast<FloatingTextWidget*>(a->getChangeWidget(B));
         findMaxBoundingRectangle(multiA, px, py, qx, qy);
         findMaxBoundingRectangle(multiB, px, py, qx, qy);
         findMaxBoundingRectangle(roleA, px, py, qx, qy);
@@ -2617,10 +2620,10 @@ void UMLView::slotMenuSelection(int sel) {
 
     case ListPopupMenu::mt_FloatText:
         {
-            FloatingText* ft = new FloatingText(this);
+            FloatingTextWidget* ft = new FloatingTextWidget(this);
             ft->changeTextDlg();
             //if no text entered delete
-            if(!FloatingText::isTextValid(ft->getText())) {
+            if(!FloatingTextWidget::isTextValid(ft->getText())) {
                 delete ft;
             } else {
                 ft->setID(m_pDoc->getUniqueID());
@@ -3141,7 +3144,7 @@ void UMLView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
         // to associations as they are recorded later in the "associations"
         // section when each owning association is dumped. -b.t.
         if (widget->getBaseType() != wt_Text ||
-                static_cast<FloatingText*>(widget)->getLink() == NULL)
+                static_cast<FloatingTextWidget*>(widget)->getLink() == NULL)
             widget->saveToXMI( qDoc, widgetElement );
     }
     viewElement.appendChild( widgetElement );
@@ -3330,7 +3333,7 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
             widget = new BoxWidget(this, Uml::id_Reserved);
         } else if (tag == "floatingtext"
                    || tag == "UML:FloatingTextWidget") {  // for bkwd compatibility
-            widget = new FloatingText(this, Uml::tr_Floating, "", Uml::id_Reserved);
+            widget = new FloatingTextWidget(this, Uml::tr_Floating, "", Uml::id_Reserved);
         } else if (tag == "activitywidget"
                    || tag == "UML:ActivityWidget") {      // for bkwd compatibility
             int type = widgetElement.attribute("activitytype", "1").toInt();
@@ -3423,7 +3426,7 @@ bool UMLView::loadMessagesFromXMI( QDomElement & qElement ) {
                 return false;
             }
             m_MessageList.append( message );
-            FloatingText *ft = message->getFloatingText();
+            FloatingTextWidget *ft = message->getFloatingTextWidget();
             if (ft)
                 m_WidgetList.append( ft );
             else if (message->getSequenceMessageType() != sequence_message_creation)

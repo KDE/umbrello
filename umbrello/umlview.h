@@ -5,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 #ifndef UMLVIEW_H
@@ -31,7 +33,7 @@
 class ClassOptionsPage;
 class IDChangeLog;
 class ListPopupMenu;
-class FloatingText;
+class FloatingTextWidget;
 class SeqLineWidget;
 class ObjectWidget;
 
@@ -422,7 +424,7 @@ public:
      * @param x The distance to move horizontally.
      * @param y The distance to move vertically.
      */
-    void moveSelected(UMLWidget * w, int x, int y);
+//     void moveSelected(UMLWidget * w, int x, int y);
 
     /**
      * Move all the selected widgets by a relative X and Y offset.
@@ -568,8 +570,13 @@ public:
 
     /**
      * Fills the List with all the selected widgets from the diagram
+     * The list can be filled with all the selected widgets, or be filtered to prevent
+     * text widgets other than tr_Floating to be append.
+     *
+     * @param WidgetList The UMLWidgetList to fill.
+     * @param filterText Don't append the text, unless their role is tr_Floating
      */
-    bool getSelectedWidgets(UMLWidgetList& WidgetList);
+    bool getSelectedWidgets(UMLWidgetList& WidgetList, bool filterText = true);
 
     /**
      * Activate the view after a load a new file
@@ -1151,10 +1158,10 @@ protected:
     void updateComponentSizes();
 
     /**
-     * Find the maximum bounding rectangle of FloatingText widgets.
+     * Find the maximum bounding rectangle of FloatingTextWidget widgets.
      * Auxiliary to copyAsImage().
      *
-     * @param ft Pointer to the FloatingText widget to consider.
+     * @param ft Pointer to the FloatingTextWidget widget to consider.
      * @param px  X coordinate of lower left corner. This value will be
      *            updated if the X coordinate of the lower left corner
      *            of ft is smaller than the px value passed in.
@@ -1168,7 +1175,7 @@ protected:
      *            updated if the Y coordinate of the upper right corner
      *            of ft is larger than the qy value passed in.
      */
-    void findMaxBoundingRectangle(const FloatingText* ft,
+    void findMaxBoundingRectangle(const FloatingTextWidget* ft,
                                   int& px, int& py, int& qx, int& qy);
 
     void forceUpdateWidgetFontMetrics(QPainter *painter);

@@ -25,7 +25,7 @@
 #include "umllistviewitem.h"
 #include "classifierwidget.h"
 #include "classifier.h"
-#include "floatingtext.h"
+#include "floatingtextwidget.h"
 #include "uml.h"
 #include "model_utils.h"
 #include "widget_utils.h"
@@ -387,7 +387,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         break;
 
     case Uml::wt_Text:
-        switch( (static_cast<FloatingText*>(object))->getRole() ) {
+        switch( (static_cast<FloatingTextWidget*>(object))->getRole() ) {
         case Uml::tr_MultiB:
             insertAssocItem(i18n("Change Multiplicity..."), mt_Rename_MultiB);
             break;

@@ -1553,6 +1553,7 @@ void UMLApp::customEvent(QCustomEvent* e) {
     }
 }
 
+//TODO Move this to UMLWidgetController?
 void UMLApp::handleCursorKeyReleaseEvent(QKeyEvent* e) {
     // in case we have selected something in the diagram, move it by one pixel
     // to the direction pointed by the cursor key
@@ -1710,6 +1711,10 @@ void UMLApp::slotAutolayout(){
 
 KTabWidget* UMLApp::tabWidget() {
     return m_tabWidget;
+}
+
+QString UMLApp::getStatusBarMsg() {
+    return m_statusLabel->text();
 }
 
 //static pointer, holding the unique instance

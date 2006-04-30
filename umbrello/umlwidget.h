@@ -5,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 #ifndef UMLWIDGET_H
@@ -18,6 +20,8 @@
 #include "widgetbase.h"
 #include "associationwidgetlist.h"
 #include "optionstate.h"
+
+class UMLWidgetController;
 
 class UMLObject;
 class UMLView;
@@ -39,13 +43,15 @@ class QFontMetrics;
 class UMLWidget : public WidgetBase, public QCanvasRectangle {
     Q_OBJECT
 public:
+    friend class UMLWidgetController;
+
     /**
      * Creates a UMLWidget object.
      *
      * @param view The view to be displayed on.
      * @param o The UMLObject to represent.
      */
-    UMLWidget( UMLView * view, UMLObject * o );
+    UMLWidget( UMLView * view, UMLObject * o, UMLWidgetController *widgetController = 0 );
 
     /**
      * Creates a UMLWidget object.
@@ -54,7 +60,7 @@ public:
      * @param id The id of the widget.
      *  The default value (id_None) will prompt generation of a new ID.
      */
-    UMLWidget( UMLView * view, Uml::IDType id = Uml::id_None );
+    UMLWidget( UMLView * view, Uml::IDType id = Uml::id_None, UMLWidgetController *widgetController = 0 );
 
     /**
      * Standard deconstructor
@@ -87,16 +93,18 @@ public:
     Uml::IDType getID() const;
 
     /**
-     * Overrides the standard operation.
+     * Calls the method with the same name in UMLWidgetController.
+     * @see UMLWidgetController#mouseReleaseEvent
      *
-     * @param me The mouse event.
+     * @param me The QMouseEvent event.
      */
     virtual void mouseReleaseEvent(QMouseEvent * me);
 
     /**
-     * Overrides the standard operation.
+     * Calls the method with the same name in UMLWidgetController.
+     * @see UMLWidgetController#mouseDoubleClickEvent
      *
-     * @param me The mouse event.
+     * @param me The QMouseEvent event.
      */
     virtual void mouseDoubleClickEvent(QMouseEvent *me);
 
@@ -139,20 +147,12 @@ public:
     }
 
     /**
-     * Overrides the standard operation.
-     * Any code specific to this type of widget is here after it
-     * has called doMouseMove()
+     * Calls the method with the same name in UMLWidgetController.
+     * @see UMLWidgetController#mouseMoveEvent
      *
-     * @param me
+     * @param me The QMouseEvent event.
      */
     virtual void mouseMoveEvent(QMouseEvent* me);
-
-    /**
-     * Moves the item to it's new position (called from mouseMoveEvent)
-     *
-     * @param me
-     */
-    QPoint doMouseMove(QMouseEvent* me);
 
     /**
      * Returns whether this is a line of text.
@@ -504,9 +504,10 @@ public:
     void forceUpdateFontMetrics(QPainter *painter);
 
     /**
-     * Overrides the standard operation.
+     * Calls the method with the same name in UMLWidgetController.
+     * @see UMLWidgetController#mousePressEvent
      *
-     * @param me The mouse event.
+     * @param me The QMouseEvent event.
      */
     virtual void mousePressEvent(QMouseEvent *me);
 
@@ -520,6 +521,11 @@ public:
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     virtual bool loadFromXMI( QDomElement & qElement );
+
+    /**
+     * Returns the UMLWdigetController for this widget.
+     */
+    UMLWidgetController* getWidgetController();
 
 protected:
     /**
@@ -620,7 +626,7 @@ protected:
     /**
      * getName() returns the name from the UMLObject if this widget has an
      * underlying UMLObject; if it does not, then getName() returns the local
-     * m_Text (notably the case for FloatingText.)
+     * m_Text (notably the case for FloatingTextWidget.)
      */
     QString m_Text;
 
@@ -646,24 +652,12 @@ protected:
 
     ///////////////// End of Data Loaded/Saved //////////////////////////
 
-    bool m_bMouseDown, m_bMouseOver, m_bSelected, m_bStartMove;
+    bool m_bSelected, m_bStartMove;
 
-    /**
-     * True if the object was moved during mouseMoveEvent
-     */
-    bool m_bMoved;
-
-    /**
-     * True if the shift key was pressed during mousePressEvent
-     */
-    bool m_bShiftPressed;
-
-    int            m_nOldX, m_nOldY, m_nPosX, m_origZ;
+    int            m_nPosX, m_origZ;
     ListPopupMenu *m_pMenu;
     UMLDoc        *m_pDoc;  ///< shortcut for UMLApp::app()->getDocument()
-    bool           m_bResizable, m_bResizing;
-    int            m_nPressOffsetX, m_nPressOffsetY;
-    int            m_nOldH, m_nOldW;
+    bool           m_bResizable;
     QFontMetrics  *m_pFontMetrics[FT_INVALID];
 
     /**
@@ -679,9 +673,9 @@ protected:
     bool m_bIgnoreSnapComponentSizeToGrid;
 
     /**
-     * Timer that prevents excessive updates (be easy on the CPU)
+     * Controller for user interaction events.
      */
-    QTime lastUpdate;
+    UMLWidgetController *m_widgetController;
 
 public slots:
 

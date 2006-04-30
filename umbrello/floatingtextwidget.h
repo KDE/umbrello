@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,15 +5,19 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
-#ifndef FLOATINGTEXT_H
-#define FLOATINGTEXT_H
+#ifndef FLOATINGTEXTWIDGET_H
+#define FLOATINGTEXTWIDGET_H
 
 #include "umlwidget.h"
 #include "linkwidget.h"
 
 class UMLView;
+
+class FloatingTextWidgetController;
 
 /**
  * This is a multipurpose class.  In its simplest form it will display a
@@ -36,9 +35,11 @@ class UMLView;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class FloatingText : public UMLWidget {
+class FloatingTextWidget : public UMLWidget {
     Q_OBJECT
 public:
+    friend class FloatingTextWidgetController;
+
     /** sometimes the x/y values get numbers of <0 and >10000 - which is
         probably due to a bug somewhere in calculating the position.
       -> workaround till problem is found: define min and max limits
@@ -50,20 +51,20 @@ public:
 
 
     /**
-     * Constructs a FloatingText instance.
+     * Constructs a FloatingTextWidget instance.
      *
-     * @param view The parent of this FloatingText.
-     * @param role The role this FloatingText will take up.
+     * @param view The parent of this FloatingTextWidget.
+     * @param role The role this FloatingTextWidget will take up.
      * @param text The main text to display.
      * @param id The ID to assign (-1 will prompt a new ID.)
      */
-    FloatingText(UMLView * view, Uml::Text_Role role = Uml::tr_Floating,
-                 QString text = "", Uml::IDType id = Uml::id_None);
+    FloatingTextWidget(UMLView * view, Uml::Text_Role role = Uml::tr_Floating,
+                       QString text = "", Uml::IDType id = Uml::id_None);
 
     /**
      * destructor
      */
-    virtual ~FloatingText();
+    virtual ~FloatingTextWidget();
 
     /**
      * Set the main body of text to display.
@@ -151,7 +152,7 @@ public:
     void changeTextDlg();
 
     /**
-     * Set the LinkWidget that this FloatingText is related to.
+     * Set the LinkWidget that this FloatingTextWidget is related to.
      *
      * @param m The related LinkWidget.
      */
@@ -165,11 +166,6 @@ public:
     LinkWidget * getLink();
 
     /**
-     * Overrides a method.  Used to pickup double clicks.
-     */
-    void mouseDoubleClickEvent(QMouseEvent * /*me*/);
-
-    /**
      * Returns whether this is a line of text.
      * Used for transparency in printing.
      *
@@ -180,23 +176,23 @@ public:
     }
 
     /**
-     * Activate the FloatingText after the saved data has been loaded
+     * Activate the FloatingTextWidget after the saved data has been loaded
      *
      * @param ChangeLog Pointer to the IDChangeLog.
      */
     void activate( IDChangeLog* ChangeLog = 0 );
 
     /**
-     * Sets the role type of this FloatingText.
+     * Sets the role type of this FloatingTextWidget.
      *
-     * @param role  The Text_Role of this FloatingText.
+     * @param role  The Text_Role of this FloatingTextWidget.
      */
     void setRole(Uml::Text_Role role);
 
     /**
      * Return the role of the text widget
      *
-     * @return The Text_Role of this FloatingText.
+     * @return The Text_Role of this FloatingTextWidget.
      */
     Uml::Text_Role getRole() const;
 
@@ -215,13 +211,6 @@ public:
     void draw(QPainter & p, int offsetX, int offsetY);
 
     /**
-     * Sets the state of whether the widget is selected.
-     *
-     * @param _select The state of whether the widget is selected.
-     */
-    void setSelected(bool _select);
-
-    /**
      * Handle the ListPopupMenu::mt_Rename case of the slotMenuSelection.
      * Given an own method because it requires rather lengthy code.
      */
@@ -231,6 +220,14 @@ public:
      * Shows an operation dialog box.
      */
     void showOpDlg();
+
+    /**
+     * Show the properties for a FloatingTextWidget.
+     * Depending on the role of the floating text wiget, the options dialog
+     * for the floating text widget, the rename dialog for floating text or
+     * the options dialog for the link widget are shown.
+     */
+    void showProperties();
 
     /**
      * Creates the <floatingtext> XMI element.
@@ -274,12 +271,6 @@ private:
      * Override default method
      */
     void resizeEvent(QResizeEvent* /*re*/);
-
-    /**
-     * Override default method and keeps position in sync with
-     * a sequence diagram message if appropriate
-     */
-    void mouseMoveEvent(QMouseEvent* me);
 
     /**
      * The association or message widget we may be linked to.

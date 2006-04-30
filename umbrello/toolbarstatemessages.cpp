@@ -25,7 +25,7 @@
 #include "umldoc.h"
 #include "uml.h"
 #include "objectwidget.h"
-#include "floatingtext.h"
+#include "floatingtextwidget.h"
 #include "messagewidget.h"
 
 
@@ -121,7 +121,7 @@ void ToolBarStateMessages::mouseRelease(QMouseEvent* ome)
 
             m_pSelectedWidget = 0;
             m_pUMLView->getMessageList().append(message);
-            FloatingText *ft = message->getFloatingText();
+            FloatingTextWidget *ft = message->getFloatingTextWidget();
             ft->showOpDlg();
             message->setTextPosition();
             m_pUMLView->getWidgetList().append(ft);

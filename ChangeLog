@@ -10,6 +10,7 @@ Version 1.5.3
 * Auto-complete in parameter properties dialog in class diagram (104477)
 * Memory problem when importing classes from c++ sources (122668)
 * Nestable components and subsystems in Component diagram (124326)
+* User interaction with UMLWidget improvements (126391)
 
 Version 1.5.2
 

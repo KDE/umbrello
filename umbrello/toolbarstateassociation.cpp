@@ -19,7 +19,7 @@
 #include "umldoc.h"
 
 #include "objectwidget.h"
-#include "floatingtext.h"
+#include "floatingtextwidget.h"
 #include "messagewidget.h"
 #include <qcanvas.h>
 

@@ -290,6 +290,13 @@ public:
      */
     KTabWidget *tabWidget();
 
+    /**
+     * Returns the current text in the status bar.
+     *
+     * @return The text in the status bar.
+     */
+    QString getStatusBarMsg();
+
 protected:
     virtual void keyPressEvent(QKeyEvent* e);
     virtual void keyReleaseEvent(QKeyEvent* e);

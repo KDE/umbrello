@@ -46,7 +46,8 @@ entitywidget.cpp \
 enum.cpp \
 enumliteral.cpp \
 enumwidget.cpp \
-floatingtext.cpp \
+floatingtextwidget.cpp \
+floatingtextwidgetcontroller.cpp \
 forkjoinwidget.cpp \
 kplayerslideraction.cpp \
 hierarchicalcodeblock.cpp \
@@ -61,12 +62,15 @@ linkwidget.cpp \
 listpopupmenu.cpp \
 main.cpp \
 messagewidget.cpp \
+messagewidgetcontroller.cpp \
 model_utils.cpp \
 nativeimportbase.cpp \
 node.cpp \
 nodewidget.cpp \
 notewidget.cpp \
+notewidgetcontroller.cpp \
 objectwidget.cpp \
+objectwidgetcontroller.cpp \
 object_factory.cpp \
 operation.cpp \
 ownedcodeblock.cpp \
@@ -108,6 +112,7 @@ umlviewimageexporter.cpp \
 umlviewimageexporterall.cpp \
 umlviewimageexportermodel.cpp \
 umlwidget.cpp \
+umlwidgetcontroller.cpp \
 usecase.cpp \
 usecasewidget.cpp \
 widgetbase.cpp \

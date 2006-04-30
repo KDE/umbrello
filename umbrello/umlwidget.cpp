@@ -5,19 +5,21 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
+
 // own header file
 #include "umlwidget.h"
 // system includes
 #include <qpainter.h>
 #include <qcolor.h>
 #include <kdebug.h>
-#include <kcursor.h>
 #include <kcolordialog.h>
 #include <kfontdialog.h>
 #include <kmessagebox.h>
-#include <klocale.h>
 // local includes
+#include "umlwidgetcontroller.h"
 #include "umlobject.h"
 #include "classifier.h"
 #include "uml.h"
@@ -27,12 +29,10 @@
 #include "codegenerator.h"
 #include "codegenerators/simplecodegenerator.h"
 #include "listpopupmenu.h"
-#include "classifier.h"
 #include "associationwidget.h"
-#include "classifierwidget.h"
 #include "dialogs/settingsdlg.h"
 #include "codedocument.h"
-#include "floatingtext.h"
+#include "floatingtextwidget.h"
 #include "docwindow.h"
 #include "dialogs/classpropdlg.h"
 #include "clipboard/idchangelog.h"
@@ -40,10 +40,15 @@
 using namespace Uml;
 
 
-UMLWidget::UMLWidget( UMLView * view, UMLObject * o )
+UMLWidget::UMLWidget( UMLView * view, UMLObject * o, UMLWidgetController *widgetController /* = 0*/ )
         : WidgetBase(view), QCanvasRectangle( view->canvas() ),
         m_pMenu(0)
 {
+    if (widgetController) {
+        m_widgetController = widgetController;
+    } else {
+        m_widgetController = new UMLWidgetController(this);
+    }
     init();
     m_pObject = o;
     if(m_pObject) {
@@ -52,10 +57,15 @@ UMLWidget::UMLWidget( UMLView * view, UMLObject * o )
     }
 }
 
-UMLWidget::UMLWidget(UMLView * view, Uml::IDType id /* = Uml::id_None */)
+UMLWidget::UMLWidget(UMLView * view, Uml::IDType id /* = Uml::id_None */, UMLWidgetController *widgetController /* = 0*/)
         : WidgetBase(view), QCanvasRectangle( view->canvas() ),
         m_pMenu(0)
 {
+    if (widgetController) {
+        m_widgetController = widgetController;
+    } else {
+        m_widgetController = new UMLWidgetController(this);
+    }
     init();
     if (id == Uml::id_None)
         m_nId = m_pDoc->getUniqueID();
@@ -65,6 +75,7 @@ UMLWidget::UMLWidget(UMLView * view, Uml::IDType id /* = Uml::id_None */)
 
 UMLWidget::~UMLWidget() {
     //slotRemovePopupMenu();
+    delete m_widgetController;
     cleanup();
 }
 
@@ -92,24 +103,13 @@ UMLWidget& UMLWidget::operator=(const UMLWidget& other) {
     m_instanceName = other.m_instanceName;
 
     // assign volatile (non-saved) members
-    m_bMouseDown = other.m_bMouseDown;
-    m_bMouseOver = other.m_bMouseOver;
     m_bSelected = other.m_bSelected;
     m_bStartMove = other.m_bStartMove;
-    m_bMoved = other.m_bMoved;
-    m_bShiftPressed = other.m_bShiftPressed;
-    m_nOldX = other.m_nOldX;
-    m_nOldY = other.m_nOldY;
     m_nPosX = other.m_nPosX;
     m_pObject = other.m_pObject;
     m_pView = other.m_pView;
     m_pMenu = other.m_pMenu;
     m_bResizable = other.m_bResizable;
-    m_bResizing = other.m_bResizing;
-    m_nPressOffsetX = other.m_nPressOffsetX;
-    m_nPressOffsetY = other.m_nPressOffsetY;
-    m_nOldH = other.m_nOldH;
-    m_nOldW = other.m_nOldW;
     for (unsigned i = 0; i < FT_INVALID; i++)
         m_pFontMetrics[i] = other.m_pFontMetrics[i];
     m_bActivated = other.m_bActivated;
@@ -183,179 +183,12 @@ Uml::IDType UMLWidget::getID() const {
     return m_nId;
 }
 
-QPoint UMLWidget::doMouseMove(QMouseEvent* me) {
-    int newX = 0, newY = 0, count;
-    int moveX = (int)me->x();
-    int moveY = (int)me->y();
-    int maxX = m_pView->canvas()->width();
-    int maxY = m_pView->canvas()->height();
-
-    if( !m_bSelected ) {
-        m_pView->setSelected( this, me );
-    }
-    m_bSelected = true;
-    count = m_pView->getSelectCount();
-
-    if (m_bStartMove) {
-        //we started the move so..
-        //move any others we have selected
-        moveX -= m_nOldX + m_nPressOffsetX;
-        moveY -= m_nOldY + m_nPressOffsetY;
-
-        //if mouse moves off the edge of the canvas this moves the widget to 0 or canvasSize
-        if( (getX() + moveX) < 0 ) {
-            moveX = moveX - getX();
-        }
-        if( (getY() + moveY) < 0 ) {
-            moveY = moveY - getY();
-        }
-
-        if (!m_bIgnoreSnapToGrid) {
-            moveX = m_pView->snappedX( moveX + getX() ) - getX();
-            moveY = m_pView->snappedY( moveY + getY() ) - getY();
-        }
-        if( count > 1 ) {
-            if( m_pView -> getType() == dt_Sequence ) {
-                m_pView -> moveSelected( this, moveX, 0 );
-            } else {
-                m_pView -> moveSelected( this, moveX, moveY );
-            }
-        }
-    }
-    newX = getX() + moveX;
-    newY = getY() + moveY;
-    if (m_bStartMove && !m_bIgnoreSnapToGrid) {
-        newX = m_pView->snappedX( newX );
-        newY = m_pView->snappedY( newY );
-    }
-    newX = newX<0 ? 0 : newX;
-    newY = newY<0 ? 0 : newY;
-    newX = newX>maxX ? maxX : newX;
-    newY = newY>maxY ? maxY : newY;
-
-    if (m_nOldX != newX || m_nOldY != newY) {
-        m_bMoved = true;
-    }
-    return QPoint(newX, newY);
-}
-
 void UMLWidget::mouseMoveEvent(QMouseEvent* me) {
-    if (m_bResizing) {
-        if (!m_bMouseDown)
-            return;
-        int newX = me->x();
-        int newY = me->y();
-        if (! m_bIgnoreSnapToGrid) {
-            newX = m_pView->snappedX( newX );
-            newY = m_pView->snappedY( newY );
-        }
-        int newW = m_nOldW + newX - m_nOldX - m_nPressOffsetX;
-        int newH = m_nOldH + newY - m_nOldY - m_nPressOffsetY;
-        constrain(newW, newH);
-        setSize(newW, newH);
-        adjustAssocs(getX(), getY());
-        return;
-    }
-    if (!m_bMouseDown && me->button() != Qt::LeftButton)
-        return;
-
-    QPoint newPosition = doMouseMove(me);
-    int newX = newPosition.x();
-    int newY = newPosition.y();
-    // kdDebug() << "UMLWidget::mouseMoveEvent(" << me->pos().x()
-    //           << "," << me->pos().y() << "): newPoint=("
-    //           << newX << "," << newY << ")" << endl;
-
-    m_nOldX = newX;
-    m_nOldY = newY;
-    setX( newX );
-    setY( newY );
-    if (lastUpdate.elapsed() > 25) {
-        //adjustAssocs(newX, newY);
-        adjustUnselectedAssocs(newX, newY);
-        if (m_Type == Uml::wt_Class) {
-            ClassifierWidget *cw = static_cast<ClassifierWidget*>(this);
-            AssociationWidget *clAssocW = cw->getClassAssocWidget();
-            if (clAssocW)
-                clAssocW->computeAssocClassLine();
-        }
-        m_pView->resizeCanvasToItems();
-        lastUpdate.restart();
-    }
+    m_widgetController->mouseMoveEvent(me);
 }
 
 void UMLWidget::mousePressEvent(QMouseEvent *me) {
-    m_nOldX = getX();
-    m_nOldY = getY();
-    m_nPressOffsetX = me -> x() - m_nOldX;
-    m_nPressOffsetY = me -> y() - m_nOldY;
-    m_bMouseDown = false;
-    m_bMoved = false;
-    int count = m_pView -> getSelectCount();
-
-    m_bStartMove = false;
-
-    if( m_pView -> getCurrentCursor() != WorkToolBar::tbb_Arrow ) {
-        //anything else needed??
-        return;
-    }
-    if (me->button() != Qt::LeftButton && me->button() != Qt::RightButton) {
-        m_pView->clearSelected();
-        m_pView->resetToolbar();
-        setSelected(false);
-        return;
-    }
-    if( me -> state() == Qt::ShiftButton || me -> state() == Qt::ControlButton )
-    {
-        /* we have to save the shift state, because in ReleaseEvent it is lost */
-        m_bShiftPressed = true;
-        if( me -> button() == Qt::LeftButton ) {
-            m_bMouseDown = true;
-            m_bStartMove = true;
-            setSelected( !m_bSelected );
-            m_pView -> setSelected( this, me );
-        } else {
-            if( !m_bSelected)
-                m_pView -> setSelected( this, me );
-            setSelected( true );
-        }
-        return;
-    }
-    m_bShiftPressed = false;
-    bool _select;
-    if( me -> button() == Qt::LeftButton ) {
-        m_bMouseDown = true;
-        m_bStartMove = true;
-
-        /* we want multiple selected objects be moved without pressing shift */
-        if (count > 1 && m_bSelected == true)
-            return;
-        _select = !m_bSelected;
-    } else {
-        /* Right click on one element without holding any shift or ctrl key
-         * deselects all items and selects the current one. It will show the
-         * context menu for the selected item. This is common behaviour. */
-        _select = true;
-    }
-    m_pView->clearSelected();
-    m_bSelected = _select;
-    setSelected(m_bSelected);
-    m_pView->setSelected(this, me);
-
-    m_nOldW = width();
-    m_nOldH = height();
-    const int m = 10;
-    //see if clicked on bottom right corner
-    if( m_bResizable && me->button() == Qt::LeftButton &&
-        (m_nOldX + m_nPressOffsetX) >= (getX() + width() - m) &&
-        (m_nOldY + m_nPressOffsetY) >= (getY() + height() - m)) {
-        m_bResizing = true;
-        m_pView->setCursor(WidgetBase::m_Type == Uml::wt_Message ?
-                           KCursor::sizeVerCursor() : KCursor::sizeFDiagCursor());
-    } else {
-        m_bResizing = false;
-        m_pView -> setCursor(KCursor::arrowCursor());
-    }
+    m_widgetController->mousePressEvent(me);
 }
 
 void UMLWidget::updateWidget()
@@ -382,51 +215,7 @@ void UMLWidget::constrain(int& width, int& height) {
 }
 
 void UMLWidget::mouseReleaseEvent(QMouseEvent *me) {
-    int count = m_pView -> getSelectCount();
-    m_bStartMove = false;
-    m_bMouseDown = false;
-
-    if( me->button() == Qt::RightButton ) {
-        if (m_pMenu) {
-            return;
-        }
-        startPopupMenu( me->globalPos() );
-        return;
-    } else if (me->button() !=  Qt::LeftButton) {
-        return;
-    }
-    /* if multiple elements were not moved with the left mouse button,
-     * deselect all and select only the current */
-    if (!m_bMoved && count > 1 && !m_bShiftPressed) {
-        m_pView -> clearSelected();
-        m_bSelected = true;
-        setSelected( m_bSelected );
-        m_pView -> setSelected( this, me );
-    }
-    m_bShiftPressed = false; // reset the state
-
-    if (m_bMoved) {
-        m_pDoc->setModified(true);
-    }
-
-    if (me->stateAfter() != Qt::ShiftButton || me->stateAfter() != Qt::ControlButton) {
-        m_pView->setAssoc(this);
-    }
-
-    UMLWidget *bkgnd = m_pView->testOnWidget(me->pos());
-    if (bkgnd) {
-        kdDebug() << "UMLWidget::mouseReleaseEvent: setting Z to "
-            << bkgnd->getZ() + 1 << endl;
-        setZ( bkgnd->getZ() + 1 );
-    } else {
-        setZ( 0 );
-    }
-
-    if (m_bResizing) {
-        m_bResizing = false;
-        m_pView->setCursor( KCursor::arrowCursor() );
-        UMLApp::app()->getDocument()->setModified(true);
-    }
+    m_widgetController->mouseReleaseEvent(me);
 }
 
 void UMLWidget::init() {
@@ -450,22 +239,15 @@ void UMLWidget::init() {
         m_pFontMetrics[(UMLWidget::FontType)i] = 0;
 
     m_bResizable = true;
-    m_bResizing = false;
-    m_bMouseOver = false;
 
-    m_bMouseDown = false;
     m_bSelected = false;
     m_bStartMove = false;
-    m_bMoved = false;
-    m_bShiftPressed = false;
     m_bActivated = false;
     m_bIgnoreSnapToGrid = false;
     m_bIgnoreSnapComponentSizeToGrid = false;
-    m_nPressOffsetX = m_nPressOffsetY = 0;
     m_pMenu = 0;
     m_pDoc = UMLApp::app()->getDocument();
-    m_nPosX = m_nOldX = m_nOldY = 0;
-    m_nOldH = m_nOldW = 0;
+    m_nPosX = 0;
     connect( m_pView, SIGNAL( sigRemovePopupMenu() ), this, SLOT( slotRemovePopupMenu() ) );
     connect( m_pView, SIGNAL( sigClearAllSelected() ), this, SLOT( slotClearAllSelected() ) );
 
@@ -495,6 +277,7 @@ void UMLWidget::slotMenuSelection(int sel) {
         m_pView -> removeWidget(this);
         break;
 
+    //UMLWidgetController::doMouseDoubleClick relies on this implementation
     case ListPopupMenu::mt_Properties:
         if (wt == wt_Actor || wt == wt_UseCase ||
                 wt == wt_Package || wt == wt_Interface || wt == wt_Datatype ||
@@ -614,7 +397,7 @@ void UMLWidget::slotMenuSelection(int sel) {
     case ListPopupMenu::mt_Rename_RoleAName:
     case ListPopupMenu::mt_Rename_RoleBName:
         {
-            FloatingText *ft = static_cast<FloatingText*>(this);
+            FloatingTextWidget *ft = static_cast<FloatingTextWidget*>(this);
             ft->handleRename();
             break;
         }
@@ -652,15 +435,7 @@ void UMLWidget::slotLineWidthChanged(Uml::IDType viewID) {
 }
 
 void UMLWidget::mouseDoubleClickEvent( QMouseEvent * me ) {
-    if( me -> button() != Qt::LeftButton ||
-            m_pView->getCurrentCursor() != WorkToolBar::tbb_Arrow)
-        return;
-
-    const Uml::Widget_Type wt = m_Type;
-    if( (wt >= wt_Actor && wt <= wt_Object) ||
-            wt == wt_Component || wt == wt_Node || wt == wt_Artifact) {
-        slotMenuSelection(ListPopupMenu::mt_Properties);
-    }
+    m_widgetController->mouseDoubleClickEvent(me);
 }
 
 void UMLWidget::setUseFillColour(bool fc) {
@@ -713,7 +488,7 @@ void UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
     m_bActivated = true;
     updateComponentSize();
     if( m_pView -> getPastePoint().x() != 0 ) {
-        FloatingText * ft = 0;
+        FloatingTextWidget * ft = 0;
         QPoint point = m_pView -> getPastePoint();
         int x = point.x() + getX();
         int y = point.y() + getY();
@@ -728,7 +503,7 @@ void UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
                 break;
 
             case wt_Text:
-                ft = static_cast<FloatingText *>( this );
+                ft = static_cast<FloatingTextWidget *>( this );
                 if (ft->getRole() == tr_Seq_Message) {
                     setX( x );
                     setY( getY() );
@@ -848,7 +623,7 @@ void UMLWidget::startPopupMenu( const QPoint &At) {
             if( getBaseType() == wt_Message && count == 2 ) {
                 multi = false;
             } else if( getBaseType() == wt_Text &&
-                       ((FloatingText*)this) -> getRole() == tr_Seq_Message && count == 2 ) {
+                       ((FloatingTextWidget*)this) -> getRole() == tr_Seq_Message && count == 2 ) {
                 multi = false;
             } else if( count > 1 ) {
                 multi = true;
@@ -873,8 +648,6 @@ void UMLWidget::startPopupMenu( const QPoint &At) {
     m_pMenu->popup(At);
 
     connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotMenuSelection(int)));
-
-    m_bMouseDown = m_bStartMove = false;
 }
 
 void UMLWidget::slotRemovePopupMenu() {
@@ -973,16 +746,14 @@ void UMLWidget::setView(UMLView * v) {
 
 void UMLWidget::setX( int x ) {
     if (!m_bIgnoreSnapToGrid) {
-        const int halfWidth =  width() / 2;
-        x = m_pView->snappedX(x + halfWidth) - halfWidth;
+        x = m_pView->snappedX(x);
     }
     QCanvasItem::setX( (double)x );
 }
 
 void UMLWidget::setY( int y ) {
     if (!m_bIgnoreSnapToGrid){
-        const int halfHeight = height() / 2;
-        y = m_pView->snappedX(y + halfHeight) - halfHeight;
+        y = m_pView->snappedX(y);
     }
     QCanvasItem::setY( (double)y );
 }
@@ -1243,6 +1014,10 @@ bool UMLWidget::loadFromXMI( QDomElement & qElement ) {
     QString showstereo = qElement.attribute("showstereotype", "0");
     m_bShowStereotype = (bool)showstereo.toInt();
     return true;
+}
+
+UMLWidgetController* UMLWidget::getWidgetController() {
+    return m_widgetController;
 }
 
 #include "umlwidget.moc"

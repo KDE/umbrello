@@ -37,7 +37,7 @@
 #include "operation.h"
 #include "association.h"
 #include "assocrules.h"
-#include "floatingtext.h"
+#include "floatingtextwidget.h"
 #include "objectwidget.h"
 #include "model_utils.h"
 #include "widget_utils.h"
@@ -137,7 +137,7 @@ AssociationWidget& AssociationWidget::operator=(AssociationWidget & Other) {
     m_pView = Other.m_pView;
 
     if (Other.m_pName) {
-        m_pName = new FloatingText(m_pView);
+        m_pName = new FloatingTextWidget(m_pView);
         *m_pName = *(Other.m_pName);
     } else {
         m_pName = NULL;
@@ -150,21 +150,21 @@ AssociationWidget& AssociationWidget::operator=(AssociationWidget & Other) {
         lhs.m_nTotalCount = rhs.m_nTotalCount;
 
         if (rhs.m_pMulti) {
-            lhs.m_pMulti = new FloatingText(m_pView);
+            lhs.m_pMulti = new FloatingTextWidget(m_pView);
             *(lhs.m_pMulti) = *(rhs.m_pMulti);
         } else {
             lhs.m_pMulti = NULL;
         }
 
         if (rhs.m_pRole) {
-            lhs.m_pRole = new FloatingText(m_pView);
+            lhs.m_pRole = new FloatingTextWidget(m_pView);
             *(lhs.m_pRole) = *(rhs.m_pRole);
         } else {
             lhs.m_pRole = NULL;
         }
 
         if (rhs.m_pChangeWidget) {
-            lhs.m_pChangeWidget = new FloatingText(m_pView);
+            lhs.m_pChangeWidget = new FloatingTextWidget(m_pView);
             *(lhs.m_pChangeWidget) = *(rhs.m_pChangeWidget);
         } else {
             lhs.m_pChangeWidget = NULL;
@@ -248,7 +248,7 @@ UMLAttribute * AssociationWidget::getAttribute () {
     return static_cast<UMLAttribute*>(m_pObject);
 }
 
-FloatingText* AssociationWidget::getMultiWidget(Role_Type role) {
+FloatingTextWidget* AssociationWidget::getMultiWidget(Role_Type role) {
     return m_role[role].m_pMulti;
 }
 
@@ -259,7 +259,7 @@ QString AssociationWidget::getMulti(Role_Type role) const
     return m_role[role].m_pMulti->getText();
 }
 
-FloatingText* AssociationWidget::getNameWidget()
+FloatingTextWidget* AssociationWidget::getNameWidget()
 {
     return m_pName;
 }
@@ -270,15 +270,15 @@ QString AssociationWidget::getName() const {
     return m_pName->getText();
 }
 
-FloatingText* AssociationWidget::getRoleWidget(Role_Type role) {
+FloatingTextWidget* AssociationWidget::getRoleWidget(Role_Type role) {
     return m_role[role].m_pRole;
 }
 
-FloatingText* AssociationWidget::getChangeWidget(Role_Type role) {
+FloatingTextWidget* AssociationWidget::getChangeWidget(Role_Type role) {
     return m_role[role].m_pChangeWidget;
 }
 
-FloatingText* AssociationWidget::getTextWidgetByRole(Uml::Text_Role tr) {
+FloatingTextWidget* AssociationWidget::getTextWidgetByRole(Uml::Text_Role tr) {
     switch (tr) {
         case tr_MultiA:
             return m_role[A].m_pMulti;
@@ -316,12 +316,12 @@ QString AssociationWidget::getRoleDoc(Role_Type role) const {
 void AssociationWidget::setName(const QString &strName) {
     bool newLabel = false;
     if(!m_pName) {
-        // Don't construct the FloatingText if the string is empty.
+        // Don't construct the FloatingTextWidget if the string is empty.
         if (strName.isEmpty())
             return;
 
         newLabel = true;
-        m_pName = new FloatingText(m_pView, CalculateNameType(tr_Name), strName);
+        m_pName = new FloatingTextWidget(m_pView, CalculateNameType(tr_Name), strName);
         m_pName->setLink(this);
         if (m_role[B].m_pWidget)
             m_pName->setUMLObject(m_role[B].m_pWidget->getUMLObject());
@@ -344,7 +344,7 @@ void AssociationWidget::setName(const QString &strName) {
         m_pView->addWidget(m_pName);
     }
 
-    if(FloatingText::isTextValid(m_pName->getText()))
+    if(FloatingTextWidget::isTextValid(m_pName->getText()))
         m_pName -> show();
     else
         m_pName -> hide();
@@ -356,12 +356,12 @@ void AssociationWidget::setMulti(const QString &strMulti, Role_Type role) {
     Text_Role tr = (role == A ? tr_MultiA : tr_MultiB);
 
     if(!m_role[role].m_pMulti) {
-        // Don't construct the FloatingText if the string is empty.
+        // Don't construct the FloatingTextWidget if the string is empty.
         if (strMulti.isEmpty())
             return;
 
         newLabel = true;
-        m_role[role].m_pMulti = new FloatingText(m_pView, tr, strMulti);
+        m_role[role].m_pMulti = new FloatingTextWidget(m_pView, tr, strMulti);
         m_role[role].m_pMulti->setLink(this);
         m_pView->addWidget(m_role[role].m_pMulti);
     } else {
@@ -382,7 +382,7 @@ void AssociationWidget::setMulti(const QString &strMulti, Role_Type role) {
         setTextPosition( tr );
     }
 
-    if(FloatingText::isTextValid(m_role[role].m_pMulti->getText()))
+    if(FloatingTextWidget::isTextValid(m_role[role].m_pMulti->getText()))
         m_role[role].m_pMulti -> show();
     else
         m_role[role].m_pMulti -> hide();
@@ -394,19 +394,19 @@ void AssociationWidget::setMulti(const QString &strMulti, Role_Type role) {
 void AssociationWidget::setRoleName (const QString &strRole, Role_Type role) {
     bool newLabel = false;
     Association_Type type = getAssocType();
-    //if the association is not supposed to have a Role FloatingText
+    //if the association is not supposed to have a Role FloatingTextWidget
     if (!AssocRules::allowRole(type))  {
         return;
     }
 
     Text_Role tr = (role == A ? tr_RoleAName : tr_RoleBName);
     if(!m_role[role].m_pRole) {
-        // Don't construct the FloatingText if the string is empty.
+        // Don't construct the FloatingTextWidget if the string is empty.
         if (strRole.isEmpty())
             return;
 
         newLabel = true;
-        m_role[role].m_pRole = new FloatingText(m_pView, tr, strRole);
+        m_role[role].m_pRole = new FloatingTextWidget(m_pView, tr, strRole);
         m_role[role].m_pRole->setLink(this);
         m_pView->addWidget(m_role[role].m_pRole);
         Uml::Visibility vis = getVisibility(role);
@@ -434,7 +434,7 @@ void AssociationWidget::setRoleName (const QString &strRole, Role_Type role) {
         setTextPosition( tr );
     }
 
-    if(FloatingText::isTextValid(m_role[role].m_pRole->getText()))
+    if(FloatingTextWidget::isTextValid(m_role[role].m_pRole->getText()))
         m_role[role].m_pRole -> show();
     else
         m_role[role].m_pRole -> hide();
@@ -447,7 +447,7 @@ void AssociationWidget::setRoleDoc (const QString &doc, Role_Type role) {
         m_role[role].m_RoleDoc = doc;
 }
 
-void AssociationWidget::setMessageText(FloatingText *ft) {
+void AssociationWidget::setMessageText(FloatingTextWidget *ft) {
     QString message;
     if (getAssocType() == at_Coll_Message) {
         if (m_pObject != NULL) {
@@ -507,12 +507,12 @@ void AssociationWidget::setChangeWidget(const QString &strChangeWidget, Role_Typ
     Text_Role tr = (role == A ? tr_ChangeA : tr_ChangeB);
 
     if(!m_role[role].m_pChangeWidget) {
-        // Don't construct the FloatingText if the string is empty.
+        // Don't construct the FloatingTextWidget if the string is empty.
         if (strChangeWidget.isEmpty())
             return;
 
         newLabel = true;
-        m_role[role].m_pChangeWidget = new FloatingText(m_pView, tr, strChangeWidget);
+        m_role[role].m_pChangeWidget = new FloatingTextWidget(m_pView, tr, strChangeWidget);
         m_role[role].m_pChangeWidget->setLink(this);
         m_pView->addWidget(m_role[role].m_pChangeWidget);
         m_role[role].m_pChangeWidget->setPreText("{"); // all types have this
@@ -529,7 +529,7 @@ void AssociationWidget::setChangeWidget(const QString &strChangeWidget, Role_Typ
         setTextPosition( tr );
     }
 
-    if(FloatingText::isTextValid(m_role[role].m_pChangeWidget->getText()))
+    if(FloatingTextWidget::isTextValid(m_role[role].m_pChangeWidget->getText()))
         m_role[role].m_pChangeWidget -> show();
     else
         m_role[role].m_pChangeWidget -> hide();
@@ -548,7 +548,7 @@ bool AssociationWidget::linePathStartsAt(const UMLWidget* widget) {
     return result;
 }
 
-void AssociationWidget::setText(FloatingText *ft, const QString &text) {
+void AssociationWidget::setText(FloatingTextWidget *ft, const QString &text) {
     Uml::Text_Role role = ft->getRole();
     switch (role) {
     case tr_Name:
@@ -602,7 +602,7 @@ void AssociationWidget::activate() {
             Uml::Visibility vis = getVisibility((Role_Type)r);
             robj.m_pRole->setPreText(vis.toString(true));
 
-            if (FloatingText::isTextValid(robj.m_pRole->getText()))
+            if (FloatingTextWidget::isTextValid(robj.m_pRole->getText()))
                 robj.m_pRole -> show();
             else
                 robj.m_pRole -> hide();
@@ -616,7 +616,7 @@ void AssociationWidget::activate() {
         m_pName->setLink(this);
         m_pName->setRole( CalculateNameType(tr_Name) );
 
-        if ( FloatingText::isTextValid(m_pName->getText()) ) {
+        if ( FloatingTextWidget::isTextValid(m_pName->getText()) ) {
             m_pName-> show();
         } else {
             m_pName-> hide();
@@ -631,25 +631,25 @@ void AssociationWidget::activate() {
     for (unsigned r = A; r <= B; r++) {
         WidgetRole& robj = m_role[r];
 
-        FloatingText* pMulti = robj.m_pMulti;
+        FloatingTextWidget* pMulti = robj.m_pMulti;
         if (pMulti != NULL &&
                 AssocRules::allowMultiplicity(type, robj.m_pWidget->getBaseType())) {
             pMulti->setLink(this);
             Text_Role tr = (r == A ? tr_MultiA : tr_MultiB);
             pMulti->setRole(tr);
-            if (FloatingText::isTextValid(pMulti->getText()))
+            if (FloatingTextWidget::isTextValid(pMulti->getText()))
                 pMulti -> show();
             else
                 pMulti -> hide();
             pMulti->activate();
         }
 
-        FloatingText* pChangeWidget = robj.m_pChangeWidget;
+        FloatingTextWidget* pChangeWidget = robj.m_pChangeWidget;
         if (pChangeWidget != NULL ) {
             pChangeWidget->setLink(this);
             Text_Role tr = (r == A ? tr_ChangeA : tr_ChangeB);
             pChangeWidget->setRole(tr);
-            if (FloatingText::isTextValid(pChangeWidget->getText()))
+            if (FloatingTextWidget::isTextValid(pChangeWidget->getText()))
                 pChangeWidget -> show();
             else
                 pChangeWidget -> hide ();
@@ -667,7 +667,7 @@ void AssociationWidget::activate() {
     }
 }
 
-/** This function calculates which role should be set for the m_pName FloatingText */
+/** This function calculates which role should be set for the m_pName FloatingTextWidget */
 Uml::Text_Role AssociationWidget::CalculateNameType(Text_Role defaultRole) {
 
     Text_Role result = defaultRole;
@@ -856,7 +856,7 @@ void AssociationWidget::setAssocType(Association_Type type) {
     m_AssocType = type;
     m_LinePath.setAssocType(type);
     // If the association new type is not supposed to have Multiplicity
-    // FloatingTexts and a Role FloatingText then set the internal
+    // FloatingTexts and a Role FloatingTextWidget then set the internal
     // floating text pointers to null.
     if( !AssocRules::allowMultiplicity(type, getWidget(A)->getBaseType()) ) {
         if (m_role[A].m_pMulti) {
@@ -1237,7 +1237,7 @@ void AssociationWidget::mergeAssociationDataIntoUMLRepresentation()
     //uml->init();
 
     // floating text widgets
-    FloatingText *text = getNameWidget();
+    FloatingTextWidget *text = getNameWidget();
     if (text)
         uml->setName(text->getText());
 
@@ -1745,7 +1745,7 @@ QPoint AssociationWidget::calculateTextPosition(Text_Role role) {
     if ( pWidget && ( pWidget->getY() == p.y() || pWidget->getY() + pWidget->height() == p.y() ))
         is_top_or_bottom = true;
 
-    FloatingText *text = getTextWidgetByRole(role);
+    FloatingTextWidget *text = getTextWidgetByRole(role);
     int textW = 0, textH = 0;
     if (text) {
         textW = text->width();
@@ -1989,8 +1989,8 @@ void AssociationWidget::calculateNameTextSegment() {
     }
 }
 
-FloatingText* AssociationWidget::floatingText(Text_Role role) {
-    FloatingText *ft = NULL;
+FloatingTextWidget* AssociationWidget::floatingText(Text_Role role) {
+    FloatingTextWidget *ft = NULL;
     switch(role) {
     case tr_MultiA:
         ft = m_role[A].m_pMulti;
@@ -2040,17 +2040,17 @@ void AssociationWidget::setTextPosition(Text_Role role) {
     if (startMove) {
         return;
     }
-    FloatingText *ft = floatingText(role);
+    FloatingTextWidget *ft = floatingText(role);
     if (ft == NULL)
         return;
     QPoint pos = calculateTextPosition(role);
     int x = pos.x();
     int y = pos.y();
-    if ( (x < 0 || x > FloatingText::restrictPositionMax) ||
-            (y < 0 || y > FloatingText::restrictPositionMax) ) {
+    if ( (x < 0 || x > FloatingTextWidget::restrictPositionMax) ||
+            (y < 0 || y > FloatingTextWidget::restrictPositionMax) ) {
         kdDebug() << "AssociationWidget::setTextPosition( " << x << " , " << y << " ) "
         << "- was blocked because at least one value is out of bounds: ["
-        << "0 ... " << FloatingText::restrictPositionMax << "]"
+        << "0 ... " << FloatingTextWidget::restrictPositionMax << "]"
         << endl;
         return;
     }
@@ -2078,17 +2078,17 @@ void AssociationWidget::setTextPositionRelatively(Text_Role role, const QPoint &
     if (startMove) {
         return;
     }
-    FloatingText *ft = floatingText(role);
+    FloatingTextWidget *ft = floatingText(role);
     if (ft == NULL)
         return;
     int ftX = ft->getX();
     int ftY = ft->getY();
-    if ( (ftX < 0 || ftX > FloatingText::restrictPositionMax) ||
-            (ftY < 0 || ftY > FloatingText::restrictPositionMax) ) {
+    if ( (ftX < 0 || ftX > FloatingTextWidget::restrictPositionMax) ||
+            (ftY < 0 || ftY > FloatingTextWidget::restrictPositionMax) ) {
         kdDebug() << "AssociationWidget::setTextPositionRelatively: "
-        << "blocked because the FloatingText original position ("
+        << "blocked because the FloatingTextWidget original position ("
         << ftX << "," << ftY << " is out of bounds: [0 ... "
-        << FloatingText::restrictPositionMax << "]" << endl;
+        << FloatingTextWidget::restrictPositionMax << "]" << endl;
         return;
     }
     QPoint pos = calculateTextPosition(role);
@@ -2096,12 +2096,12 @@ void AssociationWidget::setTextPositionRelatively(Text_Role role, const QPoint &
     int relY = pos.y() - oldPosition.y();
     int ftNewX = ftX + relX;
     int ftNewY = ftY + relY;
-    if ( (ftNewX < 0 || ftNewX > FloatingText::restrictPositionMax) ||
-            (ftNewY < 0 || ftNewY > FloatingText::restrictPositionMax) ) {
+    if ( (ftNewX < 0 || ftNewX > FloatingTextWidget::restrictPositionMax) ||
+            (ftNewY < 0 || ftNewY > FloatingTextWidget::restrictPositionMax) ) {
         kdDebug() << "AssociationWidget::setTextPositionRelatively: "
-        << "blocked because the FloatingText new position ("
+        << "blocked because the FloatingTextWidget new position ("
         << ftNewX << "," << ftNewY << " is out of bounds: [0 ... "
-        << FloatingText::restrictPositionMax << "]" << endl;
+        << FloatingTextWidget::restrictPositionMax << "]" << endl;
         return;
     }
     bool oldIgnoreSnapToGrid = ft->getIgnoreSnapToGrid();
@@ -2346,7 +2346,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
                                         i18n("Enter multiplicity:"),
                                         oldText, NULL, m_pView, NULL, &v);
         if (newText != oldText) {
-            if (FloatingText::isTextValid(newText)) {
+            if (FloatingTextWidget::isTextValid(newText)) {
                 setMulti(newText, r);
             } else {
                 m_pView->removeWidget(m_role[r].m_pMulti);
@@ -2364,7 +2364,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
                                         i18n("Enter association name:"),
                                         oldText, NULL, m_pView, NULL, &v);
         if (newText != oldText) {
-            if (FloatingText::isTextValid(newText)) {
+            if (FloatingTextWidget::isTextValid(newText)) {
                 setName(newText);
             } else {
                 m_pView->removeWidget(m_pName);
@@ -2384,7 +2384,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
                                         i18n("Enter role name:"),
                                         oldText, NULL, m_pView, NULL, &v);
         if (newText != oldText) {
-            if (FloatingText::isTextValid(newText)) {
+            if (FloatingTextWidget::isTextValid(newText)) {
                 setRoleName(newText, r);
             } else {
                 m_pView->removeWidget(m_role[r].m_pRole);
@@ -3530,9 +3530,9 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
             if( r == "-1" )
                 return false;
             Uml::Text_Role role = (Uml::Text_Role)r.toInt();
-            FloatingText *ft = new FloatingText(m_pView, role, "", Uml::id_Reserved);
+            FloatingTextWidget *ft = new FloatingTextWidget(m_pView, role, "", Uml::id_Reserved);
             if( ! ft->loadFromXMI(element) ) {
-                // Most likely cause: The FloatingText is empty.
+                // Most likely cause: The FloatingTextWidget is empty.
                 delete ft;
                 node = element.nextSibling();
                 element = node.toElement();
@@ -3572,7 +3572,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
                 m_pName = ft;
                 ft->setLink(this);
                 ft->setActivated();
-                if(FloatingText::isTextValid(ft->getText()))
+                if(FloatingTextWidget::isTextValid(ft->getText()))
                     ft -> show();
                 else
                     ft -> hide();
@@ -3588,7 +3588,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
                 break;
             default:
                 kdDebug() << "AssociationWidget::loadFromXMI(): "
-                << "unexpected FloatingText (textrole "
+                << "unexpected FloatingTextWidget (textrole "
                 << role << ")" << endl;
                 delete ft;
                 break;

@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2005
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,13 +5,24 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
+// own header
 #include "statewidget.h"
 
+// qt includes
 #include <qevent.h>
+
+// kde includes
 #include <klocale.h>
 #include <kdebug.h>
+
+// app includes
+#include "uml.h"
+#include "umldoc.h"
+#include "docwindow.h"
 #include "inputdialog.h"
 #include "umlwidget.h"
 #include "umlview.h"
@@ -163,7 +169,7 @@ void StateWidget::slotMenuSelection(int sel) {
         break;
 
     case ListPopupMenu::mt_Properties:
-        mouseDoubleClickEvent( 0 );
+        showProperties();
         done = true;
         break;
     case ListPopupMenu::mt_New_Activity:
@@ -176,16 +182,6 @@ void StateWidget::slotMenuSelection(int sel) {
 
     if( !done )
         UMLWidget::slotMenuSelection( sel );
-}
-
-void StateWidget::mouseDoubleClickEvent(QMouseEvent * /*me*/) {
-    m_pView -> updateDocumentation( false );
-    StateDialog dialog( m_pView, this );
-    if( dialog.exec() && dialog.getChangesMade() ) {
-        //put here anything that needs to be done for changes
-        //nothing at the moment.
-    }
-    m_pView -> showDocumentation( this, true );
 }
 
 bool StateWidget::addActivity( const QString &activity ) {
@@ -218,6 +214,21 @@ bool StateWidget::renameActivity( const QString &activity, const QString &newNam
         return false;
     m_Activities[ index ] = newName;
     return true;
+}
+
+bool StateWidget::showProperties() {
+    DocWindow *docwindow = UMLApp::app()->getDocWindow();
+    docwindow->updateDocumentation(false);
+
+    StateDialog dialog(m_pView, this);
+    bool modified = false;
+    if (dialog.exec() && dialog.getChangesMade()) {
+        docwindow->showDocumentation(this, true);
+        UMLApp::app()->getDocument()->setModified(true);
+        modified = true;
+    }
+
+    return modified;
 }
 
 bool StateWidget::isState(WorkToolBar::ToolBar_Buttons tbb, StateType& resultType)
