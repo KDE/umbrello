@@ -222,13 +222,13 @@ void RubyWriter::writeOperations(QString classname, UMLOperationList &opList,
 
     switch (permitScope) {
     case Uml::Visibility::Public:
-        h << m_indentation << "public" << endl << endl;
+        h << m_indentation << "public" << m_endl << m_endl;
         break;
     case Uml::Visibility::Protected:
-        h << m_indentation << "protected" << endl << endl;
+        h << m_indentation << "protected" << m_endl << m_endl;
         break;
     case Uml::Visibility::Private:
-        h << m_indentation << "private" << endl << endl;
+        h << m_indentation << "private" << m_endl << m_endl;
         break;
     default:
         break;
