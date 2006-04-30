@@ -684,9 +684,11 @@ QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix,
         }
         int index;
         do {
-            index = input.findRev(" ", lineWidth + 1);
-            if (index == -1)
+            index = input.findRev(" ", lineWidth);
+            if (index == -1) {
+                output += linePrefix + input + endLine;
                 break;
+            }
             output += linePrefix + input.left(index) + endLine; // add line
             input.remove(0, index + 1); //and remove processed string, including
             // white space
