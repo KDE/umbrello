@@ -12,6 +12,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2003-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 #include "codegenfactory.h"
@@ -44,14 +46,9 @@
 #include "qstringlist.h"
 #include <kdebug.h>
 
-CodeGeneratorFactory::CodeGeneratorFactory()  {
-    kdDebug()<<"CodeGeneratorFactory created"<<endl;
-}
+namespace CodeGenFactory {
 
-CodeGeneratorFactory::~CodeGeneratorFactory() {
-}
-
-CodeGenerator* CodeGeneratorFactory::createObject(Uml::Programming_Language pl)  {
+CodeGenerator* createObject(Uml::Programming_Language pl)  {
     CodeGenerator* obj = 0;
     Settings::OptionState optionState = UMLApp::app()->getOptionState();
     switch (pl) {
@@ -114,6 +111,8 @@ CodeGenerator* CodeGeneratorFactory::createObject(Uml::Programming_Language pl) 
                         << ". Type unknown" << endl;
             break;
     }
-
     return obj;
 }
+
+}  // end namespace CodeGenFactory
+

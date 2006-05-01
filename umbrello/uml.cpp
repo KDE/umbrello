@@ -1197,6 +1197,28 @@ void UMLApp::refactor(UMLClassifier* classifier) {
     m_refactoringAssist->show();
 }
 
+CodeGenerator *UMLApp::setGenerator(Uml::Programming_Language pl) {
+    // does the code generator for our activeLanguage already exist?
+    // then simply return that
+    CodeGenerator *g = getDocument()->findCodeGeneratorByLanguage(pl);
+    if(g) {
+        return g;
+    }
+
+    g = CodeGenFactory::createObject(pl);
+    if (getDocument()->getCurrentCodeGenerator() == NULL)
+        getDocument()->setCurrentCodeGenerator(g);
+
+    // now set defaults on the new policy from the configuration
+    // file and THEN the default policy, which may have been updated
+    // since it was first created. In both cases, DONT emit the modifiedCodeContent
+    // signal as we will be doing that later.
+    //
+    g->getPolicy()->setDefaults(m_config, false); // picks up language specific stuff
+    g->getPolicy()->setDefaults(m_defaultcodegenerationpolicy, false);
+    return g;
+}
+
 void UMLApp::setGenerator(CodeGenerator* gen, bool giveWarning) {
 
     if (!gen) {
@@ -1238,8 +1260,6 @@ CodeGenerator* UMLApp::getGenerator(bool warnMissing ) {
 }
 
 CodeGenerator* UMLApp::createGenerator() {
-    CodeGenerator* g = 0;
-
     if (m_activeLanguage == Uml::pl_Reserved) {
         KMessageBox::sorry(this,i18n("There is no active language defined.\nPlease select "
                                      "one of the installed languages to generate the code with."),
@@ -1247,26 +1267,7 @@ CodeGenerator* UMLApp::createGenerator() {
         return 0;
     }
 
-    // does the code generator for our activeLanguage already exist?
-    // then simply return that
-    g = getDocument()->findCodeGeneratorByLanguage(m_activeLanguage);
-    if(g) {
-        return g;
-    }
-
-    CodeGeneratorFactory codeGeneratorFactory;
-    g = codeGeneratorFactory.createObject(m_activeLanguage);
-    if (getDocument()->getCurrentCodeGenerator() == NULL)
-        getDocument()->setCurrentCodeGenerator(g);
-
-    // now set defaults on the new policy from the configuration
-    // file and THEN the default policy, which may have been updated
-    // since it was first created. In both cases, DONT emit the modifiedCodeContent
-    // signal as we will be doing that later.
-    //
-    g->getPolicy()->setDefaults(m_config, false); // picks up language specific stuff
-    g->getPolicy()->setDefaults(m_defaultcodegenerationpolicy, false);
-
+    CodeGenerator* g = setGenerator(m_activeLanguage);
     // configure it from XMI
     QString language = Model_Utils::progLangToString( g->getLanguage() );
     QDomElement elem = getDocument()->getCodeGeneratorXMIParams(language);

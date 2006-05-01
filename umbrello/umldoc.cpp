@@ -67,6 +67,7 @@
 #include "umlview.h"
 #include "clipboard/idchangelog.h"
 #include "dialogs/classpropdlg.h"
+#include "codegenerators/codegenfactory.h"
 #include "inputdialog.h"
 #include "listpopupmenu.h"
 #include "version.h"
@@ -2069,6 +2070,14 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node) {
             QString nodeName = cgelement.tagName();
             QString lang = cgelement.attribute("language","UNKNOWN");
             m_codeGenerationXMIParamMap->insert(lang, cgelement);
+            Uml::Programming_Language pl = Model_Utils::stringToProgLang(lang);
+            CodeGenerator *g = UMLApp::app()->setGenerator(pl);
+            if (g == NULL) {
+                g = CodeGenFactory::createObject(pl);
+                if (getCurrentCodeGenerator() == NULL)
+                    setCurrentCodeGenerator(g);
+            }
+            g->loadFromXMI(cgelement);
             cgnode = cgnode.nextSibling();
             cgelement = cgnode.toElement();
         }

@@ -5,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2004-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 #ifndef CODEGENFACTORY_H
@@ -21,13 +23,10 @@ class CodeGenerator;
  * @author Jonathan Riddell
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class CodeGeneratorFactory {
-public:
-
-    CodeGeneratorFactory();
-    virtual ~CodeGeneratorFactory();
+namespace CodeGenFactory {
 
     CodeGenerator* createObject(Uml::Programming_Language pl);
-};
+
+}
 
 #endif //CODEGENFACTORY_H

@@ -13,6 +13,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2006                                                    *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 #include <kdebug.h>
@@ -26,6 +28,7 @@
 #include "../classifiercodedocument.h"
 #include "../umlobject.h"
 #include "../umlrole.h"
+#include "../uml.h"
 
 #include "rubyclassifiercodedocument.h"
 #include "rubycodegenerationpolicy.h"
@@ -136,7 +139,7 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
 
     RubyCodeClassField * rubyfield = (RubyCodeClassField*) getParentClassField();
     RubyClassifierCodeDocument * rubydoc = (RubyClassifierCodeDocument*) rubyfield->getParentDocument();
-    RubyCodeGenerationPolicy * rubypolicy = (RubyCodeGenerationPolicy *) rubydoc->getPolicy();
+    RubyCodeGenerationPolicy * rubypolicy = (RubyCodeGenerationPolicy *)(UMLApp::app()->getGenerator()->getPolicy());
     CodeGenerator *g = rubydoc->getParentGenerator();
     RubyCodeGenerator * gen = dynamic_cast<RubyCodeGenerator *>(g);
 

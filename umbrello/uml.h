@@ -204,15 +204,24 @@ public:
      *
      * @param gen               Pointer to the CodeGenerator to set.
      * @param giveWarning       True to enable out-of-date warning.
-            */
+     */
     void setGenerator(CodeGenerator* gen, bool giveWarning = true);
 
     /**
      * Creates a new code generator for the given active language.
      *
      * @return  Pointer to the CodeGenerator created.
-         */
+     */
     CodeGenerator* createGenerator();
+
+    /**
+     * Auxiliary function for UMLDoc::loadExtensionsFromXMI():
+     * Return the code generator of the given language if it already
+     * exists; if it does not yet exist then create it and return
+     * the newly created generator. It is the caller's responsibility
+     * to load XMI into the newly created generator.
+     */
+    CodeGenerator *setGenerator(Uml::Programming_Language pl);
 
     /**
      * Call the refactoring assistant on a classifier.
