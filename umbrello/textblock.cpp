@@ -140,12 +140,12 @@ int TextBlock::getIndentationLevel ( ) {
 }
 
 QString TextBlock::getNewLineEndingChars ( ) {
-    CodeGenerationPolicy * policy = UMLApp::app()->getGenerator()->getPolicy ( );
+    CodeGenerationPolicy * policy = UMLApp::app()->getDefaultPolicy();
     return policy->getNewLineEndingChars();
 }
 
 QString TextBlock::getIndentation() {
-    CodeGenerationPolicy * policy = UMLApp::app()->getGenerator()->getPolicy ( );
+    CodeGenerationPolicy * policy = UMLApp::app()->getDefaultPolicy();
     return policy->getIndentation();
 }
 

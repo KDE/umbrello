@@ -1197,17 +1197,21 @@ void UMLApp::refactor(UMLClassifier* classifier) {
     m_refactoringAssist->show();
 }
 
+CodeGenerationPolicy *UMLApp::getDefaultPolicy() {
+    return m_defaultcodegenerationpolicy;
+}
+
 CodeGenerator *UMLApp::setGenerator(Uml::Programming_Language pl) {
-    // does the code generator for our activeLanguage already exist?
+    // does the code generator already exist?
     // then simply return that
     CodeGenerator *g = getDocument()->findCodeGeneratorByLanguage(pl);
-    if(g) {
+    if (g) {
+        getDocument()->setCurrentCodeGenerator(g);
         return g;
     }
 
     g = CodeGenFactory::createObject(pl);
-    if (getDocument()->getCurrentCodeGenerator() == NULL)
-        getDocument()->setCurrentCodeGenerator(g);
+    getDocument()->setCurrentCodeGenerator(g);
 
     // now set defaults on the new policy from the configuration
     // file and THEN the default policy, which may have been updated

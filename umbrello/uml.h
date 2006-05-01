@@ -306,6 +306,11 @@ public:
      */
     QString getStatusBarMsg();
 
+    /**
+     * Returns the default code generation policy.
+     */
+    CodeGenerationPolicy *getDefaultPolicy();
+
 protected:
     virtual void keyPressEvent(QKeyEvent* e);
     virtual void keyReleaseEvent(QKeyEvent* e);

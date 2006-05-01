@@ -254,6 +254,7 @@ void UMLDoc::closeDocument() {
     // remove all code generators
     for (CodeGeneratorListIt it(m_codeGenerators); it.current(); ++it)
         removeCodeGenerator(it.current());
+    m_codeGenerators.clear();
 
     m_currentcodegenerator = 0;
 
@@ -1141,7 +1142,7 @@ void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
             temp->setID( getUniqueID() );
             addView(temp);
             emit sigDiagramCreated( EXTERNALIZE_ID(m_uniqueID) );
-            setModified(true);
+            setModified(true, false);
             UMLApp::app()->enablePrint(true);
             changeCurrentView( EXTERNALIZE_ID(m_uniqueID) );
             break;
@@ -2072,11 +2073,6 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node) {
             m_codeGenerationXMIParamMap->insert(lang, cgelement);
             Uml::Programming_Language pl = Model_Utils::stringToProgLang(lang);
             CodeGenerator *g = UMLApp::app()->setGenerator(pl);
-            if (g == NULL) {
-                g = CodeGenFactory::createObject(pl);
-                if (getCurrentCodeGenerator() == NULL)
-                    setCurrentCodeGenerator(g);
-            }
             g->loadFromXMI(cgelement);
             cgnode = cgnode.nextSibling();
             cgelement = cgnode.toElement();
