@@ -42,7 +42,7 @@ void ActivityPage::setupPage() {
     mainLayout -> setSpacing(10);
 
     m_pActivityGB = new Q3GroupBox(i18n("Activities"), this );
-    QGridLayout* activityLayout = new QGridLayout( m_pActivityGB, 2, 2 );
+    QGridLayout* activityLayout = new QGridLayout( m_pActivityGB );
     m_pActivityLB = new Q3ListBox(m_pActivityGB );
     activityLayout -> setMargin(margin);
     activityLayout -> setSpacing ( 10 );

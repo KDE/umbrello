@@ -26,7 +26,9 @@
 OverwriteDialogue::OverwriteDialogue(QString fileName, QString outputDirectory, bool applyToAllRemaining, QWidget* parent, const char* name):
 KDialogBase(Plain, i18n("Destination File Already Exists"), Ok|Apply|Cancel, Yes, parent, name) {
 
-    QVBoxLayout* layout = new QVBoxLayout( plainPage(), 0, spacingHint() );
+    QVBoxLayout* layout = new QVBoxLayout( plainPage() );
+    layout->setSpacing( spacingHint() );
+    layout->setMargin( 0 );
 
     QLabel* dialogueLabel = new QLabel(i18n("The file %1 already exists in %2.\n\nUmbrello can overwrite the file, generate a similar\nfile name or not generate this file.", fileName, outputDirectory), plainPage() );
     layout->addWidget(dialogueLabel);

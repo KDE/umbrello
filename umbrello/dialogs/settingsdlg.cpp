@@ -51,7 +51,7 @@ void SettingsDlg::setupUIPage() {
     KVBox * page = addVBoxPage( i18n("User Interface"), i18n("User Interface Settings"), DesktopIcon( "window_list") );
 
     m_UiWidgets.colorGB = new Q3GroupBox( i18n("Color"), page );
-    QGridLayout * colorLayout = new QGridLayout( m_UiWidgets.colorGB, 3, 3 );
+    QGridLayout * colorLayout = new QGridLayout( m_UiWidgets.colorGB );
     colorLayout -> setSpacing( spacingHint() );
     colorLayout -> setMargin( fontMetrics().height() );
 
@@ -107,7 +107,7 @@ void SettingsDlg::setupGeneralPage() {
     // Set up undo setting
     m_GeneralWidgets.miscGB = new Q3GroupBox( i18n("Miscellaneous"), page );
 
-    QGridLayout * miscLayout = new QGridLayout( m_GeneralWidgets.miscGB, 2, 2 );
+    QGridLayout * miscLayout = new QGridLayout( m_GeneralWidgets.miscGB );
     miscLayout -> setSpacing( spacingHint() );
     miscLayout -> setMargin( fontMetrics().height() );
 
@@ -131,7 +131,7 @@ void SettingsDlg::setupGeneralPage() {
 
     m_GeneralWidgets.autosaveGB = new Q3GroupBox( i18n("Autosave"), page );
 
-    QGridLayout * autosaveLayout = new QGridLayout( m_GeneralWidgets.autosaveGB, 3, 2 );
+    QGridLayout * autosaveLayout = new QGridLayout( m_GeneralWidgets.autosaveGB );
     autosaveLayout -> setSpacing( spacingHint() );
     autosaveLayout -> setMargin( fontMetrics().height() );
 
@@ -163,7 +163,7 @@ void SettingsDlg::setupGeneralPage() {
     //setup startup settings
     m_GeneralWidgets.startupGB = new Q3GroupBox( i18n("Startup"), page );
 
-    QGridLayout * startupLayout = new QGridLayout( m_GeneralWidgets.startupGB, 3, 2 );
+    QGridLayout * startupLayout = new QGridLayout( m_GeneralWidgets.startupGB );
     startupLayout -> setSpacing( spacingHint() );
     startupLayout -> setMargin( fontMetrics().height() );
 

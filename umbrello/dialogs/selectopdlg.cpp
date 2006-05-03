@@ -41,7 +41,7 @@ SelectOpDlg::SelectOpDlg(UMLView * parent, UMLClassifier * c)
     m_pOpGB = new Q3GroupBox(i18n("Select Operation"), plainPage());
     topLayout -> addWidget(m_pOpGB);
 
-    QGridLayout * mainLayout = new QGridLayout(m_pOpGB, 3, 2);
+    QGridLayout * mainLayout = new QGridLayout(m_pOpGB);
     mainLayout -> setSpacing(spacingHint());
     mainLayout -> setMargin(fontMetrics().height());
 

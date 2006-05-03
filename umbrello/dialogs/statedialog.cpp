@@ -95,7 +95,7 @@ void StateDialog::setupGeneralPage() {
     KVBox * page = addVBoxPage( i18n("General"), i18n("General Properties"), DesktopIcon( "misc") );
     m_GenPageWidgets.generalGB = new Q3GroupBox( i18n( "Properties"), (QWidget *)page );
 
-    QGridLayout * generalLayout = new QGridLayout( m_GenPageWidgets.generalGB, 2, 2 );
+    QGridLayout * generalLayout = new QGridLayout( m_GenPageWidgets.generalGB );
     generalLayout -> setSpacing( spacingHint() );
     generalLayout -> setMargin(  fontMetrics().height()  );
 

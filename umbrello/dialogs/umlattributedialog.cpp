@@ -59,7 +59,7 @@ void UMLAttributeDialog::setupDialog() {
     QVBoxLayout * mainLayout = new QVBoxLayout( plainPage() );
 
     m_pValuesGB = new Q3GroupBox(i18n("General Properties"), plainPage() );
-    QGridLayout * valuesLayout = new QGridLayout(m_pValuesGB, 5, 2);
+    QGridLayout * valuesLayout = new QGridLayout(m_pValuesGB);
     valuesLayout -> setMargin(margin);
     valuesLayout -> setSpacing(10);
 

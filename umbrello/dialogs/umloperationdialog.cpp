@@ -69,7 +69,7 @@ void UMLOperationDialog::setupDialog() {
     QVBoxLayout * topLayout = new QVBoxLayout( plainPage() );
 
     m_pGenGB = new Q3GroupBox(i18n("General Properties"), plainPage() );
-    QGridLayout * genLayout = new QGridLayout(m_pGenGB, 3, 4 );
+    QGridLayout * genLayout = new QGridLayout(m_pGenGB);
     genLayout -> setMargin(margin);
     genLayout -> setSpacing(10);
 

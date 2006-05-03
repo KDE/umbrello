@@ -62,7 +62,7 @@ void AssocGenPage::constructWidget() {
     topLayout -> addWidget(nameGB);
     topLayout -> addWidget(docGB);
 
-    QGridLayout * nameLayout = new QGridLayout(nameGB, 2, 2);
+    QGridLayout * nameLayout = new QGridLayout(nameGB);
     nameLayout -> setSpacing(6);
     nameLayout -> setMargin(margin);
 

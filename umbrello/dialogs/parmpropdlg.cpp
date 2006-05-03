@@ -60,7 +60,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
     m_pParmGB = new Q3GroupBox(i18n("Properties"), plainPage());
     topLayout -> addWidget(m_pParmGB);
 
-    QGridLayout * propLayout = new QGridLayout(m_pParmGB, 4, 2);
+    QGridLayout * propLayout = new QGridLayout(m_pParmGB);
     propLayout -> setSpacing(10);
     propLayout -> setMargin(margin);
 

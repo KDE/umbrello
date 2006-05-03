@@ -253,7 +253,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidge
     //int t = o -> getBaseType();
     m_pUmldoc = d;
     setMinimumSize(310,330);
-    QGridLayout * topLayout = new QGridLayout(this, 2, 1);
+    QGridLayout * topLayout = new QGridLayout(this);
     topLayout -> setSpacing(6);
 
     //setup name
@@ -318,7 +318,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget) : QWid
     //int t = o -> getBaseType();
     m_pUmldoc = d;
     setMinimumSize(310,330);
-    QGridLayout* topLayout = new QGridLayout(this, 2, 1);
+    QGridLayout* topLayout = new QGridLayout(this);
     topLayout->setSpacing(6);
 
     //setup name

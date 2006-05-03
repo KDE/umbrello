@@ -58,7 +58,7 @@ void UMLWidgetColorPage::init()
 
     m_pColorGB = new Q3GroupBox( i18n( "Color" ), this );
     topLayout -> addWidget( m_pColorGB );
-    QGridLayout * colorLayout = new QGridLayout( m_pColorGB, 3, 3 );
+    QGridLayout * colorLayout = new QGridLayout( m_pColorGB );
     colorLayout -> setMargin( margin );
 
     m_pLineColorL = new QLabel( i18n( "&Line:" ), m_pColorGB );

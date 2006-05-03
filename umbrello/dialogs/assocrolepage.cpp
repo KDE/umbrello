@@ -64,7 +64,7 @@ void AssocRolePage::constructWidget() {
     // general configuration of the GUI
     int margin = fontMetrics().height();
     setMinimumSize(310,330);
-    QGridLayout * mainLayout = new QGridLayout(this, 4, 2);
+    QGridLayout * mainLayout = new QGridLayout(this);
     mainLayout -> setSpacing(6);
 
     // group boxes for role, documentation properties
@@ -89,11 +89,11 @@ void AssocRolePage::constructWidget() {
     mainLayout -> addWidget(changeBBG, 2, 1);
     mainLayout -> addWidget(   docBGB, 3, 1);
 
-    QGridLayout * propsALayout = new QGridLayout(propsAGB, 2, 2);
+    QGridLayout * propsALayout = new QGridLayout(propsAGB);
     propsALayout -> setSpacing(6);
     propsALayout -> setMargin(margin);
 
-    QGridLayout * propsBLayout = new QGridLayout(propsBGB, 3, 2);
+    QGridLayout * propsBLayout = new QGridLayout(propsBGB);
     propsBLayout -> setSpacing(6);
     propsBLayout -> setMargin(margin);
 
