@@ -89,13 +89,10 @@ UMLDoc::UMLDoc() {
     m_currentView = 0;
     m_uniqueID = 0;
     m_count = 0;
-    m_currentcodegenerator = 0;
     m_objectList.clear();
     m_objectList.setAutoDelete(false); // DONT autodelete
     m_stereoList.setAutoDelete(false);
     m_ViewList.setAutoDelete(true);
-
-    m_codeGenerationXMIParamMap = new QMap<QString, QDomElement>;
 
     m_pChangeLog = 0;
     m_Doc = "";
@@ -245,18 +242,12 @@ bool UMLDoc::saveModified() {
 }
 
 void UMLDoc::closeDocument() {
+    UMLApp::app()->setGenerator(Uml::pl_Reserved);  // delete the codegen
     m_Doc = "";
     DocWindow* dw = UMLApp::app()->getDocWindow();
     if (dw) {
         dw->newDocumentation();
     }
-
-    // remove all code generators
-    for (CodeGeneratorListIt it(m_codeGenerators); it.current(); ++it)
-        removeCodeGenerator(it.current());
-    m_codeGenerators.clear();
-
-    m_currentcodegenerator = 0;
 
     UMLListView *listView = UMLApp::app()->getListView();
     if (listView) {
@@ -315,7 +306,6 @@ void UMLDoc::closeDocument() {
 ==30179==    by 0x82A0F67: JavaCodeGenerator::~JavaCodeGenerator() (javacodegenerator.cpp:45)
 ==30179==    by 0x81B80EE: UMLDoc::removeCodeGenerator(CodeGenerator*) (umldoc.cpp:737)
 ==30179==    by 0x81B532E: UMLDoc::closeDocument() (umldoc.cpp:255)
-
             for (UMLObject * obj = m_objectList.first(); obj != 0; obj = m_objectList.next()) {
                 if (obj->getBaseType() == Uml::ot_Association) {
                     UMLAssociation *assoc = static_cast<UMLAssociation*>(obj);
@@ -386,6 +376,7 @@ bool UMLDoc::newDocument() {
         break;
     }//end switch
 
+    UMLApp::app()->initGenerator();
     addDefaultDatatypes();
     addDefaultStereotypes();
 
@@ -728,15 +719,6 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
     return uploaded;
 }
 
-void UMLDoc::setCurrentCodeGenerator ( CodeGenerator * gen ) {
-    addCodeGenerator(gen); // wont add IF it already exists
-    m_currentcodegenerator = gen;
-}
-
-CodeGenerator* UMLDoc::getCurrentCodeGenerator() {
-    return m_currentcodegenerator;
-}
-
 void UMLDoc::setupSignals() {
     WorkToolBar *tb = UMLApp::app() -> getWorkToolBar();
 
@@ -745,53 +727,6 @@ void UMLDoc::setupSignals() {
     //new signals below
 
     return;
-}
-
-bool UMLDoc::addCodeGenerator ( CodeGenerator * gen)
-{
-    if(!gen)
-        return false;
-    if (m_codeGenerators.find(gen) >= 0)
-        return false; // return false, we already have the object in the list
-    else
-        m_codeGenerators.append(gen);
-    return true;
-}
-
-bool UMLDoc::hasCodeGeneratorXMIParams ( const QString &lang )
-{
-    if (m_codeGenerationXMIParamMap->contains(lang))
-        return true;
-    return false;
-}
-
-QDomElement UMLDoc::getCodeGeneratorXMIParams ( const QString &lang )
-{
-    return ((*m_codeGenerationXMIParamMap)[lang]);
-}
-
-/**
- * Remove a CodeGenerator object
- */
-bool UMLDoc::removeCodeGenerator ( CodeGenerator * remove_object ) {
-    QString lang = Model_Utils::progLangToString( remove_object->getLanguage() );
-    if(!(lang.isEmpty()) && m_codeGenerators.find(remove_object) >= 0)
-    {
-        m_codeGenerationXMIParamMap->erase(lang);
-        m_codeGenerators.remove(remove_object);
-        delete remove_object;
-    } else
-        return false;
-
-    return true;
-}
-
-CodeGenerator * UMLDoc::findCodeGeneratorByLanguage (Uml::Programming_Language lang) {
-    CodeGenerator *cg = NULL;
-    for (CodeGeneratorListIt it(m_codeGenerators); (cg = it.current()) != NULL; ++it)
-        if (cg->getLanguage() == lang)
-            break;
-    return cg;
 }
 
 UMLView * UMLDoc::findView(Uml::IDType id) {
@@ -1550,8 +1485,8 @@ void UMLDoc::saveToXMI(QIODevice& file, bool saveSubmodelFiles /* = false */) {
     // save code generators
     QDomElement codeGenElement = doc.createElement( "codegeneration" );
     
-    for (CodeGeneratorListIt it(m_codeGenerators); it.current(); ++it)
-        it.current()->saveToXMI ( doc, codeGenElement );
+    CodeGenerator *codegen = UMLApp::app()->getGenerator();
+    codegen->saveToXMI( doc, codeGenElement );
     extensions.appendChild( codeGenElement );
 
     root.appendChild( extensions );
@@ -1850,7 +1785,9 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
     kdDebug() << "UMLDoc::m_objectList.count() is " << m_objectList.count() << endl;
 #endif
     resolveTypes();
-
+    // set a default code generator if no <XMI.extensions><codegeneration> tag seen
+    if (UMLApp::app()->getGenerator() == NULL)
+        UMLApp::app()->setGenerator(Uml::pl_Cpp);
     emit sigWriteToStatusBar( i18n("Setting up the document...") );
     kapp->processEvents();  // give UI events a chance
     m_currentView = NULL;
@@ -2066,17 +2003,17 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node) {
     } else if (tag == "codegeneration") {
         QDomNode cgnode = node.firstChild();
         QDomElement cgelement = cgnode.toElement();
-        // save for later on
         while( !cgelement.isNull() ) {
             QString nodeName = cgelement.tagName();
             QString lang = cgelement.attribute("language","UNKNOWN");
-            m_codeGenerationXMIParamMap->insert(lang, cgelement);
             Uml::Programming_Language pl = Model_Utils::stringToProgLang(lang);
             CodeGenerator *g = UMLApp::app()->setGenerator(pl);
             g->loadFromXMI(cgelement);
             cgnode = cgnode.nextSibling();
             cgelement = cgnode.toElement();
         }
+        if (UMLApp::app()->getGenerator() == NULL)
+            UMLApp::app()->setGenerator(Uml::pl_Cpp);
     }
 }
 
@@ -2552,7 +2489,10 @@ void UMLDoc::loadRedoData() {
 }
 
 void UMLDoc::addDefaultDatatypes() {
-    QStringList entries = UMLApp::app()->getGenerator()->defaultDatatypes();
+    CodeGenerator *cg = UMLApp::app()->getGenerator();
+    if (cg == NULL)
+        return;
+    QStringList entries = cg->defaultDatatypes();
     QStringList::Iterator end(entries.end());
     for (QStringList::Iterator it = entries.begin(); it != end; ++it)
         createDatatype(*it);

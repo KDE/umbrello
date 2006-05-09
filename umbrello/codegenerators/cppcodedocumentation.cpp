@@ -22,8 +22,8 @@
 // app includes
 #include "../codedocument.h"
 #include "../codegenerator.h"
+#include "../codegenerationpolicy.h"
 #include "../uml.h"
-#include "cppcodegenerationpolicy.h"
 
 // Constructors/Destructors
 //
@@ -71,7 +71,7 @@ QString CPPCodeDocumentation::toString ( )
         bool useDoubleDashOutput = true;
 
         // need to figure out output type from cpp policy
-        CPPCodeGenerationPolicy * p = (CPPCodeGenerationPolicy*)(UMLApp::app()->getGenerator()->getPolicy());
+        CodeGenerationPolicy * p = UMLApp::app()->getCommonPolicy();
         if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
             useDoubleDashOutput = false;
 
@@ -94,7 +94,7 @@ QString CPPCodeDocumentation::toString ( )
 
 QString CPPCodeDocumentation::getNewEditorLine ( int amount )
 {
-    CPPCodeGenerationPolicy * p = (CPPCodeGenerationPolicy*)(UMLApp::app()->getGenerator()->getPolicy());
+    CodeGenerationPolicy * p = UMLApp::app()->getCommonPolicy();
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
         return getIndentationString(amount) + " * ";
     else
@@ -102,14 +102,14 @@ QString CPPCodeDocumentation::getNewEditorLine ( int amount )
 }
 
 int CPPCodeDocumentation::firstEditableLine() {
-    CPPCodeGenerationPolicy * p = (CPPCodeGenerationPolicy*)(UMLApp::app()->getGenerator()->getPolicy());
+    CodeGenerationPolicy * p = UMLApp::app()->getCommonPolicy();
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
         return 1;
     return 0;
 }
 
 int CPPCodeDocumentation::lastEditableLine() {
-    CPPCodeGenerationPolicy * p = (CPPCodeGenerationPolicy*)(UMLApp::app()->getGenerator()->getPolicy());
+    CodeGenerationPolicy * p = UMLApp::app()->getCommonPolicy();
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
     {
         return -1; // very last line is NOT editable
@@ -124,7 +124,7 @@ QString CPPCodeDocumentation::unformatText ( const QString & text , const QStrin
 {
 
     QString mytext = TextBlock::unformatText(text, indent);
-    CPPCodeGenerationPolicy * p = (CPPCodeGenerationPolicy*)(UMLApp::app()->getGenerator()->getPolicy());
+    CodeGenerationPolicy * p = UMLApp::app()->getCommonPolicy();
     // remove leading or trailing comment stuff
     mytext.remove(QRegExp("^"+indent));
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
@@ -139,4 +139,3 @@ QString CPPCodeDocumentation::unformatText ( const QString & text , const QStrin
 }
 
 
-#include "cppcodedocumentation.moc"

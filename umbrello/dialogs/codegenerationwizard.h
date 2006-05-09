@@ -14,6 +14,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2003-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 #ifndef CODEGENERATIONWIZARD_H
@@ -38,9 +40,7 @@ class CodeGenerationOptionsPage;
 class CodeGenerationWizard : public CodeGenerationWizardBase {
     Q_OBJECT
 public:
-    CodeGenerationWizard(UMLDoc *doc, UMLClassifierList *classList,
-                         Uml::Programming_Language activeLanguage, UMLApp *parent,
-                         const char *name=0);
+    CodeGenerationWizard(UMLClassifierList *classList);
     ~CodeGenerationWizard();
 
     void showPage(QWidget *);

@@ -139,8 +139,8 @@ UMLObject* createUMLObject(Uml::Object_Type type, const QString &n,
                                i18n("Invalid Name"));
             continue;
         }
-        if (doc->getCurrentCodeGenerator() != NULL &&
-                doc->getCurrentCodeGenerator()->isReservedKeyword(name)) {
+        CodeGenerator *codegen = UMLApp::app()->getGenerator();
+        if (codegen != NULL && codegen->isReservedKeyword(name)) {
             KMessageBox::error(0, i18n("This is a reserved keyword for the language of the configured code generator."),
                                i18n("Reserved Keyword"));
             continue;

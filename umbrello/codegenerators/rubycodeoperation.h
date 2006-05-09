@@ -47,10 +47,6 @@ protected:
 
     void updateMethodDeclaration();
 
-private:
-    void init (RubyClassifierCodeDocument * doc );
-
-
 };
 
 #endif // RUBYCODEOPERATION_H

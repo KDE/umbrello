@@ -11,6 +11,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2003-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 // own header
 #include "codegenerationoptionspage.h"
@@ -18,7 +20,9 @@
 #include <qcheckbox.h>
 #include <kdebug.h>
 // app includes
+#include "../codegenerator.h"
 #include "codegenerationpolicypage.h"
+#include "../codegenerators/codegenpolicyext.h"
 #include "defaultcodegenpolicypage.h"
 #include "../model_utils.h"
 #include "../uml.h"
@@ -33,45 +37,21 @@
 #include <qlistview.h>
 #include <qbuttongroup.h>
 
-CodeGenerationOptionsPage::CodeGenerationOptionsPage( CodeGenerator * gen,
-        Uml::Programming_Language activeLanguage,
-        QWidget *parent,
-        const char *name )
-        :CodeGenerationOptionsBase(parent,name)
+CodeGenerationOptionsPage::CodeGenerationOptionsPage(QWidget *parent)
+  : CodeGenerationOptionsBase(parent)
 {
-    init (gen, activeLanguage);
+    init();
 }
 
 CodeGenerationOptionsPage::~CodeGenerationOptionsPage() { }
 
-void CodeGenerationOptionsPage::init( CodeGenerator * gen,
-                                      Uml::Programming_Language activeLanguage)
+void CodeGenerationOptionsPage::init()
 {
-
-    m_pCodeGenerator = 0;
-    m_parentPolicy = 0;
     m_pCodePolicyPage = 0;
 
-    if(gen)
-        setCodeGenerator(gen);
-
-    setupActiveLanguageBox(activeLanguage);
-}
-
-void CodeGenerationOptionsPage::setCodeGenerator ( CodeGenerator * gen) {
-
-    if(m_pCodeGenerator)
-    {
-        m_pCodeGenerator->disconnect();
-        m_pCodeGenerator = 0;
-    }
-
-    m_parentPolicy = 0;
-
-    CodeGenerationPolicy *policy = gen->getPolicy();
+    CodeGenerationPolicy *policy = UMLApp::app()->getCommonPolicy();
     m_parentPolicy = policy;
-    m_pCodeGenerator = gen;
-
+    CodeGenerator *gen = UMLApp::app()->getGenerator();
 
     m_forceDoc->setChecked(policy->getCodeVerboseDocumentComments());
     m_forceSections->setChecked(policy->getCodeVerboseSectionComments());
@@ -85,14 +65,15 @@ void CodeGenerationOptionsPage::setCodeGenerator ( CodeGenerator * gen) {
     m_SelectIndentationTypeBox->setCurrentItem(indentTypeToInteger(policy->getIndentationType()));
     m_SelectIndentationNumber->setValue(policy->getIndentationAmount());
 
-    connect(this,SIGNAL(syncCodeDocumentsToParent()),m_pCodeGenerator,SLOT(syncCodeToDocument()));
+    connect(this,SIGNAL(syncCodeDocumentsToParent()),gen,SLOT(syncCodeToDocument()));
 
     // now insert the language-dependant page, should there be one
-    updateCodeGenerationPolicyTab(gen);
+    updateCodeGenerationPolicyTab();
 
+    setupActiveLanguageBox();
 }
 
-void CodeGenerationOptionsPage::setupActiveLanguageBox(Uml::Programming_Language activeLanguage)
+void CodeGenerationOptionsPage::setupActiveLanguageBox()
 {
     int indexCounter = 0;
     while (indexCounter < Uml::pl_Reserved) {
@@ -100,10 +81,7 @@ void CodeGenerationOptionsPage::setupActiveLanguageBox(Uml::Programming_Language
         m_SelectLanguageBox->insertItem(language, indexCounter);
         indexCounter++;
     }
-    if (activeLanguage != Uml::pl_Reserved)
-        m_SelectLanguageBox->setCurrentItem(activeLanguage);
-    else
-        m_SelectLanguageBox->setCurrentItem(Uml::pl_Cpp);
+    m_SelectLanguageBox->setCurrentItem(UMLApp::app()->getActiveLanguage());
 }
 
 int CodeGenerationOptionsPage::indentTypeToInteger(CodeGenerationPolicy::IndentationType value) {
@@ -143,7 +121,7 @@ int CodeGenerationOptionsPage::overwriteToInteger(CodeGenerationPolicy::Overwrit
     }
 }
 
-void CodeGenerationOptionsPage::updateCodeGenerationPolicyTab(CodeGenerator * gen) {
+void CodeGenerationOptionsPage::updateCodeGenerationPolicyTab() {
 
     if(m_pCodePolicyPage)
     {
@@ -151,10 +129,11 @@ void CodeGenerationOptionsPage::updateCodeGenerationPolicyTab(CodeGenerator * ge
         m_pCodePolicyPage = 0;
     }
 
-    if(!gen)
-        m_pCodePolicyPage = new DefaultCodeGenPolicyPage(languageOptionsFrame, "codelangpolicypage");
+    CodeGenPolicyExt *policyExt = UMLApp::app()->getPolicyExt();
+    if (policyExt)
+        m_pCodePolicyPage = policyExt->createPage(languageOptionsFrame, "codelangpolicypage");
     else
-        m_pCodePolicyPage = gen->getPolicy()->createPage(languageOptionsFrame, "codelangpolicypage");
+        m_pCodePolicyPage = new DefaultCodeGenPolicyPage(languageOptionsFrame, "codelangpolicypage");
 
     connect(this,SIGNAL(applyClicked()),m_pCodePolicyPage,SLOT(apply()));
 

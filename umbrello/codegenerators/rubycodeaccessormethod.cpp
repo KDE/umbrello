@@ -78,6 +78,7 @@ void RubyCodeAccessorMethod::updateContent( )
     CodeClassField * parentField = getParentClassField();
     RubyCodeClassField * rubyfield = (RubyCodeClassField*)parentField;
     QString fieldName = rubyfield->getFieldName();
+    QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
 
     QString text = "";
     switch(getType()) {
@@ -87,7 +88,6 @@ void RubyCodeAccessorMethod::updateContent( )
             RubyClassifierCodeDocument * rubydoc = (RubyClassifierCodeDocument*) rubyfield->getParentDocument();
             QString fieldType = rubyfield->getTypeName();
             QString indent = getIndentation();
-            QString endLine = rubydoc->getParentGenerator()->getNewLineEndingChars();
             if(maxOccurs > 0)
                 text += "if "+fieldName+".size() < "+ QString::number(maxOccurs)+" "+endLine+indent;
             text += fieldName+".push(value)";
@@ -109,7 +109,6 @@ void RubyCodeAccessorMethod::updateContent( )
             int minOccurs = rubyfield->minimumListOccurances();
             RubyClassifierCodeDocument * rubydoc = (RubyClassifierCodeDocument*) rubyfield->getParentDocument();
             QString fieldType = rubyfield->getTypeName();
-            QString endLine = rubydoc->getParentGenerator()->getNewLineEndingChars();
             QString indent = getIndentation();
 
             if(minOccurs > 0)
@@ -139,19 +138,17 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
 
     RubyCodeClassField * rubyfield = (RubyCodeClassField*) getParentClassField();
     RubyClassifierCodeDocument * rubydoc = (RubyClassifierCodeDocument*) rubyfield->getParentDocument();
-    RubyCodeGenerationPolicy * rubypolicy = (RubyCodeGenerationPolicy *)(UMLApp::app()->getGenerator()->getPolicy());
-    CodeGenerator *g = rubydoc->getParentGenerator();
-    RubyCodeGenerator * gen = dynamic_cast<RubyCodeGenerator *>(g);
 
     // gather defs
-    RubyCodeGenerationPolicy::ScopePolicy scopePolicy = rubypolicy->getAttributeAccessorScope();
+    CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy::ScopePolicy scopePolicy = p->getAttributeAccessorScope();
     QString strVis = rubydoc->scopeToRubyDecl(rubyfield->getVisibility());
-    QString fieldName = gen->cppToRubyName(rubyfield->getFieldName());
-    QString fieldType = gen->cppToRubyType(rubyfield->getTypeName());
+    QString fieldName = RubyCodeGenerator::cppToRubyName(rubyfield->getFieldName());
+    QString fieldType = RubyCodeGenerator::cppToRubyType(rubyfield->getTypeName());
     QString objectType = rubyfield->getListObjectType();
     if(objectType.isEmpty())
         objectType = fieldName;
-    QString endLine = rubydoc->getParentGenerator()->getNewLineEndingChars();
+    QString endLine = p->getNewLineEndingChars();
     
     QString description = getParentObject()->getDoc();
     description.replace(QRegExp("m_[npb](?=[A-Z])"), "");
@@ -162,13 +159,13 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
     // we need to be more sophisticated
     if(rubyfield->parentIsAttribute())
         switch (scopePolicy) {
-        case RubyCodeGenerationPolicy::Public:
-        case RubyCodeGenerationPolicy::Private:
-        case RubyCodeGenerationPolicy::Protected:
+        case CodeGenerationPolicy::Public:
+        case CodeGenerationPolicy::Private:
+        case CodeGenerationPolicy::Protected:
             strVis = rubydoc->scopeToRubyDecl((Uml::Visibility::Value) scopePolicy);
             break;
         default:
-        case RubyCodeGenerationPolicy::FromParent:
+        case CodeGenerationPolicy::FromParent:
             // do nothing..already have taken parent value
             break;
         }

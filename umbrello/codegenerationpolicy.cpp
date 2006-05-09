@@ -13,19 +13,28 @@
  *      Author : thomas
  *      Date   : Fri Jun 20 2003
  */
+
+// own header
+#include "codegenerationpolicy.h"
+
+//system includes
 #include <cstdlib> //to get the user name
 
+// qt includes
+#include <qstringlist.h>
+#include <qregexp.h>
+#include <qtextstream.h>
+
+// kde includes
 #include <kconfig.h>
 #include <kdeversion.h>
 #include <kdebug.h>
 #include <kstandarddirs.h>
 
-#include <qstringlist.h>
-#include <qregexp.h>
-#include <qtextstream.h>
-
+// app includes
+#include "uml.h"
+#include "umldoc.h"
 #include "dialogs/codegenerationpolicypage.h"
-#include "codegenerationpolicy.h"
 
 using namespace std;
 
@@ -369,6 +378,24 @@ bool CodeGenerationPolicy::getAutoGenerateConstructors( ){
     return m_autoGenerateConstructors;
 }
 
+void CodeGenerationPolicy::setAttributeAccessorScope(CodeGenerationPolicy::ScopePolicy var) {
+    m_attributeAccessorScope = var;
+    emit modifiedCodeContent();
+}
+
+CodeGenerationPolicy::ScopePolicy CodeGenerationPolicy::getAttributeAccessorScope() {
+    return m_attributeAccessorScope;
+}
+
+void CodeGenerationPolicy::setAssociationFieldScope(CodeGenerationPolicy::ScopePolicy var) {
+    m_associationFieldScope = var;
+    emit modifiedCodeContent();
+}
+
+CodeGenerationPolicy::ScopePolicy CodeGenerationPolicy::getAssociationFieldScope() {
+    return m_associationFieldScope;
+}
+
 /**
  * Create a new dialog interface for this object.
  * @return dialog object
@@ -381,7 +408,8 @@ CodeGenerationPolicyPage * CodeGenerationPolicy::createPage ( QWidget *pWidget, 
 //
 
 void CodeGenerationPolicy::emitModifiedCodeContentSig() {
-    emit modifiedCodeContent();
+    if (!UMLApp::app()->getDocument()->loading())
+        emit modifiedCodeContent();
 }
 
 void CodeGenerationPolicy::setDefaults ( CodeGenerationPolicy * clone , bool emitUpdateSignal)
@@ -423,6 +451,10 @@ void CodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSignal)
     // needlessly (we can just make one call at the end).
 
     config -> setGroup("Code Generation");
+    setAttributeAccessorScope((ScopePolicy)config->readNumEntry("defaultAttributeAccessorScope",defaultAttribAccessorScope()));
+    setAssociationFieldScope((ScopePolicy)config->readNumEntry("defaultAssocFieldScope",defaultAssocFieldScope()));
+    setCommentStyle((CommentStyle)config->readNumEntry("commentStyle",defaultCommentStyle()));
+    setAutoGenerateConstructors(config->readBoolEntry("autoGenEmptyConstructors",defaultAutoGenerateConstructors()));
     setCodeVerboseDocumentComments( config->readBoolEntry("forceDoc",defaultVerboseDocumentComments()) );
     setCodeVerboseSectionComments( config->readBoolEntry("forceSections",defaultVerboseSectionComments()) );
     setLineEndingType( (NewLineType) config->readNumEntry("lineEndingType",defaultLineEndingType()) );
@@ -456,6 +488,10 @@ void CodeGenerationPolicy::writeConfig (KConfig * config) {
 
     config->setGroup("Code Generation");
 
+    config->writeEntry("defaultAttributeAccessorScope",getAttributeAccessorScope());
+    config->writeEntry("defaultAssocFieldScope",getAssociationFieldScope());
+    config->writeEntry("commentStyle",getCommentStyle());
+    config->writeEntry("autoGenEmptyConstructors",getAutoGenerateConstructors());
     //config->writeEntry("newCodegen", getNewCodegen());
     config->writeEntry("forceDoc",getCodeVerboseDocumentComments());
     config->writeEntry("forceSections",getCodeVerboseSectionComments());
@@ -538,8 +574,8 @@ void CodeGenerationPolicy::initFields ( ) {
     m_indentationAmount = defaultIndentAmount();
     m_modifyPolicy = defaultModifyNamePolicy();
     m_autoGenerateConstructors = defaultAutoGenerateConstructors();
-    m_defaultAttributeAccessorScope = defaultAttribAccessorScope();
-    m_defaultAssociationFieldScope = defaultAssocFieldScope();
+    m_attributeAccessorScope = defaultAttribAccessorScope();
+    m_associationFieldScope = defaultAssocFieldScope();
     m_commentStyle = defaultCommentStyle();
 
     m_outputDirectory.setPath(QDir::home().absPath() + "/uml-generated-code/");

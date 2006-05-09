@@ -5,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 #ifndef UMLDOC_H
@@ -50,7 +52,6 @@ class QSplitter;
 
 class KPrinter;
 
-class CodeGenerator;
 class DocWindow;
 class IDChangeLog;
 class ObjectWidget;
@@ -704,16 +705,6 @@ public:
     void clearRedoStack();
 
     /**
-     * Get the root node for the code generation parameters.
-     */
-    QDomElement getCodeGeneratorXMIParams ( const QString &lang );
-
-    /**
-     * Allow checking to see if saved XMI parameters exist already.
-     */
-    bool hasCodeGeneratorXMIParams ( const QString &lang );
-
-    /**
      * All the UMLViews (i.e. diagrams)
      */
     UMLViewList m_ViewList;
@@ -734,30 +725,6 @@ public:
      * Sets loading boolean flag to the value given.
      */
     void setLoading(bool state = true);
-
-    /**
-     * Find a code generator by the given language.
-     */
-    CodeGenerator * findCodeGeneratorByLanguage (Uml::Programming_Language lang);
-
-    /**
-     * Add a CodeGenerator object to this UMLDoc
-     */
-    bool addCodeGenerator ( CodeGenerator * add_gen );
-
-    /**
-     * Remove and delete a CodeGenerator object from this UMLDoc.
-     * @return boolean - will return false if it couldnt remove a generator.
-     */
-    bool removeCodeGenerator ( CodeGenerator * remove_object );
-
-    /** Set the current (active) code generator for this document.
-     */
-    void setCurrentCodeGenerator ( CodeGenerator * gen );
-
-    /** Get the current (active) code generator for this document.
-     */
-    CodeGenerator* getCurrentCodeGenerator();
 
     /**
      * Calls the active code generator to create its default datatypes
@@ -829,7 +796,6 @@ private:
      */
     void initSaveTimer();
 
-    CodeGenerator * m_currentcodegenerator;
     UMLObjectList m_objectList;
 
     /**
@@ -856,20 +822,6 @@ private:
     bool m_modified;
     KURL m_doc_url;
     UMLView* m_currentView;
-
-    /**
-     * A dictionary of the parameters in the save XMI file
-     * sorted by language.
-     */
-    QMap<QString, QDomElement> * m_codeGenerationXMIParamMap;
-
-    /**
-     * A dictionary of various code generators we currently have
-     * configured for this UML document.
-     */
-    typedef QPtrList<CodeGenerator> CodeGeneratorList;
-    typedef QPtrListIterator<CodeGenerator> CodeGeneratorListIt;
-    CodeGeneratorList m_codeGenerators;
 
     /**
      * Contains all the UMLObject id changes of paste session.

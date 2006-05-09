@@ -284,8 +284,11 @@ bool isCommonXMIAttribute( const QString &tag ) {
 }
 
 bool isCommonDataType(QString type) {
+    CodeGenerator *gen = UMLApp::app()->getGenerator();
+    if (gen == NULL)
+        return false;
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
-    QStringList dataTypes = UMLApp::app()->getGenerator()->defaultDatatypes();
+    QStringList dataTypes = gen->defaultDatatypes();
     QStringList::Iterator end(dataTypes.end());
     for (QStringList::Iterator it = dataTypes.begin(); it != end; ++it) {
         if (caseSensitive) {

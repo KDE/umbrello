@@ -49,9 +49,8 @@ void RubyCodeClassFieldDeclarationBlock::updateContent( )
     ClassifierCodeDocument * doc = cf->getParentDocument();
     RubyCodeClassField * rcf = (RubyCodeClassField*) cf;
     RubyClassifierCodeDocument* rdoc = (RubyClassifierCodeDocument*) doc;
-    RubyCodeGenerationPolicy * rubypolicy = (RubyCodeGenerationPolicy *)(UMLApp::app()->getGenerator()->getPolicy());
-
-    RubyCodeGenerationPolicy::ScopePolicy scopePolicy = rubypolicy->getAssociationFieldScope();
+    CodeGenerationPolicy * p = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy::ScopePolicy scopePolicy = p->getAssociationFieldScope();
 
     // Set the comment
     QString notes = getParentObject()->getDoc();
@@ -65,13 +64,13 @@ void RubyCodeClassFieldDeclarationBlock::updateContent( )
     if(!rcf->parentIsAttribute())
     {
         switch (scopePolicy) {
-        case RubyCodeGenerationPolicy::Public:
-        case RubyCodeGenerationPolicy::Private:
-        case RubyCodeGenerationPolicy::Protected:
+        case CodeGenerationPolicy::Public:
+        case CodeGenerationPolicy::Private:
+        case CodeGenerationPolicy::Protected:
             scopeStr = rdoc->scopeToRubyDecl((Uml::Visibility::Value) scopePolicy);
             break;
         default:
-        case RubyCodeGenerationPolicy::FromParent:
+        case CodeGenerationPolicy::FromParent:
             // do nothing here... will leave as from parent object
             break;
         }

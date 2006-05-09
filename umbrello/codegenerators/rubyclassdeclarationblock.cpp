@@ -13,11 +13,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2006                                                    *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 #include "rubyclassdeclarationblock.h"
 #include "rubycodedocumentation.h"
 #include "rubycodegenerator.h"
+#include "../uml.h"
 
 // Constructors/Destructors
 //
@@ -67,11 +70,11 @@ void RubyClassDeclarationBlock::updateContent ( )
 
     RubyClassifierCodeDocument *parentDoc = (RubyClassifierCodeDocument*)getParentDocument();
     UMLClassifier *c = parentDoc->getParentClassifier();
-    CodeGenerator *g = parentDoc->getParentGenerator();
-    RubyCodeGenerator * gen = dynamic_cast<RubyCodeGenerator *>(g);
-    QString endLine = parentDoc->getNewLineEndingChars();
+    CodeGenerationPolicy * p = UMLApp::app()->getCommonPolicy();
+    QString endLine = p->getNewLineEndingChars();
     bool isInterface = parentDoc->parentIsInterface(); // a little shortcut
     QString RubyClassName = parentDoc->getRubyClassName(c->getName());
+    bool forceDoc = p->getCodeVerboseDocumentComments();
 
     // COMMENT
     QString comment = c->getDoc();
@@ -85,7 +88,7 @@ void RubyClassDeclarationBlock::updateContent ( )
     else
         getComment()->setText("Class " + RubyClassName + endLine + comment);
 
-    if(g->forceDoc() || !c->getDoc().isEmpty())
+    if(forceDoc || !c->getDoc().isEmpty())
         getComment()->setWriteOutText(true);
     else
         getComment()->setWriteOutText(false);
@@ -109,18 +112,18 @@ void RubyClassDeclarationBlock::updateContent ( )
     int i = 0;
     for (UMLClassifier * concept= superclasses.first(); concept; concept = superclasses.next()) {
         if (i == 0) {
-            startText.append(QString(" < ") + gen->cppToRubyType(concept->getName()) + endLine);
+            startText.append(QString(" < ") + RubyCodeGenerator::cppToRubyType(concept->getName()) + endLine);
         } else {
             // After the first superclass name in the list, assume the classes 
             // are ruby modules that can be mixed in, 
-            startText.append("include " + gen->cppToRubyType(concept->getName()) + endLine);
+            startText.append("include " + RubyCodeGenerator::cppToRubyType(concept->getName()) + endLine);
         }
         i++;
     }
 
     // Write out the interfaces we 'implement'. Are these modules to be mixed in, in Ruby?
     for (UMLClassifier * concept= superinterfaces.first(); concept; concept = superinterfaces.next()) {
-        startText.append(QString("include ") + gen->cppToRubyType(concept->getName()) + endLine);
+        startText.append(QString("include ") + RubyCodeGenerator::cppToRubyType(concept->getName()) + endLine);
     }
 
     // Set the header and end text for the hier.codeblock

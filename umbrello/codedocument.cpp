@@ -20,6 +20,9 @@
 
 #include "codedocument.h"
 #include "codegenerator.h"
+#include "package.h"
+#include "umldoc.h"
+#include "uml.h"
 
 // Constructors/Destructors
 //
@@ -28,18 +31,15 @@
  * Basic constructor for class.
  * @param       gen
  */
-CodeDocument::CodeDocument (CodeGenerator * gen , QDomElement & elem)
-        : QObject (gen, "ACodeDocument")
+CodeDocument::CodeDocument (QDomElement & elem) : CodeGenObjectWithTextBlocks(this)
 {
-
-    initDoc( gen );
+    initDoc();
     loadFromXMI(elem);
 }
 
-CodeDocument::CodeDocument (CodeGenerator * gen )
-        : QObject (gen, "ACodeDocument")
+CodeDocument::CodeDocument () : CodeGenObjectWithTextBlocks(this)
 {
-    initDoc( gen );
+    initDoc();
 }
 
 
@@ -99,10 +99,10 @@ QString CodeDocument::getFileExtension( ) const {
 
 /**
  * Set the value of the package.
- * @param new_var the new value of m_packageName
+ * @param new_var the new value of m_package
  */
-void CodeDocument::setPackage ( const QString &new_var ) {
-    m_packageName = new_var;
+void CodeDocument::setPackage ( UMLPackage *new_var ) {
+    m_package = new_var;
 }
 
 /**
@@ -129,10 +129,12 @@ QString CodeDocument::getPath ( ) {
 
 /**
  * Get the value of package name.
- * @return the value of m_packageName
+ * @return the value of m_package->getName()
  */
 QString CodeDocument::getPackage ( ) const {
-    return m_packageName;
+    if (m_package)
+        return m_package->getName();
+    return QString::null;
 }
 
 /**
@@ -169,14 +171,6 @@ void CodeDocument::setWriteOutCode ( bool new_var ) {
  */
 bool CodeDocument::getWriteOutCode ( ) {
     return m_writeOutCode;
-}
-
-/**
- * Get the value of m_parentgenerator
- * @return the value of m_parentgenerator
- */
-CodeGenerator * CodeDocument::getParentGenerator ( ) {
-    return m_parentgenerator;
 }
 
 /**
@@ -280,15 +274,14 @@ CodeDocumentDialog * CodeDocument::getDialog ( ) {
 //
 
 QString CodeDocument::cleanName ( const QString &name ) {
-    CodeGenerator *g = getParentGenerator();
-    return g->cleanName(name);
+    return CodeGenerator::cleanName(name);
 }
 
 // update the text and status of the head comment
 void CodeDocument::updateHeader () {
 
     //try to find a heading file (license, coments, etc) then extract its text
-    QString headingText = getParentGenerator()->getHeadingFile(getFileExtension());
+    QString headingText = UMLApp::app()->getCommonPolicy()->getHeadingFile(getFileExtension());
 
     headingText.replace(QRegExp("%filename%"),getFileName()+getFileExtension());
     headingText.replace(QRegExp("%filepath%"),getPath());
@@ -298,7 +291,7 @@ void CodeDocument::updateHeader () {
     getHeader()->setText(headingText);
 
     // update the write out status of the header
-    if(m_parentgenerator->getPolicy()->getIncludeHeadings())
+    if(UMLApp::app()->getCommonPolicy()->getIncludeHeadings())
         getHeader()->setWriteOutText(true);
     else
         getHeader()->setWriteOutText(false);
@@ -362,7 +355,10 @@ void CodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomElement & docEl
     // now set local attributes/fields
     docElement.setAttribute("fileName",getFileName());
     docElement.setAttribute("fileExt",getFileExtension());
-    docElement.setAttribute("package",getPackage());
+    Uml::IDType pkgId = Uml::id_None;
+    if (m_package)
+        pkgId = m_package->getID();
+    docElement.setAttribute("package", ID2STR(pkgId));
     docElement.setAttribute("writeOutCode",getWriteOutCode()?"true":"false");
     docElement.setAttribute("id",getID());
 
@@ -386,7 +382,20 @@ void CodeDocument::setAttributesFromNode ( QDomElement & root) {
     // now set local attributes
     setFileName(root.attribute("fileName",""));
     setFileExtension(root.attribute("fileExt",""));
-    setPackage(root.attribute("package",""));
+    QString pkgStr = root.attribute("package","");
+    if (!pkgStr.isEmpty() && pkgStr != "-1") {
+        UMLDoc *umldoc = UMLApp::app()->getDocument();
+        if (pkgStr.contains( QRegExp("\\D") )) {
+            // suspecting pre-1.5.3 file format where the package name was
+            // saved instead of the package ID.
+            UMLObject *o = umldoc->findUMLObject(pkgStr);
+            m_package = dynamic_cast<UMLPackage*>(o);
+        }
+        if (m_package == NULL) {
+            UMLObject *o = umldoc->findObjectById(STR2ID(pkgStr));
+            m_package = dynamic_cast<UMLPackage*>(o);
+        }
+    }
     setWriteOutCode(root.attribute("writeOutCode","true") == "true" ? true : false);
     setID(root.attribute("id",""));
 
@@ -456,44 +465,6 @@ HierarchicalCodeBlock * CodeDocument::newHierarchicalCodeBlock ( ) {
     return new HierarchicalCodeBlock(this);
 }
 
-/**
- * Wrapper around call to either getPolicy().getOverwritePolicy() OR
- * (if no individual codegeneration policy for this Code Document) then to
- * getParentPackage().getDefaultCodeGenerationPolicy().getOverwritePolicy()
- * @return      QString
- */
-CodeGenerationPolicy::OverwritePolicy CodeDocument::getOverwritePolicy ( ) {
-    return m_parentgenerator->getPolicy()->getOverwritePolicy();
-}
-
-
-/**
- * Wrapper around call to either
- * getPolicy().getCodeVerboseSectionComments() OR (if no individual
- * codegeneration policy for this Code Document) then to
- * getParentPackage().getDefaultCodeGenerationPolicy().getCodeVerboseSectionComments()
- * @return      bool
- */
-bool CodeDocument::getCodeVerboseSectionComments ( ) {
-    return m_parentgenerator->getPolicy()->getCodeVerboseSectionComments();
-}
-
-
-/**
- * Wrapper around call to either
- * getPolicy().getCodeVerboseDocumentComments() OR (if no individual
- * codegeneration policy for this Code Document) then to
- * getParentPackage().getDefaultCodeGenerationPolicy().getCodeVerboseDocumentComments()
- * @return      bool
- */
-bool CodeDocument::getVerboseDocumentComments ( ) {
-    return m_parentgenerator->getPolicy()->getCodeVerboseDocumentComments();
-}
-
-QString CodeDocument::getNewLineEndingChars ( ) {
-    return m_parentgenerator->getPolicy()->getNewLineEndingChars( );
-}
-
 void CodeDocument::removeChildTagFromMap ( const QString &tag )
 {
     m_childTextBlockTagMap->erase(tag);
@@ -517,11 +488,10 @@ TextBlock * CodeDocument::findTextBlockByTag( const QString &tag , bool descendI
     return (TextBlock*) NULL;
 }
 
-void CodeDocument::initDoc ( CodeGenerator * gen ) {
+void CodeDocument::initDoc () {
 
-    m_parentgenerator = gen;
     m_writeOutCode = true;
-    m_packageName = QString(""); // no package name is the default
+    m_package = NULL;
     m_fileExtension = QString("");
     m_ID = QString(""); // leave with NO ID as a default
 

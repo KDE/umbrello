@@ -19,9 +19,11 @@
 
 #include "../attribute.h"
 #include "../codegenerator.h"
+#include "../codegenerationpolicy.h"
 #include "../classifiercodedocument.h"
 #include "../umlobject.h"
 #include "../umlrole.h"
+#include "../uml.h"
 
 #include "javaclassifiercodedocument.h"
 #include "javacodegenerationpolicy.h"
@@ -76,10 +78,9 @@ void JavaCodeAccessorMethod::updateContent( )
     case CodeAccessorMethod::ADD:
         {
             int maxOccurs = javafield->maximumListOccurances();
-            JavaClassifierCodeDocument * javadoc = (JavaClassifierCodeDocument*) javafield->getParentDocument();
             QString fieldType = javafield->getTypeName();
             QString indent = getIndentation();
-            QString endLine = javadoc->getParentGenerator()->getNewLineEndingChars();
+            QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
             if(maxOccurs > 0)
                 text += "if ("+fieldName+".size() < "+ QString::number(maxOccurs)+") {"+endLine+indent;
             text += fieldName+".add(value);";
@@ -99,9 +100,8 @@ void JavaCodeAccessorMethod::updateContent( )
     case CodeAccessorMethod::REMOVE:
         {
             int minOccurs = javafield->minimumListOccurances();
-            JavaClassifierCodeDocument * javadoc = (JavaClassifierCodeDocument*) javafield->getParentDocument();
             QString fieldType = javafield->getTypeName();
-            QString endLine = javadoc->getParentGenerator()->getNewLineEndingChars();
+            QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
             QString indent = getIndentation();
 
             if(minOccurs > 0)
@@ -131,29 +131,29 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
 
     JavaCodeClassField * javafield = (JavaCodeClassField*) getParentClassField();
     JavaClassifierCodeDocument * javadoc = (JavaClassifierCodeDocument*) javafield->getParentDocument();
-    JavaCodeGenerationPolicy * javapolicy = (JavaCodeGenerationPolicy *) javadoc->getParentGenerator()->getPolicy();
+    CodeGenerationPolicy *commonpolicy = UMLApp::app()->getCommonPolicy();
 
     // gather defs
-    JavaCodeGenerationPolicy::ScopePolicy scopePolicy = javapolicy->getAttributeAccessorScope();
+    CodeGenerationPolicy::ScopePolicy scopePolicy = commonpolicy->getAttributeAccessorScope();
     QString strVis = javadoc->scopeToJavaDecl(javafield->getVisibility());
     QString fieldName = javafield->getFieldName();
     QString fieldType = javafield->getTypeName();
     QString objectType = javafield->getListObjectType();
     if(objectType.isEmpty())
         objectType = fieldName;
-    QString endLine = javadoc->getParentGenerator()->getNewLineEndingChars();
+    QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
 
     // set scope of this accessor appropriately..if its an attribute,
     // we need to be more sophisticated
     if(javafield->parentIsAttribute())
         switch (scopePolicy) {
-        case JavaCodeGenerationPolicy::Public:
-        case JavaCodeGenerationPolicy::Private:
-        case JavaCodeGenerationPolicy::Protected:
+        case CodeGenerationPolicy::Public:
+        case CodeGenerationPolicy::Private:
+        case CodeGenerationPolicy::Protected:
               strVis = javadoc->scopeToJavaDecl((Uml::Visibility::Value) scopePolicy);
             break;
         default:
-        case JavaCodeGenerationPolicy::FromParent:
+        case CodeGenerationPolicy::FromParent:
             // do nothing..already have taken parent value
             break;
         }

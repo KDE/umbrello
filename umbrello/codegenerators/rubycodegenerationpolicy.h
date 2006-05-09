@@ -21,12 +21,13 @@
 #define RUBYCODEGENERATIONPOLICY_H
 
 #include <qstring.h>
+#include "codegenpolicyext.h"
 #include "../codegenerationpolicy.h"
 
 class KConfig;
 class CodeGenerationPolicyPage;
 
-class RubyCodeGenerationPolicy : public CodeGenerationPolicy
+class RubyCodeGenerationPolicy : public CodeGenPolicyExt
 {
     Q_OBJECT
 public:
@@ -40,7 +41,6 @@ public:
     /**
      * Constructors 
      */
-    RubyCodeGenerationPolicy (CodeGenerationPolicy * defaults = 0);
     RubyCodeGenerationPolicy (KConfig * config = 0);
 
     /**
@@ -54,23 +54,6 @@ public:
 
     // Public attribute accessor methods
     //
-
-    /** Get the default scope for new attribute accessor methods.
-     */
-    ScopePolicy getAttributeAccessorScope ();
-
-    /** Set the default scope for new attribute accessor methods.
-    */
-    void setAttributeAccessorScope (ScopePolicy scope);
-
-    /** Get the default scope for new association class fields.
-      */
-    ScopePolicy getAssociationFieldScope();
-
-    /** Set the default scope for new association class fields.
-    */
-    void setAssociationFieldScope (ScopePolicy scope);
-
 
     /**
       * Set the value of m_autoGenerateAttribAccessors
@@ -99,7 +82,7 @@ public:
     /**
      * set the defaults for this code generator from the passed generator.
      */
-    virtual void setDefaults (CodeGenerationPolicy * defaults, bool emitUpdateSignal = true);
+    virtual void setDefaults (CodeGenPolicyExt * defaults, bool emitUpdateSignal = true);
 
     /**
      * set the defaults from a config file for this code generator from the passed KConfig pointer.
@@ -125,6 +108,7 @@ protected:
 
 private:
 
+    CodeGenerationPolicy *m_commonPolicy;
     bool m_autoGenerateAttribAccessors;
     bool m_autoGenerateAssocAccessors;
 

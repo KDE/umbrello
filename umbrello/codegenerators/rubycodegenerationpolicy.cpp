@@ -30,15 +30,7 @@ const bool RubyCodeGenerationPolicy::DEFAULT_AUTO_GEN_ASSOC_ACCESSORS = true;
 // Constructors/Destructors
 //
 
-RubyCodeGenerationPolicy::RubyCodeGenerationPolicy(CodeGenerationPolicy *defaults)
-        : CodeGenerationPolicy(defaults)
-{
-    init();
-    setDefaults(defaults,false);
-}
-
 RubyCodeGenerationPolicy::RubyCodeGenerationPolicy(KConfig *config)
-        : CodeGenerationPolicy(config)
 {
     init();
     setDefaults(config,false);
@@ -56,39 +48,13 @@ RubyCodeGenerationPolicy::~RubyCodeGenerationPolicy ( ) { }
 // Public attribute accessor methods
 //
 
-/** Get the default scope for new accessor methods.
- */
-RubyCodeGenerationPolicy::ScopePolicy RubyCodeGenerationPolicy::getAttributeAccessorScope () {
-    return m_defaultAttributeAccessorScope;
-}
-
-/** Set the default scope for new accessor methods.
- */
-void RubyCodeGenerationPolicy::setAttributeAccessorScope (ScopePolicy scope) {
-    m_defaultAttributeAccessorScope = scope;
-    emit modifiedCodeContent();
-}
-
-/** Get the default scope for new accessor methods.
- */
-RubyCodeGenerationPolicy::ScopePolicy RubyCodeGenerationPolicy::getAssociationFieldScope() {
-    return m_defaultAssociationFieldScope;
-}
-
-/** Set the default scope for new accessor methods.
- */
-void RubyCodeGenerationPolicy::setAssociationFieldScope (ScopePolicy scope) {
-    m_defaultAssociationFieldScope = scope;
-    emit modifiedCodeContent();
-}
-
 /**
  * Set the value of m_autoGenerateAttribAccessors
  * @param new_var the new value
  */
 void RubyCodeGenerationPolicy::setAutoGenerateAttribAccessors( bool var ) {
     m_autoGenerateAttribAccessors = var;
-    emit modifiedCodeContent();
+    m_commonPolicy->emitModifiedCodeContentSig();
 }
 
 /**
@@ -97,7 +63,7 @@ void RubyCodeGenerationPolicy::setAutoGenerateAttribAccessors( bool var ) {
  */
 void RubyCodeGenerationPolicy::setAutoGenerateAssocAccessors( bool var ) {
     m_autoGenerateAssocAccessors = var;
-    emit modifiedCodeContent();
+    m_commonPolicy->emitModifiedCodeContentSig();
 }
 
 /**
@@ -121,27 +87,21 @@ bool RubyCodeGenerationPolicy::getAutoGenerateAssocAccessors( ){
 
 void RubyCodeGenerationPolicy::writeConfig ( KConfig * config )
 {
+    // @todo do we need to call CodeGenerationPolicy::writeConfig ???
 
     // write ONLY the Ruby specific stuff
     config->setGroup("Ruby Code Generation");
 
-    config->writeEntry("defaultAttributeAccessorScope",getAttributeAccessorScope());
-    config->writeEntry("defaultAssocFieldScope",getAssociationFieldScope());
-    config->writeEntry("commentStyle",getCommentStyle());
-    config->writeEntry("autoGenEmptyConstructors",getAutoGenerateConstructors());
     config->writeEntry("autoGenAccessors",getAutoGenerateAttribAccessors());
     config->writeEntry("autoGenAssocAccessors",getAutoGenerateAssocAccessors());
 }
 
-void RubyCodeGenerationPolicy::setDefaults ( CodeGenerationPolicy * clone, bool emitUpdateSignal )
+void RubyCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * clone, bool emitUpdateSignal )
 {
 
     RubyCodeGenerationPolicy * rclone;
     if (!clone)
         return;
-
-    // do the super class
-    CodeGenerationPolicy::setDefaults(clone, false);
 
     // NOW block signals for ruby param setting
     blockSignals(true); // we need to do this because otherwise most of these
@@ -152,10 +112,6 @@ void RubyCodeGenerationPolicy::setDefaults ( CodeGenerationPolicy * clone, bool 
     // now do ruby-specific stuff IF our clone is also a RubyCodeGenerationPolicy object
     if((rclone = dynamic_cast<RubyCodeGenerationPolicy*>(clone)))
     {
-        setAttributeAccessorScope(rclone->getAttributeAccessorScope());
-        setAssociationFieldScope(rclone->getAssociationFieldScope());
-        setCommentStyle(rclone->getCommentStyle());
-        setAutoGenerateConstructors(rclone->getAutoGenerateConstructors());
         setAutoGenerateAttribAccessors(rclone->getAutoGenerateAttribAccessors());
         setAutoGenerateAssocAccessors(rclone->getAutoGenerateAssocAccessors());
     }
@@ -163,7 +119,7 @@ void RubyCodeGenerationPolicy::setDefaults ( CodeGenerationPolicy * clone, bool 
     blockSignals(false); // "as you were citizen"
 
     if(emitUpdateSignal)
-        emit modifiedCodeContent();
+        m_commonPolicy->emitModifiedCodeContentSig();
 
 }
 
@@ -174,7 +130,7 @@ void RubyCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSig
         return;
 
     // call the superclass to init default stuff
-    CodeGenerationPolicy::setDefaults(config, false);
+    m_commonPolicy->setDefaults(config, false);
 
     // NOW block signals (because call to super-class method will leave value at "true")
     blockSignals(true); // we need to do this because otherwise most of these
@@ -184,17 +140,13 @@ void RubyCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSig
     // now do ruby specific stuff
     config -> setGroup("Ruby Code Generation");
 
-    setAttributeAccessorScope((ScopePolicy)config->readNumEntry("defaultAttributeAccessorScope",defaultAttribAccessorScope()));
-    setAssociationFieldScope((ScopePolicy)config->readNumEntry("defaultAssocFieldScope",defaultAssocFieldScope()));
-    setCommentStyle((CommentStyle)config->readNumEntry("commentStyle",defaultCommentStyle()));
-    setAutoGenerateConstructors(config->readBoolEntry("autoGenEmptyConstructors",defaultAutoGenerateConstructors()));
     setAutoGenerateAttribAccessors(config->readBoolEntry("autoGenAccessors",DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS));
     setAutoGenerateAssocAccessors(config->readBoolEntry("autoGenAssocAccessors",DEFAULT_AUTO_GEN_ASSOC_ACCESSORS));
 
     blockSignals(false); // "as you were citizen"
 
     if(emitUpdateSignal)
-        emit modifiedCodeContent();
+        m_commonPolicy->emitModifiedCodeContentSig();
 }
 
 
@@ -207,8 +159,7 @@ CodeGenerationPolicyPage * RubyCodeGenerationPolicy::createPage ( QWidget *paren
 }
 
 void RubyCodeGenerationPolicy::init() {
-    CodeGenerationPolicy::initFields();
-    m_autoGenerateConstructors = defaultAutoGenerateConstructors();
+    m_commonPolicy = UMLApp::app()->getCommonPolicy();
     m_autoGenerateAttribAccessors = DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS;
     m_autoGenerateAssocAccessors = DEFAULT_AUTO_GEN_ASSOC_ACCESSORS;
 }

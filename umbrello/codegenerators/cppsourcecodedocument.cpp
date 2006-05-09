@@ -30,16 +30,18 @@
 
 #include "cppsourcecodedocument.h"
 #include "cppcodegenerator.h"
+#include "cppcodegenerationpolicy.h"
 #include "cppcodedocumentation.h"
 #include "cppsourcecodeaccessormethod.h"
 #include "cppsourcecodeoperation.h"
 #include "cppsourcecodeclassfielddeclarationblock.h"
+#include "../uml.h"
 
 // Constructors/Destructors
 //
 
-CPPSourceCodeDocument::CPPSourceCodeDocument ( UMLClassifier * concept, CPPCodeGenerator *parent)
-        : ClassifierCodeDocument (concept, (CodeGenerator *) parent ) {
+CPPSourceCodeDocument::CPPSourceCodeDocument ( UMLClassifier * concept )
+        : ClassifierCodeDocument (concept) {
     init ( );
 }
 
@@ -56,23 +58,19 @@ CPPSourceCodeDocument::~CPPSourceCodeDocument ( ) { }
 //
 
 QString CPPSourceCodeDocument::getCPPClassName (const QString &name) {
-    CPPCodeGenerator *g = (CPPCodeGenerator*) getParentGenerator();
-    return g->getCPPClassName(name);
-}
-
-// a little utility method
-bool CPPSourceCodeDocument::forceDoc () {
-    return getParentGenerator()->forceDoc();
+    return CodeGenerator::cleanName(name);
 }
 
 // IF the classifier object is modified, this will get called.
 // Possible mods include changing the filename and package
 // the classifier has.
+////// FIXMEnow WE CANNOT DO THIS:
+////// ClassifierCodeDocument constructor makes a virtual call to here
 void CPPSourceCodeDocument::syncNamesToParent( )
 {
 
-    setFileName(getParentGenerator()->cleanName(getParentClassifier()->getName().lower()));
-    setPackage(getParentGenerator()->cleanName(getParentClassifier()->getPackage().lower()));
+    setFileName(CodeGenerator::cleanName(getParentClassifier()->getName().lower()));
+    setPackage(getParentClassifier()->getUMLPackage());
 }
 
 // Initialize this cpp classifier code document
@@ -86,7 +84,7 @@ void CPPSourceCodeDocument::init ( ) {
     initCodeClassFields(); // we have to call here as .newCodeClassField is pure virtual in parent class
 
     // this will call updateContent() as well as other things that sync our document.
-    synchronize();
+    //synchronize();
 }
 
 /**
@@ -164,14 +162,14 @@ void CPPSourceCodeDocument::updateContent( )
 
     // Gather info on the various fields and parent objects of this class...
     //UMLClassifier * c = getParentClassifier();
-    CPPCodeGenerator * gen = (CPPCodeGenerator*) getParentGenerator();
-    //CPPCodeGenerationPolicy * policy = (CPPCodeGenerationPolicy*) getParentGenerator()->getPolicy();
-    QString endLine = gen->getNewLineEndingChars(); // a shortcut..so we dont have to call this all the time
+    CodeGenPolicyExt *pe = UMLApp::app()->getPolicyExt();
+    CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
+    QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
 
     // first, set the global flag on whether or not to show classfield info
     CodeClassFieldList * cfList = getCodeClassFieldList();
     for(CodeClassField * field = cfList->first(); field; field = cfList->next())
-        field->setWriteOutMethods(gen->getAutoGenerateAccessors());
+        field->setWriteOutMethods(policy->getAutoGenerateAccessors());
 
     // attribute-based ClassFields
     // we do it this way to have the static fields sorted out from regular ones
@@ -190,7 +188,7 @@ void CPPSourceCodeDocument::updateContent( )
     QString includeStatement = "";
     // Include own header file
     QString myOwnName( getParentClassifier()->getName() );
-    includeStatement.append("#include \""+gen->cleanName(myOwnName.lower())+".h\""+endLine);
+    includeStatement.append("#include \""+CodeGenerator::cleanName(myOwnName.lower())+".h\""+endLine);
     CodeBlockWithComments * iblock = addOrUpdateTaggedCodeBlockWithComments("includes", includeStatement, QString::null, 0, false);
     iblock->setWriteOutText(true);
 

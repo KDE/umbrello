@@ -18,17 +18,17 @@
 #define CPPCODEGENERATIONPOLICY_H
 
 #include <qstring.h>
+#include "codegenpolicyext.h"
 #include "../codegenerationpolicy.h"
 
 class KConfig;
 class CodeGenerationPolicyPage;
 
-class CPPCodeGenerationPolicy : public CodeGenerationPolicy
+class CPPCodeGenerationPolicy : public CodeGenPolicyExt
 {
     Q_OBJECT
 public:
 
-    CodeGenerationPolicy::CommentStyle defaultComment() const;
     static const bool DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS;
     static const bool DEFAULT_AUTO_GEN_ACCESSORS;
     static const bool DEFAULT_INLINE_ACCESSORS;
@@ -55,7 +55,6 @@ public:
     /**
      * Constructors 
      */
-    CPPCodeGenerationPolicy ( CodeGenerationPolicy * defaults = 0 );
     CPPCodeGenerationPolicy ( KConfig * config = 0 );
 
     /**
@@ -177,7 +176,7 @@ public:
     /**
      * set the defaults for this code generator from the passed generator.
      */
-    virtual void setDefaults (CodeGenerationPolicy * defaults, bool emitUpdateSignal = true);
+    virtual void setDefaults (CPPCodeGenerationPolicy * defaults, bool emitUpdateSignal = true);
 
     /**
      * set the defaults from a config file for this code generator from the passed KConfig pointer.

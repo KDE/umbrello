@@ -25,6 +25,7 @@
 #include "rubycodegenerator.h"
 #include "rubycodecomment.h"
 #include "codeviewerdialog.h"
+#include "../uml.h"
 
 // Constructors/Destructors
 //
@@ -63,24 +64,8 @@ CodeViewerDialog * RubyCodeGenerator::getCodeViewerDialog ( QWidget* parent, Cod
 }
 
 
-void RubyCodeGenerator::setPolicy ( CodeGenerationPolicy* policy )
-{
-    RubyCodeGenerationPolicy * rpolicy = dynamic_cast<RubyCodeGenerationPolicy*>(policy);
-    CodeGenerator::setPolicy(policy);
-    setRubyPolicy(rpolicy);
-}
-
-void RubyCodeGenerator::setRubyPolicy( RubyCodeGenerationPolicy * policy) {
-    m_rubycodegenerationpolicy = policy;
-}
-
 RubyCodeGenerationPolicy * RubyCodeGenerator::getRubyPolicy() {
-    return m_rubycodegenerationpolicy;
-}
-
-bool RubyCodeGenerator::getAutoGenerateConstructors ( )
-{
-    return getRubyPolicy()->getAutoGenerateConstructors();
+    return dynamic_cast<RubyCodeGenerationPolicy*>(m_codegeneratorpolicy);
 }
 
 bool RubyCodeGenerator::getAutoGenerateAttribAccessors ( )
@@ -134,12 +119,6 @@ QString RubyCodeGenerator::cppToRubyName(QString nameStr) {
     return nameStr;
 }
 
-CodeGenerationPolicy * RubyCodeGenerator::newCodeGenerationPolicy( KConfig * config)
-{
-    CodeGenerationPolicy * myPolicy = new RubyCodeGenerationPolicy(config);
-    return myPolicy;
-}
-
 /**
  * @return      ClassifierCodeDocument
  * @param       classifier
@@ -156,10 +135,10 @@ CodeComment * RubyCodeGenerator::newCodeComment ( CodeDocument * doc) {
 
 void RubyCodeGenerator::initFields() {
 
-    setPolicy ( new RubyCodeGenerationPolicy(getPolicy()) );
+    UMLApp::app()->setPolicyExt ( new RubyCodeGenerationPolicy(UMLApp::app()->getConfig()) );
 
     // load Classifier documents from parent document
-    initFromParentDocument();
+    //initFromParentDocument();
 }
 
 const QStringList RubyCodeGenerator::reservedKeywords() const {

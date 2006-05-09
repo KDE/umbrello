@@ -13,6 +13,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2003-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 #include <kdebug.h>
@@ -30,13 +32,10 @@
 #include "../uml.h"
 #include "../umldoc.h"
 
-CodeGenerationWizard::CodeGenerationWizard(UMLDoc *doc,
-        UMLClassifierList *classList,
-        Uml::Programming_Language activeLanguage,
-        UMLApp *parent, const char *name)
-        :CodeGenerationWizardBase((QWidget*)parent,name) {
-    m_doc = doc;
-    m_app = parent;
+CodeGenerationWizard::CodeGenerationWizard(UMLClassifierList *classList)
+  : CodeGenerationWizardBase((QWidget*)UMLApp::app()) {
+    m_doc = UMLApp::app()->getDocument();
+    m_app = UMLApp::app();
     m_availableList -> setAllColumnsShowFocus(true);
     m_availableList -> setResizeMode(QListView::AllColumns);
     m_selectedList  -> setAllColumnsShowFocus(true);
@@ -44,8 +43,7 @@ CodeGenerationWizard::CodeGenerationWizard(UMLDoc *doc,
     m_statusList    -> setAllColumnsShowFocus(true);
     m_statusList    -> setResizeMode(QListView::AllColumns);
 
-    m_CodeGenerationOptionsPage = new CodeGenerationOptionsPage(doc->getCurrentCodeGenerator(),
-                                  activeLanguage, this);
+    m_CodeGenerationOptionsPage = new CodeGenerationOptionsPage(this);
     connect( m_CodeGenerationOptionsPage, SIGNAL(languageChanged()), this, SLOT(changeLanguage()) );
 
     insertPage(m_CodeGenerationOptionsPage, i18n("Code Generation Options"), 1);
@@ -159,7 +157,7 @@ void CodeGenerationWizard::showPage(QWidget *page) {
         // writable
 
         // get the policy for the current code generator
-        CodeGenerationPolicy *policy = m_doc->getCurrentCodeGenerator()->getPolicy();
+        CodeGenerationPolicy *policy = UMLApp::app()->getCommonPolicy();
 
         // get the output directory path
         QFileInfo info(policy->getOutputDirectory().absPath());
@@ -238,7 +236,9 @@ CodeGenerator* CodeGenerationWizard::generator() {
 void CodeGenerationWizard::changeLanguage()
 {
     m_app->setActiveLanguage( m_CodeGenerationOptionsPage->getCodeGenerationLanguage() );
-    m_CodeGenerationOptionsPage->setCodeGenerator(m_doc->getCurrentCodeGenerator());
+    /* @todo is this needed? if yes adapt to new scheme
+     m_CodeGenerationOptionsPage->setCodeGenerator(m_doc->getCurrentCodeGenerator());
+     */
     m_CodeGenerationOptionsPage->apply();
 }
 

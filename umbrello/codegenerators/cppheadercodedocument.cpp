@@ -31,6 +31,7 @@
 
 #include "cppheadercodedocument.h"
 #include "cppcodegenerator.h"
+#include "cppcodegenerationpolicy.h"
 #include "cppcodedocumentation.h"
 #include "cppheadercodeaccessormethod.h"
 #include "cppheadercodeoperation.h"
@@ -41,13 +42,33 @@
 #include "../umlclassifierlistitemlist.h"
 #include "../classifierlistitem.h"
 #include "../enum.h"
+#include "../uml.h"
 
 // Constructors/Destructors
 //
 
-CPPHeaderCodeDocument::CPPHeaderCodeDocument ( UMLClassifier * concept, CPPCodeGenerator *parent)
-        : ClassifierCodeDocument (concept, (CodeGenerator *) parent ) {
-    init ( );
+CPPHeaderCodeDocument::CPPHeaderCodeDocument ( UMLClassifier * concept )
+        : ClassifierCodeDocument (concept) {
+    setFileExtension(".h");
+
+    initCodeClassFields(); // we have to call here as .newCodeClassField is pure virtual in parent class
+
+    // needed? I doubt it, but it feels good to do it.
+    classDeclCodeBlock = 0;
+    publicBlock = 0;
+    protectedBlock = 0;
+    privateBlock = 0;
+    namespaceBlock = 0;
+    pubConstructorBlock = 0;
+    protConstructorBlock = 0;
+    privConstructorBlock = 0;
+    pubOperationsBlock = 0;
+    privOperationsBlock = 0;
+    protOperationsBlock = 0;
+
+    // this will call updateContent() as well as other things that sync our document.
+    //synchronize();
+
 }
 
 CPPHeaderCodeDocument::~CPPHeaderCodeDocument ( ) { }
@@ -58,11 +79,6 @@ CPPHeaderCodeDocument::~CPPHeaderCodeDocument ( ) { }
 
 // Accessor methods
 //
-
-QString CPPHeaderCodeDocument::getCPPClassName (const QString &name) {
-    CPPCodeGenerator *g = (CPPCodeGenerator*) getParentGenerator();
-    return g->getCPPClassName(name);
-}
 
 CPPHeaderClassDeclarationBlock * CPPHeaderCodeDocument::getClassDecl()
 {
@@ -76,11 +92,6 @@ CPPHeaderClassDeclarationBlock * CPPHeaderCodeDocument::getClassDecl()
 
 // Other methods
 //
-
-// a little utility method
-bool CPPHeaderCodeDocument::forceDoc () {
-    return getParentGenerator()->forceDoc();
-}
 
 // Sigh. NOT optimal. The only reason that we need to have this
 // is so we can create the CPPHeaderClassDeclarationBlock.
@@ -166,7 +177,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                                         if( name == "codeoperation" ) {
                                             // find the code operation by id
                                             QString id = element.attribute("parent_id","-1");
-                                            UMLObject * obj = getParentGenerator()->getDocument()->findObjectById(STR2ID(id));
+                                            UMLObject * obj = UMLApp::app()->getDocument()->findObjectById(STR2ID(id));
                                             UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
                                             if(op) {
                                                 CodeOperation * block = newCodeOperation(op);
@@ -251,38 +262,13 @@ void CPPHeaderCodeDocument::resetTextBlocks()
 
 }
 
-// Initialize this cpp classifier code document
-void CPPHeaderCodeDocument::init ( ) {
-
-    setFileExtension(".h");
-
-    initCodeClassFields(); // we have to call here as .newCodeClassField is pure virtual in parent class
-
-    // needed? I doubt it, but it feels good to do it.
-    classDeclCodeBlock = 0;
-    publicBlock = 0;
-    protectedBlock = 0;
-    privateBlock = 0;
-    namespaceBlock = 0;
-    pubConstructorBlock = 0;
-    protConstructorBlock = 0;
-    privConstructorBlock = 0;
-    pubOperationsBlock = 0;
-    privOperationsBlock = 0;
-    protOperationsBlock = 0;
-
-    // this will call updateContent() as well as other things that sync our document.
-    synchronize();
-}
-
 // IF the classifier object is modified, this will get called.
 // Possible mods include changing the filename and package
 // the classifier has.
 void CPPHeaderCodeDocument::syncNamesToParent( )
 {
-
-    setFileName(getParentGenerator()->cleanName(getParentClassifier()->getName().lower()));
-    setPackage(getParentGenerator()->cleanName(getParentClassifier()->getPackage().lower()));
+    setFileName(CodeGenerator::cleanName(getParentClassifier()->getName().lower()));
+    setPackage(getParentClassifier()->getUMLPackage());
 }
 
 /**
@@ -386,15 +372,13 @@ void CPPHeaderCodeDocument::updateContent( )
 
     // Gather info on the various fields and parent objects of this class...
     UMLClassifier * c = getParentClassifier();
-    CodeGenerator * g = getParentGenerator();
-    // CPPCodeGenerator * gen = dynamic_cast<CPPCodeGenerator*>(g);
-    CPPCodeGenerator * gen = (CPPCodeGenerator*)g;
-    CPPCodeGenerationPolicy * policy = (CPPCodeGenerationPolicy*)(g->getPolicy());
+    CodeGenPolicyExt *pe = UMLApp::app()->getPolicyExt();
+    CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
 
     // first, set the global flag on whether or not to show classfield info
     CodeClassFieldList * cfList = getCodeClassFieldList();
     for(CodeClassField * field = cfList->first(); field; field = cfList->next())
-        field->setWriteOutMethods(gen->getAutoGenerateAccessors());
+        field->setWriteOutMethods(policy->getAutoGenerateAccessors());
 
     // attribute-based ClassFields
     // we do it this way to have the static fields sorted out from regular ones
@@ -424,8 +408,8 @@ void CPPHeaderCodeDocument::updateContent( )
     bool isEnumeration = false;
     bool isInterface = parentIsInterface();
     bool hasclassFields = hasClassFields();
-    bool forcedoc = forceDoc();
-    QString endLine = gen->getNewLineEndingChars(); // a shortcut..so we dont have to call this all the time
+    bool forcedoc = UMLApp::app()->getCommonPolicy()->getCodeVerboseDocumentComments();
+    QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
 
     UMLClassifierList superclasses = c->findSuperClassConcepts();
 
@@ -434,8 +418,8 @@ void CPPHeaderCodeDocument::updateContent( )
     //
 
     // Write the hash define stuff to prevent multiple parsing/inclusion of header
-    QString cppClassName = gen->getCPPClassName(c->getName());
-    QString hashDefine = gen->getCPPClassName(c->getName()).upper().simplifyWhiteSpace().replace(QRegExp(" "),  "_");
+    QString cppClassName = CodeGenerator::cleanName(c->getName());
+    QString hashDefine = CodeGenerator::cleanName(c->getName().upper().simplifyWhiteSpace());
     QString defText = "#ifndef "+hashDefine + "_H"+ endLine + "#define "+ hashDefine + "_H";
     addOrUpdateTaggedCodeBlockWithComments("hashDefBlock", defText, "", 0, false);
 
@@ -462,13 +446,13 @@ void CPPHeaderCodeDocument::updateContent( )
     UMLClassifierList includes;
     QMap<UMLClassifier *,QString> *packageMap = new QMap<UMLClassifier*,QString>; // so we dont repeat packages
 
-    gen->findObjectsRelated(c,includes);
+    CodeGenerator::findObjectsRelated(c,includes);
     for(UMLClassifier *con = includes.first(); con ; con = includes.next())
         if (con->getBaseType() != Uml::ot_Datatype && !packageMap->contains(con))
         {
             packageMap->insert(con,con->getPackage());
             if(con != getParentClassifier())
-                includeStatement.append("#include \""+gen->cleanName(con->getName().lower())+".h\""+endLine);
+                includeStatement.append("#include \""+CodeGenerator::cleanName(con->getName().lower())+".h\""+endLine);
         }
     // now, add/update the includes codeblock
     CodeBlockWithComments * inclBlock = addOrUpdateTaggedCodeBlockWithComments("includes", includeStatement, QString::null, 0, false);
@@ -481,7 +465,7 @@ void CPPHeaderCodeDocument::updateContent( )
     QString usingStatement;
     for(UMLClassifier *classifier = superclasses.first(); classifier ; classifier = superclasses.next()) {
         if(classifier->getPackage()!=c->getPackage() && !classifier->getPackage().isEmpty()) {
-            usingStatement.append("using "+gen->cleanName(c->getPackage())+"::"+cleanName(c->getName())+";"+endLine);
+            usingStatement.append("using "+CodeGenerator::cleanName(c->getPackage())+"::"+cleanName(c->getName())+";"+endLine);
         }
     }
     CodeBlockWithComments * usingBlock = addOrUpdateTaggedCodeBlockWithComments("using", usingStatement, "", 0, false);
@@ -495,7 +479,7 @@ void CPPHeaderCodeDocument::updateContent( )
     // that will prevent the class declaration from being written. Instead, we
     // check if "hasNamspace" is true or not, and then indent the remaining code
     // appropriately as well as set the start/end text of this namespace block.
-    if(!c->getPackage().isEmpty() && policy->getPackageIsNamespace())
+    if (c->getUMLPackage() && policy->getPackageIsNamespace())
         hasNamespace = true;
     else
         hasNamespace = false;
@@ -507,7 +491,7 @@ void CPPHeaderCodeDocument::updateContent( )
         QString pkgs;
         UMLPackage *pkg;
         for (pkg = pkgList.first(); pkg != NULL; pkg = pkgList.next()) {
-            pkgs += "namespace " + gen->cleanName(pkg->getName()) + " { ";
+            pkgs += "namespace " + CodeGenerator::cleanName(pkg->getName()) + " { ";
         }
         namespaceBlock->setStartText(pkgs);
         QString closingBraces;
@@ -525,7 +509,7 @@ void CPPHeaderCodeDocument::updateContent( )
     // Enum types for include
     if (!isInterface) {
         QString enumStatement;
-        QString indent = policy->getIndentation();
+        QString indent = UMLApp::app()->getCommonPolicy()->getIndentation();
         UMLEnum* e = dynamic_cast<UMLEnum*>(c);
         if (e) {
             enumStatement.append(indent + "enum "+cppClassName+" {"+endLine);
@@ -534,7 +518,7 @@ void CPPHeaderCodeDocument::updateContent( )
             UMLClassifierListItemList ell = e->getFilteredList(Uml::ot_EnumLiteral);
             for (UMLClassifierListItem *el=ell.first(); el ; ) {
                 enumStatement.append(indent+indent);
-                enumStatement.append(gen->cleanName(el->getName()));
+                enumStatement.append(CodeGenerator::cleanName(el->getName()));
                 if ((el=ell.next()) != 0)
                     enumStatement.append(", "+endLine);
                 else
@@ -673,6 +657,7 @@ void CPPHeaderCodeDocument::updateContent( )
 
     // METHODS sub-section : constructor methods
     //
+    CodeGenerationPolicy *pol = UMLApp::app()->getCommonPolicy();
 
     // setup/get/create the constructor codeblocks
 
@@ -681,7 +666,7 @@ void CPPHeaderCodeDocument::updateContent( )
     // special condiions for showing comment: only when autogenerateding empty constructors
     // Although, we *should* check for other constructor methods too
     CodeComment * pubConstComment = pubConstructorBlock->getComment();
-    if (!forcedoc && (isInterface || !gen->getAutoGenerateConstructors()))
+    if (!forcedoc && (isInterface || !pol->getAutoGenerateConstructors()))
         pubConstComment->setWriteOutText(false);
     else
         pubConstComment->setWriteOutText(true);
@@ -691,7 +676,7 @@ void CPPHeaderCodeDocument::updateContent( )
     // special condiions for showing comment: only when autogenerateding empty constructors
     // Although, we *should* check for other constructor methods too
     CodeComment * protConstComment = protConstructorBlock->getComment();
-    if (!forcedoc && (isInterface || !gen->getAutoGenerateConstructors()))
+    if (!forcedoc && (isInterface || !pol->getAutoGenerateConstructors()))
         protConstComment->setWriteOutText(false);
     else
         protConstComment->setWriteOutText(true);
@@ -701,7 +686,7 @@ void CPPHeaderCodeDocument::updateContent( )
     // special condiions for showing comment: only when autogenerateding empty constructors
     // Although, we *should* check for other constructor methods too
     CodeComment * privConstComment = privConstructorBlock->getComment();
-    if (!forcedoc && (isInterface || !gen->getAutoGenerateConstructors()))
+    if (!forcedoc && (isInterface || !pol->getAutoGenerateConstructors()))
         privConstComment->setWriteOutText(false);
     else
         privConstComment->setWriteOutText(true);
@@ -710,7 +695,7 @@ void CPPHeaderCodeDocument::updateContent( )
     // meta-data to state what the scope of this method is, we will make it
     // "public" as a default. This might present problems if the user wants
     // to move the block into the "private" or "protected" blocks.
-    QString CPPClassName = getCPPClassName(c->getName());
+    QString CPPClassName = CodeGenerator::cleanName(c->getName());
     QString emptyConstStatement = CPPClassName+" ( ) { }";
 
     // search for this first in the entire document. IF not present, put
@@ -722,7 +707,7 @@ void CPPHeaderCodeDocument::updateContent( )
 
     // Now, as an additional condition we only show the empty constructor block
     // IF it was desired to be shown
-    if(!isInterface && gen->getAutoGenerateConstructors())
+    if(!isInterface && pol->getAutoGenerateConstructors())
         emptyConstBlock->setWriteOutText(true);
     else
         emptyConstBlock->setWriteOutText(false);

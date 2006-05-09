@@ -22,6 +22,7 @@
 #include "rubyclassifiercodedocument.h"
 #include "rubycodedocumentation.h"
 #include "rubycodegenerator.h"
+#include "../uml.h"
 
 // Constructors/Destructors
 //
@@ -29,7 +30,16 @@
 RubyCodeOperation::RubyCodeOperation ( RubyClassifierCodeDocument * doc, UMLOperation *parent, const QString & body, const QString & comment )
         : CodeOperation ((ClassifierCodeDocument*)doc, parent, body, comment)
 {
-    init(doc );
+    // lets not go with the default comment and instead use
+    // full-blown ruby documentation object instead
+    setComment(new RubyCodeDocumentation(doc));
+
+    // these things never change..
+    setOverallIndentationLevel(1);
+
+    updateMethodDeclaration();
+    updateContent();
+
 }
 
 RubyCodeOperation::~RubyCodeOperation ( ) { }
@@ -45,14 +55,13 @@ void RubyCodeOperation::updateMethodDeclaration()
     RubyClassifierCodeDocument * rubydoc = dynamic_cast<RubyClassifierCodeDocument*>(doc);
     UMLClassifier *c = rubydoc->getParentClassifier();
     UMLOperation * o = getParentOperation();
-    RubyCodeGenerator * gen = dynamic_cast<RubyCodeGenerator*>(doc->getParentGenerator());
     bool isInterface = rubydoc->getParentClassifier()->isInterface();
     QString endLine = getNewLineEndingChars();
 
     // now, the starting text.
     QString strVis = rubydoc->scopeToRubyDecl(o->getVisibility());
     // no return type for constructors
-    QString fixedReturn = gen->cppToRubyType(o->getTypeName());
+    QString fixedReturn = RubyCodeGenerator::cppToRubyType(o->getTypeName());
     QString returnType = o->isConstructorOperation() ? QString("") : (fixedReturn + QString(" "));
     QString methodName = o->getName();
     
@@ -83,10 +92,10 @@ void RubyCodeOperation::updateMethodDeclaration()
     int paramNum = 0;
     for(UMLAttribute* parm = list->first(); parm; parm=list->next())
     {
-        QString paramName = gen->cppToRubyName(parm->getName());
+        QString paramName = RubyCodeGenerator::cppToRubyName(parm->getName());
         paramStr += paramName;
         if (! parm->getInitialValue().isEmpty()) {
-            paramStr += QString(" = ") + gen->cppToRubyType(parm->getInitialValue());
+            paramStr += QString(" = ") + RubyCodeGenerator::cppToRubyType(parm->getInitialValue());
         }
         paramNum++;
 
@@ -146,10 +155,10 @@ void RubyCodeOperation::updateMethodDeclaration()
         for (UMLAttributeListIt iterator(*parameters); iterator.current(); ++iterator) {
             // Only write an individual @param entry if one hasn't been found already
             // in the main doc comment
-            if (commentedParams.contains(gen->cppToRubyName(iterator.current()->getName())) == 0) {
-                comment += (endLine + "@param _" + gen->cppToRubyName(iterator.current()->getName()) + "_");
+            if (commentedParams.contains(RubyCodeGenerator::cppToRubyName(iterator.current()->getName())) == 0) {
+                comment += (endLine + "@param _" + RubyCodeGenerator::cppToRubyName(iterator.current()->getName()) + "_");
                 if (iterator.current()->getDoc().isEmpty()) {
-                    comment += (" " + gen->cppToRubyType(iterator.current()->getTypeName()));
+                    comment += (" " + RubyCodeGenerator::cppToRubyType(iterator.current()->getTypeName()));
                 } else {
                     comment += (" " + iterator.current()->getDoc().replace(QRegExp("[\\n\\r]+[\\t ]*"), endLine + "  "));
                 }
@@ -180,7 +189,7 @@ void RubyCodeOperation::updateMethodDeclaration()
             pos = comment.find(endLine, pos);
         }
     
-        QString typeStr = gen->cppToRubyType(o->getTypeName());
+        QString typeStr = RubyCodeGenerator::cppToRubyType(o->getTypeName());
         if (    typeStr != "" 
                 && !QRegExp("^void\\s*$").exactMatch(typeStr) 
                 && comment.contains("_returns_") == 0 ) 
@@ -207,19 +216,6 @@ int RubyCodeOperation::lastEditableLine() {
         return -1; // very last line is NOT editable as its a one-line declaration w/ no body in
     // an interface.
     return 0;
-}
-
-void RubyCodeOperation::init(RubyClassifierCodeDocument * doc )
-{
-    // lets not go with the default comment and instead use
-    // full-blown ruby documentation object instead
-    setComment(new RubyCodeDocumentation(doc));
-
-    // these things never change..
-    setOverallIndentationLevel(1);
-
-    updateMethodDeclaration();
-    updateContent();
 }
 
 #include "rubycodeoperation.moc"

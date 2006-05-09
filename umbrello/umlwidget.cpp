@@ -641,7 +641,7 @@ void UMLWidget::startPopupMenu( const QPoint &At) {
     m_pMenu = new ListPopupMenu(m_pView, this, multi, unique);
 
     // disable the "view code" menu for simple code generators
-    CodeGenerator * currentCG = m_pDoc->getCurrentCodeGenerator();
+    CodeGenerator * currentCG = UMLApp::app()->getGenerator();
     if(currentCG && dynamic_cast<SimpleCodeGenerator*>(currentCG))
         m_pMenu->setItemEnabled(ListPopupMenu::mt_ViewCode, false);
 

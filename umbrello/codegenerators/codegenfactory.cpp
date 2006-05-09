@@ -111,6 +111,7 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
                         << ". Type unknown" << endl;
             break;
     }
+    obj->initFromParentDocument();
     return obj;
 }
 

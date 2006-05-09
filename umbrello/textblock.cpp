@@ -140,12 +140,12 @@ int TextBlock::getIndentationLevel ( ) {
 }
 
 QString TextBlock::getNewLineEndingChars ( ) {
-    CodeGenerationPolicy * policy = UMLApp::app()->getDefaultPolicy();
+    CodeGenerationPolicy * policy = UMLApp::app()->getCommonPolicy();
     return policy->getNewLineEndingChars();
 }
 
 QString TextBlock::getIndentation() {
-    CodeGenerationPolicy * policy = UMLApp::app()->getDefaultPolicy();
+    CodeGenerationPolicy * policy = UMLApp::app()->getCommonPolicy();
     return policy->getIndentation();
 }
 
@@ -227,7 +227,7 @@ QString TextBlock::formatMultiLineText ( const QString &work, const QString &lin
 void TextBlock::setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement)
 {
 
-    QString endLine = m_parentDocument->getNewLineEndingChars();
+    QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
 
     if (&doc != 0 ) {
 
@@ -260,7 +260,7 @@ void TextBlock::setAttributesFromObject(TextBlock * obj)
 
 void TextBlock::setAttributesFromNode (QDomElement & root ) {
 
-    QString endLine = m_parentDocument->getNewLineEndingChars();
+    QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
 
     setIndentationLevel(root.attribute("indentLevel","0").toInt());
     setTag(root.attribute("tag",""));
@@ -295,7 +295,7 @@ QString TextBlock::toString ( )
     // simple output method
     if(m_writeOutText && !m_text.isEmpty())
     {
-        QString endLine = m_parentDocument->getNewLineEndingChars();
+        QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
         return formatMultiLineText(m_text, getIndentationString(), endLine);
     } else
         return "";

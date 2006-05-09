@@ -107,7 +107,7 @@ int main(int argc, char *argv[]) {
         if (showGUI) {
             uml->show();
         }
-        uml->initGenerators();
+        uml->initGenerator();
 
         //show tips if wanted
         if (showGUI) {

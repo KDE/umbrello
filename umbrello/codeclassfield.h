@@ -110,11 +110,6 @@ public:
     // of objects (as per specification of associations)
     QString getListObjectType();
 
-    /** get the name of the class which holds lists, e.g. "QPtrlist" or
-      * "Vector" or "List" and so on.
-      */
-    QString getListFieldClassName();
-
     /** determine if we will *allow* methods to be viewable.
      * this flag is often used to toggle autogeneration of accessor
      * methods in the code class field.

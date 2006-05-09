@@ -13,6 +13,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2006                                                    *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 #include <kdebug.h>
@@ -25,6 +27,7 @@
 #include "../attribute.h"
 #include "../umlobject.h"
 #include "../umlrole.h"
+#include "../uml.h"
 
 #include "rubyclassifiercodedocument.h"
 
@@ -92,7 +95,7 @@ QString RubyCodeClassField::getInitialValue() {
             //       then we can just return 'empty' string (minor problem).
             return QString("");
         } else {
-            return getListFieldClassName()+".new()";
+            return RubyCodeGenerator::getListFieldClassName()+".new()";
         }
     }
 
@@ -100,8 +103,7 @@ QString RubyCodeClassField::getInitialValue() {
 
 QString RubyCodeClassField::getTypeName ( )
 {
-    RubyCodeGenerator * gen = dynamic_cast<RubyCodeGenerator*>(getParentGenerator());
-    return gen->cppToRubyType(CodeClassField::getTypeName());
+    return RubyCodeGenerator::cppToRubyType(CodeClassField::getTypeName());
 }
 
 #include "rubycodeclassfield.moc"
