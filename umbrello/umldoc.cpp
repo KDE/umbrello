@@ -2566,7 +2566,9 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point) {
 }
 
 void UMLDoc::addDefaultStereotypes() {
-    UMLApp::app()->getGenerator()->createDefaultStereotypes();
+    CodeGenerator *gen = UMLApp::app()->getGenerator();
+    if (gen)
+        gen->createDefaultStereotypes();
 }
 
 const UMLStereotypeList& UMLDoc::getStereotypes() {

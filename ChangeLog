@@ -8,8 +8,10 @@ Version 1.5.3
 * Save autosave file to a more obvious place (72019)
 * Usability and responsiveness improvements to code import (93296)
 * Auto-complete in parameter properties dialog in class diagram (104477)
+* Crash on application exit (112092)
 * Memory problem when importing classes from c++ sources (122668)
 * Nestable components and subsystems in Component diagram (124326)
+* Crash loading xmi file (125331, 126968)
 * User interaction with UMLWidget improvements (126391)
 * Comments are cut short when generating PHP code (126480)
 
