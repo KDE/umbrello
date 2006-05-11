@@ -22,7 +22,7 @@
 #include "codegenerators/ncgof.h"
 #include "classifiercodedocument.h"
 #include "hierarchicalcodeblock.h"
-#include "../uml.h"
+#include "uml.h"
 
 // Constructors/Destructors
 //
