@@ -171,10 +171,10 @@ bool HierarchicalCodeBlock::insertTextBlock(TextBlock * newBlock, TextBlock * ex
         newBlock->setTag(new_tag);
     }
 
-    if(m_textBlockTagMap->contains(new_tag))
+    if(m_textBlockTagMap.contains(new_tag))
         return false; // return false, we already have some object with this tag in the list
     else {
-        m_textBlockTagMap->insert(new_tag, newBlock);
+        m_textBlockTagMap.insert(new_tag, newBlock);
         getParentDocument()->addChildTagToMap(new_tag, newBlock);
     }
 
@@ -209,7 +209,7 @@ bool HierarchicalCodeBlock::removeTextBlock ( TextBlock * remove_object ) {
     QString tag = remove_object->getTag();
     if(!(tag.isEmpty()))
     {
-        m_textBlockTagMap->erase(tag);
+        m_textBlockTagMap.erase(tag);
         getParentDocument()->removeChildTagFromMap(tag);
     }
     return true;

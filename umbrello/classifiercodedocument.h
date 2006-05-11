@@ -241,7 +241,7 @@ private:
      * Maps CodeClassFields to UMLObjects. Used to prevent re-adding a class
      * field.
      */
-    QMap<UMLObject *,CodeClassField *> * m_classFieldMap;
+    QMap<UMLObject *,CodeClassField *> m_classFieldMap;
 
     /**
      * Init from a UMLClassifier object.

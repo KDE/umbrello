@@ -267,10 +267,10 @@ private:
     void initDoc ( ) ;
 
     // TextBlockList m_textblockVector;
-    // QMap<QString, TextBlock *> * m_textBlockTagMap;
+    // QMap<QString, TextBlock *> m_textBlockTagMap;
 
     // for recording all of the textblocks held by child hierarchical codeblocks
-    QMap<QString, TextBlock *> * m_childTextBlockTagMap;
+    QMap<QString, TextBlock *> m_childTextBlockTagMap;
 
 };
 

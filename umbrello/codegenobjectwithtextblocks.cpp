@@ -40,7 +40,7 @@ CodeGenObjectWithTextBlocks::~CodeGenObjectWithTextBlocks ( ) {
     for (TextBlockListIt it(m_textblockVector); (tb = it.current()) != NULL; ++it)
       delete tb;
 
-    m_textBlockTagMap->clear();
+    m_textBlockTagMap.clear();
     m_textblockVector.clear();
 }
 
@@ -91,12 +91,12 @@ bool CodeGenObjectWithTextBlocks::addTextBlock(TextBlock* add_object ) {
         }
     }
 
-    if(m_textBlockTagMap->contains(tag))
+    if(m_textBlockTagMap.contains(tag))
         return false; // return false, we already have some object with this tag in the list
 
     // if we get here, then the object is a "fresh" one, we havent
     // added before. Add it now and return true.
-    m_textBlockTagMap->insert(tag, add_object);
+    m_textBlockTagMap.insert(tag, add_object);
     m_textblockVector.append(add_object);
 
     return true;
@@ -123,7 +123,7 @@ bool CodeGenObjectWithTextBlocks::removeTextBlock ( TextBlock * remove_object ) 
     // if we get here.. it was in this object so remove from our map
     QString tag = remove_object->getTag();
     if(!tag.isEmpty())
-        m_textBlockTagMap->erase(tag);
+        m_textBlockTagMap.erase(tag);
 
     return true;
 }
@@ -154,8 +154,8 @@ CodeOperation * CodeGenObjectWithTextBlocks::newCodeOperation( UMLOperation *op)
 TextBlock * CodeGenObjectWithTextBlocks::findTextBlockByTag( const QString &tag )
 {
     //if we already know to which file this class was written/should be written, just return it.
-    if(m_textBlockTagMap->contains(tag))
-        return ((*m_textBlockTagMap)[tag]);
+    if(m_textBlockTagMap.contains(tag))
+        return m_textBlockTagMap[tag];
 
     return (TextBlock*) NULL;
 }
@@ -348,7 +348,7 @@ void CodeGenObjectWithTextBlocks::resetTextBlocks() {
     TextBlock *tb;
     for (TextBlockListIt it(m_textblockVector); (tb = it.current()) != NULL; ++it)
         delete tb;
-    m_textBlockTagMap->clear();
+    m_textBlockTagMap.clear();
     m_textblockVector.clear();
 }
 
@@ -528,7 +528,6 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
 
 void CodeGenObjectWithTextBlocks::initFields ( ) {
 
-    m_textBlockTagMap = new QMap<QString, TextBlock *>;
     m_textblockVector.setAutoDelete(false);
 
 }

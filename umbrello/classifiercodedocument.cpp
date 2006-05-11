@@ -164,10 +164,10 @@ bool ClassifierCodeDocument::hasAttributeClassFields() {
 // the codegenerator writer the liberty to organize their document as they desire.
 bool ClassifierCodeDocument::addCodeClassField ( CodeClassField * add_object ) {
     UMLObject * umlobj = add_object->getParentObject();
-    if(!(m_classFieldMap->contains(umlobj)))
+    if(!(m_classFieldMap.contains(umlobj)))
     {
         m_classfieldVector.append(add_object);
-        m_classFieldMap->insert(umlobj,add_object);
+        m_classFieldMap.insert(umlobj,add_object);
 
         return true;
     }
@@ -188,12 +188,12 @@ void ClassifierCodeDocument::addAttributeClassField (UMLClassifierListItem *obj,
  */
 bool ClassifierCodeDocument::removeCodeClassField ( CodeClassField * remove_object ) {
     UMLObject * umlobj = remove_object->getParentObject();
-    if(m_classFieldMap->contains(umlobj))
+    if(m_classFieldMap.contains(umlobj))
     {
         if (m_classfieldVector.removeRef(remove_object))
         {
             // remove from our classfield map
-            m_classFieldMap->remove(umlobj);
+            m_classFieldMap.remove(umlobj);
             delete remove_object;
             return true;
         }
@@ -203,7 +203,7 @@ bool ClassifierCodeDocument::removeCodeClassField ( CodeClassField * remove_obje
 
 void ClassifierCodeDocument::removeAttributeClassField(UMLClassifierListItem *obj)
 {
-    CodeClassField * remove_object = (*m_classFieldMap)[obj];
+    CodeClassField * remove_object = m_classFieldMap[obj];
     if(remove_object)
         removeCodeClassField(remove_object);
 }
@@ -213,12 +213,12 @@ void ClassifierCodeDocument::removeAssociationClassField (UMLAssociation *assoc 
 
     // the object could be either (or both!) role a or b. We should check
     // both parts of the association.
-    CodeClassField * remove_object = (*m_classFieldMap)[assoc->getUMLRole(Uml::A)];
+    CodeClassField * remove_object = m_classFieldMap[assoc->getUMLRole(Uml::A)];
     if(remove_object)
         removeCodeClassField(remove_object);
 
     // check role b
-    remove_object = (*m_classFieldMap)[assoc->getUMLRole(Uml::B)];
+    remove_object = m_classFieldMap[assoc->getUMLRole(Uml::B)];
     if(remove_object)
         removeCodeClassField(remove_object);
 
@@ -379,7 +379,6 @@ void ClassifierCodeDocument::init (UMLClassifier * c )
 
     m_parentclassifier = c;
     m_classfieldVector.setAutoDelete(false);
-    m_classFieldMap = new QMap<UMLObject *, CodeClassField*>;
 
     updateHeader();
     syncNamesToParent();
@@ -516,7 +515,7 @@ void ClassifierCodeDocument::addAssociationClassField (UMLAssociation * a, bool 
     {
 
         UMLRole * role = a->getUMLRole(Uml::B);
-        if(!(m_classFieldMap->contains((UMLObject*)role)))
+        if(!m_classFieldMap.contains((UMLObject*)role))
         {
             CodeClassField * classfield = newCodeClassField(role);
             if( addCodeClassField(classfield))
@@ -528,7 +527,7 @@ void ClassifierCodeDocument::addAssociationClassField (UMLAssociation * a, bool 
     if (printRoleA)
     {
         UMLRole * role = a->getUMLRole(Uml::A);
-        if(!(m_classFieldMap->contains((UMLObject*)role)))
+        if(!m_classFieldMap.contains((UMLObject*)role))
         {
             CodeClassField * classfield = newCodeClassField(role);
             if( addCodeClassField(classfield))
@@ -616,13 +615,13 @@ void ClassifierCodeDocument::loadClassFieldsFromXMI( QDomElement & elem) {
             {
                 // Because we just may change the parent object here,
                 // we need to yank it from the map of umlobjects
-                m_classFieldMap->remove(cf->getParentObject());
+                m_classFieldMap.remove(cf->getParentObject());
 
                 // configure from XMI
                 cf->loadFromXMI(childElem);
 
                 // now add back in
-                m_classFieldMap->insert(cf->getParentObject(),cf);
+                m_classFieldMap.insert(cf->getParentObject(),cf);
 
             } else
                 kdError()<<" LoadFromXMI: can't load classfield parent_id:"<<id<<" do you have a corrupt savefile?"<<endl;

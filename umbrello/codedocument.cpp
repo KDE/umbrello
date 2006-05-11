@@ -44,11 +44,12 @@ CodeDocument::CodeDocument () : CodeGenObjectWithTextBlocks(this)
 
 
 CodeDocument::~CodeDocument ( ) {
-
     // delete all the text blocks we have
-    //  for (TextBlock *tb = m_textblockVector.first(); tb; tb=m_textblockVector.next())
-    //          delete tb;
+    TextBlock *tb;
+    for (TextBlockListIt it(m_textblockVector); (tb = it.current()) != NULL; ++it)
+        delete tb;
     m_textblockVector.clear();
+    delete m_header;
 }
 
 //
@@ -247,10 +248,10 @@ bool CodeDocument::insertTextBlock(TextBlock * newBlock, TextBlock * existingBlo
         newBlock->setTag(new_tag);
     }
 
-    if(m_textBlockTagMap->contains(new_tag))
+    if(m_textBlockTagMap.contains(new_tag))
         return false; // return false, we already have some object with this tag in the list
     else
-        m_textBlockTagMap->insert(new_tag, newBlock);
+        m_textBlockTagMap.insert(new_tag, newBlock);
 
     if(after)
         index++;
@@ -333,7 +334,7 @@ void CodeDocument::synchronize() {
 // need to overload method to beable to clear the childTextBlockMap
 void CodeDocument::resetTextBlocks() {
     CodeGenObjectWithTextBlocks::resetTextBlocks();
-    m_childTextBlockTagMap->clear();
+    m_childTextBlockTagMap.clear();
 }
 
 /**
@@ -467,23 +468,23 @@ HierarchicalCodeBlock * CodeDocument::newHierarchicalCodeBlock ( ) {
 
 void CodeDocument::removeChildTagFromMap ( const QString &tag )
 {
-    m_childTextBlockTagMap->erase(tag);
+    m_childTextBlockTagMap.erase(tag);
 }
 
 void CodeDocument::addChildTagToMap ( const QString &tag, TextBlock * tb)
 {
-    m_childTextBlockTagMap->insert(tag, tb);
+    m_childTextBlockTagMap.insert(tag, tb);
 }
 
 TextBlock * CodeDocument::findTextBlockByTag( const QString &tag , bool descendIntoChildren)
 {
     //if we already know to which file this class was written/should be written, just return it.
-    if(m_textBlockTagMap->contains(tag))
-        return ((*m_textBlockTagMap)[tag]);
+    if(m_textBlockTagMap.contains(tag))
+        return m_textBlockTagMap[tag];
 
     if (descendIntoChildren)
-        if(m_childTextBlockTagMap->contains(tag))
-            return ((*m_childTextBlockTagMap)[tag]);
+        if(m_childTextBlockTagMap.contains(tag))
+            return m_childTextBlockTagMap[tag];
 
     return (TextBlock*) NULL;
 }
@@ -496,9 +497,6 @@ void CodeDocument::initDoc () {
     m_ID = QString(""); // leave with NO ID as a default
 
     //m_textblockVector.setAutoDelete(false);
-
-    //  m_textBlockTagMap = new QMap<QString, TextBlock *>;
-    m_childTextBlockTagMap = new QMap<QString, TextBlock *>;
 
     setHeader(new CodeComment(this));
 

@@ -180,7 +180,7 @@ protected:
     // reset/clear the inventory text blocks held by this object
     virtual void resetTextBlocks();
 
-    QMap<QString, TextBlock *> * m_textBlockTagMap;
+    QMap<QString, TextBlock *> m_textBlockTagMap;
     TextBlockList m_textblockVector;
 
     // find specific text block belonging to code classfields.
