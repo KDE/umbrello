@@ -87,7 +87,7 @@ CodeViewerDialog * JavaCodeGenerator::getCodeViewerDialog ( QWidget* parent, Cod
 
 
 JavaCodeGenerationPolicy * JavaCodeGenerator::getJavaPolicy() {
-    return dynamic_cast<JavaCodeGenerationPolicy*>(m_codegeneratorpolicy);
+    return dynamic_cast<JavaCodeGenerationPolicy*>(UMLApp::app()->getPolicyExt());
 }
 
 bool JavaCodeGenerator::getAutoGenerateAttribAccessors ( )

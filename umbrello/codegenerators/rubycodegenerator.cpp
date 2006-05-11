@@ -65,7 +65,7 @@ CodeViewerDialog * RubyCodeGenerator::getCodeViewerDialog ( QWidget* parent, Cod
 
 
 RubyCodeGenerationPolicy * RubyCodeGenerator::getRubyPolicy() {
-    return dynamic_cast<RubyCodeGenerationPolicy*>(m_codegeneratorpolicy);
+    return dynamic_cast<RubyCodeGenerationPolicy*>(UMLApp::app()->getPolicyExt());
 }
 
 bool RubyCodeGenerator::getAutoGenerateAttribAccessors ( )
