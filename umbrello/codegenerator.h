@@ -371,13 +371,6 @@ protected:
      */
     UMLDoc* m_document;
 
-    /**
-     * convert a NULL terminated char * list of reserved keywords to a new QPtrList<const char *>
-     */
-    QPtrList<const char *> * convertListOfReservedKeywords(const char **);
-
-    CodeGenPolicyExt * m_codegeneratorpolicy;
-
 private:
 
     /**
