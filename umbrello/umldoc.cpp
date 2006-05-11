@@ -1482,12 +1482,13 @@ void UMLDoc::saveToXMI(QIODevice& file, bool saveSubmodelFiles /* = false */) {
     //  save listview
     UMLApp::app()->getListView()->saveToXMI( doc, extensions, saveSubmodelFiles );
 
-    // save code generators
-    QDomElement codeGenElement = doc.createElement( "codegeneration" );
-    
+    // save code generator
     CodeGenerator *codegen = UMLApp::app()->getGenerator();
-    codegen->saveToXMI( doc, codeGenElement );
-    extensions.appendChild( codeGenElement );
+    if (codegen) {
+        QDomElement codeGenElement = doc.createElement( "codegeneration" );
+        codegen->saveToXMI( doc, codeGenElement );
+        extensions.appendChild( codeGenElement );
+    }
 
     root.appendChild( extensions );
 

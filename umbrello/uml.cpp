@@ -88,6 +88,7 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
     m_clipTimer = 0;
     m_copyTimer = 0;
     m_codegen = 0;
+    m_policyext = 0;
     m_commoncodegenpolicy = 0;
     m_activeLanguage = Uml::pl_Reserved;
     ///////////////////////////////////////////////////////////////////
