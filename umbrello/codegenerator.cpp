@@ -392,7 +392,8 @@ QString CodeGenerator::getHeadingFile( const QString &file ) {
  */
 QString CodeGenerator::overwritableName( QString name, const QString &extension ) {
 
-    QDir outputDirectory = UMLApp::app()->getCommonPolicy()->getOutputDirectory();
+    CodeGenerationPolicy *pol = UMLApp::app()->getCommonPolicy();
+    QDir outputDirectory = pol->getOutputDirectory();
 
     if (!outputDirectory.exists(name + extension)) {
         return name + extension;
@@ -401,7 +402,7 @@ QString CodeGenerator::overwritableName( QString name, const QString &extension 
     int suffix;
     OverwriteDialogue overwriteDialogue( name, outputDirectory.absPath(),
                                          m_applyToAllRemaining, kapp -> mainWidget() );
-    switch(overwritePolicy()) {  //if it exists, check the OverwritePolicy we should use
+    switch (pol->getOverwritePolicy()) {  //if it exists, check the OverwritePolicy we should use
     case CodeGenerationPolicy::Ok:              //ok to overwrite file
         name = name + extension;
         break;
@@ -409,7 +410,7 @@ QString CodeGenerator::overwritableName( QString name, const QString &extension 
         switch(overwriteDialogue.exec()) {
         case KDialogBase::Yes:  //overwrite file
             if ( overwriteDialogue.applyToAllRemaining() ) {
-                setOverwritePolicy(CodeGenerationPolicy::Ok);
+                pol->setOverwritePolicy(CodeGenerationPolicy::Ok);
                 name = name + extension;
             } else {
                 m_applyToAllRemaining = false;
@@ -422,14 +423,14 @@ QString CodeGenerator::overwritableName( QString name, const QString &extension 
             }
             name = name + "__" + QString::number(suffix) + extension;
             if ( overwriteDialogue.applyToAllRemaining() ) {
-                setOverwritePolicy(CodeGenerationPolicy::Never);
+                pol->setOverwritePolicy(CodeGenerationPolicy::Never);
             } else {
                 m_applyToAllRemaining = false;
             }
             break;
         case KDialogBase::Cancel: //don't output anything
             if ( overwriteDialogue.applyToAllRemaining() ) {
-                setOverwritePolicy(CodeGenerationPolicy::Cancel);
+                pol->setOverwritePolicy(CodeGenerationPolicy::Cancel);
             } else {
                 m_applyToAllRemaining = false;
             }
@@ -644,7 +645,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
 QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix, int lineWidth) {
     QString output;
 
-    const QString endLine = getNewLineEndingChars();
+    const QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
     QStringList lines = QStringList::split(endLine, text);
     for (QStringList::ConstIterator lit = lines.begin(); lit != lines.end(); ++lit) {
         QString input = *lit;
@@ -689,50 +690,6 @@ void CodeGenerator::initFields ( UMLDoc * doc ) {
 // these are utility methods for accessing the default
 // code gen policy object and should go away when we
 // finally implement the CodeGenDialog class -b.t.
-QString CodeGenerator::getNewLineEndingChars ( ) {
-    return UMLApp::app()->getCommonPolicy()->getNewLineEndingChars( );
-}
-
-void CodeGenerator::setOutputDirectory( const QString &d ) {
-    UMLApp::app()->getCommonPolicy()->setOutputDirectory(d);
-}
-
-QDir CodeGenerator::outputDirectory() const {
-    return UMLApp::app()->getCommonPolicy()->getOutputDirectory();
-}
-
-void  CodeGenerator::setOverwritePolicy(CodeGenerationPolicy::OverwritePolicy p) {
-    UMLApp::app()->getCommonPolicy()->setOverwritePolicy(p);
-}
-
-CodeGenerationPolicy::OverwritePolicy CodeGenerator::overwritePolicy() const {
-    return UMLApp::app()->getCommonPolicy()->getOverwritePolicy();
-}
-
-void  CodeGenerator::setModifyNamePolicy(CodeGenerationPolicy::ModifyNamePolicy p) {
-    UMLApp::app()->getCommonPolicy()->setModifyPolicy(p);
-}
-
-CodeGenerationPolicy::ModifyNamePolicy  CodeGenerator::modifyNamePolicy()const {
-    return UMLApp::app()->getCommonPolicy()->getModifyPolicy();
-}
-
-void CodeGenerator::setIncludeHeadings(bool i) {
-    UMLApp::app()->getCommonPolicy()->setIncludeHeadings(i);
-}
-
-bool CodeGenerator::includeHeadings() const {
-    return UMLApp::app()->getCommonPolicy()->getIncludeHeadings();
-}
-
-void CodeGenerator::setHeadingFileDir ( const QString & path) {
-    UMLApp::app()->getCommonPolicy()->setHeadingFileDir(path);
-}
-
-QString CodeGenerator::headingFileDir() const {
-    return UMLApp::app()->getCommonPolicy()->getHeadingFileDir();
-}
-
 void CodeGenerator::setForceDoc(bool f) {
     UMLApp::app()->getCommonPolicy()->setCodeVerboseDocumentComments(f);
 }

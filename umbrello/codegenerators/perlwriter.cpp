@@ -20,6 +20,7 @@
 #include "../umldoc.h"
 #include "../association.h"
 #include "../attribute.h"
+#include "../uml.h"
 
 #include <kdebug.h>
 #include <qregexp.h>
@@ -116,7 +117,8 @@ void PerlWriter::writeClass(UMLClassifier *c) {
   // parts here
   // actual solution: shameful ".pm" hack in codegenerator
 
-  QString curDir = outputDirectory().absPath();
+  CodeGenerationPolicy *pol = UMLApp::app()->getCommonPolicy();
+  QString curDir = pol->getOutputDirectory().absPath();
   if (fileName.contains("::")) {
     // create new directories for each level
     QString newDir;
@@ -144,15 +146,15 @@ void PerlWriter::writeClass(UMLClassifier *c) {
     emit codeGenerated(c, false);
     return;
   }
-  QString oldDir = outputDirectory().absPath();
-  setOutputDirectory(curDir);
+  QString oldDir = pol->getOutputDirectory().absPath();
+  pol->setOutputDirectory(curDir);
   QFile fileperl;
   if(!openFile(fileperl,fileName+".pm")) {
     emit codeGenerated(c, false);
     return;
   }
   QTextStream perl(&fileperl);
-  setOutputDirectory(oldDir);
+  pol->setOutputDirectory(oldDir);
 
   //======================================================================
   // Start generating the code!!

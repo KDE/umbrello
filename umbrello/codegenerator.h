@@ -169,13 +169,6 @@ public:
     // these are utility methods for accessing the default
     // code gen policy object and *perhaps* should go away when we
     // finally implement the CodeGenDialog class -b.t.
-    QString getNewLineEndingChars ( );
-
-    void setOutputDirectory(const QString &d);
-    QDir outputDirectory() const;
-
-    void setOverwritePolicy(CodeGenerationPolicy::OverwritePolicy p);
-    CodeGenerationPolicy::OverwritePolicy overwritePolicy() const;
 
     void setModifyNamePolicy(CodeGenerationPolicy::ModifyNamePolicy p);
     CodeGenerationPolicy::ModifyNamePolicy modifyNamePolicy()const;
