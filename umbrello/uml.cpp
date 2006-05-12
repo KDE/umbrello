@@ -1446,6 +1446,8 @@ void UMLApp::initGenerator() {
     }
     Uml::Programming_Language defaultLanguage = getDefaultLanguage();
     setActiveLanguage(Model_Utils::progLangToString(defaultLanguage));
+    if (m_codegen == NULL)
+        setGenerator(defaultLanguage);
     updateLangSelectMenu(defaultLanguage);
 }
 
