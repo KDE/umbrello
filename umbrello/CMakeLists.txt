@@ -1,4 +1,3 @@
-kde4_header()
 
 add_subdirectory( classparser ) 
 add_subdirectory( dialogs ) 
@@ -141,7 +140,6 @@ install_files( ${MIME_INSTALL_DIR}/application FILES x-umbrello.desktop )
 
 kde4_install_icons( ${ICON_INSTALL_DIR}  hicolor )
 
-kde4_footer()
 
 
 
