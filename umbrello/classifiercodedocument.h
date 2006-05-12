@@ -182,7 +182,7 @@ public:
 protected:
 
     /**
-     * little utility method to load codeclassifields from XMI element node.
+     * Load CodeClassFields from XMI element node.
      */
     void loadClassFieldsFromXMI( QDomElement & childElem);
 
