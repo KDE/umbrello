@@ -23,11 +23,13 @@
 #include "operation.h"
 #include "classifierlistitem.h"
 #include "classifier.h"
+#include "codegenerator.h"
+#include "uml.h"
 #include "umldoc.h"
 #include "umlrole.h"
 #include "umlattributelist.h"
 #include "umloperationlist.h"
-#include "codegenerators/ncgof.h"
+#include "codegenerators/codegenfactory.h"
 
 // Constructors/Destructors
 //
@@ -177,7 +179,7 @@ bool ClassifierCodeDocument::addCodeClassField ( CodeClassField * add_object ) {
 // this is a slot..should only be called from a signal
 void ClassifierCodeDocument::addAttributeClassField (UMLClassifierListItem *obj, bool syncToParentIfAdded) {
     UMLAttribute *at = (UMLAttribute*)obj;
-    CodeClassField * cf = newCodeClassField(at);
+    CodeClassField * cf = CodeGenFactory::newCodeClassField(this, at);
     if(cf)
         if (addCodeClassField(cf) && syncToParentIfAdded)
             updateContent();
@@ -271,7 +273,7 @@ void ClassifierCodeDocument::addOperation (UMLClassifierListItem * op ) {
     // create the block, if it doesnt already exist
     if(!codeOp)
     {
-        codeOp = newCodeOperation((UMLOperation*)op);
+        codeOp = CodeGenFactory::newCodeOperation(this, (UMLOperation*)op);
         createdNew = true;
     }
 
@@ -399,11 +401,27 @@ void ClassifierCodeDocument::init (UMLClassifier * c )
 }
 
 // IF the classifier object is modified, this will get called.
-// Possible mods include changing the filename and package
-// the classifier has.
+// @todo we cannot make this virtual as long as the
+//       ClassifierCodeDocument constructor calls it because that gives
+//       a call-before-construction error.
+// Example of the problem: CPPSourceCodeDocument reimplementing syncNamesToParent()
+//  CPPCodeGenerator::initFromParentDocument()
+//    CodeDocument * codeDoc = new CPPSourceCodeDocument(c);
+//      CPPSourceCodeDocument::CPPSourceCodeDocument(UMLClassifier * concept)
+//       : ClassifierCodeDocument(concept)
+//        ClassifierCodeDocument::ClassifierCodeDocument(concept)
+//         init(concept);
+//          syncNamesToParent();
+//            dispatches to CPPSourceCodeDocument::syncNamesToParent()
+//            but that object is not yet constructed.
+//
 void ClassifierCodeDocument::syncNamesToParent( ) {
-
-    setFileName(m_parentclassifier->getName());
+    QString fileName = CodeGenerator::cleanName(getParentClassifier()->getName());
+    if (!UMLApp::app()->activeLanguageIsCaseSensitive()) {
+        // @todo let the user decide about mixed case file names (codegen setup menu)
+        fileName = fileName.lower();
+    }
+    setFileName(fileName);
     setPackage(m_parentclassifier->getUMLPackage());
 }
 
@@ -437,7 +455,7 @@ void ClassifierCodeDocument::updateOperations( ) {
 
         if(!codeOp)
         {
-            codeOp = NCGOF::newCodeOperation(this, op);
+            codeOp = CodeGenFactory::newCodeOperation(this, op);
             createdNew = true;
         }
 
@@ -471,7 +489,7 @@ void ClassifierCodeDocument::initCodeClassFields ( ) {
         UMLAttributeList alist = c->getAttributeList();
         for(UMLAttribute * at = alist.first(); at; at = alist.next())
         {
-            CodeClassField * field = newCodeClassField(at);
+            CodeClassField * field = CodeGenFactory::newCodeClassField(this, at);
             addCodeClassField(field);
         }
 
@@ -517,7 +535,7 @@ void ClassifierCodeDocument::addAssociationClassField (UMLAssociation * a, bool 
         UMLRole * role = a->getUMLRole(Uml::B);
         if(!m_classFieldMap.contains((UMLObject*)role))
         {
-            CodeClassField * classfield = newCodeClassField(role);
+            CodeClassField * classfield = CodeGenFactory::newCodeClassField(this, role);
             if( addCodeClassField(classfield))
                 shouldSync = true;
         }
@@ -529,7 +547,7 @@ void ClassifierCodeDocument::addAssociationClassField (UMLAssociation * a, bool 
         UMLRole * role = a->getUMLRole(Uml::A);
         if(!m_classFieldMap.contains((UMLObject*)role))
         {
-            CodeClassField * classfield = newCodeClassField(role);
+            CodeClassField * classfield = CodeGenFactory::newCodeClassField(this, role);
             if( addCodeClassField(classfield))
                 shouldSync = true;
         }

@@ -174,29 +174,12 @@ public:
      */
     virtual void loadFromXMI ( QDomElement & root );
 
-    virtual CodeClassFieldDeclarationBlock * newDeclarationCodeBlock (CodeClassField * cf) = 0;
-    virtual CodeAccessorMethod * newCodeAccessorMethod ( CodeClassField *cp, CodeAccessorMethod::AccessorType type) = 0;
-    virtual CodeOperation * newCodeOperation ( UMLOperation * op) = 0;
-
-
 protected:
 
     /**
      * Load CodeClassFields from XMI element node.
      */
     void loadClassFieldsFromXMI( QDomElement & childElem);
-
-    /**
-     * @return      CodeClassField
-     * @param       attribute attribute which is parent of this class field.
-     */
-    virtual CodeClassField * newCodeClassField (UMLAttribute * attribute ) = 0;
-
-    /**
-     * @return      CodeClassField
-     * @param       role 
-     */
-    virtual CodeClassField * newCodeClassField (UMLRole * role ) = 0;
 
     /** set attributes of the node that represents this class
      * in the XMI document.
@@ -221,9 +204,9 @@ protected:
     void syncClassFields( );
 
     // IF the classifier object is modified, this will get called.
-    // Possible mods include changing the filename and package
-    // based on values the classifier has.
-    virtual void syncNamesToParent( );
+    // @fixme We cannot make this virtual because the ClassifierCodeDocument
+    //        constructor calls it.
+    void syncNamesToParent( );
 
 private:
 

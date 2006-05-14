@@ -251,10 +251,6 @@ CodeDocument * CPPCodeGenerator::newClassifierCodeDocument (UMLClassifier * clas
     return new CPPSourceCodeDocument(classifier);
 }
 
-CodeComment * CPPCodeGenerator::newCodeComment ( CodeDocument * doc) {
-    return new CPPCodeDocumentation(doc);
-}
-
 CPPHeaderCodeDocument * CPPCodeGenerator::newHeaderClassifierCodeDocument (UMLClassifier * classifier)
 {
     return new CPPHeaderCodeDocument(classifier);

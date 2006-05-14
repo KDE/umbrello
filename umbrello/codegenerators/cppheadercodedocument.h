@@ -55,23 +55,6 @@ public:
     bool addCodeOperation (CodeOperation * op );
 
     /**
-    * create a new CodeAccesorMethod object belonging to this CodeDocument.
-    * @return      CodeAccessorMethod
-    */
-    virtual CodeAccessorMethod * newCodeAccessorMethod( CodeClassField *cf, CodeAccessorMethod::AccessorType type );
-
-    /**
-    * create a new CodeOperation object belonging to this CodeDocument.
-    * @return      CodeOperation
-    */
-    virtual CodeOperation * newCodeOperation( UMLOperation * op );
-
-    /**
-     * create a new CodeClassField declaration block object belonging to this CodeDocument.
-     */
-    virtual CodeClassFieldDeclarationBlock * newDeclarationCodeBlock (CodeClassField * cf );
-
-    /**
      * Save the XMI representation of this object
      */
     //virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
@@ -80,11 +63,6 @@ protected:
 
     // reset/clear our inventory of textblocks in this document
     void resetTextBlocks();
-
-    /** create new code classfield for this document.
-     */
-    virtual CodeClassField * newCodeClassField( UMLAttribute *at);
-    virtual CodeClassField * newCodeClassField( UMLRole *role);
 
     /**
     * need to overwrite this for cpp header since we need to pick up the
@@ -98,11 +76,6 @@ protected:
      * create a new code comment. IN this case it is a CPPCodeDocumentation object.
      */
     CodeComment * newCodeComment ( );
-
-    // IF the classifier object is modified, this will get called.
-    // Possible mods include changing the filename and package
-    // based on values the classifier has.
-    virtual void syncNamesToParent( );
 
     void updateContent();
 

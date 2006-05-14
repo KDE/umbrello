@@ -113,20 +113,7 @@ public:
      */
     void addCodeClassFieldMethods ( CodeClassFieldList &list );
 
-    /**
-    * create a new CodeAccesorMethod object belonging to this Hierarchical code block.
-    * @return      CodeAccessorMethod
-    */
-    virtual CodeAccessorMethod * newCodeAccesorMethod( CodeClassField *cf, CodeAccessorMethod::AccessorType type);
-
-    /**
-    * Create a new CodeOperation object belonging to this Hierarchical code block.
-    * @return      CodeOperation
-    */
-    virtual CodeOperation * newCodeOperation( UMLOperation *op);
-
     virtual CodeBlock * newCodeBlock();
-    virtual CodeComment * newCodeComment();
     virtual CodeBlockWithComments * newCodeBlockWithComments();
     virtual HierarchicalCodeBlock * newHierarchicalCodeBlock();
 

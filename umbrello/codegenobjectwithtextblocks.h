@@ -143,9 +143,6 @@ public:
     virtual CodeBlock * newCodeBlock() = 0;
     virtual CodeBlockWithComments * newCodeBlockWithComments() = 0;
     virtual HierarchicalCodeBlock * newHierarchicalCodeBlock() = 0;
-    virtual CodeOperation * newCodeOperation(UMLOperation *op);
-    virtual CodeAccessorMethod * newCodeAccesorMethod(CodeClassField *cf, CodeAccessorMethod::AccessorType type);
-    virtual CodeComment * newCodeComment() = 0;
 
     /** Find the direct parent for a given textblock. This
      * may be any object which holds text blocks, e.g. a CodeGenObjectWithTextBlocks.

@@ -28,14 +28,6 @@ CodeMethodBlock::CodeMethodBlock ( ClassifierCodeDocument * doc, UMLObject * par
     initFields();
 }
 
-/*
-CodeMethodBlock::CodeMethodBlock ( CodeClassField *cf) 
-        : CodeBlockWithComments ( cf->getParentDocument()), OwnedCodeBlock (cf->getParentObject()) 
-{
-        initFields();
-}
-*/
-
 CodeMethodBlock::~CodeMethodBlock ( ) { }
 
 //

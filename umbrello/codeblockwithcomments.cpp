@@ -17,6 +17,7 @@
 #include "codeblockwithcomments.h"
 #include "codedocument.h"
 #include "hierarchicalcodeblock.h"
+#include "codegenerators/codegenfactory.h"
 
 // Constructors/Destructors
 //
@@ -25,8 +26,7 @@ CodeBlockWithComments::CodeBlockWithComments ( HierarchicalCodeBlock * hb, const
         : CodeBlock (hb, body)
 {
     initFields();
-    CodeDocument * parent = hb->getParentDocument();
-    CodeComment * codecomment = parent->newCodeComment();
+    CodeComment * codecomment = CodeGenFactory::newCodeComment(hb->getParentDocument());
     codecomment->setText(comment);
     setComment(codecomment);
 }
@@ -35,7 +35,7 @@ CodeBlockWithComments::CodeBlockWithComments ( CodeDocument * parent , const QSt
         : CodeBlock (parent, body)
 {
     initFields();
-    CodeComment * codecomment = parent->newCodeComment();
+    CodeComment * codecomment = CodeGenFactory::newCodeComment(parent);
     codecomment->setText(comment);
     setComment(codecomment);
 }
@@ -172,7 +172,7 @@ void CodeBlockWithComments::setOverallIndentationLevel ( int level )
 }
 
 void CodeBlockWithComments::initFields ( ) {
-    m_comment = getParentDocument()->newCodeComment();
+    m_comment = CodeGenFactory::newCodeComment(getParentDocument());
 }
 
 #include "codeblockwithcomments.moc"

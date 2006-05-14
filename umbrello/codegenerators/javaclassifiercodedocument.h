@@ -76,28 +76,6 @@ public:
      */
     bool addCodeOperation (CodeOperation * op );
 
-    /**
-            * create a new CodeClassField declaration block object belonging to this CodeDocument.
-     */
-    virtual CodeClassFieldDeclarationBlock * newDeclarationCodeBlock (CodeClassField * cf);
-
-    /**
-      * create a new CodeAccesorMethod object belonging to this CodeDocument.
-      * @return      CodeAccessorMethod
-      */
-    virtual CodeAccessorMethod * newCodeAccessorMethod( CodeClassField *cf, CodeAccessorMethod::AccessorType type );
-
-    /**
-      * create a new CodeOperation object belonging to this CodeDocument.
-      * @return      CodeOperation
-      */
-    virtual CodeOperation * newCodeOperation( UMLOperation * op );
-
-    /**
-     * create a new code comment. IN this case it is a JavaCodeComment.
-     */
-    virtual CodeComment * newCodeComment ( );
-
 protected:
 
     // reset/clear our inventory of textblocks in this document
@@ -108,11 +86,6 @@ protected:
     * java class declaration block.
       */
     virtual void loadChildTextBlocksFromNode ( QDomElement & root);
-
-    /** create new code classfield for this document.
-     */
-    virtual CodeClassField * newCodeClassField( UMLAttribute *at);
-    virtual CodeClassField * newCodeClassField( UMLRole *role);
 
     void addOrUpdateCodeClassFieldMethodsInCodeBlock(CodeClassFieldList &list, JavaClassDeclarationBlock * codeBlock);
 

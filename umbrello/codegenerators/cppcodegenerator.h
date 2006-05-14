@@ -84,7 +84,6 @@ public:
 
     // generate 2 different types of classifier code documents.
     CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier);
-    CodeComment * newCodeComment ( CodeDocument * doc);
     CPPHeaderCodeDocument * newHeaderClassifierCodeDocument (UMLClassifier * classifier);
 
     /** Get the editing dialog for this code document

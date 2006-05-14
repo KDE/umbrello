@@ -14,11 +14,12 @@
  *      Date   : Fri Jun 20 2003
  */
 
+// own header
+#include "codeclassfield.h"
+// qt/kde includes
 #include <qregexp.h>
 #include <kdebug.h>
-
-#include "codeclassfield.h"
-
+// app includes
 #include "association.h"
 #include "classifiercodedocument.h"
 #include "codegenerator.h"
@@ -26,6 +27,7 @@
 #include "umlobject.h"
 #include "umlrole.h"
 #include "uml.h"
+#include "codegenerators/codegenfactory.h"
 
 // Constructors/Destructors
 //
@@ -221,10 +223,6 @@ void CodeClassField::setWriteOutMethods ( bool val )
 CodeClassFieldDeclarationBlock * CodeClassField::getDeclarationCodeBlock( )
 {
     return m_declCodeBlock;
-}
-
-CodeAccessorMethod * CodeClassField::newCodeAccessorMethod ( CodeAccessorMethod::AccessorType type ) {
-    return getParentDocument()->newCodeAccessorMethod(this, type);
 }
 
 // Other methods
@@ -426,7 +424,7 @@ void CodeClassField::initAccessorMethods()
     //if(!m_methodMap->contains(CodeAccessorMethod::GET))
     if(!findMethodByType(CodeAccessorMethod::GET))
     {
-        CodeAccessorMethod * method = newCodeAccessorMethod (CodeAccessorMethod::GET);
+        CodeAccessorMethod * method = CodeGenFactory::newCodeAccessorMethod (getParentDocument(), this, CodeAccessorMethod::GET);
         if(method)
         {
             method->setType(CodeAccessorMethod::GET);
@@ -436,7 +434,7 @@ void CodeClassField::initAccessorMethods()
 
     if(!findMethodByType(CodeAccessorMethod::SET))
     {
-        CodeAccessorMethod * method = newCodeAccessorMethod (CodeAccessorMethod::SET);
+        CodeAccessorMethod * method = CodeGenFactory::newCodeAccessorMethod (getParentDocument(), this, CodeAccessorMethod::SET);
         if(method) {
             method->setType(CodeAccessorMethod::SET);
             addMethod(method);
@@ -449,7 +447,7 @@ void CodeClassField::initAccessorMethods()
 
         if(!findMethodByType(CodeAccessorMethod::ADD))
         {
-            CodeAccessorMethod * method = newCodeAccessorMethod (CodeAccessorMethod::ADD);
+            CodeAccessorMethod * method = CodeGenFactory::newCodeAccessorMethod (getParentDocument(), this, CodeAccessorMethod::ADD);
             if(method) {
                 method->setType(CodeAccessorMethod::ADD);
                 addMethod(method);
@@ -458,7 +456,7 @@ void CodeClassField::initAccessorMethods()
 
         if(!findMethodByType(CodeAccessorMethod::REMOVE))
         {
-            CodeAccessorMethod * method = newCodeAccessorMethod (CodeAccessorMethod::REMOVE);
+            CodeAccessorMethod * method = CodeGenFactory::newCodeAccessorMethod (getParentDocument(), this, CodeAccessorMethod::REMOVE);
             if(method) {
                 method->setType(CodeAccessorMethod::REMOVE);
                 addMethod(method);
@@ -467,7 +465,7 @@ void CodeClassField::initAccessorMethods()
 
         if(!findMethodByType(CodeAccessorMethod::LIST))
         {
-            CodeAccessorMethod * method = newCodeAccessorMethod (CodeAccessorMethod::LIST);
+            CodeAccessorMethod * method = CodeGenFactory::newCodeAccessorMethod (getParentDocument(), this, CodeAccessorMethod::LIST);
             if(method) {
                 method->setType(CodeAccessorMethod::LIST);
                 addMethod(method);
@@ -597,7 +595,7 @@ void CodeClassField::initFields ( ) {
 
     m_writeOutMethods = false;
     m_listClassName = QString ("");
-    m_declCodeBlock = getParentDocument()->newDeclarationCodeBlock(this);
+    m_declCodeBlock = CodeGenFactory::newDeclarationCodeBlock(getParentDocument(), this);
 
     m_methodVector.setAutoDelete(false);
     // m_methodMap = new QMap<CodeAccessorMethod::AccessorType, CodeAccessorMethod *>;

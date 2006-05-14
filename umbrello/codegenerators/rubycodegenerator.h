@@ -94,8 +94,6 @@ public:
      */
     CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier);
 
-    CodeComment * newCodeComment ( CodeDocument * doc) ;
-
     // return "Ruby"
     Uml::Programming_Language getLanguage();
 

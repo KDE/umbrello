@@ -23,6 +23,7 @@
 #include "umlobject.h"
 #include "umlrole.h"
 #include "uml.h"
+#include "codegenerators/codegenfactory.h"
 
 // Constructors/Destructors
 //
@@ -272,7 +273,7 @@ void CodeParameter::initFields ( ClassifierCodeDocument * doc, UMLObject * obj) 
     m_parentDocument = doc;
     m_initialValue = QString("");
 
-    m_comment = m_parentDocument->newCodeComment();
+    m_comment = CodeGenFactory::newCodeComment(m_parentDocument);
     m_comment->setText(getParentObject()->getDoc());
 
     connect(m_parentObject,SIGNAL(modified()),this,SLOT(syncToParent()));

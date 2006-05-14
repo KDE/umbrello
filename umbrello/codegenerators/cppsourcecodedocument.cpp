@@ -25,15 +25,16 @@
 
 */
 
+// own header
+#include "cppsourcecodedocument.h"
+// qt/kde includes
 #include <kdebug.h>
 #include <qregexp.h>
-
-#include "cppsourcecodedocument.h"
+// app includes
 #include "cppcodegenerator.h"
 #include "cppcodegenerationpolicy.h"
 #include "cppcodedocumentation.h"
-#include "cppsourcecodeaccessormethod.h"
-#include "cppsourcecodeoperation.h"
+#include "cppcodeclassfield.h"
 #include "cppsourcecodeclassfielddeclarationblock.h"
 #include "../uml.h"
 
@@ -59,18 +60,6 @@ CPPSourceCodeDocument::~CPPSourceCodeDocument ( ) { }
 
 QString CPPSourceCodeDocument::getCPPClassName (const QString &name) {
     return CodeGenerator::cleanName(name);
-}
-
-// IF the classifier object is modified, this will get called.
-// Possible mods include changing the filename and package
-// the classifier has.
-////// FIXMEnow WE CANNOT DO THIS:
-////// ClassifierCodeDocument constructor makes a virtual call to here
-void CPPSourceCodeDocument::syncNamesToParent( )
-{
-
-    setFileName(CodeGenerator::cleanName(getParentClassifier()->getName().lower()));
-    setPackage(getParentClassifier()->getUMLPackage());
 }
 
 // Initialize this cpp classifier code document
@@ -101,42 +90,6 @@ bool CPPSourceCodeDocument::addCodeOperation (CodeOperation * op ) {
         return constructorBlock->addTextBlock(op);
 }
 
-/**
- * create a new CodeAccesorMethod object belonging to this CodeDocument.
- * @return      CodeAccessorMethod
- */
-CodeAccessorMethod * CPPSourceCodeDocument::newCodeAccessorMethod( CodeClassField *cf, CodeAccessorMethod::AccessorType type ) {
-    return new CPPSourceCodeAccessorMethod((CPPCodeClassField*)cf, type);
-}
-
-
-CodeClassField * CPPSourceCodeDocument::newCodeClassField ( UMLAttribute * at) {
-    return new CPPCodeClassField(this,at);
-}
-
-CodeClassField * CPPSourceCodeDocument::newCodeClassField ( UMLRole * role) {
-    return new CPPCodeClassField(this,role);
-}
-
-/**
- * create a new CodeBlockWithComments object belonging to this CodeDocument.
- * @return      CodeBlockWithComments
- */
-CodeComment * CPPSourceCodeDocument::newCodeComment ( ) {
-    return new CPPCodeDocumentation(this);
-}
-
-/**
- * create a new CodeOperation object belonging to this CodeDocument.
- * @return      CodeOperation
- */
-CodeOperation * CPPSourceCodeDocument::newCodeOperation( UMLOperation * op) {
-    return new CPPSourceCodeOperation(this, op);
-}
-
-CodeClassFieldDeclarationBlock * CPPSourceCodeDocument::newDeclarationCodeBlock (CodeClassField * cf ) {
-    return new CPPSourceCodeClassFieldDeclarationBlock((CPPCodeClassField*)cf);
-}
 
 void CPPSourceCodeDocument::resetTextBlocks()
 {

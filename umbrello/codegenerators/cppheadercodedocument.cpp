@@ -118,7 +118,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                 QString name = element.tagName();
 
                 if( name == "codecomment" ) {
-                    CodeComment * block = newCodeComment();
+                    CodeComment * block = new CPPCodeDocumentation(this);
                     block->loadFromXMI(element);
                     if(!addTextBlock(block))
                     {
@@ -180,7 +180,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                                             UMLObject * obj = UMLApp::app()->getDocument()->findObjectById(STR2ID(id));
                                             UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
                                             if(op) {
-                                                CodeOperation * block = newCodeOperation(op);
+                                                CodeOperation * block = new CPPHeaderCodeOperation(this, op);
                                                 block->loadFromXMI(element);
                                                 if(addTextBlock(block))
                                                     loadCheckForChildrenOK= true;
@@ -262,15 +262,6 @@ void CPPHeaderCodeDocument::resetTextBlocks()
 
 }
 
-// IF the classifier object is modified, this will get called.
-// Possible mods include changing the filename and package
-// the classifier has.
-void CPPHeaderCodeDocument::syncNamesToParent( )
-{
-    setFileName(CodeGenerator::cleanName(getParentClassifier()->getName().lower()));
-    setPackage(getParentClassifier()->getUMLPackage());
-}
-
 /**
  * @param       op
  */
@@ -309,42 +300,6 @@ bool CPPHeaderCodeDocument::addCodeOperation (CodeOperation * op ) {
     }
 }
 
-/**
- * create a new CodeAccesorMethod object belonging to this CodeDocument.
- * @return      CodeAccessorMethod
- */
-CodeAccessorMethod * CPPHeaderCodeDocument::newCodeAccessorMethod( CodeClassField *cf, CodeAccessorMethod::AccessorType type ) {
-    return new CPPHeaderCodeAccessorMethod((CPPCodeClassField*)cf, type);
-}
-
-
-CodeClassField * CPPHeaderCodeDocument::newCodeClassField ( UMLAttribute * at) {
-    return new CPPCodeClassField(this,at);
-}
-
-CodeClassField * CPPHeaderCodeDocument::newCodeClassField ( UMLRole * role) {
-    return new CPPCodeClassField(this,role);
-}
-
-/**
- * create a new CodeBlockWithComments object belonging to this CodeDocument.
- * @return      CodeBlockWithComments
- */
-CodeComment * CPPHeaderCodeDocument::newCodeComment ( ) {
-    return new CPPCodeDocumentation(this);
-}
-
-/**
- * create a new CodeOperation object belonging to this CodeDocument.
- * @return      CodeOperation
- */
-CodeOperation * CPPHeaderCodeDocument::newCodeOperation( UMLOperation * op) {
-    return new CPPHeaderCodeOperation(this, op);
-}
-
-CodeClassFieldDeclarationBlock * CPPHeaderCodeDocument::newDeclarationCodeBlock (CodeClassField * cf ) {
-    return new CPPHeaderCodeClassFieldDeclarationBlock((CPPCodeClassField*)cf);
-}
 
 /**
  * Save the XMI representation of this object

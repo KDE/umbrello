@@ -125,12 +125,8 @@ QString RubyCodeGenerator::cppToRubyName(QString nameStr) {
  */
 CodeDocument * RubyCodeGenerator::newClassifierCodeDocument ( UMLClassifier * c)
 {
-    RubyClassifierCodeDocument * doc = new RubyClassifierCodeDocument(c,this);
+    RubyClassifierCodeDocument * doc = new RubyClassifierCodeDocument(c);
     return doc;
-}
-
-CodeComment * RubyCodeGenerator::newCodeComment ( CodeDocument * doc) {
-    return new RubyCodeComment(doc);
 }
 
 void RubyCodeGenerator::initFields() {

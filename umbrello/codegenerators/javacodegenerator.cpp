@@ -145,10 +145,6 @@ CodeDocument * JavaCodeGenerator::newClassifierCodeDocument ( UMLClassifier * c)
     return doc;
 }
 
-CodeComment * JavaCodeGenerator::newCodeComment ( CodeDocument * doc) {
-    return new JavaCodeComment(doc);
-}
-
 void JavaCodeGenerator::initFields() {
 
     UMLApp::app()->setPolicyExt( new JavaCodeGenerationPolicy(UMLApp::app()->getConfig()) );

@@ -42,6 +42,7 @@
 #include "../codemethodblock.h"
 #include "../classifiercodedocument.h"
 #include "../ownedhierarchicalcodeblock.h"
+#include "../codegenerators/codegenfactory.h"
 
 #include "codeviewerdialog.h"
 #include "classpropdlg.h"
@@ -716,7 +717,7 @@ void CodeEditor::slotCopyTextBlock ( )
     else if(dynamic_cast<CodeBlock*>(m_selectedTextBlock))
         m_textBlockToPaste = m_parentDoc->newCodeBlock();
     else if(dynamic_cast<CodeComment*>(m_selectedTextBlock))
-        m_textBlockToPaste = m_parentDoc->newCodeComment();
+        m_textBlockToPaste = CodeGenFactory::newCodeComment(m_parentDoc);
     else
     {
         kdError()<<" ERROR: CodeEditor can't copy selected block:"<<m_selectedTextBlock<<" of unknown type"<<endl;

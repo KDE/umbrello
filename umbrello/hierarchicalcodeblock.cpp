@@ -21,7 +21,7 @@
 #include "classifiercodedocument.h"
 #include "codeclassfield.h"
 #include "codegenerationpolicy.h"
-#include "codegenerators/ncgof.h"
+#include "codegenerators/codegenfactory.h"
 #include "uml.h"
 
 // Constructors/Destructors
@@ -71,36 +71,8 @@ QString HierarchicalCodeBlock::getUniqueTag( QString prefix )
 
 // other methods
 
-/**
- * create a new CodeAccessorMethod object belonging to this Hierarchical code block.
- * @return      CodeAccessorMethod
- */
-CodeAccessorMethod * HierarchicalCodeBlock::newCodeAccesorMethod( CodeClassField *cf, CodeAccessorMethod::AccessorType type) {
-    ClassifierCodeDocument * doc = dynamic_cast<ClassifierCodeDocument*>(getParentDocument());
-    if (doc)
-        return doc->newCodeAccessorMethod(cf,type);
-    else
-        return (CodeAccessorMethod*)NULL;
-}
-
-/**
- * Create a new CodeOperation object belonging to this Hierarchical code block.
- * @return      CodeOperation
- */
-CodeOperation * HierarchicalCodeBlock::newCodeOperation( UMLOperation * op) {
-    ClassifierCodeDocument * doc = dynamic_cast<ClassifierCodeDocument*>(getParentDocument());
-    if (doc)
-        return NCGOF::newCodeOperation(doc, op);
-    else
-        return (CodeOperation*) NULL;
-}
-
 CodeBlock * HierarchicalCodeBlock::newCodeBlock() {
     return getParentDocument()->newCodeBlock();
-}
-
-CodeComment * HierarchicalCodeBlock::newCodeComment() {
-    return getParentDocument()->newCodeComment();
 }
 
 CodeBlockWithComments * HierarchicalCodeBlock::newCodeBlockWithComments() {

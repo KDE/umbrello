@@ -196,9 +196,6 @@ private:
     CodeAccessorMethodList m_methodVector; // the list of methods related to this codeclassfield
     bool m_parentIsAttribute;
 
-    // these are just some utility functions
-    CodeAccessorMethod * newCodeAccessorMethod (CodeAccessorMethod::AccessorType type);
-
     /** This flag tells if we want the methods to have the possibility
       * of being written out. IF the value is false, then all methods
       * are never written out.

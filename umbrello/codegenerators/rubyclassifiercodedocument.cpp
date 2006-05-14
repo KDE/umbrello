@@ -32,7 +32,6 @@
 #include "rubycodecomment.h"
 #include "rubyclassdeclarationblock.h"
 #include "rubycodeclassfielddeclarationblock.h"
-#include "rubycodeaccessormethod.h"
 #include "rubycodeoperation.h"
 #include "../datatype.h"
 #include "../uml.h"
@@ -40,7 +39,7 @@
 // Constructors/Destructors
 //
 
-RubyClassifierCodeDocument::RubyClassifierCodeDocument ( UMLClassifier * concept , RubyCodeGenerator *parent)
+RubyClassifierCodeDocument::RubyClassifierCodeDocument ( UMLClassifier * concept )
         : ClassifierCodeDocument (concept) {
     init();
 }
@@ -130,16 +129,6 @@ void RubyClassifierCodeDocument::init ( ) {
     synchronize();
 }
 
-// IF the classifier object is modified, this will get called.
-// Possible mods include changing the filename and package
-// the classifier has.
-void RubyClassifierCodeDocument::syncNamesToParent( )
-{
-    CodeGenerator *g = UMLApp::app()->getGenerator();
-    setFileName(g->cleanName(getParentClassifier()->getName().lower()));
-    setPackage(getParentClassifier()->getUMLPackage());
-}
-
 /**
  * @param       op
  */
@@ -178,44 +167,6 @@ bool RubyClassifierCodeDocument::addCodeOperation (CodeOperation * op )
     }
 }
 
-CodeClassFieldDeclarationBlock * RubyClassifierCodeDocument::newDeclarationCodeBlock (CodeClassField * cf ) {
-    return new RubyCodeClassFieldDeclarationBlock(cf);
-}
-
-/**
- * create a new CodeBlockWithComments object belonging to this CodeDocument.
- * @return      CodeBlockWithComments
- */
-CodeComment * RubyClassifierCodeDocument::newCodeComment ( ) {
-    return new RubyCodeComment(this);
-}
-
-/**
- * create a new CodeAccesorMethod object belonging to this CodeDocument.
- * @return      CodeAccessorMethod
- */
-CodeAccessorMethod * RubyClassifierCodeDocument::newCodeAccessorMethod( CodeClassField *cf, CodeAccessorMethod::AccessorType type ) {
-    CodeAccessorMethod * method = new RubyCodeAccessorMethod((RubyCodeClassField*)cf, type);
-    method->setOverallIndentationLevel(1);
-    return method;
-}
-
-CodeClassField * RubyClassifierCodeDocument::newCodeClassField ( UMLAttribute * at) {
-    return new RubyCodeClassField(this,at);
-}
-
-CodeClassField * RubyClassifierCodeDocument::newCodeClassField ( UMLRole * role) {
-    return new RubyCodeClassField(this,role);
-}
-
-/**
- * create a new CodeOperation object belonging to this CodeDocument.
- * @return      CodeOperation
- */
-CodeOperation * RubyClassifierCodeDocument::newCodeOperation( UMLOperation * op) {
-    return new RubyCodeOperation(this, op);
-}
-
 // Sigh. NOT optimal. The only reason that we need to have this
 // is so we can create the RubyClassDeclarationBlock.
 // would be better if we could create a handler interface that each
@@ -242,7 +193,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                 QString name = element.tagName();
 
                 if( name == "codecomment" ) {
-                    CodeComment * block = newCodeComment();
+                    CodeComment * block = new RubyCodeComment(this);
                     block->loadFromXMI(element);
                     if(!addTextBlock(block))
                     {
@@ -304,7 +255,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                             UMLObject * obj = UMLApp::app()->getDocument()->findObjectById(STR2ID(id));
                                             UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
                                             if(op) {
-                                                CodeOperation * block = newCodeOperation(op);
+                                                CodeOperation * block = new RubyCodeOperation(this, op);
                                                 block->loadFromXMI(element);
                                                 if(addTextBlock(block))
                                                     loadCheckForChildrenOK= true;

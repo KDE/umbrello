@@ -19,10 +19,11 @@
 #include "umldoc.h"
 #include "codedocument.h"
 #include "codeoperation.h"
-#include "codegenerators/ncgof.h"
+#include "codegenerators/codegenfactory.h"
 #include "classifiercodedocument.h"
 #include "hierarchicalcodeblock.h"
 #include "uml.h"
+#include "codegenerators/codegenfactory.h"
 
 // Constructors/Destructors
 //
@@ -128,29 +129,6 @@ bool CodeGenObjectWithTextBlocks::removeTextBlock ( TextBlock * remove_object ) 
     return true;
 }
 
-/**
- * create a new CodeAccesorMethod object belonging to this object.
- * Strictly speaking, these can only belong in a classifier code document
- * OR a specialized code document, So the call here will return null.
- * @return      CodeAccessorMethod
- */
-CodeAccessorMethod * CodeGenObjectWithTextBlocks::newCodeAccesorMethod( CodeClassField *cf, CodeAccessorMethod::AccessorType type) {
-    kdWarning()<<"Warning: illegal attempt to create accessor method within object classfield:"<<cf<<" type:"<<type<<endl;
-    return (CodeAccessorMethod*) NULL;
-}
-
-/**
- * create a new CodeOperation object belonging to this object.
- * Strictly speaking, these can only belong in a classifier code document,
- * OR a specialized code document, So the call here will return null.
- * @return      CodeOperation
- */
-CodeOperation * CodeGenObjectWithTextBlocks::newCodeOperation( UMLOperation *op) {
-    kdWarning()<<"Warning: illegal attempt to create codeoperation method from op:"<<op<<" within object:"<<this<<endl;
-    return (CodeOperation*) NULL;
-}
-
-
 TextBlock * CodeGenObjectWithTextBlocks::findTextBlockByTag( const QString &tag )
 {
     //if we already know to which file this class was written/should be written, just return it.
@@ -205,7 +183,7 @@ HierarchicalCodeBlock * CodeGenObjectWithTextBlocks::getHierarchicalCodeBlock ( 
     if (!codeBlock) {
         codeBlock = newHierarchicalCodeBlock();
         codeBlock->setTag(tag);
-        codeBlock->setComment(newCodeComment());
+        codeBlock->setComment(CodeGenFactory::newCodeComment(m_pCodeDoc));
         // dont write empty comments out
         if(comment.isEmpty())
             codeBlock->getComment()->setWriteOutText(false);
@@ -237,7 +215,7 @@ CodeBlockWithComments * CodeGenObjectWithTextBlocks::getCodeBlockWithComments ( 
     if (!codeBlock) {
         codeBlock = newCodeBlockWithComments();
         codeBlock->setTag(tag);
-        codeBlock->setComment(newCodeComment());
+        codeBlock->setComment(CodeGenFactory::newCodeComment(m_pCodeDoc));
         // dont write empty comments out
         if(comment.isEmpty())
             codeBlock->getComment()->setWriteOutText(false);
@@ -267,7 +245,7 @@ CodeComment * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeComment ( const 
 
     if(!codeComment) {
         createdCodeComment = true;
-        codeComment = newCodeComment();
+        codeComment = CodeGenFactory::newCodeComment(m_pCodeDoc);
         codeComment->setTag(tag);
         if(!addTextBlock(codeComment))
         {
@@ -418,7 +396,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                 QString name = element.tagName();
 
                 if( name == "codecomment" ) {
-                    CodeComment * block = newCodeComment();
+                    CodeComment * block = CodeGenFactory::newCodeComment(m_pCodeDoc);
                     block->loadFromXMI(element);
                     if(!addTextBlock(block))
                     {
@@ -481,7 +459,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                                             UMLObject * obj = UMLApp::app()->getDocument()->findObjectById(STR2ID(id));
                                             UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
                                             if(op) {
-                                                CodeOperation * block = NCGOF::newCodeOperation(dynamic_cast<ClassifierCodeDocument*>(m_pCodeDoc), op);
+                                                CodeOperation * block = CodeGenFactory::newCodeOperation(dynamic_cast<ClassifierCodeDocument*>(m_pCodeDoc), op);
                                                 block->loadFromXMI(element);
                                                 if(addTextBlock(block))
                                                     loadCheckForChildrenOK= true;

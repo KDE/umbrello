@@ -111,8 +111,6 @@ public:
      */
     CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier);
 
-    CodeComment * newCodeComment ( CodeDocument * doc) ;
-
     // return "Java"
     Uml::Programming_Language getLanguage();
 

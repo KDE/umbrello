@@ -200,9 +200,6 @@ public:
      */
     virtual CodeBlockWithComments * newCodeBlockWithComments ( );
 
-    // create a code comment for this document
-    virtual CodeComment * newCodeComment();
-
     // return a unique, and currently unallocated, text block tag for this document
     virtual QString getUniqueTag( QString prefix = QString("") );
 

@@ -73,9 +73,6 @@ public:
      */
     //  virtual CodeBlockWithComments * newCodeBlockWithComments ( );
 
-    // create a code comment for this document
-    virtual CodeComment * newCodeComment();
-
 protected:
 
     /** set attributes of the node that represents this class

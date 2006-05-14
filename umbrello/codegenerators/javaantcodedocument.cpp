@@ -21,6 +21,7 @@
 #include "javacodegenerator.h"
 #include "xmlcodecomment.h"
 #include "xmlelementcodeblock.h"
+#include "codegenfactory.h"
 #include "../umldoc.h"
 #include "../uml.h"
 
@@ -54,14 +55,6 @@ CodeBlockWithComments * JavaANTCodeDocument::newCodeBlockWithComments ( ) {
 }
 */
 
-/**
- * create a new CodeBlockWithComments object belonging to this CodeDocument.
- * @return      CodeBlockWithComments
- */
-CodeComment * JavaANTCodeDocument::newCodeComment ( ) {
-    return new XMLCodeComment(this);
-}
-
 HierarchicalCodeBlock * JavaANTCodeDocument::newHierarchicalCodeBlock ( ) {
     return new XMLElementCodeBlock(this,"empty");
 }
@@ -91,7 +84,7 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                 QString name = element.tagName();
 
                 if( name == "codecomment" ) {
-                    CodeComment * block = newCodeComment();
+                    CodeComment * block = new XMLCodeComment(this);
                     block->loadFromXMI(element);
                     if(!addTextBlock(block))
                     {
@@ -153,7 +146,9 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                                             UMLObject * obj = UMLApp::app()->getDocument()->findObjectById(STR2ID(id));
                                             UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
                                             if(op) {
-                                                CodeOperation * block = newCodeOperation(op);
+                                                CodeOperation * block = 0;
+                                                kdError() << "TODO: implement CodeGenFactory::newCodeOperation() for JavaANTCodeDocument" << endl;
+                                                break;  // remove when above is implemented
                                                 block->loadFromXMI(element);
                                                 if(addTextBlock(block))
                                                     loadCheckForChildrenOK= true;

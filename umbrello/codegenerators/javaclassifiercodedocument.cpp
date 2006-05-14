@@ -31,8 +31,6 @@
 #include "javacodecomment.h"
 #include "javaclassdeclarationblock.h"
 #include "javacodeclassfielddeclarationblock.h"
-#include "javacodeaccessormethod.h"
-#include "javacodeoperation.h"
 #include "../datatype.h"
 #include "../codegenerationpolicy.h"
 #include "../uml.h"
@@ -137,44 +135,6 @@ bool JavaClassifierCodeDocument::addCodeOperation (CodeOperation * op ) {
         return constructorBlock->addTextBlock(op);
 }
 
-CodeClassFieldDeclarationBlock * JavaClassifierCodeDocument::newDeclarationCodeBlock (CodeClassField * cf ) {
-    return new JavaCodeClassFieldDeclarationBlock(cf);
-}
-
-/**
- * create a new CodeBlockWithComments object belonging to this CodeDocument.
- * @return      CodeBlockWithComments
- */
-CodeComment * JavaClassifierCodeDocument::newCodeComment ( ) {
-    return new JavaCodeComment(this);
-}
-
-/**
- * create a new CodeAccesorMethod object belonging to this CodeDocument.
- * @return      CodeAccessorMethod
- */
-CodeAccessorMethod * JavaClassifierCodeDocument::newCodeAccessorMethod( CodeClassField *cf, CodeAccessorMethod::AccessorType type ) {
-    CodeAccessorMethod * method = new JavaCodeAccessorMethod((JavaCodeClassField*)cf, type);
-    method->setOverallIndentationLevel(1);
-    return method;
-}
-
-CodeClassField * JavaClassifierCodeDocument::newCodeClassField ( UMLAttribute * at) {
-    return new JavaCodeClassField(this,at);
-}
-
-CodeClassField * JavaClassifierCodeDocument::newCodeClassField ( UMLRole * role) {
-    return new JavaCodeClassField(this,role);
-}
-
-/**
- * create a new CodeOperation object belonging to this CodeDocument.
- * @return      CodeOperation
- */
-CodeOperation * JavaClassifierCodeDocument::newCodeOperation( UMLOperation * op) {
-    return new JavaCodeOperation(this, op);
-}
-
 // Sigh. NOT optimal. The only reason that we need to have this
 // is so we can create the JavaClassDeclarationBlock.
 // would be better if we could create a handler interface that each
@@ -201,7 +161,7 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                 QString name = element.tagName();
 
                 if( name == "codecomment" ) {
-                    CodeComment * block = newCodeComment();
+                    CodeComment * block = new JavaCodeComment(this);
                     block->loadFromXMI(element);
                     if(!addTextBlock(block))
                     {
@@ -263,7 +223,7 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                             UMLObject * obj = UMLApp::app()->getDocument()->findObjectById(STR2ID(id));
                                             UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
                                             if(op) {
-                                                CodeOperation * block = newCodeOperation(op);
+                                                CodeOperation * block = new JavaCodeOperation(this, op);
                                                 block->loadFromXMI(element);
                                                 if(addTextBlock(block))
                                                     loadCheckForChildrenOK= true;

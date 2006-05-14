@@ -454,14 +454,6 @@ CodeBlockWithComments * CodeDocument::newCodeBlockWithComments ( ) {
     return new CodeBlockWithComments(this);
 }
 
-/**
- * create a new CodeBlockWithComments object belonging to this CodeDocument.
- * @return      CodeBlockWithComments
- */
-CodeComment * CodeDocument::newCodeComment ( ) {
-    return new CodeComment(this);
-}
-
 HierarchicalCodeBlock * CodeDocument::newHierarchicalCodeBlock ( ) {
     return new HierarchicalCodeBlock(this);
 }
