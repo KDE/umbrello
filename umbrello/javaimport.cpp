@@ -261,8 +261,10 @@ bool JavaImport::parseStmt() {
     }
     if (keyword == "@") {  // annotation
         advance();
-        if (m_source[m_srcIndex] == "(")
+        if (m_source[m_srcIndex + 1] == "(") {
+            advance();
             skipToClosing('(');
+        }
         return true;
     }
     if (keyword == "}") {
