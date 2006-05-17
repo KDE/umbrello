@@ -27,16 +27,6 @@
 // Constructors/Destructors
 //
 
-/**
- * Basic constructor for class.
- * @param       gen
- */
-CodeDocument::CodeDocument (QDomElement & elem) : CodeGenObjectWithTextBlocks(this)
-{
-    initDoc();
-    loadFromXMI(elem);
-}
-
 CodeDocument::CodeDocument () : CodeGenObjectWithTextBlocks(this)
 {
     initDoc();
@@ -455,7 +445,9 @@ CodeBlockWithComments * CodeDocument::newCodeBlockWithComments ( ) {
 }
 
 HierarchicalCodeBlock * CodeDocument::newHierarchicalCodeBlock ( ) {
-    return new HierarchicalCodeBlock(this);
+    HierarchicalCodeBlock *hb = new HierarchicalCodeBlock(this);
+    //hb->update();
+    return hb;
 }
 
 void CodeDocument::removeChildTagFromMap ( const QString &tag )

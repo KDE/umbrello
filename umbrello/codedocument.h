@@ -59,7 +59,6 @@ public:
      * Basic constructor for class.
      */
     CodeDocument ( );
-    CodeDocument ( QDomElement & element );
 
     /**
      * Empty Destructor
