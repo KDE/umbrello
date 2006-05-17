@@ -1549,7 +1549,7 @@ void UMLApp::keyReleaseEvent(QKeyEvent *e) {
 
 void UMLApp::newDocument() {
     m_doc->newDocument();
-    Uml::Programming_Language defaultLanguage = Uml::pl_Cpp;
+    Uml::Programming_Language defaultLanguage = getDefaultLanguage();
     if (m_codegen) {
         defaultLanguage = m_codegen->getLanguage();
         delete m_codegen;

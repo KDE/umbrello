@@ -1788,7 +1788,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
     resolveTypes();
     // set a default code generator if no <XMI.extensions><codegeneration> tag seen
     if (UMLApp::app()->getGenerator() == NULL)
-        UMLApp::app()->setGenerator(Uml::pl_Cpp);
+        UMLApp::app()->setGenerator(UMLApp::app()->getDefaultLanguage());
     emit sigWriteToStatusBar( i18n("Setting up the document...") );
     kapp->processEvents();  // give UI events a chance
     m_currentView = NULL;
@@ -2014,7 +2014,7 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node) {
             cgelement = cgnode.toElement();
         }
         if (UMLApp::app()->getGenerator() == NULL)
-            UMLApp::app()->setGenerator(Uml::pl_Cpp);
+            UMLApp::app()->setGenerator(UMLApp::app()->getDefaultLanguage());
     }
 }
 
