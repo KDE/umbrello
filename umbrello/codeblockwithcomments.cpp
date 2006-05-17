@@ -25,19 +25,13 @@
 CodeBlockWithComments::CodeBlockWithComments ( HierarchicalCodeBlock * hb, const QString & body, const QString & comment)
         : CodeBlock (hb, body)
 {
-    initFields();
-    CodeComment * codecomment = CodeGenFactory::newCodeComment(hb->getParentDocument());
-    codecomment->setText(comment);
-    setComment(codecomment);
+    initFields(hb->getParentDocument(), comment);
 }
 
 CodeBlockWithComments::CodeBlockWithComments ( CodeDocument * parent , const QString & body, const QString & comment)
         : CodeBlock (parent, body)
 {
-    initFields();
-    CodeComment * codecomment = CodeGenFactory::newCodeComment(parent);
-    codecomment->setText(comment);
-    setComment(codecomment);
+    initFields(parent, comment);
 }
 
 CodeBlockWithComments::~CodeBlockWithComments ( ) { }
@@ -171,8 +165,11 @@ void CodeBlockWithComments::setOverallIndentationLevel ( int level )
     m_comment->setIndentationLevel(level);
 }
 
-void CodeBlockWithComments::initFields ( ) {
-    m_comment = CodeGenFactory::newCodeComment(getParentDocument());
+void CodeBlockWithComments::initFields(CodeDocument *parent, QString comment)
+{
+    CodeComment * codecomment = CodeGenFactory::newCodeComment(parent);
+    codecomment->setText(comment);
+    m_comment = codecomment;
 }
 
 #include "codeblockwithcomments.moc"
