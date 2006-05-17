@@ -248,12 +248,14 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me) {
                 showPopupMenu(me);
             } else if (m_leftButtonDown) {
                 //Cancel move/edit
-                mouseMoveEvent(&QMouseEvent(QMouseEvent::MouseMove,
-                                        QPoint(m_oldX + m_pressOffsetX, m_oldY + m_pressOffsetY),
-                                        Qt::LeftButton, Qt::NoButton));
-                mouseReleaseEvent(&QMouseEvent(QMouseEvent::MouseButtonRelease,
-                                        QPoint(m_oldX + m_pressOffsetX, m_oldY + m_pressOffsetY),
-                                        Qt::LeftButton, Qt::NoButton));
+                QMouseEvent move(QMouseEvent::MouseMove,
+                                 QPoint(m_oldX + m_pressOffsetX, m_oldY + m_pressOffsetY),
+                                 Qt::LeftButton, Qt::NoButton);
+                mouseMoveEvent(&move);
+                QMouseEvent release(QMouseEvent::MouseButtonRelease,
+                                    QPoint(m_oldX + m_pressOffsetX, m_oldY + m_pressOffsetY),
+                                    Qt::LeftButton, Qt::NoButton);
+                mouseReleaseEvent(&release);
             }
         }
     } else {
@@ -313,10 +315,10 @@ void UMLWidgetController::moveWidgetBy(int diffX, int diffY) {
     m_widget->setY(m_widget->getY() + diffY);
 }
 
-void UMLWidgetController::constrainMovementForAllWidgets(int &diffX, int &diffY) {
+void UMLWidgetController::constrainMovementForAllWidgets(int &/*diffX*/, int &/*diffY*/) {
 }
 
-void UMLWidgetController::doMouseDoubleClick(QMouseEvent *me) {
+void UMLWidgetController::doMouseDoubleClick(QMouseEvent *) {
     m_widget->slotMenuSelection(ListPopupMenu::mt_Properties);
 }
 
@@ -409,7 +411,10 @@ int UMLWidgetController::getSmallestX(const UMLWidgetList &widgetList) {
     UMLWidgetListIt it(widgetList);
     UMLWidget* widget;
 
-    int smallestX = it.toFirst()->getX();
+    widget = it.toFirst();
+    // leave function upon empty widget list
+    if (NULL == widget) return 0;
+    int smallestX = widget->getX();
     ++it;
 
     while ((widget = it.current()) != 0) {
@@ -426,7 +431,10 @@ int UMLWidgetController::getSmallestY(const UMLWidgetList &widgetList) {
     UMLWidgetListIt it(widgetList);
     UMLWidget* widget;
 
-    int smallestY = it.toFirst()->getY();
+    widget = it.toFirst();
+    // leave function upon empty widget list
+    if (NULL == widget) return 0;
+    int smallestY = widget->getY();
     ++it;
 
     while ((widget = it.current()) != 0) {
@@ -443,7 +451,10 @@ int UMLWidgetController::getBiggestX(const UMLWidgetList &widgetList) {
     UMLWidgetListIt it(widgetList);
     UMLWidget* widget;
 
-    int biggestX = it.toFirst()->getX();
+    widget = it.toFirst();
+    // leave function upon empty widget list
+    if (NULL == widget) return 0;
+    int biggestX = widget->getX();
     biggestX += it.current()->getWidth();
     ++it;
 
@@ -461,7 +472,10 @@ int UMLWidgetController::getBiggestY(const UMLWidgetList &widgetList) {
     UMLWidgetListIt it(widgetList);
     UMLWidget* widget;
 
-    int biggestY = it.toFirst()->getY();
+    widget = it.toFirst();
+    // leave function upon empty widget list
+    if (NULL == widget) return 0;
+    int biggestY = widget->getY();
     biggestY += it.current()->getHeight();
     ++it;
 
