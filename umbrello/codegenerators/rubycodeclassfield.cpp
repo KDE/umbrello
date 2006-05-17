@@ -34,14 +34,14 @@
 // Constructors/Destructors
 //
 
-RubyCodeClassField::RubyCodeClassField (RubyClassifierCodeDocument * parentDoc, UMLRole * role)
-        : CodeClassField((ClassifierCodeDocument*)parentDoc, role)
+RubyCodeClassField::RubyCodeClassField (ClassifierCodeDocument * parentDoc, UMLRole * role)
+        : CodeClassField(parentDoc, role)
 {
 
 }
 
-RubyCodeClassField::RubyCodeClassField (RubyClassifierCodeDocument * parentDoc, UMLAttribute * attrib)
-        : CodeClassField((ClassifierCodeDocument*)parentDoc, attrib)
+RubyCodeClassField::RubyCodeClassField (ClassifierCodeDocument * parentDoc, UMLAttribute * attrib)
+        : CodeClassField(parentDoc, attrib)
 {
 
 }

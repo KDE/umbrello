@@ -33,10 +33,14 @@
 // Constructors/Destructors
 //
 
-CPPHeaderCodeAccessorMethod::CPPHeaderCodeAccessorMethod ( CPPCodeClassField * field, CodeAccessorMethod::AccessorType type)
-        : CodeAccessorMethod ( (CodeClassField*) field )
+CPPHeaderCodeAccessorMethod::CPPHeaderCodeAccessorMethod ( CodeClassField * field, CodeAccessorMethod::AccessorType type)
+        : CodeAccessorMethod ( field )
 {
     setType(type);
+}
+
+void CPPHeaderCodeAccessorMethod::update()
+{
     updateMethodDeclaration();
     updateContent();
 }

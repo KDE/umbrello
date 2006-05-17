@@ -19,7 +19,8 @@
 #include <qstring.h>
 
 #include "../codeaccessormethod.h"
-#include "javacodeclassfield.h"
+
+class CodeClassField;
 
 class JavaCodeAccessorMethod : public CodeAccessorMethod
 {
@@ -32,12 +33,17 @@ public:
     /**
      * Constructor
      */
-    JavaCodeAccessorMethod ( JavaCodeClassField * field, CodeAccessorMethod::AccessorType type);
+    JavaCodeAccessorMethod ( CodeClassField * field, CodeAccessorMethod::AccessorType type);
 
     /**
      * Empty Destructor
      */
     virtual ~JavaCodeAccessorMethod ( );
+
+    /**
+     * Must be called before this object is usable
+     */
+    void update();
 
 protected:
 
@@ -53,10 +59,6 @@ protected:
 
     virtual void updateMethodDeclaration();
     virtual void updateContent();
-
-private:
-
-    void init (JavaCodeClassField * field);
 
 };
 

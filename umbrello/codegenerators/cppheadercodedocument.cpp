@@ -51,7 +51,9 @@ CPPHeaderCodeDocument::CPPHeaderCodeDocument ( UMLClassifier * concept )
         : ClassifierCodeDocument (concept) {
     setFileExtension(".h");
 
-    initCodeClassFields(); // we have to call here as .newCodeClassField is pure virtual in parent class
+    //initCodeClassFields(); // this is dubious because it calls down to
+                             // CodeGenFactory::newCodeClassField(this)
+                             // but "this" is still in construction at that time.
 
     // needed? I doubt it, but it feels good to do it.
     classDeclCodeBlock = 0;

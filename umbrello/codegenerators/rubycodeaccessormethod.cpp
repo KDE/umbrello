@@ -39,12 +39,13 @@
 // Constructors/Destructors
 //
 
-RubyCodeAccessorMethod::RubyCodeAccessorMethod ( RubyCodeClassField * field, CodeAccessorMethod::AccessorType type)
-        : CodeAccessorMethod ( (CodeClassField*) field )
+RubyCodeAccessorMethod::RubyCodeAccessorMethod ( CodeClassField * field, CodeAccessorMethod::AccessorType type)
+        : CodeAccessorMethod ( field )
 {
     setType(type);
 
-    init (field);
+    // lets use full-blown comment
+    setComment(new RubyCodeDocumentation((RubyClassifierCodeDocument*)field->getParentDocument()));
 
 }
 
@@ -222,15 +223,10 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
 
 }
 
-void RubyCodeAccessorMethod::init ( RubyCodeClassField * field)
+void RubyCodeAccessorMethod::update()
 {
-
-    // lets use full-blown comment
-    setComment(new RubyCodeDocumentation((RubyClassifierCodeDocument*)field->getParentDocument()));
-
     updateMethodDeclaration();
     updateContent();
-
 }
 
 #include "rubycodeaccessormethod.moc"

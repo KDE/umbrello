@@ -142,6 +142,7 @@ JavaANTCodeDocument * JavaCodeGenerator::newANTCodeDocument ( ) {
 CodeDocument * JavaCodeGenerator::newClassifierCodeDocument ( UMLClassifier * c)
 {
     JavaClassifierCodeDocument * doc = new JavaClassifierCodeDocument(c);
+    doc->initCodeClassFields();
     return doc;
 }
 

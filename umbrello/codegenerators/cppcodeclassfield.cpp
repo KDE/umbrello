@@ -33,13 +33,13 @@
 //
 
 CPPCodeClassField::CPPCodeClassField (ClassifierCodeDocument * parentDoc, UMLRole * role)
-        : CodeClassField((ClassifierCodeDocument*)parentDoc, role)
+        : CodeClassField(parentDoc, role)
 {
 
 }
 
 CPPCodeClassField::CPPCodeClassField (ClassifierCodeDocument * parentDoc, UMLAttribute * attrib)
-        : CodeClassField((ClassifierCodeDocument*)parentDoc, attrib)
+        : CodeClassField(parentDoc, attrib)
 {
 
 }

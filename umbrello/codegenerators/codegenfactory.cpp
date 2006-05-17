@@ -152,6 +152,28 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
     return obj;
 }
 
+CodeDocument * newClassifierCodeDocument (UMLClassifier * c)
+{
+    Settings::OptionState optionState = UMLApp::app()->getOptionState();
+    if (!optionState.generalState.newcodegen)
+        return NULL;
+    ClassifierCodeDocument *retval = NULL;
+    switch (UMLApp::app()->getActiveLanguage()) {
+        case Uml::pl_Cpp:
+            retval = new CPPSourceCodeDocument(c);
+            break;
+        case Uml::pl_Java:
+            retval = new JavaClassifierCodeDocument(c);
+            break;
+        case Uml::pl_Ruby:
+            retval = new RubyClassifierCodeDocument(c);
+            break;
+        default:
+            break;
+    }
+    return retval;
+}
+
 CodeOperation *newCodeOperation(ClassifierCodeDocument *ccd, UMLOperation * op) {
     CodeOperation *retval = NULL;
     switch (UMLApp::app()->getActiveLanguage()) {
@@ -159,9 +181,10 @@ CodeOperation *newCodeOperation(ClassifierCodeDocument *ccd, UMLOperation * op) 
             {
                 CPPHeaderCodeDocument *hcd = dynamic_cast<CPPHeaderCodeDocument*>(ccd);
                 if (hcd)
-                    retval = new CPPHeaderCodeOperation(hcd, op);
-                else
-                    retval = new CPPSourceCodeOperation(dynamic_cast<CPPSourceCodeDocument*>(ccd), op);
+                    return new CPPHeaderCodeOperation(hcd, op);
+                CPPSourceCodeDocument *scd = dynamic_cast<CPPSourceCodeDocument*>(ccd);
+                if (scd)
+                    return new CPPSourceCodeOperation(scd, op);
             }
             break;
         case Uml::pl_Java:
@@ -184,10 +207,10 @@ CodeClassField * newCodeClassField(ClassifierCodeDocument *ccd, UMLAttribute *at
             retval = new CPPCodeClassField(ccd, at);
             break;
         case Uml::pl_Java:
-            retval = new JavaCodeClassField(dynamic_cast<JavaClassifierCodeDocument*>(ccd), at);
+            retval = new JavaCodeClassField(ccd, at);
             break;
         case Uml::pl_Ruby:
-            retval = new RubyCodeClassField(dynamic_cast<RubyClassifierCodeDocument*>(ccd), at);
+            retval = new RubyCodeClassField(ccd, at);
             break;
         default:
             break;
@@ -202,10 +225,10 @@ CodeClassField * newCodeClassField(ClassifierCodeDocument *ccd, UMLRole *role) {
             retval = new CPPCodeClassField(ccd, role);
             break;
         case Uml::pl_Java:
-            retval = new JavaCodeClassField(dynamic_cast<JavaClassifierCodeDocument*>(ccd), role);
+            retval = new JavaCodeClassField(ccd, role);
             break;
         case Uml::pl_Ruby:
-            retval = new RubyCodeClassField(dynamic_cast<RubyClassifierCodeDocument*>(ccd), role);
+            retval = new RubyCodeClassField(ccd, role);
             break;
         default:
             break;
@@ -220,23 +243,33 @@ CodeAccessorMethod * newCodeAccessorMethod(ClassifierCodeDocument *ccd,
     switch (UMLApp::app()->getActiveLanguage()) {
         case Uml::pl_Cpp:
             {
-                //CPPCodeClassField *ccf = dynamic_cast<CPPCodeClassField*>(cf);
-                CPPCodeClassField *ccf = (CPPCodeClassField*)(cf);
                 CPPHeaderCodeDocument *hcd = dynamic_cast<CPPHeaderCodeDocument*>(ccd);
                 if (hcd) {
-                    retval = new CPPHeaderCodeAccessorMethod(ccf, type);
+                    CPPHeaderCodeAccessorMethod *chcam = new CPPHeaderCodeAccessorMethod(cf, type);
+                    chcam->update();
+                    retval = chcam;
                 } else {
-                    retval = new CPPSourceCodeAccessorMethod(ccf, type);
+                    CPPSourceCodeAccessorMethod *cscam = new CPPSourceCodeAccessorMethod(cf, type);
+                    cscam->update();
+                    retval = cscam;
                 }
             }
             break;
         case Uml::pl_Java:
-            retval = new JavaCodeAccessorMethod(dynamic_cast<JavaCodeClassField*>(cf), type);
-            retval->setOverallIndentationLevel(1);
+            {
+                JavaCodeAccessorMethod *jcam = new JavaCodeAccessorMethod(cf, type);
+                jcam->update();
+                retval = jcam;
+                retval->setOverallIndentationLevel(1);
+            }
             break;
         case Uml::pl_Ruby:
-            retval = new RubyCodeAccessorMethod(dynamic_cast<RubyCodeClassField*>(cf), type);
-            retval->setOverallIndentationLevel(1);
+            {
+                RubyCodeAccessorMethod *rcam = new RubyCodeAccessorMethod(cf, type);
+                rcam->update();
+                retval = rcam;
+                retval->setOverallIndentationLevel(1);
+            }
             break;
         default:
             break;

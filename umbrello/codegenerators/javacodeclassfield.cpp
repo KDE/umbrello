@@ -33,14 +33,14 @@
 // Constructors/Destructors
 //
 
-JavaCodeClassField::JavaCodeClassField (JavaClassifierCodeDocument * parentDoc, UMLRole * role)
-        : CodeClassField((ClassifierCodeDocument*)parentDoc, role)
+JavaCodeClassField::JavaCodeClassField (ClassifierCodeDocument * parentDoc, UMLRole * role)
+        : CodeClassField(parentDoc, role)
 {
 
 }
 
-JavaCodeClassField::JavaCodeClassField (JavaClassifierCodeDocument * parentDoc, UMLAttribute * attrib)
-        : CodeClassField((ClassifierCodeDocument*)parentDoc, attrib)
+JavaCodeClassField::JavaCodeClassField (ClassifierCodeDocument * parentDoc, UMLAttribute * attrib)
+        : CodeClassField(parentDoc, attrib)
 {
 
 }

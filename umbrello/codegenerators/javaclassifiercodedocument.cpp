@@ -112,7 +112,9 @@ void JavaClassifierCodeDocument::init ( ) {
 
     setFileExtension(".java");
 
-    initCodeClassFields(); // we have to call here as .newCodeClassField is pure virtual in parent class
+    //initCodeClassFields(); // this is dubious because it calls down to
+                             // CodeGenFactory::newCodeClassField(this)
+                             // but "this" is still in construction at that time.
 
     classDeclCodeBlock = 0;
     operationsBlock = 0;

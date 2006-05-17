@@ -21,6 +21,7 @@ class ClassifierCodeDocument;
 class CodeOperation;
 class CodeClassField;
 class CodeClassFieldDeclarationBlock;
+class UMLClassifier;
 class UMLOperation;
 class UMLAttribute;
 class UMLRole;
@@ -108,6 +109,11 @@ namespace CodeGenFactory {
      * @return      CodeBlockWithComments
      */
     CodeComment * newCodeComment (CodeDocument *cd);
+
+    /**
+     * Currently unused (for possible future use)
+     */
+    CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier);
 }
 
 #endif //CODEGENFACTORY_H

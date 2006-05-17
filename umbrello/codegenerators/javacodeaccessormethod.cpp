@@ -33,12 +33,13 @@
 // Constructors/Destructors
 //
 
-JavaCodeAccessorMethod::JavaCodeAccessorMethod ( JavaCodeClassField * field, CodeAccessorMethod::AccessorType type)
-        : CodeAccessorMethod ( (CodeClassField*) field )
+JavaCodeAccessorMethod::JavaCodeAccessorMethod ( CodeClassField * field, CodeAccessorMethod::AccessorType type)
+        : CodeAccessorMethod ( field )
 {
     setType(type);
 
-    init (field);
+    // lets use full-blown comment
+    setComment(new JavaCodeDocumentation((JavaClassifierCodeDocument*)field->getParentDocument()));
 
 }
 
@@ -209,15 +210,10 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
 
 }
 
-void JavaCodeAccessorMethod::init ( JavaCodeClassField * field)
+void JavaCodeAccessorMethod::update()
 {
-
-    // lets use full-blown comment
-    setComment(new JavaCodeDocumentation((JavaClassifierCodeDocument*)field->getParentDocument()));
-
     updateMethodDeclaration();
     updateContent();
-
 }
 
 #include "javacodeaccessormethod.moc"

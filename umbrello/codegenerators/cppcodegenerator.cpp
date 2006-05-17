@@ -248,12 +248,16 @@ CPPHeaderCodeDocument * CPPCodeGenerator::findHeaderCodeDocumentByClassifier (UM
 // source document version.
 CodeDocument * CPPCodeGenerator::newClassifierCodeDocument (UMLClassifier * classifier)
 {
-    return new CPPSourceCodeDocument(classifier);
+    ClassifierCodeDocument *doc = new CPPSourceCodeDocument(classifier);
+    doc->initCodeClassFields();
+    return doc;
 }
 
 CPPHeaderCodeDocument * CPPCodeGenerator::newHeaderClassifierCodeDocument (UMLClassifier * classifier)
 {
-    return new CPPHeaderCodeDocument(classifier);
+    CPPHeaderCodeDocument *doc = new CPPHeaderCodeDocument(classifier);
+    doc->initCodeClassFields();
+    return doc;
 }
 
 /**
@@ -288,7 +292,7 @@ void CPPCodeGenerator::initFromParentDocument( ) {
         CPPHeaderCodeDocument * hcodeDoc = findHeaderCodeDocumentByClassifier(c);
         if (!hcodeDoc)
         {
-            hcodeDoc = new CPPHeaderCodeDocument(c);
+            hcodeDoc = newHeaderClassifierCodeDocument(c);
             addHeaderCodeDocument(hcodeDoc); // this will also add a unique tag to the code document
         }
     }
@@ -309,7 +313,7 @@ void CPPCodeGenerator::checkAddUMLObject (UMLObject * obj) {
     UMLClassifier * c = dynamic_cast<UMLClassifier*>(obj);
     if(c) {
         CodeDocument * cDoc = newClassifierCodeDocument(c);
-        CPPHeaderCodeDocument * hcodeDoc = new CPPHeaderCodeDocument(c);
+        CPPHeaderCodeDocument * hcodeDoc = newHeaderClassifierCodeDocument(c);
         addCodeDocument(cDoc);
         addHeaderCodeDocument(hcodeDoc); // this will also add a unique tag to the code document
     }

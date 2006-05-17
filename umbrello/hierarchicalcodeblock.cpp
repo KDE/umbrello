@@ -80,7 +80,9 @@ CodeBlockWithComments * HierarchicalCodeBlock::newCodeBlockWithComments() {
 }
 
 HierarchicalCodeBlock * HierarchicalCodeBlock::newHierarchicalCodeBlock() {
-    return new HierarchicalCodeBlock(getParentDocument());
+    HierarchicalCodeBlock *hb = new HierarchicalCodeBlock(getParentDocument());
+    //hb->update();
+    return hb;
 }
 
 /**

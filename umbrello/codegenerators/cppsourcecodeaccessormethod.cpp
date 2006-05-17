@@ -32,11 +32,15 @@
 // Constructors/Destructors
 //
 
-CPPSourceCodeAccessorMethod::CPPSourceCodeAccessorMethod ( CPPCodeClassField * field, CodeAccessorMethod::AccessorType type)
-        : CodeAccessorMethod ( (CodeClassField*) field )
+CPPSourceCodeAccessorMethod::CPPSourceCodeAccessorMethod ( CodeClassField * field, CodeAccessorMethod::AccessorType type)
+        : CodeAccessorMethod ( field )
 {
     setType(type);
     setEndMethodText("}");
+}
+
+void CPPSourceCodeAccessorMethod::update()
+{
     updateMethodDeclaration();
     updateContent();
 }

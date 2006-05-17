@@ -256,7 +256,6 @@ void CodeGenerator::initFromParentDocument( ) {
         CodeDocument * codeDoc = findCodeDocumentByClassifier(c);
         if (!codeDoc)
         {
-            // codeDoc = (CodeDocument*) newClassifierCodeDocument(c);
             codeDoc = newClassifierCodeDocument(c);
             addCodeDocument(codeDoc); // this will also add a unique tag to the code document
         }
