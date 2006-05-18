@@ -2267,7 +2267,7 @@ bool UMLListView::itemRenamed( Q3ListViewItem * item , int /*col*/ ) {
         } else {
             KMessageBox::error(
                 kapp -> mainWidget(),
-                i18n( "The name you entered was not unique!\nCreation process has been canceled." ),
+                i18n( "The name you entered was not unique.\nCreation process has been canceled." ),
                 i18n( "Name Not Unique" ) );
             return false;
         }
@@ -2476,7 +2476,7 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
             if (isExistingOp)
                 KMessageBox::error(
                     kapp -> mainWidget(),
-                    i18n( "The name you entered was not unique!\nCreation process has been canceled." ),
+                    i18n( "The name you entered was not unique.\nCreation process has been canceled." ),
                     i18n( "Name Not Unique" ) );
             m_bCreatingChildObject = false;
             return false;
