@@ -76,11 +76,11 @@ CPPSourceCodeOperation::CPPSourceCodeOperation ( CPPSourceCodeDocument * doc, UM
     else if (returnType.isEmpty())
         returnType = QString("void");
 
-    // if a property has a friend stereotype, the operation should
-    // not be a class name
     QString startText = returnType + " ";
 
-    if (!o->getStereotype().isEmpty() && o->getStereotype(false) == "friend")
+    // if a property has a friend stereotype, the operation should
+    // not be a class name
+    if (o->getStereotype() != "friend")
         startText += className + "::";
     startText += methodName + " ("+paramStr+")";
     if (o->getConst())
@@ -166,11 +166,11 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
     else if (returnType.isEmpty())
         returnType = QString("void");
 
-    // if a property has a friend stereotype, the operation should
-    // not be a class name
     QString startText = returnType + " ";
 
-    if (!o->getStereotype().isEmpty() && o->getStereotype(false) == "friend")
+    // if a property has a friend stereotype, the operation should
+    // not be a class name
+    if (o->getStereotype() != "friend")
         startText += className + "::";
     startText += methodName + " ("+paramStr+")";
     if (o->getConst())
