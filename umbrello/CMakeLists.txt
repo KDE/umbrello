@@ -8,11 +8,129 @@ add_subdirectory( headings )
 add_subdirectory( refactoring ) 
 
 
+set(libcodegenerator_la_SRCS
+	codegenerators/codegenfactory.cpp 
+	codegenerators/classifierinfo.cpp 
+	codegenerators/javacodegenerator.cpp 
+	codegenerators/javaantcodedocument.cpp 
+	codegenerators/javacodeclassfield.cpp
+	codegenerators/javaclassifiercodedocument.cpp 
+	codegenerators/javacodecomment.cpp 
+	codegenerators/javacodedocumentation.cpp
+	codegenerators/javacodeoperation.cpp 
+	codegenerators/javacodeaccessormethod.cpp 
+	codegenerators/javaclassdeclarationblock.cpp 
+	codegenerators/javacodeclassfielddeclarationblock.cpp
+	codegenerators/javacodegenerationpolicy.cpp 
+	codegenerators/javacodegenerationpolicypage.cpp
+	codegenerators/cppcodegenerator.cpp 
+	codegenerators/cppcodedocumentation.cpp 
+	codegenerators/cppcodeclassfield.cpp
+	codegenerators/cppcodecomment.cpp 
+	codegenerators/cppmakecodedocument.cpp
+	codegenerators/cppsourcecodedocument.cpp 
+	codegenerators/cppsourcecodeoperation.cpp 
+	codegenerators/cppsourcecodeaccessormethod.cpp
+	codegenerators/cppsourcecodeclassfielddeclarationblock.cpp
+	codegenerators/cppheadercodedocument.cpp 
+	codegenerators/cppheaderclassdeclarationblock.cpp
+	codegenerators/cppheadercodeoperation.cpp 
+	codegenerators/cppheadercodeaccessormethod.cpp
+	codegenerators/cppheadercodeclassfielddeclarationblock.cpp
+	codegenerators/cppcodegenerationpolicy.cpp 
+	codegenerators/cppcodegenerationpolicypage.cpp
+	codegenerators/cppcodegenerationform.cpp 
+	codegenerators/rubycodegenerator.cpp 
+	codegenerators/rubycodeclassfield.cpp 
+	codegenerators/rubyclassifiercodedocument.cpp 
+	codegenerators/rubycodecomment.cpp 
+	codegenerators/rubycodedocumentation.cpp 
+	codegenerators/rubycodeoperation.cpp 
+	codegenerators/rubycodeaccessormethod.cpp
+	codegenerators/rubyclassdeclarationblock.cpp 
+	codegenerators/rubycodeclassfielddeclarationblock.cpp
+	codegenerators/rubycodegenerationpolicy.cpp 
+	codegenerators/rubycodegenerationpolicypage.cpp
+	codegenerators/simplecodegenerator.cpp 
+	codegenerators/adawriter.cpp 
+	codegenerators/aswriter.cpp 
+	codegenerators/cppwriter.cpp 
+	codegenerators/javawriter.cpp 
+	codegenerators/jswriter.cpp
+	codegenerators/idlwriter.cpp 
+	codegenerators/perlwriter.cpp 
+	codegenerators/phpwriter.cpp 
+	codegenerators/php5writer.cpp 
+	codegenerators/pythonwriter.cpp
+	codegenerators/rubywriter.cpp 
+	codegenerators/sqlwriter.cpp 
+	codegenerators/tclwriter.cpp 
+	codegenerators/xmlschemawriter.cpp
+	codegenerators/xmlelementcodeblock.cpp 
+	codegenerators/xmlcodecomment.cpp
+	codegenerators/codegen_utils.cpp)
 
 
+set(libdialogs_la_SRCS
+	dialogs/activitydialog.cpp 
+	dialogs/activitypage.cpp 
+	dialogs/assocgenpage.cpp 
+	dialogs/assocpage.cpp 
+	dialogs/assocpropdlg.cpp 
+	dialogs/assocrolepage.cpp 
+	dialogs/classgenpage.cpp 
+	dialogs/classifierlistpage.cpp
+	dialogs/classoptionspage.cpp 
+	dialogs/classpropdlg.cpp
+	dialogs/classwizard.cpp 
+	dialogs/codeeditor.cpp 
+	dialogs/codegenerationoptionspage.cpp 
+	dialogs/codegenerationpolicypage.cpp 
+	dialogs/codegenerationwizard.cpp 
+	dialogs/codeviewerdialog.cpp 
+	dialogs/codevieweroptionspage.cpp 
+	dialogs/defaultcodegenpolicypage.cpp 
+	dialogs/diagramprintpage.cpp 
+	dialogs/notedialog.cpp 
+	dialogs/overwritedialogue.cpp 
+	dialogs/pkgcontentspage.cpp 
+	dialogs/parmpropdlg.cpp 
+	dialogs/selectopdlg.cpp 
+	dialogs/settingsdlg.cpp 
+	dialogs/statedialog.cpp 
+	dialogs/umlattributedialog.cpp 
+	dialogs/umlentityattributedialog.cpp 
+	dialogs/umloperationdialog.cpp 
+	dialogs/umltemplatedialog.cpp 
+	dialogs/umlroledialog.cpp 
+	dialogs/umlroleproperties.cpp 
+	dialogs/umlviewdialog.cpp 
+	dialogs/umlwidgetcolorpage.cpp )
+
+set(librefactoring_la_SRCS 
+		refactoring/refactoringassistant.cpp )
+
+set(libclassparser_la_SRCS 
+	classparser/ast.cpp 
+	classparser/driver.cpp 
+	classparser/errors.cpp 
+	classparser/lexer.cpp 
+	classparser/lookup.cpp 
+	classparser/parser.cpp 
+	classparser/tree_parser.cpp 
+	classparser/urlutil.cpp 
+	classparser/ast_utils.cpp 
+	classparser/cpptree2uml.cpp
+)	
+
+set(libclipboard_la_SRCS 
+	clipboard/umldrag.cpp 
+	clipboard/umlclipboard.cpp 
+	clipboard/idchangelog.cpp
+	)
 ########### next target ###############
 
-set(umbrello_SRCS 
+set(umbrello_SRCS ${libdialogs_la_SRCS} ${librefactoring_la_SRCS} ${libclassparser_la_SRCS} ${libclipboard_la_SRCS} ${libcodegenerator_la_SRCS}
    activitywidget.cpp 
    actor.cpp 
    actorwidget.cpp 
@@ -123,11 +241,25 @@ set(umbrello_SRCS
    widget_utils.cpp 
    worktoolbar.cpp )
 
+kde4_add_ui3_files( ${umbrello_SRCS}
+	dialogs/codegenerationoptionsbase.ui 
+	dialogs/codegenerationpolicybase.ui 
+	dialogs/codegenerationwizardbase.ui 
+	dialogs/codeviewerdialogbase.ui 
+	dialogs/codevieweroptionsbase.ui 
+	dialogs/diagrampropertiespage.ui 
+	dialogs/umlrolepropertiesbase.ui 
+	codegenerators/javacodegenerationformbase.ui
+	codegenerators/cppcodegenerationformbase.ui
+	codegenerators/rubycodegenerationformbase.ui
+)
+
+
 kde4_automoc(${umbrello_SRCS})
 
 kde4_add_executable(umbrello ${umbrello_SRCS})
 
-target_link_libraries(umbrello  ${KDE4_KDECORE_LIBS} refactoring classparser clipboard dialogs codegenerator kdeprint kio )
+target_link_libraries(umbrello  ${KDE4_KIO_LIBS}  kdeprint  )
 
 install_targets(/bin umbrello )
 
