@@ -8,7 +8,7 @@ add_subdirectory( headings )
 add_subdirectory( refactoring ) 
 
 
-set(libcodegenerator_la_SRCS
+set(libcodegenerator_SRCS
 	codegenerators/codegenfactory.cpp 
 	codegenerators/classifierinfo.cpp 
 	codegenerators/javacodegenerator.cpp 
@@ -71,7 +71,7 @@ set(libcodegenerator_la_SRCS
 	codegenerators/codegen_utils.cpp)
 
 
-set(libdialogs_la_SRCS
+set(libdialogs_SRCS
 	dialogs/activitydialog.cpp 
 	dialogs/activitypage.cpp 
 	dialogs/assocgenpage.cpp 
@@ -107,10 +107,10 @@ set(libdialogs_la_SRCS
 	dialogs/umlviewdialog.cpp 
 	dialogs/umlwidgetcolorpage.cpp )
 
-set(librefactoring_la_SRCS 
+set(librefactoring_SRCS 
 		refactoring/refactoringassistant.cpp )
 
-set(libclassparser_la_SRCS 
+set(libclassparser_SRCS 
 	classparser/ast.cpp 
 	classparser/driver.cpp 
 	classparser/errors.cpp 
@@ -123,15 +123,20 @@ set(libclassparser_la_SRCS
 	classparser/cpptree2uml.cpp
 )	
 
-set(libclipboard_la_SRCS 
+set(libclipboard_SRCS 
 	clipboard/umldrag.cpp 
 	clipboard/umlclipboard.cpp 
 	clipboard/idchangelog.cpp
 	)
 ########### next target ###############
 
-set(umbrello_SRCS ${libdialogs_la_SRCS} ${librefactoring_la_SRCS} ${libclassparser_la_SRCS} ${libclipboard_la_SRCS} ${libcodegenerator_la_SRCS}
-   activitywidget.cpp 
+set(umbrello_SRCS 
+	${libdialogs_SRCS} 
+	${librefactoring_SRCS} 
+	${libclassparser_SRCS} 
+	${libclipboard_SRCS} 
+	${libcodegenerator_SRCS}
+	activitywidget.cpp 
    actor.cpp 
    actorwidget.cpp 
    adaimport.cpp 
