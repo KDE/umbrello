@@ -36,7 +36,7 @@
 static const int sequenceLineMargin = 20;
 
 ObjectWidget::ObjectWidget(UMLView * view, UMLObject *o, Uml::IDType lid)
-        : UMLWidget(view, o, new ObjectWidgetController(this)) {
+        : UMLWidget(view, o) {
     init();
     if( lid != Uml::id_None )
         m_nLocalID = lid;
@@ -55,6 +55,10 @@ void ObjectWidget::init() {
     messageWidgetList.setAutoDelete(false);
     if( m_pView != NULL && m_pView -> getType() == Uml::dt_Sequence ) {
         m_pLine = new SeqLineWidget( m_pView, this );
+
+        //Sets specific widget controller for sequence diagrams
+        delete m_widgetController;
+        m_widgetController = new ObjectWidgetController(this);
     } else {
         m_pLine = NULL;
     }
