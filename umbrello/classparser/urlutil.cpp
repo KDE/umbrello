@@ -130,9 +130,9 @@ QString URLUtil::extractPathNameRelative(const KUrl &baseDirUrl, const KUrl &url
 QString URLUtil::extractPathNameRelative(const QString &basePath, const KUrl &url )
 {
 #if (KDE_VERSION_MINOR!=0) || (KDE_VERSION_MAJOR!=3)
-  KUrl baseDirUrl = KUrl::fromPathOrURL( basePath );
+  KUrl baseDirUrl = KUrl::fromPathOrUrl( basePath );
 #else
-  KUrl baseDirUrl = KdevKUrl::fromPathOrURL( basePath );
+  KUrl baseDirUrl = KdevKUrl::fromPathOrUrl( basePath );
 #endif
   return extractPathNameRelative( baseDirUrl, url );
 }
@@ -142,11 +142,11 @@ QString URLUtil::extractPathNameRelative(const QString &basePath, const KUrl &ur
 QString URLUtil::extractPathNameRelative(const QString &basePath, const QString &absFilePath )
 {
 #if (KDE_VERSION_MINOR!=0) || (KDE_VERSION_MAJOR!=3)
-  KUrl baseDirUrl = KUrl::fromPathOrURL( basePath ),
-       fileUrl = KUrl::fromPathOrURL( absFilePath );
+  KUrl baseDirUrl = KUrl::fromPathOrUrl( basePath ),
+       fileUrl = KUrl::fromPathOrUrl( absFilePath );
 #else
-  KUrl baseDirUrl = KdevKUrl::fromPathOrURL( basePath ),
-       fileUrl = KdevKUrl::fromPathOrURL( absFilePath );
+  KUrl baseDirUrl = KdevKUrl::fromPathOrUrl( basePath ),
+       fileUrl = KdevKUrl::fromPathOrUrl( absFilePath );
 #endif
   return extractPathNameRelative( baseDirUrl, fileUrl );
 }

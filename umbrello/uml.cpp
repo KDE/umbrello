@@ -490,7 +490,7 @@ void UMLApp::saveOptions() {
     if( m_doc->URL().fileName() == i18n( "Untitled" ) ) {
         m_config -> writeEntry( "lastFile", "" );
     } else {
-        m_config -> writePathEntry( "lastFile", m_doc -> URL().prettyURL() );
+        m_config -> writePathEntry( "lastFile", m_doc -> URL().prettyUrl() );
     }
     m_config->writeEntry( "imageMimetype", getImageMimetype() );
 
@@ -764,7 +764,7 @@ void UMLApp::slotFilePrint()
     DiagramPrintPage * selectPage = new DiagramPrintPage(0, m_doc);
     printer.addDialogPage(selectPage);
     QString msg;
-    if (printer.setup(this, i18n("Print %1", m_doc->URL().prettyURL()))) {
+    if (printer.setup(this, i18n("Print %1", m_doc->URL().prettyUrl()))) {
 
         m_doc -> print(&printer);
     }
