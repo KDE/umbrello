@@ -479,7 +479,7 @@ Uml::ListView_Type folderType(UMLListViewItem *parent) {
  *           Given a PetalNode for which the mapping to Umbrello is not yet
  *           implemented umbrellify() is a no-op but also returns true.
  */
-bool umbrellify(PetalNode *node, UMLListViewItem *parent) {
+bool umbrellify(PetalNode *node, QString modelsName, UMLListViewItem *parent) {
     if (node == NULL) {
         kdError() << "umbrellify: node is NULL" << endl;
         return false;
@@ -489,35 +489,36 @@ bool umbrellify(PetalNode *node, UMLListViewItem *parent) {
     QString name = clean(args[1]);
     Uml::IDType id = quid(node);
     UMLObject *obj = NULL;
+    UMLListViewItem *item = NULL;
 
     if (objType == "Class_Category") {
         Uml::ListView_Type lvType = folderType(parent);
-        UMLListViewItem *item = new UMLListViewItem( parent, name, lvType, id );
-        PetalNode *logical_models = node->findAttribute("logical_models").node;
-        if (logical_models == NULL) {
-            kdError() << "umbrellify: cannot find logical_models" << endl;
-            return false;
-        }
-        PetalNode::NameValueList atts = logical_models->attributes();
-        for (uint i = 0; i < atts.count(); i++) {
-            umbrellify(atts[i].second.node, item);
-        }
+        item = new UMLListViewItem( parent, name, lvType, id );
     } else if (objType == "UseCase") {
         UMLUseCase *uc = new UMLUseCase(name, id);
-        UMLListViewItem *item = new UMLListViewItem(parent, name, Uml::lvt_UseCase, uc);
+        item = new UMLListViewItem(parent, name, Uml::lvt_UseCase, uc);
         obj = uc;
     } else if (objType == "SubSystem") {
         UMLComponent *comp = new UMLComponent(name, id);
-        UMLListViewItem *item = new UMLListViewItem(parent, name, Uml::lvt_Component, comp);
+        item = new UMLListViewItem(parent, name, Uml::lvt_Component, comp);
         obj = comp;
     } else if (objType == "Processor" || objType == "Device") {
         UMLNode *un = new UMLNode(name, id);
         un->setStereotype(objType.lower());
-        UMLListViewItem *item = new UMLListViewItem(parent, name, Uml::lvt_Node, un);
+        item = new UMLListViewItem(parent, name, Uml::lvt_Node, un);
         obj = un;
     } else {
         kdDebug() << "umbrellify: object type " << objType
                   << " is not yet implemented" << endl;
+        return true;
+    }
+    PetalNode *models = node->findAttribute(modelsName).node;
+    if (models) {
+        PetalNode::NameValueList atts = models->attributes();
+        for (uint i = 0; i < atts.count(); i++) {
+            if (! umbrellify(atts[i].second.node, modelsName, item))
+                return false;
+        }
     }
     if (obj) {
         QString doc = node->findAttribute("documentation").string;
@@ -547,7 +548,7 @@ bool importView(PetalNode *root, QString rootName, QString modelsName,
     }
     PetalNode::NameValueList atts = models->attributes();
     for (uint i = 0; i < atts.count(); i++) {
-        umbrellify(atts[i].second.node, lvParent);
+        umbrellify(atts[i].second.node, modelsName, lvParent);
     }
     return true;
 }
