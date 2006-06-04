@@ -44,9 +44,9 @@ public:
      *        you should ask the User what to do, and give him the option to overwrite the file
      *        write the code to a different file, or to abort the generation of this class.
      *  - Never: you cannot overwrite any files. Generates a new file name like "fileName1.h", "fileName2.h"
-     *        until you find an appropiate name.
+     *        until you find an appropriate name.
      *  - Cancel: Do not output anything.  This is only set if the user chooses Apply to All Remaining Files
-     *            and clicks on Do not Output  in the Ask dialogue
+     *            and clicks on Do not Output  in the Ask dialog
      */
     enum OverwritePolicy {Ok=0, Ask, Never, Cancel};
     enum ModifyNamePolicy {No=0, Underscore, Capitalise};
@@ -101,9 +101,9 @@ public:
      *        you should ask the User what to do, and give him the option to overwrite the file
      *        write the code to a different file, or to abort the generation of this class.
      *  - Never: you cannot overwrite any files. Generates a new file name like "fileName1.h", "fileName2.h"
-     *        until you find an appropiate name.
+     *        until you find an appropriate name.
      *  - Cancel: Do not output anything.  This is only set if the user chooses Apply to All Remaining Files
-     *            and clicks on Do not Output  in the Ask dialogue
+     *            and clicks on Do not Output  in the Ask dialog
      *
      * @param new_var the new value of m_overwritePolicy
      */
@@ -293,7 +293,7 @@ public:
 
     /**
       *  Gets the heading file (as a string) to be inserted at the
-      *  begining of the generated file. you give the file type as
+      *  beginning of the generated file. you give the file type as
       *  parameter and get the string. if fileName starts with a
       *  period (.) then fileName is the extension (.cpp, .h,
       *  .java) if fileName starts with another character you are

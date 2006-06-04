@@ -786,25 +786,25 @@ public:
 
     /**
      * Asks for confirmation and clears everything on the diagram.
-     * Called from menues.
+     * Called from menus.
      */
     void clearDiagram();
 
     /**
      * Changes snap to grid boolean.
-     * Called from menues.
+     * Called from menus.
      */
     void toggleSnapToGrid();
 
     /**
      * Changes snap to grid for component size boolean.
-     * Called from menues.
+     * Called from menus.
      */
     void toggleSnapComponentSizeToGrid();
 
     /**
      *  Changes show grid boolean.
-     * Called from menues.
+     * Called from menus.
      */
     void toggleShowGrid();
 
@@ -1288,7 +1288,7 @@ public slots:
      * This slot is entered when an event has occurred on the views display,
      * most likely a mouse event.  Before it sends out that mouse event everyone
      * that displays a menu on the views surface (widgets and this ) thould remove any
-     * menu.  This stops more then one menu bieing diplayed.
+     * menu.  This stops more then one menu bieing displayed.
      */
     void slotRemovePopupMenu();
 

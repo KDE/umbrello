@@ -407,7 +407,7 @@ void CppTree2Uml::parseEnumSpecifier( EnumSpecifierAST* ast )
 void CppTree2Uml::parseElaboratedTypeSpecifier( ElaboratedTypeSpecifierAST* typeSpec )
 {
     // This is invoked for forward declarations.
-    /// @todo Refine - Currently only handles class foward declarations.
+    /// @todo Refine - Currently only handles class forward declarations.
     ///              - Using typeSpec->text() is probably not good, decode
     ///                the kind() instead.
     QString text = typeSpec->text();

@@ -161,7 +161,7 @@ public:
     void setStringIncludeIsGlobal (bool value);
     void setVectorIncludeIsGlobal (bool value);
 
-    /** More flexible generation. We want to allow the user to specifiy how the
+    /** More flexible generation. We want to allow the user to specify how the
      *  bodies of the vector methods should be auto-generated.
      */
     QString getVectorMethodAppend(const QString & variableName ="", const QString & itemClassName = "");

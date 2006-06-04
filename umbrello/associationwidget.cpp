@@ -48,7 +48,7 @@
 using namespace Uml;
 
 // this constructor really only for loading from XMI, otherwise it
-// is bad..and shouldnt be allowed as it creates an incomplete
+// is bad..and shouldn't be allowed as it creates an incomplete
 // associationwidget.
 AssociationWidget::AssociationWidget(UMLView *view)
         : WidgetBase(view)
@@ -1297,10 +1297,10 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y ) {
             QPoint p = m_LinePath.getPoint( i );
             int newX = p.x() - dx;
             int newY = p.y() - dy;
-            // safety. We DONT want to go off the screen
+            // safety. We DON'T want to go off the screen
             if(newX < 0)
                 newX = 0;
-            // safety. We DONT want to go off the screen
+            // safety. We DON'T want to go off the screen
             if(newY < 0)
                 newY = 0;
             newX = m_pView -> snappedX( newX );

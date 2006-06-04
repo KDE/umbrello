@@ -63,7 +63,7 @@ void CPPCodeGenerationPolicyPage::apply()
     // now do our cpp-specific configs
     CPPCodeGenerationPolicy * parent = (CPPCodeGenerationPolicy*) m_parentPolicy;
 
-    // block signals so that we dont generate too many sync signals for child code
+    // block signals so that we don't generate too many sync signals for child code
     // documents
     parent->blockSignals(true);
 

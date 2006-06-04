@@ -244,7 +244,7 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
     // force the widgets to update accordingly on paint
     forceUpdateWidgetFontMetrics(&pPainter);
 
-    //double margin at botton of page as it doesn't print down there
+    //double margin at bottom of page as it doesn't print down there
     //on my printer, so play safe as default.
     if(pPrinter->orientation() == KPrinter::Portrait) {
         width = metrics.width() - marginX * 2;
@@ -1126,7 +1126,7 @@ void UMLView::selectionToggleShow(int sel)
         // toggle the show setting sel
         switch (sel)
         {
-            // some setting are only avaible for class, some for interface and some
+            // some setting are only available for class, some for interface and some
             // for both
         case ListPopupMenu::mt_Show_Attributes_Selection:
             if (type == wt_Class)
@@ -3319,7 +3319,7 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
             tag == "UML:StateWidget" || tag == "UML:NoteWidget" ||
             tag == "UML:FloatingTextWidget" || tag == "UML:ActivityWidget")
     {
-        // Loading of widgets wich do NOT reprsent any UMLObject, --> just graphic stuff with
+        // Loading of widgets which do NOT represent any UMLObject, --> just graphic stuff with
         // no real model information
         //FIXME while boxes and texts are just diagram objects, activities and states should
         // be UMLObjects

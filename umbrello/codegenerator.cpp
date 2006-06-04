@@ -129,7 +129,7 @@ bool CodeGenerator::addCodeDocument ( CodeDocument * doc )
 {
     QString tag = doc->getID();
 
-    // assign a tag if one doesnt already exist
+    // assign a tag if one doesn't already exist
     if(tag.isEmpty())
     {
         tag = getUniqueID(doc);
@@ -180,7 +180,7 @@ CodeViewerDialog * CodeGenerator::getCodeViewerDialog ( QWidget* parent, CodeDoc
 
 void CodeGenerator::loadFromXMI (QDomElement & qElement ) {
 
-    // dont do anything for simple (compatability) code generators
+    // don't do anything for simple (compatability) code generators
     if(dynamic_cast<SimpleCodeGenerator*>(this))
         return;
 
@@ -237,7 +237,7 @@ void CodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
  *
  * In this 'generic' version a ClassifierCodeDocument will exist for each and
  * every classifier that exists in our UMLDoc. IF when this is called, a code document
- * doesnt exist for the given classifier, then we will created and add a new code
+ * doesn't exist for the given classifier, then we will created and add a new code
  * document to our generator.
  *
  * IF you want to add non-classifier related code documents at this step,
@@ -247,12 +247,12 @@ void CodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
 void CodeGenerator::initFromParentDocument( ) {
 
     // Walk through the document converting classifiers into
-    // classifier code documents as needed (e.g only if doesnt exist)
+    // classifier code documents as needed (e.g only if doesn't exist)
     UMLClassifierList concepts = UMLApp::app()->getDocument()->getClassesAndInterfaces();
     for (UMLClassifier *c = concepts.first(); c; c = concepts.next())
     {
 
-        // Doesnt exist? Then build one.
+        // Doesn't exist? Then build one.
         CodeDocument * codeDoc = findCodeDocumentByClassifier(c);
         if (!codeDoc)
         {
@@ -399,16 +399,16 @@ QString CodeGenerator::overwritableName( QString name, const QString &extension 
     }
 
     int suffix;
-    OverwriteDialogue overwriteDialogue( name, outputDirectory.absPath(),
+    OverwriteDialogue overwriteDialog( name, outputDirectory.absPath(),
                                          m_applyToAllRemaining, kapp -> mainWidget() );
     switch (pol->getOverwritePolicy()) {  //if it exists, check the OverwritePolicy we should use
     case CodeGenerationPolicy::Ok:              //ok to overwrite file
         name = name + extension;
         break;
     case CodeGenerationPolicy::Ask:            //ask if we can overwrite
-        switch(overwriteDialogue.exec()) {
+        switch(overwriteDialog.exec()) {
         case KDialogBase::Yes:  //overwrite file
-            if ( overwriteDialogue.applyToAllRemaining() ) {
+            if ( overwriteDialog.applyToAllRemaining() ) {
                 pol->setOverwritePolicy(CodeGenerationPolicy::Ok);
                 name = name + extension;
             } else {
@@ -421,14 +421,14 @@ QString CodeGenerator::overwritableName( QString name, const QString &extension 
                 suffix++;
             }
             name = name + "__" + QString::number(suffix) + extension;
-            if ( overwriteDialogue.applyToAllRemaining() ) {
+            if ( overwriteDialog.applyToAllRemaining() ) {
                 pol->setOverwritePolicy(CodeGenerationPolicy::Never);
             } else {
                 m_applyToAllRemaining = false;
             }
             break;
         case KDialogBase::Cancel: //don't output anything
-            if ( overwriteDialogue.applyToAllRemaining() ) {
+            if ( overwriteDialog.applyToAllRemaining() ) {
                 pol->setOverwritePolicy(CodeGenerationPolicy::Cancel);
             } else {
                 m_applyToAllRemaining = false;
@@ -569,7 +569,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
             // What the hell are these things? My assumption is that they are
             // a sloppy way to specify aggregations, adding an "arrow" for
             // "navagability", whatever that is.
-            // These typically DONT have a rolename specified. Oh well, we
+            // These typically DON'T have a rolename specified. Oh well, we
             // shall include it. The individual code generators will need to know
             // what to do with a "role-less" uni-associated classifier. -b.t.
             /* if(a->getWidgetID(Uml::A)!=c->getID()){
@@ -592,7 +592,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
             else if(a->getWidgetID(Uml::B)!=c->getID() && !a->getRoleName(Uml::B).isEmpty())
                 temp =(UMLClassifier*) umldoc->findObjectById(a->getWidgetID(Uml::B));
             break;
-        default: /* all others.. like for state diagrams..we currently dont use */
+        default: /* all others.. like for state diagrams..we currently don't use */
             break;
         }
 

@@ -120,7 +120,7 @@ public:
     bool addCodeDocument ( CodeDocument * add_object );
 
     /**
-     * Replace (or possiblity Add a new) CodeDocument object to the m_codedocumentVector List. 
+     * Replace (or possibly add a new) CodeDocument object to the m_codedocumentVector List. 
      * As names must be unique and each code document must have a name.
      * @return  boolean value which will be true if the passed document was able to replace some
      *    other document OR was added(no prior document existed..only when addIfPriorDocumentNotPresent is true). 
@@ -188,7 +188,7 @@ public:
 
     /**
      *  Gets the heading file (as a string) to be inserted at the
-     *  begining of the generated file. you give the file type as
+     *  beginning of the generated file. you give the file type as
      *  parameter and get the string. if fileName starts with a
      *  period (.) then fileName is the extension (.cpp, .h,
      *  .java) if fileName starts with another character you are
@@ -398,7 +398,7 @@ signals:
      * generated. Its only really used by the codegenerationwizard to
      * update its progress.
      * @param concept    The concept which was processed
-     * @param generated  Flag, set to true if generation was successfull
+     * @param generated  Flag, set to true if generation was successful
      */
     void codeGenerated(UMLClassifier* concept, bool generated);
 

@@ -67,11 +67,11 @@ UMLObject* UMLEntity::createAttribute(const QString &name /*=null*/) {
     int button = QDialog::Accepted;
     bool goodName = false;
 
-    //check for name.isNull() stops dialogue being shown
+    //check for name.isNull() stops dialog being shown
     //when creating attribute via list view
     while (button==QDialog::Accepted && !goodName && name.isNull()) {
-        UMLEntityAttributeDialog attributeDialogue(0, newAttribute);
-        button = attributeDialogue.exec();
+        UMLEntityAttributeDialog attributedialog(0, newAttribute);
+        button = attributedialog.exec();
         QString name = newAttribute->getName();
 
         if(name.length() == 0) {
@@ -144,7 +144,7 @@ int UMLEntity::removeEntityAttribute(UMLClassifierListItem* literal) {
     }
     emit entityAttributeRemoved(literal);
     emit modified();
-    // If we are deleteing the object, then we dont need to disconnect..this is done auto-magically
+    // If we are deleteing the object, then we don't need to disconnect..this is done auto-magically
     // for us by QObject. -b.t.
     // disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
     delete literal;

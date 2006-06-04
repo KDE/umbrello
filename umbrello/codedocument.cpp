@@ -114,7 +114,7 @@ QString CodeDocument::getPath ( ) {
     // in from the package specification
     path.replace(QRegExp("\\."),"/"); // Simple hack!.. but this is more or less language
     // dependant and should probably be commented out.
-    // Still, as a general default it may be usefull -b.t.
+    // Still, as a general default it may be useful -b.t.
     return path;
 }
 
@@ -231,7 +231,7 @@ bool CodeDocument::insertTextBlock(TextBlock * newBlock, TextBlock * existingBlo
     // check for tag FIRST
     QString new_tag = newBlock->getTag();
 
-    // assign a tag if one doesnt already exist
+    // assign a tag if one doesn't already exist
     if(new_tag.isEmpty())
     {
         new_tag = getUniqueTag();
@@ -295,7 +295,7 @@ void CodeDocument::updateHeader () {
  */
 QString CodeDocument::toString ( ) {
 
-    // IF the whole document is turned "Off" then dont bother
+    // IF the whole document is turned "Off" then don't bother
     // checking individual code blocks, just send back empty string
     if(!getWriteOutCode())
         return QString("");
@@ -421,7 +421,7 @@ void CodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
     root.appendChild( docElement );
 }
 
-// vanilla code documents dont have much
+// vanilla code documents don't have much
 // to do.. override this with a different
 // version for your own documents
 void CodeDocument::updateContent() {

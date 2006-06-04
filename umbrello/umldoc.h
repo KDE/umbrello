@@ -733,7 +733,7 @@ public:
 
     /**
      * Add a datatype if it doesn't already exist.
-     * Used by code generators and attribute dialogue.
+     * Used by code generators and attribute dialog.
      */
     void createDatatype(const QString &name);
 
@@ -754,7 +754,7 @@ public:
 
     /**
      * Add a stereotype if it doesn't already exist.
-     * Used by code generators, operations and attribute dialogue.
+     * Used by code generators, operations and attribute dialog.
      */
     void addDefaultStereotypes();
 

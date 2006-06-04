@@ -63,7 +63,7 @@ class QCustomEvent;
 /**
  * The base class for UML application windows. It sets up the main
  * window and reads the config file as well as providing a menubar, toolbar
- * and statusbar. An instance of UMLView creates your centre view, which is connected
+ * and statusbar. An instance of UMLView creates your center view, which is connected
  * to the window's Doc object.
  * UMLApp reimplements the methods that KMainWindow provides for main window handling and supports
  * full session management as well as using KActions.
@@ -837,7 +837,7 @@ private:
 
     /**
      * Initialize code generators at startup. 
-     * Why is this important? Because IF we dont do this, then changes
+     * Why is this important? Because IF we don't do this, then changes
      * to the UML may not be synced with the saved code generation params
      * for those languages which arent currently active.
      */
@@ -987,7 +987,7 @@ private:
     QString m_imageMimeType;
 
     /**
-     * the global UML settings dialogue
+     * the global UML settings dialog
      */
     SettingsDlg* m_dlg;
 

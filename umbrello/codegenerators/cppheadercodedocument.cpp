@@ -113,7 +113,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
             QDomNode node = telement.firstChild();
             QDomElement element = node.toElement();
 
-            // if there is nothing to begin with, then we dont worry about it
+            // if there is nothing to begin with, then we don't worry about it
             loadCheckForChildrenOK = element.isNull() ? true : false;
 
             while( !element.isNull() ) {
@@ -138,7 +138,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                         if(!tb || !addTextBlock(tb))
                         {
                             kdError()<<"Unable to add codeclassfield child method to:"<<this<<endl;
-                            // DONT delete
+                            // DON'T delete
                         } else
                             loadCheckForChildrenOK= true;
 
@@ -206,13 +206,13 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                                                 if(!namespaceBlock || !namespaceBlock->addTextBlock(block))
                                                 {
                                                     kdError()<<"Error:cant add class declaration codeblock"<<endl;
-                                                    // DONT delete/release block
+                                                    // DON'T delete/release block
                                                     // block->release();
                                                 } else
                                                     loadCheckForChildrenOK= true;
 
                                             }
-                // only needed for extreme debuging conditions (E.g. making new codeclassdocument loader)
+                // only needed for extreme debugging conditions (E.g. making new codeclassdocument loader)
                 //else
                 //kdDebug()<<" LoadFromXMI: Got strange tag in text block stack:"<<name<<", ignorning"<<endl;
 
@@ -347,7 +347,7 @@ void CPPHeaderCodeDocument::updateContent( )
     CodeClassFieldList privateAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, false, Uml::Visibility::Private);
 
     // association-based ClassFields
-    // dont care if they are static or not..all are lumped together
+    // don't care if they are static or not..all are lumped together
     CodeClassFieldList publicPlainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation , Uml::Visibility::Public);
     CodeClassFieldList publicAggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation, Uml::Visibility::Public);
     CodeClassFieldList publicCompositionClassFields = getSpecificClassFields ( CodeClassField::Composition, Uml::Visibility::Public );
@@ -401,7 +401,7 @@ void CPPHeaderCodeDocument::updateContent( )
 
     //only include classes in a different package from this class
     UMLClassifierList includes;
-    QMap<UMLClassifier *,QString> *packageMap = new QMap<UMLClassifier*,QString>; // so we dont repeat packages
+    QMap<UMLClassifier *,QString> *packageMap = new QMap<UMLClassifier*,QString>; // so we don't repeat packages
 
     CodeGenerator::findObjectsRelated(c,includes);
     for(UMLClassifier *con = includes.first(); con ; con = includes.next())

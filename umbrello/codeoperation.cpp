@@ -164,7 +164,7 @@ void CodeOperation::init (UMLOperation * parentOp)
 
 void CodeOperation::updateContent() {
     // Empty. Unlike codeaccessor methods for most (all?) languages
-    // we dont auto-generate content for operations
+    // we don't auto-generate content for operations
 }
 
 

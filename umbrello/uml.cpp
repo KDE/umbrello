@@ -114,7 +114,7 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
     QPopupMenu* menu = findMenu( menuBar(), QString("code") );
     m_langSelect = findMenu( menu, QString("active_lang_menu") );
 
-    //in case langSelect hasnt been initialized we create the Popup menu.
+    //in case langSelect hasn't been initialized we create the Popup menu.
     //it will be hidden, but at least we wont crash if someone takes the entry away from the ui.rc file
     if (m_langSelect == NULL) {
         m_langSelect = new QPopupMenu(this);
@@ -123,7 +123,7 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
     menu = findMenu( menuBar(), QString("views") );
     m_zoomSelect = findMenu( menu, QString("zoom_menu") );
 
-    //in case zoomSelect hasnt been initialized we create the Popup menu.
+    //in case zoomSelect hasn't been initialized we create the Popup menu.
     //it will be hidden, but at least we wont crash if some one takes the entry away from the ui.rc file
     if (m_zoomSelect == NULL) {
         m_zoomSelect = new QPopupMenu(this);
@@ -1166,7 +1166,7 @@ void UMLApp::viewCodeDocument(UMLClassifier* classifier) {
                 delete dialog;
                 dialog = NULL;
             } else {
-                // shouldnt happen..
+                // shouldn't happen..
                 KMessageBox::sorry(0, i18n("Cannot view code until you generate some first."),i18n("Cannot View Code"));
             }
         } else {

@@ -53,7 +53,7 @@ void RubyCodeGenerationPolicyPage::apply()
     // now do our ruby-specific configs
     RubyCodeGenerationPolicy * parent = (RubyCodeGenerationPolicy*) m_parentPolicy;
 
-    // block signals so we dont cause too many update content calls to code documents
+    // block signals so we don't cause too many update content calls to code documents
     parent->blockSignals(true);
 
     common->setCommentStyle((CodeGenerationPolicy::CommentStyle) form->m_SelectCommentStyle->currentItem());

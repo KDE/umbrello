@@ -113,7 +113,7 @@ bool HierarchicalCodeBlock::insertTextBlock(TextBlock * newBlock, TextBlock * ex
     // FIX: just do a quick check if the parent DOCUMENT has this.
     // IF it does, then the lack of an index will force us into
     // a search of any child hierarchical codeblocks we may have
-    // Its not efficent, but works. I dont think speed is a problem
+    // Its not efficient, but works. I don't think speed is a problem
     // right now for the current implementation, but in the future
     // when code import/roundtripping is done, it *may* be. -b.t.
     if(!getParentDocument()->findTextBlockByTag(tag, true))
@@ -138,7 +138,7 @@ bool HierarchicalCodeBlock::insertTextBlock(TextBlock * newBlock, TextBlock * ex
     // check for tag FIRST
     QString new_tag = newBlock->getTag();
 
-    // assign a tag if one doesnt already exist
+    // assign a tag if one doesn't already exist
     if(new_tag.isEmpty())
     {
         new_tag = getUniqueTag();

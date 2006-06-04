@@ -196,7 +196,7 @@ void CodeParameter::setAttributesFromNode ( QDomElement & root) {
 
         // FIX..one day.
         // Ugh. This is UGLY, but we have to do it this way because UMLRoles
-        // dont go into the document list of UMLobjects, and have the same
+        // don't go into the document list of UMLobjects, and have the same
         // ID as their parent UMLAssociations. So..the drill is then special
         // for Associations..in that case we need to find out which role will
         // serve as the parameter here. The REAL fix, of course, would be to

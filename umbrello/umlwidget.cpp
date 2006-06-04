@@ -136,7 +136,7 @@ bool UMLWidget::operator==(const UMLWidget& other) {
         return false;
     }
 
-    // if(getBaseType() != wt_Text) // DONT do this for floatingtext widgets, an infinite loop will result
+    // if(getBaseType() != wt_Text) // DON'T do this for floatingtext widgets, an infinite loop will result
     // {
     AssociationWidgetListIt assoc_it( m_Assocs );
     AssociationWidgetListIt assoc_it2( other.m_Assocs );
@@ -288,7 +288,7 @@ void UMLWidget::slotMenuSelection(int sel) {
         } else if (wt == wt_Object) {
             m_pObject->showProperties();
         } else {
-            kdWarning() << "making properties dialogue for unknown widget type" << endl;
+            kdWarning() << "making properties dialog for unknown widget type" << endl;
         }
         // adjustAssocs( getX(), getY() );//adjust assoc lines
         break;

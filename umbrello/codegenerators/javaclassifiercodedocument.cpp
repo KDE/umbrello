@@ -156,7 +156,7 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
             QDomNode node = telement.firstChild();
             QDomElement element = node.toElement();
 
-            // if there is nothing to begin with, then we dont worry about it
+            // if there is nothing to begin with, then we don't worry about it
             loadCheckForChildrenOK = element.isNull() ? true : false;
 
             while( !element.isNull() ) {
@@ -181,7 +181,7 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                         if(!tb || !addTextBlock(tb))
                         {
                             kdError()<<"loadFromXMI : unable to add codeclassfield child method to:"<<this<<endl;
-                            // DONT delete
+                            // DON'T delete
                         } else
                             loadCheckForChildrenOK= true;
 
@@ -244,12 +244,12 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                                 if(!addTextBlock(block))
                                                 {
                                                     kdError()<<"Unable to add java code declaration block to:"<<this<<endl;
-                                                    // DONT delete.
+                                                    // DON'T delete.
                                                     // block->deleteLater();
                                                 } else
                                                     loadCheckForChildrenOK= true;
                                             }
-                // This last item is only needed for extreme debuging conditions
+                // This last item is only needed for extreme debugging conditions
                 // (E.g. making new codeclassdocument loader)
                 // else
                 //        kdDebug()<<" LoadFromXMI: Got strange tag in text block stack:"<<name<<", ignorning"<<endl;
@@ -353,14 +353,14 @@ void JavaClassifierCodeDocument::updateContent( )
     CodeClassFieldList staticAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true);
     CodeClassFieldList attribClassFields = getSpecificClassFields (CodeClassField::Attribute, false);
     // association-based ClassFields
-    // dont care if they are static or not..all are lumped together
+    // don't care if they are static or not..all are lumped together
     CodeClassFieldList plainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation );
     CodeClassFieldList aggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation );
     CodeClassFieldList compositionClassFields = getSpecificClassFields ( CodeClassField::Composition );
 
     bool isInterface = parentIsInterface();
     bool hasOperationMethods = c->getOpList().last() ? true : false;
-    QString endLine = commonPolicy->getNewLineEndingChars(); // a shortcut..so we dont have to call this all the time
+    QString endLine = commonPolicy->getNewLineEndingChars(); // a shortcut..so we don't have to call this all the time
 
     //
     // START GENERATING CODE/TEXT BLOCKS and COMMENTS FOR THE DOCUMENT
@@ -389,7 +389,7 @@ void JavaClassifierCodeDocument::updateContent( )
 
     //only import classes in a different package from this class
     UMLClassifierList imports;
-    QMap<UMLClassifier *,QString> *packageMap = new QMap<UMLClassifier*,QString>; // so we dont repeat packages
+    QMap<UMLClassifier *,QString> *packageMap = new QMap<UMLClassifier*,QString>; // so we don't repeat packages
 
     CodeGenerator::findObjectsRelated(c,imports);
     for(UMLClassifier *con = imports.first(); con ; con = imports.next())
@@ -400,7 +400,7 @@ void JavaClassifierCodeDocument::updateContent( )
         {
             packageMap->insert(con,con->getPackage());
 
-            // now, we DONT need to import classes that are already in our own package
+            // now, we DON'T need to import classes that are already in our own package
             // (that is, IF a package is specified). Otherwise, we should have a declaration.
             if (con->getPackage() != c->getPackage() ||
                     (c->getPackage().isEmpty() && con->getPackage().isEmpty()))

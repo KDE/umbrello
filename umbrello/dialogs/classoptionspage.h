@@ -81,12 +81,12 @@ protected:
     void setupClassPageOption();
 
     /**
-     * Sets the ClassifierWidget's properties to those selected in this dialogue page.
+     * Sets the ClassifierWidget's properties to those selected in this dialog page.
      */
     void updateWidget();
 
     /**
-     * Sets the OptionState to the values selected in this dialogue page.
+     * Sets the OptionState to the values selected in this dialog page.
      */
     void updateOptionState();
 

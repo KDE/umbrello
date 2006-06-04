@@ -81,7 +81,7 @@ public:
 
     /**
      * Will get a hierarchicalcodeblock from the document with given tag. IF the codeblock
-     * doesnt exist, then it will create it at the end of the document textBlock
+     * doesn't exist, then it will create it at the end of the document textBlock
      * list and pass back a reference.
      * @return  HierarchicalCodeBlock
      * @param   tag 
@@ -92,7 +92,7 @@ public:
 
     /**
             * Will get a codeblockwithcomments from the document with given tag. IF the codeblock
-            * doesnt exist, then it will create it at the end of the document textBlock
+            * doesn't exist, then it will create it at the end of the document textBlock
             * list and pass back a reference.
      * @return  CodeBlockWithComments
      * @param   tag 

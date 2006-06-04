@@ -124,14 +124,14 @@ public:
 
     /** Find the minimum number of things that can occur in an association
       * If mistakenly called on attribute CF's the default value of is "0" 
-      * is returned. Similarly, if the association (role) CF doesnt have a multiplicty
+      * is returned. Similarly, if the association (role) CF doesn't have a multiplicty
       * 0 is returned.
       */
     int minimumListOccurances( );
 
     /** Find the maximum number of things that can occur in an association
       * If mistakenly called on attribute CF's the default value of is "1"
-      * is returned. If the association (role) CF doesnt have a multiplicty
+      * is returned. If the association (role) CF doesn't have a multiplicty
       * or has a "*" specified then '-1' (unbounded) is returned.
       */
     int maximumListOccurances( );

@@ -98,7 +98,7 @@ protected:
     bool loadPlugins(KConfig *config, const QString &key);
 
     /**
-     * This is a convinience method for derived classes. When a functional object
+     * This is a convenience method for derived classes. When a functional object
      * (i.e., application, tool or plugin) is shutdown, it can use this method
      * to automatically unload all dependant plugins.
      *

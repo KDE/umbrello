@@ -90,7 +90,7 @@ UMLDoc::UMLDoc() {
     m_uniqueID = 0;
     m_count = 0;
     m_objectList.clear();
-    m_objectList.setAutoDelete(false); // DONT autodelete
+    m_objectList.setAutoDelete(false); // DON'T autodelete
     m_stereoList.setAutoDelete(false);
     m_ViewList.setAutoDelete(true);
 
@@ -865,7 +865,7 @@ bool UMLDoc::isUnique(const QString &name)
     }
 
     // Not currently in a package:
-    // Check against all objects that _dont_ have a parent package.
+    // Check against all objects that _don't_ have a parent package.
     for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
         UMLObject *obj = oit.current();
         if (obj->getUMLPackage() == NULL && obj->getName() == name)
@@ -881,7 +881,7 @@ bool UMLDoc::isUnique(const QString &name, UMLPackage *package)
         return (package->findObject(name) == NULL);
 
     // Not currently in a package:
-    // Check against all objects that _dont_ have a parent package.
+    // Check against all objects that _don't_ have a parent package.
     for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
         UMLObject *obj = oit.current();
         if (obj->getUMLPackage() == NULL && obj->getName() == name)
@@ -974,7 +974,7 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
     UMLAssociationList assocs = getAssociations();
     for (UMLAssociationListIt ait(assocs); ait.current(); ++ait) {
         UMLAssociation *a = ait.current();
-        // check if its already been added (shouldnt be the case right now
+        // check if its already been added (shouldn't be the case right now
         // as UMLAssociations only belong to one associationwidget at a time)
         if (a == Assoc)
         {
@@ -996,7 +996,7 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
     // Add the UMLAssociation in this UMLDoc.
     m_objectList.append( (UMLObject*) Assoc);
 
-    // I dont believe this appropriate, UMLAssociations ARENT UMLWidgets -b.t.
+    // I don't believe this appropriate, UMLAssociations ARENT UMLWidgets -b.t.
     // emit sigObjectCreated(o);
 
     setModified(true);
@@ -1257,7 +1257,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
                 case Uml::at_Relationship:
                 case Uml::at_Association_Self:
                 case Uml::at_UniAssociation:
-                    // CHECK: doesnt seem correct
+                    // CHECK: doesn't seem correct
                     // But we DO need to remove uni-associations, etc. from the concept, -b.t.
                     if (AId == c->getID() || BId == c->getID())
                         c->removeAssociation(a);
@@ -1558,7 +1558,7 @@ short UMLDoc::getEncoding(QIODevice & file)
             if (! docuElement.isNull() &&
                     docuElement.tagName() == "XMI.exporterEncoding")
             {
-                // at the moment this if isn't really neccesary, but maybe
+                // at the moment this if isn't really necessary, but maybe
                 // later we will have other encoding standards
                 if (docuElement.text() == QString("UnicodeUTF8"))
                 {

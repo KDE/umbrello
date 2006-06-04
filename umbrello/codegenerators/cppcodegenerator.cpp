@@ -88,7 +88,7 @@ bool CPPCodeGenerator::addHeaderCodeDocument ( CPPHeaderCodeDocument * doc )
 
     QString tag = doc->getID();
 
-    // assign a tag if one doesnt already exist
+    // assign a tag if one doesn't already exist
     if(tag.isEmpty())
     {
         tag = "cppheader"+ID2STR(doc->getParentClassifier()->getID());
@@ -141,7 +141,7 @@ CodeViewerDialog * CPPCodeGenerator::getCodeViewerDialog ( QWidget* parent, Code
             dialog = new CodeViewerDialog(parent, hdoc, state);
             dialog->addCodeDocument(doc);
         } else
-            // shouldnt happen, but lets try to gracefully deliver something.
+            // shouldn't happen, but lets try to gracefully deliver something.
             dialog = new CodeViewerDialog(parent, doc, state);
 
         // add in makefile if available and desired
@@ -276,12 +276,12 @@ CPPMakefileCodeDocument * CPPCodeGenerator::newMakefileCodeDocument ( ) {
 void CPPCodeGenerator::initFromParentDocument( ) {
 
     // Walk through the document converting classifiers into
-    // classifier code documents as needed (e.g only if doesnt exist)
+    // classifier code documents as needed (e.g only if doesn't exist)
     UMLClassifierList concepts = UMLApp::app()->getDocument()->getClassesAndInterfaces();
     for (UMLClassifier *c = concepts.first(); c; c = concepts.next())
     {
 
-        // Doesnt exist? Then build one.
+        // Doesn't exist? Then build one.
         CodeDocument * codeDoc = findCodeDocumentByClassifier(c);
         if (!codeDoc)
         {

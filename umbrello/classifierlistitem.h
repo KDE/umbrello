@@ -24,7 +24,7 @@ class UMLClassifier;
  * Classifiers (classes, interfaces) have lists of operations,
  * attributes, templates and others.  This is a base class for
  * the items in this list.  This abstraction should remove
- * duplication of dialogues and allow for stereotypes in lists.
+ * duplication of dialogs and allow for stereotypes in lists.
  *
  * @short A base class for classifier list items (e.g. attributes)
  * @author Jonathan Riddell
@@ -103,7 +103,7 @@ public:
     virtual QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
 
     /**
-     * Display the properties configuration dialogue for the list item.
+     * Display the properties configuration dialog for the list item.
      *
      * @param parent    The parent widget.
      * @return  True for success of this operation.

@@ -470,25 +470,25 @@ void UMLListView::popupMenuSel(int sel) {
         if ( typeIsCanvasWidget(lvt) ) {
             object->showProperties(ClassPropDlg::page_gen);
         } else if(umlType == Uml::ot_Attribute) {
-            // show the attribute dialogue
+            // show the attribute dialog
             UMLAttribute* selectedAttribute = static_cast<UMLAttribute*>(object);
-            UMLAttributeDialog dialogue( this, selectedAttribute );
-            dialogue.exec();
+            UMLAttributeDialog dialog( this, selectedAttribute );
+            dialog.exec();
         } else if(umlType == Uml::ot_EntityAttribute) {
-            // show the attribute dialogue
+            // show the attribute dialog
             UMLEntityAttribute* selectedAttribute = static_cast<UMLEntityAttribute*>(object);
-            UMLEntityAttributeDialog dialogue( this, selectedAttribute );
-            dialogue.exec();
+            UMLEntityAttributeDialog dialog( this, selectedAttribute );
+            dialog.exec();
         } else if(umlType == Uml::ot_Operation) {
-            // show the operation dialogue
+            // show the operation dialog
             UMLOperation* selectedOperation = static_cast<UMLOperation*>(object);
-            UMLOperationDialog dialogue( this, selectedOperation );
-            dialogue.exec();
+            UMLOperationDialog dialog( this, selectedOperation );
+            dialog.exec();
         } else if(umlType == Uml::ot_Template) {
-            // show the template dialogue
+            // show the template dialog
             UMLTemplate* selectedTemplate = static_cast<UMLTemplate*>(object);
-            UMLTemplateDialog dialogue( this, selectedTemplate );
-            dialogue.exec();
+            UMLTemplateDialog dialog( this, selectedTemplate );
+            dialog.exec();
         } else {
             kdWarning() << "calling properties on unknown type" << endl;
         }

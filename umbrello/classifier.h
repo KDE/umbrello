@@ -115,7 +115,7 @@ public:
      *                  If the position is omitted, or if it is
      *                  negative or too large, the attribute is added
      *                  to the end of the list.
-     * @return  True if the attribute was sucessfully added.
+     * @return  True if the attribute was successfully added.
      */
     bool addAttribute(UMLAttribute* Att, IDChangeLog* Log = 0,
                       int position = -1);
@@ -257,7 +257,7 @@ public:
      *
      * @param newTemplate       Pointer to the UMLTemplate object to add.
      * @param log               Pointer to the IDChangeLog.
-     * @return  True if the template was sucessfully added.
+     * @return  True if the template was successfully added.
      */
     bool addTemplate(UMLTemplate* newTemplate, IDChangeLog* log = 0);
 
@@ -268,7 +268,7 @@ public:
      * @param Template  Pointer to the UMLTemplate to add.
      * @param position  The position of the template in the list.
      *                  A value of -1 will add the template at the end.
-     * @return  True if the template was sucessfully added.
+     * @return  True if the template was successfully added.
      */
     //TODO: if the param IDChangeLog from the method above is not being used,
     // give position a default value of -1 and the method can replace the above one

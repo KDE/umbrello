@@ -131,7 +131,7 @@ void CPPSourceCodeDocument::updateContent( )
     CodeClassFieldList staticAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true);
     CodeClassFieldList attribClassFields = getSpecificClassFields (CodeClassField::Attribute, false);
     // association-based ClassFields
-    // dont care if they are static or not..all are lumped together
+    // don't care if they are static or not..all are lumped together
     CodeClassFieldList plainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation );
     CodeClassFieldList aggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation );
     CodeClassFieldList compositionClassFields = getSpecificClassFields ( CodeClassField::Composition );

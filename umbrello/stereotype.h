@@ -88,7 +88,7 @@ public:
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
     /**
-     * Display the properties configuration dialogue for the stereotype
+     * Display the properties configuration dialog for the stereotype
      * (just a line edit).
      */
     bool showPropertiesDialogue(QWidget* parent);

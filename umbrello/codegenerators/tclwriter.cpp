@@ -397,7 +397,7 @@ TclWriter::writeAssociationIncl(UMLAssociationList list, Uml::IDType myId,
         UMLClassifier  *classifier = NULL;
 
         writeComm(m_endl + type + m_endl + a->toString() + m_endl + a->getDoc());
-        // only use OTHER classes (e.g. we dont need to write includes for ourselves!!
+        // only use OTHER classes (e.g. we don't need to write includes for ourselves!!
         // AND only IF the roleName is defined, otherwise, its not meant to be noticed.
         if (a->getObjectId(Uml::A) == myId && !a->getRoleName(Uml::B).isEmpty()) {
             classifier = dynamic_cast < UMLClassifier * >(a->getObject(Uml::B));
@@ -594,7 +594,7 @@ TclWriter::writeAssociationRoleDecl(QString fieldClassName, QString roleName,
 
     // declare the association based on whether it is this a single variable
     // or a List (Vector). One day this will be done correctly with special
-    // multiplicity object that we dont have to figure out what it means via regex.
+    // multiplicity object that we don't have to figure out what it means via regex.
     if (multi.isEmpty() || multi.contains(QRegExp("^[01]$"))) {
         QString         fieldVarName = roleName.lower();
 
@@ -668,8 +668,8 @@ TclWriter::writeInitAttributeSource()
             writeCode("set " + varName + " [list]");
         }
         // clean up
-        ObjectFieldVariables.clear();   // shouldnt be needed?
-        VectorFieldVariables.clear();   // shouldnt be needed?
+        ObjectFieldVariables.clear();   // shouldn't be needed?
+        VectorFieldVariables.clear();   // shouldn't be needed?
 
         m_indentLevel--;
         writeCode("}" + m_endl);
@@ -883,7 +883,7 @@ TclWriter::writeAssociationRoleSource(QString fieldClassName,
 
     // declare the association based on whether it is this a single variable
     // or a List (Vector). One day this will be done correctly with special
-    // multiplicity object that we dont have to figure out what it means via regex.
+    // multiplicity object that we don't have to figure out what it means via regex.
     if (multi.isEmpty() || multi.contains(QRegExp("^[01]$"))) {
         QString         fieldVarName = roleName.lower();
 
@@ -925,7 +925,7 @@ TclWriter::fixTypeName(QString string)
     return string;
 }
 
-// methods like this _shouldnt_ be needed IF we properly did things thruought the code.
+// methods like this _shouldn't_ be needed IF we properly did things thruought the code.
 QString
 TclWriter::getUMLObjectName(UMLObject * obj)
 {

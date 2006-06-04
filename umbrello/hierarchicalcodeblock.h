@@ -75,7 +75,7 @@ public:
 
     /**
      * Remove a TextBlock object from m_textblockVector List
-     * returns boolean - true if successfull
+     * returns boolean - true if successful
      */
     bool removeTextBlock ( TextBlock * remove_object );
 

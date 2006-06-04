@@ -329,7 +329,7 @@ void CodeEditor::appendText(TextBlockList * items)
     for (TextBlock *tb = items->first(); tb; tb = items->next())
     {
         // types of things we may cast our text block into
-        // This isnt efficent, and is a vote for recording
+        // This isnt efficient, and is a vote for recording
         // code block types in an enumerated list somewhere,
         // as well as a generic attribute "blockType" we could
         // quickly access, rather than casting. -b.t.
@@ -347,7 +347,7 @@ void CodeEditor::appendText(TextBlockList * items)
         else if ( (cb = dynamic_cast<CodeBlockWithComments*>(tb)) )
             appendText(cb);
         /*
-                        // no! shouldnt be any 'naked' comments floating about. Always
+                        // no! shouldn't be any 'naked' comments floating about. Always
                         // are assocated with a parent code block
                         else if ( (cm = dynamic_cast<CodeComment*>(tb)) )  
                                 appendText(cm);
@@ -432,7 +432,7 @@ void CodeEditor::appendText (CodeClassFieldDeclarationBlock * db ) {
 
 void CodeEditor::appendText (CodeMethodBlock * mb) {
 
-    // Note: IF CodeAccessors are hidden, we DONT show
+    // Note: IF CodeAccessors are hidden, we DON'T show
     // it even when requested as the hiddeness of these methods
     // should be controled by the class fields, not the user in the editor.
     if(!mb->getWriteOutText() && (!m_showHiddenBlocks || dynamic_cast<CodeAccessorMethod*>(mb)))
@@ -486,7 +486,7 @@ void CodeEditor::appendText (CodeMethodBlock * mb) {
 
     if(!StringIsBlank(startText))
         insert(startText,mb,false,getState().fontColor,bgcolor,parentObj);
-    // always insert body for methods..IF we dont, we create a
+    // always insert body for methods..IF we don't, we create a
     // situation where the user cant edit the body (!)
     insert(body,mb,true,getState().fontColor,bgcolor,parentObj);
     if(!StringIsBlank(endText))
@@ -739,7 +739,7 @@ void CodeEditor::slotCutTextBlock ( ) {
     if(m_selectedTextBlock->canDelete())
     {
         // just in case there are pending edits
-        // we dont want to lose them
+        // we don't want to lose them
         if (m_lastTextBlockToBeEdited && m_lastTextBlockToBeEdited == (CodeBlock*) m_selectedTextBlock)
         {
             updateTextBlockFromText (m_lastTextBlockToBeEdited);
@@ -1092,7 +1092,7 @@ void CodeEditor::changeHighlighting(int signal) {
 
 
     } else {
-        // we DONT want to highlight
+        // we DON'T want to highlight
         m_isHighlighted = false;
         for(int para=0;para<total_para;para++)
             setParagraphBackgroundColor(para,getState().paperColor);
@@ -1121,7 +1121,7 @@ void CodeEditor::contractSelectedParagraph( int paraToRemove ) {
             if((pstart+item->start) <= paraToRemove && (item->start+pstart+item->size) >= paraToRemove)
             {
                 item->size -= 1;
-                // a little cheat.. we dont want to remove last line as we need
+                // a little cheat.. we don't want to remove last line as we need
                 // to leave a place that can be 'edited' by the tool IF the user
                 // changes their mind about method body content
                 if(item->size < 0)
@@ -1171,7 +1171,7 @@ void CodeEditor::contentsMouseMoveEvent ( QMouseEvent * e )
     int para = paragraphAt(e->pos());
 
     if (para < 0)
-        return; // shouldnt happen..
+        return; // shouldn't happen..
 
     TextBlock * tblock = m_textBlockList.at(para);
     if (tblock && m_selectedTextBlock != tblock ) {

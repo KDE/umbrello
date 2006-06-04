@@ -55,7 +55,7 @@ void JavaCodeGenerationPolicyPage::apply()
     CodeGenerationPolicy *commonPolicy = UMLApp::app()->getCommonPolicy();
     JavaCodeGenerationPolicy * parent = (JavaCodeGenerationPolicy*) m_parentPolicy;
 
-    // block signals so we dont cause too many update content calls to code documents
+    // block signals so we don't cause too many update content calls to code documents
     commonPolicy->blockSignals(true);
 
     commonPolicy->setCommentStyle((CodeGenerationPolicy::CommentStyle ) form->m_SelectCommentStyle->currentItem());

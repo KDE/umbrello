@@ -35,7 +35,7 @@ WorkToolBar::WorkToolBar(QMainWindow *parentWindow, const char*name)
                            needs anything but dt_Undefined  */
     setOrientation( Qt::Vertical );
     setVerticalStretchable( true );
-    //intialize old tool map, everything starts with select tool (arrow)
+    // initialize old tool map, everything starts with select tool (arrow)
     m_map.insert(Uml::dt_UseCase,tbb_Arrow);
     m_map.insert(Uml::dt_Collaboration,tbb_Arrow);
     m_map.insert(Uml::dt_Class,tbb_Arrow);

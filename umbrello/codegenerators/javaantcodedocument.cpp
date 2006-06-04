@@ -77,7 +77,7 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
             QDomNode node = telement.firstChild();
             QDomElement element = node.toElement();
 
-            // if there is nothing to begin with, then we dont worry about it
+            // if there is nothing to begin with, then we don't worry about it
             loadCheckForChildrenOK = element.isNull() ? true : false;
 
             while( !element.isNull() ) {
@@ -102,7 +102,7 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                         if(!tb || !addTextBlock(tb))
                         {
                             kdError()<<"Unable to add codeclassfield child method to:"<<this<<endl;
-                            // DONT delete
+                            // DON'T delete
                         } else
                             loadCheckForChildrenOK= true;
 

@@ -648,7 +648,7 @@ void CppWriter::writeComment(QString comment, QString myIndent, QTextStream &cpp
         }
     } else {
         // this should be more fancy in the future, breaking it up into 80 char
-        // lines so that it doesnt look too bad
+        // lines so that it doesn't look too bad
         cpp << myIndent << "// "<< comment << m_endl;
     }
 }
@@ -733,7 +733,7 @@ void CppWriter::writeAssociationRoleDecl(QString fieldClassName, QString roleNam
 
     // declare the association based on whether it is this a single variable
     // or a List (Vector). One day this will be done correctly with special
-    // multiplicity object that we dont have to figure out what it means via regex.
+    // multiplicity object that we don't have to figure out what it means via regex.
     if(multi.isEmpty() || multi.contains(QRegExp("^[01]$")))
     {
         QString fieldVarName = "m_" + roleName.lower();
@@ -755,7 +755,7 @@ void CppWriter::writeAssociationRoleDecl(QString fieldClassName, QString roleNam
     {
         QString fieldVarName = "m_" + roleName.lower() + "Vector";
 
-        // record unique occurances for later when we want to check
+        // record unique occurrences for later when we want to check
         // for initialization of this vector
         if(VectorFieldVariables.findIndex(fieldVarName) == -1)
             VectorFieldVariables.append(fieldVarName);
@@ -919,7 +919,7 @@ void CppWriter::writeSingleAttributeAccessorMethods(QString fieldClassName, QStr
         QTextStream &stream)
 {
 
-    // DONT write this IF its a source method AND writeMethodBody is "false"
+    // DON'T write this IF its a source method AND writeMethodBody is "false"
     if(!isHeaderMethod && !writeMethodBody)
         return;
 
@@ -1052,8 +1052,8 @@ void CppWriter::writeInitAttibuteMethod (QTextStream &stream)
         }
 
         // clean up
-        ObjectFieldVariables.clear(); // shouldnt be needed?
-        VectorFieldVariables.clear(); // shouldnt be needed?
+        ObjectFieldVariables.clear(); // shouldn't be needed?
+        VectorFieldVariables.clear(); // shouldn't be needed?
 
         m_indentLevel--;
 
@@ -1215,7 +1215,7 @@ void CppWriter::printAssociationIncludeDecl (UMLAssociationList list, Uml::IDTyp
         UMLClassifier *current = NULL;
         bool isFirstClass = true;
 
-        // only use OTHER classes (e.g. we dont need to write includes for ourselves!!
+        // only use OTHER classes (e.g. we don't need to write includes for ourselves!!
         // AND only IF the roleName is defined, otherwise, its not meant to be noticed.
         if (a->getObjectId(Uml::A) == myId && !a->getRoleName(Uml::B).isEmpty()) {
             current = dynamic_cast<UMLClassifier*>(a->getObject(Uml::B));
@@ -1246,7 +1246,7 @@ QString CppWriter::fixInitialStringDeclValue(QString value, QString type)
     return value;
 }
 
-// methods like this _shouldnt_ be needed IF we properly did things thruought the code.
+// methods like this _shouldn't_ be needed IF we properly did things thruought the code.
 QString CppWriter::getUMLObjectName(UMLObject *obj)
 {
     return(obj!=0)?obj->getName():QString("NULL");

@@ -103,6 +103,16 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
                          UMLObject *currentObj /* = NULL */) {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     QStringList components;
+#ifdef TRY_BUGFIX_120682
+    // If we have a pointer or a reference in cpp we need to remove
+    // the asterisks and ampersands in order to find the appropriate object
+    if (UMLApp::app()->getActiveLanguage() == Uml::pl_Cpp) {
+        if (name.endsWith("*"))
+            name.remove("*");
+        else if (name.contains("&"))
+            name.remove("&");
+    }
+#endif
     if (type != Uml::ot_Datatype) {
         if (name.contains("::"))
             components = QStringList::split("::", name);

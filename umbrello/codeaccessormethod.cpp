@@ -81,7 +81,7 @@ void CodeAccessorMethod::setType ( CodeAccessorMethod::AccessorType atype) {
 
 
 // this type of textblock is special
-// we DONT release it when resetTextBlocks is
+// we DON'T release it when resetTextBlocks is
 // called because we re-use it over and over
 // until the codeclassfield is released.
 void CodeAccessorMethod::release () {
@@ -137,7 +137,7 @@ void CodeAccessorMethod::setAttributesFromNode ( QDomElement & root) {
     CodeMethodBlock::setAttributesFromNode(root); // superclass load
 
     /*
-        // I dont believe this is needed for a load from XMI. We never delete
+        // I don't believe this is needed for a load from XMI. We never delete
         // accessor methods from the parent classfield.. they are essentially
         // in composition with the parent class and are arent meant to be out
         // on their own. Well, this is fine for now, but IF we start allowing

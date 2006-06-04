@@ -280,8 +280,8 @@ bool UMLOperation::getConst() const {
 }
 
 bool UMLOperation::showPropertiesDialogue(QWidget* parent) {
-    UMLOperationDialog dialogue(parent, this);
-    return dialogue.exec();
+    UMLOperationDialog dialog(parent, this);
+    return dialog.exec();
 }
 
 void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {

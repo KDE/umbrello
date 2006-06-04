@@ -99,7 +99,7 @@ protected:
     /**
      * Initializes key variables of the class.
      */
-    virtual void init(); // doesnt seem to be any reason for this to be public
+    virtual void init(); // doesn't seem to be any reason for this to be public
 
     bool m_isRef;
 };

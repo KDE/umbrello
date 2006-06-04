@@ -253,7 +253,7 @@ int UMLClassifier::removeOperation(UMLOperation *op) {
         return -1;
     }
     // disconnection needed.
-    // note that we dont delete the operation, just remove it from the Classifier
+    // note that we don't delete the operation, just remove it from the Classifier
     disconnect(op,SIGNAL(modified()),this,SIGNAL(modified()));
     emit operationRemoved(op);
     emit modified();
@@ -492,7 +492,7 @@ UMLObject* UMLClassifier::createAttribute(const QString &name /*=null*/) {
     int button = QDialog::Accepted;
     bool goodName = false;
 
-    //check for name.isNull() stops dialogue being shown
+    //check for name.isNull() stops dialog being shown
     //when creating attribute via list view
     while (button == QDialog::Accepted && !goodName && name.isNull()) {
         UMLAttributeDialog attributeDialogue(0, newAttribute);
@@ -572,7 +572,7 @@ int UMLClassifier::removeAttribute(UMLAttribute* a) {
     }
     emit attributeRemoved(a);
     emit modified();
-    // If we are deleteing the object, then we dont need to disconnect..this is done auto-magically
+    // If we are deleteing the object, then we don't need to disconnect..this is done auto-magically
     // for us by QObject. -b.t.
     // disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
     delete a;

@@ -188,7 +188,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
             QDomNode node = telement.firstChild();
             QDomElement element = node.toElement();
 
-            // if there is nothing to begin with, then we dont worry about it
+            // if there is nothing to begin with, then we don't worry about it
             loadCheckForChildrenOK = element.isNull() ? true : false;
 
             while( !element.isNull() ) {
@@ -213,7 +213,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                         if(!tb || !addTextBlock(tb))
                         {
                             kdError()<<"loadFromXMI : unable to add codeclassfield child method to:"<<this<<endl;
-                            // DONT delete
+                            // DON'T delete
                         } else
                             loadCheckForChildrenOK= true;
 
@@ -276,7 +276,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                                 if(!addTextBlock(block))
                                                 {
                                                     kdError()<<"Unable to add ruby code declaration block to:"<<this<<endl;
-                                                    // DONT delete.
+                                                    // DON'T delete.
                                                     // block->deleteLater();
                                                 } else
                                                     loadCheckForChildrenOK= true;
@@ -387,7 +387,7 @@ void RubyClassifierCodeDocument::updateContent( )
     CodeClassFieldList privateAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, false, Uml::Visibility::Private);
 
     // association-based ClassFields
-    // dont care if they are static or not..all are lumped together
+    // don't care if they are static or not..all are lumped together
     CodeClassFieldList publicPlainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation , Uml::Visibility::Public);
     CodeClassFieldList publicAggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation, Uml::Visibility::Public);
     CodeClassFieldList publicCompositionClassFields = getSpecificClassFields ( CodeClassField::Composition, Uml::Visibility::Public );
@@ -403,7 +403,7 @@ void RubyClassifierCodeDocument::updateContent( )
     bool isInterface = parentIsInterface();
     bool hasOperationMethods = c->getOpList().last() ? true : false;
     CodeGenerationPolicy *pol = UMLApp::app()->getCommonPolicy();
-    QString endLine = pol->getNewLineEndingChars(); // a shortcut..so we dont have to call this all the time
+    QString endLine = pol->getNewLineEndingChars(); // a shortcut..so we don't have to call this all the time
 
     //
     // START GENERATING CODE/TEXT BLOCKS and COMMENTS FOR THE DOCUMENT

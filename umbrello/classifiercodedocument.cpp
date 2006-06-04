@@ -160,9 +160,9 @@ bool ClassifierCodeDocument::hasAttributeClassFields() {
 
 /**
  * Add a CodeClassField object to the m_classfieldVector List
- * @return boolean value if successfull in adding
+ * @return boolean true if successful in adding
  */
-// We DONT add methods of the code classfield here because we need to allow
+// We DON'T add methods of the code classfield here because we need to allow
 // the codegenerator writer the liberty to organize their document as they desire.
 bool ClassifierCodeDocument::addCodeClassField ( CodeClassField * add_object ) {
     UMLObject * umlobj = add_object->getParentObject();
@@ -270,7 +270,7 @@ void ClassifierCodeDocument::addOperation (UMLClassifierListItem * op ) {
     CodeOperation * codeOp = dynamic_cast<CodeOperation*>(findTextBlockByTag(tag, true));
     bool createdNew = false;
 
-    // create the block, if it doesnt already exist
+    // create the block, if it doesn't already exist
     if(!codeOp)
     {
         codeOp = CodeGenFactory::newCodeOperation(this, (UMLOperation*)op);
@@ -564,7 +564,7 @@ void ClassifierCodeDocument::addAssociationClassField (UMLAssociation * a, bool 
 void ClassifierCodeDocument::setAttributesFromNode ( QDomElement & elem )
 {
 
-    // NOTE: we DONT set the parent here as we ONLY get to this point
+    // NOTE: we DON'T set the parent here as we ONLY get to this point
     // IF the parent codegenerator could find a matching parent classifier
     // that already has a code document.
 
@@ -609,7 +609,7 @@ ClassifierCodeDocument::findCodeClassFieldFromParentID (Uml::IDType id,
         }
     }
 
-    // shouldnt happen..
+    // shouldn't happen..
     kdError() << "Failed to find codeclassfield for parent uml id:"
     << ID2STR(id) << " (role id:" << role_id
     << ") Do you have a corrupt classifier code document?"

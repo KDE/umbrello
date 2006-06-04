@@ -161,7 +161,7 @@ void FloatingTextWidget::handleRename() {
     } else if (m_Role == Uml::tr_MultiA || m_Role == Uml::tr_MultiB) {
         t = i18n("Enter multiplicity:");
         /*
-        // NO! shouldnt be allowed
+        // NO! shouldn't be allowed
         } else if( m_Role == Uml::tr_ChangeA || m_Role == Uml::tr_ChangeB ) {
         t = i18n("Enter changeability");
         */

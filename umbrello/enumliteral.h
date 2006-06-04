@@ -72,7 +72,7 @@ public:
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
     /**
-     * Display the properties configuration dialogue for the enum literal.
+     * Display the properties configuration dialog for the enum literal.
      */
     bool showPropertiesDialogue(QWidget* parent);
 

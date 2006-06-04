@@ -72,7 +72,7 @@ bool CodeGenObjectWithTextBlocks::addTextBlock(TextBlock* add_object ) {
 
     QString tag = add_object->getTag();
 
-    // assign a tag if one doesnt already exist
+    // assign a tag if one doesn't already exist
     if(tag.isEmpty())
     {
         tag = getUniqueTag();
@@ -164,7 +164,7 @@ CodeGenObjectWithTextBlocks * CodeGenObjectWithTextBlocks::findParentObjectForTa
     } else
         return this;
 
-    // shouldnt happen unless the textblock doesnt exist in this object
+    // shouldn't happen unless the textblock doesn't exist in this object
     // or its children at all
     return (CodeGenObjectWithTextBlocks*) NULL;
 
@@ -184,7 +184,7 @@ HierarchicalCodeBlock * CodeGenObjectWithTextBlocks::getHierarchicalCodeBlock ( 
         codeBlock = newHierarchicalCodeBlock();
         codeBlock->setTag(tag);
         codeBlock->setComment(CodeGenFactory::newCodeComment(m_pCodeDoc));
-        // dont write empty comments out
+        // don't write empty comments out
         if(comment.isEmpty())
             codeBlock->getComment()->setWriteOutText(false);
 
@@ -216,7 +216,7 @@ CodeBlockWithComments * CodeGenObjectWithTextBlocks::getCodeBlockWithComments ( 
         codeBlock = newCodeBlockWithComments();
         codeBlock->setTag(tag);
         codeBlock->setComment(CodeGenFactory::newCodeComment(m_pCodeDoc));
-        // dont write empty comments out
+        // don't write empty comments out
         if(comment.isEmpty())
             codeBlock->getComment()->setWriteOutText(false);
         if(!addTextBlock(codeBlock))
@@ -389,7 +389,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
             QDomNode node = telement.firstChild();
             QDomElement element = node.toElement();
 
-            // if there is nothing to begin with, then we dont worry about it
+            // if there is nothing to begin with, then we don't worry about it
             loadCheckForChildrenOK = element.isNull() ? true : false;
 
             while( !element.isNull() ) {
@@ -414,7 +414,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                         if(!tb || !addTextBlock(tb))
                         {
                             kdError()<<"loadFromXMI : unable to add code accessor/decl method block (tag:"<<acctag<<") to:"<<this<<endl;
-                            // DONT delete
+                            // DON'T delete
 
                         } else
                             loadCheckForChildrenOK= true;
@@ -472,7 +472,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                                                 kdError()<<"loadFromXMI : unable to create codeoperation for obj id:"<<id<<endl;
                                         }
                 /*
-                                                // only needed for extreme debuging conditions (E.g. making new codeclassdocument loader)
+                                                // only needed for extreme debugging conditions (E.g. making new codeclassdocument loader)
                                                 else
                                                         kdWarning()<<" LoadFromXMI: Got strange tag in text block stack:"<<name.latin1()<<", ignorning"<<endl;
                 */
