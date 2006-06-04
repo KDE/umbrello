@@ -21,8 +21,7 @@
 #define ERRORS_H
 
 #include <qstring.h>
-
-class KLocalizedString;
+#include <klocalizedstring.h>
 
 
 struct Error{

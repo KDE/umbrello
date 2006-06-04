@@ -37,7 +37,7 @@ using namespace std;
 { \
   const Token& token = lex->lookAhead( 0 ); \
   if( token != tk ){ \
-      reportError( i18n("'%1' expected found '%2'", descr, token.text()) ); \
+      reportError( i18n("'%1' expected found '%2'", QString(descr), token.text()) ); \
       return false; \
   } \
   lex->nextToken(); \
@@ -47,7 +47,7 @@ using namespace std;
 { \
   const Token& token = lex->lookAhead( 0 ); \
   if( token != tk ){ \
-      reportError( i18n("'%1' expected found '%2'", descr, token.text()) ); \
+      reportError( i18n("'%1' expected found '%2'", QString(descr), token.text()) ); \
   } \
   else \
       lex->nextToken(); \
