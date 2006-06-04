@@ -322,7 +322,7 @@ void RubyWriter::writeOperations(QString classname, UMLOperationList &opList,
             h << m_indentation << "# "<< docStr << m_endl;
 
             QString typeStr = cppToRubyType(op->getTypeName());
-            if (typeStr != "" && typeStr != "void" && docStr.contains("_returns_") == 0) {
+            if (!typeStr.isEmpty() && typeStr != "void" && docStr.contains("_returns_") == 0) {
                 h << m_indentation << "# * _returns_ " << typeStr << m_endl;
             }
         }
@@ -378,7 +378,7 @@ void RubyWriter::writeSingleAttributeAccessorMethods(QString fieldName, QString 
     description.replace("m_", "");
     description.replace("\n", QString("\n") + m_indentation + "# ");
 
-    if (description != "") {
+    if (!description.isEmpty()) {
         h << m_indentation << "# " << description << m_endl;
     }
 

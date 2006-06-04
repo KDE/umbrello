@@ -190,7 +190,7 @@ void RubyCodeOperation::updateMethodDeclaration()
         }
     
         QString typeStr = RubyCodeGenerator::cppToRubyType(o->getTypeName());
-        if (    typeStr != "" 
+        if ( !typeStr.isEmpty()
                 && !QRegExp("^void\\s*$").exactMatch(typeStr) 
                 && comment.contains("_returns_") == 0 ) 
         {
