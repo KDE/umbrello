@@ -76,29 +76,19 @@ CodeGenerationWizard::~CodeGenerationWizard() {}
 
 
 void CodeGenerationWizard::selectClass() {
-    if( !m_availableList->selectedItem() ) {
-        return;
+    moveSelectedItems(m_availableList, m_selectedList);
+
+    if (m_selectedList->childCount() > 0) {
+        setNextEnabled(currentPage(), true);
     }
-    QString name = m_availableList->selectedItem()->text(0);
-    if( !m_selectedList->findItem( name,0 ) ) {
-        new QListViewItem(m_selectedList, name);
-    }
-    m_availableList->removeItem( m_availableList->selectedItem() );
-    setNextEnabled(currentPage(),true);
 }
 
 void CodeGenerationWizard::deselectClass() {
-    if( !m_selectedList->selectedItem() ) {
-        return;
+    moveSelectedItems(m_selectedList, m_availableList);
+
+    if (m_selectedList->childCount() == 0) {
+        setNextEnabled(currentPage(), false);
     }
-    QString name = m_selectedList->selectedItem()->text(0);
-    if( !m_availableList->findItem(name, 0) ) {
-        new QListViewItem(m_availableList, name);
-    }
-    if(m_selectedList->childCount() == 0) {
-        setNextEnabled(currentPage(),false);
-    }
-    m_selectedList->removeItem( m_selectedList->selectedItem() );
 }
 
 void CodeGenerationWizard::generateCode() {
@@ -229,6 +219,24 @@ CodeGenerator* CodeGenerationWizard::generator() {
         return g;
     */
     return (CodeGenerator*) NULL;
+}
+
+void CodeGenerationWizard::moveSelectedItems(QListView* fromList, QListView* toList) {
+   QListViewItemIterator it(fromList, QListViewItemIterator::Selected);
+    while (it.current()) {
+        QListViewItem* selectedItem = it.current();
+
+        QString name = selectedItem->text(0);
+        if (!toList->findItem(name, 0)) {
+            new QListViewItem(toList, name);
+        }
+
+        ++it;
+
+        //Removed here because it can't (really, shouldn't) be removed while
+        //iterator is pointing to it
+        fromList->removeItem(selectedItem);
+    }
 }
 
 // when we change language, we need to update the codegenoptions page

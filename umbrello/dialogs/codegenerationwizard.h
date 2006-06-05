@@ -49,7 +49,17 @@ public:
         return QWizard::exec();
     }
 protected slots:
+
+    /**
+     * Adds the classes selected in the available classes list to the
+     * list of classes used to generate the code.
+     */
     void selectClass();
+
+    /**
+     * Removes the classes selected in the selected classes list from the
+     * list of classes used to generate the code.
+     */
     void deselectClass();
     void populateStatusList();
     void generateCode();
@@ -61,6 +71,14 @@ private slots:
 
 private:
     CodeGenerator* generator();
+
+    /**
+     * Moves the selected items from first list to second list.
+     * The selected items are removed from the first list and added to the
+     * second. An item is added to the second list only if it isn't already
+     * there (no duplicated items are created).
+     */
+    void moveSelectedItems(QListView* fromList, QListView* toList);
 
     UMLApp* m_app;
     UMLDoc* m_doc;
