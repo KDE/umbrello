@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 #ifndef UML_H
@@ -45,7 +42,7 @@ class UMLView;
 class WorkToolBar;
 class InfoWidget;
 class SettingsDlg;
-class ExportViewAction;
+class UMLViewImageExporterAll;
 class RefactoringAssistant;
 class KPlayerPopupSliderAction;
 
@@ -63,6 +60,7 @@ class Q3WidgetStack;
 class QMenuData;
 class QClipboard;
 class QToolButton;
+class QCustomEvent;
 
 /**
  * The base class for UML application windows. It sets up the main
@@ -264,20 +262,20 @@ public:
     UMLView* getCurrentView();
 
     /**
-     * Sets the default mimetype for all diagrams that are exported as 
+     * Sets the default mime type for all diagrams that are exported as 
      * images.
      *
-     * @param mimetype  The MIME type to set as the default.
+     * @param mimeType  The MIME type to set as the default.
      */
-    void setImageMimetype(QString const & mimetype){m_imageMimetype=mimetype;};
+    void setImageMimeType(QString const & mimeType){m_imageMimeType=mimeType;};
 
     /**
-     * Gets the default mimetype for all diagrams that are exported as 
+     * Gets the default mime type for all diagrams that are exported as 
      * images.
      *
      * @return  The default MIME type for images.
      */
-    QString const & getImageMimetype()const{return m_imageMimetype;};
+    QString const & getImageMimeType()const{return m_imageMimeType;};
 
     /**
      * Carries out the cut/copy command with different action performed
@@ -298,6 +296,13 @@ public:
 protected:
     virtual void keyPressEvent(QKeyEvent* e);
     virtual void keyReleaseEvent(QKeyEvent* e);
+
+    /**
+     * Event handler to receive custom events.
+     * It handles events such as exporting all views from command line (in
+     * that case, it executes the exportAllViews method in the event).
+     */
+    virtual void customEvent(QCustomEvent* e);
 
     /**
      * Helper method for handling cursor key release events (refactoring).
@@ -617,6 +622,11 @@ public slots:
     void slotCurrentViewExportImage();
 
     /**
+     * Menu selection for exporting all views as images.
+     */
+    void slotAllViewsExportImage();
+
+    /**
      * Menu selection for current view properties.
      */
     void slotCurrentViewProperties();
@@ -860,6 +870,7 @@ private:
     KToggleAction* viewSnapToGrid;
     KToggleAction* viewShowGrid;
     KAction* viewExportImage;
+    KAction* viewExportImageAll;
     KAction* viewProperties;
 
     KAction* zoom100Action;
@@ -914,17 +925,20 @@ private:
      */
     KTabWidget* m_tabWidget;
 
-    ExportViewAction* viewExportAll;
-
     /**
-     * Default Mimetype to use for image export.
+     * Default mime type to use for image export.
      */
-    QString m_imageMimetype;
+    QString m_imageMimeType;
 
     /**
      * the global UML settings dialogue
      */
     SettingsDlg* m_dlg;
+
+    /**
+     * The UMLViewImageExporterAll used to export all the views.
+     */
+    UMLViewImageExporterAll* m_imageExporterAll;
 
 public:
     Settings::OptionState getOptionState() {

@@ -153,6 +153,7 @@ set(umbrello_SRCS
    classifierlistitem.cpp 
    classifierwidget.cpp 
    classimport.cpp 
+   cmdlineexportallviewsevent.cpp
    codeaccessormethod.cpp 
    codeblock.cpp 
    codeblockwithcomments.cpp 
@@ -180,8 +181,7 @@ set(umbrello_SRCS
    enum.cpp 
    enumliteral.cpp 
    enumwidget.cpp 
-   exportviewaction.cpp 
-   floatingtext.cpp 
+   floatingtextwidget.cpp 
    forkjoinwidget.cpp 
    kplayerslideraction.cpp 
    hierarchicalcodeblock.cpp 
@@ -239,6 +239,9 @@ set(umbrello_SRCS
    umlrole.cpp 
    umlview.cpp 
    umlviewcanvas.cpp 
+   umlviewimageexporter.cpp
+   umlviewimageexporterall.cpp
+   umlviewimageexportermodel.cpp
    umlwidget.cpp 
    usecase.cpp 
    usecasewidget.cpp 
@@ -329,7 +332,6 @@ kde4_install_icons( ${ICON_INSTALL_DIR}  hicolor )
 #enum.cpp \
 #enumliteral.cpp \
 #enumwidget.cpp \
-#exportviewaction.cpp \
 #floatingtext.cpp \
 #forkjoinwidget.cpp \
 #kplayerslideraction.cpp \

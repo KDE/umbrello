@@ -1074,6 +1074,18 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         insertStdItem(mt_Collapse_All);
         break;
 
+    case mt_Component:
+        m_pInsert = new K3PopupMenu(this);
+        insertStdItem(mt_Component);
+        insertStdItem(mt_Artifact);
+        insertFileNew();
+        insertStdItems();
+        insertStdItem(mt_Properties);
+        insertSeparator();
+        insertStdItem(mt_Expand_All);
+        insertStdItem(mt_Collapse_All);
+        break;
+
     case mt_Entity:
         m_pInsert = new K3PopupMenu(this);
         m_pInsert->insertItem(SmallIcon("source"), i18n("Entity Attribute..."), mt_EntityAttribute);
@@ -1084,7 +1096,6 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
     case mt_Datatype:
     case mt_Enum:
-    case mt_Component:
     case mt_Node:
     case mt_Artifact:
     case mt_Actor:

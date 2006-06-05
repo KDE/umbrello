@@ -336,6 +336,8 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
     { at_Containment,   wt_Interface,   wt_Class,       false,  false,  true,   false },
     { at_Containment,   wt_Interface,   wt_Interface,   false,  false,  true,   false },
     { at_Containment,   wt_Interface,   wt_Enum,        false,  false,  true,   false },
+    { at_Containment,   wt_Component,   wt_Component,   false,  false,  true,   false },
+    { at_Containment,   wt_Component,   wt_Artifact,    false,  false,  true,   false },
     { at_Coll_Message,  wt_Object,      wt_Object,      true,   false,  true,   true  },
     { at_State,         wt_State,       wt_State,       true,   false,  true,   true  },
     { at_State,         wt_ForkJoin,    wt_State,       true,   false,  true,   true  },

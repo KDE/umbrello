@@ -56,6 +56,7 @@
 #include "umllistviewitemlist.h"
 #include "umllistviewitem.h"
 #include "umlview.h"
+#include "umlviewimageexporter.h"
 #include "usecase.h"
 #include "model_utils.h"
 #include "clipboard/idchangelog.h"
@@ -383,7 +384,7 @@ void UMLListView::popupMenuSel(int sel) {
         break;
 
     case ListPopupMenu::mt_Export_Image:
-        m_doc->getCurrentView()->exportImage();
+        m_doc->findView(temp->getID())->getImageExporter()->exportView();
         break;
 
     case ListPopupMenu::mt_Externalize_Folder:
@@ -592,6 +593,7 @@ UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const {
     case Uml::ot_Enum:
     case Uml::ot_Package:
     case Uml::ot_Datatype:
+    case Uml::ot_Component:
         {
             UMLPackage *pkg = object->getUMLPackage();
             if (pkg) {
@@ -601,12 +603,17 @@ UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const {
                     << "parent package " << pkg->getName() << endl;
                 else
                     parentItem = pkgItem;
-            } else if (lvt == Uml::lvt_Logical_Folder)
+            } else if (lvt == Uml::lvt_Logical_Folder ||
+                       lvt == Uml::lvt_Component_Folder) {
                 parentItem = current;
-            else if (type == Uml::ot_Datatype)
+            } else if (type == Uml::ot_Component ||
+                       (type == Uml::ot_Package && object->getStereotype() == "subsystem")) {
+                parentItem = m_cmpv;
+            } else if (type == Uml::ot_Datatype) {
                 parentItem = m_datatypeFolder;
-            else
+            } else {
                 parentItem = m_lv;
+            }
         }
         break;
     case Uml::ot_Actor:
@@ -616,7 +623,6 @@ UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const {
         else
             parentItem = m_ucv;
         break;
-    case Uml::ot_Component:
     case Uml::ot_Artifact:
         if (lvt == Uml::lvt_Component_Folder)
             parentItem = current;
@@ -1173,6 +1179,9 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
                       dstType == Uml::lvt_UseCase_View);
             break;
         case Uml::lvt_Component:
+            accept = (dstType == Uml::lvt_Component_Folder ||
+                      dstType == Uml::lvt_Component);
+            break;
         case Uml::lvt_Artifact:
         case Uml::lvt_Component_Diagram:
             accept = (dstType == Uml::lvt_Component_Folder);
@@ -1242,13 +1251,34 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
         }
         break;
     case Uml::lvt_Component_Folder:
-    case Uml::lvt_Component:
     case Uml::lvt_Artifact:
     case Uml::lvt_Component_Diagram:
         if (newParentType == Uml::lvt_Component_Folder ||
                 newParentType == Uml::lvt_Component_View) {
             newItem = move->deepCopy(newParent);
             delete move;
+        }
+        break;
+    case Uml::lvt_Component:
+        if (newParentType == Uml::lvt_Component_Folder ||
+                newParentType == Uml::lvt_Component_View ||
+                newParentType == Uml::lvt_Component) {
+            newItem = move->deepCopy(newParent);
+            delete move;
+            UMLCanvasObject *o = static_cast<UMLCanvasObject*>(newItem->getUMLObject());
+            if (o == NULL) {
+                kDebug() << "moveObject: newItem's UMLObject is NULL"
+                          << endl;
+            } else if (newParentType == Uml::lvt_Package ||
+                       newParentType == Uml::lvt_Component) {
+                UMLPackage *pkg = static_cast<UMLPackage*>(newParentObj);
+                o->setUMLPackage(pkg);
+                pkg->addObject(o);
+            } else {
+                o->setUMLPackage(NULL);
+                m_doc->addUMLObject(o);
+            }
+            m_doc->getCurrentView()->updateContainment(o);
         }
         break;
     case Uml::lvt_Deployment_Folder:
@@ -2403,7 +2433,8 @@ void UMLListView::createUMLObject( UMLListViewItem * item, Uml::Object_Type type
     }
 
     UMLListViewItem * parentItem = static_cast<UMLListViewItem *>(item->parent());
-    if (parentItem->getType() == Uml::lvt_Package) {
+    if (parentItem->getType() == Uml::lvt_Package ||
+        parentItem->getType() == Uml::lvt_Component) {
         UMLPackage *pkg = static_cast<UMLPackage*>(parentItem->getUMLObject());
         object->setUMLPackage(pkg);
         pkg->addObject(object);
@@ -2883,6 +2914,33 @@ bool UMLListView::startedCopy() const {
     return m_bStartedCopy;
 }
 
+UMLListViewItem *UMLListView::rootView(Uml::ListView_Type type) {
+    UMLListViewItem *theView = NULL;
+    switch (type) {
+        case Uml::lvt_View:
+            theView = m_rv;
+            break;
+        case Uml::lvt_Logical_View:
+            theView = m_lv;
+            break;
+        case Uml::lvt_UseCase_View:
+            theView = m_ucv;
+            break;
+        case Uml::lvt_Component_View:
+            theView = m_cmpv;
+            break;
+        case Uml::lvt_Deployment_View:
+            theView = m_dplv;
+            break;
+        case Uml::lvt_EntityRelationship_Model:
+            theView = m_entityRelationshipModel;
+            break;
+        default:
+            break;
+    }
+    return theView;
+}
+
 bool UMLListView::typeIsCanvasWidget(Uml::ListView_Type type) {
     if (type == Uml::lvt_Actor ||
             type == Uml::lvt_UseCase ||
@@ -2981,7 +3039,9 @@ bool UMLListView::deleteItem(UMLListViewItem *temp) {
             delete temp;
         }
     } else if ( typeIsCanvasWidget(lvt) || typeIsClassifierList(lvt) ) {
-        if (lvt == Uml::lvt_Package || lvt == Uml::lvt_Class) {
+        if (lvt == Uml::lvt_Package ||
+            lvt == Uml::lvt_Class ||
+            lvt == Uml::lvt_Component) {
             UMLPackage *nmSpc = dynamic_cast<UMLPackage*>(object);
             if (nmSpc == NULL) {
                 kError() << "internal problem: object is not a package" << endl;
