@@ -28,12 +28,11 @@
 #include <knuminput.h>
 //app includes
 
-#include "../codegenerator.h"
 #include "../optionstate.h"
 
 class CodeGenerationOptionsPage;
 class CodeViewerOptionsPage;
-
+class CodeGenerator;
 
 /**
  * @author Paul Hensgen
@@ -46,8 +45,7 @@ class SettingsDlg : public KDialogBase {
     Q_OBJECT
 
 public:
-    SettingsDlg( QWidget * parent, Settings::OptionState *state,
-                 Uml::Programming_Language activeLanguage, CodeGenerator * gen);
+    SettingsDlg(QWidget * parent, Settings::OptionState *state);
     ~SettingsDlg();
 
     //public methods
@@ -55,8 +53,21 @@ public:
         return m_bChangesApplied;
     }
 
-    void setCodeGenerator(CodeGenerator *gen);
     QString getCodeGenerationLanguage();
+
+protected:
+    /**
+    * Inserts @p type into the type-combobox as well as its completion object.
+    */
+    void insertDiagram( const QString& type, int index = -1 );
+    /**
+    * Inserts @p type into the type-combobox as well as its completion object.
+    */
+    void insertAttribScope( const QString& type, int index = -1 );
+    /**
+    * Inserts @p type into the type-combobox as well as its completion object.
+    */
+    void insertOperationScope( const QString& type, int index = -1 );
 
 private:
     //private structs
@@ -123,8 +134,8 @@ private:
         QLabel * attributeLabel;
         QLabel * operationLabel;
 
-        QComboBox* m_pAttribScopeCB;
-        QComboBox* m_pOperationScopeCB;
+        KComboBox* m_pAttribScopeCB;
+        KComboBox* m_pOperationScopeCB;
 
     }
     ;//end struct ClassWidgets
@@ -138,7 +149,7 @@ private:
     void setupUIPage();
     void setupGeneralPage();
     void setupClassPage();
-    void setupCodeGenPage( CodeGenerator *gen, Uml::Programming_Language activeLanguage);
+    void setupCodeGenPage();
     void setupCodeViewerPage(Settings::CodeViewerState options);
     void applyPage( Settings::Page page );
 

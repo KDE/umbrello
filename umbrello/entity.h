@@ -89,7 +89,7 @@ public:
          *
          * @param Att           Pointer to the UMLEntityAttribute.
      * @param Log               Pointer to the IDChangeLog.
-     * @return  True if the entityAttribute was sucessfully added.
+     * @return  True if the entityAttribute was successfully added.
      */
     bool addEntityAttribute(UMLEntityAttribute* att, IDChangeLog* Log = 0);
 
@@ -100,7 +100,7 @@ public:
          *
          * @param Att           Pointer to the UMLEntityAttribute.
      * @param position  Position index for the insertion.
-     * @return  True if the entityAttribute was sucessfully added.
+     * @return  True if the entityAttribute was successfully added.
      */
     //TODO:  give default value -1 to position (append) - now it conflicts with the method above..
     bool addEntityAttribute(UMLEntityAttribute* att, int position );

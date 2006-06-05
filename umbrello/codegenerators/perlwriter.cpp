@@ -20,6 +20,7 @@
 #include "../umldoc.h"
 #include "../association.h"
 #include "../attribute.h"
+#include "../uml.h"
 
 #include <kdebug.h>
 #include <qregexp.h>
@@ -50,33 +51,91 @@ void PerlWriter::writeClass(UMLClassifier *c) {
     // parts here
     // actual solution: shameful ".pm" hack in codegenerator
 
-    QString curDir = outputDirectory();
-    if (fileName.contains("::")) {
-        // create new directories for each level
-        QString newDir;
-        newDir = curDir;
-        QString fragment = fileName;
-        QDir* existing = new QDir (curDir);
-        QRegExp regEx("(.*)(::)");
-        regEx.setMinimal(true);
-        while (regEx.search(fragment) > -1) {
-            newDir = regEx.cap(1);
-            fragment.remove(0, (regEx.pos(2) + 2)); // get round strange minimal matching bug
-            existing->setPath(curDir + "/" + newDir);
-            if (! existing->exists()) {
-                existing->setPath(curDir);
-                if (! existing->mkdir(newDir)) {
-                    emit codeGenerated(c, false);
-                    return;
-                }
-            }
-            curDir += "/" + newDir;
+  // Replace all white spaces with blanks
+  packageName.simplifyWhiteSpace();
+
+  // Replace all blanks with underscore
+  packageName.replace(QRegExp(" "), "_");
+
+  // Replace all dots (".") with double colon scope resolution operators
+  // ("::")
+  packageName.replace(QRegExp("\\."),"::");
+
+  // Store complete package name
+  QString ThisPkgName = packageName + "::" + classname;
+
+  fileName = findFileName(c, ".pm");
+  // the above lower-cases my nice class names. That is bad.
+  // correct solution: refactor,
+  // split massive findFileName up, reimplement
+  // parts here
+  // actual solution: shameful ".pm" hack in codegenerator
+
+  CodeGenerationPolicy *pol = UMLApp::app()->getCommonPolicy();
+  QString curDir = pol->getOutputDirectory().absPath();
+  if (fileName.contains("::")) {
+    // create new directories for each level
+    QString newDir;
+    newDir = curDir;
+    QString fragment = fileName;
+    QDir* existing = new QDir (curDir);
+    QRegExp regEx("(.*)(::)");
+    regEx.setMinimal(true);
+    while (regEx.search(fragment) > -1) {
+      newDir = regEx.cap(1);
+      fragment.remove(0, (regEx.pos(2) + 2)); // get round strange minimal matching bug
+      existing->setPath(curDir + "/" + newDir);
+      if (! existing->exists()) {
+        existing->setPath(curDir);
+        if (! existing->mkdir(newDir)) {
+          emit codeGenerated(c, false);
+          return;
         }
         fileName = fragment;
     }
-    if (fileName.isEmpty()) {
-        emit codeGenerated(c, false);
-        return;
+    fileName = fragment;
+  }
+  if (fileName.isEmpty()) {
+    emit codeGenerated(c, false);
+    return;
+  }
+  QString oldDir = pol->getOutputDirectory().absPath();
+  pol->setOutputDirectory(curDir);
+  QFile fileperl;
+  if(!openFile(fileperl,fileName+".pm")) {
+    emit codeGenerated(c, false);
+    return;
+  }
+  QTextStream perl(&fileperl);
+  pol->setOutputDirectory(oldDir);
+
+  //======================================================================
+  // Start generating the code!!
+  //======================================================================
+
+  // try to find a heading file (license, comments, etc)
+  QString str;
+  bool bPackageDeclared = false;
+  bool bUseStmsWritten  = false;
+
+  str = getHeadingFile(".pm");   // what this mean?
+  if(!str.isEmpty()) {
+    str.replace(QRegExp("%filename%"),fileName+".pm");
+    str.replace(QRegExp("%filepath%"),fileperl.name());
+    str.replace(QRegExp("%year%"),QDate::currentDate().toString("yyyy"));
+    str.replace(QRegExp("%date%"),QDate::currentDate().toString());
+    str.replace(QRegExp("%time%"),QTime::currentTime().toString());
+    str.replace(QRegExp("%package-name%"),ThisPkgName);
+    if(str.find(QRegExp("%PACKAGE-DECLARE%"))){
+      str.replace(QRegExp("%PACKAGE-DECLARE%"),
+                  "package " + ThisPkgName + ";"
+                  + m_endl + m_endl
+                  + "#UML_MODELER_BEGIN_PERSONAL_VARS_" + classname
+                  + m_endl + m_endl
+                  + "#UML_MODELER_END_PERSONAL_VARS_" + classname
+                  + m_endl
+                  );
+      bPackageDeclared = true;
     }
     QString oldDir = outputDirectory();
     setOutputDirectory(curDir);

@@ -34,6 +34,7 @@ class AlignToolBar;
 class CodeDocument;
 class CodeGenerator;
 class CodeGenerationPolicy;
+class CodeGenPolicyExt;
 class DocWindow;
 class UMLClassifier;
 class UMLDoc;
@@ -65,7 +66,7 @@ class QCustomEvent;
 /**
  * The base class for UML application windows. It sets up the main
  * window and reads the config file as well as providing a menubar, toolbar
- * and statusbar. An instance of UMLView creates your centre view, which is connected
+ * and statusbar. An instance of UMLView creates your center view, which is connected
  * to the window's Doc object.
  * UMLApp reimplements the methods that KMainWindow provides for main window handling and supports
  * full session management as well as using KActions.
@@ -197,7 +198,7 @@ public:
      *
      * @return  Pointer to the CodeGenerator.
      */
-    CodeGenerator* getGenerator(bool warnMissing = true);
+    CodeGenerator* getGenerator();
 
     /**
      * Set the current generator for this app.
@@ -207,15 +208,24 @@ public:
      *
      * @param gen               Pointer to the CodeGenerator to set.
      * @param giveWarning       True to enable out-of-date warning.
-            */
+     */
     void setGenerator(CodeGenerator* gen, bool giveWarning = true);
 
     /**
      * Creates a new code generator for the given active language.
      *
      * @return  Pointer to the CodeGenerator created.
-         */
+     */
     CodeGenerator* createGenerator();
+
+    /**
+     * Auxiliary function for UMLDoc::loadExtensionsFromXMI():
+     * Return the code generator of the given language if it already
+     * exists; if it does not yet exist then create it and return
+     * the newly created generator. It is the caller's responsibility
+     * to load XMI into the newly created generator.
+     */
+    CodeGenerator *setGenerator(Uml::Programming_Language pl);
 
     /**
      * Call the refactoring assistant on a classifier.
@@ -292,6 +302,28 @@ public:
      * Return the tab widget.
      */
     KTabWidget *tabWidget();
+
+    /**
+     * Returns the current text in the status bar.
+     *
+     * @return The text in the status bar.
+     */
+    QString getStatusBarMsg();
+
+    /**
+     * Returns the default code generation policy.
+     */
+    CodeGenerationPolicy *getCommonPolicy();
+
+    /**
+     * Sets the CodeGenPolicyExt object.
+     */
+    void setPolicyExt(CodeGenPolicyExt *policy);
+
+    /**
+     * Returns the CodeGenPolicyExt object.
+     */
+    CodeGenPolicyExt *getPolicyExt();
 
 protected:
     virtual void keyPressEvent(QKeyEvent* e);
@@ -384,9 +416,7 @@ protected:
      */
     virtual void readProperties(KConfig *_cfg);
 
-    CodeGenerationPolicy * m_defaultcodegenerationpolicy;
-
-protected slots:
+    CodeGenerationPolicy * m_commoncodegenpolicy;
 
     /**
      * Updates the Menu for language selection and sets the
@@ -394,7 +424,9 @@ protected slots:
      * not one of the registered languages it tries to fall back
      * to Cpp
      */
-    void updateLangSelectMenu();
+    void updateLangSelectMenu(Uml::Programming_Language activeLanguage);
+
+protected slots:
 
     /**
      * Show "Tip of the Day" dialog
@@ -404,9 +436,9 @@ protected slots:
 public slots:
 
     /**
-     * Fills in m_activeLanguage and calls updateLangSelectMenu()
+     * Reads the activeLanguage from the KConfig and calls updateLangSelectMenu()
      */
-    void initGenerators();
+    void initGenerator();
 
     /**
      * Runs the code generation wizard.
@@ -589,17 +621,24 @@ public slots:
     /**
      * Get the language for import and code generation.
      */
-    Uml::Programming_Language getActiveLanguage() const;
+    Uml::Programming_Language getActiveLanguage();
 
     /**
      * Return true if the active language is case sensitive.
      */
-    bool activeLanguageIsCaseSensitive() const;
+    bool activeLanguageIsCaseSensitive();
 
     /**
      * Return the target language depedent scope separator.
      */
-    QString activeLanguageScopeSeparator() const;
+    QString activeLanguageScopeSeparator();
+
+    /**
+     * Return the default code generation language as configured by KConfig.
+     * If the activeLanguage is not found in the KConfig then use Uml::pl_Cpp
+     * as the default.
+     */
+    Uml::Programming_Language getDefaultLanguage();
 
     /**
      * Menu selection for clear current view.
@@ -746,6 +785,8 @@ public slots:
      */
     void slotMoveTabRight();
 
+    KConfig *getConfig() { return m_config; }
+
 private:
     static UMLApp* s_instance;
 
@@ -763,6 +804,17 @@ private:
      * Active language.
      */
     Uml::Programming_Language m_activeLanguage;
+
+    /**
+     * Active code generator.
+     */
+    CodeGenerator *m_codegen;
+
+    /**
+     * Active policy extension.
+     * Only used for new code generators ({Cpp,Java,Ruby}CodeGenerator)
+     */
+    CodeGenPolicyExt *m_policyext;
 
     /**
      *  Returns whether we can decode the given mimesource
@@ -783,7 +835,7 @@ private:
 
     /**
      * Initialize code generators at startup. 
-     * Why is this important? Because IF we dont do this, then changes
+     * Why is this important? Because IF we don't do this, then changes
      * to the UML may not be synced with the saved code generation params
      * for those languages which arent currently active.
      */
@@ -931,7 +983,7 @@ private:
     QString m_imageMimeType;
 
     /**
-     * the global UML settings dialogue
+     * the global UML settings dialog
      */
     SettingsDlg* m_dlg;
 

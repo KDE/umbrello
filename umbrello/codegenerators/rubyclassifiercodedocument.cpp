@@ -13,6 +13,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2006                                                    *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 /**
@@ -30,15 +32,15 @@
 #include "rubycodecomment.h"
 #include "rubyclassdeclarationblock.h"
 #include "rubycodeclassfielddeclarationblock.h"
-#include "rubycodeaccessormethod.h"
 #include "rubycodeoperation.h"
 #include "../datatype.h"
+#include "../uml.h"
 
 // Constructors/Destructors
 //
 
-RubyClassifierCodeDocument::RubyClassifierCodeDocument ( UMLClassifier * concept , RubyCodeGenerator *parent)
-        : ClassifierCodeDocument (concept, (CodeGenerator *) parent) {
+RubyClassifierCodeDocument::RubyClassifierCodeDocument ( UMLClassifier * concept )
+        : ClassifierCodeDocument (concept) {
     init();
 }
 
@@ -53,8 +55,8 @@ RubyClassifierCodeDocument::~RubyClassifierCodeDocument ( ) { }
 
 // Make it easier on ourselves
 RubyCodeGenerationPolicy * RubyClassifierCodeDocument::getRubyPolicy() {
-    CodeGenerator *g = getParentGenerator();
-    RubyCodeGenerationPolicy * policy = dynamic_cast<RubyCodeGenerationPolicy*>(g->getPolicy());
+    CodeGenPolicyExt *pe = UMLApp::app()->getPolicyExt();
+    RubyCodeGenerationPolicy * policy = dynamic_cast<RubyCodeGenerationPolicy*>(pe);
     return policy;
 }
 
@@ -67,10 +69,6 @@ CodeDocumentDialog RubyClassifierCodeDocument::getDialog ( ) {
 
 }
 */
-
-bool RubyClassifierCodeDocument::forceDoc () {
-    return getParentGenerator()->forceDoc();
-}
 
 // We overwritten by Ruby language implementation to get lowercase path
 QString RubyClassifierCodeDocument::getPath ( )
@@ -99,13 +97,13 @@ QString RubyClassifierCodeDocument::getPath ( )
 
 QString RubyClassifierCodeDocument::capitalizeFirstLetter(const QString &string)
 {
-    CodeGenerator *g = getParentGenerator();
+    CodeGenerator *g = UMLApp::app()->getGenerator();
     RubyCodeGenerator * gen = dynamic_cast<RubyCodeGenerator *>(g);
     return gen->capitalizeFirstLetter(string);
 }
 
 QString RubyClassifierCodeDocument::getRubyClassName (const QString &name) {
-    CodeGenerator *g = getParentGenerator();
+    CodeGenerator *g = UMLApp::app()->getGenerator();
     return capitalizeFirstLetter(g->cleanName(name));
 }
 
@@ -114,7 +112,9 @@ void RubyClassifierCodeDocument::init ( ) {
 
     setFileExtension(".rb");
 
-    initCodeClassFields(); // we have to call here as .newCodeClassField is pure virtual in parent class
+    //initCodeClassFields(); // this is dubious because it calls down to
+                             // CodeGenFactory::newCodeClassField(this)
+                             // but "this" is still in construction at that time.
 
     classDeclCodeBlock = 0;
     publicBlock = 0;
@@ -129,16 +129,6 @@ void RubyClassifierCodeDocument::init ( ) {
 
     // this will call updateContent() as well as other things that sync our document.
     synchronize();
-}
-
-// IF the classifier object is modified, this will get called.
-// Possible mods include changing the filename and package
-// the classifier has.
-void RubyClassifierCodeDocument::syncNamesToParent( )
-{
-
-    setFileName(getParentGenerator()->cleanName(getParentClassifier()->getName().lower()));
-    setPackage(getParentGenerator()->cleanName(getParentClassifier()->getPackage().lower()));
 }
 
 /**
@@ -179,44 +169,6 @@ bool RubyClassifierCodeDocument::addCodeOperation (CodeOperation * op )
     }
 }
 
-CodeClassFieldDeclarationBlock * RubyClassifierCodeDocument::newDeclarationCodeBlock (CodeClassField * cf ) {
-    return new RubyCodeClassFieldDeclarationBlock(cf);
-}
-
-/**
- * create a new CodeBlockWithComments object belonging to this CodeDocument.
- * @return      CodeBlockWithComments
- */
-CodeComment * RubyClassifierCodeDocument::newCodeComment ( ) {
-    return new RubyCodeComment(this);
-}
-
-/**
- * create a new CodeAccesorMethod object belonging to this CodeDocument.
- * @return      CodeAccessorMethod
- */
-CodeAccessorMethod * RubyClassifierCodeDocument::newCodeAccessorMethod( CodeClassField *cf, CodeAccessorMethod::AccessorType type ) {
-    CodeAccessorMethod * method = new RubyCodeAccessorMethod((RubyCodeClassField*)cf, type);
-    method->setOverallIndentationLevel(1);
-    return method;
-}
-
-CodeClassField * RubyClassifierCodeDocument::newCodeClassField ( UMLAttribute * at) {
-    return new RubyCodeClassField(this,at);
-}
-
-CodeClassField * RubyClassifierCodeDocument::newCodeClassField ( UMLRole * role) {
-    return new RubyCodeClassField(this,role);
-}
-
-/**
- * create a new CodeOperation object belonging to this CodeDocument.
- * @return      CodeOperation
- */
-CodeOperation * RubyClassifierCodeDocument::newCodeOperation( UMLOperation * op) {
-    return new RubyCodeOperation(this, op);
-}
-
 // Sigh. NOT optimal. The only reason that we need to have this
 // is so we can create the RubyClassDeclarationBlock.
 // would be better if we could create a handler interface that each
@@ -236,14 +188,14 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
             QDomNode node = telement.firstChild();
             QDomElement element = node.toElement();
 
-            // if there is nothing to begin with, then we dont worry about it
+            // if there is nothing to begin with, then we don't worry about it
             loadCheckForChildrenOK = element.isNull() ? true : false;
 
             while( !element.isNull() ) {
                 QString name = element.tagName();
 
                 if( name == "codecomment" ) {
-                    CodeComment * block = newCodeComment();
+                    CodeComment * block = new RubyCodeComment(this);
                     block->loadFromXMI(element);
                     if(!addTextBlock(block))
                     {
@@ -261,7 +213,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                         if(!tb || !addTextBlock(tb))
                         {
                             kError()<<"loadFromXMI : unable to add codeclassfield child method to:"<<this<<endl;
-                            // DONT delete
+                            // DON'T delete
                         } else
                             loadCheckForChildrenOK= true;
 
@@ -302,10 +254,10 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                         if( name == "codeoperation" ) {
                                             // find the code operation by id
                                             QString id = element.attribute("parent_id","-1");
-                                            UMLObject * obj = getParentGenerator()->getDocument()->findObjectById(STR2ID(id));
+                                            UMLObject * obj = UMLApp::app()->getDocument()->findObjectById(STR2ID(id));
                                             UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
                                             if(op) {
-                                                CodeOperation * block = newCodeOperation(op);
+                                                CodeOperation * block = new RubyCodeOperation(this, op);
                                                 block->loadFromXMI(element);
                                                 if(addTextBlock(block))
                                                     loadCheckForChildrenOK= true;
@@ -324,7 +276,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                                 if(!addTextBlock(block))
                                                 {
                                                     kError()<<"Unable to add ruby code declaration block to:"<<this<<endl;
-                                                    // DONT delete.
+                                                    // DON'T delete.
                                                     // block->deleteLater();
                                                 } else
                                                     loadCheckForChildrenOK= true;
@@ -414,8 +366,7 @@ void RubyClassifierCodeDocument::updateContent( )
 {
     // Gather info on the various fields and parent objects of this class...
     UMLClassifier * c = getParentClassifier();
-    CodeGenerator * g = getParentGenerator();
-    RubyCodeGenerator * gen = (RubyCodeGenerator*)g;
+    RubyCodeGenerator * gen = dynamic_cast<RubyCodeGenerator*>(UMLApp::app()->getGenerator());
 
     // first, set the global flag on whether or not to show classfield info
     // This depends on whether or not we have attribute/association classes
@@ -436,7 +387,7 @@ void RubyClassifierCodeDocument::updateContent( )
     CodeClassFieldList privateAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, false, Uml::Visibility::Private);
 
     // association-based ClassFields
-    // dont care if they are static or not..all are lumped together
+    // don't care if they are static or not..all are lumped together
     CodeClassFieldList publicPlainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation , Uml::Visibility::Public);
     CodeClassFieldList publicAggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation, Uml::Visibility::Public);
     CodeClassFieldList publicCompositionClassFields = getSpecificClassFields ( CodeClassField::Composition, Uml::Visibility::Public );
@@ -451,7 +402,8 @@ void RubyClassifierCodeDocument::updateContent( )
 
     bool isInterface = parentIsInterface();
     bool hasOperationMethods = c->getOpList().last() ? true : false;
-    QString endLine = gen->getNewLineEndingChars(); // a shortcut..so we dont have to call this all the time
+    CodeGenerationPolicy *pol = UMLApp::app()->getCommonPolicy();
+    QString endLine = pol->getNewLineEndingChars(); // a shortcut..so we don't have to call this all the time
 
     //
     // START GENERATING CODE/TEXT BLOCKS and COMMENTS FOR THE DOCUMENT
@@ -532,8 +484,9 @@ void RubyClassifierCodeDocument::updateContent( )
     // public methods
     HierarchicalCodeBlock * pubMethodsBlock = publicBlock->getHierarchicalCodeBlock("pubMethodsBlock", "", 1);
     CodeComment * pubMethodsComment = pubMethodsBlock->getComment();
+    bool forceDoc = pol->getCodeVerboseDocumentComments();
     // set conditions for showing this comment
-    if (!forceDoc() && !hasClassFields() && !hasOperationMethods)
+    if (!forceDoc && !hasClassFields() && !hasOperationMethods)
         pubMethodsComment->setWriteOutText(false);
     else
         pubMethodsComment->setWriteOutText(true);
@@ -542,7 +495,7 @@ void RubyClassifierCodeDocument::updateContent( )
     HierarchicalCodeBlock * protMethodsBlock = protectedBlock->getHierarchicalCodeBlock("protMethodsBlock", "", 1);
     CodeComment * protMethodsComment = protMethodsBlock->getComment();
     // set conditions for showing this comment
-    if (!forceDoc() && !hasClassFields() && !hasOperationMethods)
+    if (!forceDoc && !hasClassFields() && !hasOperationMethods)
         protMethodsComment->setWriteOutText(false);
     else
         protMethodsComment->setWriteOutText(true);
@@ -551,7 +504,7 @@ void RubyClassifierCodeDocument::updateContent( )
     HierarchicalCodeBlock * privMethodsBlock = privateBlock->getHierarchicalCodeBlock("privMethodsBlock", "", 1);
     CodeComment * privMethodsComment = privMethodsBlock->getComment();
     // set conditions for showing this comment
-    if (!forceDoc() && !hasClassFields() && !hasOperationMethods)
+    if (!forceDoc && !hasClassFields() && !hasOperationMethods)
         privMethodsComment->setWriteOutText(false);
     else
         privMethodsComment->setWriteOutText(true);
@@ -564,7 +517,7 @@ void RubyClassifierCodeDocument::updateContent( )
     // special condiions for showing comment: only when autogenerateding empty constructors
     // Although, we *should* check for other constructor methods too
     CodeComment * pubConstComment = pubConstructorBlock->getComment();
-    if (!forceDoc() && (isInterface || !gen->getAutoGenerateConstructors()))
+    if (!forceDoc && (isInterface || !pol->getAutoGenerateConstructors()))
         pubConstComment->setWriteOutText(false);
     else
         pubConstComment->setWriteOutText(true);
@@ -574,7 +527,7 @@ void RubyClassifierCodeDocument::updateContent( )
     // special condiions for showing comment: only when autogenerateding empty constructors
     // Although, we *should* check for other constructor methods too
     CodeComment * protConstComment = protConstructorBlock->getComment();
-    if (!forceDoc() && (isInterface || !gen->getAutoGenerateConstructors()))
+    if (!forceDoc && (isInterface || !pol->getAutoGenerateConstructors()))
         protConstComment->setWriteOutText(false);
     else
         protConstComment->setWriteOutText(true);
@@ -584,7 +537,7 @@ void RubyClassifierCodeDocument::updateContent( )
     // special condiions for showing comment: only when autogenerateding empty constructors
     // Although, we *should* check for other constructor methods too
     CodeComment * privConstComment = privConstructorBlock->getComment();
-    if (!forceDoc() && (isInterface || !gen->getAutoGenerateConstructors()))
+    if (!forceDoc && (isInterface || !pol->getAutoGenerateConstructors()))
         privConstComment->setWriteOutText(false);
     else
         privConstComment->setWriteOutText(true);
@@ -594,7 +547,7 @@ void RubyClassifierCodeDocument::updateContent( )
     HierarchicalCodeBlock * pubAccessorBlock = pubMethodsBlock->getHierarchicalCodeBlock("accessorMethods", "Accessor Methods", 1);
     // set conditions for showing section comment
     CodeComment * pubAccessComment = pubAccessorBlock->getComment();
-    if (!forceDoc() && !hasClassFields())
+    if (!forceDoc && !hasClassFields())
         pubAccessComment->setWriteOutText(false);
     else
         pubAccessComment->setWriteOutText(true);
@@ -603,7 +556,7 @@ void RubyClassifierCodeDocument::updateContent( )
     HierarchicalCodeBlock * protAccessorBlock = protMethodsBlock->getHierarchicalCodeBlock("accessorMethods", "Accessor Methods", 1);
     // set conditions for showing section comment
     CodeComment * protAccessComment = protAccessorBlock->getComment();
-    if (!forceDoc() && !hasClassFields())
+    if (!forceDoc && !hasClassFields())
         protAccessComment->setWriteOutText(false);
     else
         protAccessComment->setWriteOutText(true);
@@ -612,7 +565,7 @@ void RubyClassifierCodeDocument::updateContent( )
     HierarchicalCodeBlock * privAccessorBlock = privMethodsBlock->getHierarchicalCodeBlock("accessorMethods", "Accessor Methods", 1);
     // set conditions for showing section comment
     CodeComment * privAccessComment = privAccessorBlock->getComment();
-    if (!forceDoc() && !hasClassFields())
+    if (!forceDoc && !hasClassFields())
         privAccessComment->setWriteOutText(false);
     else
         privAccessComment->setWriteOutText(true);
@@ -665,7 +618,7 @@ void RubyClassifierCodeDocument::updateContent( )
     pubOperationsBlock = pubMethodsBlock->getHierarchicalCodeBlock("operationMethods", "Operations", 1);
     // set conditions for showing section comment
     CodeComment * pubOcomment = pubOperationsBlock->getComment();
-    if (!forceDoc() && !hasOperationMethods )
+    if (!forceDoc && !hasOperationMethods )
         pubOcomment->setWriteOutText(false);
     else
         pubOcomment->setWriteOutText(true);
@@ -674,7 +627,7 @@ void RubyClassifierCodeDocument::updateContent( )
     protOperationsBlock = protMethodsBlock->getHierarchicalCodeBlock("operationMethods", "Operations", 1);
     // set conditions for showing section comment
     CodeComment * protOcomment = protOperationsBlock->getComment();
-    if (!forceDoc() && !hasOperationMethods )
+    if (!forceDoc && !hasOperationMethods )
         protOcomment->setWriteOutText(false);
     else
         protOcomment->setWriteOutText(true);
@@ -683,7 +636,7 @@ void RubyClassifierCodeDocument::updateContent( )
     privOperationsBlock = privMethodsBlock->getHierarchicalCodeBlock("operationMethods", "Operations", 1);
     // set conditions for showing section comment
     CodeComment * privOcomment = privOperationsBlock->getComment();
-    if (!forceDoc() && !hasOperationMethods )
+    if (!forceDoc && !hasOperationMethods )
         privOcomment->setWriteOutText(false);
     else
         privOcomment->setWriteOutText(true);

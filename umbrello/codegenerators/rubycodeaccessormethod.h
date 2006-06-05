@@ -39,12 +39,17 @@ public:
     /**
      * Constructor
      */
-    RubyCodeAccessorMethod ( RubyCodeClassField * field, CodeAccessorMethod::AccessorType type);
+    RubyCodeAccessorMethod ( CodeClassField * field, CodeAccessorMethod::AccessorType type);
 
     /**
      * Empty Destructor
      */
     virtual ~RubyCodeAccessorMethod ( );
+
+    /**
+     * Must be called before this object is usable
+     */
+    void update();
 
 protected:
 
@@ -62,8 +67,6 @@ protected:
     virtual void updateContent();
 
 private:
-
-    void init (RubyCodeClassField * field);
 
 };
 

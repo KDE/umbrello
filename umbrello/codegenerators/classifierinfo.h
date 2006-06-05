@@ -28,7 +28,7 @@
 
 /**
   * class ClassInfo is an object to hold summary information about a classifier
-  * in a convient form for easy access by a code generator.
+  * in a convenient form for easy access by a code generator.
   */
 class ClassifierInfo {
 public:

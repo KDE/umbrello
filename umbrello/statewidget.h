@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2005
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,7 +5,9 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- ***************************************************************************/
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
+***************************************************************************/
 
 #ifndef STATEWIDGET_H
 #define STATEWIDGET_H
@@ -90,11 +87,6 @@ public:
     void setStateType( StateType stateType );
 
     /**
-     * Overrides a method.  Used to pickup double clicks.
-     */
-    void mouseDoubleClickEvent(QMouseEvent * /*me*/);
-
-    /**
      * Adds the given activity to the state.
      */
     bool addActivity( const QString &activity );
@@ -118,6 +110,13 @@ public:
      * Returns the list of activities.
      */
     QStringList & getActivityList();
+
+    /**
+     * Show a properties dialog for a StateWidget.
+     *
+     * @return  True if we modified the state.
+     */
+    bool showProperties();
 
     /**
      * Returns true if the given toolbar button represents a State.

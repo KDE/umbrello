@@ -29,9 +29,8 @@
 #include "umlwidget.h"
 #include "umlwidgetlist.h"
 
-AlignToolBar::AlignToolBar(QMainWindow* parentWindow, const char*)
-        : KToolBar(parentWindow,Qt::DockRight,false)
-{
+AlignToolBar::AlignToolBar(QMainWindow* parentWindow, const char* )
+        : KToolBar(parentWindow,Qt::DockRight,false) {
     // load images for the buttons
     loadPixmaps();
 

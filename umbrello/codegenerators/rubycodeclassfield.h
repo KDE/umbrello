@@ -22,7 +22,7 @@
 
 #include "../codeclassfield.h"
 
-class RubyClassifierCodeDocument;
+class ClassifierCodeDocument;
 
 class RubyCodeClassField : public CodeClassField
 {
@@ -35,8 +35,8 @@ public:
     /**
      * Constructors 
      */
-    RubyCodeClassField (RubyClassifierCodeDocument * parentDoc, UMLRole * role);
-    RubyCodeClassField (RubyClassifierCodeDocument * parentDoc, UMLAttribute * attrib);
+    RubyCodeClassField (ClassifierCodeDocument * parentDoc, UMLRole * role);
+    RubyCodeClassField (ClassifierCodeDocument * parentDoc, UMLAttribute * attrib);
 
     /**
      * Empty Destructor

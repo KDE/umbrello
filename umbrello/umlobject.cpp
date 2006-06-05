@@ -349,15 +349,19 @@ QString UMLObject::getStereotype(bool includeAdornments /* = false */) {
 QString UMLObject::getPackage(QString separator) {
     if (m_pUMLPackage == NULL)
         return "";
-    QStringList pkgList;
+    UMLPackageList pkgList;
+    QStringList pkgNames;
     UMLPackage* pkg = m_pUMLPackage;
-    while (pkg != NULL) {
-        pkgList.prepend(pkg->getName());
-        pkg = pkg->getUMLPackage();
+    while (1) {
+        pkgList.prepend(pkg);
+        pkgNames.prepend(pkg->getName());
+        if ((pkg = pkg->getUMLPackage()) == NULL ||
+            pkgList.containsRef(pkg))
+            break;
     }
     if (separator.isEmpty())
         separator = UMLApp::app()->activeLanguageScopeSeparator();
-    return pkgList.join(separator);
+    return pkgNames.join(separator);
 }
 
 UMLPackageList UMLObject::getPackages() const {

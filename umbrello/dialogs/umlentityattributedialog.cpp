@@ -98,14 +98,15 @@ void UMLEntityAttributeDialog::setupDialog() {
     valuesLayout->addWidget(m_pAttributesL, 7, 0);
 
     m_pAttributesCB = new KComboBox(true, m_pValuesGB);
+    m_pAttributesCB->setCompletionMode( KGlobalSettings::CompletionPopup );
     valuesLayout->addWidget(m_pAttributesCB, 7, 1);
     m_pTypeL->setBuddy(m_pAttributesCB);
 
-    m_pAttributesCB->insertItem( m_pEntityAttribute->getAttributes() );
-    m_pAttributesCB->insertItem("");
-    m_pAttributesCB->insertItem("binary");
-    m_pAttributesCB->insertItem("unsigned");
-    m_pAttributesCB->insertItem("unsigned zerofill");
+    insertAttribute( m_pEntityAttribute->getAttributes() );
+    insertAttribute("");
+    insertAttribute("binary");
+    insertAttribute("unsigned");
+    insertAttribute("unsigned zerofill");
 
     mainLayout -> addWidget(m_pValuesGB);
 
@@ -255,6 +256,11 @@ void UMLEntityAttributeDialog::slotOk() {
 void UMLEntityAttributeDialog::insertType( const QString& type, int index ) {
     m_pTypeCB->insertItem( type, index );
     m_pTypeCB->completionObject()->addItem( type );
+}
+
+void UMLEntityAttributeDialog::insertAttribute( const QString& type, int index ) {
+    m_pAttributesCB->insertItem( type, index );
+    m_pAttributesCB->completionObject()->addItem( type );
 }
 
 

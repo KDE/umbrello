@@ -70,6 +70,7 @@ public:
         it_Class,
         it_Template,
         it_Package,
+        it_Subsystem,
         it_Component,
         it_Node,
         it_Artifact,
@@ -261,7 +262,7 @@ public:
     /**
      * Creates a UMLObject out of the given list view item.
      */
-    void createUMLObject( UMLListViewItem * item, Uml::Object_Type type );
+    UMLObject *createUMLObject( UMLListViewItem * item, Uml::Object_Type type );
 
     /**
      * Creates a child UMLObject out of the given list view item.
@@ -376,6 +377,7 @@ protected:
         QPixmap Class;
         QPixmap Template;
         QPixmap Package;
+        QPixmap Subsystem;
         QPixmap Component;
         QPixmap Node;
         QPixmap Artifact;

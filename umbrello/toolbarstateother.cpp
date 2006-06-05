@@ -30,7 +30,7 @@
 #include "umldoc.h"
 #include "notewidget.h"
 #include "boxwidget.h"
-#include "floatingtext.h"
+#include "floatingtextwidget.h"
 #include "activitywidget.h"
 #include "forkjoinwidget.h"
 #include "statewidget.h"
@@ -87,7 +87,7 @@ bool ToolBarStateOther::newWidget()
         break;
 
     case WorkToolBar::tbb_Text:
-        umlWidget = new FloatingText(m_pUMLView, tr_Floating, "");
+        umlWidget = new FloatingTextWidget(m_pUMLView, tr_Floating, "");
         break;
 
         // Activity buttons
@@ -140,7 +140,7 @@ bool ToolBarStateOther::newWidget()
             i18n("Enter the name of the new state:"), i18n("new state") );
 else if (getButton() == WorkToolBar::tbb_Text) {
         // It is pretty invisible otherwise.
-        FloatingText* ft = (FloatingText*) umlWidget;
+        FloatingTextWidget* ft = (FloatingTextWidget*) umlWidget;
         ft->changeTextDlg();
     }
 

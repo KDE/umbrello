@@ -259,6 +259,14 @@ bool JavaImport::parseStmt() {
         skipStmt();
         return true;
     }
+    if (keyword == "@") {  // annotation
+        advance();
+        if (m_source[m_srcIndex + 1] == "(") {
+            advance();
+            skipToClosing('(');
+        }
+        return true;
+    }
     if (keyword == "}") {
         if (m_scopeIndex)
             m_klass = dynamic_cast<UMLClassifier*>(m_scope[--m_scopeIndex]);

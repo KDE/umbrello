@@ -22,7 +22,7 @@
 
 #include "../codeclassfield.h"
 
-class JavaClassifierCodeDocument;
+class ClassifierCodeDocument;
 
 class JavaCodeClassField : public CodeClassField
 {
@@ -35,8 +35,8 @@ public:
     /**
      * Constructors 
      */
-    JavaCodeClassField (JavaClassifierCodeDocument * parentDoc, UMLRole * role);
-    JavaCodeClassField (JavaClassifierCodeDocument * parentDoc, UMLAttribute * attrib);
+    JavaCodeClassField (ClassifierCodeDocument * parentDoc, UMLRole * role);
+    JavaCodeClassField (ClassifierCodeDocument * parentDoc, UMLAttribute * attrib);
 
     /**
      * Empty Destructor

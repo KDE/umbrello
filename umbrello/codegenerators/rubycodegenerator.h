@@ -58,17 +58,7 @@ public:
     //
 
     /**
-           * A utility method to get the rubyCodeGenerationPolicy()->getCommentStyle() value.
-            */
-    RubyCodeGenerationPolicy::RubyCommentStyle getCommentStyle ( );
-
-    /**
-           * A utility method to get the rubyCodeGenerationPolicy()->getAutoGenerateConstructors() value.
-     */
-    bool getAutoGenerateConstructors ( );
-
-    /**
-           * A utility method to get the rubyCodeGenerationPolicy()->getAutoGenerateAttribAccessors() value.
+     * A utility method to get the rubyCodeGenerationPolicy()->getAutoGenerateAttribAccessors() value.
      */
     bool getAutoGenerateAttribAccessors( );
 
@@ -80,7 +70,7 @@ public:
     /**
      * Get the list variable class name to use. For Ruby, we have set this to "Array".
      */
-    QString getListFieldClassName();
+    static QString getListFieldClassName();
 
     /** Get the editing dialog for this code document
      */
@@ -104,11 +94,6 @@ public:
      */
     CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier);
 
-    // returns a ruby code generation policy
-    virtual CodeGenerationPolicy * newCodeGenerationPolicy(KConfig * config = 0);
-
-    CodeComment * newCodeComment ( CodeDocument * doc) ;
-
     // return "Ruby"
     Uml::Programming_Language getLanguage();
 
@@ -118,7 +103,7 @@ public:
      *
      * @param cppType the C++ type to be converted
      */
-    QString cppToRubyType(QString cppType);
+    static QString cppToRubyType(QString cppType);
 
     /**
      * Convert C++ names such as 'm_foobar' or pFoobar to 
@@ -126,7 +111,7 @@ public:
      *
      * @param cppName the C++ name to be converted
      */
-    QString cppToRubyName(QString cppName);
+    static QString cppToRubyName(QString cppName);
 
     /**
      * get list of reserved keywords
@@ -136,28 +121,11 @@ public:
 protected:
 
     /** create the codeblock that will represent the class declaration
-            *  for this classifier
-         */
+     *  for this classifier
+     */
     CodeBlockWithComments * createClassDecl ( UMLClassifier *c, ClassifierInfo *info, RubyClassifierCodeDocument * doc);
 
-
-    /**
-     *
-     */
-    void setRubyPolicy( RubyCodeGenerationPolicy * policy);
-
-    /**
-     *
-     */
-    void setPolicy( CodeGenerationPolicy * policy);
-
 private:
-
-
-    // Make it easier on ourselves, utility function to get the ruby code
-    // generation policy by simply storing in explict field (rather than in
-    // CodeGenerationPolicy *)
-    RubyCodeGenerationPolicy * m_rubycodegenerationpolicy;
 
     void initFields( ) ;
 };

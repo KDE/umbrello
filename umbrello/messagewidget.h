@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 #ifndef MESSAGEWIDGET_H
@@ -23,15 +20,16 @@
 #include <QResizeEvent>
 
 // forward declarations
-class FloatingText;
+class FloatingTextWidget;
 class ObjectWidget;
 class UMLOperation;
+class MessageWidgetController;
 
 /**
  * Used to display a message on a sequence diagram.  The message
  * could be between two objects or a message that calls itself on
  * an object.  This class will only display the line that is
- * required and the text will be setup by the @ref FloatingText
+ * required and the text will be setup by the @ref FloatingTextWidget
  * widget that is passed in the constructor.  A message can be
  * synchronous (calls a method and gains control back on return,
  * as happens in most programming languages) or asynchronous
@@ -41,12 +39,13 @@ class UMLOperation;
  * @author Paul Hensgen
  * @see UMLWidget
  * @see ObjectWidget
- * @see FloatingText
+ * @see FloatingTextWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class MessageWidget : public UMLWidget, public LinkWidget {
     Q_OBJECT
 public:
+    friend class MessageWidgetController;
 
     /**
      * Constructs a MessageWidget.
@@ -125,7 +124,7 @@ public:
      *
      * @return  The text widget we are related to.
      */
-    FloatingText * getFloatingText() {
+    FloatingTextWidget * getFloatingTextWidget() {
         return m_pFText;
     }
 
@@ -134,67 +133,67 @@ public:
      *
      * @param f The text widget we are related to.
      */
-    void setFloatingText(FloatingText * f) {
+    void setFloatingTextWidget(FloatingTextWidget * f) {
         m_pFText = f;
     }
 
     /**
      * Implements operation from LinkWidget.
-     * Required by FloatingText.
+     * Required by FloatingTextWidget.
      */
     void lwSetFont (QFont font);
 
     /**
      * Overrides operation from LinkWidget.
-     * Required by FloatingText.
+     * Required by FloatingTextWidget.
      * @todo Move to LinkWidget.
      */
     UMLClassifier *getOperationOwner();
 
     /**
      * Implements operation from LinkWidget.
-     * Motivated by FloatingText.
+     * Motivated by FloatingTextWidget.
      */
     UMLOperation *getOperation();
 
     /**
      * Implements operation from LinkWidget.
-     * Motivated by FloatingText.
+     * Motivated by FloatingTextWidget.
      */
     void setOperation(UMLOperation *op);
 
     /**
      * Overrides operation from LinkWidget.
-     * Required by FloatingText.
+     * Required by FloatingTextWidget.
      */
     QString getCustomOpText();
 
     /**
      * Overrides operation from LinkWidget.
-     * Required by FloatingText.
+     * Required by FloatingTextWidget.
      */
     void setCustomOpText(const QString &opText);
 
     /**
      * Overrides operation from LinkWidget.
-     * Required by FloatingText.
+     * Required by FloatingTextWidget.
      *
      * @param ft        The text widget which to update.
      */
-    void setMessageText(FloatingText *ft);
+    void setMessageText(FloatingTextWidget *ft);
 
     /**
      * Overrides operation from LinkWidget.
-     * Required by FloatingText.
+     * Required by FloatingTextWidget.
      *
      * @param ft        The text widget which to update.
      * @param newText   The new text to set.
      */
-    void setText(FloatingText *ft, const QString &newText);
+    void setText(FloatingTextWidget *ft, const QString &newText);
 
     /**
      * Overrides operation from LinkWidget.
-     * Required by FloatingText.
+     * Required by FloatingTextWidget.
      *
      * @param seqNum    The new sequence number string to set.
      * @param op                The new operation string to set.
@@ -203,7 +202,7 @@ public:
 
     /**
      * Overrides operation from LinkWidget.
-     * Required by FloatingText.
+     * Required by FloatingTextWidget.
      *
      * @param seqNum    Return this MessageWidget's sequence number string.
      * @param op                Return this MessageWidget's operation string.
@@ -217,7 +216,7 @@ public:
 
     /**
      * Activates a MessageWidget.  Connects its m_pOw[] pointers
-     * to UMLObjects and also send signals about its FloatingText.
+     * to UMLObjects and also send signals about its FloatingTextWidget.
      */
     void activate(IDChangeLog * Log = 0);
 
@@ -274,7 +273,7 @@ public:
     void setTextPosition();
 
     /**
-     * Constrains the FloatingText X and Y values supplied.
+     * Constrains the FloatingTextWidget X and Y values supplied.
      * Overrides operation from LinkWidget.
      *
      * @param textX             Candidate X value (may be modified by the constraint.)
@@ -292,11 +291,6 @@ public:
     void cleanup();
 
     /**
-     * Overrides the standard operation.
-     */
-    void mouseMoveEvent(QMouseEvent *me);
-
-    /**
      * Sets the state of whether the widget is selected.
      *
      * @param _select   True if the widget is selected.
@@ -308,14 +302,14 @@ public:
      * a sequence diagrams.  Takes into account the widget positions
      * it is related to.
      */
-    int getMinHeight();
+    int getMinY();
 
     /**
      * Returns the maximum height this widget should be set at on
      * a sequence diagrams.  Takes into account the widget positions
      * it is related to.
      */
-    int getMaxHeight();
+    int getMaxY();
 
     /**
      * Overrides operation from UMLWidget.
@@ -389,10 +383,9 @@ protected:
 private:
     void moveEvent(QMoveEvent */*m*/);
     void resizeEvent(QResizeEvent */*re*/);
-    void mouseDoubleClickEvent(QMouseEvent */* me*/);
 
     ObjectWidget * m_pOw[2];
-    FloatingText * m_pFText;
+    FloatingTextWidget * m_pFText;
     int m_nY;
     bool m_inSelection;
 public slots:

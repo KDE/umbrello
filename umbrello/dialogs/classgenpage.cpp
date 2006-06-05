@@ -345,6 +345,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget) : QWid
     m_pNameLayout->addWidget(m_pStereoTypeCB, 1, 1);
 
     m_pStereoTypeCB->setCurrentText( widget->getUMLObject()->getStereotype() );
+    m_pStereoTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
 
     m_pInstanceL = new QLabel(this);
     m_pInstanceL->setText(i18n("Instance name:"));

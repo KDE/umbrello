@@ -76,12 +76,12 @@ public:
 
 protected:
     /**
-     * Calls slotApply() and accepts (closes) the dialogue
+     * Calls slotApply() and accepts (closes) the dialog
      */
     void slotOk();
 
     /**
-     * Applys the settings in the dialogue to the widget and object
+     * Applys the settings in the dialog to the widget and object
      */
     void slotApply();
 

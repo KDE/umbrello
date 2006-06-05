@@ -14,7 +14,7 @@
 
 // qt includes
 #include <qlayout.h>
-#include <qcombobox.h>
+#include <kcombobox.h>
 //Added by qt3to4:
 #include <QLabel>
 #include <QVBoxLayout>
@@ -106,10 +106,13 @@ void AssocGenPage::constructWidget() {
         m_AssocTypeStrings << currentTypeAsString;
     }
     
-    m_pTypeCB = new QComboBox(nameGB);
+    m_pTypeCB = new KComboBox(nameGB);
     pTypeL->setBuddy(m_pTypeCB);
     m_pTypeCB->insertStringList(m_AssocTypeStrings);
+    m_pTypeCB->setCompletedItems(m_AssocTypeStrings);
     m_pTypeCB->setCurrentText(currentTypeAsString);
+    m_pTypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
+    m_pTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
     m_pDoc->setWordWrap(Q3MultiLineEdit::WidgetWidth);
     nameLayout->addWidget(m_pTypeCB, 1, 1);
 

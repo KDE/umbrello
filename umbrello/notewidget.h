@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 #ifndef NOTEWIDGET_H
@@ -19,6 +16,7 @@
 #include "umlwidget.h"
 
 // forward declarations
+class NoteWidgetController;
 
 // Qt forward declarations
 class QPainter;
@@ -37,6 +35,7 @@ class Q3TextEdit;
 class NoteWidget : public UMLWidget {
     Q_OBJECT
 public:
+    friend class NoteWidgetController;
 
     /**
      * Constructs a NoteWidget.
@@ -51,21 +50,6 @@ public:
      * destructor
      */
     virtual ~NoteWidget();
-
-    /**
-     * Overrides the standard function.
-     */
-    void mouseMoveEvent(QMouseEvent *me);
-
-    /**
-     * Overrides the standard operation.
-     */
-    void mouseReleaseEvent(QMouseEvent * me);
-
-    /**
-     * Overrides the standard operation.
-     */
-    void mouseDoubleClickEvent(QMouseEvent * /*me*/);
 
     /**
      * Overrides method from UMLWidget.

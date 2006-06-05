@@ -27,10 +27,10 @@ class UMLClassifier;
 class UMLDoc;
 
 /**
- * A dialogue page to display classifier list properties.  This is not normally setup
+ * A dialog page to display classifier list properties.  This is not normally setup
  * by you.  It is used by the @ref ClassPropDlg and new class wizard.
  *
- * @short A dialogue page to display classifier properties.
+ * @short A dialog page to display classifier properties.
  * @author Paul Hensgen, Jonathan Riddell
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
@@ -53,7 +53,7 @@ public:
     ~ClassifierListPage();
 
     /**
-     *  Will move information from the dialogue into the object.
+     *  Will move information from the dialog into the object.
      *  Call when the ok or apply button is pressed.
      */
     void updateObject();
@@ -137,7 +137,7 @@ public slots:
     void slotRightButtonPressed(Q3ListBoxItem* item, const QPoint& p);
 
     /**
-     * shows properties dialogue for the attribute clicked on
+     * shows properties dialog for the attribute clicked on
      */
     void slotDoubleClick(Q3ListBoxItem* item);
 
@@ -153,7 +153,7 @@ public slots:
     void slotDownClicked();
 
     /**
-     * shows dialogue for new attribute
+     * shows dialog for new attribute
      */
     void slotNewListItem();
 
@@ -163,7 +163,7 @@ public slots:
     void slotDelete();
 
     /**
-     * shows properties dialogue for currently selected attribute
+     * shows properties dialog for currently selected attribute
      */
     void slotProperties();
 };

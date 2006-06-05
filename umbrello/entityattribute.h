@@ -77,63 +77,63 @@ public:
     /**
      * Sets the initial value of the UMLEntityAttribute's attributes property.
      *
-     * @param iv  The inital value of the UMLEntityAttribute's attributes property.
+     * @param iv  The initial value of the UMLEntityAttribute's attributes property.
      */
     void setAttributes(const QString& attributes);
 
     /**
      * Returns The initial value of the UMLEntityAttribute's index type property.
      *
-     * @return  The inital value of the UMLEntityAttribute's index type property.
+     * @return  The initial value of the UMLEntityAttribute's index type property.
      */
     Uml::DBIndex_Type getIndexType();
 
     /**
      * Sets the initial value of the UMLEntityAttribute's index type property.
      *
-     * @param iv        The inital value of the UMLEntityAttribute's index type property.
+     * @param iv        The initial value of the UMLEntityAttribute's index type property.
      */
     void setIndexType(const Uml::DBIndex_Type indexType);
 
     /**
      * Returns The initial value of the UMLEntityAttribute's length/values property.
      *
-     * @return  The inital value of the UMLEntityAttribute's length/values property.
+     * @return  The initial value of the UMLEntityAttribute's length/values property.
      */
     QString getValues();
 
     /**
      * Sets the initial value of the UMLEntityAttribute's length/values property.
      *
-     * @param iv        The inital value of the UMLEntityAttribute's length/values property.
+     * @param iv        The initial value of the UMLEntityAttribute's length/values property.
      */
     void setValues(const QString& values);
 
     /**
      * Returns The initial value of the UMLEntityAttribute's auto_increment boolean
      *
-     * @return  The inital value of the UMLEntityAttribute's auto_increment boolean
+     * @return  The initial value of the UMLEntityAttribute's auto_increment boolean
      */
     bool getAutoIncrement();
 
     /**
      * Sets the initial value of the UMLEntityAttribute's auto_increment boolean
      *
-     * @param iv        The inital value of the UMLEntityAttribute's auto_increment boolean
+     * @param iv        The initial value of the UMLEntityAttribute's auto_increment boolean
      */
     void setAutoIncrement(const bool autoIncrement);
 
     /**
      * Returns The initial value of the UMLEntityAttribute's allow null value.
      *
-     * @return  The inital value of the UMLEntityAttribute's allow null value.
+     * @return  The initial value of the UMLEntityAttribute's allow null value.
      */
     bool getNull();
 
     /**
      * Sets the initial value of the UMLEntityAttribute's allow null value.
      *
-     * @param iv        The inital value of the UMLEntityAttribute's allow null value.
+     * @param iv        The initial value of the UMLEntityAttribute's allow null value.
      */
     void setNull(const bool null);
 
@@ -141,7 +141,7 @@ public:
      * Returns a string representation of the UMLEntityAttribute.
      *
      * @param sig               If true will show the entityattribute type and
-     *                  inital value.
+     *                  initial value.
      * @return  Returns a string representation of the UMLEntityAttribute.
      */
     QString toString(Uml::Signature_Type sig = Uml::st_NoSig);

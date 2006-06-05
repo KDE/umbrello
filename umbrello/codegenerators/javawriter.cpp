@@ -272,7 +272,7 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
     // Now write the actual class declaration
     QString scope = ""; // = scopeToJavaDecl(c->getVisibility());
     if (c->getVisibility() != Uml::Visibility::Public) {
-        // We should emit a warning in here .. java doesnt like to allow
+        // We should emit a warning in here .. java doesn't like to allow
         // private/protected classes. The best we can do (I believe)
         // is to let these declarations default to "package visibility"
         // which is a level between traditional "private" and "protected"
@@ -395,7 +395,7 @@ void JavaWriter::writeComment(QString comment, QString myIndent, QTextStream &ja
             java << myIndent << " */" << m_endl;
     } else {
         // this should be more fancy in the future, breaking it up into 80 char
-        // lines so that it doesnt look too bad
+        // lines so that it doesn't look too bad
         writeBlankLine(java);
         if(javaDocStyle)
             java << myIndent << "/**" << m_endl << myIndent << " *";
@@ -481,7 +481,7 @@ void JavaWriter::writeAssociationRoleDecl(QString fieldClassName,
 
     // declare the association based on whether it is this a single variable
     // or a List (Vector). One day this will be done correctly with special
-    // multiplicity object that we dont have to figure out what it means via regex.
+    // multiplicity object that we don't have to figure out what it means via regex.
     if(multi.isEmpty() || multi.contains(QRegExp("^[01]$")))
     {
         QString fieldVarName = roleName.replace(0, 1, roleName.left(1).lower());
@@ -800,7 +800,7 @@ QString JavaWriter::scopeToJavaDecl(Uml::Visibility scope)
     return scopeString;
 }
 
-// methods like this _shouldnt_ be needed IF we properly did things thruought the code.
+// methods like this _shouldn't_ be needed IF we properly did things thruought the code.
 QString JavaWriter::getUMLObjectName(UMLObject *obj)
 {
     return(obj!=0)?obj->getName():QString("NULL");

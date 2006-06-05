@@ -26,54 +26,47 @@
 // app includes
 #include "rubycodegenerationformbase.h"
 #include "rubycodegenerator.h"
+#include "../codegenerationpolicy.h"
 #include "../uml.h"
 
 RubyCodeGenerationPolicyPage::RubyCodeGenerationPolicyPage( QWidget *parent, const char *name, RubyCodeGenerationPolicy * policy )
-        :CodeGenerationPolicyPage(parent,name,(CodeGenerationPolicy*)policy)
+        :CodeGenerationPolicyPage(parent, name, UMLApp::app()->getCommonPolicy())
 {
+    CodeGenerationPolicy *common = UMLApp::app()->getCommonPolicy();
     form = new RubyCodeGenerationFormBase(this);
-    form->m_SelectCommentStyle->setCurrentItem(commentTypeToInteger(policy->getCommentStyle()));
-    form->m_generateConstructors->setChecked(policy->getAutoGenerateConstructors());
+    form->m_SelectCommentStyle->setCurrentItem((int)(common->getCommentStyle()));
+    form->m_generateConstructors->setChecked(common->getAutoGenerateConstructors());
     form->m_generateAttribAccessors->setChecked(policy->getAutoGenerateAttribAccessors());
     form->m_generateAssocAccessors->setChecked(policy->getAutoGenerateAssocAccessors());
-    form->m_accessorScopeCB->setCurrentItem((policy->getAttributeAccessorScope() - 200));
-    form->m_assocFieldScopeCB->setCurrentItem((policy->getAssociationFieldScope() - 200));
+    form->m_accessorScopeCB->setCurrentItem((common->getAttributeAccessorScope() - 200));
+    form->m_assocFieldScopeCB->setCurrentItem((common->getAssociationFieldScope() - 200));
 }
 
 RubyCodeGenerationPolicyPage::~RubyCodeGenerationPolicyPage()
 {
 }
 
-int RubyCodeGenerationPolicyPage::commentTypeToInteger(RubyCodeGenerationPolicy::RubyCommentStyle type) {
-    switch (type) {
-    case RubyCodeGenerationPolicy::Hash:
-        return 1;
-    default:
-    case RubyCodeGenerationPolicy::BeginEnd:
-        return 0;
-    }
-}
-
 void RubyCodeGenerationPolicyPage::apply()
 {
+    CodeGenerationPolicy *common = UMLApp::app()->getCommonPolicy();
 
     // now do our ruby-specific configs
     RubyCodeGenerationPolicy * parent = (RubyCodeGenerationPolicy*) m_parentPolicy;
 
-    // block signals so we dont cause too many update content calls to code documents
+    // block signals so we don't cause too many update content calls to code documents
     parent->blockSignals(true);
 
-    parent->setCommentStyle((RubyCodeGenerationPolicy::RubyCommentStyle ) form->m_SelectCommentStyle->currentItem());
-    parent->setAttributeAccessorScope((RubyCodeGenerationPolicy::ScopePolicy) (form->m_accessorScopeCB->currentItem()+200));
-    parent->setAssociationFieldScope((RubyCodeGenerationPolicy::ScopePolicy) (form->m_assocFieldScopeCB->currentItem()+200));
-    parent->setAutoGenerateConstructors(form->m_generateConstructors->isChecked());
+    common->setCommentStyle((CodeGenerationPolicy::CommentStyle) form->m_SelectCommentStyle->currentItem());
+    common->setAttributeAccessorScope((CodeGenerationPolicy::ScopePolicy) (form->m_accessorScopeCB->currentItem()+200));
+    common->setAssociationFieldScope((CodeGenerationPolicy::ScopePolicy) (form->m_assocFieldScopeCB->currentItem()+200));
+    common->setAutoGenerateConstructors(form->m_generateConstructors->isChecked());
     parent->setAutoGenerateAttribAccessors(form->m_generateAttribAccessors->isChecked());
     parent->setAutoGenerateAssocAccessors(form->m_generateAssocAccessors->isChecked());
 
     parent->blockSignals(false);
 
     // now send out modified code content signal
-    parent->emitModifiedCodeContentSig();
+    common->emitModifiedCodeContentSig();
 
 }
 

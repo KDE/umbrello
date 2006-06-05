@@ -25,21 +25,24 @@
 
 */
 
+// own header
+#include "cppsourcecodedocument.h"
+// qt/kde includes
 #include <kdebug.h>
 #include <qregexp.h>
-
-#include "cppsourcecodedocument.h"
+// app includes
 #include "cppcodegenerator.h"
+#include "cppcodegenerationpolicy.h"
 #include "cppcodedocumentation.h"
-#include "cppsourcecodeaccessormethod.h"
-#include "cppsourcecodeoperation.h"
+#include "cppcodeclassfield.h"
 #include "cppsourcecodeclassfielddeclarationblock.h"
+#include "../uml.h"
 
 // Constructors/Destructors
 //
 
-CPPSourceCodeDocument::CPPSourceCodeDocument ( UMLClassifier * concept, CPPCodeGenerator *parent)
-        : ClassifierCodeDocument (concept, (CodeGenerator *) parent ) {
+CPPSourceCodeDocument::CPPSourceCodeDocument ( UMLClassifier * concept )
+        : ClassifierCodeDocument (concept) {
     init ( );
 }
 
@@ -56,23 +59,7 @@ CPPSourceCodeDocument::~CPPSourceCodeDocument ( ) { }
 //
 
 QString CPPSourceCodeDocument::getCPPClassName (const QString &name) {
-    CPPCodeGenerator *g = (CPPCodeGenerator*) getParentGenerator();
-    return g->getCPPClassName(name);
-}
-
-// a little utility method
-bool CPPSourceCodeDocument::forceDoc () {
-    return getParentGenerator()->forceDoc();
-}
-
-// IF the classifier object is modified, this will get called.
-// Possible mods include changing the filename and package
-// the classifier has.
-void CPPSourceCodeDocument::syncNamesToParent( )
-{
-
-    setFileName(getParentGenerator()->cleanName(getParentClassifier()->getName().lower()));
-    setPackage(getParentGenerator()->cleanName(getParentClassifier()->getPackage().lower()));
+    return CodeGenerator::cleanName(name);
 }
 
 // Initialize this cpp classifier code document
@@ -83,10 +70,12 @@ void CPPSourceCodeDocument::init ( ) {
     methodsBlock = 0;
     constructorBlock = 0;
 
-    initCodeClassFields(); // we have to call here as .newCodeClassField is pure virtual in parent class
+    //initCodeClassFields(); // this is dubious because it calls down to
+                             // CodeGenFactory::newCodeClassField(this)
+                             // but "this" is still in construction at that time.
 
     // this will call updateContent() as well as other things that sync our document.
-    synchronize();
+    //synchronize();
 }
 
 /**
@@ -103,42 +92,6 @@ bool CPPSourceCodeDocument::addCodeOperation (CodeOperation * op ) {
         return constructorBlock->addTextBlock(op);
 }
 
-/**
- * create a new CodeAccesorMethod object belonging to this CodeDocument.
- * @return      CodeAccessorMethod
- */
-CodeAccessorMethod * CPPSourceCodeDocument::newCodeAccessorMethod( CodeClassField *cf, CodeAccessorMethod::AccessorType type ) {
-    return new CPPSourceCodeAccessorMethod((CPPCodeClassField*)cf, type);
-}
-
-
-CodeClassField * CPPSourceCodeDocument::newCodeClassField ( UMLAttribute * at) {
-    return new CPPCodeClassField(this,at);
-}
-
-CodeClassField * CPPSourceCodeDocument::newCodeClassField ( UMLRole * role) {
-    return new CPPCodeClassField(this,role);
-}
-
-/**
- * create a new CodeBlockWithComments object belonging to this CodeDocument.
- * @return      CodeBlockWithComments
- */
-CodeComment * CPPSourceCodeDocument::newCodeComment ( ) {
-    return new CPPCodeDocumentation(this);
-}
-
-/**
- * create a new CodeOperation object belonging to this CodeDocument.
- * @return      CodeOperation
- */
-CodeOperation * CPPSourceCodeDocument::newCodeOperation( UMLOperation * op) {
-    return new CPPSourceCodeOperation(this, op);
-}
-
-CodeClassFieldDeclarationBlock * CPPSourceCodeDocument::newDeclarationCodeBlock (CodeClassField * cf ) {
-    return new CPPSourceCodeClassFieldDeclarationBlock((CPPCodeClassField*)cf);
-}
 
 void CPPSourceCodeDocument::resetTextBlocks()
 {
@@ -164,21 +117,21 @@ void CPPSourceCodeDocument::updateContent( )
 
     // Gather info on the various fields and parent objects of this class...
     //UMLClassifier * c = getParentClassifier();
-    CPPCodeGenerator * gen = (CPPCodeGenerator*) getParentGenerator();
-    //CPPCodeGenerationPolicy * policy = (CPPCodeGenerationPolicy*) getParentGenerator()->getPolicy();
-    QString endLine = gen->getNewLineEndingChars(); // a shortcut..so we dont have to call this all the time
+    CodeGenPolicyExt *pe = UMLApp::app()->getPolicyExt();
+    CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
+    QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
 
     // first, set the global flag on whether or not to show classfield info
     CodeClassFieldList * cfList = getCodeClassFieldList();
     for(CodeClassField * field = cfList->first(); field; field = cfList->next())
-        field->setWriteOutMethods(gen->getAutoGenerateAccessors());
+        field->setWriteOutMethods(policy->getAutoGenerateAccessors());
 
     // attribute-based ClassFields
     // we do it this way to have the static fields sorted out from regular ones
     CodeClassFieldList staticAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true);
     CodeClassFieldList attribClassFields = getSpecificClassFields (CodeClassField::Attribute, false);
     // association-based ClassFields
-    // dont care if they are static or not..all are lumped together
+    // don't care if they are static or not..all are lumped together
     CodeClassFieldList plainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation );
     CodeClassFieldList aggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation );
     CodeClassFieldList compositionClassFields = getSpecificClassFields ( CodeClassField::Composition );
@@ -190,7 +143,7 @@ void CPPSourceCodeDocument::updateContent( )
     QString includeStatement = "";
     // Include own header file
     QString myOwnName( getParentClassifier()->getName() );
-    includeStatement.append("#include \""+gen->cleanName(myOwnName.lower())+".h\""+endLine);
+    includeStatement.append("#include \""+CodeGenerator::cleanName(myOwnName.lower())+".h\""+endLine);
     CodeBlockWithComments * iblock = addOrUpdateTaggedCodeBlockWithComments("includes", includeStatement, QString::null, 0, false);
     iblock->setWriteOutText(true);
 

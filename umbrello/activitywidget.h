@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2005
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 #ifndef ACTIVITYWIDGET_H
@@ -38,7 +35,6 @@ class ActivityWidget : public UMLWidget {
     Q_OBJECT
 
 public:
-
     enum ActivityType
     {
         Initial = 0,
@@ -79,9 +75,11 @@ public:
     void setActivityType( ActivityType activityType );
 
     /**
-     * Overrides a method.  Used to pickup double clicks.
+     * Show a properties dialog for an ActivityWidget.
+     *
+     * @return  True if we modified the activity.
      */
-    void mouseDoubleClickEvent(QMouseEvent * /*me*/);
+    bool showProperties();
 
     /**
      * Determines whether a toolbar button represents an Activity.

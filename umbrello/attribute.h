@@ -70,14 +70,14 @@ public:
     /**
      * Returns The initial value of the UMLAttribute.
      *
-     * @return  The inital value of the Atrtibute.
+     * @return  The initial value of the Atrtibute.
      */
     QString getInitialValue();
 
     /**
      * Sets the initial value of the UMLAttribute.
      *
-     * @param iv                The inital value of the UMLAttribute.
+     * @param iv                The initial value of the UMLAttribute.
      */
     void setInitialValue( const QString &iv );
 
@@ -85,7 +85,7 @@ public:
      * Returns a string representation of the UMLAttribute.
      *
      * @param sig               If true will show the attribute type and
-     *                  inital value.
+     *                  initial value.
      * @return  Returns a string representation of the UMLAttribute.
      */
     QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
@@ -101,7 +101,7 @@ public:
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     /**
-     * Display the properties configuration dialogue for the attribute.
+     * Display the properties configuration dialog for the attribute.
      */
     virtual bool showPropertiesDialogue(QWidget* parent);
 

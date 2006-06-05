@@ -89,7 +89,7 @@ public:
      *
      * @param Att  Pointer to the UMLEnumLiteral.
      * @param Log  Pointer to the IDChangeLog.
-     * @return  True if the enumliteral was sucessfully added.
+     * @return  True if the enumliteral was successfully added.
      */
     bool addEnumLiteral(UMLEnumLiteral* Att, IDChangeLog* Log = 0);
 
@@ -100,7 +100,7 @@ public:
      *
      * @param Att    Pointer to the UMLEnumLiteral.
      * @param position  Position index for the insertion.
-     * @return  True if the enumliteral was sucessfully added.
+     * @return  True if the enumliteral was successfully added.
      */
     //TODO:  give default value -1 to position (append) - now it conflicts with the method above..
     bool addEnumLiteral(UMLEnumLiteral* Att, int position );

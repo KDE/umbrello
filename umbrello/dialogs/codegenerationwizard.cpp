@@ -13,6 +13,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2003-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 #include <kdebug.h>
@@ -32,13 +34,10 @@
 #include "../uml.h"
 #include "../umldoc.h"
 
-CodeGenerationWizard::CodeGenerationWizard(UMLDoc *doc,
-        UMLClassifierList *classList,
-        Uml::Programming_Language activeLanguage,
-        UMLApp *parent, const char *name)
-        :CodeGenerationWizardBase((QWidget*)parent,name) {
-    m_doc = doc;
-    m_app = parent;
+CodeGenerationWizard::CodeGenerationWizard(UMLClassifierList *classList)
+  : CodeGenerationWizardBase((QWidget*)UMLApp::app()) {
+    m_doc = UMLApp::app()->getDocument();
+    m_app = UMLApp::app();
     m_availableList -> setAllColumnsShowFocus(true);
     m_availableList -> setResizeMode(Q3ListView::AllColumns);
     m_selectedList  -> setAllColumnsShowFocus(true);
@@ -46,8 +45,7 @@ CodeGenerationWizard::CodeGenerationWizard(UMLDoc *doc,
     m_statusList    -> setAllColumnsShowFocus(true);
     m_statusList    -> setResizeMode(Q3ListView::AllColumns);
 
-    m_CodeGenerationOptionsPage = new CodeGenerationOptionsPage(doc->getCurrentCodeGenerator(),
-                                  activeLanguage, this);
+    m_CodeGenerationOptionsPage = new CodeGenerationOptionsPage(this);
     connect( m_CodeGenerationOptionsPage, SIGNAL(languageChanged()), this, SLOT(changeLanguage()) );
 
     insertPage(m_CodeGenerationOptionsPage, i18n("Code Generation Options"), 1);
@@ -80,29 +78,19 @@ CodeGenerationWizard::~CodeGenerationWizard() {}
 
 
 void CodeGenerationWizard::selectClass() {
-    if( !m_availableList->selectedItem() ) {
-        return;
+    moveSelectedItems(m_availableList, m_selectedList);
+
+    if (m_selectedList->childCount() > 0) {
+        setNextEnabled(currentPage(), true);
     }
-    QString name = m_availableList->selectedItem()->text(0);
-    if( !m_selectedList->findItem( name,0 ) ) {
-        new Q3ListViewItem(m_selectedList, name);
-    }
-    m_availableList->removeItem( m_availableList->selectedItem() );
-    setNextEnabled(currentPage(),true);
 }
 
 void CodeGenerationWizard::deselectClass() {
-    if( !m_selectedList->selectedItem() ) {
-        return;
+    moveSelectedItems(m_selectedList, m_availableList);
+
+    if (m_selectedList->childCount() == 0) {
+        setNextEnabled(currentPage(), false);
     }
-    QString name = m_selectedList->selectedItem()->text(0);
-    if( !m_availableList->findItem(name, 0) ) {
-        new Q3ListViewItem(m_availableList, name);
-    }
-    if(m_selectedList->childCount() == 0) {
-        setNextEnabled(currentPage(),false);
-    }
-    m_selectedList->removeItem( m_selectedList->selectedItem() );
 }
 
 void CodeGenerationWizard::generateCode() {
@@ -161,7 +149,7 @@ void CodeGenerationWizard::showPage(QWidget *page) {
         // writable
 
         // get the policy for the current code generator
-        CodeGenerationPolicy *policy = m_doc->getCurrentCodeGenerator()->getPolicy();
+        CodeGenerationPolicy *policy = UMLApp::app()->getCommonPolicy();
 
         // get the output directory path
         QFileInfo info(policy->getOutputDirectory().absPath());
@@ -235,12 +223,32 @@ CodeGenerator* CodeGenerationWizard::generator() {
     return (CodeGenerator*) NULL;
 }
 
+void CodeGenerationWizard::moveSelectedItems(QListView* fromList, QListView* toList) {
+   QListViewItemIterator it(fromList, QListViewItemIterator::Selected);
+    while (it.current()) {
+        QListViewItem* selectedItem = it.current();
+
+        QString name = selectedItem->text(0);
+        if (!toList->findItem(name, 0)) {
+            new QListViewItem(toList, name);
+        }
+
+        ++it;
+
+        //Removed here because it can't (really, shouldn't) be removed while
+        //iterator is pointing to it
+        fromList->removeItem(selectedItem);
+    }
+}
+
 // when we change language, we need to update the codegenoptions page
 // language-dependent stuff. THe way to do this is to call its "apply" method.
 void CodeGenerationWizard::changeLanguage()
 {
     m_app->setActiveLanguage( m_CodeGenerationOptionsPage->getCodeGenerationLanguage() );
-    m_CodeGenerationOptionsPage->setCodeGenerator(m_doc->getCurrentCodeGenerator());
+    /* @todo is this needed? if yes adapt to new scheme
+     m_CodeGenerationOptionsPage->setCodeGenerator(m_doc->getCurrentCodeGenerator());
+     */
     m_CodeGenerationOptionsPage->apply();
 }
 

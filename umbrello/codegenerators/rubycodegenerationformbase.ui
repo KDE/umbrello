@@ -210,12 +210,12 @@
                         <widget class="QComboBox">
                             <item>
                                 <property name="text">
-                                    <string>Begin-End (=begin  =end)</string>
+                                    <string>Hash (#)</string>
                                 </property>
                             </item>
                             <item>
                                 <property name="text">
-                                    <string>Hash (#)</string>
+                                    <string>Begin-End (=begin  =end)</string>
                                 </property>
                             </item>
                             <property name="name">

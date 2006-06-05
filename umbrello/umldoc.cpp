@@ -66,6 +66,7 @@
 #include "umlview.h"
 #include "clipboard/idchangelog.h"
 #include "dialogs/classpropdlg.h"
+#include "codegenerators/codegenfactory.h"
 #include "inputdialog.h"
 #include "listpopupmenu.h"
 #include "version.h"
@@ -87,13 +88,10 @@ UMLDoc::UMLDoc() {
     m_currentView = 0;
     m_uniqueID = 0;
     m_count = 0;
-    m_currentcodegenerator = 0;
     m_objectList.clear();
-    m_objectList.setAutoDelete(false); // DONT autodelete
+    m_objectList.setAutoDelete(false); // DON'T autodelete
     m_stereoList.setAutoDelete(false);
     m_ViewList.setAutoDelete(true);
-
-    m_codeGenerationXMIParamMap = new QMap<QString, QDomElement>;
 
     m_pChangeLog = 0;
     m_Doc = "";
@@ -239,17 +237,12 @@ bool UMLDoc::saveModified() {
 }
 
 void UMLDoc::closeDocument() {
+    UMLApp::app()->setGenerator(Uml::pl_Reserved);  // delete the codegen
     m_Doc = "";
     DocWindow* dw = UMLApp::app()->getDocWindow();
     if (dw) {
         dw->newDocumentation();
     }
-
-    // remove all code generators
-    for (CodeGeneratorListIt it(m_codeGenerators); it.current(); ++it)
-        removeCodeGenerator(it.current());
-
-    m_currentcodegenerator = 0;
 
     UMLListView *listView = UMLApp::app()->getListView();
     if (listView) {
@@ -308,7 +301,6 @@ void UMLDoc::closeDocument() {
 ==30179==    by 0x82A0F67: JavaCodeGenerator::~JavaCodeGenerator() (javacodegenerator.cpp:45)
 ==30179==    by 0x81B80EE: UMLDoc::removeCodeGenerator(CodeGenerator*) (umldoc.cpp:737)
 ==30179==    by 0x81B532E: UMLDoc::closeDocument() (umldoc.cpp:255)
-
             for (UMLObject * obj = m_objectList.first(); obj != 0; obj = m_objectList.next()) {
                 if (obj->getBaseType() == Uml::ot_Association) {
                     UMLAssociation *assoc = static_cast<UMLAssociation*>(obj);
@@ -379,6 +371,7 @@ bool UMLDoc::newDocument() {
         break;
     }//end switch
 
+    UMLApp::app()->initGenerator();
     addDefaultDatatypes();
     addDefaultStereotypes();
 
@@ -709,15 +702,6 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * /* format */) {
     return uploaded;
 }
 
-void UMLDoc::setCurrentCodeGenerator ( CodeGenerator * gen ) {
-    addCodeGenerator(gen); // wont add IF it already exists
-    m_currentcodegenerator = gen;
-}
-
-CodeGenerator* UMLDoc::getCurrentCodeGenerator() {
-    return m_currentcodegenerator;
-}
-
 void UMLDoc::setupSignals() {
     WorkToolBar *tb = UMLApp::app() -> getWorkToolBar();
 
@@ -726,53 +710,6 @@ void UMLDoc::setupSignals() {
     //new signals below
 
     return;
-}
-
-bool UMLDoc::addCodeGenerator ( CodeGenerator * gen)
-{
-    if(!gen)
-        return false;
-    if (m_codeGenerators.find(gen) >= 0)
-        return false; // return false, we already have the object in the list
-    else
-        m_codeGenerators.append(gen);
-    return true;
-}
-
-bool UMLDoc::hasCodeGeneratorXMIParams ( const QString &lang )
-{
-    if (m_codeGenerationXMIParamMap->contains(lang))
-        return true;
-    return false;
-}
-
-QDomElement UMLDoc::getCodeGeneratorXMIParams ( const QString &lang )
-{
-    return ((*m_codeGenerationXMIParamMap)[lang]);
-}
-
-/**
- * Remove a CodeGenerator object
- */
-bool UMLDoc::removeCodeGenerator ( CodeGenerator * remove_object ) {
-    QString lang = Model_Utils::progLangToString( remove_object->getLanguage() );
-    if(!(lang.isEmpty()) && m_codeGenerators.find(remove_object) >= 0)
-    {
-        m_codeGenerationXMIParamMap->erase(lang);
-        m_codeGenerators.remove(remove_object);
-        delete remove_object;
-    } else
-        return false;
-
-    return true;
-}
-
-CodeGenerator * UMLDoc::findCodeGeneratorByLanguage (Uml::Programming_Language lang) {
-    CodeGenerator *cg = NULL;
-    for (CodeGeneratorListIt it(m_codeGenerators); (cg = it.current()) != NULL; ++it)
-        if (cg->getLanguage() == lang)
-            break;
-    return cg;
 }
 
 UMLView * UMLDoc::findView(Uml::IDType id) {
@@ -911,7 +848,7 @@ bool UMLDoc::isUnique(const QString &name)
     }
 
     // Not currently in a package:
-    // Check against all objects that _dont_ have a parent package.
+    // Check against all objects that _don't_ have a parent package.
     for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
         UMLObject *obj = oit.current();
         if (obj->getUMLPackage() == NULL && obj->getName() == name)
@@ -927,7 +864,7 @@ bool UMLDoc::isUnique(const QString &name, UMLPackage *package)
         return (package->findObject(name) == NULL);
 
     // Not currently in a package:
-    // Check against all objects that _dont_ have a parent package.
+    // Check against all objects that _don't_ have a parent package.
     for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
         UMLObject *obj = oit.current();
         if (obj->getUMLPackage() == NULL && obj->getName() == name)
@@ -1020,7 +957,7 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
     UMLAssociationList assocs = getAssociations();
     for (UMLAssociationListIt ait(assocs); ait.current(); ++ait) {
         UMLAssociation *a = ait.current();
-        // check if its already been added (shouldnt be the case right now
+        // check if its already been added (shouldn't be the case right now
         // as UMLAssociations only belong to one associationwidget at a time)
         if (a == Assoc)
         {
@@ -1042,7 +979,7 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
     // Add the UMLAssociation in this UMLDoc.
     m_objectList.append( (UMLObject*) Assoc);
 
-    // I dont believe this appropriate, UMLAssociations ARENT UMLWidgets -b.t.
+    // I don't believe this appropriate, UMLAssociations ARENT UMLWidgets -b.t.
     // emit sigObjectCreated(o);
 
     setModified(true);
@@ -1123,7 +1060,7 @@ void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
             temp->setID( getUniqueID() );
             addView(temp);
             emit sigDiagramCreated( EXTERNALIZE_ID(m_uniqueID) );
-            setModified(true);
+            setModified(true, false);
             UMLApp::app()->enablePrint(true);
             changeCurrentView( EXTERNALIZE_ID(m_uniqueID) );
             break;
@@ -1303,7 +1240,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
                 case Uml::at_Relationship:
                 case Uml::at_Association_Self:
                 case Uml::at_UniAssociation:
-                    // CHECK: doesnt seem correct
+                    // CHECK: doesn't seem correct
                     // But we DO need to remove uni-associations, etc. from the concept, -b.t.
                     if (AId == c->getID() || BId == c->getID())
                         c->removeAssociation(a);
@@ -1528,12 +1465,13 @@ void UMLDoc::saveToXMI(QIODevice& file, bool saveSubmodelFiles /* = false */) {
     //  save listview
     UMLApp::app()->getListView()->saveToXMI( doc, extensions, saveSubmodelFiles );
 
-    // save code generators
-    QDomElement codeGenElement = doc.createElement( "codegeneration" );
-    
-    for (CodeGeneratorListIt it(m_codeGenerators); it.current(); ++it)
-        it.current()->saveToXMI ( doc, codeGenElement );
-    extensions.appendChild( codeGenElement );
+    // save code generator
+    CodeGenerator *codegen = UMLApp::app()->getGenerator();
+    if (codegen) {
+        QDomElement codeGenElement = doc.createElement( "codegeneration" );
+        codegen->saveToXMI( doc, codeGenElement );
+        extensions.appendChild( codeGenElement );
+    }
 
     root.appendChild( extensions );
 
@@ -1603,7 +1541,7 @@ short UMLDoc::getEncoding(QIODevice & file)
             if (! docuElement.isNull() &&
                     docuElement.tagName() == "XMI.exporterEncoding")
             {
-                // at the moment this if isn't really neccesary, but maybe
+                // at the moment this if isn't really necessary, but maybe
                 // later we will have other encoding standards
                 if (docuElement.text() == QString("UnicodeUTF8"))
                 {
@@ -1831,7 +1769,9 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
     kDebug() << "UMLDoc::m_objectList.count() is " << m_objectList.count() << endl;
 #endif
     resolveTypes();
-
+    // set a default code generator if no <XMI.extensions><codegeneration> tag seen
+    if (UMLApp::app()->getGenerator() == NULL)
+        UMLApp::app()->setGenerator(UMLApp::app()->getDefaultLanguage());
     emit sigWriteToStatusBar( i18n("Setting up the document...") );
     kapp->processEvents();  // give UI events a chance
     m_currentView = NULL;
@@ -2045,14 +1985,17 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node) {
     } else if (tag == "codegeneration") {
         QDomNode cgnode = node.firstChild();
         QDomElement cgelement = cgnode.toElement();
-        // save for later on
         while( !cgelement.isNull() ) {
             QString nodeName = cgelement.tagName();
             QString lang = cgelement.attribute("language","UNKNOWN");
-            m_codeGenerationXMIParamMap->insert(lang, cgelement);
+            Uml::Programming_Language pl = Model_Utils::stringToProgLang(lang);
+            CodeGenerator *g = UMLApp::app()->setGenerator(pl);
+            g->loadFromXMI(cgelement);
             cgnode = cgnode.nextSibling();
             cgelement = cgnode.toElement();
         }
+        if (UMLApp::app()->getGenerator() == NULL)
+            UMLApp::app()->setGenerator(UMLApp::app()->getDefaultLanguage());
     }
 }
 
@@ -2526,7 +2469,10 @@ void UMLDoc::loadRedoData() {
 }
 
 void UMLDoc::addDefaultDatatypes() {
-    QStringList entries = UMLApp::app()->getGenerator()->defaultDatatypes();
+    CodeGenerator *cg = UMLApp::app()->getGenerator();
+    if (cg == NULL)
+        return;
+    QStringList entries = cg->defaultDatatypes();
     QStringList::Iterator end(entries.end());
     for (QStringList::Iterator it = entries.begin(); it != end; ++it)
         createDatatype(*it);
@@ -2600,7 +2546,9 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point) {
 }
 
 void UMLDoc::addDefaultStereotypes() {
-    UMLApp::app()->getGenerator()->createDefaultStereotypes();
+    CodeGenerator *gen = UMLApp::app()->getGenerator();
+    if (gen)
+        gen->createDefaultStereotypes();
 }
 
 const UMLStereotypeList& UMLDoc::getStereotypes() {

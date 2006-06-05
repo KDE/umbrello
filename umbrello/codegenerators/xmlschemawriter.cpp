@@ -538,15 +538,15 @@ void XMLSchemaWriter::writeComment( const QString &comment, QTextStream &XMLsche
         XMLschema<<indent<<"-->"<<m_endl;
     } else {
         // this should be more fancy in the future, breaking it up into 80 char
-        // lines so that it doesnt look too bad
+        // lines so that it doesn't look too bad
         XMLschema<<comment<<" -->"<<m_endl;
     }
 }
 
 // all that matters here is roleA, the role served by the children of this class
 // in any composition or aggregation association. In full associations, I have only
-// considered the case of "self" association, so it shouldnt matter if we use role A or
-// B to find the child class as long as we dont use BOTH roles. I bet this will fail
+// considered the case of "self" association, so it shouldn't matter if we use role A or
+// B to find the child class as long as we don't use BOTH roles. I bet this will fail
 // badly for someone using a plain association between 2 different classes. THAT should
 // be done, but isnt yet (this is why I have left role b code in for now). -b.t.
 bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
@@ -652,7 +652,7 @@ void XMLSchemaWriter::writeAssociationRoleDecl( UMLClassifier *c, const QString 
 
     // Min/Max Occurs is based on whether it is this a single element
     // or a List (maxoccurs>1). One day this will be done correctly with special
-    // multiplicity object that we dont have to figure out what it means via regex.
+    // multiplicity object that we don't have to figure out what it means via regex.
     QString minOccurs = "0";
     QString maxOccurs = "unbounded";
     if (multi.isEmpty())
@@ -667,7 +667,7 @@ void XMLSchemaWriter::writeAssociationRoleDecl( UMLClassifier *c, const QString 
         QStringList values = QStringList::split( QRegExp("[^\\d{1,}|\\*]"), multi);
 
         // could use some improvement here.. for sequences like "0..1,3..5,10" we
-        // dont capture the whole "richness" of the multi. Instead we translate it
+        // don't capture the whole "richness" of the multi. Instead we translate it
         // now to minOccurs="0" maxOccurs="10"
         if (values.count() > 0)
         {
@@ -704,7 +704,7 @@ void XMLSchemaWriter::writeAssociationRoleDecl( UMLClassifier *c, const QString 
     // as complexTypes.
     //
     // Of course, in OO methodology, you should be able to inherit from
-    // any class, but schema just dont allow use to have full inheritence using either groups
+    // any class, but schema just don't allow use to have full inheritence using either groups
     // or complexTypes. Thus we have taken a middle rode. If someone wants to key me into a
     // better way to represent this, I'd be happy to listen. =b.t.
     //

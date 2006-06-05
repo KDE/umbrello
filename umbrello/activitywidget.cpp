@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2005
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,15 +5,24 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 // own header
 #include "activitywidget.h"
-// qt/kde includes
+
+// qt includes
 #include <qpainter.h>
+
+// kde includes
 #include <klocale.h>
 #include <kdebug.h>
+
 // app includes
+#include "uml.h"
+#include "umldoc.h"
+#include "docwindow.h"
 #include "umlview.h"
 #include "listpopupmenu.h"
 #include "inputdialog.h"
@@ -137,7 +141,7 @@ void ActivityWidget::slotMenuSelection(int sel) {
         break;
 
     case ListPopupMenu::mt_Properties:
-        mouseDoubleClickEvent( 0 );
+        showProperties();
         done = true;
         break;
     }
@@ -146,15 +150,19 @@ void ActivityWidget::slotMenuSelection(int sel) {
         UMLWidget::slotMenuSelection( sel );
 }
 
+bool ActivityWidget::showProperties() {
+    DocWindow *docwindow = UMLApp::app()->getDocWindow();
+    docwindow->updateDocumentation(false);
 
-void ActivityWidget::mouseDoubleClickEvent(QMouseEvent * /*me*/) {
-    m_pView -> updateDocumentation( false );
-    ActivityDialog dialog( m_pView, this );
-    if( dialog.exec() && dialog.getChangesMade() ) {
-        //put here anything that needs to be done for changes
-        //nothing at the moment.
+    ActivityDialog dialog(m_pView, this);
+    bool modified = false;
+    if (dialog.exec() && dialog.getChangesMade()) {
+        docwindow->showDocumentation(this, true);
+        UMLApp::app()->getDocument()->setModified(true);
+        modified = true;
     }
-    m_pView -> showDocumentation( this, true );
+
+    return modified;
 }
 
 bool ActivityWidget::isActivity(WorkToolBar::ToolBar_Buttons tbb,

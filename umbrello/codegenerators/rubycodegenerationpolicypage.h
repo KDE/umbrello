@@ -13,6 +13,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2005-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 #ifndef RUBYCODEGENERATIONPOLICYPAGE_H
@@ -38,7 +40,6 @@ public:
 protected:
 
     RubyCodeGenerationFormBase * form;
-    int commentTypeToInteger(RubyCodeGenerationPolicy::RubyCommentStyle type);
 
 public slots:
 

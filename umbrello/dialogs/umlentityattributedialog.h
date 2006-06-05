@@ -54,6 +54,10 @@ protected:
     * Inserts @p type into the type-combobox as well as its completion object.
     */
     void insertType( const QString& type, int index = -1 );
+    /**
+    * Inserts @p type into the type-combobox as well as its completion object.
+    */
+    void insertAttribute( const QString& type, int index = -1 );
 
     /**
     *   The EntityAttribute to represent

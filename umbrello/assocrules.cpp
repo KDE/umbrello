@@ -330,6 +330,7 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
     { at_Containment,   wt_Package,     wt_Interface,   false,  false,  true,   false },
     { at_Containment,   wt_Package,     wt_Enum,        false,  false,  true,   false },
     { at_Containment,   wt_Package,     wt_Package,     false,  false,  true,   false },
+    { at_Containment,   wt_Package,     wt_Component,   false,  false,  true,   false },
     { at_Containment,   wt_Class,       wt_Class,       false,  false,  true,   false },
     { at_Containment,   wt_Class,       wt_Interface,   false,  false,  true,   false },
     { at_Containment,   wt_Class,       wt_Enum,        false,  false,  true,   false },

@@ -14,6 +14,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2003-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 #ifndef CODEGENERATIONOPTIONSPAGE_H
@@ -21,7 +23,7 @@
 
 #include <qwidget.h>
 #include "codegenerationoptionsbase.h"
-#include "../codegenerator.h"
+#include "../codegenerationpolicy.h"
 #include "../umlnamespace.h"
 
 /**
@@ -29,34 +31,33 @@
  * @author Brian Thomas
  */
 
+class CodeGenerationPolicy;
+class CodeGenerationPolicyPage;
+
 // 2003-07-30 : Updated for new code generation system. No longer need Yucky codegenstate
 // structure.
 
 class CodeGenerationOptionsPage : public CodeGenerationOptionsBase  {
     Q_OBJECT
 public:
-    CodeGenerationOptionsPage(CodeGenerator * gen,
-                              Uml::Programming_Language activeLanguage,
-                              QWidget *parent=0, const char *name=0);
+    CodeGenerationOptionsPage(QWidget *parent=0);
     ~CodeGenerationOptionsPage();
     void setDefaults();
     QString getCodeGenerationLanguage();
-    void updateCodeGenerationPolicyTab(CodeGenerator * gen);
+    void updateCodeGenerationPolicyTab();
     void apply();
-    void setCodeGenerator ( CodeGenerator * gen);
 
 protected:
     CodeGenerationPolicy * m_parentPolicy;
 
 private:
 
-    CodeGenerator * m_pCodeGenerator;
     CodeGenerationPolicyPage * m_pCodePolicyPage;
-    void init (CodeGenerator * gen, Uml::Programming_Language activeLanguage);
+    void init();
     int overwriteToInteger(CodeGenerationPolicy::OverwritePolicy value);
     int newLineToInteger(CodeGenerationPolicy::NewLineType value);
     int indentTypeToInteger(CodeGenerationPolicy::IndentationType value);
-    void setupActiveLanguageBox(Uml::Programming_Language activeLanguage);
+    void setupActiveLanguageBox();
 
 protected slots:
     void activeLanguageChanged(int id);

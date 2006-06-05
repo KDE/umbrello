@@ -138,13 +138,13 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
     } else {
         UMLTemplateList tmplParams( pConcept->getTemplateList() );
         for (UMLTemplate *t = tmplParams.first(); t; t = tmplParams.next())
-            m_pTypeCB->insertItem( t->getName() );
+            insertType( t->getName() );
     }
     //now add the Concepts
     UMLClassifierList namesList( m_pUmldoc->getConcepts() );
     UMLClassifier * obj;
     for(obj=namesList.first(); obj!=0 ;obj=namesList.next()) {
-        m_pTypeCB->insertItem( obj->getFullyQualifiedName() );
+        insertType( obj->getFullyQualifiedName() );
     }
 
     //work out which one to select
@@ -161,7 +161,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
     }
 
     if (!foundType) {
-        m_pTypeCB->insertItem( type, 0 );
+        insertType( type, 0 );
         m_pTypeCB->setCurrentItem(0);
     }
 
@@ -174,6 +174,12 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
     setTabOrder(m_pIn, m_pDoc);
 
     m_pNameLE->setFocus();
+}
+
+void ParmPropDlg::insertType( const QString& type, int index )
+{
+    m_pTypeCB->insertItem( type, index );
+    m_pTypeCB->completionObject()->addItem( type );
 }
 
 Uml::Parameter_Direction ParmPropDlg::getParmKind() {

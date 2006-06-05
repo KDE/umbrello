@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2005
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,7 +5,10 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
+
 // own header file
 #include "objectwidget.h"
 // system includes
@@ -20,6 +18,7 @@
 #include <klocale.h>
 #include <kdebug.h>
 // local includes
+#include "objectwidgetcontroller.h"
 #include "inputdialog.h"
 #include "seqlinewidget.h"
 #include "umlview.h"
@@ -56,6 +55,10 @@ void ObjectWidget::init() {
     messageWidgetList.setAutoDelete(false);
     if( m_pView != NULL && m_pView -> getType() == Uml::dt_Sequence ) {
         m_pLine = new SeqLineWidget( m_pView, this );
+
+        //Sets specific widget controller for sequence diagrams
+        delete m_widgetController;
+        m_widgetController = new ObjectWidgetController(this);
     } else {
         m_pLine = NULL;
     }
@@ -268,25 +271,6 @@ void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY) {
     QString t = m_InstanceName + " : " + m_pObject -> getName();
     p.drawText(offsetX + A_MARGIN, offsetY + textStartY,
                w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, t);
-}
-
-void ObjectWidget::mouseMoveEvent(QMouseEvent* me) {
-    if (!m_bMouseDown && me->button() != Qt::LeftButton)
-        return;
-    QPoint newPosition = doMouseMove(me);
-    int newX = newPosition.x();
-    int newY = newPosition.y();
-
-    //implement rule for sequence diagram
-    if( m_pView->getType() == Uml::dt_Sequence ) {
-        newY = this -> getY();
-    }
-    m_nOldX = newX;
-    m_nOldY = newY;
-    setX( newX );
-    setY( newY );
-    adjustAssocs(newX, newY);
-    m_pView->resizeCanvasToItems();
 }
 
 void ObjectWidget::tabUp() {

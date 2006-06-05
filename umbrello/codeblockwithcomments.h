@@ -100,7 +100,7 @@ private:
 
     CodeComment * m_comment;
 
-    void initFields();
+    void initFields(CodeDocument *parent, QString comment);
 
 };
 

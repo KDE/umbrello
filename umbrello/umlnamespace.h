@@ -202,6 +202,7 @@ enum ListView_Type
     lvt_EntityRelationship_Diagram,
     lvt_EntityRelationship_Folder,
     lvt_EntityRelationship_Model,
+    lvt_Subsystem,
     lvt_Model,
     lvt_Unknown = -1
 };

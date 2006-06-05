@@ -51,6 +51,7 @@
 #include "codegenerator.h"
 #include "codegenerationpolicy.h"
 #include "codegenerators/codegenfactory.h"
+#include "codegenerators/codegenpolicyext.h"
 #include "widget_utils.h"
 #include "umldoc.h"
 #include "umllistview.h"
@@ -84,7 +85,9 @@ UMLApp::UMLApp(QWidget* , const char* name) : K3DockMainWindow(0, name) {
     m_loading = false;
     m_clipTimer = 0;
     m_copyTimer = 0;
-    m_defaultcodegenerationpolicy = 0;
+    m_codegen = 0;
+    m_policyext = 0;
+    m_commoncodegenpolicy = 0;
     m_activeLanguage = Uml::pl_Reserved;
     ///////////////////////////////////////////////////////////////////
     // call inits to invoke all other construction parts
@@ -109,7 +112,7 @@ UMLApp::UMLApp(QWidget* , const char* name) : K3DockMainWindow(0, name) {
     Q3PopupMenu* menu = findMenu( menuBar(), QString("code") );
     m_langSelect = findMenu( menu, QString("active_lang_menu") );
 
-    //in case langSelect hasnt been initialized we create the Popup menu.
+    //in case langSelect hasn't been initialized we create the Popup menu.
     //it will be hidden, but at least we wont crash if someone takes the entry away from the ui.rc file
     if (m_langSelect == NULL) {
         m_langSelect = new Q3PopupMenu(this);
@@ -118,7 +121,7 @@ UMLApp::UMLApp(QWidget* , const char* name) : K3DockMainWindow(0, name) {
     menu = findMenu( menuBar(), QString("views") );
     m_zoomSelect = findMenu( menu, QString("zoom_menu") );
 
-    //in case zoomSelect hasnt been initialized we create the Popup menu.
+    //in case zoomSelect hasn't been initialized we create the Popup menu.
     //it will be hidden, but at least we wont crash if some one takes the entry away from the ui.rc file
     if (m_zoomSelect == NULL) {
         m_zoomSelect = new Q3PopupMenu(this);
@@ -131,7 +134,7 @@ UMLApp::UMLApp(QWidget* , const char* name) : K3DockMainWindow(0, name) {
 
     m_refactoringAssist = 0L;
 
-    m_defaultcodegenerationpolicy = new CodeGenerationPolicy(m_config);
+    m_commoncodegenpolicy = new CodeGenerationPolicy(m_config);
 
     m_imageExporterAll = new UMLViewImageExporterAll();
 }
@@ -454,13 +457,6 @@ void UMLApp::openDocumentFile(const KUrl& url) {
     slotStatusMsg(i18n("Ready."));
     setCaption(m_doc->URL().fileName(), false);
     enablePrint(true);
-
-    // restore any saved code generators to memory.
-    // This is important because we need to insure that
-    // even if a code generator isnt worked with, it will
-    // remain in sync with the UML diagram(s) should they change.
-    initSavedCodeGenerators();
-
 }
 
 UMLDoc *UMLApp::getDocument() const {
@@ -537,25 +533,18 @@ void UMLApp::saveOptions() {
     m_config->writeEntry( "showHiddenBlocks", m_optionState.codeViewerState.showHiddenBlocks);
     m_config->writeEntry( "hiddenColor", m_optionState.codeViewerState.hiddenColor);
 
-    // merge current defaults into the default policy, just in case they
-    // are out of sync (yes, yes, we could have a callback do this).
-    CodeGenerator* gen = getGenerator(false);
-    if(gen && gen->getPolicy())
-        m_defaultcodegenerationpolicy->setDefaults(gen->getPolicy());
-
-    // write the config for each language-specific code gen policies
-    for (int i = 0; i < Uml::pl_Reserved; i++) {
-        CodeGenerator * gen = m_doc->findCodeGeneratorByLanguage((Uml::Programming_Language) i);
-        if (gen)
-            gen->getPolicy()->writeConfig(m_config);
-    }
+    // write the config for a language-specific code gen policy
+    if (m_policyext)
+        m_policyext->writeConfig(m_config);
 
     // now write the basic defaults to the m_config file
-    m_defaultcodegenerationpolicy->writeConfig(m_config);
+    m_commoncodegenpolicy->writeConfig(m_config);
 
     // next, we record the activeLanguage in the Code Generation Group
-    m_config->setGroup("Code Generation");
-    m_config->writeEntry("activeLanguage", Model_Utils::progLangToString(m_activeLanguage));
+    if (m_codegen) {
+        m_config->setGroup("Code Generation");
+        m_config->writeEntry("activeLanguage", Model_Utils::progLangToString(m_codegen->getLanguage()));
+    }
 }
 
 void UMLApp::readOptions() {
@@ -640,7 +629,6 @@ void UMLApp::slotFileNew() {
         setModified(false);
         enablePrint(false);
     }
-    setGenerator(createGenerator());
     slotUpdateViews();
     slotStatusMsg(i18n("Ready."));
 }
@@ -668,7 +656,6 @@ void UMLApp::slotFileOpen() {
         }
 
     }
-    setGenerator(createGenerator());
     slotUpdateViews();
     m_loading = false;
     slotStatusMsg(i18n("Ready."));
@@ -692,7 +679,6 @@ void UMLApp::slotFileOpenRecent(const KUrl& url) {
     }
 
     m_loading = false;
-    setGenerator(createGenerator());
     slotUpdateViews();
     slotStatusMsg(i18n("Ready."));
 }
@@ -997,7 +983,7 @@ void UMLApp::slotPrefs() {
     m_config->setGroup("TipOfDay");
     m_optionState.generalState.tip = m_config->readBoolEntry( "RunOnStart", true );
 
-    m_dlg = new SettingsDlg(this, &m_optionState, m_activeLanguage, getGenerator());
+    m_dlg = new SettingsDlg(this, &m_optionState);
     connect(m_dlg, SIGNAL( applyClicked() ), this, SLOT( slotApplyPrefs() ) );
 
     if ( m_dlg->exec() == QDialog::Accepted && m_dlg->getChangesApplied() ) {
@@ -1015,8 +1001,9 @@ void UMLApp::slotApplyPrefs() {
         m_config -> writeEntry( "RunOnStart", m_optionState.generalState.tip );
 
         m_doc -> settingsChanged( m_optionState );
-        setActiveLanguage( m_dlg->getCodeGenerationLanguage() );
-        m_dlg->setCodeGenerator(getDocument()->getCurrentCodeGenerator()); // do this AFTER setActiveLanguage;
+        const QString plStr = m_dlg->getCodeGenerationLanguage();
+        Uml::Programming_Language pl = Model_Utils::stringToProgLang(plStr);
+        setGenerator(pl);
     }
 }
 
@@ -1055,7 +1042,7 @@ void UMLApp::readOptionState() {
     m_optionState.generalState.tabdiagrams = m_config -> readBoolEntry( "tabdiagrams",
             true
                                                                       );
-    m_optionState.generalState.newcodegen = m_config -> readBoolEntry( "newcodegen", true );
+    m_optionState.generalState.newcodegen = m_config -> readBoolEntry("newcodegen", false);
     m_optionState.generalState.angularlines = m_config->readBoolEntry("angularlines", false);
     m_optionState.generalState.autosave = m_config -> readBoolEntry( "autosave", true );
     m_optionState.generalState.time = m_config -> readNumEntry( "time", 0 ); //old autosavetime value kept for compatibility
@@ -1144,7 +1131,7 @@ void UMLApp::viewCodeDocument(UMLClassifier* classifier) {
                 delete dialog;
                 dialog = NULL;
             } else {
-                // shouldnt happen..
+                // shouldn't happen..
                 KMessageBox::sorry(0, i18n("Cannot view code until you generate some first."),i18n("Cannot View Code"));
             }
         } else {
@@ -1162,97 +1149,55 @@ void UMLApp::refactor(UMLClassifier* classifier) {
     m_refactoringAssist->show();
 }
 
-void UMLApp::setGenerator(CodeGenerator* gen, bool giveWarning) {
+CodeGenerationPolicy *UMLApp::getCommonPolicy() {
+    return m_commoncodegenpolicy;
+}
 
-    if (!gen) {
-        if(giveWarning)  {
-            KMessageBox::sorry(this, i18n("Could not find a code generator."),
-                               i18n("No Code Generator"));
+void UMLApp::setPolicyExt(CodeGenPolicyExt *policy) {
+    m_policyext = policy;
+}
+
+CodeGenPolicyExt *UMLApp::getPolicyExt() {
+    return m_policyext;
+}
+
+CodeGenerator *UMLApp::setGenerator(Uml::Programming_Language pl) {
+    if (pl == Uml::pl_Reserved) {
+        if (m_codegen) {
+            delete m_codegen;
+            m_codegen = NULL;
         }
-        return;
+        return NULL;
     }
-
-    // IF there is a current generator, it has a policy that MAY have
-    // been changed. IF so, we should merge it back with our 'default'
-    // policy. Yes, it would be better if we simply sync'd up all the
-    // existing policies to the default policy via callbacks, but it
-    // is more work and harder to implment. THis simple solution is ugly
-    // but works. -b.t.
-    CodeGenerator* current = getDocument()->getCurrentCodeGenerator();
-    if (current)  {
-        m_defaultcodegenerationpolicy->setDefaults(current->getPolicy(), false);
-    }
-
-    // now set defaults on the new generator policy from the default policy
-    gen->getPolicy()->setDefaults(m_defaultcodegenerationpolicy, true);
-
-    getDocument()->setCurrentCodeGenerator(gen);
-}
-
-CodeGenerator* UMLApp::getGenerator(bool warnMissing ) {
-
-    CodeGenerator * gen = getDocument()->getCurrentCodeGenerator();
-
-    if( !gen)
-    {
-        gen = createGenerator();
-        setGenerator(gen, warnMissing);
-    }
-
-    return gen;
-}
-
-CodeGenerator* UMLApp::createGenerator() {
-    CodeGenerator* g = 0;
-
-    if (m_activeLanguage == Uml::pl_Reserved) {
-        KMessageBox::sorry(this,i18n("There is no active language defined.\nPlease select "
-                                     "one of the installed languages to generate the code with."),
-                           i18n("No Language Selected"));
-        return 0;
-    }
-
-    // does the code generator for our activeLanguage already exist?
+    // does the code generator already exist?
     // then simply return that
-    g = getDocument()->findCodeGeneratorByLanguage(m_activeLanguage);
-    if(g) {
-        return g;
+    if (m_codegen) {
+        if (m_codegen->getLanguage() == pl)
+            return m_codegen;
+        delete m_codegen;  // ATTENTION! remove all refs to it or its policy first
+        m_codegen = NULL;
     }
+    m_activeLanguage = pl;
+    m_codegen = CodeGenFactory::createObject(pl);
+    updateLangSelectMenu(pl);
 
-    CodeGeneratorFactory codeGeneratorFactory;
-    g = codeGeneratorFactory.createObject(m_activeLanguage);
-    if (getDocument()->getCurrentCodeGenerator() == NULL)
-        getDocument()->setCurrentCodeGenerator(g);
+    if (m_policyext)
+        m_policyext->setDefaults(m_config, false); // picks up language specific stuff
+    return m_codegen;
+}
 
-    // now set defaults on the new policy from the configuration
-    // file and THEN the default policy, which may have been updated
-    // since it was first created. In both cases, DONT emit the modifiedCodeContent
-    // signal as we will be doing that later.
-    //
-    g->getPolicy()->setDefaults(m_config, false); // picks up language specific stuff
-    g->getPolicy()->setDefaults(m_defaultcodegenerationpolicy, false);
-
-    // configure it from XMI
-    QString language = Model_Utils::progLangToString( g->getLanguage() );
-    QDomElement elem = getDocument()->getCodeGeneratorXMIParams(language);
-    g->loadFromXMI(elem);
-
-    // add to our UML document
-    getDocument()->addCodeGenerator(g);
-
-    return g;
-
+CodeGenerator* UMLApp::getGenerator() {
+    return m_codegen;
 }
 
 void UMLApp::generateAllCode() {
-    CodeGenerator* gen = getGenerator();
-    if (gen) {
-        gen->writeCodeToFile();
+    if (m_codegen) {
+        m_codegen->writeCodeToFile();
     }
 }
 
 void UMLApp::generationWizard() {
-    CodeGenerationWizard wizard(m_doc, 0, m_activeLanguage, this);
+    CodeGenerationWizard wizard(0 /*classList*/);
     wizard.exec();
 }
 
@@ -1273,7 +1218,7 @@ void UMLApp::setActiveLanguage(int menuId) {
         m_activeLanguage = (Uml::Programming_Language)index;
 
         // update the generator
-        setGenerator(createGenerator());
+        setGenerator(m_activeLanguage);
     }
 }
 
@@ -1292,24 +1237,24 @@ void UMLApp::setActiveLanguage( const QString &activeLanguage ) {
         //uncheck everything except the active language
         m_langSelect->setItemChecked(m_langSelect->idAt(i), isActiveLang);
     }
-    this->m_activeLanguage = Model_Utils::stringToProgLang(activeLanguage);
 
-    setGenerator(createGenerator());
+    setGenerator(Model_Utils::stringToProgLang(activeLanguage));
 }
 
-Uml::Programming_Language UMLApp::getActiveLanguage() const {
+Uml::Programming_Language UMLApp::getActiveLanguage() {
     return m_activeLanguage;
 }
 
-bool UMLApp::activeLanguageIsCaseSensitive() const {
-    return (m_activeLanguage != Uml::pl_Ada);
+bool UMLApp::activeLanguageIsCaseSensitive() {
+    return (getActiveLanguage() != Uml::pl_Ada);
 }
 
-QString UMLApp::activeLanguageScopeSeparator() const {
-    if (m_activeLanguage == Uml::pl_Ada ||
-        m_activeLanguage == Uml::pl_Java ||
-        m_activeLanguage == Uml::pl_JavaScript ||
-        m_activeLanguage == Uml::pl_Python)  // CHECK: more?
+QString UMLApp::activeLanguageScopeSeparator() {
+    Uml::Programming_Language pl = getActiveLanguage();
+    if (pl == Uml::pl_Ada ||
+        pl == Uml::pl_Java ||
+        pl == Uml::pl_JavaScript ||
+        pl == Uml::pl_Python)  // CHECK: more?
         return ".";
     return "::";
 }
@@ -1380,15 +1325,16 @@ void UMLApp::slotImportClasses() {
     m_doc->setLoading(true);
     // File selection is separated from invocation of ClassImport::import()
     // because the user might decide to choose a language different from
-    // the m_activeLanguage (by using the "All Files" option).
+    // the active language (by using the "All Files" option).
     QString preselectedExtension;
-    if (m_activeLanguage == Uml::pl_IDL) {
+    const Uml::Programming_Language pl = m_codegen->getLanguage();
+    if (pl == Uml::pl_IDL) {
         preselectedExtension = i18n("*.idl|IDL Files (*.idl)");
-    } else if (m_activeLanguage == Uml::pl_Python) {
+    } else if (pl == Uml::pl_Python) {
         preselectedExtension = i18n("*.py|Python Files (*.py)");
-    } else if (m_activeLanguage == Uml::pl_Java) {
+    } else if (pl == Uml::pl_Java) {
         preselectedExtension = i18n("*.java|Java Files (*.java)");
-    } else if (m_activeLanguage == Uml::pl_Ada) {
+    } else if (pl == Uml::pl_Ada) {
         preselectedExtension = i18n("*.ads *.ada|Ada Files (*.ads *.ada)");
     } else {
         preselectedExtension = i18n("*.h *.hh *.hpp *.hxx *.H|Header Files (*.h *.hh *.hpp *.hxx *.H)");
@@ -1452,44 +1398,32 @@ void UMLApp::slotDeleteDiagram() {
     m_doc->removeDiagram( m_doc->getCurrentView()->getID() );
 }
 
-void UMLApp::initGenerators() {
+Uml::Programming_Language UMLApp::getDefaultLanguage() {
     m_config->setGroup("Code Generation");
     QString activeLanguage = m_config->readEntry("activeLanguage", "C++");
-    m_activeLanguage = Model_Utils::stringToProgLang(activeLanguage);
-    updateLangSelectMenu();
+    return Model_Utils::stringToProgLang(activeLanguage);
 }
 
-void UMLApp::updateLangSelectMenu() {
+void UMLApp::initGenerator() {
+    if (m_codegen) {
+        delete m_codegen;
+        m_codegen = NULL;
+    }
+    Uml::Programming_Language defaultLanguage = getDefaultLanguage();
+    setActiveLanguage(Model_Utils::progLangToString(defaultLanguage));
+    if (m_codegen == NULL)
+        setGenerator(defaultLanguage);
+    updateLangSelectMenu(defaultLanguage);
+}
+
+void UMLApp::updateLangSelectMenu(Uml::Programming_Language activeLanguage) {
     m_langSelect->clear();
     m_langSelect->setCheckable(true);
-    bool foundActive = false;
     for (int i = 0; i < Uml::pl_Reserved; i++) {
         QString language = Model_Utils::progLangToString((Uml::Programming_Language) i);
         int id = m_langSelect->insertItem(language,this,SLOT(setActiveLanguage(int)));
-        if (m_activeLanguage == i) {
-            m_langSelect->setItemChecked(id,true);
-            foundActive = true;
-        } else
-            m_langSelect->setItemChecked(id,false);
-    }
-
-    //if we could not find the active language, we try to fall back to C++
-    if(!foundActive) {
-        for(uint index=0; index < m_langSelect->count(); index++)
-            if ( m_langSelect->text(m_langSelect->idAt(index)) == "C++" ) {
-                m_langSelect->setItemChecked(m_langSelect->idAt(index),true);
-                m_activeLanguage = Uml::pl_Cpp;
-                break;
-            }
-    }
-    //last try... if we dont have an activeLanguage and we have no Cpp installed we just
-    //take the first language we find as "active"
-    if (m_activeLanguage == Uml::pl_Reserved && m_langSelect->count() > 0) {
-        int id = m_langSelect->idAt(0);
-        m_langSelect -> setItemChecked(id, true);
-        QString language = m_langSelect->text(id);
-        m_activeLanguage = Model_Utils::stringToProgLang(language);
-        kDebug() << "UMLApp::updateLangSelectMenu: defaulting to " << language << endl;
+        const bool isActiveLanguage = (activeLanguage == i);
+        m_langSelect->setItemChecked(id, isActiveLanguage);
     }
 }
 
@@ -1518,6 +1452,7 @@ void UMLApp::customEvent(QCustomEvent* e) {
     }
 }
 
+//TODO Move this to UMLWidgetController?
 void UMLApp::handleCursorKeyReleaseEvent(QKeyEvent* e) {
     // in case we have selected something in the diagram, move it by one pixel
     // to the direction pointed by the cursor key
@@ -1579,17 +1514,14 @@ void UMLApp::keyReleaseEvent(QKeyEvent *e) {
 
 void UMLApp::newDocument() {
     m_doc->newDocument();
-    setGenerator(createGenerator());
-    slotUpdateViews();
-}
-
-void UMLApp::initSavedCodeGenerators() {
-    for (int i = 0; i < Uml::pl_Reserved; i++) {
-        QString activeLang = Model_Utils::progLangToString((Uml::Programming_Language) i);
-        if (m_doc->hasCodeGeneratorXMIParams(activeLang))
-            createGenerator();
+    Uml::Programming_Language defaultLanguage = getDefaultLanguage();
+    if (m_codegen) {
+        defaultLanguage = m_codegen->getLanguage();
+        delete m_codegen;
+        m_codegen = NULL;
     }
-    setGenerator(createGenerator());
+    setGenerator(defaultLanguage);
+    slotUpdateViews();
 }
 
 QWidget* UMLApp::getMainViewWidget() {
@@ -1660,6 +1592,10 @@ void UMLApp::slotMoveTabRight() {
 
 KTabWidget* UMLApp::tabWidget() {
     return m_tabWidget;
+}
+
+QString UMLApp::getStatusBarMsg() {
+    return m_statusLabel->text();
 }
 
 //static pointer, holding the unique instance

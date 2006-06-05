@@ -75,12 +75,12 @@ void initDocument(KCmdLineArgs *args, KConfig* cfg);
 
 /**
  * Export all the views in the document using the command line args set by the user.
- * The errors occured while exporting, if any, are shown using kError().
+ * The errors occured while exporting, if any, are shown using kdError().
  *
  * @param args The command line arguments given.
  * @param exportOpt A list containing all the "export" arguments given.
  */
-void exportAllViews(KCmdLineArgs *args, const QByteArrayList &exportOpt);
+void exportAllViews(KCmdLineArgs *args, const QCStringList &exportOpt);
 
 int main(int argc, char *argv[]) {
     KAboutData aboutData( "umbrello", I18N_NOOP("Umbrello UML Modeller"),
@@ -107,7 +107,7 @@ int main(int argc, char *argv[]) {
         if (showGUI) {
             uml->show();
         }
-        uml->initGenerators();
+        uml->initGenerator();
 
         //show tips if wanted
         if (showGUI) {
@@ -120,12 +120,10 @@ int main(int argc, char *argv[]) {
         QByteArrayList exportOpt = args->getOptionList("export");
         if (exportOpt.size() > 0) {
              exportAllViews(args, exportOpt);
-             kapp->processEvents();
-             return 0;
         }
 
-        if ( showLogo && !start_logo->isHidden() ) {
-            start_logo->raise();
+        if ( showGUI && (startLogo != 0L) && !startLogo->isHidden() ) {
+            startLogo->raise();
         }
     }
     return app.exec();
@@ -195,3 +193,4 @@ void exportAllViews(KCmdLineArgs *args, const QByteArrayList &exportOpt) {
     // is sent and the app finishes without user interaction
     kapp->postEvent(UMLApp::app(), new CmdLineExportAllViewsEvent(extension, directory, useFolders));
 }
+

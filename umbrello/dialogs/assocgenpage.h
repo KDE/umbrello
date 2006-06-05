@@ -32,7 +32,7 @@
 #include "../umldoc.h"
 #include "../associationwidget.h"
 
-class QComboBox;
+class KComboBox;
 
 
 /**
@@ -69,7 +69,7 @@ public:
 
 private:
     QLineEdit * m_pAssocNameLE;
-    QComboBox *m_pTypeCB;
+    KComboBox *m_pTypeCB;
 
     /* Choices for the QComboBox, and we store ints and strings
        so we can translate both ways */

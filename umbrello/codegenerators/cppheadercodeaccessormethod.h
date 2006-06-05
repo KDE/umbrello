@@ -19,7 +19,8 @@
 #include <qstring.h>
 
 #include "../codeaccessormethod.h"
-#include "cppcodeclassfield.h"
+
+class CodeClassField;
 
 class CPPHeaderCodeAccessorMethod : public CodeAccessorMethod
 {
@@ -32,12 +33,17 @@ public:
     /**
      * Empty Constructor
      */
-    CPPHeaderCodeAccessorMethod ( CPPCodeClassField * field, CodeAccessorMethod::AccessorType type);
+    CPPHeaderCodeAccessorMethod ( CodeClassField * field, CodeAccessorMethod::AccessorType type);
 
     /**
      * Empty Destructor
      */
     virtual ~CPPHeaderCodeAccessorMethod ( );
+
+    /**
+     * Must be called before this object is usable
+     */
+    void update();
 
 protected:
 

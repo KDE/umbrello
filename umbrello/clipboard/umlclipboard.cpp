@@ -22,7 +22,7 @@
 #include "../associationwidget.h"
 #include "../attribute.h"
 #include "../classifier.h"
-#include "../floatingtext.h"
+#include "../floatingtextwidget.h"
 #include "../operation.h"
 #include "../umldoc.h"
 #include "../umllistview.h"
@@ -648,7 +648,7 @@ bool UMLClipboard::checkPasteWidgets( UMLWidgetList & widgetList ) {
 
         case Uml::wt_Text:
             {
-                FloatingText *ft = static_cast<FloatingText*>(p);
+                FloatingTextWidget *ft = static_cast<FloatingTextWidget*>(p);
                 if (ft->getRole() != Uml::tr_Floating) {
                     widgetList.remove(p);
                     delete ft;

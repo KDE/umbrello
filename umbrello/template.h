@@ -88,7 +88,7 @@ public:
     virtual QString getTypeName();
 
     /**
-     * Display the properties configuration dialogue for the template.
+     * Display the properties configuration dialog for the template.
      *
      * @return  Success status.
      */

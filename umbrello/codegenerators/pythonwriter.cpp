@@ -245,7 +245,6 @@ void PythonWriter::writeOperations(QString /*classname*/, UMLOperationList &opLi
                 }
             }//end for : write parameter documentation
             h<<m_indentation<<m_indentation<<"@return " + op->getTypeName()<<" :"<<m_endl;
-            h<<m_indentation<<m_indentation<<"@since"<<m_endl;
             h<<m_indentation<<m_indentation<<"@author"<<m_endl;
             h<<m_indentation<<m_indentation<<"\"\"\""<<m_endl;
         }

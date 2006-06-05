@@ -186,6 +186,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
         case Uml::lvt_UseCase:
         case Uml::lvt_Class:
         case Uml::lvt_Package:
+        case Uml::lvt_Subsystem:
         case Uml::lvt_Component:
         case Uml::lvt_Node:
         case Uml::lvt_Interface:
@@ -317,6 +318,10 @@ void UMLListView::popupMenuSel(int sel) {
 
     case ListPopupMenu::mt_Package:
         addNewItem(temp, Uml::lvt_Package);
+        break;
+
+    case ListPopupMenu::mt_Subsystem:
+        addNewItem(temp, Uml::lvt_Subsystem);
         break;
 
     case ListPopupMenu::mt_Component:
@@ -471,25 +476,25 @@ void UMLListView::popupMenuSel(int sel) {
         if ( typeIsCanvasWidget(lvt) ) {
             object->showProperties(ClassPropDlg::page_gen);
         } else if(umlType == Uml::ot_Attribute) {
-            // show the attribute dialogue
+            // show the attribute dialog
             UMLAttribute* selectedAttribute = static_cast<UMLAttribute*>(object);
-            UMLAttributeDialog dialogue( this, selectedAttribute );
-            dialogue.exec();
+            UMLAttributeDialog dialog( this, selectedAttribute );
+            dialog.exec();
         } else if(umlType == Uml::ot_EntityAttribute) {
-            // show the attribute dialogue
+            // show the attribute dialog
             UMLEntityAttribute* selectedAttribute = static_cast<UMLEntityAttribute*>(object);
-            UMLEntityAttributeDialog dialogue( this, selectedAttribute );
-            dialogue.exec();
+            UMLEntityAttributeDialog dialog( this, selectedAttribute );
+            dialog.exec();
         } else if(umlType == Uml::ot_Operation) {
-            // show the operation dialogue
+            // show the operation dialog
             UMLOperation* selectedOperation = static_cast<UMLOperation*>(object);
-            UMLOperationDialog dialogue( this, selectedOperation );
-            dialogue.exec();
+            UMLOperationDialog dialog( this, selectedOperation );
+            dialog.exec();
         } else if(umlType == Uml::ot_Template) {
-            // show the template dialogue
+            // show the template dialog
             UMLTemplate* selectedTemplate = static_cast<UMLTemplate*>(object);
-            UMLTemplateDialog dialogue( this, selectedTemplate );
-            dialogue.exec();
+            UMLTemplateDialog dialog( this, selectedTemplate );
+            dialog.exec();
         } else {
             kWarning() << "calling properties on unknown type" << endl;
         }
@@ -911,6 +916,7 @@ UMLListViewItem * UMLListView::findUMLObjectInFolder(UMLListViewItem* folder, UM
         case Uml::lvt_UseCase :
         case Uml::lvt_Class :
         case Uml::lvt_Package :
+        case Uml::lvt_Subsystem :
         case Uml::lvt_Component :
         case Uml::lvt_Node :
         case Uml::lvt_Artifact :
@@ -1178,9 +1184,14 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
             accept = (dstType == Uml::lvt_UseCase_Folder ||
                       dstType == Uml::lvt_UseCase_View);
             break;
+        case Uml::lvt_Subsystem:
+            accept = (dstType == Uml::lvt_Component_Folder ||
+                      dstType == Uml::lvt_Subsystem);
+            break;
         case Uml::lvt_Component:
             accept = (dstType == Uml::lvt_Component_Folder ||
-                      dstType == Uml::lvt_Component);
+                      dstType == Uml::lvt_Component ||
+                      dstType == Uml::lvt_Subsystem);
             break;
         case Uml::lvt_Artifact:
         case Uml::lvt_Component_Diagram:
@@ -1259,17 +1270,39 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
             delete move;
         }
         break;
-    case Uml::lvt_Component:
+    case Uml::lvt_Subsystem:
         if (newParentType == Uml::lvt_Component_Folder ||
-                newParentType == Uml::lvt_Component_View ||
-                newParentType == Uml::lvt_Component) {
+            newParentType == Uml::lvt_Component_View ||
+            newParentType == Uml::lvt_Subsystem) {
             newItem = move->deepCopy(newParent);
             delete move;
             UMLCanvasObject *o = static_cast<UMLCanvasObject*>(newItem->getUMLObject());
             if (o == NULL) {
                 kDebug() << "moveObject: newItem's UMLObject is NULL"
                           << endl;
-            } else if (newParentType == Uml::lvt_Package ||
+            } else if (newParentType == Uml::lvt_Subsystem) {
+                UMLPackage *pkg = static_cast<UMLPackage*>(newParentObj);
+                o->setUMLPackage(pkg);
+                pkg->addObject(o);
+            } else {
+                o->setUMLPackage(NULL);
+                m_doc->addUMLObject(o);
+            }
+            m_doc->getCurrentView()->updateContainment(o);
+        }
+        break;
+    case Uml::lvt_Component:
+        if (newParentType == Uml::lvt_Component_Folder ||
+            newParentType == Uml::lvt_Component_View ||
+            newParentType == Uml::lvt_Component ||
+            newParentType == Uml::lvt_Subsystem) {
+            newItem = move->deepCopy(newParent);
+            delete move;
+            UMLCanvasObject *o = static_cast<UMLCanvasObject*>(newItem->getUMLObject());
+            if (o == NULL) {
+                kDebug() << "moveObject: newItem's UMLObject is NULL"
+                          << endl;
+            } else if (newParentType == Uml::lvt_Subsystem ||
                        newParentType == Uml::lvt_Component) {
                 UMLPackage *pkg = static_cast<UMLPackage*>(newParentObj);
                 o->setUMLPackage(pkg);
@@ -1507,6 +1540,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
     case Uml::lvt_UseCase:
     case Uml::lvt_Class:
     case Uml::lvt_Package:
+    case Uml::lvt_Subsystem:
     case Uml::lvt_Component:
     case Uml::lvt_Node:
     case Uml::lvt_Artifact:
@@ -1754,6 +1788,7 @@ Uml::Object_Type UMLListView::convert_LVT_OT(Uml::ListView_Type lvt) {
         break;
 
     case Uml::lvt_Package:
+    case Uml::lvt_Subsystem:
         ot = Uml::ot_Package;
         break;
 
@@ -1917,6 +1952,10 @@ QPixmap & UMLListView::getPixmap( Icon_Type type ) {
         return m_Pixmaps.Package;
         break;
 
+    case it_Subsystem:
+        return m_Pixmaps.Subsystem;
+        break;
+
     case it_Component:
         return m_Pixmaps.Component;
         break;
@@ -2016,6 +2055,7 @@ void UMLListView::loadPixmaps() {
     m_Pixmaps.Class.load( dataDir + "class.png" );
     m_Pixmaps.Template.load( dataDir + "template.png" );
     m_Pixmaps.Package.load( dataDir + "package.png" );
+    m_Pixmaps.Subsystem.load( dataDir + "subsystem.png" );
     m_Pixmaps.Component.load( dataDir + "component.png" );
     m_Pixmaps.Node.load( dataDir + "node.png" );
     m_Pixmaps.Artifact.load( dataDir + "artifact.png" );
@@ -2048,6 +2088,8 @@ void UMLListView::slotExpanded( Q3ListViewItem * item ) {
     case Uml::lvt_EntityRelationship_Folder:
     case Uml::lvt_Datatype_Folder:
     case Uml::lvt_Package:
+    case Uml::lvt_Component:
+    case Uml::lvt_Subsystem:
         myItem->updateFolder();
         break;
     default:
@@ -2070,6 +2112,8 @@ void UMLListView::slotCollapsed( Q3ListViewItem * item ) {
     case Uml::lvt_EntityRelationship_Folder:
     case Uml::lvt_Datatype_Folder:
     case Uml::lvt_Package:
+    case Uml::lvt_Component:
+    case Uml::lvt_Subsystem:
         myItem->updateFolder();
         break;
     default:
@@ -2120,6 +2164,12 @@ void UMLListView::addNewItem( Q3ListViewItem * parent, Uml::ListView_Type type )
         name = Model_Utils::uniqObjectName( Uml::ot_Package );
         newItem = new UMLListViewItem( parentItem, name, type, (UMLObject *)0 );
         newItem->setPixmap( 0, getPixmap( it_Package ) );
+        break;
+
+    case Uml::lvt_Subsystem:
+        name = Model_Utils::uniqObjectName( Uml::ot_Package );
+        newItem = new UMLListViewItem( parentItem, name, type, (UMLObject *)0 );
+        newItem->setPixmap( 0, getPixmap( it_Subsystem ) );
         break;
 
     case Uml::lvt_Component:
@@ -2307,6 +2357,7 @@ bool UMLListView::itemRenamed( Q3ListViewItem * item , int /*col*/ ) {
     case Uml::lvt_Actor:
     case Uml::lvt_Class:
     case Uml::lvt_Package:
+    case Uml::lvt_Subsystem:
     case Uml::lvt_Component:
     case Uml::lvt_Node:
     case Uml::lvt_Artifact:
@@ -2321,7 +2372,9 @@ bool UMLListView::itemRenamed( Q3ListViewItem * item , int /*col*/ ) {
                 kError() << "UMLListView::itemRenamed() internal" << endl;
                 return false;
             }
-            createUMLObject( renamedItem, ot );
+            UMLObject *o = createUMLObject( renamedItem, ot );
+            if (type == Uml::lvt_Subsystem)
+                o->setStereotype("subsystem");
         }
         break;
 
@@ -2375,7 +2428,7 @@ bool UMLListView::itemRenamed( Q3ListViewItem * item , int /*col*/ ) {
     return true;
 }
 
-void UMLListView::createUMLObject( UMLListViewItem * item, Uml::Object_Type type ) {
+UMLObject *UMLListView::createUMLObject( UMLListViewItem * item, Uml::Object_Type type ) {
     QString name = item -> text( 0 );
     UMLObject * object = NULL;
     switch( type ) {
@@ -2429,11 +2482,12 @@ void UMLListView::createUMLObject( UMLListViewItem * item, Uml::Object_Type type
 
     default:
         kWarning() << "creating UML Object of unknown type" << endl;
-        return;
+        return NULL;
     }
 
     UMLListViewItem * parentItem = static_cast<UMLListViewItem *>(item->parent());
     if (parentItem->getType() == Uml::lvt_Package ||
+        parentItem->getType() == Uml::lvt_Subsystem ||
         parentItem->getType() == Uml::lvt_Component) {
         UMLPackage *pkg = static_cast<UMLPackage*>(parentItem->getUMLObject());
         object->setUMLPackage(pkg);
@@ -2443,6 +2497,7 @@ void UMLListView::createUMLObject( UMLListViewItem * item, Uml::Object_Type type
     m_doc -> addUMLObject( object );
     item -> setUMLObject( object );
     item -> setText( name );
+    return object;
 }
 
 bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type type ) {
@@ -2600,7 +2655,6 @@ bool UMLListView::isUnique( UMLListViewItem * item, const QString &name ) {
     case Uml::lvt_UseCase:
     case Uml::lvt_Node:
     case Uml::lvt_Artifact:
-    case Uml::lvt_Component:
         return !m_doc->findUMLObject( name, convert_LVT_OT(type) );
         break;
 
@@ -2609,9 +2663,14 @@ bool UMLListView::isUnique( UMLListViewItem * item, const QString &name ) {
     case Uml::lvt_Interface:
     case Uml::lvt_Datatype:
     case Uml::lvt_Enum:
+    case Uml::lvt_Component:
+    case Uml::lvt_Subsystem:
     case Uml::lvt_Entity:
         {
-            if (parentItem->getType() != Uml::lvt_Package)
+            Uml::ListView_Type lvt = parentItem->getType();
+            if (lvt != Uml::lvt_Package &&
+                lvt != Uml::lvt_Component &&
+                lvt != Uml::lvt_Subsystem)
                 return (m_doc->findUMLObject(name) == NULL);
             UMLPackage *pkg = static_cast<UMLPackage*>(parentItem->getUMLObject());
             if (pkg == NULL) {
@@ -2748,6 +2807,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
         case Uml::lvt_Enum:
         case Uml::lvt_Entity:
         case Uml::lvt_Package:
+        case Uml::lvt_Subsystem:
         case Uml::lvt_Component:
         case Uml::lvt_Node:
         case Uml::lvt_Artifact:
@@ -2946,6 +3006,7 @@ bool UMLListView::typeIsCanvasWidget(Uml::ListView_Type type) {
             type == Uml::lvt_UseCase ||
             type == Uml::lvt_Class ||
             type == Uml::lvt_Package ||
+            type == Uml::lvt_Subsystem ||
             type == Uml::lvt_Component ||
             type == Uml::lvt_Node ||
             type == Uml::lvt_Artifact ||
@@ -3041,7 +3102,8 @@ bool UMLListView::deleteItem(UMLListViewItem *temp) {
     } else if ( typeIsCanvasWidget(lvt) || typeIsClassifierList(lvt) ) {
         if (lvt == Uml::lvt_Package ||
             lvt == Uml::lvt_Class ||
-            lvt == Uml::lvt_Component) {
+            lvt == Uml::lvt_Component ||
+            lvt == Uml::lvt_Subsystem) {
             UMLPackage *nmSpc = dynamic_cast<UMLPackage*>(object);
             if (nmSpc == NULL) {
                 kError() << "internal problem: object is not a package" << endl;

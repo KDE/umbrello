@@ -105,14 +105,14 @@ public:
     /**
      * Remove a parameter from the operation.
      *
-     * @param a         The paramter to remove.
+     * @param a         The parameter to remove.
      */
     void removeParm(UMLAttribute *a);
 
     /**
      * Returns a list of parameters.
      *
-     * @return A list of the paramters in the operation.
+     * @return A list of the parameters in the operation.
      */
     UMLAttributeList* getParmList() {
         return &m_List;
@@ -137,7 +137,7 @@ public:
     /**
      * Add a parameter to the operation.
      *
-     * @param parameter The paramter to add.
+     * @param parameter The parameter to add.
      * @param position  The position in the parameter list.
      *                  If position = -1 the parameter will be
      *                  appended to the list.
@@ -158,7 +158,7 @@ public:
     QString getUniqueParameterName();
 
     /**
-     * Display the properties configuration dialogue for the template.
+     * Display the properties configuration dialog for the template.
      */
     bool showPropertiesDialogue(QWidget* parent);
 

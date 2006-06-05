@@ -45,7 +45,7 @@ private:
     /** @todo remove*/ virtual bool reportError( const QString& msg );
     /** @todo remove*/ virtual void syntaxError();
 
-public /*rules*/ :
+public: /*rules*/
 
     bool parseTranslationUnit( TranslationUnitAST::Node& node );
 

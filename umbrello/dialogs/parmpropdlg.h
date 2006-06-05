@@ -100,6 +100,13 @@ public:
 public slots:
     void slotOk();
 
+protected:
+    /**
+    * Inserts @p type into the type-combobox as well as its completion object.
+    */
+    void insertType( const QString& type, int index = -1 );
+
+
 private:
     Q3GroupBox * m_pParmGB, * m_pDocGB;
     Q3ButtonGroup *m_pKind;

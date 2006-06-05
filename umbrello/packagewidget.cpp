@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2003-2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2003-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
 #include "packagewidget.h"
@@ -63,6 +60,15 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
     QString name = getName();
 
     p.drawRect(offsetX, offsetY, 50, fontHeight);
+    if (m_pObject->getStereotype() == "subsystem") {
+        const int fHalf = fontHeight / 2;
+        const int symY = offsetY + fHalf;
+        const int symX = offsetX + 38;
+        p.drawLine(symX, symY, symX, symY + fHalf - 2);          // left leg
+        p.drawLine(symX + 8, symY, symX + 8, symY + fHalf - 2);  // right leg
+        p.drawLine(symX, symY, symX + 8, symY);                  // waist
+        p.drawLine(symX + 4, symY, symX + 4, symY - fHalf + 2);  // head
+    }
     p.drawRect(offsetX, offsetY + fontHeight - 1, w, h - fontHeight);
 
     p.setPen( QPen(Qt::black) );

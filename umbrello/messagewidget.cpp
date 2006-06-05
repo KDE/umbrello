@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2005
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 //qt includes
@@ -24,7 +21,8 @@
 #include <kcursor.h>
 //app includes
 #include "messagewidget.h"
-#include "floatingtext.h"
+#include "messagewidgetcontroller.h"
+#include "floatingtextwidget.h"
 #include "objectwidget.h"
 #include "classifier.h"
 #include "operation.h"
@@ -36,7 +34,7 @@
 MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
                              int y, Uml::Sequence_Message_Type sequenceMessageType,
                              Uml::IDType id /* = Uml::id_None */)
-        : UMLWidget(view, id) {
+        : UMLWidget(view, id, new MessageWidgetController(this)) {
     init();
     m_pOw[Uml::A] = a;
     m_pOw[Uml::B] = b;
@@ -48,15 +46,15 @@ MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
     }
     updateResizability();
     calculateWidget();
-    y = y < getMinHeight() ? getMinHeight() : y;
-    y = y > getMaxHeight() ? getMaxHeight() : y;
+    y = y < getMinY() ? getMinY() : y;
+    y = y > getMaxY() ? getMaxY() : y;
     m_nY = y;
 
     this->activate();
 }
 
 MessageWidget::MessageWidget(UMLView * view, Uml::Sequence_Message_Type seqMsgType, Uml::IDType id)
-        : UMLWidget(view, id) {
+        : UMLWidget(view, id, new MessageWidgetController(this)) {
     init();
     m_sequenceMessageType = seqMsgType;
 }
@@ -285,8 +283,9 @@ void MessageWidget::setTextPosition() {
         << endl;
         return;
     }
-    if (m_pFText->getText().isEmpty())
+    if (m_pFText->getDisplayText().isEmpty()) {
         return;
+    }
     m_pFText->updateComponentSize();
     int ftX = constrainX(m_pFText->getX(), m_pFText->getWidth(), m_pFText->getRole());
     int ftY = getY() - m_pFText->getHeight();
@@ -319,13 +318,13 @@ void MessageWidget::constrainTextPos(int &textX, int &textY, int textWidth, int 
                                      Uml::Text_Role tr) {
     textX = constrainX(textX, textWidth, tr);
     // Constrain Y.
-    const int minTextY = getMinHeight();
-    const int maxTextY = getMaxHeight() - textHeight - 5;
+    const int minTextY = getMinY();
+    const int maxTextY = getMaxY() - textHeight - 5;
     if (textY < minTextY)
         textY = minTextY;
     else if (textY > maxTextY)
         textY = maxTextY;
-    setY( textY + textHeight );   // NB: side effect
+//     setY( textY + textHeight );   // NB: side effect
 }
 
 void MessageWidget::setLinkAndTextPos() {
@@ -340,9 +339,11 @@ void MessageWidget::moveEvent(QMoveEvent* /*m*/) {
     if (!m_pFText) {
         return;
     }
-    if (m_pView->getSelectCount() > 2) {
+    //TODO why this condition?
+/*    if (m_pView->getSelectCount() > 2) {
         return;
-    }
+    }*/
+
     setTextPosition();
 
     emit sigMessageMoved();
@@ -371,10 +372,10 @@ void MessageWidget::slotWidgetMoved(Uml::IDType id) {
         return;
     }
     m_nY = getY();
-    if (m_nY < getMinHeight())
-        m_nY = getMinHeight();
-    if (m_nY > getMaxHeight())
-        m_nY = getMaxHeight();
+    if (m_nY < getMinY())
+        m_nY = getMinY();
+    if (m_nY > getMaxY())
+        m_nY = getMaxY();
     calculateWidget();
     if( !m_pFText )
         return;
@@ -399,19 +400,13 @@ void MessageWidget::slotMenuSelection(int sel) {
             Uml::Text_Role tr = Uml::tr_Seq_Message;
             if (m_pOw[Uml::A] == m_pOw[Uml::B])
                 tr = Uml::tr_Seq_Message_Self;
-            m_pFText = new FloatingText( m_pView, tr );
+            m_pFText = new FloatingTextWidget( m_pView, tr );
             m_pFText->setFont(UMLWidget::getFont());
             setLinkAndTextPos();
             m_pView->getWidgetList().append(m_pFText);
         }
         m_pFText -> slotMenuSelection(sel);
     }
-}
-
-void MessageWidget::mouseDoubleClickEvent(QMouseEvent * /*me*/) {
-    if (m_pView->getCurrentCursor() == WorkToolBar::tbb_Arrow &&
-            m_pFText != NULL)
-        m_pFText -> slotMenuSelection(ListPopupMenu::mt_Select_Operation);
 }
 
 void MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
@@ -425,7 +420,7 @@ void MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
         Uml::Text_Role tr = Uml::tr_Seq_Message;
         if (m_pOw[Uml::A] == m_pOw[Uml::B])
             tr = Uml::tr_Seq_Message_Self;
-        m_pFText = new FloatingText( m_pView, tr, "" );
+        m_pFText = new FloatingTextWidget( m_pView, tr, "" );
         m_pFText->setFont(UMLWidget::getFont());
     }
     setLinkAndTextPos();
@@ -446,7 +441,7 @@ void MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
     emit sigMessageMoved();
 }
 
-void MessageWidget::setMessageText(FloatingText *ft) {
+void MessageWidget::setMessageText(FloatingTextWidget *ft) {
     if (ft == NULL)
         return;
     QString displayText = m_SequenceNumber + ": " + getOperationText(m_pView);
@@ -454,7 +449,7 @@ void MessageWidget::setMessageText(FloatingText *ft) {
     setTextPosition();
 }
 
-void MessageWidget::setText(FloatingText *ft, const QString &newText) {
+void MessageWidget::setText(FloatingTextWidget *ft, const QString &newText) {
     ft->setText(newText);
     UMLApp::app()->getDocument()->setModified(true);
 }
@@ -643,68 +638,6 @@ void MessageWidget::cleanup() {
     }
 }
 
-void MessageWidget::mouseMoveEvent(QMouseEvent *me) {
-    int newX = 0, newY = 0;
-    int moveX, moveY;
-    if( m_bResizing ) {
-        int heightA = (int)((ObjectWidget*)m_pOw[Uml::A]) -> getEndLineY();
-        int heightB = (int)((ObjectWidget*)m_pOw[Uml::B]) -> getEndLineY();
-        int height = heightA;
-        if ( heightA > heightB )  {
-            height = heightB;
-        }
-        moveY = (int)me -> y() - m_nPressOffsetY - m_nOldY;
-        newY = m_nOldH + moveY;
-        newY = newY < 20 ? 20 : newY;
-        setSize( width(), newY );
-        emit sigMessageMoved();
-        return;
-    }
-    if( !m_bSelected )
-        m_pView -> setSelected( this, me );
-    m_bSelected = true;
-    if( !m_bMouseDown )
-        if( me -> button() != Qt::LeftButton )
-            return;
-    int count = m_pView -> getSelectCount();
-
-    //If not m_bStartMove means moving as part of selection
-    //me->pos() will have the amount we need to move.
-    if(!m_bStartMove) {
-        moveX = (int)me -> x();
-        moveY = (int)me -> y();
-    } else {
-        //we started the move so..
-        //move any others we are selected
-        moveX = (int)me -> x() - m_nOldX - m_nPressOffsetX;
-        moveY = (int)me -> y() - m_nOldY - m_nPressOffsetY;
-        if( (getX() + moveX) < 0 )
-            moveX = 0;
-        if( ( getY() + moveY) < 0 )
-            moveY = 0;
-        if( count > 2 )
-            m_pView -> moveSelected( this, moveX, 0 );
-    }
-    newY = getY() + moveY;
-    newY = newY < 0?0:newY;
-    if( count > 2 )
-        newY = getY();  //only change y if not selected
-    newY = newY < getMinHeight() ? getMinHeight() : newY;
-    newY = newY > getMaxHeight() ? getMaxHeight() : newY;
-
-    if (m_nOldX != newX || m_nOldY != newY) {
-        m_bMoved = true;
-    }
-    m_nOldY = newY;
-    setY( newY );
-    adjustAssocs(newX, newY);
-    if (m_sequenceMessageType == Uml::sequence_message_creation) {
-        const int objWidgetHalfHeight = m_pOw[Uml::B]->getHeight() / 2;
-        m_pOw[Uml::B]->UMLWidget::setY( newY - objWidgetHalfHeight );
-    }
-    moveEvent(0);
-}
-
 void MessageWidget::setSelected(bool _select) {
     if( m_inSelection )//used to stop a recursive call
     {
@@ -712,7 +645,7 @@ void MessageWidget::setSelected(bool _select) {
         return;
     }
     UMLWidget::setSelected( _select );
-    if( !m_pFText )
+    if( !m_pFText || m_pFText->getDisplayText().isEmpty())
         return;
     if( m_bSelected && m_pFText -> getSelected() )
         return;
@@ -724,10 +657,12 @@ void MessageWidget::setSelected(bool _select) {
     m_pFText -> setSelected( m_bSelected );
 }
 
-int MessageWidget::getMinHeight() {
-    if (!m_pOw[Uml::A] || !m_pOw[Uml::B] ||
-            m_sequenceMessageType == Uml::sequence_message_creation) {
+int MessageWidget::getMinY() {
+    if (!m_pOw[Uml::A] || !m_pOw[Uml::B]) {
         return 0;
+    }
+    if (m_sequenceMessageType == Uml::sequence_message_creation) {
+        return m_pOw[Uml::A]->getY() + m_pOw[Uml::A]->getHeight();
     }
     int heightA = m_pOw[Uml::A]->getY() + m_pOw[Uml::A]->getHeight();
     int heightB = m_pOw[Uml::B]->getY() + m_pOw[Uml::B]->getHeight();
@@ -738,7 +673,7 @@ int MessageWidget::getMinHeight() {
     return height;
 }
 
-int MessageWidget::getMaxHeight() {
+int MessageWidget::getMaxY() {
     if( !m_pOw[Uml::A] || !m_pOw[Uml::B] ) {
         return 0;
     }
@@ -841,7 +776,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
         if (flotext != NULL) {
             // This only happens when loading files produced by
             // umbrello-1.3-beta2.
-            m_pFText = static_cast<FloatingText*>(flotext);
+            m_pFText = static_cast<FloatingTextWidget*>(flotext);
             setLinkAndTextPos();
             return true;
         }
@@ -860,9 +795,9 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
     if ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingtext") {
-            m_pFText = new FloatingText( m_pView, tr, getOperationText(m_pView), textId );
+            m_pFText = new FloatingTextWidget( m_pView, tr, getOperationText(m_pView), textId );
             if( ! m_pFText->loadFromXMI(element) ) {
-                // Most likely cause: The FloatingText is empty.
+                // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pFText;
                 m_pFText = NULL;
             }

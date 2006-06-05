@@ -13,6 +13,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2006                                                    *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 
@@ -23,6 +25,7 @@
 #include "rubycodedocumentation.h"
 #include "rubyclassifiercodedocument.h"
 #include "rubycodegenerationpolicy.h"
+#include "../uml.h"
 
 // Constructors/Destructors
 //
@@ -70,8 +73,8 @@ QString RubyCodeDocumentation::toString ( )
         bool  useHashOutput = true;
 
         // need to figure out output type from ruby policy
-        RubyCodeGenerationPolicy * p = ((RubyClassifierCodeDocument*)getParentDocument())->getRubyPolicy();
-        if(p->getCommentStyle() == RubyCodeGenerationPolicy::BeginEnd)
+        CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
+        if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
              useHashOutput = false;
 
         QString indent = getIndentationString();
@@ -93,23 +96,23 @@ QString RubyCodeDocumentation::toString ( )
 
 QString RubyCodeDocumentation::getNewEditorLine ( int amount )
 {
-    RubyCodeGenerationPolicy * p = ((RubyClassifierCodeDocument*)getParentDocument())->getRubyPolicy();
-    if(p->getCommentStyle() == RubyCodeGenerationPolicy::BeginEnd)
+    CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
+    if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
         return getIndentationString(amount) + " ";
     else
         return getIndentationString(amount) + "# ";
 }
 
 int RubyCodeDocumentation::firstEditableLine() {
-    RubyCodeGenerationPolicy * p = ((RubyClassifierCodeDocument*)getParentDocument())->getRubyPolicy();
-    if(p->getCommentStyle() == RubyCodeGenerationPolicy::BeginEnd)
+    CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
+    if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
         return 1;
     return 0;
 }
 
 int RubyCodeDocumentation::lastEditableLine() {
-    RubyCodeGenerationPolicy * p = ((RubyClassifierCodeDocument*)getParentDocument())->getRubyPolicy();
-    if(p->getCommentStyle() == RubyCodeGenerationPolicy::BeginEnd)
+    CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
+    if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
     {
         return -1; // very last line is NOT editable
     }
@@ -123,10 +126,10 @@ QString RubyCodeDocumentation::unformatText ( const QString & text , const QStri
 {
 
     QString mytext = TextBlock::unformatText(text, indent);
-    RubyCodeGenerationPolicy * p = ((RubyClassifierCodeDocument*)getParentDocument())->getRubyPolicy();
+    CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
     // remove leading or trailing comment stuff
     mytext.remove(QRegExp("^"+indent));
-    if(p->getCommentStyle() == RubyCodeGenerationPolicy::BeginEnd)
+    if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
     {
         mytext.remove(QRegExp("^=begin\\s*(rdoc)?\\s*\n?"));
         mytext.remove(QRegExp("^=end\\s*\n?$"));
