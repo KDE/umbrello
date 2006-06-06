@@ -182,6 +182,7 @@ set(umbrello_SRCS
    enumliteral.cpp 
    enumwidget.cpp 
    floatingtextwidget.cpp 
+   floatingtextwidgetcontroller.cpp
    forkjoinwidget.cpp 
    kplayerslideraction.cpp 
    hierarchicalcodeblock.cpp 
@@ -196,12 +197,15 @@ set(umbrello_SRCS
    listpopupmenu.cpp 
    main.cpp 
    messagewidget.cpp 
+   messagewidgetcontroller.cpp
    model_utils.cpp 
    nativeimportbase.cpp 
    node.cpp 
    nodewidget.cpp 
    notewidget.cpp 
+   notewidgetcontroller.cpp
    objectwidget.cpp 
+   objectwidgetcontroller.cpp
    object_factory.cpp 
    operation.cpp 
    ownedcodeblock.cpp 
@@ -243,6 +247,7 @@ set(umbrello_SRCS
    umlviewimageexporterall.cpp
    umlviewimageexportermodel.cpp
    umlwidget.cpp 
+   umlwidgetcontroller.cpp
    usecase.cpp 
    usecasewidget.cpp 
    widgetbase.cpp 
