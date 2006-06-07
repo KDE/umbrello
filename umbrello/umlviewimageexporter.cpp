@@ -63,7 +63,7 @@ bool UMLViewImageExporter::prepareExportView() {
 #endif
                                 )) {
             int wantSave = KMessageBox::warningContinueCancel(0,
-                                i18n("The selected file %1 exists.\nDo you want to overwrite it?").arg(m_imageURL.prettyURL()),
+                                i18n("The selected file %1 exists.\nDo you want to overwrite it?", m_imageURL.prettyURL()),
                                 i18n("File Already Exists"), i18n("&Overwrite"));
             if (wantSave == KMessageBox::Ok) {
                 exportPrepared = true;
