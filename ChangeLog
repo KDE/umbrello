@@ -1,3 +1,8 @@
+Version 1.5.4
+
+* Bugs/wishes from http://bugs.kde.org:
+* Fix crash when importing classes from a java file (129107)
+
 Version 1.5.3
 
 * Switch to arrow tool after association creation (http://bugs.debian.org/353344)
