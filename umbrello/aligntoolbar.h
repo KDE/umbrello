@@ -12,13 +12,12 @@
 #ifndef ALIGNTOOLBAR_H
 #define ALIGNTOOLBAR_H
 
+#include <qpixmap.h>
 #include <ktoolbar.h>
 #include "umlnamespace.h"
 #include "umlwidgetlist.h"
 
 class QMainWindow;
-class QPixmap;
-
 class UMLWidget;
 
 /**

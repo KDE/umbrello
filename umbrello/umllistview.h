@@ -222,7 +222,7 @@ public:
     UMLListViewItem * findItem(Uml::IDType id);
 
     /**
-     * Returns the corrsponding view if the listview type is one of the root views,
+     * Returns the corresponding view if the listview type is one of the root views,
      * Root/Logical/UseCase/Component/Deployment/EntityRelation View.
      */
     UMLListViewItem *rootView(Uml::ListView_Type type);
