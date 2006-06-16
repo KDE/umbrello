@@ -2,6 +2,7 @@ Version 1.5.4
 
 * Bugs/wishes from http://bugs.kde.org:
 * Fix crash when importing classes from a java file (129107)
+* Crash after single click on the "UML Model" tree window (126560/129252)
 
 Version 1.5.3
 

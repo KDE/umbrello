@@ -165,6 +165,10 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type)
         mt = mt_Enum;
         break;
 
+    case Uml::lvt_EnumLiteral:
+        mt = mt_EnumLiteral;
+        break;
+
     case Uml::lvt_Datatype:
         mt = mt_Datatype;
         break;
