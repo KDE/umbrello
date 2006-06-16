@@ -331,7 +331,28 @@ bool JavaImport::parseStmt() {
     // At this point we know it's some kind of attribute declaration.
     while (1) {
         while (nextToken != "," && nextToken != ";") {
-            name += nextToken;  // add possible array dimensions to `name'
+            if (nextToken == "=") {
+                if ((nextToken = advance()) == "new") {
+                    advance();
+                    if ((nextToken = advance()) == "(") {
+                        skipToClosing('(');
+                        if ((nextToken = advance()) == "{") {
+                            skipToClosing('{');
+                        } else {
+                            skipStmt();
+                            break;
+                        }
+                    } else {
+                        skipStmt();
+                        break;
+                    }
+                } else {
+                    skipStmt();
+                    break;
+                }
+            } else {
+                name += nextToken;  // add possible array dimensions to `name'
+            }
             nextToken = advance();
         }
         UMLObject *o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name, typeName, m_comment);

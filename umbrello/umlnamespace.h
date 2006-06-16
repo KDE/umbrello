@@ -204,6 +204,7 @@ enum ListView_Type
     lvt_EntityRelationship_Model,
     lvt_Subsystem,
     lvt_Model,
+    lvt_EnumLiteral,
     lvt_Unknown = -1
 };
 

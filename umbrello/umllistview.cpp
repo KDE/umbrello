@@ -198,7 +198,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
         case Uml::lvt_EntityAttribute:
         case Uml::lvt_Operation:
         case Uml::lvt_Template:
-        case Uml::lvt_Unknown:  // used for EnumLiteral
+        case Uml::lvt_EnumLiteral:
             UMLApp::app() -> getDocWindow() -> showDocumentation( item -> getUMLObject(), false );
             break;
 
@@ -1571,7 +1571,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
     case Uml::lvt_EntityAttribute:
     case Uml::lvt_Operation:
     case Uml::lvt_Template:
-    case Uml::lvt_Unknown:  // used for EnumLiteral
+    case Uml::lvt_EnumLiteral:
         {
             UMLClassifier *pClass =  static_cast<UMLClassifier*>(parent->getUMLObject());
             Uml::IDType newID = IDChanges.findNewID( Data.getID() );
@@ -1747,6 +1747,10 @@ Uml::ListView_Type UMLListView::convert_OT_LVT(Uml::Object_Type ot) {
         type = Uml::lvt_Enum;
         break;
 
+    case Uml::ot_EnumLiteral:
+        type = Uml::lvt_EnumLiteral;
+        break;
+
     case Uml::ot_Entity:
         type = Uml::lvt_Entity;
         break;
@@ -1836,7 +1840,7 @@ Uml::Object_Type UMLListView::convert_LVT_OT(Uml::ListView_Type lvt) {
         ot = Uml::ot_Template;
         break;
 
-    case Uml::lvt_Unknown:   // @todo make a proper lvt_EnumLiteral
+    case Uml::lvt_EnumLiteral:
         ot = Uml::ot_EnumLiteral;
         break;
 
@@ -2382,7 +2386,7 @@ bool UMLListView::itemRenamed( Q3ListViewItem * item , int /*col*/ ) {
     case Uml::lvt_EntityAttribute:
     case Uml::lvt_Operation:
     case Uml::lvt_Template:
-    case Uml::lvt_Unknown:  // used for EnumLiteral
+    case Uml::lvt_EnumLiteral:
         return createChildUMLObject( renamedItem, convert_LVT_OT(type) );
         break;
 
@@ -2687,7 +2691,7 @@ bool UMLListView::isUnique( UMLListViewItem * item, const QString &name ) {
     case Uml::lvt_Attribute:
     case Uml::lvt_EntityAttribute:
     case Uml::lvt_Operation:
-    case Uml::lvt_Unknown:  // used for EnumLiteral
+    case Uml::lvt_EnumLiteral:
         {
             UMLClassifier *parent = static_cast<UMLClassifier*>(parentItem->getUMLObject());
             return (parent->findChildObject(name) == NULL);
@@ -2857,7 +2861,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
         case Uml::lvt_EntityAttribute:
         case Uml::lvt_Template:
         case Uml::lvt_Operation:
-        case Uml::lvt_Unknown:  // used for EnumLiteral
+        case Uml::lvt_EnumLiteral:
             item = findItem(nID);
             if (item == NULL) {
                 kDebug() << "UMLListView::loadChildrenFromXMI: "
@@ -3038,7 +3042,7 @@ bool UMLListView::typeIsClassifierList(Uml::ListView_Type type) {
         type == Uml::lvt_Operation ||
         type == Uml::lvt_Template ||
         type == Uml::lvt_EntityAttribute ||
-        type == Uml::lvt_Unknown) {  // used for enum literal
+        type == Uml::lvt_EnumLiteral) {
         return true;
     } else {
         return false;
