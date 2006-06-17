@@ -67,7 +67,7 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
 
     // check that we may open that file for writing
     QFile file;
-    if ( !openFile(file, fileName+".xsd") ) {
+    if ( !openFile(file, fileName) ) {
         emit codeGenerated(c, false);
         return;
     }
@@ -87,7 +87,7 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
     // 1. create the header
     QString headerText = getHeadingFile(".xsd");
     if(!headerText.isEmpty()) {
-        headerText.replace(QRegExp("%filename%"),fileName+".xsd");
+        headerText.replace(QRegExp("%filename%"),fileName);
         headerText.replace(QRegExp("%filepath%"),file.name());
     }
     if(!headerText.isEmpty())

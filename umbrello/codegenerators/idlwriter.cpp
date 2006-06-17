@@ -117,7 +117,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
     }
 
     QFile file;
-    if (!openFile(file, fileName + ".idl")) {
+    if (!openFile(file, fileName)) {
         emit codeGenerated(c, false);
         return;
     }
@@ -141,9 +141,9 @@ void IDLWriter::writeClass(UMLClassifier *c) {
         for (UMLClassifier *conc = includes.first(); conc; conc = includes.next()) {
             if (conc->getBaseType() == Uml::ot_Datatype)
                 continue;
-            QString baseName = findFileName(conc, ".idl");
-            if (!baseName.isEmpty())
-                idl << "#include \"" << baseName << ".idl\"" << m_endl;
+            QString incName = findFileName(conc, ".idl");
+            if (!incName.isEmpty())
+                idl << "#include \"" << incName << "\"" << m_endl;
         }
         idl << m_endl;
     }

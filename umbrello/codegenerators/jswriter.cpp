@@ -51,7 +51,7 @@ void JSWriter::writeClass(UMLClassifier *c)
     }
 
     QFile filejs;
-    if(!openFile(filejs,fileName+".js"))
+    if(!openFile(filejs, fileName))
     {
         emit codeGenerated(c, false);
         return;
@@ -68,7 +68,7 @@ void JSWriter::writeClass(UMLClassifier *c)
     str = getHeadingFile(".js");
     if(!str.isEmpty())
     {
-        str.replace(QRegExp("%filename%"),fileName+".js");
+        str.replace(QRegExp("%filename%"),fileName);
         str.replace(QRegExp("%filepath%"),filejs.name());
         js << str << m_endl;
     }
@@ -83,7 +83,7 @@ void JSWriter::writeClass(UMLClassifier *c)
         QString headerName = findFileName(conc, ".js");
         if ( !headerName.isEmpty() )
         {
-            js << "#include \"" << findFileName(conc,".js") << ".js\"" << m_endl;
+            js << "#include \"" << headerName << "\"" << m_endl;
         }
     }
     js << m_endl;

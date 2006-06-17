@@ -45,7 +45,6 @@ void PythonWriter::writeClass(UMLClassifier *c) {
     }
 
     QString classname = cleanName(c->getName());
-    QString fileName = c->getName();
 
     UMLClassifierList superclasses = c->getSuperClasses();
     UMLAssociationList aggregations = c->getAggregations();
@@ -54,7 +53,7 @@ void PythonWriter::writeClass(UMLClassifier *c) {
     m_bNeedPass = true;
 
     //find an appropriate name for our file
-    fileName = findFileName(c,".py");
+    QString fileName = findFileName(c, ".py");
     if (fileName.isEmpty()) {
         emit codeGenerated(c, false);
         return;
@@ -67,7 +66,7 @@ void PythonWriter::writeClass(UMLClassifier *c) {
     fileName = fileName.replace(0, 1, first);
 
     QFile fileh;
-    if( !openFile(fileh,fileName+".py") ) {
+    if( !openFile(fileh, fileName) ) {
         emit codeGenerated(c, false);
         return;
     }
@@ -83,7 +82,7 @@ void PythonWriter::writeClass(UMLClassifier *c) {
 
     str = getHeadingFile(".py");
     if(!str.isEmpty()) {
-        str.replace(QRegExp("%filename%"), fileName+".py");
+        str.replace(QRegExp("%filename%"), fileName);
         str.replace(QRegExp("%filepath%"), fileh.name());
         h<<str<<m_endl;
     }
@@ -96,6 +95,7 @@ void PythonWriter::writeClass(UMLClassifier *c) {
     for(conc = includes.first(); conc ;conc = includes.next()) {
         QString headerName = findFileName(conc, ".py");
         if ( !headerName.isEmpty() ) {
+            headerName.remove(QRegExp(".py$"));
             first = headerName.at(0);
             first = first.upper();
             headerName = headerName.replace(0, 1, first);

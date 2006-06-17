@@ -100,7 +100,7 @@ void CppWriter::writeClass(UMLClassifier *c)
     QFile fileh, filecpp;
 
     // find an appropriate name for our file
-    QString fileName = findFileName(c,".cpp");
+    QString fileName = findFileName(c, ".h");
     if (fileName.isEmpty()) {
         emit codeGenerated(c, false);
         return;
@@ -112,7 +112,7 @@ void CppWriter::writeClass(UMLClassifier *c)
     m_classifierInfo->className = cleanName(c->getName());
 
     if (c->getVisibility() != Uml::Visibility::Implementation) {
-        if( !openFile(fileh,fileName + ".h")) {
+        if( !openFile(fileh, fileName)) {
             emit codeGenerated(c, false);
             return;
         }
@@ -128,7 +128,8 @@ void CppWriter::writeClass(UMLClassifier *c)
         need_impl = false;
     }
     if (need_impl) {
-        if( !openFile(filecpp,fileName + ".cpp")) {
+        fileName.replace( QRegExp(".h$"), ".cpp");
+        if( !openFile(filecpp, fileName)) {
             emit codeGenerated(c, false);
             return;
         }
@@ -333,7 +334,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
     for(UMLClassifier *classifier = superclasses.first(); classifier ;classifier = superclasses.next()) {
         QString headerName = findFileName(classifier, ".h");
         if (!headerName.isEmpty()) {
-            cpp << "#include \"" << headerName << ".h\"" << m_endl;
+            cpp << "#include \"" << headerName << "\"" << m_endl;
         }
     }
 

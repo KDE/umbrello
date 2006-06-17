@@ -46,21 +46,20 @@ void RubyWriter::writeClass(UMLClassifier *c) {
     }
 
     QString classname = cleanName(c->getName());
-    QString fileName = c->getName();
 
     UMLClassifierList superclasses = c->getSuperClasses();
     UMLAssociationList aggregations = c->getAggregations();
     UMLAssociationList compositions = c->getCompositions();
 
     //find an appropriate name for our file
-    fileName = findFileName(c,".rb");
+    QString fileName = findFileName(c, ".rb");
     if (fileName.isEmpty()) {
         emit codeGenerated(c, false);
         return;
     }
 
     QFile fileh;
-    if( !openFile(fileh,fileName+".rb") ) {
+    if( !openFile(fileh, fileName) ) {
         emit codeGenerated(c, false);
         return;
     }
@@ -81,7 +80,7 @@ void RubyWriter::writeClass(UMLClassifier *c) {
 
     str = getHeadingFile(".rb");
     if(!str.isEmpty()) {
-        str.replace(QRegExp("%filename%"), fileName+".rb");
+        str.replace(QRegExp("%filename%"), fileName);
         str.replace(QRegExp("%filepath%"), fileh.name());
         h<<str<<m_endl;
     }

@@ -44,17 +44,16 @@ void SQLWriter::writeClass(UMLClassifier *c) {
 
     const bool isClass = !c->isInterface();
     QString classname = cleanName(c->getName());
-    QString fileName = c->getName().lower();
 
     //find an appropriate name for our file
-    fileName = findFileName(c,".sql");
+    QString fileName = findFileName(c, ".sql");
     if (fileName.isEmpty()) {
         emit codeGenerated(c, false);
         return;
     }
 
     QFile file;
-    if( !openFile(file,fileName+".sql") ) {
+    if( !openFile(file, fileName) ) {
         emit codeGenerated(c, false);
         return;
     }

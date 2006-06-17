@@ -148,13 +148,14 @@ QString SimpleCodeGenerator::overwritableName(UMLClassifier* concept, QString na
     //check if a file named "name" with extension "ext" already exists
     CodeGenerationPolicy *commonPolicy = UMLApp::app()->getCommonPolicy();
     QDir outputDir = commonPolicy->getOutputDirectory();
-    if(!outputDir.exists(name+ext)) {
-        m_fileMap->insert(concept,name);
-        return name; //if not, "name" is OK and we have not much to to
+    QString filename = name + ext;
+    if(!outputDir.exists(filename)) {
+        m_fileMap->insert(concept,filename);
+        return filename; //if not, "name" is OK and we have not much to to
     }
 
     int suffix;
-    OverwriteDialogue overwriteDialogue( name+ext, outputDir.absPath(),
+    OverwriteDialogue overwriteDialogue( filename, outputDir.absPath(),
                                          m_applyToAllRemaining, kapp -> mainWidget() );
     switch(commonPolicy->getOverwritePolicy()) {  //if it exists, check the OverwritePolicy we should use
     case CodeGenerationPolicy::Ok:                //ok to overwrite file
@@ -170,10 +171,12 @@ QString SimpleCodeGenerator::overwritableName(UMLClassifier* concept, QString na
             break;
         case KDialogBase::No: //generate similar name
             suffix = 1;
-            while( outputDir.exists(name + "__" + QString::number(suffix) + ext) ) {
+            while (1) {
+                filename = name + "__" + QString::number(suffix) + ext;
+                if (!outputDir.exists(filename))
+                    break;
                 suffix++;
             }
-            name = name + "__" + QString::number(suffix);
             if ( overwriteDialogue.applyToAllRemaining() ) {
                 commonPolicy->setOverwritePolicy(CodeGenerationPolicy::Never);
             } else {
@@ -193,18 +196,20 @@ QString SimpleCodeGenerator::overwritableName(UMLClassifier* concept, QString na
         break;
     case CodeGenerationPolicy::Never: //generate similar name
         suffix = 1;
-        while( outputDir.exists(name + "__" + QString::number(suffix) + ext) ) {
+        while (1) {
+            filename = name + "__" + QString::number(suffix) + ext;
+            if (!outputDir.exists(filename))
+                break;
             suffix++;
         }
-        name = name + "__" + QString::number(suffix);
         break;
     case CodeGenerationPolicy::Cancel: //don't output anything
         return NULL;
         break;
     }
 
-    m_fileMap->insert(concept,name);
-    return name;
+    m_fileMap->insert(concept, filename);
+    return filename;
 }
 
 
