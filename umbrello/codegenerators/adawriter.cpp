@@ -3,7 +3,7 @@
  *                           -------------------                           *
  *  Based on javawriter.cpp by Luis De la Parra Blum                       *
  *  copyright            : (C) 2002 by Oliver Kellogg                      *
- *    (C) 2003-2005 Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>  *
+ *    (C) 2003-2006 Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>  *
  ***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -137,7 +137,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     }
 
     QFile file;
-    if (!openFile(file, fileName + ".ads")) {
+    if (!openFile(file, fileName)) {
         emit codeGenerated(c, false);
         return;
     }

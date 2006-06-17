@@ -93,7 +93,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
         }
         fileName = fragment;
     }
-    fileName = fragment;
+    fileName = fragment + ".pm";
   }
   if (fileName.isEmpty()) {
     emit codeGenerated(c, false);
@@ -102,7 +102,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
   QString oldDir = pol->getOutputDirectory().absPath();
   pol->setOutputDirectory(curDir);
   QFile fileperl;
-  if(!openFile(fileperl,fileName+".pm")) {
+  if(!openFile(fileperl, fileName)) {
     emit codeGenerated(c, false);
     return;
   }
@@ -120,7 +120,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
 
   str = getHeadingFile(".pm");   // what this mean?
   if(!str.isEmpty()) {
-    str.replace(QRegExp("%filename%"),fileName+".pm");
+    str.replace(QRegExp("%filename%"),fileName);
     str.replace(QRegExp("%filepath%"),fileperl.name());
     str.replace(QRegExp("%year%"),QDate::currentDate().toString("yyyy"));
     str.replace(QRegExp("%date%"),QDate::currentDate().toString());

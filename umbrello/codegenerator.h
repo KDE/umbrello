@@ -331,9 +331,10 @@ protected:
      * may be a modification of the input name.
      * This method is invoked by findFileName().
      *
-     * @param name the proposed output file name (incl. extension) 
-     * @return the real file name that should be used. (with extension?) or 
-     *      NULL if none to be used
+     * @param name the proposed output file name
+     * @param extension the extension to use 
+     * @return the real file name that should be used (including extension) or 
+     *      QString::null if none to be used
      */
     QString overwritableName ( QString name, const QString &extension );
 

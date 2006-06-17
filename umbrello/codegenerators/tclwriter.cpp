@@ -102,13 +102,13 @@ TclWriter::writeClass(UMLClassifier * c)
     QFile           fileh, filetcl;
 
     // find an appropriate name for our file
-    QString         fileName = findFileName(c, ".tclbody");
+    QString         fileName = findFileName(c, ".tcl");
     if (fileName.isEmpty()) {
         emit            codeGenerated(c, false);
         return;
     }
 
-    if (!openFile(fileh, fileName + ".tcl")) {
+    if (!openFile(fileh, fileName)) {
         emit            codeGenerated(c, false);
         return;
     }
@@ -137,7 +137,7 @@ TclWriter::writeClass(UMLClassifier * c)
             need_impl = false;
     }
     if (need_impl) {
-        if (!openFile(filetcl, fileName + ".tclbody")) {
+        if (!openFile(filetcl, fileName + "body")) {
             emit            codeGenerated(c, false);
             return;
         }
@@ -165,7 +165,7 @@ TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     // write header blurb
     QString         str = getHeadingFile(".tcl");
     if (!str.isEmpty()) {
-        str.replace(QRegExp("%filename%"), classifierInfo->fileName + ".tcl");
+        str.replace(QRegExp("%filename%"), classifierInfo->fileName);
         str.replace(QRegExp("%filepath%"), fileh.name());
         writeCode(str);
     }
@@ -336,7 +336,7 @@ TclWriter::writeSourceFile(UMLClassifier * c, QFile & filetcl)
     QString         str;
     str = getHeadingFile(".tclbody");
     if (!str.isEmpty()) {
-        str.replace(QRegExp("%filename%"), classifierInfo->fileName + ".tclbody");
+        str.replace(QRegExp("%filename%"), classifierInfo->fileName + "body");
         str.replace(QRegExp("%filepath%"), filetcl.name());
         writeCode(str);
     }
@@ -428,7 +428,7 @@ TclWriter::writeUse(UMLClassifier * c)
     // if different package
     if (("::"+myNs) != mNamespace) {
         if (c->getPackage().isEmpty()) {
-            writeCode("source " + findFileName(c, ".tcl") + ".tcl");
+            writeCode("source " + findFileName(c, ".tcl"));
             writeCode("namespace import ::" + cleanName(c->getName()));
         } else {
             writeCode("package require " + myNs);
@@ -437,7 +437,7 @@ TclWriter::writeUse(UMLClassifier * c)
         }
     } else {
         // source the file
-        writeCode("source " + findFileName(c, ".tcl") + ".tcl");
+        writeCode("source " + findFileName(c, ".tcl"));
     }
 }
 

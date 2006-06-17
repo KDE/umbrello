@@ -63,7 +63,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
 
     // check that we may open that file for writing
     QFile file;
-    if ( !openFile(file,fileName+".java") ) {
+    if ( !openFile(file, fileName) ) {
         emit codeGenerated(c, false);
         return;
     }

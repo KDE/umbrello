@@ -2997,17 +2997,15 @@ void PhpWriter::writeClass(UMLClassifier *c) {
     }
 
     QString classname = cleanName(c->getName());
-    QString fileName = c->getName().lower();
-
     //find an appropriate name for our file
-    fileName = findFileName(c,".php");
+    QString fileName = findFileName(c, ".php");
     if (fileName.isEmpty()) {
         emit codeGenerated(c, false);
         return;
     }
 
     QFile filephp;
-    if(!openFile(filephp,fileName+".php")) {
+    if(!openFile(filephp, fileName)) {
         emit codeGenerated(c, false);
         return;
     }
@@ -3022,7 +3020,7 @@ void PhpWriter::writeClass(UMLClassifier *c) {
     QString str;
     str = getHeadingFile(".php");
     if(!str.isEmpty()) {
-        str.replace(QRegExp("%filename%"),fileName+".php");
+        str.replace(QRegExp("%filename%"),fileName);
         str.replace(QRegExp("%filepath%"),filephp.name());
         php<<str<<m_endl;
     }
@@ -3035,7 +3033,7 @@ void PhpWriter::writeClass(UMLClassifier *c) {
     for(conc = includes.first(); conc ;conc = includes.next()) {
         QString headerName = findFileName(conc, ".php");
         if (headerName.isEmpty()) {
-            php << "include '" << findFileName(conc,".php") << ".php\';" << m_endl;
+            php << "include '" << headerName << "';" << m_endl;
         }
     }
     php << m_endl;

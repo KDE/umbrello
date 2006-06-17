@@ -50,7 +50,7 @@ void ASWriter::writeClass(UMLClassifier *c)
     }
 
     QFile fileas;
-    if(!openFile(fileas,fileName+".as"))
+    if(!openFile(fileas,fileName))
     {
         emit codeGenerated(c, false);
         return;
@@ -82,7 +82,7 @@ void ASWriter::writeClass(UMLClassifier *c)
         QString headerName = findFileName(conc, ".as");
         if ( !headerName.isEmpty() )
         {
-            as << "#include \"" << findFileName(conc,".as") << ".as\"" << m_endl;
+            as << "#include \"" << findFileName(conc,".as") << "\"" << m_endl;
         }
     }
     as << m_endl;
