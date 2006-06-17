@@ -333,7 +333,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
     for(UMLClassifier *classifier = superclasses.first(); classifier ;classifier = superclasses.next()) {
         QString headerName = findFileName(classifier, ".h");
         if (!headerName.isEmpty()) {
-            cpp << "#include \"" << headerName << "\"" << m_endl;
+            cpp << "#include \"" << headerName << ".h\"" << m_endl;
         }
     }
 
