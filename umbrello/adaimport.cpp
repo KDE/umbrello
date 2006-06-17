@@ -424,10 +424,10 @@ bool AdaImport::parseStmt() {
     QString typeName = advance();
     QString initialValue;
     if (advance() == ":=") {
-        QString expr = advance();
+        initialValue = advance();
         QString token;
         while ((token = advance()) != ";") {
-            expr.append(" " + token);
+            initialValue.append(" " + token);
         }
     }
     UMLObject *o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name,
