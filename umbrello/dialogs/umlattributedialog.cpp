@@ -152,7 +152,7 @@ void UMLAttributeDialog::setupDialog() {
 
 void UMLAttributeDialog::slotNameChanged( const QString &_text )
 {
-    enableButtonOK( !_text.isEmpty() );
+    enableButtonOk( !_text.isEmpty() );
 }
 
 bool UMLAttributeDialog::apply() {

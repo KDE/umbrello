@@ -259,7 +259,7 @@ void UMLOperationDialog::setupDialog() {
 
 void UMLOperationDialog::slotNameChanged( const QString &_text )
 {
-    enableButtonOK( !_text.isEmpty() );
+    enableButtonOk( !_text.isEmpty() );
 }
 
 

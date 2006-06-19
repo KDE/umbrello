@@ -180,7 +180,7 @@ void UMLEntityAttributeDialog::setupDialog() {
 
 void UMLEntityAttributeDialog::slotNameChanged( const QString &_text )
 {
-    enableButtonOK( !_text.isEmpty() );
+    enableButtonOk( !_text.isEmpty() );
 }
 
 bool UMLEntityAttributeDialog::apply() {
