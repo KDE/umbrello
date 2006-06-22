@@ -26,7 +26,8 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <qapplication.h>
-
+#include <QListView>
+#include <QListViewItem>
 #include "codegenerationwizard.h"
 #include "codegenerationoptionspage.h"
 #include "../classifier.h"

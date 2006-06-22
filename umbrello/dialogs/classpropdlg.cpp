@@ -38,10 +38,10 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, int pageNum, bool ass
         : KPageDialog(parent) {
     setCaption( i18n("Properties") );
     setButtons( Ok | Apply | Cancel | Help );
-    setDefaultButtons(Ok );
+    setDefaultButton( Ok );
     setModal( true );
     enableButtonSeparator( true );
-    setTypeFace( KPageDialog::List );
+    setFaceType( KPageDialog::List );
     m_pWidget = 0;
     m_pGenPage = 0;
     m_pAttPage = 0;
@@ -81,17 +81,17 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget * o)
     KPageWidgetItem *pageItem = new KPageWidgetItem( page, i18n("General") );
     pageItem->setHeader( i18n("General Settings") );
     pageItem->setIcon(  DesktopIcon( "misc") );
-    addPage( page );
+    addPage( pageItem );
     page -> setMinimumSize(310, 330);
     QHBoxLayout * topLayout = new QHBoxLayout(page);
     m_pGenPage = new ClassGenPage(m_pDoc, page, o);
     topLayout -> addWidget(m_pGenPage);
 
     QFrame * newPage = new QFrame();
-    pageItem = new KPageWidgetItem( page, i18n("Color") );
+    pageItem = new KPageWidgetItem(newPage, i18n("Color") );
     pageItem->setHeader( i18n("Widget Colors") );
     setIcon( DesktopIcon( "colors") );
-    addPage( newPage);
+    addPage( pageItem);
 
     QHBoxLayout * m_pColorLayout = new QHBoxLayout(newPage);
     m_pColorPage = new UMLWidgetColorPage(newPage, o);
@@ -167,7 +167,7 @@ ClassPropDlg::~ClassPropDlg() {}
 
 void ClassPropDlg::slotOk() {
     slotApply();
-    KDialogBase::accept();
+    KDialog::accept();
 }
 
 void ClassPropDlg::slotApply() {

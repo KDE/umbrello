@@ -23,7 +23,7 @@
 //kde includes
 #include <kcombobox.h>
 #include <kfontdialog.h>
-#include <kdialog.h>
+#include <kpagedialog.h>
 #include <kcolorbutton.h>
 #include <knuminput.h>
 //app includes
@@ -40,7 +40,7 @@ class CodeGenerator;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class SettingsDlg : public KDialogBase {
+class SettingsDlg : public KPageDialog {
 
     Q_OBJECT
 
