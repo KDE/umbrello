@@ -16,7 +16,7 @@ endmacro(CREATE_VERSION)
 macro_additional_clean_files( ${CMAKE_CURRENT_BINARY_DIR}/version.h )
 create_version(${CMAKE_SOURCE_DIR}/umbrello/VERSION version.h)
 
-
+include_directories (${CMAKE_CURRENT_SOURCE_DIR}/dialogs/)
 
 set(libcodegenerator_SRCS
 	codegenerators/codegenfactory.cpp 

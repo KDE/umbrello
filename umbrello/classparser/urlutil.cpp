@@ -60,9 +60,7 @@ QString URLUtil::relativePath(const KUrl & parent, const KUrl & child, uint slas
     return slashPrefix ? QString("/") : QString("");
 
   if (!parent.isParentOf(child)) return QString();
-  int a=slashPrefix ? -1 : 1;
-  int b=slashSuffix ? 1 : -1;
-  return child.path(b).mid(parent.path(a).length());
+  return child.path( slashSuffix ? KUrl::RemoveTrailingSlash:KUrl::AddTrailingSlash).mid(parent.path(slashSuffix ? KUrl::AddTrailingSlash:KUrl::RemoveTrailingSlash).length());
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -93,9 +91,9 @@ KUrl URLUtil::mergeURL(const KUrl & source, const KUrl & dest, const KUrl & chil
   if (dest == child) return source;
 
   // calculate
-  QString childUrlStr = child.url(-1);
-  QString destStemStr = dest.url(1);
-  QString sourceStemStr = source.url(1);
+  QString childUrlStr = child.url(KUrl::RemoveTrailingSlash);
+  QString destStemStr = dest.url(KUrl::AddTrailingSlash );
+  QString sourceStemStr = source.url(KUrl::AddTrailingSlash);
   return KUrl(sourceStemStr.append( childUrlStr.mid( destStemStr.length() ) ) );
 
 }
@@ -156,7 +154,7 @@ QString URLUtil::extractPathNameRelative(const QString &basePath, const QString 
 QString URLUtil::extractPathNameAbsolute( const KUrl &url )
 {
   if (isDirectory( url ))
-    return url.path( +1 ); // with trailing "/" if none is present
+    return url.path( KUrl::AddTrailingSlash ); // with trailing "/" if none is present
   else
   {
     // Ok, this is an over-tight pre-condition on "url" since I hope nobody will never
