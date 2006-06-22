@@ -39,7 +39,7 @@ class UMLView;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class SelectOpDlg : public KDialogBase
+class SelectOpDlg : public KDialog
 {
     Q_OBJECT
 public:

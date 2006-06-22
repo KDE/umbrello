@@ -45,9 +45,9 @@ OverwriteDialogue::OverwriteDialogue(QString fileName, QString outputDirectory, 
     m_applyToAllRemaining->setChecked(applyToAllRemaining);
     layout->addWidget(m_applyToAllRemaining);
 
-    setButtonText(KDialogBase::Ok, i18n("&Overwrite"));
-    setButtonText(KDialogBase::Apply, i18n("&Generate Similar File Name"));
-    setButtonText(KDialogBase::Cancel, i18n("&Do Not Generate File"));
+    setButtonText(KDialog::Ok, i18n("&Overwrite"));
+    setButtonText(KDialog::Apply, i18n("&Generate Similar File Name"));
+    setButtonText(KDialog::Cancel, i18n("&Do Not Generate File"));
 }
 
 OverwriteDialogue::~OverwriteDialogue() {

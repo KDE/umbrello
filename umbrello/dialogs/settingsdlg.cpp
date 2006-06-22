@@ -30,8 +30,13 @@
 #include "../dialog_utils.h"
 
 SettingsDlg::SettingsDlg( QWidget * parent, Settings::OptionState *state )
-        : KDialogBase( IconList, i18n("Umbrello Setup"),
-               Help | Default | Apply | Ok | Cancel, Ok, parent, 0, true, true ) {
+        : KPageDialog( parent) {
+    setCaption(i18n("Umbrello Setup") );
+    setButtons( Help | Default | Apply | Ok | Cancel );
+    setDefaultButton( Ok );
+    setModal( true );
+    enableButtonSeparator( true );
+    setFaceType( KPageDialog::List );
     m_bChangesApplied = false;
     m_pOptionState = state;
     setHelp( "umbrello/index.html", QString::null );

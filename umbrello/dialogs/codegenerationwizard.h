@@ -78,7 +78,7 @@ private:
      * second. An item is added to the second list only if it isn't already
      * there (no duplicated items are created).
      */
-    void moveSelectedItems(QListView* fromList, QListView* toList);
+    void moveSelectedItems(Q3ListView* fromList, Q3ListView* toList);
 
     UMLApp* m_app;
     UMLDoc* m_doc;

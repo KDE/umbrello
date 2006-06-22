@@ -26,8 +26,6 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <qapplication.h>
-#include <QListView>
-#include <QListViewItem>
 #include "codegenerationwizard.h"
 #include "codegenerationoptionspage.h"
 #include "../classifier.h"
@@ -224,14 +222,14 @@ CodeGenerator* CodeGenerationWizard::generator() {
     return (CodeGenerator*) NULL;
 }
 
-void CodeGenerationWizard::moveSelectedItems(QListView* fromList, QListView* toList) {
-   QListViewItemIterator it(fromList, QListViewItemIterator::Selected);
+void CodeGenerationWizard::moveSelectedItems(Q3ListView* fromList, Q3ListView* toList) {
+   Q3ListViewItemIterator it(fromList, Q3ListViewItemIterator::Selected);
     while (it.current()) {
-        QListViewItem* selectedItem = it.current();
+        Q3ListViewItem* selectedItem = it.current();
 
         QString name = selectedItem->text(0);
         if (!toList->findItem(name, 0)) {
-            new QListViewItem(toList, name);
+            new Q3ListViewItem(toList, name);
         }
 
         ++it;
