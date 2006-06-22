@@ -52,7 +52,13 @@ SettingsDlg::~SettingsDlg() {}
 
 void SettingsDlg::setupUIPage() {
     //setup UI page
-    KVBox * page = addVBoxPage( i18n("User Interface"), i18n("User Interface Settings"), DesktopIcon( "window_list") );
+
+    KVBox * page = new KVBox();
+    pageUserInterface = new KPageWidgetItem( page,i18n("User Interface"));
+    pageUserInterface->setHeader( i18n("User Interface Settings") );
+    pageUserInterface->setIcon( DesktopIcon( "window_list") );
+    addPage( pageUserInterface );
+
 
     m_UiWidgets.colorGB = new Q3GroupBox( i18n("Color"), page );
     QGridLayout * colorLayout = new QGridLayout( m_UiWidgets.colorGB );
@@ -106,7 +112,11 @@ void SettingsDlg::setupUIPage() {
 void SettingsDlg::setupGeneralPage() {
     //setup General page
 
-    KVBox * page = addVBoxPage( i18n("General"), i18n("General Settings"), DesktopIcon( "misc")  );
+    KVBox * page = new KVBox();
+    pageGeneral = new KPageWidgetItem( page,i18n("General"));
+    pageGeneral->setHeader( i18n("General Settings") );
+    pageGeneral->setIcon( DesktopIcon( "misc") );
+    addPage( pageGeneral );
 
     // Set up undo setting
     m_GeneralWidgets.miscGB = new Q3GroupBox( i18n("Miscellaneous"), page );
@@ -216,8 +226,12 @@ void SettingsDlg::insertDiagram( const QString& type, int index )
 
 void SettingsDlg::setupClassPage() {
     //setup class settings page
+    KVBox * page = new KVBox();
+    pageClass = new KPageWidgetItem( page,i18n("Class"));
+    pageClass->setHeader( i18n("Class Settings") );
+    pageGeneral->setIcon( DesktopIcon( "edit") );
+    addPage( pageClass );
 
-    KVBox * page = addVBoxPage( i18n("Class"), i18n("Class Settings"), DesktopIcon( "edit")  );
     m_ClassWidgets.visibilityGB = new Q3GroupBox( i18n("Visibility"), page );
 
     QGridLayout * visibilityLayout = new QGridLayout( m_ClassWidgets.visibilityGB );
@@ -301,36 +315,50 @@ void SettingsDlg::insertOperationScope( const QString& type, int index )
 
 void SettingsDlg::setupCodeGenPage() {
     //setup code generation settings page
-    KVBox * page = addVBoxPage( i18n("Code Generation"), i18n("Code Generation Settings"), DesktopIcon( "source") );
+    KVBox * page = new KVBox();
+    pageCodeGen = new KPageWidgetItem( page,i18n("Code Generation") );
+    pageCodeGen->setHeader( i18n("Code Generation Settings") );
+    pageCodeGen->setIcon( DesktopIcon( "source") );
+    addPage( pageCodeGen );
     m_pCodeGenPage = new CodeGenerationOptionsPage(page);
     connect( m_pCodeGenPage, SIGNAL(languageChanged()), this, SLOT(slotApply()) );
 }
 
 void SettingsDlg::setupCodeViewerPage(Settings::CodeViewerState options) {
     //setup code generation settings page
-    KVBox * page = addVBoxPage( i18n("Code Viewer"), i18n("Code Viewer Settings"), DesktopIcon( "source") );
+    KVBox * page = new KVBox();
+    pageCodeViewer = new KPageWidgetItem( page,i18n("Code Viewer")  );
+    pageCodeViewer->setHeader( i18n("Code Viewer Settings") );
+    pageCodeViewer->setIcon( DesktopIcon( "source") );
+    addPage( pageCodeViewer );
     m_pCodeViewerPage = new CodeViewerOptionsPage(options, page);
 }
 
 void SettingsDlg::setupFontPage() {
-    KVBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
+    KVBox * page = new KVBox();
+    pageFont = new KPageWidgetItem( page,i18n("Font")  );
+    pageFont->setHeader( i18n("Font Settings") );
+    pageFont->setIcon( DesktopIcon( "fonts") );
+    addPage( pageFont );
     m_FontWidgets.chooser = new KFontChooser( page,  false, QStringList(), false);
     m_FontWidgets.chooser->setFont( m_pOptionState->uiState.font );
 
 }
 
 void SettingsDlg::slotApply() {
-    applyPage( (Settings::Page) activePageIndex() );
+    applyPage( currentPage() );
     emit applyClicked();
 }
 
 void SettingsDlg::slotOk() {
-    applyPage( Settings::page_general );
-    applyPage( Settings::page_font );
-    applyPage( Settings::page_UI );
-    applyPage( Settings::page_class );
-    applyPage( Settings::page_codegen );
-    applyPage( Settings::page_codeview );
+    KPageWidgetItem*pageCodeViewer,*pageFont,*pageCodeGen,*pageUserInterface,* pageGeneral,*pageClass;
+
+    applyPage( pageClass);
+    applyPage( pageGeneral);
+    applyPage( pageUserInterface );
+    applyPage( pageCodeViewer);
+    applyPage( pageCodeGen );
+    applyPage( pageFont );
     accept();
 }
 
@@ -340,8 +368,9 @@ void SettingsDlg::slotDefault() {
        Defaults hard coded.  Make sure that this is alright.
        If defaults are set anywhere else, like in setting up config file, make sure the same.
     */
-    switch( activePageIndex() ) {
-    case Settings::page_general:
+    KPageWidgetItem *current = currentPage();
+    if ( current ==  pageGeneral )
+    {
         m_GeneralWidgets.autosaveCB -> setChecked( false );
         m_GeneralWidgets.timeISB -> setValue( 5 );
         m_GeneralWidgets.timeISB->setEnabled( true );
@@ -349,20 +378,20 @@ void SettingsDlg::slotDefault() {
         m_GeneralWidgets.tipCB -> setChecked( true );
         m_GeneralWidgets.loadlastCB -> setChecked( true );
         m_GeneralWidgets.diagramKB -> setCurrentItem( 0 );
-        break;
-
-    case Settings::page_font:
+    }
+    else if ( current == pageFont )
+    {
         m_FontWidgets.chooser -> setFont( parentWidget() -> font() );
-        break;
-
-    case Settings::page_UI:
+    }
+    else if ( current == pageUserInterface )
+    {
         m_UiWidgets.useFillColorCB -> setChecked( true );
         m_UiWidgets.fillColorB -> setColor( QColor( 255, 255, 192 ) );
         m_UiWidgets.lineColorB -> setColor( Qt::red );
         m_UiWidgets.lineWidthB -> setValue( 0 );
-        break;
-
-    case Settings::page_class:
+    }
+    else if ( current == pageClass )
+    {
         m_ClassWidgets.showVisibilityCB -> setChecked( false );
         m_ClassWidgets.showAttsCB -> setChecked( true );
         m_ClassWidgets.showOpsCB -> setChecked( true );
@@ -372,19 +401,16 @@ void SettingsDlg::slotDefault() {
         m_ClassWidgets.showPackageCB -> setChecked( false );
         m_ClassWidgets.m_pAttribScopeCB->setCurrentItem(1); // Private
         m_ClassWidgets.m_pOperationScopeCB->setCurrentItem(0); // Public
-        break;
-
-    case Settings::page_codegen:
-    case Settings::page_codeview:
-        // do nothing
-        break;
-    };
+    }
+    else if (  current == pageCodeGen || current == pageCodeViewer )
+    {
+    }
 }
 
-void SettingsDlg::applyPage( Settings::Page page ) {
+void SettingsDlg::applyPage( KPageWidgetItem*item ) {
     m_bChangesApplied = true;
-    switch( page ) {
-    case Settings::page_general:
+    if ( item == pageGeneral )
+    {
         m_pOptionState->generalState.undo = m_GeneralWidgets.undoCB -> isChecked();
         m_pOptionState->generalState.tabdiagrams = m_GeneralWidgets.tabdiagramsCB->isChecked();
         m_pOptionState->generalState.newcodegen = m_GeneralWidgets.newcodegenCB->isChecked();
@@ -397,20 +423,20 @@ void SettingsDlg::applyPage( Settings::Page page ) {
         m_pOptionState->generalState.tip = m_GeneralWidgets.tipCB -> isChecked();
         m_pOptionState->generalState.loadlast = m_GeneralWidgets.loadlastCB -> isChecked();
         m_pOptionState->generalState.diagram  = (Settings::Diagram)(m_GeneralWidgets.diagramKB->currentItem() + 1);
-        break;
-
-    case Settings::page_font:
+    }
+    else if ( item == pageFont )
+    {
         m_pOptionState->uiState.font = m_FontWidgets.chooser -> font();
-        break;
-
-    case Settings::page_UI:
+    }
+    else if ( item == pageUserInterface )
+    {
         m_pOptionState->uiState.useFillColor = m_UiWidgets.useFillColorCB -> isChecked();
         m_pOptionState->uiState.fillColor = m_UiWidgets.fillColorB -> color();
         m_pOptionState->uiState.lineColor = m_UiWidgets.lineColorB -> color();
         m_pOptionState->uiState.lineWidth = m_UiWidgets.lineWidthB -> value();
-        break;
-
-    case Settings::page_class:
+    }
+    else if ( item == pageClass )
+    {
         m_pOptionState->classState.showVisibility = m_ClassWidgets.showVisibilityCB -> isChecked();
         m_pOptionState->classState.showAtts = m_ClassWidgets.showAttsCB -> isChecked();
         m_pOptionState->classState.showOps = m_ClassWidgets.showOpsCB -> isChecked();
@@ -420,16 +446,15 @@ void SettingsDlg::applyPage( Settings::Page page ) {
         m_pOptionState->classState.showPackage = m_ClassWidgets.showPackageCB -> isChecked();
             m_pOptionState->classState.defaultAttributeScope = (Uml::Visibility::Value) (m_ClassWidgets.m_pAttribScopeCB->currentItem() + 200);
             m_pOptionState->classState.defaultOperationScope = (Uml::Visibility::Value) (m_ClassWidgets.m_pOperationScopeCB->currentItem() + 200);
-        break;
-
-    case Settings::page_codegen:
+    }
+    else if ( item == pageCodeGen )
+    {
         m_pCodeGenPage->apply();
-        break;
-
-    case Settings::page_codeview:
+    }
+    else if ( item == pageCodeViewer )
+    {
         m_pCodeViewerPage->apply();
         m_pOptionState->codeViewerState = m_pCodeViewerPage->getOptions();
-        break;
     }
 }
 

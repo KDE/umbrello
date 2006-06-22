@@ -25,7 +25,7 @@
 #include <Q3Frame>
 #include <QHBoxLayout>
 #include <QGridLayout>
-
+#include <kvbox.h>
 //kde includes
 #include <kiconloader.h>
 #include <klocale.h>
@@ -37,7 +37,14 @@
 #include "../dialog_utils.h"
 
 StateDialog::StateDialog( UMLView * pView, StateWidget * pWidget )
-        : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help, Ok, pView, "_STATEDIALOG_", true, true) {
+    : KPageDialog( pView ) {
+    setCaption(i18n("Properties") );
+    setButtons( Help | Default | Apply | Ok | Cancel );
+    setDefaultButton( Ok );
+    setModal( true );
+    enableButtonSeparator( true );
+    setFaceType( KPageDialog::List );
+
     m_pActivityPage = 0;
     m_pView = pView;
     m_pStateWidget = pWidget;
@@ -46,15 +53,15 @@ StateDialog::StateDialog( UMLView * pView, StateWidget * pWidget )
 }
 
 void StateDialog::slotOk() {
-    applyPage( GeneralPage );
-    applyPage( Activity_Page );
-    applyPage( ColorPage );
-    applyPage( FontPage );
+    applyPage( pageGeneral );
+    applyPage( pageFont );
+    applyPage( pageActivity );
+    applyPage( pageColor );
     accept();
 }
 
 void StateDialog::slotApply() {
-    applyPage( (Page) activePageIndex() );
+    applyPage( currentPage() );
 }
 
 void StateDialog::setupPages() {
@@ -65,34 +72,40 @@ void StateDialog::setupPages() {
     setupFontPage();
 }
 
-void StateDialog::applyPage( Page page ) {
+void StateDialog::applyPage( KPageWidgetItem*item ) {
     m_bChangesMade = true;
-    switch( page ) {
-    case GeneralPage:
+    if ( item == pageGeneral )
+    {
         m_pStateWidget -> setName( m_GenPageWidgets.nameLE -> text() );
         m_pStateWidget -> setDoc( m_GenPageWidgets.docMLE -> text() );
-        break;
-
-    case Activity_Page:
+    }
+    else if ( item == pageActivity )
+    {
         if( m_pActivityPage )
             m_pActivityPage -> updateActivities();
-        break;
-
-    case ColorPage:
+    }
+    else if ( item == pageColor )
+    {
         m_pColorPage -> updateUMLWidget();
-        break;
-
-    case FontPage:
+    }
+    else if ( item == pageFont )
+    {
         m_pStateWidget -> setFont( m_pChooser -> font() );
-        break;
-    }//end switch
+    }
 }
 
 void StateDialog::setupGeneralPage() {
     QString types[ ] = { i18n("Initial state"), i18n("State"), i18n("End state") };
     StateWidget::StateType type = m_pStateWidget -> getStateType();
 
-    KVBox * page = addVBoxPage( i18n("General"), i18n("General Properties"), DesktopIcon( "misc") );
+
+    KVBox * page = new KVBox();
+    pageGeneral = new KPageWidgetItem( page,i18n("General")  );
+    pageGeneral->setHeader( i18n("General Properties") );
+    pageGeneral->setIcon( DesktopIcon( "misc")  );
+    addPage( pageGeneral );
+
+
     m_GenPageWidgets.generalGB = new Q3GroupBox( i18n( "Properties"), (QWidget *)page );
 
     QGridLayout * generalLayout = new QGridLayout( m_GenPageWidgets.generalGB );
@@ -128,20 +141,33 @@ void StateDialog::setupGeneralPage() {
 void StateDialog::setupFontPage() {
     if ( !m_pStateWidget )
         return;
-    KVBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
+    KVBox * page = new KVBox();
+    pageFont = new KPageWidgetItem( page,i18n("Font")  );
+    pageFont->setHeader( i18n("Font Settings") );
+    pageFont->setIcon( DesktopIcon( "fonts")  );
+    addPage( pageFont );
     m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
     m_pChooser -> setFont( m_pStateWidget -> getFont() );
 }
 
 void StateDialog::setupColorPage() {
-    QFrame * colorPage = addPage( i18n("Color"), i18n("Widget Color"), DesktopIcon( "colors") );
+    QFrame * colorPage = new QFrame();
+    pageColor = new KPageWidgetItem( colorPage,i18n("Color")  );
+    pageColor->setHeader( i18n("Widget Color") );
+    pageColor->setIcon( DesktopIcon( "colors") );
+    addPage( pageColor );
     QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
     m_pColorPage = new UMLWidgetColorPage( colorPage, m_pStateWidget );
     m_pColorLayout -> addWidget(m_pColorPage);
 }
 
 void StateDialog::setupActivityPage() {
-    QFrame * activityPage = addPage( i18n("Activities"), i18n("Activities"), DesktopIcon( "misc") );
+    QFrame * activityPage = new QFrame();
+    pageActivity = new KPageWidgetItem( activityPage,i18n("Activities")  );
+    pageActivity->setHeader( i18n("Activities") );
+    pageActivity->setIcon( DesktopIcon( "misc") );
+    addPage( pageActivity );
+
     QHBoxLayout * activityLayout = new QHBoxLayout( activityPage );
     m_pActivityPage = new ActivityPage( activityPage, m_pStateWidget );
     activityLayout -> addWidget( m_pActivityPage );

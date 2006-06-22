@@ -254,7 +254,7 @@ void RefactoringAssistant::editProperties( )
 
 void RefactoringAssistant::editProperties( UMLObject *obj )
 {
-    KDialogBase *dia(0);
+    KDialog *dia(0);
     Uml::Object_Type t = obj->getBaseType();
     if (t == Uml::ot_Class || t == Uml::ot_Interface)
     {

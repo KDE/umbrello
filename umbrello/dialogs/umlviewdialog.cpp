@@ -77,7 +77,7 @@ void UMLViewDialog::setupDiagramPropertiesPage()
 {
     KVBox *page = new KVBox();
     pageGeneralItem = new KPageWidgetItem( page, i18n("General") );
-    pageGeneralItem->setItem( i18n("General Settings") );
+    pageGeneralItem->setHeader( i18n("General Settings") );
     pageGeneralItem->setIcon(  DesktopIcon( "misc") );
     addPage( pageGeneralItem);
 
@@ -104,7 +104,7 @@ void UMLViewDialog::setupClassPage() {
     }
     QFrame * newPage = new QFrame();
     pageDisplayItem = new KPageWidgetItem( newPage,i18n("Display") );
-    pageDisplayItem->setItem( i18n("Classes Display Options") );
+    pageDisplayItem->setHeader( i18n("Classes Display Options") );
     pageDisplayItem->setIcon(  DesktopIcon( "info") );
     addPage( pageDisplayItem);
 
@@ -116,7 +116,7 @@ void UMLViewDialog::setupClassPage() {
 void UMLViewDialog::setupColorPage() {
     QFrame * colorPage = new QFrame();
     pageColorItem = new KPageWidgetItem( colorPage, i18n("Color") );
-    pageColorItem->setItem( i18n("Diagram Colors") );
+    pageColorItem->setHeader( i18n("Diagram Colors") );
     pageColorItem->setIcon(  DesktopIcon( "colors") );
     addPage( pageColorItem);
 
@@ -128,7 +128,7 @@ void UMLViewDialog::setupColorPage() {
 void UMLViewDialog::setupFontPage() {
     KVBox *page = new KVBox();
     pageFontItem = new KPageWidgetItem( page, i18n("Font") );
-    pageFontItem->setItem( i18n("Font Settings") );
+    pageFontItem->setHeader( i18n("Font Settings") );
     pageFontItem->setIcon(  DesktopIcon( "fonts") );
     addPage( pageFontItem);
 

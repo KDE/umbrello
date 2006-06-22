@@ -16,7 +16,7 @@
 #define STATEDIALOG_H
 
 //kde class includes
-#include <kdialog.h>
+#include <kpagedialog.h>
 
 //local class includes
 #include "umlwidgetcolorpage.h"
@@ -40,7 +40,7 @@ class KFontChooser;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class StateDialog : public KDialogBase {
+class StateDialog : public KPageDialog {
     Q_OBJECT
 
 public:
@@ -57,14 +57,6 @@ public:
     }
 
 protected:
-
-    enum Page
-    {
-        GeneralPage = 0,
-        Activity_Page,
-        ColorPage,
-        FontPage
-    };
 
     /**
     *   Entered when OK button pressed.
@@ -104,7 +96,7 @@ protected:
     /**
     *     Applys changes to the given page.
     */
-    void applyPage( Page page );
+    void applyPage( KPageWidgetItem*item );
 
     /**
     *   Font chooser widget for font page.
@@ -144,6 +136,7 @@ protected:
         Q3GroupBox * docGB, * generalGB;
     }
     m_GenPageWidgets;
+    KPageWidgetItem *pageColor,*pageActivity,*pageFont,*pageGeneral;
 };
 
 #endif

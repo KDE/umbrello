@@ -151,7 +151,7 @@ private:
     void setupClassPage();
     void setupCodeGenPage();
     void setupCodeViewerPage(Settings::CodeViewerState options);
-    void applyPage( Settings::Page page );
+    void applyPage( KPageWidgetItem* );
 
     //private attributes
     FontWidgets m_FontWidgets;
@@ -164,7 +164,7 @@ private:
 
     KConfig * m_pCfg;
     bool m_bChangesApplied;
-
+    KPageWidgetItem*pageCodeViewer,*pageFont,*pageCodeGen,*pageUserInterface,* pageGeneral,*pageClass;
     //signals
 signals:
     //slots
