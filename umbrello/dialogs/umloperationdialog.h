@@ -17,7 +17,7 @@
 #define UMLOPERATIONDIALOG_H
 
 //kde includes
-#include <kdialogbase.h>
+#include <kdialog.h>
 //Added by qt3to4:
 #include <QLabel>
 #include <Q3ListBoxItem>
@@ -40,7 +40,7 @@ class QLineEdit;
 class UMLDoc;
 class KArrowButton;
 
-class UMLOperationDialog : public KDialogBase {
+class UMLOperationDialog : public KDialog {
     Q_OBJECT
 
 public:

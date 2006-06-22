@@ -15,7 +15,7 @@
 #ifndef UMLTEMPLATEDIALOG_H
 #define UMLTEMPLATEDIALOG_H
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 //Added by qt3to4:
 #include <QLabel>
 
@@ -34,7 +34,7 @@ class UMLTemplate;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class UMLTemplateDialog : public KDialogBase {
+class UMLTemplateDialog : public KDialog {
     Q_OBJECT
 public:
     UMLTemplateDialog(QWidget* pParent, UMLTemplate* pAttribute);

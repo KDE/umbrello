@@ -39,8 +39,13 @@
 #include "../dialog_utils.h"
 
 UMLTemplateDialog::UMLTemplateDialog(QWidget* pParent, UMLTemplate* pTemplate)
-        : KDialogBase( Plain, i18n("Template Properties"), Help | Ok | Cancel , Ok, pParent, "_UMLTemplateDLG_", true, true) {
+        : KDialog( pParent) {
     m_pTemplate = pTemplate;
+    setCaption( i18n("Template Properties") );
+    setButtons( Help | Ok | Cancel );
+    setDefaultButton( Ok );
+    setModal( true );
+    enableButtonSeparator( true );
     setupDialog();
 }
 
@@ -49,9 +54,11 @@ UMLTemplateDialog::~UMLTemplateDialog() {}
 void UMLTemplateDialog::setupDialog() {
     int margin = fontMetrics().height();
 
-    QVBoxLayout* mainLayout = new QVBoxLayout( plainPage() );
+    QFrame *frame = new QFrame( this );
+    setMainWidget( frame );
+    QVBoxLayout* mainLayout = new QVBoxLayout( frame );
 
-    m_pValuesGB = new Q3GroupBox(i18n("General Properties"), plainPage() );
+    m_pValuesGB = new Q3GroupBox(i18n("General Properties"), frame );
     QGridLayout* valuesLayout = new QGridLayout(m_pValuesGB);
     valuesLayout->setMargin(margin);
     valuesLayout->setSpacing(10);

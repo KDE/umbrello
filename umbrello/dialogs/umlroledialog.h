@@ -17,7 +17,7 @@
 #define UMLROLEDIALOG_H
 
 //kde includes
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 /**
  * @author Paul Hensgen
@@ -26,7 +26,7 @@
 class UMLRole;
 class UMLRoleProperties;
 
-class UMLRoleDialog : public KDialogBase {
+class UMLRoleDialog : public KDialog {
     Q_OBJECT
 public:
     /**

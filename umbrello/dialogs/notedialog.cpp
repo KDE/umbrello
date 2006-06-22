@@ -29,12 +29,21 @@
 #include <q3textedit.h>
 
 
-NoteDialog::NoteDialog( QWidget * parent, NoteWidget * pNote ) : KDialogBase(Plain, i18n("Note Documentation"), Help | Ok | Cancel , Ok, parent, "_NOTEDIALOG_", true, true) {
+NoteDialog::NoteDialog( QWidget * parent, NoteWidget * pNote )
+    : KDialog(parent) {
+    setCaption( i18n("Note Documentation") );
+    setButtons( Help | Ok | Cancel );
+    setDefaultButton( Ok );
+    setModal( true );
+    enableButtonSeparator( true );
+
     m_pNoteWidget = pNote;
     int margin = fontMetrics().height();
 
-    m_pDocGB = new Q3GroupBox(i18n("Documentation"), plainPage());
-    QVBoxLayout * mainLayout = new QVBoxLayout(plainPage());
+    QFrame *frame = new QFrame( this );
+    setMainWidget( frame );
+    m_pDocGB = new Q3GroupBox(i18n("Documentation"), frame);
+    QVBoxLayout * mainLayout = new QVBoxLayout(frame);
     mainLayout -> addWidget(m_pDocGB);
     mainLayout -> setSpacing(10);
     mainLayout -> setMargin(margin);

@@ -15,7 +15,7 @@
 #ifndef UMLENTITYATTRIBUTEDIALOG_H
 #define UMLENTITYATTRIBUTEDIALOG_H
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 //Added by qt3to4:
 #include <QLabel>
 
@@ -32,7 +32,7 @@ class UMLEntityAttribute;
 class KComboBox;
 class QLineEdit;
 
-class UMLEntityAttributeDialog : public KDialogBase {
+class UMLEntityAttributeDialog : public KDialog {
     Q_OBJECT
 public:
     UMLEntityAttributeDialog( QWidget* pParent, UMLEntityAttribute* pEntityAttribute );

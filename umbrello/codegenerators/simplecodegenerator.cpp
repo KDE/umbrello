@@ -26,7 +26,7 @@
 #include <klocale.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <kapplication.h>
 // app includes
 #include "../dialogs/overwritedialogue.h"
@@ -162,14 +162,14 @@ QString SimpleCodeGenerator::overwritableName(UMLClassifier* concept, QString na
         break;
     case CodeGenerationPolicy::Ask:               //ask if we can overwrite
         switch(overwriteDialogue.exec()) {
-        case KDialogBase::Yes:  //overwrite file
+        case KDialog::Yes:  //overwrite file
             if ( overwriteDialogue.applyToAllRemaining() ) {
                 commonPolicy->setOverwritePolicy(CodeGenerationPolicy::Ok);
             } else {
                 m_applyToAllRemaining = false;
             }
             break;
-        case KDialogBase::No: //generate similar name
+        case KDialog::No: //generate similar name
             suffix = 1;
             while (1) {
                 filename = name + "__" + QString::number(suffix) + ext;
@@ -183,7 +183,7 @@ QString SimpleCodeGenerator::overwritableName(UMLClassifier* concept, QString na
                 m_applyToAllRemaining = false;
             }
             break;
-        case KDialogBase::Cancel: //don't output anything
+        case KDialog::Cancel: //don't output anything
             if ( overwriteDialogue.applyToAllRemaining() ) {
                 commonPolicy->setOverwritePolicy(CodeGenerationPolicy::Cancel);
             } else {

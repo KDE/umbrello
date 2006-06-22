@@ -15,7 +15,7 @@
 #ifndef NOTEDIALOG_H
 #define NOTEDIALOG_H
 //kde includes
-#include <kdialogbase.h>
+#include <kdialog.h>
 //app includes
 #include "../notewidget.h"
 
@@ -27,7 +27,7 @@ class Q3GroupBox;
 class QLineEdit;
 class Q3TextEdit;
 
-class NoteDialog : public KDialogBase {
+class NoteDialog : public KDialog {
 public:
     /**
      *  Constructs an NoteDialog.

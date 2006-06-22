@@ -16,7 +16,7 @@
 #ifndef SELECTOPDLG_H
 #define SELECTOPDLG_H
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 #include <q3groupbox.h>
 #include <kcombobox.h>

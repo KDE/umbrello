@@ -25,8 +25,13 @@
 #include "umlroleproperties.h"
 
 UMLRoleDialog::UMLRoleDialog( QWidget * parent, UMLRole * pRole )
-        : KDialogBase( Plain, i18n("Role Properties"), Help | Ok | Cancel , Ok, parent, "_UMLROLEDLG_", true, true)
+        : KDialog( parent)
 {
+    setCaption( i18n("Role Properties") );
+    setButtons( Help | Ok | Cancel );
+    setDefaultButton( Ok );
+    setModal( true );
+    enableButtonSeparator( true );
     m_pRole = pRole;
     setupDialog();
 }

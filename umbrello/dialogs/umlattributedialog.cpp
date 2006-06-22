@@ -45,9 +45,15 @@
 #include "../object_factory.h"
 
 UMLAttributeDialog::UMLAttributeDialog( QWidget * pParent, UMLAttribute * pAttribute )
-        : KDialogBase( Plain, i18n("Attribute Properties"), Help | Ok | Cancel , Ok, pParent, "_UMLATTRIBUTEDLG_", true, true) {
+        : KDialog( pParent) {
+    setCaption( i18n("Attribute Properties") );
+    setButtons( Help | Ok | Cancel );
+    setDefaultButton( Ok );
+    setModal( true );
+    enableButtonSeparator( true );
     m_pAttribute = pAttribute;
     setupDialog();
+
 }
 
 UMLAttributeDialog::~UMLAttributeDialog() {}
@@ -56,9 +62,10 @@ void UMLAttributeDialog::setupDialog() {
     UMLDoc * pDoc = UMLApp::app()->getDocument();
     int margin = fontMetrics().height();
 
-    QVBoxLayout * mainLayout = new QVBoxLayout( plainPage() );
+    QFrame * frame = new QFrame( this );
+    QVBoxLayout * mainLayout = new QVBoxLayout( frame );
 
-    m_pValuesGB = new Q3GroupBox(i18n("General Properties"), plainPage() );
+    m_pValuesGB = new Q3GroupBox(i18n("General Properties"), frame );
     QGridLayout * valuesLayout = new QGridLayout(m_pValuesGB);
     valuesLayout -> setMargin(margin);
     valuesLayout -> setSpacing(10);
@@ -90,7 +97,7 @@ void UMLAttributeDialog::setupDialog() {
     mainLayout -> addWidget(m_pValuesGB);
 
 
-    m_pScopeBG = new Q3ButtonGroup(i18n("Visibility"), plainPage() );
+    m_pScopeBG = new Q3ButtonGroup(i18n("Visibility"), frame );
     QHBoxLayout * scopeLayout = new QHBoxLayout(m_pScopeBG);
     scopeLayout -> setMargin(margin);
 
@@ -102,10 +109,10 @@ void UMLAttributeDialog::setupDialog() {
 
     m_pProtectedRB = new QRadioButton(i18n("Prot&ected"), m_pScopeBG);
     scopeLayout -> addWidget(m_pProtectedRB);
-    
+
     m_pImplementationRB = new QRadioButton(i18n("I&mplementation"), m_pScopeBG);
     scopeLayout -> addWidget(m_pImplementationRB);
-    
+
     mainLayout -> addWidget(m_pScopeBG);
     Uml::Visibility scope = m_pAttribute -> getVisibility();
     if( scope == Uml::Visibility::Public )

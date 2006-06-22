@@ -23,7 +23,7 @@
 //kde includes
 #include <kcombobox.h>
 #include <kfontdialog.h>
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <kcolorbutton.h>
 #include <knuminput.h>
 //app includes

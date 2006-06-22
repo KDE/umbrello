@@ -15,7 +15,7 @@
 #ifndef PARMPROPDLG_H
 #define PARMPROPDLG_H
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <kcombobox.h>
 #include <q3groupbox.h>
 #include <qlabel.h>
@@ -38,7 +38,7 @@ class UMLDoc;
  * @author Paul Hensgen	<phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ParmPropDlg : public KDialogBase {
+class ParmPropDlg : public KDialog {
 public:
     /**
      * Constructs a ParmPropDlg.

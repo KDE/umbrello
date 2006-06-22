@@ -37,8 +37,14 @@
 #include "../object_factory.h"
 
 ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
-        : KDialogBase(Plain, i18n("Parameter Properties"), Help | Ok | Cancel , Ok, parent, "_PARMPROPDLG_", true, true)
+        : KDialog(parent)
 {
+    setCaption( i18n("Parameter Properties") );
+    setButtons( Help | Ok | Cancel );
+    setDefaultButton( Ok );
+    setModal( true );
+    enableButtonSeparator( true );
+
     m_pUmldoc = doc;
     m_pAtt = a;
     QString type, text, name, initialValue;
@@ -53,11 +59,13 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
     int margin = fontMetrics().height();
     setMinimumSize(300, 400);
     //disableResize();
-    QVBoxLayout * topLayout = new QVBoxLayout(plainPage());
+    QFrame *frame = new QFrame( this );
+    setMainWidget( frame );
+    QVBoxLayout * topLayout = new QVBoxLayout(frame);
     topLayout -> setSpacing(10);
     topLayout -> setMargin(margin);
 
-    m_pParmGB = new Q3GroupBox(i18n("Properties"), plainPage());
+    m_pParmGB = new Q3GroupBox(i18n("Properties"), frame);
     topLayout -> addWidget(m_pParmGB);
 
     QGridLayout * propLayout = new QGridLayout(m_pParmGB);
@@ -83,7 +91,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
                                     m_pStereoTypeL, i18n("&Stereotype name:"),
                                     m_pStereoTypeLE, m_pAtt->getStereotype() );
 
-    m_pKind =  new Q3ButtonGroup(i18n("Passing Direction"), plainPage());
+    m_pKind =  new Q3ButtonGroup(i18n("Passing Direction"), frame);
     m_pKind->setExclusive(true);
     QToolTip::add(m_pKind, i18n("\"in\" is a readonly parameter, \"out\" is a writeonly parameter and \"inout\" is a parameter for reading and writing."));
 
@@ -101,7 +109,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
 
     topLayout -> addWidget(m_pKind);
 
-    m_pDocGB = new Q3GroupBox(i18n("Documentation"), plainPage());
+    m_pDocGB = new Q3GroupBox(i18n("Documentation"), frame);
     QHBoxLayout * docLayout = new QHBoxLayout(m_pDocGB);
     docLayout -> setMargin(margin);
 

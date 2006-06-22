@@ -54,7 +54,13 @@
 #include "../stereotype.h"
 
 UMLOperationDialog::UMLOperationDialog( QWidget * parent, UMLOperation * pOperation )
-        : KDialogBase( Plain, i18n("Operation Properties"), Help | Ok | Cancel , Ok, parent, "_UMLOPERATIONDLG_", true, true) {
+        : KDialog( parent) {
+    setCaption( i18n("Operation Properties") );
+    setButtons( Help | Ok | Cancel );
+    setDefaultButton( Ok );
+    setModal( true );
+    enableButtonSeparator( true );
+
     m_pOperation = pOperation;
     m_doc = UMLApp::app()->getDocument();
     m_pMenu = 0;
@@ -64,11 +70,12 @@ UMLOperationDialog::UMLOperationDialog( QWidget * parent, UMLOperation * pOperat
 UMLOperationDialog::~UMLOperationDialog() {}
 
 void UMLOperationDialog::setupDialog() {
-
+    QFrame *frame = new QFrame( this );
+    setMainWidget( frame );
     int margin = fontMetrics().height();
-    QVBoxLayout * topLayout = new QVBoxLayout( plainPage() );
+    QVBoxLayout * topLayout = new QVBoxLayout( frame );
 
-    m_pGenGB = new Q3GroupBox(i18n("General Properties"), plainPage() );
+    m_pGenGB = new Q3GroupBox(i18n("General Properties"), frame );
     QGridLayout * genLayout = new QGridLayout(m_pGenGB);
     genLayout -> setMargin(margin);
     genLayout -> setSpacing(10);
@@ -101,7 +108,7 @@ void UMLOperationDialog::setupDialog() {
 
     topLayout -> addWidget( m_pGenGB );
 
-    m_pScopeBG = new Q3ButtonGroup(i18n("Visibility"), plainPage() );
+    m_pScopeBG = new Q3ButtonGroup(i18n("Visibility"), frame );
 
     QHBoxLayout * scopeLayout = new QHBoxLayout(m_pScopeBG);
     scopeLayout -> setMargin(margin);
@@ -111,16 +118,16 @@ void UMLOperationDialog::setupDialog() {
 
     m_pPrivateRB = new QRadioButton(i18n("P&rivate"), m_pScopeBG);
     scopeLayout -> addWidget(m_pPrivateRB);
-    
+
     m_pProtectedRB = new QRadioButton(i18n("Prot&ected"), m_pScopeBG);
     scopeLayout -> addWidget(m_pProtectedRB);
-    
+
     m_pImplementationRB = new QRadioButton(i18n("I&mplementation"), m_pScopeBG);
     scopeLayout -> addWidget(m_pImplementationRB);
 
     topLayout -> addWidget(m_pScopeBG);
 
-    m_pParmsGB = new Q3GroupBox(i18n("Parameters"), plainPage() );
+    m_pParmsGB = new Q3GroupBox(i18n("Parameters"), frame );
     QVBoxLayout* parmsLayout = new QVBoxLayout(m_pParmsGB);
     parmsLayout->setMargin(margin);
     parmsLayout->setSpacing(10);
@@ -195,7 +202,7 @@ void UMLOperationDialog::setupDialog() {
         insertType( m_pOperation->getTypeName(), 0 );
         m_pRtypeCB->setCurrentItem(0);
     }
-    
+
     //fill in parm list box
     UMLAttributeList * list = m_pOperation -> getParmList();
     UMLAttribute * pAtt = 0;

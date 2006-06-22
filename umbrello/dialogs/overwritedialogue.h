@@ -15,7 +15,7 @@
 #ifndef OVERWRITEDIALOGUE_H
 #define OVERWRITEDIALOGUE_H
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 class QCheckBox;
 
@@ -30,7 +30,7 @@ class QCheckBox;
  * @author Jonathan Riddell <jr@jriddell.org>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class OverwriteDialogue: public KDialogBase {
+class OverwriteDialogue: public KDialog {
     Q_OBJECT
 
 public:

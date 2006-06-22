@@ -45,7 +45,12 @@
 #include "../umldatatypelist.h"
 
 UMLEntityAttributeDialog::UMLEntityAttributeDialog( QWidget * pParent, UMLEntityAttribute * pEntityAttribute )
-        : KDialogBase( Plain, i18n("Entity Attribute Properties"), Help | Ok | Cancel , Ok, pParent, "_UMLENTITYATTRIBUTEDLG_", true, true) {
+        : KDialog( pParent) {
+    setCaption( i18n("Entity Attribute Properties") );
+    setButtons( Help | Ok | Cancel );
+    setDefaultButton(  Ok );
+    setModal( true );
+    enableButtonSeparator( true );
     m_pEntityAttribute = pEntityAttribute;
     setupDialog();
 }
@@ -55,10 +60,11 @@ UMLEntityAttributeDialog::~UMLEntityAttributeDialog() {}
 void UMLEntityAttributeDialog::setupDialog() {
     UMLDoc * pDoc = UMLApp::app()->getDocument();
     int margin = fontMetrics().height();
+    QFrame *frame = new QFrame( this );
+    setMainWidget( frame );
+    QVBoxLayout * mainLayout = new QVBoxLayout( frame );
 
-    QVBoxLayout * mainLayout = new QVBoxLayout( plainPage() );
-
-    m_pValuesGB = new Q3GroupBox(i18n("General Properties"), plainPage() );
+    m_pValuesGB = new Q3GroupBox(i18n("General Properties"), frame );
     QGridLayout * valuesLayout = new QGridLayout(m_pValuesGB);
     valuesLayout -> setMargin(margin);
     valuesLayout -> setSpacing(10);
@@ -110,7 +116,7 @@ void UMLEntityAttributeDialog::setupDialog() {
 
     mainLayout -> addWidget(m_pValuesGB);
 
-    m_pScopeBG = new Q3ButtonGroup(i18n("Indexing"), plainPage() );
+    m_pScopeBG = new Q3ButtonGroup(i18n("Indexing"), frame );
     QHBoxLayout* scopeLayout = new QHBoxLayout(m_pScopeBG);
     scopeLayout->setMargin(margin);
 

@@ -33,12 +33,21 @@
 #include "../dialog_utils.h"
 
 SelectOpDlg::SelectOpDlg(UMLView * parent, UMLClassifier * c)
-        : KDialogBase(Plain, i18n("Select Operation"), Ok | Cancel , Ok, parent, "_SELOPDLG_", true, true)
+        : KDialog( parent)
 {
-    m_pView = parent;
-    QVBoxLayout * topLayout = new QVBoxLayout(plainPage());
+    setCaption( i18n("Select Operation") );
+    setButtons( Ok | Cancel );
+    setDefaultButton( Yes );
+    setModal( true );
+    enableButtonSeparator( true );
 
-    m_pOpGB = new Q3GroupBox(i18n("Select Operation"), plainPage());
+    QFrame *frame = new QFrame( this );
+    setMainWidget( frame );
+
+    m_pView = parent;
+    QVBoxLayout * topLayout = new QVBoxLayout(frame);
+
+    m_pOpGB = new Q3GroupBox(i18n("Select Operation"), frame);
     topLayout -> addWidget(m_pOpGB);
 
     QGridLayout * mainLayout = new QGridLayout(m_pOpGB);

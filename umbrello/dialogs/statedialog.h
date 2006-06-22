@@ -16,7 +16,7 @@
 #define STATEDIALOG_H
 
 //kde class includes
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 //local class includes
 #include "umlwidgetcolorpage.h"

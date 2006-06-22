@@ -15,7 +15,7 @@
 #ifndef UMLVIEWDIALOG_H
 #define UMLVIEWDIALOG_H
 //kde includes
-#include <kdialogbase.h>
+#include <kpagedialog.h>
 //app includes
 #include "classoptionspage.h"
 #include "umlwidgetcolorpage.h"
@@ -40,7 +40,7 @@ class KFontChooser;
 class DiagramPropertiesPage;
 
 
-class UMLViewDialog : public KDialogBase {
+class UMLViewDialog : public KPageDialog {
     Q_OBJECT
 public:
     /**
@@ -53,13 +53,6 @@ public:
     */
     ~UMLViewDialog();
 protected:
-    enum Page
-    {
-        General = 0,
-        Color,
-        Font,
-        Class
-    };
 
     /**
     *   Sets up the dialog pages.
@@ -89,7 +82,7 @@ protected:
     /**
     *   Applys the properties of the given page.
     */
-    void applyPage( Page page );
+    void applyPage( KPageWidgetItem* );
 
     /**
     *   Checks whether the name is unique and sets it if it is.
@@ -116,6 +109,7 @@ protected:
     Q3TextEdit * m_pDocTE;
     QSpinBox * m_pSnapXSB, * m_pSnapYSB;
     QSpinBox * m_pLineWidthSB;
+    KPageWidgetItem *pageColorItem,*pageFontItem,*pageDisplayItem,*pageGeneralItem;
 public slots:
     void slotOk();
     void slotApply();
