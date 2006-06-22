@@ -18,7 +18,7 @@
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kdebug.h>
-
+#include <kvbox.h>
 // app includes
 #include "classgenpage.h"
 #include "classifierlistpage.h"
@@ -55,17 +55,18 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, int pageNum, bool ass
     m_pDoc = UMLApp::app()->getDocument();
     m_pObject = c;
     setupPages(c, assoc);
-    showPage(pageNum);
+#warning "kde4: reimplement showPage"
+    //showPage(pageNum);
 }
 
 ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget * o)
         : KPageDialog(parent) {
     setCaption( i18n("Properties") );
     setButtons( Ok | Apply | Cancel | Help );
-    setDefaultButtons(Ok );
+    setDefaultButton(Ok );
     setModal( true );
     enableButtonSeparator( true );
-    setTypeFace( KPageDialog::List );
+    setFaceType( KPageDialog::List );
     m_pWidget = o;
     m_pGenPage = 0;
     m_pAttPage = 0;
@@ -98,7 +99,8 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget * o)
     m_pColorLayout -> addWidget(m_pColorPage);
 
     setupFontPage();
-    showPage(0);
+#warning "kde4: reimplement showPage"
+    //showPage(0);
     setMinimumSize(340,420);
 }
 
@@ -106,10 +108,10 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget * w)
         : KPageDialog(parent) {
     setCaption( i18n("Properties") );
     setButtons( Ok | Apply | Cancel | Help );
-    setDefaultButtons(Ok );
+    setDefaultButton(Ok );
     setModal( true );
     enableButtonSeparator( true );
-    setTypeFace( KPageDialog::List );
+    setFaceType( KPageDialog::List );
     m_pWidget = w;
     m_pGenPage = 0;
     m_pAttPage = 0;
@@ -201,16 +203,27 @@ void ClassPropDlg::slotApply() {
 }
 
 void ClassPropDlg::setupPages(UMLObject * c, bool assoc) {
-    QFrame *page = addPage(i18n("General"), i18n("General Settings"), DesktopIcon( "misc") );
-    QHBoxLayout * genLayout = new QHBoxLayout(page);
-    page -> setMinimumSize(310, 330);
-    m_pGenPage = new ClassGenPage(m_pDoc, page, c);
+    QFrame* newPage = new QFrame();
+    KPageWidgetItem *pageItem = new KPageWidgetItem( newPage, i18n("General") );
+    pageItem->setHeader( i18n("General Settings") );
+    pageItem->setIcon( DesktopIcon("misc") );
+    addPage( pageItem);
+
+
+    QHBoxLayout * genLayout = new QHBoxLayout(newPage);
+    newPage -> setMinimumSize(310, 330);
+    m_pGenPage = new ClassGenPage(m_pDoc, newPage, c);
     genLayout -> addWidget(m_pGenPage);
     Uml::Object_Type ot = c->getBaseType();
     //add extra pages for class
     if (ot == Uml::ot_Class ) {
         //setup attributes page
-        QFrame* newPage = addPage( i18n("Attributes"), i18n("Attribute Settings"), DesktopIcon("misc") );
+        newPage = new QFrame();
+        pageItem = new KPageWidgetItem( newPage, i18n("Attributes") );
+        pageItem->setHeader( i18n("General Settings") );
+        pageItem->setIcon( DesktopIcon("misc") );
+        addPage( pageItem);
+
         m_pAttPage = new ClassifierListPage(newPage, (UMLClassifier *)c, m_pDoc, Uml::ot_Attribute);
         QHBoxLayout * attLayout = new QHBoxLayout(newPage);
         attLayout -> addWidget(m_pAttPage);
@@ -218,7 +231,11 @@ void ClassPropDlg::setupPages(UMLObject * c, bool assoc) {
 
     if (ot == Uml::ot_Class || ot == Uml::ot_Interface) {
         //setup operations page
-        QFrame* newPage = addPage( i18n("Operations"), i18n("Operation Settings"), DesktopIcon("misc") );
+        newPage = new QFrame();
+        pageItem = new KPageWidgetItem( newPage, i18n("Operations") );
+        pageItem->setHeader( i18n("Operation Settings") );
+        pageItem->setIcon( DesktopIcon("misc") );
+        addPage( pageItem);
         m_pOpsPage = new ClassifierListPage(newPage, (UMLClassifier*)c, m_pDoc, Uml::ot_Operation);
         QHBoxLayout* pOpsLayout = new QHBoxLayout(newPage);
         pOpsLayout -> addWidget(m_pOpsPage);
@@ -226,34 +243,54 @@ void ClassPropDlg::setupPages(UMLObject * c, bool assoc) {
 
     if (ot == Uml::ot_Class || ot == Uml::ot_Interface) {
         //setup templates page
-        QFrame* newPage = addPage( i18n("Templates"), i18n("Templates Settings"), DesktopIcon("misc") );
+        newPage = new QFrame();
+        pageItem = new KPageWidgetItem( newPage, i18n("Templates") );
+        pageItem->setHeader( i18n("Templates Settings") );
+        pageItem->setIcon( DesktopIcon("misc") );
+        addPage( pageItem);
         m_pTemplatePage = new ClassifierListPage(newPage, (UMLClassifier *)c, m_pDoc, Uml::ot_Template);
         QHBoxLayout* templatesLayout = new QHBoxLayout(newPage);
         templatesLayout->addWidget(m_pTemplatePage);
     }
     if (ot == Uml::ot_Enum) {
         //setup enum literals page
-        QFrame* newPage = addPage( i18n("Enum Literals"), i18n("Enum Literals Settings"), DesktopIcon("misc") );
+        newPage = new QFrame();
+        pageItem = new KPageWidgetItem( newPage, i18n("Enum Literals") );
+        pageItem->setHeader( i18n("Enum Literals Settings") );
+        pageItem->setIcon( DesktopIcon("misc") );
+        addPage( pageItem);
         m_pEnumLiteralPage = new ClassifierListPage(newPage, (UMLClassifier*)c, m_pDoc, Uml::ot_EnumLiteral);
         QHBoxLayout* enumLiteralsLayout = new QHBoxLayout(newPage);
         enumLiteralsLayout->addWidget(m_pEnumLiteralPage);
     }
     if (ot == Uml::ot_Entity) {
         //setup enum literals page
-        QFrame* newPage = addPage( i18n("Entity Attributes"), i18n("Entity Attributes Settings"), DesktopIcon("misc") );
+        newPage = new QFrame();
+        pageItem = new KPageWidgetItem( newPage, i18n("Entity Attributes") );
+        pageItem->setHeader( i18n("Entity Attributes Settings") );
+        pageItem->setIcon( DesktopIcon("misc") );
+        addPage( pageItem);
         m_pEntityAttributePage = new ClassifierListPage(newPage, (UMLClassifier*)c, m_pDoc, Uml::ot_EntityAttribute);
         QHBoxLayout* entityAttributesLayout = new QHBoxLayout(newPage);
         entityAttributesLayout->addWidget(m_pEntityAttributePage);
     }
     if (ot == Uml::ot_Package ) {
         // Set up containment page.
-        QFrame* newPage = addPage( i18n("Contents"), i18n("Contents Settings"), DesktopIcon("misc") );
+        newPage = new QFrame();
+        pageItem = new KPageWidgetItem( newPage, i18n("Contents") );
+        pageItem->setHeader( i18n("Contents Settings") );
+        pageItem->setIcon( DesktopIcon("misc") );
+        addPage( pageItem);
         m_pPkgContentsPage = new PkgContentsPage(newPage, (UMLPackage*)(c));
         QHBoxLayout* contentsLayout = new QHBoxLayout(newPage);
         contentsLayout->addWidget(m_pPkgContentsPage);
     }
     if (assoc) {
-        QFrame* newPage = addPage(i18n("Associations"), i18n("Class Associations"), DesktopIcon( "misc") );
+        newPage = new QFrame();
+        pageItem = new KPageWidgetItem( newPage, i18n("Associations") );
+        pageItem->setHeader( i18n("Class Associations") );
+        pageItem->setIcon( DesktopIcon("misc") );
+        addPage( pageItem);
         m_pAssocPage = new AssocPage(newPage, m_pDoc -> getCurrentView(), m_pObject);
         QHBoxLayout* assocLayout = new QHBoxLayout(newPage);
         assocLayout -> addWidget(m_pAssocPage);
@@ -263,7 +300,12 @@ void ClassPropDlg::setupPages(UMLObject * c, bool assoc) {
 }
 
 void ClassPropDlg::setupInstancePages(UMLWidget* widget) {
-    QFrame* page = addPage( i18n("General"), i18n("General Settings"), DesktopIcon("misc") );
+    QFrame* page = new QFrame();
+    KPageWidgetItem *pageItem = new KPageWidgetItem( page, i18n("General") );
+    pageItem->setHeader( i18n("General Settings") );
+    pageItem->setIcon( DesktopIcon("misc") );
+    addPage( pageItem);
+
     QHBoxLayout* genLayout = new QHBoxLayout(page);
     page->setMinimumSize(310, 330);
     m_pGenPage = new ClassGenPage(m_pDoc, page, widget);
@@ -274,7 +316,11 @@ void ClassPropDlg::setupInstancePages(UMLWidget* widget) {
 void ClassPropDlg::setupFontPage() {
     if( !m_pWidget )
         return;
-    KVBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
+    KVBox* page = new KVBox();
+    KPageWidgetItem *pageItem = new KPageWidgetItem( page, i18n("Font") );
+    pageItem->setHeader( i18n("Font Settings") );
+    pageItem->setIcon( DesktopIcon("fonts") );
+    addPage( pageItem);
     m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
     m_pChooser -> setFont( m_pWidget -> getFont() );
 }
