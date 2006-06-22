@@ -35,8 +35,13 @@
 #include "../umlview.h"
 
 ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, int pageNum, bool assoc)
-        : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help,
-              Ok, parent, "_CLASSDLG_", true, true) {
+        : KPageDialog(parent) {
+    setCaption( i18n("Properties") );
+    setButtons( Ok | Apply | Cancel | Help );
+    setDefaultButtons(Ok );
+    setModal( true );
+    enableButtonSeparator( true );
+    setTypeFace( KPageDialog::List );
     m_pWidget = 0;
     m_pGenPage = 0;
     m_pAttPage = 0;
@@ -54,8 +59,13 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, int pageNum, bool ass
 }
 
 ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget * o)
-        : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help,
-              Ok, parent, "_CLASSDLG_", true, true) {
+        : KPageDialog(parent) {
+    setCaption( i18n("Properties") );
+    setButtons( Ok | Apply | Cancel | Help );
+    setDefaultButtons(Ok );
+    setModal( true );
+    enableButtonSeparator( true );
+    setTypeFace( KPageDialog::List );
     m_pWidget = o;
     m_pGenPage = 0;
     m_pAttPage = 0;
@@ -67,13 +77,22 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget * o)
     m_Type = pt_ObjectWidget;
     m_pObject = m_pWidget->getUMLObject();
     m_pDoc = UMLApp::app()->getDocument();
-    QFrame *page = addPage( i18n("General"), i18n("General Settings"), DesktopIcon( "misc") );
+    QFrame *page = new QFrame();
+    KPageWidgetItem *pageItem = new KPageWidgetItem( page, i18n("General") );
+    pageItem->setHeader( i18n("General Settings") );
+    pageItem->setIcon(  DesktopIcon( "misc") );
+    addPage( page );
     page -> setMinimumSize(310, 330);
     QHBoxLayout * topLayout = new QHBoxLayout(page);
     m_pGenPage = new ClassGenPage(m_pDoc, page, o);
     topLayout -> addWidget(m_pGenPage);
 
-    QFrame * newPage = addPage( i18n("Color"), i18n("Widget Colors"), DesktopIcon( "colors") );
+    QFrame * newPage = new QFrame();
+    pageItem = new KPageWidgetItem( page, i18n("Color") );
+    pageItem->setHeader( i18n("Widget Colors") );
+    setIcon( DesktopIcon( "colors") );
+    addPage( newPage);
+
     QHBoxLayout * m_pColorLayout = new QHBoxLayout(newPage);
     m_pColorPage = new UMLWidgetColorPage(newPage, o);
     m_pColorLayout -> addWidget(m_pColorPage);
@@ -84,8 +103,13 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget * o)
 }
 
 ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget * w)
-        : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help,
-              Ok, parent, "_CLASSDLG_", true, true) {
+        : KPageDialog(parent) {
+    setCaption( i18n("Properties") );
+    setButtons( Ok | Apply | Cancel | Help );
+    setDefaultButtons(Ok );
+    setModal( true );
+    enableButtonSeparator( true );
+    setTypeFace( KPageDialog::List );
     m_pWidget = w;
     m_pGenPage = 0;
     m_pAttPage = 0;
@@ -116,14 +140,23 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget * w)
 
     //now setup the options page for classes
     if (w->getBaseType() == Uml::wt_Class || w->getBaseType() == Uml::wt_Interface) {
-        QFrame* newPage = addPage( i18n("Display"), i18n("Display Options"), DesktopIcon("info") );
+        QFrame* newPage = new QFrame();
+        KPageWidgetItem *pageItem = new KPageWidgetItem( newPage, i18n("Display") );
+        pageItem->setHeader( i18n("Display Options") );
+        pageItem->setIcon( DesktopIcon("info") );
+        addPage( pageItem);
+
         QHBoxLayout* m_pOptionsLayout = new QHBoxLayout(newPage);
         ClassifierWidget *cw = static_cast<ClassifierWidget*>(w);
         m_pOptionsPage = new ClassOptionsPage( newPage, cw );
         m_pOptionsLayout -> addWidget(m_pOptionsPage);
     }
+    QFrame* colorPage = new QFrame();
+    KPageWidgetItem *pageItem = new KPageWidgetItem( colorPage, i18n("Color") );
+    pageItem->setHeader( i18n("Widget Colors") );
+    pageItem->setIcon( DesktopIcon("colors") );
+    addPage( pageItem);
 
-    QFrame* colorPage = addPage( i18n("Color"), i18n("Widget Colors"), DesktopIcon("colors") );
     QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
     m_pColorPage = new UMLWidgetColorPage(colorPage, w);
     m_pColorLayout -> addWidget(m_pColorPage);

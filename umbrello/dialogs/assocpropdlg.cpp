@@ -23,6 +23,7 @@
 #include <kmessagebox.h>
 #include <kiconloader.h>
 #include <kdebug.h>
+#include <kvbox.h>
 
 #include "assocpropdlg.h"
 #include "assocgenpage.h"
@@ -39,16 +40,22 @@
 #include "../umlview.h"
 
 AssocPropDlg::AssocPropDlg (QWidget *parent, AssociationWidget * assocWidget, int pageNum)
-        : KDialogBase(IconList, i18n("Association Properties"), Ok | Apply | Cancel | Help,
-                      Ok, parent, "_ASSOCPROPDLG_", true, true)
+        : KPageDialog(parent)
 {
+    setCaption( i18n("Association Properties") );
+    setButtons( Ok | Apply | Cancel | Help );
+    setDefaultButton( Ok );
+    setModal( true );
+    setFaceType( KPageDialog::List );
+    enableButtonSeparator( true );
     init();
     m_pAssoc = assocWidget;
 
     m_pDoc = ((UMLApp *)parent) -> getDocument(); // needed?
 
     setupPages(assocWidget);
-    showPage(pageNum);
+#warning "kde4: port it"
+    //showPage(pageNum);
 }
 
 AssocPropDlg::~AssocPropDlg() { }
@@ -62,7 +69,7 @@ void AssocPropDlg::init ( )
 
 void AssocPropDlg::slotOk() {
     slotApply();
-    KDialogBase::accept();
+    KDialog::accept();
 }
 
 void AssocPropDlg::slotApply() {
@@ -87,14 +94,22 @@ void AssocPropDlg::setupPages (AssociationWidget *assocWidget)
 {
 
     // general page
-    QFrame *page = addPage( i18n("General"), i18n("General Settings"), DesktopIcon( "misc") );
+    QFrame *page = new QFrame();
+    KPageWidgetItem *pageItem = new KPageWidgetItem( page, i18n("General"));
+    pageItem->setHeader( i18n("General Settings") );
+    pageItem->setIcon( DesktopIcon( "misc") );
+    addPage( pageItem );
     QHBoxLayout *genLayout = new QHBoxLayout(page);
     page -> setMinimumSize(310, 330);
     m_pGenPage = new AssocGenPage (m_pDoc, page, assocWidget);
     genLayout -> addWidget(m_pGenPage);
 
     // role page
-    QFrame * newPage = addPage( i18n("Roles"), i18n("Role Settings"), DesktopIcon( "misc") );
+    QFrame *newPage = new QFrame();
+    pageItem = new KPageWidgetItem( newPage, i18n("Roles"));
+    pageItem->setHeader( i18n("Role Settings"));
+    pageItem->setIcon( DesktopIcon( "misc") );
+    addPage( pageItem );
     QHBoxLayout * roleLayout = new QHBoxLayout(newPage);
     // newPage -> setMinimumSize(310, 330);
     m_pRolePage = new AssocRolePage(m_pDoc, newPage, assocWidget);
@@ -109,7 +124,12 @@ void AssocPropDlg::setupFontPage()
     if( !m_pAssoc)
         return;
 
-    KVBox *page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts"));
+    KVBox *page = new KVBox();
+    KPageWidgetItem* pageItem = new KPageWidgetItem( page, i18n("Font"));
+    pageItem->setHeader( i18n("Font Settings"));
+    pageItem->setIcon( DesktopIcon( "fonts") );
+    addPage( pageItem );
+
     m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
     m_pChooser->setFont( m_pAssoc->getFont());
     m_pChooser->setSampleText(i18n("Association font"));

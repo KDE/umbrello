@@ -16,7 +16,7 @@
 #define ASSOCPROPDLG_H
 
 //kde class includes
-#include <kdialogbase.h>
+#include <kpagedialog.h>
 #include <kfontdialog.h>
 #include "../associationwidget.h"
 
@@ -32,7 +32,7 @@ class UMLDoc;
  * @author Brian Thomas <Brian.A.Thomas@gsfc.nasa.gov>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class AssocPropDlg : public KDialogBase {
+class AssocPropDlg : public KPageDialog {
     Q_OBJECT
 public:
 

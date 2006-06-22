@@ -11,7 +11,7 @@
 #define CLASSPROPDLG_H
 
 //kde class includes
-#include <kdialogbase.h>
+#include <kpagedialog.h>
 #include <kfontdialog.h>
 
 #include "../umlnamespace.h"
@@ -36,7 +36,7 @@ class UMLWidget;
  * @version 1.0
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ClassPropDlg : public KDialogBase {
+class ClassPropDlg : public KPageDialog {
     Q_OBJECT
 public:
     /**
