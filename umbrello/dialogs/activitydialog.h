@@ -22,7 +22,7 @@
 #include <q3groupbox.h>
 
 //kde class includes
-#include <kdialogbase.h>
+#include <kpagedialog.h>
 #include <kfontdialog.h>
 
 //local class includes
@@ -39,7 +39,7 @@ class ActivityWidget;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class ActivityDialog : public KDialogBase {
+class ActivityDialog : public KPageDialog {
     Q_OBJECT
 
 public:
@@ -57,12 +57,6 @@ public:
 
 protected:
 
-    enum Page
-    {
-        GeneralPage = 0,
-        ColorPage,
-        FontPage
-    };
 
     /**
     *   Entered when OK button pressed.
@@ -97,7 +91,7 @@ protected:
     /**
     *     Applys changes to the given page.
     */
-    void applyPage( Page page );
+    void applyPage( KPageWidgetItem * );
 
     /**
     *   Font chooser widget for font page.
@@ -132,6 +126,7 @@ protected:
         Q3GroupBox * docGB, * generalGB;
     }
     m_GenPageWidgets;
+    KPageWidgetItem *pageItemGeneral,*pageItemFont,*pageItemColor;
 };
 
 #endif

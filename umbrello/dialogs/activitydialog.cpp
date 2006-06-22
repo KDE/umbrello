@@ -21,7 +21,7 @@
 #include <Q3Frame>
 #include <QHBoxLayout>
 #include <QGridLayout>
-
+#include <kvbox.h>
 //kde includes
 #include <kiconloader.h>
 #include <klocale.h>
@@ -32,7 +32,13 @@
 #include "../dialog_utils.h"
 
 ActivityDialog::ActivityDialog( UMLView * pView, ActivityWidget * pWidget )
-        : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help, Ok, pView, "_STATEDIALOG_", true, true) {
+        : KPageDialog(pView) {
+    setCaption( i18n("Properties") );
+    setButtons( Ok | Apply | Cancel | Help );
+    setDefaultButton( Ok );
+    setModal( true );
+    setFaceType( KPageDialog::List );
+    enableButtonSeparator( true );
     m_pView = pView;
     m_pActivityWidget = pWidget;
     m_bChangesMade = false;
@@ -40,14 +46,14 @@ ActivityDialog::ActivityDialog( UMLView * pView, ActivityWidget * pWidget )
 }
 
 void ActivityDialog::slotOk() {
-    applyPage( GeneralPage );
-    applyPage( ColorPage );
-    applyPage( FontPage );
+    applyPage( pageItemColor );
+    applyPage( pageItemFont );
+    applyPage( pageItemGeneral );
     accept();
 }
 
 void ActivityDialog::slotApply() {
-    applyPage( (Page) activePageIndex() );
+    applyPage(currentPage());
 }
 
 void ActivityDialog::setupPages() {
@@ -56,28 +62,34 @@ void ActivityDialog::setupPages() {
     setupFontPage();
 }
 
-void ActivityDialog::applyPage( Page page ) {
+void ActivityDialog::applyPage( KPageWidgetItem *item ) {
     m_bChangesMade = true;
-    switch( page ) {
-    case GeneralPage:
+    if ( item == pageItemGeneral )
+    {
         m_pActivityWidget -> setName( m_GenPageWidgets.nameLE -> text() );
         m_pActivityWidget -> setDoc( m_GenPageWidgets.docMLE -> text() );
-        break;
-
-    case ColorPage:
-        m_pColorPage -> updateUMLWidget();
-
-    case FontPage:
+    }
+    else if ( item == pageItemFont )
+    {
         m_pActivityWidget -> setFont( m_pChooser -> font() );
-        break;
-    }//end switch
+    }
+    else if ( item == pageItemColor )
+    {
+        m_pColorPage -> updateUMLWidget();
+    }
 }
 
 void ActivityDialog::setupGeneralPage() {
     QString types[ ] = { i18n("Initial activity"), i18n("Activity"), i18n("End activity"), i18n( "Branch/Merge"), i18n( "Fork/Join" ) };
     ActivityWidget::ActivityType type = m_pActivityWidget -> getActivityType();
 
-    KVBox * page = addVBoxPage( i18n("General"), i18n("General Properties"), DesktopIcon( "misc") );
+
+    KVBox *page = new KVBox();
+    pageItemGeneral = new KPageWidgetItem( page, i18n("General") );
+    pageItemGeneral->setHeader(i18n("General Properties"));
+    pageItemGeneral->setIcon( DesktopIcon( "misc") );
+    addPage( pageItemGeneral );
+
     m_GenPageWidgets.generalGB = new Q3GroupBox( i18n( "Properties"), (QWidget *)page );
 
     QGridLayout * generalLayout = new QGridLayout( m_GenPageWidgets.generalGB );
@@ -112,13 +124,21 @@ void ActivityDialog::setupGeneralPage() {
 }
 
 void ActivityDialog::setupFontPage() {
-    KVBox * page = addVBoxPage( i18n("Font"), i18n("Font Settings"), DesktopIcon( "fonts")  );
+    KVBox *page = new KVBox();
+    pageItemFont = new KPageWidgetItem( page, i18n("Font") );
+    pageItemFont->setHeader( i18n("Font Settings") );
+    pageItemFont->setIcon( DesktopIcon( "fonts") );
+    addPage( pageItemFont );
     m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
     m_pChooser -> setFont( m_pActivityWidget -> getFont() );
 }
 
 void ActivityDialog::setupColorPage() {
-    QFrame * colorPage = addPage( i18n("Color"), i18n("Widget Colors"), DesktopIcon( "colors") );
+    QFrame *colorPage = new QFrame();
+    pageItemColor = new KPageWidgetItem( colorPage, i18n("Color") );
+    pageItemColor->setHeader( i18n("Widget Colors") );
+    pageItemColor->setIcon( DesktopIcon( "colors") );
+    addPage( pageItemColor );
     QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
     m_pColorPage = new UMLWidgetColorPage( colorPage, m_pActivityWidget );
     m_pColorLayout -> addWidget(m_pColorPage);
