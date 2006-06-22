@@ -1,3 +1,10 @@
+add_subdirectory( classparser ) 
+add_subdirectory( dialogs ) 
+add_subdirectory( clipboard ) 
+add_subdirectory( pics ) 
+add_subdirectory( codegenerators ) 
+add_subdirectory( headings ) 
+add_subdirectory( refactoring ) 
 
 macro(CREATE_VERSION _in_FILE _out_FILE)
     FILE(READ ${_in_FILE} _contents)
@@ -9,13 +16,6 @@ endmacro(CREATE_VERSION)
 macro_additional_clean_files( ${CMAKE_CURRENT_BINARY_DIR}/version.h )
 create_version(${CMAKE_SOURCE_DIR}/umbrello/VERSION version.h)
 
-add_subdirectory( classparser ) 
-add_subdirectory( dialogs ) 
-add_subdirectory( clipboard ) 
-add_subdirectory( pics ) 
-add_subdirectory( codegenerators ) 
-add_subdirectory( headings ) 
-add_subdirectory( refactoring ) 
 
 
 set(libcodegenerator_SRCS
@@ -264,21 +264,20 @@ set(umbrello_SRCS
    widget_utils.cpp 
    worktoolbar.cpp )
 
-kde4_add_ui3_files( ${umbrello_SRCS}
-	dialogs/codegenerationoptionsbase.ui 
-	dialogs/codegenerationpolicybase.ui 
-	dialogs/codegenerationwizardbase.ui 
-	dialogs/codeviewerdialogbase.ui 
-	dialogs/codevieweroptionsbase.ui 
-	dialogs/diagrampropertiespage.ui 
-	dialogs/umlrolepropertiesbase.ui 
-	codegenerators/javacodegenerationformbase.ui
-	codegenerators/cppcodegenerationformbase.ui
-	codegenerators/rubycodegenerationformbase.ui
-)
-
-
 kde4_automoc(${umbrello_SRCS})
+
+kde4_add_ui3_files( umbrello_SRCS
+	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codegenerationoptionsbase.ui 
+	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codegenerationpolicybase.ui 
+	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codegenerationwizardbase.ui 
+	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codeviewerdialogbase.ui 
+	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codevieweroptionsbase.ui 
+	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/diagrampropertiespage.ui 
+	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/umlrolepropertiesbase.ui 
+	${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/javacodegenerationformbase.ui
+	${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/cppcodegenerationformbase.ui
+	${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/rubycodegenerationformbase.ui
+)
 
 kde4_add_executable(umbrello ${umbrello_SRCS})
 
