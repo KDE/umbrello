@@ -1,6 +1,11 @@
 <!DOCTYPE kpartgui>
 <kpartgui name="umbrello" version="11">
 <MenuBar>
+  <Menu name="file"><text>&amp;File</text>
+    <Menu name="file_export"><text>&amp;Export</text>
+      <Action name="file_export_docbook"/>
+    </Menu>
+  </Menu>
   <Menu name="edit"><text>&amp;Edit</text>
     <Action name="delete_selected"/>
   </Menu>

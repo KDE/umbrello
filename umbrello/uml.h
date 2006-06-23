@@ -487,7 +487,15 @@ public slots:
      * aborts.
      */
     void slotFileQuit();
-
+    
+    /**
+     * Exports the current model to docbook in a subdir of the 
+     * current model directory named from the model name.
+     * @todo Let the user chose the destination directory and 
+     * name.
+     */
+    void slotFileExportDocbook();
+    
     /**
      * Put the marked text/object into the clipboard and remove
      * it from the document.
@@ -896,6 +904,7 @@ private:
     KAction* fileOpen;
     KRecentFilesAction* fileOpenRecent;
     KAction* fileSave;
+    KAction* fileExportDocbook;
 
     KAction* fileSaveAs;
     KAction* fileClose;

@@ -173,6 +173,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
     }
 
     Uml::ListView_Type type;
+    // if item is null (0), then do not chose lvt_Unknown type
     type = item ? item->getType() : Uml::lvt_Unknown;
     if (me->button() == Qt::LeftButton) {
         switch( type ) {
@@ -196,6 +197,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
             UMLApp::app() -> getDocWindow() -> showDocumentation( item -> getUMLObject(), false );
             break;
 
+        case Uml::lvt_Unknown:  // used for EnumLiteral, do not try to show item documentation
         default:
             UMLApp::app() -> getDocWindow() -> updateDocumentation( true );
             break;

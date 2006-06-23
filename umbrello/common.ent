@@ -1,0 +1,19 @@
+ 
+ <!ENTITY title1	"Software Specifications" > 
+ <!ENTITY title2	"" > 
+ <!ENTITY actor 	"Actor:">
+ <!ENTITY usecase 	"Use Cases:">
+ <!ENTITY classes 	"Classes:">
+ <!ENTITY back  	"Back">
+ <!ENTITY packagename  	"Package Name:">
+ <!ENTITY classname 	"Class Name:">
+ <!ENTITY yes 		"yes">
+ <!ENTITY no 		"no">
+ <!ENTITY attributes 	"Attributes:">
+ <!ENTITY metodes 	"Methods:">
+ <!ENTITY parameters 	"Parameters:">
+
+
+ 
+ 
+  
