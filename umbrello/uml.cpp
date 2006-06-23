@@ -488,7 +488,7 @@ void UMLApp::saveOptions() {
     m_config->writeEntry( "logo", m_optionState.generalState.logo );
     m_config->writeEntry( "loadlast", m_optionState.generalState.loadlast );
 
-    m_config->writeEntry( "diagram", m_optionState.generalState.diagram );
+    m_config->writeEntry( "diagram", (int)m_optionState.generalState.diagram );
     if( m_doc->URL().fileName() == i18n( "Untitled" ) ) {
         m_config -> writeEntry( "lastFile", "" );
     } else {
@@ -516,8 +516,8 @@ void UMLApp::saveOptions() {
     m_config->writeEntry( "showAttSig", m_optionState.classState.showAttSig );
     m_config->writeEntry( "ShowOpSig", m_optionState.classState.showOpSig );
     m_config->writeEntry( "showPackage", m_optionState.classState.showPackage );
-    m_config->writeEntry( "defaultAttributeScope", m_optionState.classState.defaultAttributeScope);
-    m_config->writeEntry( "defaultOperationScope", m_optionState.classState.defaultOperationScope);
+    m_config->writeEntry( "defaultAttributeScope", (int)m_optionState.classState.defaultAttributeScope);
+    m_config->writeEntry( "defaultOperationScope", (int)m_optionState.classState.defaultOperationScope);
 
     m_config -> setGroup( "Code Viewer Options" );
     m_config->writeEntry( "height", m_optionState.codeViewerState.height );

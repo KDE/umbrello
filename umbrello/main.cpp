@@ -80,7 +80,7 @@ void initDocument(KCmdLineArgs *args, KConfig* cfg);
  * @param args The command line arguments given.
  * @param exportOpt A list containing all the "export" arguments given.
  */
-void exportAllViews(KCmdLineArgs *args, const QCStringList &exportOpt);
+void exportAllViews(KCmdLineArgs *args, const QByteArrayList &exportOpt);
 
 int main(int argc, char *argv[]) {
     KAboutData aboutData( "umbrello", I18N_NOOP("Umbrello UML Modeller"),
@@ -162,7 +162,7 @@ void initDocument(KCmdLineArgs *args, KConfig* cfg) {
         bool last = cfg->readBoolEntry( "loadlast", false );
         QString file = cfg->readPathEntry( "lastFile" );
         if( last && !file.isEmpty() ) {
-            UMLApp::app()->openDocumentFile( KURL( file ) );
+            UMLApp::app()->openDocumentFile( KUrl( file ) );
         } else {
             UMLApp::app()->newDocument();
         }
@@ -186,7 +186,7 @@ void exportAllViews(KCmdLineArgs *args, const QByteArrayList &exportOpt) {
 
     bool useFolders = args->isSet("use-folders");
 
-    kDebug() << "directory: " << directory.prettyURL() << endl;
+    kDebug() << "directory: " << directory.prettyUrl() << endl;
 
     // the event is posted so when the QT loop begins it's processed. UMLApp process this event executing
     // the method it provides for exporting the views. Once all the views were exported, a quit event

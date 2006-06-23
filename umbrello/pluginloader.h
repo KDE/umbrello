@@ -20,7 +20,7 @@
 
 #ifndef UMBRELLO_PLUGINLOADER_H
 #define UMBRELLO_PLUGINLOADER_H
-
+#include <QMap>
 // Qt includes
 
 // forward declarations
