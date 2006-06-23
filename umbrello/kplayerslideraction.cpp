@@ -25,7 +25,8 @@
 //Added by qt3to4:
 #include <Q3Frame>
 #include <QKeyEvent>
-
+#include <k3widgetaction.h>
+#include <QDesktopWidget>
 #include <kdebug.h>
 
 //CHANGED #include "kplayersettings.h"
@@ -162,7 +163,7 @@ void KPlayerPopupSliderAction::slotActivated (void)
 
 KPlayerSliderAction::KPlayerSliderAction (const QString& text, const KShortcut& cut,
         const QObject* receiver, const char* slot, KActionCollection* parent, const char* name)
-        : KWidgetAction (new KPlayerSlider (Qt::Horizontal, 0, name), text, cut, receiver, slot, parent, name)
+        : K3WidgetAction (new KPlayerSlider (Qt::Horizontal, 0, name), text, cut, receiver, slot, parent, name)
         //: KAction (text, 0, parent, name)
 {
     setAutoSized (true);
@@ -185,7 +186,7 @@ int KPlayerSliderAction::plug (QWidget* widget, int index)
     //  return -1;
     //if ( kapp && ! kapp -> authorizeKAction (name()) )
     //  return -1;
-    int result = KWidgetAction::plug (widget, index);
+    int result = K3WidgetAction::plug (widget, index);
     if ( result < 0 )
         return result;
     KToolBar* toolbar = (KToolBar*) widget;
@@ -215,7 +216,7 @@ void KPlayerSliderAction::unplug (QWidget* widget)
     //Q_ASSERT (m_slider);
     //Q_ASSERT (isPlugged());
     //Q_ASSERT (widget -> inherits ("KToolBar"));
-    KWidgetAction::unplug (widget);
+    K3WidgetAction::unplug (widget);
     if ( ! slider() || ! isPlugged() || widget != slider() -> parent() )
         return;
     //KToolBar* toolbar = (KToolBar*) widget;

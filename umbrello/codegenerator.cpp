@@ -408,7 +408,7 @@ QString CodeGenerator::overwritableName( QString name, const QString &extension 
         break;
     case CodeGenerationPolicy::Ask:            //ask if we can overwrite
         switch(overwriteDialog.exec()) {
-        case KDialogBase::Yes:  //overwrite file
+        case KDialog::Yes:  //overwrite file
             if ( overwriteDialog.applyToAllRemaining() ) {
                 pol->setOverwritePolicy(CodeGenerationPolicy::Ok);
                 filename = name + extension;
@@ -416,7 +416,7 @@ QString CodeGenerator::overwritableName( QString name, const QString &extension 
                 m_applyToAllRemaining = false;
             }
             break;
-        case KDialogBase::No: //generate similar name
+        case KDialog::No: //generate similar name
             suffix = 1;
             while (1) {
                 filename = name + "__" + QString::number(suffix) + extension;
@@ -430,7 +430,7 @@ QString CodeGenerator::overwritableName( QString name, const QString &extension 
                 m_applyToAllRemaining = false;
             }
             break;
-        case KDialogBase::Cancel: //don't output anything
+        case KDialog::Cancel: //don't output anything
             if ( overwriteDialog.applyToAllRemaining() ) {
                 pol->setOverwritePolicy(CodeGenerationPolicy::Cancel);
             } else {

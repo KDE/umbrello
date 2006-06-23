@@ -488,9 +488,9 @@ void CodeGenerationPolicy::writeConfig (KConfig * config) {
 
     config->setGroup("Code Generation");
 
-    config->writeEntry("defaultAttributeAccessorScope",getAttributeAccessorScope());
-    config->writeEntry("defaultAssocFieldScope",getAssociationFieldScope());
-    config->writeEntry("commentStyle",getCommentStyle());
+    config->writeEntry("defaultAttributeAccessorScope",( int )getAttributeAccessorScope());
+    config->writeEntry("defaultAssocFieldScope",( int )getAssociationFieldScope());
+    config->writeEntry("commentStyle",( int )getCommentStyle());
     config->writeEntry("autoGenEmptyConstructors",getAutoGenerateConstructors());
     //config->writeEntry("newCodegen", getNewCodegen());
     config->writeEntry("forceDoc",getCodeVerboseDocumentComments());

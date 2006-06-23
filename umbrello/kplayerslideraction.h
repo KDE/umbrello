@@ -167,7 +167,7 @@ protected:
 /**Slider action suitable for insertion into a toolbar.
   *@author kiriuja
   */
-class KPlayerSliderAction : public KWidgetAction
+class KPlayerSliderAction : public K3WidgetAction
 {
     Q_OBJECT
 
