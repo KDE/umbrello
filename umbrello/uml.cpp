@@ -90,7 +90,6 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
     m_codegen = 0;
     m_policyext = 0;
     m_commoncodegenpolicy = 0;
-    m_xhtmlGenerator = 0;
     m_activeLanguage = Uml::pl_Reserved;
     ///////////////////////////////////////////////////////////////////
     // call inits to invoke all other construction parts
@@ -1639,12 +1638,6 @@ void UMLApp::slotAutolayout(){
     d->show();
  */
 #endif
-}
-
-void UMLApp::slotXhtmlDocGenerationFinished()
-{
-  delete m_xhtmlGenerator;
-  m_xhtmlGenerator = 0;
 }
 
 KTabWidget* UMLApp::tabWidget() {

@@ -42,7 +42,6 @@ class SettingsDlg;
 class UMLViewImageExporterAll;
 class RefactoringAssistant;
 class KPlayerPopupSliderAction;
-class XhtmlGenerator;
 
 // KDE forward declarations
 class KActionMenu;
@@ -790,12 +789,6 @@ public slots:
 
     KConfig *getConfig() { return m_config; }
 
-    /**
-     * This slot deletes the current XHTML documentation generator as soon as
-     * this one signals that it has finished.
-     */
-    void slotXhtmlDocGenerationFinished();
-    
 private:
     static UMLApp* s_instance;
 
@@ -1002,12 +995,6 @@ private:
      * The UMLViewImageExporterAll used to export all the views.
      */
     UMLViewImageExporterAll* m_imageExporterAll;
-
-    /**
-     * The running XHTML documentation generator. null when no generation is
-     * running
-     */
-    XhtmlGenerator* m_xhtmlGenerator;
 
   public:
     Settings::OptionState getOptionState() {
