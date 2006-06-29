@@ -120,19 +120,17 @@ widget_utils.cpp \
 worktoolbar.cpp
 
 #umbrello_LDADD   = ./refactoring/librefactoring.la ./classparser/libclassparser.la ./clipboard/libclipboard.la ./dialogs/libdialogs.la ./codegenerators/libcodegenerator.la $(AUTOLAYOUT_LIBS) $(LIB_KDEPRINT) $(LIB_KIO)
-umbrello_LDADD = -lxml2 -lxslt ./docgenerators/libdocgenerators.la \
-	./refactoring/librefactoring.la ./classparser/libclassparser.la ./clipboard/libclipboard.la \
-	./dialogs/libdialogs.la ./codegenerators/libcodegenerator.la $(LIB_KDEPRINT) $(LIB_KIO)
+umbrello_LDADD = ./refactoring/librefactoring.la ./classparser/libclassparser.la ./clipboard/libclipboard.la ./dialogs/libdialogs.la ./codegenerators/libcodegenerator.la $(LIB_KDEPRINT) $(LIB_KIO)
 
 ## See section "dnl Not GPL compatible" in ../configure.in.in
 # SUBDIRS = $(AUTOLAYOUT_DIR) classparser dialogs clipboard pics codegenerators headings refactoring
 SUBDIRS = classparser dialogs clipboard pics codegenerators headings \
-	refactoring docgenerators
+	refactoring
 
 KDE_ICON=AUTO
 
 appdir=$(kde_datadir)/umbrello
-app_DATA = tips umbrelloui.rc xmi2docbook.xsl common.ent
+app_DATA = tips umbrelloui.rc
 
 xdg_apps_DATA = umbrello.desktop
 

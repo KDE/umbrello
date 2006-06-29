@@ -41,23 +41,3 @@ dnl int setenv(const char *name, const char *value, int overwrite);
 dnl #endif
 dnl ])
 
-AC_LANG_SAVE
-AC_LANG_C
-
-AC_CHECK_HEADER(libxml2/libxml/xmlmemory.h,
-  [have_libxml2=yes],
-  [have_libxml2=no])
-
-if test "$have_libxml2" = "no"; then
-  DO_NOT_COMPILE="$DO_NOT_COMPILE umbrello"
-fi
-
-AC_CHECK_HEADER(libxslt/xslt.h,
-  [have_libxslt=yes],
-  [have_libxslt=no])
-
-if test "$have_libxslt" = "no"; then
-  DO_NOT_COMPILE="$DO_NOT_COMPILE umbrello"
-fi
-
-AC_LANG_RESTORE

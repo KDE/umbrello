@@ -42,6 +42,7 @@ class SettingsDlg;
 class UMLViewImageExporterAll;
 class RefactoringAssistant;
 class KPlayerPopupSliderAction;
+class XhtmlGenerator;
 
 // KDE forward declarations
 class KActionMenu;
@@ -489,14 +490,6 @@ public slots:
     void slotFileQuit();
     
     /**
-     * Exports the current model to docbook in a subdir of the 
-     * current model directory named from the model name.
-     * @todo Let the user chose the destination directory and 
-     * name.
-     */
-    void slotFileExportDocbook();
-    
-    /**
      * Put the marked text/object into the clipboard and remove
      * it from the document.
      */
@@ -797,6 +790,12 @@ public slots:
 
     KConfig *getConfig() { return m_config; }
 
+    /**
+     * This slot deletes the current XHTML documentation generator as soon as
+     * this one signals that it has finished.
+     */
+    void slotXhtmlDocGenerationFinished();
+    
 private:
     static UMLApp* s_instance;
 
@@ -904,12 +903,11 @@ private:
     KAction* fileOpen;
     KRecentFilesAction* fileOpenRecent;
     KAction* fileSave;
-    KAction* fileExportDocbook;
-
     KAction* fileSaveAs;
     KAction* fileClose;
     KAction* filePrint;
     KAction* fileQuit;
+
     KAction* editCut;
     KAction* editCopy;
     KAction* editPaste;
@@ -1005,7 +1003,13 @@ private:
      */
     UMLViewImageExporterAll* m_imageExporterAll;
 
-public:
+    /**
+     * The running XHTML documentation generator. null when no generation is
+     * running
+     */
+    XhtmlGenerator* m_xhtmlGenerator;
+
+  public:
     Settings::OptionState getOptionState() {
         return m_optionState;
     }
