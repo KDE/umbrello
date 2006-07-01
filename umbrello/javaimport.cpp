@@ -111,6 +111,8 @@ bool JavaImport::skipToClosing(QChar opener) {
     int nesting = 0;
     while (m_srcIndex < srcLength) {
         QString nextToken = advance();
+        if (nextToken.isEmpty())
+            break;
         if (nextToken == closing) {
             if (nesting <= 0)
                 break;
