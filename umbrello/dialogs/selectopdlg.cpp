@@ -39,7 +39,7 @@ SelectOpDlg::SelectOpDlg(UMLView * parent, UMLClassifier * c)
     setButtons( Ok | Cancel );
     setDefaultButton( Yes );
     setModal( true );
-    enableButtonSeparator( true );
+    showButtonSeparator( true );
 
     QFrame *frame = new QFrame( this );
     setMainWidget( frame );

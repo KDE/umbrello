@@ -50,7 +50,7 @@ UMLAttributeDialog::UMLAttributeDialog( QWidget * pParent, UMLAttribute * pAttri
     setButtons( Help | Ok | Cancel );
     setDefaultButton( Ok );
     setModal( true );
-    enableButtonSeparator( true );
+    showButtonSeparator( true );
     m_pAttribute = pAttribute;
     setupDialog();
 

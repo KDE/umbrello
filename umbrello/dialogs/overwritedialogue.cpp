@@ -29,7 +29,7 @@ OverwriteDialogue::OverwriteDialogue(QString fileName, QString outputDirectory, 
     setButtons( Help | Ok | Cancel );
     setDefaultButton( Yes );
     setModal( true );
-    enableButtonSeparator( true );
+    showButtonSeparator( true );
 
     QFrame *frame = new QFrame( this );
     setMainWidget( frame );

@@ -35,7 +35,7 @@ SettingsDlg::SettingsDlg( QWidget * parent, Settings::OptionState *state )
     setButtons( Help | Default | Apply | Ok | Cancel );
     setDefaultButton( Ok );
     setModal( true );
-    enableButtonSeparator( true );
+    showButtonSeparator( true );
     setFaceType( KPageDialog::List );
     m_bChangesApplied = false;
     m_pOptionState = state;

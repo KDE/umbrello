@@ -59,7 +59,7 @@ UMLOperationDialog::UMLOperationDialog( QWidget * parent, UMLOperation * pOperat
     setButtons( Help | Ok | Cancel );
     setDefaultButton( Ok );
     setModal( true );
-    enableButtonSeparator( true );
+    showButtonSeparator( true );
 
     m_pOperation = pOperation;
     m_doc = UMLApp::app()->getDocument();

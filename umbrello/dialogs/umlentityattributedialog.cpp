@@ -50,7 +50,7 @@ UMLEntityAttributeDialog::UMLEntityAttributeDialog( QWidget * pParent, UMLEntity
     setButtons( Help | Ok | Cancel );
     setDefaultButton(  Ok );
     setModal( true );
-    enableButtonSeparator( true );
+    showButtonSeparator( true );
     m_pEntityAttribute = pEntityAttribute;
     setupDialog();
 }

@@ -40,7 +40,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, int pageNum, bool ass
     setButtons( Ok | Apply | Cancel | Help );
     setDefaultButton( Ok );
     setModal( true );
-    enableButtonSeparator( true );
+    showButtonSeparator( true );
     setFaceType( KPageDialog::List );
     m_pWidget = 0;
     m_pGenPage = 0;
@@ -65,7 +65,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget * o)
     setButtons( Ok | Apply | Cancel | Help );
     setDefaultButton(Ok );
     setModal( true );
-    enableButtonSeparator( true );
+    showButtonSeparator( true );
     setFaceType( KPageDialog::List );
     m_pWidget = o;
     m_pGenPage = 0;
@@ -110,7 +110,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget * w)
     setButtons( Ok | Apply | Cancel | Help );
     setDefaultButton(Ok );
     setModal( true );
-    enableButtonSeparator( true );
+    showButtonSeparator( true );
     setFaceType( KPageDialog::List );
     m_pWidget = w;
     m_pGenPage = 0;

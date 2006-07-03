@@ -38,7 +38,7 @@ ActivityDialog::ActivityDialog( UMLView * pView, ActivityWidget * pWidget )
     setDefaultButton( Ok );
     setModal( true );
     setFaceType( KPageDialog::List );
-    enableButtonSeparator( true );
+    showButtonSeparator( true );
     m_pView = pView;
     m_pActivityWidget = pWidget;
     m_bChangesMade = false;

@@ -45,7 +45,7 @@ UMLTemplateDialog::UMLTemplateDialog(QWidget* pParent, UMLTemplate* pTemplate)
     setButtons( Help | Ok | Cancel );
     setDefaultButton( Ok );
     setModal( true );
-    enableButtonSeparator( true );
+    showButtonSeparator( true );
     setupDialog();
 }
 

@@ -31,7 +31,7 @@ UMLRoleDialog::UMLRoleDialog( QWidget * parent, UMLRole * pRole )
     setButtons( Help | Ok | Cancel );
     setDefaultButton( Ok );
     setModal( true );
-    enableButtonSeparator( true );
+    showButtonSeparator( true );
     m_pRole = pRole;
     setupDialog();
 }

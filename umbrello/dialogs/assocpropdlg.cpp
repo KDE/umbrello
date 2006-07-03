@@ -47,7 +47,7 @@ AssocPropDlg::AssocPropDlg (QWidget *parent, AssociationWidget * assocWidget, in
     setDefaultButton( Ok );
     setModal( true );
     setFaceType( KPageDialog::List );
-    enableButtonSeparator( true );
+    showButtonSeparator( true );
     init();
     m_pAssoc = assocWidget;
 

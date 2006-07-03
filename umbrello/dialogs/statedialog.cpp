@@ -42,7 +42,7 @@ StateDialog::StateDialog( UMLView * pView, StateWidget * pWidget )
     setButtons( Help | Default | Apply | Ok | Cancel );
     setDefaultButton( Ok );
     setModal( true );
-    enableButtonSeparator( true );
+    showButtonSeparator( true );
     setFaceType( KPageDialog::List );
 
     m_pActivityPage = 0;

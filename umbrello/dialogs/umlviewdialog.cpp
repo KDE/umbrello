@@ -43,7 +43,7 @@ UMLViewDialog::UMLViewDialog( QWidget * pParent, UMLView * pView )
     setDefaultButton( Ok );
     setModal( true );
     setFaceType( KPageDialog::List );
-    enableButtonSeparator( true );
+    showButtonSeparator( true );
     m_pView = pView;
     m_options = m_pView -> getOptionState();
     setupPages();

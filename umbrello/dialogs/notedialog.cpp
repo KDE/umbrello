@@ -35,7 +35,7 @@ NoteDialog::NoteDialog( QWidget * parent, NoteWidget * pNote )
     setButtons( Help | Ok | Cancel );
     setDefaultButton( Ok );
     setModal( true );
-    enableButtonSeparator( true );
+    showButtonSeparator( true );
 
     m_pNoteWidget = pNote;
     int margin = fontMetrics().height();
