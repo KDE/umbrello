@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2004-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef CLASSIFIERWIDGET_H
@@ -233,6 +230,20 @@ public:
      * @param _show             True if widget shall be drawn as circle.
      */
     void setDrawAsCircle(bool drawAsCircle);
+
+    /**
+     * Changes this classifier from an interface to a class.
+     * Attributes and stereotype visibility is got from the view OptionState.
+     * This widget is also updated.
+     */
+    void changeToClass();
+
+    /**
+     * Changes this classifier from a class to an interface.
+     * Attributes are hidden and stereotype is shown.
+     * This widget is also updated.
+     */
+    void changeToInterface();
 
     /**
      * Set the AssociationWidget when this ClassWidget acts as
