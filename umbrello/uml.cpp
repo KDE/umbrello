@@ -642,7 +642,7 @@ void UMLApp::slotFileOpen() {
         // here saving wasn't successful
 
     } else {
-        KUrl url=KFileDialog::getOpenURL(":open-umbrello-file",
+        KUrl url=KFileDialog::getOpenUrl(":open-umbrello-file",
             i18n("*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl|All Supported Files (*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.mdl)\n"
                  "*.xmi|Uncompressed XMI Files (*.xmi)\n"
                  "*.xmi.tgz|Gzip Compressed XMI Files (*.xmi.tgz)\n"

@@ -409,7 +409,7 @@ void UMLListView::popupMenuSel(int sel) {
             }
             fileDialog.setSelection(defaultFilename.lower());
             fileDialog.exec();
-            KUrl selURL = fileDialog.selectedURL();
+            KUrl selURL = fileDialog.selectedUrl();
             if (selURL.isEmpty())
                 return;
             QString fileName = selURL.fileName();

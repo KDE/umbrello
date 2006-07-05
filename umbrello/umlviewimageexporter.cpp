@@ -85,14 +85,14 @@ bool UMLViewImageExporter::getParametersFromUser() {
     prepareFileDialog(fileDialog);
     fileDialog.exec();
 
-    if (fileDialog.selectedURL().isEmpty())
+    if (fileDialog.selectedUrl().isEmpty())
         return false;
     m_view->clearSelected();   // Thanks to Peter Soetens for the idea
 
     // update image url and mime type
     m_imageMimeType = fileDialog.currentMimeFilter();
     app->setImageMimeType(m_imageMimeType);
-    m_imageURL = fileDialog.selectedURL();
+    m_imageURL = fileDialog.selectedUrl();
 
     // check if the extension is the extension of the mime type
     QFileInfo info(m_imageURL.filename());
