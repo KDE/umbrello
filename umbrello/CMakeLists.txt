@@ -283,14 +283,14 @@ kde4_add_executable(umbrello ${umbrello_SRCS})
 
 target_link_libraries(umbrello  ${KDE4_KIO_LIBS}  kdeprint  )
 
-install_targets(/bin umbrello )
+install(TARGETS umbrello  DESTINATION ${BIN_INSTALL_DIR} )
 
 
 ########### install files ###############
 
-install_files( ${XDG_APPS_DIR} FILES umbrello.desktop )
-install_files( ${DATA_INSTALL_DIR}/umbrello FILES tips umbrelloui.rc )
-install_files( ${MIME_INSTALL_DIR}/application FILES x-umbrello.desktop )
+install( FILES umbrello.desktop  DESTINATION  ${XDG_APPS_DIR} )
+install( FILES tips umbrelloui.rc  DESTINATION  ${DATA_INSTALL_DIR}/umbrello )
+install( FILES x-umbrello.desktop  DESTINATION  ${MIME_INSTALL_DIR}/application )
 
 kde4_install_icons( ${ICON_INSTALL_DIR}  hicolor )
 
