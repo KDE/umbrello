@@ -300,7 +300,7 @@ QSize ClassifierWidget::calculateSize() {
     if (!m_pObject) {
         return UMLWidget::calculateSize();
     }
-    if (m_bDrawAsCircle) {
+    if (getClassifier()->isInterface() && m_bDrawAsCircle) {
         return calculateAsCircleSize();
     }
 
@@ -453,18 +453,12 @@ void ClassifierWidget::slotMenuSelection(int sel) {
 
     case ListPopupMenu::mt_ChangeToClass:
     case ListPopupMenu::mt_ChangeToClass_Selection:
-        WidgetBase::m_Type = Uml::wt_Class;
-        getClassifier()->setInterface(false);
-        updateComponentSize();
-        update();
+        changeToClass();
         break;
 
     case ListPopupMenu::mt_ChangeToInterface:
     case ListPopupMenu::mt_ChangeToInterface_Selection:
-        WidgetBase::m_Type = Uml::wt_Interface;
-        getClassifier()->setInterface(true);
-        updateComponentSize();
-        update();
+        changeToInterface();
         break;
 
     default:
@@ -530,7 +524,7 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
     else
         p.setBrush( m_pView->viewport()->backgroundColor() );
 
-    if (m_bDrawAsCircle) {
+    if (getClassifier()->isInterface() && m_bDrawAsCircle) {
         drawAsCircle(p, offsetX, offsetY);
         return;
     }
@@ -723,6 +717,29 @@ bool ClassifierWidget::getDrawAsCircle() const {
 void ClassifierWidget::toggleDrawAsCircle() {
     m_bDrawAsCircle = !m_bDrawAsCircle;
     updateSigs();
+    updateComponentSize();
+    update();
+}
+
+void ClassifierWidget::changeToClass() {
+    WidgetBase::setBaseType(Uml::wt_Class);
+    getClassifier()->setInterface(false);
+
+    const Settings::OptionState& ops = m_pView->getOptionState();
+    m_bShowAttributes = ops.classState.showAtts;
+    m_bShowStereotype = ops.classState.showStereoType;
+
+    updateComponentSize();
+    update();
+}
+
+void ClassifierWidget::changeToInterface() {
+    WidgetBase::setBaseType(Uml::wt_Interface);
+    getClassifier()->setInterface(true);
+
+    m_bShowAttributes = false;
+    m_bShowStereotype = true;
+
     updateComponentSize();
     update();
 }
