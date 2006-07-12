@@ -182,17 +182,7 @@ void exportAllViews(KCmdLineArgs *args, const QCStringList &exportOpt) {
     KURL directory;
     QCStringList directoryOpt = args->getOptionList("directory");
     if (directoryOpt.size() > 0) {
-        QString directoryPath(directoryOpt.last());
-
-        if (KURL::isRelativeURL(directoryPath)) {
-            QString currentDirectory = KCmdLineArgs::cwd();
-            if (!currentDirectory.endsWith("/")) {
-                currentDirectory.append("/");
-            }
-            directory = KURL(currentDirectory, directoryPath);
-        } else {
-            directory = KURL(directoryPath);
-        }
+        directory = KCmdLineArgs::makeURL(directoryOpt.last());
     } else {
         directory = KURL(UMLApp::app()->getDocument()->URL().directory());
     }
