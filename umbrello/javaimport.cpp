@@ -285,24 +285,25 @@ bool JavaImport::parseStmt() {
         return false;
     }
     QString typeName = joinTypename();
-    QString name;
-    if (m_klass != NULL && typeName == m_klass->getName()) {
+    // At this point we need a class.
+    if (m_klass == NULL) {
+        kdError() << "importJava: no class set for " << typeName << endl;
+        return false;
+    }
+    QString name = advance();
+    QString nextToken;
+    if (typeName == m_klass->getName() && name == "(") {
         // Constructor.
+        nextToken = name;
         name = typeName;
         typeName = QString::null;
     } else {
-        name = advance();
+        nextToken = advance();
     }
     if (name.contains( QRegExp("\\W") )) {
         kdError() << "importJava: expecting name in " << name << endl;
         return false;
     }
-    // At this point we need a class.
-    if (m_klass == NULL) {
-        kdError() << "importJava: no class set for " << name << endl;
-        return false;
-    }
-    QString nextToken = advance();
     if (nextToken == "(") {
         // operation
         UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
