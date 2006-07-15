@@ -112,7 +112,7 @@ protected:
     /**
      * Type of activity.
      */
-    ActivityWidget::ActivityType m_ActivityType;
+    ActivityType m_ActivityType;
 
 public slots:
 
