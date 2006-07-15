@@ -21,6 +21,7 @@
 #include <qlineedit.h>
 #include <q3multilineedit.h>
 #include <q3groupbox.h>
+#include <kicon.h>
 //Added by qt3to4:
 #include <Q3Frame>
 #include <QHBoxLayout>
@@ -102,7 +103,7 @@ void StateDialog::setupGeneralPage() {
     KVBox * page = new KVBox();
     pageGeneral = new KPageWidgetItem( page,i18n("General")  );
     pageGeneral->setHeader( i18n("General Properties") );
-    pageGeneral->setIcon( DesktopIcon( "misc")  );
+    pageGeneral->setIcon( KIcon(DesktopIcon( "misc")  ));
     addPage( pageGeneral );
 
 
@@ -144,7 +145,7 @@ void StateDialog::setupFontPage() {
     KVBox * page = new KVBox();
     pageFont = new KPageWidgetItem( page,i18n("Font")  );
     pageFont->setHeader( i18n("Font Settings") );
-    pageFont->setIcon( DesktopIcon( "fonts")  );
+    pageFont->setIcon( KIcon(DesktopIcon( "fonts")  ));
     addPage( pageFont );
     m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
     m_pChooser -> setFont( m_pStateWidget -> getFont() );
@@ -154,7 +155,7 @@ void StateDialog::setupColorPage() {
     QFrame * colorPage = new QFrame();
     pageColor = new KPageWidgetItem( colorPage,i18n("Color")  );
     pageColor->setHeader( i18n("Widget Color") );
-    pageColor->setIcon( DesktopIcon( "colors") );
+    pageColor->setIcon( KIcon(DesktopIcon( "colors") ));
     addPage( pageColor );
     QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
     m_pColorPage = new UMLWidgetColorPage( colorPage, m_pStateWidget );
@@ -165,7 +166,7 @@ void StateDialog::setupActivityPage() {
     QFrame * activityPage = new QFrame();
     pageActivity = new KPageWidgetItem( activityPage,i18n("Activities")  );
     pageActivity->setHeader( i18n("Activities") );
-    pageActivity->setIcon( DesktopIcon( "misc") );
+    pageActivity->setIcon( KIcon(DesktopIcon( "misc") ));
     addPage( pageActivity );
 
     QHBoxLayout * activityLayout = new QHBoxLayout( activityPage );

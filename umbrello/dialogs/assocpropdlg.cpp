@@ -18,7 +18,7 @@
 //Added by qt3to4:
 #include <Q3Frame>
 #include <QHBoxLayout>
-
+#include <kicon.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kiconloader.h>
@@ -97,7 +97,7 @@ void AssocPropDlg::setupPages (AssociationWidget *assocWidget)
     QFrame *page = new QFrame();
     KPageWidgetItem *pageItem = new KPageWidgetItem( page, i18n("General"));
     pageItem->setHeader( i18n("General Settings") );
-    pageItem->setIcon( DesktopIcon( "misc") );
+    pageItem->setIcon( KIcon(DesktopIcon( "misc") ));
     addPage( pageItem );
     QHBoxLayout *genLayout = new QHBoxLayout(page);
     page -> setMinimumSize(310, 330);
@@ -108,7 +108,7 @@ void AssocPropDlg::setupPages (AssociationWidget *assocWidget)
     QFrame *newPage = new QFrame();
     pageItem = new KPageWidgetItem( newPage, i18n("Roles"));
     pageItem->setHeader( i18n("Role Settings"));
-    pageItem->setIcon( DesktopIcon( "misc") );
+    pageItem->setIcon( KIcon(DesktopIcon( "misc") ));
     addPage( pageItem );
     QHBoxLayout * roleLayout = new QHBoxLayout(newPage);
     // newPage -> setMinimumSize(310, 330);
@@ -127,7 +127,7 @@ void AssocPropDlg::setupFontPage()
     KVBox *page = new KVBox();
     KPageWidgetItem* pageItem = new KPageWidgetItem( page, i18n("Font"));
     pageItem->setHeader( i18n("Font Settings"));
-    pageItem->setIcon( DesktopIcon( "fonts") );
+    pageItem->setIcon( KIcon(DesktopIcon( "fonts") ));
     addPage( pageItem );
 
     m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);

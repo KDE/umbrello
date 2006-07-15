@@ -18,6 +18,7 @@
 //qt includes
 #include <qlayout.h>
 //Added by qt3to4:
+#include <kicon.h>
 #include <Q3Frame>
 #include <QHBoxLayout>
 #include <QGridLayout>
@@ -87,7 +88,7 @@ void ActivityDialog::setupGeneralPage() {
     KVBox *page = new KVBox();
     pageItemGeneral = new KPageWidgetItem( page, i18n("General") );
     pageItemGeneral->setHeader(i18n("General Properties"));
-    pageItemGeneral->setIcon( DesktopIcon( "misc") );
+    pageItemGeneral->setIcon( KIcon(DesktopIcon( "misc")) );
     addPage( pageItemGeneral );
 
     m_GenPageWidgets.generalGB = new Q3GroupBox( i18n( "Properties"), (QWidget *)page );
@@ -127,7 +128,7 @@ void ActivityDialog::setupFontPage() {
     KVBox *page = new KVBox();
     pageItemFont = new KPageWidgetItem( page, i18n("Font") );
     pageItemFont->setHeader( i18n("Font Settings") );
-    pageItemFont->setIcon( DesktopIcon( "fonts") );
+    pageItemFont->setIcon( KIcon(DesktopIcon( "fonts") ));
     addPage( pageItemFont );
     m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
     m_pChooser -> setFont( m_pActivityWidget -> getFont() );
@@ -137,16 +138,11 @@ void ActivityDialog::setupColorPage() {
     QFrame *colorPage = new QFrame();
     pageItemColor = new KPageWidgetItem( colorPage, i18n("Color") );
     pageItemColor->setHeader( i18n("Widget Colors") );
-    pageItemColor->setIcon( DesktopIcon( "colors") );
+    pageItemColor->setIcon( KIcon(DesktopIcon( "colors") ));
     addPage( pageItemColor );
     QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
     m_pColorPage = new UMLWidgetColorPage( colorPage, m_pActivityWidget );
     m_pColorLayout -> addWidget(m_pColorPage);
 }
-
-
-
-
-
 
 #include "activitydialog.moc"
