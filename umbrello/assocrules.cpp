@@ -186,32 +186,33 @@ bool AssocRules::allowAssociation( Association_Type assocType,
         break;
 
     case at_Activity:
-        // no transitions to initial activity allowed
-        if( static_cast<ActivityWidget*>(widgetB)->getActivityType() ==
-                ActivityWidget::Initial )
-            return false;
-        // only from a normal, branch or fork activity to the end
-        if( static_cast<ActivityWidget*>(widgetB)->getActivityType() ==
-                ActivityWidget::End &&
-                static_cast<ActivityWidget*>(widgetA)->getActivityType() !=
-                ActivityWidget::Normal &&
-                static_cast<ActivityWidget*>(widgetA)->getActivityType() !=
-                ActivityWidget::Branch &&
-                static_cast<ActivityWidget*>(widgetA)->getActivityType() !=
-                ActivityWidget::Fork_DEPRECATED &&
-		dynamic_cast<ForkJoinWidget*>(widgetA) == NULL ) {
-            return false;
-        }
-        // only Forks and Branches can have more than one "outgoing" transition
-        if( static_cast<ActivityWidget*>(widgetA)->getActivityType() !=
-                ActivityWidget::Fork_DEPRECATED &&
-		dynamic_cast<ForkJoinWidget*>(widgetA) == NULL &&
-               static_cast<ActivityWidget*>(widgetA)->getActivityType() !=
-                ActivityWidget::Branch ) {
-            AssociationWidgetList list = widgetA->getAssocList();
-            for (AssociationWidget* assoc = list.first(); assoc; assoc = list.next()) {
-                if (assoc->getWidget(A) == widgetA) {
-                    return false;
+        {
+            ActivityWidget *actA = dynamic_cast<ActivityWidget*>(widgetA);
+            ActivityWidget *actB = dynamic_cast<ActivityWidget*>(widgetB);
+            // no transitions to initial activity allowed
+            if (actB && actB->getActivityType() == ActivityWidget::Initial)
+                return false;
+            // Fork_DEPRECATED here means "not applicable".
+            ActivityWidget::ActivityType actTypeA = ActivityWidget::Fork_DEPRECATED;
+            if (actA)
+                actTypeA = actA->getActivityType();
+            ActivityWidget::ActivityType actTypeB = ActivityWidget::Fork_DEPRECATED;
+            if (actB)
+                actTypeB = actB->getActivityType();
+            // only from a normal, branch or fork activity to the end
+            if (actTypeB == ActivityWidget::End &&
+                actTypeA != ActivityWidget::Normal &&
+                actTypeA != ActivityWidget::Branch &&
+                dynamic_cast<ForkJoinWidget*>(widgetA) == NULL) {
+                return false;
+            }
+            // only Forks and Branches can have more than one "outgoing" transition
+            if (actA != NULL && actTypeA != ActivityWidget::Branch) {
+                AssociationWidgetList list = widgetA->getAssocList();
+                for (AssociationWidget* assoc = list.first(); assoc; assoc = list.next()) {
+                    if (assoc->getWidget(A) == widgetA) {
+                        return false;
+                    }
                 }
             }
         }
