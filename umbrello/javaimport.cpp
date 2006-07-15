@@ -286,7 +286,7 @@ bool JavaImport::parseStmt() {
     }
     QString typeName = joinTypename();
     QString name;
-    if (typeName == m_klass->getName()) {
+    if (m_klass != NULL && typeName == m_klass->getName()) {
         // Constructor.
         name = typeName;
         typeName = QString::null;
