@@ -18,21 +18,21 @@
 #include <kdebug.h>
 #include <klocale.h>
 // app includes
-#include "uml.h"
-#include "umldoc.h"
-#include "umllistview.h"
-#include "umllistviewitem.h"
-#include "umlobject.h"
-#include "docwindow.h"
-#include "package.h"
-#include "enum.h"
-#include "datatype.h"
-#include "classifier.h"
-#include "operation.h"
-#include "attribute.h"
-#include "template.h"
-#include "association.h"
-#include "object_factory.h"
+#include "../uml.h"
+#include "../umldoc.h"
+#include "../umllistview.h"
+#include "../umllistviewitem.h"
+#include "../umlobject.h"
+#include "../docwindow.h"
+#include "../package.h"
+#include "../enum.h"
+#include "../datatype.h"
+#include "../classifier.h"
+#include "../operation.h"
+#include "../attribute.h"
+#include "../template.h"
+#include "../association.h"
+#include "../object_factory.h"
 
 namespace Import_Utils {
 

@@ -2926,7 +2926,7 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
     robj.m_OldCorner.setY(y);
     int ww = pWidget->getWidth();
     int wh = pWidget->getHeight();
-    const bool angular = UMLApp::app()->getOptionState().generalState.angularlines;
+    const bool angular = Settings::getOptionState().generalState.angularlines;
     int ch = 0;
     int cw = 0;
     if (angular) {

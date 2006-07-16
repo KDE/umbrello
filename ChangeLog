@@ -1,6 +1,7 @@
 Version 1.5.4
 
 * Bugs/wishes from http://bugs.kde.org:
+* Free Pascal code import and generator (114547)
 * Fix crash when importing classes from a java file (129107, 130093)
 * Crash after single click on the "UML Model" tree window (126560/129252)
 * Cannot insert transition/association TO fork/join node in activity diagram (129914)

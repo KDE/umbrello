@@ -18,13 +18,13 @@
 #include <kdebug.h>
 // app includes
 #include "import_utils.h"
-#include "uml.h"
-#include "umldoc.h"
-#include "package.h"
-#include "classifier.h"
-#include "enum.h"
-#include "operation.h"
-#include "attribute.h"
+#include "../uml.h"
+#include "../umldoc.h"
+#include "../package.h"
+#include "../classifier.h"
+#include "../enum.h"
+#include "../operation.h"
+#include "../attribute.h"
 
 AdaImport::AdaImport() : NativeImportBase("--") {
    initVars();

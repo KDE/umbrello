@@ -20,7 +20,7 @@
 // app includes
 #include "ast_utils.h"
 #include "urlutil.h"
-#include "../import_utils.h"
+#include "../codeimport/import_utils.h"
 // FIXME: The sole reason for the next 2 includes is parseTypedef().
 // Make capsule methods in ClassImport, and remove these includes.
 #include "../classifier.h"

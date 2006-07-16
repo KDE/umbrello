@@ -487,6 +487,8 @@ QString progLangToString(Uml::Programming_Language pl) {
             return "Java";
         case Uml::pl_JavaScript:
             return "JavaScript";
+        case Uml::pl_Pascal:
+            return "Pascal";
         case Uml::pl_Perl:
             return "Perl";
         case Uml::pl_PHP:
@@ -524,6 +526,8 @@ Uml::Programming_Language stringToProgLang(QString str) {
         return Uml::pl_Java;
     if (str == "JavaScript")
         return Uml::pl_JavaScript;
+    if (str == "Pascal")
+        return Uml::pl_Pascal;
     if (str == "Perl")
         return Uml::pl_Perl;
     if (str == "PHP")

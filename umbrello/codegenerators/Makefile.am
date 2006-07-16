@@ -28,8 +28,8 @@ libcodegenerator_la_SOURCES = codegenfactory.cpp classifierinfo.cpp \
 	rubycodegenerationformbase.ui \
 	simplecodegenerator.cpp \
 	adawriter.cpp aswriter.cpp cppwriter.cpp javawriter.cpp jswriter.cpp \
-	idlwriter.cpp perlwriter.cpp phpwriter.cpp php5writer.cpp pythonwriter.cpp \
-	rubywriter.cpp sqlwriter.cpp tclwriter.cpp xmlschemawriter.cpp \
+	idlwriter.cpp pascalwriter.cpp perlwriter.cpp php5writer.cpp phpwriter.cpp \
+	pythonwriter.cpp rubywriter.cpp sqlwriter.cpp tclwriter.cpp xmlschemawriter.cpp \
 	xmlelementcodeblock.cpp xmlcodecomment.cpp \
 	codegen_utils.cpp
 libcodegenerator_la_COMPILE_FIRST = ../dialogs/codegenerationpolicybase.h

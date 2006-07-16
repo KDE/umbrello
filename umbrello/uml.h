@@ -16,7 +16,7 @@
 #include <config.h>
 #endif
 
-#include "optionstate.h"
+#include "umlnamespace.h"
 
 #include <qmap.h>
 #include <qdict.h>
@@ -962,7 +962,6 @@ private:
      * True if the application is opening an existing document
      */
     bool m_loading;
-    Settings::OptionState m_optionState;
 
     /**
      * Blank widget, displayed when there are no diagrams
@@ -995,14 +994,6 @@ private:
      * The UMLViewImageExporterAll used to export all the views.
      */
     UMLViewImageExporterAll* m_imageExporterAll;
-
-  public:
-    Settings::OptionState getOptionState() {
-        return m_optionState;
-    }
-    void setOptionState(Settings::OptionState optstate) {
-        m_optionState = optstate;
-    }
 
 signals:
 

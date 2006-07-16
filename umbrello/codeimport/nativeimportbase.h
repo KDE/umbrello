@@ -15,7 +15,7 @@
 #include <qstring.h>
 #include <qstringlist.h>
 #include "classimport.h"
-#include "umlnamespace.h"
+#include "../umlnamespace.h"
 
 class UMLPackage;
 class UMLClassifier;

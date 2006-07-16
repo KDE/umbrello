@@ -60,7 +60,7 @@ UMLObject* UMLEntity::createAttribute(const QString &name /*=null*/) {
     } else {
         currentName = name;
     }
-    const Settings::OptionState optionState = UMLApp::app()->getOptionState();
+    const Settings::OptionState optionState = Settings::getOptionState();
     Uml::Visibility scope = optionState.classState.defaultAttributeScope;
     UMLEntityAttribute* newAttribute = new UMLEntityAttribute(this, currentName, id, scope);
 

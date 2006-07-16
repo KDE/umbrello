@@ -13,8 +13,8 @@
 #define IMPORT_UTILS_H
 
 #include <qstringlist.h>
-#include "umlnamespace.h"
-#include "umlattributelist.h"
+#include "../umlnamespace.h"
+#include "../umlattributelist.h"
 
 class UMLDoc;
 class UMLObject;

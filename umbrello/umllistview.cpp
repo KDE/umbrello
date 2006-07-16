@@ -30,7 +30,6 @@
 // app includes
 #include "inputdialog.h"
 #include "actor.h"
-#include "classimport.h"
 #include "classifier.h"
 #include "package.h"
 #include "component.h"
@@ -848,7 +847,7 @@ void UMLListView::setDocument(UMLDoc *d) {
     }
     m_doc = d;
 
-    Settings::OptionState optionState = UMLApp::app()->getOptionState();
+    Settings::OptionState optionState = Settings::getOptionState();
     if (! optionState.generalState.tabdiagrams) {
         connect(m_doc, SIGNAL(sigDiagramCreated(Uml::IDType)), this, SLOT(slotDiagramCreated(Uml::IDType)));
         connect(m_doc, SIGNAL(sigDiagramRemoved(Uml::IDType)), this, SLOT(slotDiagramRemoved(Uml::IDType)));
@@ -2600,7 +2599,7 @@ void UMLListView::createDiagram( UMLListViewItem * item, Uml::Diagram_Type type 
     view->setType( type );
     view->setID( m_doc -> getUniqueID() );
     m_doc -> addView( view );
-    view -> setOptionState( UMLApp::app()->getOptionState() );
+    view -> setOptionState( Settings::getOptionState() );
     item -> setID( view -> getID() );
     item -> setText( name );
     view->activate();
@@ -2912,7 +2911,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
             break;
         default:
             {
-                Settings::OptionState optionState = UMLApp::app()->getOptionState();
+                Settings::OptionState optionState = Settings::getOptionState();
                 if (!optionState.generalState.tabdiagrams ||
                         //don't load diagrams any more, tabbed diagrams
                         !typeIsDiagram(lvType) ) {

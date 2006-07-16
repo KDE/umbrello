@@ -21,7 +21,7 @@
 #include "stereotype.h"
 #include "object_factory.h"
 #include "model_utils.h"
-#include "import_utils.h"
+#include "codeimport/import_utils.h"
 #include "docwindow.h"
 #include "dialogs/classpropdlg.h"
 
@@ -83,7 +83,7 @@ bool UMLObject::showProperties(int page, bool assoc) {
 }
 
 bool UMLObject::isSavedInSeparateFile() {
-    if (UMLApp::app()->getOptionState().generalState.tabdiagrams) {
+    if (Settings::getOptionState().generalState.tabdiagrams) {
         // Umbrello currently does not support external folders
         // when tabbed diagrams are enabled.
         return false;

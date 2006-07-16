@@ -4,7 +4,6 @@ umbrello_COMPILE_FIRST = version.h
 umbrello_SOURCES = activitywidget.cpp \
 actor.cpp \
 actorwidget.cpp \
-adaimport.cpp \
 aligntoolbar.cpp \
 artifact.cpp \
 artifactwidget.cpp \
@@ -17,7 +16,6 @@ classifier.cpp \
 classifiercodedocument.cpp \
 classifierlistitem.cpp \
 classifierwidget.cpp \
-classimport.cpp \
 cmdlineexportallviewsevent.cpp \
 codeaccessormethod.cpp \
 codeblock.cpp \
@@ -35,7 +33,6 @@ codeparameter.cpp \
 component.cpp \
 componentwidget.cpp \
 configurable.cpp \
-cppimport.cpp \
 datatype.cpp \
 datatypewidget.cpp \
 dialog_utils.cpp \
@@ -51,11 +48,8 @@ floatingtextwidgetcontroller.cpp \
 forkjoinwidget.cpp \
 kplayerslideraction.cpp \
 hierarchicalcodeblock.cpp \
-idlimport.cpp \
 import_rose.cpp \
-import_utils.cpp \
 infowidget.cpp \
-javaimport.cpp \
 kstartuplogo.cpp \
 linepath.cpp \
 linkwidget.cpp \
@@ -64,7 +58,6 @@ main.cpp \
 messagewidget.cpp \
 messagewidgetcontroller.cpp \
 model_utils.cpp \
-nativeimportbase.cpp \
 node.cpp \
 nodewidget.cpp \
 notewidget.cpp \
@@ -73,6 +66,7 @@ objectwidget.cpp \
 objectwidgetcontroller.cpp \
 object_factory.cpp \
 operation.cpp \
+optionstate.cpp \
 ownedcodeblock.cpp \
 ownedhierarchicalcodeblock.cpp \
 package.cpp \
@@ -81,7 +75,6 @@ petalnode.cpp \
 petaltree2uml.cpp \
 plugin.cpp \
 pluginloader.cpp \
-pythonimport.cpp \
 seqlinewidget.cpp \
 statewidget.cpp \
 stereotype.cpp \
@@ -120,11 +113,11 @@ widget_utils.cpp \
 worktoolbar.cpp
 
 #umbrello_LDADD   = ./refactoring/librefactoring.la ./classparser/libclassparser.la ./clipboard/libclipboard.la ./dialogs/libdialogs.la ./codegenerators/libcodegenerator.la $(AUTOLAYOUT_LIBS) $(LIB_KDEPRINT) $(LIB_KIO)
-umbrello_LDADD = ./refactoring/librefactoring.la ./classparser/libclassparser.la ./clipboard/libclipboard.la ./dialogs/libdialogs.la ./codegenerators/libcodegenerator.la $(LIB_KDEPRINT) $(LIB_KIO)
+umbrello_LDADD = ./refactoring/librefactoring.la ./codeimport/libcodeimport.la ./classparser/libclassparser.la ./clipboard/libclipboard.la ./dialogs/libdialogs.la ./codegenerators/libcodegenerator.la $(LIB_KDEPRINT) $(LIB_KIO)
 
 ## See section "dnl Not GPL compatible" in ../configure.in.in
 # SUBDIRS = $(AUTOLAYOUT_DIR) classparser dialogs clipboard pics codegenerators headings refactoring
-SUBDIRS = classparser dialogs clipboard pics codegenerators headings \
+SUBDIRS = codeimport classparser dialogs clipboard pics codegenerators headings \
 	refactoring
 
 KDE_ICON=AUTO
