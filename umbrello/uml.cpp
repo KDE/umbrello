@@ -1077,7 +1077,11 @@ void UMLApp::readOptionState() {
             false
 #endif
                                                                       );
+#if defined (BUG84739_FIXED)
     m_optionState.generalState.newcodegen = m_config -> readBoolEntry("newcodegen", false);
+#else
+    m_optionState.generalState.newcodegen = false;
+#endif
     m_optionState.generalState.angularlines = m_config->readBoolEntry("angularlines", false);
     m_optionState.generalState.autosave = m_config -> readBoolEntry( "autosave", true );
     m_optionState.generalState.time = m_config -> readNumEntry( "time", 0 ); //old autosavetime value kept for compatibility
