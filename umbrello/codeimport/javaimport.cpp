@@ -143,6 +143,9 @@ bool JavaImport::parseStmt() {
             kdError() << "importJava: unexpected: " << m_source[m_srcIndex] << endl;
             skipStmt();
         }
+        // The default visibilty for java is implementation, since the absence
+        // of a modifier means package visibility (which maps to implementation).
+        m_currentAccess = Uml::Visibility::Implementation;
         return true;
     }
     if (keyword == "class" || keyword == "interface") {
@@ -152,6 +155,7 @@ bool JavaImport::parseStmt() {
         m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
         m_klass->setAbstract(m_isAbstract);
         m_klass->setStatic(m_isStatic);
+        m_klass->setVisibility(m_currentAccess);
         m_isAbstract = m_isStatic = false;
         if (advance() == ";")   // forward declaration
             return true;
@@ -320,6 +324,8 @@ bool JavaImport::parseStmt() {
                                    m_isStatic, m_isAbstract, false /*isFriend*/,
                                    false /*isConstructor*/, m_comment);
         m_isAbstract = m_isStatic = false;
+        // Default visibility for java is implementation (package vis.)
+        m_currentAccess = Uml::Visibility::Implementation;
         // At this point we do not know whether the method has a body or not.
         do {
             nextToken = advance();
@@ -358,14 +364,19 @@ bool JavaImport::parseStmt() {
             }
             nextToken = advance();
         }
-        UMLObject *o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name, typeName, m_comment);
+        UMLObject *o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name,
+                                                     typeName, m_comment, m_isStatic);
         UMLAttribute *attr = static_cast<UMLAttribute*>(o);
-        if (nextToken != ",")
+        if (nextToken != ",") {
+            // reset the modifiers
+            m_isStatic = m_isAbstract = false;
             break;
+        }
         name = advance();
         nextToken = advance();
     }
-    m_currentAccess = Uml::Visibility::Public;
+    // reset visibility to default
+    m_currentAccess = Uml::Visibility::Implementation;
     if (m_source[m_srcIndex] != ";") {
         kdError() << "importJava: ignoring trailing items at " << name << endl;
         skipStmt();

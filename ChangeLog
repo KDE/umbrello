@@ -5,10 +5,13 @@ Version 1.5.4
 * Fix crash when importing classes from a java file (129107, 130093)
 * Crash after single click on the "UML Model" tree window (126560/129252)
 * Cannot insert transition/association TO fork/join node in activity diagram (129914)
+* Importing java files that reference their own class name crashes (130735)
 * Importing java class (enum pattern) cause umbrello to hang (130792)
 * Importing java subinterface before superinterface results in superinterface
   not being treated as an interface (130793)
 * Java import: method and class visibility ignored (130794)
+* Java import - static not handled correctly (130926)
+* Java import - package visibility incorrectly represented (130932)
 
 Version 1.5.3
 
