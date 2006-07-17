@@ -29,9 +29,9 @@
 #include "../attribute.h"
 #include "../template.h"
 #include "../association.h"
-#include "./classparser/lexer.h"
-#include "./classparser/driver.h"
-#include "./classparser/cpptree2uml.h"
+#include "kdevcppparser/lexer.h"
+#include "kdevcppparser/driver.h"
+#include "kdevcppparser/cpptree2uml.h"
 
 // static members
 CppDriver * CppImport::ms_driver;
