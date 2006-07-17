@@ -20,13 +20,13 @@
 // app includes
 #include "ast_utils.h"
 #include "urlutil.h"
-#include "../codeimport/import_utils.h"
+#include "../import_utils.h"
 // FIXME: The sole reason for the next 2 includes is parseTypedef().
 // Make capsule methods in ClassImport, and remove these includes.
-#include "../classifier.h"
-#include "../datatype.h"
+#include "../../classifier.h"
+#include "../../datatype.h"
 // FIXME The next include is motivated by template params
-#include "../template.h"
+#include "../../template.h"
 
 CppTree2Uml::CppTree2Uml( const QString& fileName)
     : m_anon( 0 ), m_nsCnt( 0 ), m_clsCnt( 0 )

@@ -1,13 +1,12 @@
 /***************************************************************************
- *   cpptree2uml.h - based on kdevelop/languages/cpp/store_walker.h,       *
- *                   Copyright (C) 2003 by Roberto Raggi                   *
- *   Copyright (C) 2004 by Oliver Kellogg <okellogg@users.sourceforge.net> *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2005-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 #ifndef CPPTREE2UML_H
@@ -15,7 +14,7 @@
 
 #include "tree_parser.h"
 #include <qstringlist.h>
-#include "../model_utils.h"
+#include "../../model_utils.h"
 
 // fwd decls
 class UMLClassifier;
