@@ -695,7 +695,7 @@ void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement,
         if (UMLListView::typeIsFolder(m_Type) && !m_FolderFile.isEmpty()) {
             itemElement.setAttribute( "external_file", m_FolderFile );
             if (saveSubmodelFiles) {
-                folderFile.setName(umldoc->URL().directory(false) + m_FolderFile);
+                folderFile.setName(umldoc->URL().directory(KUrl::AppendTrailingSlash) + m_FolderFile);
                 if( !folderFile.open( QIODevice::WriteOnly ) ) {
                     KMessageBox::error(0,
                                        i18n("There was a problem saving file: %1", m_FolderFile),
