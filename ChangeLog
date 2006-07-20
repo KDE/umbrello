@@ -13,6 +13,9 @@ Version 1.5.4
 * Java import - static not handled correctly (130926)
 * Java import - package visibility incorrectly represented (130932)
 * Java import - random import order can result in interface being teated as class (131006)
+* Transform interface to class - fixes to some issues (79433)
+* Enable selection of multiple classes in "Select classes" dialog (126485)
+* Command line switches: graphics export to directory does not work with relative paths (130600)
 
 Version 1.5.3
 
