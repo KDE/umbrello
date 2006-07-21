@@ -212,7 +212,7 @@ void SettingsDlg::setupGeneralPage() {
         insertDiagram( diagrams[i] );
     }
 
-    m_GeneralWidgets.diagramKB->setCurrentItem( (int)m_pOptionState->generalState.diagram-1 );
+    m_GeneralWidgets.diagramKB->setCurrentIndex( (int)m_pOptionState->generalState.diagram-1 );
     connect( m_GeneralWidgets.autosaveCB, SIGNAL(clicked()), this, SLOT(slotAutosaveCBClicked()) );
 }
 
@@ -284,7 +284,7 @@ void SettingsDlg::setupClassPage() {
     insertAttribScope( tr2i18n( "Public" ) );
     insertAttribScope( tr2i18n( "Private" ) );
     insertAttribScope( tr2i18n( "Protected" ) );
-    m_ClassWidgets.m_pAttribScopeCB->setCurrentItem((m_pOptionState->classState.defaultAttributeScope - 200));
+    m_ClassWidgets.m_pAttribScopeCB->setCurrentIndex((m_pOptionState->classState.defaultAttributeScope - 200));
     m_ClassWidgets.m_pAttribScopeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
     scopeLayout -> addWidget( m_ClassWidgets.m_pAttribScopeCB, 0, 1 );
 
@@ -292,7 +292,7 @@ void SettingsDlg::setupClassPage() {
     insertOperationScope( tr2i18n( "Public" ) );
     insertOperationScope( tr2i18n( "Private" ) );
     insertOperationScope( tr2i18n( "Protected" ) );
-    m_ClassWidgets.m_pOperationScopeCB->setCurrentItem((m_pOptionState->classState.defaultOperationScope - 200));
+    m_ClassWidgets.m_pOperationScopeCB->setCurrentIndex((m_pOptionState->classState.defaultOperationScope - 200));
     m_ClassWidgets.m_pOperationScopeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
     scopeLayout -> addWidget( m_ClassWidgets.m_pOperationScopeCB, 1, 1 );
 
@@ -400,7 +400,7 @@ void SettingsDlg::slotDefault() {
         m_ClassWidgets.showAttSigCB -> setChecked( false );
         m_ClassWidgets.showOpSigCB -> setChecked( false );
         m_ClassWidgets.showPackageCB -> setChecked( false );
-        m_ClassWidgets.m_pAttribScopeCB->setCurrentItem(1); // Private
+        m_ClassWidgets.m_pAttribScopeCB->setCurrentIndex(1); // Private
         m_ClassWidgets.m_pOperationScopeCB->setCurrentItem(0); // Public
     }
     else if (  current == pageCodeGen || current == pageCodeViewer )

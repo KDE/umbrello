@@ -141,7 +141,7 @@ void UMLAttributeDialog::setupDialog() {
         QString typeBoxString = m_pTypeCB->text(typeBoxCount);
         if ( typeBoxString == m_pAttribute->getTypeName() ) {
             foundType = true;
-            m_pTypeCB->setCurrentItem(typeBoxCount);
+            m_pTypeCB->setCurrentIndex(typeBoxCount);
         } else {
             typeBoxCount++;
         }

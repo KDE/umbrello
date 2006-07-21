@@ -234,9 +234,9 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
     }
     // lookup for a default stereotype, if the operation doesn't have one
     if (foundDefaultStereotype)
-        m_pStereoTypeCB -> setCurrentItem(defaultStereotype);
+        m_pStereoTypeCB -> setCurrentIndex(defaultStereotype);
     else
-        m_pStereoTypeCB -> setCurrentItem(-1);
+        m_pStereoTypeCB -> setCurrentIndex(-1);
 
     ///////////
     m_pDoc->setWordWrap(Q3MultiLineEdit::WidgetWidth);

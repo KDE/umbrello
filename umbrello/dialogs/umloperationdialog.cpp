@@ -192,7 +192,7 @@ void UMLOperationDialog::setupDialog() {
         QString returnBoxString = m_pRtypeCB->text(returnBoxCount);
         if ( returnBoxString == m_pOperation->getTypeName() ) {
             foundReturnType = true;
-            m_pRtypeCB->setCurrentItem(returnBoxCount);
+            m_pRtypeCB->setCurrentIndex(returnBoxCount);
             break;
         }
         returnBoxCount++;
@@ -237,9 +237,9 @@ void UMLOperationDialog::setupDialog() {
     }
     // lookup for a default stereotype, if the operation doesn't have one
     if (foundDefaultStereotype)
-        m_pStereoTypeCB->setCurrentItem(defaultStereotype);
+        m_pStereoTypeCB->setCurrentIndex(defaultStereotype);
     else
-        m_pStereoTypeCB->setCurrentItem(-1);
+        m_pStereoTypeCB->setCurrentIndex(-1);
 
     //setup parm list box signals
     connect( m_pUpButton, SIGNAL( clicked() ), this, SLOT( slotParameterUp() ) );

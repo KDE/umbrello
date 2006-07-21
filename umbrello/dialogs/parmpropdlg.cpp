@@ -162,7 +162,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
         QString typeBoxString = m_pTypeCB->text(typeBoxCount);
         if ( typeBoxString == type ) { //getTypeName()
             foundType = true;
-            m_pTypeCB->setCurrentItem(typeBoxCount);
+            m_pTypeCB->setCurrentIndex(typeBoxCount);
         } else {
             typeBoxCount++;
         }

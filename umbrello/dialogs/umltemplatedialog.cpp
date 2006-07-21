@@ -102,7 +102,7 @@ void UMLTemplateDialog::setupDialog() {
         QString typeBoxString = m_pTypeCB->text(typeBoxCount);
         if ( typeBoxString == m_pTemplate->getTypeName() ) {
             foundType = true;
-            m_pTypeCB->setCurrentItem(typeBoxCount);
+            m_pTypeCB->setCurrentIndex(typeBoxCount);
         } else {
             typeBoxCount++;
         }
