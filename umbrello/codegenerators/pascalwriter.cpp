@@ -19,6 +19,7 @@
 #include <qtextstream.h>
 
 #include "../umldoc.h"
+#include "../uml.h"
 #include "../classifier.h"
 #include "../enum.h"
 #include "../classifierlistitem.h"
@@ -30,6 +31,7 @@
 #include "../operation.h"
 #include "../template.h"
 #include "../umlnamespace.h"
+#include "classifierinfo.h"
 
 const QString PascalWriter::defaultPackageSuffix = "_Holder";
 
@@ -153,7 +155,7 @@ void PascalWriter::writeClass(UMLClassifier *c) {
     QString unit = qualifiedName(c);
     pas << "unit " << unit << ";" << m_endl << m_endl;
     pas << "INTERFACE" << m_endl << m_endl;
-    /* Use referenced classes.
+    // Use referenced classes.
     UMLClassifierList imports;
     findObjectsRelated(c, imports);
     if (imports.count()) {
@@ -170,40 +172,6 @@ void PascalWriter::writeClass(UMLClassifier *c) {
         }
         pas << ";" << m_endl << m_endl;
     }
-     */
-
-    /* Generate generic formals.
-    UMLTemplateList template_params = c->getTemplateList();
-    if (template_params.count()) {
-        pas << getIndent() << "generic" << m_endl;
-        m_indentLevel++;
-        for (UMLTemplate *t = template_params.first(); t; t = template_params.next()) {
-            QString formalName = t->getName();
-            QString typeName = t->getTypeName();
-            if (typeName == "class") {
-                pas << getIndent() << "type " << formalName << " is tagged private;"
-                << m_endl;
-            } else {
-                // Check whether it's a data type.
-                UMLClassifier *typeObj = t->getType();
-                if (typeObj == NULL) {
-                    kdError() << "PascalWriter::writeClass(template_param "
-                    << typeName << "): typeObj is NULL" << endl;
-                    pas << getIndent() << "type " << formalName << " is new " << typeName
-                    << " with private;  // CHECK: codegen error"
-                    << m_endl;
-                } else if (typeObj->getBaseType() == Uml::ot_Datatype) {
-                    pas << getIndent() << formalName << " : " << typeName << ";"
-                    << m_endl;
-                } else {
-                    pas << getIndent() << "type " << typeName << " is new "
-                    << formalName << " with private;" << m_endl;
-                }
-            }
-        }
-        m_indentLevel--;
-    }
-     */
 
     pas << "type" << m_endl;
     m_indentLevel++;
@@ -277,10 +245,12 @@ void PascalWriter::writeClass(UMLClassifier *c) {
     }
     pas << m_endl;
 
-    if (isClass && (forceSections() || atl.count())) {
-        pas << getIndent() << "// Attributes:" << m_endl;
+    ClassifierInfo info(c, UMLApp::app()->getDocument());
+    UMLAttributeList atpub = info.atpub;
+    if (isClass && (forceSections() || atpub.count())) {
+        pas << getIndent() << "// Public attributes:" << m_endl;
         UMLAttribute *at;
-        for (at = atl.first(); at; at = atl.next()) {
+        for (at = atpub.first(); at; at = atpub.next()) {
             // if (at->getStatic())
             //     continue;
             pas << getIndent() << cleanName(at->getName()) << " : "
@@ -306,6 +276,36 @@ void PascalWriter::writeClass(UMLClassifier *c) {
     for (op = oppub.first(); op; op = oppub.next())
         writeOperation(op, pas);
 
+    if (info.atprot.count()) {
+        pas << "protected" << m_endl << m_endl;
+        UMLAttribute *at;
+        UMLAttributeList atprot = info.atprot;
+        for (at = atprot.first(); at; at = atprot.next()) {
+            // if (at->getStatic())
+            //     continue;
+            pas << getIndent() << cleanName(at->getName()) << " : "
+                << at->getTypeName();
+            if (at && at->getInitialValue().latin1() && ! at->getInitialValue().isEmpty())
+                pas << " := " << at->getInitialValue();
+            pas << ";" << m_endl;
+        }
+        pas << m_endl;
+    }
+    if (info.atpriv.count()) {
+        pas << "private" << m_endl << m_endl;
+        UMLAttribute *at;
+        UMLAttributeList atpriv = info.atpriv;
+        for (at = atpriv.first(); at; at = atpriv.next()) {
+            // if (at->getStatic())
+            //     continue;
+            pas << getIndent() << cleanName(at->getName()) << " : "
+                << at->getTypeName();
+            if (at && at->getInitialValue().latin1() && ! at->getInitialValue().isEmpty())
+                pas << " := " << at->getInitialValue();
+            pas << ";" << m_endl;
+        }
+        pas << m_endl;
+    }
     pas << getIndent() << "end;" << m_endl << m_endl;
 
     pas << getIndent() << "PObject = ^TObject;" << m_endl << m_endl;
@@ -412,45 +412,119 @@ const QStringList PascalWriter::reservedKeywords() const {
     static QStringList keywords;
 
     if ( keywords.isEmpty() ) {
-        keywords.append( "abs" );
+        keywords.append( "absolute" );
         keywords.append( "abstract" );
         keywords.append( "and" );
         keywords.append( "array" );
+        keywords.append( "as" );
+        keywords.append( "asm" );
+        keywords.append( "assembler" );
+        keywords.append( "automated" );
         keywords.append( "begin" );
-        keywords.append( "Boolean" );
         keywords.append( "case" );
-        keywords.append( "Character" );
-        keywords.append( "declare" );
+        keywords.append( "cdecl" );
+        keywords.append( "class" );
+        keywords.append( "const" );
+        keywords.append( "constructor" );
+        keywords.append( "contains" );
+        keywords.append( "default" );
+        keywords.append( "deprecated" );
+        keywords.append( "destructor" );
+        keywords.append( "dispid" );
+        keywords.append( "dispinterface" );
+        keywords.append( "div" );
         keywords.append( "do" );
+        keywords.append( "downto" );
+        keywords.append( "dynamic" );
         keywords.append( "else" );
-        keywords.append( "elsif" );
         keywords.append( "end" );
-        keywords.append( "exit" );
-        keywords.append( "false" );
+        keywords.append( "except" );
+        keywords.append( "export" );
+        keywords.append( "exports" );
+        keywords.append( "external" );
+        keywords.append( "far" );
+        keywords.append( "file" );
+        keywords.append( "final" );
+        keywords.append( "finalization" );
+        keywords.append( "finally" );
         keywords.append( "for" );
+        keywords.append( "forward" );
         keywords.append( "function" );
         keywords.append( "goto" );
         keywords.append( "if" );
-        keywords.append( "Integer" );
+        keywords.append( "implementation" );
+        keywords.append( "implements" );
+        keywords.append( "in" );
+        keywords.append( "index" );
+        keywords.append( "inherited" );
+        keywords.append( "initialization" );
+        keywords.append( "inline" );
+        keywords.append( "inline" );
+        keywords.append( "interface" );
+        keywords.append( "is" );
+        keywords.append( "label" );
+        keywords.append( "library" );
+        keywords.append( "library" );
+        keywords.append( "local" );
+        keywords.append( "message" );
         keywords.append( "mod" );
-        keywords.append( "new" );
+        keywords.append( "name" );
+        keywords.append( "near" );
+        keywords.append( "nil" );
+        keywords.append( "nodefault" );
         keywords.append( "not" );
-        keywords.append( "null" );
         keywords.append( "object" );
+        keywords.append( "of" );
         keywords.append( "or" );
-        keywords.append( "otherwise" );
+        keywords.append( "out" );
+        keywords.append( "overload" );
+        keywords.append( "override" );
+        keywords.append( "package" );
+        keywords.append( "packed" );
+        keywords.append( "pascal" );
+        keywords.append( "platform" );
+        keywords.append( "private" );
         keywords.append( "procedure" );
+        keywords.append( "program" );
+        keywords.append( "property" );
         keywords.append( "protected" );
+        keywords.append( "public" );
+        keywords.append( "published" );
+        keywords.append( "raise" );
+        keywords.append( "read" );
+        keywords.append( "readonly" );
         keywords.append( "record" );
-        keywords.append( "rem" );
-        keywords.append( "return" );
-        keywords.append( "String" );
+        keywords.append( "register" );
+        keywords.append( "reintroduce" );
+        keywords.append( "repeat" );
+        keywords.append( "requires" );
+        keywords.append( "resident" );
+        keywords.append( "resourcestring" );
+        keywords.append( "safecall" );
+        keywords.append( "sealed" );
+        keywords.append( "set" );
+        keywords.append( "shl" );
+        keywords.append( "shr" );
+        keywords.append( "static" );
+        keywords.append( "stdcall" );
+        keywords.append( "stored" );
+        keywords.append( "string" );
         keywords.append( "then" );
-        keywords.append( "true" );
+        keywords.append( "threadvar" );
+        keywords.append( "to" );
+        keywords.append( "try" );
         keywords.append( "type" );
         keywords.append( "unit" );
-        keywords.append( "use" );
+        keywords.append( "unsafe" );
+        keywords.append( "until" );
+        keywords.append( "uses" );
+        keywords.append( "var" );
+        keywords.append( "varargs" );
+        keywords.append( "virtual" );
         keywords.append( "while" );
+        keywords.append( "with" );
+        keywords.append( "write" );
+        keywords.append( "writeonly" );
         keywords.append( "xor" );
     }
 
