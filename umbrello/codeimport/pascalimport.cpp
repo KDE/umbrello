@@ -36,6 +36,9 @@ PascalImport::~PascalImport() {
 }
 
 void PascalImport::initVars() {
+    m_inInterface = false;
+    m_section = sect_NONE;
+    NativeImportBase::m_currentAccess = Uml::Visibility::Public;
 }
 
 void PascalImport::fillSource(QString word) {
@@ -71,9 +74,23 @@ void PascalImport::fillSource(QString word) {
         m_source.append(lexeme);
 }
 
+bool PascalImport::checkVirtualAbstract(bool& isVirtual, bool& isAbstract) {
+    QString lookAhead = m_source[m_srcIndex + 1].lower();
+    if (lookAhead == "virtual" || lookAhead == "abstract") {
+        if (lookAhead == "abstract")
+            isAbstract = true;
+        else
+            isVirtual = true;
+        advance();
+        skipStmt();
+        return true;
+    }
+    return false;
+}
+
 bool PascalImport::parseStmt() {
     const uint srcLength = m_source.count();
-    const QString& keyword = m_source[m_srcIndex].lower();
+    QString keyword = m_source[m_srcIndex].lower();
     //kdDebug() << '"' << keyword << '"' << endl;
     if (keyword == "uses") {
         while (++m_srcIndex < srcLength && m_source[m_srcIndex] != ";") {
@@ -114,40 +131,184 @@ bool PascalImport::parseStmt() {
         }
         return true;
     }
-    if (keyword == "package") {
+    if (keyword == "unit") {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package,
                         name, m_scope[m_scopeIndex], m_comment);
-        if (advance() == "is") {
-            if (m_source[m_srcIndex + 1] == "new") {
-                // generic package instantiation: TBD
-                skipStmt();
-            } else {
-                m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
-            }
-        } else if (m_source[m_srcIndex] != "renames") {
-            kdError() << "PascalImport::parseFile: unexpected: " << m_source[m_srcIndex] << endl;
-            skipStmt("is");
-        }
+        skipStmt();
+        return true;
+    }
+    if (keyword == "interface") {
+        m_inInterface = true;
+        return true;
+    }
+    if (keyword == "initialization" || keyword == "implementation") {
+        m_inInterface = false;
+        return true;
+    }
+    if (! m_inInterface) {
+        // @todo parseStmt() should support a notion for "quit parsing, close file immediately"
+        return false;
+    }
+    if (keyword == "label") {
+        m_section = sect_LABEL;
+        return true;
+    }
+    if (keyword == "const") {
+        m_section = sect_CONST;
+        return true;
+    }
+    if (keyword == "resourcestring") {
+        m_section = sect_RESOURCESTRING;
         return true;
     }
     if (keyword == "type") {
-        const QString& name = advance();
-        if (advance() == "(") {
-            kdDebug() << "PascalImport::parseFile(" << name << "): "
-                << "discriminant handling is not yet implemented" << endl;
-            skipStmt(")");
+        m_section = sect_TYPE;
+        return true;
+    }
+    if (keyword == "var") {
+        m_section = sect_VAR;
+        return true;
+    }
+    if (keyword == "threadvar") {
+        m_section = sect_THREADVAR;
+        return true;
+    }
+    if (keyword == "automated" || keyword == "published"  // no concept in UML
+     || keyword == "public") {
+        m_currentAccess = Uml::Visibility::Public;
+        return true;
+    }
+    if (keyword == "protected") {
+        m_currentAccess = Uml::Visibility::Protected;
+        return true;
+    }
+    if (keyword == "private") {
+        m_currentAccess = Uml::Visibility::Private;
+        return true;
+    }
+    if (keyword == "packed") {
+        return true;  // TBC: perhaps this could be stored in a TaggedValue
+    }
+    if (keyword == "end") {
+        if (m_klass) {
+            m_klass = NULL;
+        } else if (m_scopeIndex) {
+            m_scopeIndex--;
+            m_currentAccess = Uml::Visibility::Public;
+        } else {
+            kdError() << "importPascal: too many \"end\"" << endl;
         }
-        if (m_source[m_srcIndex] == ";") {
-            // forward declaration
-            // To Be Done
+        skipStmt();
+        return true;
+    }
+    if (keyword == "function" || keyword == "procedure") {
+        const QString& name = advance();
+        QString returnType;
+        if (advance() != "(") {
+            // Unlike a Pascal unit, a UML package does not support
+            // subprograms.
+            // In order to map those, we would need to create a UML
+            // class with stereotype <<utility>> for the unit, see
+            // http://bugs.kde.org/89167
+            kdDebug() << "ignoring parameterless " << keyword << " " << name << endl;
+            skipStmt();
             return true;
         }
-        if (m_source[m_srcIndex] != "is") {
-            kdError() << "PascalImport::parseFile: expecting \"is\"" << endl;
+        UMLClassifier *klass = NULL;
+        UMLOperation *op = NULL;
+        const uint MAX_PARNAMES = 16;
+        while (m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
+            QString parName[MAX_PARNAMES];
+            uint parNameCount = 0;
+            do {
+                if (parNameCount >= MAX_PARNAMES) {
+                    kdError() << "MAX_PARNAMES is exceeded at " << name << endl;
+                    break;
+                }
+                parName[parNameCount++] = advance();
+            } while (advance() == ",");
+            if (m_source[m_srcIndex] != ":") {
+                kdError() << "importAda: expecting ':'" << endl;
+                skipStmt();
+                break;
+            }
+            const QString parMode = advance().lower();
+            QString typeName;
+            Uml::Parameter_Direction dir = Uml::pd_In;
+            if (parMode == "var") {
+                dir = Uml::pd_InOut;
+                typeName = advance();
+            } else if (parMode == "const") {
+                typeName = advance();
+            } else if (parMode == "out") {
+                dir = Uml::pd_Out;
+                typeName = advance();
+            } else {
+                typeName = parMode;  // The default is "pass by value".
+            }
+            if (op == NULL) {
+                // In Ada, the first parameter indicates the class.
+                UMLDoc *umldoc = UMLApp::app()->getDocument();
+                UMLObject *type = umldoc->findUMLObject(typeName, Uml::ot_Class, m_scope[m_scopeIndex]);
+                if (type == NULL) {
+                    kdError() << "importAda: cannot find UML object for " << typeName << endl;
+                    skipStmt();
+                    break;
+                }
+                Uml::Object_Type t = type->getBaseType();
+                if (t != Uml::ot_Interface &&
+                    (t != Uml::ot_Class || type->getStereotype() == "record")) {
+                    // Not an instance bound method - we cannot represent it.
+                    skipStmt(")");
+                    break;
+                }
+                klass = static_cast<UMLClassifier*>(type);
+                op = Import_Utils::makeOperation(klass, name);
+                // The controlling parameter is suppressed.
+                parNameCount--;
+                if (parNameCount) {
+                    for (uint i = 0; i < parNameCount; i++)
+                        parName[i] = parName[i + 1];
+                }
+            }
+            for (uint i = 0; i < parNameCount; i++) {
+                UMLAttribute *att = Import_Utils::addMethodParameter(op, typeName, parName[i]);
+                att->setParmKind(dir);
+            }
+            if (advance() != ";")
+                break;
+        }
+        if (keyword == "function") {
+            if (advance() != ":") {
+                if (klass)
+                    kdError() << "importAda: expecting \":\" at function "
+                        << name << endl;
+                return false;
+            }
+            returnType = advance();
+        }
+        skipStmt();
+        bool isVirtual = false;
+        bool isAbstract = false;
+        if (checkVirtualAbstract(isVirtual, isAbstract))
+            checkVirtualAbstract(isVirtual, isAbstract);
+        if (klass != NULL && op != NULL)
+            Import_Utils::insertMethod(klass, op, m_currentAccess, returnType,
+                                       !isVirtual, isAbstract, false, false, m_comment);
+        return true;
+    }
+    // At this point it can only be a type, attribute, or subprogram declaration.
+    if (m_section == sect_TYPE) {
+        const QString& name = m_source[m_srcIndex];
+        QString nextToken = advance();
+        if (nextToken != "=") {
+            kdDebug() << "PascalImport::parseFile(" << name << "): "
+                << "expecting '=' at " << nextToken << endl;
             return false;
         }
-        if (advance() == "(") {
+        keyword = advance().lower();
+        if (keyword == "(") {
             // enum type
             UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Enum,
                             name, m_scope[m_scopeIndex], m_comment);
@@ -160,38 +321,34 @@ bool PascalImport::parseStmt() {
             skipStmt();
             return true;
         }
-        bool isTaggedType = false;
-        if (m_source[m_srcIndex] == "abstract") {
-            m_isAbstract = true;
-            m_srcIndex++;
-        }
-        if (m_source[m_srcIndex] == "tagged") {
-            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
-                            name, m_scope[m_scopeIndex], m_comment);
-            ns->setAbstract(m_isAbstract);
-            m_isAbstract = false;
-            m_comment = QString::null;
-            m_srcIndex++;
-            isTaggedType = true;
-        }
-        if (m_source[m_srcIndex] == "limited") {
-            m_srcIndex++;  // we can't (yet?) represent that
-        }
-        if (m_source[m_srcIndex] == "private" ||
-            (m_source[m_srcIndex] == "null" &&
-             m_source[m_srcIndex+1] == "record")) {
+        if (keyword == "set") {  // @todo implement Pascal set types
             skipStmt();
             return true;
         }
-        if (m_source[m_srcIndex] == "record") {
-            // If it's a tagged record then the class was already created
-            // above (see processing for "tagged".) Doesn't matter;
-            // in that case Import_Utils::createUMLObject() just returns
-            // the existing class instead of creating a new one.
+        if (keyword == "array") {  // @todo implement Pascal array types
+            skipStmt();
+            return true;
+        }
+        if (keyword == "file") {  // @todo implement Pascal file types
+            skipStmt();
+            return true;
+        }
+        if (keyword == "^") {  // @todo implement Pascal pointer types
+            skipStmt();
+            return true;
+        }
+        if (keyword == "class") {
             UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
                             name, m_scope[m_scopeIndex], m_comment);
-            if (! isTaggedType)
-                ns->setStereotype("record");
+            m_klass = static_cast<UMLClassifier*>(ns);
+            m_comment = QString::null;
+            m_srcIndex++;
+            return true;
+        }
+        if (keyword == "record") {
+            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
+                            name, m_scope[m_scopeIndex], m_comment);
+            ns->setStereotype("record");
             m_klass = static_cast<UMLClassifier*>(ns);
             return true;
         }
@@ -220,182 +377,8 @@ bool PascalImport::parseStmt() {
         // Datatypes: TO BE DONE
         return false;
     }
-    if (keyword == "private") {
-        m_currentAccess = Uml::Visibility::Private;
-        return true;
-    }
-    if (keyword == "end") {
-        if (m_klass) {
-            if (advance() != "record") {
-                kdError() << "end: expecting \"record\" at "
-                          << m_source[m_srcIndex] << endl;
-            }
-            m_klass = NULL;
-        } else if (m_scopeIndex) {
-            if (advance() != ";") {
-                const QString& scopeName = m_scope[m_scopeIndex]->getName();
-                if (scopeName != m_source[m_srcIndex])
-                    kdError() << "end: expecting " << scopeName << ", found "
-                              << m_source[m_srcIndex] << endl;
-            }
-            m_scopeIndex--;
-            m_currentAccess = Uml::Visibility::Public;   // @todo make a stack for this
-        } else {
-            kdError() << "importAda: too many \"end\"" << endl;
-        }
-        skipStmt();
-        return true;
-    }
-    if (keyword == "function" || keyword == "procedure") {
-        const QString& name = advance();
-        QString returnType;
-        if (advance() != "(") {
-            // Unlike an Ada package, a UML package does not support
-            // subprograms.
-            // In order to map those, we would need to create a UML
-            // class with stereotype <<utility>> for the Ada package.
-            kdDebug() << "ignoring parameterless " << keyword << " " << name << endl;
-            skipStmt();
-            return true;
-        }
-        UMLClassifier *klass = NULL;
-        UMLOperation *op = NULL;
-        const uint MAX_PARNAMES = 16;
-        while (m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
-            QString parName[MAX_PARNAMES];
-            uint parNameCount = 0;
-            do {
-                if (parNameCount >= MAX_PARNAMES) {
-                    kdError() << "MAX_PARNAMES is exceeded at " << name << endl;
-                    break;
-                }
-                parName[parNameCount++] = advance();
-            } while (advance() == ",");
-            if (m_source[m_srcIndex] != ":") {
-                kdError() << "importAda: expecting ':'" << endl;
-                skipStmt();
-                break;
-            }
-            const QString &direction = advance();
-            QString typeName;
-            Uml::Parameter_Direction dir = Uml::pd_In;
-            if (direction == "access") {
-                // Oops, we have to improvise here because there
-                // is no such thing as "access" in UML.
-                // So we use the next best thing, "inout".
-                // Better ideas, anyone?
-                dir = Uml::pd_InOut;
-                typeName = advance();
-            } else if (direction == "in") {
-                if (m_source[m_srcIndex + 1] == "out") {
-                    dir = Uml::pd_InOut;
-                    m_srcIndex++;
-                }
-                typeName = advance();
-            } else if (direction == "out") {
-                dir = Uml::pd_Out;
-                typeName = advance();
-            } else {
-                typeName = direction;  // In Ada, the default direction is "in"
-            }
-            if (op == NULL) {
-                // In Ada, the first parameter indicates the class.
-                UMLDoc *umldoc = UMLApp::app()->getDocument();
-                UMLObject *type = umldoc->findUMLObject(typeName, Uml::ot_Class, m_scope[m_scopeIndex]);
-                if (type == NULL) {
-                    kdError() << "importAda: cannot find UML object for " << typeName << endl;
-                    skipStmt();
-                    break;
-                    /*** better:
-                    if (advance() == ";") {
-                        m_srcIndex++;
-                        continue;
-                    } else {
-                        break;
-                    }
-                     ****/
-                }
-                Uml::Object_Type t = type->getBaseType();
-                if (t != Uml::ot_Interface &&
-                    (t != Uml::ot_Class || type->getStereotype() == "record")) {
-                    // Not an instance bound method - we cannot represent it.
-                    skipStmt(")");
-                    break;
-                }
-                klass = static_cast<UMLClassifier*>(type);
-                op = Import_Utils::makeOperation(klass, name);
-                // The controlling parameter is suppressed.
-                parNameCount--;
-                if (parNameCount) {
-                    for (uint i = 0; i < parNameCount; i++)
-                        parName[i] = parName[i + 1];
-                }
-            }
-            for (uint i = 0; i < parNameCount; i++) {
-                UMLAttribute *att = Import_Utils::addMethodParameter(op, typeName, parName[i]);
-                att->setParmKind(dir);
-            }
-            if (advance() != ";")
-                break;
-        }
-        if (keyword == "function") {
-            if (advance() != "return") {
-                if (klass)
-                    kdError() << "importAda: expecting \"return\" at function "
-                        << name << endl;
-                return false;
-            }
-            returnType = advance();
-        }
-        bool isAbstract = false;
-        if (advance() == "is" && advance() == "abstract")
-            isAbstract = true;
-        if (klass != NULL && op != NULL)
-            Import_Utils::insertMethod(klass, op, m_currentAccess, returnType,
-                                       false, isAbstract, false, false, m_comment);
-        return true;
-    }
-    if (keyword == "subtype") {    // FIXMEnow: potentially important but not yet implemented
-        skipStmt();
-        return true;
-    }
-    if (keyword == "task" || keyword == "protected") {
-        // Can task and protected objects/types be mapped to UML?
-        bool isType = false;
-        QString name = advance();
-        if (name == "type") {
-            isType = true;
-            name = advance();
-        }
-        QString next = advance();
-        if (next == "(") {
-            skipStmt(")");  // skip discriminant
-            next = advance();
-        }
-        if (next == "is")
-            skipStmt("end");
-        skipStmt();
-        return true;
-    }
-    if (keyword == "for") {    // rep spec (yuck)
-        QString typeName = advance();
-        QString next = advance();
-        if (next == "'") {
-            advance();  // skip qualifier
-            next = advance();
-        }
-        if (next == "use") {
-            if (advance() == "record")
-                skipStmt("end");
-        } else {
-            kdError() << "importAda: expecting \"use\" at rep spec of "
-                      << typeName << endl;
-        }
-        skipStmt();
-        return true;
-    }
     // At this point we're only interested in attribute declarations.
-    if (m_klass == NULL || keyword == "null") {
+    if (m_klass == NULL) {
         skipStmt();
         return true;
     }
@@ -408,7 +391,7 @@ bool PascalImport::parseStmt() {
     }
     QString typeName = advance();
     QString initialValue;
-    if (advance() == ":=") {
+    if (advance() == "=") {
         initialValue = advance();
         QString token;
         while ((token = advance()) != ";") {

@@ -40,6 +40,23 @@ protected:
      */
     void fillSource(QString word);
 
+    /**
+     * Check for abstract or virtual keyword following a method.
+     * Advances NativeImportBase::m_srcIndex to next statement if found.
+     */
+    bool checkVirtualAbstract(bool& isVirtual, bool& isAbstract);
+
+    /**
+     * Auxiliary variable, becomes true when keyword "interface" is seen
+     */
+    bool m_inInterface;
+
+    enum Section_Type { sect_NONE, sect_LABEL, sect_CONST, sect_RESOURCESTRING,
+                        sect_TYPE, sect_VAR, sect_THREADVAR };
+    /**
+     * Auxiliary variable, contains the current section
+     */
+    Section_Type m_section;
 };
 
 #endif
