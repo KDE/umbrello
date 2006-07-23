@@ -74,18 +74,22 @@ void PascalImport::fillSource(QString word) {
         m_source.append(lexeme);
 }
 
-bool PascalImport::checkVirtualAbstract(bool& isVirtual, bool& isAbstract) {
-    QString lookAhead = m_source[m_srcIndex + 1].lower();
-    if (lookAhead == "virtual" || lookAhead == "abstract") {
+void PascalImport::checkModifiers(bool& isVirtual, bool& isAbstract) {
+    while (true) {
+        QString lookAhead = m_source[m_srcIndex + 1].lower();
+        if (lookAhead != "virtual" && lookAhead != "abstract" &&
+            lookAhead != "register" && lookAhead != "cdecl" &&
+            lookAhead != "pascal" && lookAhead != "stdcall" &&
+            lookAhead != "safecall" && lookAhead != "saveregisters" &&
+            lookAhead != "popstack")
+            break;
         if (lookAhead == "abstract")
             isAbstract = true;
-        else
+        else if (lookAhead == "virtual")
             isVirtual = true;
         advance();
         skipStmt();
-        return true;
     }
-    return false;
 }
 
 bool PascalImport::parseStmt() {
@@ -99,7 +103,9 @@ bool PascalImport::parseStmt() {
             if (prefix == "sysutils" || prefix == "types" || prefix == "classes" ||
                 prefix == "graphics" || prefix == "controls" || prefix == "strings" ||
                 prefix == "forms" || prefix == "windows" || prefix == "messages" ||
-                prefix == "dialogs") {
+                prefix == "variants" || prefix == "stdctrls" || prefix == "extctrls" ||
+                prefix == "activex" || prefix == "comobj" || prefix == "registry" ||
+                prefix == "classes" || prefix == "dialogs") {
                 if (advance() != ",")
                     break;
                 continue;
@@ -203,86 +209,60 @@ bool PascalImport::parseStmt() {
         return true;
     }
     if (keyword == "function" || keyword == "procedure") {
-        const QString& name = advance();
-        QString returnType;
-        if (advance() != "(") {
-            // Unlike a Pascal unit, a UML package does not support
-            // subprograms.
-            // In order to map those, we would need to create a UML
-            // class with stereotype <<utility>> for the unit, see
-            // http://bugs.kde.org/89167
-            kdDebug() << "ignoring parameterless " << keyword << " " << name << endl;
+        if (m_klass == NULL) {
+            // Unlike a Pascal unit, a UML package does not support subprograms.
+            // In order to map those, we would need to create a UML class with
+            // stereotype <<utility>> for the unit, http://bugs.kde.org/89167
             skipStmt();
             return true;
         }
+        const QString& name = advance();
+        QString returnType;
         UMLClassifier *klass = NULL;
         UMLOperation *op = NULL;
-        const uint MAX_PARNAMES = 16;
-        while (m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
-            QString parName[MAX_PARNAMES];
-            uint parNameCount = 0;
-            do {
-                if (parNameCount >= MAX_PARNAMES) {
-                    kdError() << "MAX_PARNAMES is exceeded at " << name << endl;
-                    break;
-                }
-                parName[parNameCount++] = advance();
-            } while (advance() == ",");
-            if (m_source[m_srcIndex] != ":") {
-                kdError() << "importAda: expecting ':'" << endl;
-                skipStmt();
-                break;
-            }
-            const QString parMode = advance().lower();
-            QString typeName;
-            Uml::Parameter_Direction dir = Uml::pd_In;
-            if (parMode == "var") {
-                dir = Uml::pd_InOut;
-                typeName = advance();
-            } else if (parMode == "const") {
-                typeName = advance();
-            } else if (parMode == "out") {
-                dir = Uml::pd_Out;
-                typeName = advance();
-            } else {
-                typeName = parMode;  // The default is "pass by value".
-            }
-            if (op == NULL) {
-                // In Ada, the first parameter indicates the class.
-                UMLDoc *umldoc = UMLApp::app()->getDocument();
-                UMLObject *type = umldoc->findUMLObject(typeName, Uml::ot_Class, m_scope[m_scopeIndex]);
-                if (type == NULL) {
-                    kdError() << "importAda: cannot find UML object for " << typeName << endl;
+        if (m_source[m_srcIndex + 1] == "(") {
+            advance();
+            const uint MAX_PARNAMES = 16;
+            while (m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
+                QString parName[MAX_PARNAMES];
+                uint parNameCount = 0;
+                do {
+                    if (parNameCount >= MAX_PARNAMES) {
+                        kdError() << "MAX_PARNAMES is exceeded at " << name << endl;
+                        break;
+                    }
+                    parName[parNameCount++] = advance();
+                } while (advance() == ",");
+                if (m_source[m_srcIndex] != ":") {
+                    kdError() << "importPascal: expecting ':'" << endl;
                     skipStmt();
                     break;
                 }
-                Uml::Object_Type t = type->getBaseType();
-                if (t != Uml::ot_Interface &&
-                    (t != Uml::ot_Class || type->getStereotype() == "record")) {
-                    // Not an instance bound method - we cannot represent it.
-                    skipStmt(")");
+                const QString parMode = advance().lower();
+                QString typeName;
+                Uml::Parameter_Direction dir = Uml::pd_In;
+                if (parMode == "var") {
+                    dir = Uml::pd_InOut;
+                    typeName = advance();
+                } else if (parMode == "const") {
+                    typeName = advance();
+                } else if (parMode == "out") {
+                    dir = Uml::pd_Out;
+                    typeName = advance();
+                } else {
+                    typeName = parMode;  // The default is "pass by value".
+                }
+                for (uint i = 0; i < parNameCount; i++) {
+                    UMLAttribute *att = Import_Utils::addMethodParameter(op, typeName, parName[i]);
+                    att->setParmKind(dir);
+                }
+                if (advance() != ";")
                     break;
-                }
-                klass = static_cast<UMLClassifier*>(type);
-                op = Import_Utils::makeOperation(klass, name);
-                // The controlling parameter is suppressed.
-                parNameCount--;
-                if (parNameCount) {
-                    for (uint i = 0; i < parNameCount; i++)
-                        parName[i] = parName[i + 1];
-                }
             }
-            for (uint i = 0; i < parNameCount; i++) {
-                UMLAttribute *att = Import_Utils::addMethodParameter(op, typeName, parName[i]);
-                att->setParmKind(dir);
-            }
-            if (advance() != ";")
-                break;
         }
         if (keyword == "function") {
             if (advance() != ":") {
-                if (klass)
-                    kdError() << "importAda: expecting \":\" at function "
+                kdError() << "importPascal: expecting \":\" at function "
                         << name << endl;
                 return false;
             }
@@ -291,15 +271,17 @@ bool PascalImport::parseStmt() {
         skipStmt();
         bool isVirtual = false;
         bool isAbstract = false;
-        if (checkVirtualAbstract(isVirtual, isAbstract))
-            checkVirtualAbstract(isVirtual, isAbstract);
+        checkModifiers(isVirtual, isAbstract);
         if (klass != NULL && op != NULL)
             Import_Utils::insertMethod(klass, op, m_currentAccess, returnType,
                                        !isVirtual, isAbstract, false, false, m_comment);
         return true;
     }
-    // At this point it can only be a type, attribute, or subprogram declaration.
-    if (m_section == sect_TYPE) {
+    if (m_section != sect_TYPE) {
+        skipStmt();
+        return true;
+    }
+    if (m_klass == NULL) {
         const QString& name = m_source[m_srcIndex];
         QString nextToken = advance();
         if (nextToken != "=") {
@@ -342,43 +324,34 @@ bool PascalImport::parseStmt() {
                             name, m_scope[m_scopeIndex], m_comment);
             m_klass = static_cast<UMLClassifier*>(ns);
             m_comment = QString::null;
-            m_srcIndex++;
+            if (m_source[m_srcIndex + 1] == "(") {
+                advance();
+                QString base = advance();
+                UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class, base, NULL);
+                UMLClassifier *parent = static_cast<UMLClassifier*>(ns);
+                ns = Import_Utils::createUMLObject(Uml::ot_Class, name,
+                                                   m_scope[m_scopeIndex], m_comment);
+                m_klass = static_cast<UMLClassifier*>(ns);
+                m_comment = QString::null;
+                Import_Utils::createGeneralization(m_klass, parent);
+                advance();  // skip the closing ")"
+            }
+            m_currentAccess = Uml::Visibility::Public;
             return true;
         }
         if (keyword == "record") {
-            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
-                            name, m_scope[m_scopeIndex], m_comment);
+            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class, name,
+                                                          m_scope[m_scopeIndex], m_comment);
             ns->setStereotype("record");
             m_klass = static_cast<UMLClassifier*>(ns);
             return true;
         }
-        if (m_source[m_srcIndex] == "new") {
-            QString base = advance();
-            UMLClassifier *parent = NULL;
-            if (advance() == "with") {
-                UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
-                                base, NULL);
-                parent = static_cast<UMLClassifier*>(ns);
-                ns = Import_Utils::createUMLObject(Uml::ot_Class, name,
-                                       m_scope[m_scopeIndex], m_comment);
-                m_comment = QString::null;
-                QString nextLexeme = advance();
-                if (nextLexeme == "null" || nextLexeme == "record") {
-                    UMLClassifier *klass = static_cast<UMLClassifier*>(ns);
-                    Import_Utils::createGeneralization(klass, parent);
-                    if (nextLexeme == "record") {
-                        // Set the m_klass for attributes.
-                        m_klass = klass;
-                        return true;
-                    }
-                }
-            }
-        }
         // Datatypes: TO BE DONE
         return false;
     }
-    // At this point we're only interested in attribute declarations.
+    // At this point we need a class because we're expecting its member attributes.
     if (m_klass == NULL) {
+        kdDebug() << "importPascal: skipping " << m_source[m_srcIndex] << endl;
         skipStmt();
         return true;
     }

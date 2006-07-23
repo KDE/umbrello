@@ -41,10 +41,13 @@ protected:
     void fillSource(QString word);
 
     /**
-     * Check for abstract or virtual keyword following a method.
-     * Advances NativeImportBase::m_srcIndex to next statement if found.
+     * Check for, and skip over, all modifiers following a method.
+     * Set the output arguments on encountering abstract and/or virtual.
+     *
+     * @param isVirtual   return value, set to true when "virtual" seen
+     * @param isAbstract  return value, set to true when "abstract" seen
      */
-    bool checkVirtualAbstract(bool& isVirtual, bool& isAbstract);
+    void checkModifiers(bool& isVirtual, bool& isAbstract);
 
     /**
      * Auxiliary variable, becomes true when keyword "interface" is seen
