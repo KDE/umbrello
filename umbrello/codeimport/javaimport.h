@@ -1,6 +1,3 @@
-#ifndef JAVAIMPORT_H
-#define JAVAIMPORT_H
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -11,6 +8,9 @@
  *  copyright (C) 2006                                                     *
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
+
+#ifndef JAVAIMPORT_H
+#define JAVAIMPORT_H
 
 #include "nativeimportbase.h"
 
