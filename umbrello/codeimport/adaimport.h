@@ -1,6 +1,3 @@
-#ifndef ADAIMPORT_H
-#define ADAIMPORT_H
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -11,6 +8,9 @@
  *  copyright (C) 2005                                                     *
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
+
+#ifndef ADAIMPORT_H
+#define ADAIMPORT_H
 
 #include "nativeimportbase.h"
 
@@ -39,12 +39,6 @@ protected:
      * Implement abstract operation from NativeImportBase.
      */
     void fillSource(QString word);
-
-    /**
-     * Reimplement operation from NativeImportBase to be a no-op.
-     * Ada does not require preprocessing.
-     */
-    bool preprocess(QString& line);
 
     bool m_inGenericFormalPart; ///< auxiliary variable
 };

@@ -27,17 +27,15 @@
 #include "../attribute.h"
 
 PascalImport::PascalImport() : NativeImportBase("//") {
-   initVars();
+    setMultiLineComment("(*", "*)");
+    setMultiLineAltComment("{", "}");
+    initVars();
 }
 
 PascalImport::~PascalImport() {
 }
 
 void PascalImport::initVars() {
-}
-
-bool PascalImport::preprocess(QString&) {
-    return false;
 }
 
 void PascalImport::fillSource(QString word) {
@@ -75,16 +73,16 @@ void PascalImport::fillSource(QString word) {
 
 bool PascalImport::parseStmt() {
     const uint srcLength = m_source.count();
-    const QString& keyword = m_source[m_srcIndex];
+    const QString& keyword = m_source[m_srcIndex].lower();
     //kdDebug() << '"' << keyword << '"' << endl;
-    if (keyword == "with") {
+    if (keyword == "uses") {
         while (++m_srcIndex < srcLength && m_source[m_srcIndex] != ";") {
-            QStringList components = QStringList::split(".", m_source[m_srcIndex].lower());
+            QStringList components = QStringList::split(".", m_source[m_srcIndex]);
             const QString& prefix = components.first();
-            if (prefix == "system" || prefix == "ada" || prefix == "gnat" ||
-                prefix == "interfaces" || prefix == "text_io" ||
-                prefix == "unchecked_conversion" ||
-                prefix == "unchecked_deallocation") {
+            if (prefix == "sysutils" || prefix == "types" || prefix == "classes" ||
+                prefix == "graphics" || prefix == "controls" || prefix == "strings" ||
+                prefix == "forms" || prefix == "windows" || prefix == "messages" ||
+                prefix == "dialogs") {
                 if (advance() != ",")
                     break;
                 continue;
@@ -94,7 +92,7 @@ bool PascalImport::parseStmt() {
             while (1) {
                 if (! m_parsedFiles.contains(base)) {
                     m_parsedFiles.append(base);
-                    QString filename = base + ".ads";
+                    QString filename = base + ".pas";
                     // Save current m_source and m_srcIndex.
                     QStringList source(m_source);
                     uint srcIndex = m_srcIndex;

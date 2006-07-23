@@ -34,6 +34,16 @@ NativeImportBase::NativeImportBase(QString singleLineCommentIntro) {
 NativeImportBase::~NativeImportBase() {
 }
 
+void NativeImportBase::setMultiLineComment(QString intro, QString end) {
+    m_multiLineCommentIntro = intro;
+    m_multiLineCommentEnd = end;
+}
+
+void NativeImportBase::setMultiLineAltComment(QString intro, QString end) {
+    m_multiLineAltCommentIntro = intro;
+    m_multiLineAltCommentEnd = end;
+}
+
 void NativeImportBase::skipStmt(QString until /* = ";" */) {
     const uint srcLength = m_source.count();
     while (m_srcIndex < srcLength && m_source[m_srcIndex] != until)
@@ -57,42 +67,69 @@ QString NativeImportBase::advance() {
 }
 
 bool NativeImportBase::preprocess(QString& line) {
+    if (m_multiLineCommentIntro.isEmpty())
+        return false;
     // Check for end of multi line comment.
     if (m_inComment) {
-        int pos = line.find("*/");
+        int delimiterLen = 0;
+        int pos = line.find(m_multiLineCommentEnd);
         if (pos == -1) {
-            m_comment += line + "\n";
-            return true;  // done
+            if (! m_multiLineAltCommentEnd.isEmpty())
+                pos = line.find(m_multiLineAltCommentEnd);
+            if (pos == -1) {
+                m_comment += line + "\n";
+                return true;  // done
+            }
+            delimiterLen = m_multiLineAltCommentEnd.length();
+        } else {
+            delimiterLen = m_multiLineCommentEnd.length();
         }
         if (pos > 0) {
             QString text = line.mid(0, pos - 1);
             m_comment += text.stripWhiteSpace();
         }
         m_source.append(m_singleLineCommentIntro + m_comment);  // denotes comments in `m_source'
+        m_srcIndex++;
         m_comment = "";
         m_inComment = false;
-        pos++;  // pos now points at the slash in the "*/"
-        if (pos == (int)line.length() - 1)
+        pos += delimiterLen;  // pos now points behind the closed comment
+        if (pos == (int)line.length())
             return true;  // done
-        line = line.mid(pos + 1);
+        line = line.mid(pos);
     }
     // If we get here then m_inComment is false.
     // Check for start of multi line comment.
-    int pos = line.find("/*");
+    int delimIntroLen = 0;
+    int delimEndLen = 0;
+    int pos = line.find(m_multiLineCommentIntro);
     if (pos != -1) {
-        int endpos = line.find("*/");
+        delimIntroLen = m_multiLineCommentIntro.length();
+    } else if (!m_multiLineAltCommentIntro.isEmpty()) {
+        pos = line.find(m_multiLineAltCommentIntro);
+        if (pos != -1)
+            delimIntroLen = m_multiLineAltCommentIntro.length();
+    }
+    if (pos != -1) {
+        int endpos = line.find(m_multiLineCommentEnd);
+        if (endpos != -1) {
+            delimEndLen = m_multiLineCommentEnd.length();
+        } else if (!m_multiLineAltCommentEnd.isEmpty()) {
+            endpos = line.find(m_multiLineAltCommentEnd);
+            if (endpos != -1)
+                delimEndLen = m_multiLineAltCommentEnd.length();
+        }
         if (endpos == -1) {
             m_inComment = true;
-            if (pos + 1 < (int)line.length() - 1) {
-                QString cmnt = line.mid(pos + 2);
+            if (pos + delimIntroLen < (int)line.length()) {
+                QString cmnt = line.mid(pos + delimIntroLen);
                 m_comment += cmnt.stripWhiteSpace() + "\n";
             }
             if (pos == 0)
                 return true;  // done
             line = line.left(pos);
         } else {   // It's a multiline comment on a single line.
-            if (endpos > pos + 2)  {
-                QString cmnt = line.mid(pos + 2, endpos - pos - 2);
+            if (endpos > pos + delimIntroLen)  {
+                QString cmnt = line.mid(pos + delimIntroLen, endpos - pos - delimIntroLen);
                 cmnt = cmnt.stripWhiteSpace();
                 if (!cmnt.isEmpty())
                     m_source.append(m_singleLineCommentIntro + cmnt);
@@ -102,7 +139,7 @@ bool NativeImportBase::preprocess(QString& line) {
             if (pos > 0)
                 pre = line.left(pos);
             QString post;
-            if (endpos < (int)line.length() - 1)
+            if (endpos + delimEndLen < (int)line.length())
                 post = line.mid(endpos + 1);
             line = pre + post;
         }

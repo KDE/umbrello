@@ -31,6 +31,7 @@
 
 IDLImport::IDLImport() : NativeImportBase("//") {
     m_isOneway = m_isReadonly = m_isAttribute = false;
+    setMultiLineComment("/*", "*/");
 }
 
 IDLImport::~IDLImport() {

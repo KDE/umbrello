@@ -30,6 +30,7 @@
 #include "../attribute.h"
 
 JavaImport::JavaImport() : NativeImportBase("//") {
+    setMultiLineComment("/*", "*/");
     initVars();
 }
 

@@ -37,10 +37,6 @@ void AdaImport::initVars() {
     m_inGenericFormalPart = false;
 }
 
-bool AdaImport::preprocess(QString&) {
-    return false;
-}
-
 void AdaImport::fillSource(QString word) {
     QString lexeme;
     const uint len = word.length();

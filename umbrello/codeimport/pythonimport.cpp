@@ -28,6 +28,7 @@
 #include "../attribute.h"
 
 PythonImport::PythonImport() : NativeImportBase("#") {
+    setMultiLineComment("\"\"\"", "\"\"\"");
     initVars();
 }
 
@@ -41,63 +42,10 @@ void PythonImport::initVars() {
 }
 
 bool PythonImport::preprocess(QString& line) {
-    // Check for end of multi line comment.
-    if (m_inComment) {
-        int pos = line.find("\"\"\"");
-        if (pos == -1) {
-            m_comment += line + "\n";
-            return true;  // done
-        }
-        if (pos > 0) {
-            QString text = line.mid(0, pos - 1);
-            m_comment += text.stripWhiteSpace();
-        }
-        m_source.append(m_singleLineCommentIntro + m_comment);  // denotes comments in `m_source'
-        m_srcIndex++;
-        m_comment = "";
-        m_inComment = false;
-        pos += 3;  // pos now points behind the closed comment
-        if (pos == (int)line.length())
-            return true;  // done
-        line = line.mid(pos);
-    }
-    // If we get here then m_inComment is false.
-    // Check for start of multi line comment.
-    int pos = line.find("\"\"\"");
-    if (pos != -1) {
-        int endpos = line.find("\"\"\"", pos + 3);
-        if (endpos == -1) {
-            m_inComment = true;
-            if (pos + 3 < (int)line.length()) {
-                QString cmnt = line.mid(pos + 3);
-                m_comment += cmnt.stripWhiteSpace() + "\n";
-            }
-            if (pos == 0)
-                return true;  // done
-            line = line.left(pos);
-        } else {   // It's a multiline comment on a single line.
-            if (endpos > pos + 3)  {
-                QString cmnt = line.mid(pos + 3, endpos - pos - 3);
-                cmnt = cmnt.stripWhiteSpace();
-                if (!cmnt.isEmpty()) {
-                    m_source.append(m_singleLineCommentIntro + cmnt);
-                    m_srcIndex++;
-                }
-            }
-            endpos += 3;  // endpos now points behind the closed comment
-            QString pre;
-            if (pos > 0)
-                pre = line.left(pos);
-            QString post;
-            if (endpos < (int)line.length())
-                post = line.mid(endpos);
-            line = pre + post;
-        }
-        if (line.contains( QRegExp("^\\s*$") ))
-            return true;
-    }
+    if (NativeImportBase::preprocess(line))
+        return true;
     // Handle single line comment
-    pos = line.find(m_singleLineCommentIntro);
+    int pos = line.find(m_singleLineCommentIntro);
     if (pos != -1) {
         QString cmnt = line.mid(pos);
         m_source.append(cmnt);
