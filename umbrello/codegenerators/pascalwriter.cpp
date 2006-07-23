@@ -364,25 +364,29 @@ void PascalWriter::writeOperation(UMLOperation *op, QTextStream &pas, bool is_co
 
 QStringList PascalWriter::defaultDatatypes() {
     QStringList l;
+    l.append("AnsiString");
     l.append("Boolean");
-    l.append("Character");
-    l.append("Cardinal");
-    l.append("Integer");
-    l.append("Shortint");
-    l.append("Smallint");
-    l.append("Longint");
     l.append("Byte");
-    l.append("Word");
-    l.append("Longword");
-    l.append("Real");
-    l.append("Single");
+    l.append("ByteBool");
+    l.append("Cardinal");
+    l.append("Character");
+    l.append("Currency");
     l.append("Double");
     l.append("Extended");
-    l.append("Currency");
-    l.append("String");
+    l.append("Int64");
+    l.append("Integer");
+    l.append("Longint");
+    l.append("LongBool");
+    l.append("Longword");
+    l.append("QWord");
+    l.append("Real");
+    l.append("Shortint");
     l.append("ShortString");
-    l.append("AnsiString");
+    l.append("Single");
+    l.append("Smallint");
+    l.append("String");
     l.append("WideString");
+    l.append("Word");
     return l;
 }
 
