@@ -139,8 +139,9 @@ bool PascalImport::parseStmt() {
     }
     if (keyword == "unit") {
         const QString& name = advance();
-        UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package,
-                        name, m_scope[m_scopeIndex], m_comment);
+        UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package, name,
+                                                      m_scope[m_scopeIndex], m_comment);
+        m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
         skipStmt();
         return true;
     }
@@ -217,9 +218,7 @@ bool PascalImport::parseStmt() {
             return true;
         }
         const QString& name = advance();
-        QString returnType;
-        UMLClassifier *klass = NULL;
-        UMLOperation *op = NULL;
+        UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
         if (m_source[m_srcIndex + 1] == "(") {
             advance();
             const uint MAX_PARNAMES = 16;
@@ -260,6 +259,7 @@ bool PascalImport::parseStmt() {
                     break;
             }
         }
+        QString returnType;
         if (keyword == "function") {
             if (advance() != ":") {
                 kdError() << "importPascal: expecting \":\" at function "
@@ -272,9 +272,8 @@ bool PascalImport::parseStmt() {
         bool isVirtual = false;
         bool isAbstract = false;
         checkModifiers(isVirtual, isAbstract);
-        if (klass != NULL && op != NULL)
-            Import_Utils::insertMethod(klass, op, m_currentAccess, returnType,
-                                       !isVirtual, isAbstract, false, false, m_comment);
+        Import_Utils::insertMethod(m_klass, op, m_currentAccess, returnType,
+                                   !isVirtual, isAbstract, false, false, m_comment);
         return true;
     }
     if (m_section != sect_TYPE) {
@@ -326,15 +325,13 @@ bool PascalImport::parseStmt() {
             m_comment = QString::null;
             if (m_source[m_srcIndex + 1] == "(") {
                 advance();
-                QString base = advance();
-                UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class, base, NULL);
-                UMLClassifier *parent = static_cast<UMLClassifier*>(ns);
-                ns = Import_Utils::createUMLObject(Uml::ot_Class, name,
-                                                   m_scope[m_scopeIndex], m_comment);
-                m_klass = static_cast<UMLClassifier*>(ns);
-                m_comment = QString::null;
-                Import_Utils::createGeneralization(m_klass, parent);
-                advance();  // skip the closing ")"
+                do {
+                    QString base = advance();
+                    UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class, base, NULL);
+                    UMLClassifier *parent = static_cast<UMLClassifier*>(ns);
+                    m_comment = QString::null;
+                    Import_Utils::createGeneralization(m_klass, parent);
+                } while (advance() == ",");
             }
             m_currentAccess = Uml::Visibility::Public;
             return true;
