@@ -127,12 +127,121 @@ bool JavaImport::skipToClosing(QChar opener) {
     return true;
 }
 
+
+///Spawn off an import of the specifed file
+void JavaImport::spawnImport( QString file ) {
+    static QStringList filesBeingParsed;
+    // if the file is being parsed, don't bother
+    //
+    if (filesBeingParsed.contains( file ) ) {
+        return;
+    }
+    if (QFile::exists(file)) {
+          JavaImport importer;
+          QStringList fileList;
+          fileList.append( file );
+          filesBeingParsed.append( file );
+          importer.importFiles( fileList ); 
+          filesBeingParsed.remove( file );
+    }
+}
+
+
+///returns the UML Object if found, or null otherwise 
+UMLObject* findObject( QString name,   UMLPackage *parentPkg ) {
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    UMLObject * o = umldoc->findUMLObject(name, Uml::ot_UMLObject , parentPkg); 
+    return o;
+}
+
+
+///Resolve the specified className 
+UMLObject* JavaImport::resolveClass (QString className) {
+    // java has a few implicit imports.  Most relevant for this is the 
+    // current package, which is in the same directory as the current file
+    // being parsed
+    //
+    QStringList file = QStringList::split( '/', m_currentFileName);
+    // remove the filename.  This leaves the full path to the containing
+    // dir which should also include the package hierarchy
+    //
+    file.pop_back();
+
+    // the file we're looking for might be in the same directory as the
+    // current class
+    //
+    QString myDir = file.join( "/" );
+    QString myFile = "/" + myDir + "/" + className + ".java";
+    if ( QFile::exists(myFile) ) {
+        spawnImport( myFile );
+        return findObject ( className, m_scope[m_scopeIndex]);
+    }
+
+    // the class we want is not in the same package as the one being imported.
+    // use the imports to find the one we want.
+    //
+    QStringList package = QStringList::split( '.', m_currentPackage);
+    int dirsInPackageCount = package.size();
+
+    for (int count=0; count < dirsInPackageCount; count ++ ) {
+        // pop off one by one the directories, until only the source root remains
+        //
+        file.pop_back();
+    }
+    // this is now the root of any further source imports
+    QString sourceRoot = "/" + file.join("/") + "/";
+
+    for (QStringList::Iterator pathIt = m_imports.begin();
+                                   pathIt != m_imports.end(); ++pathIt) {
+        QString import = (*pathIt);
+        QStringList split = QStringList::split( '.', import );
+        split.pop_back(); // remove the * or the classname
+        if ( import.endsWith( "*" ) || import.endsWith( className) ) {
+            // check if the file we want is in this imported package
+            // convert the org.test type package into a filename
+            //
+            QString aFile = sourceRoot + split.join("/") + "/" + className + ".java";
+            if ( QFile::exists(aFile) ) {
+                spawnImport( aFile );
+                // we need to set the package for the class that will be resolved
+                // start at the root package
+                UMLPackage *parent = m_scope[0];
+                UMLPackage *current;
+
+                for (QStringList::Iterator it = split.begin(); it != split.end(); ++it) {
+                    QString name = (*it);
+                    UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package,
+                            name, parent);
+                    current = static_cast<UMLPackage*>(ns);
+                    parent = current;
+                } // for
+                // now that we have the right package, the class should be findable
+                //
+                return findObject ( className, current);
+            } // if file exists
+        } // if import matches
+    } //foreach import
+    return NULL; // no match
+}
+
+
+/// keep track of the current file being parsed and reset the list of imports
+void JavaImport::parseFile(QString filename) {
+    m_currentFileName= filename;
+    m_imports.clear();
+    NativeImportBase::parseFile(filename);
+}
+
+
+
+
 bool JavaImport::parseStmt() {
     const uint srcLength = m_source.count();
     const QString& keyword = m_source[m_srcIndex];
     //kdDebug() << '"' << keyword << '"' << endl;
     if (keyword == "package") {
-        const QString& qualifiedName = advance();
+        m_currentPackage = advance();
+        const QString& qualifiedName = m_currentPackage;
         QStringList names = QStringList::split(".", qualifiedName);
         for (QStringList::Iterator it = names.begin(); it != names.end(); ++it) {
             QString name = (*it);
@@ -193,13 +302,31 @@ bool JavaImport::parseStmt() {
         }
         if (m_source[m_srcIndex] == "extends") {
             const QString& baseName = advance();
-            Import_Utils::createGeneralization(m_klass, baseName);
+            // try to resove the class we are extending, or if impossible
+            // create a placeholder
+            UMLObject *parent = resolveClass( baseName );
+            if ( parent ) {
+                Import_Utils::createGeneralization(m_klass, static_cast<UMLClassifier*>(parent));
+            } else {
+                kdDebug() << "importJava parentClass " << baseName 
+                    << " is not resolveable. Creating placeholder" << endl;
+                Import_Utils::createGeneralization(m_klass, baseName);
+            }
             advance();
         }
         if (m_source[m_srcIndex] == "implements") {
             while (m_srcIndex < srcLength - 1 && advance() != "{") {
                 const QString& baseName = m_source[m_srcIndex];
-                Import_Utils::createGeneralization(m_klass, baseName);
+                // try to resolve the interface we are implementing, if this fails 
+                // create a placeholder
+                UMLObject *interface = resolveClass( baseName );
+                if ( interface ) {
+                     Import_Utils::createGeneralization(m_klass, static_cast<UMLClassifier*>(interface));
+                } else {
+                    kdDebug() << "importJava implementing interface "<< baseName 
+                        <<" is not resolvable. Creating placeholder" <<endl;
+                    Import_Utils::createGeneralization(m_klass, baseName); 
+                }
                 if (advance() != ",")
                     break;
             }
@@ -267,6 +394,16 @@ bool JavaImport::parseStmt() {
         return true;
     }
     if (keyword == "import") {
+        // keep track of imports so we can resolve classes we are dependent on
+        QString import = advance();
+        if ( import.endsWith(".") ) {
+            //this most likely an import that ends with a *
+            //
+            import = import + advance();
+        }
+        m_imports.append( import );
+
+        // move past ; 
         skipStmt();
         return true;
     }
@@ -369,8 +506,16 @@ bool JavaImport::parseStmt() {
             }
             nextToken = advance();
         }
-        UMLObject *o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name,
-                                                     typeName, m_comment, m_isStatic);
+        // try to resolve the class type, or create a placeholder if that fails
+        UMLObject *type = resolveClass( typeName );
+        UMLObject *o;
+        if (type) { 
+            o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name,
+                                           static_cast<UMLClassifier*>(type), m_comment, m_isStatic);
+        } else {
+            o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name,
+                                                  typeName, m_comment, m_isStatic);
+        }
         UMLAttribute *attr = static_cast<UMLAttribute*>(o);
         if (nextToken != ",") {
             // reset the modifiers

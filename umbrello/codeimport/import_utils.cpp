@@ -230,7 +230,7 @@ UMLOperation* makeOperation(UMLClassifier *parent, const QString &name) {
 }
 
 UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope, QString name,
-                                        QString type, QString comment /* ="" */,
+                                        UMLClassifier *attrType, QString comment /* ="" */,
                                         bool isStatic /* =false */) {
     Uml::Object_Type ot = owner->getBaseType();
     if (ot != Uml::ot_Class) {
@@ -242,12 +242,7 @@ UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope, QString 
     if (o) {
         return o;
     }
-    UMLObject *attrType = owner->findTemplate(type);
-    if (attrType == NULL) {
-        bPutAtGlobalScope = true;
-        attrType = createUMLObject(Uml::ot_UMLObject, type, owner);
-        bPutAtGlobalScope = false;
-    }
+
     UMLAttribute *attr = owner->addAttribute(name, attrType, scope);
     attr->setStatic(isStatic);
     QString strippedComment = formatComment(comment);
@@ -258,6 +253,20 @@ UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope, QString 
 
     UMLApp::app()->getDocument()->setModified(true);
     return attr;
+}
+
+UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope, QString name,
+                                        QString type, QString comment /* ="" */,
+                                        bool isStatic /* =false */) {
+    UMLObject *attrType = owner->findTemplate(type);
+    if (attrType == NULL) {
+        bPutAtGlobalScope = true;
+        attrType = createUMLObject(Uml::ot_UMLObject, type, owner);
+        bPutAtGlobalScope = false;
+    }
+    return insertAttribute (owner, scope, name, 
+                            static_cast<UMLClassifier*>(attrType), 
+                            comment, isStatic);
 }
 
 void insertMethod(UMLClassifier *klass, UMLOperation *op,
@@ -301,8 +310,7 @@ void insertMethod(UMLClassifier *klass, UMLOperation *op,
     //setModified(true);
 }
 
-UMLAttribute* addMethodParameter(UMLOperation *method,
-        QString type, QString name) {
+UMLAttribute* addMethodParameter(UMLOperation *method, QString type, QString name) {
     UMLClassifier *owner = static_cast<UMLClassifier*>(method->parent());
     UMLObject *typeObj = owner->findTemplate(type);
     if (typeObj == NULL) {
@@ -324,8 +332,15 @@ void createGeneralization(UMLClassifier *child, UMLClassifier *parent) {
     // if the child is an interface, so is the parent.
     if (child->isInterface())
         parent->setInterface(true);
-    UMLAssociation *assoc = new UMLAssociation( Uml::at_Generalization,
-                            child, parent );
+    Uml::Association_Type association = Uml::at_Generalization;
+
+    if (parent->isInterface() && !child->isInterface()) {
+        // if the parent is an interface, but the child is not, then
+        // this is really realization.
+        //
+        association = Uml::at_Realization;
+    }
+    UMLAssociation *assoc = new UMLAssociation(association, child, parent);
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     umldoc->addAssociation(assoc);
 }
