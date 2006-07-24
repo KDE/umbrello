@@ -219,6 +219,20 @@ private slots:
      * @param btn The clicked button.
      */
     void slotButtonChanged(int btn);
+
+    /**@{
+     * Performs the alignment when the associated button was clicked.
+     */
+    void slotAlignLeft();
+    void slotAlignRight();
+    void slotAlignTop();
+    void slotAlignBottom();
+    void slotAlignVerticalMiddle();
+    void slotAlignHorizontalMiddle();
+    void slotAlignVerticalDistribute();
+    void slotAlignHorizontalDistribute();
+    /**@}*/
+
 };
 
 #endif

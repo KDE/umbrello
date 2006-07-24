@@ -35,17 +35,30 @@ AlignToolBar::AlignToolBar(QMainWindow* parentWindow, const char* )
     loadPixmaps();
 
     // create the buttons
-    insertButton(m_Pixmaps[alac_align_left], alac_align_left, true, i18n("Align Left"));
-    insertButton(m_Pixmaps[alac_align_right], alac_align_right, true, i18n("Align Right"));
-    insertButton(m_Pixmaps[alac_align_top], alac_align_top, true, i18n("Align Top"));
-    insertButton(m_Pixmaps[alac_align_bottom], alac_align_bottom, true, i18n("Align Bottom"));
-    insertButton(m_Pixmaps[alac_align_vertical_middle], alac_align_vertical_middle, true, i18n("Align Vertical Middle"));
-    insertButton(m_Pixmaps[alac_align_horizontal_middle], alac_align_horizontal_middle, true, i18n("Align Horizontal Middle"));
-    insertButton(m_Pixmaps[alac_align_vertical_distribute], alac_align_vertical_distribute, true, i18n("Align Vertical Distribute"));
-    insertButton(m_Pixmaps[alac_align_horizontal_distribute], alac_align_horizontal_distribute, true, i18n("Align Horizontal Distribute"));
+    addAction(QIcon(m_Pixmaps[alac_align_left]), i18n("Align Left"),
+        this, SLOT(slotAlignLeft()));
+    addAction(QIcon(m_Pixmaps[alac_align_right]), i18n("Align Right"),
+        this, SLOT(slotAlignRight()));
+    addAction(QIcon(m_Pixmaps[alac_align_top]), i18n("Align Top"),
+        this, SLOT(slotAlignTop()));
+    addAction(QIcon(m_Pixmaps[alac_align_bottom]), i18n("Align Bottom"),
+        this, SLOT(slotAlignBottom()));
+    addAction(QIcon(m_Pixmaps[alac_align_vertical_middle]), 
+        i18n("Align Vertical Middle"),
+        this, SLOT(slotAlignVerticalMiddle()));
+    addAction(QIcon(m_Pixmaps[alac_align_horizontal_middle]), 
+        i18n("Align Horizontal Middle"),
+        this, SLOT(slotAlignHorizontalMiddle()));
+    addAction(QIcon(m_Pixmaps[alac_align_vertical_distribute]), 
+        i18n("Align Vertical Distribute"),
+        this, SLOT(slotAlignVerticalDistribute()));
+    addAction(QIcon(m_Pixmaps[alac_align_horizontal_distribute]), 
+        i18n("Align Horizontal Distribute"),
+        this, SLOT(slotAlignHorizontalDistribute()));
 
     setOrientation( Qt::Vertical );
-    setVerticalStretchable( true );
+//     Removed for KDE4
+//     setVerticalStretchable( true );
 
     // gets called whenever a button in the toolbar is clicked
     connect( this, SIGNAL( released( int ) ), this, SLOT( slotButtonChanged (int ) ) );
@@ -387,6 +400,46 @@ void AlignToolBar::slotButtonChanged(int btn) {
     } // if (widgetList.count() > 1)
 
     return;
+}
+
+void AlignToolBar::slotAlignLeft()
+{
+    slotButtonChanged(alac_align_left);
+}
+
+void AlignToolBar::slotAlignRight()
+{
+    slotButtonChanged(alac_align_right);
+}
+
+void AlignToolBar::slotAlignTop()
+{
+    slotButtonChanged(alac_align_top);
+}
+
+void AlignToolBar::slotAlignBottom()
+{
+    slotButtonChanged(alac_align_bottom);
+}
+
+void AlignToolBar::slotAlignVerticalMiddle()
+{
+    slotButtonChanged(alac_align_vertical_middle);
+}
+
+void AlignToolBar::slotAlignHorizontalMiddle()
+{
+    slotButtonChanged(alac_align_horizontal_middle);
+}
+
+void AlignToolBar::slotAlignVerticalDistribute()
+{
+    slotButtonChanged(alac_align_vertical_distribute);
+}
+
+void AlignToolBar::slotAlignHorizontalDistribute()
+{
+    slotButtonChanged(alac_align_horizontal_distribute);
 }
 
 #include "aligntoolbar.moc"
