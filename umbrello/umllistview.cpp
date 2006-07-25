@@ -395,8 +395,7 @@ void UMLListView::popupMenuSel(int sel) {
     case ListPopupMenu::mt_Externalize_Folder:
         {
             // configure & show the file dialog
-            KFileDialog fileDialog(m_doc->URL().directory(), "*.xm1", this,
-                                   ":externalize-folder", true);
+            KFileDialog fileDialog(m_doc->URL().directory(), "*.xm1", this);
             fileDialog.setCaption(i18n("Externalize Folder"));
             fileDialog.setOperationMode(KFileDialog::Other);
             UMLListViewItem *current = static_cast<UMLListViewItem*>(currentItem());

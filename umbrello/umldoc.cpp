@@ -392,7 +392,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* /*format =0*/) {
     }
 
     m_doc_url = url;
-    QDir d = url.path(1);
+    QDir d = url.path(KUrl::AddTrailingSlash);
     closeDocument();
     // IMPORTANT: set m_bLoading to true
     // _AFTER_ the call of UMLDoc::closeDocument()
@@ -416,7 +416,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* /*format =0*/) {
     bool status = false;
 
     // check if the xmi file is a compressed archive like tar.bzip2 or tar.gz
-    QString filetype = m_doc_url.fileName(true);
+    QString filetype = m_doc_url.fileName();
     QString mimetype = "";
     if (filetype.find(QRegExp("\\.tgz$")) != -1)
     {
@@ -559,12 +559,12 @@ bool UMLDoc::openDocument(const KUrl& url, const char* /*format =0*/) {
 
 bool UMLDoc::saveDocument(const KUrl& url, const char * /* format */) {
     m_doc_url = url;
-    QDir d = m_doc_url.path(1);
+    QDir d = m_doc_url.path(KUrl::AddTrailingSlash);
     QFile file;
     bool uploaded = true;
 
     // first, we have to find out which format to use
-    QString strFileName = url.path(-1);
+    QString strFileName = url.path(KUrl::RemoveTrailingSlash);
     QFileInfo fileInfo(strFileName);
     QString fileExt = fileInfo.extension();
     QString fileFormat = "xmi";
@@ -633,7 +633,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * /* format */) {
         archive->addLocalFile(tmp_xmi_file.name(), tmpQString);
         archive->close();
 
-        if (!archive->closeSucceeded())
+        if (!archive->close())
         {
             KMessageBox::error(0, i18n("There was a problem saving file: %1", d.path()), i18n("Save Error"));
             return false;

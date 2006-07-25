@@ -17,6 +17,9 @@
  * Changes from kplayer original marked by CHANGED
  */
 
+//CHANGED #include "kplayersettings.h"
+#include "kplayerslideraction.h"
+
 #include <kapplication.h>
 #include <ktoolbar.h>
 
@@ -25,13 +28,8 @@
 //Added by qt3to4:
 #include <Q3Frame>
 #include <QKeyEvent>
-#include <k3widgetaction.h>
 #include <QDesktopWidget>
 #include <kdebug.h>
-
-//CHANGED #include "kplayersettings.h"
-#include "kplayerslideraction.h"
-#include "kplayerslideraction.moc"
 
 void KPlayerPopupFrame::keyPressEvent (QKeyEvent* ev)
 {
@@ -118,11 +116,11 @@ void KPlayerPopupSliderAction::unplug (QWidget* widget)
   KAction::unplug (widget);
 }*/
 
-void KPlayerPopupSliderAction::slotActivated (void)
+void KPlayerPopupSliderAction::slotTriggered()
 {
-    KAction::slotActivated();
+    KAction::slotTriggered();
     QWidget* button = 0;
-    if ( sender() )
+/*    if ( sender() )
     {
         //CHANGED    kDebug() << "Sender class name: " << sender() -> className() << "\n";
         if ( sender() -> inherits ("KToolBarButton") )
@@ -134,7 +132,7 @@ void KPlayerPopupSliderAction::slotActivated (void)
             if ( index >= 0 )
                 button = toolbar -> getButton (itemId (index));
         }
-    }
+    }*/
     QPoint point;
     if ( button )
         point = button -> mapToGlobal (QPoint (0, button -> height()));
@@ -161,9 +159,9 @@ void KPlayerPopupSliderAction::slotActivated (void)
     m_slider -> setFocus();
 }
 
-KPlayerSliderAction::KPlayerSliderAction (const QString& text, const KShortcut& cut,
+/*KPlayerSliderAction::KPlayerSliderAction (const QString& text, const KShortcut& cut,
         const QObject* receiver, const char* slot, KActionCollection* parent, const char* name)
-        : K3WidgetAction (new KPlayerSlider (Qt::Horizontal, 0, name), text, cut, receiver, slot, parent, name)
+        : KAction (new KPlayerSlider (Qt::Horizontal, 0, name), text, cut, receiver, slot, parent, name)
         //: KAction (text, 0, parent, name)
 {
     setAutoSized (true);
@@ -172,8 +170,8 @@ KPlayerSliderAction::KPlayerSliderAction (const QString& text, const KShortcut& 
 
 KPlayerSliderAction::~KPlayerSliderAction()
 {
-}
-
+}*/
+/*
 int KPlayerSliderAction::plug (QWidget* widget, int index)
 {
     //Q_ASSERT (widget);
@@ -223,13 +221,13 @@ void KPlayerSliderAction::unplug (QWidget* widget)
     disconnect (widget, SIGNAL (orientationChanged (Orientation)), this, SLOT (orientationChanged (Orientation)));
     //disconnect (toolbar, SIGNAL (destroyed()), this, SLOT (toolbarDestroyed()));
     //m_slider -> reparent (0, QPoint());
-    /*int index = findContainer (toolbar);
-      if ( index == -1 )
-        return;
-      bar -> removeItem (menuId (index));
-      removeContainer (index);*/
+//    int index = findContainer (toolbar);
+//      if ( index == -1 )
+//        return;
+//      bar -> removeItem (menuId (index));
+//      removeContainer (index);
 }
-
+*/
 /*void KPlayerSliderAction::setupToolbar (Orientation orientation, KToolBar* toolbar)
 {
     if ( orientation == Qt::Horizontal )
@@ -252,15 +250,15 @@ void KPlayerSliderAction::unplug (QWidget* widget)
     }
 }*/
 
-void KPlayerSliderAction::orientationChanged (Qt::Orientation orientation)
-{
-    //if ( sender() && sender() -> inherits ("KToolBar") )
-    //  setupToolbar (orientation, (KToolBar*) sender());
-    //Q_ASSERT (m_slider);
-    //Q_ASSERT (isPlugged());
-    if ( slider() )
-        slider() -> setOrientation (orientation);
-}
+// void KPlayerSliderAction::orientationChanged (Qt::Orientation orientation)
+// {
+//     //if ( sender() && sender() -> inherits ("KToolBar") )
+//     //  setupToolbar (orientation, (KToolBar*) sender());
+//     //Q_ASSERT (m_slider);
+//     //Q_ASSERT (isPlugged());
+//     if ( slider() )
+//         slider() -> setOrientation (orientation);
+// }
 
 /*void KPlayerSliderAction::toolbarDestroyed (void)
 {
@@ -414,3 +412,5 @@ void KPlayerSlider::sliderValueChanged (int)
     if ( ! m_changing_orientation )
         emit changed (value());
 }
+
+#include "kplayerslideraction.moc"

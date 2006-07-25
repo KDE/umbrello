@@ -22,6 +22,7 @@
 #include "umlnamespace.h"
 #include <Q3MainWindow>
 
+class QAction;
 /**
  * This is the toolbar that is displayed on the right-hand side of the program
  * window.  For each type of diagram it will change to suit that document.
@@ -49,7 +50,7 @@ public:
      * @param parentWindow      The parent of the toolbar.
      * @param name              The name of the toolbar.
      */
-    WorkToolBar(Q3MainWindow *parentWindow, const char *name);
+    WorkToolBar(QMainWindow *parentWindow);
 
     /**
      * Standard deconstructor.
@@ -134,17 +135,20 @@ private:
         QString Label;
         QPixmap Symbol;
         QCursor Cursor;
-        ToolButton() : Label(QString("?")), Symbol(QPixmap()), Cursor(QCursor()) { }
-        ToolButton(const QString& lbl, const QPixmap& smb, const QCursor& cur) :
-        Label(lbl), Symbol(smb), Cursor(cur) { }
+        const char* Slot;
+        ToolButton() : Label(QString("?")), Symbol(QPixmap()), Cursor(QCursor()), Slot("") { }
+        ToolButton(const QString& lbl, const QPixmap& smb, const QCursor& cur, const char* slot) :
+        Label(lbl), Symbol(smb), Cursor(cur), Slot(slot) { }
     };
 
     typedef QMap<ToolBar_Buttons, ToolButton> ToolButtonMap;
+    typedef QMap<ToolBar_Buttons, QAction*> ActionsMap;
 
     ToolBar_Buttons     m_CurrentButtonID;
     OldToolMap          m_map;
     Uml::Diagram_Type   m_Type;
     ToolButtonMap       m_ToolButtons;
+    ActionsMap          m_actions;
 
     /**
      * Loads a pixmap from file
@@ -165,7 +169,7 @@ private:
      * Inserts the button corresponding to the tbb value given
      * and activates the toggle.
      */
-    void insertHotBtn(ToolBar_Buttons tbb);
+    QAction* insertHotBtn(ToolBar_Buttons tbb);
 
     /**
      * Inserts most associations, just reduces some string
@@ -179,6 +183,58 @@ public slots:
     void slotCheckToolBar(Uml::Diagram_Type dt);
     void buttonChanged(int b);
     void slotResetToolBar();
+    
+    /** 
+      * These slots are triggered by the buttons. They call buttonChanged with
+      * the button id
+      *@{
+      */ 
+    void slotArrow(); 
+    void slotGeneralization();
+    void slotAggregation();
+    void slotDependency();
+    void slotAssociation();
+    void slotContainment();
+    void slotColl_Message();
+    void slotSeq_Message_Synchronous();
+    void slotSeq_Message_Asynchronous();
+    void slotComposition();
+    void slotRelationship();
+    void slotUniAssociation();
+    void slotState_Transition();
+    void slotActivity_Transition();
+    void slotAnchor();//keep anchor as last association until code uses better algorithm for testing
+    void slotNote();
+    void slotBox();
+    void slotText();
+    void slotActor();
+    void slotUseCase();
+    void slotClass();
+    void slotInterface();
+    void slotDatatype();
+    void slotEnum();
+    void slotEntity();
+    void slotPackage();
+    void slotComponent();
+    void slotNode();
+    void slotArtifact();
+    void slotObject();
+    void slotInitial_State();
+    void slotState();
+    void slotEnd_State();
+    void slotInitial_Activity();
+    void slotActivity();
+    void slotEnd_Activity();
+    void slotBranch();
+    void slotFork();
+    void slotDeepHistory();
+    void slotShallowHistory();
+    void slotJoin();
+    void slotStateFork();
+    void slotJunction();
+    void slotChoice();
+    void slotAndline();
+
 };
 
 #endif

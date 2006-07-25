@@ -10,7 +10,8 @@
 #include <math.h>
 
 // include files for Qt
-#include <qstringlist.h>
+#include <QStringList>
+#include <QImageWriter>
 #include <qrect.h>
 #include <qimage.h>
 #include <qpicture.h>
@@ -44,9 +45,11 @@ QStringList UMLViewImageExporterModel::supportedImageTypes() {
         supportedImageTypesList << "svg";
 
         // QT supported formats
-        QStrList qImageFormats = QImage::outputFormats();
-        for (const char* format = qImageFormats.first(); format; format = qImageFormats.next()) {
-            supportedImageTypesList << QString(format).lower();
+        QList<QByteArray> qImageFormats = QImageWriter::supportedImageFormats();
+        QList<QByteArray>::const_iterator it, it_end;
+        it = qImageFormats.begin(); it_end = qImageFormats.end();
+        for (; it != it_end; it++) {
+            supportedImageTypesList << QString(*it).lower();
         }
     }
 

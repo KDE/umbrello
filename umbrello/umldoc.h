@@ -53,6 +53,7 @@ class QFile;
 class QSplitter;
 
 class KPrinter;
+class KMenu;
 
 class DocWindow;
 class IDChangeLog;

@@ -23,7 +23,7 @@
 #include <q3progressbar.h>
 //Added by qt3to4:
 #include <QKeyEvent>
-#include <Q3PopupMenu>
+#include <QMenu>
 
 #include <k3dockwidget.h>
 #include <kdeversion.h>
@@ -758,7 +758,7 @@ public slots:
      * @param menu      The QPopupMenu or QMenuBar to search through.
      * @param name      The name of the menu to search for (name, not text)
      */
-    Q3PopupMenu* findMenu(QMenuData* menu, const QString &name);
+    QMenu* findMenu(QMenu* menu, const QString &name);
 
     /**
      * called when the tab has changed
@@ -793,12 +793,12 @@ private:
     /**
      * For selecting the active language.
      */
-    Q3PopupMenu *m_langSelect;
+    QMenu *m_langSelect;
 
     /**
     * Popup menu for zoom selection.
     */
-    Q3PopupMenu *m_zoomSelect;
+    QMenu *m_zoomSelect;
 
     /**
      * Active language.

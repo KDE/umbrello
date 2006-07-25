@@ -153,7 +153,7 @@ public:
 protected slots:
     /** Pops up the slider.
       */
-    virtual void slotActivated (void);
+    virtual void slotTriggered();
 
 protected:
     /** The slider.
@@ -167,40 +167,40 @@ protected:
 /**Slider action suitable for insertion into a toolbar.
   *@author kiriuja
   */
-class KPlayerSliderAction : public K3WidgetAction
-{
-    Q_OBJECT
-
-public:
-    /** The KPlayerSliderAction constructor. Parameters are passed on to KAction.
-      */
-    KPlayerSliderAction (const QString& text, const KShortcut&, const QObject* receiver,
-                         const char* slot, KActionCollection* parent = 0, const char* name = 0);
-    /** The KPlayerSliderAction destructor. Does nothing.
-      */
-    virtual ~KPlayerSliderAction();
-
-    /** Returns a pointer to the KPlayerSlider object.
-      */
-    KPlayerSlider* slider (void)
-    { return (KPlayerSlider*) widget(); }
-
-    /** Plugs the slider into the toolbar.
-      */
-    virtual int plug (QWidget* widget, int index = -1);
-    /** Unplugs the slider from the toolbar.
-      */
-    virtual void unplug (QWidget* widget);
-
-protected slots:
-    /** Changes the slider orientation when the toolbar orientation changes.
-      */
-    void orientationChanged (Qt::Orientation);
-
-protected:
-    /** The slider.
-      */
-    //KPlayerSlider* m_slider;
-};
+// class KPlayerSliderAction : public KAction
+// {
+//     Q_OBJECT
+// 
+// public:
+//     /** The KPlayerSliderAction constructor. Parameters are passed on to KAction.
+//       */
+//     KPlayerSliderAction (const QString& text, const KShortcut&, const QObject* receiver,
+//                          const char* slot, KActionCollection* parent = 0, const char* name = 0);
+//     /** The KPlayerSliderAction destructor. Does nothing.
+//       */
+//     virtual ~KPlayerSliderAction();
+// 
+//     /** Returns a pointer to the KPlayerSlider object.
+//       */
+//     KPlayerSlider* slider (QWidget* parent)
+//     { return m_slider; }
+// 
+//     /** Plugs the slider into the toolbar.
+//       */
+// //     virtual int plug (QWidget* widget, int index = -1);
+//     /** Unplugs the slider from the toolbar.
+//       */
+// //     virtual void unplug (QWidget* widget);
+// 
+// protected slots:
+//     /** Changes the slider orientation when the toolbar orientation changes.
+//       */
+//     void orientationChanged (Qt::Orientation);
+// 
+// protected:
+//     /** The slider.
+//       */
+//     KPlayerSlider* m_slider;
+// };
 
 #endif

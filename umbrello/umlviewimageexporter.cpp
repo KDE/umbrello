@@ -63,7 +63,7 @@ bool UMLViewImageExporter::prepareExportView() {
 #endif
                                 )) {
             int wantSave = KMessageBox::warningContinueCancel(0,
-                                i18n("The selected file %1 exists.\nDo you want to overwrite it?", m_imageURL.prettyURL()),
+                                i18n("The selected file %1 exists.\nDo you want to overwrite it?", m_imageURL.pathOrUrl()),
                                 i18n("File Already Exists"), i18n("&Overwrite"));
             if (wantSave == KMessageBox::Continue) {
                 exportPrepared = true;
@@ -80,8 +80,7 @@ bool UMLViewImageExporter::getParametersFromUser() {
     UMLApp *app = UMLApp::app();
 
     // configure & show the file dialog
-    KFileDialog fileDialog(QString::null, QString::null, m_view,
-                           ":export-image", true);
+    KFileDialog fileDialog(KUrl(), QString::null, m_view);
     prepareFileDialog(fileDialog);
     fileDialog.exec();
 
@@ -95,7 +94,7 @@ bool UMLViewImageExporter::getParametersFromUser() {
     m_imageURL = fileDialog.selectedUrl();
 
     // check if the extension is the extension of the mime type
-    QFileInfo info(m_imageURL.filename());
+    QFileInfo info(m_imageURL.fileName());
     QString ext = info.extension(false);
     QString extDef = UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType);
     if(ext != extDef) {
@@ -119,10 +118,10 @@ void UMLViewImageExporter::prepareFileDialog(KFileDialog &fileDialog) {
         KUrl directory = docURL;
         directory.setPath(docURL.directory());
 
-        fileDialog.setURL(directory);
+        fileDialog.setUrl(directory);
         fileDialog.setSelection(m_view->getName() + "." + UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType));
     } else {
-        fileDialog.setURL(m_imageURL);
+        fileDialog.setUrl(m_imageURL);
         fileDialog.setSelection(m_imageURL.fileName());
     }
 }

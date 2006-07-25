@@ -101,6 +101,7 @@ set(libdialogs_SRCS
 	dialogs/codevieweroptionspage.cpp 
 	dialogs/defaultcodegenpolicypage.cpp 
 	dialogs/diagramprintpage.cpp 
+    dialogs/exportallviewsdialog.cpp
 	dialogs/notedialog.cpp 
 	dialogs/overwritedialogue.cpp 
 	dialogs/pkgcontentspage.cpp 
@@ -194,13 +195,13 @@ set(umbrello_SRCS
    floatingtextwidget.cpp 
    floatingtextwidgetcontroller.cpp
    forkjoinwidget.cpp 
-   kplayerslideraction.cpp 
    hierarchicalcodeblock.cpp 
    idlimport.cpp 
    import_rose.cpp 
    import_utils.cpp 
    infowidget.cpp 
    javaimport.cpp 
+   kplayerslideraction.cpp
    kstartuplogo.cpp 
    linepath.cpp 
    linkwidget.cpp 
@@ -262,7 +263,8 @@ set(umbrello_SRCS
    usecasewidget.cpp 
    widgetbase.cpp 
    widget_utils.cpp 
-   worktoolbar.cpp )
+   worktoolbar.cpp 
+   )
 
 kde4_automoc(${umbrello_SRCS})
 
@@ -272,7 +274,8 @@ kde4_add_ui3_files( umbrello_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codegenerationwizardbase.ui 
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codeviewerdialogbase.ui 
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codevieweroptionsbase.ui 
-	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/diagrampropertiespage.ui 
+    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/diagrampropertiespage.ui 
+    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/exportallviewsdialogbase.ui 
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/umlrolepropertiesbase.ui 
 	${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/javacodegenerationformbase.ui
 	${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/cppcodegenerationformbase.ui

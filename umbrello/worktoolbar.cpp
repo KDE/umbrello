@@ -27,16 +27,17 @@
 #include "worktoolbar.h"
 //Added by qt3to4:
 #include <QPixmap>
+#include <QAction>
+#include <QToolButton>
 
-
-WorkToolBar::WorkToolBar(Q3MainWindow *parentWindow, const char*name)
-        : KToolBar(parentWindow,Qt::DockRight,false,name) {
+WorkToolBar::WorkToolBar(QMainWindow *parentWindow)
+        : KToolBar("worktoolbar", parentWindow,Qt::RightToolBarArea,false,true) {
     m_CurrentButtonID = tbb_Undefined;
     loadPixmaps();
     m_Type = Uml::dt_Class; /* first time in just want it to load arrow,
                            needs anything but dt_Undefined  */
     setOrientation( Qt::Vertical );
-    setVerticalStretchable( true );
+//     setVerticalStretchable( true );
     // initialize old tool map, everything starts with select tool (arrow)
     m_map.insert(Uml::dt_UseCase,tbb_Arrow);
     m_map.insert(Uml::dt_Collaboration,tbb_Arrow);
@@ -54,9 +55,12 @@ WorkToolBar::~WorkToolBar() {
     disconnect(this, SIGNAL(released(int)),this,SLOT(buttonChanged(int)));
 }
 
-void WorkToolBar::insertHotBtn(ToolBar_Buttons tbb) {
-    insertButton(m_ToolButtons[tbb].Symbol, tbb, true, m_ToolButtons[tbb].Label);
-    setToggle(tbb, true);
+QAction* WorkToolBar::insertHotBtn(ToolBar_Buttons tbb) {
+    QAction* action = addAction(QIcon(m_ToolButtons[tbb].Symbol), m_ToolButtons[tbb].Label, 
+        /*receiver*/this, /*member*/m_ToolButtons[tbb].Slot);
+    m_actions[tbb] = action;
+    action->setChecked(true);
+    return action;
 }
 
 void WorkToolBar::insertBasicAssociations()  {
@@ -78,8 +82,8 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
         return;
 
     //insert note, anchor and lines of text on all diagrams
-    insertHotBtn(tbb_Arrow);
-    toggleButton(tbb_Arrow);
+    QAction* action  = insertHotBtn(tbb_Arrow);
+    action->setChecked(true);
     m_CurrentButtonID = tbb_Arrow;
 
     insertHotBtn(tbb_Note);
@@ -174,7 +178,7 @@ void WorkToolBar::buttonChanged(int b) {
     //if trying to turn off arrow - stop it
     ToolBar_Buttons tbb = (ToolBar_Buttons)b;
     if (tbb == tbb_Arrow && m_CurrentButtonID == tbb_Arrow) {
-        toggleButton(tbb_Arrow);
+        m_actions[tbb_Arrow]->toggle();
         view->setCursor( currentCursor() );
         return;
     }
@@ -182,14 +186,14 @@ void WorkToolBar::buttonChanged(int b) {
     //if toggling off a button set to arrow
     if (tbb == m_CurrentButtonID) {
         m_map[m_Type] = m_CurrentButtonID;  // store old tool for this diagram type
-        toggleButton(tbb_Arrow);
+        m_actions[tbb_Arrow]->toggle();
         m_CurrentButtonID = tbb_Arrow;
         emit sigButtonChanged(m_CurrentButtonID);
         view->setCursor( currentCursor() );
         return;
     }
     m_map[m_Type] = m_CurrentButtonID;
-    toggleButton(m_CurrentButtonID);
+    m_actions[m_CurrentButtonID]->toggle();
     m_CurrentButtonID = tbb;
     emit sigButtonChanged(m_CurrentButtonID);
     view->setCursor( currentCursor() );
@@ -202,9 +206,9 @@ QCursor WorkToolBar::currentCursor() {
 void WorkToolBar::slotResetToolBar() {
     if (m_CurrentButtonID == tbb_Arrow)
         return;//really shouldn't occur
-    toggleButton(m_CurrentButtonID);
+    m_actions[m_CurrentButtonID]->toggle();
     m_CurrentButtonID = tbb_Arrow;
-    toggleButton(m_CurrentButtonID);
+    m_actions[m_CurrentButtonID]->toggle();
     emit sigButtonChanged(m_CurrentButtonID);
 
     QCursor curs;
@@ -217,13 +221,13 @@ void WorkToolBar::slotResetToolBar() {
 }
 
 void WorkToolBar::setOldTool() {
-    KToolBarButton *b = (KToolBarButton*) getWidget(m_map[m_Type]);
+    QToolButton *b = (QToolButton*) widgetForAction(m_actions[m_map[m_Type]]);
     if (b)
         b -> animateClick();
 }
 
 void WorkToolBar::setDefaultTool() {
-    KToolBarButton *b = (KToolBarButton*) getWidget(tbb_Arrow);
+    QToolButton *b = (QToolButton*) widgetForAction(m_actions[tbb_Arrow]);
     if (b)
         b -> animateClick();
 }
@@ -239,53 +243,56 @@ void WorkToolBar::loadPixmaps() {
         const ToolBar_Buttons tbb;
         const QString btnName;
         const char *pngName;
+        const char *slotName;
     } buttonInfo[] = {
-        { tbb_Object, i18n("Object"), "object.png" },
-        { tbb_Seq_Message_Synchronous, i18n("Synchronous Message"), "message-synchronous.png" },
-        { tbb_Seq_Message_Asynchronous, i18n("Asynchronous Message"), "message-asynchronous.png" },
-        { tbb_Association, i18n("Association"), "association.png" },
-        { tbb_Containment, i18n("Containment"), "containment.png" },
-        { tbb_Anchor, i18n("Anchor"), "anchor.png" },
-        { tbb_Text, i18n("Label"), "text.png" },
-        { tbb_Note, i18n("Note"), "note.png" },
-        { tbb_Box, i18n("Box"), "box.png" },
-        { tbb_Actor, i18n("Actor"), "actor.png" },
-        { tbb_Dependency, i18n("Dependency"), "dependency.png" },
-        { tbb_Aggregation, i18n("Aggregation"), "aggregation.png" },
-        { tbb_Relationship, i18n("Relationship"), "relationship.png" },
-        { tbb_UniAssociation, i18n("Directional Association"), "uniassociation.png" },
-        { tbb_Generalization, i18n("Implements (Generalisation/Realisation)"), "generalisation.png" },
-        { tbb_Composition, i18n("Composition"), "composition.png" },
-        { tbb_UseCase, i18n("Use Case"), "usecase.png" },
-        { tbb_Class, i18n("Class"), "class.png" },
-        { tbb_Initial_State, i18n("Initial State"), "initial_state.png" },
-        { tbb_End_State, i18n("End State"), "end_state.png" },
-        { tbb_Branch, i18n("Branch/Merge"), "branch.png" },
-        { tbb_Fork, i18n("Fork/Join"), "fork.png" },
-        { tbb_Package, i18n("Package"), "package.png" },
-        { tbb_Component, i18n("Component"), "component.png" },
-        { tbb_Node, i18n("Node"), "node.png" },
-        { tbb_Artifact, i18n("Artifact"), "artifact.png" },
-        { tbb_Interface, i18n("Interface"), "interface.png" },
-        { tbb_Datatype, i18n("Datatype"), "datatype.png" },
-        { tbb_Enum, i18n("Enum"), "enum.png" },
-        { tbb_Entity, i18n("Entity"), "entity.png" },
-        { tbb_DeepHistory, i18n("Deep History"), "deep-history.png" },          //NotYetImplemented
-        { tbb_ShallowHistory, i18n("Shallow History"), "shallow-history.png" }, //NotYetImplemented
-        { tbb_Join, i18n("Join"), "join.png" },    //NotYetImplemented
-        { tbb_StateFork, i18n("Fork"), "state-fork.png" },
-        { tbb_Junction, i18n("Junction"), "junction.png" },    //NotYetImplemented
-        { tbb_Choice, i18n("Choice"), "choice-round.png" },    //NotYetImplemented
+    
+
+        { tbb_Object, i18n("Object"), "object.png", SLOT(slotObject()) },
+        { tbb_Seq_Message_Synchronous, i18n("Synchronous Message"), "message-synchronous.png", SLOT(slotSeq_Message_Synchronous()) },
+        { tbb_Seq_Message_Asynchronous, i18n("Asynchronous Message"), "message-asynchronous.png", SLOT(slotSeq_Message_Asynchronous()) },
+        { tbb_Association, i18n("Association"), "association.png", SLOT(slotAssociation()) },
+        { tbb_Containment, i18n("Containment"), "containment.png", SLOT(slotContainment()) },
+        { tbb_Anchor, i18n("Anchor"), "anchor.png", SLOT(slotAnchor()) },
+        { tbb_Text, i18n("Label"), "text.png", SLOT(slotText()) },
+        { tbb_Note, i18n("Note"), "note.png", SLOT(slotNote()) },
+        { tbb_Box, i18n("Box"), "box.png", SLOT(slotBox()) },
+        { tbb_Actor, i18n("Actor"), "actor.png", SLOT(slotActor()) },
+        { tbb_Dependency, i18n("Dependency"), "dependency.png", SLOT(slotDependency()) },
+        { tbb_Aggregation, i18n("Aggregation"), "aggregation.png", SLOT(slotAggregation()) },
+        { tbb_Relationship, i18n("Relationship"), "relationship.png", SLOT(slotRelationship()) },
+        { tbb_UniAssociation, i18n("Directional Association"), "uniassociation.png", SLOT(slotUniAssociation()) },
+        { tbb_Generalization, i18n("Implements (Generalisation/Realisation)"), "generalisation.png", SLOT(slotGeneralization()) },
+        { tbb_Composition, i18n("Composition"), "composition.png", SLOT(slotComposition()) },
+        { tbb_UseCase, i18n("Use Case"), "usecase.png", SLOT(slotUseCase()) },
+        { tbb_Class, i18n("Class"), "class.png", SLOT(slotClass()) },
+        { tbb_Initial_State, i18n("Initial State"), "initial_state.png", SLOT(slotInitial_State()) },
+        { tbb_End_State, i18n("End State"), "end_state.png", SLOT(slotEnd_State()) },
+        { tbb_Branch, i18n("Branch/Merge"), "branch.png", SLOT(slotBranch()) },
+        { tbb_Fork, i18n("Fork/Join"), "fork.png", SLOT(slotFork()) },
+        { tbb_Package, i18n("Package"), "package.png", SLOT(slotPackage()) },
+        { tbb_Component, i18n("Component"), "component.png", SLOT(slotComponent()) },
+        { tbb_Node, i18n("Node"), "node.png", SLOT(slotNode()) },
+        { tbb_Artifact, i18n("Artifact"), "artifact.png", SLOT(slotArtifact()) },
+        { tbb_Interface, i18n("Interface"), "interface.png", SLOT(slotInterface()) },
+        { tbb_Datatype, i18n("Datatype"), "datatype.png", SLOT(slotDatatype()) },
+        { tbb_Enum, i18n("Enum"), "enum.png", SLOT(slotEnum()) },
+        { tbb_Entity, i18n("Entity"), "entity.png", SLOT(slotEntity()) },
+        { tbb_DeepHistory, i18n("Deep History"), "deep-history.png", SLOT(slotDeepHistory()) },          //NotYetImplemented
+        { tbb_ShallowHistory, i18n("Shallow History"), "shallow-history.png", SLOT(slotShallowHistory()) }, //NotYetImplemented
+        { tbb_Join, i18n("Join"), "join.png", SLOT(slotJoin()) },    //NotYetImplemented
+        { tbb_StateFork, i18n("Fork"), "state-fork.png", SLOT(slotStateFork()) },
+        { tbb_Junction, i18n("Junction"), "junction.png", SLOT(slotJunction()) },    //NotYetImplemented
+        { tbb_Choice, i18n("Choice"), "choice-round.png", SLOT(slotChoice()) },    //NotYetImplemented
     //:TODO: let the user decide which symbol he wants (setting an option)
-    //    { tbb_Choice, i18n("Choice"), "choice-rhomb.png" },    //NotYetImplemented
-        //{ tbb_Andline, i18n("And Line"), "andline.png" },    //NotYetImplemented
-        { tbb_State_Transition, i18n("State Transition"), "uniassociation.png" },
-        { tbb_Activity_Transition, i18n("Activity Transition"), "uniassociation.png" },
-        { tbb_Activity, i18n("Activity"), "usecase.png" },
-        { tbb_State, i18n("State"), "usecase.png" },
-        { tbb_End_Activity, i18n("End Activity"), "end_state.png" },
-        { tbb_Initial_Activity, i18n("Initial Activity"), "initial_state.png" },
-        { tbb_Coll_Message, i18n("Message"), "message-asynchronous.png" }
+    //    { tbb_Choice, i18n("Choice"), "choice-rhomb.png", SLOT(slotChoice()) },    //NotYetImplemented
+        //{ tbb_Andline, i18n("And Line"), "andline.png", SLOT(slotAndline()) },    //NotYetImplemented
+        { tbb_State_Transition, i18n("State Transition"), "uniassociation.png", SLOT(slotState_Transition()) },
+        { tbb_Activity_Transition, i18n("Activity Transition"), "uniassociation.png", SLOT(slotActivity_Transition()) },
+        { tbb_Activity, i18n("Activity"), "usecase.png", SLOT(slotActivity()) },
+        { tbb_State, i18n("State"), "usecase.png", SLOT(slotState()) },
+        { tbb_End_Activity, i18n("End Activity"), "end_state.png", SLOT(slotEnd_Activity()) },
+        { tbb_Initial_Activity, i18n("Initial Activity"), "initial_state.png", SLOT(slotInitial_Activity()) },
+        { tbb_Coll_Message, i18n("Message"), "message-asynchronous.png", SLOT(slotColl_Message()) }
     };
     KStandardDirs * dirs = KGlobal::dirs();
     QString dataDir = dirs->findResourceDir( "data", "umbrello/pics/object.png" );
@@ -295,19 +302,70 @@ void WorkToolBar::loadPixmaps() {
     m_ToolButtons.insert(tbb_Undefined,
                          ToolButton(i18n("UNDEFINED"),
                                     0,
-                                    QCursor()) );
+                                    QCursor(),
+                                    SLOT(slotArrow())) );
     m_ToolButtons.insert(tbb_Arrow,
                          ToolButton(i18n("Select"),
                                     load(dataDir + "arrow.png"),
-                                    QCursor()) );
+                                    QCursor(),
+                                    SLOT(slotArrow())) );
+
     kDebug() << "WorkToolBar::loadPixmaps: n_buttonInfos = " << n_buttonInfos << endl;
     for (uint i = 0; i < n_buttonInfos; i++) {
         const ButtonInfo& info = buttonInfo[i];
         m_ToolButtons.insert(info.tbb,
             ToolButton(info.btnName,
                        load(dataDir + info.pngName),
-                       QCursor(load(dataDir + "cursor-" + info.pngName), 9, 9)));
+                       QCursor(load(dataDir + "cursor-" + info.pngName), 9, 9),
+                       info.slotName));
     }
 }
+
+void WorkToolBar::slotArrow() {buttonChanged(tbb_Arrow);}
+void WorkToolBar::slotGeneralization() {buttonChanged(tbb_Generalization);}
+void WorkToolBar::slotAggregation() {buttonChanged(tbb_Aggregation);}
+void WorkToolBar::slotDependency() {buttonChanged(tbb_Dependency);}
+void WorkToolBar::slotAssociation() {buttonChanged(tbb_Association);}
+void WorkToolBar::slotContainment() {buttonChanged(tbb_Containment);}
+void WorkToolBar::slotColl_Message() {buttonChanged(tbb_Coll_Message);}
+void WorkToolBar::slotSeq_Message_Synchronous() {buttonChanged(tbb_Seq_Message_Synchronous);}
+void WorkToolBar::slotSeq_Message_Asynchronous() {buttonChanged(tbb_Seq_Message_Asynchronous);}
+void WorkToolBar::slotComposition() {buttonChanged(tbb_Composition);}
+void WorkToolBar::slotRelationship() {buttonChanged(tbb_Relationship);}
+void WorkToolBar::slotUniAssociation() {buttonChanged(tbb_UniAssociation);}
+void WorkToolBar::slotState_Transition() {buttonChanged(tbb_State_Transition);}
+void WorkToolBar::slotActivity_Transition() {buttonChanged(tbb_Activity_Transition);}
+void WorkToolBar::slotAnchor() {buttonChanged(tbb_Anchor);}
+void WorkToolBar::slotNote() {buttonChanged(tbb_Note);}
+void WorkToolBar::slotBox() {buttonChanged(tbb_Box);}
+void WorkToolBar::slotText() {buttonChanged(tbb_Text);}
+void WorkToolBar::slotActor() {buttonChanged(tbb_Actor);}
+void WorkToolBar::slotUseCase() {buttonChanged(tbb_UseCase);}
+void WorkToolBar::slotClass() {buttonChanged(tbb_Class);}
+void WorkToolBar::slotInterface() {buttonChanged(tbb_Interface);}
+void WorkToolBar::slotDatatype() {buttonChanged(tbb_Datatype);}
+void WorkToolBar::slotEnum() {buttonChanged(tbb_Enum);}
+void WorkToolBar::slotEntity() {buttonChanged(tbb_Entity);}
+void WorkToolBar::slotPackage() {buttonChanged(tbb_Package);}
+void WorkToolBar::slotComponent() {buttonChanged(tbb_Component);}
+void WorkToolBar::slotNode() {buttonChanged(tbb_Node);}
+void WorkToolBar::slotArtifact() {buttonChanged(tbb_Artifact);}
+void WorkToolBar::slotObject() {buttonChanged(tbb_Object);}
+void WorkToolBar::slotInitial_State() {buttonChanged(tbb_Initial_State);}
+void WorkToolBar::slotState() {buttonChanged(tbb_State);}
+void WorkToolBar::slotEnd_State() {buttonChanged(tbb_End_State);}
+void WorkToolBar::slotInitial_Activity() {buttonChanged(tbb_Initial_Activity);}
+void WorkToolBar::slotActivity() {buttonChanged(tbb_Activity);}
+void WorkToolBar::slotEnd_Activity() {buttonChanged(tbb_End_Activity);}
+void WorkToolBar::slotBranch() {buttonChanged(tbb_Branch);}
+void WorkToolBar::slotFork() {buttonChanged(tbb_Fork);}
+void WorkToolBar::slotDeepHistory() {buttonChanged(tbb_DeepHistory);}
+void WorkToolBar::slotShallowHistory() {buttonChanged(tbb_ShallowHistory);}
+void WorkToolBar::slotJoin() {buttonChanged(tbb_Join);}
+void WorkToolBar::slotStateFork() {buttonChanged(tbb_StateFork);}
+void WorkToolBar::slotJunction() {buttonChanged(tbb_Junction);}
+void WorkToolBar::slotChoice() {buttonChanged(tbb_Choice);}
+void WorkToolBar::slotAndline() {buttonChanged(tbb_Andline);}
+
 
 #include "worktoolbar.moc"

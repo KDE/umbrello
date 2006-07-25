@@ -14,7 +14,6 @@
 
 // qt includes
 #include <qclipboard.h>
-#include <q3popupmenu.h>
 #include <qtimer.h>
 #include <q3widgetstack.h>
 #include <qslider.h>
@@ -26,6 +25,9 @@
 
 // kde includes
 #include <kaction.h>
+#include <kstdaction.h>
+#include <ktoggleaction.h>
+#include <krecentfilesaction.h>
 #include <kapplication.h>
 #include <kconfig.h>
 #include <kcursor.h>
@@ -40,7 +42,7 @@
 #include <kstatusbar.h>
 #include <ktip.h>
 #include <ktabwidget.h>
-
+#include <kactionmenu.h>
 #include <kmenu.h>
 
 // app includes
@@ -78,7 +80,7 @@
 UMLApp::UMLApp(QWidget* , const char* name) : K3DockMainWindow(0, name) {
     s_instance = this;
     m_pDocWindow = 0;
-    m_config = kapp->config();
+    m_config = KGlobal::config();
     m_listView = 0;
     m_langSelect = NULL;
     m_zoomSelect = NULL;
@@ -115,7 +117,7 @@ UMLApp::UMLApp(QWidget* , const char* name) : K3DockMainWindow(0, name) {
     //in case langSelect hasn't been initialized we create the Popup menu.
     //it will be hidden, but at least we wont crash if someone takes the entry away from the ui.rc file
     if (m_langSelect == NULL) {
-        m_langSelect = new Q3PopupMenu(this);
+        m_langSelect = new QMenu( QString("active_lang_menu"), this );
     }
 
     menu = findMenu( menuBar(), QString("views") );
@@ -124,7 +126,7 @@ UMLApp::UMLApp(QWidget* , const char* name) : K3DockMainWindow(0, name) {
     //in case zoomSelect hasn't been initialized we create the Popup menu.
     //it will be hidden, but at least we wont crash if some one takes the entry away from the ui.rc file
     if (m_zoomSelect == NULL) {
-        m_zoomSelect = new Q3PopupMenu(this);
+        m_zoomSelect = new QMenu( QString("zoom_menu"), this );
     }
 
     //connect zoomSelect menu
@@ -207,7 +209,7 @@ void UMLApp::initActions() {
                                         "delete_selected" );
 
     // The different views
-    newDiagram = new KActionMenu(0, SmallIconSet("filenew"), actionCollection(), "new_view");
+    newDiagram = new KActionMenu(SmallIconSet("filenew"), actionCollection(), QString("new_view") );
     classDiagram = new KAction( i18n( "&Class Diagram..." ), SmallIconSet("umbrello_diagram_class"), 0,
                                 this, SLOT( slotClassDiagram() ), actionCollection(), "new_class_diagram" );
 
@@ -1546,7 +1548,7 @@ UMLView* UMLApp::getCurrentView() {
     return m_view;
 }
 
-Q3PopupMenu* UMLApp::findMenu(QMenuData* menu, const QString &name) {
+Q3PopupMenu* UMLApp::findMenu(QMenu* menu, const QString &name) {
 
     if (menu) {
         int menuCount = menu->count();
