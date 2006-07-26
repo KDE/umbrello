@@ -177,14 +177,14 @@ public:
      *
      * @return  The KUrl of this UMLDoc.
      */
-    const KUrl& URL() const;
+    const KUrl& url() const;
 
     /**
      * Sets the URL of the document.
      *
      * @param url               The KUrl to set.
      */
-    void setURL(const KUrl& url);
+    void setUrl(const KUrl& url);
 
     /**
      * Sets up the signals needed by the program for it to work.

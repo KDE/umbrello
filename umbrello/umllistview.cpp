@@ -395,7 +395,7 @@ void UMLListView::popupMenuSel(int sel) {
     case ListPopupMenu::mt_Externalize_Folder:
         {
             // configure & show the file dialog
-            KFileDialog fileDialog(m_doc->URL().directory(), "*.xm1", this);
+            KFileDialog fileDialog(m_doc->url().directory(), "*.xm1", this);
             fileDialog.setCaption(i18n("Externalize Folder"));
             fileDialog.setOperationMode(KFileDialog::Other);
             UMLListViewItem *current = static_cast<UMLListViewItem*>(currentItem());
@@ -2925,7 +2925,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
                         if (!folderFile.isEmpty()) {
                             setCurrentItem(item);
                             item->setFolderFile(folderFile);
-                            const QString fqfn(m_doc->URL().directory(KUrl::AppendTrailingSlash) + folderFile);
+                            const QString fqfn(m_doc->url().directory(KUrl::AppendTrailingSlash) + folderFile);
                             kDebug() << "UMLListView::loadChildrenFromXMI:"
                             << " fully qualified folderFile is " << fqfn
                             << endl;

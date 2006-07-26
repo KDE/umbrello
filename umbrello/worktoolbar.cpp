@@ -204,6 +204,8 @@ QCursor WorkToolBar::currentCursor() {
 }
 
 void WorkToolBar::slotResetToolBar() {
+    if (m_CurrentButtonID == tbb_Undefined)
+        return;
     if (m_CurrentButtonID == tbb_Arrow)
         return;//really shouldn't occur
     m_actions[m_CurrentButtonID]->toggle();
@@ -299,11 +301,11 @@ void WorkToolBar::loadPixmaps() {
     dataDir += "/umbrello/pics/";
     const size_t n_buttonInfos = sizeof(buttonInfo) / sizeof(ButtonInfo);
 
-    m_ToolButtons.insert(tbb_Undefined,
+/*    m_ToolButtons.insert(tbb_Undefined,
                          ToolButton(i18n("UNDEFINED"),
-                                    0,
+                                    load(dataDir + "arrow.png"),
                                     QCursor(),
-                                    SLOT(slotArrow())) );
+                                    SLOT(slotArrow())) );*/
     m_ToolButtons.insert(tbb_Arrow,
                          ToolButton(i18n("Select"),
                                     load(dataDir + "arrow.png"),

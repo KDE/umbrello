@@ -181,7 +181,7 @@ void exportAllViews(KCmdLineArgs *args, const QByteArrayList &exportOpt) {
     if (directoryOpt.size() > 0) {
         directory = KUrl(directoryOpt.last());
     } else {
-        directory = KUrl(UMLApp::app()->getDocument()->URL().directory());
+        directory = KUrl(UMLApp::app()->getDocument()->url().directory());
     }
 
     bool useFolders = args->isSet("use-folders");

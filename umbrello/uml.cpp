@@ -15,13 +15,15 @@
 // qt includes
 #include <qclipboard.h>
 #include <qtimer.h>
-#include <q3widgetstack.h>
 #include <qslider.h>
 #include <qregexp.h>
 #include <qtoolbutton.h>
 //Added by qt3to4:
 #include <QKeyEvent>
 #include <Q3Frame>
+#include <QMenuItem>
+#include <QDockWidget>
+#include <QStackedWidget>
 
 // kde includes
 #include <kaction.h>
@@ -77,7 +79,15 @@
 
 #include "cmdlineexportallviewsevent.h"
 
-UMLApp::UMLApp(QWidget* , const char* name) : K3DockMainWindow(0, name) {
+/// @todo This is an ugly _HACK_ to allow to compile umbrello.
+/// All the menu stuff should be ported to KDE4 (using actions)
+QMenu* UMLApp::findMenu(KMenuBar* menu, const QString &name)
+{
+    return 0;
+}
+
+UMLApp::UMLApp(QWidget* parent) : KMainWindow(parent),
+        m_blankWidget(new InfoWidget(this)) {
     s_instance = this;
     m_pDocWindow = 0;
     m_config = KGlobal::config();
@@ -111,7 +121,7 @@ UMLApp::UMLApp(QWidget* , const char* name) : K3DockMainWindow(0, name) {
     editRedo->setEnabled(false);
 
     //get a reference to the Code->Active Language and to the Diagram->Zoom menu
-    Q3PopupMenu* menu = findMenu( menuBar(), QString("code") );
+    QMenu* menu = findMenu( menuBar(), QString("code") );
     m_langSelect = findMenu( menu, QString("active_lang_menu") );
 
     //in case langSelect hasn't been initialized we create the Popup menu.
@@ -149,6 +159,7 @@ UMLApp::~UMLApp() {
 
     delete m_statusLabel;
     delete m_refactoringAssist;
+    delete m_blankWidget;
 }
 
 UMLApp* UMLApp::app()
@@ -174,20 +185,27 @@ void UMLApp::initActions() {
     setStandardToolBarMenuEnabled(true);
     selectAll = KStdAction::selectAll(this,  SLOT( slotSelectAll() ), actionCollection());
 
-    classWizard = new KAction(i18n("&New Class Wizard..."),0,this,SLOT(slotClassWizard()),
+    classWizard = new KAction(i18n("&New Class Wizard..."),
                               actionCollection(),"class_wizard");
-    new KAction(i18n("&Add Default Datatypes for Active Language"), 0, this,
-                SLOT(slotAddDefaultDatatypes()), actionCollection(), "create_default_datatypes");
+    connect(classWizard, SIGNAL( triggered( bool ) ), this, SLOT( slotClassWizard() ));
+
+    KAction* anAction = new KAction(i18n("&Add Default Datatypes for Active Language"), actionCollection(), "create_default_datatypes");
+    connect(anAction, SIGNAL( triggered( bool ) ), this, SLOT( slotAddDefaultDatatypes() ));
 
     preferences = KStdAction::preferences(this,  SLOT( slotPrefs() ), actionCollection());
 
-    genWizard = new KAction(i18n("&Code Generation Wizard..."),0,this,SLOT(generationWizard()),
+    genWizard = new KAction(i18n("&Code Generation Wizard..."),
                             actionCollection(),"generation_wizard");
-    genAll = new KAction(i18n("&Generate All Code"),0,this,SLOT(generateAllCode()),
+    connect(genWizard, SIGNAL( triggered( bool ) ), this, SLOT( generationWizard() ));
+    
+    genAll = new KAction(i18n("&Generate All Code"),
                          actionCollection(),"generate_all");
+    connect(genAll, SIGNAL( triggered( bool ) ), this, SLOT( generateAllCode() ));
 
-    importClasses = new KAction(i18n("&Import Classes..."), SmallIconSet("source_cpp"), 0,
-                                this,SLOT(slotImportClasses()), actionCollection(),"import_class");
+    importClasses = new KAction(KIcon(SmallIconSet("source_cpp")), 
+                                i18n("&Import Classes..."),
+                                actionCollection(),"import_class");
+    connect(importClasses, SIGNAL( triggered( bool ) ), this, SLOT( slotImportClasses() ));
 
     fileNew->setToolTip(i18n("Creates a new document"));
     fileOpen->setToolTip(i18n("Opens an existing document"));
@@ -202,61 +220,101 @@ void UMLApp::initActions() {
     editPaste->setToolTip(i18n("Pastes the contents of the clipboard"));
     preferences->setToolTip( i18n( "Set the default program preferences") );
 
-    deleteSelectedWidget = new KAction( i18n("Delete &Selected"),
-                                        SmallIconSet("editdelete"),
-                                        KShortcut(Qt::Key_Delete), this,
-                                        SLOT( slotDeleteSelectedWidget() ), actionCollection(),
+    deleteSelectedWidget = new KAction( KIcon(SmallIconSet("editdelete")),
+                                        i18n("Delete &Selected"),
+                                        actionCollection(),
                                         "delete_selected" );
+    deleteSelectedWidget->setShortcut(Qt::Key_Delete);
+    connect(deleteSelectedWidget, SIGNAL( triggered( bool ) ), this, SLOT( slotDeleteSelectedWidget() ));
 
     // The different views
-    newDiagram = new KActionMenu(SmallIconSet("filenew"), actionCollection(), QString("new_view") );
-    classDiagram = new KAction( i18n( "&Class Diagram..." ), SmallIconSet("umbrello_diagram_class"), 0,
-                                this, SLOT( slotClassDiagram() ), actionCollection(), "new_class_diagram" );
+    newDiagram = new KActionMenu(
+                                KIcon(SmallIconSet("filenew")),
+                                "new_view",
+                                actionCollection(), 
+                                "new_view" );
 
-    sequenceDiagram= new KAction( i18n( "&Sequence Diagram..." ), SmallIconSet("umbrello_diagram_sequence"), 0,
-                                  this, SLOT( slotSequenceDiagram() ), actionCollection(), "new_sequence_diagram" );
+    classDiagram = new KAction( KIcon(SmallIconSet("umbrello_diagram_class")), 
+                                i18n( "&Class Diagram..." ),
+                                actionCollection(), 
+                                "new_class_diagram" );
+    connect(classDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotClassDiagram() ));
 
-    collaborationDiagram = new KAction( i18n( "C&ollaboration Diagram..." ), SmallIconSet("umbrello_diagram_collaboration"), 0,
-                                        this, SLOT( slotCollaborationDiagram() ), actionCollection(), "new_collaboration_diagram" );
+    sequenceDiagram= new KAction( KIcon(SmallIconSet("umbrello_diagram_sequence")),
+                                i18n( "&Sequence Diagram..." ), 
+                                actionCollection(), 
+                                "new_sequence_diagram" );
+    connect(sequenceDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotSequenceDiagram() ));
 
-    useCaseDiagram= new KAction( i18n( "&Use Case Diagram..." ), SmallIconSet("umbrello_diagram_usecase"), 0,
-                                 this, SLOT( slotUseCaseDiagram() ), actionCollection(), "new_use_case_diagram" );
+    collaborationDiagram = new KAction( KIcon(SmallIconSet("umbrello_diagram_collaboration")),
+                                        i18n( "C&ollaboration Diagram..." ), 
+                                        actionCollection(), 
+                                        "new_collaboration_diagram" );
+    connect(collaborationDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotCollaborationDiagram() ));
 
-    stateDiagram= new KAction( i18n( "S&tate Diagram..." ), SmallIconSet("umbrello_diagram_state"), 0,
-                               this, SLOT( slotStateDiagram() ), actionCollection(), "new_state_diagram" );
+    useCaseDiagram= new KAction( KIcon(SmallIconSet("umbrello_diagram_usecase")),
+                                 i18n( "&Use Case Diagram..." ), 
+                                 actionCollection(), 
+                                 "new_use_case_diagram" );
+    connect(useCaseDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotUseCaseDiagram() ));
 
-    activityDiagram= new KAction( i18n( "&Activity Diagram..." ), SmallIconSet("umbrello_diagram_activity"), 0,
-                                  this, SLOT( slotActivityDiagram() ), actionCollection(), "new_activity_diagram" );
+    stateDiagram= new KAction( KIcon(SmallIconSet("umbrello_diagram_state")),
+                               i18n( "S&tate Diagram..." ), 
+                               actionCollection(), 
+                               "new_state_diagram" );
+    connect(stateDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotStateDiagram() ));
 
-    componentDiagram = new KAction( i18n("Co&mponent Diagram..."), SmallIconSet("umbrello_diagram_component"), 0,
-                                    this, SLOT( slotComponentDiagram() ), actionCollection(),
+    activityDiagram= new KAction( KIcon(SmallIconSet("umbrello_diagram_activity")),
+                                  i18n( "&Activity Diagram..." ), 
+                                  actionCollection(), 
+                                  "new_activity_diagram" );
+    connect(activityDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotActivityDiagram() ));
+
+    componentDiagram = new KAction( KIcon(SmallIconSet("umbrello_diagram_component")),
+                                    i18n("Co&mponent Diagram..."), 
+                                    actionCollection(),
                                     "new_component_diagram" );
+    connect(componentDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotComponentDiagram() ));
 
-    deploymentDiagram = new KAction( i18n("&Deployment Diagram..."), SmallIconSet("umbrello_diagram_deployment"), 0,
-                                     this, SLOT( slotDeploymentDiagram() ), actionCollection(),
+    deploymentDiagram = new KAction( KIcon(SmallIconSet("umbrello_diagram_deployment")),
+                                     i18n("&Deployment Diagram..."), 
+                                     actionCollection(),
                                      "new_deployment_diagram" );
+    connect(deploymentDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotDeploymentDiagram() ));
 
-    entityRelationshipDiagram = new KAction( i18n("&Entity Relationship Diagram..."), SmallIconSet("umbrello_diagram_entityrelationship"), 0,
-                                this, SLOT( slotEntityRelationshipDiagram() ), actionCollection(),
-                                "new_entityrelationship_diagram" );
+    entityRelationshipDiagram = new KAction( 
+                                    KIcon(SmallIconSet("umbrello_diagram_entityrelationship")),
+                                    i18n("&Entity Relationship Diagram..."), 
+                                    actionCollection(),
+                                    "new_entityrelationship_diagram" );
+    connect(entityRelationshipDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotEntityRelationshipDiagram() ));
 
-    viewClearDiagram = new KAction(i18n("&Clear Diagram"), SmallIconSet("editclear"), 0,
-                                   this, SLOT( slotCurrentViewClearDiagram() ), actionCollection(), "view_clear_diagram");
-    viewSnapToGrid = new KToggleAction(i18n("&Snap to Grid"), 0,
-                                       this, SLOT( slotCurrentViewToggleSnapToGrid() ), actionCollection(), "view_snap_to_grid");
-    viewShowGrid = new KToggleAction(i18n("S&how Grid"), 0,
-                                     this, SLOT( slotCurrentViewToggleShowGrid() ), actionCollection(), "view_show_grid");
+    viewClearDiagram = new KAction(KIcon(SmallIconSet("editclear")),i18n("&Clear Diagram"), 
+                                    actionCollection(), "view_clear_diagram");
+    connect(viewClearDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewClearDiagram() ));
+    
+    viewSnapToGrid = new KToggleAction(i18n("&Snap to Grid"), actionCollection(), "view_snap_to_grid");
+    connect(viewSnapToGrid, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewToggleSnapToGrid() ));
+    
+    viewShowGrid = new KToggleAction(i18n("S&how Grid"), actionCollection(), "view_show_grid");
+    connect(viewShowGrid, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewToggleShowGrid() ));
 #if (KDE_VERSION_MINOR>=3) && (KDE_VERSION_MAJOR>=3)
     viewShowGrid->setCheckedState(i18n("&Hide Grid"));
 #endif
-    deleteDiagram = new KAction(i18n("&Delete"), SmallIconSet("editdelete"), 0,
-                                this, SLOT( slotDeleteDiagram() ), actionCollection(), "view_delete");
-    viewExportImage = new KAction(i18n("&Export as Picture..."), SmallIconSet("image"), 0,
-                                  this, SLOT( slotCurrentViewExportImage() ), actionCollection(), "view_export_image");
-    viewExportImageAll = new KAction(i18n("Export &All Diagrams as Pictures..."), SmallIconSet("image"), 0,
-                                     this, SLOT( slotAllViewsExportImage() ), actionCollection(), "view_export_image_all");
-    viewProperties = new KAction(i18n("&Properties"), SmallIconSet("info"), 0,
-                                 this, SLOT( slotCurrentViewProperties() ), actionCollection(), "view_properties");
+    deleteDiagram = new KAction(KIcon(SmallIconSet("editdelete")), i18n("&Delete"), 
+                                actionCollection(), "view_delete");
+    connect(deleteDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotDeleteDiagram() ));
+
+    viewExportImage = new KAction(KIcon(SmallIconSet("image")),i18n("&Export as Picture..."),   
+                                actionCollection(), "view_export_image");
+    connect(viewExportImage, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewExportImage() ));
+
+    viewExportImageAll = new KAction(KIcon(SmallIconSet("image")), i18n("Export &All Diagrams as Pictures..."), actionCollection(), "view_export_image_all");
+    connect(viewExportImageAll, SIGNAL( triggered( bool ) ), this, SLOT( slotAllViewsExportImage() ));
+
+    viewProperties = new KAction(KIcon(SmallIconSet("info")), i18n("&Properties"), 
+                                 actionCollection(), "view_properties");
+    connect(viewProperties, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewProperties() ));
 
     viewSnapToGrid->setChecked(false);
     viewShowGrid->setChecked(false);
@@ -271,41 +329,51 @@ void UMLApp::initActions() {
     zoomAction = new KPlayerPopupSliderAction(i18n("&Zoom Slider"), "viewmag", Qt::Key_F9,
                  this, SLOT(slotZoomSliderMoved(int)),
                  actionCollection(), "popup_zoom");
-    zoom100Action = new KAction(i18n( "Z&oom to 100%" ), "viewmag1", 0,
-                                this, SLOT( slotZoom100() ), actionCollection(),
-                                "zoom100");
+    zoom100Action = new KAction( "viewmag1", 
+                                 i18n( "Z&oom to 100%" ), 
+                                 actionCollection(),
+                                 "zoom100");
+    connect(zoom100Action, SIGNAL( triggered( bool ) ), this, SLOT( slotZoom100() ));
 
     KStdAction::tipOfDay( this, SLOT( tipOfTheDay() ), actionCollection() );
 
     QString moveTabLeftString = i18n("&Move Tab Left");
     QString moveTabRightString = i18n("&Move Tab Right");
-    moveTabLeft = new KAction(QApplication::reverseLayout() ? moveTabRightString : moveTabLeftString,
-                              QApplication::reverseLayout() ? "forward" : "back",
-                              QApplication::reverseLayout() ? Qt::CTRL+Qt::SHIFT+Qt::Key_Right : Qt::CTRL+Qt::SHIFT+Qt::Key_Left,
-                              this, SLOT(slotMoveTabLeft()), actionCollection(),
-                              "move_tab_left");
-    moveTabRight = new KAction(QApplication::reverseLayout() ? moveTabLeftString : moveTabRightString,
-                               QApplication::reverseLayout() ? "back" : "forward",
-                               QApplication::reverseLayout() ? Qt::CTRL+Qt::SHIFT+Qt::Key_Left : Qt::CTRL+Qt::SHIFT+Qt::Key_Right,
-                               this, SLOT(slotMoveTabRight()), actionCollection(),
+    moveTabLeft = new KAction(QApplication::layoutDirection() ? "forward" : "back", 
+                        QApplication::layoutDirection() ? moveTabRightString : moveTabLeftString,
+                        actionCollection(),
+                        "move_tab_left");
+    moveTabLeft->setShortcut(QApplication::layoutDirection() ? Qt::CTRL+Qt::SHIFT+Qt::Key_Right : Qt::CTRL+Qt::SHIFT+Qt::Key_Left);
+    connect(moveTabLeft, SIGNAL( triggered( bool ) ), this, SLOT( slotMoveTabLeft() ));
+
+    moveTabRight = new KAction(QApplication::layoutDirection() ? "back" : "forward", 
+                               QApplication::layoutDirection() ? moveTabLeftString : moveTabRightString,
+                               actionCollection(),
                                "move_tab_right");
+    moveTabRight->setShortcut(QApplication::layoutDirection() ? Qt::CTRL+Qt::SHIFT+Qt::Key_Left : Qt::CTRL+Qt::SHIFT+Qt::Key_Right);
+    connect(moveTabRight, SIGNAL( triggered( bool ) ), this, SLOT( slotMoveTabRight() ));
 
     QString selectTabLeftString = i18n("Select Diagram on Left");
     QString selectTabRightString = i18n("Select Diagram on Right");
-    changeTabLeft = new KAction(QApplication::reverseLayout() ? selectTabRightString : selectTabLeftString,
-                                QApplication::reverseLayout() ? Qt::SHIFT+Qt::Key_Right : Qt::SHIFT+Qt::Key_Left,
-                                this, SLOT(slotChangeTabLeft()), actionCollection(), "previous_tab");
-    changeTabRight = new KAction(QApplication::reverseLayout() ? selectTabLeftString : selectTabRightString,
-                                 QApplication::reverseLayout() ? Qt::SHIFT+Qt::Key_Left : Qt::SHIFT+Qt::Key_Right,
-                                 this, SLOT(slotChangeTabRight()), actionCollection(), "next_tab");
+    changeTabLeft = new KAction(QApplication::layoutDirection() ? selectTabRightString : selectTabLeftString,
+                                actionCollection(), "previous_tab");
+    changeTabLeft->setShortcut(QApplication::layoutDirection() ? Qt::SHIFT+Qt::Key_Right : Qt::SHIFT+Qt::Key_Left);
+    connect(changeTabLeft, SIGNAL( triggered( bool ) ), this, SLOT( slotChangeTabLeft() ));
+    
+    changeTabRight = new KAction(QApplication::layoutDirection() ? selectTabLeftString : selectTabRightString,
+                                 actionCollection(), "next_tab");
+    changeTabRight->setShortcut(QApplication::layoutDirection() ? Qt::SHIFT+Qt::Key_Left : Qt::SHIFT+Qt::Key_Right);
+    connect(changeTabRight, SIGNAL( triggered( bool ) ), this, SLOT( slotChangeTabRight() ));
 
 
     initStatusBar(); //call this here because the statusBar is shown/hidden by setupGUI()
 
     // use the absolute path to your umbrelloui.rc file for testing purpose in setupGUI();
     setupGUI();
-    Q3PopupMenu* menu = findMenu( menuBar(), QString("settings") );
-    menu->insertItem(i18n("&Windows"), dockHideShowMenu(), -1, 0);
+    
+// @todo Check if this should be ported
+//     QMenu* menu = findMenu( menuBar(), QString("settings") );
+//     menu->insertItem(i18n("&Windows"), dockHideShowMenu(), -1, 0);
 }
 
 void UMLApp::slotZoomSliderMoved(int value) {
@@ -369,46 +437,48 @@ void UMLApp::initStatusBar() {
 }
 
 void UMLApp::initView() {
-    setCaption(m_doc->URL().fileName(),false);
+    setCaption(m_doc->url().fileName(),false);
     m_view = NULL;
-    toolsbar = new WorkToolBar(this, "");
+    toolsbar = new WorkToolBar(this);
     toolsbar->setLabel(i18n("Diagram Toolbar"));
-    addToolBar(toolsbar, Qt::DockTop, false);
+    addToolBar(Qt::TopToolBarArea, toolsbar);
 
     m_alignToolBar = new AlignToolBar(this, "");
     m_alignToolBar->setLabel(i18n("Alignment Toolbar"));
-    addToolBar(m_alignToolBar, Qt::DockTop, false);
+    addToolBar(Qt::TopToolBarArea, m_alignToolBar);
 
-    m_mainDock = createDockWidget("maindock", 0L, 0L, "main dock");
+//     m_mainDock = new QDockWidget( this );
+//     addDockWidget ( Qt::RightDockWidgetArea, m_mainDock );
     m_newSessionButton = NULL;
     m_diagramMenu = NULL;
     m_closeDiagramButton = NULL;
     if (m_optionState.generalState.tabdiagrams) {
         m_viewStack = NULL;
-        m_tabWidget = new KTabWidget(m_mainDock, "tab_widget");
+//         m_tabWidget = new KTabWidget(m_mainDock);
+        m_tabWidget = new KTabWidget(this);
 
         m_tabWidget->setAutomaticResizeTabs( true );
 
-        m_newSessionButton = new KToolBarButton("tab_new", 0, m_tabWidget);
+        m_newSessionButton = new QToolButton(m_tabWidget);
         m_newSessionButton->setIconSet( SmallIcon( "tab_new" ) );
         m_newSessionButton->adjustSize();
         m_newSessionButton->setAutoRaise(true);
         m_diagramMenu = new KMenu(m_newSessionButton);
 
-        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_Class), i18n("Class Diagram..."), this, SLOT(slotClassDiagram()) );
-        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_Sequence), i18n("Sequence Diagram..."), this, SLOT(slotSequenceDiagram()) );
-        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_Collaboration), i18n("Collaboration Diagram..."), this, SLOT(slotCollaborationDiagram()) );
-        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_UseCase), i18n("Use Case Diagram..."), this, SLOT(slotUseCaseDiagram()) );
-        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_State), i18n("State Diagram..."), this, SLOT(slotStateDiagram()) );
-        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_Activity), i18n("Activity Diagram..."), this, SLOT(slotActivityDiagram()) );
-        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_Component), i18n("Component Diagram..."), this, SLOT(slotComponentDiagram()) );
-        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_Deployment), i18n("Deployment Diagram..."), this, SLOT(slotDeploymentDiagram()) );
-        m_diagramMenu->insertItem(Widget_Utils::iconSet(Uml::dt_EntityRelationship), i18n("Entity Relationship Diagram..."), this, SLOT(slotEntityRelationshipDiagram()) );
+        m_diagramMenu->addAction(Widget_Utils::iconSet(Uml::dt_Class), i18n("Class Diagram..."), this, SLOT(slotClassDiagram()) );
+        m_diagramMenu->addAction(Widget_Utils::iconSet(Uml::dt_Sequence), i18n("Sequence Diagram..."), this, SLOT(slotSequenceDiagram()) );
+        m_diagramMenu->addAction(Widget_Utils::iconSet(Uml::dt_Collaboration), i18n("Collaboration Diagram..."), this, SLOT(slotCollaborationDiagram()) );
+        m_diagramMenu->addAction(Widget_Utils::iconSet(Uml::dt_UseCase), i18n("Use Case Diagram..."), this, SLOT(slotUseCaseDiagram()) );
+        m_diagramMenu->addAction(Widget_Utils::iconSet(Uml::dt_State), i18n("State Diagram..."), this, SLOT(slotStateDiagram()) );
+        m_diagramMenu->addAction(Widget_Utils::iconSet(Uml::dt_Activity), i18n("Activity Diagram..."), this, SLOT(slotActivityDiagram()) );
+        m_diagramMenu->addAction(Widget_Utils::iconSet(Uml::dt_Component), i18n("Component Diagram..."), this, SLOT(slotComponentDiagram()) );
+        m_diagramMenu->addAction(Widget_Utils::iconSet(Uml::dt_Deployment), i18n("Deployment Diagram..."), this, SLOT(slotDeploymentDiagram()) );
+        m_diagramMenu->addAction(Widget_Utils::iconSet(Uml::dt_EntityRelationship), i18n("Entity Relationship Diagram..."), this, SLOT(slotEntityRelationshipDiagram()) );
         m_newSessionButton->setPopup(m_diagramMenu);
         //FIXME why doesn't this work?
         //m_newSessionButton->setPopup(newDiagram->popupMenu());
 
-        //m_closeDiagramButton = new KToolBarButton("tab_remove", 0, m_tabWidget);
+        //m_closeDiagramButton = new QToolButton("tab_remove", 0, m_tabWidget);
         m_closeDiagramButton = new QToolButton(m_tabWidget);
         m_closeDiagramButton->setIconSet( SmallIcon("tab_remove") );
         m_closeDiagramButton->adjustSize();
@@ -420,35 +490,38 @@ void UMLApp::initView() {
         m_tabWidget->setCornerWidget( m_closeDiagramButton, Qt::TopRightCorner );
         m_newSessionButton->installEventFilter(this);
 
-        m_mainDock->setWidget(m_tabWidget);
+//         m_mainDock->setWidget(m_tabWidget);
+        setCentralWidget(m_tabWidget);
     }
     else
     {
         m_tabWidget = NULL;
-        m_viewStack = new Q3WidgetStack(m_mainDock, "viewstack");
-        m_mainDock->setWidget(m_viewStack);
+//         m_viewStack = new QStackedWidget(m_mainDock);
+        m_viewStack = new QStackedWidget(this);
+//         m_mainDock->setWidget(m_viewStack);
+        setCentralWidget(m_viewStack);
     }
-    m_mainDock->setDockSite(K3DockWidget::DockCorner);
-    m_mainDock->setEnableDocking(K3DockWidget::DockNone);
-    setView(m_mainDock);
-    setMainDockWidget(m_mainDock);
+//     m_mainDock->setDockSite(QDockWidget::DockCorner);
+//     m_mainDock->setEnableDocking(QDockWidget::DockNone);
+//     setView(m_mainDock);
+//     setMainWidget(m_);
 
-    m_listDock = createDockWidget( "Model", 0L, 0L, i18n("&Tree View") );
+    m_listDock = new QDockWidget( i18n("&Tree View"), this );
+    addDockWidget(Qt::LeftDockWidgetArea, m_listDock);
     m_listView = new UMLListView(m_listDock ,"LISTVIEW");
     m_listDock->setWidget(m_listView);
-    m_listDock->setDockSite(K3DockWidget::DockCorner);
-    m_listDock->manualDock(m_mainDock, K3DockWidget::DockLeft, 20);
 
-    m_documentationDock = createDockWidget( "Documentation", 0L, 0L, i18n("&Documentation") );
+    m_documentationDock = new QDockWidget( i18n("&Documentation"), this );
+    addDockWidget(Qt::LeftDockWidgetArea, m_documentationDock);
     m_pDocWindow = new DocWindow(m_doc, m_documentationDock, "DOCWINDOW");
     m_documentationDock->setWidget(m_pDocWindow);
-    m_documentationDock->setDockSite(K3DockWidget::DockCorner);
-    m_documentationDock->manualDock(m_listDock, K3DockWidget::DockBottom, 80);
 
     m_listView->setDocument(m_doc);
     m_doc->setupSignals();//make sure gets signal from list view
 
-    readDockConfig(); //reposition all the DockWindows to their saved positions
+    QByteArray dockConfig;
+    m_config->readEntry("DockConfig", dockConfig);
+    restoreState(dockConfig); //reposition all the DockWindows to their saved positions
 }
 
 void UMLApp::openDocumentFile(const KUrl& url) {
@@ -457,7 +530,7 @@ void UMLApp::openDocumentFile(const KUrl& url) {
     m_doc->openDocument( url);
     fileOpenRecent->addUrl( url );
     slotStatusMsg(i18n("Ready."));
-    setCaption(m_doc->URL().fileName(), false);
+    setCaption(m_doc->url().fileName(), false);
     enablePrint(true);
 }
 
@@ -491,15 +564,15 @@ void UMLApp::saveOptions() {
     m_config->writeEntry( "loadlast", m_optionState.generalState.loadlast );
 
     m_config->writeEntry( "diagram", (int)m_optionState.generalState.diagram );
-    if( m_doc->URL().fileName() == i18n( "Untitled" ) ) {
+    if( m_doc->url().fileName() == i18n( "Untitled" ) ) {
         m_config -> writeEntry( "lastFile", "" );
     } else {
-        m_config -> writePathEntry( "lastFile", m_doc -> URL().prettyUrl() );
+        m_config -> writePathEntry( "lastFile", m_doc -> url().prettyUrl() );
     }
     m_config->writeEntry( "imageMimeType", getImageMimeType() );
 
     m_config->setGroup( "TipOfDay");
-    m_optionState.generalState.tip = m_config -> readBoolEntry( "RunOnStart", true );
+    m_optionState.generalState.tip = m_config -> readEntry( "RunOnStart", true );
     m_config->writeEntry( "RunOnStart", m_optionState.generalState.tip );
 
     m_config->setGroup( "UI Options" );
@@ -559,15 +632,15 @@ void UMLApp::readOptions() {
     m_config->setGroup("General Options");
     setImageMimeType(m_config->readEntry("imageMimeType","image/png"));
     QSize tmpQSize(630,460);
-    resize( m_config->readSizeEntry("Geometry", & tmpQSize) );
+    resize( m_config->readSizeEntry("Geometry", &tmpQSize) );
 }
 
 void UMLApp::saveProperties(KConfig *_config) {
-    if(m_doc->URL().fileName()!=i18n("Untitled") && !m_doc->isModified()) {
+    if(m_doc->url().fileName()!=i18n("Untitled") && !m_doc->isModified()) {
         // saving to tempfile not necessary
 
     } else {
-        KUrl url=m_doc->URL();
+        KUrl url=m_doc->url();
         _config->writePathEntry("filename", url.url());
         _config->writeEntry("modified", m_doc->isModified());
         QString tempname = kapp->tempSaveName(url.url());
@@ -581,7 +654,7 @@ void UMLApp::saveProperties(KConfig *_config) {
 void UMLApp::readProperties(KConfig* _config) {
     QString filename = _config->readPathEntry("filename");
     KUrl url(filename);
-    bool modified = _config->readBoolEntry("modified", false);
+    bool modified = _config->readEntry("modified", false);
     if(modified) {
         bool canRecover;
         QString tempname = kapp->checkRecoverFile(filename, canRecover);
@@ -611,7 +684,8 @@ void UMLApp::readProperties(KConfig* _config) {
 }
 
 bool UMLApp::queryClose() {
-    writeDockConfig();
+    QByteArray dockConfig = saveState();
+    m_config->writeEntry("DockConfig", dockConfig);
     return m_doc->saveModified();
 }
 
@@ -626,7 +700,7 @@ void UMLApp::slotFileNew() {
     if(m_doc->saveModified()) {
         setDiagramMenuItemsState(false);
         m_doc->newDocument();
-        setCaption(m_doc->URL().fileName(), false);
+        setCaption(m_doc->url().fileName(), false);
         fileOpenRecent->setCurrentItem( -1 );
         setModified(false);
         enablePrint(false);
@@ -644,7 +718,7 @@ void UMLApp::slotFileOpen() {
         // here saving wasn't successful
 
     } else {
-        KUrl url=KFileDialog::getOpenUrl(":open-umbrello-file",
+        KUrl url=KFileDialog::getOpenUrl(KUrl(),
             i18n("*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl|All Supported Files (*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.mdl)\n"
                  "*.xmi|Uncompressed XMI Files (*.xmi)\n"
                  "*.xmi.tgz|Gzip Compressed XMI Files (*.xmi.tgz)\n"
@@ -654,7 +728,7 @@ void UMLApp::slotFileOpen() {
             if(m_doc->openDocument(url))
                 fileOpenRecent->addUrl( url );
             enablePrint(true);
-            setCaption(m_doc->URL().fileName(), false);
+            setCaption(m_doc->url().fileName(), false);
         }
 
     }
@@ -667,7 +741,7 @@ void UMLApp::slotFileOpenRecent(const KUrl& url) {
     slotStatusMsg(i18n("Opening file..."));
     m_loading = true;
 
-    KUrl oldURL = m_doc->URL();
+    KUrl oldUrl = m_doc->url();
 
     if(!m_doc->saveModified()) {
         // here saving wasn't successful
@@ -677,7 +751,7 @@ void UMLApp::slotFileOpenRecent(const KUrl& url) {
             fileOpenRecent->setCurrentItem( -1 );
         }
         enablePrint(true);
-        setCaption(m_doc->URL().fileName(), false);
+        setCaption(m_doc->url().fileName(), false);
     }
 
     m_loading = false;
@@ -687,10 +761,10 @@ void UMLApp::slotFileOpenRecent(const KUrl& url) {
 
 void UMLApp::slotFileSave() {
     slotStatusMsg(i18n("Saving file..."));
-    if(m_doc->URL().fileName() == i18n("Untitled"))
+    if(m_doc->url().fileName() == i18n("Untitled"))
         slotFileSaveAs();
     else
-        m_doc->saveDocument(m_doc -> URL());
+        m_doc->saveDocument(m_doc -> url());
 
     slotStatusMsg(i18n("Ready."));
 }
@@ -702,13 +776,13 @@ bool UMLApp::slotFileSaveAs()
     KUrl url;
     QString ext;
     while(cont) {
-        url=KFileDialog::getSaveURL(":save-umbrello-file", i18n("*.xmi|XMI File\n*.xmi.tgz|Gzip Compressed XMI File\n*.xmi.tar.bz2|Bzip2 Compressed XMI File\n*|All Files"), this, i18n("Save As"));
+        url=KFileDialog::getSaveUrl(KUrl(), i18n("*.xmi|XMI File\n*.xmi.tgz|Gzip Compressed XMI File\n*.xmi.tar.bz2|Bzip2 Compressed XMI File\n*|All Files"), this, i18n("Save As"));
 
         if(url.isEmpty())
             cont = false;
         else {
             // now check that we have a file extension; standard will be plain xmi
-            QString file = url.path(-1);
+            QString file = url.path( KUrl::RemoveTrailingSlash );
             QFileInfo info(file);
             ext = info.extension();
             if (ext != "xmi" && ext != "xmi.tgz" && ext != "xmi.tar.bz2")
@@ -716,7 +790,7 @@ bool UMLApp::slotFileSaveAs()
                 url.setFileName(url.fileName() + ".xmi");
                 ext = "xmi";
             }
-            QDir d = url.path(-1);
+            QDir d = url.path( KUrl::RemoveTrailingSlash );
 
             if(QFile::exists(d.path())) {
                 int want_save = KMessageBox::warningContinueCancel(this, i18n("The file %1 exists.\nDo you wish to overwrite it?", url.path()), i18n("Warning"), i18n("Overwrite"));
@@ -758,7 +832,7 @@ void UMLApp::slotFilePrint()
     DiagramPrintPage * selectPage = new DiagramPrintPage(0, m_doc);
     printer.addDialogPage(selectPage);
     QString msg;
-    if (printer.setup(this, i18n("Print %1", m_doc->URL().prettyUrl()))) {
+    if (printer.setup(this, i18n("Print %1", m_doc->url().prettyUrl()))) {
 
         m_doc -> print(&printer);
     }
@@ -768,7 +842,8 @@ void UMLApp::slotFilePrint()
 void UMLApp::slotFileQuit() {
     slotStatusMsg(i18n("Exiting..."));
     if(m_doc->saveModified()) {
-        writeDockConfig();
+        QByteArray dockConfig = saveState();
+        m_config->writeEntry("DockConfig", dockConfig);
         saveOptions();
         kapp->quit();
     }
@@ -916,7 +991,7 @@ void UMLApp::setModified(bool modified) {
     }
 
     if (m_loading == false)  {
-        setCaption(m_doc->URL().fileName(), modified); //add disk icon to taskbar if modified
+        setCaption(m_doc->url().fileName(), modified); //add disk icon to taskbar if modified
     }
 }
 
@@ -983,7 +1058,7 @@ void UMLApp::slotCopyChanged() {
 void UMLApp::slotPrefs() {
     /* the KTipDialog may have changed the value */
     m_config->setGroup("TipOfDay");
-    m_optionState.generalState.tip = m_config->readBoolEntry( "RunOnStart", true );
+    m_optionState.generalState.tip = m_config->readEntry( "RunOnStart", true );
 
     m_dlg = new SettingsDlg(this, &m_optionState);
     connect(m_dlg, SIGNAL( applyClicked() ), this, SLOT( slotApplyPrefs() ) );
@@ -1040,15 +1115,13 @@ bool UMLApp::editCutCopy( bool bFromView ) {
 
 void UMLApp::readOptionState() {
     m_config -> setGroup( "General Options" );
-    m_optionState.generalState.undo = m_config -> readBoolEntry( "undo", true );
-    m_optionState.generalState.tabdiagrams = m_config -> readBoolEntry( "tabdiagrams",
-            true
-                                                                      );
-    m_optionState.generalState.newcodegen = m_config -> readBoolEntry("newcodegen", false);
-    m_optionState.generalState.angularlines = m_config->readBoolEntry("angularlines", false);
-    m_optionState.generalState.autosave = m_config -> readBoolEntry( "autosave", true );
-    m_optionState.generalState.time = m_config -> readNumEntry( "time", 0 ); //old autosavetime value kept for compatibility
-    m_optionState.generalState.autosavetime = m_config -> readNumEntry( "autosavetime", 0 );
+    m_optionState.generalState.undo = m_config -> readEntry( "undo", true );
+    m_optionState.generalState.tabdiagrams = m_config -> readEntry( "tabdiagrams", true );
+    m_optionState.generalState.newcodegen = m_config -> readEntry("newcodegen", false );
+    m_optionState.generalState.angularlines = m_config->readEntry("angularlines", false );
+    m_optionState.generalState.autosave = m_config -> readEntry( "autosave", true );
+    m_optionState.generalState.time = m_config -> readEntry( "time", 0 ); //old autosavetime value kept for compatibility
+    m_optionState.generalState.autosavetime = m_config -> readEntry( "autosavetime", 0 );
     //if we don't have a "new" autosavetime value, convert the old one
     if (m_optionState.generalState.autosavetime == 0) {
         switch (m_optionState.generalState.time) {
@@ -1063,36 +1136,36 @@ void UMLApp::readOptionState() {
     // 2004-05-17 Achim Spangler: read new config entry for autosave sufix
     m_optionState.generalState.autosavesuffix = m_config -> readEntry( "autosavesuffix", ".xmi" );
 
-    m_optionState.generalState.logo = m_config -> readBoolEntry( "logo", true );
-    m_optionState.generalState.loadlast = m_config -> readBoolEntry( "loadlast", true );
+    m_optionState.generalState.logo = m_config -> readEntry( "logo", true );
+    m_optionState.generalState.loadlast = m_config -> readEntry( "loadlast", true );
 
-    m_optionState.generalState.diagram  = ( Settings::Diagram ) m_config -> readNumEntry( "diagram", 1 );
+    m_optionState.generalState.diagram  = ( Settings::Diagram ) m_config -> readEntry( "diagram", 1 );
     m_config -> setGroup( "TipOfDay");
 
-    m_optionState.generalState.tip = m_config -> readBoolEntry( "RunOnStart", true );
+    m_optionState.generalState.tip = m_config -> readEntry( "RunOnStart", true );
 
     m_config -> setGroup( "UI Options" );
-    m_optionState.uiState.useFillColor = m_config -> readBoolEntry( "useFillColor", true );
+    m_optionState.uiState.useFillColor = m_config -> readEntry( "useFillColor", true );
     QColor defaultYellow = QColor( 255, 255, 192 );
     QColor red ( Qt::red );
 
-    m_optionState.uiState.fillColor = m_config -> readColorEntry( "fillColor", &defaultYellow );
-    m_optionState.uiState.lineColor = m_config -> readColorEntry( "lineColor", &red );
-    m_optionState.uiState.lineWidth = m_config -> readNumEntry( "lineWidth", 0 );
+    m_optionState.uiState.fillColor = m_config -> readEntry( "fillColor", defaultYellow );
+    m_optionState.uiState.lineColor = m_config -> readEntry( "lineColor", red );
+    m_optionState.uiState.lineWidth = m_config -> readEntry( "lineWidth", 0 );
     QFont font = ((QWidget *) this)->font() ;
-    m_optionState.uiState.font = m_config -> readFontEntry("font", &font );
+    m_optionState.uiState.font = m_config -> readEntry("font", font );
 
     m_config -> setGroup( "Class Options" );
 
-    m_optionState.classState.showVisibility = m_config -> readBoolEntry("showVisibility", true);
-    m_optionState.classState.showAtts = m_config -> readBoolEntry("showAtts", true);
-    m_optionState.classState.showOps = m_config -> readBoolEntry("showOps", true);
-    m_optionState.classState.showStereoType = m_config -> readBoolEntry("showStereoType", false);
-    m_optionState.classState.showAttSig = m_config -> readBoolEntry("showAttSig", true);
-    m_optionState.classState.showOpSig = m_config -> readBoolEntry("ShowOpSig", true);
-    m_optionState.classState.showPackage = m_config -> readBoolEntry("showPackage", false);
-    m_optionState.classState.defaultAttributeScope = (Uml::Visibility::Value) m_config -> readNumEntry("defaultAttributeScope", Uml::Visibility::Private);
-    m_optionState.classState.defaultOperationScope = (Uml::Visibility::Value) m_config -> readNumEntry("defaultOperationScope", Uml::Visibility::Public);
+    m_optionState.classState.showVisibility = m_config -> readEntry("showVisibility", true);
+    m_optionState.classState.showAtts = m_config -> readEntry("showAtts", true);
+    m_optionState.classState.showOps = m_config -> readEntry("showOps", true);
+    m_optionState.classState.showStereoType = m_config -> readEntry("showStereoType", false);
+    m_optionState.classState.showAttSig = m_config -> readEntry("showAttSig", true);
+    m_optionState.classState.showOpSig = m_config -> readEntry("ShowOpSig", true);
+    m_optionState.classState.showPackage = m_config -> readEntry("showPackage", false);
+    m_optionState.classState.defaultAttributeScope = (Uml::Visibility::Value) m_config -> readUnsignedNumEntry ("defaultAttributeScope", Uml::Visibility::Private);
+    m_optionState.classState.defaultOperationScope = (Uml::Visibility::Value) m_config -> readUnsignedNumEntry ("defaultOperationScope", Uml::Visibility::Public);
 
     m_config -> setGroup( "Code Viewer Options" );
 
@@ -1101,18 +1174,27 @@ void UMLApp::readOptionState() {
     QColor defaultPink = QColor( "pink" );
     QColor defaultGrey = QColor( "grey" );
 
-    m_optionState.codeViewerState.height = m_config -> readNumEntry( "height", 40 );
-    m_optionState.codeViewerState.width = m_config -> readNumEntry( "width", 80 );
+    m_optionState.codeViewerState.height = m_config -> readEntry( "height", 40 );
+    m_optionState.codeViewerState.width = m_config -> readEntry( "width", 80 );
     m_optionState.codeViewerState.font = m_config -> readFontEntry("font", &font );
-    m_optionState.codeViewerState.showHiddenBlocks = m_config -> readBoolEntry( "showHiddenBlocks", false);
-    m_optionState.codeViewerState.blocksAreHighlighted = m_config -> readBoolEntry( "blocksAreHighlighted", false);
-    m_optionState.codeViewerState.selectedColor = m_config -> readColorEntry( "selectedColor", &defaultYellow );
-    m_optionState.codeViewerState.paperColor = m_config -> readColorEntry( "paperColor", &defaultWhite);
-    m_optionState.codeViewerState.fontColor = m_config -> readColorEntry( "fontColor", &defaultBlack);
-    m_optionState.codeViewerState.editBlockColor = m_config -> readColorEntry( "editBlockColor", &defaultPink);
-    m_optionState.codeViewerState.umlObjectColor = m_config -> readColorEntry( "umlObjectBlockColor", &defaultPink);
-    m_optionState.codeViewerState.nonEditBlockColor = m_config -> readColorEntry( "nonEditBlockColor", &defaultGrey);
-    m_optionState.codeViewerState.hiddenColor = m_config -> readColorEntry( "hiddenColor", &defaultGrey);
+    m_optionState.codeViewerState.showHiddenBlocks = 
+            m_config -> readEntry( "showHiddenBlocks", false);
+    m_optionState.codeViewerState.blocksAreHighlighted = 
+            m_config -> readEntry( "blocksAreHighlighted", false);
+    m_optionState.codeViewerState.selectedColor = 
+            m_config -> readEntry( "selectedColor", defaultYellow );
+    m_optionState.codeViewerState.paperColor = 
+            m_config -> readEntry( "paperColor", defaultWhite);
+    m_optionState.codeViewerState.fontColor = 
+            m_config -> readEntry( "fontColor", defaultBlack);
+    m_optionState.codeViewerState.editBlockColor = 
+            m_config -> readEntry( "editBlockColor", defaultPink);
+    m_optionState.codeViewerState.umlObjectColor = 
+            m_config -> readEntry( "umlObjectBlockColor", defaultPink);
+    m_optionState.codeViewerState.nonEditBlockColor = 
+            m_config -> readEntry( "nonEditBlockColor", defaultGrey);
+    m_optionState.codeViewerState.hiddenColor = 
+            m_config -> readEntry( "hiddenColor", defaultGrey);
 
 }
 
@@ -1302,7 +1384,7 @@ void UMLApp::setDiagramMenuItemsState(bool bState) {
 }
 
 void UMLApp::slotUpdateViews() {
-    Q3PopupMenu* menu = findMenu( menuBar(), QString("views") );
+    QMenu* menu = findMenu( menuBar(), QString("views") );
     if (!menu) {
         kWarning() << "view menu not found" << endl;
         return;
@@ -1342,7 +1424,7 @@ void UMLApp::slotImportClasses() {
         preselectedExtension = i18n("*.h *.hh *.hpp *.hxx *.H|Header Files (*.h *.hh *.hpp *.hxx *.H)");
     }
     preselectedExtension.append("\n*|" + i18n("All Files"));
-    QStringList fileList = KFileDialog::getOpenFileNames(":import-classes", preselectedExtension,
+    QStringList fileList = KFileDialog::getOpenFileNames(KUrl(), preselectedExtension,
                            this, i18n("Select Code to Import") );
     const QString& firstFile = fileList.first();
     ClassImport *classImporter = ClassImport::createImporterByFileExt(firstFile);
@@ -1537,10 +1619,10 @@ void UMLApp::setCurrentView(UMLView* view /*=0*/) {
     if (m_viewStack == NULL)
         return;
     if (view) {
-        m_viewStack->raiseWidget(view);
+        m_viewStack->setCurrentWidget(view);
         slotStatusMsg(view->getName());
     } else {
-        m_viewStack->raiseWidget(blankWidget);
+        m_viewStack->setCurrentWidget(m_blankWidget);
     }
 }
 
@@ -1548,14 +1630,14 @@ UMLView* UMLApp::getCurrentView() {
     return m_view;
 }
 
-Q3PopupMenu* UMLApp::findMenu(QMenu* menu, const QString &name) {
+QMenu* UMLApp::findMenu(QMenu* menu, const QString &name) {
 
-    if (menu) {
+/*    if (menu) {
         int menuCount = menu->count();
 
         for (int i=0; i<menuCount; i++) {
             int idAt = menu->idAt(i);
-            Q3PopupMenu* popupMenu = menu->findItem(idAt)->popup();
+            QMenu* popupMenu = menu->findItem(idAt)->popup();
             if (popupMenu) {
                 QString menuName = popupMenu->name();
                 if( menuName == name) {
@@ -1563,7 +1645,7 @@ Q3PopupMenu* UMLApp::findMenu(QMenu* menu, const QString &name) {
                 }
             }
         }
-    }
+    }*/
     return 0;
 }
 

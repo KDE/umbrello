@@ -815,4 +815,10 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
     return true;
 }
 
+/// Added by GC. Was missing. What should it do ?
+/// @todo verify in 3.5 branch
+void MessageWidget::mousePressEvent(QMouseEvent *me)
+{
+}
+
 #include "messagewidget.moc"

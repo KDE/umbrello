@@ -25,7 +25,7 @@
 #include <QKeyEvent>
 #include <QMenu>
 
-#include <k3dockwidget.h>
+#include <kmainwindow.h>
 #include <kdeversion.h>
 #include <kurl.h>
 
@@ -53,15 +53,16 @@ class KRecentFilesAction;
 class KStatusBarLabel;
 class KToggleAction;
 class KTabWidget;
-class KToolBarButton;
 class KMenu;
+class KMenuBar;
 
 // Qt forward declarations
-class Q3WidgetStack;
+class QStackedWidget;
 class QMenuData;
 class QClipboard;
 class QToolButton;
 class QCustomEvent;
+class QDockWidget;
 
 /**
  * The base class for UML application windows. It sets up the main
@@ -78,13 +79,13 @@ class QCustomEvent;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class UMLApp : public K3DockMainWindow {
+class UMLApp : public KMainWindow {
     Q_OBJECT
 public:
     /**
      * Constructor. Calls all init functions to create the application.
      */
-    UMLApp(QWidget* parent=0, const char* name=0);
+    UMLApp(QWidget* parent=0);
 
     /**
      * Standard deconstructor.
@@ -759,6 +760,10 @@ public slots:
      * @param name      The name of the menu to search for (name, not text)
      */
     QMenu* findMenu(QMenu* menu, const QString &name);
+    
+    /// @todo This is an ugly _HACK_ to allow to compile umbrello.
+    /// All the menu stuff should be ported to KDE4 (using actions)
+    QMenu* findMenu(KMenuBar* menu, const QString &name);
 
     /**
      * called when the tab has changed
@@ -869,17 +874,17 @@ private:
     /**
      * The widget which shows the diagrams.
      */
-    K3DockWidget* m_mainDock;
+    QDockWidget* m_mainDock;
 
     /**
      * Contains the UMLListView tree view.
      */
-    K3DockWidget* m_listDock;
+    QDockWidget* m_listDock;
 
     /**
      * Contains the documentation DocWindow widget.
      */
-    K3DockWidget* m_documentationDock;
+    QDockWidget* m_documentationDock;
 
     /**
      * Documentation window.
@@ -942,7 +947,7 @@ private:
     KAction* changeTabRight;
     KAction* moveTabLeft;
     KAction* moveTabRight;
-    KToolBarButton* m_newSessionButton;
+    QToolButton* m_newSessionButton;
     KMenu* m_diagramMenu;
     QToolButton* m_closeDiagramButton;
     KToggleAction* viewToolBar;
@@ -963,13 +968,13 @@ private:
     /**
      * Blank widget, displayed when there are no diagrams
      */
-    InfoWidget* blankWidget;
+    InfoWidget* m_blankWidget;
 
     /**
      * Shows, and is parent of, all the UMLViews (diagrams)
      * if tabbed diagrams are not enabled.
      */
-    Q3WidgetStack* m_viewStack;
+    QStackedWidget* m_viewStack;
 
     /**
      * Shows, and is parent of, all the UMLViews (diagrams)

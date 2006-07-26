@@ -114,7 +114,7 @@ void UMLViewImageExporter::prepareFileDialog(KFileDialog &fileDialog) {
 
     // set a sensible default filename
     if (m_imageURL.isEmpty()) {
-        KUrl docURL = UMLApp::app()->getDocument()->URL();
+        KUrl docURL = UMLApp::app()->getDocument()->url();
         KUrl directory = docURL;
         directory.setPath(docURL.directory());
 

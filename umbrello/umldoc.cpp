@@ -178,12 +178,12 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView ) {
     }
 }
 
-void UMLDoc::setURL(const KUrl &url) {
+void UMLDoc::setUrl(const KUrl &url) {
     m_doc_url = url;
     return;
 }
 
-const KUrl& UMLDoc::URL() const {
+const KUrl& UMLDoc::url() const {
     return m_doc_url;
 }
 
@@ -213,7 +213,7 @@ bool UMLDoc::saveModified() {
                 completed=false;
             }
         } else {
-            saveDocument(URL());
+            saveDocument(url());
             closeDocument();
             completed=true;
         }
@@ -2312,10 +2312,10 @@ void UMLDoc::slotAutoSave() {
     if( !m_modified ) {
         return;
     }
-    KUrl tempURL = m_doc_url;
-    if( tempURL.fileName() == i18n("Untitled") ) {
-        tempURL.setPath( QDir::homeDirPath() + i18n( "/autosave%1", QString(".xmi") ) );
-        saveDocument( tempURL );
+    KUrl tempUrl = m_doc_url;
+    if( tempUrl.fileName() == i18n("Untitled") ) {
+        tempUrl.setPath( QDir::homeDirPath() + i18n( "/autosave%1", QString(".xmi") ) );
+        saveDocument( tempUrl );
         m_doc_url.setFileName( i18n("Untitled") );
         m_modified = true;
         UMLApp::app()->setModified( m_modified );
@@ -2324,13 +2324,13 @@ void UMLDoc::slotAutoSave() {
         KUrl orgDocUrl = m_doc_url;
         QString orgFileName = m_doc_url.fileName();
         // don't overwrite manually saved file with autosave content
-        QString fileName = tempURL.fileName();
+        QString fileName = tempUrl.fileName();
         Settings::OptionState optionState = UMLApp::app()->getOptionState();
         fileName.replace( ".xmi", optionState.generalState.autosavesuffix );
-        tempURL.setFileName( fileName );
+        tempUrl.setFileName( fileName );
         // End Achim Spangler
 
-        saveDocument( tempURL );
+        saveDocument( tempUrl );
         // 2004-05-17 Achim Spangler
         // re-activate m_modified if autosave is writing to other file
         // than the main project file -> autosave-suffix != ".xmi"
@@ -2340,7 +2340,7 @@ void UMLDoc::slotAutoSave() {
         }
         // restore original file name -
         // UMLDoc::saveDocument() sets doc_url to filename which is given as autosave-filename
-        setURL( orgDocUrl );
+        setUrl( orgDocUrl );
         UMLApp * pApp = UMLApp::app();
         pApp->setCaption(orgFileName, isModified() );
         // End Achim Spangler
