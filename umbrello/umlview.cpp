@@ -1048,7 +1048,7 @@ void UMLView::clearSelected() {
 
 //FIXME Doesn't work with the new UMLWidgetController
 // void UMLView::moveSelected(UMLWidget * w, int x, int y) {
-//     QMouseEvent me(QMouseEvent::MouseMove, QPoint(x,y), Qt::LeftButton, Qt::ShiftButton);
+//     QMouseEvent me(QMouseEvent::MouseMove, QPoint(x,y), Qt::LeftButton, Qt::ShiftModifier);
 //     UMLWidget * temp = 0;
 //     //loop through list and move all widgets
 //     //don't move the widget that started call

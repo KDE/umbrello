@@ -14,6 +14,9 @@
 #include "toolbarstatepool.h"
 
 #include <qevent.h>
+
+#include <kdebug.h>
+
 #include "umlview.h"
 #include "umldoc.h"
 

@@ -168,7 +168,7 @@ bool UMLListView::eventFilter(QObject *o, QEvent *e) {
 void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
     if( m_doc -> getCurrentView() )
         m_doc -> getCurrentView() -> clearSelected();
-    if( me -> state() != Qt::ShiftButton )
+    if( me -> modifiers() != Qt::ShiftModifier )
         clearSelection();
     QPoint pt = this->Q3ScrollView::contentsToViewport( me->pos() );
     UMLListViewItem * item = (UMLListViewItem*)itemAt(pt);

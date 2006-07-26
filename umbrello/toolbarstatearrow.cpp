@@ -76,7 +76,7 @@ void ToolBarStateArrow::changeTool()
 {
     m_pUMLView->viewport()->setMouseTracking( false );
 
-    if (m_pMouseEvent->state() == Qt::RightButton)
+    if (m_pMouseEvent->button() == Qt::RightButton)
     {
 
         if (m_bWidgetSelected)

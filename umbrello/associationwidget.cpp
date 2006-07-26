@@ -2198,7 +2198,7 @@ void AssociationWidget::mousePressEvent(QMouseEvent * me) {
     // See if the user has clicked on a point to start moving the line segment
     // from that point
     checkPoints(mep);
-    if( me -> state() != Qt::ShiftButton )
+    if( me -> modifiers() != Qt::ShiftModifier )
         m_pView -> clearSelected();
     setSelected( !m_bSelected );
 }
@@ -2520,7 +2520,7 @@ void AssociationWidget::checkPoints(const QPoint &p) {
 }
 
 void AssociationWidget::mouseMoveEvent(QMouseEvent* me) {
-    if( me->state() != Qt::LeftButton) {
+    if( me->button() != Qt::LeftButton) {
         return;
     }
 

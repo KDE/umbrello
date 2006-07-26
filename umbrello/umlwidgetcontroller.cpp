@@ -75,7 +75,7 @@ void UMLWidgetController::mousePressEvent(QMouseEvent *me) {
 
     m_oldStatusBarMsg = UMLApp::app()->getStatusBarMsg();
 
-    if (me->state() == Qt::ShiftButton || me->state() == Qt::ControlButton) {
+    if (me->modifiers() == Qt::ShiftModifier || me->modifiers() == Qt::ControlModifier) {
         m_shiftPressed = true;
 
         if (me->button() == Qt::LeftButton) {
@@ -142,10 +142,10 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
     int diffX = positionDifference.x();
     int diffY = positionDifference.y();
 
-    if ((me->state() & Qt::ShiftButton) && (me->state() & Qt::ControlButton)) {
+    if ((me->modifiers() & Qt::ShiftModifier) && (me->modifiers() & Qt::ControlModifier)) {
         //Move in Y axis
         diffX = m_oldX - m_widget->getX();
-    } else if ((me->state() & Qt::ShiftButton) || (me->state() & Qt::ControlButton)) {
+    } else if ((me->modifiers() & Qt::ShiftModifier) || (me->modifiers() & Qt::ControlModifier)) {
         //Move in X axis
         diffY = m_oldY - m_widget->getY();
     }
@@ -261,7 +261,8 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me) {
     } else {
         //TODO Move to ToolbarState or a subclass of it?
         //TODO why this condition?
-        if (me->stateAfter() != Qt::ShiftButton || me->stateAfter() != Qt::ControlButton) {
+        if (me->modifiers() != Qt::ShiftModifier 
+            || me->modifiers() != Qt::ControlModifier) {
             m_widget->m_pView->setAssoc(m_widget);
         }
     }
@@ -393,10 +394,10 @@ void UMLWidgetController::resize(QMouseEvent *me) {
     int newW = m_oldW + me->x() - m_widget->getX() - m_pressOffsetX;
     int newH = m_oldH + me->y() - m_widget->getY() - m_pressOffsetY;
 
-    if ((me->state() & Qt::ShiftButton) && (me->state() & Qt::ControlButton)) {
+    if ((me->modifiers() & Qt::ShiftModifier) && (me->modifiers() & Qt::ControlModifier)) {
         //Move in Y axis
         newW = m_oldW;
-    } else if ((me->state() & Qt::ShiftButton) || (me->state() & Qt::ControlButton)) {
+    } else if ((me->modifiers() & Qt::ShiftModifier) || (me->modifiers() & Qt::ControlModifier)) {
         //Move in X axis
         newH = m_oldH;
     }

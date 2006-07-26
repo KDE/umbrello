@@ -14,6 +14,8 @@
 #include <qmatrix.h> // need for inverseWorldMatrix.map
 #include <qevent.h>
 
+#include <kdebug.h>
+
 #include "toolbarstate.h"
 #include "umlview.h"
 #include "umlwidget.h"
@@ -44,7 +46,7 @@ void ToolBarState::setMouseEvent (QMouseEvent* ome, const QEvent::Type &type)
     if (m_pMouseEvent) delete m_pMouseEvent;
 
     m_pMouseEvent = new QMouseEvent(type, m_pUMLView->inverseWorldMatrix().map(ome->pos()),
-                                    ome->button(),ome->state());
+                                    ome->button(),ome->buttons(),ome->modifiers());
 }
 
 void ToolBarState::mousePress(QMouseEvent* ome)
@@ -90,7 +92,7 @@ void ToolBarState::mouseRelease(QMouseEvent* ome)
 
 void ToolBarState::changeTool()
 {
-    if (m_pMouseEvent->state() == Qt::RightButton)
+    if (m_pMouseEvent->button() == Qt::RightButton)
     {
         /* if the user right clicks on the diagram, first the default tool is
          * selected from the toolbar; this only happens when the default tool
@@ -101,7 +103,7 @@ void ToolBarState::changeTool()
         UMLApp::app()->getWorkToolBar()->setDefaultTool();
     }
 
-    if (m_pMouseEvent->state() != Qt::LeftButton)
+    if (m_pMouseEvent->button() != Qt::LeftButton)
     {
         m_pUMLView->viewport()->setMouseTracking( false );
     }
