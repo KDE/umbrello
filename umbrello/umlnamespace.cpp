@@ -14,14 +14,13 @@
 
 #include "umlnamespace.h"
 #include "qregexp.h"
+#include <kdebug.h>
 
 namespace Uml {
 
 bool tagEq (QString tag, QString pattern) {
     tag.remove( QRegExp("^\\w+:") );  // remove leading "UML:" or other
-    int patSections = pattern.indexOf( '.' ) + 1;
-    QString tagEnd = tag.section( '.', -patSections );
-    return (tagEnd.lower() == pattern.lower());
+    return (tag.lower() == pattern.lower());
 }
 
 QString Visibility::toString(Value value, bool mnemonic) {
