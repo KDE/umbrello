@@ -3,6 +3,7 @@ add_subdirectory( dialogs )
 add_subdirectory( clipboard ) 
 add_subdirectory( pics ) 
 add_subdirectory( codegenerators ) 
+add_subdirectory( docgenerators ) 
 add_subdirectory( headings ) 
 add_subdirectory( refactoring ) 
 
@@ -16,7 +17,7 @@ endmacro(CREATE_VERSION)
 macro_additional_clean_files( ${CMAKE_CURRENT_BINARY_DIR}/version.h )
 create_version(${CMAKE_SOURCE_DIR}/umbrello/VERSION version.h)
 
-include_directories (${CMAKE_CURRENT_SOURCE_DIR}/dialogs/)
+include_directories (/usr/include/libxml2 ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/)
 
 set(libcodegenerator_SRCS
 	codegenerators/codegenfactory.cpp 
@@ -80,6 +81,9 @@ set(libcodegenerator_SRCS
 	codegenerators/xmlcodecomment.cpp
 	codegenerators/codegen_utils.cpp)
 
+set(libdocgenerator_SRCS
+    docgenerators/docbookgenerator.cpp 
+    docgenerators/xhtmlgenerator.cpp)
 
 set(libdialogs_SRCS
 	dialogs/activitydialog.cpp 
@@ -146,7 +150,8 @@ set(umbrello_SRCS
 	${librefactoring_SRCS} 
 	${libclassparser_SRCS} 
 	${libclipboard_SRCS} 
-	${libcodegenerator_SRCS}
+    ${libcodegenerator_SRCS}
+    ${libdocgenerator_SRCS}
 	activitywidget.cpp 
    actor.cpp 
    actorwidget.cpp 
@@ -284,7 +289,7 @@ kde4_add_ui3_files( umbrello_SRCS
 
 kde4_add_executable(umbrello ${umbrello_SRCS})
 
-target_link_libraries(umbrello  ${KDE4_KIO_LIBS}  kdeprint kde3support )
+target_link_libraries(umbrello  ${KDE4_KIO_LIBS}  kdeprint kde3support xml2 xslt)
 
 install(TARGETS umbrello  DESTINATION ${BIN_INSTALL_DIR} )
 

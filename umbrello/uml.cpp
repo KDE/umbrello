@@ -79,6 +79,9 @@
 
 #include "cmdlineexportallviewsevent.h"
 
+#include "docgenerators/docbookgenerator.h"
+#include "docgenerators/xhtmlgenerator.h"
+
 /// @todo This is an ugly _HACK_ to allow to compile umbrello.
 /// All the menu stuff should be ported to KDE4 (using actions)
 QMenu* UMLApp::findMenu(KMenuBar* menu, const QString &name)
@@ -100,6 +103,7 @@ UMLApp::UMLApp(QWidget* parent) : KMainWindow(parent),
     m_codegen = 0;
     m_policyext = 0;
     m_commoncodegenpolicy = 0;
+    m_xhtmlGenerator = 0;
     m_activeLanguage = Uml::pl_Reserved;
     ///////////////////////////////////////////////////////////////////
     // call inits to invoke all other construction parts
@@ -185,6 +189,13 @@ void UMLApp::initActions() {
     setStandardToolBarMenuEnabled(true);
     selectAll = KStdAction::selectAll(this,  SLOT( slotSelectAll() ), actionCollection());
 
+    fileExportDocbook = new KAction(i18n("&Export model to DocBook"), actionCollection(), "file_export_docbook");
+    connect(fileExportDocbook, SIGNAL( triggered( bool ) ), this, SLOT( slotFileExportDocbook() ));
+    
+    fileExportXhtml = new KAction(i18n("&Export model to XHTML"),
+                                    actionCollection(), "file_export_xhtml");
+    connect(fileExportXhtml, SIGNAL( triggered( bool ) ), this, SLOT( slotFileExportXhtml() ));
+    
     classWizard = new KAction(i18n("&New Class Wizard..."),
                               actionCollection(),"class_wizard");
     connect(classWizard, SIGNAL( triggered( bool ) ), this, SLOT( slotClassWizard() ));
@@ -215,6 +226,8 @@ void UMLApp::initActions() {
     fileClose->setToolTip(i18n("Closes the document"));
     filePrint ->setToolTip(i18n("Prints out the document"));
     fileQuit->setToolTip(i18n("Quits the application"));
+    fileExportDocbook->setToolTip(i18n("Exports the model to the docbook format"));
+    fileExportXhtml->setToolTip(i18n("Exports the model to the XHTML format"));
     editCut->setToolTip(i18n("Cuts the selected section and puts it to the clipboard"));
     editCopy->setToolTip(i18n("Copies the selected section to the clipboard"));
     editPaste->setToolTip(i18n("Pastes the contents of the clipboard"));
@@ -850,6 +863,22 @@ void UMLApp::slotFileQuit() {
     slotStatusMsg(i18n("Ready."));
 }
 
+void UMLApp::slotFileExportDocbook()
+{
+  DocbookGenerator().generateDocbookForProject();
+}
+    
+void UMLApp::slotFileExportXhtml()
+{
+  if (m_xhtmlGenerator != 0)
+  {
+    return;
+  }
+  m_xhtmlGenerator = new XhtmlGenerator();
+  m_xhtmlGenerator->generateXhtmlForProject();
+  connect(m_xhtmlGenerator,SIGNAL(finished()),this,SLOT(slotXhtmlDocGenerationFinished()));
+}
+    
 void UMLApp::slotEditUndo() {
     m_doc->loadUndoData();
     slotStatusMsg(i18n("Ready."));
@@ -1672,6 +1701,12 @@ void UMLApp::slotMoveTabLeft() {
 void UMLApp::slotMoveTabRight() {
     //causes problems
     //m_tabWidget->moveTab( m_tabWidget->currentPageIndex(), m_tabWidget->currentPageIndex() + 1 );
+}
+
+void UMLApp::slotXhtmlDocGenerationFinished()
+{
+  delete m_xhtmlGenerator;
+  m_xhtmlGenerator = 0;
 }
 
 KTabWidget* UMLApp::tabWidget() {

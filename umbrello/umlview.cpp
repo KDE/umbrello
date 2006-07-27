@@ -120,7 +120,7 @@ using namespace Uml;
 
 
 // constructor
-UMLView::UMLView() : Q3CanvasView(UMLApp::app()->getMainViewWidget(), "AnUMLView") {
+UMLView::UMLView() : Q3CanvasView(UMLApp::app()->getMainViewWidget(), "AnUMLView"), m_pChildDisplayedDoc(false) {
     init();
     m_pDoc = UMLApp::app()->getDocument();
 }
@@ -1274,6 +1274,10 @@ bool UMLView::isSavedInSeparateFile() {
 void UMLView::contentsMousePressEvent(QMouseEvent* ome)
 {
     m_pToolBarState->mousePress(ome);
+    if (!m_pChildDisplayedDoc) {
+      UMLApp::app() -> getDocWindow() -> showDocumentation( this, true );
+    }
+    m_pChildDisplayedDoc = false;
 }
 
 void UMLView::makeSelected (UMLWidget * uw) {
@@ -2107,14 +2111,17 @@ Uml::Association_Type UMLView::convert_TBB_AT(WorkToolBar::ToolBar_Buttons tbb) 
 
 void UMLView::showDocumentation( UMLObject * object, bool overwrite ) {
     UMLApp::app() -> getDocWindow() -> showDocumentation( object, overwrite );
+    m_pChildDisplayedDoc = true;
 }
 
 void UMLView::showDocumentation( UMLWidget * widget, bool overwrite ) {
     UMLApp::app() -> getDocWindow() -> showDocumentation( widget, overwrite );
+    m_pChildDisplayedDoc = true;
 }
 
 void UMLView::showDocumentation( AssociationWidget * widget, bool overwrite ) {
     UMLApp::app() -> getDocWindow() -> showDocumentation( widget, overwrite );
+    m_pChildDisplayedDoc = true;
 }
 
 void UMLView::updateDocumentation( bool clear ) {
