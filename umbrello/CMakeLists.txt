@@ -69,6 +69,7 @@ set(libcodegenerator_SRCS
 	codegenerators/javawriter.cpp 
 	codegenerators/jswriter.cpp
 	codegenerators/idlwriter.cpp 
+	codegenerators/pascalwriter.cpp 
 	codegenerators/perlwriter.cpp 
 	codegenerators/phpwriter.cpp 
 	codegenerators/php5writer.cpp 
@@ -231,6 +232,7 @@ set(umbrello_SRCS
    objectwidgetcontroller.cpp
    object_factory.cpp 
    operation.cpp 
+   optionstate.cpp 
    ownedcodeblock.cpp 
    ownedhierarchicalcodeblock.cpp 
    package.cpp 
