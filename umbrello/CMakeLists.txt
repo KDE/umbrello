@@ -1,4 +1,4 @@
-add_subdirectory( classparser ) 
+add_subdirectory( codeimport ) 
 add_subdirectory( dialogs ) 
 add_subdirectory( clipboard ) 
 add_subdirectory( pics ) 
@@ -125,18 +125,30 @@ set(libdialogs_SRCS
 set(librefactoring_SRCS 
 		refactoring/refactoringassistant.cpp )
 
-set(libclassparser_SRCS 
-	classparser/ast.cpp 
-	classparser/driver.cpp 
-	classparser/errors.cpp 
-	classparser/lexer.cpp 
-	classparser/lookup.cpp 
-	classparser/parser.cpp 
-	classparser/tree_parser.cpp 
-	classparser/urlutil.cpp 
-	classparser/ast_utils.cpp 
-	classparser/cpptree2uml.cpp
-)	
+set(libcodeimport_SRCS 
+	codeimport/adaimport.cpp
+	codeimport/classimport.cpp
+	codeimport/cppimport.cpp
+	codeimport/idlimport.cpp
+	codeimport/import_utils.cpp
+	codeimport/javaimport.cpp
+	codeimport/nativeimportbase.cpp
+	codeimport/pascalimport.cpp
+	codeimport/pythonimport.cpp
+)
+
+set(libkdevcppparser_SRCS 
+	codeimport/kdevcppparser/ast.cpp 
+	codeimport/kdevcppparser/driver.cpp 
+	codeimport/kdevcppparser/errors.cpp 
+	codeimport/kdevcppparser/lexer.cpp 
+	codeimport/kdevcppparser/lookup.cpp 
+	codeimport/kdevcppparser/parser.cpp 
+	codeimport/kdevcppparser/tree_parser.cpp 
+	codeimport/kdevcppparser/urlutil.cpp 
+	codeimport/kdevcppparser/ast_utils.cpp 
+	codeimport/kdevcppparser/cpptree2uml.cpp
+)
 
 set(libclipboard_SRCS 
 	clipboard/umldrag.cpp 
@@ -150,12 +162,13 @@ set(umbrello_SRCS
 	${librefactoring_SRCS} 
 	${libclassparser_SRCS} 
 	${libclipboard_SRCS} 
+    ${libkdevcppparser_SRCS}
+    ${libcodeimport_SRCS}
     ${libcodegenerator_SRCS}
     ${libdocgenerator_SRCS}
 	activitywidget.cpp 
    actor.cpp 
    actorwidget.cpp 
-   adaimport.cpp 
    aligntoolbar.cpp 
    artifact.cpp 
    artifactwidget.cpp 
@@ -168,7 +181,6 @@ set(umbrello_SRCS
    classifiercodedocument.cpp 
    classifierlistitem.cpp 
    classifierwidget.cpp 
-   classimport.cpp 
    cmdlineexportallviewsevent.cpp
    codeaccessormethod.cpp 
    codeblock.cpp 
@@ -186,7 +198,6 @@ set(umbrello_SRCS
    component.cpp 
    componentwidget.cpp 
    configurable.cpp 
-   cppimport.cpp 
    datatype.cpp 
    datatypewidget.cpp 
    dialog_utils.cpp 
@@ -201,11 +212,8 @@ set(umbrello_SRCS
    floatingtextwidgetcontroller.cpp
    forkjoinwidget.cpp 
    hierarchicalcodeblock.cpp 
-   idlimport.cpp 
    import_rose.cpp 
-   import_utils.cpp 
    infowidget.cpp 
-   javaimport.cpp 
    kplayerslideraction.cpp
    kstartuplogo.cpp 
    linepath.cpp 
@@ -215,7 +223,6 @@ set(umbrello_SRCS
    messagewidget.cpp 
    messagewidgetcontroller.cpp
    model_utils.cpp 
-   nativeimportbase.cpp 
    node.cpp 
    nodewidget.cpp 
    notewidget.cpp 
@@ -232,7 +239,6 @@ set(umbrello_SRCS
    petaltree2uml.cpp 
    plugin.cpp 
    pluginloader.cpp 
-   pythonimport.cpp 
    seqlinewidget.cpp 
    statewidget.cpp 
    stereotype.cpp 

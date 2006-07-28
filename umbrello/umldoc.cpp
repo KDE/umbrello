@@ -129,7 +129,7 @@ void UMLDoc::addView(UMLView *view) {
         }
     }
 
-    Settings::OptionState optionState = UMLApp::app()->getOptionState();
+    Settings::OptionState optionState = Settings::getOptionState();
     KTabWidget* tabWidget = NULL;
     if (optionState.generalState.tabdiagrams) {
         tabWidget = UMLApp::app()->tabWidget();
@@ -328,7 +328,7 @@ bool UMLDoc::newDocument() {
     m_currentView = NULL;
     m_doc_url.setFileName(i18n("Untitled"));
     //see if we need to start with a new diagram
-    Settings::OptionState optionState = UMLApp::app()->getOptionState();
+    Settings::OptionState optionState = Settings::getOptionState();
 
     switch( optionState.generalState.diagram ) {
     case Settings::diagram_usecase:
@@ -1054,7 +1054,7 @@ void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
             KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("Invalid Name"));
         } else if(!findView(type, name)) {
             UMLView* temp = new UMLView();
-            temp -> setOptionState( UMLApp::app()->getOptionState() );
+            temp -> setOptionState( Settings::getOptionState() );
             temp->setName( name );
             temp->setType( type );
             temp->setID( getUniqueID() );
@@ -1596,7 +1596,7 @@ bool UMLDoc::loadFolderFile( QString filename ) {
         type = element.tagName();
         if (type == "diagram") {
             UMLView * pView = new UMLView();
-            pView->setOptionState( UMLApp::app()->getOptionState() );
+            pView->setOptionState( Settings::getOptionState() );
             bool success = pView->loadFromXMI(element);
             if (!success) {
                 kWarning() << "UMLDoc::loadFolderFile(" << filename
@@ -1782,7 +1782,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
         viewToBeSet = findView( m_nViewID );
     if (viewToBeSet) {
         changeCurrentView( m_nViewID );
-        Settings::OptionState optionState = UMLApp::app()->getOptionState();
+        Settings::OptionState optionState = Settings::getOptionState();
         if (optionState.generalState.tabdiagrams) {
             UMLApp::app()->tabWidget()->showPage(viewToBeSet);
         }
@@ -2007,7 +2007,7 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
     QDomElement element = node.toElement();
     if( element.isNull() )
         return true;//return ok as it means there is no umlobjects
-    const Settings::OptionState state = UMLApp::app()->getOptionState();
+    const Settings::OptionState state = Settings::getOptionState();
     UMLView * pView = 0;
     int count = 0;
     while( !element.isNull() ) {
@@ -2267,7 +2267,7 @@ bool UMLDoc::addUMLView(UMLView * pView ) {
 
     pView->activateAfterLoad( true );
     pView->endPartialWidgetPaste();
-    pView->setOptionState( UMLApp::app()->getOptionState() );
+    pView->setOptionState( Settings::getOptionState() );
     addView(pView);
     setModified(true);
     return true;
@@ -2298,7 +2298,7 @@ void UMLDoc::initSaveTimer() {
         delete m_pAutoSaveTimer;
         m_pAutoSaveTimer = 0;
     }
-    Settings::OptionState optionState = UMLApp::app()->getOptionState();
+    Settings::OptionState optionState = Settings::getOptionState();
     if( optionState.generalState.autosave ) {
         m_pAutoSaveTimer = new QTimer(this, "_AUTOSAVETIMER_" );
         connect( m_pAutoSaveTimer, SIGNAL( timeout() ), this, SLOT( slotAutoSave() ) );
@@ -2325,7 +2325,7 @@ void UMLDoc::slotAutoSave() {
         QString orgFileName = m_doc_url.fileName();
         // don't overwrite manually saved file with autosave content
         QString fileName = tempUrl.fileName();
-        Settings::OptionState optionState = UMLApp::app()->getOptionState();
+        Settings::OptionState optionState = Settings::getOptionState();
         fileName.replace( ".xmi", optionState.generalState.autosavesuffix );
         tempUrl.setFileName( fileName );
         // End Achim Spangler
@@ -2348,14 +2348,14 @@ void UMLDoc::slotAutoSave() {
 }
 
 void UMLDoc::signalDiagramRenamed(UMLView* pView ) {
-    Settings::OptionState optionState = UMLApp::app()->getOptionState();
+    Settings::OptionState optionState = Settings::getOptionState();
     if (optionState.generalState.tabdiagrams)
         UMLApp::app()->tabWidget()->setTabLabel( pView, pView->getName() );
     emit sigDiagramRenamed( pView -> getID() );
 }
 
 void UMLDoc::addToUndoStack() {
-    Settings::OptionState optionState = UMLApp::app()->getOptionState();
+    Settings::OptionState optionState = Settings::getOptionState();
     if (!m_bLoading && optionState.generalState.undo) {
         QBuffer* buffer = new QBuffer();
         buffer->open(QIODevice::WriteOnly);
@@ -2493,7 +2493,7 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point) {
         delete m_pTabPopupMenu;
         m_pTabPopupMenu = 0;
     }
-    Settings::OptionState optionState = UMLApp::app()->getOptionState();
+    Settings::OptionState optionState = Settings::getOptionState();
     if (! optionState.generalState.tabdiagrams)
         return;
 

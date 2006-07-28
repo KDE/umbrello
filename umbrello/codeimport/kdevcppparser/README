@@ -1,0 +1,56 @@
+This directory contains the C++ parser from Kdevelop-3.0.
+
+Following files are copies from the directory kdevelop/lib/cppparser:
+ ast.{h,cpp} driver.{h,cpp} errors.{h,cpp} keywords.lut.h lexer.{h,cpp}
+ lookup.{h,cpp} parser.{h,cpp} tree_parser.{h,cpp}
+
+Following files are copies from the directory kdevelop/languages/cpp:
+ ast_utils.{h,cpp}
+
+Following files are copies from the directory kdevelop/lib/util:
+ urlutil.{h,cpp}
+
+The source files cpptree2uml.{h,cpp} are based on kdevelop/languages/cpp/
+store_walker.{h,cpp}.  The class CppTree2Uml inherits from class TreeParser
+and overrides certain methods from that class.
+
+CppTree2Uml visits the nodes of the abstract syntax tree constructed by the
+CppParser, and constructs UML objects on the way.
+
+The import_utils.h (in the parent directory) is the interface between the
+CppTree2Uml and Umbrello.
+import_utils implements the construction of the UML objects.  CppTree2Uml calls
+the create/insert methods in the import_utils while traversing the syntax
+tree.
+
+The one and only method that Umbrello uses for accessing the C++ parser,
+and any other parser for that matter, is ClassImport::importFiles().
+The class CppImport (in the parent directory) implements that operation.
+Thus we have these classes:
+
+                +-------------------+
+                |   <<interface>>   |
+                |   ClassImport     |
+                +===================+
+Umbrello ------>| importFiles() = 0 |
+                +-------------------+
+                          A
+                          | <<realize>>
+                          |
+                +-------------------+               +-------------------+
+                |    CppImport      |               |    CppTree2Uml    |
+                +===================+  <<invoke>>   +===================+
+                | importFiles()     |-------------->|                   |
+                +-------------------+               |                   |
+                                                    +-------------------+
+                                                             |
+                +-------------------+                        |
+                |   <<utility>>     |                        |
+                |   Import_Utils    |                        |
+                +===================+                        |
+                | createUMLObject() |  <<invoke>>            |
+                | insertMethod()    |<-----------------------+
+                | insertAttribute() |
+                +-------------------+
+                        |
+Umbrello <--------------+

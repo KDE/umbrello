@@ -1,6 +1,3 @@
-#ifndef JAVAIMPORT_H
-#define JAVAIMPORT_H
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,7 +9,11 @@
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
+#ifndef JAVAIMPORT_H
+#define JAVAIMPORT_H
+
 #include "nativeimportbase.h"
+#include "../umlobject.h"
 
 /**
  * Java code import
@@ -51,8 +52,40 @@ protected:
      */
     bool skipToClosing(QChar opener);
 
+    /**
+     * Keep track of the filename currently being parsed
+     */
+    void parseFile(QString filename);
+
+    /**
+     * Try to resolve the specified class the current class depends on
+     */
+    UMLObject* resolveClass (QString className);
+
+    /**
+     * spawn off an import of the specified file
+     */
+    void spawnImport(QString file);
+
     QString joinTypename();
     bool m_isStatic;
+
+    /**
+     * The current filename being parsed
+     */
+    QString m_currentFileName;
+
+    /**
+     * the current package of the file being parsed
+     */ 
+    QString m_currentPackage;
+
+    /**
+     * the imports included in the current file
+     */
+    QStringList m_imports;
+
+
 };
 
 #endif

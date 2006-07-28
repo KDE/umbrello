@@ -19,20 +19,19 @@
 #include <kdebug.h>
 // app includes
 #include "import_utils.h"
-#include "umlobject.h"
-#include "docwindow.h"
-#include "package.h"
-#include "enum.h"
-#include "datatype.h"
-#include "classifier.h"
-#include "operation.h"
-#include "attribute.h"
-#include "template.h"
-#include "association.h"
-#include "idlimport.h"
-#include "classparser/lexer.h"
-#include "classparser/driver.h"
-#include "classparser/cpptree2uml.h"
+#include "../umlobject.h"
+#include "../docwindow.h"
+#include "../package.h"
+#include "../enum.h"
+#include "../datatype.h"
+#include "../classifier.h"
+#include "../operation.h"
+#include "../attribute.h"
+#include "../template.h"
+#include "../association.h"
+#include "kdevcppparser/lexer.h"
+#include "kdevcppparser/driver.h"
+#include "kdevcppparser/cpptree2uml.h"
 
 // static members
 CppDriver * CppImport::ms_driver;

@@ -182,7 +182,7 @@ void exportAllViews(KCmdLineArgs *args, const QByteArrayList &exportOpt) {
     KUrl directory;
     QByteArrayList directoryOpt = args->getOptionList("directory");
     if (directoryOpt.size() > 0) {
-        directory = KUrl(directoryOpt.last());
+        directory = KCmdLineArgs::makeURL(directoryOpt.last());
     } else {
         directory = KUrl(UMLApp::app()->getDocument()->url().directory());
     }

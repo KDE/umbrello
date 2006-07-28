@@ -14,26 +14,25 @@
 // qt/kde includes
 #include <qmap.h>
 #include <qregexp.h>
-#include <kapplication.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
 #include <klocale.h>
 // app includes
-#include "uml.h"
-#include "umldoc.h"
-#include "umllistview.h"
-#include "umllistviewitem.h"
-#include "umlobject.h"
-#include "docwindow.h"
-#include "package.h"
-#include "enum.h"
-#include "datatype.h"
-#include "classifier.h"
-#include "operation.h"
-#include "attribute.h"
-#include "template.h"
-#include "association.h"
-#include "object_factory.h"
+#include "../uml.h"
+#include "../umldoc.h"
+#include "../umllistview.h"
+#include "../umllistviewitem.h"
+#include "../umlobject.h"
+#include "../docwindow.h"
+#include "../package.h"
+#include "../enum.h"
+#include "../datatype.h"
+#include "../classifier.h"
+#include "../operation.h"
+#include "../attribute.h"
+#include "../template.h"
+#include "../association.h"
+#include "../object_factory.h"
 
 namespace Import_Utils {
 
@@ -153,7 +152,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
                         continue;
                     }
                     int wantNamespace = KMessageBox::Yes;
-                    /* We know std and Qt are always a namespaces */
+                    /* We know std and Qt are namespaces */
                     if (scopeName != "std" && scopeName != "Qt") {
                         wantNamespace = KMessageBox::questionYesNo(NULL,
                                         i18n("Is the scope %1 a namespace or a class?", scopeName),
@@ -162,7 +161,6 @@ UMLObject *createUMLObject(Uml::Object_Type type,
                     }
                     Uml::Object_Type ot = (wantNamespace == KMessageBox::Yes ? Uml::ot_Package : Uml::ot_Class);
                     o = Object_Factory::createUMLObject(ot, scopeName, parentPkg);
-                    kapp->processEvents();
                     parentPkg = static_cast<UMLPackage*>(o);
                     UMLListView *listView = UMLApp::app()->getListView();
                     UMLListViewItem *lvitem = listView->findUMLObject(o);
@@ -176,7 +174,6 @@ UMLObject *createUMLObject(Uml::Object_Type type,
                 t = Uml::ot_Class;
             origType = Object_Factory::createUMLObject(t, typeName, parentPkg);
             bNewUMLObjectWasCreated = true;
-            kapp->processEvents();
         }
         if (isConst || isAdorned) {
             // Create the full given type (including adornments.)
@@ -186,8 +183,9 @@ UMLObject *createUMLObject(Uml::Object_Type type,
                 parentPkg = NULL;
                 bPutAtGlobalScope = false;
             }
-            o = Object_Factory::createUMLObject(Uml::ot_Datatype, name, parentPkg);
-            kapp->processEvents();
+            o = Object_Factory::createUMLObject(Uml::ot_Datatype, name, parentPkg,
+                                                false,  //prepend
+                                                false); //solicitNewName
             UMLDatatype *dt = static_cast<UMLDatatype*>(o);
             UMLClassifier *c = dynamic_cast<UMLClassifier*>(origType);
             if (c)
@@ -232,7 +230,7 @@ UMLOperation* makeOperation(UMLClassifier *parent, const QString &name) {
 }
 
 UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope, QString name,
-                                        QString type, QString comment /* ="" */,
+                                        UMLClassifier *attrType, QString comment /* ="" */,
                                         bool isStatic /* =false */) {
     Uml::Object_Type ot = owner->getBaseType();
     if (ot != Uml::ot_Class) {
@@ -244,12 +242,7 @@ UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope, QString 
     if (o) {
         return o;
     }
-    UMLObject *attrType = owner->findTemplate(type);
-    if (attrType == NULL) {
-        bPutAtGlobalScope = true;
-        attrType = createUMLObject(Uml::ot_UMLObject, type, owner);
-        bPutAtGlobalScope = false;
-    }
+
     UMLAttribute *attr = owner->addAttribute(name, attrType, scope);
     attr->setStatic(isStatic);
     QString strippedComment = formatComment(comment);
@@ -260,6 +253,20 @@ UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope, QString 
 
     UMLApp::app()->getDocument()->setModified(true);
     return attr;
+}
+
+UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope, QString name,
+                                        QString type, QString comment /* ="" */,
+                                        bool isStatic /* =false */) {
+    UMLObject *attrType = owner->findTemplate(type);
+    if (attrType == NULL) {
+        bPutAtGlobalScope = true;
+        attrType = createUMLObject(Uml::ot_UMLObject, type, owner);
+        bPutAtGlobalScope = false;
+    }
+    return insertAttribute (owner, scope, name, 
+                            static_cast<UMLClassifier*>(attrType), 
+                            comment, isStatic);
 }
 
 void insertMethod(UMLClassifier *klass, UMLOperation *op,
@@ -303,8 +310,7 @@ void insertMethod(UMLClassifier *klass, UMLOperation *op,
     //setModified(true);
 }
 
-UMLAttribute* addMethodParameter(UMLOperation *method,
-        QString type, QString name) {
+UMLAttribute* addMethodParameter(UMLOperation *method, QString type, QString name) {
     UMLClassifier *owner = static_cast<UMLClassifier*>(method->parent());
     UMLObject *typeObj = owner->findTemplate(type);
     if (typeObj == NULL) {
@@ -323,8 +329,18 @@ void addEnumLiteral(UMLEnum *enumType, const QString &literal) {
 }
 
 void createGeneralization(UMLClassifier *child, UMLClassifier *parent) {
-    UMLAssociation *assoc = new UMLAssociation( Uml::at_Generalization,
-                            child, parent );
+    // if the child is an interface, so is the parent.
+    if (child->isInterface())
+        parent->setInterface(true);
+    Uml::Association_Type association = Uml::at_Generalization;
+
+    if (parent->isInterface() && !child->isInterface()) {
+        // if the parent is an interface, but the child is not, then
+        // this is really realization.
+        //
+        association = Uml::at_Realization;
+    }
+    UMLAssociation *assoc = new UMLAssociation(association, child, parent);
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     umldoc->addAssociation(assoc);
 }

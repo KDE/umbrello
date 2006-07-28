@@ -1,6 +1,3 @@
-#ifndef ADAIMPORT_H
-#define ADAIMPORT_H
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -8,21 +5,24 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2005                                                     *
+ *  copyright (C) 2006                                                     *
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
+
+#ifndef PYTHONIMPORT_H
+#define PYTHONIMPORT_H
 
 #include "nativeimportbase.h"
 
 /**
- * Ada code import
+ * Python code import
  * @author Oliver Kellogg
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class AdaImport : public NativeImportBase {
+class PythonImport : public NativeImportBase {
 public:
-    AdaImport();
-    virtual ~AdaImport();
+    PythonImport();
+    virtual ~PythonImport();
 
 protected:
     /**
@@ -38,15 +38,38 @@ protected:
     /**
      * Implement abstract operation from NativeImportBase.
      */
-    void fillSource(QString word);
+    void fillSource(QString line);
 
     /**
-     * Reimplement operation from NativeImportBase to be a no-op.
-     * Ada does not require preprocessing.
+     * Reimplement operation from NativeImportBase.
+     * In addition to handling multiline comments, this method transforms
+     * changes in leading indentation into braces (opening brace for increase
+     * in indentation, closing brace for decrease in indentation) in m_source.
+     * Removal of Python's indentation sensitivity simplifies subsequent
+     * processing using Umbrello's native import framework.
      */
     bool preprocess(QString& line);
 
-    bool m_inGenericFormalPart; ///< auxiliary variable
+    /**
+     * Skip ahead to outermost closing brace
+     */
+    void skipBody();
+
+    /**
+     * Buffer for number of indentation characters (whitespace,
+     * i.e. tabs or spaces) at beginning of input line.
+     */
+    int m_srcIndent[100];
+
+    /**
+     * Index for m_srcIndent[]. Index 0 is reserved and contains 0.
+     */
+    int m_srcIndentIndex;
+
+    /**
+     * Auxiliary flag denoting the opening of a block
+     */
+    bool m_braceWasOpened;
 };
 
 #endif

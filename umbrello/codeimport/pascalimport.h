@@ -1,6 +1,3 @@
-#ifndef PYTHONIMPORT_H
-#define PYTHONIMPORT_H
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,17 +9,20 @@
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
+#ifndef PASCALIMPORT_H
+#define PASCALIMPORT_H
+
 #include "nativeimportbase.h"
 
 /**
- * Python code import
+ * Pascal code import
  * @author Oliver Kellogg
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class PythonImport : public NativeImportBase {
+class PascalImport : public NativeImportBase {
 public:
-    PythonImport();
-    virtual ~PythonImport();
+    PascalImport();
+    virtual ~PascalImport();
 
 protected:
     /**
@@ -38,38 +38,28 @@ protected:
     /**
      * Implement abstract operation from NativeImportBase.
      */
-    void fillSource(QString line);
+    void fillSource(QString word);
 
     /**
-     * Reimplement operation from NativeImportBase.
-     * In addition to handling multiline comments, this method transforms
-     * changes in leading indentation into braces (opening brace for increase
-     * in indentation, closing brace for decrease in indentation) in m_source.
-     * Removal of Python's indentation sensitivity simplifies subsequent
-     * processing using Umbrello's native import framework.
+     * Check for, and skip over, all modifiers following a method.
+     * Set the output arguments on encountering abstract and/or virtual.
+     *
+     * @param isVirtual   return value, set to true when "virtual" seen
+     * @param isAbstract  return value, set to true when "abstract" seen
      */
-    bool preprocess(QString& line);
+    void checkModifiers(bool& isVirtual, bool& isAbstract);
 
     /**
-     * Skip ahead to outermost closing brace
+     * Auxiliary variable, becomes true when keyword "interface" is seen
      */
-    void skipBody();
+    bool m_inInterface;
 
+    enum Section_Type { sect_NONE, sect_LABEL, sect_CONST, sect_RESOURCESTRING,
+                        sect_TYPE, sect_VAR, sect_THREADVAR };
     /**
-     * Buffer for number of indentation characters (whitespace,
-     * i.e. tabs or spaces) at beginning of input line.
+     * Auxiliary variable, contains the current section
      */
-    int m_srcIndent[100];
-
-    /**
-     * Index for m_srcIndent[]. Index 0 is reserved and contains 0.
-     */
-    int m_srcIndentIndex;
-
-    /**
-     * Auxiliary flag denoting the opening of a block
-     */
-    bool m_braceWasOpened;
+    Section_Type m_section;
 };
 
 #endif

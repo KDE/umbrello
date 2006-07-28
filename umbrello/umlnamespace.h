@@ -256,6 +256,7 @@ enum Programming_Language {
     pl_IDL,
     pl_Java,
     pl_JavaScript,
+    pl_Pascal,
     pl_Perl,
     pl_PHP,
     pl_PHP5,

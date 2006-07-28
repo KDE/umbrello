@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2005                                                     *
+ *  copyright (C) 2005-2006                                                *
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,8 +13,8 @@
 #define IMPORT_UTILS_H
 
 #include <qstringlist.h>
-#include "umlnamespace.h"
-#include "umlattributelist.h"
+#include "../umlnamespace.h"
+#include "../umlattributelist.h"
 
 class UMLDoc;
 class UMLObject;
@@ -64,7 +64,13 @@ namespace Import_Utils {
     UMLObject* insertAttribute(UMLClassifier *klass, Uml::Visibility scope, QString name,
                                QString type, QString comment = QString::null,
                                bool isStatic = false);
-
+    /**
+     * Create a UMLAttribute and insert it into the document.
+     * Use the specified existing attrType.
+     */
+    UMLObject* insertAttribute(UMLClassifier *klass, Uml::Visibility scope, QString name,
+                                        UMLClassifier *attrType, QString comment /* ="" */,
+                                        bool isStatic /* =false */);
     /**
      * Create a UMLOperation.
      * The reason for this method is to not generate any Qt signals.

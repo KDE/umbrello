@@ -20,17 +20,18 @@
 #include <kdebug.h>
 // app includes
 #include "import_utils.h"
-#include "uml.h"
-#include "umldoc.h"
-#include "umlpackagelist.h"
-#include "package.h"
-#include "classifier.h"
-#include "enum.h"
-#include "operation.h"
-#include "attribute.h"
+#include "../uml.h"
+#include "../umldoc.h"
+#include "../umlpackagelist.h"
+#include "../package.h"
+#include "../classifier.h"
+#include "../enum.h"
+#include "../operation.h"
+#include "../attribute.h"
 
 IDLImport::IDLImport() : NativeImportBase("//") {
     m_isOneway = m_isReadonly = m_isAttribute = false;
+    setMultiLineComment("/*", "*/");
 }
 
 IDLImport::~IDLImport() {

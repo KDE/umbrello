@@ -136,6 +136,9 @@ void SettingsDlg::setupGeneralPage() {
 
     m_GeneralWidgets.newcodegenCB = new QCheckBox( i18n("Use new C++/Java/Ruby generators"), m_GeneralWidgets.miscGB );
     m_GeneralWidgets.newcodegenCB -> setChecked( m_pOptionState->generalState.newcodegen );
+#ifndef BUG84739_FIXED
+    m_GeneralWidgets.newcodegenCB->setEnabled(false);
+#endif
     miscLayout -> addWidget( m_GeneralWidgets.newcodegenCB, 1, 0 );
 
     m_GeneralWidgets.angularLinesCB = new QCheckBox( i18n("Use angular association lines"), m_GeneralWidgets.miscGB );

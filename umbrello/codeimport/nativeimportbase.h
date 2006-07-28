@@ -1,6 +1,3 @@
-#ifndef NATIVEIMPORTBASE_H
-#define NATIVEIMPORTBASE_H
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,10 +9,13 @@
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
+#ifndef NATIVEIMPORTBASE_H
+#define NATIVEIMPORTBASE_H
+
 #include <qstring.h>
 #include <qstringlist.h>
 #include "classimport.h"
-#include "umlnamespace.h"
+#include "../umlnamespace.h"
 
 class UMLPackage;
 class UMLClassifier;
@@ -57,6 +57,21 @@ protected:
     void initialize();
 
     /**
+     * Set the delimiter strings for a multi line comment.
+     *
+     * @param intro  In languages with a C style multiline comment
+     *               this is slash-star.
+     * @param end    In languages with a C style multiline comment
+     *               this is star-slash.
+     */
+    void setMultiLineComment(QString intro, QString end);
+    /**
+     * Set the delimiter strings for an alternative form of
+     * multi line comment. See setMultiLineComment().
+     */
+    void setMultiLineAltComment(QString intro, QString end);
+
+    /**
      * Import a single file.
      * The default implementation should be feasible for languages that
      * don't depend on an external preprocessor.
@@ -86,8 +101,7 @@ protected:
      * Preprocess a line.
      * May modify the given line to remove items consumed by the
      * preprocessing such as comments or preprocessor directives.
-     * The default implementation handles C style multi-line comments
-     * (slash-star, star-slash.)
+     * The default implementation handles multi-line comments.
      *
      * @param line  The line to preprocess.
      * @return      True if the line was completely consumed,
@@ -176,6 +190,18 @@ protected:
      * stored here depend on the specific code importer.
      */
     QStringList m_parsedFiles;
+
+    /**
+     * Multi line comment delimiters
+     */
+    QString m_multiLineCommentIntro;
+    QString m_multiLineCommentEnd;
+    /**
+     * Some languages support an alternative set of multi line
+     * comment delimiters.
+     */
+    QString m_multiLineAltCommentIntro;
+    QString m_multiLineAltCommentEnd;
 };
 
 #endif

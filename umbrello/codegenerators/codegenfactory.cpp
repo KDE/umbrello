@@ -37,9 +37,10 @@
 // #include "cswriter.h" // missing in action?!?
 #include "idlwriter.h"
 #include "javawriter.h"
+#include "pascalwriter.h"
+#include "perlwriter.h"
 #include "phpwriter.h"
 #include "php5writer.h"
-#include "perlwriter.h"
 #include "pythonwriter.h"
 #include "rubywriter.h"
 #include "sqlwriter.h"
@@ -87,7 +88,7 @@ namespace CodeGenFactory {
 
 CodeGenerator* createObject(Uml::Programming_Language pl)  {
     CodeGenerator* obj = 0;
-    Settings::OptionState optionState = UMLApp::app()->getOptionState();
+    Settings::OptionState optionState = Settings::getOptionState();
     switch (pl) {
         case Uml::pl_Ada:
             obj = new AdaWriter();
@@ -122,6 +123,9 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
         case Uml::pl_PHP5:
             obj = new Php5Writer();
             break;
+        case Uml::pl_Pascal:
+            obj = new PascalWriter();
+            break;
         case Uml::pl_Perl:
             obj = new PerlWriter();
             break;
@@ -154,7 +158,7 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
 
 CodeDocument * newClassifierCodeDocument (UMLClassifier * c)
 {
-    Settings::OptionState optionState = UMLApp::app()->getOptionState();
+    Settings::OptionState optionState = Settings::getOptionState();
     if (!optionState.generalState.newcodegen)
         return NULL;
     ClassifierCodeDocument *retval = NULL;

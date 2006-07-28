@@ -1,8 +1,22 @@
 Version 1.5.4
 
 * Bugs/wishes from http://bugs.kde.org:
-* Fix crash when importing classes from a java file (129107, 130093)
+* Transform interface to class - fixes to some issues (79433)
+* Free Pascal code import and generator (114547)
+* Enable selection of multiple classes in "Select classes" dialog (126485)
 * Crash after single click on the "UML Model" tree window (126560/129252)
+* Fix crash when importing classes from a java file (129107, 130093)
+* Cannot insert transition/association TO fork/join node in activity diagram (129914)
+* Command line switches: graphics export to directory does not work with relative paths (130600)
+* Importing java files that reference their own class name crashes (130735)
+* Importing java class (enum pattern) cause umbrello to hang (130792)
+* Importing java subinterface before superinterface results in superinterface
+  not being treated as an interface (130793)
+* Java import: method and class visibility ignored (130794)
+* Java import - static not handled correctly (130926)
+* Java import - package visibility incorrectly represented (130932)
+* Java import - random import order can result in interface being teated as class (131006)
+* Java import - associations not setup correctly, duplicate classes created (131270)
 
 Version 1.5.3
 

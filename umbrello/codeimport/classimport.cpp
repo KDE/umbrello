@@ -15,12 +15,13 @@
 #include <qregexp.h>
 #include <klocale.h>
 // app includes
-#include "umldoc.h"
-#include "uml.h"
+#include "../umldoc.h"
+#include "../uml.h"
 #include "idlimport.h"
 #include "pythonimport.h"
 #include "javaimport.h"
 #include "adaimport.h"
+#include "pascalimport.h"
 #include "cppimport.h"
 
 void ClassImport::importFiles(QStringList fileList) {
@@ -30,7 +31,7 @@ void ClassImport::importFiles(QStringList fileList) {
     for (QStringList::Iterator fileIT = fileList.begin();
             fileIT != fileList.end(); ++fileIT) {
         QString fileName = (*fileIT);
-        umldoc->writeToStatusBar(i18n("Importing file: %1 Progress: %2/%3", 
+        umldoc->writeToStatusBar(i18n("Importing file: %1 Progress: %2/%3",
                                  fileName, processedFilesCount, fileList.size()));
         parseFile(fileName);
         processedFilesCount++;
@@ -48,6 +49,8 @@ ClassImport *ClassImport::createImporterByFileExt(QString filename) {
         classImporter = new JavaImport();
     else if (filename.contains( QRegExp("\\.ad[sba]$") ))
         classImporter = new AdaImport();
+    else if (filename.endsWith(".pas"))
+        classImporter = new PascalImport();
     else
         classImporter = new CppImport();  // the default.
     return classImporter;

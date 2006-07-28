@@ -16,7 +16,7 @@
 #include <kdebug.h>
 // app includes
 #include "petalnode.h"
-#include "import_utils.h"
+#include "codeimport/import_utils.h"
 #include "package.h"
 #include "classifier.h"
 #include "attribute.h"

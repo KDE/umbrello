@@ -485,7 +485,7 @@ UMLObject* UMLClassifier::createAttribute(const QString &name /*=null*/) {
     } else {
         currentName = name;
     }
-    const Settings::OptionState optionState = UMLApp::app()->getOptionState();
+    const Settings::OptionState optionState = Settings::getOptionState();
     Uml::Visibility scope = optionState.classState.defaultAttributeScope;
     UMLAttribute* newAttribute = new UMLAttribute(this, currentName, id, scope);
 
@@ -525,7 +525,7 @@ UMLAttribute* UMLClassifier::addAttribute(const QString &name, Uml::IDType id /*
             return static_cast<UMLAttribute*>(obj);
     }
     UMLApp *app = UMLApp::app();
-    Uml::Visibility scope = app->getOptionState().classState.defaultAttributeScope;
+    Uml::Visibility scope = Settings::getOptionState().classState.defaultAttributeScope;
     UMLAttribute *a = new UMLAttribute(this, name, id, scope);
     m_List.append(a);
     emit modified();

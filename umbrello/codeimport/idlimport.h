@@ -1,6 +1,3 @@
-#ifndef IDLIMPORT_H
-#define IDLIMPORT_H
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -11,6 +8,9 @@
  *  copyright (C) 2005                                                     *
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
+
+#ifndef IDLIMPORT_H
+#define IDLIMPORT_H
 
 #include "nativeimportbase.h"
 
