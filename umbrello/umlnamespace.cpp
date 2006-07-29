@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,17 +5,21 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 #include "umlnamespace.h"
-#include "qregexp.h"
+#include <qregexp.h>
 #include <kdebug.h>
 
 namespace Uml {
 
 bool tagEq (QString tag, QString pattern) {
     tag.remove( QRegExp("^\\w+:") );  // remove leading "UML:" or other
-    return (tag.lower() == pattern.lower());
+    int patSections = pattern.count('.') + 1;
+    QString tagEnd = tag.section('.', -patSections);
+    return (tagEnd.lower() == pattern.lower());
 }
 
 QString Visibility::toString(Value value, bool mnemonic) {
