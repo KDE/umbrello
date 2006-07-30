@@ -85,6 +85,11 @@ protected:
      */
     QStringList m_imports;
 
+    /**
+     * The current visibility for when the visibility is absent
+     */
+    Uml::Visibility m_defaultCurrentAccess;
+
 
 };
 
