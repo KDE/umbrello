@@ -81,7 +81,7 @@ bool UMLViewImageExporter::getParametersFromUser() {
 
     // configure & show the file dialog
     KUrl url;
-    KFileDialog fileDialog(KUrl(), QString::null, m_view);
+    KFileDialog fileDialog(url, QString::null, m_view);
     prepareFileDialog(fileDialog);
     fileDialog.exec();
 
