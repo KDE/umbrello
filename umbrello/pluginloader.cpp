@@ -85,7 +85,7 @@ PluginLoader::loadPlugin(const QString &name)
 
     // use the factory to create the plugin
     if(success) {
-        plugin = dynamic_cast<Plugin *>(factory->create((QObject*)0, name.latin1()));
+        plugin = dynamic_cast<Plugin *>(factory->create((QObject*)0));
         if(!plugin) {
             kError() << "failed to create a plugin object for " << name << endl;
             success = false;
@@ -93,6 +93,7 @@ PluginLoader::loadPlugin(const QString &name)
         else {
             // we have to register the plugin here, otherwise, we can get
             // recursive loads
+            plugin->setObjectName( name );
             _plugins[name] = plugin;
             _categories[plugin->category()].append(plugin);
         }
