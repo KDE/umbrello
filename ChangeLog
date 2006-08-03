@@ -1,3 +1,10 @@
+Version 1.5.5
+
+* Bugs/wishes from http://bugs.kde.org:
+* Java import - importing interfaces - absent visibility treated as package
+  instead of public (131327)
+* Python code generation not independent of diagram view (131790)
+
 Version 1.5.4
 
 * Bugs/wishes from http://bugs.kde.org:

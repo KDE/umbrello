@@ -87,7 +87,23 @@ void PythonWriter::writeClass(UMLClassifier *c) {
         h<<str<<m_endl;
     }
 
-
+    // generate import statement for superclasses and take packages into account 
+    str = cleanName(c->getName()); 
+    QString pkg = cleanName(c->getPackage());
+    if (!pkg.isEmpty())
+        str.prepend(pkg + "."); 
+    QStringList includesList  = QStringList(str); //save imported classes 
+    int i = superclasses.count(); 
+    for (UMLClassifier *classifier = superclasses.first(); 
+            classifier && i; classifier = superclasses.next(), i--) { 
+        str = cleanName(classifier->getName()); 
+        pkg = cleanName(classifier->getPackage());
+        if (!pkg.isEmpty()) 
+            str.prepend(pkg + "."); 
+        includesList.append(str); 
+        h << "from " + str + " import *" << m_endl; 
+    } 
+ 
     //write includes and take namespaces into account
     UMLClassifierList includes;
     findObjectsRelated(c,includes);
@@ -99,16 +115,15 @@ void PythonWriter::writeClass(UMLClassifier *c) {
             first = headerName.at(0);
             first = first.upper();
             headerName = headerName.replace(0, 1, first);
-            if (headerName.find('/') > 0)
-                h<<"from "<<headerName.replace(QChar('/'),QChar('.'))<<" import *"<<m_endl;
-            else
-                h<<"from "<<headerName<<" import *"<<m_endl;
+            str = headerName.replace(QChar('/'),QChar('.'));
+            if (includesList.findIndex(str) < 0)  // not yet imported
+                h << "from " << str << " import *" << m_endl;
         }
     }
     h<<m_endl;
 
-    h<<"class "<<classname<<(superclasses.count() > 0 ? " (":"");
-    int i = superclasses.count();
+    h << "class " << classname << (superclasses.count() > 0 ? " (" : "(object)");
+    i = superclasses.count();
 
     for (UMLClassifier *obj = superclasses.first();
             obj && i; obj = superclasses.next(), i--) {
