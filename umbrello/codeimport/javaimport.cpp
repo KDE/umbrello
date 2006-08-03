@@ -229,6 +229,11 @@ UMLObject* JavaImport::resolveClass (QString className) {
 void JavaImport::parseFile(QString filename) {
     m_currentFileName= filename;
     m_imports.clear();
+    // default visibility is Impl, unless we are an interface, then it is 
+    // public for member vars and methods
+    m_defaultCurrentAccess = Uml::Visibility::Implementation;
+    m_currentAccess = m_defaultCurrentAccess;
+
     NativeImportBase::parseFile(filename);
 }
 
@@ -253,9 +258,6 @@ bool JavaImport::parseStmt() {
             kdError() << "importJava: unexpected: " << m_source[m_srcIndex] << endl;
             skipStmt();
         }
-        // The default visibilty for java is implementation, since the absence
-        // of a modifier means package visibility (which maps to implementation).
-        m_currentAccess = Uml::Visibility::Implementation;
         return true;
     }
     if (keyword == "class" || keyword == "interface") {
@@ -271,6 +273,10 @@ bool JavaImport::parseStmt() {
         // change it.
         m_klass->setInterface(keyword == "interface");
         m_isAbstract = m_isStatic = false;
+        // if no modifier is specified in an interface, then it means public
+        if ( m_klass->isInterface() ) {
+            m_defaultCurrentAccess =  Uml::Visibility::Public;
+        }
         if (advance() == ";")   // forward declaration
             return true;
         if (m_source[m_srcIndex] == "<") {
@@ -466,8 +472,8 @@ bool JavaImport::parseStmt() {
                                    m_isStatic, m_isAbstract, false /*isFriend*/,
                                    false /*isConstructor*/, m_comment);
         m_isAbstract = m_isStatic = false;
-        // Default visibility for java is implementation (package vis.)
-        m_currentAccess = Uml::Visibility::Implementation;
+        // reset the default visibility
+        m_currentAccess = m_defaultCurrentAccess;
         // At this point we do not know whether the method has a body or not.
         do {
             nextToken = advance();
@@ -526,7 +532,7 @@ bool JavaImport::parseStmt() {
         nextToken = advance();
     }
     // reset visibility to default
-    m_currentAccess = Uml::Visibility::Implementation;
+    m_currentAccess = m_defaultCurrentAccess;
     if (m_source[m_srcIndex] != ";") {
         kdError() << "importJava: ignoring trailing items at " << name << endl;
         skipStmt();
