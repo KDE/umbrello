@@ -352,13 +352,11 @@ QString UMLObject::getPackage(QString separator) {
     UMLPackageList pkgList;
     QStringList pkgNames;
     UMLPackage* pkg = m_pUMLPackage;
-    while (1) {
+    do {
         pkgList.prepend(pkg);
         pkgNames.prepend(pkg->getName());
-        if ((pkg = pkg->getUMLPackage()) == NULL ||
-            pkgList.containsRef(pkg))
-            break;
-    }
+        pkg = pkg->getUMLPackage();
+    } while (pkg != NULL && !pkgList.containsRef(pkg));
     if (separator.isEmpty())
         separator = UMLApp::app()->activeLanguageScopeSeparator();
     return pkgNames.join(separator);
