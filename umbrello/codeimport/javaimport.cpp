@@ -308,7 +308,7 @@ bool JavaImport::parseStmt() {
         }
         if (m_source[m_srcIndex] == "extends") {
             const QString& baseName = advance();
-            // try to resove the class we are extending, or if impossible
+            // try to resolve the class we are extending, or if impossible
             // create a placeholder
             UMLObject *parent = resolveClass( baseName );
             if ( parent ) {
@@ -463,6 +463,12 @@ bool JavaImport::parseStmt() {
         while (m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
             QString typeName = joinTypename();
             QString parName = advance();
+            // the Class might not be resolved yet so resolve it if necessary
+            UMLObject *obj = resolveClass(typeName);
+            if (obj) {
+                // by prepending the package, unwanted placeholder types will not get created
+                typeName = obj->getFullyQualifiedName(".");
+            }
             UMLAttribute *att = Import_Utils::addMethodParameter(op, typeName, parName);
             if (advance() != ",")
                 break;
