@@ -474,6 +474,12 @@ bool JavaImport::parseStmt() {
                 break;
             m_srcIndex++;
         }
+        // before adding the method, try resolving the return type
+        UMLObject *obj = resolveClass(typeName);
+        if (obj) {
+            // using the fully qualified name means that a placeholder type will not be created.
+            typeName = obj->getFullyQualifiedName(".");
+        }
         Import_Utils::insertMethod(m_klass, op, m_currentAccess, typeName,
                                    m_isStatic, m_isAbstract, false /*isFriend*/,
                                    false /*isConstructor*/, m_comment);
