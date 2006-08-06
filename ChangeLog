@@ -5,6 +5,7 @@ Version 1.5.5
   instead of public (131327)
 * Python code generation not independent of diagram view (131790)
 * Java import - method parameter types not resolved correctly (131825)
+* Java import: unable to import AzareusCore (131961)
 
 Version 1.5.4
 

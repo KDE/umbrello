@@ -38,6 +38,7 @@ JavaImport::~JavaImport() {
 }
 
 void JavaImport::initVars() {
+    m_parseDepth = 0;
     m_isStatic = false;
 }
 
@@ -130,19 +131,18 @@ bool JavaImport::skipToClosing(QChar opener) {
 
 ///Spawn off an import of the specifed file
 void JavaImport::spawnImport( QString file ) {
-    static QStringList filesBeingParsed;
     // if the file is being parsed, don't bother
     //
-    if (filesBeingParsed.contains( file ) ) {
+    if (m_filesAlreadyParsed.contains( file ) ) {
         return;
     }
     if (QFile::exists(file)) {
           JavaImport importer;
           QStringList fileList;
           fileList.append( file );
-          filesBeingParsed.append( file );
+          m_filesAlreadyParsed.append( file );
           importer.importFiles( fileList ); 
-          filesBeingParsed.remove( file );
+
     }
 }
 
@@ -233,8 +233,15 @@ void JavaImport::parseFile(QString filename) {
     // public for member vars and methods
     m_defaultCurrentAccess = Uml::Visibility::Implementation;
     m_currentAccess = m_defaultCurrentAccess;
-
+    m_parseDepth++;
     NativeImportBase::parseFile(filename);
+    m_parseDepth--;
+    if ( m_parseDepth <= 0 ) {
+        // if the user decides to clear things out and reparse, we need
+        // to honour the request, so reset things for next time.
+        m_filesAlreadyParsed.clear();
+        m_parseDepth = 0;
+    }
 }
 
 

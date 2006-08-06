@@ -18,6 +18,7 @@
 /**
  * Java code import
  * @author Oliver Kellogg
+ * @author JP Fournier
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class JavaImport : public NativeImportBase {
@@ -84,6 +85,18 @@ protected:
      * the imports included in the current file
      */
     QStringList m_imports;
+
+    /**
+     * Keep track of the files we have already parsed so we don't
+     * reparse the same ones over and over again.
+     */
+    QStringList m_filesAlreadyParsed;
+
+    /**
+     * Keep track of the parses so that the filesAlreadyParsed 
+     * can be reset when we're done.
+     */
+    int m_parseDepth;
 
     /**
      * The current visibility for when the visibility is absent
