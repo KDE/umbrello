@@ -69,6 +69,9 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
         m_nId = Uml::id_None;
         updateFolder();
     } else {
+        UMLClassifierListItem *umlchild = dynamic_cast<UMLClassifierListItem*>(o);
+        if (umlchild)
+            parent->addClassifierListItem(umlchild, this);
         updateObject();
         m_nId = o->getID();
     }
@@ -141,6 +144,21 @@ void UMLListViewItem::init(UMLListView * parent) {
 
 Uml::ListView_Type UMLListViewItem::getType() const {
     return m_Type;
+}
+
+void UMLListViewItem::addClassifierListItem(UMLClassifierListItem *child, UMLListViewItem *childItem) {
+    m_comap[child] = childItem;
+}
+
+void UMLListViewItem::deleteChildItem(UMLClassifierListItem *child) {
+    UMLListViewItem *childItem = findChildObject(child);
+    if (childItem == NULL) {
+        kdError() << "UMLListViewItem::deleteChildItem(" << child->getName()
+                  << "): child listview item not found" << endl;
+        return;
+    }
+    m_comap.remove(child);
+    delete childItem;
 }
 
 Uml::IDType UMLListViewItem::getID() const {
@@ -593,7 +611,7 @@ int UMLListViewItem::compare(QListViewItem *other, int col, bool ascending) cons
     if (ourParent != otherParent) {
         retval = (subItem ? 0 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kdDebug() << dbgPfx << retval << " because (ourParent != otherParentL)" << endl;
+        kdDebug() << dbgPfx << retval << " because (ourParent != otherParent)" << endl;
 #endif
         return retval;
     }
@@ -655,6 +673,14 @@ UMLListViewItem* UMLListViewItem::findUMLObject(UMLObject *o) {
         if (inner)
             return inner;
         childItem = static_cast<UMLListViewItem*>(childItem->nextSibling());
+    }
+    return NULL;
+}
+
+UMLListViewItem* UMLListViewItem::findChildObject(UMLClassifierListItem *cli) {
+    ChildObjectMap::iterator it = m_comap.find(cli);
+    if (it != m_comap.end()) {
+        return *it;
     }
     return NULL;
 }

@@ -801,7 +801,7 @@ void UMLListView::childObjectAdded(UMLClassifierListItem* child, UMLClassifier* 
                                          convert_OT_LVT(parent->getBaseType()),
                                          parent);
     } else {
-        childItem = parentItem->findUMLObject(child);
+        childItem = parentItem->findChildObject(child);
     }
     if (childItem) {
         childItem->setText(text);
@@ -821,16 +821,12 @@ void UMLListView::childObjectRemoved(UMLClassifierListItem* obj) {
     UMLClassifier *parent = const_cast<UMLClassifier*>(dynamic_cast<const UMLClassifier*>(sender()));
     UMLListViewItem *item(0);
     UMLListViewItem *parentItem = findUMLObject(parent);
-    for( item = static_cast<UMLListViewItem*>(parentItem->firstChild());
-            item;
-            item = static_cast<UMLListViewItem*>(item->nextSibling()) )
-    {
-        if(item->getUMLObject() == obj)
-        {
-            delete item;
-            return;
-        }
+    if (parentItem == NULL) {
+        kdError() << "UMLListView::childObjectRemoved(" << obj->getName()
+                  << "): cannot find parent UMLListViewItem" << endl;
+        return;
     }
+    parentItem->deleteChildItem(obj);
 }
 
 void UMLListView::slotDiagramRenamed(Uml::IDType id) {
@@ -1376,6 +1372,8 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
             // update list view
             newItem = move->deepCopy(newParent);
             delete move;
+            UMLClassifierListItem *cli = dynamic_cast<UMLClassifierListItem*>(srcObj);
+            newParent->addClassifierListItem(cli, newItem);
             // update model objects
             m_bCreatingChildObject = true;
             UMLClassifier *oldParentClassifier = dynamic_cast<UMLClassifier*>(srcObj->parent());
