@@ -31,6 +31,7 @@
 
 JavaImport::JavaImport() : NativeImportBase("//") {
     setMultiLineComment("/*", "*/");
+    m_parseDepth = 0;
     initVars();
 }
 
@@ -38,7 +39,6 @@ JavaImport::~JavaImport() {
 }
 
 void JavaImport::initVars() {
-    m_parseDepth = 0;
     m_isStatic = false;
 }
 
