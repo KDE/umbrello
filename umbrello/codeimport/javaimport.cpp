@@ -375,6 +375,12 @@ bool JavaImport::parseStmt() {
         m_isStatic = true;
         return true;
     }
+    // if we detected static previously and keyword is { then this is a static block
+    if (m_isStatic && keyword == "{") {
+        // reset static flag and jump to end of static block
+        m_isStatic = false;
+        return skipToClosing('{');
+    }
     if (keyword == "abstract") {
         m_isAbstract = true;
         return true;
