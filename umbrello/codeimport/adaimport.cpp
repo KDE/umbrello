@@ -147,7 +147,13 @@ bool AdaImport::parseStmt() {
         if (advance() == "(") {
             kdDebug() << "AdaImport::parseFile(" << name << "): "
                 << "discriminant handling is not yet implemented" << endl;
-            skipStmt(")");
+            skipStmt("end");
+            if (m_source[++m_srcIndex] == "case")
+                m_srcIndex += 2;  // skip "case" ";"
+            // we are now positioned on "end"
+            m_srcIndex += 2;      // skip "end" "record"
+            // we are now positioned on ";"
+            return true;
         }
         if (m_source[m_srcIndex] == ";") {
             // forward declaration
