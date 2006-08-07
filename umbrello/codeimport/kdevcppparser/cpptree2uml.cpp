@@ -289,7 +289,7 @@ void CppTree2Uml::parseFunctionDefinition( FunctionDefinitionAST* ast )
         }
     }
 
-    QString id = d->declaratorId()->unqualifiedName()->text().stripWhiteSpace();
+    QString id = d->declaratorId()->unqualifiedName()->text().trimmed();
 
     UMLClassifier *c = m_currentClass[m_clsCnt];
     if (c == NULL) {
@@ -332,13 +332,13 @@ void CppTree2Uml::parseClassSpecifier( ClassSpecifierAST* ast )
 
     QString className;
     if( !ast->name() && m_currentDeclarator && m_currentDeclarator->declaratorId() ) {
-        className = m_currentDeclarator->declaratorId()->text().stripWhiteSpace();
+        className = m_currentDeclarator->declaratorId()->text().trimmed();
     } else if( !ast->name() ){
         QFileInfo fileInfo( m_fileName );
         QString shortFileName = fileInfo.baseName();
         className.sprintf( "(%s_%d)", shortFileName.local8Bit().data(), m_anon++ );
     } else {
-        className = ast->name()->unqualifiedName()->text().stripWhiteSpace();
+        className = ast->name()->unqualifiedName()->text().trimmed();
     }
 //#ifdef DEBUG_CPPTREE2UML
     kDebug() << "CppTree2Uml::parseClassSpecifier: name=" << className << endl;
@@ -389,7 +389,7 @@ void CppTree2Uml::parseEnumSpecifier( EnumSpecifierAST* ast )
     NameAST *nameNode = ast->name();
     if (nameNode == NULL)
         return;  // skip constants
-    QString typeName = nameNode->unqualifiedName()->text().stripWhiteSpace();
+    QString typeName = nameNode->unqualifiedName()->text().trimmed();
     if (typeName.isEmpty())
         return;  // skip constants
     UMLObject *o = Import_Utils::createUMLObject( Uml::ot_Enum, typeName,

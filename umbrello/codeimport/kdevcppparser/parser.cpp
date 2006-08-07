@@ -133,7 +133,7 @@ bool Parser::reportError( const Error& err )
 	lex->getTokenPosition( token, &line, &col );
 
 	QString s = lex->lookAhead(0).text();
-	s = s.left( 30 ).stripWhiteSpace();
+	s = s.left( 30 ).trimmed();
 	if( s.isEmpty() )
 	    s = i18n( "<eof>" );
 
@@ -3239,7 +3239,7 @@ QString Parser::toString( int start, int end, const QString& sep ) const
 	l << lex->tokenAt(i).text();
     }
 
-    return l.join( sep ).stripWhiteSpace();
+    return l.join( sep ).trimmed();
 }
 
 bool Parser::parseTypeSpecifierOrClassSpec( TypeSpecifierAST::Node& node )

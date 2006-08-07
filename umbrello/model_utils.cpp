@@ -345,7 +345,7 @@ Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningSc
 
     UMLDoc *pDoc = UMLApp::app()->getDocument();
 
-    t = t.stripWhiteSpace();
+    t = t.trimmed();
     if (t.isEmpty())
         return PS_Empty;
 
@@ -376,7 +376,7 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
         nmTp = NameAndType(a, NULL);
         return PS_OK;
     }
-    QString name = a.left(colonPos).stripWhiteSpace();
+    QString name = a.left(colonPos).trimmed();
     Uml::Parameter_Direction pd = Uml::pd_In;
     if (name.startsWith("in ")) {
         pd = Uml::pd_In;
@@ -388,7 +388,7 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
         pd = Uml::pd_Out;
         name = name.mid(4);
     }
-    a = a.mid(colonPos + 1).stripWhiteSpace();
+    a = a.mid(colonPos + 1).trimmed();
     if (a.isEmpty()) {
         nmTp = NameAndType(name, NULL, pd);
         return PS_OK;
@@ -429,7 +429,7 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
     pos = pat.search(m);
     if (pos != -1) {  // return type is optional
         QString retType = pat.cap(1);
-        retType = retType.stripWhiteSpace();
+        retType = retType.trimmed();
         if (retType != "void") {
             UMLObject *pRetType = owningScope->findTemplate(retType);
             if (pRetType == NULL) {
@@ -448,7 +448,7 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
     if (pos == -1)  // argument list is optional
         return PS_OK;
     QString arglist = pat.cap(1);
-    arglist = arglist.stripWhiteSpace();
+    arglist = arglist.trimmed();
     if (arglist.isEmpty())
         return PS_OK;
     QStringList args = QStringList::split( QRegExp("\\s*,\\s*"), arglist);

@@ -625,7 +625,7 @@ void CppWriter::writeAttributeMethods(UMLAttributeList *attribs,
         // force capitalizing the field name, this is silly,
         // from what I can tell, this IS the default behavior for
         // cleanName. I dunno why its not working -b.t.
-        methodBaseName.stripWhiteSpace();
+        methodBaseName.trimmed();
         methodBaseName.replace(0,1,methodBaseName.at(0).upper());
 
         writeSingleAttributeAccessorMethods(at->getTypeName(), varName,

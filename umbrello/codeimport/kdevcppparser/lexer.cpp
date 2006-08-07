@@ -559,7 +559,7 @@ QString Lexer::readArgument()
             arg += tk.text() + " ";
     }
 
-    return arg.stripWhiteSpace();
+    return arg.trimmed();
 }
 
 void Lexer::handleDirective( const QString& directive )

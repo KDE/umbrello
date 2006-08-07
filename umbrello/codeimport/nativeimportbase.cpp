@@ -86,7 +86,7 @@ bool NativeImportBase::preprocess(QString& line) {
         }
         if (pos > 0) {
             QString text = line.mid(0, pos - 1);
-            m_comment += text.stripWhiteSpace();
+            m_comment += text.trimmed();
         }
         m_source.append(m_singleLineCommentIntro + m_comment);  // denotes comments in `m_source'
         m_srcIndex++;
@@ -122,7 +122,7 @@ bool NativeImportBase::preprocess(QString& line) {
             m_inComment = true;
             if (pos + delimIntroLen < (int)line.length()) {
                 QString cmnt = line.mid(pos + delimIntroLen);
-                m_comment += cmnt.stripWhiteSpace() + "\n";
+                m_comment += cmnt.trimmed() + "\n";
             }
             if (pos == 0)
                 return true;  // done
@@ -130,7 +130,7 @@ bool NativeImportBase::preprocess(QString& line) {
         } else {   // It's a multiline comment on a single line.
             if (endpos > pos + delimIntroLen)  {
                 QString cmnt = line.mid(pos + delimIntroLen, endpos - pos - delimIntroLen);
-                cmnt = cmnt.stripWhiteSpace();
+                cmnt = cmnt.trimmed();
                 if (!cmnt.isEmpty())
                     m_source.append(m_singleLineCommentIntro + cmnt);
             }
@@ -166,7 +166,7 @@ void NativeImportBase::scan(QString line) {
         return;
     QStringList words = QStringList::split( QRegExp("\\s+"), line );
     for (QStringList::Iterator it = words.begin(); it != words.end(); ++it) {
-        QString word = (*it).stripWhiteSpace();
+        QString word = (*it).trimmed();
         if (word.isEmpty())
             continue;
         fillSource(word);

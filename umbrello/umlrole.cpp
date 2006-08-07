@@ -179,27 +179,27 @@ bool UMLRole::load( QDomElement & element ) {
             QDomNode n = tempElement.firstChild();
             if (node.isNull() || tempElement.isNull() || n.isNull() ||
                     n.toElement().isNull()) {
-                m_Multi = tempElement.text().stripWhiteSpace();
+                m_Multi = tempElement.text().trimmed();
                 continue;
             }
             tempElement = n.toElement();
             tag = tempElement.tagName();
             if (!Uml::tagEq(tag, "Multiplicity")) {
-                m_Multi = tempElement.text().stripWhiteSpace();
+                m_Multi = tempElement.text().trimmed();
                 continue;
             }
             n = tempElement.firstChild();
             tempElement = n.toElement();
             tag = tempElement.tagName();
             if (!Uml::tagEq(tag, "Multiplicity.range")) {
-                m_Multi = tempElement.text().stripWhiteSpace();
+                m_Multi = tempElement.text().trimmed();
                 continue;
             }
             n = tempElement.firstChild();
             tempElement = n.toElement();
             tag = tempElement.tagName();
             if (!Uml::tagEq(tag, "MultiplicityRange")) {
-                m_Multi = tempElement.text().stripWhiteSpace();
+                m_Multi = tempElement.text().trimmed();
                 continue;
             }
             QString multiUpper;

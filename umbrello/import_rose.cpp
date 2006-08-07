@@ -55,7 +55,7 @@ QString loc() {
  */
 QStringList scan(QString line) {
     QStringList result;
-    line = line.stripWhiteSpace();
+    line = line.trimmed();
     if (line.isEmpty())
         return result;  // empty
     QString lexeme;
@@ -169,7 +169,7 @@ QString collectVerbatimText(QTextStream& stream) {
     methodName("collectVerbatimText");
     while ((line = stream.readLine()) != QString::null) {
         linum++;
-        line = line.stripWhiteSpace();
+        line = line.trimmed();
         if (line.isEmpty() || line.startsWith(")"))
             break;
         if (line[0] != '|') {
@@ -278,7 +278,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
     QString line;
     while ((line = stream.readLine()) != QString::null) {
         linum++;
-        line = line.stripWhiteSpace();
+        line = line.trimmed();
         if (line.isEmpty())
             continue;
         QStringList tokens = scan(line);

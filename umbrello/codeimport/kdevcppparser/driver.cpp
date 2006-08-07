@@ -395,7 +395,7 @@ void Driver::removeMacro( const QString& macroName )
 
 void Driver::addIncludePath( const QString &path )
 {
-    if( !path.stripWhiteSpace().isEmpty() )
+    if( !path.trimmed().isEmpty() )
         m_includePaths << path;
 }
 
