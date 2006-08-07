@@ -29,12 +29,11 @@
 #include "../operation.h"
 #include "../attribute.h"
 
-QStringList JavaImport::m_filesAlreadyParsed;
-int JavaImport::m_parseDepth = 0;
+QStringList JavaImport::s_filesAlreadyParsed;
+int JavaImport::s_parseDepth = 0;
 
 JavaImport::JavaImport() : NativeImportBase("//") {
     setMultiLineComment("/*", "*/");
-    //m_parseDepth = 0;
     initVars();
 }
 
@@ -46,8 +45,7 @@ void JavaImport::initVars() {
 }
 
 /// Catenate possible template arguments/array dimensions to the end of the type name.
-QString JavaImport::joinTypename() {
-    QString typeName = m_source[m_srcIndex];
+QString JavaImport::joinTypename(QString typeName) {
     if (m_source[m_srcIndex + 1] == "<" ||
         m_source[m_srcIndex + 1] == "[") {
         uint start = ++m_srcIndex;
@@ -56,6 +54,10 @@ QString JavaImport::joinTypename() {
         for (uint i = start; i <= m_srcIndex; i++) {
             typeName += m_source[i];
         }
+    }
+    // to handle multidimensional arrays, call recursively
+    if (m_source[m_srcIndex + 1] == "[") {
+        typeName = joinTypename( typeName );
     }
     return typeName;
 }
@@ -136,16 +138,15 @@ bool JavaImport::skipToClosing(QChar opener) {
 void JavaImport::spawnImport( QString file ) {
     // if the file is being parsed, don't bother
     //
-    if (m_filesAlreadyParsed.contains( file ) ) {
+    if (s_filesAlreadyParsed.contains( file ) ) {
         return;
     }
     if (QFile::exists(file)) {
           JavaImport importer;
           QStringList fileList;
           fileList.append( file );
-          m_filesAlreadyParsed.append( file );
+          s_filesAlreadyParsed.append( file );
           importer.importFiles( fileList ); 
-
     }
 }
 
@@ -236,14 +237,17 @@ void JavaImport::parseFile(QString filename) {
     // public for member vars and methods
     m_defaultCurrentAccess = Uml::Visibility::Implementation;
     m_currentAccess = m_defaultCurrentAccess;
-    m_parseDepth++;
+    s_parseDepth++;
+    // in the case of self referencing types, we can avoid parsing the 
+    // file twice by adding it to the list
+    s_filesAlreadyParsed.append(filename);
     NativeImportBase::parseFile(filename);
-    m_parseDepth--;
-    if ( m_parseDepth <= 0 ) {
+    s_parseDepth--;
+    if ( s_parseDepth <= 0 ) {
         // if the user decides to clear things out and reparse, we need
         // to honour the request, so reset things for next time.
-        m_filesAlreadyParsed.clear();
-        m_parseDepth = 0;
+        s_filesAlreadyParsed.clear();
+        s_parseDepth = 0;
     }
 }
 
@@ -452,7 +456,8 @@ bool JavaImport::parseStmt() {
         kdError() << "importJava: ignoring " << keyword << endl;
         return false;
     }
-    QString typeName = joinTypename();
+    QString typeName = m_source[m_srcIndex];
+    typeName = joinTypename(typeName);
     // At this point we need a class.
     if (m_klass == NULL) {
         kdError() << "importJava: no class set for " << typeName << endl;
@@ -477,7 +482,8 @@ bool JavaImport::parseStmt() {
         UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
         m_srcIndex++;
         while (m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
-            QString typeName = joinTypename();
+            QString typeName = m_source[m_srcIndex];
+            typeName = joinTypename(typeName);
             QString parName = advance();
             // the Class might not be resolved yet so resolve it if necessary
             UMLObject *obj = resolveClass(typeName);

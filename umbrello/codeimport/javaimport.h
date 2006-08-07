@@ -68,7 +68,14 @@ protected:
      */
     void spawnImport(QString file);
 
-    QString joinTypename();
+    /**
+     * figure out if the type is really an array or template of the given typeName
+     */
+    QString joinTypename(QString typeName);
+    
+    /**
+     * true if the member var or method is declared static
+     */
     bool m_isStatic;
 
     /**
@@ -90,13 +97,13 @@ protected:
      * Keep track of the files we have already parsed so we don't
      * reparse the same ones over and over again.
      */
-    static QStringList m_filesAlreadyParsed;
+    static QStringList s_filesAlreadyParsed;
 
     /**
      * Keep track of the parses so that the filesAlreadyParsed 
      * can be reset when we're done.
      */
-    static int m_parseDepth;
+    static int s_parseDepth;
 
     /**
      * The current visibility for when the visibility is absent
