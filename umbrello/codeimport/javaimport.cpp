@@ -29,9 +29,12 @@
 #include "../operation.h"
 #include "../attribute.h"
 
+QStringList JavaImport::m_filesAlreadyParsed;
+int JavaImport::m_parseDepth = 0;
+
 JavaImport::JavaImport() : NativeImportBase("//") {
     setMultiLineComment("/*", "*/");
-    m_parseDepth = 0;
+    //m_parseDepth = 0;
     initVars();
 }
 

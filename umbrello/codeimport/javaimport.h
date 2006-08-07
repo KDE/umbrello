@@ -90,13 +90,13 @@ protected:
      * Keep track of the files we have already parsed so we don't
      * reparse the same ones over and over again.
      */
-    QStringList m_filesAlreadyParsed;
+    static QStringList m_filesAlreadyParsed;
 
     /**
      * Keep track of the parses so that the filesAlreadyParsed 
      * can be reset when we're done.
      */
-    int m_parseDepth;
+    static int m_parseDepth;
 
     /**
      * The current visibility for when the visibility is absent
