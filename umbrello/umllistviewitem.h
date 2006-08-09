@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,18 +5,23 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
+ *                                                                         *
  ***************************************************************************/
 
 #ifndef UMLLISTVIEWITEM_H
 #define UMLLISTVIEWITEM_H
 
 #include <q3listview.h>
+#include <qmap.h>
 #include <qdom.h>
 #include "umlnamespace.h"
 
 // forward declarations
 class UMLListView;
 class UMLObject;
+class UMLClassifierListItem;
 
 /**
  * Items used by the class @ref UMLListView.  This is needed as the type
@@ -182,6 +182,16 @@ public:
     void cancelRename( int col );
 
     /**
+     * Adds the child listview item representing the given UMLClassifierListItem.
+     */
+    void addClassifierListItem(UMLClassifierListItem *child, UMLListViewItem *childItem);
+
+    /**
+     * Deletes the child listview item representing the given UMLClassifierListItem.
+     */
+    void deleteChildItem(UMLClassifierListItem *child);
+
+    /**
      * Overrides the default sorting to sort by item type.
      */
     virtual int compare(Q3ListViewItem *other, int col, bool ascending) const;
@@ -207,6 +217,14 @@ public:
      * Return a pointer to the item or NULL if not found.
      */
     UMLListViewItem* findUMLObject(UMLObject *o);
+
+    /**
+     * Find the UMLListViewItem that represents the given UMLClassifierListItem
+     * in the children of the current UMLListViewItem.  (Only makes sense if
+     * the current UMLListViewItem represents a UMLClassifier.)
+     * Return a pointer to the item or NULL if not found.
+     */
+    UMLListViewItem* findChildObject(UMLClassifierListItem *cli);
 
     /**
      * Find the UMLListViewItem of the given ID in the tree rooted at
@@ -256,12 +274,21 @@ protected:
      */
     bool m_bCreating;
 
+    /**
+     * Auxiliary map of child UMLLisViewItems keyed by UMLClassifierListItem.
+     * Used by findChildObject() for efficiency instead of looping using
+     * firstChild()/nextSibling() because the latter incur enforceItemVisible()
+     * and thus expensive sorting.
+     */
+    typedef QMap<UMLClassifierListItem*, UMLListViewItem*> ChildObjectMap;
+
     Uml::ListView_Type m_Type;
     Uml::IDType m_nId;
     int m_nChildren;
     UMLObject * m_pObject;
     QString m_Label;
     QString m_FolderFile;
+    ChildObjectMap m_comap;
 };
 
 #endif

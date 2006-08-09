@@ -1,8 +1,12 @@
-Version 2.0
+Version 1.5.5
 
 * Bugs/wishes from http://bugs.kde.org:
 * Java import - importing interfaces - absent visibility treated as package
   instead of public (131327)
+* Java import - method parameter types not resolved correctly (131825)
+* Java import: unable to import AzareusCore (131961)
+* Java import: error on multidimensional arrays (132017)
+* Java import - array types not resolved correctly (132035)
 
 Version 1.5.4
 

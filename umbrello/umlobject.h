@@ -190,6 +190,8 @@ public:
      *
      * @param separator Separator string for joining together the
      *                  individual package prefixes (optional.)
+     *                  If no separator is given then the separator
+     *                  of the currently selected language is used.
      * @return  The UMLObject's enclosing package(s) as a text.
      */
     QString getPackage(QString separator = QString::null);

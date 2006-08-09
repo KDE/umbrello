@@ -29,6 +29,9 @@
 #include "../operation.h"
 #include "../attribute.h"
 
+QStringList JavaImport::s_filesAlreadyParsed;
+int JavaImport::s_parseDepth = 0;
+
 JavaImport::JavaImport() : NativeImportBase("//") {
     setMultiLineComment("/*", "*/");
     initVars();
@@ -42,8 +45,7 @@ void JavaImport::initVars() {
 }
 
 /// Catenate possible template arguments/array dimensions to the end of the type name.
-QString JavaImport::joinTypename() {
-    QString typeName = m_source[m_srcIndex];
+QString JavaImport::joinTypename(QString typeName) {
     if (m_source[m_srcIndex + 1] == "<" ||
         m_source[m_srcIndex + 1] == "[") {
         uint start = ++m_srcIndex;
@@ -52,6 +54,10 @@ QString JavaImport::joinTypename() {
         for (uint i = start; i <= m_srcIndex; i++) {
             typeName += m_source[i];
         }
+    }
+    // to handle multidimensional arrays, call recursively
+    if (m_source[m_srcIndex + 1] == "[") {
+        typeName = joinTypename( typeName );
     }
     return typeName;
 }
@@ -130,19 +136,17 @@ bool JavaImport::skipToClosing(QChar opener) {
 
 ///Spawn off an import of the specifed file
 void JavaImport::spawnImport( QString file ) {
-    static QStringList filesBeingParsed;
     // if the file is being parsed, don't bother
     //
-    if (filesBeingParsed.contains( file ) ) {
+    if (s_filesAlreadyParsed.contains( file ) ) {
         return;
     }
     if (QFile::exists(file)) {
           JavaImport importer;
           QStringList fileList;
           fileList.append( file );
-          filesBeingParsed.append( file );
+          s_filesAlreadyParsed.append( file );
           importer.importFiles( fileList ); 
-          filesBeingParsed.remove( file );
     }
 }
 
@@ -157,6 +161,16 @@ UMLObject* findObject( QString name,   UMLPackage *parentPkg ) {
 
 ///Resolve the specified className 
 UMLObject* JavaImport::resolveClass (QString className) {
+    kDebug() << "importJava trying to resolve " << className << endl; 
+    // keep track if we are dealing with an array
+    //
+    bool isArray = className.contains('[');
+    // remove any [] so that the class itself can be resolved
+    //
+    QString baseClassName = className;
+    baseClassName.remove('[');
+    baseClassName.remove(']');
+
     // java has a few implicit imports.  Most relevant for this is the 
     // current package, which is in the same directory as the current file
     // being parsed
@@ -171,10 +185,15 @@ UMLObject* JavaImport::resolveClass (QString className) {
     // current class
     //
     QString myDir = file.join( "/" );
-    QString myFile = "/" + myDir + "/" + className + ".java";
+    QString myFile = "/" + myDir + "/" + baseClassName + ".java";
     if ( QFile::exists(myFile) ) {
         spawnImport( myFile );
-        return findObject ( className, m_scope[m_scopeIndex]);
+        if ( isArray ) {
+            // we have imported the type. For arrays we want to return 
+            // the array type
+            return Import_Utils::createUMLObject(Uml::ot_Class, className, m_scope[m_scopeIndex]);
+        }
+        return findObject(baseClassName, m_scope[m_scopeIndex]);
     }
 
     // the class we want is not in the same package as the one being imported.
@@ -196,11 +215,11 @@ UMLObject* JavaImport::resolveClass (QString className) {
         QString import = (*pathIt);
         QStringList split = QStringList::split( '.', import );
         split.pop_back(); // remove the * or the classname
-        if ( import.endsWith( "*" ) || import.endsWith( className) ) {
+        if ( import.endsWith( "*" ) || import.endsWith( baseClassName) ) {
             // check if the file we want is in this imported package
             // convert the org.test type package into a filename
             //
-            QString aFile = sourceRoot + split.join("/") + "/" + className + ".java";
+            QString aFile = sourceRoot + split.join("/") + "/" + baseClassName + ".java";
             if ( QFile::exists(aFile) ) {
                 spawnImport( aFile );
                 // we need to set the package for the class that will be resolved
@@ -211,13 +230,17 @@ UMLObject* JavaImport::resolveClass (QString className) {
                 for (QStringList::Iterator it = split.begin(); it != split.end(); ++it) {
                     QString name = (*it);
                     UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package,
-                            name, parent);
+                                                                  name, parent);
                     current = static_cast<UMLPackage*>(ns);
                     parent = current;
                 } // for
+                if ( isArray ) {
+                    // we have imported the type. For arrays we want to return 
+                    // the array type
+                    return Import_Utils::createUMLObject(Uml::ot_Class, className, current);
+                }
                 // now that we have the right package, the class should be findable
-                //
-                return findObject ( className, current);
+                return findObject(baseClassName, current);
             } // if file exists
         } // if import matches
     } //foreach import
@@ -233,8 +256,18 @@ void JavaImport::parseFile(QString filename) {
     // public for member vars and methods
     m_defaultCurrentAccess = Uml::Visibility::Implementation;
     m_currentAccess = m_defaultCurrentAccess;
-
+    s_parseDepth++;
+    // in the case of self referencing types, we can avoid parsing the 
+    // file twice by adding it to the list
+    s_filesAlreadyParsed.append(filename);
     NativeImportBase::parseFile(filename);
+    s_parseDepth--;
+    if ( s_parseDepth <= 0 ) {
+        // if the user decides to clear things out and reparse, we need
+        // to honour the request, so reset things for next time.
+        s_filesAlreadyParsed.clear();
+        s_parseDepth = 0;
+    }
 }
 
 
@@ -308,7 +341,7 @@ bool JavaImport::parseStmt() {
         }
         if (m_source[m_srcIndex] == "extends") {
             const QString& baseName = advance();
-            // try to resove the class we are extending, or if impossible
+            // try to resolve the class we are extending, or if impossible
             // create a placeholder
             UMLObject *parent = resolveClass( baseName );
             if ( parent ) {
@@ -375,6 +408,12 @@ bool JavaImport::parseStmt() {
         m_isStatic = true;
         return true;
     }
+    // if we detected static previously and keyword is { then this is a static block
+    if (m_isStatic && keyword == "{") {
+        // reset static flag and jump to end of static block
+        m_isStatic = false;
+        return skipToClosing('{');
+    }
     if (keyword == "abstract") {
         m_isAbstract = true;
         return true;
@@ -436,7 +475,8 @@ bool JavaImport::parseStmt() {
         kError() << "importJava: ignoring " << keyword << endl;
         return false;
     }
-    QString typeName = joinTypename();
+    QString typeName = m_source[m_srcIndex];
+    typeName = joinTypename(typeName);
     // At this point we need a class.
     if (m_klass == NULL) {
         kError() << "importJava: no class set for " << typeName << endl;
@@ -461,12 +501,25 @@ bool JavaImport::parseStmt() {
         UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
         m_srcIndex++;
         while (m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
-            QString typeName = joinTypename();
+            QString typeName = m_source[m_srcIndex];
+            typeName = joinTypename(typeName);
             QString parName = advance();
-            UMLAttribute *att = Import_Utils::addMethodParameter(op, typeName, parName);
+            // the Class might not be resolved yet so resolve it if necessary
+            UMLObject *obj = resolveClass(typeName);
+            if (obj) {
+                // by prepending the package, unwanted placeholder types will not get created
+                typeName = obj->getFullyQualifiedName(".");
+            }
+            /* UMLAttribute *att = */ Import_Utils::addMethodParameter(op, typeName, parName);
             if (advance() != ",")
                 break;
             m_srcIndex++;
+        }
+        // before adding the method, try resolving the return type
+        UMLObject *obj = resolveClass(typeName);
+        if (obj) {
+            // using the fully qualified name means that a placeholder type will not be created.
+            typeName = obj->getFullyQualifiedName(".");
         }
         Import_Utils::insertMethod(m_klass, op, m_currentAccess, typeName,
                                    m_isStatic, m_isAbstract, false /*isFriend*/,
@@ -522,7 +575,7 @@ bool JavaImport::parseStmt() {
             o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name,
                                                   typeName, m_comment, m_isStatic);
         }
-        UMLAttribute *attr = static_cast<UMLAttribute*>(o);
+        // UMLAttribute *attr = static_cast<UMLAttribute*>(o);
         if (nextToken != ",") {
             // reset the modifiers
             m_isStatic = m_isAbstract = false;

@@ -18,6 +18,7 @@
 /**
  * Java code import
  * @author Oliver Kellogg
+ * @author JP Fournier
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class JavaImport : public NativeImportBase {
@@ -67,7 +68,14 @@ protected:
      */
     void spawnImport(QString file);
 
-    QString joinTypename();
+    /**
+     * figure out if the type is really an array or template of the given typeName
+     */
+    QString joinTypename(QString typeName);
+    
+    /**
+     * true if the member var or method is declared static
+     */
     bool m_isStatic;
 
     /**
@@ -84,6 +92,18 @@ protected:
      * the imports included in the current file
      */
     QStringList m_imports;
+
+    /**
+     * Keep track of the files we have already parsed so we don't
+     * reparse the same ones over and over again.
+     */
+    static QStringList s_filesAlreadyParsed;
+
+    /**
+     * Keep track of the parses so that the filesAlreadyParsed 
+     * can be reset when we're done.
+     */
+    static int s_parseDepth;
 
     /**
      * The current visibility for when the visibility is absent

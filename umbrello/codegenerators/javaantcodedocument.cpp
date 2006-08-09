@@ -147,7 +147,7 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                                             UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
                                             if(op) {
                                                 CodeOperation * block = 0;
-                                                kdError() << "TODO: implement CodeGenFactory::newCodeOperation() for JavaANTCodeDocument" << endl;
+                                                kError() << "TODO: implement CodeGenFactory::newCodeOperation() for JavaANTCodeDocument" << endl;
                                                 break;  // remove when above is implemented
                                                 block->loadFromXMI(element);
                                                 if(addTextBlock(block))
