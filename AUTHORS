@@ -1,5 +1,13 @@
 Original author: Paul Hensgen <phensgen@sourceforge.net>
 
-For other authors see
+Maintainer: Jonathan Riddell <jr @jriddell.org>
 
-http://uml.sf.net/developers.php
+Main Devs, in roughly chronological order
+
+* Jonathan Riddell (many areas)
+* Sebastian Stein (many areas)
+* Luis de la Parra Blum (various widgets & visuals)
+* Andrew Sutton (umbrello2)
+* Brian Thomas (advanced code generators, associations, various)
+* Oliver Kellogg (many areas)
+
