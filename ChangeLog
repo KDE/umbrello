@@ -8,6 +8,8 @@ Version 1.5.5
 * Java import: unable to import AzareusCore (131961)
 * Java import: error on multidimensional arrays (132017)
 * Java import - array types not resolved correctly (132035)
+* Java import - "final" and comments in method declaration
+  not parsed correctly (132174)
 
 Version 1.5.4
 

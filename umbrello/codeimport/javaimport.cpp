@@ -502,6 +502,10 @@ bool JavaImport::parseStmt() {
         m_srcIndex++;
         while (m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
             QString typeName = m_source[m_srcIndex];
+            if ( typeName == "final" || typeName.startsWith( "//") ) {
+                // ignore the "final" keyword and any comments in method args
+                typeName = advance();
+            } 
             typeName = joinTypename(typeName);
             QString parName = advance();
             // the Class might not be resolved yet so resolve it if necessary
