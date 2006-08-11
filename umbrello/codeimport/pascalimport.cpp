@@ -78,6 +78,7 @@ void PascalImport::checkModifiers(bool& isVirtual, bool& isAbstract) {
     while (true) {
         QString lookAhead = m_source[m_srcIndex + 1].lower();
         if (lookAhead != "virtual" && lookAhead != "abstract" &&
+            lookAhead != "override" &&
             lookAhead != "register" && lookAhead != "cdecl" &&
             lookAhead != "pascal" && lookAhead != "stdcall" &&
             lookAhead != "safecall" && lookAhead != "saveregisters" &&
@@ -209,7 +210,8 @@ bool PascalImport::parseStmt() {
         skipStmt();
         return true;
     }
-    if (keyword == "function" || keyword == "procedure") {
+    if (keyword == "function" || keyword == "procedure" ||
+        keyword == "constructor" || keyword == "destructor") {
         if (m_klass == NULL) {
             // Unlike a Pascal unit, a UML package does not support subprograms.
             // In order to map those, we would need to create a UML class with
@@ -267,6 +269,8 @@ bool PascalImport::parseStmt() {
                 return false;
             }
             returnType = advance();
+        } else if (keyword == "constructor" || keyword == "destructor") {
+            op->setStereotype(keyword);
         }
         skipStmt();
         bool isVirtual = false;
@@ -352,7 +356,13 @@ bool PascalImport::parseStmt() {
         skipStmt();
         return true;
     }
-    const QString& name = keyword;
+    QString name, stereotype;
+    if (keyword == "property") {
+        stereotype = keyword;
+        name = advance();
+    } else {
+        name = keyword;
+    }
     if (advance() != ":") {
         kdError() << "PascalImport: expecting \":\" at " << name << " "
                   << m_source[m_srcIndex] << endl;
@@ -371,6 +381,7 @@ bool PascalImport::parseStmt() {
     UMLObject *o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name,
                                                  typeName, m_comment);
     UMLAttribute *attr = static_cast<UMLAttribute*>(o);
+    attr->setStereotype(stereotype);
     attr->setInitialValue(initialValue);
     skipStmt();
     return true;
