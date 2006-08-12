@@ -225,6 +225,17 @@ bool PascalImport::parseStmt() {
             advance();
             const uint MAX_PARNAMES = 16;
             while (m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
+                QString nextToken = m_source[m_srcIndex + 1].lower();
+                Uml::Parameter_Direction dir = Uml::pd_In;
+                if (nextToken == "var") {
+                    dir = Uml::pd_InOut;
+                    advance();
+                } else if (nextToken == "const") {
+                    advance();
+                } else if (nextToken == "out") {
+                    dir = Uml::pd_Out;
+                    advance();
+                }
                 QString parName[MAX_PARNAMES];
                 uint parNameCount = 0;
                 do {
@@ -235,26 +246,23 @@ bool PascalImport::parseStmt() {
                     parName[parNameCount++] = advance();
                 } while (advance() == ",");
                 if (m_source[m_srcIndex] != ":") {
-                    kdError() << "importPascal: expecting ':'" << endl;
+                    kdError() << "importPascal: expecting ':' at " << m_source[m_srcIndex] << endl;
                     skipStmt();
                     break;
                 }
-                const QString parMode = advance().lower();
-                QString typeName;
-                Uml::Parameter_Direction dir = Uml::pd_In;
-                if (parMode == "var") {
-                    dir = Uml::pd_InOut;
-                    typeName = advance();
-                } else if (parMode == "const") {
-                    typeName = advance();
-                } else if (parMode == "out") {
-                    dir = Uml::pd_Out;
-                    typeName = advance();
-                } else {
-                    typeName = parMode;  // The default is "pass by value".
+                nextToken = advance();
+                if (nextToken.lower() == "array") {
+                    nextToken = advance().lower();
+                    if (nextToken != "of") {
+                        kdError() << "importPascal(" << name << "): expecting 'array OF' at "
+                                  << nextToken << endl;
+                        skipStmt();
+                        return false;
+                    }
+                    nextToken = advance();
                 }
                 for (uint i = 0; i < parNameCount; i++) {
-                    UMLAttribute *att = Import_Utils::addMethodParameter(op, typeName, parName[i]);
+                    UMLAttribute *att = Import_Utils::addMethodParameter(op, nextToken, parName[i]);
                     att->setParmKind(dir);
                 }
                 if (advance() != ";")
@@ -345,6 +353,14 @@ bool PascalImport::parseStmt() {
                                                           m_scope[m_scopeIndex], m_comment);
             ns->setStereotype("record");
             m_klass = static_cast<UMLClassifier*>(ns);
+            return true;
+        }
+        if (keyword == "function" || keyword == "procedure") {
+            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Datatype, name,
+                                                          m_scope[m_scopeIndex], m_comment);
+            if (m_source[m_srcIndex + 1] == "(")
+                skipToClosing('(');
+            skipStmt();
             return true;
         }
         // Datatypes: TO BE DONE

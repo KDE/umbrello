@@ -50,6 +50,47 @@ void NativeImportBase::skipStmt(QString until /* = ";" */) {
         m_srcIndex++;
 }
 
+bool NativeImportBase::skipToClosing(QChar opener) {
+    QString closing;
+    switch (opener) {
+        case '{':
+            closing = "}";
+            break;
+        case '[':
+            closing = "]";
+            break;
+        case '(':
+            closing = ")";
+            break;
+        case '<':
+            closing = ">";
+            break;
+        default:
+            kdError() << "JavaImport::skipToClosing(" << opener
+                << "): " << "illegal input character" << endl;
+            return false;
+    }
+    const QString opening(opener);
+    skipStmt(opening);
+    const uint srcLength = m_source.count();
+    int nesting = 0;
+    while (m_srcIndex < srcLength) {
+        QString nextToken = advance();
+        if (nextToken.isEmpty())
+            break;
+        if (nextToken == closing) {
+            if (nesting <= 0)
+                break;
+            nesting--;
+        } else if (nextToken == opening) {
+            nesting++;
+        }
+    }
+    if (m_srcIndex == srcLength)
+        return false;
+    return true;
+}
+
 QString NativeImportBase::advance() {
     while (m_srcIndex < m_source.count() - 1) {
         if (m_source[++m_srcIndex].startsWith(m_singleLineCommentIntro))

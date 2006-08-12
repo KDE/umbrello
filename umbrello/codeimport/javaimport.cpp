@@ -92,47 +92,6 @@ void JavaImport::fillSource(QString word) {
         m_source.append(lexeme);
 }
 
-bool JavaImport::skipToClosing(QChar opener) {
-    QString closing;
-    switch (opener) {
-        case '{':
-            closing = "}";
-            break;
-        case '[':
-            closing = "]";
-            break;
-        case '(':
-            closing = ")";
-            break;
-        case '<':
-            closing = ">";
-            break;
-        default:
-            kdError() << "JavaImport::skipToClosing(" << opener
-                << "): " << "illegal input character" << endl;
-            return false;
-    }
-    const QString opening(opener);
-    skipStmt(opening);
-    const uint srcLength = m_source.count();
-    int nesting = 0;
-    while (m_srcIndex < srcLength) {
-        QString nextToken = advance();
-        if (nextToken.isEmpty())
-            break;
-        if (nextToken == closing) {
-            if (nesting <= 0)
-                break;
-            nesting--;
-        } else if (nextToken == opening) {
-            nesting++;
-        }
-    }
-    if (m_srcIndex == srcLength)
-        return false;
-    return true;
-}
-
 
 ///Spawn off an import of the specifed file
 void JavaImport::spawnImport( QString file ) {
