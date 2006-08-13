@@ -72,6 +72,9 @@ bool newUMLObjectWasCreated() {
 }
 
 QString formatComment(const QString &comment) {
+    if (comment.isEmpty())
+        return comment;
+
     QStringList lines = QStringList::split("\n", comment);
     QString& first = lines.first();
     QRegExp wordex("\\w");
