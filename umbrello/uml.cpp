@@ -35,6 +35,7 @@
 #include <kcursor.h>
 #include <kdebug.h>
 #include <kfiledialog.h>
+#include <kicon.h>
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kprinter.h>
