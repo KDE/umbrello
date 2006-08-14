@@ -308,7 +308,7 @@ install( FILES umbrello.desktop  DESTINATION  ${XDG_APPS_DIR} )
 install( FILES tips umbrelloui.rc  DESTINATION  ${DATA_INSTALL_DIR}/umbrello )
 install( FILES x-umbrello.desktop  DESTINATION  ${MIME_INSTALL_DIR}/application )
 
-kde4_install_icons( ${ICON_INSTALL_DIR}  hicolor )
+kde4_install_icons( ${ICON_INSTALL_DIR}   )
 
 
 
