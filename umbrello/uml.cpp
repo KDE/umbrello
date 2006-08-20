@@ -78,6 +78,9 @@
 
 #include "cmdlineexportallviewsevent.h"
 
+#include "docgenerators/docbookgenerator.h"
+#include "docgenerators/xhtmlgenerator.h"
+
 UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
     s_instance = this;
     m_pDocWindow = 0;
@@ -91,6 +94,7 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
     m_codegen = 0;
     m_policyext = 0;
     m_commoncodegenpolicy = 0;
+    m_xhtmlGenerator = 0;
     m_activeLanguage = Uml::pl_Reserved;
     ///////////////////////////////////////////////////////////////////
     // call inits to invoke all other construction parts
@@ -179,7 +183,13 @@ void UMLApp::initActions() {
     viewStatusBar = KStdAction::showStatusbar(this, SLOT(slotViewStatusBar()), actionCollection());
 #endif
     selectAll = KStdAction::selectAll(this,  SLOT( slotSelectAll() ), actionCollection());
-
+    fileExportDocbook = new KAction(i18n("&Export model to DocBook"), 0, 
+                                    this, SLOT( slotFileExportDocbook() ), 
+                                    actionCollection(), "file_export_docbook");
+    fileExportXhtml = new KAction(i18n("&Export model to XHTML"), 0, 
+                                    this, SLOT( slotFileExportXhtml() ),
+                                    actionCollection(), "file_export_xhtml");
+    
     classWizard = new KAction(i18n("&New Class Wizard..."),0,this,SLOT(slotClassWizard()),
                               actionCollection(),"class_wizard");
     new KAction(i18n("&Add Default Datatypes for Active Language"), 0, this,
@@ -203,6 +213,8 @@ void UMLApp::initActions() {
     fileClose->setToolTip(i18n("Closes the document"));
     filePrint ->setToolTip(i18n("Prints out the document"));
     fileQuit->setToolTip(i18n("Quits the application"));
+    fileExportDocbook->setToolTip(i18n("Exports the model to the docbook format"));
+    fileExportXhtml->setToolTip(i18n("Exports the model to the XHTML format"));
     editCut->setToolTip(i18n("Cuts the selected section and puts it to the clipboard"));
     editCopy->setToolTip(i18n("Copies the selected section to the clipboard"));
     editPaste->setToolTip(i18n("Pastes the contents of the clipboard"));
@@ -807,6 +819,22 @@ void UMLApp::slotFileQuit() {
     slotStatusMsg(i18n("Ready."));
 }
 
+void UMLApp::slotFileExportDocbook()
+{
+  DocbookGenerator().generateDocbookForProject();
+}
+    
+void UMLApp::slotFileExportXhtml()
+{
+  if (m_xhtmlGenerator != 0)
+  {
+    return;
+  }
+  m_xhtmlGenerator = new XhtmlGenerator();
+  m_xhtmlGenerator->generateXhtmlForProject();
+  connect(m_xhtmlGenerator,SIGNAL(finished()),this,SLOT(slotXhtmlDocGenerationFinished()));
+}
+    
 void UMLApp::slotEditUndo() {
     m_doc->loadUndoData();
     slotStatusMsg(i18n("Ready."));
@@ -1654,6 +1682,12 @@ void UMLApp::slotAutolayout(){
     d->show();
  */
 #endif
+}
+
+void UMLApp::slotXhtmlDocGenerationFinished()
+{
+  delete m_xhtmlGenerator;
+  m_xhtmlGenerator = 0;
 }
 
 KTabWidget* UMLApp::tabWidget() {

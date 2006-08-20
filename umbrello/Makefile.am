@@ -113,11 +113,11 @@ widget_utils.cpp \
 worktoolbar.cpp
 
 #umbrello_LDADD   = ./refactoring/librefactoring.la ./codeimport/libcodeimport.la ./codeimport/kdevcppparser/libkdevcppparser.la ./clipboard/libclipboard.la ./dialogs/libdialogs.la ./codegenerators/libcodegenerator.la $(AUTOLAYOUT_LIBS) $(LIB_KDEPRINT) $(LIB_KIO)
-umbrello_LDADD = ./refactoring/librefactoring.la ./codeimport/libcodeimport.la ./codeimport/kdevcppparser/libkdevcppparser.la ./clipboard/libclipboard.la ./dialogs/libdialogs.la ./codegenerators/libcodegenerator.la $(LIB_KDEPRINT) $(LIB_KIO)
+umbrello_LDADD = ./refactoring/librefactoring.la ./codeimport/libcodeimport.la ./codeimport/kdevcppparser/libkdevcppparser.la ./clipboard/libclipboard.la ./dialogs/libdialogs.la ./codegenerators/libcodegenerator.la ./docgenerators/libdocgenerators.la $(LIB_KDEPRINT) $(LIB_KIO) -lxslt -lxml2
 
 ## See section "dnl Not GPL compatible" in ../configure.in.in
 # SUBDIRS = $(AUTOLAYOUT_DIR) codeimport dialogs clipboard pics codegenerators headings refactoring
-SUBDIRS = codeimport dialogs clipboard pics codegenerators headings refactoring
+SUBDIRS = codeimport dialogs docgenerators clipboard pics codegenerators headings refactoring
 
 KDE_ICON=AUTO
 
