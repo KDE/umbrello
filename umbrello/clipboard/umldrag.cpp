@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 #include <kdebug.h>
 #include <qdom.h>
@@ -371,7 +368,8 @@ bool UMLDrag::decodeClip1(const QMimeSource* mimeSource, UMLObjectList& objects,
                 return false;
             }
             Uml::Object_Type type = pObject->getBaseType();
-            QString newName = Model_Utils::uniqObjectName(type, pObject->getName());
+            QString newName = Model_Utils::uniqObjectName(type, pObject->getUMLPackage(),
+                                                                pObject->getName());
             pObject->setName(newName);
             /****************************************************************/
 

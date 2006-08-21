@@ -29,6 +29,7 @@
 #include "uml.h"
 #include "model_utils.h"
 #include "widget_utils.h"
+#include "folder.h"
 #include "umlview.h"
 #include "statewidget.h"
 #include "activitywidget.h"
@@ -638,7 +639,14 @@ void ListPopupMenu::insertSubmodelAction() {
     }
     UMLListView *listView = UMLApp::app()->getListView();
     UMLListViewItem *current = static_cast<UMLListViewItem*>(listView->currentItem());
-    QString submodelFile = current->getFolderFile();
+    UMLFolder *f = dynamic_cast<UMLFolder*>(current->getUMLObject());
+    if (f == NULL) {
+        kdError() << "ListPopupMenu::insertSubmodelAction: "
+            << "current->getUMLObject (" << current->getUMLObject()
+            << ") is not a Folder" << endl;
+        return;
+    }
+    QString submodelFile = f->getFolderFile();
     if (submodelFile.isEmpty())
         insertStdItem(mt_Externalize_Folder);
     else

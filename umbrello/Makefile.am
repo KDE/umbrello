@@ -45,6 +45,7 @@ enumliteral.cpp \
 enumwidget.cpp \
 floatingtextwidget.cpp \
 floatingtextwidgetcontroller.cpp \
+folder.cpp \
 forkjoinwidget.cpp \
 kplayerslideraction.cpp \
 hierarchicalcodeblock.cpp \
@@ -106,6 +107,7 @@ umlviewimageexporterall.cpp \
 umlviewimageexportermodel.cpp \
 umlwidget.cpp \
 umlwidgetcontroller.cpp \
+uniqueid.cpp \
 usecase.cpp \
 usecasewidget.cpp \
 widgetbase.cpp \

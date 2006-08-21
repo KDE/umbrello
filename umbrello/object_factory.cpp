@@ -25,6 +25,7 @@
 #include "umlobject.h"
 #include "umlpackagelist.h"
 #include "package.h"
+#include "folder.h"
 #include "classifier.h"
 #include "attribute.h"
 #include "operation.h"
@@ -59,8 +60,12 @@ bool assignUniqueIdOnCreation() {
 }
 
 UMLObject* createNewUMLObject(Uml::Object_Type type, const QString &name,
-                              UMLPackage *parentPkg = NULL,
-                              bool prepend = false) {
+                              UMLPackage *parentPkg) {
+    if (parentPkg == NULL) {
+        kdError() << "Object_Factory::createNewUMLObject(" << name
+            << "): parentPkg is NULL" << endl;
+        return NULL;
+    }
     UMLObject *o = NULL;
     switch (type) {
         case Uml::ot_Actor:
@@ -99,13 +104,16 @@ UMLObject* createNewUMLObject(Uml::Object_Type type, const QString &name,
         case Uml::ot_Entity:
             o = new UMLEntity(name, g_predefinedId);
             break;
+        case Uml::ot_Folder:
+            o = new UMLFolder(name, g_predefinedId);
+            break;
         default:
             kdWarning() << "createNewUMLObject error unknown type: " << type << endl;
             return NULL;
     }
     o->setUMLPackage(parentPkg);
     UMLDoc *doc = UMLApp::app()->getDocument();
-    doc->addUMLObject(o, prepend);
+    parentPkg->addObject(o);
     doc->signalUMLObjectCreated(o);
     kapp->processEvents();
     return o;
@@ -113,21 +121,44 @@ UMLObject* createNewUMLObject(Uml::Object_Type type, const QString &name,
 
 UMLObject* createUMLObject(Uml::Object_Type type, const QString &n,
                            UMLPackage *parentPkg /* = NULL */,
-                           bool prepend /* = false */,
                            bool solicitNewName /* = true */) {
     UMLDoc *doc = UMLApp::app()->getDocument();
+    if (parentPkg == NULL) {
+        Uml::Model_Type mt = Uml::mt_Logical;
+        switch (type) {
+            case Uml::ot_Actor:
+            case Uml::ot_UseCase:
+                mt = Uml::mt_UseCase;
+                break;
+            case Uml::ot_Component:
+                mt = Uml::mt_Component;
+                break;
+            case Uml::ot_Artifact:
+            case Uml::ot_Node:
+                mt = Uml::mt_Deployment;
+                break;
+            case Uml::ot_Entity:
+                mt = Uml::mt_EntityRelationship;
+                break;
+            default:
+                break;
+        }
+        kdDebug() << "Object_Factory::createUMLObject(" << n << "): "
+            << "parentPkg is not set, assuming Model_Type " << mt << endl;
+        parentPkg = doc->getRootFolder(mt);
+    }
     if (!n.isEmpty()) {
         UMLObject *o = doc->findUMLObject(n, type, parentPkg);
         if (o) {
             if (!solicitNewName)
                 return o;
         } else {
-            o = createNewUMLObject(type, n, parentPkg, prepend);
+            o = createNewUMLObject(type, n, parentPkg);
             return o;
         }
     }
     bool ok = false;
-    QString name = Model_Utils::uniqObjectName(type, n, parentPkg);
+    QString name = Model_Utils::uniqObjectName(type, parentPkg, n);
     bool bValidNameEntered = false;
     do {
         name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), name, &ok, (QWidget*)UMLApp::app());
@@ -152,7 +183,7 @@ UMLObject* createUMLObject(Uml::Object_Type type, const QString &n,
         }
         bValidNameEntered = true;
     } while (bValidNameEntered == false);
-    UMLObject *o = createNewUMLObject(type, name, parentPkg, prepend);
+    UMLObject *o = createNewUMLObject(type, name, parentPkg);
     return o;
 }
 
@@ -201,7 +232,7 @@ UMLClassifierListItem* createChildObject(UMLClassifier* parent, Uml::Object_Type
     return static_cast<UMLClassifierListItem*>(returnObject);
 }
 
-UMLObject* makeObjectFromXMI(const QString &xmiTag) {
+UMLObject* makeObjectFromXMI(QString xmiTag, QString stereoID /* = QString::null */) {
     UMLObject* pObject = 0;
     if (Uml::tagEq(xmiTag, "UseCase")) {
         pObject = new UMLUseCase();
@@ -210,7 +241,14 @@ UMLObject* makeObjectFromXMI(const QString &xmiTag) {
     } else if (Uml::tagEq(xmiTag, "Class")) {
         pObject = new UMLClassifier();
     } else if (Uml::tagEq(xmiTag, "Package")) {
-        pObject = new UMLPackage();
+        if (!stereoID.isEmpty()) {
+            UMLDoc *doc = UMLApp::app()->getDocument();
+            UMLObject *stereo = doc->findStereotypeById(STR2ID(stereoID));
+            if (stereo->getName() == "folder")
+                pObject = new UMLFolder();
+        }
+        if (pObject == NULL)
+            pObject = new UMLPackage();
     } else if (Uml::tagEq(xmiTag, "Component")) {
         pObject = new UMLComponent();
     } else if (Uml::tagEq(xmiTag, "Node")) {

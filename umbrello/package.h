@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2003-2005
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2003-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 #ifndef PACKAGE_H
@@ -23,11 +20,6 @@
  * Package.
  * This class inherits from @ref UMLCanvasObject which contains most of the
  * information.
- *
- * The @ref UMLDoc class creates instances of this type.  All Packages will
- * need a unique id.  This will be given by the @ref UMLDoc class.
- * If you don't leave it up to the @ref UMLDoc class then call the method
- * @ref UMLDoc::getUniqueID to get a unique id.
  *
  * @short Non-graphical information for a Package.
  * @author Jonathan Riddell
@@ -83,9 +75,15 @@ public:
     void removeObject(const UMLObject *pObject);
 
     /**
+     * Removes all objects from this package.
+     * Inner containers (e.g. nested packages) are removed recursively.
+     */
+    virtual void removeAllObjects();
+
+    /**
      * Returns the list of objects contained in this package.
      */
-    UMLObjectList& containedObjects();
+    UMLObjectList containedObjects(bool includeAssociations = false);
 
     /**
      * Find the object of the given name in the list of contained objects.
@@ -173,6 +171,7 @@ protected:
      * The UMLPackage is the owner of the objects.
      */
     UMLObjectList m_objects;
+
 };
 
 #endif

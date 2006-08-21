@@ -23,6 +23,7 @@
 #include "umlobject.h"
 #include "umlpackagelist.h"
 #include "package.h"
+#include "folder.h"
 #include "classifier.h"
 #include "enum.h"
 #include "entity.h"
@@ -63,9 +64,10 @@ UMLObject * findObjectInList(Uml::IDType id, UMLObjectList inList) {
         UMLObject *o;
         Uml::Object_Type t = obj->getBaseType();
         switch (t) {
+        case Uml::ot_Folder:
         case Uml::ot_Package:
         case Uml::ot_Component:
-            o = ((UMLPackage*)obj)->findObjectById(id);
+            o = static_cast<UMLPackage*>(obj)->findObjectById(id);
             if (o)
                 return o;
             break;
@@ -73,7 +75,7 @@ UMLObject * findObjectInList(Uml::IDType id, UMLObjectList inList) {
         case Uml::ot_Class:
         case Uml::ot_Enum:
         case Uml::ot_Entity:
-            o = ((UMLClassifier*)obj)->findChildObjectById(id);
+            o = static_cast<UMLClassifier*>(obj)->findChildObjectById(id);
             if (o == NULL &&
                     (t == Uml::ot_Interface || t == Uml::ot_Class))
                 o = ((UMLPackage*)obj)->findObjectById(id);
@@ -82,7 +84,7 @@ UMLObject * findObjectInList(Uml::IDType id, UMLObjectList inList) {
             break;
         case Uml::ot_Association:
             {
-                UMLAssociation *assoc = (UMLAssociation*)obj;
+                UMLAssociation *assoc = static_cast<UMLAssociation*>(obj);
                 UMLRole *rA = assoc->getUMLRole(Uml::A);
                 if (rA->getID() == id)
                     return rA;
@@ -160,8 +162,8 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
             }
             if (seenPkgs.findRef(pkg) != -1) {
                 kdError() << "findUMLObject(" << name << "): "
-                << "breaking out of cycle involving "
-                << pkg->getName() << endl;
+                    << "breaking out of cycle involving "
+                    << pkg->getName() << endl;
                 break;
             }
             seenPkgs.append(pkg);
@@ -178,9 +180,9 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
                 if (nameWithoutFirstPrefix.isEmpty()) {
                     if (type != Uml::ot_UMLObject && type != foundType) {
                         kdDebug() << "findUMLObject: type mismatch for "
-                        << name << " (seeking type: "
-                        << type << ", found type: "
-                        << foundType << ")" << endl;
+                            << name << " (seeking type: "
+                            << type << ", found type: "
+                            << foundType << ")" << endl;
                         continue;
                     }
                     return obj;
@@ -190,7 +192,7 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
                     foundType != Uml::ot_Interface &&
                     foundType != Uml::ot_Component) {
                     kdDebug() << "findUMLObject: found \"" << name
-                    << "\" is not a package (?)" << endl;
+                        << "\" is not a package (?)" << endl;
                     continue;
                 }
                 UMLPackage *pkg = static_cast<UMLPackage*>(obj);
@@ -212,19 +214,20 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
         if (nameWithoutFirstPrefix.isEmpty()) {
             if (type != Uml::ot_UMLObject && type != foundType) {
                 kdDebug() << "findUMLObject: type mismatch for "
-                << name << " (seeking type: "
-                << type << ", found type: "
-                << foundType << ")" << endl;
+                    << name << " (seeking type: "
+                    << type << ", found type: "
+                    << foundType << ")" << endl;
                 continue;
             }
             return obj;
         }
         if (foundType != Uml::ot_Package &&
+            foundType != Uml::ot_Folder &&
             foundType != Uml::ot_Class &&
             foundType != Uml::ot_Interface &&
             foundType != Uml::ot_Component) {
             kdDebug() << "findUMLObject: found \"" << name
-            << "\" is not a package (?)" << endl;
+                << "\" is not a package (?)" << endl;
             continue;
         }
         UMLPackage *pkg = static_cast<UMLPackage*>(obj);
@@ -234,8 +237,7 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
     return NULL;
 }
 
-QString uniqObjectName(Uml::Object_Type type, QString prefix,
-                       UMLPackage *parentPkg /* = NULL */) {
+QString uniqObjectName(Uml::Object_Type type, UMLPackage *parentPkg, QString prefix) {
     QString currentName = prefix;
     if (currentName.isEmpty()) {
         if(type == Uml::ot_Class)
@@ -260,6 +262,8 @@ QString uniqObjectName(Uml::Object_Type type, QString prefix,
             currentName = i18n("new_enum");
         else if(type == Uml::ot_Entity)
             currentName = i18n("new_entity");
+        else if(type == Uml::ot_Folder)
+            currentName = i18n("new_folder");
         else if(type == Uml::ot_Association)
             currentName = i18n("new_association");
         else {
@@ -321,6 +325,59 @@ bool isClassifierListitem(Uml::Object_Type type) {
     } else {
         return false;
     }
+}
+
+Uml::Model_Type guessContainer(UMLObject *o) {
+    Uml::Object_Type ot = o->getBaseType();
+    if (ot == Uml::ot_Package && o->getStereotype() == "subsystem")
+        return Uml::mt_Component;
+    Uml::Model_Type mt = Uml::mt_Logical;
+    switch (ot) {
+        case Uml::ot_Actor:
+        case Uml::ot_UseCase:
+            mt = Uml::mt_UseCase;
+            break;
+        case Uml::ot_Component:
+        case Uml::ot_Artifact:  // trouble: artifact can also appear at Deployment
+            mt = Uml::mt_Component;
+            break;
+        case Uml::ot_Node:
+            mt = Uml::mt_Deployment;
+            break;
+        case Uml::ot_Entity:
+            mt = Uml::mt_EntityRelationship;
+            break;
+        case Uml::ot_Association:
+            {
+                UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
+                for (int r = Uml::A; r <= Uml::B; r++) {
+                    UMLObject *roleObj = assoc->getObject((Uml::Role_Type)r);
+                    if (roleObj == NULL) {
+                        // Ouch! we have been called while types are not yet resolved
+                        break;
+                    }
+                    UMLPackage *pkg = roleObj->getUMLPackage();
+                    if (pkg) {
+                        while (pkg->getUMLPackage()) {  // wind back to root
+                            pkg = pkg->getUMLPackage();
+                        }
+                        UMLDoc *umldoc = UMLApp::app()->getDocument();
+                        for (int i = 0; i < Uml::N_MODELTYPES; i++) {
+                            Uml::Model_Type m = (Uml::Model_Type)i;
+                            if (pkg == umldoc->getRootFolder(m))
+                                return m;
+                        }
+                    }
+                    mt = guessContainer(roleObj);
+                    if (mt != Uml::mt_Logical)
+                        break;
+                }
+            }
+            break;
+        default:
+            break;
+    }
+    return mt;
 }
 
 int stringToDirection(QString input, Uml::Parameter_Direction & result) {
@@ -545,6 +602,83 @@ Uml::Programming_Language stringToProgLang(QString str) {
     if (str == "XMLSchema")
         return Uml::pl_XMLSchema;
     return Uml::pl_Reserved;
+}
+
+Uml::Model_Type convert_DT_MT(Uml::Diagram_Type dt) {
+    Uml::Model_Type mt;
+    switch (dt) {
+        case Uml::dt_UseCase:
+            mt = Uml::mt_UseCase;
+            break;
+        case Uml::dt_Collaboration:
+        case Uml::dt_Class:
+        case Uml::dt_Sequence:
+        case Uml::dt_State:
+        case Uml::dt_Activity:
+            mt = Uml::mt_Logical;
+            break;
+        case Uml::dt_Component:
+            mt = Uml::mt_Component;
+            break;
+        case Uml::dt_Deployment:
+            mt = Uml::mt_Deployment;
+            break;
+        case Uml::dt_EntityRelationship:
+            mt = Uml::mt_EntityRelationship;
+            break;
+        default:
+            mt = Uml::N_MODELTYPES;
+            break;
+    }
+    return mt;
+}
+
+Uml::ListView_Type convert_MT_LVT(Uml::Model_Type mt) {
+    Uml::ListView_Type lvt = Uml::lvt_Unknown;
+    switch (mt) {
+        case Uml::mt_Logical:
+            lvt = Uml::lvt_Logical_View;
+            break;
+        case Uml::mt_UseCase:
+            lvt = Uml::lvt_UseCase_View;
+            break;
+        case Uml::mt_Component:
+            lvt = Uml::lvt_Component_View;
+            break;
+        case Uml::mt_Deployment:
+            lvt = Uml::lvt_Deployment_View;
+            break;
+        case Uml::mt_EntityRelationship:
+            lvt = Uml::lvt_EntityRelationship_Model;
+            break;
+        default:
+            break;
+    }
+    return lvt;
+}
+
+Uml::Model_Type convert_LVT_MT(Uml::ListView_Type lvt) {
+    Uml::Model_Type mt = Uml::N_MODELTYPES;
+    switch (lvt) {
+        case Uml::lvt_Logical_View:
+            mt = Uml::mt_Logical;
+            break;
+        case Uml::lvt_UseCase_View:
+            mt = Uml::mt_UseCase;
+            break;
+        case Uml::lvt_Component_View:
+            mt = Uml::mt_Component;
+            break;
+        case Uml::lvt_Deployment_View:
+            mt = Uml::mt_Deployment;
+            break;
+        case Uml::lvt_EntityRelationship_Model:
+            mt = Uml::mt_EntityRelationship;
+            break;
+        default:
+            break;
+    }
+    return mt;
 }
 
 }  // namespace Model_Utils

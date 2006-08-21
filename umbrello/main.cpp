@@ -84,6 +84,11 @@ void initDocument(KCmdLineArgs *args, KConfig* cfg);
  */
 void exportAllViews(KCmdLineArgs *args, const QCStringList &exportOpt);
 
+extern "C" int flushEvents() {
+    kapp->processEvents();
+    return 0;
+}
+
 int main(int argc, char *argv[]) {
     KAboutData aboutData( "umbrello", I18N_NOOP("Umbrello UML Modeller"),
                           UMBRELLO_VERSION, description, KAboutData::License_GPL,
@@ -102,6 +107,7 @@ int main(int argc, char *argv[]) {
         bool showGUI = getShowGUI(args);
 
         UMLApp *uml = new UMLApp();
+        flushEvents();
         KConfig * cfg = app.config();
 
         KStartupLogo* startLogo = showStartupLogo(cfg, showGUI);
@@ -199,3 +205,4 @@ void exportAllViews(KCmdLineArgs *args, const QCStringList &exportOpt) {
     // is sent and the app finishes without user interaction
     kapp->postEvent(UMLApp::app(), new CmdLineExportAllViewsEvent(extension, directory, useFolders));
 }
+

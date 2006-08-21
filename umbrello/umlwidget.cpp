@@ -22,6 +22,7 @@
 #include "umlwidgetcontroller.h"
 #include "umlobject.h"
 #include "classifier.h"
+#include "uniqueid.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
@@ -68,7 +69,7 @@ UMLWidget::UMLWidget(UMLView * view, Uml::IDType id /* = Uml::id_None */, UMLWid
     }
     init();
     if (id == Uml::id_None)
-        m_nId = m_pDoc->getUniqueID();
+        m_nId = UniqueID::gen();
     else
         m_nId = id;
 }

@@ -187,7 +187,6 @@ UMLObject *createUMLObject(Uml::Object_Type type,
                 bPutAtGlobalScope = false;
             }
             o = Object_Factory::createUMLObject(Uml::ot_Datatype, name, parentPkg,
-                                                false,  //prepend
                                                 false); //solicitNewName
             UMLDatatype *dt = static_cast<UMLDatatype*>(o);
             UMLClassifier *c = dynamic_cast<UMLClassifier*>(origType);

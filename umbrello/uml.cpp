@@ -100,6 +100,7 @@ UMLApp::UMLApp(QWidget* , const char* name):KDockMainWindow(0, name) {
     // call inits to invoke all other construction parts
     readOptionState();
     m_doc = new UMLDoc();
+    m_doc->init();
     initActions(); //now calls initStatusBar() because it is affected by setupGUI()
     initView();
     initClip();
@@ -470,6 +471,8 @@ void UMLApp::initView() {
 
     m_listDock = createDockWidget( "Model", 0L, 0L, i18n("&Tree View") );
     m_listView = new UMLListView(m_listDock ,"LISTVIEW");
+    m_listView->setDocument(m_doc);
+    m_listView->init();
     m_listDock->setWidget(m_listView);
     m_listDock->setDockSite(KDockWidget::DockCorner);
     m_listDock->manualDock(m_mainDock, KDockWidget::DockLeft, 20);
@@ -480,7 +483,6 @@ void UMLApp::initView() {
     m_documentationDock->setDockSite(KDockWidget::DockCorner);
     m_documentationDock->manualDock(m_listDock, KDockWidget::DockBottom, 80);
 
-    m_listView->setDocument(m_doc);
     m_doc->setupSignals();//make sure gets signal from list view
 
     readDockConfig(); //reposition all the DockWindows to their saved positions

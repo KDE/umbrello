@@ -57,6 +57,7 @@ class IDChangeLog;
 class ObjectWidget;
 class UMLWidget;
 class UMLPackage;
+class UMLFolder;
 
 /**
   * UMLDoc provides a document object for a document-view model.
@@ -86,6 +87,12 @@ public:
      * Destructor for the fileclass of the application
      */
     ~UMLDoc();
+
+    /**
+     * Initialize the UMLDoc.
+     * To be called after the constructor, before anything else.
+     */
+    void init();
 
     /**
      * Adds a view to the document which represents the document
@@ -404,13 +411,6 @@ public:
     Uml::IDType getModelID() const;
 
     /**
-     * Used to give a unique ID to any sort of object.
-     *
-     * @return  A new unique ID.
-     */
-    Uml::IDType getUniqueID();
-
-    /**
      * This method is called for saving the given model as a XMI file.
      * It is virtual and calls the corresponding saveToXMI() functions
      * of the derived classes.
@@ -512,6 +512,15 @@ public:
     }
 
     /**
+     * Returns the datatype folder.
+     *
+     * @return  Pointer to the predefined folder for datatypes.
+     */
+    UMLFolder * getDatatypeFolder() {
+        return m_datatypeRoot;
+    }
+
+    /**
      * Returns a list of the concepts in this UMLDoc.
      *
      * @param includeNested             Whether to include the concepts from
@@ -592,11 +601,9 @@ public:
      * any ids or signal.  Use AddUMLObjectPaste if pasting.
      *
      * @param object   The object to add.
-     * @param prepend  True if wish to prepend the object to the object list
-     *                 (default: append)
      * @return  True if the object was actually added.
      */
-    bool addUMLObject(UMLObject * object, bool prepend = false);
+    bool addUMLObject(UMLObject * object);
 
     /**
      * Adds an already created UMLView to the document, it gets
@@ -609,6 +616,11 @@ public:
      * @return  True if operation successful.
      */
     bool addUMLView(UMLView * pView );
+
+    /**
+     * Return the predefined root folder of the given type.
+     */
+    UMLFolder *getRootFolder(Uml::Model_Type mt);
 
     /**
      * Read property of IDChangeLog* m_pChangeLog.
@@ -796,7 +808,16 @@ private:
      */
     void initSaveTimer();
 
-    UMLObjectList m_objectList;
+    /**
+     * Array of predefined root folders.
+     */
+    UMLFolder *m_root[Uml::N_MODELTYPES];
+    /**
+     * Predefined root folder for datatypes, contained in
+     * m_root[Uml::mt_Logical]
+     */
+    UMLFolder *m_datatypeRoot;
+    //UMLObjectList m_objectList;
 
     /**
      * The UMLDoc is the sole owner of all stereotypes.
@@ -806,15 +827,6 @@ private:
      * m_stereoList and it is physically deleted.
      */
     UMLStereotypeList m_stereoList;
-
-    /**
-     * In principle, each model object gets assigned a unique ID.
-     * NOTE: Currently this is an int although Uml::IDType is a string
-     *       (unless ID_USE_INT is defined.) Perhaps it should be changed
-     *       to Uml::IDType but then we need a unique string generator.
-     *       See also UMLView::m_nLocalID.
-     */
-    int m_uniqueID;
 
     QString m_Name; ///< name of this model as stored in the <UML:Model> tag
     Uml::IDType m_modelID; ///< xmi.id of this model in the <UML:Model>

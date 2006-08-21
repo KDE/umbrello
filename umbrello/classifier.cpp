@@ -28,6 +28,7 @@
 #include "umllistview.h"
 #include "object_factory.h"
 #include "model_utils.h"
+#include "uniqueid.h"
 #include "clipboard/idchangelog.h"
 #include "dialogs/umloperationdialog.h"
 #include "dialogs/umlattributedialog.h"
@@ -53,16 +54,16 @@ void UMLClassifier::init(bool bIsInterface /* = false */) {
 void UMLClassifier::setInterface(bool b /* = true */) {
     // @todo get rid of direct dependencies to UMLListView
     //  (e.g. move utility methods to Model_Utils and/or use signals)
-    UMLListView::Icon_Type newIcon;
+    Uml::Icon_Type newIcon;
     if (b) {
         m_BaseType = ot_Interface;
         UMLObject::setStereotype("interface");
         UMLObject::m_bAbstract = true;
-        newIcon = UMLListView::it_Interface;
+        newIcon = Uml::it_Interface;
     } else {
         m_BaseType = ot_Class;
         UMLObject::setStereotype(QString::null);
-        newIcon = UMLListView::it_Class;
+        newIcon = Uml::it_Class;
     }
     UMLListView *listView = UMLApp::app()->getListView();
     listView->changeIconOf(this, newIcon);
@@ -477,8 +478,7 @@ bool UMLClassifier::acceptAssociationType(Uml::Association_Type type)
 }
 
 UMLAttribute* UMLClassifier::createAttribute(const QString &name /*=null*/) {
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-    Uml::IDType id = umldoc->getUniqueID();
+    Uml::IDType id = UniqueID::gen();
     QString currentName;
     if (name.isNull())  {
         currentName = uniqChildName(Uml::ot_Attribute);
@@ -514,6 +514,7 @@ UMLAttribute* UMLClassifier::createAttribute(const QString &name /*=null*/) {
 
     addAttribute(newAttribute);
 
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
     umldoc->signalUMLObjectCreated(newAttribute);
     return newAttribute;
 }

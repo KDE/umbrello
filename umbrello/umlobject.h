@@ -182,7 +182,7 @@ public:
      *                          "«" and "»".
      * @return  Returns the classes stereotype name.
      */
-    QString getStereotype(bool includeAdornments = false);
+    QString getStereotype(bool includeAdornments = false) const;
 
     /**
      * Return the package(s) in which this UMLObject is contained
@@ -343,12 +343,6 @@ public:
      * Currently only used by petalTree2Uml().
      */
     void setSecondaryFallback(QString id);
-
-    /**
-     * Returns true if this object resides in an externalized folder.
-     * CHECK: It is probably cleaner to move this to the UMLListViewItem.
-     */
-    bool isSavedInSeparateFile();
 
     /**
      * Auxiliary to saveToXMI.

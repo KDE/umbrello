@@ -74,15 +74,14 @@ UMLObject* findUMLObject( UMLObjectList inList, QString name,
  * if the default name is taken e.g. new_actor, new_actor_1
  * etc.
  * @param type              The object type.
+ * @param parentPkg The package in which to compare the name.
  * @param prefix    The prefix to use (optional.)
  *                  If no prefix is given then a type related
  *                  prefix will be chosen internally.
- * @param parentPkg The package in which to compare the name (optional.)
- *                  If not given then comparisons are done in the global scope.
  */
 QString uniqObjectName(Uml::Object_Type type,
-                       QString prefix = QString::null,
-                       UMLPackage *parentPkg = 0);
+                       UMLPackage *parentPkg,
+                       QString prefix = QString::null);
 
 /**
  * Return true if the given tag is a one of the common XMI
@@ -103,6 +102,31 @@ bool isCommonDataType(QString type);
  * Return true if the given object type is a classifier list item type.
  */
 bool isClassifierListitem(Uml::Object_Type ot);
+
+/**
+ * Return the Model_Type which corresponds to the given Diagram_Type.
+ */
+Uml::Model_Type convert_DT_MT(Uml::Diagram_Type dt);
+
+/**
+ * Return the ListView_Type which corresponds to the given Model_Type.
+ */
+Uml::ListView_Type convert_MT_LVT(Uml::Model_Type mt);
+
+/**
+ * Return the Model_Type which corresponds to the given ListView_Type.
+ * Returns Uml::N_MODELTYPES if the list view type given does not map
+ * to a Model_Type.
+ */
+Uml::Model_Type convert_LVT_MT(Uml::ListView_Type lvt);
+
+/**
+ * Try to guess the correct container folder type of an UMLObject.
+ * Object types that can't be guessed are mapped to Uml::mt_Logical.
+ * NOTE: This function exists mainly for handling pre-1.5.5 files
+ *       and should not be used for new code.
+ */
+Uml::Model_Type guessContainer(UMLObject *o);
 
 /**
  * Parse a direction string into the Uml::Parameter_Direction.

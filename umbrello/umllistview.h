@@ -45,51 +45,6 @@ class UMLListView : public KListView {
     Q_OBJECT
 public:
 
-    enum Icon_Type      {
-        it_Home = 0,
-        it_Folder_Cyan,
-        it_Folder_Cyan_Open,
-        it_Folder_Green,
-        it_Folder_Green_Open,
-        it_Folder_Grey,
-        it_Folder_Grey_Open,
-        it_Folder_Red,
-        it_Folder_Red_Open,
-        it_Folder_Violet,
-        it_Folder_Violet_Open,
-        it_Folder_Orange,
-        it_Folder_Orange_Open,
-        it_Diagram, //change to have different one for each type of diagram
-        it_Class,
-        it_Template,
-        it_Package,
-        it_Subsystem,
-        it_Component,
-        it_Node,
-        it_Artifact,
-        it_Interface,
-        it_Datatype,
-        it_Enum,
-        it_Entity,
-        it_Actor,
-        it_UseCase,
-        it_Public_Method,
-        it_Private_Method,
-        it_Protected_Method,
-        it_Public_Attribute,
-        it_Private_Attribute,
-        it_Protected_Attribute,
-        it_Diagram_Activity,
-        it_Diagram_Class,
-        it_Diagram_Collaboration,
-        it_Diagram_Component,
-        it_Diagram_Deployment,
-        it_Diagram_EntityRelationship,
-        it_Diagram_Sequence,
-        it_Diagram_State,
-        it_Diagram_Usecase
-    };
-
     /**
      * Constructs the tree view.
      *
@@ -189,7 +144,7 @@ public:
     /**
      * Returns the correct pixmap for the given type.
      */
-    QPixmap & getPixmap( Icon_Type type );
+    QPixmap & getPixmap( Uml::Icon_Type type );
 
     /**
      * Returns the document pointer.  Called by the UMLListViewItem class.
@@ -203,7 +158,7 @@ public:
      * Method will take care of signalling anyone needed on creation of new item.
      * e.g. UMLDoc if an UMLObject is created.
      */
-    void addNewItem( QListViewItem * parent, Uml::ListView_Type type );
+    void addNewItem(UMLListViewItem * parent, Uml::ListView_Type type);
 
     /**
      * Find an UMLObject in the listview.
@@ -211,7 +166,7 @@ public:
      * @param p         Pointer to the object to find in the list view.
      * @return  Pointer to the UMLObject found or NULL if not found.
      */
-    UMLListViewItem * findUMLObject(UMLObject *p) const;
+    UMLListViewItem * findUMLObject(const UMLObject *p) const;
 
     /**
      * Searches through the tree for the item with the given ID.
@@ -233,9 +188,22 @@ public:
     static bool typeIsCanvasWidget(Uml::ListView_Type type);
 
     /**
+     * Returns true if the listview type is one of the predefined root views
+     * (root, logical, usecase, component, deployment, datatype, or entity-
+     * relationship view.)
+     */
+    static bool typeIsRootView(Uml::ListView_Type type);
+
+    /**
      * Returns true if the listview type is a logical, usecase or component folder.
      */
     static bool typeIsFolder(Uml::ListView_Type type);
+
+    /**
+     * Returns true if the listview type may act as a container for other objects,
+     * i.e. if it is a folder, package, subsystem, or component.
+     */
+    static bool typeIsContainer(Uml::ListView_Type type);
 
     /**
      * Returns true if the listview type is a diagram.
@@ -250,7 +218,7 @@ public:
     /**
      * Changes the icon for the given UMLObject to the given icon.
      */
-    void changeIconOf(UMLObject *o, Icon_Type to);
+    void changeIconOf(UMLObject *o, Uml::Icon_Type to);
 
     /**
      * Creates a UMLObject out of the given list view item.
@@ -302,9 +270,33 @@ public:
     bool startedCopy() const;
 
     /**
-     * Converts an object type enum to the equivalent list view type
+     * Converts an object's type to the equivalent list view type
+     *
+     * @param o  Pointer to the UMLObject whose type shall be converted
+     *           to the equivalent Uml::ListView_Type.  We cannot just
+     *           pass in a Uml::Object_Type because a UMLPackage might
+     *           be rendered differently when it acts as a folder.
+     * @return  The equivalent Uml::ListView_Type.
      */
-    static Uml::ListView_Type convert_OT_LVT(Uml::Object_Type ot);
+    static Uml::ListView_Type convert_OT_LVT(const UMLObject *o);
+
+    /**
+     * Return the Icon_Type which corresponds to the given listview type.
+     *
+     * @param lvt  ListView_Type to convert.
+     * @return  The Uml::Icon_Type corresponding to the lvt.
+     *          Returns it_Home in case no mapping to Uml::Icon_Type exists.
+     */
+    static Uml::Icon_Type convert_LVT_IT(Uml::ListView_Type lvt);
+
+    /**
+     * Return the Diagram_Type which corresponds to the given listview type.
+     *
+     * @param lvt  ListView_Type to convert.
+     * @return  The Uml::Diagram_Type corresponding to the lvt.
+     *          Returns dt_Undefined in case no mapping to Diagram_Type exists.
+     */
+    static Uml::Diagram_Type convert_LVT_DT(Uml::ListView_Type lvt);
 
     /**
      * Moves an object given is unique ID and listview type to an
@@ -322,10 +314,22 @@ public:
     void closeDatatypesFolder();
 
     UMLListViewItem *theRootView() { return m_rv; }
-    UMLListViewItem *theLogicalView() { return m_lv; }
-    UMLListViewItem *theUseCaseView() { return m_ucv; }
-    UMLListViewItem *theComponentView() { return m_cmpv; }
-    UMLListViewItem *theDeploymentView() { return m_dplv; }
+    UMLListViewItem *theLogicalView() { return m_lv[Uml::mt_Logical]; }
+    UMLListViewItem *theUseCaseView() { return m_lv[Uml::mt_UseCase]; }
+    UMLListViewItem *theComponentView() { return m_lv[Uml::mt_Component]; }
+    UMLListViewItem *theDeploymentView() { return m_lv[Uml::mt_Deployment]; }
+    UMLListViewItem *theDatatypeFolder() { return m_datatypeFolder; }
+
+    /**
+     * Determines the root listview type of the given UMLListViewItem.
+     * Starts at the given item, compares it against each of the
+     * predefined root views (Root, Logical, UseCase, Component,
+     * Deployment, EntityRelationship.) Returns the ListView_Type
+     * of the matching root view; if no match then continues the
+     * search using the item's parent, then grandparent, and so forth.
+     * Returns Uml::lvt_Unknown if no match at all is found.
+     */
+    Uml::ListView_Type rootViewType(UMLListViewItem *item);
 
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement,
                     bool saveSubmodelFiles = false );
@@ -335,12 +339,8 @@ public:
     bool loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & element );
 
 protected:
-    UMLListViewItem* m_rv;    // root view
-    UMLListViewItem* m_ucv;   // use case view item
-    UMLListViewItem* m_lv;    // logical view item
-    UMLListViewItem* m_cmpv;  // component view item
-    UMLListViewItem* m_dplv;  // deployment view item
-    UMLListViewItem* m_entityRelationshipModel;//entity relationship view item
+    UMLListViewItem* m_rv;    // root view (home)
+    UMLListViewItem* m_lv[Uml::N_MODELTYPES];    // predefined list view roots
     UMLListViewItem* m_datatypeFolder;
     ListPopupMenu * m_pMenu;
     QString oldText, message;
@@ -352,51 +352,7 @@ protected:
      */
     bool m_bCreatingChildObject;
 
-    struct Pixmaps {
-        QPixmap Home;
-        QPixmap Folder_Cyan;
-        QPixmap Folder_Cyan_Open;
-        QPixmap Folder_Green;
-        QPixmap Folder_Green_Open;
-        QPixmap Folder_Grey;
-        QPixmap Folder_Grey_Open;
-        QPixmap Folder_Orange;
-        QPixmap Folder_Orange_Open;
-        QPixmap Folder_Red;
-        QPixmap Folder_Red_Open;
-        QPixmap Folder_Violet;
-        QPixmap Folder_Violet_Open;
-        QPixmap Diagram; //change to have different one for each type of diagram
-        QPixmap Class;
-        QPixmap Template;
-        QPixmap Package;
-        QPixmap Subsystem;
-        QPixmap Component;
-        QPixmap Node;
-        QPixmap Artifact;
-        QPixmap Interface;
-        QPixmap Datatype;
-        QPixmap Enum;
-        QPixmap Entity;
-        QPixmap Actor;
-        QPixmap UseCase;
-        QPixmap Public_Method;
-        QPixmap Private_Method;
-        QPixmap Protected_Method;
-        QPixmap Public_Attribute;
-        QPixmap Private_Attribute;
-        QPixmap Protected_Attribute;
-        QPixmap Diagram_Activity;
-        QPixmap Diagram_Class;
-        QPixmap Diagram_Collaboration;
-        QPixmap Diagram_Component;
-        QPixmap Diagram_Deployment;
-        QPixmap Diagram_EntityRelationship;
-        QPixmap Diagram_Sequence;
-        QPixmap Diagram_State;
-        QPixmap Diagram_Usecase;
-    }
-    m_Pixmaps;
+    QPixmap m_Pixmaps[Uml::N_ICONTYPES];
 
     bool eventFilter(QObject *o, QEvent *e);
     void contentsMouseReleaseEvent(QMouseEvent * me);
@@ -434,9 +390,14 @@ protected:
      *
      * @param lvt               The ListView_Type to convert.
      * @return  The converted Object_Type if the listview type
-     *          has a Object_Type representation, else 0.
+     *          has a Uml::Object_Type representation, else 0.
      */
     static Uml::Object_Type convert_LVT_OT(Uml::ListView_Type lvt);
+
+    /**
+     * Return true if the given list view type can be expanded/collapsed.
+     */
+    static bool isExpandable(Uml::ListView_Type lvt);
 
     /**
      *  Loads the pixmaps to use in the list items.
@@ -463,6 +424,13 @@ protected:
      * @param parent the parent object 
      */
     void childObjectAdded(UMLClassifierListItem* child, UMLClassifier* parent);
+
+    /**
+     * Auxiliary method for moveObject(): Adds the model object at the proper
+     * new container (package if nested, UMLDoc if at global level), and
+     * updates the containment relationships in the model.
+     */
+    void addAtContainer(UMLListViewItem *item, UMLListViewItem *parent);
 
 public slots:
 

@@ -165,16 +165,9 @@ public:
     }
 
     /**
-     * Set the folder file name for a separate submodel.
-     * Only applies to folders.
+     * Set the pixmap corresponding to the given Icon_Type.
      */
-    void setFolderFile(QString fileName);
-
-    /**
-     * Get the folder file name for a separate submodel.
-     * Only applies to folders.
-     */
-    QString getFolderFile();
+    void setIcon(Uml::Icon_Type iconType);
 
     /**
      * Overrides default method to make public.
@@ -216,7 +209,7 @@ public:
      * in the tree rooted at the current UMLListViewItem.
      * Return a pointer to the item or NULL if not found.
      */
-    UMLListViewItem* findUMLObject(UMLObject *o);
+    UMLListViewItem* findUMLObject(const UMLObject *o);
 
     /**
      * Find the UMLListViewItem that represents the given UMLClassifierListItem
@@ -287,7 +280,6 @@ protected:
     int m_nChildren;
     UMLObject * m_pObject;
     QString m_Label;
-    QString m_FolderFile;
     ChildObjectMap m_comap;
 };
 
