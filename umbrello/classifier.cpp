@@ -476,7 +476,7 @@ bool UMLClassifier::acceptAssociationType(Uml::Association_Type type)
     return false; //shutup compiler warning
 }
 
-UMLObject* UMLClassifier::createAttribute(const QString &name /*=null*/) {
+UMLAttribute* UMLClassifier::createAttribute(const QString &name /*=null*/) {
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     Uml::IDType id = umldoc->getUniqueID();
     QString currentName;
@@ -524,7 +524,6 @@ UMLAttribute* UMLClassifier::addAttribute(const QString &name, Uml::IDType id /*
         if (obj->getBaseType() == Uml::ot_Attribute && obj->getName() == name)
             return static_cast<UMLAttribute*>(obj);
     }
-    UMLApp *app = UMLApp::app();
     Uml::Visibility scope = Settings::getOptionState().classState.defaultAttributeScope;
     UMLAttribute *a = new UMLAttribute(this, name, id, scope);
     m_List.append(a);

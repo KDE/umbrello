@@ -22,9 +22,6 @@
  * This class inherits from @ref UMLCanvasObject which contains most of the
  * information.
  * The @ref UMLDoc class creates instances of this type.
- * All Actors will need a unique id.  This will be given by the @ref UMLDoc
- * class.  If you don't leave it up to the @ref UMLDoc class then call the
- * method @ref UMLDoc::getUniqueID to get a unique id.
  *
  * @short Information for a non-graphical UML Actor.
  * @author Paul Hensgen <phensgen@techie.com>

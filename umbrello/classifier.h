@@ -30,11 +30,6 @@ class IDChangeLog;
  * This class inherits from @ref UMLPackage which allows classifiers
  * to also act as namespaces, i.e. it allows classifiers to nest.
  *
- * The @ref UMLDoc class creates instances of this type.  All Classifiers
- * need a unique id.  This will be given by the @ref UMLDoc class.  If you
- * don't leave it up to the @ref UMLDoc class then call the method @ref
- * UMLDoc::getUniqueID to get a unique id.
- *
  * @short Information for a non-graphical Concept/Class.
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
@@ -87,7 +82,7 @@ public:
      * @param name  An optional name, used by when creating through UMLListView
      * @return  The UMLAttribute created
      */
-    virtual UMLObject* createAttribute(const QString &name = QString::null);
+    virtual UMLAttribute* createAttribute(const QString &name = QString::null);
 
     /**
      * Adds an attribute to the class.
