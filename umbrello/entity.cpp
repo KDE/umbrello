@@ -51,7 +51,7 @@ void UMLEntity::init() {
     m_BaseType = Uml::ot_Entity;
 }
 
-UMLObject* UMLEntity::createAttribute(const QString &name /*=null*/) {
+UMLAttribute* UMLEntity::createAttribute(const QString &name /*=null*/) {
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     Uml::IDType id = umldoc->getUniqueID();
     QString currentName;
