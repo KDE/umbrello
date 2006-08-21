@@ -195,6 +195,11 @@ public:
         return m_List;
     }
 
+    /**
+     * Reimplementation of UMLObject method.
+     */
+    virtual bool resolveRef();
+
     // The abstract method UMLObject::saveToXMI() is implemented
     // in the classes inheriting from UMLCanvasObject.
 
