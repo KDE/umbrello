@@ -6,7 +6,7 @@ umbodoc_COMPILE_FIRST = version.h
 umbodoc_SOURCES = main.cpp
 umbodoc_LDADD = $(LIB_KDECORE) -lxslt -lxml2
 lib_LTLIBRARIES = libdocgenerators.la
-noinst_HEADERS = docbookgenerator.h
+noinst_HEADERS = docbookgenerator.h version.h
 libdocgenerators_la_SOURCES = docbookgenerator.h docbookgenerator.cpp xhtmlgenerator.cpp
 
 appdir=$(kde_datadir)/umbrello
@@ -16,6 +16,4 @@ version.h: $(top_srcdir)/umbrello/VERSION
 	printf "#undef UMBRELLO_VERSION\n#define UMBRELLO_VERSION \"`cat $(top_srcdir)/umbrello/VERSION`\"\n" > version.h
 
 CLEANFILES = version.h
-
-noinst_HEADERS = version.h
 
