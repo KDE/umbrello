@@ -10,6 +10,7 @@ Version 1.5.5
 * Java import - array types not resolved correctly (132035)
 * Java import - "final" and comments in method declaration
   not parsed correctly (132174)
+* Java import - static member vars ignored in interfaces (132657)
 
 Version 1.5.4
 

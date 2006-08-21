@@ -236,7 +236,8 @@ UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope, QString 
                                         UMLClassifier *attrType, QString comment /* ="" */,
                                         bool isStatic /* =false */) {
     Uml::Object_Type ot = owner->getBaseType();
-    if (ot != Uml::ot_Class) {
+    Uml::Programming_Language pl = UMLApp::app()->getActiveLanguage();
+    if (ot != Uml::ot_Class && pl != Uml::pl_Java) {
         kdDebug() << "insertAttribute: Don't know what to do with "
         << owner->getName() << " (object type " << ot << ")" << endl;
         return NULL;
