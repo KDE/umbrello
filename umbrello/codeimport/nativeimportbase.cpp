@@ -193,33 +193,26 @@ bool NativeImportBase::preprocess(QString& line) {
 QStringList NativeImportBase::split(QString line) {
     QStringList list;
     QString listElement;
-    bool inString = false, inCharConst = false;
+    QChar stringIntro = 0;  // buffers the string introducer character
     bool seenSpace = false;
     line = line.stripWhiteSpace();
     for (uint i = 0; i < line.length(); i++) {
         const QChar& c = line[i];
-        if (c == '"') {
+        if (stringIntro) {        // we are in a string
             listElement += c;
-            if (i > 0 && line[i - 1] == '\\')
-                continue;
-            if (inString) {
-                list.append(listElement);
-                listElement = QString::null;
+            if (c == stringIntro) {
+                if (line[i - 1] != '\\') {
+                    list.append(listElement);
+                    listElement = QString::null;
+                    stringIntro = 0;  // we are no longer in a string
+                }
             }
-            inString = !inString;
-            seenSpace = false;
-        } else if (c == '\'') {
-            listElement += c;
-            if (i > 0 && line[i - 1] == '\\')
-                continue;
-            if (inCharConst) {
+        } else if (c == '"' || c == '\'') {
+            if (!listElement.isEmpty()) {
                 list.append(listElement);
-                listElement = QString::null;
             }
-            inCharConst = !inCharConst;
+            listElement = stringIntro = c;
             seenSpace = false;
-        } else if (inString || inCharConst) {
-            listElement += c;
         } else if (c == ' ' || c == '\t') {
             if (seenSpace)
                 continue;
@@ -257,7 +250,10 @@ void NativeImportBase::scan(QString line) {
     QStringList words = split(line);
     for (QStringList::Iterator it = words.begin(); it != words.end(); ++it) {
         QString word = *it;
-        fillSource(word);
+        if (word[0] == '"' || word[0] == '\'')
+            m_source.append(word);  // string constants are handled by split()
+        else
+            fillSource(word);
     }
 }
 

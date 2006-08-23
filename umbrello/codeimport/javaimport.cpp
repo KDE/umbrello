@@ -63,11 +63,6 @@ QString JavaImport::joinTypename(QString typeName) {
 }
 
 void JavaImport::fillSource(QString word) {
-    if (word[0] == '"' || word[0] == '\'') {
-        // string constants are handled by NativeImportBase::split()
-        m_source.append(word);
-        return;
-    }
     QString lexeme;
     const uint len = word.length();
     for (uint i = 0; i < len; i++) {

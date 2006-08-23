@@ -44,18 +44,9 @@ void PascalImport::initVars() {
 void PascalImport::fillSource(QString word) {
     QString lexeme;
     const uint len = word.length();
-    bool inString = false;
     for (uint i = 0; i < len; i++) {
         QChar c = word[i];
-        if (c == '"') {
-            lexeme += c;
-            if (inString) {
-                m_source.append(lexeme);
-                lexeme = QString::null;
-            }
-            inString = !inString;
-        } else if (inString ||
-                   c.isLetterOrNumber() || c == '_' || c == '.' || c == '#') {
+        if (c.isLetterOrNumber() || c == '_' || c == '.' || c == '#') {
             lexeme += c;
         } else {
             if (!lexeme.isEmpty()) {

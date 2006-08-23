@@ -37,21 +37,67 @@ void AdaImport::initVars() {
     m_inGenericFormalPart = false;
 }
 
+/// Split the line so that a string is returned as a single element of the list,
+/// when not in a string then split at white space.
+QStringList AdaImport::split(QString line) {
+    QStringList list;
+    QString listElement;
+    bool inString = false;
+    bool seenSpace = false;
+    line = line.stripWhiteSpace();
+    uint len = line.length();
+    for (uint i = 0; i < len; i++) {
+        const QChar& c = line[i];
+        if (inString) {
+            listElement += c;
+            if (i > 0 && line[i - 1] == '"')
+                continue;   // escaped quotation mark
+            list.append(listElement);
+            listElement = QString::null;
+            inString = false;
+        } else if (c == '"') {
+            inString = true;
+            if (!listElement.isEmpty())
+                list.append(listElement);
+            listElement = QString(c);
+            seenSpace = false;
+        } else if (c == '\'') {
+            if (i < len - 2 && line[i + 2] == '\'') {
+                // character constant
+                if (!listElement.isEmpty())
+                    list.append(listElement);
+                listElement = line.mid(i, 3);
+                i += 2;
+                list.append(listElement);
+                listElement = QString::null;
+                continue;
+            }
+            listElement += c;
+            seenSpace = false;
+        } else if (c.isSpace()) {
+            if (seenSpace)
+                continue;
+            seenSpace = true;
+            if (!listElement.isEmpty()) {
+                list.append(listElement);
+                listElement = QString::null;
+            }
+        } else {
+            listElement += c;
+            seenSpace = false;
+        }
+    }
+    if (!listElement.isEmpty())
+        list.append(listElement);
+    return list;
+}
+
 void AdaImport::fillSource(QString word) {
     QString lexeme;
     const uint len = word.length();
-    bool inString = false;
     for (uint i = 0; i < len; i++) {
         QChar c = word[i];
-        if (c == '"') {
-            lexeme += c;
-            if (inString) {
-                m_source.append(lexeme);
-                lexeme = QString::null;
-            }
-            inString = !inString;
-        } else if (inString ||
-                   c.isLetterOrNumber() || c == '_' || c == '.' || c == '#') {
+        if (c.isLetterOrNumber() || c == '_' || c == '.' || c == '#') {
             lexeme += c;
         } else {
             if (!lexeme.isEmpty()) {

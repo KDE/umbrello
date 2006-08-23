@@ -93,26 +93,9 @@ bool PythonImport::preprocess(QString& line) {
 void PythonImport::fillSource(QString word) {
     QString lexeme;
     const uint len = word.length();
-    QChar stringIntro = 0;  // buffers the string introducer character
     for (uint i = 0; i < len; i++) {
         const QChar& c = word[i];
-        if (stringIntro) {        // we are in a string
-            lexeme += c;
-            if (c == stringIntro) {
-                if (word[i - 1] != '\\') {
-                    m_source.append(lexeme);
-                    m_srcIndex++;
-                    lexeme = QString::null;
-                }
-                stringIntro = 0;  // we are no longer in a string
-            }
-        } else if (c == '"' || c == '\'') {
-            if (!lexeme.isEmpty()) {
-                m_source.append(lexeme);
-                m_srcIndex++;
-            }
-            lexeme = stringIntro = c;
-        } else if (c.isLetterOrNumber() || c == '_' || c == '.') {
+        if (c.isLetterOrNumber() || c == '_' || c == '.') {
             lexeme += c;
         } else {
             if (!lexeme.isEmpty()) {
