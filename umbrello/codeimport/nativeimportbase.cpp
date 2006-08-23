@@ -188,6 +188,56 @@ bool NativeImportBase::preprocess(QString& line) {
     return false;  // The input was not completely consumed by preprocessing.
 }
 
+/// Split the line so that a string is returned as a single element of the list,
+/// when not in a string then split at white space.
+QStringList NativeImportBase::split(QString line) {
+    QStringList list;
+    QString listElement;
+    bool inString = false, inCharConst = false;
+    bool seenSpace = false;
+    line = line.stripWhiteSpace();
+    for (uint i = 0; i < line.length(); i++) {
+        const QChar& c = line[i];
+        if (c == '"') {
+            listElement += c;
+            if (i > 0 && line[i - 1] == '\\')
+                continue;
+            if (inString) {
+                list.append(listElement);
+                listElement = QString::null;
+            }
+            inString = !inString;
+            seenSpace = false;
+        } else if (c == '\'') {
+            listElement += c;
+            if (i > 0 && line[i - 1] == '\\')
+                continue;
+            if (inCharConst) {
+                list.append(listElement);
+                listElement = QString::null;
+            }
+            inCharConst = !inCharConst;
+            seenSpace = false;
+        } else if (inString || inCharConst) {
+            listElement += c;
+        } else if (c == ' ' || c == '\t') {
+            if (seenSpace)
+                continue;
+            seenSpace = true;
+            if (!listElement.isEmpty()) {
+                list.append(listElement);
+                listElement = QString::null;
+            }
+        } else {
+            listElement += c;
+            seenSpace = false;
+        }
+    }
+    if (!listElement.isEmpty())
+        list.append(listElement);
+    return list;
+}
+
 /// The lexer. Tokenizes the given string and fills `m_source'.
 /// Stores possible comments in `m_comment'.
 void NativeImportBase::scan(QString line) {
@@ -202,14 +252,11 @@ void NativeImportBase::scan(QString line) {
             return;
         line = line.left(pos);
     }
-    line = line.simplifyWhiteSpace();
-    if (line.isEmpty())
+    if (line.contains(QRegExp("^\\s*$")))
         return;
-    QStringList words = QStringList::split( QRegExp("\\s+"), line );
+    QStringList words = split(line);
     for (QStringList::Iterator it = words.begin(); it != words.end(); ++it) {
-        QString word = (*it).stripWhiteSpace();
-        if (word.isEmpty())
-            continue;
+        QString word = *it;
         fillSource(word);
     }
 }

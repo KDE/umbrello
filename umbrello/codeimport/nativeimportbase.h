@@ -111,6 +111,13 @@ protected:
     virtual bool preprocess(QString& line);
 
     /**
+     * Split the line so that a string is returned as a single element of the list.
+     * When not in a string then split at white space.
+     * The default implementation is suitable for C style strings and char constants.
+     */
+    virtual QStringList split(QString line);
+
+    /**
      * Analyze the given word and fill `m_source'.
      * A "word" is a whitespace delimited item from the input line.
      * To be provided by the specific importer class.

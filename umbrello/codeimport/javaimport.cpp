@@ -63,22 +63,16 @@ QString JavaImport::joinTypename(QString typeName) {
 }
 
 void JavaImport::fillSource(QString word) {
+    if (word[0] == '"' || word[0] == '\'') {
+        // string constants are handled by NativeImportBase::split()
+        m_source.append(word);
+        return;
+    }
     QString lexeme;
     const uint len = word.length();
-    bool inString = false;
     for (uint i = 0; i < len; i++) {
         const QChar& c = word[i];
-        if (c == '"') {
-            lexeme += c;
-            if (i == 0 || word[i - 1] != '\\') {
-                if (inString) {
-                    m_source.append(lexeme);
-                    lexeme = QString::null;
-                }
-                inString = !inString;
-            }
-        } else if (inString ||
-                   c.isLetterOrNumber() || c == '_' || c == '.') {
+        if (c.isLetterOrNumber() || c == '_' || c == '.') {
             lexeme += c;
         } else {
             if (!lexeme.isEmpty()) {
