@@ -2995,11 +2995,6 @@ void UMLListView::deleteChildrenOf(QListViewItem* parent) {
     while ( parent->firstChild() ) {
         delete parent->firstChild();
     }
-    if (parent == m_lv[Uml::mt_Logical])  {
-        UMLFolder *dt = m_doc->getDatatypeFolder();
-        m_datatypeFolder = new UMLListViewItem(m_lv[Uml::mt_Logical], dt->getName(),
-                                               Uml::lvt_Datatype_Folder, dt);
-    }
 }
 
 void UMLListView::closeDatatypesFolder()  {
