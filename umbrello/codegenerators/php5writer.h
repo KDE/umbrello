@@ -75,7 +75,7 @@ private:
       * @param interface indicates if the operation is an interface member
       */
     void writeOperations(QString classname, UMLOperationList &opList,
-                         QTextStream &php, bool interface);
+                         QTextStream &php, bool interface, bool generateErrorStub);
 
     /** write all the attributes of a class
       * @param c the class we are generating code for

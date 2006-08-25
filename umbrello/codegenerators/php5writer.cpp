@@ -3153,6 +3153,7 @@ void Php5Writer::writeOperations(UMLClassifier *c, QTextStream &php) {
     UMLOperationList oppub,opprot,oppriv;
 
     bool isInterface = c->isInterface();
+    bool generateErrorStub = false;
 
     oppub.setAutoDelete(false);
     opprot.setAutoDelete(false);
@@ -3181,21 +3182,47 @@ void Php5Writer::writeOperations(UMLClassifier *c, QTextStream &php) {
     //write operations to file
     if(forceSections() || !oppub.isEmpty()) {
         php << m_endl;
-        writeOperations(classname,oppub,php,isInterface);
+        writeOperations(classname,oppub,php,isInterface,generateErrorStub);
     }
 
     if(forceSections() || !opprot.isEmpty()) {
         php << m_endl;
-        writeOperations(classname,opprot,php,isInterface);
+        writeOperations(classname,opprot,php,isInterface,generateErrorStub);
     }
 
     if(forceSections() || !oppriv.isEmpty()) {
         php << m_endl;
-        writeOperations(classname,oppriv,php,isInterface);
+        writeOperations(classname,oppriv,php,isInterface,generateErrorStub);
     }
+
+
+    // build an oplist for all of the realized operations
+    UMLOperationList opreal;
+    opreal.setAutoDelete(false);
+
+    // go through each of the realizations, taking each op
+    UMLAssociationList realizations = c->getRealizations();
+    UMLAssociation *a;
+
+    if( !realizations.isEmpty()) {
+        for (a = realizations.first(); a; a = realizations.next()) {
+
+            // we know its a classifier if its in the list
+            UMLClassifier *real = (UMLClassifier*)a->getObject(Uml::B);
+
+            UMLOperationList opl(real->getOpList());
+               for(UMLOperation *op = opl.first(); op ; op = opl.next()) {
+                   opreal.append(op);
+               }
+        }
+    }
+
+    // write out all the realizations operations
+    writeOperations(classname,opreal,php,false,true);
+
 }
 
-void Php5Writer::writeOperations(QString /* classname */, UMLOperationList &opList, QTextStream &php, bool isInterface = false) {
+void Php5Writer::writeOperations(QString /* classname */, UMLOperationList &opList, QTextStream &php, bool isInterface = false, bool generateErrorStub = false) {
     UMLOperation *op;
     UMLAttributeList *atl;
     UMLAttribute *at;
@@ -3216,7 +3243,7 @@ void Php5Writer::writeOperations(QString /* classname */, UMLOperationList &opLi
             {
                 if(forceDoc() || !at->getDoc().isEmpty()) {
                     php <<m_indentation << " * @param " + at->getTypeName() + " " + cleanName(at->getName());
-                    php << " " + formatDoc(at->getDoc(),"");
+                    php << " " + formatDoc(at->getDoc(),"") << m_endl;
                 }
             }//end for : write parameter documentation
             php << m_indentation << " * @return " << op->getTypeName() << m_endl;
@@ -3266,10 +3293,16 @@ void Php5Writer::writeOperations(QString /* classname */, UMLOperationList &opLi
             << ((j < i-1)?", ":"");
         }
         php <<" )";
-        if(!isInterface && !op->getAbstract())
-            php << " {" << m_endl << m_indentation << m_indentation << m_endl << m_indentation << "} // end of member function " + cleanName(op->getName()) + m_endl;
-        else
+        if(!isInterface && !op->getAbstract()) {
+            php << " {" << m_endl << m_indentation << m_indentation;
+            if(generateErrorStub) {
+                php << "trigger_error(\"Implement \" . __FUNCTION__);";
+            }
+            php << m_endl << m_indentation << "} // end of member function " + cleanName(op->getName()) + m_endl;
+        }
+        else {
             php << ";" + m_endl;
+        }
         php << m_endl;
     }//end for
 }
