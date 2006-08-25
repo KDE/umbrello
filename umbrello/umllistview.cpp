@@ -532,8 +532,10 @@ void UMLListView::slotDiagramCreated( Uml::IDType id ) {
         return;
     //See if we wanted to create diagram in folder
     UMLListViewItem * current = (UMLListViewItem *) currentItem();
-    if ( current && typeIsFolder(current->getType()) ) {
+    if (current && typeIsFolder(current->getType()) && !typeIsRootView(current->getType())) {
         p = current;
+        kdDebug() << "UMLListView::slotDiagramCreated: current " << p->getText()
+            << ", lvtype " << p->getType() << endl;
     } else if (v->getType() == Uml::dt_UseCase) {
         p = m_lv[Uml::mt_UseCase];
     } else if (v->getType() == Uml::dt_Component) {
@@ -2657,22 +2659,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
             if (pObject) {
                 if (label.isEmpty())
                     label = pObject->getName();
-            } else {
-                nID = Uml::id_None;
-            }
-        }
-        if (nID == Uml::id_None) {
-            if (!typeIsFolder(lvType)) {
-                kdError() << pfx << "item of type " << type << " has no ID, skipping." << endl;
-                domElement = node.toElement();
-                continue;
-            }
-            // Handle old files...
-            if (typeIsRootView(lvType)) {
-                // Predefined folders did not have their ID set.
-                const Uml::Model_Type mt = Model_Utils::convert_LVT_MT(lvType);
-                nID = m_doc->getRootFolder(mt)->getID();
-            } else {
+            } else if (typeIsFolder(lvType)) {
                 // Synthesize the UMLFolder here
                 UMLObject *umlParent = parent->getUMLObject();
                 UMLPackage *parentPkg = dynamic_cast<UMLPackage*>(umlParent);
@@ -2681,14 +2668,26 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
                         << endl;
                     continue;
                 }
-                UMLFolder *f = new UMLFolder(label);
+                UMLFolder *f = new UMLFolder(label, nID);
                 f->setUMLPackage(parentPkg);
                 parentPkg->addObject(f);
                 pObject = f;
-                nID = pObject->getID();
                 item = new UMLListViewItem(parent, label, lvType, pObject);
-                // @todo move all relevant UMLObjects into the new folder
+                // @todo move all relevant UMLObjects to the new UMLFolder
             }
+        } else if (typeIsRootView(lvType)) {
+            // Predefined folders did not have their ID set.
+            const Uml::Model_Type mt = Model_Utils::convert_LVT_MT(lvType);
+            nID = m_doc->getRootFolder(mt)->getID();
+        } else if (typeIsFolder(lvType)) {
+            // Pre-1.2 format: Folders did not have their ID set.
+            // Pull a new ID now.
+            nID = UniqueID::get();
+        } else {
+            kdError() << "UMLListView::loadChildrenFromXMI: item of type "
+                << type << " has no ID, skipping." << endl;
+            domElement = node.toElement();
+            continue;
         }
 
         switch( lvType ) {
