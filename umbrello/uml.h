@@ -12,9 +12,7 @@
 #ifndef UML_H
 #define UML_H
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include "umlnamespace.h"
 

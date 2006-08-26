@@ -12,9 +12,7 @@
 #ifndef UMLDOC_H
 #define UMLDOC_H
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 // system includes
 #include <typeinfo>

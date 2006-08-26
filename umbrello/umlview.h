@@ -12,9 +12,7 @@
 #ifndef UMLVIEW_H
 #define UMLVIEW_H
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 // system includes
 #include <kurl.h>
