@@ -1199,6 +1199,13 @@ void UMLListView::addAtContainer(UMLListViewItem *item, UMLListViewItem *parent)
         kdDebug() << "UMLListView::addAtContainer(" << item->getText()
             << "): item's UMLObject is NULL" << endl;
     } else if (typeIsContainer(parent->getType())) {
+        /**** TBC: Do this here?
+                   If yes then remove that logic at the callers
+                   and rename this method to moveAtContainer()
+        UMLPackage *oldPkg = o->getUMLPackage();
+        if (oldPkg)
+            oldPkg->removeObject(o);
+         *********/
         UMLPackage *pkg = static_cast<UMLPackage*>(parent->getUMLObject());
         o->setUMLPackage(pkg);
         pkg->addObject(o);
@@ -1206,7 +1213,9 @@ void UMLListView::addAtContainer(UMLListViewItem *item, UMLListViewItem *parent)
         kdError() << "UMLListView::addAtContainer(" << item->getText()
             << "): parent type is " << parent->getType() << endl;
     }
-    m_doc->getCurrentView()->updateContainment(o);
+    UMLView *currentView = m_doc->getCurrentView();
+    if (currentView)
+        currentView->updateContainment(o);
 }
 
 UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type srcType,
@@ -1252,8 +1261,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                 newParentType == Uml::lvt_UseCase_View) {
             newItem = move->deepCopy(newParent);
             delete move;
-            if (srcType == Uml::lvt_UseCase_Folder)
-                addAtContainer(newItem, newParent);
+            addAtContainer(newItem, newParent);
         }
         break;
     case Uml::lvt_Component_Folder:
@@ -1263,8 +1271,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                 newParentType == Uml::lvt_Component_View) {
             newItem = move->deepCopy(newParent);
             delete move;
-            if (srcType == Uml::lvt_Component_Folder)
-                addAtContainer(newItem, newParent);
+            addAtContainer(newItem, newParent);
         }
         break;
     case Uml::lvt_Subsystem:
@@ -1293,8 +1300,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                 newParentType == Uml::lvt_Deployment_View) {
             newItem = move->deepCopy(newParent);
             delete move;
-            if (srcType == Uml::lvt_Deployment_Folder)
-                addAtContainer(newItem, newParent);
+            addAtContainer(newItem, newParent);
         }
         break;
     case Uml::lvt_EntityRelationship_Folder:
@@ -1304,8 +1310,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                 newParentType == Uml::lvt_EntityRelationship_Model) {
             newItem = move->deepCopy(newParent);
             delete move;
-            if (srcType == Uml::lvt_EntityRelationship_Folder)
-                addAtContainer(newItem, newParent);
+            addAtContainer(newItem, newParent);
         }
         break;
     case Uml::lvt_Collaboration_Diagram:
@@ -1318,8 +1323,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                 newParentType == Uml::lvt_Logical_View) {
             newItem = move->deepCopy(newParent);
             delete move;
-            if (srcType == Uml::lvt_Logical_Folder)
-                addAtContainer(newItem, newParent);
+            addAtContainer(newItem, newParent);
         }
         break;
     case Uml::lvt_Class:
@@ -1343,7 +1347,9 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                 o->setUMLPackage( pkg );
                 pkg->addObject( o );
             }
-            m_doc->getCurrentView()->updateContainment(o);
+            UMLView *currentView = m_doc->getCurrentView();
+            if (currentView)
+                currentView->updateContainment(o);
         }
         break;
     case Uml::lvt_Attribute:
@@ -2673,7 +2679,8 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
                 parentPkg->addObject(f);
                 pObject = f;
                 item = new UMLListViewItem(parent, label, lvType, pObject);
-                // @todo move all relevant UMLObjects to the new UMLFolder
+                // Moving all relevant UMLObjects to the new UMLFolder is done below,
+                // in the switch(lvType)
             }
         } else if (typeIsRootView(lvType)) {
             // Predefined folders did not have their ID set.
@@ -2734,8 +2741,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
                  */
             }
             else if (parent != item->parent()) {
-                ////// PRE-1.5.5 CODE
-                /* The existing item was created by the slot event triggered
+                // The existing item was created by the slot event triggered
                 // by the loading of the corresponding model object from the
                 // XMI file.
                 // This early creation is done in order to support the loading
@@ -2746,11 +2752,8 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
                 // one of the default predefined folders, but the actual
                 // listview item might be located in a user created folder.
                 // Thanks to Achim Spangler for spotting the problem.
-                UMLListViewItem *newItem = item->deepCopy(parent);
-                delete item;
+                UMLListViewItem *newItem = moveObject(nID, lvType, parent);
                 item = newItem;
-                /////////////////// */
-                // From version 1.5.5 on, this is an error
                 UMLListViewItem *currentParent = static_cast<UMLListViewItem*>(item->parent());
                 kdError() << pfx << "Attempted reparenting of " << item->getText()
                     << "(current parent: " << currentParent->getText()
