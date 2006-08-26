@@ -3036,8 +3036,8 @@ void Php5Writer::writeClass(UMLClassifier *c) {
     UMLClassifier *conc;
     for(conc = includes.first(); conc ;conc = includes.next()) {
         QString headerName = findFileName(conc, ".php");
-        if (headerName.isEmpty()) {
-            php << "include '" << headerName << "';" << m_endl;
+        if (!headerName.isEmpty()) {
+            php << "require_once '" << headerName << "';" << m_endl;
         }
     }
     php << m_endl;
