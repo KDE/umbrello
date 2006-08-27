@@ -50,7 +50,6 @@ forkjoinwidget.cpp \
 kplayerslideraction.cpp \
 hierarchicalcodeblock.cpp \
 import_rose.cpp \
-infowidget.cpp \
 kstartuplogo.cpp \
 linepath.cpp \
 linkwidget.cpp \
@@ -111,6 +110,7 @@ uniqueid.cpp \
 usecase.cpp \
 usecasewidget.cpp \
 widgetbase.cpp \
+widget_factory.cpp \
 widget_utils.cpp \
 worktoolbar.cpp
 

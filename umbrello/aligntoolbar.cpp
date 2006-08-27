@@ -322,7 +322,7 @@ void AlignToolBar::sortWidgetList(UMLWidgetList &widgetList, Compare comp) {
 /* ------ private slots ------ */
 
 void AlignToolBar::slotButtonChanged(int btn) {
-    UMLView* view = UMLApp::app()->getDocument()->getCurrentView();
+    UMLView* view = UMLApp::app()->getCurrentView();
     UMLWidgetList widgetList;
     UMLWidget* widget;
 

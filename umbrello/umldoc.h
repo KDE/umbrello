@@ -503,15 +503,6 @@ public:
     void signalUMLObjectCreated(UMLObject * o);
 
     /**
-     * Returns the current view.
-     *
-     * @return  Pointer to the current UMLView.
-     */
-    UMLView * getCurrentView() {
-        return m_currentView;
-    }
-
-    /**
      * Returns the datatype folder.
      *
      * @return  Pointer to the predefined folder for datatypes.
@@ -817,7 +808,6 @@ private:
      * m_root[Uml::mt_Logical]
      */
     UMLFolder *m_datatypeRoot;
-    //UMLObjectList m_objectList;
 
     /**
      * The UMLDoc is the sole owner of all stereotypes.
@@ -833,7 +823,6 @@ private:
     int m_count;   ///< auxiliary counter for the progress bar
     bool m_modified;
     KURL m_doc_url;
-    UMLView* m_currentView;
 
     /**
      * Contains all the UMLObject id changes of paste session.

@@ -341,7 +341,7 @@ void UMLApp::initActions() {
 
 void UMLApp::slotZoomSliderMoved(int value) {
     int zoom = (int)(value*0.01);
-    m_doc->getCurrentView()->setZoom(zoom*zoom);
+    getCurrentView()->setZoom(zoom*zoom);
 }
 
 void UMLApp::slotZoom100()  {
@@ -349,7 +349,7 @@ void UMLApp::slotZoom100()  {
 }
 
 void UMLApp::setZoom(int zoom) {
-    m_doc->getCurrentView()->setZoom(zoom);
+    getCurrentView()->setZoom(zoom);
 }
 
 void UMLApp::setupZoomMenu() {
@@ -365,7 +365,7 @@ void UMLApp::setupZoomMenu() {
     m_zoomSelect->insertItem(i18n("3&00%"),300);
 
 
-    int zoom = m_doc->getCurrentView()->currentZoom();
+    int zoom = getCurrentView()->currentZoom();
     //if current zoom is not a "standard zoom" (because of zoom in / zoom out step
     //we add it for information
     switch(zoom){
@@ -851,7 +851,7 @@ void UMLApp::slotEditCut() {
     slotStatusMsg(i18n("Cutting selection..."));
     //FIXME bug 59774 this fromview isn't very reliable.
     //when cutting diagrams it is set to true even though it shouldn't be
-    bool fromview = (m_doc->getCurrentView() && m_doc->getCurrentView()->getSelectCount());
+    bool fromview = (getCurrentView() && getCurrentView()->getSelectCount());
     if ( editCutCopy(fromview) ) {
         emit sigCutSuccessful();
         slotDeleteSelectedWidget();
@@ -862,7 +862,7 @@ void UMLApp::slotEditCut() {
 
 void UMLApp::slotEditCopy() {
     slotStatusMsg(i18n("Copying selection to clipboard..."));
-    bool  fromview = (m_doc->getCurrentView() && m_doc->getCurrentView()->getSelectCount());
+    bool  fromview = (getCurrentView() && getCurrentView()->getSelectCount());
     editCutCopy( fromview );
     slotStatusMsg(i18n("Ready."));
     m_doc -> setModified( true );
@@ -973,7 +973,7 @@ void UMLApp::setModified(bool modified) {
     //if anything else needs to be done on a mofication, put it here
 
     // printing should be possible whenever there is something to print
-    if ( m_loading == false && modified == true && m_doc->getCurrentView() )  {
+    if ( m_loading == false && modified == true && getCurrentView() )  {
         enablePrint(true);
     }
 
@@ -1033,7 +1033,7 @@ void UMLApp::slotClipDataChanged() {
 }
 
 void UMLApp::slotCopyChanged() {
-    if(m_listView->getSelectedCount() || (m_doc->getCurrentView() && m_doc->getCurrentView()->getSelectCount())) {
+    if(m_listView->getSelectedCount() || (getCurrentView() && getCurrentView()->getSelectCount())) {
         editCopy->setEnabled(true);
         editCut->setEnabled(true);
     } else {
@@ -1338,21 +1338,21 @@ QString UMLApp::activeLanguageScopeSeparator() {
 }
 
 void UMLApp::slotCurrentViewClearDiagram() {
-    m_doc->getCurrentView()->clearDiagram();
+    getCurrentView()->clearDiagram();
 }
 
 void UMLApp::slotCurrentViewToggleSnapToGrid() {
-    m_doc->getCurrentView()->toggleSnapToGrid();
-    viewSnapToGrid->setChecked( m_doc->getCurrentView()->getSnapToGrid() );
+    getCurrentView()->toggleSnapToGrid();
+    viewSnapToGrid->setChecked( getCurrentView()->getSnapToGrid() );
 }
 
 void UMLApp::slotCurrentViewToggleShowGrid() {
-    m_doc->getCurrentView()->toggleShowGrid();
-    viewShowGrid->setChecked( m_doc->getCurrentView()->getShowSnapGrid() );
+    getCurrentView()->toggleShowGrid();
+    viewShowGrid->setChecked( getCurrentView()->getShowSnapGrid() );
 }
 
 void UMLApp::slotCurrentViewExportImage() {
-    m_doc->getCurrentView()->getImageExporter()->exportView();
+    getCurrentView()->getImageExporter()->exportView();
 }
 
 void UMLApp::slotAllViewsExportImage() {
@@ -1360,7 +1360,7 @@ void UMLApp::slotAllViewsExportImage() {
 }
 
 void UMLApp::slotCurrentViewProperties() {
-    m_doc->getCurrentView()->showPropDialog();
+    getCurrentView()->showPropDialog();
 }
 
 void UMLApp::setDiagramMenuItemsState(bool bState) {
@@ -1371,9 +1371,9 @@ void UMLApp::setDiagramMenuItemsState(bool bState) {
     viewExportImage->setEnabled( bState );
     viewProperties->setEnabled( bState );
     filePrint->setEnabled( bState );
-    if ( m_doc->getCurrentView() ) {
-        viewSnapToGrid->setChecked( m_doc->getCurrentView()->getSnapToGrid() );
-        viewShowGrid->setChecked( m_doc->getCurrentView()->getShowSnapGrid() );
+    if ( getCurrentView() ) {
+        viewSnapToGrid->setChecked( getCurrentView()->getSnapToGrid() );
+        viewShowGrid->setChecked( getCurrentView()->getShowSnapGrid() );
     }
 }
 
@@ -1444,13 +1444,11 @@ void UMLApp::slotAddDefaultDatatypes() {
 }
 
 void UMLApp::slotCurrentViewChanged() {
-    UMLView *viewAtDoc = m_doc->getCurrentView();
-    // FIXME: This whole business of UMLDoc::getCurrentView() vs.
-    //        UMLApp::getCurrentView() is a shame.
-    if (viewAtDoc) {
-        connect(viewAtDoc, SIGNAL( sigShowGridToggled(bool) ),
+    UMLView *view = getCurrentView();
+    if (view) {
+        connect(view, SIGNAL( sigShowGridToggled(bool) ),
                 this, SLOT( slotShowGridToggled(bool) ) );
-        connect(viewAtDoc, SIGNAL( sigSnapToGridToggled(bool) ),
+        connect(view, SIGNAL( sigSnapToGridToggled(bool) ),
                 this, SLOT( slotSnapToGridToggled(bool) ) );
     }
 }
@@ -1463,19 +1461,19 @@ void UMLApp::slotShowGridToggled(bool gridOn) {
 }
 
 void UMLApp::slotSelectAll() {
-    m_doc->getCurrentView()->selectAll();
+    getCurrentView()->selectAll();
 }
 
 void UMLApp::slotDeleteSelectedWidget() {
-    if ( m_doc->getCurrentView() ) {
-        m_doc->getCurrentView()->deleteSelection();
+    if ( getCurrentView() ) {
+        getCurrentView()->deleteSelection();
     } else {
         kdWarning() << " trying to delete widgets when there is no current view (see bug 59774)" << endl;
     }
 }
 
 void UMLApp::slotDeleteDiagram() {
-    m_doc->removeDiagram( m_doc->getCurrentView()->getID() );
+    m_doc->removeDiagram( getCurrentView()->getID() );
 }
 
 Uml::Programming_Language UMLApp::getDefaultLanguage() {
@@ -1613,15 +1611,13 @@ QWidget* UMLApp::getMainViewWidget() {
     return m_viewStack;
 }
 
-void UMLApp::setCurrentView(UMLView* view /*=0*/) {
+void UMLApp::setCurrentView(UMLView* view) {
     m_view = view;
     if (m_viewStack == NULL)
         return;
+    m_viewStack->raiseWidget(view);
     if (view) {
-        m_viewStack->raiseWidget(view);
         slotStatusMsg(view->getName());
-    } else {
-        m_viewStack->raiseWidget(blankWidget);
     }
 }
 

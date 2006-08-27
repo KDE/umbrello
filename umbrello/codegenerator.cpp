@@ -550,7 +550,7 @@ QString CodeGenerator::findFileName ( CodeDocument * codeDocument ) {
 void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cList) {
     UMLClassifier *temp;
     UMLDoc *umldoc = UMLApp::app()->getDocument();
-    UMLView *view = umldoc->getCurrentView();
+    UMLView *view = UMLApp::app()->getCurrentView();
 
     if(!view)
         return;

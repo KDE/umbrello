@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 // my own header
@@ -34,6 +31,7 @@
 // my class includes
 #include "../umlobject.h"
 #include "../objectwidget.h"
+#include "../uml.h"
 #include "../umldoc.h"
 #include "../artifact.h"
 #include "../component.h"
@@ -269,7 +267,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidge
     m_pInstanceLE = new QLineEdit(this);
     m_pInstanceLE -> setText(o -> getInstanceName());
     m_pNameLayout -> addWidget(m_pInstanceLE, 1, 1);
-    UMLView * view = m_pUmldoc -> getCurrentView();
+    UMLView *view = UMLApp::app()->getCurrentView();
 
     m_pDrawActorCB = new QCheckBox( i18n( "Draw as actor" ) , this );
     m_pDrawActorCB -> setChecked( o -> getDrawAsActor() );

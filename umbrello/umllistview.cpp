@@ -159,8 +159,9 @@ bool UMLListView::eventFilter(QObject *o, QEvent *e) {
 }
 
 void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
-    if( m_doc -> getCurrentView() )
-        m_doc -> getCurrentView() -> clearSelected();
+    UMLView *currentView = UMLApp::app()->getCurrentView();
+    if (currentView)
+        currentView->clearSelected();
     if( me -> state() != Qt::ShiftButton )
         clearSelection();
     QPoint pt = this->QScrollView::contentsToViewport( me->pos() );
@@ -1213,7 +1214,7 @@ void UMLListView::addAtContainer(UMLListViewItem *item, UMLListViewItem *parent)
         kdError() << "UMLListView::addAtContainer(" << item->getText()
             << "): parent type is " << parent->getType() << endl;
     }
-    UMLView *currentView = m_doc->getCurrentView();
+    UMLView *currentView = UMLApp::app()->getCurrentView();
     if (currentView)
         currentView->updateContainment(o);
 }
@@ -1347,7 +1348,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                 o->setUMLPackage( pkg );
                 pkg->addObject( o );
             }
-            UMLView *currentView = m_doc->getCurrentView();
+            UMLView *currentView = UMLApp::app()->getCurrentView();
             if (currentView)
                 currentView->updateContainment(o);
         }
@@ -2754,10 +2755,12 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
                 // Thanks to Achim Spangler for spotting the problem.
                 UMLListViewItem *newItem = moveObject(nID, lvType, parent);
                 item = newItem;
-                UMLListViewItem *currentParent = static_cast<UMLListViewItem*>(item->parent());
-                kdError() << pfx << "Attempted reparenting of " << item->getText()
-                    << "(current parent: " << currentParent->getText()
-                    << ", new parent: " << parent->getText() << ")" << endl;
+                if (item) {
+                    UMLListViewItem *itmParent = dynamic_cast<UMLListViewItem*>(item->parent());
+                    kdDebug() << pfx << "Attempted reparenting of " << item->getText()
+                        << "(current parent: " << (itmParent ? itmParent->getText() : "NULL")
+                        << ", new parent: " << parent->getText() << ")" << endl;
+                }
             }
             break;
         case Uml::lvt_Attribute:

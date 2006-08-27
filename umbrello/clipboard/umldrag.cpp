@@ -713,8 +713,9 @@ bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
         kdWarning() << "no widgets in XMI clip" << endl;
         return false;
     }
+    UMLView *view = UMLApp::app()->getCurrentView();
     while ( !widgetElement.isNull() ) {
-        UMLWidget* widget = doc->getCurrentView()->loadWidgetFromXMI(widgetElement);
+        UMLWidget* widget = view->loadWidgetFromXMI(widgetElement);
         widgets.append(widget);
         widgetNode = widgetNode.nextSibling();
         widgetElement = widgetNode.toElement();
@@ -725,7 +726,6 @@ bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
     QDomNode associationWidgetNode = associationWidgetsNode.firstChild();
     QDomElement associationWidgetElement = associationWidgetNode.toElement();
     while ( !associationWidgetElement.isNull() ) {
-        UMLView *view = UMLApp::app()->getCurrentView();
         AssociationWidget* associationWidget = new AssociationWidget(view);
         if (associationWidget->loadFromXMI(associationWidgetElement, widgets))
             associations.append(associationWidget);

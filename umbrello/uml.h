@@ -37,7 +37,6 @@ class UMLDoc;
 class UMLListView;
 class UMLView;
 class WorkToolBar;
-class InfoWidget;
 class SettingsDlg;
 class UMLViewImageExporterAll;
 class RefactoringAssistant;
@@ -254,12 +253,11 @@ public:
 
     /**
      * Puts this view to the top of the viewStack, i.e. makes it
-     * visible to the user.  If no view is specified the blank
-     * infoWidget is shown instead.
+     * visible to the user.
      *
      * @param view              Pointer to the UMLView to push.
      */
-    void setCurrentView(UMLView* view = 0);
+    void setCurrentView(UMLView* view);
 
     /**
      * Get the current view.
@@ -987,11 +985,6 @@ private:
      * True if the application is opening an existing document
      */
     bool m_loading;
-
-    /**
-     * Blank widget, displayed when there are no diagrams
-     */
-    InfoWidget* blankWidget;
 
     /**
      * Shows, and is parent of, all the UMLViews (diagrams)

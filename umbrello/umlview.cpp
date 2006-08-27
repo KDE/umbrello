@@ -55,6 +55,7 @@
 #include "inputdialog.h"
 #include "clipboard/idchangelog.h"
 #include "clipboard/umldrag.h"
+#include "widget_factory.h"
 #include "floatingtextwidget.h"
 #include "classifierwidget.h"
 #include "classifier.h"
@@ -62,21 +63,14 @@
 #include "package.h"
 #include "folder.h"
 #include "componentwidget.h"
-#include "component.h"
 #include "nodewidget.h"
-#include "node.h"
 #include "artifactwidget.h"
-#include "artifact.h"
 #include "datatypewidget.h"
 #include "datatype.h"
 #include "enumwidget.h"
-#include "enum.h"
 #include "entitywidget.h"
-#include "entity.h"
 #include "actorwidget.h"
-#include "actor.h"
 #include "usecasewidget.h"
-#include "usecase.h"
 #include "notewidget.h"
 #include "boxwidget.h"
 #include "associationwidget.h"
@@ -454,98 +448,15 @@ void UMLView::hideEvent(QHideEvent* /*he*/) {
 
 void UMLView::slotObjectCreated(UMLObject* o) {
     m_bPaste = false;
-    int type  = o->getBaseType();
     //check to see if we want the message
     //may be wanted by someone else e.g. list view
     if (!m_bCreateObject)  {
         return;
     }
 
-    int y = m_Pos.y();
-
-    UMLWidget* newWidget = 0;
-    switch (type)
-    {
-    case ot_Actor:
-        if (getType() == dt_Sequence) {
-            ObjectWidget *ow = new ObjectWidget(this, o, getLocalID() );
-            ow->setDrawAsActor(true);
-            if (m_Type == dt_Sequence) {
-                y = ow->topMargin();
-            }
-            newWidget = ow;
-        } else
-            newWidget = new ActorWidget(this, static_cast<UMLActor*>(o));
-        break;
-    case ot_UseCase:
-        newWidget = new UseCaseWidget(this, static_cast<UMLUseCase*>(o));
-        break;
-    case ot_Package:
-        newWidget = new PackageWidget(this, static_cast<UMLPackage*>(o));
-        break;
-    case ot_Component:
-        newWidget = new ComponentWidget(this, static_cast<UMLComponent*>(o));
-        if (getType() == dt_Deployment) {
-            newWidget->setIsInstance(true);
-        }
-        break;
-    case ot_Node:
-        newWidget = new NodeWidget(this,static_cast<UMLNode*>(o));
-        break;
-    case ot_Artifact:
-        newWidget = new ArtifactWidget(this, static_cast<UMLArtifact*>(o));
-        break;
-    case ot_Datatype:
-        newWidget = new DatatypeWidget(this, static_cast<UMLDatatype*>(o));
-        break;
-    case ot_Enum:
-        newWidget = new EnumWidget(this, static_cast<UMLEnum*>(o));
-        break;
-    case ot_Entity:
-        newWidget = new EntityWidget(this, static_cast<UMLEntity*>(o));
-        break;
-    case ot_Interface:
-        {
-            Diagram_Type diagramType = getType();
-            if (diagramType == dt_Sequence || diagramType == dt_Collaboration) {
-                ObjectWidget *ow = new ObjectWidget(this, o, getLocalID() );
-                if (m_Type == dt_Sequence) {
-                    y = ow->topMargin();
-                }
-                newWidget = ow;
-            } else {
-                UMLClassifier *c = static_cast<UMLClassifier*>(o);
-                ClassifierWidget* interfaceWidget = new ClassifierWidget(this, c);
-                if (diagramType == dt_Component || diagramType == dt_Deployment) {
-                    interfaceWidget->setDrawAsCircle(true);
-                }
-                newWidget = interfaceWidget;
-            }
-        }
-        break;
-    case ot_Class:
-        //see if we really want an object widget or class widget
-        if (m_Type == dt_Class || m_Type == dt_Component) {
-            UMLClassifier *c = static_cast<UMLClassifier*>(o);
-            ClassifierWidget *cw = new ClassifierWidget(this, c);
-            if (m_Type == dt_Component)
-                cw->setDrawAsCircle(true);
-            newWidget = cw;
-        } else {
-            ObjectWidget *ow = new ObjectWidget(this, o, getLocalID() );
-            if (m_Type == dt_Sequence) {
-                y = ow->topMargin();
-            }
-            newWidget = ow;
-        }
-        break;
-    default:
-        kdWarning() << "trying to create an invalid widget" << endl;
+    UMLWidget* newWidget = Widget_Factory::createWidget(this, o);
+    if (newWidget == NULL)
         return;
-    }
-
-    newWidget->setX( m_Pos.x() );
-    newWidget->setY( y );
     newWidget->setVisible( true );
     newWidget->setActivated();
     newWidget->setFont( getFont() );
@@ -553,7 +464,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
     newWidget->slotLineWidthChanged( getID() );
     m_bCreateObject = false;
     m_WidgetList.append(newWidget);
-    switch( type ) {
+    switch (o->getBaseType()) {
     case ot_Actor:
     case ot_UseCase:
     case ot_Class:
@@ -574,6 +485,8 @@ void UMLView::slotObjectCreated(UMLObject* o) {
             if (w != newWidget)
                 createAutoAttributeAssociations(w);
         }
+        break;
+    default:
         break;
     }
     resizeCanvasToItems();
@@ -3320,99 +3233,11 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
         return 0L;
     }
 
-    UMLWidget* widget = 0;
     QString tag  = widgetElement.tagName();
-
-    if (tag == "statewidget" || tag == "notewidget" || tag == "boxwidget" ||
-        tag == "floatingtext" || tag == "activitywidget" || tag == "forkjoin" ||
-            // tests for backward compatibility:
-            tag == "UML:StateWidget" || tag == "UML:NoteWidget" ||
-            tag == "UML:FloatingTextWidget" || tag == "UML:ActivityWidget")
-    {
-        // Loading of widgets which do NOT represent any UMLObject, --> just graphic stuff with
-        // no real model information
-        //FIXME while boxes and texts are just diagram objects, activities and states should
-        // be UMLObjects
-        if (tag == "statewidget"
-                || tag == "UML:StateWidget") {         // for bkwd compatibility
-            widget = new StateWidget(this, StateWidget::Normal, Uml::id_Reserved);
-        } else if (tag == "notewidget"
-                   || tag == "UML:NoteWidget") {          // for bkwd compatibility
-            widget = new NoteWidget(this, Uml::id_Reserved);
-        } else if (tag == "boxwidget") {
-            widget = new BoxWidget(this, Uml::id_Reserved);
-        } else if (tag == "floatingtext"
-                   || tag == "UML:FloatingTextWidget") {  // for bkwd compatibility
-            widget = new FloatingTextWidget(this, Uml::tr_Floating, "", Uml::id_Reserved);
-        } else if (tag == "activitywidget"
-                   || tag == "UML:ActivityWidget") {      // for bkwd compatibility
-            int type = widgetElement.attribute("activitytype", "1").toInt();
-            if (type == ActivityWidget::Fork_DEPRECATED)  // for bkwd compatibility
-                widget = new ForkJoinWidget(this, false, Uml::id_Reserved);
-            else
-                widget = new ActivityWidget(this, (ActivityWidget::ActivityType)type,
-                                            Uml::id_Reserved);
-        } else if (tag == "forkjoin") {
-            widget = new ForkJoinWidget(this, false, Uml::id_Reserved);
-        }
-    }
-    else
-    {
-        // Find the UMLObject and create the Widget to represent it
-        /* TODO:
-           We peek ahead at the xmi.id and do a UMLDoc::findUMLObject()
-           to resolve the corresponding UMLObject for the widget.
-           That is a breach of encapsulation: Loading the xmi.id should
-           be the sole responsibility of UMLWidget::loadFromXMI().
-           I.e. the widget constructors that take an UMLObject arg
-           should be removed. Any computation in those constructors
-           that relies on the m_pObject being set should be relegated
-           to a separate method.
-         */
-        QString idstr  = widgetElement.attribute( "xmi.id", "-1" );
-        Uml::IDType id = STR2ID(idstr);
-        UMLObject *o(0);
-        if( id == Uml::id_None || !( o = m_pDoc->findObjectById(id)) )
-        {
-            kdError() << "UMLView::loadWidgetFromXMI: cannot find object with id "
-                      << ID2STR(id) << endl;
-            return NULL;
-        }
-
-        if (tag == "actorwidget"
-                || tag == "UML:ActorWidget") {           // for bkwd compatibility
-            widget = new ActorWidget(this, static_cast<UMLActor*>(o));
-        } else if (tag == "usecasewidget"
-                   || tag == "UML:UseCaseWidget") {  // for bkwd compatibility
-            widget = new UseCaseWidget(this, static_cast<UMLUseCase*>(o));
-        } else if (tag == "classwidget"
-                   || tag == "UML:ClassWidget"       // for bkwd compatibility
-                   || tag == "UML:ConceptWidget") {  // for bkwd compatibility
-            widget = new ClassifierWidget(this, static_cast<UMLClassifier*>(o));
-        } else if (tag == "packagewidget") {
-            widget = new PackageWidget(this, static_cast<UMLPackage*>(o));
-        } else if (tag == "componentwidget") {
-            widget = new ComponentWidget(this, static_cast<UMLComponent*>(o));
-        } else if (tag == "nodewidget") {
-            widget = new NodeWidget(this, static_cast<UMLNode*>(o));
-        } else if (tag == "artifactwidget") {
-            widget = new ArtifactWidget(this, static_cast<UMLArtifact*>(o));
-        } else if (tag == "interfacewidget") {
-            widget = new ClassifierWidget(this, static_cast<UMLClassifier*>(o));
-        } else if (tag == "datatypewidget") {
-            widget = new DatatypeWidget(this, static_cast<UMLDatatype*>(o));
-        } else if (tag == "enumwidget") {
-            widget = new EnumWidget(this, static_cast<UMLEnum*>(o));
-        } else if (tag == "entitywidget") {
-            widget = new EntityWidget(this, static_cast<UMLEntity*>(o));
-        } else if (tag == "objectwidget"
-                   || tag == "UML:ObjectWidget") {  // for bkwd compatibility
-            widget = new ObjectWidget(this, o );
-        } else {
-            kdWarning() << "Trying to create an unknown widget:" << tag << endl;
-            return 0L;
-        }
-    }
+    QString idstr  = widgetElement.attribute( "xmi.id", "-1" );
+    UMLWidget* widget = Widget_Factory::makeWidgetFromXMI(tag, idstr, this);
+    if (widget == NULL)
+        return NULL;
     if (!widget->loadFromXMI(widgetElement)) {
         widget->cleanup();
         delete widget;

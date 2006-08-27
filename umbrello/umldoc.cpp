@@ -85,7 +85,6 @@ static const uint undoMax = 30;
 UMLDoc::UMLDoc() {
     m_Name = i18n("UML Model");
     m_modelID = "m1";
-    m_currentView = 0;
     m_count = 0;
     m_pChangeLog = 0;
     m_Doc = "";
@@ -136,9 +135,10 @@ void UMLDoc::addView(UMLView *view) {
 
     m_ViewList.append(view);
 
+    UMLView * previousView = pApp->getCurrentView();
+    pApp->setCurrentView(view);
     if ( ! m_bLoading ) {
-        if (m_currentView == NULL) {
-            m_currentView = view;
+        if (previousView == NULL) {
             view -> show();
             emit sigDiagramChanged(view ->getType());
         } else {
@@ -179,10 +179,11 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView ) {
     //remove all widgets before deleting view
     view->removeAllWidgets();
     // m_ViewList is set to autodelete!!
-    m_ViewList.remove(view);
-    if (m_currentView == view)
+    m_ViewList.remove(view);   // UMLFolder *f = view->getFolder();  f->removeView(view);
+    UMLView *currentView = UMLApp::app()->getCurrentView();
+    if (currentView == view)
     {
-        m_currentView = NULL;
+        UMLApp::app()->setCurrentView(NULL);
         UMLView* firstView = m_ViewList.first();
         if (!firstView && enforceCurrentView) //create a diagram
         {
@@ -304,7 +305,7 @@ void UMLDoc::closeDocument() {
 
 bool UMLDoc::newDocument() {
     closeDocument();
-    m_currentView = NULL;
+    UMLApp::app()->setCurrentView(NULL);
     m_doc_url.setFileName(i18n("Untitled"));
     //see if we need to start with a new diagram
     Settings::OptionState optionState = Settings::getOptionState();
@@ -1184,11 +1185,10 @@ void UMLDoc::renameChildUMLObject(UMLObject *o) {
 }
 
 void UMLDoc::changeCurrentView(Uml::IDType id) {
+    UMLApp* pApp = UMLApp::app();
     UMLView* w = findView(id);
-    if (w != m_currentView && w) {
-        UMLApp* pApp = UMLApp::app();
+    if (w != pApp->getCurrentView() && w) {
         pApp->setCurrentView(w);
-        m_currentView = w;
         emit sigDiagramChanged(w->getType());
         pApp->setDiagramMenuItemsState( true );
         setModified(true);
@@ -1411,63 +1411,6 @@ void UMLDoc::saveToXMI(QIODevice& file, bool saveSubmodelFiles /* = false */) {
     for (int i = 0; i < Uml::N_MODELTYPES; i++) {
         m_root[i]->saveToXMI(doc, ownedNS);
     }
-    /*
-    UMLObject *o;
-    for (UMLObjectListIt oit(m_datatypeRoot->containedObjects());
-            (o = oit.current()) != NULL; ++oit) {
-        if (o->getBaseType() != ot_Datatype) {
-            kdError() << "UMLDoc::saveToXMI(datatypes): " << o->getName()
-                << " is not a datatype!" << endl;
-            continue;
-        }
-        o->saveToXMI(doc, ownedNS);
-    }
-    // Save everything except operations, attributes, and associations.
-    // Operations and attributes are owned by classifiers and will show up
-    // as their child nodes.
-    // Associations are saved in an extra step (see below.)
-    for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
-        UMLObject *o = oit.current();
-        const Object_Type t = o->getBaseType();
-        // Objects contained in a package are already saved by UMLPackage::saveToXMI().
-        // @todo Eliminate adding of objects with non-NULL parent package in m_objectList
-        if (o->getUMLPackage()) {
-            kdDebug() << "UMLDoc::saveToXMI(" << o->getName()
-                << "): UMLPackage is set - this object should not be in m_objectList!"
-                << endl;
-            continue;
-        }
-        if (saveSubmodelFiles && t == ot_Package) {
-            UMLPackage *pkg = static_cast<UMLPackage*>(o);
-            if (pkg->isSavedInSeparateFile())
-                continue;
-        }
-        if (t == ot_Association || t == ot_Datatype)
-            continue;
-        if (t == ot_Stereotype || t == ot_Template) {
-            kdDebug() << "UMLDoc::saveToXMI(" << o->getName()
-                << "): FIXME: type " << t
-                << " is not supposed to be in m_objectList" << endl;
-            continue;
-        }
-        if (t == ot_EnumLiteral || t == ot_EntityAttribute ||
-                t == ot_Attribute || t == ot_Operation) {
-            kdError() << "UMLDoc::saveToXMI(" << o->getName()
-                << "): internal error: type " << t
-                << " is not supposed to be in m_objectList" << endl;
-            continue;
-        }
-        o->saveToXMI(doc, ownedNS);
-    }
-
-    // Save the UMLAssociations.
-    // These are saved last so that upon loading, an association's role
-    // objects are known beforehand. This simplifies the establishing of
-    // cross reference links from the association to its role objects.
-    UMLAssociationList alist = getAssociations();
-    for (UMLAssociation * a = alist.first(); a; a = alist.next())
-        a->saveToXMI(doc, ownedNS);
-     */
 
     objectsElement.appendChild( ownedNS );
 
@@ -1481,8 +1424,9 @@ void UMLDoc::saveToXMI(QIODevice& file, bool saveSubmodelFiles /* = false */) {
 
     QDomElement docElement = doc.createElement( "docsettings" );
     Uml::IDType viewID = Uml::id_None;
-    if( m_currentView )
-        viewID = m_currentView -> getID();
+    UMLView *currentView = UMLApp::app()->getCurrentView();
+    if (currentView)
+        viewID = currentView->getID();
     docElement.setAttribute( "viewid", ID2STR(viewID) );
     docElement.setAttribute( "documentation", m_Doc );
     docElement.setAttribute( "uniqueid", ID2STR(UniqueID::get()) );
@@ -1810,7 +1754,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
         UMLApp::app()->setGenerator(UMLApp::app()->getDefaultLanguage());
     emit sigWriteToStatusBar( i18n("Setting up the document...") );
     kapp->processEvents();  // give UI events a chance
-    m_currentView = NULL;
+    UMLApp::app()->setCurrentView(NULL);
     activateAllViews();
 
     UMLView *viewToBeSet = NULL;
@@ -2108,7 +2052,7 @@ void UMLDoc::removeAllViews() {
         removeView(v, false);
     }
     m_ViewList.clear();
-    m_currentView = NULL;
+    UMLApp::app()->setCurrentView(NULL);
     emit sigDiagramChanged(dt_Undefined);
     UMLApp::app()->setDiagramMenuItemsState(false);
 }
@@ -2418,15 +2362,16 @@ void UMLDoc::loadUndoData() {
         kdWarning() << "no data in undostack" << endl;
         return;
     }
-    if (m_currentView == NULL) {
-        kdWarning() << "UMLDoc::loadUndoData: m_currentView is NULL" << endl;
+    UMLView *currentView = UMLApp::app()->getCurrentView();
+    if (currentView == NULL) {
+        kdWarning() << "UMLDoc::loadUndoData: currentView is NULL" << endl;
         undoStack.setAutoDelete(true);
         undoStack.clear();
         undoStack.setAutoDelete(false);
         UMLApp::app()->enableUndo(false);
         return;
     }
-    Uml::IDType currentViewID = m_currentView->getID();
+    Uml::IDType currentViewID = currentView->getID();
     // store old setting - for restore of last setting
     bool m_bLoading_old = m_bLoading;
     m_bLoading = true;
@@ -2453,16 +2398,18 @@ void UMLDoc::loadUndoData() {
     }
     undoStack.setAutoDelete(false);
 
-    if (m_currentView) {
-        if (m_currentView->getID() != currentViewID)
-            changeCurrentView( m_currentView->getID() );
-        m_currentView->resizeCanvasToItems();
+    currentView = UMLApp::app()->getCurrentView();
+    if (currentView) {
+        if (currentView->getID() != currentViewID)
+            changeCurrentView( currentView->getID() );
+        currentView->resizeCanvasToItems();
     }
 }
 
 void UMLDoc::loadRedoData() {
     if (redoStack.count() >= 1) {
-        Uml::IDType currentViewID = m_currentView->getID();
+        UMLView *currentView = UMLApp::app()->getCurrentView();
+        Uml::IDType currentViewID = currentView->getID();
         // store old setting - for restore of last setting
         bool m_bLoading_old = m_bLoading;
         m_bLoading = true;
@@ -2476,7 +2423,8 @@ void UMLDoc::loadRedoData() {
         buffer->close();
 
         setModified(true, false);
-        getCurrentView()->resizeCanvasToItems();
+        currentView = UMLApp::app()->getCurrentView();
+        currentView->resizeCanvasToItems();
         m_bLoading = m_bLoading_old;
 
         redoStack.setAutoDelete(true);
@@ -2486,7 +2434,7 @@ void UMLDoc::loadRedoData() {
         if (undoStack.count() > 1) {
             UMLApp::app()->enableUndo(true);
         }
-        if (m_currentView->getID() != currentViewID) {
+        if (currentView->getID() != currentViewID) {
             changeCurrentView(currentViewID);
         }
         redoStack.setAutoDelete(false);

@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 #include <kdebug.h>
@@ -476,7 +473,7 @@ bool UMLClipboard::pasteClip4(QMimeSource* data) {
         return false;
     }
 
-    if( diagramType != doc->getCurrentView()->getType() ) {
+    if( diagramType != UMLApp::app()->getCurrentView()->getType() ) {
         if( !checkPasteWidgets(widgets) ) {
             assocs.setAutoDelete(true);
             assocs.clear();
@@ -500,18 +497,19 @@ bool UMLClipboard::pasteClip4(QMimeSource* data) {
 
     //now add any widget we are want to paste
     bool objectAlreadyExists = false;
-    doc->getCurrentView()->beginPartialWidgetPaste();
+    UMLView *currentView = UMLApp::app()->getCurrentView();
+    currentView->beginPartialWidgetPaste();
     UMLWidget* widget =0;
     UMLWidgetListIt widget_it(widgets);
     while ( (widget=widget_it.current()) != 0 ) {
         ++widget_it;
 
-        if (doc->getCurrentView()->findWidget(idchanges->findNewID(widget->getID()))) {
+        if (currentView->findWidget(idchanges->findNewID(widget->getID()))) {
             objectAlreadyExists = true;
         }
 
-        if ( !doc->getCurrentView()->addWidget(widget, true) ) {
-            doc->getCurrentView()->endPartialWidgetPaste();
+        if ( !currentView->addWidget(widget, true) ) {
+            currentView->endPartialWidgetPaste();
             return false;
         }
     }
@@ -521,15 +519,15 @@ bool UMLClipboard::pasteClip4(QMimeSource* data) {
     AssociationWidgetListIt assoc_it(assocs);
     while ( (assoc=assoc_it.current()) != 0 ) {
         ++assoc_it;
-        if( !doc->getCurrentView()->addAssociation(assoc, true) ) {
-            doc->getCurrentView()->endPartialWidgetPaste();
+        if (!currentView->addAssociation(assoc, true)) {
+            currentView->endPartialWidgetPaste();
             return false;
         }
     }
 
     //Activate all the pasted associations and widgets
-    doc->getCurrentView()->activate();
-    doc->getCurrentView()->endPartialWidgetPaste();
+    currentView->activate();
+    currentView->endPartialWidgetPaste();
 
     UMLListView *listView = UMLApp::app()->getListView();
     UMLListViewItem* item = 0;
@@ -666,8 +664,8 @@ bool UMLClipboard::checkPasteWidgets( UMLWidgetList & widgetList ) {
 }
 
 void UMLClipboard::pasteItemAlreadyExists() {
-    UMLDoc *doc = UMLApp::app()->getDocument();
-    KMessageBox::sorry( doc->getCurrentView(),
+    UMLView *currentView = UMLApp::app()->getCurrentView();
+    KMessageBox::sorry( currentView,
                         i18n("At least one of the items in the clipboard "
                              "could not be pasted because an item of the "
                              "same name already exists.  Any other items "
