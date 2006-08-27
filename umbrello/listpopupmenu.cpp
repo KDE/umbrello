@@ -746,7 +746,7 @@ void ListPopupMenu::setupColorSelection(bool fc)
 }
 
 Uml::Diagram_Type ListPopupMenu::convert_MT_DT(Menu_Type mt) {
-    Uml::Diagram_Type type =  Uml::dt_Class;
+    Uml::Diagram_Type type =  Uml::dt_Undefined;
 
     switch(mt) {
     case mt_UseCase_Diagram:

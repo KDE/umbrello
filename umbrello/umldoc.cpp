@@ -187,7 +187,7 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView ) {
         UMLView* firstView = m_ViewList.first();
         if (!firstView && enforceCurrentView) //create a diagram
         {
-            createDiagram( dt_Class, false );
+            createDiagram(m_root[mt_Logical], dt_Class, false);
             firstView = m_ViewList.first();
             //UMLApp::app()->setDiagramMenuItemsState(false);
         }
@@ -309,47 +309,13 @@ bool UMLDoc::newDocument() {
     m_doc_url.setFileName(i18n("Untitled"));
     //see if we need to start with a new diagram
     Settings::OptionState optionState = Settings::getOptionState();
-
-    switch( optionState.generalState.diagram ) {
-    case Settings::diagram_usecase:
-        createDiagram( Uml::dt_UseCase, false);
-        break;
-
-    case Settings::diagram_no: //don't allow no diagram
-    case Settings::diagram_class:
-        createDiagram( Uml::dt_Class, false );
-        break;
-
-    case Settings::diagram_sequence:
-        createDiagram( Uml::dt_Sequence, false );
-        break;
-
-    case Settings::diagram_collaboration:
-        createDiagram( Uml::dt_Collaboration, false );
-        break;
-
-    case Settings::diagram_state:
-        createDiagram( Uml::dt_State, false );
-        break;
-
-    case Settings::diagram_activity:
-        createDiagram( Uml::dt_Activity, false );
-        break;
-
-    case Settings::diagram_component:
-        createDiagram( Uml::dt_Component, false );
-        break;
-
-    case Settings::diagram_deployment:
-        createDiagram( Uml::dt_Deployment, false );
-        break;
-
-    case Settings::diagram_entityrelationship:
-        createDiagram( Uml::dt_EntityRelationship, false );
-        break;
-    default:
-        break;
-    }//end switch
+    Uml::Diagram_Type dt = optionState.generalState.diagram;
+    Uml::Model_Type mt = Model_Utils::convert_DT_MT(dt);
+    if (mt == Uml::N_MODELTYPES) {  // don't allow no diagram
+        dt = Uml::dt_Class;
+        mt = Uml::mt_Logical;
+    }
+    createDiagram(m_root[mt], dt, false);
 
     UMLApp::app()->initGenerator();
     addDefaultDatatypes();
@@ -1075,7 +1041,7 @@ void UMLDoc::setLoading(bool state /* = true */) {
     m_bLoading = state;
 }
 
-void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
+void UMLDoc::createDiagram(UMLFolder *folder, Diagram_Type type, bool askForName /*= true */) {
     bool ok = true;
     QString name,
     dname = uniqViewName(type);
@@ -1092,7 +1058,7 @@ void UMLDoc::createDiagram(Diagram_Type type, bool askForName /*= true */) {
         if (name.length() == 0)  {
             KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("Invalid Name"));
         } else if(!findView(type, name)) {
-            UMLView* temp = new UMLView();
+            UMLView* temp = new UMLView(folder);
             temp -> setOptionState( Settings::getOptionState() );
             temp->setName( name );
             temp->setType( type );
@@ -1574,7 +1540,7 @@ bool UMLDoc::loadFolderFile( QString filename ) {
         element = node.toElement();
         type = element.tagName();
         if (type == "diagram") {
-            UMLView * pView = new UMLView();
+            UMLView * pView = new UMLView(NULL);  // @todo add folder logic
             pView->setOptionState( Settings::getOptionState() );
             bool success = pView->loadFromXMI(element);
             if (!success) {
@@ -1782,7 +1748,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
             }
         }
     } else {
-        createDiagram( Uml::dt_Class, false );
+        createDiagram(m_root[mt_Logical], Uml::dt_Class, false);
     }
     emit sigResetStatusbarProgress();
     return true;
@@ -2015,7 +1981,7 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
     while( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "diagram" || tag == "UISDiagram") {
-            pView = new UMLView();
+            pView = new UMLView(NULL);    // @todo add folder logic
             // IMPORTANT: Set OptionState of new UMLView _BEFORE_
             // reading the corresponding diagram:
             // + allow using per-diagram color and line-width settings

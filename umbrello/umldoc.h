@@ -271,11 +271,12 @@ public:
     /**
      * Creates a diagram of the given type.
      *
+     * @param folder            The folder in which tp create the diagram.
      * @param type              The type of diagram to create.
      * @param askForName        If true shows a dialog box asking for name,
      *                  else uses a default name.
      */
-    void createDiagram(Uml::Diagram_Type type, bool askForName = true);
+    void createDiagram(UMLFolder *folder, Uml::Diagram_Type type, bool askForName = true);
 
     /**
      * Removes an @ref UMLObject from the current file.  If this object

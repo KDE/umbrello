@@ -36,7 +36,7 @@ class ListPopupMenu;
 class FloatingTextWidget;
 class SeqLineWidget;
 class ObjectWidget;
-
+class UMLFolder;
 class UMLApp;
 class UMLDoc;
 class UMLCanvasObject;
@@ -62,16 +62,30 @@ public:
     friend class UMLViewImageExporterModel;
 
     /**
-     * Constructor for the main view
+     * Constructor
      */
-    UMLView();
+    UMLView(UMLFolder *parentFolder);
 
     /**
-     * Destructor for the main view
+     * Destructor
      */
-    ~UMLView();
+    virtual ~UMLView();
 
     // Accessors and other methods dealing with loaded/saved data
+
+    /**
+     * Return the UMLFolder in which this diagram lives.
+     */
+    UMLFolder *getFolder() {
+        return m_pFolder;
+    }
+
+    /**
+     * Set the UMLFolder in which this diagram lives.
+     */
+    void setFolder(UMLFolder *folder) {
+        m_pFolder = folder;
+    }
 
     /**
      * Return the documentation of the diagram.
@@ -1201,11 +1215,16 @@ public:
 
 private:
     /**
-     * set to true when a child has used the showDocumentation method,
-     * thus when one click on a child widget.
-     * Reseted to false when one click in an empty zone of the view
+     * The folder in which this UMLView is contained
      */
-    bool m_pChildDisplayedDoc;
+    UMLFolder *m_pFolder;
+
+    /**
+     * set to true when a child has used the showDocumentation method,
+     * thus when one clicks on a child widget.
+     * Reset to false when clicking in an empty region of the view.
+     */
+    bool m_bChildDisplayedDoc;
     
     ToolBarStateFactory* m_pToolBarStateFactory;
     ToolBarState* m_pToolBarState;

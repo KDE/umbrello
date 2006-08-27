@@ -111,16 +111,16 @@ enum Diagram_Type
 {
     //the values in this enum are saved out to the file
     //for file compatibility, only add new values to the end
-    dt_UseCase  =  400,
-    dt_Collaboration,
+    dt_Undefined = 0,
     dt_Class,
+    dt_UseCase,
     dt_Sequence,
+    dt_Collaboration,
     dt_State,
     dt_Activity,
     dt_Component,
     dt_Deployment,
-    dt_EntityRelationship,
-    dt_Undefined = -1
+    dt_EntityRelationship
 };
 
 enum Association_Type

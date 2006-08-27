@@ -452,7 +452,7 @@ void UMLListViewItem::okRename( int col ) {
                 return;
             }
             view->setName( newText );
-            m_Label = newText;
+            setText(newText);
             doc->signalDiagramRenamed(view);
             break;
         }

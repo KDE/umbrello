@@ -44,7 +44,6 @@
 
 // app includes
 #include "aligntoolbar.h"
-#include "infowidget.h"
 #include "codeimport/classimport.h"
 #include "docwindow.h"
 #include "codegenerator.h"
@@ -927,40 +926,49 @@ void UMLApp::slotStatusMsg(const QString &text) {
 }
 
 void UMLApp::slotClassDiagram() {
-    getDocument() -> createDiagram( Uml::dt_Class ) ;
+    UMLFolder *root = m_doc->getRootFolder(Uml::mt_Logical);
+    getDocument()->createDiagram(root, Uml::dt_Class);
 }
 
 
 void UMLApp::slotSequenceDiagram() {
-    getDocument() -> createDiagram( Uml::dt_Sequence );
+    UMLFolder *root = m_doc->getRootFolder(Uml::mt_Logical);
+    m_doc->createDiagram(root, Uml::dt_Sequence);
 }
 
 void UMLApp::slotCollaborationDiagram() {
-    getDocument() -> createDiagram( Uml::dt_Collaboration );
+    UMLFolder *root = m_doc->getRootFolder(Uml::mt_Logical);
+    m_doc->createDiagram(root, Uml::dt_Collaboration);
 }
 
 void UMLApp::slotUseCaseDiagram() {
-    getDocument() -> createDiagram( Uml::dt_UseCase );
+    UMLFolder *root = m_doc->getRootFolder(Uml::mt_UseCase);
+    m_doc->createDiagram(root, Uml::dt_UseCase);
 }
 
 void UMLApp::slotStateDiagram() {
-    getDocument() -> createDiagram( Uml::dt_State );
+    UMLFolder *root = m_doc->getRootFolder(Uml::mt_Logical);
+    m_doc->createDiagram(root, Uml::dt_State);
 }
 
 void UMLApp::slotActivityDiagram() {
-    getDocument() -> createDiagram( Uml::dt_Activity );
+    UMLFolder *root = m_doc->getRootFolder(Uml::mt_Logical);
+    m_doc->createDiagram(root, Uml::dt_Activity);
 }
 
 void UMLApp::slotComponentDiagram() {
-    getDocument()->createDiagram( Uml::dt_Component );
+    UMLFolder *root = m_doc->getRootFolder(Uml::mt_Component);
+    m_doc->createDiagram(root, Uml::dt_Component );
 }
 
 void UMLApp::slotDeploymentDiagram() {
-    getDocument()->createDiagram(Uml::dt_Deployment);
+    UMLFolder *root = m_doc->getRootFolder(Uml::mt_Deployment);
+    m_doc->createDiagram(root, Uml::dt_Deployment);
 }
 
 void UMLApp::slotEntityRelationshipDiagram() {
-    getDocument()->createDiagram(Uml::dt_EntityRelationship);
+    UMLFolder *root = m_doc->getRootFolder(Uml::mt_EntityRelationship);
+    m_doc->createDiagram(root, Uml::dt_EntityRelationship);
 }
 
 WorkToolBar* UMLApp::getWorkToolBar() {
@@ -1139,7 +1147,7 @@ void UMLApp::readOptionState() {
     optionState.generalState.logo = m_config -> readBoolEntry( "logo", true );
     optionState.generalState.loadlast = m_config -> readBoolEntry( "loadlast", true );
 
-    optionState.generalState.diagram  = ( Settings::Diagram ) m_config -> readNumEntry( "diagram", 1 );
+    optionState.generalState.diagram  = (Uml::Diagram_Type) m_config->readNumEntry("diagram", 1);
     m_config -> setGroup( "TipOfDay");
 
     optionState.generalState.tip = m_config -> readBoolEntry( "RunOnStart", true );

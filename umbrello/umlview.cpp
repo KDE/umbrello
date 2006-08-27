@@ -107,10 +107,10 @@ using namespace Uml;
 
 
 // constructor
-UMLView::UMLView() : QCanvasView(UMLApp::app()->getMainViewWidget(), "AnUMLView"),
-  m_pChildDisplayedDoc(false) {
+UMLView::UMLView(UMLFolder *parentFolder) : QCanvasView(UMLApp::app()->getMainViewWidget()) {
     init();
     m_pDoc = UMLApp::app()->getDocument();
+    m_pFolder = parentFolder;
 }
 
 void UMLView::init() {
@@ -133,6 +133,7 @@ void UMLView::init() {
     // Initialize other data
     m_AssociationList.setAutoDelete( true );
     //Setup up booleans
+    m_bChildDisplayedDoc = false;
     m_bPaste = false;
     m_bDrawRect = false;
     m_bActivated = false;
@@ -1184,10 +1185,10 @@ bool UMLView::isSavedInSeparateFile() {
 void UMLView::contentsMousePressEvent(QMouseEvent* ome)
 {
     m_pToolBarState->mousePress(ome);
-    if (!m_pChildDisplayedDoc) {
+    if (!m_bChildDisplayedDoc) {
       UMLApp::app() -> getDocWindow() -> showDocumentation( this, true );
     }
-    m_pChildDisplayedDoc = false;
+    m_bChildDisplayedDoc = false;
 }
 
 void UMLView::makeSelected (UMLWidget * uw) {
@@ -2019,17 +2020,17 @@ Uml::Association_Type UMLView::convert_TBB_AT(WorkToolBar::ToolBar_Buttons tbb) 
 
 void UMLView::showDocumentation( UMLObject * object, bool overwrite ) {
     UMLApp::app() -> getDocWindow() -> showDocumentation( object, overwrite );
-    m_pChildDisplayedDoc = true;
+    m_bChildDisplayedDoc = true;
 }
 
 void UMLView::showDocumentation( UMLWidget * widget, bool overwrite ) {
     UMLApp::app() -> getDocWindow() -> showDocumentation( widget, overwrite );
-    m_pChildDisplayedDoc = true;
+    m_bChildDisplayedDoc = true;
 }
 
 void UMLView::showDocumentation( AssociationWidget * widget, bool overwrite ) {
     UMLApp::app() -> getDocWindow() -> showDocumentation( widget, overwrite );
-    m_pChildDisplayedDoc = true;
+    m_bChildDisplayedDoc = true;
 }
 
 void UMLView::updateDocumentation( bool clear ) {
@@ -3112,7 +3113,7 @@ bool UMLView::loadFromXMI( QDomElement & qElement ) {
     if( m_nID == Uml::id_None )
         return false;
     setName( qElement.attribute( "name", "" ) );
-    QString type = qElement.attribute( "type", "-1" );
+    QString type = qElement.attribute( "type", "0" );
     m_Documentation = qElement.attribute( "documentation", "" );
     QString localid = qElement.attribute( "localid", "0" );
     //optionstate uistate
@@ -3166,7 +3167,45 @@ bool UMLView::loadFromXMI( QDomElement & qElement ) {
     QString width = qElement.attribute( "canvaswidth", QString("%1").arg(UMLView::defaultCanvasSize) );
     m_nCanvasWidth = width.toInt();
 
-    m_Type = (Uml::Diagram_Type)type.toInt();
+    int nType = type.toInt();
+    if (nType == -1 || nType >= 400) {
+        // Pre 1.5.5 numeric values
+        // Values of "type" were changed in 1.5.5 to merge with Settings::Diagram
+        switch (nType) {
+            case 400:
+                m_Type = Uml::dt_UseCase;
+                break;
+            case 401:
+                m_Type = Uml::dt_Collaboration;
+                break;
+            case 402:
+                m_Type = Uml::dt_Class;
+                break;
+            case 403:
+                m_Type = Uml::dt_Sequence;
+                break;
+            case 404:
+                m_Type = Uml::dt_State;
+                break;
+            case 405:
+                m_Type = Uml::dt_Activity;
+                break;
+            case 406:
+                m_Type = Uml::dt_Component;
+                break;
+            case 407:
+                m_Type = Uml::dt_Deployment;
+                break;
+            case 408:
+                m_Type = Uml::dt_EntityRelationship;
+                break;
+            default:
+                m_Type = Uml::dt_Undefined;
+                break;
+        }
+    } else {
+        m_Type = (Uml::Diagram_Type)nType;
+    }
     if( !fillcolor.isEmpty() )
         m_Options.uiState.fillColor = QColor( fillcolor );
     if( !linecolor.isEmpty() )

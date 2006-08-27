@@ -246,45 +246,10 @@ void UMLListView::popupMenuSel(int sel) {
     UMLObject * object = temp -> getUMLObject();
     Uml::ListView_Type lvt = temp -> getType();
     Uml::Object_Type umlType = Uml::ot_UMLObject;
+    ListPopupMenu::Menu_Type menuType = (ListPopupMenu::Menu_Type)sel;
     QString name;
 
-    switch(sel) {
-    case ListPopupMenu::mt_Activity_Diagram:
-        m_doc->createDiagram(Uml::dt_Activity);
-        break;
-
-    case ListPopupMenu::mt_UseCase_Diagram:
-        m_doc->createDiagram(Uml::dt_UseCase);
-        break;
-
-    case ListPopupMenu::mt_Sequence_Diagram:
-        m_doc->createDiagram(Uml::dt_Sequence);
-        break;
-
-    case ListPopupMenu::mt_Collaboration_Diagram:
-        m_doc->createDiagram(Uml::dt_Collaboration);
-        break;
-
-    case ListPopupMenu::mt_Class_Diagram:
-        m_doc->createDiagram(Uml::dt_Class);
-        break;
-
-    case ListPopupMenu::mt_State_Diagram:
-        m_doc->createDiagram(Uml::dt_State);
-        break;
-
-    case ListPopupMenu::mt_Component_Diagram:
-        m_doc->createDiagram(Uml::dt_Component);
-        break;
-
-    case ListPopupMenu::mt_Deployment_Diagram:
-        m_doc->createDiagram(Uml::dt_Deployment);
-        break;
-
-    case ListPopupMenu::mt_EntityRelationship_Diagram:
-        m_doc->createDiagram(Uml::dt_EntityRelationship);
-        break;
-
+    switch (menuType) {
     case ListPopupMenu::mt_Class:
         addNewItem( temp, Uml::lvt_Class );
         break;
@@ -518,8 +483,20 @@ void UMLListView::popupMenuSel(int sel) {
         break;
 
     default:
-        kdWarning() << "UMLListView::popupMenuSel called with unknown type" << endl;
-        //must be something we don't want to do
+        {
+            Uml::Diagram_Type dt = ListPopupMenu::convert_MT_DT(menuType);
+            if (dt == Uml::dt_Undefined) {
+                kdWarning() << "UMLListView::popupMenuSel: unknown type"
+                    << sel << endl;
+            } else {
+                UMLFolder *f = dynamic_cast<UMLFolder*>(temp);
+                if (f == NULL)
+                    kdError() << "UMLListView::popupMenuSel(" << menuType
+                        << "): current item's UMLObject is not a UMLFolder" << endl;
+                else
+                    m_doc->createDiagram(f, dt);
+            }
+        }
         break;
     }//end switch
 }
@@ -785,7 +762,11 @@ void UMLListView::childObjectRemoved(UMLClassifierListItem* obj) {
 void UMLListView::slotDiagramRenamed(Uml::IDType id) {
     UMLListViewItem* temp;
     UMLView* v = m_doc->findView(id);
-    temp = findView(v);
+    if ((temp = findView(v)) == NULL) {
+        kdError() << "UMLListView::slotDiagramRenamed: UMLDoc::findView("
+            << ID2STR(id) << " returns NULL" << endl;
+        return;
+    }
     temp->setText( v->getName() );
 }
 
@@ -2473,7 +2454,15 @@ void UMLListView::createDiagram( UMLListViewItem * item, Uml::Diagram_Type type 
         delete item;
         return;
     }
-    view = new UMLView();
+    UMLListViewItem *parentItem = static_cast<UMLListViewItem*>(item->parent());
+    UMLFolder *parentFolder = dynamic_cast<UMLFolder*>(parentItem->getUMLObject());
+    if (parentFolder == NULL) {
+        kdError() << "UMLListView::createDiagram(" << name
+            << "): parent UMLObject is not a UMLFolder" << endl;
+        delete item;
+        return;
+    }
+    view = new UMLView(parentFolder);
     view->setName( name );
     view->setType( type );
     view->setID( UniqueID::gen() );

@@ -498,7 +498,7 @@ bool UMLDrag::decodeClip2(const QMimeSource* mimeSource, UMLObjectList& objects,
         return false;
     }
     while ( !diagramElement.isNull() ) {
-        UMLView* view = new UMLView();
+        UMLView* view = new UMLView(NULL);  // UMLFolder parent must be set by caller
         view->loadFromXMI(diagramElement);
         diagrams.append(view);
         diagramNode = diagramNode.nextSibling();
