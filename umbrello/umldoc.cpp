@@ -85,6 +85,7 @@ static const uint undoMax = 30;
 UMLDoc::UMLDoc() {
     m_Name = i18n("UML Model");
     m_modelID = "m1";
+    m_datatypeFolderName = i18n("Datatypes");
     m_count = 0;
     m_pChangeLog = 0;
     m_Doc = "";
@@ -109,7 +110,7 @@ void UMLDoc::init() {
         m_root[i] = new UMLFolder(predefinedName[i]);
         m_root[i]->markPredefined();
     }
-    m_datatypeRoot = new UMLFolder(i18n("Datatypes"));
+    m_datatypeRoot = new UMLFolder(m_datatypeFolderName);
     m_datatypeRoot->markPredefined();
     m_root[Uml::mt_Logical]->addObject(m_datatypeRoot);
 
@@ -287,7 +288,7 @@ void UMLDoc::closeDocument() {
         for (int i = 0; i < Uml::N_MODELTYPES; i++)
             m_root[i]->removeAllObjects();
         // Restore the datatype folder, it has been deleted above.
-        m_datatypeRoot = new UMLFolder(i18n("Datatypes"));
+        m_datatypeRoot = new UMLFolder(m_datatypeFolderName);
         m_datatypeRoot->markPredefined();
         m_root[Uml::mt_Logical]->addObject(m_datatypeRoot);
         listView->theDatatypeFolder()->setUMLObject(m_datatypeRoot);

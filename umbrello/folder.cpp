@@ -144,6 +144,18 @@ bool UMLFolder::load(QDomElement& element) {
                 return false;
             continue;
         }
+        // Do not re-create the predefined Datatypes folder in the Logical View,
+        // it already exists.
+        UMLDoc *umldoc = UMLApp::app()->getDocument();
+        UMLFolder *logicalView = umldoc->getRootFolder(Uml::mt_Logical);
+        if (this == logicalView && Uml::tagEq(type, "Package")) {
+            QString thisName = tempElement.attribute("name", "");
+            if (thisName == umldoc->datatypeFolderName()) {
+                UMLFolder *datatypeFolder = umldoc->getDatatypeFolder();
+                datatypeFolder->loadFromXMI(tempElement);
+                continue;
+            }
+        }
         QString stereoID = tempElement.attribute("stereotype", "");
         UMLObject *pObject = Object_Factory::makeObjectFromXMI(type, stereoID);
         if (!pObject) {
