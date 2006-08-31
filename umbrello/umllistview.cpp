@@ -1809,12 +1809,15 @@ Uml::Object_Type UMLListView::convert_LVT_OT(Uml::ListView_Type lvt) {
 
     case Uml::lvt_Package:
     case Uml::lvt_Subsystem:
+        ot = Uml::ot_Package;
+        break;
+
     case Uml::lvt_Logical_Folder:
     case Uml::lvt_UseCase_Folder:
     case Uml::lvt_Component_Folder:
     case Uml::lvt_Deployment_Folder:
     case Uml::lvt_EntityRelationship_Folder:
-        ot = Uml::ot_Package;
+        ot = Uml::ot_Folder;
         break;
 
     case Uml::lvt_Component:
