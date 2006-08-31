@@ -18,6 +18,8 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
+#include "umllistview.h"
+#include "optionstate.h"
 #include "object_factory.h"
 #include "model_utils.h"
 
@@ -52,6 +54,108 @@ bool UMLFolder::isPredefined() {
 
 void UMLFolder::addView(UMLView *view) {
     m_diagrams.append(view);
+}
+
+void UMLFolder::removeView(UMLView *view) {
+    // m_diagrams is set to autodelete!
+    m_diagrams.remove(view);
+}
+
+void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested) {
+    if (includeNested) {
+        UMLObject *o;
+        for (UMLObjectListIt oit(m_objects); (o = oit.current()) != NULL; ++oit) {
+            if (o->getBaseType() == Uml::ot_Folder) {
+                UMLFolder *f = static_cast<UMLFolder*>(o);
+                f->appendViews(viewList);
+            }
+        }
+    }
+    UMLView *v;
+    for (UMLViewListIt vit(m_diagrams); (v = vit.current()) != NULL; ++vit)
+        viewList.append(v);
+}
+
+void UMLFolder::activateViews() {
+    UMLView *v;
+    for (UMLViewListIt vit(m_diagrams); (v = vit.current()) != NULL; ++vit)
+        v->activateAfterLoad();
+    // Make sure we have a treeview item for each diagram.
+    // It may happen that we are missing them after switching off tabbed widgets.
+    Settings::OptionState optionState = Settings::getOptionState();
+    if (optionState.generalState.tabdiagrams)
+        return;
+    UMLListView *lv = UMLApp::app()->getListView();
+    for (UMLViewListIt it(m_diagrams); (v = it.current()) != NULL; ++it) {
+        if (lv->findItem(v->getID()) != NULL)
+            continue;
+        lv->createDiagramItem(v);
+    }
+}
+
+UMLView *UMLFolder::findView(Uml::IDType id) {
+    UMLView *v = NULL;
+    for (UMLViewListIt vit(m_diagrams); (v = vit.current()) != NULL; ++vit) {
+        if (v->getID() == id)
+            return v;
+    }
+    UMLObject *o;
+    for (UMLObjectListIt oit(m_objects); (o = oit.current()) != NULL; ++oit) {
+        if (o->getBaseType() != Uml::ot_Folder)
+            continue;
+        UMLFolder *f = static_cast<UMLFolder*>(o);
+        v = f->findView(id);
+        if (v)
+            break;
+    }
+    return v;
+}
+
+UMLView *UMLFolder::findView(Uml::Diagram_Type type, const QString &name, bool searchAllScopes) {
+    UMLView *v = NULL;
+    for (UMLViewListIt vit(m_diagrams); (v = vit.current()) != NULL; ++vit) {
+        if (v->getType() == type && v->getName() == name)
+            return v;
+    }
+    if (searchAllScopes) {
+        UMLObject *o;
+        for (UMLObjectListIt oit(m_objects); (o = oit.current()) != NULL; ++oit) {
+            if (o->getBaseType() != Uml::ot_Folder)
+                continue;
+            UMLFolder *f = static_cast<UMLFolder*>(o);
+            v = f->findView(type, name, searchAllScopes);
+            if (v)
+                break;
+        }
+    }
+    return v;
+}
+
+void UMLFolder::setViewOptions(const Settings::OptionState& optionState) {
+    // for each view update settings
+    UMLView *v;
+    for (UMLViewListIt vit(m_diagrams); (v = vit.current()) != NULL; ++vit)
+        v->setOptionState(optionState);
+}
+
+void UMLFolder::removeAllViews() {
+    UMLObject *o;
+    for (UMLObjectListIt oit(m_objects); (o = oit.current()) != NULL; ++oit) {
+        if (o->getBaseType() != Uml::ot_Folder)
+            continue;
+        UMLFolder *f = static_cast<UMLFolder*>(o);
+        f->removeAllViews();
+    }
+    UMLView *v = NULL;
+    for (UMLViewListIt vit(m_diagrams); (v = vit.current()) != NULL; ++vit) {
+        // TODO ------------------ check this code - bad: calling back to UMLDoc::removeView()
+        v->removeAllAssociations(); // note : It may not be apparent, but when we remove all associations
+        // from a view, it also causes any UMLAssociations that lack parent
+        // association widgets (but once had them) to remove themselves from
+        // this document.
+        UMLApp::app()->getDocument()->removeView(v, false);
+    }
+    m_diagrams.clear();
 }
 
     /**** From UMLListViewItem::saveToXMI :
@@ -110,7 +214,7 @@ void UMLFolder::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
         fileElement.setAttribute("name", m_folderFile);
         extension.appendChild(fileElement);
     } else {
-        QDomElement ownedElement = qDoc.createElement( "UML:Namespace.ownedElement" );
+        QDomElement ownedElement = qDoc.createElement("UML:Namespace.ownedElement");
         UMLObject *obj;
         // Save contained objects if any.
         for (UMLObjectListIt oit(m_objects); (obj = oit.current()) != NULL; ++oit)
@@ -120,13 +224,49 @@ void UMLFolder::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
             obj->saveToXMI (qDoc, ownedElement);
         folderElement.appendChild(ownedElement);
         // Save diagrams to `extension'.
-        //........
+        if (m_diagrams.count()) {
+            QDomElement diagramsElement = qDoc.createElement("diagrams");
+            UMLView *pView;
+            for (UMLViewListIt vit(m_diagrams); (pView = vit.current()) != NULL; ++vit) {
+                if ( // saveSubmodelFiles &&
+                    pView->isSavedInSeparateFile())
+                    continue;
+                pView->saveToXMI(qDoc, diagramsElement);
+            }
+            extension.appendChild( diagramsElement );
+        }
     }
     folderElement.appendChild(extension);
     qElement.appendChild(folderElement);
 }
 
+bool UMLFolder::loadDiagramsFromXMI(QDomNode& diagrams) {
+    const Settings::OptionState optionState = Settings::getOptionState();
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    bool totalSuccess = true;
+    for (QDomElement diagram = diagrams.toElement(); !diagram.isNull();
+         diagrams = diagrams.nextSibling(), diagram = diagrams.toElement()) {
+        QString tag = diagram.tagName();
+        if (tag != "diagram") {
+            kdDebug() << "UMLFolder::loadDiagramsFromXMI: ignoring "
+                << tag << " in <diagrams>" << endl;
+            continue;
+        }
+        UMLView * pView = new UMLView(this);
+        pView->setOptionState(optionState);
+        if (pView->loadFromXMI(diagram)) {
+            pView->hide();
+            umldoc->addView(pView);
+        } else {
+            delete pView;
+            totalSuccess = false;
+        }
+    }
+    return totalSuccess;
+}
+
 bool UMLFolder::load(QDomElement& element) {
+    bool totalSuccess = true;
     for (QDomNode node = element.firstChild(); !node.isNull();
             node = node.nextSibling()) {
         if (node.isComment())
@@ -143,6 +283,22 @@ bool UMLFolder::load(QDomElement& element) {
             if (! load(tempElement))
                 return false;
             continue;
+        } else if (type == "XMI.extension") {
+            for (QDomNode xtnode = node.firstChild(); !xtnode.isNull();
+                                              xtnode = xtnode.nextSibling()) {
+                QDomElement el = xtnode.toElement();
+                if (el.tagName() != "diagrams") {
+                    kdDebug() << "ignoring XMI.extension " << el.tagName() << endl;
+                    continue;
+                }
+                QDomNode diagramNode = xtnode.firstChild();
+                if (!loadDiagramsFromXMI(diagramNode))
+                    totalSuccess = false;
+            }
+            continue;
+        } else {
+            kdDebug() << "UMLFolder::load(" << m_Name << "): type is "
+                << type << endl;
         }
         // Do not re-create the predefined Datatypes folder in the Logical View,
         // it already exists.
@@ -152,7 +308,8 @@ bool UMLFolder::load(QDomElement& element) {
             QString thisName = tempElement.attribute("name", "");
             if (thisName == umldoc->datatypeFolderName()) {
                 UMLFolder *datatypeFolder = umldoc->getDatatypeFolder();
-                datatypeFolder->loadFromXMI(tempElement);
+                if (!datatypeFolder->loadFromXMI(tempElement))
+                    totalSuccess = false;
                 continue;
             }
         }
@@ -160,8 +317,7 @@ bool UMLFolder::load(QDomElement& element) {
         UMLObject *pObject = Object_Factory::makeObjectFromXMI(type, stereoID);
         if (!pObject) {
             kdWarning() << "UMLFolder::load: "
-                        << "Unknown type of umlobject to create: "
-                        << type << endl;
+                << "Unknown type of umlobject to create: " << type << endl;
             continue;
         }
         pObject->setUMLPackage(this);
@@ -169,9 +325,10 @@ bool UMLFolder::load(QDomElement& element) {
             addObject(pObject);
         } else {
             delete pObject;
+            totalSuccess = false;
         }
     }
-    return true;
+    return totalSuccess;
 }
 
 #include "folder.moc"

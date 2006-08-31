@@ -183,39 +183,6 @@ public:
     UMLListViewItem *rootView(Uml::ListView_Type type);
 
     /**
-     * Returns true if the listview type also has a widget representation in diagrams.
-     */
-    static bool typeIsCanvasWidget(Uml::ListView_Type type);
-
-    /**
-     * Returns true if the listview type is one of the predefined root views
-     * (root, logical, usecase, component, deployment, datatype, or entity-
-     * relationship view.)
-     */
-    static bool typeIsRootView(Uml::ListView_Type type);
-
-    /**
-     * Returns true if the listview type is a logical, usecase or component folder.
-     */
-    static bool typeIsFolder(Uml::ListView_Type type);
-
-    /**
-     * Returns true if the listview type may act as a container for other objects,
-     * i.e. if it is a folder, package, subsystem, or component.
-     */
-    static bool typeIsContainer(Uml::ListView_Type type);
-
-    /**
-     * Returns true if the listview type is a diagram.
-     */
-    static bool typeIsDiagram(Uml::ListView_Type type);
-
-    /**
-     * Returns true if the listview type is an attribute, operation, or template.
-     */
-    static bool typeIsClassifierList(Uml::ListView_Type type);
-
-    /**
      * Changes the icon for the given UMLObject to the given icon.
      */
     void changeIconOf(UMLObject *o, Uml::Icon_Type to);
@@ -268,35 +235,6 @@ public:
      * Return the variable m_bStartedCopy.
      */
     bool startedCopy() const;
-
-    /**
-     * Converts an object's type to the equivalent list view type
-     *
-     * @param o  Pointer to the UMLObject whose type shall be converted
-     *           to the equivalent Uml::ListView_Type.  We cannot just
-     *           pass in a Uml::Object_Type because a UMLPackage might
-     *           be rendered differently when it acts as a folder.
-     * @return  The equivalent Uml::ListView_Type.
-     */
-    static Uml::ListView_Type convert_OT_LVT(const UMLObject *o);
-
-    /**
-     * Return the Icon_Type which corresponds to the given listview type.
-     *
-     * @param lvt  ListView_Type to convert.
-     * @return  The Uml::Icon_Type corresponding to the lvt.
-     *          Returns it_Home in case no mapping to Uml::Icon_Type exists.
-     */
-    static Uml::Icon_Type convert_LVT_IT(Uml::ListView_Type lvt);
-
-    /**
-     * Return the Diagram_Type which corresponds to the given listview type.
-     *
-     * @param lvt  ListView_Type to convert.
-     * @return  The Uml::Diagram_Type corresponding to the lvt.
-     *          Returns dt_Undefined in case no mapping to Diagram_Type exists.
-     */
-    static Uml::Diagram_Type convert_LVT_DT(Uml::ListView_Type lvt);
 
     /**
      * Moves an object given is unique ID and listview type to an
@@ -379,20 +317,6 @@ protected:
      * @return the item which represents the diagram
      */
     UMLListViewItem * findView(UMLView *v);
-
-    /**
-     * Utility: Converts a diagram type enum to the equivalent list view type
-     */
-    static Uml::ListView_Type convert_DT_LVT(Uml::Diagram_Type dt);
-
-    /**
-     * Converts a list view type enum to the equivalent object type.
-     *
-     * @param lvt               The ListView_Type to convert.
-     * @return  The converted Object_Type if the listview type
-     *          has a Uml::Object_Type representation, else 0.
-     */
-    static Uml::Object_Type convert_LVT_OT(Uml::ListView_Type lvt);
 
     /**
      * Return true if the given list view type can be expanded/collapsed.

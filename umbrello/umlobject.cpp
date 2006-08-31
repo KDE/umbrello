@@ -722,7 +722,7 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
             UMLListViewItem *parentItem = (UMLListViewItem*)listView->currentItem();
             if (parentItem) {
                 Uml::ListView_Type lvt = parentItem->getType();
-                if (UMLListView::typeIsContainer(lvt) ||
+                if (Model_Utils::typeIsContainer(lvt) ||
                         lvt == Uml::lvt_Class ||
                         lvt == Uml::lvt_Interface) {
                     UMLObject *o = parentItem->getUMLObject();

@@ -526,7 +526,7 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 
     UMLObject* temp = 0;
     //if dragging diagram - might be a drag-to-note
-    if (UMLListView::typeIsDiagram(lvtype)) {
+    if (Model_Utils::typeIsDiagram(lvtype)) {
         e->accept(true);
         return;
     }
@@ -618,7 +618,7 @@ void UMLView::contentsDropEvent(QDropEvent *e) {
     ListView_Type lvtype = tid->type;
     Uml::IDType id = tid->id;
 
-    if (UMLListView::typeIsDiagram(lvtype)) {
+    if (Model_Utils::typeIsDiagram(lvtype)) {
         UMLWidget *w = NULL;
         for (w = m_WidgetList.first(); w; w = m_WidgetList.next()) {
             if (w->getBaseType() == Uml::wt_Note && w->onWidget(e->pos()))
@@ -1170,7 +1170,7 @@ bool UMLView::isSavedInSeparateFile() {
         return false;
     }
     const Uml::ListView_Type lvt = parentItem->getType();
-    if (! UMLListView::typeIsFolder(lvt))
+    if (! Model_Utils::typeIsFolder(lvt))
         return false;
     UMLFolder *modelFolder = dynamic_cast<UMLFolder*>(parentItem->getUMLObject());
     if (modelFolder == NULL) {
@@ -1773,7 +1773,7 @@ void UMLView::removeAssocInViewAndDoc(AssociationWidget* a) {
         if (objToBeMoved != NULL) {
             UMLListView *lv = UMLApp::app()->getListView();
             lv->moveObject( objToBeMoved->getID(),
-                            UMLListView::convert_OT_LVT(objToBeMoved),
+                            Model_Utils::convert_OT_LVT(objToBeMoved),
                             lv->theLogicalView() );
         } else {
             kdDebug() << "removeAssocInViewAndDoc(containment): "
@@ -1855,7 +1855,7 @@ bool UMLView::setAssoc(UMLWidget *pWidget) {
             if (newContainer && objToBeMoved) {
                 UMLListViewItem *newLVParent = lv->findUMLObject(newContainer);
                 lv->moveObject( objToBeMoved->getID(),
-                                UMLListView::convert_OT_LVT(objToBeMoved),
+                                Model_Utils::convert_OT_LVT(objToBeMoved),
                                 newLVParent );
             }
         }

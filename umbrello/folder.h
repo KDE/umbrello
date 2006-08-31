@@ -14,6 +14,7 @@
 
 #include "package.h"
 #include "umlviewlist.h"
+#include "optionstate.h"
 
 /**
  * This class manages the UMLObjects and UMLViews of a Folder.
@@ -77,6 +78,55 @@ public:
     void addView(UMLView *view);
 
     /**
+     * Remove a view from the diagram list.
+     */
+    void removeView(UMLView *view);
+
+    /**
+     * Append the views in this folder to the given diagram list.
+     *
+     * @param viewList       The UMLViewList to which to append the diagrams.
+     * @param includeNested  Whether to include diagrams from nested folders
+     *                       (default: true.)
+     */
+    void appendViews(UMLViewList& viewList, bool includeNested = true);
+
+    /**
+     * Acivate the views in this folder.
+     * "Activation": Some widgets require adjustments after loading from file,
+     * those are done here.
+     */
+    void activateViews();
+
+    /**
+     * Seek a view of the given ID in this folder.
+     *
+     * @param id   ID of the view to find.
+     * @return     Pointer to the view if found, NULL if no view found.
+     */
+    UMLView *findView(Uml::IDType id);
+
+    /**
+     * Seek a view by the type and name given.
+     *
+     * @param type              The type of view to find.
+     * @param name              The name of the view to find.
+     * @param searchAllScopes   Search in all subfolders (default: true.)
+     * @return  Pointer to the view found, or NULL if not found.
+     */
+    UMLView * findView(Uml::Diagram_Type type, const QString &name, bool searchAllScopes = true);
+
+    /**
+     * Set the options for the views in this folder.
+     */
+    void setViewOptions(const Settings::OptionState& optionState);
+
+    /**
+     * Remove all views in this folder.
+     */
+    void removeAllViews();
+
+    /**
      * Set the folder file name for a separate submodel.
      */
     void setFolderFile(QString fileName);
@@ -94,6 +144,12 @@ public:
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:
+    /**
+     * Auxiliary to load():
+     * Load the diagrams from the <diagrams> in the <XMI.extension>
+     */
+    bool loadDiagramsFromXMI(QDomNode& diagrams);
+
     /**
      * Loads the UML:Component element.
      */

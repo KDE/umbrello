@@ -128,13 +128,20 @@ UMLDoc::~UMLDoc() {
 }
 
 void UMLDoc::addView(UMLView *view) {
+    if (view == NULL) {
+        kdError() << "UMLDoc::addView: argument is NULL" << endl;
+        return;
+    }
+    UMLFolder *f = view->getFolder();
+    if (f == NULL) {
+        kdError() << "UMLDoc::addView: view folder is not set" << endl;
+        return;
+    }
+    f->addView(view);
+
     UMLApp * pApp = UMLApp::app();
     if ( pApp->getListView() )
         connect(this, SIGNAL(sigObjectRemoved(UMLObject *)), view, SLOT(slotObjectRemoved(UMLObject *)));
-    Uml::Model_Type mt = Model_Utils::convert_DT_MT(view->getType());
- ///////////// TODO folders
-
-    m_ViewList.append(view);
 
     UMLView * previousView = pApp->getCurrentView();
     pApp->setCurrentView(view);
@@ -179,18 +186,25 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView ) {
     view->hide();
     //remove all widgets before deleting view
     view->removeAllWidgets();
-    // m_ViewList is set to autodelete!!
-    m_ViewList.remove(view);   // UMLFolder *f = view->getFolder();  f->removeView(view);
+    UMLFolder *f = view->getFolder();
+    if (f == NULL) {
+        kdError() << "UMLDoc::removeView(" << view->getName()
+            << "): view->getFolder() returns NULL" << endl;
+        return;
+    }
+    f->removeView(view);
     UMLView *currentView = UMLApp::app()->getCurrentView();
     if (currentView == view)
     {
         UMLApp::app()->setCurrentView(NULL);
-        UMLView* firstView = m_ViewList.first();
+        UMLViewList viewList;
+        m_root[mt_Logical]->appendViews(viewList);
+        UMLView* firstView = viewList.first();
         if (!firstView && enforceCurrentView) //create a diagram
         {
             createDiagram(m_root[mt_Logical], dt_Class, false);
-            firstView = m_ViewList.first();
-            //UMLApp::app()->setDiagramMenuItemsState(false);
+            kapp->processEvents();
+            m_root[mt_Logical]->appendViews(viewList);
         }
 
         if ( firstView )
@@ -208,15 +222,6 @@ void UMLDoc::setURL(const KURL &url) {
 
 const KURL& UMLDoc::URL() const {
     return m_doc_url;
-}
-
-void UMLDoc::slotUpdateAllViews(UMLView *sender) {
-    for(UMLView *w = m_ViewList.first(); w; w = m_ViewList.next()) {
-        if(w != sender) {
-            w->repaint();
-        }
-    }
-    return;
 }
 
 bool UMLDoc::saveModified() {
@@ -672,36 +677,19 @@ void UMLDoc::setupSignals() {
 }
 
 UMLView * UMLDoc::findView(Uml::IDType id) {
-    for (UMLViewListIt vit(m_ViewList); vit.current(); ++vit) {
-        UMLView *w = vit.current();
-        if(w->getID() ==id) {
-            return w;
-        }
+    UMLView *v = NULL;
+    for (int i = 0; i < Uml::N_MODELTYPES; i++) {
+        v = m_root[i]->findView(id);
+        if (v)
+            break;
     }
-    return 0;
+    return v;
 }
 
 UMLView * UMLDoc::findView(Diagram_Type type, const QString &name,
                            bool searchAllScopes /* =false */) {
-    UMLListView *listView = UMLApp::app()->getListView();
-    UMLListViewItem *currentItem = static_cast<UMLListViewItem*>(listView->currentItem());
-    if (searchAllScopes || ! UMLListView::typeIsFolder(currentItem->getType())) {
-        for (UMLViewListIt vit(m_ViewList); vit.current(); ++vit) {
-            UMLView *w = vit.current();
-            if( (w->getType() == type) && ( w->getName() == name) ) {
-                return w;
-            }
-        }
-        return NULL;
-    }
-    for (QListViewItemIterator it(currentItem); it.current(); ++it) {
-        UMLListViewItem *item = static_cast<UMLListViewItem*>(it.current());
-        if (! UMLListView::typeIsDiagram(item->getType()))
-            continue;
-        if (item->getText() == name)
-            return findView(item->getID());
-    }
-    return NULL;
+    Uml::Model_Type mt = Model_Utils::convert_DT_MT(type);
+    return m_root[mt]->findView(type, name, searchAllScopes);
 }
 
 UMLObject* UMLDoc::findObjectById(Uml::IDType id) {
@@ -823,13 +811,13 @@ bool UMLDoc::isUnique(const QString &name)
     {
         // its possible that the current item *is* a package, then just
         // do check now
-        if (UMLListView::typeIsContainer(currentItem->getType()))
+        if (Model_Utils::typeIsContainer(currentItem->getType()))
             return isUnique (name, (UMLPackage*) currentItem->getUMLObject());
         parentItem = (UMLListViewItem*)currentItem->parent();
     }
 
     // item is in a package so do check only in that
-    if (parentItem != NULL && UMLListView::typeIsContainer(parentItem->getType())) {
+    if (parentItem != NULL && Model_Utils::typeIsContainer(parentItem->getType())) {
         UMLPackage *parentPkg = static_cast<UMLPackage*>(parentItem->getUMLObject());
         return isUnique(name, parentPkg);
     }
@@ -1399,15 +1387,6 @@ void UMLDoc::saveToXMI(QIODevice& file, bool saveSubmodelFiles /* = false */) {
     docElement.setAttribute( "uniqueid", ID2STR(UniqueID::get()) );
     extensions.appendChild( docElement );
 
-    // Save each view/diagram.
-    QDomElement diagramsElement = doc.createElement( "diagrams" );
-    for (UMLView *pView = m_ViewList.first(); pView; pView = m_ViewList.next()) {
-        if (saveSubmodelFiles && pView->isSavedInSeparateFile())
-            continue;
-        pView->saveToXMI( doc, diagramsElement );
-    }
-    extensions.appendChild( diagramsElement );
-
     //  save listview
     UMLApp::app()->getListView()->saveToXMI( doc, extensions, saveSubmodelFiles );
 
@@ -1734,20 +1713,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
         if (optionState.generalState.tabdiagrams) {
             UMLApp::app()->tabWidget()->showPage(viewToBeSet);
         }
-        else
 #endif
-        {
-            // Make sure we have a treeview item for each diagram.
-            // It may happen that we are missing them after switching off
-            // tabbed widgets.
-            UMLListView *lv = UMLApp::app()->getListView();
-            for (UMLViewListIt vit(m_ViewList); vit.current(); ++vit) {
-                UMLView *v = vit.current();
-                if (lv->findItem(v->getID()) != NULL)
-                    continue;
-                lv->createDiagramItem(v);
-            }
-        }
     } else {
         createDiagram(m_root[mt_Logical], Uml::dt_Class, false);
     }
@@ -1929,6 +1895,8 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node) {
         UMLApp::app()->getDocWindow() -> newDocumentation();
 
     } else if (tag == "diagrams" || tag == "UISModelElement") {
+        // For backward compatibility only:
+        // Since version 1.5.5 diagrams are saved as part of the UMLFolder.
         QDomNode diagramNode = node.firstChild();
         if (tag == "UISModelElement") {          // Unisys.IntegratePlus.2
             element = diagramNode.toElement();
@@ -1968,6 +1936,8 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node) {
     }
 }
 
+// For backward compatibility only:
+// Since version 1.5.5 diagrams are saved as part of the UMLFolder.
 bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
     emit sigWriteToStatusBar( i18n("Loading diagrams...") );
     emit sigResetStatusbarProgress();
@@ -1982,7 +1952,7 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
     while( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "diagram" || tag == "UISDiagram") {
-            pView = new UMLView(NULL);    // @todo add folder logic
+            pView = new UMLView(NULL);
             // IMPORTANT: Set OptionState of new UMLView _BEFORE_
             // reading the corresponding diagram:
             // + allow using per-diagram color and line-width settings
@@ -1999,6 +1969,10 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
                 delete pView;
                 return false;
             }
+            // Put diagram in default predefined folder.
+            // @todo pass in the parent folder - it might be a user defined one.
+            Uml::Model_Type mt = Model_Utils::convert_DT_MT(pView->getType());
+            pView->setFolder(m_root[mt]);
             pView -> hide();
             addView( pView );
             emit sigSetStatusbarProgress( ++count );
@@ -2011,14 +1985,8 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
 }
 
 void UMLDoc::removeAllViews() {
-    for(UMLView *v = m_ViewList.first(); v; v = m_ViewList.next()) {
-        v->removeAllAssociations(); // note : It may not be apparent, but when we remove all associations
-        // from a view, it also causes any UMLAssociations that lack parent
-        // association widgets (but once had them) to remove themselves from
-        // this document.
-        removeView(v, false);
-    }
-    m_ViewList.clear();
+    for (int i = 0; i < Uml::N_MODELTYPES; i++)
+        m_root[i]->removeAllViews();
     UMLApp::app()->setCurrentView(NULL);
     emit sigDiagramChanged(dt_Undefined);
     UMLApp::app()->setDiagramMenuItemsState(false);
@@ -2088,6 +2056,13 @@ void UMLDoc::print(KPrinter * pPrinter) {
         printView = 0;
     }
     painter.end();
+}
+
+UMLViewList UMLDoc::getViewIterator() {
+    UMLViewList accumulator;
+    for (int i = 0; i < Uml::N_MODELTYPES; i++)
+        m_root[i]->appendViews(accumulator, true);
+    return accumulator;
 }
 
 void UMLDoc::setModified(bool modified /*=true*/, bool addToUndo /*=true*/) {
@@ -2214,17 +2189,15 @@ void UMLDoc::activateAllViews() {
     bool m_bLoading_old = m_bLoading;
     m_bLoading = true; //this is to prevent document becoming modified when activating a view
 
-    for(UMLView *v = m_ViewList.first(); v; v = m_ViewList.next() )
-        v->activateAfterLoad();
+    for (int i = 0; i < Uml::N_MODELTYPES; i++)
+        m_root[i]->activateViews();
     m_bLoading = m_bLoading_old;
 }
 
 void UMLDoc::settingsChanged(Settings::OptionState optionState) {
-    // for each view update settings
-    for(UMLView *w = m_ViewList.first() ; w ; w = m_ViewList.next() )
-        w -> setOptionState(optionState);
+    for (int i = 0; i < Uml::N_MODELTYPES; i++)
+        m_root[i]->setViewOptions(optionState);
     initSaveTimer();
-    return;
 }
 
 void UMLDoc::initSaveTimer() {

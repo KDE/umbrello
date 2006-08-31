@@ -350,6 +350,7 @@ Uml::Model_Type guessContainer(UMLObject *o) {
         case Uml::ot_Association:
             {
                 UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
+                UMLDoc *umldoc = UMLApp::app()->getDocument();
                 for (int r = Uml::A; r <= Uml::B; r++) {
                     UMLObject *roleObj = assoc->getObject((Uml::Role_Type)r);
                     if (roleObj == NULL) {
@@ -361,7 +362,6 @@ Uml::Model_Type guessContainer(UMLObject *o) {
                         while (pkg->getUMLPackage()) {  // wind back to root
                             pkg = pkg->getUMLPackage();
                         }
-                        UMLDoc *umldoc = UMLApp::app()->getDocument();
                         for (int i = 0; i < Uml::N_MODELTYPES; i++) {
                             Uml::Model_Type m = (Uml::Model_Type)i;
                             if (pkg == umldoc->getRootFolder(m))
@@ -604,6 +604,99 @@ Uml::Programming_Language stringToProgLang(QString str) {
     return Uml::pl_Reserved;
 }
 
+bool typeIsRootView(Uml::ListView_Type type) {
+    switch (type) {
+        case Uml::lvt_View:
+        case Uml::lvt_Logical_View:
+        case Uml::lvt_UseCase_View:
+        case Uml::lvt_Component_View:
+        case Uml::lvt_Deployment_View:
+        case Uml::lvt_EntityRelationship_Model:
+            return true;
+            break;
+        default:
+            break;
+    }
+    return false;
+}
+
+bool typeIsCanvasWidget(Uml::ListView_Type type) {
+    switch (type) {
+        case Uml::lvt_Actor:
+        case Uml::lvt_UseCase:
+        case Uml::lvt_Class:
+        case Uml::lvt_Package:
+        case Uml::lvt_Logical_Folder:
+        case Uml::lvt_UseCase_Folder:
+        case Uml::lvt_Component_Folder:
+        case Uml::lvt_Deployment_Folder:
+        case Uml::lvt_EntityRelationship_Folder:
+        case Uml::lvt_Subsystem:
+        case Uml::lvt_Component:
+        case Uml::lvt_Node:
+        case Uml::lvt_Artifact:
+        case Uml::lvt_Interface:
+        case Uml::lvt_Datatype:
+        case Uml::lvt_Enum:
+        case Uml::lvt_Entity:
+            return true;
+            break;
+        default:
+            break;
+    }
+    return false;
+}
+
+bool typeIsFolder(Uml::ListView_Type type) {
+    if (typeIsRootView(type) ||
+            type == Uml::lvt_Datatype_Folder ||
+            type == Uml::lvt_Logical_Folder ||
+            type == Uml::lvt_UseCase_Folder ||
+            type == Uml::lvt_Component_Folder ||
+            type == Uml::lvt_Deployment_Folder ||
+            type == Uml::lvt_EntityRelationship_Folder) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool typeIsContainer(Uml::ListView_Type type) {
+    if (typeIsFolder(type))
+        return true;
+    return (type == Uml::lvt_Package ||
+            type == Uml::lvt_Subsystem ||
+            type == Uml::lvt_Component);
+}
+
+bool typeIsClassifierList(Uml::ListView_Type type) {
+    if (type == Uml::lvt_Attribute ||
+        type == Uml::lvt_Operation ||
+        type == Uml::lvt_Template ||
+        type == Uml::lvt_EntityAttribute ||
+        type == Uml::lvt_EnumLiteral) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool typeIsDiagram(Uml::ListView_Type type) {
+    if (type == Uml::lvt_Class_Diagram ||
+            type == Uml::lvt_Collaboration_Diagram ||
+            type == Uml::lvt_State_Diagram ||
+            type == Uml::lvt_Activity_Diagram ||
+            type == Uml::lvt_Sequence_Diagram ||
+            type == Uml::lvt_UseCase_Diagram ||
+            type == Uml::lvt_Component_Diagram ||
+            type == Uml::lvt_Deployment_Diagram ||
+            type == Uml::lvt_EntityRelationship_Diagram) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 Uml::Model_Type convert_DT_MT(Uml::Diagram_Type dt) {
     Uml::Model_Type mt;
     switch (dt) {
@@ -627,6 +720,7 @@ Uml::Model_Type convert_DT_MT(Uml::Diagram_Type dt) {
             mt = Uml::mt_EntityRelationship;
             break;
         default:
+            kdError() << "Model_Utils::convert_DT_MT: illegal input value " << dt << endl;
             mt = Uml::N_MODELTYPES;
             break;
     }
@@ -679,6 +773,383 @@ Uml::Model_Type convert_LVT_MT(Uml::ListView_Type lvt) {
             break;
     }
     return mt;
+}
+
+Uml::ListView_Type convert_DT_LVT(Uml::Diagram_Type dt) {
+    Uml::ListView_Type type =  Uml::lvt_Unknown;
+    switch(dt) {
+    case Uml::dt_UseCase:
+        type = Uml::lvt_UseCase_Diagram;
+        break;
+
+    case Uml::dt_Class:
+        type = Uml::lvt_Class_Diagram;
+        break;
+
+    case Uml::dt_Sequence:
+        type = Uml::lvt_Sequence_Diagram;
+        break;
+
+    case Uml::dt_Collaboration:
+        type = Uml::lvt_Collaboration_Diagram;
+        break;
+
+    case Uml::dt_State:
+        type = Uml::lvt_State_Diagram;
+        break;
+
+    case Uml::dt_Activity:
+        type = Uml::lvt_Activity_Diagram;
+        break;
+
+    case Uml::dt_Component:
+        type = Uml::lvt_Component_Diagram;
+        break;
+
+    case Uml::dt_Deployment:
+        type = Uml::lvt_Deployment_Diagram;
+        break;
+
+    case Uml::dt_EntityRelationship:
+        type = Uml::lvt_EntityRelationship_Diagram;
+        break;
+
+    default:
+        kdWarning() << "convert_DT_LVT() called on unknown diagram type" << endl;
+    }
+    return type;
+}
+
+Uml::ListView_Type convert_OT_LVT(UMLObject *o) {
+    Uml::Object_Type ot = o->getBaseType();
+    Uml::ListView_Type type =  Uml::lvt_Unknown;
+    switch(ot) {
+    case Uml::ot_UseCase:
+        type = Uml::lvt_UseCase;
+        break;
+
+    case Uml::ot_Actor:
+        type = Uml::lvt_Actor;
+        break;
+
+    case Uml::ot_Class:
+        type = Uml::lvt_Class;
+        break;
+
+    case Uml::ot_Package:
+        type = Uml::lvt_Package;
+        break;
+
+    case Uml::ot_Folder:
+        {
+            UMLDoc *umldoc = UMLApp::app()->getDocument();
+            UMLFolder *f = static_cast<UMLFolder*>(o);
+            do {
+                for (int i = 0; i < Uml::N_MODELTYPES; i++) {
+                    const Uml::Model_Type mt = (Uml::Model_Type)i;
+                    if (f == umldoc->getRootFolder(mt)) {
+                        switch (mt) {
+                            case Uml::mt_Logical:
+                                type = Uml::lvt_Logical_Folder;
+                                break;
+                            case Uml::mt_UseCase:
+                                type = Uml::lvt_UseCase_Folder;
+                                break;
+                            case Uml::mt_Component:
+                                type = Uml::lvt_Component_Folder;
+                                break;
+                            case Uml::mt_Deployment:
+                                type = Uml::lvt_Deployment_Folder;
+                                break;
+                            case Uml::mt_EntityRelationship:
+                                type = Uml::lvt_EntityRelationship_Folder;
+                                break;
+                            default:
+                                break;
+                        }
+                        return type;
+                    }
+                }
+            } while ((f = static_cast<UMLFolder*>(f->getUMLPackage())) != NULL);
+            kdError() << "convert_OT_LVT(" << o->getName()
+                << "): internal error - object is not properly nested in folder"
+                << endl;
+        }
+        break;
+
+    case Uml::ot_Component:
+        type = Uml::lvt_Component;
+        break;
+
+    case Uml::ot_Node:
+        type = Uml::lvt_Node;
+        break;
+
+    case Uml::ot_Artifact:
+        type = Uml::lvt_Artifact;
+        break;
+
+    case Uml::ot_Interface:
+        type = Uml::lvt_Interface;
+        break;
+
+    case Uml::ot_Datatype:
+        type = Uml::lvt_Datatype;
+        break;
+
+    case Uml::ot_Enum:
+        type = Uml::lvt_Enum;
+        break;
+
+    case Uml::ot_EnumLiteral:
+        type = Uml::lvt_EnumLiteral;
+        break;
+
+    case Uml::ot_Entity:
+        type = Uml::lvt_Entity;
+        break;
+
+    case Uml::ot_EntityAttribute:
+        type = Uml::lvt_EntityAttribute;
+        break;
+
+    case Uml::ot_Attribute:
+        type = Uml::lvt_Attribute;
+        break;
+
+    case Uml::ot_Operation:
+        type = Uml::lvt_Operation;
+        break;
+
+    case Uml::ot_Template:
+        type = Uml::lvt_Template;
+        break;
+    default:
+        break;
+    }
+    return type;
+}
+
+Uml::Object_Type convert_LVT_OT(Uml::ListView_Type lvt) {
+    Uml::Object_Type ot = (Uml::Object_Type)0;
+    switch (lvt) {
+    case Uml::lvt_UseCase:
+        ot = Uml::ot_UseCase;
+        break;
+
+    case Uml::lvt_Actor:
+        ot = Uml::ot_Actor;
+        break;
+
+    case Uml::lvt_Class:
+        ot = Uml::ot_Class;
+        break;
+
+    case Uml::lvt_Package:
+    case Uml::lvt_Subsystem:
+        ot = Uml::ot_Package;
+        break;
+
+    case Uml::lvt_Component:
+        ot = Uml::ot_Component;
+        break;
+
+    case Uml::lvt_Node:
+        ot = Uml::ot_Node;
+        break;
+
+    case Uml::lvt_Artifact:
+        ot = Uml::ot_Artifact;
+        break;
+
+    case Uml::lvt_Interface:
+        ot = Uml::ot_Interface;
+        break;
+
+    case Uml::lvt_Datatype:
+        ot = Uml::ot_Datatype;
+        break;
+
+    case Uml::lvt_Enum:
+        ot = Uml::ot_Enum;
+        break;
+
+    case Uml::lvt_Entity:
+        ot = Uml::ot_Entity;
+        break;
+
+    case Uml::lvt_EntityAttribute:
+        ot = Uml::ot_EntityAttribute;
+        break;
+
+    case Uml::lvt_Attribute:
+        ot = Uml::ot_Attribute;
+        break;
+
+    case Uml::lvt_Operation:
+        ot = Uml::ot_Operation;
+        break;
+
+    case Uml::lvt_Template:
+        ot = Uml::ot_Template;
+        break;
+
+    case Uml::lvt_EnumLiteral:
+        ot = Uml::ot_EnumLiteral;
+        break;
+
+    default:
+        if (typeIsFolder(lvt))
+            ot = Uml::ot_Folder;
+        break;
+    }
+    return ot;
+}
+
+Uml::Icon_Type convert_LVT_IT(Uml::ListView_Type lvt) {
+    Uml::Icon_Type icon = Uml::it_Home;
+    switch (lvt) {
+        case Uml::lvt_UseCase_View:
+        case Uml::lvt_UseCase_Folder:
+            icon = Uml::it_Folder_Grey;
+            break;
+        case Uml::lvt_Logical_View:
+        case Uml::lvt_Logical_Folder:
+            icon = Uml::it_Folder_Green;
+            break;
+        case Uml::lvt_Datatype_Folder:
+            icon = Uml::it_Folder_Orange;
+            break;
+        case Uml::lvt_Component_View:
+        case Uml::lvt_Component_Folder:
+            icon = Uml::it_Folder_Red;
+            break;
+        case Uml::lvt_Deployment_View:
+        case Uml::lvt_Deployment_Folder:
+            icon = Uml::it_Folder_Violet;
+            break;
+        case Uml::lvt_EntityRelationship_Model:
+        case Uml::lvt_EntityRelationship_Folder:
+            icon = Uml::it_Folder_Cyan;
+            break;
+
+        case Uml::lvt_Actor:
+            icon = Uml::it_Actor;
+            break;
+        case Uml::lvt_UseCase:
+            icon = Uml::it_UseCase;
+            break;
+        case Uml::lvt_Class:
+            icon = Uml::it_Class;
+            break;
+        case Uml::lvt_Package:
+            icon = Uml::it_Package;
+            break;
+        case Uml::lvt_Subsystem:
+            icon = Uml::it_Subsystem;
+            break;
+        case Uml::lvt_Component:
+            icon = Uml::it_Component;
+            break;
+        case Uml::lvt_Node:
+            icon = Uml::it_Node;
+            break;
+        case Uml::lvt_Artifact:
+            icon = Uml::it_Artifact;
+            break;
+        case Uml::lvt_Interface:
+            icon = Uml::it_Interface;
+            break;
+        case Uml::lvt_Datatype:
+            icon = Uml::it_Datatype;
+            break;
+        case Uml::lvt_Enum:
+            icon = Uml::it_Enum;
+            break;
+        case Uml::lvt_Entity:
+            icon = Uml::it_Entity;
+            break;
+        case Uml::lvt_Template:
+            icon = Uml::it_Template;
+            break;
+        case Uml::lvt_Attribute:
+            icon = Uml::it_Private_Attribute;
+            break;
+        case Uml::lvt_EntityAttribute:
+            icon = Uml::it_Private_Attribute;
+            break;
+        case Uml::lvt_Operation:
+            icon = Uml::it_Public_Method;
+            break;
+
+        case Uml::lvt_Class_Diagram:
+            icon = Uml::it_Diagram_Class;
+            break;
+        case Uml::lvt_UseCase_Diagram:
+            icon = Uml::it_Diagram_Usecase;
+            break;
+        case Uml::lvt_Sequence_Diagram:
+            icon = Uml::it_Diagram_Sequence;
+            break;
+        case Uml::lvt_Collaboration_Diagram:
+            icon = Uml::it_Diagram_Collaboration;
+            break;
+        case Uml::lvt_State_Diagram:
+            icon = Uml::it_Diagram_State;
+            break;
+        case Uml::lvt_Activity_Diagram:
+            icon = Uml::it_Diagram_Activity;
+            break;
+        case Uml::lvt_Component_Diagram:
+            icon = Uml::it_Diagram_Component;
+            break;
+        case Uml::lvt_Deployment_Diagram:
+            icon = Uml::it_Diagram_Deployment;
+            break;
+        case Uml::lvt_EntityRelationship_Diagram:
+            icon = Uml::it_Diagram_EntityRelationship;
+            break;
+
+        default:
+            break;
+    }
+    return icon;
+}
+
+Uml::Diagram_Type convert_LVT_DT(Uml::ListView_Type lvt) {
+    Uml::Diagram_Type dt = Uml::dt_Undefined;
+    switch (lvt) {
+        case Uml::lvt_Class_Diagram:
+            dt = Uml::dt_Class;
+            break;
+        case Uml::lvt_UseCase_Diagram:
+            dt = Uml::dt_UseCase;
+            break;
+        case Uml::lvt_Sequence_Diagram:
+            dt = Uml::dt_Sequence;
+            break;
+        case Uml::lvt_Collaboration_Diagram:
+            dt = Uml::dt_Collaboration;
+            break;
+        case Uml::lvt_State_Diagram:
+            dt = Uml::dt_State;
+            break;
+        case Uml::lvt_Activity_Diagram:
+            dt = Uml::dt_Activity;
+            break;
+        case Uml::lvt_Component_Diagram:
+            dt = Uml::dt_Component;
+            break;
+        case Uml::lvt_Deployment_Diagram:
+            dt = Uml::dt_Deployment;
+            break;
+        case Uml::lvt_EntityRelationship_Diagram:
+            dt = Uml::dt_EntityRelationship;
+            break;
+        default:
+            break;
+    }
+    return dt;
 }
 
 }  // namespace Model_Utils

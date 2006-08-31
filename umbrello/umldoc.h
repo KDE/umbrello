@@ -581,9 +581,7 @@ public:
      *
      * @return  List of UML views.
      */
-    const UMLViewList &getViewIterator() const {
-        return m_ViewList;
-    }
+    UMLViewList getViewIterator();
 
     /**
      * Assigns an already created UMLObject a new ID.
@@ -669,8 +667,6 @@ public:
     /**
      * Activate all the diagrams/views after loading so all their
      * widgets keep their IDs.
-     *
-     * @return  True if operation successful.
      */
     void activateAllViews();
 
@@ -714,11 +710,6 @@ public:
      * redo action.
      */
     void clearRedoStack();
-
-    /**
-     * All the UMLViews (i.e. diagrams)
-     */
-    UMLViewList m_ViewList;
 
     /**
      * Returns a name for the new object, appended with a number
@@ -900,15 +891,6 @@ private:
 public slots:
 
     void slotRemoveUMLObject(UMLObject*o);
-
-
-    /**
-     * Calls repaint() on all views connected to the document
-     * object and is called by the view by which the document has
-     * been changed.  As this view normally repaints itself, it is
-     * excluded from the paintEvent.
-     */
-    void slotUpdateAllViews(UMLView *sender);
 
     /**
      * Called after a specified time to autosave the document.

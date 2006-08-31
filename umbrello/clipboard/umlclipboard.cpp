@@ -28,6 +28,7 @@
 #include "../umlview.h"
 #include "../umlwidget.h"
 #include "../uml.h"
+#include "../model_utils.h"
 
 UMLClipboard::UMLClipboard() {
     m_type = clip1;
@@ -166,7 +167,7 @@ bool UMLClipboard::fillSelectionLists(UMLListViewItemList& SelectedItems) {
         for ( ; it.current(); ++it ) {
             item = (UMLListViewItem*)it.current();
             type = item->getType();
-            if ( !UMLListView::typeIsClassifierList(type) ) {
+            if ( !Model_Utils::typeIsClassifierList(type) ) {
                 m_ItemList.append(item);
                 insertItemChildren(item, SelectedItems);
                 //Because it is being called when m_type is 3
@@ -183,11 +184,11 @@ bool UMLClipboard::fillSelectionLists(UMLListViewItemList& SelectedItems) {
         for ( ; it.current(); ++it ) {
             item = (UMLListViewItem*)it.current();
             type = item->getType();
-            if ( !UMLListView::typeIsClassifierList(type) ) {
+            if ( !Model_Utils::typeIsClassifierList(type) ) {
 
                 m_ItemList.append(item);
 
-                if ( UMLListView::typeIsCanvasWidget(type) ) {
+                if ( Model_Utils::typeIsCanvasWidget(type) ) {
                     m_ObjectList.append(item->getUMLObject());
                 }
                 insertItemChildren(it.current(), SelectedItems);
@@ -198,7 +199,7 @@ bool UMLClipboard::fillSelectionLists(UMLListViewItemList& SelectedItems) {
         for ( ; it.current(); ++it ) {
             item = (UMLListViewItem*)it.current();
             type = item->getType();
-            if( UMLListView::typeIsClassifierList(type) ) {
+            if( Model_Utils::typeIsClassifierList(type) ) {
                 m_ItemList.append(item);
                 m_ObjectList.append(item->getUMLObject());
 
@@ -241,15 +242,15 @@ void UMLClipboard::checkItemForCopyType(UMLListViewItem* Item, bool & WithDiagra
     UMLView * view = 0;
     UMLListViewItem * child = 0;
     Uml::ListView_Type type = Item->getType();
-    if ( UMLListView::typeIsCanvasWidget(type) ) {
+    if ( Model_Utils::typeIsCanvasWidget(type) ) {
         WithObjects = true;
         OnlyAttsOps = false;
-    } else if ( UMLListView::typeIsDiagram(type) ) {
+    } else if ( Model_Utils::typeIsDiagram(type) ) {
         WithDiagrams = true;
         OnlyAttsOps = false;
         view = doc->findView( Item->getID() );
         m_ViewList.append( view );
-    } else if ( UMLListView::typeIsFolder(type) ) {
+    } else if ( Model_Utils::typeIsFolder(type) ) {
         OnlyAttsOps = false;
         if(Item->childCount()) {
             child = (UMLListViewItem*)Item->firstChild();

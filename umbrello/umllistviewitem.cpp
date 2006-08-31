@@ -77,7 +77,7 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
         updateObject();
         m_nId = o->getID();
     }
-    setRenameEnabled( 0, !UMLListView::typeIsRootView(t) );
+    setRenameEnabled( 0, !Model_Utils::typeIsRootView(t) );
     setText( name );
 }
 
@@ -211,8 +211,8 @@ void UMLListViewItem::updateObject() {
 /*
     case Uml::ot_Folder:
         {
-            Uml::ListView_Type lvt = UMLListView::convert_OT_LVT(m_pObject);
-            icon = UMLListView::convert_LVT_IT(lvt);
+            Uml::ListView_Type lvt = Model_Utils::convert_OT_LVT(m_pObject);
+            icon = Model_Utils::convert_LVT_IT(lvt);
         }
         break;
  */
@@ -239,7 +239,7 @@ void UMLListViewItem::updateObject() {
             icon = Uml::it_Protected_Attribute;
         break;
     default:
-        icon = UMLListView::convert_LVT_IT(m_Type);
+        icon = Model_Utils::convert_LVT_IT(m_Type);
         break;
     }//end switch
     if (icon)
@@ -247,9 +247,9 @@ void UMLListViewItem::updateObject() {
 }
 
 void UMLListViewItem::updateFolder() {
-    Uml::Icon_Type icon = UMLListView::convert_LVT_IT(m_Type);
+    Uml::Icon_Type icon = Model_Utils::convert_LVT_IT(m_Type);
     if (icon) {
-        if (UMLListView::typeIsFolder(m_Type))
+        if (Model_Utils::typeIsFolder(m_Type))
             icon = (Uml::Icon_Type)((int)icon + (int)isOpen());
         setIcon(icon);
     }
@@ -493,7 +493,7 @@ int UMLListViewItem::compare(QListViewItem *other, int col, bool ascending) cons
     if ( ourType > otherType )
         return 1;
     // ourType == otherType
-    const bool subItem = UMLListView::typeIsClassifierList(ourType);
+    const bool subItem = Model_Utils::typeIsClassifierList(ourType);
     const int alphaOrder = key(col, ascending).compare(other->key(col, ascending));
     int retval = 0;
     QString dbgPfx = "compare(type=" + QString::number((int)ourType)
@@ -674,7 +674,7 @@ void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement,
             UMLObject *umlobj = childItem->getUMLObject();
             if (umlobj) {
                 umlobj->saveToXMI(folderDoc, folderRoot);
-            } else if (UMLListView::typeIsDiagram(lvType)) {
+            } else if (Model_Utils::typeIsDiagram(lvType)) {
                 const Uml::IDType viewID = childItem->getID();
                 UMLView *v = umldoc->findView(viewID);
                 if (v) {
