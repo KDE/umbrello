@@ -639,11 +639,16 @@ void ListPopupMenu::insertSubmodelAction() {
     }
     UMLListView *listView = UMLApp::app()->getListView();
     UMLListViewItem *current = static_cast<UMLListViewItem*>(listView->currentItem());
-    UMLFolder *f = dynamic_cast<UMLFolder*>(current->getUMLObject());
+    UMLObject *o = current->getUMLObject();
+    if (o == NULL) {
+        kdError() << "ListPopupMenu::insertSubmodelAction: "
+            << current->getText() << " getUMLObject()  returns NULL" << endl;
+        return;
+    }
+    UMLFolder *f = dynamic_cast<UMLFolder*>(o);
     if (f == NULL) {
         kdError() << "ListPopupMenu::insertSubmodelAction: "
-            << "current->getUMLObject (" << current->getUMLObject()
-            << ") is not a Folder" << endl;
+            << "current->getUMLObject (" << o->getName() << ") is not a Folder" << endl;
         return;
     }
     QString submodelFile = f->getFolderFile();
