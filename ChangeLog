@@ -1,6 +1,9 @@
 Version 1.5.5
 
+* PHP5 generator creates stub methods for all interfaces a class implements (C. Brunsdon)
+* Fix load of associations in collaboration diagram (A. Spangler)
 * Bugs/wishes from http://bugs.kde.org:
+* "role A properties" should give class name (69244)
 * Java import - importing interfaces - absent visibility treated as package
   instead of public (131327)
 * Python code generation not independent of diagram view (131790)
