@@ -112,6 +112,20 @@ public:
                                 UMLListViewItem* parent = 0);
 
     /**
+     * Find the parent folder for a diagram.
+     * If the currently selected item in the list view is a folder
+     * then that folder is returned as the parent.
+     *
+     * @param dt   The Diagram_Type of the diagram.
+     *             The type will only be used if there is no currently
+     *             selected item, or if the current item is not a folder.
+     *             In that case the root folder which is suitable for the
+     *             Diagram_Type is returned.
+     * @return  Pointer to the parent UMLListViewItem for the diagram.
+     */
+    UMLListViewItem *findFolderForDiagram(Uml::Diagram_Type dt);
+
+    /**
      * Determine the parent ListViewItem given an UMLObject.
      *
      * @param object   Pointer to the UMLObject for which to look up the parent.

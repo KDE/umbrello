@@ -501,31 +501,40 @@ void UMLListView::popupMenuSel(int sel) {
     }//end switch
 }
 
+UMLListViewItem *UMLListView::findFolderForDiagram(Uml::Diagram_Type dt) {
+    UMLListViewItem *p = static_cast<UMLListViewItem*>(currentItem());
+    if (p && Model_Utils::typeIsFolder(p->getType())
+         && !Model_Utils::typeIsRootView(p->getType())) {
+        return p;
+    }
+    switch (dt) {
+        case Uml::dt_UseCase:
+            p = m_lv[Uml::mt_UseCase];
+            break;
+        case Uml::dt_Component:
+            p = m_lv[Uml::mt_Component];
+            break;
+        case Uml::dt_Deployment:
+            p = m_lv[Uml::mt_Deployment];
+            break;
+        case Uml::dt_EntityRelationship:
+            p = m_lv[Uml::mt_EntityRelationship];
+            break;
+        default:
+            p = m_lv[Uml::mt_Logical];
+            break;
+    }
+    return p;
+}
+
 void UMLListView::slotDiagramCreated( Uml::IDType id ) {
     if( m_doc->loading() )
         return;
     UMLView *v = m_doc -> findView( id );
     if (!v)
         return;
-    UMLListViewItem * temp = 0, *p = 0;
     const Uml::Diagram_Type dt = v->getType();
-    //See if we wanted to create diagram in folder
-    UMLListViewItem * current = (UMLListViewItem *) currentItem();
-    if (current && Model_Utils::typeIsFolder(current->getType()) && !Model_Utils::typeIsRootView(current->getType())) {
-        p = current;
-        kdDebug() << "UMLListView::slotDiagramCreated: current " << p->getText()
-            << ", lvtype " << p->getType() << endl;
-    } else if (dt == Uml::dt_UseCase) {
-        p = m_lv[Uml::mt_UseCase];
-    } else if (dt == Uml::dt_Component) {
-        p = m_lv[Uml::mt_Component];
-    } else if (dt == Uml::dt_Deployment) {
-        p = m_lv[Uml::mt_Deployment];
-    } else if (dt == Uml::dt_EntityRelationship) {
-        p = m_lv[Uml::mt_EntityRelationship];
-    } else {
-        p = m_lv[Uml::mt_Logical];
-    }
+    UMLListViewItem * temp = 0, *p = findFolderForDiagram(dt);
     temp = new UMLListViewItem(p, v->getName(), Model_Utils::convert_DT_LVT(dt), id);
     setSelected( temp, true );
     UMLApp::app() -> getDocWindow() -> showDocumentation( v , false );
@@ -765,7 +774,7 @@ void UMLListView::slotDiagramRenamed(Uml::IDType id) {
     UMLView* v = m_doc->findView(id);
     if ((temp = findView(v)) == NULL) {
         kdError() << "UMLListView::slotDiagramRenamed: UMLDoc::findView("
-            << ID2STR(id) << " returns NULL" << endl;
+            << ID2STR(id) << ") returns NULL" << endl;
         return;
     }
     temp->setText( v->getName() );

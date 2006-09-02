@@ -17,6 +17,7 @@
 #include "../umldoc.h"
 #include "../umlview.h"
 #include "../umlobject.h"
+#include "../folder.h"
 #include "../classifier.h"
 #include "../umlwidget.h"
 #include "../umllistview.h"
@@ -497,8 +498,20 @@ bool UMLDrag::decodeClip2(const QMimeSource* mimeSource, UMLObjectList& objects,
         kdWarning() << "no diagrams in XMI clip" << endl;
         return false;
     }
+    UMLListView *listView = UMLApp::app()->getListView();
     while ( !diagramElement.isNull() ) {
-        UMLView* view = new UMLView(NULL);  // UMLFolder parent must be set by caller
+        QString type = diagramElement.attribute("type", "0");
+        Uml::Diagram_Type dt = (Uml::Diagram_Type)type.toInt();
+        UMLListViewItem *parent = listView->findFolderForDiagram(dt);
+        if (parent == NULL)
+            return false;
+        UMLObject *po = parent->getUMLObject();
+        if (po == NULL || po->getBaseType() != Uml::ot_Folder) {
+            kdError() << "UMLDrag::decodeClip2: bad parent for view" << endl;
+            return false;
+        }
+        UMLFolder *f = static_cast<UMLFolder*>(po);
+        UMLView* view = new UMLView(f);
         view->loadFromXMI(diagramElement);
         diagrams.append(view);
         diagramNode = diagramNode.nextSibling();
@@ -513,7 +526,6 @@ bool UMLDrag::decodeClip2(const QMimeSource* mimeSource, UMLObjectList& objects,
         kdWarning() << "no listitems in XMI clip" << endl;
         return false;
     }
-    UMLListView *listView = UMLApp::app()->getListView();
     UMLListViewItem *currentItem = (UMLListViewItem*)listView->currentItem();
     while ( !listItemElement.isNull() ) {
         UMLListViewItem* itemData;
