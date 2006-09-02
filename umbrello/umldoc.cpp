@@ -205,6 +205,7 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView ) {
             createDiagram(m_root[mt_Logical], dt_Class, false);
             kapp->processEvents();
             m_root[mt_Logical]->appendViews(viewList);
+            firstView = viewList.first();
         }
 
         if ( firstView )
@@ -717,9 +718,13 @@ UMLStereotype * UMLDoc::findStereotypeById(Uml::IDType id) {
 UMLObject* UMLDoc::findUMLObject(const QString &name,
                                  Object_Type type /* = ot_UMLObject */,
                                  UMLObject *currentObj /* = NULL */) {
+    UMLObjectList list = m_datatypeRoot->containedObjects();
+    UMLObject *o = Model_Utils::findUMLObject(list, name, type, currentObj);
+    if (o)
+        return o;
     for (int i = 0; i < Uml::N_MODELTYPES; i++) {
-        UMLObjectList list = m_root[i]->containedObjects();
-        UMLObject *o = Model_Utils::findUMLObject(list, name, type, currentObj);
+        list = m_root[i]->containedObjects();
+        o = Model_Utils::findUMLObject(list, name, type, currentObj);
         if (o)
             return o;
         if ((type == ot_UMLObject || type == ot_Folder) &&
