@@ -229,13 +229,16 @@ public:
     /**
      * Returns the fully qualified name, i.e. all package prefixes and then m_Name.
      *
-     * @param separator The separator string to use (optional.)
-     *                  If not given then the separator is chosen according
-     *                  to the currently selected active programming language
-     *                  of import and code generation.
+     * @param separator  The separator string to use (optional.)
+     *                   If not given then the separator is chosen according
+     *                   to the currently selected active programming language
+     *                   of import and code generation.
+     * @param includeRoot  Whether to prefix the root folder name to the FQN.
+     *                     See UMLDoc::getRootFolder(). Default: false.
      * @return  The fully qualified name of this UMLObject.
      */
-    virtual QString getFullyQualifiedName(QString separator = QString::null) const;
+    virtual QString getFullyQualifiedName(QString separator = QString::null,
+                                          bool includeRoot = false) const;
 
     /**
      * Returns the abstract state of the object.

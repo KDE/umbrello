@@ -22,6 +22,7 @@
 #include "umllistview.h"
 #include "umllistviewitem.h"
 #include "package.h"
+#include "folder.h"
 #include "stereotype.h"
 #include "object_factory.h"
 #include "model_utils.h"
@@ -105,13 +106,27 @@ QString UMLObject::getName() const {
     return m_Name;
 }
 
-QString UMLObject::getFullyQualifiedName(QString separator) const {
+QString UMLObject::getFullyQualifiedName(QString separator,
+                                         bool includeRoot /* = false */) const {
     QString fqn;
     if (m_pUMLPackage) {
-        if (separator.isEmpty())
-            separator = UMLApp::app()->activeLanguageScopeSeparator();
-        fqn = m_pUMLPackage->getFullyQualifiedName(separator);
-        fqn.append(separator);
+        bool skipPackage = false;
+        if (!includeRoot) {
+            UMLDoc *umldoc = UMLApp::app()->getDocument();
+            for (int i = 0; i < Uml::N_MODELTYPES; i++) {
+                const Uml::Model_Type mt = (Uml::Model_Type)i;
+                if (m_pUMLPackage == umldoc->getRootFolder(mt)) {
+                    skipPackage = true;
+                    break;
+                }
+            }
+        }
+        if (!skipPackage) {
+            if (separator.isEmpty())
+                separator = UMLApp::app()->activeLanguageScopeSeparator();
+            fqn = m_pUMLPackage->getFullyQualifiedName(separator, includeRoot);
+            fqn.append(separator);
+        }
     }
     fqn.append(m_Name);
     return fqn;
