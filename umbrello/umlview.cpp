@@ -237,6 +237,15 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
     int marginX = pPrinter->margins().width();
     int marginY = pPrinter->margins().height();
 
+    if(pPrinter->orientation() == KPrinter::Landscape) {
+      // we are printing in LANDSCAPE --> swap marginX and marginY
+      // this is needed, as KPrinter reports width margin strictly as printer
+      // default orientation margin - and not depend on LANDSCAPE/PORTRAIT
+      int temp = marginX;
+      marginX = marginY;
+      marginY = temp;
+    }
+
     // The printer will probably use a different font with different font metrics,
     // force the widgets to update accordingly on paint
     forceUpdateWidgetFontMetrics(&pPainter);
@@ -247,7 +256,6 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
         width = metrics.width() - marginX * 2;
         height = metrics.height() - fontHeight - 4 - marginY * 3;
     } else {
-        marginX *= 2;
         width = metrics.width() - marginX * 2;
         height = metrics.height() - fontHeight - 4 - marginY * 2;
     }
@@ -962,7 +970,7 @@ void UMLView::clearSelected() {
 //     for(temp=(UMLWidget *)m_SelectedList.first();temp;temp=(UMLWidget *)m_SelectedList.next())
 //         if(temp != w)
 //             temp -> mouseMoveEvent(&me);
-// 
+//
 //     // Move any selected associations.
 //     AssociationWidgetListIt assoc_it( m_AssociationList );
 //     AssociationWidget* assocwidget = NULL;
