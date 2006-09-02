@@ -113,11 +113,15 @@ QString UMLObject::getFullyQualifiedName(QString separator,
         bool skipPackage = false;
         if (!includeRoot) {
             UMLDoc *umldoc = UMLApp::app()->getDocument();
-            for (int i = 0; i < Uml::N_MODELTYPES; i++) {
-                const Uml::Model_Type mt = (Uml::Model_Type)i;
-                if (m_pUMLPackage == umldoc->getRootFolder(mt)) {
-                    skipPackage = true;
-                    break;
+            if (m_pUMLPackage == umldoc->getDatatypeFolder()) {
+                skipPackage = true;
+            } else {
+                for (int i = 0; i < Uml::N_MODELTYPES; i++) {
+                    const Uml::Model_Type mt = (Uml::Model_Type)i;
+                    if (m_pUMLPackage == umldoc->getRootFolder(mt)) {
+                        skipPackage = true;
+                        break;
+                    }
                 }
             }
         }
