@@ -77,6 +77,13 @@ void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested) {
 }
 
 void UMLFolder::activateViews() {
+    UMLObject *o;
+    for (UMLObjectListIt oit(m_objects); (o = oit.current()) != NULL; ++oit) {
+        if (o->getBaseType() == Uml::ot_Folder) {
+            UMLFolder *f = static_cast<UMLFolder*>(o);
+            f->activateViews();
+        }
+    }
     UMLView *v;
     for (UMLViewListIt vit(m_diagrams); (v = vit.current()) != NULL; ++vit)
         v->activateAfterLoad();
