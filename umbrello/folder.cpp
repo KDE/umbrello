@@ -296,9 +296,6 @@ bool UMLFolder::load(QDomElement& element) {
                     totalSuccess = false;
             }
             continue;
-        } else {
-            kdDebug() << "UMLFolder::load(" << m_Name << "): type is "
-                << type << endl;
         }
         // Do not re-create the predefined Datatypes folder in the Logical View,
         // it already exists.
@@ -321,9 +318,8 @@ bool UMLFolder::load(QDomElement& element) {
             continue;
         }
         pObject->setUMLPackage(this);
-        if (pObject->loadFromXMI(tempElement)) {
-            addObject(pObject);
-        } else {
+        if (!pObject->loadFromXMI(tempElement)) {
+            removeObject(pObject);
             delete pObject;
             totalSuccess = false;
         }

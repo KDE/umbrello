@@ -231,19 +231,8 @@ bool UMLPackage::load(QDomElement& element) {
             continue;
         }
         pObject->setUMLPackage(this);
-        if (pObject->loadFromXMI(tempElement)) {
-            addObject(pObject);
-            /*
-            UMLAssociation *assoc = dynamic_cast<UMLAssociation*>(pObject);
-            if (assoc) {
-                // Adding the UMLAssociation at the participating concepts is done
-                // again later (in UMLAssociation::resolveRef()) if they are not yet
-                // known right here.
-                if (assoc->getObject(Uml::A) && assoc->getObject(Uml::B))
-                    umldoc->addAssocToConcepts(Assoc);
-            }
-             */
-        } else {
+        if (!pObject->loadFromXMI(tempElement)) {
+            removeObject(pObject);
             delete pObject;
         }
     }

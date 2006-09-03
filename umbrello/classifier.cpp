@@ -868,6 +868,7 @@ UMLClassifierListItem* UMLClassifier::makeChildObject(QString xmiTag) {
 
 bool UMLClassifier::load(QDomElement& element) {
     UMLClassifierListItem *child = NULL;
+    bool totalSuccess = true;
     for (QDomNode node = element.firstChild(); !node.isNull();
             node = node.nextSibling()) {
         if (node.isComment())
@@ -891,6 +892,7 @@ bool UMLClassifier::load(QDomElement& element) {
                             kdError() << "UMLClassifier::load: error from addOperation(op)"
                                       << endl;
                             delete child;
+                            totalSuccess = false;
                         }
                         break;
                     case Uml::ot_Attribute:
@@ -902,23 +904,27 @@ bool UMLClassifier::load(QDomElement& element) {
             } else {
                 kdWarning() << "UMLClassifier::load: failed to load " << tag << endl;
                 delete child;
+                totalSuccess = false;
             }
         } else if (!Model_Utils::isCommonXMIAttribute(tag)) {
             UMLDoc *umldoc = UMLApp::app()->getDocument();
             UMLObject *pObject = Object_Factory::makeObjectFromXMI(tag);
-            if( !pObject )
+            if (pObject == NULL) {
+                totalSuccess = false;
                 continue;
+            }
             pObject->setUMLPackage(this);
             if (pObject->loadFromXMI(element)) {
-                addObject(pObject);
                 if (tagEq(tag, "Generalization"))
                     umldoc->addAssocToConcepts((UMLAssociation *) pObject);
             } else {
+                removeObject(pObject);
                 delete pObject;
+                totalSuccess = false;
             }
         }
     }
-    return true;
+    return totalSuccess;
 }
 
 #include "classifier.moc"
