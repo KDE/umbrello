@@ -577,7 +577,7 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
             KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save Error"));
             return false;
         }
-        saveToXMI(file, true); // save XMI to this file...
+        saveToXMI(file); // save XMI to this file...
         file.close(); // ...and close it
 
         // now add this file to the archive, but without the extension
@@ -634,7 +634,7 @@ bool UMLDoc::saveDocument(const KURL& url, const char * /* format */) {
             KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(d.path()), i18n("Save Error"));
             return false;
         }
-        saveToXMI( file, true ); // save the xmi stuff to it
+        saveToXMI(file); // save the xmi stuff to it
         file.close();
         tmpfile.close();
 
@@ -1278,7 +1278,7 @@ Uml::IDType UMLDoc::getModelID() const {
     return m_modelID;
 }
 
-void UMLDoc::saveToXMI(QIODevice& file, bool saveSubmodelFiles /* = false */) {
+void UMLDoc::saveToXMI(QIODevice& file) {
     QDomDocument doc;
 
     QDomProcessingInstruction xmlHeading =
@@ -1393,7 +1393,7 @@ void UMLDoc::saveToXMI(QIODevice& file, bool saveSubmodelFiles /* = false */) {
     extensions.appendChild( docElement );
 
     //  save listview
-    UMLApp::app()->getListView()->saveToXMI( doc, extensions, saveSubmodelFiles );
+    UMLApp::app()->getListView()->saveToXMI(doc, extensions);
 
     // save code generator
     CodeGenerator *codegen = UMLApp::app()->getGenerator();
@@ -1483,78 +1483,6 @@ short UMLDoc::getEncoding(QIODevice & file)
         break;
     }
     return ENC_OLD_ENC;
-}
-
-bool UMLDoc::loadFolderFile( QString filename ) {
-    QFile file( filename );
-    if ( !file.exists() ) {
-        KMessageBox::error(0, i18n("The folderfile %1 does not exist.").arg(filename), i18n("Load Error"));
-        return false;
-    }
-    if ( !file.open(IO_ReadOnly) ) {
-        KMessageBox::error(0, i18n("The folderfile %1 cannot be opened.").arg(filename), i18n("Load Error"));
-        return false;
-    }
-    QTextStream stream( &file );
-    QString data = stream.read();
-    file.close();
-    QDomDocument doc;
-    QString error;
-    int line;
-    if( !doc.setContent( data, false, &error, &line ) ) {
-        kdError() << "UMLDoc::loadFolderFile: Can't set content:"
-            << error << " line:" << line << endl;
-        return false;
-    }
-    QDomNode rootNode = doc.firstChild();
-    while (rootNode.isComment() || rootNode.isProcessingInstruction()) {
-        rootNode = rootNode.nextSibling();
-    }
-    if (rootNode.isNull()) {
-        kdError() << "UMLDoc::loadFolderFile: Root node is Null" << endl;
-        return false;
-    }
-    QDomElement element = rootNode.toElement();
-    QString type = element.tagName();
-    if (type != "external_file") {
-        kdError() << "UMLDoc::loadFolderFile: Root node has unknown type "
-            << type << endl;
-        return false;
-    }
-    for (QDomNode node = rootNode.firstChild(); !node.isNull(); node = node.nextSibling()) {
-        element = node.toElement();
-        type = element.tagName();
-        if (type == "diagram") {
-            UMLView * pView = new UMLView(NULL);  // @todo add folder logic
-            pView->setOptionState( Settings::getOptionState() );
-            bool success = pView->loadFromXMI(element);
-            if (!success) {
-                kdWarning() << "UMLDoc::loadFolderFile(" << filename
-                    << "): failed load on viewdata loadfromXMI" << endl;
-                delete pView;
-                return false;
-            }
-            pView->hide();
-            addView(pView);
-        } else {
-            QString stID = element.attribute("stereotype", "");
-            UMLObject *pObject = Object_Factory::makeObjectFromXMI(type, stID);
-            if (pObject) {
-                if (! pObject->loadFromXMI(element)) {
-                    kdError() << "UMLDoc::loadFolderFile(" << filename
-                        << "): Error loading type " << type << endl;
-                    delete pObject;
-                } else {
-                    if (addUMLObject(pObject))
-                        signalUMLObjectCreated(pObject);
-                }
-            } else {
-                kdError() << "UMLDoc::loadFolderFile(" << filename
-                    << "): Ignoring unknown type " << type << endl;
-            }
-        }
-    }
-    return true;
 }
 
 bool UMLDoc::loadFromXMI( QIODevice & file, short encode )

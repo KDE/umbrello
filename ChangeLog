@@ -4,6 +4,7 @@ Version 1.5.5
 * Fix load of associations in collaboration diagram (A. Spangler)
 * Bugs/wishes from http://bugs.kde.org:
 * "role A properties" should give class name (69244)
+* Sharing designs, Folders, 3rd Party imports (87252, reimplementation)
 * Java import - importing interfaces - absent visibility treated as package
   instead of public (131327)
 * Python code generation not independent of diagram view (131790)

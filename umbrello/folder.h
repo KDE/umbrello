@@ -145,10 +145,38 @@ public:
 
 protected:
     /**
+     * Auxiliary to saveToXMI(): Save the contained objects and diagrams.
+     * Can be used regardless of whether saving to the main model file
+     * or to an external folder file (see m_folderFile.)
+     */
+    void saveContents(QDomDocument& qDoc, QDomElement& qElement);
+
+    /**
+     * Auxiliary to saveToXMI(): Creates a <UML:Model> element when saving
+     * a predefined modelview, or a <UML:Package> element when saving a
+     * user created folder. Invokes saveContents() with the newly created
+     * element.
+     */
+    void save(QDomDocument& qDoc, QDomElement& qElement);
+
+    /**
      * Auxiliary to load():
      * Load the diagrams from the <diagrams> in the <XMI.extension>
      */
     bool loadDiagramsFromXMI(QDomNode& diagrams);
+
+    /**
+     * Folders in the listview can be marked such that their contents
+     * are saved to a separate file.
+     * This method loads the separate folder file.
+     * CAVEAT: This is not XMI standard compliant.
+     * If standard compliance is an issue then avoid folder files.
+     *
+     * @param path  Fully qualified file name, i.e. absolute directory
+     *              plus file name.
+     * @return   True for success.
+     */
+    bool loadFolderFile(QString path);
 
     /**
      * Loads the UML:Component element.
@@ -157,6 +185,13 @@ protected:
 
 private:
     bool m_bPredefined;
+    /**
+     * If m_folderFile is not empty then it contains a file name to which
+     * this folder is saved.
+     * In this case the folder file acts as a physically separate submodel.
+     * What is saved in the main model is not the folder contents but a
+     * reference to the folder file.
+     */
     QString m_folderFile;
     UMLViewList m_diagrams;
 };

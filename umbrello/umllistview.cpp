@@ -332,12 +332,17 @@ void UMLListView::popupMenuSel(int sel) {
 
     case ListPopupMenu::mt_Externalize_Folder:
         {
+            UMLListViewItem *current = static_cast<UMLListViewItem*>(currentItem());
+            UMLFolder *modelFolder = dynamic_cast<UMLFolder*>(current->getUMLObject());
+            if (modelFolder == NULL) {
+                kdError() << "UMLListView::popupMenuSel: modelFolder is NULL" << endl;
+                return;
+            }
             // configure & show the file dialog
-            KFileDialog fileDialog(m_doc->URL().directory(), "*.xm1", this,
-                                   ":externalize-folder", true);
+            const QString rootDir(m_doc->URL().directory());
+            KFileDialog fileDialog(rootDir, "*.xm1", this, ":externalize-folder", true);
             fileDialog.setCaption(i18n("Externalize Folder"));
             fileDialog.setOperationMode(KFileDialog::Other);
-            UMLListViewItem *current = static_cast<UMLListViewItem*>(currentItem());
             // set a sensible default filename
             QString defaultFilename = current->getText().lower();
             defaultFilename.replace(QRegExp("\\W+"), "_");
@@ -347,10 +352,33 @@ void UMLListView::popupMenuSel(int sel) {
             KURL selURL = fileDialog.selectedURL();
             if (selURL.isEmpty())
                 return;
-            QString fileName = selURL.fileName();
-            UMLFolder *modelFolder = dynamic_cast<UMLFolder*>(current->getUMLObject());
-            if (modelFolder == NULL) {
-                kdError() << "UMLListView::popupMenuSel: modelFolder is NULL" << endl;
+            QString path = selURL.path();
+            QString fileName = path;
+            if (fileName.startsWith(rootDir)) {
+                fileName.remove(rootDir);
+            } else {
+                // This should be done using a KMessageBox but we currently
+                // cannot add new i18n strings.
+                kdError() << "Folder " << path
+                    << " must be relative to the main model directory, "
+                    << rootDir << endl;
+                return;
+            }
+            QFile file(path);
+            // Warn if file exists.
+            if (file.exists()) {
+                // This should be done using a KMessageBox but we currently
+                // cannot add new i18n strings.
+                kdWarning() << "file " << fileName << " already exists!" << endl;
+                kdWarning() << "The existing file will be overwritten." << endl;
+            }
+            // Test if file is writable.
+            if (file.open(IO_WriteOnly)) {
+                file.close();
+            } else {
+                KMessageBox::error(0,
+                                   i18n("There was a problem saving file: %1").arg(fileName),
+                                   i18n("Save Error"));
                 return;
             }
             modelFolder->setFolderFile(fileName);
@@ -628,7 +656,14 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
 
     connectNewObjectsSlots(object);
     const Uml::ListView_Type lvt = Model_Utils::convert_OT_LVT(object);
-    newItem = new UMLListViewItem(parentItem, object->getName(), lvt, object);
+    QString name = object->getName();
+    if (type == Uml::ot_Folder) {
+        UMLFolder *f = static_cast<UMLFolder*>(object);
+        QString folderFile = f->getFolderFile();
+        if (!folderFile.isEmpty())
+            name.append(" (" + folderFile + ")");
+    }
+    newItem = new UMLListViewItem(parentItem, name, lvt, object);
     if (mayHaveChildItems(type)) {
         UMLClassifier *c = static_cast<UMLClassifier*>(object);
         UMLClassifierListItemList cListItems = c->getFilteredList(Uml::ot_UMLObject);
@@ -2227,10 +2262,9 @@ void UMLListView::cancelRename( QListViewItem * item ) {
     }
 }
 
-void UMLListView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement,
-                             bool saveSubmodelFiles /* = false */) {
+void UMLListView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement) {
     QDomElement listElement = qDoc.createElement( "listview" );
-    m_rv -> saveToXMI( qDoc, listElement, saveSubmodelFiles);
+    m_rv->saveToXMI(qDoc, listElement);
     qElement.appendChild( listElement );
 }
 

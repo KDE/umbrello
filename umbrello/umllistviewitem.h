@@ -232,8 +232,7 @@ public:
     /**
      * saves the listview item to a <listitem> tag
      */
-    void saveToXMI( QDomDocument& qDoc, QDomElement& qElement,
-                    bool saveSubmodelFiles = false );
+    void saveToXMI( QDomDocument& qDoc, QDomElement& qElement);
 
     /**
      * Loads a <listitem> tag, this is only used by the clipboard currently

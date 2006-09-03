@@ -620,8 +620,7 @@ UMLListViewItem * UMLListViewItem::findItem(Uml::IDType id) {
     return NULL;
 }
 
-void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement,
-                                 bool saveSubmodelFiles /* = false */) {
+void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement) {
     QDomElement itemElement = qDoc.createElement( "listitem" );
     Uml::IDType id = getID();
     QString idStr = ID2STR(id);
@@ -632,11 +631,9 @@ void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement,
     itemElement.setAttribute( "type", m_Type );
     UMLDoc *umldoc = s_pListView->getDocument();
     UMLFolder *extFolder = NULL;
-    QFile folderFile;
-    QDomDocument folderDoc;
     if (m_pObject == NULL) {
-        // The predefined listview items such as "Logical View" etc. do
-        // not have a model counterpart thus their label is saved here.
+        kdError() << "UMLListViewItem::saveToXMI(" << m_Label
+            << "): m_pObject is NULL" << endl;
         itemElement.setAttribute( "label", m_Label );
     } else if (m_pObject->getID() == Uml::id_None) {
         if (m_Label.isEmpty()) {
@@ -649,63 +646,20 @@ void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement,
         itemElement.setAttribute( "label", m_Label );
     } else if (m_pObject->getBaseType() == Uml::ot_Folder) {
         extFolder = static_cast<UMLFolder*>(m_pObject);
-        if (extFolder->getFolderFile().isEmpty())
-            extFolder = NULL;
-    }
-    if (extFolder == NULL)
-        itemElement.setAttribute("open", isOpen());
-    QDomElement folderRoot;
-    if (extFolder) {
-        QDomProcessingInstruction xmlHeading =
-            folderDoc.createProcessingInstruction("xml",
-                                                  "version=\"1.0\" encoding=\"UTF-8\"");
-        folderDoc.appendChild(xmlHeading);
-        folderRoot = folderDoc.createElement( "external_file" );
-        folderRoot.setAttribute( "name", m_Label );
-        folderRoot.setAttribute( "mainModel", umldoc->URL().fileName() );
-        folderDoc.appendChild( folderRoot );
-    }
-    UMLListViewItem *childItem = static_cast<UMLListViewItem*>( firstChild() );
-    UMLViewList viewList;
-    while (childItem) {
-        childItem->saveToXMI(qDoc, itemElement, saveSubmodelFiles);
-        if (extFolder) {
-            const Uml::ListView_Type lvType = childItem->getType();
-            UMLObject *umlobj = childItem->getUMLObject();
-            if (umlobj) {
-                umlobj->saveToXMI(folderDoc, folderRoot);
-            } else if (Model_Utils::typeIsDiagram(lvType)) {
-                const Uml::IDType viewID = childItem->getID();
-                UMLView *v = umldoc->findView(viewID);
-                if (v) {
-                    // UMLObjects need to be saved before diagrams
-                    // because all objects must be known prior to
-                    // loading diagrams.
-                    // Thus we defer diagram saving to a later pass.
-                    viewList.append(v);
-                } else {
-                    kdError() << "saveExternalFolder: UMLDoc::findView("
-                        << ID2STR(viewID) << ") returns NULL"
-                        << endl;
-                }
-            } else {
-                kdError() << "saveExternalFolder: saving of lvtype "
-                    << childItem->getType() << " is Not Yet Implemented"
-                    << endl;
-            }
+        if (!extFolder->getFolderFile().isEmpty()) {
+            itemElement.setAttribute("open", "0");
+            qElement.appendChild(itemElement);
+            return;
         }
+    }
+    itemElement.setAttribute("open", isOpen());
+    QDomElement folderRoot;
+    UMLListViewItem *childItem = static_cast<UMLListViewItem*>( firstChild() );
+    while (childItem) {
+        childItem->saveToXMI(qDoc, itemElement);
         childItem = dynamic_cast<UMLListViewItem *> ( childItem->nextSibling() );
     }
     qElement.appendChild( itemElement );
-    if (extFolder) {
-        for (UMLView *v = viewList.first(); v; v = viewList.next()) {
-            v->saveToXMI(folderDoc, folderRoot);
-        }
-        QTextStream stream( &folderFile );
-        stream.setEncoding(QTextStream::UnicodeUTF8);
-        stream << folderDoc.toString();
-        folderFile.close();
-    }
 }
 
 bool UMLListViewItem::loadFromXMI(QDomElement& qElement) {

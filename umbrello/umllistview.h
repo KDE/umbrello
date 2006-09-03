@@ -283,8 +283,7 @@ public:
      */
     Uml::ListView_Type rootViewType(UMLListViewItem *item);
 
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement,
-                    bool saveSubmodelFiles = false );
+    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement);
 
     bool loadFromXMI( QDomElement & element );
 
