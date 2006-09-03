@@ -375,7 +375,7 @@ void MessageWidget::slotWidgetMoved(Uml::IDType id) {
     calculateWidget();
     if( !m_pFText )
         return;
-    if( m_pView -> getSelectCount() > 1 )
+    if (m_pView->getSelectCount(true) > 1)
         return;
     setTextPosition();
 }

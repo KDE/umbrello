@@ -238,12 +238,12 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
     int marginY = pPrinter->margins().height();
 
     if(pPrinter->orientation() == KPrinter::Landscape) {
-      // we are printing in LANDSCAPE --> swap marginX and marginY
-      // this is needed, as KPrinter reports width margin strictly as printer
-      // default orientation margin - and not depend on LANDSCAPE/PORTRAIT
-      int temp = marginX;
-      marginX = marginY;
-      marginY = temp;
+        // we are printing in LANDSCAPE --> swap marginX and marginY
+        // this is needed, as KPrinter reports width margin strictly as printer
+        // default orientation margin - and not depend on LANDSCAPE/PORTRAIT
+        int temp = marginX;
+        marginX = marginY;
+        marginY = temp;
     }
 
     // The printer will probably use a different font with different font metrics,
@@ -1408,16 +1408,31 @@ void UMLView::activate() {
     }//end while
 }
 
+int UMLView::getSelectCount(bool filterText) const {
+    if (!filterText)
+        return m_SelectedList.count();
+    int counter = 0;
+    const UMLWidget * temp = 0;
+    for (UMLWidgetListIt iter(m_SelectedList); (temp = iter.current()) != 0; ++iter) {
+        if (temp->getBaseType() == wt_Text) {
+            const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(temp);
+            if (ft->getRole() == tr_Floating)
+                counter++;
+        } else {
+            counter++;
+        }
+    }
+    return counter;
+}
+
 
 bool UMLView::getSelectedWidgets(UMLWidgetList &WidgetList, bool filterText /*= true*/) {
-    UMLWidget * temp = 0;
-    int type;
-    for(temp=(UMLWidget *)m_SelectedList.first();temp;temp=(UMLWidget *)m_SelectedList.next()) {
-        type = temp->getBaseType();
-        if (filterText && type == wt_Text) {
-            if( ((FloatingTextWidget*)temp)->getRole() == tr_Floating ) {
+    const UMLWidget * temp = 0;
+    for (UMLWidgetListIt it(m_SelectedList); (temp = it.current()) != NULL; ++it) {
+        if (filterText && temp->getBaseType() == wt_Text) {
+            const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(temp);
+            if (ft->getRole() == tr_Floating)
                 WidgetList.append(temp);
-            }
         } else {
             WidgetList.append(temp);
         }

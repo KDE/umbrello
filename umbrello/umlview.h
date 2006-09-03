@@ -451,11 +451,12 @@ public:
     /**
      * Return the amount of widgets selected.
      *
-     * @return Return the amount of widgets selected.
+     * @param filterText  When true, do NOT count floating text widgets that
+     *                    belong to other widgets (i.e. only count tr_Floating.)
+     *                    Default: Count all widgets.
+     * @return  Number of widgets selected.
      */
-    int getSelectCount() const {
-        return m_SelectedList.count();
-    }
+    int getSelectCount(bool filterText = false) const;
 
     /**
      * Set the useFillColor variable to all selected widgets
@@ -1127,7 +1128,7 @@ protected:
      */
     QRect getDiagramRect();
 
-    
+
     /**
      * Initializes key variables.
      */
@@ -1225,7 +1226,7 @@ private:
      * Reset to false when clicking in an empty region of the view.
      */
     bool m_bChildDisplayedDoc;
-    
+
     ToolBarStateFactory* m_pToolBarStateFactory;
     ToolBarState* m_pToolBarState;
 

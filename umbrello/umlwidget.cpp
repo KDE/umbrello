@@ -609,29 +609,16 @@ void UMLWidget::startPopupMenu( const QPoint &At) {
     slotRemovePopupMenu();
 
     //if in a multi- selection to a specific m_pMenu for that
-    int count = m_pView -> getSelectCount();
+    // NEW: ask UMLView to count ONLY the widgets and not their floatingtextwidgets
+    int count = m_pView->getSelectCount(true);
     //a MessageWidget when selected will select its text widget and vice versa
     //so take that into account for popup menu.
 
     // determine multi state
-    bool multi = false;
+    bool multi = (m_bSelected && count > 1);
 
     // if multiple selected items have the same type
     bool unique = false;
-
-    if( m_bSelected )
-        if( m_pView -> getType() == dt_Sequence ) {
-            if( getBaseType() == wt_Message && count == 2 ) {
-                multi = false;
-            } else if( getBaseType() == wt_Text &&
-                       ((FloatingTextWidget*)this) -> getRole() == tr_Seq_Message && count == 2 ) {
-                multi = false;
-            } else if( count > 1 ) {
-                multi = true;
-            }
-        } else if( count > 1 ) {
-            multi = true;
-        }
 
     // if multiple items are selected, we have to check if they all have the same
     // base type
@@ -712,9 +699,9 @@ void UMLWidget::setSelected(bool _select) {
 
     const QPoint pos(getX(), getY());
     UMLWidget *bkgnd = m_pView->testOnWidget(pos);
-    if (bkgnd) {
+    if (bkgnd && _select) {
         kdDebug() << "UMLWidget::setSelected: setting Z to "
-            << bkgnd->getZ() + 1 << endl;
+            << bkgnd->getZ() + 1 << ", SelectState: " << _select << endl;
         setZ( bkgnd->getZ() + 1 );
     } else {
         setZ( 0 );

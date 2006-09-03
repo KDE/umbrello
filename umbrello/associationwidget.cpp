@@ -2511,7 +2511,7 @@ void AssociationWidget::checkPoints(const QPoint &p) {
         if( x - BOUNDARY <= p.x() && x + BOUNDARY >= p.x() &&
                 y - BOUNDARY <= p.y() && y + BOUNDARY >= p.y() ) {
             m_nMovingPoint = i;
-            i = size; //no need to check the rest
+            break; //no need to check the rest
         }//end if
     }//end for
 }
@@ -2532,7 +2532,7 @@ void AssociationWidget::mouseMoveEvent(QMouseEvent* me) {
         m_LinePath.insertPoint( i + 1, me->pos() );
         m_nMovingPoint = i + 1;
     }
-    
+
     setSelected();
     //new position for point
     QPoint p = me->pos();
