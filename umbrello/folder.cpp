@@ -373,7 +373,8 @@ bool UMLFolder::load(QDomElement& element) {
         UMLFolder *logicalView = umldoc->getRootFolder(Uml::mt_Logical);
         if (this == logicalView && Uml::tagEq(type, "Package")) {
             QString thisName = tempElement.attribute("name", "");
-            if (thisName == umldoc->datatypeFolderName()) {
+            if (thisName == umldoc->datatypeFolderName() ||
+                thisName == "Datatypes") {  // @todo checking for name creates i18n problem
                 UMLFolder *datatypeFolder = umldoc->getDatatypeFolder();
                 if (!datatypeFolder->loadFromXMI(tempElement))
                     totalSuccess = false;
