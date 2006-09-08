@@ -115,28 +115,12 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
             name.remove("&");
     }
 #endif
-    if (type != Uml::ot_Datatype) {
-        if (name.contains("::"))
-            components = QStringList::split("::", name);
-        else if (name.contains("."))
-            components = QStringList::split(".", name);
-    }
     QString nameWithoutFirstPrefix;
+    if (name.contains("::"))
+        components = QStringList::split("::", name);
+    else if (name.contains("."))
+        components = QStringList::split(".", name);
     if (components.size() > 1) {
-        if (name.contains(QRegExp("[^\\w:\\.]"))) {
-            // It's obviously a datatype.
-            // Scope qualified datatypes live in the global scope.
-            for (UMLObjectListIt oit(inList); oit.current(); ++oit) {
-                UMLObject *obj = oit.current();
-                if (caseSensitive) {
-                    if (obj->getName() == name)
-                        return obj;
-                } else if (obj->getName().lower() == name.lower()) {
-                    return obj;
-                }
-            }
-            return NULL;
-        }
         name = components.front();
         components.pop_front();
         nameWithoutFirstPrefix = components.join("::");
