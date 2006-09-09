@@ -1,12 +1,19 @@
 Version 1.5.5
 
+* PHP5 generator creates stub methods for all interfaces a class implements (C. Brunsdon)
+* Fix load of associations in collaboration diagram (A. Spangler)
 * Bugs/wishes from http://bugs.kde.org:
+* "role A properties" should give class name (69244)
+* Sharing designs, Folders, 3rd Party imports (87252, reimplementation)
 * Java import - importing interfaces - absent visibility treated as package
   instead of public (131327)
 * Java import - method parameter types not resolved correctly (131825)
 * Java import: unable to import AzareusCore (131961)
 * Java import: error on multidimensional arrays (132017)
 * Java import - array types not resolved correctly (132035)
+* Java import - "final" and comments in method declaration not parsed correctly (132174)
+* Java import: spaces in strings cause next member var to be ignored (132472)
+* Java import - static member vars ignored in interfaces (132657)
 
 Version 1.5.4
 

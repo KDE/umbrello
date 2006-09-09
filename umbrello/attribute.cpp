@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2005
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 // own header
@@ -119,7 +116,8 @@ QString UMLAttribute::toString(Uml::Signature_Type sig) {
     return s + getName();
 }
 
-QString UMLAttribute::getFullyQualifiedName(QString separator) const {
+QString UMLAttribute::getFullyQualifiedName(QString separator,
+                                            bool includeRoot /* = false */) const {
     UMLOperation *op = NULL;
     UMLObject *owningObject = static_cast<UMLObject*>(parent());
     if (owningObject->getBaseType() == Uml::ot_Operation) {
@@ -135,7 +133,7 @@ QString UMLAttribute::getFullyQualifiedName(QString separator) const {
     }
     if (separator.isEmpty())
         separator = UMLApp::app()->activeLanguageScopeSeparator();
-    QString fqn = ownParent->getFullyQualifiedName(separator);
+    QString fqn = ownParent->getFullyQualifiedName(separator, includeRoot);
     if (op)
         fqn.append(separator + op->getName());
     fqn.append(separator + m_Name);

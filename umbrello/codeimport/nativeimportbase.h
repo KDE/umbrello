@@ -111,6 +111,13 @@ protected:
     virtual bool preprocess(QString& line);
 
     /**
+     * Split the line so that a string is returned as a single element of the list.
+     * When not in a string then split at white space.
+     * The default implementation is suitable for C style strings and char constants.
+     */
+    virtual QStringList split(QString line);
+
+    /**
      * Analyze the given word and fill `m_source'.
      * A "word" is a whitespace delimited item from the input line.
      * To be provided by the specific importer class.
@@ -132,6 +139,16 @@ protected:
      * given by `until'.
      */
     void skipStmt(QString until = ";");
+
+    /**
+     * Advance m_srcIndex to the index of the corresponding closing character
+     * of the given opening.  Nested opening/closing pairs are respected.
+     * Valid openers are:    '{'  '['  '('  '<'
+     *
+     * @return  True for success, false for misuse (invalid opener) or
+     *          if no matching closing character is found in m_source.
+     */
+    bool skipToClosing(QChar opener);
 
     /**
      * Advance m_srcIndex until m_source[m_srcIndex] contains a non-comment.

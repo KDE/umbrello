@@ -9,15 +9,20 @@
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
+// own header
+#include "umlobject.h"
+// qt/kde includes
 #include <qregexp.h>
 #include <kdebug.h>
 #include <kapplication.h>
-#include "umlobject.h"
+// app includes
+#include "uniqueid.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umllistview.h"
 #include "umllistviewitem.h"
 #include "package.h"
+#include "folder.h"
 #include "stereotype.h"
 #include "object_factory.h"
 #include "model_utils.h"
@@ -29,17 +34,17 @@ UMLObject::UMLObject(const UMLObject * parent, const QString &name, Uml::IDType 
         : QObject(const_cast<UMLObject*>(parent), "UMLObject" ) {
     init();
     if (id == Uml::id_None)
-        m_nId = UMLApp::app()->getDocument()->getUniqueID();
+        m_nId = UniqueID::gen();
     else
         m_nId = id;
     m_Name = name;
 }
 
 UMLObject::UMLObject(const QString &name, Uml::IDType id)
-        :  QObject(UMLApp::app()->getDocument(), "UMLObject") {
+        :  QObject(UMLApp::app()->getDocument()) {
     init();
     if (id == Uml::id_None)
-        m_nId = UMLApp::app()->getDocument()->getUniqueID();
+        m_nId = UniqueID::gen();
     else
         m_nId = id;
     m_Name = name;
@@ -82,35 +87,6 @@ bool UMLObject::showProperties(int page, bool assoc) {
     return modified;
 }
 
-bool UMLObject::isSavedInSeparateFile() {
-    if (Settings::getOptionState().generalState.tabdiagrams) {
-        // Umbrello currently does not support external folders
-        // when tabbed diagrams are enabled.
-        return false;
-    }
-    const QString msgPrefix("UMLObject::isSavedInSeparateFile(" + m_Name + "): ");
-    UMLListView *listView = UMLApp::app()->getListView();
-    UMLListViewItem *lvItem = listView->findUMLObject(this);
-    if (lvItem == NULL) {
-        kError() << msgPrefix
-        << "listView->findUMLObject(this) returns false"
-        << endl;
-        return false;
-    }
-    UMLListViewItem *parentItem = dynamic_cast<UMLListViewItem*>( lvItem->parent() );
-    if (parentItem == NULL) {
-        kError() << msgPrefix
-        << "parent item in listview is not a UMLListViewItem (?)"
-        << endl;
-        return false;
-    }
-    const Uml::ListView_Type lvt = parentItem->getType();
-    if (! UMLListView::typeIsFolder(lvt))
-        return false;
-    QString folderFile = parentItem->getFolderFile();
-    return !folderFile.isEmpty();
-}
-
 bool UMLObject::acceptAssociationType(Uml::Association_Type)
 {// A UMLObject accepts nothing. This should be reimplemented by the subclasses
     return false;
@@ -130,13 +106,31 @@ QString UMLObject::getName() const {
     return m_Name;
 }
 
-QString UMLObject::getFullyQualifiedName(QString separator) const {
+QString UMLObject::getFullyQualifiedName(QString separator,
+                                         bool includeRoot /* = false */) const {
     QString fqn;
     if (m_pUMLPackage) {
-        if (separator.isEmpty())
-            separator = UMLApp::app()->activeLanguageScopeSeparator();
-        fqn = m_pUMLPackage->getFullyQualifiedName(separator);
-        fqn.append(separator);
+        bool skipPackage = false;
+        if (!includeRoot) {
+            UMLDoc *umldoc = UMLApp::app()->getDocument();
+            if (m_pUMLPackage == umldoc->getDatatypeFolder()) {
+                skipPackage = true;
+            } else {
+                for (int i = 0; i < Uml::N_MODELTYPES; i++) {
+                    const Uml::Model_Type mt = (Uml::Model_Type)i;
+                    if (m_pUMLPackage == umldoc->getRootFolder(mt)) {
+                        skipPackage = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if (!skipPackage) {
+            if (separator.isEmpty())
+                separator = UMLApp::app()->activeLanguageScopeSeparator();
+            fqn = m_pUMLPackage->getFullyQualifiedName(separator, includeRoot);
+            fqn.append(separator);
+        }
     }
     fqn.append(m_Name);
     return fqn;
@@ -198,8 +192,6 @@ bool UMLObject::operator==(UMLObject & rhs ) {
 
 void UMLObject::copyInto(UMLObject *rhs) const
 {
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-
     // Data members with copy constructor
     rhs->m_Doc = m_Doc;
     rhs->m_pStereotype = m_pStereotype;
@@ -210,10 +202,10 @@ void UMLObject::copyInto(UMLObject *rhs) const
     rhs->m_pUMLPackage = m_pUMLPackage;
 
     // We don't want the same name existing twice.
-    rhs->m_Name = Model_Utils::uniqObjectName(m_BaseType, m_Name, m_pUMLPackage);
+    rhs->m_Name = Model_Utils::uniqObjectName(m_BaseType, m_pUMLPackage, m_Name);
 
     // Create a new ID.
-    rhs->m_nId = umldoc->getUniqueID();
+    rhs->m_nId = UniqueID::gen();
 
     // Hope that the parent from QObject is okay.
     if (rhs->parent() != parent())
@@ -296,6 +288,7 @@ void UMLObject::setUMLStereotype(UMLStereotype *stereo) {
         }
     }
     m_pStereotype = stereo;
+    // TODO: don't emit modified() if predefined folder
     emit modified();
 }
 
@@ -337,7 +330,7 @@ const UMLStereotype * UMLObject::getUMLStereotype() {
     return m_pStereotype;
 }
 
-QString UMLObject::getStereotype(bool includeAdornments /* = false */) {
+QString UMLObject::getStereotype(bool includeAdornments /* = false */) const {
     if (m_pStereotype == NULL)
         return "";
     QString name = m_pStereotype->getName();
@@ -565,7 +558,7 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
         if (m_BaseType == Uml::ot_Role) {
             // Before version 1.4, Umbrello did not save the xmi.id
             // of UMLRole objects.
-            m_nId = umldoc->getUniqueID();
+            m_nId = UniqueID::gen();
         } else {
             kError() << "UMLObject::loadFromXMI(" << m_Name
             << "): nonexistent or illegal xmi.id" << endl;
@@ -748,20 +741,19 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
             UMLListViewItem *parentItem = (UMLListViewItem*)listView->currentItem();
             if (parentItem) {
                 Uml::ListView_Type lvt = parentItem->getType();
-                if (lvt == Uml::lvt_Package ||
+                if (Model_Utils::typeIsContainer(lvt) ||
                         lvt == Uml::lvt_Class ||
                         lvt == Uml::lvt_Interface) {
                     UMLObject *o = parentItem->getUMLObject();
                     m_pUMLPackage = static_cast<UMLPackage*>( o );
                 }
             }
-        }
-
-        if (m_pUMLPackage)
+        } else if (m_pUMLPackage) {
             m_pUMLPackage->addObject(this);
-        else
-            umldoc->addUMLObject(this);
-        //kapp->processEvents();
+        } else {
+            kError() << "UMLObject::load(" << m_Name << "): m_pUMLPackage is not set"
+                << endl;
+        }
     }
     return load(element);
 }

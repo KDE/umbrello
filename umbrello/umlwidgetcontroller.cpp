@@ -29,6 +29,7 @@
 #include "listpopupmenu.h"
 #include "classifierwidget.h"
 #include "associationwidget.h"
+#include "messagewidget.h"
 
 using namespace Uml;
 
@@ -92,9 +93,9 @@ void UMLWidgetController::mousePressEvent(QMouseEvent *me) {
 
     m_shiftPressed = false;
 
-    int count = m_widget->m_pView->getSelectCount();
+    int count = m_widget->m_pView->getSelectCount(true);
     if (me->button() == Qt::LeftButton) {
-        if (count > 1 && m_widget->m_bSelected == true) {
+        if (count > 1) {
             //Single selection is made in release event if the widget wasn't moved
             m_inMoveArea = true;
             return;
@@ -176,7 +177,7 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
             widget->adjustAssocs(widget->getX(), widget->getY());
 
             //TODO check if this is needed. What it does?
-            //If needed, create an empty virtual method executed at this place 
+            //If needed, create an empty virtual method executed at this place
             //and override it in ClassifierWidgetController
 /*            if (widget->m_Type == Uml::wt_Class) {
                 ClassifierWidget *cw = static_cast<ClassifierWidget*>(widget);
@@ -203,7 +204,7 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me) {
                 m_leftButtonDown = false;
 
                 if (!m_moved && !m_resized) {
-                    if (!m_shiftPressed && m_widget->m_pView->getSelectCount() > 1) {
+                    if (!m_shiftPressed && (m_widget->m_pView->getSelectCount(true) > 1)) {
                         selectSingle(me);
                     } else if (!m_wasSelected) {
                         deselect(me);

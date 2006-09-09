@@ -29,6 +29,7 @@
 #include "uml.h"
 #include "model_utils.h"
 #include "widget_utils.h"
+#include "folder.h"
 #include "umlview.h"
 #include "statewidget.h"
 #include "activitywidget.h"
@@ -638,7 +639,19 @@ void ListPopupMenu::insertSubmodelAction() {
     }
     UMLListView *listView = UMLApp::app()->getListView();
     UMLListViewItem *current = static_cast<UMLListViewItem*>(listView->currentItem());
-    QString submodelFile = current->getFolderFile();
+    UMLObject *o = current->getUMLObject();
+    if (o == NULL) {
+        kError() << "ListPopupMenu::insertSubmodelAction: "
+            << current->getText() << " getUMLObject()  returns NULL" << endl;
+        return;
+    }
+    UMLFolder *f = dynamic_cast<UMLFolder*>(o);
+    if (f == NULL) {
+        kError() << "ListPopupMenu::insertSubmodelAction: "
+            << "current->getUMLObject (" << o->getName() << ") is not a Folder" << endl;
+        return;
+    }
+    QString submodelFile = f->getFolderFile();
     if (submodelFile.isEmpty())
         insertStdItem(mt_Externalize_Folder);
     else
@@ -738,7 +751,7 @@ void ListPopupMenu::setupColorSelection(bool fc)
 }
 
 Uml::Diagram_Type ListPopupMenu::convert_MT_DT(Menu_Type mt) {
-    Uml::Diagram_Type type =  Uml::dt_Class;
+    Uml::Diagram_Type type =  Uml::dt_Undefined;
 
     switch(mt) {
     case mt_UseCase_Diagram:

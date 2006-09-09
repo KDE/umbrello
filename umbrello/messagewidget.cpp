@@ -29,6 +29,7 @@
 #include "umlview.h"
 #include "umldoc.h"
 #include "uml.h"
+#include "uniqueid.h"
 #include "listpopupmenu.h"
 
 MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
@@ -379,7 +380,7 @@ void MessageWidget::slotWidgetMoved(Uml::IDType id) {
     calculateWidget();
     if( !m_pFText )
         return;
-    if( m_pView -> getSelectCount() > 1 )
+    if (m_pView->getSelectCount(true) > 1)
         return;
     setTextPosition();
 }
@@ -782,7 +783,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
         }
     } else {
         // no textid stored -> get unique new one
-        textId = UMLApp::app()->getDocument()->getUniqueID();
+        textId = UniqueID::gen();
     }
 
     Uml::Text_Role tr = Uml::tr_Seq_Message;

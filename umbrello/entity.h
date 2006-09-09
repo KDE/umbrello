@@ -22,11 +22,6 @@ class UMLEntityAttribute;
  * This class inherits from @ref UMLClassifier which contains most of the
  * information.
  *
- * The @ref UMLDoc class creates instances of this type.  All Entitys
- * will need a unique id.  This will be given by the @ref UMLDoc class.
- * If you don't leave it up to the @ref UMLDoc class then call the method
- * @ref UMLDoc::getUniqueID to get a unique id.
- *
  * @short Non-graphical Information for an Entity.
  * @author Jonathan Riddell
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
@@ -71,7 +66,7 @@ public:
      * @param name  An optional name, used by when creating through UMLListView
      * @return  The UMLEntityAttribute created
      */
-    UMLObject* createAttribute(const QString &name = QString::null);
+    UMLAttribute* createAttribute(const QString &name = QString::null);
 
     /**
          * Adds an entityAttribute to the entity.

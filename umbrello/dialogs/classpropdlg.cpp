@@ -292,7 +292,7 @@ void ClassPropDlg::setupPages(UMLObject * c, bool assoc) {
         pageItem->setHeader( i18n("Class Associations") );
         pageItem->setIcon( KIcon(DesktopIcon("misc") ));
         addPage( pageItem);
-        m_pAssocPage = new AssocPage(newPage, m_pDoc -> getCurrentView(), m_pObject);
+        m_pAssocPage = new AssocPage(newPage, UMLApp::app()->getCurrentView(), m_pObject);
         QHBoxLayout* assocLayout = new QHBoxLayout(newPage);
         assocLayout -> addWidget(m_pAssocPage);
     } else {

@@ -65,20 +65,9 @@ QString JavaImport::joinTypename(QString typeName) {
 void JavaImport::fillSource(QString word) {
     QString lexeme;
     const uint len = word.length();
-    bool inString = false;
     for (uint i = 0; i < len; i++) {
         const QChar& c = word[i];
-        if (c == '"') {
-            lexeme += c;
-            if (i == 0 || word[i - 1] != '\\') {
-                if (inString) {
-                    m_source.append(lexeme);
-                    lexeme = QString::null;
-                }
-                inString = !inString;
-            }
-        } else if (inString ||
-                   c.isLetterOrNumber() || c == '_' || c == '.') {
+        if (c.isLetterOrNumber() || c == '_' || c == '.') {
             lexeme += c;
         } else {
             if (!lexeme.isEmpty()) {
@@ -90,47 +79,6 @@ void JavaImport::fillSource(QString word) {
     }
     if (!lexeme.isEmpty())
         m_source.append(lexeme);
-}
-
-bool JavaImport::skipToClosing(QChar opener) {
-    QString closing;
-    switch (opener.toLatin1()) {
-        case '{':
-            closing = "}";
-            break;
-        case '[':
-            closing = "]";
-            break;
-        case '(':
-            closing = ")";
-            break;
-        case '<':
-            closing = ">";
-            break;
-        default:
-            kError() << "JavaImport::skipToClosing(" << opener
-                << "): " << "illegal input character" << endl;
-            return false;
-    }
-    const QString opening(opener);
-    skipStmt(opening);
-    const uint srcLength = m_source.count();
-    int nesting = 0;
-    while (m_srcIndex < srcLength) {
-        QString nextToken = advance();
-        if (nextToken.isEmpty())
-            break;
-        if (nextToken == closing) {
-            if (nesting <= 0)
-                break;
-            nesting--;
-        } else if (nextToken == opening) {
-            nesting++;
-        }
-    }
-    if (m_srcIndex == srcLength)
-        return false;
-    return true;
 }
 
 
@@ -502,6 +450,10 @@ bool JavaImport::parseStmt() {
         m_srcIndex++;
         while (m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
             QString typeName = m_source[m_srcIndex];
+            if ( typeName == "final" || typeName.startsWith( "//") ) {
+                // ignore the "final" keyword and any comments in method args
+                typeName = advance();
+            } 
             typeName = joinTypename(typeName);
             QString parName = advance();
             // the Class might not be resolved yet so resolve it if necessary

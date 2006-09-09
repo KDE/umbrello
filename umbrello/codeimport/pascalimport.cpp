@@ -44,18 +44,9 @@ void PascalImport::initVars() {
 void PascalImport::fillSource(QString word) {
     QString lexeme;
     const uint len = word.length();
-    bool inString = false;
     for (uint i = 0; i < len; i++) {
         QChar c = word[i];
-        if (c == '"') {
-            lexeme += c;
-            if (inString) {
-                m_source.append(lexeme);
-                lexeme = QString::null;
-            }
-            inString = !inString;
-        } else if (inString ||
-                   c.isLetterOrNumber() || c == '_' || c == '.' || c == '#') {
+        if (c.isLetterOrNumber() || c == '_' || c == '.' || c == '#') {
             lexeme += c;
         } else {
             if (!lexeme.isEmpty()) {
@@ -78,6 +69,7 @@ void PascalImport::checkModifiers(bool& isVirtual, bool& isAbstract) {
     while (true) {
         QString lookAhead = m_source[m_srcIndex + 1].lower();
         if (lookAhead != "virtual" && lookAhead != "abstract" &&
+            lookAhead != "override" &&
             lookAhead != "register" && lookAhead != "cdecl" &&
             lookAhead != "pascal" && lookAhead != "stdcall" &&
             lookAhead != "safecall" && lookAhead != "saveregisters" &&
@@ -209,7 +201,8 @@ bool PascalImport::parseStmt() {
         skipStmt();
         return true;
     }
-    if (keyword == "function" || keyword == "procedure") {
+    if (keyword == "function" || keyword == "procedure" ||
+        keyword == "constructor" || keyword == "destructor") {
         if (m_klass == NULL) {
             // Unlike a Pascal unit, a UML package does not support subprograms.
             // In order to map those, we would need to create a UML class with
@@ -223,6 +216,17 @@ bool PascalImport::parseStmt() {
             advance();
             const uint MAX_PARNAMES = 16;
             while (m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
+                QString nextToken = m_source[m_srcIndex + 1].lower();
+                Uml::Parameter_Direction dir = Uml::pd_In;
+                if (nextToken == "var") {
+                    dir = Uml::pd_InOut;
+                    advance();
+                } else if (nextToken == "const") {
+                    advance();
+                } else if (nextToken == "out") {
+                    dir = Uml::pd_Out;
+                    advance();
+                }
                 QString parName[MAX_PARNAMES];
                 uint parNameCount = 0;
                 do {
@@ -233,26 +237,23 @@ bool PascalImport::parseStmt() {
                     parName[parNameCount++] = advance();
                 } while (advance() == ",");
                 if (m_source[m_srcIndex] != ":") {
-                    kError() << "importPascal: expecting ':'" << endl;
+                    kError() << "importPascal: expecting ':' at " << m_source[m_srcIndex] << endl;
                     skipStmt();
                     break;
                 }
-                const QString parMode = advance().lower();
-                QString typeName;
-                Uml::Parameter_Direction dir = Uml::pd_In;
-                if (parMode == "var") {
-                    dir = Uml::pd_InOut;
-                    typeName = advance();
-                } else if (parMode == "const") {
-                    typeName = advance();
-                } else if (parMode == "out") {
-                    dir = Uml::pd_Out;
-                    typeName = advance();
-                } else {
-                    typeName = parMode;  // The default is "pass by value".
+                nextToken = advance();
+                if (nextToken.lower() == "array") {
+                    nextToken = advance().lower();
+                    if (nextToken != "of") {
+                        kError() << "importPascal(" << name << "): expecting 'array OF' at "
+                                  << nextToken << endl;
+                        skipStmt();
+                        return false;
+                    }
+                    nextToken = advance();
                 }
                 for (uint i = 0; i < parNameCount; i++) {
-                    UMLAttribute *att = Import_Utils::addMethodParameter(op, typeName, parName[i]);
+                    UMLAttribute *att = Import_Utils::addMethodParameter(op, nextToken, parName[i]);
                     att->setParmKind(dir);
                 }
                 if (advance() != ";")
@@ -267,6 +268,8 @@ bool PascalImport::parseStmt() {
                 return false;
             }
             returnType = advance();
+        } else if (keyword == "constructor" || keyword == "destructor") {
+            op->setStereotype(keyword);
         }
         skipStmt();
         bool isVirtual = false;
@@ -343,6 +346,14 @@ bool PascalImport::parseStmt() {
             m_klass = static_cast<UMLClassifier*>(ns);
             return true;
         }
+        if (keyword == "function" || keyword == "procedure") {
+            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Datatype, name,
+                                                          m_scope[m_scopeIndex], m_comment);
+            if (m_source[m_srcIndex + 1] == "(")
+                skipToClosing('(');
+            skipStmt();
+            return true;
+        }
         // Datatypes: TO BE DONE
         return false;
     }
@@ -352,7 +363,13 @@ bool PascalImport::parseStmt() {
         skipStmt();
         return true;
     }
-    const QString& name = keyword;
+    QString name, stereotype;
+    if (keyword == "property") {
+        stereotype = keyword;
+        name = advance();
+    } else {
+        name = keyword;
+    }
     if (advance() != ":") {
         kError() << "PascalImport: expecting \":\" at " << name << " "
                   << m_source[m_srcIndex] << endl;
@@ -371,6 +388,7 @@ bool PascalImport::parseStmt() {
     UMLObject *o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name,
                                                  typeName, m_comment);
     UMLAttribute *attr = static_cast<UMLAttribute*>(o);
+    attr->setStereotype(stereotype);
     attr->setInitialValue(initialValue);
     skipStmt();
     return true;

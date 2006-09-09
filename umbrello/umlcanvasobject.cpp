@@ -5,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2003-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 #include "uml.h"
 #include "umldoc.h"
@@ -62,8 +64,13 @@ bool UMLCanvasObject::addAssociation(UMLAssociation* assoc) {
     if(!hasAssociation(assoc))
     {
         m_List.append( assoc );
-        emit modified();
-        emit sigAssociationAdded(assoc);
+
+        // Don't emit signals during load from XMI
+        UMLDoc *umldoc = UMLApp::app()->getDocument();
+        if (! umldoc->loading()) {
+            emit modified();
+            emit sigAssociationAdded(assoc);
+        }
         return true;
     }
     return false;
@@ -77,7 +84,8 @@ bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc) {
 
 int UMLCanvasObject::removeAssociation(UMLAssociation * assoc) {
     if(!hasAssociation(assoc) || !m_List.remove(assoc)) {
-        kWarning() << "can't find assoc given in list" << endl;
+        kWarning() << "UMLCanvasObject::removeAssociation: "
+            << "can't find assoc given in list" << endl;
         return -1;
     }
     emit modified();
@@ -86,22 +94,35 @@ int UMLCanvasObject::removeAssociation(UMLAssociation * assoc) {
 }
 
 void UMLCanvasObject::removeAllAssociations() {
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
     UMLObject *o;
     for (UMLObjectListIt oit(m_List); (o = oit.current()) != NULL; ++oit) {
         if (o->getBaseType() != Uml::ot_Association)
             continue;
         UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
-        umldoc->slotRemoveUMLObject(assoc);
+        //umldoc->slotRemoveUMLObject(assoc);
         UMLObject* objA = assoc->getObject(Uml::A);
         UMLObject* objB = assoc->getObject(Uml::B);
         UMLCanvasObject *roleAObj = dynamic_cast<UMLCanvasObject*>(objA);
         if (roleAObj)
             roleAObj->removeAssociation(assoc);
+        else if (objA)
+            kDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
+                << "): objA " << objA->getName() << " is not a UMLCanvasObject"
+                << endl;
+        else
+            kDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
+                << "): objA is NULL" << endl;
         UMLCanvasObject *roleBObj = dynamic_cast<UMLCanvasObject*>(objB);
         if (roleBObj)
             roleBObj->removeAssociation(assoc);
-        //delete assoc;  cannot do this! AssociationWidgets may exist!
+        else if (objB)
+            kDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
+                << "): objB " << objB->getName() << " is not a UMLCanvasObject"
+                << endl;
+        else
+            kDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
+                << "): objB is NULL" << endl;
+        //delete assoc;  should not do this here, we are only a CLIENT of the assoc
     }
 }
 
@@ -263,4 +284,16 @@ UMLAssociationList UMLCanvasObject::getCompositions() {
 UMLAssociationList UMLCanvasObject::getRelationships() {
     return getSpecificAssocs(Uml::at_Relationship);
 }
+
+bool UMLCanvasObject::resolveRef() {
+    bool overallSuccess = UMLObject::resolveRef();
+    for (UMLObjectListIt ait(m_List); ait.current(); ++ait) {
+        UMLObject *obj = ait.current();
+        if (! obj->resolveRef())
+            overallSuccess = false;
+    }
+    return overallSuccess;
+}
+
 #include "umlcanvasobject.moc"
+

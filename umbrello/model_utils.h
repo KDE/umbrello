@@ -74,15 +74,14 @@ UMLObject* findUMLObject( UMLObjectList inList, QString name,
  * if the default name is taken e.g. new_actor, new_actor_1
  * etc.
  * @param type              The object type.
+ * @param parentPkg The package in which to compare the name.
  * @param prefix    The prefix to use (optional.)
  *                  If no prefix is given then a type related
  *                  prefix will be chosen internally.
- * @param parentPkg The package in which to compare the name (optional.)
- *                  If not given then comparisons are done in the global scope.
  */
 QString uniqObjectName(Uml::Object_Type type,
-                       QString prefix = QString::null,
-                       UMLPackage *parentPkg = 0);
+                       UMLPackage *parentPkg,
+                       QString prefix = QString::null);
 
 /**
  * Return true if the given tag is a one of the common XMI
@@ -103,6 +102,110 @@ bool isCommonDataType(QString type);
  * Return true if the given object type is a classifier list item type.
  */
 bool isClassifierListitem(Uml::Object_Type ot);
+
+/**
+ * Return true if the listview type also has a widget representation in diagrams.
+ */
+bool typeIsCanvasWidget(Uml::ListView_Type type);
+
+/**
+ * Return true if the listview type is one of the predefined root views
+ * (root, logical, usecase, component, deployment, datatype, or entity-
+ * relationship view.)
+ */
+bool typeIsRootView(Uml::ListView_Type type);
+
+/**
+ * Return true if the listview type is a logical, usecase or component folder.
+ */
+bool typeIsFolder(Uml::ListView_Type type);
+
+/**
+ * Return true if the listview type may act as a container for other objects,
+ * i.e. if it is a folder, package, subsystem, or component.
+ */
+bool typeIsContainer(Uml::ListView_Type type);
+
+/**
+ * Return true if the listview type is a diagram.
+ */
+bool typeIsDiagram(Uml::ListView_Type type);
+
+/**
+ * Return true if the listview type is an attribute, operation, or template.
+ */
+bool typeIsClassifierList(Uml::ListView_Type type);
+
+/**
+ * Return the Model_Type which corresponds to the given Diagram_Type.
+ */
+Uml::Model_Type convert_DT_MT(Uml::Diagram_Type dt);
+
+/**
+ * Return the ListView_Type which corresponds to the given Model_Type.
+ */
+Uml::ListView_Type convert_MT_LVT(Uml::Model_Type mt);
+
+/**
+ * Return the Model_Type which corresponds to the given ListView_Type.
+ * Returns Uml::N_MODELTYPES if the list view type given does not map
+ * to a Model_Type.
+ */
+Uml::Model_Type convert_LVT_MT(Uml::ListView_Type lvt);
+
+/**
+ * Convert a diagram type enum to the equivalent list view type.
+ */
+Uml::ListView_Type convert_DT_LVT(Uml::Diagram_Type dt);
+
+/**
+ * Converts a list view type enum to the equivalent object type.
+ *
+ * @param lvt               The ListView_Type to convert.
+ * @return  The converted Object_Type if the listview type
+ *          has a Uml::Object_Type representation, else 0.
+ */
+Uml::Object_Type convert_LVT_OT(Uml::ListView_Type lvt);
+
+/**
+ * Convert an object's type to the equivalent list view type
+ *
+ * @param o  Pointer to the UMLObject whose type shall be converted
+ *           to the equivalent Uml::ListView_Type.  We cannot just
+ *           pass in a Uml::Object_Type because a UMLFolder is mapped
+ *           to different Uml::ListView_Type values, depending on its
+ *           location in one of the predefined modelviews (Logical/
+ *           UseCase/etc.)
+ * @return  The equivalent Uml::ListView_Type.
+ */
+Uml::ListView_Type convert_OT_LVT(UMLObject *o);
+
+/**
+ * Return the Icon_Type which corresponds to the given listview type.
+ *
+ * @param lvt  ListView_Type to convert.
+ * @return  The Uml::Icon_Type corresponding to the lvt.
+ *          Returns it_Home in case no mapping to Uml::Icon_Type exists.
+ */
+Uml::Icon_Type convert_LVT_IT(Uml::ListView_Type lvt);
+
+/**
+ * Return the Diagram_Type which corresponds to the given listview type.
+ *
+ * @param lvt  ListView_Type to convert.
+ * @return  The Uml::Diagram_Type corresponding to the lvt.
+ *          Returns dt_Undefined in case no mapping to Diagram_Type exists.
+ */
+Uml::Diagram_Type convert_LVT_DT(Uml::ListView_Type lvt);
+
+
+/**
+ * Try to guess the correct container folder type of an UMLObject.
+ * Object types that can't be guessed are mapped to Uml::mt_Logical.
+ * NOTE: This function exists mainly for handling pre-1.5.5 files
+ *       and should not be used for new code.
+ */
+Uml::Model_Type guessContainer(UMLObject *o);
 
 /**
  * Parse a direction string into the Uml::Parameter_Direction.

@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 #include <klocale.h>
@@ -26,6 +23,7 @@
 #include <QHBoxLayout>
 
 #include "diagramprintpage.h"
+#include "../uml.h"
 #include "../umldoc.h"
 #include "../umlview.h"
 #include "../umlviewlist.h"
@@ -78,10 +76,10 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : KPrintDi
     select -> addWidget(m_pSelectLB);
     m_pSelectLB -> setEnabled(false);
     m_pSelectLB -> setSelectionMode(Q3ListBox::Multi);
-    m_pSelectLB -> insertItem(m_pDoc->getCurrentView()->getName());
+    m_pSelectLB -> insertItem(UMLApp::app()->getCurrentView()->getName());
     m_pSelectLB -> setSelected(0, true);
     m_nIdList.clear();
-    m_nIdList.append(((UMLView*)m_pDoc->getCurrentView())->getID());
+    m_nIdList.append(UMLApp::app()->getCurrentView()->getID());
 
 
 
@@ -150,9 +148,9 @@ void DiagramPrintPage::slotClicked(int id) {
         m_pTypeCB -> setEnabled(false);
         m_pSelectLB -> setEnabled(false);
         m_pSelectLB -> clear();
-        m_pSelectLB -> insertItem(m_pDoc -> getCurrentView() -> getName());
+        m_pSelectLB -> insertItem(UMLApp::app()->getCurrentView()->getName());
         m_pSelectLB -> setSelected(0, true);
-        m_nIdList.append(((UMLView*)m_pDoc -> getCurrentView()) -> getID());
+        m_nIdList.append(UMLApp::app()->getCurrentView()->getID());
         break;
 
     case All:

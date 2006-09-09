@@ -28,6 +28,7 @@
 #include "umllistview.h"
 #include "object_factory.h"
 #include "model_utils.h"
+#include "uniqueid.h"
 #include "clipboard/idchangelog.h"
 #include "dialogs/umloperationdialog.h"
 #include "dialogs/umlattributedialog.h"
@@ -53,16 +54,16 @@ void UMLClassifier::init(bool bIsInterface /* = false */) {
 void UMLClassifier::setInterface(bool b /* = true */) {
     // @todo get rid of direct dependencies to UMLListView
     //  (e.g. move utility methods to Model_Utils and/or use signals)
-    UMLListView::Icon_Type newIcon;
+    Uml::Icon_Type newIcon;
     if (b) {
         m_BaseType = ot_Interface;
         UMLObject::setStereotype("interface");
         UMLObject::m_bAbstract = true;
-        newIcon = UMLListView::it_Interface;
+        newIcon = Uml::it_Interface;
     } else {
         m_BaseType = ot_Class;
         UMLObject::setStereotype(QString::null);
-        newIcon = UMLListView::it_Class;
+        newIcon = Uml::it_Class;
     }
     UMLListView *listView = UMLApp::app()->getListView();
     listView->changeIconOf(this, newIcon);
@@ -476,9 +477,8 @@ bool UMLClassifier::acceptAssociationType(Uml::Association_Type type)
     return false; //shutup compiler warning
 }
 
-UMLObject* UMLClassifier::createAttribute(const QString &name /*=null*/) {
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-    Uml::IDType id = umldoc->getUniqueID();
+UMLAttribute* UMLClassifier::createAttribute(const QString &name /*=null*/) {
+    Uml::IDType id = UniqueID::gen();
     QString currentName;
     if (name.isNull())  {
         currentName = uniqChildName(Uml::ot_Attribute);
@@ -514,6 +514,7 @@ UMLObject* UMLClassifier::createAttribute(const QString &name /*=null*/) {
 
     addAttribute(newAttribute);
 
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
     umldoc->signalUMLObjectCreated(newAttribute);
     return newAttribute;
 }
@@ -524,7 +525,6 @@ UMLAttribute* UMLClassifier::addAttribute(const QString &name, Uml::IDType id /*
         if (obj->getBaseType() == Uml::ot_Attribute && obj->getName() == name)
             return static_cast<UMLAttribute*>(obj);
     }
-    UMLApp *app = UMLApp::app();
     Uml::Visibility scope = Settings::getOptionState().classState.defaultAttributeScope;
     UMLAttribute *a = new UMLAttribute(this, name, id, scope);
     m_List.append(a);
@@ -868,6 +868,7 @@ UMLClassifierListItem* UMLClassifier::makeChildObject(QString xmiTag) {
 
 bool UMLClassifier::load(QDomElement& element) {
     UMLClassifierListItem *child = NULL;
+    bool totalSuccess = true;
     for (QDomNode node = element.firstChild(); !node.isNull();
             node = node.nextSibling()) {
         if (node.isComment())
@@ -891,6 +892,7 @@ bool UMLClassifier::load(QDomElement& element) {
                             kError() << "UMLClassifier::load: error from addOperation(op)"
                                       << endl;
                             delete child;
+                            totalSuccess = false;
                         }
                         break;
                     case Uml::ot_Attribute:
@@ -902,23 +904,27 @@ bool UMLClassifier::load(QDomElement& element) {
             } else {
                 kWarning() << "UMLClassifier::load: failed to load " << tag << endl;
                 delete child;
+                totalSuccess = false;
             }
         } else if (!Model_Utils::isCommonXMIAttribute(tag)) {
             UMLDoc *umldoc = UMLApp::app()->getDocument();
             UMLObject *pObject = Object_Factory::makeObjectFromXMI(tag);
-            if( !pObject )
+            if (pObject == NULL) {
+                totalSuccess = false;
                 continue;
+            }
             pObject->setUMLPackage(this);
             if (pObject->loadFromXMI(element)) {
-                addObject(pObject);
                 if (tagEq(tag, "Generalization"))
                     umldoc->addAssocToConcepts((UMLAssociation *) pObject);
             } else {
+                removeObject(pObject);
                 delete pObject;
+                totalSuccess = false;
             }
         }
     }
-    return true;
+    return totalSuccess;
 }
 
 #include "classifier.moc"

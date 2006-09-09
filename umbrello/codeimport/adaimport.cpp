@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2005                                                     *
+ *  copyright (C) 2005-2006                                                *
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
@@ -37,21 +37,67 @@ void AdaImport::initVars() {
     m_inGenericFormalPart = false;
 }
 
+/// Split the line so that a string is returned as a single element of the list,
+/// when not in a string then split at white space.
+QStringList AdaImport::split(QString line) {
+    QStringList list;
+    QString listElement;
+    bool inString = false;
+    bool seenSpace = false;
+    line = line.stripWhiteSpace();
+    uint len = line.length();
+    for (uint i = 0; i < len; i++) {
+        const QChar& c = line[i];
+        if (inString) {
+            listElement += c;
+            if (i > 0 && line[i - 1] == '"')
+                continue;   // escaped quotation mark
+            list.append(listElement);
+            listElement = QString::null;
+            inString = false;
+        } else if (c == '"') {
+            inString = true;
+            if (!listElement.isEmpty())
+                list.append(listElement);
+            listElement = QString(c);
+            seenSpace = false;
+        } else if (c == '\'') {
+            if (i < len - 2 && line[i + 2] == '\'') {
+                // character constant
+                if (!listElement.isEmpty())
+                    list.append(listElement);
+                listElement = line.mid(i, 3);
+                i += 2;
+                list.append(listElement);
+                listElement = QString::null;
+                continue;
+            }
+            listElement += c;
+            seenSpace = false;
+        } else if (c.isSpace()) {
+            if (seenSpace)
+                continue;
+            seenSpace = true;
+            if (!listElement.isEmpty()) {
+                list.append(listElement);
+                listElement = QString::null;
+            }
+        } else {
+            listElement += c;
+            seenSpace = false;
+        }
+    }
+    if (!listElement.isEmpty())
+        list.append(listElement);
+    return list;
+}
+
 void AdaImport::fillSource(QString word) {
     QString lexeme;
     const uint len = word.length();
-    bool inString = false;
     for (uint i = 0; i < len; i++) {
         QChar c = word[i];
-        if (c == '"') {
-            lexeme += c;
-            if (inString) {
-                m_source.append(lexeme);
-                lexeme = QString::null;
-            }
-            inString = !inString;
-        } else if (inString ||
-                   c.isLetterOrNumber() || c == '_' || c == '.' || c == '#') {
+        if (c.isLetterOrNumber() || c == '_' || c == '.' || c == '#') {
             lexeme += c;
         } else {
             if (!lexeme.isEmpty()) {
@@ -123,8 +169,8 @@ bool AdaImport::parseStmt() {
     }
     if (keyword == "package") {
         const QString& name = advance();
-        UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package,
-                        name, m_scope[m_scopeIndex], m_comment);
+        UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package, name,
+                                                      m_scope[m_scopeIndex], m_comment);
         if (advance() == "is") {
             if (m_source[m_srcIndex + 1] == "new") {
                 // generic package instantiation: TBD
@@ -147,6 +193,10 @@ bool AdaImport::parseStmt() {
         if (advance() == "(") {
             kDebug() << "AdaImport::parseFile(" << name << "): "
                 << "discriminant handling is not yet implemented" << endl;
+            // @todo Find out how to map discriminated record to UML.
+            //       For now, we just create a pro forma empty record.
+            Import_Utils::createUMLObject(Uml::ot_Class, name, m_scope[m_scopeIndex],
+                                          m_comment, "record");
             skipStmt("end");
             if (m_source[++m_srcIndex] == "case")
                 m_srcIndex += 2;  // skip "case" ";"
@@ -187,7 +237,6 @@ bool AdaImport::parseStmt() {
                             name, m_scope[m_scopeIndex], m_comment);
             ns->setAbstract(m_isAbstract);
             m_isAbstract = false;
-            m_comment = QString::null;
             m_srcIndex++;
             isTaggedType = true;
         }
@@ -214,14 +263,14 @@ bool AdaImport::parseStmt() {
         }
         if (m_source[m_srcIndex] == "new") {
             QString base = advance();
-            UMLClassifier *parent = NULL;
-            if (advance() == "with") {
-                UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
-                                base, NULL);
-                parent = static_cast<UMLClassifier*>(ns);
-                ns = Import_Utils::createUMLObject(Uml::ot_Class, name,
-                                       m_scope[m_scopeIndex], m_comment);
-                m_comment = QString::null;
+            const bool isExtension = (advance() == "with");
+            Uml::Object_Type t = (isExtension || m_isAbstract ? Uml::ot_Class
+                                                              : Uml::ot_Datatype);
+            UMLObject *ns = Import_Utils::createUMLObject(t, base, NULL);
+            UMLClassifier *parent = static_cast<UMLClassifier*>(ns);
+            ns = Import_Utils::createUMLObject(Uml::ot_Class, name,
+                                               m_scope[m_scopeIndex], m_comment);
+            if (isExtension) {
                 QString nextLexeme = advance();
                 if (nextLexeme == "null" || nextLexeme == "record") {
                     UMLClassifier *klass = static_cast<UMLClassifier*>(ns);
@@ -229,10 +278,11 @@ bool AdaImport::parseStmt() {
                     if (nextLexeme == "record") {
                         // Set the m_klass for attributes.
                         m_klass = klass;
-                        return true;
                     }
                 }
             }
+            skipStmt();
+            return true;
         }
         // Datatypes: TO BE DONE
         return false;

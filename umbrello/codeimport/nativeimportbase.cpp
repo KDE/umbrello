@@ -50,6 +50,47 @@ void NativeImportBase::skipStmt(QString until /* = ";" */) {
         m_srcIndex++;
 }
 
+bool NativeImportBase::skipToClosing(QChar opener) {
+    QString closing;
+    switch (opener.toLatin1()) {
+        case '{':
+            closing = "}";
+            break;
+        case '[':
+            closing = "]";
+            break;
+        case '(':
+            closing = ")";
+            break;
+        case '<':
+            closing = ">";
+            break;
+        default:
+            kError() << "JavaImport::skipToClosing(" << opener
+                << "): " << "illegal input character" << endl;
+            return false;
+    }
+    const QString opening(opener);
+    skipStmt(opening);
+    const uint srcLength = m_source.count();
+    int nesting = 0;
+    while (m_srcIndex < srcLength) {
+        QString nextToken = advance();
+        if (nextToken.isEmpty())
+            break;
+        if (nextToken == closing) {
+            if (nesting <= 0)
+                break;
+            nesting--;
+        } else if (nextToken == opening) {
+            nesting++;
+        }
+    }
+    if (m_srcIndex == srcLength)
+        return false;
+    return true;
+}
+
 QString NativeImportBase::advance() {
     while (m_srcIndex < m_source.count() - 1) {
         if (m_source[++m_srcIndex].startsWith(m_singleLineCommentIntro))
@@ -147,6 +188,49 @@ bool NativeImportBase::preprocess(QString& line) {
     return false;  // The input was not completely consumed by preprocessing.
 }
 
+/// Split the line so that a string is returned as a single element of the list,
+/// when not in a string then split at white space.
+QStringList NativeImportBase::split(QString line) {
+    QStringList list;
+    QString listElement;
+    QChar stringIntro = 0;  // buffers the string introducer character
+    bool seenSpace = false;
+    line = line.stripWhiteSpace();
+    for (uint i = 0; i < line.length(); i++) {
+        const QChar& c = line[i];
+        if (stringIntro.toLatin1()) {        // we are in a string
+            listElement += c;
+            if (c == stringIntro) {
+                if (line[i - 1] != '\\') {
+                    list.append(listElement);
+                    listElement = QString::null;
+                    stringIntro = 0;  // we are no longer in a string
+                }
+            }
+        } else if (c == '"' || c == '\'') {
+            if (!listElement.isEmpty()) {
+                list.append(listElement);
+            }
+            listElement = stringIntro = c;
+            seenSpace = false;
+        } else if (c == ' ' || c == '\t') {
+            if (seenSpace)
+                continue;
+            seenSpace = true;
+            if (!listElement.isEmpty()) {
+                list.append(listElement);
+                listElement = QString::null;
+            }
+        } else {
+            listElement += c;
+            seenSpace = false;
+        }
+    }
+    if (!listElement.isEmpty())
+        list.append(listElement);
+    return list;
+}
+
 /// The lexer. Tokenizes the given string and fills `m_source'.
 /// Stores possible comments in `m_comment'.
 void NativeImportBase::scan(QString line) {
@@ -161,15 +245,15 @@ void NativeImportBase::scan(QString line) {
             return;
         line = line.left(pos);
     }
-    line = line.simplifyWhiteSpace();
-    if (line.isEmpty())
+    if (line.contains(QRegExp("^\\s*$")))
         return;
-    QStringList words = QStringList::split( QRegExp("\\s+"), line );
+    QStringList words = split(line);
     for (QStringList::Iterator it = words.begin(); it != words.end(); ++it) {
-        QString word = (*it).trimmed();
-        if (word.isEmpty())
-            continue;
-        fillSource(word);
+        QString word = *it;
+        if (word[0] == '"' || word[0] == '\'')
+            m_source.append(word);  // string constants are handled by split()
+        else
+            fillSource(word);
     }
 }
 

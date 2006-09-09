@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,36 +5,36 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2006                                                    *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
-#ifndef INFOWIDGET_H
-#define INFOWIDGET_H
+#ifndef WIDGET_FACTORY_H
+#define WIDGET_FACTORY_H
 
-#include <qwidget.h>
+#include <qstring.h>
+
+// forward declarations
+class UMLView;
+class UMLObject;
+class UMLWidget;
 
 /**
- *      This is used to display information to the user when no diagrams
- *      have been displayed.
- *
- *      @short  Displays an information widget.
- *      @author Paul Hensgen    <phensgen@techie.com>
- *      @version        1.0
+ * Widget factory methods.
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class InfoWidget : public QWidget {
-public:
-    /**
-     *  Constructs an InfoWidget.
-     *
-     *  @param  parent  The parent of this InfoWidget.
-     *  @param  name    The name of this widget.
-     */
-    InfoWidget(QWidget *parent=0, const char *name=0);
+namespace Widget_Factory {
 
     /**
-     *  Standard deconstructor.
+     * Create a UMLWidget in the given view and representing the given document object.
      */
-    ~InfoWidget();
-};
+    UMLWidget *createWidget(UMLView *view, UMLObject *docObj);
+
+    /**
+     * Create a UMLWidget according to the given XMI tag.
+     */
+    UMLWidget* makeWidgetFromXMI(QString tag, QString idStr, UMLView *view);
+
+}   // end namespace Widget_Factory
 
 #endif

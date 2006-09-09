@@ -93,7 +93,7 @@ KIO::CopyJob* DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDi
     KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(tmpfile.name()), i18n("Save Error"));
     return false;
   }
-  umlDoc->saveToXMI( file, false ); // save the xmi stuff to it
+  umlDoc->saveToXMI(file); // save the xmi stuff to it
   file.close();
   tmpfile.close();
   

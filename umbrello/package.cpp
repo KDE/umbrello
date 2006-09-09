@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2003-2005
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2003-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 // own header file
@@ -23,8 +20,11 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "classifier.h"
+#include "association.h"
 #include "object_factory.h"
 #include "model_utils.h"
+#include "umllistview.h"
+#include "umllistviewitem.h"
 
 using namespace Uml;
 
@@ -56,6 +56,16 @@ UMLObject* UMLPackage::clone() const
 }
 
 bool UMLPackage::addObject(const UMLObject *pObject) {
+    if (pObject == NULL) {
+        kError() << "UMLPackage::addObject is called with a NULL object"
+            << endl;
+        return false;
+    }
+    if (pObject->getBaseType() == Uml::ot_Association) {
+        UMLObject *o = const_cast<UMLObject*>(pObject);
+        UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
+        return UMLCanvasObject::addAssociation(assoc);
+    }
     if (m_objects.find(pObject) != -1) {
         kDebug() << "UMLPackage::addObject: " << pObject->getName()
                   << " is already there" << endl;
@@ -69,8 +79,27 @@ void UMLPackage::removeObject(const UMLObject *pObject) {
     m_objects.remove( pObject );
 }
 
-UMLObjectList& UMLPackage::containedObjects() {
-    return m_objects;
+void UMLPackage::removeAllObjects() {
+    UMLCanvasObject::removeAllAssociations();
+    UMLObject *o;
+    for (UMLObjectListIt oit(m_objects); (o = oit.current()) != NULL; ++oit) {
+        UMLPackage *pkg = dynamic_cast<UMLPackage*>(o);
+        if (pkg)
+            pkg->removeAllObjects();
+        //delete o;
+    }
+    m_objects.clear();
+}
+
+UMLObjectList UMLPackage::containedObjects(bool includeAssociations) {
+    UMLObjectList list = m_objects;
+    if (includeAssociations) {
+        UMLObject *o;
+        for (UMLObjectListIt oit(m_List); (o = oit.current()) != NULL; ++oit) {
+            list.append(o);
+        }
+    }
+    return list;
 }
 
 UMLObject * UMLPackage::findObject(const QString &name) {
@@ -97,9 +126,9 @@ void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
         UMLObject *o = oit.current();
         Object_Type ot = o->getBaseType();
         if (ot == ot_Class || ot == ot_Interface ||
-                ot == ot_Datatype || ot == ot_Enum) {
+                ot == ot_Datatype || ot == ot_Enum || ot == ot_Entity) {
             classifiers.append((UMLClassifier *)o);
-        } else if (includeNested && ot == ot_Package) {
+        } else if (includeNested && (ot == ot_Package || ot == ot_Folder)) {
             UMLPackage *inner = static_cast<UMLPackage *>(o);
             inner->appendClassifiers(classifiers);
         }
@@ -114,7 +143,7 @@ void UMLPackage::appendClasses(UMLClassifierList& classes,
         if (ot == ot_Class) {
             UMLClassifier *c = static_cast<UMLClassifier*>(o);
             classes.append(c);
-        } else if (includeNested && ot == ot_Package) {
+        } else if (includeNested && (ot == ot_Package || ot == ot_Folder)) {
             UMLPackage *inner = static_cast<UMLPackage *>(o);
             inner->appendClasses(classes);
         }
@@ -129,7 +158,7 @@ void UMLPackage::appendClassesAndInterfaces(UMLClassifierList& classifiers,
         if (ot == ot_Class || ot == ot_Interface) {
             UMLClassifier *c = static_cast<UMLClassifier*>(o);
             classifiers.append(c);
-        } else if (includeNested && ot == ot_Package) {
+        } else if (includeNested && (ot == ot_Package || ot == ot_Folder)) {
             UMLPackage *inner = static_cast<UMLPackage *>(o);
             inner->appendClassesAndInterfaces(classifiers);
         }
@@ -144,7 +173,7 @@ void UMLPackage::appendInterfaces( UMLClassifierList& interfaces,
         if (ot == ot_Interface) {
             UMLClassifier *c = static_cast<UMLClassifier*>(o);
             interfaces.append(c);
-        } else if (includeNested && ot == ot_Package) {
+        } else if (includeNested && (ot == ot_Package || ot == ot_Folder)) {
             UMLPackage *inner = static_cast<UMLPackage *>(o);
             inner->appendInterfaces(interfaces);
         }
@@ -152,9 +181,7 @@ void UMLPackage::appendInterfaces( UMLClassifierList& interfaces,
 }
 
 bool UMLPackage::resolveRef() {
-    // UMLObject::resolveRef() is not required by ot_Package itself
-    // but might be required by some inheriting class.
-    bool overallSuccess = UMLObject::resolveRef();
+    bool overallSuccess = UMLCanvasObject::resolveRef();
     for (UMLObjectListIt oit(m_objects); oit.current(); ++oit) {
         UMLObject *obj = oit.current();
         if (! obj->resolveRef())
@@ -165,24 +192,20 @@ bool UMLPackage::resolveRef() {
 
 void UMLPackage::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     QDomElement packageElement = UMLObject::save("UML:Package", qDoc);
-    QDomElement ownedElement = qDoc.createElement( "UML:Namespace.ownedElement" );
+    QDomElement ownedElement = qDoc.createElement("UML:Namespace.ownedElement");
+    UMLObject *obj;
+    // save classifiers etc.
+    for (UMLObjectListIt oit(m_objects); (obj = oit.current()) != NULL; ++oit)
+        obj->saveToXMI (qDoc, ownedElement);
+    // save associations
+    for (UMLObjectListIt ait(m_List); (obj = ait.current()) != NULL; ++ait)
+        obj->saveToXMI (qDoc, ownedElement);
 
-#ifndef XMI_FLAT_PACKAGES
-    // Save datatypes first.
-    // This will cease to be necessary once deferred type resolution is up.
-    for (UMLObject *obj = m_objects.first(); obj; obj = m_objects.next())
-        if (obj->getBaseType() == Uml::ot_Datatype)
-            obj->saveToXMI (qDoc, ownedElement);
-    for (UMLObject *obj = m_objects.first(); obj; obj = m_objects.next())
-        if (obj->getBaseType() != Uml::ot_Datatype)
-            obj->saveToXMI (qDoc, ownedElement);
-#endif
-    packageElement.appendChild( ownedElement );
+    packageElement.appendChild(ownedElement);
     qElement.appendChild(packageElement);
 }
 
 bool UMLPackage::load(QDomElement& element) {
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
     for (QDomNode node = element.firstChild(); !node.isNull();
             node = node.nextSibling()) {
         if (node.isComment())
@@ -203,16 +226,13 @@ bool UMLPackage::load(QDomElement& element) {
         UMLObject *pObject = Object_Factory::makeObjectFromXMI(type);
         if( !pObject ) {
             kWarning() << "UMLPackage::load: "
-            << "Unknown type of umlobject to create: "
-            << type << endl;
+                << "Unknown type of umlobject to create: "
+                << type << endl;
             continue;
         }
         pObject->setUMLPackage(this);
-        if (pObject->loadFromXMI(tempElement)) {
-            addObject(pObject);
-            if (tagEq(type, "Generalization"))
-                umldoc->addAssocToConcepts((UMLAssociation *) pObject);
-        } else {
+        if (!pObject->loadFromXMI(tempElement)) {
+            removeObject(pObject);
             delete pObject;
         }
     }

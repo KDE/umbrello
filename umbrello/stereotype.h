@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2003-2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2003-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 #ifndef STEREOTYPE_H
@@ -24,6 +21,7 @@
  *
  * @short Sets up stereotype information.
  * @author Jonathan Riddell
+ * @author Oliver Kellogg
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
@@ -34,15 +32,11 @@ public:
      *
      * @param name              The name of this UMLStereotype.
      * @param id                The unique id given to this UMLStereotype.
-     * @param listType  The list which this stereotype is part of
-     *                  (attribute, operation etc)
      */
     UMLStereotype(const QString &name, Uml::IDType id = Uml::id_None);
 
     /**
      * Sets up a stereotype.
-     *
-     * @param parent    The parent of this UMLStereotype.
      */
     UMLStereotype();
 
@@ -95,10 +89,14 @@ public:
 
 protected:
     /**
-     * Loads a <UML:StereoType> XMI element.
+     * Each stereotype object is reference counted, i.e. client code
+     * manages it such that it comes into existence as soon as there is
+     * at least one user, and ceases existing when the number of users
+     * drops to 0.
+     * m_refCount reflects the number of users.  It is externally managed,
+     * i.e. client code must take care to call incrRefCount() and
+     * decrRefCount() as appropriate.
      */
-    bool load(QDomElement& element);
-
     int m_refCount;
 };
 

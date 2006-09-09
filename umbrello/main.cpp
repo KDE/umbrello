@@ -85,6 +85,11 @@ void initDocument(KCmdLineArgs *args, KConfig* cfg);
  */
 void exportAllViews(KCmdLineArgs *args, const QByteArrayList &exportOpt);
 
+extern "C" int flushEvents() {
+    kapp->processEvents();
+    return 0;
+}
+
 int main(int argc, char *argv[]) {
     KAboutData aboutData( "umbrello", I18N_NOOP("Umbrello UML Modeller"),
                           UMBRELLO_VERSION, description, KAboutData::License_GPL,
@@ -103,6 +108,7 @@ int main(int argc, char *argv[]) {
         bool showGUI = getShowGUI(args);
 
         UMLApp *uml = new UMLApp();
+        flushEvents();
         KConfig * cfg = app.sessionConfig();
 
         KStartupLogo* startLogo = showStartupLogo(cfg, showGUI);

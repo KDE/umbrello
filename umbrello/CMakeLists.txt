@@ -211,10 +211,10 @@ set(umbrello_SRCS
    enumwidget.cpp 
    floatingtextwidget.cpp 
    floatingtextwidgetcontroller.cpp
+   folder.cpp
    forkjoinwidget.cpp 
    hierarchicalcodeblock.cpp 
    import_rose.cpp 
-   infowidget.cpp 
    kplayerslideraction.cpp
    kstartuplogo.cpp 
    linepath.cpp 
@@ -272,9 +272,11 @@ set(umbrello_SRCS
    umlviewimageexportermodel.cpp
    umlwidget.cpp 
    umlwidgetcontroller.cpp
+   uniqueid.cpp
    usecase.cpp 
    usecasewidget.cpp 
    widgetbase.cpp 
+   widget_factory.cpp
    widget_utils.cpp 
    worktoolbar.cpp 
    )

@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2005
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 //qt include files
@@ -173,7 +170,7 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 }
 
 void WorkToolBar::buttonChanged(int b) {
-    UMLView* view = UMLApp::app()->getDocument()->getCurrentView();
+    UMLView* view = UMLApp::app()->getCurrentView();
 
     //if trying to turn off arrow - stop it
     ToolBar_Buttons tbb = (ToolBar_Buttons)b;
@@ -216,7 +213,7 @@ void WorkToolBar::slotResetToolBar() {
     QCursor curs;
     curs.setShape(Qt::ArrowCursor);
 
-    UMLView* view = UMLApp::app()->getDocument()->getCurrentView();
+    UMLView* view = UMLApp::app()->getCurrentView();
     if (view != NULL) {
         view -> setCursor(curs);
     }

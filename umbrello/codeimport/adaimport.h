@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2005                                                     *
+ *  copyright (C) 2005-2006                                                *
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
 
@@ -34,6 +34,15 @@ protected:
      * Implement abstract operation from NativeImportBase.
      */
     bool parseStmt();
+
+    /**
+     * Split the line so that a string is returned as a single element of the list.
+     * When not in a string then split at white space.
+     * Reimplementation of method from NativeImportBase is required because of
+     * Ada's tic which is liable to be confused with the beginning of a character
+     * constant.
+     */
+    QStringList split(QString line);
 
     /**
      * Implement abstract operation from NativeImportBase.

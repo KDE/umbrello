@@ -63,27 +63,22 @@
 #include "inputdialog.h"
 #include "clipboard/idchangelog.h"
 #include "clipboard/umldrag.h"
+#include "widget_factory.h"
 #include "floatingtextwidget.h"
 #include "classifierwidget.h"
 #include "classifier.h"
 #include "packagewidget.h"
 #include "package.h"
+#include "folder.h"
 #include "componentwidget.h"
-#include "component.h"
 #include "nodewidget.h"
-#include "node.h"
 #include "artifactwidget.h"
-#include "artifact.h"
 #include "datatypewidget.h"
 #include "datatype.h"
 #include "enumwidget.h"
-#include "enum.h"
 #include "entitywidget.h"
-#include "entity.h"
 #include "actorwidget.h"
-#include "actor.h"
 #include "usecasewidget.h"
-#include "usecase.h"
 #include "notewidget.h"
 #include "boxwidget.h"
 #include "associationwidget.h"
@@ -93,7 +88,7 @@
 #include "forkjoinwidget.h"
 #include "activitywidget.h"
 #include "seqlinewidget.h"
-
+#include "uniqueid.h"
 #include "umllistviewitemlist.h"
 #include "umllistviewitem.h"
 #include "umllistview.h"
@@ -120,9 +115,10 @@ using namespace Uml;
 
 
 // constructor
-UMLView::UMLView() : Q3CanvasView(UMLApp::app()->getMainViewWidget(), "AnUMLView"), m_pChildDisplayedDoc(false) {
+UMLView::UMLView(UMLFolder *parentFolder) : Q3CanvasView(UMLApp::app()->getMainViewWidget()) {
     init();
     m_pDoc = UMLApp::app()->getDocument();
+    m_pFolder = parentFolder;
 }
 
 void UMLView::init() {
@@ -145,6 +141,7 @@ void UMLView::init() {
     // Initialize other data
     m_AssociationList.setAutoDelete( true );
     //Setup up booleans
+    m_bChildDisplayedDoc = false;
     m_bPaste = false;
     m_bDrawRect = false;
     m_bActivated = false;
@@ -248,6 +245,15 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
     int marginX = pPrinter->margins().width();
     int marginY = pPrinter->margins().height();
 
+    if(pPrinter->orientation() == KPrinter::Landscape) {
+        // we are printing in LANDSCAPE --> swap marginX and marginY
+        // this is needed, as KPrinter reports width margin strictly as printer
+        // default orientation margin - and not depend on LANDSCAPE/PORTRAIT
+        int temp = marginX;
+        marginX = marginY;
+        marginY = temp;
+    }
+
     // The printer will probably use a different font with different font metrics,
     // force the widgets to update accordingly on paint
     forceUpdateWidgetFontMetrics(&pPainter);
@@ -258,7 +264,6 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
         width = metrics.width() - marginX * 2;
         height = metrics.height() - fontHeight - 4 - marginY * 3;
     } else {
-        marginX *= 2;
         width = metrics.width() - marginX * 2;
         height = metrics.height() - fontHeight - 4 - marginY * 2;
     }
@@ -345,12 +350,12 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
     int windowHeight = (int)ceil(dScaleUse*height);
 #ifdef DEBUG_PRINTING
     kDebug() << "drawHeight: " << drawHeight << ", width: " << rect.width()
-    << "\nPageHeight: " << height << ", PageWidht: " << width
-    << "\nScaleY: " << dScaleY << ", ScaleX: " << dScaleX
-    << "\ndScaleUse: " << dScaleUse
-    << "\nVirtualSize: Width: " << windowWidth << ", Height: " << windowHeight
-    << "\nFoot Top: " << footTop
-    << endl;
+              << "\nPageHeight: " << height << ", PageWidht: " << width
+              << "\nScaleY: " << dScaleY << ", ScaleX: " << dScaleX
+              << "\ndScaleUse: " << dScaleUse
+              << "\nVirtualSize: Width: " << windowWidth << ", Height: " << windowHeight
+              << "\nFoot Top: " << footTop
+              << endl;
 #endif
     // set virtual drawing area window - where diagram fits 100% in
     pPainter.setWindow( rect.x(), rect.y(), windowWidth, windowHeight );
@@ -460,98 +465,15 @@ void UMLView::hideEvent(QHideEvent* /*he*/) {
 
 void UMLView::slotObjectCreated(UMLObject* o) {
     m_bPaste = false;
-    int type  = o->getBaseType();
     //check to see if we want the message
     //may be wanted by someone else e.g. list view
     if (!m_bCreateObject)  {
         return;
     }
 
-    int y = m_Pos.y();
-
-    UMLWidget* newWidget = 0;
-    switch (type)
-    {
-    case ot_Actor:
-        if (getType() == dt_Sequence) {
-            ObjectWidget *ow = new ObjectWidget(this, o, getLocalID() );
-            ow->setDrawAsActor(true);
-            if (m_Type == dt_Sequence) {
-                y = ow->topMargin();
-            }
-            newWidget = ow;
-        } else
-            newWidget = new ActorWidget(this, static_cast<UMLActor*>(o));
-        break;
-    case ot_UseCase:
-        newWidget = new UseCaseWidget(this, static_cast<UMLUseCase*>(o));
-        break;
-    case ot_Package:
-        newWidget = new PackageWidget(this, static_cast<UMLPackage*>(o));
-        break;
-    case ot_Component:
-        newWidget = new ComponentWidget(this, static_cast<UMLComponent*>(o));
-        if (getType() == dt_Deployment) {
-            newWidget->setIsInstance(true);
-        }
-        break;
-    case ot_Node:
-        newWidget = new NodeWidget(this,static_cast<UMLNode*>(o));
-        break;
-    case ot_Artifact:
-        newWidget = new ArtifactWidget(this, static_cast<UMLArtifact*>(o));
-        break;
-    case ot_Datatype:
-        newWidget = new DatatypeWidget(this, static_cast<UMLDatatype*>(o));
-        break;
-    case ot_Enum:
-        newWidget = new EnumWidget(this, static_cast<UMLEnum*>(o));
-        break;
-    case ot_Entity:
-        newWidget = new EntityWidget(this, static_cast<UMLEntity*>(o));
-        break;
-    case ot_Interface:
-        {
-            Diagram_Type diagramType = getType();
-            if (diagramType == dt_Sequence || diagramType == dt_Collaboration) {
-                ObjectWidget *ow = new ObjectWidget(this, o, getLocalID() );
-                if (m_Type == dt_Sequence) {
-                    y = ow->topMargin();
-                }
-                newWidget = ow;
-            } else {
-                UMLClassifier *c = static_cast<UMLClassifier*>(o);
-                ClassifierWidget* interfaceWidget = new ClassifierWidget(this, c);
-                if (diagramType == dt_Component || diagramType == dt_Deployment) {
-                    interfaceWidget->setDrawAsCircle(true);
-                }
-                newWidget = interfaceWidget;
-            }
-        }
-        break;
-    case ot_Class:
-        //see if we really want an object widget or class widget
-        if (m_Type == dt_Class || m_Type == dt_Component) {
-            UMLClassifier *c = static_cast<UMLClassifier*>(o);
-            ClassifierWidget *cw = new ClassifierWidget(this, c);
-            if (m_Type == dt_Component)
-                cw->setDrawAsCircle(true);
-            newWidget = cw;
-        } else {
-            ObjectWidget *ow = new ObjectWidget(this, o, getLocalID() );
-            if (m_Type == dt_Sequence) {
-                y = ow->topMargin();
-            }
-            newWidget = ow;
-        }
-        break;
-    default:
-        kWarning() << "trying to create an invalid widget" << endl;
+    UMLWidget* newWidget = Widget_Factory::createWidget(this, o);
+    if (newWidget == NULL)
         return;
-    }
-
-    newWidget->setX( m_Pos.x() );
-    newWidget->setY( y );
     newWidget->setVisible( true );
     newWidget->setActivated();
     newWidget->setFont( getFont() );
@@ -559,7 +481,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
     newWidget->slotLineWidthChanged( getID() );
     m_bCreateObject = false;
     m_WidgetList.append(newWidget);
-    switch( type ) {
+    switch (o->getBaseType()) {
     case ot_Actor:
     case ot_UseCase:
     case ot_Class:
@@ -580,6 +502,8 @@ void UMLView::slotObjectCreated(UMLObject* o) {
             if (w != newWidget)
                 createAutoAttributeAssociations(w);
         }
+        break;
+    default:
         break;
     }
     resizeCanvasToItems();
@@ -608,7 +532,7 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
     UMLDrag::LvTypeAndID * tid = tidIt.current();
     if (!tid) {
         kDebug() << "UMLView::contentsDragEnterEvent: "
-        << "UMLDrag::getClip3TypeAndID returned empty list" << endl;
+                  << "UMLDrag::getClip3TypeAndID returned empty list" << endl;
         return;
     }
     ListView_Type lvtype = tid->type;
@@ -618,7 +542,7 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
 
     UMLObject* temp = 0;
     //if dragging diagram - might be a drag-to-note
-    if (UMLListView::typeIsDiagram(lvtype)) {
+    if (Model_Utils::typeIsDiagram(lvtype)) {
         e->accept(true);
         return;
     }
@@ -704,13 +628,13 @@ void UMLView::contentsDropEvent(QDropEvent *e) {
     UMLDrag::LvTypeAndID * tid = tidIt.current();
     if (!tid) {
         kDebug() << "UMLView::contentsDropEvent: "
-        << "UMLDrag::getClip3TypeAndID returned empty list" << endl;
+                  << "UMLDrag::getClip3TypeAndID returned empty list" << endl;
         return;
     }
     ListView_Type lvtype = tid->type;
     Uml::IDType id = tid->id;
 
-    if (UMLListView::typeIsDiagram(lvtype)) {
+    if (Model_Utils::typeIsDiagram(lvtype)) {
         UMLWidget *w = NULL;
         for (w = m_WidgetList.first(); w; w = m_WidgetList.next()) {
             if (w->getBaseType() == Uml::wt_Note && w->onWidget(e->pos()))
@@ -725,7 +649,7 @@ void UMLView::contentsDropEvent(QDropEvent *e) {
     UMLObject* o = m_pDoc->findObjectById(id);
     if( !o ) {
         kDebug() << "UMLView::contentsDropEvent: object id=" << ID2STR(id)
-        << " not found" << endl;
+                  << " not found" << endl;
         return;
     }
     m_bCreateObject = true;
@@ -851,8 +775,7 @@ AssociationWidget * UMLView::findAssocWidget( Uml::IDType id ) {
 AssociationWidget * UMLView::findAssocWidget(UMLWidget *pWidgetA, UMLWidget *pWidgetB) {
     static Q3ValueList<Association_Type> assocTypes;
     if (assocTypes.isEmpty()) {
-        assocTypes << Uml::at_Aggregation
-        << Uml::at_Composition << Uml::at_Containment;
+        assocTypes << Uml::at_Aggregation << Uml::at_Composition << Uml::at_Containment;
     }
     AssociationWidget* retval = NULL;
     for (uint i=0; i < assocTypes.size(); ++i) {
@@ -880,8 +803,8 @@ AssociationWidget * UMLView::findAssocWidget(Association_Type at,
         if (pWidgetA->getID() == assoc->getWidgetID(B) &&
                 pWidgetB->getID() == assoc->getWidgetID(A)) {
             kDebug() << "UMLView::findAssocWidget: found assoctype " << at
-            << "with swapped roles (A: " << pWidgetA->getName()
-            << ", B: " << pWidgetB->getName() << ")" << endl;
+                      << "with swapped roles (A: " << pWidgetA->getName()
+                      << ", B: " << pWidgetB->getName() << ")" << endl;
             return assoc;
         }
     }
@@ -1055,7 +978,7 @@ void UMLView::clearSelected() {
 //     for(temp=(UMLWidget *)m_SelectedList.first();temp;temp=(UMLWidget *)m_SelectedList.next())
 //         if(temp != w)
 //             temp -> mouseMoveEvent(&me);
-// 
+//
 //     // Move any selected associations.
 //     AssociationWidgetListIt assoc_it( m_AssociationList );
 //     AssociationWidget* assocwidget = NULL;
@@ -1253,31 +1176,35 @@ bool UMLView::isSavedInSeparateFile() {
     UMLListViewItem *lvItem = listView->findItem(m_nID);
     if (lvItem == NULL) {
         kError() << msgPrefix
-        << "listView->findUMLObject(this) returns false"
-        << endl;
+                  << "listView->findUMLObject(this) returns false" << endl;
         return false;
     }
     UMLListViewItem *parentItem = dynamic_cast<UMLListViewItem*>( lvItem->parent() );
     if (parentItem == NULL) {
         kError() << msgPrefix
-        << "parent item in listview is not a UMLListViewItem (?)"
-        << endl;
+                  << "parent item in listview is not a UMLListViewItem (?)" << endl;
         return false;
     }
     const Uml::ListView_Type lvt = parentItem->getType();
-    if (! UMLListView::typeIsFolder(lvt))
+    if (! Model_Utils::typeIsFolder(lvt))
         return false;
-    QString folderFile = parentItem->getFolderFile();
+    UMLFolder *modelFolder = dynamic_cast<UMLFolder*>(parentItem->getUMLObject());
+    if (modelFolder == NULL) {
+        kError() << msgPrefix
+                  << "parent model object is not a UMLFolder (?)" << endl;
+        return false;
+    }
+    QString folderFile = modelFolder->getFolderFile();
     return !folderFile.isEmpty();
 }
 
 void UMLView::contentsMousePressEvent(QMouseEvent* ome)
 {
     m_pToolBarState->mousePress(ome);
-    if (!m_pChildDisplayedDoc) {
+    if (!m_bChildDisplayedDoc) {
       UMLApp::app() -> getDocWindow() -> showDocumentation( this, true );
     }
-    m_pChildDisplayedDoc = false;
+    m_bChildDisplayedDoc = false;
 }
 
 void UMLView::makeSelected (UMLWidget * uw) {
@@ -1489,16 +1416,31 @@ void UMLView::activate() {
     }//end while
 }
 
+int UMLView::getSelectCount(bool filterText) const {
+    if (!filterText)
+        return m_SelectedList.count();
+    int counter = 0;
+    const UMLWidget * temp = 0;
+    for (UMLWidgetListIt iter(m_SelectedList); (temp = iter.current()) != 0; ++iter) {
+        if (temp->getBaseType() == wt_Text) {
+            const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(temp);
+            if (ft->getRole() == tr_Floating)
+                counter++;
+        } else {
+            counter++;
+        }
+    }
+    return counter;
+}
+
 
 bool UMLView::getSelectedWidgets(UMLWidgetList &WidgetList, bool filterText /*= true*/) {
-    UMLWidget * temp = 0;
-    int type;
-    for(temp=(UMLWidget *)m_SelectedList.first();temp;temp=(UMLWidget *)m_SelectedList.next()) {
-        type = temp->getBaseType();
-        if (filterText && type == wt_Text) {
-            if( ((FloatingTextWidget*)temp)->getRole() == tr_Floating ) {
+    const UMLWidget * temp = 0;
+    for (UMLWidgetListIt it(m_SelectedList); (temp = it.current()) != NULL; ++it) {
+        if (filterText && temp->getBaseType() == wt_Text) {
+            const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(temp);
+            if (ft->getRole() == tr_Floating)
                 WidgetList.append(temp);
-            }
         } else {
             WidgetList.append(temp);
         }
@@ -1549,8 +1491,8 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
                 name = ft->getDisplayText();
         }
         kDebug() << "UMLView::addWidget (" << name << " type="
-        << pWidget->getBaseType() << "): position (" << wX << ","
-        << wY << ") is out of range" << endl;
+                  << pWidget->getBaseType() << "): position (" << wX << ","
+                  << wY << ") is out of range" << endl;
         if (xIsOutOfRange) {
             pWidget->setX(0);
             wX = 0;
@@ -1591,7 +1533,7 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
             UMLObject * pObject = m_pDoc -> findObjectById( newID );
             if( !pObject ) {
                 kDebug() << "addWidget: Can't find UMLObject for id "
-                << ID2STR(newID) << endl;
+                          << ID2STR(newID) << endl;
                 return false;
             }
             pWidget -> setUMLObject( pObject );
@@ -1637,7 +1579,7 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
             Uml::IDType newWBID = m_pIDChangesLog ->findNewID( wbID );
             if( newWAID == Uml::id_None || newWBID == Uml::id_None ) {
                 kDebug() << "Error with ids : " << ID2STR(newWAID)
-                << " " << ID2STR(newWBID) << endl;
+                          << " " << ID2STR(newWBID) << endl;
                 return false;
             }
             // Assumption here is that the A/B objectwidgets and the textwidget
@@ -1648,7 +1590,7 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
             if (ft == NULL)
                 kDebug() << "UMLView::addWidget: FloatingTextWidget of Message is NULL" << endl;
             else if (ft->getID() == Uml::id_None)
-                ft->setID( m_pDoc->getUniqueID() );
+                ft->setID( UniqueID::gen() );
             else {
                 Uml::IDType newTextID = m_pDoc->assignNewID( ft->getID() );
                 ft->setID( newTextID );
@@ -1755,7 +1697,7 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation)
     if( !isPasteOperation &&
             !AssocRules::allowAssociation(pAssoc->getAssocType(), m_pWidgetA, m_pWidgetB, false) ) {
         kWarning() << "UMLView::addAssociation: allowAssociation returns false "
-        << "for AssocType " << pAssoc->getAssocType() << endl;
+                    << "for AssocType " << pAssoc->getAssocType() << endl;
         return false;
     }
 
@@ -1861,13 +1803,12 @@ void UMLView::removeAssocInViewAndDoc(AssociationWidget* a) {
         UMLObject *objToBeMoved = a->getWidget(B)->getUMLObject();
         if (objToBeMoved != NULL) {
             UMLListView *lv = UMLApp::app()->getListView();
-            Object_Type ot = objToBeMoved->getBaseType();
             lv->moveObject( objToBeMoved->getID(),
-                            UMLListView::convert_OT_LVT(ot),
+                            Model_Utils::convert_OT_LVT(objToBeMoved),
                             lv->theLogicalView() );
         } else {
             kDebug() << "removeAssocInViewAndDoc(containment): "
-            << "objB is NULL" << endl;
+                      << "objB is NULL" << endl;
         }
     } else {
         // Remove assoc in doc.
@@ -1944,9 +1885,8 @@ bool UMLView::setAssoc(UMLWidget *pWidget) {
             UMLObject *objToBeMoved = widgetB->getUMLObject();
             if (newContainer && objToBeMoved) {
                 UMLListViewItem *newLVParent = lv->findUMLObject(newContainer);
-                Object_Type ot = objToBeMoved->getBaseType();
                 lv->moveObject( objToBeMoved->getID(),
-                                UMLListView::convert_OT_LVT(ot),
+                                Model_Utils::convert_OT_LVT(objToBeMoved),
                                 newLVParent );
             }
         }
@@ -2111,17 +2051,17 @@ Uml::Association_Type UMLView::convert_TBB_AT(WorkToolBar::ToolBar_Buttons tbb) 
 
 void UMLView::showDocumentation( UMLObject * object, bool overwrite ) {
     UMLApp::app() -> getDocWindow() -> showDocumentation( object, overwrite );
-    m_pChildDisplayedDoc = true;
+    m_bChildDisplayedDoc = true;
 }
 
 void UMLView::showDocumentation( UMLWidget * widget, bool overwrite ) {
     UMLApp::app() -> getDocWindow() -> showDocumentation( widget, overwrite );
-    m_pChildDisplayedDoc = true;
+    m_bChildDisplayedDoc = true;
 }
 
 void UMLView::showDocumentation( AssociationWidget * widget, bool overwrite ) {
     UMLApp::app() -> getDocWindow() -> showDocumentation( widget, overwrite );
-    m_pChildDisplayedDoc = true;
+    m_bChildDisplayedDoc = true;
 }
 
 void UMLView::updateDocumentation( bool clear ) {
@@ -2226,13 +2166,13 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
         UMLObject *roleAObj = assoc->getObject(A);
         if (roleAObj == NULL) {
             kDebug() << "createAutoAssociations: roleA object is NULL at UMLAssoc "
-            << ID2STR(assoc->getID()) << endl;
+                      << ID2STR(assoc->getID()) << endl;
             continue;
         }
         UMLObject *roleBObj = assoc->getObject(B);
         if (roleBObj == NULL) {
             kDebug() << "createAutoAssociations: roleB object is NULL at UMLAssoc "
-            << ID2STR(assoc->getID()) << endl;
+                      << ID2STR(assoc->getID()) << endl;
             continue;
         }
         if (roleAObj->getID() == myID) {
@@ -2241,8 +2181,8 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
             other = static_cast<UMLCanvasObject*>(roleAObj);
         } else {
             kDebug() << "createAutoAssociations: Can't find own object "
-            << ID2STR(myID) << " in UMLAssoc "
-            << ID2STR(assoc->getID()) << endl;
+                      << ID2STR(myID) << " in UMLAssoc "
+                      << ID2STR(assoc->getID()) << endl;
             continue;
         }
         // Now that we have determined the "other" UMLObject, seek it in
@@ -2277,7 +2217,7 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
         // Check that the assoc is allowed.
         if (!AssocRules::allowAssociation(assocType, widgetA, widgetB, false)) {
             kDebug() << "createAutoAssociations: not transferring assoc "
-            << "of type " << assocType << endl;
+                      << "of type " << assocType << endl;
             continue;
         }
         // Create the AssociationWidget.
@@ -2301,7 +2241,7 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
     if (t == ot_Package || t == ot_Class || t == ot_Interface || t == ot_Component) {
         // for each of the object's containedObjects
         UMLPackage *umlPkg = static_cast<UMLPackage*>(umlObj);
-        UMLObjectList& lst = umlPkg->containedObjects();
+        UMLObjectList lst = umlPkg->containedObjects();
         for (UMLObject *obj = lst.first(); obj; obj = lst.next()) {
             // if the containedObject has a widget representation on this view then
             Uml::IDType id = obj->getID();
@@ -2641,7 +2581,7 @@ void UMLView::slotMenuSelection(int sel) {
             if(!FloatingTextWidget::isTextValid(ft->getText())) {
                 delete ft;
             } else {
-                ft->setID(m_pDoc->getUniqueID());
+                ft->setID(UniqueID::gen());
                 setupNewWidget(ft);
             }
         }
@@ -3204,7 +3144,7 @@ bool UMLView::loadFromXMI( QDomElement & qElement ) {
     if( m_nID == Uml::id_None )
         return false;
     setName( qElement.attribute( "name", "" ) );
-    QString type = qElement.attribute( "type", "-1" );
+    QString type = qElement.attribute( "type", "0" );
     m_Documentation = qElement.attribute( "documentation", "" );
     QString localid = qElement.attribute( "localid", "0" );
     //optionstate uistate
@@ -3258,7 +3198,45 @@ bool UMLView::loadFromXMI( QDomElement & qElement ) {
     QString width = qElement.attribute( "canvaswidth", QString("%1").arg(UMLView::defaultCanvasSize) );
     m_nCanvasWidth = width.toInt();
 
-    m_Type = (Uml::Diagram_Type)type.toInt();
+    int nType = type.toInt();
+    if (nType == -1 || nType >= 400) {
+        // Pre 1.5.5 numeric values
+        // Values of "type" were changed in 1.5.5 to merge with Settings::Diagram
+        switch (nType) {
+            case 400:
+                m_Type = Uml::dt_UseCase;
+                break;
+            case 401:
+                m_Type = Uml::dt_Collaboration;
+                break;
+            case 402:
+                m_Type = Uml::dt_Class;
+                break;
+            case 403:
+                m_Type = Uml::dt_Sequence;
+                break;
+            case 404:
+                m_Type = Uml::dt_State;
+                break;
+            case 405:
+                m_Type = Uml::dt_Activity;
+                break;
+            case 406:
+                m_Type = Uml::dt_Component;
+                break;
+            case 407:
+                m_Type = Uml::dt_Deployment;
+                break;
+            case 408:
+                m_Type = Uml::dt_EntityRelationship;
+                break;
+            default:
+                m_Type = Uml::dt_Undefined;
+                break;
+        }
+    } else {
+        m_Type = (Uml::Diagram_Type)nType;
+    }
     if( !fillcolor.isEmpty() )
         m_Options.uiState.fillColor = QColor( fillcolor );
     if( !linecolor.isEmpty() )
@@ -3325,99 +3303,11 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
         return 0L;
     }
 
-    UMLWidget* widget = 0;
     QString tag  = widgetElement.tagName();
-
-    if (tag == "statewidget" || tag == "notewidget" || tag == "boxwidget" ||
-        tag == "floatingtext" || tag == "activitywidget" || tag == "forkjoin" ||
-            // tests for backward compatibility:
-            tag == "UML:StateWidget" || tag == "UML:NoteWidget" ||
-            tag == "UML:FloatingTextWidget" || tag == "UML:ActivityWidget")
-    {
-        // Loading of widgets which do NOT represent any UMLObject, --> just graphic stuff with
-        // no real model information
-        //FIXME while boxes and texts are just diagram objects, activities and states should
-        // be UMLObjects
-        if (tag == "statewidget"
-                || tag == "UML:StateWidget") {         // for bkwd compatibility
-            widget = new StateWidget(this, StateWidget::Normal, Uml::id_Reserved);
-        } else if (tag == "notewidget"
-                   || tag == "UML:NoteWidget") {          // for bkwd compatibility
-            widget = new NoteWidget(this, Uml::id_Reserved);
-        } else if (tag == "boxwidget") {
-            widget = new BoxWidget(this, Uml::id_Reserved);
-        } else if (tag == "floatingtext"
-                   || tag == "UML:FloatingTextWidget") {  // for bkwd compatibility
-            widget = new FloatingTextWidget(this, Uml::tr_Floating, "", Uml::id_Reserved);
-        } else if (tag == "activitywidget"
-                   || tag == "UML:ActivityWidget") {      // for bkwd compatibility
-            int type = widgetElement.attribute("activitytype", "1").toInt();
-            if (type == ActivityWidget::Fork_DEPRECATED)  // for bkwd compatibility
-                widget = new ForkJoinWidget(this, false, Uml::id_Reserved);
-            else
-                widget = new ActivityWidget(this, (ActivityWidget::ActivityType)type,
-                                            Uml::id_Reserved);
-        } else if (tag == "forkjoin") {
-            widget = new ForkJoinWidget(this, false, Uml::id_Reserved);
-        }
-    }
-    else
-    {
-        // Find the UMLObject and create the Widget to represent it
-        /* TODO:
-           We peek ahead at the xmi.id and do a UMLDoc::findUMLObject()
-           to resolve the corresponding UMLObject for the widget.
-           That is a breach of encapsulation: Loading the xmi.id should
-           be the sole responsibility of UMLWidget::loadFromXMI().
-           I.e. the widget constructors that take an UMLObject arg
-           should be removed. Any computation in those constructors
-           that relies on the m_pObject being set should be relegated
-           to a separate method.
-         */
-        QString idstr  = widgetElement.attribute( "xmi.id", "-1" );
-        Uml::IDType id = STR2ID(idstr);
-        UMLObject *o(0);
-        if( id == Uml::id_None || !( o = m_pDoc->findObjectById(id)) )
-        {
-            kError() << "UMLView::loadWidgetFromXMI: cannot find object with id "
-            << ID2STR(id) << endl;
-            return NULL;
-        }
-
-        if (tag == "actorwidget"
-                || tag == "UML:ActorWidget") {           // for bkwd compatibility
-            widget = new ActorWidget(this, static_cast<UMLActor*>(o));
-        } else if (tag == "usecasewidget"
-                   || tag == "UML:UseCaseWidget") {  // for bkwd compatibility
-            widget = new UseCaseWidget(this, static_cast<UMLUseCase*>(o));
-        } else if (tag == "classwidget"
-                   || tag == "UML:ClassWidget"       // for bkwd compatibility
-                   || tag == "UML:ConceptWidget") {  // for bkwd compatibility
-            widget = new ClassifierWidget(this, static_cast<UMLClassifier*>(o));
-        } else if (tag == "packagewidget") {
-            widget = new PackageWidget(this, static_cast<UMLPackage*>(o));
-        } else if (tag == "componentwidget") {
-            widget = new ComponentWidget(this, static_cast<UMLComponent*>(o));
-        } else if (tag == "nodewidget") {
-            widget = new NodeWidget(this, static_cast<UMLNode*>(o));
-        } else if (tag == "artifactwidget") {
-            widget = new ArtifactWidget(this, static_cast<UMLArtifact*>(o));
-        } else if (tag == "interfacewidget") {
-            widget = new ClassifierWidget(this, static_cast<UMLClassifier*>(o));
-        } else if (tag == "datatypewidget") {
-            widget = new DatatypeWidget(this, static_cast<UMLDatatype*>(o));
-        } else if (tag == "enumwidget") {
-            widget = new EnumWidget(this, static_cast<UMLEnum*>(o));
-        } else if (tag == "entitywidget") {
-            widget = new EntityWidget(this, static_cast<UMLEntity*>(o));
-        } else if (tag == "objectwidget"
-                   || tag == "UML:ObjectWidget") {  // for bkwd compatibility
-            widget = new ObjectWidget(this, o );
-        } else {
-            kWarning() << "Trying to create an unknown widget:" << tag << endl;
-            return 0L;
-        }
-    }
+    QString idstr  = widgetElement.attribute( "xmi.id", "-1" );
+    UMLWidget* widget = Widget_Factory::makeWidgetFromXMI(tag, idstr, this);
+    if (widget == NULL)
+        return NULL;
     if (!widget->loadFromXMI(widgetElement)) {
         widget->cleanup();
         delete widget;
@@ -3446,8 +3336,7 @@ bool UMLView::loadMessagesFromXMI( QDomElement & qElement ) {
                 m_WidgetList.append( ft );
             else if (message->getSequenceMessageType() != sequence_message_creation)
                 kDebug() << "UMLView::loadMessagesFromXMI: ft is NULL"
-                << " for message " << ID2STR(message->getID())
-                << endl;
+                          << " for message " << ID2STR(message->getID()) << endl;
         }
         node = messageElement.nextSibling();
         messageElement = node.toElement();
@@ -3467,8 +3356,8 @@ bool UMLView::loadAssociationsFromXMI( QDomElement & qElement ) {
             AssociationWidget *assoc = new AssociationWidget(this);
             if( !assoc->loadFromXMI( assocElement ) ) {
                 kError() << "couldn't loadFromXMI association widget:"
-                << assoc << ", bad XMI file? Deleting from umlview."
-                << endl;
+                          << assoc << ", bad XMI file? Deleting from umlview."
+                          << endl;
                 delete assoc;
                 /* return false;
                    Returning false here is a little harsh when the
@@ -3505,7 +3394,7 @@ bool UMLView::loadUisDiagramPresentation(QDomElement & qElement) {
         QString tag = elem.tagName();
         if (! Uml::tagEq(tag, "Presentation")) {
             kError() << "ignoring unknown UisDiagramPresentation tag "
-            << tag << endl;
+                      << tag << endl;
             continue;
         }
         QDomNode n = elem.firstChild();
@@ -3532,7 +3421,7 @@ bool UMLView::loadUisDiagramPresentation(QDomElement & qElement) {
                 idStr = melem.attribute("xmi.idref", "");
             } else {
                 kDebug() << "UMLView::uisLoadFromXMI: ignoring tag "
-                << tag << endl;
+                          << tag << endl;
             }
             n = n.nextSibling();
             e = n.toElement();
@@ -3541,11 +3430,10 @@ bool UMLView::loadUisDiagramPresentation(QDomElement & qElement) {
         UMLObject *o = m_pDoc->findObjectById(id);
         if (o == NULL) {
             kError() << "UMLView::uisLoadFromXMI: Cannot find object for id "
-            << idStr << endl;
+                      << idStr << endl;
         } else {
             Uml::Object_Type ot = o->getBaseType();
-            kDebug() << "Create widget for model object of type "
-            << ot << endl;
+            kDebug() << "Create widget for model object of type " << ot << endl;
             UMLWidget *widget = NULL;
             switch (ot) {
             case Uml::ot_Class:
@@ -3570,7 +3458,7 @@ bool UMLView::loadUisDiagramPresentation(QDomElement & qElement) {
                         m_AssociationList.append(aw);
                     } else {
                         kError() << "cannot create assocwidget from ("
-                        << wA << ", " << wB << ")" << endl;
+                                  << wA << ", " << wB << ")" << endl;
                     }
                     break;
                 }
@@ -3586,12 +3474,12 @@ bool UMLView::loadUisDiagramPresentation(QDomElement & qElement) {
                 }
             default:
                 kError() << "UMLView::uisLoadFromXMI: "
-                << "Cannot create widget of type "
-                << ot << endl;
+                          << "Cannot create widget of type "
+                          << ot << endl;
             }
             if (widget) {
                 kDebug() << "Widget: x=" << x << ", y=" << y
-                << ", w=" << w << ", h=" << h << endl;
+                          << ", w=" << w << ", h=" << h << endl;
                 widget->setX(x);
                 widget->setY(y);
                 widget->setSize(w, h);
@@ -3621,7 +3509,7 @@ bool UMLView::loadUISDiagram(QDomElement & qElement) {
             QString diagramStyle = elem.text();
             if (diagramStyle != "ClassDiagram") {
                 kError() << "UMLView::uisLoadFromXMI: diagram style " << diagramStyle
-                << " is not yet implemented" << endl;
+                          << " is not yet implemented" << endl;
                 continue;
             }
             m_pDoc->setMainViewID(m_nID);
@@ -3632,8 +3520,7 @@ bool UMLView::loadUISDiagram(QDomElement & qElement) {
         } else if (tag == "uisDiagramPresentation") {
             loadUisDiagramPresentation(elem);
         } else if (tag != "uisToolName") {
-            kDebug() << "UMLView::uisLoadFromXMI: ignoring tag "
-            << tag << endl;
+            kDebug() << "UMLView::uisLoadFromXMI: ignoring tag " << tag << endl;
         }
     }
     return true;

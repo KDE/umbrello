@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2005
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 // own header
@@ -25,6 +22,7 @@
 #include "classifier.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "uniqueid.h"
 #include "dialogs/umloperationdialog.h"
 
 UMLOperation::UMLOperation(const UMLClassifier *parent, QString Name, Uml::IDType id,
@@ -51,8 +49,7 @@ UMLOperation::~UMLOperation() {
 UMLAttribute * UMLOperation::addParm(QString type, QString name, QString initialValue,
                                      QString doc, Uml::Parameter_Direction kind) {
     // make the new parameter (attribute) public, just to be safe
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-    UMLAttribute * a = new UMLAttribute(this, name, umldoc->getUniqueID(), Uml::Visibility::Public, type);
+    UMLAttribute * a = new UMLAttribute(this, name, UniqueID::gen(), Uml::Visibility::Public, type);
     a -> setDoc(doc);
     a -> setInitialValue(initialValue);
     a -> setParmKind(kind);
@@ -290,8 +287,7 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement featureElement = qDoc.createElement( "UML:BehavioralFeature.parameter" );
     if (m_pSecondary) {
         QDomElement retElement = qDoc.createElement("UML:Parameter");
-        UMLDoc *pDoc = UMLApp::app()->getDocument();
-        retElement.setAttribute( "xmi.id", ID2STR(pDoc->getUniqueID()) );
+        retElement.setAttribute( "xmi.id", ID2STR(UniqueID::gen()) );
         retElement.setAttribute( "type", ID2STR(m_pSecondary->getID()) );
         retElement.setAttribute( "kind", "return" );
         featureElement.appendChild( retElement );
@@ -424,8 +420,7 @@ bool UMLOperation::load( QDomElement & element ) {
                     pAtt->setParmKind(Uml::pd_In);
                 Uml::IDType id = pAtt->getID();
                 if (ID2STR(id).contains( QRegExp("\\D") )) {
-                    UMLDoc *pDoc = UMLApp::app()->getDocument();
-                    (void) pDoc->getUniqueID();
+                    (void) UniqueID::gen();
                     // This counts up UMLDoc::m_HighestIDForForeignFile.
                 }
                 m_List.append( pAtt );

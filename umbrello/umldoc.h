@@ -58,6 +58,7 @@ class IDChangeLog;
 class ObjectWidget;
 class UMLWidget;
 class UMLPackage;
+class UMLFolder;
 
 /**
   * UMLDoc provides a document object for a document-view model.
@@ -87,6 +88,12 @@ public:
      * Destructor for the fileclass of the application
      */
     ~UMLDoc();
+
+    /**
+     * Initialize the UMLDoc.
+     * To be called after the constructor, before anything else.
+     */
+    void init();
 
     /**
      * Adds a view to the document which represents the document
@@ -265,11 +272,12 @@ public:
     /**
      * Creates a diagram of the given type.
      *
+     * @param folder            The folder in which tp create the diagram.
      * @param type              The type of diagram to create.
      * @param askForName        If true shows a dialog box asking for name,
      *                  else uses a default name.
      */
-    void createDiagram(Uml::Diagram_Type type, bool askForName = true);
+    void createDiagram(UMLFolder *folder, Uml::Diagram_Type type, bool askForName = true);
 
     /**
      * Removes an @ref UMLObject from the current file.  If this object
@@ -405,21 +413,13 @@ public:
     Uml::IDType getModelID() const;
 
     /**
-     * Used to give a unique ID to any sort of object.
-     *
-     * @return  A new unique ID.
-     */
-    Uml::IDType getUniqueID();
-
-    /**
      * This method is called for saving the given model as a XMI file.
      * It is virtual and calls the corresponding saveToXMI() functions
      * of the derived classes.
      *
      * @param file              The file to be saved to.
-     * @param saveSubmodelFiles True if external folders should be saved.
      */
-    virtual void saveToXMI(QIODevice& file, bool saveSubmodelFiles = false);
+    virtual void saveToXMI(QIODevice& file);
 
     /**
      * Checks the given XMI file if it was saved with correct Unicode
@@ -504,12 +504,19 @@ public:
     void signalUMLObjectCreated(UMLObject * o);
 
     /**
-     * Returns the current view.
+     * Returns the datatype folder.
      *
-     * @return  Pointer to the current UMLView.
+     * @return  Pointer to the predefined folder for datatypes.
      */
-    UMLView * getCurrentView() {
-        return m_currentView;
+    UMLFolder * getDatatypeFolder() {
+        return m_datatypeRoot;
+    }
+
+    /**
+     * Return the name of the predefined Datatypes folder in the Logical View.
+     */
+    QString datatypeFolderName() const {
+        return m_datatypeFolderName;
     }
 
     /**
@@ -574,9 +581,7 @@ public:
      *
      * @return  List of UML views.
      */
-    const UMLViewList &getViewIterator() const {
-        return m_ViewList;
-    }
+    UMLViewList getViewIterator();
 
     /**
      * Assigns an already created UMLObject a new ID.
@@ -593,11 +598,9 @@ public:
      * any ids or signal.  Use AddUMLObjectPaste if pasting.
      *
      * @param object   The object to add.
-     * @param prepend  True if wish to prepend the object to the object list
-     *                 (default: append)
      * @return  True if the object was actually added.
      */
-    bool addUMLObject(UMLObject * object, bool prepend = false);
+    bool addUMLObject(UMLObject * object);
 
     /**
      * Adds an already created UMLView to the document, it gets
@@ -610,6 +613,11 @@ public:
      * @return  True if operation successful.
      */
     bool addUMLView(UMLView * pView );
+
+    /**
+     * Return the predefined root folder of the given type.
+     */
+    UMLFolder *getRootFolder(Uml::Model_Type mt);
 
     /**
      * Read property of IDChangeLog* m_pChangeLog.
@@ -659,8 +667,6 @@ public:
     /**
      * Activate all the diagrams/views after loading so all their
      * widgets keep their IDs.
-     *
-     * @return  True if operation successful.
      */
     void activateAllViews();
 
@@ -704,11 +710,6 @@ public:
      * redo action.
      */
     void clearRedoStack();
-
-    /**
-     * All the UMLViews (i.e. diagrams)
-     */
-    UMLViewList m_ViewList;
 
     /**
      * Returns a name for the new object, appended with a number
@@ -772,15 +773,6 @@ public:
     void writeToStatusBar(const QString &text);
 
     /**
-     * Folders in the listview can be marked such that their contents
-     * are saved to a separate file.
-     * This method loads the separate folder file.
-     * CAVEAT: This is not XMI standard compliant.
-     * If standard compliance is an issue then avoid folder files.
-     */
-    bool loadFolderFile(QString filename);
-
-    /**
      * Type resolution pass.
      */
     void resolveTypes();
@@ -797,7 +789,20 @@ private:
      */
     void initSaveTimer();
 
-    UMLObjectList m_objectList;
+    /**
+     * Array of predefined root folders.
+     */
+    UMLFolder *m_root[Uml::N_MODELTYPES];
+    /**
+     * Predefined root folder for datatypes, contained in
+     * m_root[Uml::mt_Logical]
+     */
+    UMLFolder *m_datatypeRoot;
+
+    /**
+     * Name of the predefined Datatypes folder in the Logical View
+     */
+    QString m_datatypeFolderName;
 
     /**
      * The UMLDoc is the sole owner of all stereotypes.
@@ -808,21 +813,11 @@ private:
      */
     UMLStereotypeList m_stereoList;
 
-    /**
-     * In principle, each model object gets assigned a unique ID.
-     * NOTE: Currently this is an int although Uml::IDType is a string
-     *       (unless ID_USE_INT is defined.) Perhaps it should be changed
-     *       to Uml::IDType but then we need a unique string generator.
-     *       See also UMLView::m_nLocalID.
-     */
-    int m_uniqueID;
-
     QString m_Name; ///< name of this model as stored in the <UML:Model> tag
     Uml::IDType m_modelID; ///< xmi.id of this model in the <UML:Model>
     int m_count;   ///< auxiliary counter for the progress bar
     bool m_modified;
     KUrl m_doc_url;
-    UMLView* m_currentView;
 
     /**
      * Contains all the UMLObject id changes of paste session.
@@ -887,15 +882,6 @@ private:
 public slots:
 
     void slotRemoveUMLObject(UMLObject*o);
-
-
-    /**
-     * Calls repaint() on all views connected to the document
-     * object and is called by the view by which the document has
-     * been changed.  As this view normally repaints itself, it is
-     * excluded from the paintEvent.
-     */
-    void slotUpdateAllViews(UMLView *sender);
 
     /**
      * Called after a specified time to autosave the document.

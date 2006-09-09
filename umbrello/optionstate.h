@@ -28,20 +28,6 @@ enum Page
     page_codeview
 };
 
-enum Diagram
-{
-    diagram_no = 0,
-    diagram_class,
-    diagram_usecase,
-    diagram_sequence,
-    diagram_collaboration,
-    diagram_state,
-    diagram_activity,
-    diagram_component,
-    diagram_deployment,
-    diagram_entityrelationship
-};
-
 //public structs
 struct GeneralState {
     bool undo;
@@ -55,7 +41,7 @@ struct GeneralState {
     bool logo;
     bool tip;
     bool loadlast;
-    Diagram diagram;
+    Uml::Diagram_Type diagram;
     QString lastFile;
 };
 

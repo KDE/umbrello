@@ -31,10 +31,7 @@ namespace Object_Factory {
  * @param n         A name to give to the object (optional.)
  *                  If not given then an input dialog prompts
  *                  the user to supply a name.
- * @param parentPkg The object's parent package (optional.)
- * @param prepend   Set true if it is desired to prepend the new
- *                  object to the list of objects.
- *                  The default is to append.
+ * @param parentPkg The object's parent package.
  * @param solicitNewName  Ask user for a different name if an object
  *                        of the given name already exists.
  *                        If set to false and the name already exists
@@ -44,7 +41,6 @@ namespace Object_Factory {
 UMLObject* createUMLObject(Uml::Object_Type type,
                            const QString &n = QString::null,
                            UMLPackage *parentPkg = 0,
-                           bool prepend = false,
                            bool solicitNewName = true);
 
 /**
@@ -79,7 +75,7 @@ bool assignUniqueIdOnCreation();
  * Make a new UMLObject according to the given XMI tag.
  * Used by loadFromXMI and clipboard paste.
  */
-UMLObject* makeObjectFromXMI(const QString &xmiTag);
+UMLObject* makeObjectFromXMI(QString xmiTag, QString stereoID = QString::null);
 
 }
 

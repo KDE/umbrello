@@ -270,8 +270,10 @@ Association_Type AssocRules::isGeneralisationOrRealisation(UMLWidget* widgetA, U
 AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
     //  Association     widgetA         widgetB         role    multiplicity    directional     self
     { at_Association_Self,wt_Class,     wt_Class,       true,   true,   true,   true  },
+    { at_Association_Self,wt_Object,    wt_Object,      true,   true,   true,   true  },
     { at_Association_Self,wt_Interface, wt_Interface,   true,   true,   true,   true  },
     { at_Association,   wt_Class,       wt_Class,       true,   true,   true,   true },
+    { at_Association,   wt_Object,      wt_Object,      true,   true,   true,   true },
     { at_Association,   wt_Interface,   wt_Interface,   true,   true,   true,   true },
     { at_Association,   wt_Interface,   wt_Class,       true,   true,   true,   false },
     { at_Association,   wt_Class,       wt_Interface,   true,   true,   true,   false },
@@ -287,6 +289,7 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
     { at_Association,   wt_Interface,   wt_Artifact,    true,   false,  false,  false },
     { at_Association,   wt_Node,        wt_Node,        true,   false,  false,  false },
     { at_UniAssociation,wt_Class,       wt_Class,       true,   true,   true,   true  },
+    { at_UniAssociation,wt_Object,      wt_Object,      true,   true,   true,   true  },
     { at_UniAssociation,wt_Interface,   wt_Interface,   true,   true,   true,   true  },
     { at_UniAssociation,wt_Interface,   wt_Class,       true,   true,   true,   true  },
     { at_UniAssociation,wt_Class,       wt_Interface,   true,   true,   true,   true  },

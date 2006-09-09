@@ -276,7 +276,7 @@ void AlignToolBar::alignVerticalDistribute(UMLWidgetList &widgetList) {
     int smallestY = getSmallestY(widgetList);
     int biggestY = getBiggestY(widgetList);
     int heightsSum = getHeightsSum(widgetList);
-    int distance = ((biggestY - smallestY) - heightsSum) / (int)(widgetList.count()-1);
+    int distance = int(((biggestY - smallestY) - heightsSum) / (widgetList.count()-1.0) + 0.5);
 
     sortWidgetList(widgetList, hasWidgetSmallerY);
 
@@ -289,8 +289,7 @@ void AlignToolBar::alignVerticalDistribute(UMLWidgetList &widgetList) {
     ++it;
     while ((widget = it.current()) != 0) {
         ++it;
-        widget->setY((widgetPrev->getY() + int(widgetPrev->getHeight() / 2)) +
-                        distance + int(widget->getHeight() / 2));
+        widget->setY(widgetPrev->getY() + widgetPrev->getHeight() + distance);
         widgetPrev = widget;
     }
 }
@@ -299,7 +298,7 @@ void AlignToolBar::alignHorizontalDistribute(UMLWidgetList &widgetList) {
     int smallestX = getSmallestX(widgetList);
     int biggestX = getBiggestX(widgetList);
     int widthsSum = getWidthsSum(widgetList);
-    int distance = ((biggestX - smallestX) - widthsSum) / (int)(widgetList.count()-1);
+    int distance = int(((biggestX - smallestX) - widthsSum) / (widgetList.count()-1.0) + 0.5);
 
     sortWidgetList(widgetList, hasWidgetSmallerX);
 
@@ -312,8 +311,7 @@ void AlignToolBar::alignHorizontalDistribute(UMLWidgetList &widgetList) {
     ++it;
     while ((widget = it.current()) != 0) {
         ++it;
-        widget->setX((widgetPrev->getX() + int(widgetPrev->getWidth() / 2)) +
-                        distance + int(widget->getWidth() / 2));
+        widget->setX(widgetPrev->getX() + widgetPrev->getWidth() + distance);
         widgetPrev = widget;
     }
 }
@@ -338,7 +336,7 @@ void AlignToolBar::sortWidgetList(UMLWidgetList &widgetList, Compare comp) {
 /* ------ private slots ------ */
 
 void AlignToolBar::slotButtonChanged(int btn) {
-    UMLView* view = UMLApp::app()->getDocument()->getCurrentView();
+    UMLView* view = UMLApp::app()->getCurrentView();
     UMLWidgetList widgetList;
     UMLWidget* widget;
 

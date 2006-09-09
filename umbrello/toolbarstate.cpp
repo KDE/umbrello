@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,13 +5,17 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  copyright (C) 2004-2006                                                *
+ *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
+
+// own header
+#include "toolbarstate.h"
+// qt/kde includes
 #include <qmatrix.h> // need for inverseWorldMatrix.map
 #include <qevent.h>
-
 #include <kdebug.h>
-
-#include "toolbarstate.h"
+// app includes
 #include "umlview.h"
 #include "umlwidget.h"
 #include "messagewidget.h"
@@ -168,7 +167,6 @@ void ToolBarState::mouseMove(QMouseEvent* ome)
 bool ToolBarState::setSelectedWidget(QMouseEvent * me)
 {
     m_pUMLView->setMoveAssoc(NULL);
-    m_pUMLView->setOnWidget(NULL);
 
     // Check associations.
     AssociationWidgetListIt assoc_it(m_pUMLView->getAssociationList());
@@ -190,6 +188,11 @@ bool ToolBarState::setSelectedWidget(QMouseEvent * me)
     for (MessageWidgetListIt mit(m_pUMLView->getMessageList()); mit.current(); ++mit) {
         MessageWidget *obj = mit.current();
         if (obj->isVisible() && obj->onWidget(me->pos())) {
+            UMLWidget *bkgnd = m_pUMLView->getOnWidget();
+            if (bkgnd && obj != bkgnd) {   // change of selected object
+                bkgnd->setSelected(false);
+                m_pUMLView->setOnWidget(NULL);
+            }
             m_pUMLView->setOnWidget( obj );
             obj->mousePressEvent( me );
             m_bWidgetSelected = true;
@@ -213,14 +216,23 @@ bool ToolBarState::setSelectedWidget(QMouseEvent * me)
         }
     }
     if (smallestObj) {
+        UMLWidget *bkgnd = m_pUMLView->getOnWidget();
+        if (bkgnd && smallestObj != bkgnd) {   // change of selected object
+            bkgnd->setSelected(false);
+            m_pUMLView->setOnWidget(NULL);
+        }
         m_pUMLView->setOnWidget(smallestObj);
         smallestObj->mousePressEvent(me);
         m_bWidgetSelected = true;
         return true;
     }
 
-    m_pUMLView->setOnWidget(NULL);
+    if (m_pUMLView->getOnWidget()) {   // clear selected object
+        m_pUMLView->getOnWidget()->setSelected(false);
+        m_pUMLView->setOnWidget(NULL);
+    }
 
     m_bWidgetSelected = false;
     return false;
 }
+

@@ -23,6 +23,7 @@
 #include <kdebug.h>
 
 // app includes
+#include "folder.h"
 #include "classifier.h"
 #include "template.h"
 #include "attribute.h"
@@ -33,6 +34,7 @@
 #include "umlobjectlist.h"
 #include "umlview.h"
 #include "model_utils.h"
+#include "uniqueid.h"
 #include "uml.h"
 
 UMLListView* UMLListViewItem::s_pListView = 0;
@@ -45,7 +47,7 @@ UMLListViewItem::UMLListViewItem( UMLListView * parent, const QString &name,
     m_pObject = o;
     if (o)
         m_nId = o->getID();
-    setPixmap( 0, s_pListView -> getPixmap( UMLListView::it_Home ) );
+    setIcon(Uml::it_Home);
     setText( name );
     setRenameEnabled( 0, false );
 }
@@ -77,13 +79,7 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
         updateObject();
         m_nId = o->getID();
     }
-    if( t == Uml::lvt_Logical_View || t == Uml::lvt_UseCase_View ||
-            t == Uml::lvt_Component_View || t == Uml::lvt_Deployment_View ||
-            t == Uml::lvt_Datatype_Folder)  {
-        setRenameEnabled( 0, false );
-    } else {
-        setRenameEnabled( 0, true );
-    }
+    setRenameEnabled( 0, !Model_Utils::typeIsRootView(t) );
     setText( name );
 }
 
@@ -94,31 +90,31 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
     m_nId = id;
     switch (m_Type) {
     case Uml::lvt_Collaboration_Diagram:
-        setPixmap(0, s_pListView->getPixmap( UMLListView::it_Diagram_Collaboration ) );
+        setIcon(Uml::it_Diagram_Collaboration);
         break;
     case Uml::lvt_Class_Diagram:
-        setPixmap(0, s_pListView->getPixmap( UMLListView::it_Diagram_Class ) );
+        setIcon(Uml::it_Diagram_Class);
         break;
     case Uml::lvt_State_Diagram:
-        setPixmap(0, s_pListView->getPixmap( UMLListView::it_Diagram_State ) );
+        setIcon(Uml::it_Diagram_State);
         break;
     case Uml::lvt_Activity_Diagram:
-        setPixmap(0, s_pListView->getPixmap( UMLListView::it_Diagram_Activity ) );
+        setIcon(Uml::it_Diagram_Activity);
         break;
     case Uml::lvt_Sequence_Diagram:
-        setPixmap(0, s_pListView->getPixmap( UMLListView::it_Diagram_Sequence ) );
+        setIcon(Uml::it_Diagram_Sequence);
         break;
     case Uml::lvt_Component_Diagram:
-        setPixmap(0, s_pListView->getPixmap( UMLListView::it_Diagram_Component ) );
+        setIcon(Uml::it_Diagram_Component);
         break;
     case Uml::lvt_Deployment_Diagram:
-        setPixmap(0, s_pListView->getPixmap( UMLListView::it_Diagram_Deployment ) );
+        setIcon(Uml::it_Diagram_Deployment);
         break;
     case Uml::lvt_UseCase_Diagram:
-        setPixmap(0, s_pListView->getPixmap( UMLListView::it_Diagram_Usecase ) );
+        setIcon(Uml::it_Diagram_Usecase);
         break;
     default:
-        setPixmap(0, s_pListView->getPixmap( UMLListView::it_Diagram ) );
+        setIcon(Uml::it_Diagram);
     }
     /*
         Constructor also used by folder so just make sure we don't need to
@@ -174,25 +170,16 @@ void UMLListViewItem::setID(Uml::IDType id) {
         Uml::IDType oid = m_pObject->getID();
         if (id != Uml::id_None && oid != id)
             kDebug() << "UMLListViewItem::setID: new id " << ID2STR(id)
-            << " does not agree with object id " << ID2STR(oid)
-            << endl;
+                << " does not agree with object id " << ID2STR(oid) << endl;
     }
     m_nId = id;
-}
-
-void UMLListViewItem::setFolderFile(QString fileName) {
-    m_FolderFile = fileName;
-}
-
-QString UMLListViewItem::getFolderFile() {
-    return m_FolderFile;
 }
 
 bool UMLListViewItem::isOwnParent(Uml::IDType listViewItemID) {
     Q3ListViewItem *lvi = (Q3ListViewItem*)s_pListView->findItem(listViewItemID);
     if (lvi == NULL) {
         kError() << "UMLListViewItem::isOwnParent: ListView->findItem("
-        << ID2STR(listViewItemID) << ") returns NULL" << endl;
+            << ID2STR(listViewItemID) << ") returns NULL" << endl;
         return true;
     }
     for (Q3ListViewItem *self = (Q3ListViewItem*)this; self; self = self->parent()) {
@@ -215,126 +202,58 @@ void UMLListViewItem::updateObject() {
     }
     setText(modelObjText);
 
-    UMLListView::Icon_Type icon = UMLListView::it_Home;
+    Uml::Icon_Type icon = Uml::it_Home;
     switch (ot) {
-    case Uml::ot_Actor:
-        icon = UMLListView::it_Actor;
-        break;
-
-    case Uml::ot_UseCase:
-        icon = UMLListView::it_UseCase;
-        break;
-
-    case Uml::ot_Class:
-        icon = UMLListView::it_Class;
-        break;
-
-    case Uml::ot_Template:
-        icon = UMLListView::it_Template;
-        break;
-
     case Uml::ot_Package:
         if (m_pObject->getStereotype() == "subsystem")
-            icon =  UMLListView::it_Subsystem;
+            icon = Uml::it_Subsystem;
         else
-            icon =  UMLListView::it_Package;
+            icon = Uml::it_Package;
         break;
-
-    case Uml::ot_Component:
-        icon =  UMLListView::it_Component;
+/*
+    case Uml::ot_Folder:
+        {
+            Uml::ListView_Type lvt = Model_Utils::convert_OT_LVT(m_pObject);
+            icon = Model_Utils::convert_LVT_IT(lvt);
+        }
         break;
-
-    case Uml::ot_Node:
-        icon =  UMLListView::it_Node;
-        break;
-
-    case Uml::ot_Artifact:
-        icon =  UMLListView::it_Artifact;
-        break;
-
-    case Uml::ot_Interface:
-        icon =  UMLListView::it_Interface;
-        break;
-
-    case Uml::ot_Datatype:
-        icon =  UMLListView::it_Datatype;
-        break;
-
-    case Uml::ot_Enum:
-        icon =  UMLListView::it_Enum;
-        break;
-
-    case Uml::ot_Entity:
-        icon =  UMLListView::it_Entity;
-        break;
-
+ */
     case Uml::ot_Operation:
         if (scope == Uml::Visibility::Public)
-            icon =  UMLListView::it_Public_Method;
+            icon = Uml::it_Public_Method;
         else if (scope == Uml::Visibility::Private)
-            icon =  UMLListView::it_Private_Method;
+            icon = Uml::it_Private_Method;
         else if (scope == Uml::Visibility::Implementation)
-            icon =  UMLListView::it_Private_Method;
+            icon = Uml::it_Private_Method;
         else
-            icon =  UMLListView::it_Protected_Method;
+            icon = Uml::it_Protected_Method;
         break;
 
     case Uml::ot_Attribute:
     case Uml::ot_EntityAttribute:
         if (scope == Uml::Visibility::Public)
-            icon =  UMLListView::it_Public_Attribute;
+            icon = Uml::it_Public_Attribute;
         else if (scope == Uml::Visibility::Private)
-            icon =  UMLListView::it_Private_Attribute;
+            icon = Uml::it_Private_Attribute;
         else if (scope == Uml::Visibility::Implementation)
-            icon =  UMLListView::it_Private_Attribute;
+            icon = Uml::it_Private_Attribute;
         else
-            icon =  UMLListView::it_Protected_Attribute;
+            icon = Uml::it_Protected_Attribute;
         break;
     default:
+        icon = Model_Utils::convert_LVT_IT(m_Type);
         break;
     }//end switch
     if (icon)
-        setPixmap(0, s_pListView->getPixmap(icon) );
+        setIcon(icon);
 }
 
 void UMLListViewItem::updateFolder() {
-    UMLListView::Icon_Type icon = UMLListView::it_Home;
-    switch( m_Type ) {
-    case Uml::lvt_UseCase_View:
-    case Uml::lvt_UseCase_Folder:
-        icon = UMLListView::it_Folder_Grey;
-        break;
-
-    case Uml::lvt_Logical_View:
-    case Uml::lvt_Logical_Folder:
-        icon = UMLListView::it_Folder_Green;
-        break;
-
-    case Uml::lvt_Datatype_Folder:
-        icon = UMLListView::it_Folder_Orange;
-        break;
-
-    case Uml::lvt_Component_View:
-    case Uml::lvt_Component_Folder:
-        icon = UMLListView::it_Folder_Red;
-        break;
-
-    case Uml::lvt_Deployment_View:
-    case Uml::lvt_Deployment_Folder:
-        icon = UMLListView::it_Folder_Violet;
-        break;
-
-    case Uml::lvt_EntityRelationship_Model:
-    case Uml::lvt_EntityRelationship_Folder:
-        icon = UMLListView::it_Folder_Cyan;
-        break;
-
-    default:
-        break;
-    }
+    Uml::Icon_Type icon = Model_Utils::convert_LVT_IT(m_Type);
     if (icon) {
-        icon = (UMLListView::Icon_Type)((int)icon + (int)isOpen());
-        setPixmap(0, s_pListView->getPixmap(icon) );
+        if (Model_Utils::typeIsFolder(m_Type))
+            icon = (Uml::Icon_Type)((int)icon + (int)isOpen());
+        setIcon(icon);
     }
 }
 
@@ -350,6 +269,10 @@ void UMLListViewItem::setText(const QString &newText) {
 
 QString UMLListViewItem::getText() const {
     return m_Label;
+}
+
+void UMLListViewItem::setIcon(Uml::Icon_Type iconType) {
+    setPixmap(0, s_pListView->getPixmap(iconType));
 }
 
 void UMLListViewItem::okRename( int col ) {
@@ -380,6 +303,11 @@ void UMLListViewItem::okRename( int col ) {
     case Uml::lvt_Actor:
     case Uml::lvt_Class:
     case Uml::lvt_Package:
+    case Uml::lvt_UseCase_Folder:
+    case Uml::lvt_Logical_Folder:
+    case Uml::lvt_Component_Folder:
+    case Uml::lvt_Deployment_Folder:
+    case Uml::lvt_EntityRelationship_Folder:
     case Uml::lvt_Interface:
     case Uml::lvt_Datatype:
     case Uml::lvt_Enum:
@@ -425,7 +353,7 @@ void UMLListViewItem::okRename( int col ) {
                         a = parmList->at(i);
                     } else {
                         a = new UMLAttribute(op);
-                        a->setID( doc->getUniqueID() );
+                        a->setID( UniqueID::gen() );
                     }
                     a->setName(nm_tp.m_name);
                     a->setType(nm_tp.m_type);
@@ -526,16 +454,10 @@ void UMLListViewItem::okRename( int col ) {
                 return;
             }
             view->setName( newText );
-            m_Label = newText;
+            setText(newText);
             doc->signalDiagramRenamed(view);
             break;
         }
-    case Uml::lvt_UseCase_Folder:
-    case Uml::lvt_Logical_Folder:
-    case Uml::lvt_Component_Folder:
-    case Uml::lvt_Deployment_Folder:
-        m_Label = newText;
-        break;
     default:
         KMessageBox::error( kapp->mainWidget() ,
                             i18n("Renaming an item of listview type %1 is not yet implemented.", m_Type),
@@ -573,7 +495,7 @@ int UMLListViewItem::compare(Q3ListViewItem *other, int col, bool ascending) con
     if ( ourType > otherType )
         return 1;
     // ourType == otherType
-    const bool subItem = UMLListView::typeIsClassifierList(ourType);
+    const bool subItem = Model_Utils::typeIsClassifierList(ourType);
     const int alphaOrder = key(col, ascending).compare(other->key(col, ascending));
     int retval = 0;
     QString dbgPfx = "compare(type=" + QString::number((int)ourType)
@@ -666,7 +588,7 @@ UMLListViewItem* UMLListViewItem::deepCopy(UMLListViewItem *newParent) {
     return newItem;
 }
 
-UMLListViewItem* UMLListViewItem::findUMLObject(UMLObject *o) {
+UMLListViewItem* UMLListViewItem::findUMLObject(const UMLObject *o) {
     if (m_pObject == o)
         return this;
     UMLListViewItem *childItem = static_cast<UMLListViewItem*>(firstChild());
@@ -700,8 +622,7 @@ UMLListViewItem * UMLListViewItem::findItem(Uml::IDType id) {
     return NULL;
 }
 
-void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement,
-                                 bool saveSubmodelFiles /* = false */) {
+void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement) {
     QDomElement itemElement = qDoc.createElement( "listitem" );
     Uml::IDType id = getID();
     QString idStr = ID2STR(id);
@@ -711,102 +632,36 @@ void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement,
         itemElement.setAttribute( "id", idStr );
     itemElement.setAttribute( "type", m_Type );
     UMLDoc *umldoc = s_pListView->getDocument();
-    bool saveExternalFolder = false;
-    QFile folderFile;
-    QDomDocument folderDoc;
+    UMLFolder *extFolder = NULL;
     if (m_pObject == NULL) {
-        // The predefined listview items such as "Logical View" etc. do
-        // not have a model counterpart thus their label is saved here.
+        kError() << "UMLListViewItem::saveToXMI(" << m_Label
+            << "): m_pObject is NULL" << endl;
         itemElement.setAttribute( "label", m_Label );
-        if (UMLListView::typeIsFolder(m_Type) && !m_FolderFile.isEmpty()) {
-            itemElement.setAttribute( "external_file", m_FolderFile );
-            if (saveSubmodelFiles) {
-                folderFile.setName(umldoc->url().directory(KUrl::AppendTrailingSlash) + m_FolderFile);
-                if( !folderFile.open( QIODevice::WriteOnly ) ) {
-                    KMessageBox::error(0,
-                                       i18n("There was a problem saving file: %1", m_FolderFile),
-                                       i18n("Save Error"));
-                    // TODO:
-                    // Resetting the m_FolderFile here is too late -
-                    // the folderfile contents are already lost.
-                    // The test for folder file writability needs to
-                    // be done before the main model is saved so that
-                    // if a folder file turns out not to be creatable,
-                    // the folder can be internalized in time.
-                    // ("Internalization": As a fallback to ensure that
-                    // nothing is lost, the folder contents are saved
-                    // in the main model file.)
-                    m_FolderFile = QString::null;
-                    m_Label.remove( QRegExp("\\s+\\(.*$") );
-                    Q3ListViewItem::setText(0, m_Label);
-                } else {
-                    saveExternalFolder = true;
-                }
-            }
-        }
     } else if (m_pObject->getID() == Uml::id_None) {
         if (m_Label.isEmpty()) {
-            kDebug() << "UMLListViewItem::saveToXMI(): Skipping empty item"
-            << endl;
+            kdDebug() << "UMLListViewItem::saveToXMI(): Skipping empty item"
+                << endl;
             return;
         }
         kDebug() << "UMLListViewItem::saveToXMI(): saving local label "
-        << m_Label << " because umlobject ID is not set" << endl;
+            << m_Label << " because umlobject ID is not set" << endl;
         itemElement.setAttribute( "label", m_Label );
-    }
-    itemElement.setAttribute( "open", isOpen() );
-    QDomElement folderRoot;
-    if (saveExternalFolder) {
-        QDomProcessingInstruction xmlHeading =
-            folderDoc.createProcessingInstruction("xml",
-                                                  "version=\"1.0\" encoding=\"UTF-8\"");
-        folderDoc.appendChild(xmlHeading);
-        folderRoot = folderDoc.createElement( "external_file" );
-        folderRoot.setAttribute( "name", m_Label );
-        folderRoot.setAttribute( "mainModel", umldoc->url().fileName() );
-        folderDoc.appendChild( folderRoot );
-    }
-    UMLListViewItem *childItem = static_cast<UMLListViewItem*>( firstChild() );
-    UMLViewList viewList;
-    while (childItem) {
-        childItem->saveToXMI(qDoc, itemElement, saveSubmodelFiles);
-        if (saveExternalFolder) {
-            const Uml::ListView_Type lvType = childItem->getType();
-            UMLObject *umlobj = childItem->getUMLObject();
-            if (umlobj) {
-                umlobj->saveToXMI(folderDoc, folderRoot);
-            } else if (UMLListView::typeIsDiagram(lvType)) {
-                const Uml::IDType viewID = childItem->getID();
-                UMLView *v = umldoc->findView(viewID);
-                if (v) {
-                    // UMLObjects need to be saved before diagrams
-                    // because all objects must be known prior to
-                    // loading diagrams.
-                    // Thus we defer diagram saving to a later pass.
-                    viewList.append(v);
-                } else {
-                    kError() << "saveExternalFolder: UMLDoc::findView("
-                    << ID2STR(viewID) << ") returns NULL"
-                    << endl;
-                }
-            } else {
-                kError() << "saveExternalFolder: saving of lvtype "
-                << childItem->getType() << " is Not Yet Implemented"
-                << endl;
-            }
+    } else if (m_pObject->getBaseType() == Uml::ot_Folder) {
+        extFolder = static_cast<UMLFolder*>(m_pObject);
+        if (!extFolder->getFolderFile().isEmpty()) {
+            itemElement.setAttribute("open", "0");
+            qElement.appendChild(itemElement);
+            return;
         }
+    }
+    itemElement.setAttribute("open", isOpen());
+    QDomElement folderRoot;
+    UMLListViewItem *childItem = static_cast<UMLListViewItem*>( firstChild() );
+    while (childItem) {
+        childItem->saveToXMI(qDoc, itemElement);
         childItem = dynamic_cast<UMLListViewItem *> ( childItem->nextSibling() );
     }
     qElement.appendChild( itemElement );
-    if (saveExternalFolder) {
-        for (UMLView *v = viewList.first(); v; v = viewList.next()) {
-            v->saveToXMI(folderDoc, folderRoot);
-        }
-        QTextStream stream( &folderFile );
-        stream.setEncoding(QTextStream::UnicodeUTF8);
-        stream << folderDoc.toString();
-        folderFile.close();
-    }
 }
 
 bool UMLListViewItem::loadFromXMI(QDomElement& qElement) {
@@ -818,7 +673,7 @@ bool UMLListViewItem::loadFromXMI(QDomElement& qElement) {
         setText( label );
     else if (id == "-1") {
         kError() << "UMLListViewItem::loadFromXMI: Item of type "
-        << type << " has neither ID nor label" << endl;
+            << type << " has neither ID nor label" << endl;
         return false;
     }
 

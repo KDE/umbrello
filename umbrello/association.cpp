@@ -8,15 +8,19 @@
  *  copyright (C) 2003-2006                                                *
  *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
  ***************************************************************************/
+
+// own header
+#include "association.h"
+// qt/kde includes
 #include <kdebug.h>
 #include <klocale.h>
 #include <qregexp.h>
-
-#include "association.h"
+// app includes
 #include "classifier.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlrole.h"
+#include "uniqueid.h"
 #include "model_utils.h"
 
 using namespace Uml;
@@ -33,9 +37,9 @@ UMLAssociation::UMLAssociation( Association_Type type,
         : UMLObject("")
 {
     init(type, roleA, roleB);
-    UMLDoc *pDoc = UMLApp::app()->getDocument();
-    m_pRole[Uml::A]->setID( pDoc->getUniqueID() );
-    m_pRole[Uml::B]->setID( pDoc->getUniqueID() );
+
+    m_pRole[Uml::A]->setID( UniqueID::gen() );
+    m_pRole[Uml::B]->setID( UniqueID::gen() );
 }
 
 UMLAssociation::UMLAssociation( Association_Type type /* = Uml::at_Unknown */)

@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2002-2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 // own header
@@ -52,6 +49,7 @@
 #include "../dialog_utils.h"
 #include "parmpropdlg.h"
 #include "../stereotype.h"
+#include "../uniqueid.h"
 
 UMLOperationDialog::UMLOperationDialog( QWidget * parent, UMLOperation * pOperation )
         : KDialog( parent) {
@@ -340,7 +338,7 @@ void UMLOperationDialog::slotNewParameter() {
             m_pOperation->addParm( dlg.getTypeName(), name, dlg.getInitialValue(),
                                dlg.getDoc(), dlg.getParmKind() );
              */
-            newAttribute->setID( m_doc->getUniqueID() );
+            newAttribute->setID( UniqueID::gen() );
             newAttribute->setName( name );
             newAttribute->setTypeName( dlg.getTypeName() );
             newAttribute->setInitialValue( dlg.getInitialValue() );

@@ -426,7 +426,7 @@ void SettingsDlg::applyPage( KPageWidgetItem*item ) {
         m_pOptionState->generalState.logo = m_GeneralWidgets.logoCB -> isChecked();
         m_pOptionState->generalState.tip = m_GeneralWidgets.tipCB -> isChecked();
         m_pOptionState->generalState.loadlast = m_GeneralWidgets.loadlastCB -> isChecked();
-        m_pOptionState->generalState.diagram  = (Settings::Diagram)(m_GeneralWidgets.diagramKB->currentItem() + 1);
+        m_pOptionState->generalState.diagram  = (Uml::Diagram_Type)(m_GeneralWidgets.diagramKB->currentItem() + 1);
     }
     else if ( item == pageFont )
     {
