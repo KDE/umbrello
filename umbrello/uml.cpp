@@ -720,6 +720,8 @@ void UMLApp::slotFileOpenRecent(const KURL& url) {
         if(!m_doc->openDocument(url)) {
             fileOpenRecent->removeURL(url);
             fileOpenRecent->setCurrentItem( -1 );
+        } else {
+            fileOpenRecent->addURL(url);
         }
         enablePrint(true);
         setCaption(m_doc->URL().fileName(), false);

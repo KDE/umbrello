@@ -5,6 +5,7 @@ Version 1.5.5
 * Bugs/wishes from http://bugs.kde.org:
 * "role A properties" should give class name (69244)
 * Sharing designs, Folders, 3rd Party imports (87252, reimplementation)
+* "Open recent" list doesn't reorder when a file is opened (111757)
 * Properties menu: move to top/bottom buttons (126467)
 * Java import - importing interfaces - absent visibility treated as package
   instead of public (131327)
