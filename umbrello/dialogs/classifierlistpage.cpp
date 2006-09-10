@@ -77,6 +77,10 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
 
     //the move up/down buttons (another vertical box)
     QVBoxLayout* buttonLayout = new QVBoxLayout( listHBoxLayout );
+    m_pTopArrowB = new KArrowButton( m_pItemListGB );
+    m_pTopArrowB->setEnabled( false );
+    buttonLayout->addWidget( m_pTopArrowB );
+
     m_pUpArrowB = new KArrowButton( m_pItemListGB );
     m_pUpArrowB->setEnabled( false );
     buttonLayout->addWidget( m_pUpArrowB );
@@ -84,6 +88,10 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
     m_pDownArrowB = new KArrowButton( m_pItemListGB, Qt::DownArrow );
     m_pDownArrowB->setEnabled( false );
     buttonLayout->addWidget( m_pDownArrowB );
+
+    m_pBottomArrowB = new KArrowButton( m_pItemListGB, Qt::DownArrow );
+    m_pBottomArrowB->setEnabled( false );
+    buttonLayout->addWidget( m_pBottomArrowB );
 
     //the action buttons
     KButtonBox* buttonBox = new KButtonBox(m_pItemListGB);
@@ -124,8 +132,10 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
             this, SLOT(slotRightButtonClicked(QListBoxItem*, const QPoint&)));
     connect(m_pDoc, SIGNAL(sigObjectCreated(UMLObject*)), this, SLOT(slotListItemCreated(UMLObject*)));
 
+    connect( m_pTopArrowB, SIGNAL( clicked() ), this, SLOT( slotTopClicked() ) );
     connect( m_pUpArrowB, SIGNAL( clicked() ), this, SLOT( slotUpClicked() ) );
     connect( m_pDownArrowB, SIGNAL( clicked() ), this, SLOT( slotDownClicked() ) );
+    connect( m_pBottomArrowB, SIGNAL( clicked() ), this, SLOT( slotBottomClicked() ) );
     connect( m_pItemListLB, SIGNAL( doubleClicked( QListBoxItem* ) ),
              this, SLOT( slotDoubleClick( QListBoxItem* ) ) );
 }
@@ -139,8 +149,10 @@ void ClassifierListPage::enableWidgets(bool state) {
     //if disabled clear contents
     if( !state ) {
         m_pDocTE->setText( "" );
+        m_pTopArrowB->setEnabled( false );
         m_pUpArrowB->setEnabled( false );
         m_pDownArrowB->setEnabled( false );
+        m_pBottomArrowB->setEnabled( false );
         m_pDeleteListItemButton->setEnabled(false);
         m_pPropertiesButton->setEnabled(false);
         return;
@@ -153,17 +165,25 @@ void ClassifierListPage::enableWidgets(bool state) {
     */
     int index = m_pItemListLB->currentItem();
     if( m_pItemListLB->count() == 1 || index == -1 ) {
+        m_pTopArrowB->setEnabled( false );
         m_pUpArrowB->setEnabled( false );
         m_pDownArrowB->setEnabled( false );
+        m_pBottomArrowB->setEnabled( false );
     } else if( index == 0 ) {
+        m_pTopArrowB->setEnabled( false );
         m_pUpArrowB->setEnabled( false );
         m_pDownArrowB->setEnabled( true );
+        m_pBottomArrowB->setEnabled( true );
     } else if( index == (int)m_pItemListLB->count() - 1 ) {
+        m_pTopArrowB->setEnabled( true );
         m_pUpArrowB->setEnabled( true );
         m_pDownArrowB->setEnabled( false );
+        m_pBottomArrowB->setEnabled( false );
     } else {
+        m_pTopArrowB->setEnabled( true );
         m_pUpArrowB->setEnabled( true );
         m_pDownArrowB->setEnabled( true );
+        m_pBottomArrowB->setEnabled( true );
     }
     m_pDeleteListItemButton->setEnabled(true);
     m_pPropertiesButton->setEnabled(true);
@@ -329,6 +349,48 @@ void ClassifierListPage::slotPopupMenuSel(int id) {
     }
 }
 
+void ClassifierListPage::printItemList(QString prologue) {
+#ifdef VERBOSE_DEBUGGING
+    UMLClassifierListItem* item;
+    QString buf;
+    UMLClassifierListItemList itemList = getItemList();
+    for (UMLClassifierListItemListIt it(itemList); (item = it.current()) != NULL; ++it)
+        buf.append(" " + item->getName());
+    kdDebug() << prologue << buf << endl;
+#endif
+}
+
+void ClassifierListPage::slotTopClicked() {
+    int count = m_pItemListLB->count();
+    int index = m_pItemListLB->currentItem();
+    //shouldn't occur, but just in case
+    if( count <= 1 || index <= 0 )
+        return;
+    m_pOldListItem = NULL;
+
+    //swap the text around in the ListBox
+    QString currentString = m_pItemListLB->text( index );
+    m_pItemListLB->removeItem( index );
+    m_pItemListLB->insertItem( currentString, 0 );
+    //set the moved item selected
+    QListBoxItem* item = m_pItemListLB->item( 0 );
+    m_pItemListLB->setSelected( item, true );
+
+    //now change around in the list
+    printItemList("itemList before change: ");
+    UMLClassifierListItem* currentAtt = getItemList().at(index);
+    // NB: The index in the m_pItemListLB is not necessarily the same
+    //     as the index in the UMLClassifier::m_List.
+    //     Reason: getItemList() returns only a subset of all entries
+    //     in UMLClassifier::m_List.
+    takeItem(currentAtt, true, index);  // now we index the UMLClassifier::m_List
+    kdDebug() << "ClassifierListPage::slotTopClicked(" << currentAtt->getName()
+            << "): peer index in UMLCanvasItem::m_List is " << index << endl;
+    addClassifier(currentAtt, 0);
+    printItemList("itemList after change: ");
+    slotClicked(item);
+}
+
 void ClassifierListPage::slotUpClicked() {
     int count = m_pItemListLB->count();
     int index = m_pItemListLB->currentItem();
@@ -347,13 +409,8 @@ void ClassifierListPage::slotUpClicked() {
     m_pItemListLB->setSelected( item, true );
 
     //now change around in the list
-    UMLClassifierListItemList itemList = getItemList();
-    UMLClassifierListItem* currentAtt;
-    QString buf;
-    for (UMLClassifierListItemListIt it0(itemList); (currentAtt = it0.current()); ++it0)
-        buf.append(" " + currentAtt->getName());
-    kdDebug() << "itemList before change: " << buf << endl;
-    currentAtt = itemList.at( index );
+    printItemList("itemList before change: ");
+    UMLClassifierListItem* currentAtt = getItemList().at(index);
     // NB: The index in the m_pItemListLB is not necessarily the same
     //     as the index in the UMLClassifier::m_List.
     //     Reason: getItemList() returns only a subset of all entries
@@ -364,11 +421,7 @@ void ClassifierListPage::slotUpClicked() {
     if (index == -1)
         index = 0;
     addClassifier(currentAtt, index);
-    itemList = getItemList();
-    buf = QString::null;
-    for (UMLClassifierListItemListIt it1(itemList); (currentAtt = it1.current()); ++it1)
-        buf.append(" " + currentAtt->getName());
-    kdDebug() << "itemList after change: " << buf << endl;
+    printItemList("itemList after change: ");
     slotClicked( item );
 }
 
@@ -389,13 +442,8 @@ void ClassifierListPage::slotDownClicked() {
     QListBoxItem* item = m_pItemListLB->item( index + 1 );
     m_pItemListLB->setSelected( item, true );
     //now change around in the list
-    UMLClassifierListItemList itemList = getItemList();
-    UMLClassifierListItem* currentAtt;
-    QString buf;
-    for (UMLClassifierListItemListIt it0(itemList); (currentAtt = it0.current()); ++it0)
-        buf.append(" " + currentAtt->getName());
-    kdDebug() << "itemList before change: " << buf << endl;
-    currentAtt = getItemList().at( index );
+    printItemList("itemList before change: ");
+    UMLClassifierListItem* currentAtt = getItemList().at(index);
     // NB: The index in the m_pItemListLB is not necessarily the same
     //     as the index in the UMLClassifier::m_List.
     //     Reason: getItemList() returns only a subset of all entries
@@ -406,11 +454,38 @@ void ClassifierListPage::slotDownClicked() {
     if (index != -1)
         index++;   // because we want to go _after_ the following peer item
     addClassifier(currentAtt, index);
-    itemList = getItemList();
-    buf = QString::null;
-    for (UMLClassifierListItemListIt it1(itemList); (currentAtt = it1.current()); ++it1)
-        buf.append(" " + currentAtt->getName());
-    kdDebug() << "itemList after change: " << buf << endl;
+    printItemList("itemList after change: ");
+    slotClicked( item );
+}
+
+void ClassifierListPage::slotBottomClicked() {
+    int count = m_pItemListLB->count();
+    int index = m_pItemListLB->currentItem();
+    //shouldn't occur, but just in case
+    if( count <= 1 || index >= count - 1 )
+        return;
+    m_pOldListItem = NULL;
+
+    //swap the text around in the ListBox
+    QString currentString = m_pItemListLB->text( index );
+    m_pItemListLB->removeItem( index );
+    m_pItemListLB->insertItem( currentString, m_pItemListLB->count() );
+    //set the moved item selected
+    QListBoxItem* item = m_pItemListLB->item( m_pItemListLB->count() - 1 );
+    m_pItemListLB->setSelected( item, true );
+
+    //now change around in the list
+    printItemList("itemList before change: ");
+    UMLClassifierListItem* currentAtt = getItemList().at(index);
+    // NB: The index in the m_pItemListLB is not necessarily the same
+    //     as the index in the UMLClassifier::m_List.
+    //     Reason: getItemList() returns only a subset of all entries
+    //     in UMLClassifier::m_List.
+    takeItem(currentAtt, false, index);  // now we index the UMLClassifier::m_List
+    kdDebug() << "ClassifierListPage::slotDownClicked(" << currentAtt->getName()
+            << "): peer index in UMLCanvasItem::m_List is " << index << endl;
+    addClassifier(currentAtt, getItemList().count());
+    printItemList("itemList after change: ");
     slotClicked( item );
 }
 

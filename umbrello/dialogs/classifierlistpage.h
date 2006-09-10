@@ -102,6 +102,12 @@ private:
     bool takeItem(UMLClassifierListItem* listitem,
                   bool seekPeerBefore, int &peerIndex);
 
+    /**
+     * Utility for debugging, prints the current item list.
+     * Only effective if VERBOSE_DEBUGGING is defined.
+     */
+    void printItemList(QString prologue);
+
     UMLClassifier* m_pClassifier;
     QGroupBox* m_pDocGB;
     QGroupBox* m_pItemListGB;
@@ -109,8 +115,10 @@ private:
     QTextEdit* m_pDocTE;
     Uml::Object_Type m_itemType;
 
+    KArrowButton* m_pTopArrowB;
     KArrowButton* m_pUpArrowB;
     KArrowButton* m_pDownArrowB;
+    KArrowButton* m_pBottomArrowB;
     QPushButton* m_pDeleteListItemButton;
     QPushButton* m_pPropertiesButton;
 
@@ -143,6 +151,11 @@ public slots:
 
 
     /**
+     * moves selected attribute to the top of the list
+     */
+    void slotTopClicked();
+
+    /**
      * moves selected attribute up in list
      */
     void slotUpClicked();
@@ -151,6 +164,11 @@ public slots:
      * moved selected attribute down in list
      */
     void slotDownClicked();
+
+    /**
+     * moved selected attribute to the bottom of the list
+     */
+    void slotBottomClicked();
 
     /**
      * shows dialog for new attribute
