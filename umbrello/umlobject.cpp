@@ -306,16 +306,20 @@ void UMLObject::setPackage(const QString &_name) {
     UMLObject *pkgObj = NULL;
     if (!_name.isEmpty()) {
         UMLDoc* umldoc = UMLApp::app()->getDocument();
-        if (umldoc == NULL) {
-            kError() << "UMLObject::setPackage: cannot set package name on "
-            << m_Name << endl;
-            return;
-        }
-        pkgObj = umldoc->findUMLObject(_name, Uml::ot_Package);
+        pkgObj = umldoc->findUMLObject(_name);
         if (pkgObj == NULL) {
             kDebug() << "UMLObject::setPackage: creating UMLPackage "
-            << _name << " for " << m_Name << endl;
+                << _name << " for " << m_Name << endl;
             pkgObj = Import_Utils::createUMLObject(Uml::ot_Package, _name);
+        } else {
+            const Uml::Object_Type ot = pkgObj->getBaseType();
+            if (ot != Uml::ot_Package && ot != Uml::ot_Folder && ot != Uml::ot_Component) {
+                kError() << "UMLObject::setPackage(" << m_Name << "): "
+                    << "existing " << _name << " is not a container" << endl;
+                // This should not happen - if it does, there may be further problems.
+                // A container name should not overlap with another name in the same scope.
+                pkgObj = Import_Utils::createUMLObject(Uml::ot_Package, _name);
+            }
         }
     }
     setUMLPackage( static_cast<UMLPackage *>(pkgObj) );

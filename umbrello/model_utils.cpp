@@ -172,6 +172,7 @@ UMLObject* findUMLObject(UMLObjectList inList, QString name,
                     return obj;
                 }
                 if (foundType != Uml::ot_Package &&
+                    foundType != Uml::ot_Folder &&
                     foundType != Uml::ot_Class &&
                     foundType != Uml::ot_Interface &&
                     foundType != Uml::ot_Component) {

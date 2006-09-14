@@ -1172,7 +1172,6 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
                 << endl;
             return;
         }
-        emit sigObjectRemoved(umlobject);
         if (type == ot_Operation) {
             parent->removeOperation(static_cast<UMLOperation*>(umlobject));
         } else if (type == ot_EnumLiteral) {
