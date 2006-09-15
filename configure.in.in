@@ -1,12 +1,5 @@
 AC_LANG_SAVE
 AC_LANG_CPLUSPLUS
-AC_CHECK_HEADER(FlexLexer.h,
-  [kde_have_flex=yes],
-  [kde_have_flex=no])
-
-if test "$kde_have_flex" = "no"; then
-  DO_NOT_COMPILE="$DO_NOT_COMPILE umbrello"
-fi
 
 dnl Not GPL compatible
 dnl AC_PATH_PROG(DOT_FOUND, dot, no)
