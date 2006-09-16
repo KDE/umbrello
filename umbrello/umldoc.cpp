@@ -112,6 +112,7 @@ void UMLDoc::init() {
     }
     m_datatypeRoot = new UMLFolder(m_datatypeFolderName);
     m_datatypeRoot->markPredefined();
+    m_datatypeRoot->setUMLPackage(m_root[Uml::mt_Logical]);
     m_root[Uml::mt_Logical]->addObject(m_datatypeRoot);
 
     // Connect signals.
@@ -296,6 +297,7 @@ void UMLDoc::closeDocument() {
         // Restore the datatype folder, it has been deleted above.
         m_datatypeRoot = new UMLFolder(m_datatypeFolderName);
         m_datatypeRoot->markPredefined();
+        m_datatypeRoot->setUMLPackage(m_root[Uml::mt_Logical]);
         m_root[Uml::mt_Logical]->addObject(m_datatypeRoot);
         listView->theDatatypeFolder()->setUMLObject(m_datatypeRoot);
         /* Remove any stereotypes.
