@@ -390,6 +390,8 @@ bool UMLFolder::load(QDomElement& element) {
             removeObject(pObject);
             delete pObject;
             totalSuccess = false;
+        } else {
+            addObject(pObject);
         }
     }
     return totalSuccess;
