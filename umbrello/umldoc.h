@@ -619,6 +619,14 @@ public:
     UMLFolder *getRootFolder(Uml::Model_Type mt);
 
     /**
+     * Return the corresponding Model_Type if the given object
+     * is one of the root folders.
+     * When the given object is not one of the root folders then
+     * return Uml::N_MODELTYPES.
+     */
+    Uml::Model_Type rootFolderType(UMLObject *obj);
+
+    /**
      * Read property of IDChangeLog* m_pChangeLog.
      *
      * @return  Pointer to the IDChangeLog object.

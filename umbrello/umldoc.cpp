@@ -2054,6 +2054,15 @@ UMLFolder *UMLDoc::getRootFolder(Uml::Model_Type mt) {
     return m_root[mt];
 }
 
+Uml::Model_Type UMLDoc::rootFolderType(UMLObject *obj) {
+    for (int i = 0; i < Uml::N_MODELTYPES; i++) {
+        const Uml::Model_Type m = (Uml::Model_Type)i;
+        if (obj == m_root[m])
+            return m;
+    }
+    return Uml::N_MODELTYPES;
+}
+
 /** Read property of IDChangeLog* m_pChangeLog. */
 IDChangeLog* UMLDoc::getChangeLog() {
     return m_pChangeLog;

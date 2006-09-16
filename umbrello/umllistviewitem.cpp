@@ -632,7 +632,7 @@ void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement) {
     UMLDoc *umldoc = s_pListView->getDocument();
     UMLFolder *extFolder = NULL;
     if (m_pObject == NULL) {
-        if (! Model_Utils::typeIsDiagram(m_Type))
+        if (! Model_Utils::typeIsDiagram(m_Type) && m_Type != Uml::lvt_View)
             kdError() << "UMLListViewItem::saveToXMI(" << m_Label
                 << "): m_pObject is NULL" << endl;
         itemElement.setAttribute( "label", m_Label );

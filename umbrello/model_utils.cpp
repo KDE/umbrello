@@ -347,11 +347,9 @@ Uml::Model_Type guessContainer(UMLObject *o) {
                         while (pkg->getUMLPackage()) {  // wind back to root
                             pkg = pkg->getUMLPackage();
                         }
-                        for (int i = 0; i < Uml::N_MODELTYPES; i++) {
-                            Uml::Model_Type m = (Uml::Model_Type)i;
-                            if (pkg == umldoc->getRootFolder(m))
-                                return m;
-                        }
+                        const Uml::Model_Type m = umldoc->rootFolderType(pkg);
+                        if (m != Uml::N_MODELTYPES)
+                            return m;
                     }
                     mt = guessContainer(roleObj);
                     if (mt != Uml::mt_Logical)
@@ -830,30 +828,28 @@ Uml::ListView_Type convert_OT_LVT(UMLObject *o) {
             UMLDoc *umldoc = UMLApp::app()->getDocument();
             UMLFolder *f = static_cast<UMLFolder*>(o);
             do {
-                for (int i = 0; i < Uml::N_MODELTYPES; i++) {
-                    const Uml::Model_Type mt = (Uml::Model_Type)i;
-                    if (f == umldoc->getRootFolder(mt)) {
-                        switch (mt) {
-                            case Uml::mt_Logical:
-                                type = Uml::lvt_Logical_Folder;
-                                break;
-                            case Uml::mt_UseCase:
-                                type = Uml::lvt_UseCase_Folder;
-                                break;
-                            case Uml::mt_Component:
-                                type = Uml::lvt_Component_Folder;
-                                break;
-                            case Uml::mt_Deployment:
-                                type = Uml::lvt_Deployment_Folder;
-                                break;
-                            case Uml::mt_EntityRelationship:
-                                type = Uml::lvt_EntityRelationship_Folder;
-                                break;
-                            default:
-                                break;
-                        }
-                        return type;
+                const Uml::Model_Type mt = umldoc->rootFolderType(f);
+                if (mt != Uml::N_MODELTYPES) {
+                    switch (mt) {
+                        case Uml::mt_Logical:
+                            type = Uml::lvt_Logical_Folder;
+                            break;
+                        case Uml::mt_UseCase:
+                            type = Uml::lvt_UseCase_Folder;
+                            break;
+                        case Uml::mt_Component:
+                            type = Uml::lvt_Component_Folder;
+                            break;
+                        case Uml::mt_Deployment:
+                            type = Uml::lvt_Deployment_Folder;
+                            break;
+                        case Uml::mt_EntityRelationship:
+                            type = Uml::lvt_EntityRelationship_Folder;
+                            break;
+                        default:
+                            break;
                     }
+                    return type;
                 }
             } while ((f = static_cast<UMLFolder*>(f->getUMLPackage())) != NULL);
             kdError() << "convert_OT_LVT(" << o->getName()
