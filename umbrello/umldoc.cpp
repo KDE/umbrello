@@ -95,6 +95,7 @@ UMLDoc::UMLDoc() {
     m_pAutoSaveTimer = 0;
     m_nViewID = Uml::id_None;
     m_pTabPopupMenu = 0;
+    m_pCurrentRoot = NULL;
 }
 
 void UMLDoc::init() {
@@ -1182,6 +1183,8 @@ void UMLDoc::removeDiagram(Uml::IDType id) {
 UMLFolder *UMLDoc::currentRoot() {
     UMLView *currentView = UMLApp::app()->getCurrentView();
     if (currentView == NULL) {
+        if (m_pCurrentRoot)
+            return m_pCurrentRoot;
         kdError() << "UMLDoc::currentRoot: currentView is NULL, assuming Logical View"
             << endl;
         return m_root[Uml::mt_Logical];
@@ -1664,6 +1667,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 #endif
     } else {
         createDiagram(m_root[mt_Logical], Uml::dt_Class, false);
+        m_pCurrentRoot = m_root[mt_Logical];
     }
     emit sigResetStatusbarProgress();
     return true;
@@ -1746,6 +1750,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
             for (int i = 0; i < Uml::N_MODELTYPES; i++) {
                 if (name == m_root[i]->getName() ||
                     name == nativeRootName[i]) {  // @todo checking for name creates i18n problem
+                    m_pCurrentRoot = m_root[i];
                     m_root[i]->loadFromXMI(tempElement);
                     foundUmbrelloRootFolder = true;
                     break;

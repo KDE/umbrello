@@ -892,6 +892,13 @@ private:
      */
     KPopupMenu* m_pTabPopupMenu;
 
+    /**
+     * Auxiliary variable for currentRoot():
+     * m_pCurrentRoot is only used if UMLApp::app()->getCurrentView()
+     * returns NULL.
+     */
+    UMLFolder * m_pCurrentRoot;
+
 public slots:
 
     void slotRemoveUMLObject(UMLObject*o);
