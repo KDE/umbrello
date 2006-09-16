@@ -156,7 +156,7 @@ void CodeGenerationWizard::showPage(QWidget *page) {
         {
             if (KMessageBox::questionYesNo(this,
                                            i18n("The folder %1 does not exist. Do you want to create it now?", info.filePath()),
-                                           i18n("Output Folder Does Not Exist"), i18n("Create Folder"), i18n("Do Not Create")) == KMessageBox::Yes)
+                                           i18n("Output Folder Does Not Exist"), KGuiItem(i18n("Create Folder")), KGuiItem(i18n("Do Not Create"))) == KMessageBox::Yes)
             {
                 QDir dir;
                 if(!dir.mkdir(info.filePath()))
