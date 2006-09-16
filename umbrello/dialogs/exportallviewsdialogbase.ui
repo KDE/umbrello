@@ -59,9 +59,6 @@
                             <property name="name">
                                 <cstring>m_kURL</cstring>
                             </property>
-                            <property name="mode">
-                                <number>2</number>
-                            </property>
                             <property name="toolTip" stdset="0">
                                 <string>The base directory used to save the images</string>
                             </property>
