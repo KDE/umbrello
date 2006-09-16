@@ -202,12 +202,9 @@ void UMLFolder::saveContents(QDomDocument& qDoc, QDomElement& qElement) {
 void UMLFolder::save(QDomDocument& qDoc, QDomElement& qElement) {
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     QString elementName("UML:Package");
-    for (int i = 0; i < Uml::N_MODELTYPES; i++) {
-        if (this == umldoc->getRootFolder((Uml::Model_Type)i)) {
-            elementName = "UML:Model";
-            break;
-        }
-    }
+    const Uml::Model_Type mt = umldoc->rootFolderType(this);
+    if (mt != Uml::N_MODELTYPES)
+        elementName = "UML:Model";
     QDomElement folderElement = UMLObject::save(elementName, qDoc);
     saveContents(qDoc, folderElement);
     qElement.appendChild(folderElement);
@@ -392,6 +389,8 @@ bool UMLFolder::load(QDomElement& element) {
             removeObject(pObject);
             delete pObject;
             totalSuccess = false;
+        } else {
+            addObject(pObject);
         }
     }
     return totalSuccess;

@@ -94,6 +94,7 @@ UMLDoc::UMLDoc() {
     m_pAutoSaveTimer = 0;
     m_nViewID = Uml::id_None;
     m_pTabPopupMenu = 0;
+    m_pCurrentRoot = NULL;
 }
 
 void UMLDoc::init() {
@@ -111,6 +112,7 @@ void UMLDoc::init() {
     }
     m_datatypeRoot = new UMLFolder(m_datatypeFolderName);
     m_datatypeRoot->markPredefined();
+    m_datatypeRoot->setUMLPackage(m_root[Uml::mt_Logical]);
     m_root[Uml::mt_Logical]->addObject(m_datatypeRoot);
 
     // Connect signals.
@@ -291,6 +293,7 @@ void UMLDoc::closeDocument() {
         // Restore the datatype folder, it has been deleted above.
         m_datatypeRoot = new UMLFolder(m_datatypeFolderName);
         m_datatypeRoot->markPredefined();
+        m_datatypeRoot->setUMLPackage(m_root[Uml::mt_Logical]);
         m_root[Uml::mt_Logical]->addObject(m_datatypeRoot);
         listView->theDatatypeFolder()->setUMLObject(m_datatypeRoot);
         /* Remove any stereotypes.
@@ -1160,6 +1163,22 @@ void UMLDoc::removeDiagram(Uml::IDType id) {
     }
 }
 
+UMLFolder *UMLDoc::currentRoot() {
+    UMLView *currentView = UMLApp::app()->getCurrentView();
+    if (currentView == NULL) {
+        if (m_pCurrentRoot)
+            return m_pCurrentRoot;
+        kError() << "UMLDoc::currentRoot: currentView is NULL, assuming Logical View"
+            << endl;
+        return m_root[Uml::mt_Logical];
+    }
+    UMLFolder *f = currentView->getFolder();
+    while (f->getUMLPackage()) {
+        f = static_cast<UMLFolder*>(f->getUMLPackage());
+    }
+    return f;
+}
+
 void UMLDoc::removeUMLObject(UMLObject* umlobject) {
     UMLApp::app()->getDocWindow()->updateDocumentation(true);
     Object_Type type = umlobject->getBaseType();
@@ -1629,6 +1648,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
         }
     } else {
         createDiagram(m_root[mt_Logical], Uml::dt_Class, false);
+        m_pCurrentRoot = m_root[mt_Logical];
     }
     emit sigResetStatusbarProgress();
     return true;
@@ -1692,6 +1712,13 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
     emit sigWriteToStatusBar( i18n("Loading UML elements...") );
 
     bool bNativityIsDetermined = false;
+    const QString nativeRootName[Uml::N_MODELTYPES] = {
+        "Logical View",
+        "Use Case View",
+        "Component View",
+        "Deployment View",
+        "Entity Relationship Model"
+    };
     for (QDomNode node = element.firstChild(); !node.isNull();
             node = node.nextSibling()) {
         if (node.isComment())
@@ -1702,7 +1729,9 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
             bool foundUmbrelloRootFolder = false;
             QString name = tempElement.attribute("name");
             for (int i = 0; i < Uml::N_MODELTYPES; i++) {
-                if (name == m_root[i]->getName()) {
+                if (name == m_root[i]->getName() ||
+                    name == nativeRootName[i]) {  // @todo checking for name creates i18n problem
+                    m_pCurrentRoot = m_root[i];
                     m_root[i]->loadFromXMI(tempElement);
                     foundUmbrelloRootFolder = true;
                     break;
@@ -2033,6 +2062,15 @@ UMLFolder *UMLDoc::getRootFolder(Uml::Model_Type mt) {
         return NULL;
     }
     return m_root[mt];
+}
+
+Uml::Model_Type UMLDoc::rootFolderType(UMLObject *obj) {
+    for (int i = 0; i < Uml::N_MODELTYPES; i++) {
+        const Uml::Model_Type m = (Uml::Model_Type)i;
+        if (obj == m_root[m])
+            return m;
+    }
+    return Uml::N_MODELTYPES;
 }
 
 /** Read property of IDChangeLog* m_pChangeLog. */

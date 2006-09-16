@@ -754,8 +754,8 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
             }
         } else if (m_pUMLPackage) {
             m_pUMLPackage->addObject(this);
-        } else {
-            kError() << "UMLObject::load(" << m_Name << "): m_pUMLPackage is not set"
+        } else if (umldoc->rootFolderType(this) == Uml::N_MODELTYPES) {
+            kError() << "UMLObject::loadFromXMI(" << m_Name << "): m_pUMLPackage is not set"
                 << endl;
         }
     }
