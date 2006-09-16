@@ -1179,6 +1179,20 @@ void UMLDoc::removeDiagram(Uml::IDType id) {
     }
 }
 
+UMLFolder *UMLDoc::currentRoot() {
+    UMLView *currentView = UMLApp::app()->getCurrentView();
+    if (currentView == NULL) {
+        kdError() << "UMLDoc::currentRoot: currentView is NULL, assuming Logical View"
+            << endl;
+        return m_root[Uml::mt_Logical];
+    }
+    UMLFolder *f = currentView->getFolder();
+    while (f->getUMLPackage()) {
+        f = static_cast<UMLFolder*>(f->getUMLPackage());
+    }
+    return f;
+}
+
 void UMLDoc::removeUMLObject(UMLObject* umlobject) {
     UMLApp::app()->getDocWindow()->updateDocumentation(true);
     Object_Type type = umlobject->getBaseType();

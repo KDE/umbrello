@@ -627,6 +627,12 @@ public:
     Uml::Model_Type rootFolderType(UMLObject *obj);
 
     /**
+     * Return the currently selected root folder.
+     * This will be an element from the m_root[] array.
+     */
+    UMLFolder *currentRoot();
+
+    /**
      * Read property of IDChangeLog* m_pChangeLog.
      *
      * @return  Pointer to the IDChangeLog object.
