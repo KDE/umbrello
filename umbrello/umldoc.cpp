@@ -1711,6 +1711,13 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
     emit sigWriteToStatusBar( i18n("Loading UML elements...") );
 
     bool bNativityIsDetermined = false;
+    const QString nativeRootName[Uml::N_MODELTYPES] = {
+        "Logical View",
+        "Use Case View",
+        "Component View",
+        "Deployment View",
+        "Entity Relationship Model"
+    };
     for (QDomNode node = element.firstChild(); !node.isNull();
             node = node.nextSibling()) {
         if (node.isComment())
@@ -1721,7 +1728,8 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
             bool foundUmbrelloRootFolder = false;
             QString name = tempElement.attribute("name");
             for (int i = 0; i < Uml::N_MODELTYPES; i++) {
-                if (name == m_root[i]->getName()) {
+                if (name == m_root[i]->getName() ||
+                    name == nativeRootName[i]) {  // @todo checking for name creates i18n problem
                     m_root[i]->loadFromXMI(tempElement);
                     foundUmbrelloRootFolder = true;
                     break;
