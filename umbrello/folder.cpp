@@ -35,7 +35,6 @@ UMLFolder::~UMLFolder() {
 
 void UMLFolder::init() {
     m_BaseType = Uml::ot_Folder;
-    m_bPredefined = false;
     m_diagrams.setAutoDelete(true);
     UMLObject::setStereotype("folder");
 }
@@ -46,12 +45,12 @@ UMLObject* UMLFolder::clone() const {
     return clone;
 }
 
-void UMLFolder::markPredefined() {
-    m_bPredefined = true;
+void UMLFolder::setLocalName(QString localName) {
+    m_localName = localName;
 }
 
-bool UMLFolder::isPredefined() {
-    return m_bPredefined;
+QString UMLFolder::getLocalName() {
+    return m_localName;
 }
 
 void UMLFolder::addView(UMLView *view) {
@@ -370,8 +369,7 @@ bool UMLFolder::load(QDomElement& element) {
         UMLFolder *logicalView = umldoc->getRootFolder(Uml::mt_Logical);
         if (this == logicalView && Uml::tagEq(type, "Package")) {
             QString thisName = tempElement.attribute("name", "");
-            if (thisName == umldoc->datatypeFolderName() ||
-                thisName == "Datatypes") {  // @todo checking for name creates i18n problem
+            if (thisName == "Datatypes") {
                 UMLFolder *datatypeFolder = umldoc->getDatatypeFolder();
                 if (!datatypeFolder->loadFromXMI(tempElement))
                     totalSuccess = false;

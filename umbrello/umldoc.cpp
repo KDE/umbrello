@@ -85,7 +85,6 @@ static const uint undoMax = 30;
 UMLDoc::UMLDoc() {
     m_Name = i18n("UML Model");
     m_modelID = "m1";
-    m_datatypeFolderName = i18n("Datatypes");
     m_count = 0;
     m_pChangeLog = 0;
     m_Doc = "";
@@ -100,7 +99,14 @@ UMLDoc::UMLDoc() {
 
 void UMLDoc::init() {
     // Initialize predefined folders.
-    const QString predefinedName[Uml::N_MODELTYPES] = {
+    const QString nativeRootName[Uml::N_MODELTYPES] = {
+        "Logical View",
+        "Use Case View",
+        "Component View",
+        "Deployment View",
+        "Entity Relationship Model"
+    };
+    const QString localizedRootName[Uml::N_MODELTYPES] = {
         i18n("Logical View"),
         i18n("Use Case View"),
         i18n("Component View"),
@@ -108,11 +114,11 @@ void UMLDoc::init() {
         i18n("Entity Relationship Model")
     };
     for (int i = 0; i < Uml::N_MODELTYPES; i++) {
-        m_root[i] = new UMLFolder(predefinedName[i]);
-        m_root[i]->markPredefined();
+        m_root[i] = new UMLFolder(nativeRootName[i]);
+        m_root[i]->setLocalName(localizedRootName[i]);
     }
-    m_datatypeRoot = new UMLFolder(m_datatypeFolderName);
-    m_datatypeRoot->markPredefined();
+    m_datatypeRoot = new UMLFolder("Datatypes");
+    m_datatypeRoot->setLocalName(i18n("Datatypes"));
     m_datatypeRoot->setUMLPackage(m_root[Uml::mt_Logical]);
     m_root[Uml::mt_Logical]->addObject(m_datatypeRoot);
 
@@ -296,8 +302,8 @@ void UMLDoc::closeDocument() {
         for (int i = 0; i < Uml::N_MODELTYPES; i++)
             m_root[i]->removeAllObjects();
         // Restore the datatype folder, it has been deleted above.
-        m_datatypeRoot = new UMLFolder(m_datatypeFolderName);
-        m_datatypeRoot->markPredefined();
+        m_datatypeRoot = new UMLFolder("Datatypes");
+        m_datatypeRoot->setLocalName(i18n("Datatypes"));
         m_datatypeRoot->setUMLPackage(m_root[Uml::mt_Logical]);
         m_root[Uml::mt_Logical]->addObject(m_datatypeRoot);
         listView->theDatatypeFolder()->setUMLObject(m_datatypeRoot);
@@ -1185,7 +1191,7 @@ UMLFolder *UMLDoc::currentRoot() {
     if (currentView == NULL) {
         if (m_pCurrentRoot)
             return m_pCurrentRoot;
-        kdError() << "UMLDoc::currentRoot: currentView is NULL, assuming Logical View"
+        kdDebug() << "UMLDoc::currentRoot: currentView is NULL, assuming Logical View"
             << endl;
         return m_root[Uml::mt_Logical];
     }
@@ -1731,13 +1737,6 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
     emit sigWriteToStatusBar( i18n("Loading UML elements...") );
 
     bool bNativityIsDetermined = false;
-    const QString nativeRootName[Uml::N_MODELTYPES] = {
-        "Logical View",
-        "Use Case View",
-        "Component View",
-        "Deployment View",
-        "Entity Relationship Model"
-    };
     for (QDomNode node = element.firstChild(); !node.isNull();
             node = node.nextSibling()) {
         if (node.isComment())
@@ -1748,8 +1747,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
             bool foundUmbrelloRootFolder = false;
             QString name = tempElement.attribute("name");
             for (int i = 0; i < Uml::N_MODELTYPES; i++) {
-                if (name == m_root[i]->getName() ||
-                    name == nativeRootName[i]) {  // @todo checking for name creates i18n problem
+                if (name == m_root[i]->getName()) {
                     m_pCurrentRoot = m_root[i];
                     m_root[i]->loadFromXMI(tempElement);
                     foundUmbrelloRootFolder = true;
@@ -1800,34 +1798,26 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
             QString xmiId = tempElement.attribute("xmi.id", "");
             bNativityIsDetermined = determineNativity(xmiId);
         }
+        Uml::Object_Type ot = pObject->getBaseType();
+        // Set the parent root folder.
+        UMLPackage *pkg = NULL;
+        if (ot == Uml::ot_Datatype) {
+            pkg = m_datatypeRoot;
+        } else {
+            Uml::Model_Type guess = Model_Utils::guessContainer(pObject);
+            pkg = m_root[guess];
+        }
+        pObject->setUMLPackage(pkg);
+
         bool status = pObject -> loadFromXMI( tempElement );
         if ( !status ) {
             delete pObject;
             return false;
         }
-        Uml::Object_Type ot = pObject->getBaseType();
         if (ot == ot_Stereotype) {
             UMLStereotype *s = static_cast<UMLStereotype*>(pObject);
             addStereotype(s);
             continue;
-        }
-        UMLPackage *pkg = pObject->getUMLPackage();
-        if (pkg == NULL) {
-            if (ot == Uml::ot_Datatype) {
-                pkg = m_datatypeRoot;
-            } else {
-                Uml::Model_Type guess = Model_Utils::guessContainer(pObject);
-                pkg = m_root[guess];
-                /* Associations:
-                      "Association"
-                      "AssociationClass"
-                      "Generalization"
-                      "Realization"
-                      "Abstraction"
-                      "Dependency"
-                 */
-            }
-            pObject->setUMLPackage(pkg);
         }
         pkg->addObject(pObject);
 
