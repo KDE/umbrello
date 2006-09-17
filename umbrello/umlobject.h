@@ -192,17 +192,22 @@ public:
      *                  individual package prefixes (optional.)
      *                  If no separator is given then the separator
      *                  of the currently selected language is used.
+     * @param includeRoot  Whether to prefix the root folder name.
+     *                     Default: false.
      * @return  The UMLObject's enclosing package(s) as a text.
      */
-    QString getPackage(QString separator = QString::null);
+    QString getPackage(QString separator = QString::null,
+                       bool includeRoot = false);
 
     /**
      * Return a list of the packages in which this class is embedded.
      * The outermost package is first in the list.
      *
+     * @param includeRoot  Whether to prefix the root folder name.
+     *                     Default: false.
      * @return  UMLPackageList of the containing packages.
      */
-    UMLPackageList getPackages() const;
+    UMLPackageList getPackages(bool includeRoot = false) const;
 
     /**
      * Returns the UMLPackage that this class is located in.

@@ -343,29 +343,23 @@ QString UMLObject::getStereotype(bool includeAdornments /* = false */) const {
     return name;
 }
 
-QString UMLObject::getPackage(QString separator) {
-    if (m_pUMLPackage == NULL)
+QString UMLObject::getPackage(QString separator, bool includeRoot) {
+    QString fqn = getFullyQualifiedName(separator, includeRoot);
+    if (!fqn.contains(separator))
         return "";
-    UMLPackageList pkgList;
-    QStringList pkgNames;
-    UMLPackage* pkg = m_pUMLPackage;
-    do {
-        pkgList.prepend(pkg);
-        pkgNames.prepend(pkg->getName());
-        pkg = pkg->getUMLPackage();
-    } while (pkg != NULL && !pkgList.containsRef(pkg));
-    if (separator.isEmpty())
-        separator = UMLApp::app()->activeLanguageScopeSeparator();
-    return pkgNames.join(separator);
+    QString scope = fqn.left(fqn.length() - separator.length() - m_Name.length());
+    return scope;
 }
 
-UMLPackageList UMLObject::getPackages() const {
+UMLPackageList UMLObject::getPackages(bool includeRoot) const {
     UMLPackageList pkgList;
     UMLPackage* pkg = m_pUMLPackage;
     while (pkg != NULL) {
         pkgList.prepend(pkg);
         pkg = pkg->getUMLPackage();
     }
+    if (!includeRoot)
+        pkgList.removeFirst();
     return pkgList;
 }
 
