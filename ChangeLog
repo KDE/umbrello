@@ -17,6 +17,7 @@ Version 1.5.5
 * Java import - "final" and comments in method declaration not parsed correctly (132174)
 * Java import: spaces in strings cause next member var to be ignored (132472)
 * Java import - static member vars ignored in interfaces (132657)
+* Header file names are lowercase in .cpp file, but mixed case on the disk (134279)
 
 Version 1.5.4
 
