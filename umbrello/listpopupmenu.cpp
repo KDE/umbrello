@@ -772,6 +772,12 @@ Uml::Diagram_Type ListPopupMenu::convert_MT_DT(Menu_Type mt) {
     case mt_Activity_Diagram:
         type = Uml::dt_Activity;
         break;
+    case mt_Component_Diagram:
+        type = Uml::dt_Component;
+        break;
+    case mt_Deployment_Diagram:
+        type = Uml::dt_Deployment;
+        break;
     case mt_EntityRelationship_Diagram:
         type = Uml::dt_EntityRelationship;
         break;
