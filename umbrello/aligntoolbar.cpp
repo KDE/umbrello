@@ -392,7 +392,7 @@ void AlignToolBar::slotButtonChanged(int btn) {
     } else {
         KMessageBox::messageBox(0, KMessageBox::Information,
                                 i18n("For alignment you have to select at least 2 objects like classes or actors. You can not align associations."),
-                                i18n("Information"), i18n("&OK"), QString("")
+                                i18n("Information"), KGuiItem(i18n("&OK")), KGuiItem(QString(""))
                                 , "showAlignInformation"
                                );
     } // if (widgetList.count() > 1)

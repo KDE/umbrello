@@ -140,8 +140,8 @@ void RubyCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSig
     // now do ruby specific stuff
     config -> setGroup("Ruby Code Generation");
 
-    setAutoGenerateAttribAccessors(config->readBoolEntry("autoGenAccessors",DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS));
-    setAutoGenerateAssocAccessors(config->readBoolEntry("autoGenAssocAccessors",DEFAULT_AUTO_GEN_ASSOC_ACCESSORS));
+    setAutoGenerateAttribAccessors(config->readEntry("autoGenAccessors",DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS));
+    setAutoGenerateAssocAccessors(config->readEntry("autoGenAssocAccessors",DEFAULT_AUTO_GEN_ASSOC_ACCESSORS));
 
     blockSignals(false); // "as you were citizen"
 

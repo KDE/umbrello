@@ -485,7 +485,7 @@ void ClassifierListPage::slotBottomClicked() {
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
     takeItem(currentAtt, false, index);  // now we index the UMLClassifier::m_List
-    kdDebug() << "ClassifierListPage::slotDownClicked(" << currentAtt->getName()
+    kDebug() << "ClassifierListPage::slotDownClicked(" << currentAtt->getName()
             << "): peer index in UMLCanvasItem::m_List is " << index << endl;
     addClassifier(currentAtt, getItemList().count());
     printItemList("itemList after change: ");
