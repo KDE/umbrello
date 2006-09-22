@@ -1067,10 +1067,10 @@ void UMLDoc::createDiagram(UMLFolder *folder, Diagram_Type type, bool askForName
             temp->setType( type );
             temp->setID( UniqueID::gen() );
             addView(temp);
-            emit sigDiagramCreated( UniqueID::get() );
+            emit sigDiagramCreated( temp->getID() );
             setModified(true, false);
             UMLApp::app()->enablePrint(true);
-            changeCurrentView( UniqueID::get() );
+            changeCurrentView( temp->getID() );
             break;
         } else {
             KMessageBox::error(0, i18n("A diagram is already using that name."), i18n("Not a Unique Name"));
@@ -1156,7 +1156,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o) {
 void UMLDoc::changeCurrentView(Uml::IDType id) {
     UMLApp* pApp = UMLApp::app();
     UMLView* w = findView(id);
-    if (w != pApp->getCurrentView() && w) {
+    if (w) {
         pApp->setCurrentView(w);
         emit sigDiagramChanged(w->getType());
         pApp->setDiagramMenuItemsState( true );
