@@ -1879,7 +1879,7 @@ bool UMLListView::itemRenamed( Q3ListViewItem * item , int /*col*/ ) {
             if( KMessageBox::warningYesNo(
                         kapp -> mainWidget(),
                         i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
-                        i18n( "Name Not Unique" ), i18n("Use Name"), i18n("Enter New Name") ) == KMessageBox::No ) {
+                        i18n( "Name Not Unique" ), KGuiItem(i18n("Use Name")), KGuiItem(i18n("Enter New Name")) ) == KMessageBox::No ) {
                 return false;
             }
         } else {

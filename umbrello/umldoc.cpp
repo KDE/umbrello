@@ -759,7 +759,7 @@ bool UMLDoc::addUMLObject(UMLObject* object) {
      */
     kError() << "UMLDoc::addUMLObject(" << object->getName()
        << "): no parent package set !" << endl;
-    kdBacktrace(25);
+    kBacktrace(25);
     return false;
 }
 
@@ -1119,7 +1119,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o) {
             if (p->findChildObject(name) == NULL
                     || ((o->getBaseType() == Uml::ot_Operation) && KMessageBox::warningYesNo( kapp -> mainWidget() ,
                             i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
-                            i18n( "Name Not Unique"),i18n("Use Name"),i18n("Enter New Name")) == KMessageBox::Yes) ) {
+                            i18n( "Name Not Unique"),KGuiItem(i18n("Use Name")),KGuiItem(i18n("Enter New Name"))) == KMessageBox::Yes) ) {
                 o->setName(name);
                 setModified(true);
                 break;

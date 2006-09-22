@@ -640,7 +640,7 @@ void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement) {
         itemElement.setAttribute( "label", m_Label );
     } else if (m_pObject->getID() == Uml::id_None) {
         if (m_Label.isEmpty()) {
-            kdDebug() << "UMLListViewItem::saveToXMI(): Skipping empty item"
+            kDebug() << "UMLListViewItem::saveToXMI(): Skipping empty item"
                 << endl;
             return;
         }

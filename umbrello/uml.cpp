@@ -311,9 +311,7 @@ void UMLApp::initActions() {
     
     viewShowGrid = new KToggleAction(i18n("S&how Grid"), actionCollection(), "view_show_grid");
     connect(viewShowGrid, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewToggleShowGrid() ));
-#if (KDE_VERSION_MINOR>=3) && (KDE_VERSION_MAJOR>=3)
-    viewShowGrid->setCheckedState(i18n("&Hide Grid"));
-#endif
+    viewShowGrid->setCheckedState(KGuiItem(i18n("&Hide Grid")));
     deleteDiagram = new KAction(KIcon(SmallIconSet("editdelete")), i18n("&Delete"), 
                                 actionCollection(), "view_delete");
     connect(deleteDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotDeleteDiagram() ));
@@ -811,7 +809,7 @@ bool UMLApp::slotFileSaveAs()
             QDir d = url.path( KUrl::RemoveTrailingSlash );
 
             if(QFile::exists(d.path())) {
-                int want_save = KMessageBox::warningContinueCancel(this, i18n("The file %1 exists.\nDo you wish to overwrite it?", url.path()), i18n("Warning"), i18n("Overwrite"));
+                int want_save = KMessageBox::warningContinueCancel(this, i18n("The file %1 exists.\nDo you wish to overwrite it?", url.path()), i18n("Warning"), KGuiItem(i18n("Overwrite")));
                 if(want_save == KMessageBox::Continue)
                     cont = false;
             } else

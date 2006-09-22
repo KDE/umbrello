@@ -451,15 +451,15 @@ void CodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSignal)
     // needlessly (we can just make one call at the end).
 
     config -> setGroup("Code Generation");
-    setAttributeAccessorScope((ScopePolicy)config->readNumEntry("defaultAttributeAccessorScope",defaultAttribAccessorScope()));
-    setAssociationFieldScope((ScopePolicy)config->readNumEntry("defaultAssocFieldScope",defaultAssocFieldScope()));
-    setCommentStyle((CommentStyle)config->readNumEntry("commentStyle",defaultCommentStyle()));
-    setAutoGenerateConstructors(config->readBoolEntry("autoGenEmptyConstructors",defaultAutoGenerateConstructors()));
-    setCodeVerboseDocumentComments( config->readBoolEntry("forceDoc",defaultVerboseDocumentComments()) );
-    setCodeVerboseSectionComments( config->readBoolEntry("forceSections",defaultVerboseSectionComments()) );
-    setLineEndingType( (NewLineType) config->readNumEntry("lineEndingType",defaultLineEndingType()) );
-    setIndentationType( (IndentationType) config->readNumEntry("indentationType",defaultIndentType()) );
-    setIndentationAmount( config->readNumEntry("indentationAmount",defaultIndentAmount()));
+    setAttributeAccessorScope((ScopePolicy)config->readEntry("defaultAttributeAccessorScope",(int)defaultAttribAccessorScope()));
+    setAssociationFieldScope((ScopePolicy)config->readEntry("defaultAssocFieldScope",(int)defaultAssocFieldScope()));
+    setCommentStyle((CommentStyle)config->readEntry("commentStyle",(int)defaultCommentStyle()));
+    setAutoGenerateConstructors(config->readEntry("autoGenEmptyConstructors",defaultAutoGenerateConstructors()));
+    setCodeVerboseDocumentComments( config->readEntry("forceDoc",defaultVerboseDocumentComments()) );
+    setCodeVerboseSectionComments( config->readEntry("forceSections",defaultVerboseSectionComments()) );
+    setLineEndingType( (NewLineType) config->readEntry("lineEndingType",(int)defaultLineEndingType()) );
+    setIndentationType( (IndentationType) config->readEntry("indentationType",(int)defaultIndentType()) );
+    setIndentationAmount( config->readEntry("indentationAmount",defaultIndentAmount()));
 
     QString path = config -> readPathEntry("outputDirectory");
     if(path.isEmpty())
@@ -473,9 +473,9 @@ void CodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSignal)
     }
     setHeadingFileDir ( path );
 
-    setIncludeHeadings( config->readBoolEntry("includeHeadings",defaultIncludeHeadings()) );
-    setOverwritePolicy( (OverwritePolicy)config->readNumEntry("overwritePolicy",defaultOverwritePolicy()));
-    setModifyPolicy( (ModifyNamePolicy)config->readNumEntry("modnamePolicy",defaultModifyNamePolicy()));
+    setIncludeHeadings( config->readEntry("includeHeadings",defaultIncludeHeadings()) );
+    setOverwritePolicy( (OverwritePolicy)config->readEntry("overwritePolicy",(int)defaultOverwritePolicy()));
+    setModifyPolicy( (ModifyNamePolicy)config->readEntry("modnamePolicy",(int)defaultModifyNamePolicy()));
 
     blockSignals(false); // "as you were citizen"
 

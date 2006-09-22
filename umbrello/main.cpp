@@ -150,7 +150,7 @@ KStartupLogo* showStartupLogo(KConfig* cfg, bool showGUI) {
     KStartupLogo* startLogo = 0L;
 
     cfg->setGroup( "General Options" );
-    bool showLogo = cfg->readBoolEntry( "logo", true );
+    bool showLogo = cfg->readEntry( "logo", true );
     if (showGUI && showLogo) {
         startLogo = new KStartupLogo(0);
         startLogo->setHideEnabled(true);
@@ -168,7 +168,7 @@ void initDocument(KCmdLineArgs *args, KConfig* cfg) {
         UMLApp::app()->openDocumentFile( args->url( 0 ) );
     } else {
         cfg->setGroup( "General Options" );
-        bool last = cfg->readBoolEntry( "loadlast", false );
+        bool last = cfg->readEntry( "loadlast", false );
         QString file = cfg->readPathEntry( "lastFile" );
         if( last && !file.isEmpty() ) {
             UMLApp::app()->openDocumentFile( KUrl( file ) );
