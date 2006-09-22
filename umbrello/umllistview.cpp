@@ -210,7 +210,6 @@ void UMLListView::contentsMouseReleaseEvent(QMouseEvent *me) {
     // Switch to diagram on mouse release - not on mouse press
     // because the user might intend a drag-to-note.
     m_doc->changeCurrentView( item->getID() );
-    emit diagramSelected( item->getID() );
     UMLApp::app()->getDocWindow()->showDocumentation(m_doc->findView(item->getID()), false);
     this->KListView::contentsMouseReleaseEvent(me);
 }
