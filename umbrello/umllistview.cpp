@@ -216,7 +216,6 @@ void UMLListView::contentsMouseReleaseEvent(QMouseEvent *me) {
     // Switch to diagram on mouse release - not on mouse press
     // because the user might intend a drag-to-note.
     m_doc->changeCurrentView( item->getID() );
-    emit diagramSelected( item->getID() );
     UMLApp::app()->getDocWindow()->showDocumentation(m_doc->findView(item->getID()), false);
     this->K3ListView::contentsMouseReleaseEvent(me);
 }
@@ -1014,14 +1013,14 @@ void UMLListView::init() {
             Uml::Model_Type mt = (Uml::Model_Type)i;
             UMLFolder *sysFolder = m_doc->getRootFolder(mt);
             Uml::ListView_Type lvt = Model_Utils::convert_MT_LVT(mt);
-            m_lv[i] = new UMLListViewItem(m_rv, sysFolder->getName(), lvt, sysFolder);
+            m_lv[i] = new UMLListViewItem(m_rv, sysFolder->getLocalName(), lvt, sysFolder);
         }
     } else {
         for (int i = 0; i < Uml::N_MODELTYPES; i++)
             deleteChildrenOf(m_lv[i]);
     }
     UMLFolder *datatypeFolder = m_doc->getDatatypeFolder();
-    m_datatypeFolder = new UMLListViewItem(m_lv[Uml::mt_Logical], datatypeFolder->getName(),
+    m_datatypeFolder = new UMLListViewItem(m_lv[Uml::mt_Logical], datatypeFolder->getLocalName(),
                                            Uml::lvt_Datatype_Folder, datatypeFolder);
     m_rv->setOpen(true);
     for (int i = 0; i < Uml::N_MODELTYPES; i++)

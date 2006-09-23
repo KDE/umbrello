@@ -227,7 +227,7 @@ void CppWriter::writeSourceFile (UMLClassifier *c, QFile &filecpp ) {
     // Q: Why all utils? Isnt just List and Vector the only classes we are using?
     // Our import *should* also look at operations, and check that objects being
     // used arent in another package (and thus need to be explicitly imported here).
-    cpp << "#include \"" << (m_classifierInfo->className).lower() << ".h\"" << m_endl;
+    cpp << "#include \"" << m_classifierInfo->className << ".h\"" << m_endl;
     writeBlankLine(cpp);
 
     if (c->getVisibility() == Uml::Visibility::Implementation) {
@@ -1231,7 +1231,7 @@ void CppWriter::printAssociationIncludeDecl (UMLAssociationList list, Uml::IDTyp
             if( !isFirstClass && !a->getRoleName(Uml::A).isEmpty() && !a->getRoleName(Uml::B).isEmpty())
                 stream << "class " << current->getName() << ";" << m_endl; // special case: use forward declaration
             else
-                stream << "#include \"" << current->getName().lower() << ".h\"" << m_endl; // just the include statement
+                stream << "#include \"" << current->getName() << ".h\"" << m_endl; // just the include statement
     }
 }
 

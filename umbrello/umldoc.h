@@ -513,13 +513,6 @@ public:
     }
 
     /**
-     * Return the name of the predefined Datatypes folder in the Logical View.
-     */
-    QString datatypeFolderName() const {
-        return m_datatypeFolderName;
-    }
-
-    /**
      * Returns a list of the concepts in this UMLDoc.
      *
      * @param includeNested             Whether to include the concepts from
@@ -812,11 +805,6 @@ private:
      * m_root[Uml::mt_Logical]
      */
     UMLFolder *m_datatypeRoot;
-
-    /**
-     * Name of the predefined Datatypes folder in the Logical View
-     */
-    QString m_datatypeFolderName;
 
     /**
      * The UMLDoc is the sole owner of all stereotypes.

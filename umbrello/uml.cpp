@@ -1662,6 +1662,7 @@ void UMLApp::setCurrentView(UMLView* view) {
     if (m_viewStack == NULL)
         return;
     m_viewStack->setCurrentWidget(view);
+    kapp->processEvents();
     if (view) {
         slotStatusMsg(view->getName());
     }

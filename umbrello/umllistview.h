@@ -467,13 +467,6 @@ public slots:
      */
     void slotCutSuccessful();
 
-signals:
-
-    /**
-     * change the current view
-     */
-    void diagramSelected(Uml::IDType);
-
 private:
     /**
      * Searches the tree for a diagram (view).

@@ -59,18 +59,18 @@ public:
     virtual UMLObject* clone() const;
 
     /**
-     * Mark this folder as being for Umbrello special use.
+     * Set the localized name of this folder.
      * This is set for the predefined root views (Logical,
      * UseCase, Component, Deployment, EntityRelationship,
      * and the Datatypes folder inside the Logical View.)
      */
-    void markPredefined();
+    void setLocalName(QString localName);
 
     /**
-     * Return whther this folder is one of the Umbrello special
-     * folders.
+     * Return the localized name of this folder.
+     * Only useful for the predefined root folders.
      */
-    bool isPredefined();
+    QString getLocalName();
 
     /**
      * Add a view to the diagram list.
@@ -184,7 +184,7 @@ protected:
     bool load(QDomElement & element);
 
 private:
-    bool m_bPredefined;
+    QString m_localName;  ///< i18n name, only used for predefined root folders
     /**
      * If m_folderFile is not empty then it contains a file name to which
      * this folder is saved.
