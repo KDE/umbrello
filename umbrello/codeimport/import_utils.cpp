@@ -25,6 +25,7 @@
 #include "../umlobject.h"
 #include "../docwindow.h"
 #include "../package.h"
+#include "../folder.h"
 #include "../enum.h"
 #include "../datatype.h"
 #include "../classifier.h"
@@ -119,6 +120,12 @@ UMLObject *createUMLObject(Uml::Object_Type type,
                                         QString comment,
                                         QString stereotype) {
     UMLDoc *umldoc = UMLApp::app()->getDocument();
+    UMLFolder *logicalView = umldoc->getRootFolder(Uml::mt_Logical);
+    if (parentPkg == NULL) {
+        // kdDebug() << "Import_Utils::createUMLObject(" << name
+        //     << "): parentPkg is NULL, assuming Logical View" << endl;
+        parentPkg = logicalView;
+    }
     UMLObject * o = umldoc->findUMLObject(name, type, parentPkg);
     bNewUMLObjectWasCreated = false;
     if (o == NULL) {
@@ -135,7 +142,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
         if (origType == NULL) {
             // Still not found. Create the stripped down type.
             if (bPutAtGlobalScope)
-                parentPkg = NULL;
+                parentPkg = logicalView;
             // Find, or create, the scopes.
             QStringList components;
             if (typeName.contains("::")) {
@@ -182,11 +189,8 @@ UMLObject *createUMLObject(Uml::Object_Type type,
             // Create the full given type (including adornments.)
             if (isConst)
                 name.prepend("const ");
-            if (bPutAtGlobalScope) {
-                parentPkg = NULL;
-                bPutAtGlobalScope = false;
-            }
-            o = Object_Factory::createUMLObject(Uml::ot_Datatype, name, parentPkg,
+            o = Object_Factory::createUMLObject(Uml::ot_Datatype, name,
+                                                umldoc->getDatatypeFolder(),
                                                 false); //solicitNewName
             UMLDatatype *dt = static_cast<UMLDatatype*>(o);
             UMLClassifier *c = dynamic_cast<UMLClassifier*>(origType);
@@ -236,7 +240,7 @@ UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope, QString 
                                         bool isStatic /* =false */) {
     Uml::Object_Type ot = owner->getBaseType();
     Uml::Programming_Language pl = UMLApp::app()->getActiveLanguage();
-    if (ot != Uml::ot_Class && pl != Uml::pl_Java) {
+    if (! (ot == Uml::ot_Class || ot == Uml::ot_Interface && pl == Uml::pl_Java)) {
         kdDebug() << "insertAttribute: Don't know what to do with "
         << owner->getName() << " (object type " << ot << ")" << endl;
         return NULL;
