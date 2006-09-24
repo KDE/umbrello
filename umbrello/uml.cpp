@@ -1116,13 +1116,7 @@ void UMLApp::readOptionState() {
     m_config -> setGroup( "General Options" );
     Settings::OptionState& optionState = Settings::getOptionState();
     optionState.generalState.undo = m_config -> readBoolEntry( "undo", true );
-    optionState.generalState.tabdiagrams = m_config -> readBoolEntry( "tabdiagrams",
-#if KDE_IS_VERSION(3,1,90)
-            true
-#else
-            false
-#endif
-                                                                      );
+    optionState.generalState.tabdiagrams = m_config -> readBoolEntry("tabdiagrams", false);
 #if defined (BUG84739_FIXED)
     optionState.generalState.newcodegen = m_config -> readBoolEntry("newcodegen", false);
 #else
