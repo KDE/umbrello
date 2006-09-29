@@ -2,6 +2,7 @@ Version 1.5.5
 
 * PHP5 generator creates stub methods for all interfaces a class implements (C. Brunsdon)
 * Fix load of associations in collaboration diagram (A. Spangler)
+* Fix for single selection of an unselected widget when other widgets are selected
 * Bugs/wishes from http://bugs.kde.org:
 * "role A properties" should give class name (69244)
 * Sharing designs, Folders, 3rd Party imports (87252, reimplementation)

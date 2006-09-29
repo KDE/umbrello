@@ -95,7 +95,7 @@ void UMLWidgetController::mousePressEvent(QMouseEvent *me) {
 
     int count = m_widget->m_pView->getSelectCount(true);
     if (me->button() == Qt::LeftButton) {
-        if (count > 1) {
+        if (m_widget->m_bSelected && count > 1) {
             //Single selection is made in release event if the widget wasn't moved
             m_inMoveArea = true;
             return;

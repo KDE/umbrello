@@ -1160,7 +1160,7 @@ void UMLApp::readOptionState() {
     m_config -> setGroup( "General Options" );
     Settings::OptionState& optionState = Settings::getOptionState();
     optionState.generalState.undo = m_config->readEntry( "undo", true );
-    optionState.generalState.tabdiagrams = m_config->readEntry( "tabdiagrams", true );
+    optionState.generalState.tabdiagrams = m_config->readEntry( "tabdiagrams", false );
 #if defined (BUG84739_FIXED)
     optionState.generalState.newcodegen = m_config->readEntry("newcodegen", false );
 #else

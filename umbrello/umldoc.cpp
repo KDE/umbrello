@@ -710,12 +710,11 @@ UMLStereotype * UMLDoc::findStereotypeById(Uml::IDType id) {
 UMLObject* UMLDoc::findUMLObject(const QString &name,
                                  Object_Type type /* = ot_UMLObject */,
                                  UMLObject *currentObj /* = NULL */) {
-    UMLObjectList list = m_datatypeRoot->containedObjects();
-    UMLObject *o = Model_Utils::findUMLObject(list, name, type, currentObj);
+    UMLObject *o = m_datatypeRoot->findObject(name);
     if (o)
         return o;
     for (int i = 0; i < Uml::N_MODELTYPES; i++) {
-        list = m_root[i]->containedObjects();
+        UMLObjectList list = m_root[i]->containedObjects();
         o = Model_Utils::findUMLObject(list, name, type, currentObj);
         if (o)
             return o;
