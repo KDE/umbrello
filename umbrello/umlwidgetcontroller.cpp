@@ -166,16 +166,6 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
 
         if (update) {
             widget->adjustAssocs(widget->getX(), widget->getY());
-
-            //TODO check if this is needed. What it does?
-            //If needed, create an empty virtual method executed at this place
-            //and override it in ClassifierWidgetController
-/*            if (widget->m_Type == Uml::wt_Class) {
-                ClassifierWidget *cw = static_cast<ClassifierWidget*>(widget);
-                AssociationWidget *clAssocW = cw->getClassAssocWidget();
-                if (clAssocW)
-                    clAssocW->computeAssocClassLine();
-            }*/
         }
     }
     m_widget->m_pView->resizeCanvasToItems();
