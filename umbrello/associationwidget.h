@@ -49,7 +49,7 @@ class UMLOperation;
  * method.
  * A pure widget association does not have a corresponding UMLAssociation.
  * The getAssociation method returns NULL in this case.
- * 
+ *
  *
  * @author Gustavo Madrigal
  * @short This class represents an association inside a diagram.
@@ -365,6 +365,17 @@ public:
      * Creates the association class connecting line.
      */
     void createAssocClassLine();
+
+    /**
+     * Creates the association class connecting line using the specified
+     * ClassifierWidget.
+     *
+     * @param classifier The ClassifierWidget to use.
+     * @param linePathSegmentIndex The index of the segment where the
+     *        association class is created.
+     */
+    void createAssocClassLine(ClassifierWidget* classifierWidget,
+                              int linePathSegmentIndex);
 
     /**
      * Renders the association class connecting line selected.

@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,43 +5,183 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2004-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 #ifndef TOOLBARSTATEMESSAGES_H
 #define TOOLBARSTATEMESSAGES_H
 
-#include <qpoint.h>
 #include "toolbarstatepool.h"
+#include <qpoint.h>
 
-
-class QMouseEvent;
-class UMLView;
-class UMLWidget;
 class QCanvasLine;
+class ObjectWidget;
 
-class ToolBarStateMessages : public ToolBarStatePool
-{
-
+/**
+ * Messages tool to create messages between objects in sequence diagrams.
+ * With messages tool, two objects are selected clicking with left button on
+ * them and a message of the needed type (depending on the message button
+ * selected) is created between the objects. When the first object is selected,
+ * a temporal visual message that follows the cursor movement is created until
+ * the second object is selected or the message cancelled.
+ *
+ * A message can be cancelled using right button, which also returns to default
+ * tool, or with middle button, which only cancels the message without changing
+ * the tool being used.
+ *
+ * The messages to create can be normal messages or creation messages. Normal
+ * messages are created clicking on the line of the two objects. Creation
+ * messages are created clicking in the line of the first object, and on the
+ * second object itself (not in its line).
+ *
+ * Associations aren't taken into account, and are treated as empty spaces.
+ * Moreover, widgets other than objects aren't neither taken into account.
+ *
+ * @todo refactor with common code in ToolBarStateAssociation?
+ * @todo sequence message lines should be handled by object widgets. Right now,
+ * they aren't taken into account in testOnWidget and an explicit check is
+ * needed. However, if onWidget in object widgets is changed to also check for
+ * the line, a way to make them prioritaries over other widgets in testOnWidget
+ * will be needed. For example, when creating a message clicking on an already
+ * created message,the message line must be got instead of the message, even if
+ * the message is smaller than the line.
+ */
+class ToolBarStateMessages : public ToolBarStatePool {
+    Q_OBJECT
 public:
+
+    /**
+     * Creates a new ToolBarStateMessages.
+     *
+     * @param umlView The UMLView to use.
+     */
     ToolBarStateMessages(UMLView *umlView);
+
+    /**
+     * Destroys this ToolBarStateMessages.
+     */
     virtual ~ToolBarStateMessages();
 
-    virtual void mousePress(QMouseEvent* ome);
-    virtual void mouseRelease(QMouseEvent* ome);
-    virtual void mouseDoubleClick(QMouseEvent* ome);
-    virtual void mouseMove(QMouseEvent* ome);
-
+    /**
+     * Goes back to the initial state.
+     */
     virtual void init();
 
-protected:
-    Uml::Sequence_Message_Type getMessageType ();
-    virtual bool setSelectedWidget(QMouseEvent * me);
-    void removeLine();
+    /**
+     * Called when the current tool is changed to use another tool.
+     * Executes base method and cleans the message.
+     */
+    virtual void cleanBeforeChange();
+
+    /**
+     * Called when a mouse event happened.
+     * It executes the base method and then updates the position of the
+     * message line, if any.
+     */
+    virtual void mouseMove(QMouseEvent* ome);
+
+public slots:
+
+    /**
+     * A widget was removed from the UMLView.
+     * If the widget removed was the current widget, the current widget is set
+     * to 0.
+     * Also, if it was the first object, the message is cleaned.
+     */
+    virtual void slotWidgetRemoved(UMLWidget* widget);
 
 protected:
-    UMLWidget* m_pSelectedWidget;
-    QCanvasLine* m_pLine;
-    QPoint m_FirstMousePos;
+
+    /**
+     * Selects only widgets, but no associations.
+     * Overrides base class method.
+     * If the press event happened on the line of an object, the object is set
+     * as current widget. If the press event happened on a widget, the widget is
+     * set as current widget.
+     */
+    virtual void setCurrentElement();
+
+    /**
+     * Called when the release event happened on a widget.
+     * If the button pressed isn't left button or the widget isn't an object
+     * widget, the message is cleaned.
+     * If the release event didn't happen on the line of an object and the first
+     * object wasn't selected, nothing is done. If the first object was already
+     * selected, a creation message is made.
+     * If the event happened on the line of an object, the first object or the
+     * second are set, depending on whether the first object was already set or
+     * not.
+     */
+    virtual void mouseReleaseWidget();
+
+    /**
+     * Called when the release event happened on an empty space.
+     * Cleans the message.
+     * Empty spaces are not only actual empty spaces, but also associations.
+     */
+    virtual void mouseReleaseEmpty();
+
+protected:
+
+    /**
+     * The type of the message to create.
+     */
+    enum MessageType {
+        NormalMessage,
+        CreationMessage
+    };
+
+    /**
+     * Sets the first object of the message using the specified object.
+     * The temporal visual message is created and mouse tracking enabled, so
+     * mouse events will be delivered.
+     *
+     * @param firstObject The first object of the message.
+     */
+    void setFirstWidget(ObjectWidget* firstObject);
+
+    /**
+     * Sets the second object of the message using the specified widget and
+     * creates the message.
+     * The association is created and added to the view. The dialog to select
+     * the operation of the message is shown.
+     *
+     * @param secondObject The second object of the message.
+     * @param messageType The type of the message to create.
+     */
+    void setSecondWidget(ObjectWidget* secondObject, MessageType messageType);
+
+    /**
+     * Returns the message type of this tool.
+     *
+     * @return The message type of this tool.
+     */
+    Uml::Sequence_Message_Type getMessageType();
+
+    /**
+     * Cleans the first widget and the temporal message line, if any.
+     * Both are set to null, and the message line is also deleted.
+     */
+    void cleanMessage();
+
+    /**
+     * The first object in the message.
+     */
+    ObjectWidget* m_firstObject;
+
+    /**
+     * The message line shown while the first widget is selected and the
+     * second one wasn't selected yet.
+     */
+    QCanvasLine* m_messageLine;
+
+    /**
+     * If there is a current widget, it is true if the press event happened on
+     * the line of an object, or false if it happened on a normal UMLWidget.
+     */
+    bool m_isObjectWidgetLine;
+
 };
 
 #endif //TOOLBARSTATEMESSAGES_H

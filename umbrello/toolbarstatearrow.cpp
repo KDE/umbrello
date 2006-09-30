@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,127 +5,126 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2004-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
+
+// own header
 #include "toolbarstatearrow.h"
 
-#include <qevent.h>
-
+// app includes
+#include "associationwidget.h"
 #include "uml.h"
 #include "umlview.h"
-#include "umldoc.h"
-#include <qptrlist.h>
-#include <qwmatrix.h> // need for inverseWorldMatrix.map
+#include "umlwidget.h"
 
-
-ToolBarStateArrow::ToolBarStateArrow(UMLView *umlView): ToolBarState(umlView)
-{
-    m_SelectionRect.setAutoDelete( true );
+ToolBarStateArrow::ToolBarStateArrow(UMLView *umlView): ToolBarState(umlView) {
+    m_selectionRect.setAutoDelete(true);
 
     init();
 }
 
-ToolBarStateArrow::~ToolBarStateArrow()
-{
-    m_SelectionRect.clear();
+ToolBarStateArrow::~ToolBarStateArrow() {
+    m_selectionRect.clear();
 }
 
-void ToolBarStateArrow::mousePress(QMouseEvent* ome)
-{
-    ToolBarState::mousePress(ome);
-
-    m_ButtonPressed = m_pMouseEvent->button();
-    m_StartPosition = m_pMouseEvent->pos();
-
-    // If we are not on a widget
-    if (!m_bWidgetSelected && m_ButtonPressed == Qt::LeftButton)
-    {
-        m_bDrawRectangle = true;
-
-        // Unselect all widgets.
-        m_pUMLView->selectWidgets(0,0,0,0);
-
-        // TODO  createSelectionRectangle
-        for (int i = 0; i < 4; i++)
-        {
-            QCanvasLine* line = new QCanvasLine( m_pUMLView->canvas() );
-            line->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y());
-            line->setPen( QPen(QColor("grey"), 0, Qt::DotLine) );
-            line->setVisible(true);
-            line->setZ(100);
-            m_SelectionRect.append(line);
-        }
-    }
-}
-
-void ToolBarStateArrow::mouseRelease(QMouseEvent* ome)
-{
-    // The changeTool is reimplemented. (No functionality added)
-    // Default behavior switches to tbb_arrow when the right button is pressed.
-
-    ToolBarState::mouseRelease(ome);
-}
-
-void ToolBarStateArrow::changeTool()
-{
-    m_pUMLView->viewport()->setMouseTracking( false );
-
-    if (m_pMouseEvent->state() == Qt::RightButton)
-    {
-
-        if (m_bWidgetSelected)
-        {
-            // TODO: This works. Actually, we want to show the menu only. And
-            // not switch to the default tool
-            UMLApp::app()->getWorkToolBar()->setDefaultTool();
-        }
-        else
-        {
-            m_pUMLView->setMenu();
-        }
-    }
-
-    m_ButtonPressed = Qt::NoButton;
-
-    m_SelectionRect.clear();
-    m_bDrawRectangle = false;
-}
-
-void ToolBarStateArrow::mouseDoubleClick(QMouseEvent* ome)
-{
-    ToolBarState::mouseDoubleClick(ome);
-}
-
-void ToolBarStateArrow::mouseMove(QMouseEvent* ome)
-{
-    ToolBarState::mouseMove(ome);
-
-    if (m_ButtonPressed == Qt::LeftButton && !m_pUMLView->onWidgetLine( m_pMouseEvent->pos()))
-    {
-        if( m_SelectionRect.count() == 4)
-        {
-            // TODO  updateSelectionRectangle
-            QCanvasLine * line = m_SelectionRect.at( 0 );
-            line -> setPoints( m_StartPosition.x(), m_StartPosition.y(), m_pMouseEvent->x(), m_StartPosition.y() );
-
-            line = m_SelectionRect.at( 1 );
-            line -> setPoints( m_pMouseEvent->x(), m_StartPosition.y(), m_pMouseEvent->x(), m_pMouseEvent->y() );
-
-            line = m_SelectionRect.at( 2 );
-            line -> setPoints( m_pMouseEvent->x(), m_pMouseEvent->y(), m_StartPosition.x(), m_pMouseEvent->y() );
-
-            line = m_SelectionRect.at( 3 );
-            line -> setPoints( m_StartPosition.x(), m_pMouseEvent->y(), m_StartPosition.x(), m_StartPosition.y() );
-
-            m_pUMLView->selectWidgets(m_StartPosition.x(),m_StartPosition.y(), m_pMouseEvent->x(), m_pMouseEvent->y());
-        }
-    }
-}
-
-void ToolBarStateArrow::init()
-{
+void ToolBarStateArrow::init() {
     ToolBarState::init();
 
-    m_ButtonPressed = Qt::NoButton;
-    m_bDrawRectangle = false;
+    m_selectionRect.clear();
 }
 
+void ToolBarStateArrow::mousePressAssociation() {
+    getCurrentAssociation()->mousePressEvent(m_pMouseEvent);
+}
+
+void ToolBarStateArrow::mousePressWidget() {
+    getCurrentWidget()->mousePressEvent(m_pMouseEvent);
+}
+
+void ToolBarStateArrow::mousePressEmpty() {
+    ToolBarState::mousePressEmpty();
+
+    // Starts the selection rectangle
+    if (m_pMouseEvent->button() == Qt::LeftButton && m_selectionRect.count() == 0) {
+        m_startPosition = m_pMouseEvent->pos();
+
+        for (int i = 0; i < 4; i++) {
+            QCanvasLine* line = new QCanvasLine(m_pUMLView->canvas());
+            line->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(),
+                            m_pMouseEvent->x(), m_pMouseEvent->y());
+            line->setPen(QPen(QColor("grey"), 0, Qt::DotLine));
+            line->setVisible(true);
+            line->setZ(100);
+            m_selectionRect.append(line);
+        }
+    }
+}
+
+void ToolBarStateArrow::mouseReleaseAssociation() {
+    getCurrentAssociation()->mouseReleaseEvent(m_pMouseEvent);
+}
+
+void ToolBarStateArrow::mouseReleaseWidget() {
+    getCurrentWidget()->mouseReleaseEvent(m_pMouseEvent);
+}
+
+void ToolBarStateArrow::mouseReleaseEmpty() {
+    if (m_selectionRect.count() == 4) {
+        m_selectionRect.clear();
+    } else if (m_pMouseEvent->button() == Qt::RightButton) {
+        m_pUMLView->setMenu();
+    }
+}
+
+void ToolBarStateArrow::mouseDoubleClickAssociation() {
+    getCurrentAssociation()->mouseDoubleClickEvent(m_pMouseEvent);
+}
+
+void ToolBarStateArrow::mouseDoubleClickWidget() {
+    getCurrentWidget()->mouseDoubleClickEvent(m_pMouseEvent);
+}
+
+void ToolBarStateArrow::mouseMoveAssociation() {
+    getCurrentAssociation()->mouseMoveEvent(m_pMouseEvent);
+}
+
+void ToolBarStateArrow::mouseMoveWidget() {
+    getCurrentWidget()->mouseMoveEvent(m_pMouseEvent);
+}
+
+void ToolBarStateArrow::mouseMoveEmpty() {
+    if (m_selectionRect.count() == 4) {
+        QCanvasLine* line = m_selectionRect.at(0);
+        line->setPoints(m_startPosition.x(), m_startPosition.y(),
+                        m_pMouseEvent->x(), m_startPosition.y());
+
+        line = m_selectionRect.at(1);
+        line->setPoints(m_pMouseEvent->x(), m_startPosition.y(),
+                        m_pMouseEvent->x(), m_pMouseEvent->y());
+
+        line = m_selectionRect.at(2);
+        line->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(),
+                        m_startPosition.x(), m_pMouseEvent->y());
+
+        line = m_selectionRect.at(3);
+        line->setPoints(m_startPosition.x(), m_pMouseEvent->y(),
+                        m_startPosition.x(), m_startPosition.y());
+
+        m_pUMLView->selectWidgets(m_startPosition.x(), m_startPosition.y(),
+                                  m_pMouseEvent->x(), m_pMouseEvent->y());
+    }
+}
+
+void ToolBarStateArrow::changeTool() {
+}
+
+void ToolBarStateArrow::setCurrentWidget(UMLWidget* currentWidget) {
+    if (currentWidget != 0 && getCurrentWidget() != 0) {
+        return;
+    }
+
+    ToolBarState::setCurrentWidget(currentWidget);
+}
+
+#include "toolbarstatearrow.moc"

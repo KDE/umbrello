@@ -362,14 +362,6 @@ public:
     void showEvent(QShowEvent *se);
 
     /**
-     * Sets an association to include the given widget.  If this is the second
-     * widget set for the association it creates the association.
-     *
-     * @param w The widget to set for the association.
-     */
-    bool setAssoc(UMLWidget *w);
-
-    /**
      * Sees if a message is relevant to the given widget.  If it does delete it.
      * @param w The widget to check messages against.
      */
@@ -430,15 +422,6 @@ public:
      *  Clear the selected widgets list.
      */
     void clearSelected();
-
-    /**
-     * Move all the selected widgets.
-     *
-     * @param w The widget in the selected list to move in reference to.
-     * @param x The distance to move horizontally.
-     * @param y The distance to move vertically.
-     */
-//     void moveSelected(UMLWidget * w, int x, int y);
 
     /**
      * Move all the selected widgets by a relative X and Y offset.
@@ -549,7 +532,6 @@ public:
      */
     void resetToolbar() {
         emit sigResetToolBar();
-        m_CurrentCursor = WorkToolBar::tbb_Arrow;
     }
 
     /**
@@ -886,56 +868,10 @@ public:
     ObjectWidget * onWidgetLine( const QPoint &point );
 
     /**
-     * Return the line used to show a join between objects as an association
-     * is being made.
-     */
-    QCanvasLine * getAssocLine() {
-        return m_pAssocLine;
-    }
-
-    /**
-     * Set the line used to show a join between objects as an association
-     * is being made.
-     */
-    void setAssocLine(QCanvasLine * line) {
-        m_pAssocLine = line;
-    }
-
-    /**
-     * Return pointer to the first selected widget when creating an
-     * association.
-     */
-    UMLWidget* getFirstSelectedWidget() {
-        return m_pFirstSelectedWidget;
-    }
-
-    /**
-     * Set pointer to the first selected widget when creating an
-     * association.
-     */
-    void setFirstSelectedWidget(UMLWidget* w) {
-        m_pFirstSelectedWidget = w;
-    }
-
-    /**
      * Return pointer to the first selected widget (for multi-selection)
      */
     UMLWidget* getFirstMultiSelectedWidget() {
         return m_SelectedList.first();
-    }
-
-    /**
-     * Return the current UMLWidget we are on.
-     */
-    UMLWidget * getOnWidget() {
-        return m_pOnWidget;
-    }
-
-    /**
-     * Set the current UMLWidget we are on.
-     */
-    void setOnWidget(UMLWidget * w) {
-        m_pOnWidget = w;
     }
 
     /**
@@ -965,20 +901,6 @@ public:
      */
     void setCreateObject(bool bCreate) {
         m_bCreateObject = bCreate;
-    }
-
-    /**
-     * Return the current AssociationWidget we are moving.
-     */
-    AssociationWidget * getMoveAssoc() {
-        return m_pMoveAssoc;
-    }
-
-    /**
-     * Set the current AssociationWidget we are moving.
-     */
-    void setMoveAssoc(AssociationWidget *aw) {
-        m_pMoveAssoc = aw;
     }
 
     /**
@@ -1116,12 +1038,6 @@ protected:
 
 
     /**
-     * Adds an AssociationWidget to the association list
-     * and creates the corresponding UMLAssociation in the current UMLDoc.
-     */
-    void addAssocInViewAndDoc(AssociationWidget* assoc);
-
-    /**
      * Gets the smallest area to print.
      *
      * @return Returns the smallest area to print.
@@ -1136,21 +1052,25 @@ protected:
 
     /**
      * Overrides the standard operation.
+     * Calls the same method in the current tool bar state.
      */
     void contentsMouseReleaseEvent(QMouseEvent* mouseEvent);
 
     /**
      * Overrides the standard operation.
+     * Calls the same method in the current tool bar state.
      */
     void contentsMouseMoveEvent(QMouseEvent* mouseEvent);
 
     /**
      * Override standard method.
+     * Calls the same method in the current tool bar state.
      */
     void contentsMouseDoubleClickEvent(QMouseEvent* mouseEvent);
 
     /**
      * Override standard method.
+     * Calls the same method in the current tool bar state.
      */
     void contentsMousePressEvent(QMouseEvent* mouseEvent);
 
@@ -1201,18 +1121,14 @@ protected:
     int m_nCollaborationId;
 
     QPoint m_Pos;
-    bool m_bCreateObject, m_bDrawRect, m_bDrawSelectedOnly, m_bPaste;
+    bool m_bCreateObject, m_bDrawSelectedOnly, m_bPaste;
     ListPopupMenu * m_pMenu;
     UMLWidgetList m_SelectedList;
-    AssociationWidget * m_pMoveAssoc;
 
     /**
      *  Flag if view/children started cut operation.
      */
     bool m_bStartedCut;
-
-public:
-    WorkToolBar::ToolBar_Buttons getCurrentCursor() const;
 
 private:
     /**
@@ -1230,13 +1146,6 @@ private:
     ToolBarStateFactory* m_pToolBarStateFactory;
     ToolBarState* m_pToolBarState;
 
-    WorkToolBar::ToolBar_Buttons m_CurrentCursor;
-
-    /**
-     * converts toolbar button enums to association type enums
-     */
-    Uml::Association_Type convert_TBB_AT(WorkToolBar::ToolBar_Buttons tbb);
-
     /**
      * LocalID Changes Log for paste actions
      */
@@ -1249,26 +1158,10 @@ private:
     bool m_bActivated;
 
     /**
-     * It holds a pointer the the first selected widget when creating an Association
-     */
-    UMLWidget* m_pFirstSelectedWidget;
-
-    /**
      * Status of a popupmenu on view.
      * true - a popup is on view
      */
     bool m_bPopupShowing;
-
-    /**
-     * The current @ref UMLWidget we are on. A reference is
-     * kept so we can monitor for a leave event.
-     */
-    UMLWidget * m_pOnWidget;
-
-    /**
-     * The Line used to show a join between objects as an association is being made.
-     */
-    QCanvasLine * m_pAssocLine;
 
     /**
      * The offset at which to paste the clipboard.
@@ -1290,16 +1183,15 @@ private:
      */
     UMLViewImageExporter* m_pImageExporter;
 
-    /**
-     * Used by @ref contentsMouseMoveEvent() to know if a mouse button is pressed.
-     */
-    bool m_bMouseButtonPressed;
-
 public slots:
 
     void zoomIn();
     void zoomOut();
 
+    /**
+     * Changes the current tool to the selected tool.
+     * The current tool is cleaned and the selected tool initialized.
+     */
     void slotToolBarChanged(int c);
     void slotObjectCreated(UMLObject * o);
     void slotObjectRemoved(UMLObject * o);
@@ -1352,6 +1244,16 @@ signals:
     void sigSnapToGridToggled(bool);
     void sigSnapComponentSizeToGridToggled(bool);
     void sigShowGridToggled(bool);
+
+    /**
+     * Emitted when an association is removed.
+     */
+    void sigAssociationRemoved(AssociationWidget*);
+
+    /**
+     * Emitted when a widget is removed.
+     */
+    void sigWidgetRemoved(UMLWidget*);
 };
 
 #endif // UMLVIEW_H

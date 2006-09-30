@@ -3,6 +3,7 @@ Version 1.5.5
 * PHP5 generator creates stub methods for all interfaces a class implements (C. Brunsdon)
 * Fix load of associations in collaboration diagram (A. Spangler)
 * Fix for single selection of an unselected widget when other widgets are selected
+* Fixes for several bugs in toolbar states
 * Bugs/wishes from http://bugs.kde.org:
 * "role A properties" should give class name (69244)
 * Sharing designs, Folders, 3rd Party imports (87252, reimplementation)
@@ -44,7 +45,7 @@ Version 1.5.3
 
 * Switch to arrow tool after association creation (http://bugs.debian.org/353344)
 * Bugs/wishes from http://bugs.kde.org:
-* "Export all views" feature contributed by Daniel Calviño Sánchez (extension of 58809)
+* "Export all views" feature contributed by Daniel Calviï¿½ Sï¿½chez (extension of 58809)
 * Static variables in java code are not marked static (59190)
 * New alignment type "distribute horizontally/vertically" (extension of 67058)
 * Save autosave file to a more obvious place (72019)

@@ -135,20 +135,14 @@ void UMLView::init() {
     //Setup up booleans
     m_bChildDisplayedDoc = false;
     m_bPaste = false;
-    m_bDrawRect = false;
     m_bActivated = false;
     m_bCreateObject = false;
     m_bDrawSelectedOnly = false;
     m_bPopupShowing = false;
     m_bStartedCut = false;
-    //m_bMouseButtonPressed = false;
     //clear pointers
-    m_pMoveAssoc = 0;
-    m_pOnWidget = 0;
-    m_pAssocLine = 0;
     m_PastePoint = QPoint(0, 0);
     m_pIDChangesLog = 0;
-    m_pFirstSelectedWidget = 0;
     m_pMenu = 0;
 
     m_pImageExporter = new UMLViewImageExporter(this);
@@ -171,9 +165,6 @@ void UMLView::init() {
 
     viewport() -> setMouseTracking(false);
 
-    // TODO: Still needed at some places.
-    m_CurrentCursor = WorkToolBar::tbb_Arrow;
-
     //setup signals
     connect( this, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu() ) );
     connect( UMLApp::app(), SIGNAL( sigCutSuccessful() ),
@@ -192,12 +183,6 @@ UMLView::~UMLView() {
     if(m_pIDChangesLog) {
         delete    m_pIDChangesLog;
         m_pIDChangesLog = 0;
-    }
-
-    if( m_pAssocLine )
-    {
-        delete m_pAssocLine;
-        m_pAssocLine = NULL;
     }
 
     // before we can delete the QCanvas, all widgets must be explicitly
@@ -390,29 +375,13 @@ void UMLView::setupNewWidget(UMLWidget *w) {
 
 void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
     m_pToolBarState->mouseRelease(ome);
-
-    // TODO: Move to the toolbar states.
-    resizeCanvasToItems();
-
-
-    // TODO: Not inserted into the toolbar state. Is this really needed?
-    /*
-    if ( m_CurrentCursor < WorkToolBar::tbb_Actor || m_CurrentCursor > WorkToolBar::tbb_State ) {
-        m_pFirstSelectedWidget = 0;
-        return;
-    }
-    */
 }
 
-void UMLView::slotToolBarChanged(int c)
-{
+void UMLView::slotToolBarChanged(int c) {
+    m_pToolBarState->cleanBeforeChange();
     m_pToolBarState = m_pToolBarStateFactory->getState((WorkToolBar::ToolBar_Buttons)c);
     m_pToolBarState->init();
 
-    // TODO This should be deleted once.
-    m_CurrentCursor = (WorkToolBar::ToolBar_Buttons)c;
-
-    m_pFirstSelectedWidget = 0;
     m_bPaste = false;
 }
 
@@ -433,6 +402,10 @@ void UMLView::showEvent(QShowEvent* /*se*/) {
     connect(this,SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
     connect(m_pDoc, SIGNAL(sigObjectCreated(UMLObject *)),
             this, SLOT(slotObjectCreated(UMLObject *)));
+    connect(this, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
+            UMLApp::app()->getDocWindow(), SLOT(slotAssociationRemoved(AssociationWidget*)));
+    connect(this, SIGNAL(sigWidgetRemoved(UMLWidget*)),
+            UMLApp::app()->getDocWindow(), SLOT(slotWidgetRemoved(UMLWidget*)));
     resetToolbar();
 
 }
@@ -443,6 +416,10 @@ void UMLView::hideEvent(QHideEvent* /*he*/) {
     disconnect(tb,SIGNAL(sigButtonChanged(int)), this, SLOT(slotToolBarChanged(int)));
     disconnect(this,SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
     disconnect(m_pDoc, SIGNAL(sigObjectCreated(UMLObject *)), this, SLOT(slotObjectCreated(UMLObject *)));
+    disconnect(this, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
+               UMLApp::app()->getDocWindow(), SLOT(slotAssociationRemoved(AssociationWidget*)));
+    disconnect(this, SIGNAL(sigWidgetRemoved(UMLWidget*)),
+               UMLApp::app()->getDocWindow(), SLOT(slotWidgetRemoved(UMLWidget*)));
 
 # ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
     //kdWarning() << "Hide Event for " << getName() << endl;
@@ -718,8 +695,7 @@ bool UMLView::widgetOnDiagram(Uml::IDType id) {
     return false;
 }
 
-void UMLView::contentsMouseMoveEvent(QMouseEvent* ome)
-{
+void UMLView::contentsMouseMoveEvent(QMouseEvent* ome) {
     m_pToolBarState->mouseMove(ome);
 }
 
@@ -806,16 +782,14 @@ AssociationWidget * UMLView::findAssocWidget(Association_Type at,
 void UMLView::removeWidget(UMLWidget * o) {
     if(!o)
         return;
+
+    emit sigWidgetRemoved(o);
+
     removeAssociations(o);
 
     Widget_Type t = o->getBaseType();
     if(getType() == dt_Sequence && t == wt_Object)
         checkMessages( static_cast<ObjectWidget*>(o) );
-
-    if( m_pOnWidget == o ) {
-        UMLApp::app() -> getDocWindow() -> updateDocumentation( true );
-        m_pOnWidget = 0;
-    }
 
     o -> cleanup();
     m_SelectedList.remove(o);
@@ -868,8 +842,7 @@ void UMLView::setLineWidth(uint width) {
     canvas() -> setAllChanged();
 }
 
-void UMLView::contentsMouseDoubleClickEvent(QMouseEvent* ome)
-{
+void UMLView::contentsMouseDoubleClickEvent(QMouseEvent* ome) {
     m_pToolBarState->mouseDoubleClick(ome);
 }
 
@@ -961,26 +934,7 @@ void UMLView::clearSelected() {
     //m_pDoc -> enableCutCopy(false);
 }
 
-//FIXME Doesn't work with the new UMLWidgetController
-// void UMLView::moveSelected(UMLWidget * w, int x, int y) {
-//     QMouseEvent me(QMouseEvent::MouseMove, QPoint(x,y), Qt::LeftButton, Qt::ShiftButton);
-//     UMLWidget * temp = 0;
-//     //loop through list and move all widgets
-//     //don't move the widget that started call
-//     for(temp=(UMLWidget *)m_SelectedList.first();temp;temp=(UMLWidget *)m_SelectedList.next())
-//         if(temp != w)
-//             temp -> mouseMoveEvent(&me);
-//
-//     // Move any selected associations.
-//     AssociationWidgetListIt assoc_it( m_AssociationList );
-//     AssociationWidget* assocwidget = NULL;
-//     while ((assocwidget = assoc_it.current()) != NULL) {
-//         ++assoc_it;
-//         if (assocwidget->getSelected())
-//             assocwidget->moveEntireAssoc(x, y);
-//     }
-// }
-
+//TODO Only used in MLApp::handleCursorKeyReleaseEvent
 void UMLView::moveSelectedBy(int dX, int dY) {
     for (UMLWidget *w = m_SelectedList.first(); w; w = m_SelectedList.next())
         w->moveBy(dX, dY);
@@ -1190,9 +1144,13 @@ bool UMLView::isSavedInSeparateFile() {
     return !folderFile.isEmpty();
 }
 
-void UMLView::contentsMousePressEvent(QMouseEvent* ome)
-{
+void UMLView::contentsMousePressEvent(QMouseEvent* ome) {
     m_pToolBarState->mousePress(ome);
+    //TODO should be managed by widgets when are selected. Right now also has some
+    //problems, such as clicking on a widget, and clicking to move that widget shows
+    //documentation of the diagram instead of keeping the widget documentation.
+    //When should diagram documentation be shown? When clicking on an empty
+    //space in the diagram with arrow tool?
     if (!m_bChildDisplayedDoc) {
       UMLApp::app() -> getDocWindow() -> showDocumentation( this, true );
     }
@@ -1300,13 +1258,19 @@ void  UMLView::getDiagram(const QRect &rect, QPixmap & diagram) {
 }
 
 void  UMLView::getDiagram(const QRect &area, QPainter & painter) {
-    //unselect all before grab
-    UMLWidget* temp = 0;
-    for (temp=(UMLWidget *)m_SelectedList.first();temp;temp=(UMLWidget *)m_SelectedList.next()) {
-        temp -> setSelected(false);
+    //TODO unselecting and selecting later doesn't work now as the selection is
+    //cleared in UMLViewImageExporter. Check if the anything else than the
+    //following is needed and, if it works, remove the clearSelected in
+    //UMLViewImageExporter and UMLViewImageExporterModel
+    UMLWidget* widget = 0;
+    for (widget=(UMLWidget*)m_SelectedList.first(); widget; widget=(UMLWidget*)m_SelectedList.next()) {
+        widget->setSelected(false);
     }
-    if (m_pMoveAssoc) {
-        m_pMoveAssoc -> setSelected( false );
+    AssociationWidgetList selectedAssociationsList = getSelectedAssocs();
+    AssociationWidget* association = 0;
+    for (association=selectedAssociationsList.first(); association;
+                                association=selectedAssociationsList.next()) {
+        association->setSelected(false);
     }
 
     // we don't want to get the grid
@@ -1319,12 +1283,14 @@ void  UMLView::getDiagram(const QRect &area, QPainter & painter) {
 
     canvas()->setAllChanged();
     //select again
-    for (temp=(UMLWidget *)m_SelectedList.first();temp;temp=(UMLWidget *)m_SelectedList.next()) {
-        temp -> setSelected( true );
+    for (widget=(UMLWidget *)m_SelectedList.first(); widget; widget=(UMLWidget *)m_SelectedList.next()) {
+        widget->setSelected( true );
     }
-    if (m_pMoveAssoc) {
-        m_pMoveAssoc -> setSelected( true );
+    for (association=selectedAssociationsList.first(); association;
+                                association=selectedAssociationsList.next()) {
+        association->setSelected(true);
     }
+
     return;
 }
 
@@ -1722,20 +1688,6 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation)
     return true;
 }
 
-void UMLView::addAssocInViewAndDoc(AssociationWidget* a) {
-
-    // append in view
-    if(addAssociation(a, false))
-    {
-        // if view went ok, then append in document
-        m_pDoc -> addAssociation (a->getAssociation());
-    } else {
-        kdError() << "cannot addAssocInViewAndDoc(), deleting" << endl;
-        delete a;
-    }
-
-}
-
 void UMLView::activateAfterLoad(bool bUseLog) {
     if (m_bActivated)
         return;
@@ -1772,14 +1724,9 @@ void UMLView::endPartialWidgetPaste() {
 void UMLView::removeAssoc(AssociationWidget* pAssoc) {
     if(!pAssoc)
         return;
-    if( pAssoc == m_pMoveAssoc ) {
-        //UMLApp::app() -> getDocWindow() -> updateDocumentation( true );
-        // The above line crashes (bugs.kde.org/89860)
-        // The following line is the hotfix. Detailed analysis is To Be Done:
-        UMLApp::app() -> getDocWindow() -> newDocumentation();
 
-        m_pMoveAssoc = 0;
-    }
+    emit sigAssociationRemoved(pAssoc);
+
     m_AssociationList.remove(pAssoc); // will delete our association
     m_pDoc->setModified();
 }
@@ -1808,94 +1755,6 @@ void UMLView::removeAssocInViewAndDoc(AssociationWidget* a) {
     }
     // Remove assoc in view.
     removeAssoc(a);
-}
-
-bool UMLView::setAssoc(UMLWidget *pWidget) {
-    Association_Type type = convert_TBB_AT(m_CurrentCursor);
-    m_bDrawRect = false;
-    //if this we are not concerned here so return
-    if (m_CurrentCursor < WorkToolBar::tbb_Generalization ||
-            m_CurrentCursor > WorkToolBar::tbb_Anchor) {
-        return false;
-    }
-    clearSelected();
-
-    if(!m_pFirstSelectedWidget) {
-        if( !AssocRules::allowAssociation( type, pWidget ) ) {
-            KMessageBox::error(0, i18n("Incorrect use of associations."), i18n("Association Error"));
-            return false;
-        }
-        //set up position
-        QPoint pos;
-        pos.setX(pWidget -> getX() + (pWidget->getWidth() / 2));
-
-        pos.setY(pWidget -> getY() + (pWidget->getHeight() / 2));
-        setPos(pos);
-        m_pFirstSelectedWidget = pWidget;
-        viewport() -> setMouseTracking( true );
-
-        // TODO Reachable?
-        if( m_pAssocLine )
-        {
-            kdDebug() << "delete m_pAssocLine is reachable" << endl;
-            delete m_pAssocLine;
-            m_pAssocLine = NULL;
-        }
-
-        m_pAssocLine = new QCanvasLine( canvas() );
-        m_pAssocLine -> setPoints( pos.x(), pos.y(), pos.x(), pos.y() );
-        m_pAssocLine -> setPen( QPen( getLineColor(), getLineWidth(), Qt::DashLine ) );
-
-        m_pAssocLine -> setVisible( true );
-
-        return true;
-    }
-    // If we get here we have a FirstSelectedWidget.
-    // The following reassignment is just to make things clearer.
-    UMLWidget* widgetA = m_pFirstSelectedWidget;
-    UMLWidget* widgetB = pWidget;
-    Widget_Type at = widgetA -> getBaseType();
-    bool valid = true;
-    if (type == at_Generalization)
-        type = AssocRules::isGeneralisationOrRealisation(widgetA, widgetB);
-    if (widgetA == widgetB)
-    {
-        valid = AssocRules::allowSelf( type, at );
-        if(valid && type == at_Association)
-        {
-            type = at_Association_Self;
-        }
-    }
-    else
-        valid =  AssocRules::allowAssociation( type, widgetA, widgetB );
-    if( valid ) {
-        AssociationWidget *temp = new AssociationWidget(this, widgetA, type, widgetB);
-        addAssocInViewAndDoc(temp);
-        if (type == at_Containment) {
-            UMLListView *lv = UMLApp::app()->getListView();
-            UMLObject *newContainer = widgetA->getUMLObject();
-            UMLObject *objToBeMoved = widgetB->getUMLObject();
-            if (newContainer && objToBeMoved) {
-                UMLListViewItem *newLVParent = lv->findUMLObject(newContainer);
-                lv->moveObject( objToBeMoved->getID(),
-                                Model_Utils::convert_OT_LVT(objToBeMoved),
-                                newLVParent );
-            }
-        }
-        m_pDoc->setModified();
-        // go back to arrow tool
-        UMLApp::app()->getWorkToolBar()->setDefaultTool();
-        setCursor( KCursor::arrowCursor() );
-    } else {
-        KMessageBox::error(0, i18n("Incorrect use of associations."), i18n("Association Error"));
-    }
-    m_pFirstSelectedWidget = 0;
-
-    if( m_pAssocLine ) {
-        delete m_pAssocLine;
-        m_pAssocLine = 0;
-    }
-    return valid;
 }
 
 /** Removes all the associations related to Widget */
@@ -1970,75 +1829,6 @@ void UMLView::removeAllWidgets() {
         }
     }
     m_WidgetList.clear();
-}
-
-
-WorkToolBar::ToolBar_Buttons UMLView::getCurrentCursor() const {
-    return m_CurrentCursor;
-}
-
-
-Uml::Association_Type UMLView::convert_TBB_AT(WorkToolBar::ToolBar_Buttons tbb) {
-    Association_Type at = at_Unknown;
-    switch(tbb) {
-    case WorkToolBar::tbb_Anchor:
-        at = at_Anchor;
-        break;
-
-    case WorkToolBar::tbb_Association:
-        at = at_Association;
-        break;
-
-    case WorkToolBar::tbb_UniAssociation:
-        at = at_UniAssociation;
-
-        break;
-
-    case WorkToolBar::tbb_Generalization:
-        at = at_Generalization;
-        break;
-
-    case WorkToolBar::tbb_Composition:
-        at = at_Composition;
-        break;
-
-    case WorkToolBar::tbb_Aggregation:
-        at = at_Aggregation;
-        break;
-
-    case WorkToolBar::tbb_Relationship:
-        at = at_Relationship;
-        break;
-
-    case WorkToolBar::tbb_Dependency:
-        at = at_Dependency;
-        break;
-
-    case WorkToolBar::tbb_Containment:
-        at = at_Containment;
-        break;
-
-    case WorkToolBar::tbb_Seq_Message_Synchronous:
-    case WorkToolBar::tbb_Seq_Message_Asynchronous:
-        at = at_Seq_Message;
-        break;
-
-    case WorkToolBar::tbb_Coll_Message:
-        at = at_Coll_Message;
-        break;
-
-    case WorkToolBar::tbb_State_Transition:
-        at = at_State;
-        break;
-
-    case WorkToolBar::tbb_Activity_Transition:
-        at = at_Activity;
-        break;
-
-    default:
-        break;
-    }
-    return at;
 }
 
 void UMLView::showDocumentation( UMLObject * object, bool overwrite ) {
