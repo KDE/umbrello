@@ -160,7 +160,7 @@ void CPPSourceCodeDocument::updateContent( )
     methodsBlock->addCodeClassFieldMethods(aggregationClassFields);
     methodsBlock->addCodeClassFieldMethods(compositionClassFields);
 
-    // constuctors and other operations are handled by the "addCodeOperation" method above.
+    // constructors and other operations are handled by the "addCodeOperation" method above.
 
 }
 

@@ -152,9 +152,9 @@ public:
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
     /**
-     * Display the properties configuration dialogue for the entityattribute.
+     * Display the properties configuration dialog for the entityattribute.
      */
-    bool showPropertiesDialogue(QWidget* parent);
+    bool showPropertiesDialog(QWidget* parent);
 
 protected:
     /**

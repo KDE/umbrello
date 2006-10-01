@@ -276,7 +276,7 @@ bool UMLOperation::getConst() const {
     return m_bConst;
 }
 
-bool UMLOperation::showPropertiesDialogue(QWidget* parent) {
+bool UMLOperation::showPropertiesDialog(QWidget* parent) {
     UMLOperationDialog dialog(parent, this);
     return dialog.exec();
 }

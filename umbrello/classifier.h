@@ -191,7 +191,7 @@ public:
 
     /**
      * Checks whether an operation is valid based on its signature -
-     * An operation is "valid" if the operation's name and paramter list
+     * An operation is "valid" if the operation's name and parameter list
      * are unique in the classifier.
      *
      * @param name              Name of the operation to check.

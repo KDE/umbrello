@@ -40,7 +40,7 @@ public:
      * bar shows an information message until the export finishes.
      *
      * If something went wrong while exporting, an error dialog is shown to the
-     * user with the error messages explaining the problems occured.
+     * user with the error messages explaining the problems occurred.
      */
     void exportAllViews();
 
