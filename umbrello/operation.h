@@ -160,7 +160,7 @@ public:
     /**
      * Display the properties configuration dialog for the template.
      */
-    bool showPropertiesDialog(QWidget* parent);
+    bool showPropertiesDialogue(QWidget* parent);
 
     /**
      * Returns whether this operation is a constructor.

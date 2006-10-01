@@ -104,7 +104,7 @@ public:
     /**
      * Display the properties configuration dialog for the attribute.
      */
-    virtual bool showPropertiesDialog(QWidget* parent);
+    virtual bool showPropertiesDialogue(QWidget* parent);
 
     void setParmKind (Uml::Parameter_Direction pk);
     Uml::Parameter_Direction getParmKind () const;

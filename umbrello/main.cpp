@@ -77,7 +77,7 @@ void initDocument(KCmdLineArgs *args, KConfig* cfg);
 
 /**
  * Export all the views in the document using the command line args set by the user.
- * Errors that occurred while exporting, if any, are shown using kdError().
+ * The errors occured while exporting, if any, are shown using kdError().
  *
  * @param args The command line arguments given.
  * @param exportOpt A list containing all the "export" arguments given.

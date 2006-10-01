@@ -172,7 +172,7 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                                                     loadCheckForChildrenOK= true;
                                             }
                 /*
-                                                // only needed for extreme debugging conditions (E.g. making new codeclassdocument loader)
+                                                // only needed for extreme debuging conditions (E.g. making new codeclassdocument loader)
                                                 else
                                                         kdDebug()<<" LoadFromXMI: Got strange tag in text block stack:"<<name<<", ignorning"<<endl;
                 */

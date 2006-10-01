@@ -118,7 +118,7 @@ void PythonImport::skipBody() {
         skipStmt("{");
     int braceNesting = 0;
     QString token;
-    while (!(token = advance()).isNull()) {
+    while ((token = advance()) != QString::null) {
         if (token == "}") {
             if (braceNesting <= 0)
                 break;

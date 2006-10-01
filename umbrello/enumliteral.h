@@ -74,7 +74,7 @@ public:
     /**
      * Display the properties configuration dialog for the enum literal.
      */
-    bool showPropertiesDialog(QWidget* parent);
+    bool showPropertiesDialogue(QWidget* parent);
 
 protected:
     /**

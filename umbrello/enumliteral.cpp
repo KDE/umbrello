@@ -62,7 +62,7 @@ bool UMLEnumLiteral::load(QDomElement& ) {
     return true;
 }
 
-bool UMLEnumLiteral::showPropertiesDialog(QWidget* parent) {
+bool UMLEnumLiteral::showPropertiesDialogue(QWidget* parent) {
     bool ok;
     QString name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), getName(), &ok, parent);
     if ( ok && !name.isEmpty() )  {

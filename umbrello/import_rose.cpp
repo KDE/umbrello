@@ -167,7 +167,7 @@ QString collectVerbatimText(QTextStream& stream) {
     QString result;
     QString line;
     methodName("collectVerbatimText");
-    while (!(line = stream.readLine()).isNull()) {
+    while ((line = stream.readLine()) != QString::null) {
         linum++;
         line = line.stripWhiteSpace();
         if (line.isEmpty() || line.startsWith(")"))
@@ -179,7 +179,7 @@ QString collectVerbatimText(QTextStream& stream) {
             result += line.mid(1) + "\n";
         }
     }
-    if (line.isNull()) {
+    if (line == QString::null) {
         kdError() << loc() << "premature EOF" << endl;
         return QString::null;
     }
@@ -276,7 +276,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
         return node;
     PetalNode::NameValueList attrs;
     QString line;
-    while (!(line = stream.readLine()).isNull()) {
+    while ((line = stream.readLine()) != QString::null) {
         linum++;
         line = line.stripWhiteSpace();
         if (line.isEmpty())
@@ -358,13 +358,13 @@ bool loadFromMDL(QIODevice& file) {
     QString line;
     PetalNode *root = NULL;
     linum = 0;
-    while (!(line = stream.readLine()).isNull()) {
+    while ((line = stream.readLine()) != QString::null) {
         linum++;
         if (line.contains( QRegExp("^\\s*\\(object Petal") )) {
-            while (!(line = stream.readLine()).isNull() && !line.contains(')')) {
+            while ((line = stream.readLine()) != QString::null && !line.contains(')')) {
                 linum++; // CHECK: do we need petal version info?
             }
-            if (line.isNull())
+            if (line == QString::null)
                 break;
         } else {
             QRegExp objectRx("^\\s*\\(object ");

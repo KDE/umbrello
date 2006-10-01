@@ -57,7 +57,7 @@ private:
 
 
 Driver::Driver()
-    : depresolv( false ), lexer( 0 )
+    : depresolv( FALSE ), lexer( 0 )
 {
     m_sourceProvider = new DefaultSourceProvider();
 }

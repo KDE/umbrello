@@ -168,7 +168,7 @@ bool UMLEntityAttribute::load( QDomElement & element ) {
     return true;
 }
 
-bool UMLEntityAttribute::showPropertiesDialog(QWidget* parent) {
+bool UMLEntityAttribute::showPropertiesDialogue(QWidget* parent) {
     UMLEntityAttributeDialog dialog(parent, this);
     return dialog.exec();
 }

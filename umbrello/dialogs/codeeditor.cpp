@@ -777,9 +777,9 @@ void CodeEditor::init ( CodeViewerDialog * parentDlg, CodeDocument * parentDoc )
     m_parentDlg = parentDlg;
     m_parentDoc = parentDoc;
 
-    setUndoRedoEnabled( false );
+    setUndoRedoEnabled( FALSE );
     setCursor( QCursor( 0 ) );
-    setMouseTracking( true );
+    setMouseTracking( TRUE );
     setReadOnly (true);
     m_isHighlighted = getState().blocksAreHighlighted;
     m_showHiddenBlocks = getState().showHiddenBlocks;

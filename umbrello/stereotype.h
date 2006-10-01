@@ -85,7 +85,7 @@ public:
      * Display the properties configuration dialog for the stereotype
      * (just a line edit).
      */
-    bool showPropertiesDialog(QWidget* parent);
+    bool showPropertiesDialogue(QWidget* parent);
 
 protected:
     /**

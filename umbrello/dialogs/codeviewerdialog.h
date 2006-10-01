@@ -45,7 +45,7 @@ class CodeViewerDialog : public CodeViewerDialogBase
 public:
 
     CodeViewerDialog ( QWidget* parent, CodeDocument * doc, Settings::CodeViewerState state,
-                       const char* name = 0, bool modal = false, WFlags fl = 0 );
+                       const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
     ~CodeViewerDialog ();
 
     /** return the code viewer state */

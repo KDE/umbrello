@@ -92,7 +92,7 @@ public:
      *
      * @return  Success status.
      */
-    bool showPropertiesDialog(QWidget* parent);
+    bool showPropertiesDialogue(QWidget* parent);
 
     /**
      * Writes the <UML:TemplateParameter> XMI element.
