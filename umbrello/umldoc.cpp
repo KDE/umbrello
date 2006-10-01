@@ -762,27 +762,12 @@ bool UMLDoc::addUMLObject(UMLObject* object) {
         return false;
     }
     UMLPackage *pkg = object->getUMLPackage();
-    if (pkg != NULL) {
+    if (pkg == NULL) {
+        pkg = currentRoot();
         kdDebug() << "UMLDoc::addUMLObject(" << object->getName()
-                  << "): adding at containing package instead" << endl;
-        return pkg->addObject(object);
+            << "): no parent package set, assuming " << pkg->getName() << endl;
     }
-    /*
-    //stop it being added twice
-    if (m_objectList.find(object) != -1)  {
-        kdDebug() << "UMLDoc::addUMLObject: not adding " << object->getName()
-                  << " because it's already there." << endl;
-        return false;
-    }
-    if (prepend)
-        m_objectList.prepend(object);
-    else
-        m_objectList.append(object);
-     */
-    kdError() << "UMLDoc::addUMLObject(" << object->getName()
-       << "): no parent package set !" << endl;
-    kdBacktrace(25);
-    return false;
+    return pkg->addObject(object);
 }
 
 void UMLDoc::addStereotype(const UMLStereotype *s) {
@@ -1199,6 +1184,10 @@ UMLFolder *UMLDoc::currentRoot() {
         f = static_cast<UMLFolder*>(f->getUMLPackage());
     }
     return f;
+}
+
+void UMLDoc::setCurrentRoot(Uml::Model_Type rootType) {
+    m_pCurrentRoot = m_root[rootType];
 }
 
 void UMLDoc::removeUMLObject(UMLObject* umlobject) {

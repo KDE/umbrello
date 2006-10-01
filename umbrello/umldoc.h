@@ -626,6 +626,15 @@ public:
     UMLFolder *currentRoot();
 
     /**
+     * Set the current root folder.
+     *
+     * @param rootType    The type of the root folder to set.
+     *                    The element from m_root[] which is indexed
+     *                    by this type is selected.
+     */
+    void setCurrentRoot(Uml::Model_Type rootType);
+
+    /**
      * Read property of IDChangeLog* m_pChangeLog.
      *
      * @return  Pointer to the IDChangeLog object.
