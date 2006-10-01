@@ -167,8 +167,6 @@ void ToolBarStateAssociation::setSecondWidget() {
             }
         }
         UMLApp::app()->getDocument()->setModified();
-        // go back to arrow tool
-        UMLApp::app()->getWorkToolBar()->setDefaultTool();
     } else {
         //TODO improve error feedback: tell the user what are the valid type of associations for
         //the second widget using the first widget
