@@ -74,7 +74,7 @@ void UMLClassifierListItem::setType(UMLObject *type) {
 void UMLClassifierListItem::setTypeName(const QString &type) {
     if (type.isEmpty() || type == "void") {
         m_pSecondary = NULL;
-        m_SecondaryId = QString::null;
+        m_SecondaryId.clear();
         return;
     }
     UMLDoc *pDoc = UMLApp::app()->getDocument();

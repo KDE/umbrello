@@ -203,7 +203,7 @@ QStringList NativeImportBase::split(QString line) {
             if (c == stringIntro) {
                 if (line[i - 1] != '\\') {
                     list.append(listElement);
-                    listElement = QString::null;
+                    listElement.clear();
                     stringIntro = 0;  // we are no longer in a string
                 }
             }
@@ -219,7 +219,7 @@ QStringList NativeImportBase::split(QString line) {
             seenSpace = true;
             if (!listElement.isEmpty()) {
                 list.append(listElement);
-                listElement = QString::null;
+                listElement.clear();
             }
         } else {
             listElement += c;
@@ -322,7 +322,7 @@ void NativeImportBase::parseFile(QString filename) {
         }
         if (! parseStmt())
            skipStmt();
-        m_comment = QString::null;
+        m_comment.clear();
     }
 }
 

@@ -108,7 +108,7 @@ public:
      * @param parent    The parent widget.
      * @return  True for success of this operation.
      */
-    virtual bool showPropertiesDialogue(QWidget* parent) = 0;
+    virtual bool showPropertiesDialog(QWidget* parent) = 0;
 
     /**
      * Copy the internal presentation of this object into the new

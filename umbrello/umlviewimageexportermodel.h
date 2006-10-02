@@ -97,8 +97,8 @@ public:
      * @param directory The url of the directory where the images will be saved.
      * @param useFolders If the tree structure of the views in the document must be created
      *                   in the target directory.
-     * @return A QStringList with all the error messages occured when exporting. If the list
-     *         is empty, all the views were exported successfully.
+     * @return A QStringList with all the error messages that occurred during export.
+     *         If the list is empty, all the views were exported successfully.
      */
     QStringList exportAllViews(const QString &imageType, const KUrl &directory, bool useFolders) const;
 
@@ -114,7 +114,7 @@ public:
      * @param view The view to export.
      * @param imageType The type of the image the view will be exported to.
      * @param url The url where the image will be saved.
-     * @return The message error if some problem occured when exporting, or
+     * @return The message error if some problem occurred when exporting, or
      *         QString::null if all went fine.
      */
     QString exportView(UMLView* view, const QString &imageType, const KUrl &url) const;
@@ -156,7 +156,7 @@ private:
      * @param imageType The type of the image the view will be exported to.
      * @param fileName The name of the file where the image will be saved.
      * @return True if the operation was successful,
-     *         false if a problem occured while exporting.
+     *         false if a problem occurred while exporting.
      */
     bool exportViewTo(UMLView* view, const QString &imageType, const QString &fileName) const;
 
@@ -168,7 +168,7 @@ private:
      * @param isEPS The file is an eps file and needs adjusting
      *              of the eps bounding box values.
      * @return True if the operation was successful,
-     *         false if a problem occured while exporting.
+     *         false if a problem occurred while exporting.
      */
     bool exportViewToEps(UMLView* view, const QString &fileName, bool isEPS) const;
 
@@ -178,7 +178,7 @@ private:
      * Corrects the bounding box.
      *
      * @return True if the operation was successful,
-     *         false if a problem occured while exporting.
+     *         false if a problem occurred while exporting.
      */
     bool fixEPS(const QString &fileName, QRect rect) const;
 
@@ -188,7 +188,7 @@ private:
      * @param view The view to export.
      * @param fileName The name of the file where the image will be saved.
      * @return True if the operation was successful,
-     *         false if a problem occured while exporting.
+     *         false if a problem occurred while exporting.
      */
     bool exportViewToSvg(UMLView* view, const QString &fileName) const;
 
@@ -200,7 +200,7 @@ private:
      * @param imageType The type of the image the view will be exported to.
      * @param fileName The name of the file where the image will be saved.
      * @return True if the operation was successful,
-     *         false if a problem occured while exporting.
+     *         false if a problem occurred while exporting.
      */
     bool exportViewToPixmap(UMLView* view, const QString &imageType, const QString &fileName) const;
 

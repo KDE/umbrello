@@ -313,7 +313,7 @@ void FloatingTextWidget::showOpDlg() {
             if (od.m_pReturnType)
                 op->setType(od.m_pReturnType);
             m_pLink->setOperation(op);
-            opText = QString::null;
+            opText.clear();
         } else {
             m_pLink->setOperation(NULL);
         }

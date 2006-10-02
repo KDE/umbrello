@@ -112,7 +112,7 @@ UMLListView::UMLListView(QWidget *parent, const char *)
     setItemsRenameable( true );
     setSelectionModeExt(FileManager);
     setFocusPolicy(Qt::StrongFocus);
-    setDragEnabled(TRUE);
+    setDragEnabled(true);
     setColumnWidthMode( 0, Manual );
     setDefaultRenameAction( Accept );
     setResizeMode( LastColumn );
@@ -856,11 +856,11 @@ void UMLListView::slotDiagramRemoved(Uml::IDType id) {
 Q3DragObject* UMLListView::dragObject() {
     UMLListViewItemList selecteditems;
     getSelectedItems(selecteditems);
-    selecteditems.setAutoDelete( FALSE );
+    selecteditems.setAutoDelete( false );
     UMLListViewItemListIt it(selecteditems);
     UMLListViewItem * item = 0;
     UMLListViewItemList  list;
-    list.setAutoDelete( FALSE );
+    list.setAutoDelete( false );
     while((item=it.current()) != 0) {
         ++it;
         Uml::ListView_Type type = item->getType();

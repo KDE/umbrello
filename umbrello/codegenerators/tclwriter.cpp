@@ -370,7 +370,7 @@ TclWriter::writeCode(QString text)
 void
 TclWriter::writeComm(QString text)
 {
-    QStringList     lines = QStringList::split("\n", text, TRUE);
+    QStringList     lines = QStringList::split("\n", text, true);
     for (uint i = 0; i < lines.count(); i++) {
         *mStream << getIndent() << "# " << lines[i] << m_endl;
     }
@@ -379,7 +379,7 @@ TclWriter::writeComm(QString text)
 void
 TclWriter::writeDocu(QString text)
 {
-    QStringList     lines = QStringList::split("\n", text, TRUE);
+    QStringList     lines = QStringList::split("\n", text, true);
     for (uint i = 0; i < lines.count(); i++) {
         *mStream << getIndent() << "## " << lines[i] << m_endl;
     }
@@ -613,7 +613,7 @@ TclWriter::writeAssociationRoleDecl(QString fieldClassName, QString roleName,
     } else {
         QString         fieldVarName = roleName.lower();
 
-        // record unique occurances for later when we want to check
+        // record unique occurrences for later when we want to check
         // for initialization of this vector
         if (VectorFieldVariables.findIndex(fieldVarName) == -1)
             VectorFieldVariables.append(fieldVarName);

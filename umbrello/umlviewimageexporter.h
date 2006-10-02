@@ -45,7 +45,7 @@ public:
      * The status bar shows an information message until the export finishes.
      *
      * If something went wrong while exporting, an error dialog is shown to the
-     * user with the error message explaining the problem occured.
+     * user with the error message explaining the problem that happened.
      */
     void exportView();
 

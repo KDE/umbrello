@@ -53,7 +53,7 @@ QStringList AdaImport::split(QString line) {
             if (i > 0 && line[i - 1] == '"')
                 continue;   // escaped quotation mark
             list.append(listElement);
-            listElement = QString::null;
+            listElement.clear();
             inString = false;
         } else if (c == '"') {
             inString = true;
@@ -69,7 +69,7 @@ QStringList AdaImport::split(QString line) {
                 listElement = line.mid(i, 3);
                 i += 2;
                 list.append(listElement);
-                listElement = QString::null;
+                listElement.clear();
                 continue;
             }
             listElement += c;
@@ -80,7 +80,7 @@ QStringList AdaImport::split(QString line) {
             seenSpace = true;
             if (!listElement.isEmpty()) {
                 list.append(listElement);
-                listElement = QString::null;
+                listElement.clear();
             }
         } else {
             listElement += c;
@@ -102,7 +102,7 @@ void AdaImport::fillSource(QString word) {
         } else {
             if (!lexeme.isEmpty()) {
                 m_source.append(lexeme);
-                lexeme = QString::null;
+                lexeme.clear();
             }
             if (c == ':' && word[i + 1] == '=') {
                 m_source.append(":=");

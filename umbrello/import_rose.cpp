@@ -67,7 +67,7 @@ QStringList scan(QString line) {
             lexeme += c;
             if (inString) {
                 result.append(lexeme);
-                lexeme = QString::null;
+                lexeme.clear();
             }
             inString = !inString;
         } else if (inString ||
@@ -76,7 +76,7 @@ QStringList scan(QString line) {
         } else {
             if (!lexeme.isEmpty()) {
                 result.append(lexeme);
-                lexeme = QString::null;
+                lexeme.clear();
             }
             if (! c.isSpace()) {
                 result.append(QString(c));
@@ -167,7 +167,7 @@ QString collectVerbatimText(QTextStream& stream) {
     QString result;
     QString line;
     methodName("collectVerbatimText");
-    while ((line = stream.readLine()) != QString::null) {
+    while (!(line = stream.readLine()).isNull()) {
         linum++;
         line = line.trimmed();
         if (line.isEmpty() || line.startsWith(")"))
@@ -179,7 +179,7 @@ QString collectVerbatimText(QTextStream& stream) {
             result += line.mid(1) + "\n";
         }
     }
-    if (line == QString::null) {
+    if (line.isNull()) {
         kError() << loc() << "premature EOF" << endl;
         return QString::null;
     }
@@ -276,7 +276,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
         return node;
     PetalNode::NameValueList attrs;
     QString line;
-    while ((line = stream.readLine()) != QString::null) {
+    while (!(line = stream.readLine()).isNull()) {
         linum++;
         line = line.trimmed();
         if (line.isEmpty())
@@ -358,13 +358,13 @@ bool loadFromMDL(QIODevice& file) {
     QString line;
     PetalNode *root = NULL;
     linum = 0;
-    while ((line = stream.readLine()) != QString::null) {
+    while (!(line = stream.readLine()).isNull()) {
         linum++;
         if (line.contains( QRegExp("^\\s*\\(object Petal") )) {
-            while ((line = stream.readLine()) != QString::null && !line.contains(')')) {
+            while (!(line = stream.readLine()).isNull() && !line.contains(')')) {
                 linum++; // CHECK: do we need petal version info?
             }
-            if (line == QString::null)
+            if (line.isNull())
                 break;
         } else {
             QRegExp objectRx("^\\s*\\(object ");

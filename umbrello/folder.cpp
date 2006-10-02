@@ -223,7 +223,7 @@ void UMLFolder::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
         kError() << "UMLFolder::saveToXMI(" << m_folderFile << "): "
             << "cannot create file, contents will be saved in main model file"
             << endl;
-        m_folderFile = QString::null;
+        m_folderFile.clear();
         save(qDoc, qElement);
         return;
     }

@@ -62,7 +62,7 @@ UMLObject* UMLEnum::createEnumLiteral() {
     bool goodName = false;
 
     while (ok && !goodName) {
-        ok = newEnumLiteral->showPropertiesDialogue( UMLApp::app() );
+        ok = newEnumLiteral->showPropertiesDialog( UMLApp::app() );
         QString name = newEnumLiteral->getName();
 
         if(name.length() == 0) {

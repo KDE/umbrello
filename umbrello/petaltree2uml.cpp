@@ -86,7 +86,7 @@ Uml::Object_Type typeToCreate(QString name) {
  */
 void transferVisibility(const PetalNode *from, UMLObject *to) {
     QString vis = from->findAttribute("exportControl").string;
-    if (vis != QString::null) {
+    if (!vis.isEmpty()) {
         Uml::Visibility v = Uml::Visibility::fromString(clean(vis.lower()));
         to->setVisibility(v);
     }

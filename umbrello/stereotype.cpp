@@ -63,7 +63,7 @@ void UMLStereotype::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     qElement.appendChild( stereotypeElement );
 }
 
-bool UMLStereotype::showPropertiesDialogue(QWidget* parent) {
+bool UMLStereotype::showPropertiesDialog(QWidget* parent) {
     bool ok;
     QString name = KInputDialog::getText(i18n("Stereotype"), i18n("Enter name:"), getName(),&ok, parent);
     if (ok) {

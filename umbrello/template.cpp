@@ -91,7 +91,7 @@ bool UMLTemplate::load(QDomElement& element) {
     return true;
 }
 
-bool UMLTemplate::showPropertiesDialogue(QWidget* parent) {
+bool UMLTemplate::showPropertiesDialog(QWidget* parent) {
     UMLTemplateDialog dialog(parent, this);
     return dialog.exec();
 }

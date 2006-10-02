@@ -72,7 +72,7 @@ void JavaImport::fillSource(QString word) {
         } else {
             if (!lexeme.isEmpty()) {
                 m_source.append(lexeme);
-                lexeme = QString::null;
+                lexeme.clear();
             }
             m_source.append(QString(c));
         }
@@ -82,7 +82,7 @@ void JavaImport::fillSource(QString word) {
 }
 
 
-///Spawn off an import of the specifed file
+///Spawn off an import of the specified file
 void JavaImport::spawnImport( QString file ) {
     // if the file is being parsed, don't bother
     //
@@ -212,7 +212,7 @@ void JavaImport::parseFile(QString filename) {
     s_parseDepth--;
     if ( s_parseDepth <= 0 ) {
         // if the user decides to clear things out and reparse, we need
-        // to honour the request, so reset things for next time.
+        // to honor the request, so reset things for next time.
         s_filesAlreadyParsed.clear();
         s_parseDepth = 0;
     }
@@ -436,7 +436,7 @@ bool JavaImport::parseStmt() {
         // Constructor.
         nextToken = name;
         name = typeName;
-        typeName = QString::null;
+        typeName.clear();
     } else {
         nextToken = advance();
     }
