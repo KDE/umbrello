@@ -464,7 +464,7 @@ public:
      * @param x The x-coordinate.
      * @param y The y-coordinate.
      */
-    void adjustAssocs(int x, int y);
+    virtual void adjustAssocs(int x, int y);
 
     /**
      * Adjusts all unselected associations with the given co-ordinates

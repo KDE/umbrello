@@ -103,6 +103,22 @@ public:
      */
     bool isTyping();
 
+public slots:
+
+    /**
+     * An association was removed from the UMLView.
+     * If the association removed was the association which documentation is
+     * being shown, m_pAssocWidget is set to 0.
+     */
+    void slotAssociationRemoved(AssociationWidget* association);
+
+    /**
+     * A widget was removed from the UMLView.
+     * If the association removed was the association which documentation is
+     * being shown, m_pUMLWidget is set to 0.
+     */
+    void slotWidgetRemoved(UMLWidget* widget);
+
 private:
     /**
      * Used internally to know which type of object we are showing

@@ -580,6 +580,7 @@ bool petalTree2Uml(PetalNode *root) {
     }
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     umldoc->determineNativity("Certainly Not Native At All");
+    umldoc->setCurrentRoot(Uml::mt_Logical);
     Import_Utils::assignUniqueIdOnCreation(false);
     PetalNode::NameValueList atts = logical_models->attributes();
     for (uint i = 0; i < atts.count(); i++) {
@@ -590,15 +591,19 @@ bool petalTree2Uml(PetalNode *root) {
     UMLListView *lv = UMLApp::app()->getListView();
 
     /*************************** import Use Case View ********************************/
+    umldoc->setCurrentRoot(Uml::mt_UseCase);
     importView(root, "root_usecase_package", "logical_models", lv->theUseCaseView());
 
     /*************************** import Component View *******************************/
+    umldoc->setCurrentRoot(Uml::mt_Component);
     importView(root, "root_subsystem", "physical_models", lv->theComponentView());
 
     /*************************** import Deployment View ******************************/
+    umldoc->setCurrentRoot(Uml::mt_Deployment);
     importView(root, "process_structure", "ProcsNDevs", lv->theDeploymentView());
 
     /***************************       wrap up        ********************************/
+    umldoc->setCurrentRoot(Uml::mt_Logical);
     Import_Utils::assignUniqueIdOnCreation(true);
     umldoc->resolveTypes();
     return true;

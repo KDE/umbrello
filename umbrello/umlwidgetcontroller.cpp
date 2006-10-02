@@ -51,11 +51,6 @@ UMLWidgetController::~UMLWidgetController() {
 }
 
 void UMLWidgetController::mousePressEvent(QMouseEvent *me) {
-    if (m_widget->m_pView->getCurrentCursor() != WorkToolBar::tbb_Arrow) {
-        //anything else needed?
-        return;
-    }
-
     // If there is a button pressed already ignore other press events
     if (m_leftButtonDown || m_middleButtonDown || m_rightButtonDown) {
         return;
@@ -117,10 +112,6 @@ void UMLWidgetController::mousePressEvent(QMouseEvent *me) {
 }
 
 void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
-    if (m_widget->m_pView->getCurrentCursor() != WorkToolBar::tbb_Arrow) {
-        return;
-    }
-
     if (!m_leftButtonDown)
         return;
 
@@ -175,16 +166,6 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
 
         if (update) {
             widget->adjustAssocs(widget->getX(), widget->getY());
-
-            //TODO check if this is needed. What it does?
-            //If needed, create an empty virtual method executed at this place
-            //and override it in ClassifierWidgetController
-/*            if (widget->m_Type == Uml::wt_Class) {
-                ClassifierWidget *cw = static_cast<ClassifierWidget*>(widget);
-                AssociationWidget *clAssocW = cw->getClassAssocWidget();
-                if (clAssocW)
-                    clAssocW->computeAssocClassLine();
-            }*/
         }
     }
     m_widget->m_pView->resizeCanvasToItems();
@@ -192,79 +173,69 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
 }
 
 void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me) {
-    if (m_widget->m_pView->getCurrentCursor() == WorkToolBar::tbb_Arrow) {
+    if (me->button() != Qt::LeftButton && me->button() != Qt::RightButton) {
+        if (m_middleButtonDown) {
+            m_middleButtonDown = false;
+            resetSelection();
+        }
+    } else if (me->button() == Qt::LeftButton) {
+        if (m_leftButtonDown) {
+            m_leftButtonDown = false;
 
-        if (me->button() != Qt::LeftButton && me->button() != Qt::RightButton) {
-            if (m_middleButtonDown) {
-                m_middleButtonDown = false;
-                resetSelection();
-            }
-        } else if (me->button() == Qt::LeftButton) {
-            if (m_leftButtonDown) {
-                m_leftButtonDown = false;
+            if (!m_moved && !m_resized) {
+                if (!m_shiftPressed && (m_widget->m_pView->getSelectCount(true) > 1)) {
+                    selectSingle(me);
+                } else if (!m_wasSelected) {
+                    deselect(me);
+                }
+            } else {
+                if (m_moved) {
+                    m_moved = false;
 
-                if (!m_moved && !m_resized) {
-                    if (!m_shiftPressed && (m_widget->m_pView->getSelectCount(true) > 1)) {
-                        selectSingle(me);
-                    } else if (!m_wasSelected) {
-                        deselect(me);
+                    //Ensure associations are updated (the timer could prevent the
+                    //adjustment in the last move event before the release)
+                    UMLWidgetListIt it(m_selectedWidgetsList);
+                    UMLWidget* widget;
+                    it.toFirst();
+                    while ((widget = it.current()) != 0) {
+                        ++it;
+                        widget->adjustAssocs(widget->getX(), widget->getY());
                     }
+
+                    m_widget->m_bStartMove = false;
                 } else {
-                    if (m_moved) {
-                        m_moved = false;
-
-                        //Ensure associations are updated (the timer could prevent the
-                        //adjustment in the last move event before the release)
-                        UMLWidgetListIt it(m_selectedWidgetsList);
-                        UMLWidget* widget;
-                        it.toFirst();
-                        while ((widget = it.current()) != 0) {
-                            ++it;
-                            widget->adjustAssocs(widget->getX(), widget->getY());
-                        }
-
-                        m_widget->m_bStartMove = false;
-                    } else {
-                        m_resized = false;
-                    }
-
-                    if ((m_inMoveArea && wasPositionChanged()) ||
-                                (m_inResizeArea && wasSizeChanged())) {
-                        m_widget->m_pDoc->setModified(true);
-                    }
-
-                    UMLApp::app()->getDocument()->writeToStatusBar(m_oldStatusBarMsg);
+                    m_resized = false;
                 }
 
-                if (m_inResizeArea) {
-                    m_inResizeArea = false;
-                    m_widget->m_pView->setCursor(KCursor::arrowCursor());
-                } else {
-                    m_inMoveArea = false;
+                if ((m_inMoveArea && wasPositionChanged()) ||
+                            (m_inResizeArea && wasSizeChanged())) {
+                    m_widget->m_pDoc->setModified(true);
                 }
+
+                UMLApp::app()->getDocument()->writeToStatusBar(m_oldStatusBarMsg);
             }
-        } else if (me->button() == Qt::RightButton) {
-            if (m_rightButtonDown) {
-                m_rightButtonDown = false;
-                showPopupMenu(me);
-            } else if (m_leftButtonDown) {
-                //Cancel move/edit
-                QMouseEvent move(QMouseEvent::MouseMove,
-                                 QPoint(m_oldX + m_pressOffsetX, m_oldY + m_pressOffsetY),
-                                 Qt::LeftButton, Qt::NoButton);
-                mouseMoveEvent(&move);
-                QMouseEvent release(QMouseEvent::MouseButtonRelease,
-                                    QPoint(m_oldX + m_pressOffsetX, m_oldY + m_pressOffsetY),
-                                    Qt::LeftButton, Qt::NoButton);
-                mouseReleaseEvent(&release);
+
+            if (m_inResizeArea) {
+                m_inResizeArea = false;
+                m_widget->m_pView->setCursor(KCursor::arrowCursor());
+            } else {
+                m_inMoveArea = false;
             }
         }
-    } else {
-        //TODO Move to ToolbarState or a subclass of it?
-        //TODO why this condition?
-        if (me->modifiers() != Qt::ShiftModifier 
-            || me->modifiers() != Qt::ControlModifier) {
-            m_widget->m_pView->setAssoc(m_widget);
+    } else if (me->button() == Qt::RightButton) {
+        if (m_rightButtonDown) {
+            m_rightButtonDown = false;
+            showPopupMenu(me);
+        } else if (m_leftButtonDown) {
+            //Cancel move/edit
+            QMouseEvent move(QMouseEvent::MouseMove,
+                                QPoint(m_oldX + m_pressOffsetX, m_oldY + m_pressOffsetY),
+                                Qt::LeftButton, Qt::NoButton);
+            mouseMoveEvent(&move);
+            QMouseEvent release(QMouseEvent::MouseButtonRelease,
+                                QPoint(m_oldX + m_pressOffsetX, m_oldY + m_pressOffsetY),
+                                Qt::LeftButton, Qt::NoButton);
+            mouseReleaseEvent(&release);
         }
     }
 
@@ -280,8 +251,7 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me) {
 }
 
 void UMLWidgetController::mouseDoubleClickEvent(QMouseEvent *me) {
-    if (me->button() != Qt::LeftButton ||
-            m_widget->m_pView->getCurrentCursor() != WorkToolBar::tbb_Arrow) {
+    if (me->button() != Qt::LeftButton) {
         return;
     }
 
@@ -395,10 +365,10 @@ void UMLWidgetController::resize(QMouseEvent *me) {
     int newW = m_oldW + me->x() - m_widget->getX() - m_pressOffsetX;
     int newH = m_oldH + me->y() - m_widget->getY() - m_pressOffsetY;
 
-    if ((me->modifiers() & Qt::ShiftModifier) && (me->modifiers() & Qt::ControlModifier)) {
+    if ((me->state() & Qt::ShiftButton) && (me->state() & Qt::ControlButton)) {
         //Move in Y axis
         newW = m_oldW;
-    } else if ((me->modifiers() & Qt::ShiftModifier) || (me->modifiers() & Qt::ControlModifier)) {
+    } else if ((me->state() & Qt::ShiftButton) || (me->state() & Qt::ControlButton)) {
         //Move in X axis
         newH = m_oldH;
     }
@@ -406,6 +376,8 @@ void UMLWidgetController::resize(QMouseEvent *me) {
     m_widget->constrain(newW, newH);
     resizeWidget(newW, newH);
     m_widget->adjustAssocs(m_widget->getX(), m_widget->getY());
+
+    m_widget->m_pView->resizeCanvasToItems();
 }
 
 //TODO refactor with AlignToolbar method.

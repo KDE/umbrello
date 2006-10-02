@@ -387,7 +387,6 @@ private:
     ObjectWidget * m_pOw[2];
     FloatingTextWidget * m_pFText;
     int m_nY;
-    bool m_inSelection;
 public slots:
     void slotWidgetMoved(Uml::IDType id);
     void slotMenuSelection(int sel);

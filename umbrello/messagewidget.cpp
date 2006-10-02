@@ -67,7 +67,6 @@ void MessageWidget::init() {
     m_pOw[Uml::A] = m_pOw[Uml::B] = NULL;
     m_pFText = NULL;
     m_nY = 0;
-    m_inSelection = false;
     setVisible(true);
 }
 
@@ -640,11 +639,6 @@ void MessageWidget::cleanup() {
 }
 
 void MessageWidget::setSelected(bool _select) {
-    if( m_inSelection )//used to stop a recursive call
-    {
-        m_inSelection = false;
-        return;
-    }
     UMLWidget::setSelected( _select );
     if( !m_pFText || m_pFText->getDisplayText().isEmpty())
         return;
@@ -653,7 +647,6 @@ void MessageWidget::setSelected(bool _select) {
     if( !m_bSelected && !m_pFText -> getSelected() )
         return;
 
-    m_inSelection = true;
     m_pView -> setSelected( m_pFText, 0 );
     m_pFText -> setSelected( m_bSelected );
 }

@@ -2135,6 +2135,20 @@ void AssociationWidget::createAssocClassLine() {
     m_pAssocClassLine->setVisible(true);
 }
 
+void AssociationWidget::createAssocClassLine(ClassifierWidget* classifier,
+                                             int linePathSegmentIndex) {
+    m_nLinePathSegmentIndex = linePathSegmentIndex;
+
+    if (m_nLinePathSegmentIndex < 0) {
+        return;
+    }
+
+    m_pAssocClassWidget = classifier;
+    m_pAssocClassWidget->setClassAssocWidget(this);
+
+    createAssocClassLine();
+}
+
 void AssociationWidget::computeAssocClassLine() {
     if (m_pAssocClassWidget == NULL || m_pAssocClassLine == NULL)
         return;
@@ -2224,18 +2238,11 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
     }
     m_nMovingPoint = -1;
     const QPoint p = me->pos();
-    if (me->button() == Qt::LeftButton) {
-        UMLWidget *otherWidget = m_pView->getFirstSelectedWidget();
-        if (otherWidget == NULL || otherWidget->getBaseType() != Uml::wt_Class)
-            return;
-        m_nLinePathSegmentIndex = m_LinePath.onLinePath(p);
-        if (m_nLinePathSegmentIndex < 0)
-            return;
-        m_pAssocClassWidget = static_cast<ClassifierWidget*>(otherWidget);
-        m_pAssocClassWidget->setClassAssocWidget(this);
-        createAssocClassLine();
+
+    if (me->button() != Qt::RightButton) {
         return;
     }
+
     // right button action:
     //work out the type of menu we want
     //work out if the association allows rolenames, multiplicity, etc

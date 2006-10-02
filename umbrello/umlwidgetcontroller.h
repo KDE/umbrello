@@ -81,10 +81,8 @@ public:
 
     /**
      * Handles a mouse press event.
-     * If arrow tool isn't selected, or there is already a pressed button,
-     * it does nothing.
-     * Otherwise, it'll select the widget (or mark it to be deselected) and
-     * prepare it to be moved or resized. Go on reading for more info about this.
+     * It'll select the widget (or mark it to be deselected) and prepare it to
+     * be moved or resized. Go on reading for more info about this.
      *
      * Widget values and message bar status are saved.
      *
@@ -112,10 +110,8 @@ public:
 
     /**
      * Handles a mouse move event.
-     * If arrow tool isn't selected, or the button pressed isn't left button,
-     * it does nothing.
-     * Otherwise, it resizes or moves the widget, depending on where the cursor
-     * is pressed on the widget. Go on reading for more info about this.
+     * It resizes or moves the widget, depending on where the cursor is pressed
+     * on the widget. Go on reading for more info about this.
      *
      * If resizing, the widget is resized using resizeWidget (where specific
      * widget resize constrain can be applied), and then the associations are
@@ -147,9 +143,8 @@ public:
 
     /**
      * Handles a mouse release event.
-     * If arrow tool isn't selected, the widget is set to be associated.
-     * Otherwise, it selects or deselects the widget and cancels or confirms
-     * the move or resize. Go on reading for more info about this.
+     * It selects or deselects the widget and cancels or confirms the move or
+     * resize. Go on reading for more info about this.
      * No matter which tool is selected, Z position of widget is updated.
      *
      * Middle button release resets the selection.
@@ -173,9 +168,9 @@ public:
 
     /**
      * Handles a mouse double click event.
-     * If the button wasn't left button, or arrow tool isn't the current tool,
-     * it does nothing. Otherwise, it selects the widget (deselecting other
-     * selected widgets, if any) and executes doMouseDoubleClick.
+     * If the button wasn't left button it does nothing. Otherwise, it selects
+     * the widget (deselecting other selected widgets, if any) and executes
+     * doMouseDoubleClick.
      * @see doMouseDoubleClick
      *
      * @param me The QMouseEvent event.
@@ -270,7 +265,7 @@ protected:
 
     /**
      * Executes the action for double click in the widget.
-     * It's called only if the button used was left button and the arrow tool was selected.
+     * It's called only if the button used was left button.
      * Before calling this method, the widget is selected.
      *
      * Default behaviour is show the properties dialog for the widget using
@@ -367,7 +362,7 @@ protected:
     int getBiggestY(const UMLWidgetList &widgetList);
 
     /**
-     * Returns a QPoint with the new X and Y position difference of the mouse event 
+     * Returns a QPoint with the new X and Y position difference of the mouse event
      * respect to the position of the widget.
      *
      * @param me The QMouseEVent to get the position to compare.

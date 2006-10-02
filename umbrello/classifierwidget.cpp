@@ -70,8 +70,8 @@ void ClassifierWidget::init() {
     m_bShowAttributes = ops.classState.showAtts;
     m_bShowStereotype = ops.classState.showStereoType;
     m_bDrawAsCircle = false;
-    setShowAttSigs( ops.classState.showAttSig );
     m_pAssocWidget = NULL;
+    setShowAttSigs( ops.classState.showAttSig );
 }
 
 void ClassifierWidget::updateSigs() {
@@ -742,6 +742,16 @@ void ClassifierWidget::changeToInterface() {
 
     updateComponentSize();
     update();
+}
+
+void ClassifierWidget::adjustAssocs(int x, int y) {
+    UMLWidget::adjustAssocs(x, y);
+
+    if (m_pDoc->loading() || m_pAssocWidget == 0) {
+        return;
+    }
+
+    m_pAssocWidget->computeAssocClassLine();
 }
 
 void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement) {

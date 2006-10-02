@@ -270,6 +270,18 @@ public:
     void draw(QPainter & p, int offsetX, int offsetY);
 
     /**
+     * Extends base method to adjust also the association of a class
+     * association.
+     * Executes the base method and then, if file isn't loading and the
+     * classifier acts as a class association, the association position is
+     * updated.
+     *
+     * @param x The x-coordinate.
+     * @param y The y-coordinate.
+     */
+    virtual void adjustAssocs(int x, int y);
+
+    /**
      * Creates the <classwidget> or <interfacewidget >XML element.
      */
     void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);

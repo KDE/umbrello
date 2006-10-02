@@ -202,4 +202,20 @@ bool DocWindow::isTyping()
         return false;
 }
 
+void DocWindow::slotAssociationRemoved(AssociationWidget* association) {
+    if (association == m_pAssocWidget || association->getUMLObject() == m_pUMLObject) {
+        // In old code, the below line crashed (bugs.kde.org/89860)
+        // A hotfix was made and detailed analysis was To Be Done:
+        // newDocumentation()
+        // However, it seems to have been fixed and the below line seems to work fine
+        updateDocumentation(true);
+    }
+}
+
+void DocWindow::slotWidgetRemoved(UMLWidget* widget) {
+    if (widget == m_pUMLWidget || widget->getUMLObject() == m_pUMLObject) {
+        updateDocumentation(true);
+    }
+}
+
 #include "docwindow.moc"

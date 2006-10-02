@@ -5,234 +5,256 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2004-2006                                                *
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
+ *   copyright (C) 2004-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
  ***************************************************************************/
 
 // own header
 #include "toolbarstate.h"
-// qt/kde includes
-#include <qmatrix.h> // need for inverseWorldMatrix.map
-#include <qevent.h>
-#include <kdebug.h>
+
+// qt includes
+#include <qwmatrix.h> // need for inverseWorldMatrix.map
+
 // app includes
+#include "associationwidget.h"
+#include "messagewidget.h"
+#include "uml.h"
 #include "umlview.h"
 #include "umlwidget.h"
-#include "messagewidget.h"
-#include "associationwidget.h"
-#include "uml.h"
 
-ToolBarState::ToolBarState(UMLView *umlView) : m_pUMLView(umlView)
-{
-    m_pMouseEvent = NULL;
-    m_bWidgetSelected = false;
-    init();
+ToolBarState::~ToolBarState() {
+    delete m_pMouseEvent;
 }
 
-ToolBarState::~ToolBarState()
-{
-    if (m_pMouseEvent) delete m_pMouseEvent;
+void ToolBarState::init() {
+    m_pUMLView->viewport()->setMouseTracking(false);
+    m_pMouseEvent = 0;
+    m_currentWidget = 0;
+    m_currentAssociation = 0;
+
+    connect(m_pUMLView, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
+            this, SLOT(slotAssociationRemoved(AssociationWidget*)));
+    connect(m_pUMLView, SIGNAL(sigWidgetRemoved(UMLWidget*)),
+            this, SLOT(slotWidgetRemoved(UMLWidget*)));
 }
 
-void ToolBarState::init()
-{
-    m_pUMLView->viewport()->setMouseTracking( false );
-    m_bIsButtonPressed = false;
+void ToolBarState::cleanBeforeChange() {
+    disconnect(m_pUMLView, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
+               this, SLOT(slotAssociationRemoved(AssociationWidget*)));
+    disconnect(m_pUMLView, SIGNAL(sigWidgetRemoved(UMLWidget*)),
+               this, SLOT(slotWidgetRemoved(UMLWidget*)));
 }
 
-void ToolBarState::setMouseEvent (QMouseEvent* ome, const QEvent::Type &type)
-{
-    if (m_pMouseEvent) delete m_pMouseEvent;
-
-    m_pMouseEvent = new QMouseEvent(type, m_pUMLView->inverseWorldMatrix().map(ome->pos()),
-                                    ome->button(),ome->buttons(),ome->modifiers());
-}
-
-void ToolBarState::mousePress(QMouseEvent* ome)
-{
-    setMouseEvent (ome, QEvent::MouseButtonPress);
-    m_bIsButtonPressed = true;
+void ToolBarState::mousePress(QMouseEvent* ome) {
+    setMouseEvent(ome, QEvent::MouseButtonPress);
 
     m_pUMLView->viewport()->setMouseTracking(true);
 
-    // TODO: emit sucks
+    //TODO Doesn't another way of emiting the signal exist? A method only for
+    //that seems a bit dirty.
     m_pUMLView->emitRemovePopupMenu();
 
     // TODO: Check who needs this.
-    m_pUMLView->setPos( m_pMouseEvent->pos() );
+    m_pUMLView->setPos(m_pMouseEvent->pos());
 
+    //TODO check why
     m_pUMLView->setPaste(false);
 
-    setSelectedWidget(m_pMouseEvent);
+    setCurrentElement();
+
+    if (getCurrentWidget()) {
+        mousePressWidget();
+    } else if (getCurrentAssociation()) {
+        mousePressAssociation();
+    } else {
+        mousePressEmpty();
+    }
 }
 
-void ToolBarState::mouseRelease(QMouseEvent* ome)
-{
-    setMouseEvent (ome, QEvent::MouseButtonRelease);
-    m_bIsButtonPressed = false;
+void ToolBarState::mouseRelease(QMouseEvent* ome) {
+    setMouseEvent(ome, QEvent::MouseButtonRelease);
 
     // Set the position of the mouse
     // TODO, should only be available in this state?
-    m_pUMLView->getPos().setX(m_pMouseEvent->x());
-    m_pUMLView->getPos().setY(m_pMouseEvent->y());
+    m_pUMLView->setPos(m_pMouseEvent->pos());
 
-    // TODO: Should not be called by an Sequence message Association.
-    UMLWidget *onW = m_pUMLView->getOnWidget();
-    if (onW)
-        onW->mouseReleaseEvent(m_pMouseEvent);
-    AssociationWidget *moveAssoc = m_pUMLView->getMoveAssoc();
-    if (moveAssoc)
-        moveAssoc->mouseReleaseEvent(m_pMouseEvent);
+    m_pUMLView->viewport()->setMouseTracking(false);
+
+    if (getCurrentWidget()) {
+        mouseReleaseWidget();
+        setCurrentWidget(0);
+    } else if (getCurrentAssociation()) {
+        mouseReleaseAssociation();
+        setCurrentAssociation(0);
+    } else {
+        mouseReleaseEmpty();
+    }
 
     // Default, rightbutton changes the tool.
     // The arrow tool overrides the changeTool() function.
     changeTool();
 }
 
-void ToolBarState::changeTool()
-{
-    if (m_pMouseEvent->button() == Qt::RightButton)
-    {
-        /* if the user right clicks on the diagram, first the default tool is
-         * selected from the toolbar; this only happens when the default tool
-         * wasn't selected yet AND there is no other widget under the mouse
-         * pointer
-         * in any other case the right click menu will be shown
-         * */
-        UMLApp::app()->getWorkToolBar()->setDefaultTool();
-    }
-
-    if (m_pMouseEvent->button() != Qt::LeftButton)
-    {
-        m_pUMLView->viewport()->setMouseTracking( false );
-    }
-}
-
-
-void ToolBarState::mouseDoubleClick(QMouseEvent* ome)
-{
+void ToolBarState::mouseDoubleClick(QMouseEvent* ome) {
     setMouseEvent(ome, QEvent::MouseButtonDblClick);
 
-
-    UMLWidget *onW = m_pUMLView->getOnWidget();
-    AssociationWidget *moveAssoc = m_pUMLView->getMoveAssoc();
-    if (onW && onW->onWidget( m_pMouseEvent->pos()))
-    {
-        onW->mouseDoubleClickEvent( m_pMouseEvent );
-    }
-    else if (moveAssoc && moveAssoc->onAssociation( m_pMouseEvent->pos() ))
-    {
-        moveAssoc->mouseDoubleClickEvent( m_pMouseEvent );
-    }
-    else
-    {
-        m_pUMLView->setOnWidget(NULL);
-        m_pUMLView->setMoveAssoc(NULL);
-        m_pUMLView->clearSelected();
+    UMLWidget* currentWidget = m_pUMLView->testOnWidget(m_pMouseEvent->pos());
+    AssociationWidget* currentAssociation = getAssociationAt(m_pMouseEvent->pos());
+    if (currentWidget) {
+        setCurrentWidget(currentWidget);
+        mouseDoubleClickWidget();
+        setCurrentWidget(0);
+    } else if (currentAssociation) {
+        setCurrentAssociation(currentAssociation);
+        mouseDoubleClickAssociation();
+        setCurrentAssociation(0);
+    } else {
+        mouseDoubleClickEmpty();
     }
 }
 
-void ToolBarState::mouseMove(QMouseEvent* ome)
-{
+void ToolBarState::mouseMove(QMouseEvent* ome) {
     setMouseEvent(ome, QEvent::MouseMove);
 
-    UMLWidget *onW = m_pUMLView->getOnWidget();
-    AssociationWidget *moveAssoc = m_pUMLView->getMoveAssoc();
-    if (onW)
-        onW->mouseMoveEvent( m_pMouseEvent );
-    else if (moveAssoc)
-        moveAssoc->mouseMoveEvent( m_pMouseEvent );
-
-    if (m_bIsButtonPressed)
-    {
-        int vx = ome->x();
-        int vy = ome->y();
-        int contsX = m_pUMLView->contentsX();
-        int contsY = m_pUMLView->contentsY();
-        int visw = m_pUMLView->visibleWidth();
-        int vish = m_pUMLView->visibleHeight();
-        int dtr = visw - (vx-contsX);
-        int dtb = vish - (vy-contsY);
-        int dtt =  (vy-contsY);
-        int dtl =  (vx-contsX);
-        if (dtr < 30) m_pUMLView->scrollBy(30-dtr,0);
-        if (dtb < 30) m_pUMLView->scrollBy(0,30-dtb);
-        if (dtl < 30) m_pUMLView->scrollBy(-(30-dtl),0);
-        if (dtt < 30) m_pUMLView->scrollBy(0,-(30-dtt));
+    if (getCurrentWidget()) {
+        mouseMoveWidget();
+    } else if (getCurrentAssociation()) {
+        mouseMoveAssociation();
+    } else {
+        mouseMoveEmpty();
     }
 
+    //Scrolls the view
+    int vx = ome->x();
+    int vy = ome->y();
+    int contsX = m_pUMLView->contentsX();
+    int contsY = m_pUMLView->contentsY();
+    int visw = m_pUMLView->visibleWidth();
+    int vish = m_pUMLView->visibleHeight();
+    int dtr = visw - (vx-contsX);
+    int dtb = vish - (vy-contsY);
+    int dtt =  (vy-contsY);
+    int dtl =  (vx-contsX);
+    if (dtr < 30) m_pUMLView->scrollBy(30-dtr,0);
+    if (dtb < 30) m_pUMLView->scrollBy(0,30-dtb);
+    if (dtl < 30) m_pUMLView->scrollBy(-(30-dtl),0);
+    if (dtt < 30) m_pUMLView->scrollBy(0,-(30-dtt));
 }
 
-// TODO: Remove parameter?
-bool ToolBarState::setSelectedWidget(QMouseEvent * me)
-{
-    m_pUMLView->setMoveAssoc(NULL);
-
-    // Check associations.
-    AssociationWidgetListIt assoc_it(m_pUMLView->getAssociationList());
-    AssociationWidget* assocwidget = 0;
-    while ((assocwidget = assoc_it.current()) != NULL) {
-        if (assocwidget->onAssociation( me->pos() ))
-        {
-            // TODO: Fix this. It makes a callback to the association mousePressEvent function.
-            assocwidget->mousePressEvent(me);
-            m_pUMLView->setMoveAssoc(assocwidget);
-            m_bWidgetSelected = true;
-            return true;
-        }
-        ++assoc_it;
+void ToolBarState::slotAssociationRemoved(AssociationWidget* association) {
+    if (association == getCurrentAssociation()) {
+        setCurrentAssociation(0);
     }
-    m_pUMLView->setMoveAssoc(NULL);
+}
+
+void ToolBarState::slotWidgetRemoved(UMLWidget* widget) {
+    if (widget == getCurrentWidget()) {
+        setCurrentWidget(0);
+    }
+}
+
+ToolBarState::ToolBarState(UMLView *umlView) : QObject(umlView), m_pUMLView(umlView) {
+    m_pMouseEvent = NULL;
+    init();
+}
+
+void ToolBarState::setCurrentElement() {
+    // Check associations.
+    AssociationWidget* association = getAssociationAt(m_pMouseEvent->pos());
+    if (association) {
+        setCurrentAssociation(association);
+        return;
+    }
 
     // Check messages.
-    for (MessageWidgetListIt mit(m_pUMLView->getMessageList()); mit.current(); ++mit) {
-        MessageWidget *obj = mit.current();
-        if (obj->isVisible() && obj->onWidget(me->pos())) {
-            UMLWidget *bkgnd = m_pUMLView->getOnWidget();
-            if (bkgnd && obj != bkgnd) {   // change of selected object
-                bkgnd->setSelected(false);
-                m_pUMLView->setOnWidget(NULL);
-            }
-            m_pUMLView->setOnWidget( obj );
-            obj->mousePressEvent( me );
-            m_bWidgetSelected = true;
-            return true;
-        }
+    //TODO check why message widgets are treated different
+    MessageWidget* message = getMessageAt(m_pMouseEvent->pos());
+    if (message) {
+        setCurrentWidget(message);
+        return;
     }
 
     // Check widgets.
-    UMLWidget *smallestObj = 0;
-    int relativeSize = 10000;   // start with an arbitrary large number
-    for (UMLWidgetListIt it(m_pUMLView->getWidgetList()); it.current(); ++it) {
-        UMLWidget *obj = it.current();
-        if (!obj->isVisible())
-            continue;
-        const int s = obj->onWidget(me->pos());
-        if (!s)
-            continue;
-        if (s < relativeSize) {
-            relativeSize = s;
-            smallestObj = obj;
-        }
+    UMLWidget *widget = m_pUMLView->testOnWidget(m_pMouseEvent->pos());
+    if (widget) {
+        setCurrentWidget(widget);
+        return;
     }
-    if (smallestObj) {
-        UMLWidget *bkgnd = m_pUMLView->getOnWidget();
-        if (bkgnd && smallestObj != bkgnd) {   // change of selected object
-            bkgnd->setSelected(false);
-            m_pUMLView->setOnWidget(NULL);
-        }
-        m_pUMLView->setOnWidget(smallestObj);
-        smallestObj->mousePressEvent(me);
-        m_bWidgetSelected = true;
-        return true;
-    }
-
-    if (m_pUMLView->getOnWidget()) {   // clear selected object
-        m_pUMLView->getOnWidget()->setSelected(false);
-        m_pUMLView->setOnWidget(NULL);
-    }
-
-    m_bWidgetSelected = false;
-    return false;
 }
 
+void ToolBarState::mousePressAssociation() {
+}
+
+void ToolBarState::mousePressWidget() {
+}
+
+void ToolBarState::mousePressEmpty() {
+    m_pUMLView->clearSelected();
+}
+
+void ToolBarState::mouseReleaseAssociation() {
+}
+
+void ToolBarState::mouseReleaseWidget() {
+}
+
+void ToolBarState::mouseReleaseEmpty() {
+}
+
+void ToolBarState::mouseDoubleClickAssociation() {
+}
+
+void ToolBarState::mouseDoubleClickWidget() {
+}
+
+void ToolBarState::mouseDoubleClickEmpty() {
+    m_pUMLView->clearSelected();
+}
+
+void ToolBarState::mouseMoveAssociation() {
+}
+
+void ToolBarState::mouseMoveWidget() {
+}
+
+void ToolBarState::mouseMoveEmpty() {
+}
+
+void ToolBarState::changeTool() {
+    if (m_pMouseEvent->state() == Qt::RightButton) {
+        UMLApp::app()->getWorkToolBar()->setDefaultTool();
+    }
+}
+
+void ToolBarState::setMouseEvent(QMouseEvent* ome, const QEvent::Type &type) {
+    if (m_pMouseEvent) delete m_pMouseEvent;
+
+    m_pMouseEvent = new QMouseEvent(type, m_pUMLView->inverseWorldMatrix().map(ome->pos()),
+                                    ome->button(),ome->state());
+}
+
+MessageWidget* ToolBarState::getMessageAt(QPoint pos) {
+    MessageWidget* message = 0;
+    for (MessageWidgetListIt it(m_pUMLView->getMessageList());
+                                (message = it.current()) != 0; ++it) {
+        if (message->isVisible() && message->onWidget(pos)) {
+            return message;
+        }
+    }
+
+    return message;
+}
+
+AssociationWidget* ToolBarState::getAssociationAt(QPoint pos) {
+    AssociationWidget* association = 0;
+    for (AssociationWidgetListIt it(m_pUMLView->getAssociationList());
+                                (association = it.current()) != 0; ++it) {
+        if (association->onAssociation(pos)) {
+            return association;
+        }
+    }
+
+    return association;
+}
+
+#include "toolbarstate.moc"
