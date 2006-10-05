@@ -23,7 +23,7 @@
 // kde include files
 #include <kdebug.h>
 #include <klocale.h>
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 #include <kapplication.h>
 #include <kio/netaccess.h>
 
@@ -128,40 +128,36 @@ QString UMLViewImageExporterModel::exportView(UMLView* view, const QString &imag
     // the fileName is the name of a temporal local file to export the image to, and then
     // upload it to its destiny
     QString fileName;
-    // tmpFile needs to be unlinked before exiting the method!!!
-    KTempFile tmpFile;
+    KTemporaryFile tmpFile;
     if (url.isLocalFile()) {
         fileName = url.path();
     } else {
-        fileName = tmpFile.name();
+        tmpFile.open();
+        fileName = tmpFile.fileName();
     }
 
     // check that the diagram isn't empty
     QRect rect = view->getDiagramRect();
     if (rect.isEmpty()) {
-        tmpFile.unlink();
         return i18n("Can not save an empty diagram");
     }
 
     // exporting the view to the file
     if (!exportViewTo(view, imageType, fileName)) {
-        tmpFile.unlink();
         return i18n("A problem occured while saving diagram in %1", fileName);
     }
 
     // if the file wasn't local, upload the temp file to the target
     if (!url.isLocalFile()) {
-        if (!KIO::NetAccess::upload(tmpFile.name(), url
+        if (!KIO::NetAccess::upload(tmpFile.fileName(), url
 #if KDE_IS_VERSION(3,1,90)
                                     , UMLApp::app()
 #endif
                                 )) {
-            tmpFile.unlink();
             return i18n("There was a problem saving file: %1", url.path());
         }
     } //!isLocalFile
 
-    tmpFile.unlink();
     return QString::null;
 }
 

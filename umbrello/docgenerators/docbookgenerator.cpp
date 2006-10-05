@@ -27,7 +27,7 @@
 
 #include <kdebug.h>
 #include <klocale.h>
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 #include <kmessagebox.h>
 #include <kio/job.h>
 #include <kio/copyjob.h>
@@ -83,19 +83,15 @@ KIO::CopyJob* DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDi
   QString xmi;
   QTextOStream xmiStream(&xmi);
   
-  KTempFile tmpfile; // we need this tmp file if we are writing to a remote file
-
-  QFile file;
-  file.setName( tmpfile.name() );
+  KTemporaryFile file; // we need this tmp file if we are writing to a remote file
+  file.setAutoRemove(false);
 
   // lets open the file for writing
-  if( !file.open( IO_WriteOnly ) ) {
-    KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(tmpfile.name()), i18n("Save Error"));
+  if( !file.open() ) {
+    KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(tmpfile.fileName()), i18n("Save Error"));
     return false;
   }
   umlDoc->saveToXMI(file); // save the xmi stuff to it
-  file.close();
-  tmpfile.close();
   
   xsltStylesheetPtr cur = NULL;
   xmlDocPtr doc, res;
@@ -112,10 +108,11 @@ KIO::CopyJob* DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDi
   doc = xmlParseFile((const char*)(tmpfile.name().utf8()));
   res = xsltApplyStylesheet(cur, doc, params);
   
-  KTempFile tmpDocBook;
-  tmpDocBook.setAutoDelete(false);
+  KTemporaryFile tmpDocBook;
+  tmpDocBook.setAutoRemove(false);
+  tmpDocBook.open();
   
-  xsltSaveResultToFile(tmpDocBook.fstream(), res, cur);
+  xsltSaveResultToFd(tmpDocBook.handle(), res, cur);
   xsltFreeStylesheet(cur);
   xmlFreeDoc(res);
   xmlFreeDoc(doc);
@@ -129,7 +126,7 @@ KIO::CopyJob* DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDi
   url.setPath(destDir.path());
   url.addPath(fileName);
   kDebug() << "Copying result to: " << url << endl;
-  KIO::CopyJob* job = KIO::copy(KUrl::fromPath(tmpDocBook.file()->name()),url,true);
+  KIO::CopyJob* job = KIO::copy(KUrl::fromPath(tmpDocBook.fileName()),url,true);
   job->ui()->setAutoErrorHandlingEnabled(true);
 
   return job;

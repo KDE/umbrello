@@ -27,7 +27,7 @@
 
 #include <kdebug.h>
 #include <klocale.h>
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 #include <kmessagebox.h>
 #include <kio/job.h>
 #include <kio/jobuidelegate.h>
@@ -118,25 +118,28 @@ void XhtmlGenerator::slotDocbookToXhtml(KIO::Job * docbookJob)
     localXsl = QString("href=\"file://") + localXsl + "\"";
     xslt.replace(QRegExp("href=\"http://[^\"]*\""),localXsl);
   }
-  KTempFile tmpXsl;
-  *tmpXsl.textStream() << xslt;
-  tmpXsl.file()->close();
-  
-  
+  KTemporaryFile tmpXsl;
+  tmpXsl.setAutoRemove(false);
+  tmpXsl.open();
+  QTextStream str ( &tmpXsl );
+  str << xslt;
+  str.flush();
+
   xmlSubstituteEntitiesDefault(1);
   xmlLoadExtDtdDefaultValue = 1;
-  kDebug() << "Parsing stylesheet " << tmpXsl.name() << endl;
-  cur = xsltParseStylesheetFile((const xmlChar *)tmpXsl.name().latin1());
+  kDebug() << "Parsing stylesheet " << tmpXsl.fileName() << endl;
+  cur = xsltParseStylesheetFile((const xmlChar *)tmpXsl.fileName().latin1());
   kDebug() << "Parsing file " << docbookUrl.path() << endl;
   doc = xmlParseFile((const char*)(docbookUrl.path().utf8()));
   kDebug() << "Applying stylesheet " << endl;
   res = xsltApplyStylesheet(cur, doc, params);
   
-  KTempFile tmpXhtml;
-  tmpXhtml.setAutoDelete(false);
+  KTemporaryFile tmpXhtml;
+  tmpXhtml.setAutoRemove(false);
+  tmpXhtml.open();
   
-  kDebug() << "Writing HTML result to temp file: " << tmpXhtml.file()->name() << endl;
-  xsltSaveResultToFile(tmpXhtml.fstream(), res, cur);
+  kDebug() << "Writing HTML result to temp file: " << tmpXhtml.fileName() << endl;
+  xsltSaveResultToFd(tmpXhtml.handle(), res, cur);
   
   xsltFreeStylesheet(cur);
   xmlFreeDoc(res);
@@ -151,7 +154,7 @@ void XhtmlGenerator::slotDocbookToXhtml(KIO::Job * docbookJob)
   xhtmlUrl.addPath(xhtmlName);
   
   kDebug() << "Copying HTML result to: " << xhtmlUrl << endl;
-  KIO::Job* job = KIO::file_copy(tmpXhtml.file()->name(),xhtmlUrl,-1,true,false,false);
+  KIO::Job* job = KIO::file_copy(tmpXhtml.fileName(),xhtmlUrl,-1,true,false,false);
   job->ui()->setAutoErrorHandlingEnabled(true);
   connect (job, SIGNAL(result( KIO::Job* )), this, SLOT(slotHtmlCopyFinished( KIO::Job* )));
 

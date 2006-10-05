@@ -36,7 +36,7 @@
 #include <kprinter.h>
 #include <ktar.h>
 # include <ktempdir.h>
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 #include <kiconloader.h>
 #include <ktabwidget.h>
 
@@ -517,7 +517,6 @@ bool UMLDoc::openDocument(const KUrl& url, const char* /*format =0*/) {
 bool UMLDoc::saveDocument(const KUrl& url, const char * /* format */) {
     m_doc_url = url;
     QDir d = m_doc_url.path(KUrl::AddTrailingSlash);
-    QFile file;
     bool uploaded = true;
 
     // first, we have to find out which format to use
@@ -541,7 +540,9 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * /* format */) {
     if (fileFormat == "tgz" || fileFormat == "bz2")
     {
         KTar * archive;
-        KTempFile tmp_tgz_file;
+        KTemporaryFile tmp_tgz_file;
+        tmp_tgz_file.setAutRemove(false);
+        tmp_tgz_file.open();
 
         // first we have to check if we are saving to a local or remote file
         if (url.isLocalFile())
@@ -555,9 +556,9 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * /* format */) {
         } else {
             if (fileFormat == "tgz") // check tgz or bzip2
             {
-                archive = new KTar(tmp_tgz_file.name(), "application/x-gzip");
+                archive = new KTar(tmp_tgz_file.fileName(), "application/x-gzip");
             } else {
-                archive = new KTar(tmp_tgz_file.name(), "application/x-bzip2");
+                archive = new KTar(tmp_tgz_file.fileName(), "application/x-bzip2");
             }
         }
 
@@ -570,14 +571,13 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * /* format */) {
 
         // we have to create a temporary xmi file
         // we will add this file later to the archive
-        KTempFile tmp_xmi_file;
-        file.setName(tmp_xmi_file.name());
-        if( !file.open( QIODevice::WriteOnly ) ) {
+        KTemporaryFile tmp_xmi_file;
+        tmp_xmi_file.setAutoRemove(false);
+        if( !tmp_xmi_file.open() ) {
             KMessageBox::error(0, i18n("There was a problem saving file: %1", d.path()), i18n("Save Error"));
             return false;
         }
-        saveToXMI(file); // save XMI to this file...
-        file.close(); // ...and close it
+        saveToXMI(tmp_xmi_file); // save XMI to this file...
 
         // now add this file to the archive, but without the extension
         QString tmpQString = url.fileName();
@@ -587,7 +587,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * /* format */) {
         } else {
             tmpQString.replace(QRegExp("\\.tar\\.bz2$"), "");
         }
-        archive->addLocalFile(tmp_xmi_file.name(), tmpQString);
+        archive->addLocalFile(tmp_xmi_file.fileName(), tmpQString);
         archive->close();
 
         if (!archive->close())
@@ -596,26 +596,25 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * /* format */) {
             return false;
         }
         // now the xmi file was added to the archive, so we can delete it
-        tmp_xmi_file.close();
-        tmp_xmi_file.unlink();
+        tmp_xmi_file.setAutoRemove(true);
 
         // now we have to check, if we have to upload the file
         if ( !url.isLocalFile() ) {
-            uploaded = KIO::NetAccess::upload( tmp_tgz_file.name(), m_doc_url,
+            uploaded = KIO::NetAccess::upload( tmp_tgz_file.fileName(), m_doc_url,
                                                UMLApp::app() );
         }
 
         // now the archive was written to disk (or remote) so we can delete the
         // objects
-        tmp_tgz_file.close();
-        tmp_tgz_file.unlink();
+        tmp_tgz_file.setAutoRemove(true);
         delete archive;
 
     } else
     {
         // save as normal uncompressed XMI
 
-        KTempFile tmpfile; // we need this tmp file if we are writing to a remote file
+        KTemporaryFile tmpfile; // we need this tmp file if we are writing to a remote file
+        tmpfile.setAutoRemove(false);
 
         // save in _any_ case to a temp file
         // -> if something goes wrong during saveToXmi, the
@@ -623,27 +622,24 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * /* format */) {
         //     ( e.g. if umbrello dies in the middle of the document model parsing
         //      for saveToXMI due to some problems )
         /// @TODO insert some checks in saveToXMI to detect a failed save attempt
-        file.setName( tmpfile.name() );
 
         // lets open the file for writing
-        if( !file.open( QIODevice::WriteOnly ) ) {
+        if( !tmpfile.open() ) {
             KMessageBox::error(0, i18n("There was a problem saving file: %1", d.path()), i18n("Save Error"));
             return false;
         }
-        saveToXMI(file); // save the xmi stuff to it
-        file.close();
-        tmpfile.close();
+        saveToXMI(tmpfile); // save the xmi stuff to it
 
         // if it is a remote file, we have to upload the tmp file
         if ( !url.isLocalFile() ) {
-            uploaded = KIO::NetAccess::upload( tmpfile.name(), m_doc_url
+            uploaded = KIO::NetAccess::upload( tmpfile.fileName(), m_doc_url
                                                , UMLApp::app()
                                              );
         } else {
             // now remove the original file
             if ( KIO::
                     NetAccess::
-                    file_move( tmpfile.name(), d.path(), -1, true ) == false ) {
+                    file_move( tmpfile.fileName(), d.path(), -1, true ) == false ) {
                 KMessageBox::error(0, i18n("There was a problem saving file: %1", d.path()), i18n("Save Error"));
                 m_doc_url.setFileName(i18n("Untitled"));
                 return false;
