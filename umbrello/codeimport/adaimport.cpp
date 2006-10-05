@@ -268,8 +268,7 @@ bool AdaImport::parseStmt() {
                                                               : Uml::ot_Datatype);
             UMLObject *ns = Import_Utils::createUMLObject(t, base, NULL);
             UMLClassifier *parent = static_cast<UMLClassifier*>(ns);
-            ns = Import_Utils::createUMLObject(Uml::ot_Class, name,
-                                               m_scope[m_scopeIndex], m_comment);
+            ns = Import_Utils::createUMLObject(t, name, m_scope[m_scopeIndex], m_comment);
             if (isExtension) {
                 QString nextLexeme = advance();
                 if (nextLexeme == "null" || nextLexeme == "record") {
