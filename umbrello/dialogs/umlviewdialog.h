@@ -22,6 +22,7 @@
 #include "../optionstate.h"
 //Added by qt3to4:
 #include <QLabel>
+#include "ui_diagrampropertiespage.h"
 
 /**
  * @author Paul Hensgen
@@ -38,6 +39,14 @@ class Q3TextEdit;
 class QSpinBox;
 class KFontChooser;
 class DiagramPropertiesPage;
+
+class DiagramPropertiesPage : public QWidget, public Ui::DiagramPropertiesPage
+{
+public:
+  DiagramPropertiesPage( QWidget *parent ) : QWidget( parent ) {
+    setupUi( this );
+  }
+};
 
 
 class UMLViewDialog : public KPageDialog {

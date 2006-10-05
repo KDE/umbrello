@@ -16,8 +16,17 @@
 #define UMLROLEPROPERTIES_H
 
 //my class includes
-#include "umlrolepropertiesbase.h"
+#include "ui_umlrolepropertiesbase.h"
 #include "../umlrole.h"
+
+class UMLRolePropertiesBase : public QWidget, public Ui::UMLRolePropertiesBase
+{
+public:
+  UMLRolePropertiesBase( QWidget *parent ) : QWidget( parent ) {
+    setupUi( this );
+  }
+};
+
 
 /**
  * Displays properties of a UMLRole in a widget which may be used as 

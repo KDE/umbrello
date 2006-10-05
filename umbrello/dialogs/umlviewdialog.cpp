@@ -35,7 +35,6 @@
 #include "../umlview.h"
 #include "../umldoc.h"
 #include "../uml.h"
-#include "diagrampropertiespage.h"
 
 UMLViewDialog::UMLViewDialog( QWidget * pParent, UMLView * pView )
     : KPageDialog(pParent) {

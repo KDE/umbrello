@@ -289,14 +289,14 @@ kde4_add_ui3_files( umbrello_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codegenerationwizardbase.ui 
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codeviewerdialogbase.ui 
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codevieweroptionsbase.ui 
-    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/diagrampropertiespage.ui 
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/exportallviewsdialogbase.ui 
-	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/umlrolepropertiesbase.ui 
 	${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/cppcodegenerationformbase.ui
 	${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/rubycodegenerationformbase.ui
 )
 
-kde4_add_ui_files( umbrello_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/javacodegenerationformbase.ui)
+kde4_add_ui_files( umbrello_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/javacodegenerationformbase.ui
+	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/umlrolepropertiesbase.ui
+	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/diagrampropertiespage.ui)
 
 kde4_add_executable(umbrello ${umbrello_SRCS})
 
