@@ -138,7 +138,6 @@ void UMLViewDialog::setupFontPage() {
 }
 
 void UMLViewDialog::applyPage( KPageWidgetItem*item ) {
-    KPageWidgetItem *pageColorItem,*pageFontItem,*pageDisplayItem,*pageGeneralItem;
 
     if ( item==pageGeneralItem )
     {

@@ -355,7 +355,6 @@ void SettingsDlg::slotApply() {
 }
 
 void SettingsDlg::slotOk() {
-    KPageWidgetItem*pageCodeViewer,*pageFont,*pageCodeGen,*pageUserInterface,* pageGeneral,*pageClass;
 
     applyPage( pageClass);
     applyPage( pageGeneral);
