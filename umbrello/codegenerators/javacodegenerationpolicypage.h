@@ -18,13 +18,22 @@
 #define JAVACODEGENERATIONPOLICYPAGE_H
 
 #include "../dialogs/codegenerationpolicypage.h"
-#include "javacodegenerationformbase.h"
+#include "ui_javacodegenerationformbase.h"
 
 #include "javacodegenerationpolicy.h"
 
 /**
  * @author Brian Thomas
  */
+
+class JavaCodeGenerationFormBase : public QWidget, public Ui::JavaCodeGenerationFormBase
+{
+public:
+  JavaCodeGenerationFormBase(QWidget *parent ) : QWidget( parent ) {
+    setupUi( this );
+  }
+};
+
 
 class JavaCodeGenerationPolicyPage : public CodeGenerationPolicyPage {
     Q_OBJECT

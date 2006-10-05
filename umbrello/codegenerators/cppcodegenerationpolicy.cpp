@@ -336,21 +336,21 @@ void CPPCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSign
     // now do cpp specific stuff
     config -> setGroup("CPP Code Generation");
 
-    setAutoGenerateAccessors(config->readBoolEntry("autoGenAccessors",DEFAULT_AUTO_GEN_ACCESSORS));
+    setAutoGenerateAccessors(config->readEntry("autoGenAccessors",DEFAULT_AUTO_GEN_ACCESSORS));
 
-    setAccessorsAreInline(config->readBoolEntry("inlineAccessors",DEFAULT_INLINE_ACCESSORS));
-    setAccessorsArePublic(config->readBoolEntry("publicAccessors",DEFAULT_PUBLIC_ACCESSORS));
-    setOperationsAreInline(config->readBoolEntry("inlineOps",DEFAULT_INLINE_OPERATIONS));
-    setDestructorsAreVirtual(config->readBoolEntry("virtualDestructors",DEFAULT_VIRTUAL_DESTRUCTORS));
-    setPackageIsNamespace(config->readBoolEntry("packageIsNamespace",DEFAULT_PACKAGE_IS_NAMESPACE));
+    setAccessorsAreInline(config->readEntry("inlineAccessors",DEFAULT_INLINE_ACCESSORS));
+    setAccessorsArePublic(config->readEntry("publicAccessors",DEFAULT_PUBLIC_ACCESSORS));
+    setOperationsAreInline(config->readEntry("inlineOps",DEFAULT_INLINE_OPERATIONS));
+    setDestructorsAreVirtual(config->readEntry("virtualDestructors",DEFAULT_VIRTUAL_DESTRUCTORS));
+    setPackageIsNamespace(config->readEntry("packageIsNamespace",DEFAULT_PACKAGE_IS_NAMESPACE));
 
     setStringClassName(config->readEntry("stringClassName",DEFAULT_STRING_CLASS_NAME) );
     setStringClassNameInclude(config->readEntry("stringClassNameInclude",DEFAULT_STRING_CLASS_INCLUDE ) );
-    setStringIncludeIsGlobal(config->readBoolEntry("stringIncludeIsGlobal",DEFAULT_STRING_INCLUDE_GLOBAL) );
+    setStringIncludeIsGlobal(config->readEntry("stringIncludeIsGlobal",DEFAULT_STRING_INCLUDE_GLOBAL) );
 
     setVectorClassName(config->readEntry("vectorClassName",DEFAULT_VECTOR_CLASS_NAME) );
     setVectorClassNameInclude(config->readEntry("vectorClassNameInclude",DEFAULT_VECTOR_CLASS_INCLUDE) );
-    setVectorIncludeIsGlobal(config->readBoolEntry("vectorIncludeIsGlobal",DEFAULT_VECTOR_INCLUDE_GLOBAL) );
+    setVectorIncludeIsGlobal(config->readEntry("vectorIncludeIsGlobal",DEFAULT_VECTOR_INCLUDE_GLOBAL) );
 
     blockSignals(false); // "as you were citizen"
 

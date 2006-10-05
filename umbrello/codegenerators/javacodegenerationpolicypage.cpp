@@ -23,7 +23,6 @@
 #include <kdebug.h>
 #include <klocale.h>
 // app includes
-#include "javacodegenerationformbase.h"
 #include "javacodegenerator.h"
 #include "../uml.h"
 
