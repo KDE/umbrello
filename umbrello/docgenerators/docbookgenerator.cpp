@@ -88,7 +88,7 @@ KIO::CopyJob* DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDi
 
   // lets open the file for writing
   if( !file.open() ) {
-    KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(tmpfile.fileName()), i18n("Save Error"));
+    KMessageBox::error(0, i18n("There was a problem saving file: %1").arg(file.fileName()), i18n("Save Error"));
     return false;
   }
   umlDoc->saveToXMI(file); // save the xmi stuff to it
@@ -105,7 +105,7 @@ KIO::CopyJob* DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDi
   xmlSubstituteEntitiesDefault(1);
   xmlLoadExtDtdDefaultValue = 1;
   cur = xsltParseStylesheetFile((const xmlChar *)xsltFile.latin1());
-  doc = xmlParseFile((const char*)(tmpfile.name().utf8()));
+  doc = xmlParseFile((const char*)(file.name().utf8()));
   res = xsltApplyStylesheet(cur, doc, params);
   
   KTemporaryFile tmpDocBook;
