@@ -541,7 +541,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * /* format */) {
     {
         KTar * archive;
         KTemporaryFile tmp_tgz_file;
-        tmp_tgz_file.setAutRemove(false);
+        tmp_tgz_file.setAutoRemove(false);
         tmp_tgz_file.open();
 
         // first we have to check if we are saving to a local or remote file
