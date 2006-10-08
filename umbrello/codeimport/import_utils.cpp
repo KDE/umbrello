@@ -182,7 +182,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
             Uml::Object_Type t = type;
             if (type == Uml::ot_UMLObject || isAdorned)
                 t = Uml::ot_Class;
-            origType = Object_Factory::createUMLObject(t, typeName, parentPkg);
+            origType = Object_Factory::createUMLObject(t, typeName, parentPkg, false);
             bNewUMLObjectWasCreated = true;
             bPutAtGlobalScope = false;
         }
