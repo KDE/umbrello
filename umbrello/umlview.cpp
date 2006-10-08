@@ -38,7 +38,7 @@
 #include <QMouseEvent>
 
 //kde include files
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
 #include <kprinter.h>
