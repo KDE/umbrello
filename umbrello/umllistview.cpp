@@ -1487,7 +1487,7 @@ void UMLListView::slotDropped(QDropEvent* de, Q3ListViewItem* /* parent */, Q3Li
 }
 
 int UMLListView::getSelectedItems(UMLListViewItemList &ItemList) {
-    ItemList.setAutoDelete( FALSE );
+    ItemList.setAutoDelete( false );
     Q3ListViewItemIterator it(this);
     // iterate through all items of the list view
     for ( ; it.current(); ++it ) {
@@ -1502,7 +1502,7 @@ int UMLListView::getSelectedItems(UMLListViewItemList &ItemList) {
 }
 
 int UMLListView::getSelectedItemsRoot(UMLListViewItemList &ItemList) {
-    ItemList.setAutoDelete( FALSE );
+    ItemList.setAutoDelete( false );
     Q3ListViewItemIterator it(this);
 
     // iterate through all items of the list view
