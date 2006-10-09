@@ -189,7 +189,7 @@ bool AdaImport::parseStmt() {
         return true;
     }
     if (keyword == "type") {
-        const QString& name = advance();
+        QString name = advance();
         if (advance() == "(") {
             kdDebug() << "AdaImport::parseFile(" << name << "): "
                 << "discriminant handling is not yet implemented" << endl;
@@ -266,10 +266,11 @@ bool AdaImport::parseStmt() {
             const bool isExtension = (advance() == "with");
             Uml::Object_Type t = (isExtension || m_isAbstract ? Uml::ot_Class
                                                               : Uml::ot_Datatype);
+            if (t == Uml::ot_Datatype)
+                name.remove("Standard.", false);
             UMLObject *ns = Import_Utils::createUMLObject(t, base, NULL);
             UMLClassifier *parent = static_cast<UMLClassifier*>(ns);
-            ns = Import_Utils::createUMLObject(Uml::ot_Class, name,
-                                               m_scope[m_scopeIndex], m_comment);
+            ns = Import_Utils::createUMLObject(t, name, m_scope[m_scopeIndex], m_comment);
             if (isExtension) {
                 QString nextLexeme = advance();
                 if (nextLexeme == "null" || nextLexeme == "record") {
@@ -365,10 +366,11 @@ bool AdaImport::parseStmt() {
             } else {
                 typeName = direction;  // In Ada, the default direction is "in"
             }
+            typeName.remove("Standard.", false);
             if (op == NULL) {
                 // In Ada, the first parameter indicates the class.
                 UMLDoc *umldoc = UMLApp::app()->getDocument();
-                UMLObject *type = umldoc->findUMLObject(typeName, Uml::ot_Class, m_scope[m_scopeIndex]);
+                UMLObject *type = umldoc->findUMLObject(typeName, Uml::ot_UMLObject, m_scope[m_scopeIndex]);
                 if (type == NULL) {
                     kdError() << "importAda: cannot find UML object for " << typeName << endl;
                     skipStmt();
@@ -413,6 +415,7 @@ bool AdaImport::parseStmt() {
                 return false;
             }
             returnType = advance();
+            returnType.remove("Standard.", false);
         }
         bool isAbstract = false;
         if (advance() == "is" && advance() == "abstract")

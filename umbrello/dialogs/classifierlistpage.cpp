@@ -499,7 +499,7 @@ void ClassifierListPage::slotDoubleClick( QListBoxItem* item ) {
         return;
     }
 
-    if( listItem->showPropertiesDialogue(this) ) {
+    if( listItem->showPropertiesDialog(this) ) {
         m_pItemListLB->changeItem( listItem->getName(), m_pItemListLB->index(item) );
     }
 }

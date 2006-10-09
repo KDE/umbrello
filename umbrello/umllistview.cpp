@@ -106,7 +106,7 @@ UMLListView::UMLListView(QWidget *parent, const char *name)
     setItemsRenameable( true );
     setSelectionModeExt(FileManager);
     setFocusPolicy(QWidget::StrongFocus);
-    setDragEnabled(TRUE);
+    setDragEnabled(true);
     setColumnWidthMode( 0, Manual );
     setDefaultRenameAction( Accept );
     setResizeMode( LastColumn );
@@ -850,11 +850,11 @@ void UMLListView::slotDiagramRemoved(Uml::IDType id) {
 QDragObject* UMLListView::dragObject() {
     UMLListViewItemList selecteditems;
     getSelectedItems(selecteditems);
-    selecteditems.setAutoDelete( FALSE );
+    selecteditems.setAutoDelete( false );
     UMLListViewItemListIt it(selecteditems);
     UMLListViewItem * item = 0;
     UMLListViewItemList  list;
-    list.setAutoDelete( FALSE );
+    list.setAutoDelete( false );
     while((item=it.current()) != 0) {
         ++it;
         Uml::ListView_Type type = item->getType();
@@ -1481,7 +1481,7 @@ void UMLListView::slotDropped(QDropEvent* de, QListViewItem* /* parent */, QList
 }
 
 int UMLListView::getSelectedItems(UMLListViewItemList &ItemList) {
-    ItemList.setAutoDelete( FALSE );
+    ItemList.setAutoDelete( false );
     QListViewItemIterator it(this);
     // iterate through all items of the list view
     for ( ; it.current(); ++it ) {
@@ -1496,7 +1496,7 @@ int UMLListView::getSelectedItems(UMLListViewItemList &ItemList) {
 }
 
 int UMLListView::getSelectedItemsRoot(UMLListViewItemList &ItemList) {
-    ItemList.setAutoDelete( FALSE );
+    ItemList.setAutoDelete( false );
     QListViewItemIterator it(this);
 
     // iterate through all items of the list view

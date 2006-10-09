@@ -1015,11 +1015,11 @@ void UMLApp::initClip() {
     // changes the clipboard. Work is in progress to make this work with other toolkits
     // as well. (pfeiffer)
     // m_clipTimer = new QTimer(this, "timer");
-    // m_clipTimer->start(1000, FALSE);
+    // m_clipTimer->start(1000, false);
     // connect(m_clipTimer, SIGNAL(timeout()), this, SLOT(slotClipDataChanged()));
 
     m_copyTimer = new QTimer(this, "copytimer");
-    m_copyTimer->start(500, FALSE);
+    m_copyTimer->start(500, false);
     connect(m_copyTimer, SIGNAL(timeout()), this, SLOT(slotCopyChanged()));
 }
 

@@ -182,8 +182,9 @@ UMLObject *createUMLObject(Uml::Object_Type type,
             Uml::Object_Type t = type;
             if (type == Uml::ot_UMLObject || isAdorned)
                 t = Uml::ot_Class;
-            origType = Object_Factory::createUMLObject(t, typeName, parentPkg);
+            origType = Object_Factory::createUMLObject(t, typeName, parentPkg, false);
             bNewUMLObjectWasCreated = true;
+            bPutAtGlobalScope = false;
         }
         if (isConst || isAdorned) {
             // Create the full given type (including adornments.)
@@ -245,7 +246,7 @@ UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope, QString 
         << owner->getName() << " (object type " << ot << ")" << endl;
         return NULL;
     }
-    UMLObject *o = owner->findChildObject(name);
+    UMLObject *o = owner->findChildObject(name, Uml::ot_Attribute);
     if (o) {
         return o;
     }

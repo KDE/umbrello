@@ -159,8 +159,8 @@ void UMLView::init() {
     canvas() -> setUpdatePeriod( -1 );
     resizeContents(defaultCanvasSize, defaultCanvasSize);
     canvas() -> resize(defaultCanvasSize, defaultCanvasSize);
-    setAcceptDrops(TRUE);
-    viewport() -> setAcceptDrops(TRUE);
+    setAcceptDrops(true);
+    viewport() -> setAcceptDrops(true);
     setDragAutoScroll(false);
 
     viewport() -> setMouseTracking(false);
