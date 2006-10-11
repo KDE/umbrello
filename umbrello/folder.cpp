@@ -286,11 +286,11 @@ bool UMLFolder::loadDiagramsFromXMI(QDomNode& diagrams) {
 bool UMLFolder::loadFolderFile(QString path) {
     QFile file(path);
     if (!file.exists()) {
-        KMessageBox::error(0, i18n("The folderfile %1 does not exist.").arg(path), i18n("Load Error"));
+        KMessageBox::error(0, i18n("The folderfile %1 does not exist.", path), i18n("Load Error"));
         return false;
     }
     if (!file.open(IO_ReadOnly)) {
-        KMessageBox::error(0, i18n("The folderfile %1 cannot be opened.").arg(path), i18n("Load Error"));
+        KMessageBox::error(0, i18n("The folderfile %1 cannot be opened.", path), i18n("Load Error"));
         return false;
     }
     QTextStream stream(&file);

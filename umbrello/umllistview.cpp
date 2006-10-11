@@ -382,7 +382,7 @@ void UMLListView::popupMenuSel(int sel) {
                 file.close();
             } else {
                 KMessageBox::error(0,
-                                   i18n("There was a problem saving file: %1").arg(fileName),
+                                   i18n("There was a problem saving file: %1", fileName),
                                    i18n("Save Error"));
                 return;
             }
