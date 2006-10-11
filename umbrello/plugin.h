@@ -21,8 +21,6 @@
 
 // Qt includes
 #include <qobject.h>
-//Added by qt3to4:
-#include <Q3CString>
 
 // KDE includes
 #include <kgenericfactory.h>
@@ -97,7 +95,7 @@ public:
     virtual ~Plugin();
 
     /** Return the instance name of the plugin */
-    Q3CString instanceName() const;
+    QByteArray instanceName() const;
 
     /** Return the configuration record for the plugin */
     KConfig *config();
@@ -157,7 +155,7 @@ private:
 
 protected:
     uint        _ref;           ///< Reference counter
-    Q3CString    _instanceName;  ///< Instance name of the plugin
+    QByteArray    _instanceName;  ///< Instance name of the plugin
     KConfig    *_config;        ///< Configuration record
 };
 }
