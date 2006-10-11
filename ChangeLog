@@ -1,3 +1,8 @@
+Version 2.0
+
+* Bugs/wishes from http://bugs.kde.org:
+* Accessor methods are private instead of public (85553)
+
 Version 1.5.5
 
 * PHP5 generator creates stub methods for all interfaces a class implements (C. Brunsdon)

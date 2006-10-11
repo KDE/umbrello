@@ -552,8 +552,6 @@ void CppWriter::writeAttributeDecls (Uml::Visibility visibility, bool writeStati
 
     }
 
-    return;
-
 }
 
 void CppWriter::writeHeaderAttributeAccessorMethods (Uml::Visibility visibility, bool writeStatic, QTextStream &stream )
@@ -585,9 +583,16 @@ void CppWriter::writeHeaderAttributeAccessorMethods (Uml::Visibility visibility,
         break;
     }
 
+    // switch to public
+    if (visibility != Uml::Visibility::Public)
+        stream << "public:" << m_endl << m_endl;
+
     // write accessor methods for attribs we found
     writeAttributeMethods(list, visibility, true, false, INLINE_ATTRIBUTE_METHODS, stream);
 
+    // switch back to previous vis.
+    if (visibility != Uml::Visibility::Public)
+        stream << visibility.toString() << ":" << m_endl << m_endl;
 }
 
 // this is for writing *source* or *header* file attribute methods
