@@ -20,7 +20,7 @@
 #include <k3listview.h>
 #include <qpixmap.h>
 //Added by qt3to4:
-#include <Q3PopupMenu>
+#include <QMenu>
 #include <QDropEvent>
 #include <map>
 
@@ -30,7 +30,6 @@ class UMLClassifier;
 class UMLClassifierListItem;
 class UMLDoc;
 
-class Q3PopupMenu;
 class QPoint;
 
 class RefactoringAssistant : public K3ListView
@@ -83,7 +82,7 @@ protected:
     void setVisibilityIcon( Q3ListViewItem *item , const UMLObject *obj );
     UMLClassifier *m_umlObject;
     UMLDoc *m_doc;
-    Q3PopupMenu *m_menu;
+    QMenu *m_menu;
     UMLObjectMap m_umlObjectMap;
 
 

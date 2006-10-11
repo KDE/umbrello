@@ -23,7 +23,6 @@
 #include "../object_factory.h"
 
 #include <qpoint.h>
-#include <q3popupmenu.h>
 //Added by qt3to4:
 #include <QDropEvent>
 
@@ -57,7 +56,7 @@ RefactoringAssistant::RefactoringAssistant( UMLDoc *doc, UMLClassifier *obj, QWi
 
     addColumn("Name ");
 
-    m_menu = new Q3PopupMenu(this);
+    m_menu = new QMenu(this);
 
     connect(this,SIGNAL(doubleClicked(Q3ListViewItem*)),this,SLOT(itemExecuted(Q3ListViewItem*)));
     connect(this,SIGNAL(contextMenu(K3ListView*, Q3ListViewItem*, const QPoint&)),
