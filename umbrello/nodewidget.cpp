@@ -17,8 +17,7 @@
 #include "umlview.h"
 #include <kdebug.h>
 #include <qpainter.h>
-//Added by qt3to4:
-#include <Q3PointArray>
+#include <QPolygon>
 
 NodeWidget::NodeWidget(UMLView * view, UMLNode *n )
   : UMLWidget(view, n) {
@@ -52,7 +51,7 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
     const int fontHeight  = fm.lineSpacing();
     QString name = getName();
 
-    Q3PointArray pointArray(5);
+    QPolygon pointArray(5);
     pointArray.setPoint(0, offsetX, bodyOffsetY);
     pointArray.setPoint(1, offsetX + wDepth, offsetY);
     pointArray.setPoint(2, offsetX + w - 1, offsetY);

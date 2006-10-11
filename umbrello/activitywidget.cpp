@@ -30,7 +30,7 @@
 
 //Added by qt3to4:
 #include <QMouseEvent>
-#include <Q3PointArray>
+#include <QPolygon>
 
 ActivityWidget::ActivityWidget(UMLView * view, ActivityType activityType, Uml::IDType id )
         : UMLWidget(view, id)
@@ -83,7 +83,7 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
         UMLWidget::setPen(p);
         p.setBrush( UMLWidget::getFillColour() );
         {
-            Q3PointArray array( 4 );
+            QPolygon array( 4 );
             array[ 0 ] = QPoint( offsetX + w / 2, offsetY );
             array[ 1 ] = QPoint( offsetX + w, offsetY  + h / 2 );
             array[ 2 ] = QPoint( offsetX + w / 2, offsetY + h );

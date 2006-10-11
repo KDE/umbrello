@@ -141,7 +141,7 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
     int w = width()-1;
 
     int h= height()-1;
-    Q3PointArray poly(6);
+    QPolygon poly(6);
     poly.setPoint(0, offsetX, offsetY);
     poly.setPoint(1, offsetX, offsetY + h);
     poly.setPoint(2, offsetX + w, offsetY + h);

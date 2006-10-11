@@ -334,7 +334,7 @@ protected:
     /**
     *   Contains calculated points used to draw the line head.
     */
-    Q3PointArray m_PointArray;
+    QPolygon m_PointArray;
 
     /**
     *   Contains calculated points used to draw the line head.
@@ -355,7 +355,7 @@ protected:
     *   Contains the calculated points for the parallel line
     *   on a collaboration message to use.
     */
-    Q3PointArray m_ParallelLines;
+    QPolygon m_ParallelLines;
 
     /**
     *   Region where the line docks
