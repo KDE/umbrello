@@ -15,7 +15,7 @@
 #include <q3pointarray.h>
 #include <qpainter.h>
 #include <q3textedit.h>
-#include <q3frame.h>
+#include <qframe.h>
 //Added by qt3to4:
 #include <QMouseEvent>
 // kde includes
@@ -40,7 +40,7 @@ NoteWidget::NoteWidget(UMLView * view, Uml::IDType id)
     // NB: This code is currently deactivated because
     // Zoom does not yet work with the embedded text editor.
     m_pEditor = new Q3TextEdit(view);
-    m_pEditor->setFrameStyle(Q3Frame::NoFrame | Q3Frame::Plain);
+    m_pEditor->setFrameStyle(QFrame::NoFrame | QFrame::Plain);
     m_pEditor->setHScrollBarMode(Q3ScrollView::AlwaysOff);
     m_pEditor->setVScrollBarMode(Q3ScrollView::AlwaysOff);
     m_pEditor->setTextFormat(Qt::RichText);

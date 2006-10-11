@@ -26,7 +26,7 @@
 #include <qtooltip.h>
 #include <q3whatsthis.h>
 //Added by qt3to4:
-#include <Q3Frame>
+#include <QFrame>
 #include <QKeyEvent>
 #include <QDesktopWidget>
 #include <kdebug.h>
@@ -73,7 +73,7 @@ KPlayerPopupSliderAction::KPlayerPopupSliderAction (const QString& text,
         : KAction (text, pix, shortcut, receiver, slot, parent, name)
 {
     m_frame = new KPlayerPopupFrame;
-    m_frame -> setFrameStyle (Q3Frame::PopupPanel | Q3Frame::Raised);
+    m_frame -> setFrameStyle (QFrame::PopupPanel | QFrame::Raised);
     m_frame -> setLineWidth (2);
     m_slider = new KPlayerSlider (Qt::Vertical, m_frame);
     m_frame -> resize (36, m_slider -> sizeHint().height() + 4);

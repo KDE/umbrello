@@ -19,7 +19,7 @@
 #include <kaction.h>
 #include <qslider.h>
 //Added by qt3to4:
-#include <Q3Frame>
+#include <QFrame>
 #include <QKeyEvent>
 
 /**KPlayer's slider widget. Works around the Qt upside-down slider bug.
@@ -104,15 +104,15 @@ protected:
 /**KPlayer popup frame.
   *@author kiriuja
   */
-class KPlayerPopupFrame : public Q3Frame
+class KPlayerPopupFrame : public QFrame
 {
     Q_OBJECT
 
 public:
     /** The KPlayerPopupFrame constructor. Parameters are passed on to QFrame.
       */
-    KPlayerPopupFrame (QWidget* parent = 0, const char* name = 0)
-            : Q3Frame (parent, name, Qt::WType_Popup) { }
+    KPlayerPopupFrame (QWidget* parent = 0/*, const char* name = 0*/)
+            : QFrame (parent/*, name, Qt::WType_Popup*/) { }
     /** The KPlayerPopupFrame destructor. Does nothing.
       */
     virtual ~KPlayerPopupFrame() { }

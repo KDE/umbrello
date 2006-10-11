@@ -26,7 +26,7 @@
 #include <q3textedit.h>
 //Added by qt3to4:
 #include <QVBoxLayout>
-#include <Q3Frame>
+#include <QFrame>
 #include <QHBoxLayout>
 #include <QGridLayout>
 #include "../codeviewerstate.h"
@@ -36,7 +36,6 @@ class CodeDocument;
 class QVBoxLayout;
 class QHBoxLayout;
 class QGridLayout;
-class Q3Frame;
 
 class UMLObject;
 

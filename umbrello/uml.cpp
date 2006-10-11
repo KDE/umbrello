@@ -20,7 +20,7 @@
 #include <qtoolbutton.h>
 //Added by qt3to4:
 #include <QKeyEvent>
-#include <Q3Frame>
+#include <QFrame>
 #include <QMenuItem>
 #include <QDockWidget>
 #include <QStackedWidget>
@@ -436,7 +436,7 @@ void UMLApp::initStatusBar() {
     m_statusLabel = new KStatusBarLabel( i18n("Ready."), 0, statusBar() );
     m_statusLabel->setFixedHeight( m_statusLabel->sizeHint().height() );
 
-    m_statusLabel->setFrameStyle( Q3Frame::NoFrame | Q3Frame::Plain );
+    m_statusLabel->setFrameStyle( QFrame::NoFrame | QFrame::Plain );
     m_statusLabel->setMargin( 0 );
     m_statusLabel->setLineWidth(0);
 

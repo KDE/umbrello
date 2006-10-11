@@ -23,7 +23,7 @@
 #include <q3groupbox.h>
 #include <kicon.h>
 //Added by qt3to4:
-#include <Q3Frame>
+#include <QFrame>
 #include <QHBoxLayout>
 #include <QGridLayout>
 #include <kvbox.h>
