@@ -58,7 +58,7 @@ CppWriter::CppWriter()
     // %VECTOR_TYPENAME%, which is as definition above.
     VECTOR_METHOD_APPEND = "%VARNAME%.push_back(add_object);"; // for std::vector
     VECTOR_METHOD_REMOVE = "int i, size = %VARNAME%.size();\nfor ( i = 0; i < size; i++) {\n\t%ITEMCLASS% item = %VARNAME%.at(i);\n\tif(item == remove_object) {\n\t\tvector<%ITEMCLASS%>::iterator it = %VARNAME%.begin() + i;\n\t\t%VARNAME%.erase(it);\n\t\treturn;\n\t}\n }"; // for std::vector
-    VECTOR_METHOD_INIT = ""; // nothing to be done
+    VECTOR_METHOD_INIT.clear(); // nothing to be done
     /*
         VECTOR_METHOD_APPEND = "%VARNAME%.append(&add_object);"; // Qt lib implementation
         VECTOR_METHOD_REMOVE = "%VARNAME%.removeRef(&remove_object);"; // Qt lib implementation
@@ -1033,7 +1033,7 @@ void CppWriter::writeInitAttibuteMethod (QTextStream &stream)
             }
         }
         // Now initialize the association related fields (e.g. vectors)
-        if (VECTOR_METHOD_INIT != "") {
+        if (!VECTOR_METHOD_INIT.isEmpty()) {
             QStringList::Iterator it;
             for( it = VectorFieldVariables.begin(); it != VectorFieldVariables.end(); ++it ) {
                 QString fieldVarName = *it;
@@ -1044,7 +1044,7 @@ void CppWriter::writeInitAttibuteMethod (QTextStream &stream)
             }
         }
 
-        if (OBJECT_METHOD_INIT != "") {
+        if (!OBJECT_METHOD_INIT.isEmpty()) {
             QStringList::Iterator it;
             for( it = ObjectFieldVariables.begin(); it != ObjectFieldVariables.end(); ++it ) {
                 QString fieldVarName = *it;
@@ -1143,8 +1143,8 @@ void CppWriter::writeOperations(UMLOperationList &oplist, bool isHeaderMethod, Q
     // generate method decl for each operation given
     for (UMLOperation *op = oplist.first(); op; op = oplist.next()) {
 
-        QString returnStr = "";  // buffer for documentation
-        QString methodReturnType = "";
+        QString returnStr;  // buffer for documentation
+        QString methodReturnType;
         UMLAttributeList *atl = op->getParmList();  // method parameters
 
         if (op->isConstructorOperation()) {

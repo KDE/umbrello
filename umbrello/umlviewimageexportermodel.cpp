@@ -81,7 +81,7 @@ QString UMLViewImageExporterModel::imageTypeToMimeType(QString imageType) {
     if (QString("xpm") == imageType) return "image/x-xpm";
     if (QString("eps") == imageType) return "image/x-eps";
     if (QString("svg") == imageType) return "image/svg+xml";
-    return QString::null;
+    return QString();
 }
 
 QString UMLViewImageExporterModel::mimeTypeToImageType(QString mimeType) {
@@ -95,7 +95,7 @@ QString UMLViewImageExporterModel::mimeTypeToImageType(QString mimeType) {
     if (QString("image/x-xpm") == mimeType) return "xpm";
     if (QString("image/x-eps") == mimeType) return "eps";
     if (QString("image/svg+xml") == mimeType) return "svg";
-    return QString::null;
+    return QString();
 }
 
 QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, const KUrl &directory, bool useFolders) const {
@@ -158,7 +158,7 @@ QString UMLViewImageExporterModel::exportView(UMLView* view, const QString &imag
         }
     } //!isLocalFile
 
-    return QString::null;
+    return QString();
 }
 
 QString UMLViewImageExporterModel::getDiagramFileName(UMLView *view, const QString &imageType, bool useFolders /* = false */) const {

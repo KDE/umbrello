@@ -548,7 +548,7 @@ QString progLangToString(Uml::Programming_Language pl) {
         default:
             break;
     }
-    return QString::null;
+    return QString();
 }
 
 Uml::Programming_Language stringToProgLang(QString str) {

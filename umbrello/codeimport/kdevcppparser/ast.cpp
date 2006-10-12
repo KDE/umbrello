@@ -117,7 +117,7 @@ QString nodeTypeToString( int type )
 	return "Custom";
     }
 
-    return QString::null;
+    return QString();
 }
 
 
@@ -227,7 +227,7 @@ void NameAST::addClassOrNamespaceName( ClassOrNamespaceNameAST::Node& classOrNam
 QString NameAST::text() const
 {
     if( !m_unqualifiedName.get() )
-        return QString::null;
+        return QString();
 
     QString str;
 
@@ -462,7 +462,7 @@ void ClassOrNamespaceNameAST::setTemplateArgumentList( TemplateArgumentListAST::
 QString ClassOrNamespaceNameAST::text() const
 {
     if( !m_name.get() )
-        return QString::null;
+        return QString();
 
     QString str = m_name->text();
     if( m_templateArgumentList.get() )

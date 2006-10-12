@@ -316,7 +316,7 @@ bool Parser::skipCommaExpression( AST::Node& node )
 
     QString comment;
     while( lex->lookAhead(0) == ',' ){
-	comment = QString::null;
+	comment.clear();
 	advanceAndCheckTrailingComment( comment );
 
 	if( !skipExpression(expr) ){
@@ -832,7 +832,7 @@ bool Parser::parseTemplateArgumentList( TemplateArgumentListAST::Node& node, boo
 
     QString comment;
     while( lex->lookAhead(0) == ',' ){
-	comment = QString::null;
+	comment.clear();
 	advanceAndCheckTrailingComment( comment );
 
 	if( !parseTemplateArgument(templArg) ){
@@ -1474,7 +1474,7 @@ bool Parser::parseTemplateParameterList( TemplateParameterListAST::Node& node )
 
     QString comment;
     while( lex->lookAhead(0) == ',' ){
-	comment = QString::null;
+	comment.clear();
 	advanceAndCheckTrailingComment( comment );
 
 	if( !parseTemplateParameter(param) ){
@@ -1779,7 +1779,7 @@ bool Parser::parseParameterDeclarationList( ParameterDeclarationListAST::Node& n
 
     QString comment;
     while( lex->lookAhead(0) == ',' ){
-	comment = QString::null;
+	comment.clear();
 	advanceAndCheckTrailingComment( comment );
 
 	if( lex->lookAhead(0) == Token_ellipsis )
@@ -2228,7 +2228,7 @@ bool Parser::parseBaseClause( BaseClauseAST::Node& node )
 
 	QString comment;
 	while( lex->lookAhead(0) == ',' ){
-	    comment = QString::null;
+	    comment.clear();
 	    advanceAndCheckTrailingComment( comment );
 
 	    if( !parseBaseSpecifier(baseSpec) ){
@@ -2282,7 +2282,7 @@ bool Parser::parseMemInitializerList( AST::Node& /*node*/ )
 
     QString comment;
     while( lex->lookAhead(0) == ',' ){
-	comment = QString::null;
+	comment.clear();
 	advanceAndCheckTrailingComment( comment );
 
 	if( parseMemInitializer(init) ){
@@ -2327,7 +2327,7 @@ bool Parser::parseTypeIdList( GroupAST::Node& node )
 
     QString comment;
     while( lex->lookAhead(0) == ',' ){
-	comment = QString::null;
+	comment.clear();
 	advanceAndCheckTrailingComment( comment );
 	if( parseTypeId(typeId) ){
 	    if (!comment.isEmpty())
@@ -3904,7 +3904,7 @@ bool Parser::parseCommaExpression( AST::Node& node )
 
     QString comment;
     while( lex->lookAhead(0) == ',' ){
-	comment = QString::null;
+	comment.clear();
 	advanceAndCheckTrailingComment( comment );
 
         if( !parseAssignmentExpression(expr) )
@@ -4110,7 +4110,7 @@ bool Parser::parseIdentifierList( GroupAST::Node & node )
 
     QString comment;
     while( lex->lookAhead(0) == ',' ){
-	comment = QString::null;
+	comment.clear();
 	advanceAndCheckTrailingComment( comment );
 	if( lex->lookAhead(0) == Token_identifier ){
 	    AST_FROM_TOKEN( tk, lex->index() );

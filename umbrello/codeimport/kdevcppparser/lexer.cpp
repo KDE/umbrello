@@ -101,7 +101,7 @@ struct LexerData
                 return scope[ name ];
         }
 
-        return QString::null;
+        return QString();
     }
 
 };
@@ -143,7 +143,7 @@ void Lexer::reset()
     m_index = 0;
     m_size = 0;
     m_tokens.clear();
-    m_source = QString::null;
+    m_source.clear();
     m_ptr = 0;
     m_endPtr = 0;
     m_startLine = false;

@@ -255,7 +255,7 @@ void Driver::parseFile( const QString& fileName, bool onlyPreProcess, bool force
         fileParsed( fileName );
     }
     
-    m_currentFileName = QString::null;
+    m_currentFileName.clear();
     lexer = 0;
 }
 
@@ -418,7 +418,7 @@ QString Driver::findIncludeFile( const Dependence& dep ) const
 	    return fileInfo.absFilePath();
     }
 
-    return QString::null;
+    return QString();
 }
 
 void Driver::setResolveDependencesEnabled( bool enabled )

@@ -110,7 +110,7 @@ void scopeOfNode( AST* ast, QStringList& scope )
 QString typeSpecToString( TypeSpecifierAST* typeSpec )  /// @todo remove
 {
     if( !typeSpec )
-        return QString::null;
+        return QString();
 
     return typeSpec->text().replace( QRegExp(" :: "), "::" );
 }
@@ -118,7 +118,7 @@ QString typeSpecToString( TypeSpecifierAST* typeSpec )  /// @todo remove
 QString declaratorToString( DeclaratorAST* declarator, const QString& scope, bool skipPtrOp )
 {
    if( !declarator )
-       return QString::null;
+       return QString();
 
    QString text;
 

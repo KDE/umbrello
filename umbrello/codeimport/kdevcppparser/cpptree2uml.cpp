@@ -569,7 +569,7 @@ void CppTree2Uml::parseFunctionArguments(DeclaratorAST* declarator,
 QString CppTree2Uml::typeOfDeclaration( TypeSpecifierAST* typeSpec, DeclaratorAST* declarator )
 {
     if( !typeSpec || !declarator )
-        return QString::null;
+        return QString();
 
     QString text;
 

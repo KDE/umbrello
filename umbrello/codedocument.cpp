@@ -125,7 +125,7 @@ QString CodeDocument::getPath ( ) {
 QString CodeDocument::getPackage ( ) const {
     if (m_package)
         return m_package->getName();
-    return QString::null;
+    return QString();
 }
 
 /**
