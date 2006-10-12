@@ -145,7 +145,7 @@ int UMLEntity::removeEntityAttribute(UMLClassifierListItem* literal) {
     }
     emit entityAttributeRemoved(literal);
     emit modified();
-    // If we are deleteing the object, then we don't need to disconnect..this is done auto-magically
+    // If we are deleting the object, then we don't need to disconnect..this is done auto-magically
     // for us by QObject. -b.t.
     // disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
     delete literal;

@@ -51,7 +51,7 @@ public:
     virtual ~ToolBarStateArrow();
 
     /**
-     * Goes back to the inital state.
+     * Goes back to the initial state.
      */
     virtual void init();
 
@@ -137,7 +137,7 @@ protected:
      * already.
      * It avoids things like moving a big widget over a little one, clicking
      * right button to cancel the movement and the little widget getting the
-     * event, thus not cancelling the movement in the big widget.
+     * event, thus not canceling the movement in the big widget.
      */
     virtual void setCurrentWidget(UMLWidget* currentWidget);
 

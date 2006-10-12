@@ -32,7 +32,7 @@ class UMLWidget;
  * are delivered to the toolbar state currently active. The events are handled
  * in the tool and it executes the needed actions.
  *
- * All the mouse event handlers can be overriden in subclasses. However, the
+ * All the mouse event handlers can be overridden in subclasses. However, the
  * behaviour of the main handlers shouldn't be modified (apart from extend it,
  * that is, call the base implementation before any other actions in the derived
  * method).
@@ -176,7 +176,7 @@ protected:
      * be used until the next release event.
      * Default implementation first checks for associations, then message widgets
      * and then any other widgets.
-     * It can be overriden in subclasses if needed.
+     * It can be overridden in subclasses if needed.
      */
     virtual void setCurrentElement();
 
@@ -257,7 +257,7 @@ protected:
 
     /**
      * Changes the current tool to the default one if the right button was released.
-     * It can be overriden in subclasses if needed.
+     * It can be overridden in subclasses if needed.
      */
     virtual void changeTool();
 
@@ -275,7 +275,7 @@ protected:
      * This method is called in main press events handler just before calling
      * the press event for widgets handler.
      * Default implementation is set the specified widget, although this
-     * behaviour can be overriden in subclasses if needed.
+     * behaviour can be overridden in subclasses if needed.
      *
      * @param currentWidget The widget to be set.
      */
@@ -297,7 +297,7 @@ protected:
      * This method is called in main press events handler just before calling
      * the press event for associations handler.
      * Default implementation is set the specified association, although this
-     * behaviour can be overriden in subclasses if needed.
+     * behaviour can be overridden in subclasses if needed.
      *
      * @param currentAssociation The association to be set.
      */

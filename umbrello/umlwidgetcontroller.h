@@ -185,9 +185,9 @@ protected:
      * corner of the widget in m_pressOffsetX/Y, the position in m_oldX/Y and the
      * size in m_oldW/H.
      *
-     * It can be overriden to save subclass specific values whenever a move or
+     * It can be overridden to save subclass specific values whenever a move or
      * resize begins. However, parent method (that is, this method) must be
-     * called in the overriden method.
+     * called in the overridden method.
      *
      * @param me The QMouseEvent to get the offset from.
      */
@@ -230,7 +230,7 @@ protected:
      * current position and the new position.
      * This method doesn't adjust associations. It only moves the widget.
      *
-     * It can be overriden to constrain movement of m_widget only in one axis even when
+     * It can be overridden to constrain movement of m_widget only in one axis even when
      * the user isn't constraining the movement with shift or control buttons, for example.
      * The movement policy set here is applied whenever the widget is moved, being it
      * moving it explicitly, or as a part of a selection but not receiving directly the
@@ -247,7 +247,7 @@ protected:
     /**
      * Modifies the value of the diffX and diffY variables used to move the widgets.
      *
-     * It can be overriden to constrain movement of all the selected widgets only in one
+     * It can be overridden to constrain movement of all the selected widgets only in one
      * axis even when the user isn't constraining the movement with shift or control
      * buttons, for example.
      * The difference with moveWidgetBy is that the diff positions used here are

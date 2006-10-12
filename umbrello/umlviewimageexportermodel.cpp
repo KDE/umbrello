@@ -144,7 +144,7 @@ QString UMLViewImageExporterModel::exportView(UMLView* view, const QString &imag
 
     // exporting the view to the file
     if (!exportViewTo(view, imageType, fileName)) {
-        return i18n("A problem occured while saving diagram in %1", fileName);
+        return i18n("A problem occurred while saving diagram in %1", fileName);
     }
 
     // if the file wasn't local, upload the temp file to the target
