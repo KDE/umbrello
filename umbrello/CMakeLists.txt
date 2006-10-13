@@ -281,7 +281,7 @@ set(umbrello_SRCS
    worktoolbar.cpp 
    )
 
-kde4_automoc(${umbrello_SRCS})
+kde4_automoc(umbrello ${umbrello_SRCS})
 
 kde4_add_ui3_files( umbrello_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codegenerationoptionsbase.ui 
