@@ -2,7 +2,7 @@
     begin                : 10.02.2003
     copyright            : (C) 2003 Nikolaus Gradwohl
     email                : guru@local-guru.net
-      (C) 2004-2006  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+      (C) 2004-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net> 
  ***************************************************************************/
 
 /***************************************************************************

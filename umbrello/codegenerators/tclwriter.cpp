@@ -2,7 +2,7 @@
     begin               : Thu Jul 26 2005
     copyright           : (C) 2005 by Rene Meyer
     email               : rene.meyer@sturmit.de
-      (C) 2006  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+      (C) 2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net> 
  ***************************************************************************/
 
 /***************************************************************************
