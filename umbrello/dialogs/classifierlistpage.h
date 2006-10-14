@@ -106,7 +106,7 @@ private:
      * Utility for debugging, prints the current item list.
      * Only effective if VERBOSE_DEBUGGING is defined.
      */
-    void printItemList(QString prologue);
+    void printItemList(const QString &prologue);
 
     UMLClassifier* m_pClassifier;
     Q3GroupBox* m_pDocGB;

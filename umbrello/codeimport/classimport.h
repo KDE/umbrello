@@ -32,12 +32,12 @@ public:
      *
      * @param files  List of files to import.
      */
-    void importFiles(QStringList files);
+    void importFiles(const QStringList &files);
 
     /**
      * Factory method.
      */
-    static ClassImport *createImporterByFileExt(QString filename);
+    static ClassImport *createImporterByFileExt(const QString &filename);
 
 protected:
     /**

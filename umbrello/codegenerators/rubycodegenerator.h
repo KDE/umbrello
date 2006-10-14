@@ -81,7 +81,7 @@ public:
     //
 
     // general purpose function we may reuse for all types of Ruby code documents
-    QString capitalizeFirstLetter(QString string);
+    QString capitalizeFirstLetter(const QString &string);
 
     /**
      * Utility function for getting the ruby code generation policy.
@@ -103,7 +103,7 @@ public:
      *
      * @param cppType the C++ type to be converted
      */
-    static QString cppToRubyType(QString cppType);
+    static QString cppToRubyType(const QString &cppType);
 
     /**
      * Convert C++ names such as 'm_foobar' or pFoobar to 
@@ -111,7 +111,7 @@ public:
      *
      * @param cppName the C++ name to be converted
      */
-    static QString cppToRubyName(QString cppName);
+    static QString cppToRubyName(const QString &cppName);
 
     /**
      * get list of reserved keywords

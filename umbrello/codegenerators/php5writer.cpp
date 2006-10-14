@@ -3222,13 +3222,12 @@ void Php5Writer::writeOperations(UMLClassifier *c, QTextStream &php) {
 
 }
 
-void Php5Writer::writeOperations(QString /* classname */, UMLOperationList &opList, QTextStream &php, bool isInterface = false, bool generateErrorStub = false) {
-    UMLOperation *op;
-    UMLAttributeList *atl;
-    UMLAttribute *at;
-
-    for(op=opList.first(); op ; op=opList.next()) {
-        atl = op -> getParmList();
+void Php5Writer::writeOperations(const QString &/* classname */, UMLOperationList &opList,
+                                 QTextStream &php, bool isInterface /* = false */,
+                                 bool generateErrorStub /* = false */) {
+    for (UMLOperation *op=opList.first(); op ; op=opList.next()) {
+        UMLAttributeList *atl = op->getParmList();
+        UMLAttribute *at;
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
         for(at = atl->first(); at ; at = atl -> next())

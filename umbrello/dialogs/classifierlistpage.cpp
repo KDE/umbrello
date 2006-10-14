@@ -352,7 +352,7 @@ void ClassifierListPage::slotPopupMenuSel(int id) {
     }
 }
 
-void ClassifierListPage::printItemList(QString prologue) {
+void ClassifierListPage::printItemList(const QString &prologue) {
 #ifdef VERBOSE_DEBUGGING
     UMLClassifierListItem* item;
     QString buf;

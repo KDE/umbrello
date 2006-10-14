@@ -47,7 +47,7 @@ public:
      * Constructor
      * @param singleLineCommentIntro  "//" for IDL and Java, "--" for Ada
      */
-    NativeImportBase(QString singleLineCommentIntro);
+    NativeImportBase(const QString &singleLineCommentIntro);
     virtual ~NativeImportBase();
 
 protected:
@@ -64,12 +64,12 @@ protected:
      * @param end    In languages with a C style multiline comment
      *               this is star-slash.
      */
-    void setMultiLineComment(QString intro, QString end);
+    void setMultiLineComment(const QString &intro, const QString &end);
     /**
      * Set the delimiter strings for an alternative form of
      * multi line comment. See setMultiLineComment().
      */
-    void setMultiLineAltComment(QString intro, QString end);
+    void setMultiLineAltComment(const QString &intro, const QString &end);
 
     /**
      * Import a single file.

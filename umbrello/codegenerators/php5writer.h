@@ -74,8 +74,9 @@ private:
       * @param php output stream for the PHP file
       * @param interface indicates if the operation is an interface member
       */
-    void writeOperations(QString classname, UMLOperationList &opList,
-                         QTextStream &php, bool interface, bool generateErrorStub);
+    void writeOperations(const QString &classname, UMLOperationList &opList,
+                         QTextStream &php,
+                         bool interface = false, bool generateErrorStub = false);
 
     /** write all the attributes of a class
       * @param c the class we are generating code for

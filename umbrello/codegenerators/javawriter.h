@@ -156,7 +156,7 @@ private:
     /**
      * Writes a // style comment
      */
-    void writeComment(QString text, QString indent, QTextStream &java, bool javaDocStyle=false);
+    void writeComment(const QString &text, const QString &indent, QTextStream &java, bool javaDocStyle=false);
 
     /**
      * Writes a documentation comment
@@ -176,7 +176,7 @@ private:
     /**
      * Replaces `string' with `String' and `bool' with `boolean'
      */
-    QString fixTypeName(QString string);
+    QString fixTypeName(const QString& string);
 
     /**
      * check that initial values of strings have quotes around them

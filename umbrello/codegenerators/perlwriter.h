@@ -78,7 +78,7 @@ private:
       * @param opList the list of operations
       * @param perl output stream for the Perl file
       */
-    void writeOperations(QString classname, UMLOperationList &opList,
+    void writeOperations(const QString &classname, UMLOperationList &opList,
                          QTextStream &perl);
 
     /** write all the attributes of a class

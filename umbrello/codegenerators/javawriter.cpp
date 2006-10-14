@@ -372,7 +372,8 @@ void JavaWriter::writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility 
 
 }
 
-void JavaWriter::writeComment(QString comment, QString myIndent, QTextStream &java, bool javaDocStyle)
+void JavaWriter::writeComment(const QString &comment, const QString &myIndent,
+                              QTextStream &java, bool javaDocStyle)
 {
     // in the case we have several line comment..
     // NOTE: this part of the method has the problem of adopting UNIX newline,
@@ -640,12 +641,14 @@ void JavaWriter::writeConstructor(UMLClassifier *c, QTextStream &java)
 // IF the type is "string" we need to declare it as
 // the Java Object "String" (there is no string primative in Java).
 // Same thing again for "bool" to "boolean"
-QString JavaWriter::fixTypeName(QString string)
+QString JavaWriter::fixTypeName(const QString& string)
 {
     if (string.isEmpty())
         return "void";
-    string.replace(QRegExp("^string$"),"String");
-    string.replace(QRegExp("^bool$"),"boolean");
+    if (string == "string")
+        return "String";
+    if (string == "bool")
+        return "boolean";
     return string;
 }
 

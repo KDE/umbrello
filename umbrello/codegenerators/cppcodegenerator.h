@@ -65,7 +65,7 @@ public:
     // Public attribute accessor methods
     //
 
-    QString fixTypeName(QString string);
+    QString fixTypeName(const QString &string);
 
     /**
      * Add a header CodeDocument object from m_headercodedocumentVector List

@@ -155,13 +155,10 @@ CodeViewerDialog * CPPCodeGenerator::getCodeViewerDialog ( QWidget* parent, Code
 // Other methods
 //
 
-// CHange the following dataTypes to the ones the user really
+// Change the following dataTypes to the ones the user really
 // wants in their code. Not yet complete.
-QString CPPCodeGenerator::fixTypeName(QString string)
+QString CPPCodeGenerator::fixTypeName(const QString &string)
 {
-    // FIX!!
-    string.replace(QRegExp("^[Ll]ist$"),"QPtrList");
-    string.replace(QRegExp("^string$"),"QString");
     return cleanName(string);
 }
 

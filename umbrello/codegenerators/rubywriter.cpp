@@ -144,28 +144,28 @@ void RubyWriter::writeClass(UMLClassifier *c) {
 ////////////////////////////////////////////////////////////////////////////////////
 //  Helper Methods
 
-QString RubyWriter::cppToRubyType(QString typeStr) {
-    typeStr = cleanName(typeStr);
-    typeStr.replace("const ", "");
-    typeStr.replace(QRegExp("[*&\\s]"), "");
-    typeStr.replace(QRegExp("[<>]"), "_");
-    typeStr.replace("QStringList", "Array");
-    typeStr.replace("QString", "String");
-    typeStr.replace("bool", "true|false");
-    typeStr.replace(QRegExp("^(uint|int|ushort|short|ulong|long)$"), "Integer");
-    typeStr.replace(QRegExp("^(float|double)$"), "Float");
-    typeStr.replace(QRegExp("^Q(?=[A-Z])"), "Qt::");
-    typeStr.replace(QRegExp("^K(?!(DE|Parts|IO)"), "KDE::");
+QString RubyWriter::cppToRubyType(const QString &typeStr) {
+    QString type = cleanName(typeStr);
+    type.replace("const ", "");
+    type.replace(QRegExp("[*&\\s]"), "");
+    type.replace(QRegExp("[<>]"), "_");
+    type.replace("QStringList", "Array");
+    type.replace("QString", "String");
+    type.replace("bool", "true|false");
+    type.replace(QRegExp("^(uint|int|ushort|short|ulong|long)$"), "Integer");
+    type.replace(QRegExp("^(float|double)$"), "Float");
+    type.replace(QRegExp("^Q(?=[A-Z])"), "Qt::");
+    type.replace(QRegExp("^K(?!(DE|Parts|IO)"), "KDE::");
 
-    return typeStr;
+    return type;
 }
 
-QString RubyWriter::cppToRubyName(QString nameStr) {
-    nameStr = cleanName(nameStr);
-    nameStr.replace(QRegExp("^m_"), "");
-    nameStr.replace(QRegExp("^[pbn](?=[A-Z])"), "");
-    nameStr = nameStr.mid(0, 1).lower() + nameStr.mid(1);
-    return nameStr;
+QString RubyWriter::cppToRubyName(const QString &nameStr) {
+    QString name = cleanName(nameStr);
+    name.replace(QRegExp("^m_"), "");
+    name.replace(QRegExp("^[pbn](?=[A-Z])"), "");
+    name = name.mid(0, 1).lower() + name.mid(1);
+    return name;
 }
 
 void RubyWriter::writeOperations(UMLClassifier *c,QTextStream &h) {
@@ -212,8 +212,8 @@ void RubyWriter::writeOperations(UMLClassifier *c,QTextStream &h) {
 
 }
 
-void RubyWriter::writeOperations(QString classname, UMLOperationList &opList,
-                                   Uml::Visibility permitScope, QTextStream &h) 
+void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opList,
+                                 Uml::Visibility permitScope, QTextStream &h) 
 {
     UMLOperation *op;
     UMLAttributeList *atl;
@@ -370,7 +370,7 @@ void RubyWriter::writeAttributeMethods(UMLAttributeList *attribs,
 
 }
 
-void RubyWriter::writeSingleAttributeAccessorMethods(QString fieldName, QString description,
+void RubyWriter::writeSingleAttributeAccessorMethods(const QString &fieldName, QString description,
         QTextStream &h)
 {
     description.replace(QRegExp("m_[npb](?=[A-Z])"), "");

@@ -178,7 +178,7 @@ private:
     /**
      * Replaces `string' with `String' and `bool' with `boolean'
      */
-    QString fixTypeName( QString string );
+    QString fixTypeName(const QString& string);
 
     /**
      * check that initial values of strings DONT have quotes around them

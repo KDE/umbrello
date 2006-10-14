@@ -13,6 +13,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2006                                                    *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include <kconfig.h>
@@ -85,38 +87,37 @@ QString RubyCodeGenerator::getListFieldClassName () {
 // Other methods
 //
 
-QString RubyCodeGenerator::capitalizeFirstLetter(QString string)
+QString RubyCodeGenerator::capitalizeFirstLetter(const QString &string)
 {
     // we could lowercase everything tostart and then capitalize? Nah, it would
     // screw up formatting like getMyRadicalVariable() to getMyradicalvariable(). Bah.
     QChar firstChar = string.at(0);
-    string.replace( 0, 1, firstChar.upper());
-    return string;
+    return firstChar + string.mid(1);
 }
 
-QString RubyCodeGenerator::cppToRubyType(QString typeStr) {
-    typeStr = cleanName(typeStr);
-    typeStr.replace("const ", "");
-    typeStr.replace(QRegExp("[*&\\s]"), "");
-    typeStr.replace(QRegExp("[<>]"), "_");
-    typeStr.replace("QStringList", "Array");
-    typeStr.replace(QRegExp("^string$"),"String");
-    typeStr.replace("QString", "String");
-    typeStr.replace("bool", "true|false");
-    typeStr.replace(QRegExp("^(uint|int|ushort|short|ulong|long)$"), "Integer");
-    typeStr.replace(QRegExp("^(float|double)$"), "Float");
-    typeStr.replace(QRegExp("^Q(?=[A-Z])"), "Qt::");
-    typeStr.replace(QRegExp("^K(?!(DE|Parts|IO)"), "KDE::");
+QString RubyCodeGenerator::cppToRubyType(const QString &typeStr) {
+    QString type = cleanName(typeStr);
+    type.replace("const ", "");
+    type.replace(QRegExp("[*&\\s]"), "");
+    type.replace(QRegExp("[<>]"), "_");
+    type.replace("QStringList", "Array");
+    type.replace(QRegExp("^string$"),"String");
+    type.replace("QString", "String");
+    type.replace("bool", "true|false");
+    type.replace(QRegExp("^(uint|int|ushort|short|ulong|long)$"), "Integer");
+    type.replace(QRegExp("^(float|double)$"), "Float");
+    type.replace(QRegExp("^Q(?=[A-Z])"), "Qt::");
+    type.replace(QRegExp("^K(?!(DE|Parts|IO)"), "KDE::");
 
-    return typeStr;
+    return type;
 }
 
-QString RubyCodeGenerator::cppToRubyName(QString nameStr) {
-    nameStr = cleanName(nameStr);
-    nameStr.replace(QRegExp("^m_"), "");
-    nameStr.replace(QRegExp("^[pbn](?=[A-Z])"), "");
-    nameStr = nameStr.mid(0, 1).lower() + nameStr.mid(1);
-    return nameStr;
+QString RubyCodeGenerator::cppToRubyName(const QString &nameStr) {
+    QString name = cleanName(nameStr);
+    name.replace(QRegExp("^m_"), "");
+    name.replace(QRegExp("^[pbn](?=[A-Z])"), "");
+    name = name.mid(0, 1).lower() + name.mid(1);
+    return name;
 }
 
 /**

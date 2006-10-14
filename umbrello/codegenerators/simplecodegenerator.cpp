@@ -74,7 +74,7 @@ QString SimpleCodeGenerator::getIndent ()
     return myIndent;
 }
 
-QString SimpleCodeGenerator::findFileName(UMLClassifier* concept, QString ext) {
+QString SimpleCodeGenerator::findFileName(UMLClassifier* concept, const QString &ext) {
 
     //if we already know to which file this class was written/should be written, just return it.
     if(m_fileMap->contains(concept))
@@ -138,13 +138,13 @@ QString SimpleCodeGenerator::findFileName(UMLClassifier* concept, QString ext) {
     name.simplifyWhiteSpace();
     name.replace(QRegExp(" "),"_");
 
-    ext.simplifyWhiteSpace();
-    ext.replace(QRegExp(" "),"_");
+    QString extension = ext.simplifyWhiteSpace();
+    extension.replace(' ', '_');
 
-    return overwritableName(concept, name, ext);
+    return overwritableName(concept, name, extension);
 }
 
-QString SimpleCodeGenerator::overwritableName(UMLClassifier* concept, QString name, const QString &ext) {
+QString SimpleCodeGenerator::overwritableName(UMLClassifier* concept, const QString &name, const QString &ext) {
     //check if a file named "name" with extension "ext" already exists
     CodeGenerationPolicy *commonPolicy = UMLApp::app()->getCommonPolicy();
     QDir outputDir = commonPolicy->getOutputDirectory();

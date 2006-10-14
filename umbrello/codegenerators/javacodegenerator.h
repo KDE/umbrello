@@ -98,7 +98,7 @@ public:
     //
 
     // general purpose function we may reuse for all types of Java code documents
-    static QString capitalizeFirstLetter(QString string);
+    static QString capitalizeFirstLetter(const QString &string);
 
     /**
      * Utility function for getting the java code generation policy.
@@ -124,7 +124,7 @@ public:
      * the Java Object "String" (there is no string primative in Java).
      * Same thing again for "bool" to "boolean". 
      */
-    static QString fixTypeName(QString string);
+    static QString fixTypeName(const QString &string);
 
     /**
      * get list of reserved keywords

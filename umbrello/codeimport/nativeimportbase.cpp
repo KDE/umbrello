@@ -21,7 +21,7 @@
 // app includes
 #include "import_utils.h"
 
-NativeImportBase::NativeImportBase(QString singleLineCommentIntro) {
+NativeImportBase::NativeImportBase(const QString &singleLineCommentIntro) {
     m_singleLineCommentIntro = singleLineCommentIntro;
     m_srcIndex = 0;
     m_scopeIndex = 0;  // index 0 is reserved for global scope
@@ -34,12 +34,12 @@ NativeImportBase::NativeImportBase(QString singleLineCommentIntro) {
 NativeImportBase::~NativeImportBase() {
 }
 
-void NativeImportBase::setMultiLineComment(QString intro, QString end) {
+void NativeImportBase::setMultiLineComment(const QString &intro, const QString &end) {
     m_multiLineCommentIntro = intro;
     m_multiLineCommentEnd = end;
 }
 
-void NativeImportBase::setMultiLineAltComment(QString intro, QString end) {
+void NativeImportBase::setMultiLineAltComment(const QString &intro, const QString &end) {
     m_multiLineAltCommentIntro = intro;
     m_multiLineAltCommentEnd = end;
 }
