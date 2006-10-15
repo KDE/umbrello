@@ -15,7 +15,7 @@ macro(CREATE_VERSION _in_FILE _out_FILE)
 endmacro(CREATE_VERSION)
 
 macro_additional_clean_files( ${CMAKE_CURRENT_BINARY_DIR}/version.h )
-create_version(${CMAKE_SOURCE_DIR}/umbrello/VERSION version.h)
+create_version(${CMAKE_SOURCE_DIR}/umbrello/VERSION ${CMAKE_CURRENT_BINARY_DIR}/version.h)
 
 include_directories (/usr/include/libxml2 ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/)
 
