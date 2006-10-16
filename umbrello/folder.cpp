@@ -338,8 +338,11 @@ bool UMLFolder::load(QDomElement& element) {
             //CHECK: Umbrello currently assumes that nested elements
             // are ownedElements anyway.
             // Therefore these tags are not further interpreted.
-            if (! load(tempElement))
-                return false;
+            if (! load(tempElement)) {
+                kDebug() << "An error happened while loading the " << type
+                    << " of the " << m_Name << endl;
+                totalSuccess = false;
+            }
             continue;
         } else if (type == "XMI.extension") {
             for (QDomNode xtnode = node.firstChild(); !xtnode.isNull();
