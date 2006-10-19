@@ -153,13 +153,13 @@ void JavaCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSig
     // now do java specific stuff
     config -> setGroup("Java Code Generation");
 
-    setAutoGenerateAttribAccessors(config->readBoolEntry("autoGenAccessors",DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS));
-    setAutoGenerateAssocAccessors(config->readBoolEntry("autoGenAssocAccessors",DEFAULT_AUTO_GEN_ASSOC_ACCESSORS));
+    setAutoGenerateAttribAccessors(config->readEntry("autoGenAccessors",DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS));
+    setAutoGenerateAssocAccessors(config->readEntry("autoGenAssocAccessors",DEFAULT_AUTO_GEN_ASSOC_ACCESSORS));
 
     CodeGenerator *codegen = UMLApp::app()->getGenerator();
     JavaCodeGenerator *javacodegen = dynamic_cast<JavaCodeGenerator*>(codegen);
     if (javacodegen) {
-        bool mkant = config->readBoolEntry("buildANTDocument", JavaCodeGenerator::DEFAULT_BUILD_ANT_DOC);
+        bool mkant = config->readEntry("buildANTDocument", JavaCodeGenerator::DEFAULT_BUILD_ANT_DOC);
         javacodegen->setCreateANTBuildFile(mkant);
     }
 
