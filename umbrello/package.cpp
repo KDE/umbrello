@@ -76,7 +76,14 @@ bool UMLPackage::addObject(const UMLObject *pObject) {
 }
 
 void UMLPackage::removeObject(const UMLObject *pObject) {
-    m_objects.remove( pObject );
+    if (pObject->getBaseType() == Uml::ot_Association) {
+        UMLObject *o = const_cast<UMLObject*>(pObject);
+        UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
+        UMLCanvasObject::removeAssociation(assoc);
+        delete assoc;
+    } else {
+        m_objects.remove(pObject);
+    }
 }
 
 void UMLPackage::removeAllObjects() {
@@ -86,7 +93,7 @@ void UMLPackage::removeAllObjects() {
         UMLPackage *pkg = dynamic_cast<UMLPackage*>(o);
         if (pkg)
             pkg->removeAllObjects();
-        //delete o;
+        delete o;
     }
     m_objects.clear();
 }
@@ -184,8 +191,10 @@ bool UMLPackage::resolveRef() {
     bool overallSuccess = UMLCanvasObject::resolveRef();
     for (UMLObjectListIt oit(m_objects); oit.current(); ++oit) {
         UMLObject *obj = oit.current();
-        if (! obj->resolveRef())
+        if (! obj->resolveRef()) {
+            m_objects.remove(obj);
             overallSuccess = false;
+        }
     }
     return overallSuccess;
 }
