@@ -85,7 +85,7 @@ bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc) {
 int UMLCanvasObject::removeAssociation(UMLAssociation * assoc) {
     if(!hasAssociation(assoc) || !m_List.remove(assoc)) {
         kdWarning() << "UMLCanvasObject::removeAssociation: "
-            << "can't find assoc given in list" << endl;
+            << "can't find given assoc in list" << endl;
         return -1;
     }
     emit modified();
@@ -103,9 +103,10 @@ void UMLCanvasObject::removeAllAssociations() {
         UMLObject* objA = assoc->getObject(Uml::A);
         UMLObject* objB = assoc->getObject(Uml::B);
         UMLCanvasObject *roleAObj = dynamic_cast<UMLCanvasObject*>(objA);
-        if (roleAObj)
-            roleAObj->removeAssociation(assoc);
-        else if (objA)
+        if (roleAObj) {
+            if (roleAObj->removeAssociation(assoc) < 0)
+                m_List.remove(assoc);
+        } else if (objA)
             kdDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
                 << "): objA " << objA->getName() << " is not a UMLCanvasObject"
                 << endl;
@@ -113,9 +114,10 @@ void UMLCanvasObject::removeAllAssociations() {
             kdDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
                 << "): objA is NULL" << endl;
         UMLCanvasObject *roleBObj = dynamic_cast<UMLCanvasObject*>(objB);
-        if (roleBObj)
-            roleBObj->removeAssociation(assoc);
-        else if (objB)
+        if (roleBObj) {
+            if (roleBObj->removeAssociation(assoc) < 0)
+                m_List.remove(assoc);
+        } else if (objB)
             kdDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
                 << "): objB " << objB->getName() << " is not a UMLCanvasObject"
                 << endl;
@@ -289,8 +291,10 @@ bool UMLCanvasObject::resolveRef() {
     bool overallSuccess = UMLObject::resolveRef();
     for (UMLObjectListIt ait(m_List); ait.current(); ++ait) {
         UMLObject *obj = ait.current();
-        if (! obj->resolveRef())
+        if (! obj->resolveRef()) {
+            m_List.remove(obj);
             overallSuccess = false;
+        }
     }
     return overallSuccess;
 }
