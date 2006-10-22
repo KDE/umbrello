@@ -2426,10 +2426,12 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
                 // one of the default predefined folders, but the actual
                 // listview item might be located in a user created folder.
                 // Thanks to Achim Spangler for spotting the problem.
+                UMLListViewItem *itmParent = dynamic_cast<UMLListViewItem*>(item->parent());
+                kdDebug() << pfx << parent->getText() << " (" << parent << ") != "
+                    << itmParent->getText() << " (" << itmParent << ")" << endl;
                 UMLListViewItem *newItem = moveObject(nID, lvType, parent);
                 item = newItem;
                 if (item) {
-                    UMLListViewItem *itmParent = dynamic_cast<UMLListViewItem*>(item->parent());
                     kdDebug() << pfx << "Attempted reparenting of " << item->getText()
                         << "(current parent: " << (itmParent ? itmParent->getText() : "NULL")
                         << ", new parent: " << parent->getText() << ")" << endl;
