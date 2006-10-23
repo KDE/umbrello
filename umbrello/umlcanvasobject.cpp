@@ -95,17 +95,18 @@ int UMLCanvasObject::removeAssociation(UMLAssociation * assoc) {
 
 void UMLCanvasObject::removeAllAssociations() {
     UMLObject *o;
-    for (UMLObjectListIt oit(m_List); (o = oit.current()) != NULL; ++oit) {
-        if (o->getBaseType() != Uml::ot_Association)
+    for (UMLObjectListIt oit(m_List); (o = oit.current()) != NULL; ) {
+        if (o->getBaseType() != Uml::ot_Association) {
+            ++oit;
             continue;
+        }
         UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
         //umldoc->slotRemoveUMLObject(assoc);
         UMLObject* objA = assoc->getObject(Uml::A);
         UMLObject* objB = assoc->getObject(Uml::B);
         UMLCanvasObject *roleAObj = dynamic_cast<UMLCanvasObject*>(objA);
         if (roleAObj) {
-            if (roleAObj->removeAssociation(assoc) < 0)
-                m_List.remove(assoc);
+            roleAObj->removeAssociation(assoc);
         } else if (objA)
             kdDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
                 << "): objA " << objA->getName() << " is not a UMLCanvasObject"
@@ -115,8 +116,7 @@ void UMLCanvasObject::removeAllAssociations() {
                 << "): objA is NULL" << endl;
         UMLCanvasObject *roleBObj = dynamic_cast<UMLCanvasObject*>(objB);
         if (roleBObj) {
-            if (roleBObj->removeAssociation(assoc) < 0)
-                m_List.remove(assoc);
+            roleBObj->removeAssociation(assoc);
         } else if (objB)
             kdDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
                 << "): objB " << objB->getName() << " is not a UMLCanvasObject"
@@ -124,6 +124,7 @@ void UMLCanvasObject::removeAllAssociations() {
         else
             kdDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
                 << "): objB is NULL" << endl;
+        m_List.remove(assoc);
         //delete assoc;  should not do this here, we are only a CLIENT of the assoc
     }
 }

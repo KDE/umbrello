@@ -1,3 +1,7 @@
+Version 1.5.51
+* This is an interim release that fixes a serious regression in version 1.5.5
+  which is detailed at http://bugs.kde.org/135749 (Crash when opening a document)
+
 Version 1.5.5
 
 * PHP5 generator creates stub methods for all interfaces a class implements (C. Brunsdon)
