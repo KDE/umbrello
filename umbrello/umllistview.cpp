@@ -129,6 +129,7 @@ UMLListView::UMLListView(QWidget *parent, const char *name)
     m_rv = NULL;
     for (int i = 0; i < Uml::N_MODELTYPES; i++)
         m_lv[i] = NULL;
+    m_datatypeFolder = NULL;
     //setup slots/signals
     connect(this, SIGNAL(dropped(QDropEvent *, QListViewItem *, QListViewItem *)),
             this, SLOT(slotDropped(QDropEvent *, QListViewItem *, QListViewItem *)));
@@ -1802,9 +1803,6 @@ void UMLListView::slotCutSuccessful() {
 }
 
 void UMLListView::addNewItem(UMLListViewItem *parentItem, Uml::ListView_Type type) {
-    QString name;
-
-    //// CHECK: Why?
      if (type == Uml::lvt_Datatype) {
          parentItem = m_datatypeFolder;
      }
@@ -1818,6 +1816,7 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, Uml::ListView_Type typ
 
     Uml::Icon_Type icon = Model_Utils::convert_LVT_IT(type);
 
+    QString name;
     if (Model_Utils::typeIsDiagram(type)) {
         Uml::Diagram_Type dt = Model_Utils::convert_LVT_DT(type);
         name = getUniqueDiagramName(dt);
@@ -2579,7 +2578,8 @@ void UMLListView::deleteChildrenOf(QListViewItem* parent) {
     if ( !parent ) {
         return;
     }
-
+    if (parent == m_lv[Uml::mt_Logical])
+        m_datatypeFolder = NULL;
     while ( parent->firstChild() ) {
         delete parent->firstChild();
     }
