@@ -1805,9 +1805,9 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, Uml::ListView_Type typ
     QString name;
 
     //// CHECK: Why?
-    // if (type == Uml::lvt_Datatype) {
-    //     parentItem = m_datatypeFolder;
-    // }
+     if (type == Uml::lvt_Datatype) {
+         parentItem = m_datatypeFolder;
+     }
 
     UMLPackage *parentPkg = dynamic_cast<UMLPackage*>(parentItem->getUMLObject());
     if (parentPkg == NULL)
@@ -2346,6 +2346,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
                 if (parentPkg == NULL) {
                     kdError() << pfx << "umlParent(" << umlParent << ") is not a UMLPackage"
                         << endl;
+                    domElement = node.toElement();
                     continue;
                 }
                 UMLFolder *f = new UMLFolder(label, nID);
