@@ -1805,7 +1805,10 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
         }
         if (ot == ot_Stereotype) {
             UMLStereotype *s = static_cast<UMLStereotype*>(pObject);
-            addStereotype(s);
+            if (findStereotype(s->getName()) != NULL)
+                delete s;
+            else
+                addStereotype(s);
             continue;
         }
         pkg->addObject(pObject);
