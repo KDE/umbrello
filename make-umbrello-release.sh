@@ -20,11 +20,13 @@ udir=umbrello-$version
 cd /tmp
 svn co -N svn+ssh://${user}@svn.kde.org:/home/kde/branches/KDE/3.5/kdesdk
 cd kdesdk
+svn co svn+ssh://${user}@svn.kde.org:/home/kde/branches/KDE/3.5/kdesdk/scripts
 svn co svn+ssh://${user}@svn.kde.org:/home/kde/branches/KDE/3.5/kdesdk/umbrello $udir
 svn co svn+ssh://${user}@svn.kde.org:/home/kde/branches/KDE/3.5/kde-common/admin $udir/admin
-svn co svn+ssh://${user}@svn.kde.org:/home/kde/branches/KDE/3.5/kdesdk/doc/umbrello $udir/doc
+svn co -N svn+ssh://${user}@svn.kde.org:/home/kde/branches/KDE/3.5/kdesdk/doc $udir/doc
+svn co    svn+ssh://${user}@svn.kde.org:/home/kde/branches/KDE/3.5/kdesdk/doc/umbrello $udir/doc/umbrello
 find . -type d -a -name .svn -exec /bin/rm -rf {} \;
-mv Makefile.cvs acinclude.m4 aclocal.m4 $udir/
+cp -p Makefile.cvs $udir/
 cd $udir
 mv configure.in.in configure.in.in.orig
 echo '#MIN_CONFIG'                  > configure.in.in
@@ -34,6 +36,11 @@ echo ''                                           >> configure.in.in
 cat configure.in.in.orig                          >> configure.in.in
 rm configure.in.in.orig
 perl -p -e 's@umbrello/VERSION@VERSION@g' -i `find umbrello -name Makefile.am`
+cd /tmp
+kdesdk/scripts/svn2dist kdesdk $udir -n umbrello --admin-dir kdesdk/$udir/admin -o
+mv umbrello/po kdesdk/$udir/
+rm -rf umbrello
+cd kdesdk/$udir
 make -f Makefile.cvs
 cd ..
 tarfile=${udir}.tar.bz2
