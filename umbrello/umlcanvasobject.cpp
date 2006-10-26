@@ -125,8 +125,15 @@ void UMLCanvasObject::removeAllAssociations() {
             kdDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
                 << "): objB is NULL" << endl;
         m_List.remove(assoc);
-        //delete assoc;  should not do this here, we are only a CLIENT of the assoc
+        //delete assoc;  //CHECK: Apparently we crash if doing this. WHY?
     }
+}
+
+void UMLCanvasObject::removeAllChildObjects() {
+    removeAllAssociations();
+    m_List.setAutoDelete(true);
+    m_List.clear();
+    m_List.setAutoDelete(false);
 }
 
 QString UMLCanvasObject::uniqChildName( const Uml::Object_Type type,

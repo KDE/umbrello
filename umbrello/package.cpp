@@ -87,7 +87,7 @@ void UMLPackage::removeObject(const UMLObject *pObject) {
 }
 
 void UMLPackage::removeAllObjects() {
-    UMLCanvasObject::removeAllAssociations();
+    UMLCanvasObject::removeAllChildObjects();
     UMLObject *o;
     for (UMLObjectListIt oit(m_objects); (o = oit.current()) != NULL; ++oit) {
         UMLPackage *pkg = dynamic_cast<UMLPackage*>(o);
