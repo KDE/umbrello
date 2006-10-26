@@ -1,4 +1,10 @@
+Version 1.5.52
+
+* Bugs/wishes from http://bugs.kde.org:
+* Shift + Left and Shift+Right causes SIGSEGV (136288)
+
 Version 1.5.51
+
 * This is an interim release that fixes a serious regression in version 1.5.5
   which is detailed at http://bugs.kde.org/135749 (Crash when opening a document)
 

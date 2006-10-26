@@ -36,9 +36,7 @@
 #include <kstandarddirs.h>
 #include <kstatusbar.h>
 #include <ktip.h>
-#if KDE_IS_VERSION(3,1,90)
 #include <ktabwidget.h>
-#endif
 #include <ktoolbarbutton.h>
 #include <kpopupmenu.h>
 
@@ -175,13 +173,8 @@ void UMLApp::initActions() {
     editCut = KStdAction::cut(this, SLOT(slotEditCut()), actionCollection());
     editCopy = KStdAction::copy(this, SLOT(slotEditCopy()), actionCollection());
     editPaste = KStdAction::paste(this, SLOT(slotEditPaste()), actionCollection());
-#if KDE_IS_VERSION(3,1,90)
     createStandardStatusBarAction();
     setStandardToolBarMenuEnabled(true);
-#else
-    viewToolBar = KStdAction::showToolbar(this, SLOT(slotViewToolBar()), actionCollection());
-    viewStatusBar = KStdAction::showStatusbar(this, SLOT(slotViewStatusBar()), actionCollection());
-#endif
     selectAll = KStdAction::selectAll(this,  SLOT( slotSelectAll() ), actionCollection());
     fileExportDocbook = new KAction(i18n("&Export model to DocBook"), 0, 
                                     this, SLOT( slotFileExportDocbook() ), 
@@ -218,10 +211,6 @@ void UMLApp::initActions() {
     editCut->setToolTip(i18n("Cuts the selected section and puts it to the clipboard"));
     editCopy->setToolTip(i18n("Copies the selected section to the clipboard"));
     editPaste->setToolTip(i18n("Pastes the contents of the clipboard"));
-#if !KDE_IS_VERSION(3,1,90)
-    viewToolBar->setToolTip(i18n("Enables/disables the toolbar"));
-    viewStatusBar->setToolTip(i18n("Enables/disables the statusbar"));
-#endif
     preferences->setToolTip( i18n( "Set the default program preferences") );
 
     deleteSelectedWidget = new KAction( i18n("Delete &Selected"),
@@ -410,7 +399,6 @@ void UMLApp::initView() {
     addToolBar(m_alignToolBar, Qt::DockTop, false);
 
     m_mainDock = createDockWidget("maindock", 0L, 0L, "main dock");
-#if KDE_IS_VERSION(3,1,90)
     m_newSessionButton = NULL;
     m_diagramMenu = NULL;
     m_closeDiagramButton = NULL;
@@ -457,7 +445,6 @@ void UMLApp::initView() {
         m_mainDock->setWidget(m_tabWidget);
     }
     else
-#endif
     {
         m_tabWidget = NULL;
         m_viewStack = new QWidgetStack(m_mainDock, "viewstack");
@@ -531,11 +518,7 @@ void UMLApp::saveOptions() {
     if( m_doc->URL().fileName() == i18n( "Untitled" ) ) {
         m_config -> writeEntry( "lastFile", "" );
     } else {
-#if KDE_IS_VERSION(3,1,3)
         m_config -> writePathEntry( "lastFile", m_doc -> URL().prettyURL() );
-#else
-        m_config -> writeEntry( "lastFile", m_doc -> URL().prettyURL() );
-#endif
     }
     m_config->writeEntry( "imageMimeType", getImageMimeType() );
 
@@ -609,11 +592,7 @@ void UMLApp::saveProperties(KConfig *_config) {
 
     } else {
         KURL url=m_doc->URL();
-#if KDE_IS_VERSION(3,1,3)
         _config->writePathEntry("filename", url.url());
-#else
-        _config->writeEntry("filename", url.url());
-#endif
         _config->writeEntry("modified", m_doc->isModified());
         QString tempname = kapp->tempSaveName(url.url());
         QString tempurl= KURL::encode_string(tempname);
@@ -1607,11 +1586,9 @@ void UMLApp::newDocument() {
 }
 
 QWidget* UMLApp::getMainViewWidget() {
-#if KDE_IS_VERSION(3,1,90)
     Settings::OptionState& optionState = Settings::getOptionState();
     if (optionState.generalState.tabdiagrams)
         return m_tabWidget;
-#endif
     return m_viewStack;
 }
 
@@ -1623,6 +1600,9 @@ void UMLApp::setCurrentView(UMLView* view) {
     kapp->processEvents();
     if (view) {
         slotStatusMsg(view->getName());
+        UMLListViewItem* lvitem = m_listView->findView(view);
+        if (lvitem)
+            m_listView->setCurrentItem(lvitem);
     }
 }
 
@@ -1655,15 +1635,37 @@ void UMLApp::slotTabChanged(QWidget* view) {
 }
 
 void UMLApp::slotChangeTabLeft() {
-#if KDE_IS_VERSION(3,1,90)
-    m_tabWidget->setCurrentPage( m_tabWidget->currentPageIndex() - 1 );
-#endif
+    if (m_tabWidget) {
+        m_tabWidget->setCurrentPage( m_tabWidget->currentPageIndex() - 1 );
+        return;
+    }
+    UMLViewList views = m_doc->getViewIterator();
+    UMLView *currView = m_view;
+    if (views.find(currView) < 0) {
+        kdError() << "UMLApp::slotChangeTabLeft(): currView not found in viewlist" << endl;
+        return;
+    }
+    if ((currView = views.prev()) != NULL)
+        setCurrentView(currView);
+    else
+        setCurrentView(views.last());
 }
 
 void UMLApp::slotChangeTabRight() {
-#if KDE_IS_VERSION(3,1,90)
-    m_tabWidget->setCurrentPage( m_tabWidget->currentPageIndex() + 1 );
-#endif
+    if (m_tabWidget) {
+        m_tabWidget->setCurrentPage( m_tabWidget->currentPageIndex() + 1 );
+        return;
+    }
+    UMLViewList views = m_doc->getViewIterator();
+    UMLView *currView = m_view;
+    if (views.find(currView) < 0) {
+        kdError() << "UMLApp::slotChangeTabRight(): currView not found in viewlist" << endl;
+        return;
+    }
+    if ((currView = views.next()) != NULL)
+        setCurrentView(currView);
+    else
+        setCurrentView(views.first());
 }
 
 void UMLApp::slotMoveTabLeft() {
