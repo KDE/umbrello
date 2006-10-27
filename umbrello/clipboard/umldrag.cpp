@@ -13,7 +13,6 @@
 //Added by qt3to4:
 #include <QPixmap>
 #include <QTextStream>
-#include <Q3CString>
 
 #include "umldrag.h"
 #include "idchangelog.h"
@@ -33,21 +32,21 @@
 #define nfmt 4
 class UMLDragPrivate {
 public:
-    Q3CString fmt[nfmt];
-    Q3CString subtype;
+    QByteArray fmt[nfmt];
+    QByteArray subtype;
     QByteArray enc[nfmt];
 
     UMLDragPrivate() {
         setSubType("clip1", 0);
     }
 
-    void setType(const Q3CString& st, int index) {
+    void setType(const QByteArray& st, int index) {
         if (index < nfmt) {
             fmt[index] = st.lower();
         }
     }
 
-    void setSubType(const Q3CString& st, int index) {
+    void setSubType(const QByteArray& st, int index) {
         if (index < nfmt) {
             subtype = st.lower();
             fmt[index] = "application/x-uml-";
@@ -103,7 +102,7 @@ UMLDrag::~UMLDrag() {
     delete data;
 }
 
-void UMLDrag::setSubType(const Q3CString& string, int index) {
+void UMLDrag::setSubType(const QByteArray& string, int index) {
     data->setSubType(string, index);
 }
 

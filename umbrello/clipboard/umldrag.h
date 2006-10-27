@@ -17,7 +17,6 @@
 #include <q3ptrlist.h>
 //Added by qt3to4:
 #include <QPixmap>
-#include <Q3CString>
 
 #include "../umllistviewitemlist.h"
 #include "../associationwidgetlist.h"
@@ -137,7 +136,7 @@ public:
      * Sets the type of the clip to "application/x-uml-" + sub
      *  sub should be clip[1-5]
      */
-    virtual void setSubType(const Q3CString& sub, int index);
+    virtual void setSubType(const QByteArray& sub, int index);
 
     /**
      * Sets the data in the clip
