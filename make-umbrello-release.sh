@@ -3,28 +3,39 @@
 # Make a release from the current branches/KDE/3.5/kdesdk/umbrello
 #
 # Run this script as follows:
-#   . make-umbrello-release.sh VERSION [KDEUSER]
-# where VERSION is to be replaced by the version to release
-# and KDEUSER is to be replaced by your KDE SVN user name
-# (only required if you're not jriddell.)
+#   ./make-umbrello-release.sh VERSION KDEUSER [BRANCH_VERSION]
+# VERSION is the version to release.
+# KDEUSER is your KDE SVN user name.
+# BRANCH_VERSION defaults to 3.5.
+# @todo Create release from trunk if BRANCH_VERSION not given.
+#       Note: trunk uses the cmake based build process.
 #
-# The release tarfile will be placed in /tmp/kdesdk.
+# The script creates a directory, /tmp/kdesdk, which is used
+# as the work area for building the release.
+# The release tarfile will be placed in the current working dir.
 # 
+if [ $# -lt 2 ]; then
+  echo "usage:"
+  echo "  ./make-umbrello-release.sh VERSION KDEUSER [BRANCH_VERSION]"
+  exit 1
+fi
 version=$1
 user=$2
-if [ "X$user" = "X" ]; then
-  user=jriddell
+branchver=3.5
+if [ $# -gt 2 ]; then
+  branchver=$3
 fi
 origdir=`pwd`
 udir=umbrello-$version
+svnroot=svn+ssh://${user}@svn.kde.org:/home/kde/branches/KDE/$branchver
 cd /tmp
-svn co -N svn+ssh://${user}@svn.kde.org:/home/kde/branches/KDE/3.5/kdesdk
+svn co -N $svnroot/kdesdk
 cd kdesdk
-svn co svn+ssh://${user}@svn.kde.org:/home/kde/branches/KDE/3.5/kdesdk/scripts
-svn co svn+ssh://${user}@svn.kde.org:/home/kde/branches/KDE/3.5/kdesdk/umbrello $udir
-svn co svn+ssh://${user}@svn.kde.org:/home/kde/branches/KDE/3.5/kde-common/admin $udir/admin
-svn co -N svn+ssh://${user}@svn.kde.org:/home/kde/branches/KDE/3.5/kdesdk/doc $udir/doc
-svn co    svn+ssh://${user}@svn.kde.org:/home/kde/branches/KDE/3.5/kdesdk/doc/umbrello $udir/doc/umbrello
+svn co $svnroot/kdesdk/scripts
+svn co $svnroot/kdesdk/umbrello $udir
+svn co $svnroot/kde-common/admin $udir/admin
+svn co -N $svnroot/kdesdk/doc $udir/doc
+svn co    $svnroot/kdesdk/doc/umbrello $udir/doc/umbrello
 find . -type d -a -name .svn -exec /bin/rm -rf {} \;
 cp -p Makefile.cvs $udir/
 cd $udir
