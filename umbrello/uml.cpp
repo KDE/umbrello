@@ -1665,6 +1665,9 @@ void UMLApp::setCurrentView(UMLView* view) {
     kapp->processEvents();
     if (view) {
         slotStatusMsg(view->getName());
+        UMLListViewItem* lvitem = m_listView->findView(view);
+        if (lvitem)
+            m_listView->setCurrentItem(lvitem);
     }
 }
 
@@ -1697,11 +1700,37 @@ void UMLApp::slotTabChanged(QWidget* view) {
 }
 
 void UMLApp::slotChangeTabLeft() {
-    m_tabWidget->setCurrentPage( m_tabWidget->currentPageIndex() - 1 );
+    if (m_tabWidget) {
+        m_tabWidget->setCurrentPage( m_tabWidget->currentPageIndex() - 1 );
+        return;
+    }
+    UMLViewList views = m_doc->getViewIterator();
+    UMLView *currView = m_view;
+    if (views.find(currView) < 0) {
+        kError() << "UMLApp::slotChangeTabLeft(): currView not found in viewlist" << endl;
+        return;
+    }
+    if ((currView = views.prev()) != NULL)
+        setCurrentView(currView);
+    else
+        setCurrentView(views.last());
 }
 
 void UMLApp::slotChangeTabRight() {
-    m_tabWidget->setCurrentPage( m_tabWidget->currentPageIndex() + 1 );
+    if (m_tabWidget) {
+        m_tabWidget->setCurrentPage( m_tabWidget->currentPageIndex() + 1 );
+        return;
+    }
+    UMLViewList views = m_doc->getViewIterator();
+    UMLView *currView = m_view;
+    if (views.find(currView) < 0) {
+        kError() << "UMLApp::slotChangeTabRight(): currView not found in viewlist" << endl;
+        return;
+    }
+    if ((currView = views.next()) != NULL)
+        setCurrentView(currView);
+    else
+        setCurrentView(views.first());
 }
 
 void UMLApp::slotMoveTabLeft() {

@@ -2,6 +2,8 @@ Version 2.0
 
 * Bugs/wishes from http://bugs.kde.org:
 * Accessor methods are private instead of public (85553)
+* Crash when opening a document (135749)
+* Shift + Left and Shift+Right causes SIGSEGV (136288)
 
 Version 1.5.5
 

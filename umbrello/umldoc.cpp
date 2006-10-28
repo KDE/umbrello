@@ -113,10 +113,10 @@ void UMLDoc::init() {
         i18n("Entity Relationship Model")
     };
     for (int i = 0; i < Uml::N_MODELTYPES; i++) {
-        m_root[i] = new UMLFolder(nativeRootName[i]);
+        m_root[i] = new UMLFolder(nativeRootName[i], STR2ID(nativeRootName[i]));
         m_root[i]->setLocalName(localizedRootName[i]);
     }
-    m_datatypeRoot = new UMLFolder("Datatypes");
+    m_datatypeRoot = new UMLFolder("Datatypes", "Datatypes");
     m_datatypeRoot->setLocalName(i18n("Datatypes"));
     m_datatypeRoot->setUMLPackage(m_root[Uml::mt_Logical]);
     m_root[Uml::mt_Logical]->addObject(m_datatypeRoot);
@@ -297,7 +297,7 @@ void UMLDoc::closeDocument() {
         for (int i = 0; i < Uml::N_MODELTYPES; i++)
             m_root[i]->removeAllObjects();
         // Restore the datatype folder, it has been deleted above.
-        m_datatypeRoot = new UMLFolder("Datatypes");
+        m_datatypeRoot = new UMLFolder("Datatypes", "Datatypes");
         m_datatypeRoot->setLocalName(i18n("Datatypes"));
         m_datatypeRoot->setUMLPackage(m_root[Uml::mt_Logical]);
         m_root[Uml::mt_Logical]->addObject(m_datatypeRoot);
@@ -831,7 +831,8 @@ bool UMLDoc::isUnique(const QString &name, UMLPackage *package)
 }
 
 UMLStereotype* UMLDoc::findStereotype(const QString &name) {
-    for (UMLStereotype *s = m_stereoList.first(); s; s = m_stereoList.next() ) {
+    UMLStereotype *s;
+    for (UMLStereotypeListIt it(m_stereoList); (s = it.current()) != NULL; ++it) {
         if (s->getName() == name)
             return s;
     }
@@ -1781,7 +1782,10 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
         }
         if (ot == ot_Stereotype) {
             UMLStereotype *s = static_cast<UMLStereotype*>(pObject);
-            addStereotype(s);
+            if (findStereotype(s->getName()) != NULL)
+                delete s;
+            else
+                addStereotype(s);
             continue;
         }
         pkg->addObject(pObject);

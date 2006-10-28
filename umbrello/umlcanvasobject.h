@@ -188,6 +188,8 @@ public:
     virtual QString uniqChildName(const Uml::Object_Type type,
                                   bool seekStereo = false);
 
+    virtual void removeAllChildObjects();
+
     /**
      * Return the list of subordinate items.
      */

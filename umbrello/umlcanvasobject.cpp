@@ -85,7 +85,7 @@ bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc) {
 int UMLCanvasObject::removeAssociation(UMLAssociation * assoc) {
     if(!hasAssociation(assoc) || !m_List.remove(assoc)) {
         kWarning() << "UMLCanvasObject::removeAssociation: "
-            << "can't find assoc given in list" << endl;
+            << "can't find given assoc in list" << endl;
         return -1;
     }
     emit modified();
@@ -95,17 +95,19 @@ int UMLCanvasObject::removeAssociation(UMLAssociation * assoc) {
 
 void UMLCanvasObject::removeAllAssociations() {
     UMLObject *o;
-    for (UMLObjectListIt oit(m_List); (o = oit.current()) != NULL; ++oit) {
-        if (o->getBaseType() != Uml::ot_Association)
+    for (UMLObjectListIt oit(m_List); (o = oit.current()) != NULL; ) {
+        if (o->getBaseType() != Uml::ot_Association) {
+            ++oit;
             continue;
+        }
         UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
         //umldoc->slotRemoveUMLObject(assoc);
         UMLObject* objA = assoc->getObject(Uml::A);
         UMLObject* objB = assoc->getObject(Uml::B);
         UMLCanvasObject *roleAObj = dynamic_cast<UMLCanvasObject*>(objA);
-        if (roleAObj)
+        if (roleAObj) {
             roleAObj->removeAssociation(assoc);
-        else if (objA)
+        } else if (objA)
             kDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
                 << "): objA " << objA->getName() << " is not a UMLCanvasObject"
                 << endl;
@@ -113,17 +115,25 @@ void UMLCanvasObject::removeAllAssociations() {
             kDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
                 << "): objA is NULL" << endl;
         UMLCanvasObject *roleBObj = dynamic_cast<UMLCanvasObject*>(objB);
-        if (roleBObj)
+        if (roleBObj) {
             roleBObj->removeAssociation(assoc);
-        else if (objB)
+        } else if (objB)
             kDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
                 << "): objB " << objB->getName() << " is not a UMLCanvasObject"
                 << endl;
         else
             kDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
                 << "): objB is NULL" << endl;
-        //delete assoc;  should not do this here, we are only a CLIENT of the assoc
+        m_List.remove(assoc);
+        //delete assoc;  //CHECK: Apparently we crash if doing this. WHY?
     }
+}
+
+void UMLCanvasObject::removeAllChildObjects() {
+    removeAllAssociations();
+    m_List.setAutoDelete(true);
+    m_List.clear();
+    m_List.setAutoDelete(false);
 }
 
 QString UMLCanvasObject::uniqChildName( const Uml::Object_Type type,
@@ -289,8 +299,10 @@ bool UMLCanvasObject::resolveRef() {
     bool overallSuccess = UMLObject::resolveRef();
     for (UMLObjectListIt ait(m_List); ait.current(); ++ait) {
         UMLObject *obj = ait.current();
-        if (! obj->resolveRef())
+        if (! obj->resolveRef()) {
+            m_List.remove(obj);
             overallSuccess = false;
+        }
     }
     return overallSuccess;
 }

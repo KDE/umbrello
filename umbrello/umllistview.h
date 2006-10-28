@@ -190,6 +190,13 @@ public:
     UMLListViewItem * findUMLObject(const UMLObject *p) const;
 
     /**
+     * Searches through the tree for the item which represents the diagram given
+     * @param the diagram to search for
+     * @return the item which represents the diagram
+     */
+    UMLListViewItem * findView(UMLView *v);
+
+    /**
      * Searches through the tree for the item with the given ID.
      *
      * @param id                The ID to search for.
@@ -330,13 +337,6 @@ protected:
      * @return The object if found else a NULL pointer.
      */
     UMLListViewItem * findUMLObjectInFolder(UMLListViewItem *item, UMLObject *o);
-
-    /**
-     * Searches through the tree for the item which represents the diagram given
-     * @param the diagram to search for
-     * @return the item which represents the diagram
-     */
-    UMLListViewItem * findView(UMLView *v);
 
     /**
      * Return true if the given list view type can be expanded/collapsed.

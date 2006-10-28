@@ -135,6 +135,7 @@ UMLListView::UMLListView(QWidget *parent, const char *)
     m_rv = NULL;
     for (int i = 0; i < Uml::N_MODELTYPES; i++)
         m_lv[i] = NULL;
+    m_datatypeFolder = NULL;
     //setup slots/signals
     connect(this, SIGNAL(dropped(QDropEvent *, Q3ListViewItem *, Q3ListViewItem *)),
             this, SLOT(slotDropped(QDropEvent *, Q3ListViewItem *, Q3ListViewItem *)));
@@ -1808,12 +1809,9 @@ void UMLListView::slotCutSuccessful() {
 }
 
 void UMLListView::addNewItem(UMLListViewItem *parentItem, Uml::ListView_Type type) {
-    QString name;
-
-    //// CHECK: Why?
-    // if (type == Uml::lvt_Datatype) {
-    //     parentItem = m_datatypeFolder;
-    // }
+     if (type == Uml::lvt_Datatype) {
+         parentItem = m_datatypeFolder;
+     }
 
     UMLPackage *parentPkg = dynamic_cast<UMLPackage*>(parentItem->getUMLObject());
     if (parentPkg == NULL)
@@ -1824,6 +1822,7 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, Uml::ListView_Type typ
 
     Uml::Icon_Type icon = Model_Utils::convert_LVT_IT(type);
 
+    QString name;
     if (Model_Utils::typeIsDiagram(type)) {
         Uml::Diagram_Type dt = Model_Utils::convert_LVT_DT(type);
         name = getUniqueDiagramName(dt);
@@ -2351,6 +2350,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
                 if (parentPkg == NULL) {
                     kError() << pfx << "umlParent(" << umlParent << ") is not a UMLPackage"
                         << endl;
+                    domElement = node.toElement();
                     continue;
                 }
                 UMLFolder *f = new UMLFolder(label, nID);
@@ -2431,10 +2431,12 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
                 // one of the default predefined folders, but the actual
                 // listview item might be located in a user created folder.
                 // Thanks to Achim Spangler for spotting the problem.
+                UMLListViewItem *itmParent = dynamic_cast<UMLListViewItem*>(item->parent());
+                kDebug() << pfx << parent->getText() << " (" << parent << ") != "
+                    << itmParent->getText() << " (" << itmParent << ")" << endl;
                 UMLListViewItem *newItem = moveObject(nID, lvType, parent);
                 item = newItem;
                 if (item) {
-                    UMLListViewItem *itmParent = dynamic_cast<UMLListViewItem*>(item->parent());
                     kDebug() << pfx << "Attempted reparenting of " << item->getText()
                         << "(current parent: " << (itmParent ? itmParent->getText() : "NULL")
                         << ", new parent: " << parent->getText() << ")" << endl;
@@ -2581,7 +2583,8 @@ void UMLListView::deleteChildrenOf(Q3ListViewItem* parent) {
     if ( !parent ) {
         return;
     }
-
+    if (parent == m_lv[Uml::mt_Logical])
+        m_datatypeFolder = NULL;
     while ( parent->firstChild() ) {
         delete parent->firstChild();
     }
