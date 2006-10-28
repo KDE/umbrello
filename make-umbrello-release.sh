@@ -36,7 +36,6 @@ svn co $svnroot/kdesdk/umbrello $udir
 svn co $svnroot/kde-common/admin $udir/admin
 svn co -N $svnroot/kdesdk/doc $udir/doc
 svn co    $svnroot/kdesdk/doc/umbrello $udir/doc/umbrello
-find . -type d -a -name .svn -exec /bin/rm -rf {} \;
 cp -p Makefile.cvs $udir/
 cd $udir
 mv configure.in.in configure.in.in.orig
@@ -55,7 +54,7 @@ cd kdesdk/$udir
 make -f Makefile.cvs
 cd ..
 tarfile=${udir}.tar.bz2
-tar cfvj $tarfile $udir
+tar cfvj $tarfile --exclude=.svn $udir
 mv $tarfile $origdir/
 cd $origdir
 # rm -rf /tmp/kdesdk
