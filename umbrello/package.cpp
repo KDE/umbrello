@@ -80,7 +80,6 @@ void UMLPackage::removeObject(const UMLObject *pObject) {
         UMLObject *o = const_cast<UMLObject*>(pObject);
         UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
         UMLCanvasObject::removeAssociation(assoc);
-        delete assoc;
     } else {
         m_objects.remove(pObject);
     }

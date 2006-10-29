@@ -69,6 +69,7 @@ public:
 
     /**
      * Removes an object from this package.
+     * Does not physically delete the object.
      *
      * @param pObject   Pointer to the UMLObject to be removed.
      */
