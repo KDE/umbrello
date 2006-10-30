@@ -465,8 +465,6 @@ bool UMLDoc::openDocument(const KUrl& url, const char* /*format =0*/) {
 
             // close the extracted file and the temporary directory
             xmi_file.close();
-            tmp_dir.unlink();
-
         } else {
             KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.", d.path()), i18n("Load Error"));
             m_doc_url.setFileName(i18n("Untitled"));
