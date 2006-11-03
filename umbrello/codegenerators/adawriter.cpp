@@ -464,7 +464,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 
 
 void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comment) {
-    UMLAttributeList *atl = op->getParmList();
+    UMLAttributeList atl = op->getParmList();
     QString rettype = op->getTypeName();
     bool use_procedure = (rettype.isEmpty() || rettype == "void");
 
@@ -476,17 +476,17 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
     else
         ada << "function ";
     ada << cleanName(op->getName()) << " ";
-    if (! (op->getStatic() && atl->count() == 0))
+    if (! (op->getStatic() && atl.count() == 0))
         ada << "(";
     if (! op->getStatic()) {
         ada << "Self : access Object";
-        if (atl->count())
+        if (atl.count())
             ada << ";" << m_endl;
     }
-    if (atl->count()) {
+    if (atl.count()) {
         uint i = 0;
         m_indentLevel++;
-        for (UMLAttribute *at = atl->first(); at; at = atl->next()) {
+        for (UMLAttribute *at = atl.first(); at; at = atl.next()) {
             ada << getIndent();
             if (is_comment)
                 ada << "-- ";
@@ -501,12 +501,12 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
             ada << at->getTypeName();
             if (! at->getInitialValue().isEmpty())
                 ada << " := " << at->getInitialValue();
-            if (++i < atl->count()) //FIXME gcc warning
+            if (++i < atl.count()) //FIXME gcc warning
                 ada << ";" << m_endl;
         }
         m_indentLevel--;
     }
-    if (! (op->getStatic() && atl->count() == 0))
+    if (! (op->getStatic() && atl.count() == 0))
         ada << ")";
     if (! use_procedure)
         ada << " return " << rettype;

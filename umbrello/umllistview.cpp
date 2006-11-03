@@ -1432,8 +1432,8 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                                               op->getName(), &isExistingOp, &ntDummyList);
                     newOp->setType(op->getType());
                     newOp->setVisibility(op->getVisibility());
-                    UMLAttributeList *parmList = op->getParmList();
-                    for (UMLAttributeListIt plit(*parmList); plit.current(); ++plit) {
+                    UMLAttributeList parmList = op->getParmList();
+                    for (UMLAttributeListIt plit(parmList); plit.current(); ++plit) {
                         UMLAttribute *parm = plit.current();
                         UMLAttribute *newParm = new UMLAttribute(newParentClassifier, parm->getName());
                         newParm->setVisibility(parm->getVisibility());

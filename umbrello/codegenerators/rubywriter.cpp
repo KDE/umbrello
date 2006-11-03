@@ -216,7 +216,6 @@ void RubyWriter::writeOperations(QString classname, UMLOperationList &opList,
                                    Uml::Visibility permitScope, QTextStream &h) 
 {
     UMLOperation *op;
-    UMLAttributeList *atl;
     UMLAttribute *at;
 
     switch (permitScope) {
@@ -255,13 +254,13 @@ void RubyWriter::writeOperations(QString classname, UMLOperationList &opList,
         methodName.replace("operator ", "");
         methodName = methodName.mid(0, 1).lower() + methodName.mid(1);
 
-        atl = op -> getParmList();
+        UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
         // Always write out the docs for ruby as the type of the 
         // arguments and return value of the methods is useful
         writeDoc = true;
-//        for (at = atl->first(); at ; at = atl -> next())
+//        for (at = atl.first(); at; at = atl.next())
 //            writeDoc |= !at->getDoc().isEmpty();
 
         if (writeDoc) {
@@ -287,7 +286,7 @@ void RubyWriter::writeOperations(QString classname, UMLOperationList &opList,
             docStr.replace("\n", QString("\n") + m_indentation + "# ");
 
             // Write parameter documentation
-            for (at = atl->first(); at ; at = atl->next()) {
+            for (at = atl.first(); at ; at = atl.next()) {
                 // Only write an individual @param entry if one hasn't been found already
                 // in the main doc comment
                 if (commentedParams.contains(cppToRubyName(at->getName())) == 0) {
@@ -329,7 +328,7 @@ void RubyWriter::writeOperations(QString classname, UMLOperationList &opList,
         h<< m_indentation << "def " + methodName << "(";
 
         int j=0;
-        for( at = atl->first(); at ;at = atl->next(),j++) {
+        for (at = atl.first(); at; at = atl.next(), j++) {
             QString nameStr = cppToRubyName(at->getName());
             if (j > 0) {
                 h << ", " << nameStr;

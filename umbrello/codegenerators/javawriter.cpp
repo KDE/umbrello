@@ -720,7 +720,7 @@ void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
 
 void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java) {
     UMLOperation *op;
-    UMLAttributeList *atl;
+    UMLAttributeList atl;
     UMLAttribute *at;
     int i,j;
     QString str;
@@ -743,9 +743,9 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java) {
         str += methodReturnType + " " +cleanName(op->getName()) + "( ";
 
         atl = op->getParmList();
-        i= atl->count();
+        i= atl.count();
         j=0;
-        for( at = atl->first(); at ;at = atl->next(),j++) {
+        for (at = atl.first(); at; at = atl.next(), j++) {
             QString typeName = fixTypeName(at->getTypeName());
             QString atName = cleanName(at->getName());
             str += typeName + " " + atName +

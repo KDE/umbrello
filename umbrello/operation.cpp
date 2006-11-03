@@ -98,7 +98,7 @@ void UMLOperation::moveParmRight(UMLAttribute * a) {
     m_List.insert( idx+1, a );
 }
 
-void UMLOperation::removeParm(UMLAttribute * a) {
+void UMLOperation::removeParm(UMLAttribute * a, bool emitModifiedSignal /* =true */) {
     if (a == NULL) {
         kdDebug() << "UMLOperation::removeParm called on NULL attribute"
         << endl;
@@ -110,7 +110,8 @@ void UMLOperation::removeParm(UMLAttribute * a) {
     if(!m_List.remove(a))
         kdDebug() << "Error removing parm " << a->getName() << endl;
 
-    emit modified();
+    if (emitModifiedSignal)
+        emit modified();
 }
 
 UMLAttribute* UMLOperation::findParm(const QString &name) {

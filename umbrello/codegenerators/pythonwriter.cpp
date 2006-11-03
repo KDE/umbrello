@@ -208,7 +208,6 @@ void PythonWriter::writeOperations(UMLClassifier *c,QTextStream &h) {
 void PythonWriter::writeOperations(QString /*classname*/, UMLOperationList &opList,
                                    QTextStream &h, Access access) {
     UMLOperation *op;
-    UMLAttributeList *atl;
     UMLAttribute *at;
 
     QString sAccess;
@@ -228,16 +227,16 @@ void PythonWriter::writeOperations(QString /*classname*/, UMLOperationList &opLi
 
 
     for(op=opList.first(); op ; op=opList.next()) {
-        atl = op -> getParmList();
+        UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
-        for(at = atl->first(); at ; at = atl -> next())
+        for (at = atl.first(); at; at = atl.next())
             writeDoc |= !at->getDoc().isEmpty();
 
         h<< m_indentation << "def "<< sAccess + cleanName(op->getName()) << "(self";
 
         int j=0;
-        for( at = atl->first(); at ;at = atl->next(),j++) {
+        for (at = atl.first(); at; at = atl.next(), j++) {
             h << ", " << cleanName(at->getName())
             << (!(at->getInitialValue().isEmpty()) ?
                 (QString(" = ")+at->getInitialValue()) :
@@ -251,7 +250,7 @@ void PythonWriter::writeOperations(QString /*classname*/, UMLOperationList &opLi
             h<<m_indentation<<m_indentation<<"\"\"\""<<m_endl;
             h<<m_indentation<<m_indentation<<op->getDoc()<<m_endl<<m_endl;
 
-            for(at = atl->first(); at ; at = atl -> next())  //write parameter documentation
+            for (at = atl.first(); at; at = atl.next())  //write parameter documentation
             {
                 if(forceDoc() || !at->getDoc().isEmpty()) {
                     h<<m_indentation<<m_indentation<<"@param "<<at->getTypeName()<<

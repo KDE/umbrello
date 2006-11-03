@@ -335,20 +335,21 @@ void UMLListViewItem::okRename( int col ) {
                 // TODO: Check that no operation with the exact same profile exists.
                 op->setName( od.m_name );
                 op->setType( od.m_pReturnType );
-                UMLAttributeList* parmList = op->getParmList();
-                unsigned i = 0;
-                if (parmList->count() > od.m_args.count()) {
-                    for (i = od.m_args.count(); i < parmList->count(); i++) {
-                        parmList->remove(i);
+                UMLAttributeList parmList = op->getParmList();
+                const unsigned newParmListCount = parmList.count();
+                if (newParmListCount > od.m_args.count()) {
+                    // Remove parameters at end of of list that no longer exist.
+                    for (unsigned i = od.m_args.count(); i < newParmListCount; i++) {
+                        UMLAttribute *a = parmList.at(i);
+                        op->removeParm(a, false);
                     }
-                    i = 0;
                 }
-                for (Model_Utils::NameAndType_ListIt lit = od.m_args.begin();
-                        lit != od.m_args.end(); ++lit, ++i) {
+                Model_Utils::NameAndType_ListIt lit = od.m_args.begin();
+                for (unsigned i = 0; lit != od.m_args.end(); ++lit, ++i) {
                     const Model_Utils::NameAndType& nm_tp = *lit;
                     UMLAttribute *a;
-                    if (i < parmList->count()) {
-                        a = parmList->at(i);
+                    if (i < newParmListCount) {
+                        a = parmList.at(i);
                     } else {
                         a = new UMLAttribute(op);
                         a->setID( UniqueID::gen() );
@@ -357,7 +358,7 @@ void UMLListViewItem::okRename( int col ) {
                     a->setType(nm_tp.m_type);
                     a->setParmKind(nm_tp.m_direction);
                     a->setInitialValue(nm_tp.m_initialValue);
-                    if (i >= parmList->count()) {
+                    if (i >= newParmListCount) {
                         op->addParm(a);
                     }
                 }

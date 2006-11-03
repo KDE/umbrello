@@ -1145,10 +1145,10 @@ void CppWriter::writeOperations(UMLOperationList &oplist, bool isHeaderMethod, Q
 
         QString returnStr = "";  // buffer for documentation
         QString methodReturnType = "";
-        UMLAttributeList *atl = op->getParmList();  // method parameters
+        UMLAttributeList atl = op->getParmList();  // method parameters
 
         if (op->isConstructorOperation()) {
-            if (WRITE_EMPTY_CONSTRUCTOR && atl->count() == 0)
+            if (WRITE_EMPTY_CONSTRUCTOR && atl.count() == 0)
                 continue;  // it's already been written, see writeConstructor{Decls,Methods}
         } else if (op->isDestructorOperation()) {
             if (WRITE_EMPTY_DESTRUCTOR)
@@ -1181,14 +1181,14 @@ void CppWriter::writeOperations(UMLOperationList &oplist, bool isHeaderMethod, Q
 
         // generate parameters
         uint j = 0;
-        for (UMLAttribute *at = atl->first(); at; at = atl->next(), j++) {
+        for (UMLAttribute *at = atl.first(); at; at = atl.next(), j++) {
             QString typeName = fixTypeName(at->getTypeName());
             QString atName = cleanName(at->getName());
             str += typeName + " " + atName;
             const QString initVal = at->getInitialValue();
             if (! initVal.isEmpty())
                 str += " = " + initVal;
-            if (j < atl->count() - 1)
+            if (j < atl.count() - 1)
                 str += ", ";
             returnStr += "@param  " + atName + " " + at->getDoc() + "\n";
         }

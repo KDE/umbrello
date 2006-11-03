@@ -3189,14 +3189,13 @@ void PhpWriter::writeOperations(UMLClassifier *c, QTextStream &php) {
 
 void PhpWriter::writeOperations(QString /* classname */, UMLOperationList &opList, QTextStream &php) {
     UMLOperation *op;
-    UMLAttributeList *atl;
     UMLAttribute *at;
 
     for(op=opList.first(); op ; op=opList.next()) {
-        atl = op -> getParmList();
+        UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
-        for(at = atl->first(); at ; at = atl -> next())
+        for (at = atl.first(); at; at = atl.next())
             writeDoc |= !at->getDoc().isEmpty();
 
         if( writeDoc )  //write method documentation
@@ -3204,7 +3203,7 @@ void PhpWriter::writeOperations(QString /* classname */, UMLOperationList &opLis
             php <<m_indentation << "/**" << m_endl <<formatDoc(op->getDoc(),m_indentation + " * ");
             php << m_indentation << " *" << m_endl;
 
-            for(at = atl->first(); at ; at = atl -> next())  //write parameter documentation
+            for (at = atl.first(); at; at = atl.next())  //write parameter documentation
             {
                 if(forceDoc() || !at->getDoc().isEmpty()) {
                     php <<m_indentation << " * @param " + at->getTypeName() + " " + cleanName(at->getName());
@@ -3232,9 +3231,9 @@ void PhpWriter::writeOperations(QString /* classname */, UMLOperationList &opLis
 
         php <<  m_indentation << "function " << cleanName(op->getName()) << "(";
 
-        int i= atl->count();
+        int i= atl.count();
         int j=0;
-        for( at = atl->first(); at ;at = atl->next(),j++) {
+        for (at = atl.first(); at; at = atl.next(), j++) {
             php << " $" << cleanName(at->getName())
             << (!(at->getInitialValue().isEmpty()) ?
                 (QString(" = ")+at->getInitialValue()) :

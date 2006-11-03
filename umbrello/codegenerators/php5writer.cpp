@@ -3224,14 +3224,13 @@ void Php5Writer::writeOperations(UMLClassifier *c, QTextStream &php) {
 
 void Php5Writer::writeOperations(QString /* classname */, UMLOperationList &opList, QTextStream &php, bool isInterface = false, bool generateErrorStub = false) {
     UMLOperation *op;
-    UMLAttributeList *atl;
     UMLAttribute *at;
 
     for(op=opList.first(); op ; op=opList.next()) {
-        atl = op -> getParmList();
+        UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
-        for(at = atl->first(); at ; at = atl -> next())
+        for (at = atl.first(); at; at = atl.next())
             writeDoc |= !at->getDoc().isEmpty();
 
         if( writeDoc )  //write method documentation
@@ -3239,7 +3238,7 @@ void Php5Writer::writeOperations(QString /* classname */, UMLOperationList &opLi
             php <<m_indentation << "/**" << m_endl <<formatDoc(op->getDoc(),m_indentation + " * ");
             php << m_indentation << " *" << m_endl;
 
-            for(at = atl->first(); at ; at = atl -> next())  //write parameter documentation
+            for (at = atl.first(); at; at = atl.next())  //write parameter documentation
             {
                 if(forceDoc() || !at->getDoc().isEmpty()) {
                     php <<m_indentation << " * @param " + at->getTypeName() + " " + cleanName(at->getName());
@@ -3283,9 +3282,9 @@ void Php5Writer::writeOperations(QString /* classname */, UMLOperationList &opLi
         if (op->getStatic()) php << "static ";
         php << "function " << cleanName(op->getName()) << "(";
 
-        int i= atl->count();
+        int i= atl.count();
         int j=0;
-        for( at = atl->first(); at ;at = atl->next(),j++) {
+        for (at = atl.first(); at; at = atl.next(), j++) {
             php << " $" << cleanName(at->getName())
             << (!(at->getInitialValue().isEmpty()) ?
                 (QString(" = ")+at->getInitialValue()) :

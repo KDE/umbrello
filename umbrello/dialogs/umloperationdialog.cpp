@@ -191,10 +191,10 @@ void UMLOperationDialog::setupDialog() {
     }
     
     //fill in parm list box
-    UMLAttributeList * list = m_pOperation -> getParmList();
+    UMLAttributeList list = m_pOperation->getParmList();
     UMLAttribute * pAtt = 0;
-    for( pAtt = list -> first(); pAtt != 0; pAtt = list -> next() )
-        m_pParmsLB -> insertItem( pAtt -> getName() );
+    for (pAtt = list.first(); pAtt; pAtt = list.next())
+        m_pParmsLB->insertItem( pAtt->getName() );
 
     //set scope
     Uml::Visibility scope = m_pOperation -> getVisibility();
