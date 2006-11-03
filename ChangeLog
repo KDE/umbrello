@@ -1,5 +1,9 @@
 Version 1.5.52
 
+* Fixed segfault in UMLClassifier::checkOperationSignature()
+  (http://www.geeksoc.org/~jr/umbrello/uml-devel/9816.html)
+* Fixed segfault on XMI close when a class uses a template
+  (http://www.geeksoc.org/~jr/umbrello/uml-devel/9818.html)
 * Bugs/wishes from http://bugs.kde.org:
 * Shift + Left and Shift+Right causes SIGSEGV (136288)
 
