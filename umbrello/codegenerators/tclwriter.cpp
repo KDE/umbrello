@@ -729,9 +729,9 @@ TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility permitScope)
             code = scope + " method " + name + " {";
         }
         // method parameters
-        UMLAttributeList *atl = op->getParmList();
+        UMLAttributeList atl = op->getParmList();
         j = 0;
-        for (at = atl->first(); at; at = atl->next(), j++) {
+        for (at = atl.first(); at; at = atl.next(), j++) {
             QString         typeName = fixTypeName(at->getTypeName());
             QString         atName = cleanName(at->getName());
             if (at->getInitialValue().isEmpty()) {
@@ -797,9 +797,9 @@ TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility permitScope)
         writeComm(name);
         code = "body " + name + " {";
         // parameters
-        UMLAttributeList *atl = op->getParmList();
+        UMLAttributeList atl = op->getParmList();
         j = 0;
-        for (at = atl->first(); at; at = atl->next(), j++) {
+        for (at = atl.first(); at; at = atl.next(), j++) {
             QString         atName = cleanName(at->getName());
             if (at->getInitialValue().isEmpty()) {
                 code += " " + atName;

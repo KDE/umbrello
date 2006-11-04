@@ -195,13 +195,13 @@ public:
      * are unique in the classifier.
      *
      * @param name              Name of the operation to check.
-     * @param opParams  Pointer to the method argument list.
+     * @param opParams  The operation's argument list.
      * @param exemptOp  Pointer to the exempt method (optional.)
      * @return  NULL if the signature is valid (ok), else return a pointer
      *          to the existing UMLOperation that causes the conflict.
      */
     UMLOperation * checkOperationSignature( QString name,
-                                            UMLAttributeList *opParams,
+                                            UMLAttributeList opParams,
                                             UMLOperation *exemptOp = NULL);
 
     /**

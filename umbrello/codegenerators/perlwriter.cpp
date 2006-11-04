@@ -336,15 +336,14 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl) {
 
 void PerlWriter::writeOperations(const QString &/* classname */, UMLOperationList &opList, QTextStream &perl) {
     UMLOperation *op;
-    UMLAttributeList *atl;
     UMLAttribute *at;
 
     for(op=opList.first(); op ; op=opList.next())
     {
-        atl = op -> getParmList();
+        UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
-        for(at = atl->first(); at ; at = atl -> next())
+        for (at = atl.first(); at ; at = atl.next())
             writeDoc |= !at->getDoc().isEmpty();
 
         if( writeDoc )  //write method documentation
@@ -354,7 +353,7 @@ void PerlWriter::writeOperations(const QString &/* classname */, UMLOperationLis
 
             perl << "   Parameters :" << m_endl ;
           //write parameter documentation
-          for(at = atl->first(); at ; at = atl -> next()) {
+          for (at = atl.first(); at ; at = atl.next()) {
             if(forceDoc() || !at->getDoc().isEmpty()) {
               perl << "      "
                    << cleanName(at->getName()) << " : "
@@ -378,14 +377,14 @@ void PerlWriter::writeOperations(const QString &/* classname */, UMLOperationLis
 
         bool bStartPrinted = false;
         //write parameters
-        for(at = atl->first(); at ; at = atl -> next()) {
-          if(!bStartPrinted){
-            bStartPrinted = true;
-            perl << "," << m_endl;
+        for (at = atl.first(); at; at = atl.next()) {
+          if (!bStartPrinted) {
+              bStartPrinted = true;
+              perl << "," << m_endl;
           }
           perl << "     $"<< cleanName(at->getName()) << ", # "
                << at->getTypeName() << " : " << at->getDoc() << m_endl;
-        } //  END for(at = atl->first(); at ; at = atl -> next())
+        }
 
         perl << "    ) = @_;" << m_endl;
 

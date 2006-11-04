@@ -387,18 +387,18 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 
 
 void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comment) {
-    UMLAttributeList *atl = op->getParmList();
+    UMLAttributeList atl = op->getParmList();
     QString rettype = op->getTypeName();
 
     idl << getIndent();
     if (is_comment)
         idl << "// ";
     idl << rettype << " " << cleanName(op->getName()) << " (";
-    if (atl->count()) {
+    if (atl.count()) {
         idl << m_endl;
         m_indentLevel++;
         uint i = 0;
-        for (UMLAttribute *at = atl->first(); at; at = atl->next()) {
+        for (UMLAttribute *at = atl.first(); at; at = atl.next()) {
             idl << getIndent();
             if (is_comment)
                 idl << "// ";
@@ -410,7 +410,7 @@ void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comme
             else
                 idl << "in ";
             idl << at->getTypeName() << " " << cleanName(at->getName());
-            if (++i < atl->count())
+            if (++i < atl.count())
                 idl << "," << m_endl;
         }
         m_indentLevel--;

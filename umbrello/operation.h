@@ -103,16 +103,19 @@ public:
      * Remove a parameter from the operation.
      *
      * @param a         The parameter to remove.
+     * @param emitModifiedSignal  Whether to emit the "modified" signal
+     *                  which creates an entry in the Undo stack for the
+     *                  removal. Default: true.
      */
-    void removeParm(UMLAttribute *a);
+    void removeParm(UMLAttribute *a, bool emitModifiedSignal = true);
 
     /**
      * Returns a list of parameters.
      *
      * @return A list of the parameters in the operation.
      */
-    UMLAttributeList* getParmList() {
-        return &m_List;
+    UMLAttributeList getParmList() {
+        return m_List;
     }
 
     /**

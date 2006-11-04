@@ -54,10 +54,10 @@ CPPSourceCodeOperation::CPPSourceCodeOperation ( CPPSourceCodeDocument * doc, UM
     QString className = CodeGenerator::cleanName(c->getName());
 
     // assemble parameters
-    UMLAttributeList * list = getParentOperation()->getParmList();
-    int nrofParam = list->count();
+    UMLAttributeList list = getParentOperation()->getParmList();
+    int nrofParam = list.count();
     int paramNum = 0;
-    for(UMLAttribute* parm = list->first(); parm; parm=list->next())
+    for(UMLAttribute* parm = list.first(); parm; parm=list.next())
     {
         QString rType = parm->getTypeName();
         QString paramName = parm->getName();
@@ -144,10 +144,10 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
     QString className = CodeGenerator::cleanName(c->getName());
 
     // assemble parameters
-    UMLAttributeList * list = getParentOperation()->getParmList();
-    int nrofParam = list->count();
+    UMLAttributeList list = getParentOperation()->getParmList();
+    int nrofParam = list.count();
     int paramNum = 0;
-    for(UMLAttribute* parm = list->first(); parm; parm=list->next())
+    for(UMLAttribute* parm = list.first(); parm; parm=list.next())
     {
         QString rType = parm->getTypeName();
         QString paramName = parm->getName();

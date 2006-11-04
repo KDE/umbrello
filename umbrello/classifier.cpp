@@ -74,13 +74,13 @@ bool UMLClassifier::isInterface() const {
 }
 
 UMLOperation * UMLClassifier::checkOperationSignature( QString name,
-        UMLAttributeList *opParams,
+        UMLAttributeList opParams,
         UMLOperation *exemptOp)
 {
     UMLOperationList list = findOperations(name);
     if( list.count() == 0 )
         return NULL;
-    int inputParmCount = (opParams ? opParams->count() : 0);
+    const int inputParmCount = opParams.count();
 
     // there is at least one operation with the same name... compare the parameter list
     for (UMLOperationListIt oit(list); oit.current(); ++oit)
@@ -88,22 +88,17 @@ UMLOperation * UMLClassifier::checkOperationSignature( QString name,
         UMLOperation* test = oit.current();
         if (test == exemptOp)
             continue;
-        UMLAttributeList *testParams = test->getParmList( );
-        if (!opParams) {
-            if (0 == testParams->count())
-                return test;
-            continue;
-        }
-        int pCount = testParams->count();
+        UMLAttributeList testParams = test->getParmList( );
+        const int pCount = testParams.count();
         if( pCount != inputParmCount )
             continue;
         int i = 0;
-        for( ; i < pCount; ++i )
-        {
+        while (i < pCount) {
             // The only criterion for equivalence is the parameter types.
             // (Default values are not considered.)
-            if( testParams->at(i)->getTypeName() != opParams->at(i)->getTypeName() )
+            if( testParams.at(i)->getTypeName() != opParams.at(i)->getTypeName() )
                 break;
+            i++;
         }
         if( i == pCount )
         {//all parameters matched -> the signature is not unique
@@ -122,8 +117,8 @@ UMLOperation* UMLClassifier::findOperation(QString name, Model_Utils::NameAndTyp
     const int inputParmCount = params.count();
     UMLOperation* test = NULL;
     for (UMLOperationListIt oit(list); (test = oit.current()) != NULL; ++oit) {
-        UMLAttributeList *testParams = test->getParmList();
-        const int pCount = testParams->count();
+        UMLAttributeList testParams = test->getParmList();
+        const int pCount = testParams.count();
         if (inputParmCount == 0 && pCount == 0)
             break;
         if (inputParmCount != pCount)
@@ -132,7 +127,7 @@ UMLOperation* UMLClassifier::findOperation(QString name, Model_Utils::NameAndTyp
         for (; i < pCount; ++i) {
             Model_Utils::NameAndType_ListIt nt(params.at(i));
             UMLClassifier *c = dynamic_cast<UMLClassifier*>((*nt).m_type);
-            UMLClassifier *testType = testParams->at(i)->getType();
+            UMLClassifier *testType = testParams.at(i)->getType();
             if (c == NULL) {       //template parameter
                 if (testType->getName() != "class")
                     break;

@@ -322,7 +322,7 @@ void PascalWriter::writeOperation(UMLOperation *op, QTextStream &pas, bool is_co
         pas << "// TODO: generate status method " << op->getName() << m_endl;
         return;
     }
-    UMLAttributeList *atl = op->getParmList();
+    UMLAttributeList atl = op->getParmList();
     QString rettype = op->getTypeName();
     bool use_procedure = (rettype.isEmpty() || rettype == "void");
 
@@ -334,11 +334,11 @@ void PascalWriter::writeOperation(UMLOperation *op, QTextStream &pas, bool is_co
     else
         pas << "function ";
     pas << cleanName(op->getName()) << " ";
-    if (atl->count()) {
+    if (atl.count()) {
         pas << "(" << m_endl;
         uint i = 0;
         m_indentLevel++;
-        for (UMLAttribute *at = atl->first(); at; at = atl->next()) {
+        for (UMLAttribute *at = atl.first(); at; at = atl.next()) {
             pas << getIndent();
             if (is_comment)
                 pas << "// ";
@@ -349,7 +349,7 @@ void PascalWriter::writeOperation(UMLOperation *op, QTextStream &pas, bool is_co
             pas << at->getTypeName();
             if (! at->getInitialValue().isEmpty())
                 pas << " := " << at->getInitialValue();
-            if (++i < (uint)atl->count())
+            if (++i < (uint)atl.count())
                 pas << ";" << m_endl;
         }
         m_indentLevel--;

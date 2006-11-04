@@ -243,7 +243,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTextStream &as)
 {
     UMLOperation *op;
-    UMLAttributeList *atl;
+    UMLAttributeList atl;
     UMLAttribute *at;
 
     for(op = opList->first(); op; op = opList->next())
@@ -251,14 +251,14 @@ void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
         atl = op -> getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
-        for(at = atl->first(); at ; at = atl -> next())
+        for (at = atl.first(); at ; at = atl.next())
             writeDoc |= !at->getDoc().isEmpty();
 
         if( writeDoc )  //write method documentation
         {
             as << "/**" << m_endl << formatDoc(op->getDoc()," * ");
 
-            for(at = atl->first(); at ; at = atl -> next())  //write parameter documentation
+            for (at = atl.first(); at; at = atl.next())  //write parameter documentation
             {
                 if(forceDoc() || !at->getDoc().isEmpty())
                 {
@@ -271,9 +271,9 @@ void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
 
         as << classname << ".prototype." << cleanName(op->getName()) << " function " << "(";
 
-        int i= atl->count();
+        int i= atl.count();
         int j=0;
-        for (at = atl->first(); at ;at = atl->next(),j++)
+        for (at = atl.first(); at; at = atl.next(),j++)
         {
             as << cleanName(at->getName())
             << (!(at->getInitialValue().isEmpty()) ? (QString(" = ")+at->getInitialValue()) : QString(""))

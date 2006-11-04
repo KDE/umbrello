@@ -1,9 +1,17 @@
-Version 2.0
-
+Version 1.5.52
+ 
+* Fixed segfault in UMLClassifier::checkOperationSignature()
+  (http://www.geeksoc.org/~jr/umbrello/uml-devel/9816.html)
+* Fixed segfault on XMI close when a class uses a template
+  (http://www.geeksoc.org/~jr/umbrello/uml-devel/9818.html)
 * Bugs/wishes from http://bugs.kde.org:
-* Accessor methods are private instead of public (85553)
-* Crash when opening a document (135749)
 * Shift + Left and Shift+Right causes SIGSEGV (136288)
+
+Version 1.5.51
+
+* This is an interim release that fixes a serious regression in version 1.5.5
+  which is detailed at http://bugs.kde.org/135749 (Crash when opening a document)
+* Accessor methods are private instead of public (85553)
 
 Version 1.5.5
 

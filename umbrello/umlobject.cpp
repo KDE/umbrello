@@ -727,11 +727,11 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
         }
     }
 
-    // Operations, attributes, enum literals, stereotypes, associations,
+    // Operations, attributes, enum literals, templates, stereotypes, associations,
     // and association role objects get added and signaled elsewhere.
     if (m_BaseType != Uml::ot_Operation && m_BaseType != Uml::ot_Attribute &&
             m_BaseType != Uml::ot_EnumLiteral && m_BaseType != Uml::ot_EntityAttribute &&
-            m_BaseType != Uml::ot_Stereotype &&
+            m_BaseType != Uml::ot_Template && m_BaseType != Uml::ot_Stereotype &&
             m_BaseType != Uml::ot_Association && m_BaseType != Uml::ot_Role) {
         if (m_bInPaste) {
             m_pUMLPackage = NULL;  // forget any old parent
