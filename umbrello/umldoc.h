@@ -226,16 +226,6 @@ public:
      * @return  The Association created
      */
     UMLAssociation* createUMLAssociation(UMLObject *a, UMLObject *b, Uml::Association_Type type);
-    /**
-     * Adds an existing association to the matching concept in the list of concepts.
-     * The selection of the matching concept depends on the association type:
-     * For generalizations, the assoc is added to the concept that matches role A.
-     * For aggregations and compositions , the assoc is added to the concept
-     * that matches role B.
-     *
-     * @param assoc     The association to add
-     */
-    void addAssocToConcepts(UMLAssociation* assoc);
 
     /**
      * Adds an association.
@@ -248,8 +238,9 @@ public:
      * Removes an association.
      *
      * @param pAssoc    Pointer to the UMLAssociation to remove.
+     * @param doSetModified  Whether to mark the document as modified (default: true.)
      */
-    void removeAssociation(UMLAssociation *pAssoc);
+    void removeAssociation(UMLAssociation *pAssoc, bool doSetModified = true);
 
     /**
      * Finds an association.
@@ -793,12 +784,6 @@ public:
     void resolveTypes();
 
 private:
-    /**
-     * Remove this association from concepts list. This might be
-     * a public method if removeAssociation is removed.
-     */
-    void removeAssocFromConcepts(UMLAssociation *assoc);
-
     /**
      * Sets up the autosave timer.
      */

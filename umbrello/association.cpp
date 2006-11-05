@@ -153,8 +153,7 @@ bool UMLAssociation::resolveRef() {
                 (objA && objA->getBaseType() == Uml::ot_Interface ||
                  objB && objB->getBaseType() == Uml::ot_Interface))
             m_AssocType = Uml::at_Realization;
-        UMLDoc *doc = UMLApp::app()->getDocument();
-        doc->addAssocToConcepts(this);
+        m_pUMLPackage->addAssocToConcepts(this);
         return true;
     }
     return false;

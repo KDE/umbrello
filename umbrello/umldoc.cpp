@@ -871,10 +871,9 @@ UMLStereotype* UMLDoc::findOrCreateStereotype(const QString &name) {
     return s;
 }
 
-void UMLDoc::removeAssociation (UMLAssociation * assoc) {
+void UMLDoc::removeAssociation (UMLAssociation * assoc, bool doSetModified /*=true*/) {
     if(!assoc)
         return;
-    removeAssocFromConcepts(assoc);
 
     // Remove the UMLAssociation from m_objectList.
     UMLPackage *pkg = assoc->getUMLPackage();
@@ -883,20 +882,10 @@ void UMLDoc::removeAssociation (UMLAssociation * assoc) {
             << "): parent package is not set !" << endl;
         return;
     }
-    pkg->removeAssociation(assoc);
-    /* UMLObject *object = (UMLObject *) assoc;
-    m_objectList.remove(object);  */
+    pkg->removeObject(assoc);
 
-    // so we will save our document
-    setModified(true, false);
-}
-
-void UMLDoc::removeAssocFromConcepts(UMLAssociation *assoc)
-{
-    UMLClassifierList concepts = getConcepts();
-    for (UMLClassifier *c = concepts.first(); c; c = concepts.next())
-        if (c->hasAssociation(assoc))
-            c->removeAssociation(assoc);
+    if (doSetModified)  // so we will save our document
+        setModified(true, false);
 }
 
 UMLAssociation * UMLDoc::findAssociation(Uml::Association_Type assocType,
@@ -953,42 +942,21 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
         }
     }
 
-    // If we get here it's really a new association, so lets
-    // add it to our concept list and the document.
+    // If we get here it's really a new association.
 
-    // Adding the UMLAssociation at the participating concepts is done
-    // again later (in UMLAssociation::resolveRef()) if they are not yet
-    // known right here.
-    if (Assoc->getObject(A) && Assoc->getObject(B))
-        addAssocToConcepts(Assoc);
-
-    // Add the UMLAssociation in this UMLDoc.
+    // Add the UMLAssociation at the owning UMLPackage.
     UMLPackage *pkg = Assoc->getUMLPackage();
     if (pkg == NULL) {
         kdError() << "UMLDoc::addAssociation(" << Assoc->getName()
             << "): parent package is not set !" << endl;
         return;
     }
-    pkg->addAssociation(Assoc);
-    //m_objectList.append( (UMLObject*) Assoc);
+    pkg->addObject(Assoc);
 
     // I don't believe this appropriate, UMLAssociations ARENT UMLWidgets -b.t.
     // emit sigObjectCreated(o);
 
     setModified(true);
-}
-
-void UMLDoc::addAssocToConcepts(UMLAssociation* a) {
-    if (! UMLAssociation::assocTypeHasUMLRepresentation(a->getAssocType()) )
-        return;
-    Uml::IDType AId = a->getObjectId(Uml::A);
-    Uml::IDType BId = a->getObjectId(Uml::B);
-    UMLClassifierList concepts = getConcepts();
-    for (UMLClassifierListIt it(concepts); it.current(); ++it) {
-        UMLClassifier *c = it.current();
-        if (AId == c->getID() || (BId == c->getID()))
-            c->addAssociation(a);
-    }
 }
 
 QString UMLDoc::uniqViewName(const Diagram_Type type) {
@@ -1229,44 +1197,16 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
         }
     } else {
         if (type == ot_Association) {
-            // Remove the UMLAssociation at the concept that plays role B.
             UMLAssociation *a = (UMLAssociation *)umlobject;
-            Uml::Association_Type assocType = a->getAssocType();
-            Uml::IDType AId = a->getObjectId(A);
-            Uml::IDType BId = a->getObjectId(B);
-            UMLClassifierList concepts = getConcepts();
-            for (UMLClassifier *c = concepts.first(); c; c = concepts.next()) {
-                switch (assocType) {
-                case Uml::at_Generalization:
-                case Uml::at_Realization:
-                    if (AId == c->getID())
-                        c->removeAssociation(a);
-                    break;
-                case Uml::at_Aggregation:
-                case Uml::at_Composition:
-                    if (BId == c->getID())
-                        c->removeAssociation(a);
-                    break;
-                case Uml::at_Association:
-                case Uml::at_Relationship:
-                case Uml::at_Association_Self:
-                case Uml::at_UniAssociation:
-                    // CHECK: doesn't seem correct
-                    // But we DO need to remove uni-associations, etc. from the concept, -b.t.
-                    if (AId == c->getID() || BId == c->getID())
-                        c->removeAssociation(a);
-                default:
-                    break;
-                }
-            }
-        }
-        UMLPackage* pkg = umlobject->getUMLPackage();
-        if (pkg) {
-            pkg->removeObject(umlobject);
+            removeAssociation(a, false);  // don't call setModified here, it's done below
         } else {
-            //m_objectList.remove(umlobject);
-            kdError() << "UMLDoc::removeUMLObject(" << umlobject->getName()
-                << "): parent package is not set !" << endl;
+            UMLPackage* pkg = umlobject->getUMLPackage();
+            if (pkg) {
+                pkg->removeObject(umlobject);
+            } else {
+                kdError() << "UMLDoc::removeUMLObject(" << umlobject->getName()
+                    << "): parent package is not set !" << endl;
+            }
         }
         emit sigObjectRemoved(umlobject);
     }

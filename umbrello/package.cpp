@@ -55,46 +55,93 @@ UMLObject* UMLPackage::clone() const
     return clone;
 }
 
-bool UMLPackage::addObject(const UMLObject *pObject) {
+void UMLPackage::addAssocToConcepts(UMLAssociation* a) {
+    if (! UMLAssociation::assocTypeHasUMLRepresentation(a->getAssocType()) )
+        return;
+    Uml::IDType AId = a->getObjectId(Uml::A);
+    Uml::IDType BId = a->getObjectId(Uml::B);
+    UMLObject *o;
+    for (UMLObjectListIt it(m_objects); (o = it.current()) != NULL; ++it) {
+        UMLCanvasObject *c = dynamic_cast<UMLCanvasObject*>(o);
+        if (c == NULL)
+            continue;
+        if (AId == c->getID() || (BId == c->getID())) {
+            if (c->hasAssociation(a))
+                kdDebug() << "UMLPackage::addAssocToConcepts: " << c->getName()
+                    << " already has association id=" << ID2STR(a->getID())
+                    << endl;
+            else
+               c->addAssociationEnd(a);
+        }
+        UMLPackage *pkg = dynamic_cast<UMLPackage*>(c);
+        if (pkg)
+            pkg->addAssocToConcepts(a);
+    }
+}
+
+void UMLPackage::removeAssocFromConcepts(UMLAssociation *assoc)
+{
+    UMLObject *o;
+    for (UMLObjectListIt it(m_objects); (o = it.current()) != NULL; ++it) {
+        UMLCanvasObject *c = dynamic_cast<UMLCanvasObject*>(o);
+        if (c == NULL)
+            continue;
+        if (c->hasAssociation(assoc))
+            c->removeAssociationEnd(assoc);
+        UMLPackage *pkg = dynamic_cast<UMLPackage*>(c);
+        if (pkg)
+            pkg->removeAssocFromConcepts(assoc);
+    }
+}
+
+bool UMLPackage::addObject(UMLObject *pObject) {
     if (pObject == NULL) {
         kdError() << "UMLPackage::addObject is called with a NULL object"
             << endl;
         return false;
-    }
-    if (pObject->getBaseType() == Uml::ot_Association) {
-        UMLObject *o = const_cast<UMLObject*>(pObject);
-        UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
-        return UMLCanvasObject::addAssociation(assoc);
     }
     if (m_objects.find(pObject) != -1) {
         kdDebug() << "UMLPackage::addObject: " << pObject->getName()
                   << " is already there" << endl;
         return false;
     }
+    if (pObject->getBaseType() == Uml::ot_Association) {
+        UMLAssociation *assoc = static_cast<UMLAssociation*>(pObject);
+        // Adding the UMLAssociation at the participating concepts is done
+        // again later (in UMLAssociation::resolveRef()) if they are not yet
+        // known right here.
+        if (assoc->getObject(Uml::A) && assoc->getObject(Uml::B)) {
+            UMLPackage *pkg = pObject->getUMLPackage();
+            if (pkg != this) {
+               kdError() << "UMLPackage " << m_Name << " addObject: "
+                   << "assoc's UMLPackage is " << pkg->getName() << endl;
+            }
+            addAssocToConcepts(assoc);
+        }
+    }
     m_objects.append( pObject );
     return true;
 }
 
-void UMLPackage::removeObject(const UMLObject *pObject) {
+void UMLPackage::removeObject(UMLObject *pObject) {
     if (pObject->getBaseType() == Uml::ot_Association) {
         UMLObject *o = const_cast<UMLObject*>(pObject);
         UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
-        UMLCanvasObject::removeAssociation(assoc);
-    } else {
-        m_objects.remove(pObject);
+        removeAssocFromConcepts(assoc);
     }
+    m_objects.remove(pObject);
 }
 
 void UMLPackage::removeAllObjects() {
     UMLCanvasObject::removeAllChildObjects();
     UMLObject *o;
-    for (UMLObjectListIt oit(m_objects); (o = oit.current()) != NULL; ++oit) {
+    while ((o = m_objects.first()) != NULL) {
         UMLPackage *pkg = dynamic_cast<UMLPackage*>(o);
         if (pkg)
             pkg->removeAllObjects();
+        removeObject(o);
         delete o;
     }
-    m_objects.clear();
 }
 
 UMLObjectList UMLPackage::containedObjects(bool includeAssociations) {

@@ -59,7 +59,7 @@ UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::Association_Type asso
     return list;
 }
 
-bool UMLCanvasObject::addAssociation(UMLAssociation* assoc) {
+bool UMLCanvasObject::addAssociationEnd(UMLAssociation* assoc) {
     // add association only if not already present in list
     if(!hasAssociation(assoc))
     {
@@ -69,7 +69,7 @@ bool UMLCanvasObject::addAssociation(UMLAssociation* assoc) {
         UMLDoc *umldoc = UMLApp::app()->getDocument();
         if (! umldoc->loading()) {
             emit modified();
-            emit sigAssociationAdded(assoc);
+            emit sigAssociationEndAdded(assoc);
         }
         return true;
     }
@@ -82,18 +82,18 @@ bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc) {
     return false;
 }
 
-int UMLCanvasObject::removeAssociation(UMLAssociation * assoc) {
+int UMLCanvasObject::removeAssociationEnd(UMLAssociation * assoc) {
     if(!hasAssociation(assoc) || !m_List.remove(assoc)) {
         kdWarning() << "UMLCanvasObject::removeAssociation: "
             << "can't find given assoc in list" << endl;
         return -1;
     }
     emit modified();
-    emit sigAssociationRemoved(assoc);
+    emit sigAssociationEndRemoved(assoc);
     return m_List.count();
 }
 
-void UMLCanvasObject::removeAllAssociations() {
+void UMLCanvasObject::removeAllAssociationEnds() {
     UMLObject *o;
     for (UMLObjectListIt oit(m_List); (o = oit.current()) != NULL; ) {
         if (o->getBaseType() != Uml::ot_Association) {
@@ -106,7 +106,7 @@ void UMLCanvasObject::removeAllAssociations() {
         UMLObject* objB = assoc->getObject(Uml::B);
         UMLCanvasObject *roleAObj = dynamic_cast<UMLCanvasObject*>(objA);
         if (roleAObj) {
-            roleAObj->removeAssociation(assoc);
+            roleAObj->removeAssociationEnd(assoc);
         } else if (objA)
             kdDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
                 << "): objA " << objA->getName() << " is not a UMLCanvasObject"
@@ -116,7 +116,7 @@ void UMLCanvasObject::removeAllAssociations() {
                 << "): objA is NULL" << endl;
         UMLCanvasObject *roleBObj = dynamic_cast<UMLCanvasObject*>(objB);
         if (roleBObj) {
-            roleBObj->removeAssociation(assoc);
+            roleBObj->removeAssociationEnd(assoc);
         } else if (objB)
             kdDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
                 << "): objB " << objB->getName() << " is not a UMLCanvasObject"
@@ -125,12 +125,11 @@ void UMLCanvasObject::removeAllAssociations() {
             kdDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
                 << "): objB is NULL" << endl;
         m_List.remove(assoc);
-        //delete assoc;  //CHECK: Apparently we crash if doing this. WHY?
     }
 }
 
 void UMLCanvasObject::removeAllChildObjects() {
-    removeAllAssociations();
+    removeAllAssociationEnds();
     m_List.setAutoDelete(true);
     m_List.clear();
     m_List.setAutoDelete(false);

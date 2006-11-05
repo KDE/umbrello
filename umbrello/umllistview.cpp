@@ -2622,7 +2622,7 @@ bool UMLListView::deleteItem(UMLListViewItem *temp) {
              * if the object still has users - but Umbrello is lacking
              * that logic.
              */
-            canvasObj->removeAllAssociations();
+            canvasObj->removeAllChildObjects();
         }
         if (object) {
             m_doc->removeUMLObject(object);

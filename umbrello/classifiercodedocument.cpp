@@ -392,8 +392,8 @@ void ClassifierCodeDocument::init (UMLClassifier * c )
         connect(c,SIGNAL(attributeRemoved(UMLClassifierListItem*)),this,SLOT(removeAttributeClassField(UMLClassifierListItem*)));
     }
 
-    connect(c,SIGNAL(sigAssociationAdded(UMLAssociation*)),this,SLOT(addAssociationClassField(UMLAssociation*)));
-    connect(c,SIGNAL(sigAssociationRemoved(UMLAssociation*)),this,SLOT(removeAssociationClassField(UMLAssociation*)));
+    connect(c,SIGNAL(sigAssociationEndAdded(UMLAssociation*)),this,SLOT(addAssociationClassField(UMLAssociation*)));
+    connect(c,SIGNAL(sigAssociationEndRemoved(UMLAssociation*)),this,SLOT(removeAssociationClassField(UMLAssociation*)));
     connect(c,SIGNAL(operationAdded(UMLClassifierListItem*)),this,SLOT(addOperation(UMLClassifierListItem*)));
     connect(c,SIGNAL(operationRemoved(UMLClassifierListItem*)),this,SLOT(removeOperation(UMLClassifierListItem*)));
     connect(c,SIGNAL(modified()),this,SLOT(syncToParent()));

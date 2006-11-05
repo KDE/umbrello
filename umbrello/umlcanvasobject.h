@@ -63,11 +63,12 @@ public:
     // in the classes inheriting from UMLCanvasObject.
 
     /**
-     * Adds an association.
+     * Adds an association end to m_List.
      *
-     * @param assoc             The association to add.
+     * @param assoc  The association to add.
+     *               @todo change param type to UMLRole
      */
-    bool addAssociation(UMLAssociation* assoc);
+    bool addAssociationEnd(UMLAssociation* assoc);
 
     /**
      * Determine if this canvasobject has the given association.
@@ -77,16 +78,17 @@ public:
     bool hasAssociation(UMLAssociation* assoc);
 
     /**
-     * Remove an association from the CanvasObject.
+     * Remove an association end from the CanvasObject.
      *
      * @param o         The association to remove.
+     *                  @todo change param type to UMLRole
      */
-    int removeAssociation(UMLAssociation *assoc);
+    int removeAssociationEnd(UMLAssociation *assoc);
 
     /**
-     * Remove all associations from the CanvasObject.
+     * Remove all association ends from the CanvasObject.
      */
-    void removeAllAssociations();
+    void removeAllAssociationEnds();
 
     /**
      * Returns the number of associations for the CanvasObject.
@@ -211,6 +213,10 @@ protected:
      * List of all the associations in this object.
      * Inheriting classes add more types of objects that are possible in this list;
      * for example, UMLClassifier adds operations, attributes, and templates.
+     *
+     * @todo Only a pointer to the appropriate assocation end object 
+     *       (UMLRole) should be saved here, not the entire UMLAssociation.
+     *      
      */
     UMLObjectList m_List;
 
@@ -227,13 +233,13 @@ signals:
      * Emit when new association is added.
      * @param assoc Pointer to the association which has been added.
      */
-    void sigAssociationAdded(UMLAssociation * assoc);
+    void sigAssociationEndAdded(UMLAssociation * assoc);
 
     /**
      * Emit when new association is removed.
      * @param assoc Pointer to the association which has been removed.
      */
-    void sigAssociationRemoved(UMLAssociation * assoc);
+    void sigAssociationEndRemoved(UMLAssociation * assoc);
 
 };
 

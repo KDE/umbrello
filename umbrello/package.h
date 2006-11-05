@@ -15,6 +15,10 @@
 #include "umlcanvasobject.h"
 #include "umlclassifierlist.h"
 
+// forward declarations
+class UMLAssociation;
+
+
 /**
  * This class contains the non-graphical information required for a UML
  * Package.
@@ -65,7 +69,7 @@ public:
      * @param pObject   Pointer to the UMLObject to add.
      * @return    True if the object was actually added.
      */
-    bool addObject(const UMLObject *pObject);
+    bool addObject(UMLObject *pObject);
 
     /**
      * Removes an object from this package.
@@ -73,7 +77,7 @@ public:
      *
      * @param pObject   Pointer to the UMLObject to be removed.
      */
-    void removeObject(const UMLObject *pObject);
+    void removeObject(UMLObject *pObject);
 
     /**
      * Removes all objects from this package.
@@ -85,6 +89,22 @@ public:
      * Returns the list of objects contained in this package.
      */
     UMLObjectList containedObjects(bool includeAssociations = false);
+
+    /**
+     * Adds an existing association to the matching concept in the list of concepts.
+     * The selection of the matching concept depends on the association type:
+     * For generalizations, the assoc is added to the concept that matches role A.
+     * For aggregations and compositions , the assoc is added to the concept
+     * that matches role B.
+     *
+     * @param assoc     The association to add
+     */
+    void addAssocToConcepts(UMLAssociation* assoc);
+
+    /**
+     * Remove the association from the participating concepts.
+     */
+    void removeAssocFromConcepts(UMLAssociation *assoc);
 
     /**
      * Find the object of the given name in the list of contained objects.
