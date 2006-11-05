@@ -135,10 +135,10 @@ void IDLWriter::writeClass(UMLClassifier *c) {
     }
 
     // Write includes.
-    UMLClassifierList includes;
+    UMLPackageList includes;
     findObjectsRelated(c, includes);
     if (includes.count()) {
-        for (UMLClassifier *conc = includes.first(); conc; conc = includes.next()) {
+        for (UMLPackage *conc = includes.first(); conc; conc = includes.next()) {
             if (conc->getBaseType() == Uml::ot_Datatype)
                 continue;
             QString incName = findFileName(conc, ".idl");

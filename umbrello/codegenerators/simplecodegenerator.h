@@ -76,8 +76,8 @@ public:
 protected:
 
     // compatability methods..
-    QString findFileName(UMLClassifier* concept, QString ext);
-    QString overwritableName(UMLClassifier* concept, QString name, const QString &ext);
+    QString findFileName(UMLPackage* concept, QString ext);
+    QString overwritableName(UMLPackage* concept, QString name, const QString &ext);
     bool hasDefaultValueAttr(UMLClassifier *c);
     bool hasAbstractOps(UMLClassifier *c);
 
@@ -90,7 +90,7 @@ protected:
      * Maps UMLObjects to filenames. Used for finding out which file
      * each class was written to.
      */
-    QMap<UMLClassifier*,QString> *m_fileMap;
+    QMap<UMLPackage*,QString> m_fileMap;
 
     // the parent document
     UMLDoc *m_doc;

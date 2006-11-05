@@ -38,7 +38,7 @@
 #include "dialogs/codeviewerdialog.h"
 #include "codegenerators/simplecodegenerator.h"
 #include "attribute.h"
-#include "associationwidget.h"
+#include "association.h"
 #include "classifier.h"
 #include "classifiercodedocument.h"
 #include "codedocument.h"
@@ -47,7 +47,6 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umlobject.h"
-#include "umlview.h"
 #include "umlattributelist.h"
 #include "umloperationlist.h"
 #include "model_utils.h"
@@ -547,54 +546,47 @@ QString CodeGenerator::findFileName ( CodeDocument * codeDocument ) {
     return overwritableName( name, codeDocument->getFileExtension() );
 }
 
-void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cList) {
-    UMLClassifier *temp;
+void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList) {
+    UMLPackage *temp;
     UMLDoc *umldoc = UMLApp::app()->getDocument();
-    UMLView *view = UMLApp::app()->getCurrentView();
+    UMLAssociationList associations = c->getAssociations();
 
-    if(!view)
-        return;
-
-    AssociationWidgetList associations;
-    associations.setAutoDelete(false);
-    view->getWidgetAssocs(c,associations);
-
-    //associations
-    for(AssociationWidget *a = associations.first(); a ; a = associations.next()) {
+    for (UMLAssociation *a = associations.first(); a; a = associations.next()) {
         temp = 0;
-        switch(a->getAssocType()) {
+        switch (a->getAssocType()) {
         case Uml::at_Generalization:
         case Uml::at_Realization:
             // only the "b" end is seen by the "a" end, not other way around
-            if(a->getWidgetID(Uml::B)!=c->getID())
-                temp =(UMLClassifier*) umldoc->findObjectById(a->getWidgetID(Uml::B));
-            break;
-        case Uml::at_UniAssociation:
-            // What the hell are these things? My assumption is that they are
-            // a sloppy way to specify aggregations, adding an "arrow" for
-            // "navagability", whatever that is.
-            // These typically DON'T have a rolename specified. Oh well, we
-            // shall include it. The individual code generators will need to know
-            // what to do with a "role-less" uni-associated classifier. -b.t.
-            /* if(a->getWidgetID(Uml::A)!=c->getID()){
-            //                                  temp = (UMLClassifier*)umldoc->findObjectById(a->getWidgetID(Uml::A));
-                // Remove the link from child->base, since it breaks
-                // C++ code generation.
+            {
+                UMLObject *objB = a->getObject(Uml::B);
+                if (objB != c)
+                    temp = (UMLPackage*)objB;
             }
-            else */
-            if(a->getWidgetID(Uml::B)!=c->getID()){
-                temp = (UMLClassifier*)umldoc->findObjectById(a->getWidgetID(Uml::B));
+            break;
+        case Uml::at_Dependency:
+        case Uml::at_UniAssociation:
+            {
+                UMLObject *objA = a->getObject(Uml::A);
+                UMLObject *objB = a->getObject(Uml::B);
+                if (objA != c)
+                    temp = (UMLPackage*)objA;
+                else if (objB != c)
+                    temp = (UMLPackage*)objB;
             }
             break;
         case Uml::at_Aggregation:
         case Uml::at_Composition:
         case Uml::at_Association_Self:
         case Uml::at_Association:
-            // add related objects ONLY if the rolename is NOT empty
-            if(a->getWidgetID(Uml::A)!=c->getID() && !a->getRoleName(Uml::A).isEmpty())
-                temp = (UMLClassifier*)umldoc->findObjectById(a->getWidgetID(Uml::A));
-            else if(a->getWidgetID(Uml::B)!=c->getID() && !a->getRoleName(Uml::B).isEmpty())
-                temp =(UMLClassifier*) umldoc->findObjectById(a->getWidgetID(Uml::B));
+            {
+                UMLObject *objA = a->getObject(Uml::A);
+                UMLObject *objB = a->getObject(Uml::B);
+                // Add related object only if the rolename is not empty.
+                if (objA != c && !a->getRoleName(Uml::A).isEmpty())
+                    temp = (UMLPackage*)objA;
+                else if (objB != c && !a->getRoleName(Uml::B).isEmpty())
+                    temp = (UMLPackage*)objB;
+            }
             break;
         default: /* all others.. like for state diagrams..we currently don't use */
             break;
@@ -603,7 +595,6 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLClassifierList &cLis
         // now add in list ONLY if its not already there
         if(temp  && !cList.containsRef(temp))
             cList.append(temp);
-
     }
 
     //operations

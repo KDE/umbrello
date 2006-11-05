@@ -24,6 +24,7 @@
 
 #include "codegenerators/codegenpolicyext.h"
 #include "codegenerationpolicy.h"
+#include "umlpackagelist.h"
 #include "umlclassifierlist.h"
 #include "codedocumentlist.h"
 #include "codeviewerstate.h"
@@ -241,7 +242,7 @@ public:
     * @param c the class for which relations are to be found
     * @param cList a reference to the list into which return the result
     */
-    static void findObjectsRelated(UMLClassifier *c, UMLClassifierList &cList);
+    static void findObjectsRelated(UMLClassifier *c, UMLPackageList &cList);
 
     // a series of accessor method constructors that we need to define
     // for any particular language.

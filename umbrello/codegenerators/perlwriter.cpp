@@ -42,18 +42,17 @@ bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
     return(false);
   }
 
-  UMLClassifierList includes;
+  UMLPackageList includes;
   findObjectsRelated(c,includes);
-  UMLClassifier *conc;
+  UMLPackage *conc;
   QString AV = "@";
   QString SV = "$";
   QString HV = "%";
   for(conc = includes.first(); conc ;conc = includes.next()) {
-    if (   (cleanName(conc->getName()) != AV)
-        && (cleanName(conc->getName()) != SV)
-        && (cleanName(conc->getName()) != HV)){
-      // ***TODO***
-      // Need to remove things like int, string, boolean etc...
+    if (conc->getBaseType() == Uml::ot_Datatype)
+        continue;
+    QString neatName = cleanName(conc->getName());
+    if (neatName != AV && neatName != SV && neatName != HV) {
       QString OtherPkgName =  conc->getPackage(".");
       OtherPkgName.replace(QRegExp("\\."),"::");
       QString OtherName = OtherPkgName + "::" + cleanName(conc->getName());
