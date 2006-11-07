@@ -6,7 +6,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *  copyright (C) 2002-2006                                                *
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                  *
+ *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
 // own header
@@ -26,9 +26,9 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
+#include <kinputdialog.h>
 
 // app includes
-#include "inputdialog.h"
 #include "actor.h"
 #include "classifier.h"
 #include "package.h"

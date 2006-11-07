@@ -6,20 +6,22 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2002-2006                                               *
- *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header file
 #include "objectwidget.h"
+
 // system includes
 #include <qpainter.h>
 #include <qvalidator.h>
 #include <qevent.h>
 #include <klocale.h>
 #include <kdebug.h>
+#include <kinputdialog.h>
+
 // local includes
 #include "objectwidgetcontroller.h"
-#include "inputdialog.h"
 #include "seqlinewidget.h"
 #include "umlview.h"
 #include "umldoc.h"
@@ -90,9 +92,7 @@ void ObjectWidget::slotMenuSelection(int sel) {
                     m_InstanceName,
                     &ok,
                     m_pView,
-#if KDE_IS_VERSION(3,1,90)
                     "renameobject",
-#endif
                     validator);
             if (ok) {
                 m_InstanceName = name;

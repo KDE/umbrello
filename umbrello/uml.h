@@ -6,7 +6,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2002-2006                                               *
- *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef UML_H
@@ -268,7 +268,7 @@ public:
     UMLView* getCurrentView();
 
     /**
-     * Sets the default mime type for all diagrams that are exported as 
+     * Sets the default mime type for all diagrams that are exported as
      * images.
      *
      * @param mimeType  The MIME type to set as the default.
@@ -276,7 +276,7 @@ public:
     void setImageMimeType(QString const & mimeType){m_imageMimeType=mimeType;};
 
     /**
-     * Gets the default mime type for all diagrams that are exported as 
+     * Gets the default mime type for all diagrams that are exported as
      * images.
      *
      * @return  The default MIME type for images.
@@ -486,23 +486,23 @@ public slots:
      * aborts.
      */
     void slotFileQuit();
-    
+
      /**
-      * Exports the current model to docbook in a subdir of the 
+      * Exports the current model to docbook in a subdir of the
       * current model directory named from the model name.
-      * @todo Let the user chose the destination directory and 
+      * @todo Let the user chose the destination directory and
       * name, using network transparency.
       */
     void slotFileExportDocbook();
-    
+
     /**
-     * Exports the current model to XHTML in a subdir of the 
+     * Exports the current model to XHTML in a subdir of the
      * current model directory named from the model name.
-     * @todo Let the user chose the destination directory and 
+     * @todo Let the user chose the destination directory and
      * name, using network transparency.
      */
     void slotFileExportXhtml();
-    
+
     /**
      * Put the marked text/object into the clipboard and remove
      * it from the document.
@@ -519,7 +519,6 @@ public slots:
      */
     void slotEditPaste();
 
-    // #if !KDE_IS_VERSION(3,1,90)
     /**
      * Toggles the toolbar.
      * Deprecated. For compatibility with KDE 3.1, remove if we stop supporting KDE 3.1
@@ -531,8 +530,7 @@ public slots:
      * Deprecated. For compatibility with KDE 3.1, remove if we stop supporting KDE 3.1
      */
     void slotViewStatusBar();
-    // #endif
-    
+
     /**
      * Autolayouts the current class diagram
      */
@@ -623,7 +621,7 @@ public slots:
     /**
      * Set the language for which code will be generated.
      *
-     * @param menuID    the ID of the langSelect menu item for 
+     * @param menuID    the ID of the langSelect menu item for
      *                  the relevant language.
      */
     void setActiveLanguage(int menuID);
@@ -857,7 +855,7 @@ private:
     void initClip();
 
     /**
-     * Initialize code generators at startup. 
+     * Initialize code generators at startup.
      * Why is this important? Because IF we don't do this, then changes
      * to the UML may not be synced with the saved code generation params
      * for those languages which arent currently active.
@@ -967,11 +965,9 @@ private:
     KAction* changeTabRight;
     KAction* moveTabLeft;
     KAction* moveTabRight;
-#if KDE_IS_VERSION(3,1,90)
     KToolBarButton* m_newSessionButton;
     KPopupMenu* m_diagramMenu;
     QToolButton* m_closeDiagramButton;
-#endif
     KToggleAction* viewToolBar;
     KToggleAction* viewStatusBar;
     WorkToolBar* toolsbar;

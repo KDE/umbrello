@@ -1,8 +1,3 @@
-/*
- *  copyright (C) 2004
- *  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
- */
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,15 +5,21 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2004-2006                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
+
+// own header
 #include "dialog_utils.h"
 
+// qt/kde includes
 #include <qgroupbox.h>
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qlineedit.h>
+#include <kinputdialog.h>
 
-#include "inputdialog.h"
+// app includes
 #include "uml.h"
 #include "umlwidget.h"
 

@@ -5,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2006                                                    *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // include files for Qt
@@ -57,11 +59,7 @@ bool UMLViewImageExporter::prepareExportView() {
         }
 
         // check if the file exists
-        if (KIO::NetAccess::exists(m_imageURL
-#if KDE_IS_VERSION(3,1,90)
-                                   , true, UMLApp::app()
-#endif
-                                )) {
+        if (KIO::NetAccess::exists(m_imageURL, true, UMLApp::app())) {
             int wantSave = KMessageBox::warningContinueCancel(0,
                                 i18n("The selected file %1 exists.\nDo you want to overwrite it?").arg(m_imageURL.prettyURL()),
                                 i18n("File Already Exists"), i18n("&Overwrite"));

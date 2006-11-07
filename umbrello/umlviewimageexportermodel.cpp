@@ -5,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2006                                                    *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include <math.h>
@@ -148,11 +150,7 @@ QString UMLViewImageExporterModel::exportView(UMLView* view, const QString &imag
 
     // if the file wasn't local, upload the temp file to the target
     if (!url.isLocalFile()) {
-        if (!KIO::NetAccess::upload(tmpFile.name(), url
-#if KDE_IS_VERSION(3,1,90)
-                                    , UMLApp::app()
-#endif
-                                )) {
+        if (!KIO::NetAccess::upload(tmpFile.name(), url, UMLApp::app())) {
             tmpFile.unlink();
             return i18n("There was a problem saving file: %1").arg(url.path());
         }
@@ -197,17 +195,9 @@ bool UMLViewImageExporterModel::prepareDirectory(const KURL &url) const {
     for (QStringList::ConstIterator it = dirs.begin() ; it != dirs.end(); ++it ) {
         directory.addPath(*it);
 
-        if (!KIO::NetAccess::exists(directory
-#if KDE_IS_VERSION(3,1,90)
-                                    , true, UMLApp::app()
-#endif
-                                )) {
+        if (!KIO::NetAccess::exists(directory, true, UMLApp::app())) {
 
-            if (!KIO::NetAccess::mkdir(directory
-#if KDE_IS_VERSION(3,1,90)
-                                  , UMLApp::app()
-#endif
-                                )) {
+            if (!KIO::NetAccess::mkdir(directory, UMLApp::app())) {
                 return false;
             }
         }

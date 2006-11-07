@@ -6,7 +6,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2004-2006                                               *
- *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include <algorithm>
@@ -378,11 +378,8 @@ void AlignToolBar::slotButtonChanged(int btn) {
     } else {
         KMessageBox::messageBox(0, KMessageBox::Information,
                                 i18n("For alignment you have to select at least 2 objects like classes or actors. You can not align associations."),
-                                i18n("Information"), i18n("&OK"), QString("")
-#if KDE_IS_VERSION(3,2,0)
-                                , "showAlignInformation"
-#endif
-                               );
+                                i18n("Information"), i18n("&OK"), QString(""),
+                                "showAlignInformation");
     } // if (widgetList.count() > 1)
 
     return;

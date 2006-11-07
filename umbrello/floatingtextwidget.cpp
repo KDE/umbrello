@@ -6,9 +6,10 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2002-2006                                               *
- *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
+// own header
 #include "floatingtextwidget.h"
 
 // system includes
@@ -18,6 +19,7 @@
 #include <qvalidator.h>
 #include <klocale.h>
 #include <kdebug.h>
+#include <kinputdialog.h>
 
 // local includes
 #include "floatingtextwidgetcontroller.h"
@@ -31,7 +33,6 @@
 #include "model_utils.h"
 #include "object_factory.h"
 #include "messagewidget.h"
-#include "inputdialog.h"
 #include "dialogs/assocpropdlg.h"
 #include "dialogs/selectopdlg.h"
 

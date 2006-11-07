@@ -6,7 +6,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2002-2006                                               *
- *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
@@ -18,6 +18,7 @@
 // kde includes
 #include <klocale.h>
 #include <kdebug.h>
+#include <kinputdialog.h>
 
 // app includes
 #include "uml.h"
@@ -25,7 +26,6 @@
 #include "docwindow.h"
 #include "umlview.h"
 #include "listpopupmenu.h"
-#include "inputdialog.h"
 #include "dialogs/activitydialog.h"
 
 ActivityWidget::ActivityWidget(UMLView * view, ActivityType activityType, Uml::IDType id )
