@@ -56,7 +56,9 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, int pageNum, bool ass
     m_pDoc = UMLApp::app()->getDocument();
     m_pObject = c;
     setupPages(c, assoc);
+#ifdef __GNUC__
 #warning "kde4: reimplement showPage"
+#endif    
     //showPage(pageNum);
 }
 
@@ -100,7 +102,9 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget * o)
     m_pColorLayout -> addWidget(m_pColorPage);
 
     setupFontPage();
+#ifdef __GNUC__
 #warning "kde4: reimplement showPage"
+#endif    
     //showPage(0);
     setMinimumSize(340,420);
 }

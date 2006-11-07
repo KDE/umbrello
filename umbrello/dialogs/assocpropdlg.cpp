@@ -51,7 +51,9 @@ AssocPropDlg::AssocPropDlg (QWidget *parent, AssociationWidget * assocWidget, in
     m_pDoc = ((UMLApp *)parent) -> getDocument(); // needed?
 
     setupPages(assocWidget);
+#ifdef __GNUC__
 #warning "kde4: port it"
+#endif    
     //showPage(pageNum);
 }
 
