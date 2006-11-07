@@ -1145,10 +1145,10 @@ private:
 
     /**
      * set to true when a child has used the showDocumentation method,
-     * thus when one click on a child widget.
-     * Reseted to false when one click in an empty zone of the view
+     * thus when one clicks on a child widget.
+     * Reset to false when clicking in an empty region of the view.
      */
-    bool m_pChildDisplayedDoc;
+    bool m_bChildDisplayedDoc;
     
     ToolBarStateFactory* m_pToolBarStateFactory;
     ToolBarState* m_pToolBarState;
