@@ -144,13 +144,13 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ex
     return overwritableName(concept, name, extension);
 }
 
-QString SimpleCodeGenerator::overwritableName(UMLClassifier* concept, const QString &name, const QString &ext) {
+QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString &name, const QString &ext) {
     //check if a file named "name" with extension "ext" already exists
     CodeGenerationPolicy *commonPolicy = UMLApp::app()->getCommonPolicy();
     QDir outputDir = commonPolicy->getOutputDirectory();
     QString filename = name + ext;
     if(!outputDir.exists(filename)) {
-        m_fileMap->insert(concept,filename);
+        m_fileMap.insert(concept,filename);
         return filename; //if not, "name" is OK and we have not much to to
     }
 
