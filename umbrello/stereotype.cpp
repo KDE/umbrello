@@ -9,14 +9,17 @@
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-
+// own header
 #include "stereotype.h"
-#include "inputdialog.h"
-#include "umldoc.h"
-#include "uml.h"
 
+// qt/kde includes
 #include <klocale.h>
 #include <kdebug.h>
+#include <kinputdialog.h>
+
+// local includes
+#include "umldoc.h"
+#include "uml.h"
 
 UMLStereotype::UMLStereotype(const QString &name, Uml::IDType id /* = Uml::id_None */)
         : UMLObject( name, id ) {

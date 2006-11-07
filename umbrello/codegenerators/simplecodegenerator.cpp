@@ -74,11 +74,11 @@ QString SimpleCodeGenerator::getIndent ()
     return myIndent;
 }
 
-QString SimpleCodeGenerator::findFileName(UMLClassifier* concept, const QString &ext) {
+QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ext) {
 
     //if we already know to which file this class was written/should be written, just return it.
-    if(m_fileMap->contains(concept))
-        return ((*m_fileMap)[concept]);
+    if (m_fileMap.contains(concept))
+        return m_fileMap[concept];
 
     //else, determine the "natural" file name
     QString name;
@@ -208,7 +208,7 @@ QString SimpleCodeGenerator::overwritableName(UMLClassifier* concept, const QStr
         break;
     }
 
-    m_fileMap->insert(concept, filename);
+    m_fileMap.insert(concept, filename);
     return filename;
 }
 
@@ -241,7 +241,7 @@ CodeDocument * SimpleCodeGenerator::newClassifierCodeDocument(UMLClassifier* /*c
 
 // write all concepts in project to file
 void SimpleCodeGenerator::writeCodeToFile ( ) {
-    m_fileMap->clear(); // yeah, need to do this, if not, just keep getting same damn directory to write to.
+    m_fileMap.clear(); // need to do this, else just keep getting same directory to write to.
     UMLClassifierList concepts = m_doc->getClassesAndInterfaces();
     for (UMLClassifier *c = concepts.first(); c; c = concepts.next()) {
         if (! Model_Utils::isCommonDataType(c->getName()))
@@ -251,7 +251,7 @@ void SimpleCodeGenerator::writeCodeToFile ( ) {
 
 // write only selected concepts to file
 void SimpleCodeGenerator::writeCodeToFile ( UMLClassifierList & concepts) {
-    m_fileMap->clear(); // ??
+    m_fileMap.clear(); // ??
     for (UMLClassifier *c = concepts.first(); c; c = concepts.next())
         this->writeClass(c); // call the writer for each class.
 }
@@ -261,7 +261,7 @@ void SimpleCodeGenerator::initFields ( UMLDoc * parentDoc ) {
     // load Classifier documents from parent document
     // initFromParentDocument();
 
-    m_fileMap = new QMap<UMLClassifier*,QString>;
+    m_fileMap.clear();
     m_applyToAllRemaining = true;
     m_doc = parentDoc;
 

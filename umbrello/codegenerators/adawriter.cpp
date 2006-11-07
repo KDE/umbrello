@@ -69,25 +69,26 @@ bool AdaWriter::isOOClass(UMLClassifier *c) {
     return true;
 }
 
-QString AdaWriter::qualifiedName(UMLClassifier *c, bool withType, bool byValue) {
-    UMLPackage *umlPkg = c->getUMLPackage();
-    QString className = cleanName(c->getName());
+QString AdaWriter::qualifiedName(UMLPackage *p, bool withType, bool byValue) {
+    UMLPackage *umlPkg = p->getUMLPackage();
+    QString className = cleanName(p->getName());
     QString retval;
 
+    UMLClassifier *c = dynamic_cast<UMLClassifier*>(p);
     if (umlPkg == NULL) {
         retval = className;
-        if (! isOOClass(c))
+        if (c == NULL || !isOOClass(c))
             retval.append(defaultPackageSuffix);
     } else {
         retval = umlPkg->getFullyQualifiedName(".");
-        if (isOOClass(c)) {
+        if (c && isOOClass(c)) {
             retval.append(".");
             retval.append(className);
         }
     }
     if (! withType)
         return retval;
-    if (isOOClass(c)) {
+    if (c && isOOClass(c)) {
         retval.append(".Object");
         if (! byValue)
             retval.append("_Ptr");
@@ -155,10 +156,10 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     }
 
     // Import referenced classes.
-    UMLClassifierList imports;
+    UMLPackageList imports;
     findObjectsRelated(c, imports);
     if (imports.count()) {
-        for (UMLClassifier *con = imports.first(); con; con = imports.next()) {
+        for (UMLPackage *con = imports.first(); con; con = imports.next()) {
             if (con->getBaseType() != Uml::ot_Datatype)
                 ada << "with " << qualifiedName(con) << "; " << m_endl;
         }

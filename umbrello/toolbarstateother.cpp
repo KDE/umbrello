@@ -15,6 +15,7 @@
 // kde includes
 #include <kdebug.h>
 #include <klocale.h>
+#include <kinputdialog.h>
 
 // app includes
 #include "activitywidget.h"
@@ -22,7 +23,6 @@
 #include "dialog_utils.h"
 #include "floatingtextwidget.h"
 #include "forkjoinwidget.h"
-#include "inputdialog.h"
 #include "notewidget.h"
 #include "object_factory.h"
 #include "statewidget.h"

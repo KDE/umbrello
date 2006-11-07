@@ -109,9 +109,9 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
     // the correct import statements. Leave that for later at this time.
     /*
     //only import classes in a different package as this class
-    UMLClassifierList imports;
+    UMLPackageList imports;
     findObjectsRelated(c,imports);
-    for(UMLClassifier *con = imports.first(); con ; con = imports.next())
+    for(UMLPackage *con = imports.first(); con ; con = imports.next())
         if(con->getPackage() != c->getPackage())
                 XMLschema<<"import "<<con->getPackage()<<"."<<cleanName(con->getName())<<";"<<m_endl;
     */

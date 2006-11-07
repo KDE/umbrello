@@ -13,8 +13,8 @@
 #include "../statewidget.h"
 #include "../listpopupmenu.h"
 #include "../uml.h"
-#include "../inputdialog.h"
 
+#include <kinputdialog.h>
 #include <klocale.h>
 #include <kbuttonbox.h>
 #include <kdebug.h>

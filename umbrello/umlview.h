@@ -1138,7 +1138,6 @@ protected:
     bool m_bStartedCut;
 
 private:
-
     /**
      * The folder in which this UMLView is contained
      */
@@ -1151,6 +1150,13 @@ private:
      */
     bool m_bChildDisplayedDoc;
 
+    /**
+     * set to true when a child has used the showDocumentation method,
+     * thus when one click on a child widget.
+     * Reseted to false when one click in an empty zone of the view
+     */
+    bool m_pChildDisplayedDoc;
+    
     ToolBarStateFactory* m_pToolBarStateFactory;
     ToolBarState* m_pToolBarState;
 

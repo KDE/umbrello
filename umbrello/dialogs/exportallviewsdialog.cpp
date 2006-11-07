@@ -20,7 +20,7 @@
 #include "exportallviewsdialog.h"
 #include "../umlviewimageexportermodel.h"
 
-ExportAllViewsDialog::ExportAllViewsDialog(QWidget* parent /* = 0 */, const char* name /* = 0 */, bool modal /* = FALSE */, Qt::WindowFlags  fl /* = 0*/, QString defaultMimeType /*= "image/png"*/)
+ExportAllViewsDialog::ExportAllViewsDialog(QWidget* parent /* = 0 */, const char* name /* = 0 */, bool modal /* = false */, Qt::WindowFlags  fl /* = 0*/, QString defaultMimeType /*= "image/png"*/)
 : ExportAllViewsDialogBase(parent,name, modal,fl) {
     // create and initialize m_imageType
     m_imageType = new KFileFilterCombo(this);

@@ -11,15 +11,17 @@
 
 // own header file
 #include "objectwidget.h"
+
 // system includes
 #include <qpainter.h>
 #include <qvalidator.h>
 #include <qevent.h>
 #include <klocale.h>
 #include <kdebug.h>
+#include <kinputdialog.h>
+
 // local includes
 #include "objectwidgetcontroller.h"
-#include "inputdialog.h"
 #include "seqlinewidget.h"
 #include "umlview.h"
 #include "umldoc.h"

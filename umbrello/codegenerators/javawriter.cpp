@@ -151,9 +151,9 @@ void JavaWriter::writeClass(UMLClassifier *c)
     }
 
     //only import classes in a different package as this class
-    UMLClassifierList imports;
+    UMLPackageList imports;
     findObjectsRelated(c,imports);
-    for (UMLClassifier *con = imports.first(); con; con = imports.next()) {
+    for (UMLPackage *con = imports.first(); con; con = imports.next()) {
         if (con->getBaseType() == Uml::ot_Datatype)
             continue;
         QString pkg = con->getPackage();

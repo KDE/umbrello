@@ -488,7 +488,7 @@ public slots:
      * aborts.
      */
     void slotFileQuit();
-
+    
      /**
      * Exports the current model to docbook in a subdir of the 
      * current model directory named from the model name.
@@ -918,7 +918,6 @@ private:
     KAction* fileOpen;
     KRecentFilesAction* fileOpenRecent;
     KAction* fileSave;
-
     KAction* fileSaveAs;
     KAction* fileClose;
     KAction* filePrint;

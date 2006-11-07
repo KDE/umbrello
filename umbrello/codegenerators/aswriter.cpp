@@ -74,10 +74,9 @@ void ASWriter::writeClass(UMLClassifier *c)
 
 
     //write includes
-    UMLClassifierList includes;
+    UMLPackageList includes;
     findObjectsRelated(c,includes);
-    UMLClassifier *conc;
-    for(conc = includes.first(); conc ;conc = includes.next())
+    for (UMLPackage *conc = includes.first(); conc; conc = includes.next())
     {
         QString headerName = findFileName(conc, ".as");
         if ( !headerName.isEmpty() )

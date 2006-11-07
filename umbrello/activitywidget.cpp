@@ -18,6 +18,7 @@
 // kde includes
 #include <klocale.h>
 #include <kdebug.h>
+#include <kinputdialog.h>
 
 // app includes
 #include "uml.h"
@@ -25,7 +26,6 @@
 #include "docwindow.h"
 #include "umlview.h"
 #include "listpopupmenu.h"
-#include "inputdialog.h"
 #include "dialogs/activitydialog.h"
 
 //Added by qt3to4:

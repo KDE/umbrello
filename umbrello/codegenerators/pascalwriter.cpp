@@ -67,14 +67,15 @@ bool PascalWriter::isOOClass(UMLClassifier *c) {
     return true;
 }
 
-QString PascalWriter::qualifiedName(UMLClassifier *c, bool withType, bool byValue) {
-    UMLPackage *umlPkg = c->getUMLPackage();
-    QString className = cleanName(c->getName());
+QString PascalWriter::qualifiedName(UMLPackage *p, bool withType, bool byValue) {
+    UMLPackage *umlPkg = p->getUMLPackage();
+    QString className = cleanName(p->getName());
     QString retval;
 
+    UMLClassifier *c = dynamic_cast<UMLClassifier*>(p);
     if (umlPkg == NULL) {
         retval = className;
-        if (! isOOClass(c))
+        if (c == NULL || !isOOClass(c))
             retval.append(defaultPackageSuffix);
     } else {
         retval = umlPkg->getFullyQualifiedName(".");
@@ -85,7 +86,7 @@ QString PascalWriter::qualifiedName(UMLClassifier *c, bool withType, bool byValu
     }
     if (! withType)
         return retval;
-    if (isOOClass(c)) {
+    if (c && isOOClass(c)) {
         retval.append(".Object");
         if (! byValue)
             retval.append("_Ptr");
@@ -156,12 +157,12 @@ void PascalWriter::writeClass(UMLClassifier *c) {
     pas << "unit " << unit << ";" << m_endl << m_endl;
     pas << "INTERFACE" << m_endl << m_endl;
     // Use referenced classes.
-    UMLClassifierList imports;
+    UMLPackageList imports;
     findObjectsRelated(c, imports);
     if (imports.count()) {
         pas << "uses" << m_endl;
         bool first = true;
-        for (UMLClassifier *con = imports.first(); con; con = imports.next()) {
+        for (UMLPackage *con = imports.first(); con; con = imports.next()) {
             if (con->getBaseType() != Uml::ot_Datatype) {
                 if (first)
                     first = false;

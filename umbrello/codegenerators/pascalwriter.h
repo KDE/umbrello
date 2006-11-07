@@ -76,7 +76,7 @@ private:
     bool isOOClass (UMLClassifier *c);
 
     QString qualifiedName
-    (UMLClassifier *c, bool withType = false, bool byValue = false);
+    (UMLPackage *p, bool withType = false, bool byValue = false);
 
     static const QString defaultPackageSuffix;
 

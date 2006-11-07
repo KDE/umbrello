@@ -10,8 +10,8 @@
  ***************************************************************************/
 
 #include "enumliteral.h"
-#include "inputdialog.h"
 
+#include <kinputdialog.h>
 #include <kdebug.h>
 #include <klocale.h>
 

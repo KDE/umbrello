@@ -57,11 +57,7 @@ bool UMLViewImageExporter::prepareExportView() {
         }
 
         // check if the file exists
-        if (KIO::NetAccess::exists(m_imageURL
-#if KDE_IS_VERSION(3,1,90)
-                                   , true, UMLApp::app()
-#endif
-                                )) {
+        if (KIO::NetAccess::exists(m_imageURL, true, UMLApp::app())) {
             int wantSave = KMessageBox::warningContinueCancel(0,
                                 i18n("The selected file %1 exists.\nDo you want to overwrite it?", m_imageURL.pathOrUrl()),
                                 i18n("File Already Exists"), KGuiItem(i18n("&Overwrite")));

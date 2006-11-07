@@ -22,6 +22,7 @@
 #include <QMoveEvent>
 #include <kdebug.h>
 #include <klocale.h>
+#include <kinputdialog.h>
 #include <kcolordialog.h>
 #include <kapplication.h>
 // app includes
@@ -45,7 +46,6 @@
 #include "model_utils.h"
 #include "widget_utils.h"
 #include "dialogs/assocpropdlg.h"
-#include "inputdialog.h"
 #include "optionstate.h"
 
 using namespace Uml;

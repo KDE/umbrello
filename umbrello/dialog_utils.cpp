@@ -8,16 +8,20 @@
  *   copyright (C) 2004-2006                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
+
+// own header
 #include "dialog_utils.h"
 
+// qt/kde includes
 #include <q3groupbox.h>
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qlineedit.h>
+#include <kinputdialog.h>
 //Added by qt3to4:
 #include <QGridLayout>
 
-#include "inputdialog.h"
+// app includes
 #include "uml.h"
 #include "umlwidget.h"
 

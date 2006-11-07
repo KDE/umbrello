@@ -388,17 +388,17 @@ void JavaClassifierCodeDocument::updateContent( )
         importStatement.append("import java.util.*;");
 
     //only import classes in a different package from this class
-    UMLClassifierList imports;
-    QMap<UMLClassifier *,QString> *packageMap = new QMap<UMLClassifier*,QString>; // so we don't repeat packages
+    UMLPackageList imports;
+    QMap<UMLPackage*, QString> packageMap; // so we don't repeat packages
 
     CodeGenerator::findObjectsRelated(c,imports);
-    for(UMLClassifier *con = imports.first(); con ; con = imports.next())
+    for(UMLPackage *con = imports.first(); con ; con = imports.next())
         // NO (default) datatypes in the import statement.. use defined
         // ones whould be possible, but no idea how to do that...at least for now.
         // Dynamic casting is slow..not an optimal way to do this.
-        if (!(packageMap->contains(con)) && !(dynamic_cast<UMLDatatype*>(con)))
+        if (!packageMap.contains(con) && !dynamic_cast<UMLDatatype*>(con))
         {
-            packageMap->insert(con,con->getPackage());
+            packageMap.insert(con, con->getPackage());
 
             // now, we DON'T need to import classes that are already in our own package
             // (that is, IF a package is specified). Otherwise, we should have a declaration.

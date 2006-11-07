@@ -400,14 +400,14 @@ void CPPHeaderCodeDocument::updateContent( )
     }
 
     //only include classes in a different package from this class
-    UMLClassifierList includes;
-    QMap<UMLClassifier *,QString> *packageMap = new QMap<UMLClassifier*,QString>; // so we don't repeat packages
+    UMLPackageList includes;
+    QMap<UMLPackage *,QString> packageMap; // so we don't repeat packages
 
     CodeGenerator::findObjectsRelated(c,includes);
-    for(UMLClassifier *con = includes.first(); con ; con = includes.next())
-        if (con->getBaseType() != Uml::ot_Datatype && !packageMap->contains(con))
+    for(UMLPackage *con = includes.first(); con ; con = includes.next())
+        if (con->getBaseType() != Uml::ot_Datatype && !packageMap.contains(con))
         {
-            packageMap->insert(con,con->getPackage());
+            packageMap.insert(con,con->getPackage());
             if(con != getParentClassifier())
                 includeStatement.append("#include \""+CodeGenerator::cleanName(con->getName().lower())+".h\""+endLine);
         }

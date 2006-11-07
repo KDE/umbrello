@@ -32,9 +32,9 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
+#include <kinputdialog.h>
 
 // app includes
-#include "inputdialog.h"
 #include "actor.h"
 #include "classifier.h"
 #include "package.h"
@@ -2627,7 +2627,7 @@ bool UMLListView::deleteItem(UMLListViewItem *temp) {
              * if the object still has users - but Umbrello is lacking
              * that logic.
              */
-            canvasObj->removeAllAssociations();
+            canvasObj->removeAllChildObjects();
         }
         if (object) {
             m_doc->removeUMLObject(object);

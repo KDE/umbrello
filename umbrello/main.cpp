@@ -32,7 +32,6 @@ static const char description[] =
     I18N_NOOP("Umbrello UML Modeller");
 // INSERT A DESCRIPTION FOR YOUR APPLICATION HERE
 
-
 /**
  * @todo Add options to use the documentation generators from command line.
  */

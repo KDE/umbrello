@@ -18,12 +18,12 @@
 // kde includes
 #include <klocale.h>
 #include <kdebug.h>
+#include <kinputdialog.h>
 
 // app includes
 #include "uml.h"
 #include "umldoc.h"
 #include "docwindow.h"
-#include "inputdialog.h"
 #include "umlwidget.h"
 #include "umlview.h"
 #include "dialogs/statedialog.h"

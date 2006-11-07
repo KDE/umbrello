@@ -44,6 +44,7 @@
 #include <kprinter.h>
 #include <kcursor.h>
 #include <kfiledialog.h>
+#include <kinputdialog.h>
 #include <klocale.h>
 #include <kdebug.h>
 
@@ -60,7 +61,6 @@
 #include "umlviewcanvas.h"
 #include "dialogs/classoptionspage.h"
 #include "dialogs/umlviewdialog.h"
-#include "inputdialog.h"
 #include "clipboard/idchangelog.h"
 #include "clipboard/umldrag.h"
 #include "widget_factory.h"

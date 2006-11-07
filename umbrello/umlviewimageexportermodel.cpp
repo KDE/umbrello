@@ -149,11 +149,7 @@ QString UMLViewImageExporterModel::exportView(UMLView* view, const QString &imag
 
     // if the file wasn't local, upload the temp file to the target
     if (!url.isLocalFile()) {
-        if (!KIO::NetAccess::upload(tmpFile.fileName(), url
-#if KDE_IS_VERSION(3,1,90)
-                                    , UMLApp::app()
-#endif
-                                )) {
+        if (!KIO::NetAccess::upload(tmpFile.fileName(), url, UMLApp::app())) {
             return i18n("There was a problem saving file: %1", url.path());
         }
     } //!isLocalFile
@@ -196,17 +192,9 @@ bool UMLViewImageExporterModel::prepareDirectory(const KUrl &url) const {
     for (QStringList::ConstIterator it = dirs.begin() ; it != dirs.end(); ++it ) {
         directory.addPath(*it);
 
-        if (!KIO::NetAccess::exists(directory
-#if KDE_IS_VERSION(3,1,90)
-                                    , true, UMLApp::app()
-#endif
-                                )) {
+        if (!KIO::NetAccess::exists(directory, true, UMLApp::app())) {
 
-            if (!KIO::NetAccess::mkdir(directory
-#if KDE_IS_VERSION(3,1,90)
-                                  , UMLApp::app()
-#endif
-                                )) {
+            if (!KIO::NetAccess::mkdir(directory, UMLApp::app())) {
                 return false;
             }
         }
