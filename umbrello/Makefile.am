@@ -136,7 +136,7 @@ INCLUDES= -Idialogs -Irefactoring $(all_includes)
 
 METASOURCES = AUTO
 
-umbrello_LDFLAGS = $(all_libraries) $(KDE_RPATH) -export-dynamic
+umbrello_LDFLAGS = $(all_libraries) -luuid $(KDE_RPATH) -export-dynamic
 
 messages: rc.cpp
 	$(PREPARETIPS) > tips.cpp

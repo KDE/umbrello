@@ -93,8 +93,6 @@
 #include "toolbarstatefactory.h"
 
 
-# define EXTERNALIZE_ID(id)  QString::number(id).ascii()
-
 // control the manual DoubleBuffering of QCanvas
 // with a define, so that this memory X11 effect can
 // be tested more easily
@@ -119,7 +117,6 @@ void UMLView::init() {
     m_pDoc = NULL;
     m_Documentation = "";
     m_Type = dt_Undefined;
-    m_nLocalID = 900000;
     m_bUseSnapToGrid = false;
     m_bUseSnapComponentSizeToGrid = false;
     m_bShowSnapGrid = false;
@@ -1107,8 +1104,8 @@ void UMLView::selectAll()
 }
 
 Uml::IDType UMLView::getLocalID() {
-    --m_nLocalID;
-    return EXTERNALIZE_ID(m_nLocalID);
+    m_nLocalID = UniqueID::gen();
+    return m_nLocalID;
 }
 
 bool UMLView::isSavedInSeparateFile() {
@@ -2860,7 +2857,7 @@ void UMLView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     viewElement.setAttribute( "showscope", m_Options.classState.showVisibility );
     viewElement.setAttribute( "showstereotype", m_Options.classState.showStereoType );
     //misc
-    viewElement.setAttribute( "localid", m_nLocalID );
+    viewElement.setAttribute( "localid", ID2STR(m_nLocalID) );
     viewElement.setAttribute( "showgrid", m_bShowSnapGrid );
     viewElement.setAttribute( "snapgrid", m_bUseSnapToGrid );
     viewElement.setAttribute( "snapcsgrid", m_bUseSnapComponentSizeToGrid );
@@ -3025,7 +3022,7 @@ bool UMLView::loadFromXMI( QDomElement & qElement ) {
         m_Options.uiState.lineColor = QColor( linecolor );
     if( !linewidth.isEmpty() )
         m_Options.uiState.lineWidth = linewidth.toInt();
-    m_nLocalID = localid.toInt();
+    m_nLocalID = STR2ID(localid);
 
     QDomNode node = qElement.firstChild();
     bool widgetsLoaded = false, messagesLoaded = false, associationsLoaded = false;

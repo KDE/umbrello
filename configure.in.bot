@@ -1,0 +1,6 @@
+if test -z "$kde_have_libuuid"; then
+  echo ""
+  echo "umbrello requires libuuid from the e2fsprogs package"
+  echo "see http://e2fsprogs.sourceforge.net/ for further info"
+  echo ""
+fi
