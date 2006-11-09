@@ -11,6 +11,7 @@ Version 1.5.51
 
 * This is an interim release that fixes a serious regression in version 1.5.5
   which is detailed at http://bugs.kde.org/135749 (Crash when opening a document)
+* Accessor methods are private instead of public (85553)
 
 Version 1.5.5
 
