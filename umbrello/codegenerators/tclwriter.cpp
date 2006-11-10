@@ -230,7 +230,8 @@ TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     UMLTemplateList template_params = c->getTemplateList();
     if (template_params.count()) {
         writeCode("#TODO template<");
-        for (UMLTemplate * t = template_params.first(); t;) {
+        for (UMLTemplate * t = template_params.first(); t;
+                           t = template_params.next()) {
             QString         formalName = t->getName();
             QString         typeName = t->getTypeName();
             writeCode(typeName + "# " + formalName);
@@ -409,8 +410,11 @@ TclWriter::writeAssociationIncl(UMLAssociationList list, Uml::IDType myId,
                 writeCode("namespace eval " + cleanName(classifier->getName()) +
                           " {}");
         } else {
+            // CHECK: This crashes (classifier still NULL from above)
+            /*
             writeCode("namespace eval " + cleanName(classifier->getPackage()) +
                       "::" + cleanName(classifier->getName()) + " {}");
+             */
         }
     }
 }
