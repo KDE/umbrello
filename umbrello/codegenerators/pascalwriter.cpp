@@ -25,7 +25,7 @@
 #include "../classifierlistitem.h"
 #include "../umlclassifierlistitemlist.h"
 #include "../umltemplatelist.h"
-#include "../package.h"
+#include "../folder.h"
 #include "../association.h"
 #include "../attribute.h"
 #include "../operation.h"
@@ -71,6 +71,9 @@ QString PascalWriter::qualifiedName(UMLPackage *p, bool withType, bool byValue) 
     UMLPackage *umlPkg = p->getUMLPackage();
     QString className = cleanName(p->getName());
     QString retval;
+
+    if (umlPkg == UMLApp::app()->getDocument()->getRootFolder(Uml::mt_Logical))
+        umlPkg = NULL;
 
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(p);
     if (umlPkg == NULL) {
@@ -354,8 +357,8 @@ void PascalWriter::writeOperation(UMLOperation *op, QTextStream &pas, bool is_co
                 pas << ";" << m_endl;
         }
         m_indentLevel--;
+        pas << ")";
     }
-    pas << ")";
     if (! use_procedure)
         pas << " : " << rettype;
     pas << "; virtual; abstract;" << m_endl << m_endl;
