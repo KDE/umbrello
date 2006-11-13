@@ -6,11 +6,14 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2004-2006                                               *
- *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
-#include "linkwidget.h"
 
+// own header
+#include "linkwidget.h"
+// qt/kde includes
 #include <kdebug.h>
+// app includes
 #include "umlview.h"
 #include "umlobject.h"
 #include "classifier.h"

@@ -4,7 +4,7 @@
     begin                : Sat Dec 21 2002
     copyright            : Vincent Decorges
     email                : vincent.decorges@eivd.ch
-      (C) 2003-2006  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+      (C) 2003-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net> 
  ***************************************************************************/
 
 /***************************************************************************

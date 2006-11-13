@@ -5,7 +5,7 @@
     source code is not replicated in the XMI file.
                              -------------------
     copyright            : (C) 2003 Brian Thomas brian.thomas@gsfc.nasa.gov
-      (C) 2004-2006  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+      (C) 2004-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net> 
 ***************************************************************************/
 
 /***************************************************************************

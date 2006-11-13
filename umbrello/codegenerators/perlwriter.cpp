@@ -1,7 +1,7 @@
 /***************************************************************************
     begin                : Wed Jan 22 2003
     copyright            : (C) 2003 by David Hugh-Jones
-      (C) 2004-2006  Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>
+      (C) 2004-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net> 
     email                : hughjonesd@yahoo.co.uk
  ***************************************************************************/
 

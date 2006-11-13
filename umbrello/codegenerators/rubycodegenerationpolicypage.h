@@ -14,7 +14,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2005-2006                                               *
- *   Umbrello UML Modeller Authors <uml-devel@ uml.sf.net>                 *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef RUBYCODEGENERATIONPOLICYPAGE_H
