@@ -1709,7 +1709,8 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
             pkg = m_datatypeRoot;
         } else {
             Uml::Model_Type guess = Model_Utils::guessContainer(pObject);
-            pkg = m_root[guess];
+            if (guess != Uml::N_MODELTYPES)
+                pkg = m_root[guess];
         }
         pObject->setUMLPackage(pkg);
 
@@ -1718,6 +1719,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
             delete pObject;
             return false;
         }
+        pkg = pObject->getUMLPackage();
         if (ot == ot_Stereotype) {
             UMLStereotype *s = static_cast<UMLStereotype*>(pObject);
             if (findStereotype(s->getName()) != NULL)

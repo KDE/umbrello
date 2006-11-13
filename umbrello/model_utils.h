@@ -198,6 +198,10 @@ Uml::Icon_Type convert_LVT_IT(Uml::ListView_Type lvt);
  */
 Uml::Diagram_Type convert_LVT_DT(Uml::ListView_Type lvt);
 
+/**
+ * Return the Model_Type which corresponds to the given Object_Type.
+ */
+Uml::Model_Type convert_OT_MT(Uml::Object_Type ot);
 
 /**
  * Try to guess the correct container folder type of an UMLObject.

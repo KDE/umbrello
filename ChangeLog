@@ -1,9 +1,11 @@
 Version 1.5.52
- 
+
 * Fixed segfault in UMLClassifier::checkOperationSignature()
   (http://www.geeksoc.org/~jr/umbrello/uml-devel/9816.html)
 * Fixed segfault on XMI close when a class uses a template
   (http://www.geeksoc.org/~jr/umbrello/uml-devel/9818.html)
+* Fixed crashes during Tcl code generation
+* Fixed bugs in generated code of various code generators
 * Bugs/wishes from http://bugs.kde.org:
 * Shift + Left and Shift+Right causes SIGSEGV (136288)
 
@@ -24,8 +26,11 @@ Version 1.5.5
 * Bugs/wishes from http://bugs.kde.org:
 * "role A properties" should give class name (69244)
 * Sharing designs, Folders, 3rd Party imports (87252, reimplementation)
+* "Open recent" list doesn't reorder when a file is opened (111757)
+* Properties menu: move to top/bottom buttons (126467)
 * Java import - importing interfaces - absent visibility treated as package
   instead of public (131327)
+* Python code generation not independent of diagram view (131790)
 * Java import - method parameter types not resolved correctly (131825)
 * Java import: unable to import AzareusCore (131961)
 * Java import: error on multidimensional arrays (132017)
@@ -33,6 +38,7 @@ Version 1.5.5
 * Java import - "final" and comments in method declaration not parsed correctly (132174)
 * Java import: spaces in strings cause next member var to be ignored (132472)
 * Java import - static member vars ignored in interfaces (132657)
+* Header file names are lowercase in .cpp file, but mixed case on the disk (134279)
 
 Version 1.5.4
 

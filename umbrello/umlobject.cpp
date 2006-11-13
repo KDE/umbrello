@@ -599,20 +599,15 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
     }
 
     QString stereo = element.attribute( "stereotype", "" );
-    if (!stereo.isEmpty() && stereo != "-1") {
-        if (stereo.contains(QRegExp("\\D"))) {
-            // Old versions saved the stereotype name instead of the xmi.id.
-            setStereotype( stereo );
-        } else {
-            Uml::IDType stereoID = STR2ID(stereo);
-            m_pStereotype = umldoc->findStereotypeById(stereoID);
-            if (m_pStereotype)
-                m_pStereotype->incrRefCount();
-            else
-                kError() << "UMLObject::loadFromXMI(" << m_Name << "): "
+    if (!stereo.isEmpty()) {
+        Uml::IDType stereoID = STR2ID(stereo);
+        m_pStereotype = umldoc->findStereotypeById(stereoID);
+        if (m_pStereotype)
+            m_pStereotype->incrRefCount();
+        else
+            kError() << "UMLObject::loadFromXMI(" << m_Name << "): "
                 << "UMLStereotype " << ID2STR(stereoID)
                 << " not found" << endl;
-        }
     }
 
     if( element.hasAttribute("abstract") ) {     // for bkwd compat.

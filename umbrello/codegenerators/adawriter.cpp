@@ -23,12 +23,13 @@
 #include <qtextstream.h>
 
 #include "../umldoc.h"
+#include "../uml.h"
 #include "../classifier.h"
 #include "../enum.h"
 #include "../classifierlistitem.h"
 #include "../umlclassifierlistitemlist.h"
 #include "../umltemplatelist.h"
-#include "../package.h"
+#include "../folder.h"
 #include "../association.h"
 #include "../attribute.h"
 #include "../operation.h"
@@ -73,6 +74,9 @@ QString AdaWriter::qualifiedName(UMLPackage *p, bool withType, bool byValue) {
     UMLPackage *umlPkg = p->getUMLPackage();
     QString className = cleanName(p->getName());
     QString retval;
+
+    if (umlPkg == UMLApp::app()->getDocument()->getRootFolder(Uml::mt_Logical))
+        umlPkg = NULL;
 
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(p);
     if (umlPkg == NULL) {

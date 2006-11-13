@@ -937,12 +937,8 @@ protected:
     /**
      * Contains the unique ID to allocate to a widget that needs an
      * ID for the view.  @ref ObjectWidgets are an example of this.
-     * NOTE: Currently this is an int although Uml::IDType is a string
-     *       (unless ID_USE_INT is defined.) Perhaps it should be changed
-     *       to Uml::IDType but then we need a unique string generator.
-     *       See also UMLDoc::m_uniqueID.
      */
-    int m_nLocalID;
+    Uml::IDType m_nLocalID;
 
     /**
      * The ID of the view.  Allocated by @ref UMLDoc

@@ -9,35 +9,38 @@
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
+// own header
 #include "uniqueid.h"
 
-# define EXTERNALIZE_ID(id)  QString::number(id).ascii()
+// system includes
+#include <uuid/uuid.h>
 
 namespace UniqueID {
 
 /**
  * Each model object gets assigned a unique ID.
- * NOTE: Currently this is an int although Uml::IDType is a string.
- *       See also UMLView::m_nLocalID.
  */
-int m_uniqueID = 0;
+Uml::IDType m_uniqueID;
 
 Uml::IDType gen() {
-    ++m_uniqueID;
-    return EXTERNALIZE_ID(m_uniqueID);
+    static char buf[40];
+    uuid_t uuid;
+    uuid_generate(uuid);
+    uuid_unparse_upper(uuid, buf);
+    m_uniqueID = std::string(buf);
+    return m_uniqueID;
 }
 
 void init() {
-    m_uniqueID = 0;
+    m_uniqueID = Uml::id_Reserved;
 }
 
 Uml::IDType get() {
-    return EXTERNALIZE_ID(m_uniqueID);
+    return m_uniqueID;
 }
 
 void set(Uml::IDType id) {
-    QString uniqueid = ID2STR(id);
-    m_uniqueID = uniqueid.toInt();
+    m_uniqueID = id;
 }
 
 }  // end namespace UniqueID

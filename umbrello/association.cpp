@@ -213,9 +213,15 @@ bool UMLAssociation::load( QDomElement & element ) {
             obj[r] = doc->findObjectById(STR2ID(roleIdStr));
             Uml::Role_Type role = (Uml::Role_Type)r;
             if (obj[r] == NULL) {
-                getUMLRole(role)->setSecondaryId(roleIdStr);  // defer to resolveRef()
+                m_pRole[role]->setSecondaryId(roleIdStr);  // defer to resolveRef()
             } else {
-                getUMLRole(role)->setObject(obj[r]);
+                m_pRole[role]->setObject(obj[r]);
+                if (m_pUMLPackage == NULL) {
+                    Uml::Model_Type mt = Model_Utils::convert_OT_MT(obj[r]->getBaseType());
+                    m_pUMLPackage = doc->getRootFolder(mt);
+                    kDebug() << "UMLAssociation::load(assoctype " << m_AssocType
+                        << "): setting model type " << mt << endl;
+                }
             }
         }
         if (obj[A] == NULL || obj[B] == NULL) {
@@ -317,6 +323,12 @@ bool UMLAssociation::load( QDomElement & element ) {
         }
         if (! getUMLRole(B)->loadFromXMI(tempElement))
             return false;
+
+        if (m_pUMLPackage == NULL) {
+            Uml::Model_Type mt = Model_Utils::convert_OT_MT(getObject(B)->getBaseType());
+            m_pUMLPackage = doc->getRootFolder(mt);
+            kDebug() << "UMLAssociation::load: setting model type " << mt << endl;
+        }
 
         // setting the association type:
         //

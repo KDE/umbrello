@@ -340,7 +340,7 @@ Uml::Model_Type guessContainer(UMLObject *o) {
                     UMLObject *roleObj = assoc->getObject((Uml::Role_Type)r);
                     if (roleObj == NULL) {
                         // Ouch! we have been called while types are not yet resolved
-                        break;
+                        return Uml::N_MODELTYPES;
                     }
                     UMLPackage *pkg = roleObj->getUMLPackage();
                     if (pkg) {
@@ -1131,6 +1131,31 @@ Uml::Diagram_Type convert_LVT_DT(Uml::ListView_Type lvt) {
             break;
     }
     return dt;
+}
+
+Uml::Model_Type convert_OT_MT(Uml::Object_Type ot) {
+    Uml::Model_Type mt = Uml::N_MODELTYPES;
+    switch (ot) {
+        case Uml::ot_Actor:
+        case Uml::ot_UseCase:
+            mt = Uml::mt_UseCase;
+            break;
+        case Uml::ot_Component:
+        case Uml::ot_Artifact:
+            mt = Uml::mt_Component;
+            break;
+        case Uml::ot_Node:
+            mt = Uml::mt_Deployment;
+            break;
+        case Uml::ot_Entity:
+        case Uml::ot_EntityAttribute:
+            mt = Uml::mt_EntityRelationship;
+            break;
+        default:
+            mt = Uml::mt_Logical;
+            break;
+    }
+    return mt;
 }
 
 }  // namespace Model_Utils

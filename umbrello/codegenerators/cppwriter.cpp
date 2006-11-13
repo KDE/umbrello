@@ -1,20 +1,19 @@
 /***************************************************************************
-                          cppwriter.cpp  -  description
-    This is the "old" code generator that does not support code editing
-    in the Modeller but uses significantly less file space because the
-    source code is not replicated in the XMI file.
-                             -------------------
-    copyright       : (C) 2003 Brian Thomas brian.thomas@gsfc.nasa.gov
-         (C) 2004  Umbrello UML Modeller Authors <uml-devel@uml.sf.net> 
-***************************************************************************/
-
-/***************************************************************************
- *                                                                       *
+ *                        cppwriter.cpp  -  description                    *
+ *  This is the "old" code generator that does not support code editing    *
+ *  in the Modeller but uses significantly less file space because the     *
+ *  source code is not replicated in the XMI file.                         *
+ *                                                                         *
+ *  copyright       : (C) 2003 Brian Thomas brian.thomas@gsfc.nasa.gov     *
+ *  (C) 2004-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>    *
+ *                                                                         *
+ ***************************************************************************
+ *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
- *                                                                       *
+ *                                                                         *
  ***************************************************************************/
 
 // own header

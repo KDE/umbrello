@@ -390,6 +390,8 @@ void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comme
     UMLAttributeList atl = op->getParmList();
     QString rettype = op->getTypeName();
 
+    if (rettype.isEmpty())
+        rettype = "void";
     idl << getIndent();
     if (is_comment)
         idl << "// ";

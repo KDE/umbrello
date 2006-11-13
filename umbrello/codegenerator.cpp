@@ -582,9 +582,11 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList) 
                 UMLObject *objA = a->getObject(Uml::A);
                 UMLObject *objB = a->getObject(Uml::B);
                 // Add related object only if the rolename is not empty.
-                if (objA != c && !a->getRoleName(Uml::A).isEmpty())
+                if (objA != c && !a->getRoleName(Uml::A).isEmpty() &&
+                    objA->getBaseType() != Uml::ot_Datatype)
                     temp = (UMLPackage*)objA;
-                else if (objB != c && !a->getRoleName(Uml::B).isEmpty())
+                else if (objB != c && !a->getRoleName(Uml::B).isEmpty() &&
+                    objB->getBaseType() != Uml::ot_Datatype)
                     temp = (UMLPackage*)objB;
             }
             break;
@@ -602,14 +604,14 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList) 
     for(UMLOperation *op = opl.first(); op ; op = opl.next()) {
         temp =0;
         //check return value
-        temp =(UMLClassifier*) umldoc->findUMLClassifier(op->getTypeName());
-        if(temp && !cList.containsRef(temp))
+        temp =(UMLClassifier*) op->getType();
+        if (temp && temp->getBaseType() != Uml::ot_Datatype && !cList.containsRef(temp))
             cList.append(temp);
         //check parameters
         UMLAttributeList atl = op->getParmList();
         for (UMLAttribute *at = atl.first(); at; at = atl.next()) {
-            temp = (UMLClassifier*)umldoc->findUMLClassifier(at->getTypeName());
-            if(temp && !cList.containsRef(temp))
+            temp = (UMLClassifier*)at->getType();
+            if (temp && temp->getBaseType() != Uml::ot_Datatype && !cList.containsRef(temp))
                 cList.append(temp);
         }
 
@@ -620,8 +622,8 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList) 
         UMLAttributeList atl = c->getAttributeList();
         for (UMLAttribute *at = atl.first(); at; at = atl.next()) {
             temp=0;
-            temp =(UMLClassifier*) umldoc->findUMLClassifier(at->getTypeName());
-            if(temp && !cList.containsRef(temp))
+            temp = (UMLClassifier*) at->getType();
+            if (temp && temp->getBaseType() != Uml::ot_Datatype && !cList.containsRef(temp))
                 cList.append(temp);
         }
     }
