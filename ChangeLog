@@ -4,6 +4,8 @@ Version 1.5.52
   (http://www.geeksoc.org/~jr/umbrello/uml-devel/9816.html)
 * Fixed segfault on XMI close when a class uses a template
   (http://www.geeksoc.org/~jr/umbrello/uml-devel/9818.html)
+* Fixed crashes during Tcl code generation
+* Fixed bugs in generated code of various code generators
 * Bugs/wishes from http://bugs.kde.org:
 * Shift + Left and Shift+Right causes SIGSEGV (136288)
 
