@@ -419,21 +419,19 @@ bool UMLObject::resolveRef() {
             return true;
         }
     }
-    if (!pDoc->isNativeXMIFile() || !m_SecondaryId.contains(QRegExp("\\D"))) {
-        if (m_SecondaryFallback.isEmpty()) {
-            kdError() << "UMLObject::resolveRef(" << m_Name
-                      << "): cannot find type with id "
-                      << m_SecondaryId << endl;
-            return false;
-        }
-#ifdef VERBOSE_DEBUGGING
-        kdDebug() << "UMLObject::resolveRef(" << m_Name 
-                  << "): could not resolve secondary ID " << m_SecondaryId
-                  << ", using secondary fallback " << m_SecondaryFallback
-                  << endl;
-#endif
-        m_SecondaryId = m_SecondaryFallback;
+    if (m_SecondaryFallback.isEmpty()) {
+        kdError() << "UMLObject::resolveRef(" << m_Name
+                  << "): cannot find type with id "
+                  << m_SecondaryId << endl;
+        return false;
     }
+#ifdef VERBOSE_DEBUGGING
+    kdDebug() << "UMLObject::resolveRef(" << m_Name 
+              << "): could not resolve secondary ID " << m_SecondaryId
+              << ", using secondary fallback " << m_SecondaryFallback
+              << endl;
+#endif
+    m_SecondaryId = m_SecondaryFallback;
     // Assume we're dealing with the older Umbrello format where
     // the type name was saved in the "type" attribute rather
     // than the xmi.id of the model object of the attribute type.

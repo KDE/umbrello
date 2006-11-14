@@ -1615,17 +1615,6 @@ bool UMLDoc::validateXMIHeader(QDomNode& headerNode) {
     return true;
 }
 
-bool UMLDoc::determineNativity(const QString &xmiId) {
-    if (xmiId.isEmpty())
-        return false;
-    m_bNativeXMIFile = xmiId.contains( QRegExp("^\\d+$") );
-    return true;
-}
-
-bool UMLDoc::isNativeXMIFile() const {
-    return m_bNativeXMIFile;
-}
-
 bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
     /* FIXME need a way to make status bar actually reflect
        how much of the file has been loaded rather than just
@@ -1637,7 +1626,6 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
      */
     emit sigWriteToStatusBar( i18n("Loading UML elements...") );
 
-    bool bNativityIsDetermined = false;
     for (QDomNode node = element.firstChild(); !node.isNull();
             node = node.nextSibling()) {
         if (node.isComment())
@@ -1695,10 +1683,6 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
             // soft error.
             continue;
         }
-        if (! bNativityIsDetermined) {
-            QString xmiId = tempElement.attribute("xmi.id", "");
-            bNativityIsDetermined = determineNativity(xmiId);
-        }
         Uml::Object_Type ot = pObject->getBaseType();
         // Set the parent root folder.
         UMLPackage *pkg = NULL;
@@ -1718,11 +1702,22 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
         }
         pkg = pObject->getUMLPackage();
         if (ot == ot_Stereotype) {
-            UMLStereotype *s = static_cast<UMLStereotype*>(pObject);
-            if (findStereotype(s->getName()) != NULL)
-                delete s;
-            else
+            UMLStereotype *exist = findStereotype(pObject->getName());
+            if (exist) {
+                if (exist->getID() == pObject->getID()) {
+                    delete pObject;
+                } else {
+                    kdError() << "Stereotype " << pObject->getName()
+                        << "(id=" << ID2STR(pObject->getID())
+                        << ") already exists with id="
+                        << ID2STR(exist->getID()) << endl;
+                    UMLStereotype *s = static_cast<UMLStereotype*>(pObject);
+                    addStereotype(s);
+                }
+            } else {
+                UMLStereotype *s = static_cast<UMLStereotype*>(pObject);
                 addStereotype(s);
+            }
             continue;
         }
         pkg->addObject(pObject);
