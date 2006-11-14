@@ -909,12 +909,7 @@ bool UMLClassifier::load(QDomElement& element) {
                 continue;
             }
             pObject->setUMLPackage(this);
-            if (pObject->loadFromXMI(element)) {
-                // CHECK: do we really need this here?
-                // It should suffice if it's done during type resolution (resolveRef.)
-                if (tagEq(tag, "Generalization"))
-                    addAssocToConcepts((UMLAssociation *) pObject);
-            } else {
+            if (! pObject->loadFromXMI(element)) {
                 removeObject(pObject);
                 delete pObject;
                 totalSuccess = false;
