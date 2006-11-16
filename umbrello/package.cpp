@@ -140,19 +140,14 @@ void UMLPackage::removeAllObjects() {
         if (pkg)
             pkg->removeAllObjects();
         removeObject(o);
-        delete o;
+        //delete o;
+        // CHECK: Direct usage of the destructor crashes on associations.
+        o->deleteLater();
     }
 }
 
-UMLObjectList UMLPackage::containedObjects(bool includeAssociations) {
-    UMLObjectList list = m_objects;
-    if (includeAssociations) {
-        UMLObject *o;
-        for (UMLObjectListIt oit(m_List); (o = oit.current()) != NULL; ++oit) {
-            list.append(o);
-        }
-    }
-    return list;
+UMLObjectList UMLPackage::containedObjects() {
+    return m_objects;
 }
 
 UMLObject * UMLPackage::findObject(const QString &name) {

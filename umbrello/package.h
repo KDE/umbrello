@@ -88,7 +88,7 @@ public:
     /**
      * Returns the list of objects contained in this package.
      */
-    UMLObjectList containedObjects(bool includeAssociations = false);
+    UMLObjectList containedObjects();
 
     /**
      * Adds an existing association to the matching concept in the list of concepts.
