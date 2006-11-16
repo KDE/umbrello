@@ -11,11 +11,11 @@
 
 // own header
 #include "uniqueid.h"
-
-// system includes
-#include <uuid/uuid.h>
+#include <krandom.h>
 
 namespace UniqueID {
+
+
 
 /**
  * Each model object gets assigned a unique ID.
@@ -23,11 +23,7 @@ namespace UniqueID {
 Uml::IDType m_uniqueID;
 
 Uml::IDType gen() {
-    static char buf[40];
-    uuid_t uuid;
-    uuid_generate(uuid);
-    uuid_unparse_upper(uuid, buf);
-    m_uniqueID = std::string(buf);
+    m_uniqueID = std::string(KRandom::randomString(40).toLatin1());
     return m_uniqueID;
 }
 

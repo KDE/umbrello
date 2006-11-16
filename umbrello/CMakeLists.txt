@@ -302,7 +302,6 @@ kde4_add_executable(umbrello ${umbrello_SRCS})
 
 FIND_LIBRARY(LIBXSLT NAMES xslt PATHS /usr/lib /usr/local/lib)
 FIND_LIBRARY(LIBXML2 NAMES xml2 PATHS /usr/lib /usr/local/lib)
-FIND_LIBRARY(LIBUUID NAMES uuid PATHS /usr/lib /usr/local/lib)
 
 target_link_libraries(umbrello  ${KDE4_KIO_LIBS}  ${KDE4_KDEPRINT_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${LIBXML2} ${LIBXSLT} ${LIBUUID})
 
