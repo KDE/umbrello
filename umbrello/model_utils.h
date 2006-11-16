@@ -49,7 +49,7 @@ bool isCloneable(Uml::Widget_Type type);
  * @return      Pointer to the UMLObject that matches the ID
  *              (NULL if none matches.)
  */
-UMLObject * findObjectInList(Uml::IDType id, UMLObjectList inList);
+UMLObject * findObjectInList(Uml::IDType id, const UMLObjectList& inList);
 
 /**
  * Find the UML object of the given type and name in the passed-in list.

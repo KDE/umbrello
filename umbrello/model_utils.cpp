@@ -56,7 +56,7 @@ bool isCloneable(Uml::Widget_Type type) {
     }
 }
 
-UMLObject * findObjectInList(Uml::IDType id, UMLObjectList inList) {
+UMLObject * findObjectInList(Uml::IDType id, const UMLObjectList& inList) {
     for (UMLObjectListIt oit(inList); oit.current(); ++oit) {
         UMLObject *obj = oit.current();
         if (obj->getID() == id)
