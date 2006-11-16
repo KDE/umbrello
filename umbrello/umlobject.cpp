@@ -720,12 +720,12 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
         }
     }
 
-    // Operations, attributes, enum literals, templates, stereotypes, associations,
+    // Operations, attributes, enum literals, templates, stereotypes,
     // and association role objects get added and signaled elsewhere.
     if (m_BaseType != Uml::ot_Operation && m_BaseType != Uml::ot_Attribute &&
             m_BaseType != Uml::ot_EnumLiteral && m_BaseType != Uml::ot_EntityAttribute &&
             m_BaseType != Uml::ot_Template && m_BaseType != Uml::ot_Stereotype &&
-            m_BaseType != Uml::ot_Association && m_BaseType != Uml::ot_Role) {
+            m_BaseType != Uml::ot_Role) {
         if (m_bInPaste) {
             m_pUMLPackage = NULL;  // forget any old parent
             UMLListView *listView = UMLApp::app()->getListView();
@@ -742,6 +742,7 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
         } else if (m_pUMLPackage) {
             m_pUMLPackage->addObject(this);
         } else if (umldoc->rootFolderType(this) == Uml::N_MODELTYPES) {
+            // m_pUMLPackage is not set on the root folders.
             kdDebug() << "UMLObject::loadFromXMI(" << m_Name << "): m_pUMLPackage is not set"
                 << endl;
         }
