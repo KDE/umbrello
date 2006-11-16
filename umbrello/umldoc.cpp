@@ -681,8 +681,7 @@ UMLObject* UMLDoc::findObjectById(Uml::IDType id) {
     for (int i = 0; i < Uml::N_MODELTYPES; i++) {
         if (id == m_root[i]->getID())
             return m_root[i];
-        UMLObjectList list = m_root[i]->containedObjects(true); //include associations
-        o = Model_Utils::findObjectInList(id, list);
+        o = m_root[i]->findObjectById(id);
         if (o)
             return o;
     }
@@ -1702,20 +1701,19 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
         }
         pkg = pObject->getUMLPackage();
         if (ot == ot_Stereotype) {
+            UMLStereotype *s = static_cast<UMLStereotype*>(pObject);
             UMLStereotype *exist = findStereotype(pObject->getName());
             if (exist) {
                 if (exist->getID() == pObject->getID()) {
                     delete pObject;
                 } else {
-                    kdError() << "Stereotype " << pObject->getName()
+                    kdDebug() << "Stereotype " << pObject->getName()
                         << "(id=" << ID2STR(pObject->getID())
                         << ") already exists with id="
                         << ID2STR(exist->getID()) << endl;
-                    UMLStereotype *s = static_cast<UMLStereotype*>(pObject);
                     addStereotype(s);
                 }
             } else {
-                UMLStereotype *s = static_cast<UMLStereotype*>(pObject);
                 addStereotype(s);
             }
             continue;
