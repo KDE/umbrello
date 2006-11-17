@@ -113,17 +113,9 @@ QString UMLObject::getFullyQualifiedName(QString separator,
         bool skipPackage = false;
         if (!includeRoot) {
             UMLDoc *umldoc = UMLApp::app()->getDocument();
-            if (m_pUMLPackage == umldoc->getDatatypeFolder()) {
+            if (umldoc->rootFolderType(m_pUMLPackage) != Uml::N_MODELTYPES ||
+                m_pUMLPackage == umldoc->getDatatypeFolder())
                 skipPackage = true;
-            } else {
-                for (int i = 0; i < Uml::N_MODELTYPES; i++) {
-                    const Uml::Model_Type mt = (Uml::Model_Type)i;
-                    if (m_pUMLPackage == umldoc->getRootFolder(mt)) {
-                        skipPackage = true;
-                        break;
-                    }
-                }
-            }
         }
         if (!skipPackage) {
             if (separator.isEmpty())
@@ -344,6 +336,8 @@ QString UMLObject::getStereotype(bool includeAdornments /* = false */) const {
 }
 
 QString UMLObject::getPackage(QString separator, bool includeRoot) {
+    if (separator.isEmpty())
+        separator = UMLApp::app()->activeLanguageScopeSeparator();
     QString fqn = getFullyQualifiedName(separator, includeRoot);
     if (!fqn.contains(separator))
         return "";
