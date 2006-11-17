@@ -378,8 +378,11 @@ void ClassGenPage::updateObject() {
 
         if(m_pStereoTypeCB)
             m_pObject -> setStereotype(m_pStereoTypeCB->currentText());
+        /**
+         * @todo enable the package lineedit field amd add logic for changing the package
         if(m_pPackageLE)
             m_pObject -> setPackage(m_pPackageLE -> text());
+         */
         if( m_pAbstractCB )
             m_pObject -> setAbstract( m_pAbstractCB -> isChecked() );
         //make sure unique name
