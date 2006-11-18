@@ -111,7 +111,7 @@ bool PascalImport::parseStmt() {
                     // Save current m_source and m_srcIndex.
                     QStringList source(m_source);
                     uint srcIndex = m_srcIndex;
-                    m_source = QString();
+                    m_source.clear();
                     parseFile(filename);
                     // Restore m_source and m_srcIndex.
                     m_source = source;
