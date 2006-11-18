@@ -34,14 +34,6 @@ dnl int setenv(const char *name, const char *value, int overwrite);
 dnl #endif
 dnl ])
 
-KDE_CHECK_HEADER(uuid/uuid.h,
-  [kde_have_libuuid=yes],
-  [kde_have_libuuid=])
-
-if test -z "$kde_have_libuuid"; then
-  DO_NOT_COMPILE="$DO_NOT_COMPILE umbrello"
-fi
-
 HAVE_XSLT=yes
 
 KDE_FIND_PATH(xml2-config, XML_CONFIG, [${prefix}/bin ${exec_prefix}/bin], [

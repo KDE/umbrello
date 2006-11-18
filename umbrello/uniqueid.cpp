@@ -13,7 +13,7 @@
 #include "uniqueid.h"
 
 // system includes
-#include <uuid/uuid.h>
+#include <kapplication.h>
 
 namespace UniqueID {
 
@@ -24,9 +24,19 @@ Uml::IDType m_uniqueID;
 
 Uml::IDType gen() {
     static char buf[40];
-    uuid_t uuid;
-    uuid_generate(uuid);
-    uuid_unparse_upper(uuid, buf);
+    int length = 30;
+    int i = 0;
+    // Source: KDE4 kdelibs/kdecore/krandom.cpp KRandom::randomString()
+    while (length--) {
+        int r = kapp->random() % 62;
+        r += 48;
+        if (r > 57)
+            r += 7;
+        if (r > 90)
+            r += 6;
+        buf[i++] = char(r);
+    }
+    buf[i] = '\0';
     m_uniqueID = std::string(buf);
     return m_uniqueID;
 }
