@@ -23,7 +23,7 @@ namespace UniqueID {
 Uml::IDType m_uniqueID;
 
 Uml::IDType gen() {
-    m_uniqueID = std::string(KRandom::randomString(40).toLatin1());
+    m_uniqueID = std::string(KRandom::randomString(30).toLatin1());
     return m_uniqueID;
 }
 
