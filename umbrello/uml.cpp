@@ -1363,13 +1363,13 @@ void UMLApp::setDiagramMenuItemsState(bool bState) {
 void UMLApp::slotUpdateViews() {
     QPopupMenu* menu = findMenu( menuBar(), QString("views") );
     if (!menu) {
-        kdWarning() << "view menu not found" << endl;
+        kWarning() << "view menu not found" << endl;
         return;
     }
 
     menu = findMenu( menu, QString("show_view") );
     if (!menu) {
-        kdWarning() << "show menu not found" << endl;
+        kWarning() << "show menu not found" << endl;
         return;
     }
 
@@ -1451,7 +1451,7 @@ void UMLApp::slotDeleteSelectedWidget() {
     if ( getCurrentView() ) {
         getCurrentView()->deleteSelection();
     } else {
-        kdWarning() << " trying to delete widgets when there is no current view (see bug 59774)" << endl;
+        kWarning() << " trying to delete widgets when there is no current view (see bug 59774)" << endl;
     }
 }
 
@@ -1642,7 +1642,7 @@ void UMLApp::slotChangeTabLeft() {
     UMLViewList views = m_doc->getViewIterator();
     UMLView *currView = m_view;
     if (views.find(currView) < 0) {
-        kdError() << "UMLApp::slotChangeTabLeft(): currView not found in viewlist" << endl;
+        kError() << "UMLApp::slotChangeTabLeft(): currView not found in viewlist" << endl;
         return;
     }
     if ((currView = views.prev()) != NULL)
@@ -1659,7 +1659,7 @@ void UMLApp::slotChangeTabRight() {
     UMLViewList views = m_doc->getViewIterator();
     UMLView *currView = m_view;
     if (views.find(currView) < 0) {
-        kdError() << "UMLApp::slotChangeTabRight(): currView not found in viewlist" << endl;
+        kError() << "UMLApp::slotChangeTabRight(): currView not found in viewlist" << endl;
         return;
     }
     if ((currView = views.next()) != NULL)

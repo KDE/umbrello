@@ -86,7 +86,7 @@ QString UMLAttribute::toString(Uml::Signature_Type sig) {
         }
         UMLClassifier *ownParent = dynamic_cast<UMLClassifier*>(owningObject);
         if (ownParent == NULL) {
-            kdError() << "UMLAttribute::toString: parent "
+            kError() << "UMLAttribute::toString: parent "
             << owningObject->getName()
             << " is not a UMLClassifier" << endl;
             return "";
@@ -126,7 +126,7 @@ QString UMLAttribute::getFullyQualifiedName(QString separator,
     }
     UMLClassifier *ownParent = dynamic_cast<UMLClassifier*>(owningObject);
     if (ownParent == NULL) {
-        kdError() << "UMLAttribute::getFullyQualifiedName(" << m_Name
+        kError() << "UMLAttribute::getFullyQualifiedName(" << m_Name
         << "): parent " << owningObject->getName()
         << " is not a UMLClassifier" << endl;
         return "";
@@ -180,7 +180,7 @@ UMLObject* UMLAttribute::clone() const
 void UMLAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement attributeElement = UMLObject::save("UML:Attribute", qDoc);
     if (m_pSecondary == NULL) {
-        kdDebug() << "UMLAttribute::saveToXMI(" << m_Name
+        kDebug() << "UMLAttribute::saveToXMI(" << m_Name
         << "): m_pSecondary is NULL, m_SecondaryId is '"
         << m_SecondaryId << "'" << endl;
     } else {
@@ -226,7 +226,7 @@ bool UMLAttribute::load( QDomElement & element ) {
             break;
         }
         if (m_SecondaryId.isEmpty()) {
-            kdDebug() << "UMLAttribute::load(" << m_Name << "): "
+            kDebug() << "UMLAttribute::load(" << m_Name << "): "
             << "cannot find type." << endl;
         }
     }

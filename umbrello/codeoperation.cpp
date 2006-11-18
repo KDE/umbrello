@@ -136,7 +136,7 @@ void CodeOperation::setAttributesFromNode ( QDomElement & element)
     if(op)
         init(op);
     else
-        kdError()<<"ERROR: could'nt load code operation because of missing UMLoperation, corrupt savefile?"<<endl;
+        kError()<<"ERROR: could'nt load code operation because of missing UMLoperation, corrupt savefile?"<<endl;
 
 }
 

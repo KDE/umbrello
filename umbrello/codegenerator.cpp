@@ -206,10 +206,10 @@ void CodeGenerator::loadFromXMI (QDomElement & qElement ) {
             if(codeDoc)
                 codeDoc->loadFromXMI(codeDocElement);
             else {
-                kdWarning()<<" loadFromXMI: missing code document w/ id:"<<id<<", plowing ahead with pre-generated one."<<endl;
+                kWarning()<<" loadFromXMI: missing code document w/ id:"<<id<<", plowing ahead with pre-generated one."<<endl;
             }
         } else
-            kdWarning()<<" loadFromXMI : got strange codegenerator child node:"<<docTag<<", ignoring."<<endl;
+            kWarning()<<" loadFromXMI : got strange codegenerator child node:"<<docTag<<", ignoring."<<endl;
 
         codeDocNode = codeDocElement.nextSibling();
         codeDocElement = codeDocNode.toElement();
@@ -354,7 +354,7 @@ void CodeGenerator::writeListedCodeDocsToFile ( CodeDocumentList * docs ) {
                 file.close();
                 codeGenSuccess = true; // we wrote the code OK
             } else {
-                kdWarning() << "Cannot open file :"<<filename<<" for writing " << endl;
+                kWarning() << "Cannot open file :"<<filename<<" for writing " << endl;
             }
         }
 
@@ -466,7 +466,7 @@ QString CodeGenerator::overwritableName( QString name, const QString &extension 
 bool CodeGenerator::openFile (QFile & file, const QString &fileName ) {
     //open files for writing.
     if(fileName.isEmpty()) {
-        kdWarning() << "cannot find a file name" << endl;
+        kWarning() << "cannot find a file name" << endl;
         return false;
     } else {
         QDir outputDirectory = UMLApp::app()->getCommonPolicy()->getOutputDirectory();

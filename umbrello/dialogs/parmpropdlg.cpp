@@ -125,7 +125,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
     //add template parameters
     UMLClassifier *pConcept = dynamic_cast<UMLClassifier*>( m_pAtt->parent()->parent() );
     if (pConcept == NULL) {
-        kdError() << "ParmPropDlg: grandparent of " << m_pAtt->getName()
+        kError() << "ParmPropDlg: grandparent of " << m_pAtt->getName()
         << " is not a UMLClassifier" << endl;
     } else {
         UMLTemplateList tmplParams( pConcept->getTemplateList() );
@@ -190,7 +190,7 @@ void ParmPropDlg::slotOk() {
         QString typeName = m_pTypeCB->currentText();
         UMLClassifier * pConcept = dynamic_cast<UMLClassifier*>( m_pAtt->parent()->parent() );
         if (pConcept == NULL) {
-            kdError() << "ParmPropDlg::slotOk: grandparent of " << m_pAtt->getName()
+            kError() << "ParmPropDlg::slotOk: grandparent of " << m_pAtt->getName()
             << " is not a UMLClassifier" << endl;
         } else {
             UMLTemplate *tmplParam = pConcept->findTemplate(typeName);
@@ -212,7 +212,7 @@ void ParmPropDlg::slotOk() {
             // Nothing found: Create a new type on the fly.
             // @todo There should be an extra dialog to decide whether to
             // create a datatype or a class. For now, we create a class.
-            kdDebug() << "ParmPropDlg::slotOk: " << typeName << " not found."
+            kDebug() << "ParmPropDlg::slotOk: " << typeName << " not found."
                 << " Creating a new class for the type." << endl;
             UMLObject *o = Object_Factory::createUMLObject(Uml::ot_Class, typeName);
             m_pAtt->setType(o);

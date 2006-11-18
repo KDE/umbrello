@@ -207,7 +207,7 @@ void ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* a) {
         // if view went ok, then append in document
         UMLApp::app()->getDocument()->addAssociation(a->getAssociation());
     } else {
-        kdError() << "cannot addAssocInViewAndDoc(), deleting" << endl;
+        kError() << "cannot addAssocInViewAndDoc(), deleting" << endl;
         delete a;
     }
 }

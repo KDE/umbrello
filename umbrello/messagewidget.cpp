@@ -88,7 +88,7 @@ void MessageWidget::draw(QPainter& p, int offsetX, int offsetY) {
     } else if (m_sequenceMessageType == Uml::sequence_message_creation) {
         drawCreation(p, offsetX, offsetY);
     } else {
-        kdWarning() << "Unknown message type" << endl;
+        kWarning() << "Unknown message type" << endl;
     }
 }
 
@@ -274,7 +274,7 @@ int MessageWidget::onWidget(const QPoint & p) {
 
 void MessageWidget::setTextPosition() {
     if (m_pFText == NULL) {
-        kdDebug() << "MessageWidget::setTextPosition: m_pFText is NULL"
+        kDebug() << "MessageWidget::setTextPosition: m_pFText is NULL"
         << endl;
         return;
     }
@@ -330,7 +330,7 @@ void MessageWidget::setLinkAndTextPos() {
 }
 
 void MessageWidget::moveEvent(QMoveEvent* /*m*/) {
-    //kdDebug() << "MessageWidget::moveEvent: m_pFText is " << m_pFText << endl;
+    //kDebug() << "MessageWidget::moveEvent: m_pFText is " << m_pFText << endl;
     if (!m_pFText) {
         return;
     }
@@ -361,7 +361,7 @@ void MessageWidget::slotWidgetMoved(Uml::IDType id) {
     const Uml::IDType idA = m_pOw[Uml::A]->getLocalID();
     const Uml::IDType idB = m_pOw[Uml::B]->getLocalID();
     if (idA != id && idB != id) {
-        kdDebug() << "MessageWidget::slotWidgetMoved(" << ID2STR(id)
+        kDebug() << "MessageWidget::slotWidgetMoved(" << ID2STR(id)
             << "): ignoring for idA=" << ID2STR(idA)
             << ", idB=" << ID2STR(idB) << endl;
         return;
@@ -408,7 +408,7 @@ void MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
     m_pView->resetPastePoint();
     UMLWidget::activate(Log);
     if (m_pOw[Uml::A] == NULL || m_pOw[Uml::B] == NULL) {
-        kdDebug() << "MessageWidget::activate: can't make message" << endl;
+        kDebug() << "MessageWidget::activate: can't make message" << endl;
         return;
     }
     if( !m_pFText ) {
@@ -516,7 +516,7 @@ void MessageWidget::calculateDimensions() {
     } else if (m_sequenceMessageType == Uml::sequence_message_creation) {
         calculateDimensionsCreation();
     } else {
-        kdWarning() << "Unknown message type" << endl;
+        kWarning() << "Unknown message type" << endl;
     }
     if (! UMLApp::app()->getDocument()->loading()) {
         adjustAssocs( getX(), getY() );  // adjust assoc lines
@@ -723,25 +723,25 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
 
     UMLWidget *pWA = m_pView -> findWidget( aId );
     if (pWA == NULL) {
-        kdDebug() << "MessageWidget::loadFromXMI: role A object "
+        kDebug() << "MessageWidget::loadFromXMI: role A object "
         << ID2STR(aId) << " not found" << endl;
         return false;
     }
     UMLWidget *pWB = m_pView -> findWidget( bId );
     if (pWB == NULL) {
-        kdDebug() << "MessageWidget::loadFromXMI: role B object "
+        kDebug() << "MessageWidget::loadFromXMI: role B object "
         << ID2STR(bId) << " not found" << endl;
         return false;
     }
     m_pOw[Uml::A] = dynamic_cast<ObjectWidget*>(pWA);
     if (m_pOw[Uml::A] == NULL) {
-        kdDebug() << "MessageWidget::loadFromXMI: role A widget "
+        kDebug() << "MessageWidget::loadFromXMI: role A widget "
         << ID2STR(aId) << " is not an ObjectWidget" << endl;
         return false;
     }
     m_pOw[Uml::B] = dynamic_cast<ObjectWidget*>(pWB);
     if (m_pOw[Uml::B] == NULL) {
-        kdDebug() << "MessageWidget::loadFromXMI: role B widget "
+        kDebug() << "MessageWidget::loadFromXMI: role B widget "
         << ID2STR(bId) << " is not an ObjectWidget" << endl;
         return false;
     }
@@ -791,7 +791,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
                 m_pFText = NULL;
             }
         } else {
-            kdError() << "MessageWidget::loadFromXMI: unknown tag "
+            kError() << "MessageWidget::loadFromXMI: unknown tag "
             << tag << endl;
         }
     }

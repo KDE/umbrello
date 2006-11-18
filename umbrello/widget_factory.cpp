@@ -129,7 +129,7 @@ UMLWidget *createWidget(UMLView *view, UMLObject *o) {
         }
         break;
     default:
-        kdWarning() << "trying to create an invalid widget" << endl;
+        kWarning() << "trying to create an invalid widget" << endl;
     }
 
     if (newWidget) {
@@ -143,7 +143,7 @@ bool validateObjType(Uml::Object_Type expected, UMLObject *o) {
     Uml::Object_Type actual = o->getBaseType();
     if (actual == expected)
         return true;
-    kdError() << "validateObjType(" << o->getName()
+    kError() << "validateObjType(" << o->getName()
         << "): expected type " << expected << ", actual type "
         << actual << endl;
     return false;
@@ -183,7 +183,7 @@ UMLWidget* makeWidgetFromXMI(QString tag, QString idStr, UMLView *view) {
         UMLDoc *umldoc = UMLApp::app()->getDocument();
         UMLObject *o = umldoc->findObjectById(id);
         if (o == NULL) {
-            kdError() << "makeWidgetFromXMI: cannot find object with id "
+            kError() << "makeWidgetFromXMI: cannot find object with id "
                       << ID2STR(id) << endl;
             return NULL;
         }
@@ -229,7 +229,7 @@ UMLWidget* makeWidgetFromXMI(QString tag, QString idStr, UMLView *view) {
                    || tag == "UML:ObjectWidget") {  // for bkwd compatibility
             widget = new ObjectWidget(view, o );
         } else {
-            kdWarning() << "Trying to create an unknown widget:" << tag << endl;
+            kWarning() << "Trying to create an unknown widget:" << tag << endl;
         }
     }
     return widget;

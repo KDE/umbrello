@@ -94,7 +94,7 @@ UMLObject* RefactoringAssistant::findUMLObject( const QListViewItem *item )
     QListViewItem *i = const_cast<QListViewItem*>(item);
     if( m_umlObjectMap.find(i) == m_umlObjectMap.end() )
     {
-        kdWarning()<<"RefactoringAssistant::findUMLObject( QListViewItem *item )"
+        kWarning()<<"RefactoringAssistant::findUMLObject( QListViewItem *item )"
         <<"item with text "<<item->text(0)<<"not found in uml map!"<<endl;
         return 0L;
     }
@@ -108,7 +108,7 @@ QListViewItem* RefactoringAssistant::findListViewItem( const UMLObject *obj )
     for( UMLObjectMap::iterator it(m_umlObjectMap.begin()) ; it != end ; ++it )
         if( (*it).second == obj )
             return (*it).first;
-    kdWarning() << "RefactoringAssistant::findListViewItem:"
+    kWarning() << "RefactoringAssistant::findListViewItem:"
     << "object id " << ID2STR(obj->getID())
     << "does not have a ListItem" << endl;
     return 0L;
@@ -162,7 +162,7 @@ void RefactoringAssistant::operationAdded( UMLClassifierListItem *o )
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(op->parent());
     if(!c)
     {
-        kdWarning() << "RefactoringAssistant::operationAdded(" << op->getName()
+        kWarning() << "RefactoringAssistant::operationAdded(" << op->getName()
             << ") - Parent of operation is not a classifier!" << endl;
         return;
     }
@@ -204,7 +204,7 @@ void RefactoringAssistant::attributeAdded( UMLClassifierListItem *a )
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(att->parent());
     if(!c)
     {
-        kdWarning() << "RefactoringAssistant::attributeAdded(" << att->getName()
+        kWarning() << "RefactoringAssistant::attributeAdded(" << att->getName()
             << ") - Parent is not a class!" << endl;
         return;
     }
@@ -267,7 +267,7 @@ void RefactoringAssistant::editProperties( UMLObject *obj )
     }
     else
     {
-        kdWarning()<<"RefactoringAssistant::editProperties( UMLObject *o ) caled for unknown type "<<typeid(*obj).name()<<endl;
+        kWarning()<<"RefactoringAssistant::editProperties( UMLObject *o ) caled for unknown type "<<typeid(*obj).name()<<endl;
         return;
     }
     if( dia && dia->exec() )
@@ -300,7 +300,7 @@ void RefactoringAssistant::showContextMenu(KListView* ,QListViewItem *item, cons
         }
         //              else
         //              {
-        //              kdDebug()<<"No context menu for objects of type "<<typeid(*obj).name()<<endl;
+        //              kDebug()<<"No context menu for objects of type "<<typeid(*obj).name()<<endl;
         //              return;
         //              }
         m_menu->insertSeparator();
@@ -318,7 +318,7 @@ void RefactoringAssistant::showContextMenu(KListView* ,QListViewItem *item, cons
         }
         else
         {
-            kdWarning()<<"RefactoringAssistant::showContextMenu() "
+            kWarning()<<"RefactoringAssistant::showContextMenu() "
             <<"called for extraneous item"<<endl;
             return;
         }
@@ -331,14 +331,14 @@ void RefactoringAssistant::addBaseClassifier()
     QListViewItem *item = selectedItem();
     if(!item)
     {
-        kdWarning()<<"RefactoringAssistant::addBaseClassifier() "
+        kWarning()<<"RefactoringAssistant::addBaseClassifier() "
         <<"called with no item selected"<<endl;
         return;
     }
     UMLObject *obj = findUMLObject( item );
     if( !dynamic_cast<UMLClassifier*>(obj) )
     {
-        kdWarning()<<"RefactoringAssistant::addBaseClassifier() "
+        kWarning()<<"RefactoringAssistant::addBaseClassifier() "
         <<"called for a non-classifier object"<<endl;
         return;
     }
@@ -356,7 +356,7 @@ void RefactoringAssistant::addBaseClassifier()
         baseFolder = baseFolder->nextSibling();
     if(!baseFolder)
     {
-        kdWarning()<<"Cannot find Base Folder"<<endl;
+        kWarning()<<"Cannot find Base Folder"<<endl;
         return;
     }
     item = new KListViewItem( baseFolder, super->getName() );
@@ -372,14 +372,14 @@ void RefactoringAssistant::addDerivedClassifier()
     QListViewItem *item = selectedItem();
     if(!item)
     {
-        kdWarning()<<"RefactoringAssistant::addDerivedClassifier() "
+        kWarning()<<"RefactoringAssistant::addDerivedClassifier() "
         <<"called with no item selected"<<endl;
         return;
     }
     UMLObject *obj = findUMLObject( item );
     if( !dynamic_cast<UMLClassifier*>(obj) )
     {
-        kdWarning()<<"RefactoringAssistant::addDerivedClassifier() "
+        kWarning()<<"RefactoringAssistant::addDerivedClassifier() "
         <<"called for a non-classifier object"<<endl;
         return;
     }
@@ -398,7 +398,7 @@ void RefactoringAssistant::addDerivedClassifier()
         derivedFolder = derivedFolder->nextSibling();
     if(!derivedFolder)
     {
-        kdWarning()<<"Cannot find Derived Folder"<<endl;
+        kWarning()<<"Cannot find Derived Folder"<<endl;
         return;
     }
     item = new KListViewItem( derivedFolder, derived->getName() );
@@ -411,7 +411,7 @@ void RefactoringAssistant::addDerivedClassifier()
 
 void RefactoringAssistant::addInterfaceImplementation()
 {
-    kdWarning()<<"RefactoringAssistant::addInterfaceImplementation()"
+    kWarning()<<"RefactoringAssistant::addInterfaceImplementation()"
     <<"not implemented... finish addSuperClassifier() first!!"<<endl;
     return;
     //  QListViewItem *item = selectedListViewItem( );
@@ -430,7 +430,7 @@ void RefactoringAssistant::createOperation()
     QListViewItem *item = selectedItem();
     if(!item)
     {
-        kdWarning()<<"RefactoringAssistant::createOperation() "
+        kWarning()<<"RefactoringAssistant::createOperation() "
         <<"called with no item selected"<<endl;
         return;
     }
@@ -445,7 +445,7 @@ void RefactoringAssistant::createAttribute()
     QListViewItem *item = selectedItem();
     if(!item)
     {
-        kdWarning()<<"RefactoringAssistant::createAttribute() "
+        kWarning()<<"RefactoringAssistant::createAttribute() "
         <<"called with no item selected"<<endl;
         return;
     }
@@ -566,24 +566,24 @@ bool RefactoringAssistant::acceptDrag(QDropEvent *event) const
             break;
     }
     if(!movingItem || !parentItem)
-    {   kdDebug()<<"moving/parent items not found - can't accept drag!"<<endl;
+    {   kDebug()<<"moving/parent items not found - can't accept drag!"<<endl;
         return false;
     }
 
     UMLObject *movingObject;
     if( !(movingObject = me->findUMLObject(movingItem)) )
     {
-        kdDebug()<<"Moving object not found in uml map!"<<movingItem->text(0)<<endl;
+        kDebug()<<"Moving object not found in uml map!"<<movingItem->text(0)<<endl;
         return false;
     }
     Uml::Object_Type t = movingObject->getBaseType();
     if (t != Uml::ot_Attribute && t != Uml::ot_Operation)
     {
-        kdDebug()<<"only operations and attributes are movable! - return false"<<endl;
+        kDebug()<<"only operations and attributes are movable! - return false"<<endl;
         return false;
     }
 
-    kdDebug()<<"parent item is "<<parentItem->text(0)<<endl;
+    kDebug()<<"parent item is "<<parentItem->text(0)<<endl;
     UMLObject *parentObject = me->findUMLObject(parentItem);
     if( parentObject && dynamic_cast<UMLClassifier*>(parentObject) )
     {
@@ -598,7 +598,7 @@ bool RefactoringAssistant::acceptDrag(QDropEvent *event) const
         }
         else
         {
-            kdDebug()<<"moving to item "<<parentItem->text(0)<<" -- "<<parentItem->text(1)<<" not valid"<<endl;
+            kDebug()<<"moving to item "<<parentItem->text(0)<<" -- "<<parentItem->text(1)<<" not valid"<<endl;
             return false;
         }
     }
@@ -608,7 +608,7 @@ bool RefactoringAssistant::acceptDrag(QDropEvent *event) const
         return true;
     }
 
-    kdDebug()<<"how did I get here? return false!!"<<endl;
+    kDebug()<<"how did I get here? return false!!"<<endl;
     return false;
 }
 
@@ -627,7 +627,7 @@ void RefactoringAssistant::movableDropEvent (QListViewItem* parentItem, QListVie
     }
     if( !movingItem || (movingItem == afterme) || !(movingObject = findUMLObject(movingItem)) )
     {
-        kdWarning()<<"Moving item not found or dropping after itself or item not found in uml obj map. aborting. (drop had already been accepted)"<<endl;
+        kWarning()<<"Moving item not found or dropping after itself or item not found in uml obj map. aborting. (drop had already been accepted)"<<endl;
         return;
     }
     Uml::Object_Type t = movingObject->getBaseType();
@@ -641,12 +641,12 @@ void RefactoringAssistant::movableDropEvent (QListViewItem* parentItem, QListVie
         }
         if(!newClassifier)
         {
-            kdWarning()<<"New parent of object is not a Classifier - Drop had already been accepted - check!"<<endl;
+            kWarning()<<"New parent of object is not a Classifier - Drop had already been accepted - check!"<<endl;
             return;
         }
     }
     if (t == Uml::ot_Operation)
-    {kdDebug()<<"moving operation"<<endl;
+    {kDebug()<<"moving operation"<<endl;
         UMLOperation *op = static_cast<UMLOperation*>(movingObject);
         if(newClassifier->checkOperationSignature(op->getName(), op->getParmList()))
         {
@@ -662,7 +662,7 @@ void RefactoringAssistant::movableDropEvent (QListViewItem* parentItem, QListVie
         newClassifier->addOperation( op );
     }
     else if (t == Uml::ot_Attribute)
-    {kdDebug()<<"moving attribute - not implemented"<<endl;
+    {kDebug()<<"moving attribute - not implemented"<<endl;
         //              UMLAttribute *att = static_cast<UMLAttribute*>(movingObject);
         //              if(!newClassifier->checkAttributeSignature(att))
         //              {

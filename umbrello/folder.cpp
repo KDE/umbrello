@@ -220,7 +220,7 @@ void UMLFolder::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     QString fileName = umldoc->URL().directory() + "/" + m_folderFile;
     QFile file(fileName);
     if (!file.open(IO_WriteOnly)) {
-        kdError() << "UMLFolder::saveToXMI(" << m_folderFile << "): "
+        kError() << "UMLFolder::saveToXMI(" << m_folderFile << "): "
             << "cannot create file, contents will be saved in main model file"
             << endl;
         m_folderFile = QString::null;
@@ -266,7 +266,7 @@ bool UMLFolder::loadDiagramsFromXMI(QDomNode& diagrams) {
          diagrams = diagrams.nextSibling(), diagram = diagrams.toElement()) {
         QString tag = diagram.tagName();
         if (tag != "diagram") {
-            kdDebug() << "UMLFolder::loadDiagramsFromXMI: ignoring "
+            kDebug() << "UMLFolder::loadDiagramsFromXMI: ignoring "
                 << tag << " in <diagrams>" << endl;
             continue;
         }
@@ -300,7 +300,7 @@ bool UMLFolder::loadFolderFile(QString path) {
     QString error;
     int line;
     if (!doc.setContent( data, false, &error, &line)) {
-        kdError() << "UMLFolder::loadFolderFile: Can't set content:"
+        kError() << "UMLFolder::loadFolderFile: Can't set content:"
             << error << " line:" << line << endl;
         return false;
     }
@@ -309,13 +309,13 @@ bool UMLFolder::loadFolderFile(QString path) {
         rootNode = rootNode.nextSibling();
     }
     if (rootNode.isNull()) {
-        kdError() << "UMLFolder::loadFolderFile: Root node is Null" << endl;
+        kError() << "UMLFolder::loadFolderFile: Root node is Null" << endl;
         return false;
     }
     QDomElement element = rootNode.toElement();
     QString type = element.tagName();
     if (type != "external_file") {
-        kdError() << "UMLFolder::loadFolderFile: Root node has unknown type "
+        kError() << "UMLFolder::loadFolderFile: Root node has unknown type "
             << type << endl;
         return false;
     }
@@ -339,7 +339,7 @@ bool UMLFolder::load(QDomElement& element) {
             // are ownedElements anyway.
             // Therefore these tags are not further interpreted.
             if (! load(tempElement)) {
-                kdDebug() << "An error happened while loading the " << type
+                kDebug() << "An error happened while loading the " << type
                     << " of the " << m_Name << endl;
                 totalSuccess = false;
             }
@@ -360,7 +360,7 @@ bool UMLFolder::load(QDomElement& element) {
                     if (loadFolderFile(path))
                         m_folderFile = fileName;
                 } else {
-                    kdDebug() << "UMLFolder::load(" << m_Name
+                    kDebug() << "UMLFolder::load(" << m_Name
                         << "): ignoring XMI.extension " << xtag << endl;
                     continue;
                 }
@@ -382,7 +382,7 @@ bool UMLFolder::load(QDomElement& element) {
         QString stereoID = tempElement.attribute("stereotype", "");
         UMLObject *pObject = Object_Factory::makeObjectFromXMI(type, stereoID);
         if (!pObject) {
-            kdWarning() << "UMLFolder::load: "
+            kWarning() << "UMLFolder::load: "
                 << "Unknown type of umlobject to create: " << type << endl;
             continue;
         }

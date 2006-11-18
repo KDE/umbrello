@@ -62,7 +62,7 @@ bool assignUniqueIdOnCreation() {
 UMLObject* createNewUMLObject(Uml::Object_Type type, const QString &name,
                               UMLPackage *parentPkg) {
     if (parentPkg == NULL) {
-        kdError() << "Object_Factory::createNewUMLObject(" << name
+        kError() << "Object_Factory::createNewUMLObject(" << name
             << "): parentPkg is NULL" << endl;
         return NULL;
     }
@@ -108,7 +108,7 @@ UMLObject* createNewUMLObject(Uml::Object_Type type, const QString &name,
             o = new UMLFolder(name, g_predefinedId);
             break;
         default:
-            kdWarning() << "createNewUMLObject error unknown type: " << type << endl;
+            kWarning() << "createNewUMLObject error unknown type: " << type << endl;
             return NULL;
     }
     o->setUMLPackage(parentPkg);
@@ -143,7 +143,7 @@ UMLObject* createUMLObject(Uml::Object_Type type, const QString &n,
             default:
                 break;
         }
-        kdDebug() << "Object_Factory::createUMLObject(" << n << "): "
+        kDebug() << "Object_Factory::createUMLObject(" << n << "): "
             << "parentPkg is not set, assuming Model_Type " << mt << endl;
         parentPkg = doc->getRootFolder(mt);
     }
@@ -227,7 +227,7 @@ UMLClassifierListItem* createChildObject(UMLClassifier* parent, Uml::Object_Type
             break;
         }
     default:
-        kdDebug() << "ERROR UMLDoc::createChildObject type:" << type << endl;
+        kDebug() << "ERROR UMLDoc::createChildObject type:" << type << endl;
     }
     return static_cast<UMLClassifierListItem*>(returnObject);
 }

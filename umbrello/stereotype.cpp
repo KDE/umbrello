@@ -26,7 +26,7 @@ UMLStereotype::UMLStereotype(const QString &name, Uml::IDType id /* = Uml::id_No
     m_BaseType = Uml::ot_Stereotype;
     UMLStereotype * existing = UMLApp::app()->getDocument()->findStereotype(name);
     if (existing) {
-        kdError() << "UMLStereotype constructor: " << name << " already exists"
+        kError() << "UMLStereotype constructor: " << name << " already exists"
                   << kdBacktrace(25) << endl;
     }
     m_refCount = 0;

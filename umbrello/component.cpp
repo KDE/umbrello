@@ -74,7 +74,7 @@ bool UMLComponent::load(QDomElement& element) {
         }
         UMLObject *pObject = Object_Factory::makeObjectFromXMI(type);
         if( !pObject ) {
-            kdWarning() << "UMLComponent::load: "
+            kWarning() << "UMLComponent::load: "
                         << "Unknown type of umlobject to create: "
                         << type << endl;
             continue;

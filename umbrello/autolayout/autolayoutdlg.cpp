@@ -168,14 +168,14 @@ void AutolayoutDlg::slotSelectAlgorithm( const QString& _algname)
 Autolayout::Autolayouter * AutolayoutDlg::getAutolayouter( )
 {
     const QString text = algorithmCOB->currentText();
-    kdDebug() << "Autolayout Algorithm " << algname << " found " << text << endl;
+    kDebug() << "Autolayout Algorithm " << algname << " found " << text << endl;
     if (text == "dot")
         return new Autolayout::DotAutolayouter();
     if (text == "circo")
         return new Autolayout::CircoAutolayouter();
     if (text ==  "neato")
         return new Autolayout::NeatoAutolayouter();
-    kdError() << "Autolayout Algorithm not found" << endl;
+    kError() << "Autolayout Algorithm not found" << endl;
     return new Autolayout::DotAutolayouter();
 }
 

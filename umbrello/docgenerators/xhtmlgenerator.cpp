@@ -57,13 +57,13 @@ bool XhtmlGenerator::generateXhtmlForProject()
   QString fileName = url.fileName();
   fileName.replace(QRegExp(".xmi$"),"");
   url.setFileName(fileName);
-  kdDebug() << "Exporting to directory: " << url << endl;
+  kDebug() << "Exporting to directory: " << url << endl;
   return generateXhtmlForProjectInto(url);
 }
 
 bool XhtmlGenerator::generateXhtmlForProjectInto(const KURL& destDir)
 {
-  kdDebug() << "First convert to docbook" << endl;
+  kDebug() << "First convert to docbook" << endl;
   m_destDir = destDir;
 //   KURL url(QString("file://")+m_tmpDir.name());
   KIO::Job* docbookJob = DocbookGenerator().generateDocbookForProjectInto(destDir);
@@ -71,14 +71,14 @@ bool XhtmlGenerator::generateXhtmlForProjectInto(const KURL& destDir)
   {
     return false;
   }
-  kdDebug() << "Connecting..." << endl;
+  kDebug() << "Connecting..." << endl;
   connect(docbookJob, SIGNAL(result( KIO::Job * )), this, SLOT(slotDocbookToXhtml( KIO::Job *)));
   return true; 
 }
 
 void XhtmlGenerator::slotDocbookToXhtml(KIO::Job * docbookJob)
 {
-  kdDebug() << "Now convert docbook to html..." << endl;
+  kDebug() << "Now convert docbook to html..." << endl;
   if ( docbookJob->error() )
   {
     docbookJob->showErrorDialog( 0L  );
@@ -103,15 +103,15 @@ void XhtmlGenerator::slotDocbookToXhtml(KIO::Job * docbookJob)
   params[nbparams] = NULL;
   
   QString xsltFileName(KGlobal::dirs()->findResource("appdata","docbook2xhtml.xsl"));
-  kdDebug() << "XSLT file is'"<<xsltFileName<<"'" << endl;
+  kDebug() << "XSLT file is'"<<xsltFileName<<"'" << endl;
   QFile xsltFile(xsltFileName);
   xsltFile.open(IO_ReadOnly);
   QString xslt = xsltFile.readAll();
-  kdDebug() << "XSLT is'"<<xslt<<"'" << endl;
+  kDebug() << "XSLT is'"<<xslt<<"'" << endl;
   xsltFile.close();
   
   QString localXsl = KGlobal::dirs()->findResource("data","ksgmltools2/docbook/xsl/html/docbook.xsl");
-  kdDebug() << "Local xsl is'"<<localXsl<<"'" << endl;
+  kDebug() << "Local xsl is'"<<localXsl<<"'" << endl;
   if (!localXsl.isEmpty())
   {
     localXsl = QString("href=\"file://") + localXsl + "\"";
@@ -124,17 +124,17 @@ void XhtmlGenerator::slotDocbookToXhtml(KIO::Job * docbookJob)
   
   xmlSubstituteEntitiesDefault(1);
   xmlLoadExtDtdDefaultValue = 1;
-  kdDebug() << "Parsing stylesheet " << tmpXsl.name() << endl;
+  kDebug() << "Parsing stylesheet " << tmpXsl.name() << endl;
   cur = xsltParseStylesheetFile((const xmlChar *)tmpXsl.name().latin1());
-  kdDebug() << "Parsing file " << docbookUrl.path() << endl;
+  kDebug() << "Parsing file " << docbookUrl.path() << endl;
   doc = xmlParseFile((const char*)(docbookUrl.path().utf8()));
-  kdDebug() << "Applying stylesheet " << endl;
+  kDebug() << "Applying stylesheet " << endl;
   res = xsltApplyStylesheet(cur, doc, params);
   
   KTempFile tmpXhtml;
   tmpXhtml.setAutoDelete(false);
   
-  kdDebug() << "Writing HTML result to temp file: " << tmpXhtml.file()->name() << endl;
+  kDebug() << "Writing HTML result to temp file: " << tmpXhtml.file()->name() << endl;
   xsltSaveResultToFile(tmpXhtml.fstream(), res, cur);
   
   xsltFreeStylesheet(cur);
@@ -149,13 +149,13 @@ void XhtmlGenerator::slotDocbookToXhtml(KIO::Job * docbookJob)
   KURL xhtmlUrl = m_destDir;
   xhtmlUrl.addPath(xhtmlName);
   
-  kdDebug() << "Copying HTML result to: " << xhtmlUrl << endl;
+  kDebug() << "Copying HTML result to: " << xhtmlUrl << endl;
   KIO::Job* job = KIO::file_copy(tmpXhtml.file()->name(),xhtmlUrl,-1,true,false,false);
   job->setAutoErrorHandlingEnabled(true);
   connect (job, SIGNAL(result( KIO::Job* )), this, SLOT(slotHtmlCopyFinished( KIO::Job* )));
 
   QString cssFileName(KGlobal::dirs()->findResource("appdata","xmi.css"));
-  kdDebug() << "CSS file is'"<<cssFileName<<"'" << endl;
+  kDebug() << "CSS file is'"<<cssFileName<<"'" << endl;
   KURL cssUrl = m_destDir;
   cssUrl.addPath("xmi.css");
   KIO::Job* cssJob = KIO::file_copy(cssFileName,cssUrl,-1,true,false,false);
@@ -164,7 +164,7 @@ void XhtmlGenerator::slotDocbookToXhtml(KIO::Job * docbookJob)
     
 void XhtmlGenerator::slotHtmlCopyFinished( KIO::Job* )
 {
-  kdDebug() << "HTML copy finished: emiting finished" << endl;
+  kDebug() << "HTML copy finished: emiting finished" << endl;
   emit(finished());
 }
 

@@ -213,7 +213,7 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
         break;
     default:
         // do nothing..no idea what this is
-        kdWarning()<<"Warning: can't generate RubyCodeAccessorMethod for type: "<<getType()<<endl;
+        kWarning()<<"Warning: can't generate RubyCodeAccessorMethod for type: "<<getType()<<endl;
         break;
     }
 

@@ -67,7 +67,7 @@ void UMLPackage::addAssocToConcepts(UMLAssociation* a) {
             continue;
         if (AId == c->getID() || (BId == c->getID())) {
             if (c->hasAssociation(a))
-                kdDebug() << "UMLPackage::addAssocToConcepts: " << c->getName()
+                kDebug() << "UMLPackage::addAssocToConcepts: " << c->getName()
                     << " already has association id=" << ID2STR(a->getID())
                     << endl;
             else
@@ -96,12 +96,12 @@ void UMLPackage::removeAssocFromConcepts(UMLAssociation *assoc)
 
 bool UMLPackage::addObject(UMLObject *pObject) {
     if (pObject == NULL) {
-        kdError() << "UMLPackage::addObject is called with a NULL object"
+        kError() << "UMLPackage::addObject is called with a NULL object"
             << endl;
         return false;
     }
     if (m_objects.find(pObject) != -1) {
-        kdDebug() << "UMLPackage::addObject: " << pObject->getName()
+        kDebug() << "UMLPackage::addObject: " << pObject->getName()
                   << " is already there" << endl;
         return false;
     }
@@ -113,7 +113,7 @@ bool UMLPackage::addObject(UMLObject *pObject) {
         if (assoc->getObject(Uml::A) && assoc->getObject(Uml::B)) {
             UMLPackage *pkg = pObject->getUMLPackage();
             if (pkg != this) {
-               kdError() << "UMLPackage " << m_Name << " addObject: "
+               kError() << "UMLPackage " << m_Name << " addObject: "
                    << "assoc's UMLPackage is " << pkg->getName() << endl;
             }
             addAssocToConcepts(assoc);
@@ -275,7 +275,7 @@ bool UMLPackage::load(QDomElement& element) {
         }
         UMLObject *pObject = Object_Factory::makeObjectFromXMI(type);
         if( !pObject ) {
-            kdWarning() << "UMLPackage::load: "
+            kWarning() << "UMLPackage::load: "
                 << "Unknown type of umlobject to create: "
                 << type << endl;
             continue;

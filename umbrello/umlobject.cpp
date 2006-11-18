@@ -201,7 +201,7 @@ void UMLObject::copyInto(UMLObject *rhs) const
 
     // Hope that the parent from QObject is okay.
     if (rhs->parent() != parent())
-        kdDebug() << "copyInto has a wrong parent" << endl;
+        kDebug() << "copyInto has a wrong parent" << endl;
 }
 
 
@@ -300,13 +300,13 @@ void UMLObject::setPackage(const QString &_name) {
         UMLDoc* umldoc = UMLApp::app()->getDocument();
         pkgObj = umldoc->findUMLObject(_name);
         if (pkgObj == NULL) {
-            kdDebug() << "UMLObject::setPackage: creating UMLPackage "
+            kDebug() << "UMLObject::setPackage: creating UMLPackage "
                 << _name << " for " << m_Name << endl;
             pkgObj = Import_Utils::createUMLObject(Uml::ot_Package, _name);
         } else {
             const Uml::Object_Type ot = pkgObj->getBaseType();
             if (ot != Uml::ot_Package && ot != Uml::ot_Folder && ot != Uml::ot_Component) {
-                kdError() << "UMLObject::setPackage(" << m_Name << "): "
+                kError() << "UMLObject::setPackage(" << m_Name << "): "
                     << "existing " << _name << " is not a container" << endl;
                 // This should not happen - if it does, there may be further problems.
                 // A container name should not overlap with another name in the same scope.
@@ -394,7 +394,7 @@ bool UMLObject::resolveRef() {
         return true;
     }
 #ifdef VERBOSE_DEBUGGING
-    kdDebug() << "UMLObject::resolveRef(" << m_Name << "): m_SecondaryId is "
+    kDebug() << "UMLObject::resolveRef(" << m_Name << "): m_SecondaryId is "
               << m_SecondaryId << endl;
 #endif
     UMLDoc *pDoc = UMLApp::app()->getDocument();
@@ -414,13 +414,13 @@ bool UMLObject::resolveRef() {
         }
     }
     if (m_SecondaryFallback.isEmpty()) {
-        kdError() << "UMLObject::resolveRef(" << m_Name
+        kError() << "UMLObject::resolveRef(" << m_Name
                   << "): cannot find type with id "
                   << m_SecondaryId << endl;
         return false;
     }
 #ifdef VERBOSE_DEBUGGING
-    kdDebug() << "UMLObject::resolveRef(" << m_Name 
+    kDebug() << "UMLObject::resolveRef(" << m_Name 
               << "): could not resolve secondary ID " << m_SecondaryId
               << ", using secondary fallback " << m_SecondaryFallback
               << endl;
@@ -445,20 +445,20 @@ bool UMLObject::resolveRef() {
             if (Import_Utils::newUMLObjectWasCreated()) {
                 maybeSignalObjectCreated();
                 kapp->processEvents();
-                kdDebug() << "UMLObject::resolveRef: Import_Utils::createUMLObject() "
+                kDebug() << "UMLObject::resolveRef: Import_Utils::createUMLObject() "
                           << "created a new type for " << m_SecondaryId << endl;
             } else {
-                kdDebug() << "UMLObject::resolveRef: Import_Utils::createUMLObject() "
+                kDebug() << "UMLObject::resolveRef: Import_Utils::createUMLObject() "
                           << "returned an existing type for " << m_SecondaryId << endl;
             }
             m_SecondaryId = "";
             return true;
         }
-        kdError() << "UMLObject::resolveRef: Import_Utils::createUMLObject() "
+        kError() << "UMLObject::resolveRef: Import_Utils::createUMLObject() "
                   << "failed to create a new type for " << m_SecondaryId << endl;
         return false;
     }
-    kdDebug() << "UMLObject::resolveRef: Creating new type for "
+    kDebug() << "UMLObject::resolveRef: Creating new type for "
     << m_SecondaryId << endl;
     // This is very C++ specific - we rely on  some '*' or
     // '&' to decide it's a ref type. Plus, we don't recognize
@@ -537,7 +537,7 @@ bool UMLObject::load( QDomElement& ) {
 bool UMLObject::loadFromXMI( QDomElement & element) {
     UMLDoc* umldoc = UMLApp::app()->getDocument();
     if (umldoc == NULL) {
-        kdError() << "UMLObject::loadFromXMI: umldoc is NULL" << endl;
+        kError() << "UMLObject::loadFromXMI: umldoc is NULL" << endl;
         return false;
     }
     // Read the name first so that if we encounter a problem, the error
@@ -550,7 +550,7 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
             // of UMLRole objects.
             m_nId = UniqueID::gen();
         } else {
-            kdError() << "UMLObject::loadFromXMI(" << m_Name
+            kError() << "UMLObject::loadFromXMI(" << m_Name
             << "): nonexistent or illegal xmi.id" << endl;
             return false;
         }
@@ -575,7 +575,7 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
             if (nScope >= Uml::Visibility::Public && nScope <= Uml::Visibility::Protected)
               m_Vis = (Uml::Visibility::Value)nScope;
             else
-                kdError() << "UMLObject::loadFromXMI(" << m_Name
+                kError() << "UMLObject::loadFromXMI(" << m_Name
                 << "): illegal scope" << endl;  // soft error
         }
     } else {
@@ -597,7 +597,7 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
         if (m_pStereotype)
             m_pStereotype->incrRefCount();
         else
-            kdError() << "UMLObject::loadFromXMI(" << m_Name << "): "
+            kError() << "UMLObject::loadFromXMI(" << m_Name << "): "
                 << "UMLStereotype " << ID2STR(stereoID)
                 << " not found" << endl;
     }
@@ -639,11 +639,11 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
         if (pkgObj != NULL) {
             m_pUMLPackage = dynamic_cast<UMLPackage *>(pkgObj);
             if (m_pUMLPackage == NULL)  // soft error
-                kdError() << "UMLObject::loadFromXMI(" << m_Name
+                kError() << "UMLObject::loadFromXMI(" << m_Name
                 << "): object of packageid "
                 << ID2STR(pkgId) << " is not a package" << endl;
         } else {  // soft error
-            kdError() << "UMLObject::loadFromXMI(" << m_Name
+            kError() << "UMLObject::loadFromXMI(" << m_Name
             << "): cannot resolve packageid "
             << ID2STR(pkgId) << endl;
         }
@@ -737,7 +737,7 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
             m_pUMLPackage->addObject(this);
         } else if (umldoc->rootFolderType(this) == Uml::N_MODELTYPES) {
             // m_pUMLPackage is not set on the root folders.
-            kdDebug() << "UMLObject::loadFromXMI(" << m_Name << "): m_pUMLPackage is not set"
+            kDebug() << "UMLObject::loadFromXMI(" << m_Name << "): m_pUMLPackage is not set"
                 << endl;
         }
     }

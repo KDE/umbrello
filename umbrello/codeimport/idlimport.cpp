@@ -87,7 +87,7 @@ void IDLImport::parseFile(QString filename) {
     if (filename.contains('/')) {
         QString path = filename;
         path.remove( QRegExp("/[^/]+$") );
-        kdDebug() << "IDLImport::parseFile: adding path " << path << endl;
+        kDebug() << "IDLImport::parseFile: adding path " << path << endl;
         Import_Utils::addIncludePath(path);
     }
     QStringList includePaths = Import_Utils::includePathList();
@@ -100,10 +100,10 @@ void IDLImport::parseFile(QString filename) {
         command += " -I" + path;
     }
     command += " " + filename;
-    kdDebug() << "importIDL: " << command << endl;
+    kDebug() << "importIDL: " << command << endl;
     FILE *fp = popen(command.ascii(), "r");
     if (fp == NULL) {
-        kdError() << "IDLImport::parseFile: cannot popen(" << command << ")" << endl;
+        kError() << "IDLImport::parseFile: cannot popen(" << command << ")" << endl;
         return;
     }
     // Scan the input file into the QStringList m_source.
@@ -121,7 +121,7 @@ void IDLImport::parseFile(QString filename) {
     const uint srcLength = m_source.count();
     for (m_srcIndex = 0; m_srcIndex < srcLength; m_srcIndex++) {
         const QString& keyword = m_source[m_srcIndex];
-        //kdDebug() << '"' << keyword << '"' << endl;
+        //kDebug() << '"' << keyword << '"' << endl;
         if (keyword.startsWith(m_singleLineCommentIntro)) {
             m_comment = keyword.mid(m_singleLineCommentIntro.length());
             continue;
@@ -144,7 +144,7 @@ bool IDLImport::parseStmt() {
         m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
         m_scope[m_scopeIndex]->setStereotype("CORBAModule");
         if (advance() != "{") {
-            kdError() << "importIDL: unexpected: " << m_source[m_srcIndex] << endl;
+            kError() << "importIDL: unexpected: " << m_source[m_srcIndex] << endl;
             skipStmt("{");
         }
         return true;
@@ -169,7 +169,7 @@ bool IDLImport::parseStmt() {
             }
         }
         if (m_source[m_srcIndex] != "{") {
-            kdError() << "importIDL: ignoring excess chars at "
+            kError() << "importIDL: ignoring excess chars at "
             << name << endl;
             skipStmt("{");
         }
@@ -185,7 +185,7 @@ bool IDLImport::parseStmt() {
         else
             m_klass->setStereotype("CORBAException");
         if (advance() != "{") {
-            kdError() << "importIDL: expecting '{' at " << name << endl;
+            kError() << "importIDL: expecting '{' at " << name << endl;
             skipStmt("{");
         }
         return true;
@@ -251,7 +251,7 @@ bool IDLImport::parseStmt() {
             }
         }
         if (m_source[m_srcIndex] != "{") {
-            kdError() << "importIDL: ignoring excess chars at "
+            kError() << "importIDL: ignoring excess chars at "
             << name << endl;
             skipStmt("{");
         }
@@ -280,7 +280,7 @@ bool IDLImport::parseStmt() {
         if (m_scopeIndex)
             m_klass = dynamic_cast<UMLClassifier*>(m_scope[--m_scopeIndex]);
         else
-            kdError() << "importIDL: too many }" << endl;
+            kError() << "importIDL: too many }" << endl;
         m_srcIndex++;  // skip ';'
         return true;
     }
@@ -291,18 +291,18 @@ bool IDLImport::parseStmt() {
     // of an operation.) Up next is the name of the attribute
     // or operation.
     if (! keyword.contains( QRegExp("^\\w") )) {
-        kdError() << "importIDL: ignoring " << keyword << endl;
+        kError() << "importIDL: ignoring " << keyword << endl;
         return false;
     }
     QString typeName = joinTypename();
     QString name = advance();
     if (name.contains( QRegExp("\\W") )) {
-        kdError() << "importIDL: expecting name in " << name << endl;
+        kError() << "importIDL: expecting name in " << name << endl;
         return false;
     }
     // At this point we most definitely need a class.
     if (m_klass == NULL) {
-        kdError() << "importIDL: no class set for " << name << endl;
+        kError() << "importIDL: no class set for " << name << endl;
         return false;
     }
     QString nextToken = advance();
@@ -319,7 +319,7 @@ bool IDLImport::parseStmt() {
             if (Model_Utils::stringToDirection(direction, dir))
                 att->setParmKind(dir);
             else
-                kdError() << "importIDL: expecting parameter direction at "
+                kError() << "importIDL: expecting parameter direction at "
                 << direction << endl;
             if (advance() != ",")
                 break;

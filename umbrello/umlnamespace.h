@@ -337,6 +337,10 @@ const IDType id_Reserved = "0";
 # define STR2ID(id)  id.ascii()
 # define ID2STR(id)  QString(id.c_str())
 
+// KDE4 compatibility
+# define kDebug   kdDebug
+# define kWarning kdWarning
+# define kError   kdError
 
 /**
  * Function for comparing tags in XMI files.

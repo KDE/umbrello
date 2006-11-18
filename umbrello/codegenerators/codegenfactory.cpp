@@ -148,7 +148,7 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
             obj = new XMLSchemaWriter();
             break;
         default:
-            kdWarning() << "cannot create object of type " << pl
+            kWarning() << "cannot create object of type " << pl
                         << ". Type unknown" << endl;
             break;
     }

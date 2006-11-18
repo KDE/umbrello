@@ -179,7 +179,7 @@ bool ActivityWidget::isActivity(WorkToolBar::ToolBar_Buttons tbb,
         resultType = Branch;
         break;
     case WorkToolBar::tbb_Fork:
-        kdError() << "ActivityWidget::isActivity returns Fork_DEPRECATED" << endl;
+        kError() << "ActivityWidget::isActivity returns Fork_DEPRECATED" << endl;
         resultType = Fork_DEPRECATED;
         break;
     default:

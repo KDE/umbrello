@@ -141,7 +141,7 @@ void GraphvizGraph::setCanvas( Autolayout::Canvas * canvas)
 {
     char buf[100];
     sprintf(buf,"%f,%f",((float)canvas->getMaxX()/DPI),((float)canvas->getMaxY()/DPI));
-    kdDebug() << "size: " << buf << endl;
+    kDebug() << "size: " << buf << endl;
     agraphattr(_agraph, "size", buf);
     agraphattr(_agraph, "page", buf);
 }

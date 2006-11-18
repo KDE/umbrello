@@ -82,7 +82,7 @@ QString RubyCodeClassField::getInitialValue() {
         if (at) {
             return fixInitialStringDeclValue(at->getInitialValue(), getTypeName());
         } else {
-            kdError() << "RubyodeClassField::getInitialValue: parent object is not a UMLAttribute"
+            kError() << "RubyodeClassField::getInitialValue: parent object is not a UMLAttribute"
             << endl;
             return "";
         }

@@ -24,6 +24,7 @@
 // app includes
 #include "petalnode.h"
 #include "petaltree2uml.h"
+#include "umlnamespace.h"  // only for the KDE4 compatibility macros
 
 namespace Import_Rose {
 
@@ -173,21 +174,21 @@ QString collectVerbatimText(QTextStream& stream) {
         if (line.isEmpty() || line.startsWith(")"))
             break;
         if (line[0] != '|') {
-            kdError() << loc() << "expecting '|' at start of verbatim text" << endl;
+            kError() << loc() << "expecting '|' at start of verbatim text" << endl;
             return QString::null;
         } else {
             result += line.mid(1) + "\n";
         }
     }
     if (line.isNull()) {
-        kdError() << loc() << "premature EOF" << endl;
+        kError() << loc() << "premature EOF" << endl;
         return QString::null;
     }
     if (! line.isEmpty()) {
         for (uint i = 0; i < line.length(); i++) {
             const QChar& clParenth = line[i];
             if (clParenth != ')') {
-                kdError() << loc() << "expected ')', found: " << clParenth << endl;
+                kError() << loc() << "expected ')', found: " << clParenth << endl;
                 return QString::null;
             }
             nClosures++;
@@ -234,7 +235,7 @@ QString extractValue(QStringList& l, QTextStream& stream) {
     } else {
         result = shift(l);
         if (l.first() != ")") {
-            kdError() << loc() << "expecting closing parenthesis" << endl;
+            kError() << loc() << "expecting closing parenthesis" << endl;
             return result;
         }
         l.pop_front();
@@ -256,7 +257,7 @@ QString extractValue(QStringList& l, QTextStream& stream) {
 PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
     methodName("readAttributes");
     if (initialArgs.count() == 0) {
-        kdError() << loc() << "initialArgs is empty" << endl;
+        kError() << loc() << "initialArgs is empty" << endl;
         return NULL;
     }
     PetalNode::NodeType nt;
@@ -266,7 +267,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
     else if (type == "list")
         nt = PetalNode::nt_list;
     else {
-        kdError() << loc() << "unknown node type " << type << endl;
+        kError() << loc() << "unknown node type " << type << endl;
         return NULL;
     }
     PetalNode *node = new PetalNode(nt);
@@ -285,7 +286,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
         QString stringOrNodeOpener = shift(tokens);
         QString name;
         if (nt == PetalNode::nt_object && !stringOrNodeOpener.contains(QRegExp("^[A-Za-z]"))) {
-            kdError() << loc() << "unexpected line " << line << endl;
+            kError() << loc() << "unexpected line " << line << endl;
             return NULL;
         }
         PetalNode::StringOrNode value;
@@ -311,7 +312,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
             PetalNode::NameValue attr(QString::null, value);
             attrs.append(attr);
             if (tokens.count() && tokens.first() != ")") {
-                kdDebug() << loc()
+                kDebug() << loc()
                     << "NYI - immediate list entry with more than one item" << endl;
             }
             if (checkClosing(tokens))

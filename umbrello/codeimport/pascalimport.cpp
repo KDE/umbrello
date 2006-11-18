@@ -87,7 +87,7 @@ void PascalImport::checkModifiers(bool& isVirtual, bool& isAbstract) {
 bool PascalImport::parseStmt() {
     const uint srcLength = m_source.count();
     QString keyword = m_source[m_srcIndex].lower();
-    //kdDebug() << '"' << keyword << '"' << endl;
+    //kDebug() << '"' << keyword << '"' << endl;
     if (keyword == "uses") {
         while (++m_srcIndex < srcLength && m_source[m_srcIndex] != ";") {
             QStringList components = QStringList::split(".", m_source[m_srcIndex]);
@@ -196,7 +196,7 @@ bool PascalImport::parseStmt() {
             m_scopeIndex--;
             m_currentAccess = Uml::Visibility::Public;
         } else {
-            kdError() << "importPascal: too many \"end\"" << endl;
+            kError() << "importPascal: too many \"end\"" << endl;
         }
         skipStmt();
         return true;
@@ -231,13 +231,13 @@ bool PascalImport::parseStmt() {
                 uint parNameCount = 0;
                 do {
                     if (parNameCount >= MAX_PARNAMES) {
-                        kdError() << "MAX_PARNAMES is exceeded at " << name << endl;
+                        kError() << "MAX_PARNAMES is exceeded at " << name << endl;
                         break;
                     }
                     parName[parNameCount++] = advance();
                 } while (advance() == ",");
                 if (m_source[m_srcIndex] != ":") {
-                    kdError() << "importPascal: expecting ':' at " << m_source[m_srcIndex] << endl;
+                    kError() << "importPascal: expecting ':' at " << m_source[m_srcIndex] << endl;
                     skipStmt();
                     break;
                 }
@@ -245,7 +245,7 @@ bool PascalImport::parseStmt() {
                 if (nextToken.lower() == "array") {
                     nextToken = advance().lower();
                     if (nextToken != "of") {
-                        kdError() << "importPascal(" << name << "): expecting 'array OF' at "
+                        kError() << "importPascal(" << name << "): expecting 'array OF' at "
                                   << nextToken << endl;
                         skipStmt();
                         return false;
@@ -263,7 +263,7 @@ bool PascalImport::parseStmt() {
         QString returnType;
         if (keyword == "function") {
             if (advance() != ":") {
-                kdError() << "importPascal: expecting \":\" at function "
+                kError() << "importPascal: expecting \":\" at function "
                         << name << endl;
                 return false;
             }
@@ -287,7 +287,7 @@ bool PascalImport::parseStmt() {
         const QString& name = m_source[m_srcIndex];
         QString nextToken = advance();
         if (nextToken != "=") {
-            kdDebug() << "PascalImport::parseFile(" << name << "): "
+            kDebug() << "PascalImport::parseFile(" << name << "): "
                 << "expecting '=' at " << nextToken << endl;
             return false;
         }
@@ -359,7 +359,7 @@ bool PascalImport::parseStmt() {
     }
     // At this point we need a class because we're expecting its member attributes.
     if (m_klass == NULL) {
-        kdDebug() << "importPascal: skipping " << m_source[m_srcIndex] << endl;
+        kDebug() << "importPascal: skipping " << m_source[m_srcIndex] << endl;
         skipStmt();
         return true;
     }
@@ -371,7 +371,7 @@ bool PascalImport::parseStmt() {
         name = keyword;
     }
     if (advance() != ":") {
-        kdError() << "PascalImport: expecting \":\" at " << name << " "
+        kError() << "PascalImport: expecting \":\" at " << name << " "
                   << m_source[m_srcIndex] << endl;
         skipStmt();
         return true;

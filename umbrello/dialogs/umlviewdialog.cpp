@@ -129,7 +129,7 @@ void UMLViewDialog::applyPage( Page page ) {
         break;
 
     case Font:
-        kdDebug() << "UMLViewDialog::applyPage: setting font "
+        kDebug() << "UMLViewDialog::applyPage: setting font "
         << m_pChooser->font().toString() << endl;
         m_pView->setFont( m_pChooser->font(), true );
         break;

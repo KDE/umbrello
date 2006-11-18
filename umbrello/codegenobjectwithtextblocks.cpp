@@ -400,7 +400,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                     block->loadFromXMI(element);
                     if(!addTextBlock(block))
                     {
-                        kdError()<<"loadFromXMI: unable to add codeComment to :"<<this<<endl;
+                        kError()<<"loadFromXMI: unable to add codeComment to :"<<this<<endl;
                         delete block;
                     } else
                         loadCheckForChildrenOK= true;
@@ -413,7 +413,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                         TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
                         if(!tb || !addTextBlock(tb))
                         {
-                            kdError()<<"loadFromXMI : unable to add code accessor/decl method block (tag:"<<acctag<<") to:"<<this<<endl;
+                            kError()<<"loadFromXMI : unable to add code accessor/decl method block (tag:"<<acctag<<") to:"<<this<<endl;
                             // DON'T delete
 
                         } else
@@ -425,7 +425,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                             block->loadFromXMI(element);
                             if(!addTextBlock(block))
                             {
-                                kdError()<<"loadFromXMI : unable to add codeBlock to :"<<this<<endl;
+                                kError()<<"loadFromXMI : unable to add codeBlock to :"<<this<<endl;
                                 delete block;
                             } else
                                 loadCheckForChildrenOK= true;
@@ -435,7 +435,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                                 block->loadFromXMI(element);
                                 if(!addTextBlock(block))
                                 {
-                                    kdError()<<"loadFromXMI : unable to add codeBlockwithcomments to:"<<this<<endl;
+                                    kError()<<"loadFromXMI : unable to add codeBlockwithcomments to:"<<this<<endl;
                                     delete block;
                                 } else
                                     loadCheckForChildrenOK= true;
@@ -448,7 +448,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                                         block->loadFromXMI(element);
                                         if(!addTextBlock(block))
                                         {
-                                            kdError()<<"loadFromXMI : unable to add hierarchicalcodeBlock to:"<<this<<endl;
+                                            kError()<<"loadFromXMI : unable to add hierarchicalcodeBlock to:"<<this<<endl;
                                             delete block;
                                         } else
                                             loadCheckForChildrenOK= true;
@@ -465,16 +465,16 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                                                     loadCheckForChildrenOK= true;
                                                 else
                                                 {
-                                                    kdError()<<"loadFromXMI : unable to add codeoperation to:"<<this<<endl;
+                                                    kError()<<"loadFromXMI : unable to add codeoperation to:"<<this<<endl;
                                                     delete block;
                                                 }
                                             } else
-                                                kdError()<<"loadFromXMI : unable to create codeoperation for obj id:"<<id<<endl;
+                                                kError()<<"loadFromXMI : unable to create codeoperation for obj id:"<<id<<endl;
                                         }
                 /*
                                                 // only needed for extreme debugging conditions (E.g. making new codeclassdocument loader)
                                                 else
-                                                        kdWarning()<<" LoadFromXMI: Got strange tag in text block stack:"<<name.latin1()<<", ignorning"<<endl;
+                                                        kWarning()<<" LoadFromXMI: Got strange tag in text block stack:"<<name.latin1()<<", ignorning"<<endl;
                 */
 
                 node = element.nextSibling();
@@ -492,13 +492,13 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
         CodeDocument * test = dynamic_cast<CodeDocument*>(this);
         if(test)
         {
-            kdWarning()<<" loadChildBlocks : unable to initialize any child blocks in doc: "<<test->getFileName()<<" "<<this<<endl;
+            kWarning()<<" loadChildBlocks : unable to initialize any child blocks in doc: "<<test->getFileName()<<" "<<this<<endl;
         } else {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(this);
             if(hb)
-                kdWarning()<<" loadChildBlocks : unable to initialize any child blocks in Hblock: "<<hb->getTag()<<" "<<this<<endl;
+                kWarning()<<" loadChildBlocks : unable to initialize any child blocks in Hblock: "<<hb->getTag()<<" "<<this<<endl;
             else
-                kdDebug()<<" loadChildBlocks : unable to initialize any child blocks in UNKNOWN OBJ:"<<this<<endl;
+                kDebug()<<" loadChildBlocks : unable to initialize any child blocks in UNKNOWN OBJ:"<<this<<endl;
         }
     }
 

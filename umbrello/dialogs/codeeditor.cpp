@@ -163,7 +163,7 @@ void CodeEditor::editTextBlock(TextBlock * tBlock, int para) {
                 }
                 else
                 {
-                    kdError()<<" CodeViewerDlg ERROR: UNKNOWN parent for textBlock"<<endl;
+                    kError()<<" CodeViewerDlg ERROR: UNKNOWN parent for textBlock"<<endl;
                 }
 
             }
@@ -181,7 +181,7 @@ bool CodeEditor::StringIsBlank(const QString &str)
 
 void CodeEditor::keyPressEvent ( QKeyEvent * e ) {
 
-    // kdDebug() <<"KEY PRESS EVENT:["<<e->text().latin1()<<"] ascii CODE:"<<e->ascii();
+    // kDebug() <<"KEY PRESS EVENT:["<<e->text().latin1()<<"] ascii CODE:"<<e->ascii();
 
     if((e->ascii() == 8) ) // || (e->ascii() == 127)) // what about delete?
         m_backspacePressed = true;
@@ -720,7 +720,7 @@ void CodeEditor::slotCopyTextBlock ( )
         m_textBlockToPaste = CodeGenFactory::newCodeComment(m_parentDoc);
     else
     {
-        kdError()<<" ERROR: CodeEditor can't copy selected block:"<<m_selectedTextBlock<<" of unknown type"<<endl;
+        kError()<<" ERROR: CodeEditor can't copy selected block:"<<m_selectedTextBlock<<" of unknown type"<<endl;
         m_textBlockToPaste = 0;
         return; // error!
     }

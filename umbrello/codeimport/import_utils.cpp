@@ -122,7 +122,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     UMLFolder *logicalView = umldoc->getRootFolder(Uml::mt_Logical);
     if (parentPkg == NULL) {
-        // kdDebug() << "Import_Utils::createUMLObject(" << name
+        // kDebug() << "Import_Utils::createUMLObject(" << name
         //     << "): parentPkg is NULL, assuming Logical View" << endl;
         parentPkg = logicalView;
     }
@@ -198,7 +198,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
             if (c)
                 dt->setOriginType(c);
             else
-                kdError() << "createUMLObject(" << name << "): "
+                kError() << "createUMLObject(" << name << "): "
                 << "origType " << typeName << " is not a UMLClassifier"
                 << endl;
             if (isRef || isPointer)
@@ -242,7 +242,7 @@ UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope, QString 
     Uml::Object_Type ot = owner->getBaseType();
     Uml::Programming_Language pl = UMLApp::app()->getActiveLanguage();
     if (! (ot == Uml::ot_Class || ot == Uml::ot_Interface && pl == Uml::pl_Java)) {
-        kdDebug() << "insertAttribute: Don't know what to do with "
+        kDebug() << "insertAttribute: Don't know what to do with "
         << owner->getName() << " (object type " << ot << ")" << endl;
         return NULL;
     }

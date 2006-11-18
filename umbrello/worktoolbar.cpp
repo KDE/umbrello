@@ -157,7 +157,7 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
         break;
 
     default:
-        kdWarning() << "slotCheckToolBar() on unknown diagram type:"
+        kWarning() << "slotCheckToolBar() on unknown diagram type:"
         << m_Type << endl;
         break;
     }
@@ -295,7 +295,7 @@ void WorkToolBar::loadPixmaps() {
                          ToolButton(i18n("Select"),
                                     load(dataDir + "arrow.png"),
                                     QCursor()) );
-    kdDebug() << "WorkToolBar::loadPixmaps: n_buttonInfos = " << n_buttonInfos << endl;
+    kDebug() << "WorkToolBar::loadPixmaps: n_buttonInfos = " << n_buttonInfos << endl;
     for (uint i = 0; i < n_buttonInfos; i++) {
         const ButtonInfo& info = buttonInfo[i];
         m_ToolButtons.insert(info.tbb,

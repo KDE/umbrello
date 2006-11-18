@@ -77,7 +77,7 @@ void initDocument(KCmdLineArgs *args, KConfig* cfg);
 
 /**
  * Export all the views in the document using the command line args set by the user.
- * Errors that occurred while exporting, if any, are shown using kdError().
+ * Errors that occurred while exporting, if any, are shown using kError().
  *
  * @param args The command line arguments given.
  * @param exportOpt A list containing all the "export" arguments given.
@@ -184,7 +184,7 @@ void initDocument(KCmdLineArgs *args, KConfig* cfg) {
 
 void exportAllViews(KCmdLineArgs *args, const QCStringList &exportOpt) {
     QString extension(exportOpt.last());
-    kdDebug() << "extension: " << extension << endl;
+    kDebug() << "extension: " << extension << endl;
 
     // export to the specified directory, or the directory where the file is saved
     // if no directory was specified
@@ -198,7 +198,7 @@ void exportAllViews(KCmdLineArgs *args, const QCStringList &exportOpt) {
 
     bool useFolders = args->isSet("use-folders");
 
-    kdDebug() << "directory: " << directory.prettyURL() << endl;
+    kDebug() << "directory: " << directory.prettyURL() << endl;
 
     // the event is posted so when the QT loop begins it's processed. UMLApp process this event executing
     // the method it provides for exporting the views. Once all the views were exported, a quit event

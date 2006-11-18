@@ -53,7 +53,7 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
 {
 
     if (!c) {
-        kdDebug()<<"Cannot write class of NULL classifier!\n";
+        kDebug()<<"Cannot write class of NULL classifier!\n";
         return;
     }
 

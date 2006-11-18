@@ -818,7 +818,7 @@ uint LinePath::getLineWidth() {
     if ( viewLineWidth >= 0 && viewLineWidth <= 10 )
         return viewLineWidth;
     else {
-        kdWarning() << "Ignore wrong LineWidth of " << viewLineWidth
+        kWarning() << "Ignore wrong LineWidth of " << viewLineWidth
         << " in LinePath::getLineWidth" << endl;
         return 0;
     }
@@ -862,7 +862,7 @@ void LinePath::dumpPoints () {
     int count = m_LineList.count();
     for( int i = 1; i < count; i++ ) {
         QPoint point = getPoint( i );
-        kdDebug()<<" * point x:"<<point.x()<<" y:"<<point.y()<<endl;
+        kDebug()<<" * point x:"<<point.x()<<" y:"<<point.y()<<endl;
     }
 }
 

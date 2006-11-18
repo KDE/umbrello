@@ -294,14 +294,14 @@ bool UMLViewImageExporterModel::fixEPS(const QString &fileName, QRect rect) cons
     QRegExp rx("%%BoundingBox:\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)");
     const int pos = rx.search(fileContent);
     if (pos < 0) {
-        kdError() << "UMLViewImageExporterModel::fixEPS(" << fileName
+        kError() << "UMLViewImageExporterModel::fixEPS(" << fileName
                   << "): cannot find %%BoundingBox" << endl;
         return false;
     }
 
     // write new content to file
     if (! epsfile.open(IO_WriteOnly | IO_Truncate)) {
-        kdError() << "UMLViewImageExporterModel::fixEPS(" << fileName
+        kError() << "UMLViewImageExporterModel::fixEPS(" << fileName
                   << "): cannot open file for writing" << endl;
         return false;
     }

@@ -50,7 +50,7 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
         typeName = i18n("Entity Attributes");
         newItemType = i18n("N&ew Entity Attribute...");
     } else {
-        kdWarning() << "unknown listItem type in ClassifierListPage" << endl;
+        kWarning() << "unknown listItem type in ClassifierListPage" << endl;
     }
 
     m_bSigWaiting = false;
@@ -290,7 +290,7 @@ void ClassifierListPage::slotRightButtonPressed(QListBoxItem* item, const QPoint
         } else if (m_itemType == ot_EntityAttribute) {
             type = ListPopupMenu::mt_EntityAttribute_Selected;
         } else {
-            kdWarning() << "unknown type in ClassifierListPage" << endl;
+            kWarning() << "unknown type in ClassifierListPage" << endl;
         }
     } else { //pressed into fresh air
         if (m_itemType == ot_Attribute) {
@@ -304,7 +304,7 @@ void ClassifierListPage::slotRightButtonPressed(QListBoxItem* item, const QPoint
         } else if (m_itemType == ot_EntityAttribute) {
             type = ListPopupMenu::mt_New_EntityAttribute;
         } else {
-            kdWarning() << "unknown type in ClassifierListPage" << endl;
+            kWarning() << "unknown type in ClassifierListPage" << endl;
         }
     }
     if(m_pMenu) {
@@ -322,7 +322,7 @@ void ClassifierListPage::slotRightButtonPressed(QListBoxItem* item, const QPoint
 void ClassifierListPage::slotPopupMenuSel(int id) {
     UMLClassifierListItem* listItem = getItemList().at( m_pItemListLB->currentItem() );
     if(!listItem && id != ListPopupMenu::mt_New_Attribute) {
-        kdDebug() << "can't find att from selection" << endl;
+        kDebug() << "can't find att from selection" << endl;
         return;
     }
     switch(id) {
@@ -356,7 +356,7 @@ void ClassifierListPage::printItemList(QString prologue) {
     UMLClassifierListItemList itemList = getItemList();
     for (UMLClassifierListItemListIt it(itemList); (item = it.current()) != NULL; ++it)
         buf.append(" " + item->getName());
-    kdDebug() << prologue << buf << endl;
+    kDebug() << prologue << buf << endl;
 #endif
 }
 
@@ -384,7 +384,7 @@ void ClassifierListPage::slotTopClicked() {
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
     takeItem(currentAtt, true, index);  // now we index the UMLClassifier::m_List
-    kdDebug() << "ClassifierListPage::slotTopClicked(" << currentAtt->getName()
+    kDebug() << "ClassifierListPage::slotTopClicked(" << currentAtt->getName()
             << "): peer index in UMLCanvasItem::m_List is " << index << endl;
     addClassifier(currentAtt, 0);
     printItemList("itemList after change: ");
@@ -416,7 +416,7 @@ void ClassifierListPage::slotUpClicked() {
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
     takeItem(currentAtt, true, index);  // now we index the UMLClassifier::m_List
-    kdDebug() << "ClassifierListPage::slotUpClicked(" << currentAtt->getName()
+    kDebug() << "ClassifierListPage::slotUpClicked(" << currentAtt->getName()
         << "): peer index in UMLCanvasItem::m_List is " << index << endl;
     if (index == -1)
         index = 0;
@@ -449,7 +449,7 @@ void ClassifierListPage::slotDownClicked() {
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
     takeItem(currentAtt, false, index);  // now we index the UMLClassifier::m_List
-    kdDebug() << "ClassifierListPage::slotDownClicked(" << currentAtt->getName()
+    kDebug() << "ClassifierListPage::slotDownClicked(" << currentAtt->getName()
         << "): peer index in UMLCanvasItem::m_List is " << index << endl;
     if (index != -1)
         index++;   // because we want to go _after_ the following peer item
@@ -482,7 +482,7 @@ void ClassifierListPage::slotBottomClicked() {
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
     takeItem(currentAtt, false, index);  // now we index the UMLClassifier::m_List
-    kdDebug() << "ClassifierListPage::slotDownClicked(" << currentAtt->getName()
+    kDebug() << "ClassifierListPage::slotDownClicked(" << currentAtt->getName()
             << "): peer index in UMLCanvasItem::m_List is " << index << endl;
     addClassifier(currentAtt, getItemList().count());
     printItemList("itemList after change: ");
@@ -495,7 +495,7 @@ void ClassifierListPage::slotDoubleClick( QListBoxItem* item ) {
 
     UMLClassifierListItem* listItem  = getItemList().at( m_pItemListLB->index( item ) );
     if( !listItem ) {
-        kdDebug() << "can't find att from selection" << endl;
+        kDebug() << "can't find att from selection" << endl;
         return;
     }
 
@@ -565,11 +565,11 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int posi
             break;
         }
     default: {
-            kdWarning() << "unknown type in ClassifierListPage" << endl;
+            kWarning() << "unknown type in ClassifierListPage" << endl;
             return false;
         }
     }
-    kdError() << "ClassifierListPage::addClassifier unable to handle listitem type in current state" << endl;
+    kError() << "ClassifierListPage::addClassifier unable to handle listitem type in current state" << endl;
     return false;
 }
 

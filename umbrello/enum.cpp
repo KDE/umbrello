@@ -83,7 +83,7 @@ UMLObject* UMLEnum::createEnumLiteral() {
 UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::IDType id) {
     UMLObject *el = UMLCanvasObject::findChildObject(name);
     if (el != NULL) {
-        kdDebug() << "UMLEnum::addEnumLiteral: " << name
+        kDebug() << "UMLEnum::addEnumLiteral: " << name
                   << " is already present" << endl; 
         return el;
     }
@@ -132,7 +132,7 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, int position) {
 
 int UMLEnum::removeEnumLiteral(UMLEnumLiteral* literal) {
     if (!m_List.remove(literal)) {
-        kdDebug() << "can't find att given in list" << endl;
+        kDebug() << "can't find att given in list" << endl;
         return -1;
     }
     emit enumLiteralRemoved(literal);
@@ -181,10 +181,10 @@ bool UMLEnum::load(QDomElement& element) {
             }
             m_List.append(pEnumLiteral);
         } else if (tag == "stereotype") {
-            kdDebug() << "UMLEnum::load(" << m_Name
+            kDebug() << "UMLEnum::load(" << m_Name
             << "): losing old-format stereotype." << endl;
         } else {
-            kdWarning() << "unknown child type in UMLEnum::load" << endl;
+            kWarning() << "unknown child type in UMLEnum::load" << endl;
         }
         node = node.nextSibling();
     }//end while

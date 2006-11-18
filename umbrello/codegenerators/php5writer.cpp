@@ -2996,7 +2996,7 @@ Php5Writer::~Php5Writer() {}
 
 void Php5Writer::writeClass(UMLClassifier *c) {
     if(!c) {
-        kdDebug()<<"Cannot write class of NULL concept!" << endl;
+        kDebug()<<"Cannot write class of NULL concept!" << endl;
         return;
     }
 
@@ -3096,7 +3096,7 @@ void Php5Writer::writeClass(UMLClassifier *c) {
             //which container to use.
             UMLObject *o = a->getObject(Uml::A);
             if (o == NULL) {
-                kdError() << "aggregation role A object is NULL" << endl;
+                kError() << "aggregation role A object is NULL" << endl;
                 continue;
             }
             QString typeName = cleanName(o->getName());
@@ -3114,7 +3114,7 @@ void Php5Writer::writeClass(UMLClassifier *c) {
             // see comment on Aggregation about multiplicity...
             UMLObject *o = a->getObject(Uml::A);
             if (o == NULL) {
-                kdError() << "composition role A object is NULL" << endl;
+                kError() << "composition role A object is NULL" << endl;
                 continue;
             }
             QString typeName = cleanName(o->getName());

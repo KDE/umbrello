@@ -91,7 +91,7 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
 
 QSize NodeWidget::calculateSize() {
     if (m_pObject == NULL) {
-        kdDebug() << "NodeWidget::calculateSize: m_pObject is NULL" << endl;
+        kDebug() << "NodeWidget::calculateSize: m_pObject is NULL" << endl;
         return UMLWidget::calculateSize();
     }
 

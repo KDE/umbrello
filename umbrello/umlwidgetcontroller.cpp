@@ -242,7 +242,7 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me) {
     //TODO Copied from old code. Does it really work as intended?
     UMLWidget *bkgnd = m_widget->m_pView->testOnWidget(me->pos());
     if (bkgnd) {
-        //kdDebug() << "UMLWidgetController::mouseReleaseEvent: setting Z to "
+        //kDebug() << "UMLWidgetController::mouseReleaseEvent: setting Z to "
         //    << bkgnd->getZ() + 1 << endl;
         m_widget->setZ(bkgnd->getZ() + 1);
     } else {

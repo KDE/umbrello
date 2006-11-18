@@ -31,7 +31,7 @@ void WidgetBase::init(UMLView *view, Uml::Widget_Type type /* = Uml::wt_UMLWidge
         m_LineColour = optionState.uiState.lineColor;
         m_LineWidth  = optionState.uiState.lineWidth;
     } else {
-        kdError() << "WidgetBase constructor: SERIOUS PROBLEM - m_pView is NULL" << endl;
+        kError() << "WidgetBase constructor: SERIOUS PROBLEM - m_pView is NULL" << endl;
         m_bUsesDiagramLineColour = false;
         m_bUsesDiagramLineWidth  = false;
         m_LineColour = QColor("black");

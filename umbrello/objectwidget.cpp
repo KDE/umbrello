@@ -298,7 +298,7 @@ int ObjectWidget::topMargin() {
 
 bool ObjectWidget::canTabUp() {
     int y = getY();
-    //kdDebug() << "ObjectWidget::canTabUp: y is " << y << endl;
+    //kDebug() << "ObjectWidget::canTabUp: y is " << y << endl;
     return (y > topMargin());
 }
 
@@ -319,7 +319,7 @@ int ObjectWidget::getEndLineY() {
 
 void ObjectWidget::messageAdded(MessageWidget* message) {
     if (messageWidgetList.containsRef(message) ) {
-        kdError() << "ObjectWidget::messageAdded("
+        kError() << "ObjectWidget::messageAdded("
                   << message->getName() << ") : duplicate entry !"
                   << endl;
         return ;
@@ -329,7 +329,7 @@ void ObjectWidget::messageAdded(MessageWidget* message) {
 
 void ObjectWidget::messageRemoved(MessageWidget* message) {
     if ( messageWidgetList.remove(message) == false ) {
-        kdError() << "ObjectWidget::messageRemoved("
+        kError() << "ObjectWidget::messageRemoved("
                   << message->getName() << ") : missing entry !"
                   << endl;
         return ;

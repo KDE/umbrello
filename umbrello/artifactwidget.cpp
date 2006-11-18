@@ -202,7 +202,7 @@ void ArtifactWidget::draw(QPainter& p, int offsetX, int offsetY) {
         return drawAsTable(p, offsetX, offsetY);
         break;
     default:
-        kdWarning() << "Artifact drawn as unknown type" << endl;
+        kWarning() << "Artifact drawn as unknown type" << endl;
         break;
     }
 }
