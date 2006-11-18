@@ -23,8 +23,8 @@ namespace UniqueID {
 Uml::IDType m_uniqueID;
 
 Uml::IDType gen() {
-    static char buf[40];
-    int length = 30;
+    static char buf[20];
+    int length = 12;
     int i = 0;
     // Source: KDE4 kdelibs/kdecore/krandom.cpp KRandom::randomString()
     while (length--) {
