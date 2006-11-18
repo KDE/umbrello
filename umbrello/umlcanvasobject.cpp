@@ -245,7 +245,8 @@ UMLClassifierList UMLCanvasObject::getSuperClasses() {
     UMLClassifierList list;
     UMLAssociationList assocs = getAssociations();
     for (UMLAssociation* a = assocs.first(); a; a = assocs.next()) {
-        if ( a->getAssocType() != Uml::at_Generalization ||
+        if ((a->getAssocType() != Uml::at_Generalization &&
+             a->getAssocType() != Uml::at_Realization) ||
                 a->getObjectId(Uml::A) != getID() )
             continue;
         UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::B));
@@ -264,7 +265,8 @@ UMLClassifierList UMLCanvasObject::getSubClasses() {
     UMLClassifierList list;
     UMLAssociationList assocs = getAssociations();
     for (UMLAssociation* a = assocs.first(); a; a = assocs.next()) {
-        if ( a->getAssocType() != Uml::at_Generalization ||
+        if ((a->getAssocType() != Uml::at_Generalization &&
+             a->getAssocType() != Uml::at_Realization) ||
                 a->getObjectId(Uml::B) != getID() )
             continue;
         UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::A));
