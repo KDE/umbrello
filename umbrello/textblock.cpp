@@ -201,7 +201,7 @@ QString TextBlock::formatMultiLineText ( const QString &work, const QString &lin
     QString text = work;
     QString endLine = getNewLineEndingChars();
     int matches = text.indexOf(QRegExp(breakStr));
-    if(matches)
+    if (matches >= 0)
     {
         // check that last part of string matches, if not, then
         // we have to tack on extra match
