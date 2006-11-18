@@ -734,12 +734,11 @@ void XMLSchemaWriter::writeAssociationRoleDecl( UMLClassifier *c, const QString 
 // IF the type is "string" we need to declare it as
 // the XMLSchema Object "String" (there is no string primative in XMLSchema).
 // Same thing again for "bool" to "boolean"
-QString XMLSchemaWriter::fixTypeName(QString string)
+QString XMLSchemaWriter::fixTypeName(const QString& string)
 {
     //  string.replace(QRegExp("^string$"),schemaNamespaceTag+":string");
     //  string.replace(QRegExp("^bool$"),schemaNamespaceTag+":boolean");
-    string.prepend(schemaNamespaceTag+":");
-    return string;
+    return schemaNamespaceTag + ":" + string;
 }
 
 QString XMLSchemaWriter::fixInitialStringDeclValue(QString value, const QString &type)

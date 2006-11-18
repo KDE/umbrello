@@ -59,7 +59,7 @@ private:
      *
      * @param cppType the C++ type to be converted
      */
-    QString cppToRubyType(QString cppType);
+    QString cppToRubyType(const QString &cppType);
 
     /**
      * Convert C++ names such as 'm_foobar' or pFoobar to 
@@ -67,7 +67,7 @@ private:
      *
      * @param cppName the C++ name to be converted
      */
-    QString cppToRubyName(QString cppName);
+    QString cppToRubyName(const QString &cppName);
 
     /**
      * calls @ref writeSingleAttributeAccessorMethods() on each of the attributes in attribs list.
@@ -80,7 +80,8 @@ private:
      * write all method declarations, for attributes and associations 
      * for the given permitted scope.
      */
-    void writeSingleAttributeAccessorMethods(QString fieldName, QString description, QTextStream &h);
+    void writeSingleAttributeAccessorMethods(const QString &fieldName, QString description,
+                                             QTextStream &h);
 
     /**
       * write all operations for a given class
@@ -97,7 +98,7 @@ private:
       * @param opList the list of operations
       * @param h output stream for the header file
       */
-    void writeOperations(QString classname, UMLOperationList &opList,
+    void writeOperations(const QString &classname, UMLOperationList &opList,
                          Uml::Visibility permitScope, QTextStream &h);
 
     /**

@@ -74,7 +74,7 @@ void IDLImport::fillSource(QString word) {
         } else {
             if (!lexeme.isEmpty()) {
                 m_source.append(lexeme);
-                lexeme = QString::null;
+                lexeme = QString();
             }
             m_source.append(QString(c));
         }
@@ -129,7 +129,7 @@ void IDLImport::parseFile(QString filename) {
         if (! parseStmt())
             skipStmt();
         m_currentAccess = Uml::Visibility::Public;
-        m_comment = QString::null;
+        m_comment = QString();
     }
     pclose(fp);
 }
@@ -157,7 +157,7 @@ bool IDLImport::parseStmt() {
         m_klass->setStereotype("CORBAInterface");
         m_klass->setAbstract(m_isAbstract);
         m_isAbstract = false;
-        m_comment = QString::null;
+        m_comment = QString();
         if (advance() == ";")   // forward declaration
             return true;
         if (m_source[m_srcIndex] == ":") {

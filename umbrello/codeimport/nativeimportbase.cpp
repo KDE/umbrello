@@ -21,7 +21,7 @@
 // app includes
 #include "import_utils.h"
 
-NativeImportBase::NativeImportBase(QString singleLineCommentIntro) {
+NativeImportBase::NativeImportBase(const QString &singleLineCommentIntro) {
     m_singleLineCommentIntro = singleLineCommentIntro;
     m_srcIndex = 0;
     m_scopeIndex = 0;  // index 0 is reserved for global scope
@@ -34,12 +34,12 @@ NativeImportBase::NativeImportBase(QString singleLineCommentIntro) {
 NativeImportBase::~NativeImportBase() {
 }
 
-void NativeImportBase::setMultiLineComment(QString intro, QString end) {
+void NativeImportBase::setMultiLineComment(const QString &intro, const QString &end) {
     m_multiLineCommentIntro = intro;
     m_multiLineCommentEnd = end;
 }
 
-void NativeImportBase::setMultiLineAltComment(QString intro, QString end) {
+void NativeImportBase::setMultiLineAltComment(const QString &intro, const QString &end) {
     m_multiLineAltCommentIntro = intro;
     m_multiLineAltCommentEnd = end;
 }
@@ -102,7 +102,7 @@ QString NativeImportBase::advance() {
         // if last item in m_source is a comment then it is dropped too
         (m_srcIndex == m_source.count() - 1 &&
          m_source[m_srcIndex].startsWith(m_singleLineCommentIntro))) {
-        return QString::null;
+        return QString();
     }
     return m_source[m_srcIndex];
 }
@@ -203,7 +203,7 @@ QStringList NativeImportBase::split(QString line) {
             if (c == stringIntro) {
                 if (line[i - 1] != '\\') {
                     list.append(listElement);
-                    listElement = QString::null;
+                    listElement = QString();
                     stringIntro = 0;  // we are no longer in a string
                 }
             }
@@ -219,7 +219,7 @@ QStringList NativeImportBase::split(QString line) {
             seenSpace = true;
             if (!listElement.isEmpty()) {
                 list.append(listElement);
-                listElement = QString::null;
+                listElement = QString();
             }
         } else {
             listElement += c;
@@ -322,7 +322,7 @@ void NativeImportBase::parseFile(QString filename) {
         }
         if (! parseStmt())
            skipStmt();
-        m_comment = QString::null;
+        m_comment = QString();
     }
 }
 

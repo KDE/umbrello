@@ -107,24 +107,25 @@ QString JavaCodeGenerator::getListFieldClassName () {
 // Other methods
 //
 
-QString JavaCodeGenerator::capitalizeFirstLetter(QString string)
+QString JavaCodeGenerator::capitalizeFirstLetter(const QString &string)
 {
     // we could lowercase everything tostart and then capitalize? Nah, it would
     // screw up formatting like getMyRadicalVariable() to getMyradicalvariable(). Bah.
     QChar firstChar = string.at(0);
-    string.replace( 0, 1, firstChar.upper());
-    return string;
+    return firstChar.upper() + string.mid(1);
 }
 
 // IF the type is "string" we need to declare it as
 // the Java Object "String" (there is no string primative in Java).
 // Same thing again for "bool" to "boolean"
-QString JavaCodeGenerator::fixTypeName(QString string)
+QString JavaCodeGenerator::fixTypeName(const QString &string)
 {
     if (string.isEmpty() || string.contains(QRegExp("^\\s+$")))
         return "void";
-    string.replace(QRegExp("^string$"),"String");
-    string.replace(QRegExp("^bool$"),"boolean");
+    if (string == "string")
+        return "String";
+    if (string == "bool")
+        return "boolean";
     return cleanName(string);
 }
 

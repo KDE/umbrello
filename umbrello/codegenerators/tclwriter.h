@@ -83,17 +83,17 @@ private:
     /**
      * write the source codei text.
      */
-    void            writeCode(QString text);
+    void            writeCode(const QString &text);
 
     /**
      * write comment text.
      */
-    void            writeComm(QString text);
+    void            writeComm(const QString &text);
 
     /**
      * write documentation text.
      */
-    void            writeDocu(QString text);
+    void            writeDocu(const QString &text);
 
     void            writeConstructorDecl();
 
@@ -116,18 +116,19 @@ private:
     void            writeAttributeDecl(Uml::Visibility visibility, bool writeStatic);
 
     void            writeAssociationIncl(UMLAssociationList list,
-            Uml::IDType myId, QString type);
+            Uml::IDType myId, const QString &type);
     /**
      * Searches a list of associations for appropriate ones to write out as attributes
      */
     void            writeAssociationDecl(UMLAssociationList associations,
-                                         Uml::Visibility permit, Uml::IDType id, QString type);
+                                         Uml::Visibility permit, Uml::IDType id,
+                                         const QString &type);
 
     /**
      * Writes out an association as an attribute using Vector
      */
-    void            writeAssociationRoleDecl(QString fieldClassName,
-            QString roleName, QString multi, QString doc, QString docname);
+    void            writeAssociationRoleDecl(const QString &fieldClassName,
+            const QString &roleName, const QString &multi, const QString &doc, const QString &docname);
 
     /**
      * If needed, write out the declaration for the method to initialize attributes of our class.
@@ -146,8 +147,9 @@ private:
     void            writeAttributeSource();
     void            writeAssociationSource(UMLAssociationList associations,
                                            Uml::IDType id);
-    void            writeAssociationRoleSource(QString fieldClassName, QString roleName,
-            QString multi);
+    void            writeAssociationRoleSource(const QString &fieldClassName,
+                                               const QString &roleName,
+                                               const QString &multi);
     void            writeUse(UMLClassifier * c);
 
 
@@ -160,7 +162,7 @@ private:
     /**
      * Replaces `string' with STRING_TYPENAME.
      */
-    QString         fixTypeName(QString string);
+    QString         fixTypeName(const QString &string);
 
     QStringList     ObjectFieldVariables;
     QStringList     VectorFieldVariables;

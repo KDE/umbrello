@@ -51,7 +51,7 @@ void PascalImport::fillSource(QString word) {
         } else {
             if (!lexeme.isEmpty()) {
                 m_source.append(lexeme);
-                lexeme = QString::null;
+                lexeme = QString();
             }
             if (c == ':' && word[i + 1] == '=') {
                 m_source.append(":=");
@@ -325,14 +325,14 @@ bool PascalImport::parseStmt() {
             UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
                             name, m_scope[m_scopeIndex], m_comment);
             m_klass = static_cast<UMLClassifier*>(ns);
-            m_comment = QString::null;
+            m_comment = QString();
             if (m_source[m_srcIndex + 1] == "(") {
                 advance();
                 do {
                     QString base = advance();
                     UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class, base, NULL);
                     UMLClassifier *parent = static_cast<UMLClassifier*>(ns);
-                    m_comment = QString::null;
+                    m_comment = QString();
                     Import_Utils::createGeneralization(m_klass, parent);
                 } while (advance() == ",");
             }

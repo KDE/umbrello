@@ -168,15 +168,16 @@ private:
      * writeVectorAttributeAccessorMethods() on the association
      * role
      */
-    void writeAssociationRoleMethod(QString fieldClassName, bool isHeaderMethod, bool writeMethodBody, QString roleName, QString multi,
-                                    QString description, Uml::Changeability_Type change,
+    void writeAssociationRoleMethod(const QString &fieldClassName, bool isHeaderMethod, bool writeMethodBody,
+                                    const QString &roleName, const QString &multi,
+                                    const QString &description, Uml::Changeability_Type change,
                                     QTextStream &stream);
 
     /**
      * Writes getFoo() and setFoo() accessor methods for the attribute
      */
-    void writeSingleAttributeAccessorMethods(QString fieldClassName, QString fieldVarName,
-            QString fieldName, QString description,
+    void writeSingleAttributeAccessorMethods(QString fieldClassName, const QString &Name,
+            QString fieldName, const QString &description,
             Uml::Changeability_Type change,
             bool isHeaderMethod,
             bool isStatic, bool writeMethodBody, QTextStream &cpp);
@@ -184,8 +185,8 @@ private:
     /**
      * Writes addFoo() and removeFoo() accessor methods for the Vector attribute
      */
-    void writeVectorAttributeAccessorMethods(QString fieldClassName, QString fieldVarName,
-            QString fieldName, QString description,
+    void writeVectorAttributeAccessorMethods(QString fieldClassName, const QString &fieldVarName,
+            QString fieldName, const QString &description,
             Uml::Changeability_Type change,
             bool isHeaderMethod,
             bool writeMethodBody,
@@ -194,7 +195,7 @@ private:
     /**
      * Writes a // style comment
      */
-    void writeComment(QString text, QString indent, QTextStream &cpp);
+    void writeComment(const QString &text, const QString &indent, QTextStream &cpp);
 
     /**
      * Writes a documentation comment
@@ -216,7 +217,8 @@ private:
      * utility method to break up a block of text, which has embedded newline chars,
      * and print them to a stream as separate lines of text, indented as directed.
      */
-    void printTextAsSeparateLinesWithIndent (QString text, QString indent, QTextStream &stream);
+    void printTextAsSeparateLinesWithIndent (const QString &text, const QString &indent,
+                                             QTextStream &stream);
 
     /**
      * Intellegently print out header include/forward decl. for associated classes.
@@ -241,17 +243,17 @@ private:
     /**
      * Raises the case of the first letter in the given string
      */
-    QString capitalizeFirstLetter(QString string);
+    QString capitalizeFirstLetter(const QString &string);
 
     /**
      * Replaces `string' with STRING_TYPENAME.
      */
-    QString fixTypeName(QString string);
+    QString fixTypeName(const QString &string);
 
     /**
      * check that initial values of strings have quotes around them
      */
-    QString fixInitialStringDeclValue(QString value, QString type);
+    QString fixInitialStringDeclValue(const QString &value, const QString &type);
 
     /**
      * Determine what the variable name of this attribute should be.

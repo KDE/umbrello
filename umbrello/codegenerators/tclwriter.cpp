@@ -363,13 +363,13 @@ TclWriter::writeSourceFile(UMLClassifier * c, QFile & filetcl)
 }
 
 void
-TclWriter::writeCode(QString text)
+TclWriter::writeCode(const QString &text)
 {
     *mStream << getIndent() << text << m_endl;
 }
 
 void
-TclWriter::writeComm(QString text)
+TclWriter::writeComm(const QString &text)
 {
     QStringList     lines = QStringList::split("\n", text, true);
     for (uint i = 0; i < lines.count(); i++) {
@@ -378,7 +378,7 @@ TclWriter::writeComm(QString text)
 }
 
 void
-TclWriter::writeDocu(QString text)
+TclWriter::writeDocu(const QString &text)
 {
     QStringList     lines = QStringList::split("\n", text, true);
     for (uint i = 0; i < lines.count(); i++) {
@@ -392,7 +392,7 @@ TclWriter::writeDocu(QString text)
 // in self-association relationship).
 void
 TclWriter::writeAssociationIncl(UMLAssociationList list, Uml::IDType myId,
-                                QString type)
+                                const QString &type)
 {
     for (UMLAssociation * a = list.first(); a; a = list.next()) {
         UMLClassifier  *classifier = NULL;
@@ -546,7 +546,7 @@ TclWriter::writeAttributeDecl(Uml::Visibility visibility, bool writeStatic)
 void
 TclWriter::writeAssociationDecl(UMLAssociationList associations,
                                 Uml::Visibility permitScope, Uml::IDType id,
-                                QString /*type*/)
+                                const QString &/*type*/)
 {
     if (forceSections() || !associations.isEmpty()) {
         bool            printRoleA = false, printRoleB = false;
@@ -587,8 +587,8 @@ TclWriter::writeAssociationDecl(UMLAssociationList associations,
 }
 
 void
-TclWriter::writeAssociationRoleDecl(QString fieldClassName, QString roleName,
-                                    QString multi, QString doc, QString scope)
+TclWriter::writeAssociationRoleDecl(const QString &fieldClassName, const QString &roleName,
+                                    const QString &multi, const QString &doc, const QString &scope)
 {
     // ONLY write out IF there is a rolename given
     // otherwise its not meant to be declared in the code
@@ -877,8 +877,8 @@ TclWriter::writeAssociationSource(UMLAssociationList associations,
 }
 
 void
-TclWriter::writeAssociationRoleSource(QString fieldClassName,
-                                      QString roleName, QString multi)
+TclWriter::writeAssociationRoleSource(const QString &fieldClassName,
+                                      const QString &roleName, const QString &multi)
 {
     // ONLY write out IF there is a rolename given
     // otherwise its not meant to be declared in the code
@@ -922,7 +922,7 @@ TclWriter::writeAssociationRoleSource(QString fieldClassName,
 }
 
 QString
-TclWriter::fixTypeName(QString string)
+TclWriter::fixTypeName(const QString &string)
 {
     if (string.isEmpty())
         return "void";

@@ -57,7 +57,7 @@ CppWriter::CppWriter()
     // %VECTOR_TYPENAME%, which is as definition above.
     VECTOR_METHOD_APPEND = "%VARNAME%.push_back(add_object);"; // for std::vector
     VECTOR_METHOD_REMOVE = "int i, size = %VARNAME%.size();\nfor ( i = 0; i < size; i++) {\n\t%ITEMCLASS% item = %VARNAME%.at(i);\n\tif(item == remove_object) {\n\t\tvector<%ITEMCLASS%>::iterator it = %VARNAME%.begin() + i;\n\t\t%VARNAME%.erase(it);\n\t\treturn;\n\t}\n }"; // for std::vector
-    VECTOR_METHOD_INIT = ""; // nothing to be done
+    VECTOR_METHOD_INIT = QString(); // nothing to be done
     /*
         VECTOR_METHOD_APPEND = "%VARNAME%.append(&add_object);"; // Qt lib implementation
         VECTOR_METHOD_REMOVE = "%VARNAME%.removeRef(&remove_object);"; // Qt lib implementation
@@ -629,7 +629,7 @@ void CppWriter::writeAttributeMethods(UMLAttributeList *attribs,
         // force capitalizing the field name, this is silly,
         // from what I can tell, this IS the default behavior for
         // cleanName. I dunno why its not working -b.t.
-        methodBaseName.stripWhiteSpace();
+        methodBaseName = methodBaseName.stripWhiteSpace();
         methodBaseName.replace(0,1,methodBaseName.at(0).upper());
 
         writeSingleAttributeAccessorMethods(at->getTypeName(), varName,
@@ -639,7 +639,7 @@ void CppWriter::writeAttributeMethods(UMLAttributeList *attribs,
 
 }
 
-void CppWriter::writeComment(QString comment, QString myIndent, QTextStream &cpp)
+void CppWriter::writeComment(const QString &comment, const QString &myIndent, QTextStream &cpp)
 {
     // in the case we have several line comment..
     // NOTE: this part of the method has the problem of adopting UNIX newline,
@@ -819,11 +819,11 @@ void CppWriter::writeAssociationMethods (UMLAssociationList associations,
     }
 }
 
-void CppWriter::writeAssociationRoleMethod (QString fieldClassName,
+void CppWriter::writeAssociationRoleMethod (const QString &fieldClassName,
         bool isHeaderMethod,
         bool writeMethodBody,
-        QString roleName, QString multi,
-        QString description, Uml::Changeability_Type change,
+        const QString &roleName, const QString &multi,
+        const QString &description, Uml::Changeability_Type change,
         QTextStream &stream)
 {
     if(multi.isEmpty() || multi.contains(QRegExp("^[01]$")))
@@ -840,8 +840,8 @@ void CppWriter::writeAssociationRoleMethod (QString fieldClassName,
     }
 }
 
-void CppWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QString fieldVarName,
-        QString fieldName, QString description,
+void CppWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, const QString &fieldVarName,
+        QString fieldName, const QString &description,
         Uml::Changeability_Type changeType,
         bool isHeaderMethod,
         bool writeMethodBody,
@@ -915,8 +915,8 @@ void CppWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QSt
 }
 
 
-void CppWriter::writeSingleAttributeAccessorMethods(QString fieldClassName, QString fieldVarName,
-        QString fieldName, QString description,
+void CppWriter::writeSingleAttributeAccessorMethods(QString fieldClassName, const QString& fieldVarName,
+        QString fieldName, const QString &description,
         Uml::Changeability_Type change,
         bool isHeaderMethod,
         bool isStatic,
@@ -1032,7 +1032,7 @@ void CppWriter::writeInitAttibuteMethod (QTextStream &stream)
             }
         }
         // Now initialize the association related fields (e.g. vectors)
-        if (VECTOR_METHOD_INIT != "") {
+        if (!VECTOR_METHOD_INIT.isEmpty()) {
             QStringList::Iterator it;
             for( it = VectorFieldVariables.begin(); it != VectorFieldVariables.end(); ++it ) {
                 QString fieldVarName = *it;
@@ -1043,7 +1043,7 @@ void CppWriter::writeInitAttibuteMethod (QTextStream &stream)
             }
         }
 
-        if (OBJECT_METHOD_INIT != "") {
+        if (!OBJECT_METHOD_INIT.isEmpty()) {
             QStringList::Iterator it;
             for( it = ObjectFieldVariables.begin(); it != ObjectFieldVariables.end(); ++it ) {
                 QString fieldVarName = *it;
@@ -1101,11 +1101,12 @@ void CppWriter::writeConstructorMethods(QTextStream &stream)
 
 // IF the type is "string" we need to declare it as
 // the Java Object "String" (there is no string primative in Java).
-QString CppWriter::fixTypeName(QString string)
+QString CppWriter::fixTypeName(const QString &string)
 {
     if (string.isEmpty())
         return "void";
-    string.replace(QRegExp("^string$"), STRING_TYPENAME);
+    if (string == "string")
+        return STRING_TYPENAME;
     return string;
 }
 
@@ -1142,8 +1143,8 @@ void CppWriter::writeOperations(UMLOperationList &oplist, bool isHeaderMethod, Q
     // generate method decl for each operation given
     for (UMLOperation *op = oplist.first(); op; op = oplist.next()) {
 
-        QString returnStr = "";  // buffer for documentation
-        QString methodReturnType = "";
+        QString returnStr;  // buffer for documentation
+        QString methodReturnType;
         UMLAttributeList atl = op->getParmList();  // method parameters
 
         if (op->isConstructorOperation()) {
@@ -1239,16 +1240,17 @@ void CppWriter::printAssociationIncludeDecl (UMLAssociationList list, Uml::IDTyp
     }
 }
 
-QString CppWriter::fixInitialStringDeclValue(QString value, QString type)
+QString CppWriter::fixInitialStringDeclValue(const QString &value, const QString &type)
 {
+    QString val = value;
     // check for strings only
-    if (!value.isEmpty() && type == STRING_TYPENAME) {
-        if (!value.startsWith("\""))
-            value.prepend("\"");
-        if (!value.endsWith("\""))
-            value.append("\"");
+    if (!val.isEmpty() && type == STRING_TYPENAME) {
+        if (!val.startsWith("\""))
+            val.prepend("\"");
+        if (!val.endsWith("\""))
+            val.append("\"");
     }
-    return value;
+    return val;
 }
 
 // methods like this _shouldn't_ be needed IF we properly did things thruought the code.
@@ -1257,13 +1259,12 @@ QString CppWriter::getUMLObjectName(UMLObject *obj)
     return(obj!=0)?obj->getName():QString("NULL");
 }
 
-QString CppWriter::capitalizeFirstLetter(QString string)
+QString CppWriter::capitalizeFirstLetter(const QString &string)
 {
     // we could lowercase everything tostart and then capitalize? Nah, it would
     // screw up formatting like getMyRadicalVariable() to getMyradicalvariable(). Bah.
     QChar firstChar = string.at(0);
-    string.replace( 0, 1, firstChar.upper());
-    return string;
+    return firstChar + string.mid(1);
 }
 
 void CppWriter::writeBlankLine(QTextStream &stream)
@@ -1271,7 +1272,7 @@ void CppWriter::writeBlankLine(QTextStream &stream)
     stream << m_endl;
 }
 
-void CppWriter::printTextAsSeparateLinesWithIndent (QString text, QString indent, QTextStream &stream)
+void CppWriter::printTextAsSeparateLinesWithIndent (const QString &text, const QString &indent, QTextStream &stream)
 {
     if(text.isEmpty())
         return;

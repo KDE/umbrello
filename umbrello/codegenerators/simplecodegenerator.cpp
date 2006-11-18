@@ -26,7 +26,7 @@
 #include <klocale.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <kapplication.h>
 // app includes
 #include "../dialogs/overwritedialogue.h"
@@ -74,7 +74,7 @@ QString SimpleCodeGenerator::getIndent ()
     return myIndent;
 }
 
-QString SimpleCodeGenerator::findFileName(UMLPackage* concept, QString ext) {
+QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ext) {
 
     //if we already know to which file this class was written/should be written, just return it.
     if (m_fileMap.contains(concept))
@@ -138,19 +138,19 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* concept, QString ext) {
     name.simplifyWhiteSpace();
     name.replace(QRegExp(" "),"_");
 
-    ext.simplifyWhiteSpace();
-    ext.replace(QRegExp(" "),"_");
+    QString extension = ext.simplifyWhiteSpace();
+    extension.replace(' ', '_');
 
-    return overwritableName(concept, name, ext);
+    return overwritableName(concept, name, extension);
 }
 
-QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, QString name, const QString &ext) {
+QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString &name, const QString &ext) {
     //check if a file named "name" with extension "ext" already exists
     CodeGenerationPolicy *commonPolicy = UMLApp::app()->getCommonPolicy();
     QDir outputDir = commonPolicy->getOutputDirectory();
     QString filename = name + ext;
     if(!outputDir.exists(filename)) {
-        m_fileMap.insert(concept, filename);
+        m_fileMap.insert(concept,filename);
         return filename; //if not, "name" is OK and we have not much to to
     }
 

@@ -435,7 +435,7 @@ QString CodeGenerator::overwritableName( QString name, const QString &extension 
             } else {
                 m_applyToAllRemaining = false;
             }
-            return QString::null;
+            return QString();
             break;
         }
 
@@ -450,7 +450,7 @@ QString CodeGenerator::overwritableName( QString name, const QString &extension 
         }
         break;
     case CodeGenerationPolicy::Cancel: //don't output anything
-        return QString::null;
+        return QString();
         break;
     }
 

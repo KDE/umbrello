@@ -13,7 +13,7 @@
 #include <qstringlist.h>
 
 // kde includes
-#include <kapp.h>
+#include <kapplication.h>
 #include <kdebug.h>
 #include <kurl.h>
 

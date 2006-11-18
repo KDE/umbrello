@@ -33,7 +33,7 @@ public:
     /**
      * Sets the current button and inits the tool.
      * If the current button is the same to the button to set, the tool isn't
-     * initalized.
+     * initialized.
      *
      * @param button The button to set.
      */

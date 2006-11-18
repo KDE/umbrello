@@ -333,7 +333,7 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl) {
     perl << m_endl << m_endl;
 }
 
-void PerlWriter::writeOperations(QString /* classname */, UMLOperationList &opList, QTextStream &perl) {
+void PerlWriter::writeOperations(const QString &/* classname */, UMLOperationList &opList, QTextStream &perl) {
     UMLOperation *op;
     UMLAttribute *at;
 

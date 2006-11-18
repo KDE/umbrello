@@ -29,7 +29,7 @@ QStringList PetalNode::initialArgs() const {
 
 QString PetalNode::name() const {
     if (m_initialArgs.count() == 0)
-        return QString::null;
+        return QString();
     return m_initialArgs.first();
 }
 

@@ -39,7 +39,7 @@ namespace Import_Rose {
  */
 QString clean(QString str) {
     if (str.isNull())
-        return QString::null;
+        return QString();
     str.remove("\"");
     str.remove(QRegExp("^Logical View::"));
     return str;
@@ -62,7 +62,7 @@ Uml::IDType quid(const PetalNode *node) {
 QString quidu(const PetalNode *node) {
     QString quiduStr = node->findAttribute("quidu").string;
     if (quiduStr.isEmpty())
-        return QString::null;
+        return QString();
     quiduStr.remove("\"");
     return quiduStr;
 }

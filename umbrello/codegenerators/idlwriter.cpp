@@ -72,7 +72,7 @@ void IDLWriter::computeAssocTypeAndRole
             // at the "wrong" side.
             // Returning roleName = QString::null tells caller to
             // skip this association at this side.
-            roleName = QString::null;
+            roleName = QString();
             return;
         }
         IAmRoleA = false;
