@@ -1375,6 +1375,9 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
             UMLCanvasObject *o = static_cast<UMLCanvasObject*>(newItem->getUMLObject());
             if (o == NULL) {
                 kDebug() << "moveObject: newItem's UMLObject is NULL" << endl;
+            } else if (newParentObj == NULL) {
+                kError() << "UMLListView::moveObject(" << o->getName()
+                    << "): newParentObj is NULL" << endl;
             } else {
                 UMLPackage *pkg = static_cast<UMLPackage*>(newParentObj);
                 o->setUMLPackage( pkg );

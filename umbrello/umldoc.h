@@ -439,24 +439,6 @@ public:
     bool validateXMIHeader(QDomNode& headerNode);
 
     /**
-     * Internally sets the m_bNativeXMIFile flag.
-     *
-     * @param xmiId             A sample xmi.id from the current file.
-     *                  It is asumed that the nativeness of the
-     *                  XMI file can be determined using only
-     *                  this sample xmi.id.
-     *                  For native Umbrello XMI files, the
-     *                  xmi.id's are composed of only digits.
-     * @return  True if nativity could be determied.
-     */
-    bool determineNativity(const QString &xmiId);
-
-    /**
-     * Return the m_bNativeXMIFile flag.
-     */
-    bool isNativeXMIFile() const;
-
-    /**
      * Loads all UML objects from XMI into the current UMLDoc.
      *
      * @return  True if operation successful.
@@ -858,11 +840,6 @@ private:
      * Auxiliary to <docsettings> processing
      */
     Uml::IDType m_nViewID;
-
-    /**
-     * True when reading a native Umbrello XMI file.
-     */
-    bool m_bNativeXMIFile;
 
     /**
      * True when type resolution pass has been executed.

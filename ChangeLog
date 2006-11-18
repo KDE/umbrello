@@ -8,6 +8,7 @@ Version 1.5.52
 * Fixed bugs in generated code of various code generators
 * Bugs/wishes from http://bugs.kde.org:
 * Shift + Left and Shift+Right causes SIGSEGV (136288)
+* Faulty behavior when a class inside of a package is modified (137497)
 
 Version 1.5.51
 

@@ -113,17 +113,9 @@ QString UMLObject::getFullyQualifiedName(QString separator,
         bool skipPackage = false;
         if (!includeRoot) {
             UMLDoc *umldoc = UMLApp::app()->getDocument();
-            if (m_pUMLPackage == umldoc->getDatatypeFolder()) {
+            if (umldoc->rootFolderType(m_pUMLPackage) != Uml::N_MODELTYPES ||
+                m_pUMLPackage == umldoc->getDatatypeFolder())
                 skipPackage = true;
-            } else {
-                for (int i = 0; i < Uml::N_MODELTYPES; i++) {
-                    const Uml::Model_Type mt = (Uml::Model_Type)i;
-                    if (m_pUMLPackage == umldoc->getRootFolder(mt)) {
-                        skipPackage = true;
-                        break;
-                    }
-                }
-            }
         }
         if (!skipPackage) {
             if (separator.isEmpty())
@@ -344,6 +336,8 @@ QString UMLObject::getStereotype(bool includeAdornments /* = false */) const {
 }
 
 QString UMLObject::getPackage(QString separator, bool includeRoot) {
+    if (separator.isEmpty())
+        separator = UMLApp::app()->activeLanguageScopeSeparator();
     QString fqn = getFullyQualifiedName(separator, includeRoot);
     if (!fqn.contains(separator))
         return "";
@@ -419,21 +413,19 @@ bool UMLObject::resolveRef() {
             return true;
         }
     }
-    if (!pDoc->isNativeXMIFile() || !m_SecondaryId.contains(QRegExp("\\D"))) {
-        if (m_SecondaryFallback.isEmpty()) {
-            kError() << "UMLObject::resolveRef(" << m_Name
-                      << "): cannot find type with id "
-                      << m_SecondaryId << endl;
-            return false;
-        }
-#ifdef VERBOSE_DEBUGGING
-        kDebug() << "UMLObject::resolveRef(" << m_Name 
-                  << "): could not resolve secondary ID " << m_SecondaryId
-                  << ", using secondary fallback " << m_SecondaryFallback
-                  << endl;
-#endif
-        m_SecondaryId = m_SecondaryFallback;
+    if (m_SecondaryFallback.isEmpty()) {
+        kError() << "UMLObject::resolveRef(" << m_Name
+                  << "): cannot find type with id "
+                  << m_SecondaryId << endl;
+        return false;
     }
+#ifdef VERBOSE_DEBUGGING
+    kDebug() << "UMLObject::resolveRef(" << m_Name 
+              << "): could not resolve secondary ID " << m_SecondaryId
+              << ", using secondary fallback " << m_SecondaryFallback
+              << endl;
+#endif
+    m_SecondaryId = m_SecondaryFallback;
     // Assume we're dealing with the older Umbrello format where
     // the type name was saved in the "type" attribute rather
     // than the xmi.id of the model object of the attribute type.
@@ -722,12 +714,12 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
         }
     }
 
-    // Operations, attributes, enum literals, templates, stereotypes, associations,
+    // Operations, attributes, enum literals, templates, stereotypes,
     // and association role objects get added and signaled elsewhere.
     if (m_BaseType != Uml::ot_Operation && m_BaseType != Uml::ot_Attribute &&
             m_BaseType != Uml::ot_EnumLiteral && m_BaseType != Uml::ot_EntityAttribute &&
             m_BaseType != Uml::ot_Template && m_BaseType != Uml::ot_Stereotype &&
-            m_BaseType != Uml::ot_Association && m_BaseType != Uml::ot_Role) {
+            m_BaseType != Uml::ot_Role) {
         if (m_bInPaste) {
             m_pUMLPackage = NULL;  // forget any old parent
             UMLListView *listView = UMLApp::app()->getListView();
@@ -744,6 +736,7 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
         } else if (m_pUMLPackage) {
             m_pUMLPackage->addObject(this);
         } else if (umldoc->rootFolderType(this) == Uml::N_MODELTYPES) {
+            // m_pUMLPackage is not set on the root folders.
             kDebug() << "UMLObject::loadFromXMI(" << m_Name << "): m_pUMLPackage is not set"
                 << endl;
         }

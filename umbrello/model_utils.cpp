@@ -56,7 +56,7 @@ bool isCloneable(Uml::Widget_Type type) {
     }
 }
 
-UMLObject * findObjectInList(Uml::IDType id, UMLObjectList inList) {
+UMLObject * findObjectInList(Uml::IDType id, const UMLObjectList& inList) {
     for (UMLObjectListIt oit(inList); oit.current(); ++oit) {
         UMLObject *obj = oit.current();
         if (obj->getID() == id)
@@ -316,8 +316,19 @@ Uml::Model_Type guessContainer(UMLObject *o) {
     Uml::Object_Type ot = o->getBaseType();
     if (ot == Uml::ot_Package && o->getStereotype() == "subsystem")
         return Uml::mt_Component;
-    Uml::Model_Type mt = Uml::mt_Logical;
+    Uml::Model_Type mt = Uml::N_MODELTYPES;
     switch (ot) {
+        case Uml::ot_Package:   // CHECK: packages may appear in other views?
+        case Uml::ot_Interface:
+        case Uml::ot_Datatype:
+        case Uml::ot_Enum:
+        case Uml::ot_Class:
+        case Uml::ot_Attribute:
+        case Uml::ot_Operation:
+        case Uml::ot_EnumLiteral:
+        case Uml::ot_Template:
+            mt = Uml::mt_Logical;
+            break;
         case Uml::ot_Actor:
         case Uml::ot_UseCase:
             mt = Uml::mt_UseCase;
@@ -330,6 +341,7 @@ Uml::Model_Type guessContainer(UMLObject *o) {
             mt = Uml::mt_Deployment;
             break;
         case Uml::ot_Entity:
+        case Uml::ot_EntityAttribute:
             mt = Uml::mt_EntityRelationship;
             break;
         case Uml::ot_Association:

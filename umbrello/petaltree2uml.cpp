@@ -579,7 +579,6 @@ bool petalTree2Uml(PetalNode *root) {
         return false;
     }
     UMLDoc *umldoc = UMLApp::app()->getDocument();
-    umldoc->determineNativity("Certainly Not Native At All");
     umldoc->setCurrentRoot(Uml::mt_Logical);
     Import_Utils::assignUniqueIdOnCreation(false);
     PetalNode::NameValueList atts = logical_models->attributes();

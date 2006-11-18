@@ -340,15 +340,12 @@ bool UMLAssociation::load( QDomElement & element ) {
         // is not complete, so we need to finish the analysis here.
 
         // find self-associations
-        if(getAssocType() == Uml::at_Association && getObjectId(A) == getObjectId(B))
+        if (m_AssocType == Uml::at_Association && getObjectId(A) == getObjectId(B))
             m_AssocType = Uml::at_Association_Self;
 
         // fall-back default type
-        if(getAssocType() == Uml::at_Unknown)
-        {
+        if (m_AssocType == Uml::at_Unknown) {
             m_AssocType = Uml::at_Association;
-            kDebug() << "load can't determine association type, setting to 'plain' association"
-            << endl;
         }
 
         return true;
