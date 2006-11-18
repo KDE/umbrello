@@ -66,7 +66,7 @@ bool NativeImportBase::skipToClosing(QChar opener) {
             closing = ">";
             break;
         default:
-            kError() << "JavaImport::skipToClosing(" << opener
+            kError() << "NativeImportBase::skipToClosing(" << opener
                 << "): " << "illegal input character" << endl;
             return false;
     }

@@ -101,7 +101,7 @@ void PythonImport::fillSource(QString word) {
             if (!lexeme.isEmpty()) {
                 m_source.append(lexeme);
                 m_srcIndex++;
-                lexeme.clear();
+                lexeme = QString();
             }
             m_source.append(QString(c));
             m_srcIndex++;
@@ -137,7 +137,7 @@ bool PythonImport::parseStmt() {
         UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
                         name, m_scope[m_scopeIndex], m_comment);
         m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
-        m_comment.clear();
+        m_comment = QString();
         if (advance() == "(") {
             while (m_srcIndex < srcLength - 1 && advance() != ")") {
                 const QString& baseName = m_source[m_srcIndex];

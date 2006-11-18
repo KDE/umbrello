@@ -72,7 +72,7 @@ void JavaImport::fillSource(QString word) {
         } else {
             if (!lexeme.isEmpty()) {
                 m_source.append(lexeme);
-                lexeme.clear();
+                lexeme = QString();
             }
             m_source.append(QString(c));
         }
@@ -436,7 +436,7 @@ bool JavaImport::parseStmt() {
         // Constructor.
         nextToken = name;
         name = typeName;
-        typeName.clear();
+        typeName = QString();
     } else {
         nextToken = advance();
     }
