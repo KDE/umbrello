@@ -1,3 +1,7 @@
+Version 1.5.6
+* Bugs/wishes from http://bugs.kde.org:
+* Artifacts of a component diagram are wrongly placed in Deployment View folder (137564)
+
 Version 1.5.52
 
 * Fixed segfault in UMLClassifier::checkOperationSignature()

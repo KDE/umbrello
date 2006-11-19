@@ -124,25 +124,7 @@ UMLObject* createUMLObject(Uml::Object_Type type, const QString &n,
                            bool solicitNewName /* = true */) {
     UMLDoc *doc = UMLApp::app()->getDocument();
     if (parentPkg == NULL) {
-        Uml::Model_Type mt = Uml::mt_Logical;
-        switch (type) {
-            case Uml::ot_Actor:
-            case Uml::ot_UseCase:
-                mt = Uml::mt_UseCase;
-                break;
-            case Uml::ot_Component:
-                mt = Uml::mt_Component;
-                break;
-            case Uml::ot_Artifact:
-            case Uml::ot_Node:
-                mt = Uml::mt_Deployment;
-                break;
-            case Uml::ot_Entity:
-                mt = Uml::mt_EntityRelationship;
-                break;
-            default:
-                break;
-        }
+        Uml::Model_Type mt = Model_Utils::convert_OT_MT(type);
         kDebug() << "Object_Factory::createUMLObject(" << n << "): "
             << "parentPkg is not set, assuming Model_Type " << mt << endl;
         parentPkg = doc->getRootFolder(mt);
