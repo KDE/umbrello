@@ -8,12 +8,15 @@ Version 1.5.52
 * Fixed bugs in generated code of various code generators
 * Bugs/wishes from http://bugs.kde.org:
 * Shift + Left and Shift+Right causes SIGSEGV (136288)
+* Crashes on closing/opening files created with previous umbrello versions (136940)
+* Crash when opening saved document (136998)
 * Faulty behavior when a class inside of a package is modified (137497)
 
 Version 1.5.51
 
 * This is an interim release that fixes a serious regression in version 1.5.5
   which is detailed at http://bugs.kde.org/135749 (Crash when opening a document)
+* XMI file contains deleted associations (129859)
 * Accessor methods are private instead of public (85553)
 
 Version 1.5.5
