@@ -54,7 +54,7 @@ cd kdesdk/$udir
 make -f Makefile.cvs
 cd ..
 tarfile=${udir}.tar.bz2
-tar cfvj $tarfile --exclude=.svn $udir
+tar cfvj $tarfile --exclude=.svn --exclude=autom4te.cache $udir
 mv $tarfile $origdir/
 cd $origdir
 # rm -rf /tmp/kdesdk
