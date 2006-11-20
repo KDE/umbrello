@@ -86,14 +86,18 @@ void SQLWriter::writeClass(UMLClassifier *c) {
     UMLAssociationList aggregations = c->getAggregations();
     if( forceSections() || !aggregations.isEmpty() ) {
         for(UMLAssociation* a = aggregations.first(); a; a = aggregations.next()) {
-            if( a->getObject(Uml::A)->getID() != c->getID() ) {
-
-                sql << m_indentation << "," << m_endl << m_indentation
-                << "CONSTRAINT " << a->getName() << " FOREIGN KEY ("
-                << a->getRoleName(Uml::B) << ") REFERENCES "
-                << a->getObject(Uml::A)->getName()
-                << " (" << a->getRoleName(Uml::A) << ")";
-            }
+            UMLObject *objA = a->getObject(Uml::A);
+            UMLObject *objB = a->getObject(Uml::B);
+            if (objA->getID() == c->getID() && objB->getID() != c->getID())
+                continue;
+            QString roleNameA = a->getRoleName(Uml::A);
+            QString roleNameB = a->getRoleName(Uml::B);
+            if (roleNameA.isEmpty() || roleNameB.isEmpty())
+                continue;
+            sql << m_indentation << "," << m_endl;
+            sql << m_indentation << "CONSTRAINT " << a->getName()
+                << " FOREIGN KEY (" << roleNameB << ") REFERENCES "
+                << objA->getName() << " (" << roleNameA << ")";
         }
     }
 
