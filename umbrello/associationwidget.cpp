@@ -113,7 +113,7 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
     // Collaboration messages need a name label because it's that
     // which lets operator== distinguish them, which in turn
     // permits us to have more than one message between two objects.
-    if (getAssocType() == at_Coll_Message) {
+    if (isCollaboration()) {
         // Create a temporary name to bring on setName()
         int collabID = m_pView->generateCollaborationId();
         setName("m" + QString::number(collabID));
@@ -449,7 +449,7 @@ void AssociationWidget::setRoleDoc (const QString &doc, Role_Type role) {
 
 void AssociationWidget::setMessageText(FloatingTextWidget *ft) {
     QString message;
-    if (getAssocType() == at_Coll_Message) {
+    if (isCollaboration()) {
         if (m_pObject != NULL) {
             message = getMulti(A) + ": " + getOperationText(m_pView);
         } else {
@@ -840,6 +840,11 @@ void AssociationWidget::setUMLAssociation (UMLAssociation * assoc)
 /** Returns true if the Widget is either at the starting or ending side of the association */
 bool AssociationWidget::contains(UMLWidget* widget) {
     return (widget == m_role[A].m_pWidget || widget == m_role[B].m_pWidget);
+}
+
+bool AssociationWidget::isCollaboration() {
+    Uml::Association_Type at = getAssocType();
+    return (at == at_Coll_Message || at == at_Coll_Message_Self);
 }
 
 Association_Type AssociationWidget::getAssocType() const {
@@ -2265,7 +2270,7 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
     if( menuType == ListPopupMenu::mt_Undefined ) {
         if (type == at_Anchor || onAssocClassLine(p))
             menuType = ListPopupMenu::mt_Anchor;
-        else if( type == at_Coll_Message )
+        else if (isCollaboration())
             menuType = ListPopupMenu::mt_Collaboration_Message;
         else if( AssocRules::allowRole( type ) )
             menuType = ListPopupMenu::mt_FullAssociation;
@@ -2315,7 +2320,7 @@ void AssociationWidget::slotMenuSelection(int sel) {
 
     //if it's a collaboration message we now just use the code in floatingtextwidget
     //this means there's some redundant code below but that's better than duplicated code
-    if (atype == at_Coll_Message && sel != ListPopupMenu::mt_Delete) {
+    if (isCollaboration() && sel != ListPopupMenu::mt_Delete) {
         m_pName->slotMenuSelection(sel);
         return;
     }
@@ -3256,8 +3261,7 @@ void AssociationWidget::setOperation(UMLOperation *op) {
 }
 
 UMLClassifier *AssociationWidget::getOperationOwner() {
-    Association_Type atype = getAssocType();
-    Role_Type role = (atype == at_Coll_Message ? B : A);
+    Role_Type role = (isCollaboration() ? B : A);
     UMLObject *o = getWidget(role)->getUMLObject();
     if (o == NULL)
         return NULL;
@@ -3383,6 +3387,9 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
     setWidget(pWidgetA, A);
     setWidget(pWidgetB, B);
 
+    QString type = qElement.attribute( "type", "-1" );
+    Uml::Association_Type aType = (Uml::Association_Type) type.toInt();
+
     QString id = qElement.attribute( "xmi.id", "-1" );
     bool oldStyleLoad = false;
     if (id == "-1") {
@@ -3393,8 +3400,6 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
         // Create the UMLAssociation if both roles are UML objects;
         // else load the info locally.
 
-        QString type = qElement.attribute( "type", "-1" );
-        Uml::Association_Type aType = (Uml::Association_Type) type.toInt();
         if (UMLAssociation::assocTypeHasUMLRepresentation(aType)) {
             // lack of an association in our widget AND presence of
             // both uml objects for each role clearly identifies this
@@ -3475,13 +3480,11 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
             return false;
         } else {
             const Uml::Object_Type ot = myObj->getBaseType();
-            if (ot == ot_Attribute || ot == ot_EntityAttribute) {
+            if (ot != ot_Association) {
                 setUMLObject(myObj);
-                QString type = qElement.attribute( "type", "-1" );
-                Uml::Association_Type aType = (Uml::Association_Type) type.toInt();
                 setAssocType(aType);
             } else {
-                UMLAssociation * myAssoc = (UMLAssociation*)myObj;
+                UMLAssociation * myAssoc = static_cast<UMLAssociation*>(myObj);
                 setUMLAssociation(myAssoc);
                 m_LinePath.setAssocType( myAssoc->getAssocType() );
             }
@@ -3576,6 +3579,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
                 break;
 
             case Uml::tr_Coll_Message:
+            case Uml::tr_Coll_Message_Self:
                 m_pName = ft;
                 ft->setLink(this);
                 ft->setActivated();
