@@ -65,7 +65,7 @@ UMLObject * findObjectInList(Uml::IDType id, const UMLObjectList& inList);
  *                      object are searched before the global scope.
  * @return      Pointer to the UMLObject found, or NULL if not found.
  */
-UMLObject* findUMLObject( UMLObjectList inList, QString name,
+UMLObject* findUMLObject( const UMLObjectList& inList, QString name,
                           Uml::Object_Type type = Uml::ot_UMLObject,
                           UMLObject *currentObj = NULL);
 
