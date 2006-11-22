@@ -1594,8 +1594,12 @@ QWidget* UMLApp::getMainViewWidget() {
 
 void UMLApp::setCurrentView(UMLView* view) {
     m_view = view;
-    if (m_viewStack == NULL)
+    if (m_viewStack == NULL) {
+        kError() << "UMLApp::setCurrentView: m_viewStack is NULL" << endl;
         return;
+    }
+    if (m_viewStack->id(view) < 0)
+        m_viewStack->addWidget(view);
     m_viewStack->raiseWidget(view);
     kapp->processEvents();
     if (view) {
