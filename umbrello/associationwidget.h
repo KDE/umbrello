@@ -247,6 +247,11 @@ public:
     bool contains(UMLWidget* widget);
 
     /**
+     * Returns true if this AssociationWidget represents a collaboration message.
+     */
+    bool isCollaboration();
+
+    /**
      * Gets the association's type.
      *
      * @return  This AssociationWidget's Association_Type.

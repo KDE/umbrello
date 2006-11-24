@@ -100,7 +100,7 @@ UMLObject * findObjectInList(Uml::IDType id, const UMLObjectList& inList) {
     return NULL;
 }
 
-UMLObject* findUMLObject(UMLObjectList inList, QString name,
+UMLObject* findUMLObject(const UMLObjectList& inList, QString name,
                          Uml::Object_Type type /* = ot_UMLObject */,
                          UMLObject *currentObj /* = NULL */) {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();

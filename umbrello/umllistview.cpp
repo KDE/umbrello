@@ -1205,7 +1205,8 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
             break;
         case Uml::lvt_Artifact:
         case Uml::lvt_Component_Diagram:
-            accept = (dstType == Uml::lvt_Component_Folder);
+            accept = (dstType == Uml::lvt_Component_Folder ||
+                      dstType == Uml::lvt_Component_View);
             break;
         case Uml::lvt_Node:
         case Uml::lvt_Deployment_Diagram:
