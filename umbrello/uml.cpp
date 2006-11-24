@@ -237,7 +237,7 @@ void UMLApp::initActions() {
                                         i18n("Delete &Selected"),
                                         actionCollection(),
                                         "delete_selected" );
-    deleteSelectedWidget->setShortcut(Qt::Key_Delete);
+    deleteSelectedWidget->setShortcut(QKeySequence(Qt::Key_Delete));
     connect(deleteSelectedWidget, SIGNAL( triggered( bool ) ), this, SLOT( slotDeleteSelectedWidget() ));
 
     // The different views
@@ -354,26 +354,30 @@ void UMLApp::initActions() {
                         QApplication::layoutDirection() ? moveTabRightString : moveTabLeftString,
                         actionCollection(),
                         "move_tab_left");
-    moveTabLeft->setShortcut(QApplication::layoutDirection() ? Qt::CTRL+Qt::SHIFT+Qt::Key_Right : Qt::CTRL+Qt::SHIFT+Qt::Key_Left);
+    moveTabLeft->setShortcut(QApplication::layoutDirection() ? 
+                 QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left));
     connect(moveTabLeft, SIGNAL( triggered( bool ) ), this, SLOT( slotMoveTabLeft() ));
 
     moveTabRight = new KAction(QApplication::layoutDirection() ? "back" : "forward", 
                                QApplication::layoutDirection() ? moveTabLeftString : moveTabRightString,
                                actionCollection(),
                                "move_tab_right");
-    moveTabRight->setShortcut(QApplication::layoutDirection() ? Qt::CTRL+Qt::SHIFT+Qt::Key_Left : Qt::CTRL+Qt::SHIFT+Qt::Key_Right);
+    moveTabRight->setShortcut(QApplication::layoutDirection() ?
+                  QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right));
     connect(moveTabRight, SIGNAL( triggered( bool ) ), this, SLOT( slotMoveTabRight() ));
 
     QString selectTabLeftString = i18n("Select Diagram on Left");
     QString selectTabRightString = i18n("Select Diagram on Right");
     changeTabLeft = new KAction(QApplication::layoutDirection() ? selectTabRightString : selectTabLeftString,
                                 actionCollection(), "previous_tab");
-    changeTabLeft->setShortcut(QApplication::layoutDirection() ? Qt::SHIFT+Qt::Key_Right : Qt::SHIFT+Qt::Key_Left);
+    changeTabLeft->setShortcut(QApplication::layoutDirection() ?
+                   QKeySequence(Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::SHIFT+Qt::Key_Left));
     connect(changeTabLeft, SIGNAL( triggered( bool ) ), this, SLOT( slotChangeTabLeft() ));
     
     changeTabRight = new KAction(QApplication::layoutDirection() ? selectTabLeftString : selectTabRightString,
                                  actionCollection(), "next_tab");
-    changeTabRight->setShortcut(QApplication::layoutDirection() ? Qt::SHIFT+Qt::Key_Left : Qt::SHIFT+Qt::Key_Right);
+    changeTabRight->setShortcut(QApplication::layoutDirection() ?
+                    QKeySequence(Qt::SHIFT+Qt::Key_Left) : QKeySequence(Qt::SHIFT+Qt::Key_Right));
     connect(changeTabRight, SIGNAL( triggered( bool ) ), this, SLOT( slotChangeTabRight() ));
 
 
