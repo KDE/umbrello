@@ -22,7 +22,6 @@
 #include <qobject.h>
 #include <q3objectdict.h>
 #include <q3dragobject.h>
-#include <q3paintdevicemetrics.h>
 #include <qfileinfo.h>
 #include <q3ptrlist.h>
 #include <qcolor.h>
@@ -221,7 +220,6 @@ int UMLView::generateCollaborationId() {
 void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
     int height, width;
     //get the size of the page
-    Q3PaintDeviceMetrics metrics(pPrinter);
     QFontMetrics fm = pPainter.fontMetrics(); // use the painter font metrics, not the screen fm!
     int fontHeight  = fm.lineSpacing();
     int marginX = pPrinter->margins().width();
@@ -243,11 +241,11 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
     //double margin at bottom of page as it doesn't print down there
     //on my printer, so play safe as default.
     if(pPrinter->orientation() == KPrinter::Portrait) {
-        width = metrics.width() - marginX * 2;
-        height = metrics.height() - fontHeight - 4 - marginY * 3;
+        width = pPrinter->width() - marginX * 2;
+        height = pPrinter->height() - fontHeight - 4 - marginY * 3;
     } else {
-        width = metrics.width() - marginX * 2;
-        height = metrics.height() - fontHeight - 4 - marginY * 2;
+        width = pPrinter->width() - marginX * 2;
+        height = pPrinter->height() - fontHeight - 4 - marginY * 2;
     }
     //get the smallest rect holding the diagram
     QRect rect = getDiagramRect();
