@@ -704,7 +704,7 @@ void UMLWidget::setSelected(bool _select) {
             << bkgnd->getZ() + 1 << ", SelectState: " << _select << endl;
         setZ( bkgnd->getZ() + 1 );
     } else {
-        setZ( 0 );
+        setZ( m_origZ );
     }
 
     update();
