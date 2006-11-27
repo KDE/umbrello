@@ -25,7 +25,6 @@ ToolBarStateArrow::ToolBarStateArrow(UMLView *umlView): ToolBarState(umlView) {
 }
 
 ToolBarStateArrow::~ToolBarStateArrow() {
-    m_selectionRect.clear();
 }
 
 void ToolBarStateArrow::init() {
