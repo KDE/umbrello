@@ -337,7 +337,7 @@ void UMLApp::initActions() {
     viewExportImage->setEnabled(false);
     viewProperties->setEnabled(false);
 
-    zoomAction = new KPlayerPopupSliderAction(i18n("&Zoom Slider"), "viewmag", Qt::Key_F9,
+    zoomAction = new KPlayerPopupSliderAction(i18n("&Zoom Slider"), "viewmag", KShortcut(Qt::Key_F9),
                  this, SLOT(slotZoomSliderMoved(int)),
                  actionCollection(), "popup_zoom");
     zoom100Action = new KAction( "viewmag1", 
