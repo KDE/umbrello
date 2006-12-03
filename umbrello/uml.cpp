@@ -1599,15 +1599,17 @@ void UMLApp::setCurrentView(UMLView* view) {
         kError() << "UMLApp::setCurrentView: m_viewStack is NULL" << endl;
         return;
     }
+    if (view == NULL) {
+        kError() << "UMLApp::setCurrentView: view is NULL" << endl;
+        return;
+    }
     if (m_viewStack->id(view) < 0)
         m_viewStack->addWidget(view);
     m_viewStack->raiseWidget(view);
-    if (view) {
-        slotStatusMsg(view->getName());
-        UMLListViewItem* lvitem = m_listView->findView(view);
-        if (lvitem)
-            m_listView->setCurrentItem(lvitem);
-    }
+    slotStatusMsg(view->getName());
+    UMLListViewItem* lvitem = m_listView->findView(view);
+    if (lvitem)
+        m_listView->setCurrentItem(lvitem);
 }
 
 UMLView* UMLApp::getCurrentView() {

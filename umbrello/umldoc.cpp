@@ -1559,7 +1559,6 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
         UMLApp::app()->setGenerator(UMLApp::app()->getDefaultLanguage());
     emit sigWriteToStatusBar( i18n("Setting up the document...") );
     kapp->processEvents();  // give UI events a chance
-    UMLApp::app()->setCurrentView(NULL);
     activateAllViews();
 
     UMLView *viewToBeSet = NULL;
@@ -1837,7 +1836,6 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
 void UMLDoc::removeAllViews() {
     for (int i = 0; i < Uml::N_MODELTYPES; i++)
         m_root[i]->removeAllViews();
-    UMLApp::app()->setCurrentView(NULL);
     emit sigDiagramChanged(dt_Undefined);
     UMLApp::app()->setDiagramMenuItemsState(false);
 }
