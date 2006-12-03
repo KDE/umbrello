@@ -3,8 +3,15 @@ Version 1.5.6
 * Fixed save/reload of association widgets for collaboration diagrams
   http://www.geeksoc.org/~jr/umbrello/uml-devel/9825.html
   http://www.geeksoc.org/~jr/umbrello/uml-devel/9857.html
+* Fixed crash in ToolBarStateArrow destructor
+  http://www.geeksoc.org/~jr/umbrello/uml-devel/9861.html
+* Stereotype selection list for parameter properties dialog
+  http://www.geeksoc.org/~jr/umbrello/uml-devel/9862.html
+* Note widget is now always drawn on TOP of all widgets
+  http://www.geeksoc.org/~jr/umbrello/uml-devel/9863.html
 * Bugs/wishes from http://bugs.kde.org:
 * Artifacts of a component diagram are wrongly placed in Deployment View folder (137564)
+* Incorrect export to SQL (138139)
 
 Version 1.5.52
 

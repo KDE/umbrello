@@ -380,7 +380,7 @@ void SettingsDlg::slotDefault() {
         m_GeneralWidgets.logoCB -> setChecked( true );
         m_GeneralWidgets.tipCB -> setChecked( true );
         m_GeneralWidgets.loadlastCB -> setChecked( true );
-        m_GeneralWidgets.diagramKB -> setCurrentItem( 0 );
+        m_GeneralWidgets.diagramKB -> setCurrentIndex( 0 );
     }
     else if ( current == pageFont )
     {
@@ -403,7 +403,7 @@ void SettingsDlg::slotDefault() {
         m_ClassWidgets.showOpSigCB -> setChecked( false );
         m_ClassWidgets.showPackageCB -> setChecked( false );
         m_ClassWidgets.m_pAttribScopeCB->setCurrentIndex(1); // Private
-        m_ClassWidgets.m_pOperationScopeCB->setCurrentItem(0); // Public
+        m_ClassWidgets.m_pOperationScopeCB->setCurrentIndex(0); // Public
     }
     else if (  current == pageCodeGen || current == pageCodeViewer )
     {

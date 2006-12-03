@@ -176,7 +176,7 @@ void UMLEntityAttributeDialog::setupDialog() {
 
     if (!foundType) {
         insertType( m_pEntityAttribute->getTypeName(), 0 );
-        m_pTypeCB->setCurrentItem(0);
+        m_pTypeCB->setCurrentIndex(0);
     }
 
     m_pNameLE->setFocus();

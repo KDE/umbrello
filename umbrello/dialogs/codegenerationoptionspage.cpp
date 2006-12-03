@@ -61,8 +61,8 @@ void CodeGenerationOptionsPage::init()
     m_headingsDir->setText(policy->getHeadingFileDir());
     m_overwriteGroup->setButton(overwriteToInteger(policy->getOverwritePolicy()));
 
-    m_SelectEndLineCharsBox->setCurrentItem(newLineToInteger(policy->getLineEndingType()));
-    m_SelectIndentationTypeBox->setCurrentItem(indentTypeToInteger(policy->getIndentationType()));
+    m_SelectEndLineCharsBox->setCurrentIndex(newLineToInteger(policy->getLineEndingType()));
+    m_SelectIndentationTypeBox->setCurrentIndex(indentTypeToInteger(policy->getIndentationType()));
     m_SelectIndentationNumber->setValue(policy->getIndentationAmount());
 
     connect(this,SIGNAL(syncCodeDocumentsToParent()),gen,SLOT(syncCodeToDocument()));
@@ -81,7 +81,7 @@ void CodeGenerationOptionsPage::setupActiveLanguageBox()
         m_SelectLanguageBox->insertItem(language, indexCounter);
         indexCounter++;
     }
-    m_SelectLanguageBox->setCurrentItem(UMLApp::app()->getActiveLanguage());
+    m_SelectLanguageBox->setCurrentIndex(UMLApp::app()->getActiveLanguage());
 }
 
 int CodeGenerationOptionsPage::indentTypeToInteger(CodeGenerationPolicy::IndentationType value) {

@@ -198,7 +198,7 @@ void UMLOperationDialog::setupDialog() {
 
     if (!foundReturnType) {
         insertType( m_pOperation->getTypeName(), 0 );
-        m_pRtypeCB->setCurrentItem(0);
+        m_pRtypeCB->setCurrentIndex(0);
     }
 
     //fill in parm list box

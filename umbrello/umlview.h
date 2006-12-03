@@ -53,12 +53,12 @@ class KPrinter;
 class ToolBarState;
 class ToolBarStateFactory;
 
-/** The UMLView class provides the view widget for the UMLApp
- * instance.  The View instance inherits QWidget as a base class and
- * represents the view object of a KMainWindow. As UMLView is part of
- * the document-view model, it needs a reference to the document
- * object connected with it by the UMLApp class to manipulate and
- * display the document structure provided by the UMLDoc class.
+/**
+ * UMLView instances represent diagrams.
+ * The UMLApp instance manages a QWidgetStack of UMLView instances.
+ * The visible diagram is at the top of stack.
+ * The UMLView class inherits from QCanvasView and it owns the
+ * objects displayed on its related QCanvas (see m_WidgetList.)
  *
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org

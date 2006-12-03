@@ -83,6 +83,9 @@ void SQLWriter::writeClass(UMLClassifier *c) {
     if (isClass)
         writeAttributes(c, sql);
 
+    sql << m_endl << ");" << m_endl;
+
+    QMap<UMLAssociation*,UMLAssociation*> constraintMap; // so we don't repeat constraint
     UMLAssociationList aggregations = c->getAggregations();
     if( forceSections() || !aggregations.isEmpty() ) {
         for(UMLAssociation* a = aggregations.first(); a; a = aggregations.next()) {
@@ -90,18 +93,20 @@ void SQLWriter::writeClass(UMLClassifier *c) {
             UMLObject *objB = a->getObject(Uml::B);
             if (objA->getID() == c->getID() && objB->getID() != c->getID())
                 continue;
-            QString roleNameA = a->getRoleName(Uml::A);
-            QString roleNameB = a->getRoleName(Uml::B);
-            if (roleNameA.isEmpty() || roleNameB.isEmpty())
-                continue;
-            sql << m_indentation << "," << m_endl;
-            sql << m_indentation << "CONSTRAINT " << a->getName()
-                << " FOREIGN KEY (" << roleNameB << ") REFERENCES "
-                << objA->getName() << " (" << roleNameA << ")";
+	    constraintMap[a] = a;
         }
     }
+    
+    QMap<UMLAssociation*,UMLAssociation*>::Iterator itor = constraintMap.begin();
+    for (;itor != constraintMap.end();itor++) {
+	UMLAssociation* a = itor.data();
+	sql << "ALTER TABLE "<< classname
+            << " ADD CONSTRAINT " << a->getName() << " FOREIGN KEY ("
+            << a->getRoleName(Uml::B) << ") REFERENCES "
+            << a->getObject(Uml::A)->getName()
+            << " (" << a->getRoleName(Uml::A) << ");" << m_endl;
+    }
 
-    sql << m_endl << ");" << m_endl;
 
     file.close();
     emit codeGenerated(c, true);
@@ -109,10 +114,11 @@ void SQLWriter::writeClass(UMLClassifier *c) {
 
 
 void SQLWriter::writeAttributes(UMLClassifier *c, QTextStream &sql) {
-    UMLAttributeList atpub, atprot, atpriv;
+    UMLAttributeList atpub, atprot, atpriv, atimp;
     atpub.setAutoDelete(false);
     atprot.setAutoDelete(false);
     atpriv.setAutoDelete(false);
+    atimp.setAutoDelete(false);
 
     //sort attributes by scope and see if they have a default value
     UMLAttributeList atl = c->getAttributeList();
@@ -127,7 +133,8 @@ void SQLWriter::writeAttributes(UMLClassifier *c, QTextStream &sql) {
           case Uml::Visibility::Private:
             atpriv.append(at);
             break;
-          default:
+          case Uml::Visibility::Implementation:
+            atimp.append(at);
             break;
         }
     }
@@ -152,6 +159,12 @@ void SQLWriter::writeAttributes(UMLClassifier *c, QTextStream &sql) {
     if (atpriv.count() > 0)
     {
         printAttributes(sql, atpriv, first);
+        first = false;
+    }
+
+    if (atimp.count() > 0)
+    {
+        printAttributes(sql, atimp, first);
         first = false;
     }
 

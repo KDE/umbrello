@@ -1071,6 +1071,9 @@ Uml::Icon_Type convert_LVT_IT(Uml::ListView_Type lvt) {
         case Uml::lvt_EntityAttribute:
             icon = Uml::it_Private_Attribute;
             break;
+        case Uml::lvt_EnumLiteral:
+            icon = Uml::it_Public_Attribute;
+            break;
         case Uml::lvt_Operation:
             icon = Uml::it_Public_Method;
             break;

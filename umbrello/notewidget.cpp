@@ -36,6 +36,7 @@ NoteWidget::NoteWidget(UMLView * view, Uml::IDType id)
         : UMLWidget(view, id, new NoteWidgetController(this)) {
     init();
     setSize(100,80);
+    setZ( 20 ); //make sure always on top.
 #ifdef NOTEWIDGET_EMBED_EDITOR
     // NB: This code is currently deactivated because
     // Zoom does not yet work with the embedded text editor.
@@ -237,7 +238,7 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
         } else {
             // all chars of text have been handled already ->
             // perform this last run to spool current content of "word"
-            c = returnChar; 
+            c = returnChar;
         }
         if (c == returnChar || c.isSpace()) {
             // new word delimiter found -> its time to decide on word wrap
@@ -304,6 +305,7 @@ void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 bool NoteWidget::loadFromXMI( QDomElement & qElement ) {
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
+    setZ( 20 ); //make sure always on top.
     setDoc( qElement.attribute("text", "") );
     QString diagramlink = qElement.attribute("diagramlink", "");
     if (!diagramlink.isEmpty())

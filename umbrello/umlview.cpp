@@ -199,6 +199,9 @@ UMLView::~UMLView() {
     blockSignals( true );
     removeAllWidgets();
 
+    delete m_pToolBarStateFactory;
+    m_pToolBarStateFactory = NULL;
+
     // Qt Doc for QCanvasView::~QCanvasView () states:
     // "Destroys the canvas view. The associated canvas is not deleted."
     // we should do it now

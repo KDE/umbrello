@@ -32,6 +32,7 @@
 #include "../umldoc.h"
 #include "../dialog_utils.h"
 #include "../object_factory.h"
+#include "../stereotype.h"
 
 ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
         : KDialog(parent)
@@ -84,9 +85,10 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
                                     m_pInitialL, i18n("&Initial value:"),
                                     m_pInitialLE, initialValue );
 
-    Dialog_Utils::makeLabeledEditField( m_pParmGB, propLayout, 3,
-                                    m_pStereoTypeL, i18n("&Stereotype name:"),
-                                    m_pStereoTypeLE, m_pAtt->getStereotype() );
+    m_pStereoTypeL = new QLabel( i18n("Stereotype name:"), m_pParmGB );
+    propLayout -> addWidget(m_pStereoTypeL, 3, 0);
+    m_pStereoTypeCB = new KComboBox(true, m_pParmGB );
+    propLayout -> addWidget(m_pStereoTypeCB, 3, 1);
 
     m_pKind =  new Q3ButtonGroup(i18n("Passing Direction"), frame);
     m_pKind->setExclusive(true);
@@ -167,15 +169,36 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
 
     if (!foundType) {
         insertType( type, 0 );
-        m_pTypeCB->setCurrentItem(0);
+        m_pTypeCB->setCurrentIndex(0);
     }
+
+    // manage stereotypes
+    m_pStereoTypeCB->setDuplicatesEnabled(false); //only allow one of each type in box
+    m_pStereoTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
+    insertStereotype (QString("")); // an empty stereotype is the default
+    int defaultStereotype=0;
+    bool foundDefaultStereotype = false;
+    for (UMLStereotypeListIt it(m_pUmldoc->getStereotypes()); it.current(); ++it) {
+        if (!foundDefaultStereotype) {
+            if ( m_pAtt->getStereotype() == it.current()->getName()) {
+                foundDefaultStereotype = true;
+            }
+            defaultStereotype++;
+        }
+        insertStereotype (it.current()->getName());
+    }
+    // lookup for a default stereotype, if the operation doesn't have one
+    if (foundDefaultStereotype)
+        m_pStereoTypeCB->setCurrentIndex(defaultStereotype);
+    else
+        m_pStereoTypeCB->setCurrentIndex(-1);
 
     // set tab order
     setTabOrder(m_pKind, m_pTypeCB);
     setTabOrder(m_pTypeCB, m_pNameLE);
     setTabOrder(m_pNameLE, m_pInitialLE);
-    setTabOrder(m_pInitialLE, m_pStereoTypeLE);
-    setTabOrder(m_pStereoTypeLE, m_pIn);
+    setTabOrder(m_pInitialLE, m_pStereoTypeCB);
+    setTabOrder(m_pStereoTypeCB, m_pIn);
     setTabOrder(m_pIn, m_pDoc);
 
     m_pNameLE->setFocus();
@@ -185,6 +208,12 @@ void ParmPropDlg::insertType( const QString& type, int index )
 {
     m_pTypeCB->insertItem( type, index );
     m_pTypeCB->completionObject()->addItem( type );
+}
+
+void ParmPropDlg::insertStereotype( const QString& type, int index )
+{
+    m_pStereoTypeCB->insertItem( type, index );
+    m_pStereoTypeCB->completionObject()->addItem( type );
 }
 
 Uml::Parameter_Direction ParmPropDlg::getParmKind() {
@@ -199,7 +228,7 @@ Uml::Parameter_Direction ParmPropDlg::getParmKind() {
 void ParmPropDlg::slotOk() {
     if (m_pAtt != NULL) {
         m_pAtt->setParmKind( getParmKind() );
-        m_pAtt->setStereotype( m_pStereoTypeLE->text() );
+        m_pAtt->setStereotype( m_pStereoTypeCB->currentText() );
         QString typeName = m_pTypeCB->currentText();
         UMLClassifier * pConcept = dynamic_cast<UMLClassifier*>( m_pAtt->parent()->parent() );
         if (pConcept == NULL) {

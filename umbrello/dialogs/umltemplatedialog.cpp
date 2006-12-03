@@ -107,7 +107,7 @@ void UMLTemplateDialog::setupDialog() {
 
     if (!foundType) {
         insertType( m_pTemplate->getTypeName(), 0 );
-        m_pTypeCB->setCurrentItem(0);
+        m_pTypeCB->setCurrentIndex(0);
     }
 
     m_pNameLE->setFocus();

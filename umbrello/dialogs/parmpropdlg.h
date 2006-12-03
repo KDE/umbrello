@@ -103,14 +103,19 @@ protected:
     */
     void insertType( const QString& type, int index = -1 );
 
+    /**
+     * Inserts @p type into the stereotype-combobox as well as its completion object.
+     */
+    void insertStereotype( const QString& type, int index = -1 );
+
 
 private:
     Q3GroupBox * m_pParmGB, * m_pDocGB;
     Q3ButtonGroup *m_pKind;
     QRadioButton * m_pIn, * m_pOut, *m_pInOut;
     QLabel * m_pTypeL, * m_pNameL, * m_pInitialL, * m_pStereoTypeL;
-    KComboBox * m_pTypeCB;
-    QLineEdit * m_pNameLE, * m_pInitialLE, * m_pStereoTypeLE;
+    KComboBox * m_pTypeCB, * m_pStereoTypeCB;
+    QLineEdit * m_pNameLE, * m_pInitialLE;
     Q3MultiLineEdit * m_pDoc;
     UMLDoc * m_pUmldoc;
     UMLAttribute * m_pAtt;
