@@ -270,7 +270,7 @@ public:
     UMLView* getCurrentView();
 
     /**
-     * Sets the default mime type for all diagrams that are exported as 
+     * Sets the default mime type for all diagrams that are exported as
      * images.
      *
      * @param mimeType  The MIME type to set as the default.
@@ -278,7 +278,7 @@ public:
     void setImageMimeType(QString const & mimeType){m_imageMimeType=mimeType;};
 
     /**
-     * Gets the default mime type for all diagrams that are exported as 
+     * Gets the default mime type for all diagrams that are exported as
      * images.
      *
      * @return  The default MIME type for images.
@@ -488,23 +488,23 @@ public slots:
      * aborts.
      */
     void slotFileQuit();
-    
+
      /**
-     * Exports the current model to docbook in a subdir of the 
+     * Exports the current model to docbook in a subdir of the
      * current model directory named from the model name.
-     * @todo Let the user chose the destination directory and 
+     * @todo Let the user chose the destination directory and
      * name, using network transparency.
      */
     void slotFileExportDocbook();
-    
+
     /**
-     * Exports the current model to XHTML in a subdir of the 
+     * Exports the current model to XHTML in a subdir of the
      * current model directory named from the model name.
-     * @todo Let the user chose the destination directory and 
+     * @todo Let the user chose the destination directory and
      * name, using network transparency.
      */
     void slotFileExportXhtml();
-    
+
     /**
      * Put the marked text/object into the clipboard and remove
      * it from the document.
@@ -534,7 +534,7 @@ public slots:
      */
     void slotViewStatusBar();
     // #endif
-    
+
     /**
      * Changes the statusbar contents for the standard label
      * permanently, used to indicate current actions.
@@ -620,7 +620,7 @@ public slots:
     /**
      * Set the language for which code will be generated.
      *
-     * @param menuID    the ID of the langSelect menu item for 
+     * @param menuID    the ID of the langSelect menu item for
      *                  the relevant language.
      */
     void setActiveLanguage(int menuID);
@@ -773,7 +773,7 @@ public slots:
      * @param name      The name of the menu to search for (name, not text)
      */
     QMenu* findMenu(QMenu* menu, const QString &name);
-    
+
     /// @todo This is an ugly _HACK_ to allow to compile umbrello.
     /// All the menu stuff should be ported to KDE4 (using actions)
     QMenu* findMenu(KMenuBar* menu, const QString &name);
@@ -858,7 +858,7 @@ private:
     void initClip();
 
     /**
-     * Initialize code generators at startup. 
+     * Initialize code generators at startup.
      * Why is this important? Because IF we don't do this, then changes
      * to the UML may not be synced with the saved code generation params
      * for those languages which arent currently active.
@@ -914,60 +914,60 @@ private:
     RefactoringAssistant* m_refactoringAssist;
 
     //KAction pointers to enable/disable actions
-    KAction* fileNew;
-    KAction* fileOpen;
+    QAction* fileNew;
+    QAction* fileOpen;
     KRecentFilesAction* fileOpenRecent;
-    KAction* fileSave;
-    KAction* fileSaveAs;
-    KAction* fileClose;
-    KAction* filePrint;
-    KAction* fileQuit;
-    KAction* fileExportDocbook;
-    KAction* fileExportXhtml;
+    QAction* fileSave;
+    QAction* fileSaveAs;
+    QAction* fileClose;
+    QAction* filePrint;
+    QAction* fileQuit;
+    QAction* fileExportDocbook;
+    QAction* fileExportXhtml;
 
-    KAction* editCut;
-    KAction* editCopy;
-    KAction* editPaste;
-    KAction* editUndo;
-    KAction* editRedo;
-    KAction* selectAll;
-    KAction* preferences;
+    QAction* editCut;
+    QAction* editCopy;
+    QAction* editPaste;
+    QAction* editUndo;
+    QAction* editRedo;
+    QAction* selectAll;
+    QAction* preferences;
 
     KActionMenu* newDiagram;
-    KAction* classDiagram;
-    KAction* sequenceDiagram;
-    KAction* collaborationDiagram;
-    KAction* useCaseDiagram;
-    KAction* stateDiagram;
-    KAction* activityDiagram;
-    KAction* componentDiagram;
-    KAction* deploymentDiagram;
-    KAction* entityRelationshipDiagram;
-    KAction* viewClearDiagram;
+    QAction* classDiagram;
+    QAction* sequenceDiagram;
+    QAction* collaborationDiagram;
+    QAction* useCaseDiagram;
+    QAction* stateDiagram;
+    QAction* activityDiagram;
+    QAction* componentDiagram;
+    QAction* deploymentDiagram;
+    QAction* entityRelationshipDiagram;
+    QAction* viewClearDiagram;
 
     KToggleAction* viewSnapToGrid;
     KToggleAction* viewShowGrid;
-    KAction* viewExportImage;
-    KAction* viewExportImageAll;
-    KAction* viewProperties;
+    QAction* viewExportImage;
+    QAction* viewExportImageAll;
+    QAction* viewProperties;
 
-    KAction* zoom100Action;
+    QAction* zoom100Action;
     KPlayerPopupSliderAction* zoomAction;
 
-    KAction* genAll;
-    KAction* genWizard;
-    KAction* importClasses;
-    KAction* classWizard;
-    KAction* deleteSelectedWidget;
-    KAction* deleteDiagram;
+    QAction* genAll;
+    QAction* genWizard;
+    QAction* importClasses;
+    QAction* classWizard;
+    QAction* deleteSelectedWidget;
+    QAction* deleteDiagram;
 #ifdef HAVE_DOT
-    KAction* autolayout;
+    QAction* autolayout;
 #endif
 
-    KAction* changeTabLeft;
-    KAction* changeTabRight;
-    KAction* moveTabLeft;
-    KAction* moveTabRight;
+    QAction* changeTabLeft;
+    QAction* changeTabRight;
+    QAction* moveTabLeft;
+    QAction* moveTabRight;
     QToolButton* m_newSessionButton;
     KMenu* m_diagramMenu;
     QToolButton* m_closeDiagramButton;
