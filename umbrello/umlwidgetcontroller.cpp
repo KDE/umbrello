@@ -93,6 +93,7 @@ void UMLWidgetController::mousePressEvent(QMouseEvent *me) {
         if (m_widget->m_bSelected && count > 1) {
             //Single selection is made in release event if the widget wasn't moved
             m_inMoveArea = true;
+            lastUpdate.start();
             return;
         }
 
@@ -165,7 +166,18 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
         widget->getWidgetController()->moveWidgetBy(diffX, diffY);
 
         if (update) {
+            /* adjustAssocs() does not take along association line breaks:
             widget->adjustAssocs(widget->getX(), widget->getY());
+             ***** instead: */
+            // Move any selected associations.
+            AssociationWidgetList awl = m_widget->m_pView->getSelectedAssocs();
+            AssociationWidgetListIt assoc_it(awl);
+            AssociationWidget* assocwidget = NULL;
+            while ((assocwidget = assoc_it.current()) != NULL) {
+                    ++assoc_it;
+                    if (assocwidget->getSelected())
+                            assocwidget->moveEntireAssoc(diffX, diffY);
+            }
         }
     }
     m_widget->m_pView->resizeCanvasToItems();
