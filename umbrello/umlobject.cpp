@@ -237,7 +237,7 @@ void UMLObject::emitModified()
 
 void UMLObject::setDoc(const QString &d) {
     m_Doc = d;
-    emit modified();
+    //emit modified();  No, this is done centrally at DocWindow::updateDocumentation()
 }
 
 Uml::Object_Type UMLObject::getBaseType() const {

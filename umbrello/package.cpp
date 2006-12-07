@@ -233,7 +233,9 @@ bool UMLPackage::resolveRef() {
     for (UMLObjectListIt oit(m_objects); oit.current(); ++oit) {
         UMLObject *obj = oit.current();
         if (! obj->resolveRef()) {
-            m_objects.remove(obj);
+            Uml::Object_Type ot = obj->getBaseType();
+            if (ot != Uml::ot_Package && ot != Uml::ot_Folder)
+                m_objects.remove(obj);
             overallSuccess = false;
         }
     }
