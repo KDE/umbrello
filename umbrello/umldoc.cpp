@@ -838,7 +838,7 @@ UMLStereotype* UMLDoc::findOrCreateStereotype(const QString &name) {
     if (s != NULL) {
         return s;
     }
-    s = new UMLStereotype(name);
+    s = new UMLStereotype(name, STR2ID(name));
     addStereotype(s);
     //emit modified();
     return s;
