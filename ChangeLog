@@ -9,7 +9,10 @@ Version 1.5.6
   http://www.geeksoc.org/~jr/umbrello/uml-devel/9862.html
 * Note widget is now always drawn on TOP of all widgets
   http://www.geeksoc.org/~jr/umbrello/uml-devel/9863.html
+* Optimized printer margins
+  http://www.geeksoc.org/~jr/umbrello/uml-devel/9895.html
 * Bugs/wishes from http://bugs.kde.org:
+* Umbrello saves too much copies at xmi (135606)
 * Artifacts of a component diagram are wrongly placed in Deployment View folder (137564)
 * Incorrect export to SQL (138139)
 

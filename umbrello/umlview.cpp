@@ -27,6 +27,7 @@
 #include <qcolor.h>
 #include <qmatrix.h>
 #include <qregexp.h>
+#include <q3paintdevicemetrics.h>
 //Added by qt3to4:
 #include <QTextStream>
 #include <QHideEvent>
@@ -223,33 +224,39 @@ int UMLView::generateCollaborationId() {
 void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
     int height, width;
     //get the size of the page
+    pPrinter->setFullPage( true );
+    Q3PaintDeviceMetrics metrics(pPrinter);
     QFontMetrics fm = pPainter.fontMetrics(); // use the painter font metrics, not the screen fm!
     int fontHeight  = fm.lineSpacing();
-    int marginX = pPrinter->margins().width();
-    int marginY = pPrinter->margins().height();
+    uint left, right, top, bottom;
+    // fetch printer margins individual for all four page sides, as at least top and bottom are not the same
+    pPrinter->margins ( &top, &left, &bottom, &right );
+    // give a little extra space at each side
+    left += 2;
+    right += 2;
+    top += 2;
+    bottom += 2;
 
     if(pPrinter->orientation() == KPrinter::Landscape) {
         // we are printing in LANDSCAPE --> swap marginX and marginY
-        // this is needed, as KPrinter reports width margin strictly as printer
-        // default orientation margin - and not depend on LANDSCAPE/PORTRAIT
-        int temp = marginX;
-        marginX = marginY;
-        marginY = temp;
+        uint right_old = right;
+        // the DiagramRight side is printed at PrintersTop
+        right = top;
+        // the DiagramTop side is printed at PrintersLeft
+        top = left;
+        // the DiagramLeft side is printed at PrintersBottom
+        left = bottom;
+        // the DiagramBottom side is printed at PrintersRight
+        bottom = right_old;
     }
 
     // The printer will probably use a different font with different font metrics,
     // force the widgets to update accordingly on paint
     forceUpdateWidgetFontMetrics(&pPainter);
 
-    //double margin at bottom of page as it doesn't print down there
-    //on my printer, so play safe as default.
-    if(pPrinter->orientation() == KPrinter::Portrait) {
-        width = pPrinter->width() - marginX * 2;
-        height = pPrinter->height() - fontHeight - 4 - marginY * 3;
-    } else {
-        width = pPrinter->width() - marginX * 2;
-        height = pPrinter->height() - fontHeight - 4 - marginY * 2;
-    }
+    width = metrics.width() - left - right;
+    height = metrics.height() - top - bottom;
+
     //get the smallest rect holding the diagram
     QRect rect = getDiagramRect();
     //now draw to printer
@@ -346,7 +353,7 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
     // set viewport - the physical mapping
     // --> Qt's QPainter will map all drawed elements from diagram area ( window )
     //     to printer area ( viewport )
-    pPainter.setViewport( marginX, marginY, width, height );
+    pPainter.setViewport( left, top, width, height );
 
     // get Diagram
     getDiagram(QRect(rect.x(), rect.y(), windowWidth, diagramHeight), pPainter);
