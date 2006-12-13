@@ -1,5 +1,5 @@
-#ifndef __CMD_CREATE_CLASSDIAG__
-#define __CMD_CREATE_CLASSDIAG__
+#ifndef __CMD_CREATE_COMPONENTDIAG__
+#define __CMD_CREATE_COMPONENTDIAG__
 
 #include <QUndoCommand>
 
@@ -8,11 +8,11 @@
 
 namespace Uml
 {
-	class cmdCreateClassDiag : public QUndoCommand
+	class cmdCreateComponentDiag : public QUndoCommand
 	{
 		public:
-			cmdCreateClassDiag(UMLDoc* doc, const QString& name);
-			~cmdCreateClassDiag();
+			cmdCreateComponentDiag(UMLDoc* doc, const QString& name);
+			~cmdCreateComponentDiag();
 
 			void redo();
 			void undo();

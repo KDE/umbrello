@@ -973,7 +973,7 @@ void UMLDoc::setLoading(bool state /* = true */) {
     m_bLoading = state;
 }
 
-void UMLDoc::createDiagram(UMLFolder *folder, Diagram_Type type, bool askForName /*= true */) {
+UMLView* UMLDoc::createDiagram(UMLFolder *folder, Diagram_Type type, bool askForName /*= true */) {
     bool ok = true;
     QString name,
     dname = uniqViewName(type);
@@ -1000,7 +1000,7 @@ void UMLDoc::createDiagram(UMLFolder *folder, Diagram_Type type, bool askForName
             setModified(true, false);
             UMLApp::app()->enablePrint(true);
             changeCurrentView( temp->getID() );
-            break;
+            return temp;
         } else {
             KMessageBox::error(0, i18n("A diagram is already using that name."), i18n("Not a Unique Name"));
         }
@@ -2124,7 +2124,7 @@ void UMLDoc::signalDiagramRenamed(UMLView* pView ) {
 }
 
 void UMLDoc::addToUndoStack() {
-    Settings::OptionState optionState = Settings::getOptionState();
+/*    Settings::OptionState optionState = Settings::getOptionState();
     if (!m_bLoading && optionState.generalState.undo) {
         QBuffer* buffer = new QBuffer();
         buffer->open(QIODevice::WriteOnly);
@@ -2138,6 +2138,7 @@ void UMLDoc::addToUndoStack() {
             UMLApp::app()->enableUndo(true);
         }
     }
+*/
 }
 
 void UMLDoc::clearUndoStack() {

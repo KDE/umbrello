@@ -1,0 +1,558 @@
+Version 1.5.6
+
+* Fixed save/reload of association widgets for collaboration diagrams
+  http://www.geeksoc.org/~jr/umbrello/uml-devel/9825.html
+  http://www.geeksoc.org/~jr/umbrello/uml-devel/9857.html
+* Fixed crash in ToolBarStateArrow destructor
+  http://www.geeksoc.org/~jr/umbrello/uml-devel/9861.html
+* Stereotype selection list for parameter properties dialog
+  http://www.geeksoc.org/~jr/umbrello/uml-devel/9862.html
+* Note widget is now always drawn on TOP of all widgets
+  http://www.geeksoc.org/~jr/umbrello/uml-devel/9863.html
+* Optimized printer margins
+  http://www.geeksoc.org/~jr/umbrello/uml-devel/9895.html
+* Bugs/wishes from http://bugs.kde.org:
+* Umbrello saves too much copies at xmi (135606)
+* Artifacts of a component diagram are wrongly placed in Deployment View folder (137564)
+* Incorrect export to SQL (138139)
+
+Version 1.5.52
+
+* Fixed segfault in UMLClassifier::checkOperationSignature()
+  (http://www.geeksoc.org/~jr/umbrello/uml-devel/9816.html)
+* Fixed segfault on XMI close when a class uses a template
+  (http://www.geeksoc.org/~jr/umbrello/uml-devel/9818.html)
+* Fixed crashes during Tcl code generation
+* Fixed bugs in generated code of various code generators
+* Bugs/wishes from http://bugs.kde.org:
+* Shift + Left and Shift+Right causes SIGSEGV (136288)
+* Crashes on closing/opening files created with previous umbrello versions (136940)
+* Crash when opening saved document (136998)
+* Faulty behavior when a class inside of a package is modified (137497)
+
+Version 1.5.51
+
+* This is an interim release that fixes a serious regression in version 1.5.5
+  which is detailed at http://bugs.kde.org/135749 (Crash when opening a document)
+* XMI file contains deleted associations (129859)
+* Accessor methods are private instead of public (85553)
+
+Version 1.5.5
+
+* PHP5 generator creates stub methods for all interfaces a class implements (C. Brunsdon)
+* Fix load of associations in collaboration diagram (A. Spangler)
+* Fix for single selection of an unselected widget when other widgets are selected
+* Fixes for several bugs in toolbar states
+* Fix for message widget selection
+* Fix for class association not updating the association position when being moved
+* Bugs/wishes from http://bugs.kde.org:
+* "role A properties" should give class name (69244)
+* Sharing designs, Folders, 3rd Party imports (87252, reimplementation)
+* "Open recent" list doesn't reorder when a file is opened (111757)
+* Properties menu: move to top/bottom buttons (126467)
+* Java import - importing interfaces - absent visibility treated as package
+  instead of public (131327)
+* Python code generation not independent of diagram view (131790)
+* Java import - method parameter types not resolved correctly (131825)
+* Java import: unable to import AzareusCore (131961)
+* Java import: error on multidimensional arrays (132017)
+* Java import - array types not resolved correctly (132035)
+* Java import - "final" and comments in method declaration not parsed correctly (132174)
+* Java import: spaces in strings cause next member var to be ignored (132472)
+* Java import - static member vars ignored in interfaces (132657)
+* Header file names are lowercase in .cpp file, but mixed case on the disk (134279)
+
+Version 1.5.4
+
+* Bugs/wishes from http://bugs.kde.org:
+* Transform interface to class - fixes to some issues (79433)
+* Free Pascal code import and generator (114547)
+* Enable selection of multiple classes in "Select classes" dialog (126485)
+* Crash after single click on the "UML Model" tree window (126560/129252)
+* Fix crash when importing classes from a java file (129107, 130093)
+* Cannot insert transition/association TO fork/join node in activity diagram (129914)
+* Command line switches: graphics export to directory does not work with relative paths (130600)
+* Importing java files that reference their own class name crashes (130735)
+* Importing java class (enum pattern) cause umbrello to hang (130792)
+* Importing java subinterface before superinterface results in superinterface
+  not being treated as an interface (130793)
+* Java import: method and class visibility ignored (130794)
+* Java import - static not handled correctly (130926)
+* Java import - package visibility incorrectly represented (130932)
+* Java import - random import order can result in interface being teated as class (131006)
+* Java import - associations not setup correctly, duplicate classes created (131270)
+
+Version 1.5.3
+
+* Switch to arrow tool after association creation (http://bugs.debian.org/353344)
+* Bugs/wishes from http://bugs.kde.org:
+* "Export all views" feature contributed by Daniel Calvi� S�chez (extension of 58809)
+* Static variables in java code are not marked static (59190)
+* New alignment type "distribute horizontally/vertically" (extension of 67058)
+* Save autosave file to a more obvious place (72019)
+* Usability and responsiveness improvements to code import (93296)
+* Auto-complete in parameter properties dialog in class diagram (104477)
+* Crash on application exit (112092)
+* Memory problem when importing classes from c++ sources (122668)
+* Nestable components and subsystems in Component diagram (124326)
+* Crash loading xmi file (125331, 126968)
+* User interaction with UMLWidget improvements (126391)
+* Comments are cut short when generating PHP code (126480)
+* Freeze on C++ class import (126994)
+* Crash on importing Java 1.5 classes containing annotations (127160)
+
+Version 1.5.2
+
+* fixed problem reordering methods in classes/interfaces
+  http://bugs.debian.org/348940 , http://bugs.kde.org/119991
+* fixed problem with font size computation/word wrap in note widgets
+  http://sourceforge.net/mailarchive/forum.php?thread_id=9558795&forum_id=472
+* Automatically fill useful info into the Perl writer heading template
+* Bugs/wishes from http://bugs.kde.org:
+* Fixed connection points for associations on widgets (67223)
+* Import Rose model files (81364)
+* Documentation for association roles not saved (105661)
+* Default data types not added for old Java generator (115991)
+* Custom operations in sequence diagrams become class operations (120337)
+* Fork/join symbol appears as a black box (120455)
+* Multiplicity labels positioned incorrectly when moving entities (120598)
+* Types of entity's attributes are displayed instead of their names (120742)
+* Unable to delete entity from entity list in "UML Model" frame (120750)
+* Interface names not italicized in diagram view (120761)
+* Cannot Resize Sequence Diagram Synchronous Messages (120910)
+* Sequencediagram: messages as constructor works only properly at 100% zoom (121238)
+* drag 'n drop a class when the zoom is not 1:1 don't put the class under mouse cursor (122293)
+* Documentation for associations is not retained (121478, 122063)
+* Crash when a non existing data type is used for an argument of a new method (122497)
+* Crash when importing Python files (121952)
+* "void" is imported as class and not datatypes (122184)
+* Crash when creating a datatype with the same name as a class (122188)
+* Crash when refusing to rename a class on importing typedef (122914)
+* Java import fails at abstract methods or interfaces (123661)
+
+Version 1.5.1
+
+* fix loading of associationwidget with non-default color
+* fix moving of initial and end activity by inhibiting resize
+* fix operation parameter and return types including template expressions
+* Bugs/wishes from http://bugs.kde.org:
+* Code import for Java and Python (79648)
+* Support C++ const methods (aka queries, part of 60452)
+* Change associations, aggregations, etc. on-the-fly (109963)
+* Collaboration Diagram: labels are reset to default position after moving them (117791)
+* Imported C++ classes not saved correctly in the XMI file (117875)
+* In ER models adding associations will add blank space in the entity attributes (117990)
+* ER diagrams need to underline the attribute name of primary keys (118570)
+* Cannot anchor notes to activity elements in Activity Diagram (118719)
+
+Version 1.5
+
+* Association classes
+* Advanced code generator for Ruby
+* Code generator for Tcl
+* Externalization of folders (i.e. submodel files)
+* Change interface into class and vice versa (if abstract and no attributes)
+* Image export via command line
+* All diagram objects can be resized
+* Automatic Diagram Layout (67059, not yet closed)
+
+* Bugs fixed / wishes implemented (see http://bugs.kde.org)
+ 57588  57672  58809  66461  67120  67719  72016  79433  87252  88117
+ 97162  98368 101550 105564 107405 108223 109591 109636 110073 110216
+110231 110379 110400 110843 111088 111470 111502 111759 111768 112017
+112292 112293 112333 112531 112552 112936 112991 112992 113748 114892
+
+Version 1.4.2 (maintenance release)
+
+* Bugs fixed from http://bugs.kde.org :
+97188 103170 106183 106356 106632 106673 107101 107551 108688
+
+Version 1.4.1 (maintenance release)
+
+Bugs fixed:
+* Crash on deleting attributes / enum literals
+* Crash in UMLView::createAutoAttributeAssociations()
+* Failure to import C++ enum type with comment on last literal
+* Non-Latin1 characters in diagram names
+* Generate missing "static" keyword in new C++ code generator
+* Bugs from http://bugs.kde.org :
+ 53376  57667  57875  70924  80924  89691  95353 100290 100307 101148
+103123 103133 103728 101541 104637
+
+Version 1.4
+
+* Entity relationship diagrams
+
+* Tabbed diagrams
+
+* Object creation message in sequence diagram
+
+* Notes can contain diagram hyperlinks
+
+* Move canvas items using the keyboard (Alt + arrow keys)
+
+* Improved support for parameterized classes
+
+* CORBA IDL import
+
+* PHP 5 code generator
+
+* fixed many issues in Perl code generator 
+
+* Bugs fixed / wishes implemented (see http://bugs.kde.org)
+53380 53384 54928 55058 55242 57879 61945 62321 63316 67062
+67723 69592 71978 74249 74952 75010 77645 80405 80559 82342
+83834 84515 85136 85377 86083 86828 86952 86958 87111 87537
+87956 87995 88152 88245 88415 88954 89334 89485 89553 89563
+89579 89582 89699 89860 89903 90102 90106 90206 90755 91298
+91433 91434 91494 91869 91922 92116 92123 92222 92300 92301
+92781 92995 93122 93219 93297 93298 93501 93535 93696 94173
+94728 94795 94883 95082 95247 95252 95722 95924 95951 95954
+96216 96221 96964 97155 97182 97697 97887 97984 98603 98899
+ 99697 100142
+
+Version 1.3
+
+* heavily reduced memory usage and CPU load on large projects
+
+* reserved keywords added for supported languages
+
+* new tools for aligning several objects
+
+* support added for compressed XMI files (*.xmi.tgz, *.xmi.tar.bz2)
+
+* New diagram command 'Duplicate' permits the copying of diagram
+  objects including their features
+
+* New association type: Containment (circle-plus.)
+
+* Operation parameters have a 'direction' which documents whether
+  they are input or return values (in, out, inout.)
+  The IDL and Ada generators use this in their generated code.
+
+* Ability to show only public methods/members in diagram.
+
+* Improvements to scaled printing.
+
+* Crisp new icons
+
+* Improved XMI standard conformance of the file format.
+  In principle, Umbrello's XMI parser is now capable of
+  reading foreign XMI files.
+
+* Improved compatibility with old umbrello files
+
+* Support for repeatedly importing the same C++ file(s)
+
+* Umbrello places much less demand on the X server when
+  dealing with large and complex diagrams
+
+* Umbrello is still compilable with KDE 3.1 but if you have
+  such an "ancient" KDE version the new compressed-XMI file
+  format will not work.
+
+* Bugs fixed / wishes implemented (see http://bugs.kde.org)
+53361 53381 53383 55238 56184 57664 57875 66508 67058 68441
+71281 71334 71805 71969 72016 72615 72617 72644 72801 72971
+72977 73042 73139 73274 73275 73277 73278 73418 73521 73632
+73926 73975 74432 74820 75111 75318 75380 75582 75789 75935
+76114 76209 76506 77367 77377 78192 78317 78525 78806 78910
+78912 79180 79188 79202 79631 79883 80119 80299 80824 80913
+80999 81000 81790 82236 82315 82346 82406 82685 82743 82977
+83052 83430 83432 83446 83449 83546 83553 84260 84262 84516
+84549 84656 84574 85126 85196 85434 85552 85554
+
+
+Version 1.2
+
+* Canvas zoom
+
+* Undo and redo
+
+* Clipboard now uses XMI, old binary .uml file format no longer supported
+
+* Resizeable canvas
+
+* Refactoring agent
+
+* Improved code export and many new code export languages
+
+* Datatype and enum widgets and internal representation 
+
+* Component and deployment diagrams
+
+* Parameterised classes (templates in C++, generics in Java)
+
+* Stereotypes on operations, attributes, etc
+
+* Asymmetric and symmetric sequence diagram messages
+
+* Corrected placement of the diamond in aggregations/compositions,
+  the diamond is at the owning class
+
+* Can change properties of multiple items at one time
+
+* Code base is tightened up (no more WidgetData classes)
+
+* Bugs fixed / wishes implemented (see http://bugs.kde.org)
+  53354 53356 53357 53359 53362 53363 53365 53367 53371 53379
+  53381 53385 53387 53388 53447 53487 53652 53653 53777 54183
+  54446 54575 54816 54817 54822 54926 54969 55051 55236 55239
+  55243 55245 55246 55247 55283 55300 55698 55729 55731 55810
+  56166 56519 57054 57113 57197 57199 57200 57226 57424 57475
+  57490 57521 57665 57669 57876 57877 57878 57881 57882 57883
+  57886 57920 58339 58349 58426 58439 58489 58852 58854 59049
+  59155 59190 59403 59408 59774 60139 60135 60204 60685 60981
+  61972 62201 62276 63115 63248 63316 63884 63895 63897 64201
+  64431 64435 64501 64502 64727 64881 64884 65183 65185 65312
+  65389 65391 65407 65410 65411 65442 65444 65450       65530
+  65635 66185 66442 66459 66461 66847 66848 66997 67209 67277
+  67327 67765 67770 68095 68395 69330 69332 73926
+
+Version 1.1.1
+
+* No longer crashes when printing
+
+* Capitalisation corrections in strings	
+
+Version 1.1 (including 1.1 rc 2)
+
+* Activites can have multiple outgoing associations
+	
+* Updated and translated tips file
+	
+* New handbook help file
+	
+* Slovak translation added
+
+* Updated German translation
+	
+* hopefully last changes needed for the name conversion to Umbrello
+
+* i18n fixes
+
+* Many bug fixes	
+
+Version 1.1 rc 1
+
+* Pasteing in sequence diagrams now works correctly
+	
+* Paste operation now shows dialogue messages when it can't paste everything or at all
+	
+* Cut now works
+	
+* Code generation wizard checks directory exists
+	
+* Code generation overwrite dialogue now lets you apply option to all remaining files
+	
+* Activity widgets now have borders
+	
+* Actors can be generalised from other actors
+	
+* Multiple objects can now be moved at once
+
+* check for metamodel=UML when loading files
+	
+* Saved files have XML header
+	
+* code generation wizard gives feedback on whether the file was generated	
+	
+* improved RPM spec file for multiple distributions
+	
+* tokenizer.l compatibility improved
+	
+* Can select which language to generate to from code generation panel
+	
+* User interface improvements (`new attribute' etc buttons added)
+	
+* Operations and attributes can have classifier scope (static)
+	
+* PHP code generation
+	
+* Some menu improvements
+
+* Compiler warnings reduced
+
+* i18n() added where it was missing
+
+* Various operations which made it crash fixed	
+	
+* Typos fixed
+
+Version 1.1 beta 2
+
+* Name changed to Umbrello UML Modeller
+	
+* Java filenames have corret capitalisation
+	
+* Grid is no longer printed	
+	
+* Widgets now keep track of their colours and use diagram colours by default
+	
+* Open and save dialogues correctly remember where they were last	
+	
+* Checks on saving to PNG if user really wants to save to an already existing file	
+	
+* Sequence and collaboration messages always update when they should
+	
+* Consistant position for labels on sequence messages
+	
+* Nicer looking selection box
+	
+* "New operation" from sequence diagram messages will now be used automaticaly on that message
+	
+* Some improvements in menu consistency
+	
+* Delete selected widgets with Delete key
+	
+* Select all widgets on current diagram ability
+	
+* Size of left hand list view now saved
+	
+* White space removed from copying to PNG
+	
+* Import of file format 4 from UML version 1.0.3
+
+* Solaris compatibility with setenv(), hopefully
+
+* operations and attributes now show the correct UML syntax in class diagrams
+
+Version 1.1 beta 1
+
+* The AssocCopy, MesdsageCopy and CutCopPaste classes have been
+	replaced with CUMLDrag and CUMLClipboard.
+	It supports 5 copy&paste types:
+                -- multiple empty folders (selected from the listview)
+                -- folders and multiple umlobjects (selected from the listview)
+                -- folders, multiple umlobjects and umlviews (selected from the listview)
+                -- multiple widget selection (from a diagram)
+                -- multiple operation and attribute selection (from the listview)
+                -- PNG clipboard support when copying for a diagram.
+	currently there is no ability to cut
+
+* Assosiation can be non-streight, just double click on the line.
+
+* the ..widgetData classes abstract widget data from actual widgets so there only
+	needs to be as many widgets in memory as there are in the current diagram
+
+* listview allows folders inside folders
+
+* all UMLObjects now have associated documentation
+
+* activity and state diagrams
+	
+* XMI based file system
+
+* unicode UMLObject and diagram names
+
+* QCanvas used rather than QWidget
+
+* member variables now mostly use m_... format
+
+* Code generation for C++ and Java
+
+* Code import
+
+* Fixed dos line endings and untagged binary files in CVS
+
+* New project admin (Jonathan Riddell).  No thanks to Sourceforge.	
+	
+	
+Version 1.0.3
+
+* Added rename, delete options to folders
+
+* Text now remembers state
+
+* Moving text in selection move, now moves all selected.
+
+* Diagrams now into folders
+
+* Can save/load files without diagrams (use to crash on load)
+
+Version 1.0.2
+
+* Added multiple selection of icons
+
+* mass move, delete and toggle fill color
+
+* Cut, Copy to image file of selected items or selected section of diagram
+
+* Cut, Copy, Paste between diagrams.
+
+* Correctly deletes message from sequence diagram.
+
+* Recent files list now corectly handled
+
+* Error on loading files now put Untitled corerctly in the caption.
+
+* Toolbars keep session settings
+
+* Added folders for Actors, Use Cases and Concepts to help organisation
+
+* Composition, Implemantation, unidirectional associations and realizations added to class diagrams
+
+* Generalization, dependency, and unidirectional associations added to use case diagrams.
+
+* Changing text to nothing now hides the widget
+
+Version 1.0.1
+
+* Added package and stereotype options to Classes
+
+* Added to options page package and stereotype options.
+
+* print dialog added to printer interface to allow selection of diagrams to print.
+
+* Note Box size set correctly after loading.
+
+* Sequence diagram operation lines set correctly after loading.
+
+* prefix of document files changed from kde_libs_htmldir to kde_htmldir to allow documents to be installed where you like
+
+* footnote added when printing
+
+* fixed printing so print multiple pages is now correct
+
+* popup menu co-ordinates fixes for popup menus and list view
+
+* Diagram made bigger
+
+* drag and drop now correct on large diagram
+
+
+
+
+Version 1.0 (5/09/2001)
+
+* Started maintaining ChangeLog file
+
+* Setup mime type correctly
+
+* Fixed Layout Managers on GUIs
+
+* Added scope to the Concepts on Class/Concept diagrams
+	+ Public, - Private, # Protected
+
+* Fixed install so can install in the directory you wish (I hope - Let me know 
+if this works)
+
+* Removed hard coding of file location from program
+
+* File Extension ".uml" added if user didn't
+
+* Removed HTML welcome screen due to loading time.
+
+* Changed the icons setup by KDevelop (someone please desing better ones)
+
+* Has i18n ready to go, just need translators (any takers?)
+
+* Text Lines e.g. messages, lines of text, etc. are printed transparently.
+
+*	Association prop. Dialog	now has default OK button instead of Cancel.
+
+*	Added options page for UML icons
+
+* Objects set to correct background colour when not using fill colour
+
+
