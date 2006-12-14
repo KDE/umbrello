@@ -23,6 +23,7 @@
 //Added by qt3to4:
 #include <QTextStream>
 #include <Q3PtrList>
+#include <QUndoStack>
 
 // kde includes
 #include <kapplication.h>
@@ -94,6 +95,8 @@ UMLDoc::UMLDoc() {
     m_nViewID = Uml::id_None;
     m_pTabPopupMenu = 0;
     m_pCurrentRoot = NULL;
+
+    m_pUndoStack = new QUndoStack(this);
 }
 
 void UMLDoc::init() {
@@ -130,6 +133,7 @@ void UMLDoc::init() {
 }
 
 UMLDoc::~UMLDoc() {
+    delete m_pUndoStack;
     delete m_pChangeLog;
     m_pChangeLog = 0;
 }
@@ -2142,22 +2146,44 @@ void UMLDoc::addToUndoStack() {
 }
 
 void UMLDoc::clearUndoStack() {
-    undoStack.setAutoDelete(true);
-    undoStack.clear();
-    UMLApp::app()->enableRedo(false);
-    undoStack.setAutoDelete(false);
-    clearRedoStack();
+	m_pUndoStack->clear();
 }
 
 void UMLDoc::clearRedoStack() {
+/*
     redoStack.setAutoDelete(true);
     redoStack.clear();
     UMLApp::app()->enableRedo(false);
     redoStack.setAutoDelete(false);
+*/
+}
+
+void UMLDoc::undo()
+{
+	if(m_pUndoStack->canUndo())
+		m_pUndoStack->undo();
+	else
+		UMLApp::app()->enableUndo(false);
+}
+
+void UMLDoc::redo()
+{
+	if(m_pUndoStack->canRedo())
+		m_pUndoStack->redo();
+	else
+		UMLApp::app()->enableRedo(false);
+}
+
+void UMLDoc::executeCommand(QUndoCommand* cmd)
+{
+	if(cmd != NULL)
+		m_pUndoStack->push(cmd);
+
+	UMLApp::app()->enableUndo(true);
 }
 
 void UMLDoc::loadUndoData() {
-    if (undoStack.count() < 1) {
+/*    if (undoStack.count() < 1) {
         kWarning() << "no data in undostack" << endl;
         return;
     }
@@ -2202,10 +2228,11 @@ void UMLDoc::loadUndoData() {
         if (currentView->getID() != currentViewID)
             changeCurrentView( currentView->getID() );
         currentView->resizeCanvasToItems();
-    }
+    }*/
 }
 
 void UMLDoc::loadRedoData() {
+/*
     if (redoStack.count() >= 1) {
         UMLView *currentView = UMLApp::app()->getCurrentView();
         Uml::IDType currentViewID = currentView->getID();
@@ -2240,6 +2267,7 @@ void UMLDoc::loadRedoData() {
     } else {
         kWarning() << "no data in redostack" << endl;
     }
+*/
 }
 
 void UMLDoc::addDefaultDatatypes() {

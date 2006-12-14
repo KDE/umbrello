@@ -170,6 +170,8 @@ set(libcmds_SRCS
 	cmds/cmd_create_usecasediag.cpp
 
 	cmds/classdiag/cmd_create_class.cpp
+	
+	cmds/widgets/cmd_create_umlobject.cpp
 )
 
 ########### next target ###############

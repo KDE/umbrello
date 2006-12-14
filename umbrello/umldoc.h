@@ -24,6 +24,8 @@
 #include <q3ptrstack.h>
 //Added by qt3to4:
 #include <Q3PtrList>
+#include <QUndoStack>
+#include <QUndoCommand>
 
 // kde includes
 #include <kurl.h>
@@ -767,6 +769,21 @@ public:
      */
     void resolveTypes();
 
+    /**
+     * Undo last command
+    */
+    void undo();
+
+    /**
+     * Redo last 'undoed' command
+    */
+    void redo();
+
+    /**
+     * Execute a command and pushit in the stack.
+    */
+    void executeCommand(QUndoCommand* cmd);
+
 private:
     /**
      * Sets up the autosave timer.
@@ -859,6 +876,12 @@ private:
      * returns NULL.
      */
     UMLFolder * m_pCurrentRoot;
+
+    /**
+     * UndoStack
+     * used to store actions, to provide Undo/Redo feature.
+    */
+    QUndoStack*	m_pUndoStack;
 
 public slots:
 

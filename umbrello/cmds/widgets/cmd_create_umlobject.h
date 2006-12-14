@@ -9,30 +9,32 @@
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
-#ifndef __CMD_CREATE_STATEDIAG__
-#define __CMD_CREATE_STATEDIAG__
+#ifndef __CMD_CREATE_UMLOBJECT__
+#define __CMD_CREATE_UMLOBJECT__
 
 #include <QUndoCommand>
+#include <klocale.h>
 
 #include "umldoc.h"
 #include "umlview.h"
+#include "umlobject.h"
 
 namespace Uml
 {
-	class cmdCreateStateDiag : public QUndoCommand
+	class cmdCreateUMLObject : public QUndoCommand
 	{
-		public:
-			cmdCreateStateDiag(UMLDoc* doc, const QString& name = "");
-			~cmdCreateStateDiag();
+	public:
+		cmdCreateUMLObject(UMLView *view, UMLObject *o, const QString& name);
+		~cmdCreateUMLObject();
 
-			void redo();
-			void undo();
-
-		private:
-			UMLDoc*		m_pUMLDoc;
-			UMLView*	m_pUMLView;
-			QString		m_Name;
+		void undo();
+		void redo();
+	
+	private:
+		UMLView*	m_pUMLView;
+		UMLObject*	m_pUMLObject;
+		QString		m_Name;
 	};
-};
+}
 
 #endif

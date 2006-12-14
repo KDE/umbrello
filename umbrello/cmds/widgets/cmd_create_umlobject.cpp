@@ -9,30 +9,36 @@
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
-#ifndef __CMD_CREATE_STATEDIAG__
-#define __CMD_CREATE_STATEDIAG__
-
-#include <QUndoCommand>
-
-#include "umldoc.h"
-#include "umlview.h"
+#include "cmd_create_umlobject.h"
 
 namespace Uml
 {
-	class cmdCreateStateDiag : public QUndoCommand
+	cmdCreateUMLObject::cmdCreateUMLObject(UMLView *view, UMLObject *o, const QString& name):m_pUMLView(view), m_pUMLObject(o), m_Name(name)
+	{	
+		setText(i18n("Create uml object"));
+	}
+	
+	cmdCreateUMLObject::~cmdCreateUMLObject()
 	{
-		public:
-			cmdCreateStateDiag(UMLDoc* doc, const QString& name = "");
-			~cmdCreateStateDiag();
+		if(m_pUMLObject)
+			delete m_pUMLObject;
+	}
 
-			void redo();
-			void undo();
+	void cmdCreateUMLObject::undo()
+	{
+		if(!m_pUMLObject)
+			return;
 
-		private:
-			UMLDoc*		m_pUMLDoc;
-			UMLView*	m_pUMLView;
-			QString		m_Name;
-	};
-};
+		if(m_pUMLView)
+			m_pUMLView->getUMLDoc()->removeUMLObject(m_pUMLObject);
+	}
+	
+	void cmdCreateUMLObject::redo()
+	{
+		if(!m_pUMLObject)
+			return;
 
-#endif
+		if(m_pUMLView)
+			m_pUMLView->addObject(m_pUMLObject);
+	}
+}
