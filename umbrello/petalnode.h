@@ -67,7 +67,7 @@ public:
     NameValueList attributes() const;
     // setters
     //void setType(NodeType nt);   see constructor
-    void setInitialArgs(QStringList args);
+    void setInitialArgs(const QStringList& args);
     void setAttributes(NameValueList vl);
     // utilities
     /**
@@ -75,7 +75,7 @@ public:
      * @return  The value of the attribute. StringOrNode::isEmpty() returns true
      *          if the name could not be found.
      */
-    StringOrNode findAttribute(QString name) const;
+    StringOrNode findAttribute(const QString& name) const;
 private:
     NodeType m_type;
     QStringList m_initialArgs;

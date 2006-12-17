@@ -18,7 +18,10 @@
 
 #include "overwritedialogue.h"
 
-OverwriteDialogue::OverwriteDialogue(QString fileName, QString outputDirectory, bool applyToAllRemaining, QWidget* parent, const char* name):
+OverwriteDialogue::OverwriteDialogue(
+        const QString& fileName,
+        const QString& outputDirectory,
+        bool applyToAllRemaining, QWidget* parent, const char* name) :
 KDialogBase(Plain, i18n("Destination File Already Exists"), Ok|Apply|Cancel, Yes, parent, name) {
 
     QVBoxLayout* layout = new QVBoxLayout( plainPage(), 0, spacingHint() );

@@ -38,7 +38,7 @@ protected:
     /**
      * Implement abstract operation from NativeImportBase.
      */
-    void fillSource(QString word);
+    void fillSource(const QString& word);
 
     /**
      * Check for, and skip over, all modifiers following a method.

@@ -54,7 +54,7 @@ protected:
      *
      * @param filename  The file to import.
      */
-    virtual void parseFile(QString filename) = 0;
+    virtual void parseFile(const QString& filename) = 0;
 
 };
 

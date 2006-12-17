@@ -1192,7 +1192,7 @@ void UMLDoc::signalUMLObjectCreated(UMLObject * o) {
         setModified(true);
 }
 
-void UMLDoc::setName(QString name) {
+void UMLDoc::setName(const QString& name) {
     m_Name = name;
 }
 

@@ -68,22 +68,22 @@ QStringList UMLViewImageExporterModel::supportedMimeTypes() {
     return supportedMimeTypesList;
 }
 
-QString UMLViewImageExporterModel::imageTypeToMimeType(QString imageType) {
-    imageType = imageType.lower();
-    if (QString("bmp") == imageType) return "image/x-bmp";
-    if (QString("jpeg") == imageType) return "image/jpeg";
-    if (QString("pbm") == imageType) return "image/x-portable-bitmap";
-    if (QString("pgm") == imageType) return "image/x-portable-greymap";
-    if (QString("png") == imageType) return "image/png";
-    if (QString("ppm") == imageType) return "image/x-portable-pixmap";
-    if (QString("xbm") == imageType) return "image/x-xbm";
-    if (QString("xpm") == imageType) return "image/x-xpm";
-    if (QString("eps") == imageType) return "image/x-eps";
-    if (QString("svg") == imageType) return "image/svg+xml";
+QString UMLViewImageExporterModel::imageTypeToMimeType(const QString& imageType) {
+    const QString imgType = imageType.lower();
+    if (QString("bmp") == imgType) return "image/x-bmp";
+    if (QString("jpeg") == imgType) return "image/jpeg";
+    if (QString("pbm") == imgType) return "image/x-portable-bitmap";
+    if (QString("pgm") == imgType) return "image/x-portable-greymap";
+    if (QString("png") == imgType) return "image/png";
+    if (QString("ppm") == imgType) return "image/x-portable-pixmap";
+    if (QString("xbm") == imgType) return "image/x-xbm";
+    if (QString("xpm") == imgType) return "image/x-xpm";
+    if (QString("eps") == imgType) return "image/x-eps";
+    if (QString("svg") == imgType) return "image/svg+xml";
     return QString::null;
 }
 
-QString UMLViewImageExporterModel::mimeTypeToImageType(QString mimeType) {
+QString UMLViewImageExporterModel::mimeTypeToImageType(const QString& mimeType) {
     if (QString("image/x-bmp") == mimeType) return "bmp";
     if (QString("image/jpeg") == mimeType) return "jpeg";
     if (QString("image/x-portable-bitmap") == mimeType) return "pbm";

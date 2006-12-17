@@ -369,9 +369,12 @@ void RubyWriter::writeAttributeMethods(UMLAttributeList *attribs,
 
 }
 
-void RubyWriter::writeSingleAttributeAccessorMethods(const QString &fieldName, QString description,
+void RubyWriter::writeSingleAttributeAccessorMethods(
+        const QString &fieldName,
+        const QString &descr,
         QTextStream &h)
 {
+    QString description = descr;
     description.replace(QRegExp("m_[npb](?=[A-Z])"), "");
     description.replace("m_", "");
     description.replace("\n", QString("\n") + m_indentation + "# ");

@@ -21,7 +21,8 @@
 #include "umldoc.h"
 #include "dialogs/umltemplatedialog.h"
 
-UMLTemplate::UMLTemplate(const UMLObject *parent, QString name, Uml::IDType id, QString type)
+UMLTemplate::UMLTemplate(const UMLObject *parent, const QString& name,
+                         Uml::IDType id, const QString& type)
         : UMLClassifierListItem( parent, name, id ) {
     setTypeName( type );
     m_BaseType = Uml::ot_Template;

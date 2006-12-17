@@ -25,9 +25,9 @@
 #include "uniqueid.h"
 #include "dialogs/umloperationdialog.h"
 
-UMLOperation::UMLOperation(const UMLClassifier *parent, QString Name, Uml::IDType id,
-                           Uml::Visibility s, QString rt)
-        : UMLClassifierListItem(parent, Name, id)
+UMLOperation::UMLOperation(const UMLClassifier *parent, const QString& name,
+                           Uml::IDType id, Uml::Visibility s, const QString& rt)
+        : UMLClassifierListItem(parent, name, id)
 {
     if (!rt.isEmpty())
         setTypeName( rt );
@@ -46,8 +46,9 @@ UMLOperation::UMLOperation(const UMLClassifier * parent)
 UMLOperation::~UMLOperation() {
 }
 
-UMLAttribute * UMLOperation::addParm(QString type, QString name, QString initialValue,
-                                     QString doc, Uml::Parameter_Direction kind) {
+UMLAttribute * UMLOperation::addParm(const QString& type, const QString& name,
+                                     const QString& initialValue, const QString& doc,
+                                     Uml::Parameter_Direction kind) {
     // make the new parameter (attribute) public, just to be safe
     UMLAttribute * a = new UMLAttribute(this, name, UniqueID::gen(), Uml::Visibility::Public, type);
     a -> setDoc(doc);

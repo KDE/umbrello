@@ -55,7 +55,7 @@ bool IDLImport::preprocess(QString& line) {
     return NativeImportBase::preprocess(line);
 }
 
-void IDLImport::fillSource(QString word) {
+void IDLImport::fillSource(const QString& word) {
     QString lexeme;
     const uint len = word.length();
     for (uint i = 0; i < len; i++) {
@@ -83,7 +83,7 @@ void IDLImport::fillSource(QString word) {
         m_source.append(lexeme);
 }
 
-void IDLImport::parseFile(QString filename) {
+void IDLImport::parseFile(const QString& filename) {
     if (filename.contains('/')) {
         QString path = filename;
         path.remove( QRegExp("/[^/]+$") );

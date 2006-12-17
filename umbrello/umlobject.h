@@ -338,7 +338,7 @@ public:
      * Currently only required by petalTree2Uml(); all other setting of the
      * m_SecondaryID is internal to the UMLObject class hierarchy.
      */
-    void setSecondaryId(QString id);
+    void setSecondaryId(const QString& id);
 
     /**
      * Return secondary ID fallback.
@@ -350,7 +350,7 @@ public:
      * Set the secondary ID fallback.
      * Currently only used by petalTree2Uml().
      */
-    void setSecondaryFallback(QString id);
+    void setSecondaryFallback(const QString& id);
 
     /**
      * Auxiliary to saveToXMI.

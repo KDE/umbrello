@@ -80,7 +80,8 @@ private:
      * write all method declarations, for attributes and associations 
      * for the given permitted scope.
      */
-    void writeSingleAttributeAccessorMethods(const QString &fieldName, QString description,
+    void writeSingleAttributeAccessorMethods(const QString &fieldName,
+                                             const QString &description,
                                              QTextStream &h);
 
     /**

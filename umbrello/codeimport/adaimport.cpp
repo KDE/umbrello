@@ -39,12 +39,12 @@ void AdaImport::initVars() {
 
 /// Split the line so that a string is returned as a single element of the list,
 /// when not in a string then split at white space.
-QStringList AdaImport::split(QString line) {
+QStringList AdaImport::split(const QString& lin) {
     QStringList list;
     QString listElement;
     bool inString = false;
     bool seenSpace = false;
-    line = line.stripWhiteSpace();
+    QString line = lin.stripWhiteSpace();
     uint len = line.length();
     for (uint i = 0; i < len; i++) {
         const QChar& c = line[i];
@@ -92,7 +92,7 @@ QStringList AdaImport::split(QString line) {
     return list;
 }
 
-void AdaImport::fillSource(QString word) {
+void AdaImport::fillSource(const QString& word) {
     QString lexeme;
     const uint len = word.length();
     for (uint i = 0; i < len; i++) {
@@ -179,7 +179,7 @@ bool AdaImport::parseStmt() {
                 m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
             }
         } else if (m_source[m_srcIndex] != "renames") {
-            kError() << "AdaImport::parseFile: unexpected: " << m_source[m_srcIndex] << endl;
+            kError() << "AdaImport::parseStmt: unexpected: " << m_source[m_srcIndex] << endl;
             skipStmt("is");
         }
         if (m_inGenericFormalPart) {
@@ -191,7 +191,7 @@ bool AdaImport::parseStmt() {
     if (keyword == "type") {
         QString name = advance();
         if (advance() == "(") {
-            kDebug() << "AdaImport::parseFile(" << name << "): "
+            kDebug() << "AdaImport::parseStmt(" << name << "): "
                 << "discriminant handling is not yet implemented" << endl;
             // @todo Find out how to map discriminated record to UML.
             //       For now, we just create a pro forma empty record.

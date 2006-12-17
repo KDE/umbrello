@@ -149,7 +149,8 @@ bool validateObjType(Uml::Object_Type expected, UMLObject *o) {
     return false;
 }
 
-UMLWidget* makeWidgetFromXMI(QString tag, QString idStr, UMLView *view) {
+UMLWidget* makeWidgetFromXMI(const QString& tag,
+                             const QString& idStr, UMLView *view) {
     UMLWidget *widget = NULL;
     if (tag == "statewidget" || tag == "notewidget" || tag == "boxwidget" ||
         tag == "floatingtext" || tag == "activitywidget" || tag == "forkjoin" ||

@@ -42,12 +42,12 @@ protected:
      * Ada's tic which is liable to be confused with the beginning of a character
      * constant.
      */
-    QStringList split(QString line);
+    QStringList split(const QString& line);
 
     /**
      * Implement abstract operation from NativeImportBase.
      */
-    void fillSource(QString word);
+    void fillSource(const QString& word);
 
     bool m_inGenericFormalPart; ///< auxiliary variable
 };

@@ -23,9 +23,11 @@
 #include "dialogs/umlattributedialog.h"
 #include "object_factory.h"
 
-UMLAttribute::UMLAttribute( const UMLObject *parent, QString Name, Uml::IDType id,
-                            Uml::Visibility s, QString type, QString iv )
-        : UMLClassifierListItem(parent, Name, id) {
+UMLAttribute::UMLAttribute( const UMLObject *parent,
+                            const QString& name, Uml::IDType id,
+                            Uml::Visibility s,
+                            const QString& type, const QString& iv )
+        : UMLClassifierListItem(parent, name, id) {
     m_InitialValue = iv;
     m_BaseType = Uml::ot_Attribute;
     m_Vis = s;

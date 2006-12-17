@@ -165,7 +165,7 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
 
         widget->getWidgetController()->moveWidgetBy(diffX, diffY);
 
-        if (update) {
+        if (update && m_widget->m_bStartMove) {
             /* adjustAssocs() does not take along association line breaks:
             widget->adjustAssocs(widget->getX(), widget->getY());
              ***** instead: */

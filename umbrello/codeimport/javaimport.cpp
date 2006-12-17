@@ -62,7 +62,7 @@ QString JavaImport::joinTypename(QString typeName) {
     return typeName;
 }
 
-void JavaImport::fillSource(QString word) {
+void JavaImport::fillSource(const QString& word) {
     QString lexeme;
     const uint len = word.length();
     for (uint i = 0; i < len; i++) {
@@ -197,7 +197,7 @@ UMLObject* JavaImport::resolveClass (QString className) {
 
 
 /// keep track of the current file being parsed and reset the list of imports
-void JavaImport::parseFile(QString filename) {
+void JavaImport::parseFile(const QString& filename) {
     m_currentFileName= filename;
     m_imports.clear();
     // default visibility is Impl, unless we are an interface, then it is 

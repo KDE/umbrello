@@ -100,10 +100,12 @@ UMLObject * findObjectInList(Uml::IDType id, const UMLObjectList& inList) {
     return NULL;
 }
 
-UMLObject* findUMLObject(const UMLObjectList& inList, QString name,
+UMLObject* findUMLObject(const UMLObjectList& inList,
+                         const QString& inName,
                          Uml::Object_Type type /* = ot_UMLObject */,
                          UMLObject *currentObj /* = NULL */) {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
+    QString name = inName;
     QStringList components;
 #ifdef TRY_BUGFIX_120682
     // If we have a pointer or a reference in cpp we need to remove

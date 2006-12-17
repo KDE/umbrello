@@ -45,7 +45,7 @@ UMLObject* UMLFolder::clone() const {
     return clone;
 }
 
-void UMLFolder::setLocalName(QString localName) {
+void UMLFolder::setLocalName(const QString& localName) {
     m_localName = localName;
 }
 
@@ -166,7 +166,7 @@ void UMLFolder::removeAllViews() {
     m_diagrams.clear();
 }
 
-void UMLFolder::setFolderFile(QString fileName) {
+void UMLFolder::setFolderFile(const QString& fileName) {
     m_folderFile = fileName;
 }
 
@@ -283,7 +283,7 @@ bool UMLFolder::loadDiagramsFromXMI(QDomNode& diagrams) {
     return totalSuccess;
 }
 
-bool UMLFolder::loadFolderFile(QString path) {
+bool UMLFolder::loadFolderFile(const QString& path) {
     QFile file(path);
     if (!file.exists()) {
         KMessageBox::error(0, i18n("The folderfile %1 does not exist.").arg(path), i18n("Load Error"));

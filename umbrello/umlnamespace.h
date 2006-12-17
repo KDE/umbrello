@@ -345,7 +345,7 @@ const IDType id_Reserved = "0";
 /**
  * Function for comparing tags in XMI files.
  */
-bool tagEq (QString tag, QString pattern);
+bool tagEq (const QString& tag, const QString& pattern);
 
 }  // end namespace Uml
 

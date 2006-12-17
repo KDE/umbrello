@@ -33,7 +33,7 @@ public:
      * Reimplement operation from NativeImportBase.
      * Need to do this because we use the external C preprocessor.
      */
-    void parseFile(QString file);
+    void parseFile(const QString& file);
 
     /**
      * Override operation from NativeImportBase.
@@ -43,7 +43,7 @@ public:
     /**
      * Implement abstract operation from NativeImportBase.
      */
-    void fillSource(QString word);
+    void fillSource(const QString& word);
 
 protected:
     QString joinTypename();

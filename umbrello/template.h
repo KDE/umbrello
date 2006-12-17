@@ -35,8 +35,8 @@ public:
      * @param id                The unique id given to this UMLTemplate.
      * @param type              The type of this UMLTemplate.
      */
-    UMLTemplate(const UMLObject *parent, QString name, Uml::IDType id = Uml::id_None,
-                QString type = "class");
+    UMLTemplate(const UMLObject *parent, const QString& name,
+                Uml::IDType id = Uml::id_None, const QString& type = "class");
 
     /**
      * Sets up a template.

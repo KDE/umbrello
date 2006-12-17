@@ -200,7 +200,7 @@ public:
      * @return  NULL if the signature is valid (ok), else return a pointer
      *          to the existing UMLOperation that causes the conflict.
      */
-    UMLOperation * checkOperationSignature( QString name,
+    UMLOperation * checkOperationSignature( const QString& name,
                                             UMLAttributeList opParams,
                                             UMLOperation *exemptOp = NULL);
 
@@ -235,7 +235,7 @@ public:
      *
      * @return  The UMLTemplate created
      */
-    UMLObject* createTemplate(QString name = QString::null);
+    UMLObject* createTemplate(const QString& name = QString::null);
 
     /**
      * Adds a template to the class if it is not there yet.
@@ -281,7 +281,7 @@ public:
     /**
      * Seeks the template parameter of the given name.
      */
-    UMLTemplate *findTemplate(QString name);
+    UMLTemplate *findTemplate(const QString& name);
 
     /**
      * Returns the number of templates for the class.
@@ -353,7 +353,8 @@ public:
      *
      * @return  The operation found.  Will return 0 if none found.
      */
-    UMLOperation* findOperation(QString name, Model_Utils::NameAndType_List params);
+    UMLOperation* findOperation(const QString& name,
+                                Model_Utils::NameAndType_List params);
 
     /**
      * Returns a list of concepts which this concept inherits from.
@@ -409,7 +410,7 @@ public:
      * <UML:Attribute>, <UML:Operation>, or <UML:TemplateParameter>.
      * Used by the clipboard for paste operation.
      */
-    UMLClassifierListItem* makeChildObject(QString xmiTag);
+    UMLClassifierListItem* makeChildObject(const QString& xmiTag);
 
 signals:
     /** Signals that a new UMLOperation has been added to the classifer.

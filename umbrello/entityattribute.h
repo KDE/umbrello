@@ -36,8 +36,10 @@ public:
      * @param type      The type of this UMLEntityAttribute.
      * @param iv        The initial value of the entityattribute.
      */
-    UMLEntityAttribute(const UMLObject* parent, QString name, Uml::IDType id = Uml::id_None,
-               Uml::Visibility s = Uml::Visibility::Private, QString type = "int", QString iv = 0);
+    UMLEntityAttribute(const UMLObject* parent, const QString& name,
+                       Uml::IDType id = Uml::id_None,
+                       Uml::Visibility s = Uml::Visibility::Private,
+                       const QString& type = "int", const QString& iv = 0);
 
     /**
      * Sets up an entityattribute.

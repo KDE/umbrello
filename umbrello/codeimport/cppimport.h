@@ -39,7 +39,7 @@ protected:
      *
      * @param filename  The file to import.
      */
-    void parseFile(QString filename);
+    void parseFile(const QString& filename);
 
 private:
     /**
@@ -49,7 +49,7 @@ private:
     * in proper order so that references between UML objects are created
     * properly.
     */
-    void feedTheModel(QString fileName);
+    void feedTheModel(const QString& fileName);
 
     static CppDriver * ms_driver;
     static QStringList ms_seenFiles;  ///< auxiliary buffer for feedTheModel()

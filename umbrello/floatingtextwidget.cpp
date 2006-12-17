@@ -37,7 +37,7 @@
 #include "dialogs/selectopdlg.h"
 
 FloatingTextWidget::FloatingTextWidget(UMLView * view, Uml::Text_Role role,
-                                       QString text, Uml::IDType id)
+                                       const QString& text, Uml::IDType id)
   : UMLWidget(view, id, new FloatingTextWidgetController(this))
 {
     init();

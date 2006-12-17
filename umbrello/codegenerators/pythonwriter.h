@@ -66,7 +66,7 @@ private:
       * @param opList the list of operations
       * @param h output stream for the header file
       */
-    void writeOperations(QString classname, UMLOperationList &opList,
+    void writeOperations(const QString& classname, UMLOperationList &opList,
                          QTextStream &h, Access access);
 
     bool m_bNeedPass;  ///< True as long as no "pass" has been written

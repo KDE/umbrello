@@ -205,7 +205,7 @@ void PythonWriter::writeOperations(UMLClassifier *c,QTextStream &h) {
 
 }
 
-void PythonWriter::writeOperations(QString /*classname*/, UMLOperationList &opList,
+void PythonWriter::writeOperations(const QString& /*classname*/, UMLOperationList &opList,
                                    QTextStream &h, Access access) {
     UMLOperation *op;
     UMLAttribute *at;

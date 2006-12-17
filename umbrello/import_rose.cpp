@@ -41,7 +41,7 @@ uint nClosures; // Multiple closing parentheses may appear on a single
 
 uint linum;  // line number
 QString g_methodName;
-void methodName(QString m) {
+void methodName(const QString& m) {
     g_methodName = m;
 }
 /**
@@ -54,9 +54,9 @@ QString loc() {
 /**
  * Split a line into lexemes.
  */
-QStringList scan(QString line) {
+QStringList scan(const QString& lin) {
     QStringList result;
-    line = line.stripWhiteSpace();
+    QString line = lin.stripWhiteSpace();
     if (line.isEmpty())
         return result;  // empty
     QString lexeme;
