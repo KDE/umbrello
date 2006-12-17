@@ -38,7 +38,7 @@ protected:
     /**
      * Implement abstract operation from NativeImportBase.
      */
-    void fillSource(QString line);
+    void fillSource(const QString& line);
 
     /**
      * Reimplement operation from NativeImportBase.

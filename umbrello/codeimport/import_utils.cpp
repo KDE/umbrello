@@ -115,10 +115,11 @@ UMLObject* findUMLObject(QString name,
  */
 
 UMLObject *createUMLObject(Uml::Object_Type type,
-                                        QString name,
-                                        UMLPackage *parentPkg,
-                                        QString comment,
-                                        QString stereotype) {
+                           const QString& inName,
+                           UMLPackage *parentPkg,
+                           const QString& comment,
+                           const QString& stereotype) {
+    QString name = inName;
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     UMLFolder *logicalView = umldoc->getRootFolder(Uml::mt_Logical);
     if (parentPkg == NULL) {
@@ -236,9 +237,12 @@ UMLOperation* makeOperation(UMLClassifier *parent, const QString &name) {
     return op;
 }
 
-UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope, QString name,
-                                        UMLClassifier *attrType, QString comment /* ="" */,
-                                        bool isStatic /* =false */) {
+UMLObject* insertAttribute(UMLClassifier *owner,
+                           Uml::Visibility scope,
+                           const QString& name,
+                           UMLClassifier *attrType,
+                           const QString& comment /* ="" */,
+                           bool isStatic /* =false */) {
     Uml::Object_Type ot = owner->getBaseType();
     Uml::Programming_Language pl = UMLApp::app()->getActiveLanguage();
     if (! (ot == Uml::ot_Class || ot == Uml::ot_Interface && pl == Uml::pl_Java)) {
@@ -263,9 +267,11 @@ UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope, QString 
     return attr;
 }
 
-UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope, QString name,
-                                        QString type, QString comment /* ="" */,
-                                        bool isStatic /* =false */) {
+UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope,
+                           const QString& name,
+                           const QString& type,
+                           const QString& comment /* ="" */,
+                           bool isStatic /* =false */) {
     UMLObject *attrType = owner->findTemplate(type);
     if (attrType == NULL) {
         bPutAtGlobalScope = true;
@@ -278,10 +284,10 @@ UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope, QString 
 }
 
 void insertMethod(UMLClassifier *klass, UMLOperation *op,
-                               Uml::Visibility scope, QString type,
-                               bool isStatic, bool isAbstract, 
-                               bool isFriend, bool isConstructor,
-                               QString comment) {
+                  Uml::Visibility scope, const QString& type,
+                  bool isStatic, bool isAbstract, 
+                  bool isFriend, bool isConstructor,
+                  const QString& comment) {
     op->setVisibility(scope);
     if (!type.isEmpty()     // return type may be missing (constructor/destructor)
         && type != "void") {
@@ -318,7 +324,9 @@ void insertMethod(UMLClassifier *klass, UMLOperation *op,
     //setModified(true);
 }
 
-UMLAttribute* addMethodParameter(UMLOperation *method, QString type, QString name) {
+UMLAttribute* addMethodParameter(UMLOperation *method,
+                                 const QString& type,
+                                 const QString& name) {
     UMLClassifier *owner = static_cast<UMLClassifier*>(method->parent());
     UMLObject *typeObj = owner->findTemplate(type);
     if (typeObj == NULL) {
@@ -368,13 +376,13 @@ QStringList includePathList() {
     return includePathList;
 }
 
-void addIncludePath(QString path) {
+void addIncludePath(const QString& path) {
     if (! incPathList.contains(path))
         incPathList.append(path);
 }
 
 
-bool isDatatype(QString name, UMLPackage *parentPkg) {
+bool isDatatype(const QString& name, UMLPackage *parentPkg) {
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     UMLObject * o = umldoc->findUMLObject(name, Uml::ot_Datatype, parentPkg);
     return (o!=NULL);

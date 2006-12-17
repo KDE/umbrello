@@ -169,12 +169,12 @@ UMLObject* createUMLObject(Uml::Object_Type type, const QString &n,
     return o;
 }
 
-UMLAttribute *createAttribute(UMLObject *parent, QString name) {
+UMLAttribute *createAttribute(UMLObject *parent, const QString& name) {
     UMLAttribute *attr = new UMLAttribute(parent, name, g_predefinedId);
     return attr;
 }
 
-UMLOperation *createOperation(UMLClassifier *parent, QString name) {
+UMLOperation *createOperation(UMLClassifier *parent, const QString& name) {
     UMLOperation *op = new UMLOperation(parent, name, g_predefinedId);
     return op;
 }
@@ -214,7 +214,8 @@ UMLClassifierListItem* createChildObject(UMLClassifier* parent, Uml::Object_Type
     return static_cast<UMLClassifierListItem*>(returnObject);
 }
 
-UMLObject* makeObjectFromXMI(QString xmiTag, QString stereoID /* = QString::null */) {
+UMLObject* makeObjectFromXMI(const QString& xmiTag,
+                             const QString& stereoID /* = QString::null */) {
     UMLObject* pObject = 0;
     if (Uml::tagEq(xmiTag, "UseCase")) {
         pObject = new UMLUseCase();

@@ -37,8 +37,10 @@ public:
      * @param s         The visibility of the operation.
      * @param rt        The return type of the operation.
      */
-    UMLOperation(const UMLClassifier * parent, QString Name, Uml::IDType id = Uml::id_None,
-                 Uml::Visibility s = Uml::Visibility::Public, QString rt = QString::null);
+    UMLOperation(const UMLClassifier * parent, const QString& name,
+                 Uml::IDType id = Uml::id_None,
+                 Uml::Visibility s = Uml::Visibility::Public,
+                 const QString& rt = QString::null);
 
     /**
      * Constructs an UMLOperation.
@@ -82,7 +84,8 @@ public:
      *                      Default is "in".
      * @return  Pointer to the UMLAttribute created.
      */
-    UMLAttribute * addParm(QString type, QString name, QString initialValue, QString doc,
+    UMLAttribute * addParm(const QString& type, const QString& name,
+                           const QString& initialValue, const QString& doc,
                            Uml::Parameter_Direction kind = Uml::pd_In);
 
     /**

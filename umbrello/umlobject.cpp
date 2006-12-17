@@ -365,7 +365,7 @@ QString UMLObject::getSecondaryId() const {
     return m_SecondaryId;
 }
 
-void UMLObject::setSecondaryId(QString id) {
+void UMLObject::setSecondaryId(const QString& id) {
     m_SecondaryId = id;
 }
 
@@ -373,7 +373,7 @@ QString UMLObject::getSecondaryFallback() const {
     return m_SecondaryFallback;
 }
 
-void UMLObject::setSecondaryFallback(QString id) {
+void UMLObject::setSecondaryFallback(const QString& id) {
     m_SecondaryFallback = id;
 }
 

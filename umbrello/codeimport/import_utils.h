@@ -36,10 +36,10 @@ namespace Import_Utils {
      * Find or create a document object.
      */
     UMLObject* createUMLObject(Uml::Object_Type type,
-                               QString name,
+                               const QString& name,
                                UMLPackage *parentPkg = NULL,
-                               QString comment = QString::null,
-                               QString stereotype = QString::null);
+                               const QString& comment = QString::null,
+                               const QString& stereotype = QString::null);
     /**
      * Control whether an object which is newly created by createUMLObject()
      * is put at the global scope.
@@ -61,16 +61,20 @@ namespace Import_Utils {
     /**
      * Create a UMLAttribute and insert it into the document.
      */
-    UMLObject* insertAttribute(UMLClassifier *klass, Uml::Visibility scope, QString name,
-                               QString type, QString comment = QString::null,
+    UMLObject* insertAttribute(UMLClassifier *klass, Uml::Visibility scope,
+                               const QString& name,
+                               const QString& type,
+                               const QString& comment = QString::null,
                                bool isStatic = false);
     /**
      * Create a UMLAttribute and insert it into the document.
      * Use the specified existing attrType.
      */
-    UMLObject* insertAttribute(UMLClassifier *klass, Uml::Visibility scope, QString name,
-                                        UMLClassifier *attrType, QString comment /* ="" */,
-                                        bool isStatic /* =false */);
+    UMLObject* insertAttribute(UMLClassifier *klass, Uml::Visibility scope,
+                               const QString& name,
+                               UMLClassifier *attrType,
+                               const QString& comment /* ="" */,
+                               bool isStatic /* =false */);
     /**
      * Create a UMLOperation.
      * The reason for this method is to not generate any Qt signals.
@@ -86,10 +90,10 @@ namespace Import_Utils {
      * Insert the UMLOperation into the document.
      */
     void insertMethod(UMLClassifier *klass, UMLOperation *op,
-                      Uml::Visibility scope, QString type,
+                      Uml::Visibility scope, const QString& type,
                       bool isStatic, bool isAbstract,
                       bool isFriend = false, bool isConstructor = false,
-                      QString comment = QString::null);
+                      const QString& comment = QString::null);
 
     /**
      * Add an argument to a UMLOperation.
@@ -97,7 +101,8 @@ namespace Import_Utils {
      * prefixes in the `type'.
      */
     UMLAttribute* addMethodParameter(UMLOperation *method,
-                                     QString type, QString name);
+                                     const QString& type,
+                                     const QString& name);
 
     /**
      * Add an enum literal to an UMLEnum.
@@ -132,7 +137,7 @@ namespace Import_Utils {
     /**
      * Add a path to the include path list.
      */
-    void addIncludePath(QString path);
+    void addIncludePath(const QString& path);
 
     /**
      * Returns whether the last createUMLObject() actually created
@@ -143,7 +148,7 @@ namespace Import_Utils {
     /**
      * Returns true if a type is an actual Datatype
      */
-    bool isDatatype(QString name, UMLPackage *parentPkg = NULL);
+    bool isDatatype(const QString& name, UMLPackage *parentPkg = NULL);
 
 } // end namespace Import_Utils
 

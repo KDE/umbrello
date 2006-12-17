@@ -37,9 +37,10 @@ namespace Import_Rose {
  * Return the given string without surrounding quotation marks.
  * Also remove a possible prefix "Logical View::", it is not modeled in Umbrello.
  */
-QString clean(QString str) {
-    if (str.isNull())
+QString clean(const QString& s) {
+    if (s.isNull())
         return QString();
+    QString str = s;
     str.remove("\"");
     str.remove(QRegExp("^Logical View::"));
     return str;
@@ -72,9 +73,10 @@ QString quidu(const PetalNode *node) {
  * If the given name consists only of letters, digits, underscores, and
  * scope separators, then return Uml::ot_Class, else return Uml::ot_Datatype.
  */
-Uml::Object_Type typeToCreate(QString name) {
-    name.remove(QRegExp("^.*::"));  // don't consider the scope prefix, it may contain spaces
-    Uml::Object_Type t = (name.contains(QRegExp("\\W")) ? Uml::ot_Datatype : Uml::ot_Class);
+Uml::Object_Type typeToCreate(const QString& name) {
+    QString n = name;
+    n.remove(QRegExp("^.*::"));  // don't consider the scope prefix, it may contain spaces
+    Uml::Object_Type t = (n.contains(QRegExp("\\W")) ? Uml::ot_Datatype : Uml::ot_Class);
     return t;
 }
 
@@ -115,7 +117,8 @@ public:
      */
     virtual UMLObject *createListItem() = 0;
 
-    virtual void setTypeReferences(UMLObject *item, QString quid, QString type) {
+    virtual void setTypeReferences(UMLObject *item,
+                                   const QString& quid, const QString& type) {
         if (!quid.isEmpty()) {
             item->setSecondaryId(quid);
         }
@@ -144,7 +147,7 @@ public:
      *   - invoke insertAtParent() with the new classifier list item as the argument
      * This is the user entry point.
      */
-    void read(const PetalNode *node, QString name) {
+    void read(const PetalNode *node, const QString& name) {
         PetalNode *attributes = node->findAttribute(m_attributeTag).node;
         if (attributes == NULL) {
 #ifdef VERBOSE_DEBUGGING
@@ -248,7 +251,8 @@ public:
      * Override parent implementation: The secondary data is not for the
      * UMLAssociation itself but for its role B object.
      */
-    void setTypeReferences(UMLObject *item, QString quid, QString type) {
+    void setTypeReferences(UMLObject *item,
+                           const QString& quid, const QString& type) {
         UMLAssociation *assoc = static_cast<UMLAssociation*>(item);
         if (!quid.isEmpty()) {
             assoc->getUMLRole(Uml::B)->setSecondaryId(quid);
@@ -280,7 +284,8 @@ public:
      * Override parent implementation: The secondary data is not for the
      * UMLAssociation itself but for its role B object.
      */
-    void setTypeReferences(UMLObject *item, QString quid, QString type) {
+    void setTypeReferences(UMLObject *item,
+                           const QString& quid, const QString& type) {
         UMLAssociation *assoc = static_cast<UMLAssociation*>(item);
         if (!quid.isEmpty()) {
             assoc->getUMLRole(Uml::B)->setSecondaryId(quid);
@@ -479,7 +484,7 @@ Uml::ListView_Type folderType(UMLListViewItem *parent) {
  *           Given a PetalNode for which the mapping to Umbrello is not yet
  *           implemented umbrellify() is a no-op but also returns true.
  */
-bool umbrellify(PetalNode *node, QString modelsName, UMLListViewItem *parent) {
+bool umbrellify(PetalNode *node, const QString& modelsName, UMLListViewItem *parent) {
     if (node == NULL) {
         kError() << "umbrellify: node is NULL" << endl;
         return false;
@@ -533,8 +538,8 @@ bool umbrellify(PetalNode *node, QString modelsName, UMLListViewItem *parent) {
 /**
  * Auxiliary function for UseCase/Component/Deployment view import
  */
-bool importView(PetalNode *root, QString rootName, QString modelsName,
-                UMLListViewItem *lvParent) {
+bool importView(PetalNode *root, const QString& rootName,
+                const QString& modelsName, UMLListViewItem *lvParent) {
     PetalNode *viewRoot = root->findAttribute(rootName).node;
     if (viewRoot == NULL) {
         kDebug() << "importView: cannot find " << rootName << endl;

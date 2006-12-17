@@ -41,8 +41,9 @@ public:
      *
      * @see QDialog::QDialog
      */
-    ExportAllViewsDialog(QWidget* parent = 0, const char* name = 0, bool modal = false,
-                         Qt::WindowFlags  fl = 0, QString defaultMimeType = "image/png");
+    ExportAllViewsDialog(QWidget* parent = 0, const char* name = 0,
+                         bool modal = false, Qt::WindowFlags fl = 0,
+                         const QString& defaultMimeType = "image/png");
 
     /**
      * Destructor for UMLViewImageExporterModel.

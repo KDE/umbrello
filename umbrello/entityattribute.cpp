@@ -21,9 +21,10 @@
 #include "dialogs/umlentityattributedialog.h"
 #include "object_factory.h"
 
-UMLEntityAttribute::UMLEntityAttribute( const UMLObject *parent, QString Name, Uml::IDType id,
-                                        Uml::Visibility s, QString type, QString iv )
-        : UMLAttribute(parent, Name, id, s, type, iv) {
+UMLEntityAttribute::UMLEntityAttribute( const UMLObject *parent, const QString& name,
+                                        Uml::IDType id, Uml::Visibility s,
+                                        const QString& type, const QString& iv )
+        : UMLAttribute(parent, name, id, s, type, iv) {
     init();
     if (m_pSecondary) {
         m_pSecondary->setBaseType(Uml::ot_Entity);

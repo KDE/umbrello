@@ -41,7 +41,7 @@ void PascalImport::initVars() {
     NativeImportBase::m_currentAccess = Uml::Visibility::Public;
 }
 
-void PascalImport::fillSource(QString word) {
+void PascalImport::fillSource(const QString& word) {
     QString lexeme;
     const uint len = word.length();
     for (uint i = 0; i < len; i++) {
@@ -287,7 +287,7 @@ bool PascalImport::parseStmt() {
         const QString& name = m_source[m_srcIndex];
         QString nextToken = advance();
         if (nextToken != "=") {
-            kDebug() << "PascalImport::parseFile(" << name << "): "
+            kDebug() << "PascalImport::parseStmt(" << name << "): "
                 << "expecting '=' at " << nextToken << endl;
             return false;
         }

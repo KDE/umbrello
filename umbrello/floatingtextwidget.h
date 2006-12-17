@@ -59,7 +59,7 @@ public:
      * @param id The ID to assign (-1 will prompt a new ID.)
      */
     FloatingTextWidget(UMLView * view, Uml::Text_Role role = Uml::tr_Floating,
-                       QString text = "", Uml::IDType id = Uml::id_None);
+                       const QString& text = "", Uml::IDType id = Uml::id_None);
 
     /**
      * destructor

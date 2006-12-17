@@ -64,7 +64,7 @@ public:
      * UseCase, Component, Deployment, EntityRelationship,
      * and the Datatypes folder inside the Logical View.)
      */
-    void setLocalName(QString localName);
+    void setLocalName(const QString& localName);
 
     /**
      * Return the localized name of this folder.
@@ -129,7 +129,7 @@ public:
     /**
      * Set the folder file name for a separate submodel.
      */
-    void setFolderFile(QString fileName);
+    void setFolderFile(const QString& fileName);
 
     /**
      * Get the folder file name for a separate submodel.
@@ -176,7 +176,7 @@ protected:
      *              plus file name.
      * @return   True for success.
      */
-    bool loadFolderFile(QString path);
+    bool loadFolderFile(const QString& path);
 
     /**
      * Loads the UML:Component element.

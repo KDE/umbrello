@@ -73,7 +73,8 @@ bool UMLClassifier::isInterface() const {
     return (m_BaseType == ot_Interface);
 }
 
-UMLOperation * UMLClassifier::checkOperationSignature( QString name,
+UMLOperation * UMLClassifier::checkOperationSignature(
+        const QString& name,
         UMLAttributeList opParams,
         UMLOperation *exemptOp)
 {
@@ -109,7 +110,8 @@ UMLOperation * UMLClassifier::checkOperationSignature( QString name,
     return NULL;
 }
 
-UMLOperation* UMLClassifier::findOperation(QString name, Model_Utils::NameAndType_List params) {
+UMLOperation* UMLClassifier::findOperation(const QString& name,
+                                           Model_Utils::NameAndType_List params) {
     UMLOperationList list = findOperations(name);
     if (list.count() == 0)
         return NULL;
@@ -256,18 +258,19 @@ int UMLClassifier::removeOperation(UMLOperation *op) {
     return m_List.count();
 }
 
-UMLObject* UMLClassifier::createTemplate(QString currentName /*= QString::null*/) {
-    bool goodName = !currentName.isEmpty();
+UMLObject* UMLClassifier::createTemplate(const QString& currentName /*= QString::null*/) {
+    QString name = currentName;
+    bool goodName = !name.isEmpty();
     if (!goodName)
-        currentName = uniqChildName(Uml::ot_Template);
-    UMLTemplate* newTemplate = new UMLTemplate(this, currentName);
+        name = uniqChildName(Uml::ot_Template);
+    UMLTemplate* newTemplate = new UMLTemplate(this, name);
 
     int button = QDialog::Accepted;
 
     while (button==QDialog::Accepted && !goodName) {
         UMLTemplateDialog templateDialogue(0, newTemplate);
         button = templateDialogue.exec();
-        QString name = newTemplate->getName();
+        name = newTemplate->getName();
 
         if(name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
@@ -695,7 +698,7 @@ int UMLClassifier::removeTemplate(UMLTemplate* umltemplate) {
 }
 
 
-UMLTemplate *UMLClassifier::findTemplate(QString name) {
+UMLTemplate *UMLClassifier::findTemplate(const QString& name) {
     UMLTemplateList templParams = getTemplateList();
     for (UMLTemplate *t = templParams.first(); t; t = templParams.next()) {
         if (t->getName() == name)
@@ -847,7 +850,7 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement) {
     qElement.appendChild( classifierElement );
 }
 
-UMLClassifierListItem* UMLClassifier::makeChildObject(QString xmiTag) {
+UMLClassifierListItem* UMLClassifier::makeChildObject(const QString& xmiTag) {
     UMLClassifierListItem* pObject = NULL;
     if (tagEq(xmiTag, "Operation")) {
         pObject = new UMLOperation(this);

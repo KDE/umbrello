@@ -51,7 +51,7 @@ CppImport::CppImport() {
 
 CppImport::~CppImport() {}
 
-void CppImport::feedTheModel(QString fileName) {
+void CppImport::feedTheModel(const QString& fileName) {
     QMap<QString, Dependence> deps = ms_driver->dependences(fileName);
     if (! deps.empty()) {
         QMap<QString, Dependence>::Iterator it;
@@ -102,7 +102,7 @@ void CppImport::initialize() {
     ms_seenFiles.clear();
 }
 
-void CppImport::parseFile(QString fileName) {
+void CppImport::parseFile(const QString& fileName) {
     if (ms_seenFiles.find(fileName) != ms_seenFiles.end())
         return;
     ms_driver->parseFile( fileName );

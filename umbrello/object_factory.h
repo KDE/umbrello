@@ -53,9 +53,9 @@ UMLObject* createUMLObject(Uml::Object_Type type,
  */
 UMLClassifierListItem* createChildObject(UMLClassifier *parent, Uml::Object_Type type);
 
-UMLAttribute *createAttribute(UMLObject *parent, QString name);
+UMLAttribute *createAttribute(UMLObject *parent, const QString& name);
 
-UMLOperation *createOperation(UMLClassifier *parent, QString name);
+UMLOperation *createOperation(UMLClassifier *parent, const QString& name);
 
 /**
  * Control whether the createUMLObject() solicits a new unique ID for the
@@ -75,7 +75,8 @@ bool assignUniqueIdOnCreation();
  * Make a new UMLObject according to the given XMI tag.
  * Used by loadFromXMI and clipboard paste.
  */
-UMLObject* makeObjectFromXMI(QString xmiTag, QString stereoID = QString::null);
+UMLObject* makeObjectFromXMI(const QString& xmiTag,
+                             const QString& stereoID = QString::null);
 
 }
 

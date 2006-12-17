@@ -43,7 +43,7 @@ void PetalNode::setType(PetalNode::NodeType t) {
 }
  */
 
-void PetalNode::setInitialArgs(QStringList args) {
+void PetalNode::setInitialArgs(const QStringList& args) {
     m_initialArgs = args;
 }
 
@@ -51,7 +51,7 @@ void PetalNode::setAttributes(PetalNode::NameValueList vl) {
     m_attributes = vl;
 }
 
-PetalNode::StringOrNode PetalNode::findAttribute(QString name) const {
+PetalNode::StringOrNode PetalNode::findAttribute(const QString& name) const {
     for (uint i = 0; i < m_attributes.count(); i++) {
         if (m_attributes[i].first == name)
             return m_attributes[i].second;

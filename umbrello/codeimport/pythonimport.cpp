@@ -90,7 +90,7 @@ bool PythonImport::preprocess(QString& line) {
     return false;  // The input was not completely consumed by preprocessing.
 }
 
-void PythonImport::fillSource(QString word) {
+void PythonImport::fillSource(const QString& word) {
     QString lexeme;
     const uint len = word.length();
     for (uint i = 0; i < len; i++) {

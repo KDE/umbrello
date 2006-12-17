@@ -196,7 +196,7 @@ void TextBlock::release () {
 }
 
 QString TextBlock::formatMultiLineText ( const QString &work, const QString &linePrefix,
-        QString breakStr, bool addBreak, bool lastLineHasBreak ) {
+        const QString& breakStr, bool addBreak, bool lastLineHasBreak ) {
     QString output = "";
     QString text = work;
     QString endLine = getNewLineEndingChars();
@@ -273,16 +273,18 @@ void TextBlock::setAttributesFromNode (QDomElement & root ) {
 // encode text for XML storage
 // we simply convert all types of newLines to the "\n" or &#010;
 // entity.
-QString TextBlock::encodeText( QString text, const QString &endLine) {
-    QString encoded = text.replace(QRegExp(endLine),"&#010;");
+QString TextBlock::encodeText(const QString& text, const QString &endLine) {
+    QString encoded = text;
+    encoded.replace(QRegExp(endLine),"&#010;");
     return encoded;
 }
 
 // encode text for XML storage
 // we simply convert all types of newLines to the "\n" or &#010;
 // entity.
-QString TextBlock::decodeText( QString text, const QString &endLine) {
-    QString decoded = text.replace(QRegExp("&#010;"),endLine);
+QString TextBlock::decodeText(const QString& text, const QString &endLine) {
+    QString decoded = text;
+    decoded.replace(QRegExp("&#010;"),endLine);
     return decoded;
 }
 

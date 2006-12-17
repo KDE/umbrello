@@ -33,7 +33,8 @@ namespace Widget_Factory {
     /**
      * Create a UMLWidget according to the given XMI tag.
      */
-    UMLWidget* makeWidgetFromXMI(QString tag, QString idStr, UMLView *view);
+    UMLWidget* makeWidgetFromXMI(const QString& tag,
+                                 const QString& idStr, UMLView *view);
 
 }   // end namespace Widget_Factory
 

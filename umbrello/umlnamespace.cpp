@@ -15,7 +15,9 @@
 
 namespace Uml {
 
-bool tagEq (QString tag, QString pattern) {
+bool tagEq (const QString& inTag, const QString& inPattern) {
+    QString tag = inTag;
+    QString pattern = inPattern;
     tag.remove( QRegExp("^\\w+:") );  // remove leading "UML:" or other
     int patSections = pattern.count('.') + 1;
     QString tagEnd = tag.section('.', -patSections);

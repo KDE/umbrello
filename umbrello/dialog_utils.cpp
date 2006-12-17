@@ -28,8 +28,9 @@
 namespace Dialog_Utils {
 
 QLineEdit* makeLabeledEditField(Q3GroupBox *containingBox, QGridLayout *layout, int row,
-                                QLabel * &label, QString labelText,
-                                QLineEdit * &editField, QString editFieldText /* = QString::null */)
+                                QLabel * &label, const QString& labelText,
+                                QLineEdit * &editField,
+                                const QString& editFieldText /* = QString::null */)
 {
     label = new QLabel(labelText, containingBox);
     layout->addWidget(label, row, 0);
@@ -40,8 +41,8 @@ QLineEdit* makeLabeledEditField(Q3GroupBox *containingBox, QGridLayout *layout, 
 }
 
 
-void askNameForWidget(
-    UMLWidget * &targetWidget, QString dialogTitle, QString dialogPrompt, QString defaultName) {
+void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
+                      const QString& dialogPrompt, const QString& defaultName) {
 
     bool pressedOK = false;
 

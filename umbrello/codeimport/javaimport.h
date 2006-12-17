@@ -40,12 +40,12 @@ protected:
     /**
      * Implement abstract operation from NativeImportBase.
      */
-    void fillSource(QString word);
+    void fillSource(const QString& word);
 
     /**
      * Keep track of the filename currently being parsed
      */
-    void parseFile(QString filename);
+    void parseFile(const QString& filename);
 
     /**
      * Try to resolve the specified class the current class depends on

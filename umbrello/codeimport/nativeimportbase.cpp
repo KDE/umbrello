@@ -190,12 +190,12 @@ bool NativeImportBase::preprocess(QString& line) {
 
 /// Split the line so that a string is returned as a single element of the list,
 /// when not in a string then split at white space.
-QStringList NativeImportBase::split(QString line) {
+QStringList NativeImportBase::split(const QString& lin) {
     QStringList list;
     QString listElement;
     QChar stringIntro = 0;  // buffers the string introducer character
     bool seenSpace = false;
-    line = line.stripWhiteSpace();
+    QString line = lin.stripWhiteSpace();
     for (uint i = 0; i < line.length(); i++) {
         const QChar& c = line[i];
         if (stringIntro.toLatin1()) {        // we are in a string
@@ -260,7 +260,8 @@ void NativeImportBase::scan(QString line) {
 void NativeImportBase::initVars() {
 }
 
-void NativeImportBase::parseFile(QString filename) {
+void NativeImportBase::parseFile(const QString& filename) {
+    QString fname = filename;
     const QString msgPrefix = "NativeImportBase::parseFile(" + filename + "): ";
     if (filename.contains('/')) {
         QString path = filename;
@@ -282,7 +283,7 @@ void NativeImportBase::parseFile(QString filename) {
                 path.append("/");
             }
             if (QFile::exists(path + filename)) {
-                filename.prepend(path);
+                fname.prepend(path);
                 found = true;
                 break;
             }
@@ -292,7 +293,7 @@ void NativeImportBase::parseFile(QString filename) {
             return;
         }
     }
-    QFile file(filename);
+    QFile file(fname);
     if (! file.open(IO_ReadOnly)) {
         kError() << msgPrefix << "cannot open file" << endl;
         return;

@@ -78,7 +78,7 @@ protected:
      *
      * @param file  The file to import.
      */
-    virtual void parseFile(QString filename);
+    virtual void parseFile(const QString& filename);
 
     /**
      * Initialize auxiliary variables.
@@ -115,14 +115,14 @@ protected:
      * When not in a string then split at white space.
      * The default implementation is suitable for C style strings and char constants.
      */
-    virtual QStringList split(QString line);
+    virtual QStringList split(const QString& line);
 
     /**
      * Analyze the given word and fill `m_source'.
      * A "word" is a whitespace delimited item from the input line.
      * To be provided by the specific importer class.
      */
-    virtual void fillSource(QString word) = 0;
+    virtual void fillSource(const QString& word) = 0;
 
     /**
      * Parse the statement which starts at m_source[m_srcIndex]

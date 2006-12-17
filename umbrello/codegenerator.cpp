@@ -388,7 +388,7 @@ QString CodeGenerator::getHeadingFile( const QString &file ) {
  * @param       codeDoc
  * @param       name
  */
-QString CodeGenerator::overwritableName( QString name, const QString &extension ) {
+QString CodeGenerator::overwritableName(const QString& name, const QString &extension ) {
 
     CodeGenerationPolicy *pol = UMLApp::app()->getCommonPolicy();
     QDir outputDirectory = pol->getOutputDirectory();

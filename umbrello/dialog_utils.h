@@ -43,8 +43,9 @@ namespace Dialog_Utils {
  * @return a pointer to the QLineEdit so you can setFocus() if necessary
  */
 QLineEdit* makeLabeledEditField(Q3GroupBox *containingBox, QGridLayout *layout, int row,
-                                QLabel * &label, QString labelText,
-                                QLineEdit * &editField, QString editFieldText = QString::null);
+                                QLabel * &label, const QString& labelText,
+                                QLineEdit * &editField,
+                                const QString& editFieldText = QString::null);
 
 /**
  * Helper function for requesting a name for an UMLWidget using a dialog.
@@ -56,8 +57,8 @@ QLineEdit* makeLabeledEditField(Q3GroupBox *containingBox, QGridLayout *layout, 
  * @param dialogPrompt          Prompt of the dialog.
  * @param defaultName           Default value of the name field.
  */
-void askNameForWidget(UMLWidget * &targetWidget, QString dialogTitle, QString dialogPrompt,
-                      QString defaultName);
+void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
+                      const QString& dialogPrompt, const QString& defaultName);
 
 }
 

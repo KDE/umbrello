@@ -54,7 +54,7 @@ public:
      * @return A QString with the equivalent mime type, or QString::null if
      *         it's unknown.
      */
-    static QString imageTypeToMimeType(QString imageType);
+    static QString imageTypeToMimeType(const QString& imageType);
 
     /**
      * Returns the image type for a mime type.
@@ -64,7 +64,7 @@ public:
      * @return A lowercase QString with the equivalent image type, or QString::null
      *         if it's unknown.
      */
-    static QString mimeTypeToImageType(QString mimeType);
+    static QString mimeTypeToImageType(const QString& mimeType);
 
     /**
      * Constructor for UMLViewImageExporterModel.
