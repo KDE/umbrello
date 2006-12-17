@@ -70,8 +70,12 @@ void KPlayerPopupFrame::mouseReleaseEvent (QMouseEvent* ev)
 KPlayerPopupSliderAction::KPlayerPopupSliderAction (const QString& text,
         const QString& pix, const KShortcut& shortcut, const QObject* receiver,
         const char* slot, KActionCollection* parent, const char* name)
-        : KAction (text, pix, shortcut, receiver, slot, parent, name)
+        : KAction (parent, name)
 {
+    setText (text);
+    setIcon (KIcon (pix));
+    setShortcut (shortcut);
+    connect (this, SIGNAL (triggered ()), receiver, slot);
     m_frame = new KPlayerPopupFrame;
     m_frame -> setFrameStyle (QFrame::PopupPanel | QFrame::Raised);
     m_frame -> setLineWidth (2);

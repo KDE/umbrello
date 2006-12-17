@@ -340,28 +340,25 @@ void UMLApp::initActions() {
     zoomAction = new KPlayerPopupSliderAction(i18n("&Zoom Slider"), "viewmag", KShortcut(Qt::Key_F9),
                  this, SLOT(slotZoomSliderMoved(int)),
                  actionCollection(), "popup_zoom");
-    zoom100Action = new KAction( "viewmag1", 
-                                 i18n( "Z&oom to 100%" ), 
-                                 actionCollection(),
-                                 "zoom100");
+    zoom100Action = new KAction(actionCollection(), "zoom100");
+    zoom100Action->setIcon(KIcon("viewmag1"));
+    zoom100Action->setText(i18n("Z&oom to 100%"));
     connect(zoom100Action, SIGNAL( triggered( bool ) ), this, SLOT( slotZoom100() ));
 
     KStdAction::tipOfDay( this, SLOT( tipOfTheDay() ), actionCollection() );
 
     QString moveTabLeftString = i18n("&Move Tab Left");
     QString moveTabRightString = i18n("&Move Tab Right");
-    moveTabLeft = new KAction(QApplication::layoutDirection() ? "forward" : "back", 
-                        QApplication::layoutDirection() ? moveTabRightString : moveTabLeftString,
-                        actionCollection(),
-                        "move_tab_left");
+    moveTabLeft = new KAction(actionCollection(), "move_tab_left");
+    moveTabLeft->setIcon(KIcon(QApplication::layoutDirection() ? "forward" : "back"));
+    moveTabLeft->setText(QApplication::layoutDirection() ? moveTabRightString : moveTabLeftString);
     moveTabLeft->setShortcut(QApplication::layoutDirection() ? 
                  QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left));
     connect(moveTabLeft, SIGNAL( triggered( bool ) ), this, SLOT( slotMoveTabLeft() ));
 
-    moveTabRight = new KAction(QApplication::layoutDirection() ? "back" : "forward", 
-                               QApplication::layoutDirection() ? moveTabLeftString : moveTabRightString,
-                               actionCollection(),
-                               "move_tab_right");
+    moveTabRight = new KAction(actionCollection(), "move_tab_right");
+    moveTabRight->setIcon(KIcon(QApplication::layoutDirection() ? "back" : "forward"));
+    moveTabRight->setText(QApplication::layoutDirection() ? moveTabLeftString : moveTabRightString);
     moveTabRight->setShortcut(QApplication::layoutDirection() ?
                   QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right));
     connect(moveTabRight, SIGNAL( triggered( bool ) ), this, SLOT( slotMoveTabRight() ));
