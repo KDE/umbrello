@@ -393,7 +393,7 @@ public:
     /**
      * Set the name of this model.
      */
-    void setName(QString name);
+    void setName(const QString& name);
 
     /**
      * Return the name of this model.

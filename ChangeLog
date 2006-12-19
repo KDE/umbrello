@@ -12,6 +12,7 @@ Version 1.5.6
 * Optimized printer margins
   http://www.geeksoc.org/~jr/umbrello/uml-devel/9895.html
 * Bugs/wishes from http://bugs.kde.org:
+* Association line nodes don't drag along with multiply-selected classes (57878)
 * Umbrello saves too much copies at xmi (135606)
 * Artifacts of a component diagram are wrongly placed in Deployment View folder (137564)
 * Incorrect export to SQL (138139)

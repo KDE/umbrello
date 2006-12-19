@@ -27,7 +27,7 @@
 
 // kde includes
 #include <kaction.h>
-#include <kstdaction.h>
+#include <kstandardaction.h>
 #include <ktoggleaction.h>
 #include <krecentfilesaction.h>
 #include <kapplication.h>
@@ -174,22 +174,22 @@ UMLApp* UMLApp::app()
 }
 
 void UMLApp::initActions() {
-    fileNew = KStdAction::openNew(this, SLOT(slotFileNew()), actionCollection());
-    fileOpen = KStdAction::open(this, SLOT(slotFileOpen()), actionCollection());
-    fileOpenRecent = KStdAction::openRecent(this, SLOT(slotFileOpenRecent(const KUrl&)), actionCollection());
-    fileSave = KStdAction::save(this, SLOT(slotFileSave()), actionCollection());
-    fileSaveAs = KStdAction::saveAs(this, SLOT(slotFileSaveAs()), actionCollection());
-    fileClose = KStdAction::close(this, SLOT(slotFileClose()), actionCollection());
-    filePrint = KStdAction::print(this, SLOT(slotFilePrint()), actionCollection());
-    fileQuit = KStdAction::quit(this, SLOT(slotFileQuit()), actionCollection());
-    editUndo = KStdAction::undo(this, SLOT(slotEditUndo()), actionCollection());
-    editRedo = KStdAction::redo(this, SLOT(slotEditRedo()), actionCollection());
-    editCut = KStdAction::cut(this, SLOT(slotEditCut()), actionCollection());
-    editCopy = KStdAction::copy(this, SLOT(slotEditCopy()), actionCollection());
-    editPaste = KStdAction::paste(this, SLOT(slotEditPaste()), actionCollection());
+    fileNew = KStandardAction::openNew(this, SLOT(slotFileNew()), actionCollection());
+    fileOpen = KStandardAction::open(this, SLOT(slotFileOpen()), actionCollection());
+    fileOpenRecent = KStandardAction::openRecent(this, SLOT(slotFileOpenRecent(const KUrl&)), actionCollection());
+    fileSave = KStandardAction::save(this, SLOT(slotFileSave()), actionCollection());
+    fileSaveAs = KStandardAction::saveAs(this, SLOT(slotFileSaveAs()), actionCollection());
+    fileClose = KStandardAction::close(this, SLOT(slotFileClose()), actionCollection());
+    filePrint = KStandardAction::print(this, SLOT(slotFilePrint()), actionCollection());
+    fileQuit = KStandardAction::quit(this, SLOT(slotFileQuit()), actionCollection());
+    editUndo = KStandardAction::undo(this, SLOT(slotEditUndo()), actionCollection());
+    editRedo = KStandardAction::redo(this, SLOT(slotEditRedo()), actionCollection());
+    editCut = KStandardAction::cut(this, SLOT(slotEditCut()), actionCollection());
+    editCopy = KStandardAction::copy(this, SLOT(slotEditCopy()), actionCollection());
+    editPaste = KStandardAction::paste(this, SLOT(slotEditPaste()), actionCollection());
     createStandardStatusBarAction();
     setStandardToolBarMenuEnabled(true);
-    selectAll = KStdAction::selectAll(this,  SLOT( slotSelectAll() ), actionCollection());
+    selectAll = KStandardAction::selectAll(this,  SLOT( slotSelectAll() ), actionCollection());
 
     fileExportDocbook = new KAction(i18n("&Export model to DocBook"), actionCollection(), "file_export_docbook");
     connect(fileExportDocbook, SIGNAL( triggered( bool ) ), this, SLOT( slotFileExportDocbook() ));
@@ -205,7 +205,7 @@ void UMLApp::initActions() {
     KAction* anAction = new KAction(i18n("&Add Default Datatypes for Active Language"), actionCollection(), "create_default_datatypes");
     connect(anAction, SIGNAL( triggered( bool ) ), this, SLOT( slotAddDefaultDatatypes() ));
 
-    preferences = KStdAction::preferences(this,  SLOT( slotPrefs() ), actionCollection());
+    preferences = KStandardAction::preferences(this,  SLOT( slotPrefs() ), actionCollection());
 
     genWizard = new KAction(i18n("&Code Generation Wizard..."),
                             actionCollection(),"generation_wizard");
@@ -342,28 +342,25 @@ void UMLApp::initActions() {
     zoomAction = new KPlayerPopupSliderAction(i18n("&Zoom Slider"), "viewmag", KShortcut(Qt::Key_F9),
                  this, SLOT(slotZoomSliderMoved(int)),
                  actionCollection(), "popup_zoom");
-    zoom100Action = new KAction( "viewmag1", 
-                                 i18n( "Z&oom to 100%" ), 
-                                 actionCollection(),
-                                 "zoom100");
+    zoom100Action = new KAction(actionCollection(), "zoom100");
+    zoom100Action->setIcon(KIcon("viewmag1"));
+    zoom100Action->setText(i18n("Z&oom to 100%"));
     connect(zoom100Action, SIGNAL( triggered( bool ) ), this, SLOT( slotZoom100() ));
 
-    KStdAction::tipOfDay( this, SLOT( tipOfTheDay() ), actionCollection() );
+    KStandardAction::tipOfDay( this, SLOT( tipOfTheDay() ), actionCollection() );
 
     QString moveTabLeftString = i18n("&Move Tab Left");
     QString moveTabRightString = i18n("&Move Tab Right");
-    moveTabLeft = new KAction(QApplication::layoutDirection() ? "forward" : "back", 
-                        QApplication::layoutDirection() ? moveTabRightString : moveTabLeftString,
-                        actionCollection(),
-                        "move_tab_left");
+    moveTabLeft = new KAction(actionCollection(), "move_tab_left");
+    moveTabLeft->setIcon(KIcon(QApplication::layoutDirection() ? "forward" : "back"));
+    moveTabLeft->setText(QApplication::layoutDirection() ? moveTabRightString : moveTabLeftString);
     moveTabLeft->setShortcut(QApplication::layoutDirection() ? 
                  QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left));
     connect(moveTabLeft, SIGNAL( triggered( bool ) ), this, SLOT( slotMoveTabLeft() ));
 
-    moveTabRight = new KAction(QApplication::layoutDirection() ? "back" : "forward", 
-                               QApplication::layoutDirection() ? moveTabLeftString : moveTabRightString,
-                               actionCollection(),
-                               "move_tab_right");
+    moveTabRight = new KAction(actionCollection(), "move_tab_right");
+    moveTabRight->setIcon(KIcon(QApplication::layoutDirection() ? "back" : "forward"));
+    moveTabRight->setText(QApplication::layoutDirection() ? moveTabLeftString : moveTabRightString);
     moveTabRight->setShortcut(QApplication::layoutDirection() ?
                   QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right));
     connect(moveTabRight, SIGNAL( triggered( bool ) ), this, SLOT( slotMoveTabRight() ));
