@@ -26,6 +26,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
+#include "umlobject.h"
 #include "listpopupmenu.h"
 #include "classifierwidget.h"
 #include "associationwidget.h"
@@ -162,24 +163,18 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
 
     while ((widget = it.current()) != 0) {
         ++it;
-
         widget->getWidgetController()->moveWidgetBy(diffX, diffY);
+    }
 
-        if (update && m_widget->m_bStartMove) {
-            /* adjustAssocs() does not take along association line breaks:
-            widget->adjustAssocs(widget->getX(), widget->getY());
-             ***** instead: */
-            // Move any selected associations.
-            AssociationWidgetList awl = m_widget->m_pView->getSelectedAssocs();
-            AssociationWidgetListIt assoc_it(awl);
-            AssociationWidget* assocwidget = NULL;
-            while ((assocwidget = assoc_it.current()) != NULL) {
-                    ++assoc_it;
-                    if (assocwidget->getSelected())
-                            assocwidget->moveEntireAssoc(diffX, diffY);
-            }
+    // Move any selected associations.
+    AssociationWidgetList awl = m_widget->m_pView->getSelectedAssocs();
+    AssociationWidget *aw = NULL;
+    for (AssociationWidgetListIt ai(awl); (aw = ai.current()) != NULL; ++ai) {
+        if (aw->getSelected()) {
+            aw->moveEntireAssoc(diffX, diffY);
         }
     }
+
     m_widget->m_pView->resizeCanvasToItems();
     updateSelectionBounds(diffX, diffY);
 }
