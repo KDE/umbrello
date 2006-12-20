@@ -647,7 +647,7 @@ void UMLApp::readOptions() {
     m_config->setGroup("General Options");
     setImageMimeType(m_config->readEntry("imageMimeType","image/png"));
     QSize tmpQSize(630,460);
-    resize( m_config->readSizeEntry("Geometry", &tmpQSize) );
+    resize( m_config->readEntry("Geometry", tmpQSize) );
 }
 
 void UMLApp::saveProperties(KConfig *_config) {
@@ -1213,8 +1213,8 @@ void UMLApp::readOptionState() {
     optionState.classState.showAttSig = m_config -> readEntry("showAttSig", true);
     optionState.classState.showOpSig = m_config -> readEntry("ShowOpSig", true);
     optionState.classState.showPackage = m_config -> readEntry("showPackage", false);
-    optionState.classState.defaultAttributeScope = (Uml::Visibility::Value) m_config -> readUnsignedNumEntry ("defaultAttributeScope", Uml::Visibility::Private);
-    optionState.classState.defaultOperationScope = (Uml::Visibility::Value) m_config -> readUnsignedNumEntry ("defaultOperationScope", Uml::Visibility::Public);
+    optionState.classState.defaultAttributeScope = (Uml::Visibility::Value) m_config -> readEntry ("defaultAttributeScope", uint(Uml::Visibility::Private));
+    optionState.classState.defaultOperationScope = (Uml::Visibility::Value) m_config -> readEntry ("defaultOperationScope", uint(Uml::Visibility::Public));
 
     m_config -> setGroup( "Code Viewer Options" );
 
@@ -1225,7 +1225,7 @@ void UMLApp::readOptionState() {
 
     optionState.codeViewerState.height = m_config -> readEntry( "height", 40 );
     optionState.codeViewerState.width = m_config -> readEntry( "width", 80 );
-    optionState.codeViewerState.font = m_config -> readFontEntry("font", &font );
+    optionState.codeViewerState.font = m_config -> readEntry("font", font );
     optionState.codeViewerState.showHiddenBlocks = m_config->readEntry( "showHiddenBlocks", false);
     optionState.codeViewerState.blocksAreHighlighted = m_config->readEntry( "blocksAreHighlighted", false);
     optionState.codeViewerState.selectedColor = m_config->readEntry( "selectedColor", defaultYellow );
