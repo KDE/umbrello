@@ -1600,7 +1600,7 @@ void UMLApp::setCurrentView(UMLView* view) {
         return;
     }
     if (view == NULL) {
-        kError() << "UMLApp::setCurrentView: view is NULL" << endl;
+        kDebug() << "UMLApp::setCurrentView: view is NULL" << endl;
         return;
     }
     if (m_viewStack->id(view) < 0)
