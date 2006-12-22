@@ -1129,7 +1129,7 @@ UMLFolder *UMLDoc::currentRoot() {
         return m_root[Uml::mt_Logical];
     }
     UMLFolder *f = currentView->getFolder();
-    while (f->getUMLPackage()) {
+    while (f) {
         f = static_cast<UMLFolder*>(f->getUMLPackage());
     }
     return f;
@@ -1843,6 +1843,7 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
 void UMLDoc::removeAllViews() {
     for (int i = 0; i < Uml::N_MODELTYPES; i++)
         m_root[i]->removeAllViews();
+    UMLApp::app()->setCurrentView(NULL);
     emit sigDiagramChanged(dt_Undefined);
     UMLApp::app()->setDiagramMenuItemsState(false);
 }
