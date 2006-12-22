@@ -324,19 +324,7 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 }
 
 bool UMLOperation::load( QDomElement & element ) {
-    QString type = element.attribute( "type", "" );
-    if (!type.isEmpty()) {
-        if (type.contains( QRegExp("\\D") )) {
-            m_SecondaryId = type;  // defer type resolution
-        } else {
-            UMLDoc *pDoc = UMLApp::app()->getDocument();
-            m_pSecondary = pDoc->findObjectById( STR2ID(type) );
-            if (m_pSecondary == NULL) {
-                kError() << "UMLOperation::load: Cannot find UML object"
-                << " for return type " << type << endl;
-            }
-        }
-    }
+    m_SecondaryId = element.attribute( "type", "" );
     QString isQuery = element.attribute( "isQuery", "" );
     if (!isQuery.isEmpty()) {
         // We need this extra test for isEmpty() because load() might have been
@@ -403,7 +391,6 @@ bool UMLOperation::load( QDomElement & element ) {
                     if (m_SecondaryId.isEmpty()) {
                         kError() << "UMLOperation::load(" << m_Name << "): "
                         << "cannot find return type." << endl;
-                        return false;
                     }
                 }
                 // Use deferred xmi.id resolution.
@@ -420,11 +407,6 @@ bool UMLOperation::load( QDomElement & element ) {
                     pAtt->setParmKind(Uml::pd_InOut);
                 else
                     pAtt->setParmKind(Uml::pd_In);
-                Uml::IDType id = pAtt->getID();
-                if (ID2STR(id).contains( QRegExp("\\D") )) {
-                    (void) UniqueID::gen();
-                    // This counts up UMLDoc::m_HighestIDForForeignFile.
-                }
                 m_List.append( pAtt );
             }
         }

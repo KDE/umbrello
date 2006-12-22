@@ -1695,8 +1695,12 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
 
         bool status = pObject -> loadFromXMI( tempElement );
         if ( !status ) {
-            delete pObject;
-            return false;
+            //delete pObject;
+            // Unfortunately we cannot do this because the pObject
+            // may be still referenced by other model objects.
+            kError() << "loadFromXMI failed for " << pObject->getName() << " xmi.id="
+                << ID2STR(pObject->getID()) << endl;
+            continue;
         }
         pkg = pObject->getUMLPackage();
         if (ot == ot_Stereotype) {
@@ -1717,7 +1721,12 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
             }
             continue;
         }
-        pkg->addObject(pObject);
+        if (pkg == NULL)
+            kError() << "UMLDoc::loadUMLObjectsFromXMI: pkg is NULL for "
+                << pObject->getName() << " xmi.id="
+                << ID2STR(pObject->getID()) << endl;
+        else
+            pkg->addObject(pObject);
 
         /* FIXME see comment at loadUMLObjectsFromXMI
         emit sigSetStatusbarProgress( ++m_count );
