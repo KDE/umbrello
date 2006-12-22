@@ -503,7 +503,7 @@ void ClassifierListPage::slotDoubleClick( Q3ListBoxItem* item ) {
     }
 
     if( listItem->showPropertiesDialog(this) ) {
-        m_pItemListLB->changeItem( listItem->getName(), m_pItemListLB->index(item) );
+        m_pItemListLB->changeItem( listItem->toString(Uml::st_SigNoVis), m_pItemListLB->index(item) );
     }
 }
 
