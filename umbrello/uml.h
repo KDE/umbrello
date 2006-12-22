@@ -754,9 +754,8 @@ public slots:
      * Connected to by the KPlayerSliderAction zoomAction, a value of between 300
      * and 2200 is scaled to zoom to between 9% and 525%.
      * The min and max values of the slider are hard coded in KPlayerSliderAction for now.
-     * @param value         Zoom factor before scaleing
      */
-    void slotZoomSliderMoved(int value);
+    void slotZoomSliderMoved();
 
     /**
      * Set zoom to 100%

@@ -363,7 +363,7 @@ void UMLApp::initActions() {
     viewProperties->setEnabled(false);
 
     zoomAction = new KPlayerPopupSliderAction(i18n("&Zoom Slider"), "viewmag", KShortcut(Qt::Key_F9),
-                 this, SLOT(slotZoomSliderMoved(int)),
+                 this, SLOT(slotZoomSliderMoved()),
                  actionCollection(), "popup_zoom");
     zoom100Action = new KAction(actionCollection(), "zoom100");
     zoom100Action->setIcon(KIcon("viewmag1"));
@@ -413,7 +413,8 @@ void UMLApp::initActions() {
 //     menu->insertItem(i18n("&Windows"), dockHideShowMenu(), -1, 0);
 }
 
-void UMLApp::slotZoomSliderMoved(int value) {
+void UMLApp::slotZoomSliderMoved() {
+    int value = zoomAction->slider()->value();
     int zoom = (int)(value*0.01);
     getCurrentView()->setZoom(zoom*zoom);
 }
