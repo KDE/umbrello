@@ -47,6 +47,7 @@
 #include <ktabwidget.h>
 #include <kactionmenu.h>
 #include <kmenu.h>
+#include <kxmlguifactory.h>
 
 // app includes
 #include "aligntoolbar.h"
@@ -87,6 +88,10 @@
 /// All the menu stuff should be ported to KDE4 (using actions)
 QMenu* UMLApp::findMenu(KMenuBar* menu, const QString &name)
 {
+    QWidget* widget = factory()->container(name, this);
+    if (widget)
+        return dynamic_cast<QMenu*>(widget);
+    kDebug() << "UMLApp::findMenu(KMenuBar*): factory()->container(" << name << ") returns NULL" << endl;
     return 0;
 }
 
@@ -128,7 +133,7 @@ UMLApp::UMLApp(QWidget* parent) : KMainWindow(parent) {
     //get a reference to the Code->Active Language and to the Diagram->Zoom menu
     QMenu* menu = findMenu( menuBar(), QString("code") );
     m_langSelect = findMenu( menu, QString("active_lang_menu") );
-
+ 
     //in case langSelect hasn't been initialized we create the Popup menu.
     //it will be hidden, but at least we wont crash if someone takes the entry away from the ui.rc file
     if (m_langSelect == NULL) {
@@ -191,11 +196,11 @@ void UMLApp::initActions() {
 
     fileExportDocbook = new KAction(i18n("&Export model to DocBook"), actionCollection(), "file_export_docbook");
     connect(fileExportDocbook, SIGNAL( triggered( bool ) ), this, SLOT( slotFileExportDocbook() ));
-    
+
     fileExportXhtml = new KAction(i18n("&Export model to XHTML"),
                                     actionCollection(), "file_export_xhtml");
     connect(fileExportXhtml, SIGNAL( triggered( bool ) ), this, SLOT( slotFileExportXhtml() ));
-    
+
     classWizard = new KAction(i18n("&New Class Wizard..."),
                               actionCollection(),"class_wizard");
     connect(classWizard, SIGNAL( triggered( bool ) ), this, SLOT( slotClassWizard() ));
@@ -205,18 +210,38 @@ void UMLApp::initActions() {
 
     preferences = KStandardAction::preferences(this,  SLOT( slotPrefs() ), actionCollection());
 
+    importClasses = new KAction(KIcon(SmallIconSet("source_cpp")),
+                                i18n("&Import Classes..."),
+                                actionCollection(),"import_class");
+    connect(importClasses, SIGNAL( triggered( bool ) ), this, SLOT( slotImportClasses() ));
+
     genWizard = new KAction(i18n("&Code Generation Wizard..."),
                             actionCollection(),"generation_wizard");
     connect(genWizard, SIGNAL( triggered( bool ) ), this, SLOT( generationWizard() ));
-    
+
     genAll = new KAction(i18n("&Generate All Code"),
                          actionCollection(),"generate_all");
     connect(genAll, SIGNAL( triggered( bool ) ), this, SLOT( generateAllCode() ));
 
-    importClasses = new KAction(KIcon(SmallIconSet("source_cpp")), 
-                                i18n("&Import Classes..."),
-                                actionCollection(),"import_class");
-    connect(importClasses, SIGNAL( triggered( bool ) ), this, SLOT( slotImportClasses() ));
+#define setProgLangAction(pl, name, action) \
+        m_langAct[pl] = new KAction(name, actionCollection(), action); \
+        connect(m_langAct[pl], SIGNAL(triggered()), this, "1"action"()")
+    setProgLangAction(Uml::pl_ActionScript, "ActionScript", "set_lang_actionscript");
+    setProgLangAction(Uml::pl_Ada,          "Ada",          "set_lang_ada");
+    setProgLangAction(Uml::pl_Cpp,          "Cpp",          "set_lang_cpp");
+    setProgLangAction(Uml::pl_IDL,          "IDL",          "set_lang_idl");
+    setProgLangAction(Uml::pl_Java,         "Java",         "set_lang_java");
+    setProgLangAction(Uml::pl_JavaScript,   "JavaScript",   "set_lang_javascript");
+    setProgLangAction(Uml::pl_Pascal,       "Pascal",       "set_lang_pascal");
+    setProgLangAction(Uml::pl_Perl,         "Perl",         "set_lang_perl");
+    setProgLangAction(Uml::pl_PHP,          "PHP",          "set_lang_php");
+    setProgLangAction(Uml::pl_PHP5,         "PHP5",         "set_lang_php5");
+    setProgLangAction(Uml::pl_Python,       "Python",       "set_lang_python");
+    setProgLangAction(Uml::pl_Ruby,         "Ruby",         "set_lang_ruby");
+    setProgLangAction(Uml::pl_SQL,          "SQL",          "set_lang_sql");
+    setProgLangAction(Uml::pl_Tcl,          "Tcl",          "set_lang_tcl");
+    setProgLangAction(Uml::pl_XMLSchema,    "XMLSchema",    "set_lang_xmlschema");
+#undef setProgLangAction
 
     fileNew->setToolTip(i18n("Creates a new document"));
     fileOpen->setToolTip(i18n("Opens an existing document"));
@@ -244,86 +269,86 @@ void UMLApp::initActions() {
     newDiagram = new KActionMenu(
                                 KIcon(SmallIconSet("filenew")),
                                 "new_view",
-                                actionCollection(), 
+                                actionCollection(),
                                 "new_view" );
 
-    classDiagram = new KAction( KIcon(SmallIconSet("umbrello_diagram_class")), 
+    classDiagram = new KAction( KIcon(SmallIconSet("umbrello_diagram_class")),
                                 i18n( "&Class Diagram..." ),
-                                actionCollection(), 
+                                actionCollection(),
                                 "new_class_diagram" );
     connect(classDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotClassDiagram() ));
 
     sequenceDiagram= new KAction( KIcon(SmallIconSet("umbrello_diagram_sequence")),
-                                i18n( "&Sequence Diagram..." ), 
-                                actionCollection(), 
+                                i18n( "&Sequence Diagram..." ),
+                                actionCollection(),
                                 "new_sequence_diagram" );
     connect(sequenceDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotSequenceDiagram() ));
 
     collaborationDiagram = new KAction( KIcon(SmallIconSet("umbrello_diagram_collaboration")),
-                                        i18n( "C&ollaboration Diagram..." ), 
-                                        actionCollection(), 
+                                        i18n( "C&ollaboration Diagram..." ),
+                                        actionCollection(),
                                         "new_collaboration_diagram" );
     connect(collaborationDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotCollaborationDiagram() ));
 
     useCaseDiagram= new KAction( KIcon(SmallIconSet("umbrello_diagram_usecase")),
-                                 i18n( "&Use Case Diagram..." ), 
-                                 actionCollection(), 
+                                 i18n( "&Use Case Diagram..." ),
+                                 actionCollection(),
                                  "new_use_case_diagram" );
     connect(useCaseDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotUseCaseDiagram() ));
 
     stateDiagram= new KAction( KIcon(SmallIconSet("umbrello_diagram_state")),
-                               i18n( "S&tate Diagram..." ), 
-                               actionCollection(), 
+                               i18n( "S&tate Diagram..." ),
+                               actionCollection(),
                                "new_state_diagram" );
     connect(stateDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotStateDiagram() ));
 
     activityDiagram= new KAction( KIcon(SmallIconSet("umbrello_diagram_activity")),
-                                  i18n( "&Activity Diagram..." ), 
-                                  actionCollection(), 
+                                  i18n( "&Activity Diagram..." ),
+                                  actionCollection(),
                                   "new_activity_diagram" );
     connect(activityDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotActivityDiagram() ));
 
     componentDiagram = new KAction( KIcon(SmallIconSet("umbrello_diagram_component")),
-                                    i18n("Co&mponent Diagram..."), 
+                                    i18n("Co&mponent Diagram..."),
                                     actionCollection(),
                                     "new_component_diagram" );
     connect(componentDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotComponentDiagram() ));
 
     deploymentDiagram = new KAction( KIcon(SmallIconSet("umbrello_diagram_deployment")),
-                                     i18n("&Deployment Diagram..."), 
+                                     i18n("&Deployment Diagram..."),
                                      actionCollection(),
                                      "new_deployment_diagram" );
     connect(deploymentDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotDeploymentDiagram() ));
 
-    entityRelationshipDiagram = new KAction( 
+    entityRelationshipDiagram = new KAction(
                                     KIcon(SmallIconSet("umbrello_diagram_entityrelationship")),
-                                    i18n("&Entity Relationship Diagram..."), 
+                                    i18n("&Entity Relationship Diagram..."),
                                     actionCollection(),
                                     "new_entityrelationship_diagram" );
     connect(entityRelationshipDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotEntityRelationshipDiagram() ));
 
-    viewClearDiagram = new KAction(KIcon(SmallIconSet("editclear")),i18n("&Clear Diagram"), 
+    viewClearDiagram = new KAction(KIcon(SmallIconSet("editclear")),i18n("&Clear Diagram"),
                                     actionCollection(), "view_clear_diagram");
     connect(viewClearDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewClearDiagram() ));
-    
+
     viewSnapToGrid = new KToggleAction(i18n("&Snap to Grid"), actionCollection(), "view_snap_to_grid");
     connect(viewSnapToGrid, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewToggleSnapToGrid() ));
-    
+
     viewShowGrid = new KToggleAction(i18n("S&how Grid"), actionCollection(), "view_show_grid");
     connect(viewShowGrid, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewToggleShowGrid() ));
     viewShowGrid->setCheckedState(KGuiItem(i18n("&Hide Grid")));
-    deleteDiagram = new KAction(KIcon(SmallIconSet("editdelete")), i18n("&Delete"), 
+    deleteDiagram = new KAction(KIcon(SmallIconSet("editdelete")), i18n("&Delete"),
                                 actionCollection(), "view_delete");
     connect(deleteDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotDeleteDiagram() ));
 
-    viewExportImage = new KAction(KIcon(SmallIconSet("image")),i18n("&Export as Picture..."),   
+    viewExportImage = new KAction(KIcon(SmallIconSet("image")),i18n("&Export as Picture..."),
                                 actionCollection(), "view_export_image");
     connect(viewExportImage, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewExportImage() ));
 
     viewExportImageAll = new KAction(KIcon(SmallIconSet("image")), i18n("Export &All Diagrams as Pictures..."), actionCollection(), "view_export_image_all");
     connect(viewExportImageAll, SIGNAL( triggered( bool ) ), this, SLOT( slotAllViewsExportImage() ));
 
-    viewProperties = new KAction(KIcon(SmallIconSet("info")), i18n("&Properties"), 
+    viewProperties = new KAction(KIcon(SmallIconSet("info")), i18n("&Properties"),
                                  actionCollection(), "view_properties");
     connect(viewProperties, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewProperties() ));
 
@@ -352,7 +377,7 @@ void UMLApp::initActions() {
     moveTabLeft = new KAction(actionCollection(), "move_tab_left");
     moveTabLeft->setIcon(KIcon(QApplication::layoutDirection() ? "forward" : "back"));
     moveTabLeft->setText(QApplication::layoutDirection() ? moveTabRightString : moveTabLeftString);
-    moveTabLeft->setShortcut(QApplication::layoutDirection() ? 
+    moveTabLeft->setShortcut(QApplication::layoutDirection() ?
                  QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left));
     connect(moveTabLeft, SIGNAL( triggered( bool ) ), this, SLOT( slotMoveTabLeft() ));
 
@@ -370,7 +395,7 @@ void UMLApp::initActions() {
     changeTabLeft->setShortcut(QApplication::layoutDirection() ?
                    QKeySequence(Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::SHIFT+Qt::Key_Left));
     connect(changeTabLeft, SIGNAL( triggered( bool ) ), this, SLOT( slotChangeTabLeft() ));
-    
+
     changeTabRight = new KAction(QApplication::layoutDirection() ? selectTabLeftString : selectTabRightString,
                                  actionCollection(), "next_tab");
     changeTabRight->setShortcut(QApplication::layoutDirection() ?
@@ -382,7 +407,7 @@ void UMLApp::initActions() {
 
     // use the absolute path to your umbrelloui.rc file for testing purpose in setupGUI();
     setupGUI();
-    
+
 // @todo Check if this should be ported
 //     QMenu* menu = findMenu( menuBar(), QString("settings") );
 //     menu->insertItem(i18n("&Windows"), dockHideShowMenu(), -1, 0);
@@ -871,7 +896,7 @@ void UMLApp::slotFileExportDocbook()
 {
   DocbookGenerator().generateDocbookForProject();
 }
-    
+
 void UMLApp::slotFileExportXhtml()
 {
   if (m_xhtmlGenerator != 0)
@@ -882,7 +907,7 @@ void UMLApp::slotFileExportXhtml()
   m_xhtmlGenerator->generateXhtmlForProject();
   connect(m_xhtmlGenerator,SIGNAL(finished()),this,SLOT(slotXhtmlDocGenerationFinished()));
 }
-    
+
 void UMLApp::slotEditUndo() {
     m_doc->loadUndoData();
     slotStatusMsg(i18n("Ready."));
@@ -1326,28 +1351,79 @@ void UMLApp::generationWizard() {
     wizard.exec();
 }
 
-void UMLApp::setActiveLanguage(int menuId) {
-
-    // only change the active language IF different from one we currently have
-    if (!m_langSelect->isItemChecked(menuId))
-    {
-        uint index = 0;
-        for(unsigned int i=0; i < m_langSelect->count(); i++) {
-            int id = m_langSelect->idAt(i);
-            m_langSelect->setItemChecked(id, false);  //uncheck everything
-            if (id == menuId)
-                index = i;
-        }
-
-        m_langSelect->setItemChecked(menuId,true);
-        m_activeLanguage = (Uml::Programming_Language)index;
-
-        // update the generator
-        setGenerator(m_activeLanguage);
-    }
+void UMLApp::set_lang_actionscript() {
+    setProgLangMenu(Uml::pl_ActionScript);
 }
 
-void UMLApp::setActiveLanguage( const QString &activeLanguage ) {
+void UMLApp::set_lang_ada() {
+    setProgLangMenu(Uml::pl_Ada);
+}
+
+void UMLApp::set_lang_cpp() {
+    setProgLangMenu(Uml::pl_Cpp);
+}
+
+void UMLApp::set_lang_idl() {
+    setProgLangMenu(Uml::pl_IDL);
+}
+
+void UMLApp::set_lang_java() {
+    setProgLangMenu(Uml::pl_Java);
+}
+
+void UMLApp::set_lang_javascript() {
+    setProgLangMenu(Uml::pl_JavaScript);
+}
+
+void UMLApp::set_lang_pascal() {
+    setProgLangMenu(Uml::pl_Pascal);
+}
+
+void UMLApp::set_lang_perl() {
+    setProgLangMenu(Uml::pl_Perl);
+}
+
+void UMLApp::set_lang_php() {
+    setProgLangMenu(Uml::pl_PHP);
+}
+
+void UMLApp::set_lang_php5() {
+    setProgLangMenu(Uml::pl_PHP5);
+}
+
+void UMLApp::set_lang_python() {
+    setProgLangMenu(Uml::pl_Python);
+}
+
+void UMLApp::set_lang_ruby() {
+    setProgLangMenu(Uml::pl_Ruby);
+}
+
+void UMLApp::set_lang_sql() {
+    setProgLangMenu(Uml::pl_SQL);
+}
+
+void UMLApp::set_lang_tcl() {
+    setProgLangMenu(Uml::pl_Tcl);
+}
+
+void UMLApp::set_lang_xmlschema() {
+    setProgLangMenu(Uml::pl_XMLSchema);
+}
+
+void UMLApp::setProgLangMenu(Uml::Programming_Language pl) {
+    // only change the active language if different from one we currently have
+    if (pl == m_activeLanguage)
+        return;
+
+    m_langAct[m_activeLanguage]->setChecked(false);
+    m_activeLanguage = pl;
+    m_langAct[m_activeLanguage]->setChecked(true);
+    setGenerator(m_activeLanguage);
+}
+
+void UMLApp::setActiveLanguage(Uml::Programming_Language pl) {
+    QString activeLanguage = Model_Utils::progLangToString(pl);
 
     for(unsigned int j=0; j < m_langSelect->count(); j++) {
         int id = m_langSelect->idAt(j);
@@ -1362,7 +1438,6 @@ void UMLApp::setActiveLanguage( const QString &activeLanguage ) {
         //uncheck everything except the active language
         m_langSelect->setItemChecked(m_langSelect->idAt(i), isActiveLang);
     }
-
     setGenerator(Model_Utils::stringToProgLang(activeLanguage));
 }
 
@@ -1538,20 +1613,17 @@ void UMLApp::initGenerator() {
         m_codegen = NULL;
     }
     Uml::Programming_Language defaultLanguage = getDefaultLanguage();
-    setActiveLanguage(Model_Utils::progLangToString(defaultLanguage));
+    setActiveLanguage(defaultLanguage);
     if (m_codegen == NULL)
         setGenerator(defaultLanguage);
     updateLangSelectMenu(defaultLanguage);
 }
 
 void UMLApp::updateLangSelectMenu(Uml::Programming_Language activeLanguage) {
-    m_langSelect->clear();
+    //m_langSelect->clear();
     m_langSelect->setCheckable(true);
     for (int i = 0; i < Uml::pl_Reserved; i++) {
-        QString language = Model_Utils::progLangToString((Uml::Programming_Language) i);
-        int id = m_langSelect->insertItem(language,this,SLOT(setActiveLanguage(int)));
-        const bool isActiveLanguage = (activeLanguage == i);
-        m_langSelect->setItemChecked(id, isActiveLanguage);
+        m_langAct[i]->setChecked(i == activeLanguage);
     }
 }
 
@@ -1664,7 +1736,7 @@ void UMLApp::setCurrentView(UMLView* view) {
     if (m_viewStack == NULL)
         return;
     if (view == NULL) {
-        kError() << "UMLApp::setCurrentView: view is NULL" << endl;
+        kDebug() << "UMLApp::setCurrentView: view is NULL" << endl;
         return;
     }
     if (m_viewStack->indexOf(view) < 0)
@@ -1682,21 +1754,10 @@ UMLView* UMLApp::getCurrentView() {
 }
 
 QMenu* UMLApp::findMenu(QMenu* menu, const QString &name) {
-
-/*    if (menu) {
-        int menuCount = menu->count();
-
-        for (int i=0; i<menuCount; i++) {
-            int idAt = menu->idAt(i);
-            QMenu* popupMenu = menu->findItem(idAt)->popup();
-            if (popupMenu) {
-                QString menuName = popupMenu->name();
-                if( menuName == name) {
-                    return popupMenu;
-                }
-            }
-        }
-    }*/
+    QWidget* widget = factory()->container(name, this);
+    if (widget)
+        return dynamic_cast<QMenu*>(widget);
+    kDebug() << "UMLApp::findMenu: factory()->container(" << name << ") returns NULL" << endl;
     return 0;
 }
 

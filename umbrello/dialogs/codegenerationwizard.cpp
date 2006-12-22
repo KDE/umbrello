@@ -244,7 +244,9 @@ void CodeGenerationWizard::moveSelectedItems(Q3ListView* fromList, Q3ListView* t
 // language-dependent stuff. THe way to do this is to call its "apply" method.
 void CodeGenerationWizard::changeLanguage()
 {
-    m_app->setActiveLanguage( m_CodeGenerationOptionsPage->getCodeGenerationLanguage() );
+    QString plStr = m_CodeGenerationOptionsPage->getCodeGenerationLanguage();
+    Uml::Programming_Language pl = Model_Utils::stringToProgLang(plStr);
+    m_app->setActiveLanguage(pl);
     /* @todo is this needed? if yes adapt to new scheme
      m_CodeGenerationOptionsPage->setCodeGenerator(m_doc->getCurrentCodeGenerator());
      */

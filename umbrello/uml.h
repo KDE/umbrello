@@ -424,6 +424,8 @@ protected:
      */
     void updateLangSelectMenu(Uml::Programming_Language activeLanguage);
 
+    void setProgLangMenu(Uml::Programming_Language pl);
+
 protected slots:
 
     /**
@@ -618,19 +620,31 @@ public slots:
     void generateAllCode();
 
     /**
-     * Set the language for which code will be generated.
-     *
-     * @param menuID    the ID of the langSelect menu item for
-     *                  the relevant language.
+     * Slots for connection to the QActions of the m_langSelect menu.
      */
-    void setActiveLanguage(int menuID);
+    void set_lang_actionscript();
+    void set_lang_ada();
+    void set_lang_cpp();
+    // void set_lang_csharp();
+    void set_lang_idl();
+    void set_lang_java();
+    void set_lang_javascript();
+    void set_lang_pascal();
+    void set_lang_perl();
+    void set_lang_php();
+    void set_lang_php5();
+    void set_lang_python();
+    void set_lang_ruby();
+    void set_lang_sql();
+    void set_lang_tcl();
+    void set_lang_xmlschema();
 
     /**
      * Set the language for which code will be generated.
      *
-     * @param activeLanguage The name of the language to set
+     * @param pl    The name of the language to set
      */
-    void setActiveLanguage( const QString &activeLanguage );
+    void setActiveLanguage(Uml::Programming_Language pl);
 
     /**
      * Get the language for import and code generation.
@@ -958,6 +972,7 @@ private:
     QAction* genWizard;
     QAction* importClasses;
     QAction* classWizard;
+    QAction* m_langAct[Uml::pl_Reserved];
     QAction* deleteSelectedWidget;
     QAction* deleteDiagram;
 #ifdef HAVE_DOT

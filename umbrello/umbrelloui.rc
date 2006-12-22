@@ -44,6 +44,20 @@
     <Action name="generation_wizard"/>
     <Action name="generate_all"/>
     <Menu name="active_lang_menu"><text>Active &amp;Language</text>
+      <Action name="set_lang_actionscript"/>
+      <Action name="set_lang_ada"/>
+      <Action name="set_lang_cpp"/>
+      <Action name="set_lang_idl"/>
+      <Action name="set_lang_java"/>
+      <Action name="set_lang_javascript"/>
+      <Action name="set_lang_pascal"/>
+      <Action name="set_lang_perl"/>
+      <Action name="set_lang_php"/>
+      <Action name="set_lang_php5"/>
+      <Action name="set_lang_python"/>
+      <Action name="set_lang_ruby"/>
+      <Action name="set_lang_tcl"/>
+      <Action name="set_lang_xmlschema"/>
     </Menu>
     <Separator/>
     <Action name="create_default_datatypes"/>

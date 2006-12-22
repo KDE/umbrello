@@ -151,7 +151,7 @@ void UMLEntityAttributeDialog::setupDialog() {
     UMLDatatypeList dataTypes = pDoc->getDatatypes();
     if (dataTypes.count() == 0) {
         // Switch to SQL as the active language if no datatypes are set.
-        UMLApp::app()->setActiveLanguage("SQL");
+        UMLApp::app()->setActiveLanguage(Uml::pl_SQL);
         pDoc->addDefaultDatatypes();
         kapp->processEvents();
         dataTypes = pDoc->getDatatypes();
