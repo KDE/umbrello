@@ -699,7 +699,7 @@ void UMLWidget::setSelected(bool _select) {
 
     const QPoint pos(getX(), getY());
     UMLWidget *bkgnd = m_pView->testOnWidget(pos);
-    if (bkgnd && _select) {
+    if (bkgnd && bkgnd != this && _select) {
         kDebug() << "UMLWidget::setSelected: setting Z to "
             << bkgnd->getZ() + 1 << ", SelectState: " << _select << endl;
         setZ( bkgnd->getZ() + 1 );
