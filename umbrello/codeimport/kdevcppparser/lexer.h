@@ -487,12 +487,12 @@ inline const Token& Lexer::nextToken()
 
 inline const Token& Lexer::tokenAt( int n ) const
 {
-    return *m_tokens[ QMIN(n, m_size-1) ];
+    return *m_tokens[ qMin(n, m_size-1) ];
 }
 
 inline const Token& Lexer::lookAhead( int n ) const
 {
-    return *m_tokens[ QMIN(m_index + n, m_size-1) ];
+    return *m_tokens[ qMin(m_index + n, m_size-1) ];
 }
 
 inline int Lexer::tokenPosition( const Token& token ) const

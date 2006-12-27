@@ -463,7 +463,7 @@ void CodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSignal)
 
     QString path = config -> readPathEntry("outputDirectory");
     if(path.isEmpty())
-        path = QDir::homeDirPath() + "/uml-generated-code/";
+        path = QDir::homePath() + "/uml-generated-code/";
     setOutputDirectory ( QDir (path) );
 
     path = config -> readPathEntry("headingsDirectory");
@@ -522,17 +522,17 @@ QString CodeGenerationPolicy::getHeadingFile(QString str) {
     // get any file with the same extension
     QString filename;
     if(str.startsWith(".")) {
-        if(QFile::exists(m_headingFiles.absFilePath("heading"+str)))
-            filename = m_headingFiles.absFilePath("heading"+str);
+        if(QFile::exists(m_headingFiles.absoluteFilePath("heading"+str)))
+            filename = m_headingFiles.absoluteFilePath("heading"+str);
         else {
             str.prepend('*');
             m_headingFiles.setNameFilter(str);
             //if there is more than one match we just take the first one
-            filename = m_headingFiles.absFilePath(m_headingFiles.entryList().first());
+            filename = m_headingFiles.absoluteFilePath(m_headingFiles.entryList().first());
             // kWarning() << "header file name set to " << filename << " because it was *" << endl;
         }
     } else {   //we got a file name (not only extension)
-        filename = m_headingFiles.absFilePath(str);
+        filename = m_headingFiles.absoluteFilePath(str);
     }
 
     QFile f(filename);

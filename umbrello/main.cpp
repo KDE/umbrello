@@ -158,7 +158,7 @@ KStartupLogo* showStartupLogo(KConfig* cfg, bool showGUI) {
         KWin::setState(startLogo->winId(), NET::KeepAbove);
 #endif	
         startLogo->show();
-        QApplication::flushX();
+        QApplication::flush();
     }
 
     return startLogo;

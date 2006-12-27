@@ -421,7 +421,7 @@ Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningSc
 Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningScope) {
     UMLDoc *pDoc = UMLApp::app()->getDocument();
 
-    a = a.simplifyWhiteSpace();
+    a = a.simplified();
     if (a.isEmpty())
         return PS_Empty;
 
@@ -465,7 +465,7 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
 Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owningScope) {
     UMLDoc *pDoc = UMLApp::app()->getDocument();
 
-    m = m.simplifyWhiteSpace();
+    m = m.simplified();
     if (m.isEmpty())
         return PS_Empty;
     /**

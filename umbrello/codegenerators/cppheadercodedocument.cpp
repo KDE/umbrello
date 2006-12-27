@@ -376,7 +376,7 @@ void CPPHeaderCodeDocument::updateContent( )
 
     // Write the hash define stuff to prevent multiple parsing/inclusion of header
     QString cppClassName = CodeGenerator::cleanName(c->getName());
-    QString hashDefine = CodeGenerator::cleanName(c->getName().upper().simplifyWhiteSpace());
+    QString hashDefine = CodeGenerator::cleanName(c->getName().upper().simplified());
     QString defText = "#ifndef "+hashDefine + "_H"+ endLine + "#define "+ hashDefine + "_H";
     addOrUpdateTaggedCodeBlockWithComments("hashDefBlock", defText, "", 0, false);
 

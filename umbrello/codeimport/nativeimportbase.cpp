@@ -195,7 +195,7 @@ QStringList NativeImportBase::split(const QString& lin) {
     QString listElement;
     QChar stringIntro = 0;  // buffers the string introducer character
     bool seenSpace = false;
-    QString line = lin.stripWhiteSpace();
+    QString line = lin.trimmed();
     for (uint i = 0; i < line.length(); i++) {
         const QChar& c = line[i];
         if (stringIntro.toLatin1()) {        // we are in a string
@@ -294,7 +294,7 @@ void NativeImportBase::parseFile(const QString& filename) {
         }
     }
     QFile file(fname);
-    if (! file.open(IO_ReadOnly)) {
+    if (! file.open(QIODevice::ReadOnly)) {
         kError() << msgPrefix << "cannot open file" << endl;
         return;
     }

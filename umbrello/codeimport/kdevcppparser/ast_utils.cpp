@@ -173,6 +173,6 @@ QString declaratorToString( DeclaratorAST* declarator, const QString& scope, boo
            text += " const";
    }
 
-   return text.replace( QRegExp(" :: "), "::" ).simplifyWhiteSpace();
+   return text.replace( QRegExp(" :: "), "::" ).simplified();
 }
 

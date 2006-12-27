@@ -379,7 +379,7 @@ void UMLListView::popupMenuSel(int sel) {
                 kWarning() << "The existing file will be overwritten." << endl;
             }
             // Test if file is writable.
-            if (file.open(IO_WriteOnly)) {
+            if (file.open(QIODevice::WriteOnly)) {
                 file.close();
             } else {
                 KMessageBox::error(0,

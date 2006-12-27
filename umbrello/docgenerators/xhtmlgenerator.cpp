@@ -106,7 +106,7 @@ void XhtmlGenerator::slotDocbookToXhtml(KIO::Job * docbookJob)
   QString xsltFileName(KGlobal::dirs()->findResource("appdata","docbook2xhtml.xsl"));
   kDebug() << "XSLT file is'"<<xsltFileName<<"'" << endl;
   QFile xsltFile(xsltFileName);
-  xsltFile.open(IO_ReadOnly);
+  xsltFile.open(QIODevice::ReadOnly);
   QString xslt = xsltFile.readAll();
   kDebug() << "XSLT is'"<<xslt<<"'" << endl;
   xsltFile.close();

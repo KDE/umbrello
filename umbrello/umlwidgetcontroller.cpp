@@ -249,7 +249,7 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me) {
     //TODO Copied from old code. Does it really work as intended?
     UMLWidget *bkgnd = m_widget->m_pView->testOnWidget(me->pos());
     if (bkgnd) {
-        //kdDebug() << "UMLWidgetController::mouseReleaseEvent: setting Z to "
+        //kDebug() << "UMLWidgetController::mouseReleaseEvent: setting Z to "
         //    << bkgnd->getZ() + 1 << endl;
         m_widget->setZ(bkgnd->getZ() + 1);
     } else {
@@ -372,10 +372,10 @@ void UMLWidgetController::resize(QMouseEvent *me) {
     int newW = m_oldW + me->x() - m_widget->getX() - m_pressOffsetX;
     int newH = m_oldH + me->y() - m_widget->getY() - m_pressOffsetY;
 
-    if ((me->state() & Qt::ShiftButton) && (me->state() & Qt::ControlButton)) {
+    if ((me->state() & Qt::ShiftModifier) && (me->state() & Qt::ControlModifier)) {
         //Move in Y axis
         newW = m_oldW;
-    } else if ((me->state() & Qt::ShiftButton) || (me->state() & Qt::ControlButton)) {
+    } else if ((me->state() & Qt::ShiftModifier) || (me->state() & Qt::ControlModifier)) {
         //Move in X axis
         newH = m_oldH;
     }

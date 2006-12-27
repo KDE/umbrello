@@ -139,7 +139,7 @@ TranslationUnitAST* Driver::translationUnit( const QString& fileName ) const
 void Driver::addDependence( const QString & fileName, const Dependence & dep )
 {
     QFileInfo fileInfo( dep.first );
-    QString fn = fileInfo.absFilePath();
+    QString fn = fileInfo.absoluteFilePath();
 
     if ( !depresolv ){
         findOrInsertDependenceList( fileName ).insert( fn, dep );
@@ -223,12 +223,12 @@ Q3ValueList < Problem > Driver::problems( const QString & fileName ) const
 void Driver::parseFile( const QString& fileName, bool onlyPreProcess, bool force )
 {
     QFileInfo fileInfo( fileName );
-    QString absFilePath = fileInfo.absFilePath();
+    QString absoluteFilePath = fileInfo.absFilePath();
 
-    QMap<QString, TranslationUnitAST*>::Iterator it = m_parsedUnits.find( absFilePath );
+    QMap<QString, TranslationUnitAST*>::Iterator it = m_parsedUnits.find( absoluteFilePath );
 
     if( force && it != m_parsedUnits.end() ){
-	takeTranslationUnit( absFilePath );
+	takeTranslationUnit( absoluteFilePath );
     } else if( it != m_parsedUnits.end() && *it != 0 ){
 	// file already processed
 	return;
@@ -407,7 +407,7 @@ QString Driver::findIncludeFile( const Dependence& dep ) const
         QString path = QFileInfo( currentFileName() ).dirPath( true );
         QFileInfo fileInfo( QFileInfo(path, fileName) );
 	if ( fileInfo.exists() && fileInfo.isFile() )
-	    return fileInfo.absFilePath();
+	    return fileInfo.absoluteFilePath();
 
     }
 
@@ -415,7 +415,7 @@ QString Driver::findIncludeFile( const Dependence& dep ) const
     for ( QStringList::ConstIterator it(m_includePaths.begin()); it != end; ++it ) {
         QFileInfo fileInfo( *it, fileName );
 	if ( fileInfo.exists() && fileInfo.isFile() )
-	    return fileInfo.absFilePath();
+	    return fileInfo.absoluteFilePath();
     }
 
     return QString();

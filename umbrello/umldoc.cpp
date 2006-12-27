@@ -234,7 +234,7 @@ bool UMLDoc::saveModified() {
         return completed;
 
     UMLApp *win = UMLApp::app();
-    int want_save = KMessageBox::warningYesNoCancel(win, i18n("The current file has been modified.\nDo you want to save it?"), i18n("Warning"),KStdGuiItem::save(),KStdGuiItem::discard());
+    int want_save = KMessageBox::warningYesNoCancel(win, i18n("The current file has been modified.\nDo you want to save it?"), i18n("Warning"),KStandardGuiItem::save(),KStandardGuiItem::discard());
     switch(want_save) {
     case KMessageBox::Yes:
         if (m_doc_url.fileName() == i18n("Untitled")) {
@@ -2084,7 +2084,7 @@ void UMLDoc::slotAutoSave() {
     }
     KUrl tempUrl = m_doc_url;
     if( tempUrl.fileName() == i18n("Untitled") ) {
-        tempUrl.setPath( QDir::homeDirPath() + i18n( "/autosave%1", QString(".xmi") ) );
+        tempUrl.setPath( QDir::homePath() + i18n( "/autosave%1", QString(".xmi") ) );
         saveDocument( tempUrl );
         m_doc_url.setFileName( i18n("Untitled") );
         m_modified = true;

@@ -77,7 +77,7 @@ QString RubyClassifierCodeDocument::getPath ( )
     QString path = getPackage();
 
     // Replace all white spaces with blanks
-    path.simplifyWhiteSpace();
+    path.simplified();
 
     // Replace all blanks with underscore
     path.replace(QRegExp(" "), "_");

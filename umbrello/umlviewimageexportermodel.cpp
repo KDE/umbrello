@@ -281,7 +281,7 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLView* view, const QString &fi
 bool UMLViewImageExporterModel::fixEPS(const QString &fileName, QRect rect) const {
     // now open the file and make a correct eps out of it
     QFile epsfile(fileName);
-    if (! epsfile.open(IO_ReadOnly)) {
+    if (! epsfile.open(QIODevice::ReadOnly)) {
         return false;
     }
     // read
@@ -299,7 +299,7 @@ bool UMLViewImageExporterModel::fixEPS(const QString &fileName, QRect rect) cons
     }
 
     // write new content to file
-    if (! epsfile.open(IO_WriteOnly | IO_Truncate)) {
+    if (! epsfile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
         kError() << "UMLViewImageExporterModel::fixEPS(" << fileName
                   << "): cannot open file for writing" << endl;
         return false;

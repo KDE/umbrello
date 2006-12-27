@@ -86,7 +86,7 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ex
     QString package = concept->getPackage(".");
 
     // Replace all white spaces with blanks
-    package.simplifyWhiteSpace();
+    package.simplified();
 
     // Replace all blanks with underscore
     package.replace(QRegExp(" "), "_");
@@ -135,10 +135,10 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ex
     }
 
 
-    name.simplifyWhiteSpace();
+    name.simplified();
     name.replace(QRegExp(" "),"_");
 
-    QString extension = ext.simplifyWhiteSpace();
+    QString extension = ext.simplified();
     extension.replace(' ', '_');
 
     return overwritableName(concept, name, extension);

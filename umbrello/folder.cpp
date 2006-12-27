@@ -219,7 +219,7 @@ void UMLFolder::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     QString fileName = umldoc->url().directory() + "/" + m_folderFile;
     QFile file(fileName);
-    if (!file.open(IO_WriteOnly)) {
+    if (!file.open(QIODevice::WriteOnly)) {
         kError() << "UMLFolder::saveToXMI(" << m_folderFile << "): "
             << "cannot create file, contents will be saved in main model file"
             << endl;
@@ -289,7 +289,7 @@ bool UMLFolder::loadFolderFile(const QString& path) {
         KMessageBox::error(0, i18n("The folderfile %1 does not exist.", path), i18n("Load Error"));
         return false;
     }
-    if (!file.open(IO_ReadOnly)) {
+    if (!file.open(QIODevice::ReadOnly)) {
         KMessageBox::error(0, i18n("The folderfile %1 cannot be opened.", path), i18n("Load Error"));
         return false;
     }

@@ -161,7 +161,7 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
     }
 
     // Write the hash define stuff to prevent multiple parsing/inclusion of header
-    QString hashDefine = m_classifierInfo->className.upper().simplifyWhiteSpace().replace(QRegExp(" "),  "_");
+    QString hashDefine = m_classifierInfo->className.upper().simplified().replace(QRegExp(" "),  "_");
     writeBlankLine(h);
     h << "#ifndef "<< hashDefine + "_H" << m_endl;
     h << "#define "<< hashDefine + "_H" << m_endl;
