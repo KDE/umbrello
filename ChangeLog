@@ -18,6 +18,7 @@ Version 1.5.6
 * XML scheme: mixup of attribute names: *color and *colour (136061)
 * Artifacts of a component diagram are wrongly placed in Deployment View folder (137564)
 * Incorrect export to SQL (138139)
+* Parentheses do not appear around the parameters of the C++ operator() (139147)
 
 Version 1.5.52
 

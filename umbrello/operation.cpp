@@ -131,24 +131,28 @@ QString UMLOperation::toString(Uml::Signature_Type sig) {
           s = m_Vis.toString(true) + " ";
     
     s += getName();
-    if (!s.contains("("))
-        s.append("(");
+    Uml::Programming_Language pl = UMLApp::app()->getActiveLanguage();
+    bool parameterlessOpNeedsParentheses = (pl != Uml::pl_Pascal && pl != Uml::pl_Ada);
 
-    if(sig == Uml::st_NoSig || sig == Uml::st_NoSigNoVis) {
-        if (!s.contains(")"))
-            s.append(")");
+    if (sig == Uml::st_NoSig || sig == Uml::st_NoSigNoVis) {
+        if (parameterlessOpNeedsParentheses)
+            s.append("()");
         return s;
     }
-    UMLAttribute * obj=0;
-    int last = m_List.count(), i = 0;
-    for(obj=m_List.first();obj != 0;obj=m_List.next()) {
-        i++;
-        s.append(obj -> toString(Uml::st_SigNoVis));
-        if(i < last)
-            s.append(", ");
-    }
-    if (!s.contains(")"))
+    int last = m_List.count();
+    if (last) {
+        s.append("(");
+        int i = 0;
+        for (UMLAttribute *param = m_List.first(); param; param = m_List.next()) {
+            i++;
+            s.append(param->toString(Uml::st_SigNoVis));
+            if (i < last)
+                s.append(", ");
+        }
         s.append(")");
+    } else if (parameterlessOpNeedsParentheses) {
+        s.append("()");
+    }
     UMLClassifier *ownParent = static_cast<UMLClassifier*>(parent());
     QString returnType;
     UMLClassifier *retType = UMLClassifierListItem::getType();
