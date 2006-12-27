@@ -15,6 +15,7 @@ Version 1.5.6
 * Association line nodes don't drag along with multiply-selected classes (57878)
 * Disappearing parameters when editing class properties (114477)
 * Umbrello saves too much copies at xmi (135606)
+* XML scheme: mixup of attribute names: *color and *colour (136061)
 * Artifacts of a component diagram are wrongly placed in Deployment View folder (137564)
 * Incorrect export to SQL (138139)
 
