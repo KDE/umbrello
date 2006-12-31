@@ -918,7 +918,7 @@ TclWriter::writeAssociationRoleSource(const QString &fieldClassName,
         writeCode("}");
         m_indentLevel--;
     }
-    writeCode("}" + m_endl);
+    writeCode('}' + m_endl);
 }
 
 QString

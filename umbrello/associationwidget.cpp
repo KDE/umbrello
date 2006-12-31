@@ -119,7 +119,7 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
     if (isCollaboration()) {
         // Create a temporary name to bring on setName()
         int collabID = m_pView->generateCollaborationId();
-        setName("m" + QString::number(collabID));
+        setName('m' + QString::number(collabID));
         if (m_pObject) {
             m_pName->setUMLObject( m_pObject );
         } else {

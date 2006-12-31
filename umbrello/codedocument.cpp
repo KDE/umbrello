@@ -191,7 +191,7 @@ QString CodeDocument::getUniqueTag ( QString prefix )
     QString tag = prefix + "_0";
     int number = lastTagIndex;
     for ( ; findTextBlockByTag(tag, true); number++) {
-        tag = prefix + "_" + QString::number(number);
+        tag = prefix + '_' + QString::number(number);
     }
     lastTagIndex = number;
     return tag;

@@ -3085,7 +3085,7 @@ void Php5Writer::writeClass(UMLClassifier *c) {
             }
         }
     }
-    php<< m_endl << "{" << m_endl;
+    php << m_endl << '{' << m_endl;
 
     //associations
     if( forceSections() || !aggregations.isEmpty()) {
@@ -3101,7 +3101,7 @@ void Php5Writer::writeClass(UMLClassifier *c) {
             }
             QString typeName = cleanName(o->getName());
             if (a->getMulti(Uml::A).isEmpty())  {
-                php << m_indentation << "var $m_" << ";" << m_endl;
+                php << m_indentation << "var $m_" << ';' << m_endl;
             } else {
                 php << m_indentation << "var $m_" << "Vector = array();" << m_endl;
             }
@@ -3119,7 +3119,7 @@ void Php5Writer::writeClass(UMLClassifier *c) {
             }
             QString typeName = cleanName(o->getName());
             if (a->getMulti(Uml::A).isEmpty())  {
-                php << m_indentation << "var $m_" << ";" << m_endl;
+                php << m_indentation << "var $m_" << ';' << m_endl;
             } else {
                 php << m_indentation << "var $m_" << "Vector = array();" << m_endl;
             }
@@ -3241,8 +3241,8 @@ void Php5Writer::writeOperations(const QString &/* classname */, UMLOperationLis
             for (at = atl.first(); at; at = atl.next())  //write parameter documentation
             {
                 if(forceDoc() || !at->getDoc().isEmpty()) {
-                    php <<m_indentation << " * @param " + at->getTypeName() + " " + cleanName(at->getName());
-                    php << " " + formatDoc(at->getDoc(),"") << m_endl;
+                    php <<m_indentation << " * @param " + at->getTypeName() + ' ' + cleanName(at->getName());
+                    php << ' ' + formatDoc(at->getDoc(),"") << m_endl;
                 }
             }//end for : write parameter documentation
             php << m_indentation << " * @return " << op->getTypeName() << m_endl;

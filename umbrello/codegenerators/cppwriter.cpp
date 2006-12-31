@@ -897,7 +897,7 @@ void CppWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, con
     }
 
     // always allow getting the list of stuff
-    QString returnVarName = VECTOR_TYPENAME + "<" + fieldClassName + ">";
+    QString returnVarName = VECTOR_TYPENAME + '<' + fieldClassName + '>';
     writeDocumentation("Get the list of " + fieldName + " objects held by " + fieldVarName,description,"@return " + returnVarName + " list of " + fieldName + " objects held by " + fieldVarName,stream);
     stream << indent << returnVarName << " ";
     if(!isHeaderMethod)
@@ -1156,7 +1156,7 @@ void CppWriter::writeOperations(UMLOperationList &oplist, bool isHeaderMethod, Q
         } else {
             methodReturnType = fixTypeName(op->getTypeName());
             if(methodReturnType != "void")
-                returnStr += "@return " + methodReturnType + "\n";
+                returnStr += "@return " + methodReturnType + '\n';
         }
 
         QString str;
@@ -1184,13 +1184,13 @@ void CppWriter::writeOperations(UMLOperationList &oplist, bool isHeaderMethod, Q
         for (UMLAttribute *at = atl.first(); at; at = atl.next(), j++) {
             QString typeName = fixTypeName(at->getTypeName());
             QString atName = cleanName(at->getName());
-            str += typeName + " " + atName;
+            str += typeName + ' ' + atName;
             const QString initVal = at->getInitialValue();
             if (! initVal.isEmpty())
                 str += " = " + initVal;
             if (j < atl.count() - 1)
                 str += ", ";
-            returnStr += "@param  " + atName + " " + at->getDoc() + "\n";
+            returnStr += "@param  " + atName + ' ' + at->getDoc() + '\n';
         }
         str += " )";
 
@@ -1199,9 +1199,9 @@ void CppWriter::writeOperations(UMLOperationList &oplist, bool isHeaderMethod, Q
 
         // method body : only gets IF its not in a header
         if (isHeaderMethod && !INLINE_OPERATION_METHODS)
-            str +=";"; // terminate now
+            str += ';'; // terminate now
         else
-            str +=getIndent() + " {\n\n" + getIndent() + "}"; // empty method body
+            str +=getIndent() + " {\n\n" + getIndent() + '}'; // empty method body
 
         // write it out
         writeDocumentation("", op->getDoc(), returnStr, cpp);

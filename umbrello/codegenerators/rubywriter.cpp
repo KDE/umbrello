@@ -294,7 +294,7 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
                     if (at->getDoc().isEmpty()) {
                         docStr += (" " + cppToRubyType(at->getTypeName()));
                     } else {
-                        docStr += (" " + at->getDoc().replace(QRegExp("[\\n\\r]+[\\t ]*"), m_endl + "   "));
+                        docStr += (' ' + at->getDoc().replace(QRegExp("[\\n\\r]+[\\t ]*"), m_endl + "   "));
                     }
                 }
             }

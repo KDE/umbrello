@@ -155,7 +155,7 @@ QSize EntityWidget::calculateSize() {
     //set width to name to start with
     // FIXME spaces to get round beastie with font width,
     // investigate UMLWidget::getFontMetrics()
-    width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(" " + getName() + " ").width();
+    width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(' ' + getName() + ' ').width();
 
     const int w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->getStereotype(true)).width();
 

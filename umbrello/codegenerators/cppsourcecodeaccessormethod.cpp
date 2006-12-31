@@ -151,7 +151,7 @@ void CPPSourceCodeAccessorMethod::updateMethodDeclaration()
     setComment(header);
 
     // set start method text (EndText never changes)
-    setStartMethodText(methodReturnType+" "+className+"::"+methodName+" ("+methodParams+")" + " {");
+    setStartMethodText(methodReturnType+' '+className+"::"+methodName+" ("+methodParams+')' + " {");
 
     setOverallIndentationLevel(0);
 

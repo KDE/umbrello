@@ -422,7 +422,7 @@ void CPPHeaderCodeDocument::updateContent( )
     QString usingStatement;
     for(UMLClassifier *classifier = superclasses.first(); classifier ; classifier = superclasses.next()) {
         if(classifier->getPackage()!=c->getPackage() && !classifier->getPackage().isEmpty()) {
-            usingStatement.append("using "+CodeGenerator::cleanName(c->getPackage())+"::"+cleanName(c->getName())+";"+endLine);
+            usingStatement.append("using "+CodeGenerator::cleanName(c->getPackage())+"::"+cleanName(c->getName())+';'+endLine);
         }
     }
     CodeBlockWithComments * usingBlock = addOrUpdateTaggedCodeBlockWithComments("using", usingStatement, "", 0, false);

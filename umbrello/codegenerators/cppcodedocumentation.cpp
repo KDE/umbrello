@@ -126,7 +126,7 @@ QString CPPCodeDocumentation::unformatText ( const QString & text , const QStrin
     QString mytext = TextBlock::unformatText(text, indent);
     CodeGenerationPolicy * p = UMLApp::app()->getCommonPolicy();
     // remove leading or trailing comment stuff
-    mytext.remove(QRegExp("^"+indent));
+    mytext.remove(QRegExp('^'+indent));
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
     {
         mytext.remove(QRegExp("^\\/\\*\\*\\s*\n?"));

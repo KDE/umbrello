@@ -86,7 +86,7 @@ QString RubyCodeDocumentation::toString ( )
                 output.append(formatMultiLineText (body, indent +"# ", endLine));
         } else {
             output.append("=begin rdoc"+endLine);
-            output.append(formatMultiLineText (body, indent +" ", endLine));
+            output.append(formatMultiLineText (body, indent +' ', endLine));
             output.append("=end"+endLine);
         }
     }
@@ -98,7 +98,7 @@ QString RubyCodeDocumentation::getNewEditorLine ( int amount )
 {
     CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
-        return getIndentationString(amount) + " ";
+        return getIndentationString(amount) + ' ';
     else
         return getIndentationString(amount) + "# ";
 }
@@ -128,7 +128,7 @@ QString RubyCodeDocumentation::unformatText ( const QString & text , const QStri
     QString mytext = TextBlock::unformatText(text, indent);
     CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
     // remove leading or trailing comment stuff
-    mytext.remove(QRegExp("^"+indent));
+    mytext.remove(QRegExp('^'+indent));
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
     {
         mytext.remove(QRegExp("^=begin\\s*(rdoc)?\\s*\n?"));

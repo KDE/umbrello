@@ -731,7 +731,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item) {
             QString txt = currentAtt->getName();
             if (txt.isEmpty())
               txt = "Type-" + QString::number((int) currentAtt->getBaseType());
-            buf.append(" " + currentAtt->getName());
+            buf.append(' ' + currentAtt->getName());
         }
         kDebug() << "  UMLClassifier::takeItem (before): m_List is " << buf << endl;
     int index = m_List.findRef(item);

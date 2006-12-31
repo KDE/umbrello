@@ -356,7 +356,7 @@ bool UMLFolder::load(QDomElement& element) {
                 } else if (xtag == "external_file") {
                     const QString rootDir(umldoc->url().directory());
                     QString fileName = el.attribute("name", "");
-                    const QString path(rootDir + "/" + fileName);
+                    const QString path(rootDir + '/' + fileName);
                     if (loadFolderFile(path))
                         m_folderFile = fileName;
                 } else {

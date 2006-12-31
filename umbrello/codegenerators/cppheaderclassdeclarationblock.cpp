@@ -129,7 +129,7 @@ void CPPHeaderClassDeclarationBlock::updateContent ( )
         startText.append(" : ");
     for (UMLClassifier * concept= superclasses.first(); concept; concept = superclasses.next())
     {
-        startText.append(concept->getVisibility().toString() + " " +
+        startText.append(concept->getVisibility().toString() + ' ' +
                          CodeGenerator::cleanName(concept->getName()));
         if(i != (nrof_superclasses-1))
             startText.append(", ");

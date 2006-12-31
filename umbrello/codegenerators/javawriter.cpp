@@ -756,7 +756,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java) {
                     (QString(" = ")+at->getInitialValue()) :
                     QString(""))
                    + ((j < i-1)?", ":"");
-            returnStr += "@param        "+atName+" "+at->getDoc()+"\n";
+            returnStr += "@param        "+atName+' '+at->getDoc()+"\n";
         }
         str+= " )";
 

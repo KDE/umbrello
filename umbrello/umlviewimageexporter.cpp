@@ -118,7 +118,7 @@ void UMLViewImageExporter::prepareFileDialog(KFileDialog &fileDialog) {
         directory.setPath(docURL.directory());
 
         fileDialog.setUrl(directory);
-        fileDialog.setSelection(m_view->getName() + "." + UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType));
+        fileDialog.setSelection(m_view->getName() + '.' + UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType));
     } else {
         fileDialog.setUrl(m_imageURL);
         fileDialog.setSelection(m_imageURL.fileName());

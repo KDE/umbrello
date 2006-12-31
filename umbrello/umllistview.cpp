@@ -667,7 +667,7 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
         UMLFolder *f = static_cast<UMLFolder*>(object);
         QString folderFile = f->getFolderFile();
         if (!folderFile.isEmpty())
-            name.append(" (" + folderFile + ")");
+            name.append(" (" + folderFile + ')');
     }
     newItem = new UMLListViewItem(parentItem, name, lvt, object);
     if (mayHaveChildItems(type)) {

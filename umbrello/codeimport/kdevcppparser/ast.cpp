@@ -964,7 +964,7 @@ QString ParameterDeclarationAST::text() const
 {
     QString str;
     if( m_typeSpec.get() )
-        str += m_typeSpec->text() + " ";
+        str += m_typeSpec->text() + ' ';
 
     if( m_declarator.get() )
         str += m_declarator->text();

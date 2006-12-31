@@ -104,7 +104,7 @@ void JavaCodeOperation::updateMethodDeclaration()
         }
         // add a returns statement too
         if(!returnType.isEmpty())
-            comment += endLine + "@return " + returnType + " ";
+            comment += endLine + "@return " + returnType + ' ';
         getComment()->setText(comment);
     }
 
