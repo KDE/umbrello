@@ -75,7 +75,7 @@ QString UMLAttribute::toString(Uml::Signature_Type sig) {
     QString s;
 
     if(sig == Uml::st_ShowSig || sig == Uml::st_NoSig) {
-        s = m_Vis.toString(true) + " ";
+        s = m_Vis.toString(true) + ' ';
     }
 
     if(sig == Uml::st_ShowSig || sig == Uml::st_SigNoVis) {

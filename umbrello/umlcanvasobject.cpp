@@ -159,7 +159,7 @@ QString UMLCanvasObject::uniqChildName( const Uml::Object_Type type,
 
     QString name = currentName;
     for (int number = 1; findChildObject(name); ++number) {
-        name = currentName + "_" + QString::number(number);
+        name = currentName + '_' + QString::number(number);
     }
     return name;
 }

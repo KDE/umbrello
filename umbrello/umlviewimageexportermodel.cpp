@@ -177,7 +177,7 @@ QString UMLViewImageExporterModel::getDiagramFileName(UMLView *view, const QStri
     // and five children, one for each view type (Logical, use case, components, deployment
     // and entity relationship)
     while (listView->rootView(listViewItem->getType()) == NULL) {
-        name.insert(0, listViewItem->getText() + "/");
+        name.insert(0, listViewItem->getText() + '/');
         listViewItem = static_cast<UMLListViewItem*>(listViewItem->parent());
         if (listViewItem == NULL)
             break;

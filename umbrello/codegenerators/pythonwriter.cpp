@@ -99,7 +99,7 @@ void PythonWriter::writeClass(UMLClassifier *c) {
         str = cleanName(classifier->getName()); 
         pkg = cleanName(classifier->getPackage());
         if (!pkg.isEmpty()) 
-            str.prepend(pkg + "."); 
+            str.prepend(pkg + '.'); 
         includesList.append(str); 
         h << "from " + str + " import *" << m_endl; 
     } 

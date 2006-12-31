@@ -111,7 +111,7 @@ void JavaCodeClassFieldDeclarationBlock::updateContent( )
         }
     }
 
-    setText(body+";");
+    setText(body+';');
 
 }
 

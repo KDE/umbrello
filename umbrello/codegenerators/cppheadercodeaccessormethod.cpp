@@ -77,7 +77,7 @@ void CPPHeaderCodeAccessorMethod::updateContent( )
         case CodeAccessorMethod::LIST:
         case CodeAccessorMethod::GET:
         default:
-            text = "return "+variableName+";";
+            text = "return " + variableName + ';';
             break;
         }
     }
@@ -149,7 +149,11 @@ void CPPHeaderCodeAccessorMethod::updateMethodDeclaration()
     setComment(header);
 
     // set start/end method text
-    QString startText = methodReturnType+" "+methodName+" ("+methodParams+")" + (isInlineMethod ? " {" : ";");
+    QString startText = methodReturnType + " " + methodName + " (" + methodParams +')';
+    if (isInlineMethod)
+        startText += " {";
+    else
+        startText += ';';
     QString endText = (isInlineMethod ? "}" : "");
 
     setStartMethodText(startText);

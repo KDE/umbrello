@@ -63,7 +63,7 @@ bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
       if(OtherName != ThisPkgName){
         Ret += "use ";
         Ret += OtherName;
-        Ret += ";";
+        Ret +=  ';';
         Ret += m_endl;
       }
     }
@@ -174,7 +174,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
     str.replace(QRegExp("%package-name%"),ThisPkgName);
     if(str.find(QRegExp("%PACKAGE-DECLARE%"))){
       str.replace(QRegExp("%PACKAGE-DECLARE%"),
-                  "package " + ThisPkgName + ";"
+                  "package " + ThisPkgName + ';'
                   + m_endl + m_endl
                   + "#UML_MODELER_BEGIN_PERSONAL_VARS_" + classname
                   + m_endl + m_endl

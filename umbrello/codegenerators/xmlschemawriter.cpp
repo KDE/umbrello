@@ -776,7 +776,7 @@ QString XMLSchemaWriter::makePackageTag (QString tagName) {
 }
 
 QString XMLSchemaWriter::makeSchemaTag (QString tagName) {
-    tagName.prepend( schemaNamespaceTag + ":");
+    tagName.prepend( schemaNamespaceTag + ':');
     return tagName;
 }
 

@@ -54,7 +54,7 @@ void AssocRolePage::constructWidget() {
     if(!widgetNameA.isEmpty())
         titleA.append(" (" + widgetNameA + ")");
     if(!widgetNameB.isEmpty())
-        titleB.append(" (" + widgetNameB + ")");
+        titleB.append(" (" + widgetNameB + ')');
 
     // general configuration of the GUI
     int margin = fontMetrics().height();

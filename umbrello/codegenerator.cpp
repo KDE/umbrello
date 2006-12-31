@@ -526,7 +526,7 @@ QString CodeGenerator::findFileName ( CodeDocument * codeDocument ) {
             QStringList::iterator end(dirs.end());
             for (QStringList::iterator dir(dirs.begin()); dir != end; ++dir)
             {
-                currentDir += "/" + *dir;
+                currentDir += '/' + *dir;
                 if (! (pathDir.exists(currentDir)
                         || pathDir.mkdir(currentDir) ) )
                 {

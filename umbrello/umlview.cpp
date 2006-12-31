@@ -2281,7 +2281,6 @@ void UMLView::copyAsImage(QPixmap*& pix) {
     m_bDrawSelectedOnly = false;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::setMenu() {
     slotRemovePopupMenu();
     ListPopupMenu::Menu_Type menu = ListPopupMenu::mt_Undefined;

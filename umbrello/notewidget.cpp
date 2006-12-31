@@ -240,7 +240,7 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
         }
         if (c == returnChar || c.isSpace()) {
             // new word delimiter found -> its time to decide on word wrap
-            testCombineLine = fullLine + " " + word;
+            testCombineLine = fullLine + ' ' + word;
             int textWidth = fm.width( testCombineLine );
             if (textX + textWidth > width) {
                 // combination of "fullLine" and "word" doesn't fit into one line ->

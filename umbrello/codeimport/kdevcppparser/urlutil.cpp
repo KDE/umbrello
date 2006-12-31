@@ -249,7 +249,7 @@ QString URLUtil::relativePathToFile( const QString & dirUrl, const QString & fil
       result_up += "../";
     else
     {
-      result_down += file[i] + "/";
+      result_down += file[i] + '/';
       result_up += "../";
     }
     i++;

@@ -261,7 +261,7 @@ QString uniqObjectName(Uml::Object_Type type, UMLPackage *parentPkg, QString pre
     UMLDoc *doc = UMLApp::app()->getDocument();
     QString name = currentName;
     for (int number = 1; !doc->isUnique(name, parentPkg); number++)  {
-        name = currentName + "_" + QString::number(number);
+        name = currentName + '_' + QString::number(number);
     }
     return name;
 }

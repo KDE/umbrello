@@ -115,7 +115,7 @@ void XMLElementCodeBlock::updateContent ( )
     QString nodeName = getNodeName();
 
     // Now update START/ENDING Text
-    QString startText = "<"+nodeName;
+    QString startText = '<' + nodeName;
     QString endText = "";
 
     UMLAttributeList * alist = getAttributeList();
@@ -133,7 +133,7 @@ void XMLElementCodeBlock::updateContent ( )
     if(getTextBlockList()->count())
     {
         startText.append(">");
-        endText = "</"+nodeName+">";
+        endText = "</" + nodeName + '>';
     } else {
         startText.append("/>");
         endText = "";

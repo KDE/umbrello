@@ -205,7 +205,7 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
         getComment()->setText(headerText);
 
     // set start/end method text
-    setStartMethodText(strVis+" "+methodReturnType+" "+methodName+" ( "+methodParams+" ) {");
+    setStartMethodText(strVis+' '+methodReturnType+' '+methodName+" ( "+methodParams+" ) {");
     setEndMethodText("}");
 
 }

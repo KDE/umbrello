@@ -678,7 +678,7 @@ void Lexer::processDefine( Macro& m )
 
         if( currentChar().isSpace() ){
 	    readWhiteSpaces( false );
-	    body += " ";
+	    body += ' ';
 	} else {
 
 	    Token tk;

@@ -408,7 +408,7 @@ void JavaClassifierCodeDocument::updateContent( )
                 importStatement.append(endLine+"import ");
                 if(!con->getPackage().isEmpty())
                     importStatement.append(con->getPackage()+".");
-                importStatement.append(CodeGenerator::cleanName(con->getName())+";");
+                importStatement.append(CodeGenerator::cleanName(con->getName())+';');
             }
         }
     // now, add/update the imports codeblock

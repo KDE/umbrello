@@ -167,7 +167,7 @@ UMLObject* JavaImport::resolveClass (QString className) {
             // check if the file we want is in this imported package
             // convert the org.test type package into a filename
             //
-            QString aFile = sourceRoot + split.join("/") + "/" + baseClassName + ".java";
+            QString aFile = sourceRoot + split.join("/") + '/' + baseClassName + ".java";
             if ( QFile::exists(aFile) ) {
                 spawnImport( aFile );
                 // we need to set the package for the class that will be resolved

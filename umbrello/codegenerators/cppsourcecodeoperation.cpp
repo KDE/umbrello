@@ -61,7 +61,7 @@ CPPSourceCodeOperation::CPPSourceCodeOperation ( CPPSourceCodeDocument * doc, UM
     {
         QString rType = parm->getTypeName();
         QString paramName = parm->getName();
-        paramStr += rType + " " + paramName;
+        paramStr += rType + ' ' + paramName;
         paramNum++;
 
         if (paramNum != nrofParam )
@@ -76,13 +76,13 @@ CPPSourceCodeOperation::CPPSourceCodeOperation ( CPPSourceCodeDocument * doc, UM
     else if (returnType.isEmpty())
         returnType = QString("void");
 
-    QString startText = returnType + " ";
+    QString startText = returnType + ' ';
 
     // if a property has a friend stereotype, the operation should
     // not be a class name
     if (o->getStereotype() != "friend")
         startText += className + "::";
-    startText += methodName + " ("+paramStr+")";
+    startText += methodName + " (" + paramStr + ')';
     if (o->getConst())
         startText += " const";
     startText += " {";
@@ -151,7 +151,7 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
     {
         QString rType = parm->getTypeName();
         QString paramName = parm->getName();
-        paramStr += rType + " " + paramName;
+        paramStr += rType + ' ' + paramName;
         paramNum++;
 
         if (paramNum != nrofParam )
@@ -166,13 +166,13 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
     else if (returnType.isEmpty())
         returnType = QString("void");
 
-    QString startText = returnType + " ";
+    QString startText = returnType + ' ';
 
     // if a property has a friend stereotype, the operation should
     // not be a class name
     if (o->getStereotype() != "friend")
         startText += className + "::";
-    startText += methodName + " ("+paramStr+")";
+    startText += methodName + " (" + paramStr + ')';
     if (o->getConst())
         startText += " const";
     startText += " {";

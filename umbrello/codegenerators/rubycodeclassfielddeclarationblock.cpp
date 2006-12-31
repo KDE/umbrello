@@ -83,7 +83,7 @@ void RubyCodeClassFieldDeclarationBlock::updateContent( )
     if (!cf->parentIsAttribute() && !cf->fieldIsSingleValue())
         typeName = "Array";
 
-    QString body = staticValue+scopeStr+" "+typeName+" "+fieldName;
+    QString body = staticValue+scopeStr+' '+typeName+' '+fieldName;
     if (!initialV.isEmpty())
         body.append(" = " + initialV);
     else if (!cf->parentIsAttribute())

@@ -67,7 +67,7 @@ void CPPHeaderCodeClassFieldDeclarationBlock::updateContent( )
     if (!cf->parentIsAttribute() && !cf->fieldIsSingleValue())
         typeName = hcppcf->getListFieldClassName();
 
-    QString body = staticValue+" "+typeName+" "+fieldName+";";
+    QString body = staticValue + ' ' + typeName + ' ' + fieldName + ';';
 
     setText(body);
 

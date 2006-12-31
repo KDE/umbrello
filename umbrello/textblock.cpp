@@ -185,7 +185,7 @@ QString TextBlock::unformatText ( const QString & text, const QString & indent )
         myIndent = getIndentationString();
 
     if(!output.isEmpty())
-        output.remove(QRegExp("^"+myIndent));
+        output.remove(QRegExp('^'+myIndent));
 
     return output;
 }

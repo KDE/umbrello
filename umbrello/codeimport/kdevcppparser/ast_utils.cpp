@@ -155,7 +155,7 @@ QString declaratorToString( DeclaratorAST* declarator, const QString& scope, boo
 	       QString type = typeSpecToString( it.current()->typeSpec() );
 	       text += type;
 	       if( !type.isEmpty() )
-		   text += " ";
+		   text += ' ';
                text += declaratorToString( it.current()->declarator() );
 
                ++it;

@@ -382,7 +382,7 @@ bool PascalImport::parseStmt() {
         initialValue = advance();
         QString token;
         while ((token = advance()) != ";") {
-            initialValue.append(" " + token);
+            initialValue.append(' ' + token);
         }
     }
     UMLObject *o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name,

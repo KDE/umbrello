@@ -90,7 +90,7 @@ void RubyCodeAccessorMethod::updateContent( )
             QString fieldType = rubyfield->getTypeName();
             QString indent = getIndentation();
             if(maxOccurs > 0)
-                text += "if "+fieldName+".size() < "+ QString::number(maxOccurs)+" "+endLine+indent;
+                text += "if "+fieldName+".size() < "+ QString::number(maxOccurs)+' '+endLine+indent;
             text += fieldName+".push(value)";
             if(maxOccurs > 0)
             {
@@ -183,7 +183,7 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
         methodReturnType = "";
         methodParams = objectType+" value ";
         headerText = "Add an object of type "+objectType+" to the Array "+fieldName+endLine+description+endLine+"@return nil";
-        setStartMethodText("def "+ methodName + "(" + methodParams + ")");
+        setStartMethodText("def "+ methodName + '(' + methodParams + ')');
         setEndMethodText("end");
         break;
     case CodeAccessorMethod::GET:
@@ -195,7 +195,7 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
         methodName = "get"+rubydoc->capitalizeFirstLetter(fieldType)+"List";
         methodReturnType = "";
         headerText = "Get the list of "+fieldName+endLine+description+endLine+"_returns_ List of "+fieldName;
-        setStartMethodText("def "+ methodName + "(" + methodParams + ")");
+        setStartMethodText("def "+ methodName + '(' + methodParams + ')');
         setEndMethodText("end");
         break;
     case CodeAccessorMethod::REMOVE:
@@ -203,7 +203,7 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
         methodReturnType = "";
         methodParams = objectType+" value ";
         headerText = "Remove an object of type "+objectType+" from the List "+fieldName+endLine+description;
-        setStartMethodText("def "+ methodName + "(" + methodParams + ")");
+        setStartMethodText("def "+ methodName + '(' + methodParams + ')');
         setEndMethodText("end");
         break;
     case CodeAccessorMethod::SET:
