@@ -19,8 +19,10 @@
 
 // app includes
 #include "assocrules.h"
+#include "association.h"
 #include "associationwidget.h"
 #include "classifierwidget.h"
+#include "folder.h"
 #include "model_utils.h"
 #include "uml.h"
 #include "umlobject.h"
@@ -205,7 +207,11 @@ void ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* a) {
     // append in view
     if (m_pUMLView->addAssociation(a, false)) {
         // if view went ok, then append in document
-        UMLApp::app()->getDocument()->addAssociation(a->getAssociation());
+        UMLAssociation *umla = a->getAssociation();
+        Uml::Model_Type m = Model_Utils::convert_DT_MT(m_pUMLView->getType());
+        UMLDoc *umldoc = UMLApp::app()->getDocument();
+        umla->setUMLPackage(umldoc->getRootFolder(m));
+        UMLApp::app()->getDocument()->addAssociation(umla);
     } else {
         kError() << "cannot addAssocInViewAndDoc(), deleting" << endl;
         delete a;
