@@ -210,7 +210,7 @@ void UMLApp::initActions() {
 
     preferences = KStandardAction::preferences(this,  SLOT( slotPrefs() ), actionCollection());
 
-    importClasses = new KAction(KIcon(SmallIconSet("source_cpp")),
+    importClasses = new KAction(KIcon("source_cpp"),
                                 i18n("&Import Classes..."),
                                 actionCollection(),"import_class");
     connect(importClasses, SIGNAL( triggered( bool ) ), this, SLOT( slotImportClasses() ));
@@ -258,7 +258,7 @@ void UMLApp::initActions() {
     editPaste->setToolTip(i18n("Pastes the contents of the clipboard"));
     preferences->setToolTip( i18n( "Set the default program preferences") );
 
-    deleteSelectedWidget = new KAction( KIcon(SmallIconSet("editdelete")),
+    deleteSelectedWidget = new KAction( KIcon("editdelete"),
                                         i18n("Delete &Selected"),
                                         actionCollection(),
                                         "delete_selected" );
@@ -267,67 +267,67 @@ void UMLApp::initActions() {
 
     // The different views
     newDiagram = new KActionMenu(
-                                KIcon(SmallIconSet("filenew")),
+                                KIcon("filenew"),
                                 "new_view",
                                 actionCollection(),
                                 "new_view" );
 
-    classDiagram = new KAction( KIcon(SmallIconSet("umbrello_diagram_class")),
+    classDiagram = new KAction( KIcon("umbrello_diagram_class"),
                                 i18n( "&Class Diagram..." ),
                                 actionCollection(),
                                 "new_class_diagram" );
     connect(classDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotClassDiagram() ));
 
-    sequenceDiagram= new KAction( KIcon(SmallIconSet("umbrello_diagram_sequence")),
+    sequenceDiagram= new KAction( KIcon("umbrello_diagram_sequence"),
                                 i18n( "&Sequence Diagram..." ),
                                 actionCollection(),
                                 "new_sequence_diagram" );
     connect(sequenceDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotSequenceDiagram() ));
 
-    collaborationDiagram = new KAction( KIcon(SmallIconSet("umbrello_diagram_collaboration")),
+    collaborationDiagram = new KAction( KIcon("umbrello_diagram_collaboration"),
                                         i18n( "C&ollaboration Diagram..." ),
                                         actionCollection(),
                                         "new_collaboration_diagram" );
     connect(collaborationDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotCollaborationDiagram() ));
 
-    useCaseDiagram= new KAction( KIcon(SmallIconSet("umbrello_diagram_usecase")),
+    useCaseDiagram= new KAction( KIcon("umbrello_diagram_usecase"),
                                  i18n( "&Use Case Diagram..." ),
                                  actionCollection(),
                                  "new_use_case_diagram" );
     connect(useCaseDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotUseCaseDiagram() ));
 
-    stateDiagram= new KAction( KIcon(SmallIconSet("umbrello_diagram_state")),
+    stateDiagram= new KAction( KIcon("umbrello_diagram_state"),
                                i18n( "S&tate Diagram..." ),
                                actionCollection(),
                                "new_state_diagram" );
     connect(stateDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotStateDiagram() ));
 
-    activityDiagram= new KAction( KIcon(SmallIconSet("umbrello_diagram_activity")),
+    activityDiagram= new KAction( KIcon("umbrello_diagram_activity"),
                                   i18n( "&Activity Diagram..." ),
                                   actionCollection(),
                                   "new_activity_diagram" );
     connect(activityDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotActivityDiagram() ));
 
-    componentDiagram = new KAction( KIcon(SmallIconSet("umbrello_diagram_component")),
+    componentDiagram = new KAction( KIcon("umbrello_diagram_component"),
                                     i18n("Co&mponent Diagram..."),
                                     actionCollection(),
                                     "new_component_diagram" );
     connect(componentDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotComponentDiagram() ));
 
-    deploymentDiagram = new KAction( KIcon(SmallIconSet("umbrello_diagram_deployment")),
+    deploymentDiagram = new KAction( KIcon("umbrello_diagram_deployment"),
                                      i18n("&Deployment Diagram..."),
                                      actionCollection(),
                                      "new_deployment_diagram" );
     connect(deploymentDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotDeploymentDiagram() ));
 
     entityRelationshipDiagram = new KAction(
-                                    KIcon(SmallIconSet("umbrello_diagram_entityrelationship")),
+                                    KIcon("umbrello_diagram_entityrelationship"),
                                     i18n("&Entity Relationship Diagram..."),
                                     actionCollection(),
                                     "new_entityrelationship_diagram" );
     connect(entityRelationshipDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotEntityRelationshipDiagram() ));
 
-    viewClearDiagram = new KAction(KIcon(SmallIconSet("editclear")),i18n("&Clear Diagram"),
+    viewClearDiagram = new KAction(KIcon("editclear"),i18n("&Clear Diagram"),
                                     actionCollection(), "view_clear_diagram");
     connect(viewClearDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewClearDiagram() ));
 
@@ -337,18 +337,18 @@ void UMLApp::initActions() {
     viewShowGrid = new KToggleAction(i18n("S&how Grid"), actionCollection(), "view_show_grid");
     connect(viewShowGrid, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewToggleShowGrid() ));
     viewShowGrid->setCheckedState(KGuiItem(i18n("&Hide Grid")));
-    deleteDiagram = new KAction(KIcon(SmallIconSet("editdelete")), i18n("&Delete"),
+    deleteDiagram = new KAction(KIcon("editdelete"), i18n("&Delete"),
                                 actionCollection(), "view_delete");
     connect(deleteDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotDeleteDiagram() ));
 
-    viewExportImage = new KAction(KIcon(SmallIconSet("image")),i18n("&Export as Picture..."),
+    viewExportImage = new KAction(KIcon("image"),i18n("&Export as Picture..."),
                                 actionCollection(), "view_export_image");
     connect(viewExportImage, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewExportImage() ));
 
-    viewExportImageAll = new KAction(KIcon(SmallIconSet("image")), i18n("Export &All Diagrams as Pictures..."), actionCollection(), "view_export_image_all");
+    viewExportImageAll = new KAction(KIcon("image"), i18n("Export &All Diagrams as Pictures..."), actionCollection(), "view_export_image_all");
     connect(viewExportImageAll, SIGNAL( triggered( bool ) ), this, SLOT( slotAllViewsExportImage() ));
 
-    viewProperties = new KAction(KIcon(SmallIconSet("info")), i18n("&Properties"),
+    viewProperties = new KAction(KIcon("info"), i18n("&Properties"),
                                  actionCollection(), "view_properties");
     connect(viewProperties, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewProperties() ));
 

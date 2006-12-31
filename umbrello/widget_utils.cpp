@@ -18,7 +18,7 @@
 #include <qpen.h>
 #include <kiconloader.h>
 #include <kdebug.h>
-
+#include <kicon.h>
 // app includes
 #include "uml.h"
 #include "umlview.h"
@@ -59,35 +59,35 @@ QIcon iconSet(Uml::Diagram_Type dt) {
     QIcon diagramIconSet;
     switch (dt) {
     case Uml::dt_UseCase:
-        diagramIconSet = BarIconSet("umbrello_diagram_usecase");
+        diagramIconSet = KIcon("umbrello_diagram_usecase");
         break;
     case Uml::dt_Collaboration:
-        diagramIconSet = BarIconSet("umbrello_diagram_collaboration");
+        diagramIconSet = KIcon("umbrello_diagram_collaboration");
         break;
     case Uml::dt_Class:
-        diagramIconSet = BarIconSet("umbrello_diagram_class");
+        diagramIconSet = KIcon("umbrello_diagram_class");
         break;
     case Uml::dt_Sequence:
-        diagramIconSet = BarIconSet("umbrello_diagram_sequence");
+        diagramIconSet = KIcon("umbrello_diagram_sequence");
         break;
     case Uml::dt_State:
-        diagramIconSet = BarIconSet("umbrello_diagram_state");
+        diagramIconSet = KIcon("umbrello_diagram_state");
         break;
     case Uml::dt_Activity:
-        diagramIconSet = BarIconSet("umbrello_diagram_activity");
+        diagramIconSet = KIcon("umbrello_diagram_activity");
         break;
     case Uml::dt_Component:
-        diagramIconSet = BarIconSet("umbrello_diagram_component");
+        diagramIconSet = KIcon("umbrello_diagram_component");
         break;
     case Uml::dt_Deployment:
-        diagramIconSet = BarIconSet("umbrello_diagram_deployment");
+        diagramIconSet = KIcon("umbrello_diagram_deployment");
         break;
     case Uml::dt_EntityRelationship:
-        diagramIconSet = BarIconSet("umbrello_diagram_entityrelationship");
+        diagramIconSet = KIcon("umbrello_diagram_entityrelationship");
         break;
     default:
         kDebug() << "Widget_Utils::iconSet: unknown diagram type " << dt << endl;
-        diagramIconSet = BarIconSet("unknown");
+        diagramIconSet = KIcon("unknown");
     }
     return diagramIconSet;
 }
