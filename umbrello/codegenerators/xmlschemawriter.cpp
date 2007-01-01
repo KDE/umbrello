@@ -771,7 +771,7 @@ QString XMLSchemaWriter::getElementGroupTypeName(UMLClassifier *c)
 }
 
 QString XMLSchemaWriter::makePackageTag (QString tagName) {
-    tagName.prepend( packageNamespaceTag + ":");
+    tagName.prepend( packageNamespaceTag + ':');
     return tagName;
 }
 

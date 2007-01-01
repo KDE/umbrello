@@ -119,7 +119,7 @@ void CPPHeaderCodeOperation::updateMethodDeclaration()
         methodReturnType = QString("void");
 
     // set start/end method text
-    QString prototype = methodReturnType+" "+methodName+" ("+paramStr+")";
+    QString prototype = methodReturnType+' '+methodName+" ("+paramStr+')';
 
     QString startText;
     QString endText;

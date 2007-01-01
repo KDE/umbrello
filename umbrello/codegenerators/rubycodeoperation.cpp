@@ -160,7 +160,7 @@ void RubyCodeOperation::updateMethodDeclaration()
                 if (iterator.current()->getDoc().isEmpty()) {
                     comment += (" " + RubyCodeGenerator::cppToRubyType(iterator.current()->getTypeName()));
                 } else {
-                    comment += (" " + iterator.current()->getDoc().replace(QRegExp("[\\n\\r]+[\\t ]*"), endLine + "  "));
+                    comment += (' ' + iterator.current()->getDoc().replace(QRegExp("[\\n\\r]+[\\t ]*"), endLine + "  "));
                 }
             }
         }

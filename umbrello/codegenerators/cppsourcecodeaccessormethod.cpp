@@ -77,7 +77,7 @@ void CPPSourceCodeAccessorMethod::updateContent( )
         case CodeAccessorMethod::LIST:
         case CodeAccessorMethod::GET:
         default:
-            text = "return "+variableName+";";
+            text = "return "+variableName+';';
             break;
         }
     }

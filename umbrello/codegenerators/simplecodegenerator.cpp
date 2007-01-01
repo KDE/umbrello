@@ -99,7 +99,7 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ex
         name = package + "." + concept->getName();
         name.replace(QRegExp("\\."),"/");
         package.replace(QRegExp("\\."), "/");
-        package = "/" + package;
+        package = '/' + package;
     } else {
         name = concept->getFullyQualifiedName("-");
     }

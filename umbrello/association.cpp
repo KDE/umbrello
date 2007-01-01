@@ -112,7 +112,7 @@ QString UMLAssociation::toString ( ) const
         string += ":";
         string += m_pRole[A]->getName();
     }
-    string += ":" + typeAsString(m_AssocType) + ":";
+    string += ':' + typeAsString(m_AssocType) + ':';
     if(m_pRole[B])
     {
         string += m_pRole[B]->getObject( )->getName();

@@ -217,7 +217,7 @@ void UMLFolder::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     // See if we can create the external file.
     // If not then internalize the folder.
     UMLDoc *umldoc = UMLApp::app()->getDocument();
-    QString fileName = umldoc->URL().directory() + "/" + m_folderFile;
+    QString fileName = umldoc->URL().directory() + '/' + m_folderFile;
     QFile file(fileName);
     if (!file.open(IO_WriteOnly)) {
         kError() << "UMLFolder::saveToXMI(" << m_folderFile << "): "

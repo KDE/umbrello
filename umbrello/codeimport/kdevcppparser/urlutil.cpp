@@ -244,7 +244,7 @@ QString URLUtil::relativePathToFile( const QString & dirUrl, const QString & fil
     if (currDir.isEmpty() && currFile.isEmpty())
       break;
     else if (currDir.isEmpty())
-      result_down += file[i] + "/";
+      result_down += file[i] + '/';
     else if (currFile.isEmpty())
       result_up += "../";
     else

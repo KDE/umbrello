@@ -128,7 +128,7 @@ QString UMLOperation::toString(Uml::Signature_Type sig) {
     QString s = "";
 
     if(sig == Uml::st_ShowSig || sig == Uml::st_NoSig) 
-          s = m_Vis.toString(true) + " ";
+          s = m_Vis.toString(true) + ' ';
     
     s += getName();
     Uml::Programming_Language pl = UMLApp::app()->getActiveLanguage();

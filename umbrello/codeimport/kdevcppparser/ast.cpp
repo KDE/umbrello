@@ -561,7 +561,7 @@ void ElaboratedTypeSpecifierAST::setKind( AST::Node& kind )
 QString ElaboratedTypeSpecifierAST::text() const
 {
     if( m_kind.get() )
-        return m_kind->text() + " " + TypeSpecifierAST::text();
+        return m_kind->text() + ' ' + TypeSpecifierAST::text();
 
     return TypeSpecifierAST::text();
 }

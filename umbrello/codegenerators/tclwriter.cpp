@@ -832,7 +832,7 @@ TclWriter::writeAttributeSource()
         QString         name = mClassGlobal + "::" + cleanName(at->getName());
 
         writeComm(name);
-        writeCode("configbody " + name + " {} {" + m_endl + "}" + m_endl);
+        writeCode("configbody " + name + " {} {" + m_endl + '}' + m_endl);
     }
 }
 

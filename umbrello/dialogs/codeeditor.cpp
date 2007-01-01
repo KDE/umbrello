@@ -908,7 +908,7 @@ void CodeEditor::cursorPositionChanged(int para, int pos)
         int minPos = baseIndent.length();
 
         // add indent chars to the current line, if missing
-        if(!m_backspacePressed && !currentParaText.contains(QRegExp("^"+baseIndent)))
+        if(!m_backspacePressed && !currentParaText.contains(QRegExp('^'+baseIndent)))
         {
             insertAt(baseIndent,para,0);
             setCursorPosition(para,pos+minPos);

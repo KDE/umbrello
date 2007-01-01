@@ -161,7 +161,7 @@ QString UMLViewImageExporterModel::exportView(UMLView* view, const QString &imag
 }
 
 QString UMLViewImageExporterModel::getDiagramFileName(UMLView *view, const QString &imageType, bool useFolders /* = false */) const {
-    QString name = view->getName() + "." + imageType.lower();
+    QString name = view->getName() + '.' + imageType.lower();
 
     if (!useFolders) {
         return name;

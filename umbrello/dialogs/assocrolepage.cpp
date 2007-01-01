@@ -52,7 +52,7 @@ void AssocRolePage::constructWidget() {
     QString widgetNameA = m_pAssociationWidget->getWidget(Uml::A)->getName();
     QString widgetNameB = m_pAssociationWidget->getWidget(Uml::B)->getName();
     if(!widgetNameA.isEmpty())
-        titleA.append(" (" + widgetNameA + ")");
+        titleA.append(" (" + widgetNameA + ')');
     if(!widgetNameB.isEmpty())
         titleB.append(" (" + widgetNameB + ')');
 
