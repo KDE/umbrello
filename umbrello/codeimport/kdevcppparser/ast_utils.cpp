@@ -127,7 +127,7 @@ QString declaratorToString( DeclaratorAST* declarator, const QString& scope, boo
        for( Q3PtrListIterator<AST> it(ptrOpList); it.current(); ++it ){
 	  text += it.current()->text();
        }
-       text += " ";
+       text += ' ';
    }
 
    text += scope;

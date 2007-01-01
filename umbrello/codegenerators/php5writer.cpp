@@ -3300,7 +3300,7 @@ void Php5Writer::writeOperations(const QString &/* classname */, UMLOperationLis
             php << m_endl << m_indentation << "} // end of member function " + cleanName(op->getName()) + m_endl;
         }
         else {
-            php << ";" + m_endl;
+            php << ';' + m_endl;
         }
         php << m_endl;
     }//end for

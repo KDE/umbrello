@@ -1172,7 +1172,7 @@ void CppWriter::writeOperations(UMLOperationList &oplist, bool isHeaderMethod, Q
             str += "static ";
 
         // returntype of method
-        str += methodReturnType + " ";
+        str += methodReturnType + ' ';
 
         if (!isHeaderMethod)
             str += className + "::";

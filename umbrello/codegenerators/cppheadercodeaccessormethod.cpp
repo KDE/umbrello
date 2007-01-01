@@ -149,7 +149,7 @@ void CPPHeaderCodeAccessorMethod::updateMethodDeclaration()
     setComment(header);
 
     // set start/end method text
-    QString startText = methodReturnType + " " + methodName + " (" + methodParams +')';
+    QString startText = methodReturnType + ' ' + methodName + " (" + methodParams +')';
     if (isInlineMethod)
         startText += " {";
     else

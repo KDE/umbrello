@@ -137,7 +137,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
           return;
         }
       }
-      curDir += "/" + newDir;
+      curDir += '/' + newDir;
     }
     fileName = fragment + ".pm";
   }

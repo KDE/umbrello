@@ -2030,7 +2030,7 @@ bool UMLDoc::addUMLView(UMLView * pView ) {
     QString viewName = (QString)pView->getName();
     QString name = viewName;
     while( findView(pView->getType(), name) != NULL) {
-        name = viewName + "_" + QString::number(++i);
+        name = viewName + '_' + QString::number(++i);
     }
     if(i) //If name was modified
         pView->setName(name);

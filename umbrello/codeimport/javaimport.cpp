@@ -156,7 +156,7 @@ UMLObject* JavaImport::resolveClass (QString className) {
         file.pop_back();
     }
     // this is now the root of any further source imports
-    QString sourceRoot = "/" + file.join("/") + "/";
+    QString sourceRoot = '/' + file.join("/") + '/';
 
     for (QStringList::Iterator pathIt = m_imports.begin();
                                    pathIt != m_imports.end(); ++pathIt) {

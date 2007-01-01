@@ -556,7 +556,7 @@ QString Lexer::readArgument()
 	}
 
 	if( tk != -1 )
-            arg += tk.text() + " ";
+            arg += tk.text() + ' ';
     }
 
     return arg.trimmed();

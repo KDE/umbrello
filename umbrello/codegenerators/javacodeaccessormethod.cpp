@@ -111,7 +111,7 @@ void JavaCodeAccessorMethod::updateContent( )
             if(minOccurs > 0)
             {
                 text += endLine+"} else {"+endLine;
-                text += indent + "System.err.println(\"ERROR: Cant remove"+fieldType+" from "+fieldName+", minimum number of items reached.\");"+endLine+"}"+endLine;
+                text += indent + "System.err.println(\"ERROR: Cant remove"+fieldType+" from "+fieldName+", minimum number of items reached.\");"+endLine+'}'+endLine;
             }
             break;
         }

@@ -391,7 +391,7 @@ void UMLListView::popupMenuSel(int sel) {
             // Recompute text of the folder
             QString folderText = current->getText();
             folderText.remove( QRegExp("\\s*\\(.*$") );
-            folderText.append( " (" + fileName + ")" );
+            folderText.append( " (" + fileName + ')' );
             current->setText(folderText);
             break;
         }

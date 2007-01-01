@@ -99,7 +99,7 @@ void JavaCodeOperation::updateMethodDeclaration()
     {
         UMLAttributeList parameters = o->getParmList();
         for(UMLAttributeListIt iterator(parameters); iterator.current(); ++iterator) {
-            comment += endLine + "@param " + iterator.current()->getName() + " ";
+            comment += endLine + "@param " + iterator.current()->getName() + ' ';
             comment += iterator.current()->getDoc();
         }
         // add a returns statement too

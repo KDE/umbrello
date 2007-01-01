@@ -91,7 +91,7 @@ void PythonWriter::writeClass(UMLClassifier *c) {
     str = cleanName(c->getName()); 
     QString pkg = cleanName(c->getPackage());
     if (!pkg.isEmpty())
-        str.prepend(pkg + "."); 
+        str.prepend(pkg + '.'); 
     QStringList includesList  = QStringList(str); //save imported classes 
     int i = superclasses.count(); 
     for (UMLClassifier *classifier = superclasses.first(); 

@@ -97,7 +97,7 @@ bool UMLViewImageExporter::getParametersFromUser() {
     QString ext = info.extension(false);
     QString extDef = UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType);
     if(ext != extDef) {
-        m_imageURL.setFileName(m_imageURL.fileName() + "." + extDef);
+        m_imageURL.setFileName(m_imageURL.fileName() + '.' + extDef);
     }
 
     return true;

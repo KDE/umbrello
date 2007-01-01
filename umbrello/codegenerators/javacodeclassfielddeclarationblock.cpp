@@ -89,7 +89,7 @@ void JavaCodeClassFieldDeclarationBlock::updateContent( )
     if (!cf->parentIsAttribute() && !cf->fieldIsSingleValue())
         typeName = "List";
 
-    QString body = staticValue+scopeStr+" "+typeName+" "+fieldName;
+    QString body = staticValue+scopeStr+' '+typeName+' '+fieldName;
     if (!initialV.isEmpty())
         body.append(" = " + initialV);
     else if (!cf->parentIsAttribute())

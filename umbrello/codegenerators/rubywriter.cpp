@@ -292,7 +292,7 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
                 if (commentedParams.contains(cppToRubyName(at->getName())) == 0) {
                     docStr += (m_endl + m_indentation + "# @param _" + cppToRubyName(at->getName()) + "_");
                     if (at->getDoc().isEmpty()) {
-                        docStr += (" " + cppToRubyType(at->getTypeName()));
+                        docStr += (' ' + cppToRubyType(at->getTypeName()));
                     } else {
                         docStr += (' ' + at->getDoc().replace(QRegExp("[\\n\\r]+[\\t ]*"), m_endl + "   "));
                     }

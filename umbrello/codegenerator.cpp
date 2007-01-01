@@ -503,7 +503,7 @@ QString CodeGenerator::findFileName ( CodeDocument * codeDocument ) {
     if (!path.isEmpty()) {
         path.replace(QRegExp("::"), "/"); // Simple hack!
         name = path + "/" + codeDocument->getFileName();
-        path = "/" + path;
+        path = '/' + path;
     } else {
         name = codeDocument->getFileName();
     }
