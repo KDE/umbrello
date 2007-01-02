@@ -102,7 +102,7 @@ public:
     template <class _Tp1> operator AUTO_PTR_ref<_Tp1>()  _THROW0()
 	{ return AUTO_PTR_ref<_Tp>(this->release()); }
     template <class _Tp1> operator AUTO_PTR<_Tp1>()  _THROW0()
-	{ return AUTO_PTR<_Tp1>(this->release()) }
+	{ return AUTO_PTR<_Tp1>(this->release()); }
 
 };
 
