@@ -957,7 +957,7 @@ QString UMLDoc::uniqViewName(const Diagram_Type type) {
     }
     QString name = dname;
     for (int number = 0; findView(type, name); ++number,
-            name = dname + "_" + QString::number(number))
+            name = dname + '_' + QString::number(number))
         ;
     return name;
 }

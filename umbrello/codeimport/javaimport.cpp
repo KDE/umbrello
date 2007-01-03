@@ -133,7 +133,7 @@ UMLObject* JavaImport::resolveClass (QString className) {
     // current class
     //
     QString myDir = file.join( "/" );
-    QString myFile = "/" + myDir + "/" + baseClassName + ".java";
+    QString myFile = '/' + myDir + '/' + baseClassName + ".java";
     if ( QFile::exists(myFile) ) {
         spawnImport( myFile );
         if ( isArray ) {

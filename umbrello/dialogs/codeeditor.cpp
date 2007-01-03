@@ -411,10 +411,10 @@ void CodeEditor::appendText (CodeClassFieldDeclarationBlock * db ) {
     if(parentObj)
     {
         if(db->getParentClassField()->parentIsAttribute()) {
-            componentName = parentDocName + "::attribute_field(" + parentObj->getName() + ")";
+            componentName = parentDocName + "::attribute_field(" + parentObj->getName() + ')';
         } else {
             UMLRole * role = dynamic_cast<UMLRole*>(parentObj);
-            componentName = parentDocName + "::association_field(" + role->getName() + ")";
+            componentName = parentDocName + "::association_field(" + role->getName() + ')';
         }
         bgcolor = getState().umlObjectColor;
     }
@@ -528,9 +528,9 @@ void CodeEditor::appendText(HierarchicalCodeBlock * hblock)
                 typeStr = "Interface";
             else
                 typeStr = "Class";
-            componentName = parentDocName + "::" + typeStr + "(" + parentObj->getName() + ")";
+            componentName = parentDocName + "::" + typeStr + '(' + parentObj->getName() + ')';
         } else {
-            componentName = parentDocName + "::UNKNOWN(" + parentObj->getName() + ")";
+            componentName = parentDocName + "::UNKNOWN(" + parentObj->getName() + ')';
         }
 
         paperColor = getState().umlObjectColor;

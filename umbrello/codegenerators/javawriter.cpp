@@ -741,9 +741,9 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java) {
 
         str = ""; // reset for next method
         str += ((op->getAbstract() || isInterface) ? "abstract ":"");
-        str += scopeToJavaDecl(op->getVisibility()) + " ";
+        str += scopeToJavaDecl(op->getVisibility()) + ' ';
         str += (op->getStatic() ? "static ":"");
-        str += methodReturnType + " " +cleanName(op->getName()) + "( ";
+        str += methodReturnType + ' ' +cleanName(op->getName()) + "( ";
 
         atl = op->getParmList();
         i= atl.count();
@@ -751,7 +751,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java) {
         for (at = atl.first(); at; at = atl.next(), j++) {
             QString typeName = fixTypeName(at->getTypeName());
             QString atName = cleanName(at->getName());
-            str += typeName + " " + atName +
+            str += typeName + ' ' + atName +
                    (!(at->getInitialValue().isEmpty()) ?
                     (QString(" = ")+at->getInitialValue()) :
                     QString(""))

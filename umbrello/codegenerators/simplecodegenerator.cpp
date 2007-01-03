@@ -96,7 +96,7 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ex
 
     // if package is given add this as a directory to the file name
     if (!package.isEmpty() && m_createDirHierarchyForPackages) {
-        name = package + "." + concept->getName();
+        name = package + '.' + concept->getName();
         name.replace(QRegExp("\\."),"/");
         package.replace(QRegExp("\\."), "/");
         package = '/' + package;

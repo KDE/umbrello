@@ -493,7 +493,7 @@ QString TypeSpecifierAST::text() const
     QString str;
 
     if( m_cvQualify.get() )
-        str += m_cvQualify->text() + " ";
+        str += m_cvQualify->text() + ' ';
 
     if( m_name.get() )
         str += m_name->text();

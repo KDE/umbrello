@@ -107,9 +107,9 @@ void RubyCodeOperation::updateMethodDeclaration()
     if (isInterface) {
         // Assume 'isInterface' means a module in Ruby, so
         // generate module methods
-        startText = "def "+ RubyClassName + "." + methodName + "(" + paramStr +")";
+        startText = "def "+ RubyClassName + '.' + methodName + '(' + paramStr +')';
     } else {
-        startText = "def "+ methodName + "(" + paramStr +")";
+        startText = "def "+ methodName + '(' + paramStr +')';
     }
 
     startText += "";
@@ -126,12 +126,12 @@ void RubyCodeOperation::updateMethodDeclaration()
             UMLAttributeList parameters = o->getParmList();
             for(UMLAttributeListIt iterator(parameters); iterator.current(); ++iterator) {
                 comment += endLine + "* _" + iterator.current()->getName() + "_ ";
-                comment += (" " + iterator.current()->getDoc().replace( QRegExp("[\\n\\r]+[\\t ]*"),
+                comment += (' ' + iterator.current()->getDoc().replace( QRegExp("[\\n\\r]+[\\t ]*"),
                                                                         endLine + "  " ) );
             }
             // add a returns statement too
             if(!returnType.isEmpty() && !QRegExp("^void\\s*$").exactMatch(returnType))
-                comment += endLine + "* _returns_ " + returnType + " ";
+                comment += endLine + "* _returns_ " + returnType + ' ';
             getComment()->setText(comment);
         }
     } else {
@@ -144,7 +144,7 @@ void RubyCodeOperation::updateMethodDeclaration()
         int pos = re_params.search(comment);
         while (pos != -1) {
             comment.replace( re_params.cap(0), 
-                            QString("@param _") + re_params.cap(1).lower() + re_params.cap(2) + "_" );
+                            QString("@param _") + re_params.cap(1).lower() + re_params.cap(2) + '_' );
             commentedParams.append(re_params.cap(1).lower() + re_params.cap(2));
     
             pos += re_params.matchedLength() + 3;
@@ -156,9 +156,9 @@ void RubyCodeOperation::updateMethodDeclaration()
             // Only write an individual @param entry if one hasn't been found already
             // in the main doc comment
             if (commentedParams.contains(RubyCodeGenerator::cppToRubyName(iterator.current()->getName())) == 0) {
-                comment += (endLine + "@param _" + RubyCodeGenerator::cppToRubyName(iterator.current()->getName()) + "_");
+                comment += (endLine + "@param _" + RubyCodeGenerator::cppToRubyName(iterator.current()->getName()) + '_');
                 if (iterator.current()->getDoc().isEmpty()) {
-                    comment += (" " + RubyCodeGenerator::cppToRubyType(iterator.current()->getTypeName()));
+                    comment += (' ' + RubyCodeGenerator::cppToRubyType(iterator.current()->getTypeName()));
                 } else {
                     comment += (' ' + iterator.current()->getDoc().replace(QRegExp("[\\n\\r]+[\\t ]*"), endLine + "  "));
                 }

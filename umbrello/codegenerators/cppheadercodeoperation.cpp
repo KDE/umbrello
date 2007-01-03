@@ -82,7 +82,7 @@ void CPPHeaderCodeOperation::updateMethodDeclaration()
     {
         UMLAttributeList parameters = o->getParmList();
         for(UMLAttributeListIt iterator(parameters); iterator.current(); ++iterator) {
-            comment += endLine + "@param " + iterator.current()->getName() + " ";
+            comment += endLine + "@param " + iterator.current()->getName() + ' ';
             comment += iterator.current()->getDoc();
         }
         getComment()->setText(comment);
@@ -102,9 +102,9 @@ void CPPHeaderCodeOperation::updateMethodDeclaration()
         QString rType = parm->getTypeName();
         QString paramName = parm->getName();
         QString initialValue = parm->getInitialValue();
-        paramStr += rType + " " + paramName;
+        paramStr += rType + ' ' + paramName;
         if(!initialValue.isEmpty())
-            paramStr += "=" + initialValue;
+            paramStr += '=' + initialValue;
 
         paramNum++;
 
