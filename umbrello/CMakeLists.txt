@@ -1,3 +1,6 @@
+find_package(LibXml2)
+find_package(LIBxslt)
+
 add_subdirectory( codeimport ) 
 add_subdirectory( dialogs ) 
 add_subdirectory( clipboard ) 
@@ -17,7 +20,7 @@ endmacro(CREATE_VERSION)
 macro_additional_clean_files( ${CMAKE_CURRENT_BINARY_DIR}/version.h )
 create_version(${CMAKE_SOURCE_DIR}/umbrello/VERSION ${CMAKE_CURRENT_BINARY_DIR}/version.h)
 
-include_directories (/usr/include/libxml2 ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/)
+include_directories (${LIBXML2_INCLUDE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/)
 
 set(libcodegenerator_SRCS
 	codegenerators/codegenfactory.cpp 
@@ -80,7 +83,26 @@ set(libcodegenerator_SRCS
 	codegenerators/xmlschemawriter.cpp
 	codegenerators/xmlelementcodeblock.cpp 
 	codegenerators/xmlcodecomment.cpp
-	codegenerators/codegen_utils.cpp)
+	codegenerators/codegen_utils.cpp
+)
+
+kde4_add_ui3_files( libcodegenerator_SRCS
+	${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/cppcodegenerationformbase.ui
+	${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/rubycodegenerationformbase.ui
+)
+
+kde4_add_ui_files(  libcodegenerator_SRCS
+	${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/javacodegenerationformbase.ui
+)
+
+kde4_automoc(${libcodegenerator_SRCS})
+
+if (WIN32)
+  kde4_add_library(codegenerators STATIC ${libcodegenerator_SRCS})
+  target_link_libraries(codegenerators)
+  set (LIBS ${LIBS} codegenerators)
+  set(libcodegenerator_SRCS)
+endif (WIN32)
 
 set(libdocgenerator_SRCS
     docgenerators/docbookgenerator.cpp 
@@ -123,6 +145,29 @@ set(libdialogs_SRCS
 	dialogs/umlviewdialog.cpp 
 	dialogs/umlwidgetcolorpage.cpp )
 
+kde4_add_ui3_files( libdialogs_SRCS
+	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codegenerationoptionsbase.ui 
+	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codegenerationpolicybase.ui 
+	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codegenerationwizardbase.ui 
+	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codeviewerdialogbase.ui 
+	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codevieweroptionsbase.ui 
+    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/exportallviewsdialogbase.ui 
+)
+
+kde4_add_ui_files(  libdialogs_SRCS 
+	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/umlrolepropertiesbase.ui
+	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/diagrampropertiespage.ui
+)
+
+kde4_automoc(${libdialogs_SRCS})
+
+if (WIN32)
+  kde4_add_library(dialogs STATIC ${libdialogs_SRCS})
+  target_link_libraries(dialogs )
+  set (LIBS ${LIBS} dialogs )
+  set(libdialogs_SRCS)
+endif (WIN32)
+
 set(librefactoring_SRCS 
 		refactoring/refactoringassistant.cpp )
 
@@ -151,23 +196,24 @@ set(libkdevcppparser_SRCS
 	codeimport/kdevcppparser/cpptree2uml.cpp
 )
 
+kde4_automoc(${libkdevcppparser_SRCS})
+
+if (WIN32)
+  kde4_add_library(kdevcppparser STATIC ${libkdevcppparser_SRCS})
+  target_link_libraries(kdevcppparser)
+  set (LIBS ${LIBS} kdevcppparser )
+  set(kdevcppparser_SRCS)
+endif (WIN32)
+
 set(libclipboard_SRCS 
 	clipboard/umldrag.cpp 
 	clipboard/umlclipboard.cpp 
 	clipboard/idchangelog.cpp
-	)
+)
 ########### next target ###############
 
-set(umbrello_SRCS 
-	${libdialogs_SRCS} 
-	${librefactoring_SRCS} 
-	${libclassparser_SRCS} 
-	${libclipboard_SRCS} 
-    ${libkdevcppparser_SRCS}
-    ${libcodeimport_SRCS}
-    ${libcodegenerator_SRCS}
-    ${libdocgenerator_SRCS}
-	activitywidget.cpp 
+set(libumbrello_SRCS 
+   activitywidget.cpp 
    actor.cpp 
    actorwidget.cpp 
    aligntoolbar.cpp 
@@ -279,34 +325,25 @@ set(umbrello_SRCS
    widget_factory.cpp
    widget_utils.cpp 
    worktoolbar.cpp 
-   )
-
-kde4_automoc(${umbrello_SRCS})
-
-kde4_add_ui3_files( umbrello_SRCS
-	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codegenerationoptionsbase.ui 
-	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codegenerationpolicybase.ui 
-	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codegenerationwizardbase.ui 
-	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codeviewerdialogbase.ui 
-	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codevieweroptionsbase.ui 
-    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/exportallviewsdialogbase.ui 
-	${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/cppcodegenerationformbase.ui
-	${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/rubycodegenerationformbase.ui
 )
 
-kde4_add_ui_files( umbrello_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/javacodegenerationformbase.ui
-	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/umlrolepropertiesbase.ui
-	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/diagrampropertiespage.ui)
+kde4_automoc(${libumbrello_SRCS})
+
+set (umbrello_SRCS
+	${libdialogs_SRCS} 
+	${librefactoring_SRCS} 
+	${libclassparser_SRCS} 
+	${libclipboard_SRCS} 
+	${libkdevcppparser_SRCS}
+	${libcodeimport_SRCS}
+	${libcodegenerator_SRCS}
+	${libdocgenerator_SRCS}
+	${libumbrello_SRCS}
+)
 
 kde4_add_executable(umbrello ${umbrello_SRCS})
-
-FIND_LIBRARY(LIBXSLT NAMES xslt PATHS /usr/lib /usr/local/lib)
-FIND_LIBRARY(LIBXML2 NAMES xml2 PATHS /usr/lib /usr/local/lib)
-
-target_link_libraries(umbrello  ${KDE4_KIO_LIBS}  ${KDE4_KDEPRINT_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${LIBXML2} ${LIBXSLT} ${LIBUUID})
-
-install(TARGETS umbrello  DESTINATION ${BIN_INSTALL_DIR} )
-
+target_link_libraries(umbrello ${KDE4_KIO_LIBS} ${KDE4_KDEPRINT_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${LIBUUID} ${LIBS})
+install(TARGETS umbrello DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### install files ###############
 
