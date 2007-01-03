@@ -485,6 +485,7 @@ void UMLApp::initView() {
     m_alignToolBar->setLabel(i18n("Alignment Toolbar"));
     addToolBar(Qt::TopToolBarArea, m_alignToolBar);
 
+    //setupGUI();
 //     m_mainDock = new QDockWidget( this );
 //     addDockWidget ( Qt::RightDockWidgetArea, m_mainDock );
     m_newSessionButton = NULL;

@@ -77,7 +77,7 @@ bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
       QString packageName =  obj->getPackage(".");
       packageName.replace(QRegExp("\\."),"::");
 
-      Ret += packageName + "::" + cleanName(obj->getName()) + " ";
+      Ret += packageName + "::" + cleanName(obj->getName()) + ' ';
     }
     Ret += ");" + m_endl;
   }
@@ -129,7 +129,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
     while (regEx.search(fragment) > -1) {
       newDir = regEx.cap(1);
       fragment.remove(0, (regEx.pos(2) + 2)); // get round strange minimal matching bug
-      existing->setPath(curDir + "/" + newDir);
+      existing->setPath(curDir + '/' + newDir);
       if (! existing->exists()) {
         existing->setPath(curDir);
         if (! existing->mkdir(newDir)) {

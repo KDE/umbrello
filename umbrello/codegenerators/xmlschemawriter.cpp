@@ -738,7 +738,7 @@ QString XMLSchemaWriter::fixTypeName(const QString& string)
 {
     //  string.replace(QRegExp("^string$"),schemaNamespaceTag+":string");
     //  string.replace(QRegExp("^bool$"),schemaNamespaceTag+":boolean");
-    return schemaNamespaceTag + ":" + string;
+    return schemaNamespaceTag + ':' + string;
 }
 
 QString XMLSchemaWriter::fixInitialStringDeclValue(QString value, const QString &type)

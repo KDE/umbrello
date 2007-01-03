@@ -149,7 +149,7 @@ QString extractImmediateValues(QStringList& l) {
         if (start)
             start = false;
         else
-            result += " ";
+            result += ' ';
         result += shift(l);
         if (l.first() == ",")
             l.pop_front();

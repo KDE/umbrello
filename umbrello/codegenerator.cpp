@@ -107,7 +107,7 @@ QString CodeGenerator::getUniqueID(CodeDocument * codeDoc)
         QString id = prefix + "_0";
         int number = lastIDIndex;
         for ( ; findCodeDocumentByID(id); number++) {
-            id = prefix + "_" + QString::number(number);
+            id = prefix + '_' + QString::number(number);
         }
         lastIDIndex = number;
     }
@@ -502,7 +502,7 @@ QString CodeGenerator::findFileName ( CodeDocument * codeDocument ) {
     // if path is given add this as a directory to the file name
     if (!path.isEmpty()) {
         path.replace(QRegExp("::"), "/"); // Simple hack!
-        name = path + "/" + codeDocument->getFileName();
+        name = path + '/' + codeDocument->getFileName();
         path = '/' + path;
     } else {
         name = codeDocument->getFileName();

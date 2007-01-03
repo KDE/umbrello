@@ -88,15 +88,15 @@ void JavaCodeAccessorMethod::updateContent( )
             if(maxOccurs > 0)
             {
                 text += endLine+"} else {"+endLine;
-                text += indent + "System.err.println(\"ERROR: Cant add"+fieldType+" to "+fieldName+", minimum number of items reached.\");"+endLine+"}"+endLine;
+                text += indent + "System.err.println(\"ERROR: Cant add"+fieldType+" to "+fieldName+", minimum number of items reached.\");"+endLine+'}'+endLine;
             }
             break;
         }
     case CodeAccessorMethod::GET:
-        text = "return "+fieldName+";";
+        text = "return "+fieldName+';';
         break;
     case CodeAccessorMethod::LIST:
-        text = "return (List) "+fieldName+";";
+        text = "return (List) "+fieldName+';';
         break;
     case CodeAccessorMethod::REMOVE:
         {

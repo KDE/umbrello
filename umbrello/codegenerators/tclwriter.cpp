@@ -467,7 +467,7 @@ TclWriter::writeConstructorSource()
     }
     writeCode("eval configure $args");
     m_indentLevel--;
-    writeCode("}" + m_endl);
+    writeCode('}' + m_endl);
 }
 
 void
@@ -483,7 +483,7 @@ void
 TclWriter::writeDestructorSource()
 {
     writeComm(mClassGlobal + "::destructor");
-    writeCode(mClassGlobal + "::destructor {} {" + m_endl + "}" + m_endl);
+    writeCode(mClassGlobal + "::destructor {} {" + m_endl + '}' + m_endl);
 }
 
 void
@@ -529,16 +529,16 @@ TclWriter::writeAttributeDecl(Uml::Visibility visibility, bool writeStatic)
     }
 
     if (list && list->count() > 0) {
-        writeComm(m_endl + scope + " " + type + " attributes" + m_endl);
+        writeComm(m_endl + scope + ' ' + type + " attributes" + m_endl);
         // write attrib declarations now
         QString         documentation;
         for (UMLAttribute * at = list->first(); at; at = list->next()) {
             documentation = at->getDoc();
             QString         varName = cleanName(at->getName());
             QString         typeName = fixTypeName(at->getTypeName());
-            writeDocu(m_endl + "@var " + scope + " " + type + " " + typeName + " " +
+            writeDocu(m_endl + "@var " + scope + ' ' + type + ' ' + typeName + ' ' +
                       varName + m_endl + documentation);
-            writeCode(scope + " " + type + " " + varName + m_endl);
+            writeCode(scope + ' ' + type + ' ' + varName + m_endl);
         }
     }
 }
@@ -653,7 +653,7 @@ TclWriter::writeInitAttributeSource()
         for (UMLAttribute * at = atl->first(); at; at = atl->next()) {
             if (!at->getInitialValue().isEmpty()) {
                 varName = cleanName(at->getName());
-                writeCode("set " + varName + " " + at->getInitialValue());
+                writeCode("set " + varName + ' ' + at->getInitialValue());
             }
         }
         // Now initialize the association related fields (e.g. vectors)
@@ -676,7 +676,7 @@ TclWriter::writeInitAttributeSource()
         VectorFieldVariables.clear();   // shouldn't be needed?
 
         m_indentLevel--;
-        writeCode("}" + m_endl);
+        writeCode('}' + m_endl);
     }
 }
 
@@ -740,14 +740,14 @@ TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility permitScope)
             QString         atName = cleanName(at->getName());
             if (at->getInitialValue().isEmpty()) {
                 doc +=
-                    "@param " + typeName + " " + atName + m_endl + at->getDoc() +
+                    "@param " + typeName + ' ' + atName + m_endl + at->getDoc() +
                     m_endl;
-                code += " " + atName;
+                code += ' ' + atName;
             } else {
                 doc +=
-                    "@param " + typeName + " " + atName + " (default=" +
+                    "@param " + typeName + ' ' + atName + " (default=" +
                     at->getInitialValue() + ") " + m_endl + at->getDoc() + m_endl;
-                code += " {" + atName + " " + at->getInitialValue() + "} ";
+                code += " {" + atName + ' ' + at->getInitialValue() + "} ";
             }
         }
         if (methodReturnType != "void") {
@@ -806,9 +806,9 @@ TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility permitScope)
         for (at = atl.first(); at; at = atl.next(), j++) {
             QString         atName = cleanName(at->getName());
             if (at->getInitialValue().isEmpty()) {
-                code += " " + atName;
+                code += ' ' + atName;
             } else {
-                code += " {" + atName + " " + at->getInitialValue() + "} ";
+                code += " {" + atName + ' ' + at->getInitialValue() + "} ";
             }
         }
         writeCode(code += "} {");
@@ -819,7 +819,7 @@ TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility permitScope)
             writeCode("return");
         }
         m_indentLevel--;
-        writeCode("}" + m_endl);
+        writeCode('}' + m_endl);
     }
 }
 
