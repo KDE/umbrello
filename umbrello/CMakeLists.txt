@@ -1,5 +1,5 @@
 find_package(LibXml2)
-find_package(LIBxslt)
+find_package(LibXslt)
 
 add_subdirectory( codeimport ) 
 add_subdirectory( dialogs ) 
