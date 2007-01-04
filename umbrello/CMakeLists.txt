@@ -108,6 +108,8 @@ set(libdocgenerator_SRCS
     docgenerators/docbookgenerator.cpp 
     docgenerators/xhtmlgenerator.cpp)
 
+kde4_automoc(${libdocgenerator_SRCS})
+
 set(libdialogs_SRCS
 	dialogs/activitydialog.cpp 
 	dialogs/activitypage.cpp 
@@ -171,6 +173,8 @@ endif (WIN32)
 set(librefactoring_SRCS 
 		refactoring/refactoringassistant.cpp )
 
+kde4_automoc(${librefactoring_SRCS})
+
 set(libcodeimport_SRCS 
 	codeimport/adaimport.cpp
 	codeimport/classimport.cpp
@@ -210,6 +214,7 @@ set(libclipboard_SRCS
 	clipboard/umlclipboard.cpp 
 	clipboard/idchangelog.cpp
 )
+kde4_automoc(${libclipboard_SRCS})
 ########### next target ###############
 
 set(libumbrello_SRCS 
