@@ -133,9 +133,7 @@ class KPlayerPopupSliderAction : public KAction
 public:
     /** The KPlayerPopupSliderAction constructor. Parameters are passed on to KAction.
       */
-    KPlayerPopupSliderAction (const QString& text, const QString& pix, const KShortcut& shortcut,
-                              const QObject* receiver, const char* slot,
-                              KActionCollection* parent = 0, const char* name = 0);
+    KPlayerPopupSliderAction (const QObject* receiver, const char* slot, QObject *parent);
     /** The KPlayerPopupSliderAction destructor. Deletes the KPlayerPopupFrame.
       */
     virtual ~KPlayerPopupSliderAction();
@@ -170,7 +168,7 @@ protected:
 // class KPlayerSliderAction : public KAction
 // {
 //     Q_OBJECT
-// 
+//
 // public:
 //     /** The KPlayerSliderAction constructor. Parameters are passed on to KAction.
 //       */
@@ -179,24 +177,24 @@ protected:
 //     /** The KPlayerSliderAction destructor. Does nothing.
 //       */
 //     virtual ~KPlayerSliderAction();
-// 
+//
 //     /** Returns a pointer to the KPlayerSlider object.
 //       */
 //     KPlayerSlider* slider (QWidget* parent)
 //     { return m_slider; }
-// 
+//
 //     /** Plugs the slider into the toolbar.
 //       */
 // //     virtual int plug (QWidget* widget, int index = -1);
 //     /** Unplugs the slider from the toolbar.
 //       */
 // //     virtual void unplug (QWidget* widget);
-// 
+//
 // protected slots:
 //     /** Changes the slider orientation when the toolbar orientation changes.
 //       */
 //     void orientationChanged (Qt::Orientation);
-// 
+//
 // protected:
 //     /** The slider.
 //       */
