@@ -13,6 +13,7 @@
 #define ADAIMPORT_H
 
 #include "nativeimportbase.h"
+#include "../umlobjectlist.h"
 
 /**
  * Ada code import
@@ -50,6 +51,8 @@ protected:
     void fillSource(const QString& word);
 
     bool m_inGenericFormalPart; ///< auxiliary variable
+
+    UMLObjectList m_classesDefinedInThisScope;
 };
 
 #endif

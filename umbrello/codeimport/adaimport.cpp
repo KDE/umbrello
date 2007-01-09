@@ -35,6 +35,7 @@ AdaImport::~AdaImport() {
 
 void AdaImport::initVars() {
     m_inGenericFormalPart = false;
+    m_classesDefinedInThisScope.clear();
 }
 
 /// Split the line so that a string is returned as a single element of the list,
@@ -207,7 +208,8 @@ bool AdaImport::parseStmt() {
         }
         if (m_source[m_srcIndex] == ";") {
             // forward declaration
-            // To Be Done
+            Import_Utils::createUMLObject(Uml::ot_Class, name, m_scope[m_scopeIndex],
+                                          m_comment);
             return true;
         }
         if (m_source[m_srcIndex] != "is") {
@@ -233,10 +235,6 @@ bool AdaImport::parseStmt() {
             m_srcIndex++;
         }
         if (m_source[m_srcIndex] == "tagged") {
-            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
-                            name, m_scope[m_scopeIndex], m_comment);
-            ns->setAbstract(m_isAbstract);
-            m_isAbstract = false;
             m_srcIndex++;
             isTaggedType = true;
         }
@@ -244,21 +242,23 @@ bool AdaImport::parseStmt() {
             m_srcIndex++;  // we can't (yet?) represent that
         }
         if (m_source[m_srcIndex] == "private" ||
+            m_source[m_srcIndex] == "record" ||
             (m_source[m_srcIndex] == "null" &&
              m_source[m_srcIndex+1] == "record")) {
-            skipStmt();
-            return true;
-        }
-        if (m_source[m_srcIndex] == "record") {
-            // If it's a tagged record then the class was already created
-            // above (see processing for "tagged".) Doesn't matter;
-            // in that case Import_Utils::createUMLObject() just returns
-            // the existing class instead of creating a new one.
             UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
                             name, m_scope[m_scopeIndex], m_comment);
-            if (! isTaggedType)
+            ns->setAbstract(m_isAbstract);
+            m_isAbstract = false;
+            if (isTaggedType) {
+                if (! m_classesDefinedInThisScope.contains(ns))
+                    m_classesDefinedInThisScope.append(ns);
+            } else {
                 ns->setStereotype("record");
-            m_klass = static_cast<UMLClassifier*>(ns);
+            }
+            if (m_source[m_srcIndex] == "record")
+                m_klass = static_cast<UMLClassifier*>(ns);
+            else
+                skipStmt();
             return true;
         }
         if (m_source[m_srcIndex] == "new") {
@@ -385,8 +385,9 @@ bool AdaImport::parseStmt() {
                      ****/
                 }
                 Uml::Object_Type t = type->getBaseType();
-                if (t != Uml::ot_Interface &&
-                    (t != Uml::ot_Class || type->getStereotype() == "record")) {
+                if ((t != Uml::ot_Interface &&
+                     (t != Uml::ot_Class || type->getStereotype() == "record")) ||
+                    !m_classesDefinedInThisScope.contains(type)) {
                     // Not an instance bound method - we cannot represent it.
                     skipStmt(")");
                     break;
