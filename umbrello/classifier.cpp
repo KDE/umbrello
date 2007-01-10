@@ -26,6 +26,7 @@
 #include "umldoc.h"
 #include "uml.h"
 #include "umllistview.h"
+#include "uniqueid.h"
 #include "object_factory.h"
 #include "model_utils.h"
 #include "uniqueid.h"
@@ -533,7 +534,10 @@ UMLAttribute* UMLClassifier::addAttribute(const QString &name, Uml::IDType id /*
 }
 
 UMLAttribute* UMLClassifier::addAttribute(const QString &name, UMLObject *type, Uml::Visibility scope) {
-    UMLAttribute *a = new UMLAttribute(this, name, Uml::id_None, scope);
+    UMLAttribute *a = new UMLAttribute(this);
+    a->setName(name);
+    a->setVisibility(scope);
+    a->setID(UniqueID::gen());
     if (type)
         a->setType(type);
     m_List.append(a);
