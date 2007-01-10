@@ -5,8 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2005-2006                                                *
- *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
+ *   copyright (C) 2005-2007                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
@@ -36,6 +36,7 @@ AdaImport::~AdaImport() {
 void AdaImport::initVars() {
     m_inGenericFormalPart = false;
     m_classesDefinedInThisScope.clear();
+    m_renaming.clear();
 }
 
 /// Split the line so that a string is returned as a single element of the list,
@@ -117,6 +118,20 @@ void AdaImport::fillSource(const QString& word) {
         m_source.append(lexeme);
 }
 
+QString AdaImport::expand(const QString& name) {
+    QRegExp pfxRegExp("^(\\w+)\\.");
+    int pos = pfxRegExp.search(name);
+    if (pos == -1)
+        return name;
+    QString result = name;
+    QString pfx = pfxRegExp.cap(1);
+    if (m_renaming.contains(pfx)) {
+        result.remove(pfxRegExp);
+        result.prepend(m_renaming[pfx] + '.');
+    }
+    return result;
+}
+
 bool AdaImport::parseStmt() {
     const uint srcLength = m_source.count();
     const QString& keyword = m_source[m_srcIndex];
@@ -170,16 +185,18 @@ bool AdaImport::parseStmt() {
     }
     if (keyword == "package") {
         const QString& name = advance();
-        UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package, name,
-                                                      m_scope[m_scopeIndex], m_comment);
         if (advance() == "is") {
+            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package, name,
+                                                          m_scope[m_scopeIndex], m_comment);
             if (m_source[m_srcIndex + 1] == "new") {
                 // generic package instantiation: TBD
                 skipStmt();
             } else {
                 m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
             }
-        } else if (m_source[m_srcIndex] != "renames") {
+        } else if (m_source[m_srcIndex] == "renames") {
+            m_renaming[name] = advance();
+        } else {
             kError() << "AdaImport::parseStmt: unexpected: " << m_source[m_srcIndex] << endl;
             skipStmt("is");
         }
@@ -235,8 +252,8 @@ bool AdaImport::parseStmt() {
             m_srcIndex++;
         }
         if (m_source[m_srcIndex] == "tagged") {
-            m_srcIndex++;
             isTaggedType = true;
+            m_srcIndex++;
         }
         if (m_source[m_srcIndex] == "limited") {
             m_srcIndex++;  // we can't (yet?) represent that
@@ -262,7 +279,7 @@ bool AdaImport::parseStmt() {
             return true;
         }
         if (m_source[m_srcIndex] == "new") {
-            QString base = advance();
+            QString base = expand(advance());
             const bool isExtension = (advance() == "with");
             Uml::Object_Type t = (isExtension || m_isAbstract ? Uml::ot_Class
                                                               : Uml::ot_Datatype);
@@ -367,6 +384,7 @@ bool AdaImport::parseStmt() {
                 typeName = direction;  // In Ada, the default direction is "in"
             }
             typeName.remove("Standard.", false);
+            typeName = expand(typeName);
             if (op == NULL) {
                 // In Ada, the first parameter indicates the class.
                 UMLDoc *umldoc = UMLApp::app()->getDocument();
@@ -415,7 +433,7 @@ bool AdaImport::parseStmt() {
                         << name << endl;
                 return false;
             }
-            returnType = advance();
+            returnType = expand(advance());
             returnType.remove("Standard.", false);
         }
         bool isAbstract = false;
@@ -477,7 +495,7 @@ bool AdaImport::parseStmt() {
         skipStmt();
         return true;
     }
-    QString typeName = advance();
+    QString typeName = expand(advance());
     QString initialValue;
     if (advance() == ":=") {
         initialValue = advance();
