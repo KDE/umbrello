@@ -337,8 +337,7 @@ UMLAttribute* addMethodParameter(UMLOperation *method,
         typeObj = createUMLObject(Uml::ot_UMLObject, type, owner);
         bPutAtGlobalScope = false;
     }
-    UMLAttribute *attr = Object_Factory::createAttribute(method, name);
-    attr->setType(typeObj);
+    UMLAttribute *attr = Object_Factory::createAttribute(method, name, typeObj);
     method->addParm(attr);
     return attr;
 }

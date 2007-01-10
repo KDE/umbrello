@@ -43,6 +43,7 @@
 #include "uml.h"
 #include "codegenerator.h"
 #include "model_utils.h"
+#include "uniqueid.h"
 
 namespace Object_Factory {
 
@@ -169,8 +170,12 @@ UMLObject* createUMLObject(Uml::Object_Type type, const QString &n,
     return o;
 }
 
-UMLAttribute *createAttribute(UMLObject *parent, const QString& name) {
-    UMLAttribute *attr = new UMLAttribute(parent, name, g_predefinedId);
+UMLAttribute *createAttribute(UMLObject *parent, const QString& name, UMLObject *type) {
+    UMLAttribute *attr = new UMLAttribute(parent);
+    attr->setName(name);
+    attr->setType(type);
+    if (g_predefinedId == Uml::id_None)
+        attr->setID(UniqueID::gen());
     return attr;
 }
 
