@@ -360,6 +360,7 @@ void createGeneralization(UMLClassifier *child, UMLClassifier *parent) {
     }
     UMLAssociation *assoc = new UMLAssociation(association, child, parent);
     UMLDoc *umldoc = UMLApp::app()->getDocument();
+    assoc->setUMLPackage(umldoc->getRootFolder(Uml::mt_Logical));
     umldoc->addAssociation(assoc);
 }
 
