@@ -21,10 +21,12 @@
 #include "../uml.h"
 #include "../umldoc.h"
 #include "../package.h"
+#include "../folder.h"
 #include "../classifier.h"
 #include "../enum.h"
 #include "../operation.h"
 #include "../attribute.h"
+#include "../association.h"
 
 AdaImport::AdaImport() : NativeImportBase("--") {
    initVars();
@@ -120,6 +122,7 @@ void AdaImport::fillSource(const QString& word) {
 
 QString AdaImport::expand(const QString& name) {
     QRegExp pfxRegExp("^(\\w+)\\.");
+    pfxRegExp.setCaseSensitive(false);
     int pos = pfxRegExp.search(name);
     if (pos == -1)
         return name;
@@ -204,6 +207,26 @@ bool AdaImport::parseStmt() {
             // handling of generic formal parameters: TBD
             m_inGenericFormalPart = false;
         }
+        return true;
+    }
+    if (keyword == "subtype") {
+        QString name = advance();
+        advance();  // "is"
+        QString base = expand(advance());
+        UMLDoc *umldoc = UMLApp::app()->getDocument();
+        UMLObject *type = umldoc->findUMLObject(base, Uml::ot_UMLObject, m_scope[m_scopeIndex]);
+        if (type == NULL) {
+            type = Import_Utils::createUMLObject(Uml::ot_Class, base, m_scope[m_scopeIndex]);
+        }
+        UMLObject *subtype = Import_Utils::createUMLObject(type->getBaseType(), name,
+                                                           m_scope[m_scopeIndex], m_comment);
+        UMLAssociation *assoc = new UMLAssociation(Uml::at_Dependency, subtype, type);
+        assoc->setUMLPackage(umldoc->getRootFolder(Uml::mt_Logical));
+        assoc->setStereotype("subtype");
+        // Work around missing display of stereotype in AssociationWidget:
+        assoc->setName(assoc->getStereotype(true));
+        umldoc->addAssociation(assoc);
+        skipStmt();
         return true;
     }
     if (keyword == "type") {
@@ -442,10 +465,6 @@ bool AdaImport::parseStmt() {
         if (klass != NULL && op != NULL)
             Import_Utils::insertMethod(klass, op, m_currentAccess, returnType,
                                        false, isAbstract, false, false, m_comment);
-        return true;
-    }
-    if (keyword == "subtype") {    // FIXMEnow: potentially important but not yet implemented
-        skipStmt();
         return true;
     }
     if (keyword == "task" || keyword == "protected") {
