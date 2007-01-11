@@ -379,7 +379,7 @@ void UMLListView::popupMenuSel(int sel) {
                 kWarning() << "The existing file will be overwritten." << endl;
             }
             // Test if file is writable.
-            if (file.open(IO_WriteOnly)) {
+            if (file.open(QIODevice::WriteOnly)) {
                 file.close();
             } else {
                 KMessageBox::error(0,
@@ -391,7 +391,7 @@ void UMLListView::popupMenuSel(int sel) {
             // Recompute text of the folder
             QString folderText = current->getText();
             folderText.remove( QRegExp("\\s*\\(.*$") );
-            folderText.append( " (" + fileName + ")" );
+            folderText.append( " (" + fileName + ')' );
             current->setText(folderText);
             break;
         }
@@ -667,7 +667,7 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
         UMLFolder *f = static_cast<UMLFolder*>(object);
         QString folderFile = f->getFolderFile();
         if (!folderFile.isEmpty())
-            name.append(" (" + folderFile + ")");
+            name.append(" (" + folderFile + ')');
     }
     newItem = new UMLListViewItem(parentItem, name, lvt, object);
     if (mayHaveChildItems(type)) {

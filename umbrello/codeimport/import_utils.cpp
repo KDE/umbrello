@@ -138,7 +138,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
         const bool isPointer = typeName.contains('*');
         const bool isRef = typeName.contains('&');
         typeName.remove(QRegExp("[^\\w:\\. ].*$"));
-        typeName = typeName.simplifyWhiteSpace();
+        typeName = typeName.simplified();
         UMLObject *origType = umldoc->findUMLObject(typeName, Uml::ot_UMLObject, parentPkg);
         if (origType == NULL) {
             // Still not found. Create the stripped down type.

@@ -27,6 +27,7 @@
 
 // kde includes
 #include <kaction.h>
+#include <kactioncollection.h>
 #include <kstandardaction.h>
 #include <ktoggleaction.h>
 #include <krecentfilesaction.h>
@@ -135,7 +136,7 @@ UMLApp::UMLApp(QWidget* parent) : KMainWindow(parent) {
     //get a reference to the Code->Active Language and to the Diagram->Zoom menu
     QMenu* menu = findMenu( menuBar(), QString("code") );
     m_langSelect = findMenu( menu, QString("active_lang_menu") );
- 
+
     //in case langSelect hasn't been initialized we create the Popup menu.
     //it will be hidden, but at least we wont crash if someone takes the entry away from the ui.rc file
     if (m_langSelect == NULL) {
@@ -196,37 +197,40 @@ void UMLApp::initActions() {
     setStandardToolBarMenuEnabled(true);
     selectAll = KStandardAction::selectAll(this,  SLOT( slotSelectAll() ), actionCollection());
 
-    fileExportDocbook = new KAction(i18n("&Export model to DocBook"), actionCollection(), "file_export_docbook");
+    fileExportDocbook = actionCollection()->addAction("file_export_docbook");
+    fileExportDocbook->setText(i18n("&Export model to DocBook"));
     connect(fileExportDocbook, SIGNAL( triggered( bool ) ), this, SLOT( slotFileExportDocbook() ));
 
-    fileExportXhtml = new KAction(i18n("&Export model to XHTML"),
-                                    actionCollection(), "file_export_xhtml");
+    fileExportXhtml = actionCollection()->addAction("file_export_xhtml");
+    fileExportXhtml->setText(i18n("&Export model to XHTML"));
     connect(fileExportXhtml, SIGNAL( triggered( bool ) ), this, SLOT( slotFileExportXhtml() ));
 
-    classWizard = new KAction(i18n("&New Class Wizard..."),
-                              actionCollection(),"class_wizard");
+    classWizard = actionCollection()->addAction("class_wizard");
+    classWizard->setText(i18n("&New Class Wizard..."));
     connect(classWizard, SIGNAL( triggered( bool ) ), this, SLOT( slotClassWizard() ));
 
-    KAction* anAction = new KAction(i18n("&Add Default Datatypes for Active Language"), actionCollection(), "create_default_datatypes");
+    QAction* anAction = actionCollection()->addAction("create_default_datatypes");
+    anAction->setText(i18n("&Add Default Datatypes for Active Language"));
     connect(anAction, SIGNAL( triggered( bool ) ), this, SLOT( slotAddDefaultDatatypes() ));
 
     preferences = KStandardAction::preferences(this,  SLOT( slotPrefs() ), actionCollection());
 
-    importClasses = new KAction(KIcon(SmallIconSet("source_cpp")),
-                                i18n("&Import Classes..."),
-                                actionCollection(),"import_class");
+    importClasses = actionCollection()->addAction("import_class");
+    importClasses->setIcon(KIcon("source_cpp"));
+    importClasses->setText(i18n("&Import Classes..."));
     connect(importClasses, SIGNAL( triggered( bool ) ), this, SLOT( slotImportClasses() ));
 
-    genWizard = new KAction(i18n("&Code Generation Wizard..."),
-                            actionCollection(),"generation_wizard");
+    genWizard = actionCollection()->addAction("generation_wizard");
+    genWizard->setText(i18n("&Code Generation Wizard..."));
     connect(genWizard, SIGNAL( triggered( bool ) ), this, SLOT( generationWizard() ));
 
-    genAll = new KAction(i18n("&Generate All Code"),
-                         actionCollection(),"generate_all");
+    genAll = actionCollection()->addAction("generate_all");
+    genAll->setText(i18n("&Generate All Code"));
     connect(genAll, SIGNAL( triggered( bool ) ), this, SLOT( generateAllCode() ));
 
 #define setProgLangAction(pl, name, action) \
-        m_langAct[pl] = new KAction(name, actionCollection(), action); \
+        m_langAct[pl] = actionCollection()->addAction(action);          \
+        m_langAct[pl]->setText(name);                                   \
         connect(m_langAct[pl], SIGNAL(triggered()), this, "1"action"()")
     setProgLangAction(Uml::pl_ActionScript, "ActionScript", "set_lang_actionscript");
     setProgLangAction(Uml::pl_Ada,          "Ada",          "set_lang_ada");
@@ -260,98 +264,93 @@ void UMLApp::initActions() {
     editPaste->setToolTip(i18n("Pastes the contents of the clipboard"));
     preferences->setToolTip( i18n( "Set the default program preferences") );
 
-    deleteSelectedWidget = new KAction( KIcon(SmallIconSet("editdelete")),
-                                        i18n("Delete &Selected"),
-                                        actionCollection(),
-                                        "delete_selected" );
+    deleteSelectedWidget = actionCollection()->addAction("delete_selected");
+    deleteSelectedWidget->setIcon(KIcon("editdelete"));
+    deleteSelectedWidget->setText(i18n("Delete &Selected"));
     deleteSelectedWidget->setShortcut(QKeySequence(Qt::Key_Delete));
     connect(deleteSelectedWidget, SIGNAL( triggered( bool ) ), this, SLOT( slotDeleteSelectedWidget() ));
 
     // The different views
-    newDiagram = new KActionMenu(
-                                KIcon(SmallIconSet("filenew")),
-                                "new_view",
-                                actionCollection(),
-                                "new_view" );
+    newDiagram = actionCollection()->add<KActionMenu>( "new_view" );
+    newDiagram->setIcon( KIcon("filenew") );
+    newDiagram->setText( "new_view" );
 
-    classDiagram = new KAction( KIcon(SmallIconSet("umbrello_diagram_class")),
-                                i18n( "&Class Diagram..." ),
-                                actionCollection(),
-                                "new_class_diagram" );
+    classDiagram = actionCollection()->addAction( "new_class_diagram" );
+    classDiagram->setIcon( KIcon("umbrello_diagram_class") );
+    classDiagram->setText( i18n( "&Class Diagram..." ) );
     connect(classDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotClassDiagram() ));
 
-    sequenceDiagram= new KAction( KIcon(SmallIconSet("umbrello_diagram_sequence")),
-                                i18n( "&Sequence Diagram..." ),
-                                actionCollection(),
-                                "new_sequence_diagram" );
+    sequenceDiagram= actionCollection()->addAction( "new_sequence_diagram" );
+    sequenceDiagram->setIcon( KIcon("umbrello_diagram_sequence") );
+    sequenceDiagram->setText( i18n( "&Sequence Diagram..." ) );
     connect(sequenceDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotSequenceDiagram() ));
 
-    collaborationDiagram = new KAction( KIcon(SmallIconSet("umbrello_diagram_collaboration")),
-                                        i18n( "C&ollaboration Diagram..." ),
-                                        actionCollection(),
-                                        "new_collaboration_diagram" );
+    collaborationDiagram = actionCollection()->addAction( "new_collaboration_diagram" );
+    collaborationDiagram->setIcon( KIcon("umbrello_diagram_collaboration") );
+    collaborationDiagram->setText( i18n( "C&ollaboration Diagram..." ) );
     connect(collaborationDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotCollaborationDiagram() ));
 
-    useCaseDiagram= new KAction( KIcon(SmallIconSet("umbrello_diagram_usecase")),
-                                 i18n( "&Use Case Diagram..." ),
-                                 actionCollection(),
-                                 "new_use_case_diagram" );
+    useCaseDiagram= actionCollection()->addAction( "new_use_case_diagram" );
+    useCaseDiagram->setIcon( KIcon("umbrello_diagram_usecase") );
+    useCaseDiagram->setText( i18n( "&Use Case Diagram..." ) );
     connect(useCaseDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotUseCaseDiagram() ));
 
-    stateDiagram= new KAction( KIcon(SmallIconSet("umbrello_diagram_state")),
-                               i18n( "S&tate Diagram..." ),
-                               actionCollection(),
-                               "new_state_diagram" );
+    stateDiagram= actionCollection()->addAction( "new_state_diagram" );
+    stateDiagram->setIcon( KIcon("umbrello_diagram_state") );
+    stateDiagram->setText( i18n( "S&tate Diagram..." ) );
     connect(stateDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotStateDiagram() ));
 
-    activityDiagram= new KAction( KIcon(SmallIconSet("umbrello_diagram_activity")),
-                                  i18n( "&Activity Diagram..." ),
-                                  actionCollection(),
-                                  "new_activity_diagram" );
+    activityDiagram= actionCollection()->addAction( "new_activity_diagram" );
+    activityDiagram->setIcon( KIcon("umbrello_diagram_activity") );
+    activityDiagram->setText( i18n( "&Activity Diagram..." ) );
     connect(activityDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotActivityDiagram() ));
 
-    componentDiagram = new KAction( KIcon(SmallIconSet("umbrello_diagram_component")),
-                                    i18n("Co&mponent Diagram..."),
-                                    actionCollection(),
-                                    "new_component_diagram" );
+    componentDiagram = actionCollection()->addAction( "new_component_diagram" );
+    componentDiagram->setIcon( KIcon("umbrello_diagram_component") );
+    componentDiagram->setText( i18n("Co&mponent Diagram...") );
     connect(componentDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotComponentDiagram() ));
 
-    deploymentDiagram = new KAction( KIcon(SmallIconSet("umbrello_diagram_deployment")),
-                                     i18n("&Deployment Diagram..."),
-                                     actionCollection(),
-                                     "new_deployment_diagram" );
+    deploymentDiagram = actionCollection()->addAction( "new_deployment_diagram" );
+    deploymentDiagram->setIcon( KIcon("umbrello_diagram_deployment") );
+    deploymentDiagram->setText( i18n("&Deployment Diagram...") );
     connect(deploymentDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotDeploymentDiagram() ));
 
-    entityRelationshipDiagram = new KAction(
-                                    KIcon(SmallIconSet("umbrello_diagram_entityrelationship")),
-                                    i18n("&Entity Relationship Diagram..."),
-                                    actionCollection(),
-                                    "new_entityrelationship_diagram" );
+    entityRelationshipDiagram = actionCollection()->addAction( "new_entityrelationship_diagram" );
+    entityRelationshipDiagram->setIcon( KIcon("umbrello_diagram_entityrelationship") );
+    entityRelationshipDiagram->setText( i18n("&Entity Relationship Diagram...") );
     connect(entityRelationshipDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotEntityRelationshipDiagram() ));
 
-    viewClearDiagram = new KAction(KIcon(SmallIconSet("editclear")),i18n("&Clear Diagram"),
-                                    actionCollection(), "view_clear_diagram");
+    viewClearDiagram = actionCollection()->addAction( "view_clear_diagram" );
+    viewClearDiagram->setIcon( KIcon("editclear") );
+    viewClearDiagram->setText( i18n("&Clear Diagram") );
     connect(viewClearDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewClearDiagram() ));
 
-    viewSnapToGrid = new KToggleAction(i18n("&Snap to Grid"), actionCollection(), "view_snap_to_grid");
+    viewSnapToGrid = actionCollection()->add<KToggleAction>("view_snap_to_grid");
+    viewSnapToGrid->setText(i18n("&Snap to Grid"));
     connect(viewSnapToGrid, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewToggleSnapToGrid() ));
 
-    viewShowGrid = new KToggleAction(i18n("S&how Grid"), actionCollection(), "view_show_grid");
+    viewShowGrid = actionCollection()->add<KToggleAction>("view_show_grid");
+    viewShowGrid->setText(i18n("S&how Grid"));
     connect(viewShowGrid, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewToggleShowGrid() ));
     viewShowGrid->setCheckedState(KGuiItem(i18n("&Hide Grid")));
-    deleteDiagram = new KAction(KIcon(SmallIconSet("editdelete")), i18n("&Delete"),
-                                actionCollection(), "view_delete");
+    deleteDiagram = actionCollection()->addAction( "view_delete" );
+    deleteDiagram->setIcon( KIcon("editdelete") );
+    deleteDiagram->setText( i18n("&Delete") );
     connect(deleteDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotDeleteDiagram() ));
 
-    viewExportImage = new KAction(KIcon(SmallIconSet("image")),i18n("&Export as Picture..."),
-                                actionCollection(), "view_export_image");
+    viewExportImage = actionCollection()->addAction( "view_export_image" );
+    viewExportImage->setIcon( KIcon("image") );
+    viewExportImage->setText( i18n("&Export as Picture...") );
     connect(viewExportImage, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewExportImage() ));
 
-    viewExportImageAll = new KAction(KIcon(SmallIconSet("image")), i18n("Export &All Diagrams as Pictures..."), actionCollection(), "view_export_image_all");
+    viewExportImageAll = actionCollection()->addAction( "view_export_image_all" );
+    viewExportImageAll->setIcon( KIcon("image") );
+    viewExportImageAll->setText( i18n("Export &All Diagrams as Pictures...") );
     connect(viewExportImageAll, SIGNAL( triggered( bool ) ), this, SLOT( slotAllViewsExportImage() ));
 
-    viewProperties = new KAction(KIcon(SmallIconSet("info")), i18n("&Properties"),
-                                 actionCollection(), "view_properties");
+    viewProperties = actionCollection()->addAction( "view_properties" );
+    viewProperties->setIcon( KIcon("info") );
+    viewProperties->setText( i18n("&Properties") );
     connect(viewProperties, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewProperties() ));
 
     viewSnapToGrid->setChecked(false);
@@ -364,10 +363,12 @@ void UMLApp::initActions() {
     viewExportImage->setEnabled(false);
     viewProperties->setEnabled(false);
 
-    zoomAction = new KPlayerPopupSliderAction(i18n("&Zoom Slider"), "viewmag", KShortcut(Qt::Key_F9),
-                 this, SLOT(slotZoomSliderMoved()),
-                 actionCollection(), "popup_zoom");
-    zoom100Action = new KAction(actionCollection(), "zoom100");
+    zoomAction = new KPlayerPopupSliderAction(this, SLOT(slotZoomSliderMoved()), this);
+    zoomAction->setText(i18n("&Zoom Slider"));
+    zoomAction->setIcon(KIcon("viewmag"));
+    zoomAction->setShortcuts(KShortcut(Qt::Key_F9));
+    actionCollection()->addAction("popup_zoom", zoomAction);
+    zoom100Action = actionCollection()->addAction("zoom100");
     zoom100Action->setIcon(KIcon("viewmag1"));
     zoom100Action->setText(i18n("Z&oom to 100%"));
     connect(zoom100Action, SIGNAL( triggered( bool ) ), this, SLOT( slotZoom100() ));
@@ -376,14 +377,14 @@ void UMLApp::initActions() {
 
     QString moveTabLeftString = i18n("&Move Tab Left");
     QString moveTabRightString = i18n("&Move Tab Right");
-    moveTabLeft = new KAction(actionCollection(), "move_tab_left");
+    moveTabLeft = actionCollection()->addAction("move_tab_left");
     moveTabLeft->setIcon(KIcon(QApplication::layoutDirection() ? "forward" : "back"));
     moveTabLeft->setText(QApplication::layoutDirection() ? moveTabRightString : moveTabLeftString);
     moveTabLeft->setShortcut(QApplication::layoutDirection() ?
                  QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left));
     connect(moveTabLeft, SIGNAL( triggered( bool ) ), this, SLOT( slotMoveTabLeft() ));
 
-    moveTabRight = new KAction(actionCollection(), "move_tab_right");
+    moveTabRight = actionCollection()->addAction("move_tab_right");
     moveTabRight->setIcon(KIcon(QApplication::layoutDirection() ? "back" : "forward"));
     moveTabRight->setText(QApplication::layoutDirection() ? moveTabLeftString : moveTabRightString);
     moveTabRight->setShortcut(QApplication::layoutDirection() ?
@@ -392,14 +393,16 @@ void UMLApp::initActions() {
 
     QString selectTabLeftString = i18n("Select Diagram on Left");
     QString selectTabRightString = i18n("Select Diagram on Right");
-    changeTabLeft = new KAction(QApplication::layoutDirection() ? selectTabRightString : selectTabLeftString,
-                                actionCollection(), "previous_tab");
+    changeTabLeft = actionCollection()->addAction("previous_tab");
+    changeTabLeft->setText(QApplication::layoutDirection() ? selectTabRightString : selectTabLeftString);
+
     changeTabLeft->setShortcut(QApplication::layoutDirection() ?
                    QKeySequence(Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::SHIFT+Qt::Key_Left));
     connect(changeTabLeft, SIGNAL( triggered( bool ) ), this, SLOT( slotChangeTabLeft() ));
 
-    changeTabRight = new KAction(QApplication::layoutDirection() ? selectTabLeftString : selectTabRightString,
-                                 actionCollection(), "next_tab");
+    changeTabRight = actionCollection()->addAction("next_tab");
+    changeTabRight->setText(QApplication::layoutDirection() ? selectTabLeftString : selectTabRightString);
+
     changeTabRight->setShortcut(QApplication::layoutDirection() ?
                     QKeySequence(Qt::SHIFT+Qt::Key_Left) : QKeySequence(Qt::SHIFT+Qt::Key_Right));
     connect(changeTabRight, SIGNAL( triggered( bool ) ), this, SLOT( slotChangeTabRight() ));
@@ -487,6 +490,7 @@ void UMLApp::initView() {
     m_alignToolBar->setLabel(i18n("Alignment Toolbar"));
     addToolBar(Qt::TopToolBarArea, m_alignToolBar);
 
+    //setupGUI();
 //     m_mainDock = new QDockWidget( this );
 //     addDockWidget ( Qt::RightDockWidgetArea, m_mainDock );
     m_newSessionButton = NULL;

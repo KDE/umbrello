@@ -220,7 +220,7 @@ bool UMLClassifier::addOperation(UMLOperation* op, int position )
         UMLClassifierListItem* currentAtt;
         QString buf;
         for (UMLClassifierListItemListIt it0(itemList); (currentAtt = it0.current()); ++it0)
-            buf.append(" " + currentAtt->getName());
+            buf.append(' ' + currentAtt->getName());
         kDebug() << "  UMLClassifier::addOperation list after change: " << buf << endl;
      } else
         m_List.append( op );
@@ -731,7 +731,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item) {
             QString txt = currentAtt->getName();
             if (txt.isEmpty())
               txt = "Type-" + QString::number((int) currentAtt->getBaseType());
-            buf.append(" " + currentAtt->getName());
+            buf.append(' ' + currentAtt->getName());
         }
         kDebug() << "  UMLClassifier::takeItem (before): m_List is " << buf << endl;
     int index = m_List.findRef(item);

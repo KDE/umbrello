@@ -276,7 +276,7 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
             int pos = re_params.search(docStr);
             while (pos != -1) {
                 docStr.replace( re_params.cap(0), 
-                                QString("@param _") + re_params.cap(1).lower() + re_params.cap(2) + "_" );
+                                QString("@param _") + re_params.cap(1).lower() + re_params.cap(2) + '_' );
                 commentedParams.append(re_params.cap(1).lower() + re_params.cap(2));
 
                 pos += re_params.matchedLength() + 3;
@@ -290,11 +290,11 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
                 // Only write an individual @param entry if one hasn't been found already
                 // in the main doc comment
                 if (commentedParams.contains(cppToRubyName(at->getName())) == 0) {
-                    docStr += (m_endl + m_indentation + "# @param _" + cppToRubyName(at->getName()) + "_");
+                    docStr += (m_endl + m_indentation + "# @param _" + cppToRubyName(at->getName()) + '_');
                     if (at->getDoc().isEmpty()) {
-                        docStr += (" " + cppToRubyType(at->getTypeName()));
+                        docStr += (' ' + cppToRubyType(at->getTypeName()));
                     } else {
-                        docStr += (" " + at->getDoc().replace(QRegExp("[\\n\\r]+[\\t ]*"), m_endl + "   "));
+                        docStr += (' ' + at->getDoc().replace(QRegExp("[\\n\\r]+[\\t ]*"), m_endl + "   "));
                     }
                 }
             }

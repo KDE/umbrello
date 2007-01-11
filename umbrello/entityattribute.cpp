@@ -89,7 +89,7 @@ QString UMLEntityAttribute::toString(Uml::Signature_Type sig) {
     //FIXME
 
     if(sig == Uml::st_ShowSig || sig == Uml::st_NoSig) {
-        s=m_Vis.toString(true) + " ";
+        s=m_Vis.toString(true) + ' ';
     } else
         s = "";
 

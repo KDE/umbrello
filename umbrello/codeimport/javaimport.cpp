@@ -133,7 +133,7 @@ UMLObject* JavaImport::resolveClass (QString className) {
     // current class
     //
     QString myDir = file.join( "/" );
-    QString myFile = "/" + myDir + "/" + baseClassName + ".java";
+    QString myFile = '/' + myDir + '/' + baseClassName + ".java";
     if ( QFile::exists(myFile) ) {
         spawnImport( myFile );
         if ( isArray ) {
@@ -156,7 +156,7 @@ UMLObject* JavaImport::resolveClass (QString className) {
         file.pop_back();
     }
     // this is now the root of any further source imports
-    QString sourceRoot = "/" + file.join("/") + "/";
+    QString sourceRoot = '/' + file.join("/") + '/';
 
     for (QStringList::Iterator pathIt = m_imports.begin();
                                    pathIt != m_imports.end(); ++pathIt) {
@@ -167,7 +167,7 @@ UMLObject* JavaImport::resolveClass (QString className) {
             // check if the file we want is in this imported package
             // convert the org.test type package into a filename
             //
-            QString aFile = sourceRoot + split.join("/") + "/" + baseClassName + ".java";
+            QString aFile = sourceRoot + split.join("/") + '/' + baseClassName + ".java";
             if ( QFile::exists(aFile) ) {
                 spawnImport( aFile );
                 // we need to set the package for the class that will be resolved

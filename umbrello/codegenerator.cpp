@@ -107,7 +107,7 @@ QString CodeGenerator::getUniqueID(CodeDocument * codeDoc)
         QString id = prefix + "_0";
         int number = lastIDIndex;
         for ( ; findCodeDocumentByID(id); number++) {
-            id = prefix + "_" + QString::number(number);
+            id = prefix + '_' + QString::number(number);
         }
         lastIDIndex = number;
     }
@@ -470,7 +470,7 @@ bool CodeGenerator::openFile (QFile & file, const QString &fileName ) {
         return false;
     } else {
         QDir outputDirectory = UMLApp::app()->getCommonPolicy()->getOutputDirectory();
-        file.setName(outputDirectory.absFilePath(fileName));
+        file.setName(outputDirectory.absoluteFilePath(fileName));
         if(!file.open(QIODevice::WriteOnly)) {
             KMessageBox::sorry(0,i18n("Cannot open file %1 for writing. Please make sure the folder exists and you have permissions to write to it.", file.name()),i18n("Cannot Open File"));
             return false;
@@ -502,8 +502,8 @@ QString CodeGenerator::findFileName ( CodeDocument * codeDocument ) {
     // if path is given add this as a directory to the file name
     if (!path.isEmpty()) {
         path.replace(QRegExp("::"), "/"); // Simple hack!
-        name = path + "/" + codeDocument->getFileName();
-        path = "/" + path;
+        name = path + '/' + codeDocument->getFileName();
+        path = '/' + path;
     } else {
         name = codeDocument->getFileName();
     }
@@ -526,7 +526,7 @@ QString CodeGenerator::findFileName ( CodeDocument * codeDocument ) {
             QStringList::iterator end(dirs.end());
             for (QStringList::iterator dir(dirs.begin()); dir != end; ++dir)
             {
-                currentDir += "/" + *dir;
+                currentDir += '/' + *dir;
                 if (! (pathDir.exists(currentDir)
                         || pathDir.mkdir(currentDir) ) )
                 {
@@ -540,7 +540,7 @@ QString CodeGenerator::findFileName ( CodeDocument * codeDocument ) {
         }
     }
 
-    name.simplifyWhiteSpace();
+    name.simplified();
     name.replace(QRegExp(" "),"_");
 
     return overwritableName( name, codeDocument->getFileExtension() );

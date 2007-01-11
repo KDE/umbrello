@@ -358,7 +358,7 @@ void ClassifierListPage::printItemList(const QString &prologue) {
     QString buf;
     UMLClassifierListItemList itemList = getItemList();
     for (UMLClassifierListItemListIt it(itemList); (item = it.current()) != NULL; ++it)
-        buf.append(" " + item->getName());
+        buf.append(' ' + item->getName());
     kDebug() << prologue << buf << endl;
 #endif
 }

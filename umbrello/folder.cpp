@@ -217,9 +217,9 @@ void UMLFolder::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     // See if we can create the external file.
     // If not then internalize the folder.
     UMLDoc *umldoc = UMLApp::app()->getDocument();
-    QString fileName = umldoc->url().directory() + "/" + m_folderFile;
+    QString fileName = umldoc->url().directory() + '/' + m_folderFile;
     QFile file(fileName);
-    if (!file.open(IO_WriteOnly)) {
+    if (!file.open(QIODevice::WriteOnly)) {
         kError() << "UMLFolder::saveToXMI(" << m_folderFile << "): "
             << "cannot create file, contents will be saved in main model file"
             << endl;
@@ -289,7 +289,7 @@ bool UMLFolder::loadFolderFile(const QString& path) {
         KMessageBox::error(0, i18n("The folderfile %1 does not exist.", path), i18n("Load Error"));
         return false;
     }
-    if (!file.open(IO_ReadOnly)) {
+    if (!file.open(QIODevice::ReadOnly)) {
         KMessageBox::error(0, i18n("The folderfile %1 cannot be opened.", path), i18n("Load Error"));
         return false;
     }
@@ -356,7 +356,7 @@ bool UMLFolder::load(QDomElement& element) {
                 } else if (xtag == "external_file") {
                     const QString rootDir(umldoc->url().directory());
                     QString fileName = el.attribute("name", "");
-                    const QString path(rootDir + "/" + fileName);
+                    const QString path(rootDir + '/' + fileName);
                     if (loadFolderFile(path))
                         m_folderFile = fileName;
                 } else {

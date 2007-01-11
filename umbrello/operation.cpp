@@ -128,7 +128,7 @@ QString UMLOperation::toString(Uml::Signature_Type sig) {
     QString s = "";
 
     if(sig == Uml::st_ShowSig || sig == Uml::st_NoSig) 
-          s = m_Vis.toString(true) + " ";
+          s = m_Vis.toString(true) + ' ';
     
     s += getName();
     if (!s.contains("("))
@@ -184,7 +184,7 @@ QString UMLOperation::getUniqueParameterName() {
     QString currentName = i18n("new_parameter");
     QString name = currentName;
     for (int number = 1; findParm(name); number++) {
-        name = currentName + "_" + QString::number(number);
+        name = currentName + '_' + QString::number(number);
     }
     return name;
 }

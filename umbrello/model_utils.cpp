@@ -261,7 +261,7 @@ QString uniqObjectName(Uml::Object_Type type, UMLPackage *parentPkg, QString pre
     UMLDoc *doc = UMLApp::app()->getDocument();
     QString name = currentName;
     for (int number = 1; !doc->isUnique(name, parentPkg); number++)  {
-        name = currentName + "_" + QString::number(number);
+        name = currentName + '_' + QString::number(number);
     }
     return name;
 }
@@ -421,7 +421,7 @@ Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningSc
 Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningScope) {
     UMLDoc *pDoc = UMLApp::app()->getDocument();
 
-    a = a.simplifyWhiteSpace();
+    a = a.simplified();
     if (a.isEmpty())
         return PS_Empty;
 
@@ -465,7 +465,7 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
 Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owningScope) {
     UMLDoc *pDoc = UMLApp::app()->getDocument();
 
-    m = m.simplifyWhiteSpace();
+    m = m.simplified();
     if (m.isEmpty())
         return PS_Empty;
     /**

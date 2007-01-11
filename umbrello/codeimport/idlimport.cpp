@@ -99,7 +99,7 @@ void IDLImport::parseFile(const QString& filename) {
         //command.addArgument(" -I" + path);
         command += " -I" + path;
     }
-    command += " " + filename;
+    command += ' ' + filename;
     kDebug() << "importIDL: " << command << endl;
     FILE *fp = popen(command.ascii(), "r");
     if (fp == NULL) {

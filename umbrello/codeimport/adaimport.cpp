@@ -44,7 +44,7 @@ QStringList AdaImport::split(const QString& lin) {
     QString listElement;
     bool inString = false;
     bool seenSpace = false;
-    QString line = lin.stripWhiteSpace();
+    QString line = lin.trimmed();
     uint len = line.length();
     for (uint i = 0; i < len; i++) {
         const QChar& c = line[i];
@@ -482,7 +482,7 @@ bool AdaImport::parseStmt() {
         initialValue = advance();
         QString token;
         while ((token = advance()) != ";") {
-            initialValue.append(" " + token);
+            initialValue.append(' ' + token);
         }
     }
     UMLObject *o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name,

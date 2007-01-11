@@ -160,7 +160,7 @@ QString UMLViewImageExporterModel::exportView(UMLView* view, const QString &imag
 }
 
 QString UMLViewImageExporterModel::getDiagramFileName(UMLView *view, const QString &imageType, bool useFolders /* = false */) const {
-    QString name = view->getName() + "." + imageType.lower();
+    QString name = view->getName() + '.' + imageType.lower();
 
     if (!useFolders) {
         return name;
@@ -176,7 +176,7 @@ QString UMLViewImageExporterModel::getDiagramFileName(UMLView *view, const QStri
     // and five children, one for each view type (Logical, use case, components, deployment
     // and entity relationship)
     while (listView->rootView(listViewItem->getType()) == NULL) {
-        name.insert(0, listViewItem->getText() + "/");
+        name.insert(0, listViewItem->getText() + '/');
         listViewItem = static_cast<UMLListViewItem*>(listViewItem->parent());
         if (listViewItem == NULL)
             break;
@@ -281,7 +281,7 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLView* view, const QString &fi
 bool UMLViewImageExporterModel::fixEPS(const QString &fileName, QRect rect) const {
     // now open the file and make a correct eps out of it
     QFile epsfile(fileName);
-    if (! epsfile.open(IO_ReadOnly)) {
+    if (! epsfile.open(QIODevice::ReadOnly)) {
         return false;
     }
     // read
@@ -299,7 +299,7 @@ bool UMLViewImageExporterModel::fixEPS(const QString &fileName, QRect rect) cons
     }
 
     // write new content to file
-    if (! epsfile.open(IO_WriteOnly | IO_Truncate)) {
+    if (! epsfile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
         kError() << "UMLViewImageExporterModel::fixEPS(" << fileName
                   << "): cannot open file for writing" << endl;
         return false;
