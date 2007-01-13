@@ -63,6 +63,8 @@ UMLOperationDialog::UMLOperationDialog( QWidget * parent, UMLOperation * pOperat
     m_doc = UMLApp::app()->getDocument();
     m_pMenu = 0;
     setupDialog();
+    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
+    connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
 UMLOperationDialog::~UMLOperationDialog() {}

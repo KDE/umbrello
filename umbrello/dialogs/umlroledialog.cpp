@@ -31,6 +31,8 @@ UMLRoleDialog::UMLRoleDialog( QWidget * parent, UMLRole * pRole )
     showButtonSeparator( true );
     m_pRole = pRole;
     setupDialog();
+    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
+    connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
 UMLRoleDialog::~UMLRoleDialog() {}

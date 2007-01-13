@@ -55,6 +55,8 @@ AssocPropDlg::AssocPropDlg (QWidget *parent, AssociationWidget * assocWidget, in
 #warning "kde4: port it"
 #endif    
     //showPage(pageNum);
+    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
+    connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
 AssocPropDlg::~AssocPropDlg() { }

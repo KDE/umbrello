@@ -47,6 +47,9 @@ SettingsDlg::SettingsDlg( QWidget * parent, Settings::OptionState *state )
     setupClassPage();
     setupCodeGenPage();
     setupCodeViewerPage(state->codeViewerState);
+    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
+    connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
+    connect(this,SIGNAL(defaultClicked()),this,SLOT(slotDefault()));
 }
 
 SettingsDlg::~SettingsDlg() {}

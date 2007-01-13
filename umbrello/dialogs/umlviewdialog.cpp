@@ -44,6 +44,9 @@ UMLViewDialog::UMLViewDialog( QWidget * pParent, UMLView * pView )
     m_pView = pView;
     m_options = m_pView -> getOptionState();
     setupPages();
+    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
+    connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
+
 }
 
 UMLViewDialog::~UMLViewDialog() {

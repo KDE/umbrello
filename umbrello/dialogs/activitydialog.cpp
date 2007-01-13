@@ -41,6 +41,8 @@ ActivityDialog::ActivityDialog( UMLView * pView, ActivityWidget * pWidget )
     m_pActivityWidget = pWidget;
     m_bChangesMade = false;
     setupPages();
+    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
+    connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
 void ActivityDialog::slotOk() {

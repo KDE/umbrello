@@ -60,6 +60,8 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, int pageNum, bool ass
 #warning "kde4: reimplement showPage"
 #endif    
     //showPage(pageNum);
+    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
+    connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
 ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget * o)
@@ -107,6 +109,8 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget * o)
 #endif    
     //showPage(0);
     setMinimumSize(340,420);
+    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
+    connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
 ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget * w)
@@ -168,6 +172,8 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget * w)
     m_pColorPage = new UMLWidgetColorPage(colorPage, w);
     m_pColorLayout -> addWidget(m_pColorPage);
     setupFontPage();
+    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
+    connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
 ClassPropDlg::~ClassPropDlg() {}

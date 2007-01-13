@@ -44,6 +44,8 @@ UMLTemplateDialog::UMLTemplateDialog(QWidget* pParent, UMLTemplate* pTemplate)
     setModal( true );
     showButtonSeparator( true );
     setupDialog();
+    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
+    connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
 UMLTemplateDialog::~UMLTemplateDialog() {}

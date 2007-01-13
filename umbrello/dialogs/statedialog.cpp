@@ -48,6 +48,8 @@ StateDialog::StateDialog( UMLView * pView, StateWidget * pWidget )
     m_pStateWidget = pWidget;
     m_bChangesMade = false;
     setupPages();
+    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
+    connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
 void StateDialog::slotOk() {

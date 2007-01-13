@@ -152,6 +152,8 @@ void UMLAttributeDialog::setupDialog() {
     m_pNameLE->setFocus();
     connect( m_pNameLE, SIGNAL( textChanged ( const QString & ) ), SLOT( slotNameChanged( const QString & ) ) );
     slotNameChanged(m_pNameLE->text() );
+    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
+    connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
 void UMLAttributeDialog::slotNameChanged( const QString &_text )
