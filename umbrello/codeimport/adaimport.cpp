@@ -138,6 +138,7 @@ QString AdaImport::expand(const QString& name) {
 bool AdaImport::parseStmt() {
     const uint srcLength = m_source.count();
     const QString& keyword = m_source[m_srcIndex];
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
     //kDebug() << '"' << keyword << '"' << endl;
     if (keyword == "with") {
         if (m_inGenericFormalPart) {
@@ -213,10 +214,10 @@ bool AdaImport::parseStmt() {
         QString name = advance();
         advance();  // "is"
         QString base = expand(advance());
-        UMLDoc *umldoc = UMLApp::app()->getDocument();
+        base.remove("Standard.", false);
         UMLObject *type = umldoc->findUMLObject(base, Uml::ot_UMLObject, m_scope[m_scopeIndex]);
         if (type == NULL) {
-            type = Import_Utils::createUMLObject(Uml::ot_Class, base, m_scope[m_scopeIndex]);
+            type = Import_Utils::createUMLObject(Uml::ot_Datatype, base, m_scope[m_scopeIndex]);
         }
         UMLObject *subtype = Import_Utils::createUMLObject(type->getBaseType(), name,
                                                            m_scope[m_scopeIndex], m_comment);
@@ -304,10 +305,15 @@ bool AdaImport::parseStmt() {
         if (m_source[m_srcIndex] == "new") {
             QString base = expand(advance());
             const bool isExtension = (advance() == "with");
-            Uml::Object_Type t = (isExtension || m_isAbstract ? Uml::ot_Class
-                                                              : Uml::ot_Datatype);
-            if (t == Uml::ot_Datatype)
-                name.remove("Standard.", false);
+            Uml::Object_Type t;
+            if (isExtension || m_isAbstract) {
+                t = Uml::ot_Class;
+            } else {
+                UMLObject *known = umldoc->findUMLObject(base, Uml::ot_UMLObject, m_scope[m_scopeIndex]);
+                t = (known ? known->getBaseType() : Uml::ot_Datatype);
+                if (t == Uml::ot_Datatype)
+                    name.remove("Standard.", false);
+            }
             UMLObject *ns = Import_Utils::createUMLObject(t, base, NULL);
             UMLClassifier *parent = static_cast<UMLClassifier*>(ns);
             ns = Import_Utils::createUMLObject(t, name, m_scope[m_scopeIndex], m_comment);
@@ -410,7 +416,6 @@ bool AdaImport::parseStmt() {
             typeName = expand(typeName);
             if (op == NULL) {
                 // In Ada, the first parameter indicates the class.
-                UMLDoc *umldoc = UMLApp::app()->getDocument();
                 UMLObject *type = umldoc->findUMLObject(typeName, Uml::ot_UMLObject, m_scope[m_scopeIndex]);
                 if (type == NULL) {
                     kError() << "importAda: cannot find UML object for " << typeName << endl;
