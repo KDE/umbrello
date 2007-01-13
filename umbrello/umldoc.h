@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -36,7 +36,6 @@
 #include "umlobjectlist.h"
 #include "umlassociationlist.h"
 #include "umlclassifierlist.h"
-#include "umldatatypelist.h"
 #include "umlviewlist.h"
 #include "umlstereotypelist.h"
 
@@ -524,9 +523,9 @@ public:
     /**
      * Returns a list of the datatypes in this UMLDoc.
      *
-     * @return  List of UML datatypes.
+     * @return  List of datatypes.
      */
-    UMLDatatypeList getDatatypes();
+    UMLClassifierList getDatatypes();
 
     /**
      * Returns a list of the associations in this UMLDoc.

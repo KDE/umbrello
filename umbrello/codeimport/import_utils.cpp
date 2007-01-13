@@ -5,8 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2005-2006                                                *
- *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
+ *   copyright (C) 2005-2007                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
@@ -27,7 +27,6 @@
 #include "../package.h"
 #include "../folder.h"
 #include "../enum.h"
-#include "../datatype.h"
 #include "../classifier.h"
 #include "../operation.h"
 #include "../attribute.h"
@@ -154,6 +153,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
             if (components.count() > 1) {
                 typeName = components.back();
                 components.pop_back();
+                Uml::Programming_Language pl = UMLApp::app()->getActiveLanguage();
                 while ( components.count() ) {
                     QString scopeName = components.front();
                     components.pop_front();
@@ -163,12 +163,14 @@ UMLObject *createUMLObject(Uml::Object_Type type,
                         continue;
                     }
                     int wantNamespace = KMessageBox::Yes;
-                    /* We know std and Qt are namespaces */
-                    if (scopeName != "std" && scopeName != "Qt") {
-                        wantNamespace = KMessageBox::questionYesNo(NULL,
+                    if (pl == Uml::pl_Cpp) {
+                        /* We know std and Qt are namespaces */
+                        if (scopeName != "std" && scopeName != "Qt") {
+                            wantNamespace = KMessageBox::questionYesNo(NULL,
                                         i18n("Is the scope %1 a namespace or a class?", scopeName),
                                         i18n("C++ Import Requests Your Help"),
                                         KGuiItem(i18n("Namespace")), KGuiItem(i18n("Class")));
+                        }
                     }
                     Uml::Object_Type ot = (wantNamespace == KMessageBox::Yes ? Uml::ot_Package : Uml::ot_Class);
                     o = Object_Factory::createUMLObject(ot, scopeName, parentPkg);
@@ -194,7 +196,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
             o = Object_Factory::createUMLObject(Uml::ot_Datatype, name,
                                                 umldoc->getDatatypeFolder(),
                                                 false); //solicitNewName
-            UMLDatatype *dt = static_cast<UMLDatatype*>(o);
+            UMLClassifier *dt = static_cast<UMLClassifier*>(o);
             UMLClassifier *c = dynamic_cast<UMLClassifier*>(origType);
             if (c)
                 dt->setOriginType(c);
@@ -207,7 +209,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
             /*
             if (isPointer) {
                 UMLObject *pointerDecl = Object_Factory::createUMLObject(Uml::ot_Datatype, type);
-                UMLDatatype *dt = static_cast<UMLDatatype*>(pointerDecl);
+                UMLClassifier *dt = static_cast<UMLClassifier*>(pointerDecl);
                 dt->setOriginType(classifier);
                 dt->setIsReference();
                 classifier = dt;
@@ -334,8 +336,7 @@ UMLAttribute* addMethodParameter(UMLOperation *method,
         typeObj = createUMLObject(Uml::ot_UMLObject, type, owner);
         bPutAtGlobalScope = false;
     }
-    UMLAttribute *attr = Object_Factory::createAttribute(method, name);
-    attr->setType(typeObj);
+    UMLAttribute *attr = Object_Factory::createAttribute(method, name, typeObj);
     method->addParm(attr);
     return attr;
 }
@@ -347,7 +348,7 @@ void addEnumLiteral(UMLEnum *enumType, const QString &literal) {
 void createGeneralization(UMLClassifier *child, UMLClassifier *parent) {
     // if the child is an interface, so is the parent.
     if (child->isInterface())
-        parent->setInterface(true);
+        parent->setBaseType(Uml::ot_Interface);
     Uml::Association_Type association = Uml::at_Generalization;
 
     if (parent->isInterface() && !child->isInterface()) {
@@ -358,6 +359,7 @@ void createGeneralization(UMLClassifier *child, UMLClassifier *parent) {
     }
     UMLAssociation *assoc = new UMLAssociation(association, child, parent);
     UMLDoc *umldoc = UMLApp::app()->getDocument();
+    assoc->setUMLPackage(umldoc->getRootFolder(Uml::mt_Logical));
     umldoc->addAssociation(assoc);
 }
 

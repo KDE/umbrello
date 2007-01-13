@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,7 +14,7 @@
 
 #include "umlwidget.h"
 
-class UMLDatatype;
+class UMLClassifier;
 
 #define DATATYPE_MARGIN 5
 
@@ -34,9 +34,9 @@ public:
      * Constructs an DatatypeWidget.
      *
      * @param view              The parent of this DatatypeWidget.
-     * @param d         The UMLDatatype this will be representing.
+     * @param d         The UMLClassifier this will be representing.
      */
-    DatatypeWidget(UMLView* view, UMLDatatype *d);
+    DatatypeWidget(UMLView* view, UMLClassifier *d);
 
     /**
      * Standard deconstructor.

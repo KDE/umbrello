@@ -5,8 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2005-2006                                                *
- *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
+ *   copyright (C) 2005-2007                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
@@ -21,10 +21,12 @@
 #include "../uml.h"
 #include "../umldoc.h"
 #include "../package.h"
+#include "../folder.h"
 #include "../classifier.h"
 #include "../enum.h"
 #include "../operation.h"
 #include "../attribute.h"
+#include "../association.h"
 
 AdaImport::AdaImport() : NativeImportBase("--") {
    initVars();
@@ -35,6 +37,8 @@ AdaImport::~AdaImport() {
 
 void AdaImport::initVars() {
     m_inGenericFormalPart = false;
+    m_classesDefinedInThisScope.clear();
+    m_renaming.clear();
 }
 
 /// Split the line so that a string is returned as a single element of the list,
@@ -116,9 +120,25 @@ void AdaImport::fillSource(const QString& word) {
         m_source.append(lexeme);
 }
 
+QString AdaImport::expand(const QString& name) {
+    QRegExp pfxRegExp("^(\\w+)\\.");
+    pfxRegExp.setCaseSensitive(false);
+    int pos = pfxRegExp.search(name);
+    if (pos == -1)
+        return name;
+    QString result = name;
+    QString pfx = pfxRegExp.cap(1);
+    if (m_renaming.contains(pfx)) {
+        result.remove(pfxRegExp);
+        result.prepend(m_renaming[pfx] + '.');
+    }
+    return result;
+}
+
 bool AdaImport::parseStmt() {
     const uint srcLength = m_source.count();
     const QString& keyword = m_source[m_srcIndex];
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
     //kDebug() << '"' << keyword << '"' << endl;
     if (keyword == "with") {
         if (m_inGenericFormalPart) {
@@ -169,16 +189,18 @@ bool AdaImport::parseStmt() {
     }
     if (keyword == "package") {
         const QString& name = advance();
-        UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package, name,
-                                                      m_scope[m_scopeIndex], m_comment);
         if (advance() == "is") {
+            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package, name,
+                                                          m_scope[m_scopeIndex], m_comment);
             if (m_source[m_srcIndex + 1] == "new") {
                 // generic package instantiation: TBD
                 skipStmt();
             } else {
                 m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
             }
-        } else if (m_source[m_srcIndex] != "renames") {
+        } else if (m_source[m_srcIndex] == "renames") {
+            m_renaming[name] = advance();
+        } else {
             kError() << "AdaImport::parseStmt: unexpected: " << m_source[m_srcIndex] << endl;
             skipStmt("is");
         }
@@ -186,6 +208,26 @@ bool AdaImport::parseStmt() {
             // handling of generic formal parameters: TBD
             m_inGenericFormalPart = false;
         }
+        return true;
+    }
+    if (keyword == "subtype") {
+        QString name = advance();
+        advance();  // "is"
+        QString base = expand(advance());
+        base.remove("Standard.", false);
+        UMLObject *type = umldoc->findUMLObject(base, Uml::ot_UMLObject, m_scope[m_scopeIndex]);
+        if (type == NULL) {
+            type = Import_Utils::createUMLObject(Uml::ot_Datatype, base, m_scope[m_scopeIndex]);
+        }
+        UMLObject *subtype = Import_Utils::createUMLObject(type->getBaseType(), name,
+                                                           m_scope[m_scopeIndex], m_comment);
+        UMLAssociation *assoc = new UMLAssociation(Uml::at_Dependency, subtype, type);
+        assoc->setUMLPackage(umldoc->getRootFolder(Uml::mt_Logical));
+        assoc->setStereotype("subtype");
+        // Work around missing display of stereotype in AssociationWidget:
+        assoc->setName(assoc->getStereotype(true));
+        umldoc->addAssociation(assoc);
+        skipStmt();
         return true;
     }
     if (keyword == "type") {
@@ -207,7 +249,8 @@ bool AdaImport::parseStmt() {
         }
         if (m_source[m_srcIndex] == ";") {
             // forward declaration
-            // To Be Done
+            Import_Utils::createUMLObject(Uml::ot_Class, name, m_scope[m_scopeIndex],
+                                          m_comment);
             return true;
         }
         if (m_source[m_srcIndex] != "is") {
@@ -233,41 +276,44 @@ bool AdaImport::parseStmt() {
             m_srcIndex++;
         }
         if (m_source[m_srcIndex] == "tagged") {
-            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
-                            name, m_scope[m_scopeIndex], m_comment);
-            ns->setAbstract(m_isAbstract);
-            m_isAbstract = false;
-            m_srcIndex++;
             isTaggedType = true;
+            m_srcIndex++;
         }
         if (m_source[m_srcIndex] == "limited") {
             m_srcIndex++;  // we can't (yet?) represent that
         }
         if (m_source[m_srcIndex] == "private" ||
+            m_source[m_srcIndex] == "record" ||
             (m_source[m_srcIndex] == "null" &&
              m_source[m_srcIndex+1] == "record")) {
-            skipStmt();
-            return true;
-        }
-        if (m_source[m_srcIndex] == "record") {
-            // If it's a tagged record then the class was already created
-            // above (see processing for "tagged".) Doesn't matter;
-            // in that case Import_Utils::createUMLObject() just returns
-            // the existing class instead of creating a new one.
             UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
                             name, m_scope[m_scopeIndex], m_comment);
-            if (! isTaggedType)
+            ns->setAbstract(m_isAbstract);
+            m_isAbstract = false;
+            if (isTaggedType) {
+                if (! m_classesDefinedInThisScope.contains(ns))
+                    m_classesDefinedInThisScope.append(ns);
+            } else {
                 ns->setStereotype("record");
-            m_klass = static_cast<UMLClassifier*>(ns);
+            }
+            if (m_source[m_srcIndex] == "record")
+                m_klass = static_cast<UMLClassifier*>(ns);
+            else
+                skipStmt();
             return true;
         }
         if (m_source[m_srcIndex] == "new") {
-            QString base = advance();
+            QString base = expand(advance());
             const bool isExtension = (advance() == "with");
-            Uml::Object_Type t = (isExtension || m_isAbstract ? Uml::ot_Class
-                                                              : Uml::ot_Datatype);
-            if (t == Uml::ot_Datatype)
-                name.remove("Standard.", false);
+            Uml::Object_Type t;
+            if (isExtension || m_isAbstract) {
+                t = Uml::ot_Class;
+            } else {
+                UMLObject *known = umldoc->findUMLObject(base, Uml::ot_UMLObject, m_scope[m_scopeIndex]);
+                t = (known ? known->getBaseType() : Uml::ot_Datatype);
+                if (t == Uml::ot_Datatype)
+                    name.remove("Standard.", false);
+            }
             UMLObject *ns = Import_Utils::createUMLObject(t, base, NULL);
             UMLClassifier *parent = static_cast<UMLClassifier*>(ns);
             ns = Import_Utils::createUMLObject(t, name, m_scope[m_scopeIndex], m_comment);
@@ -367,9 +413,9 @@ bool AdaImport::parseStmt() {
                 typeName = direction;  // In Ada, the default direction is "in"
             }
             typeName.remove("Standard.", false);
+            typeName = expand(typeName);
             if (op == NULL) {
                 // In Ada, the first parameter indicates the class.
-                UMLDoc *umldoc = UMLApp::app()->getDocument();
                 UMLObject *type = umldoc->findUMLObject(typeName, Uml::ot_UMLObject, m_scope[m_scopeIndex]);
                 if (type == NULL) {
                     kError() << "importAda: cannot find UML object for " << typeName << endl;
@@ -385,8 +431,9 @@ bool AdaImport::parseStmt() {
                      ****/
                 }
                 Uml::Object_Type t = type->getBaseType();
-                if (t != Uml::ot_Interface &&
-                    (t != Uml::ot_Class || type->getStereotype() == "record")) {
+                if ((t != Uml::ot_Interface &&
+                     (t != Uml::ot_Class || type->getStereotype() == "record")) ||
+                    !m_classesDefinedInThisScope.contains(type)) {
                     // Not an instance bound method - we cannot represent it.
                     skipStmt(")");
                     break;
@@ -414,7 +461,7 @@ bool AdaImport::parseStmt() {
                         << name << endl;
                 return false;
             }
-            returnType = advance();
+            returnType = expand(advance());
             returnType.remove("Standard.", false);
         }
         bool isAbstract = false;
@@ -423,10 +470,6 @@ bool AdaImport::parseStmt() {
         if (klass != NULL && op != NULL)
             Import_Utils::insertMethod(klass, op, m_currentAccess, returnType,
                                        false, isAbstract, false, false, m_comment);
-        return true;
-    }
-    if (keyword == "subtype") {    // FIXMEnow: potentially important but not yet implemented
-        skipStmt();
         return true;
     }
     if (keyword == "task" || keyword == "protected") {
@@ -476,7 +519,7 @@ bool AdaImport::parseStmt() {
         skipStmt();
         return true;
     }
-    QString typeName = advance();
+    QString typeName = expand(advance());
     QString initialValue;
     if (advance() == ":=") {
         initialValue = advance();

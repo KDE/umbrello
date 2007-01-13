@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -723,7 +723,7 @@ void ClassifierWidget::toggleDrawAsCircle() {
 
 void ClassifierWidget::changeToClass() {
     WidgetBase::setBaseType(Uml::wt_Class);
-    getClassifier()->setInterface(false);
+    getClassifier()->setBaseType(Uml::ot_Class);
 
     const Settings::OptionState& ops = m_pView->getOptionState();
     m_bShowAttributes = ops.classState.showAtts;
@@ -735,7 +735,7 @@ void ClassifierWidget::changeToClass() {
 
 void ClassifierWidget::changeToInterface() {
     WidgetBase::setBaseType(Uml::wt_Interface);
-    getClassifier()->setInterface(true);
+    getClassifier()->setBaseType(Uml::ot_Interface);
 
     m_bShowAttributes = false;
     m_bShowStereotype = true;

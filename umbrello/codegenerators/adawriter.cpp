@@ -531,6 +531,7 @@ QStringList AdaWriter::defaultDatatypes() {
     l.append("Long_Integer");
     l.append("Float");
     l.append("Long_Float");
+    l.append("Duration");
     l.append("String");
     return l;
 }

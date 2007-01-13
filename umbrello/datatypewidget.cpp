@@ -5,12 +5,12 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "datatypewidget.h"
-#include "datatype.h"
+#include "classifier.h"
 #include "operation.h"
 #include "classifierlistitem.h"
 #include "umlview.h"
@@ -22,7 +22,7 @@
 
 #define CIRCLE_SIZE 30
 
-DatatypeWidget::DatatypeWidget(UMLView* view, UMLDatatype *d) : UMLWidget(view, d) {
+DatatypeWidget::DatatypeWidget(UMLView* view, UMLClassifier *d) : UMLWidget(view, d) {
     init();
     setSize(100,30);
     updateComponentSize();

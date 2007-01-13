@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006                                                    *
+ *   copyright (C) 2006-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -342,7 +342,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
         QString stereotype = clean(node->findAttribute("stereotype").string);
         if (!stereotype.isEmpty()) {
             if (stereotype.lower() == "interface")
-                c->setInterface();
+                c->setBaseType(Uml::ot_Interface);
             else
                 c->setStereotype(stereotype);
         }

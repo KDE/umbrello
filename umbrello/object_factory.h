@@ -53,7 +53,8 @@ UMLObject* createUMLObject(Uml::Object_Type type,
  */
 UMLClassifierListItem* createChildObject(UMLClassifier *parent, Uml::Object_Type type);
 
-UMLAttribute *createAttribute(UMLObject *parent, const QString& name);
+UMLAttribute *createAttribute(UMLObject *parent, const QString& name,
+                              UMLObject *type = 0);
 
 UMLOperation *createOperation(UMLClassifier *parent, const QString& name);
 
