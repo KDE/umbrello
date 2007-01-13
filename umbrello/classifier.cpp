@@ -5,6 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002-2007                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 // own header
 #include "classifier.h"
@@ -38,40 +40,57 @@
 
 using namespace Uml;
 
-UMLClassifier::UMLClassifier(const QString & name, Uml::IDType id, bool bIsInterface)
+UMLClassifier::UMLClassifier(const QString & name, Uml::IDType id)
         : UMLPackage(name, id)
 {
-    init(bIsInterface);
+    init();
 }
 
 UMLClassifier::~UMLClassifier() {
 }
 
-void UMLClassifier::init(bool bIsInterface /* = false */) {
-    setInterface(bIsInterface);
+void UMLClassifier::init() {
+    m_BaseType = Uml::ot_Class;  // default value
     m_pClassAssoc = NULL;
+    m_isRef = false;
 }
 
-void UMLClassifier::setInterface(bool b /* = true */) {
+void UMLClassifier::setBaseType(Uml::Object_Type ot) {
+    m_BaseType = ot;
+    Uml::Icon_Type newIcon;
+    switch (ot) {
+        case ot_Interface:
+            UMLObject::setStereotype("interface");
+            UMLObject::m_bAbstract = true;
+            newIcon = Uml::it_Interface;
+            break;
+        case ot_Class:
+            UMLObject::setStereotype(QString::null);
+            UMLObject::m_bAbstract = false;
+            newIcon = Uml::it_Class;
+            break;
+        case ot_Datatype:
+            UMLObject::setStereotype("datatype");
+            UMLObject::m_bAbstract = false;
+            newIcon = Uml::it_Datatype;
+            break;
+        default:
+            kError() << "UMLClassifier::setBaseType: cannot set to type "
+                << ot << endl;
+            return;
+    }
     // @todo get rid of direct dependencies to UMLListView
     //  (e.g. move utility methods to Model_Utils and/or use signals)
-    Uml::Icon_Type newIcon;
-    if (b) {
-        m_BaseType = ot_Interface;
-        UMLObject::setStereotype("interface");
-        UMLObject::m_bAbstract = true;
-        newIcon = Uml::it_Interface;
-    } else {
-        m_BaseType = ot_Class;
-        UMLObject::setStereotype(QString::null);
-        newIcon = Uml::it_Class;
-    }
     UMLListView *listView = UMLApp::app()->getListView();
     listView->changeIconOf(this, newIcon);
 }
 
 bool UMLClassifier::isInterface() const {
     return (m_BaseType == ot_Interface);
+}
+
+bool UMLClassifier::isDatatype() const {
+    return (m_BaseType == ot_Datatype);
 }
 
 UMLOperation * UMLClassifier::checkOperationSignature(
@@ -414,7 +433,7 @@ bool UMLClassifier::operator==( UMLClassifier & rhs ) {
 void UMLClassifier::copyInto(UMLClassifier *rhs) const
 {
     UMLCanvasObject::copyInto(rhs);
-    rhs->setInterface(isInterface());
+    rhs->setBaseType(m_BaseType);
     // CHECK: association property m_pClassAssoc is not copied
     m_List.copyInto(&(rhs->m_List));
 }
@@ -796,12 +815,43 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item) {
     return index;
 }
 
+void UMLClassifier::setOriginType(UMLClassifier *origType) {
+    m_pSecondary = origType;
+}
+
+UMLClassifier * UMLClassifier::originType() {
+    return static_cast<UMLClassifier*>(m_pSecondary);
+}
+
+void UMLClassifier::setIsReference(bool isRef) {
+    m_isRef = isRef;
+}
+
+bool UMLClassifier::isReference() {
+    return m_isRef;
+}
+
 void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement) {
-    QDomElement classifierElement;
-    if (this->isInterface())
-        classifierElement = UMLObject::save("UML:Interface", qDoc);
-    else
-        classifierElement = UMLObject::save("UML:Class", qDoc);
+    QString tag;
+    switch (m_BaseType) {
+        case Uml::ot_Class:
+            tag = "UML:Class";
+            break;
+        case Uml::ot_Interface:
+            tag = "UML:Interface";
+            break;
+        case Uml::ot_Datatype:
+            tag = "UML:DataType";
+            break;
+        default:
+            kError() << "UMLClassifier::saveToXMI() internal error: basetype is "
+                << m_BaseType << endl;
+            return;
+    }
+    QDomElement classifierElement = UMLObject::save(tag, qDoc);
+    if (m_BaseType == Uml::ot_Datatype && m_pSecondary != NULL)
+        classifierElement.setAttribute( "elementReference",
+                                        ID2STR(m_pSecondary->getID()) );
 
     //save templates
     UMLClassifierListItemList list = getFilteredList(Uml::ot_Template);
@@ -870,6 +920,11 @@ UMLClassifierListItem* UMLClassifier::makeChildObject(const QString& xmiTag) {
 
 bool UMLClassifier::load(QDomElement& element) {
     UMLClassifierListItem *child = NULL;
+    m_SecondaryId = element.attribute( "elementReference", "" );
+    if (!m_SecondaryId.isEmpty()) {
+        // @todo We do not currently support composition.
+        m_isRef = true;
+    }
     bool totalSuccess = true;
     for (QDomNode node = element.firstChild(); !node.isNull();
             node = node.nextSibling()) {

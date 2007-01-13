@@ -1,13 +1,14 @@
 /***************************************************************************
  *   Based on kdevelop/languages/cpp/store_walker.cpp,                     *
  *                   Copyright (C) 2003 by Roberto Raggi                   *
- *   Copyright (C) 2004 by Oliver Kellogg <okellogg@users.sourceforge.net> *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2004-2007                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
@@ -24,7 +25,6 @@
 // FIXME: The sole reason for the next 2 includes is parseTypedef().
 // Make capsule methods in ClassImport, and remove these includes.
 #include "../../classifier.h"
-#include "../../datatype.h"
 // FIXME The next include is motivated by template params
 #include "../../template.h"
 
@@ -158,7 +158,7 @@ void CppTree2Uml::parseTypedef( TypedefAST* ast )
                 UMLObject *typedefObj =
                 Import_Utils::createUMLObject( Uml::ot_Datatype, id,
                                              m_currentNamespace[m_nsCnt] );
-                UMLDatatype *dt = static_cast<UMLDatatype*>(typedefObj);
+                UMLClassifier *dt = static_cast<UMLClassifier*>(typedefObj);
                 dt->setIsReference();
                 dt->setOriginType(static_cast<UMLClassifier*>(inner));
             } else {

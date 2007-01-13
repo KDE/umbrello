@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2006                                                *
+ *  copyright (C) 2002-2007                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -37,8 +37,7 @@
 #include "../codegenerator.h"
 #include "../dialog_utils.h"
 #include "../object_factory.h"
-#include "../datatype.h"
-#include "../umldatatypelist.h"
+#include "../umlclassifierlist.h"
 
 UMLEntityAttributeDialog::UMLEntityAttributeDialog( QWidget * pParent, UMLEntityAttribute * pEntityAttribute )
         : KDialogBase( Plain, i18n("Entity Attribute Properties"), Help | Ok | Cancel , Ok, pParent, "_UMLENTITYATTRIBUTEDLG_", true, true) {
@@ -138,7 +137,7 @@ void UMLEntityAttributeDialog::setupDialog() {
     m_pTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
 
     // Add the data types.
-    UMLDatatypeList dataTypes = pDoc->getDatatypes();
+    UMLClassifierList dataTypes = pDoc->getDatatypes();
     if (dataTypes.count() == 0) {
         // Switch to SQL as the active language if no datatypes are set.
         UMLApp::app()->setActiveLanguage("SQL");
@@ -146,8 +145,8 @@ void UMLEntityAttributeDialog::setupDialog() {
         kapp->processEvents();
         dataTypes = pDoc->getDatatypes();
     }
-    UMLDatatype *dat;
-    for (UMLDatatypeListIt dit(dataTypes); (dat = dit.current()) != NULL; ++dit) {
+    UMLClassifier *dat;
+    for (UMLClassifierListIt dit(dataTypes); (dat = dit.current()) != NULL; ++dit) {
         insertType(dat->getName());
     }
 
@@ -215,9 +214,9 @@ bool UMLEntityAttributeDialog::apply() {
 
     QString typeName = m_pTypeCB->currentText();
     UMLDoc *pDoc = UMLApp::app()->getDocument();
-    UMLDatatypeList dataTypes = pDoc->getDatatypes();
-    UMLDatatype *dat;
-    for (UMLDatatypeListIt dit(dataTypes); (dat = dit.current()) != NULL; ++dit) {
+    UMLClassifierList dataTypes = pDoc->getDatatypes();
+    UMLClassifier *dat;
+    for (UMLClassifierListIt dit(dataTypes); (dat = dit.current()) != NULL; ++dit) {
         if (typeName == dat->getName()) {
             m_pEntityAttribute->setType(dat);
             return true;

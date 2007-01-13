@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2006                                                *
+ *  copyright (C) 2002-2007                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -36,7 +36,6 @@
 #include "component.h"
 #include "node.h"
 #include "artifact.h"
-#include "datatype.h"
 #include "enum.h"
 #include "entity.h"
 #include "docwindow.h"
@@ -2009,13 +2008,17 @@ UMLObject *UMLListView::createUMLObject( UMLListViewItem * item, Uml::Object_Typ
     case Uml::ot_Interface:
         {
             UMLClassifier *c = new UMLClassifier(name);
-            c->setInterface();
+            c->setBaseType(Uml::ot_Interface);
             object = c;
         }
         break;
 
     case Uml::ot_Datatype:
-        object = new UMLDatatype( name );
+        {
+            UMLClassifier *c = new UMLClassifier(name);
+            c->setBaseType(Uml::ot_Datatype);
+            object = c;
+        }
         break;
 
     case Uml::ot_Enum:

@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006                                                    *
+ *   copyright (C) 2006-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -32,7 +32,7 @@
 #include "artifactwidget.h"
 #include "artifact.h"
 #include "datatypewidget.h"
-#include "datatype.h"
+#include "classifier.h"
 #include "enumwidget.h"
 #include "enum.h"
 #include "entitywidget.h"
@@ -88,7 +88,7 @@ UMLWidget *createWidget(UMLView *view, UMLObject *o) {
         newWidget = new ArtifactWidget(view, static_cast<UMLArtifact*>(o));
         break;
     case Uml::ot_Datatype:
-        newWidget = new DatatypeWidget(view, static_cast<UMLDatatype*>(o));
+        newWidget = new DatatypeWidget(view, static_cast<UMLClassifier*>(o));
         break;
     case Uml::ot_Enum:
         newWidget = new EnumWidget(view, static_cast<UMLEnum*>(o));
@@ -219,7 +219,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
                 widget = new ClassifierWidget(view, static_cast<UMLClassifier*>(o));
         } else if (tag == "datatypewidget") {
             if (validateObjType(Uml::ot_Datatype, o))
-                widget = new DatatypeWidget(view, static_cast<UMLDatatype*>(o));
+                widget = new DatatypeWidget(view, static_cast<UMLClassifier*>(o));
         } else if (tag == "enumwidget") {
             if (validateObjType(Uml::ot_Enum, o))
                 widget = new EnumWidget(view, static_cast<UMLEnum*>(o));

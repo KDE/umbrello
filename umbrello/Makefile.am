@@ -33,7 +33,6 @@ codeparameter.cpp \
 component.cpp \
 componentwidget.cpp \
 configurable.cpp \
-datatype.cpp \
 datatypewidget.cpp \
 dialog_utils.cpp \
 docwindow.cpp \

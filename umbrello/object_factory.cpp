@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2006                                                     *
+ *  copyright (C) 2006-2007                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -29,7 +29,6 @@
 #include "classifier.h"
 #include "attribute.h"
 #include "operation.h"
-#include "datatype.h"
 #include "enum.h"
 #include "entity.h"
 #include "actor.h"
@@ -92,13 +91,16 @@ UMLObject* createNewUMLObject(Uml::Object_Type type, const QString &name,
             break;
         case Uml::ot_Interface: {
             UMLClassifier *c = new UMLClassifier(name, g_predefinedId);
-            c->setInterface();
+            c->setBaseType(Uml::ot_Interface);
             o = c;
             break;
         }
-        case Uml::ot_Datatype:
-            o = new UMLDatatype(name, g_predefinedId);
+        case Uml::ot_Datatype: {
+            UMLClassifier *c = new UMLClassifier(name, g_predefinedId);
+            c->setBaseType(Uml::ot_Datatype);
+            o = c;
             break;
+        }
         case Uml::ot_Enum:
             o = new UMLEnum(name, g_predefinedId);
             break;
@@ -245,11 +247,13 @@ UMLObject* makeObjectFromXMI(const QString& xmiTag,
         pObject = new UMLArtifact();
     } else if (Uml::tagEq(xmiTag, "Interface")) {
         UMLClassifier *c = new UMLClassifier();
-        c->setInterface();
+        c->setBaseType(Uml::ot_Interface);
         pObject = c;
     } else if (Uml::tagEq(xmiTag, "DataType") || Uml::tagEq(xmiTag, "Primitive")
                || Uml::tagEq(xmiTag, "Datatype")) {   // for bkwd compat.
-        pObject = new UMLDatatype();
+        UMLClassifier *c = new UMLClassifier();
+        c->setBaseType(Uml::ot_Datatype);
+        pObject = c;
     } else if (Uml::tagEq(xmiTag, "Enumeration") ||
                Uml::tagEq(xmiTag, "Enum")) {   // for bkwd compat.
         pObject = new UMLEnum();

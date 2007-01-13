@@ -27,7 +27,6 @@
 #include "../package.h"
 #include "../folder.h"
 #include "../enum.h"
-#include "../datatype.h"
 #include "../classifier.h"
 #include "../operation.h"
 #include "../attribute.h"
@@ -197,7 +196,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
             o = Object_Factory::createUMLObject(Uml::ot_Datatype, name,
                                                 umldoc->getDatatypeFolder(),
                                                 false); //solicitNewName
-            UMLDatatype *dt = static_cast<UMLDatatype*>(o);
+            UMLClassifier *dt = static_cast<UMLClassifier*>(o);
             UMLClassifier *c = dynamic_cast<UMLClassifier*>(origType);
             if (c)
                 dt->setOriginType(c);
@@ -210,7 +209,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
             /*
             if (isPointer) {
                 UMLObject *pointerDecl = Object_Factory::createUMLObject(Uml::ot_Datatype, type);
-                UMLDatatype *dt = static_cast<UMLDatatype*>(pointerDecl);
+                UMLClassifier *dt = static_cast<UMLClassifier*>(pointerDecl);
                 dt->setOriginType(classifier);
                 dt->setIsReference();
                 classifier = dt;
@@ -349,7 +348,7 @@ void addEnumLiteral(UMLEnum *enumType, const QString &literal) {
 void createGeneralization(UMLClassifier *child, UMLClassifier *parent) {
     // if the child is an interface, so is the parent.
     if (child->isInterface())
-        parent->setInterface(true);
+        parent->setBaseType(Uml::ot_Interface);
     Uml::Association_Type association = Uml::at_Generalization;
 
     if (parent->isInterface() && !child->isInterface()) {

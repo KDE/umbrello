@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2006                                                     *
+ *  copyright (C) 2006-2007                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -252,7 +252,8 @@ bool JavaImport::parseStmt() {
         // The UMLObject found by createUMLObject might originally have been created as a
         // placeholder with a type of class but if is really an interface, then we need to
         // change it.
-        m_klass->setInterface(keyword == "interface");
+        Uml::Object_Type ot = (keyword == "interface" ? Uml::ot_Interface : Uml::ot_Class);
+        m_klass->setBaseType(ot);
         m_isAbstract = m_isStatic = false;
         // if no modifier is specified in an interface, then it means public
         if ( m_klass->isInterface() ) {

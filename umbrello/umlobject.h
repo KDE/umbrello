@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -96,7 +96,7 @@ public:
      *
      * @param  The Uml::Object_Type to set.
      */
-    void setBaseType(Uml::Object_Type ot);
+    virtual void setBaseType(Uml::Object_Type ot);
 
     /**
      * Returns the ID of the object.
