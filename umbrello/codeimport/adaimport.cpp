@@ -189,11 +189,23 @@ bool AdaImport::parseStmt() {
     }
     if (keyword == "package") {
         const QString& name = advance();
+        UMLObject *ns = NULL;
         if (advance() == "is") {
-            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package, name,
-                                                          m_scope[m_scopeIndex], m_comment);
+            ns = Import_Utils::createUMLObject(Uml::ot_Package, name,
+                                               m_scope[m_scopeIndex], m_comment);
             if (m_source[m_srcIndex + 1] == "new") {
-                // generic package instantiation: TBD
+                m_srcIndex++;
+                QString pkgName = advance();
+                UMLObject *gp = Import_Utils::createUMLObject(Uml::ot_Package, pkgName,
+                                                              m_scope[m_scopeIndex]);
+                gp->setStereotype("generic");
+                // Add binding from instantiator to instantiatee
+                UMLAssociation *assoc = new UMLAssociation(Uml::at_Dependency, ns, gp);
+                assoc->setUMLPackage(umldoc->getRootFolder(Uml::mt_Logical));
+                assoc->setStereotype("bind");
+                // Work around missing display of stereotype in AssociationWidget:
+                assoc->setName(assoc->getStereotype(true));
+                umldoc->addAssociation(assoc);
                 skipStmt();
             } else {
                 m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
@@ -205,7 +217,7 @@ bool AdaImport::parseStmt() {
             skipStmt("is");
         }
         if (m_inGenericFormalPart) {
-            // handling of generic formal parameters: TBD
+            ns->setStereotype("generic");
             m_inGenericFormalPart = false;
         }
         return true;
@@ -309,10 +321,9 @@ bool AdaImport::parseStmt() {
             if (isExtension || m_isAbstract) {
                 t = Uml::ot_Class;
             } else {
+                base.remove("Standard.", false);
                 UMLObject *known = umldoc->findUMLObject(base, Uml::ot_UMLObject, m_scope[m_scopeIndex]);
                 t = (known ? known->getBaseType() : Uml::ot_Datatype);
-                if (t == Uml::ot_Datatype)
-                    name.remove("Standard.", false);
             }
             UMLObject *ns = Import_Utils::createUMLObject(t, base, NULL);
             UMLClassifier *parent = static_cast<UMLClassifier*>(ns);
@@ -347,8 +358,8 @@ bool AdaImport::parseStmt() {
             m_klass = NULL;
         } else if (m_scopeIndex) {
             if (advance() != ";") {
-                const QString& scopeName = m_scope[m_scopeIndex]->getName();
-                if (scopeName != m_source[m_srcIndex])
+                QString scopeName = m_scope[m_scopeIndex]->getFullyQualifiedName();
+                if (scopeName.lower() != m_source[m_srcIndex].lower())
                     kError() << "end: expecting " << scopeName << ", found "
                               << m_source[m_srcIndex] << endl;
             }
