@@ -13,6 +13,8 @@
 #define ADAIMPORT_H
 
 #include <qmap.h>
+#include <qstringlist.h>
+
 #include "nativeimportbase.h"
 #include "../umlobjectlist.h"
 
@@ -57,6 +59,11 @@ protected:
      * @return  expanded name
      */
     QString expand(const QString& name);
+
+    /**
+     * Parse all files that can be formed by concatenation of the given stems.
+     */
+    void parseStems(const QStringList& stems);
 
     bool m_inGenericFormalPart; ///< auxiliary variable
 

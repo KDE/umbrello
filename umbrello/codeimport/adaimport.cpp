@@ -54,11 +54,15 @@ QStringList AdaImport::split(const QString& lin) {
         const QChar& c = line[i];
         if (inString) {
             listElement += c;
-            if (i > 0 && line[i - 1] == '"')
-                continue;   // escaped quotation mark
-            list.append(listElement);
-            listElement = QString();
-            inString = false;
+            if (c == '"') {
+                if (i < len - 1 && line[i + 1] == '"') {
+                    i++;     // escaped quotation mark
+                    continue;
+                }
+                list.append(listElement);
+                listElement = QString();
+                inString = false;
+            }
         } else if (c == '"') {
             inString = true;
             if (!listElement.isEmpty())
@@ -135,6 +139,32 @@ QString AdaImport::expand(const QString& name) {
     return result;
 }
 
+void AdaImport::parseStems(const QStringList& stems) {
+    if (stems.isEmpty())
+        return;
+    QString base = stems.first();
+    uint i = 0;
+    while (1) {
+        QString filename = base + ".ads";
+        if (! m_parsedFiles.contains(filename)) {
+            // Save current m_source and m_srcIndex.
+            QStringList source(m_source);
+            uint srcIndex = m_srcIndex;
+            m_source.clear();
+            parseFile(filename);
+            // Restore m_source and m_srcIndex.
+            m_source = source;
+            m_srcIndex = srcIndex;
+            // Also reset m_currentAccess.
+            // CHECK: need to reset more stuff?
+            m_currentAccess = Uml::Visibility::Public;
+        }
+        if (++i >= stems.count())
+            break;
+        base += '-' + stems[i];
+    }
+}
+
 bool AdaImport::parseStmt() {
     const uint srcLength = m_source.count();
     const QString& keyword = m_source[m_srcIndex];
@@ -156,28 +186,7 @@ bool AdaImport::parseStmt() {
                     break;
                 continue;
             }
-            QString base = prefix;
-            uint i = 0;
-            while (1) {
-                if (! m_parsedFiles.contains(base)) {
-                    m_parsedFiles.append(base);
-                    QString filename = base + ".ads";
-                    // Save current m_source and m_srcIndex.
-                    QStringList source(m_source);
-                    uint srcIndex = m_srcIndex;
-                    m_source.clear();
-                    parseFile(filename);
-                    // Restore m_source and m_srcIndex.
-                    m_source = source;
-                    m_srcIndex = srcIndex;
-                    // Also reset m_currentAccess.
-                    // CHECK: need to reset more stuff?
-                    m_currentAccess = Uml::Visibility::Public;
-                }
-                if (++i >= components.count())
-                    break;
-                base += '-' + components[i];
-            }
+            parseStems(components);
             if (advance() != ",")
                 break;
         }
@@ -189,6 +198,9 @@ bool AdaImport::parseStmt() {
     }
     if (keyword == "package") {
         const QString& name = advance();
+        QStringList parentPkgs = QStringList::split(".", name.lower());
+        parentPkgs.pop_back();  // exclude the current package
+        parseStems(parentPkgs);
         UMLObject *ns = NULL;
         if (advance() == "is") {
             ns = Import_Utils::createUMLObject(Uml::ot_Package, name,
@@ -222,6 +234,8 @@ bool AdaImport::parseStmt() {
         }
         return true;
     }
+    if (m_inGenericFormalPart)
+        return false;  // skip generic formal parameter (not yet implemented)
     if (keyword == "subtype") {
         QString name = advance();
         advance();  // "is"
@@ -266,7 +280,7 @@ bool AdaImport::parseStmt() {
             return true;
         }
         if (m_source[m_srcIndex] != "is") {
-            kError() << "AdaImport::parseFile: expecting \"is\"" << endl;
+            kError() << "AdaImport::parseStmt: expecting \"is\"" << endl;
             return false;
         }
         if (advance() == "(") {
@@ -427,20 +441,7 @@ bool AdaImport::parseStmt() {
             typeName = expand(typeName);
             if (op == NULL) {
                 // In Ada, the first parameter indicates the class.
-                UMLObject *type = umldoc->findUMLObject(typeName, Uml::ot_UMLObject, m_scope[m_scopeIndex]);
-                if (type == NULL) {
-                    kError() << "importAda: cannot find UML object for " << typeName << endl;
-                    skipStmt();
-                    break;
-                    /*** better:
-                    if (advance() == ";") {
-                        m_srcIndex++;
-                        continue;
-                    } else {
-                        break;
-                    }
-                     ****/
-                }
+                UMLObject *type = Import_Utils::createUMLObject(Uml::ot_Class, typeName, m_scope[m_scopeIndex]);
                 Uml::Object_Type t = type->getBaseType();
                 if ((t != Uml::ot_Interface &&
                      (t != Uml::ot_Class || type->getStereotype() == "record")) ||
@@ -481,6 +482,7 @@ bool AdaImport::parseStmt() {
         if (klass != NULL && op != NULL)
             Import_Utils::insertMethod(klass, op, m_currentAccess, returnType,
                                        false, isAbstract, false, false, m_comment);
+        skipStmt();
         return true;
     }
     if (keyword == "task" || keyword == "protected") {
