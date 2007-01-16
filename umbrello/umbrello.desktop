@@ -9,6 +9,7 @@ Terminal=false
 Name=Umbrello
 Name[x-test]=xxUmbrelloxx
 GenericName=UML Modeller
+GenericName[el]=Μοντελοποιητής UML
 GenericName[fr]=Modeleur UML
 GenericName[x-test]=xxUML Modellerxx
 MimeType=application/x-uml
