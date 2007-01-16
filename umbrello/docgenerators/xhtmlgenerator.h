@@ -22,6 +22,8 @@
 #include <ktempdir.h>
 #include <qobject.h>
 
+class KJob;
+
 namespace KIO
 {
   class Job;
@@ -90,7 +92,7 @@ class XhtmlGenerator : public QObject
     /** Triggered when the copying of the HTML result file is finished. Emits
      * the signal finished(). 
      */
-    void slotHtmlCopyFinished( KIO::Job* );
+    void slotHtmlCopyFinished( KJob* );
 
   private:
     

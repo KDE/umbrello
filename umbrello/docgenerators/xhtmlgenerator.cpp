@@ -156,7 +156,7 @@ void XhtmlGenerator::slotDocbookToXhtml(KIO::Job * docbookJob)
   kDebug() << "Copying HTML result to: " << xhtmlUrl << endl;
   KIO::Job* job = KIO::file_copy(tmpXhtml.fileName(),xhtmlUrl,-1,true,false,false);
   job->ui()->setAutoErrorHandlingEnabled(true);
-  connect (job, SIGNAL(result( KIO::Job* )), this, SLOT(slotHtmlCopyFinished( KIO::Job* )));
+  connect (job, SIGNAL(result( KJob* )), this, SLOT(slotHtmlCopyFinished( KJob* )));
 
   QString cssFileName(KGlobal::dirs()->findResource("appdata","xmi.css"));
   kDebug() << "CSS file is'"<<cssFileName<<"'" << endl;
@@ -166,7 +166,7 @@ void XhtmlGenerator::slotDocbookToXhtml(KIO::Job * docbookJob)
   cssJob->ui()->setAutoErrorHandlingEnabled(true);
 }
     
-void XhtmlGenerator::slotHtmlCopyFinished( KIO::Job* )
+void XhtmlGenerator::slotHtmlCopyFinished( KJob* )
 {
   kDebug() << "HTML copy finished: emiting finished" << endl;
   emit(finished());
