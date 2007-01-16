@@ -83,7 +83,8 @@ public:
         tbb_Seq_Message_Synchronous,
         tbb_Seq_Message_Asynchronous,
         tbb_Seq_Combined_Fragment,
-        tbb_Composition,
+        tbb_Seq_Precondition,
+	tbb_Composition,
         tbb_Relationship,
         tbb_UniAssociation,
         tbb_State_Transition,
@@ -197,6 +198,7 @@ public slots:
     void slotSeq_Message_Synchronous();
     void slotSeq_Message_Asynchronous();
     void slotSeq_Combined_Fragment();
+    void slotSeq_Precondition();
     void slotComposition();
     void slotRelationship();
     void slotUniAssociation();

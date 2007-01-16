@@ -193,7 +193,8 @@ Association_Type ToolBarStateAssociation::getAssociationType() {
         case WorkToolBar::tbb_Containment:              at = at_Containment;       break;
         case WorkToolBar::tbb_Seq_Message_Synchronous:
         case WorkToolBar::tbb_Seq_Combined_Fragment:
-        case WorkToolBar::tbb_Seq_Message_Asynchronous: at = at_Seq_Message;       break;
+        case WorkToolBar::tbb_Seq_Precondition:
+	case WorkToolBar::tbb_Seq_Message_Asynchronous: at = at_Seq_Message;       break;
         case WorkToolBar::tbb_Coll_Message:             at = at_Coll_Message;      break;
         case WorkToolBar::tbb_State_Transition:         at = at_State;             break;
         case WorkToolBar::tbb_Activity_Transition:      at = at_Activity;          break;

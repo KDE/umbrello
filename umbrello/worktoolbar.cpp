@@ -113,6 +113,7 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
         insertHotBtn(tbb_Seq_Message_Synchronous);
         insertHotBtn(tbb_Seq_Message_Asynchronous);
         insertHotBtn(tbb_Seq_Combined_Fragment);
+	insertHotBtn(tbb_Seq_Precondition);
         break;
 
     case Uml::dt_Collaboration:
@@ -251,6 +252,7 @@ void WorkToolBar::loadPixmaps() {
         { tbb_Seq_Message_Synchronous, i18n("Synchronous Message"), "message-synchronous.png", SLOT(slotSeq_Message_Synchronous()) },
         { tbb_Seq_Message_Asynchronous, i18n("Asynchronous Message"), "message-asynchronous.png", SLOT(slotSeq_Message_Asynchronous()) },
         { tbb_Seq_Combined_Fragment, i18n("Combined Fragment"), "combined_fragment.png", SLOT(slotSeq_Combined_Fragment()) },
+	{ tbb_Seq_Precondition, i18n("Precondition"),"precondition.png",SLOT(slotSeq_Precondition()) },
         { tbb_Association, i18n("Association"), "association.png", SLOT(slotAssociation()) },
         { tbb_Containment, i18n("Containment"), "containment.png", SLOT(slotContainment()) },
         { tbb_Anchor, i18n("Anchor"), "anchor.png", SLOT(slotAnchor()) },
@@ -333,6 +335,7 @@ void WorkToolBar::slotColl_Message() {buttonChanged(tbb_Coll_Message);}
 void WorkToolBar::slotSeq_Message_Synchronous() {buttonChanged(tbb_Seq_Message_Synchronous);}
 void WorkToolBar::slotSeq_Message_Asynchronous(){buttonChanged(tbb_Seq_Message_Asynchronous);}
 void WorkToolBar::slotSeq_Combined_Fragment(){buttonChanged(tbb_Seq_Combined_Fragment);}
+void WorkToolBar::slotSeq_Precondition(){buttonChanged(tbb_Seq_Precondition);}
 void WorkToolBar::slotComposition() {buttonChanged(tbb_Composition);}
 void WorkToolBar::slotRelationship() {buttonChanged(tbb_Relationship);}
 void WorkToolBar::slotUniAssociation() {buttonChanged(tbb_UniAssociation);}
