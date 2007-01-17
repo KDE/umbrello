@@ -104,7 +104,8 @@ enum Widget_Type
     wt_Artifact,                // has UMLObject representation
     wt_Node,                    // has UMLObject representation
     wt_Association,             // has UMLObject representation
-    wt_ForkJoin                 // does not have UMLObject representation
+    wt_ForkJoin,                 // does not have UMLObject representation
+    wt_Precondition		// does not have UMLObject representation
 };
 
 enum Diagram_Type

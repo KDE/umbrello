@@ -309,6 +309,7 @@ set(libumbrello_SRCS
    petaltree2uml.cpp 
    plugin.cpp 
    pluginloader.cpp 
+   preconditionwidget.cpp
    seqlinewidget.cpp 
    statewidget.cpp 
    stereotype.cpp 
