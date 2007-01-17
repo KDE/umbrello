@@ -11,7 +11,7 @@ end_state.png  generalisation.png  initial_state.png  interface.png  join.png  j
 message-synchronous.png  message-asynchronous.png  note.png  object.png  startlogo.png  template.png  text.png  
 class.png  uniassociation.png  usecase.png  branch.png  fork.png  state-fork.png  package.png  artifact.png  
 box.png  node.png  entity.png  relationship.png  subsystem.png cursor-actor.png  cursor-andline.png  
-cursor-choice-rhomb.png  cursor-choice-round.png  cursor-deep-history.png  cursor-join.png  cursor-junction.png  
+cursor-choice-rhomb.png  cursor-choice-round.png  cursor-combined_fragment.png  cursor-deep-history.png  cursor-join.png  cursor-junction.png  
 cursor-shallow-history.png  cursor-state-fork.png  cursor-usecase.png  cursor-initial_state.png  cursor-package.png  
 cursor-aggregation.png  cursor-component.png  cursor-containment.png  cursor-interface.png  cursor-datatype.png  
 cursor-enum.png  cursor-text.png  cursor-anchor.png  cursor-composition.png  cursor-message-asynchronous.png  
