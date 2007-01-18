@@ -230,6 +230,8 @@ set(libcmds_SRCS
 	cmds/classdiag/cmd_create_class.cpp
 	
 	cmds/widgets/cmd_create_umlobject.cpp
+	cmds/cmd_moveWidget.cpp
+
 )
 kde4_automoc(${libclipboard_SRCS})
 ########### next target ###############

@@ -24,6 +24,7 @@
 #include "cmds/cmd_create_seqdiag.h"
 #include "cmds/cmd_create_statediag.h"
 #include "cmds/cmd_create_usecasediag.h"
+#include "cmds/cmd_moveWidget.h"
 
 /************************************************************
  * Widgets
