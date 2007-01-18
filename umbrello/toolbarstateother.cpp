@@ -147,10 +147,14 @@ bool ToolBarStateOther::newWidget() {
         Dialog_Utils::askNameForWidget(
             umlWidget, i18n("Enter Activity Name"),
             i18n("Enter the name of the new activity:"), i18n("new activity"));
-    } /* Florence MATTLER */else if (getButton() == WorkToolBar::tbb_Seq_Precondition) {
+    } else if (getButton() == WorkToolBar::tbb_Seq_Precondition) {
         Dialog_Utils::askNameForWidget(
             umlWidget, i18n("Enter Precondition Name"),
             i18n("Enter the precondition"), i18n("new precondition"));
+    } else if (getButton() == WorkToolBar::tbb_Seq_Combined_Fragment) {
+        Dialog_Utils::askNameForWidget(
+            umlWidget, i18n("Enter Combined Fragment Name"),
+            i18n("Enter the Combined Fragment"), i18n("new Combined Fragment"));
     } else if (getButton() == WorkToolBar::tbb_State) {
         Dialog_Utils::askNameForWidget(
             umlWidget, i18n("Enter State Name"),
@@ -160,7 +164,6 @@ bool ToolBarStateOther::newWidget() {
         FloatingTextWidget* ft = (FloatingTextWidget*) umlWidget;
         ft->changeTextDlg();
     }
-
     // Create the widget. Some setup functions can remove the widget.
     if (umlWidget != NULL) {
         m_pUMLView->setupNewWidget(umlWidget);
