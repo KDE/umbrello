@@ -18,7 +18,8 @@ cursor-enum.png  cursor-text.png  cursor-anchor.png  cursor-composition.png  cur
 cursor-class.png  cursor-artifact.png  cursor-dependency.png  cursor-message-synchronous.png  
 cursor-uniassociation.png  cursor-association.png  cursor-end_state.png  cursor-node.png  cursor-box.png  
 cursor-fork.png  cursor-note.png  cursor-branch.png  cursor-generalisation.png  cursor-object.png  
-cursor-entity.png  cursor-relationship.png precondition.png cursor-precondition.png DESTINATION  
+cursor-entity.png  cursor-relationship.png precondition.png cursor-precondition.png message-found.png 
+cursor-message-found.png message-lost.png cursor-message-lost.png DESTINATION  
 ${DATA_INSTALL_DIR}/umbrello/pics )
 
 kde4_install_icons( ${ICON_INSTALL_DIR}   )

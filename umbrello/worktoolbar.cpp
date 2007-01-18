@@ -112,6 +112,8 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
         insertHotBtn(tbb_Object);
         insertHotBtn(tbb_Seq_Message_Synchronous);
         insertHotBtn(tbb_Seq_Message_Asynchronous);
+	insertHotBtn(tbb_Seq_Message_Found);
+	insertHotBtn(tbb_Seq_Message_Lost);
         insertHotBtn(tbb_Seq_Combined_Fragment);
 	insertHotBtn(tbb_Seq_Precondition);
         break;
@@ -251,6 +253,8 @@ void WorkToolBar::loadPixmaps() {
         { tbb_Object, i18n("Object"), "object.png", SLOT(slotObject()) },
         { tbb_Seq_Message_Synchronous, i18n("Synchronous Message"), "message-synchronous.png", SLOT(slotSeq_Message_Synchronous()) },
         { tbb_Seq_Message_Asynchronous, i18n("Asynchronous Message"), "message-asynchronous.png", SLOT(slotSeq_Message_Asynchronous()) },
+        { tbb_Seq_Message_Found, i18n("Found Message"), "message-found.png", SLOT(slotSeq_Message_Found()) },
+        { tbb_Seq_Message_Lost, i18n("Lost Message"), "message-lost.png", SLOT(slotSeq_Message_Lost()) },
         { tbb_Seq_Combined_Fragment, i18n("Combined Fragment"), "combined_fragment.png", SLOT(slotSeq_Combined_Fragment()) },
 	{ tbb_Seq_Precondition, i18n("Precondition"),"precondition.png",SLOT(slotSeq_Precondition()) },
         { tbb_Association, i18n("Association"), "association.png", SLOT(slotAssociation()) },
@@ -334,6 +338,8 @@ void WorkToolBar::slotContainment() {buttonChanged(tbb_Containment);}
 void WorkToolBar::slotColl_Message() {buttonChanged(tbb_Coll_Message);}
 void WorkToolBar::slotSeq_Message_Synchronous() {buttonChanged(tbb_Seq_Message_Synchronous);}
 void WorkToolBar::slotSeq_Message_Asynchronous(){buttonChanged(tbb_Seq_Message_Asynchronous);}
+void WorkToolBar::slotSeq_Message_Found(){buttonChanged(tbb_Seq_Message_Found);}
+void WorkToolBar::slotSeq_Message_Lost(){buttonChanged(tbb_Seq_Message_Lost);}
 void WorkToolBar::slotSeq_Combined_Fragment(){buttonChanged(tbb_Seq_Combined_Fragment);}
 void WorkToolBar::slotSeq_Precondition(){buttonChanged(tbb_Seq_Precondition);}
 void WorkToolBar::slotComposition() {buttonChanged(tbb_Composition);}

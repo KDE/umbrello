@@ -85,7 +85,9 @@ int ToolBarStateFactory::getKey(const WorkToolBar::ToolBar_Buttons &toolbarButto
         // Messages
     case WorkToolBar::tbb_Seq_Message_Synchronous:  return 2;
     case WorkToolBar::tbb_Seq_Message_Asynchronous: return 2;
-    case WorkToolBar::tbb_Seq_Combined_Fragment: return 2;
+    case WorkToolBar::tbb_Seq_Message_Found: 	    return 2;
+    case WorkToolBar::tbb_Seq_Message_Lost: 	    return 2;
+    case WorkToolBar::tbb_Seq_Combined_Fragment:    return 2;
     //case WorkToolBar::tbb_Seq_Precondition: return 2;
     
     	// Arrow pointer

@@ -82,6 +82,8 @@ public:
         tbb_Coll_Message,
         tbb_Seq_Message_Synchronous,
         tbb_Seq_Message_Asynchronous,
+	tbb_Seq_Message_Found,
+	tbb_Seq_Message_Lost,
         tbb_Seq_Combined_Fragment,
         tbb_Seq_Precondition,
 	tbb_Composition,
@@ -197,6 +199,8 @@ public slots:
     void slotColl_Message();
     void slotSeq_Message_Synchronous();
     void slotSeq_Message_Asynchronous();
+    void slotSeq_Message_Found();
+    void slotSeq_Message_Lost();
     void slotSeq_Combined_Fragment();
     void slotSeq_Precondition();
     void slotComposition();

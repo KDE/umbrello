@@ -277,7 +277,9 @@ enum Sequence_Message_Type
     //This is saved out to the file so only add new entries at the end
     sequence_message_synchronous = 1000,
     sequence_message_asynchronous,
-    sequence_message_creation
+    sequence_message_creation,
+    sequence_message_found,
+    sequence_message_lost
 };
 
 enum DBIndex_Type
