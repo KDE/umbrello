@@ -5,8 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2006                                                     *
- *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
+ *   copyright (C) 2006-2007                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
@@ -66,7 +66,8 @@ void PascalImport::fillSource(const QString& word) {
 }
 
 void PascalImport::checkModifiers(bool& isVirtual, bool& isAbstract) {
-    while (true) {
+    const uint srcLength = m_source.count();
+    while (m_srcIndex < srcLength - 1) {
         QString lookAhead = m_source[m_srcIndex + 1].lower();
         if (lookAhead != "virtual" && lookAhead != "abstract" &&
             lookAhead != "override" &&
@@ -89,9 +90,9 @@ bool PascalImport::parseStmt() {
     QString keyword = m_source[m_srcIndex].lower();
     //kDebug() << '"' << keyword << '"' << endl;
     if (keyword == "uses") {
-        while (++m_srcIndex < srcLength && m_source[m_srcIndex] != ";") {
-            QStringList components = QStringList::split(".", m_source[m_srcIndex]);
-            const QString& prefix = components.first();
+        while (m_srcIndex < srcLength - 1) {
+            QString unit = advance();
+            const QString& prefix = unit.lower();
             if (prefix == "sysutils" || prefix == "types" || prefix == "classes" ||
                 prefix == "graphics" || prefix == "controls" || prefix == "strings" ||
                 prefix == "forms" || prefix == "windows" || prefix == "messages" ||
@@ -102,27 +103,19 @@ bool PascalImport::parseStmt() {
                     break;
                 continue;
             }
-            QString base = prefix;
-            uint i = 0;
-            while (1) {
-                if (! m_parsedFiles.contains(base)) {
-                    m_parsedFiles.append(base);
-                    QString filename = base + ".pas";
-                    // Save current m_source and m_srcIndex.
-                    QStringList source(m_source);
-                    uint srcIndex = m_srcIndex;
-                    m_source.clear();
-                    parseFile(filename);
-                    // Restore m_source and m_srcIndex.
-                    m_source = source;
-                    m_srcIndex = srcIndex;
-                    // Also reset m_currentAccess.
-                    // CHECK: need to reset more stuff?
-                    m_currentAccess = Uml::Visibility::Public;
-                }
-                if (++i >= components.count())
-                    break;
-                base += '-' + components[i];
+            QString filename = unit + ".pas";
+            if (! m_parsedFiles.contains(unit)) {
+                // Save current m_source and m_srcIndex.
+                QStringList source(m_source);
+                uint srcIndex = m_srcIndex;
+                m_source.clear();
+                parseFile(filename);
+                // Restore m_source and m_srcIndex.
+                m_source = source;
+                m_srcIndex = srcIndex;
+                // Also reset m_currentAccess.
+                // CHECK: need to reset more stuff?
+                m_currentAccess = Uml::Visibility::Public;
             }
             if (advance() != ",")
                 break;
@@ -189,6 +182,10 @@ bool PascalImport::parseStmt() {
     if (keyword == "packed") {
         return true;  // TBC: perhaps this could be stored in a TaggedValue
     }
+    if (keyword == "[") {
+        skipStmt("]");
+        return true;
+    }
     if (keyword == "end") {
         if (m_klass) {
             m_klass = NULL;
@@ -207,7 +204,9 @@ bool PascalImport::parseStmt() {
             // Unlike a Pascal unit, a UML package does not support subprograms.
             // In order to map those, we would need to create a UML class with
             // stereotype <<utility>> for the unit, http://bugs.kde.org/89167
-            skipStmt();
+            bool dummyVirtual = false;
+            bool dummyAbstract = false;
+            checkModifiers(dummyVirtual, dummyAbstract);
             return true;
         }
         const QString& name = advance();
@@ -321,21 +320,38 @@ bool PascalImport::parseStmt() {
             skipStmt();
             return true;
         }
-        if (keyword == "class") {
-            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
-                            name, m_scope[m_scopeIndex], m_comment);
-            m_klass = static_cast<UMLClassifier*>(ns);
+        if (keyword == "class" || keyword == "interface") {
+            Uml::Object_Type t = (keyword == "class" ? Uml::ot_Class : Uml::ot_Interface);
+            UMLObject *ns = Import_Utils::createUMLObject(t, name,
+                                                          m_scope[m_scopeIndex], m_comment);
+            UMLClassifier *klass = static_cast<UMLClassifier*>(ns);
             m_comment = QString();
-            if (m_source[m_srcIndex + 1] == "(") {
+            QString lookAhead = m_source[m_srcIndex + 1];
+            if (lookAhead == "(") {
                 advance();
                 do {
                     QString base = advance();
                     UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class, base, NULL);
                     UMLClassifier *parent = static_cast<UMLClassifier*>(ns);
                     m_comment = QString();
-                    Import_Utils::createGeneralization(m_klass, parent);
+                    Import_Utils::createGeneralization(klass, parent);
                 } while (advance() == ",");
+                if (m_source[m_srcIndex] != ")") {
+                    kError() << "PascalImport: expecting \")\" at "
+                        << m_source[m_srcIndex] << endl;
+                    return false;
+                }
+                lookAhead = m_source[m_srcIndex + 1];
             }
+            if (lookAhead == ";") {
+                skipStmt();
+                return true;
+            }
+            if (lookAhead == "of") {
+                // @todo implement class-reference type
+                return false;
+            }
+            m_klass = klass;
             m_currentAccess = Uml::Visibility::Public;
             return true;
         }
@@ -368,7 +384,7 @@ bool PascalImport::parseStmt() {
         stereotype = keyword;
         name = advance();
     } else {
-        name = keyword;
+        name = m_source[m_srcIndex];
     }
     if (advance() != ":") {
         kError() << "PascalImport: expecting \":\" at " << name << " "

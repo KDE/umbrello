@@ -218,8 +218,11 @@ UMLObject *createUMLObject(Uml::Object_Type type,
             o = origType;
         }
     } else if (parentPkg && !bPutAtGlobalScope) {
-        if (o->getUMLPackage())
-            o->getUMLPackage()->removeObject(o);
+        UMLPackage *existingPkg = o->getUMLPackage();
+        if (existingPkg == umldoc->getDatatypeFolder())
+            return o;
+        if (existingPkg)
+            existingPkg->removeObject(o);
         o->setUMLPackage(parentPkg);
         parentPkg->addObject(o);
     }
