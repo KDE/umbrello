@@ -237,6 +237,8 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me) {
 			m_doc->executeCommand(new cmdMoveWidget(this));
 
                 } else {
+   			 UMLDoc* m_doc = UMLApp::app()->getDocument();
+			m_doc->executeCommand(new cmdResizeWidget(this));
                     m_resized = false;
                 }
 
@@ -384,15 +386,16 @@ void UMLWidgetController::insertSaveValues(int _oldX, int _oldY, int X, int Y)
 }
 
 int UMLWidgetController::getOldX()
-{
-	return m_oldX;
-}
+{	return m_oldX;	}
 
 int UMLWidgetController::getOldY()
-{
-	return m_oldY;
-}
+{	return m_oldY;	}
 
+int UMLWidgetController::getOldW()
+{	return m_oldW;	}
+
+int UMLWidgetController::getOldH()
+{	return m_oldH;	}
 
 void UMLWidgetController::setSelectionBounds() {
     if (m_widget->m_pView->getSelectCount() > 0) {

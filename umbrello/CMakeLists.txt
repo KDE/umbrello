@@ -231,6 +231,7 @@ set(libcmds_SRCS
 	
 	cmds/widgets/cmd_create_umlobject.cpp
 	cmds/cmd_moveWidget.cpp
+	cmds/cmd_resizeWidget.cpp
 
 )
 kde4_automoc(${libclipboard_SRCS})

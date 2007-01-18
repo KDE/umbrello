@@ -181,8 +181,10 @@ public:
     virtual void widgetMoved();
 int getOldX();
 int getOldY();
+int getOldH();
+int getOldW();
 void insertSaveValues(int _oldX, int _oldY, int X, int Y);
-
+//avant c'estait protected?
     /**
      * Moves the widget to a new position using the difference between the
      * current position and the new position.
@@ -202,6 +204,19 @@ void insertSaveValues(int _oldX, int _oldY, int X, int Y);
      */
     virtual void moveWidgetBy(int diffX, int diffY);
 
+    /**
+     * Resizes the widget.
+     * It's called from resize, after the values are constrained and before
+     * the associations are adjusted.
+     *
+     * Default behaviour is resize the widget using the new size values.
+     * @see resize
+     *
+     * @param newW The new width for the widget.
+     * @param newH The new height for the widget.
+     */
+    virtual void resizeWidget(int newW, int newH);
+//plus de modif dans les droits acces
 virtual UMLWidget* getWidget();
 
 
@@ -242,18 +257,7 @@ protected:
      */
     virtual QCursor getResizeCursor();
 
-    /**
-     * Resizes the widget.
-     * It's called from resize, after the values are constrained and before
-     * the associations are adjusted.
-     *
-     * Default behaviour is resize the widget using the new size values.
-     * @see resize
-     *
-     * @param newW The new width for the widget.
-     * @param newH The new height for the widget.
-     */
-    virtual void resizeWidget(int newW, int newH);
+
 
 
 
