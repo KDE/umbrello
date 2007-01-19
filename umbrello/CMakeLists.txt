@@ -112,7 +112,7 @@ set(libdocgenerator_SRCS
 kde4_automoc(${libdocgenerator_SRCS})
 
 set(libdialogs_SRCS
-	dialogs/activitydialog.cpp 
+	dialogs/activitydialog.cpp
 	dialogs/activitypage.cpp 
 	dialogs/assocgenpage.cpp 
 	dialogs/assocpage.cpp 
@@ -238,7 +238,8 @@ kde4_automoc(${libclipboard_SRCS})
 ########### next target ###############
 
 set(libumbrello_SRCS 
-   activitywidget.cpp 
+   activitywidget.cpp
+   combinedfragmentwidget.cpp 
    actor.cpp 
    actorwidget.cpp 
    aligntoolbar.cpp 
