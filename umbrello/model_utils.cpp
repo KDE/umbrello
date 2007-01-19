@@ -169,6 +169,17 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                             << name << " (seeking type: "
                             << type << ", found type: "
                             << foundType << ")" << endl;
+                        // Class, Interface, and Datatype are all Classifiers
+                        // and are considered equivalent.
+                        // The caller must be prepared to handle possible mismatches.
+                        if ((type == Uml::ot_Class ||
+                             type == Uml::ot_Interface ||
+                             type == Uml::ot_Datatype) &&
+                            (foundType == Uml::ot_Class || 
+                             foundType == Uml::ot_Interface || 
+                             foundType == Uml::ot_Datatype)) {
+                            return obj;
+                        }
                         continue;
                     }
                     return obj;

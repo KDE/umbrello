@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2005-2006                                                *
+ *  copyright (C) 2005-2007                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -261,6 +261,11 @@ void NativeImportBase::initVars() {
 }
 
 void NativeImportBase::parseFile(const QString& filename) {
+    QString nameWithoutPath = filename;
+    nameWithoutPath.remove(QRegExp("^.*/"));
+    if (m_parsedFiles.contains(nameWithoutPath))
+        return;
+    m_parsedFiles.append(nameWithoutPath);
     QString fname = filename;
     const QString msgPrefix = "NativeImportBase::parseFile(" + filename + "): ";
     if (filename.contains('/')) {
@@ -298,6 +303,7 @@ void NativeImportBase::parseFile(const QString& filename) {
         kError() << msgPrefix << "cannot open file" << endl;
         return;
     }
+    kDebug() << msgPrefix << "parsing." << endl;
     // Scan the input file into the QStringList m_source.
     m_source.clear();
     m_srcIndex = 0;
@@ -325,6 +331,7 @@ void NativeImportBase::parseFile(const QString& filename) {
            skipStmt();
         m_comment.clear();
     }
+    kDebug() << msgPrefix << "end of parse." << endl;
 }
 
 void NativeImportBase::initialize() {

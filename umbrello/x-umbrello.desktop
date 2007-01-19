@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=MimeType
+MimeType=application/x-uml
+Icon=umbrellofile
+DefaultApp=umbrello
+Patterns=*.xmi;*.XMI;*.xmi.tgz;*.xmi.tar.bz2;
+Comment=Umbrello UML Modeller File
+Comment[el]=Αρχείο μοντελοποιητή UML Umbrello
+Comment[fr]=Fichier du modeleur UML Umbrello
+Comment[x-test]=xxUmbrello UML Modeller Filexx

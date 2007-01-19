@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -50,10 +50,8 @@ public:
      *
      * @param name              The name of the Concept.
      * @param id                The unique id of the Concept.
-     * @param bIsInterface      True if this classifier shall be an interface.
      */
-    UMLClassifier(const QString & name = "", Uml::IDType id = Uml::id_None,
-                  bool bIsInterface = false);
+    UMLClassifier(const QString & name = "", Uml::IDType id = Uml::id_None);
 
     /**
      * Standard deconstructor.
@@ -389,14 +387,40 @@ public:
     UMLAssociation *getClassAssoc();
 
     /**
-     * Controls whether this classifier represents an interface.
+     * Reimplementation of method from class UMLObject for controlling the
+     * exact type of this classifier: class, interface, or datatype.
      */
-    void setInterface(bool b = true);
+    void setBaseType(Uml::Object_Type ot);
 
     /**
      * Returns true if this classifier represents an interface.
      */
-    virtual bool isInterface() const;
+    bool isInterface() const;
+
+    /**
+     * Returns true if this classifier represents a datatype.
+     */
+    bool isDatatype() const;
+
+    /**
+     * Set the origin type (in case of e.g. typedef)
+     */
+    void setOriginType(UMLClassifier *origType);
+
+    /**
+     * Get the origin type (in case of e.g. typedef)
+     */
+    UMLClassifier * originType();
+
+    /**
+     * Set the m_isRef flag (true when dealing with a pointer type)
+     */
+    void setIsReference(bool isRef = true);
+
+    /**
+     * Get the m_isRef flag.
+     */
+    bool isReference();
 
     /**
      * Return true if this classifier has abstract operations.
@@ -433,9 +457,11 @@ private:
     /**
      * Initializes key variables of the class.
      */
-    void init(bool bIsInterface = false);
+    void init();
 
     UMLAssociation *m_pClassAssoc;
+
+    bool m_isRef;
 
 protected:
 

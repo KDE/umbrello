@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2006                                                *
+ *  copyright (C) 2002-2007                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -49,7 +49,7 @@
 #include "package.h"
 #include "folder.h"
 #include "codegenerator.h"
-#include "datatype.h"
+#include "classifier.h"
 #include "enum.h"
 #include "entity.h"
 #include "docwindow.h"
@@ -1872,13 +1872,13 @@ UMLClassifierList UMLDoc::getInterfaces(bool includeNested /* =true */) {
     return interfaceList;
 }
 
-UMLDatatypeList UMLDoc::getDatatypes() {
-    UMLDatatypeList datatypeList;
+UMLClassifierList UMLDoc::getDatatypes() {
+    UMLClassifierList datatypeList;
     UMLObject *obj;
     for (UMLObjectListIt oit(m_datatypeRoot->containedObjects());
             (obj = oit.current()) != NULL; ++oit) {
         if (obj->getBaseType() == ot_Datatype) {
-            datatypeList.append(static_cast<UMLDatatype*>(obj));
+            datatypeList.append(static_cast<UMLClassifier*>(obj));
         }
     }
     return datatypeList;

@@ -1,0 +1,16 @@
+# KDE Config File
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Exec=umbrello -caption "%c"
+Icon=umbrello
+DocPath=umbrello/index.html
+Terminal=false
+Name=Umbrello
+Name[x-test]=xxUmbrelloxx
+GenericName=UML Modeller
+GenericName[el]=Μοντελοποιητής UML
+GenericName[fr]=Modeleur UML
+GenericName[x-test]=xxUML Modellerxx
+MimeType=application/x-uml
+Categories=Qt;KDE;Development;

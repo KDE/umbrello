@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -31,7 +31,7 @@
 #include "javacodecomment.h"
 #include "javaclassdeclarationblock.h"
 #include "javacodeclassfielddeclarationblock.h"
-#include "../datatype.h"
+#include "../classifier.h"
 #include "../codegenerationpolicy.h"
 #include "../uml.h"
 
@@ -396,7 +396,7 @@ void JavaClassifierCodeDocument::updateContent( )
         // NO (default) datatypes in the import statement.. use defined
         // ones whould be possible, but no idea how to do that...at least for now.
         // Dynamic casting is slow..not an optimal way to do this.
-        if (!packageMap.contains(con) && !dynamic_cast<UMLDatatype*>(con))
+        if (!packageMap.contains(con) && con->getBaseType() != Uml::ot_Datatype)
         {
             packageMap.insert(con, con->getPackage());
 

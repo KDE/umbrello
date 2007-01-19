@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2005-2006                                                *
+ *  copyright (C) 2005-2007                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -172,7 +172,7 @@ protected:
     uint m_srcIndex;
 
     /**
-     * Stack of scopes.
+     * Stack of scopes for use by the specific importer.
      */
     UMLPackage *m_scope[32];
     /**
@@ -203,8 +203,10 @@ protected:
     bool m_isAbstract;
 
     /**
-     * List of parsed files. The exact syntax of the items
-     * stored here depend on the specific code importer.
+     * List of parsed files. Contains file names without paths.
+     * Before actually parsing a given file, NativeImportBase checks
+     * whether the name is already present in this list in order to
+     * avoid parsing the same file multiple times.
      */
     QStringList m_parsedFiles;
 

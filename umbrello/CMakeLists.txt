@@ -271,7 +271,6 @@ set(libumbrello_SRCS
    component.cpp 
    componentwidget.cpp 
    configurable.cpp 
-   datatype.cpp 
    datatypewidget.cpp 
    dialog_utils.cpp 
    docwindow.cpp 
@@ -423,7 +422,6 @@ kde4_install_icons( ${ICON_INSTALL_DIR}   )
 #componentwidget.cpp \
 #configurable.cpp \
 #cppimport.cpp \
-#datatype.cpp \
 #datatypewidget.cpp \
 #dialog_utils.cpp \
 #docwindow.cpp \

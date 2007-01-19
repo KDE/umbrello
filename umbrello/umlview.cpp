@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -74,7 +74,6 @@
 #include "nodewidget.h"
 #include "artifactwidget.h"
 #include "datatypewidget.h"
-#include "datatype.h"
 #include "enumwidget.h"
 #include "entitywidget.h"
 #include "actorwidget.h"
@@ -2092,8 +2091,8 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
     //           end if
     //         end if
     //       end if
-    //       if the attribute type is a UMLDatatype then
-    //         if the UMLDatatype is a reference (pointer) type then
+    //       if the attribute type is a Datatype then
+    //         if the Datatype is a reference (pointer) type then
     //           if the referenced type has a widget representation on this view then
     //             if the AssocWidget does not already exist then
     //               if the current diagram type permits aggregations then
@@ -2113,12 +2112,12 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
         return;
     // if the underlying model object is really a UMLClassifier then
     if (tmpUmlObj->getBaseType() == Uml::ot_Datatype) {
-        UMLDatatype *dt = static_cast<UMLDatatype*>(tmpUmlObj);
+        UMLClassifier *dt = static_cast<UMLClassifier*>(tmpUmlObj);
         while (dt->originType() != NULL) {
             tmpUmlObj = dt->originType();
             if (tmpUmlObj->getBaseType() != Uml::ot_Datatype)
                 break;
-            dt = static_cast<UMLDatatype*>(tmpUmlObj);
+            dt = static_cast<UMLClassifier*>(tmpUmlObj);
         }
     }
     if (tmpUmlObj->getBaseType() != Uml::ot_Class)
@@ -2162,10 +2161,10 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
                 delete a;
            }
         }
-        // if the attribute type is a UMLDatatype then
+        // if the attribute type is a Datatype then
         if (attrType->getBaseType() == ot_Datatype) {
-            UMLDatatype *dt = static_cast<UMLDatatype*>(attrType);
-            // if the UMLDatatype is a reference (pointer) type
+            UMLClassifier *dt = static_cast<UMLClassifier*>(attrType);
+            // if the Datatype is a reference (pointer) type
             if (dt->isReference()) {
                 Uml::Association_Type assocType = Uml::at_Composition;
                 UMLClassifier *c = dt->originType();
