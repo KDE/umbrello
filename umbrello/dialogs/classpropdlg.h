@@ -74,17 +74,18 @@ public:
     enum Page{page_gen = 0, page_att, page_op, page_template,
               page_assoc, page_options, page_color, page_font};
 
-protected:
+protected slots:
     /**
      * Calls slotApply() and accepts (closes) the dialog
      */
     void slotOk();
 
     /**
-     * Applys the settings in the dialog to the widget and object
+     * Applies the settings in the dialog to the widget and object
      */
     void slotApply();
 
+protected:
     /**
      * Sets up the general, attribute, operations, template and association pages as appropriate
      */
