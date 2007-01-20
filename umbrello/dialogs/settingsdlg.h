@@ -165,9 +165,6 @@ private:
     KConfig * m_pCfg;
     bool m_bChangesApplied;
     KPageWidgetItem*pageCodeViewer,*pageFont,*pageCodeGen,*pageUserInterface,* pageGeneral,*pageClass;
-    //signals
-signals:
-    //slots
 private slots:
     void slotApply();
     void slotOk();

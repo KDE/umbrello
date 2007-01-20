@@ -52,7 +52,7 @@ public:
         return m_bChangesMade;
     }
 
-protected:
+protected slots:
 
 
     /**
@@ -64,7 +64,7 @@ protected:
     *   Entered when Apply button pressed.
     */
     void slotApply();
-
+protected:
     /**
     *   Sets up the pages of the dialog.
     */
