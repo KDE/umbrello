@@ -31,17 +31,16 @@
  * @author Hassan KOUCH <hkouch@hotmail.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class combinedFragmentWidget : public UMLWidget {
+class CombinedFragmentWidget : public UMLWidget {
     Q_OBJECT
 
 public:
     enum CombinedFragmentType
     {
         Initial = 0,
-        Normal,
-        End,
-        Branch,
-        Fork_DEPRECATED  // use ForkJoinWidget instead
+	Normal,
+        Ref
+  
     };
 
     /**
@@ -51,13 +50,13 @@ public:
      * @param combinedfragmentType      The type of combined fragment.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-    combinedFragmentWidget( UMLView * view, CombinedFragmentType combinedfragmentType = Normal, Uml::IDType id = Uml::id_None );
+    CombinedFragmentWidget( UMLView * view, CombinedFragmentType combinedfragmentType = Normal, Uml::IDType id = Uml::id_None );
 
 
     /**
      *  destructor
      */
-    virtual ~combinedFragmentWidget();
+    virtual ~CombinedFragmentWidget();
 
     /**
      * Overrides the standard paint event.

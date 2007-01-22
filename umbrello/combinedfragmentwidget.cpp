@@ -32,74 +32,52 @@
 #include <QMouseEvent>
 #include <QPolygon>
 
-combinedFragmentWidget::combinedFragmentWidget(UMLView * view, CombinedFragmentType combfragmentType, Uml::IDType id ) : UMLWidget(view, id)
+CombinedFragmentWidget::CombinedFragmentWidget(UMLView * view, CombinedFragmentType combfragmentType, Uml::IDType id ) : UMLWidget(view, id)
 {
-    UMLWidget::setBaseType( Uml::wt_Activity );
+    UMLWidget::setBaseType( Uml::wt_Combined_Fragment );
     setCombinedFragmentType( combfragmentType );
     updateComponentSize();
 }
 
-combinedFragmentWidget::~combinedFragmentWidget() {}
+CombinedFragmentWidget::~CombinedFragmentWidget() {}
 
-void combinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
+void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
+    
     int w = width();
     int h = height();
+    UMLWidget::setPen(p);
+	if ( UMLWidget::getUseFillColour() ) {
+		p.setBrush( UMLWidget::getFillColour() );
+	}
+	{
+		const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+		const int fontHeight  = fm.lineSpacing();
+		//int middleX = w / 2;
+		int textStartY = (h / 2) - (fontHeight / 2);
+		p.drawRect(offsetX, offsetY, w + 100, h + 100);
+		p.drawLine(offsetX, offsetY + 20, offsetX + 30, offsetY + 20);
+		p.drawLine(offsetX + 30, offsetY + 20, offsetX + 35, offsetY + 10);
+		p.drawLine(offsetX + 35, offsetY + 10, offsetX + 35, offsetY);
+		p.setPen(Qt::black);
+		p.setFont( UMLWidget::getFont() );
     switch ( m_CombinedFragment )
     {
     case Normal :
-        UMLWidget::setPen(p);
-        if ( UMLWidget::getUseFillColour() ) {
-            p.setBrush( UMLWidget::getFillColour() );
-        }
-        {
-            const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-            const int fontHeight  = fm.lineSpacing();
-            //int middleX = w / 2;
-            int textStartY = (h / 2) - (fontHeight / 2);
-            p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
-            p.setPen(Qt::black);
-            p.setFont( UMLWidget::getFont() );
-            p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + textStartY,
-                       w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
-        }
+
+            p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + 5,
+                       w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignLeft, "ref");
+        
         UMLWidget::setPen(p);
         break;
-    case Initial :
-        UMLWidget::setPen(p);
-        p.setBrush( WidgetBase::getLineColor() );
-        p.drawEllipse( offsetX, offsetY, w, h );
-        break;
-    case End :
-        UMLWidget::setPen(p);
-        p.setBrush( WidgetBase::getLineColor() );
-        p.drawEllipse( offsetX, offsetY, w, h );
-        p.setBrush( Qt::white );
-        p.drawEllipse( offsetX + 1, offsetY + 1, w - 2, h - 2 );
-        p.setBrush( WidgetBase::getLineColor() );
-        p.drawEllipse( offsetX + 3, offsetY + 3, w - 6, h - 6 );
-        break;
-    case Branch :
-        UMLWidget::setPen(p);
-        p.setBrush( UMLWidget::getFillColour() );
-        {
-            QPolygon array( 4 );
-            array[ 0 ] = QPoint( offsetX + w / 2, offsetY );
-            array[ 1 ] = QPoint( offsetX + w, offsetY  + h / 2 );
-            array[ 2 ] = QPoint( offsetX + w / 2, offsetY + h );
-            array[ 3 ] = QPoint( offsetX, offsetY + h / 2 );
-            p.drawPolygon( array );
-            p.drawPolyline( array );
-        }
-        break;
-    case Fork_DEPRECATED :  // to be removed
-        p.fillRect( offsetX, offsetY, width(), height(), QBrush( Qt::darkYellow ));
-        break;
+	default : break;
     }
+}
+
     if(m_bSelected)
         drawSelected(&p, offsetX, offsetY);
 }
 
-QSize combinedFragmentWidget::calculateSize() {
+QSize CombinedFragmentWidget::calculateSize() {
     int width = 10, height = 10;
     if ( m_CombinedFragment == Normal ) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -110,22 +88,20 @@ QSize combinedFragmentWidget::calculateSize() {
         height = height > ACTIVITY_HEIGHT ? height : ACTIVITY_HEIGHT;
         width += ACTIVITY_MARGIN * 2;
         height += ACTIVITY_MARGIN * 2;
-    } else if ( m_CombinedFragment == Branch ) {
-        width = height = 20;
-    }
+    } 
     return QSize(width, height);
 }
 
-combinedFragmentWidget::CombinedFragmentType combinedFragmentWidget::getCombinedFragmentType() const {
+CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::getCombinedFragmentType() const {
     return m_CombinedFragment;
 }
 
-void combinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combinedfragmentType ) {
+void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combinedfragmentType ) {
     m_CombinedFragment = combinedfragmentType;
     UMLWidget::m_bResizable = (m_CombinedFragment == Normal);
 }
 
-void combinedFragmentWidget::slotMenuSelection(int sel) {
+void CombinedFragmentWidget::slotMenuSelection(int sel) {
     bool done = false;
 
     bool ok = false;
@@ -149,7 +125,7 @@ void combinedFragmentWidget::slotMenuSelection(int sel) {
         UMLWidget::slotMenuSelection( sel );
 }
 
-bool combinedFragmentWidget::showProperties() {
+bool CombinedFragmentWidget::showProperties() {
 //     DocWindow *docwindow = UMLApp::app()->getDocWindow();
 //     docwindow->updateDocumentation(false);
 // 
@@ -164,26 +140,14 @@ bool combinedFragmentWidget::showProperties() {
     return true;
 }
 
-bool combinedFragmentWidget::isCombinedFragment(WorkToolBar::ToolBar_Buttons tbb,
+bool CombinedFragmentWidget::isCombinedFragment(WorkToolBar::ToolBar_Buttons tbb,
                                 CombinedFragmentType& resultType)
 {
     bool status = true;
     switch (tbb) {
-    case WorkToolBar::tbb_Initial_Activity:
-        resultType = Initial;
-        break;
+;
     case WorkToolBar::tbb_Seq_Combined_Fragment:
         resultType = Normal;
-        break;
-    case WorkToolBar::tbb_End_Activity:
-        resultType = End;
-        break;
-    case WorkToolBar::tbb_Branch:
-        resultType = Branch;
-        break;
-    case WorkToolBar::tbb_Fork:
-        kError() << "ActivityWidget::isActivity returns Fork_DEPRECATED" << endl;
-        resultType = Fork_DEPRECATED;
         break;
     default:
         status = false;
@@ -192,7 +156,8 @@ bool combinedFragmentWidget::isCombinedFragment(WorkToolBar::ToolBar_Buttons tbb
     return status;
 }
 
-void combinedFragmentWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+
+void CombinedFragmentWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement combinedFragmentElement = qDoc.createElement( "combinedFragmentwidget" );
     UMLWidget::saveToXMI( qDoc, combinedFragmentElement );
     combinedFragmentElement.setAttribute( "combinedFragmentname", m_Text );
@@ -201,7 +166,7 @@ void combinedFragmentWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElem
     qElement.appendChild( combinedFragmentElement );
 }
 
-bool combinedFragmentWidget::loadFromXMI( QDomElement & qElement ) {
+bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement ) {
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
     m_Text = qElement.attribute( "combinedFragmentname", "" );

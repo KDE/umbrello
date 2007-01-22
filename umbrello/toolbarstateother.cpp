@@ -26,6 +26,7 @@
 #include "notewidget.h"
 #include "object_factory.h"
 #include "preconditionwidget.h"
+#include "combinedfragmentwidget.h"
 #include "statewidget.h"
 #include "uml.h"
 #include "umlview.h"
@@ -131,6 +132,10 @@ bool ToolBarStateOther::newWidget() {
 
         case WorkToolBar::tbb_End_State:
             umlWidget = new StateWidget(m_pUMLView, StateWidget::End);
+            break;
+
+	case WorkToolBar::tbb_Seq_Combined_Fragment:
+            umlWidget = new CombinedFragmentWidget(m_pUMLView);
             break;
 
         default:
