@@ -247,6 +247,7 @@ void UMLApp::initActions() {
     setProgLangAction(Uml::pl_SQL,          "SQL",          "set_lang_sql");
     setProgLangAction(Uml::pl_Tcl,          "Tcl",          "set_lang_tcl");
     setProgLangAction(Uml::pl_XMLSchema,    "XMLSchema",    "set_lang_xmlschema");
+    setProgLangAction(Uml::pl_Ocl,	    "Ocl",	    "set_lang_ocl");
 #undef setProgLangAction
 
     fileNew->setToolTip(i18n("Creates a new document"));
@@ -1407,6 +1408,10 @@ void UMLApp::set_lang_tcl() {
 
 void UMLApp::set_lang_xmlschema() {
     setProgLangMenu(Uml::pl_XMLSchema);
+}
+
+void UMLApp::set_lang_ocl() {
+    setProgLangMenu(Uml::pl_Ocl);
 }
 
 void UMLApp::setProgLangMenu(Uml::Programming_Language pl) {

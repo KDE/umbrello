@@ -638,6 +638,7 @@ public slots:
     void set_lang_sql();
     void set_lang_tcl();
     void set_lang_xmlschema();
+    void set_lang_ocl();
 
     /**
      * Set the language for which code will be generated.
