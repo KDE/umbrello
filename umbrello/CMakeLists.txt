@@ -1,14 +1,8 @@
 find_package(LibXml2)
 find_package(LibXslt)
 
-add_subdirectory( codeimport ) 
-add_subdirectory( dialogs ) 
-add_subdirectory( clipboard ) 
 add_subdirectory( pics ) 
-add_subdirectory( codegenerators ) 
-add_subdirectory( docgenerators ) 
 add_subdirectory( headings ) 
-add_subdirectory( refactoring ) 
 
 macro(CREATE_VERSION _in_FILE _out_FILE)
     FILE(READ ${_in_FILE} _contents)
@@ -352,8 +346,15 @@ install(TARGETS umbrello DESTINATION ${BIN_INSTALL_DIR} )
 ########### install files ###############
 
 install( FILES umbrello.desktop  DESTINATION  ${XDG_APPS_DIR} )
-install( FILES tips umbrelloui.rc  DESTINATION  ${DATA_INSTALL_DIR}/umbrello )
 install( FILES x-umbrello.desktop  DESTINATION  ${MIME_INSTALL_DIR}/application )
+install( FILES
+  tips
+  umbrelloui.rc
+  docgenerators/xmi2docbook.xsl
+  docgenerators/docbook2xhtml.xsl
+  docgenerators/xmi.css
+  docgenerators/common.ent
+  DESTINATION ${DATA_INSTALL_DIR}/umbrello )
 
 kde4_install_icons( ${ICON_INSTALL_DIR}   )
 

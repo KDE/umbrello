@@ -25,7 +25,7 @@ class UMLDoc;
 
 namespace KIO
 {
-  class CopyJob;
+  class Job;
 }
 
 /**
@@ -71,7 +71,7 @@ class DocbookGenerator : public QObject
      * @todo better handling of error conditions
      * @return true if saving is successful and false otherwise.
      */
-    KIO::CopyJob* generateDocbookForProjectInto(const KUrl& destDir);
+    KIO::Job* generateDocbookForProjectInto(const KUrl& destDir);
     
 };
 

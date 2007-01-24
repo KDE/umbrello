@@ -63,7 +63,7 @@ bool DocbookGenerator::generateDocbookForProject()
   return true;
 }
 
-KIO::CopyJob* DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDir)
+KIO::Job* DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDir)
 {
   UMLApp* app = UMLApp::app();
   UMLDoc* umlDoc = app->getDocument();
@@ -89,7 +89,7 @@ KIO::CopyJob* DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDi
   // lets open the file for writing
   if( !file.open() ) {
     KMessageBox::error(0, i18n("There was a problem saving file: %1", file.fileName()), i18n("Save Error"));
-    return false;
+    return 0;
   }
   umlDoc->saveToXMI(file); // save the xmi stuff to it
   
@@ -126,7 +126,7 @@ KIO::CopyJob* DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDi
   url.setPath(destDir.path());
   url.addPath(fileName);
   kDebug() << "Copying result to: " << url << endl;
-  KIO::CopyJob* job = KIO::copy(KUrl::fromPath(tmpDocBook.fileName()),url,true);
+  KIO::Job* job = KIO::file_copy(KUrl::fromPath(tmpDocBook.fileName()),url,true);
   job->ui()->setAutoErrorHandlingEnabled(true);
 
   return job;

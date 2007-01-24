@@ -87,7 +87,7 @@ class XhtmlGenerator : public QObject
      * @param docbookJob the job copying the docbook file to its destination.
      * Used only for error reporting
      */
-    void slotDocbookToXhtml(KIO::Job * docbookJob);
+    void slotDocbookToXhtml(KJob * docbookJob);
     
     /** Triggered when the copying of the HTML result file is finished. Emits
      * the signal finished(). 
