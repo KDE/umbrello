@@ -1,3 +1,8 @@
+Version 1.5.61
+
+* Fixed crash on anchoring note to diagram object
+  http://sourceforge.net/mailarchive/forum.php?thread_id=31539549&forum_id=460
+
 Version 1.5.6
 
 * Fixed save/reload of association widgets for collaboration diagrams

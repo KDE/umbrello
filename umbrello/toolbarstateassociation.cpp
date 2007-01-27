@@ -208,6 +208,10 @@ void ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* a) {
     if (m_pUMLView->addAssociation(a, false)) {
         // if view went ok, then append in document
         UMLAssociation *umla = a->getAssociation();
+        if (umla == NULL) {
+            // association without model representation in UMLDoc
+            return;
+        }
         Uml::Model_Type m = Model_Utils::convert_DT_MT(m_pUMLView->getType());
         UMLDoc *umldoc = UMLApp::app()->getDocument();
         umla->setUMLPackage(umldoc->getRootFolder(m));
