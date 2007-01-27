@@ -169,7 +169,7 @@ protected:
     /**
      * Used for indexing m_source.
      */
-    uint m_srcIndex;
+    int m_srcIndex;
 
     /**
      * Stack of scopes for use by the specific importer.

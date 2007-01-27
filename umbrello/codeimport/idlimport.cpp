@@ -118,7 +118,7 @@ void IDLImport::parseFile(const QString& filename) {
     // Parse the QStringList m_source.
     m_scopeIndex = 0;
     m_scope[0] = NULL;
-    const uint srcLength = m_source.count();
+    const int srcLength = m_source.count();
     for (m_srcIndex = 0; m_srcIndex < srcLength; m_srcIndex++) {
         const QString& keyword = m_source[m_srcIndex];
         //kDebug() << '"' << keyword << '"' << endl;

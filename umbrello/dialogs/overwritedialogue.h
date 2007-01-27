@@ -35,7 +35,7 @@ public:
      * constructor sets up the dialog, adding checkbox and label
      */
     OverwriteDialogue(const QString& fileName, const QString& outputDirectory,
-                      bool applyToAllRemaining, QWidget* parent=0, const char* name=0);
+                      bool applyToAllRemaining, QWidget* parent=0);
 
     /**
      * destrictor doesn't do anything

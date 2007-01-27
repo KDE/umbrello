@@ -157,7 +157,7 @@ public:
             return;
         }
         PetalNode::NameValueList attributeList = attributes->attributes();
-        for (uint i = 0; i < attributeList.count(); i++) {
+        for (int i = 0; i < attributeList.count(); i++) {
             PetalNode *attNode = attributeList[i].second.node;
             QStringList initialArgs = attNode->initialArgs();
             if (attNode->name() != m_elementName) {
@@ -330,7 +330,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
         }
         UMLPackage *localParent = static_cast<UMLPackage*>(o);
         PetalNode::NameValueList atts = logical_models->attributes();
-        for (uint i = 0; i < atts.count(); i++) {
+        for (int i = 0; i < atts.count(); i++) {
             umbrellify(atts[i].second.node, localParent);
         }
 
@@ -520,7 +520,7 @@ bool umbrellify(PetalNode *node, const QString& modelsName, UMLListViewItem *par
     PetalNode *models = node->findAttribute(modelsName).node;
     if (models) {
         PetalNode::NameValueList atts = models->attributes();
-        for (uint i = 0; i < atts.count(); i++) {
+        for (int i = 0; i < atts.count(); i++) {
             if (! umbrellify(atts[i].second.node, modelsName, item))
                 return false;
         }
@@ -552,7 +552,7 @@ bool importView(PetalNode *root, const QString& rootName,
         return false;
     }
     PetalNode::NameValueList atts = models->attributes();
-    for (uint i = 0; i < atts.count(); i++) {
+    for (int i = 0; i < atts.count(); i++) {
         umbrellify(atts[i].second.node, modelsName, lvParent);
     }
     return true;
@@ -587,7 +587,7 @@ bool petalTree2Uml(PetalNode *root) {
     umldoc->setCurrentRoot(Uml::mt_Logical);
     Import_Utils::assignUniqueIdOnCreation(false);
     PetalNode::NameValueList atts = logical_models->attributes();
-    for (uint i = 0; i < atts.count(); i++) {
+    for (int i = 0; i < atts.count(); i++) {
         umbrellify(atts[i].second.node);
     }
 

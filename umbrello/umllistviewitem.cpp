@@ -338,16 +338,16 @@ void UMLListViewItem::okRename( int col ) {
                 op->setName( od.m_name );
                 op->setType( od.m_pReturnType );
                 UMLAttributeList parmList = op->getParmList();
-                const unsigned newParmListCount = parmList.count();
+                const int newParmListCount = parmList.count();
                 if (newParmListCount > od.m_args.count()) {
                     // Remove parameters at end of of list that no longer exist.
-                    for (unsigned i = od.m_args.count(); i < newParmListCount; i++) {
+                    for (int i = od.m_args.count(); i < newParmListCount; i++) {
                         UMLAttribute *a = parmList.at(i);
                         op->removeParm(a, false);
                     }
                 }
                 Model_Utils::NameAndType_ListIt lit = od.m_args.begin();
-                for (unsigned i = 0; lit != od.m_args.end(); ++lit, ++i) {
+                for (int i = 0; lit != od.m_args.end(); ++lit, ++i) {
                     const Model_Utils::NameAndType& nm_tp = *lit;
                     UMLAttribute *a;
                     if (i < newParmListCount) {
@@ -632,7 +632,6 @@ void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement) {
     if (id != Uml::id_None)
         itemElement.setAttribute( "id", idStr );
     itemElement.setAttribute( "type", m_Type );
-    UMLDoc *umldoc = s_pListView->getDocument();
     UMLFolder *extFolder = NULL;
     if (m_pObject == NULL) {
         if (! Model_Utils::typeIsDiagram(m_Type) && m_Type != Uml::lvt_View)

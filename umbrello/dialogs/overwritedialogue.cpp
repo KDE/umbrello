@@ -23,7 +23,7 @@
 OverwriteDialogue::OverwriteDialogue(
         const QString& fileName,
         const QString& outputDirectory,
-        bool applyToAllRemaining, QWidget* parent, const char* name)
+        bool applyToAllRemaining, QWidget* parent)
     :KDialog(parent) {
     setCaption( i18n("Destination File Already Exists") );
     setButtons( Help | Ok | Cancel );

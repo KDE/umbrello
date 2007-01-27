@@ -93,7 +93,7 @@ void AssocGenPage::constructWidget() {
 
     bool found=false;
     m_AssocTypeStrings.clear();
-    for (uint i=0; i<m_AssocTypes.size(); ++i) {
+    for (int i = 0; i < m_AssocTypes.size(); ++i) {
         if (m_AssocTypes[i] == currentType) found=true;
         QString typeStr = UMLAssociation::typeAsString(m_AssocTypes[i]);
         m_AssocTypeStrings << typeStr;
