@@ -232,7 +232,7 @@ void UMLApp::initActions() {
         connect(m_langAct[pl], SIGNAL(triggered()), this, "1"action"()")
     setProgLangAction(Uml::pl_ActionScript, "ActionScript", "set_lang_actionscript");
     setProgLangAction(Uml::pl_Ada,          "Ada",          "set_lang_ada");
-    setProgLangAction(Uml::pl_Cpp,          "Cpp",          "set_lang_cpp");
+    setProgLangAction(Uml::pl_Cpp,          "C++",          "set_lang_cpp");
     setProgLangAction(Uml::pl_IDL,          "IDL",          "set_lang_idl");
     setProgLangAction(Uml::pl_Java,         "Java",         "set_lang_java");
     setProgLangAction(Uml::pl_JavaScript,   "JavaScript",   "set_lang_javascript");
