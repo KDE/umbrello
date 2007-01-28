@@ -15,9 +15,9 @@
 #include "umlwidget.h"
 #include "worktoolbar.h"
 
-#define ACTIVITY_MARGIN 5
-#define ACTIVITY_WIDTH 30
-#define ACTIVITY_HEIGHT 10
+#define COMBINED_FRAGMENT_MARGIN 5
+#define COMBINED_FRAGMENT_WIDTH 30
+#define COMBINED_FRAGMENT_HEIGHT 10
 
 /**
  * This class is the graphical version of a UML combined fragment.  A combinedfragmentWidget is created
@@ -37,10 +37,9 @@ class CombinedFragmentWidget : public UMLWidget {
 public:
     enum CombinedFragmentType
     {
-        Initial = 0,
-	Normal,
-        Ref
-  
+        Normal,
+        Ref,
+        Opt
     };
 
     /**
@@ -50,7 +49,7 @@ public:
      * @param combinedfragmentType      The type of combined fragment.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-    CombinedFragmentWidget( UMLView * view, CombinedFragmentType combinedfragmentType = Normal, Uml::IDType id = Uml::id_None );
+    CombinedFragmentWidget( UMLView * view, CombinedFragmentType combinedfragmentType = Opt, Uml::IDType id = Uml::id_None );
 
 
     /**

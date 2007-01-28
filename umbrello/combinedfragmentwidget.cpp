@@ -42,53 +42,62 @@ CombinedFragmentWidget::CombinedFragmentWidget(UMLView * view, CombinedFragmentT
 CombinedFragmentWidget::~CombinedFragmentWidget() {}
 
 void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
-    
     int w = width();
     int h = height();
+
     UMLWidget::setPen(p);
+
+     if ( m_CombinedFragment == Ref )
+     {
 	if ( UMLWidget::getUseFillColour() ) {
 		p.setBrush( UMLWidget::getFillColour() );
 	}
-	{
-		const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-		const int fontHeight  = fm.lineSpacing();
-		//int middleX = w / 2;
-		int textStartY = (h / 2) - (fontHeight / 2);
-		p.drawRect(offsetX, offsetY, w + 100, h + 100);
-		p.drawLine(offsetX, offsetY + 20, offsetX + 30, offsetY + 20);
-		p.drawLine(offsetX + 30, offsetY + 20, offsetX + 35, offsetY + 10);
-		p.drawLine(offsetX + 35, offsetY + 10, offsetX + 35, offsetY);
-		p.setPen(Qt::black);
-		p.setFont( UMLWidget::getFont() );
+     }
+{
+	const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+	const int fontHeight  = fm.lineSpacing();
+	const QString combined_fragment_value =  getName();
+	int textStartY = (h / 2) - (fontHeight / 2);
+	p.drawRect(offsetX, offsetY, w, h );
+
+	p.drawLine(offsetX, offsetY + 20, offsetX + 30, offsetY + 20);
+	p.drawLine(offsetX + 30, offsetY + 20, offsetX + 35, offsetY + 10);
+	p.drawLine(offsetX + 35, offsetY + 10, offsetX + 35, offsetY);
+
+	p.setPen(Qt::black);
+	p.setFont( UMLWidget::getFont() );
+
     switch ( m_CombinedFragment )
     {
-    case Normal :
+        case Ref :
 
-            p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + 5,
-                       w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignLeft, "ref");
-        
-        UMLWidget::setPen(p);
+		p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY + textStartY, w - COMBINED_FRAGMENT_MARGIN * 2 + 50, fontHeight, Qt::AlignCenter, combined_fragment_value);
+	
+		p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY , w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "ref");
         break;
+
+        case Opt :
+		p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
+			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "opt");
+        break;
+
 	default : break;
     }
 }
-
     if(m_bSelected)
         drawSelected(&p, offsetX, offsetY);
 }
 
 QSize CombinedFragmentWidget::calculateSize() {
     int width = 10, height = 10;
-    if ( m_CombinedFragment == Normal ) {
-        const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-        const int fontHeight  = fm.lineSpacing();
-        const int textWidth = fm.width(getName());
-        height = fontHeight;
-        width = textWidth > ACTIVITY_WIDTH ? textWidth : ACTIVITY_WIDTH;
-        height = height > ACTIVITY_HEIGHT ? height : ACTIVITY_HEIGHT;
-        width += ACTIVITY_MARGIN * 2;
-        height += ACTIVITY_MARGIN * 2;
-    } 
+    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+    const int fontHeight  = fm.lineSpacing();
+    const int textWidth = fm.width(getName());
+    height = fontHeight;
+    width = textWidth + 50 > COMBINED_FRAGMENT_WIDTH ? textWidth + 50: COMBINED_FRAGMENT_WIDTH;
+    height = height > COMBINED_FRAGMENT_HEIGHT ? height : COMBINED_FRAGMENT_HEIGHT;
+    width += COMBINED_FRAGMENT_MARGIN * 2;
+    height += COMBINED_FRAGMENT_MARGIN * 2;
     return QSize(width, height);
 }
 
@@ -98,7 +107,7 @@ CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::getCombined
 
 void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combinedfragmentType ) {
     m_CombinedFragment = combinedfragmentType;
-    UMLWidget::m_bResizable = (m_CombinedFragment == Normal);
+    UMLWidget::m_bResizable =  true ; //(m_CombinedFragment == Normal);
 }
 
 void CombinedFragmentWidget::slotMenuSelection(int sel) {
@@ -140,21 +149,20 @@ bool CombinedFragmentWidget::showProperties() {
     return true;
 }
 
-bool CombinedFragmentWidget::isCombinedFragment(WorkToolBar::ToolBar_Buttons tbb,
-                                CombinedFragmentType& resultType)
-{
-    bool status = true;
-    switch (tbb) {
-;
-    case WorkToolBar::tbb_Seq_Combined_Fragment:
-        resultType = Normal;
-        break;
-    default:
-        status = false;
-        break;
-    }
-    return status;
-}
+// bool CombinedFragmentWidget::isCombinedFragment(WorkToolBar::ToolBar_Buttons tbb, CombinedFragmentType& resultType)
+// {
+//     bool status = true;
+//     switch (tbb) {
+// ;
+//     case WorkToolBar::tbb_Seq_Combined_Fragment:
+//         resultType = m_CombinedFragment;
+//         break;
+//     default:
+//         status = false;
+//         break;
+//     }
+//     return status;
+// }
 
 
 void CombinedFragmentWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
