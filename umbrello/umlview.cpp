@@ -98,7 +98,6 @@
 #include "object_factory.h"
 #include "umlwidget.h"
 #include "toolbarstatefactory.h"
-#include "preconditionwidget.h"
 
 
 // control the manual DoubleBuffering of QCanvas
@@ -3130,12 +3129,8 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
 
     QString tag  = widgetElement.tagName();
     QString idstr  = widgetElement.attribute( "xmi.id", "-1" );
-    if (tag == "preconditionwidget") {
-	widget = new PreconditionWidget(this,NULL,Uml::id_Reserved);
-    }
-    else {
-	widget = Widget_Factory::makeWidgetFromXMI(tag, idstr, this);
-    }
+    widget = Widget_Factory::makeWidgetFromXMI(tag, idstr, this);
+    
     if (widget == NULL)
         return NULL;
     if (!widget->loadFromXMI(widgetElement)) {

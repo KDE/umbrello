@@ -86,6 +86,7 @@ public:
 	tbb_Seq_Message_Lost,
         tbb_Seq_Combined_Fragment,
         tbb_Seq_Precondition,
+	tbb_Seq_End_Of_Life,
 	tbb_Composition,
         tbb_Relationship,
         tbb_UniAssociation,
@@ -203,6 +204,7 @@ public slots:
     void slotSeq_Message_Lost();
     void slotSeq_Combined_Fragment();
     void slotSeq_Precondition();
+    void slotSeq_End_Of_Life();
     void slotComposition();
     void slotRelationship();
     void slotUniAssociation();
