@@ -76,8 +76,8 @@ class PluginLoader;
  * must not load GUI plugins.
  *
  * In order to provide application-like functionality, this class offers
- * support for accessing the configuration records of the KInstance object
- * corresponding to the shared library. Because the KInstance object is
+ * support for accessing the configuration records of the KComponentData object
+ * corresponding to the shared library. Because the KComponentData object is
  * only available within the scope of the shared library, the configuration
  * records must be set in the constructor of the derived plugin class. However,
  * because the construction name is passed to this constructor (as are the
