@@ -405,6 +405,19 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         insertStdItem(mt_Change_Font);
         break;
 
+    case Uml::wt_Combined_Fragment:
+	setupColor( object -> getUseFillColour() );
+        insertSeparator();
+        insertStdItem(mt_Cut);
+        insertStdItem(mt_Copy);
+        insertStdItem(mt_Paste);
+        insertItem(SmallIcon( "editdelete"), i18n("Clear"), mt_Clear);
+        insertSeparator();
+        insertItem(i18n("Change Text..."), mt_Rename);
+        insertStdItem(mt_Delete);
+        insertStdItem(mt_Change_Font);
+        break;
+
     case Uml::wt_Text:
         switch( (static_cast<FloatingTextWidget*>(object))->getRole() ) {
         case Uml::tr_MultiB:
