@@ -446,6 +446,7 @@ void UMLView::hideEvent(QHideEvent* /*he*/) {
 }
 
 void UMLView::slotObjectCreated(UMLObject* o) {
+    kDebug() << "UMLView::slotObjectCreated( " << o->getName() << ")" << endl;
     m_bPaste = false;
     //check to see if we want the message
     //may be wanted by someone else e.g. list view
@@ -462,7 +463,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
     newWidget->slotColorChanged( getID() );
     newWidget->slotLineWidthChanged( getID() );
     m_bCreateObject = false;
-    m_WidgetList.append(newWidget);
+    //m_WidgetList.append(newWidget);
     switch (o->getBaseType()) {
     case ot_Actor:
     case ot_UseCase:
@@ -492,6 +493,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 }
 
 void UMLView::slotObjectRemoved(UMLObject * o) {
+    kDebug() << "UMLView::slotObjectRemoved( " << o->getName() << ")" << endl;
     m_bPaste = false;
     Uml::IDType id = o->getID();
     UMLWidgetListIt it( m_WidgetList );
@@ -795,6 +797,8 @@ AssociationWidget * UMLView::findAssocWidget(Association_Type at,
 void UMLView::removeWidget(UMLWidget * o) {
     if(!o)
         return;
+
+    kDebug() << "UMLView::removeWidget( " << o->getName() << ")" << endl;
 
     emit sigWidgetRemoved(o);
 
@@ -1431,6 +1435,7 @@ AssociationWidgetList UMLView::getSelectedAssocs() {
 }
 
 bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
+    kDebug() << "UMLView::addWidget( " << pWidget->getName() << ")" << endl;
     if( !pWidget ) {
         return false;
     }

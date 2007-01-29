@@ -228,8 +228,11 @@ set(libcmds_SRCS
 	cmds/cmd_create_usecasediag.cpp
 
 	cmds/classdiag/cmd_create_class.cpp
+
+	cmds/generic/cmd_create_umlobject.cpp
 	
-	cmds/widgets/cmd_create_umlobject.cpp
+	cmds/widget/cmd_create_widget.cpp
+	
 	cmds/cmd_moveWidget.cpp
 	cmds/cmd_resizeWidget.cpp
 

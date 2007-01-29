@@ -73,6 +73,7 @@
 #include "codegenerators/codegenfactory.h"
 #include "listpopupmenu.h"
 #include "version.h"
+#include "cmds.h"
 
 #define XMI_FILE_VERSION UMBRELLO_VERSION
 // For the moment, the XMI_FILE_VERSION changes with each UMBRELLO_VERSION.
@@ -747,6 +748,7 @@ bool UMLDoc::addUMLObject(UMLObject* object) {
         kDebug() << "UMLDoc::addUMLObject(" << object->getName()
             << "): no parent package set, assuming " << pkg->getName() << endl;
     }
+
     return pkg->addObject(object);
 }
 
@@ -2161,24 +2163,36 @@ void UMLDoc::clearRedoStack() {
 
 void UMLDoc::undo()
 {
+	kDebug() << "UMLDoc::undo(" << m_pUndoStack->undoText() << ") [" << m_pUndoStack->count() << "]" << endl;
+	m_pUndoStack->undo();
+
 	if(m_pUndoStack->canUndo())
-		m_pUndoStack->undo();
-	else
+		UMLApp::app()->enableUndo(true);
+	else 
 		UMLApp::app()->enableUndo(false);
+	
+	UMLApp::app()->enableRedo(true);
 }
 
 void UMLDoc::redo()
 {
+	kDebug() << "UMLDoc::undo(" << m_pUndoStack->redoText() << ") [" << m_pUndoStack->count() << "]" << endl;
+	m_pUndoStack->redo();
+
 	if(m_pUndoStack->canRedo())
-		m_pUndoStack->redo();
-	else
+		UMLApp::app()->enableRedo(true);
+	else 
 		UMLApp::app()->enableRedo(false);
+	
+	UMLApp::app()->enableUndo(true);
 }
 
 void UMLDoc::executeCommand(QUndoCommand* cmd)
 {
 	if(cmd != NULL)
 		m_pUndoStack->push(cmd);
+
+	kDebug() << "UMLDoc::executeCommand(" << cmd->text() << ") [" << m_pUndoStack->count() << "]" << endl;
 
 	UMLApp::app()->enableUndo(true);
 }

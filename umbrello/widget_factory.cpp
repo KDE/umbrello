@@ -50,6 +50,7 @@
 #include "forkjoinwidget.h"
 #include "activitywidget.h"
 #include "seqlinewidget.h"
+#include "cmds.h"
 
 namespace Widget_Factory {
 
@@ -58,6 +59,7 @@ UMLWidget *createWidget(UMLView *view, UMLObject *o) {
     int y = pos.y();
     Uml::Diagram_Type diagramType = view->getType();
     Uml::Object_Type type = o->getBaseType();
+    UMLDoc *doc = UMLApp::app()->getDocument();
     UMLWidget *newWidget = NULL;
     switch (type) {
     case Uml::ot_Actor:
@@ -135,7 +137,10 @@ UMLWidget *createWidget(UMLView *view, UMLObject *o) {
     if (newWidget) {
         newWidget->setX( pos.x() );
         newWidget->setY( y );
+
+    	doc->executeCommand(new Uml::cmdCreateWidget(view, newWidget));
     }
+
     return newWidget;
 }
 
