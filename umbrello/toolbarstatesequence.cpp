@@ -100,12 +100,25 @@ void ToolBarStateSequence::setWidget(ObjectWidget* firstObject) {
             m_pUMLView->setupNewWidget(precondition);
     	}
     }
+
+    if (getWidgetType() == Uml::wt_End_Of_Life) {
+   	 UMLWidget * precondition = new PreconditionWidget(m_pUMLView, m_firstObject);
+
+	Dialog_Utils::askNameForWidget(precondition, i18n("Enter Precondition Name"), i18n("Enter the precondition"), i18n("new precondition"));
+    	    // Create the widget. Some setup functions can remove the widget.
+    	if (precondition != NULL) {
+            m_pUMLView->setupNewWidget(precondition);
+    	}
+    }
 }
 
 
 Uml::Widget_Type ToolBarStateSequence::getWidgetType() {
     if (getButton() == WorkToolBar::tbb_Seq_Precondition) {
         return Uml::wt_Precondition;
+    }
+    if (getButton() == WorkToolBar::tbb_Seq_End_Of_Life) {
+        return Uml::wt_End_Of_Life;
     }
 }
 

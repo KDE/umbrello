@@ -19,6 +19,7 @@
 //kde includes
 #include <kdebug.h>
 #include <kcursor.h>
+#include <kmessagebox.h>
 //app includes
 #include "messagewidget.h"
 #include "messagewidgetcontroller.h"
@@ -263,47 +264,35 @@ void MessageWidget::drawCreation(QPainter& p, int offsetX, int offsetY) {
 
 void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY){
     int x1 = m_pOw[Uml::A]->getX();
-    int x2 = m_pOw[Uml::B]->getX();
-    int w = getWidth() - 1;
+    int x2 = xclicked;
+    int w1 = m_pOw[Uml::A]->getWidth() / 2;
+    x1 += w1;
+
+    int w = x1 < x2 ? x2 - x1 : x1 - x2 ;
+
     int h = getHeight() - 1;
     bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( getY(), this );
     //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( getY(), this );
 
-    if(m_pOw[Uml::A] == m_pOw[Uml::B]) {
-        if (messageOverlapsA)  {
+    if(x1 < x2) {
+	if (messageOverlapsA)  {
             offsetX += 7;
             w -= 7;
         }
-        const int lowerLineY = offsetY + h - 3;
-        // draw upper line segment (leaving the life line)
-        p.drawLine(offsetX, offsetY, offsetX + w, offsetY);
-        // draw line segment parallel to (and at the right of) the life line
-        p.drawLine(offsetX + w, offsetY, offsetX + w, lowerLineY);
-        // draw lower line segment (back to the life line)
-        drawArrow(p, offsetX, lowerLineY, w, Qt::LeftArrow);
-        if (messageOverlapsA)  {
-            offsetX -= 7; //reset for drawSelected()
-        }
-    } else if(x1 < x2) {
-        if (messageOverlapsA)  {
-            offsetX += 7;
-            w -= 7;
-        }
-	UMLWidget::setPen(p);
+
+        UMLWidget::setPen(p);
         p.setBrush( WidgetBase::getLineColor() );
-        drawArrow(p, offsetX, offsetY + 4, w, Qt::RightArrow);
-	p.drawEllipse(offsetX + w , offsetY - 3, h + 6, h + 6);
+        drawArrow(p,offsetX, offsetY, w, Qt::RightArrow);
+	p.drawEllipse(x1 + w , offsetY - h/4, h/2, h/2);
         if (messageOverlapsA)  {
             offsetX -= 7;
         }
     } else      {
-        if (messageOverlapsA)  {
-            w -= 7;
-        }
-        drawArrow(p, offsetX , offsetY + 4, w, Qt::LeftArrow);
+       
+        drawArrow(p, offsetX - w , offsetY, w, Qt::LeftArrow);
 	UMLWidget::setPen(p);
         p.setBrush( WidgetBase::getLineColor() );
-	p.drawEllipse(offsetX - 12 , offsetY - 3, h + 6, h + 6);
+	p.drawEllipse(offsetX - w - h/2, offsetY - h/4, h/2, h/2);
     }
 
     if (m_bSelected)
@@ -312,36 +301,21 @@ void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY){
 
 void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY){
     int x1 = m_pOw[Uml::A]->getX();
-    int x2 = m_pOw[Uml::B]->getX();
-    int w = getWidth() - 1;
+    int x2 = xclicked;
+    int w = x1 < x2 ? x2 - x1 : x1 - x2 ;
     int h = getHeight() - 1;
     bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( getY(), this );
     //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( getY(), this );
 
-    if(m_pOw[Uml::A] == m_pOw[Uml::B]) {
-        if (messageOverlapsA)  {
-            offsetX += 7;
-            w -= 7;
-        }
-        const int lowerLineY = offsetY + h - 3;
-        // draw upper line segment (leaving the life line)
-        p.drawLine(offsetX, offsetY, offsetX + w, offsetY);
-        // draw line segment parallel to (and at the right of) the life line
-        p.drawLine(offsetX + w, offsetY, offsetX + w, lowerLineY);
-        // draw lower line segment (back to the life line)
-        drawArrow(p, offsetX, lowerLineY, w, Qt::LeftArrow);
-        if (messageOverlapsA)  {
-            offsetX -= 7; //reset for drawSelected()
-        }
-    } else if(x1 < x2) {
+    if(x1 < x2) {
         if (messageOverlapsA)  {
             offsetX += 7;
             w -= 7;
         }
 	UMLWidget::setPen(p);
         p.setBrush( WidgetBase::getLineColor() );
-	p.drawEllipse(offsetX, offsetY - 3, h + 6, h + 6);
-        drawArrow(p, offsetX, offsetY + 4, w, Qt::RightArrow);
+	p.drawEllipse(offsetX + w, offsetY - h/4, h/2, h/2);
+        drawArrow(p, offsetX, offsetY, w, Qt::LeftArrow);
         if (messageOverlapsA)  {
             offsetX -= 7;
         }
@@ -351,8 +325,8 @@ void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY){
         }
         UMLWidget::setPen(p);
         p.setBrush( WidgetBase::getLineColor() );
-	p.drawEllipse(offsetX + w , offsetY - 3, h + 6, h + 6);
-	drawArrow(p, offsetX , offsetY + 4, w, Qt::LeftArrow);
+	p.drawEllipse(offsetX - w - h/2 , offsetY - h/4, h/2, h/2);
+	drawArrow(p, offsetX - w , offsetY, w, Qt::RightArrow);
     }
 
     if (m_bSelected)
@@ -733,11 +707,10 @@ void MessageWidget::calculateDimensionsLost() {
     int x = 0;
 
     int x1 = m_pOw[Uml::A]->getX();
-    int x2 = m_pOw[Uml::B]->getX();
+    int x2 = xclicked;
     int w1 = m_pOw[Uml::A]->getWidth() / 2;
-    int w2 = m_pOw[Uml::B]->getWidth() / 2;
+
     x1 += w1;
-    x2 += w2;
 
     int widgetWidth = 0;
     int widgetHeight = 8;
@@ -766,11 +739,10 @@ void MessageWidget::calculateDimensionsFound() {
     int x = 0;
 
     int x1 = m_pOw[Uml::A]->getX();
-    int x2 = m_pOw[Uml::B]->getX();
+    int x2 = xclicked;
     int w1 = m_pOw[Uml::A]->getWidth() / 2;
-    int w2 = m_pOw[Uml::B]->getWidth() / 2;
     x1 += w1;
-    x2 += w2;
+
 
     int widgetWidth = 0;
     int widgetHeight = 8;
@@ -861,6 +833,15 @@ void MessageWidget::setWidget(ObjectWidget * ow, Uml::Role_Type role) {
 
 ObjectWidget* MessageWidget::getWidget(Uml::Role_Type role) {
     return m_pOw[role];
+}
+
+void MessageWidget::setxclicked (int xclick){
+	xclicked = xclick;
+}
+
+
+void MessageWidget::setyclicked (int yclick){
+	yclicked = yclick;
 }
 
 void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {

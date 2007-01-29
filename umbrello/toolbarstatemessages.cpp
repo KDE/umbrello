@@ -29,6 +29,8 @@
 ToolBarStateMessages::ToolBarStateMessages(UMLView *umlView) : ToolBarStatePool(umlView) {
     m_firstObject = 0;
     m_messageLine = 0;
+    xclick = 0;
+    yclick = 0;
 }
 
 ToolBarStateMessages::~ToolBarStateMessages() {
@@ -111,19 +113,74 @@ void ToolBarStateMessages::mouseReleaseWidget() {
 }
 
 void ToolBarStateMessages::mouseReleaseEmpty() {
-    cleanMessage();
+    Uml::Sequence_Message_Type msgType = getMessageType();
+
+    int y = m_pMouseEvent->y();
+
+    if (m_firstObject && msgType ==  Uml::sequence_message_lost) {
+	xclick = m_pMouseEvent->x();
+	yclick = m_pMouseEvent->y();
+	
+	MessageWidget* message = new MessageWidget(m_pUMLView, m_firstObject,m_firstObject, y, msgType);
+	message->setxclicked(xclick);
+	message->setyclicked(yclick);
+	cleanMessage();
+ 	m_pUMLView->getMessageList().append(message);
+
+   	FloatingTextWidget *ft = message->getFloatingTextWidget();
+    	//TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
+    	//Shouldn't it cancel also the whole creation?
+    	ft->showOpDlg();
+    	message->setTextPosition();
+    	m_pUMLView->getWidgetList().append(ft);
+
+    	UMLApp::app()->getDocument()->setModified();
+    }
+    else if (!m_firstObject && msgType == Uml::sequence_message_found) {
+	xclick = m_pMouseEvent->x();
+	yclick = m_pMouseEvent->y();
+
+	m_messageLine = new Q3CanvasLine(m_pUMLView->canvas());
+    	m_messageLine->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y());
+    	m_messageLine->setPen(QPen(m_pUMLView->getLineColor(), m_pUMLView->getLineWidth(), Qt::DashLine));
+
+    	m_messageLine->setVisible(true);
+
+    	m_pUMLView->viewport()->setMouseTracking(true);
+    }
+    else
+    	cleanMessage();
 }
 
 void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject) {
     m_firstObject = firstObject;
+    Uml::Sequence_Message_Type msgType = getMessageType();
+    int y = m_pMouseEvent->y();
+    if (msgType ==  Uml::sequence_message_found) {
+	MessageWidget* message = new MessageWidget(m_pUMLView, m_firstObject,m_firstObject, y, msgType);
+	message->setxclicked(xclick);
+	message->setyclicked(yclick);
+	cleanMessage();
+ 	m_pUMLView->getMessageList().append(message);
 
-    m_messageLine = new Q3CanvasLine(m_pUMLView->canvas());
-    m_messageLine->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y());
-    m_messageLine->setPen(QPen(m_pUMLView->getLineColor(), m_pUMLView->getLineWidth(), Qt::DashLine));
+   	FloatingTextWidget *ft = message->getFloatingTextWidget();
+    	//TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
+    	//Shouldn't it cancel also the whole creation?
+    	ft->showOpDlg();
+    	message->setTextPosition();
+    	m_pUMLView->getWidgetList().append(ft);
 
-    m_messageLine->setVisible(true);
+    	UMLApp::app()->getDocument()->setModified();
+    }
+    else {
+    	m_messageLine = new Q3CanvasLine(m_pUMLView->canvas());
+    	m_messageLine->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y());
+    	m_messageLine->setPen(QPen(m_pUMLView->getLineColor(), m_pUMLView->getLineWidth(), Qt::DashLine));
 
-    m_pUMLView->viewport()->setMouseTracking(true);
+    	m_messageLine->setVisible(true);
+
+    	m_pUMLView->viewport()->setMouseTracking(true);
+    }
 }
 
 void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageType messageType) {

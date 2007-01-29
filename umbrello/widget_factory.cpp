@@ -50,7 +50,9 @@
 #include "forkjoinwidget.h"
 #include "activitywidget.h"
 #include "seqlinewidget.h"
+#include "preconditionwidget.h"
 #include "cmds.h"
+
 
 namespace Widget_Factory {
 
@@ -158,7 +160,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
                              const QString& idStr, UMLView *view) {
     UMLWidget *widget = NULL;
     if (tag == "statewidget" || tag == "notewidget" || tag == "boxwidget" ||
-        tag == "floatingtext" || tag == "activitywidget" || tag == "forkjoin" ||
+        tag == "floatingtext" || tag == "activitywidget" || tag == "forkjoin" || tag == "preconditionwidget" ||
             // tests for backward compatibility:
             tag == "UML:StateWidget" || tag == "UML:NoteWidget" ||
             tag == "UML:FloatingTextWidget" || tag == "UML:ActivityWidget") {
@@ -182,7 +184,9 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
             widget = new ActivityWidget(view, ActivityWidget::Initial, Uml::id_Reserved);
         } else if (tag == "forkjoin") {
             widget = new ForkJoinWidget(view, false, Uml::id_Reserved);
-        }
+        } else if (tag == "preconditionwidget") {
+            widget = new PreconditionWidget(view, NULL, Uml::id_Reserved);
+	}
     } else {
         // Find the UMLObject and create the Widget to represent it
         Uml::IDType id = STR2ID(idStr);

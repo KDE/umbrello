@@ -186,6 +186,13 @@ protected:
      */
     bool m_isObjectWidgetLine;
 
+private:
+    /**
+    * x and y clicked for lost and found messages
+    */
+    int xclick;
+    int yclick;
+
 };
 
 #endif //TOOLBARSTATEMESSAGES_H

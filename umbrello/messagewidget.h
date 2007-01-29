@@ -359,6 +359,9 @@ public:
      */
     bool loadFromXMI( QDomElement & qElement );
 
+    void setxclicked (int xclick);
+    void setyclicked (int yclick);
+
 protected:
     /**
      * Shortcut for calling m_pFText->setLink() followed by
@@ -408,6 +411,10 @@ private:
     ObjectWidget * m_pOw[2];
     FloatingTextWidget * m_pFText;
     int m_nY;
+
+    int xclicked;
+    int yclicked;
+
 public slots:
     void slotWidgetMoved(Uml::IDType id);
     void slotMenuSelection(int sel);
