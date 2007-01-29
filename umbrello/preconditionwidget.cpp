@@ -27,24 +27,53 @@
 #include "umlview.h"
 #include "listpopupmenu.h"
 #include "dialogs/activitydialog.h"
+#include "objectwidget.h"
+#include "classifier.h"
+#include "uniqueid.h"
 
+//Added by qt3to4:
 //Added by qt3to4:
 #include <QMouseEvent>
 #include <QPolygon>
+#include <QMoveEvent>
+#include <QResizeEvent>
 
-PreconditionWidget::PreconditionWidget(UMLView * view, Uml::IDType id )
+PreconditionWidget::PreconditionWidget(UMLView * view, ObjectWidget* a, Uml::IDType id )
         : UMLWidget(view, id)
 {
-    UMLWidget::setBaseType( Uml::wt_Precondition );
+    init();
+    m_pOw[Uml::A] = a;
+    int y = getY();
+    m_nY = y;
+    //updateResizability();
     updateComponentSize();
+   // calculateWidget();
+    y = y < getMinY() ? getMinY() : y;
+    y = y > getMaxY() ? getMaxY() : y;
+    m_nY = y;
+    this->activate();
+    
 }
 
 PreconditionWidget::~PreconditionWidget() {}
 
+void PreconditionWidget::init() {
+    UMLWidget::setBaseType(Uml::wt_Precondition);
+    m_bIgnoreSnapToGrid = true;
+    m_bIgnoreSnapComponentSizeToGrid = true;
+    m_pOw[Uml::A] = NULL;
+    m_nY = 0;
+    setVisible(true);
+}
+
 void PreconditionWidget::draw(QPainter & p, int offsetX, int offsetY) {
     int w = width();
     int h = height();
-   
+
+    int x = m_pOw[Uml::A]->getX() + m_pOw[Uml::A]->getWidth() / 2;
+
+    x -= w/2;
+   // setX(x);
     UMLWidget::setPen(p);
     if ( UMLWidget::getUseFillColour() ) {
         p.setBrush( UMLWidget::getFillColour() );
@@ -55,15 +84,15 @@ void PreconditionWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	const QString precondition_value = "{ " + getName() + " }";
         //int middleX = w / 2;
         int textStartY = (h / 2) - (fontHeight / 2);
-        p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
+        p.drawRoundRect(x, offsetY, w, h, (h * 60) / w, 60);
         p.setPen(Qt::black);
         p.setFont( UMLWidget::getFont() );
-        p.drawText(offsetX + PRECONDITION_MARGIN, offsetY + textStartY,
+        p.drawText(x + PRECONDITION_MARGIN, offsetY + textStartY,
                        w - PRECONDITION_MARGIN * 2, fontHeight, Qt::AlignCenter, precondition_value);
     }
     UMLWidget::setPen(p);
     if(m_bSelected)
-        drawSelected(&p, offsetX, offsetY);
+        drawSelected(&p, x, offsetY);
 }
 
 QSize PreconditionWidget::calculateSize() {
@@ -93,6 +122,7 @@ void PreconditionWidget::slotMenuSelection(int sel) {
         if( ok && name.length() > 0 )
             m_Text = name;
         done = true;
+        calculateWidget();
         break;
 
     case ListPopupMenu::mt_Properties:
@@ -104,6 +134,88 @@ void PreconditionWidget::slotMenuSelection(int sel) {
     if( !done )
         UMLWidget::slotMenuSelection( sel );
 }
+
+void PreconditionWidget::calculateWidget() {
+    calculateDimensions();
+
+    setVisible(true);
+
+    setX(m_nPosX);
+    setY(m_nY);
+}
+
+void PreconditionWidget::activate(IDChangeLog * Log /*= 0*/) {
+    m_pView->resetPastePoint();
+    UMLWidget::activate(Log);
+    if (m_pOw[Uml::A] == NULL) {
+        kDebug() << "PreconditionWidget::activate: can't make precondition" << endl;
+        return;
+    }
+    
+    connect(m_pOw[Uml::A], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
+    
+    calculateDimensions();
+}
+
+void PreconditionWidget::calculateDimensions() {
+    int x = 0;
+    int w = 0;
+    int h = 0;
+    int x1 = m_pOw[Uml::A]->getX();
+    int w1 = m_pOw[Uml::A]->getWidth() / 2;
+
+    x1 += w1;
+
+    QSize q = calculateSize();
+    w = q.width() > width() ? q.width() : width();
+    h = q.height() > height() ? q.height() : height();
+
+    x = x1 - w/2;
+
+    m_nPosX = x;
+    setSize(w,h);
+
+}
+
+void PreconditionWidget::slotWidgetMoved(Uml::IDType id) {
+    const Uml::IDType idA = m_pOw[Uml::A]->getLocalID();
+    if (idA != id ) {
+        kDebug() << "MessageWidget::slotWidgetMoved(" << ID2STR(id)
+            << "): ignoring for idA=" << ID2STR(idA) << endl;
+        return;
+    }
+    m_nY = getY();
+    if (m_nY < getMinY())
+        m_nY = getMinY();
+    if (m_nY > getMaxY())
+        m_nY = getMaxY();
+    calculateWidget();
+      if (m_pView->getSelectCount(true) > 1)
+        return;
+   // setTextPosition();
+}
+
+
+int PreconditionWidget::getMinY() {
+    if (!m_pOw[Uml::A]) {
+        return 0;
+    }
+
+    int heightA = m_pOw[Uml::A]->getY() + m_pOw[Uml::A]->getHeight();
+    int height = heightA;
+    return height;
+}
+
+int PreconditionWidget::getMaxY() {
+    if( !m_pOw[Uml::A]) {
+        return 0;
+    }
+
+    int heightA = (int)((ObjectWidget*)m_pOw[Uml::A])->getEndLineY();
+    int height = heightA;
+    return (height - this->height());
+}
+
 
 bool PreconditionWidget::showProperties() {
     /*DocWindow *docwindow = UMLApp::app()->getDocWindow();
@@ -124,6 +236,7 @@ bool PreconditionWidget::showProperties() {
 void PreconditionWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement preconditionElement = qDoc.createElement( "preconditionwidget" );
     UMLWidget::saveToXMI( qDoc, preconditionElement );
+    preconditionElement.setAttribute( "widgetaid", ID2STR(m_pOw[Uml::A]->getLocalID()) );
     preconditionElement.setAttribute( "preconditionname", m_Text );
     preconditionElement.setAttribute( "documentation", m_Doc );
     qElement.appendChild( preconditionElement );
@@ -132,8 +245,26 @@ void PreconditionWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement 
 bool PreconditionWidget::loadFromXMI( QDomElement & qElement ) {
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
+    QString widgetaid = qElement.attribute( "widgetaid", "-1" );
     m_Text = qElement.attribute( "preconditionname", "" );
     m_Doc = qElement.attribute( "documentation", "" );
+
+    Uml::IDType aId = STR2ID(widgetaid);
+    
+    UMLWidget *pWA = m_pView -> findWidget( aId );
+    if (pWA == NULL) {
+        kDebug() << "PreconditionWidget::loadFromXMI: role A object "
+        << ID2STR(aId) << " not found" << endl;
+        return false;
+    }
+
+    m_pOw[Uml::A] = dynamic_cast<ObjectWidget*>(pWA);
+    if (m_pOw[Uml::A] == NULL) {
+        kDebug() << "PreconditionWidget::loadFromXMI: role A widget "
+        << ID2STR(aId) << " is not an ObjectWidget" << endl;
+        return false;
+    }
+
     return true;
 }
 

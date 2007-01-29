@@ -279,8 +279,8 @@ enum Sequence_Message_Type
     sequence_message_synchronous = 1000,
     sequence_message_asynchronous,
     sequence_message_creation,
-    sequence_message_found,
-    sequence_message_lost
+    sequence_message_lost,
+    sequence_message_found
 };
 
 enum DBIndex_Type

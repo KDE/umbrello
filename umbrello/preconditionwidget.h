@@ -19,6 +19,9 @@
 #define PRECONDITION_WIDTH 30
 #define PRECONDITION_HEIGHT 10
 
+class ObjectWidget;
+class UMLOperation;
+
 /**
  * This class is the graphical version of a UML Precondition.  A PreconditionWidget is created
  * by a @ref UMLView.  An PreconditionWidget belongs to only one @ref UMLView instance.
@@ -40,15 +43,21 @@ public:
      * Creates a Precondition widget.
      *
      * @param view              The parent of the widget.
+     * @param a			The role A widget for this precondition.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-    PreconditionWidget( UMLView * view, Uml::IDType id = Uml::id_None );
+    PreconditionWidget( UMLView * view, ObjectWidget* a, Uml::IDType id = Uml::id_None );
 
 
     /**
      *  destructor
      */
     virtual ~PreconditionWidget();
+
+    /**
+     * Initializes key variables of the class.
+     */
+    void init();
 
     /**
      * Overrides the standard paint event.
@@ -63,6 +72,39 @@ public:
      */
     bool showProperties();
 
+    /**
+     * Calculate the geometry of the widget.
+     */
+    void calculateWidget();
+
+    /**
+     * Activates a MessageWidget.  Connects its m_pOw[] pointers
+     * to UMLObjects and also send signals about its FloatingTextWidget.
+     */
+    void activate(IDChangeLog * Log = 0);
+
+    /**
+     * Calculates the size of the widget by calling
+     * calculateDimenstionsSynchronous(),
+     * calculateDimenstionsAsynchronous(), or
+     * calculateDimensionsCreation()
+     */
+     void calculateDimensions();
+
+
+    /**
+     * Returns the minimum height this widget should be set at on
+     * a sequence diagrams.  Takes into account the widget positions
+     * it is related to.
+     */
+    int getMinY();
+
+    /**
+     * Returns the maximum height this widget should be set at on
+     * a sequence diagrams.  Takes into account the widget positions
+     * it is related to.
+     */
+    int getMaxY();
 
     /**
      * Saves the widget to the <preconditionwidget> XMI element.
@@ -87,6 +129,11 @@ public slots:
      * Captures any popup menu signals for menus it created.
      */
     void slotMenuSelection(int sel);
+    void slotWidgetMoved(Uml::IDType id);
+
+private:
+    ObjectWidget * m_pOw[1];
+    int m_nY;
 };
 
 #endif

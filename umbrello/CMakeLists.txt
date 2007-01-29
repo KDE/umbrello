@@ -325,6 +325,7 @@ set(libumbrello_SRCS
    toolbarstatemessages.cpp 
    toolbarstateother.cpp 
    toolbarstatepool.cpp 
+   toolbarstatesequence.cpp 
    uml.cpp 
    umlattributelist.cpp 
    umlentityattributelist.cpp 

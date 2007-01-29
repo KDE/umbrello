@@ -31,6 +31,7 @@
 #include "uml.h"
 #include "umlview.h"
 #include "umldoc.h"
+#include "objectwidget.h"
 
 using namespace Uml;
 
@@ -105,9 +106,9 @@ bool ToolBarStateOther::newWidget() {
             umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::Normal);
             break;
 
-	case WorkToolBar::tbb_Seq_Precondition:
-            umlWidget = new PreconditionWidget(m_pUMLView);
-            break;
+	//case WorkToolBar::tbb_Seq_Precondition:
+         //   umlWidget = new PreconditionWidget(m_pUMLView,static_cast<ObjectWidget*>(getCurrentWidget()));
+          //  break;
 
         case WorkToolBar::tbb_End_Activity:
             umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::End);

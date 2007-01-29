@@ -98,6 +98,7 @@
 #include "object_factory.h"
 #include "umlwidget.h"
 #include "toolbarstatefactory.h"
+#include "preconditionwidget.h"
 
 
 // control the manual DoubleBuffering of QCanvas
@@ -1569,6 +1570,32 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
         break;
 
     case wt_Object:
+        {
+            ObjectWidget* pObjectWidget = static_cast<ObjectWidget*>(pWidget);
+            if (pObjectWidget == NULL) {
+                kDebug() << "UMLView::addWidget(): pObjectWidget is NULL" << endl;
+                return false;
+            }
+            Uml::IDType newID = log->findNewID( pWidget -> getID() );
+            if (newID == Uml::id_None) {
+                return false;
+            }
+            pObjectWidget -> setID( newID );
+            Uml::IDType nNewLocalID = getLocalID();
+            Uml::IDType nOldLocalID = pObjectWidget -> getLocalID();
+            m_pIDChangesLog->addIDChange( nOldLocalID, nNewLocalID );
+            pObjectWidget -> setLocalID( nNewLocalID );
+            UMLObject *pObject = m_pDoc -> findObjectById( newID );
+            if( !pObject ) {
+                kDebug() << "addWidget::Can't find UMLObject" << endl;
+                return false;
+            }
+            pWidget -> setUMLObject( pObject );
+            m_WidgetList.append( pWidget );
+        }
+        break;
+
+    case wt_Precondition:
         {
             ObjectWidget* pObjectWidget = static_cast<ObjectWidget*>(pWidget);
             if (pObjectWidget == NULL) {
@@ -3090,7 +3117,7 @@ bool UMLView::loadWidgetsFromXMI( QDomElement & qElement ) {
 }
 
 UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
-
+    UMLWidget* widget = 0;
     if ( !m_pDoc ) {
         kWarning() << "UMLView::loadWidgetFromXMI(): m_pDoc is NULL" << endl;
         return 0L;
@@ -3098,7 +3125,12 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
 
     QString tag  = widgetElement.tagName();
     QString idstr  = widgetElement.attribute( "xmi.id", "-1" );
-    UMLWidget* widget = Widget_Factory::makeWidgetFromXMI(tag, idstr, this);
+    if (tag == "preconditionwidget") {
+	widget = new PreconditionWidget(this,NULL,Uml::id_Reserved);
+    }
+    else {
+	widget = Widget_Factory::makeWidgetFromXMI(tag, idstr, this);
+    }
     if (widget == NULL)
         return NULL;
     if (!widget->loadFromXMI(widgetElement)) {
