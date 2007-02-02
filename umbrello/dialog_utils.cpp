@@ -18,19 +18,20 @@
 #include <qlabel.h>
 #include <qlineedit.h>
 #include <kinputdialog.h>
+#include <kmessagebox.h>
+#include <klocale.h>
+
 //Added by qt3to4:
 #include <QGridLayout>
 
 // app includes
 #include "uml.h"
 #include "umlwidget.h"
+#include "combinedfragmentwidget.h"
 
 namespace Dialog_Utils {
 
-QLineEdit* makeLabeledEditField(Q3GroupBox *containingBox, QGridLayout *layout, int row,
-                                QLabel * &label, const QString& labelText,
-                                QLineEdit * &editField,
-                                const QString& editFieldText /* = QString::null */)
+QLineEdit* makeLabeledEditField(Q3GroupBox *containingBox, QGridLayout *layout, int row,QLabel * &label, const QString& labelText, QLineEdit * &editField, const QString& editFieldText /* = QString::null */)
 {
     label = new QLabel(labelText, containingBox);
     layout->addWidget(label, row, 0);
@@ -57,6 +58,25 @@ void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
     }
 }
 
+void askNameForWidgetType(UMLWidget* &targetWidget, const QString& dialogTitle,
+                      const QString& dialogPrompt, const QString& defaultName) {
+
+    bool pressedOK = false;
+    const QStringList list = QStringList() << "Reference" << "Option" << "Break" << "Loop" << "Negative" << "Critical" << "Assertion";
+    const QStringList select = QStringList() << "Reference" << "Option" << "Break" << "Loop" << "Negative" << "Critical" << "Assertion";;
+    QStringList result = KInputDialog::getItemList (dialogTitle, dialogPrompt, list, select, false, &pressedOK, UMLApp::app());
+
+    if (pressedOK) {
+        QString type = result.join("");
+        dynamic_cast<CombinedFragmentWidget*>(targetWidget)->setCombinedFragmentType(type);
+        if (type == "Reference" )
+            askNameForWidget(targetWidget, i18n("Enter the name of the diagram referenced"), i18n("Enter the name of the diagram referenced"), i18n("Diagram name"));
+    } else {
+        targetWidget->cleanup();
+        delete targetWidget;
+        targetWidget = NULL;
+    }
+}
 
 }  // end namespace Dialog_Utils
 

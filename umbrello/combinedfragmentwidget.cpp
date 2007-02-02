@@ -19,6 +19,7 @@
 #include <klocale.h>
 #include <kdebug.h>
 #include <kinputdialog.h>
+#include <kmessagebox.h>
 
 // app includes
 #include "uml.h"
@@ -27,15 +28,16 @@
 #include "umlview.h"
 #include "listpopupmenu.h"
 #include "dialogs/activitydialog.h"
+#include "dialog_utils.h"
 
 //Added by qt3to4:
 #include <QMouseEvent>
 #include <QPolygon>
 
-CombinedFragmentWidget::CombinedFragmentWidget(UMLView * view, CombinedFragmentType combfragmentType, Uml::IDType id ) : UMLWidget(view, id)
+CombinedFragmentWidget::CombinedFragmentWidget(UMLView * view, CombinedFragmentType combinedfragmentType, Uml::IDType id ) : UMLWidget(view, id)
 {
     UMLWidget::setBaseType( Uml::wt_Combined_Fragment );
-    setCombinedFragmentType( combfragmentType );
+    setCombinedFragmentType( combinedfragmentType );
     updateComponentSize();
 }
 
@@ -60,9 +62,9 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	int textStartY = (h / 2) - (fontHeight / 2);
 	p.drawRect(offsetX, offsetY, w, h );
 
-	p.drawLine(offsetX, offsetY + 20, offsetX + 30, offsetY + 20);
-	p.drawLine(offsetX + 30, offsetY + 20, offsetX + 35, offsetY + 10);
-	p.drawLine(offsetX + 35, offsetY + 10, offsetX + 35, offsetY);
+	p.drawLine(offsetX,      offsetY + 20, offsetX + 45, offsetY + 20);
+	p.drawLine(offsetX + 45, offsetY + 20, offsetX + 55, offsetY + 10);
+	p.drawLine(offsetX + 55, offsetY + 10, offsetX + 55, offsetY);
 
 	p.setPen(Qt::black);
 	p.setFont( UMLWidget::getFont() );
@@ -81,6 +83,32 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
 			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "opt");
         break;
 
+        case Break :
+		p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
+			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "break");
+        break;
+
+        case Loop :
+		p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
+			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "loop");
+        break;
+
+        case Neg :
+		p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
+			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "neg");
+        break;
+
+        case Crit :
+		p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
+			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "critical");
+        break;
+
+        case Ass :
+		p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
+			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "assert");
+        break;
+
+
 	default : break;
     }
 }
@@ -94,7 +122,7 @@ QSize CombinedFragmentWidget::calculateSize() {
     const int fontHeight  = fm.lineSpacing();
     const int textWidth = fm.width(getName());
     height = fontHeight;
-    width = textWidth + 50 > COMBINED_FRAGMENT_WIDTH ? textWidth + 50: COMBINED_FRAGMENT_WIDTH;
+    width = textWidth + 60 > COMBINED_FRAGMENT_WIDTH ? textWidth + 60: COMBINED_FRAGMENT_WIDTH;
     height = height > COMBINED_FRAGMENT_HEIGHT ? height : COMBINED_FRAGMENT_HEIGHT;
     width += COMBINED_FRAGMENT_MARGIN * 2;
     height += COMBINED_FRAGMENT_MARGIN * 2;
@@ -106,8 +134,32 @@ CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::getCombined
 }
 
 void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combinedfragmentType ) {
+
     m_CombinedFragment = combinedfragmentType;
     UMLWidget::m_bResizable =  true ; //(m_CombinedFragment == Normal);
+}
+
+CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::getCombinedFragmentType(QString type) const {
+    if(type == "Reference")
+        return (CombinedFragmentWidget::Ref);
+    if(type == "Option")
+        return (CombinedFragmentWidget::Opt);
+    if(type == "Break")
+        return (CombinedFragmentWidget::Break);
+    if(type == "Loop")
+        return (CombinedFragmentWidget::Loop);
+    if(type == "Negative")
+        return (CombinedFragmentWidget::Neg);
+    if(type == "Critical")
+        return (CombinedFragmentWidget::Crit);
+    if(type == "Assertion")
+        return (CombinedFragmentWidget::Ass);
+
+}
+
+void CombinedFragmentWidget::setCombinedFragmentType( QString combinedfragmentType ) {
+
+    setCombinedFragmentType(getCombinedFragmentType(combinedfragmentType) );
 }
 
 void CombinedFragmentWidget::slotMenuSelection(int sel) {

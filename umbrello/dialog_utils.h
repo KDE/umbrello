@@ -59,6 +59,8 @@ QLineEdit* makeLabeledEditField(Q3GroupBox *containingBox, QGridLayout *layout, 
  */
 void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
                       const QString& dialogPrompt, const QString& defaultName);
+void askNameForWidgetType(UMLWidget * &targetWidget, const QString& dialogTitle,
+                      const QString& dialogPrompt, const QString& defaultName);
 
 }
 

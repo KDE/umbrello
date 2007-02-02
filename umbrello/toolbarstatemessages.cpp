@@ -156,7 +156,7 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject) {
     m_firstObject = firstObject;
     Uml::Sequence_Message_Type msgType = getMessageType();
     int y = m_pMouseEvent->y();
-    if (msgType ==  Uml::sequence_message_found) {
+    if (msgType ==  Uml::sequence_message_found && xclick!=0 && yclick!=0) {
 	MessageWidget* message = new MessageWidget(m_pUMLView, m_firstObject,m_firstObject, y, msgType);
 	message->setxclicked(xclick);
 	message->setyclicked(yclick);

@@ -106,10 +106,6 @@ bool ToolBarStateOther::newWidget() {
             umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::Normal);
             break;
 
-	//case WorkToolBar::tbb_Seq_Precondition:
-         //   umlWidget = new PreconditionWidget(m_pUMLView,static_cast<ObjectWidget*>(getCurrentWidget()));
-          //  break;
-
         case WorkToolBar::tbb_End_Activity:
             umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::End);
             break;
@@ -158,7 +154,7 @@ bool ToolBarStateOther::newWidget() {
             umlWidget, i18n("Enter Precondition Name"),
             i18n("Enter the precondition"), i18n("new precondition"));
     } else if (getButton() == WorkToolBar::tbb_Seq_Combined_Fragment) {
-        Dialog_Utils::askNameForWidget(
+        Dialog_Utils::askNameForWidgetType(
             umlWidget, i18n("Enter Combined Fragment Name"),
             i18n("Enter the Combined Fragment"), i18n("new Combined Fragment"));
     } else if (getButton() == WorkToolBar::tbb_State) {

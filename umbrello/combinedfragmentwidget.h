@@ -16,8 +16,8 @@
 #include "worktoolbar.h"
 
 #define COMBINED_FRAGMENT_MARGIN 5
-#define COMBINED_FRAGMENT_WIDTH 30
-#define COMBINED_FRAGMENT_HEIGHT 10
+#define COMBINED_FRAGMENT_WIDTH 100
+#define COMBINED_FRAGMENT_HEIGHT 50
 
 /**
  * This class is the graphical version of a UML combined fragment.  A combinedfragmentWidget is created
@@ -37,9 +37,13 @@ class CombinedFragmentWidget : public UMLWidget {
 public:
     enum CombinedFragmentType
     {
-        Normal,
-        Ref,
-        Opt
+        Ref = 0,
+        Opt,
+        Break,
+        Loop,
+        Neg,
+        Crit,
+        Ass
     };
 
     /**
@@ -66,12 +70,13 @@ public:
      * Returns the type of combined fragment.
      */
     CombinedFragmentType getCombinedFragmentType() const;
+    CombinedFragmentType getCombinedFragmentType(QString combinedfragmentType) const;
 
     /**
      * Sets the type of combined fragment.
      */
     void setCombinedFragmentType( CombinedFragmentType combinedfragmentType );
-
+    void setCombinedFragmentType( QString combinedfragmentType );
     /**
      * Show a properties dialog for a CombinedFragmentWidget.
      *
