@@ -856,6 +856,10 @@ void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
         messageElement.setAttribute( "operation", m_CustomOp );
     messageElement.setAttribute( "seqnum", m_SequenceNumber );
     messageElement.setAttribute( "sequencemessagetype", m_sequenceMessageType );
+    if (m_sequenceMessageType == Uml::sequence_message_lost || m_sequenceMessageType == Uml::sequence_message_found) {
+	 messageElement.setAttribute( "xclicked", xclicked );
+	 messageElement.setAttribute( "yclicked", yclicked );
+    }
 
     // save the corresponding message text
     if (m_pFText && !m_pFText->getText().isEmpty()) {
@@ -877,6 +881,10 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
     m_SequenceNumber = qElement.attribute( "seqnum", "" );
     QString sequenceMessageType = qElement.attribute( "sequencemessagetype", "1001" );
     m_sequenceMessageType = (Uml::Sequence_Message_Type)sequenceMessageType.toInt();
+    if (m_sequenceMessageType == Uml::sequence_message_lost || m_sequenceMessageType == Uml::sequence_message_found) {
+	 xclicked = qElement.attribute( "xclicked", "-1" ).toInt();
+	 yclicked = qElement.attribute( "yclicked", "-1" ).toInt();
+    }
 
     Uml::IDType aId = STR2ID(widgetaid);
     Uml::IDType bId = STR2ID(widgetbid);
