@@ -45,7 +45,7 @@ void NativeImportBase::setMultiLineAltComment(const QString &intro, const QStrin
 }
 
 void NativeImportBase::skipStmt(QString until /* = ";" */) {
-    const uint srcLength = m_source.count();
+    const int srcLength = m_source.count();
     while (m_srcIndex < srcLength && m_source[m_srcIndex] != until)
         m_srcIndex++;
 }
@@ -72,7 +72,7 @@ bool NativeImportBase::skipToClosing(QChar opener) {
     }
     const QString opening(opener);
     skipStmt(opening);
-    const uint srcLength = m_source.count();
+    const int srcLength = m_source.count();
     int nesting = 0;
     while (m_srcIndex < srcLength) {
         QString nextToken = advance();
@@ -319,7 +319,7 @@ void NativeImportBase::parseFile(const QString& filename) {
     m_currentAccess = Uml::Visibility::Public;
     m_scopeIndex = 0;
     m_scope[0] = NULL;  // index 0 is reserved for global scope
-    const uint srcLength = m_source.count();
+    const int srcLength = m_source.count();
     for (m_srcIndex = 0; m_srcIndex < srcLength; m_srcIndex++) {
         const QString& firstToken = m_source[m_srcIndex];
         //kDebug() << '"' << firstToken << '"' << endl;

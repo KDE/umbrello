@@ -67,22 +67,22 @@ bool XhtmlGenerator::generateXhtmlForProjectInto(const KUrl& destDir)
   kDebug() << "First convert to docbook" << endl;
   m_destDir = destDir;
 //   KUrl url(QString("file://")+m_tmpDir.name());
-  KIO::CopyJob* docbookJob = DocbookGenerator().generateDocbookForProjectInto(destDir);
+  KIO::Job* docbookJob = DocbookGenerator().generateDocbookForProjectInto(destDir);
   if (docbookJob == 0)
   {
     return false;
   }
   kDebug() << "Connecting..." << endl;
-  connect(docbookJob, SIGNAL(copyingDone( KIO::Job *, const KUrl &, const KUrl &, bool, bool )), this, SLOT(slotDocbookToXhtml( KIO::Job *)));
-  return true; 
+  connect(docbookJob, SIGNAL(result(KJob*)), this, SLOT(slotDocbookToXhtml(KJob*)));
+  return true;
 }
 
-void XhtmlGenerator::slotDocbookToXhtml(KIO::Job * docbookJob)
+void XhtmlGenerator::slotDocbookToXhtml(KJob * docbookJob)
 {
   kDebug() << "Now convert docbook to html..." << endl;
   if ( docbookJob->error() )
   {
-    docbookJob->showErrorDialog( 0L  );
+    // error shown by setAutoErrorHandlingEnabled(true) already
     return;
   }
   
@@ -92,7 +92,6 @@ void XhtmlGenerator::slotDocbookToXhtml(KIO::Job * docbookJob)
   const KUrl& url = umlDoc->url();
   QString docbookName = url.fileName();
   docbookName.replace(QRegExp(".xmi$"),".docbook");
-//   KUrl docbookUrl(QString("file://")+m_tmpDir.name());
   KUrl docbookUrl = m_destDir;
   docbookUrl.addPath(docbookName);
   

@@ -159,7 +159,7 @@ UMLApp::UMLApp(QWidget* parent) : KMainWindow(parent) {
 
     m_refactoringAssist = 0L;
 
-    m_commoncodegenpolicy = new CodeGenerationPolicy(m_config);
+    m_commoncodegenpolicy = new CodeGenerationPolicy(m_config.data());
 
     m_imageExporterAll = new UMLViewImageExporterAll();
 }
@@ -234,7 +234,7 @@ void UMLApp::initActions() {
         connect(m_langAct[pl], SIGNAL(triggered()), this, "1"action"()")
     setProgLangAction(Uml::pl_ActionScript, "ActionScript", "set_lang_actionscript");
     setProgLangAction(Uml::pl_Ada,          "Ada",          "set_lang_ada");
-    setProgLangAction(Uml::pl_Cpp,          "Cpp",          "set_lang_cpp");
+    setProgLangAction(Uml::pl_Cpp,          "C++",          "set_lang_cpp");
     setProgLangAction(Uml::pl_IDL,          "IDL",          "set_lang_idl");
     setProgLangAction(Uml::pl_Java,         "Java",         "set_lang_java");
     setProgLangAction(Uml::pl_JavaScript,   "JavaScript",   "set_lang_javascript");
@@ -591,10 +591,10 @@ UMLListView* UMLApp::getListView() {
 
 
 void UMLApp::saveOptions() {
-    toolBar("mainToolBar")->saveSettings(m_config, "toolbar");
-    toolsbar->saveSettings(m_config, "workbar");
-    m_alignToolBar->saveSettings(m_config, "aligntoolbar");
-    fileOpenRecent->saveEntries(m_config,"Recent Files");
+    toolBar("mainToolBar")->saveSettings(m_config.data(), "toolbar");
+    toolsbar->saveSettings(m_config.data(), "workbar");
+    m_alignToolBar->saveSettings(m_config.data(), "aligntoolbar");
+    fileOpenRecent->saveEntries(m_config.data(),"Recent Files");
     m_config->setGroup( "General Options" );
     m_config->writeEntry( "Geometry", size() );
 
@@ -658,10 +658,10 @@ void UMLApp::saveOptions() {
 
     // write the config for a language-specific code gen policy
     if (m_policyext)
-        m_policyext->writeConfig(m_config);
+        m_policyext->writeConfig(m_config.data());
 
     // now write the basic defaults to the m_config file
-    m_commoncodegenpolicy->writeConfig(m_config);
+    m_commoncodegenpolicy->writeConfig(m_config.data());
 
     // next, we record the activeLanguage in the Code Generation Group
     if (m_codegen) {
@@ -672,11 +672,11 @@ void UMLApp::saveOptions() {
 
 void UMLApp::readOptions() {
     // bar status settings
-    toolBar("mainToolBar")->applySettings(m_config, "toolbar");
+    toolBar("mainToolBar")->applySettings(m_config.data(), "toolbar");
     // do config for work toolbar
-    toolsbar->applySettings(m_config, "workbar");
-    m_alignToolBar->applySettings(m_config, "aligntoolbar");
-    fileOpenRecent->loadEntries(m_config,"Recent Files");
+    toolsbar->applySettings(m_config.data(), "workbar");
+    m_alignToolBar->applySettings(m_config.data(), "aligntoolbar");
+    fileOpenRecent->loadEntries(m_config.data(),"Recent Files");
     m_config->setGroup("General Options");
     setImageMimeType(m_config->readEntry("imageMimeType","image/png"));
     QSize tmpQSize(630,460);
@@ -1331,7 +1331,7 @@ CodeGenerator *UMLApp::setGenerator(Uml::Programming_Language pl) {
     updateLangSelectMenu(pl);
 
     if (m_policyext)
-        m_policyext->setDefaults(m_config, false); // picks up language specific stuff
+        m_policyext->setDefaults(m_config.data(), false); // picks up language specific stuff
     return m_codegen;
 }
 

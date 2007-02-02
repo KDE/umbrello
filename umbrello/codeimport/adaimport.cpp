@@ -143,7 +143,7 @@ void AdaImport::parseStems(const QStringList& stems) {
     if (stems.isEmpty())
         return;
     QString base = stems.first();
-    uint i = 0;
+    int i = 0;
     while (1) {
         QString filename = base + ".ads";
         if (! m_parsedFiles.contains(filename)) {
@@ -166,7 +166,7 @@ void AdaImport::parseStems(const QStringList& stems) {
 }
 
 bool AdaImport::parseStmt() {
-    const uint srcLength = m_source.count();
+    const int srcLength = m_source.count();
     const QString& keyword = m_source[m_srcIndex];
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     //kDebug() << '"' << keyword << '"' << endl;

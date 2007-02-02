@@ -66,7 +66,7 @@ void PascalImport::fillSource(const QString& word) {
 }
 
 void PascalImport::checkModifiers(bool& isVirtual, bool& isAbstract) {
-    const uint srcLength = m_source.count();
+    const int srcLength = m_source.count();
     while (m_srcIndex < srcLength - 1) {
         QString lookAhead = m_source[m_srcIndex + 1].lower();
         if (lookAhead != "virtual" && lookAhead != "abstract" &&
@@ -86,7 +86,7 @@ void PascalImport::checkModifiers(bool& isVirtual, bool& isAbstract) {
 }
 
 bool PascalImport::parseStmt() {
-    const uint srcLength = m_source.count();
+    const int srcLength = m_source.count();
     QString keyword = m_source[m_srcIndex].lower();
     //kDebug() << '"' << keyword << '"' << endl;
     if (keyword == "uses") {

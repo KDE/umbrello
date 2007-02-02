@@ -48,10 +48,10 @@ void JavaImport::initVars() {
 QString JavaImport::joinTypename(QString typeName) {
     if (m_source[m_srcIndex + 1] == "<" ||
         m_source[m_srcIndex + 1] == "[") {
-        uint start = ++m_srcIndex;
+        int start = ++m_srcIndex;
         if (! skipToClosing(m_source[start][0]))
             return typeName;
-        for (uint i = start; i <= m_srcIndex; i++) {
+        for (int i = start; i <= m_srcIndex; i++) {
             typeName += m_source[i];
         }
     }
@@ -222,7 +222,7 @@ void JavaImport::parseFile(const QString& filename) {
 
 
 bool JavaImport::parseStmt() {
-    const uint srcLength = m_source.count();
+    const int srcLength = m_source.count();
     const QString& keyword = m_source[m_srcIndex];
     //kDebug() << '"' << keyword << '"' << endl;
     if (keyword == "package") {

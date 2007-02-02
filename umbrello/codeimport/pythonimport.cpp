@@ -130,7 +130,7 @@ void PythonImport::skipBody() {
 }
 
 bool PythonImport::parseStmt() {
-    const uint srcLength = m_source.count();
+    const int srcLength = m_source.count();
     const QString& keyword = m_source[m_srcIndex];
     if (keyword == "class") {
         const QString& name = advance();

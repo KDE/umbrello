@@ -26,6 +26,7 @@
 #include <kmainwindow.h>
 #include <kdeversion.h>
 #include <kurl.h>
+#include <kconfig.h>
 
 // forward declaration of the UML classes
 class AlignToolBar;
@@ -817,7 +818,7 @@ public slots:
      */
     void slotMoveTabRight();
 
-    KConfig *getConfig() { return m_config; }
+    KConfig* getConfig() { return m_config.data(); }
 
     /**
      * This slot deletes the current XHTML documentation generator as soon as
@@ -882,7 +883,7 @@ private:
     /**
      * The configuration object of the application.
      */
-    KConfig* m_config;
+    KSharedConfigPtr m_config;
 
     /**
      * View is the main widget which represents your working area.
