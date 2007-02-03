@@ -300,7 +300,7 @@ bool AdaImport::parseStmt() {
         bool isTaggedType = false;
         if (next == "abstract") {
             m_isAbstract = true;
-            m_srcIndex++;
+            next = advance();
         }
         if (next == "tagged") {
             isTaggedType = true;
