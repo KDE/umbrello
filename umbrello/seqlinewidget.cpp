@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -27,10 +27,9 @@ SeqLineWidget::SeqLineWidget( UMLView * pView, ObjectWidget * pObject ) : QCanva
     setPen( QPen( m_pObject->getLineColor(), 0, Qt::DashLine ) );
     setZ( 0 );
     setVisible( true );
-    m_pDestructionBox.line1 = 0;
+    m_DestructionBox.line1 = 0;
     m_nLengthY = 250;
     setupDestructionBox();
-    m_pView -> addSeqLine( this );
 }
 
 SeqLineWidget::~SeqLineWidget() {}
@@ -51,7 +50,6 @@ int SeqLineWidget::onWidget( const QPoint & p ) {
 
 void SeqLineWidget::cleanup() {
     cleanupDestructionBox();
-    m_pView->removeSeqLine( this );
 }
 
 void SeqLineWidget::setStartPoint( int startX, int startY ) {
@@ -62,11 +60,11 @@ void SeqLineWidget::setStartPoint( int startX, int startY ) {
 }
 
 void SeqLineWidget::cleanupDestructionBox() {
-    if ( m_pDestructionBox.line1 ) {
-        delete m_pDestructionBox.line1;
-        m_pDestructionBox.line1 = 0;
-        delete m_pDestructionBox.line2;
-        m_pDestructionBox.line2 = 0;
+    if ( m_DestructionBox.line1 ) {
+        delete m_DestructionBox.line1;
+        m_DestructionBox.line1 = 0;
+        delete m_DestructionBox.line2;
+        m_DestructionBox.line2 = 0;
     }
 }
 
@@ -81,22 +79,21 @@ void SeqLineWidget::setupDestructionBox() {
     rect.setWidth( 14 );
     rect.setHeight( 14 );
 
-    m_pDestructionBox.line1 = new QCanvasLine( m_pView->canvas() );
-    m_pDestructionBox.line1->setPoints( rect.x(), rect.y(),
-                                        rect.x() + rect.width(), rect.y() + rect.height() );
-    m_pDestructionBox.line1->setVisible( true );
-    m_pDestructionBox.line1->setPen( QPen(m_pObject->getLineColor(), 2) );
-    m_pDestructionBox.line1->setZ( 3 );
+    m_DestructionBox.line1 = new QCanvasLine( m_pView->canvas() );
+    m_DestructionBox.setLine1Points(rect);
+    m_DestructionBox.line1->setVisible( true );
+    m_DestructionBox.line1->setPen( QPen(m_pObject->getLineColor(), 2) );
+    m_DestructionBox.line1->setZ( 3 );
 
-    m_pDestructionBox.line2 = new QCanvasLine( m_pView -> canvas() );
-    m_pDestructionBox.line2->setPoints( rect.x(), rect.y() + rect.height(), rect.x() + rect.width(), rect.y() );
-    m_pDestructionBox.line2->setVisible( true );
-    m_pDestructionBox.line2->setPen( QPen(m_pObject->getLineColor(), 2) );
-    m_pDestructionBox.line2->setZ( 3 );
+    m_DestructionBox.line2 = new QCanvasLine( m_pView -> canvas() );
+    m_DestructionBox.setLine2Points(rect);
+    m_DestructionBox.line2->setVisible( true );
+    m_DestructionBox.line2->setPen( QPen(m_pObject->getLineColor(), 2) );
+    m_DestructionBox.line2->setZ( 3 );
 }
 
 void SeqLineWidget::moveDestructionBox() {
-    if( !m_pDestructionBox.line1 ) {
+    if( !m_DestructionBox.line1 ) {
         return;
     }
     QRect rect;
@@ -104,10 +101,8 @@ void SeqLineWidget::moveDestructionBox() {
     rect.setY( m_pObject->getY() + m_pObject->getHeight() + m_nLengthY - 7 );
     rect.setWidth( 14 );
     rect.setHeight( 14 );
-    m_pDestructionBox.line1->setPoints( rect.x(), rect.y(),
-                                        rect.x() + rect.width(), rect.y() + rect.height() );
-    m_pDestructionBox.line2->setPoints( rect.x(), rect.y() + rect.height(),
-                                        rect.x() + rect.width(), rect.y() );
+    m_DestructionBox.setLine1Points(rect);
+    m_DestructionBox.setLine2Points(rect);
 }
 
 void SeqLineWidget::setEndOfLine(int yPosition) {

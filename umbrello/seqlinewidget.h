@@ -5,14 +5,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-
 #ifndef SEQLINEWIDGET_H
 #define SEQLINEWIDGET_H
-//app includes
+
+#include <qcanvas.h>
 
 class UMLView;
 class ObjectWidget;
@@ -108,11 +108,18 @@ protected:
     UMLView * m_pView;
 
     /// The destruction box.
-    struct {
-        QCanvasRectangle * rect;
+    struct DestructionBox {
         QCanvasLine * line1;
         QCanvasLine * line2;
-    } m_pDestructionBox;
+        void setLine1Points(QRect rect) {
+            line1->setPoints( rect.x(), rect.y(),
+                              rect.x() + rect.width(), rect.y() + rect.height() );
+        }
+        void setLine2Points(QRect rect) {
+            line2->setPoints( rect.x(), rect.y() + rect.height(),
+                              rect.x() + rect.width(), rect.y() );
+        }
+    } m_DestructionBox;
 
     /**
      * The length of the line.
