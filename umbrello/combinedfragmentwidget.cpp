@@ -46,6 +46,7 @@ CombinedFragmentWidget::~CombinedFragmentWidget() {}
 void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
     int w = width();
     int h = height();
+    int line_width = 45;
 
     UMLWidget::setPen(p);
 
@@ -62,18 +63,14 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	int textStartY = (h / 2) - (fontHeight / 2);
 	p.drawRect(offsetX, offsetY, w, h );
 
-	p.drawLine(offsetX,      offsetY + 20, offsetX + 45, offsetY + 20);
-	p.drawLine(offsetX + 45, offsetY + 20, offsetX + 55, offsetY + 10);
-	p.drawLine(offsetX + 55, offsetY + 10, offsetX + 55, offsetY);
-
 	p.setPen(Qt::black);
 	p.setFont( UMLWidget::getFont() );
+        QString temp = "loop";
 
     switch ( m_CombinedFragment )
     {
         case Ref :
-
-		p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY + textStartY, w - COMBINED_FRAGMENT_MARGIN * 2 + 50, fontHeight, Qt::AlignCenter, combined_fragment_value);
+		p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY + textStartY, w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignCenter, combined_fragment_value);
 	
 		p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY , w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "ref");
         break;
@@ -89,8 +86,13 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
         break;
 
         case Loop :
-		p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
-			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "loop");
+                if (combined_fragment_value != "-")
+                {
+                     temp += " [" + combined_fragment_value + "]";
+                     line_width += (combined_fragment_value.size() + 2) * 8;
+                }
+		p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, temp);
+
         break;
 
         case Neg :
@@ -112,6 +114,11 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	default : break;
     }
 }
+    p.setPen(Qt::red);
+    p.drawLine(offsetX,      offsetY + 20, offsetX + line_width, offsetY + 20);
+    p.drawLine(offsetX + line_width, offsetY + 20, offsetX + line_width + 10, offsetY + 10);
+    p.drawLine(offsetX + line_width + 10, offsetY + 10, offsetX + line_width + 10, offsetY);
+
     if(m_bSelected)
         drawSelected(&p, offsetX, offsetY);
 }
@@ -123,6 +130,8 @@ QSize CombinedFragmentWidget::calculateSize() {
     const int textWidth = fm.width(getName());
     height = fontHeight;
     width = textWidth + 60 > COMBINED_FRAGMENT_WIDTH ? textWidth + 60: COMBINED_FRAGMENT_WIDTH;
+    if ( m_CombinedFragment == Loop )
+         width += textWidth * 0.4;
     height = height > COMBINED_FRAGMENT_HEIGHT ? height : COMBINED_FRAGMENT_HEIGHT;
     width += COMBINED_FRAGMENT_MARGIN * 2;
     height += COMBINED_FRAGMENT_MARGIN * 2;

@@ -69,8 +69,10 @@ void askNameForWidgetType(UMLWidget* &targetWidget, const QString& dialogTitle,
     if (pressedOK) {
         QString type = result.join("");
         dynamic_cast<CombinedFragmentWidget*>(targetWidget)->setCombinedFragmentType(type);
-        if (type == "Reference" )
+        if (type == "Reference")
             askNameForWidget(targetWidget, i18n("Enter the name of the diagram referenced"), i18n("Enter the name of the diagram referenced"), i18n("Diagram name"));
+        if (type == "Loop")
+            askNameForWidget(targetWidget, i18n("Enter the guard of the loop"), i18n("Enter the guard of the loop"), i18n("-"));
     } else {
         targetWidget->cleanup();
         delete targetWidget;
