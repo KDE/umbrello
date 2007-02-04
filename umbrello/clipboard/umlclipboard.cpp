@@ -595,9 +595,7 @@ bool UMLClipboard::pasteClip5(QMimeSource* data) {
                     obj->setName(newName);
                 }
                 UMLAttribute *att = static_cast<UMLAttribute*>(obj);
-                if (parent->addAttribute(att, idchanges)) {
-                    //FIXME                                     doc -> signalChildUMLObjectCreated(obj);
-                } else {
+                if (!parent->addAttribute(att, idchanges)) {
                     kError() << "UMLClipboard::pasteClip5: " << parent->getName()
                         << "->addAttribute(" << att->getName() << ") failed" << endl;
                 }
@@ -611,9 +609,7 @@ bool UMLClipboard::pasteClip5(QMimeSource* data) {
                     QString newName = parent->uniqChildName(Uml::ot_Operation, obj->getName());
                     op->setName(newName);
                 }
-                if (parent->addOperation(op, idchanges)) {
-                    //FIXME                             doc -> signalChildUMLObjectCreated(obj);
-                } else {
+                if (!parent->addOperation(op, idchanges)) {
                     kError() << "UMLClipboard::pasteClip5: " << parent->getName()
                         << "->addOperation(" << op->getName() << ") failed" << endl;
                 }
