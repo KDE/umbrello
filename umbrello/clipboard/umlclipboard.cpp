@@ -580,11 +580,13 @@ bool UMLClipboard::pasteClip5(QMimeSource* data) {
     }
 
     UMLObject   *obj = 0;
-    UMLObjectListIt object_it(objects);
     doc->setModified(true);
     idchanges = doc->getChangeLog();
+    // Assume success if at least one child object could be pasted
+    if (objects.count())
+        result = false;
 
-    while ( (obj=object_it.current()) != 0 ) {
+    for (UMLObjectListIt it(objects); (obj = it.current()) != NULL; ++it) {
         obj->setID(doc->assignNewID(obj->getID()));
         switch(obj->getBaseType()) {
         case Uml::ot_Attribute :
@@ -595,7 +597,9 @@ bool UMLClipboard::pasteClip5(QMimeSource* data) {
                     obj->setName(newName);
                 }
                 UMLAttribute *att = static_cast<UMLAttribute*>(obj);
-                if (!parent->addAttribute(att, idchanges)) {
+                if (parent->addAttribute(att, idchanges)) {
+                    result = true;
+                } else {
                     kError() << "UMLClipboard::pasteClip5: " << parent->getName()
                         << "->addAttribute(" << att->getName() << ") failed" << endl;
                 }
@@ -609,7 +613,9 @@ bool UMLClipboard::pasteClip5(QMimeSource* data) {
                     QString newName = parent->uniqChildName(Uml::ot_Operation, obj->getName());
                     op->setName(newName);
                 }
-                if (!parent->addOperation(op, idchanges)) {
+                if (parent->addOperation(op, idchanges)) {
+                    result = true;
+                } else {
                     kError() << "UMLClipboard::pasteClip5: " << parent->getName()
                         << "->addOperation(" << op->getName() << ") failed" << endl;
                 }
@@ -619,7 +625,6 @@ bool UMLClipboard::pasteClip5(QMimeSource* data) {
             kWarning() << "pasteing unknown children type in clip type 5" << endl;
             return false;
         }
-        ++object_it;
     }
 
     return result;
