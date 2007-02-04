@@ -107,7 +107,8 @@ namespace Import_Utils {
     /**
      * Add an enum literal to an UMLEnum.
      */
-    void addEnumLiteral(UMLEnum *enumType, const QString &literal);
+    void addEnumLiteral(UMLEnum *enumType, const QString &literal,
+                        const QString &comment = QString());
 
     /**
      * Create a generalization from the given child classifier to the given
