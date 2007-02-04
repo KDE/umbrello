@@ -579,7 +579,6 @@ bool UMLClipboard::pasteClip5(QMimeSource* data) {
         return false;
     }
 
-    bool objectAlreadyExists = false;
     UMLObject   *obj = 0;
     UMLObjectListIt object_it(objects);
     doc->setModified(true);
@@ -590,20 +589,33 @@ bool UMLClipboard::pasteClip5(QMimeSource* data) {
         switch(obj->getBaseType()) {
         case Uml::ot_Attribute :
             {
-                if (parent->addAttribute(dynamic_cast<UMLAttribute*>(obj), idchanges)) {
+                UMLObject *exist = parent->findChildObject(obj->getName(), Uml::ot_Attribute);
+                if (exist) {
+                    QString newName = parent->uniqChildName(Uml::ot_Attribute, obj->getName());
+                    obj->setName(newName);
+                }
+                UMLAttribute *att = static_cast<UMLAttribute*>(obj);
+                if (parent->addAttribute(att, idchanges)) {
                     //FIXME                                     doc -> signalChildUMLObjectCreated(obj);
                 } else {
-                    objectAlreadyExists = true;
+                    kError() << "UMLClipboard::pasteClip5: " << parent->getName()
+                        << "->addAttribute(" << att->getName() << ") failed" << endl;
                 }
                 break;
             }
         case Uml::ot_Operation :
             {
-                UMLClassifier * parent = dynamic_cast<UMLClassifier *>(lvitem -> getUMLObject());
-                if (parent -> addOperation(dynamic_cast<UMLOperation*>(obj), idchanges)) {
+                UMLOperation *op = static_cast<UMLOperation*>(obj);
+                UMLOperation *exist = parent->checkOperationSignature(op->getName(), op->getParmList());
+                if (exist) {
+                    QString newName = parent->uniqChildName(Uml::ot_Operation, obj->getName());
+                    op->setName(newName);
+                }
+                if (parent->addOperation(op, idchanges)) {
                     //FIXME                             doc -> signalChildUMLObjectCreated(obj);
                 } else {
-                    objectAlreadyExists = true;
+                    kError() << "UMLClipboard::pasteClip5: " << parent->getName()
+                        << "->addOperation(" << op->getName() << ") failed" << endl;
                 }
                 break;
             }
@@ -612,10 +624,6 @@ bool UMLClipboard::pasteClip5(QMimeSource* data) {
             return false;
         }
         ++object_it;
-    }
-
-    if (objectAlreadyExists) {
-        pasteItemAlreadyExists();
     }
 
     return result;
