@@ -18,6 +18,7 @@
 // local includes
 #include "floatingtextwidget.h"
 #include "preconditionwidget.h"
+#include "endoflifewidget.h"
 #include "messagewidget.h"
 #include "objectwidget.h"
 #include "uml.h"
@@ -90,25 +91,26 @@ void ToolBarStateSequence::mouseReleaseEmpty() {
 void ToolBarStateSequence::setWidget(ObjectWidget* firstObject) {
     m_firstObject = firstObject;
 
+    UMLWidget * umlwidget = NULL;
     //m_pUMLView->viewport()->setMouseTracking(true);
     if (getWidgetType() == Uml::wt_Precondition) {
-   	 UMLWidget * precondition = new PreconditionWidget(m_pUMLView, m_firstObject);
+   	umlwidget = new PreconditionWidget(m_pUMLView, m_firstObject);
 
-	Dialog_Utils::askNameForWidget(precondition, i18n("Enter Precondition Name"), i18n("Enter the precondition"), i18n("new precondition"));
+	Dialog_Utils::askNameForWidget(umlwidget, i18n("Enter Precondition Name"), i18n("Enter the precondition"), i18n("new precondition"));
     	    // Create the widget. Some setup functions can remove the widget.
-    	if (precondition != NULL) {
-            m_pUMLView->setupNewWidget(precondition);
-    	}
+    	
     }
 
-    if (getWidgetType() == Uml::wt_End_Of_Life) {
-   	 UMLWidget * precondition = new PreconditionWidget(m_pUMLView, m_firstObject);
+    if (getWidgetType() == Uml::wt_EndOfLife) {
+   	umlwidget = new EndOfLifeWidget(m_pUMLView, m_firstObject);
 
-	Dialog_Utils::askNameForWidget(precondition, i18n("Enter Precondition Name"), i18n("Enter the precondition"), i18n("new precondition"));
+	//Dialog_Utils::askNameForWidget(umlwidget, i18n("Enter Precondition Name"), i18n("Enter the precondition"), i18n("new precondition"));
     	    // Create the widget. Some setup functions can remove the widget.
-    	if (precondition != NULL) {
-            m_pUMLView->setupNewWidget(precondition);
-    	}
+    	
+    }
+
+    if (umlwidget != NULL) {
+            m_pUMLView->setupNewWidget(umlwidget);
     }
 }
 
@@ -118,7 +120,7 @@ Uml::Widget_Type ToolBarStateSequence::getWidgetType() {
         return Uml::wt_Precondition;
     }
     if (getButton() == WorkToolBar::tbb_Seq_End_Of_Life) {
-        return Uml::wt_End_Of_Life;
+        return Uml::wt_EndOfLife;
     }
 }
 

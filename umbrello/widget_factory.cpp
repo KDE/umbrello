@@ -52,6 +52,7 @@
 #include "combinedfragmentwidget.h"
 #include "seqlinewidget.h"
 #include "preconditionwidget.h"
+#include "endoflifewidget.h"
 #include "cmds.h"
 
 
@@ -161,7 +162,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
                              const QString& idStr, UMLView *view) {
     UMLWidget *widget = NULL;
     if (tag == "statewidget" || tag == "notewidget" || tag == "boxwidget" ||
-        tag == "floatingtext" || tag == "activitywidget" || tag == "forkjoin" || tag == "preconditionwidget" ||
+        tag == "floatingtext" || tag == "activitywidget" || tag == "forkjoin" || tag == "preconditionwidget" || tag == "endoflifewidget" ||
         tag == "combinedFragmentwidget"  ||
             // tests for backward compatibility:
             tag == "UML:StateWidget" || tag == "UML:NoteWidget" ||
@@ -188,6 +189,8 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
             widget = new ForkJoinWidget(view, false, Uml::id_Reserved);
         } else if (tag == "preconditionwidget") {
             widget = new PreconditionWidget(view, NULL, Uml::id_Reserved);
+	} else if (tag == "endoflifewidget") {
+            widget = new EndOfLifeWidget(view, NULL, Uml::id_Reserved);
 	} else if (tag == "combinedFragmentwidget") {
             widget = new CombinedFragmentWidget(view, CombinedFragmentWidget::Ref, Uml::id_Reserved);
 	}

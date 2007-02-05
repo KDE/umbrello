@@ -271,6 +271,7 @@ set(libumbrello_SRCS
    datatypewidget.cpp 
    dialog_utils.cpp 
    docwindow.cpp 
+   endoflifewidget.cpp   
    entity.cpp 
    entityattribute.cpp 
    entitywidget.cpp 

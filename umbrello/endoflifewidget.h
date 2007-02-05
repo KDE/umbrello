@@ -9,50 +9,52 @@
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-#ifndef PRECONDITIONWIDGET_H
-#define PRECONDITIONWIDGET_H
+#ifndef ENDOFLIFEWIDGET_H
+#define ENDOFLIFEWIDGET_H
 
 #include "umlwidget.h"
 #include "worktoolbar.h"
 
-#define PRECONDITION_MARGIN 5
-#define PRECONDITION_WIDTH 30
-#define PRECONDITION_HEIGHT 10
+#define ENDOFLIFE_MARGIN 5
+#define ENDOFLIFE_WIDTH 30
+#define ENDOFLIFE_HEIGHT 10
 
 class ObjectWidget;
 class UMLOperation;
 
 /**
- * This class is the graphical version of a UML Precondition.  A PreconditionWidget is created
- * by a @ref UMLView.  An PreconditionWidget belongs to only one @ref UMLView instance.
+ * This class is the graphical version of a UML End of life  A EndOfLifeWidget is created
+ * by a @ref UMLView.  An EndOfLifeWidget belongs to only one @ref UMLView instance.
  * When the @ref UMLView instance that this class belongs to, it will be automatically deleted.
  *
- * The PreconditionWidget class inherits from the @ref UMLWidget class which adds most of the functionality
+ * The EndOfLifeWidget class inherits from the @ref UMLWidget class which adds most of the functionality
  * to this class.
+ * 
+ * A EndOfLifeWidgetWidget is used to show that an object in sequence diagram is dead
  *
- * @short  A graphical version of a UML Precondition (new in UML 2.0).
+ * @short  A graphical version of a UML EndOfLifeWidget (new in UML 2.0).
  * @author Florence Mattler <florence.mattler@libertysurf.fr>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class PreconditionWidget : public UMLWidget {
+class EndOfLifeWidget : public UMLWidget {
     Q_OBJECT
 
 public:
    
     /**
-     * Creates a Precondition widget.
+     * Creates a End Of Life widget.
      *
      * @param view              The parent of the widget.
      * @param a			The role A widget for this precondition.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-    PreconditionWidget( UMLView * view, ObjectWidget* a, Uml::IDType id = Uml::id_None );
+    EndOfLifeWidget( UMLView * view, ObjectWidget* a, Uml::IDType id = Uml::id_None );
 
 
     /**
      *  destructor
      */
-    virtual ~PreconditionWidget();
+    virtual ~EndOfLifeWidget();
 
     /**
      * Initializes key variables of the class.
@@ -71,13 +73,13 @@ public:
     void calculateWidget();
 
     /**
-     * Activates a PreconditionWidget.  Connects it m_pOw[] pointer
+     * Activates a EndOflifeWidget.  Connects it m_pOw[] pointer
      * to UMLObject
      */
     void activate(IDChangeLog * Log = 0);
 
     /**
-     * Calculates the size of the widget
+     * Calculates the size of the widget by calling
      */
      void calculateDimensions();
 
@@ -97,12 +99,12 @@ public:
     int getMaxY();
 
     /**
-     * Saves the widget to the <preconditionwidget> XMI element.
+     * Saves the widget to the <endoflifewidget> XMI element.
      */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     /**
-     * Loads the widget from the <preconditionwidget> XMI element.
+     * Loads the widget from the <endoflifewidget> XMI element.
      */
     bool loadFromXMI( QDomElement & qElement );
 
