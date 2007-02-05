@@ -66,13 +66,6 @@ public:
 
 
     /**
-     * Show a properties dialog for an PreconditionWidget.
-     *
-     * @return  True if we modified the precondition.
-     */
-    bool showProperties();
-
-    /**
      * Calculate the geometry of the widget.
      */
     void calculateWidget();

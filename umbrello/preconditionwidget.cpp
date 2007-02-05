@@ -61,6 +61,7 @@ void PreconditionWidget::init() {
     UMLWidget::setBaseType(Uml::wt_Precondition);
     m_bIgnoreSnapToGrid = true;
     m_bIgnoreSnapComponentSizeToGrid = true;
+    m_bResizable =  true ;
     m_pOw[Uml::A] = NULL;
     m_nY = 0;
     setVisible(true);
@@ -71,9 +72,15 @@ void PreconditionWidget::draw(QPainter & p, int offsetX, int offsetY) {
     int h = height();
 
     int x = m_pOw[Uml::A]->getX() + m_pOw[Uml::A]->getWidth() / 2;
-
     x -= w/2;
-   // setX(x);
+    setX(x);
+    int y = offsetY;
+    
+    //test if y isn't above the object
+    if (y <= m_pOw[Uml::A]->getY() + m_pOw[Uml::A]->getHeight() ) {
+	y = m_pOw[Uml::A]->getY() + m_pOw[Uml::A]->getHeight() + 15;
+    }
+    setY(y);
     UMLWidget::setPen(p);
     if ( UMLWidget::getUseFillColour() ) {
         p.setBrush( UMLWidget::getFillColour() );
@@ -84,16 +91,16 @@ void PreconditionWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	const QString precondition_value = "{ " + getName() + " }";
         //int middleX = w / 2;
         int textStartY = (h / 2) - (fontHeight / 2);
-        p.drawRoundRect(x, offsetY, w, h, (h * 60) / w, 60);
+        p.drawRoundRect(x, y, w, h, (h * 60) / w, 60);
         p.setPen(Qt::black);
         p.setFont( UMLWidget::getFont() );
-        p.drawText(x + PRECONDITION_MARGIN, offsetY + textStartY,
+        p.drawText(x + PRECONDITION_MARGIN, y + textStartY,
                        w - PRECONDITION_MARGIN * 2, fontHeight, Qt::AlignCenter, precondition_value);
     }
-    UMLWidget::setPen(p);
     if(m_bSelected)
-        drawSelected(&p, x, offsetY);
+        drawSelected(&p, x, y);
 }
+
 
 QSize PreconditionWidget::calculateSize() {
     int width = 10, height = 10;
@@ -107,6 +114,7 @@ QSize PreconditionWidget::calculateSize() {
     height += PRECONDITION_MARGIN * 2;
    
     return QSize(width, height);
+
 }
 
 
@@ -124,13 +132,7 @@ void PreconditionWidget::slotMenuSelection(int sel) {
         done = true;
         calculateWidget();
         break;
-
-    case ListPopupMenu::mt_Properties:
-        showProperties();
-        done = true;
-        break;
     }
-
     if( !done )
         UMLWidget::slotMenuSelection( sel );
 }
@@ -173,6 +175,7 @@ void PreconditionWidget::calculateDimensions() {
     x = x1 - w/2;
 
     m_nPosX = x;
+
     setSize(w,h);
 
 }
@@ -189,10 +192,11 @@ void PreconditionWidget::slotWidgetMoved(Uml::IDType id) {
         m_nY = getMinY();
     if (m_nY > getMaxY())
         m_nY = getMaxY();
-    calculateWidget();
-      if (m_pView->getSelectCount(true) > 1)
+    
+    calculateDimensions();
+    if (m_pView->getSelectCount(true) > 1)
         return;
-   // setTextPosition();
+
 }
 
 
@@ -216,22 +220,6 @@ int PreconditionWidget::getMaxY() {
     return (height - this->height());
 }
 
-
-bool PreconditionWidget::showProperties() {
-    /*DocWindow *docwindow = UMLApp::app()->getDocWindow();
-    docwindow->updateDocumentation(false);
-
-    ActivityDialog dialog(m_pView, this);
-    bool modified = false;
-    if (dialog.exec() && dialog.getChangesMade()) {
-        docwindow->showDocumentation(this, true);
-        UMLApp::app()->getDocument()->setModified(true);
-        modified = true;
-    }
-
-    return modified;*/
-    return true;
-}
 
 void PreconditionWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement preconditionElement = qDoc.createElement( "preconditionwidget" );
