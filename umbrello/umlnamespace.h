@@ -106,7 +106,7 @@ enum Widget_Type
     wt_Association,             // has UMLObject representation
     wt_ForkJoin,                 // does not have UMLObject representation
     wt_Precondition,		// does not have UMLObject representation
-    wt_Combined_Fragment,	// does not have UMLObject representation
+    wt_CombinedFragment,	// does not have UMLObject representation 
     wt_End_Of_Life		
 };
 

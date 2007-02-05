@@ -53,7 +53,7 @@ public:
      * @param combinedfragmentType      The type of combined fragment.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-    CombinedFragmentWidget( UMLView * view, CombinedFragmentType combinedfragmentType = Opt, Uml::IDType id = Uml::id_None );
+    CombinedFragmentWidget( UMLView * view, CombinedFragmentType combinedfragmentType = Ref, Uml::IDType id = Uml::id_None );
 
 
     /**

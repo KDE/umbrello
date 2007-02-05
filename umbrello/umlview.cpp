@@ -1625,6 +1625,32 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
         }
         break;
 
+   case wt_CombinedFragment:
+        {
+            ObjectWidget* pObjectWidget = static_cast<ObjectWidget*>(pWidget);
+            if (pObjectWidget == NULL) {
+                kDebug() << "UMLView::addWidget(): pObjectWidget is NULL" << endl;
+                return false;
+            }
+            Uml::IDType newID = log->findNewID( pWidget -> getID() );
+            if (newID == Uml::id_None) {
+                return false;
+            }
+            pObjectWidget -> setID( newID );
+            Uml::IDType nNewLocalID = getLocalID();
+            Uml::IDType nOldLocalID = pObjectWidget -> getLocalID();
+            m_pIDChangesLog->addIDChange( nOldLocalID, nNewLocalID );
+            pObjectWidget -> setLocalID( nNewLocalID );
+            UMLObject *pObject = m_pDoc -> findObjectById( newID );
+            if( !pObject ) {
+                kDebug() << "addWidget::Can't find UMLObject" << endl;
+                return false;
+            }
+            pWidget -> setUMLObject( pObject );
+            m_WidgetList.append( pWidget );
+        }
+        break;
+
     default:
         kDebug() << "Trying to add an invalid widget type" << endl;
         return false;

@@ -49,6 +49,7 @@
 #include "statewidget.h"
 #include "forkjoinwidget.h"
 #include "activitywidget.h"
+#include "combinedfragmentwidget.h"
 #include "seqlinewidget.h"
 #include "preconditionwidget.h"
 #include "cmds.h"
@@ -161,9 +162,10 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
     UMLWidget *widget = NULL;
     if (tag == "statewidget" || tag == "notewidget" || tag == "boxwidget" ||
         tag == "floatingtext" || tag == "activitywidget" || tag == "forkjoin" || tag == "preconditionwidget" ||
+        tag == "combinedFragmentwidget"  ||
             // tests for backward compatibility:
             tag == "UML:StateWidget" || tag == "UML:NoteWidget" ||
-            tag == "UML:FloatingTextWidget" || tag == "UML:ActivityWidget") {
+            tag=="UML:CombinedFragmentWidget" || tag == "UML:FloatingTextWidget" || tag == "UML:ActivityWidget") {
         // Loading of widgets which do NOT represent any UMLObject, 
         // just graphic stuff with no real model information
         //FIXME while boxes and texts are just diagram objects, activities and
@@ -186,6 +188,8 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
             widget = new ForkJoinWidget(view, false, Uml::id_Reserved);
         } else if (tag == "preconditionwidget") {
             widget = new PreconditionWidget(view, NULL, Uml::id_Reserved);
+	} else if (tag == "combinedFragmentwidget") {
+            widget = new CombinedFragmentWidget(view, CombinedFragmentWidget::Ref, Uml::id_Reserved);
 	}
     } else {
         // Find the UMLObject and create the Widget to represent it

@@ -34,6 +34,7 @@
 #include "statewidget.h"
 #include "activitywidget.h"
 #include "preconditionwidget.h"
+#include "combinedfragmentwidget.h"
 #include "forkjoinwidget.h"
 #include "objectwidget.h"
 
@@ -405,7 +406,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         insertStdItem(mt_Change_Font);
         break;
 
-    case Uml::wt_Combined_Fragment:
+    case Uml::wt_CombinedFragment:
 	setupColor( object -> getUseFillColour() );
         insertSeparator();
         insertStdItem(mt_Cut);

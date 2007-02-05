@@ -36,7 +36,7 @@
 
 CombinedFragmentWidget::CombinedFragmentWidget(UMLView * view, CombinedFragmentType combinedfragmentType, Uml::IDType id ) : UMLWidget(view, id)
 {
-    UMLWidget::setBaseType( Uml::wt_Combined_Fragment );
+    UMLWidget::setBaseType( Uml::wt_CombinedFragment );
     setCombinedFragmentType( combinedfragmentType );
     updateComponentSize();
 }
@@ -224,7 +224,6 @@ bool CombinedFragmentWidget::showProperties() {
 //     }
 //     return status;
 // }
-
 
 void CombinedFragmentWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement combinedFragmentElement = qDoc.createElement( "combinedFragmentwidget" );
