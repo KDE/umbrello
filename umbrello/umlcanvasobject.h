@@ -172,7 +172,7 @@ public:
     /**
      * Find an association.
      *
-     * @param id                The id of the object to find.
+     * @param id        The id of the object to find.
      * @return  Pointer to the object found (NULL if not found.)
      */
     virtual UMLObject *findChildObjectById(Uml::IDType id, bool considerAncestors = false);
@@ -182,13 +182,14 @@ public:
      * or attribute appended with a number if the default name is
      * taken e.g. new_association, new_association_1 etc.
      *
-     * @param type              The object type for which to make a name.
-     * @param seekStereo        Set this true if we should look at the object's
-     *                  stereotype instead of its name.
+     * @param type      The object type for which to make a name.
+     * @param prefix    Optional prefix to use for the name.
+     *                  If not given then uniqChildName() will choose the prefix
+     *                  internally based on the object type.
      * @return  Unique name string for the Object_Type given.
      */
     virtual QString uniqChildName(const Uml::Object_Type type,
-                                  bool seekStereo = false);
+                                  const QString &prefix = QString());
 
     virtual void removeAllChildObjects();
 
