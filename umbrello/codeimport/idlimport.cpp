@@ -136,7 +136,7 @@ void IDLImport::parseFile(const QString& filename) {
 
 bool IDLImport::parseStmt() {
     const QString& keyword = m_source[m_srcIndex];
-    const uint srcLength = m_source.count();
+    const int srcLength = m_source.count();
     if (keyword == "module") {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package,

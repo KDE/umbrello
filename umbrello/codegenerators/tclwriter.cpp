@@ -372,7 +372,7 @@ void
 TclWriter::writeComm(const QString &text)
 {
     QStringList     lines = QStringList::split("\n", text, true);
-    for (uint i = 0; i < lines.count(); i++) {
+    for (int i = 0; i < lines.count(); i++) {
         *mStream << getIndent() << "# " << lines[i] << m_endl;
     }
 }
@@ -381,7 +381,7 @@ void
 TclWriter::writeDocu(const QString &text)
 {
     QStringList     lines = QStringList::split("\n", text, true);
-    for (uint i = 0; i < lines.count(); i++) {
+    for (int i = 0; i < lines.count(); i++) {
         *mStream << getIndent() << "## " << lines[i] << m_endl;
     }
 }
