@@ -147,15 +147,10 @@ void UMLDoc::addView(UMLView *view) {
     if ( pApp->getListView() )
         connect(this, SIGNAL(sigObjectRemoved(UMLObject *)), view, SLOT(slotObjectRemoved(UMLObject *)));
 
-    UMLView * previousView = pApp->getCurrentView();
     pApp->setCurrentView(view);
     if ( ! m_bLoading ) {
-        if (previousView == NULL) {
-            view -> show();
-            emit sigDiagramChanged(view ->getType());
-        } else {
-            view -> hide();
-        }
+        view -> show();
+        emit sigDiagramChanged(view ->getType());
     }
 
     Settings::OptionState optionState = Settings::getOptionState();

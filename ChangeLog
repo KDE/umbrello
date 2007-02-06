@@ -1,7 +1,9 @@
 Version 1.5.61
 
-* Fixed crash on anchoring note to diagram object
+* Bugs fixed from http://bugs.kde.org:
+* Fixed crash on creating various types of associations (140693, 141073, 141106, 141277)
   http://sourceforge.net/mailarchive/forum.php?thread_id=31539549&forum_id=460
+* Unclickable use case diagram (140870)
 
 Version 1.5.6
 
