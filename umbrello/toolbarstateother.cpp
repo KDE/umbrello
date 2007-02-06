@@ -149,10 +149,6 @@ bool ToolBarStateOther::newWidget() {
         Dialog_Utils::askNameForWidget(
             umlWidget, i18n("Enter Activity Name"),
             i18n("Enter the name of the new activity:"), i18n("new activity"));
-    } else if (getButton() == WorkToolBar::tbb_Seq_Precondition) {
-        Dialog_Utils::askNameForWidget(
-            umlWidget, i18n("Enter Precondition Name"),
-            i18n("Enter the precondition"), i18n("new precondition"));
     } else if (getButton() == WorkToolBar::tbb_Seq_Combined_Fragment) {
         Dialog_Utils::askNameForWidgetType(
             umlWidget, i18n("Enter Combined Fragment Name"),

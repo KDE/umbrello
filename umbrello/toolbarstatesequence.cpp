@@ -29,7 +29,11 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 
+
+using namespace Uml;
+
 ToolBarStateSequence::ToolBarStateSequence(UMLView *umlView) : ToolBarStatePool(umlView) {
+    m_umlView = umlView;
     m_firstObject = 0;
 }
 
@@ -54,12 +58,11 @@ void ToolBarStateSequence::slotWidgetRemoved(UMLWidget* widget) {
 
 void ToolBarStateSequence::setCurrentElement() {
     m_isObjectWidgetLine = false;
-
     ObjectWidget* objectWidgetLine = m_pUMLView->onWidgetLine(m_pMouseEvent->pos());
     if (objectWidgetLine) {
         setCurrentWidget(objectWidgetLine);
         m_isObjectWidgetLine = true;
-        return;
+	return;
     }
 
     UMLWidget *widget = m_pUMLView->testOnWidget(m_pMouseEvent->pos());
@@ -70,19 +73,38 @@ void ToolBarStateSequence::setCurrentElement() {
 }
 
 void ToolBarStateSequence::mouseReleaseWidget() {
-    
+    Uml::Widget_Type widgetType = getWidgetType();
+    UMLWidget * widget = 0;
+
+    if (widgetType == Uml::wt_Precondition) {
+	m_firstObject = 0;
+    }
+    else if (widgetType == Uml::wt_EndOfLife) {
+	//test if there isn't an endoflife widget on the selected widget yet
+	UMLWidgetListIt w_it(m_umlView->getWidgetList());
+	while( ( widget = w_it.current() ) ) {
+            ++w_it;
+            if (widget->getBaseType() == Uml::wt_EndOfLife) {
+		if (dynamic_cast<EndOfLifeWidget*>(widget)->m_pOw[Uml::A]->getID() == getCurrentWidget()->getID())
+		    return;
+		else
+		     m_firstObject = 0;
+	    }
+	}
+    }
     if (m_pMouseEvent->button() != Qt::LeftButton ||
                 getCurrentWidget()->getBaseType() != Uml::wt_Object) {
         return;
     }
-    
+
     if (!m_isObjectWidgetLine && !m_firstObject) {
-        return;
+	return;
     }
 
     if (!m_firstObject) {
         setWidget(static_cast<ObjectWidget*>(getCurrentWidget()));
     } 
+
 }
 
 void ToolBarStateSequence::mouseReleaseEmpty() {
@@ -112,6 +134,7 @@ void ToolBarStateSequence::setWidget(ObjectWidget* firstObject) {
     if (umlwidget != NULL) {
             m_pUMLView->setupNewWidget(umlwidget);
     }
+
 }
 
 

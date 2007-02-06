@@ -108,6 +108,8 @@ public:
      */
     bool loadFromXMI( QDomElement & qElement );
 
+	ObjectWidget * m_pOw[1];
+
 protected:
     /**
      * Overrides method from UMLWidget
@@ -124,7 +126,7 @@ public slots:
     void slotWidgetMoved(Uml::IDType id);
 
 private:
-    ObjectWidget * m_pOw[1];
+    
     int m_nY;
 };
 
