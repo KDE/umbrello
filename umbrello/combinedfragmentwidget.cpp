@@ -239,7 +239,8 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement ) {
         return false;
     m_Text = qElement.attribute( "combinedFragmentname", "" );
     m_Doc = qElement.attribute( "documentation", "" );
-    QString type = qElement.attribute( "combinedFragmenttype", "1" );
+    QString type = qElement.attribute( "CombinedFragmenttype", "");
+    //KMessageBox::error(0, i18n(" type %1",type),i18n("type"));
     setCombinedFragmentType( (CombinedFragmentType)type.toInt() );
     return true;
 }
