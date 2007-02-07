@@ -414,10 +414,13 @@ bool UMLObject::resolveRef() {
         }
     }
     if (m_SecondaryFallback.isEmpty()) {
-        kError() << "UMLObject::resolveRef(" << m_Name
-                  << "): cannot find type with id "
-                  << m_SecondaryId << endl;
-        return false;
+        if (m_SecondaryId.isEmpty()) {
+            kError() << "UMLObject::resolveRef(" << m_Name
+                << "): both m_SecondaryId and m_SecondaryFallback are empty"
+                << endl;
+            return false;
+        }
+        m_SecondaryFallback = m_SecondaryId;
     }
 #ifdef VERBOSE_DEBUGGING
     kDebug() << "UMLObject::resolveRef(" << m_Name 
@@ -435,7 +438,6 @@ bool UMLObject::resolveRef() {
         maybeSignalObjectCreated();
         return true;
     }
-    //pDoc->setIsOldFile(true);
     // Work around Object_Factory::createUMLObject()'s incapability
     // of on-the-fly scope creation:
     if (m_SecondaryId.contains("::")) {
@@ -458,8 +460,7 @@ bool UMLObject::resolveRef() {
                   << "failed to create a new type for " << m_SecondaryId << endl;
         return false;
     }
-    kDebug() << "UMLObject::resolveRef: Creating new type for "
-    << m_SecondaryId << endl;
+    kDebug() << "UMLObject::resolveRef: Creating new type for " << m_SecondaryId << endl;
     // This is very C++ specific - we rely on  some '*' or
     // '&' to decide it's a ref type. Plus, we don't recognize
     // typedefs of ref types.
@@ -594,12 +595,14 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
     if (!stereo.isEmpty()) {
         Uml::IDType stereoID = STR2ID(stereo);
         m_pStereotype = umldoc->findStereotypeById(stereoID);
-        if (m_pStereotype)
+        if (m_pStereotype) {
             m_pStereotype->incrRefCount();
-        else
-            kError() << "UMLObject::loadFromXMI(" << m_Name << "): "
+        } else {
+            kDebug() << "UMLObject::loadFromXMI(" << m_Name << "): "
                 << "UMLStereotype " << ID2STR(stereoID)
-                << " not found" << endl;
+                << " not found, creating now." << endl;
+            setStereotype(stereo);
+        }
     }
 
     if( element.hasAttribute("abstract") ) {     // for bkwd compat.
