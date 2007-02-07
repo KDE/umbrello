@@ -343,7 +343,7 @@ void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
         if(hasAttributes)
         {
             writeAttributeDecls(attribs, XMLschema);
-            for(uint i= 0; i < attribGroups.count(); i++)
+            for (int i= 0; i < attribGroups.count(); i++)
                 XMLschema<<getIndent()<<"<"<<makeSchemaTag("attributeGroup")<<" ref=\""
                 <<makePackageTag(attribGroups[i])<<"\"/>"<<m_endl;
         }
@@ -532,7 +532,7 @@ void XMLSchemaWriter::writeComment( const QString &comment, QTextStream &XMLsche
     if (comment.contains(QRegExp("\n"))) {
         XMLschema<<m_endl;
         QStringList lines = QStringList::split( "\n", comment);
-        for(uint i= 0; i < lines.count(); i++)
+        for (int i= 0; i < lines.count(); i++)
             XMLschema<<indent<<"     "<<lines[i]<<m_endl;
 
         XMLschema<<indent<<"-->"<<m_endl;

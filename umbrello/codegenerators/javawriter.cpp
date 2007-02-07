@@ -383,7 +383,7 @@ void JavaWriter::writeComment(const QString &comment, const QString &myIndent,
         if(javaDocStyle)
             java << myIndent << "/**" << m_endl;
         QStringList lines = QStringList::split( "\n", comment);
-        for(uint i= 0; i < lines.count(); i++)
+        for (int i= 0; i < lines.count(); i++)
         {
             writeBlankLine(java);
             if(javaDocStyle)
@@ -420,7 +420,7 @@ void JavaWriter::writeDocumentation(QString header, QString body, QString end, Q
     if (!end.isEmpty())
     {
         QStringList lines = QStringList::split( "\n", end);
-        for(uint i= 0; i < lines.count(); i++)
+        for (int i= 0; i < lines.count(); i++)
             java<<formatDoc(lines[i], indent+" * ");
     }
     java<<indent<<" */";

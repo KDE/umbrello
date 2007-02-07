@@ -136,25 +136,32 @@ void UMLCanvasObject::removeAllChildObjects() {
 }
 
 QString UMLCanvasObject::uniqChildName( const Uml::Object_Type type,
-                                        bool seekStereo /* = false */ ) {
-    QString currentName;
-    if (seekStereo) {
-        currentName = i18n("new_stereotype");
-    } else if (type == Uml::ot_Association) {
-        currentName = i18n("new_association");
-    } else if (type == Uml::ot_Attribute) {
-        currentName = i18n("new_attribute");
-    } else if (type == Uml::ot_Template) {
-        currentName = i18n("new_template");
-    } else if (type == Uml::ot_Operation) {
-        currentName = i18n("new_operation");
-    } else if (type == Uml::ot_EnumLiteral) {
-        currentName = i18n("new_literal");
-    } else if (type == Uml::ot_EntityAttribute) {
-        currentName = i18n("new_field");
-    } else {
-        kWarning() << "uniqChildName() called for unknown child type " << type << endl;
-        return "ERROR_in_UMLCanvasObject_uniqChildName";
+                                        const QString &prefix /* = QString() */ ) {
+    QString currentName = prefix;
+    if (currentName.isEmpty()) {
+        switch (type) {
+            case Uml::ot_Association:
+                currentName = i18n("new_association");
+                break;
+            case Uml::ot_Attribute:
+                currentName = i18n("new_attribute");
+                break;
+            case Uml::ot_Template:
+                currentName = i18n("new_template");
+                break;
+            case Uml::ot_Operation:
+                currentName = i18n("new_operation");
+                break;
+            case Uml::ot_EnumLiteral:
+                currentName = i18n("new_literal");
+                break;
+            case Uml::ot_EntityAttribute:
+                currentName = i18n("new_field");
+                break;
+            default:
+                kWarning() << "uniqChildName() called for unknown child type " << type << endl;
+                return "ERROR_in_UMLCanvasObject_uniqChildName";
+        }
     }
 
     QString name = currentName;

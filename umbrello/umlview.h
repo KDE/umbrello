@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -41,7 +41,6 @@ class ClassOptionsPage;
 class IDChangeLog;
 class ListPopupMenu;
 class FloatingTextWidget;
-class SeqLineWidget;
 class ObjectWidget;
 class UMLFolder;
 class UMLApp;
@@ -775,20 +774,6 @@ public:
     bool checkUniqueSelection();
 
     /**
-    * Adds a sequence line to the list.
-    */
-    void addSeqLine( SeqLineWidget * pLine ) {
-        m_SeqLineList.append( pLine );
-    }
-
-    /**
-    * Removes a sequence line from the list.
-    */
-    void removeSeqLine(SeqLineWidget* pLine) {
-        m_SeqLineList.remove(pLine);
-    }
-
-    /**
      * Asks for confirmation and clears everything on the diagram.
      * Called from menus.
      */
@@ -1177,11 +1162,6 @@ private:
      * The offset at which to paste the clipboard.
      */
     QPoint m_PastePoint;
-
-    /**
-     * Holds a list of all the sequence lines on a sequence diagram.
-     */
-    Q3PtrList<SeqLineWidget> m_SeqLineList;
 
     /**
      * Pointer to the UMLDoc

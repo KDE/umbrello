@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -180,8 +180,13 @@ void ObjectWidget::setY( int y ) {
 
 void ObjectWidget::moveEvent(QMoveEvent */*m*/) {
     emit sigWidgetMoved( m_nLocalID );
-    if( m_pLine )
-        m_pLine -> setStartPoint( getX() + width() / 2, getY() + height() );
+    if (m_pLine) {
+        const int x = getX();    // for debugging: gdb has a problem evaluating getX() etc
+        const int w = width();
+        const int y = getY();
+        const int h = height();
+        m_pLine->setStartPoint(x + w / 2, y + h);
+    }
 }
 
 void ObjectWidget::slotColorChanged(Uml::IDType /*viewID*/) {
@@ -365,6 +370,10 @@ bool ObjectWidget::messageOverlap(int y, MessageWidget* messageWidget) {
         }
     }
     return false;
+}
+
+SeqLineWidget *ObjectWidget::getSeqLine() {
+    return m_pLine;
 }
 
 void ObjectWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {

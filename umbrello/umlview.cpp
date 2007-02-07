@@ -461,6 +461,14 @@ void UMLView::slotObjectCreated(UMLObject* o) {
     newWidget->setFont( getFont() );
     newWidget->slotColorChanged( getID() );
     newWidget->slotLineWidthChanged( getID() );
+    newWidget->updateComponentSize();
+    if (m_Type == Uml::dt_Sequence) {
+        // Set proper position on the sequence line widget which is
+        // attached to the object widget.
+        ObjectWidget *ow = dynamic_cast<ObjectWidget*>(newWidget);
+        if (ow)
+            ow->moveEvent(NULL);
+    }
     m_bCreateObject = false;
     //m_WidgetList.append(newWidget);
     switch (o->getBaseType()) {
@@ -644,11 +652,19 @@ void UMLView::contentsDropEvent(QDropEvent *e) {
 }
 
 ObjectWidget * UMLView::onWidgetLine( const QPoint &point ) {
-    SeqLineWidget * pLine = 0;
-    for( pLine = m_SeqLineList.first(); pLine; pLine = m_SeqLineList.next() ) {
-        if( pLine -> onWidget( point ) ) {
-            return pLine -> getObjectWidget();
+    UMLWidget *obj;
+    for (UMLWidgetListIt it(m_WidgetList); (obj = it.current()) != NULL; ++it) {
+        ObjectWidget *ow = dynamic_cast<ObjectWidget*>(obj);
+        if (ow == NULL)
+            continue;
+        SeqLineWidget *pLine = ow->getSeqLine();
+        if (pLine == NULL) {
+            kError() << "UMLView::onWidgetLine: SeqLineWidget of " << ow->getName()
+                << " (id=" << ID2STR(ow->getLocalID()) << ") is NULL" << endl;
+            continue;
         }
+        if (pLine->onWidget(point))
+            return ow;
     }
     return 0;
 }
@@ -885,13 +901,15 @@ QRect UMLView::getDiagramRect() {
             endy = objEndY;
     }
     //if seq. diagram, make sure print all of the lines
-    if(getType() == dt_Sequence ) {
-        SeqLineWidget * pLine = 0;
-        for( pLine = m_SeqLineList.first(); pLine; pLine = m_SeqLineList.next() ) {
-            int y = pLine -> getObjectWidget() -> getEndLineY();
-            endy = endy < y?y:endy;
+    if (getType() == dt_Sequence ) {
+        for (UMLWidgetListIt it(m_WidgetList); (obj = it.current()) != NULL; ++it) {
+            ObjectWidget *ow = dynamic_cast<ObjectWidget*>(obj);
+            if (ow == NULL)
+                continue;
+            int y = ow->getEndLineY();
+            if (endy < y)
+                endy = y;
         }
-
     }
 
     /* now we need another look at the associations, because they are no

@@ -344,8 +344,9 @@ UMLAttribute* addMethodParameter(UMLOperation *method,
     return attr;
 }
 
-void addEnumLiteral(UMLEnum *enumType, const QString &literal) {
-    enumType->addEnumLiteral( literal );
+void addEnumLiteral(UMLEnum *enumType, const QString &literal, const QString &comment) {
+    UMLObject *el = enumType->addEnumLiteral(literal);
+    el->setDoc(comment);
 }
 
 void createGeneralization(UMLClassifier *child, UMLClassifier *parent) {

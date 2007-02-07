@@ -167,7 +167,7 @@ void AdaImport::parseStems(const QStringList& stems) {
 
 bool AdaImport::parseStmt() {
     const int srcLength = m_source.count();
-    const QString& keyword = m_source[m_srcIndex];
+    QString keyword = m_source[m_srcIndex];
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     //kDebug() << '"' << keyword << '"' << endl;
     if (keyword == "with") {
@@ -258,7 +258,8 @@ bool AdaImport::parseStmt() {
     }
     if (keyword == "type") {
         QString name = advance();
-        if (advance() == "(") {
+        QString next = advance();
+        if (next == "(") {
             kDebug() << "AdaImport::parseStmt(" << name << "): "
                 << "discriminant handling is not yet implemented" << endl;
             // @todo Find out how to map discriminated record to UML.
@@ -266,30 +267,30 @@ bool AdaImport::parseStmt() {
             Import_Utils::createUMLObject(Uml::ot_Class, name, m_scope[m_scopeIndex],
                                           m_comment, "record");
             skipStmt("end");
-            if (m_source[++m_srcIndex] == "case")
+            if ((next = advance()) == "case")
                 m_srcIndex += 2;  // skip "case" ";"
-            // we are now positioned on "end"
-            m_srcIndex += 2;      // skip "end" "record"
-            // we are now positioned on ";"
+            skipStmt();
             return true;
         }
-        if (m_source[m_srcIndex] == ";") {
+        if (next == ";") {
             // forward declaration
             Import_Utils::createUMLObject(Uml::ot_Class, name, m_scope[m_scopeIndex],
                                           m_comment);
             return true;
         }
-        if (m_source[m_srcIndex] != "is") {
+        if (next != "is") {
             kError() << "AdaImport::parseStmt: expecting \"is\"" << endl;
             return false;
         }
-        if (advance() == "(") {
+        next = advance();
+        if (next == "(") {
             // enum type
             UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Enum,
                             name, m_scope[m_scopeIndex], m_comment);
             UMLEnum *enumType = static_cast<UMLEnum*>(ns);
-            while (++m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
-                Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
+            while ((next = advance()) != ")") {
+                Import_Utils::addEnumLiteral(enumType, next, m_comment);
+                m_comment = QString();
                 if (advance() != ",")
                     break;
             }
@@ -297,24 +298,38 @@ bool AdaImport::parseStmt() {
             return true;
         }
         bool isTaggedType = false;
-        if (m_source[m_srcIndex] == "abstract") {
+        if (next == "abstract") {
             m_isAbstract = true;
-            m_srcIndex++;
+            next = advance();
         }
-        if (m_source[m_srcIndex] == "tagged") {
+        if (next == "tagged") {
             isTaggedType = true;
-            m_srcIndex++;
+            next = advance();
         }
-        if (m_source[m_srcIndex] == "limited") {
-            m_srcIndex++;  // we can't (yet?) represent that
+        if (next == "limited" ||
+            next == "task" ||
+            next == "protected" ||
+            next == "synchronized") {
+            next = advance();  // we can't (yet?) represent that
         }
-        if (m_source[m_srcIndex] == "private" ||
-            m_source[m_srcIndex] == "record" ||
-            (m_source[m_srcIndex] == "null" &&
+        if (next == "private" ||
+            next == "interface" ||
+            next == "record" ||
+            (next == "null" &&
              m_source[m_srcIndex+1] == "record")) {
-            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
-                            name, m_scope[m_scopeIndex], m_comment);
-            ns->setAbstract(m_isAbstract);
+            Uml::Object_Type t = (next == "interface" ? Uml::ot_Interface : Uml::ot_Class);
+            UMLObject *ns = Import_Utils::createUMLObject(t, name, m_scope[m_scopeIndex], m_comment);
+            if (t == Uml::ot_Interface) {
+                while ((next = advance()) == "and") {
+                    UMLClassifier *klass = static_cast<UMLClassifier*>(ns);
+                    QString base = expand(advance());
+                    UMLObject *p = Import_Utils::createUMLObject(Uml::ot_Interface, base, m_scope[m_scopeIndex]);
+                    UMLClassifier *parent = static_cast<UMLClassifier*>(p);
+                    Import_Utils::createGeneralization(klass, parent);
+                }
+            } else {
+                ns->setAbstract(m_isAbstract);
+            }
             m_isAbstract = false;
             if (isTaggedType) {
                 if (! m_classesDefinedInThisScope.contains(ns))
@@ -322,15 +337,19 @@ bool AdaImport::parseStmt() {
             } else {
                 ns->setStereotype("record");
             }
-            if (m_source[m_srcIndex] == "record")
+            if (next == "record")
                 m_klass = static_cast<UMLClassifier*>(ns);
             else
                 skipStmt();
             return true;
         }
-        if (m_source[m_srcIndex] == "new") {
+        if (next == "new") {
             QString base = expand(advance());
-            const bool isExtension = (advance() == "with");
+            QStringList baseInterfaces;
+            while ((next = advance()) == "and") {
+                baseInterfaces.append(expand(advance()));
+            }
+            const bool isExtension = (next == "with");
             Uml::Object_Type t;
             if (isExtension || m_isAbstract) {
                 t = Uml::ot_Class;
@@ -343,13 +362,22 @@ bool AdaImport::parseStmt() {
             UMLClassifier *parent = static_cast<UMLClassifier*>(ns);
             ns = Import_Utils::createUMLObject(t, name, m_scope[m_scopeIndex], m_comment);
             if (isExtension) {
-                QString nextLexeme = advance();
-                if (nextLexeme == "null" || nextLexeme == "record") {
+                next = advance();
+                if (next == "null" || next == "record") {
                     UMLClassifier *klass = static_cast<UMLClassifier*>(ns);
                     Import_Utils::createGeneralization(klass, parent);
-                    if (nextLexeme == "record") {
+                    if (next == "record") {
                         // Set the m_klass for attributes.
                         m_klass = klass;
+                    }
+                    if (baseInterfaces.count()) {
+                        t = Uml::ot_Interface;
+                        QStringList::Iterator end(baseInterfaces.end());
+                        for (QStringList::Iterator bi(baseInterfaces.begin()); bi != end; ++bi) {
+                             ns = Import_Utils::createUMLObject(t, *bi, m_scope[m_scopeIndex]);
+                             parent = static_cast<UMLClassifier*>(ns);
+                             Import_Utils::createGeneralization(klass, parent);
+                        }
                     }
                 }
             }
@@ -385,6 +413,11 @@ bool AdaImport::parseStmt() {
         skipStmt();
         return true;
     }
+    // subprogram
+    if (keyword == "not")
+        keyword = advance();
+    if (keyword == "overriding")
+        keyword = advance();
     if (keyword == "function" || keyword == "procedure") {
         const QString& name = advance();
         QString returnType;
@@ -503,7 +536,7 @@ bool AdaImport::parseStmt() {
         skipStmt();
         return true;
     }
-    if (keyword == "for") {    // rep spec (yuck)
+    if (keyword == "for") {    // rep spec
         QString typeName = advance();
         QString next = advance();
         if (next == "'") {
@@ -532,7 +565,10 @@ bool AdaImport::parseStmt() {
         skipStmt();
         return true;
     }
-    QString typeName = expand(advance());
+    QString nextToken = advance();
+    if (nextToken == "aliased")
+        nextToken = advance();
+    QString typeName = expand(nextToken);
     QString initialValue;
     if (advance() == ":=") {
         initialValue = advance();

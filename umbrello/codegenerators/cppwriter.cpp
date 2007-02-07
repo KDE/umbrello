@@ -647,7 +647,7 @@ void CppWriter::writeComment(const QString &comment, const QString &myIndent, QT
     if (comment.contains(QRegExp("\n"))) {
 
         QStringList lines = QStringList::split( "\n", comment);
-        for(uint i= 0; i < lines.count(); i++)
+        for (int i= 0; i < lines.count(); i++)
         {
             cpp << myIndent << "// " << lines[i] << m_endl;
         }
@@ -671,7 +671,7 @@ void CppWriter::writeDocumentation(QString header, QString body, QString end, QT
     if (!end.isEmpty())
     {
         QStringList lines = QStringList::split( "\n", end);
-        for(uint i= 0; i < lines.count(); i++)
+        for (int i= 0; i < lines.count(); i++)
             cpp << formatDoc(lines[i], indent + " * ");
     }
     cpp << indent << " */" << m_endl;
@@ -1278,7 +1278,7 @@ void CppWriter::printTextAsSeparateLinesWithIndent (const QString &text, const Q
         return;
 
     QStringList lines = QStringList::split( "\n", text);
-    for(uint i= 0; i < lines.count(); i++)
+    for (int i= 0; i < lines.count(); i++)
         stream << indent << lines[i] << m_endl;
 }
 
