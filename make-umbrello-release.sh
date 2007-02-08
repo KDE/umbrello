@@ -3,7 +3,7 @@
 # Make a release from the current branches/KDE/3.5/kdesdk/umbrello
 #
 # Run this script as follows:
-#   ./make-umbrello-release.sh VERSION KDEUSER [BRANCH_VERSION]
+#   . make-umbrello-release.sh VERSION KDEUSER [BRANCH_VERSION]
 # VERSION is the version to release.
 # KDEUSER is your KDE SVN user name.
 # BRANCH_VERSION defaults to 3.5.
