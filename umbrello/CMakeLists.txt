@@ -313,6 +313,7 @@ set(libumbrello_SRCS
    preconditionwidget.cpp
    seqlinewidget.cpp 
    statewidget.cpp 
+   signalwidget.cpp
    stereotype.cpp 
    template.cpp 
    textblock.cpp 
@@ -471,6 +472,7 @@ kde4_install_icons( ${ICON_INSTALL_DIR}   )
 #pythonimport.cpp \
 #seqlinewidget.cpp \
 #statewidget.cpp \
+#signalwidget.cpp \
 #stereotype.cpp \
 #template.cpp \
 #textblock.cpp \

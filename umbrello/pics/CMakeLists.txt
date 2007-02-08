@@ -10,7 +10,7 @@ CVpublic_slot.png  CVpublic_var.png  CVstruct.png  deep-history.png  shallow-his
 end_state.png  generalisation.png  initial_state.png  interface.png  join.png  junction.png  datatype.png  enum.png  
 message-synchronous.png  message-asynchronous.png  note.png  object.png  startlogo.png  template.png  text.png  
 class.png  uniassociation.png  usecase.png  branch.png  fork.png  state-fork.png  package.png  artifact.png  
-box.png  node.png  entity.png  relationship.png  subsystem.png cursor-actor.png  cursor-andline.png  
+box.png  node.png  entity.png  relationship.png  subsystem.png cursor-actor.png  message-found.png  accept_signal.png  accept_time_event.png  send_signal.png    cursor-andline.png  
 cursor-choice-rhomb.png  cursor-choice-round.png  cursor-combined_fragment.png  cursor-deep-history.png  cursor-join.png  cursor-junction.png  
 cursor-shallow-history.png  cursor-state-fork.png  cursor-usecase.png  cursor-initial_state.png  cursor-package.png  
 cursor-aggregation.png  cursor-component.png  cursor-containment.png  cursor-interface.png  cursor-datatype.png  
@@ -18,7 +18,7 @@ cursor-enum.png  cursor-text.png  cursor-anchor.png  cursor-composition.png  cur
 cursor-class.png  cursor-artifact.png  cursor-dependency.png  cursor-message-synchronous.png  
 cursor-uniassociation.png  cursor-association.png  cursor-end_state.png  cursor-node.png  cursor-box.png  
 cursor-fork.png  cursor-note.png  cursor-branch.png  cursor-generalisation.png  cursor-object.png  
-cursor-entity.png  cursor-relationship.png precondition.png cursor-precondition.png message-found.png 
+cursor-entity.png  cursor-relationship.png precondition.png cursor-precondition.png  cursor-send_signal.png  cursor-accept_signal.png  cursor-accept_time_event.png
 cursor-message-found.png message-lost.png cursor-message-lost.png end_of_life.png cursor-end_of_life.png DESTINATION  
 ${DATA_INSTALL_DIR}/umbrello/pics )
 

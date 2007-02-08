@@ -171,30 +171,6 @@ void CombinedFragmentWidget::setCombinedFragmentType( QString combinedfragmentTy
     setCombinedFragmentType(getCombinedFragmentType(combinedfragmentType) );
 }
 
-void CombinedFragmentWidget::slotMenuSelection(int sel) {
-    bool done = false;
-
-    bool ok = false;
-    QString name = m_Text;
-
-    switch( sel ) {
-    case ListPopupMenu::mt_Rename:
-        name = KInputDialog::getText( i18n("Enter combined Fragment Name"), i18n("Enter the name of the new combined Fragment:"), m_Text, &ok );
-        if( ok && name.length() > 0 )
-            m_Text = name;
-        done = true;
-        break;
-
-    case ListPopupMenu::mt_Properties:
-        showProperties();
-        done = true;
-        break;
-    }
-
-    if( !done )
-        UMLWidget::slotMenuSelection( sel );
-}
-
 bool CombinedFragmentWidget::showProperties() {
 //     DocWindow *docwindow = UMLApp::app()->getDocWindow();
 //     docwindow->updateDocumentation(false);

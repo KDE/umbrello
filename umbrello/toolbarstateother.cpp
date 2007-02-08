@@ -28,6 +28,7 @@
 #include "preconditionwidget.h"
 #include "combinedfragmentwidget.h"
 #include "statewidget.h"
+#include "signalwidget.h"
 #include "uml.h"
 #include "umlview.h"
 #include "umldoc.h"
@@ -129,6 +130,10 @@ bool ToolBarStateOther::newWidget() {
 
         case WorkToolBar::tbb_End_State:
             umlWidget = new StateWidget(m_pUMLView, StateWidget::End);
+            break;
+
+        case WorkToolBar::tbb_Send_Signal:
+            umlWidget = new SignalWidget(m_pUMLView, SignalWidget::Send);
             break;
 
 	case WorkToolBar::tbb_Seq_Combined_Fragment:

@@ -145,6 +145,9 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
         insertHotBtn(tbb_Branch);
         insertHotBtn(tbb_Fork);
         insertHotBtn(tbb_Activity_Transition);
+        insertHotBtn(tbb_Send_Signal);
+        insertHotBtn(tbb_Accept_Signal);
+        insertHotBtn(tbb_Accept_Time_Event);
         break;
 
     case Uml::dt_Component:
@@ -249,7 +252,6 @@ void WorkToolBar::loadPixmaps() {
         const char *pngName;
         const char *slotName;
     } buttonInfo[] = {
-    
 
         { tbb_Object, i18n("Object"), "object.png", SLOT(slotObject()) },
         { tbb_Seq_Message_Synchronous, i18n("Synchronous Message"), "message-synchronous.png", SLOT(slotSeq_Message_Synchronous()) },
@@ -277,6 +279,9 @@ void WorkToolBar::loadPixmaps() {
         { tbb_Initial_State, i18n("Initial State"), "initial_state.png", SLOT(slotInitial_State()) },
         { tbb_End_State, i18n("End State"), "end_state.png", SLOT(slotEnd_State()) },
         { tbb_Branch, i18n("Branch/Merge"), "branch.png", SLOT(slotBranch()) },
+        { tbb_Send_Signal, i18n("Send signal"), "send_signal.png", SLOT(slotSend_Signal()) },
+        { tbb_Accept_Signal, i18n("Accept signal"), "accept_signal.png", SLOT(slotAccept_Signal()) },
+        { tbb_Accept_Time_Event, i18n("Accept time event"), "accept_time_event.png", SLOT(slotAccept_Time_Event()) },
         { tbb_Fork, i18n("Fork/Join"), "fork.png", SLOT(slotFork()) },
         { tbb_Package, i18n("Package"), "package.png", SLOT(slotPackage()) },
         { tbb_Component, i18n("Component"), "component.png", SLOT(slotComponent()) },
@@ -368,6 +373,9 @@ void WorkToolBar::slotArtifact() {buttonChanged(tbb_Artifact);}
 void WorkToolBar::slotObject() {buttonChanged(tbb_Object);}
 void WorkToolBar::slotInitial_State() {buttonChanged(tbb_Initial_State);}
 void WorkToolBar::slotState() {buttonChanged(tbb_State);}
+void WorkToolBar::slotSend_Signal() {buttonChanged(tbb_Send_Signal);}
+void WorkToolBar::slotAccept_Signal() {buttonChanged(tbb_Accept_Signal);}
+void WorkToolBar::slotAccept_Time_Event() {buttonChanged(tbb_Accept_Time_Event);}
 void WorkToolBar::slotEnd_State() {buttonChanged(tbb_End_State);}
 void WorkToolBar::slotInitial_Activity() {buttonChanged(tbb_Initial_Activity);}
 void WorkToolBar::slotActivity() {buttonChanged(tbb_Activity);}

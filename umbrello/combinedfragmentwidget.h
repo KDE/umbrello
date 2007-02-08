@@ -47,7 +47,7 @@ public:
     };
 
     /**
-     * Creates a Activity widget.
+     * Creates a Combined Fragment widget.
      *
      * @param view              The parent of the widget.
      * @param combinedfragmentType      The type of combined fragment.
@@ -117,12 +117,6 @@ protected:
      */
     CombinedFragmentType m_CombinedFragment;
 
-public slots:
-
-    /**
-     * Captures any popup menu signals for menus it created.
-     */
-    void slotMenuSelection(int sel);
 };
 
 #endif

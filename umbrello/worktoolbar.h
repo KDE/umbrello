@@ -92,6 +92,9 @@ public:
         tbb_UniAssociation,
         tbb_State_Transition,
         tbb_Activity_Transition,
+        tbb_Send_Signal,
+        tbb_Accept_Signal,
+        tbb_Accept_Time_Event,
         tbb_Anchor,//keep anchor as last association until code uses better algorithm for testing
         tbb_Note,
         tbb_Box,
@@ -233,6 +236,9 @@ public slots:
     void slotActivity();
     void slotEnd_Activity();
     void slotBranch();
+    void slotSend_Signal();
+    void slotAccept_Signal();
+    void slotAccept_Time_Event();
     void slotFork();
     void slotDeepHistory();
     void slotShallowHistory();

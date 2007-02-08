@@ -84,6 +84,7 @@
 #include "objectwidget.h"
 #include "messagewidget.h"
 #include "statewidget.h"
+#include "signalwidget.h"
 #include "forkjoinwidget.h"
 #include "activitywidget.h"
 #include "seqlinewidget.h"
@@ -1618,6 +1619,32 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
         break;
 
     case wt_Precondition:
+        {
+            ObjectWidget* pObjectWidget = static_cast<ObjectWidget*>(pWidget);
+            if (pObjectWidget == NULL) {
+                kDebug() << "UMLView::addWidget(): pObjectWidget is NULL" << endl;
+                return false;
+            }
+            Uml::IDType newID = log->findNewID( pWidget -> getID() );
+            if (newID == Uml::id_None) {
+                return false;
+            }
+            pObjectWidget -> setID( newID );
+            Uml::IDType nNewLocalID = getLocalID();
+            Uml::IDType nOldLocalID = pObjectWidget -> getLocalID();
+            m_pIDChangesLog->addIDChange( nOldLocalID, nNewLocalID );
+            pObjectWidget -> setLocalID( nNewLocalID );
+            UMLObject *pObject = m_pDoc -> findObjectById( newID );
+            if( !pObject ) {
+                kDebug() << "addWidget::Can't find UMLObject" << endl;
+                return false;
+            }
+            pWidget -> setUMLObject( pObject );
+            m_WidgetList.append( pWidget );
+        }
+        break;
+
+   case wt_Signal:
         {
             ObjectWidget* pObjectWidget = static_cast<ObjectWidget*>(pWidget);
             if (pObjectWidget == NULL) {
