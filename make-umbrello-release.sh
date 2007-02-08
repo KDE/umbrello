@@ -16,7 +16,7 @@
 # 
 if [ $# -lt 2 ]; then
   echo "usage:"
-  echo "  ./make-umbrello-release.sh VERSION KDEUSER [BRANCH_VERSION]"
+  echo "  . make-umbrello-release.sh VERSION KDEUSER [BRANCH_VERSION]"
   exit 1
 fi
 version=$1
