@@ -1,6 +1,8 @@
 Version 1.5.61
 
 * Copy/paste of attribute or operation in list view within same class
+* Improved loading of files from older versions
+* Ada import updated for Ada2005
 * Bugs fixed from http://bugs.kde.org:
 * Crash on creating various types of associations (140693, 141073, 141106, 141277)
 * Unclickable use case diagram (140870)
@@ -23,7 +25,7 @@ Version 1.5.6
 * Bugs/wishes from http://bugs.kde.org:
 * Association line nodes don't drag along with multiply-selected classes (57878)
 * Disappearing parameters when editing class properties (114477)
-* Umbrello saves too much copies at xmi (135606)
+* Umbrello saves too many copies in xmi (135606)
 * XML scheme: mixup of attribute names: *color and *colour (136061)
 * Artifacts of a component diagram are wrongly placed in Deployment View folder (137564)
 * Incorrect export to SQL (138139)
