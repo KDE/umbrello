@@ -1870,10 +1870,10 @@ UMLClassifierList UMLDoc::getInterfaces(bool includeNested /* =true */) {
 }
 
 UMLClassifierList UMLDoc::getDatatypes() {
+    UMLObjectList objects = m_datatypeRoot->containedObjects();
     UMLClassifierList datatypeList;
     UMLObject *obj;
-    for (UMLObjectListIt oit(m_datatypeRoot->containedObjects());
-            (obj = oit.current()) != NULL; ++oit) {
+    for (UMLObjectListIt oit(objects); (obj = oit.current()) != NULL; ++oit) {
         if (obj->getBaseType() == ot_Datatype) {
             datatypeList.append(static_cast<UMLClassifier*>(obj));
         }
