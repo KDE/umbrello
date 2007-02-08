@@ -136,6 +136,14 @@ bool ToolBarStateOther::newWidget() {
             umlWidget = new SignalWidget(m_pUMLView, SignalWidget::Send);
             break;
 
+        case WorkToolBar::tbb_Accept_Signal:
+            umlWidget = new SignalWidget(m_pUMLView, SignalWidget::Accept);
+            break;
+
+        case WorkToolBar::tbb_Accept_Time_Event:
+            umlWidget = new SignalWidget(m_pUMLView, SignalWidget::Time);
+            break;
+
 	case WorkToolBar::tbb_Seq_Combined_Fragment:
             umlWidget = new CombinedFragmentWidget(m_pUMLView);
             break;
@@ -154,6 +162,11 @@ bool ToolBarStateOther::newWidget() {
         Dialog_Utils::askNameForWidget(
             umlWidget, i18n("Enter Activity Name"),
             i18n("Enter the name of the new activity:"), i18n("new activity"));
+    } else if (getButton() == WorkToolBar::tbb_Accept_Signal
+            || getButton() == WorkToolBar::tbb_Send_Signal) {
+        Dialog_Utils::askNameForWidget(
+            umlWidget, i18n("Enter Signal Name"),
+            i18n("Enter Signal"), i18n("new Signal"));
     } else if (getButton() == WorkToolBar::tbb_Seq_Combined_Fragment) {
         Dialog_Utils::askNameForWidgetType(
             umlWidget, i18n("Enter Combined Fragment Name"),

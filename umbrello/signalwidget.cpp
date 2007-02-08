@@ -14,6 +14,7 @@
 
 // qt includes
 #include <qevent.h>
+#include <QPolygon>
 
 // kde includes
 #include <klocale.h>
@@ -43,16 +44,24 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
     UMLWidget::setPen(p);
     const int w = width();
     const int h = height();
+    QPolygon a;
     switch (m_SignalType)
     {
     case Send :
         if(UMLWidget::getUseFillColour())
             p.setBrush(UMLWidget::getFillColour());
         {
+
+            a.setPoints( 5, offsetX           ,offsetY,
+                            offsetX + (w*2)/3 ,offsetY,
+                            offsetX + w       ,(h/2)+offsetY,
+                            offsetX + (w*2)/3 ,h+offsetY,
+                            offsetX           ,h+offsetY );
+            p.drawPolygon( a );
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing();
             int textStartY = (h / 2) - (fontHeight / 2);
-            p.drawRoundRect(offsetX, offsetY, w, h, (h*40)/w, (w*40)/h);
+
             p.setPen(Qt::black);
             QFont font = UMLWidget::getFont();
             font.setBold( false );
@@ -64,16 +73,41 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
         }
         break;
     case Accept :
-        p.setBrush( WidgetBase::getLineColor() );
-        p.drawEllipse( offsetX, offsetY, w, h );
+        if(UMLWidget::getUseFillColour())
+            p.setBrush(UMLWidget::getFillColour());
+        {
+            a.setPoints( 5, offsetX ,      offsetY,
+                            offsetX + w/3, (h/2)+offsetY,
+                            offsetX ,      h+offsetY,
+                            offsetX + w,   h+offsetY,
+                            offsetX + w,   offsetY );
+
+            p.drawPolygon( a );
+            const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+            const int fontHeight  = fm.lineSpacing();
+            int textStartY = (h / 2) - (fontHeight / 2);
+
+            p.setPen(Qt::black);
+            QFont font = UMLWidget::getFont();
+            font.setBold( false );
+            p.setFont( font );
+            p.drawText(offsetX + SIGNAL_MARGIN, offsetY + textStartY,
+                           w - SIGNAL_MARGIN * 2, fontHeight,
+                           Qt::AlignCenter, getName());
+            UMLWidget::setPen(p);
+        }
         break;
     case Time :
-        p.setBrush( WidgetBase::getLineColor() );
-        p.drawEllipse( offsetX, offsetY, w, h );
-        p.setBrush( Qt::white );
-        p.drawEllipse( offsetX + 1, offsetY + 1, w - 2, h - 2 );
-        p.setBrush( WidgetBase::getLineColor() );
-        p.drawEllipse( offsetX + 3, offsetY + 3, w - 6, h - 6 );
+ if(UMLWidget::getUseFillColour())
+            p.setBrush(UMLWidget::getFillColour());
+        {
+            a.setPoints( 4, offsetX ,    offsetY,
+                            offsetX + w, offsetY+h,
+                            offsetX ,    offsetY+h,
+                            offsetX + w, offsetY);
+
+            p.drawPolygon( a );
+        }
         break;
     default:
         kWarning() << "Unknown signal type:" << m_SignalType << endl;
@@ -85,17 +119,15 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
 
 QSize SignalWidget::calculateSize() {
     int width = 10, height = 10;
-    if ( m_SignalType == Send ) {
         const QFontMetrics &fm = getFontMetrics(FT_BOLD);
         const int fontHeight  = fm.lineSpacing();
         int textWidth = fm.width(getName());
-        height = fontHeight;
 
-        width = textWidth > SIGNAL_WIDTH?textWidth:SIGNAL_WIDTH;
-        height = height > SIGNAL_HEIGHT?height:SIGNAL_HEIGHT;
-        width += SIGNAL_MARGIN * 2;
+        height  = fontHeight;
+        width   = textWidth > SIGNAL_WIDTH?textWidth:SIGNAL_WIDTH;
+        height  = height > SIGNAL_HEIGHT?height:SIGNAL_HEIGHT;
+        width  += SIGNAL_MARGIN * 2;
         height += SIGNAL_MARGIN * 2;
-    }
 
     return QSize(width, height);
 }

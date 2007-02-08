@@ -17,8 +17,8 @@
 #include "worktoolbar.h"
 
 #define SIGNAL_MARGIN 5
-#define SIGNAL_WIDTH 30
-#define SIGNAL_HEIGHT 10
+#define SIGNAL_WIDTH 45
+#define SIGNAL_HEIGHT 15
 
 
 class SignalWidget : public UMLWidget {
