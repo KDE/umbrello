@@ -3,9 +3,8 @@
 # Make a release from the current branches/KDE/3.5/kdesdk/umbrello
 #
 # Run this script as follows:
-#   . make-umbrello-release.sh VERSION KDEUSER [BRANCH_VERSION]
+#   . make-umbrello-release.sh VERSION [BRANCH_VERSION]
 # VERSION is the version to release.
-# KDEUSER is your KDE SVN user name.
 # BRANCH_VERSION defaults to 3.5.
 # @todo Create release from trunk if BRANCH_VERSION not given.
 #       Note: trunk uses the cmake based build process.
@@ -14,20 +13,19 @@
 # as the work area for building the release.
 # The release tarfile will be placed in the current working dir.
 # 
-if [ $# -lt 2 ]; then
+if [ $# -lt 1 ]; then
   echo "usage:"
-  echo "  . make-umbrello-release.sh VERSION KDEUSER [BRANCH_VERSION]"
+  echo "  . make-umbrello-release.sh VERSION [BRANCH_VERSION]"
   exit 1
 fi
 version=$1
-user=$2
 branchver=3.5
-if [ $# -gt 2 ]; then
-  branchver=$3
+if [ $# -gt 1 ]; then
+  branchver=$2
 fi
 origdir=`pwd`
 udir=umbrello-$version
-svnroot=svn+ssh://${user}@svn.kde.org:/home/kde/branches/KDE/$branchver
+svnroot=svn://anonsvn.kde.org:/home/kde/branches/KDE/$branchver
 cd /tmp
 svn co -N $svnroot/kdesdk
 cd kdesdk
