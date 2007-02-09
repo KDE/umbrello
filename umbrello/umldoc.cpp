@@ -1884,9 +1884,9 @@ UMLClassifierList UMLDoc::getDatatypes() {
 UMLAssociationList UMLDoc::getAssociations() {
     UMLAssociationList associationList;
     for (int i = 0; i < Uml::N_MODELTYPES; i++) {
+        UMLAssociationList assocs = m_root[i]->getAssociations();
         UMLAssociation *a;
-        for (UMLAssociationListIt ait(m_root[i]->getAssociations());
-                (a = ait.current()) != NULL; ++ait)
+        for (UMLAssociationListIt ait(assocs); (a = ait.current()) != NULL; ++ait)
             associationList.append(a);
     }
     return associationList;

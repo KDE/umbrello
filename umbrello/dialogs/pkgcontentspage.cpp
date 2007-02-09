@@ -64,14 +64,16 @@ void PkgContentsPage::slotDoubleClick(QListBoxItem * i) {
     if (!i)
         return;
     int item = m_pContentLB -> currentItem();
-    UMLObject *o = m_pPackage->containedObjects().at(item);
+    UMLObjectList contents = m_pPackage->containedObjects();
+    UMLObject *o = contents.at(item);
     ClassPropDlg dlg(this, o, item, true);
     dlg.exec();
 }
 
 void PkgContentsPage::fillListBox() {
     m_pContentLB->clear();
-    UMLObjectListIt objList_it(m_pPackage->containedObjects());
+    UMLObjectList contents = m_pPackage->containedObjects();
+    UMLObjectListIt objList_it(contents);
     UMLObject* umlo = NULL;
     int i = 0;
     while ((umlo = objList_it.current()) != NULL) {
@@ -107,8 +109,8 @@ void PkgContentsPage::slotPopupMenuSel(int id) {
     switch(id) {
     case ListPopupMenu::mt_Delete:
         {
-            UMLObject *o = m_pPackage->containedObjects().at(
-                               m_pContentLB->currentItem() );
+            UMLObjectList contents = m_pPackage->containedObjects();
+            UMLObject *o = contents.at( m_pContentLB->currentItem() );
             UMLApp::app()->getDocument()->removeUMLObject(o);
             fillListBox();
         }
