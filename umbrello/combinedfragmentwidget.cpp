@@ -47,6 +47,7 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
     int w = width();
     int h = height();
     int line_width = 45;
+    int old_Y;
 
     UMLWidget::setPen(p);
 
@@ -110,6 +111,31 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
 			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "assert");
         break;
 
+        case Alt :
+                p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
+			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "alt");
+                // dash line
+                m_dashLine->setX(getX());
+                old_Y = m_dashLine->getYMin();
+                m_dashLine->setYMin(getY());
+                m_dashLine->setYMax(getY() + getHeight());
+                m_dashLine->setY(getY() + m_dashLine->getY() - old_Y);
+                m_dashLine->setSize(w, 0);
+                
+        break;
+
+        case Par :
+                p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
+			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "parallel");
+                // dash line
+                m_dashLine->setX(getX());
+                old_Y = m_dashLine->getYMin();
+                m_dashLine->setYMin(getY());
+                m_dashLine->setYMax(getY() + getHeight());
+                m_dashLine->setY(getY() + m_dashLine->getY() - old_Y);
+                m_dashLine->setSize(w, 0);
+                
+        break;
 
 	default : break;
     }
@@ -146,6 +172,22 @@ void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combi
 
     m_CombinedFragment = combinedfragmentType;
     UMLWidget::m_bResizable =  true ; //(m_CombinedFragment == Normal);
+
+    // creates a dash line if the combined fragment type is alternative or parallel
+    if(m_CombinedFragment == Alt || m_CombinedFragment == Par)
+    {
+        m_dashLine = new FloatingDashLineWidget(m_pView);
+        if(m_CombinedFragment == Alt)
+        {
+            m_dashLine->setText("else");
+        }
+        m_dashLine->setX(getX());
+        m_dashLine->setYMin(getY());
+        m_dashLine->setYMax(getY() + getHeight());
+        m_dashLine->setY(getY() + getHeight() / 2);
+        m_dashLine->setSize(getWidth(), 0);
+        m_pView->setupNewWidget(m_dashLine);
+    }
 }
 
 CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::getCombinedFragmentType(QString type) const {
@@ -163,6 +205,10 @@ CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::getCombined
         return (CombinedFragmentWidget::Crit);
     if(type == "Assertion")
         return (CombinedFragmentWidget::Ass);
+    if(type == "Alternative")
+        return (CombinedFragmentWidget::Alt);
+    if(type == "Parallel")
+        return (CombinedFragmentWidget::Par);
 
 }
 

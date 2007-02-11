@@ -14,6 +14,7 @@
 
 #include "umlwidget.h"
 #include "worktoolbar.h"
+#include "floatingdashlinewidget.h"
 
 #define COMBINED_FRAGMENT_MARGIN 5
 #define COMBINED_FRAGMENT_WIDTH 100
@@ -43,7 +44,9 @@ public:
         Loop,
         Neg,
         Crit,
-        Ass
+        Ass,
+        Alt,
+        Par
     };
 
     /**
@@ -117,6 +120,11 @@ protected:
      */
     CombinedFragmentType m_CombinedFragment;
 
+private:
+    /**
+     * Dash line of an alternative or parallel combined fragment
+     */
+    FloatingDashLineWidget *m_dashLine ;
 };
 
 #endif

@@ -278,6 +278,7 @@ set(libumbrello_SRCS
    enum.cpp 
    enumliteral.cpp 
    enumwidget.cpp 
+   floatingdashlinewidget.cpp
    floatingtextwidget.cpp 
    floatingtextwidgetcontroller.cpp
    folder.cpp
