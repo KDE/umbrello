@@ -223,7 +223,7 @@ void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
             js << " */" << m_endl;
         }//end if : write method documentation
 
-        js << classname << ".prototype." << cleanName(op->getName()) << " function " << "(";
+        js << classname << ".prototype." << cleanName(op->getName()) << " = function " << "(";
 
         int i = atl.count();
         int j=0;

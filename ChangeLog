@@ -1,3 +1,7 @@
+Version 1.5.7
+* Bugs fixed from http://bugs.kde.org:
+* Javascript Code Generation creates bad format methods (135540)
+
 Version 1.5.61
 
 * Copy/paste of attribute or operation in list view within same class
