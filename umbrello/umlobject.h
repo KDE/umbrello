@@ -134,12 +134,22 @@ public:
     void setVisibility(Uml::Visibility s);
 
     /**
+     * Method used by setVisibility: its called by  cmdSetVisibility, Don't use it!
+     */
+     void setVisibilitycmd(Uml::Visibility s);
+
+    /**
      * Sets the classes stereotype name.
      * Internally uses setUMLStereotype().
      *
      * @param _name     Sets the classes stereotype name.
      */
     void setStereotype(const QString &_name);
+
+    /**
+     * Method used by setStereotype: its called by  cmdSetStereotype, Don't use it!
+     */
+    void setStereotypecmd(const QString &_name);
 
     /**
      * Sets the class' UMLStereotype. Adjusts the reference counts
@@ -230,6 +240,12 @@ public:
      * Set the UMLObject's name
      */
     void setName(const QString &strName);
+
+    /**
+     * Method used by setName: its called by  cmdSetName, Don't use it!
+     */
+    void setNamecmd(const QString &strName) ;
+
 
     /**
      * Returns the fully qualified name, i.e. all package prefixes and then m_Name.

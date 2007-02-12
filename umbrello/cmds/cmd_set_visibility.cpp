@@ -9,36 +9,47 @@
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
-#ifndef __CMD_RESIZEWIDGET__
-#define __CMD_RESIZEWIDGET__
+#include "cmd_set_visibility.h"
 
-#include <QUndoCommand>
+#include "uml.h"
 
+// app includes
+#include "../umlwidgetcontroller.h"
+#include "../umlwidget.h"
+#include "../umlwidgetlist.h"
+#include "../umlnamespace.h"
+#include "../uml.h"
+#include "../umldoc.h"
+#include "../umlview.h"
+#include "../umlobject.h"
+#include "../listpopupmenu.h"
+#include "../classifierwidget.h"
+#include "../associationwidget.h"
+#include "../messagewidget.h"
 
-#include "umlwidget.h"
+#include <klocale.h>
 
 namespace Uml
 {
-	class cmdResizeWidget : public QUndoCommand
+
+	cmdSetVisibility::cmdSetVisibility(UMLObject * _UMLObj, Uml::Visibility _visib):UMLObj(_UMLObj), visib (_visib)
+	{	
+		oldvisibility = _UMLObj->getVisibility();
+	}
+	
+	cmdSetVisibility::~cmdSetVisibility()
 	{
-		public:
-			/*Constructor */
-			cmdResizeWidget(UMLWidgetController* _UMLwc);
-			/*Destructor */
-			~cmdResizeWidget();
-			/*Redo method */
-			void redo();
-			/*Undo method */
-			void undo();
 
-		private:
-			UMLWidgetController* 	UMLwc; // Attribute used to find which widget moved
-			int 		H; // new H value (used in redo method )
-			int 		W; // new W value (used in redo method )
-			int 		oldH; // old H value (used in undo method )
-			int 		oldW; // old W value (used in undo method )
-			bool 		already; 
-	};
-};
+	}
+	
+	void cmdSetVisibility::redo()
+	{
+		UMLObj->setVisibilitycmd(visib);
+	}
+	
+	void cmdSetVisibility::undo()
+	{	
+		UMLObj->setVisibilitycmd(oldvisibility);
+	}
 
-#endif
+}

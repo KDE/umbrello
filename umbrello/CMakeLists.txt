@@ -229,6 +229,11 @@ set(libcmds_SRCS
 	
 	cmds/cmd_moveWidget.cpp
 	cmds/cmd_resizeWidget.cpp
+	cmds/cmd_set_visibility.cpp
+	cmds/cmd_set_stereotype.cpp
+	cmds/widget/cmd_set_name.cpp
+	cmds/widget/cmd_set_txt.cpp
+	cmds/cmd_handle_rename.cpp
 
 )
 kde4_automoc(${libclipboard_SRCS})

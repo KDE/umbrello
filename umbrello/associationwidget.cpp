@@ -329,7 +329,7 @@ void AssociationWidget::setName(const QString &strName) {
         if (m_role[B].m_pWidget)
             m_pName->setUMLObject(m_role[B].m_pWidget->getUMLObject());
     } else {
-        m_pName->setText(strName);
+        m_pName->setTextcmd(strName);
         if (strName.isEmpty()) {
             m_pName->hide();
             m_pName = NULL;

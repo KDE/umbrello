@@ -28,6 +28,11 @@
 #include "cmds/cmd_create_usecasediag.h"
 #include "cmds/cmd_moveWidget.h"
 #include "cmds/cmd_resizeWidget.h"
+#include "cmds/cmd_set_visibility.h"
+#include "cmds/cmd_set_stereotype.h"
+#include "cmds/widget/cmd_set_name.h"
+#include "cmds/widget/cmd_set_txt.h"
+#include "cmds/cmd_handle_rename.h"
 
 /************************************************************
  * Class Diagram

@@ -179,10 +179,15 @@ public:
     virtual void mouseDoubleClickEvent(QMouseEvent *me);
 
     virtual void widgetMoved();
+
 int getOldX();
+
 int getOldY();
+
 int getOldH();
+
 int getOldW();
+
 void insertSaveValues(int _oldX, int _oldY, int X, int Y);
 //avant c'estait protected?
     /**
@@ -216,8 +221,9 @@ void insertSaveValues(int _oldX, int _oldY, int X, int Y);
      * @param newH The new height for the widget.
      */
     virtual void resizeWidget(int newW, int newH);
-//plus de modif dans les droits acces
-virtual UMLWidget* getWidget();
+
+
+	virtual UMLWidget* getWidget();
 
 
 protected:

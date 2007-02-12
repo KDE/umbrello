@@ -35,8 +35,8 @@ namespace Uml
 	cmdResizeWidget::cmdResizeWidget(UMLWidgetController* _UMLwc):UMLwc(_UMLwc),already(false)
 	{	
 		UMLWidget * w = _UMLwc->getWidget();
-		H = w->width();
-		W = w->height();
+		W = w->width();
+		H = w->height();
 		oldH = _UMLwc->getOldH();
 		oldW = _UMLwc->getOldW();
 	}

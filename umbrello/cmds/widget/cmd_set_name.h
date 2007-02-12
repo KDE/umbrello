@@ -9,8 +9,8 @@
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
-#ifndef __CMD_RESIZEWIDGET__
-#define __CMD_RESIZEWIDGET__
+#ifndef __CMD_SETNAME__
+#define __CMD_SETNAME__
 
 #include <QUndoCommand>
 
@@ -19,25 +19,23 @@
 
 namespace Uml
 {
-	class cmdResizeWidget : public QUndoCommand
+	class cmdSetName : public QUndoCommand
 	{
 		public:
 			/*Constructor */
-			cmdResizeWidget(UMLWidgetController* _UMLwc);
+			cmdSetName(UMLObject * _UMLObj, QString _name);
 			/*Destructor */
-			~cmdResizeWidget();
+			~cmdSetName();
 			/*Redo method */
 			void redo();
 			/*Undo method */
 			void undo();
 
 		private:
-			UMLWidgetController* 	UMLwc; // Attribute used to find which widget moved
-			int 		H; // new H value (used in redo method )
-			int 		W; // new W value (used in redo method )
-			int 		oldH; // old H value (used in undo method )
-			int 		oldW; // old W value (used in undo method )
-			bool 		already; 
+
+			QString oldname;
+			QString name;
+			UMLObject * UMLObj;
 	};
 };
 

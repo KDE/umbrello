@@ -74,6 +74,13 @@ public:
     void setText(const QString &t);
 
     /**
+     * Method used by setText: its called by  cmdsetTxt, Don't use it!
+     *
+     * @param t The text to display.
+     */
+    void setTextcmd(const QString &t);
+
+    /**
      * Set some text to be prepended to the main body of text.
      * @param t The text to prepend to main body which is displayed.
      */

@@ -9,8 +9,8 @@
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
-#ifndef __CMD_RESIZEWIDGET__
-#define __CMD_RESIZEWIDGET__
+#ifndef __CMD_SETSTEREOTYPE__
+#define __CMD_SETSTEREOTYPE__
 
 #include <QUndoCommand>
 
@@ -19,25 +19,23 @@
 
 namespace Uml
 {
-	class cmdResizeWidget : public QUndoCommand
+	class cmdSetStereotype : public QUndoCommand
 	{
 		public:
 			/*Constructor */
-			cmdResizeWidget(UMLWidgetController* _UMLwc);
+			cmdSetStereotype(UMLObject * _UMLOb, QString stereo);
 			/*Destructor */
-			~cmdResizeWidget();
+			~cmdSetStereotype();
 			/*Redo method */
 			void redo();
 			/*Undo method */
 			void undo();
 
 		private:
-			UMLWidgetController* 	UMLwc; // Attribute used to find which widget moved
-			int 		H; // new H value (used in redo method )
-			int 		W; // new W value (used in redo method )
-			int 		oldH; // old H value (used in undo method )
-			int 		oldW; // old W value (used in undo method )
-			bool 		already; 
+
+			QString st;
+			QString oldst;
+			UMLObject * UMLObj;
 	};
 };
 

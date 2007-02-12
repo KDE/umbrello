@@ -9,35 +9,30 @@
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
-#ifndef __CMD_RESIZEWIDGET__
-#define __CMD_RESIZEWIDGET__
+#ifndef __CMD_HANDLE_RENAME__
+#define __CMD_HANDLE_RENAME__
 
 #include <QUndoCommand>
 
+#include "../floatingtextwidget.h"
 
-#include "umlwidget.h"
 
 namespace Uml
 {
-	class cmdResizeWidget : public QUndoCommand
+	class cmdHandleRename : public QUndoCommand
 	{
+		//friend class FloatingTextWidget;
 		public:
-			/*Constructor */
-			cmdResizeWidget(UMLWidgetController* _UMLwc);
-			/*Destructor */
-			~cmdResizeWidget();
-			/*Redo method */
+			cmdHandleRename(FloatingTextWidget* _ftw, QString txt);
+			~cmdHandleRename();
+
 			void redo();
-			/*Undo method */
 			void undo();
 
 		private:
-			UMLWidgetController* 	UMLwc; // Attribute used to find which widget moved
-			int 		H; // new H value (used in redo method )
-			int 		W; // new W value (used in redo method )
-			int 		oldH; // old H value (used in undo method )
-			int 		oldW; // old W value (used in undo method )
-			bool 		already; 
+			FloatingTextWidget* 	ftw;
+			QString 	newstring;
+			QString 	oldstring;
 	};
 };
 
