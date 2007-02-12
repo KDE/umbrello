@@ -1870,10 +1870,10 @@ UMLClassifierList UMLDoc::getInterfaces(bool includeNested /* =true */) {
 }
 
 UMLClassifierList UMLDoc::getDatatypes() {
+    UMLObjectList objects = m_datatypeRoot->containedObjects();
     UMLClassifierList datatypeList;
     UMLObject *obj;
-    for (UMLObjectListIt oit(m_datatypeRoot->containedObjects());
-            (obj = oit.current()) != NULL; ++oit) {
+    for (UMLObjectListIt oit(objects); (obj = oit.current()) != NULL; ++oit) {
         if (obj->getBaseType() == ot_Datatype) {
             datatypeList.append(static_cast<UMLClassifier*>(obj));
         }
@@ -1884,9 +1884,9 @@ UMLClassifierList UMLDoc::getDatatypes() {
 UMLAssociationList UMLDoc::getAssociations() {
     UMLAssociationList associationList;
     for (int i = 0; i < Uml::N_MODELTYPES; i++) {
+        UMLAssociationList assocs = m_root[i]->getAssociations();
         UMLAssociation *a;
-        for (UMLAssociationListIt ait(m_root[i]->getAssociations());
-                (a = ait.current()) != NULL; ++ait)
+        for (UMLAssociationListIt ait(assocs); (a = ait.current()) != NULL; ++ait)
             associationList.append(a);
     }
     return associationList;
