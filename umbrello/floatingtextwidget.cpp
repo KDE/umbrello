@@ -36,9 +36,12 @@
 #include "dialogs/assocpropdlg.h"
 #include "dialogs/selectopdlg.h"
 
-#include "cmds.h"
+// own header
+#include "uml.h"
 
+#include "cmds.h"
 using namespace Uml;
+
 FloatingTextWidget::FloatingTextWidget(UMLView * view, Uml::Text_Role role,
                                        const QString& text, Uml::IDType id)
   : UMLWidget(view, id, new FloatingTextWidgetController(this))
@@ -228,8 +231,7 @@ void FloatingTextWidget::handleRename() {
 }
 
 void FloatingTextWidget::setText(const QString &t) {
-      UMLDoc* m_doc = UMLApp::app()->getDocument();
-      m_doc->executeCommand(new cmdSetTxt(this,t));
+      UMLApp::app()->executeCommand(new cmdSetTxt(this,t));
 }
 
 void FloatingTextWidget::setTextcmd(const QString &t) {
