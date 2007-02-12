@@ -53,7 +53,7 @@ void assignUniqueIdOnCreation(bool yesno) {
     if (yesno)
         g_predefinedId = Uml::id_None;
     else
-        g_predefinedId = Uml::id_Reserved;
+        g_predefinedId = Uml::id_Reserved
 }
 
 bool assignUniqueIdOnCreation() {
@@ -116,9 +116,8 @@ UMLObject* createNewUMLObject(Uml::Object_Type type, const QString &name,
             return NULL;
     }
     o->setUMLPackage(parentPkg);
-    UMLDoc *doc = UMLApp::app()->getDocument();
     parentPkg->addObject(o);
-    doc->executeCommand(new Uml::cmdCreateUMLObject(o));
+    UMLApp::app()->executeCommand(new Uml::cmdCreateUMLObject(o));
 
     kapp->processEvents();
     return o;

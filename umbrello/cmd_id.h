@@ -5,36 +5,20 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2006                                                *
+ *  copyright (C) 2002-2007                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
-#ifndef __CMD_CREATE_UMLOBJECT__
-#define __CMD_CREATE_UMLOBJECT__
+#ifndef __CMD_ID__
+#define __CMD_ID__
 
-#include <QUndoCommand>
-#include <klocale.h>
+namespace Uml {
 
-#include "umldoc.h"
-#include "umlview.h"
-#include "umlobject.h"
+enum {	
+	IdMoveWidget,
+	IdResizeWidget
+};
 
-namespace Uml
-{
-	class cmdCreateUMLObject : public QUndoCommand
-	{
-	public:
-		cmdCreateUMLObject(UMLView *view, UMLObject *o, const QString& name);
-		~cmdCreateUMLObject();
+};
 
-		void undo();
-		void redo();
-	
-	private:
-		UMLView*	m_pUMLView;
-		UMLObject*	m_pUMLObject;
-		QString		m_Name;
-	};
-}
-
-#endif
+#endif // __CMD_ID__

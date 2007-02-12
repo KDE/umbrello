@@ -233,12 +233,10 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me) {
                 if (m_moved) {
 
 /* Commands */
-   			 UMLDoc* m_doc = UMLApp::app()->getDocument();
-			m_doc->executeCommand(new cmdMoveWidget(this));
+			UMLApp::app()->executeCommand(new cmdMoveWidget(this));
 
                 } else {
-   			 UMLDoc* m_doc = UMLApp::app()->getDocument();
-			m_doc->executeCommand(new cmdResizeWidget(this));
+			UMLApp::app()->executeCommand(new cmdResizeWidget(this));
                     m_resized = false;
                 }
 

@@ -99,7 +99,7 @@
 #include "object_factory.h"
 #include "umlwidget.h"
 #include "toolbarstatefactory.h"
-
+#include "cmds.h"
 
 // control the manual DoubleBuffering of QCanvas
 // with a define, so that this memory X11 effect can
@@ -450,11 +450,13 @@ void UMLView::slotObjectCreated(UMLObject* o) {
     m_bPaste = false;
     //check to see if we want the message
     //may be wanted by someone else e.g. list view
+
     if (!m_bCreateObject)  {
         return;
     }
 
     UMLWidget* newWidget = Widget_Factory::createWidget(this, o);
+
     if (newWidget == NULL)
         return;
     newWidget->setVisible( true );
@@ -463,6 +465,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
     newWidget->slotColorChanged( getID() );
     newWidget->slotLineWidthChanged( getID() );
     newWidget->updateComponentSize();
+
     if (m_Type == Uml::dt_Sequence) {
         // Set proper position on the sequence line widget which is
         // attached to the object widget.
@@ -471,7 +474,8 @@ void UMLView::slotObjectCreated(UMLObject* o) {
             ow->moveEvent(NULL);
     }
     m_bCreateObject = false;
-    //m_WidgetList.append(newWidget);
+    m_WidgetList.append(newWidget);
+
     switch (o->getBaseType()) {
     case ot_Actor:
     case ot_UseCase:
@@ -2453,11 +2457,11 @@ void UMLView::slotRemovePopupMenu() {
 void UMLView::slotMenuSelection(int sel) {
     switch( (ListPopupMenu::Menu_Type)sel ) {
     case ListPopupMenu::mt_Undo:
-        m_pDoc->loadUndoData();
+        UMLApp::app()->undo();
         break;
 
     case ListPopupMenu::mt_Redo:
-        m_pDoc->loadRedoData();
+        UMLApp::app()->redo();
         break;
 
     case ListPopupMenu::mt_Clear:

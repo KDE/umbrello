@@ -142,7 +142,7 @@ UMLWidget *createWidget(UMLView *view, UMLObject *o) {
         newWidget->setX( pos.x() );
         newWidget->setY( y );
 
-    	doc->executeCommand(new Uml::cmdCreateWidget(view, newWidget));
+    	UMLApp::app()->executeCommand(new Uml::cmdCreateWidget(view, newWidget));
     }
 
     return newWidget;

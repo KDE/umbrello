@@ -118,6 +118,7 @@ UMLApp::UMLApp(QWidget* parent) : KMainWindow(parent) {
     readOptionState();
     m_doc = new UMLDoc();
     m_doc->init();
+    m_pUndoStack = new KUndoStack(this);
     initActions(); //now calls initStatusBar() because it is affected by setupGUI()
     initView();
     initClip();
@@ -172,6 +173,8 @@ UMLApp::~UMLApp() {
 
     delete m_statusLabel;
     delete m_refactoringAssist;
+
+    delete m_pUndoStack;
 }
 
 UMLApp* UMLApp::app()
@@ -188,8 +191,10 @@ void UMLApp::initActions() {
     fileClose = KStandardAction::close(this, SLOT(slotFileClose()), actionCollection());
     filePrint = KStandardAction::print(this, SLOT(slotFilePrint()), actionCollection());
     fileQuit = KStandardAction::quit(this, SLOT(slotFileQuit()), actionCollection());
-    editUndo = KStandardAction::undo(this, SLOT(slotEditUndo()), actionCollection());
-    editRedo = KStandardAction::redo(this, SLOT(slotEditRedo()), actionCollection());
+    
+    editUndo = m_pUndoStack->createUndoAction(actionCollection());
+    editRedo = m_pUndoStack->createRedoAction(actionCollection());
+    
     editCut = KStandardAction::cut(this, SLOT(slotEditCut()), actionCollection());
     editCopy = KStandardAction::copy(this, SLOT(slotEditCopy()), actionCollection());
     editPaste = KStandardAction::paste(this, SLOT(slotEditPaste()), actionCollection());
@@ -566,6 +571,14 @@ void UMLApp::initView() {
 
     m_doc->setupSignals();//make sure gets signal from list view
 
+    m_cmdHistoryDock = new QDockWidget(i18n("Command history"), this);
+    addDockWidget(Qt::LeftDockWidgetArea, m_cmdHistoryDock);
+    // create cmd history view
+    m_pQUndoView = new QUndoView(m_cmdHistoryDock);
+    m_cmdHistoryDock->setWidget(m_pQUndoView);
+    m_pQUndoView->setCleanIcon(KIcon("filesave"));
+    m_pQUndoView->setStack(m_pUndoStack);
+    
     QByteArray dockConfig;
     m_config->readEntry("DockConfig", dockConfig);
     restoreState(dockConfig); //reposition all the DockWindows to their saved positions
@@ -816,6 +829,7 @@ void UMLApp::slotFileSave() {
     else
         m_doc->saveDocument(m_doc -> url());
 
+    m_pUndoStack->setClean();
     slotStatusMsg(i18n("Ready."));
 }
 
@@ -917,12 +931,12 @@ void UMLApp::slotFileExportXhtml()
 }
 
 void UMLApp::slotEditUndo() {
-    m_doc->undo();
+    undo();
     slotStatusMsg(i18n("Ready."));
 }
 
 void UMLApp::slotEditRedo() {
-    m_doc->redo();
+    redo();
     slotStatusMsg(i18n("Ready."));
 }
 
@@ -1006,40 +1020,40 @@ void UMLApp::slotStatusMsg(const QString &text) {
 }
 
 void UMLApp::slotClassDiagram() {
-    m_doc->executeCommand(new Uml::cmdCreateClassDiag(m_doc));
+    executeCommand(new Uml::cmdCreateClassDiag(m_doc));
 }
 
 
 void UMLApp::slotSequenceDiagram() {
-	m_doc->executeCommand(new Uml::cmdCreateSeqDiag(m_doc));
+    executeCommand(new Uml::cmdCreateSeqDiag(m_doc));
 }
 
 void UMLApp::slotCollaborationDiagram() {
-	m_doc->executeCommand(new Uml::cmdCreateCollaborationDiag(m_doc));
+	executeCommand(new Uml::cmdCreateCollaborationDiag(m_doc));
 }
 
 void UMLApp::slotUseCaseDiagram() {
-	m_doc->executeCommand(new Uml::cmdCreateUseCaseDiag(m_doc));
+	executeCommand(new Uml::cmdCreateUseCaseDiag(m_doc));
 }
 
 void UMLApp::slotStateDiagram() {
-	m_doc->executeCommand(new Uml::cmdCreateStateDiag(m_doc));
+	executeCommand(new Uml::cmdCreateStateDiag(m_doc));
 }
 
 void UMLApp::slotActivityDiagram() {
-	m_doc->executeCommand(new Uml::cmdCreateActivityDiag(m_doc));
+	executeCommand(new Uml::cmdCreateActivityDiag(m_doc));
 }
 
 void UMLApp::slotComponentDiagram() {
-	m_doc->executeCommand(new Uml::cmdCreateComponentDiag(m_doc));
+	executeCommand(new Uml::cmdCreateComponentDiag(m_doc));
 }
 
 void UMLApp::slotDeploymentDiagram() {
-	m_doc->executeCommand(new Uml::cmdCreateDeployDiag(m_doc));
+	executeCommand(new Uml::cmdCreateDeployDiag(m_doc));
 }
 
 void UMLApp::slotEntityRelationshipDiagram() {
-	m_doc->executeCommand(new Uml::cmdCreateEntityRelationDiag(m_doc));
+	executeCommand(new Uml::cmdCreateEntityRelationDiag(m_doc));
 }
 
 WorkToolBar* UMLApp::getWorkToolBar() {
@@ -1827,6 +1841,46 @@ KTabWidget* UMLApp::tabWidget() {
 
 QString UMLApp::getStatusBarMsg() {
     return m_statusLabel->text();
+}
+
+void UMLApp::clearUndoStack() {
+	m_pUndoStack->clear();
+}
+
+void UMLApp::undo()
+{
+	kDebug() << "UMLApp::undo(" << m_pUndoStack->undoText() << ") [" << m_pUndoStack->count() << "]" << endl;
+	m_pUndoStack->undo();
+
+	if(m_pUndoStack->canUndo())
+		UMLApp::app()->enableUndo(true);
+	else 
+		UMLApp::app()->enableUndo(false);
+	
+	UMLApp::app()->enableRedo(true);
+}
+
+void UMLApp::redo()
+{
+	kDebug() << "UMLApp::undo(" << m_pUndoStack->redoText() << ") [" << m_pUndoStack->count() << "]" << endl;
+	m_pUndoStack->redo();
+
+	if(m_pUndoStack->canRedo())
+		UMLApp::app()->enableRedo(true);
+	else 
+		UMLApp::app()->enableRedo(false);
+	
+	UMLApp::app()->enableUndo(true);
+}
+
+void UMLApp::executeCommand(QUndoCommand* cmd)
+{
+	if(cmd != NULL)
+		m_pUndoStack->push(cmd);
+
+	kDebug() << "UMLApp::executeCommand(" << cmd->text() << ") [" << m_pUndoStack->count() << "]" << endl;
+
+	UMLApp::app()->enableUndo(true);
 }
 
 //static pointer, holding the unique instance

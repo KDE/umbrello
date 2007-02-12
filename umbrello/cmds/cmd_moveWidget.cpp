@@ -35,6 +35,7 @@ namespace Uml
 	cmdMoveWidget::cmdMoveWidget(UMLWidgetController* _UMLwc):UMLwc(_UMLwc),already(false)
 	{	
 		UMLWidget * w = _UMLwc->getWidget();
+		setText(i18n("Move widget :") + w->getName());
 		X = w->getX();
 		Y = w->getY();
 		oldX = _UMLwc->getOldX();
@@ -79,4 +80,12 @@ namespace Uml
 		//widget->getWidgetController()->moveWidgetBy(-diffX, -diffY);
 	}
 
+	bool cmdMoveWidget::mergeWith(const QUndoCommand* other) {
+		cmdMoveWidget* otherCmd = static_cast<const cmdMoveWidget*>(other);
+		if (UMLwc != otherCmd->UMLwc)
+			return false;
+		X = otherCmd->X;
+		Y = otherCmd->Y;
+		return true;
+	}
 }

@@ -12,6 +12,8 @@
 #ifndef __CMDS_H__
 #define __CMDS_H__
 
+#include <kundostack.h>
+
 #include <QUndoCommand>
 #include <QUndoStack>
 

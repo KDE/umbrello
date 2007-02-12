@@ -25,19 +25,20 @@ namespace Uml
 	}
 	
 	cmdCreateWidget::~cmdCreateWidget()
-	{
+	{	
+		m_view->removeWidget(m_widget);
 	}
 	
 	// Create the UMLObject
 	void cmdCreateWidget::redo()
 	{
-		m_view->getWidgetList().append(m_widget);
+		m_widget->setVisible(true);
 	}
 	
 	// Suppress the UMLObject
 	void cmdCreateWidget::undo()
 	{
-		m_view->removeWidget(m_widget);
+		m_widget->setVisible(false);
 	}
 
 }

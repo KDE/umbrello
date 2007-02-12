@@ -24,13 +24,13 @@
 #include <q3ptrstack.h>
 //Added by qt3to4:
 #include <Q3PtrList>
-#include <QUndoStack>
-#include <QUndoCommand>
+#include <QUndoView>
 
 // kde includes
 #include <kurl.h>
 #include <k3dockwidget.h>
 #include <kmenu.h>
+#include <kundostack.h>
 
 // app includes
 #include "umlnamespace.h"
@@ -673,36 +673,6 @@ public:
     int getFileVersion(void) {return version;}
 
     /**
-     * Performs the undo function, loading the document back to the
-     * state is was before the last addToUndoStack()
-     */
-    void loadUndoData();
-
-    /**
-     * Performs the redo function, loading the document back to the
-     * state is was before the last undo()
-     */
-    void loadRedoData();
-
-    /**
-     * Takes an image of the document and adds it to the UndoStack.
-     * Implemented using the saveToXMI functions.
-     */
-    void addToUndoStack();
-
-    /**
-     * Removes all entries from the UndoStack and RedoStack and disables the
-     * undo and redo actions.
-     */
-    void clearUndoStack();
-
-    /**
-     * Removes all entries from the RedoStack and disables the
-     * redo action.
-     */
-    void clearRedoStack();
-
-    /**
      * Returns a name for the new object, appended with a number
      * if the default name is taken e.g. class diagram, class
      * diagram_1 etc
@@ -768,21 +738,6 @@ public:
      */
     void resolveTypes();
 
-    /**
-     * Undo last command
-    */
-    void undo();
-
-    /**
-     * Redo last 'undoed' command
-    */
-    void redo();
-
-    /**
-     * Execute a command and pushit in the stack.
-    */
-    void executeCommand(QUndoCommand* cmd);
-
 private:
     /**
      * Sets up the autosave timer.
@@ -840,20 +795,6 @@ private:
     int version;
 
     /**
-     * The stack of images of the document added to each time
-     * something is changed.  A QPtrList is used rather than a
-     * QPtrStack to be able to remove the ones off the bottom once
-     * the stack gets too big.
-     */
-    Q3PtrList<QDataStream> undoStack;
-
-    /**
-     * The stack of images of the document added to each time
-     * undo is called.
-     */
-    Q3PtrList<QDataStream> redoStack;
-
-    /**
      * Auxiliary to <docsettings> processing
      */
     Uml::IDType m_nViewID;
@@ -875,12 +816,6 @@ private:
      * returns NULL.
      */
     UMLFolder * m_pCurrentRoot;
-
-    /**
-     * UndoStack
-     * used to store actions, to provide Undo/Redo feature.
-    */
-    QUndoStack*	m_pUndoStack;
 
 public slots:
 

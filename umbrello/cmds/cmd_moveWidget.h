@@ -14,8 +14,8 @@
 
 #include <QUndoCommand>
 
-
 #include "umlwidget.h"
+#include "cmd_id.h"
 
 namespace Uml
 {
@@ -27,6 +27,9 @@ namespace Uml
 
 			void redo();
 			void undo();
+
+			int id() const { return IdMoveWidget; }
+			bool mergeWith(const QUndoCommand* other);
 
 		private:
 			UMLWidgetController* 	UMLwc;

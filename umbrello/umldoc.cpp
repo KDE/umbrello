@@ -81,8 +81,6 @@
 
 using namespace Uml;
 
-static const uint undoMax = 30;
-
 UMLDoc::UMLDoc() {
     m_Name = i18n("UML Model");
     m_modelID = "m1";
@@ -96,8 +94,6 @@ UMLDoc::UMLDoc() {
     m_nViewID = Uml::id_None;
     m_pTabPopupMenu = 0;
     m_pCurrentRoot = NULL;
-
-    m_pUndoStack = new QUndoStack(this);
 }
 
 void UMLDoc::init() {
@@ -134,7 +130,6 @@ void UMLDoc::init() {
 }
 
 UMLDoc::~UMLDoc() {
-    delete m_pUndoStack;
     delete m_pChangeLog;
     m_pChangeLog = 0;
 }
@@ -336,8 +331,7 @@ bool UMLDoc::newDocument() {
     initSaveTimer();
 
     UMLApp::app()->enableUndo(false);
-    clearUndoStack();
-    addToUndoStack();
+    UMLApp::app()->clearUndoStack();
 
     return true;
 }
@@ -504,8 +498,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* /*format =0*/) {
     initSaveTimer();
 
     UMLApp::app()->enableUndo(false);
-    clearUndoStack();
-    addToUndoStack();
+    UMLApp::app()->clearUndoStack();
     // for compatibility
     addDefaultStereotypes();
 
@@ -1922,11 +1915,6 @@ void UMLDoc::setModified(bool modified /*=true*/, bool addToUndo /*=true*/) {
     if(!m_bLoading) {
         m_modified = modified;
         UMLApp::app()->setModified(modified);
-
-        if (modified && addToUndo) {
-            addToUndoStack();
-            clearRedoStack();
-        }
     }
 }
 
@@ -2123,161 +2111,6 @@ void UMLDoc::signalDiagramRenamed(UMLView* pView ) {
     if (optionState.generalState.tabdiagrams)
         UMLApp::app()->tabWidget()->setTabLabel( pView, pView->getName() );
     emit sigDiagramRenamed( pView -> getID() );
-}
-
-void UMLDoc::addToUndoStack() {
-/*    Settings::OptionState optionState = Settings::getOptionState();
-    if (!m_bLoading && optionState.generalState.undo) {
-        QBuffer* buffer = new QBuffer();
-        buffer->open(QIODevice::WriteOnly);
-        QDataStream* undoData = new QDataStream();
-        undoData->setDevice(buffer);
-        saveToXMI(*buffer);
-        buffer->close();
-        undoStack.prepend(undoData);
-
-        if (undoStack.count() > 1) {
-            UMLApp::app()->enableUndo(true);
-        }
-    }
-*/
-}
-
-void UMLDoc::clearUndoStack() {
-	m_pUndoStack->clear();
-}
-
-void UMLDoc::clearRedoStack() {
-/*
-    redoStack.setAutoDelete(true);
-    redoStack.clear();
-    UMLApp::app()->enableRedo(false);
-    redoStack.setAutoDelete(false);
-*/
-}
-
-void UMLDoc::undo()
-{
-	kDebug() << "UMLDoc::undo(" << m_pUndoStack->undoText() << ") [" << m_pUndoStack->count() << "]" << endl;
-	m_pUndoStack->undo();
-
-	if(m_pUndoStack->canUndo())
-		UMLApp::app()->enableUndo(true);
-	else 
-		UMLApp::app()->enableUndo(false);
-	
-	UMLApp::app()->enableRedo(true);
-}
-
-void UMLDoc::redo()
-{
-	kDebug() << "UMLDoc::undo(" << m_pUndoStack->redoText() << ") [" << m_pUndoStack->count() << "]" << endl;
-	m_pUndoStack->redo();
-
-	if(m_pUndoStack->canRedo())
-		UMLApp::app()->enableRedo(true);
-	else 
-		UMLApp::app()->enableRedo(false);
-	
-	UMLApp::app()->enableUndo(true);
-}
-
-void UMLDoc::executeCommand(QUndoCommand* cmd)
-{
-	if(cmd != NULL)
-		m_pUndoStack->push(cmd);
-
-	kDebug() << "UMLDoc::executeCommand(" << cmd->text() << ") [" << m_pUndoStack->count() << "]" << endl;
-
-	UMLApp::app()->enableUndo(true);
-}
-
-void UMLDoc::loadUndoData() {
-/*    if (undoStack.count() < 1) {
-        kWarning() << "no data in undostack" << endl;
-        return;
-    }
-    UMLView *currentView = UMLApp::app()->getCurrentView();
-    if (currentView == NULL) {
-        kWarning() << "UMLDoc::loadUndoData: currentView is NULL" << endl;
-        undoStack.setAutoDelete(true);
-        undoStack.clear();
-        undoStack.setAutoDelete(false);
-        UMLApp::app()->enableUndo(false);
-        return;
-    }
-    Uml::IDType currentViewID = currentView->getID();
-    // store old setting - for restore of last setting
-    bool m_bLoading_old = m_bLoading;
-    m_bLoading = true;
-    closeDocument();
-    redoStack.prepend( undoStack.take(0) );
-    QDataStream* undoData = undoStack.getFirst();
-    QBuffer* buffer = static_cast<QBuffer*>( undoData->device() );
-    buffer->open(QIODevice::ReadOnly);
-    loadFromXMI(*buffer);
-    buffer->close();
-
-    setModified(true, false);
-    m_bLoading = m_bLoading_old;
-
-    undoStack.setAutoDelete(true);
-    if (undoStack.count() <= 1) {
-        UMLApp::app()->enableUndo(false);
-    }
-    if (redoStack.count() >= 1) {
-        UMLApp::app()->enableRedo(true);
-    }
-    while (undoStack.count() > undoMax) {
-        undoStack.removeLast();
-    }
-    undoStack.setAutoDelete(false);
-
-    currentView = UMLApp::app()->getCurrentView();
-    if (currentView) {
-        if (currentView->getID() != currentViewID)
-            changeCurrentView( currentView->getID() );
-        currentView->resizeCanvasToItems();
-    }*/
-}
-
-void UMLDoc::loadRedoData() {
-/*
-    if (redoStack.count() >= 1) {
-        UMLView *currentView = UMLApp::app()->getCurrentView();
-        Uml::IDType currentViewID = currentView->getID();
-        // store old setting - for restore of last setting
-        bool m_bLoading_old = m_bLoading;
-        m_bLoading = true;
-        closeDocument();
-        undoStack.prepend( redoStack.getFirst() );
-        QDataStream* redoData = redoStack.getFirst();
-        redoStack.removeFirst();
-        QBuffer* buffer = static_cast<QBuffer*>( redoData->device() );
-        buffer->open(QIODevice::ReadOnly);
-        loadFromXMI(*buffer);
-        buffer->close();
-
-        setModified(true, false);
-        currentView = UMLApp::app()->getCurrentView();
-        currentView->resizeCanvasToItems();
-        m_bLoading = m_bLoading_old;
-
-        redoStack.setAutoDelete(true);
-        if (redoStack.count() < 1) {
-            UMLApp::app()->enableRedo(false);
-        }
-        if (undoStack.count() > 1) {
-            UMLApp::app()->enableUndo(true);
-        }
-        if (currentView->getID() != currentViewID) {
-            changeCurrentView(currentViewID);
-        }
-        redoStack.setAutoDelete(false);
-    } else {
-        kWarning() << "no data in redostack" << endl;
-    }
-*/
 }
 
 void UMLDoc::addDefaultDatatypes() {
