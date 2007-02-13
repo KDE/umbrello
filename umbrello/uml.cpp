@@ -119,6 +119,7 @@ UMLApp::UMLApp(QWidget* parent) : KMainWindow(parent) {
     m_doc = new UMLDoc();
     m_doc->init();
     m_pUndoStack = new KUndoStack(this);
+    m_hasBeginMacro = false;
     initActions(); //now calls initStatusBar() because it is affected by setupGUI()
     initView();
     initClip();
@@ -1881,6 +1882,18 @@ void UMLApp::executeCommand(QUndoCommand* cmd)
 	kDebug() << "UMLApp::executeCommand(" << cmd->text() << ") [" << m_pUndoStack->count() << "]" << endl;
 
 	UMLApp::app()->enableUndo(true);
+}
+
+void UMLApp::BeginMacro( const QString & text ) {
+	if(m_hasBegunMacro)
+		return;
+
+	m_pUndoStack->beginMacro(text);
+}
+
+void UMLApp::EndMacro() {
+	if(m_hasBegunMacro)
+		m_pUndoStack->endMacro();
 }
 
 //static pointer, holding the unique instance

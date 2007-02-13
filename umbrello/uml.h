@@ -347,6 +347,16 @@ public:
     */
     void executeCommand(QUndoCommand* cmd);
 
+    /**
+     * Begin a U/R command macro
+    */
+    void BeginMacro( const QString & text );
+
+    /**
+     * End an U/R command macro
+    */
+    void EndMacro();
+
 protected:
     virtual void keyPressEvent(QKeyEvent* e);
     virtual void keyReleaseEvent(QKeyEvent* e);
@@ -1072,6 +1082,11 @@ private:
      * used to store actions, to provide Undo/Redo feature.
     */
     KUndoStack*	m_pUndoStack;
+
+    /**
+     * Macro creation flag
+    */
+    bool m_hasBegunMacro;
 
 signals:
 
