@@ -79,7 +79,17 @@ private:
      */
     void writeOperation (UMLOperation *op, QTextStream &ada, bool is_comment = false);
 
-    void computeAssocTypeAndRole (UMLAssociation *a, QString& typeName, QString& roleName);
+    /**
+     * Compute the type and role name from the given association.
+     *
+     * @param c         The UMLClassifier for which code is being generated.
+     * @param a         The UMLAssociation to analyze.
+     * @param typeName  Return value: type name.
+     * @param roleName  Return value: role name.
+     */
+    void computeAssocTypeAndRole (UMLClassifier *c,
+                                  UMLAssociation *a,
+                                  QString& typeName, QString& roleName);
 
     bool isOOClass (UMLClassifier *c);
 
