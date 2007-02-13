@@ -119,7 +119,7 @@ UMLApp::UMLApp(QWidget* parent) : KMainWindow(parent) {
     m_doc = new UMLDoc();
     m_doc->init();
     m_pUndoStack = new KUndoStack(this);
-    m_hasBeginMacro = false;
+    m_hasBegunMacro = false;
     initActions(); //now calls initStatusBar() because it is affected by setupGUI()
     initView();
     initClip();
