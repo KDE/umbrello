@@ -224,6 +224,7 @@ set(libcmds_SRCS
 	cmds/classdiag/cmd_create_class.cpp
 
 	cmds/generic/cmd_create_umlobject.cpp
+	cmds/generic/cmd_rename_umlobject.cpp
 	
 	cmds/widget/cmd_create_widget.cpp
 	

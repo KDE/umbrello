@@ -1574,7 +1574,7 @@ void UMLApp::slotImportClasses() {
     //Allowing undo of the whole class importing. I think it eats a lot of memory
     //m_doc->setModified(true);
     //Setting the modification, but without allowing undo
-    m_doc->setModified(true, false);
+    m_doc->setModified(true);
 }
 
 void UMLApp::slotClassWizard() {
@@ -1896,6 +1896,8 @@ void UMLApp::BeginMacro( const QString & text ) {
 void UMLApp::EndMacro() {
 	if(m_hasBegunMacro)
 		m_pUndoStack->endMacro();
+
+	m_hasBegunMacro = false;
 }
 
 //static pointer, holding the unique instance

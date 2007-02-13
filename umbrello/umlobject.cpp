@@ -102,7 +102,8 @@ void UMLObject::setID(Uml::IDType NewID) {
 }
 
 void UMLObject::setName(const QString &strName) {
-     UMLApp::app()->executeCommand(new cmdSetName(this,strName));
+    m_Name = strName;
+    emit modified();
 }
 
 void UMLObject::setNamecmd(const QString &strName) {

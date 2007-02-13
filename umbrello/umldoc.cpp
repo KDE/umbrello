@@ -855,7 +855,7 @@ void UMLDoc::removeAssociation (UMLAssociation * assoc, bool doSetModified /*=tr
     pkg->removeObject(assoc);
 
     if (doSetModified)  // so we will save our document
-        setModified(true, false);
+        setModified(true);
 }
 
 UMLAssociation * UMLDoc::findAssociation(Uml::Association_Type assocType,
@@ -991,7 +991,7 @@ UMLView* UMLDoc::createDiagram(UMLFolder *folder, Diagram_Type type, bool askFor
             temp->setID( UniqueID::gen() );
             addView(temp);
             emit sigDiagramCreated( temp->getID() );
-            setModified(true, false);
+            setModified(true);
             UMLApp::app()->enablePrint(true);
             changeCurrentView( temp->getID() );
             return temp;
@@ -1036,7 +1036,7 @@ void UMLDoc::renameUMLObject(UMLObject *o) {
         if(name.length() == 0)
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
         else if (isUnique(name)) {
-            o->setName(name);
+	    UMLApp::app()->executeCommand(new cmdRenameUMLObject(o,name));
             setModified(true);
             break;
         } else {
@@ -1066,7 +1066,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o) {
                     || ((o->getBaseType() == Uml::ot_Operation) && KMessageBox::warningYesNo( kapp -> mainWidget() ,
                             i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
                             i18n( "Name Not Unique"),KGuiItem(i18n("Use Name")),KGuiItem(i18n("Enter New Name"))) == KMessageBox::Yes) ) {
-                o->setName(name);
+		UMLApp::app()->executeCommand(new cmdRenameUMLObject(o,name));
                 setModified(true);
                 break;
             } else {
@@ -1911,7 +1911,7 @@ UMLViewList UMLDoc::getViewIterator() {
     return accumulator;
 }
 
-void UMLDoc::setModified(bool modified /*=true*/, bool addToUndo /*=true*/) {
+void UMLDoc::setModified(bool modified /*=true*/) {
     if(!m_bLoading) {
         m_modified = modified;
         UMLApp::app()->setModified(modified);

@@ -123,10 +123,8 @@ public:
      * action on the view connected to the document.
      *
      * @param _m                The value to set the modified flag to.
-     * @param addToUndo Whether this is an action which should be
-     *                  added to the undo stack.
      */
-    void setModified(bool _m=true, bool addToUndo=true);
+    void setModified(bool _m=true);
 
     /**
      * Returns if the document is modified or not. Use this to

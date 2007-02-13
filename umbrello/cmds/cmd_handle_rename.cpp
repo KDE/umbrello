@@ -32,8 +32,9 @@
 namespace Uml
 {
 
-	cmdHandleRename::cmdHandleRename(FloatingTextWidget* _ftw, QString txt):ftw(_ftw),newstring(txt)
+	cmdHandleRename::cmdHandleRename(FloatingTextWidget* _ftw, QString& txt):ftw(_ftw),newstring(txt)
 	{	
+		setText(i18n("Change text"));
 		oldstring = _ftw->getText();
 	}
 	

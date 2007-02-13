@@ -5,35 +5,38 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2006                                                *
- *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
+ *   copyright (C) 2002-2007                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-#ifndef __CMD_HANDLE_RENAME__
-#define __CMD_HANDLE_RENAME__
+#include "cmd_rename_umlobject.h"
 
-#include <QUndoCommand>
+#include "uml.h"
+#include "umldoc.h"
 
-#include "../floatingtextwidget.h"
-
+#include <klocale.h>
 
 namespace Uml
 {
-	class cmdHandleRename : public QUndoCommand
+
+	cmdRenameUMLObject::cmdRenameUMLObject(UMLObject* o, const QString& name):m_obj(o),m_name(name)
 	{
-		//friend class FloatingTextWidget;
-		public:
-			cmdHandleRename(FloatingTextWidget* _ftw, QString& txt);
-			~cmdHandleRename();
+		setText(i18n("Rename object"));
+		m_oldname = o->getName();
+	}
+	
+	cmdRenameUMLObject::~cmdRenameUMLObject()
+	{
+	}
+	
+	void cmdRenameUMLObject::redo()
+	{
+		m_obj->setName(m_name);
+	}
+	
+	void cmdRenameUMLObject::undo()
+	{
+		m_obj->setName(m_oldname);
+	}
 
-			void redo();
-			void undo();
-
-		private:
-			FloatingTextWidget* 	ftw;
-			QString 	newstring;
-			QString 	oldstring;
-	};
-};
-
-#endif
+}

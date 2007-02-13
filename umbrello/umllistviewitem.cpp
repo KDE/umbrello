@@ -37,6 +37,8 @@
 #include "uniqueid.h"
 #include "uml.h"
 
+#include "cmds.h"
+
 UMLListView* UMLListViewItem::s_pListView = 0;
 
 UMLListViewItem::UMLListViewItem( UMLListView * parent, const QString &name,
@@ -318,7 +320,7 @@ void UMLListViewItem::okRename( int col ) {
             cancelRenameWithMsg();
             return;
         }
-        m_pObject -> setName( newText );
+	UMLApp::app()->executeCommand(new Uml::cmdRenameUMLObject(m_pObject,newText));
         doc->setModified(true);
         m_Label = newText;
         break;
@@ -335,7 +337,7 @@ void UMLListViewItem::okRename( int col ) {
             Model_Utils::Parse_Status st = Model_Utils::parseOperation(newText, od, parent);
             if (st == Model_Utils::PS_OK) {
                 // TODO: Check that no operation with the exact same profile exists.
-                op->setName( od.m_name );
+		UMLApp::app()->executeCommand(new Uml::cmdRenameUMLObject(op,od.m_name));
                 op->setType( od.m_pReturnType );
                 UMLAttributeList parmList = op->getParmList();
                 const int newParmListCount = parmList.count();
@@ -356,7 +358,7 @@ void UMLListViewItem::okRename( int col ) {
                         a = new UMLAttribute(op);
                         a->setID( UniqueID::gen() );
                     }
-                    a->setName(nm_tp.m_name);
+		    UMLApp::app()->executeCommand(new Uml::cmdRenameUMLObject(a,nm_tp.m_name));
                     a->setType(nm_tp.m_type);
                     a->setParmKind(nm_tp.m_direction);
                     a->setInitialValue(nm_tp.m_initialValue);
@@ -390,7 +392,7 @@ void UMLListViewItem::okRename( int col ) {
                     cancelRenameWithMsg();
                     return;
                 }
-                m_pObject->setName(nt.m_name);
+		UMLApp::app()->executeCommand(new Uml::cmdRenameUMLObject(m_pObject,nt.m_name));
                 UMLAttribute *pAtt = static_cast<UMLAttribute*>(m_pObject);
                 pAtt->setType(nt.m_type);
                 pAtt->setParmKind(nt.m_direction);
@@ -420,7 +422,7 @@ void UMLListViewItem::okRename( int col ) {
                     cancelRenameWithMsg();
                     return;
                 }
-                m_pObject->setName(nt.m_name);
+		UMLApp::app()->executeCommand(new Uml::cmdRenameUMLObject(m_pObject,nt.m_name));
                 UMLTemplate *tmpl = static_cast<UMLTemplate*>(m_pObject);
                 tmpl->setType(nt.m_type);
                 m_Label = tmpl->toString(Uml::st_SigNoVis);

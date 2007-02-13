@@ -10,28 +10,54 @@
       <keyword>Qt</keyword>
     </keywords>
     <projectname>uml</projectname>
+    <projectdirectory>.</projectdirectory>
+    <absoluteprojectpath>false</absoluteprojectpath>
+    <version></version>
+    <description></description>
+    <defaultencoding></defaultencoding>
+    <versioncontrol>kdevsubversion</versioncontrol>
   </general>
   <kdevautoproject>
     <general>
       <mainprogram>umbrello</mainprogram>
+      <useconfiguration>default</useconfiguration>
     </general>
     <configure>
       <configargs>\s--build=i386-linux --host=i386-linux --target=i386-linux --prefix=/opt/kde3 --enable-debug\s</configargs>
     </configure>
     <make>
-      <abortonerror/>
-      <numberofjobs/>
-      <dontact/>
-      <makebin/>
+      <abortonerror>true</abortonerror>
+      <numberofjobs>1</numberofjobs>
+      <dontact>false</dontact>
+      <makebin></makebin>
       <envvars>
         <envvar value="1" name="WANT_AUTOCONF_2_5" />
         <envvar value="1" name="WANT_AUTOMAKE_1_6" />
       </envvars>
+      <runmultiplejobs>false</runmultiplejobs>
+      <prio>0</prio>
     </make>
     <compiler>
       <cflags/>
       <cxxflags>\s-O0 -g3 -Wall</cxxflags>
     </compiler>
+    <configurations>
+      <default>
+        <envvars/>
+      </default>
+    </configurations>
+    <run>
+      <mainprogram>/home/kde-devel/svn/isi-umbrello/umbrello</mainprogram>
+      <programargs></programargs>
+      <globaldebugarguments></globaldebugarguments>
+      <globalcwd>/home/kde-devel/svn/isi-umbrello/umbrello</globalcwd>
+      <useglobalprogram>false</useglobalprogram>
+      <terminal>false</terminal>
+      <autocompile>false</autocompile>
+      <autoinstall>false</autoinstall>
+      <autokdesu>false</autokdesu>
+      <envvars/>
+    </run>
   </kdevautoproject>
   <kdevfileview>
     <groups>
@@ -60,15 +86,27 @@
   <kdevdebugger>
     <general>
       <dbgshell>libtool</dbgshell>
+      <gdbpath></gdbpath>
+      <configGdbScript></configGdbScript>
+      <runShellScript></runShellScript>
+      <runGdbScript></runGdbScript>
+      <breakonloadinglibs>true</breakonloadinglibs>
+      <separatetty>false</separatetty>
+      <floatingtoolbar>false</floatingtoolbar>
     </general>
+    <display>
+      <staticmembers>false</staticmembers>
+      <demanglenames>true</demanglenames>
+      <outputradix>10</outputradix>
+    </display>
   </kdevdebugger>
   <kdevcppsupport>
     <qt>
-      <used>false</used>
-      <version>3</version>
-      <includestyle>3</includestyle>
+      <used>true</used>
+      <version>4</version>
+      <includestyle>4</includestyle>
       <root>/usr/lib/qt3</root>
-      <designerintegration>EmbeddedKDevDesigner</designerintegration>
+      <designerintegration>ExternalDesigner</designerintegration>
       <qmake>/usr/lib/qt3/bin/qmake</qmake>
       <designer>/usr/lib/qt3/bin/designer</designer>
       <designerpluginpaths/>
@@ -78,7 +116,7 @@
       <pcs>Umbrello</pcs>
     </references>
     <codecompletion>
-      <automaticCodeCompletion>false</automaticCodeCompletion>
+      <automaticCodeCompletion>true</automaticCodeCompletion>
       <automaticArgumentsHint>true</automaticArgumentsHint>
       <automaticHeaderCompletion>true</automaticHeaderCompletion>
       <codeCompletionDelay>250</codeCompletionDelay>
@@ -97,8 +135,43 @@
       <resolveIncludePaths>true</resolveIncludePaths>
       <alwaysParseInBackground>true</alwaysParseInBackground>
       <usePermanentCaching>true</usePermanentCaching>
-      <alwaysIncludeNamespaces>false</alwaysIncludeNamespaces>
+      <alwaysIncludeNamespaces>true</alwaysIncludeNamespaces>
       <includePaths>.;</includePaths>
     </codecompletion>
+    <creategettersetter>
+      <prefixGet></prefixGet>
+      <prefixSet>set</prefixSet>
+      <prefixVariable>m_,_</prefixVariable>
+      <parameterName>theValue</parameterName>
+      <inlineGet>true</inlineGet>
+      <inlineSet>true</inlineSet>
+    </creategettersetter>
+    <splitheadersource>
+      <enabled>false</enabled>
+      <synchronize>true</synchronize>
+      <orientation>Vertical</orientation>
+    </splitheadersource>
   </kdevcppsupport>
+  <cppsupportpart>
+    <filetemplates>
+      <interfacesuffix>.h</interfacesuffix>
+      <implementationsuffix>.cpp</implementationsuffix>
+    </filetemplates>
+  </cppsupportpart>
+  <kdevfilecreate>
+    <filetypes>
+      <type icon="source_cpp" ext="cpp" create="template" name="C++ Source" >
+        <descr>A new empty C++ file.</descr>
+      </type>
+    </filetypes>
+    <useglobaltypes>
+      <type ext="c" />
+      <type ext="h" />
+    </useglobaltypes>
+  </kdevfilecreate>
+  <ctagspart>
+    <customArguments></customArguments>
+    <customTagfilePath>/home/kde-devel/svn/isi-umbrello/umbrello/tags</customTagfilePath>
+    <activeTagsFiles/>
+  </ctagspart>
 </kdevelop>

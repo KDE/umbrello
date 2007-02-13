@@ -45,6 +45,7 @@
  ************************************************************/
 
 #include "cmds/generic/cmd_create_umlobject.h"
+#include "cmds/generic/cmd_rename_umlobject.h"
 
 /************************************************************
  * Widgets
