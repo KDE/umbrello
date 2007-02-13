@@ -198,6 +198,7 @@ Association_Type ToolBarStateAssociation::getAssociationType() {
         case WorkToolBar::tbb_Coll_Message:             at = at_Coll_Message;      break;
         case WorkToolBar::tbb_State_Transition:         at = at_State;             break;
         case WorkToolBar::tbb_Activity_Transition:      at = at_Activity;          break;
+        case WorkToolBar::tbb_Exception:                at = at_Exception;         break;
 
         default:                                        at = at_Unknown;           break;
     }

@@ -25,6 +25,7 @@
 #include <kinputdialog.h>
 #include <kcolordialog.h>
 #include <kapplication.h>
+
 // app includes
 #include "activitywidget.h"
 #include "uml.h"
@@ -106,7 +107,7 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
     setAssocType(assocType);
 
     calculateEndingPoints();
-
+    
     //The AssociationWidget is set to Activated because it already has its side widgets
     setActivated(true);
 
@@ -1100,7 +1101,8 @@ void AssociationWidget::calculateEndingPoints() {
     m_role[A].m_OldCorner.setY( pWidgetA->getY() );
     m_role[B].m_OldCorner.setX( pWidgetB->getX() );
     m_role[B].m_OldCorner.setY( pWidgetB->getY() );
-    uint size = m_LinePath.count();
+
+    int size = m_LinePath.count();
     if(size < 2)
         m_LinePath.setStartEndPoints( m_role[A].m_OldCorner, m_role[B].m_OldCorner );
 
@@ -1129,7 +1131,53 @@ void AssociationWidget::calculateEndingPoints() {
         }
         return;
     }//end a == b
+    if (getAssocType() == at_Exception && size < 4) {
+        int xa = pWidgetA -> getX();
+        int ya = pWidgetA -> getY();
+        int ha = pWidgetA -> getHeight();
+        int wa = pWidgetA -> getWidth();
 
+        int xb = pWidgetB -> getX();
+        int yb = pWidgetB -> getY();
+        int hb = pWidgetB -> getHeight();
+        int wb = pWidgetB -> getWidth();
+
+        // calcul des coordonnées du point au milieu de la feche eclair
+        int xmil;
+        int ymil;
+        if ( xb > xa  )
+            xmil = xa + wa + (xb - xa - wa) / 2;
+        else
+            xmil = xb + wb + (xa - xb - wb) / 2;
+        if ( yb > ya  )
+            ymil = ya + ha/2 + ((yb + hb/2) - (ya + ha/2)) / 2;
+        else
+            ymil = yb + hb/2 + ((ya + ha/2) - (yb + hb/2)) / 2;
+
+        if( xb > xa ) {
+            m_LinePath.setStartEndPoints( QPoint( xa + wa , ya + ha/2 ) , QPoint( xb , yb + hb/2 ) );
+
+            if ( yb > ya  ) {
+                m_LinePath.insertPoint( 1, QPoint( xmil + (xb - xmil)*2/3 , ymil + ((yb + hb /2) - ymil)*1/3));
+                m_LinePath.insertPoint( 2 ,QPoint( xmil - (xmil - xa - wa)*2/3 , ymil - (ymil - ya - ha/2)*1/3));
+            } else {
+                m_LinePath.insertPoint( 1, QPoint( xmil + (xb - xmil)*1/3 , ymil - (ymil - yb - hb /2)*2/3));
+                m_LinePath.insertPoint( 2 ,QPoint( xmil - (xmil - xa - wa)*1/3 , ymil + (ya + ha/2 - ymil)*2/3));
+            }
+            m_role[A].m_WidgetRegion = m_role[B].m_WidgetRegion = North;
+        } else {
+             m_LinePath.setStartEndPoints( QPoint( xa , ya + ha/2 ) , QPoint( xb + wb, yb + hb/2 ) );
+             if ( ya > yb  ) {
+                m_LinePath.insertPoint( 1, QPoint( xmil - (xmil - xb - wb)*1/3 , ymil - (ymil - yb - hb/2)*2/3));
+                m_LinePath.insertPoint( 2 ,QPoint( xmil + (xa - xmil)*1/3 , ymil + (ya + ha/2 - ymil)*2/3));
+            } else {
+                m_LinePath.insertPoint( 1, QPoint( xmil - (xmil - xb - wb)*2/3 , ymil + (yb + hb/2 - ymil)*1/3));
+                m_LinePath.insertPoint( 2 ,QPoint( xmil + (xa - xmil)*2/3 , ymil - (ymil - ya - ha/2)*1/3));
+            }
+            m_role[A].m_WidgetRegion = m_role[B].m_WidgetRegion = North;
+        }
+        return;
+    }
     // If the line has more than one segment change the values to calculate
     // from widget to point 1.
     int xB = pWidgetB->getX() + pWidgetB->getWidth() / 2;
@@ -1274,6 +1322,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y ) {
     // 2004-04-30: Achim Spangler
     // Simple Approach to block moveEvent during load of
     // XMI
+    
     /// @todo avoid trigger of this event during load
     if ( m_umldoc->loading() ) {
         // hmmh - change of position during load of XMI
@@ -1297,10 +1346,14 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y ) {
     int dy = m_role[A].m_OldCorner.y() - y;
     uint size = m_LinePath.count();
     uint pos = size - 1;
-    calculateEndingPoints();
-
+    if (getAssocType() == at_Exception) {
+        updatePointsException ();
+    }
+    else
+        calculateEndingPoints();
+    
     // Assoc to self - move all points:
-    if( m_role[A].m_pWidget == m_role[B].m_pWidget ) {
+    if( m_role[A].m_pWidget == m_role[B].m_pWidget) {
         for( int i=1 ; i < (int)pos ; i++ ) {
             QPoint p = m_LinePath.getPoint( i );
             int newX = p.x() - dx;
@@ -1355,6 +1408,58 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y ) {
         setTextPositionRelatively(tr_ChangeB, oldChangeBPoint);
     }
 }//end method widgetMoved
+
+void AssociationWidget::updatePointsException () {
+    UMLWidget *pWidgetA = m_role[A].m_pWidget;
+    UMLWidget *pWidgetB = m_role[B].m_pWidget;
+
+    int xa = pWidgetA -> getX();
+    int ya = pWidgetA -> getY();
+    int ha = pWidgetA -> getHeight();
+    int wa = pWidgetA -> getWidth();
+
+    int xb = pWidgetB -> getX();
+    int yb = pWidgetB -> getY();
+    int hb = pWidgetB -> getHeight();
+    int wb = pWidgetB -> getWidth();
+    int xmil;
+    int ymil;
+
+    //calcul des coordonnées au milieu de la flèche eclair
+    if ( xb > xa  )
+        xmil = xa + wa + (xb - xa - wa) / 2;
+    else
+        xmil = xb + wb + (xa - xb - wb) / 2;
+    if ( yb > ya  )
+        ymil = ya + ha/2 + ((yb + hb/2) - (ya + ha/2)) / 2;
+    else
+        ymil = yb + hb/2 + ((ya + ha/2) - (yb + hb/2)) / 2;
+
+    if( xb > xa ) {
+        m_LinePath.setStartEndPoints( QPoint( xa + wa , ya + ha/2 ) , QPoint( xb , yb + hb/2 ) );
+
+        if ( yb > ya  ) {
+            m_LinePath.setPoint( 1, QPoint( xmil + (xb - xmil)*2/3 , ymil + ((yb + hb /2) - ymil)*1/3));
+            m_LinePath.setPoint( 2 ,QPoint( xmil - (xmil - xa - wa)*2/3 , ymil - (ymil - ya - ha/2)*1/3));
+        } else {
+            m_LinePath.setPoint( 1, QPoint( xmil + (xb - xmil)*1/3 , ymil - (ymil - yb - hb /2)*2/3));
+            m_LinePath.setPoint( 2 ,QPoint( xmil - (xmil - xa - wa)*1/3 , ymil + (ya + ha/2 - ymil)*2/3));
+        }
+        m_role[A].m_WidgetRegion = m_role[B].m_WidgetRegion = North;
+    } else {
+        m_LinePath.setStartEndPoints( QPoint( xa , ya + ha/2 ) , QPoint( xb + wb, yb + hb/2 ) );
+        if ( ya > yb  ) {
+            m_LinePath.setPoint( 1, QPoint( xmil - (xmil - xb - wb)*1/3 , ymil - (ymil - yb - hb/2)*2/3));
+            m_LinePath.setPoint( 2 ,QPoint( xmil + (xa - xmil)*1/3 , ymil + (ya + ha/2 - ymil)*2/3));
+        } else {
+            m_LinePath.setPoint( 1, QPoint( xmil - (xmil - xb - wb)*2/3 , ymil + (yb + hb/2 - ymil)*1/3));
+            m_LinePath.setPoint( 2 ,QPoint( xmil + (xa - xmil)*2/3 , ymil - (ymil - ya - ha/2)*1/3));
+        }
+        m_role[A].m_WidgetRegion = m_role[B].m_WidgetRegion = North;
+    }
+
+}
+
 
 /** Finds out in which region of rectangle Rect contains the Point (PosX, PosY) and returns the region
     number:

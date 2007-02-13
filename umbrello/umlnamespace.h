@@ -146,6 +146,7 @@ enum Association_Type
     at_Anchor,
     at_State,
     at_Activity,
+    at_Exception,
     at_Relationship,
     at_Unknown  =  - 1
 };

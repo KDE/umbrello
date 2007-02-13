@@ -126,7 +126,8 @@ public:
         tbb_StateFork,
         tbb_Junction,
         tbb_Choice,
-        tbb_Andline
+        tbb_Andline,
+	tbb_Exception
     };
 
 private:
@@ -249,6 +250,7 @@ public slots:
     void slotJunction();
     void slotChoice();
     void slotAndline();
+    void slotException();
 
 };
 

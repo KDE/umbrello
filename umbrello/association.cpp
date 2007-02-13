@@ -97,6 +97,7 @@ const QString UMLAssociation::assocTypeStr[UMLAssociation::nAssocTypes] = {
             i18n("Anchor"),                     // at_Anchor
             i18n("State Transition"),           // at_State
             i18n("Activity"),                   // at_Activity
+            i18n("Exception"),                  // at_Activity
         };
 
 Uml::Association_Type UMLAssociation::getAssocType() const {
@@ -373,6 +374,7 @@ bool UMLAssociation::load( QDomElement & element ) {
                     "anchor",           // at_Anchor
                     "state",            // at_State
                     "activity",         // at_Activity
+                    "exception",        // at_Exception
                     "relationship"      // at_Relationship
                 };
 
