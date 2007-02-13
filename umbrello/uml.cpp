@@ -1887,6 +1887,8 @@ void UMLApp::executeCommand(QUndoCommand* cmd)
 void UMLApp::BeginMacro( const QString & text ) {
 	if(m_hasBegunMacro)
 		return;
+	
+	m_hasBegunMacro = true;
 
 	m_pUndoStack->beginMacro(text);
 }
