@@ -53,7 +53,7 @@ void assignUniqueIdOnCreation(bool yesno) {
     if (yesno)
         g_predefinedId = Uml::id_None;
     else
-        g_predefinedId = Uml::id_Reserved
+        g_predefinedId = Uml::id_Reserved;
 }
 
 bool assignUniqueIdOnCreation() {

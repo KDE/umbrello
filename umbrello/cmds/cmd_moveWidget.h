@@ -28,7 +28,6 @@ namespace Uml
 			void redo();
 			void undo();
 
-			int id() const { return IdMoveWidget; }
 			bool mergeWith(const QUndoCommand* other);
 
 		private:
