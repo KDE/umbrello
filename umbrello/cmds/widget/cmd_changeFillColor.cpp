@@ -43,7 +43,7 @@ namespace Uml
 		pView=view;
 		//oldColor=pView->getFillColour();
 		color = col;
-		oldColor= widget -> wgetFillColour() ;
+		oldColor= widget -> getFillColor() ;
 		//widget -> setFillColour(color);
 		//pView -> selectionSetFillColor( col );
 		pDoc -> setModified(true);

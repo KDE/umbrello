@@ -33,6 +33,9 @@
 #include "cmds/widget/cmd_set_name.h"
 #include "cmds/widget/cmd_set_txt.h"
 #include "cmds/cmd_handle_rename.h"
+#include "cmds/widget/cmd_changeFontSelection.h"
+#include "cmds/widget/cmd_changeLineColor.h"
+#include "cmds/widget/cmd_changeFillColor.h"
 
 /************************************************************
  * Class Diagram

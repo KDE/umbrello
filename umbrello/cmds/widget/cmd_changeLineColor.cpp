@@ -37,13 +37,13 @@ namespace Uml
 
 	cmdChangeLineColor::cmdChangeLineColor(/* obj1: m_pDoc   */UMLDoc *doc
 							/* obj2: m_pView  */				, UMLView *view
-							/* obj3: newColor */				, QColor col):already(true)
+							/* obj3: newColor */				, QColor col)
 	{
 		UMLWidget * widget = view->getFirstMultiSelectedWidget();
 		pDoc=doc;
 		pView=view;
 		color = col;
-		oldColor=widget -> wgetLineColour() ;
+		oldColor=widget -> getLineColor() ;
 		//view -> selectionSetLineColor( col );
      //   doc -> setModified(true);
 	}
