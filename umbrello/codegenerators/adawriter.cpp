@@ -70,7 +70,34 @@ bool AdaWriter::isOOClass(UMLClassifier *c) {
     return true;
 }
 
+QString AdaWriter::className(UMLPackage *pkgOrClass, bool inOwnScope) {
+    // If the class has an enclosing package then it is assumed that
+    // the class name is the type name; if the class does not have an
+    // enclosing package then the class name acts as the Ada package
+    // name.
+    QString retval;
+    QString className = cleanName(pkgOrClass->getName());
+    UMLClassifier *c = dynamic_cast<UMLClassifier*>(pkgOrClass);
+    UMLPackage *umlPkg = pkgOrClass->getUMLPackage();
+    if (umlPkg == UMLApp::app()->getDocument()->getRootFolder(Uml::mt_Logical)) {
+        if (! inOwnScope)
+            retval = className + '.';
+        retval.append("Object");
+    } else {
+        if (! inOwnScope)
+            retval = umlPkg->getFullyQualifiedName(".") + '.';
+        retval.append(className);
+    }
+    return retval;
+}
+
+//QString AdaWriter::scopeName(UMLPackage *pkgOrClass, bool inOwnScope) {
+
 QString AdaWriter::qualifiedName(UMLPackage *p, bool withType, bool byValue) {
+    // If the class has an enclosing package then it is assumed that
+    // the class name is the type name; if the class does not have an
+    // enclosing package then the class name acts as the Ada package
+    // name.
     UMLPackage *umlPkg = p->getUMLPackage();
     QString className = cleanName(p->getName());
     QString retval;
@@ -134,11 +161,6 @@ void AdaWriter::computeAssocTypeAndRole(UMLClassifier *c,
         typeName = assocEnd->getFullyQualifiedName(".");
     UMLPackage *enclosingPkg = c->getUMLPackage();
     UMLDoc *umldoc = UMLApp::app()->getDocument();
-    // @todo If the class has an enclosing package then it is assumed that
-    //       the class name is the type name; if the class does not have an
-    //       enclosing package then the class name acts as the Ada package
-    //       name.  This rule should be applied consistently throughout the
-    //       entire code generation.
     if (enclosingPkg == umldoc->getRootFolder(Uml::mt_Logical))
         typeName.append(".Object");
     if (hasNonUnityMultiplicity)
@@ -292,7 +314,8 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 
     UMLClassifierList superclasses = c->getSuperClasses();
 
-    ada << getIndent() << "type Object is ";
+    const QString name = className(c);
+    ada << getIndent() << "type " << name << " is ";
     if (c->getAbstract())
         ada << "abstract ";
     if (superclasses.isEmpty()) {
@@ -300,12 +323,12 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     } else {
         // FIXME: Multiple inheritance is not yet supported
         UMLClassifier* parent = superclasses.first();
-        ada << "new " << qualifiedName(parent) << ".Object with ";
+        ada << "new " << className(parent, false) << " with ";
     }
     ada << "private;" << m_endl << m_endl;
-    ada << getIndent() << "type Object_Ptr is access all Object'Class;" << m_endl << m_endl;
-    ada << getIndent() << "type Object_Array is array Positive range <> of Object_Ptr;" << m_endl << m_endl;
-    ada << getIndent() << "type Object_Array_Ptr is access Object_Array;" << m_endl << m_endl;
+    ada << getIndent() << "type " << name << "_Ptr is access all " << name << "'Class;" << m_endl << m_endl;
+    ada << getIndent() << "type " << name << "_Array is array (Positive range <>) of " << name << "_Ptr;" << m_endl << m_endl;
+    ada << getIndent() << "type " << name << "_Array_Ptr is access " << name << "_Array;" << m_endl << m_endl;
 
     // Generate accessors for public attributes.
     UMLAttributeList atl;
@@ -365,7 +388,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     } else {
         // FIXME: Multiple inheritance is not yet supported
         UMLClassifier* parent = superclasses.first();
-        ada << "new " << qualifiedName(parent) << ".Object with ";
+        ada << "new " << className(parent, false) << " with ";
     }
     ada << "record" << m_endl;
     m_indentLevel++;
