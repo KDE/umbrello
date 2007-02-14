@@ -27,6 +27,8 @@
 #include "docwindow.h"
 #include "umlwidget.h"
 #include "umlview.h"
+#include "floatingtextwidget.h"
+
 // #include "dialogs/signaldialog.h"
 #include "listpopupmenu.h"
 
@@ -34,7 +36,6 @@ SignalWidget::SignalWidget(UMLView * view, SignalType signalType, Uml::IDType id
         : UMLWidget(view, id) {
     UMLWidget::setBaseType(Uml::wt_Signal);
     m_SignalType = signalType;
-    m_Text = "Signal";
     updateComponentSize();
 }
 
@@ -92,13 +93,13 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
             font.setBold( false );
             p.setFont( font );
             p.drawText(offsetX + SIGNAL_MARGIN, offsetY + textStartY,
-                           w - SIGNAL_MARGIN * 2, fontHeight,
+                           w - SIGNAL_MARGIN * 2 + (w/3), fontHeight,
                            Qt::AlignCenter, getName());
             UMLWidget::setPen(p);
         }
         break;
     case Time :
- if(UMLWidget::getUseFillColour())
+        if(UMLWidget::getUseFillColour())
             p.setBrush(UMLWidget::getFillColour());
         {
             a.setPoints( 4, offsetX ,    offsetY,
@@ -107,6 +108,19 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
                             offsetX + w, offsetY);
 
             p.drawPolygon( a );
+            const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+            const int fontHeight  = fm.lineSpacing();
+            int textStartY = (h / 2) - (fontHeight / 2);
+            p.setPen(Qt::black);
+            QFont font = UMLWidget::getFont();
+            font.setBold( false );
+            p.setFont( font );
+//             p.drawText(offsetX + SIGNAL_MARGIN, offsetY + h,
+//                            w - SIGNAL_MARGIN * 2, fontHeight,
+//                            Qt::AlignCenter, getName());
+            m_pName->setVisible( getName().length() > 1 );
+            //m_pName->draw(p, offsetX, offsetY);
+            UMLWidget::setPen(p);
         }
         break;
     default:
@@ -118,14 +132,19 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
 }
 
 QSize SignalWidget::calculateSize() {
-    int width = 10, height = 10;
+        int width = SIGNAL_WIDTH, height = SIGNAL_HEIGHT;
         const QFontMetrics &fm = getFontMetrics(FT_BOLD);
         const int fontHeight  = fm.lineSpacing();
         int textWidth = fm.width(getName());
 
+        if (m_SignalType == Accept)
+             textWidth *= 1.3;
         height  = fontHeight;
-        width   = textWidth > SIGNAL_WIDTH?textWidth:SIGNAL_WIDTH;
-        height  = height > SIGNAL_HEIGHT?height:SIGNAL_HEIGHT;
+        if (m_SignalType != Time)
+        {
+              width   = textWidth > SIGNAL_WIDTH?textWidth:SIGNAL_WIDTH;
+              height  = height > SIGNAL_HEIGHT?height:SIGNAL_HEIGHT;
+        }
         width  += SIGNAL_MARGIN * 2;
         height += SIGNAL_MARGIN * 2;
 
@@ -136,6 +155,8 @@ void SignalWidget::setName(const QString &strName) {
     m_Text = strName;
     updateComponentSize();
     adjustAssocs( getX(), getY() );
+    if ( getSignalType() == Time)
+         m_pName = new FloatingTextWidget(m_pView, Uml::tr_Floating, getName());
 }
 
 QString SignalWidget::getName() const {
@@ -153,7 +174,7 @@ void SignalWidget::setSignalType( SignalType signalType ) {
 bool SignalWidget::showProperties() {
 //     DocWindow *docwindow = UMLApp::app()->getDocWindow();
 //     docwindow->updateDocumentation(false);
-// 
+//
 //     SignalDialog dialog(m_pView, this);
 //     bool modified = false;
 //     if (dialog.exec() && dialog.getChangesMade()) {
@@ -161,7 +182,7 @@ bool SignalWidget::showProperties() {
 //         UMLApp::app()->getDocument()->setModified(true);
 //         modified = true;
 //     }
-// 
+//
     return true;
 }
 
@@ -172,6 +193,7 @@ void SignalWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     signalElement.setAttribute( "documentation", m_Doc );
     signalElement.setAttribute( "signaltype", m_SignalType );
 
+    qElement.appendChild( signalElement );
 }
 
 bool SignalWidget::loadFromXMI( QDomElement & qElement ) {
@@ -179,8 +201,8 @@ bool SignalWidget::loadFromXMI( QDomElement & qElement ) {
         return false;
     m_Text = qElement.attribute( "signalname", "" );
     m_Doc = qElement.attribute( "documentation", "" );
-    QString type = qElement.attribute( "signaltype", "1" );
-    m_SignalType = (SignalType)type.toInt();
+    QString type = qElement.attribute( "signaltype", "" );
+    setSignalType((SignalType)type.toInt());
     return true;
 }
 

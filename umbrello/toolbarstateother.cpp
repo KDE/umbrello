@@ -167,6 +167,10 @@ bool ToolBarStateOther::newWidget() {
         Dialog_Utils::askNameForWidget(
             umlWidget, i18n("Enter Signal Name"),
             i18n("Enter Signal"), i18n("new Signal"));
+    } else if (getButton() == WorkToolBar::tbb_Accept_Time_Event) {
+        Dialog_Utils::askNameForWidget(
+            umlWidget, i18n("Enter Time Event Name"),
+            i18n("Enter Time Event"), i18n("new time event"));
     } else if (getButton() == WorkToolBar::tbb_Seq_Combined_Fragment) {
         Dialog_Utils::askNameForWidgetType(
             umlWidget, i18n("Enter Combined Fragment Name"),

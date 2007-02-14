@@ -15,11 +15,11 @@
 #include <qstringlist.h>
 #include "umlwidget.h"
 #include "worktoolbar.h"
+#include "floatingtextwidget.h"
 
 #define SIGNAL_MARGIN 5
 #define SIGNAL_WIDTH 45
 #define SIGNAL_HEIGHT 15
-
 
 class SignalWidget : public UMLWidget {
     Q_OBJECT
@@ -99,6 +99,9 @@ protected:
      * Type of signal.
      */
     SignalType m_SignalType;
+
+    // Only for the time event
+    FloatingTextWidget* m_pName;
 
 };
 
