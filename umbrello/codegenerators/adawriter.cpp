@@ -3,7 +3,7 @@
  *                           -------------------                           *
  *  Based on javawriter.cpp by Luis De la Parra Blum                       *
  *  copyright            : (C) 2002 by Oliver Kellogg                      *
- *    (C) 2003-2006 Umbrello UML Modeller Authors <uml-devel@uml.sf.net>   *
+ *    (C) 2003-2007 Umbrello UML Modeller Authors <uml-devel@uml.sf.net>   *
  ***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -70,7 +70,33 @@ bool AdaWriter::isOOClass(UMLClassifier *c) {
     return true;
 }
 
+QString AdaWriter::className(UMLClassifier *c, bool inOwnScope) {
+    // If the class has an enclosing package then it is assumed that
+    // the class name is the type name; if the class does not have an
+    // enclosing package then the class name acts as the Ada package
+    // name.
+    QString retval;
+    QString className = cleanName(c->getName());
+    UMLPackage *umlPkg = c->getUMLPackage();
+    if (umlPkg == UMLApp::app()->getDocument()->getRootFolder(Uml::mt_Logical)) {
+        if (! inOwnScope)
+            retval = className + '.';
+        retval.append("Object");
+    } else {
+        if (! inOwnScope)
+            retval = umlPkg->getFullyQualifiedName(".") + '.';
+        retval.append(className);
+    }
+    return retval;
+}
+
+//QString AdaWriter::scopeName(UMLPackage *pkgOrClass, bool inOwnScope) {
+
 QString AdaWriter::qualifiedName(UMLPackage *p, bool withType, bool byValue) {
+    // If the class has an enclosing package then it is assumed that
+    // the class name is the type name; if the class does not have an
+    // enclosing package then the class name acts as the Ada package
+    // name.
     UMLPackage *umlPkg = p->getUMLPackage();
     QString className = cleanName(p->getName());
     QString retval;
@@ -103,24 +129,43 @@ QString AdaWriter::qualifiedName(UMLPackage *p, bool withType, bool byValue) {
     return retval;
 }
 
-void AdaWriter::computeAssocTypeAndRole
-(UMLAssociation *a, QString& typeName, QString& roleName) {
-    roleName = a->getRoleName(Uml::A);
+void AdaWriter::computeAssocTypeAndRole(UMLClassifier *c,
+                                        UMLAssociation *a,
+                                        QString& typeName, QString& roleName) {
+    UMLClassifier* assocEnd = dynamic_cast<UMLClassifier*>(a->getObject(Uml::B));
+    if (assocEnd == NULL)
+        return;
+    const Uml::Association_Type assocType = a->getAssocType();
+    if (assocType != Uml::at_Aggregation && assocType != Uml::at_Composition)
+        return;
+    const QString multi = a->getMulti(Uml::B);
+    bool hasNonUnityMultiplicity = !multi.isEmpty();
+    hasNonUnityMultiplicity &= !multi.contains(QRegExp("^1 *\\.\\. *1$"));
+    roleName = cleanName(a->getRoleName(Uml::B));
+    if (roleName.isEmpty())
+        roleName = cleanName(a->getName());
     if (roleName.isEmpty()) {
-        if (a->getMulti(Uml::A).isEmpty()) {
-            roleName = "M_";
-            roleName.append(typeName);
-        } else {
-            roleName = typeName;
+        QString artificialName = cleanName(assocEnd->getName());
+        if (hasNonUnityMultiplicity) {
+            roleName = artificialName;
             roleName.append("_Vector");
+        } else {
+            roleName = "M_";
+            roleName.append(artificialName);
         }
     }
-    UMLClassifier* c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::A));
-    if (c == NULL)
-        return;
-    typeName = cleanName(c->getName());
-    if (! a->getMulti(Uml::A).isEmpty())
-        typeName.append("_Array_Access");
+    if (assocEnd == c)
+        typeName = assocEnd->getName();
+    else
+        typeName = assocEnd->getFullyQualifiedName(".");
+    UMLPackage *enclosingPkg = c->getUMLPackage();
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    if (enclosingPkg == umldoc->getRootFolder(Uml::mt_Logical))
+        typeName.append(".Object");
+    if (hasNonUnityMultiplicity)
+        typeName.append("_Array_Ptr");
+    else if (assocType == Uml::at_Aggregation)
+        typeName.append("_Ptr");
 }
 
 void AdaWriter::writeClass(UMLClassifier *c) {
@@ -268,7 +313,8 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 
     UMLClassifierList superclasses = c->getSuperClasses();
 
-    ada << getIndent() << "type Object is ";
+    const QString name = className(c);
+    ada << getIndent() << "type " << name << " is ";
     if (c->getAbstract())
         ada << "abstract ";
     if (superclasses.isEmpty()) {
@@ -276,10 +322,12 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     } else {
         // FIXME: Multiple inheritance is not yet supported
         UMLClassifier* parent = superclasses.first();
-        ada << "new " << qualifiedName(parent) << ".Object with ";
+        ada << "new " << className(parent, false) << " with ";
     }
     ada << "private;" << m_endl << m_endl;
-    ada << getIndent() << "type Object_Ptr is access all Object'Class;" << m_endl << m_endl;
+    ada << getIndent() << "type " << name << "_Ptr is access all " << name << "'Class;" << m_endl << m_endl;
+    ada << getIndent() << "type " << name << "_Array is array (Positive range <>) of " << name << "_Ptr;" << m_endl << m_endl;
+    ada << getIndent() << "type " << name << "_Array_Ptr is access " << name << "_Array;" << m_endl << m_endl;
 
     // Generate accessors for public attributes.
     UMLAttributeList atl;
@@ -328,37 +376,8 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     ada << getIndent() << "private" << m_endl << m_endl;
     m_indentLevel++;
 
-    // Generate auxiliary declarations for multiplicity of associations
     UMLAssociationList aggregations = c->getAggregations();
-    if (!aggregations.isEmpty()) {
-        for (UMLAssociation *a = aggregations.first(); a; a = aggregations.next()) {
-            if (a->getMulti(Uml::A).isEmpty())
-                continue;
-            UMLClassifier* other = (UMLClassifier*)a->getObject(Uml::A);
-            QString member = cleanName(other->getName());
-            // Handling of packages is missing here
-            // A test and error action is missing here for !isOOClass()
-            ada << getIndent() << "type " << member << "_Array is array"
-            << " (Positive range <>) of " << member << ".Object_Ptr;" << m_endl;
-            ada << getIndent() << "type " << member << "_Array_Access is access "
-            << member << "_array;" << m_endl << m_endl;
-        }
-    }
     UMLAssociationList compositions = c->getCompositions();
-    if (!compositions.isEmpty()) {
-        for (UMLAssociation *a = compositions.first(); a; a = compositions.next()) {
-            if (a->getMulti(Uml::A).isEmpty())
-                continue;
-            UMLObject *other = a->getObject(Uml::A);
-            QString member = cleanName(other->getName());
-            // Handling of packages is missing here
-            // Treatment of !isOOClass() is missing here
-            ada << getIndent() << "type " << member << "_Array is array"
-            << " (Positive range <>) of " << member << ".Object;" << m_endl;
-            ada << getIndent() << "type " << member << "_Array_Access is access "
-            << member << "_array;" << m_endl << m_endl;
-        }
-    }
 
     ada << getIndent() << "type Object is ";
     if (c->getAbstract())
@@ -368,7 +387,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     } else {
         // FIXME: Multiple inheritance is not yet supported
         UMLClassifier* parent = superclasses.first();
-        ada << "new " << qualifiedName(parent) << ".Object with ";
+        ada << "new " << className(parent, false) << " with ";
     }
     ada << "record" << m_endl;
     m_indentLevel++;
@@ -376,8 +395,10 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     if (forceSections() || !aggregations.isEmpty()) {
         ada << getIndent() << "-- Aggregations:" << m_endl;
         for (UMLAssociation *a = aggregations.first(); a; a = aggregations.next()) {
+            if (c != a->getObject(Uml::A))
+                continue;
             QString typeName, roleName;
-            computeAssocTypeAndRole(a, typeName, roleName);
+            computeAssocTypeAndRole(c, a, typeName, roleName);
             ada << getIndent() << roleName << " : " << typeName << ";" << m_endl;
         }
         ada << endl;
@@ -385,8 +406,10 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     if (forceSections() || !compositions.isEmpty()) {
         ada << getIndent() << "-- Compositions:" << m_endl;
         for (UMLAssociation *a = compositions.first(); a; a = compositions.next()) {
+            if (c != a->getObject(Uml::A))
+                continue;
             QString typeName, roleName;
-            computeAssocTypeAndRole(a, typeName, roleName);
+            computeAssocTypeAndRole(c, a, typeName, roleName);
             ada << getIndent() << roleName << " : " << typeName << ";" << m_endl;
         }
         ada << endl;
