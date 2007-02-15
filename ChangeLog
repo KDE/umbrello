@@ -4,6 +4,7 @@ Version 1.5.7
 * Relationships for entities do not live outside of an entity relationship diagram (125146)
 * Javascript Code Generation creates bad format methods (135540)
 * Crash when deleting the link between a package and a class (141602)
+* Ada95 Code Generation Errors for Aggregation (141644)
 
 Version 1.5.61
 
@@ -13,6 +14,7 @@ Version 1.5.61
 * Bugs fixed from http://bugs.kde.org:
 * Crash on creating various types of associations (140693, 141073, 141106, 141277)
 * Unclickable use case diagram (140870)
+* Crash on opening xmi file produced by previous version (141279)
 
 Version 1.5.6
 
@@ -101,7 +103,7 @@ Version 1.5.4
 * Java import: method and class visibility ignored (130794)
 * Java import - static not handled correctly (130926)
 * Java import - package visibility incorrectly represented (130932)
-* Java import - random import order can result in interface being teated as class (131006)
+* Java import - random import order can result in interface being treated as class (131006)
 * Java import - associations not setup correctly, duplicate classes created (131270)
 
 Version 1.5.3

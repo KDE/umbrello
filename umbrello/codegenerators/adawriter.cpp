@@ -123,7 +123,7 @@ void AdaWriter::computeAssocTypeAndRole(UMLClassifier *c,
     if (assocType != Uml::at_Aggregation && assocType != Uml::at_Composition)
         return;
     const QString multi = a->getMulti(Uml::B);
-    bool hasNonUnityMultiplicity = !multi.isEmpty();
+    bool hasNonUnityMultiplicity = (!multi.isEmpty() && multi != "1");
     hasNonUnityMultiplicity &= !multi.contains(QRegExp("^1 *\\.\\. *1$"));
     roleName = cleanName(a->getRoleName(Uml::B));
     if (roleName.isEmpty())
@@ -138,14 +138,7 @@ void AdaWriter::computeAssocTypeAndRole(UMLClassifier *c,
             roleName.append(artificialName);
         }
     }
-    if (assocEnd == c)
-        typeName = assocEnd->getName();
-    else
-        typeName = assocEnd->getFullyQualifiedName(".");
-    UMLPackage *enclosingPkg = c->getUMLPackage();
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-    if (enclosingPkg == umldoc->getRootFolder(Uml::mt_Logical))
-        typeName.append(".Object");
+    typeName = className(assocEnd, (assocEnd == c));
     if (hasNonUnityMultiplicity)
         typeName.append("_Array_Ptr");
     else if (assocType == Uml::at_Aggregation)
