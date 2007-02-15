@@ -232,27 +232,19 @@ bool CombinedFragmentWidget::showProperties() {
     return true;
 }
 
-// bool CombinedFragmentWidget::isCombinedFragment(WorkToolBar::ToolBar_Buttons tbb, CombinedFragmentType& resultType)
-// {
-//     bool status = true;
-//     switch (tbb) {
-// ;
-//     case WorkToolBar::tbb_Seq_Combined_Fragment:
-//         resultType = m_CombinedFragment;
-//         break;
-//     default:
-//         status = false;
-//         break;
-//     }
-//     return status;
-// }
-
 void CombinedFragmentWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement combinedFragmentElement = qDoc.createElement( "combinedFragmentwidget" );
     UMLWidget::saveToXMI( qDoc, combinedFragmentElement );
     combinedFragmentElement.setAttribute( "combinedFragmentname", m_Text );
     combinedFragmentElement.setAttribute( "documentation", m_Doc );
     combinedFragmentElement.setAttribute( "CombinedFragmenttype", m_CombinedFragment );
+
+    // save the corresponding floating dash line
+    if (m_dashLine) {
+        combinedFragmentElement.setAttribute( "dashlineId", ID2STR(m_dashLine->getID()) );
+        m_dashLine -> saveToXMI( qDoc, combinedFragmentElement );
+    }
+
     qElement.appendChild( combinedFragmentElement );
 }
 
@@ -262,8 +254,36 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement ) {
     m_Text = qElement.attribute( "combinedFragmentname", "" );
     m_Doc = qElement.attribute( "documentation", "" );
     QString type = qElement.attribute( "CombinedFragmenttype", "");
-    //KMessageBox::error(0, i18n(" type %1",type),i18n("type"));
+    
+    QString dashId = qElement.attribute( "dashlineId", "");
+    Uml::IDType dashlineId = STR2ID(dashId);
+    if (dashlineId != Uml::id_None) {
+        UMLWidget *flotdashline = m_pView -> findWidget( dashlineId );
+        if (flotdashline != NULL) {
+            m_dashLine = static_cast<FloatingDashLineWidget*>(flotdashline);
+            return true;
+        }
+    } 
+
+    //now load child elements
+    QDomNode node = qElement.firstChild();
+    QDomElement element = node.toElement();
+    if ( !element.isNull() ) {
+        QString tag = element.tagName();
+        if (tag == "floatingdashlinewidget") {
+            m_dashLine = new FloatingDashLineWidget( m_pView , dashlineId );
+            if( ! m_dashLine->loadFromXMI(element) ) {
+                // Most likely cause: The FloatingTextWidget is empty.
+                delete m_dashLine;
+                m_dashLine = NULL;
+            }
+        } else {
+            kError() << "MessageWidget::loadFromXMI: unknown tag "
+            << tag << endl;
+        }
+    }
     setCombinedFragmentType( (CombinedFragmentType)type.toInt() );
+    
     return true;
 }
 

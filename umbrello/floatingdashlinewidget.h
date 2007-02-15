@@ -80,6 +80,16 @@ public:
      */
     int getDiffY();
 
+     /**
+     * Creates the <floatingdashline> XMI element.
+     */
+    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+
+    /**
+     * Loads the <floatingdashline> XMI element.
+     */
+    bool loadFromXMI( QDomElement & qElement );
+
 private:
     /**
      * Text associated to the dash line

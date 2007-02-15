@@ -88,18 +88,6 @@ public:
     bool showProperties();
 
     /**
-     * Determines whether a toolbar button represents a combined fragment.
-     * CHECK: currently unused - can this be removed?
-     *
-     * @param tbb               The toolbar button enum input value.
-     * @param resultType        The CombinedFragmentType corresponding to tbb.
-     *                  This is only set if tbb is a CombinedFragment.
-     * @return  True if tbb represents a CombinedFragment.
-     */
-    static bool isCombinedFragment( WorkToolBar::ToolBar_Buttons tbb,
-                            CombinedFragmentType& resultType );
-
-    /**
      * Saves the widget to the <combinedFragmentwidget> XMI element.
      */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );

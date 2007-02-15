@@ -72,4 +72,26 @@ int FloatingDashLineWidget::getDiffY()
     return (getY() - m_yMin);
 }
 
+void FloatingDashLineWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+    QDomElement textElement = qDoc.createElement( "floatingdashlinewidget" );
+    UMLWidget::saveToXMI( qDoc, textElement );
+    textElement.setAttribute( "text", m_Text );
+    textElement.setAttribute( "y", m_y );
+    textElement.setAttribute( "minY", m_yMin );
+    textElement.setAttribute( "maxY", m_yMax );
+
+    qElement.appendChild( textElement );
+}
+
+bool FloatingDashLineWidget::loadFromXMI( QDomElement & qElement ) {
+    if( !UMLWidget::loadFromXMI( qElement ) )
+        return false;
+
+    m_yMax = qElement.attribute( "maxY", "" ).toInt();
+    m_yMin = qElement.attribute( "minY", "" ).toInt();
+    m_y = qElement.attribute( "y", "" ).toInt();
+    m_Text = qElement.attribute( "text", "" );
+
+}
+
 #include "floatingdashlinewidget.moc"

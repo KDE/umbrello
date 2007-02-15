@@ -163,7 +163,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
     UMLWidget *widget = NULL;
     if (tag == "statewidget" || tag == "notewidget" || tag == "boxwidget" ||
         tag == "floatingtext" || tag == "activitywidget" || tag == "forkjoin" || tag == "preconditionwidget" || tag == "endoflifewidget" ||
-        tag == "combinedFragmentwidget"  || tag == "signalwidget"  ||
+        tag == "combinedFragmentwidget"  || tag == "signalwidget"  || "floatingdashdinewidget" ||
             // tests for backward compatibility:
             tag == "UML:StateWidget" || tag == "UML:NoteWidget" ||
             tag=="UML:CombinedFragmentWidget" || tag == "UML:FloatingTextWidget" || tag == "UML:SignalWidget" || tag == "UML:ActivityWidget") {
