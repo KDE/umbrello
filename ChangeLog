@@ -1,5 +1,7 @@
 Version 1.5.7
+
 * Bugs fixed from http://bugs.kde.org:
+* Relationships for entities do not live outside of an entity relationship diagram (125146)
 * Javascript Code Generation creates bad format methods (135540)
 * Crash when deleting the link between a package and a class (141602)
 
