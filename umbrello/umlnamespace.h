@@ -107,6 +107,7 @@ enum Widget_Type
     wt_ForkJoin,                // does not have UMLObject representation
     wt_Precondition,		// does not have UMLObject representation
     wt_CombinedFragment,	// does not have UMLObject representation
+    wt_Object_Flow,             // does not have UMLObject representation
     wt_FloatingDashLine,        // does not have UMLObject representation
     wt_Signal,	                // does not have UMLObject representation
     wt_EndOfLife		

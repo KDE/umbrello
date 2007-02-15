@@ -33,6 +33,9 @@
 #include "umlview.h"
 #include "umldoc.h"
 #include "objectwidget.h"
+#include "objectflowwidget.h"
+
+
 
 using namespace Uml;
 
@@ -148,6 +151,10 @@ bool ToolBarStateOther::newWidget() {
             umlWidget = new CombinedFragmentWidget(m_pUMLView);
             break;
 
+        case WorkToolBar::tbb_Object_Flow:
+            umlWidget = new ObjectFlowWidget(m_pUMLView);
+            break;
+
         default:
             break;
     }
@@ -183,7 +190,10 @@ bool ToolBarStateOther::newWidget() {
         // It is pretty invisible otherwise.
         FloatingTextWidget* ft = (FloatingTextWidget*) umlWidget;
         ft->changeTextDlg();
-    }
+    } /*else if (getButton() == WorkToolBar::tbb_Object_Flow) {
+        Dialog_Utils::askNameForWidgetType(umlWidget, i18n("Enter Object Flow Name"),
+            i18n("Enter the Object Flow"), i18n("new Object Flow"));
+    } */
     // Create the widget. Some setup functions can remove the widget.
     if (umlWidget != NULL) {
         m_pUMLView->setupNewWidget(umlWidget);

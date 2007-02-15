@@ -325,6 +325,7 @@ set(libumbrello_SRCS
    seqlinewidget.cpp 
    statewidget.cpp 
    signalwidget.cpp
+   objectflowwidget.cpp
    stereotype.cpp 
    template.cpp 
    textblock.cpp 
