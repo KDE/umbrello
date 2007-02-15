@@ -193,7 +193,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
             widget = new EndOfLifeWidget(view, NULL, Uml::id_Reserved);
 	} else if (tag == "combinedFragmentwidget") {
             widget = new CombinedFragmentWidget(view, CombinedFragmentWidget::Ref, Uml::id_Reserved);
-        } else if (tag == "signalwidget ") {
+        } else if (tag == "signalwidget") {
             widget = new SignalWidget(view, SignalWidget::Send,  Uml::id_Reserved);
         }
     } else {
