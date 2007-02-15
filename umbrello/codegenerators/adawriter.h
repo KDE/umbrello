@@ -93,10 +93,9 @@ private:
 
     bool isOOClass (UMLClassifier *c);
 
-    QString className(UMLPackage *pkgOrClass, bool inOwnScope = true);
+    QString className(UMLClassifier *c, bool inOwnScope = true);
 
-    QString qualifiedName
-    (UMLPackage *p, bool withType = false, bool byValue = false);
+    QString packageName(UMLPackage *p);
 
     static const QString defaultPackageSuffix;
 

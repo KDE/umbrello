@@ -70,15 +70,14 @@ bool AdaWriter::isOOClass(UMLClassifier *c) {
     return true;
 }
 
-QString AdaWriter::className(UMLPackage *pkgOrClass, bool inOwnScope) {
+QString AdaWriter::className(UMLClassifier *c, bool inOwnScope) {
     // If the class has an enclosing package then it is assumed that
     // the class name is the type name; if the class does not have an
     // enclosing package then the class name acts as the Ada package
     // name.
     QString retval;
-    QString className = cleanName(pkgOrClass->getName());
-    UMLClassifier *c = dynamic_cast<UMLClassifier*>(pkgOrClass);
-    UMLPackage *umlPkg = pkgOrClass->getUMLPackage();
+    QString className = cleanName(c->getName());
+    UMLPackage *umlPkg = c->getUMLPackage();
     if (umlPkg == UMLApp::app()->getDocument()->getRootFolder(Uml::mt_Logical)) {
         if (! inOwnScope)
             retval = className + '.';
@@ -91,9 +90,7 @@ QString AdaWriter::className(UMLPackage *pkgOrClass, bool inOwnScope) {
     return retval;
 }
 
-//QString AdaWriter::scopeName(UMLPackage *pkgOrClass, bool inOwnScope) {
-
-QString AdaWriter::qualifiedName(UMLPackage *p, bool withType, bool byValue) {
+QString AdaWriter::packageName(UMLPackage *p) {
     // If the class has an enclosing package then it is assumed that
     // the class name is the type name; if the class does not have an
     // enclosing package then the class name acts as the Ada package
@@ -112,20 +109,6 @@ QString AdaWriter::qualifiedName(UMLPackage *p, bool withType, bool byValue) {
             retval.append(defaultPackageSuffix);
     } else {
         retval = umlPkg->getFullyQualifiedName(".");
-        if (c && isOOClass(c)) {
-            retval.append(".");
-            retval.append(className);
-        }
-    }
-    if (! withType)
-        return retval;
-    if (c && isOOClass(c)) {
-        retval.append(".Object");
-        if (! byValue)
-            retval.append("_Ptr");
-    } else {
-        retval.append(".");
-        retval.append(className);
     }
     return retval;
 }
@@ -177,7 +160,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 
     const bool isClass = !c->isInterface();
     QString classname = cleanName(c->getName());
-    QString fileName = qualifiedName(c).lower();
+    QString fileName = packageName(c).lower();
     fileName.replace('.', '-');
 
     //find an appropriate name for our file
@@ -211,7 +194,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     if (imports.count()) {
         for (UMLPackage *con = imports.first(); con; con = imports.next()) {
             if (con->getBaseType() != Uml::ot_Datatype)
-                ada << "with " << qualifiedName(con) << "; " << m_endl;
+                ada << "with " << packageName(con) << "; " << m_endl;
         }
         ada << m_endl;
     }
@@ -249,7 +232,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     }
 
     // Here comes the package proper.
-    QString pkg = qualifiedName(c);
+    QString pkg = packageName(c);
     ada << getIndent() << "package " << pkg << " is" << m_endl << m_endl;
     m_indentLevel++;
     if (c->getBaseType() == Uml::ot_Enum) {
@@ -349,11 +332,11 @@ void AdaWriter::writeClass(UMLClassifier *c) {
             QString member = cleanName(at->getName());
             ada << getIndent() << "procedure Set_" << member << " (";
             if (! at->getStatic())
-                ada << "Self : access Object; ";
+                ada << "Self : access " << name << "; ";
             ada << "To : " << at->getTypeName() << ");" << m_endl;
             ada << getIndent() << "function  Get_" << member;
             if (! at->getStatic())
-                ada << " (Self : access Object)";
+                ada << " (Self : access " << name << ")";
             ada << " return " << at->getTypeName() << ";" << m_endl
             << m_endl;
         }
@@ -380,7 +363,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     UMLAssociationList aggregations = c->getAggregations();
     UMLAssociationList compositions = c->getCompositions();
 
-    ada << getIndent() << "type Object is ";
+    ada << getIndent() << "type " << name << " is ";
     if (c->getAbstract())
         ada << "abstract ";
     if (superclasses.isEmpty()) {
@@ -507,8 +490,9 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
     ada << cleanName(op->getName()) << " ";
     if (! (op->getStatic() && atl.count() == 0))
         ada << "(";
+    UMLClassifier *parentClassifier = static_cast<UMLClassifier*>(op->getUMLPackage());
     if (! op->getStatic()) {
-        ada << "Self : access Object";
+        ada << "Self : access " << className(parentClassifier);
         if (atl.count())
             ada << ";" << m_endl;
     }
