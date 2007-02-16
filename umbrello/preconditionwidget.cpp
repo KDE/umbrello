@@ -80,6 +80,9 @@ void PreconditionWidget::draw(QPainter & p, int offsetX, int offsetY) {
     if (y <= m_pOw[Uml::A]->getY() + m_pOw[Uml::A]->getHeight() ) {
 	y = m_pOw[Uml::A]->getY() + m_pOw[Uml::A]->getHeight() + 15;
     }
+    if (y + h >= m_pOw[Uml::A]->getEndLineY()) {
+        y = m_pOw[Uml::A]->getEndLineY() - h;
+    }
     setY(y);
     UMLWidget::setPen(p);
     if ( UMLWidget::getUseFillColour() ) {
@@ -112,7 +115,7 @@ QSize PreconditionWidget::calculateSize() {
     height = height > PRECONDITION_HEIGHT ? height : PRECONDITION_HEIGHT;
     width += PRECONDITION_MARGIN * 2;
     height += PRECONDITION_MARGIN * 2;
-   
+    
     return QSize(width, height);
 
 }
