@@ -190,6 +190,10 @@ bool ToolBarStateOther::newWidget() {
         // It is pretty invisible otherwise.
         FloatingTextWidget* ft = (FloatingTextWidget*) umlWidget;
         ft->changeTextDlg();
+    } else if (getButton() == WorkToolBar::tbb_Object_Flow) {
+        Dialog_Utils::askNameForWidget(
+            umlWidget, i18n("Enter Object Flow Name"),
+            i18n("Enter Object Flow"), i18n("new object flow"));
     } /*else if (getButton() == WorkToolBar::tbb_Object_Flow) {
         Dialog_Utils::askNameForWidgetType(umlWidget, i18n("Enter Object Flow Name"),
             i18n("Enter the Object Flow"), i18n("new Object Flow"));

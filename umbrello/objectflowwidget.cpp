@@ -35,7 +35,6 @@
 ObjectFlowWidget::ObjectFlowWidget(UMLView * view, Uml::IDType id ): UMLWidget(view, id)
 {
     UMLWidget::setBaseType( Uml::wt_Object_Flow ); 
-    //setObjectFlowType( objectflowType );
     updateComponentSize(); 
 } 
 
@@ -43,7 +42,7 @@ ObjectFlowWidget::~ObjectFlowWidget() {}
  
 void ObjectFlowWidget::draw(QPainter & p, int offsetX, int offsetY) { 
     int w = width(); 
-    int h = height(); 
+    int h = height();
    
     UMLWidget::setPen(p); 
         if ( UMLWidget::getUseFillColour() ) { 
@@ -52,14 +51,12 @@ void ObjectFlowWidget::draw(QPainter & p, int offsetX, int offsetY) {
         { 
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL); 
             const int fontHeight  = fm.lineSpacing(); 
-            //int middleX = w / 2; 
             int textStartY = (h / 2) - (fontHeight / 2);
-            p.drawRect(offsetX, offsetY, w, h /*,(h * 60) / w, 60*/); 
+            p.drawRect(offsetX, offsetY, w, h); 
             p.drawLine(offsetX + 10, offsetY + (h/2), (offsetX + w)-10,  offsetY + (h/2)  );
             p.setPen(Qt::black);
             p.setFont( UMLWidget::getFont() ); 
-            p.drawText(offsetX + OBJECTFLOW_MARGIN, offsetY + textStartY,
-                       w - OBJECTFLOW_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
+            p.drawText(offsetX + OBJECTFLOW_MARGIN, (offsetY + textStartY/2)-4, w - OBJECTFLOW_MARGIN * 2, fontHeight, Qt::AlignHCenter, getName());
         }
         UMLWidget::setPen(p);
     if(m_bSelected)
@@ -68,7 +65,6 @@ void ObjectFlowWidget::draw(QPainter & p, int offsetX, int offsetY) {
  
 QSize ObjectFlowWidget::calculateSize() {
     int width = 10, height = 10;
-//     if ( m_ObjectFlowType == Normal ) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing(); 
         const int textWidth = fm.width(getName());
@@ -77,59 +73,48 @@ QSize ObjectFlowWidget::calculateSize() {
         height = height > OBJECTFLOW_HEIGHT ? height : OBJECTFLOW_HEIGHT; 
         width += OBJECTFLOW_MARGIN * 2;
         height += OBJECTFLOW_MARGIN * 2; 
-//     } else if ( m_ObjectFlowType == Branch ) {
-//         width = height = 20;
-//     }
+
     return QSize(width, height); 
 }
 
-// ObjectFlowWidget::ObjectFlowType ObjectFlowWidget::getObjectFlowType() const {
-//     return m_ObjectFlowType;
-// }
-
-// void ObjectFlowWidget::setObjectFlowType( ObjectFlowType objectflowType ) {
-//     m_ObjectFlowType = objectflowType;
-//     UMLWidget::m_bResizable = (m_ObjectFlowType == Normal);
-// }
-
-void ObjectFlowWidget::slotMenuSelection(int sel) { 
-    bool done = false;  
-
-    bool ok = false; 
-    QString name = m_Text; 
-
-    switch( sel ) { 
-    case ListPopupMenu::mt_Rename: 
-        name = KInputDialog::getText( i18n("Enter Object Flow Name"), i18n("Enter the name of the new Object Flow:"), m_Text, &ok );
-        if( ok && name.length() > 0 ) 
-            m_Text = name; 
-        done = true; 
-        break; 
- 
-    case ListPopupMenu::mt_Properties:
-        showProperties(); 
-        done = true;
-        break;
-    }
-
-    if( !done ) 
-        UMLWidget::slotMenuSelection( sel ); 
-}
-
- bool ObjectFlowWidget::showProperties() { 
-//     DocWindow *docwindow = UMLApp::app()->getDocWindow();
-//     docwindow->updateDocumentation(false);
+// void ObjectFlowWidget::slotMenuSelection(int sel) { 
+//     bool done = false;  
 // 
-//     ObjectFlowDialog dialog(m_pView, this);
-//     bool modified = false;
-//     if (dialog.exec() && dialog.getChangesMade()) {
-//         docwindow->showDocumentation(this, true);
-//         UMLApp::app()->getDocument()->setModified(true);
-//         modified = true;
+//     bool ok = false; 
+//     QString name = m_Text; 
+// 
+//     switch( sel ) { 
+//     case ListPopupMenu::mt_Rename: 
+//         name = KInputDialog::getText( i18n("Enter Object Flow Name"), i18n("Enter the name of the new Object Flow:"), m_Text, &ok );
+//         if( ok && name.length() > 0 ) 
+//             m_Text = name; 
+//         done = true; 
+//         break; 
+//  
+//     case ListPopupMenu::mt_Properties:
+//         showProperties(); 
+//         done = true;
+//         break;
 //     }
 // 
-     return true; 
- }
+//     if( !done ) 
+//         UMLWidget::slotMenuSelection( sel ); 
+// }
+
+//  bool ObjectFlowWidget::showProperties() { 
+// //     DocWindow *docwindow = UMLApp::app()->getDocWindow();
+// //     docwindow->updateDocumentation(false);
+// // 
+// //     ObjectFlowDialog dialog(m_pView, this);
+// //     bool modified = false;
+// //     if (dialog.exec() && dialog.getChangesMade()) {
+// //         docwindow->showDocumentation(this, true);
+// //         UMLApp::app()->getDocument()->setModified(true);
+// //         modified = true;
+// //     }
+// // 
+//      return true; 
+ //}
 // 
 // bool ObjectFlowWidget::isObjectFlow(WorkToolBar::ToolBar_Buttons tbb,
 //                                 ObjectFlowType& resultType)

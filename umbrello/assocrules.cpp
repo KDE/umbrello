@@ -354,6 +354,8 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
     { at_Activity,      wt_Activity,    wt_Activity,    true,   false,  true,   true  },
     { at_Activity,      wt_ForkJoin,    wt_Activity,    true,   false,  true,   true  },
     { at_Activity,      wt_Activity,    wt_ForkJoin,    true,   false,  true,   true  },
+    { at_Activity,      wt_Activity,    wt_Object_Flow,    true,   false,  true,   true  },
+    { at_Activity,      wt_Object_Flow,    wt_Activity,    true,   false,  true,   true  },
     { at_Anchor,        wt_Class,       wt_Note,        false,  false,  false,  false },
     { at_Anchor,        wt_Package,     wt_Note,        false,  false,  false,  false },
     { at_Anchor,        wt_Interface,   wt_Note,        false,  false,  false,  false },

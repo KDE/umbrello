@@ -68,8 +68,8 @@ public:
 //      * Show a properties dialog for an ObjectFlowWidget.
 //      *
 //      * @return  True if we modified the ObjectFlow.
-//      */
-    bool showProperties();
+     
+//     bool showProperties();
 // 
 //     /**
 //      * Determines whether a toolbar button represents an ObjectFlow.
@@ -104,12 +104,12 @@ protected:
      */
    // ObjectFlow m_ObjectFlowType;
 
-public slots:
+//public slots:
 
     /**
      * Captures any popup menu signals for menus it created.
      */
-    void slotMenuSelection(int sel);
+   // void slotMenuSelection(int sel);
 };
 
 #endif
