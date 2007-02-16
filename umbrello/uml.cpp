@@ -580,6 +580,13 @@ void UMLApp::initView() {
     m_pQUndoView->setCleanIcon(KIcon("filesave"));
     m_pQUndoView->setStack(m_pUndoStack);
     
+    // Create the property viewer
+    m_propertyDock = new QDockWidget(i18n("Properties"), this);
+    addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);
+    
+    tabifyDockWidget(m_documentationDock, m_cmdHistoryDock);
+    tabifyDockWidget(m_cmdHistoryDock, m_propertyDock);
+    
     QByteArray dockConfig;
     m_config->readEntry("DockConfig", dockConfig);
     restoreState(dockConfig); //reposition all the DockWindows to their saved positions

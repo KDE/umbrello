@@ -460,6 +460,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 
     if (newWidget == NULL)
         return;
+    
     newWidget->setVisible( true );
     newWidget->setActivated();
     newWidget->setFont( getFont() );

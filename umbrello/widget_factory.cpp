@@ -65,7 +65,6 @@ UMLWidget *createWidget(UMLView *view, UMLObject *o) {
     int y = pos.y();
     Uml::Diagram_Type diagramType = view->getType();
     Uml::Object_Type type = o->getBaseType();
-    UMLDoc *doc = UMLApp::app()->getDocument();
     UMLWidget *newWidget = NULL;
     switch (type) {
     case Uml::ot_Actor:
@@ -143,8 +142,6 @@ UMLWidget *createWidget(UMLView *view, UMLObject *o) {
     if (newWidget) {
         newWidget->setX( pos.x() );
         newWidget->setY( y );
-
-    	UMLApp::app()->executeCommand(new Uml::cmdCreateWidget(view, newWidget));
     }
 
     return newWidget;
@@ -257,9 +254,9 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
                 kWarning() << "Trying to create an unknown widget:" << tag << endl;
             }
         }
-        return widget;
+        
     }
-
+    return widget;
 }
 }   // end namespace Widget_Factory
 

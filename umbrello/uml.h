@@ -959,6 +959,11 @@ private:
     QDockWidget* m_cmdHistoryDock;
 
     /**
+     * Contains the property browser widget
+    */
+    QDockWidget* m_propertyDock;
+    
+    /**
      * Documentation window.
      */
     DocWindow* m_pDocWindow;
