@@ -24,6 +24,7 @@
 #include <qstringlist.h>
 #include <qregexp.h>
 #include <qtextstream.h>
+#include <qdatetime.h>
 
 // kde includes
 #include <kconfig.h>
@@ -551,7 +552,10 @@ QString CodeGenerationPolicy::getHeadingFile(QString str) {
     //do variable substitution
     retstr.replace( QRegExp("%author%"),QString(getenv("USER")));  //get the user name from some where else
     retstr.replace( QRegExp("%headingpath%"),filename );
-    //the replace filepath, time parts are now in the code document updateHeader method (which you may override as needed)...
+    retstr.replace( QRegExp("%time%"), QTime::currentTime().toString());
+    retstr.replace( QRegExp("%date%"), QDate::currentDate().toString());
+    // the replace filepath, time parts are also in the code document updateHeader method
+    // (which is not a virtual function)...
 
     return retstr;
 }
