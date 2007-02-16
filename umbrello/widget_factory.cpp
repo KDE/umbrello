@@ -197,7 +197,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
             widget = new CombinedFragmentWidget(view, CombinedFragmentWidget::Ref, Uml::id_Reserved);
         } else if (tag == "signalwidget") {
             widget = new SignalWidget(view, SignalWidget::Send,  Uml::id_Reserved);
-        } else if (tag == "floatingdashline") {
+        } else if (tag == "floatingdashlinewidget") {
             widget = new FloatingDashLineWidget(view,Uml::id_Reserved);
         } else if (tag == "objectflowwidget") {
             widget = new ObjectFlowWidget(view,Uml::id_Reserved);
