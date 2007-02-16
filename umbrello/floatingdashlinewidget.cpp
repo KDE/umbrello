@@ -56,10 +56,6 @@ bool FloatingDashLineWidget::onLine(const QPoint &point) {
    return false;
 }
 
-void FloatingDashLineWidget::selectLine(bool sel /* =true */) {
-
-}
-
 void FloatingDashLineWidget::setY(int y)
 {
     if(y >= m_yMin + FLOATING_DASH_LINE_MARGIN && y <= m_yMax - FLOATING_DASH_LINE_MARGIN)

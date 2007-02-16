@@ -203,62 +203,63 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
             widget = new ObjectFlowWidget(view,Uml::id_Reserved);
     	} 
 	else {
-        // Find the UMLObject and create the Widget to represent it
-        Uml::IDType id = STR2ID(idStr);
-        UMLDoc *umldoc = UMLApp::app()->getDocument();
-        UMLObject *o = umldoc->findObjectById(id);
-        if (o == NULL) {
-            kError() << "makeWidgetFromXMI: cannot find object with id "
+            // Find the UMLObject and create the Widget to represent it
+            Uml::IDType id = STR2ID(idStr);
+            UMLDoc *umldoc = UMLApp::app()->getDocument();
+            UMLObject *o = umldoc->findObjectById(id);
+            if (o == NULL) {
+                kError() << "makeWidgetFromXMI: cannot find object with id "
                       << ID2STR(id) << endl;
-            return NULL;
-        }
+                return NULL;
+            }
 
-        if (tag == "actorwidget"
-                || tag == "UML:ActorWidget") {           // for bkwd compatibility
-            if (validateObjType(Uml::ot_Actor, o))
-                widget = new ActorWidget(view, static_cast<UMLActor*>(o));
-        } else if (tag == "usecasewidget"
-                   || tag == "UML:UseCaseWidget") {  // for bkwd compatibility
-            if (validateObjType(Uml::ot_UseCase, o))
-                widget = new UseCaseWidget(view, static_cast<UMLUseCase*>(o));
-        } else if (tag == "classwidget"
-                   || tag == "UML:ClassWidget"       // for bkwd compatibility
-                   || tag == "UML:ConceptWidget") {  // for bkwd compatibility
-            if (validateObjType(Uml::ot_Class, o))
-                widget = new ClassifierWidget(view, static_cast<UMLClassifier*>(o));
-        } else if (tag == "packagewidget") {
-            if (validateObjType(Uml::ot_Package, o))
-                widget = new PackageWidget(view, static_cast<UMLPackage*>(o));
-        } else if (tag == "componentwidget") {
-            if (validateObjType(Uml::ot_Component, o))
-                widget = new ComponentWidget(view, static_cast<UMLComponent*>(o));
-        } else if (tag == "nodewidget") {
-            if (validateObjType(Uml::ot_Node, o))
-                widget = new NodeWidget(view, static_cast<UMLNode*>(o));
-        } else if (tag == "artifactwidget") {
-            if (validateObjType(Uml::ot_Artifact, o))
-                widget = new ArtifactWidget(view, static_cast<UMLArtifact*>(o));
-        } else if (tag == "interfacewidget") {
-            if (validateObjType(Uml::ot_Interface, o))
-                widget = new ClassifierWidget(view, static_cast<UMLClassifier*>(o));
-        } else if (tag == "datatypewidget") {
-            if (validateObjType(Uml::ot_Datatype, o))
-                widget = new DatatypeWidget(view, static_cast<UMLClassifier*>(o));
-        } else if (tag == "enumwidget") {
-            if (validateObjType(Uml::ot_Enum, o))
-                widget = new EnumWidget(view, static_cast<UMLEnum*>(o));
-        } else if (tag == "entitywidget") {
-            if (validateObjType(Uml::ot_Entity, o))
-                widget = new EntityWidget(view, static_cast<UMLEntity*>(o));
-        } else if (tag == "objectwidget"
-                   || tag == "UML:ObjectWidget") {  // for bkwd compatibility
-            widget = new ObjectWidget(view, o );
-        } else {
-            kWarning() << "Trying to create an unknown widget:" << tag << endl;
+            if (tag == "actorwidget"
+                    || tag == "UML:ActorWidget") {           // for bkwd compatibility
+                if (validateObjType(Uml::ot_Actor, o))
+                    widget = new ActorWidget(view, static_cast<UMLActor*>(o));
+            } else if (tag == "usecasewidget"
+                       || tag == "UML:UseCaseWidget") {  // for bkwd compatibility
+                if (validateObjType(Uml::ot_UseCase, o))
+                    widget = new UseCaseWidget(view, static_cast<UMLUseCase*>(o));
+            } else if (tag == "classwidget"
+                       || tag == "UML:ClassWidget"       // for bkwd compatibility
+                       || tag == "UML:ConceptWidget") {  // for bkwd compatibility
+                if (validateObjType(Uml::ot_Class, o))
+                    widget = new ClassifierWidget(view, static_cast<UMLClassifier*>(o));
+            } else if (tag == "packagewidget") {
+                if (validateObjType(Uml::ot_Package, o))
+                    widget = new PackageWidget(view, static_cast<UMLPackage*>(o));
+            } else if (tag == "componentwidget") {
+                if (validateObjType(Uml::ot_Component, o))
+                    widget = new ComponentWidget(view, static_cast<UMLComponent*>(o));
+            } else if (tag == "nodewidget") {
+                if (validateObjType(Uml::ot_Node, o))
+                    widget = new NodeWidget(view, static_cast<UMLNode*>(o));
+            } else if (tag == "artifactwidget") {
+                if (validateObjType(Uml::ot_Artifact, o))
+                    widget = new ArtifactWidget(view, static_cast<UMLArtifact*>(o));
+            } else if (tag == "interfacewidget") {
+                if (validateObjType(Uml::ot_Interface, o))
+                    widget = new ClassifierWidget(view, static_cast<UMLClassifier*>(o));
+            } else if (tag == "datatypewidget") {
+                if (validateObjType(Uml::ot_Datatype, o))
+                    widget = new DatatypeWidget(view, static_cast<UMLClassifier*>(o));
+            } else if (tag == "enumwidget") {
+                if (validateObjType(Uml::ot_Enum, o))
+                    widget = new EnumWidget(view, static_cast<UMLEnum*>(o));
+            } else if (tag == "entitywidget") {
+                if (validateObjType(Uml::ot_Entity, o))
+                    widget = new EntityWidget(view, static_cast<UMLEntity*>(o));
+            } else if (tag == "objectwidget"
+                       || tag == "UML:ObjectWidget") {  // for bkwd compatibility
+                widget = new ObjectWidget(view, o );
+            } else {
+                kWarning() << "Trying to create an unknown widget:" << tag << endl;
+            }
         }
+        return widget;
     }
-    return widget;
-}
 
+}
 }   // end namespace Widget_Factory
 
