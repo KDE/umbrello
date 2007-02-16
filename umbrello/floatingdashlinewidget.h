@@ -17,6 +17,9 @@
 #define FLOATING_DASH_LINE_MARGIN 25
 #define FLOATING_DASH_LINE_TEXT_MARGIN 5
 
+/* how many pixels a user could click around a point */
+#define POINT_DELTA 5
+
 
 /**
  * This class is used to draw dash lines for UML combined fragments. A FloatingDashLineWidget
@@ -49,6 +52,12 @@ public:
      * Overrides the standard paint event.
      */
     void draw(QPainter & p, int offsetX, int offsetY);
+
+    
+     /**
+     * Returns true if the given point is near the floatingdashline 
+     */
+     bool onLine(const QPoint & point);
 
     /**
      * Sets m_text

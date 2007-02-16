@@ -263,7 +263,6 @@ bool LinePath::removePoint( int pointIndex, const QPoint &point, unsigned short 
 
 bool LinePath::setStartEndPoints( const QPoint &start, const QPoint &end ) {
     int count = m_LineList.count();
-    kDebug() << "setStartEndPoints!!!!!!!!!!!!! " <<count <<endl;
     if( count == 0 ) {
         Q3CanvasLine * line = new Q3CanvasLine(getCanvas() );
         line -> setPoints( start.x(), start.y(),end.x(),end.y() );

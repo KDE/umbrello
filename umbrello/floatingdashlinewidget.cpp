@@ -12,6 +12,7 @@
 // own header
 #include "floatingdashlinewidget.h"
 #include "umlview.h"
+#include "widget_utils.h"
 
 // qt includes
 #include <qpainter.h>
@@ -44,6 +45,19 @@ void FloatingDashLineWidget::draw(QPainter & p, int offsetX, int offsetY)
 void FloatingDashLineWidget::setText(QString text)
 {
     m_text = text;
+}
+
+bool FloatingDashLineWidget::onLine(const QPoint &point) {
+ /*check if the given point is the start or end point of the line */
+    if (( (abs( getY() + getHeight() - point.y() )) <= POINT_DELTA) || (abs( getY() - point.y() ) <= POINT_DELTA)) {
+        return true;
+    }
+    /* check if the given point is the start or end point of the line */
+   return false;
+}
+
+void FloatingDashLineWidget::selectLine(bool sel /* =true */) {
+
 }
 
 void FloatingDashLineWidget::setY(int y)

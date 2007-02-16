@@ -55,6 +55,7 @@
 #include "preconditionwidget.h"
 #include "endoflifewidget.h"
 #include "signalwidget.h"
+#include "floatingdashlinewidget.h"
 #include "cmds.h"
 
 namespace Widget_Factory {
@@ -196,10 +197,12 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
             widget = new CombinedFragmentWidget(view, CombinedFragmentWidget::Ref, Uml::id_Reserved);
         } else if (tag == "signalwidget") {
             widget = new SignalWidget(view, SignalWidget::Send,  Uml::id_Reserved);
+        } else if (tag == "floatingdashline") {
+            widget = new FloatingDashLineWidget(view,Uml::id_Reserved);
         } else if (tag == "objectflowwidget") {
             widget = new ObjectFlowWidget(view,Uml::id_Reserved);
-        }
-    } else {
+    	} 
+	else {
         // Find the UMLObject and create the Widget to represent it
         Uml::IDType id = STR2ID(idStr);
         UMLDoc *umldoc = UMLApp::app()->getDocument();
