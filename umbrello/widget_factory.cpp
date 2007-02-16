@@ -45,6 +45,7 @@
 #include "boxwidget.h"
 #include "associationwidget.h"
 #include "objectwidget.h"
+#include "objectflowwidget.h"
 #include "messagewidget.h"
 #include "statewidget.h"
 #include "forkjoinwidget.h"
@@ -163,10 +164,10 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
     UMLWidget *widget = NULL;
     if (tag == "statewidget" || tag == "notewidget" || tag == "boxwidget" ||
         tag == "floatingtext" || tag == "activitywidget" || tag == "forkjoin" || tag == "preconditionwidget" || tag == "endoflifewidget" ||
-        tag == "combinedFragmentwidget"  || tag == "signalwidget"  || tag == "floatingdashlinewidget" ||
+        tag == "combinedFragmentwidget"  || tag == "signalwidget"  || tag == "objectflowwidget" || tag == "floatingdashlinewidget" ||
             // tests for backward compatibility:
             tag == "UML:StateWidget" || tag == "UML:NoteWidget" ||
-            tag=="UML:CombinedFragmentWidget" || tag == "UML:FloatingTextWidget" || tag == "UML:SignalWidget" || tag == "UML:ActivityWidget") {
+            tag=="UML:CombinedFragmentWidget" || tag == "UML:FloatingTextWidget" || tag == "UML:SignalWidget" || tag == "UML:ActivityWidget" || tag == "UML:ObjectFlowWidget" ) {
         // Loading of widgets which do NOT represent any UMLObject, 
         // just graphic stuff with no real model information
         //FIXME while boxes and texts are just diagram objects, activities and
@@ -195,6 +196,8 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
             widget = new CombinedFragmentWidget(view, CombinedFragmentWidget::Ref, Uml::id_Reserved);
         } else if (tag == "signalwidget") {
             widget = new SignalWidget(view, SignalWidget::Send,  Uml::id_Reserved);
+        } else if (tag == "objectflowwidget") {
+            widget = new ObjectFlowWidget(view,Uml::id_Reserved);
         }
     } else {
         // Find the UMLObject and create the Widget to represent it

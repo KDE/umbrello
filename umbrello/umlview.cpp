@@ -87,6 +87,7 @@
 #include "signalwidget.h"
 #include "forkjoinwidget.h"
 #include "activitywidget.h"
+#include "objectflowwidget.h"
 #include "seqlinewidget.h"
 #include "uniqueid.h"
 #include "umllistviewitemlist.h"
@@ -1704,7 +1705,32 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
             m_WidgetList.append( pWidget );
         }
         break;
-
+     
+    case wt_Object_Flow:
+        {
+            ObjectWidget* pObjectWidget = static_cast<ObjectWidget*>(pWidget);
+            if (pObjectWidget == NULL) {
+                kDebug() << "UMLView::addWidget(): pObjectWidget is NULL" << endl;
+                return false;
+            }
+            Uml::IDType newID = log->findNewID( pWidget -> getID() );
+            if (newID == Uml::id_None) {
+                return false;
+            }
+            pObjectWidget -> setID( newID );
+            Uml::IDType nNewLocalID = getLocalID();
+            Uml::IDType nOldLocalID = pObjectWidget -> getLocalID();
+            m_pIDChangesLog->addIDChange( nOldLocalID, nNewLocalID );
+            pObjectWidget -> setLocalID( nNewLocalID );
+            UMLObject *pObject = m_pDoc -> findObjectById( newID );
+            if( !pObject ) {
+                kDebug() << "addWidget::Can't find UMLObject" << endl;
+                return false;
+            }
+            pWidget -> setUMLObject( pObject );
+            m_WidgetList.append( pWidget );
+        }
+        break;
     default:
         kDebug() << "Trying to add an invalid widget type" << endl;
         return false;
@@ -3186,6 +3212,7 @@ bool UMLView::loadWidgetsFromXMI( QDomElement & qElement ) {
     while( !widgetElement.isNull() ) {
         widget = loadWidgetFromXMI(widgetElement);
         if (widget) {
+	kDebug() << "load widgets from xmi !!!! " << widget->getName() << endl;
             m_WidgetList.append( widget );
             // In the interest of best-effort loading, in case of a
             // (widget == NULL) we still go on.
@@ -3208,6 +3235,7 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
     }
 
     QString tag  = widgetElement.tagName();
+	kDebug() << "load widget from xmi tag!!!! " << tag << endl;
     QString idstr  = widgetElement.attribute( "xmi.id", "-1" );
     widget = Widget_Factory::makeWidgetFromXMI(tag, idstr, this);
     

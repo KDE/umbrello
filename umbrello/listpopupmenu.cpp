@@ -36,6 +36,7 @@
 #include "activitywidget.h"
 #include "preconditionwidget.h"
 #include "combinedfragmentwidget.h"
+#include "objectflowwidget.h"
 #include "forkjoinwidget.h"
 #include "objectwidget.h"
 
@@ -355,7 +356,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         insertStdItems(false, type);
         insertStdItem(mt_Line_Color);
         break;
-
+    case Uml::wt_Object_Flow:
     case Uml::wt_Signal:
 	setupColor( object -> getUseFillColour() );
         insertSeparator();

@@ -147,7 +147,7 @@ QSize ObjectFlowWidget::calculateSize() {
 void ObjectFlowWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) { 
     QDomElement ObjectFlowElement = qDoc.createElement( "objectflowwidget" );
     UMLWidget::saveToXMI( qDoc, ObjectFlowElement ); 
-   // ObjectFlowElement.setAttribute( "objectflowname", m_Text ); 
+    ObjectFlowElement.setAttribute( "objectflowname", m_Text ); 
     ObjectFlowElement.setAttribute( "documentation", m_Doc ); 
     qElement.appendChild( ObjectFlowElement ); 
 }
@@ -155,11 +155,11 @@ void ObjectFlowWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) 
 bool ObjectFlowWidget::loadFromXMI( QDomElement & qElement ) { 
     if( !UMLWidget::loadFromXMI( qElement ) ) 
         return false; 
-    //m_Text = qElement.attribute( "objectflowname", "" ); 
+    m_Text = qElement.attribute( "objectflowname", "" ); 
     m_Doc = qElement.attribute( "documentation", "" );
-   /* QString type = qElement.attribute( "objectflowtype", "1" );
-    setObjectFlowType( (ObjectFlowType)type.toInt() );
-    */return true; 
+    //QString type = qElement.attribute( "objectflowtype", "1" );
+  //  setObjectFlowType( (ObjectFlowType)type.toInt() );
+    return true; 
 }
 
 
