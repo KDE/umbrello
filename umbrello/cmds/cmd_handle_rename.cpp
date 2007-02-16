@@ -45,12 +45,12 @@ namespace Uml
 	
 	void cmdHandleRename::redo()
 	{
-		//ftw->changeName(newstring);
+		ftw->changeName(newstring);
 	}
 	
 	void cmdHandleRename::undo()
 	{	
-		//ftw->changeName(oldstring);
+		ftw->changeName(oldstring);
 	}
 
 }

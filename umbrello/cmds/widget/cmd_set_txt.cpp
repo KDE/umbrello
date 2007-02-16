@@ -34,7 +34,9 @@ namespace Uml
 
 	cmdSetTxt::cmdSetTxt(FloatingTextWidget* _ftw, QString txt):ftw(_ftw),newstring(txt)
 	{	
+
 		oldstring = _ftw->getText();
+kDebug() << "la valeur de l'oldstring est: "<< oldstring << ", la valeur de la newstring est: "<< newstring <<endl;
 	}
 	
 	cmdSetTxt::~cmdSetTxt()
@@ -44,12 +46,16 @@ namespace Uml
 	
 	void cmdSetTxt::redo()
 	{
+
 		ftw->setTextcmd(newstring);
+kDebug() << "string apres redo " << ftw->getText()<< ", la valeur de l'oldstring est: "<< oldstring << ", la valeur de la newstring est: "<< newstring <<endl;
 	}
 	
 	void cmdSetTxt::undo()
 	{	
+		ftw->setName("balbalbalbalbla");
 		ftw->setTextcmd(oldstring);
+kDebug() << "string apres undo: " << ftw->getText()<< "la valeur de l'oldstring est: "<< oldstring << "la valeur de la newstring est: "<< newstring <<endl;
 	}
 
 }

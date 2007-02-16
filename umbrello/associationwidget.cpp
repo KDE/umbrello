@@ -330,7 +330,7 @@ void AssociationWidget::setName(const QString &strName) {
         if (m_role[B].m_pWidget)
             m_pName->setUMLObject(m_role[B].m_pWidget->getUMLObject());
     } else {
-        m_pName->setTextcmd(strName);
+        m_pName->setText(strName);
         if (strName.isEmpty()) {
             m_pName->hide();
             m_pName = NULL;
@@ -2530,11 +2530,11 @@ void AssociationWidget::slotMenuSelection(int sel) {
     case ListPopupMenu::mt_Line_Color:
     case ListPopupMenu::mt_Line_Color_Selection:
         {
-            QColor newColour;
+       /*     QColor newColour;
             if( KColorDialog::getColor(newColour) ) {
                 m_pView->selectionSetLineColor(newColour);
                 m_umldoc->setModified(true);
-            }
+            }*/
         }
         break;
 

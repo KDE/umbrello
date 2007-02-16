@@ -1,4 +1,3 @@
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -34,19 +33,10 @@
 
 namespace Uml
 {
-	cmdChangeFillColor::cmdChangeFillColor(	/* obj1: m_pDoc   */	UMLDoc *doc
-											/* obj2: m_pView  */	, UMLView *view
-											/* obj3: newColor */	, QColor col):already(false)
+	cmdChangeFillColor::cmdChangeFillColor(UMLWidget *w, QColor col):UMLw(w),color(col)
 	{
-		UMLWidget * widget = view->getFirstMultiSelectedWidget();
-		pDoc=doc;
-		pView=view;
-		//oldColor=pView->getFillColour();
-		color = col;
-		oldColor= widget -> getFillColor() ;
-		//widget -> setFillColour(color);
-		//pView -> selectionSetFillColor( col );
-		pDoc -> setModified(true);
+		setText(i18n("Change Fill Color"));
+		oldColor= w -> getFillColor() ;
 	}
 
 	cmdChangeFillColor::~cmdChangeFillColor()
@@ -55,14 +45,12 @@ namespace Uml
 	}
 	void cmdChangeFillColor::redo()
 	{
-			pView -> selectionSetFillColor( color );
-        	pDoc -> setModified(true);
+		UMLw -> setFillColourcmd( color );
 	}
 	
 	void cmdChangeFillColor::undo()
 	{	
 		
-		pView -> selectionSetFillColor( oldColor );
-        pDoc -> setModified(true);
+		UMLw -> setFillColourcmd( oldColor );
 	}
 }

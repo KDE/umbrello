@@ -31,12 +31,12 @@ namespace Uml
 	
 	void cmdRenameUMLObject::redo()
 	{
-		m_obj->setName(m_name);
+		m_obj->setNamecmd(m_name);
 	}
 	
 	void cmdRenameUMLObject::undo()
 	{
-		m_obj->setName(m_oldname);
+		m_obj->setNamecmd(m_oldname);
 	}
 
 }

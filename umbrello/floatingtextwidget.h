@@ -224,6 +224,11 @@ public:
     void handleRename();
 
     /**
+     * Change Name
+     */
+    void changeName(QString newText);
+
+    /**
      * Shows an operation dialog box.
      */
     void showOpDlg();

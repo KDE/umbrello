@@ -25,8 +25,7 @@ namespace Uml
 	{
 		
 		
-		UMLDoc *pDoc;
-		UMLView *pView;
+		UMLWidget *UMLw;
 				
 		/* ancienne couleur */
 		QColor oldColor;
@@ -34,12 +33,8 @@ namespace Uml
 		/* nouvelle couleur */
 		QColor color;
 				
-		bool		already;
-				
 		public:
-			cmdChangeFillColor(/* obj1: m_pDoc   */UMLDoc *doc
-							/* obj2: m_pView  */, UMLView *view
-							/* obj3: newColor */, QColor col);
+			cmdChangeFillColor(UMLWidget *w, QColor col);
 			~cmdChangeFillColor();
 			void redo();
 			void undo();

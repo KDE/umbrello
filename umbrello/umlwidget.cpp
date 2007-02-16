@@ -288,9 +288,13 @@ void UMLWidget::slotMenuSelection(int sel) {
                 wt == wt_Component || wt == wt_Artifact ||
                 wt == wt_Node || wt == wt_Enum || wt == wt_Entity ||
                 (wt == wt_Class && m_pView -> getType() == dt_Class)) {
-            showProperties();
+ 		UMLApp::app()->BeginMacro("Change Properties");
+           	 showProperties();
+		UMLApp::app()->EndMacro();
         } else if (wt == wt_Object) {
-            m_pObject->showProperties();
+ 		UMLApp::app()->BeginMacro("Change Properties");
+            	m_pObject->showProperties();
+		UMLApp::app()->EndMacro();
         } else {
             kWarning() << "making properties dialog for unknown widget type" << endl;
         }
@@ -302,8 +306,9 @@ void UMLWidget::slotMenuSelection(int sel) {
         widget = m_pView->getFirstMultiSelectedWidget();
         if (widget) { newColour = widget->getLineColor(); }
         if( KColorDialog::getColor(newColour) ) {
-				UMLApp::app()->executeCommand(new cmdChangeLineColor(m_pDoc,m_pView,newColour));
-            
+            m_pView -> selectionSetLineColor( newColour );
+            m_pDoc -> setModified(true);
+
         }
         break;
 
@@ -312,7 +317,8 @@ void UMLWidget::slotMenuSelection(int sel) {
         widget = m_pView->getFirstMultiSelectedWidget();
         if (widget) { newColour = widget->getFillColour(); }
         if ( KColorDialog::getColor(newColour) ) {
-				UMLApp::app()->executeCommand(new cmdChangeFillColor(m_pDoc,m_pView,newColour));
+            m_pView -> selectionSetFillColor( newColour );
+            m_pDoc -> setModified(true);
         }
         break;
 
@@ -445,9 +451,13 @@ void UMLWidget::setUseFillColour(bool fc) {
     update();
 }
 
-void UMLWidget::setLineColor(const QColor &colour) {
+void UMLWidget::setLineColorcmd(const QColor &colour) {
     WidgetBase::setLineColor(colour);
     update();
+}
+
+void UMLWidget::setLineColor(const QColor &colour) {
+	UMLApp::app()->executeCommand(new cmdChangeLineColor(this,colour));
 }
 
 QColor UMLWidget::getLineColor() {
@@ -460,6 +470,10 @@ void UMLWidget::setLineWidth(uint width) {
 }
 
 void UMLWidget::setFillColour(const QColor &colour) {
+	UMLApp::app()->executeCommand(new cmdChangeFillColor(this,colour));
+}
+
+void UMLWidget::setFillColourcmd(const QColor &colour) {
     m_FillColour = colour;
     m_bUsesDiagramFillColour = false;
     update();

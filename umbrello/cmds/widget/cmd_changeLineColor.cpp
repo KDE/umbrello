@@ -35,34 +35,32 @@
 namespace Uml
 {
 
-	cmdChangeLineColor::cmdChangeLineColor(/* obj1: m_pDoc   */UMLDoc *doc
-							/* obj2: m_pView  */				, UMLView *view
-							/* obj3: newColor */				, QColor col)
+	/*cmdChangeLineColor::cmdChangeLineColor(UMLView *view, QColor col)
 	{
+		setText(i18n("Change Line Color"));
 		UMLWidget * widget = view->getFirstMultiSelectedWidget();
-		pDoc=doc;
 		pView=view;
 		color = col;
 		oldColor=widget -> getLineColor() ;
-		//view -> selectionSetLineColor( col );
-     //   doc -> setModified(true);
-	}
+	}*/
 
+cmdChangeLineColor::cmdChangeLineColor(UMLWidget *w, QColor col):UMLw(w),color(col)
+{	
+	setText(i18n("Change Line Color"));
+	oldColor= w -> getLineColor() ;
+
+}
 	cmdChangeLineColor::~cmdChangeLineColor()
 	{
 	}
 	void cmdChangeLineColor::redo()
 	{
 
-			pView -> selectionSetLineColor( color );
-        	pDoc -> setModified(true);
-
+		UMLw -> setLineColorcmd( color );
 	}
 	
 	void cmdChangeLineColor::undo()
 	{	
-		pView -> selectionSetLineColor( oldColor );
-        pDoc -> setModified(true);
-
+		UMLw -> setLineColorcmd( oldColor );
 	}
 }

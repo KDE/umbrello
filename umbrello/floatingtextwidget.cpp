@@ -184,6 +184,13 @@ void FloatingTextWidget::handleRename() {
                                             m_pView, &v);
     if (!ok || newText == getText())
         return;
+
+    UMLApp::app()->executeCommand(new cmdHandleRename(this,newText));
+}
+
+void FloatingTextWidget::changeName(QString newText)
+{
+
     if (m_pLink && !isTextValid(newText)) {
         AssociationWidget *assoc = dynamic_cast<AssociationWidget*>(m_pLink);
         if (assoc) {
@@ -228,13 +235,15 @@ void FloatingTextWidget::handleRename() {
     setVisible( true );
     updateComponentSize();
     update();
+
 }
 
-void FloatingTextWidget::setText(const QString &t) {
+
+void FloatingTextWidget::setTextcmd(const QString &t) {
       UMLApp::app()->executeCommand(new cmdSetTxt(this,t));
 }
 
-void FloatingTextWidget::setTextcmd(const QString &t) {
+void FloatingTextWidget::setText(const QString &t) {
     if (m_Role == Uml::tr_Seq_Message || m_Role == Uml::tr_Seq_Message_Self) {
         QString seqNum, op;
         m_pLink->getSeqNumAndOp(seqNum, op);

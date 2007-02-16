@@ -303,7 +303,7 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
             QColor textColor(50, 50, 50);
             pPainter.setPen(textColor);
             pPainter.drawLine(0, height + 2, width, height + 2);
-            pPainter.drawText(0, height + 4, width, fontHeight, Qt::AlignLeft, string);
+            pPainter.drawTex t(0, height + 4, width, fontHeight, Qt::AlignLeft, string);
 
             if(pageX+1 < numPagesX || pageY+1 < numPagesY) {
                 pPrinter -> newPage();
@@ -993,6 +993,7 @@ void UMLView::selectionSetFont( const QFont &font )
 
 void UMLView::selectionSetLineColor( const QColor &color )
 {
+    UMLApp::app()->BeginMacro("Change Line Color");
     UMLWidget * temp = 0;
     for (temp = m_SelectedList.first(); temp; temp = m_SelectedList.next()) {
         temp->setLineColor(color);
@@ -1003,6 +1004,7 @@ void UMLView::selectionSetLineColor( const QColor &color )
         aw->setLineColor(color);
         aw->setUsesDiagramLineColour(false);
     }
+    UMLApp::app()->EndMacro();
 }
 
 void UMLView::selectionSetLineWidth( uint width )
@@ -1019,8 +1021,10 @@ void UMLView::selectionSetLineWidth( uint width )
     }
 }
 
+
 void UMLView::selectionSetFillColor( const QColor &color )
 {
+    UMLApp::app()->BeginMacro("Change Fill Color");
     UMLWidget * temp = 0;
     for(temp=(UMLWidget *) m_SelectedList.first();
             temp;
@@ -1028,6 +1032,7 @@ void UMLView::selectionSetFillColor( const QColor &color )
         temp -> setFillColour( color );
         temp -> setUsesDiagramFillColour(false);
     }
+    UMLApp::app()->EndMacro();
 }
 
 void UMLView::selectionToggleShow(int sel)

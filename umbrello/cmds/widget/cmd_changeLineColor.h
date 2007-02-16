@@ -22,25 +22,22 @@ namespace Uml
 	class cmdChangeLineColor : public QUndoCommand
 	{
 	public:
-		cmdChangeLineColor(/* obj1: m_pDoc   */UMLDoc *doc
-							/* obj2: m_pView  */, UMLView *view
-							/* obj3: newColor */, QColor col);
+		//cmdChangeLineColor(UMLView *view, QColor col);
+		cmdChangeLineColor(UMLWidget *w, QColor col);
 		~cmdChangeLineColor();
 		void redo();
 		void undo();
 	
 			private:
 				
-				UMLDoc *pDoc;
-				UMLView *pView;
+				UMLWidget *UMLw;
+				//MLView *pView;
 				
 				/* ancienne couleur */
 				QColor oldColor;
 				
 				/* nouvelle couleur */
 				QColor color;
-				
-				bool		already;
 	};
 };
 #endif /*CMD_CHANGELINECOLOR_H_*/
