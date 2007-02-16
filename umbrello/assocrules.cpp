@@ -354,8 +354,10 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
     { at_Activity,      wt_Activity,    wt_Activity,    true,   false,  true,   true  },
     { at_Activity,      wt_ForkJoin,    wt_Activity,    true,   false,  true,   true  },
     { at_Activity,      wt_Activity,    wt_ForkJoin,    true,   false,  true,   true  },
-    { at_Activity,      wt_Activity,    wt_Object_Flow,    true,   false,  true,   true  },
-    { at_Activity,      wt_Object_Flow,    wt_Activity,    true,   false,  true,   true  },
+    { at_Activity,      wt_Signal,      wt_Activity,    true,   false,  true,   true  },
+    { at_Activity,      wt_Activity,    wt_Signal,      true,   false,  true,   true  },
+    { at_Activity,      wt_Activity,    wt_Object_Flow, true,   false,  true,   true  },
+    { at_Activity,      wt_Object_Flow, wt_Activity,    true,   false,  true,   true  },
     { at_Anchor,        wt_Class,       wt_Note,        false,  false,  false,  false },
     { at_Anchor,        wt_Package,     wt_Note,        false,  false,  false,  false },
     { at_Anchor,        wt_Interface,   wt_Note,        false,  false,  false,  false },
@@ -369,6 +371,8 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
     { at_Anchor,        wt_Activity,    wt_Note,        false,  false,  false,  false },
     { at_Relationship,  wt_Entity,      wt_Entity,      true,   false,  true,   false },
     { at_Exception,     wt_Activity,    wt_Activity,    true,   false,  true,   true  },
+    { at_Exception,     wt_Activity,    wt_Signal,      true,   false,  true,   true  },
+    { at_Exception,     wt_Signal,      wt_Signal,      true,   false,  true,   true  },
 };
 
 int AssocRules::m_nNumRules = sizeof( m_AssocRules ) / sizeof( AssocRules::Assoc_Rule );
