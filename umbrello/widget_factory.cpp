@@ -165,13 +165,13 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         tag == "combinedFragmentwidget"  || tag == "signalwidget"  || tag == "objectflowwidget" || tag == "floatingdashlinewidget" ||
             // tests for backward compatibility:
             tag == "UML:StateWidget" || tag == "UML:NoteWidget" ||
-            tag=="UML:CombinedFragmentWidget" || tag == "UML:FloatingTextWidget" || tag == "UML:SignalWidget" || tag == "UML:ActivityWidget" || tag == "UML:ObjectFlowWidget" ) {
+            tag=="UML:CombinedFragmentWidget" || tag == "UML:FloatingTextWidget" || tag == "UML:SignalWidget" || tag == "UML:ActivityWidget" || tag == "UML:EndOfLifeWidget"||tag == "UML:PreconditionWidget"||tag == "UML:FloatingDashLineWidget" || tag == "UML:ObjectFlowWidget" ) {
         // Loading of widgets which do NOT represent any UMLObject, 
         // just graphic stuff with no real model information
         //FIXME while boxes and texts are just diagram objects, activities and
         // states should be UMLObjects
         if (tag == "statewidget"
-                || tag == "UML:StateWidget") {         // for bkwd compatibility
+                   || tag == "UML:StateWidget") {         // for bkwd compatibility
             widget = new StateWidget(view, StateWidget::Normal, Uml::id_Reserved);
         } else if (tag == "notewidget"
                    || tag == "UML:NoteWidget") {          // for bkwd compatibility
@@ -186,32 +186,38 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
             widget = new ActivityWidget(view, ActivityWidget::Initial, Uml::id_Reserved);
         } else if (tag == "forkjoin") {
             widget = new ForkJoinWidget(view, false, Uml::id_Reserved);
-        } else if (tag == "preconditionwidget") {
+        } else if (tag == "preconditionwidget"
+                   ||tag == "UML:PreconditionWidget") {
             widget = new PreconditionWidget(view, NULL, Uml::id_Reserved);
-	} else if (tag == "endoflifewidget") {
+	} else if (tag == "endoflifewidget"
+                   || tag == "UML:EndOfLifeWidget") {
             widget = new EndOfLifeWidget(view, NULL, Uml::id_Reserved);
-	} else if (tag == "combinedFragmentwidget") {
+	} else if (tag == "combinedFragmentwidget"
+                   ||tag=="UML:CombinedFragmentWidget" ) {
             widget = new CombinedFragmentWidget(view, CombinedFragmentWidget::Ref, Uml::id_Reserved);
-        } else if (tag == "signalwidget") {
+        } else if (tag == "signalwidget"
+                   || tag == "UML:SignalWidget") {
             widget = new SignalWidget(view, SignalWidget::Send,  Uml::id_Reserved);
-        } else if (tag == "floatingdashlinewidget") {
+        } else if (tag == "floatingdashlinewidget"
+                   || tag == "UML:FloatingDashLineWidget") {
             widget = new FloatingDashLineWidget(view,Uml::id_Reserved);
-        } else if (tag == "objectflowwidget") {
+        } else if (tag == "objectflowwidget"
+                   || tag == "UML:ObjectFlowWidget" ) {
             widget = new ObjectFlowWidget(view,Uml::id_Reserved);
     	} 
-	else {
-            // Find the UMLObject and create the Widget to represent it
-            Uml::IDType id = STR2ID(idStr);
-            UMLDoc *umldoc = UMLApp::app()->getDocument();
-            UMLObject *o = umldoc->findObjectById(id);
-            if (o == NULL) {
-                kError() << "makeWidgetFromXMI: cannot find object with id "
-                      << ID2STR(id) << endl;
-                return NULL;
-            }
+    }
+    else {
+        // Find the UMLObject and create the Widget to represent it
+        Uml::IDType id = STR2ID(idStr);
+        UMLDoc *umldoc = UMLApp::app()->getDocument();
+        UMLObject *o = umldoc->findObjectById(id);
+        if (o == NULL) {
+            kError() << "makeWidgetFromXMI: cannot find object with id "
+                << ID2STR(id) << endl;
+            return NULL;
+        }
 
-            if (tag == "actorwidget"
-                    || tag == "UML:ActorWidget") {           // for bkwd compatibility
+        if (tag == "actorwidget" || tag == "UML:ActorWidget") {           // for bkwd compatibility
                 if (validateObjType(Uml::ot_Actor, o))
                     widget = new ActorWidget(view, static_cast<UMLActor*>(o));
             } else if (tag == "usecasewidget"
@@ -254,9 +260,8 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
                 kWarning() << "Trying to create an unknown widget:" << tag << endl;
             }
         }
-        
-    }
     return widget;
+
 }
 }   // end namespace Widget_Factory
 
