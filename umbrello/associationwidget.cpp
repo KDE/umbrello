@@ -327,11 +327,13 @@ void AssociationWidget::setName(const QString &strName) {
             m_pName->setUMLObject(m_role[B].m_pWidget->getUMLObject());
     } else {
         m_pName->setText(strName);
+        /**** This code leads to bug 141813 (unable to delete label or multi)
         if (strName.isEmpty()) {
             m_pName->hide();
             m_pName = NULL;
             return;
         }
+         ********************************************************************/
     }
 
     // set attribute of UMLAssociation associated with this associationwidget

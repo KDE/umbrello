@@ -7,6 +7,7 @@ Version 1.5.7
 * Javascript Code Generation creates bad format methods (135540)
 * Crash when deleting the link between a package and a class (141602)
 * Ada95 Code Generation Errors for Aggregation (141644)
+* Unable to delete multiplicity information or lable from an association (141813)
 
 Version 1.5.61
 
