@@ -61,6 +61,28 @@ MessageWidget::MessageWidget(UMLView * view, Uml::Sequence_Message_Type seqMsgTy
     m_sequenceMessageType = seqMsgType;
 }
 
+MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, int xclick, int yclick, Uml::Sequence_Message_Type sequenceMessageType, Uml::IDType id /*= Uml::id_None*/) : UMLWidget(view, id, new MessageWidgetController(this)) {
+    init();
+    m_pOw[Uml::A] = a;
+    m_pOw[Uml::B] = a;
+    
+    m_sequenceMessageType = sequenceMessageType;
+    m_nY = yclick;
+    
+    xclicked = xclick;
+    yclicked = yclick;
+    m_nY = yclick;
+
+    updateResizability();
+    calculateWidget();
+    yclick = yclick < getMinY() ? getMinY() : yclick;
+    yclick = yclick > getMaxY() ? getMaxY() : yclick;
+    m_nY = yclick;
+    yclicked = yclick;
+
+    this->activate();
+}
+
 void MessageWidget::init() {
     UMLWidget::setBaseType(Uml::wt_Message);
     m_bIgnoreSnapToGrid = true;
@@ -267,10 +289,10 @@ void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY){
     int x2 = xclicked;
     int w1 = m_pOw[Uml::A]->getWidth() / 2;
     x1 += w1;
+    
+    int w = getWidth() ;
 
-    int w = x1 < x2 ? x2 - x1 : x1 - x2 ;
-
-    int h = getHeight() - 1;
+    int h = 10;
     bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( getY(), this );
     //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( getY(), this );
 
@@ -282,17 +304,18 @@ void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY){
 
         UMLWidget::setPen(p);
         p.setBrush( WidgetBase::getLineColor() );
+        p.drawEllipse(x1 + w , offsetY - h/2, h, h);
         drawArrow(p,offsetX, offsetY, w, Qt::RightArrow);
-	p.drawEllipse(x1 + w , offsetY - h/4, h/2, h/2);
+	
         if (messageOverlapsA)  {
             offsetX -= 7;
         }
     } else      {
        
-        drawArrow(p, offsetX - w , offsetY, w, Qt::LeftArrow);
+        drawArrow(p, offsetX , offsetY, w, Qt::LeftArrow);
 	UMLWidget::setPen(p);
         p.setBrush( WidgetBase::getLineColor() );
-	p.drawEllipse(offsetX - w - h/2, offsetY - h/4, h/2, h/2);
+	p.drawEllipse(offsetX - h, offsetY - h/2, h, h);
     }
 
     if (m_bSelected)
@@ -302,8 +325,8 @@ void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY){
 void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY){
     int x1 = m_pOw[Uml::A]->getX();
     int x2 = xclicked;
-    int w = x1 < x2 ? x2 - x1 : x1 - x2 ;
-    int h = getHeight() - 1;
+    int w = getWidth() ;
+    int h = 10;
     bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( getY(), this );
     //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( getY(), this );
 
@@ -314,7 +337,7 @@ void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY){
         }
 	UMLWidget::setPen(p);
         p.setBrush( WidgetBase::getLineColor() );
-	p.drawEllipse(offsetX + w, offsetY - h/4, h/2, h/2);
+	p.drawEllipse(offsetX + w, offsetY - h/2, h, h);
         drawArrow(p, offsetX, offsetY, w, Qt::LeftArrow);
         if (messageOverlapsA)  {
             offsetX -= 7;
@@ -325,8 +348,8 @@ void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY){
         }
         UMLWidget::setPen(p);
         p.setBrush( WidgetBase::getLineColor() );
-	p.drawEllipse(offsetX - w - h/2 , offsetY - h/4, h/2, h/2);
-	drawArrow(p, offsetX - w , offsetY, w, Qt::RightArrow);
+	p.drawEllipse(offsetX - h , offsetY - h/2, h, h);
+	drawArrow(p, offsetX , offsetY, w, Qt::RightArrow);
     }
 
     if (m_bSelected)
@@ -714,20 +737,12 @@ void MessageWidget::calculateDimensionsLost() {
 
     int widgetWidth = 0;
     int widgetHeight = 8;
-    if( m_pOw[Uml::A] == m_pOw[Uml::B] ) {
-        widgetWidth = 50;
+    if( x1 < x2 ) {
         x = x1;
-        if( height() < 20 ) {
-            widgetHeight = 20;
-        } else {
-            widgetHeight = height();
-        }
-    } else if( x1 < x2 ) {
-        x = x1;
-        widgetWidth = (x2 - x1) / 2;
+        widgetWidth = x2 - x1;
     } else {
-        x = (x2 + x1)/2 ;
-        widgetWidth = (x1 - x2) / 2 ;
+        x = x2;
+        widgetWidth = x1 - x2;
     }
     x += 1;
     widgetWidth -= 2;
@@ -746,20 +761,12 @@ void MessageWidget::calculateDimensionsFound() {
 
     int widgetWidth = 0;
     int widgetHeight = 8;
-    if( m_pOw[Uml::A] == m_pOw[Uml::B] ) {
-        widgetWidth = 50;
+    if( x1 < x2 ) {
         x = x1;
-        if( height() < 20 ) {
-            widgetHeight = 20;
-        } else {
-            widgetHeight = height();
-        }
-    } else if( x1 < x2 ) {
-        x = (x1+x2)/2;
-        widgetWidth = (x2 - x1) / 2;
+        widgetWidth = x2 - x1;
     } else {
         x = x2 ;
-        widgetWidth = (x1 - x2) / 2 ;
+        widgetWidth = x1 - x2;
     }
     x += 1;
     widgetWidth -= 2;
@@ -976,6 +983,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
 /// @todo verify in 3.5 branch
 void MessageWidget::mousePressEvent(QMouseEvent *me)
 {
+    UMLWidget::mousePressEvent(me);
 }
 
 #include "messagewidget.moc"

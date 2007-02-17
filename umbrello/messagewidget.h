@@ -54,7 +54,7 @@ public:
      * @param a The role A widget for this message.
      * @param b The role B widget for this message.
      * @param y The vertical position to display this message.
-     * @param sequenceMessageType Whether synchronous or asynchronous or lost or found
+     * @param sequenceMessageType Whether synchronous or asynchronous
      * @param id        A unique id used for deleting this object cleanly.
      *              The default (-1) will prompt generation of a new ID.
      */
@@ -69,6 +69,20 @@ public:
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
     MessageWidget(UMLView * view, Uml::Sequence_Message_Type sequenceMessageType, Uml::IDType id = Uml::id_None);
+
+    /**
+     * Constructs a Lost or Found MessageWidget.
+     *
+     * @param view              The parent to this class.
+     * @param a The role A widget for this message.
+     * @param xclick The horizontal position clicked by the user
+     * @param yclick The vertical position clicked by the user
+     * @param sequenceMessageType Whether lost or found
+     * @param id                The ID to assign (-1 will prompt a new ID.)
+     */
+    MessageWidget(UMLView * view, ObjectWidget* a, int xclick, int yclick, Uml::Sequence_Message_Type sequenceMessageType,
+                  Uml::IDType id = Uml::id_None);
+
 
     /**
      * Initializes key variables of the class.
