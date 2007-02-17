@@ -233,13 +233,13 @@ bool AssociationWidget::operator!=(AssociationWidget & Other) {
     return !(*this == Other);
 }
 
-UMLAssociation * AssociationWidget::getAssociation () {
+UMLAssociation * AssociationWidget::getAssociation () const {
     if (m_pObject == NULL || m_pObject->getBaseType() != ot_Association)
         return NULL;
     return static_cast<UMLAssociation*>(m_pObject);
 }
 
-UMLAttribute * AssociationWidget::getAttribute () {
+UMLAttribute * AssociationWidget::getAttribute () const {
     if (m_pObject == NULL)
         return NULL;
     Uml::Object_Type ot = m_pObject->getBaseType();
@@ -464,18 +464,27 @@ void AssociationWidget::setMessageText(FloatingTextWidget *ft) {
 }
 
 Uml::Visibility AssociationWidget::getVisibility(Role_Type role) const {
-    if (m_pObject == NULL || m_pObject->getBaseType() != ot_Association)
-        return m_role[role].m_Visibility;
-    UMLAssociation *umla = static_cast<UMLAssociation*>(m_pObject);
-    return umla->getVisibility(role);
+    const UMLAssociation *assoc = getAssociation();
+    if (assoc)
+        return assoc->getVisibility(role);
+    const UMLAttribute *attr = getAttribute();
+    if (attr)
+        return attr->getVisibility();
+    return m_role[role].m_Visibility;
 }
 
 void AssociationWidget::setVisibility(Uml::Visibility value, Role_Type role)
 {
     if (value == getVisibility(role))
         return;
-    if (m_pObject && m_pObject->getBaseType() == ot_Association)  // update our model object
-        getAssociation()->setVisibility(value, role);
+    if (m_pObject) {
+        // update our model object
+        const Uml::Object_Type ot = m_pObject->getBaseType();
+        if (ot == ot_Association)
+            getAssociation()->setVisibility(value, role);
+        else if (ot == ot_Attribute)
+            getAttribute()->setVisibility(value);
+    }
     m_role[role].m_Visibility = value;
     // update role pre-text attribute as appropriate
     if (m_role[role].m_pRole) {
@@ -1209,6 +1218,11 @@ void AssociationWidget::syncToModel()
     UMLAssociation *uml = getAssociation();
 
     if (uml == NULL) {
+        UMLAttribute *attr = getAttribute();
+        if (attr == NULL)
+            return;
+        setVisibility(attr->getVisibility(), B);
+        setRoleName(attr->getName(), B);
         return;
     }
     // block signals until finished
@@ -1230,13 +1244,13 @@ void AssociationWidget::syncToModel()
 // this will synchronize UMLAssociation w/ this new Widget
 void AssociationWidget::mergeAssociationDataIntoUMLRepresentation()
 {
-
-    UMLAssociation *uml = getAssociation();
-    if (uml == NULL)
+    UMLAssociation *umlassoc = getAssociation();
+    UMLAttribute *umlattr = getAttribute();
+    if (umlassoc == NULL && umlattr == NULL)
         return;
 
     // block emit modified signal, or we get a horrible loop
-    uml->blockSignals(true);
+    m_pObject->blockSignals(true);
 
     // would be desirable to do the following
     // so that we can be sure its back to initial state
@@ -1246,26 +1260,30 @@ void AssociationWidget::mergeAssociationDataIntoUMLRepresentation()
     // floating text widgets
     FloatingTextWidget *text = getNameWidget();
     if (text)
-        uml->setName(text->getText());
+        m_pObject->setName(text->getText());
 
     text = getRoleWidget(A);
-    if (text)
-        uml->setRoleName(text->getText(), A);
+    if (text && umlassoc)
+        umlassoc->setRoleName(text->getText(), A);
 
     text = getRoleWidget(B);
-    if (text)
-        uml->setRoleName(text->getText(), B);
+    if (text) {
+        if (umlassoc)
+            umlassoc->setRoleName(text->getText(), B);
+        else if (umlattr)
+            umlattr->setName(text->getText());
+    }
 
     text = getMultiWidget(A);
-    if (text)
-        uml->setMulti(text->getText(), A);
+    if (text && umlassoc)
+        umlassoc->setMulti(text->getText(), A);
 
     text = getMultiWidget(B);
-    if (text)
-        uml->setMulti(text->getText(), B);
+    if (text && umlassoc)
+        umlassoc->setMulti(text->getText(), B);
 
     // unblock
-    uml->blockSignals(false);
+    m_pObject->blockSignals(false);
 }
 
 /** Adjusts the ending point of the association that connects to Widget */

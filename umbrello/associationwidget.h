@@ -483,7 +483,7 @@ public:
      * @return  Pointer to the UMLAssociation that is represented by
      *          this AsociationWidget.
      */
-    UMLAssociation * getAssociation ();
+    UMLAssociation * getAssociation() const;
 
     /**
      * Returns the UMLAttribute representation of this object.
@@ -491,7 +491,7 @@ public:
      * @return  Pointer to the UMLAttribute that is represented by
      *          this AsociationWidget.
      */
-    UMLAttribute * getAttribute ();
+    UMLAttribute * getAttribute() const;
 
     /**
      * Sets the text of the FloatingTextWidget identified by the ft's Text_Role.
