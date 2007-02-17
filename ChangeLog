@@ -5,6 +5,7 @@ Version 1.5.7
 * Relationships for entities do not live outside of an entity relationship diagram (125146)
 * Javascript wrong Code Generation (135527)
 * Javascript Code Generation creates bad format methods (135540)
+* Associations not updated during move of class on diagram (140709)
 * Crash when deleting the link between a package and a class (141602)
 * Ada95 Code Generation Errors for Aggregation (141644)
 * Unable to delete multiplicity information or lable from an association (141813)
