@@ -1,7 +1,6 @@
 Version 1.5.7
 
 * Bugs fixed from http://bugs.kde.org:
-* Support for utility classes in Ada import and code generator (89167)
 * %date% and %time% not being parsed (96612)
 * Relationships for entities do not live outside of the diagram (125146)
 * Javascript wrong Code Generation (135527)
