@@ -381,7 +381,9 @@ void UMLListViewItem::okRename( int col ) {
             }
             UMLClassifier *parent = static_cast<UMLClassifier*>(m_pObject->parent());
             Model_Utils::NameAndType nt;
-            Model_Utils::Parse_Status st = Model_Utils::parseAttribute(newText, nt, parent);
+            Uml::Visibility vis;
+            Model_Utils::Parse_Status st;
+            st = Model_Utils::parseAttribute(newText, nt, parent, &vis);
             if (st == Model_Utils::PS_OK) {
                 UMLObject *exists = parent->findChildObject(newText);
                 if (exists) {
@@ -391,6 +393,7 @@ void UMLListViewItem::okRename( int col ) {
                 m_pObject->setName(nt.m_name);
                 UMLAttribute *pAtt = static_cast<UMLAttribute*>(m_pObject);
                 pAtt->setType(nt.m_type);
+                pAtt->setVisibility(vis);
                 pAtt->setParmKind(nt.m_direction);
                 pAtt->setInitialValue(nt.m_initialValue);
                 m_Label = pAtt->toString(Uml::st_SigNoVis);

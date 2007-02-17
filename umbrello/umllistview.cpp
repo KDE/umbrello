@@ -2081,7 +2081,9 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
     } else if (type == Uml::ot_Attribute || type == Uml::ot_EntityAttribute)  {
         UMLClassifier *owningClass = static_cast<UMLClassifier*>(parent);
         Model_Utils::NameAndType nt;
-        Model_Utils::Parse_Status st = Model_Utils::parseAttribute(text, nt, owningClass);
+        Uml::Visibility vis;
+        Model_Utils::Parse_Status st;
+        st = Model_Utils::parseAttribute(text, nt, owningClass, &vis);
         if (st) {
             KMessageBox::error( kapp->mainWidget(),
                                 Model_Utils::psText(st),
@@ -2092,6 +2094,7 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
         newObject = owningClass->createAttribute(nt.m_name);
         UMLAttribute *att = static_cast<UMLAttribute*>(newObject);
         att->setType(nt.m_type);
+        att->setVisibility(vis);
         att->setParmKind(nt.m_direction);
         att->setInitialValue(nt.m_initialValue);
         text = att->toString(Uml::st_SigNoVis);
