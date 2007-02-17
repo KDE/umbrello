@@ -126,7 +126,7 @@ protected:
 
     /**
      * Parse the statement which starts at m_source[m_srcIndex]
-     * leaving m_srcIndex pointing to the end of the recogized
+     * leaving m_srcIndex pointing to the end of the recognized
      * statement.
      * To be provided by the concrete importer.
      *
