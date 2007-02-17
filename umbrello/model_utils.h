@@ -293,9 +293,18 @@ Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningSc
  *                      Example:  argname : argtype
  * @param nmTp          NameAndType returned by this method.
  * @param owningScope   Pointer to the owning scope of the attribute.
+ * @param vis           Optional pointer to visibility (return value.)
+ *                      The visibility may be given at the beginning of the
+ *                      attribute text in mnemonic form as follows:
+ *                      "+"  stands for public
+ *                      "#"  stands for protected
+ *                      "-"  stands for private
+ *                      "~"  stands for implementation level visibility
+ *
  * @return      Error status of the parse, PS_OK for success.
  */
-Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningScope);
+Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningScope,
+                            Uml::Visibility *vis = 0);
 
 /**
  * Parses an operation given in UML syntax.

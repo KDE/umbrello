@@ -429,7 +429,8 @@ Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningSc
     return PS_OK;
 }
 
-Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningScope) {
+Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningScope,
+                            Uml::Visibility *vis /* = 0 */) {
     UMLDoc *pDoc = UMLApp::app()->getDocument();
 
     a = a.simplifyWhiteSpace();
@@ -442,6 +443,25 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
         return PS_OK;
     }
     QString name = a.left(colonPos).stripWhiteSpace();
+    if (vis) {
+        QRegExp mnemonicVis("^([\\+\\#\\-\\~] *)");
+        int pos = mnemonicVis.search(name);
+        if (pos == -1) {
+            *vis = Uml::Visibility::Private;  // default value
+        } else {
+            QString caption = mnemonicVis.cap(1);
+            QString strVis = caption.left(1);
+            if (strVis == "+")
+                *vis = Uml::Visibility::Public;
+            else if (strVis == "#")
+                *vis = Uml::Visibility::Protected;
+            else if (strVis == "-")
+                *vis = Uml::Visibility::Private;
+            else
+                *vis = Uml::Visibility::Implementation;
+        }
+        name.remove(mnemonicVis);
+    }
     Uml::Parameter_Direction pd = Uml::pd_In;
     if (name.startsWith("in ")) {
         pd = Uml::pd_In;
