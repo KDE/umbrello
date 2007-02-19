@@ -1,8 +1,7 @@
 
 install( FILES actor.png  aggregation.png  align_left.png  align_right.png  align_top.png  align_bottom.png  
 align_vert_middle.png  align_hori_middle.png  align_vert_distribute.png  align_hori_distribute.png  anchor.png  
-andline.png  arrow.png  association.png  choice-rhomb.png  choice-round.png  combined_fragment.png  component.png  
-composition.png  containment.png  CVglobal_meth.png  CVglobal_var.png  CVimplementation_meth.png  
+andline.png  arrow.png  association.png  choice-rhomb.png  choice-round.png  combined_fragment.png  component.png  expansion_region.png  composition.png  containment.png  CVglobal_meth.png  CVglobal_var.png  CVimplementation_meth.png  
 CVimplementation_signal.png  CVimplementation_slot.png  CVimplementation_var.png  CVnamespace.png  
 CVprivate_meth.png  CVprivate_signal.png  CVprivate_slot.png  CVprivate_var.png  CVprotected_meth.png  
 CVprotected_signal.png  CVprotected_slot.png  CVprotected_var.png  CVpublic_meth.png  CVpublic_signal.png  
@@ -18,7 +17,7 @@ cursor-enum.png  cursor-text.png  cursor-anchor.png  cursor-object_flow.png  cur
 cursor-class.png  cursor-artifact.png  cursor-dependency.png  cursor-message-synchronous.png  
 cursor-uniassociation.png  cursor-association.png  cursor-end_state.png  cursor-final_activity.png  cursor-node.png  cursor-box.png  
 cursor-fork.png  cursor-note.png  cursor-branch.png  cursor-generalisation.png  cursor-object.png  
-cursor-entity.png  cursor-relationship.png precondition.png cursor-precondition.png  cursor-send_signal.png  cursor-accept_signal.png  cursor-accept_time_event.png
+cursor-entity.png  cursor-relationship.png precondition.png cursor-precondition.png  cursor-send_signal.png  cursor-accept_signal.png  cursor-accept_time_event.png  cursor-expansion_region.png
 cursor-message-found.png message-lost.png cursor-message-lost.png end_of_life.png cursor-end_of_life.png exception.png 
 cursor-exception.png DESTINATION  
 ${DATA_INSTALL_DIR}/umbrello/pics )

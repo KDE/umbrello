@@ -21,6 +21,7 @@
 #include "activitywidget.h"
 #include "boxwidget.h"
 #include "dialog_utils.h"
+#include "expansionregionwidget.h"
 #include "floatingtextwidget.h"
 #include "forkjoinwidget.h"
 #include "notewidget.h"
@@ -151,7 +152,11 @@ bool ToolBarStateOther::newWidget() {
             umlWidget = new SignalWidget(m_pUMLView, SignalWidget::Time);
             break;
 
-	case WorkToolBar::tbb_Seq_Combined_Fragment:
+        case WorkToolBar::tbb_Expansion_Region:
+            umlWidget = new ExpansionRegionWidget(m_pUMLView);
+            break;
+
+        case WorkToolBar::tbb_Seq_Combined_Fragment:
             umlWidget = new CombinedFragmentWidget(m_pUMLView);
             break;
 

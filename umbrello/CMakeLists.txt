@@ -245,8 +245,7 @@ kde4_automoc(${libclipboard_SRCS})
 ########### next target ###############
 
 set(libumbrello_SRCS 
-   activitywidget.cpp
-   combinedfragmentwidget.cpp 
+   activitywidget.cpp 
    actor.cpp 
    actorwidget.cpp 
    aligntoolbar.cpp 
@@ -275,6 +274,7 @@ set(libumbrello_SRCS
    codemethodblock.cpp 
    codeoperation.cpp 
    codeparameter.cpp 
+   combinedfragmentwidget.cpp 
    component.cpp 
    componentwidget.cpp 
    configurable.cpp 
@@ -285,6 +285,7 @@ set(libumbrello_SRCS
    entity.cpp 
    entityattribute.cpp 
    entitywidget.cpp 
+   expansionregionwidget.cpp 
    enum.cpp 
    enumliteral.cpp 
    enumwidget.cpp 

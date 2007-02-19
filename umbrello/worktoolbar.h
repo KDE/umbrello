@@ -113,6 +113,7 @@ public:
         tbb_Object,
         tbb_Initial_State,
         tbb_State,
+        tbb_Expansion_Region,
         tbb_End_State,
         tbb_Initial_Activity,
         tbb_Activity,
@@ -191,7 +192,7 @@ public slots:
     void slotCheckToolBar(Uml::Diagram_Type dt);
     void buttonChanged(int b);
     void slotResetToolBar();
-    
+
     /** 
       * These slots are triggered by the buttons. They call buttonChanged with
       * the button id
@@ -232,6 +233,7 @@ public slots:
     void slotNode();
     void slotArtifact();
     void slotObject();
+    void slotExpansion_Region();
     void slotInitial_State();
     void slotState();
     void slotEnd_State();
