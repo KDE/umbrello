@@ -14,6 +14,7 @@ Version 1.5.7
 * Ada95 Code Generation Errors for Aggregation (141644)
 * Unable to delete multiplicity information or lable from an association
   (141813)
+* C++ code generator does not correctly define namespaces (141876)
 
 Version 1.5.61
 

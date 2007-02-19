@@ -74,7 +74,7 @@ CppWriter::CppWriter()
     WRITE_EMPTY_DESTRUCTOR = true;
     WRITE_VIRTUAL_DESTRUCTORS = true;
     WRITE_ATTRIBUTE_ACCESSOR_METHODS = true;
-    WRITE_PACKAGE_NAMESPACE = false;
+    WRITE_PACKAGE_NAMESPACE = true;
 
     // should this go away?? Not currently used.. but might be by new code generator
     /// to specifically 'tag' virtual classes and fields and methods.
