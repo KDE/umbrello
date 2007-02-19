@@ -304,18 +304,17 @@ void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY){
 
         UMLWidget::setPen(p);
         p.setBrush( WidgetBase::getLineColor() );
-        p.drawEllipse(x1 + w , offsetY - h/2, h, h);
-        drawArrow(p,offsetX, offsetY, w, Qt::RightArrow);
+        p.drawEllipse(x1 + w - h , offsetY - h/2, h, h);
+        drawArrow(p,offsetX, offsetY, w - h, Qt::RightArrow);
 	
         if (messageOverlapsA)  {
             offsetX -= 7;
         }
     } else      {
-       
-        drawArrow(p, offsetX , offsetY, w, Qt::LeftArrow);
-	UMLWidget::setPen(p);
+        UMLWidget::setPen(p);
         p.setBrush( WidgetBase::getLineColor() );
-	p.drawEllipse(offsetX - h, offsetY - h/2, h, h);
+        p.drawEllipse(offsetX, offsetY - h/2, h, h);
+        drawArrow(p, offsetX + h, offsetY, w - h, Qt::LeftArrow);
     }
 
     if (m_bSelected)
@@ -326,6 +325,7 @@ void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY){
     int x1 = m_pOw[Uml::A]->getX();
     int x2 = xclicked;
     int w = getWidth() ;
+
     int h = 10;
     bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( getY(), this );
     //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( getY(), this );
@@ -337,23 +337,23 @@ void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY){
         }
 	UMLWidget::setPen(p);
         p.setBrush( WidgetBase::getLineColor() );
-	p.drawEllipse(offsetX + w, offsetY - h/2, h, h);
-        drawArrow(p, offsetX, offsetY, w, Qt::LeftArrow);
+	p.drawEllipse(x2, offsetY - h/2, h, h);
+        drawArrow(p, x2 - w + h, offsetY, w, Qt::LeftArrow);
         if (messageOverlapsA)  {
             offsetX -= 7;
         }
-    } else      {
+    } else {
         if (messageOverlapsA)  {
             w -= 7;
         }
         UMLWidget::setPen(p);
         p.setBrush( WidgetBase::getLineColor() );
-	p.drawEllipse(offsetX - h , offsetY - h/2, h, h);
-	drawArrow(p, offsetX , offsetY, w, Qt::RightArrow);
+	p.drawEllipse(x2, offsetY - h/2, h, h);
+	drawArrow(p, x2, offsetY, w, Qt::RightArrow);
     }
 
     if (m_bSelected)
-        drawSelected(&p, offsetX, offsetY);
+            drawSelected(&p, offsetX, offsetY);
 
 }
 
@@ -736,16 +736,15 @@ void MessageWidget::calculateDimensionsLost() {
     x1 += w1;
 
     int widgetWidth = 0;
-    int widgetHeight = 8;
+    int widgetHeight = 10;
     if( x1 < x2 ) {
         x = x1;
-        widgetWidth = x2 - x1;
+        widgetWidth = x2 - x1 + widgetHeight;
     } else {
         x = x2;
         widgetWidth = x1 - x2;
     }
     x += 1;
-    widgetWidth -= 2;
     m_nPosX = x;
     setSize(widgetWidth, widgetHeight);
 }
@@ -760,16 +759,16 @@ void MessageWidget::calculateDimensionsFound() {
 
 
     int widgetWidth = 0;
-    int widgetHeight = 8;
+    int widgetHeight = 10;
     if( x1 < x2 ) {
         x = x1;
-        widgetWidth = x2 - x1;
+        widgetWidth = x2 - x1 + widgetHeight;
     } else {
         x = x2 ;
         widgetWidth = x1 - x2;
     }
     x += 1;
-    widgetWidth -= 2;
+
     m_nPosX = x;
     setSize(widgetWidth, widgetHeight);
 }
@@ -850,6 +849,12 @@ void MessageWidget::setxclicked (int xclick){
 void MessageWidget::setyclicked (int yclick){
 	yclicked = yclick;
 }
+
+// void  MessageWidget::setSize(int width,int height);
+// {   
+//     
+//     UMLWidget::setSize(width,height);
+// }
 
 void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement messageElement = qDoc.createElement( "messagewidget" );

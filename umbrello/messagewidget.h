@@ -373,8 +373,22 @@ public:
      */
     bool loadFromXMI( QDomElement & qElement );
 
+    /**
+    * Set the xclicked
+    */
     void setxclicked (int xclick);
+
+    /**
+    * Set the xclicked
+    */
     void setyclicked (int yclick);
+
+    /**
+    * Return the xclicked
+    */
+    int getxclicked() const {
+        return xclicked;
+    }
 
 protected:
     /**
@@ -409,6 +423,13 @@ protected:
      * charactersitics of this message.
      */
     void updateResizability();
+
+     /**
+     * Sets the size.
+     * If m_pView->getSnapComponentSizeToGrid() is true, then
+     * set the next larger size that snaps to the grid.
+     */
+//     void setSize(int width,int height);
 
     // Data loaded/saved
     QString m_SequenceNumber;

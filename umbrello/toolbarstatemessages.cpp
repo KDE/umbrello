@@ -115,8 +115,6 @@ void ToolBarStateMessages::mouseReleaseWidget() {
 void ToolBarStateMessages::mouseReleaseEmpty() {
     Uml::Sequence_Message_Type msgType = getMessageType();
 
-    int y = m_pMouseEvent->y();
-
     if (m_firstObject && msgType ==  Uml::sequence_message_lost) {
 	xclick = m_pMouseEvent->x();
 	yclick = m_pMouseEvent->y();
@@ -125,6 +123,8 @@ void ToolBarStateMessages::mouseReleaseEmpty() {
 
 	cleanMessage();
  	m_pUMLView->getMessageList().append(message);
+        xclick = 0;
+        yclick = 0;
 
    	FloatingTextWidget *ft = message->getFloatingTextWidget();
     	//TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
@@ -135,7 +135,8 @@ void ToolBarStateMessages::mouseReleaseEmpty() {
 
     	UMLApp::app()->getDocument()->setModified();
     }
-    else if (!m_firstObject && msgType == Uml::sequence_message_found) {
+   
+    else if (!m_firstObject && msgType == Uml::sequence_message_found && xclick == 0 && yclick == 0) {
 	xclick = m_pMouseEvent->x();
 	yclick = m_pMouseEvent->y();
 
@@ -154,13 +155,16 @@ void ToolBarStateMessages::mouseReleaseEmpty() {
 void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject) {
     m_firstObject = firstObject;
     Uml::Sequence_Message_Type msgType = getMessageType();
-    int y = m_pMouseEvent->y();
+
     if (msgType ==  Uml::sequence_message_found && xclick!=0 && yclick!=0) {
         MessageWidget* message = new MessageWidget(m_pUMLView, m_firstObject,xclick, yclick, msgType);
 	cleanMessage();
  	m_pUMLView->getMessageList().append(message);
-
-   	FloatingTextWidget *ft = message->getFloatingTextWidget();
+        
+        xclick = 0;
+        yclick = 0;
+   	
+        FloatingTextWidget *ft = message->getFloatingTextWidget();
     	//TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
     	//Shouldn't it cancel also the whole creation?
     	ft->showOpDlg();
@@ -182,8 +186,15 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject) {
 
 void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageType messageType) {
     Uml::Sequence_Message_Type msgType = getMessageType();
-
-    //TODO shouldn't start position in the first widget be used also for normal messages
+    
+    //There shouldn't be second widget for a lost or a found message
+    if (msgType == Uml::sequence_message_lost || msgType == Uml::sequence_message_found) {
+        cleanMessage();
+        xclick = 0;
+        yclick = 0;
+        return;
+    }
+     //TODO shouldn't start position in the first widget be used also for normal messages
     //and not only for creation?
     int y = m_pMouseEvent->y();
     if (messageType == CreationMessage) {
