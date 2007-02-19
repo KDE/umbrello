@@ -381,7 +381,8 @@ UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type) {
             UMLObject* obj = a->getObject(A);
             UMLClassifier *concept = dynamic_cast<UMLClassifier*>(obj);
             if (concept && (type == ALL || (!concept->isInterface() && type == CLASS)
-                            || (concept->isInterface() && type == INTERFACE)))
+                            || (concept->isInterface() && type == INTERFACE))
+                        && (inheritingConcepts.findRef(concept) == -1))
                 inheritingConcepts.append(concept);
         }
     }
@@ -409,7 +410,8 @@ UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type) {
             UMLObject* obj = a->getObject(B);
             UMLClassifier *concept = dynamic_cast<UMLClassifier*>(obj);
             if (concept && (type == ALL || (!concept->isInterface() && type == CLASS)
-                            || (concept->isInterface() && type == INTERFACE)))
+                            || (concept->isInterface() && type == INTERFACE))
+                        && (parentConcepts.findRef(concept) == -1))
                 parentConcepts.append(concept);
         }
     }
