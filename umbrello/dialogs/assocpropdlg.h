@@ -50,13 +50,15 @@ public:
     enum Page { page_gen = 0, page_role, page_font };
 
 protected:
-    void slotOk();
-    void slotApply();
     void setupPages(AssociationWidget * assocWidget);
     void setupFontPage();
     void init();
-private:
 
+protected slots:
+    void slotOk();
+    void slotApply();
+
+private:
     AssocGenPage *m_pGenPage;
     AssocRolePage *m_pRolePage;
     KFontChooser * m_pChooser;

@@ -45,7 +45,8 @@ cat configure.in.in.orig                          >> configure.in.in
 rm configure.in.in.orig
 perl -p -e 's@umbrello/VERSION@VERSION@g' -i `find umbrello -name Makefile.am`
 cd /tmp
-kdesdk/scripts/svn2dist kdesdk $udir -n umbrello --admin-dir kdesdk/$udir/admin -o
+log=/tmp/kdesdk/svn2dist.log
+kdesdk/scripts/svn2dist kdesdk $udir -n umbrello --admin-dir kdesdk/$udir/admin --log=$log -o
 mv umbrello/po kdesdk/$udir/
 rm -rf umbrello
 cd kdesdk/$udir

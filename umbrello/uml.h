@@ -626,7 +626,7 @@ public slots:
     void set_lang_actionscript();
     void set_lang_ada();
     void set_lang_cpp();
-    // void set_lang_csharp();
+    void set_lang_csharp();
     void set_lang_idl();
     void set_lang_java();
     void set_lang_javascript();

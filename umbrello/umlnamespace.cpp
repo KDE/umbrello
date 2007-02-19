@@ -43,12 +43,14 @@ QString Visibility::toString(Value value, bool mnemonic) {
 }
 
 Visibility Visibility::fromString(const QString& vis) {
-    if (vis == "public")
+    if (vis == "public" || vis == "+")
         return Visibility(Public);
-    else if (vis == "protected")
+    else if (vis == "protected" || vis == "#")
         return Visibility(Protected);
-    else if (vis == "private")
+    else if (vis == "private" || vis == "-")
         return Visibility(Private);
+    else if (vis == "~")
+        return Visibility(Implementation);
     else if (vis == "signals")
         return Visibility(Protected);
     else if (vis == "class")

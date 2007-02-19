@@ -63,6 +63,7 @@ set(libcodegenerator_SRCS
 	codegenerators/adawriter.cpp 
 	codegenerators/aswriter.cpp 
 	codegenerators/cppwriter.cpp 
+	codegenerators/csharpwriter.cpp 
 	codegenerators/javawriter.cpp 
 	codegenerators/jswriter.cpp
 	codegenerators/idlwriter.cpp 

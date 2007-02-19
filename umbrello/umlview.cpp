@@ -1935,7 +1935,8 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
     if (widget == NULL ||
         (m_Type != Uml::dt_Class &&
          m_Type != Uml::dt_Component &&
-         m_Type != Uml::dt_Deployment))
+         m_Type != Uml::dt_Deployment &&
+         m_Type != Uml::dt_EntityRelationship))
         return;
     // Recipe:
     // If this widget has an underlying UMLCanvasObject then

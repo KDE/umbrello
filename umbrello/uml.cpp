@@ -233,6 +233,7 @@ void UMLApp::initActions() {
     setProgLangAction(Uml::pl_ActionScript, "ActionScript", "set_lang_actionscript");
     setProgLangAction(Uml::pl_Ada,          "Ada",          "set_lang_ada");
     setProgLangAction(Uml::pl_Cpp,          "C++",          "set_lang_cpp");
+    setProgLangAction(Uml::pl_CSharp,       "C#",           "set_lang_csharp");
     setProgLangAction(Uml::pl_IDL,          "IDL",          "set_lang_idl");
     setProgLangAction(Uml::pl_Java,         "Java",         "set_lang_java");
     setProgLangAction(Uml::pl_JavaScript,   "JavaScript",   "set_lang_javascript");
@@ -552,6 +553,7 @@ void UMLApp::initView() {
     m_listDock = new QDockWidget( i18n("&Tree View"), this );
     addDockWidget(Qt::LeftDockWidgetArea, m_listDock);
     m_listView = new UMLListView(m_listDock ,"LISTVIEW");
+    //m_listView->setSorting(-1);
     m_listView->setDocument(m_doc);
     m_listView->init();
     m_listDock->setWidget(m_listView);
@@ -1368,6 +1370,10 @@ void UMLApp::set_lang_cpp() {
     setProgLangMenu(Uml::pl_Cpp);
 }
 
+void UMLApp::set_lang_csharp() {
+    setProgLangMenu(Uml::pl_CSharp);
+}
+
 void UMLApp::set_lang_idl() {
     setProgLangMenu(Uml::pl_IDL);
 }
@@ -1459,6 +1465,7 @@ bool UMLApp::activeLanguageIsCaseSensitive() {
 QString UMLApp::activeLanguageScopeSeparator() {
     Uml::Programming_Language pl = getActiveLanguage();
     if (pl == Uml::pl_Ada ||
+        pl == Uml::pl_CSharp ||
         pl == Uml::pl_Pascal ||
         pl == Uml::pl_Java ||
         pl == Uml::pl_JavaScript ||

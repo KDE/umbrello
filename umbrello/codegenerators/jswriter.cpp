@@ -155,8 +155,11 @@ void JSWriter::writeClass(UMLClassifier *c)
         js << m_endl << m_indentation << "/**Aggregations: */" << m_endl;
         for (UMLAssociation* a = aggregations.first(); a; a = aggregations.next())
         {
-            QString nm(cleanName(a->getObject(Uml::A)->getName()));
-            if (a->getMulti(Uml::A).isEmpty())
+            UMLObject *b = a->getObject(Uml::B);
+            if (b == c)
+                continue;   // we need to be at the "A" side and the other guy at "B"
+            QString nm(cleanName(b->getName()));
+            if (a->getMulti(Uml::B).isEmpty())
                 js << m_indentation << "this.m_" << nm << " = new " << nm << " ();" << m_endl;
             else
                 js << m_indentation << "this.m_" << nm.lower() << " = new Array ();" << m_endl;
@@ -168,8 +171,11 @@ void JSWriter::writeClass(UMLClassifier *c)
         js << m_endl << m_indentation << "/**Compositions: */" << m_endl;
         for (UMLAssociation *a = compositions.first(); a; a = compositions.next())
         {
-            QString nm(cleanName(a->getObject(Uml::A)->getName()));
-            if(a->getMulti(Uml::A).isEmpty())
+            UMLObject *b = a->getObject(Uml::B);
+            if (b == c)
+                continue;   // we need to be at the "A" side and the other guy at "B"
+            QString nm(cleanName(b->getName()));
+            if (a->getMulti(Uml::B).isEmpty())
                 js << m_indentation << "this.m_" << nm << " = new "<< nm << " ();" << m_endl;
             else
                 js << m_indentation << "this.m_" << nm.lower() << " = new Array ();" << m_endl;

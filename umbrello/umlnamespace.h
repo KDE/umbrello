@@ -308,7 +308,7 @@ enum Programming_Language {
     pl_ActionScript,
     pl_Ada,
     pl_Cpp,
-    // pl_Csharp,
+    pl_CSharp,
     pl_IDL,
     pl_Java,
     pl_JavaScript,

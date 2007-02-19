@@ -123,8 +123,7 @@ void AssocGenPage::constructWidget() {
 
 void AssocGenPage::updateObject() {
 
-    if(m_pAssociationWidget) {
-        QString name = m_pAssocNameLE -> text();
+    if (m_pAssociationWidget) {
         int comboBoxItem = m_pTypeCB->currentItem();
         Uml::Association_Type newType = m_AssocTypes[comboBoxItem];
         m_pAssociationWidget->setAssocType(newType);
