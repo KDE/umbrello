@@ -26,7 +26,7 @@ namespace Uml
 	
 	cmdCreateWidget::~cmdCreateWidget()
 	{	
-		m_view->removeWidget(m_widget);
+		//m_view->removeWidget(m_widget);
 	}
 	
 	// Create the UMLObject

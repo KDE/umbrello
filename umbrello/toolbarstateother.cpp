@@ -114,6 +114,10 @@ bool ToolBarStateOther::newWidget() {
             umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::End);
             break;
 
+        case WorkToolBar::tbb_Final_Activity:
+            umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::Final);
+            break;
+
         case WorkToolBar::tbb_Branch:
             umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::Branch);
             break;

@@ -117,6 +117,7 @@ public:
         tbb_Initial_Activity,
         tbb_Activity,
         tbb_End_Activity,
+        tbb_Final_Activity,
         tbb_Object_Flow,
         tbb_Branch,
         tbb_Fork,
@@ -237,6 +238,7 @@ public slots:
     void slotInitial_Activity();
     void slotActivity();
     void slotEnd_Activity();
+    void slotFinal_Activity();
     void slotObject_Flow();
     void slotBranch();
     void slotSend_Signal();

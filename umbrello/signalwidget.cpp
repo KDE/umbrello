@@ -115,11 +115,7 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
             QFont font = UMLWidget::getFont();
             font.setBold( false );
             p.setFont( font );
-//             p.drawText(offsetX + SIGNAL_MARGIN, offsetY + h,
-//                            w - SIGNAL_MARGIN * 2, fontHeight,
-//                            Qt::AlignCenter, getName());
-            m_pName->setVisible( getName().length() > 1 );
-            //m_pName->draw(p, offsetX, offsetY);
+
             UMLWidget::setPen(p);
         }
         break;
@@ -155,8 +151,6 @@ void SignalWidget::setName(const QString &strName) {
     m_Text = strName;
     updateComponentSize();
     adjustAssocs( getX(), getY() );
-    if ( getSignalType() == Time)
-         m_pName = new FloatingTextWidget(m_pView, Uml::tr_Floating, getName());
 }
 
 QString SignalWidget::getName() const {

@@ -142,6 +142,7 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
         insertHotBtn(tbb_Initial_Activity);
         insertHotBtn(tbb_Activity);
         insertHotBtn(tbb_End_Activity);
+        insertHotBtn(tbb_Final_Activity);
         insertHotBtn(tbb_Branch);
         insertHotBtn(tbb_Fork);
         insertHotBtn(tbb_Activity_Transition);
@@ -307,6 +308,7 @@ void WorkToolBar::loadPixmaps() {
         { tbb_Activity, i18n("Activity"), "usecase.png", SLOT(slotActivity()) },
         { tbb_State, i18n("State"), "usecase.png", SLOT(slotState()) },
         { tbb_End_Activity, i18n("End Activity"), "end_state.png", SLOT(slotEnd_Activity()) },
+        { tbb_Final_Activity, i18n("Final Activity"), "final_activity.png", SLOT(slotFinal_Activity()) },
         { tbb_Object_Flow, i18n("Object Flow"), "object_flow.png", SLOT(slotObject_Flow()) },
         { tbb_Initial_Activity, i18n("Initial Activity"), "initial_state.png", SLOT(slotInitial_Activity()) },
         { tbb_Coll_Message, i18n("Message"), "message-asynchronous.png", SLOT(slotColl_Message()) },
@@ -385,6 +387,7 @@ void WorkToolBar::slotInitial_Activity() {buttonChanged(tbb_Initial_Activity);}
 void WorkToolBar::slotActivity() {buttonChanged(tbb_Activity);}
 void WorkToolBar::slotObject_Flow() {buttonChanged(tbb_Object_Flow);}
 void WorkToolBar::slotEnd_Activity() {buttonChanged(tbb_End_Activity);}
+void WorkToolBar::slotFinal_Activity() {buttonChanged(tbb_Final_Activity);}
 void WorkToolBar::slotBranch() {buttonChanged(tbb_Branch);}
 void WorkToolBar::slotFork() {buttonChanged(tbb_Fork);}
 void WorkToolBar::slotDeepHistory() {buttonChanged(tbb_DeepHistory);}
