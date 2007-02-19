@@ -570,8 +570,8 @@ QString progLangToString(Uml::Programming_Language pl) {
             return "Ada";
         case Uml::pl_Cpp:
             return "C++";
-        // case Uml::pl_Csharp:
-            // return "C#";
+        case Uml::pl_CSharp:
+            return "C#";
         case Uml::pl_IDL:
             return "IDL";
         case Uml::pl_Java:
@@ -609,8 +609,8 @@ Uml::Programming_Language stringToProgLang(QString str) {
         return Uml::pl_Ada;
     if (str == "C++" || str == "Cpp")  // "Cpp" only for bkwd compatibility
         return Uml::pl_Cpp;
-    // if (str == "C#")
-        // return Uml::pl_Csharp;
+    if (str == "C#")
+        return Uml::pl_CSharp;
     if (str == "IDL")
         return Uml::pl_IDL;
     if (str == "Java")

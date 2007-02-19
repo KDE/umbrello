@@ -1,6 +1,7 @@
 Version 1.5.7
 
-* Bugs fixed from http://bugs.kde.org:
+* Bugs/wishes from http://bugs.kde.org:
+* C# Code Generation and export (53368)
 * %date% and %time% not being parsed (96612)
 * Relationships for entities do not live outside of the diagram (125146)
 * Javascript wrong Code Generation (135527)

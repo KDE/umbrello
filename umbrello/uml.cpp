@@ -457,6 +457,7 @@ void UMLApp::initView() {
 
     m_listDock = createDockWidget( "Model", 0L, 0L, i18n("&Tree View") );
     m_listView = new UMLListView(m_listDock ,"LISTVIEW");
+    //m_listView->setSorting(-1);
     m_listView->setDocument(m_doc);
     m_listView->init();
     m_listDock->setWidget(m_listView);
@@ -1313,6 +1314,7 @@ bool UMLApp::activeLanguageIsCaseSensitive() {
 QString UMLApp::activeLanguageScopeSeparator() {
     Uml::Programming_Language pl = getActiveLanguage();
     if (pl == Uml::pl_Ada ||
+        pl == Uml::pl_CSharp ||
         pl == Uml::pl_Pascal ||
         pl == Uml::pl_Java ||
         pl == Uml::pl_JavaScript ||
