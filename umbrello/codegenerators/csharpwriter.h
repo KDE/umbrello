@@ -20,6 +20,7 @@
 #include "simplecodegenerator.h"
 #include "../umlattributelist.h"
 #include "../umloperationlist.h"
+#include "../classifierlistitem.h"
 
 /**
   * class CSharpWriter is a C# code generator for UMLClassifier objects
@@ -61,6 +62,16 @@ private:
     bool bPrivateSectionCommentIsWritten;
 
     /**
+    * Adds extra indenting if the class is in a container (namespace)
+    */
+    QString m_container_indent;
+
+    /**
+    * Collection of included namespaces, to skip them from variable types.
+    */
+    UMLPackageList m_seenIncludes;
+    
+    /**
       * write all operations for a given class
       *
       * @param c the concept we are generating code for
@@ -91,6 +102,13 @@ private:
       * @param php output stream for the PHP file
       */
     void writeAttributes(UMLAttributeList &atList, QTextStream &php);
+
+    /** find the type in used namespaces, if namespace found return short name, complete otherwise.
+      *
+      * @param at Operation or Attribute to check type
+      */
+    QString makeLocalTypeName(UMLClassifierListItem *cl);
+
 };
 
 #endif

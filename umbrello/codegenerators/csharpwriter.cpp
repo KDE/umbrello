@@ -177,39 +177,44 @@ void CSharpWriter::writeClass(UMLClassifier *c) {
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     UMLFolder *logicalView = umldoc->getRootFolder(Uml::mt_Logical);
 
-    //write includes
-    UMLPackageList includes;
-    findObjectsRelated(c, includes);
-    if (includes.count()) {
-        UMLPackageList seenIncludes;
-        UMLPackage *p;
-        for (UMLPackageListIt it(includes); (p = it.current()) != NULL; ++it) {
-            UMLClassifier *cl = dynamic_cast<UMLClassifier*>(p);
-            if (cl)
-                p = cl->getUMLPackage();
-            if (p != logicalView && seenIncludes.findRef(p) == -1) {
-                cs << "using " << p->getFullyQualifiedName(".") << ";" << m_endl;
-                seenIncludes.append(p);
-            }
-        }
-        cs << m_endl;
-    }
+    //write includes and namespace
 
     UMLPackage *container = c->getUMLPackage();
     if (container == logicalView)
         container = NULL;
 
+    UMLPackageList includes;
+    findObjectsRelated(c, includes);
+    m_seenIncludes.clear();
+    //m_seenIncludes.append(logicalView);
+    if (includes.count()) {
+        UMLPackage *p;
+        for (UMLPackageListIt it(includes); (p = it.current()) != NULL; ++it) {
+            UMLClassifier *cl = dynamic_cast<UMLClassifier*>(p);
+            if (cl)
+                p = cl->getUMLPackage();
+            if (p != logicalView && m_seenIncludes.findRef(p) == -1 && p != container) {
+                cs << "using " << p->getFullyQualifiedName(".") << ";" << m_endl;
+                m_seenIncludes.append(p);
+            }
+        }
+        cs << m_endl;
+    }
+
+    m_container_indent = "";
+
     if (container) {
         cs << "namespace " << container->getFullyQualifiedName(".") << m_endl;
         cs << "{" << m_endl << m_endl;
+        m_container_indent = m_indentation;
+        m_seenIncludes.append(container);
     }
 
     //Write class Documentation if there is somthing or if force option
     if (forceDoc() || !c->getDoc().isEmpty()) {
-        cs << m_indentation << "/// <summary>" << m_endl;
-        //cs << " * class " << classname << m_endl;
-        cs << formatDoc(c->getDoc(), m_indentation + "/// " );
-        cs << m_indentation << "/// </summary>" << m_endl ;
+        cs << m_container_indent << "/// <summary>" << m_endl;
+        cs << formatDoc(c->getDoc(), m_container_indent + "/// " );
+        cs << m_container_indent << "/// </summary>" << m_endl ;
     }
 
     UMLClassifierList superclasses = c->getSuperClasses();
@@ -219,7 +224,7 @@ void CSharpWriter::writeClass(UMLClassifier *c) {
     UMLAssociation *a;
     bool isInterface = c->isInterface();
 
-    cs << m_indentation << "public ";
+    cs << m_container_indent << "public ";
 
     //check if it is an interface or regular class
     if (isInterface) {
@@ -230,14 +235,15 @@ void CSharpWriter::writeClass(UMLClassifier *c) {
             cs << "abstract ";
         cs << "class " << classname << (superclasses.count() > 0 ? " : ":"");
         if (superclasses.count() > 0) {
-        
+
             // C# does not support multiple inheritance so only use the first one and print a warning if more are used
-            
+
             UMLClassifier *obj = superclasses.first();
             cs << cleanName(obj->getName());
             if (superclasses.count() > 1)
                 cs << m_indentation << "//WARNING: C# does not support multiple inheritance but there is more than 1 superclass defined in your UML model!";
         }
+        // FIXME: I get no (valid) input here (realizations are not coming?)
         //check for realizations
         if (!realizations.isEmpty()) {
             int rc = realizations.count();
@@ -251,45 +257,61 @@ void CSharpWriter::writeClass(UMLClassifier *c) {
             }
         }
     }
-    cs << m_endl << m_indentation << '{' << m_endl;
+    cs << m_endl << m_container_indent << '{' << m_endl;
 
     //associations
     if (forceSections() || !aggregations.isEmpty()) {
-        cs<< m_endl << m_indentation << "/** Aggregations: */" << m_endl;
+        cs << m_endl << m_container_indent << m_indentation << "#region Aggregations" << m_endl;
         for (a = aggregations.first(); a; a = aggregations.next()) {
-            cs<< m_endl;
+            if (c != a->getObject(Uml::A))  // we need to be at the A side
+                continue;
+            cs << m_endl;
             //maybe we should parse the string here and take multiplicity into account to decide
             //which container to use.
-            UMLObject *o = a->getObject(Uml::A);
+            UMLObject *o = a->getObject(Uml::B);
             if (o == NULL) {
-                kError() << "aggregation role A object is NULL" << endl;
+                kError() << "aggregation role B object is NULL" << endl;
                 continue;
             }
+            QString roleName = cleanName(a->getRoleName(Uml::B));
+            if (roleName.isEmpty())
+                continue;   // CHECK: what should be done if no role name is set?
             QString typeName = cleanName(o->getName());
-            if (a->getMulti(Uml::A).isEmpty())  {
-                cs << m_indentation << "var $m_" << ';' << m_endl;
+            if (a->getMulti(Uml::B).isEmpty())  {
+                cs << m_container_indent << m_indentation << "//" << typeName
+                   << " " << roleName << ';' << m_endl;
             } else {
-                cs << m_indentation << "var $m_" << "Vector = array();" << m_endl;
+                cs << m_container_indent << m_indentation << "//" << typeName
+                   << " " << roleName << "Vector = array();" << m_endl;
             }
         }//end for
+        cs << m_endl << m_container_indent << m_indentation << "#endregion" << m_endl;
     }
 
     if (forceSections() || !compositions.isEmpty()) {
-        cs<< m_endl << m_indentation << m_indentation << "/** Compositions: */" << m_endl;
+        cs << m_endl << m_container_indent << m_indentation << "#region Compositions" << m_endl;
         for (a = compositions.first(); a ; a = compositions.next()) {
+            if (c != a->getObject(Uml::A))  // we need to be at the A side
+                continue;
             // see comment on Aggregation about multiplicity...
-            UMLObject *o = a->getObject(Uml::A);
+            UMLObject *o = a->getObject(Uml::B);
             if (o == NULL) {
-                kError() << "composition role A object is NULL" << endl;
+                kError() << "composition role B object is NULL" << endl;
                 continue;
             }
+            QString roleName = cleanName(a->getRoleName(Uml::B));
+            if (roleName.isEmpty())
+                continue;   // CHECK: what should be done if no role name is set?
             QString typeName = cleanName(o->getName());
-            if (a->getMulti(Uml::A).isEmpty())  {
-                cs << m_indentation << m_indentation << "var $m_" << ';' << m_endl;
+            if (a->getMulti(Uml::B).isEmpty())  {
+                cs << m_container_indent << m_indentation << "//" << typeName
+                   << " " << roleName << ';' << m_endl;
             } else {
-                cs << m_indentation << m_indentation << "var $m_" << "Vector = array();" << m_endl;
+                cs << m_container_indent << m_indentation << "//" << typeName
+                   << " " << roleName << "Vector = array();" << m_endl;
             }
         }
+        cs << m_endl << m_container_indent << m_indentation << "#endregion" << m_endl;
     }
 
     //attributes
@@ -301,7 +323,7 @@ void CSharpWriter::writeClass(UMLClassifier *c) {
     writeOperations(c, cs);
 
     //finish file
-    cs << m_endl << m_indentation << "}" << m_endl << m_endl; // close class
+    cs << m_endl << m_container_indent << "}" << m_endl << m_endl; // close class
 
     if (container) {
         cs << "}  // end of namespace "
@@ -350,20 +372,23 @@ void CSharpWriter::writeOperations(UMLClassifier *c, QTextStream &cs) {
 
     // write public operations
     if (forceSections() || !oppub.isEmpty()) {
-        cs << m_endl;
+        cs << m_endl << m_container_indent << m_indentation << "#region Public methods" << m_endl << m_endl;
         writeOperations(classname,oppub,cs,isInterface,generateErrorStub);
+        cs << m_container_indent << m_indentation << "#endregion" << m_endl << m_endl;
     }
 
     // write protected operations
     if (forceSections() || !opprot.isEmpty()) {
-        cs << m_endl;
+        cs << m_endl << m_container_indent << m_indentation << "#region Protected methods" << m_endl << m_endl;
         writeOperations(classname,opprot,cs,isInterface,generateErrorStub);
+        cs << m_container_indent << m_indentation << "#endregion" << m_endl << m_endl;
     }
 
     // write private operations
     if (forceSections() || !oppriv.isEmpty()) {
-        cs << m_endl;
+        cs << m_endl << m_container_indent << m_indentation << "#region Private methods" << m_endl << m_endl;
         writeOperations(classname,oppriv,cs,isInterface,generateErrorStub);
+        cs << m_container_indent << m_indentation << "#endregion" << m_endl << m_endl;
     }
 
 
@@ -396,43 +421,47 @@ void CSharpWriter::writeOperations(UMLClassifier *c, QTextStream &cs) {
 void CSharpWriter::writeOperations(const QString &/* classname */, UMLOperationList &opList,
                                  QTextStream &cs, bool isInterface /* = false */,
                                  bool generateErrorStub /* = false */) {
-                                 
+
     for (UMLOperation *op=opList.first(); op ; op=opList.next()) {
         UMLAttributeList atl = op->getParmList();
         UMLAttribute *at;
-        
+
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
-        
+
         for (at = atl.first(); at; at = atl.next()) {
             writeDoc |= !at->getDoc().isEmpty();
         }
 
         //write method documentation
-        if (writeDoc)  
+        if (writeDoc)
         {
-            cs << m_indentation << m_indentation << "/// <summary>" << m_endl;
-            cs << formatDoc(op->getDoc(), m_indentation + m_indentation + "/// ");
-            cs << m_indentation << m_indentation << "/// </summary>" << m_endl;
+            cs << m_container_indent << m_indentation << "/// <summary>" << m_endl;
+            cs << formatDoc(op->getDoc(), m_container_indent + m_indentation + "/// ");
+            cs << m_container_indent << m_indentation << "/// </summary>" << m_endl;
 
-            // FIXME: parameter documentation cannot contain newlines.
             //write parameter documentation
-            for (at = atl.first(); at; at = atl.next())  
+            for (at = atl.first(); at; at = atl.next())
             {
                 if (forceDoc() || !at->getDoc().isEmpty()) {
-                    cs << m_indentation << m_indentation << "/// <param name=\"" << cleanName(at->getName()) << "\">";
-                    cs << formatDoc(at->getDoc(),"");
+                    cs << m_container_indent << m_indentation << "/// <param name=\"" << cleanName(at->getName()) << "\">";
+                    //removing newlines from parameter doc
+                    cs << formatDoc(at->getDoc(), "").replace("\n", " ").remove('\r').replace(QRegExp(" $"), "");
                     cs << "</param>" << m_endl;
                 }
             }
 
             // FIXME: "returns" should contain documentation, not type.
-            cs << m_indentation << m_indentation << "/// <returns>" << op->getTypeName() << "</returns>" << m_endl;
+            cs << m_container_indent << m_indentation << "/// <returns>";
+            if (op->getTypeName() != "") {
+                cs << makeLocalTypeName(op);
+            }
+            cs << "</returns>" << m_endl;
 
- /* not used in C#           
+ /* not used in C#
             if (op->getAbstract()) cs << m_indentation << " * @abstract" << m_endl;
             if (op->getStatic()) cs << m_indentation << " * @static" << m_endl;
-            
+
             switch (op->getVisibility()) {
               case Uml::Visibility::Public:
                 cs << m_indentation << " * @access public" << m_endl;
@@ -451,7 +480,7 @@ void CSharpWriter::writeOperations(const QString &/* classname */, UMLOperationL
         }
 
         // method visibility
-        cs << m_indentation << m_indentation;
+        cs << m_container_indent << m_indentation;
         if (op->getAbstract()) cs << "abstract ";
         switch (op->getVisibility()) {
           case Uml::Visibility::Public:
@@ -469,11 +498,11 @@ void CSharpWriter::writeOperations(const QString &/* classname */, UMLOperationL
         if (op->getStatic()) cs << "static ";
 
         // return type
-        if (op->getTypeName() == "") { 
+        if (op->getTypeName() == "") {
             cs << "void ";
         }
         else {
-            cs << op->getTypeName() << " ";
+            cs << makeLocalTypeName(op) << " ";
         }
 
         // method name
@@ -483,8 +512,8 @@ void CSharpWriter::writeOperations(const QString &/* classname */, UMLOperationL
         int i= atl.count();
         int j=0;
         for (at = atl.first(); at; at = atl.next(), j++) {
-        
-            cs << at->getTypeName() << " " << cleanName(at->getName());
+
+            cs << makeLocalTypeName(at) << " " << cleanName(at->getName());
 
             // no initial values in C#
             //<< (!(at->getInitialValue().isEmpty()) ?
@@ -493,14 +522,15 @@ void CSharpWriter::writeOperations(const QString &/* classname */, UMLOperationL
             cs << ((j < i-1)?", ":"");
         }
         cs << ")";
-        
+
+        //FIXME: how to control generation of error stub?
         if (!isInterface && !op->getAbstract()) {
-            cs << m_endl << m_indentation << m_indentation << "{" << m_endl;
+            cs << m_endl << m_container_indent << m_indentation << "{" << m_endl;
             if (generateErrorStub) {
-                cs << m_indentation << m_indentation;
-                cs << "throw new Exception(\"This function is not implemented yet.\");" << m_endl;
+                cs << m_container_indent << m_indentation << m_indentation;
+                cs << "throw new Exception(\"The method or operation is not implemented.\");" << m_endl;
             }
-            cs << m_indentation << m_indentation << "}" << m_endl;
+            cs << m_container_indent << m_indentation << "}" << m_endl;
         }
         else {
             cs << ';' << m_endl;
@@ -520,7 +550,7 @@ void CSharpWriter::writeAttributes(UMLClassifier *c, QTextStream &cs) {
     //sort attributes by scope and see if they have a default value
     UMLAttributeList atl = c->getAttributeList();
     UMLAttribute *at;
-    
+
     for (at = atl.first(); at ; at = atl.next()) {
         if (!at->getInitialValue().isEmpty())
             atdefval.append(at);
@@ -540,7 +570,7 @@ void CSharpWriter::writeAttributes(UMLClassifier *c, QTextStream &cs) {
     }
 
     if (forceSections() || atl.count())
-        cs<< m_endl << m_indentation << m_indentation << " /** Attributes: **/" << m_endl <<m_endl;
+        cs << m_endl << m_container_indent << m_indentation << "#region Attributes" << m_endl << m_endl;
 
     // write public attributes
     if (forceSections() || atpub.count()) {
@@ -556,6 +586,10 @@ void CSharpWriter::writeAttributes(UMLClassifier *c, QTextStream &cs) {
     if (forceSections() || atpriv.count()) {
         writeAttributes(atpriv,cs);
     }
+
+    if (forceSections() || atl.count())
+        cs << m_endl << m_container_indent << m_indentation << "#endregion" << m_endl << m_endl;
+
 }
 
 
@@ -563,11 +597,11 @@ void CSharpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &cs) {
     for (UMLAttribute *at = atList.first(); at ; at = atList.next()) {
         bool isStatic = at->getStatic();
         if (forceDoc() || !at->getDoc().isEmpty()) {
-        
-            cs << m_indentation << m_indentation << "/// <summary>" << m_endl;
-            cs << formatDoc(at->getDoc(), m_indentation + m_indentation + "/// ");
-            cs << m_indentation << m_indentation << "/// </summary>" << m_endl;
-             
+
+            cs << m_container_indent << m_indentation << "/// <summary>" << m_endl;
+            cs << formatDoc(at->getDoc(), m_container_indent + m_indentation + "/// ");
+            cs << m_container_indent << m_indentation << "/// </summary>" << m_endl;
+
 /*            if (isStatic) cs << m_indentation << " * @static" << m_endl;
             switch (at->getVisibility()) {
               case Uml::Visibility::Public:
@@ -584,9 +618,9 @@ void CSharpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &cs) {
             }
  */
  //          cs << m_indentation << " */" << m_endl;
- 
+
         }
-        cs << m_indentation << m_indentation;
+        cs << m_container_indent << m_indentation;
         switch (at->getVisibility()) {
           case Uml::Visibility::Public:
             cs << "public ";
@@ -602,42 +636,52 @@ void CSharpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &cs) {
         }
         if (isStatic) cs << "static ";
 
-        // FIXME: Class types include complete name, should strip last element only.
-        cs << at->getTypeName() << " ";
+        //Variable type with/without namespace path
+        cs << makeLocalTypeName(at) << " ";
 
-        
         cs << cleanName(at->getName());
 
         // FIXME: may need a GUI switch to not generate as Property?
-        
+
         // Generate as Property if not private
         if (at->getVisibility() != Uml::Visibility::Private)
         {
             cs << m_endl;
-            cs << m_indentation << m_indentation << "{" << m_endl;
-            cs << m_indentation << m_indentation << m_indentation << "get" << m_endl;
-            cs << m_indentation << m_indentation << m_indentation << "{" << m_endl;
-            cs << m_indentation << m_indentation << m_indentation << m_indentation << "return m_" << cleanName(at->getName()) << ";" << m_endl;
-            cs << m_indentation << m_indentation << m_indentation << "}" << m_endl;
-            
-            cs << m_indentation << m_indentation << m_indentation << "set" << m_endl;
-            cs << m_indentation << m_indentation << m_indentation << "{" << m_endl;
-            cs << m_indentation << m_indentation << m_indentation << m_indentation << "m_" << cleanName(at->getName()) << " = value;" << m_endl;
-            cs << m_indentation << m_indentation << m_indentation << "}" << m_endl;
-            cs << m_indentation << m_indentation << "}" << m_endl;
-            cs << m_indentation << m_indentation << "private m_" << cleanName(at->getName()) << ";" << m_endl;
+            cs << m_container_indent << m_indentation << "{" << m_endl;
+            cs << m_container_indent << m_indentation << m_indentation << "get" << m_endl;
+            cs << m_container_indent << m_indentation << m_indentation << "{" << m_endl;
+            cs << m_container_indent << m_indentation << m_indentation << m_indentation << "return m_" << cleanName(at->getName()) << ";" << m_endl;
+            cs << m_container_indent << m_indentation << m_indentation << "}" << m_endl;
+
+            cs << m_container_indent << m_indentation << m_indentation << "set" << m_endl;
+            cs << m_container_indent << m_indentation << m_indentation << "{" << m_endl;
+            cs << m_container_indent << m_indentation << m_indentation << m_indentation << "m_" << cleanName(at->getName()) << " = value;" << m_endl;
+            cs << m_container_indent << m_indentation << m_indentation << "}" << m_endl;
+            cs << m_container_indent << m_indentation << "}" << m_endl;
+            cs << m_container_indent << m_indentation << "private " << makeLocalTypeName(at) << " m_" << cleanName(at->getName()) << ";" << m_endl;
         }
         else
         {
             cs << ";" << m_endl;
         }
-        
+
 //        if (!at->getInitialValue().isEmpty())
 //            cs << " = " << at->getInitialValue();
 
         cs << m_endl;
     } // end for
     return;
+}
+
+QString CSharpWriter::makeLocalTypeName(UMLClassifierListItem *cl) {
+    UMLPackage *p = cl->getType()->getUMLPackage();
+    if (m_seenIncludes.findRef(p) != -1) {
+        return cl->getType()->getName();
+    }
+    else {
+        return cl->getTypeName();
+    }
+
 }
 
 /**
