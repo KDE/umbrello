@@ -26,7 +26,7 @@
 #include <kmainwindow.h>
 #include <kdeversion.h>
 #include <kurl.h>
-#include <kconfig.h>
+#include <ksharedconfig.h>
 
 // forward declaration of the UML classes
 class AlignToolBar;
@@ -404,7 +404,7 @@ protected:
      * temporary filename provided by KApplication.
      * @see KMainWindow#saveProperties
      */
-    virtual void saveProperties(KConfig *_cfg);
+    virtual void saveProperties(KConfigGroup &_cfg);
 
     /**
      * Reads the session config file and restores the
@@ -413,7 +413,7 @@ protected:
      * saveProperties()
      * @see KMainWindow#readProperties
      */
-    virtual void readProperties(KConfig *_cfg);
+    virtual void readProperties(const KConfigGroup &_cfg);
 
     CodeGenerationPolicy * m_commoncodegenpolicy;
 

@@ -97,15 +97,15 @@ void JavaCodeGenerationPolicy::writeConfig ( KConfig * config )
 {
 
     // write ONLY the Java specific stuff
-    config->setGroup("Java Code Generation");
+    KConfigGroup cg( config, "Java Code Generation" );
 
-    config->writeEntry("autoGenAccessors",getAutoGenerateAttribAccessors());
-    config->writeEntry("autoGenAssocAccessors",getAutoGenerateAssocAccessors());
+    cg.writeEntry("autoGenAccessors",getAutoGenerateAttribAccessors());
+    cg.writeEntry("autoGenAssocAccessors",getAutoGenerateAssocAccessors());
 
     CodeGenerator *codegen = UMLApp::app()->getGenerator();
     JavaCodeGenerator *javacodegen = dynamic_cast<JavaCodeGenerator*>(codegen);
     if (javacodegen)
-        config->writeEntry("buildANTDocument", javacodegen->getCreateANTBuildFile());
+        cg.writeEntry("buildANTDocument", javacodegen->getCreateANTBuildFile());
 
 }
 
@@ -151,15 +151,15 @@ void JavaCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSig
     // needlessly (we can just make one call at the end).
 
     // now do java specific stuff
-    config -> setGroup("Java Code Generation");
+    KConfigGroup cg( config, "Java Code Generation");
 
-    setAutoGenerateAttribAccessors(config->readEntry("autoGenAccessors",DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS));
-    setAutoGenerateAssocAccessors(config->readEntry("autoGenAssocAccessors",DEFAULT_AUTO_GEN_ASSOC_ACCESSORS));
+    setAutoGenerateAttribAccessors(cg.readEntry("autoGenAccessors",DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS));
+    setAutoGenerateAssocAccessors(cg.readEntry("autoGenAssocAccessors",DEFAULT_AUTO_GEN_ASSOC_ACCESSORS));
 
     CodeGenerator *codegen = UMLApp::app()->getGenerator();
     JavaCodeGenerator *javacodegen = dynamic_cast<JavaCodeGenerator*>(codegen);
     if (javacodegen) {
-        bool mkant = config->readEntry("buildANTDocument", JavaCodeGenerator::DEFAULT_BUILD_ANT_DOC);
+        bool mkant = cg.readEntry("buildANTDocument", JavaCodeGenerator::DEFAULT_BUILD_ANT_DOC);
         javacodegen->setCreateANTBuildFile(mkant);
     }
 

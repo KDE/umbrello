@@ -590,70 +590,73 @@ UMLListView* UMLApp::getListView() {
 
 
 void UMLApp::saveOptions() {
-    toolBar("mainToolBar")->saveSettings(m_config.data(), "toolbar");
-    toolsbar->saveSettings(m_config.data(), "workbar");
-    m_alignToolBar->saveSettings(m_config.data(), "aligntoolbar");
-    fileOpenRecent->saveEntries(m_config.data(),"Recent Files");
-    m_config->setGroup( "General Options" );
-    m_config->writeEntry( "Geometry", size() );
+    KConfigGroup cg( m_config, "toolbar" );
+    toolBar("mainToolBar")->saveSettings( cg );
+    cg.changeGroup( "workbar" );
+    toolsbar->saveSettings(cg );
+    cg.changeGroup( "aligntoolbar" );
+    m_alignToolBar->saveSettings( cg );
+    fileOpenRecent->saveEntries( m_config->group( "Recent Files") );
+    cg.changeGroup( "General Options" );
+    cg.writeEntry( "Geometry", size() );
 
     Settings::OptionState& optionState = Settings::getOptionState();
-    m_config->writeEntry( "undo", optionState.generalState.undo );
-    m_config->writeEntry( "tabdiagrams", optionState.generalState.tabdiagrams );
-    m_config->writeEntry( "newcodegen", optionState.generalState.newcodegen );
-    m_config->writeEntry( "angularlines", optionState.generalState.angularlines );
-    m_config->writeEntry( "autosave", optionState.generalState.autosave );
-    m_config->writeEntry( "time", optionState.generalState.time );
-    m_config->writeEntry( "autosavetime", optionState.generalState.autosavetime );
-    m_config->writeEntry( "autosavesuffix", optionState.generalState.autosavesuffix );
+    cg.writeEntry( "undo", optionState.generalState.undo );
+    cg.writeEntry( "tabdiagrams", optionState.generalState.tabdiagrams );
+    cg.writeEntry( "newcodegen", optionState.generalState.newcodegen );
+    cg.writeEntry( "angularlines", optionState.generalState.angularlines );
+    cg.writeEntry( "autosave", optionState.generalState.autosave );
+    cg.writeEntry( "time", optionState.generalState.time );
+    cg.writeEntry( "autosavetime", optionState.generalState.autosavetime );
+    cg.writeEntry( "autosavesuffix", optionState.generalState.autosavesuffix );
 
-    m_config->writeEntry( "logo", optionState.generalState.logo );
-    m_config->writeEntry( "loadlast", optionState.generalState.loadlast );
+    cg.writeEntry( "logo", optionState.generalState.logo );
+    cg.writeEntry( "loadlast", optionState.generalState.loadlast );
 
-    m_config->writeEntry( "diagram", (int)optionState.generalState.diagram );
+    cg.writeEntry( "diagram", (int)optionState.generalState.diagram );
     if( m_doc->url().fileName() == i18n( "Untitled" ) ) {
         m_config -> writeEntry( "lastFile", "" );
     } else {
         m_config -> writePathEntry( "lastFile", m_doc -> url().prettyUrl() );
     }
-    m_config->writeEntry( "imageMimeType", getImageMimeType() );
+    cg.writeEntry( "imageMimeType", getImageMimeType() );
 
-    m_config->setGroup( "TipOfDay");
+    cg.changeGroup( "TipOfDay");
     optionState.generalState.tip = m_config -> readEntry( "RunOnStart", true );
-    m_config->writeEntry( "RunOnStart", optionState.generalState.tip );
+    cg.writeEntry( "RunOnStart", optionState.generalState.tip );
 
-    m_config->setGroup( "UI Options" );
-    m_config->writeEntry( "useFillColor", optionState.uiState.useFillColor );
-    m_config->writeEntry( "fillColor", optionState.uiState.fillColor );
-    m_config->writeEntry( "lineColor", optionState.uiState.lineColor );
-    m_config->writeEntry( "lineWidth", optionState.uiState.lineWidth );
-    m_config->writeEntry( "showDocWindow", m_documentationDock->isVisible() );
-    m_config->writeEntry( "font", optionState.uiState.font );
+    cg.changeGroup( "UI Options" );
+    cg.writeEntry( "useFillColor", optionState.uiState.useFillColor );
+    cg.writeEntry( "fillColor", optionState.uiState.fillColor );
+    cg.writeEntry( "lineColor", optionState.uiState.lineColor );
+    cg.writeEntry( "lineWidth", optionState.uiState.lineWidth );
+    cg.writeEntry( "showDocWindow", m_documentationDock->isVisible() );
+    cg.writeEntry( "font", optionState.uiState.font );
 
-    m_config->setGroup( "Class Options" );
-    m_config->writeEntry( "showVisibility", optionState.classState.showVisibility );
-    m_config->writeEntry( "showAtts", optionState.classState.showAtts);
-    m_config->writeEntry( "showOps", optionState.classState.showOps );
-    m_config->writeEntry( "showStereoType", optionState.classState.showStereoType );
-    m_config->writeEntry( "showAttSig", optionState.classState.showAttSig );
-    m_config->writeEntry( "ShowOpSig", optionState.classState.showOpSig );
-    m_config->writeEntry( "showPackage", optionState.classState.showPackage );
-    m_config->writeEntry( "defaultAttributeScope", (int)optionState.classState.defaultAttributeScope);
-    m_config->writeEntry( "defaultOperationScope", (int)optionState.classState.defaultOperationScope);
+    cg.changeGroup( "Class Options" );
+    cg.writeEntry( "showVisibility", optionState.classState.showVisibility );
+    cg.writeEntry( "showAtts", optionState.classState.showAtts);
+    cg.writeEntry( "showOps", optionState.classState.showOps );
+    cg.writeEntry( "showStereoType", optionState.classState.showStereoType );
+    cg.writeEntry( "showAttSig", optionState.classState.showAttSig );
+    cg.writeEntry( "ShowOpSig", optionState.classState.showOpSig );
+    cg.writeEntry( "showPackage", optionState.classState.showPackage );
+    cg.writeEntry( "defaultAttributeScope", (int)optionState.classState.defaultAttributeScope);
+    cg.writeEntry( "defaultOperationScope", (int)optionState.classState.defaultOperationScope);
 
-    m_config -> setGroup( "Code Viewer Options" );
-    m_config->writeEntry( "height", optionState.codeViewerState.height );
-    m_config->writeEntry( "width", optionState.codeViewerState.width);
-    m_config->writeEntry( "font", optionState.codeViewerState.font);
-    m_config->writeEntry( "fontColor", optionState.codeViewerState.fontColor);
-    m_config->writeEntry( "paperColor", optionState.codeViewerState.paperColor);
-    m_config->writeEntry( "selectedColor", optionState.codeViewerState.selectedColor);
-    m_config->writeEntry( "editBlockColor", optionState.codeViewerState.editBlockColor);
-    m_config->writeEntry( "nonEditBlockColor", optionState.codeViewerState.nonEditBlockColor);
-    m_config->writeEntry( "umlObjectBlockColor", optionState.codeViewerState.umlObjectColor);
-    m_config->writeEntry( "blocksAreHighlighted", optionState.codeViewerState.blocksAreHighlighted);
-    m_config->writeEntry( "showHiddenBlocks", optionState.codeViewerState.showHiddenBlocks);
-    m_config->writeEntry( "hiddenColor", optionState.codeViewerState.hiddenColor);
+    cg.changeGroup( "Code Viewer Options" );
+    cg.writeEntry( "height", optionState.codeViewerState.height );
+    cg.writeEntry( "width", optionState.codeViewerState.width);
+    cg.writeEntry( "font", optionState.codeViewerState.font);
+    cg.writeEntry( "fontColor", optionState.codeViewerState.fontColor);
+    cg.writeEntry( "paperColor", optionState.codeViewerState.paperColor);
+    cg.writeEntry( "selectedColor", optionState.codeViewerState.selectedColor);
+    cg.writeEntry( "editBlockColor", optionState.codeViewerState.editBlockColor);
+    cg.writeEntry( "nonEditBlockColor", optionState.codeViewerState.nonEditBlockColor);
+    cg.writeEntry( "umlObjectBlockColor", optionState.codeViewerState.umlObjectColor);
+    cg.writeEntry( "blocksAreHighlighted", optionState.codeViewerState.blocksAreHighlighted);
+    cg.writeEntry( "showHiddenBlocks", optionState.codeViewerState.showHiddenBlocks);
+    cg.writeEntry( "hiddenColor", optionState.codeViewerState.hiddenColor);
 
     // write the config for a language-specific code gen policy
     if (m_policyext)
@@ -664,32 +667,32 @@ void UMLApp::saveOptions() {
 
     // next, we record the activeLanguage in the Code Generation Group
     if (m_codegen) {
-        m_config->setGroup("Code Generation");
-        m_config->writeEntry("activeLanguage", Model_Utils::progLangToString(m_codegen->getLanguage()));
+        cg.changeGroup("Code Generation");
+        cg.writeEntry("activeLanguage", Model_Utils::progLangToString(m_codegen->getLanguage()));
     }
 }
 
 void UMLApp::readOptions() {
     // bar status settings
-    toolBar("mainToolBar")->applySettings(m_config.data(), "toolbar");
+    toolBar("mainToolBar")->applySettings(m_config->group( "toolbar") );
     // do config for work toolbar
-    toolsbar->applySettings(m_config.data(), "workbar");
-    m_alignToolBar->applySettings(m_config.data(), "aligntoolbar");
-    fileOpenRecent->loadEntries(m_config.data(),"Recent Files");
-    m_config->setGroup("General Options");
-    setImageMimeType(m_config->readEntry("imageMimeType","image/png"));
+    toolsbar->applySettings(m_config->group( "workbar") );
+    m_alignToolBar->applySettings(m_config->group( "aligntoolbar") );
+    fileOpenRecent->loadEntries(m_config->group( "Recent Files") );
+    KConfigGroup general( m_config, "General Options");
+    setImageMimeType( general.readEntry("imageMimeType","image/png"));
     QSize tmpQSize(630,460);
-    resize( m_config->readEntry("Geometry", tmpQSize) );
+    resize( general.readEntry("Geometry", tmpQSize) );
 }
 
-void UMLApp::saveProperties(KConfig *_config) {
+void UMLApp::saveProperties(KConfigGroup &_config) {
     if(m_doc->url().fileName()!=i18n("Untitled") && !m_doc->isModified()) {
         // saving to tempfile not necessary
 
     } else {
         KUrl url=m_doc->url();
-        _config->writePathEntry("filename", url.url());
-        _config->writeEntry("modified", m_doc->isModified());
+        _config.writePathEntry("filename", url.url());
+        _config.writeEntry("modified", m_doc->isModified());
         QString tempname = kapp->tempSaveName(url.url());
         QString tempurl= KUrl::encode_string(tempname);
 
@@ -698,10 +701,10 @@ void UMLApp::saveProperties(KConfig *_config) {
     }
 }
 
-void UMLApp::readProperties(KConfig* _config) {
-    QString filename = _config->readPathEntry("filename");
+void UMLApp::readProperties(const KConfigGroup& _config) {
+    QString filename = _config.readPathEntry("filename");
     KUrl url(filename);
-    bool modified = _config->readEntry("modified", false);
+    bool modified = _config.readEntry("modified", false);
     if(modified) {
         bool canRecover;
         QString tempname = kapp->checkRecoverFile(filename, canRecover);
