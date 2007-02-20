@@ -15,6 +15,8 @@ Version 1.5.7
 * Unable to delete multiplicity information or lable from an association
   (141813)
 * C++ code generator does not correctly define namespaces (141876)
+* Ada code generator generates "withs" in both directions for certain
+  associations (141956)
 
 Version 1.5.61
 
