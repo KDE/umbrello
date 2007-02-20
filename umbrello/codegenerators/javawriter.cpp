@@ -704,6 +704,76 @@ QStringList JavaWriter::defaultDatatypes() {
     return l;
 }
 
+
+bool JavaWriter::compareJavaMethod(UMLOperation *op1, UMLOperation *op2)
+{
+    if (op1 == NULL || op2 == NULL)
+        return false;
+    if (op1 == op2)
+        return true;
+    if (op1->getName() != op2->getName())
+        return false;
+    UMLAttributeList atl1 = op1->getParmList();
+    UMLAttributeList atl2 = op2->getParmList();
+    if (atl1.count() != atl2.count())
+        return false;
+    UMLAttribute *at1;
+    UMLAttribute *at2;
+    for (at1  = atl1.first(), at2 = atl2.first(); at1 && at2 ; at1 = atl1.next(),at2 = atl2.next())
+    {
+        if (at1->getTypeName() != at2->getTypeName())
+            return false;
+    }
+    return true;
+    
+}
+
+bool JavaWriter::javaMethodInList(UMLOperation *umlOp, UMLOperationList &opl)
+{
+    for (UMLOperation *op = opl.first(); op; op = opl.next()) {
+        if (JavaWriter::compareJavaMethod(op, umlOp)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void JavaWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationList &yetImplementedOpList ,UMLOperationList &toBeImplementedOpList, bool noClassInPath)
+{
+    UMLClassifierList superClasses = c->findSuperClassConcepts();
+    
+    for (UMLClassifier *concept= superClasses.first(); concept; concept = superClasses.next())
+    {
+        getSuperImplementedOperations(concept, yetImplementedOpList, toBeImplementedOpList, (concept->isInterface() && noClassInPath));
+        UMLOperationList opl = concept->getOpList();
+        for (UMLOperation *op = opl.first(); op; op = opl.next()) {
+            if (concept->isInterface() && noClassInPath) {
+                if (!JavaWriter::javaMethodInList(op,toBeImplementedOpList))
+                    toBeImplementedOpList.append(op);
+            }
+            else
+            {
+                if (!JavaWriter::javaMethodInList(op, yetImplementedOpList))
+                    yetImplementedOpList.append(op);
+            }
+        }
+    }
+    
+}
+
+void JavaWriter::getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOperationList &opList )
+{
+    UMLOperationList yetImplementedOpList;
+    UMLOperationList toBeImplementedOpList;
+
+    getSuperImplementedOperations(c,yetImplementedOpList, toBeImplementedOpList);
+    for (UMLOperation *op = toBeImplementedOpList.first(); op; op = toBeImplementedOpList.next())
+    {
+        if ( ! JavaWriter::javaMethodInList(op, yetImplementedOpList) && ! JavaWriter::javaMethodInList(op, opList) )
+            opList.append(op);
+    } 
+}
+
 void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
     UMLOperationList opl;
     UMLOperationList oppub,opprot,oppriv;
@@ -711,8 +781,11 @@ void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
     opprot.setAutoDelete(false);
     oppriv.setAutoDelete(false);
 
-    //sort operations by scope first and see if there are abstrat methods
+    //sort operations by scope first and see if there are abstract methods
     opl = c->getOpList();
+    if (! c->isInterface()) {
+        getInterfacesOperationsToBeImplemented(c, opl);
+    } 
     for (UMLOperation *op = opl.first(); op; op = opl.next()) {
         switch(op->getVisibility()) {
           case Uml::Visibility::Public:

@@ -76,6 +76,37 @@ private:
     void writeConstructor(UMLClassifier *c, QTextStream &java);
 
     /**
+     * return true if the two operations have the same name and the same parameters
+     * @param op1 first operation to be compared
+     * @param op2 second operation to be compared
+     */
+    static bool compareJavaMethod(UMLOperation *op1, UMLOperation *op2);
+
+    /**
+     * return true if the operation is in the list
+     * @param umlOp operation to be searched 
+     * @param opl list of operations
+     */
+    static bool javaMethodInList(UMLOperation *umlOp, UMLOperationList &opl);
+
+    /**
+     * get all operations which a given class inherit from all its super interfaces and get all operations
+     * which this given class inherit from all its super classes
+     * @param c the class for which we are generating code
+     * @param yetImplementedOpList the list of yet implemented operations
+     * @param toBeImplementedOpList the list of to be implemented operations
+     * @param noClassInPath tells if there is a class between the base class and the current interface 
+     */
+    void getSuperImplementedOperations(UMLClassifier *c, UMLOperationList &yetImplementedOpList ,UMLOperationList &toBeImplementedOpList, bool noClassInPath = true);
+
+    /**
+     * get all operations which a given class inherit from all its super interfaces and that should be implemented
+     * @param c the class for which we are generating code
+     * @param opl the list of operations used to append the operations
+     */
+    void getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOperationList &opl);
+
+     /**
      * write all operations for a given class
      * @param c the class for which we are generating code
      * @param j the stream associated with the output file
