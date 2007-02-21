@@ -286,7 +286,7 @@ set(libumbrello_SRCS
    entity.cpp 
    entityattribute.cpp 
    entitywidget.cpp 
-   expansionregionwidget.cpp 
+   regionwidget.cpp 
    enum.cpp 
    enumliteral.cpp 
    enumwidget.cpp 

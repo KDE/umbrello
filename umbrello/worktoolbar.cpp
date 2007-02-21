@@ -151,7 +151,7 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
         insertHotBtn(tbb_Send_Signal);
         insertHotBtn(tbb_Accept_Signal);
         insertHotBtn(tbb_Accept_Time_Event);
-        insertHotBtn(tbb_Expansion_Region);
+        insertHotBtn(tbb_Region);
         break;
 
     case Uml::dt_Component:
@@ -281,7 +281,7 @@ void WorkToolBar::loadPixmaps() {
         { tbb_UseCase, i18n("Use Case"), "usecase.png", SLOT(slotUseCase()) },
         { tbb_Class, i18n("Class"), "class.png", SLOT(slotClass()) },
         { tbb_Initial_State, i18n("Initial State"), "initial_state.png", SLOT(slotInitial_State()) },
-        { tbb_Expansion_Region, i18n("Expansion Region"), "expansion_region.png", SLOT(slotExpansion_Region()) },
+        { tbb_Region, i18n("Region"), "region.png", SLOT(slotRegion()) },
         { tbb_End_State, i18n("End State"), "end_state.png", SLOT(slotEnd_State()) },
         { tbb_Branch, i18n("Branch/Merge"), "branch.png", SLOT(slotBranch()) },
         { tbb_Send_Signal, i18n("Send signal"), "send_signal.png", SLOT(slotSend_Signal()) },
@@ -385,7 +385,7 @@ void WorkToolBar::slotSend_Signal() {buttonChanged(tbb_Send_Signal);}
 void WorkToolBar::slotAccept_Signal() {buttonChanged(tbb_Accept_Signal);}
 void WorkToolBar::slotAccept_Time_Event() {buttonChanged(tbb_Accept_Time_Event);}
 void WorkToolBar::slotEnd_State() {buttonChanged(tbb_End_State);}
-void WorkToolBar::slotExpansion_Region() {buttonChanged(tbb_Expansion_Region);}
+void WorkToolBar::slotRegion() {buttonChanged(tbb_Region);}
 void WorkToolBar::slotInitial_Activity() {buttonChanged(tbb_Initial_Activity);}
 void WorkToolBar::slotActivity() {buttonChanged(tbb_Activity);}
 void WorkToolBar::slotObject_Flow() {buttonChanged(tbb_Object_Flow);}

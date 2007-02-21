@@ -37,7 +37,7 @@
 #include "enum.h"
 #include "entitywidget.h"
 #include "entity.h"
-#include "expansionregionwidget.h"
+#include "regionwidget.h"
 #include "actorwidget.h"
 #include "actor.h"
 #include "usecasewidget.h"
@@ -167,13 +167,13 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
      || tag == "preconditionwidget"      || tag == "endoflifewidget" 
      || tag == "combinedFragmentwidget"  || tag == "signalwidget"  
      || tag == "objectflowwidget"        || tag == "floatingdashlinewidget" 
-     || tag == "expansionregionwidget"   ||
+     || tag == "regionwidget"
             // tests for backward compatibility:
-        tag == "UML:StateWidget"         || tag == "UML:NoteWidget" 
-     || tag=="UML:CombinedFragmentWidget"|| tag == "UML:FloatingTextWidget" 
-     || tag == "UML:SignalWidget"        || tag == "UML:ActivityWidget" 
-     || tag == "UML:EndOfLifeWidget"     ||tag == "UML:PreconditionWidget"
-     ||tag == "UML:FloatingDashLineWidget" || tag == "UML:ObjectFlowWidget" ) {
+     || tag == "UML:StateWidget"            || tag == "UML:NoteWidget" 
+     || tag =="UML:CombinedFragmentWidget"  || tag == "UML:FloatingTextWidget" 
+     || tag == "UML:SignalWidget"           || tag == "UML:ActivityWidget" 
+     || tag == "UML:EndOfLifeWidget"        || tag == "UML:PreconditionWidget"
+     || tag == "UML:FloatingDashLineWidget" || tag == "UML:ObjectFlowWidget" ) {
         // Loading of widgets which do NOT represent any UMLObject, 
         // just graphic stuff with no real model information
         //FIXME while boxes and texts are just diagram objects, activities and
@@ -212,8 +212,8 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         } else if (tag == "objectflowwidget"
                    || tag == "UML:ObjectFlowWidget" ) {
             widget = new ObjectFlowWidget(view,Uml::id_Reserved);
-        } else if (tag == "expansionregionwidget" ) {
-            widget = new ExpansionRegionWidget(view, Uml::id_Reserved);
+        } else if (tag == "regionwidget" ) {
+            widget = new RegionWidget(view, Uml::id_Reserved);
         }
     }
     else

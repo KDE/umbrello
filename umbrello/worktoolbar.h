@@ -113,7 +113,7 @@ public:
         tbb_Object,
         tbb_Initial_State,
         tbb_State,
-        tbb_Expansion_Region,
+        tbb_Region,
         tbb_End_State,
         tbb_Initial_Activity,
         tbb_Activity,
@@ -233,7 +233,7 @@ public slots:
     void slotNode();
     void slotArtifact();
     void slotObject();
-    void slotExpansion_Region();
+    void slotRegion();
     void slotInitial_State();
     void slotState();
     void slotEnd_State();

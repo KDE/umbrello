@@ -10,7 +10,7 @@
  ***************************************************************************/
 
 // own header
-#include "expansionregionwidget.h"
+#include "regionwidget.h"
 
 // qt includes
 #include <qevent.h>
@@ -31,14 +31,14 @@
 
 #include "listpopupmenu.h"
 
-ExpansionRegionWidget::ExpansionRegionWidget(UMLView * view, Uml::IDType id)
+RegionWidget::RegionWidget(UMLView * view, Uml::IDType id)
         : UMLWidget(view, id) {
     updateComponentSize();
 }
 
-ExpansionRegionWidget::~ExpansionRegionWidget() {}
+RegionWidget::~RegionWidget() {}
 
-void ExpansionRegionWidget::draw(QPainter & p, int offsetX, int offsetY) 
+void RegionWidget::draw(QPainter & p, int offsetX, int offsetY) 
 {
     UMLWidget::setPen(p);
     const int w = width();
@@ -56,7 +56,7 @@ void ExpansionRegionWidget::draw(QPainter & p, int offsetX, int offsetY)
         drawSelected(&p, offsetX, offsetY);
 }
 
-QSize ExpansionRegionWidget::calculateSize() {
+QSize RegionWidget::calculateSize() {
 
     int width = 10, height = 10;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -64,31 +64,31 @@ QSize ExpansionRegionWidget::calculateSize() {
     int textWidth = fm.width(getName());
 
     height  = fontHeight;
-    width   = textWidth > EXPANSION_REGION_WIDTH?textWidth:EXPANSION_REGION_WIDTH;
-    height  = height > EXPANSION_REGION_HEIGHT ? height : EXPANSION_REGION_HEIGHT;
-    width  += EXPANSION_REGION_MARGIN * 2;
-    height += EXPANSION_REGION_MARGIN * 2;
+    width   = textWidth > REGION_WIDTH?textWidth:REGION_WIDTH;
+    height  = height > REGION_HEIGHT ? height : REGION_HEIGHT;
+    width  += REGION_MARGIN * 2;
+    height += REGION_MARGIN * 2;
 
     return QSize(width, height);
 }
 
-void ExpansionRegionWidget::setName(const QString &strName) {
+void RegionWidget::setName(const QString &strName) {
     m_Text = strName;
     updateComponentSize();
     adjustAssocs( getX(), getY() );
 }
 
-QString ExpansionRegionWidget::getName() const {
+QString RegionWidget::getName() const {
     return m_Text;
 }
 
-bool ExpansionRegionWidget::showProperties() 
+bool RegionWidget::showProperties() 
 {
     return true;
 }
 
-void ExpansionRegionWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-    QDomElement regionElement = qDoc.createElement( "expansionregionwidget" );
+void RegionWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+    QDomElement regionElement = qDoc.createElement( "regionwidget" );
     UMLWidget::saveToXMI( qDoc, regionElement );
     regionElement.setAttribute( "regionname", m_Text );
     regionElement.setAttribute( "documentation", m_Doc );
@@ -96,7 +96,7 @@ void ExpansionRegionWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qEleme
     qElement.appendChild( regionElement );
 }
 
-bool ExpansionRegionWidget::loadFromXMI( QDomElement & qElement ) {
+bool RegionWidget::loadFromXMI( QDomElement & qElement ) {
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
     m_Text = qElement.attribute( "regionname", "" );
@@ -105,5 +105,5 @@ bool ExpansionRegionWidget::loadFromXMI( QDomElement & qElement ) {
 }
 
 
-#include "expansionregionwidget.moc"
+#include "regionwidget.moc"
 

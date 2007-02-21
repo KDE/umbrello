@@ -9,35 +9,35 @@
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
 ***************************************************************************/
 
-#ifndef EXPANSION_REGIONWIDGET_H
-#define EXPANSION_REGIONWIDGET_H
+#ifndef REGIONWIDGET_H
+#define REGIONWIDGET_H
 #include <qpainter.h>
 #include <qstringlist.h>
 #include "umlwidget.h"
 #include "worktoolbar.h"
 #include "floatingtextwidget.h"
 
-#define EXPANSION_REGION_MARGIN 5
-#define EXPANSION_REGION_WIDTH 90
-#define EXPANSION_REGION_HEIGHT 45
+#define REGION_MARGIN 5
+#define REGION_WIDTH 90
+#define REGION_HEIGHT 45
 
-class ExpansionRegionWidget: public UMLWidget {
+class RegionWidget: public UMLWidget {
     Q_OBJECT
 public:
 
     /**
-     * Creates a ExpansionRegion widget.
+     * Creates a Region widget.
      *
      * @param view              The parent of the widget.
-     * @param EXPANSION_REGIONType        The type of ExpansionRegion.
+     * @param REGIONType        The type of Region.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-    ExpansionRegionWidget( UMLView * view, Uml::IDType id = Uml::id_None );
+    RegionWidget( UMLView * view, Uml::IDType id = Uml::id_None );
 
     /**
      * destructor
      */
-    virtual ~ExpansionRegionWidget();
+    virtual ~RegionWidget();
 
     /**
      * Overrides the standard paint event.
@@ -45,29 +45,29 @@ public:
     void draw(QPainter & p, int offsetX, int offsetY);
 
     /**
-     * Sets the name of the EXPANSION_REGION.
+     * Sets the name of the REGION.
      */
     virtual void setName(const QString &strName);
 
     /**
-     * Returns the name of the ExpansionRegion.
+     * Returns the name of the Region.
      */
     virtual QString getName() const;
 
     /**
-     * Show a properties dialog for a ExpansionRegion.
+     * Show a properties dialog for a Region.
      *
-     * @return  True if we modified the EXPANSION_REGION.
+     * @return  True if we modified the REGION.
      */
     bool showProperties();
 
     /**
-     * Creates the <EXPANSION_REGIONwidget> XMI element.
+     * Creates the <REGIONwidget> XMI element.
      */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     /**
-     * Loads a <EXPANSION_REGIONwidget> XMI element.
+     * Loads a <REGIONwidget> XMI element.
      */
     bool loadFromXMI( QDomElement & qElement );
 
