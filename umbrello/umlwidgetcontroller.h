@@ -58,7 +58,7 @@ class UMLWidget;
  * current position of the widgets and the new position to be moved to. For
  * example, if a widget shouldn't be moved in X axis, it's receiving the
  * mouseMoveEvents and there are other widgets selected, those other widgets
- * shouldn't be allowed neither to be moved in X axis.
+ * shouldn't be allowed either to be moved in X axis.
  *
  * The behaviour when double clicking on the widget after it's selected can be
  * customized with doMouseDoubleClick.

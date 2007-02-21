@@ -171,6 +171,11 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
     if (lastUpdate.elapsed() > 25) {
         update = true;
         lastUpdate.restart();
+
+        // CHECK: UMLWidget::adjustUnselectedAssocs(x,y) appears to take absolute
+        //      values for x and y. Surprisingly, supplying diffX and diffY seems
+        //      to work all the same ?!?
+        m_widget->adjustUnselectedAssocs(diffX, diffY);
     }
 
     while ((widget = it.current()) != 0) {

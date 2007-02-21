@@ -64,6 +64,7 @@ set(libcodegenerator_SRCS
 	codegenerators/adawriter.cpp 
 	codegenerators/aswriter.cpp 
 	codegenerators/cppwriter.cpp 
+	codegenerators/csharpwriter.cpp 
 	codegenerators/javawriter.cpp 
 	codegenerators/jswriter.cpp
 	codegenerators/idlwriter.cpp 
@@ -399,9 +400,6 @@ install( FILES
   DESTINATION ${DATA_INSTALL_DIR}/umbrello )
 
 kde4_install_icons( ${ICON_INSTALL_DIR}   )
-
-
-
 
 #original Makefile.am contents follow:
 

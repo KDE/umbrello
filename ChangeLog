@@ -1,3 +1,20 @@
+Version 1.5.7
+
+* Bugs/wishes from http://bugs.kde.org:
+* C# Code Generation and export (53368)
+* Java interface inheritance, abstract classes and generics in code generation
+  (53376)
+* %date% and %time% not being parsed (96612)
+* Relationships for entities do not live outside of the diagram (125146)
+* Javascript wrong Code Generation (135527)
+* Javascript Code Generation creates bad format methods (135540)
+* Incorrect Association Properties text (139872)
+* Associations not updated during move of class on diagram (140709)
+* Crash when deleting the link between a package and a class (141602)
+* Ada95 Code Generation Errors for Aggregation (141644)
+* Unable to delete multiplicity information or lable from an association
+  (141813)
+
 Version 1.5.61
 
 * Copy/paste of attribute or operation in list view within same class
@@ -6,6 +23,7 @@ Version 1.5.61
 * Bugs fixed from http://bugs.kde.org:
 * Crash on creating various types of associations (140693, 141073, 141106, 141277)
 * Unclickable use case diagram (140870)
+* Crash on opening xmi file produced by previous version (141279)
 
 Version 1.5.6
 
@@ -92,7 +110,7 @@ Version 1.5.4
 * Java import: method and class visibility ignored (130794)
 * Java import - static not handled correctly (130926)
 * Java import - package visibility incorrectly represented (130932)
-* Java import - random import order can result in interface being teated as class (131006)
+* Java import - random import order can result in interface being treated as class (131006)
 * Java import - associations not setup correctly, duplicate classes created (131270)
 
 Version 1.5.3

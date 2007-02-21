@@ -31,6 +31,8 @@
 #include "../operation.h"
 #include "../attribute.h"
 #include "../association.h"
+#include "../template.h"
+#include "../umltemplatelist.h"
 
 JavaWriter::JavaWriter() {
     startline = m_endl + m_indentation;
@@ -280,7 +282,7 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
     } else
         scope = "public ";
 
-    java<<(c->getAbstract()?QString("abstract "):QString(""))<<scope;
+    java<<((c->getAbstract() && !isInterface) ? QString("abstract ") : QString(""))<<scope;
     if(isInterface)
         java<<"interface ";
     else
@@ -288,20 +290,56 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
 
     java<<classname;
 
+    // Generics 
+    UMLTemplateList template_params = c->getTemplateList();
+    if (template_params.count()) {
+        java << "<";
+        for (UMLTemplate *t = template_params.first(); t; ) {
+            QString formalName = t->getName();
+            java <<  formalName;
+            if ((t = template_params.next()) != NULL)
+                java << ", ";
+        }
+        java << ">" << m_endl;
+    }
 
     // write inheritances out
     UMLClassifier *concept;
-    UMLClassifierList superclasses = c->findSuperClassConcepts();
-
-    if(superclasses.count()>0)
-        java<<" extends ";
-
-    // Q: Where is 'implements' ??
+    UMLClassifierList superclasses = c->findSuperClassConcepts(UMLClassifier::CLASS);
 
     int i = 0;
     for (concept= superclasses.first(); concept; concept = superclasses.next())
     {
-        java<<cleanName(concept->getName())<<(i>0?", ":"");
+        if (i == 0)
+        {
+            java<< " extends ";
+        }
+        else
+        {
+            //The java generated code is wrong ! : No multiple inheritence of class 
+            java<< ", " ;
+        }
+        java<< cleanName(concept->getName());
+        i++;
+    }
+
+    UMLClassifierList superInterfaces = c->findSuperClassConcepts(UMLClassifier::INTERFACE);
+    i = 0;
+    for (concept= superInterfaces.first(); concept; concept = superInterfaces.next())
+    {
+        if (i == 0)
+        {
+            if (isInterface)
+                java<< " extends ";
+            else
+                java<< " implements ";
+        }
+        else
+        {
+            //The java generated code is OK ! : multiple inheritence of interface 
+            java<< ", " ;
+        }
+        java<< cleanName(concept->getName());
         i++;
     }
 
@@ -740,7 +778,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java) {
             returnStr += "@return       "+methodReturnType+"\n";
 
         str = ""; // reset for next method
-        str += ((op->getAbstract() || isInterface) ? "abstract ":"");
+        str += ((op->getAbstract() && !isInterface) ? "abstract ":"");
         str += scopeToJavaDecl(op->getVisibility()) + ' ';
         str += (op->getStatic() ? "static ":"");
         str += methodReturnType + ' ' +cleanName(op->getName()) + "( ";

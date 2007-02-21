@@ -1894,6 +1894,8 @@ void UMLView::removeAssocInViewAndDoc(AssociationWidget* a) {
             lv->moveObject( objToBeMoved->getID(),
                             Model_Utils::convert_OT_LVT(objToBeMoved),
                             lv->theLogicalView() );
+            // UMLListView::moveObject() will delete the containment
+            // AssociationWidget via UMLView::updateContainment().
         } else {
             kDebug() << "removeAssocInViewAndDoc(containment): "
                       << "objB is NULL" << endl;
@@ -1901,9 +1903,9 @@ void UMLView::removeAssocInViewAndDoc(AssociationWidget* a) {
     } else {
         // Remove assoc in doc.
         m_pDoc->removeAssociation(a->getAssociation());
+        // Remove assoc in view.
+        removeAssoc(a);
     }
-    // Remove assoc in view.
-    removeAssoc(a);
 }
 
 /** Removes all the associations related to Widget */
@@ -2052,7 +2054,8 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
     if (widget == NULL ||
         (m_Type != Uml::dt_Class &&
          m_Type != Uml::dt_Component &&
-         m_Type != Uml::dt_Deployment))
+         m_Type != Uml::dt_Deployment &&
+         m_Type != Uml::dt_EntityRelationship))
         return;
     // Recipe:
     // If this widget has an underlying UMLCanvasObject then

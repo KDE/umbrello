@@ -47,6 +47,7 @@
       <Action name="set_lang_actionscript"/>
       <Action name="set_lang_ada"/>
       <Action name="set_lang_cpp"/>
+      <Action name="set_lang_csharp"/>
       <Action name="set_lang_idl"/>
       <Action name="set_lang_java"/>
       <Action name="set_lang_javascript"/>
