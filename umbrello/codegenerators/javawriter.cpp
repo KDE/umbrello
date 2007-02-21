@@ -297,6 +297,10 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
         for (UMLTemplate *t = template_params.first(); t; ) {
             QString formalName = t->getName();
             java <<  formalName;
+            QString typeName = t->getTypeName();
+            if (typeName != "class") {
+                java << " extends " << typeName;
+            }
             if ((t = template_params.next()) != NULL)
                 java << ", ";
         }
