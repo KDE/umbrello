@@ -223,6 +223,7 @@ void CSharpWriter::writeClass(UMLClassifier *c) {
     UMLAssociationList realizations = c->getRealizations();
     UMLAssociation *a;
     bool isInterface = c->isInterface();
+    m_unnamedRoles = 1;
 
     cs << m_container_indent << "public ";
 
@@ -261,56 +262,15 @@ void CSharpWriter::writeClass(UMLClassifier *c) {
 
     //associations
     if (forceSections() || !aggregations.isEmpty()) {
-        cs << m_endl << m_container_indent << m_indentation << "#region Aggregations" << m_endl;
-        for (a = aggregations.first(); a; a = aggregations.next()) {
-            if (c != a->getObject(Uml::A))  // we need to be at the A side
-                continue;
-            cs << m_endl;
-            //maybe we should parse the string here and take multiplicity into account to decide
-            //which container to use.
-            UMLObject *o = a->getObject(Uml::B);
-            if (o == NULL) {
-                kError() << "aggregation role B object is NULL" << endl;
-                continue;
-            }
-            QString roleName = cleanName(a->getRoleName(Uml::B));
-            if (roleName.isEmpty())
-                continue;   // CHECK: what should be done if no role name is set?
-            QString typeName = cleanName(o->getName());
-            if (a->getMulti(Uml::B).isEmpty())  {
-                cs << m_container_indent << m_indentation << "//" << typeName
-                   << " " << roleName << ';' << m_endl;
-            } else {
-                cs << m_container_indent << m_indentation << "//" << typeName
-                   << " " << roleName << "Vector = array();" << m_endl;
-            }
-        }//end for
+        cs << m_endl << m_container_indent << m_indentation << "#region Aggregations" << m_endl << m_endl;
+        writeAssociatedAttributes(aggregations, c, cs);
         cs << m_endl << m_container_indent << m_indentation << "#endregion" << m_endl;
     }
 
+    //compositions
     if (forceSections() || !compositions.isEmpty()) {
-        cs << m_endl << m_container_indent << m_indentation << "#region Compositions" << m_endl;
-        for (a = compositions.first(); a ; a = compositions.next()) {
-            if (c != a->getObject(Uml::A))  // we need to be at the A side
-                continue;
-            // see comment on Aggregation about multiplicity...
-            UMLObject *o = a->getObject(Uml::B);
-            if (o == NULL) {
-                kError() << "composition role B object is NULL" << endl;
-                continue;
-            }
-            QString roleName = cleanName(a->getRoleName(Uml::B));
-            if (roleName.isEmpty())
-                continue;   // CHECK: what should be done if no role name is set?
-            QString typeName = cleanName(o->getName());
-            if (a->getMulti(Uml::B).isEmpty())  {
-                cs << m_container_indent << m_indentation << "//" << typeName
-                   << " " << roleName << ';' << m_endl;
-            } else {
-                cs << m_container_indent << m_indentation << "//" << typeName
-                   << " " << roleName << "Vector = array();" << m_endl;
-            }
-        }
+        cs << m_endl << m_container_indent << m_indentation << "#region Compositions" << m_endl << m_endl;
+        writeAssociatedAttributes(compositions, c, cs);
         cs << m_endl << m_container_indent << m_indentation << "#endregion" << m_endl;
     }
 
@@ -482,19 +442,7 @@ void CSharpWriter::writeOperations(const QString &/* classname */, UMLOperationL
         // method visibility
         cs << m_container_indent << m_indentation;
         if (op->getAbstract()) cs << "abstract ";
-        switch (op->getVisibility()) {
-          case Uml::Visibility::Public:
-            cs << "public ";
-            break;
-          case Uml::Visibility::Protected:
-            cs << "protected ";
-            break;
-          case Uml::Visibility::Private:
-            cs << "private ";
-            break;
-          default:
-            break;
-        }
+        cs << op->getVisibility().toString() << " ";
         if (op->getStatic()) cs << "static ";
 
         // return type
@@ -594,83 +542,97 @@ void CSharpWriter::writeAttributes(UMLClassifier *c, QTextStream &cs) {
 
 
 void CSharpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &cs) {
+
     for (UMLAttribute *at = atList.first(); at ; at = atList.next()) {
-        bool isStatic = at->getStatic();
-        if (forceDoc() || !at->getDoc().isEmpty()) {
 
-            cs << m_container_indent << m_indentation << "/// <summary>" << m_endl;
-            cs << formatDoc(at->getDoc(), m_container_indent + m_indentation + "/// ");
-            cs << m_container_indent << m_indentation << "/// </summary>" << m_endl;
-
-/*            if (isStatic) cs << m_indentation << " * @static" << m_endl;
-            switch (at->getVisibility()) {
-              case Uml::Visibility::Public:
-                cs << m_indentation << " * @access public" << m_endl;
-                break;
-              case Uml::Visibility::Protected:
-                cs << m_indentation << " * @access protected" << m_endl;
-                break;
-              case Uml::Visibility::Private:
-                cs << m_indentation << " * @access private" << m_endl;
-                break;
-              default:
-                break;
-            }
- */
- //          cs << m_indentation << " */" << m_endl;
-
+        bool asProperty = true;
+        if (at->getVisibility() == Uml::Visibility::Private) {
+            asProperty = false;
         }
-        cs << m_container_indent << m_indentation;
-        switch (at->getVisibility()) {
-          case Uml::Visibility::Public:
-            cs << "public ";
-            break;
-          case Uml::Visibility::Protected:
-            cs << "protected ";
-            break;
-          case Uml::Visibility::Private:
-            cs << "private ";
-            break;
-          default:
-            break;
-        }
-        if (isStatic) cs << "static ";
-
-        //Variable type with/without namespace path
-        cs << makeLocalTypeName(at) << " ";
-
-        cs << cleanName(at->getName());
-
-        // FIXME: may need a GUI switch to not generate as Property?
-
-        // Generate as Property if not private
-        if (at->getVisibility() != Uml::Visibility::Private)
-        {
-            cs << m_endl;
-            cs << m_container_indent << m_indentation << "{" << m_endl;
-            cs << m_container_indent << m_indentation << m_indentation << "get" << m_endl;
-            cs << m_container_indent << m_indentation << m_indentation << "{" << m_endl;
-            cs << m_container_indent << m_indentation << m_indentation << m_indentation << "return m_" << cleanName(at->getName()) << ";" << m_endl;
-            cs << m_container_indent << m_indentation << m_indentation << "}" << m_endl;
-
-            cs << m_container_indent << m_indentation << m_indentation << "set" << m_endl;
-            cs << m_container_indent << m_indentation << m_indentation << "{" << m_endl;
-            cs << m_container_indent << m_indentation << m_indentation << m_indentation << "m_" << cleanName(at->getName()) << " = value;" << m_endl;
-            cs << m_container_indent << m_indentation << m_indentation << "}" << m_endl;
-            cs << m_container_indent << m_indentation << "}" << m_endl;
-            cs << m_container_indent << m_indentation << "private " << makeLocalTypeName(at) << " m_" << cleanName(at->getName()) << ";" << m_endl;
-        }
-        else
-        {
-            cs << ";" << m_endl;
-        }
-
-//        if (!at->getInitialValue().isEmpty())
-//            cs << " = " << at->getInitialValue();
+        writeAttribute(at->getDoc(), at->getVisibility(), at->getStatic(),
+            makeLocalTypeName(at), at->getName(), at->getInitialValue(), asProperty, cs);
 
         cs << m_endl;
     } // end for
     return;
+}
+
+void CSharpWriter::writeAssociatedAttributes(UMLAssociationList &associated, UMLClassifier *c, QTextStream &cs) {
+
+    UMLAssociation *a;
+    for (a = associated.first(); a ; a = associated.next()) {
+        if (c != a->getObject(Uml::A))  // we need to be at the A side
+            continue;
+        
+        UMLObject *o = a->getObject(Uml::B);
+        if (o == NULL) {
+            kError() << "composition role B object is NULL" << endl;
+            continue;
+        }
+        // Take name and documentaton from Role, take type name from the referenced object
+        QString roleName = cleanName(a->getRoleName(Uml::B));
+        QString typeName = cleanName(o->getName());
+        if (roleName.isEmpty()) {
+            roleName = QString("UnnamedRoleB_%1").arg(m_unnamedRoles++);
+        }
+        QString roleDoc = a->getRoleDoc(Uml::B);
+
+        //FIXME:maybe we should parse the string here and take multiplicity into account to decide
+        //which container to use.
+        if (a->getMulti(Uml::B).isEmpty())  {
+            writeAttribute(roleDoc, a->getVisibility(Uml::B), false, typeName, roleName, "", ( a->getVisibility(Uml::B) != Uml::Visibility::Private), cs);
+        } else {
+            // FIXME:not updated for C# yet
+            cs << m_container_indent << m_indentation << "//" << typeName
+                << " " << roleName << "Vector = array();" << m_endl;
+        }
+    }
+}
+
+void CSharpWriter::writeAttribute(QString doc, Uml::Visibility visibility, bool isStatic, QString typeName, QString name, QString initialValue, bool asProperty, QTextStream &cs) {
+
+    if (forceDoc() || !doc.isEmpty()) {
+
+        cs << m_container_indent << m_indentation << "/// <summary>" << m_endl;
+        cs << formatDoc(doc, m_container_indent + m_indentation + "/// ");
+        cs << m_container_indent << m_indentation << "/// </summary>" << m_endl;
+
+    }
+    cs << m_container_indent << m_indentation;
+    cs << visibility.toString() << " ";
+    if (isStatic) cs << "static ";
+
+    //Variable type with/without namespace path
+    cs << typeName << " ";
+
+    cs << cleanName(name);
+
+    // FIXME: may need a GUI switch to not generate as Property?
+
+    // Generate as Property if not private
+    if (asProperty)
+    {
+        cs << m_endl;
+        cs << m_container_indent << m_indentation << "{" << m_endl;
+        cs << m_container_indent << m_indentation << m_indentation << "get" << m_endl;
+        cs << m_container_indent << m_indentation << m_indentation << "{" << m_endl;
+        cs << m_container_indent << m_indentation << m_indentation << m_indentation << "return m_" << cleanName(name) << ";" << m_endl;
+        cs << m_container_indent << m_indentation << m_indentation << "}" << m_endl;
+
+        cs << m_container_indent << m_indentation << m_indentation << "set" << m_endl;
+        cs << m_container_indent << m_indentation << m_indentation << "{" << m_endl;
+        cs << m_container_indent << m_indentation << m_indentation << m_indentation << "m_" << cleanName(name) << " = value;" << m_endl;
+        cs << m_container_indent << m_indentation << m_indentation << "}" << m_endl;
+        cs << m_container_indent << m_indentation << "}" << m_endl;
+        cs << m_container_indent << m_indentation << "private ";
+        if (isStatic) cs << "static ";
+        cs << typeName << " m_" << cleanName(name);
+    }
+
+    if (!initialValue.isEmpty())
+        cs << " = " << initialValue;
+        
+    cs << ";" << m_endl << m_endl;
 }
 
 QString CSharpWriter::makeLocalTypeName(UMLClassifierListItem *cl) {
