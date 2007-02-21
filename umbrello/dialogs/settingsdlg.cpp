@@ -314,7 +314,8 @@ void SettingsDlg::setupFontPage() {
 
 void SettingsDlg::slotApply() {
     applyPage( (Settings::Page) activePageIndex() );
-    emit applyClicked();
+    //do no emit signal applyClicked in the slot slotApply -> infinite loop
+    //emit applyClicked();
 }
 
 void SettingsDlg::slotOk() {
