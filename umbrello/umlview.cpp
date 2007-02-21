@@ -321,9 +321,22 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
     // + fontHeight   for foot-text
     // ==============
     // (2*fontHeight) + 7
-    int footHeight = (2*fontHeight) + 7;
-    int footTop    = rect.y() + diagramHeight  + 4+fontHeight;
-    int drawHeight = diagramHeight  + footHeight;
+    int footHeight;
+    int footTop;
+    int drawHeight;
+    bool isFooter = getOptionState().generalState.footerPrinting;
+    if (isFooter)
+    {
+        footHeight = (2*fontHeight) + 7;
+        footTop    = rect.y() + diagramHeight  + 4+fontHeight;
+        drawHeight = diagramHeight  + footHeight;
+    }
+    else
+    {
+        footHeight = 0;
+        footTop    = rect.y() + diagramHeight;
+        drawHeight = diagramHeight;
+    }
 
     // set window of painter to dimensions of diagram
     // set window to viewport relation so that x:y isn't changed
@@ -357,13 +370,15 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
     // get Diagram
     getDiagram(QRect(rect.x(), rect.y(), windowWidth, diagramHeight), pPainter);
 
-    //draw foot note
-    QString string = i18n("Diagram: %2 Page %1", 1, getName());
-    QColor textColor(50, 50, 50);
-    pPainter.setPen(textColor);
-    pPainter.drawLine(rect.x(), footTop    , windowWidth, footTop);
-    pPainter.drawText(rect.x(), footTop + 3, windowWidth, fontHeight, Qt::AlignLeft, string);
-
+    if (isFooter)
+    {
+        //draw foot note
+        QString string = i18n("Diagram: %2 Page %1", 1, getName());
+        QColor textColor(50, 50, 50);
+        pPainter.setPen(textColor);
+        pPainter.drawLine(rect.x(), footTop    , windowWidth, footTop);
+        pPainter.drawText(rect.x(), footTop + 3, windowWidth, fontHeight, Qt::AlignLeft, string);
+    }
     // now restore scaling
     pPainter.restore();
 

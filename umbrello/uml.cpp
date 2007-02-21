@@ -605,6 +605,7 @@ void UMLApp::saveOptions() {
     cg.writeEntry( "tabdiagrams", optionState.generalState.tabdiagrams );
     cg.writeEntry( "newcodegen", optionState.generalState.newcodegen );
     cg.writeEntry( "angularlines", optionState.generalState.angularlines );
+    cg.writeEntry( "footerPrinting", optionState.generalState.footerPrinting );
     cg.writeEntry( "autosave", optionState.generalState.autosave );
     cg.writeEntry( "time", optionState.generalState.time );
     cg.writeEntry( "autosavetime", optionState.generalState.autosavetime );
@@ -1203,6 +1204,7 @@ void UMLApp::readOptionState() {
     optionState.generalState.newcodegen = false;
 #endif
     optionState.generalState.angularlines = m_config->readEntry("angularlines", false);
+    optionState.generalState.footerPrinting = m_config->readEntry("footerPrinting", true);
     optionState.generalState.autosave = m_config->readEntry("autosave", true);
     optionState.generalState.time = m_config->readEntry("time", 0); //old autosavetime value kept for compatibility
     optionState.generalState.autosavetime = m_config->readEntry("autosavetime", 0);

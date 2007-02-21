@@ -34,6 +34,7 @@ struct GeneralState {
     bool tabdiagrams;
     bool newcodegen;
     bool angularlines;
+    bool footerPrinting;
     bool autosave;
     int time;        //old autosave time, kept for compatibility
     int autosavetime;

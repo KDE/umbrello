@@ -148,6 +148,9 @@ void SettingsDlg::setupGeneralPage() {
     m_GeneralWidgets.angularLinesCB -> setChecked( m_pOptionState->generalState.angularlines );
     miscLayout -> addWidget( m_GeneralWidgets.angularLinesCB, 1, 1 );
 
+    m_GeneralWidgets.footerPrintingCB = new QCheckBox( i18n("Turn on footer and page numbers when printing"), m_GeneralWidgets.miscGB );
+    m_GeneralWidgets.footerPrintingCB -> setChecked( m_pOptionState->generalState.footerPrinting );
+    miscLayout -> addWidget( m_GeneralWidgets.footerPrintingCB, 2, 0 );
     //setup autosave settings
 
     m_GeneralWidgets.autosaveGB = new Q3GroupBox( i18n("Autosave"), page );
@@ -354,7 +357,8 @@ void SettingsDlg::setupFontPage() {
 
 void SettingsDlg::slotApply() {
     applyPage( currentPage() );
-    emit applyClicked();
+    //do no emit signal applyClicked in the slot slotApply -> infinite loop 
+    //emit applyClicked();
 }
 
 void SettingsDlg::slotOk() {
@@ -421,6 +425,7 @@ void SettingsDlg::applyPage( KPageWidgetItem*item ) {
         m_pOptionState->generalState.tabdiagrams = m_GeneralWidgets.tabdiagramsCB->isChecked();
         m_pOptionState->generalState.newcodegen = m_GeneralWidgets.newcodegenCB->isChecked();
         m_pOptionState->generalState.angularlines = m_GeneralWidgets.angularLinesCB->isChecked();
+        m_pOptionState->generalState.footerPrinting = m_GeneralWidgets.footerPrintingCB->isChecked();
         m_pOptionState->generalState.autosave = m_GeneralWidgets.autosaveCB -> isChecked();
         m_pOptionState->generalState.autosavetime = m_GeneralWidgets.timeISB -> value();
         // 2004-05-17 Achim Spangler: retrieve Suffix setting from dialog entry
