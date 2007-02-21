@@ -282,7 +282,7 @@ FloatingTextWidget* AssociationWidget::getChangeWidget(Role_Type role) {
     return m_role[role].m_pChangeWidget;
 }
 
-FloatingTextWidget* AssociationWidget::getTextWidgetByRole(Uml::Text_Role tr) {
+FloatingTextWidget* AssociationWidget::getTextWidgetByRole(Uml::Text_Role tr) { 
     switch (tr) {
         case tr_MultiA:
             return m_role[A].m_pMulti;
@@ -955,6 +955,9 @@ void AssociationWidget::mouseDoubleClickEvent(QMouseEvent * me) {
     if (me->button() != Qt::LeftButton)
         return;
     const QPoint mp(me->pos());
+    if (getAssocType() == at_Exception ){
+        return;
+    }
     /* if there is no point around the mouse pointer, we insert a new one */
     if (! m_LinePath.isPoint(i, mp, POINT_DELTA)) {
         m_LinePath.insertPoint(i + 1, mp);
@@ -1009,6 +1012,7 @@ void AssociationWidget::moveEvent(QMoveEvent* me) {
     // Simple Approach to block moveEvent during load of
     // XMI
     /// @todo avoid trigger of this event during load
+
     if ( m_umldoc->loading() ) {
         // hmmh - change of position during load of XMI
         // -> there is something wrong
@@ -1142,6 +1146,7 @@ void AssociationWidget::calculateEndingPoints() {
         }
         return;
     }//end a == b
+    
     if (getAssocType() == at_Exception && size < 4) {
         int xa = pWidgetA -> getX();
         int ya = pWidgetA -> getY();
@@ -1153,40 +1158,10 @@ void AssociationWidget::calculateEndingPoints() {
         int hb = pWidgetB -> getHeight();
         int wb = pWidgetB -> getWidth();
 
-        // calcul des coordonnées du point au milieu de la feche eclair
-        int xmil;
-        int ymil;
-        if ( xb > xa  )
-            xmil = xa + wa + (xb - xa - wa) / 2;
-        else
-            xmil = xb + wb + (xa - xb - wb) / 2;
-        if ( yb > ya  )
-            ymil = ya + ha/2 + ((yb + hb/2) - (ya + ha/2)) / 2;
-        else
-            ymil = yb + hb/2 + ((ya + ha/2) - (yb + hb/2)) / 2;
-
-        if( xb > xa ) {
-            m_LinePath.setStartEndPoints( QPoint( xa + wa , ya + ha/2 ) , QPoint( xb , yb + hb/2 ) );
-
-            if ( yb > ya  ) {
-                m_LinePath.insertPoint( 1, QPoint( xmil + (xb - xmil)*2/3 , ymil + ((yb + hb /2) - ymil)*1/3));
-                m_LinePath.insertPoint( 2 ,QPoint( xmil - (xmil - xa - wa)*2/3 , ymil - (ymil - ya - ha/2)*1/3));
-            } else {
-                m_LinePath.insertPoint( 1, QPoint( xmil + (xb - xmil)*1/3 , ymil - (ymil - yb - hb /2)*2/3));
-                m_LinePath.insertPoint( 2 ,QPoint( xmil - (xmil - xa - wa)*1/3 , ymil + (ya + ha/2 - ymil)*2/3));
-            }
-            m_role[A].m_WidgetRegion = m_role[B].m_WidgetRegion = North;
-        } else {
-             m_LinePath.setStartEndPoints( QPoint( xa , ya + ha/2 ) , QPoint( xb + wb, yb + hb/2 ) );
-             if ( ya > yb  ) {
-                m_LinePath.insertPoint( 1, QPoint( xmil - (xmil - xb - wb)*1/3 , ymil - (ymil - yb - hb/2)*2/3));
-                m_LinePath.insertPoint( 2 ,QPoint( xmil + (xa - xmil)*1/3 , ymil + (ya + ha/2 - ymil)*2/3));
-            } else {
-                m_LinePath.insertPoint( 1, QPoint( xmil - (xmil - xb - wb)*2/3 , ymil + (yb + hb/2 - ymil)*1/3));
-                m_LinePath.insertPoint( 2 ,QPoint( xmil + (xa - xmil)*2/3 , ymil - (ymil - ya - ha/2)*1/3));
-            }
-            m_role[A].m_WidgetRegion = m_role[B].m_WidgetRegion = North;
-        }
+        m_LinePath.setStartEndPoints( QPoint( xa + wa , ya + ha/2 ) , QPoint( xb , yb + hb/2 ) );
+        m_LinePath.insertPoint( 1, QPoint( xa + wa , ya + ha/2 ));
+        m_LinePath.insertPoint( 2 ,QPoint( xb , yb + hb/2 ));
+        updatePointsException();
         return;
     }
     // If the line has more than one segment change the values to calculate
@@ -1368,6 +1343,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y ) {
     uint pos = size - 1;
     if (getAssocType() == at_Exception) {
         updatePointsException ();
+        setTextPosition( tr_Name );
     }
     else
         calculateEndingPoints();
@@ -1442,41 +1418,64 @@ void AssociationWidget::updatePointsException () {
     int yb = pWidgetB -> getY();
     int hb = pWidgetB -> getHeight();
     int wb = pWidgetB -> getWidth();
-    int xmil;
-    int ymil;
-
+    int xmil;int ymil;
+    int xdeb;int ydeb;
+    int xfin;int yfin;
+    float mulX; float mulY;
+    int ESPACEX;int ESPACEY;
+    QPoint p1;
+    QPoint p2;
     //calcul des coordonnées au milieu de la flèche eclair
-    if ( xb > xa  )
-        xmil = xa + wa + (xb - xa - wa) / 2;
-    else
-        xmil = xb + wb + (xa - xb - wb) / 2;
-    if ( yb > ya  )
-        ymil = ya + ha/2 + ((yb + hb/2) - (ya + ha/2)) / 2;
-    else
-        ymil = yb + hb/2 + ((ya + ha/2) - (yb + hb/2)) / 2;
-
-    if( xb > xa ) {
-        m_LinePath.setStartEndPoints( QPoint( xa + wa , ya + ha/2 ) , QPoint( xb , yb + hb/2 ) );
-
-        if ( yb > ya  ) {
-            m_LinePath.setPoint( 1, QPoint( xmil + (xb - xmil)*2/3 , ymil + ((yb + hb /2) - ymil)*1/3));
-            m_LinePath.setPoint( 2 ,QPoint( xmil - (xmil - xa - wa)*2/3 , ymil - (ymil - ya - ha/2)*1/3));
-        } else {
-            m_LinePath.setPoint( 1, QPoint( xmil + (xb - xmil)*1/3 , ymil - (ymil - yb - hb /2)*2/3));
-            m_LinePath.setPoint( 2 ,QPoint( xmil - (xmil - xa - wa)*1/3 , ymil + (ya + ha/2 - ymil)*2/3));
-        }
-        m_role[A].m_WidgetRegion = m_role[B].m_WidgetRegion = North;
-    } else {
-        m_LinePath.setStartEndPoints( QPoint( xa , ya + ha/2 ) , QPoint( xb + wb, yb + hb/2 ) );
-        if ( ya > yb  ) {
-            m_LinePath.setPoint( 1, QPoint( xmil - (xmil - xb - wb)*1/3 , ymil - (ymil - yb - hb/2)*2/3));
-            m_LinePath.setPoint( 2 ,QPoint( xmil + (xa - xmil)*1/3 , ymil + (ya + ha/2 - ymil)*2/3));
-        } else {
-            m_LinePath.setPoint( 1, QPoint( xmil - (xmil - xb - wb)*2/3 , ymil + (yb + hb/2 - ymil)*1/3));
-            m_LinePath.setPoint( 2 ,QPoint( xmil + (xa - xmil)*2/3 , ymil - (ymil - ya - ha/2)*1/3));
-        }
-        m_role[A].m_WidgetRegion = m_role[B].m_WidgetRegion = North;
+    if ( (xb - xa - wa) >= 45) {
+        ESPACEX = 0;
+        xdeb = xa + wa;
+        xfin = xb;
     }
+    else if ( (xa - xb - wb) > 45 ) {
+        ESPACEX = 0;
+        xdeb = xa;
+        xfin = xb + wb;
+    }
+    else {
+        ESPACEX = 15;
+        xdeb = xa + wa/2;
+        xfin = xb + wb/2;
+    }
+
+    xmil = xdeb + (xfin - xdeb)/2;
+
+    if (( yb - ya - ha) >= 45  )  {
+        ESPACEY = 0;
+        ydeb = ya + ha;
+        yfin = yb;
+    }
+    else if (( ya - yb - hb) > 45 ) {
+        ESPACEY = 0;
+        ydeb = ya;
+        yfin = yb + hb;
+    }
+    else {
+        ESPACEY = 15;
+        ydeb = ya + ha/2;
+        yfin = yb + hb/2;
+    }
+      
+    ymil = ydeb + (yfin - ydeb)/2;
+
+     p1.setX(xmil + (xfin - xmil)*1/2); p1.setY(ymil + (yfin - ymil)*1/3);
+     p2.setX(xmil - (xmil - xdeb)*1/2); p2.setY(ymil - (ymil - ydeb)*1/3);
+
+     if (abs(p1.x() - p2.x()) <= 10)
+         ESPACEX = 15;
+     if (abs(p1.y() - p2.y()) <= 10)
+        ESPACEY = 15;
+
+     m_LinePath.setStartEndPoints( QPoint( xdeb , ydeb ) , QPoint( xfin , yfin ) );
+     m_LinePath.setPoint( 1, QPoint(p1.x() + ESPACEX,p1.y() + ESPACEY));
+     m_LinePath.setPoint( 2 ,QPoint(p2.x() - ESPACEX,p2.y() - ESPACEY));
+
+     m_role[A].m_WidgetRegion = m_role[B].m_WidgetRegion = North;
+
 
 }
 
@@ -2169,7 +2168,6 @@ void AssociationWidget::setTextPosition(Text_Role role) {
         startMove = true;
     else if( m_pName && m_pName->getStartMove() )
         startMove = true;
-
     if (startMove) {
         return;
     }

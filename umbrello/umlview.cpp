@@ -3216,7 +3216,6 @@ bool UMLView::loadWidgetsFromXMI( QDomElement & qElement ) {
     while( !widgetElement.isNull() ) {
         widget = loadWidgetFromXMI(widgetElement);
         if (widget) {
-	kDebug() << "load widgets from xmi !!!! " << widget->getName() << endl;
             m_WidgetList.append( widget );
             // In the interest of best-effort loading, in case of a
             // (widget == NULL) we still go on.
@@ -3239,7 +3238,6 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
     }
 
     QString tag  = widgetElement.tagName();
-	kDebug() << "load widget from xmi tag!!!! " << tag << endl;
     QString idstr  = widgetElement.attribute( "xmi.id", "-1" );
     widget = Widget_Factory::makeWidgetFromXMI(tag, idstr, this);
     
