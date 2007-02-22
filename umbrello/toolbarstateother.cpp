@@ -35,6 +35,7 @@
 #include "umldoc.h"
 #include "objectwidget.h"
 #include "objectflowwidget.h"
+#include "pinwidget.h"
 
 
 
@@ -162,6 +163,10 @@ bool ToolBarStateOther::newWidget() {
 
         case WorkToolBar::tbb_Object_Flow:
             umlWidget = new ObjectFlowWidget(m_pUMLView);
+            break;
+
+        case WorkToolBar::tbb_Pin:
+            umlWidget = new PinWidget(m_pUMLView);
             break;
 
         default:

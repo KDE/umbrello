@@ -120,6 +120,7 @@ public:
         tbb_End_Activity,
         tbb_Final_Activity,
         tbb_Object_Flow,
+        tbb_Pin,
         tbb_Branch,
         tbb_Fork,
         tbb_DeepHistory,
@@ -255,6 +256,7 @@ public slots:
     void slotChoice();
     void slotAndline();
     void slotException();
+    void slotPin();
 
 };
 

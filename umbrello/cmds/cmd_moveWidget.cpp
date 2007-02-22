@@ -32,7 +32,7 @@
 namespace Uml
 {
 
-	cmdMoveWidget::cmdMoveWidget(UMLWidgetController* _UMLwc):UMLwc(_UMLwc),already(false)
+	cmdMoveWidget::cmdMoveWidget(UMLWidgetController* _UMLwc):QUndoCommand(),UMLwc(_UMLwc),already(false)
 	{	
 		UMLWidget * w = _UMLwc->getWidget();
 		setText(i18n("Move widget :") + w->getName());
@@ -81,7 +81,7 @@ namespace Uml
 	}
 
 	bool cmdMoveWidget::mergeWith(const QUndoCommand* other) {
-		cmdMoveWidget* otherCmd = static_cast<const cmdMoveWidget*>(other);
+		const cmdMoveWidget* otherCmd = static_cast<const cmdMoveWidget*>(other);
 		if (UMLwc != otherCmd->UMLwc)
 			return false;
 		X = otherCmd->X;

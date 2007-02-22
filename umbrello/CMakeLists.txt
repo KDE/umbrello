@@ -310,6 +310,7 @@ set(libumbrello_SRCS
    nodewidget.cpp 
    notewidget.cpp 
    notewidgetcontroller.cpp
+   objectflowwidget.cpp
    objectwidget.cpp 
    objectwidgetcontroller.cpp
    object_factory.cpp 
@@ -321,13 +322,13 @@ set(libumbrello_SRCS
    packagewidget.cpp 
    petalnode.cpp 
    petaltree2uml.cpp 
+   pinwidget.cpp   
    plugin.cpp 
    pluginloader.cpp 
    preconditionwidget.cpp
    seqlinewidget.cpp 
    statewidget.cpp 
-   signalwidget.cpp
-   objectflowwidget.cpp
+   signalwidget.cpp 
    stereotype.cpp 
    template.cpp 
    textblock.cpp 

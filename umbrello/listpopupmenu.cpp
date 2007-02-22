@@ -39,6 +39,7 @@
 #include "objectflowwidget.h"
 #include "forkjoinwidget.h"
 #include "objectwidget.h"
+#include "pinwidget.h"
 
 //ListPopupMenu for a UMLView (diagram)
 ListPopupMenu::ListPopupMenu(QWidget *parent, Menu_Type type, UMLView * view)
@@ -358,6 +359,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         break;
     case Uml::wt_Object_Flow:
     case Uml::wt_Signal:
+    case Uml::wt_Pin:
 	setupColor( object -> getUseFillColour() );
         insertSeparator();
         insertStdItem(mt_Cut);
