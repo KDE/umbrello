@@ -177,6 +177,12 @@ void CSharpWriter::writeClass(UMLClassifier *c) {
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     UMLFolder *logicalView = umldoc->getRootFolder(Uml::mt_Logical);
 
+    // write generic includes
+    cs << "using System;" << m_endl;
+    cs << "using System.Text;" << m_endl;
+    cs << "using System.Collections;" << m_endl;
+    cs << "using System.Collections.Generic;" << m_endl << m_endl;
+
     //write includes and namespace
 
     UMLPackage *container = c->getUMLPackage();
@@ -221,7 +227,6 @@ void CSharpWriter::writeClass(UMLClassifier *c) {
     UMLAssociationList aggregations = c->getAggregations();
     UMLAssociationList compositions = c->getCompositions();
     UMLAssociationList realizations = c->getRealizations();
-    UMLAssociation *a;
     bool isInterface = c->isInterface();
     m_unnamedRoles = 1;
 
@@ -232,29 +237,40 @@ void CSharpWriter::writeClass(UMLClassifier *c) {
         cs << "interface " << classname;
     } else {
         //check if class is abstract and / or has abstract methods
-        if (c->getAbstract())
+        if (c->getAbstract() || c->hasAbstractOps())
             cs << "abstract ";
+
         cs << "class " << classname << (superclasses.count() > 0 ? " : ":"");
+
+        // write baseclass, ignore interfaces, write error on multiple inheritance
         if (superclasses.count() > 0) {
-
-            // C# does not support multiple inheritance so only use the first one and print a warning if more are used
-
-            UMLClassifier *obj = superclasses.first();
-            cs << cleanName(obj->getName());
-            if (superclasses.count() > 1)
-                cs << m_indentation << "//WARNING: C# does not support multiple inheritance but there is more than 1 superclass defined in your UML model!";
+            UMLClassifier *obj;
+            int supers = 0;
+            for (obj = superclasses.first(); obj; obj = superclasses.next()) {
+                if (!obj->isInterface()) {
+                    if (supers > 0) {
+                        cs << " // AND ";
+                    }
+                    cs << cleanName(obj->getName());
+                    supers++;
+                }
+            }
+            if (supers > 1) {
+                cs << m_endl << "//WARNING: C# does not support multiple inheritance but there is more than 1 superclass defined in your UML model!" << m_endl;
         }
-        // FIXME: I get no (valid) input here (realizations are not coming?)
+        }
         //check for realizations
+        UMLAssociationList realizations = c->getRealizations();
+        UMLAssociation *a;
+
         if (!realizations.isEmpty()) {
-            int rc = realizations.count();
-            int ri = rc;
             for (a = realizations.first(); a; a = realizations.next()) {
-                UMLObject *o = a->getObject(Uml::B);
-                QString typeName = cleanName(o->getName());
-                if (ri == rc)
-                    cs <<  ", ";
-                cs << typeName << (--rc == 0 ? "" : ", ");
+                UMLClassifier *real = (UMLClassifier*)a->getObject(Uml::B);
+                if(real != c) {
+                    // write list of realizations
+                    cs << ", " << real->getName();
+                }
+
             }
         }
     }
@@ -304,7 +320,7 @@ void CSharpWriter::writeOperations(UMLClassifier *c, QTextStream &cs) {
     UMLOperationList oppub,opprot,oppriv;
 
     bool isInterface = c->isInterface();
-    bool generateErrorStub = false;
+    bool generateErrorStub = true;
 
     oppub.setAutoDelete(false);
     opprot.setAutoDelete(false);
@@ -328,58 +344,106 @@ void CSharpWriter::writeOperations(UMLClassifier *c, QTextStream &cs) {
         }
     }
 
-    QString classname(cleanName(c->getName()));
+    // write realizations (recursive)
+    UMLAssociationList realizations = c->getRealizations();
+
+    if (!isInterface && !realizations.isEmpty()) {
+        writeRealizationsRecursive(c, &realizations, cs);
+    }
 
     // write public operations
     if (forceSections() || !oppub.isEmpty()) {
         cs << m_endl << m_container_indent << m_indentation << "#region Public methods" << m_endl << m_endl;
-        writeOperations(classname,oppub,cs,isInterface,generateErrorStub);
+        writeOperations(oppub,cs,isInterface,false,generateErrorStub);
         cs << m_container_indent << m_indentation << "#endregion" << m_endl << m_endl;
     }
 
     // write protected operations
     if (forceSections() || !opprot.isEmpty()) {
         cs << m_endl << m_container_indent << m_indentation << "#region Protected methods" << m_endl << m_endl;
-        writeOperations(classname,opprot,cs,isInterface,generateErrorStub);
+        writeOperations(opprot,cs,isInterface,false,generateErrorStub);
         cs << m_container_indent << m_indentation << "#endregion" << m_endl << m_endl;
     }
 
     // write private operations
     if (forceSections() || !oppriv.isEmpty()) {
         cs << m_endl << m_container_indent << m_indentation << "#region Private methods" << m_endl << m_endl;
-        writeOperations(classname,oppriv,cs,isInterface,generateErrorStub);
+        writeOperations(oppriv,cs,isInterface,false,generateErrorStub);
         cs << m_container_indent << m_indentation << "#endregion" << m_endl << m_endl;
     }
 
+    // write superclasses abstract methods
+    UMLClassifierList superclasses = c->getSuperClasses();
 
-    // build an oplist for all of the realized operations
-    UMLOperationList opreal;
-    opreal.setAutoDelete(false);
-
-    // go through each of the realizations, taking each op
-    UMLAssociationList realizations = c->getRealizations();
-    UMLAssociation *a;
-
-    if (!realizations.isEmpty()) {
-        for (a = realizations.first(); a; a = realizations.next()) {
-
-            // we know its a classifier if its in the list
-            UMLClassifier *real = (UMLClassifier*)a->getObject(Uml::B);
-
-            UMLOperationList opl(real->getOpList());
-            for (UMLOperation *op = opl.first(); op ; op = opl.next()) {
-                opreal.append(op);
-            }
-        }
+    if (!isInterface && !c->getAbstract() && !c->hasAbstractOps()
+            && superclasses.count() > 0) {
+        writeOverridesRecursive(&superclasses, cs);
     }
-
-    // write out all the realizations operations
-    writeOperations(classname,opreal,cs,false,true);
 
 }
 
-void CSharpWriter::writeOperations(const QString &/* classname */, UMLOperationList &opList,
+void CSharpWriter::writeOverridesRecursive(UMLClassifierList *superclasses, QTextStream &cs) {
+    // oplist for implemented abstract operations
+    UMLOperationList opabstract;
+    opabstract.setAutoDelete(false);
+    UMLClassifier *obj;
+
+    for (obj = superclasses->first(); obj; obj = superclasses->next()) {
+        if (!obj->isInterface() && obj->hasAbstractOps()) {
+            // collect abstract ops
+            UMLOperationList opl(obj->getOpList());
+            for (UMLOperation *op = opl.first(); op ; op = opl.next()) {
+                if (op->getAbstract()) {
+                    opabstract.append(op);
+                }
+            }
+
+            // write abstract implementations
+            cs << m_endl << m_container_indent << m_indentation << "#region " << obj->getName() << " members" << m_endl << m_endl;
+            writeOperations(opabstract,cs,false,true,true);
+            cs << m_container_indent << m_indentation << "#endregion" << m_endl << m_endl;
+
+            opabstract.clear();
+        }
+        // Recurse to parent superclasses
+        UMLClassifierList superRecursive = obj->getSuperClasses();
+        UMLClassifierList *superRecursivePtr =& superRecursive;
+        if (superRecursivePtr->count() > 0) {
+            writeOverridesRecursive(superRecursivePtr, cs);
+        }
+    }
+}
+void CSharpWriter::writeRealizationsRecursive(UMLClassifier *currentClass, UMLAssociationList *realizations, QTextStream &cs) {
+
+    UMLAssociation *a;
+    for (a = realizations->first(); a; a = realizations->next()) {
+
+        // we know its a classifier if its in the list
+        UMLClassifier *real = (UMLClassifier*)a->getObject(Uml::B);
+
+        //FIXME: Interfaces realize themselves without this condition!?
+        if (real == currentClass)
+            continue;
+
+        // collect operations of one realization
+        UMLOperationList opreal = real->getOpList();
+
+        // write realizations
+        cs << m_endl << m_container_indent << m_indentation << "#region " << real->getName() << " members" << m_endl << m_endl;
+        writeOperations(opreal,cs,false,false,true);
+        cs << m_container_indent << m_indentation << "#endregion" << m_endl << m_endl;
+
+        // Recurse to parent realizations
+        UMLAssociationList parentReal = real->getRealizations();
+        if (!parentReal.isEmpty()) {
+            writeRealizationsRecursive(real, &parentReal, cs);
+        }
+    }
+}
+
+void CSharpWriter::writeOperations(UMLOperationList opList,
                                  QTextStream &cs, bool isInterface /* = false */,
+                                 bool isOverride /* = false */,
                                  bool generateErrorStub /* = false */) {
 
     for (UMLOperation *op=opList.first(); op ; op=opList.next()) {
@@ -394,7 +458,7 @@ void CSharpWriter::writeOperations(const QString &/* classname */, UMLOperationL
         }
 
         //write method documentation
-        if (writeDoc)
+        if (writeDoc && !isOverride)
         {
             cs << m_container_indent << m_indentation << "/// <summary>" << m_endl;
             cs << formatDoc(op->getDoc(), m_container_indent + m_indentation + "/// ");
@@ -418,32 +482,22 @@ void CSharpWriter::writeOperations(const QString &/* classname */, UMLOperationL
             }
             cs << "</returns>" << m_endl;
 
- /* not used in C#
-            if (op->getAbstract()) cs << m_indentation << " * @abstract" << m_endl;
-            if (op->getStatic()) cs << m_indentation << " * @static" << m_endl;
-
-            switch (op->getVisibility()) {
-              case Uml::Visibility::Public:
-                cs << m_indentation << " * @access public" << m_endl;
-                break;
-              case Uml::Visibility::Protected:
-                cs << m_indentation << " * @access protected" << m_endl;
-                break;
-              case Uml::Visibility::Private:
-                cs << m_indentation << " * @access private" << m_endl;
-                break;
-              default:
-                break;
-            }
-*/
-//            cs <<m_indentation << " */" << m_endl;
         }
 
         // method visibility
         cs << m_container_indent << m_indentation;
-        if (op->getAbstract()) cs << "abstract ";
-        cs << op->getVisibility().toString() << " ";
-        if (op->getStatic()) cs << "static ";
+        if (!isInterface) {
+            if (!isOverride) {
+                if (op->getAbstract()) cs << "abstract ";
+                cs << op->getVisibility().toString() << " ";
+                if (op->getStatic()) cs << "static ";
+            }
+            else {
+                // method overriding an abstract parent
+                cs << op->getVisibility().toString() << " override ";
+                if (op->getStatic()) cs << "static ";
+            }
+        }
 
         // return type
         if (op->getTypeName() == "") {
@@ -472,7 +526,7 @@ void CSharpWriter::writeOperations(const QString &/* classname */, UMLOperationL
         cs << ")";
 
         //FIXME: how to control generation of error stub?
-        if (!isInterface && !op->getAbstract()) {
+        if (!isInterface && (!op->getAbstract() || isOverride)) {
             cs << m_endl << m_container_indent << m_indentation << "{" << m_endl;
             if (generateErrorStub) {
                 cs << m_container_indent << m_indentation << m_indentation;
@@ -563,7 +617,7 @@ void CSharpWriter::writeAssociatedAttributes(UMLAssociationList &associated, UML
     for (a = associated.first(); a ; a = associated.next()) {
         if (c != a->getObject(Uml::A))  // we need to be at the A side
             continue;
-        
+
         UMLObject *o = a->getObject(Uml::B);
         if (o == NULL) {
             kError() << "composition role B object is NULL" << endl;
@@ -577,14 +631,14 @@ void CSharpWriter::writeAssociatedAttributes(UMLAssociationList &associated, UML
         }
         QString roleDoc = a->getRoleDoc(Uml::B);
 
-        //FIXME:maybe we should parse the string here and take multiplicity into account to decide
-        //which container to use.
-        if (a->getMulti(Uml::B).isEmpty())  {
+        //FIXME:is this simple condition enough?
+        if (a->getMulti(Uml::B).isEmpty() || a->getMulti(Uml::B) == "1")  {
+            // normal attribute
             writeAttribute(roleDoc, a->getVisibility(Uml::B), false, typeName, roleName, "", ( a->getVisibility(Uml::B) != Uml::Visibility::Private), cs);
         } else {
-            // FIXME:not updated for C# yet
-            cs << m_container_indent << m_indentation << "//" << typeName
-                << " " << roleName << "Vector = array();" << m_endl;
+            // array
+            roleDoc += "\n(Array of " + typeName + ")";
+            writeAttribute(roleDoc, a->getVisibility(Uml::B), false, "ArrayList", roleName, "", ( a->getVisibility(Uml::B) != Uml::Visibility::Private), cs);
         }
     }
 }
@@ -631,7 +685,7 @@ void CSharpWriter::writeAttribute(QString doc, Uml::Visibility visibility, bool 
 
     if (!initialValue.isEmpty())
         cs << " = " << initialValue;
-        
+
     cs << ";" << m_endl << m_endl;
 }
 

@@ -77,7 +77,18 @@ private:
     * Counts associations without a role name for giving a default name.
     */
     int m_unnamedRoles;
-    
+
+    /**
+      * write realizations of a class and recurse to parent classes
+      
+      * @param currentClass class to start with
+      * @param realizations realizations of this class
+      * @param cs output stream
+      */
+    void writeRealizationsRecursive(UMLClassifier *currentClass,
+                                    UMLAssociationList *realizations,
+                                    QTextStream &cs);
+
     /**
       * write all operations for a given class
       *
@@ -89,15 +100,25 @@ private:
     /**
       * write a list of class operations
       *
-      * @param classname the name of the class
       * @param opList the list of operations
       * @param cs output stream
       * @param interface indicates if the operation is an interface member
+      * @param isOverride implementation of an inherited abstract function
       */
-    void writeOperations(const QString &classname, UMLOperationList &opList,
+    void writeOperations(UMLOperationList opList,
                          QTextStream &cs,
-                         bool interface = false, bool generateErrorStub = false);
+                         bool interface = false,
+                         bool isOverride = false,
+                         bool generateErrorStub = false);
 
+    /**
+      * write superclasses' abstract methods
+      *
+      * @param superclasses List of superclasses to start recursing on
+      * @param cs output stream
+      */
+    void writeOverridesRecursive(UMLClassifierList *superclasses, QTextStream &cs);
+    
     /** write all the attributes of a class
       * @param c the class we are generating code for
       * @param cs output stream
