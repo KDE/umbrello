@@ -62,7 +62,7 @@ public:
     /**
      * Sets the type of ObjectFlow.
      */
-//     void setObjectFlowType( ObjectFlowType objectflowType );
+   // void setObjectFlowType( ObjectFlowType objectflowType );
 // 
 //     /**
 //      * Show a properties dialog for an ObjectFlowWidget.
@@ -102,7 +102,7 @@ protected:
     /**
      * Type of ObjectFlow.
      */
-   // ObjectFlow m_ObjectFlowType;
+  // ObjectFlow m_ObjectFlowType;
 
 //public slots:
 

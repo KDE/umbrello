@@ -53,10 +53,10 @@ void ObjectFlowWidget::draw(QPainter & p, int offsetX, int offsetY) {
             const int fontHeight  = fm.lineSpacing(); 
             int textStartY = (h / 2) - (fontHeight / 2);
             p.drawRect(offsetX, offsetY, w, h); 
-            p.drawLine(offsetX + 10, offsetY + (h/2), (offsetX + w)-10,  offsetY + (h/2)  );
+            p.drawLine(offsetX + 10, offsetY + (h/2) +3 , (offsetX + w)-10, offsetY + (h/2) +3 );
             p.setPen(Qt::black);
             p.setFont( UMLWidget::getFont() ); 
-            p.drawText(offsetX + OBJECTFLOW_MARGIN, (offsetY + textStartY/2)-4, w - OBJECTFLOW_MARGIN * 2, fontHeight, Qt::AlignHCenter, getName());
+            p.drawText(offsetX + OBJECTFLOW_MARGIN, (offsetY + textStartY/2), w - OBJECTFLOW_MARGIN * 2, fontHeight, Qt::AlignHCenter, getName());
         }
         UMLWidget::setPen(p);
     if(m_bSelected)
@@ -66,13 +66,13 @@ void ObjectFlowWidget::draw(QPainter & p, int offsetX, int offsetY) {
 QSize ObjectFlowWidget::calculateSize() {
     int width = 10, height = 10;
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-        const int fontHeight  = fm.lineSpacing(); 
+        const int fontHeight  = fm.lineSpacing();
         const int textWidth = fm.width(getName());
-        height = fontHeight; 
-        width = textWidth > OBJECTFLOW_WIDTH ? textWidth : OBJECTFLOW_WIDTH; 
-        height = height > OBJECTFLOW_HEIGHT ? height : OBJECTFLOW_HEIGHT; 
+        height = fontHeight;
+        width = textWidth > OBJECTFLOW_WIDTH ? textWidth  : OBJECTFLOW_WIDTH;
+        height = height + 5  > OBJECTFLOW_HEIGHT ? height + 5 : OBJECTFLOW_HEIGHT;
         width += OBJECTFLOW_MARGIN * 2;
-        height += OBJECTFLOW_MARGIN * 2; 
+        height += (OBJECTFLOW_MARGIN * 2);
 
     return QSize(width, height); 
 }
@@ -156,6 +156,7 @@ bool ObjectFlowWidget::loadFromXMI( QDomElement & qElement ) {
     if( !UMLWidget::loadFromXMI( qElement ) ) 
         return false; 
     m_Text = qElement.attribute( "objectflowname", "" ); 
+kDebug() << "load objectflowwidget from xmi !!!! " << m_Text << endl;
     m_Doc = qElement.attribute( "documentation", "" );
     //QString type = qElement.attribute( "objectflowtype", "1" );
   //  setObjectFlowType( (ObjectFlowType)type.toInt() );
