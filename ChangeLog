@@ -19,6 +19,8 @@ Version 1.5.7
 * C++ code generator does not correctly define namespaces (141876)
 * Ada code generator generates "withs" in both directions for certain
   associations (141956)
+* Ada code generator always generates methods abstract even if abstract box
+  not checked (142093)
 
 Version 1.5.61
 
