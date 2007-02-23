@@ -8,6 +8,8 @@ align_top.png \
 align_bottom.png \
 align_vert_middle.png \
 align_hori_middle.png \
+align_vert_distribute.png \
+align_hori_distribute.png \
 anchor.png \
 andline.png \
 arrow.png \

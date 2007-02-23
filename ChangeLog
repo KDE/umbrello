@@ -8,9 +8,11 @@ Version 1.5.7
 * Operations of the Interface are not implemented in the class automatically
   (111593)
 * Relationships for entities do not live outside of the diagram (125146)
+* Multiplicity labels often are placed incorrectly (127628)
 * Javascript wrong Code Generation (135527)
 * Javascript Code Generation creates bad format methods (135540)
 * Incorrect Association Properties text (139872)
+* Buttons are not displayed (139913)
 * Associations not updated during move of class on diagram (140709)
 * Crash when deleting the link between a package and a class (141602)
 * Ada95 Code Generation Errors for Aggregation (141644)
