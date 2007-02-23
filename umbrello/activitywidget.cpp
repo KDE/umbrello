@@ -40,6 +40,7 @@ ActivityWidget::ActivityWidget(UMLView * view, ActivityType activityType, Uml::I
     UMLWidget::setBaseType( Uml::wt_Activity );
     setActivityType( activityType );
     updateComponentSize();
+    setShowInvok( false );
 }
 
 ActivityWidget::~ActivityWidget() {}
@@ -47,11 +48,10 @@ ActivityWidget::~ActivityWidget() {}
 void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
     int w = width();
     int h = height();
-
+kDebug ()<<"tata!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!le draw"<<endl;
     // Only for the final activity
-    float delta;
-    float x,x0,temp;
-    float y,y0;
+    float x;
+    float y;
     QPen pen = p.pen();
 
     switch ( m_ActivityType )
@@ -71,6 +71,18 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
             p.setFont( UMLWidget::getFont() );
             p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + textStartY,
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
+
+            // if the activity is an invok activity
+            if ( m_NormalActivityType )
+            {
+                 x = offsetX + w - (w/5);
+                 y = offsetY + h - (h/3);
+
+                 p.drawLine(x,      y,      x,      y + 20);
+                 p.drawLine(x - 10, y + 10, x + 10, y + 10);
+                 p.drawLine(x - 10, y + 10, x - 10, y + 20);
+                 p.drawLine(x + 10, y + 10, x + 10, y + 20);
+            }
         }
         UMLWidget::setPen(p);
         break;
@@ -139,6 +151,12 @@ QSize ActivityWidget::calculateSize() {
         height = height > ACTIVITY_HEIGHT ? height : ACTIVITY_HEIGHT;
         width += ACTIVITY_MARGIN * 2;
         height += ACTIVITY_MARGIN * 2;
+
+        if (m_NormalActivityType)
+        {
+             height += 40;
+        }
+
     } else if ( m_ActivityType == Branch ) {
         width = height = 20;
     }
@@ -154,6 +172,16 @@ void ActivityWidget::setActivityType( ActivityType activityType ) {
     UMLWidget::m_bResizable = (m_ActivityType == Normal);
 }
 
+void ActivityWidget::setShowInvok(bool invok)
+{
+    m_NormalActivityType = invok;
+    updateComponentSize();
+}
+
+bool ActivityWidget::getShowInvok()
+{
+     return ( m_NormalActivityType);
+}
 void ActivityWidget::slotMenuSelection(int sel) {
     bool done = false;
 
@@ -230,6 +258,7 @@ void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     activityElement.setAttribute( "activityname", m_Text );
     activityElement.setAttribute( "documentation", m_Doc );
     activityElement.setAttribute( "activitytype", m_ActivityType );
+    activityElement.setAttribute( "normalactivitytype", m_NormalActivityType );
     qElement.appendChild( activityElement );
 }
 
@@ -240,6 +269,8 @@ bool ActivityWidget::loadFromXMI( QDomElement & qElement ) {
     m_Doc = qElement.attribute( "documentation", "" );
     QString type = qElement.attribute( "activitytype", "1" );
     setActivityType( (ActivityType)type.toInt() );
+    type = qElement.attribute( "normalactivitytype");
+    setShowInvok( (bool)type.toInt() );
     return true;
 }
 

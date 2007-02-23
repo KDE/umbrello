@@ -119,7 +119,7 @@ protected:
         QLabel * nameL, * typeL;
         QLineEdit * nameLE, * typeLE;
         Q3MultiLineEdit * docMLE;
-
+        QCheckBox * InvokCB;
         Q3GroupBox * docGB, * generalGB;
     }
     m_GenPageWidgets;

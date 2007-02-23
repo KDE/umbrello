@@ -19,6 +19,7 @@
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QGridLayout>
+#include <QCheckBox>
 #include <kvbox.h>
 //kde includes
 #include <kiconloader.h>
@@ -68,6 +69,7 @@ void ActivityDialog::applyPage( KPageWidgetItem *item ) {
     {
         m_pActivityWidget -> setName( m_GenPageWidgets.nameLE -> text() );
         m_pActivityWidget -> setDoc( m_GenPageWidgets.docMLE -> text() );
+        m_pActivityWidget -> setShowInvok (m_GenPageWidgets.InvokCB->isChecked() );
     }
     else if ( item == pageItemFont )
     {
@@ -105,6 +107,10 @@ void ActivityDialog::setupGeneralPage() {
     Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 1,
                                     m_GenPageWidgets.nameL, i18n("Activity name:"),
                                     m_GenPageWidgets.nameLE );
+
+    m_GenPageWidgets.InvokCB = new QCheckBox( i18n("&Invoke action "),(QWidget *)page);
+    generalLayout -> addWidget( m_GenPageWidgets.InvokCB );
+    m_GenPageWidgets.InvokCB->setChecked(m_pActivityWidget -> getShowInvok() );
 
     m_GenPageWidgets.docGB = new Q3GroupBox( i18n( "Documentation"), (QWidget *)page );
 

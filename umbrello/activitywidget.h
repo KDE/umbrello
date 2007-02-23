@@ -95,6 +95,16 @@ public:
                             ActivityType& resultType );
 
     /**
+     * Sets the type of a normal activity: invok or not.
+     */
+    void setShowInvok(bool invok);
+
+    /**
+     * Return the type of a normal activity: invok or not.
+     */
+    bool getShowInvok();
+
+    /**
      * Saves the widget to the <activitywidget> XMI element.
      */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
@@ -114,6 +124,13 @@ protected:
      * Type of activity.
      */
     ActivityType m_ActivityType;
+
+
+    /**
+     * Type of normal activity (Invok or not).
+     * This function is call by the dialog box properties
+     */
+    bool m_NormalActivityType;
 
 public slots:
 
