@@ -58,27 +58,6 @@ void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
     }
 }
 
-void askNameForWidgetType(UMLWidget* &targetWidget, const QString& dialogTitle,
-                      const QString& dialogPrompt, const QString& defaultName) {
-
-    bool pressedOK = false;
-    const QStringList list = QStringList() << "Reference" << "Option" << "Break" << "Loop" << "Negative" << "Critical" << "Assertion" << "Alternative" << "Parallel" ;
-    const QStringList select = QStringList() << "Reference" << "Option" << "Break" << "Loop" << "Negative" << "Critical" << "Assertion" << "Alternative" << "Parallel" ;
-    QStringList result = KInputDialog::getItemList (dialogTitle, dialogPrompt, list, select, false, &pressedOK, UMLApp::app());
-
-    if (pressedOK) {
-        QString type = result.join("");
-        dynamic_cast<CombinedFragmentWidget*>(targetWidget)->setCombinedFragmentType(type);
-        if (type == "Reference")
-            askNameForWidget(targetWidget, i18n("Enter the name of the diagram referenced"), i18n("Enter the name of the diagram referenced"), i18n("Diagram name"));
-        if (type == "Loop")
-            askNameForWidget(targetWidget, i18n("Enter the guard of the loop"), i18n("Enter the guard of the loop"), i18n("-"));
-    } else {
-        targetWidget->cleanup();
-        delete targetWidget;
-        targetWidget = NULL;
-    }
-}
 
 }  // end namespace Dialog_Utils
 
