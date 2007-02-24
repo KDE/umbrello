@@ -183,6 +183,8 @@ void CppWriter::writeHeaderAccessorMethodDecl(UMLClassifier *c, Uml::Visibility 
     // associations
     writeAssociationMethods(m_classifierInfo->plainAssociations, permitScope,
                             true, INLINE_ASSOCIATION_METHODS, true, c->getID(), stream);
+    writeAssociationMethods(m_classifierInfo->uniAssociations, permitScope,
+                            true, INLINE_ASSOCIATION_METHODS, true, c->getID(), stream);
     writeAssociationMethods(m_classifierInfo->aggregations, permitScope,
                             true,  INLINE_ASSOCIATION_METHODS, true, c->getID(), stream);
     writeAssociationMethods(m_classifierInfo->compositions, permitScope,
@@ -200,6 +202,7 @@ void CppWriter::writeHeaderFieldDecl(UMLClassifier *c, Uml::Visibility permitSco
 
     // associations
     writeAssociationDecls(m_classifierInfo->plainAssociations, permitScope, c->getID(), stream);
+    writeAssociationDecls(m_classifierInfo->uniAssociations, permitScope, c->getID(), stream);
     writeAssociationDecls(m_classifierInfo->aggregations, permitScope, c->getID(), stream);
     writeAssociationDecls(m_classifierInfo->compositions, permitScope, c->getID(), stream);
 
@@ -279,6 +282,8 @@ void CppWriter::writeSourceFile (UMLClassifier *c, QFile &filecpp ) {
     // public
     writeAssociationMethods(m_classifierInfo->plainAssociations, Uml::Visibility::Public, false,
                             !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
+    writeAssociationMethods(m_classifierInfo->uniAssociations, Uml::Visibility::Public, false,
+                            !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
     writeAssociationMethods(m_classifierInfo->aggregations, Uml::Visibility::Public, false,
                             !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
     writeAssociationMethods(m_classifierInfo->compositions, Uml::Visibility::Public, false,
@@ -286,6 +291,8 @@ void CppWriter::writeSourceFile (UMLClassifier *c, QFile &filecpp ) {
 
     // protected
     writeAssociationMethods(m_classifierInfo->plainAssociations, Uml::Visibility::Protected, false,
+                            !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
+    writeAssociationMethods(m_classifierInfo->uniAssociations, Uml::Visibility::Protected, false,
                             !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
     writeAssociationMethods(m_classifierInfo->aggregations, Uml::Visibility::Protected, false,
                             !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
@@ -295,6 +302,8 @@ void CppWriter::writeSourceFile (UMLClassifier *c, QFile &filecpp ) {
 
     // private
     writeAssociationMethods(m_classifierInfo->plainAssociations, Uml::Visibility::Private, false,
+                            !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
+    writeAssociationMethods(m_classifierInfo->uniAssociations, Uml::Visibility::Private, false,
                             !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
     writeAssociationMethods(m_classifierInfo->aggregations, Uml::Visibility::Private, false,
                             !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
@@ -349,6 +358,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
     {
         // write all includes we need to include other classes, that arent us.
         printAssociationIncludeDecl (m_classifierInfo->plainAssociations, c->getID(), cpp);
+        printAssociationIncludeDecl (m_classifierInfo->uniAssociations, c->getID(), cpp);
         printAssociationIncludeDecl (m_classifierInfo->aggregations, c->getID(), cpp);
         printAssociationIncludeDecl (m_classifierInfo->compositions, c->getID(), cpp);
 

@@ -833,6 +833,33 @@ bool UMLClassifier::isReference() {
     return m_isRef;
 }
 
+UMLAssociationList  UMLClassifier::getUniAssociationToBeImplemented() {
+    UMLAssociationList associations = getSpecificAssocs(Uml::at_UniAssociation);
+    UMLAssociationList uniAssocListToBeImplemented;
+
+    for(UMLAssociation *a = associations.first(); a; a = associations.next()) {
+        if (a->getObjectId(Uml::B) == getID())
+            continue;  // we need to be at the A side
+
+        QString roleNameB = a->getRoleName(Uml::B);
+        if (!roleNameB.isEmpty()) {
+            UMLAttributeList atl = getAttributeList();
+            bool found = false;
+            //make sure that an attribute with the same name doesn't already exist 
+            for (UMLAttribute *at = atl.first(); at ; at = atl.next()) {
+                if (at->getName() == roleNameB) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                uniAssocListToBeImplemented.append(a);
+            }
+        }
+    }
+    return uniAssocListToBeImplemented;
+}
+
 void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement) {
     QString tag;
     switch (m_BaseType) {
@@ -985,5 +1012,7 @@ bool UMLClassifier::load(QDomElement& element) {
     }
     return totalSuccess;
 }
+
+
 
 #include "classifier.moc"

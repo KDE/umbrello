@@ -115,10 +115,12 @@ void JavaWriter::writeClass(UMLClassifier *c)
 
     // another preparation, determine what we have
     UMLAssociationList associations = c->getSpecificAssocs(Uml::at_Association); // BAD! only way to get "general" associations.
+    UMLAssociationList uniAssociations = c->getUniAssociationToBeImplemented();
+    
     UMLAssociationList aggregations = c->getAggregations();
     UMLAssociationList compositions = c->getCompositions();
 
-    bool hasAssociations = aggregations.count() > 0 || associations.count() > 0 || compositions.count() > 0;
+    bool hasAssociations = aggregations.count() > 0 || associations.count() > 0 || compositions.count() > 0 || uniAssociations.count() > 0;
     bool hasAttributes = (atl.count() > 0);
     bool hasAccessorMethods = hasAttributes || hasAssociations;
     bool hasOperationMethods = (c->getOpList().count() > 0);
@@ -188,6 +190,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
     writeAttributeDecls(atpub, atprot, atpriv, java);
 
     writeAssociationDecls(associations, c->getID(), java);
+    writeAssociationDecls(uniAssociations, c->getID(), java);
     writeAssociationDecls(aggregations, c->getID(), java);
     writeAssociationDecls(compositions, c->getID(), java);
 
@@ -232,6 +235,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
 
     // first: determine the name of the other class
     writeAssociationMethods(associations, c, java);
+    writeAssociationMethods(uniAssociations, c, java);
     writeAssociationMethods(aggregations, c, java);
     writeAssociationMethods(compositions, c, java);
 
@@ -527,7 +531,7 @@ void JavaWriter::writeAssociationRoleDecl(QString fieldClassName,
     // multiplicity object that we don't have to figure out what it means via regex.
     if(multi.isEmpty() || multi.contains(QRegExp("^[01]$")))
     {
-        QString fieldVarName = roleName.replace(0, 1, roleName.left(1).lower());
+        QString fieldVarName = "m_" + roleName.replace(0, 1, roleName.left(1).lower());
         java<<startline<<scope<<" "<<fieldClassName<<" "<<fieldVarName<<";";
     }
     else
@@ -586,7 +590,7 @@ void JavaWriter::writeAssociationRoleMethod (QString fieldClassName, QString rol
 {
     if(multi.isEmpty() || multi.contains(QRegExp("^[01]$")))
     {
-        QString fieldVarName = "m_" + roleName.lower();
+        QString fieldVarName = "m_" + roleName.replace(0, 1, roleName.left(1).lower());
         writeSingleAttributeAccessorMethods(fieldClassName, fieldVarName, roleName,
                                             description, visib, change, false, java);
     }

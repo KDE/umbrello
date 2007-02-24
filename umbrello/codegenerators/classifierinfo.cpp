@@ -85,6 +85,9 @@ void ClassifierInfo::init(UMLClassifier *c) {
     plainAssociations = c->getSpecificAssocs(Uml::at_Association); // BAD! only way to get "general" associations.
     plainAssociations.setAutoDelete(false);
 
+    uniAssociations = c->getUniAssociationToBeImplemented();
+    uniAssociations.setAutoDelete(false);
+
     aggregations = c->getAggregations();
     aggregations.setAutoDelete(false);
 
@@ -92,7 +95,7 @@ void ClassifierInfo::init(UMLClassifier *c) {
     compositions.setAutoDelete(false);
 
     // set some summary information about the classifier now
-    hasAssociations = plainAssociations.count() > 0 || aggregations.count() > 0 || compositions.count() > 0;
+    hasAssociations = plainAssociations.count() > 0 || aggregations.count() > 0 || compositions.count() > 0 || uniAssociations.count() > 0;
     hasAttributes = atpub.count() > 0 || atprot.count() > 0 || atpriv.count() > 0
                     || static_atpub.count() > 0
                     || static_atprot.count() > 0
