@@ -571,7 +571,12 @@ void UMLWidget::adjustAssocs(int x, int y)
     }
     AssociationWidgetListIt assoc_it(m_Assocs);
     AssociationWidget* assocwidget = 0;
-    while((assocwidget=assoc_it.current())) {
+    while ((assocwidget = assoc_it.current())) {
+        ++assoc_it;
+        assocwidget->saveIdealTextPositions();
+    }
+    assoc_it.toFirst();
+    while ((assocwidget = assoc_it.current())) {
         ++assoc_it;
         assocwidget->widgetMoved(this, x, y);
     }
@@ -581,7 +586,13 @@ void UMLWidget::adjustUnselectedAssocs(int x, int y)
 {
     AssociationWidgetListIt assoc_it(m_Assocs);
     AssociationWidget* assocwidget = 0;
-    while((assocwidget=assoc_it.current())) {
+    while ((assocwidget = assoc_it.current())) {
+        ++assoc_it;
+        if(!assocwidget->getSelected())
+            assocwidget->saveIdealTextPositions();
+    }
+    assoc_it.toFirst();
+    while ((assocwidget = assoc_it.current())) {
         ++assoc_it;
         if(!assocwidget->getSelected())
             assocwidget->widgetMoved(this, x, y);

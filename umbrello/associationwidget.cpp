@@ -285,6 +285,7 @@ FloatingTextWidget* AssociationWidget::getTextWidgetByRole(Uml::Text_Role tr) {
         case tr_MultiB:
             return m_role[B].m_pMulti;
         case tr_Name:
+        case tr_Coll_Message:
             return m_pName;
         case tr_RoleAName:
             return m_role[A].m_pRole;
@@ -1286,6 +1287,16 @@ void AssociationWidget::mergeAssociationDataIntoUMLRepresentation()
     m_pObject->blockSignals(false);
 }
 
+void AssociationWidget::saveIdealTextPositions() {
+    m_oldNamePoint = calculateTextPosition(tr_Name);
+    m_oldMultiAPoint = calculateTextPosition(tr_MultiA);
+    m_oldMultiBPoint = calculateTextPosition(tr_MultiB);
+    m_oldChangeAPoint = calculateTextPosition(tr_ChangeA);
+    m_oldChangeBPoint = calculateTextPosition(tr_ChangeB);
+    m_oldRoleAPoint = calculateTextPosition(tr_RoleAName);
+    m_oldRoleBPoint = calculateTextPosition(tr_RoleBName);
+}
+
 /** Adjusts the ending point of the association that connects to Widget */
 void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y ) {
     // 2004-04-30: Achim Spangler
@@ -1302,13 +1313,6 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y ) {
         << endl;
         return;
     }
-    QPoint oldNamePoint = calculateTextPosition(tr_Name);
-    QPoint oldMultiAPoint = calculateTextPosition(tr_MultiA);
-    QPoint oldMultiBPoint = calculateTextPosition(tr_MultiB);
-    QPoint oldChangeAPoint = calculateTextPosition(tr_ChangeA);
-    QPoint oldChangeBPoint = calculateTextPosition(tr_ChangeB);
-    QPoint oldRoleAPoint = calculateTextPosition(tr_RoleAName);
-    QPoint oldRoleBPoint = calculateTextPosition(tr_RoleBName);
 
     int dx = m_role[A].m_OldCorner.x() - x;
     int dy = m_role[A].m_OldCorner.y() - y;
@@ -1336,40 +1340,40 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y ) {
         }
 
         if ( m_pName && !m_pName->getSelected() ) {
-            setTextPositionRelatively(tr_Name, oldNamePoint);
+            setTextPositionRelatively(tr_Name, m_oldNamePoint);
         }
 
     }//end if widgetA = widgetB
     else if (m_role[A].m_pWidget==widget) {
         if (m_pName && m_unNameLineSegment == 0 && !m_pName->getSelected() ) {
             //only calculate position and move text if the segment it is on is moving
-            setTextPositionRelatively(tr_Name, oldNamePoint);
+            setTextPositionRelatively(tr_Name, m_oldNamePoint);
         }
     }//end if widgetA moved
     else if (m_role[B].m_pWidget==widget) {
         if (m_pName && (m_unNameLineSegment == pos-1) && !m_pName->getSelected() ) {
             //only calculate position and move text if the segment it is on is moving
-            setTextPositionRelatively(tr_Name, oldNamePoint);
+            setTextPositionRelatively(tr_Name, m_oldNamePoint);
         }
     }//end if widgetB moved
 
     if ( m_role[A].m_pRole && !m_role[A].m_pRole->getSelected() ) {
-        setTextPositionRelatively(tr_RoleAName, oldRoleAPoint);
+        setTextPositionRelatively(tr_RoleAName, m_oldRoleAPoint);
     }
     if ( m_role[B].m_pRole && !m_role[B].m_pRole->getSelected() ) {
-        setTextPositionRelatively(tr_RoleBName, oldRoleBPoint);
+        setTextPositionRelatively(tr_RoleBName, m_oldRoleBPoint);
     }
     if ( m_role[A].m_pMulti && !m_role[A].m_pMulti->getSelected() ) {
-        setTextPositionRelatively(tr_MultiA, oldMultiAPoint);
+        setTextPositionRelatively(tr_MultiA, m_oldMultiAPoint);
     }
     if ( m_role[B].m_pMulti && !m_role[B].m_pMulti->getSelected() ) {
-        setTextPositionRelatively(tr_MultiB, oldMultiBPoint);
+        setTextPositionRelatively(tr_MultiB, m_oldMultiBPoint);
     }
     if ( m_role[A].m_pChangeWidget && !m_role[A].m_pChangeWidget->getSelected() ) {
-        setTextPositionRelatively(tr_ChangeA, oldChangeAPoint);
+        setTextPositionRelatively(tr_ChangeA, m_oldChangeAPoint);
     }
     if ( m_role[B].m_pChangeWidget && !m_role[B].m_pChangeWidget->getSelected() ) {
-        setTextPositionRelatively(tr_ChangeB, oldChangeBPoint);
+        setTextPositionRelatively(tr_ChangeB, m_oldChangeBPoint);
     }
 }//end method widgetMoved
 
@@ -2014,37 +2018,6 @@ void AssociationWidget::calculateNameTextSegment() {
     }
 }
 
-FloatingTextWidget* AssociationWidget::floatingText(Text_Role role) {
-    FloatingTextWidget *ft = NULL;
-    switch(role) {
-    case tr_MultiA:
-        ft = m_role[A].m_pMulti;
-        break;
-    case tr_MultiB:
-        ft = m_role[B].m_pMulti;
-        break;
-    case tr_Name:
-    case tr_Coll_Message:
-        ft = m_pName;
-        break;
-    case tr_RoleAName:
-        ft = m_role[A].m_pRole;
-        break;
-    case tr_RoleBName:
-        ft = m_role[B].m_pRole;
-        break;
-    case tr_ChangeA:
-        ft = m_role[A].m_pChangeWidget;
-        break;
-    case tr_ChangeB:
-        ft = m_role[B].m_pChangeWidget;
-        break;
-    default:
-        break;
-    }
-    return ft;
-}
-
 void AssociationWidget::setTextPosition(Text_Role role) {
     bool startMove = false;
     if( m_role[A].m_pMulti && m_role[A].m_pMulti->getStartMove() )
@@ -2065,7 +2038,7 @@ void AssociationWidget::setTextPosition(Text_Role role) {
     if (startMove) {
         return;
     }
-    FloatingTextWidget *ft = floatingText(role);
+    FloatingTextWidget *ft = getTextWidgetByRole(role);
     if (ft == NULL)
         return;
     QPoint pos = calculateTextPosition(role);
@@ -2103,7 +2076,7 @@ void AssociationWidget::setTextPositionRelatively(Text_Role role, const QPoint &
     if (startMove) {
         return;
     }
-    FloatingTextWidget *ft = floatingText(role);
+    FloatingTextWidget *ft = getTextWidgetByRole(role);
     if (ft == NULL)
         return;
     int ftX = ft->getX();
