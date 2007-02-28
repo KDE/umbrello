@@ -320,6 +320,17 @@ public:
     void widgetMoved(UMLWidget* widget, int x, int y);
 
     /**
+     * Auxiliary method for widgetMoved():
+     * Saves all ideally computed floatingtext positions before doing any
+     * kind of change.  This is necessary because a single invocation of
+     * calculateEndingPoints() modifies the LinePath ending points on ALL
+     * AssociationWidgets.  This means that if we don't save the old ideal
+     * positions then they are irretrievably lost as soon as
+     * calculateEndingPoints() is invoked.
+     */
+    void saveIdealTextPositions();
+
+    /**
      * Calculates the m_unNameLineSegment value according to the new
      * NameText topleft corner PT.
      * It iterates through all LinePath's segments and for each one
@@ -753,12 +764,6 @@ private:
     QPoint calculateTextPosition(Uml::Text_Role role);
 
     /**
-     * Returns the FloatingTextWidget identified by the given text role.
-     * Returns NULL if there is no FloatingTextWidget active for the text role.
-     */
-    FloatingTextWidget* floatingText(Uml::Text_Role role);
-
-    /**
      * Puts the text widget with the given role at the given position.
      * This method calls @ref calculateTextPostion to get the needed position.
      * I.e. the line segment it is on has moved and it should move the same
@@ -934,6 +939,42 @@ private:
     ListPopupMenu       *m_pMenu;
     bool                m_bSelected;
     int                 m_nMovingPoint;
+
+    /**
+     * Position of Name floatingtext saved by saveIdealTextPositions()
+     */
+    QPoint m_oldNamePoint;
+    /**
+     * Position of role A multiplicity floatingtext saved by
+     * saveIdealTextPositions()
+     */
+    QPoint m_oldMultiAPoint;
+    /**
+     * Position of role B multiplicity floatingtext saved by
+     * saveIdealTextPositions()
+     */
+    QPoint m_oldMultiBPoint;
+    /**
+     * Position of role A changeability floatingtext saved by
+     * saveIdealTextPositions()
+     */
+    QPoint m_oldChangeAPoint;
+    /**
+     * Position of role B changeability floatingtext saved by
+     * saveIdealTextPositions()
+     */
+    QPoint m_oldChangeBPoint;
+    /**
+     * Position of role A name floatingtext saved by
+     * saveIdealTextPositions()
+     */
+    QPoint m_oldRoleAPoint;
+    /**
+     * Position of role B name floatingtext saved by
+     * saveIdealTextPositions()
+     */
+    QPoint m_oldRoleBPoint;
+
     int         m_nLinePathSegmentIndex; ///< anchor for m_pAssocClassLine
     Q3CanvasLine *m_pAssocClassLine;  ///< used for connecting assoc. class
     /// selection adornment for the endpoints of the assoc. class connecting line

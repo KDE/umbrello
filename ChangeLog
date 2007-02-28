@@ -4,16 +4,25 @@ Version 1.5.7
 * C# Code Generation and export (53368)
 * Java interface inheritance, abstract classes and generics in code generation
   (53376)
+* Code generation ignores unidirectional association (72042)
 * %date% and %time% not being parsed (96612)
+* Operations of the Interface are not implemented in the class automatically
+  (111593)
 * Relationships for entities do not live outside of the diagram (125146)
+* Multiplicity labels often are placed incorrectly (127628)
 * Javascript wrong Code Generation (135527)
 * Javascript Code Generation creates bad format methods (135540)
 * Incorrect Association Properties text (139872)
+* Buttons are not displayed (139913)
 * Associations not updated during move of class on diagram (140709)
 * Crash when deleting the link between a package and a class (141602)
 * Ada95 Code Generation Errors for Aggregation (141644)
 * Unable to delete multiplicity information or lable from an association
   (141813)
+* Ada code generator generates "withs" in both directions for certain
+  associations (141956)
+* Ada code generator always generates methods abstract even if abstract box
+  not checked (142093)
 
 Version 1.5.61
 

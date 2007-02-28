@@ -65,6 +65,7 @@ public:
      * Lists of types of associations this classifier has
      */
     UMLAssociationList plainAssociations;
+    UMLAssociationList uniAssociations;
     UMLAssociationList aggregations;
     UMLAssociationList compositions;
 

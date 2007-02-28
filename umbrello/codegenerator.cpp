@@ -548,7 +548,6 @@ QString CodeGenerator::findFileName ( CodeDocument * codeDocument ) {
 
 void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList) {
     UMLPackage *temp;
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
     UMLAssociationList associations = c->getAssociations();
 
     for (UMLAssociation *a = associations.first(); a; a = associations.next()) {
@@ -568,10 +567,8 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList) 
             {
                 UMLObject *objA = a->getObject(Uml::A);
                 UMLObject *objB = a->getObject(Uml::B);
-                if (objA != c)
-                    temp = (UMLPackage*)objA;
-                else if (objB != c)
-                    temp = (UMLPackage*)objB;
+                if (objA == c)
+                    temp = static_cast<UMLPackage*>(objB);
             }
             break;
         case Uml::at_Aggregation:
@@ -582,12 +579,9 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList) 
                 UMLObject *objA = a->getObject(Uml::A);
                 UMLObject *objB = a->getObject(Uml::B);
                 // Add related object only if the rolename is not empty.
-                if (objA != c && !a->getRoleName(Uml::A).isEmpty() &&
-                    objA->getBaseType() != Uml::ot_Datatype)
-                    temp = (UMLPackage*)objA;
-                else if (objB != c && !a->getRoleName(Uml::B).isEmpty() &&
+                if (objA == c && !a->getRoleName(Uml::B).isEmpty() &&
                     objB->getBaseType() != Uml::ot_Datatype)
-                    temp = (UMLPackage*)objB;
+                    temp = static_cast<UMLPackage*>(objB);
             }
             break;
         default: /* all others.. like for state diagrams..we currently don't use */

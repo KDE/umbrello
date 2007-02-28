@@ -516,9 +516,9 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
         ada << ")";
     if (! use_procedure)
         ada << " return " << rettype;
-    ada << " is abstract;" << m_endl << m_endl;
-    // TBH, we make the methods abstract here because we don't have the means
-    // for generating meaningful implementations.
+    if (op->getAbstract())
+        ada << " is abstract";
+    ada << ";" << m_endl << m_endl;
 }
 
 QStringList AdaWriter::defaultDatatypes() {
