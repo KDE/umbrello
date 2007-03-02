@@ -26,8 +26,6 @@ namespace Uml
 	
 	cmdCreateUMLObject::~cmdCreateUMLObject()
 	{
-		UMLDoc *doc = UMLApp::app()->getDocument();
-		doc->removeUMLObject(m_obj);
 	}
 	
 	// Create the UMLObject
