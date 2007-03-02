@@ -102,6 +102,7 @@ private:
         QCheckBox * tabdiagramsCB;
         QCheckBox * newcodegenCB;
         QCheckBox * angularLinesCB;
+        QCheckBox * footerPrintingCB;
         QCheckBox * autosaveCB;
         QCheckBox * logoCB;
         QCheckBox * tipCB;

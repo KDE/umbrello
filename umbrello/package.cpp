@@ -129,7 +129,11 @@ void UMLPackage::removeObject(UMLObject *pObject) {
         UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
         removeAssocFromConcepts(assoc);
     }
-    m_objects.remove(pObject);
+    if (m_objects.findRef(pObject) == -1)
+        kDebug() << m_Name << " removeObject: object with id="
+            << ID2STR(pObject->getID()) << "not found." << endl;
+    else
+        m_objects.remove(pObject);
 }
 
 void UMLPackage::removeAllObjects() {

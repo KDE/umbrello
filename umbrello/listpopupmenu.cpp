@@ -1206,6 +1206,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
     case mt_Actor:
     case mt_UseCase:
     case mt_Attribute:
+    case mt_EntityAttribute:
     case mt_Operation:
     case mt_Template:
         insertStdItems(false);

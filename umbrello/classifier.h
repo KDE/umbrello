@@ -436,6 +436,11 @@ public:
      */
     UMLClassifierListItem* makeChildObject(const QString& xmiTag);
 
+    /**
+     * Return the list of unidirectional association that should show up in the code
+     */
+    virtual UMLAssociationList  getUniAssociationToBeImplemented();
+
 signals:
     /** Signals that a new UMLOperation has been added to the classifer.
      */

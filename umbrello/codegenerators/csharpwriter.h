@@ -20,6 +20,9 @@
 #include "simplecodegenerator.h"
 #include "../umlattributelist.h"
 #include "../umloperationlist.h"
+#include "../classifierlistitem.h"
+#include "../umlassociationlist.h"
+
 
 /**
   * class CSharpWriter is a C# code generator for UMLClassifier objects
@@ -61,36 +64,100 @@ private:
     bool bPrivateSectionCommentIsWritten;
 
     /**
+    * Adds extra indenting if the class is in a container (namespace)
+    */
+    QString m_container_indent;
+
+    /**
+    * Collection of included namespaces, to skip them from variable types.
+    */
+    UMLPackageList m_seenIncludes;
+
+    /**
+    * Counts associations without a role name for giving a default name.
+    */
+    int m_unnamedRoles;
+
+    /**
+      * write realizations of a class and recurse to parent classes
+      
+      * @param currentClass class to start with
+      * @param realizations realizations of this class
+      * @param cs output stream
+      */
+    void writeRealizationsRecursive(UMLClassifier *currentClass,
+                                    UMLAssociationList *realizations,
+                                    QTextStream &cs);
+
+    /**
       * write all operations for a given class
       *
       * @param c the concept we are generating code for
-      * @param php output stream for the PHP file
+      * @param cs output stream
       */
-    void writeOperations(UMLClassifier *c, QTextStream &php);
+    void writeOperations(UMLClassifier *c, QTextStream &cs);
 
     /**
       * write a list of class operations
       *
-      * @param classname the name of the class
       * @param opList the list of operations
-      * @param php output stream for the PHP file
+      * @param cs output stream
       * @param interface indicates if the operation is an interface member
+      * @param isOverride implementation of an inherited abstract function
       */
-    void writeOperations(const QString &classname, UMLOperationList &opList,
-                         QTextStream &php,
-                         bool interface = false, bool generateErrorStub = false);
+    void writeOperations(UMLOperationList opList,
+                         QTextStream &cs,
+                         bool interface = false,
+                         bool isOverride = false,
+                         bool generateErrorStub = false);
 
+    /**
+      * write superclasses' abstract methods
+      *
+      * @param superclasses List of superclasses to start recursing on
+      * @param cs output stream
+      */
+    void writeOverridesRecursive(UMLClassifierList *superclasses, QTextStream &cs);
+    
     /** write all the attributes of a class
       * @param c the class we are generating code for
-      * @param php output stream for the PHP file
+      * @param cs output stream
       */
-    void writeAttributes(UMLClassifier *c, QTextStream &php);
+    void writeAttributes(UMLClassifier *c, QTextStream &cs);
 
     /** write a list of class attributes
       * @param atList the list of attributes
-      * @param php output stream for the PHP file
+      * @param cs output stream
       */
-    void writeAttributes(UMLAttributeList &atList, QTextStream &php);
+    void writeAttributes(UMLAttributeList &atList, QTextStream &cs);
+
+    /**
+      * write attributes from associated objects (compositions, aggregations)
+      * @param associated list of associated objects
+      * @param c currently written class, to see association direction
+      * @param cs output stream
+      */ 
+    void writeAssociatedAttributes(UMLAssociationList &associated, UMLClassifier *c, QTextStream &cs);
+
+    /**
+      * write a single attribute to the output stream
+      * @param doc attribute documentation
+      * @param visibility attribute visibility
+      * @param isStatic static attribute
+      * @param typeName class/type of the attribute
+      * @param name name of the attribute
+      * @param initialValue initial value given to the attribute at declaration
+      * @param asProperty true writes as property (get/set), false writes single line variable
+      * @param cs output stream 
+      */
+    void writeAttribute(QString doc, Uml::Visibility visibility, bool isStatic, QString typeName, QString name, QString initialValue, bool asProperty, QTextStream &cs);
+
+    /** find the type in used namespaces, if namespace found return short name, complete otherwise.
+      *
+      * @param at Operation or Attribute to check type
+      */
+    QString makeLocalTypeName(UMLClassifierListItem *cl);
+
 };
 
 #endif

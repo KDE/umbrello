@@ -115,10 +115,12 @@ void JavaWriter::writeClass(UMLClassifier *c)
 
     // another preparation, determine what we have
     UMLAssociationList associations = c->getSpecificAssocs(Uml::at_Association); // BAD! only way to get "general" associations.
+    UMLAssociationList uniAssociations = c->getUniAssociationToBeImplemented();
+    
     UMLAssociationList aggregations = c->getAggregations();
     UMLAssociationList compositions = c->getCompositions();
 
-    bool hasAssociations = aggregations.count() > 0 || associations.count() > 0 || compositions.count() > 0;
+    bool hasAssociations = aggregations.count() > 0 || associations.count() > 0 || compositions.count() > 0 || uniAssociations.count() > 0;
     bool hasAttributes = (atl.count() > 0);
     bool hasAccessorMethods = hasAttributes || hasAssociations;
     bool hasOperationMethods = (c->getOpList().count() > 0);
@@ -188,6 +190,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
     writeAttributeDecls(atpub, atprot, atpriv, java);
 
     writeAssociationDecls(associations, c->getID(), java);
+    writeAssociationDecls(uniAssociations, c->getID(), java);
     writeAssociationDecls(aggregations, c->getID(), java);
     writeAssociationDecls(compositions, c->getID(), java);
 
@@ -232,6 +235,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
 
     // first: determine the name of the other class
     writeAssociationMethods(associations, c, java);
+    writeAssociationMethods(uniAssociations, c, java);
     writeAssociationMethods(aggregations, c, java);
     writeAssociationMethods(compositions, c, java);
 
@@ -297,6 +301,10 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
         for (UMLTemplate *t = template_params.first(); t; ) {
             QString formalName = t->getName();
             java <<  formalName;
+            QString typeName = t->getTypeName();
+            if (typeName != "class") {
+                java << " extends " << typeName;
+            }
             if ((t = template_params.next()) != NULL)
                 java << ", ";
         }
@@ -523,7 +531,7 @@ void JavaWriter::writeAssociationRoleDecl(QString fieldClassName,
     // multiplicity object that we don't have to figure out what it means via regex.
     if(multi.isEmpty() || multi.contains(QRegExp("^[01]$")))
     {
-        QString fieldVarName = roleName.replace(0, 1, roleName.left(1).lower());
+        QString fieldVarName = "m_" + roleName.replace(0, 1, roleName.left(1).lower());
         java<<startline<<scope<<" "<<fieldClassName<<" "<<fieldVarName<<";";
     }
     else
@@ -582,7 +590,7 @@ void JavaWriter::writeAssociationRoleMethod (QString fieldClassName, QString rol
 {
     if(multi.isEmpty() || multi.contains(QRegExp("^[01]$")))
     {
-        QString fieldVarName = "m_" + roleName.lower();
+        QString fieldVarName = "m_" + roleName.replace(0, 1, roleName.left(1).lower());
         writeSingleAttributeAccessorMethods(fieldClassName, fieldVarName, roleName,
                                             description, visib, change, false, java);
     }
@@ -704,6 +712,76 @@ QStringList JavaWriter::defaultDatatypes() {
     return l;
 }
 
+
+bool JavaWriter::compareJavaMethod(UMLOperation *op1, UMLOperation *op2)
+{
+    if (op1 == NULL || op2 == NULL)
+        return false;
+    if (op1 == op2)
+        return true;
+    if (op1->getName() != op2->getName())
+        return false;
+    UMLAttributeList atl1 = op1->getParmList();
+    UMLAttributeList atl2 = op2->getParmList();
+    if (atl1.count() != atl2.count())
+        return false;
+    UMLAttribute *at1;
+    UMLAttribute *at2;
+    for (at1  = atl1.first(), at2 = atl2.first(); at1 && at2 ; at1 = atl1.next(),at2 = atl2.next())
+    {
+        if (at1->getTypeName() != at2->getTypeName())
+            return false;
+    }
+    return true;
+    
+}
+
+bool JavaWriter::javaMethodInList(UMLOperation *umlOp, UMLOperationList &opl)
+{
+    for (UMLOperation *op = opl.first(); op; op = opl.next()) {
+        if (JavaWriter::compareJavaMethod(op, umlOp)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void JavaWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationList &yetImplementedOpList ,UMLOperationList &toBeImplementedOpList, bool noClassInPath)
+{
+    UMLClassifierList superClasses = c->findSuperClassConcepts();
+    
+    for (UMLClassifier *concept= superClasses.first(); concept; concept = superClasses.next())
+    {
+        getSuperImplementedOperations(concept, yetImplementedOpList, toBeImplementedOpList, (concept->isInterface() && noClassInPath));
+        UMLOperationList opl = concept->getOpList();
+        for (UMLOperation *op = opl.first(); op; op = opl.next()) {
+            if (concept->isInterface() && noClassInPath) {
+                if (!JavaWriter::javaMethodInList(op,toBeImplementedOpList))
+                    toBeImplementedOpList.append(op);
+            }
+            else
+            {
+                if (!JavaWriter::javaMethodInList(op, yetImplementedOpList))
+                    yetImplementedOpList.append(op);
+            }
+        }
+    }
+    
+}
+
+void JavaWriter::getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOperationList &opList )
+{
+    UMLOperationList yetImplementedOpList;
+    UMLOperationList toBeImplementedOpList;
+
+    getSuperImplementedOperations(c,yetImplementedOpList, toBeImplementedOpList);
+    for (UMLOperation *op = toBeImplementedOpList.first(); op; op = toBeImplementedOpList.next())
+    {
+        if ( ! JavaWriter::javaMethodInList(op, yetImplementedOpList) && ! JavaWriter::javaMethodInList(op, opList) )
+            opList.append(op);
+    } 
+}
+
 void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
     UMLOperationList opl;
     UMLOperationList oppub,opprot,oppriv;
@@ -711,8 +789,11 @@ void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
     opprot.setAutoDelete(false);
     oppriv.setAutoDelete(false);
 
-    //sort operations by scope first and see if there are abstrat methods
+    //sort operations by scope first and see if there are abstract methods
     opl = c->getOpList();
+    if (! c->isInterface()) {
+        getInterfacesOperationsToBeImplemented(c, opl);
+    } 
     for (UMLOperation *op = opl.first(); op; op = opl.next()) {
         switch(op->getVisibility()) {
           case Uml::Visibility::Public:
