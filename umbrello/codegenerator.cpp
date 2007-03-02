@@ -573,14 +573,11 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList) 
             break;
         case Uml::at_Aggregation:
         case Uml::at_Composition:
-        case Uml::at_Association_Self:
         case Uml::at_Association:
             {
                 UMLObject *objA = a->getObject(Uml::A);
                 UMLObject *objB = a->getObject(Uml::B);
-                // Add related object only if the rolename is not empty.
-                if (objA == c && !a->getRoleName(Uml::B).isEmpty() &&
-                    objB->getBaseType() != Uml::ot_Datatype)
+                if (objA == c && objB->getBaseType() != Uml::ot_Datatype)
                     temp = static_cast<UMLPackage*>(objB);
             }
             break;
