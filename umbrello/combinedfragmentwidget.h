@@ -12,7 +12,7 @@
 #ifndef COMBINEDFRAGMENTWIDGET_H
 #define COMBINEDFRAGMENTWIDGET_H
 
-#include <list>
+#include <qlist.h>
 #include "umlwidget.h"
 #include "worktoolbar.h"
 #include "floatingdashlinewidget.h"
@@ -125,7 +125,7 @@ private:
     /**
      * Dash lines of an alternative or parallel combined fragment
      */
-    list<FloatingDashLineWidget*> *m_dashLines ;
+    QList<FloatingDashLineWidget*> *m_dashLines ;
 };
 
 #endif

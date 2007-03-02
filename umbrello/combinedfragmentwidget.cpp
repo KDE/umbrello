@@ -116,7 +116,7 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
                 p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
 			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "alt");
                 // dash lines
-                for(list<FloatingDashLineWidget*>::iterator it=m_dashLines->begin() ; it!=m_dashLines->end() ; it++) {
+                for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines->begin() ; it!=m_dashLines->end() ; it++) {
                     (*it)->setX(getX());
                     old_Y = (*it)->getYMin();
                     (*it)->setYMin(getY());
@@ -131,7 +131,7 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
                 p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
 			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "parallel");
                 // dash lines
-                for(list<FloatingDashLineWidget*>::iterator it=m_dashLines->begin() ; it!=m_dashLines->end() ; it++) {
+                for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines->begin() ; it!=m_dashLines->end() ; it++) {
                     (*it)->setX(getX());
                     old_Y = (*it)->getYMin();
                     (*it)->setYMin(getY());
@@ -181,7 +181,7 @@ void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combi
     // creates a dash line if the combined fragment type is alternative or parallel
     if(m_CombinedFragment == Alt || m_CombinedFragment == Par)
     {
-        m_dashLines = new list<FloatingDashLineWidget*>();
+        m_dashLines = new QList<FloatingDashLineWidget*>();
         m_dashLines->push_back(new FloatingDashLineWidget(m_pView));
         if(m_CombinedFragment == Alt)
         {
@@ -270,9 +270,9 @@ void CombinedFragmentWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElem
     // save the corresponding floating dash lines
     /*QString dashlineId("dashlineId");
     int i=1;
-    for (list<FloatingDashLineWidget>::iterator it = m_dashLines->begin() ; it != m_dashLines->end() ; it++) {
-        combinedFragmentElement.setAttribute( dashlineId.append(i), ID2STR(it->getID()) );
-        it -> saveToXMI( qDoc, combinedFragmentElement );
+    for (list<FloatingDashLineWidget*>::iterator it = m_dashLines->begin() ; it != m_dashLines->end() ; it++) {
+        combinedFragmentElement.setAttribute( dashlineId.append(i), ID2STR((*it)->getID()) );
+        (*it) -> saveToXMI( qDoc, combinedFragmentElement );
         i++;
     }*/
 
@@ -329,7 +329,6 @@ void CombinedFragmentWidget::slotMenuSelection(int sel) {
     switch (sel) {
         // for alternative or parallel combined fragments
         case ListPopupMenu::mt_AddInteractionOperand:
-            kDebug()<<"yeeeeeeeeeeeeeeeeeeeeeeeeeeees !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
             m_dashLines->push_back(new FloatingDashLineWidget(m_pView));
             if(m_CombinedFragment == Alt)
             {
