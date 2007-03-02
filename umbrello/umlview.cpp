@@ -401,6 +401,8 @@ void UMLView::setupNewWidget(UMLWidget *w) {
     resizeCanvasToItems();
     m_WidgetList.append( w );
     m_pDoc->setModified();
+     
+    UMLApp::app()->executeCommand(new cmdCreateWidget(this, w));
 }
 
 void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {

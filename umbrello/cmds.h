@@ -30,12 +30,7 @@
 #include "cmds/cmd_resizeWidget.h"
 #include "cmds/cmd_set_visibility.h"
 #include "cmds/cmd_set_stereotype.h"
-#include "cmds/widget/cmd_set_name.h"
-#include "cmds/widget/cmd_set_txt.h"
 #include "cmds/cmd_handle_rename.h"
-#include "cmds/widget/cmd_changeFontSelection.h"
-#include "cmds/widget/cmd_changeLineColor.h"
-#include "cmds/widget/cmd_changeFillColor.h"
 
 /************************************************************
  * Class Diagram
@@ -55,5 +50,10 @@
  ************************************************************/
 
 #include "cmds/widget/cmd_create_widget.h"
+#include "cmds/widget/cmd_changeFontSelection.h"
+#include "cmds/widget/cmd_changeLineColor.h"
+#include "cmds/widget/cmd_changeFillColor.h"
+#include "cmds/widget/cmd_set_name.h"
+#include "cmds/widget/cmd_set_txt.h"
 
 #endif
