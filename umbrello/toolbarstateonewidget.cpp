@@ -10,17 +10,20 @@
  ***************************************************************************/
 
 // own header
-#include "toolbarstatesequence.h"
+#include "toolbarstateonewidget.h"
 
 // kde includes
 #include <kdebug.h>
 
 // local includes
 #include "floatingtextwidget.h"
+#include "pinwidget.h"
 #include "preconditionwidget.h"
 #include "endoflifewidget.h"
 #include "messagewidget.h"
 #include "objectwidget.h"
+#include "activitywidget.h"
+#include "umlwidget.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
@@ -32,31 +35,31 @@
 
 using namespace Uml;
 
-ToolBarStateSequence::ToolBarStateSequence(UMLView *umlView) : ToolBarStatePool(umlView) {
+ToolBarStateOneWidget::ToolBarStateOneWidget(UMLView *umlView) : ToolBarStatePool(umlView) {
     m_umlView = umlView;
     m_firstObject = 0;
 }
 
-ToolBarStateSequence::~ToolBarStateSequence() {
+ToolBarStateOneWidget::~ToolBarStateOneWidget() {
 }
 
-void ToolBarStateSequence::init() {
+void ToolBarStateOneWidget::init() {
     ToolBarStatePool::init();
 }
 
-void ToolBarStateSequence::cleanBeforeChange() {
+void ToolBarStateOneWidget::cleanBeforeChange() {
     ToolBarStatePool::cleanBeforeChange();
 }
 
-void ToolBarStateSequence::mouseMove(QMouseEvent* ome) {
+void ToolBarStateOneWidget::mouseMove(QMouseEvent* ome) {
     ToolBarStatePool::mouseMove(ome);
 }
 
-void ToolBarStateSequence::slotWidgetRemoved(UMLWidget* widget) {
+void ToolBarStateOneWidget::slotWidgetRemoved(UMLWidget* widget) {
     ToolBarState::slotWidgetRemoved(widget);
 }
 
-void ToolBarStateSequence::setCurrentElement() {
+void ToolBarStateOneWidget::setCurrentElement() {
     m_isObjectWidgetLine = false;
     ObjectWidget* objectWidgetLine = m_pUMLView->onWidgetLine(m_pMouseEvent->pos());
     if (objectWidgetLine) {
@@ -67,16 +70,21 @@ void ToolBarStateSequence::setCurrentElement() {
 
     UMLWidget *widget = m_pUMLView->testOnWidget(m_pMouseEvent->pos());
     if (widget) {
+	kDebug()<<"setCurrentElement()!!!!!!!!!!!!!!!!!!!!!" <<endl;
         setCurrentWidget(widget);
         return;
     }
 }
 
-void ToolBarStateSequence::mouseReleaseWidget() {
+void ToolBarStateOneWidget::mouseReleaseWidget() {
     Uml::Widget_Type widgetType = getWidgetType();
     UMLWidget * widget = 0;
 
     if (widgetType == Uml::wt_Precondition) {
+	m_firstObject = 0;
+    }
+    if (widgetType == Uml::wt_Pin) {
+	kDebug()<<"mouseReleaseWidget()!!!!!!!!!!!!!!!!!!!!!" <<endl;
 	m_firstObject = 0;
     }
     else if (widgetType == Uml::wt_EndOfLife) {
@@ -92,39 +100,54 @@ void ToolBarStateSequence::mouseReleaseWidget() {
 	    }
 	}
     }
-    if (m_pMouseEvent->button() != Qt::LeftButton ||
-                getCurrentWidget()->getBaseType() != Uml::wt_Object) {
+kDebug()<<"avant avant if !!!!!!!!!!!!!!!!!!!!!" <<getCurrentWidget()->getBaseType() <<endl;
+    if (m_pMouseEvent->button() != Qt::LeftButton ||(
+                getCurrentWidget()->getBaseType() != Uml::wt_Object &&
+                getCurrentWidget()->getBaseType() != Uml::wt_Activity)) {
+	kDebug()<<"avant return if !!!!!!!!!!!!!!!!!!!!!" <<Uml::wt_Activity <<endl;
         return;
     }
+	kDebug()<<"avant if !!!!!!!!!!!!!!!!!!!!!" <<endl;
+    if (!m_firstObject && widgetType == Uml::wt_Pin) {
+	kDebug()<<"dans if !!!!!!!!!!!!!!!!!!!!!" <<endl;
+        setWidget(getCurrentWidget());
+	return ;
+    } 
 
     if (!m_isObjectWidgetLine && !m_firstObject) {
 	return;
     }
-
+    
     if (!m_firstObject) {
-        setWidget(static_cast<ObjectWidget*>(getCurrentWidget()));
+        setWidget(getCurrentWidget());
     } 
 
 }
 
-void ToolBarStateSequence::mouseReleaseEmpty() {
+void ToolBarStateOneWidget::mouseReleaseEmpty() {
 }
 
-void ToolBarStateSequence::setWidget(ObjectWidget* firstObject) {
+void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject) {
     m_firstObject = firstObject;
 
     UMLWidget * umlwidget = NULL;
     //m_pUMLView->viewport()->setMouseTracking(true);
     if (getWidgetType() == Uml::wt_Precondition) {
-   	umlwidget = new PreconditionWidget(m_pUMLView, m_firstObject);
+   	umlwidget = new PreconditionWidget(m_pUMLView, static_cast<ObjectWidget*>(m_firstObject));
 
 	Dialog_Utils::askNameForWidget(umlwidget, i18n("Enter Precondition Name"), i18n("Enter the precondition"), i18n("new precondition"));
     	    // Create the widget. Some setup functions can remove the widget.
     	
     }
 
+    if (getWidgetType() == Uml::wt_Pin) {
+	kDebug() <<"SETWIDGET !!!!!!!!!!!!!!!!!!!!!!!" <<endl;
+   	umlwidget = new PinWidget(m_pUMLView, static_cast<ActivityWidget*>(m_firstObject));
+    	    // Create the widget. Some setup functions can remove the widget.
+    	
+    }
     if (getWidgetType() == Uml::wt_EndOfLife) {
-   	umlwidget = new EndOfLifeWidget(m_pUMLView, m_firstObject);
+   	umlwidget = new EndOfLifeWidget(m_pUMLView, static_cast<ObjectWidget*>(m_firstObject));
 
 	//Dialog_Utils::askNameForWidget(umlwidget, i18n("Enter Precondition Name"), i18n("Enter the precondition"), i18n("new precondition"));
     	    // Create the widget. Some setup functions can remove the widget.
@@ -138,14 +161,17 @@ void ToolBarStateSequence::setWidget(ObjectWidget* firstObject) {
 }
 
 
-Uml::Widget_Type ToolBarStateSequence::getWidgetType() {
+Uml::Widget_Type ToolBarStateOneWidget::getWidgetType() {
     if (getButton() == WorkToolBar::tbb_Seq_Precondition) {
         return Uml::wt_Precondition;
     }
     if (getButton() == WorkToolBar::tbb_Seq_End_Of_Life) {
         return Uml::wt_EndOfLife;
     }
+    if (getButton() == WorkToolBar::tbb_Pin) {
+        return Uml::wt_Pin;
+    }
 }
 
 
-#include "toolbarstatesequence.moc"
+#include "toolbarstateonewidget.moc"

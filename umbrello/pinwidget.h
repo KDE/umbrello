@@ -14,10 +14,14 @@
 
 #include "umlwidget.h"
 #include "worktoolbar.h"
+#include "activitywidget.h"
 
-#define OBJECTFLOW_MARGIN 5
-#define OBJECTFLOW_WIDTH 30
-#define OBJECTFLOW_HEIGHT 10
+#define PIN_MARGIN 5
+#define PIN_WIDTH 1
+#define PIN_HEIGHT 1
+
+//class ActivityWidget;
+class UMLOperation;
 
 /**
  * This class is the graphical version of a UML Object Flow.  A ObjectFlowWidget is created
@@ -42,7 +46,7 @@ public:
      * @param view              The parent of the widget.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-     PinWidget( UMLView * view, Uml::IDType id = Uml::id_None );
+     PinWidget( UMLView * view, ActivityWidget* a, Uml::IDType id = Uml::id_None );
 
     /**
      *  destructor
@@ -50,38 +54,35 @@ public:
     virtual ~PinWidget();
 
     /**
+     * Initializes key variables of the class.
+     */
+    void init();
+
+    /**
      * Overrides the standard paint event.
      */
     void draw(QPainter & p, int offsetX, int offsetY);
+/*
+     * Activates a PreconditionWidget.  Connects it m_pOw[] pointer
+     * to UMLObject
+     */
+
+
+//    void activate(IDChangeLog * Log = 0);
 
     /**
-     * Returns the type of ObjectFlow.
+     * Returns the minimum height this widget should be set at on
+     * a sequence diagrams.  Takes into account the widget positions
+     * it is related to.
      */
-   // ObjectFlowType getObjectFlowType() const;
+    int getMinY();
 
     /**
-     * Sets the type of ObjectFlow.
+     * Returns the maximum height this widget should be set at on
+     * a sequence diagrams.  Takes into account the widget positions
+     * it is related to.
      */
-   // void setObjectFlowType( ObjectFlowType objectflowType );
-// 
-//     /**
-//      * Show a properties dialog for an ObjectFlowWidget.
-//      *
-//      * @return  True if we modified the ObjectFlow.
-     
-//     bool showProperties();
-// 
-//     /**
-//      * Determines whether a toolbar button represents an ObjectFlow.
-//      * CHECK: currently unused - can this be removed?
-//      *
-//      * @param tbb               The toolbar button enum input value.
-//      * @param resultType        The ObjectFlowType corresponding to tbb.
-//      *                  This is only set if tbb is an ObjectFlow.
-//      * @return  True if tbb represents an ObjectFlow.
-//      */
-//     static bool isObjectFlow( WorkToolBar::ToolBar_Buttons tbb,
-//                             ObjectFlow& resultType );
+    int getMaxY();
 
     /**
      * Saves the widget to the <objectflowwidget> XMI element.
@@ -97,7 +98,7 @@ protected:
     /**
      * Overrides method from UMLWidget
      */
-    QSize calculateSize();
+    //  QSize calculateSize();
 
     /**
      * Type of ObjectFlow.
@@ -110,6 +111,10 @@ protected:
      * Captures any popup menu signals for menus it created.
      */
    // void slotMenuSelection(int sel);
+
+private:
+    ActivityWidget * m_pOw[1];
+   int m_nY;
 };
 
 #endif

@@ -16,7 +16,7 @@
 #include "toolbarstatearrow.h"
 #include "toolbarstatemessages.h"
 #include "toolbarstateassociation.h"
-#include "toolbarstatesequence.h"
+#include "toolbarstateonewidget.h"
 
 #include "umlview.h"
 
@@ -55,7 +55,7 @@ ToolBarState* ToolBarStateFactory::getState(const WorkToolBar::ToolBar_Buttons &
 
             // This case has no pool.
         case 3: states[3] = new ToolBarStateArrow(m_pUMLView); break;
-	case 4: states[4] = new ToolBarStateSequence(m_pUMLView); break;
+	case 4: states[4] = new ToolBarStateOneWidget(m_pUMLView); break;
         }
     }
 
@@ -93,6 +93,7 @@ int ToolBarStateFactory::getKey(const WorkToolBar::ToolBar_Buttons &toolbarButto
     
     case WorkToolBar::tbb_Seq_Precondition: return 4;
     case WorkToolBar::tbb_Seq_End_Of_Life: return 4;
+    case WorkToolBar::tbb_Pin: return 4;
     
     	// Arrow pointer
     case WorkToolBar::tbb_Arrow: return 3;

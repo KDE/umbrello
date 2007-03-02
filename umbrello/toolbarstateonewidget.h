@@ -9,8 +9,8 @@
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-#ifndef TOOLBARSTATESEQUENCE_H
-#define TOOLBARSTATESEQUENCE_H
+#ifndef TOOLBARSTATEONEWIDGET_H
+#define TOOLBARSTATEONEWIDGET_H
 
 #include "toolbarstatepool.h"
 //Added by qt3to4:
@@ -19,6 +19,7 @@
 
 class Q3CanvasLine;
 class ObjectWidget;
+class UMLWidget;
 
 /**
  * Sequence tool to create components linked with one object in sequence diagram 
@@ -27,21 +28,21 @@ class ObjectWidget;
  * it
  */
 
-class ToolBarStateSequence : public ToolBarStatePool {
+class ToolBarStateOneWidget : public ToolBarStatePool {
     Q_OBJECT
 public:
 
     /**
-     * Creates a new ToolBarStateSequence.
+     * Creates a new ToolBarStateOneWidget.
      *
      * @param umlView The UMLView to use.
      */
-    ToolBarStateSequence(UMLView *umlView);
+    ToolBarStateOneWidget(UMLView *umlView);
 
     /**
-     * Destroys this ToolBarStateSequence.
+     * Destroys this ToolBarStateOneWidget.
      */
-    virtual ~ToolBarStateSequence();
+    virtual ~ToolBarStateOneWidget();
 
     /**
      * Goes back to the initial state.
@@ -111,7 +112,7 @@ protected:
      *
      * @param firstObject The first object of the message.
      */
-    void setWidget(ObjectWidget* firstObject);
+    void setWidget(UMLWidget* firstObject);
 
  
     /**
@@ -125,7 +126,7 @@ protected:
     /**
      * The first object in the message.
      */
-    ObjectWidget* m_firstObject;
+    UMLWidget* m_firstObject;
 
     UMLView * m_umlView;
     /**
@@ -136,4 +137,4 @@ protected:
 
 };
 
-#endif //TOOLBARSTATESEQUENCE_H
+#endif //TOOLBARSTATEONEWIDGET_H

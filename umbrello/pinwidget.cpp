@@ -32,132 +32,100 @@
 #include <QMouseEvent>
 #include <QPolygon>
 
-PinWidget::PinWidget(UMLView * view, Uml::IDType id ): UMLWidget(view, id)
-{
-    UMLWidget::setBaseType( Uml::wt_Pin ); 
-    updateComponentSize(); 
+PinWidget::PinWidget(UMLView * view, ActivityWidget* a, Uml::IDType id ): UMLWidget(view, id){
+    
+    init();
+    m_pOw[Uml::A] = a;
+    int y = getY();
+    m_nY = y;
+    y = y < getMinY() ? getMinY() : y;
+    m_nY = y;
+    this->activate();
 } 
 
 PinWidget::~PinWidget() {} 
  
+void PinWidget::init() {
+    UMLWidget::setBaseType(Uml::wt_Pin);
+    m_bIgnoreSnapToGrid = true;
+    m_bIgnoreSnapComponentSizeToGrid = true;
+    m_bResizable =  false ;
+    m_pOw[Uml::A] = NULL;
+    m_nY = 0;
+    setVisible(true);
+}
+
 void PinWidget::draw(QPainter & p, int offsetX, int offsetY) { 
-    int w = width(); 
-    int h = height();
-   
+    int w = 10;
+    int h = 10;
+    int width_Activity = m_pOw[Uml::A]->getWidth();
+    int height_Activity = m_pOw[Uml::A]->getHeight();
+    int y;
+
+    int x = m_pOw[Uml::A]->getX() + (width_Activity/2);
+    setX(x);
+
+    if ( (offsetY + height_Activity/2) <= m_pOw[Uml::A]->getY() + height_Activity){
+       y = m_pOw[Uml::A]->getY()-5;
+    } else if((offsetY + height_Activity/2) > m_pOw[Uml::A]->getY() + height_Activity){
+       y = (m_pOw[Uml::A]->getY() + height_Activity)-5;
+    }  
+    setY(y);
+
+
+//test if y isn't above the object
+//     if ( y <= m_pOw[Uml::A]->getY() + height_Activity-5 && x == m_pOw[Uml::A]->getX() + (width_Activity/2) ) {
+// 	y = m_pOw[Uml::A]->getY() + height_Activity + 15;
+//     }
+//     if (y + h >= m_pOw[Uml::A]->getEndLineY()) {
+//         y = m_pOw[Uml::A]->getEndLineY() - h;
+//     }
+    
+    
     UMLWidget::setPen(p); 
         if ( UMLWidget::getUseFillColour() ) { 
             p.setBrush( UMLWidget::getFillColour() ); 
         }
-//         { 
-//             const QFontMetrics &fm = getFontMetrics(FT_NORMAL); 
-//             const int fontHeight  = fm.lineSpacing(); 
-//             int textStartY = (h / 2) - (fontHeight / 2);
-            p.drawRect(offsetX, offsetY, w, h); 
-//             p.drawLine(offsetX + 10, offsetY + (h/2) +3 , (offsetX + w)-10, offsetY + (h/2) +3 );
-//             p.setPen(Qt::black);
-//             p.setFont( UMLWidget::getFont() ); 
-//             p.drawText(offsetX + OBJECTFLOW_MARGIN, (offsetY + textStartY/2), w - OBJECTFLOW_MARGIN * 2, fontHeight, Qt::AlignHCenter, getName());
-//         }
+        
+        p.drawRect(x,y,w, h); 
         UMLWidget::setPen(p);
     if(m_bSelected)
         drawSelected(&p, offsetX, offsetY);
 }
  
-QSize PinWidget::calculateSize() {
-//     int width = 10, height = 10;
-//         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-//         const int fontHeight  = fm.lineSpacing();
-//         const int textWidth = fm.width(getName());
-//         height = fontHeight;
-//         width = textWidth > OBJECTFLOW_WIDTH ? textWidth  : OBJECTFLOW_WIDTH;
-//         height = height + 5  > OBJECTFLOW_HEIGHT ? height + 5 : OBJECTFLOW_HEIGHT;
-//         width += OBJECTFLOW_MARGIN * 2;
-//         height += (OBJECTFLOW_MARGIN * 2);
-
-    return QSize(7,7); 
+int PinWidget::getMinY() {
+    if (!m_pOw[Uml::A]) {
+        return 0;
+    }
+    int heightA = m_pOw[Uml::A]->getY() + m_pOw[Uml::A]->getHeight();
+    int height = heightA;
+    return height;
 }
 
-// void ObjectFlowWidget::slotMenuSelection(int sel) { 
-//     bool done = false;  
-// 
-//     bool ok = false; 
-//     QString name = m_Text; 
-// 
-//     switch( sel ) { 
-//     case ListPopupMenu::mt_Rename: 
-//         name = KInputDialog::getText( i18n("Enter Object Flow Name"), i18n("Enter the name of the new Object Flow:"), m_Text, &ok );
-//         if( ok && name.length() > 0 ) 
-//             m_Text = name; 
-//         done = true; 
-//         break; 
-//  
-//     case ListPopupMenu::mt_Properties:
-//         showProperties(); 
-//         done = true;
-//         break;
+// int PinWidget::getMaxY() {
+//     if( !m_pOw[Uml::A]) {
+//         return 0;
 //     }
 // 
-//     if( !done ) 
-//         UMLWidget::slotMenuSelection( sel ); 
-// }
-
-//  bool ObjectFlowWidget::showProperties() { 
-// //     DocWindow *docwindow = UMLApp::app()->getDocWindow();
-// //     docwindow->updateDocumentation(false);
-// // 
-// //     ObjectFlowDialog dialog(m_pView, this);
-// //     bool modified = false;
-// //     if (dialog.exec() && dialog.getChangesMade()) {
-// //         docwindow->showDocumentation(this, true);
-// //         UMLApp::app()->getDocument()->setModified(true);
-// //         modified = true;
-// //     }
-// // 
-//      return true; 
- //}
-// 
-// bool ObjectFlowWidget::isObjectFlow(WorkToolBar::ToolBar_Buttons tbb,
-//                                 ObjectFlowType& resultType)
-// {
-//     bool status = true;
-//     switch (tbb) {
-//     case WorkToolBar::tbb_Initial_ObjectFlow:
-//         resultType = Initial;
-//         break;
-//     case WorkToolBar::tbb_ObjectFlow:
-//         resultType = Normal;
-//         break;
-//     case WorkToolBar::tbb_End_ObjectFlow:
-//         resultType = End;
-//         break;
-//     case WorkToolBar::tbb_Branch:
-//         resultType = Branch;
-//         break;
-//     case WorkToolBar::tbb_Fork:
-//         kError() << "ObjectFlowWidget::isObjectFlow returns Fork_DEPRECATED" << endl;
-//         resultType = Fork_DEPRECATED;
-//         break;
-//     default:
-//         status = false;
-//         break;
-//     }
-//     return status;
+//     int heightA = (int)((ActivityWidget*)m_pOw[Uml::A])->getEndLineY();
+//     int height = heightA;
+//     return (height - this->height());
 // }
 
 void PinWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) { 
-    QDomElement ObjectFlowElement = qDoc.createElement( "objectflowwidget" );
-    UMLWidget::saveToXMI( qDoc, ObjectFlowElement ); 
-    ObjectFlowElement.setAttribute( "objectflowname", m_Text ); 
-    ObjectFlowElement.setAttribute( "documentation", m_Doc ); 
-    qElement.appendChild( ObjectFlowElement ); 
+    QDomElement PinElement = qDoc.createElement( "pinwidget" );
+    UMLWidget::saveToXMI( qDoc, PinElement ); 
+    //PinElement.setAttribute( "pinname", m_Text ); 
+   // PinElement.setAttribute( "documentation", m_Doc ); 
+    qElement.appendChild( PinElement ); 
 }
 
 bool PinWidget::loadFromXMI( QDomElement & qElement ) { 
     if( !UMLWidget::loadFromXMI( qElement ) ) 
         return false; 
-    m_Text = qElement.attribute( "objectflowname", "" ); 
-kDebug() << "load objectflowwidget from xmi !!!! " << m_Text << endl;
-    m_Doc = qElement.attribute( "documentation", "" );
+    //m_Text = qElement.attribute( "pinname", "" ); 
+//kDebug() << "load pinwidget from xmi !!!! " << m_Text << endl;
+   // m_Doc = qElement.attribute( "documentation", "" );
     //QString type = qElement.attribute( "objectflowtype", "1" );
   //  setObjectFlowType( (ObjectFlowType)type.toInt() );
     return true; 
