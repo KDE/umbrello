@@ -12,6 +12,7 @@
 #ifndef COMBINEDFRAGMENTWIDGET_H
 #define COMBINEDFRAGMENTWIDGET_H
 
+#include <list>
 #include "umlwidget.h"
 #include "worktoolbar.h"
 #include "floatingdashlinewidget.h"
@@ -19,6 +20,8 @@
 #define COMBINED_FRAGMENT_MARGIN 5
 #define COMBINED_FRAGMENT_WIDTH 100
 #define COMBINED_FRAGMENT_HEIGHT 50
+
+using namespace std;
 
 /**
  * This class is the graphical version of a UML combined fragment.  A combinedfragmentWidget is created
@@ -100,6 +103,13 @@ public:
      */
     bool loadFromXMI( QDomElement & qElement );
 
+    /**
+     * Overrides the function from UMLWidget.
+     *
+     * @param sel  The command to be executed.
+     */
+    void slotMenuSelection(int sel);
+
 protected:
     /**
      * Overrides method from UMLWidget
@@ -113,9 +123,9 @@ protected:
 
 private:
     /**
-     * Dash line of an alternative or parallel combined fragment
+     * Dash lines of an alternative or parallel combined fragment
      */
-    FloatingDashLineWidget *m_dashLine ;
+    list<FloatingDashLineWidget*> *m_dashLines ;
 };
 
 #endif

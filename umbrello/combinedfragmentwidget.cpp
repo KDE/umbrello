@@ -14,6 +14,7 @@
 
 // qt includes
 #include <qpainter.h>
+#include <qstring.h>
 
 // kde includes
 #include <klocale.h>
@@ -114,26 +115,30 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
         case Alt :
                 p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
 			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "alt");
-                // dash line
-                m_dashLine->setX(getX());
-                old_Y = m_dashLine->getYMin();
-                m_dashLine->setYMin(getY());
-                m_dashLine->setYMax(getY() + getHeight());
-                m_dashLine->setY(getY() + m_dashLine->getY() - old_Y);
-                m_dashLine->setSize(w, 0);
+                // dash lines
+                for(list<FloatingDashLineWidget*>::iterator it=m_dashLines->begin() ; it!=m_dashLines->end() ; it++) {
+                    (*it)->setX(getX());
+                    old_Y = (*it)->getYMin();
+                    (*it)->setYMin(getY());
+                    (*it)->setYMax(getY() + getHeight());
+                    (*it)->setY(getY() + (*it)->getY() - old_Y);
+                    (*it)->setSize(w, 0);
+                }
                 
         break;
 
         case Par :
                 p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
 			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "parallel");
-                // dash line
-                m_dashLine->setX(getX());
-                old_Y = m_dashLine->getYMin();
-                m_dashLine->setYMin(getY());
-                m_dashLine->setYMax(getY() + getHeight());
-                m_dashLine->setY(getY() + m_dashLine->getY() - old_Y);
-                m_dashLine->setSize(w, 0);
+                // dash lines
+                for(list<FloatingDashLineWidget*>::iterator it=m_dashLines->begin() ; it!=m_dashLines->end() ; it++) {
+                    (*it)->setX(getX());
+                    old_Y = (*it)->getYMin();
+                    (*it)->setYMin(getY());
+                    (*it)->setYMax(getY() + getHeight());
+                    (*it)->setY(getY() + (*it)->getY() - old_Y);
+                    (*it)->setSize(w, 0);
+                }
                 
         break;
 
@@ -176,17 +181,18 @@ void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combi
     // creates a dash line if the combined fragment type is alternative or parallel
     if(m_CombinedFragment == Alt || m_CombinedFragment == Par)
     {
-        m_dashLine = new FloatingDashLineWidget(m_pView);
+        m_dashLines = new list<FloatingDashLineWidget*>();
+        m_dashLines->push_back(new FloatingDashLineWidget(m_pView));
         if(m_CombinedFragment == Alt)
         {
-            m_dashLine->setText("else");
+            m_dashLines->back()->setText("else");
         }
-        m_dashLine->setX(getX());
-        m_dashLine->setYMin(getY());
-        m_dashLine->setYMax(getY() + getHeight());
-        m_dashLine->setY(getY() + getHeight() / 2);
-        m_dashLine->setSize(getWidth(), 0);
-        m_pView->setupNewWidget(m_dashLine);
+        m_dashLines->back()->setX(getX());
+        m_dashLines->back()->setYMin(getY());
+        m_dashLines->back()->setYMax(getY() + getHeight());
+        m_dashLines->back()->setY(getY() + getHeight() / 2);
+        m_dashLines->back()->setSize(getWidth(), 0);
+        m_pView->setupNewWidget(m_dashLines->back());
     }
 }
 
@@ -261,11 +267,14 @@ void CombinedFragmentWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElem
     combinedFragmentElement.setAttribute( "documentation", m_Doc );
     combinedFragmentElement.setAttribute( "CombinedFragmenttype", m_CombinedFragment );
 
-    // save the corresponding floating dash line
-    if (m_dashLine) {
-        combinedFragmentElement.setAttribute( "dashlineId", ID2STR(m_dashLine->getID()) );
-        m_dashLine -> saveToXMI( qDoc, combinedFragmentElement );
-    }
+    // save the corresponding floating dash lines
+    /*QString dashlineId("dashlineId");
+    int i=1;
+    for (list<FloatingDashLineWidget>::iterator it = m_dashLines->begin() ; it != m_dashLines->end() ; it++) {
+        combinedFragmentElement.setAttribute( dashlineId.append(i), ID2STR(it->getID()) );
+        it -> saveToXMI( qDoc, combinedFragmentElement );
+        i++;
+    }*/
 
     qElement.appendChild( combinedFragmentElement );
 }
@@ -276,16 +285,22 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement ) {
     m_Text = qElement.attribute( "combinedFragmentname", "" );
     m_Doc = qElement.attribute( "documentation", "" );
     QString type = qElement.attribute( "CombinedFragmenttype", "");
-    
-    QString dashId = qElement.attribute( "dashlineId", "");
-    Uml::IDType dashlineId = STR2ID(dashId);
-    if (dashlineId != Uml::id_None) {
-        UMLWidget *flotdashline = m_pView -> findWidget( dashlineId );
-        if (flotdashline != NULL) {
-            m_dashLine = static_cast<FloatingDashLineWidget*>(flotdashline);
-            return true;
+
+    // TODO : load floating dash lines of the combined fragment
+    /*QString dashlineId("dashlineId");
+    int i=1;
+    for (list<FloatingDashLineWidget>::iterator it = m_dashLines->begin() ; it != m_dashLines->end() ; it++) {
+        QString dashId = qElement.attribute( dashlineId.append(i), "");
+        Uml::IDType dashlineId = STR2ID(dashId);
+        if (dashlineId != Uml::id_None) {
+            UMLWidget *floatdashline = m_pView -> findWidget( dashlineId );
+            if (floatdashline != NULL) {
+                it = static_cast<FloatingDashLineWidget*>(floatdashline);
+                return true;
+            }
         }
-    } 
+        i++;
+    }*/
 
     //now load child elements
     QDomNode node = qElement.firstChild();
@@ -293,12 +308,12 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement ) {
     if ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingdashlinewidget") {
-            m_dashLine = new FloatingDashLineWidget( m_pView , dashlineId );
+            /*m_dashLines.push_back(new FloatingDashLineWidget( m_pView , dashlineId ));
             if( ! m_dashLine->loadFromXMI(element) ) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_dashLine;
                 m_dashLine = NULL;
-            }
+            }*/
         } else {
             kError() << "MessageWidget::loadFromXMI: unknown tag "
             << tag << endl;
@@ -307,6 +322,29 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement ) {
     setCombinedFragmentType( (CombinedFragmentType)type.toInt() );
     
     return true;
+}
+
+void CombinedFragmentWidget::slotMenuSelection(int sel) {
+    UMLWidget::slotMenuSelection(sel);
+    switch (sel) {
+        // for alternative or parallel combined fragments
+        case ListPopupMenu::mt_AddInteractionOperand:
+            kDebug()<<"yeeeeeeeeeeeeeeeeeeeeeeeeeeees !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
+            m_dashLines->push_back(new FloatingDashLineWidget(m_pView));
+            if(m_CombinedFragment == Alt)
+            {
+                m_dashLines->back()->setText("else");
+            }
+            m_dashLines->back()->setX(getX());
+            m_dashLines->back()->setYMin(getY());
+            m_dashLines->back()->setYMax(getY() + getHeight());
+            m_dashLines->back()->setY(getY() + getHeight() / 2);
+            m_dashLines->back()->setSize(getWidth(), 0);
+            m_pView->setupNewWidget(m_dashLines->back());
+            break;
+        default:
+            break;
+    }
 }
 
 

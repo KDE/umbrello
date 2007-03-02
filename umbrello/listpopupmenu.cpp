@@ -435,6 +435,12 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         break;
 
     case Uml::wt_CombinedFragment:
+        // for alternative and parallel combined fragments
+        if ((static_cast<CombinedFragmentWidget*>(object))->getCombinedFragmentType() == CombinedFragmentWidget::Alt ||
+            (static_cast<CombinedFragmentWidget*>(object))->getCombinedFragmentType() == CombinedFragmentWidget::Par) {
+            insertItem(i18n("Add Interaction Operand"), mt_AddInteractionOperand);
+            insertSeparator();
+        }
 	setupColor( object -> getUseFillColour() );
         insertSeparator();
         insertStdItem(mt_Cut);
