@@ -63,13 +63,25 @@ void PinWidget::draw(QPainter & p, int offsetX, int offsetY) {
     int y;
 
     int x = m_pOw[Uml::A]->getX() + (width_Activity/2);
-    setX(x);
+   
 
     if ( (offsetY + height_Activity/2) <= m_pOw[Uml::A]->getY() + height_Activity){
        y = m_pOw[Uml::A]->getY()-5;
     } else if((offsetY + height_Activity/2) > m_pOw[Uml::A]->getY() + height_Activity){
        y = (m_pOw[Uml::A]->getY() + height_Activity)-5;
-    }  
+    }
+
+    if (offsetX + width_Activity/4 <= m_pOw[Uml::A]->getX() + width_Activity/2 
+         && (offsetY > m_pOw[Uml::A]->getY() +5 && offsetY < m_pOw[Uml::A]->getY() + height_Activity - 5) ){
+        x = m_pOw[Uml::A]->getX() -5;
+        y = m_pOw[Uml::A]->getY() + (height_Activity/2) -5;
+    } else if (offsetX + width_Activity/4 > m_pOw[Uml::A]->getX() + width_Activity/2
+         && (offsetY > m_pOw[Uml::A]->getY() +5 && offsetY < m_pOw[Uml::A]->getY() + height_Activity - 5) ){
+        x = m_pOw[Uml::A]->getX() + width_Activity -5;
+        y = m_pOw[Uml::A]->getY() + (height_Activity/2) -5;
+    }
+
+    setX(x);
     setY(y);
 
 
@@ -86,11 +98,10 @@ void PinWidget::draw(QPainter & p, int offsetX, int offsetY) {
         if ( UMLWidget::getUseFillColour() ) { 
             p.setBrush( UMLWidget::getFillColour() ); 
         }
-        
         p.drawRect(x,y,w, h); 
         UMLWidget::setPen(p);
-    if(m_bSelected)
-        drawSelected(&p, offsetX, offsetY);
+        if(m_bSelected)
+             drawSelected(&p, offsetX, offsetY);
 }
  
 int PinWidget::getMinY() {
@@ -98,8 +109,7 @@ int PinWidget::getMinY() {
         return 0;
     }
     int heightA = m_pOw[Uml::A]->getY() + m_pOw[Uml::A]->getHeight();
-    int height = heightA;
-    return height;
+    return heightA;
 }
 
 // int PinWidget::getMaxY() {
