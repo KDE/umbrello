@@ -17,6 +17,7 @@
 #include <qlineedit.h>
 #include <q3multilineedit.h>
 #include <q3groupbox.h>
+#include <qradiobutton.h>
 
 //kde class includes
 #include <kpagedialog.h>
@@ -119,7 +120,7 @@ protected:
         QLabel * nameL, * typeL;
         QLineEdit * nameLE, * typeLE;
         Q3MultiLineEdit * docMLE;
-        QCheckBox * InvokCB;
+        QRadioButton * NormalRB, * ParamRB, * InvokRB; // this is to implement the parameter node activity or an invok action
         Q3GroupBox * docGB, * generalGB;
     }
     m_GenPageWidgets;

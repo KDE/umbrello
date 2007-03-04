@@ -400,10 +400,14 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 
     case Uml::wt_Activity:
         pActivity = static_cast<ActivityWidget *>( object );
-        if( pActivity -> getActivityType() == ActivityWidget::Normal )
+        if( pActivity -> getActivityType() == ActivityWidget::Normal
+         || pActivity -> getActivityType() == ActivityWidget::Invok
+         || pActivity -> getActivityType() == ActivityWidget::Param)
             setupColor( object -> getUseFillColour() );
         insertStdItems(false, type);
-        if( pActivity -> getActivityType() == ActivityWidget::Normal ) {
+        if( pActivity -> getActivityType() == ActivityWidget::Normal 
+         || pActivity -> getActivityType() == ActivityWidget::Invok
+         || pActivity -> getActivityType() == ActivityWidget::Param) {
             insertItem(i18n("Change Activity Name..."), mt_Rename);
             insertStdItem(mt_Change_Font);
             insertStdItem(mt_Properties);

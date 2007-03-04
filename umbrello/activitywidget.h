@@ -42,6 +42,8 @@ public:
         End,
         Final,
         Branch,
+        Invok,
+        Param,
         Fork_DEPRECATED  // use ForkJoinWidget instead
     };
 
@@ -93,16 +95,6 @@ public:
      */
     static bool isActivity( WorkToolBar::ToolBar_Buttons tbb,
                             ActivityType& resultType );
-
-    /**
-     * Sets the type of a normal activity: invok or not.
-     */
-    void setShowInvok(bool invok);
-
-    /**
-     * Return the type of a normal activity: invok or not.
-     */
-    bool getShowInvok();
 
     /**
      * Saves the widget to the <activitywidget> XMI element.

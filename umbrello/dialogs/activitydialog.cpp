@@ -20,6 +20,7 @@
 #include <QHBoxLayout>
 #include <QGridLayout>
 #include <QCheckBox>
+#include <QRadioButton>
 #include <kvbox.h>
 //kde includes
 #include <kiconloader.h>
@@ -29,6 +30,7 @@
 #include "../umlview.h"
 #include "../activitywidget.h"
 #include "../dialog_utils.h"
+#include "../activitywidget.h"
 
 ActivityDialog::ActivityDialog( UMLView * pView, ActivityWidget * pWidget )
         : KPageDialog(pView) {
@@ -69,7 +71,14 @@ void ActivityDialog::applyPage( KPageWidgetItem *item ) {
     {
         m_pActivityWidget -> setName( m_GenPageWidgets.nameLE -> text() );
         m_pActivityWidget -> setDoc( m_GenPageWidgets.docMLE -> text() );
-        m_pActivityWidget -> setShowInvok (m_GenPageWidgets.InvokCB->isChecked() );
+
+        ActivityWidget::ActivityType newType = ActivityWidget::Normal;
+        if ( m_GenPageWidgets.InvokRB->isOn() )
+              newType = ActivityWidget::Invok;
+        else if ( m_GenPageWidgets.ParamRB->isOn() )
+              newType = ActivityWidget::Param;
+        m_pActivityWidget->setActivityType (newType);
+
     }
     else if ( item == pageItemFont )
     {
@@ -84,7 +93,6 @@ void ActivityDialog::applyPage( KPageWidgetItem *item ) {
 void ActivityDialog::setupGeneralPage() {
     QString types[ ] = { i18n("Initial activity"), i18n("Activity"), i18n("End activity"), i18n( "Branch/Merge"), i18n( "Fork/Join" ) };
     ActivityWidget::ActivityType type = m_pActivityWidget -> getActivityType();
-
 
     KVBox *page = new KVBox();
     pageItemGeneral = new KPageWidgetItem( page, i18n("General") );
@@ -108,9 +116,22 @@ void ActivityDialog::setupGeneralPage() {
                                     m_GenPageWidgets.nameL, i18n("Activity name:"),
                                     m_GenPageWidgets.nameLE );
 
-    m_GenPageWidgets.InvokCB = new QCheckBox( i18n("&Invoke action "),(QWidget *)page);
-    generalLayout -> addWidget( m_GenPageWidgets.InvokCB );
-    m_GenPageWidgets.InvokCB->setChecked(m_pActivityWidget -> getShowInvok() );
+    m_GenPageWidgets.NormalRB = new QRadioButton( i18n("&Normal activity"),(QWidget *)page);
+    generalLayout -> addWidget( m_GenPageWidgets.NormalRB );
+
+    m_GenPageWidgets.InvokRB = new QRadioButton( i18n("&Invoke action "),(QWidget *)page);
+    generalLayout -> addWidget( m_GenPageWidgets.InvokRB );
+
+    m_GenPageWidgets.ParamRB = new QRadioButton( i18n("&Parameter activity node"),(QWidget *)page);
+    generalLayout -> addWidget( m_GenPageWidgets.ParamRB );
+
+    ActivityWidget::ActivityType newType = m_pActivityWidget -> getActivityType() ;
+
+    m_GenPageWidgets.NormalRB->setChecked(newType == ActivityWidget::Normal);
+
+    m_GenPageWidgets.InvokRB->setChecked (newType == ActivityWidget::Invok);
+
+    m_GenPageWidgets.ParamRB->setChecked (newType == ActivityWidget::Param);
 
     m_GenPageWidgets.docGB = new Q3GroupBox( i18n( "Documentation"), (QWidget *)page );
 
@@ -122,7 +143,7 @@ void ActivityDialog::setupGeneralPage() {
     m_GenPageWidgets.docMLE -> setText( m_pActivityWidget -> getDoc() );
     docLayout -> addWidget( m_GenPageWidgets.docMLE );
 
-    if( type != ActivityWidget::Normal ) {
+    if( type != ActivityWidget::Normal && type != ActivityWidget::Invok && type != ActivityWidget::Param) {
         m_GenPageWidgets.nameLE -> setEnabled( false );
         m_GenPageWidgets.nameLE -> setText( "" );
     } else
