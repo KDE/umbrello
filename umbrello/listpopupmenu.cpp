@@ -506,6 +506,9 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
     case mt_Import_Classes:
         insertItem(BarIcon("source_cpp"), i18n("Import Classes..."), mt_Import_Classes);
         break;
+    case mt_Import_Project:
+        insertItem(BarIcon("source_cpp"), i18n("Import Project..."), mt_Import_Project);
+        break;
     case mt_Package:
         m_pInsert->insertItem(m_pixmap[pm_Package], i18n("Package"), mt_Package);
     case mt_Subsystem:
@@ -852,6 +855,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         insertStdItem(mt_Paste);
         insertSeparator();
         insertStdItem(mt_Import_Classes);
+        insertStdItem(mt_Import_Project);
         insertSeparator();
         insertStdItem(mt_Expand_All);
         insertStdItem(mt_Collapse_All);
@@ -919,6 +923,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         insertContainerItems(true);
         insertStdItems();
         insertStdItem(mt_Import_Classes);
+        insertStdItem(mt_Import_Project);
         insertSubmodelAction();
         insertSeparator();
         insertStdItem(mt_Expand_All);

@@ -70,6 +70,7 @@
 #include "dialogs/codegenerationwizard.h"
 #include "dialogs/codeviewerdialog.h"
 #include "dialogs/diagramprintpage.h"
+#include "dialogs/importprojectdlg.h"
 
 #include "refactoring/refactoringassistant.h"
 #include "codegenerators/simplecodegenerator.h"
@@ -217,6 +218,11 @@ void UMLApp::initActions() {
     importClasses->setIcon(KIcon("source_cpp"));
     importClasses->setText(i18n("&Import Classes..."));
     connect(importClasses, SIGNAL( triggered( bool ) ), this, SLOT( slotImportClasses() ));
+
+    importProject = actionCollection()->addAction("import_project");
+    importProject->setIcon(KIcon("source_cpp"));
+    importProject->setText(i18n("Import &Project..."));
+    connect(importProject, SIGNAL( triggered( bool ) ), this, SLOT( slotImportProject() ));
 
     genWizard = actionCollection()->addAction("generation_wizard");
     genWizard->setText(i18n("&Code Generation Wizard..."));
@@ -1541,6 +1547,22 @@ void UMLApp::slotUpdateViews() {
     }
 }
 
+
+void UMLApp::importFiles(QStringList* fileList) {
+    if (! fileList->isEmpty()) {
+        const QString& firstFile = fileList->first();
+        ClassImport *classImporter = ClassImport::createImporterByFileExt(firstFile);
+        classImporter->importFiles(*fileList);
+        delete classImporter;
+        m_doc->setLoading(false);
+        //Modification is set after the import is made, because the file was modified when adding the classes
+        //Allowing undo of the whole class importing. I think it eats a lot of memory
+        //m_doc->setModified(true);
+        //Setting the modification, but without allowing undo
+        m_doc->setModified(true, false);
+    }
+}
+
 void UMLApp::slotImportClasses() {
     m_doc->setLoading(true);
     // File selection is separated from invocation of ClassImport::import()
@@ -1564,16 +1586,16 @@ void UMLApp::slotImportClasses() {
     preselectedExtension.append("\n*|" + i18n("All Files"));
     QStringList fileList = KFileDialog::getOpenFileNames(KUrl(), preselectedExtension,
                            this, i18n("Select Code to Import") );
-    const QString& firstFile = fileList.first();
-    ClassImport *classImporter = ClassImport::createImporterByFileExt(firstFile);
-    classImporter->importFiles(fileList);
-    delete classImporter;
-    m_doc->setLoading(false);
-    //Modification is set after the import is made, because the file was modified when adding the classes
-    //Allowing undo of the whole class importing. I think it eats a lot of memory
-    //m_doc->setModified(true);
-    //Setting the modification, but without allowing undo
-    m_doc->setModified(true, false);
+    importFiles(&fileList);
+}
+
+void UMLApp::slotImportProject() {
+    QStringList listFile;
+
+    QDialog::DialogCode code = ImportProjectDlg::getFilesToImport(&listFile,m_codegen->getLanguage(), this);
+    if (code == QDialog::Accepted) {
+        importFiles(&listFile);
+    }
 }
 
 void UMLApp::slotClassWizard() {

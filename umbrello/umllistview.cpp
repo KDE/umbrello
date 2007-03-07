@@ -323,6 +323,10 @@ void UMLListView::popupMenuSel(int sel) {
         UMLApp::app()->slotImportClasses();
         break;
 
+    case ListPopupMenu::mt_Import_Project:
+        UMLApp::app()->slotImportProject();
+        break;
+
     case ListPopupMenu::mt_Expand_All:
         expandAll(temp);
         break;
