@@ -2743,7 +2743,7 @@ bool UMLView::checkUniqueSelection()
 void UMLView::clearDiagram() {
     if( KMessageBox::Continue == KMessageBox::warningContinueCancel( this, i18n("You are about to delete "
             "the entire diagram.\nAre you sure?"),
-            i18n("Delete Diagram?"),KGuiItem( i18n("&Delete"), "editdelete") ) ) {
+            i18n("Delete Diagram?"),KGuiItem( i18n("&Delete"), "edit-delete") ) ) {
         removeAllWidgets();
     }
 }

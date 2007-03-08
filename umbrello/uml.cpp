@@ -270,14 +270,14 @@ void UMLApp::initActions() {
     preferences->setToolTip( i18n( "Set the default program preferences") );
 
     deleteSelectedWidget = actionCollection()->addAction("delete_selected");
-    deleteSelectedWidget->setIcon(KIcon("editdelete"));
+    deleteSelectedWidget->setIcon(KIcon("edit-delete"));
     deleteSelectedWidget->setText(i18n("Delete &Selected"));
     deleteSelectedWidget->setShortcut(QKeySequence(Qt::Key_Delete));
     connect(deleteSelectedWidget, SIGNAL( triggered( bool ) ), this, SLOT( slotDeleteSelectedWidget() ));
 
     // The different views
     newDiagram = actionCollection()->add<KActionMenu>( "new_view" );
-    newDiagram->setIcon( KIcon("filenew") );
+    newDiagram->setIcon( KIcon("document-new") );
     newDiagram->setText( "new_view" );
 
     classDiagram = actionCollection()->addAction( "new_class_diagram" );
@@ -326,7 +326,7 @@ void UMLApp::initActions() {
     connect(entityRelationshipDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotEntityRelationshipDiagram() ));
 
     viewClearDiagram = actionCollection()->addAction( "view_clear_diagram" );
-    viewClearDiagram->setIcon( KIcon("editclear") );
+    viewClearDiagram->setIcon( KIcon("edit-clear") );
     viewClearDiagram->setText( i18n("&Clear Diagram") );
     connect(viewClearDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewClearDiagram() ));
 
@@ -339,7 +339,7 @@ void UMLApp::initActions() {
     connect(viewShowGrid, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewToggleShowGrid() ));
     viewShowGrid->setCheckedState(KGuiItem(i18n("&Hide Grid")));
     deleteDiagram = actionCollection()->addAction( "view_delete" );
-    deleteDiagram->setIcon( KIcon("editdelete") );
+    deleteDiagram->setIcon( KIcon("edit-delete") );
     deleteDiagram->setText( i18n("&Delete") );
     connect(deleteDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotDeleteDiagram() ));
 
@@ -354,7 +354,7 @@ void UMLApp::initActions() {
     connect(viewExportImageAll, SIGNAL( triggered( bool ) ), this, SLOT( slotAllViewsExportImage() ));
 
     viewProperties = actionCollection()->addAction( "view_properties" );
-    viewProperties->setIcon( KIcon("info") );
+    viewProperties->setIcon( KIcon("document-properties") );
     viewProperties->setText( i18n("&Properties") );
     connect(viewProperties, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewProperties() ));
 
@@ -370,7 +370,7 @@ void UMLApp::initActions() {
 
     zoomAction = new KPlayerPopupSliderAction(this, SLOT(slotZoomSliderMoved()), this);
     zoomAction->setText(i18n("&Zoom Slider"));
-    zoomAction->setIcon(KIcon("viewmag"));
+    zoomAction->setIcon(KIcon("zoom-original"));
     zoomAction->setShortcuts(KShortcut(Qt::Key_F9));
     actionCollection()->addAction("popup_zoom", zoomAction);
     zoom100Action = actionCollection()->addAction("zoom100");
@@ -383,14 +383,14 @@ void UMLApp::initActions() {
     QString moveTabLeftString = i18n("&Move Tab Left");
     QString moveTabRightString = i18n("&Move Tab Right");
     moveTabLeft = actionCollection()->addAction("move_tab_left");
-    moveTabLeft->setIcon(KIcon(QApplication::layoutDirection() ? "forward" : "back"));
+    moveTabLeft->setIcon(KIcon(QApplication::layoutDirection() ? "go-next" : "go-previous"));
     moveTabLeft->setText(QApplication::layoutDirection() ? moveTabRightString : moveTabLeftString);
     moveTabLeft->setShortcut(QApplication::layoutDirection() ?
                  QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left));
     connect(moveTabLeft, SIGNAL( triggered( bool ) ), this, SLOT( slotMoveTabLeft() ));
 
     moveTabRight = actionCollection()->addAction("move_tab_right");
-    moveTabRight->setIcon(KIcon(QApplication::layoutDirection() ? "back" : "forward"));
+    moveTabRight->setIcon(KIcon(QApplication::layoutDirection() ? "go-previous" : "go-next"));
     moveTabRight->setText(QApplication::layoutDirection() ? moveTabLeftString : moveTabRightString);
     moveTabRight->setShortcut(QApplication::layoutDirection() ?
                   QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right));
@@ -510,7 +510,7 @@ void UMLApp::initView() {
         m_tabWidget->setAutomaticResizeTabs( true );
 
         m_newSessionButton = new QToolButton(m_tabWidget);
-        m_newSessionButton->setIconSet( SmallIcon( "tab_new" ) );
+        m_newSessionButton->setIconSet( SmallIcon( "tab-new" ) );
         m_newSessionButton->adjustSize();
         m_newSessionButton->setAutoRaise(true);
         m_diagramMenu = new KMenu(m_newSessionButton);
@@ -530,7 +530,7 @@ void UMLApp::initView() {
 
         //m_closeDiagramButton = new QToolButton("tab_remove", 0, m_tabWidget);
         m_closeDiagramButton = new QToolButton(m_tabWidget);
-        m_closeDiagramButton->setIconSet( SmallIcon("tab_remove") );
+        m_closeDiagramButton->setIconSet( SmallIcon("tab-remove") );
         m_closeDiagramButton->adjustSize();
 
         connect(m_closeDiagramButton, SIGNAL(clicked()), SLOT(slotDeleteDiagram()));

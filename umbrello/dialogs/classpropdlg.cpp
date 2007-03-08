@@ -154,7 +154,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget * w)
         QFrame* newPage = new QFrame();
         KPageWidgetItem *pageItem = new KPageWidgetItem( newPage, i18n("Display") );
         pageItem->setHeader( i18n("Display Options") );
-        pageItem->setIcon( KIcon(DesktopIcon("info") ));
+        pageItem->setIcon( KIcon(DesktopIcon("document-properties") ));
         addPage( pageItem);
 
         QHBoxLayout* m_pOptionsLayout = new QHBoxLayout(newPage);

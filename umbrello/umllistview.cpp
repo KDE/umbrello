@@ -1731,9 +1731,9 @@ void UMLListView::loadPixmaps() {
     dataDir += "/umbrello/pics/";
 
 #define makeBarIcon(iconType, barIcon)   m_Pixmaps[iconType] = BarIcon(barIcon)
-    makeBarIcon(Uml::it_Home,               "folder_home");
+    makeBarIcon(Uml::it_Home,               "user-home");
     makeBarIcon(Uml::it_Folder_Cyan,        "folder");
-    makeBarIcon(Uml::it_Folder_Cyan_Open,   "folder_open");
+    makeBarIcon(Uml::it_Folder_Cyan_Open,   "folder-open");
     makeBarIcon(Uml::it_Folder_Green,       "folder_green");
     makeBarIcon(Uml::it_Folder_Green_Open,  "folder_green_open");
     makeBarIcon(Uml::it_Folder_Orange,      "folder_orange");
