@@ -49,7 +49,6 @@ class XhtmlGenerator;
 // KDE forward declarations
 class KActionMenu;
 class KRecentFilesAction;
-class KStatusBarLabel;
 class KToggleAction;
 class KTabWidget;
 class KMenu;
@@ -1003,8 +1002,6 @@ private:
     QTimer* m_clipTimer;
     QTimer* m_copyTimer;
     AlignToolBar* m_alignToolBar;
-
-    KStatusBarLabel* m_statusLabel;
 
     /**
      * True if the application is opening an existing document

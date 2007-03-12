@@ -169,7 +169,6 @@ UMLApp::~UMLApp() {
     delete m_clipTimer;
     delete m_copyTimer;
 
-    delete m_statusLabel;
     delete m_refactoringAssist;
 }
 
@@ -470,17 +469,7 @@ void UMLApp::setupZoomMenu() {
 }
 
 void UMLApp::initStatusBar() {
-    m_statusLabel = new KStatusBarLabel( i18n("Ready."), 0, statusBar() );
-    m_statusLabel->setFixedHeight( m_statusLabel->sizeHint().height() );
-
-    m_statusLabel->setFrameStyle( QFrame::NoFrame | QFrame::Plain );
-    m_statusLabel->setMargin( 0 );
-    m_statusLabel->setLineWidth(0);
-
-    statusBar()->addWidget( m_statusLabel, 1, false );
-
-    m_statusLabel->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
-
+    statusBar()->insertPermanentItem( i18n( "Ready" ), 1 );
     connect(m_doc, SIGNAL( sigWriteToStatusBar(const QString &) ), this, SLOT( slotStatusMsg(const QString &) ));
 }
 
@@ -572,7 +561,8 @@ void UMLApp::initView() {
     m_doc->setupSignals();//make sure gets signal from list view
 
     QByteArray dockConfig;
-    m_config->readEntry("DockConfig", dockConfig);
+    KConfigGroup general( m_config, "General Options" );
+    general.readEntry("DockConfig", dockConfig);
     restoreState(dockConfig); //reposition all the DockWindows to their saved positions
 }
 
@@ -622,14 +612,13 @@ void UMLApp::saveOptions() {
 
     cg.writeEntry( "diagram", (int)optionState.generalState.diagram );
     if( m_doc->url().fileName() == i18n( "Untitled" ) ) {
-        m_config -> writeEntry( "lastFile", "" );
+        cg.writeEntry( "lastFile", "" );
     } else {
-        m_config -> writePathEntry( "lastFile", m_doc -> url().prettyUrl() );
+        cg.writePathEntry( "lastFile", m_doc -> url().prettyUrl() );
     }
     cg.writeEntry( "imageMimeType", getImageMimeType() );
 
     cg.changeGroup( "TipOfDay");
-    optionState.generalState.tip = m_config -> readEntry( "RunOnStart", true );
     cg.writeEntry( "RunOnStart", optionState.generalState.tip );
 
     cg.changeGroup( "UI Options" );
@@ -742,7 +731,8 @@ void UMLApp::readProperties(const KConfigGroup& _config) {
 
 bool UMLApp::queryClose() {
     QByteArray dockConfig = saveState();
-    m_config->writeEntry("DockConfig", dockConfig);
+    KConfigGroup general( m_config, "General Options" );
+    general.writeEntry("DockConfig", dockConfig);
     return m_doc->saveModified();
 }
 
@@ -902,7 +892,8 @@ void UMLApp::slotFileQuit() {
     slotStatusMsg(i18n("Exiting..."));
     if(m_doc->saveModified()) {
         QByteArray dockConfig = saveState();
-        m_config->writeEntry("DockConfig", dockConfig);
+        KConfigGroup general( m_config, "General Options" );
+        general.writeEntry("DockConfig", dockConfig);
         saveOptions();
         kapp->quit();
     }
@@ -1008,10 +999,7 @@ void UMLApp::slotViewStatusBar() {
 void UMLApp::slotStatusMsg(const QString &text) {
     ///////////////////////////////////////////////////////////////////
     // change status message permanently
-    statusBar()->clear();
-    m_statusLabel->setText( text );
-
-    m_statusLabel->repaint();
+    statusBar()->changeItem( text, 1 );
 }
 
 void UMLApp::slotClassDiagram() {
@@ -1141,9 +1129,9 @@ void UMLApp::slotCopyChanged() {
 
 void UMLApp::slotPrefs() {
     /* the KTipDialog may have changed the value */
-    m_config->setGroup("TipOfDay");
+    const KConfigGroup tipConfig( m_config, "TipOfDay");
     Settings::OptionState& optionState = Settings::getOptionState();
-    optionState.generalState.tip = m_config->readEntry( "RunOnStart", true );
+    optionState.generalState.tip = tipConfig.readEntry( "RunOnStart", true );
 
     m_dlg = new SettingsDlg(this, &optionState);
     connect(m_dlg, SIGNAL( applyClicked() ), this, SLOT( slotApplyPrefs() ) );
@@ -1159,9 +1147,9 @@ void UMLApp::slotPrefs() {
 void UMLApp::slotApplyPrefs() {
     if (m_dlg) {
         /* we need this to sync both values */
-        m_config -> setGroup( "TipOfDay");
+        KConfigGroup tipConfig( m_config, "TipOfDay");
         Settings::OptionState& optionState = Settings::getOptionState();
-        m_config -> writeEntry( "RunOnStart", optionState.generalState.tip );
+        tipConfig.writeEntry( "RunOnStart", optionState.generalState.tip );
 
         m_doc -> settingsChanged( optionState );
         const QString plStr = m_dlg->getCodeGenerationLanguage();
@@ -1200,20 +1188,20 @@ bool UMLApp::editCutCopy( bool bFromView ) {
 }
 
 void UMLApp::readOptionState() {
-    m_config -> setGroup( "General Options" );
+    const KConfigGroup generalGroup( m_config, "General Options" );
     Settings::OptionState& optionState = Settings::getOptionState();
-    optionState.generalState.undo = m_config->readEntry( "undo", true );
-    optionState.generalState.tabdiagrams = m_config->readEntry( "tabdiagrams", false );
+    optionState.generalState.undo = generalGroup.readEntry( "undo", true );
+    optionState.generalState.tabdiagrams = generalGroup.readEntry( "tabdiagrams", false );
 #if defined (BUG84739_FIXED)
-    optionState.generalState.newcodegen = m_config->readEntry("newcodegen", false );
+    optionState.generalState.newcodegen = generalGroup("newcodegen", false );
 #else
     optionState.generalState.newcodegen = false;
 #endif
-    optionState.generalState.angularlines = m_config->readEntry("angularlines", false);
-    optionState.generalState.footerPrinting = m_config->readEntry("footerPrinting", true);
-    optionState.generalState.autosave = m_config->readEntry("autosave", true);
-    optionState.generalState.time = m_config->readEntry("time", 0); //old autosavetime value kept for compatibility
-    optionState.generalState.autosavetime = m_config->readEntry("autosavetime", 0);
+    optionState.generalState.angularlines = generalGroup.readEntry("angularlines", false);
+    optionState.generalState.footerPrinting = generalGroup.readEntry("footerPrinting", true);
+    optionState.generalState.autosave = generalGroup.readEntry("autosave", true);
+    optionState.generalState.time = generalGroup.readEntry("time", 0); //old autosavetime value kept for compatibility
+    optionState.generalState.autosavetime = generalGroup.readEntry("autosavetime", 0);
     //if we don't have a "new" autosavetime value, convert the old one
     if (optionState.generalState.autosavetime == 0) {
         switch (optionState.generalState.time) {
@@ -1226,58 +1214,58 @@ void UMLApp::readOptionState() {
         }
     }
     // 2004-05-17 Achim Spangler: read new config entry for autosave sufix
-    optionState.generalState.autosavesuffix = m_config -> readEntry( "autosavesuffix", ".xmi" );
+    optionState.generalState.autosavesuffix = generalGroup.readEntry( "autosavesuffix", ".xmi" );
 
-    optionState.generalState.logo = m_config -> readEntry( "logo", true );
-    optionState.generalState.loadlast = m_config -> readEntry( "loadlast", true );
+    optionState.generalState.logo = generalGroup.readEntry( "logo", true );
+    optionState.generalState.loadlast = generalGroup.readEntry( "loadlast", true );
 
-    optionState.generalState.diagram  = (Uml::Diagram_Type) m_config->readEntry("diagram", 1);
-    m_config -> setGroup( "TipOfDay");
+    optionState.generalState.diagram  = (Uml::Diagram_Type) generalGroup.readEntry("diagram", 1);
 
-    optionState.generalState.tip = m_config -> readEntry( "RunOnStart", true );
+    const KConfigGroup tipGroup( m_config, "TipOfDay" );
+    optionState.generalState.tip = tipGroup.readEntry( "RunOnStart", true );
 
-    m_config -> setGroup( "UI Options" );
-    optionState.uiState.useFillColor = m_config -> readEntry( "useFillColor", true );
+    const KConfigGroup uiGroup( m_config, "UI Options" );
+    optionState.uiState.useFillColor = uiGroup.readEntry( "useFillColor", true );
     QColor defaultYellow = QColor( 255, 255, 192 );
     QColor red ( Qt::red );
 
-    optionState.uiState.fillColor = m_config -> readEntry( "fillColor", defaultYellow );
-    optionState.uiState.lineColor = m_config -> readEntry( "lineColor", red );
-    optionState.uiState.lineWidth = m_config -> readEntry( "lineWidth", 0 );
+    optionState.uiState.fillColor = uiGroup.readEntry( "fillColor", defaultYellow );
+    optionState.uiState.lineColor = uiGroup.readEntry( "lineColor", red );
+    optionState.uiState.lineWidth = uiGroup.readEntry( "lineWidth", 0 );
     QFont font = ((QWidget *) this)->font() ;
-    optionState.uiState.font = m_config -> readEntry("font", font );
+    optionState.uiState.font = uiGroup.readEntry("font", font );
 
-    m_config -> setGroup( "Class Options" );
+    const KConfigGroup classGroup( m_config, "Class Options" );
 
-    optionState.classState.showVisibility = m_config -> readEntry("showVisibility", true);
-    optionState.classState.showAtts = m_config -> readEntry("showAtts", true);
-    optionState.classState.showOps = m_config -> readEntry("showOps", true);
-    optionState.classState.showStereoType = m_config -> readEntry("showStereoType", false);
-    optionState.classState.showAttSig = m_config -> readEntry("showAttSig", true);
-    optionState.classState.showOpSig = m_config -> readEntry("ShowOpSig", true);
-    optionState.classState.showPackage = m_config -> readEntry("showPackage", false);
-    optionState.classState.defaultAttributeScope = (Uml::Visibility::Value) m_config -> readEntry ("defaultAttributeScope", uint(Uml::Visibility::Private));
-    optionState.classState.defaultOperationScope = (Uml::Visibility::Value) m_config -> readEntry ("defaultOperationScope", uint(Uml::Visibility::Public));
+    optionState.classState.showVisibility = classGroup.readEntry("showVisibility", true);
+    optionState.classState.showAtts = classGroup.readEntry("showAtts", true);
+    optionState.classState.showOps = classGroup.readEntry("showOps", true);
+    optionState.classState.showStereoType = classGroup.readEntry("showStereoType", false);
+    optionState.classState.showAttSig = classGroup.readEntry("showAttSig", true);
+    optionState.classState.showOpSig = classGroup.readEntry("ShowOpSig", true);
+    optionState.classState.showPackage = classGroup.readEntry("showPackage", false);
+    optionState.classState.defaultAttributeScope = (Uml::Visibility::Value) classGroup.readEntry ("defaultAttributeScope", uint(Uml::Visibility::Private));
+    optionState.classState.defaultOperationScope = (Uml::Visibility::Value) classGroup.readEntry ("defaultOperationScope", uint(Uml::Visibility::Public));
 
-    m_config -> setGroup( "Code Viewer Options" );
+    const KConfigGroup codeViewerGroup( m_config, "Code Viewer Options" );
 
     QColor defaultWhite = QColor( "white" );
     QColor defaultBlack = QColor( "black" );
     QColor defaultPink = QColor( "pink" );
     QColor defaultGrey = QColor( "grey" );
 
-    optionState.codeViewerState.height = m_config -> readEntry( "height", 40 );
-    optionState.codeViewerState.width = m_config -> readEntry( "width", 80 );
-    optionState.codeViewerState.font = m_config -> readEntry("font", font );
-    optionState.codeViewerState.showHiddenBlocks = m_config->readEntry( "showHiddenBlocks", false);
-    optionState.codeViewerState.blocksAreHighlighted = m_config->readEntry( "blocksAreHighlighted", false);
-    optionState.codeViewerState.selectedColor = m_config->readEntry( "selectedColor", defaultYellow );
-    optionState.codeViewerState.paperColor = m_config->readEntry( "paperColor", defaultWhite);
-    optionState.codeViewerState.fontColor = m_config->readEntry( "fontColor", defaultBlack);
-    optionState.codeViewerState.editBlockColor = m_config->readEntry( "editBlockColor", defaultPink);
-    optionState.codeViewerState.umlObjectColor = m_config->readEntry( "umlObjectBlockColor", defaultPink);
-    optionState.codeViewerState.nonEditBlockColor = m_config->readEntry( "nonEditBlockColor", defaultGrey);
-    optionState.codeViewerState.hiddenColor = m_config->readEntry( "hiddenColor", defaultGrey);
+    optionState.codeViewerState.height = codeViewerGroup.readEntry( "height", 40 );
+    optionState.codeViewerState.width = codeViewerGroup.readEntry( "width", 80 );
+    optionState.codeViewerState.font = codeViewerGroup.readEntry("font", font );
+    optionState.codeViewerState.showHiddenBlocks = codeViewerGroup.readEntry( "showHiddenBlocks", false);
+    optionState.codeViewerState.blocksAreHighlighted = codeViewerGroup.readEntry( "blocksAreHighlighted", false);
+    optionState.codeViewerState.selectedColor = codeViewerGroup.readEntry( "selectedColor", defaultYellow );
+    optionState.codeViewerState.paperColor = codeViewerGroup.readEntry( "paperColor", defaultWhite);
+    optionState.codeViewerState.fontColor = codeViewerGroup.readEntry( "fontColor", defaultBlack);
+    optionState.codeViewerState.editBlockColor = codeViewerGroup.readEntry( "editBlockColor", defaultPink);
+    optionState.codeViewerState.umlObjectColor = codeViewerGroup.readEntry( "umlObjectBlockColor", defaultPink);
+    optionState.codeViewerState.nonEditBlockColor = codeViewerGroup.readEntry( "nonEditBlockColor", defaultGrey);
+    optionState.codeViewerState.hiddenColor = codeViewerGroup.readEntry( "hiddenColor", defaultGrey);
 
 }
 
@@ -1641,8 +1629,8 @@ void UMLApp::slotDeleteDiagram() {
 }
 
 Uml::Programming_Language UMLApp::getDefaultLanguage() {
-    m_config->setGroup("Code Generation");
-    QString activeLanguage = m_config->readEntry("activeLanguage", "C++");
+    const KConfigGroup codeGenGroup( m_config, "Code Generation");
+    QString activeLanguage = codeGenGroup.readEntry("activeLanguage", "C++");
     return Model_Utils::stringToProgLang(activeLanguage);
 }
 
@@ -1862,7 +1850,7 @@ KTabWidget* UMLApp::tabWidget() {
 }
 
 QString UMLApp::getStatusBarMsg() {
-    return m_statusLabel->text();
+    return statusBar()->itemText(1);
 }
 
 //static pointer, holding the unique instance
