@@ -130,7 +130,8 @@ public:
         tbb_Junction,
         tbb_Choice,
         tbb_Andline,
-	tbb_Exception
+		tbb_Exception,
+		tbb_PrePostCondition
     };
 
 private:
@@ -256,7 +257,11 @@ public slots:
     void slotChoice();
     void slotAndline();
     void slotException();
+
+    void slotPrePostCondition();
+
     void slotPin();
+
 
 };
 

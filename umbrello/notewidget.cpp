@@ -20,7 +20,9 @@
 #include <QMouseEvent>
 // kde includes
 #include <kdebug.h>
+#include <klocale.h>
 #include <kcolordialog.h>
+#include <kinputdialog.h>
 // app includes
 #include "notewidgetcontroller.h"
 #include "dialogs/notedialog.h"
@@ -29,15 +31,18 @@
 #include "umlview.h"
 #include "uml.h"
 #include "listpopupmenu.h"
+#include "dialog_utils.h"
 
 #define NOTEMARGIN 10
 
-NoteWidget::NoteWidget(UMLView * view, Uml::IDType id)
+NoteWidget::NoteWidget(UMLView * view, NoteType noteType , Uml::IDType id)
         : UMLWidget(view, id, new NoteWidgetController(this)) {
+	
     init();
     setSize(100,80);
     setZ( 20 ); //make sure always on top.
 #ifdef NOTEWIDGET_EMBED_EDITOR
+	kDebug()<<"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<endl;
     // NB: This code is currently deactivated because
     // Zoom does not yet work with the embedded text editor.
     m_pEditor = new Q3TextEdit(view);
@@ -47,14 +52,36 @@ NoteWidget::NoteWidget(UMLView * view, Uml::IDType id)
     m_pEditor->setTextFormat(Qt::RichText);
     m_pEditor->setShown(true);
     setEditorGeometry();
+
     connect(m_pView, SIGNAL(contentsMoving(int, int)),
             this, SLOT(slotViewScrolled(int, int)));
 #endif
+
 }
 
 void NoteWidget::init() {
     UMLWidget::setBaseType(Uml::wt_Note);
     m_DiagramLink = Uml::id_None;
+}
+
+NoteWidget::NoteType NoteWidget::getNoteType() const {
+    return m_NoteType;
+}
+NoteWidget::NoteType NoteWidget::getNoteType(QString noteType) const {
+    if (noteType == "Precondition")
+		return NoteWidget::PreCondition;
+	if (noteType == "Postcondition")
+		return NoteWidget::PostCondition;
+	if (noteType == "Transformation")
+		return NoteWidget::Transformation;
+}
+
+void NoteWidget::setNoteType( NoteType noteType ) {
+    m_NoteType = noteType;
+   
+}
+void NoteWidget::setNoteType( QString noteType ) {
+    setNoteType(getNoteType(noteType));
 }
 
 NoteWidget::~NoteWidget() {
@@ -142,6 +169,8 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
     int w = width()-1;
 
     int h= height()-1;
+	const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+	const int fontHeight  = fm.lineSpacing();
     QPolygon poly(6);
     poly.setPoint(0, offsetX, offsetY);
     poly.setPoint(1, offsetX, offsetY + h);
@@ -161,7 +190,24 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
         p.drawPolyline(poly);
     p.drawLine(offsetX + w - margin, offsetY, offsetX + w - margin, offsetY + margin);
     p.drawLine(offsetX + w - margin, offsetY + margin, offsetX + w, offsetY + margin);
-    if(m_bSelected) {
+	
+	switch(m_NoteType) {
+	case NoteWidget::PreCondition :
+		p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< precondition >>");
+		break;
+	
+	case NoteWidget::PostCondition :
+		p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< postcondition >>");
+		break;
+
+	case NoteWidget::Transformation :
+		p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< transformation >>");
+		break;
+
+	default : break;
+	}   
+
+if(m_bSelected) {
         drawSelected(&p, offsetX, offsetY);
     }
 
@@ -169,7 +215,29 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
 }
 
 QSize NoteWidget::calculateSize() {
-    return QSize(50, 50);
+    int width = 50, height = 50;
+    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+    const int fontHeight  = fm.lineSpacing();
+    const int textWidth = fm.width(m_Text);
+	if (m_NoteType == PreCondition)
+	{
+		const int widthtemp = fm.width("<< precondition >>");
+    	width = textWidth > widthtemp ? textWidth : widthtemp;
+		width += 10;
+	}
+	else if (m_NoteType == PostCondition)
+	{
+		const int widthtemp = fm.width("<< postcondition >>");
+    	width = textWidth > widthtemp ? textWidth : widthtemp;
+		width += 10;
+	}
+	else if (m_NoteType == Transformation)
+	{
+		const int widthtemp = fm.width("<< transformation >>");
+    	width = textWidth > widthtemp ? textWidth : widthtemp;
+		width += 10;
+	}
+    return QSize(width, height);
 }
 
 void NoteWidget::slotMenuSelection(int sel) {
@@ -219,9 +287,9 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
     p->setFont( font );
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
-    QString text = getDoc();
-    if( text.length() == 0 )
-        return;
+
+
+
     QString word = "";
     QString fullLine = "";
     QString testCombineLine = "";
@@ -232,6 +300,13 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
     const int height = this -> height() - fontHeight;
     QChar returnChar('\n');
     QChar c;
+
+
+ //   QString text = getDoc();
+	QString text = l_Type + "\n" + m_Text;
+    if( text.length() == 0 )
+        return;
+
     for (uint i = 0; i <= text.length(); i++) {
         if (i < text.length()) {
             c = text[i];
@@ -291,6 +366,22 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
         }
     }//end for
 #endif
+}
+
+void NoteWidget::askForNoteType(UMLWidget* &targetWidget, const QString& dialogTitle,
+                      const QString& dialogPrompt, const QString& defaultName) {
+
+    bool pressedOK = false;
+    const QStringList list = QStringList() << "Precondition" << "Postcondition" << "Transformation";
+    QString type = KInputDialog::getItem (dialogTitle, dialogPrompt, list, 0, false, &pressedOK, UMLApp::app());
+
+    if (pressedOK) {
+        dynamic_cast<NoteWidget*>(targetWidget)->setNoteType(type);
+    } else {
+        targetWidget->cleanup();
+        delete targetWidget;
+        targetWidget = NULL;
+    }
 }
 
 void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {

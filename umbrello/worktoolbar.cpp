@@ -147,6 +147,9 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
         insertHotBtn(tbb_Fork);
         insertHotBtn(tbb_Activity_Transition);
         insertHotBtn(tbb_Exception);
+
+		insertHotBtn(tbb_PrePostCondition);
+
         insertHotBtn(tbb_Object_Flow);
         insertHotBtn(tbb_Send_Signal);
         insertHotBtn(tbb_Accept_Signal);
@@ -317,7 +320,8 @@ void WorkToolBar::loadPixmaps() {
         { tbb_Pin, i18n("Pin"), "pin.png", SLOT(slotPin()) },
         { tbb_Initial_Activity, i18n("Initial Activity"), "initial_state.png", SLOT(slotInitial_Activity()) },
         { tbb_Coll_Message, i18n("Message"), "message-asynchronous.png", SLOT(slotColl_Message()) },
-        { tbb_Exception, i18n("Exception"), "exception.png", SLOT(slotException()) }
+        { tbb_Exception, i18n("Exception"), "exception.png", SLOT(slotException()) },
+	{ tbb_PrePostCondition, i18n("Pre/Post condition"), "PrePostCondition.png", SLOT(slotPrePostCondition()) }
     };
 
     KStandardDirs * dirs = KGlobal::dirs();
@@ -405,6 +409,7 @@ void WorkToolBar::slotJunction() {buttonChanged(tbb_Junction);}
 void WorkToolBar::slotChoice() {buttonChanged(tbb_Choice);}
 void WorkToolBar::slotAndline() {buttonChanged(tbb_Andline);}
 void WorkToolBar::slotException() {buttonChanged(tbb_Exception);}
+void WorkToolBar::slotPrePostCondition() {buttonChanged(tbb_PrePostCondition);}
 
 
 #include "worktoolbar.moc"

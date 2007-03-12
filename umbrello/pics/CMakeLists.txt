@@ -19,7 +19,7 @@ cursor-uniassociation.png  cursor-association.png  cursor-end_state.png  cursor-
 cursor-fork.png  cursor-note.png  cursor-branch.png  cursor-generalisation.png  cursor-object.png  
 cursor-entity.png  cursor-relationship.png precondition.png cursor-precondition.png  cursor-send_signal.png  cursor-accept_signal.png  cursor-accept_time_event.png  cursor-region.png
 cursor-message-found.png message-lost.png cursor-message-lost.png end_of_life.png cursor-end_of_life.png exception.png 
-cursor-exception.png DESTINATION  
+cursor-exception.png cursor-PrePostCondition.png PrePostCondition.png DESTINATION  
 ${DATA_INSTALL_DIR}/umbrello/pics )
 
 kde4_install_icons( ${ICON_INSTALL_DIR}   )

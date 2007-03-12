@@ -35,6 +35,7 @@
 #include "umldoc.h"
 #include "objectwidget.h"
 #include "objectflowwidget.h"
+#include "pinwidget.h"
 
 
 
@@ -91,7 +92,7 @@ bool ToolBarStateOther::newWidget() {
 
     switch (getButton()) {
         case WorkToolBar::tbb_Note:
-            umlWidget = new NoteWidget(m_pUMLView);
+            umlWidget = new NoteWidget(m_pUMLView, NoteWidget::Normal);
             break;
 
         case WorkToolBar::tbb_Box:
@@ -164,6 +165,10 @@ bool ToolBarStateOther::newWidget() {
             umlWidget = new ObjectFlowWidget(m_pUMLView);
             break;
 
+	case WorkToolBar::tbb_PrePostCondition:
+            umlWidget = new NoteWidget(m_pUMLView, NoteWidget::Normal);
+            break;
+
         default:
             break;
     }
@@ -203,10 +208,22 @@ bool ToolBarStateOther::newWidget() {
         Dialog_Utils::askNameForWidget(
             umlWidget, i18n("Enter Object Flow Name"),
             i18n("Enter Object Flow"), i18n("new object flow"));
-    } /*else if (getButton() == WorkToolBar::tbb_Object_Flow) {
+    } else if (getButton() == WorkToolBar::tbb_PrePostCondition) {
+        dynamic_cast<NoteWidget*>(umlWidget)->askForNoteType(
+            umlWidget, i18n("Select a note type"),
+            i18n("Select a note type"), i18n("Note type"));
+	}	//else if (getButton() == WorkToolBar::tbb_PrePostCondition) {
+		//Dialog_Utils::askForNoteType(
+
+
+
+	 /*else if (getButton() == WorkToolBar::tbb_Object_Flow) {
         Dialog_Utils::askNameForWidgetType(umlWidget, i18n("Enter Object Flow Name"),
             i18n("Enter the Object Flow"), i18n("new Object Flow"));
     } */
+
+
+
     // Create the widget. Some setup functions can remove the widget.
     if (umlWidget != NULL) {
         m_pUMLView->setupNewWidget(umlWidget);

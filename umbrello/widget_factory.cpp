@@ -183,7 +183,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
             widget = new StateWidget(view, StateWidget::Normal, Uml::id_Reserved);
         } else if (tag == "notewidget"
                    || tag == "UML:NoteWidget") {          // for bkwd compatibility
-            widget = new NoteWidget(view, Uml::id_Reserved);
+            widget = new NoteWidget(view,NoteWidget::Normal, Uml::id_Reserved);
         } else if (tag == "boxwidget") {
             widget = new BoxWidget(view, Uml::id_Reserved);
         } else if (tag == "floatingtext"
