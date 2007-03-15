@@ -153,10 +153,10 @@ KStartupLogo* showStartupLogo(KConfig* cfg, bool showGUI) {
     if (showGUI && showLogo) {
         startLogo = new KStartupLogo(0);
         startLogo->setHideEnabled(true);
-#ifdef Q_OS_UNIX	
+#ifdef Q_OS_UNIX
         KWin::setMainWindow(startLogo, UMLApp::app()->winId());
         KWin::setState(startLogo->winId(), NET::KeepAbove);
-#endif	
+#endif
         startLogo->show();
         QApplication::flush();
     }

@@ -32,7 +32,7 @@ class UMLDoc;
  * parent.
  *
  * @short A properties dialog box for a parameter.
- * @author Paul Hensgen	<phensgen@techie.com>
+ * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ParmPropDlg : public KDialog {

@@ -34,6 +34,8 @@
 #include "../association.h"
 #include "../object_factory.h"
 
+#include <stdlib.h>
+
 namespace Import_Utils {
 
 /**
