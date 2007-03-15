@@ -24,7 +24,7 @@ Version 1.5.7
   associations (141956)
 * Ada code generator always generates methods abstract even if abstract box
   not checked (142093)
-* Mmissing "with" on Ada code generation for aggregation (142392)
+* Missing "with" on Ada code generation for aggregation (142392)
 
 Version 1.5.61
 
