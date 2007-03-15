@@ -366,28 +366,6 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
             return false;
         }
         UMLAssociation *assoc = new UMLAssociation(Uml::at_UniAssociation);
-/* (object Association "$UNNAMED$8"
-	quid       	"32B5D7EE02FF"
-	roles      	(list role_list
-	    (object Role "owner"
-		quid       	"32B5D7EF03D3"
-		label      	"owner"
-		supplier   	"Logical View::UML 1.4::Foundation::Core::Classifier"
-		quidu      	"32989FB2023D"
-		client_cardinality 	(value cardinality "0..1")
-		is_navigable 	TRUE
-		is_aggregate 	TRUE
-		friend     	TRUE)
-	    (object Role "feature"
-		quid       	"32B5D7EF03DD"
-		label      	"feature"
-		supplier   	"Logical View::UML 1.4::Foundation::Core::Feature"
-		quidu      	"32989F9700FE"
-		client_cardinality 	(value cardinality "*")
-		Constraints 	"ordered"
-		Containment 	"By Value"
-		is_navigable 	TRUE)))
-  */
         PetalNode::NameValueList roleList = roles->attributes();
         for (uint i = 0; i <= 1; i++) {
             PetalNode *roleNode = roleList[i].second.node;
