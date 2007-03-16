@@ -14,6 +14,7 @@
 
 #include "classifierlistitem.h"
 #include "umlnamespace.h"
+#include "umlclassifierlist.h"
 
 /**
  * This class is used to set up information for an attribute.  This is like
@@ -111,6 +112,11 @@ public:
     void setParmKind (Uml::Parameter_Direction pk);
     Uml::Parameter_Direction getParmKind () const;
 
+    /**
+     * Returns all the template params (if any) that are in the type of this attribute
+     */
+    virtual UMLClassifierList getTemplateParams();
+
 protected:
     /**
      * Loads the <UML:Attribute> XMI element.
@@ -119,6 +125,13 @@ protected:
 
     QString m_InitialValue; ///< text for the attribute's initial value.
     Uml::Parameter_Direction m_ParmKind;
+
+private:
+    /**
+    * Puts in the param templateParamList all the template params that are in templateParam
+    */
+    void setTemplateParams(QString templateParam, UMLClassifierList &templateParamList);
+
 };
 
 #endif

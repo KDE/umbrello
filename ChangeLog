@@ -14,6 +14,7 @@ Version 1.5.7
 * Javascript Code Generation creates bad format methods (135540)
 * Incorrect Association Properties text (139872)
 * Buttons are not displayed (139913)
+* Java 5 generics support (140669)
 * Associations not updated during move of class on diagram (140709)
 * Crash when deleting the link between a package and a class (141602)
 * Ada95 Code Generation Errors for Aggregation (141644)
