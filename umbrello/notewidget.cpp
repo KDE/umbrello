@@ -367,12 +367,11 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
 #endif
 }
 
-void NoteWidget::askForNoteType(UMLWidget* &targetWidget, const QString& dialogTitle,
-                      const QString& dialogPrompt, const QString& defaultName) {
+void NoteWidget::askForNoteType(UMLWidget* &targetWidget) {
 
     bool pressedOK = false;
     const QStringList list = QStringList() << "Precondition" << "Postcondition" << "Transformation";
-    QString type = KInputDialog::getItem (dialogTitle, dialogPrompt, list, 0, false, &pressedOK, UMLApp::app());
+    QString type = KInputDialog::getItem (i18n("Note Type"), i18n("Select the Note Type"), list, 0, false, &pressedOK, UMLApp::app());
 
     if (pressedOK) {
         dynamic_cast<NoteWidget*>(targetWidget)->setNoteType(type);

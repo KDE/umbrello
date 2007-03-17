@@ -205,6 +205,8 @@ bool ToolBarStateOther::newWidget() {
         ft->changeTextDlg();
     } else if (getButton() == WorkToolBar::tbb_Object_Node) {
          dynamic_cast<ObjectNodeWidget*>(umlWidget)->askForObjectNodeType(umlWidget);
+    } else if (getButton() == WorkToolBar::tbb_PrePostCondition) {
+         dynamic_cast<NoteWidget*>(umlWidget)->askForNoteType(umlWidget);
     }
 
     // Create the widget. Some setup functions can remove the widget.

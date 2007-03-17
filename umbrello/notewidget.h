@@ -127,11 +127,10 @@ public:
      */
     void setY(int y);
 
-	/**
-	 * Display a dialogBox to allow the user to choose the note's type
-	 */
-	void askForNoteType(UMLWidget* &targetWidget, const QString& dialogTitle,
-                      const QString& dialogPrompt, const QString& defaultName);
+    /**
+    * Display a dialogBox to allow the user to choose the note's type
+    */
+    void askForNoteType(UMLWidget* &targetWidget);
 
     /**
      * Saves to the <notewidget> XMI element.
