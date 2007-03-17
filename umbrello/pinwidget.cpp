@@ -26,7 +26,6 @@
 #include "docwindow.h"
 #include "umlview.h"
 #include "listpopupmenu.h"
-#include "dialogs/activitydialog.h"
 
 //Added by qt3to4:
 #include <QMouseEvent>
@@ -134,7 +133,6 @@ bool PinWidget::loadFromXMI( QDomElement & qElement ) {
     if( !UMLWidget::loadFromXMI( qElement ) ) 
         return false; 
     //m_Text = qElement.attribute( "pinname", "" ); 
-//kDebug() << "load pinwidget from xmi !!!! " << m_Text << endl;
    // m_Doc = qElement.attribute( "documentation", "" );
     //QString type = qElement.attribute( "objectflowtype", "1" );
   //  setObjectFlowType( (ObjectFlowType)type.toInt() );

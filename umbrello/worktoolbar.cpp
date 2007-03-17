@@ -147,16 +147,13 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
         insertHotBtn(tbb_Fork);
         insertHotBtn(tbb_Activity_Transition);
         insertHotBtn(tbb_Exception);
-
-		insertHotBtn(tbb_PrePostCondition);
-
-        insertHotBtn(tbb_Object_Flow);
+	insertHotBtn(tbb_PrePostCondition);
         insertHotBtn(tbb_Send_Signal);
         insertHotBtn(tbb_Accept_Signal);
         insertHotBtn(tbb_Accept_Time_Event);
         insertHotBtn(tbb_Region);
         insertHotBtn(tbb_Pin);
-        
+        insertHotBtn(tbb_Object_Node);
         break;
 
     case Uml::dt_Component:
@@ -316,13 +313,14 @@ void WorkToolBar::loadPixmaps() {
         { tbb_State, i18n("State"), "usecase.png", SLOT(slotState()) },
         { tbb_End_Activity, i18n("End Activity"), "end_state.png", SLOT(slotEnd_Activity()) },
         { tbb_Final_Activity, i18n("Final Activity"), "final_activity.png", SLOT(slotFinal_Activity()) },
-        { tbb_Object_Flow, i18n("Object Flow"), "object_flow.png", SLOT(slotObject_Flow()) },
         { tbb_Pin, i18n("Pin"), "pin.png", SLOT(slotPin()) },
         { tbb_Initial_Activity, i18n("Initial Activity"), "initial_state.png", SLOT(slotInitial_Activity()) },
         { tbb_Coll_Message, i18n("Message"), "message-asynchronous.png", SLOT(slotColl_Message()) },
         { tbb_Exception, i18n("Exception"), "exception.png", SLOT(slotException()) },
+        { tbb_Object_Node, i18n("Object Node"), "object_node.png", SLOT(slotObject_Node()) },
 	{ tbb_PrePostCondition, i18n("Pre/Post condition"), "PrePostCondition.png", SLOT(slotPrePostCondition()) }
     };
+
 
     KStandardDirs * dirs = KGlobal::dirs();
     QString dataDir = dirs->findResourceDir( "data", "umbrello/pics/object.png" );
@@ -395,7 +393,6 @@ void WorkToolBar::slotEnd_State() {buttonChanged(tbb_End_State);}
 void WorkToolBar::slotRegion() {buttonChanged(tbb_Region);}
 void WorkToolBar::slotInitial_Activity() {buttonChanged(tbb_Initial_Activity);}
 void WorkToolBar::slotActivity() {buttonChanged(tbb_Activity);}
-void WorkToolBar::slotObject_Flow() {buttonChanged(tbb_Object_Flow);}
 void WorkToolBar::slotEnd_Activity() {buttonChanged(tbb_End_Activity);}
 void WorkToolBar::slotFinal_Activity() {buttonChanged(tbb_Final_Activity);}
 void WorkToolBar::slotBranch() {buttonChanged(tbb_Branch);}
@@ -409,6 +406,7 @@ void WorkToolBar::slotJunction() {buttonChanged(tbb_Junction);}
 void WorkToolBar::slotChoice() {buttonChanged(tbb_Choice);}
 void WorkToolBar::slotAndline() {buttonChanged(tbb_Andline);}
 void WorkToolBar::slotException() {buttonChanged(tbb_Exception);}
+void WorkToolBar::slotObject_Node() {buttonChanged(tbb_Object_Node);}
 void WorkToolBar::slotPrePostCondition() {buttonChanged(tbb_PrePostCondition);}
 
 

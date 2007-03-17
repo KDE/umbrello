@@ -61,26 +61,26 @@ void ActivityDialog::slotApply() {
 
 void ActivityDialog::slotShowActivityParameter()
 {
-		m_GenPageWidgets.preL->show();                    
-		m_GenPageWidgets.preLE->show();
-		m_GenPageWidgets.postL->show();                    
-		m_GenPageWidgets.postLE->show();
-		if (m_pActivityWidget->getPostText() != NULL)
-		{
-			m_GenPageWidgets.postLE->setText(m_pActivityWidget->getPostText());			
-		}
-		if (m_pActivityWidget->getPreText() != NULL)
-		{
-			m_GenPageWidgets.preLE->setText(m_pActivityWidget->getPreText());			
-		}
+        m_GenPageWidgets.preL->show();                    
+	m_GenPageWidgets.preLE->show();
+	m_GenPageWidgets.postL->show();                    
+	m_GenPageWidgets.postLE->show();
+	if (m_pActivityWidget->getPostText() != NULL)
+	{
+		m_GenPageWidgets.postLE->setText(m_pActivityWidget->getPostText());			
+	}
+	if (m_pActivityWidget->getPreText() != NULL)
+	{
+		m_GenPageWidgets.preLE->setText(m_pActivityWidget->getPreText());			
+	}
 }
 
 void ActivityDialog::slotHideActivityParameter()
 {
-		m_GenPageWidgets.preL->hide();                    
-		m_GenPageWidgets.preLE->hide();
-		m_GenPageWidgets.postL->hide();                    
-		m_GenPageWidgets.postLE->hide();
+	m_GenPageWidgets.preL->hide();                    
+	m_GenPageWidgets.preLE->hide();
+	m_GenPageWidgets.postL->hide();                    
+	m_GenPageWidgets.postLE->hide();
 }
 void ActivityDialog::setupPages() {
     setupGeneralPage();
@@ -166,7 +166,6 @@ void ActivityDialog::setupGeneralPage() {
 	
 	if (type == ActivityWidget::Param)
 	{
-		kDebug() <<"dans is Checked !!!!!!!!!!!!!!!!!" <<endl;
 		showParameterActivity();
 	}
 	

@@ -46,7 +46,6 @@
 #include "boxwidget.h"
 #include "associationwidget.h"
 #include "objectwidget.h"
-#include "objectflowwidget.h"
 #include "messagewidget.h"
 #include "statewidget.h"
 #include "forkjoinwidget.h"
@@ -57,6 +56,7 @@
 #include "endoflifewidget.h"
 #include "signalwidget.h"
 #include "floatingdashlinewidget.h"
+#include "objectnodewidget.h"
 #include "cmds.h"
 
 namespace Widget_Factory {
@@ -166,14 +166,14 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
      || tag == "activitywidget"          || tag == "forkjoin" 
      || tag == "preconditionwidget"      || tag == "endoflifewidget" 
      || tag == "combinedFragmentwidget"  || tag == "signalwidget"  
-     || tag == "objectflowwidget"        || tag == "floatingdashlinewidget" 
+     || tag == "objectnodewidget"        || tag == "floatingdashlinewidget" 
      || tag == "regionwidget"
             // tests for backward compatibility:
      || tag == "UML:StateWidget"            || tag == "UML:NoteWidget" 
      || tag =="UML:CombinedFragmentWidget"  || tag == "UML:FloatingTextWidget" 
      || tag == "UML:SignalWidget"           || tag == "UML:ActivityWidget" 
      || tag == "UML:EndOfLifeWidget"        || tag == "UML:PreconditionWidget"
-     || tag == "UML:FloatingDashLineWidget" || tag == "UML:ObjectFlowWidget" ) {
+     || tag == "UML:FloatingDashLineWidget" || tag == "UML:ObjectNodeWidget" ) {
         // Loading of widgets which do NOT represent any UMLObject, 
         // just graphic stuff with no real model information
         //FIXME while boxes and texts are just diagram objects, activities and
@@ -209,9 +209,9 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         } else if (tag == "floatingdashlinewidget"
                    || tag == "UML:FloatingDashLineWidget") {
             widget = new FloatingDashLineWidget(view,Uml::id_Reserved);
-        } else if (tag == "objectflowwidget"
-                   || tag == "UML:ObjectFlowWidget" ) {
-            widget = new ObjectFlowWidget(view,Uml::id_Reserved);
+        } else if (tag == "objectnodewidget"
+                   || tag == "UML:ObjectNodeWidget" ) {
+            widget = new ObjectNodeWidget(view,ObjectNodeWidget::Normal, Uml::id_Reserved);
         } else if (tag == "regionwidget" ) {
             widget = new RegionWidget(view, Uml::id_Reserved);
         }

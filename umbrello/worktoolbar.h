@@ -119,7 +119,6 @@ public:
         tbb_Activity,
         tbb_End_Activity,
         tbb_Final_Activity,
-        tbb_Object_Flow,
         tbb_Pin,
         tbb_Branch,
         tbb_Fork,
@@ -130,8 +129,9 @@ public:
         tbb_Junction,
         tbb_Choice,
         tbb_Andline,
-		tbb_Exception,
-		tbb_PrePostCondition
+	tbb_Exception,
+        tbb_Object_Node,
+	tbb_PrePostCondition
     };
 
 private:
@@ -243,7 +243,6 @@ public slots:
     void slotActivity();
     void slotEnd_Activity();
     void slotFinal_Activity();
-    void slotObject_Flow();
     void slotBranch();
     void slotSend_Signal();
     void slotAccept_Signal();
@@ -257,10 +256,9 @@ public slots:
     void slotChoice();
     void slotAndline();
     void slotException();
-
     void slotPrePostCondition();
-
     void slotPin();
+    void slotObject_Node();
 
 
 };

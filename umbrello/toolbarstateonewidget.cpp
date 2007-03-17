@@ -70,7 +70,6 @@ void ToolBarStateOneWidget::setCurrentElement() {
 
     UMLWidget *widget = m_pUMLView->testOnWidget(m_pMouseEvent->pos());
     if (widget) {
-	kDebug()<<"setCurrentElement()!!!!!!!!!!!!!!!!!!!!!" <<endl;
         setCurrentWidget(widget);
         return;
     }
@@ -84,7 +83,6 @@ void ToolBarStateOneWidget::mouseReleaseWidget() {
 	m_firstObject = 0;
     }
     if (widgetType == Uml::wt_Pin) {
-	kDebug()<<"mouseReleaseWidget()!!!!!!!!!!!!!!!!!!!!!" <<endl;
 	m_firstObject = 0;
     }
     else if (widgetType == Uml::wt_EndOfLife) {
@@ -100,16 +98,13 @@ void ToolBarStateOneWidget::mouseReleaseWidget() {
 	    }
 	}
     }
-kDebug()<<"avant avant if !!!!!!!!!!!!!!!!!!!!!" <<getCurrentWidget()->getBaseType() <<endl;
     if (m_pMouseEvent->button() != Qt::LeftButton ||(
                 getCurrentWidget()->getBaseType() != Uml::wt_Object &&
                 getCurrentWidget()->getBaseType() != Uml::wt_Activity)) {
-	kDebug()<<"avant return if !!!!!!!!!!!!!!!!!!!!!" <<Uml::wt_Activity <<endl;
         return;
     }
-	kDebug()<<"avant if !!!!!!!!!!!!!!!!!!!!!" <<endl;
+	
     if (!m_firstObject && widgetType == Uml::wt_Pin) {
-	kDebug()<<"dans if !!!!!!!!!!!!!!!!!!!!!" <<endl;
         setWidget(getCurrentWidget());
 	return ;
     } 
@@ -141,7 +136,6 @@ void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject) {
     }
 
     if (getWidgetType() == Uml::wt_Pin) {
-	kDebug() <<"SETWIDGET !!!!!!!!!!!!!!!!!!!!!!!" <<endl;
    	umlwidget = new PinWidget(m_pUMLView, static_cast<ActivityWidget*>(m_firstObject));
     	    // Create the widget. Some setup functions can remove the widget.
     	

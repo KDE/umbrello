@@ -126,7 +126,9 @@ set(libdialogs_SRCS
 	dialogs/codevieweroptionspage.cpp 
 	dialogs/defaultcodegenpolicypage.cpp 
 	dialogs/diagramprintpage.cpp 
-	dialogs/exportallviewsdialog.cpp
+        dialogs/exportallviewsdialog.cpp
+	dialogs/notedialog.cpp
+        dialogs/objectnodedialog.cpp
 	dialogs/importprojectdlg.cpp
 	dialogs/notedialog.cpp 
 	dialogs/overwritedialogue.cpp 
@@ -312,7 +314,7 @@ set(libumbrello_SRCS
    nodewidget.cpp 
    notewidget.cpp 
    notewidgetcontroller.cpp
-   objectflowwidget.cpp
+   objectnodewidget.cpp
    objectwidget.cpp 
    objectwidgetcontroller.cpp
    object_factory.cpp 

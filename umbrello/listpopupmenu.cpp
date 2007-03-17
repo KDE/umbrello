@@ -36,7 +36,7 @@
 #include "activitywidget.h"
 #include "preconditionwidget.h"
 #include "combinedfragmentwidget.h"
-#include "objectflowwidget.h"
+#include "objectnodewidget.h"
 #include "forkjoinwidget.h"
 #include "objectwidget.h"
 #include "pinwidget.h"
@@ -264,6 +264,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 
     StateWidget *pState;
     ActivityWidget *pActivity;
+    ObjectNodeWidget * objWidget;
     UMLView * pView = static_cast<UMLView *>( parent );
 
     switch(type) {
@@ -357,7 +358,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         insertStdItems(false, type);
         insertStdItem(mt_Line_Color);
         break;
-    case Uml::wt_Object_Flow:
+
     case Uml::wt_Signal:
     case Uml::wt_Pin:
 	setupColor( object -> getUseFillColour() );
@@ -409,6 +410,22 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
          || pActivity -> getActivityType() == ActivityWidget::Invok
          || pActivity -> getActivityType() == ActivityWidget::Param) {
             insertItem(i18n("Change Activity Name..."), mt_Rename);
+            insertStdItem(mt_Change_Font);
+            insertStdItem(mt_Properties);
+        }
+        break;
+
+    case Uml::wt_ObjectNode:
+        objWidget = static_cast<ObjectNodeWidget *>( object );
+        if ( objWidget -> getObjectNodeType() == ObjectNodeWidget::Buffer
+                || objWidget -> getObjectNodeType() == ObjectNodeWidget::Data
+                || objWidget -> getObjectNodeType() == ObjectNodeWidget::Flow)
+            setupColor( object -> getUseFillColour() );
+        insertStdItems(false, type);
+        if ( objWidget -> getObjectNodeType() == ObjectNodeWidget::Buffer
+                || objWidget -> getObjectNodeType() == ObjectNodeWidget::Data
+                || objWidget -> getObjectNodeType() == ObjectNodeWidget::Flow){
+            insertItem(i18n("Change Object Node Name..."), mt_Rename);
             insertStdItem(mt_Change_Font);
             insertStdItem(mt_Properties);
         }

@@ -28,7 +28,6 @@
 #include "docwindow.h"
 #include "umlview.h"
 #include "listpopupmenu.h"
-#include "dialogs/activitydialog.h"
 #include "dialog_utils.h"
 
 //Added by qt3to4:

@@ -27,8 +27,6 @@
 // app includes
 #include "uml.h"
 #include "umlwidget.h"
-#include "combinedfragmentwidget.h"
-#include "objectflowwidget.h"
 
 namespace Dialog_Utils {
 

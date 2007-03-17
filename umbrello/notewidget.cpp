@@ -42,7 +42,6 @@ NoteWidget::NoteWidget(UMLView * view, NoteType noteType , Uml::IDType id)
     setSize(100,80);
     setZ( 20 ); //make sure always on top.
 #ifdef NOTEWIDGET_EMBED_EDITOR
-	kDebug()<<"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<endl;
     // NB: This code is currently deactivated because
     // Zoom does not yet work with the embedded text editor.
     m_pEditor = new Q3TextEdit(view);

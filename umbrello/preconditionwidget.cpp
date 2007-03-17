@@ -26,7 +26,6 @@
 #include "docwindow.h"
 #include "umlview.h"
 #include "listpopupmenu.h"
-#include "dialogs/activitydialog.h"
 #include "objectwidget.h"
 #include "classifier.h"
 #include "uniqueid.h"

@@ -34,9 +34,8 @@
 #include "umlview.h"
 #include "umldoc.h"
 #include "objectwidget.h"
-#include "objectflowwidget.h"
+#include "objectnodewidget.h"
 #include "pinwidget.h"
-
 
 
 using namespace Uml;
@@ -161,8 +160,8 @@ bool ToolBarStateOther::newWidget() {
             umlWidget = new CombinedFragmentWidget(m_pUMLView);
             break;
 
-        case WorkToolBar::tbb_Object_Flow:
-            umlWidget = new ObjectFlowWidget(m_pUMLView);
+        case WorkToolBar::tbb_Object_Node:
+            umlWidget = new ObjectNodeWidget(m_pUMLView, ObjectNodeWidget::Data);
             break;
 
 	case WorkToolBar::tbb_PrePostCondition:
@@ -204,12 +203,10 @@ bool ToolBarStateOther::newWidget() {
         // It is pretty invisible otherwise.
         FloatingTextWidget* ft = (FloatingTextWidget*) umlWidget;
         ft->changeTextDlg();
-    } else if (getButton() == WorkToolBar::tbb_Object_Flow) {
-    	Dialog_Utils::askNameForWidget(
-            umlWidget, i18n("Enter Object Flow Name"),
-            i18n("Enter object flow name"), i18n("new object flow"));
-       dynamic_cast<ObjectFlowWidget*>(umlWidget)->askStateForWidget();
-    } 
+    } else if (getButton() == WorkToolBar::tbb_Object_Node) {
+         dynamic_cast<ObjectNodeWidget*>(umlWidget)->askForObjectNodeType(umlWidget);
+    }
+
     // Create the widget. Some setup functions can remove the widget.
     if (umlWidget != NULL) {
         m_pUMLView->setupNewWidget(umlWidget);
