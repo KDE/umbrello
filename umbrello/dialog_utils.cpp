@@ -28,6 +28,7 @@
 #include "uml.h"
 #include "umlwidget.h"
 #include "combinedfragmentwidget.h"
+#include "objectflowwidget.h"
 
 namespace Dialog_Utils {
 
@@ -57,29 +58,6 @@ void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
         targetWidget = NULL;
     }
 }
-
-
-/*void askForNoteType(UMLWidget* &targetWidget, const QString& dialogTitle,
-                      const QString& dialogPrompt, const QString& defaultName) {
-
-    bool pressedOK = false;
-    const QStringList list = QStringList() << "Pre Condition" << "Post Condition";
-    const QStringList select = QStringList() << "Pre Condition" << "Post Condition";
-    QStringList result = KInputDialog::getItemList (dialogTitle, dialogPrompt, list, select, false, &pressedOK, UMLApp::app());
-
-    if (pressedOK) {
-        QString type = result.join("");
-        dynamic_cast<NoteWidget*>(targetWidget)->setNoteType(type);
-        if (type == "Reference")
-            askNameForWidget(targetWidget, i18n("Enter the name of the diagram referenced"), i18n("Enter the name of the diagram referenced"), i18n("Diagram name"));
-        if (type == "Loop")
-            askNameForWidget(targetWidget, i18n("Enter the guard of the loop"), i18n("Enter the guard of the loop"), i18n("-"));
-    } else {
-        targetWidget->cleanup();
-        delete targetWidget;
-        targetWidget = NULL;
-    }
-}*/
 
 }  // end namespace Dialog_Utils
 

@@ -34,6 +34,8 @@
 class ActivityWidget : public UMLWidget {
     Q_OBJECT
 
+	QString preText;
+	QString postText;
 public:
     enum ActivityType
     {
@@ -106,6 +108,27 @@ public:
      */
     bool loadFromXMI( QDomElement & qElement );
 
+
+    /**
+     * This method set the name of the preText attribute
+     */
+     void setPreText(QString);
+     
+    /**
+     * This method get the name of the preText attribute
+     */
+     QString getPreText();
+     
+     /**
+     * This method set the name of the postText attribute
+     */
+     void setPostText(QString);  
+   
+   /**
+     * This method get the name of the postText attribute
+     */
+     QString getPostText();
+     
 protected:
     /**
      * Overrides method from UMLWidget

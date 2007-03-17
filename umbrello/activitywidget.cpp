@@ -70,7 +70,7 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
             p.setFont( UMLWidget::getFont() );
             p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + textStartY,
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
-
+			   
         }
         break;
 
@@ -155,14 +155,20 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing();
+            QString preCond= "<<precondition>> "+getPreText();
+           	QString postCond= "<<postcondition>> "+getPostText();
             int textStartY = (h / 2) - (fontHeight / 2);
             p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
             p.setPen(Qt::black);
             p.setFont( UMLWidget::getFont() );
+            p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + fontHeight + 10,
+                       w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, preCond);
+            p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + fontHeight * 2 + 10,
+                       w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, postCond);
             p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + (fontHeight / 2),
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
-
         }
+
         break;
 
     case Fork_DEPRECATED :  // to be removed
@@ -178,17 +184,34 @@ QSize ActivityWidget::calculateSize() {
     if ( m_ActivityType == Normal || m_ActivityType == Invok || m_ActivityType == Param ) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
-        const int textWidth = fm.width(getName());
-        height = fontHeight;
-        width = textWidth > ACTIVITY_WIDTH ? textWidth : ACTIVITY_WIDTH;
-        height = height > ACTIVITY_HEIGHT ? height : ACTIVITY_HEIGHT;
-        width += ACTIVITY_MARGIN * 2;
-        height += ACTIVITY_MARGIN * 2;
 
-        if (m_ActivityType == Invok || m_ActivityType == Param)
+        int textWidth = fm.width(getName());
+		height = fontHeight;
+		height = height > ACTIVITY_HEIGHT ? height : ACTIVITY_HEIGHT;
+		height += ACTIVITY_MARGIN * 2;
+		
+		textWidth = textWidth > ACTIVITY_WIDTH ? textWidth : ACTIVITY_WIDTH;
+		
+        if (m_ActivityType == Invok)
         {
              height += 40;
         }
+        else if ( m_ActivityType == Param) {
+        	QString maxSize;
+ 
+        	maxSize = getName().length() > getPostText().length() ? getName() : getPostText();
+        	maxSize = maxSize.length() > getPreText().length() ? maxSize : getPreText();
+        	
+        	textWidth = fm.width(maxSize);
+        	textWidth = textWidth + 50;
+        	height += 100;
+        }
+        
+        
+        width = textWidth;//textWidth > ACTIVITY_WIDTH ? textWidth : ACTIVITY_WIDTH;
+     
+        width += textWidth + ACTIVITY_MARGIN * 2;
+ 
 
     } else if ( m_ActivityType == Branch ) {
         width = height = 20;
@@ -281,6 +304,8 @@ void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     UMLWidget::saveToXMI( qDoc, activityElement );
     activityElement.setAttribute( "activityname", m_Text );
     activityElement.setAttribute( "documentation", m_Doc );
+    activityElement.setAttribute( "precondition", preText );
+    activityElement.setAttribute( "postcondition", postText );
     activityElement.setAttribute( "activitytype", m_ActivityType );
     qElement.appendChild( activityElement );
 }
@@ -290,12 +315,37 @@ bool ActivityWidget::loadFromXMI( QDomElement & qElement ) {
         return false;
     m_Text = qElement.attribute( "activityname", "" );
     m_Doc = qElement.attribute( "documentation", "" );
+    preText = qElement.attribute( "precondition", "" );
+    postText = qElement.attribute( "postcondition", "" );
+    
     QString type = qElement.attribute( "activitytype", "1" );
     setActivityType( (ActivityType)type.toInt() );
 
     return true;
 }
 
+void ActivityWidget::setPreText(QString aPreText)
+{
+	preText=aPreText;
+	updateComponentSize();
+    adjustAssocs( getX(), getY() );
+}
 
+QString ActivityWidget::getPreText()
+{
+	return preText;
+}
+
+void ActivityWidget::setPostText(QString aPostText)
+{
+	postText=aPostText;
+	updateComponentSize();
+    adjustAssocs( getX(), getY() );
+}
+
+QString ActivityWidget::getPostText()
+{
+	return postText;
+}
 #include "activitywidget.moc"
 
