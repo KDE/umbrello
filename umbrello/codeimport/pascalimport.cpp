@@ -70,11 +70,11 @@ void PascalImport::checkModifiers(bool& isVirtual, bool& isAbstract) {
     while (m_srcIndex < srcLength - 1) {
         QString lookAhead = m_source[m_srcIndex + 1].lower();
         if (lookAhead != "virtual" && lookAhead != "abstract" &&
-                lookAhead != "override" &&
-                lookAhead != "register" && lookAhead != "cdecl" &&
-                lookAhead != "pascal" && lookAhead != "stdcall" &&
-                lookAhead != "safecall" && lookAhead != "saveregisters" &&
-                lookAhead != "popstack")
+            lookAhead != "override" &&
+            lookAhead != "register" && lookAhead != "cdecl" &&
+            lookAhead != "pascal" && lookAhead != "stdcall" &&
+            lookAhead != "safecall" && lookAhead != "saveregisters" &&
+            lookAhead != "popstack")
             break;
         if (lookAhead == "abstract")
             isAbstract = true;
@@ -94,11 +94,11 @@ bool PascalImport::parseStmt() {
             QString unit = advance();
             const QString& prefix = unit.lower();
             if (prefix == "sysutils" || prefix == "types" || prefix == "classes" ||
-                    prefix == "graphics" || prefix == "controls" || prefix == "strings" ||
-                    prefix == "forms" || prefix == "windows" || prefix == "messages" ||
-                    prefix == "variants" || prefix == "stdctrls" || prefix == "extctrls" ||
-                    prefix == "activex" || prefix == "comobj" || prefix == "registry" ||
-                    prefix == "classes" || prefix == "dialogs") {
+                prefix == "graphics" || prefix == "controls" || prefix == "strings" ||
+                prefix == "forms" || prefix == "windows" || prefix == "messages" ||
+                prefix == "variants" || prefix == "stdctrls" || prefix == "extctrls" ||
+                prefix == "activex" || prefix == "comobj" || prefix == "registry" ||
+                prefix == "classes" || prefix == "dialogs") {
                 if (advance() != ",")
                     break;
                 continue;
@@ -125,7 +125,7 @@ bool PascalImport::parseStmt() {
     if (keyword == "unit") {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package, name,
-                        m_scope[m_scopeIndex], m_comment);
+                                                      m_scope[m_scopeIndex], m_comment);
         m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
         skipStmt();
         return true;
@@ -167,7 +167,7 @@ bool PascalImport::parseStmt() {
         return true;
     }
     if (keyword == "automated" || keyword == "published"  // no concept in UML
-            || keyword == "public") {
+     || keyword == "public") {
         m_currentAccess = Uml::Visibility::Public;
         return true;
     }
@@ -199,7 +199,7 @@ bool PascalImport::parseStmt() {
         return true;
     }
     if (keyword == "function" || keyword == "procedure" ||
-            keyword == "constructor" || keyword == "destructor") {
+        keyword == "constructor" || keyword == "destructor") {
         if (m_klass == NULL) {
             // Unlike a Pascal unit, a UML package does not support subprograms.
             // In order to map those, we would need to create a UML class with
@@ -245,7 +245,7 @@ bool PascalImport::parseStmt() {
                     nextToken = advance().lower();
                     if (nextToken != "of") {
                         kError() << "importPascal(" << name << "): expecting 'array OF' at "
-                        << nextToken << endl;
+                                  << nextToken << endl;
                         skipStmt();
                         return false;
                     }
@@ -263,7 +263,7 @@ bool PascalImport::parseStmt() {
         if (keyword == "function") {
             if (advance() != ":") {
                 kError() << "importPascal: expecting \":\" at function "
-                << name << endl;
+                        << name << endl;
                 return false;
             }
             returnType = advance();
@@ -287,7 +287,7 @@ bool PascalImport::parseStmt() {
         QString nextToken = advance();
         if (nextToken != "=") {
             kDebug() << "PascalImport::parseStmt(" << name << "): "
-            << "expecting '=' at " << nextToken << endl;
+                << "expecting '=' at " << nextToken << endl;
             return false;
         }
         keyword = advance().lower();
@@ -323,7 +323,7 @@ bool PascalImport::parseStmt() {
         if (keyword == "class" || keyword == "interface") {
             Uml::Object_Type t = (keyword == "class" ? Uml::ot_Class : Uml::ot_Interface);
             UMLObject *ns = Import_Utils::createUMLObject(t, name,
-                            m_scope[m_scopeIndex], m_comment);
+                                                          m_scope[m_scopeIndex], m_comment);
             UMLClassifier *klass = static_cast<UMLClassifier*>(ns);
             m_comment = QString();
             QString lookAhead = m_source[m_srcIndex + 1];
@@ -338,7 +338,7 @@ bool PascalImport::parseStmt() {
                 } while (advance() == ",");
                 if (m_source[m_srcIndex] != ")") {
                     kError() << "PascalImport: expecting \")\" at "
-                    << m_source[m_srcIndex] << endl;
+                        << m_source[m_srcIndex] << endl;
                     return false;
                 }
                 lookAhead = m_source[m_srcIndex + 1];
@@ -357,14 +357,14 @@ bool PascalImport::parseStmt() {
         }
         if (keyword == "record") {
             UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class, name,
-                            m_scope[m_scopeIndex], m_comment);
+                                                          m_scope[m_scopeIndex], m_comment);
             ns->setStereotype("record");
             m_klass = static_cast<UMLClassifier*>(ns);
             return true;
         }
         if (keyword == "function" || keyword == "procedure") {
             UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Datatype, name,
-                            m_scope[m_scopeIndex], m_comment);
+                                                          m_scope[m_scopeIndex], m_comment);
             if (m_source[m_srcIndex + 1] == "(")
                 skipToClosing('(');
             skipStmt();
@@ -388,7 +388,7 @@ bool PascalImport::parseStmt() {
     }
     if (advance() != ":") {
         kError() << "PascalImport: expecting \":\" at " << name << " "
-        << m_source[m_srcIndex] << endl;
+                  << m_source[m_srcIndex] << endl;
         skipStmt();
         return true;
     }
@@ -402,7 +402,7 @@ bool PascalImport::parseStmt() {
         }
     }
     UMLObject *o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name,
-                   typeName, m_comment);
+                                                 typeName, m_comment);
     UMLAttribute *attr = static_cast<UMLAttribute*>(o);
     attr->setStereotype(stereotype);
     attr->setInitialValue(initialValue);

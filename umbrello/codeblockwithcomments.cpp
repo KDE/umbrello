@@ -94,7 +94,7 @@ void CodeBlockWithComments::setAttributesFromObject(TextBlock * obj)
     CodeBlock::setAttributesFromObject(obj);
 
     CodeBlockWithComments * cb = dynamic_cast<CodeBlockWithComments*>(obj);
-    if (cb)
+    if(cb)
         getComment()->setAttributesFromObject((TextBlock*)cb->getComment());
 
 }
@@ -118,9 +118,9 @@ void CodeBlockWithComments::setAttributesFromNode( QDomElement & root)
     QDomNode node = root.firstChild();
     QDomElement element = node.toElement();
     bool gotComment = false;
-    while ( !element.isNull() ) {
+    while( !element.isNull() ) {
         QString tag = element.tagName();
-        if ( tag == "header" ) {
+        if( tag == "header" ) {
             QDomNode cnode = element.firstChild();
             QDomElement celem = cnode.toElement();
             getComment()->loadFromXMI(celem);
@@ -131,7 +131,7 @@ void CodeBlockWithComments::setAttributesFromNode( QDomElement & root)
         element = node.toElement();
     }
 
-    if (!gotComment)
+    if(!gotComment)
         kWarning()<<" loadFromXMI : Warning: unable to initialize CodeComment in block:"<<getTag()<<endl;
 
 }
@@ -143,15 +143,15 @@ QString CodeBlockWithComments::toString ( ) {
 
     QString string = QString();
 
-    if (getWriteOutText()) {
+    if(getWriteOutText()) {
         QString indent = getIndentationString();
         QString endLine = getNewLineEndingChars();
         QString body = formatMultiLineText (getText(), indent, endLine);
         QString comment = getComment()->toString();
 
-        if (!comment.isEmpty() && getComment()->getWriteOutText())
+        if(!comment.isEmpty() && getComment()->getWriteOutText())
             string.append(comment);
-        if (!body.isEmpty())
+        if(!body.isEmpty())
             string.append(body);
     }
 

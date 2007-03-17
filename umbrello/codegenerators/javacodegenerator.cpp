@@ -80,7 +80,7 @@ CodeViewerDialog * JavaCodeGenerator::getCodeViewerDialog ( QWidget* parent, Cod
         Settings::CodeViewerState state)
 {
     CodeViewerDialog *dialog = new CodeViewerDialog(parent, doc, state);
-    if (getCreateANTBuildFile())
+    if(getCreateANTBuildFile())
         dialog->addCodeDocument(findCodeDocumentByID("ANTDOC"));
     return dialog;
 }

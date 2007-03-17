@@ -23,7 +23,7 @@
 
 /**
   * class CPPCodeComment
-  * A CPP code comment. There is only a single styles of comments:
+  * A CPP code comment. There is only a single styles of comments: 
   * these are simply started with double slash sequence and no terminating
   * characters
   */

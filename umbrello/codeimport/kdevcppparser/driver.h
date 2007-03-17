@@ -37,32 +37,32 @@ class Problem
 public:
     enum
     {
-        Level_Error = 0,
-        Level_Warning,
-        Level_Todo,
-        Level_Fixme
+	Level_Error = 0,
+	Level_Warning,
+	Level_Todo,
+	Level_Fixme
     };
 
 public:
     Problem() {}
     Problem( const Problem& source )
-            : m_text( source.m_text ), m_line( source.m_line ),
-            m_column( source.m_column ), m_level( source.m_level ) {}
+	: m_text( source.m_text ), m_line( source.m_line ),
+	  m_column( source.m_column ), m_level( source.m_level ) {}
     Problem( const QString& text, int line, int column, int level=Level_Error )
-            : m_text( text ), m_line( line ), m_column( column ), m_level(level) {}
+	: m_text( text ), m_line( line ), m_column( column ), m_level(level) {}
 
     Problem& operator = ( const Problem& source )
     {
-        m_text = source.m_text;
-        m_line = source.m_line;
-        m_column = source.m_column;
-        m_level = source.m_level;
-        return( *this );
+	m_text = source.m_text;
+	m_line = source.m_line;
+	m_column = source.m_column;
+	m_level = source.m_level;
+	return( *this );
     }
 
     bool operator == ( const Problem& p ) const
     {
-        return m_text == p.m_text && m_line == p.m_line && m_column == p.m_column && m_level == p.m_level;
+	return m_text == p.m_text && m_line == p.m_line && m_column == p.m_column && m_level == p.m_level;
     }
 
     QString text() const { return m_text; }
@@ -95,30 +95,30 @@ public:
     Macro( const QString &n, const QString &b ) : m_name( n ), m_body( b ), m_hasArguments( false ) {}
 
     Macro( const Macro& source )
-            : m_name( source.m_name),
-            m_fileName( source.m_fileName ),
-            m_body( source.m_body ),
-            m_hasArguments( source.m_hasArguments ),
-            m_argumentList( source.m_argumentList ) {}
+	: m_name( source.m_name),
+          m_fileName( source.m_fileName ),
+	  m_body( source.m_body ),
+	  m_hasArguments( source.m_hasArguments ),
+	  m_argumentList( source.m_argumentList ) {}
 
     Macro& operator = ( const Macro& source )
     {
-        m_name = source.m_name;
-        m_body = source.m_body;
+	m_name = source.m_name;
+	m_body = source.m_body;
         m_fileName = source.m_fileName;
-        m_hasArguments = source.m_hasArguments;
-        m_argumentList = source.m_argumentList;
-        return *this;
+	m_hasArguments = source.m_hasArguments;
+	m_argumentList = source.m_argumentList;
+	return *this;
     }
 
     bool operator == ( const Macro& source ) const
     {
-        return
-            m_name == source.m_name &&
+	return
+	    m_name == source.m_name &&
             m_fileName == source.m_fileName &&
-            m_body == source.m_body &&
-            m_hasArguments == source.m_hasArguments &&
-            m_argumentList == source.m_argumentList;
+	    m_body == source.m_body &&
+	    m_hasArguments == source.m_hasArguments &&
+	    m_argumentList == source.m_argumentList;
     }
 
     QString name() const { return m_name; }
@@ -180,7 +180,7 @@ public:
     virtual void addProblem( const QString& fileName, const Problem& problem );
 
 
-QString currentFileName() const { return m_currentFileName; }
+    QString currentFileName() const { return m_currentFileName; }
     TranslationUnitAST::Node takeTranslationUnit( const QString& fileName );
     TranslationUnitAST* translationUnit( const QString& fileName ) const;
     QMap<QString, Dependence> dependences( const QString& fileName ) const;
@@ -220,7 +220,7 @@ private:
     QMap< QString, Q3ValueList<Problem> > m_problems;
     QMap<QString, TranslationUnitAST*> m_parsedUnits;
     QStringList m_includePaths;
-uint depresolv : 1;
+    uint depresolv : 1;
     Lexer *lexer;
     SourceProvider* m_sourceProvider;
 

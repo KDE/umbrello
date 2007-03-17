@@ -47,7 +47,7 @@ OwnedCodeBlock::~OwnedCodeBlock ( ) {
 //
 
 void OwnedCodeBlock::release () {
-    if (m_parentObject)
+    if(m_parentObject)
         m_parentObject->disconnect(this);
     m_parentObject = 0;
 }
@@ -66,7 +66,7 @@ UMLObject * OwnedCodeBlock::getParentObject () {
 void OwnedCodeBlock::setAttributesFromObject (TextBlock * obj) {
 
     OwnedCodeBlock * oc = dynamic_cast<OwnedCodeBlock*>(obj);
-    if (oc)
+    if(oc)
     {
         m_parentObject->disconnect(this);
         initFields(oc->getParentObject());
@@ -83,7 +83,7 @@ void OwnedCodeBlock::setAttributesOnNode(QDomDocument& /*doc*/, QDomElement& ele
     // as UMLRoles arent properly stored in the XMI right now.
     // (change would break the XMI format..save for big version change )
     UMLRole * role = dynamic_cast<UMLRole*>(m_parentObject);
-    if (role)
+    if(role)
     {
         elem.setAttribute("parent_id",ID2STR(role->getParentAssociation()->getID()));
         // CAUTION: role_id here is numerically inverted wrt Uml::Role_Type,
@@ -114,7 +114,7 @@ void OwnedCodeBlock::setAttributesFromNode ( QDomElement & elem) {
 
     // now, what is the new object we want to set?
     UMLObject * obj = UMLApp::app()->getDocument()->findObjectById(id);
-    if (obj)
+    if(obj)
     {
 
         // FIX..one day.
@@ -128,14 +128,14 @@ void OwnedCodeBlock::setAttributesFromNode ( QDomElement & elem) {
         // change appears to be needed for only this part, I'll do this crappy
         // change instead. -b.t.
         UMLAssociation * assoc = dynamic_cast<UMLAssociation*>(obj);
-        if (assoc) {
+        if(assoc) {
             // In this case we init with indicated role child obj.
             UMLRole * role = 0;
             int role_id = elem.attribute("role_id","-1").toInt();
             // see comment on role_id at setAttributesOnNode()
-            if (role_id == 1)
+            if(role_id == 1)
                 role = assoc->getUMLRole(Uml::A);
-            else if (role_id == 0)
+            else if(role_id == 0)
                 role = assoc->getUMLRole(Uml::B);
             else // this will cause a crash
                 kError() << "corrupt save file? "

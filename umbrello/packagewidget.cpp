@@ -17,7 +17,7 @@
 #include <qpainter.h>
 
 PackageWidget::PackageWidget(UMLView * view, UMLPackage *o)
-        : UMLWidget(view, o) {
+  : UMLWidget(view, o) {
     init();
     setSize(100, 30);
     updateComponentSize();
@@ -87,7 +87,7 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
     p.drawText(offsetX, offsetY + (fontHeight*lines) + PACKAGE_MARGIN,
                w, fontHeight, Qt::AlignCenter, name );
 
-    if (m_bSelected) {
+    if(m_bSelected) {
         drawSelected(&p, offsetX, offsetY);
     }
 }

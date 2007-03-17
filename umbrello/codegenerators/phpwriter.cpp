@@ -2,7 +2,7 @@
     begin               : Thu Oct 17 2002
     copyright       : (C) 2002 by Heiko Nardmann
     email               : h.nardmann@secunet.de
-      (C) 2003-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
+      (C) 2003-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net> 
  ***************************************************************************/
 
 /***************************************************************************
@@ -2991,7 +2991,7 @@ PhpWriter::~PhpWriter() {}
 
 
 void PhpWriter::writeClass(UMLClassifier *c) {
-    if (!c) {
+    if(!c) {
         kDebug()<<"Cannot write class of NULL concept!" << endl;
         return;
     }
@@ -3005,7 +3005,7 @@ void PhpWriter::writeClass(UMLClassifier *c) {
     }
 
     QFile filephp;
-    if (!openFile(filephp, fileName)) {
+    if(!openFile(filephp, fileName)) {
         emit codeGenerated(c, false);
         return;
     }
@@ -3019,7 +3019,7 @@ void PhpWriter::writeClass(UMLClassifier *c) {
     //try to find a heading file (license, coments, etc)
     QString str;
     str = getHeadingFile(".php");
-    if (!str.isEmpty()) {
+    if(!str.isEmpty()) {
         str.replace(QRegExp("%filename%"),fileName);
         str.replace(QRegExp("%filepath%"),filephp.name());
         php<<str<<m_endl;
@@ -3030,7 +3030,7 @@ void PhpWriter::writeClass(UMLClassifier *c) {
     UMLPackageList includes;
     findObjectsRelated(c,includes);
     UMLPackage *conc;
-    for (conc = includes.first(); conc ;conc = includes.next()) {
+    for(conc = includes.first(); conc ;conc = includes.next()) {
         QString headerName = findFileName(conc, ".php");
         if (headerName.isEmpty()) {
             php << "include '" << headerName << "';" << m_endl;
@@ -3039,7 +3039,7 @@ void PhpWriter::writeClass(UMLClassifier *c) {
     php << m_endl;
 
     //Write class Documentation if there is somthing or if force option
-    if (forceDoc() || !c->getDoc().isEmpty()) {
+    if(forceDoc() || !c->getDoc().isEmpty()) {
         php << m_endl << "/**" << m_endl;
         php << " * class " << classname << m_endl;
         php << formatDoc(c->getDoc()," * ");
@@ -3053,7 +3053,7 @@ void PhpWriter::writeClass(UMLClassifier *c) {
 
     //check if class is abstract and / or has abstract methods
     //FG        if(c->getAbstract() && !hasAbstractOps(c))
-    if (c->getAbstract())
+    if(c->getAbstract())
         php << "/******************************* Abstract Class ****************************" << m_endl << "  "
         << classname << " does not have any pure virtual methods, but its author" << m_endl
         << "  defined it as an abstract class, so you should not use it directly." << m_endl
@@ -3068,7 +3068,7 @@ void PhpWriter::writeClass(UMLClassifier *c) {
     php<< m_endl << "{" << m_endl;
 
     //associations
-    if ( forceSections() || !aggregations.isEmpty()) {
+    if( forceSections() || !aggregations.isEmpty()) {
         php<< m_endl << m_indentation << "/** Aggregations: */" << m_endl;
         for (a = aggregations.first(); a; a = aggregations.next()) {
             php<< m_endl;
@@ -3084,7 +3084,7 @@ void PhpWriter::writeClass(UMLClassifier *c) {
         }//end for
     }
 
-    if ( forceSections() || !compositions.isEmpty()) {
+    if( forceSections() || !compositions.isEmpty()) {
         php<< m_endl << m_indentation << "/** Compositions: */" << m_endl;
         for (a = compositions.first(); a ; a = compositions.next()) {
             // see comment on Aggregation about multiplicity...
@@ -3118,8 +3118,8 @@ void PhpWriter::writeClass(UMLClassifier *c) {
         php << m_indentation << " */" << m_endl;
         php << m_indentation << "function "<<"initAttributes( )" << m_endl;
         php << m_indentation << "{" << m_endl;
-        for (UMLAttribute* at = atl.first(); at; at = atl.next())  {
-            if (!at->getInitialValue().isEmpty())  {
+        for(UMLAttribute* at = atl.first(); at; at = atl.next())  {
+            if(!at->getInitialValue().isEmpty())  {
                 php << m_indentation << m_indentation << "$this->" << cleanName(at->getName()) << " = " <<
                 at->getInitialValue() << ";" << m_endl;
             }
@@ -3152,18 +3152,18 @@ void PhpWriter::writeOperations(UMLClassifier *c, QTextStream &php) {
 
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList opl(c->getOpList());
-    for (UMLOperation *op = opl.first(); op ; op = opl.next()) {
-        switch (op->getVisibility()) {
-        case Uml::Visibility::Public:
+    for(UMLOperation *op = opl.first(); op ; op = opl.next()) {
+        switch(op->getVisibility()) {
+          case Uml::Visibility::Public:
             oppub.append(op);
             break;
-        case Uml::Visibility::Protected:
+          case Uml::Visibility::Protected:
             opprot.append(op);
             break;
-        case Uml::Visibility::Private:
+          case Uml::Visibility::Private:
             oppriv.append(op);
             break;
-        default:
+          default:
             break;
         }
     }
@@ -3171,17 +3171,17 @@ void PhpWriter::writeOperations(UMLClassifier *c, QTextStream &php) {
     QString classname(cleanName(c->getName()));
 
     //write operations to file
-    if (forceSections() || !oppub.isEmpty()) {
+    if(forceSections() || !oppub.isEmpty()) {
         php << m_endl;
         writeOperations(classname,oppub,php);
     }
 
-    if (forceSections() || !opprot.isEmpty()) {
+    if(forceSections() || !opprot.isEmpty()) {
         php << m_endl;
         writeOperations(classname,opprot,php);
     }
 
-    if (forceSections() || !oppriv.isEmpty()) {
+    if(forceSections() || !oppriv.isEmpty()) {
         php << m_endl;
         writeOperations(classname,oppriv,php);
     }
@@ -3191,21 +3191,21 @@ void PhpWriter::writeOperations(QString /* classname */, UMLOperationList &opLis
     UMLOperation *op;
     UMLAttribute *at;
 
-    for (op=opList.first(); op ; op=opList.next()) {
+    for(op=opList.first(); op ; op=opList.next()) {
         UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
         for (at = atl.first(); at; at = atl.next())
             writeDoc |= !at->getDoc().isEmpty();
 
-        if ( writeDoc ) //write method documentation
+        if( writeDoc )  //write method documentation
         {
             php <<m_indentation << "/**" << m_endl <<formatDoc(op->getDoc(),m_indentation + " * ");
             php << m_indentation << " *" << m_endl;
 
             for (at = atl.first(); at; at = atl.next())  //write parameter documentation
             {
-                if (forceDoc() || !at->getDoc().isEmpty()) {
+                if(forceDoc() || !at->getDoc().isEmpty()) {
                     php <<m_indentation << " * @param " + at->getTypeName() + " " + cleanName(at->getName());
                     php << " " + formatDoc(at->getDoc(),"");
                 }
@@ -3213,17 +3213,17 @@ void PhpWriter::writeOperations(QString /* classname */, UMLOperationList &opLis
             php << m_indentation << " * @return " << op->getTypeName() << m_endl;
             if (op->getAbstract()) php << m_indentation << " * @abstract" << m_endl;
             if (op->getStatic()) php << m_indentation << " * @static" << m_endl;
-            switch (op->getVisibility()) {
-            case Uml::Visibility::Public:
+            switch(op->getVisibility()) {
+              case Uml::Visibility::Public:
                 php << m_indentation << " * @access public" << m_endl;
                 break;
-            case Uml::Visibility::Protected:
+              case Uml::Visibility::Protected:
                 php << m_indentation << " * @access protected" << m_endl;
                 break;
-            case Uml::Visibility::Private:
+              case Uml::Visibility::Private:
                 php << m_indentation << " * @access private" << m_endl;
                 break;
-            default:
+              default:
                 break;
             }
             php <<m_indentation << " */" << m_endl;
@@ -3255,36 +3255,36 @@ void PhpWriter::writeAttributes(UMLClassifier *c, QTextStream &php) {
     //sort attributes by scope and see if they have a default value
     UMLAttributeList atl = c->getAttributeList();
     UMLAttribute *at;
-    for (at = atl.first(); at ; at = atl.next()) {
-        if (!at->getInitialValue().isEmpty())
+    for(at = atl.first(); at ; at = atl.next()) {
+        if(!at->getInitialValue().isEmpty())
             atdefval.append(at);
-        switch (at->getVisibility()) {
-        case Uml::Visibility::Public:
+        switch(at->getVisibility()) {
+          case Uml::Visibility::Public:
             atpub.append(at);
             break;
-        case Uml::Visibility::Protected:
+          case Uml::Visibility::Protected:
             atprot.append(at);
             break;
-        case Uml::Visibility::Private:
+          case Uml::Visibility::Private:
             atpriv.append(at);
             break;
-        default:
+          default:
             break;
         }
     }
 
-    if (forceSections() || atl.count())
+    if(forceSections() || atl.count())
         php<< m_endl << m_indentation << " /*** Attributes: ***/" << m_endl <<m_endl;
 
-    if (forceSections() || atpub.count()) {
+    if(forceSections() || atpub.count()) {
         writeAttributes(atpub,php);
     }
 
-    if (forceSections() || atprot.count()) {
+    if(forceSections() || atprot.count()) {
         writeAttributes(atprot,php);
     }
 
-    if (forceSections() || atpriv.count()) {
+    if(forceSections() || atpriv.count()) {
         writeAttributes(atpriv,php);
     }
 }
@@ -3294,17 +3294,17 @@ void PhpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &php) {
     for (UMLAttribute *at = atList.first(); at ; at = atList.next()) {
         if (forceDoc() || !at->getDoc().isEmpty()) {
             php << m_indentation << "/**" << m_endl << formatDoc(at->getDoc(), m_indentation + " * ");
-            switch (at->getVisibility()) {
-            case Uml::Visibility::Public:
+            switch(at->getVisibility()) {
+              case Uml::Visibility::Public:
                 php << m_indentation << " * @access public" << m_endl;
                 break;
-            case Uml::Visibility::Protected:
+              case Uml::Visibility::Protected:
                 php << m_indentation << " * @access protected" << m_endl;
                 break;
-            case Uml::Visibility::Private:
+              case Uml::Visibility::Private:
                 php << m_indentation << " * @access private" << m_endl;
                 break;
-            default:
+              default:
                 break;
             }
 

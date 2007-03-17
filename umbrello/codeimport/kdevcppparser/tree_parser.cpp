@@ -36,9 +36,9 @@ void TreeParser::parseTranslationUnit( TranslationUnitAST* translationUnit )
 
     Q3PtrList<DeclarationAST> declarations = translationUnit->declarationList();
     Q3PtrListIterator<DeclarationAST> it( declarations );
-    while ( it.current() ){
-        parseDeclaration( it.current() );
-        ++it;
+    while( it.current() ){
+	parseDeclaration( it.current() );
+	++it;
     }
 }
 
@@ -46,67 +46,67 @@ void TreeParser::parseDeclaration( DeclarationAST* declaration )
 {
     //kDebug(9007) << "TreeParser::parseDeclaration()" << endl;
 
-    if ( !declaration )
+    if( !declaration )
         return;
 
-    switch ( declaration->nodeType() )
+    switch( declaration->nodeType() )
     {
     case NodeType_LinkageSpecification:
-        parseLinkageSpecification( static_cast<LinkageSpecificationAST*>(declaration) );
-        break;
+	parseLinkageSpecification( static_cast<LinkageSpecificationAST*>(declaration) );
+	break;
 
     case NodeType_Namespace:
-        parseNamespace( static_cast<NamespaceAST*>(declaration) );
-        break;
+	parseNamespace( static_cast<NamespaceAST*>(declaration) );
+	break;
 
     case NodeType_NamespaceAlias:
-        parseNamespaceAlias( static_cast<NamespaceAliasAST*>(declaration) );
-        break;
+	parseNamespaceAlias( static_cast<NamespaceAliasAST*>(declaration) );
+	break;
 
     case NodeType_Using:
-        parseUsing( static_cast<UsingAST*>(declaration) );
-        break;
+	parseUsing( static_cast<UsingAST*>(declaration) );
+	break;
 
     case NodeType_UsingDirective:
-        parseUsingDirective( static_cast<UsingDirectiveAST*>(declaration) );
-        break;
+	parseUsingDirective( static_cast<UsingDirectiveAST*>(declaration) );
+	break;
 
     case NodeType_Typedef:
-        parseTypedef( static_cast<TypedefAST*>(declaration) );
-        break;
+	parseTypedef( static_cast<TypedefAST*>(declaration) );
+	break;
 
     case NodeType_TemplateDeclaration:
-        parseTemplateDeclaration( static_cast<TemplateDeclarationAST*>(declaration) );
-        break;
+	parseTemplateDeclaration( static_cast<TemplateDeclarationAST*>(declaration) );
+	break;
 
     case NodeType_SimpleDeclaration:
-        parseSimpleDeclaration( static_cast<SimpleDeclarationAST*>(declaration) );
-        break;
+	parseSimpleDeclaration( static_cast<SimpleDeclarationAST*>(declaration) );
+	break;
 
     case NodeType_FunctionDefinition:
-        parseFunctionDefinition( static_cast<FunctionDefinitionAST*>(declaration) );
-        break;
+	parseFunctionDefinition( static_cast<FunctionDefinitionAST*>(declaration) );
+	break;
 
     case NodeType_AccessDeclaration:
         parseAccessDeclaration( static_cast<AccessDeclarationAST*>(declaration) );
-        break;
-    }
+	break;
+   }
 }
 
 void TreeParser::parseLinkageSpecification( LinkageSpecificationAST* ast )
 {
     //kDebug(9007) << "TreeParser::parseLinkageSpecification()" << endl;
-    if ( ast->linkageBody() )
-        parseLinkageBody( ast->linkageBody() );
-    else if ( ast->declaration() )
-        parseDeclaration( ast->declaration() );
+    if( ast->linkageBody() )
+	parseLinkageBody( ast->linkageBody() );
+    else if( ast->declaration() )
+	parseDeclaration( ast->declaration() );
 }
 
 void TreeParser::parseNamespace( NamespaceAST* decl )
 {
     //kDebug(9007) << "TreeParser::parseNamespace()" << endl;
-    if ( decl->linkageBody() )
-        parseLinkageBody( decl->linkageBody() );
+    if( decl->linkageBody() )
+	parseLinkageBody( decl->linkageBody() );
 }
 
 void TreeParser::parseNamespaceAlias( NamespaceAliasAST* decl )
@@ -130,8 +130,8 @@ void TreeParser::parseUsingDirective( UsingDirectiveAST* decl )
 void TreeParser::parseTypedef( TypedefAST* decl )
 {
     //kDebug(9007) << "TreeParser::parseTypedef()" << endl;
-    if ( decl->typeSpec() )
-        parseTypeSpecifier( decl->typeSpec() );
+    if( decl->typeSpec() )
+	parseTypeSpecifier( decl->typeSpec() );
 }
 
 void TreeParser::parseTemplateDeclaration( TemplateDeclarationAST* decl )
@@ -156,27 +156,27 @@ void TreeParser::parseLinkageBody( LinkageBodyAST* linkageBody )
 {
     //kDebug(9007) << "TreeParser::parseLinkageBody()" << endl;
     Q3PtrList<DeclarationAST> declarations = linkageBody->declarationList();
-    for ( Q3PtrListIterator<DeclarationAST> it(declarations); it.current(); ++it ){
-        parseDeclaration( it.current() );
+    for( Q3PtrListIterator<DeclarationAST> it(declarations); it.current(); ++it ){
+	parseDeclaration( it.current() );
     }
 }
 
 void TreeParser::parseTypeSpecifier( TypeSpecifierAST* typeSpec )
 {
     //kDebug(9007) << "TreeParser::parseTypeSpecifier()" << endl;
-    switch ( typeSpec->nodeType() )
+    switch( typeSpec->nodeType() )
     {
     case NodeType_ClassSpecifier:
-        parseClassSpecifier( static_cast<ClassSpecifierAST*>(typeSpec) );
-        break;
+	parseClassSpecifier( static_cast<ClassSpecifierAST*>(typeSpec) );
+	break;
 
     case NodeType_EnumSpecifier:
-        parseEnumSpecifier( static_cast<EnumSpecifierAST*>(typeSpec) );
-        break;
+	parseEnumSpecifier( static_cast<EnumSpecifierAST*>(typeSpec) );
+	break;
 
     case NodeType_ElaboratedTypeSpecifier:
-        parseElaboratedTypeSpecifier( static_cast<ElaboratedTypeSpecifierAST*>(typeSpec) );
-        break;
+	parseElaboratedTypeSpecifier( static_cast<ElaboratedTypeSpecifierAST*>(typeSpec) );
+	break;
     }
 }
 
@@ -184,8 +184,8 @@ void TreeParser::parseClassSpecifier( ClassSpecifierAST* classSpec )
 {
     //kDebug(9007) << "TreeParser::parseClassSpecifier()" << endl;
     Q3PtrList<DeclarationAST> declarations = classSpec->declarationList();
-    for ( Q3PtrListIterator<DeclarationAST> it(declarations); it.current(); ++it ){
-        parseDeclaration( it.current() );
+    for( Q3PtrListIterator<DeclarationAST> it(declarations); it.current(); ++it ){
+	parseDeclaration( it.current() );
     }
 }
 

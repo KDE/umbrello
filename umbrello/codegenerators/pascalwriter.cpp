@@ -202,7 +202,7 @@ void PascalWriter::writeClass(UMLClassifier *c) {
         QString stype = c->getStereotype();
         if (stype == "CORBAConstant") {
             pas << getIndent() << "// " << stype << " is Not Yet Implemented" << m_endl << m_endl;
-        } else if (stype == "CORBAStruct") {
+        } else if(stype == "CORBAStruct") {
             if (isClass) {
                 UMLAttribute *at;
                 pas << getIndent() << classname << " = record" << m_endl;
@@ -219,9 +219,9 @@ void PascalWriter::writeClass(UMLClassifier *c) {
                 m_indentLevel--;
                 pas << "end;" << m_endl << m_endl;
             }
-        } else if (stype == "CORBAUnion") {
+        } else if(stype == "CORBAUnion") {
             pas << getIndent() << "// " << stype << " is Not Yet Implemented" << m_endl << m_endl;
-        } else if (stype == "CORBATypedef") {
+        } else if(stype == "CORBATypedef") {
             pas << getIndent() << "// " << stype << " is Not Yet Implemented" << m_endl << m_endl;
         } else {
             pas << getIndent() << "// " << stype << ": Unknown stereotype" << m_endl << m_endl;
@@ -258,7 +258,7 @@ void PascalWriter::writeClass(UMLClassifier *c) {
             // if (at->getStatic())
             //     continue;
             pas << getIndent() << cleanName(at->getName()) << " : "
-            << at->getTypeName();
+                << at->getTypeName();
             if (at && at->getInitialValue().latin1() && ! at->getInitialValue().isEmpty())
                 pas << " := " << at->getInitialValue();
             pas << ";" << m_endl;
@@ -272,7 +272,7 @@ void PascalWriter::writeClass(UMLClassifier *c) {
     oppub.setAutoDelete(false);
     UMLOperation *op;
     for (op = opl.first(); op; op = opl.next()) {
-        if (op->getVisibility() == Uml::Visibility::Public)
+         if (op->getVisibility() == Uml::Visibility::Public)
             oppub.append(op);
     }
     if (forceSections() || oppub.count())
@@ -288,7 +288,7 @@ void PascalWriter::writeClass(UMLClassifier *c) {
             // if (at->getStatic())
             //     continue;
             pas << getIndent() << cleanName(at->getName()) << " : "
-            << at->getTypeName();
+                << at->getTypeName();
             if (at && at->getInitialValue().latin1() && ! at->getInitialValue().isEmpty())
                 pas << " := " << at->getInitialValue();
             pas << ";" << m_endl;
@@ -303,7 +303,7 @@ void PascalWriter::writeClass(UMLClassifier *c) {
             // if (at->getStatic())
             //     continue;
             pas << getIndent() << cleanName(at->getName()) << " : "
-            << at->getTypeName();
+                << at->getTypeName();
             if (at && at->getInitialValue().latin1() && ! at->getInitialValue().isEmpty())
                 pas << " := " << at->getInitialValue();
             pas << ";" << m_endl;

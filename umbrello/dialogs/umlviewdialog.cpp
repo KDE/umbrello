@@ -34,7 +34,7 @@
 #include "../uml.h"
 
 UMLViewDialog::UMLViewDialog( QWidget * pParent, UMLView * pView )
-        : KPageDialog(pParent) {
+    : KPageDialog(pParent) {
     setCaption( i18n("Properties") );
     setButtons( Ok | Apply | Cancel | Help );
     setDefaultButton( Ok );
@@ -99,13 +99,13 @@ void UMLViewDialog::setupDiagramPropertiesPage()
 }
 
 void UMLViewDialog::setupClassPage() {
-    if ( m_pView -> getType() != Uml::dt_Class ) {
+    if( m_pView -> getType() != Uml::dt_Class ) {
         return;
     }
     QFrame * newPage = new QFrame();
     pageDisplayItem = new KPageWidgetItem( newPage,i18n("Display") );
     pageDisplayItem->setHeader( i18n("Classes Display Options") );
-    pageDisplayItem->setIcon( KIcon( DesktopIcon( "document-properties") ));
+    pageDisplayItem->setIcon( KIcon( DesktopIcon( "info") ));
     addPage( pageDisplayItem);
 
     QHBoxLayout * m_pOptionsLayout = new QHBoxLayout( newPage );
@@ -161,12 +161,12 @@ void UMLViewDialog::applyPage( KPageWidgetItem*item ) {
     else if ( item == pageFontItem )
     {
         kDebug() << "UMLViewDialog::applyPage: setting font "
-        << m_pChooser->font().toString() << endl;
+                 << m_pChooser->font().toString() << endl;
         m_pView->setFont( m_pChooser->font(), true );
     }
     else if ( item == pageDisplayItem )
     {
-        if ( m_pView->getType() != Uml::dt_Class ) {
+        if( m_pView->getType() != Uml::dt_Class ) {
             return;
         }
         m_pOptionsPage->updateUMLWidget();
@@ -185,13 +185,13 @@ void UMLViewDialog::checkName() {
     QString name = m_diagramProperties->diagramName-> text();
     UMLDoc * pDoc = UMLApp::app()-> getDocument();
     UMLView * pView = pDoc -> findView( m_pView -> getType(), name );
-    if ( name.length() == 0 ) {
+    if( name.length() == 0 ) {
         KMessageBox::sorry(this, i18n("The name you have entered is invalid."),
                            i18n("Invalid Name"), false);
         m_diagramProperties->diagramName->setText( m_pView->getName() );
         return;
     }
-    if ( pView && pView != m_pView ) {
+    if( pView && pView != m_pView ) {
         KMessageBox::sorry(this, i18n("The name you have entered is not unique."),
                            i18n("Name Not Unique"), false);
         m_diagramProperties->diagramName->setText( m_pView->getName() );

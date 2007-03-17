@@ -31,10 +31,10 @@
   * calling writeClass and it will generate a XMLschema source file for
   * that concept
   *
-  * Our basic approach is to map UMLClassifiers (classes/interfaces) into
-  * XML elements (or nodes). We declare these element in the schema either
-  * as complexType or as groups based on whether they are concrete or abstract
-  * in nature. This is not a perfect decision, but thats life with XML Schema...
+  * Our basic approach is to map UMLClassifiers (classes/interfaces) into 
+  * XML elements (or nodes). We declare these element in the schema either 
+  * as complexType or as groups based on whether they are concrete or abstract 
+  * in nature. This is not a perfect decision, but thats life with XML Schema... 
   * you cant fully represent Objects in the XML world ..yet. -b.t.
   */
 
@@ -215,7 +215,7 @@ private:
 
     /**
      * mark a concept as written, so it is not repeatedly re-declared in the schema
-     */
+     */ 
     void markAsWritten(UMLClassifier *c);
 
     /**

@@ -110,7 +110,7 @@ void RubyCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * clone, bool emit
 
 
     // now do ruby-specific stuff IF our clone is also a RubyCodeGenerationPolicy object
-    if ((rclone = dynamic_cast<RubyCodeGenerationPolicy*>(clone)))
+    if((rclone = dynamic_cast<RubyCodeGenerationPolicy*>(clone)))
     {
         setAutoGenerateAttribAccessors(rclone->getAutoGenerateAttribAccessors());
         setAutoGenerateAssocAccessors(rclone->getAutoGenerateAssocAccessors());
@@ -118,7 +118,7 @@ void RubyCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * clone, bool emit
 
     blockSignals(false); // "as you were citizen"
 
-    if (emitUpdateSignal)
+    if(emitUpdateSignal)
         m_commonPolicy->emitModifiedCodeContentSig();
 
 }
@@ -126,7 +126,7 @@ void RubyCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * clone, bool emit
 void RubyCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSignal )
 {
 
-    if (!config)
+    if(!config)
         return;
 
     // call the superclass to init default stuff
@@ -145,7 +145,7 @@ void RubyCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSig
 
     blockSignals(false); // "as you were citizen"
 
-    if (emitUpdateSignal)
+    if(emitUpdateSignal)
         m_commonPolicy->emitModifiedCodeContentSig();
 }
 

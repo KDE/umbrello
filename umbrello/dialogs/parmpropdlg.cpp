@@ -46,7 +46,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
     m_pUmldoc = doc;
     m_pAtt = a;
     QString type, text, name, initialValue;
-    if (!a) {
+    if(!a) {
         type = text = name = initialValue = "";
     } else {
         type = a -> getTypeName();
@@ -78,12 +78,12 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
     m_pTypeL->setBuddy(m_pTypeCB);
 
     Dialog_Utils::makeLabeledEditField( m_pParmGB, propLayout, 1,
-                                        m_pNameL, i18n("&Name:"),
-                                        m_pNameLE, name );
+                                    m_pNameL, i18n("&Name:"),
+                                    m_pNameLE, name );
 
     Dialog_Utils::makeLabeledEditField( m_pParmGB, propLayout, 2,
-                                        m_pInitialL, i18n("&Initial value:"),
-                                        m_pInitialLE, initialValue );
+                                    m_pInitialL, i18n("&Initial value:"),
+                                    m_pInitialLE, initialValue );
 
     m_pStereoTypeL = new QLabel( i18n("Stereotype name:"), m_pParmGB );
     propLayout -> addWidget(m_pStereoTypeL, 3, 0);
@@ -150,7 +150,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
     //now add the Concepts
     UMLClassifierList namesList( m_pUmldoc->getConcepts() );
     UMLClassifier * obj;
-    for (obj=namesList.first(); obj!=0 ;obj=namesList.next()) {
+    for(obj=namesList.first(); obj!=0 ;obj=namesList.next()) {
         insertType( obj->getFullyQualifiedName() );
     }
 
@@ -255,7 +255,7 @@ void ParmPropDlg::slotOk() {
             // @todo There should be an extra dialog to decide whether to
             // create a datatype or a class. For now, we create a class.
             kDebug() << "ParmPropDlg::slotOk: " << typeName << " not found."
-            << " Creating a new class for the type." << endl;
+                << " Creating a new class for the type." << endl;
             UMLObject *o = Object_Factory::createUMLObject(Uml::ot_Class, typeName);
             m_pAtt->setType(o);
         }

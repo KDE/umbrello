@@ -318,7 +318,7 @@ public:
      * @param y         New Y coordinate of the widget.
      */
     void widgetMoved(UMLWidget* widget, int x, int y);
-
+    
 
     /**
      * Adjusts the points of the association exception. 

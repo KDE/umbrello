@@ -19,24 +19,24 @@
 
 namespace Uml
 {
-class cmdSetName : public QUndoCommand
-{
-public:
-    /*Constructor */
-    cmdSetName(UMLObject * _UMLObj, QString _name);
-    /*Destructor */
-    ~cmdSetName();
-    /*Redo method */
-    void redo();
-    /*Undo method */
-    void undo();
+	class cmdSetName : public QUndoCommand
+	{
+		public:
+			/*Constructor */
+			cmdSetName(UMLObject * _UMLObj, QString _name);
+			/*Destructor */
+			~cmdSetName();
+			/*Redo method */
+			void redo();
+			/*Undo method */
+			void undo();
 
-private:
+		private:
 
-    QString oldname;
-    QString name;
-    UMLObject * UMLObj;
-};
+			QString oldname;
+			QString name;
+			UMLObject * UMLObj;
+	};
 };
 
 #endif

@@ -14,9 +14,9 @@
 
 namespace Uml {
 
-enum {
-    IdMoveWidget,
-    IdResizeWidget
+enum {	
+	IdMoveWidget,
+	IdResizeWidget
 };
 
 };

@@ -15,12 +15,12 @@
  */
 
 /**
-  We carve the CPP document up into 2 documents, "source" and "header".
+  We carve the CPP document up into 2 documents, "source" and "header". 
   This one represents the header portion.
   The sections of each are as follows:
 
   * header
-  * includes
+  * includes 
   * import statements
   * class declaration
   *   guts of the class (e.g. field decl, accessor methods, operations, dependant classes)
@@ -52,8 +52,8 @@ CPPHeaderCodeDocument::CPPHeaderCodeDocument ( UMLClassifier * concept )
     setFileExtension(".h");
 
     //initCodeClassFields(); // this is dubious because it calls down to
-    // CodeGenFactory::newCodeClassField(this)
-    // but "this" is still in construction at that time.
+                             // CodeGenFactory::newCodeClassField(this)
+                             // but "this" is still in construction at that time.
 
     // needed? I doubt it, but it feels good to do it.
     classDeclCodeBlock = 0;
@@ -85,7 +85,7 @@ CPPHeaderCodeDocument::~CPPHeaderCodeDocument ( ) { }
 CPPHeaderClassDeclarationBlock * CPPHeaderCodeDocument::getClassDecl()
 {
 
-    if (!classDeclCodeBlock) {
+    if(!classDeclCodeBlock) {
         classDeclCodeBlock = new CPPHeaderClassDeclarationBlock (this); // was deleted before our load
         classDeclCodeBlock->setTag("classDeclarationBlock");
     }
@@ -105,10 +105,10 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
     QDomNode tnode = root.firstChild();
     QDomElement telement = tnode.toElement();
     bool loadCheckForChildrenOK = false;
-    while ( !telement.isNull() ) {
+    while( !telement.isNull() ) {
         QString nodeName = telement.tagName();
 
-        if ( nodeName == "textblocks" ) {
+        if( nodeName == "textblocks" ) {
 
             QDomNode node = telement.firstChild();
             QDomElement element = node.toElement();
@@ -116,26 +116,26 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
             // if there is nothing to begin with, then we don't worry about it
             loadCheckForChildrenOK = element.isNull() ? true : false;
 
-            while ( !element.isNull() ) {
+            while( !element.isNull() ) {
                 QString name = element.tagName();
 
-                if ( name == "codecomment" ) {
+                if( name == "codecomment" ) {
                     CodeComment * block = new CPPCodeDocumentation(this);
                     block->loadFromXMI(element);
-                    if (!addTextBlock(block))
+                    if(!addTextBlock(block))
                     {
                         kError()<<"Unable to add codeComment to :"<<this<<endl;
                         block->deleteLater();
                     } else
                         loadCheckForChildrenOK= true;
                 } else
-                    if ( name == "codeaccessormethod" ||
+                    if( name == "codeaccessormethod" ||
                             name == "ccfdeclarationcodeblock"
-                       ) {
+                      ) {
                         QString acctag = element.attribute("tag","");
                         // search for our method in the
                         TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
-                        if (!tb || !addTextBlock(tb))
+                        if(!tb || !addTextBlock(tb))
                         {
                             kError()<<"Unable to add codeclassfield child method to:"<<this<<endl;
                             // DON'T delete
@@ -143,48 +143,48 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                             loadCheckForChildrenOK= true;
 
                     } else
-                        if ( name == "codeblock" ) {
+                        if( name == "codeblock" ) {
                             CodeBlock * block = newCodeBlock();
                             block->loadFromXMI(element);
-                            if (!addTextBlock(block))
+                            if(!addTextBlock(block))
                             {
                                 kError()<<"Unable to add codeBlock to :"<<this<<endl;
                                 block->deleteLater();
                             } else
                                 loadCheckForChildrenOK= true;
                         } else
-                            if ( name == "codeblockwithcomments" ) {
+                            if( name == "codeblockwithcomments" ) {
                                 CodeBlockWithComments * block = newCodeBlockWithComments();
                                 block->loadFromXMI(element);
-                                if (!addTextBlock(block))
+                                if(!addTextBlock(block))
                                 {
                                     kError()<<"Unable to add codeBlockwithcomments to:"<<this<<endl;
                                     block->deleteLater();
                                 } else
                                     loadCheckForChildrenOK= true;
                             } else
-                                if ( name == "header" ) {
+                                if( name == "header" ) {
                                     // do nothing.. this is treated elsewhere
                                 } else
-                                    if ( name == "hierarchicalcodeblock" ) {
+                                    if( name == "hierarchicalcodeblock" ) {
                                         HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
                                         block->loadFromXMI(element);
-                                        if (!addTextBlock(block))
+                                        if(!addTextBlock(block))
                                         {
                                             kError()<<"Unable to add hierarchicalcodeBlock to:"<<this<<endl;
                                             block->deleteLater();
                                         } else
                                             loadCheckForChildrenOK= true;
                                     } else
-                                        if ( name == "codeoperation" ) {
+                                        if( name == "codeoperation" ) {
                                             // find the code operation by id
                                             QString id = element.attribute("parent_id","-1");
                                             UMLObject * obj = UMLApp::app()->getDocument()->findObjectById(STR2ID(id));
                                             UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
-                                            if (op) {
+                                            if(op) {
                                                 CodeOperation * block = new CPPHeaderCodeOperation(this, op);
                                                 block->loadFromXMI(element);
-                                                if (addTextBlock(block))
+                                                if(addTextBlock(block))
                                                     loadCheckForChildrenOK= true;
                                                 else
                                                 {
@@ -195,7 +195,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                                                 kError()<<"Unable to find operation create codeoperation for:"<<this<<endl;
                                         }
                                         else
-                                            if ( name == "cppheaderclassdeclarationblock" )
+                                            if( name == "cppheaderclassdeclarationblock" )
                                             {
                                                 CPPHeaderClassDeclarationBlock * block = getClassDecl();
                                                 block->loadFromXMI(element);
@@ -203,7 +203,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                                                 // call, but we cant wait for it, so lets just do it now.
                                                 namespaceBlock = getHierarchicalCodeBlock("namespace", "Namespace", 0);
 
-                                                if (!namespaceBlock || !namespaceBlock->addTextBlock(block))
+                                                if(!namespaceBlock || !namespaceBlock->addTextBlock(block))
                                                 {
                                                     kError()<<"Error:cant add class declaration codeblock"<<endl;
                                                     // DON'T delete/release block
@@ -226,15 +226,15 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
         telement = tnode.toElement();
     }
 
-    if (!loadCheckForChildrenOK)
+    if(!loadCheckForChildrenOK)
     {
         CodeDocument * test = dynamic_cast<CodeDocument*>(this);
-        if (test)
+        if(test)
         {
             kWarning()<<" loadChildBlocks : unable to initialize any child blocks in doc: "<<test->getFileName()<<" "<<this<<endl;
         } else {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(this);
-            if (hb)
+            if(hb)
                 kWarning()<<" loadChildBlocks : unable to initialize any child blocks in Hblock: "<<hb->getTag()<<" "<<this<<endl;
             else
                 kDebug()<<" loadChildBlocks : unable to initialize any child blocks in UNKNOWN OBJ:"<<this<<endl;
@@ -272,30 +272,30 @@ void CPPHeaderCodeDocument::resetTextBlocks()
 bool CPPHeaderCodeDocument::addCodeOperation (CodeOperation * op ) {
 
     Uml::Visibility scope = op->getParentOperation()->getVisibility();
-    if (!op->getParentOperation()->isLifeOperation())
+    if(!op->getParentOperation()->isLifeOperation())
     {
         switch (scope) {
         default:
-        case Uml::Visibility::Public:
+              case Uml::Visibility::Public:
             return pubOperationsBlock->addTextBlock(op);
             break;
-        case Uml::Visibility::Protected:
+              case Uml::Visibility::Protected:
             return protOperationsBlock->addTextBlock(op);
             break;
-        case Uml::Visibility::Private:
+              case Uml::Visibility::Private:
             return privOperationsBlock->addTextBlock(op);
             break;
         }
     } else {
         switch (scope) {
         default:
-        case Uml::Visibility::Public:
+              case Uml::Visibility::Public:
             return pubConstructorBlock->addTextBlock(op);
             break;
-        case Uml::Visibility::Protected:
+              case Uml::Visibility::Protected:
             return protConstructorBlock->addTextBlock(op);
             break;
-        case Uml::Visibility::Private:
+              case Uml::Visibility::Private:
             return privConstructorBlock->addTextBlock(op);
             break;
         }
@@ -334,7 +334,7 @@ void CPPHeaderCodeDocument::updateContent( )
 
     // first, set the global flag on whether or not to show classfield info
     CodeClassFieldList * cfList = getCodeClassFieldList();
-    for (CodeClassField * field = cfList->first(); field; field = cfList->next())
+    for(CodeClassField * field = cfList->first(); field; field = cfList->next())
         field->setWriteOutMethods(policy->getAutoGenerateAccessors());
 
     // attribute-based ClassFields
@@ -404,29 +404,29 @@ void CPPHeaderCodeDocument::updateContent( )
     QMap<UMLPackage *,QString> packageMap; // so we don't repeat packages
 
     CodeGenerator::findObjectsRelated(c,includes);
-    for (UMLPackage *con = includes.first(); con ; con = includes.next())
+    for(UMLPackage *con = includes.first(); con ; con = includes.next())
         if (con->getBaseType() != Uml::ot_Datatype && !packageMap.contains(con))
         {
             packageMap.insert(con,con->getPackage());
-            if (con != getParentClassifier())
+            if(con != getParentClassifier())
                 includeStatement.append("#include \""+CodeGenerator::cleanName(con->getName().lower())+".h\""+endLine);
         }
     // now, add/update the includes codeblock
     CodeBlockWithComments * inclBlock = addOrUpdateTaggedCodeBlockWithComments("includes", includeStatement, QString::null, 0, false);
-    if (includeStatement.isEmpty() && inclBlock->getContentType() == CodeBlock::AutoGenerated)
+    if(includeStatement.isEmpty() && inclBlock->getContentType() == CodeBlock::AutoGenerated)
         inclBlock->setWriteOutText(false);
     else
         inclBlock->setWriteOutText(true);
 
     // Using
     QString usingStatement;
-    for (UMLClassifier *classifier = superclasses.first(); classifier ; classifier = superclasses.next()) {
-        if (classifier->getPackage()!=c->getPackage() && !classifier->getPackage().isEmpty()) {
+    for(UMLClassifier *classifier = superclasses.first(); classifier ; classifier = superclasses.next()) {
+        if(classifier->getPackage()!=c->getPackage() && !classifier->getPackage().isEmpty()) {
             usingStatement.append("using "+CodeGenerator::cleanName(c->getPackage())+"::"+cleanName(c->getName())+';'+endLine);
         }
     }
     CodeBlockWithComments * usingBlock = addOrUpdateTaggedCodeBlockWithComments("using", usingStatement, "", 0, false);
-    if (usingStatement.isEmpty() && usingBlock->getContentType() == CodeBlock::AutoGenerated)
+    if(usingStatement.isEmpty() && usingBlock->getContentType() == CodeBlock::AutoGenerated)
         usingBlock->setWriteOutText(false);
     else
         usingBlock->setWriteOutText(true);
@@ -443,7 +443,7 @@ void CPPHeaderCodeDocument::updateContent( )
 
     // set start/end text of namespace block
     namespaceBlock = getHierarchicalCodeBlock("namespace", "Namespace", 0);
-    if (hasNamespace) {
+    if(hasNamespace) {
         UMLPackageList pkgList = c->getPackages();
         QString pkgs;
         UMLPackage *pkg;
@@ -496,7 +496,7 @@ void CPPHeaderCodeDocument::updateContent( )
     namespaceBlock->addTextBlock(myClassDeclCodeBlock); // note: wont add if already present
 
     // Is this really true?? hmm..
-    if (isEnumeration)
+    if(isEnumeration)
         myClassDeclCodeBlock->setWriteOutText(false); // not written out IF its an enumeration class
     else
         myClassDeclCodeBlock->setWriteOutText(true);
@@ -514,12 +514,12 @@ void CPPHeaderCodeDocument::updateContent( )
 
     bool createdProtBlock = protectedBlock == 0 ? true : false;
     protectedBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("protectedBlock","Protected stuff",0);
-    if (createdProtBlock)
+    if(createdProtBlock)
         protectedBlock->setStartText("protected:");
 
     bool createdPrivBlock = privateBlock == 0 ? true : false;
     privateBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("privateBlock","Private stuff",0);
-    if (createdPrivBlock)
+    if(createdPrivBlock)
         privateBlock->setStartText("private:");
 
     //
@@ -659,12 +659,12 @@ void CPPHeaderCodeDocument::updateContent( )
     // it in the public constructor method block
     TextBlock * emptyConstTb = findTextBlockByTag("emptyconstructor", true);
     CodeBlockWithComments * emptyConstBlock = dynamic_cast<CodeBlockWithComments*>(emptyConstTb);
-    if (!emptyConstBlock)
+    if(!emptyConstBlock)
         emptyConstBlock = pubConstructorBlock->addOrUpdateTaggedCodeBlockWithComments("emptyconstructor", emptyConstStatement, "Empty Constructor", 1, false);
 
     // Now, as an additional condition we only show the empty constructor block
     // IF it was desired to be shown
-    if (!isInterface && pol->getAutoGenerateConstructors())
+    if(!isInterface && pol->getAutoGenerateConstructors())
         emptyConstBlock->setWriteOutText(true);
     else
         emptyConstBlock->setWriteOutText(false);

@@ -173,8 +173,8 @@ void SettingsDlg::setupGeneralPage() {
     // 2004-05-17 Achim Spangler: Allow definition of Suffix for autosave
     // ( default: ".xmi" )
     Dialog_Utils::makeLabeledEditField( m_GeneralWidgets.autosaveGB, autosaveLayout, 2,
-                                        m_GeneralWidgets.autosaveSuffixL, i18n("Set autosave suffix:"),
-                                        m_GeneralWidgets.autosaveSuffixT, m_pOptionState->generalState.autosavesuffix );
+                                    m_GeneralWidgets.autosaveSuffixL, i18n("Set autosave suffix:"),
+                                    m_GeneralWidgets.autosaveSuffixT, m_pOptionState->generalState.autosavesuffix );
     QString autoSaveSuffixToolTip = i18n( "<qt><p>The autosave file will be saved to ~/autosave.xmi if the autosaving occurs "
                                           "before you have manually saved the file.</p>"
                                           "<p>If you've already saved it, the autosave file will be saved in the same folder as the file "
@@ -214,8 +214,7 @@ void SettingsDlg::setupGeneralPage() {
                             i18n("Use Case Diagram"), i18n("Sequence Diagram"),
                             i18n("Collaboration Diagram"), i18n("State Diagram"),
                             i18n("Activity Diagram"), i18n("Component Diagram"),
-                            i18n("Deployment Diagram")
-                          };
+                            i18n("Deployment Diagram") };
 
     //start at 1 because we don't allow No Diagram any more
     for (int i=1; i<9; i++) {
@@ -358,7 +357,7 @@ void SettingsDlg::setupFontPage() {
 
 void SettingsDlg::slotApply() {
     applyPage( currentPage() );
-    //do no emit signal applyClicked in the slot slotApply -> infinite loop
+    //do no emit signal applyClicked in the slot slotApply -> infinite loop 
     //emit applyClicked();
 }
 
@@ -456,8 +455,8 @@ void SettingsDlg::applyPage( KPageWidgetItem*item ) {
         m_pOptionState->classState.showAttSig = m_ClassWidgets.showAttSigCB -> isChecked();
         m_pOptionState->classState.showOpSig = m_ClassWidgets.showOpSigCB -> isChecked();
         m_pOptionState->classState.showPackage = m_ClassWidgets.showPackageCB -> isChecked();
-        m_pOptionState->classState.defaultAttributeScope = (Uml::Visibility::Value) (m_ClassWidgets.m_pAttribScopeCB->currentItem() + 200);
-        m_pOptionState->classState.defaultOperationScope = (Uml::Visibility::Value) (m_ClassWidgets.m_pOperationScopeCB->currentItem() + 200);
+            m_pOptionState->classState.defaultAttributeScope = (Uml::Visibility::Value) (m_ClassWidgets.m_pAttribScopeCB->currentItem() + 200);
+            m_pOptionState->classState.defaultOperationScope = (Uml::Visibility::Value) (m_ClassWidgets.m_pOperationScopeCB->currentItem() + 200);
     }
     else if ( item == pageCodeGen )
     {

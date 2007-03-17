@@ -36,25 +36,25 @@ AlignToolBar::AlignToolBar(QMainWindow* parentWindow, const char* )
 
     // create the buttons
     addAction(QIcon(m_Pixmaps[alac_align_left]), i18n("Align Left"),
-              this, SLOT(slotAlignLeft()));
+        this, SLOT(slotAlignLeft()));
     addAction(QIcon(m_Pixmaps[alac_align_right]), i18n("Align Right"),
-              this, SLOT(slotAlignRight()));
+        this, SLOT(slotAlignRight()));
     addAction(QIcon(m_Pixmaps[alac_align_top]), i18n("Align Top"),
-              this, SLOT(slotAlignTop()));
+        this, SLOT(slotAlignTop()));
     addAction(QIcon(m_Pixmaps[alac_align_bottom]), i18n("Align Bottom"),
-              this, SLOT(slotAlignBottom()));
-    addAction(QIcon(m_Pixmaps[alac_align_vertical_middle]),
-              i18n("Align Vertical Middle"),
-              this, SLOT(slotAlignVerticalMiddle()));
-    addAction(QIcon(m_Pixmaps[alac_align_horizontal_middle]),
-              i18n("Align Horizontal Middle"),
-              this, SLOT(slotAlignHorizontalMiddle()));
-    addAction(QIcon(m_Pixmaps[alac_align_vertical_distribute]),
-              i18n("Align Vertical Distribute"),
-              this, SLOT(slotAlignVerticalDistribute()));
-    addAction(QIcon(m_Pixmaps[alac_align_horizontal_distribute]),
-              i18n("Align Horizontal Distribute"),
-              this, SLOT(slotAlignHorizontalDistribute()));
+        this, SLOT(slotAlignBottom()));
+    addAction(QIcon(m_Pixmaps[alac_align_vertical_middle]), 
+        i18n("Align Vertical Middle"),
+        this, SLOT(slotAlignVerticalMiddle()));
+    addAction(QIcon(m_Pixmaps[alac_align_horizontal_middle]), 
+        i18n("Align Horizontal Middle"),
+        this, SLOT(slotAlignHorizontalMiddle()));
+    addAction(QIcon(m_Pixmaps[alac_align_vertical_distribute]), 
+        i18n("Align Vertical Distribute"),
+        this, SLOT(slotAlignVerticalDistribute()));
+    addAction(QIcon(m_Pixmaps[alac_align_horizontal_distribute]), 
+        i18n("Align Horizontal Distribute"),
+        this, SLOT(slotAlignHorizontalDistribute()));
 
     setOrientation( Qt::Vertical );
 //     Removed for KDE4

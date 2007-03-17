@@ -45,7 +45,7 @@ CPPCodeGenerator::~CPPCodeGenerator ( ) {
     // destroy all separately owned codedocuments (e.g. header docs)
     CodeDocument *doc;
     for (CodeDocumentListIt it(m_headercodedocumentVector);
-            (doc = it.current()) != NULL; ++it)
+                     (doc = it.current()) != NULL; ++it)
         delete doc;
     m_headercodedocumentVector.clear();
 }
@@ -89,13 +89,13 @@ bool CPPCodeGenerator::addHeaderCodeDocument ( CPPHeaderCodeDocument * doc )
     QString tag = doc->getID();
 
     // assign a tag if one doesn't already exist
-    if (tag.isEmpty())
+    if(tag.isEmpty())
     {
         tag = "cppheader"+ID2STR(doc->getParentClassifier()->getID());
         doc->setID(tag);
     }
 
-    if (m_codeDocumentDictionary.find(tag))
+    if(m_codeDocumentDictionary.find(tag))
         return false; // return false, we already have some object with this tag in the list
     else
         m_codeDocumentDictionary.insert(tag, doc);
@@ -109,7 +109,7 @@ bool CPPCodeGenerator::addHeaderCodeDocument ( CPPHeaderCodeDocument * doc )
  */
 bool CPPCodeGenerator::removeHeaderCodeDocument ( CPPHeaderCodeDocument * remove_object ) {
     QString tag = remove_object->getID();
-    if (!(tag.isEmpty()))
+    if(!(tag.isEmpty()))
         m_codeDocumentDictionary.remove(tag);
     else
         return false;
@@ -125,7 +125,7 @@ CodeViewerDialog * CPPCodeGenerator::getCodeViewerDialog ( QWidget* parent, Code
 {
 
     ClassifierCodeDocument * cdoc = dynamic_cast<ClassifierCodeDocument*>(doc);
-    if (!cdoc)
+    if(!cdoc)
         // bah..not a classcode document?? then just use vanilla version
         return CodeGenerator::getCodeViewerDialog(parent,doc,state);
     else {
@@ -135,7 +135,7 @@ CodeViewerDialog * CPPCodeGenerator::getCodeViewerDialog ( QWidget* parent, Code
         // use classifier to find appropriate header document
         UMLClassifier * c = cdoc->getParentClassifier();
         CPPHeaderCodeDocument * hdoc = findHeaderCodeDocumentByClassifier(c);
-        if (hdoc)
+        if(hdoc)
         {
             // if we have a header document..build with that
             dialog = new CodeViewerDialog(parent, hdoc, state);
@@ -145,7 +145,7 @@ CodeViewerDialog * CPPCodeGenerator::getCodeViewerDialog ( QWidget* parent, Code
             dialog = new CodeViewerDialog(parent, doc, state);
 
         // add in makefile if available and desired
-        if (getCreateProjectMakefile())
+        if(getCreateProjectMakefile())
             dialog->addCodeDocument(findCodeDocumentByID(CPPMakefileCodeDocument::DOCUMENT_ID_VALUE));
 
         return dialog;
@@ -215,10 +215,10 @@ void CPPCodeGenerator::writeCodeToFile ( UMLClassifierList & concepts) {
     for (UMLClassifier *concept= concepts.first(); concept; concept= concepts.next())
     {
         CodeDocument * doc = findCodeDocumentByClassifier(concept);
-        if (doc)
+        if(doc)
             docs.append(doc);
         CodeDocument * hdoc = findHeaderCodeDocumentByClassifier(concept);
-        if (hdoc)
+        if(hdoc)
             docs.append(hdoc);
     }
 
@@ -308,7 +308,7 @@ void CPPCodeGenerator::checkAddUMLObject (UMLObject * obj) {
         return;
 
     UMLClassifier * c = dynamic_cast<UMLClassifier*>(obj);
-    if (c) {
+    if(c) {
         CodeDocument * cDoc = newClassifierCodeDocument(c);
         CPPHeaderCodeDocument * hcodeDoc = newHeaderClassifierCodeDocument(c);
         addCodeDocument(cDoc);
@@ -325,7 +325,7 @@ void CPPCodeGenerator::checkRemoveUMLObject (UMLObject * obj)
         return;
 
     UMLClassifier * c = dynamic_cast<UMLClassifier*>(obj);
-    if (c) {
+    if(c) {
 
         // source
         ClassifierCodeDocument * cDoc = (ClassifierCodeDocument*) findCodeDocumentByClassifier(c);

@@ -22,7 +22,7 @@ class ObjectWidget;
 class UMLWidget;
 
 /**
- * Sequence tool to create components linked with one object in sequence diagram
+ * Sequence tool to create components linked with one object in sequence diagram 
  * like precondition.
  * With sequence tool, one objects is selected clicking with left button on
  * it
@@ -114,7 +114,7 @@ protected:
      */
     void setWidget(UMLWidget* firstObject);
 
-
+ 
     /**
      * Returns the widget type of this tool.
      *

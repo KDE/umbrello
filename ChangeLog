@@ -17,13 +17,12 @@ Version 1.5.7
 * Associations not updated during move of class on diagram (140709)
 * Crash when deleting the link between a package and a class (141602)
 * Ada95 Code Generation Errors for Aggregation (141644)
-* Unable to delete multiplicity information or label from an association
+* Unable to delete multiplicity information or lable from an association
   (141813)
 * Ada code generator generates "withs" in both directions for certain
   associations (141956)
 * Ada code generator always generates methods abstract even if abstract box
   not checked (142093)
-* Missing "with" on Ada code generation for aggregation (142392)
 
 Version 1.5.61
 

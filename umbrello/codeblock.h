@@ -27,7 +27,7 @@ class HierarchicalCodeBlock;
 
 /**
   * class CodeBlock
-  * A "chunk" of code within the code document.
+  * A "chunk" of code within the code document. 
   */
 
 class CodeBlock : public TextBlock

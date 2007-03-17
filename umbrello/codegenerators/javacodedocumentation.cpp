@@ -65,21 +65,21 @@ QString JavaCodeDocumentation::toString ( )
     QString output = "";
 
     // simple output method
-    if (getWriteOutText())
+    if(getWriteOutText())
     {
         bool useDoubleDashOutput = true;
 
         // need to figure out output type from java policy
         CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
-        if (p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
+        if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
             useDoubleDashOutput = false;
 
         QString indent = getIndentationString();
         QString endLine = getNewLineEndingChars();
         QString body = getText();
-        if (useDoubleDashOutput)
+        if(useDoubleDashOutput)
         {
-            if (!body.isEmpty())
+            if(!body.isEmpty())
                 output.append(formatMultiLineText (body, indent +"// ", endLine));
         } else {
             output.append(indent+"/**"+endLine);
@@ -94,7 +94,7 @@ QString JavaCodeDocumentation::toString ( )
 QString JavaCodeDocumentation::getNewEditorLine ( int amount )
 {
     CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
-    if (p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
+    if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
         return getIndentationString(amount) + " * ";
     else
         return getIndentationString(amount) + "// ";
@@ -102,14 +102,14 @@ QString JavaCodeDocumentation::getNewEditorLine ( int amount )
 
 int JavaCodeDocumentation::firstEditableLine() {
     CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
-    if (p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
+    if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
         return 1;
     return 0;
 }
 
 int JavaCodeDocumentation::lastEditableLine() {
     CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
-    if (p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
+    if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
     {
         return -1; // very last line is NOT editable
     }
@@ -126,7 +126,7 @@ QString JavaCodeDocumentation::unformatText ( const QString & text , const QStri
     CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
     // remove leading or trailing comment stuff
     mytext.remove(QRegExp('^'+indent));
-    if (p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
+    if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
     {
         mytext.remove(QRegExp("^\\/\\*\\*\\s*\n?"));
         mytext.remove(QRegExp("\\s*\\*\\/\\s*\n?$"));

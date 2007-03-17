@@ -17,7 +17,7 @@
 #include "listpopupmenu.h"
 
 NoteWidgetController::NoteWidgetController(NoteWidget *noteWidget):
-        UMLWidgetController(noteWidget) {
+            UMLWidgetController(noteWidget) {
     m_noteWidget = noteWidget;
 }
 

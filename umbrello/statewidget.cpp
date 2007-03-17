@@ -46,14 +46,14 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
     switch (m_StateType)
     {
     case Normal :
-        if (UMLWidget::getUseFillColour())
+        if(UMLWidget::getUseFillColour())
             p.setBrush(UMLWidget::getFillColour());
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing();
             int textStartY = (h / 2) - (fontHeight / 2);
             const int count = m_Activities.count();
-            if ( count == 0 ) {
+            if( count == 0 ) {
                 p.drawRoundRect(offsetX, offsetY, w, h, (h*40)/w, (w*40)/h);
                 p.setPen(Qt::black);
                 QFont font = UMLWidget::getFont();
@@ -78,7 +78,7 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
                 int linePosY = textStartY + fontHeight;
 
                 QStringList::Iterator end(m_Activities.end());
-                for ( QStringList::Iterator it(m_Activities.begin()); it != end; ++it ) {
+                for( QStringList::Iterator it(m_Activities.begin()); it != end; ++it ) {
                     textStartY += fontHeight;
                     p.drawLine( offsetX, linePosY, offsetX + w - 1, linePosY );
                     p.setPen(Qt::black);
@@ -106,7 +106,7 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
         kWarning() << "Unknown state type:" << m_StateType << endl;
         break;
     }
-    if (m_bSelected)
+    if(m_bSelected)
         drawSelected(&p, offsetX, offsetY);
 }
 
@@ -118,13 +118,13 @@ QSize StateWidget::calculateSize() {
         int textWidth = fm.width(getName());
         const int count = m_Activities.count();
         height = fontHeight;
-        if ( count > 0 ) {
+        if( count > 0 ) {
             height = fontHeight * ( count + 1);
 
             QStringList::Iterator end(m_Activities.end());
-            for ( QStringList::Iterator it(m_Activities.begin()); it != end; ++it ) {
+            for( QStringList::Iterator it(m_Activities.begin()); it != end; ++it ) {
                 int w = fm.width( *it );
-                if ( w > textWidth )
+                if( w > textWidth )
                     textWidth = w;
             }//end for
         }//end if
@@ -160,10 +160,10 @@ void StateWidget::slotMenuSelection(int sel) {
     bool ok = false;
     QString name = getName();
 
-    switch ( sel ) {
+    switch( sel ) {
     case ListPopupMenu::mt_Rename:
         name = KInputDialog::getText( i18n("Enter State Name"), i18n("Enter the name of the new state:"), getName(), &ok );
-        if ( ok && name.length() > 0 )
+        if( ok && name.length() > 0 )
             setName( name );
         done = true;
         break;
@@ -174,13 +174,13 @@ void StateWidget::slotMenuSelection(int sel) {
         break;
     case ListPopupMenu::mt_New_Activity:
         name = KInputDialog::getText( i18n("Enter Activity"), i18n("Enter the name of the new activity:"), i18n("new activity"), &ok );
-        if ( ok && name.length() > 0 )
+        if( ok && name.length() > 0 )
             addActivity( name );
         done = true;
         break;
     }
 
-    if ( !done )
+    if( !done )
         UMLWidget::slotMenuSelection( sel );
 }
 
@@ -192,7 +192,7 @@ bool StateWidget::addActivity( const QString &activity ) {
 
 bool StateWidget::removeActivity( const QString &activity ) {
     int index = - 1;
-    if ( ( index = m_Activities.findIndex( activity ) ) == -1 )
+    if( ( index = m_Activities.findIndex( activity ) ) == -1 )
         return false;
     m_Activities.remove( m_Activities.at( index ) );
     updateComponentSize();
@@ -210,7 +210,7 @@ QStringList & StateWidget::getActivityList() {
 
 bool StateWidget::renameActivity( const QString &activity, const QString &newName ) {
     int index = - 1;
-    if ( ( index = m_Activities.findIndex( activity ) ) == -1 )
+    if( ( index = m_Activities.findIndex( activity ) ) == -1 )
         return false;
     m_Activities[ index ] = newName;
     return true;
@@ -261,7 +261,7 @@ void StateWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement activitiesElement = qDoc.createElement( "Activities" );
 
     QStringList::Iterator end(m_Activities.end());
-    for ( QStringList::Iterator it(m_Activities.begin()); it != end; ++it ) {
+    for( QStringList::Iterator it(m_Activities.begin()); it != end; ++it ) {
         QDomElement tempElement = qDoc.createElement( "Activity" );
         tempElement.setAttribute( "name", *it );
         activitiesElement.appendChild( tempElement );
@@ -271,7 +271,7 @@ void StateWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 }
 
 bool StateWidget::loadFromXMI( QDomElement & qElement ) {
-    if ( !UMLWidget::loadFromXMI( qElement ) )
+    if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
     m_Text = qElement.attribute( "statename", "" );
     m_Doc = qElement.attribute( "documentation", "" );
@@ -280,13 +280,13 @@ bool StateWidget::loadFromXMI( QDomElement & qElement ) {
     //load states activities
     QDomNode node = qElement.firstChild();
     QDomElement tempElement = node.toElement();
-    if ( !tempElement.isNull() && tempElement.tagName() == "Activities" ) {
+    if( !tempElement.isNull() && tempElement.tagName() == "Activities" ) {
         QDomNode node = tempElement.firstChild();
         QDomElement activityElement = node.toElement();
-        while ( !activityElement.isNull() ) {
-            if ( activityElement.tagName() == "Activity" ) {
+        while( !activityElement.isNull() ) {
+            if( activityElement.tagName() == "Activity" ) {
                 QString name = activityElement.attribute( "name", "" );
-                if ( !name.isEmpty() )
+                if( !name.isEmpty() )
                     m_Activities.append( name );
             }//end if
             node = node.nextSibling();

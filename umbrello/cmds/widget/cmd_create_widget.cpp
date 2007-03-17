@@ -19,26 +19,26 @@
 namespace Uml
 {
 
-cmdCreateWidget::cmdCreateWidget(UMLView* view, UMLWidget* w):m_view(view), m_widget(w)
-{
-    setText(i18n("Create widget :") + w->getName());
-}
-
-cmdCreateWidget::~cmdCreateWidget()
-{
-    //m_view->removeWidget(m_widget);
-}
-
-// Create the UMLObject
-void cmdCreateWidget::redo()
-{
-    m_widget->setVisible(true);
-}
-
-// Suppress the UMLObject
-void cmdCreateWidget::undo()
-{
-    m_widget->setVisible(false);
-}
+	cmdCreateWidget::cmdCreateWidget(UMLView* view, UMLWidget* w):m_view(view), m_widget(w)
+	{
+		setText(i18n("Create widget :") + w->getName());
+	}
+	
+	cmdCreateWidget::~cmdCreateWidget()
+	{	
+		//m_view->removeWidget(m_widget);
+	}
+	
+	// Create the UMLObject
+	void cmdCreateWidget::redo()
+	{
+		m_widget->setVisible(true);
+	}
+	
+	// Suppress the UMLObject
+	void cmdCreateWidget::undo()
+	{
+		m_widget->setVisible(false);
+	}
 
 }

@@ -9,7 +9,7 @@
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
-/* Created By Krzywda Stanislas and Bouchikhi Mohamed-Amine ;) */
+ /* Created By Krzywda Stanislas and Bouchikhi Mohamed-Amine ;) */
 
 #ifndef CMD_CHANGEFILLCOLOR_H_
 #define CMD_CHANGEFILLCOLOR_H_
@@ -21,24 +21,24 @@
 namespace Uml
 {
 
-class cmdChangeFillColor : public QUndoCommand
-{
-
-
-    UMLWidget *UMLw;
-
-    /* ancienne couleur */
-    QColor oldColor;
-
-    /* nouvelle couleur */
-    QColor color;
-
-public:
-    cmdChangeFillColor(UMLWidget *w, QColor col);
-    ~cmdChangeFillColor();
-    void redo();
-    void undo();
-};
+	class cmdChangeFillColor : public QUndoCommand
+	{
+		
+		
+		UMLWidget *UMLw;
+				
+		/* ancienne couleur */
+		QColor oldColor;
+				
+		/* nouvelle couleur */
+		QColor color;
+				
+		public:
+			cmdChangeFillColor(UMLWidget *w, QColor col);
+			~cmdChangeFillColor();
+			void redo();
+			void undo();
+	};
 };
 
 #endif /*CMD_CHANGEFILLCOLOR_H_*/

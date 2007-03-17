@@ -73,13 +73,13 @@ void JavaClassDeclarationBlock::updateContent ( )
     QString JavaClassName = parentDoc->getJavaClassName(c->getName());
 
     // COMMENT
-    if (isInterface)
+    if(isInterface)
         getComment()->setText("Interface "+JavaClassName+endLine+c->getDoc());
     else
         getComment()->setText("Class "+JavaClassName+endLine+c->getDoc());
 
     bool forceDoc = UMLApp::app()->getCommonPolicy()->getCodeVerboseDocumentComments();
-    if (forceDoc || !c->getDoc().isEmpty())
+    if(forceDoc || !c->getDoc().isEmpty())
         getComment()->setWriteOutText(true);
     else
         getComment()->setWriteOutText(false);
@@ -100,7 +100,7 @@ void JavaClassDeclarationBlock::updateContent ( )
     } else
         startText.append("public ");
 
-    if (parentDoc->parentIsInterface())
+    if(parentDoc->parentIsInterface())
         startText.append("interface ");
     else
         startText.append("class ");
@@ -117,22 +117,22 @@ void JavaClassDeclarationBlock::updateContent ( )
 
     // write out inheritance
     int i = 0;
-    if (nrof_superclasses >0)
+    if(nrof_superclasses >0)
         startText.append(" extends ");
     for (UMLClassifier * concept= superclasses.first(); concept; concept = superclasses.next())
     {
         startText.append(parentDoc->cleanName(concept->getName()));
-        if (i != (nrof_superclasses-1))
+        if(i != (nrof_superclasses-1))
             startText.append(", ");
         i++;
     }
 
     // write out what we 'implement'
     i = 0;
-    if (nrof_superinterfaces >0)
+    if(nrof_superinterfaces >0)
     {
         // In Java interfaces "extend" other interfaces. Classes "implement" interfaces
-        if (isInterface)
+        if(isInterface)
             startText.append(" extends ");
         else
             startText.append(" implements ");
@@ -140,7 +140,7 @@ void JavaClassDeclarationBlock::updateContent ( )
     for (UMLClassifier * concept= superinterfaces.first(); concept; concept = superinterfaces.next())
     {
         startText.append(parentDoc->cleanName(concept->getName()));
-        if (i != (nrof_superinterfaces-1))
+        if(i != (nrof_superinterfaces-1))
             startText.append(", ");
         i++;
     }

@@ -37,7 +37,7 @@ class UMLPackage;
 
 /**
   * class CodeDocument
-  * A document containing the code for one file.
+  * A document containing the code for one file. 
   */
 
 // "friend" status is needed for HBlock so it may call addChildTagToMap which

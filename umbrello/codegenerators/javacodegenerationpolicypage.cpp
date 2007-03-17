@@ -27,7 +27,7 @@
 #include "../uml.h"
 
 JavaCodeGenerationPolicyPage::JavaCodeGenerationPolicyPage( QWidget *parent, const char *name, JavaCodeGenerationPolicy * policy )
-        : CodeGenerationPolicyPage(parent, name, UMLApp::app()->getCommonPolicy())
+  : CodeGenerationPolicyPage(parent, name, UMLApp::app()->getCommonPolicy())
 {
     CodeGenerationPolicy *commonPolicy = UMLApp::app()->getCommonPolicy();
     form = new JavaCodeGenerationFormBase(this);

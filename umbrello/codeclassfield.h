@@ -89,7 +89,7 @@ public:
 
     /** Utility method to allow finding particular accessor method of this
          *  code class field by its type identifier.
-     */
+     */ 
     CodeAccessorMethod * findMethodByType(CodeAccessorMethod::AccessorType type, int role_id = -1);
 
     /** Determine whether the parent object in this classfield indicates that it is

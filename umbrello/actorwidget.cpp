@@ -27,7 +27,7 @@ ActorWidget::~ActorWidget() {}
 
 void ActorWidget::draw(QPainter & p, int offsetX, int offsetY) {
     UMLWidget::setPen(p);
-    if ( UMLWidget::getUseFillColour() )
+    if( UMLWidget::getUseFillColour() )
         p.setBrush( UMLWidget::getFillColour() );
     const int w = width();
     const int h = height();
@@ -56,7 +56,7 @@ void ActorWidget::draw(QPainter & p, int offsetX, int offsetY) {
     p.setPen(QPen(Qt::black));
     p.drawText(offsetX + A_MARGIN, offsetY + h - fontHeight,
                w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
-    if (m_bSelected)
+    if(m_bSelected)
         drawSelected(&p, offsetX, offsetY);
 }
 

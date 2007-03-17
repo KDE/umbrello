@@ -53,8 +53,8 @@ void UMLViewImageExporterAll::exportAllViews() {
     // export all views
     umlDoc->writeToStatusBar(i18n("Exporting all views..."));
     QStringList errors = UMLViewImageExporterModel().exportAllViews(
-                             UMLViewImageExporterModel::mimeTypeToImageType(m_dialog->m_imageType->currentFilter()),
-                             KUrl(m_dialog->m_kURL->url()), m_dialog->m_useFolders->isChecked());
+                                UMLViewImageExporterModel::mimeTypeToImageType(m_dialog->m_imageType->currentFilter()),
+                                KUrl(m_dialog->m_kURL->url()), m_dialog->m_useFolders->isChecked());
     if (!errors.empty()) {
 #if KDE_IS_VERSION(3,4,0)
         KMessageBox::errorList(app, i18n("Some errors happened when exporting the images:"), errors);

@@ -29,9 +29,9 @@
 class JavaCodeGenerationFormBase : public QWidget, public Ui::JavaCodeGenerationFormBase
 {
 public:
-    JavaCodeGenerationFormBase(QWidget *parent ) : QWidget( parent ) {
-        setupUi( this );
-    }
+  JavaCodeGenerationFormBase(QWidget *parent ) : QWidget( parent ) {
+    setupUi( this );
+  }
 };
 
 

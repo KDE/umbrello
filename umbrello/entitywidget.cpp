@@ -48,7 +48,7 @@ EntityWidget::~EntityWidget() {}
 
 void EntityWidget::draw(QPainter& p, int offsetX, int offsetY) {
     UMLWidget::setPen(p);
-    if (UMLWidget::getUseFillColour())
+    if(UMLWidget::getUseFillColour())
         p.setBrush(UMLWidget::getFillColour());
     else
         p.setBrush(m_pView -> viewport() -> backgroundColor());
@@ -103,7 +103,7 @@ void EntityWidget::draw(QPainter& p, int offsetX, int offsetY) {
         QString text = entityattribute->getName();
         p.setPen( QPen(Qt::black) );
         UMLEntityAttribute* casted = dynamic_cast<UMLEntityAttribute*>( entityattribute );
-        if ( casted && casted->getIndexType() == Uml::Primary )
+        if( casted && casted->getIndexType() == Uml::Primary )
         {
             font.setUnderline( true );
             p.setFont( font );
@@ -176,7 +176,7 @@ QSize EntityWidget::calculateSize() {
 }
 
 void EntityWidget::slotMenuSelection(int sel) {
-    switch (sel) {
+    switch(sel) {
     case ListPopupMenu::mt_EntityAttribute:
         if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(m_pObject),
                                               Uml::ot_EntityAttribute) )  {

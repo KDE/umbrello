@@ -30,8 +30,8 @@ struct Error{
     KLocalizedString text;
 
     Error( int c, int l, const KLocalizedString& s )
-            : code( c ), level( l ), text( s )
-    {}
+        : code( c ), level( l ), text( s )
+        {}
 };
 
 class Errors{

@@ -89,7 +89,7 @@ public:
     bool showProperties();
 
     void askNameForWidgetType(UMLWidget* &targetWidget, const QString& dialogTitle,
-                              const QString& dialogPrompt, const QString& defaultName);
+                      const QString& dialogPrompt, const QString& defaultName);
 
     /**
      * Saves the widget to the <combinedFragmentwidget> XMI element.

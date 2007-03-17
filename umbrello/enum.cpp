@@ -62,7 +62,7 @@ UMLObject* UMLEnum::createEnumLiteral() {
         ok = newEnumLiteral->showPropertiesDialog( UMLApp::app() );
         QString name = newEnumLiteral->getName();
 
-        if (name.length() == 0) {
+        if(name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
         } else {
             goodName = true;
@@ -84,7 +84,7 @@ UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::IDType id) {
     UMLObject *el = UMLCanvasObject::findChildObject(name);
     if (el != NULL) {
         kDebug() << "UMLEnum::addEnumLiteral: " << name
-        << " is already present" << endl;
+                  << " is already present" << endl; 
         return el;
     }
     UMLEnumLiteral* literal = new UMLEnumLiteral(this, name, id);
@@ -158,7 +158,7 @@ void UMLEnum::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     UMLClassifierListItemList enumLiterals = getFilteredList(Uml::ot_EnumLiteral);
     UMLClassifierListItem* pEnumLiteral = 0;
     for (UMLClassifierListItemListIt it(enumLiterals);
-            (pEnumLiteral = it.current()) != NULL; ++it) {
+         (pEnumLiteral = it.current()) != NULL; ++it) {
         pEnumLiteral->saveToXMI(qDoc, enumElement);
     }
     qElement.appendChild(enumElement);
@@ -166,7 +166,7 @@ void UMLEnum::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 
 bool UMLEnum::load(QDomElement& element) {
     QDomNode node = element.firstChild();
-    while ( !node.isNull() ) {
+    while( !node.isNull() ) {
         if (node.isComment()) {
             node = node.nextSibling();
             continue;
@@ -176,7 +176,7 @@ bool UMLEnum::load(QDomElement& element) {
         if (Uml::tagEq(tag, "EnumerationLiteral") ||
                 Uml::tagEq(tag, "EnumLiteral")) {   // for backward compatibility
             UMLEnumLiteral* pEnumLiteral = new UMLEnumLiteral(this);
-            if ( !pEnumLiteral->loadFromXMI(tempElement) ) {
+            if( !pEnumLiteral->loadFromXMI(tempElement) ) {
                 return false;
             }
             m_List.append(pEnumLiteral);

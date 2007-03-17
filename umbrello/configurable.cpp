@@ -46,7 +46,7 @@ Configurable::loadPlugins(KConfig *config,
     bool ret = true;
 
     QStringList names = config->readEntry(key,QStringList());
-    for (uint i = 0; i != names.size(); i++) {
+    for(uint i = 0; i != names.size(); i++) {
         const QString &name = names[i];
 
         kDebug() << "loading plugin " << name << endl;
@@ -55,7 +55,7 @@ Configurable::loadPlugins(KConfig *config,
         Plugin *plugin = PluginLoader::instance()->loadPlugin(name);
 
         // keep the plugin
-        if (plugin) {
+        if(plugin) {
             _plugins.append(plugin);
         }
     }
@@ -68,7 +68,7 @@ Configurable::unloadPlugins()
 {
     // just iterate through and dereference all the
     // plugins.
-    for (uint i = 0; i != _plugins.count(); i++) {
+    for(uint i = 0; i != _plugins.count(); i++) {
         Plugin *plugin = _plugins.at(i);
         plugin->unload();
     }

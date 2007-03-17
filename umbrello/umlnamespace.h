@@ -58,7 +58,7 @@ enum Object_Type
 };
 
 class Visibility {
-public:
+  public:
     enum Value {
         Public  =  200,
         Private,
@@ -78,7 +78,7 @@ public:
      */
     QString toString(bool mnemonic = false) const;
     operator Value () const;
-private:
+  private:
     Value _v;
 };
 
@@ -111,7 +111,7 @@ enum Widget_Type
     wt_FloatingDashLine,        // does not have UMLObject representation
     wt_Signal,	                // does not have UMLObject representation
     wt_Pin,
-    wt_EndOfLife
+    wt_EndOfLife		
 };
 
 enum Diagram_Type

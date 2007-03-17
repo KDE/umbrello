@@ -32,24 +32,24 @@
 namespace Uml
 {
 
-cmdSetName::cmdSetName(UMLObject * _UMLObj, QString _name):UMLObj(_UMLObj), name (_name)
-{
-    oldname = _UMLObj->getName();
-}
+	cmdSetName::cmdSetName(UMLObject * _UMLObj, QString _name):UMLObj(_UMLObj), name (_name)
+	{	
+		oldname = _UMLObj->getName();
+	}
+	
+	cmdSetName::~cmdSetName()
+	{
 
-cmdSetName::~cmdSetName()
-{
-
-}
-
-void cmdSetName::redo()
-{
-    UMLObj->setNamecmd(name);
-}
-
-void cmdSetName::undo()
-{
-    UMLObj->setNamecmd(oldname);
-}
+	}
+	
+	void cmdSetName::redo()
+	{
+		UMLObj->setNamecmd(name);
+	}
+	
+	void cmdSetName::undo()
+	{	
+		UMLObj->setNamecmd(oldname);
+	}
 
 }

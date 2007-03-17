@@ -16,7 +16,7 @@
 #include <qpainter.h>
 
 ComponentWidget::ComponentWidget(UMLView * view, UMLComponent *c)
-        : UMLWidget(view, c) {
+  : UMLWidget(view, c) {
     init();
     setSize(100, 30);
     updateComponentSize();
@@ -95,7 +95,7 @@ void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY) {
                    w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter, name );
     }
 
-    if (m_bSelected) {
+    if(m_bSelected) {
         drawSelected(&p, offsetX, offsetY);
     }
 }

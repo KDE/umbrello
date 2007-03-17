@@ -73,10 +73,10 @@ bool UMLComponent::load(QDomElement& element) {
             continue;
         }
         UMLObject *pObject = Object_Factory::makeObjectFromXMI(type);
-        if ( !pObject ) {
+        if( !pObject ) {
             kWarning() << "UMLComponent::load: "
-            << "Unknown type of umlobject to create: "
-            << type << endl;
+                        << "Unknown type of umlobject to create: "
+                        << type << endl;
             continue;
         }
         pObject->setUMLPackage(this);

@@ -33,7 +33,7 @@ JSWriter::~JSWriter() {}
 
 void JSWriter::writeClass(UMLClassifier *c)
 {
-    if (!c)
+    if(!c)
     {
         kDebug()<<"Cannot write class of NULL concept!" << endl;
         return;
@@ -51,7 +51,7 @@ void JSWriter::writeClass(UMLClassifier *c)
     }
 
     QFile filejs;
-    if (!openFile(filejs, fileName))
+    if(!openFile(filejs, fileName))
     {
         emit codeGenerated(c, false);
         return;
@@ -66,7 +66,7 @@ void JSWriter::writeClass(UMLClassifier *c)
     //try to find a heading file (license, coments, etc)
     QString str;
     str = getHeadingFile(".js");
-    if (!str.isEmpty())
+    if(!str.isEmpty())
     {
         str.replace(QRegExp("%filename%"),fileName);
         str.replace(QRegExp("%filepath%"),filejs.name());
@@ -88,7 +88,7 @@ void JSWriter::writeClass(UMLClassifier *c)
     js << m_endl;
 
     //Write class Documentation if there is somthing or if force option
-    if (forceDoc() || !c->getDoc().isEmpty())
+    if(forceDoc() || !c->getDoc().isEmpty())
     {
         js << m_endl << "/**" << m_endl;
         js << "  * class " << classname << m_endl;
@@ -98,7 +98,7 @@ void JSWriter::writeClass(UMLClassifier *c)
 
 
     //check if class is abstract and / or has abstract methods
-    if (c->getAbstract() && !hasAbstractOps(c))
+    if(c->getAbstract() && !hasAbstractOps(c))
         js << "/******************************* Abstract Class ****************************" << m_endl << "  "
         << classname << " does not have any pure virtual methods, but its author" << m_endl
         << "  defined it as an abstract class, so you should not use it directly." << m_endl
@@ -129,7 +129,7 @@ void JSWriter::writeClass(UMLClassifier *c)
         js << " */" << m_endl;
         js << classname << ".prototype._init = function ()" << m_endl;
         js << "{" << m_endl;
-        for (UMLAttribute *at = atl.first(); at ; at = atl.next())
+        for(UMLAttribute *at = atl.first(); at ; at = atl.next())
         {
             if (forceDoc() || !at->getDoc().isEmpty())
             {
@@ -137,7 +137,7 @@ void JSWriter::writeClass(UMLClassifier *c)
                 << formatDoc(at->getDoc(), m_indentation + " * ")
                 << m_indentation << " */" << m_endl;
             }
-            if (!at->getInitialValue().isEmpty())
+            if(!at->getInitialValue().isEmpty())
             {
                 js << m_indentation << "this.m_" << cleanName(at->getName()) << " = " << at->getInitialValue() << ";" << m_endl;
             }
@@ -166,7 +166,7 @@ void JSWriter::writeClass(UMLClassifier *c)
         }
     }
     UMLAssociationList compositions = c->getCompositions();
-    if ( forceSections() || !compositions.isEmpty())
+    if( forceSections() || !compositions.isEmpty())
     {
         js << m_endl << m_indentation << "/**Compositions: */" << m_endl;
         for (UMLAssociation *a = compositions.first(); a; a = compositions.next())
@@ -206,7 +206,7 @@ void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
     UMLOperation *op;
     UMLAttribute *at;
 
-    for (op = opList->first(); op; op = opList->next())
+    for(op = opList->first(); op; op = opList->next())
     {
         UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
@@ -214,13 +214,13 @@ void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
         for (at = atl.first(); at; at = atl.next())
             writeDoc |= !at->getDoc().isEmpty();
 
-        if ( writeDoc ) //write method documentation
+        if( writeDoc )  //write method documentation
         {
             js << "/**" << m_endl << formatDoc(op->getDoc()," * ");
 
             for (at = atl.first(); at; at = atl.next())  //write parameter documentation
             {
-                if (forceDoc() || !at->getDoc().isEmpty())
+                if(forceDoc() || !at->getDoc().isEmpty())
                 {
                     js << " * @param " + cleanName(at->getName())<<m_endl;
                     js << formatDoc(at->getDoc(),"    *      ");

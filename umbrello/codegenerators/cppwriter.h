@@ -5,7 +5,7 @@
     source code is not replicated in the XMI file.
                              -------------------
     copyright            : (C) 2003 Brian Thomas
-         (C) 2004  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
+         (C) 2004  Umbrello UML Modeller Authors <uml-devel@uml.sf.net> 
  ***************************************************************************/
 
 /***************************************************************************
@@ -31,7 +31,7 @@ class ClassifierInfo;
 /**
   * class CppWriter is a code generator for UMLClassifier objects.
   * Create an instance of this class, and feed it a UMLClassifier when
-  * calling writeClass and it will generate both a header (.h) and
+  * calling writeClass and it will generate both a header (.h) and 
   * source (.cpp) file for that classifier.
   */
 class CppWriter : public SimpleCodeGenerator {
@@ -218,7 +218,7 @@ private:
      * and print them to a stream as separate lines of text, indented as directed.
      */
     void printTextAsSeparateLinesWithIndent (const QString &text, const QString &indent,
-            QTextStream &stream);
+                                             QTextStream &stream);
 
     /**
      * Intellegently print out header include/forward decl. for associated classes.

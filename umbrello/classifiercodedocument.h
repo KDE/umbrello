@@ -35,7 +35,7 @@ class UMLRole;
 
 /**
   * class ClassifierCodeDocument
-  * A CodeDocument which represents a UMLClassifier (e.g. a Class or Interface)
+  * A CodeDocument which represents a UMLClassifier (e.g. a Class or Interface) 
   */
 
 class ClassifierCodeDocument : public CodeDocument

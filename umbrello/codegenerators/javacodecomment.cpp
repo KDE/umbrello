@@ -70,7 +70,7 @@ QString JavaCodeComment::toString ( )
     QString output = "";
 
     // simple output method
-    if (getWriteOutText())
+    if(getWriteOutText())
     {
         QString indent = getIndentationString();
         QString endLine = getNewLineEndingChars();

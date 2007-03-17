@@ -82,12 +82,12 @@ public:
         tbb_Coll_Message,
         tbb_Seq_Message_Synchronous,
         tbb_Seq_Message_Asynchronous,
-        tbb_Seq_Message_Found,
-        tbb_Seq_Message_Lost,
+	tbb_Seq_Message_Found,
+	tbb_Seq_Message_Lost,
         tbb_Seq_Combined_Fragment,
         tbb_Seq_Precondition,
-        tbb_Seq_End_Of_Life,
-        tbb_Composition,
+	tbb_Seq_End_Of_Life,
+	tbb_Composition,
         tbb_Relationship,
         tbb_UniAssociation,
         tbb_State_Transition,
@@ -130,8 +130,8 @@ public:
         tbb_Junction,
         tbb_Choice,
         tbb_Andline,
-        tbb_Exception,
-        tbb_PrePostCondition
+		tbb_Exception,
+		tbb_PrePostCondition
     };
 
 private:
@@ -149,7 +149,7 @@ private:
         const char* Slot;
         ToolButton() : Label(QString("?")), Symbol(QPixmap()), Cursor(QCursor()), Slot("") { }
         ToolButton(const QString& lbl, const QPixmap& smb, const QCursor& cur, const char* slot) :
-                Label(lbl), Symbol(smb), Cursor(cur), Slot(slot) { }
+        Label(lbl), Symbol(smb), Cursor(cur), Slot(slot) { }
     };
 
     typedef QMap<ToolBar_Buttons, ToolButton> ToolButtonMap;
@@ -194,13 +194,13 @@ public slots:
     void slotCheckToolBar(Uml::Diagram_Type dt);
     void buttonChanged(int b);
     void slotResetToolBar();
-    
-    /**
+
+    /** 
       * These slots are triggered by the buttons. They call buttonChanged with
       * the button id
       *@{
-      */
-    void slotArrow();
+      */ 
+    void slotArrow(); 
     void slotGeneralization();
     void slotAggregation();
     void slotDependency();

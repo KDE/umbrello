@@ -18,20 +18,20 @@
 
 namespace Uml
 {
-class cmdRenameUMLObject : public QUndoCommand
-{
-public:
-    cmdRenameUMLObject(UMLObject* o, const QString& name);
-    ~cmdRenameUMLObject();
+	class cmdRenameUMLObject : public QUndoCommand
+	{
+		public:
+			cmdRenameUMLObject(UMLObject* o, const QString& name);
+			~cmdRenameUMLObject();
 
-    void redo();
-    void undo();
-
-private:
-    UMLObject*	m_obj;
-    QString		m_name;
-    QString		m_oldname;
-};
+			void redo();
+			void undo();
+		
+		private:
+			UMLObject*	m_obj;
+			QString		m_name;
+			QString		m_oldname;
+	};
 };
 
 #endif

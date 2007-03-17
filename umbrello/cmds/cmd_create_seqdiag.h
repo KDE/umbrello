@@ -19,20 +19,20 @@
 
 namespace Uml
 {
-class cmdCreateSeqDiag : public QUndoCommand
-{
-public:
-    cmdCreateSeqDiag(UMLDoc* doc, const QString& name = "");
-    ~cmdCreateSeqDiag();
+	class cmdCreateSeqDiag : public QUndoCommand
+	{
+		public:
+			cmdCreateSeqDiag(UMLDoc* doc, const QString& name = "");
+			~cmdCreateSeqDiag();
 
-    void redo();
-    void undo();
+			void redo();
+			void undo();
 
-private:
-    UMLDoc*		m_pUMLDoc;
-    UMLView*	m_pUMLView;
-    QString		m_Name;
-};
+		private:
+			UMLDoc*		m_pUMLDoc;
+			UMLView*	m_pUMLView;
+			QString		m_Name;
+	};
 };
 
 #endif

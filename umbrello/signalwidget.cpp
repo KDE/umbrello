@@ -49,15 +49,15 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
     switch (m_SignalType)
     {
     case Send :
-        if (UMLWidget::getUseFillColour())
+        if(UMLWidget::getUseFillColour())
             p.setBrush(UMLWidget::getFillColour());
         {
 
             a.setPoints( 5, offsetX           ,offsetY,
-                         offsetX + (w*2)/3 ,offsetY,
-                         offsetX + w       ,(h/2)+offsetY,
-                         offsetX + (w*2)/3 ,h+offsetY,
-                         offsetX           ,h+offsetY );
+                            offsetX + (w*2)/3 ,offsetY,
+                            offsetX + w       ,(h/2)+offsetY,
+                            offsetX + (w*2)/3 ,h+offsetY,
+                            offsetX           ,h+offsetY );
             p.drawPolygon( a );
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing();
@@ -68,20 +68,20 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
             font.setBold( false );
             p.setFont( font );
             p.drawText(offsetX + SIGNAL_MARGIN, offsetY + textStartY,
-                       w - SIGNAL_MARGIN * 2, fontHeight,
-                       Qt::AlignCenter, getName());
+                           w - SIGNAL_MARGIN * 2, fontHeight,
+                           Qt::AlignCenter, getName());
             UMLWidget::setPen(p);
         }
         break;
     case Accept :
-        if (UMLWidget::getUseFillColour())
+        if(UMLWidget::getUseFillColour())
             p.setBrush(UMLWidget::getFillColour());
         {
             a.setPoints( 5, offsetX ,      offsetY,
-                         offsetX + w/3, (h/2)+offsetY,
-                         offsetX ,      h+offsetY,
-                         offsetX + w,   h+offsetY,
-                         offsetX + w,   offsetY );
+                            offsetX + w/3, (h/2)+offsetY,
+                            offsetX ,      h+offsetY,
+                            offsetX + w,   h+offsetY,
+                            offsetX + w,   offsetY );
 
             p.drawPolygon( a );
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -93,19 +93,19 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
             font.setBold( false );
             p.setFont( font );
             p.drawText(offsetX + SIGNAL_MARGIN, offsetY + textStartY,
-                       w - SIGNAL_MARGIN * 2 + (w/3), fontHeight,
-                       Qt::AlignCenter, getName());
+                           w - SIGNAL_MARGIN * 2 + (w/3), fontHeight,
+                           Qt::AlignCenter, getName());
             UMLWidget::setPen(p);
         }
         break;
     case Time :
-        if (UMLWidget::getUseFillColour())
+        if(UMLWidget::getUseFillColour())
             p.setBrush(UMLWidget::getFillColour());
         {
             a.setPoints( 4, offsetX ,    offsetY,
-                         offsetX + w, offsetY+h,
-                         offsetX ,    offsetY+h,
-                         offsetX + w, offsetY);
+                            offsetX + w, offsetY+h,
+                            offsetX ,    offsetY+h,
+                            offsetX + w, offsetY);
 
             p.drawPolygon( a );
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -123,26 +123,26 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
         kWarning() << "Unknown signal type:" << m_SignalType << endl;
         break;
     }
-    if (m_bSelected)
+    if(m_bSelected)
         drawSelected(&p, offsetX, offsetY);
 }
 
 QSize SignalWidget::calculateSize() {
-    int width = SIGNAL_WIDTH, height = SIGNAL_HEIGHT;
-    const QFontMetrics &fm = getFontMetrics(FT_BOLD);
-    const int fontHeight  = fm.lineSpacing();
-    int textWidth = fm.width(getName());
+        int width = SIGNAL_WIDTH, height = SIGNAL_HEIGHT;
+        const QFontMetrics &fm = getFontMetrics(FT_BOLD);
+        const int fontHeight  = fm.lineSpacing();
+        int textWidth = fm.width(getName());
 
-    if (m_SignalType == Accept)
-        textWidth *= 1.3;
-    height  = fontHeight;
-    if (m_SignalType != Time)
-    {
-        width   = textWidth > SIGNAL_WIDTH?textWidth:SIGNAL_WIDTH;
-        height  = height > SIGNAL_HEIGHT?height:SIGNAL_HEIGHT;
-    }
-    width  += SIGNAL_MARGIN * 2;
-    height += SIGNAL_MARGIN * 2;
+        if (m_SignalType == Accept)
+             textWidth *= 1.3;
+        height  = fontHeight;
+        if (m_SignalType != Time)
+        {
+              width   = textWidth > SIGNAL_WIDTH?textWidth:SIGNAL_WIDTH;
+              height  = height > SIGNAL_HEIGHT?height:SIGNAL_HEIGHT;
+        }
+        width  += SIGNAL_MARGIN * 2;
+        height += SIGNAL_MARGIN * 2;
 
     return QSize(width, height);
 }
@@ -191,7 +191,7 @@ void SignalWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 }
 
 bool SignalWidget::loadFromXMI( QDomElement & qElement ) {
-    if ( !UMLWidget::loadFromXMI( qElement ) )
+    if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
     m_Text = qElement.attribute( "signalname", "" );
     m_Doc = qElement.attribute( "documentation", "" );

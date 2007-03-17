@@ -24,7 +24,7 @@
 
 /**
   * class CPPMakefileCodeDocument
-  * Represents
+  * Represents 
   */
 
 class CPPMakefileCodeDocument : public CodeDocument

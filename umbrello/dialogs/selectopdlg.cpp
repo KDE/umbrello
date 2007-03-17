@@ -52,8 +52,8 @@ SelectOpDlg::SelectOpDlg(UMLView * parent, UMLClassifier * c)
     mainLayout -> setMargin(fontMetrics().height());
 
     Dialog_Utils::makeLabeledEditField( m_pOpGB, mainLayout, 0,
-                                        m_pSeqL, i18n("Sequence number:"),
-                                        m_pSeqLE );
+                                    m_pSeqL, i18n("Sequence number:"),
+                                    m_pSeqLE );
 
     m_pOpRB = new QRadioButton(i18n("Class operation:"), m_pOpGB);
     mainLayout -> addWidget(m_pOpRB, 1, 0);
@@ -97,7 +97,7 @@ void SelectOpDlg::insertOperation( const QString& type, int index )
 }
 
 QString SelectOpDlg::getOpText() {
-    if (m_pOpRB -> isChecked())
+    if(m_pOpRB -> isChecked())
         return m_pOpCB -> currentText();
     else
         return m_pOpLE -> text();
@@ -108,9 +108,9 @@ bool SelectOpDlg::isClassOp() const {
 }
 
 void SelectOpDlg::slotSelected(int id) {
-    if (id == OP) {
+    if(id == OP) {
         m_pOpLE -> setEnabled(false);
-        if (m_nOpCount > 0)
+        if(m_nOpCount > 0)
             m_pOpCB -> setEnabled(true);
     } else {
         m_pOpLE -> setEnabled(true);
@@ -121,7 +121,7 @@ void SelectOpDlg::slotSelected(int id) {
 
 void SelectOpDlg::setCustomOp(const QString &op) {
     m_pOpLE -> setText(op);
-    if (op.length() > 0) {
+    if(op.length() > 0) {
         slotSelected(CUSTOM);
         m_pCustomRB -> setChecked(true);
     }

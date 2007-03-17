@@ -108,7 +108,7 @@ void UMLOperation::removeParm(UMLAttribute * a, bool emitModifiedSignal /* =true
     kDebug() << "UMLOperation::removeParm(" << a->getName() << ") called"
     << endl;
     disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
-    if (!m_List.remove(a))
+    if(!m_List.remove(a))
         kDebug() << "Error removing parm " << a->getName() << endl;
 
     if (emitModifiedSignal)
@@ -127,24 +127,24 @@ UMLAttribute* UMLOperation::findParm(const QString &name) {
 QString UMLOperation::toString(Uml::Signature_Type sig) {
     QString s = "";
 
-    if (sig == Uml::st_ShowSig || sig == Uml::st_NoSig)
-        s = m_Vis.toString(true) + ' ';
-
+    if(sig == Uml::st_ShowSig || sig == Uml::st_NoSig) 
+          s = m_Vis.toString(true) + ' ';
+    
     s += getName();
     if (!s.contains("("))
         s.append("(");
 
-    if (sig == Uml::st_NoSig || sig == Uml::st_NoSigNoVis) {
+    if(sig == Uml::st_NoSig || sig == Uml::st_NoSigNoVis) {
         if (!s.contains(")"))
             s.append(")");
         return s;
     }
     UMLAttribute * obj=0;
     int last = m_List.count(), i = 0;
-    for (obj=m_List.first();obj != 0;obj=m_List.next()) {
+    for(obj=m_List.first();obj != 0;obj=m_List.next()) {
         i++;
         s.append(obj -> toString(Uml::st_SigNoVis));
-        if (i < last)
+        if(i < last)
             s.append(", ");
     }
     if (!s.contains(")"))
@@ -172,7 +172,7 @@ QString UMLOperation::toString(Uml::Signature_Type sig) {
 }
 
 void UMLOperation::addParm(UMLAttribute *parameter, int position) {
-    if ( position >= 0 && position <= (int)m_List.count() )
+    if( position >= 0 && position <= (int)m_List.count() )
         m_List.insert(position,parameter);
     else
         m_List.append( parameter );
@@ -190,19 +190,19 @@ QString UMLOperation::getUniqueParameterName() {
 }
 
 bool UMLOperation::operator==( UMLOperation & rhs ) {
-    if ( this == &rhs )
+    if( this == &rhs )
         return true;
 
-    if ( !UMLObject::operator==( rhs ) )
+    if( !UMLObject::operator==( rhs ) )
         return false;
 
-    if ( getTypeName() != rhs.getTypeName() )
+    if( getTypeName() != rhs.getTypeName() )
         return false;
 
-    if ( m_List.count() != rhs.m_List.count() )
+    if( m_List.count() != rhs.m_List.count() )
         return false;
 
-    if (!(m_List == rhs.m_List))
+    if(!(m_List == rhs.m_List))
         return false;
 
     return true;
@@ -299,7 +299,7 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     }
     //save each attribute here, type different
     UMLAttribute* pAtt = 0;
-    for ( pAtt = m_List.first(); pAtt != 0; pAtt = m_List.next() ) {
+    for( pAtt = m_List.first(); pAtt != 0; pAtt = m_List.next() ) {
         QDomElement attElement = pAtt->UMLObject::save("UML:Parameter", qDoc);
         UMLClassifier *attrType = pAtt->getType();
         if (attrType) {
@@ -347,7 +347,7 @@ bool UMLOperation::load( QDomElement & element ) {
     if (node.isComment())
         node = node.nextSibling();
     QDomElement attElement = node.toElement();
-    while ( !attElement.isNull() ) {
+    while( !attElement.isNull() ) {
         QString tag = attElement.tagName();
         if (Uml::tagEq(tag, "BehavioralFeature.parameter")) {
             if (! load(attElement))
@@ -410,7 +410,7 @@ bool UMLOperation::load( QDomElement & element ) {
                 m_pSecondary = NULL;
             } else {
                 UMLAttribute * pAtt = new UMLAttribute( this );
-                if ( !pAtt->loadFromXMI(attElement) ) {
+                if( !pAtt->loadFromXMI(attElement) ) {
                     delete pAtt;
                     return false;
                 }

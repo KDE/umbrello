@@ -75,23 +75,23 @@ void JavaCodeAccessorMethod::updateContent( )
     QString fieldName = javafield->getFieldName();
 
     QString text = "";
-    switch (getType()) {
+    switch(getType()) {
     case CodeAccessorMethod::ADD:
-    {
-        int maxOccurs = javafield->maximumListOccurances();
-        QString fieldType = javafield->getTypeName();
-        QString indent = getIndentation();
-        QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
-        if (maxOccurs > 0)
-            text += "if ("+fieldName+".size() < "+ QString::number(maxOccurs)+") {"+endLine+indent;
-        text += fieldName+".add(value);";
-        if (maxOccurs > 0)
         {
-            text += endLine+"} else {"+endLine;
-            text += indent + "System.err.println(\"ERROR: Cant add"+fieldType+" to "+fieldName+", minimum number of items reached.\");"+endLine+'}'+endLine;
+            int maxOccurs = javafield->maximumListOccurances();
+            QString fieldType = javafield->getTypeName();
+            QString indent = getIndentation();
+            QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
+            if(maxOccurs > 0)
+                text += "if ("+fieldName+".size() < "+ QString::number(maxOccurs)+") {"+endLine+indent;
+            text += fieldName+".add(value);";
+            if(maxOccurs > 0)
+            {
+                text += endLine+"} else {"+endLine;
+                text += indent + "System.err.println(\"ERROR: Cant add"+fieldType+" to "+fieldName+", minimum number of items reached.\");"+endLine+'}'+endLine;
+            }
+            break;
         }
-        break;
-    }
     case CodeAccessorMethod::GET:
         text = "return "+fieldName+';';
         break;
@@ -99,22 +99,22 @@ void JavaCodeAccessorMethod::updateContent( )
         text = "return (List) "+fieldName+';';
         break;
     case CodeAccessorMethod::REMOVE:
-    {
-        int minOccurs = javafield->minimumListOccurances();
-        QString fieldType = javafield->getTypeName();
-        QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
-        QString indent = getIndentation();
-
-        if (minOccurs > 0)
-            text += "if ("+fieldName+".size() >= "+ QString::number(minOccurs)+") {"+endLine+indent;
-        text += fieldName+".remove(value);";
-        if (minOccurs > 0)
         {
-            text += endLine+"} else {"+endLine;
-            text += indent + "System.err.println(\"ERROR: Cant remove"+fieldType+" from "+fieldName+", minimum number of items reached.\");"+endLine+'}'+endLine;
+            int minOccurs = javafield->minimumListOccurances();
+            QString fieldType = javafield->getTypeName();
+            QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
+            QString indent = getIndentation();
+
+            if(minOccurs > 0)
+                text += "if ("+fieldName+".size() >= "+ QString::number(minOccurs)+") {"+endLine+indent;
+            text += fieldName+".remove(value);";
+            if(minOccurs > 0)
+            {
+                text += endLine+"} else {"+endLine;
+                text += indent + "System.err.println(\"ERROR: Cant remove"+fieldType+" from "+fieldName+", minimum number of items reached.\");"+endLine+'}'+endLine;
+            }
+            break;
         }
-        break;
-    }
     case CodeAccessorMethod::SET:
         text = fieldName+" = value;";
         break;
@@ -140,18 +140,18 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
     QString fieldName = javafield->getFieldName();
     QString fieldType = javafield->getTypeName();
     QString objectType = javafield->getListObjectType();
-    if (objectType.isEmpty())
+    if(objectType.isEmpty())
         objectType = fieldName;
     QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
 
     // set scope of this accessor appropriately..if its an attribute,
     // we need to be more sophisticated
-    if (javafield->parentIsAttribute())
+    if(javafield->parentIsAttribute())
         switch (scopePolicy) {
         case CodeGenerationPolicy::Public:
         case CodeGenerationPolicy::Private:
         case CodeGenerationPolicy::Protected:
-            strVis = javadoc->scopeToJavaDecl((Uml::Visibility::Value) scopePolicy);
+              strVis = javadoc->scopeToJavaDecl((Uml::Visibility::Value) scopePolicy);
             break;
         default:
         case CodeGenerationPolicy::FromParent:
@@ -165,7 +165,7 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
     QString methodName = "";
     QString methodParams = "";
 
-    switch (getType()) {
+    switch(getType()) {
     case CodeAccessorMethod::ADD:
         methodName = "add"+javadoc->capitalizeFirstLetter(fieldType);
         methodReturnType = "void";
@@ -201,7 +201,7 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
     }
 
     // set header once.
-    if (getComment()->getText().isEmpty())
+    if(getComment()->getText().isEmpty())
         getComment()->setText(headerText);
 
     // set start/end method text

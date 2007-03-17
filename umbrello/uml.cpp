@@ -70,7 +70,6 @@
 #include "dialogs/codegenerationwizard.h"
 #include "dialogs/codeviewerdialog.h"
 #include "dialogs/diagramprintpage.h"
-#include "dialogs/importprojectdlg.h"
 
 #include "refactoring/refactoringassistant.h"
 #include "codegenerators/simplecodegenerator.h"
@@ -173,6 +172,7 @@ UMLApp::~UMLApp() {
     delete m_clipTimer;
     delete m_copyTimer;
 
+    delete m_statusLabel;
     delete m_refactoringAssist;
 
     delete m_pUndoStack;
@@ -192,10 +192,10 @@ void UMLApp::initActions() {
     fileClose = KStandardAction::close(this, SLOT(slotFileClose()), actionCollection());
     filePrint = KStandardAction::print(this, SLOT(slotFilePrint()), actionCollection());
     fileQuit = KStandardAction::quit(this, SLOT(slotFileQuit()), actionCollection());
-
+    
     editUndo = m_pUndoStack->createUndoAction(actionCollection());
     editRedo = m_pUndoStack->createRedoAction(actionCollection());
-
+    
     editCut = KStandardAction::cut(this, SLOT(slotEditCut()), actionCollection());
     editCopy = KStandardAction::copy(this, SLOT(slotEditCopy()), actionCollection());
     editPaste = KStandardAction::paste(this, SLOT(slotEditPaste()), actionCollection());
@@ -225,11 +225,6 @@ void UMLApp::initActions() {
     importClasses->setIcon(KIcon("source_cpp"));
     importClasses->setText(i18n("&Import Classes..."));
     connect(importClasses, SIGNAL( triggered( bool ) ), this, SLOT( slotImportClasses() ));
-
-    importProject = actionCollection()->addAction("import_project");
-    importProject->setIcon(KIcon("source_cpp"));
-    importProject->setText(i18n("Import &Project..."));
-    connect(importProject, SIGNAL( triggered( bool ) ), this, SLOT( slotImportProject() ));
 
     genWizard = actionCollection()->addAction("generation_wizard");
     genWizard->setText(i18n("&Code Generation Wizard..."));
@@ -278,14 +273,14 @@ void UMLApp::initActions() {
     preferences->setToolTip( i18n( "Set the default program preferences") );
 
     deleteSelectedWidget = actionCollection()->addAction("delete_selected");
-    deleteSelectedWidget->setIcon(KIcon("edit-delete"));
+    deleteSelectedWidget->setIcon(KIcon("editdelete"));
     deleteSelectedWidget->setText(i18n("Delete &Selected"));
     deleteSelectedWidget->setShortcut(QKeySequence(Qt::Key_Delete));
     connect(deleteSelectedWidget, SIGNAL( triggered( bool ) ), this, SLOT( slotDeleteSelectedWidget() ));
 
     // The different views
     newDiagram = actionCollection()->add<KActionMenu>( "new_view" );
-    newDiagram->setIcon( KIcon("document-new") );
+    newDiagram->setIcon( KIcon("filenew") );
     newDiagram->setText( "new_view" );
 
     classDiagram = actionCollection()->addAction( "new_class_diagram" );
@@ -334,7 +329,7 @@ void UMLApp::initActions() {
     connect(entityRelationshipDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotEntityRelationshipDiagram() ));
 
     viewClearDiagram = actionCollection()->addAction( "view_clear_diagram" );
-    viewClearDiagram->setIcon( KIcon("edit-clear") );
+    viewClearDiagram->setIcon( KIcon("editclear") );
     viewClearDiagram->setText( i18n("&Clear Diagram") );
     connect(viewClearDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewClearDiagram() ));
 
@@ -347,7 +342,7 @@ void UMLApp::initActions() {
     connect(viewShowGrid, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewToggleShowGrid() ));
     viewShowGrid->setCheckedState(KGuiItem(i18n("&Hide Grid")));
     deleteDiagram = actionCollection()->addAction( "view_delete" );
-    deleteDiagram->setIcon( KIcon("edit-delete") );
+    deleteDiagram->setIcon( KIcon("editdelete") );
     deleteDiagram->setText( i18n("&Delete") );
     connect(deleteDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotDeleteDiagram() ));
 
@@ -362,7 +357,7 @@ void UMLApp::initActions() {
     connect(viewExportImageAll, SIGNAL( triggered( bool ) ), this, SLOT( slotAllViewsExportImage() ));
 
     viewProperties = actionCollection()->addAction( "view_properties" );
-    viewProperties->setIcon( KIcon("document-properties") );
+    viewProperties->setIcon( KIcon("info") );
     viewProperties->setText( i18n("&Properties") );
     connect(viewProperties, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewProperties() ));
 
@@ -378,7 +373,7 @@ void UMLApp::initActions() {
 
     zoomAction = new KPlayerPopupSliderAction(this, SLOT(slotZoomSliderMoved()), this);
     zoomAction->setText(i18n("&Zoom Slider"));
-    zoomAction->setIcon(KIcon("zoom-original"));
+    zoomAction->setIcon(KIcon("viewmag"));
     zoomAction->setShortcuts(KShortcut(Qt::Key_F9));
     actionCollection()->addAction("popup_zoom", zoomAction);
     zoom100Action = actionCollection()->addAction("zoom100");
@@ -391,17 +386,17 @@ void UMLApp::initActions() {
     QString moveTabLeftString = i18n("&Move Tab Left");
     QString moveTabRightString = i18n("&Move Tab Right");
     moveTabLeft = actionCollection()->addAction("move_tab_left");
-    moveTabLeft->setIcon(KIcon(QApplication::layoutDirection() ? "go-next" : "go-previous"));
+    moveTabLeft->setIcon(KIcon(QApplication::layoutDirection() ? "forward" : "back"));
     moveTabLeft->setText(QApplication::layoutDirection() ? moveTabRightString : moveTabLeftString);
     moveTabLeft->setShortcut(QApplication::layoutDirection() ?
-                             QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left));
+                 QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left));
     connect(moveTabLeft, SIGNAL( triggered( bool ) ), this, SLOT( slotMoveTabLeft() ));
 
     moveTabRight = actionCollection()->addAction("move_tab_right");
-    moveTabRight->setIcon(KIcon(QApplication::layoutDirection() ? "go-previous" : "go-next"));
+    moveTabRight->setIcon(KIcon(QApplication::layoutDirection() ? "back" : "forward"));
     moveTabRight->setText(QApplication::layoutDirection() ? moveTabLeftString : moveTabRightString);
     moveTabRight->setShortcut(QApplication::layoutDirection() ?
-                              QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right));
+                  QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right));
     connect(moveTabRight, SIGNAL( triggered( bool ) ), this, SLOT( slotMoveTabRight() ));
 
     QString selectTabLeftString = i18n("Select Diagram on Left");
@@ -410,14 +405,14 @@ void UMLApp::initActions() {
     changeTabLeft->setText(QApplication::layoutDirection() ? selectTabRightString : selectTabLeftString);
 
     changeTabLeft->setShortcut(QApplication::layoutDirection() ?
-                               QKeySequence(Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::SHIFT+Qt::Key_Left));
+                   QKeySequence(Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::SHIFT+Qt::Key_Left));
     connect(changeTabLeft, SIGNAL( triggered( bool ) ), this, SLOT( slotChangeTabLeft() ));
 
     changeTabRight = actionCollection()->addAction("next_tab");
     changeTabRight->setText(QApplication::layoutDirection() ? selectTabLeftString : selectTabRightString);
 
     changeTabRight->setShortcut(QApplication::layoutDirection() ?
-                                QKeySequence(Qt::SHIFT+Qt::Key_Left) : QKeySequence(Qt::SHIFT+Qt::Key_Right));
+                    QKeySequence(Qt::SHIFT+Qt::Key_Left) : QKeySequence(Qt::SHIFT+Qt::Key_Right));
     connect(changeTabRight, SIGNAL( triggered( bool ) ), this, SLOT( slotChangeTabRight() ));
 
 
@@ -461,7 +456,7 @@ void UMLApp::setupZoomMenu() {
     int zoom = getCurrentView()->currentZoom();
     //if current zoom is not a "standard zoom" (because of zoom in / zoom out step
     //we add it for information
-    switch (zoom){
+    switch(zoom){
     case 33:
     case 50:
     case 75:
@@ -478,7 +473,17 @@ void UMLApp::setupZoomMenu() {
 }
 
 void UMLApp::initStatusBar() {
-    statusBar()->insertPermanentItem( i18n( "Ready" ), 1 );
+    m_statusLabel = new KStatusBarLabel( i18n("Ready."), 0, statusBar() );
+    m_statusLabel->setFixedHeight( m_statusLabel->sizeHint().height() );
+
+    m_statusLabel->setFrameStyle( QFrame::NoFrame | QFrame::Plain );
+    m_statusLabel->setMargin( 0 );
+    m_statusLabel->setLineWidth(0);
+
+    statusBar()->addWidget( m_statusLabel, 1, false );
+
+    m_statusLabel->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+
     connect(m_doc, SIGNAL( sigWriteToStatusBar(const QString &) ), this, SLOT( slotStatusMsg(const QString &) ));
 }
 
@@ -508,7 +513,7 @@ void UMLApp::initView() {
         m_tabWidget->setAutomaticResizeTabs( true );
 
         m_newSessionButton = new QToolButton(m_tabWidget);
-        m_newSessionButton->setIconSet( SmallIcon( "tab-new" ) );
+        m_newSessionButton->setIconSet( SmallIcon( "tab_new" ) );
         m_newSessionButton->adjustSize();
         m_newSessionButton->setAutoRaise(true);
         m_diagramMenu = new KMenu(m_newSessionButton);
@@ -528,7 +533,7 @@ void UMLApp::initView() {
 
         //m_closeDiagramButton = new QToolButton("tab_remove", 0, m_tabWidget);
         m_closeDiagramButton = new QToolButton(m_tabWidget);
-        m_closeDiagramButton->setIconSet( SmallIcon("tab-remove") );
+        m_closeDiagramButton->setIconSet( SmallIcon("tab_remove") );
         m_closeDiagramButton->adjustSize();
 
         connect(m_closeDiagramButton, SIGNAL(clicked()), SLOT(slotDeleteDiagram()));
@@ -576,17 +581,16 @@ void UMLApp::initView() {
     m_cmdHistoryDock->setWidget(m_pQUndoView);
     m_pQUndoView->setCleanIcon(KIcon("filesave"));
     m_pQUndoView->setStack(m_pUndoStack);
-
+    
     // Create the property viewer
     m_propertyDock = new QDockWidget(i18n("Properties"), this);
     addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);
-
+    
     tabifyDockWidget(m_documentationDock, m_cmdHistoryDock);
     tabifyDockWidget(m_cmdHistoryDock, m_propertyDock);
-
+    
     QByteArray dockConfig;
-    KConfigGroup general( m_config, "General Options" );
-    general.readEntry("DockConfig", dockConfig);
+    m_config->readEntry("DockConfig", dockConfig);
     restoreState(dockConfig); //reposition all the DockWindows to their saved positions
 }
 
@@ -635,14 +639,15 @@ void UMLApp::saveOptions() {
     cg.writeEntry( "loadlast", optionState.generalState.loadlast );
 
     cg.writeEntry( "diagram", (int)optionState.generalState.diagram );
-    if ( m_doc->url().fileName() == i18n( "Untitled" ) ) {
-        cg.writeEntry( "lastFile", "" );
+    if( m_doc->url().fileName() == i18n( "Untitled" ) ) {
+        m_config -> writeEntry( "lastFile", "" );
     } else {
-        cg.writePathEntry( "lastFile", m_doc -> url().prettyUrl() );
+        m_config -> writePathEntry( "lastFile", m_doc -> url().prettyUrl() );
     }
     cg.writeEntry( "imageMimeType", getImageMimeType() );
 
     cg.changeGroup( "TipOfDay");
+    optionState.generalState.tip = m_config -> readEntry( "RunOnStart", true );
     cg.writeEntry( "RunOnStart", optionState.generalState.tip );
 
     cg.changeGroup( "UI Options" );
@@ -725,13 +730,13 @@ void UMLApp::readProperties(const KConfigGroup& _config) {
     QString filename = _config.readPathEntry("filename");
     KUrl url(filename);
     bool modified = _config.readEntry("modified", false);
-    if (modified) {
+    if(modified) {
         bool canRecover;
         QString tempname = kapp->checkRecoverFile(filename, canRecover);
         KUrl _url(tempname);
 
 
-        if (canRecover) {
+        if(canRecover) {
             m_doc->openDocument(_url);
             m_doc->setModified();
             enablePrint(true);
@@ -742,7 +747,7 @@ void UMLApp::readProperties(const KConfigGroup& _config) {
             enablePrint(false);
         }
     } else {
-        if (!filename.isEmpty()) {
+        if(!filename.isEmpty()) {
             m_doc->openDocument(url);
             enablePrint(true);
             setCaption(url.fileName(),false);
@@ -755,8 +760,7 @@ void UMLApp::readProperties(const KConfigGroup& _config) {
 
 bool UMLApp::queryClose() {
     QByteArray dockConfig = saveState();
-    KConfigGroup general( m_config, "General Options" );
-    general.writeEntry("DockConfig", dockConfig);
+    m_config->writeEntry("DockConfig", dockConfig);
     return m_doc->saveModified();
 }
 
@@ -768,7 +772,7 @@ bool UMLApp::queryExit() {
 
 void UMLApp::slotFileNew() {
     slotStatusMsg(i18n("Creating new document..."));
-    if (m_doc->saveModified()) {
+    if(m_doc->saveModified()) {
         setDiagramMenuItemsState(false);
         m_doc->newDocument();
         setCaption(m_doc->url().fileName(), false);
@@ -784,19 +788,19 @@ void UMLApp::slotFileOpen() {
     slotStatusMsg(i18n("Opening file..."));
     m_loading = true;
 
-    if (!m_doc->saveModified()) {
+    if(!m_doc->saveModified()) {
 
         // here saving wasn't successful
 
     } else {
         KUrl url=KFileDialog::getOpenUrl(KUrl(),
-                                         i18n("*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl|All Supported Files (*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.mdl)\n"
-                                              "*.xmi|Uncompressed XMI Files (*.xmi)\n"
-                                              "*.xmi.tgz|Gzip Compressed XMI Files (*.xmi.tgz)\n"
-                                              "*.xmi.tar.bz2|Bzip2 Compressed XMI Files (*.xmi.tar.bz2)\n"
-                                              "*.mdl|Rose model files"), this, i18n("Open File"));
-        if (!url.isEmpty()) {
-            if (m_doc->openDocument(url))
+            i18n("*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl|All Supported Files (*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.mdl)\n"
+                 "*.xmi|Uncompressed XMI Files (*.xmi)\n"
+                 "*.xmi.tgz|Gzip Compressed XMI Files (*.xmi.tgz)\n"
+                 "*.xmi.tar.bz2|Bzip2 Compressed XMI Files (*.xmi.tar.bz2)\n"
+                 "*.mdl|Rose model files"), this, i18n("Open File"));
+        if(!url.isEmpty()) {
+            if(m_doc->openDocument(url))
                 fileOpenRecent->addUrl( url );
             enablePrint(true);
             setCaption(m_doc->url().fileName(), false);
@@ -814,10 +818,10 @@ void UMLApp::slotFileOpenRecent(const KUrl& url) {
 
     KUrl oldUrl = m_doc->url();
 
-    if (!m_doc->saveModified()) {
+    if(!m_doc->saveModified()) {
         // here saving wasn't successful
     } else {
-        if (!m_doc->openDocument(url)) {
+        if(!m_doc->openDocument(url)) {
             fileOpenRecent->removeUrl(url);
             fileOpenRecent->setCurrentItem( -1 );
         } else {
@@ -834,7 +838,7 @@ void UMLApp::slotFileOpenRecent(const KUrl& url) {
 
 void UMLApp::slotFileSave() {
     slotStatusMsg(i18n("Saving file..."));
-    if (m_doc->url().fileName() == i18n("Untitled"))
+    if(m_doc->url().fileName() == i18n("Untitled"))
         slotFileSaveAs();
     else
         m_doc->saveDocument(m_doc -> url());
@@ -849,10 +853,10 @@ bool UMLApp::slotFileSaveAs()
     bool cont = true;
     KUrl url;
     QString ext;
-    while (cont) {
+    while(cont) {
         url=KFileDialog::getSaveUrl(KUrl(), i18n("*.xmi|XMI File\n*.xmi.tgz|Gzip Compressed XMI File\n*.xmi.tar.bz2|Bzip2 Compressed XMI File\n*|All Files"), this, i18n("Save As"));
 
-        if (url.isEmpty())
+        if(url.isEmpty())
             cont = false;
         else {
             // now check that we have a file extension; standard will be plain xmi
@@ -866,16 +870,16 @@ bool UMLApp::slotFileSaveAs()
             }
             QDir d = url.path( KUrl::RemoveTrailingSlash );
 
-            if (QFile::exists(d.path())) {
+            if(QFile::exists(d.path())) {
                 int want_save = KMessageBox::warningContinueCancel(this, i18n("The file %1 exists.\nDo you wish to overwrite it?", url.path()), i18n("Warning"), KGuiItem(i18n("Overwrite")));
-                if (want_save == KMessageBox::Continue)
+                if(want_save == KMessageBox::Continue)
                     cont = false;
             } else
                 cont = false;
 
         }
     }
-    if (!url.isEmpty()) {
+    if(!url.isEmpty()) {
         bool b = m_doc->saveDocument(url);
         if (b) {
             fileOpenRecent->addUrl(url);
@@ -915,10 +919,9 @@ void UMLApp::slotFilePrint()
 
 void UMLApp::slotFileQuit() {
     slotStatusMsg(i18n("Exiting..."));
-    if (m_doc->saveModified()) {
+    if(m_doc->saveModified()) {
         QByteArray dockConfig = saveState();
-        KConfigGroup general( m_config, "General Options" );
-        general.writeEntry("DockConfig", dockConfig);
+        m_config->writeEntry("DockConfig", dockConfig);
         saveOptions();
         kapp->quit();
     }
@@ -927,18 +930,18 @@ void UMLApp::slotFileQuit() {
 
 void UMLApp::slotFileExportDocbook()
 {
-    DocbookGenerator().generateDocbookForProject();
+  DocbookGenerator().generateDocbookForProject();
 }
 
 void UMLApp::slotFileExportXhtml()
 {
-    if (m_xhtmlGenerator != 0)
-    {
-        return;
-    }
-    m_xhtmlGenerator = new XhtmlGenerator();
-    m_xhtmlGenerator->generateXhtmlForProject();
-    connect(m_xhtmlGenerator,SIGNAL(finished()),this,SLOT(slotXhtmlDocGenerationFinished()));
+  if (m_xhtmlGenerator != 0)
+  {
+    return;
+  }
+  m_xhtmlGenerator = new XhtmlGenerator();
+  m_xhtmlGenerator->generateXhtmlForProject();
+  connect(m_xhtmlGenerator,SIGNAL(finished()),this,SLOT(slotXhtmlDocGenerationFinished()));
 }
 
 void UMLApp::slotEditUndo() {
@@ -977,7 +980,7 @@ void UMLApp::slotEditPaste() {
     QMimeSource* data = QApplication::clipboard()->data();
     UMLClipboard clipboard;
     setCursor(KCursor::waitCursor());
-    if (!clipboard.paste(data)) {
+    if(!clipboard.paste(data)) {
         KMessageBox::sorry( this, i18n("Umbrello could not paste the clipboard contents.  "
                                        "The objects in the clipboard may be of the wrong "
                                        "type to be pasted here."), i18n("Paste Error") );
@@ -997,7 +1000,7 @@ void UMLApp::slotViewToolBar() {
     ///////////////////////////////////////////////////////////////////
     // turn Toolbar on or off
 
-    if (!viewToolBar->isChecked()) {
+    if(!viewToolBar->isChecked()) {
         toolBar("mainToolBar")->hide();
     } else {
         toolBar("mainToolBar")->show();
@@ -1010,7 +1013,7 @@ void UMLApp::slotViewStatusBar() {
     slotStatusMsg(i18n("Toggle the statusbar..."));
     ///////////////////////////////////////////////////////////////////
     //turn Statusbar on or off
-    if (!viewStatusBar->isChecked()) {
+    if(!viewStatusBar->isChecked()) {
         statusBar()->hide();
     } else {
         statusBar()->show();
@@ -1024,7 +1027,10 @@ void UMLApp::slotViewStatusBar() {
 void UMLApp::slotStatusMsg(const QString &text) {
     ///////////////////////////////////////////////////////////////////
     // change status message permanently
-    statusBar()->changeItem( text, 1 );
+    statusBar()->clear();
+    m_statusLabel->setText( text );
+
+    m_statusLabel->repaint();
 }
 
 void UMLApp::slotClassDiagram() {
@@ -1037,31 +1043,31 @@ void UMLApp::slotSequenceDiagram() {
 }
 
 void UMLApp::slotCollaborationDiagram() {
-    executeCommand(new Uml::cmdCreateCollaborationDiag(m_doc));
+	executeCommand(new Uml::cmdCreateCollaborationDiag(m_doc));
 }
 
 void UMLApp::slotUseCaseDiagram() {
-    executeCommand(new Uml::cmdCreateUseCaseDiag(m_doc));
+	executeCommand(new Uml::cmdCreateUseCaseDiag(m_doc));
 }
 
 void UMLApp::slotStateDiagram() {
-    executeCommand(new Uml::cmdCreateStateDiag(m_doc));
+	executeCommand(new Uml::cmdCreateStateDiag(m_doc));
 }
 
 void UMLApp::slotActivityDiagram() {
-    executeCommand(new Uml::cmdCreateActivityDiag(m_doc));
+	executeCommand(new Uml::cmdCreateActivityDiag(m_doc));
 }
 
 void UMLApp::slotComponentDiagram() {
-    executeCommand(new Uml::cmdCreateComponentDiag(m_doc));
+	executeCommand(new Uml::cmdCreateComponentDiag(m_doc));
 }
 
 void UMLApp::slotDeploymentDiagram() {
-    executeCommand(new Uml::cmdCreateDeployDiag(m_doc));
+	executeCommand(new Uml::cmdCreateDeployDiag(m_doc));
 }
 
 void UMLApp::slotEntityRelationshipDiagram() {
-    executeCommand(new Uml::cmdCreateEntityRelationDiag(m_doc));
+	executeCommand(new Uml::cmdCreateEntityRelationDiag(m_doc));
 }
 
 WorkToolBar* UMLApp::getWorkToolBar() {
@@ -1134,7 +1140,7 @@ void UMLApp::slotClipDataChanged() {
 }
 
 void UMLApp::slotCopyChanged() {
-    if (m_listView->getSelectedCount() || (getCurrentView() && getCurrentView()->getSelectCount())) {
+    if(m_listView->getSelectedCount() || (getCurrentView() && getCurrentView()->getSelectCount())) {
         editCopy->setEnabled(true);
         editCut->setEnabled(true);
     } else {
@@ -1145,9 +1151,9 @@ void UMLApp::slotCopyChanged() {
 
 void UMLApp::slotPrefs() {
     /* the KTipDialog may have changed the value */
-    const KConfigGroup tipConfig( m_config, "TipOfDay");
+    m_config->setGroup("TipOfDay");
     Settings::OptionState& optionState = Settings::getOptionState();
-    optionState.generalState.tip = tipConfig.readEntry( "RunOnStart", true );
+    optionState.generalState.tip = m_config->readEntry( "RunOnStart", true );
 
     m_dlg = new SettingsDlg(this, &optionState);
     connect(m_dlg, SIGNAL( applyClicked() ), this, SLOT( slotApplyPrefs() ) );
@@ -1163,9 +1169,9 @@ void UMLApp::slotPrefs() {
 void UMLApp::slotApplyPrefs() {
     if (m_dlg) {
         /* we need this to sync both values */
-        KConfigGroup tipConfig( m_config, "TipOfDay");
+        m_config -> setGroup( "TipOfDay");
         Settings::OptionState& optionState = Settings::getOptionState();
-        tipConfig.writeEntry( "RunOnStart", optionState.generalState.tip );
+        m_config -> writeEntry( "RunOnStart", optionState.generalState.tip );
 
         m_doc -> settingsChanged( optionState );
         const QString plStr = m_dlg->getCodeGenerationLanguage();
@@ -1204,90 +1210,84 @@ bool UMLApp::editCutCopy( bool bFromView ) {
 }
 
 void UMLApp::readOptionState() {
-    const KConfigGroup generalGroup( m_config, "General Options" );
+    m_config -> setGroup( "General Options" );
     Settings::OptionState& optionState = Settings::getOptionState();
-    optionState.generalState.undo = generalGroup.readEntry( "undo", true );
-    optionState.generalState.tabdiagrams = generalGroup.readEntry( "tabdiagrams", false );
+    optionState.generalState.undo = m_config->readEntry( "undo", true );
+    optionState.generalState.tabdiagrams = m_config->readEntry( "tabdiagrams", false );
 #if defined (BUG84739_FIXED)
-    optionState.generalState.newcodegen = generalGroup("newcodegen", false );
+    optionState.generalState.newcodegen = m_config->readEntry("newcodegen", false );
 #else
     optionState.generalState.newcodegen = false;
 #endif
-    optionState.generalState.angularlines = generalGroup.readEntry("angularlines", false);
-    optionState.generalState.footerPrinting = generalGroup.readEntry("footerPrinting", true);
-    optionState.generalState.autosave = generalGroup.readEntry("autosave", true);
-    optionState.generalState.time = generalGroup.readEntry("time", 0); //old autosavetime value kept for compatibility
-    optionState.generalState.autosavetime = generalGroup.readEntry("autosavetime", 0);
+    optionState.generalState.angularlines = m_config->readEntry("angularlines", false);
+    optionState.generalState.footerPrinting = m_config->readEntry("footerPrinting", true);
+    optionState.generalState.autosave = m_config->readEntry("autosave", true);
+    optionState.generalState.time = m_config->readEntry("time", 0); //old autosavetime value kept for compatibility
+    optionState.generalState.autosavetime = m_config->readEntry("autosavetime", 0);
     //if we don't have a "new" autosavetime value, convert the old one
     if (optionState.generalState.autosavetime == 0) {
         switch (optionState.generalState.time) {
-        case 0:
-            optionState.generalState.autosavetime = 5; break;
-        case 1:
-            optionState.generalState.autosavetime = 10; break;
-        case 2:
-            optionState.generalState.autosavetime = 15; break;
-        case 3:
-            optionState.generalState.autosavetime = 20; break;
-        case 4:
-            optionState.generalState.autosavetime = 25; break;
-        default:
-            optionState.generalState.autosavetime = 5; break;
+        case 0: optionState.generalState.autosavetime = 5; break;
+        case 1: optionState.generalState.autosavetime = 10; break;
+        case 2: optionState.generalState.autosavetime = 15; break;
+        case 3: optionState.generalState.autosavetime = 20; break;
+        case 4: optionState.generalState.autosavetime = 25; break;
+        default: optionState.generalState.autosavetime = 5; break;
         }
     }
     // 2004-05-17 Achim Spangler: read new config entry for autosave sufix
-    optionState.generalState.autosavesuffix = generalGroup.readEntry( "autosavesuffix", ".xmi" );
+    optionState.generalState.autosavesuffix = m_config -> readEntry( "autosavesuffix", ".xmi" );
 
-    optionState.generalState.logo = generalGroup.readEntry( "logo", true );
-    optionState.generalState.loadlast = generalGroup.readEntry( "loadlast", true );
+    optionState.generalState.logo = m_config -> readEntry( "logo", true );
+    optionState.generalState.loadlast = m_config -> readEntry( "loadlast", true );
 
-    optionState.generalState.diagram  = (Uml::Diagram_Type) generalGroup.readEntry("diagram", 1);
+    optionState.generalState.diagram  = (Uml::Diagram_Type) m_config->readEntry("diagram", 1);
+    m_config -> setGroup( "TipOfDay");
 
-    const KConfigGroup tipGroup( m_config, "TipOfDay" );
-    optionState.generalState.tip = tipGroup.readEntry( "RunOnStart", true );
+    optionState.generalState.tip = m_config -> readEntry( "RunOnStart", true );
 
-    const KConfigGroup uiGroup( m_config, "UI Options" );
-    optionState.uiState.useFillColor = uiGroup.readEntry( "useFillColor", true );
+    m_config -> setGroup( "UI Options" );
+    optionState.uiState.useFillColor = m_config -> readEntry( "useFillColor", true );
     QColor defaultYellow = QColor( 255, 255, 192 );
     QColor red ( Qt::red );
 
-    optionState.uiState.fillColor = uiGroup.readEntry( "fillColor", defaultYellow );
-    optionState.uiState.lineColor = uiGroup.readEntry( "lineColor", red );
-    optionState.uiState.lineWidth = uiGroup.readEntry( "lineWidth", 0 );
+    optionState.uiState.fillColor = m_config -> readEntry( "fillColor", defaultYellow );
+    optionState.uiState.lineColor = m_config -> readEntry( "lineColor", red );
+    optionState.uiState.lineWidth = m_config -> readEntry( "lineWidth", 0 );
     QFont font = ((QWidget *) this)->font() ;
-    optionState.uiState.font = uiGroup.readEntry("font", font );
+    optionState.uiState.font = m_config -> readEntry("font", font );
 
-    const KConfigGroup classGroup( m_config, "Class Options" );
+    m_config -> setGroup( "Class Options" );
 
-    optionState.classState.showVisibility = classGroup.readEntry("showVisibility", true);
-    optionState.classState.showAtts = classGroup.readEntry("showAtts", true);
-    optionState.classState.showOps = classGroup.readEntry("showOps", true);
-    optionState.classState.showStereoType = classGroup.readEntry("showStereoType", false);
-    optionState.classState.showAttSig = classGroup.readEntry("showAttSig", true);
-    optionState.classState.showOpSig = classGroup.readEntry("ShowOpSig", true);
-    optionState.classState.showPackage = classGroup.readEntry("showPackage", false);
-    optionState.classState.defaultAttributeScope = (Uml::Visibility::Value) classGroup.readEntry ("defaultAttributeScope", uint(Uml::Visibility::Private));
-    optionState.classState.defaultOperationScope = (Uml::Visibility::Value) classGroup.readEntry ("defaultOperationScope", uint(Uml::Visibility::Public));
+    optionState.classState.showVisibility = m_config -> readEntry("showVisibility", true);
+    optionState.classState.showAtts = m_config -> readEntry("showAtts", true);
+    optionState.classState.showOps = m_config -> readEntry("showOps", true);
+    optionState.classState.showStereoType = m_config -> readEntry("showStereoType", false);
+    optionState.classState.showAttSig = m_config -> readEntry("showAttSig", true);
+    optionState.classState.showOpSig = m_config -> readEntry("ShowOpSig", true);
+    optionState.classState.showPackage = m_config -> readEntry("showPackage", false);
+    optionState.classState.defaultAttributeScope = (Uml::Visibility::Value) m_config -> readEntry ("defaultAttributeScope", uint(Uml::Visibility::Private));
+    optionState.classState.defaultOperationScope = (Uml::Visibility::Value) m_config -> readEntry ("defaultOperationScope", uint(Uml::Visibility::Public));
 
-    const KConfigGroup codeViewerGroup( m_config, "Code Viewer Options" );
+    m_config -> setGroup( "Code Viewer Options" );
 
     QColor defaultWhite = QColor( "white" );
     QColor defaultBlack = QColor( "black" );
     QColor defaultPink = QColor( "pink" );
     QColor defaultGrey = QColor( "grey" );
 
-    optionState.codeViewerState.height = codeViewerGroup.readEntry( "height", 40 );
-    optionState.codeViewerState.width = codeViewerGroup.readEntry( "width", 80 );
-    optionState.codeViewerState.font = codeViewerGroup.readEntry("font", font );
-    optionState.codeViewerState.showHiddenBlocks = codeViewerGroup.readEntry( "showHiddenBlocks", false);
-    optionState.codeViewerState.blocksAreHighlighted = codeViewerGroup.readEntry( "blocksAreHighlighted", false);
-    optionState.codeViewerState.selectedColor = codeViewerGroup.readEntry( "selectedColor", defaultYellow );
-    optionState.codeViewerState.paperColor = codeViewerGroup.readEntry( "paperColor", defaultWhite);
-    optionState.codeViewerState.fontColor = codeViewerGroup.readEntry( "fontColor", defaultBlack);
-    optionState.codeViewerState.editBlockColor = codeViewerGroup.readEntry( "editBlockColor", defaultPink);
-    optionState.codeViewerState.umlObjectColor = codeViewerGroup.readEntry( "umlObjectBlockColor", defaultPink);
-    optionState.codeViewerState.nonEditBlockColor = codeViewerGroup.readEntry( "nonEditBlockColor", defaultGrey);
-    optionState.codeViewerState.hiddenColor = codeViewerGroup.readEntry( "hiddenColor", defaultGrey);
+    optionState.codeViewerState.height = m_config -> readEntry( "height", 40 );
+    optionState.codeViewerState.width = m_config -> readEntry( "width", 80 );
+    optionState.codeViewerState.font = m_config -> readEntry("font", font );
+    optionState.codeViewerState.showHiddenBlocks = m_config->readEntry( "showHiddenBlocks", false);
+    optionState.codeViewerState.blocksAreHighlighted = m_config->readEntry( "blocksAreHighlighted", false);
+    optionState.codeViewerState.selectedColor = m_config->readEntry( "selectedColor", defaultYellow );
+    optionState.codeViewerState.paperColor = m_config->readEntry( "paperColor", defaultWhite);
+    optionState.codeViewerState.fontColor = m_config->readEntry( "fontColor", defaultBlack);
+    optionState.codeViewerState.editBlockColor = m_config->readEntry( "editBlockColor", defaultPink);
+    optionState.codeViewerState.umlObjectColor = m_config->readEntry( "umlObjectBlockColor", defaultPink);
+    optionState.codeViewerState.nonEditBlockColor = m_config->readEntry( "nonEditBlockColor", defaultGrey);
+    optionState.codeViewerState.hiddenColor = m_config->readEntry( "hiddenColor", defaultGrey);
 
 }
 
@@ -1296,8 +1296,8 @@ void UMLApp::readOptionState() {
 void UMLApp::viewCodeDocument(UMLClassifier* classifier) {
 
     CodeGenerator * currentGen = getGenerator();
-    if (currentGen && classifier) {
-        if (!dynamic_cast<SimpleCodeGenerator*>(currentGen))
+    if(currentGen && classifier) {
+        if(!dynamic_cast<SimpleCodeGenerator*>(currentGen))
         {
             CodeDocument *cdoc = currentGen->findCodeDocumentByClassifier(classifier);
 
@@ -1461,7 +1461,7 @@ void UMLApp::setProgLangMenu(Uml::Programming_Language pl) {
 void UMLApp::setActiveLanguage(Uml::Programming_Language pl) {
     QString activeLanguage = Model_Utils::progLangToString(pl);
 
-    for (unsigned int j=0; j < m_langSelect->count(); j++) {
+    for(unsigned int j=0; j < m_langSelect->count(); j++) {
         int id = m_langSelect->idAt(j);
 
         if (m_langSelect->text(id) == activeLanguage &&
@@ -1469,7 +1469,7 @@ void UMLApp::setActiveLanguage(Uml::Programming_Language pl) {
             return; // already set.. no need to do anything
     }
 
-    for (unsigned int i=0; i < m_langSelect->count(); i++) {
+    for(unsigned int i=0; i < m_langSelect->count(); i++) {
         bool isActiveLang = (m_langSelect->text(m_langSelect->idAt(i)) == activeLanguage);
         //uncheck everything except the active language
         m_langSelect->setItemChecked(m_langSelect->idAt(i), isActiveLang);
@@ -1490,11 +1490,11 @@ bool UMLApp::activeLanguageIsCaseSensitive() {
 QString UMLApp::activeLanguageScopeSeparator() {
     Uml::Programming_Language pl = getActiveLanguage();
     if (pl == Uml::pl_Ada ||
-            pl == Uml::pl_CSharp ||
-            pl == Uml::pl_Pascal ||
-            pl == Uml::pl_Java ||
-            pl == Uml::pl_JavaScript ||
-            pl == Uml::pl_Python)  // CHECK: more?
+        pl == Uml::pl_CSharp ||
+        pl == Uml::pl_Pascal ||
+        pl == Uml::pl_Java ||
+        pl == Uml::pl_JavaScript ||
+        pl == Uml::pl_Python)  // CHECK: more?
         return ".";
     return "::";
 }
@@ -1555,25 +1555,9 @@ void UMLApp::slotUpdateViews() {
     menu->clear();
 
     UMLViewList views = getDocument()->getViewIterator();
-    for (UMLView *view = views.first(); view; view = views.next()) {
+    for(UMLView *view = views.first(); view; view = views.next()) {
         menu->insertItem( view->getName(), view, SLOT( slotShowView() ) );
         view->fileLoaded();
-    }
-}
-
-
-void UMLApp::importFiles(QStringList* fileList) {
-    if (! fileList->isEmpty()) {
-        const QString& firstFile = fileList->first();
-        ClassImport *classImporter = ClassImport::createImporterByFileExt(firstFile);
-        classImporter->importFiles(*fileList);
-        delete classImporter;
-        m_doc->setLoading(false);
-        //Modification is set after the import is made, because the file was modified when adding the classes
-        //Allowing undo of the whole class importing. I think it eats a lot of memory
-        //m_doc->setModified(true);
-        //Setting the modification, but without allowing undo
-        m_doc->setModified(true);
     }
 }
 
@@ -1600,16 +1584,16 @@ void UMLApp::slotImportClasses() {
     preselectedExtension.append("\n*|" + i18n("All Files"));
     QStringList fileList = KFileDialog::getOpenFileNames(KUrl(), preselectedExtension,
                            this, i18n("Select Code to Import") );
-    importFiles(&fileList);
-}
-
-void UMLApp::slotImportProject() {
-    QStringList listFile;
-
-    QDialog::DialogCode code = ImportProjectDlg::getFilesToImport(&listFile,m_codegen->getLanguage(), this);
-    if (code == QDialog::Accepted) {
-        importFiles(&listFile);
-    }
+    const QString& firstFile = fileList.first();
+    ClassImport *classImporter = ClassImport::createImporterByFileExt(firstFile);
+    classImporter->importFiles(fileList);
+    delete classImporter;
+    m_doc->setLoading(false);
+    //Modification is set after the import is made, because the file was modified when adding the classes
+    //Allowing undo of the whole class importing. I think it eats a lot of memory
+    //m_doc->setModified(true);
+    //Setting the modification, but without allowing undo
+    m_doc->setModified(true);
 }
 
 void UMLApp::slotClassWizard() {
@@ -1655,8 +1639,8 @@ void UMLApp::slotDeleteDiagram() {
 }
 
 Uml::Programming_Language UMLApp::getDefaultLanguage() {
-    const KConfigGroup codeGenGroup( m_config, "Code Generation");
-    QString activeLanguage = codeGenGroup.readEntry("activeLanguage", "C++");
+    m_config->setGroup("Code Generation");
+    QString activeLanguage = m_config->readEntry("activeLanguage", "C++");
     return Model_Utils::stringToProgLang(activeLanguage);
 }
 
@@ -1686,7 +1670,7 @@ void UMLApp::tipOfTheDay()
 }
 
 void UMLApp::keyPressEvent(QKeyEvent *e) {
-    switch (e->key()) {
+    switch(e->key()) {
     case Qt::Key_Shift:
         //toolsbar->setOldTool();
         e->accept();
@@ -1743,7 +1727,7 @@ void UMLApp::handleCursorKeyReleaseEvent(QKeyEvent* e) {
 }
 
 void UMLApp::keyReleaseEvent(QKeyEvent *e) {
-    switch (e->key()) {
+    switch(e->key()) {
     case Qt::Key_Backspace:
         if (!m_pDocWindow->isTyping())
             toolsbar->setOldTool();
@@ -1867,8 +1851,8 @@ void UMLApp::slotMoveTabRight() {
 
 void UMLApp::slotXhtmlDocGenerationFinished()
 {
-    delete m_xhtmlGenerator;
-    m_xhtmlGenerator = 0;
+  delete m_xhtmlGenerator;
+  m_xhtmlGenerator = 0;
 }
 
 KTabWidget* UMLApp::tabWidget() {
@@ -1876,63 +1860,63 @@ KTabWidget* UMLApp::tabWidget() {
 }
 
 QString UMLApp::getStatusBarMsg() {
-    return statusBar()->itemText(1);
+    return m_statusLabel->text();
 }
 
 void UMLApp::clearUndoStack() {
-    m_pUndoStack->clear();
+	m_pUndoStack->clear();
 }
 
 void UMLApp::undo()
 {
-    kDebug() << "UMLApp::undo(" << m_pUndoStack->undoText() << ") [" << m_pUndoStack->count() << "]" << endl;
-    m_pUndoStack->undo();
+	kDebug() << "UMLApp::undo(" << m_pUndoStack->undoText() << ") [" << m_pUndoStack->count() << "]" << endl;
+	m_pUndoStack->undo();
 
-    if (m_pUndoStack->canUndo())
-        UMLApp::app()->enableUndo(true);
-    else
-        UMLApp::app()->enableUndo(false);
-
-    UMLApp::app()->enableRedo(true);
+	if(m_pUndoStack->canUndo())
+		UMLApp::app()->enableUndo(true);
+	else 
+		UMLApp::app()->enableUndo(false);
+	
+	UMLApp::app()->enableRedo(true);
 }
 
 void UMLApp::redo()
 {
-    kDebug() << "UMLApp::undo(" << m_pUndoStack->redoText() << ") [" << m_pUndoStack->count() << "]" << endl;
-    m_pUndoStack->redo();
+	kDebug() << "UMLApp::undo(" << m_pUndoStack->redoText() << ") [" << m_pUndoStack->count() << "]" << endl;
+	m_pUndoStack->redo();
 
-    if (m_pUndoStack->canRedo())
-        UMLApp::app()->enableRedo(true);
-    else
-        UMLApp::app()->enableRedo(false);
-
-    UMLApp::app()->enableUndo(true);
+	if(m_pUndoStack->canRedo())
+		UMLApp::app()->enableRedo(true);
+	else 
+		UMLApp::app()->enableRedo(false);
+	
+	UMLApp::app()->enableUndo(true);
 }
 
 void UMLApp::executeCommand(QUndoCommand* cmd)
 {
-    if (cmd != NULL)
-        m_pUndoStack->push(cmd);
+	if(cmd != NULL)
+		m_pUndoStack->push(cmd);
 
-    kDebug() << "UMLApp::executeCommand(" << cmd->text() << ") [" << m_pUndoStack->count() << "]" << endl;
+	kDebug() << "UMLApp::executeCommand(" << cmd->text() << ") [" << m_pUndoStack->count() << "]" << endl;
 
-    UMLApp::app()->enableUndo(true);
+	UMLApp::app()->enableUndo(true);
 }
 
 void UMLApp::BeginMacro( const QString & text ) {
-    if (m_hasBegunMacro)
-        return;
+	if(m_hasBegunMacro)
+		return;
+	
+	m_hasBegunMacro = true;
 
-    m_hasBegunMacro = true;
-
-    m_pUndoStack->beginMacro(text);
+	m_pUndoStack->beginMacro(text);
 }
 
 void UMLApp::EndMacro() {
-    if (m_hasBegunMacro)
-        m_pUndoStack->endMacro();
+	if(m_hasBegunMacro)
+		m_pUndoStack->endMacro();
 
-    m_hasBegunMacro = false;
+	m_hasBegunMacro = false;
 }
 
 //static pointer, holding the unique instance

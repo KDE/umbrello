@@ -123,8 +123,6 @@ public:
      * action on the view connected to the document.
      *
      * @param _m                The value to set the modified flag to.
-     * @param addToUndo Whether this is an action which should be
-     *                  added to the undo stack.
      */
     void setModified(bool _m=true);
 
@@ -268,6 +266,7 @@ public:
      * @param type              The type of diagram to create.
      * @param askForName        If true shows a dialog box asking for name,
      *                  else uses a default name.
+     * @return Pointer to the UMLView of the new diagram.
      */
     UMLView* createDiagram(UMLFolder *folder, Uml::Diagram_Type type, bool askForName = true);
 

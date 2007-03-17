@@ -49,7 +49,7 @@ UMLWidget* findWidget(Uml::IDType id,
     MessageWidgetListIt mit( *pMessages );
     while ( (obj = (UMLWidget*)mit.current()) != NULL ) {
         ++mit;
-        if ( obj -> getID() == id )
+        if( obj -> getID() == id )
             return obj;
     }
     return NULL;

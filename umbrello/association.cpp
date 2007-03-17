@@ -23,7 +23,7 @@
 #include "umlrole.h"
 #include "uniqueid.h"
 #include "model_utils.h"
-
+#include "cmds.h"
 using namespace Uml;
 
 // static members
@@ -97,6 +97,7 @@ const QString UMLAssociation::assocTypeStr[UMLAssociation::nAssocTypes] = {
             i18n("Anchor"),                     // at_Anchor
             i18n("State Transition"),           // at_State
             i18n("Activity"),                   // at_Activity
+            i18n("Exception"),                  // at_Activity
         };
 
 Uml::Association_Type UMLAssociation::getAssocType() const {
@@ -106,14 +107,14 @@ Uml::Association_Type UMLAssociation::getAssocType() const {
 QString UMLAssociation::toString ( ) const
 {
     QString string;
-    if (m_pRole[A])
+    if(m_pRole[A])
     {
         string += m_pRole[A]->getObject()->getName();
         string += ':';
         string += m_pRole[A]->getName();
     }
     string += ':' + typeAsString(m_AssocType) + ':';
-    if (m_pRole[B])
+    if(m_pRole[B])
     {
         string += m_pRole[B]->getObject( )->getName();
         string += ':';
@@ -197,8 +198,8 @@ bool UMLAssociation::load( QDomElement & element ) {
     UMLDoc * doc = UMLApp::app()->getDocument();
     UMLObject * obj[2] = { NULL, NULL };
     if (m_AssocType == Uml::at_Generalization ||
-            m_AssocType == Uml::at_Realization ||
-            m_AssocType == Uml::at_Dependency) {
+        m_AssocType == Uml::at_Realization ||
+        m_AssocType == Uml::at_Dependency) {
         for (unsigned r = Uml::A; r <= Uml::B; r++) {
             const QString fetch = (m_AssocType == Uml::at_Generalization ?
                                    r == Uml::A ? "child" : "parent"
@@ -220,7 +221,7 @@ bool UMLAssociation::load( QDomElement & element ) {
                     Uml::Model_Type mt = Model_Utils::convert_OT_MT(obj[r]->getBaseType());
                     m_pUMLPackage = doc->getRootFolder(mt);
                     kDebug() << "UMLAssociation::load(assoctype " << m_AssocType
-                    << "): setting model type " << mt << endl;
+                        << "): setting model type " << mt << endl;
                 }
             }
         }
@@ -248,8 +249,8 @@ bool UMLAssociation::load( QDomElement & element ) {
                 }
                 if (idStr.isEmpty()) {
                     kError() << "UMLAssociation::load (type " << m_AssocType
-                    << ", id " << ID2STR(getID()) << "): "
-                    << "xmi id not given for " << tag << endl;
+                        << ", id " << ID2STR(getID()) << "): "
+                        << "xmi id not given for " << tag << endl;
                     continue;
                 }
                 // Since we know for sure that we're dealing with a non
@@ -373,6 +374,7 @@ bool UMLAssociation::load( QDomElement & element ) {
                     "anchor",           // at_Anchor
                     "state",            // at_State
                     "activity",         // at_Activity
+                    "exception",        // at_Exception
                     "relationship"      // at_Relationship
                 };
 
@@ -406,12 +408,12 @@ bool UMLAssociation::load( QDomElement & element ) {
     UMLObject * objA = doc->findObjectById(roleAObjID);
     UMLObject * objB = doc->findObjectById(roleBObjID);
 
-    if (objA)
+    if(objA)
         getUMLRole(A)->setObject(objA);
     else
         return false;
 
-    if (objB)
+    if(objB)
         getUMLRole(B)->setObject(objB);
     else
         return false;
@@ -506,7 +508,7 @@ bool UMLAssociation::getOldLoadMode() const {
 
 void UMLAssociation::setAssocType(Uml::Association_Type assocType) {
     m_AssocType = assocType;
-    if (m_AssocType == at_UniAssociation)
+    if(m_AssocType == at_UniAssociation)
     {
         // In this case we need to auto-set the multiplicity/rolenames
         // of the roles
@@ -530,7 +532,11 @@ void UMLAssociation::setChangeability(Changeability_Type value, Role_Type role) 
 }
 
 void UMLAssociation::setMulti(const QString &value, Role_Type role) {
-    m_pRole[role]->setMultiplicity(value);
+	
+	UMLApp::app()->executeCommand(new cmdChangeMulti(m_pRole[role], value));
+	
+	
+    //m_pRole[role]->setMultiplicity(value);
 }
 
 void UMLAssociation::setRoleName(const QString &value, Role_Type role) {

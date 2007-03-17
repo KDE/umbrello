@@ -22,13 +22,13 @@
  */
 namespace Import_Rose {
 
-/**
- * Parse a file into the PetalNode internal tree representation
- * and then create Umbrello objects by traversing the tree.
- *
- * @return  True for success, false in case of error.
- */
-bool loadFromMDL(QIODevice & file);
+    /**
+     * Parse a file into the PetalNode internal tree representation
+     * and then create Umbrello objects by traversing the tree.
+     *
+     * @return  True for success, false in case of error.
+     */
+    bool loadFromMDL(QIODevice & file);
 
 }
 

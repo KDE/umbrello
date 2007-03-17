@@ -90,7 +90,7 @@ void CodeAccessorMethod::release () {
 
 // ok, a method so the parent can force it to release
 void CodeAccessorMethod::forceRelease () {
-    if (m_parentclassfield)
+    if(m_parentclassfield)
         m_parentclassfield->disconnect(this);
     CodeMethodBlock::release();
 }
@@ -168,7 +168,7 @@ void CodeAccessorMethod::setAttributesFromObject(TextBlock * obj)
     CodeMethodBlock::setAttributesFromObject(obj);
 
     CodeAccessorMethod * mb = dynamic_cast<CodeAccessorMethod*>(obj);
-    if (mb)
+    if(mb)
     {
         m_parentclassfield->disconnect(this); // always disconnect
 

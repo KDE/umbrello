@@ -81,8 +81,8 @@ private:
      * for the given permitted scope.
      */
     void writeSingleAttributeAccessorMethods(const QString &fieldName,
-            const QString &description,
-            QTextStream &h);
+                                             const QString &description,
+                                             QTextStream &h);
 
     /**
       * write all operations for a given class

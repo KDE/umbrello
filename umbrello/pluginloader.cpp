@@ -46,7 +46,7 @@ PluginLoader::~PluginLoader()
 PluginLoader *
 PluginLoader::instance()
 {
-    if (!_instance) _instance = new PluginLoader;
+    if(!_instance) _instance = new PluginLoader;
     return _instance;
 }
 
@@ -61,7 +61,7 @@ PluginLoader::loadPlugin(const QString &name)
 
     // if the plugin has already been loaded, increment
     // its reference and return.
-    if ((it = _plugins.find(name)) != _plugins.end()) {
+    if((it = _plugins.find(name)) != _plugins.end()) {
         plugin = it.data();
         plugin->ref();
         return plugin;
@@ -69,24 +69,24 @@ PluginLoader::loadPlugin(const QString &name)
 
     // use KLibLoader to get a reference to the library
     lib = KLibLoader::self()->library(name.latin1());
-    if (!lib) {
+    if(!lib) {
         kError() << "failed loading plugin library " << name << endl;
         success = false;
     }
 
     // get the factory from the library
-    if (success) {
+    if(success) {
         factory = lib->factory();
-        if (!factory) {
+        if(!factory) {
             kError() << "failed to find factory for " << name << endl;
             success = false;
         }
     }
 
     // use the factory to create the plugin
-    if (success) {
+    if(success) {
         plugin = dynamic_cast<Plugin *>(factory->create((QObject*)0));
-        if (!plugin) {
+        if(!plugin) {
             kError() << "failed to create a plugin object for " << name << endl;
             success = false;
         }
@@ -100,9 +100,9 @@ PluginLoader::loadPlugin(const QString &name)
     }
 
     // initialize the plugin
-    if (success && plugin) {
+    if(success && plugin) {
         success = plugin->init();
-        if (!success) {
+        if(!success) {
             // on failure, delete the plugin. this should cause the
             // library to unload.
             kError() << "failure initializing " << name << endl;
@@ -114,7 +114,7 @@ PluginLoader::loadPlugin(const QString &name)
 
     // finally, finally connect to the destroyed signal and keep a
     // reference to it
-    if (success) {
+    if(success) {
         plugin->ref();
         connect(plugin, SIGNAL(destroyed(QObject *)), SLOT(slotDestroyed(QObject *)));
     }
@@ -127,7 +127,7 @@ PluginLoader::findPlugin(const QString &name)
 {
     Plugin *ret = NULL;
     PluginMap::iterator it = _plugins.find(name);
-    if (it != _plugins.end()) {
+    if(it != _plugins.end()) {
         ret = it.data();
     }
     return ret;
@@ -161,9 +161,9 @@ PluginLoader::slotDestroyed(QObject *obj)
     // by hand.
 
     PluginMap::iterator end(_plugins.end());
-    for (PluginMap::iterator i = _plugins.begin(); i != end; ++i) {
+    for(PluginMap::iterator i = _plugins.begin(); i != end; ++i) {
         Plugin *p = i.data();
-        if (p == plugin) {
+        if(p == plugin) {
             kDebug() << "unloading plugin " << i.key() << endl;
 
             // remove it from the mapping

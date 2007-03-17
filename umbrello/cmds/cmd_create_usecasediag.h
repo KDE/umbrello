@@ -19,20 +19,20 @@
 
 namespace Uml
 {
-class cmdCreateUseCaseDiag : public QUndoCommand
-{
-public:
-    cmdCreateUseCaseDiag(UMLDoc* doc, const QString& name = "");
-    ~cmdCreateUseCaseDiag();
+	class cmdCreateUseCaseDiag : public QUndoCommand
+	{
+		public:
+			cmdCreateUseCaseDiag(UMLDoc* doc, const QString& name = "");
+			~cmdCreateUseCaseDiag();
 
-    void redo();
-    void undo();
+			void redo();
+			void undo();
 
-private:
-    UMLDoc*		m_pUMLDoc;
-    UMLView*	m_pUMLView;
-    QString		m_Name;
-};
+		private:
+			UMLDoc*		m_pUMLDoc;
+			UMLView*	m_pUMLView;
+			QString		m_Name;
+	};
 };
 
 #endif

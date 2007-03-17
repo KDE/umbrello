@@ -67,14 +67,14 @@ void CPPCodeGenerationForm::browseClicked()
     QString button = sender()->name();
     QString file = KFileDialog::getOpenFileName( KUrl(), "*.h", this, "Get Header File");
 
-    if (file.isEmpty())
+    if(file.isEmpty())
         return;
 
-    if (button=="m_browseStringButton") {
+    if(button=="m_browseStringButton") {
         // search for match in history list, if absent, then add it
         m_stringIncludeFileHistoryCombo->setCurrentItem(file, true);
     }
-    else if (button=="m_browseListButton") {
+    else if(button=="m_browseListButton") {
         // search for match in history list, if absent, then add it
         m_listIncludeFileHistoryCombo->setCurrentItem(file, true);
     }
@@ -84,7 +84,7 @@ void CPPCodeGenerationForm::generalOptionsListViewClicked(Q3ListViewItem *pSende
 
     // operations are inline and accessors are operations :)
     if (pOptionOperationsAreInline->isOn() && pOptionGenerateAccessorMethods->isOn())
-        pOptionAccessorsAreInline->setOn(true);
+            pOptionAccessorsAreInline->setOn(true);
 
     if (pSender == pOptionPackageIsANamespace) {
 #if 0

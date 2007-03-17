@@ -217,7 +217,7 @@ protected:
      *
      * @todo Only a pointer to the appropriate assocation end object 
      *       (UMLRole) should be saved here, not the entire UMLAssociation.
-     *    
+     *      
      */
     UMLObjectList m_List;
 

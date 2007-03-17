@@ -2,7 +2,7 @@
     begin                : 10.02.2003
     copyright            : (C) 2003 Nikolaus Gradwohl
     email                : guru@local-guru.net
-      (C) 2004-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
+      (C) 2004-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net> 
  ***************************************************************************/
 
 /***************************************************************************
@@ -37,7 +37,7 @@ SQLWriter::~SQLWriter() {}
 
 void SQLWriter::writeClass(UMLClassifier *c) {
 
-    if (!c) {
+    if(!c) {
         kDebug()<<"Cannot write class of NULL concept!" << endl;
         return;
     }
@@ -53,7 +53,7 @@ void SQLWriter::writeClass(UMLClassifier *c) {
     }
 
     QFile file;
-    if ( !openFile(file, fileName) ) {
+    if( !openFile(file, fileName) ) {
         emit codeGenerated(c, false);
         return;
     }
@@ -64,14 +64,14 @@ void SQLWriter::writeClass(UMLClassifier *c) {
     //try to find a heading file (license, coments, etc)
     QString str;
     str = getHeadingFile(".sql");
-    if (!str.isEmpty()) {
+    if(!str.isEmpty()) {
         str.replace(QRegExp("%filename%"),fileName);
         str.replace(QRegExp("%filepath%"),file.name());
         sql<<str<<m_endl;
     }
 
     //Write class Documentation if there is somthing or if force option
-    if (forceDoc() || !c->getDoc().isEmpty()) {
+    if(forceDoc() || !c->getDoc().isEmpty()) {
         sql << m_endl << "--" << m_endl;
         sql<<"-- TABLE: "<<classname<<m_endl;
         sql<<formatDoc(c->getDoc(),"-- ");
@@ -87,20 +87,20 @@ void SQLWriter::writeClass(UMLClassifier *c) {
 
     QMap<UMLAssociation*,UMLAssociation*> constraintMap; // so we don't repeat constraint
     UMLAssociationList aggregations = c->getAggregations();
-    if ( forceSections() || !aggregations.isEmpty() ) {
-        for (UMLAssociation* a = aggregations.first(); a; a = aggregations.next()) {
+    if( forceSections() || !aggregations.isEmpty() ) {
+        for(UMLAssociation* a = aggregations.first(); a; a = aggregations.next()) {
             UMLObject *objA = a->getObject(Uml::A);
             UMLObject *objB = a->getObject(Uml::B);
             if (objA->getID() == c->getID() && objB->getID() != c->getID())
                 continue;
-            constraintMap[a] = a;
+	    constraintMap[a] = a;
         }
     }
-
+    
     QMap<UMLAssociation*,UMLAssociation*>::Iterator itor = constraintMap.begin();
     for (;itor != constraintMap.end();itor++) {
-        UMLAssociation* a = itor.data();
-        sql << "ALTER TABLE "<< classname
+	UMLAssociation* a = itor.data();
+	sql << "ALTER TABLE "<< classname
             << " ADD CONSTRAINT " << a->getName() << " FOREIGN KEY ("
             << a->getRoleName(Uml::B) << ") REFERENCES "
             << a->getObject(Uml::A)->getName()
@@ -122,18 +122,18 @@ void SQLWriter::writeAttributes(UMLClassifier *c, QTextStream &sql) {
 
     //sort attributes by scope and see if they have a default value
     UMLAttributeList atl = c->getAttributeList();
-    for (UMLAttribute* at=atl.first(); at ; at=atl.next()) {
-        switch (at->getVisibility()) {
-        case Uml::Visibility::Public:
+    for(UMLAttribute* at=atl.first(); at ; at=atl.next()) {
+        switch(at->getVisibility()) {
+          case Uml::Visibility::Public:
             atpub.append(at);
             break;
-        case Uml::Visibility::Protected:
+          case Uml::Visibility::Protected:
             atprot.append(at);
             break;
-        case Uml::Visibility::Private:
+          case Uml::Visibility::Private:
             atpriv.append(at);
             break;
-        case Uml::Visibility::Implementation:
+          case Uml::Visibility::Implementation:
             atimp.append(at);
             break;
         }

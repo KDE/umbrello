@@ -4,7 +4,7 @@
     begin                : Sat Dec 21 2002
     copyright            : Vincent Decorges
     email                : vincent.decorges@eivd.ch
-      (C) 2003-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
+      (C) 2003-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net> 
  ***************************************************************************/
 
 /***************************************************************************
@@ -39,7 +39,7 @@ PythonWriter::PythonWriter() : m_bNeedPass(true) {
 PythonWriter::~PythonWriter() {}
 
 void PythonWriter::writeClass(UMLClassifier *c) {
-    if (!c) {
+    if(!c) {
         kDebug()<<"Cannot write class of NULL concept!" << endl;
         return;
     }
@@ -66,7 +66,7 @@ void PythonWriter::writeClass(UMLClassifier *c) {
     fileName = fileName.replace(0, 1, first);
 
     QFile fileh;
-    if ( !openFile(fileh, fileName) ) {
+    if( !openFile(fileh, fileName) ) {
         emit codeGenerated(c, false);
         return;
     }
@@ -81,34 +81,34 @@ void PythonWriter::writeClass(UMLClassifier *c) {
     QString str;
 
     str = getHeadingFile(".py");
-    if (!str.isEmpty()) {
+    if(!str.isEmpty()) {
         str.replace(QRegExp("%filename%"), fileName);
         str.replace(QRegExp("%filepath%"), fileh.name());
         h<<str<<m_endl;
     }
 
-    // generate import statement for superclasses and take packages into account
-    str = cleanName(c->getName());
+    // generate import statement for superclasses and take packages into account 
+    str = cleanName(c->getName()); 
     QString pkg = cleanName(c->getPackage());
     if (!pkg.isEmpty())
-        str.prepend(pkg + '.');
-    QStringList includesList  = QStringList(str); //save imported classes
-    int i = superclasses.count();
-    for (UMLClassifier *classifier = superclasses.first();
-            classifier && i; classifier = superclasses.next(), i--) {
-        str = cleanName(classifier->getName());
+        str.prepend(pkg + '.'); 
+    QStringList includesList  = QStringList(str); //save imported classes 
+    int i = superclasses.count(); 
+    for (UMLClassifier *classifier = superclasses.first(); 
+            classifier && i; classifier = superclasses.next(), i--) { 
+        str = cleanName(classifier->getName()); 
         pkg = cleanName(classifier->getPackage());
-        if (!pkg.isEmpty())
-            str.prepend(pkg + '.');
-        includesList.append(str);
-        h << "from " + str + " import *" << m_endl;
-    }
-
+        if (!pkg.isEmpty()) 
+            str.prepend(pkg + '.'); 
+        includesList.append(str); 
+        h << "from " + str + " import *" << m_endl; 
+    } 
+ 
     //write includes and take namespaces into account
     UMLPackageList includes;
     findObjectsRelated(c,includes);
     UMLPackage* conc;
-    for (conc = includes.first(); conc ;conc = includes.next()) {
+    for(conc = includes.first(); conc ;conc = includes.next()) {
         QString headerName = findFileName(conc, ".py");
         if ( !headerName.isEmpty() ) {
             headerName.remove(QRegExp(".py$"));
@@ -134,7 +134,7 @@ void PythonWriter::writeClass(UMLClassifier *c) {
 
     h<<(superclasses.count() > 0 ? ")":"")<<":"<<m_endl<<m_endl;
 
-    if (forceDoc() || !c->getDoc().isEmpty()) {
+    if(forceDoc() || !c->getDoc().isEmpty()) {
         h<<m_indentation<<"\"\"\""<<m_endl;
         h<<m_indentation<<c->getDoc()<<m_endl;
         h<<m_indentation<<":version:"<<m_endl;
@@ -172,18 +172,18 @@ void PythonWriter::writeOperations(UMLClassifier *c,QTextStream &h) {
 
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList opl(c->getOpList());
-    for (UMLOperation *op = opl.first(); op ; op = opl.next()) {
-        switch (op->getVisibility()) {
-        case Uml::Visibility::Public:
+    for(UMLOperation *op = opl.first(); op ; op = opl.next()) {
+        switch(op->getVisibility()) {
+          case Uml::Visibility::Public:
             oppub.append(op);
             break;
-        case Uml::Visibility::Protected:
+          case Uml::Visibility::Protected:
             opprot.append(op);
             break;
-        case Uml::Visibility::Private:
+          case Uml::Visibility::Private:
             oppriv.append(op);
             break;
-        default:
+          default:
             break;
         }
     }
@@ -191,15 +191,15 @@ void PythonWriter::writeOperations(UMLClassifier *c,QTextStream &h) {
     QString classname(cleanName(c->getName()));
 
     //write operations to file
-    if (forceSections() || !oppub.isEmpty()) {
+    if(forceSections() || !oppub.isEmpty()) {
         writeOperations(classname,oppub,h,PUBLIC);
     }
 
-    if (forceSections() || !opprot.isEmpty()) {
+    if(forceSections() || !opprot.isEmpty()) {
         writeOperations(classname,opprot,h,PROTECTED);
     }
 
-    if (forceSections() || !oppriv.isEmpty()) {
+    if(forceSections() || !oppriv.isEmpty()) {
         writeOperations(classname,oppriv,h,PRIVATE);
     }
 
@@ -226,7 +226,7 @@ void PythonWriter::writeOperations(const QString& /*classname*/, UMLOperationLis
     }
 
 
-    for (op=opList.first(); op ; op=opList.next()) {
+    for(op=opList.first(); op ; op=opList.next()) {
         UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
@@ -245,14 +245,14 @@ void PythonWriter::writeOperations(const QString& /*classname*/, UMLOperationLis
 
         h<<"):"<<m_endl;
 
-        if ( writeDoc ) //write method documentation
+        if( writeDoc )  //write method documentation
         {
             h<<m_indentation<<m_indentation<<"\"\"\""<<m_endl;
             h<<m_indentation<<m_indentation<<op->getDoc()<<m_endl<<m_endl;
 
             for (at = atl.first(); at; at = atl.next())  //write parameter documentation
             {
-                if (forceDoc() || !at->getDoc().isEmpty()) {
+                if(forceDoc() || !at->getDoc().isEmpty()) {
                     h<<m_indentation<<m_indentation<<"@param "<<at->getTypeName()<<
                     " " << cleanName(at->getName());
                     h<<" : "<<at->getDoc()<<m_endl;

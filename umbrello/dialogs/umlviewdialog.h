@@ -40,9 +40,9 @@ class DiagramPropertiesPage;
 class DiagramPropertiesPage : public QWidget, public Ui::DiagramPropertiesPage
 {
 public:
-    DiagramPropertiesPage( QWidget *parent ) : QWidget( parent ) {
-        setupUi( this );
-    }
+  DiagramPropertiesPage( QWidget *parent ) : QWidget( parent ) {
+    setupUi( this );
+  }
 };
 
 

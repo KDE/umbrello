@@ -40,7 +40,7 @@ static const int sequenceLineMargin = 20;
 ObjectWidget::ObjectWidget(UMLView * view, UMLObject *o, Uml::IDType lid)
         : UMLWidget(view, o) {
     init();
-    if ( lid != Uml::id_None )
+    if( lid != Uml::id_None )
         m_nLocalID = lid;
     //updateComponentSize();
     //                  Doing this during loadFromXMI() gives futile updates.
@@ -55,7 +55,7 @@ void ObjectWidget::init() {
     m_bDrawAsActor = false;
     m_bShowDestruction = false;
     messageWidgetList.setAutoDelete(false);
-    if ( m_pView != NULL && m_pView -> getType() == Uml::dt_Sequence ) {
+    if( m_pView != NULL && m_pView -> getType() == Uml::dt_Sequence ) {
         m_pLine = new SeqLineWidget( m_pView, this );
 
         //Sets specific widget controller for sequence diagrams
@@ -75,34 +75,34 @@ void ObjectWidget::draw(QPainter & p , int offsetX, int offsetY) {
         drawObject( p, offsetX, offsetY );
 
     UMLWidget::setPen(p);
-    if (m_bSelected)
+    if(m_bSelected)
         drawSelected(&p, offsetX, offsetY);
 }
 
 void ObjectWidget::slotMenuSelection(int sel) {
     QString name = "";
-    switch (sel) {
+    switch(sel) {
     case ListPopupMenu::mt_Rename_Object:
-    {
-        bool ok;
-        QRegExpValidator* validator = new QRegExpValidator(QRegExp(".*"), 0);
-        name = KInputDialog::getText
-               (i18n("Rename Object"),
-                i18n("Enter object name:"),
-                m_InstanceName,
-                &ok,
-                m_pView,
-                validator);
-        if (ok) {
-            m_InstanceName = name;
-            updateComponentSize();
-            moveEvent( 0 );
-            update();
-            UMLApp::app()->getDocument()->setModified(true);
+        {
+            bool ok;
+            QRegExpValidator* validator = new QRegExpValidator(QRegExp(".*"), 0);
+            name = KInputDialog::getText
+                   (i18n("Rename Object"),
+                    i18n("Enter object name:"),
+                    m_InstanceName,
+                    &ok,
+                    m_pView,
+                    validator);
+            if (ok) {
+                m_InstanceName = name;
+                updateComponentSize();
+                moveEvent( 0 );
+                update();
+                UMLApp::app()->getDocument()->setModified(true);
+            }
+            delete validator;
+            break;
         }
-        delete validator;
-        break;
-    }
     case ListPopupMenu::mt_Properties:
         showProperties();
         updateComponentSize();
@@ -154,7 +154,7 @@ void ObjectWidget::setDrawAsActor( bool drawAsActor ) {
 
 void ObjectWidget::setMultipleInstance(bool multiple) {
     //make sure only calling this in relation to an object on a collab. diagram
-    if (m_pView -> getType() != Uml::dt_Collaboration)
+    if(m_pView -> getType() != Uml::dt_Collaboration)
         return;
     m_bMultipleInstance = multiple;
     updateComponentSize();
@@ -193,14 +193,14 @@ void ObjectWidget::slotColorChanged(Uml::IDType /*viewID*/) {
     UMLWidget::setFillColour( m_pView->getFillColor() );
     UMLWidget::setLineColor( m_pView->getLineColor() );
 
-    if ( m_pLine)
+    if( m_pLine)
         m_pLine -> setPen( QPen( UMLWidget::getLineColor(), UMLWidget::getLineWidth(), Qt::DashLine ) );
 }
 
 void ObjectWidget::cleanup() {
 
     UMLWidget::cleanup();
-    if ( m_pLine ) {
+    if( m_pLine ) {
         m_pLine -> cleanup();
         delete m_pLine;
     }
@@ -228,7 +228,7 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY) {
     p.setFont( font );
 
     UMLWidget::setPen(p);
-    if (UMLWidget::getUseFillColour())
+    if(UMLWidget::getUseFillColour())
         p.setBrush(UMLWidget::getFillColour());
     else
         p.setBrush(m_pView -> viewport() -> backgroundColor());
@@ -308,17 +308,17 @@ bool ObjectWidget::canTabUp() {
 
 void ObjectWidget::setShowDestruction( bool bShow ) {
     m_bShowDestruction = bShow;
-    if ( m_pLine )
+    if( m_pLine )
         m_pLine -> setupDestructionBox();
 }
 
 void ObjectWidget::setEndLine(int yPosition) {
-    m_pLine->setEndOfLine(yPosition);
+	m_pLine->setEndOfLine(yPosition);
 }
 
 int ObjectWidget::getEndLineY() {
     int y = this -> getY() + getHeight();
-    if ( m_pLine)
+    if( m_pLine)
         y += m_pLine -> getLineLength();
     if ( m_bShowDestruction )
         y += 10;
@@ -328,8 +328,8 @@ int ObjectWidget::getEndLineY() {
 void ObjectWidget::messageAdded(MessageWidget* message) {
     if (messageWidgetList.containsRef(message) ) {
         kError() << "ObjectWidget::messageAdded("
-        << message->getName() << ") : duplicate entry !"
-        << endl;
+                  << message->getName() << ") : duplicate entry !"
+                  << endl;
         return ;
     }
     messageWidgetList.append(message);
@@ -338,8 +338,8 @@ void ObjectWidget::messageAdded(MessageWidget* message) {
 void ObjectWidget::messageRemoved(MessageWidget* message) {
     if ( messageWidgetList.remove(message) == false ) {
         kError() << "ObjectWidget::messageRemoved("
-        << message->getName() << ") : missing entry !"
-        << endl;
+                  << message->getName() << ") : missing entry !"
+                  << endl;
         return ;
     }
 }
@@ -388,7 +388,7 @@ void ObjectWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 }
 
 bool ObjectWidget::loadFromXMI( QDomElement & qElement ) {
-    if ( !UMLWidget::loadFromXMI( qElement ) )
+    if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
     m_InstanceName = qElement.attribute( "instancename", "" );
     QString draw = qElement.attribute( "drawasactor", "0" );

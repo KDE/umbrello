@@ -85,7 +85,7 @@ void PkgContentsPage::fillListBox() {
 }
 
 void PkgContentsPage::slotRightButtonClicked(Q3ListBoxItem */* item*/, const QPoint &/* p*/) {
-    if (m_pMenu) {
+    if(m_pMenu) {
         m_pMenu -> hide();
         disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotPopupMenuSel(int)));
         delete m_pMenu;
@@ -94,9 +94,9 @@ void PkgContentsPage::slotRightButtonClicked(Q3ListBoxItem */* item*/, const QPo
 }
 
 void PkgContentsPage::slotRightButtonPressed(Q3ListBoxItem * item, const QPoint & p) {
-    if (!item)
+    if(!item)
         return;
-    if (m_pMenu) {
+    if(m_pMenu) {
         m_pMenu -> hide();
         disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotPopupMenuSel(int)));
         delete m_pMenu;
@@ -108,15 +108,15 @@ void PkgContentsPage::slotRightButtonPressed(Q3ListBoxItem * item, const QPoint 
 }
 
 void PkgContentsPage::slotPopupMenuSel(int id) {
-    switch (id) {
+    switch(id) {
     case ListPopupMenu::mt_Delete:
-    {
-        UMLObjectList contents = m_pPackage->containedObjects();
-        UMLObject *o = contents.at( m_pContentLB->currentItem() );
-        UMLApp::app()->getDocument()->removeUMLObject(o);
-        fillListBox();
-    }
-    break;
+        {
+            UMLObjectList contents = m_pPackage->containedObjects();
+            UMLObject *o = contents.at( m_pContentLB->currentItem() );
+            UMLApp::app()->getDocument()->removeUMLObject(o);
+            fillListBox();
+        }
+        break;
 
     case ListPopupMenu::mt_Properties:
         slotDoubleClick(m_pContentLB->item(m_pContentLB->currentItem()));

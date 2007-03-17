@@ -70,12 +70,12 @@ void UMLTemplateDialog::setupDialog() {
     m_pTypeL->setBuddy(m_pTypeCB);
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
-                                        m_pNameL, i18n("&Name:"),
-                                        m_pNameLE, m_pTemplate->getName() );
+                                    m_pNameL, i18n("&Name:"),
+                                    m_pNameLE, m_pTemplate->getName() );
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 2,
-                                        m_pStereoTypeL, i18n("&Stereotype name:"),
-                                        m_pStereoTypeLE, m_pTemplate->getStereotype() );
+                                    m_pStereoTypeL, i18n("&Stereotype name:"),
+                                    m_pStereoTypeLE, m_pTemplate->getStereotype() );
 
     mainLayout->addWidget(m_pValuesGB);
 
@@ -136,7 +136,7 @@ bool UMLTemplateDialog::apply() {
         m_pTemplate->setTypeName( typeName );
     }
     QString name = m_pNameLE->text();
-    if ( name.length() == 0 ) {
+    if( name.length() == 0 ) {
         KMessageBox::error(this, i18n("You have entered an invalid template name."),
                            i18n("Template Name Invalid"), false);
         m_pNameLE->setText( m_pTemplate->getName() );

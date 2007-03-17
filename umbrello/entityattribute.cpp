@@ -88,14 +88,14 @@ QString UMLEntityAttribute::toString(Uml::Signature_Type sig) {
     QString s;
     //FIXME
 
-    if (sig == Uml::st_ShowSig || sig == Uml::st_NoSig) {
+    if(sig == Uml::st_ShowSig || sig == Uml::st_NoSig) {
         s=m_Vis.toString(true) + ' ';
     } else
         s = "";
 
-    if (sig == Uml::st_ShowSig || sig == Uml::st_SigNoVis) {
+    if(sig == Uml::st_ShowSig || sig == Uml::st_SigNoVis) {
         QString string = s + getName() + " : " + getTypeName();
-        if (m_InitialValue.length() > 0)
+        if(m_InitialValue.length() > 0)
             string += " = " + m_InitialValue;
         return string;
     } else
@@ -103,10 +103,10 @@ QString UMLEntityAttribute::toString(Uml::Signature_Type sig) {
 }
 
 bool UMLEntityAttribute::operator==( UMLEntityAttribute &rhs) {
-    if ( this == &rhs )
+    if( this == &rhs )
         return true;
 
-    if ( !UMLObject::operator==( rhs ) )
+    if( !UMLObject::operator==( rhs ) )
         return false;
 
     // The type name is the only distinguishing criterion.

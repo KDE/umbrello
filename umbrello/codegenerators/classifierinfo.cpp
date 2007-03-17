@@ -45,26 +45,26 @@ void ClassifierInfo::init(UMLClassifier *c) {
     m_nID = c->getID();
 
     // sort attributes by Scope
-    if (!isInterface) {
+    if(!isInterface) {
         UMLAttributeList atl = c->getAttributeList();
-        for (UMLAttribute *at=atl.first(); at ; at=atl.next()) {
-            switch (at->getVisibility())
+        for(UMLAttribute *at=atl.first(); at ; at=atl.next()) {
+            switch(at->getVisibility())
             {
-            case Uml::Visibility::Public:
-                if (at->getStatic())
+              case Uml::Visibility::Public:
+                if(at->getStatic())
                     static_atpub.append(at);
                 else
                     atpub.append(at);
                 break;
-            case Uml::Visibility::Protected:
-                if (at->getStatic())
+              case Uml::Visibility::Protected:
+                if(at->getStatic())
                     static_atprot.append(at);
                 else
                     atprot.append(at);
                 break;
-            case Uml::Visibility::Private:
-            case Uml::Visibility::Implementation:
-                if (at->getStatic())
+              case Uml::Visibility::Private:
+              case Uml::Visibility::Implementation:
+                    if(at->getStatic())
                     static_atpriv.append(at);
                 else
                     atpriv.append(at);
@@ -146,11 +146,11 @@ UMLClassifierList ClassifierInfo::findAssocClassifierObjsInRoles (UMLAssociation
         // (e.g. id matches), we only want the "other" classifiers
         if (a->getObjectId(Uml::A) == m_nID && !a->getRoleName(Uml::B).isEmpty()) {
             UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::B));
-            if (c)
+            if(c)
                 classifiers.append(c);
         } else if (a->getObjectId(Uml::B) == m_nID && !a->getRoleName(Uml::A).isEmpty()) {
             UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::A));
-            if (c)
+            if(c)
                 classifiers.append(c);
         }
     }

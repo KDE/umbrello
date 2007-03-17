@@ -32,7 +32,7 @@ void ClassImport::importFiles(const QStringList &fileList) {
             fileIT != fileList.end(); ++fileIT) {
         QString fileName = (*fileIT);
         umldoc->writeToStatusBar(i18n("Importing file: %1 Progress: %2/%3",
-                                      fileName, processedFilesCount, fileList.size()));
+                                 fileName, processedFilesCount, fileList.size()));
         parseFile(fileName);
         processedFilesCount++;
     }

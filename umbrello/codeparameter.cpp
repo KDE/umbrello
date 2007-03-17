@@ -55,16 +55,16 @@ bool CodeParameter::getAbstract ( ) {
 /**
  * Utility method to get the value of parent object static
  * Whether or not this is static.
- * @return the value of static
+ * @return the value of static 
  */
 bool CodeParameter::getStatic ( ) {
     return m_parentObject->getStatic();
 }
 
 /**
- * Utility method to get the value of parent object name
+ * Utility method to get the value of parent object name 
  * The name of this code parameter.
- * @return the value
+ * @return the value 
  */
 QString CodeParameter::getName ( ) const {
     return m_parentObject->getName();
@@ -82,7 +82,7 @@ QString CodeParameter::getTypeName ( ) {
 }
 
 /**
- * Utility method to get the value of parent object scope.
+ * Utility method to get the value of parent object scope. 
  * The visibility of this code parameter.
  * @return the value of parent object scope
  */
@@ -138,7 +138,7 @@ UMLObject * CodeParameter::getParentObject ( ) {
 // this is kind of broken for UMLRoles.
 QString CodeParameter::getID () {
     UMLRole * role = dynamic_cast<UMLRole*>(m_parentObject);
-    if (role)
+    if(role)
     {
         // cant use Role "ID" as that is used to distinquish if its
         // role "A" or "B"
@@ -163,7 +163,7 @@ void CodeParameter::setAttributesOnNode ( QDomDocument & doc, QDomElement & bloc
     // as UMLRoles arent properly stored in the XMI right now.
     // (change would break the XMI format..save for big version change )
     UMLRole * role = dynamic_cast<UMLRole*>(m_parentObject);
-    if (role)
+    if(role)
         blockElement.setAttribute("role_id", role->getRole());
     else
         blockElement.setAttribute("role_id","-1");
@@ -191,7 +191,7 @@ void CodeParameter::setAttributesFromNode ( QDomElement & root) {
 
     // now, what is the new object we want to set?
     UMLObject * obj = UMLApp::app()->getDocument()->findObjectById(id);
-    if (obj)
+    if(obj)
     {
 
         // FIX..one day.
@@ -205,13 +205,13 @@ void CodeParameter::setAttributesFromNode ( QDomElement & root) {
         // change appears to be needed for only this part, I'll do this crappy
         // change instead. -b.t.
         UMLAssociation * assoc = dynamic_cast<UMLAssociation*>(obj);
-        if (assoc) {
+        if(assoc) {
             // In this case we init with indicated role child obj.
             UMLRole * role = 0;
             int role_id = root.attribute("role_id","-1").toInt();
-            if (role_id == 1)
+            if(role_id == 1)
                 role = assoc->getUMLRole(Uml::A);
-            else if (role_id == 0)
+            else if(role_id == 0)
                 role = assoc->getUMLRole(Uml::B);
             else
                 kError() << "corrupt save file? "
@@ -236,9 +236,9 @@ void CodeParameter::setAttributesFromNode ( QDomElement & root) {
     QDomNode node = root.firstChild();
     QDomElement element = node.toElement();
     bool gotComment = false;
-    while ( !element.isNull() ) {
+    while( !element.isNull() ) {
         QString tag = element.tagName();
-        if ( tag == "header" ) {
+        if( tag == "header" ) {
             QDomNode cnode = element.firstChild();
             QDomElement celem = cnode.toElement();
             getComment()->loadFromXMI(celem);
@@ -249,7 +249,7 @@ void CodeParameter::setAttributesFromNode ( QDomElement & root) {
         element = node.toElement();
     }
 
-    if (!gotComment)
+    if(!gotComment)
         kWarning()<<" loadFromXMI : Warning: unable to initialize CodeComment in codeparam:"<<this<<endl;
 
 

@@ -25,7 +25,7 @@ class KFileFilterCombo;
  * Designer and uic don't recognize it.
  */
 class ExportAllViewsDialog : public ExportAllViewsDialogBase {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
 

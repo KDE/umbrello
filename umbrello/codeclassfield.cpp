@@ -54,7 +54,7 @@ CodeClassField::~CodeClassField ( ) {
 
     // remove methods from parent document
     CodeAccessorMethodList list = m_methodVector;
-    for (CodeAccessorMethod * m = list.first(); m ; m=list.next())
+    for(CodeAccessorMethod * m = list.first(); m ; m=list.next())
     {
         getParentDocument()->removeTextBlock(m);
         m->forceRelease();
@@ -62,7 +62,7 @@ CodeClassField::~CodeClassField ( ) {
     list.clear();
 
     // clear the decl block from parent text block list too
-    if (m_declCodeBlock)
+    if(m_declCodeBlock)
     {
         getParentDocument()->removeTextBlock(m_declCodeBlock);
         m_declCodeBlock->forceRelease();
@@ -81,7 +81,7 @@ CodeClassField::~CodeClassField ( ) {
 
 void CodeClassField::setParentUMLObject (UMLObject * obj) {
     UMLRole *role = dynamic_cast<UMLRole*>(obj);
-    if (role) {
+    if(role) {
         UMLAssociation * parentAssoc = role->getParentAssociation();
         Uml::Association_Type atype = parentAssoc->getAssocType();
         m_parentIsAttribute = false;
@@ -109,7 +109,7 @@ QString CodeClassField::getTypeName ( ) {
         return at->getTypeName();
     } else {
         UMLRole * role = (UMLRole*) getParentObject();
-        if (fieldIsSingleValue()) {
+        if(fieldIsSingleValue()) {
             return getUMLObjectName(role->getObject());
         } else {
             return role->getName();
@@ -168,7 +168,7 @@ bool CodeClassField::addMethod ( CodeAccessorMethod * add_object ) {
 
     CodeAccessorMethod::AccessorType type = add_object->getType();
 
-    if (findMethodByType(type))
+    if(findMethodByType(type))
         return false;
     /*
         // this wont work as the key for QMap needs to inherit from QObject
@@ -255,7 +255,7 @@ void CodeClassField::setAttributesOnNode ( QDomDocument & doc, QDomElement & cfE
 
     // now record the tags on our accessormethods
     CodeAccessorMethodList * list = getMethodList ( );
-    for (CodeAccessorMethod * method=list->first(); method; method=list->next())
+    for(CodeAccessorMethod * method=list->first(); method; method=list->next())
     {
         method->saveToXMI(doc,cfElem);
     }
@@ -285,22 +285,22 @@ void CodeClassField::setAttributesFromNode ( QDomElement & root) {
     // by looking for our particular child element
     QDomNode node = root.firstChild();
     QDomElement element = node.toElement();
-    while ( !element.isNull() ) {
+    while( !element.isNull() ) {
         QString tag = element.tagName();
-        if ( tag == "ccfdeclarationcodeblock" ) {
+        if( tag == "ccfdeclarationcodeblock" ) {
             m_declCodeBlock->loadFromXMI(element);
         } else
-            if ( tag == "codeaccessormethod" ) {
+            if( tag == "codeaccessormethod" ) {
                 int type = element.attribute("accessType","0").toInt();
                 int role_id = element.attribute("role_id","-1").toInt();
                 CodeAccessorMethod * method = findMethodByType((CodeAccessorMethod::AccessorType) type, role_id);
-                if (method)
+                if(method)
                     method->loadFromXMI(element);
                 else
                     kError()<<"Cant load code accessor method for type:"<<type<<" which doesn't exist in this codeclassfield. Is XMI out-dated or corrupt?"<<endl;
 
             } else
-                if ( tag == "header" ) {
+                if( tag == "header" ) {
                     // this is treated in parent.. skip over here
                 } else
                     kWarning()<<"ERROR: bad savefile? code classfield loadFromXMI got child element with unknown tag:"<<tag<<" ignoring node."<<endl;
@@ -328,10 +328,10 @@ int CodeClassField::minimumListOccurances( ) {
         UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
         QString multi = role->getMultiplicity();
         // ush. IF we had a multiplicty object, this would be much easier.
-        if (!multi.isEmpty())
+        if(!multi.isEmpty())
         {
             QString lowerBoundString = multi.remove(QRegExp("\\.\\.\\d+$"));
-            if (!lowerBoundString.isEmpty() &&lowerBoundString.contains(QRegExp("^\\d+$")))
+            if(!lowerBoundString.isEmpty() &&lowerBoundString.contains(QRegExp("^\\d+$")))
                 return lowerBoundString.toInt();
         }
 
@@ -345,10 +345,10 @@ int CodeClassField::maximumListOccurances( ) {
         UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
         QString multi = role->getMultiplicity();
         // ush. IF we had a multiplicty object, this would be much easier.
-        if (!multi.isEmpty())
+        if(!multi.isEmpty())
         {
             QString upperBoundString = multi.section(QRegExp("(\\.\\.)"),1);
-            if (!upperBoundString.isEmpty() && upperBoundString.contains(QRegExp("^\\d+$")))
+            if(!upperBoundString.isEmpty() && upperBoundString.contains(QRegExp("^\\d+$")))
                 return upperBoundString.toInt();
             else
                 return -1; // unbounded
@@ -379,10 +379,10 @@ void CodeClassField::synchronize ()
 {
     updateContent();
     CodeAccessorMethodList * list = getMethodList();
-    for (CodeAccessorMethod * method=list->first(); method; method=list->next())
+    for(CodeAccessorMethod * method=list->first(); method; method=list->next())
         method->syncToParent();
 
-    if (m_declCodeBlock)
+    if(m_declCodeBlock)
         m_declCodeBlock->syncToParent();
 }
 
@@ -395,10 +395,10 @@ CodeAccessorMethod * CodeClassField::findMethodByType ( CodeAccessorMethod::Acce
                 return ((*m_methodMap)[type]);
         CodeAccessorMethod * obj = NULL;
     */
-    if (role_id > 1 || role_id < 0)
+    if(role_id > 1 || role_id < 0)
     {
         for (CodeAccessorMethod * m = m_methodVector.first(); m ; m= m_methodVector.next())
-            if ( m->getType() == type)
+            if( m->getType() == type)
                 return m;
     } else {
         // ugh. forced into this underperforming algorithm because of bad association
@@ -406,9 +406,9 @@ CodeAccessorMethod * CodeClassField::findMethodByType ( CodeAccessorMethod::Acce
         for (CodeAccessorMethod * m = m_methodVector.first(); m ; m= m_methodVector.next())
         {
             UMLRole * role = dynamic_cast<UMLRole*>(m->getParentObject());
-            if (!role)
+            if(!role)
                 kError()<<"    FindMethodByType()  cant create role for method type:"<<m->getType()<<endl;
-            if ( role && m->getType() == type && role->getRole() == role_id)
+            if( role && m->getType() == type && role->getRole() == role_id)
                 return m;
         }
 
@@ -422,20 +422,20 @@ void CodeClassField::initAccessorMethods()
 
     // everything gets potential get/set method
     //if(!m_methodMap->contains(CodeAccessorMethod::GET))
-    if (!findMethodByType(CodeAccessorMethod::GET))
+    if(!findMethodByType(CodeAccessorMethod::GET))
     {
         CodeAccessorMethod * method = CodeGenFactory::newCodeAccessorMethod (getParentDocument(), this, CodeAccessorMethod::GET);
-        if (method)
+        if(method)
         {
             method->setType(CodeAccessorMethod::GET);
             addMethod(method);
         }
     }
 
-    if (!findMethodByType(CodeAccessorMethod::SET))
+    if(!findMethodByType(CodeAccessorMethod::SET))
     {
         CodeAccessorMethod * method = CodeGenFactory::newCodeAccessorMethod (getParentDocument(), this, CodeAccessorMethod::SET);
-        if (method) {
+        if(method) {
             method->setType(CodeAccessorMethod::SET);
             addMethod(method);
         }
@@ -445,28 +445,28 @@ void CodeClassField::initAccessorMethods()
     // (and only used if the role specifies a 'list' type object
     if (!parentIsAttribute()) {
 
-        if (!findMethodByType(CodeAccessorMethod::ADD))
+        if(!findMethodByType(CodeAccessorMethod::ADD))
         {
             CodeAccessorMethod * method = CodeGenFactory::newCodeAccessorMethod (getParentDocument(), this, CodeAccessorMethod::ADD);
-            if (method) {
+            if(method) {
                 method->setType(CodeAccessorMethod::ADD);
                 addMethod(method);
             }
         }
 
-        if (!findMethodByType(CodeAccessorMethod::REMOVE))
+        if(!findMethodByType(CodeAccessorMethod::REMOVE))
         {
             CodeAccessorMethod * method = CodeGenFactory::newCodeAccessorMethod (getParentDocument(), this, CodeAccessorMethod::REMOVE);
-            if (method) {
+            if(method) {
                 method->setType(CodeAccessorMethod::REMOVE);
                 addMethod(method);
             }
         }
 
-        if (!findMethodByType(CodeAccessorMethod::LIST))
+        if(!findMethodByType(CodeAccessorMethod::LIST))
         {
             CodeAccessorMethod * method = CodeGenFactory::newCodeAccessorMethod (getParentDocument(), this, CodeAccessorMethod::LIST);
-            if (method) {
+            if(method) {
                 method->setType(CodeAccessorMethod::LIST);
                 addMethod(method);
             }
@@ -504,21 +504,21 @@ void CodeClassField::updateContent()
         // for role-based accessors, we DON'T write ourselves out when
         // the name of the role is not defined OR when the global flag
         // to not show ANY methods is set.
-        if (!m_writeOutMethods || isEmptyRole)
+        if(!m_writeOutMethods || isEmptyRole)
         {
             method->setWriteOutText(false);
             continue;
         }
 
         // not to change if no tag (don't know what it is, OR its not an AutoGenerated method
-        if (method->getContentType() != CodeBlock::AutoGenerated)
+        if(method->getContentType() != CodeBlock::AutoGenerated)
             continue;
 
         // first off, some accessor methods wont appear if its a singleValue
         // role and vice-versa
-        if (isSingleValue)
+        if(isSingleValue)
         {
-            switch (type) {
+            switch(type) {
             case CodeAccessorMethod::SET:
                 // SET method true ONLY IF changeability is NOT Frozen
                 if (changeType != Uml::chg_Frozen)
@@ -539,7 +539,7 @@ void CodeClassField::updateContent()
         }
         else
         {
-            switch (type) {
+            switch(type) {
                 // get/set always false
             case CodeAccessorMethod::GET:
             case CodeAccessorMethod::SET:
@@ -575,16 +575,16 @@ bool CodeClassField::fieldIsSingleValue ( )
 {
     // For the time being, all attributes ARE single values (yes,
     // I know this isnt always true, but we have to start somewhere.)
-    if (parentIsAttribute())
+    if(parentIsAttribute())
         return true;
 
     UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
-    if (!role)
+    if(!role)
         return true; // its really an attribute
 
     QString multi = role->getMultiplicity();
 
-    if (multi.isEmpty() || multi.contains(QRegExp("^(0|1)$"))
+    if(multi.isEmpty() || multi.contains(QRegExp("^(0|1)$"))
             || multi.contains(QRegExp("^0\\.\\.1$")))
         return true;
 

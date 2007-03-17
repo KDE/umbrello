@@ -52,7 +52,7 @@ EnumWidget::~EnumWidget() {}
 
 void EnumWidget::draw(QPainter& p, int offsetX, int offsetY) {
     UMLWidget::setPen(p);
-    if (UMLWidget::getUseFillColour())
+    if(UMLWidget::getUseFillColour())
         p.setBrush(UMLWidget::getFillColour());
     else
         p.setBrush(m_pView -> viewport() -> backgroundColor());
@@ -166,7 +166,7 @@ QSize EnumWidget::calculateSize() {
 }
 
 void EnumWidget::slotMenuSelection(int sel) {
-    switch (sel) {
+    switch(sel) {
     case ListPopupMenu::mt_EnumLiteral:
         if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(m_pObject),
                                               Uml::ot_EnumLiteral) )  {

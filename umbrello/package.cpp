@@ -68,10 +68,10 @@ void UMLPackage::addAssocToConcepts(UMLAssociation* a) {
         if (AId == c->getID() || (BId == c->getID())) {
             if (c->hasAssociation(a))
                 kDebug() << "UMLPackage::addAssocToConcepts: " << c->getName()
-                << " already has association id=" << ID2STR(a->getID())
-                << endl;
+                    << " already has association id=" << ID2STR(a->getID())
+                    << endl;
             else
-                c->addAssociationEnd(a);
+               c->addAssociationEnd(a);
         }
         UMLPackage *pkg = dynamic_cast<UMLPackage*>(c);
         if (pkg)
@@ -97,12 +97,12 @@ void UMLPackage::removeAssocFromConcepts(UMLAssociation *assoc)
 bool UMLPackage::addObject(UMLObject *pObject) {
     if (pObject == NULL) {
         kError() << "UMLPackage::addObject is called with a NULL object"
-        << endl;
+            << endl;
         return false;
     }
     if (m_objects.find(pObject) != -1) {
         kDebug() << "UMLPackage::addObject: " << pObject->getName()
-        << " is already there" << endl;
+                  << " is already there" << endl;
         return false;
     }
     if (pObject->getBaseType() == Uml::ot_Association) {
@@ -113,8 +113,8 @@ bool UMLPackage::addObject(UMLObject *pObject) {
         if (assoc->getObject(Uml::A) && assoc->getObject(Uml::B)) {
             UMLPackage *pkg = pObject->getUMLPackage();
             if (pkg != this) {
-                kError() << "UMLPackage " << m_Name << " addObject: "
-                << "assoc's UMLPackage is " << pkg->getName() << endl;
+               kError() << "UMLPackage " << m_Name << " addObject: "
+                   << "assoc's UMLPackage is " << pkg->getName() << endl;
             }
             addAssocToConcepts(assoc);
         }
@@ -131,7 +131,7 @@ void UMLPackage::removeObject(UMLObject *pObject) {
     }
     if (m_objects.findRef(pObject) == -1)
         kDebug() << m_Name << " removeObject: object with id="
-        << ID2STR(pObject->getID()) << "not found." << endl;
+            << ID2STR(pObject->getID()) << "not found." << endl;
     else
         m_objects.remove(pObject);
 }
@@ -280,10 +280,10 @@ bool UMLPackage::load(QDomElement& element) {
             continue;
         }
         UMLObject *pObject = Object_Factory::makeObjectFromXMI(type);
-        if ( !pObject ) {
+        if( !pObject ) {
             kWarning() << "UMLPackage::load: "
-            << "Unknown type of umlobject to create: "
-            << type << endl;
+                << "Unknown type of umlobject to create: "
+                << type << endl;
             continue;
         }
         pObject->setUMLPackage(this);

@@ -104,9 +104,9 @@ public:
     ClassifierListReader(const char* attributeTag,
                          const char* elementName,
                          const char* itemTypeDesignator) :
-            m_attributeTag(attributeTag),
-            m_elementName(elementName),
-            m_itemTypeDesignator(itemTypeDesignator) {
+        m_attributeTag(attributeTag),
+        m_elementName(elementName),
+        m_itemTypeDesignator(itemTypeDesignator) {
     }
     /// destructor
     virtual ~ClassifierListReader() {}
@@ -152,7 +152,7 @@ public:
         if (attributes == NULL) {
 #ifdef VERBOSE_DEBUGGING
             kDebug() << "read(" << name << "): no " << m_attributeTag << " found"
-            << endl;
+                      << endl;
 #endif
             return;
         }
@@ -162,7 +162,7 @@ public:
             QStringList initialArgs = attNode->initialArgs();
             if (attNode->name() != m_elementName) {
                 kDebug() << "read(" << name << "): expecting " << m_elementName
-                << ", " << "found " << initialArgs[0] << endl;
+                          << ", " << "found " << initialArgs[0] << endl;
                 continue;
             }
             UMLObject *item = createListItem();
@@ -186,7 +186,7 @@ protected:
 class AttributesReader : public ClassifierListReader {
 public:
     AttributesReader(UMLClassifier *c)
-            : ClassifierListReader("class_attributes", "ClassAttribute", "type") {
+      : ClassifierListReader("class_attributes", "ClassAttribute", "type") {
         m_classifier = c;
     }
     virtual ~AttributesReader() {}
@@ -203,7 +203,7 @@ protected:
 class ParametersReader : public ClassifierListReader {
 public:
     ParametersReader(UMLOperation *op)
-            : ClassifierListReader("parameters", "Parameter", "type") {
+      : ClassifierListReader("parameters", "Parameter", "type") {
         m_operation = op;
     }
     virtual ~ParametersReader() {}
@@ -220,7 +220,7 @@ protected:
 class OperationsReader : public ClassifierListReader {
 public:
     OperationsReader(UMLClassifier *c)
-            : ClassifierListReader("operations", "Operation", "result") {
+      : ClassifierListReader("operations", "Operation", "result") {
         m_classifier = c;
     }
     virtual ~OperationsReader() {}
@@ -240,7 +240,7 @@ protected:
 class SuperclassesReader : public ClassifierListReader {
 public:
     SuperclassesReader(UMLClassifier *c)
-            : ClassifierListReader("superclasses", "Inheritance_Relationship", "supplier") {
+      : ClassifierListReader("superclasses", "Inheritance_Relationship", "supplier") {
         m_classifier = c;
     }
     virtual ~SuperclassesReader() {}
@@ -273,7 +273,7 @@ protected:
 class RealizationsReader : public ClassifierListReader {
 public:
     RealizationsReader(UMLClassifier *c)
-            : ClassifierListReader("realized_interfaces", "Realize_Relationship", "supplier") {
+      : ClassifierListReader("realized_interfaces", "Realize_Relationship", "supplier") {
         m_classifier = c;
     }
     virtual ~RealizationsReader() {}
@@ -366,28 +366,28 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
             return false;
         }
         UMLAssociation *assoc = new UMLAssociation(Uml::at_UniAssociation);
-        /* (object Association "$UNNAMED$8"
-        	quid       	"32B5D7EE02FF"
-        	roles      	(list role_list
-        	    (object Role "owner"
-        		quid       	"32B5D7EF03D3"
-        		label      	"owner"
-        		supplier   	"Logical View::UML 1.4::Foundation::Core::Classifier"
-        		quidu      	"32989FB2023D"
-        		client_cardinality 	(value cardinality "0..1")
-        		is_navigable 	TRUE
-        		is_aggregate 	TRUE
-        		friend     	TRUE)
-        	    (object Role "feature"
-        		quid       	"32B5D7EF03DD"
-        		label      	"feature"
-        		supplier   	"Logical View::UML 1.4::Foundation::Core::Feature"
-        		quidu      	"32989F9700FE"
-        		client_cardinality 	(value cardinality "*")
-        		Constraints 	"ordered"
-        		Containment 	"By Value"
-        		is_navigable 	TRUE)))
-          */
+/* (object Association "$UNNAMED$8"
+	quid       	"32B5D7EE02FF"
+	roles      	(list role_list
+	    (object Role "owner"
+		quid       	"32B5D7EF03D3"
+		label      	"owner"
+		supplier   	"Logical View::UML 1.4::Foundation::Core::Classifier"
+		quidu      	"32989FB2023D"
+		client_cardinality 	(value cardinality "0..1")
+		is_navigable 	TRUE
+		is_aggregate 	TRUE
+		friend     	TRUE)
+	    (object Role "feature"
+		quid       	"32B5D7EF03DD"
+		label      	"feature"
+		supplier   	"Logical View::UML 1.4::Foundation::Core::Feature"
+		quidu      	"32989F9700FE"
+		client_cardinality 	(value cardinality "*")
+		Constraints 	"ordered"
+		Containment 	"By Value"
+		is_navigable 	TRUE)))
+  */
         PetalNode::NameValueList roleList = roles->attributes();
         for (uint i = 0; i <= 1; i++) {
             PetalNode *roleNode = roleList[i].second.node;
@@ -397,7 +397,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
             }
             if (roleNode->name() != "Role") {
                 kDebug() << "umbrellify(" << name << "): expecting Role, found \""
-                << roleNode->name() << endl;
+                          << roleNode->name() << endl;
                 continue;
             }
             // index 0 corresponds to Umbrello roleB
@@ -446,7 +446,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
 
     } else {
         kDebug() << "umbrellify: object type " << objType
-        << " is not yet implemented" << endl;
+                  << " is not yet implemented" << endl;
     }
     return true;
 }
@@ -454,24 +454,24 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
 Uml::ListView_Type folderType(UMLListViewItem *parent) {
     Uml::ListView_Type type = Uml::lvt_Unknown;
     switch (parent->getType()) {
-    case Uml::lvt_Logical_View:
-    case Uml::lvt_Logical_Folder:
-        type = Uml::lvt_Logical_Folder;
-        break;
-    case Uml::lvt_UseCase_View:
-    case Uml::lvt_UseCase_Folder:
-        type = Uml::lvt_UseCase_Folder;
-        break;
-    case Uml::lvt_Component_View:
-    case Uml::lvt_Component_Folder:
-        type = Uml::lvt_Component_Folder;
-        break;
-    case Uml::lvt_Deployment_View:
-    case Uml::lvt_Deployment_Folder:
-        type = Uml::lvt_Deployment_Folder;
-        break;
-    default:
-        break;
+        case Uml::lvt_Logical_View:
+        case Uml::lvt_Logical_Folder:
+            type = Uml::lvt_Logical_Folder;
+            break;
+        case Uml::lvt_UseCase_View:
+        case Uml::lvt_UseCase_Folder:
+            type = Uml::lvt_UseCase_Folder;
+            break;
+        case Uml::lvt_Component_View:
+        case Uml::lvt_Component_Folder:
+            type = Uml::lvt_Component_Folder;
+            break;
+        case Uml::lvt_Deployment_View:
+        case Uml::lvt_Deployment_Folder:
+            type = Uml::lvt_Deployment_Folder;
+            break;
+        default:
+            break;
     }
     return type;
 }
@@ -514,7 +514,7 @@ bool umbrellify(PetalNode *node, const QString& modelsName, UMLListViewItem *par
         obj = un;
     } else {
         kDebug() << "umbrellify: object type " << objType
-        << " is not yet implemented" << endl;
+                  << " is not yet implemented" << endl;
         return true;
     }
     PetalNode *models = node->findAttribute(modelsName).node;
@@ -548,7 +548,7 @@ bool importView(PetalNode *root, const QString& rootName,
     PetalNode *models = viewRoot->findAttribute(modelsName).node;
     if (models == NULL) {
         kError() << "importView: cannot find " << modelsName
-        << " of " << rootName << endl;
+                  << " of " << rootName << endl;
         return false;
     }
     PetalNode::NameValueList atts = models->attributes();
@@ -575,7 +575,7 @@ bool petalTree2Uml(PetalNode *root) {
     }
     if (root_category->name() != "Class_Category") {
         kError() << "petalTree2Uml: expecting root_category object Class_Category"
-        << endl;
+                  << endl;
         return false;
     }
     PetalNode *logical_models = root_category->findAttribute("logical_models").node;

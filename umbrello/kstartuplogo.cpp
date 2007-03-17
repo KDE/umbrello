@@ -23,7 +23,7 @@
 
 KStartupLogo::KStartupLogo(QWidget * parent, const char *name)
         : QWidget(parent,name, Qt::WStyle_NoBorder | Qt::WStyle_Customize | Qt::WDestructiveClose )
-        ,m_bReadyToHide(false) {
+,m_bReadyToHide(false) {
     //pm.load(locate("appdata", "pics/startlogo.png"));
     KStandardDirs * dirs = KGlobal::dirs();
     QString dataDir = dirs -> findResourceDir("data", "umbrello/pics/object.png");

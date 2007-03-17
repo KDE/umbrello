@@ -25,7 +25,7 @@ class RubyClassifierCodeDocument;
 
 /**
   * class RubyCodeDocumentation
-  * A Ruby code comment. There is only a single styles of comments:
+  * A Ruby code comment. There is only a single styles of comments: 
   * these are simply started with a hash and no terminating
   * characters
   */

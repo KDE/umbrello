@@ -132,8 +132,8 @@ protected:
     enum MessageType {
         NormalMessage,
         CreationMessage,
-        FoundMessage,
-        LostMessage
+	FoundMessage,
+	LostMessage
     };
 
     /**

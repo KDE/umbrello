@@ -83,16 +83,16 @@ UMLObject * findObjectInList(Uml::IDType id, const UMLObjectList& inList) {
                 return o;
             break;
         case Uml::ot_Association:
-        {
-            UMLAssociation *assoc = static_cast<UMLAssociation*>(obj);
-            UMLRole *rA = assoc->getUMLRole(Uml::A);
-            if (rA->getID() == id)
-                return rA;
-            UMLRole *rB = assoc->getUMLRole(Uml::B);
-            if (rB->getID() == id)
-                return rB;
-        }
-        break;
+            {
+                UMLAssociation *assoc = static_cast<UMLAssociation*>(obj);
+                UMLRole *rA = assoc->getUMLRole(Uml::A);
+                if (rA->getID() == id)
+                    return rA;
+                UMLRole *rB = assoc->getUMLRole(Uml::B);
+                if (rB->getID() == id)
+                    return rB;
+            }
+            break;
         default:
             break;
         }
@@ -148,8 +148,8 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
             }
             if (seenPkgs.findRef(pkg) != -1) {
                 kError() << "findUMLObject(" << name << "): "
-                << "breaking out of cycle involving "
-                << pkg->getName() << endl;
+                    << "breaking out of cycle involving "
+                    << pkg->getName() << endl;
                 break;
             }
             seenPkgs.append(pkg);
@@ -166,18 +166,18 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                 if (nameWithoutFirstPrefix.isEmpty()) {
                     if (type != Uml::ot_UMLObject && type != foundType) {
                         kDebug() << "findUMLObject: type mismatch for "
-                        << name << " (seeking type: "
-                        << type << ", found type: "
-                        << foundType << ")" << endl;
+                            << name << " (seeking type: "
+                            << type << ", found type: "
+                            << foundType << ")" << endl;
                         // Class, Interface, and Datatype are all Classifiers
                         // and are considered equivalent.
                         // The caller must be prepared to handle possible mismatches.
                         if ((type == Uml::ot_Class ||
-                                type == Uml::ot_Interface ||
-                                type == Uml::ot_Datatype) &&
-                                (foundType == Uml::ot_Class ||
-                                 foundType == Uml::ot_Interface ||
-                                 foundType == Uml::ot_Datatype)) {
+                             type == Uml::ot_Interface ||
+                             type == Uml::ot_Datatype) &&
+                            (foundType == Uml::ot_Class || 
+                             foundType == Uml::ot_Interface || 
+                             foundType == Uml::ot_Datatype)) {
                             return obj;
                         }
                         continue;
@@ -185,12 +185,12 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                     return obj;
                 }
                 if (foundType != Uml::ot_Package &&
-                        foundType != Uml::ot_Folder &&
-                        foundType != Uml::ot_Class &&
-                        foundType != Uml::ot_Interface &&
-                        foundType != Uml::ot_Component) {
+                    foundType != Uml::ot_Folder &&
+                    foundType != Uml::ot_Class &&
+                    foundType != Uml::ot_Interface &&
+                    foundType != Uml::ot_Component) {
                     kDebug() << "findUMLObject: found \"" << name
-                    << "\" is not a package (?)" << endl;
+                        << "\" is not a package (?)" << endl;
                     continue;
                 }
                 UMLPackage *pkg = static_cast<UMLPackage*>(obj);
@@ -212,20 +212,20 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
         if (nameWithoutFirstPrefix.isEmpty()) {
             if (type != Uml::ot_UMLObject && type != foundType) {
                 kDebug() << "findUMLObject: type mismatch for "
-                << name << " (seeking type: "
-                << type << ", found type: "
-                << foundType << ")" << endl;
+                    << name << " (seeking type: "
+                    << type << ", found type: "
+                    << foundType << ")" << endl;
                 continue;
             }
             return obj;
         }
         if (foundType != Uml::ot_Package &&
-                foundType != Uml::ot_Folder &&
-                foundType != Uml::ot_Class &&
-                foundType != Uml::ot_Interface &&
-                foundType != Uml::ot_Component) {
+            foundType != Uml::ot_Folder &&
+            foundType != Uml::ot_Class &&
+            foundType != Uml::ot_Interface &&
+            foundType != Uml::ot_Component) {
             kDebug() << "findUMLObject: found \"" << name
-            << "\" is not a package (?)" << endl;
+                << "\" is not a package (?)" << endl;
             continue;
         }
         UMLPackage *pkg = static_cast<UMLPackage*>(obj);
@@ -238,31 +238,31 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
 QString uniqObjectName(Uml::Object_Type type, UMLPackage *parentPkg, QString prefix) {
     QString currentName = prefix;
     if (currentName.isEmpty()) {
-        if (type == Uml::ot_Class)
+        if(type == Uml::ot_Class)
             currentName = i18n("new_class");
-        else if (type == Uml::ot_Actor)
+        else if(type == Uml::ot_Actor)
             currentName = i18n("new_actor");
-        else if (type == Uml::ot_UseCase)
+        else if(type == Uml::ot_UseCase)
             currentName = i18n("new_usecase");
-        else if (type == Uml::ot_Package)
+        else if(type == Uml::ot_Package)
             currentName = i18n("new_package");
-        else if (type == Uml::ot_Component)
+        else if(type == Uml::ot_Component)
             currentName = i18n("new_component");
-        else if (type == Uml::ot_Node)
+        else if(type == Uml::ot_Node)
             currentName = i18n("new_node");
-        else if (type == Uml::ot_Artifact)
+        else if(type == Uml::ot_Artifact)
             currentName = i18n("new_artifact");
-        else if (type == Uml::ot_Interface)
+        else if(type == Uml::ot_Interface)
             currentName = i18n("new_interface");
-        else if (type == Uml::ot_Datatype)
+        else if(type == Uml::ot_Datatype)
             currentName = i18n("new_datatype");
-        else if (type == Uml::ot_Enum)
+        else if(type == Uml::ot_Enum)
             currentName = i18n("new_enum");
-        else if (type == Uml::ot_Entity)
+        else if(type == Uml::ot_Entity)
             currentName = i18n("new_entity");
-        else if (type == Uml::ot_Folder)
+        else if(type == Uml::ot_Folder)
             currentName = i18n("new_folder");
-        else if (type == Uml::ot_Association)
+        else if(type == Uml::ot_Association)
             currentName = i18n("new_association");
         else {
             currentName = i18n("new_object");
@@ -315,10 +315,10 @@ bool isCommonDataType(QString type) {
 
 bool isClassifierListitem(Uml::Object_Type type) {
     if (type == Uml::ot_Attribute ||
-            type == Uml::ot_Operation ||
-            type == Uml::ot_Template ||
-            type == Uml::ot_EntityAttribute ||
-            type == Uml::ot_EnumLiteral) {
+        type == Uml::ot_Operation ||
+        type == Uml::ot_Template ||
+        type == Uml::ot_EntityAttribute ||
+        type == Uml::ot_EnumLiteral) {
         return true;
     } else {
         return false;
@@ -331,59 +331,59 @@ Uml::Model_Type guessContainer(UMLObject *o) {
         return Uml::mt_Component;
     Uml::Model_Type mt = Uml::N_MODELTYPES;
     switch (ot) {
-    case Uml::ot_Package:   // CHECK: packages may appear in other views?
-    case Uml::ot_Interface:
-    case Uml::ot_Datatype:
-    case Uml::ot_Enum:
-    case Uml::ot_Class:
-    case Uml::ot_Attribute:
-    case Uml::ot_Operation:
-    case Uml::ot_EnumLiteral:
-    case Uml::ot_Template:
-        mt = Uml::mt_Logical;
-        break;
-    case Uml::ot_Actor:
-    case Uml::ot_UseCase:
-        mt = Uml::mt_UseCase;
-        break;
-    case Uml::ot_Component:
-    case Uml::ot_Artifact:  // trouble: artifact can also appear at Deployment
-        mt = Uml::mt_Component;
-        break;
-    case Uml::ot_Node:
-        mt = Uml::mt_Deployment;
-        break;
-    case Uml::ot_Entity:
-    case Uml::ot_EntityAttribute:
-        mt = Uml::mt_EntityRelationship;
-        break;
-    case Uml::ot_Association:
-    {
-        UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
-        UMLDoc *umldoc = UMLApp::app()->getDocument();
-        for (int r = Uml::A; r <= Uml::B; r++) {
-            UMLObject *roleObj = assoc->getObject((Uml::Role_Type)r);
-            if (roleObj == NULL) {
-                // Ouch! we have been called while types are not yet resolved
-                return Uml::N_MODELTYPES;
-            }
-            UMLPackage *pkg = roleObj->getUMLPackage();
-            if (pkg) {
-                while (pkg->getUMLPackage()) {  // wind back to root
-                    pkg = pkg->getUMLPackage();
+        case Uml::ot_Package:   // CHECK: packages may appear in other views?
+        case Uml::ot_Interface:
+        case Uml::ot_Datatype:
+        case Uml::ot_Enum:
+        case Uml::ot_Class:
+        case Uml::ot_Attribute:
+        case Uml::ot_Operation:
+        case Uml::ot_EnumLiteral:
+        case Uml::ot_Template:
+            mt = Uml::mt_Logical;
+            break;
+        case Uml::ot_Actor:
+        case Uml::ot_UseCase:
+            mt = Uml::mt_UseCase;
+            break;
+        case Uml::ot_Component:
+        case Uml::ot_Artifact:  // trouble: artifact can also appear at Deployment
+            mt = Uml::mt_Component;
+            break;
+        case Uml::ot_Node:
+            mt = Uml::mt_Deployment;
+            break;
+        case Uml::ot_Entity:
+        case Uml::ot_EntityAttribute:
+            mt = Uml::mt_EntityRelationship;
+            break;
+        case Uml::ot_Association:
+            {
+                UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
+                UMLDoc *umldoc = UMLApp::app()->getDocument();
+                for (int r = Uml::A; r <= Uml::B; r++) {
+                    UMLObject *roleObj = assoc->getObject((Uml::Role_Type)r);
+                    if (roleObj == NULL) {
+                        // Ouch! we have been called while types are not yet resolved
+                        return Uml::N_MODELTYPES;
+                    }
+                    UMLPackage *pkg = roleObj->getUMLPackage();
+                    if (pkg) {
+                        while (pkg->getUMLPackage()) {  // wind back to root
+                            pkg = pkg->getUMLPackage();
+                        }
+                        const Uml::Model_Type m = umldoc->rootFolderType(pkg);
+                        if (m != Uml::N_MODELTYPES)
+                            return m;
+                    }
+                    mt = guessContainer(roleObj);
+                    if (mt != Uml::mt_Logical)
+                        break;
                 }
-                const Uml::Model_Type m = umldoc->rootFolderType(pkg);
-                if (m != Uml::N_MODELTYPES)
-                    return m;
             }
-            mt = guessContainer(roleObj);
-            if (mt != Uml::mt_Logical)
-                break;
-        }
-    }
-    break;
-    default:
-        break;
+            break;
+        default:
+            break;
     }
     return mt;
 }
@@ -558,40 +558,40 @@ QString psText(Parse_Status value) {
 
 QString progLangToString(Uml::Programming_Language pl) {
     switch (pl) {
-    case Uml::pl_ActionScript:
-        return "ActionScript";
-    case Uml::pl_Ada:
-        return "Ada";
-    case Uml::pl_Cpp:
-        return "C++";
-    case Uml::pl_CSharp:
-        return "C#";
-    case Uml::pl_IDL:
-        return "IDL";
-    case Uml::pl_Java:
-        return "Java";
-    case Uml::pl_JavaScript:
-        return "JavaScript";
-    case Uml::pl_Pascal:
-        return "Pascal";
-    case Uml::pl_Perl:
-        return "Perl";
-    case Uml::pl_PHP:
-        return "PHP";
-    case Uml::pl_PHP5:
-        return "PHP5";
-    case Uml::pl_Python:
-        return "Python";
-    case Uml::pl_Ruby:
-        return "Ruby";
-    case Uml::pl_SQL:
-        return "SQL";
-    case Uml::pl_Tcl:
-        return "Tcl";
-    case Uml::pl_XMLSchema:
-        return "XMLSchema";
-    default:
-        break;
+        case Uml::pl_ActionScript:
+            return "ActionScript";
+        case Uml::pl_Ada:
+            return "Ada";
+        case Uml::pl_Cpp:
+            return "C++";
+        case Uml::pl_CSharp:
+            return "C#";
+        case Uml::pl_IDL:
+            return "IDL";
+        case Uml::pl_Java:
+            return "Java";
+        case Uml::pl_JavaScript:
+            return "JavaScript";
+        case Uml::pl_Pascal:
+            return "Pascal";
+        case Uml::pl_Perl:
+            return "Perl";
+        case Uml::pl_PHP:
+            return "PHP";
+        case Uml::pl_PHP5:
+            return "PHP5";
+        case Uml::pl_Python:
+            return "Python";
+        case Uml::pl_Ruby:
+            return "Ruby";
+        case Uml::pl_SQL:
+            return "SQL";
+        case Uml::pl_Tcl:
+            return "Tcl";
+        case Uml::pl_XMLSchema:
+            return "XMLSchema";
+        default:
+            break;
     }
     return QString();
 }
@@ -634,43 +634,43 @@ Uml::Programming_Language stringToProgLang(QString str) {
 
 bool typeIsRootView(Uml::ListView_Type type) {
     switch (type) {
-    case Uml::lvt_View:
-    case Uml::lvt_Logical_View:
-    case Uml::lvt_UseCase_View:
-    case Uml::lvt_Component_View:
-    case Uml::lvt_Deployment_View:
-    case Uml::lvt_EntityRelationship_Model:
-        return true;
-        break;
-    default:
-        break;
+        case Uml::lvt_View:
+        case Uml::lvt_Logical_View:
+        case Uml::lvt_UseCase_View:
+        case Uml::lvt_Component_View:
+        case Uml::lvt_Deployment_View:
+        case Uml::lvt_EntityRelationship_Model:
+            return true;
+            break;
+        default:
+            break;
     }
     return false;
 }
 
 bool typeIsCanvasWidget(Uml::ListView_Type type) {
     switch (type) {
-    case Uml::lvt_Actor:
-    case Uml::lvt_UseCase:
-    case Uml::lvt_Class:
-    case Uml::lvt_Package:
-    case Uml::lvt_Logical_Folder:
-    case Uml::lvt_UseCase_Folder:
-    case Uml::lvt_Component_Folder:
-    case Uml::lvt_Deployment_Folder:
-    case Uml::lvt_EntityRelationship_Folder:
-    case Uml::lvt_Subsystem:
-    case Uml::lvt_Component:
-    case Uml::lvt_Node:
-    case Uml::lvt_Artifact:
-    case Uml::lvt_Interface:
-    case Uml::lvt_Datatype:
-    case Uml::lvt_Enum:
-    case Uml::lvt_Entity:
-        return true;
-        break;
-    default:
-        break;
+        case Uml::lvt_Actor:
+        case Uml::lvt_UseCase:
+        case Uml::lvt_Class:
+        case Uml::lvt_Package:
+        case Uml::lvt_Logical_Folder:
+        case Uml::lvt_UseCase_Folder:
+        case Uml::lvt_Component_Folder:
+        case Uml::lvt_Deployment_Folder:
+        case Uml::lvt_EntityRelationship_Folder:
+        case Uml::lvt_Subsystem:
+        case Uml::lvt_Component:
+        case Uml::lvt_Node:
+        case Uml::lvt_Artifact:
+        case Uml::lvt_Interface:
+        case Uml::lvt_Datatype:
+        case Uml::lvt_Enum:
+        case Uml::lvt_Entity:
+            return true;
+            break;
+        default:
+            break;
     }
     return false;
 }
@@ -699,10 +699,10 @@ bool typeIsContainer(Uml::ListView_Type type) {
 
 bool typeIsClassifierList(Uml::ListView_Type type) {
     if (type == Uml::lvt_Attribute ||
-            type == Uml::lvt_Operation ||
-            type == Uml::lvt_Template ||
-            type == Uml::lvt_EntityAttribute ||
-            type == Uml::lvt_EnumLiteral) {
+        type == Uml::lvt_Operation ||
+        type == Uml::lvt_Template ||
+        type == Uml::lvt_EntityAttribute ||
+        type == Uml::lvt_EnumLiteral) {
         return true;
     } else {
         return false;
@@ -728,29 +728,29 @@ bool typeIsDiagram(Uml::ListView_Type type) {
 Uml::Model_Type convert_DT_MT(Uml::Diagram_Type dt) {
     Uml::Model_Type mt;
     switch (dt) {
-    case Uml::dt_UseCase:
-        mt = Uml::mt_UseCase;
-        break;
-    case Uml::dt_Collaboration:
-    case Uml::dt_Class:
-    case Uml::dt_Sequence:
-    case Uml::dt_State:
-    case Uml::dt_Activity:
-        mt = Uml::mt_Logical;
-        break;
-    case Uml::dt_Component:
-        mt = Uml::mt_Component;
-        break;
-    case Uml::dt_Deployment:
-        mt = Uml::mt_Deployment;
-        break;
-    case Uml::dt_EntityRelationship:
-        mt = Uml::mt_EntityRelationship;
-        break;
-    default:
-        kError() << "Model_Utils::convert_DT_MT: illegal input value " << dt << endl;
-        mt = Uml::N_MODELTYPES;
-        break;
+        case Uml::dt_UseCase:
+            mt = Uml::mt_UseCase;
+            break;
+        case Uml::dt_Collaboration:
+        case Uml::dt_Class:
+        case Uml::dt_Sequence:
+        case Uml::dt_State:
+        case Uml::dt_Activity:
+            mt = Uml::mt_Logical;
+            break;
+        case Uml::dt_Component:
+            mt = Uml::mt_Component;
+            break;
+        case Uml::dt_Deployment:
+            mt = Uml::mt_Deployment;
+            break;
+        case Uml::dt_EntityRelationship:
+            mt = Uml::mt_EntityRelationship;
+            break;
+        default:
+            kError() << "Model_Utils::convert_DT_MT: illegal input value " << dt << endl;
+            mt = Uml::N_MODELTYPES;
+            break;
     }
     return mt;
 }
@@ -758,23 +758,23 @@ Uml::Model_Type convert_DT_MT(Uml::Diagram_Type dt) {
 Uml::ListView_Type convert_MT_LVT(Uml::Model_Type mt) {
     Uml::ListView_Type lvt = Uml::lvt_Unknown;
     switch (mt) {
-    case Uml::mt_Logical:
-        lvt = Uml::lvt_Logical_View;
-        break;
-    case Uml::mt_UseCase:
-        lvt = Uml::lvt_UseCase_View;
-        break;
-    case Uml::mt_Component:
-        lvt = Uml::lvt_Component_View;
-        break;
-    case Uml::mt_Deployment:
-        lvt = Uml::lvt_Deployment_View;
-        break;
-    case Uml::mt_EntityRelationship:
-        lvt = Uml::lvt_EntityRelationship_Model;
-        break;
-    default:
-        break;
+        case Uml::mt_Logical:
+            lvt = Uml::lvt_Logical_View;
+            break;
+        case Uml::mt_UseCase:
+            lvt = Uml::lvt_UseCase_View;
+            break;
+        case Uml::mt_Component:
+            lvt = Uml::lvt_Component_View;
+            break;
+        case Uml::mt_Deployment:
+            lvt = Uml::lvt_Deployment_View;
+            break;
+        case Uml::mt_EntityRelationship:
+            lvt = Uml::lvt_EntityRelationship_Model;
+            break;
+        default:
+            break;
     }
     return lvt;
 }
@@ -782,30 +782,30 @@ Uml::ListView_Type convert_MT_LVT(Uml::Model_Type mt) {
 Uml::Model_Type convert_LVT_MT(Uml::ListView_Type lvt) {
     Uml::Model_Type mt = Uml::N_MODELTYPES;
     switch (lvt) {
-    case Uml::lvt_Logical_View:
-        mt = Uml::mt_Logical;
-        break;
-    case Uml::lvt_UseCase_View:
-        mt = Uml::mt_UseCase;
-        break;
-    case Uml::lvt_Component_View:
-        mt = Uml::mt_Component;
-        break;
-    case Uml::lvt_Deployment_View:
-        mt = Uml::mt_Deployment;
-        break;
-    case Uml::lvt_EntityRelationship_Model:
-        mt = Uml::mt_EntityRelationship;
-        break;
-    default:
-        break;
+        case Uml::lvt_Logical_View:
+            mt = Uml::mt_Logical;
+            break;
+        case Uml::lvt_UseCase_View:
+            mt = Uml::mt_UseCase;
+            break;
+        case Uml::lvt_Component_View:
+            mt = Uml::mt_Component;
+            break;
+        case Uml::lvt_Deployment_View:
+            mt = Uml::mt_Deployment;
+            break;
+        case Uml::lvt_EntityRelationship_Model:
+            mt = Uml::mt_EntityRelationship;
+            break;
+        default:
+            break;
     }
     return mt;
 }
 
 Uml::ListView_Type convert_DT_LVT(Uml::Diagram_Type dt) {
     Uml::ListView_Type type =  Uml::lvt_Unknown;
-    switch (dt) {
+    switch(dt) {
     case Uml::dt_UseCase:
         type = Uml::lvt_UseCase_Diagram;
         break;
@@ -851,7 +851,7 @@ Uml::ListView_Type convert_DT_LVT(Uml::Diagram_Type dt) {
 Uml::ListView_Type convert_OT_LVT(UMLObject *o) {
     Uml::Object_Type ot = o->getBaseType();
     Uml::ListView_Type type =  Uml::lvt_Unknown;
-    switch (ot) {
+    switch(ot) {
     case Uml::ot_UseCase:
         type = Uml::lvt_UseCase;
         break;
@@ -869,39 +869,39 @@ Uml::ListView_Type convert_OT_LVT(UMLObject *o) {
         break;
 
     case Uml::ot_Folder:
-    {
-        UMLDoc *umldoc = UMLApp::app()->getDocument();
-        UMLFolder *f = static_cast<UMLFolder*>(o);
-        do {
-            const Uml::Model_Type mt = umldoc->rootFolderType(f);
-            if (mt != Uml::N_MODELTYPES) {
-                switch (mt) {
-                case Uml::mt_Logical:
-                    type = Uml::lvt_Logical_Folder;
-                    break;
-                case Uml::mt_UseCase:
-                    type = Uml::lvt_UseCase_Folder;
-                    break;
-                case Uml::mt_Component:
-                    type = Uml::lvt_Component_Folder;
-                    break;
-                case Uml::mt_Deployment:
-                    type = Uml::lvt_Deployment_Folder;
-                    break;
-                case Uml::mt_EntityRelationship:
-                    type = Uml::lvt_EntityRelationship_Folder;
-                    break;
-                default:
-                    break;
+        {
+            UMLDoc *umldoc = UMLApp::app()->getDocument();
+            UMLFolder *f = static_cast<UMLFolder*>(o);
+            do {
+                const Uml::Model_Type mt = umldoc->rootFolderType(f);
+                if (mt != Uml::N_MODELTYPES) {
+                    switch (mt) {
+                        case Uml::mt_Logical:
+                            type = Uml::lvt_Logical_Folder;
+                            break;
+                        case Uml::mt_UseCase:
+                            type = Uml::lvt_UseCase_Folder;
+                            break;
+                        case Uml::mt_Component:
+                            type = Uml::lvt_Component_Folder;
+                            break;
+                        case Uml::mt_Deployment:
+                            type = Uml::lvt_Deployment_Folder;
+                            break;
+                        case Uml::mt_EntityRelationship:
+                            type = Uml::lvt_EntityRelationship_Folder;
+                            break;
+                        default:
+                            break;
+                    }
+                    return type;
                 }
-                return type;
-            }
-        } while ((f = static_cast<UMLFolder*>(f->getUMLPackage())) != NULL);
-        kError() << "convert_OT_LVT(" << o->getName()
-        << "): internal error - object is not properly nested in folder"
-        << endl;
-    }
-    break;
+            } while ((f = static_cast<UMLFolder*>(f->getUMLPackage())) != NULL);
+            kError() << "convert_OT_LVT(" << o->getName()
+                << "): internal error - object is not properly nested in folder"
+                << endl;
+        }
+        break;
 
     case Uml::ot_Component:
         type = Uml::lvt_Component;
@@ -1035,112 +1035,112 @@ Uml::Object_Type convert_LVT_OT(Uml::ListView_Type lvt) {
 Uml::Icon_Type convert_LVT_IT(Uml::ListView_Type lvt) {
     Uml::Icon_Type icon = Uml::it_Home;
     switch (lvt) {
-    case Uml::lvt_UseCase_View:
-    case Uml::lvt_UseCase_Folder:
-        icon = Uml::it_Folder_Grey;
-        break;
-    case Uml::lvt_Logical_View:
-    case Uml::lvt_Logical_Folder:
-        icon = Uml::it_Folder_Green;
-        break;
-    case Uml::lvt_Datatype_Folder:
-        icon = Uml::it_Folder_Orange;
-        break;
-    case Uml::lvt_Component_View:
-    case Uml::lvt_Component_Folder:
-        icon = Uml::it_Folder_Red;
-        break;
-    case Uml::lvt_Deployment_View:
-    case Uml::lvt_Deployment_Folder:
-        icon = Uml::it_Folder_Violet;
-        break;
-    case Uml::lvt_EntityRelationship_Model:
-    case Uml::lvt_EntityRelationship_Folder:
-        icon = Uml::it_Folder_Cyan;
-        break;
+        case Uml::lvt_UseCase_View:
+        case Uml::lvt_UseCase_Folder:
+            icon = Uml::it_Folder_Grey;
+            break;
+        case Uml::lvt_Logical_View:
+        case Uml::lvt_Logical_Folder:
+            icon = Uml::it_Folder_Green;
+            break;
+        case Uml::lvt_Datatype_Folder:
+            icon = Uml::it_Folder_Orange;
+            break;
+        case Uml::lvt_Component_View:
+        case Uml::lvt_Component_Folder:
+            icon = Uml::it_Folder_Red;
+            break;
+        case Uml::lvt_Deployment_View:
+        case Uml::lvt_Deployment_Folder:
+            icon = Uml::it_Folder_Violet;
+            break;
+        case Uml::lvt_EntityRelationship_Model:
+        case Uml::lvt_EntityRelationship_Folder:
+            icon = Uml::it_Folder_Cyan;
+            break;
 
-    case Uml::lvt_Actor:
-        icon = Uml::it_Actor;
-        break;
-    case Uml::lvt_UseCase:
-        icon = Uml::it_UseCase;
-        break;
-    case Uml::lvt_Class:
-        icon = Uml::it_Class;
-        break;
-    case Uml::lvt_Package:
-        icon = Uml::it_Package;
-        break;
-    case Uml::lvt_Subsystem:
-        icon = Uml::it_Subsystem;
-        break;
-    case Uml::lvt_Component:
-        icon = Uml::it_Component;
-        break;
-    case Uml::lvt_Node:
-        icon = Uml::it_Node;
-        break;
-    case Uml::lvt_Artifact:
-        icon = Uml::it_Artifact;
-        break;
-    case Uml::lvt_Interface:
-        icon = Uml::it_Interface;
-        break;
-    case Uml::lvt_Datatype:
-        icon = Uml::it_Datatype;
-        break;
-    case Uml::lvt_Enum:
-        icon = Uml::it_Enum;
-        break;
-    case Uml::lvt_Entity:
-        icon = Uml::it_Entity;
-        break;
-    case Uml::lvt_Template:
-        icon = Uml::it_Template;
-        break;
-    case Uml::lvt_Attribute:
-        icon = Uml::it_Private_Attribute;
-        break;
-    case Uml::lvt_EntityAttribute:
-        icon = Uml::it_Private_Attribute;
-        break;
-    case Uml::lvt_EnumLiteral:
-        icon = Uml::it_Public_Attribute;
-        break;
-    case Uml::lvt_Operation:
-        icon = Uml::it_Public_Method;
-        break;
+        case Uml::lvt_Actor:
+            icon = Uml::it_Actor;
+            break;
+        case Uml::lvt_UseCase:
+            icon = Uml::it_UseCase;
+            break;
+        case Uml::lvt_Class:
+            icon = Uml::it_Class;
+            break;
+        case Uml::lvt_Package:
+            icon = Uml::it_Package;
+            break;
+        case Uml::lvt_Subsystem:
+            icon = Uml::it_Subsystem;
+            break;
+        case Uml::lvt_Component:
+            icon = Uml::it_Component;
+            break;
+        case Uml::lvt_Node:
+            icon = Uml::it_Node;
+            break;
+        case Uml::lvt_Artifact:
+            icon = Uml::it_Artifact;
+            break;
+        case Uml::lvt_Interface:
+            icon = Uml::it_Interface;
+            break;
+        case Uml::lvt_Datatype:
+            icon = Uml::it_Datatype;
+            break;
+        case Uml::lvt_Enum:
+            icon = Uml::it_Enum;
+            break;
+        case Uml::lvt_Entity:
+            icon = Uml::it_Entity;
+            break;
+        case Uml::lvt_Template:
+            icon = Uml::it_Template;
+            break;
+        case Uml::lvt_Attribute:
+            icon = Uml::it_Private_Attribute;
+            break;
+        case Uml::lvt_EntityAttribute:
+            icon = Uml::it_Private_Attribute;
+            break;
+        case Uml::lvt_EnumLiteral:
+            icon = Uml::it_Public_Attribute;
+            break;
+        case Uml::lvt_Operation:
+            icon = Uml::it_Public_Method;
+            break;
 
-    case Uml::lvt_Class_Diagram:
-        icon = Uml::it_Diagram_Class;
-        break;
-    case Uml::lvt_UseCase_Diagram:
-        icon = Uml::it_Diagram_Usecase;
-        break;
-    case Uml::lvt_Sequence_Diagram:
-        icon = Uml::it_Diagram_Sequence;
-        break;
-    case Uml::lvt_Collaboration_Diagram:
-        icon = Uml::it_Diagram_Collaboration;
-        break;
-    case Uml::lvt_State_Diagram:
-        icon = Uml::it_Diagram_State;
-        break;
-    case Uml::lvt_Activity_Diagram:
-        icon = Uml::it_Diagram_Activity;
-        break;
-    case Uml::lvt_Component_Diagram:
-        icon = Uml::it_Diagram_Component;
-        break;
-    case Uml::lvt_Deployment_Diagram:
-        icon = Uml::it_Diagram_Deployment;
-        break;
-    case Uml::lvt_EntityRelationship_Diagram:
-        icon = Uml::it_Diagram_EntityRelationship;
-        break;
+        case Uml::lvt_Class_Diagram:
+            icon = Uml::it_Diagram_Class;
+            break;
+        case Uml::lvt_UseCase_Diagram:
+            icon = Uml::it_Diagram_Usecase;
+            break;
+        case Uml::lvt_Sequence_Diagram:
+            icon = Uml::it_Diagram_Sequence;
+            break;
+        case Uml::lvt_Collaboration_Diagram:
+            icon = Uml::it_Diagram_Collaboration;
+            break;
+        case Uml::lvt_State_Diagram:
+            icon = Uml::it_Diagram_State;
+            break;
+        case Uml::lvt_Activity_Diagram:
+            icon = Uml::it_Diagram_Activity;
+            break;
+        case Uml::lvt_Component_Diagram:
+            icon = Uml::it_Diagram_Component;
+            break;
+        case Uml::lvt_Deployment_Diagram:
+            icon = Uml::it_Diagram_Deployment;
+            break;
+        case Uml::lvt_EntityRelationship_Diagram:
+            icon = Uml::it_Diagram_EntityRelationship;
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
     return icon;
 }
@@ -1148,35 +1148,35 @@ Uml::Icon_Type convert_LVT_IT(Uml::ListView_Type lvt) {
 Uml::Diagram_Type convert_LVT_DT(Uml::ListView_Type lvt) {
     Uml::Diagram_Type dt = Uml::dt_Undefined;
     switch (lvt) {
-    case Uml::lvt_Class_Diagram:
-        dt = Uml::dt_Class;
-        break;
-    case Uml::lvt_UseCase_Diagram:
-        dt = Uml::dt_UseCase;
-        break;
-    case Uml::lvt_Sequence_Diagram:
-        dt = Uml::dt_Sequence;
-        break;
-    case Uml::lvt_Collaboration_Diagram:
-        dt = Uml::dt_Collaboration;
-        break;
-    case Uml::lvt_State_Diagram:
-        dt = Uml::dt_State;
-        break;
-    case Uml::lvt_Activity_Diagram:
-        dt = Uml::dt_Activity;
-        break;
-    case Uml::lvt_Component_Diagram:
-        dt = Uml::dt_Component;
-        break;
-    case Uml::lvt_Deployment_Diagram:
-        dt = Uml::dt_Deployment;
-        break;
-    case Uml::lvt_EntityRelationship_Diagram:
-        dt = Uml::dt_EntityRelationship;
-        break;
-    default:
-        break;
+        case Uml::lvt_Class_Diagram:
+            dt = Uml::dt_Class;
+            break;
+        case Uml::lvt_UseCase_Diagram:
+            dt = Uml::dt_UseCase;
+            break;
+        case Uml::lvt_Sequence_Diagram:
+            dt = Uml::dt_Sequence;
+            break;
+        case Uml::lvt_Collaboration_Diagram:
+            dt = Uml::dt_Collaboration;
+            break;
+        case Uml::lvt_State_Diagram:
+            dt = Uml::dt_State;
+            break;
+        case Uml::lvt_Activity_Diagram:
+            dt = Uml::dt_Activity;
+            break;
+        case Uml::lvt_Component_Diagram:
+            dt = Uml::dt_Component;
+            break;
+        case Uml::lvt_Deployment_Diagram:
+            dt = Uml::dt_Deployment;
+            break;
+        case Uml::lvt_EntityRelationship_Diagram:
+            dt = Uml::dt_EntityRelationship;
+            break;
+        default:
+            break;
     }
     return dt;
 }
@@ -1184,24 +1184,24 @@ Uml::Diagram_Type convert_LVT_DT(Uml::ListView_Type lvt) {
 Uml::Model_Type convert_OT_MT(Uml::Object_Type ot) {
     Uml::Model_Type mt = Uml::N_MODELTYPES;
     switch (ot) {
-    case Uml::ot_Actor:
-    case Uml::ot_UseCase:
-        mt = Uml::mt_UseCase;
-        break;
-    case Uml::ot_Component:
-    case Uml::ot_Artifact:
-        mt = Uml::mt_Component;
-        break;
-    case Uml::ot_Node:
-        mt = Uml::mt_Deployment;
-        break;
-    case Uml::ot_Entity:
-    case Uml::ot_EntityAttribute:
-        mt = Uml::mt_EntityRelationship;
-        break;
-    default:
-        mt = Uml::mt_Logical;
-        break;
+        case Uml::ot_Actor:
+        case Uml::ot_UseCase:
+            mt = Uml::mt_UseCase;
+            break;
+        case Uml::ot_Component:
+        case Uml::ot_Artifact:
+            mt = Uml::mt_Component;
+            break;
+        case Uml::ot_Node:
+            mt = Uml::mt_Deployment;
+            break;
+        case Uml::ot_Entity:
+        case Uml::ot_EntityAttribute:
+            mt = Uml::mt_EntityRelationship;
+            break;
+        default:
+            mt = Uml::mt_Logical;
+            break;
     }
     return mt;
 }

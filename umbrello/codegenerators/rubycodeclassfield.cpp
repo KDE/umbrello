@@ -65,7 +65,7 @@ QString RubyCodeClassField::getFieldName() {
     {
         UMLRole * role = (UMLRole*) getParentObject();
         QString roleName = role->getName();
-        if (fieldIsSingleValue()) {
+        if(fieldIsSingleValue()) {
             return roleName.replace(0, 1, roleName.left(1).lower());
         } else {
             return roleName.lower() + "Array";
@@ -90,7 +90,7 @@ QString RubyCodeClassField::getInitialValue() {
     }
     else
     {
-        if (fieldIsSingleValue()) {
+        if(fieldIsSingleValue()) {
             // FIX : IF the multiplicity is "1" then we should init a new object here, if its 0 or 1,
             //       then we can just return 'empty' string (minor problem).
             return QString("");

@@ -18,19 +18,19 @@
 
 namespace Uml
 {
-class cmdCreateWidget : public QUndoCommand
-{
-public:
-    cmdCreateWidget(UMLView* view, UMLWidget* w);
-    ~cmdCreateWidget();
+	class cmdCreateWidget : public QUndoCommand
+	{
+		public:
+			cmdCreateWidget(UMLView* view, UMLWidget* w);
+			~cmdCreateWidget();
 
-    void redo();
-    void undo();
-
-private:
-    UMLWidget*	m_widget;
-    UMLView*	m_view;
-};
+			void redo();
+			void undo();
+		
+		private:
+			UMLWidget*	m_widget;
+			UMLView*	m_view;
+	};
 };
 
 #endif

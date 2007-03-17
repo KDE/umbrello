@@ -33,7 +33,7 @@
 #include <QPolygon>
 
 PinWidget::PinWidget(UMLView * view, ActivityWidget* a, Uml::IDType id ): UMLWidget(view, id){
-
+    
     init();
     m_pOw[Uml::A] = a;
     int y = getY();
@@ -41,10 +41,10 @@ PinWidget::PinWidget(UMLView * view, ActivityWidget* a, Uml::IDType id ): UMLWid
     y = y < getMinY() ? getMinY() : y;
     m_nY = y;
     this->activate();
-}
+} 
 
-PinWidget::~PinWidget() {}
-
+PinWidget::~PinWidget() {} 
+ 
 void PinWidget::init() {
     UMLWidget::setBaseType(Uml::wt_Pin);
     m_bIgnoreSnapToGrid = true;
@@ -55,7 +55,7 @@ void PinWidget::init() {
     setVisible(true);
 }
 
-void PinWidget::draw(QPainter & p, int offsetX, int offsetY) {
+void PinWidget::draw(QPainter & p, int offsetX, int offsetY) { 
     int w = 10;
     int h = 10;
     int width_Activity = m_pOw[Uml::A]->getWidth();
@@ -63,20 +63,20 @@ void PinWidget::draw(QPainter & p, int offsetX, int offsetY) {
     int y;
 
     int x = m_pOw[Uml::A]->getX() + (width_Activity/2);
-
+   
 
     if ( (offsetY + height_Activity/2) <= m_pOw[Uml::A]->getY() + height_Activity){
-        y = m_pOw[Uml::A]->getY()-5;
-    } else if ((offsetY + height_Activity/2) > m_pOw[Uml::A]->getY() + height_Activity){
-        y = (m_pOw[Uml::A]->getY() + height_Activity)-5;
+       y = m_pOw[Uml::A]->getY()-5;
+    } else if((offsetY + height_Activity/2) > m_pOw[Uml::A]->getY() + height_Activity){
+       y = (m_pOw[Uml::A]->getY() + height_Activity)-5;
     }
 
-    if (offsetX + width_Activity/4 <= m_pOw[Uml::A]->getX() + width_Activity/2
-            && (offsetY > m_pOw[Uml::A]->getY() +5 && offsetY < m_pOw[Uml::A]->getY() + height_Activity - 5) ){
+    if (offsetX + width_Activity/4 <= m_pOw[Uml::A]->getX() + width_Activity/2 
+         && (offsetY > m_pOw[Uml::A]->getY() +5 && offsetY < m_pOw[Uml::A]->getY() + height_Activity - 5) ){
         x = m_pOw[Uml::A]->getX() -5;
         y = m_pOw[Uml::A]->getY() + (height_Activity/2) -5;
     } else if (offsetX + width_Activity/4 > m_pOw[Uml::A]->getX() + width_Activity/2
-               && (offsetY > m_pOw[Uml::A]->getY() +5 && offsetY < m_pOw[Uml::A]->getY() + height_Activity - 5) ){
+         && (offsetY > m_pOw[Uml::A]->getY() +5 && offsetY < m_pOw[Uml::A]->getY() + height_Activity - 5) ){
         x = m_pOw[Uml::A]->getX() + width_Activity -5;
         y = m_pOw[Uml::A]->getY() + (height_Activity/2) -5;
     }
@@ -92,18 +92,18 @@ void PinWidget::draw(QPainter & p, int offsetX, int offsetY) {
 //     if (y + h >= m_pOw[Uml::A]->getEndLineY()) {
 //         y = m_pOw[Uml::A]->getEndLineY() - h;
 //     }
-
-
-    UMLWidget::setPen(p);
-    if ( UMLWidget::getUseFillColour() ) {
-        p.setBrush( UMLWidget::getFillColour() );
-    }
-    p.drawRect(x,y,w, h);
-    UMLWidget::setPen(p);
-    if (m_bSelected)
-        drawSelected(&p, offsetX, offsetY);
+    
+    
+    UMLWidget::setPen(p); 
+        if ( UMLWidget::getUseFillColour() ) { 
+            p.setBrush( UMLWidget::getFillColour() ); 
+        }
+        p.drawRect(x,y,w, h); 
+        UMLWidget::setPen(p);
+        if(m_bSelected)
+             drawSelected(&p, offsetX, offsetY);
 }
-
+ 
 int PinWidget::getMinY() {
     if (!m_pOw[Uml::A]) {
         return 0;
@@ -116,29 +116,29 @@ int PinWidget::getMinY() {
 //     if( !m_pOw[Uml::A]) {
 //         return 0;
 //     }
-//
+// 
 //     int heightA = (int)((ActivityWidget*)m_pOw[Uml::A])->getEndLineY();
 //     int height = heightA;
 //     return (height - this->height());
 // }
 
-void PinWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void PinWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) { 
     QDomElement PinElement = qDoc.createElement( "pinwidget" );
-    UMLWidget::saveToXMI( qDoc, PinElement );
-    //PinElement.setAttribute( "pinname", m_Text );
-    // PinElement.setAttribute( "documentation", m_Doc );
-    qElement.appendChild( PinElement );
+    UMLWidget::saveToXMI( qDoc, PinElement ); 
+    //PinElement.setAttribute( "pinname", m_Text ); 
+   // PinElement.setAttribute( "documentation", m_Doc ); 
+    qElement.appendChild( PinElement ); 
 }
 
-bool PinWidget::loadFromXMI( QDomElement & qElement ) {
-    if ( !UMLWidget::loadFromXMI( qElement ) )
-        return false;
-    //m_Text = qElement.attribute( "pinname", "" );
+bool PinWidget::loadFromXMI( QDomElement & qElement ) { 
+    if( !UMLWidget::loadFromXMI( qElement ) ) 
+        return false; 
+    //m_Text = qElement.attribute( "pinname", "" ); 
 //kDebug() << "load pinwidget from xmi !!!! " << m_Text << endl;
-    // m_Doc = qElement.attribute( "documentation", "" );
+   // m_Doc = qElement.attribute( "documentation", "" );
     //QString type = qElement.attribute( "objectflowtype", "1" );
-    //  setObjectFlowType( (ObjectFlowType)type.toInt() );
-    return true;
+  //  setObjectFlowType( (ObjectFlowType)type.toInt() );
+    return true; 
 }
 
 

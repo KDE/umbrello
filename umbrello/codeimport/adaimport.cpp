@@ -29,7 +29,7 @@
 #include "../association.h"
 
 AdaImport::AdaImport() : NativeImportBase("--") {
-    initVars();
+   initVars();
 }
 
 AdaImport::~AdaImport() {
@@ -179,9 +179,9 @@ bool AdaImport::parseStmt() {
             QStringList components = QStringList::split(".", m_source[m_srcIndex].lower());
             const QString& prefix = components.first();
             if (prefix == "system" || prefix == "ada" || prefix == "gnat" ||
-                    prefix == "interfaces" || prefix == "text_io" ||
-                    prefix == "unchecked_conversion" ||
-                    prefix == "unchecked_deallocation") {
+                prefix == "interfaces" || prefix == "text_io" ||
+                prefix == "unchecked_conversion" ||
+                prefix == "unchecked_deallocation") {
                 if (advance() != ",")
                     break;
                 continue;
@@ -209,7 +209,7 @@ bool AdaImport::parseStmt() {
                 m_srcIndex++;
                 QString pkgName = advance();
                 UMLObject *gp = Import_Utils::createUMLObject(Uml::ot_Package, pkgName,
-                                m_scope[m_scopeIndex]);
+                                                              m_scope[m_scopeIndex]);
                 gp->setStereotype("generic");
                 // Add binding from instantiator to instantiatee
                 UMLAssociation *assoc = new UMLAssociation(Uml::at_Dependency, ns, gp);
@@ -246,7 +246,7 @@ bool AdaImport::parseStmt() {
             type = Import_Utils::createUMLObject(Uml::ot_Datatype, base, m_scope[m_scopeIndex]);
         }
         UMLObject *subtype = Import_Utils::createUMLObject(type->getBaseType(), name,
-                             m_scope[m_scopeIndex], m_comment);
+                                                           m_scope[m_scopeIndex], m_comment);
         UMLAssociation *assoc = new UMLAssociation(Uml::at_Dependency, subtype, type);
         assoc->setUMLPackage(umldoc->getRootFolder(Uml::mt_Logical));
         assoc->setStereotype("subtype");
@@ -261,7 +261,7 @@ bool AdaImport::parseStmt() {
         QString next = advance();
         if (next == "(") {
             kDebug() << "AdaImport::parseStmt(" << name << "): "
-            << "discriminant handling is not yet implemented" << endl;
+                << "discriminant handling is not yet implemented" << endl;
             // @todo Find out how to map discriminated record to UML.
             //       For now, we just create a pro forma empty record.
             Import_Utils::createUMLObject(Uml::ot_Class, name, m_scope[m_scopeIndex],
@@ -307,16 +307,16 @@ bool AdaImport::parseStmt() {
             next = advance();
         }
         if (next == "limited" ||
-                next == "task" ||
-                next == "protected" ||
-                next == "synchronized") {
+            next == "task" ||
+            next == "protected" ||
+            next == "synchronized") {
             next = advance();  // we can't (yet?) represent that
         }
         if (next == "private" ||
-                next == "interface" ||
-                next == "record" ||
-                (next == "null" &&
-                 m_source[m_srcIndex+1] == "record")) {
+            next == "interface" ||
+            next == "record" ||
+            (next == "null" &&
+             m_source[m_srcIndex+1] == "record")) {
             Uml::Object_Type t = (next == "interface" ? Uml::ot_Interface : Uml::ot_Class);
             UMLObject *ns = Import_Utils::createUMLObject(t, name, m_scope[m_scopeIndex], m_comment);
             if (t == Uml::ot_Interface) {
@@ -374,9 +374,9 @@ bool AdaImport::parseStmt() {
                         t = Uml::ot_Interface;
                         QStringList::Iterator end(baseInterfaces.end());
                         for (QStringList::Iterator bi(baseInterfaces.begin()); bi != end; ++bi) {
-                            ns = Import_Utils::createUMLObject(t, *bi, m_scope[m_scopeIndex]);
-                            parent = static_cast<UMLClassifier*>(ns);
-                            Import_Utils::createGeneralization(klass, parent);
+                             ns = Import_Utils::createUMLObject(t, *bi, m_scope[m_scopeIndex]);
+                             parent = static_cast<UMLClassifier*>(ns);
+                             Import_Utils::createGeneralization(klass, parent);
                         }
                     }
                 }
@@ -395,7 +395,7 @@ bool AdaImport::parseStmt() {
         if (m_klass) {
             if (advance() != "record") {
                 kError() << "end: expecting \"record\" at "
-                << m_source[m_srcIndex] << endl;
+                          << m_source[m_srcIndex] << endl;
             }
             m_klass = NULL;
         } else if (m_scopeIndex) {
@@ -403,7 +403,7 @@ bool AdaImport::parseStmt() {
                 QString scopeName = m_scope[m_scopeIndex]->getFullyQualifiedName();
                 if (scopeName.lower() != m_source[m_srcIndex].lower())
                     kError() << "end: expecting " << scopeName << ", found "
-                    << m_source[m_srcIndex] << endl;
+                              << m_source[m_srcIndex] << endl;
             }
             m_scopeIndex--;
             m_currentAccess = Uml::Visibility::Public;   // @todo make a stack for this
@@ -477,8 +477,8 @@ bool AdaImport::parseStmt() {
                 UMLObject *type = Import_Utils::createUMLObject(Uml::ot_Class, typeName, m_scope[m_scopeIndex]);
                 Uml::Object_Type t = type->getBaseType();
                 if ((t != Uml::ot_Interface &&
-                        (t != Uml::ot_Class || type->getStereotype() == "record")) ||
-                        !m_classesDefinedInThisScope.contains(type)) {
+                     (t != Uml::ot_Class || type->getStereotype() == "record")) ||
+                    !m_classesDefinedInThisScope.contains(type)) {
                     // Not an instance bound method - we cannot represent it.
                     skipStmt(")");
                     break;
@@ -503,7 +503,7 @@ bool AdaImport::parseStmt() {
             if (advance() != "return") {
                 if (klass)
                     kError() << "importAda: expecting \"return\" at function "
-                    << name << endl;
+                        << name << endl;
                 return false;
             }
             returnType = expand(advance());
@@ -548,7 +548,7 @@ bool AdaImport::parseStmt() {
                 skipStmt("end");
         } else {
             kError() << "importAda: expecting \"use\" at rep spec of "
-            << typeName << endl;
+                      << typeName << endl;
         }
         skipStmt();
         return true;
@@ -561,7 +561,7 @@ bool AdaImport::parseStmt() {
     const QString& name = keyword;
     if (advance() != ":") {
         kError() << "adaImport: expecting \":\" at " << name << " "
-        << m_source[m_srcIndex] << endl;
+                  << m_source[m_srcIndex] << endl;
         skipStmt();
         return true;
     }
@@ -578,7 +578,7 @@ bool AdaImport::parseStmt() {
         }
     }
     UMLObject *o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name,
-                   typeName, m_comment);
+                                                 typeName, m_comment);
     UMLAttribute *attr = static_cast<UMLAttribute*>(o);
     attr->setInitialValue(initialValue);
     skipStmt();

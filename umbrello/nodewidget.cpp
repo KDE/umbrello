@@ -17,7 +17,7 @@
 #include <QPolygon>
 
 NodeWidget::NodeWidget(UMLView * view, UMLNode *n )
-        : UMLWidget(view, n) {
+  : UMLWidget(view, n) {
     UMLWidget::setBaseType(Uml::wt_Node);
     setZ(m_origZ = 1);  // above box but below UMLWidget because may embed widgets
     updateComponentSize();
@@ -85,7 +85,7 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
                    bodyWidth, fontHeight, Qt::AlignCenter, name);
     }
 
-    if (m_bSelected) {
+    if(m_bSelected) {
         drawSelected(&p, offsetX, offsetY);
     }
 }

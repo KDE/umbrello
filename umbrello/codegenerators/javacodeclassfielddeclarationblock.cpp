@@ -67,13 +67,13 @@ void JavaCodeClassFieldDeclarationBlock::updateContent( )
     QString scopeStr = jdoc->scopeToJavaDecl(getParentObject()->getVisibility());
 
     // IF this is from an association, then scope taken as appropriate to policy
-    if (!jcf->parentIsAttribute())
+    if(!jcf->parentIsAttribute())
     {
         switch (scopePolicy) {
         case CodeGenerationPolicy::Public:
         case CodeGenerationPolicy::Private:
         case CodeGenerationPolicy::Protected:
-            scopeStr = jdoc->scopeToJavaDecl((Uml::Visibility::Value) scopePolicy);
+              scopeStr = jdoc->scopeToJavaDecl((Uml::Visibility::Value) scopePolicy);
             break;
         default:
         case CodeGenerationPolicy::FromParent:
@@ -102,9 +102,9 @@ void JavaCodeClassFieldDeclarationBlock::updateContent( )
 
             // FIX?: IF a constructor method exists in the classifiercodedoc
             // of the parent Object, then we can use that instead (if its empty).
-            if (cf->fieldIsSingleValue())
+            if(cf->fieldIsSingleValue())
             {
-                if (!typeName.isEmpty())
+                if(!typeName.isEmpty())
                     body.append(" = new " + typeName + " ( )");
             } else
                 body.append(" = new Vector ( )");

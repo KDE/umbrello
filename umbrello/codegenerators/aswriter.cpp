@@ -32,7 +32,7 @@ ASWriter::~ASWriter() {}
 
 void ASWriter::writeClass(UMLClassifier *c)
 {
-    if (!c)
+    if(!c)
     {
         kDebug()<<"Cannot write class of NULL concept!" << endl;
         return;
@@ -50,7 +50,7 @@ void ASWriter::writeClass(UMLClassifier *c)
     }
 
     QFile fileas;
-    if (!openFile(fileas,fileName))
+    if(!openFile(fileas,fileName))
     {
         emit codeGenerated(c, false);
         return;
@@ -65,7 +65,7 @@ void ASWriter::writeClass(UMLClassifier *c)
     //try to find a heading file (license, coments, etc)
     QString str;
     str = getHeadingFile(".as");
-    if (!str.isEmpty())
+    if(!str.isEmpty())
     {
         str.replace(QRegExp("%filename%"),fileName+".as");
         str.replace(QRegExp("%filepath%"),fileas.name());
@@ -87,7 +87,7 @@ void ASWriter::writeClass(UMLClassifier *c)
     as << m_endl;
 
     //Write class Documentation if there is somthing or if force option
-    if (forceDoc() || !c->getDoc().isEmpty())
+    if(forceDoc() || !c->getDoc().isEmpty())
     {
         as << m_endl << "/**" << m_endl;
         as << "  * class " << classname << m_endl;
@@ -100,7 +100,7 @@ void ASWriter::writeClass(UMLClassifier *c)
     UMLAssociationList compositions = c->getCompositions();
 
     //check if class is abstract and / or has abstract methods
-    if (c->getAbstract() && !hasAbstractOps(c))
+    if(c->getAbstract() && !hasAbstractOps(c))
         as << "/******************************* Abstract Class ****************************" << m_endl << "  "
         << classname << " does not have any pure virtual methods, but its author" << m_endl
         << "  defined it as an abstract class, so you should not use it directly." << m_endl
@@ -113,7 +113,7 @@ void ASWriter::writeClass(UMLClassifier *c)
     as << "}" << m_endl;
     as << m_endl;
 
-    for (UMLClassifier *obj = superclasses.first();
+    for(UMLClassifier *obj = superclasses.first();
             obj; obj = superclasses.next()) {
         as << classname << ".prototype = new " << cleanName(obj->getName()) << " ();" << m_endl;
     }
@@ -133,7 +133,7 @@ void ASWriter::writeClass(UMLClassifier *c)
         as << " */" << m_endl;
         as << classname << ".prototype._init = function ()" << m_endl;
         as << "{" << m_endl;
-        for (UMLAttribute *at = atl.first(); at ; at = atl.next())
+        for(UMLAttribute *at = atl.first(); at ; at = atl.next())
         {
             if (forceDoc() || !at->getDoc().isEmpty())
             {
@@ -141,7 +141,7 @@ void ASWriter::writeClass(UMLClassifier *c)
                 << formatDoc(at->getDoc(), m_indentation + " * ")
                 << m_indentation << " */" << m_endl;
             }
-            if (!at->getInitialValue().isEmpty())
+            if(!at->getInitialValue().isEmpty())
             {
                 as << m_indentation << "this.m_" << cleanName(at->getName()) << " = " << at->getInitialValue() << ";" << m_endl;
             }
@@ -165,13 +165,13 @@ void ASWriter::writeClass(UMLClassifier *c)
                 as << m_indentation << "this.m_" << nm.lower() << " = new Array ();" << m_endl;
         }
     }
-    if ( forceSections() || !compositions.isEmpty())
+    if( forceSections() || !compositions.isEmpty())
     {
         as <<  m_endl << m_indentation << "/**Compositions: */" << m_endl;
-        for (UMLAssociation *a = compositions.first(); a; a = compositions.next())
+        for(UMLAssociation *a = compositions.first(); a; a = compositions.next())
         {
             QString nm(cleanName(a->getObject(Uml::A)->getName()));
-            if (a->getMulti(Uml::A).isEmpty())
+            if(a->getMulti(Uml::A).isEmpty())
                 as << m_indentation << "this.m_" << nm << " = new " << nm << " ();" << m_endl;
             else
                 as << m_indentation << "this.m_" << nm.lower() << " = new Array ();" << m_endl;
@@ -184,7 +184,7 @@ void ASWriter::writeClass(UMLClassifier *c)
         UMLAttributeList atl = c->getAttributeList();
         for (UMLAttribute *at = atl.first(); at ; at = atl.next())
         {
-            if (at->getVisibility() == Uml::Visibility::Protected)
+          if (at->getVisibility() == Uml::Visibility::Protected)
             {
                 as << m_indentation << "ASSetPropFlags (this, \"" << cleanName(at->getName()) << "\", 1);" << m_endl;
             }
@@ -194,7 +194,7 @@ void ASWriter::writeClass(UMLClassifier *c)
     UMLOperationList opList(c->getOpList());
     for (UMLOperation *op = opList.first(); op; op = opList.next())
     {
-        if (op->getVisibility() == Uml::Visibility::Protected)
+          if (op->getVisibility() == Uml::Visibility::Protected)
         {
             as << m_indentation << "ASSetPropFlags (this, \"" << cleanName(op->getName()) << "\", 1);" << m_endl;
         }
@@ -205,7 +205,7 @@ void ASWriter::writeClass(UMLClassifier *c)
         UMLAttributeList atl = c->getAttributeList();
         for (UMLAttribute *at = atl.first(); at; at = atl.next())
         {
-            if (at->getVisibility() == Uml::Visibility::Private)
+              if (at->getVisibility() == Uml::Visibility::Private)
             {
                 as << m_indentation << "ASSetPropFlags (this, \"" << cleanName(at->getName()) << "\", 7);" << m_endl;
             }
@@ -214,7 +214,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 
     for (UMLOperation *op = opList.first(); op; op = opList.next())
     {
-        if (op->getVisibility() == Uml::Visibility::Protected)
+          if (op->getVisibility() == Uml::Visibility::Protected)
         {
             as << m_indentation << "ASSetPropFlags (this, \"" << cleanName(op->getName()) << "\", 7);" << m_endl;
         }
@@ -245,7 +245,7 @@ void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
     UMLAttributeList atl;
     UMLAttribute *at;
 
-    for (op = opList->first(); op; op = opList->next())
+    for(op = opList->first(); op; op = opList->next())
     {
         atl = op -> getParmList();
         //write method doc if we have doc || if at least one of the params has doc
@@ -253,13 +253,13 @@ void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
         for (at = atl.first(); at ; at = atl.next())
             writeDoc |= !at->getDoc().isEmpty();
 
-        if ( writeDoc ) //write method documentation
+        if( writeDoc )  //write method documentation
         {
             as << "/**" << m_endl << formatDoc(op->getDoc()," * ");
 
             for (at = atl.first(); at; at = atl.next())  //write parameter documentation
             {
-                if (forceDoc() || !at->getDoc().isEmpty())
+                if(forceDoc() || !at->getDoc().isEmpty())
                 {
                     as << " * @param " + cleanName(at->getName())<<m_endl;
                     as << formatDoc(at->getDoc(),"    *      ");

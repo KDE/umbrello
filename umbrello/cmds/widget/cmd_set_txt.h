@@ -19,24 +19,24 @@
 
 namespace Uml
 {
-class cmdSetTxt : public QUndoCommand
-{
-public:
-    /*Constructor */
-    cmdSetTxt(FloatingTextWidget* _ftw, QString txt);
-    /*Destructor */
-    ~cmdSetTxt();
-    /*Redo method */
-    void redo();
-    /*Undo method */
-    void undo();
+	class cmdSetTxt : public QUndoCommand
+	{
+		public:
+			/*Constructor */
+			cmdSetTxt(FloatingTextWidget* _ftw, QString txt);
+			/*Destructor */
+			~cmdSetTxt();
+			/*Redo method */
+			void redo();
+			/*Undo method */
+			void undo();
 
-private:
+		private:
 
-    FloatingTextWidget* 	ftw;
-    QString 	newstring;
-    QString 	oldstring;
-};
+			FloatingTextWidget* 	ftw;
+			QString 	newstring;
+			QString 	oldstring;
+	};
 };
 
 #endif

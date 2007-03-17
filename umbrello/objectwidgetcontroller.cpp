@@ -18,7 +18,7 @@
 #include "listpopupmenu.h"
 
 ObjectWidgetController::ObjectWidgetController(ObjectWidget* objectWidget):
-        UMLWidgetController(objectWidget) {
+            UMLWidgetController(objectWidget) {
 }
 
 ObjectWidgetController::~ObjectWidgetController() {

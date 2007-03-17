@@ -113,8 +113,8 @@ void RubyClassifierCodeDocument::init ( ) {
     setFileExtension(".rb");
 
     //initCodeClassFields(); // this is dubious because it calls down to
-    // CodeGenFactory::newCodeClassField(this)
-    // but "this" is still in construction at that time.
+                             // CodeGenFactory::newCodeClassField(this)
+                             // but "this" is still in construction at that time.
 
     classDeclCodeBlock = 0;
     publicBlock = 0;
@@ -136,10 +136,10 @@ void RubyClassifierCodeDocument::init ( ) {
  */
 // in the vanilla version, we just tack all operations on the end
 // of the document
-bool RubyClassifierCodeDocument::addCodeOperation (CodeOperation * op )
+bool RubyClassifierCodeDocument::addCodeOperation (CodeOperation * op ) 
 {
     Uml::Visibility scope = op->getParentOperation()->getVisibility();
-    if (!op->getParentOperation()->isConstructorOperation())
+    if(!op->getParentOperation()->isConstructorOperation())
     {
         switch (scope) {
         default:
@@ -180,10 +180,10 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
     QDomNode tnode = root.firstChild();
     QDomElement telement = tnode.toElement();
     bool loadCheckForChildrenOK = false;
-    while ( !telement.isNull() ) {
+    while( !telement.isNull() ) {
         QString nodeName = telement.tagName();
 
-        if ( nodeName == "textblocks" ) {
+        if( nodeName == "textblocks" ) {
 
             QDomNode node = telement.firstChild();
             QDomElement element = node.toElement();
@@ -191,26 +191,26 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
             // if there is nothing to begin with, then we don't worry about it
             loadCheckForChildrenOK = element.isNull() ? true : false;
 
-            while ( !element.isNull() ) {
+            while( !element.isNull() ) {
                 QString name = element.tagName();
 
-                if ( name == "codecomment" ) {
+                if( name == "codecomment" ) {
                     CodeComment * block = new RubyCodeComment(this);
                     block->loadFromXMI(element);
-                    if (!addTextBlock(block))
+                    if(!addTextBlock(block))
                     {
                         kError()<<"loadFromXMI : unable to add codeComment to :"<<this<<endl;
                         block->deleteLater();
                     } else
                         loadCheckForChildrenOK= true;
                 } else
-                    if ( name == "codeaccessormethod" ||
+                    if( name == "codeaccessormethod" ||
                             name == "ccfdeclarationcodeblock"
-                       ) {
+                      ) {
                         QString acctag = element.attribute("tag","");
                         // search for our method in the
                         TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
-                        if (!tb || !addTextBlock(tb))
+                        if(!tb || !addTextBlock(tb))
                         {
                             kError()<<"loadFromXMI : unable to add codeclassfield child method to:"<<this<<endl;
                             // DON'T delete
@@ -218,48 +218,48 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                             loadCheckForChildrenOK= true;
 
                     } else
-                        if ( name == "codeblock" ) {
+                        if( name == "codeblock" ) {
                             CodeBlock * block = newCodeBlock();
                             block->loadFromXMI(element);
-                            if (!addTextBlock(block))
+                            if(!addTextBlock(block))
                             {
                                 kError()<<"loadFromXMI : unable to add codeBlock to :"<<this<<endl;
                                 block->deleteLater();
                             } else
                                 loadCheckForChildrenOK= true;
                         } else
-                            if ( name == "codeblockwithcomments" ) {
+                            if( name == "codeblockwithcomments" ) {
                                 CodeBlockWithComments * block = newCodeBlockWithComments();
                                 block->loadFromXMI(element);
-                                if (!addTextBlock(block))
+                                if(!addTextBlock(block))
                                 {
                                     kError()<<"loadFromXMI : unable to add codeBlockwithcomments to:"<<this<<endl;
                                     block->deleteLater();
                                 } else
                                     loadCheckForChildrenOK= true;
                             } else
-                                if ( name == "header" ) {
+                                if( name == "header" ) {
                                     // do nothing.. this is treated elsewhere
                                 } else
-                                    if ( name == "hierarchicalcodeblock" ) {
+                                    if( name == "hierarchicalcodeblock" ) {
                                         HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
                                         block->loadFromXMI(element);
-                                        if (!addTextBlock(block))
+                                        if(!addTextBlock(block))
                                         {
                                             kError()<<"Unable to add hierarchicalcodeBlock to:"<<this<<endl;
                                             block->deleteLater();
                                         } else
                                             loadCheckForChildrenOK= true;
                                     } else
-                                        if ( name == "codeoperation" ) {
+                                        if( name == "codeoperation" ) {
                                             // find the code operation by id
                                             QString id = element.attribute("parent_id","-1");
                                             UMLObject * obj = UMLApp::app()->getDocument()->findObjectById(STR2ID(id));
                                             UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
-                                            if (op) {
+                                            if(op) {
                                                 CodeOperation * block = new RubyCodeOperation(this, op);
                                                 block->loadFromXMI(element);
-                                                if (addTextBlock(block))
+                                                if(addTextBlock(block))
                                                     loadCheckForChildrenOK= true;
                                                 else
                                                 {
@@ -269,11 +269,11 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                             } else
                                                 kError()<<"Unable to find operation create codeoperation for:"<<this<<endl;
                                         } else
-                                            if ( name == "rubyclassdeclarationblock" )
+                                            if( name == "rubyclassdeclarationblock" )
                                             {
                                                 RubyClassDeclarationBlock * block = getClassDecl();
                                                 block->loadFromXMI(element);
-                                                if (!addTextBlock(block))
+                                                if(!addTextBlock(block))
                                                 {
                                                     kError()<<"Unable to add ruby code declaration block to:"<<this<<endl;
                                                     // DON'T delete.
@@ -296,15 +296,15 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
         telement = tnode.toElement();
     }
 
-    if (!loadCheckForChildrenOK)
+    if(!loadCheckForChildrenOK)
     {
         CodeDocument * test = dynamic_cast<CodeDocument*>(this);
-        if (test)
+        if(test)
         {
             kWarning()<<" loadChildBlocks : unable to initialize any child blocks in doc: "<<test->getFileName()<<" "<<this<<endl;
         } else {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(this);
-            if (hb)
+            if(hb)
                 kWarning()<<" loadChildBlocks : unable to initialize any child blocks in Hblock: "<<hb->getTag()<<" "<<this<<endl;
             else
                 kDebug()<<" loadChildBlocks : unable to initialize any child blocks in UNKNOWN OBJ:"<<this<<endl;
@@ -317,7 +317,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
 QString RubyClassifierCodeDocument::scopeToRubyDecl(Uml::Visibility scope)
 {
     QString scopeString;
-    switch (scope)
+    switch(scope)
     {
     case Uml::Visibility::Public:
         scopeString = "public";
@@ -335,7 +335,7 @@ QString RubyClassifierCodeDocument::scopeToRubyDecl(Uml::Visibility scope)
 
 RubyClassDeclarationBlock * RubyClassifierCodeDocument::getClassDecl()
 {
-    if (!classDeclCodeBlock)
+    if(!classDeclCodeBlock)
     {
         classDeclCodeBlock = new RubyClassDeclarationBlock (this);
         classDeclCodeBlock->setTag("ClassDeclBlock");
@@ -371,8 +371,8 @@ void RubyClassifierCodeDocument::updateContent( )
     // first, set the global flag on whether or not to show classfield info
     // This depends on whether or not we have attribute/association classes
     CodeClassFieldList * cfList = getCodeClassFieldList();
-    for (CodeClassField * field = cfList->first(); field; field = cfList->next())
-        if (field->parentIsAttribute())
+    for(CodeClassField * field = cfList->first(); field; field = cfList->next())
+        if(field->parentIsAttribute())
             field->setWriteOutMethods(gen->getAutoGenerateAttribAccessors());
         else
             field->setWriteOutMethods(gen->getAutoGenerateAssocAccessors());
@@ -426,12 +426,12 @@ void RubyClassifierCodeDocument::updateContent( )
 
     bool createdProtBlock = protectedBlock == 0 ? true : false;
     protectedBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("protectedBlock","Protected Items",0);
-    if (createdProtBlock)
+    if(createdProtBlock)
         protectedBlock->setStartText("protected");
 
     bool createdPrivBlock = privateBlock == 0 ? true : false;
     privateBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("privateBlock","Private Items",0);
-    if (createdPrivBlock)
+    if(createdPrivBlock)
         privateBlock->setStartText("private");
 
     // NOW create document in sections..
@@ -442,7 +442,7 @@ void RubyClassifierCodeDocument::updateContent( )
 
     // header comment
 
-    // class declaration
+     // class declaration
 
     //   section:
 

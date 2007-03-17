@@ -133,7 +133,7 @@ void CodeOperation::setAttributesFromNode ( QDomElement & element)
     UMLObject * obj = UMLApp::app()->getDocument()->findObjectById(id);
     UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
 
-    if (op)
+    if(op)
         init(op);
     else
         kError()<<"ERROR: could'nt load code operation because of missing UMLoperation, corrupt savefile?"<<endl;
@@ -146,7 +146,7 @@ void CodeOperation::setAttributesFromObject(TextBlock * obj)
     CodeMethodBlock::setAttributesFromObject(obj);
 
     CodeOperation * op = dynamic_cast<CodeOperation*>(obj);
-    if (op)
+    if(op)
         init((UMLOperation*) op->getParentObject());
 
 }

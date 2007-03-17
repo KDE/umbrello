@@ -32,7 +32,7 @@ class           ClassifierInfo;
 /**
   * class TclWriter is a code generator for UMLClassifier objects.
   * Create an instance of this class, and feed it a UMLClassifier when
-  * calling writeClass and it will generate both a header (.h) and
+  * calling writeClass and it will generate both a header (.h) and 
   * source (.tcl) file for that classifier.
   */
 class TclWriter : public SimpleCodeGenerator
@@ -116,7 +116,7 @@ private:
     void            writeAttributeDecl(Uml::Visibility visibility, bool writeStatic);
 
     void            writeAssociationIncl(UMLAssociationList list,
-                                         Uml::IDType myId, const QString &type);
+            Uml::IDType myId, const QString &type);
     /**
      * Searches a list of associations for appropriate ones to write out as attributes
      */
@@ -148,8 +148,8 @@ private:
     void            writeAssociationSource(UMLAssociationList associations,
                                            Uml::IDType id);
     void            writeAssociationRoleSource(const QString &fieldClassName,
-            const QString &roleName,
-            const QString &multi);
+                                               const QString &roleName,
+                                               const QString &multi);
     void            writeUse(UMLClassifier * c);
 
 

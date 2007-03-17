@@ -51,7 +51,7 @@ void
 Plugin::unload()
 {
     _ref--;
-    if (_ref == 0) {
+    if(_ref == 0) {
         // save the name
         QString pluginName = _instanceName;
 
@@ -72,14 +72,14 @@ Plugin::init()
 
     // initialize this plugin first - then load other plugins
     ret = onInit();
-    if (!ret) {
+    if(!ret) {
         kError() << "failed to initialize " << instanceName() << endl;
     }
 
     // configure on load plugins
-    if (ret) {
+    if(ret) {
         ret = configure();
-        if (!ret) {
+        if(!ret) {
             kError() << "failed configuration " << instanceName() << endl;
         }
     }
@@ -97,7 +97,7 @@ Plugin::shutdown()
 
     // shutdown this plugin
     ret = onShutdown();
-    if (!ret) {
+    if(!ret) {
         kError() << "failed to shutdown " << instanceName() << endl;
     }
 
@@ -135,12 +135,12 @@ Plugin::configure()
 
     // grab the OnStartup map
     KConfig *conf = config();
-    if (!conf) {
+    if(!conf) {
         kDebug() << "no configuration for " << instanceName() << endl;
         ret = false;
     }
 
-    if (ret) {
+    if(ret) {
         // set the config group to Load Actions
         conf->setGroup("Load Actions");
 
@@ -148,7 +148,7 @@ Plugin::configure()
         loadPlugins(conf, "Load");
 
         // only load GUI plugins if this is not a terminal app
-        if (KApplication::kApplication()->type() != QApplication::Tty) {
+        if(KApplication::kApplication()->type() != QApplication::Tty) {
             loadPlugins(conf, "LoadGUI");
         }
     }

@@ -16,7 +16,7 @@
 #include "objectwidget.h"
 
 FloatingTextWidgetController::FloatingTextWidgetController(FloatingTextWidget *floatingTextWidget):
-        UMLWidgetController(floatingTextWidget) {
+            UMLWidgetController(floatingTextWidget) {
     m_floatingTextWidget = floatingTextWidget;
 }
 
@@ -41,7 +41,7 @@ void FloatingTextWidgetController::moveWidgetBy(int diffX, int diffY) {
         return;
 
     if (m_floatingTextWidget->m_Role == Uml::tr_Seq_Message
-            && ((MessageWidget*)m_floatingTextWidget->m_pLink)->getSelected()) {
+                    && ((MessageWidget*)m_floatingTextWidget->m_pLink)->getSelected()) {
         return;
     }
 
@@ -105,8 +105,8 @@ QPoint FloatingTextWidgetController::constrainPosition(int diffX, int diffY) {
 
     if (m_floatingTextWidget->m_pLink) {
         m_floatingTextWidget->m_pLink->constrainTextPos(newX, newY,
-                m_floatingTextWidget->width(), m_floatingTextWidget->height(),
-                m_floatingTextWidget->m_Role);
+                    m_floatingTextWidget->width(), m_floatingTextWidget->height(),
+                    m_floatingTextWidget->m_Role);
     }
 
     return QPoint(newX, newY);

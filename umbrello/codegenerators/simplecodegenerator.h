@@ -12,7 +12,7 @@
  *      Date   : Sep Mon 1 2003
  *
  *  copyright (C) 2004
- *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
+ *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net> 
  */
 
 

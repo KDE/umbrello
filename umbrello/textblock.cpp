@@ -154,7 +154,7 @@ QString TextBlock::getIndentationString ( int level ) {
         level = m_indentationLevel;
     QString indentAmount = getIndentation();
     QString indentation = "";
-    for (int i=0; i<level; i++)
+    for(int i=0; i<level; i++)
         indentation.append(indentAmount);
     return indentation;
 }
@@ -181,10 +181,10 @@ QString TextBlock::unformatText ( const QString & text, const QString & indent )
 {
     QString output = text;
     QString myIndent = indent;
-    if (myIndent.isEmpty())
+    if(myIndent.isEmpty())
         myIndent = getIndentationString();
 
-    if (!output.isEmpty())
+    if(!output.isEmpty())
         output.remove(QRegExp('^'+myIndent));
 
     return output;
@@ -205,19 +205,19 @@ QString TextBlock::formatMultiLineText ( const QString &work, const QString &lin
     {
         // check that last part of string matches, if not, then
         // we have to tack on extra match
-        if (!text.contains(QRegExp(breakStr+"\\$")))
+        if(!text.contains(QRegExp(breakStr+"\\$")))
             matches++;
 
-        for (int i=0; i < matches; i++)
+        for(int i=0; i < matches; i++)
         {
             QString line = text.section(QRegExp(breakStr),i,i);
             output += linePrefix + line;
-            if ((i != matches-1) || lastLineHasBreak)
+            if((i != matches-1) || lastLineHasBreak)
                 output += endLine; // add break to line
         }
     } else {
         output = linePrefix + text;
-        if (addBreak)
+        if(addBreak)
             output += breakStr;
     }
 
@@ -234,13 +234,13 @@ void TextBlock::setAttributesOnNode ( QDomDocument & doc, QDomElement & blockEle
         blockElement.setAttribute("tag",getTag());
 
         // only write these if different from defaults
-        if (getIndentationLevel())
+        if(getIndentationLevel())
             blockElement.setAttribute("indentLevel",QString::number(getIndentationLevel()));
-        if (!m_text.isEmpty())
+        if(!m_text.isEmpty())
             blockElement.setAttribute("text",encodeText(m_text,endLine));
-        if (!getWriteOutText())
+        if(!getWriteOutText())
             blockElement.setAttribute("writeOutText",getWriteOutText()?"true":"false");
-        if (!canDelete())
+        if(!canDelete())
             blockElement.setAttribute("canDelete",canDelete()?"true":"false");
 
     }
@@ -295,7 +295,7 @@ QString TextBlock::toString ( )
 {
 
     // simple output method
-    if (m_writeOutText && !m_text.isEmpty())
+    if(m_writeOutText && !m_text.isEmpty())
     {
         QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
         return formatMultiLineText(m_text, getIndentationString(), endLine);

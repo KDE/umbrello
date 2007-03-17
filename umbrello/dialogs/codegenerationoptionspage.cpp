@@ -38,7 +38,7 @@
 #include <q3buttongroup.h>
 
 CodeGenerationOptionsPage::CodeGenerationOptionsPage(QWidget *parent)
-        : CodeGenerationOptionsBase(parent)
+  : CodeGenerationOptionsBase(parent)
 {
     init();
 }
@@ -123,7 +123,7 @@ int CodeGenerationOptionsPage::overwriteToInteger(CodeGenerationPolicy::Overwrit
 
 void CodeGenerationOptionsPage::updateCodeGenerationPolicyTab() {
 
-    if (m_pCodePolicyPage)
+    if(m_pCodePolicyPage)
     {
         m_pCodePolicyPage->disconnect();
         m_pCodePolicyPage = 0;
@@ -141,7 +141,7 @@ void CodeGenerationOptionsPage::updateCodeGenerationPolicyTab() {
 
 void CodeGenerationOptionsPage::apply() {
 
-    if (m_parentPolicy) {
+    if(m_parentPolicy) {
 
         m_parentPolicy->setCodeVerboseDocumentComments(m_forceDoc->isChecked());
         m_parentPolicy->setCodeVerboseSectionComments(m_forceSections->isChecked());
@@ -173,11 +173,11 @@ void CodeGenerationOptionsPage::browseClicked() {
 
     QString button = sender()->name();
     QString dir = KFileDialog::getExistingDirectory();
-    if (dir.isEmpty())
+    if(dir.isEmpty())
         return;
-    if (button=="m_browseOutput")
+    if(button=="m_browseOutput")
         m_outputDir->setText(dir);
-    else if (button=="m_browseHeadings")
+    else if(button=="m_browseHeadings")
         m_headingsDir->setText(dir);
 }
 

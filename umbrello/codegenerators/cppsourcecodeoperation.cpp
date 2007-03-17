@@ -57,7 +57,7 @@ CPPSourceCodeOperation::CPPSourceCodeOperation ( CPPSourceCodeDocument * doc, UM
     UMLAttributeList list = getParentOperation()->getParmList();
     int nrofParam = list.count();
     int paramNum = 0;
-    for (UMLAttribute* parm = list.first(); parm; parm=list.next())
+    for(UMLAttribute* parm = list.first(); parm; parm=list.next())
     {
         QString rType = parm->getTypeName();
         QString paramName = parm->getName();
@@ -91,7 +91,7 @@ CPPSourceCodeOperation::CPPSourceCodeOperation ( CPPSourceCodeDocument * doc, UM
 
     // Only write this out if its a child of an interface OR is abstract.
     // and its not inline
-    if (isInterface || o->getAbstract() || isInlineMethod)
+    if(isInterface || o->getAbstract() || isInlineMethod)
     {
         setWriteOutText(false);
     } else {
@@ -117,7 +117,7 @@ void CPPSourceCodeOperation::updateContent( )
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
     bool isInlineMethod = policy->getOperationsAreInline();
 
-    if (!isInlineMethod)
+    if(!isInlineMethod)
         setText(""); // change whatever it is to "";
 
 }
@@ -147,7 +147,7 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
     UMLAttributeList list = getParentOperation()->getParmList();
     int nrofParam = list.count();
     int paramNum = 0;
-    for (UMLAttribute* parm = list.first(); parm; parm=list.next())
+    for(UMLAttribute* parm = list.first(); parm; parm=list.next())
     {
         QString rType = parm->getTypeName();
         QString paramName = parm->getName();
@@ -181,7 +181,7 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
 
     // Only write this out if its a child of an interface OR is abstract.
     // and its not inline
-    if (isInterface || o->getAbstract() || isInlineMethod)
+    if(isInterface || o->getAbstract() || isInlineMethod)
     {
         setWriteOutText(false);
     } else {

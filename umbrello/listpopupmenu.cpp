@@ -53,7 +53,7 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type)
         : KMenu(parent) {
     init();
     Menu_Type mt = mt_Undefined;
-    switch (type)
+    switch(type)
     {
     case Uml::lvt_Logical_View:
         mt = mt_Logical_View;
@@ -217,11 +217,11 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     init();
     //make the right menu for the type
     //make menu for logical view
-    if (!object)
+    if(!object)
         return;
     Uml::Widget_Type type = object -> getBaseType();
 
-    if (multi) {
+    if(multi) {
         ClassifierWidget *c = NULL;
         if (unique && (type == Uml::wt_Class || type == Uml::wt_Interface)) {
             c = static_cast<ClassifierWidget *>( object );
@@ -235,7 +235,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         insertSeparator();
         insertItem(SmallIcon( "fonts" ), i18n( "Change Font..." ),
                    mt_Change_Font_Selection );
-        insertItem(SmallIcon( "edit-delete" ), i18n("Delete Selected Items"),
+        insertItem(SmallIcon( "editdelete" ), i18n("Delete Selected Items"),
                    mt_Delete_Selection);
 
         // add this here and not above with the other stuff of the interface
@@ -253,11 +253,11 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
             }
         }
 
-        if (m_pInsert)
+        if(m_pInsert)
             connect(m_pInsert, SIGNAL(activated(int)), this, SIGNAL(activated(int)));
-        if (m_pShow)
+        if(m_pShow)
             connect(m_pShow, SIGNAL(activated(int)), this, SIGNAL(activated(int)));
-        if (m_pColor)
+        if(m_pColor)
             connect(m_pColor, SIGNAL(activated(int)), this, SIGNAL(activated(int)));
         return;
     }
@@ -266,7 +266,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     ActivityWidget *pActivity;
     UMLView * pView = static_cast<UMLView *>( parent );
 
-    switch (type) {
+    switch(type) {
     case Uml::wt_Actor:
     case Uml::wt_UseCase:
         setupColor(object -> getUseFillColour());
@@ -318,10 +318,10 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     case Uml::wt_Object:
         //Used for sequence diagram and collaboration diagram widgets
         setupColor( object->getUseFillColour() );
-        if ( pView->getType() == Uml::dt_Sequence ) {
+        if( pView->getType() == Uml::dt_Sequence ) {
             insertSeparator();
-            int tabUp = insertItem( SmallIcon( "arrow-up"), i18n("Move Up"), mt_Up);
-            insertItem( SmallIcon( "arrow-down"), i18n("Move Down"), mt_Down);
+            int tabUp = insertItem( SmallIcon( "1uparrow"), i18n("Move Up"), mt_Up);
+            insertItem( SmallIcon( "1downarrow"), i18n("Move Down"), mt_Down);
             if ( !(static_cast<ObjectWidget*>(object))->canTabUp() ) {
                 setItemEnabled(tabUp, false);
             }
@@ -336,7 +336,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     case Uml::wt_Message:
         insertStdItems(false, type);
         insertStdItem(mt_Change_Font);
-        insertItem(SmallIcon( "document-new"), i18n("New Operation..."), mt_Operation);
+        insertItem(SmallIcon( "filenew"), i18n("New Operation..."), mt_Operation);
         insertItem(i18n("Select Operation..."), mt_Select_Operation);
         break;
 
@@ -346,7 +346,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         insertStdItem(mt_Cut);
         insertStdItem(mt_Copy);
         insertStdItem(mt_Paste);
-        insertItem(SmallIcon( "edit-delete"), i18n("Clear"), mt_Clear);
+        insertItem(SmallIcon( "editdelete"), i18n("Clear"), mt_Clear);
         insertSeparator();
         insertItem(i18n("Change Text..."), mt_Rename);
         insertStdItem(mt_Delete);
@@ -360,7 +360,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     case Uml::wt_Object_Flow:
     case Uml::wt_Signal:
     case Uml::wt_Pin:
-        setupColor( object -> getUseFillColour() );
+	setupColor( object -> getUseFillColour() );
         insertSeparator();
         insertStdItem(mt_Cut);
         insertStdItem(mt_Copy);
@@ -374,14 +374,14 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 
     case Uml::wt_State:
         pState = static_cast< StateWidget *>( object );
-        if ( pState -> getStateType() == StateWidget::Normal ) {
+        if( pState -> getStateType() == StateWidget::Normal ) {
             m_pInsert = new KMenu(this);
-            m_pInsert -> insertItem(SmallIcon( "document-new"), i18n("Activity..."), mt_New_Activity);
+            m_pInsert -> insertItem(SmallIcon( "filenew"), i18n("Activity..."), mt_New_Activity);
             insertFileNew();
         }
         setupColor( object -> getUseFillColour() );
         insertStdItems(false, type);
-        if ( pState -> getStateType() == StateWidget::Normal ) {
+        if( pState -> getStateType() == StateWidget::Normal ) {
             insertItem(i18n("Change State Name..."), mt_Rename);
             insertStdItem(mt_Change_Font);
             insertStdItem(mt_Properties);
@@ -389,25 +389,25 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         break;
 
     case Uml::wt_ForkJoin:
-    {
-        ForkJoinWidget *pForkJoin = static_cast<ForkJoinWidget*>(object);
-        if (pForkJoin->getDrawVertical())
-            insertItem(i18n("Flip Horizontal"), mt_Flip);
-        else
-            insertItem(i18n("Flip Vertical"), mt_Flip);
-    }
-    break;
+        {
+            ForkJoinWidget *pForkJoin = static_cast<ForkJoinWidget*>(object);
+            if (pForkJoin->getDrawVertical())
+                insertItem(i18n("Flip Horizontal"), mt_Flip);
+            else
+                insertItem(i18n("Flip Vertical"), mt_Flip);
+        }
+        break;
 
     case Uml::wt_Activity:
         pActivity = static_cast<ActivityWidget *>( object );
-        if ( pActivity -> getActivityType() == ActivityWidget::Normal
-                || pActivity -> getActivityType() == ActivityWidget::Invok
-                || pActivity -> getActivityType() == ActivityWidget::Param)
+        if( pActivity -> getActivityType() == ActivityWidget::Normal
+         || pActivity -> getActivityType() == ActivityWidget::Invok
+         || pActivity -> getActivityType() == ActivityWidget::Param)
             setupColor( object -> getUseFillColour() );
         insertStdItems(false, type);
-        if ( pActivity -> getActivityType() == ActivityWidget::Normal
-                || pActivity -> getActivityType() == ActivityWidget::Invok
-                || pActivity -> getActivityType() == ActivityWidget::Param) {
+        if( pActivity -> getActivityType() == ActivityWidget::Normal 
+         || pActivity -> getActivityType() == ActivityWidget::Invok
+         || pActivity -> getActivityType() == ActivityWidget::Param) {
             insertItem(i18n("Change Activity Name..."), mt_Rename);
             insertStdItem(mt_Change_Font);
             insertStdItem(mt_Properties);
@@ -415,7 +415,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         break;
 
     case Uml::wt_Precondition:
-        setupColor( object -> getUseFillColour() );
+	setupColor( object -> getUseFillColour() );
         insertSeparator();
         insertStdItem(mt_Cut);
         insertStdItem(mt_Copy);
@@ -427,8 +427,8 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         insertStdItem(mt_Change_Font);
         break;
 
-    case Uml::wt_EndOfLife:
-        insertStdItem(mt_Line_Color);
+   case Uml::wt_EndOfLife:
+	insertStdItem(mt_Line_Color);
         insertSeparator();
         insertStdItem(mt_Cut);
         insertStdItem(mt_Copy);
@@ -441,11 +441,11 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     case Uml::wt_CombinedFragment:
         // for alternative and parallel combined fragments
         if ((static_cast<CombinedFragmentWidget*>(object))->getCombinedFragmentType() == CombinedFragmentWidget::Alt ||
-                (static_cast<CombinedFragmentWidget*>(object))->getCombinedFragmentType() == CombinedFragmentWidget::Par) {
+            (static_cast<CombinedFragmentWidget*>(object))->getCombinedFragmentType() == CombinedFragmentWidget::Par) {
             insertItem(i18n("Add Interaction Operand"), mt_AddInteractionOperand);
             insertSeparator();
         }
-        setupColor( object -> getUseFillColour() );
+	setupColor( object -> getUseFillColour() );
         insertSeparator();
         insertStdItem(mt_Cut);
         insertStdItem(mt_Copy);
@@ -458,7 +458,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         break;
 
     case Uml::wt_Text:
-        switch ( (static_cast<FloatingTextWidget*>(object))->getRole() ) {
+        switch( (static_cast<FloatingTextWidget*>(object))->getRole() ) {
         case Uml::tr_MultiB:
             insertAssocItem(i18n("Change Multiplicity..."), mt_Rename_MultiB);
             break;
@@ -486,7 +486,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         case Uml::tr_Seq_Message_Self:
         case Uml::tr_Seq_Message:
             insertStdItem(mt_Change_Font);
-            insertItem(SmallIcon( "document-new"), i18n("New Operation..."), mt_Operation);
+            insertItem(SmallIcon( "filenew"), i18n("New Operation..."), mt_Operation);
             insertItem(i18n("Select Operation..."), mt_Select_Operation);
             break;
 
@@ -502,11 +502,11 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         break;
     }//end switch
 
-    if (m_pInsert)
+    if(m_pInsert)
         connect(m_pInsert, SIGNAL(activated(int)), this, SIGNAL(activated(int)));
-    if (m_pShow)
+    if(m_pShow)
         connect(m_pShow, SIGNAL(activated(int)), this, SIGNAL(activated(int)));
-    if (m_pColor)
+    if(m_pColor)
         connect(m_pColor, SIGNAL(activated(int)), this, SIGNAL(activated(int)));
 
     bool bCutState = UMLApp::app() -> getCutCopyState();
@@ -524,29 +524,29 @@ void ListPopupMenu::init() {
 }
 
 void ListPopupMenu::insertFileNew() {
-    insertItem(SmallIcon("document-new"), i18n("New"), m_pInsert);
+    insertItem(SmallIcon("filenew"), i18n("New"), m_pInsert);
 }
 
 void ListPopupMenu::insertStdItem(Menu_Type m)
 {
     switch (m) {
     case mt_Properties:
-        insertItem(SmallIcon("document-properties"), i18n("Properties"), mt_Properties);
+        insertItem(SmallIcon("info"), i18n("Properties"), mt_Properties);
         break;
     case mt_Rename:
         insertItem(i18n("Rename..."), mt_Rename);
         break;
     case mt_Delete:
-        insertItem(SmallIcon("edit-delete"), i18n("Delete"), mt_Delete);
+        insertItem(SmallIcon("editdelete"), i18n("Delete"), mt_Delete);
         break;
     case mt_Cut:
-        insertItem(SmallIcon("edit-cut"), i18n("Cut"), mt_Cut);
+        insertItem(SmallIcon("editcut"), i18n("Cut"), mt_Cut);
         break;
     case mt_Copy:
-        insertItem(SmallIcon("edit-copy"), i18n("Copy"), mt_Copy);
+        insertItem(SmallIcon("editcopy"), i18n("Copy"), mt_Copy);
         break;
     case mt_Paste:
-        insertItem(SmallIcon("edit-paste"), i18n("Paste"), mt_Paste);
+        insertItem(SmallIcon("editpaste"), i18n("Paste"), mt_Paste);
         break;
     case mt_Change_Font:
         insertItem(SmallIcon("fonts"), i18n("Change Font..."), mt_Change_Font);
@@ -571,9 +571,6 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
         break;
     case mt_Import_Classes:
         insertItem(BarIcon("source_cpp"), i18n("Import Classes..."), mt_Import_Classes);
-        break;
-    case mt_Import_Project:
-        insertItem(BarIcon("source_cpp"), i18n("Import Project..."), mt_Import_Project);
         break;
     case mt_Package:
         m_pInsert->insertItem(m_pixmap[pm_Package], i18n("Package"), mt_Package);
@@ -601,7 +598,7 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
     case mt_Component_Folder:
     case mt_UseCase_Folder:
     case mt_EntityRelationship_Folder:
-        m_pInsert->insertItem(BarIcon("folder-new"), i18n("Folder"), m);
+        m_pInsert->insertItem(BarIcon("folder_new"), i18n("Folder"), m);
         break;
     case mt_Entity:
         m_pInsert->insertItem(m_pixmap[pm_Entity], i18n("Entity"), mt_Entity);
@@ -674,7 +671,7 @@ void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
 
 void ListPopupMenu::insertContainerItems(bool folderAndDiagrams) {
     if (folderAndDiagrams)
-        m_pInsert -> insertItem(BarIcon("folder-new"), i18n("Folder"), mt_Logical_Folder);
+        m_pInsert -> insertItem(BarIcon("folder_new"), i18n("Folder"), mt_Logical_Folder);
     m_pInsert -> insertItem(m_pixmap[pm_Class], i18n("Class"), mt_Class);
     m_pInsert -> insertItem(m_pixmap[pm_Interface], i18n("Interface"), mt_Interface);
     m_pInsert -> insertItem(m_pixmap[pm_Datatype], i18n("Datatype"), mt_Datatype);
@@ -711,13 +708,13 @@ void ListPopupMenu::insertSubmodelAction() {
     UMLObject *o = current->getUMLObject();
     if (o == NULL) {
         kError() << "ListPopupMenu::insertSubmodelAction: "
-        << current->getText() << " getUMLObject()  returns NULL" << endl;
+            << current->getText() << " getUMLObject()  returns NULL" << endl;
         return;
     }
     UMLFolder *f = dynamic_cast<UMLFolder*>(o);
     if (f == NULL) {
         kError() << "ListPopupMenu::insertSubmodelAction: "
-        << "current->getUMLObject (" << o->getName() << ") is not a Folder" << endl;
+            << "current->getUMLObject (" << o->getName() << ") is not a Folder" << endl;
         return;
     }
     QString submodelFile = f->getFolderFile();
@@ -822,7 +819,7 @@ void ListPopupMenu::setupColorSelection(bool fc)
 Uml::Diagram_Type ListPopupMenu::convert_MT_DT(Menu_Type mt) {
     Uml::Diagram_Type type =  Uml::dt_Undefined;
 
-    switch (mt) {
+    switch(mt) {
     case mt_UseCase_Diagram:
         type = Uml::dt_UseCase;
         break;
@@ -859,7 +856,7 @@ Uml::Diagram_Type ListPopupMenu::convert_MT_DT(Menu_Type mt) {
 Uml::Object_Type ListPopupMenu::convert_MT_OT(Menu_Type mt) {
     Uml::Object_Type type =  Uml::ot_UMLObject;
 
-    switch (mt) {
+    switch(mt) {
     case mt_UseCase:
         type = Uml::ot_UseCase;
         break;
@@ -913,7 +910,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
     m_pixmap[pm_Text]        .load(dataDir+"text.png",          "PNG");
     m_pixmap[pm_Subsystem]   .load(dataDir+"subsystem.png",     "PNG");
 
-    switch (type) {
+    switch(type) {
     case mt_Logical_View:
         m_pInsert = new KMenu(this);
         insertContainerItems(true);
@@ -921,7 +918,6 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         insertStdItem(mt_Paste);
         insertSeparator();
         insertStdItem(mt_Import_Classes);
-        insertStdItem(mt_Import_Project);
         insertSeparator();
         insertStdItem(mt_Expand_All);
         insertStdItem(mt_Collapse_All);
@@ -989,7 +985,6 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         insertContainerItems(true);
         insertStdItems();
         insertStdItem(mt_Import_Classes);
-        insertStdItem(mt_Import_Project);
         insertSubmodelAction();
         insertSeparator();
         insertStdItem(mt_Expand_All);
@@ -1310,7 +1305,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         break;
 
     case mt_Anchor:
-        insertItem(SmallIcon( "edit-delete"),i18n("Delete Anchor"), mt_Delete);
+        insertItem(SmallIcon( "editdelete"),i18n("Delete Anchor"), mt_Delete);
         break;
 
     case mt_RoleNameA:
@@ -1365,7 +1360,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         break;
     }//end switch
 
-    if ( view ) {
+    if( view ) {
         bool bCutState = UMLApp::app() -> getCutCopyState();
         setItemEnabled( mt_Undo, UMLApp::app()->getUndoEnabled() );
         setItemEnabled( mt_Redo, UMLApp::app()->getRedoEnabled() );
@@ -1373,23 +1368,23 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         setItemEnabled( mt_Copy, bCutState );
         setItemEnabled( mt_Paste, UMLApp::app() -> getPasteState() );
     }
-    if (m_pInsert)
+    if(m_pInsert)
         connect(m_pInsert, SIGNAL(activated(int)), this, SIGNAL(activated(int)));
-    if (m_pShow)
+    if(m_pShow)
         connect(m_pShow, SIGNAL(activated(int)), this, SIGNAL(activated(int)));
-    if (m_pColor)
+    if(m_pColor)
         connect(m_pColor, SIGNAL(activated(int)), this, SIGNAL(activated(int)));
 }
 
 void ListPopupMenu::setupDiagramMenu(UMLView* view) {
-    insertItem(SmallIcon("edit-undo"), i18n("Undo"), mt_Undo);
-    insertItem(SmallIcon("edit-redo"), i18n("Redo"), mt_Redo);
+    insertItem(SmallIcon("undo"), i18n("Undo"), mt_Undo);
+    insertItem(SmallIcon("redo"), i18n("Redo"), mt_Redo);
     insertSeparator();
     insertStdItem(mt_Cut);
     insertStdItem(mt_Copy);
     insertStdItem(mt_Paste);
     insertSeparator();
-    insertItem(SmallIcon("edit-clear"), i18n("Clear Diagram"), mt_Clear);
+    insertItem(SmallIcon("editclear"), i18n("Clear Diagram"), mt_Clear);
     insertStdItem(mt_Export_Image);
     insertSeparator();
     insertItem(i18n("Snap to Grid"), mt_SnapToGrid);

@@ -58,7 +58,7 @@ void UMLRole::setObject (UMLObject *obj) {
     // parent objects. In fact, there is probably good reason
     // to only take UMLClassifiers here, but I'll leave it more open
     // for the time being. -b.t.
-    if (obj && dynamic_cast<UMLRole*>(obj))
+    if(obj && dynamic_cast<UMLRole*>(obj))
     {
         kError()<<"ERROR: UMLRole cant setObject() to another UMLRole!, ignoring"<<endl;
         return;
@@ -133,9 +133,9 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
             roleElement.setAttribute("relationship", "true");
         }
     }
-
+    
     roleElement.setAttribute("visibility", getVisibility().toString(false));
-
+    
     switch (m_Changeability) {
     case Uml::chg_Frozen:
         roleElement.setAttribute("changeability", "frozen");
@@ -278,7 +278,7 @@ bool UMLRole::load( QDomElement & element ) {
     if (aggregation == "composite")
         m_pAssoc->setAssocType(Uml::at_Composition);
     else if (aggregation == "shared"       // UML1.3
-             || aggregation == "aggregate")   // UML1.4
+          || aggregation == "aggregate")   // UML1.4
         m_pAssoc->setAssocType(Uml::at_Aggregation);
 
     if (!element.hasAttribute("isNavigable")) {

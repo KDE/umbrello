@@ -84,7 +84,7 @@ void CPPHeaderClassDeclarationBlock::updateContent ( )
     // COMMENT
 
     //check if class is abstract.. it should have abstract methods
-    if (!isInterface && c->getAbstract() && !c->hasAbstractOps())
+    if(!isInterface && c->getAbstract() && !c->hasAbstractOps())
     {
         getComment()->setText("******************************* Abstract Class ****************************"+endLine
                               +CPPHeaderClassName+" does not have any pure virtual methods, but its author"+endLine
@@ -92,13 +92,13 @@ void CPPHeaderClassDeclarationBlock::updateContent ( )
                               +"  Inherit from it instead and create only objects from the derived classes"+endLine
                               +"*****************************************************************************");
     } else {
-        if (isInterface)
+        if(isInterface)
             getComment()->setText("Interface "+CPPHeaderClassName+endLine+c->getDoc());
         else
             getComment()->setText("Class "+CPPHeaderClassName+endLine+c->getDoc());
     }
 
-    if (forceDoc || !c->getDoc().isEmpty())
+    if(forceDoc || !c->getDoc().isEmpty())
         getComment()->setWriteOutText(true);
     else
         getComment()->setWriteOutText(false);
@@ -125,13 +125,13 @@ void CPPHeaderClassDeclarationBlock::updateContent ( )
 
     // write out inheritance
     int i = 0;
-    if (nrof_superclasses >0)
+    if(nrof_superclasses >0)
         startText.append(" : ");
     for (UMLClassifier * concept= superclasses.first(); concept; concept = superclasses.next())
     {
         startText.append(concept->getVisibility().toString() + ' ' +
                          CodeGenerator::cleanName(concept->getName()));
-        if (i != (nrof_superclasses-1))
+        if(i != (nrof_superclasses-1))
             startText.append(", ");
         i++;
     }

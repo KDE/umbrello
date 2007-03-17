@@ -53,7 +53,7 @@ UMLEntityAttributeDialog::UMLEntityAttributeDialog( QWidget * pParent, UMLEntity
     m_pEntityAttribute = pEntityAttribute;
     setupDialog();
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
-    connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
+    connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply())); 
 }
 
 UMLEntityAttributeDialog::~UMLEntityAttributeDialog() {}
@@ -78,20 +78,20 @@ void UMLEntityAttributeDialog::setupDialog() {
     m_pTypeL->setBuddy(m_pTypeCB);
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
-                                        m_pNameL, i18n("&Name:"),
-                                        m_pNameLE, m_pEntityAttribute->getName() );
+                                    m_pNameL, i18n("&Name:"),
+                                    m_pNameLE, m_pEntityAttribute->getName() );
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 2,
-                                        m_pInitialL, i18n("&Default value:"),
-                                        m_pInitialLE, m_pEntityAttribute->getInitialValue() );
+                                    m_pInitialL, i18n("&Default value:"),
+                                    m_pInitialLE, m_pEntityAttribute->getInitialValue() );
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 3,
-                                        m_pStereoTypeL, i18n("Stereotype name:"),
-                                        m_pStereoTypeLE, m_pEntityAttribute->getStereotype() );
+                                    m_pStereoTypeL, i18n("Stereotype name:"),
+                                    m_pStereoTypeLE, m_pEntityAttribute->getStereotype() );
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 4,
-                                        m_pValuesL, i18n("Length/Values:"),
-                                        m_pValuesLE, m_pEntityAttribute->getValues() );
+                                    m_pValuesL, i18n("Length/Values:"),
+                                    m_pValuesLE, m_pEntityAttribute->getValues() );
 
     m_pAutoIncrementCB = new QCheckBox( i18n("&Auto increment"), m_pValuesGB );
     m_pAutoIncrementCB->setChecked( m_pEntityAttribute->getAutoIncrement() );
@@ -137,9 +137,9 @@ void UMLEntityAttributeDialog::setupDialog() {
     Uml::DBIndex_Type scope = m_pEntityAttribute->getIndexType();
     if ( scope == Uml::Primary )
         m_pPublicRB->setChecked( true );
-    else if ( scope == Uml::Index )
+    else if( scope == Uml::Index )
         m_pPrivateRB -> setChecked( true );
-    else if ( scope == Uml::Unique )
+    else if( scope == Uml::Unique )
         m_pProtectedRB -> setChecked( true );
     else {
         m_pNoneRB->setChecked(true);

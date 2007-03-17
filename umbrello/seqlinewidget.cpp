@@ -39,7 +39,7 @@ int SeqLineWidget::onWidget( const QPoint & p ) {
     QPoint sp = startPoint();
     QPoint ep = endPoint();
     //see if on widget ( for message creation )
-    if ( sp.x() - m_nMouseDownEpsilonX < p.x()
+    if( sp.x() - m_nMouseDownEpsilonX < p.x()
             && ep.x() + m_nMouseDownEpsilonX > p.x()
             && sp.y() < p.y() && ep.y() + 3 > p.y() )
     {
@@ -70,7 +70,7 @@ void SeqLineWidget::cleanupDestructionBox() {
 
 void SeqLineWidget::setupDestructionBox() {
     cleanupDestructionBox();
-    if ( !m_pObject->getShowDestruction() ) {
+    if( !m_pObject->getShowDestruction() ) {
         return;
     }
     QRect rect;
@@ -93,7 +93,7 @@ void SeqLineWidget::setupDestructionBox() {
 }
 
 void SeqLineWidget::moveDestructionBox() {
-    if ( !m_DestructionBox.line1 ) {
+    if( !m_DestructionBox.line1 ) {
         return;
     }
     QRect rect;

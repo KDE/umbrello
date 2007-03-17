@@ -30,13 +30,13 @@ namespace Import_Rose {
 typedef Q3PtrList<PetalNode> PetalNodeList;
 
 uint nClosures; // Multiple closing parentheses may appear on a single
-// line. The parsing is done line-by-line and using
-// recursive descent. This means that we can only handle
-// _one_ closing parenthesis at a time, i.e. the closing
-// of the currently parsed node. Since we may see more
-// closing parentheses than we can handle, we need a
-// counter indicating how many additional node closings
-// have been seen.
+                // line. The parsing is done line-by-line and using
+                // recursive descent. This means that we can only handle
+                // _one_ closing parenthesis at a time, i.e. the closing
+                // of the currently parsed node. Since we may see more
+                // closing parentheses than we can handle, we need a
+                // counter indicating how many additional node closings
+                // have been seen.
 
 uint linum;  // line number
 QString g_methodName;
@@ -312,7 +312,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
             attrs.append(attr);
             if (tokens.count() && tokens.first() != ")") {
                 kDebug() << loc()
-                << "NYI - immediate list entry with more than one item" << endl;
+                    << "NYI - immediate list entry with more than one item" << endl;
             }
             if (checkClosing(tokens))
                 break;

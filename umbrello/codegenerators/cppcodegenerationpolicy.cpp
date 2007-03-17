@@ -227,40 +227,40 @@ void CPPCodeGenerationPolicy::setVectorIncludeIsGlobal(bool value) {
 
 QString CPPCodeGenerationPolicy::getVectorMethodAppend(const QString & variableName, const QString & itemClassName) {
     QString value = m_vectorMethodAppendBase;
-    if (!variableName.isEmpty())
+    if(!variableName.isEmpty())
         value.replace(QRegExp("%VARNAME%"),variableName);
     value.replace(QRegExp("%VECTORTYPENAME%"), m_vectorClassName);
-    if (!itemClassName.isEmpty())
+    if(!itemClassName.isEmpty())
         value.replace(QRegExp("%ITEMCLASS%"),itemClassName);
     return value;
 }
 
 QString CPPCodeGenerationPolicy::getVectorMethodRemove(const QString & variableName, const QString & itemClassName) {
     QString value = m_vectorMethodRemoveBase;
-    if (!variableName.isEmpty())
+    if(!variableName.isEmpty())
         value.replace(QRegExp("%VARNAME%"),variableName);
     value.replace(QRegExp("%VECTORTYPENAME%"), m_vectorClassName);
-    if (!itemClassName.isEmpty())
+    if(!itemClassName.isEmpty())
         value.replace(QRegExp("%ITEMCLASS%"),itemClassName);
     return value;
 }
 
 QString CPPCodeGenerationPolicy::getVectorMethodInit(const QString & variableName, const QString & itemClassName) {
     QString value = m_vectorMethodInitBase;
-    if (!variableName.isEmpty())
+    if(!variableName.isEmpty())
         value.replace(QRegExp("%VARNAME%"),variableName);
     value.replace(QRegExp("%VECTORTYPENAME%"), m_vectorClassName);
-    if (!itemClassName.isEmpty())
+    if(!itemClassName.isEmpty())
         value.replace(QRegExp("%ITEMCLASS%"),itemClassName);
     return value;
 }
 
 QString CPPCodeGenerationPolicy::getObjectMethodInit(const QString & variableName, const QString & itemClassName) {
     QString value = m_objectMethodInitBase;
-    if (!variableName.isEmpty())
+    if(!variableName.isEmpty())
         value.replace(QRegExp("%VARNAME%"),variableName);
     value.replace(QRegExp("%VECTORTYPENAME%"), m_vectorClassName);
-    if (!itemClassName.isEmpty())
+    if(!itemClassName.isEmpty())
         value.replace(QRegExp("%ITEMCLASS%"),itemClassName);
     return value;
 }
@@ -318,7 +318,7 @@ void CPPCodeGenerationPolicy::setDefaults ( CPPCodeGenerationPolicy * cppclone, 
 
     blockSignals(false); // "as you were citizen"
 
-    if (emitUpdateSignal)
+    if(emitUpdateSignal)
         UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
 
 }
@@ -326,7 +326,7 @@ void CPPCodeGenerationPolicy::setDefaults ( CPPCodeGenerationPolicy * cppclone, 
 void CPPCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSignal )
 {
 
-    if (!config)
+    if(!config)
         return;
 
     blockSignals(true); // we need to do this because otherwise most of these
@@ -354,7 +354,7 @@ void CPPCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSign
 
     blockSignals(false); // "as you were citizen"
 
-    if (emitUpdateSignal)
+    if(emitUpdateSignal)
         UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
 }
 

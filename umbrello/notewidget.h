@@ -37,20 +37,20 @@ class NoteWidget : public UMLWidget {
 public:
     friend class NoteWidgetController;
 
-    enum NoteType
-    {
-        Normal,
-        PreCondition,
-        PostCondition,
-        Transformation
-    };
+	enum NoteType
+	{
+		Normal,
+		PreCondition,
+		PostCondition,
+		Transformation
+	};
 
     /**
      * Constructs a NoteWidget.
      *
      * @param view              The parent to this widget.
      * @param id                The unique id of the widget.
-    * @param NoteType			The type of the widget.
+	 * @param NoteType			The type of the widget.
      *                  The default (-1) will prompt a new ID.
      */
     NoteWidget(UMLView * view, NoteWidget::NoteType noteType = Normal, Uml::IDType id = Uml::id_None );
@@ -60,9 +60,9 @@ public:
      */
     virtual ~NoteWidget();
 
-    /**
-        * Returns the type of note.
-        */
+	/**
+     * Returns the type of note.
+     */
     NoteType getNoteType() const;
     NoteType getNoteType(QString noteType) const;
 
@@ -127,11 +127,11 @@ public:
      */
     void setY(int y);
 
-    /**
-     * Display a dialogBox to allow the user to choose the note's type
-     */
-    void askForNoteType(UMLWidget* &targetWidget, const QString& dialogTitle,
-                        const QString& dialogPrompt, const QString& defaultName);
+	/**
+	 * Display a dialogBox to allow the user to choose the note's type
+	 */
+	void askForNoteType(UMLWidget* &targetWidget, const QString& dialogTitle,
+                      const QString& dialogPrompt, const QString& defaultName);
 
     /**
      * Saves to the <notewidget> XMI element.
@@ -151,15 +151,15 @@ protected:
     // Data loaded/saved
     Uml::IDType m_DiagramLink;
 
-    /**
-       * Type of note.
-       */
+	 /**
+     * Type of note.
+     */
     NoteType m_NoteType;
 
-    /**
-     * Label to see the note's type
-     */
-    QString l_Type;
+	/**
+	 * Label to see the note's type
+	 */
+	QString l_Type;
 
     /**
      * Draws the text.  Auxiliary to draw().

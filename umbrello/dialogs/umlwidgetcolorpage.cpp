@@ -100,13 +100,13 @@ void UMLWidgetColorPage::slotFillButtonClicked() {
 }
 
 void UMLWidgetColorPage::updateUMLWidget() {
-    if (m_pUMLWidget)
+    if(m_pUMLWidget)
     {
         m_pUMLWidget->setUseFillColour( m_pUseFillColorCB -> isChecked() );
         m_pUMLWidget->setLineColor( m_pLineColorB -> color() );
         m_pUMLWidget->setFillColour( m_pFillColorB -> color() );
     }
-    else if (m_options)
+    else if(m_options)
     {
         m_options->uiState.useFillColor = m_pUseFillColorCB -> isChecked();
         m_options->uiState.lineColor = m_pLineColorB -> color();

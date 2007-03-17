@@ -185,7 +185,7 @@ CodeComment * CodeDocument::getHeader ( ) {
 QString CodeDocument::getUniqueTag ( QString prefix )
 {
 
-    if (prefix.isEmpty())
+    if(prefix.isEmpty())
         prefix = "tblock";
 
     QString tag = prefix + "_0";
@@ -204,21 +204,21 @@ QString CodeDocument::getUniqueTag ( QString prefix )
 bool CodeDocument::insertTextBlock(TextBlock * newBlock, TextBlock * existingBlock, bool after)
 {
 
-    if (!newBlock || !existingBlock)
+    if(!newBlock || !existingBlock)
         return false;
 
     QString tag = existingBlock->getTag();
-    if (!findTextBlockByTag(tag, true))
+    if(!findTextBlockByTag(tag, true))
         return false;
 
     int index = m_textblockVector.findRef(existingBlock);
-    if (index < 0)
+    if(index < 0)
     {
         // may be hiding in child hierarchical codeblock
-        for (TextBlock * tb = m_textblockVector.first(); tb ; tb = m_textblockVector.next())
+        for(TextBlock * tb = m_textblockVector.first(); tb ; tb = m_textblockVector.next())
         {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(tb);
-            if (hb && hb->insertTextBlock(newBlock, existingBlock, after))
+            if(hb && hb->insertTextBlock(newBlock, existingBlock, after))
                 return true; // found, and inserted, otherwise keep going
         }
         // ugh. where is the child block?
@@ -232,18 +232,18 @@ bool CodeDocument::insertTextBlock(TextBlock * newBlock, TextBlock * existingBlo
     QString new_tag = newBlock->getTag();
 
     // assign a tag if one doesn't already exist
-    if (new_tag.isEmpty())
+    if(new_tag.isEmpty())
     {
         new_tag = getUniqueTag();
         newBlock->setTag(new_tag);
     }
 
-    if (m_textBlockTagMap.contains(new_tag))
+    if(m_textBlockTagMap.contains(new_tag))
         return false; // return false, we already have some object with this tag in the list
     else
         m_textBlockTagMap.insert(new_tag, newBlock);
 
-    if (after)
+    if(after)
         index++;
 
     m_textblockVector.insert(index,newBlock);
@@ -282,7 +282,7 @@ void CodeDocument::updateHeader () {
     getHeader()->setText(headingText);
 
     // update the write out status of the header
-    if (UMLApp::app()->getCommonPolicy()->getIncludeHeadings())
+    if(UMLApp::app()->getCommonPolicy()->getIncludeHeadings())
         getHeader()->setWriteOutText(true);
     else
         getHeader()->setWriteOutText(false);
@@ -297,7 +297,7 @@ QString CodeDocument::toString ( ) {
 
     // IF the whole document is turned "Off" then don't bother
     // checking individual code blocks, just send back empty string
-    if (!getWriteOutCode())
+    if(!getWriteOutCode())
         return QString("");
 
     QString content = getHeader()->toString();
@@ -308,9 +308,9 @@ QString CodeDocument::toString ( ) {
     TextBlockList * items = getTextBlockList();
     for (TextBlock *c = items->first(); c; c = items->next())
     {
-        if (c->getWriteOutText()) {
+        if(c->getWriteOutText()) {
             QString str = c->toString();
-            if (!str.isEmpty())
+            if(!str.isEmpty())
                 content.append(str);
         }
     }
@@ -394,9 +394,9 @@ void CodeDocument::setAttributesFromNode ( QDomElement & root) {
     // by looking for our particular child element
     QDomNode node = root.firstChild();
     QDomElement element = node.toElement();
-    while ( !element.isNull() ) {
+    while( !element.isNull() ) {
         QString tag = element.tagName();
-        if ( tag == "header" ) {
+        if( tag == "header" ) {
             QDomNode cnode = element.firstChild();
             QDomElement celem = cnode.toElement();
             getHeader()->loadFromXMI(celem);
@@ -463,11 +463,11 @@ void CodeDocument::addChildTagToMap ( const QString &tag, TextBlock * tb)
 TextBlock * CodeDocument::findTextBlockByTag( const QString &tag , bool descendIntoChildren)
 {
     //if we already know to which file this class was written/should be written, just return it.
-    if (m_textBlockTagMap.contains(tag))
+    if(m_textBlockTagMap.contains(tag))
         return m_textBlockTagMap[tag];
 
     if (descendIntoChildren)
-        if (m_childTextBlockTagMap.contains(tag))
+        if(m_childTextBlockTagMap.contains(tag))
             return m_childTextBlockTagMap[tag];
 
     return (TextBlock*) NULL;

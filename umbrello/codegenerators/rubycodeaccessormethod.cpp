@@ -82,23 +82,23 @@ void RubyCodeAccessorMethod::updateContent( )
     QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
 
     QString text = "";
-    switch (getType()) {
+    switch(getType()) {
     case CodeAccessorMethod::ADD:
-    {
-        int maxOccurs = rubyfield->maximumListOccurances();
-        RubyClassifierCodeDocument * rubydoc = (RubyClassifierCodeDocument*) rubyfield->getParentDocument();
-        QString fieldType = rubyfield->getTypeName();
-        QString indent = getIndentation();
-        if (maxOccurs > 0)
-            text += "if "+fieldName+".size() < "+ QString::number(maxOccurs)+' '+endLine+indent;
-        text += fieldName+".push(value)";
-        if (maxOccurs > 0)
         {
-            text += endLine+"else"+endLine;
-            text += indent + "puts(\"ERROR: Can't add"+fieldType+" to "+fieldName+", minimum number of items reached.\")"+endLine+"end"+endLine;
+            int maxOccurs = rubyfield->maximumListOccurances();
+            RubyClassifierCodeDocument * rubydoc = (RubyClassifierCodeDocument*) rubyfield->getParentDocument();
+            QString fieldType = rubyfield->getTypeName();
+            QString indent = getIndentation();
+            if(maxOccurs > 0)
+                text += "if "+fieldName+".size() < "+ QString::number(maxOccurs)+' '+endLine+indent;
+            text += fieldName+".push(value)";
+            if(maxOccurs > 0)
+            {
+                text += endLine+"else"+endLine;
+                text += indent + "puts(\"ERROR: Can't add"+fieldType+" to "+fieldName+", minimum number of items reached.\")"+endLine+"end"+endLine;
+            }
+            break;
         }
-        break;
-    }
     case CodeAccessorMethod::GET:
 //        text = "return "+fieldName;
         break;
@@ -106,22 +106,22 @@ void RubyCodeAccessorMethod::updateContent( )
         text = "return "+fieldName;
         break;
     case CodeAccessorMethod::REMOVE:
-    {
-        int minOccurs = rubyfield->minimumListOccurances();
-        RubyClassifierCodeDocument * rubydoc = (RubyClassifierCodeDocument*) rubyfield->getParentDocument();
-        QString fieldType = rubyfield->getTypeName();
-        QString indent = getIndentation();
-
-        if (minOccurs > 0)
-            text += "if "+fieldName+".size() >= "+ QString::number(minOccurs)+endLine+indent;
-        text += fieldName+".delete(value)";
-        if (minOccurs > 0)
         {
-            text += endLine+"else"+endLine;
-            text += indent + "puts(\"ERROR: Cant remove"+fieldType+" from "+fieldName+", minimum number of items reached.\")"+endLine+"end"+endLine;
+            int minOccurs = rubyfield->minimumListOccurances();
+            RubyClassifierCodeDocument * rubydoc = (RubyClassifierCodeDocument*) rubyfield->getParentDocument();
+            QString fieldType = rubyfield->getTypeName();
+            QString indent = getIndentation();
+
+            if(minOccurs > 0)
+                text += "if "+fieldName+".size() >= "+ QString::number(minOccurs)+endLine+indent;
+            text += fieldName+".delete(value)";
+            if(minOccurs > 0)
+            {
+                text += endLine+"else"+endLine;
+                text += indent + "puts(\"ERROR: Cant remove"+fieldType+" from "+fieldName+", minimum number of items reached.\")"+endLine+"end"+endLine;
+            }
+            break;
         }
-        break;
-    }
     case CodeAccessorMethod::SET:
 //        text = fieldName+" = value";
         break;
@@ -147,10 +147,10 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
     QString fieldName = RubyCodeGenerator::cppToRubyName(rubyfield->getFieldName());
     QString fieldType = RubyCodeGenerator::cppToRubyType(rubyfield->getTypeName());
     QString objectType = rubyfield->getListObjectType();
-    if (objectType.isEmpty())
+    if(objectType.isEmpty())
         objectType = fieldName;
     QString endLine = p->getNewLineEndingChars();
-
+    
     QString description = getParentObject()->getDoc();
     description.replace(QRegExp("m_[npb](?=[A-Z])"), "");
     description.replace("m_", "");
@@ -158,7 +158,7 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
 
     // set scope of this accessor appropriately..if its an attribute,
     // we need to be more sophisticated
-    if (rubyfield->parentIsAttribute())
+    if(rubyfield->parentIsAttribute())
         switch (scopePolicy) {
         case CodeGenerationPolicy::Public:
         case CodeGenerationPolicy::Private:
@@ -177,7 +177,7 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
     QString methodName = "";
     QString methodParams = "";
 
-    switch (getType()) {
+    switch(getType()) {
     case CodeAccessorMethod::ADD:
         methodName = "add"+rubydoc->capitalizeFirstLetter(fieldType);
         methodReturnType = "";
@@ -187,7 +187,7 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
         setEndMethodText("end");
         break;
     case CodeAccessorMethod::GET:
-        headerText = "Get the value of " + fieldName + endLine + description;
+        headerText = "Get the value of " + fieldName + endLine + description; 
         setStartMethodText(QString("attr_reader :") + fieldName);
         setEndMethodText("");
         break;

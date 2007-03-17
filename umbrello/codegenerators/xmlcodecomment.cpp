@@ -47,13 +47,13 @@ QString XMLCodeComment::toString ( )
     QString output = "";
 
     // simple output method
-    if (getWriteOutText())
+    if(getWriteOutText())
     {
         QString indent = getIndentationString();
         QString endLine = getNewLineEndingChars();
         QString body = getText();
         output.append(indent+"<!-- ");
-        if (!body.isEmpty())
+        if(!body.isEmpty())
             output.append(formatMultiLineText (body, indent, endLine));
         output.append(indent+"-->"+endLine);
     }

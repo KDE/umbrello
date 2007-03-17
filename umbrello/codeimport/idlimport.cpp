@@ -214,7 +214,7 @@ bool IDLImport::parseStmt() {
         const QString& existingType = advance();
         const QString& newType = advance();
         Import_Utils::createUMLObject(Uml::ot_Class, newType, m_scope[m_scopeIndex],
-                                      m_comment, "CORBATypedef" /* stereotype */);
+                                     m_comment, "CORBATypedef" /* stereotype */);
         // @todo How do we convey the existingType ?
         skipStmt();
         return true;
@@ -326,7 +326,7 @@ bool IDLImport::parseStmt() {
             m_srcIndex++;
         }
         Import_Utils::insertMethod(m_klass, op, Uml::Visibility::Public, typeName,
-                                   false, false, false, false, m_comment);
+                                  false, false, false, false, m_comment);
         if (m_isOneway) {
             op->setStereotype("oneway");
             m_isOneway = false;

@@ -174,7 +174,7 @@ public:
     void setPosition( int position );
 
     QString text() const;
-
+    
 private:
     int m_type;
     int m_position;
@@ -321,30 +321,30 @@ private:
 
 
 inline Token::Token()
-        : m_type( -1 ),
-        m_position( 0 ),
-        m_length( 0 ),
-        m_text( 0 )
+    : m_type( -1 ),
+      m_position( 0 ),
+      m_length( 0 ),
+      m_text( 0 )
 {
 }
 
 inline Token::Token( int type, int position, int length, const QString& text )
-        : m_type( type ),
-        m_position( position ),
-        m_length( length ),
-        m_text( text )
+    : m_type( type ),
+      m_position( position ),
+      m_length( length ),
+      m_text( text )
 {
 }
 
 inline Token::Token( const Token& source )
-        : m_type( source.m_type ),
-        m_position( source.m_position ),
-        m_length( source.m_length ),
-        m_startLine( source.m_startLine ),
-        m_startColumn( source.m_startColumn ),
-        m_endLine( source.m_endLine ),
-        m_endColumn( source.m_endColumn ),
-        m_text( source.m_text )
+    : m_type( source.m_type ),
+      m_position( source.m_position ),
+      m_length( source.m_length ),
+      m_startLine( source.m_startLine ),
+      m_startColumn( source.m_startColumn ),
+      m_endLine( source.m_endLine ),
+      m_endColumn( source.m_endColumn ),
+      m_text( source.m_text )
 {
 }
 
@@ -369,12 +369,12 @@ inline Token::operator int () const
 inline bool Token::operator == ( const Token& token ) const
 {
     return m_type == token.m_type &&
-           m_position == token.m_position &&
-           m_length == token.m_length &&
-           m_startLine == token.m_startLine &&
-           m_startColumn == token.m_startColumn &&
-           m_endLine == token.m_endLine &&
-           m_endColumn == token.m_endColumn &&
+       m_position == token.m_position &&
+         m_length == token.m_length &&
+      m_startLine == token.m_startLine &&
+    m_startColumn == token.m_startColumn &&
+        m_endLine == token.m_endLine &&
+      m_endColumn == token.m_endColumn &&
            m_text == token.m_text;
 }
 
@@ -417,14 +417,14 @@ inline void Token::setEndPosition( int line, int column )
 
 inline void Token::getStartPosition( int* line, int* column ) const
 {
-    if ( line ) *line = m_startLine;
-    if ( column ) *column = m_startColumn;
+    if( line ) *line = m_startLine;
+    if( column ) *column = m_startColumn;
 }
 
 inline void Token::getEndPosition( int* line, int* column ) const
 {
-    if ( line ) *line = m_endLine;
-    if ( column ) *column = m_endColumn;
+    if( line ) *line = m_endLine;
+    if( column ) *column = m_endColumn;
 }
 
 inline void Token::setPosition( int position )
@@ -479,7 +479,7 @@ inline void Lexer::setIndex( int index )
 
 inline const Token& Lexer::nextToken()
 {
-    if ( m_index < m_size )
+    if( m_index < m_size )
         return *m_tokens[ m_index++ ];
 
     return *m_tokens[ m_index ];
@@ -502,12 +502,12 @@ inline int Lexer::tokenPosition( const Token& token ) const
 
 inline void Lexer::nextChar()
 {
-    if (m_source[m_ptr++] == '\n') {
+    if(m_source[m_ptr++] == '\n') {
         ++m_currentLine;
         m_currentColumn = 0;
         m_startLine = true;
     } else {
-        ++m_currentColumn;
+	++m_currentColumn;
     }
 }
 
@@ -519,20 +519,20 @@ inline void Lexer::nextChar( int n )
 
 inline void Lexer::readIdentifier()
 {
-    while ( currentChar().isLetterOrNumber() || currentChar() == '_' )
+    while( currentChar().isLetterOrNumber() || currentChar() == '_' )
         nextChar();
 }
 
 inline void Lexer::readWhiteSpaces( bool skipNewLine )
 {
-    while ( !currentChar().isNull() ){
+    while( !currentChar().isNull() ){
         QChar ch = currentChar();
 
-        if ( ch == '\n' && !skipNewLine ){
+        if( ch == '\n' && !skipNewLine ){
             break;
-        } else if ( ch.isSpace() ){
+        } else if( ch.isSpace() ){
             nextChar();
-        } else if ( m_inPreproc && currentChar() == '\\' ){
+        } else if( m_inPreproc && currentChar() == '\\' ){
             nextChar();
             readWhiteSpaces( true );
         } else {
@@ -543,139 +543,139 @@ inline void Lexer::readWhiteSpaces( bool skipNewLine )
 
 inline void Lexer::readLineComment()
 {
-    while ( !currentChar().isNull() && currentChar() != '\n' ){
-        if ( m_reportMessages && currentChar() == '@' && m_source.mid(currentPosition()+1, 4).lower() == "todo" ){
+    while( !currentChar().isNull() && currentChar() != '\n' ){
+	if( m_reportMessages && currentChar() == '@' && m_source.mid(currentPosition()+1, 4).lower() == "todo" ){
+	    nextChar( 5 );
+	    QString msg;
+	    int line = m_currentLine;
+	    int col = m_currentColumn;
+
+	    while( !currentChar().isNull() ){
+		if( currentChar() == '*' && peekChar() == '/' )
+		    break;
+		else if( currentChar() == '\n' )
+		    break;
+
+		msg += currentChar();
+		nextChar();
+	    }
+	    m_driver->addProblem( m_driver->currentFileName(), Problem(msg, line, col, Problem::Level_Todo) );
+	} else
+        if( m_reportMessages && m_source.mid(currentPosition(), 5).lower() == "fixme" ){
             nextChar( 5 );
             QString msg;
             int line = m_currentLine;
             int col = m_currentColumn;
 
-            while ( !currentChar().isNull() ){
-                if ( currentChar() == '*' && peekChar() == '/' )
-                    break;
-                else if ( currentChar() == '\n' )
-                    break;
+            while( !currentChar().isNull() ){
+            if( currentChar() == '*' && peekChar() == '/' )
+                break;
+            else if( currentChar() == '\n' )
+                break;
 
-                msg += currentChar();
-                nextChar();
+            msg += currentChar();
+            nextChar();
             }
-            m_driver->addProblem( m_driver->currentFileName(), Problem(msg, line, col, Problem::Level_Todo) );
+            m_driver->addProblem( m_driver->currentFileName(), Problem(msg, line, col, Problem::Level_Fixme) );
         } else
-            if ( m_reportMessages && m_source.mid(currentPosition(), 5).lower() == "fixme" ){
-                nextChar( 5 );
-                QString msg;
-                int line = m_currentLine;
-                int col = m_currentColumn;
-
-                while ( !currentChar().isNull() ){
-                    if ( currentChar() == '*' && peekChar() == '/' )
-                        break;
-                    else if ( currentChar() == '\n' )
-                        break;
-
-                    msg += currentChar();
-                    nextChar();
-                }
-                m_driver->addProblem( m_driver->currentFileName(), Problem(msg, line, col, Problem::Level_Fixme) );
-            } else
-                nextChar();
+            nextChar();
     }
 }
 
 inline void Lexer::readMultiLineComment()
 {
-    while ( !currentChar().isNull() ){
-        if ( currentChar() == '*' && peekChar() == '/' ){
+    while( !currentChar().isNull() ){
+        if( currentChar() == '*' && peekChar() == '/' ){
             nextChar( 2 );
             return;
-        } else if ( m_reportMessages && currentChar() == '@' && m_source.mid(currentPosition()+1, 4).lower() == "todo" ){
+	} else if( m_reportMessages && currentChar() == '@' && m_source.mid(currentPosition()+1, 4).lower() == "todo" ){
+	    nextChar( 5 );
+	    QString msg;
+	    int line = m_currentLine;
+	    int col = m_currentColumn;
+
+	    while( !currentChar().isNull() ){
+		if( currentChar() == '*' && peekChar() == '/' )
+		    break;
+		else if( currentChar() == '\n' )
+		    break;
+		msg += currentChar();
+		nextChar();
+	    }
+	    m_driver->addProblem( m_driver->currentFileName(), Problem(msg, line, col, Problem::Level_Todo) );
+	} else
+        if( m_reportMessages && m_source.mid(currentPosition(), 5).lower() == "fixme" ){
             nextChar( 5 );
             QString msg;
             int line = m_currentLine;
             int col = m_currentColumn;
 
-            while ( !currentChar().isNull() ){
-                if ( currentChar() == '*' && peekChar() == '/' )
-                    break;
-                else if ( currentChar() == '\n' )
-                    break;
-                msg += currentChar();
-                nextChar();
+            while( !currentChar().isNull() ){
+            if( currentChar() == '*' && peekChar() == '/' )
+                break;
+            else if( currentChar() == '\n' )
+                break;
+
+            msg += currentChar();
+            nextChar();
             }
-            m_driver->addProblem( m_driver->currentFileName(), Problem(msg, line, col, Problem::Level_Todo) );
+            m_driver->addProblem( m_driver->currentFileName(), Problem(msg, line, col, Problem::Level_Fixme) );
         } else
-            if ( m_reportMessages && m_source.mid(currentPosition(), 5).lower() == "fixme" ){
-                nextChar( 5 );
-                QString msg;
-                int line = m_currentLine;
-                int col = m_currentColumn;
-
-                while ( !currentChar().isNull() ){
-                    if ( currentChar() == '*' && peekChar() == '/' )
-                        break;
-                    else if ( currentChar() == '\n' )
-                        break;
-
-                    msg += currentChar();
-                    nextChar();
-                }
-                m_driver->addProblem( m_driver->currentFileName(), Problem(msg, line, col, Problem::Level_Fixme) );
-            } else
-                nextChar();
+            nextChar();
     }
 }
 
 inline void Lexer::readCharLiteral()
 {
-    if ( currentChar() == '\'' )
+    if( currentChar() == '\'' )
         nextChar(); // skip '
-    else if ( currentChar() == 'L' && peekChar() == '\'' )
-        nextChar( 2 ); // slip L'
+    else if( currentChar() == 'L' && peekChar() == '\'' )
+	nextChar( 2 ); // slip L'
     else
         return;
 
-    while ( !currentChar().isNull() ){
+    while( !currentChar().isNull() ){
         int len = m_endPtr - currentPosition();
 
-        if ( len>=2 && (currentChar() == '\\' && peekChar() == '\'') ){
+        if( len>=2 && (currentChar() == '\\' && peekChar() == '\'') ){
             nextChar( 2 );
-        } else if ( len>=2 && (currentChar() == '\\' && peekChar() == '\\') ){
+        } else if( len>=2 && (currentChar() == '\\' && peekChar() == '\\') ){
             nextChar( 2 );
-        } else if ( currentChar() == '\'' ){
+        } else if( currentChar() == '\'' ){
             nextChar();
             break;
         } else {
-            nextChar();
-        }
+	    nextChar();
+	}
     }
 }
 
 inline void Lexer::readStringLiteral()
 {
-    if ( currentChar() != '"' )
+    if( currentChar() != '"' )
         return;
 
     nextChar(); // skip "
 
-    while ( !currentChar().isNull() ){
+    while( !currentChar().isNull() ){
         int len = m_endPtr - m_ptr;
 
-        if ( len>=2 && currentChar() == '\\' && peekChar() == '"' ){
+        if( len>=2 && currentChar() == '\\' && peekChar() == '"' ){
             nextChar( 2 );
-        } else if ( len>=2 && currentChar() == '\\' && peekChar() == '\\' ){
+        } else if( len>=2 && currentChar() == '\\' && peekChar() == '\\' ){
             nextChar( 2 );
-        } else if ( currentChar() == '"' ){
+        } else if( currentChar() == '"' ){
             nextChar();
             break;
         } else {
-            nextChar();
-        }
+	    nextChar();
+	}
     }
 }
 
 inline void Lexer::readNumberLiteral()
 {
-    while ( currentChar().isLetterOrNumber() || currentChar() == '.' )
+    while( currentChar().isLetterOrNumber() || currentChar() == '.' )
         nextChar();
 }
 
@@ -683,13 +683,13 @@ inline int Lexer::findOperator3() const
 {
     int n = int(m_endPtr - m_ptr);
 
-    if ( n >= 3){
-        QChar ch = currentChar(), ch1=peekChar(), ch2=peekChar(2);
+    if( n >= 3){
+	QChar ch = currentChar(), ch1=peekChar(), ch2=peekChar(2);
 
-        if ( ch == '<' && ch1 == '<' && ch2 == '=' ) return Token_assign;
-        else if ( ch == '>' && ch1 == '>' && ch2 == '=' ) return Token_assign;
-        else if ( ch == '-' && ch1 == '>' && ch2 == '*' ) return Token_ptrmem;
-        else if ( ch == '.' && ch1 == '.' && ch2 == '.' ) return Token_ellipsis;
+	if( ch == '<' && ch1 == '<' && ch2 == '=' ) return Token_assign;
+	else if( ch == '>' && ch1 == '>' && ch2 == '=' ) return Token_assign;
+	else if( ch == '-' && ch1 == '>' && ch2 == '*' ) return Token_ptrmem;
+	else if( ch == '.' && ch1 == '.' && ch2 == '.' ) return Token_ellipsis;
     }
 
     return -1;
@@ -699,31 +699,31 @@ inline int Lexer::findOperator2() const
 {
     int n = int(m_endPtr - m_ptr);
 
-    if ( n>=2 ){
-        QChar ch = currentChar(), ch1=peekChar();
+    if( n>=2 ){
+	QChar ch = currentChar(), ch1=peekChar();
 
-        if ( ch == ':' && ch1 == ':' ) return Token_scope;
-        else if ( ch == '.' && ch1 == '*' ) return Token_ptrmem;
-        else if ( ch == '+' && ch1 == '=' ) return Token_assign;
-        else if ( ch == '-' && ch1 == '=' ) return Token_assign;
-        else if ( ch == '*' && ch1 == '=' ) return Token_assign;
-        else if ( ch == '/' && ch1 == '=' ) return Token_assign;
-        else if ( ch == '%' && ch1 == '=' ) return Token_assign;
-        else if ( ch == '^' && ch1 == '=' ) return Token_assign;
-        else if ( ch == '&' && ch1 == '=' ) return Token_assign;
-        else if ( ch == '|' && ch1 == '=' ) return Token_assign;
-        else if ( ch == '<' && ch1 == '<' ) return Token_shift;
-        else if ( ch == '>' && ch1 == '>' ) return Token_shift;
-        else if ( ch == '=' && ch1 == '=' ) return Token_eq;
-        else if ( ch == '!' && ch1 == '=' ) return Token_eq;
-        else if ( ch == '<' && ch1 == '=' ) return Token_leq;
-        else if ( ch == '>' && ch1 == '=' ) return Token_geq;
-        else if ( ch == '&' && ch1 == '&' ) return Token_and;
-        else if ( ch == '|' && ch1 == '|' ) return Token_or;
-        else if ( ch == '+' && ch1 == '+' ) return Token_incr;
-        else if ( ch == '-' && ch1 == '-' ) return Token_decr;
-        else if ( ch == '-' && ch1 == '>' ) return Token_arrow;
-        else if ( ch == '#' && ch1 == '#' ) return Token_concat;
+	if( ch == ':' && ch1 == ':' ) return Token_scope;
+	else if( ch == '.' && ch1 == '*' ) return Token_ptrmem;
+	else if( ch == '+' && ch1 == '=' ) return Token_assign;
+	else if( ch == '-' && ch1 == '=' ) return Token_assign;
+	else if( ch == '*' && ch1 == '=' ) return Token_assign;
+	else if( ch == '/' && ch1 == '=' ) return Token_assign;
+	else if( ch == '%' && ch1 == '=' ) return Token_assign;
+	else if( ch == '^' && ch1 == '=' ) return Token_assign;
+	else if( ch == '&' && ch1 == '=' ) return Token_assign;
+	else if( ch == '|' && ch1 == '=' ) return Token_assign;
+	else if( ch == '<' && ch1 == '<' ) return Token_shift;
+	else if( ch == '>' && ch1 == '>' ) return Token_shift;
+	else if( ch == '=' && ch1 == '=' ) return Token_eq;
+	else if( ch == '!' && ch1 == '=' ) return Token_eq;
+	else if( ch == '<' && ch1 == '=' ) return Token_leq;
+	else if( ch == '>' && ch1 == '=' ) return Token_geq;
+	else if( ch == '&' && ch1 == '&' ) return Token_and;
+	else if( ch == '|' && ch1 == '|' ) return Token_or;
+	else if( ch == '+' && ch1 == '+' ) return Token_incr;
+	else if( ch == '-' && ch1 == '-' ) return Token_decr;
+	else if( ch == '-' && ch1 == '>' ) return Token_arrow;
+	else if( ch == '#' && ch1 == '#' ) return Token_concat;
     }
 
     return -1;

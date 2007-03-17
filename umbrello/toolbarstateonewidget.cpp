@@ -65,12 +65,12 @@ void ToolBarStateOneWidget::setCurrentElement() {
     if (objectWidgetLine) {
         setCurrentWidget(objectWidgetLine);
         m_isObjectWidgetLine = true;
-        return;
+	return;
     }
 
     UMLWidget *widget = m_pUMLView->testOnWidget(m_pMouseEvent->pos());
     if (widget) {
-        kDebug()<<"setCurrentElement()!!!!!!!!!!!!!!!!!!!!!" <<endl;
+	kDebug()<<"setCurrentElement()!!!!!!!!!!!!!!!!!!!!!" <<endl;
         setCurrentWidget(widget);
         return;
     }
@@ -81,46 +81,46 @@ void ToolBarStateOneWidget::mouseReleaseWidget() {
     UMLWidget * widget = 0;
 
     if (widgetType == Uml::wt_Precondition) {
-        m_firstObject = 0;
+	m_firstObject = 0;
     }
     if (widgetType == Uml::wt_Pin) {
-        kDebug()<<"mouseReleaseWidget()!!!!!!!!!!!!!!!!!!!!!" <<endl;
-        m_firstObject = 0;
+	kDebug()<<"mouseReleaseWidget()!!!!!!!!!!!!!!!!!!!!!" <<endl;
+	m_firstObject = 0;
     }
     else if (widgetType == Uml::wt_EndOfLife) {
-        //test if there isn't an endoflife widget on the selected widget yet
-        UMLWidgetListIt w_it(m_umlView->getWidgetList());
-        while ( ( widget = w_it.current() ) ) {
+	//test if there isn't an endoflife widget on the selected widget yet
+	UMLWidgetListIt w_it(m_umlView->getWidgetList());
+	while( ( widget = w_it.current() ) ) {
             ++w_it;
             if (widget->getBaseType() == Uml::wt_EndOfLife) {
-                if (dynamic_cast<EndOfLifeWidget*>(widget)->m_pOw[Uml::A]->getID() == getCurrentWidget()->getID())
-                    return;
-                else
-                    m_firstObject = 0;
-            }
-        }
+		if (dynamic_cast<EndOfLifeWidget*>(widget)->m_pOw[Uml::A]->getID() == getCurrentWidget()->getID())
+		    return;
+		else
+		     m_firstObject = 0;
+	    }
+	}
     }
-    kDebug()<<"avant avant if !!!!!!!!!!!!!!!!!!!!!" <<getCurrentWidget()->getBaseType() <<endl;
+kDebug()<<"avant avant if !!!!!!!!!!!!!!!!!!!!!" <<getCurrentWidget()->getBaseType() <<endl;
     if (m_pMouseEvent->button() != Qt::LeftButton ||(
                 getCurrentWidget()->getBaseType() != Uml::wt_Object &&
                 getCurrentWidget()->getBaseType() != Uml::wt_Activity)) {
-        kDebug()<<"avant return if !!!!!!!!!!!!!!!!!!!!!" <<Uml::wt_Activity <<endl;
+	kDebug()<<"avant return if !!!!!!!!!!!!!!!!!!!!!" <<Uml::wt_Activity <<endl;
         return;
     }
-    kDebug()<<"avant if !!!!!!!!!!!!!!!!!!!!!" <<endl;
+	kDebug()<<"avant if !!!!!!!!!!!!!!!!!!!!!" <<endl;
     if (!m_firstObject && widgetType == Uml::wt_Pin) {
-        kDebug()<<"dans if !!!!!!!!!!!!!!!!!!!!!" <<endl;
+	kDebug()<<"dans if !!!!!!!!!!!!!!!!!!!!!" <<endl;
         setWidget(getCurrentWidget());
-        return ;
-    }
+	return ;
+    } 
 
     if (!m_isObjectWidgetLine && !m_firstObject) {
-        return;
+	return;
     }
-
+    
     if (!m_firstObject) {
         setWidget(getCurrentWidget());
-    }
+    } 
 
 }
 
@@ -133,29 +133,29 @@ void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject) {
     UMLWidget * umlwidget = NULL;
     //m_pUMLView->viewport()->setMouseTracking(true);
     if (getWidgetType() == Uml::wt_Precondition) {
-        umlwidget = new PreconditionWidget(m_pUMLView, static_cast<ObjectWidget*>(m_firstObject));
+   	umlwidget = new PreconditionWidget(m_pUMLView, static_cast<ObjectWidget*>(m_firstObject));
 
-        Dialog_Utils::askNameForWidget(umlwidget, i18n("Enter Precondition Name"), i18n("Enter the precondition"), i18n("new precondition"));
-        // Create the widget. Some setup functions can remove the widget.
-
+	Dialog_Utils::askNameForWidget(umlwidget, i18n("Enter Precondition Name"), i18n("Enter the precondition"), i18n("new precondition"));
+    	    // Create the widget. Some setup functions can remove the widget.
+    	
     }
 
     if (getWidgetType() == Uml::wt_Pin) {
-        kDebug() <<"SETWIDGET !!!!!!!!!!!!!!!!!!!!!!!" <<endl;
-        umlwidget = new PinWidget(m_pUMLView, static_cast<ActivityWidget*>(m_firstObject));
-        // Create the widget. Some setup functions can remove the widget.
-
+	kDebug() <<"SETWIDGET !!!!!!!!!!!!!!!!!!!!!!!" <<endl;
+   	umlwidget = new PinWidget(m_pUMLView, static_cast<ActivityWidget*>(m_firstObject));
+    	    // Create the widget. Some setup functions can remove the widget.
+    	
     }
     if (getWidgetType() == Uml::wt_EndOfLife) {
-        umlwidget = new EndOfLifeWidget(m_pUMLView, static_cast<ObjectWidget*>(m_firstObject));
+   	umlwidget = new EndOfLifeWidget(m_pUMLView, static_cast<ObjectWidget*>(m_firstObject));
 
-        //Dialog_Utils::askNameForWidget(umlwidget, i18n("Enter Precondition Name"), i18n("Enter the precondition"), i18n("new precondition"));
-        // Create the widget. Some setup functions can remove the widget.
-
+	//Dialog_Utils::askNameForWidget(umlwidget, i18n("Enter Precondition Name"), i18n("Enter the precondition"), i18n("new precondition"));
+    	    // Create the widget. Some setup functions can remove the widget.
+    	
     }
 
     if (umlwidget != NULL) {
-        m_pUMLView->setupNewWidget(umlwidget);
+            m_pUMLView->setupNewWidget(umlwidget);
     }
 
 }

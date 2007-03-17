@@ -74,7 +74,7 @@ UMLAttribute* UMLEntity::createAttribute(const QString &name /*=null*/) {
         button = attributedialog.exec();
         QString name = newAttribute->getName();
 
-        if (name.length() == 0) {
+        if(name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
         } else if ( findChildObject(name) != NULL ) {
             KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
@@ -180,7 +180,7 @@ void UMLEntity::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     UMLClassifierListItemList entityAttributes = getFilteredList(Uml::ot_EntityAttribute);
     UMLClassifierListItem* pEntityAttribute = 0;
     for (UMLClassifierListItemListIt it(entityAttributes);
-            (pEntityAttribute = it.current()) != NULL; ++it) {
+         (pEntityAttribute = it.current()) != NULL; ++it) {
         pEntityAttribute->saveToXMI(qDoc, entityElement);
     }
     qElement.appendChild(entityElement);
@@ -188,7 +188,7 @@ void UMLEntity::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
 
 bool UMLEntity::load(QDomElement& element) {
     QDomNode node = element.firstChild();
-    while ( !node.isNull() ) {
+    while( !node.isNull() ) {
         if (node.isComment()) {
             node = node.nextSibling();
             continue;
@@ -197,7 +197,7 @@ bool UMLEntity::load(QDomElement& element) {
         QString tag = tempElement.tagName();
         if (Uml::tagEq(tag, "EntityAttribute")) {   // for backward compatibility
             UMLEntityAttribute* pEntityAttribute = new UMLEntityAttribute(this);
-            if ( !pEntityAttribute->loadFromXMI(tempElement) ) {
+            if( !pEntityAttribute->loadFromXMI(tempElement) ) {
                 return false;
             }
             m_List.append(pEntityAttribute);

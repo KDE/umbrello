@@ -341,7 +341,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
     UMLOperationList oppub;
     UMLOperation *op;
     for (op = opl.first(); op; op = opl.next()) {
-        if (op->getVisibility() == Uml::Visibility::Public)
+          if (op->getVisibility() == Uml::Visibility::Public)
             oppub.append(op);
     }
     if (forceSections() || oppub.count()) {

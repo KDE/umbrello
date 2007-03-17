@@ -217,7 +217,7 @@ protected:
 
     /** set the class attributes of this object from
      * the passed element node.
-     */
+     */ 
     virtual void setAttributesFromNode ( QDomElement & element);
 
     bool m_canDelete;

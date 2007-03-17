@@ -15,11 +15,11 @@
  */
 
 /**
-  We carve the CPP document up into 2 documents, "source" and "header".
+  We carve the CPP document up into 2 documents, "source" and "header". 
   The sections of each are as follows:
 
   * header
-  * includes
+  * includes 
   * constructor methods
   * all other methods
 
@@ -71,8 +71,8 @@ void CPPSourceCodeDocument::init ( ) {
     constructorBlock = 0;
 
     //initCodeClassFields(); // this is dubious because it calls down to
-    // CodeGenFactory::newCodeClassField(this)
-    // but "this" is still in construction at that time.
+                             // CodeGenFactory::newCodeClassField(this)
+                             // but "this" is still in construction at that time.
 
     // this will call updateContent() as well as other things that sync our document.
     //synchronize();
@@ -85,7 +85,7 @@ void CPPSourceCodeDocument::init ( ) {
 // of the document
 bool CPPSourceCodeDocument::addCodeOperation (CodeOperation * op ) {
 
-    if (!op->getParentOperation()->isLifeOperation())
+    if(!op->getParentOperation()->isLifeOperation())
     {
         return methodsBlock->addTextBlock(op);
     } else
@@ -123,7 +123,7 @@ void CPPSourceCodeDocument::updateContent( )
 
     // first, set the global flag on whether or not to show classfield info
     CodeClassFieldList * cfList = getCodeClassFieldList();
-    for (CodeClassField * field = cfList->first(); field; field = cfList->next())
+    for(CodeClassField * field = cfList->first(); field; field = cfList->next())
         field->setWriteOutMethods(policy->getAutoGenerateAccessors());
 
     // attribute-based ClassFields

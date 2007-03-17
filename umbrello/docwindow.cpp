@@ -50,12 +50,12 @@ DocWindow::DocWindow( UMLDoc * doc, QWidget *parent, const char *name ) : QWidge
 DocWindow::~DocWindow() {}
 
 void DocWindow::showDocumentation( UMLObject * object, bool overwrite ) {
-    if ( object == m_pUMLObject && !overwrite )
+    if( object == m_pUMLObject && !overwrite )
         return;
-    if ( object != m_pUMLObject )
+    if( object != m_pUMLObject )
         updateDocumentation( true );
     m_Showing = st_UMLObject;
-    if ( !object ) {
+    if( !object ) {
         m_pDocMLE->setText( m_pUMLDoc->getDocumentation() );
         m_pUMLObject = 0;
         return;
@@ -67,7 +67,7 @@ void DocWindow::showDocumentation( UMLObject * object, bool overwrite ) {
 void DocWindow::updateDocumentation( bool clear, bool startup ) {
 
     bool mark_modified = false;
-    if ( m_pUMLObject )
+    if( m_pUMLObject )
     {
         // the file is marked modified, if the documentation differs
         // we don't do this on startup/load of a xmi file, because every time
@@ -78,7 +78,7 @@ void DocWindow::updateDocumentation( bool clear, bool startup ) {
         }
         m_pUMLObject -> setDoc( m_pDocMLE -> text() );
 
-    } else if ( m_pUMLView ) {
+    } else if( m_pUMLView ) {
         // the file is marked modified, if the documentation differs
         // we don't do this on startup/load of a xmi file, because every time
         // modified is set, we get another undo/redo backup point
@@ -98,7 +98,7 @@ void DocWindow::updateDocumentation( bool clear, bool startup ) {
         }
 
         m_pUMLWidget -> setDoc( m_pDocMLE -> text() );
-    } else if ( m_pAssocWidget ) {
+    } else if( m_pAssocWidget ) {
         // the file is marked modified, if the documentation differs
         // we don't do this on startup/load of a xmi file, because every time
         // modified is set, we get another undo/redo backup point
@@ -125,7 +125,7 @@ void DocWindow::updateDocumentation( bool clear, bool startup ) {
         m_pUMLDoc -> setModified( true );
 
     // we should show the documentation of the whole project
-    if ( clear ) {
+    if( clear ) {
         m_pDocMLE->setText( m_pUMLDoc->getDocumentation() );
         m_pUMLObject = 0;
         m_pUMLView = 0;
@@ -138,12 +138,12 @@ void DocWindow::updateDocumentation( bool clear, bool startup ) {
 }
 
 void DocWindow::showDocumentation( UMLView * view, bool overwrite ) {
-    if ( view == m_pUMLView && !overwrite )
+    if( view == m_pUMLView && !overwrite )
         return;
-    if ( view != m_pUMLView )
+    if( view != m_pUMLView )
         updateDocumentation( true );
     m_Showing = st_UMLView;
-    if ( !view ) {
+    if( !view ) {
         m_pDocMLE->setText( m_pUMLDoc->getDocumentation() );
         m_pUMLView = 0;
         return;
@@ -153,12 +153,12 @@ void DocWindow::showDocumentation( UMLView * view, bool overwrite ) {
 }
 
 void DocWindow::showDocumentation( UMLWidget * widget, bool overwrite ) {
-    if ( widget == m_pUMLWidget && !overwrite )
+    if( widget == m_pUMLWidget && !overwrite )
         return;
-    if ( widget != m_pUMLWidget )
+    if( widget != m_pUMLWidget )
         updateDocumentation( true );
     m_Showing = st_UMLWidget;
-    if ( !widget ) {
+    if( !widget ) {
         m_pDocMLE->setText( m_pUMLDoc->getDocumentation() );
         m_pUMLWidget = 0;
         return;
@@ -168,12 +168,12 @@ void DocWindow::showDocumentation( UMLWidget * widget, bool overwrite ) {
 }
 
 void DocWindow::showDocumentation( AssociationWidget * widget, bool overwrite ) {
-    if ( widget == m_pAssocWidget && !overwrite )
+    if( widget == m_pAssocWidget && !overwrite )
         return;
-    if ( widget != m_pAssocWidget )
+    if( widget != m_pAssocWidget )
         updateDocumentation( true );
     m_Showing = st_Association;
-    if ( !widget ) {
+    if( !widget ) {
         m_pDocMLE->setText( m_pUMLDoc->getDocumentation() );
         m_pAssocWidget = 0;
         return;

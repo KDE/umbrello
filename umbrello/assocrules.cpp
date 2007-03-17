@@ -45,13 +45,13 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
             }
         }
     }
-    if ( !bValid ) {
+    if( !bValid ) {
         return false;
     }
     AssociationWidgetList list = widget -> getAssocList();
     AssociationWidgetListIt it( list );
     AssociationWidget * assoc = 0;
-    switch ( assocType ) {
+    switch( assocType ) {
     case at_Association:
     case at_UniAssociation:
     case at_Dependency:
@@ -69,8 +69,8 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
         break;
 
     case at_Realization:  // one connected to widget only (a or b)
-        while ( ( assoc = it.current() ) ) {
-            if ( assoc -> getAssocType() == at_Realization )
+        while( ( assoc = it.current() ) ) {
+            if( assoc -> getAssocType() == at_Realization )
                 return false;
             ++it;
         }
@@ -78,19 +78,19 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
         break;
 
     case at_State:
-    {
-        StateWidget *pState = dynamic_cast<StateWidget*>(widget);
-        return (pState == NULL || pState->getStateType() != StateWidget::End);
-    }
-    break;
+        {
+            StateWidget *pState = dynamic_cast<StateWidget*>(widget);
+            return (pState == NULL || pState->getStateType() != StateWidget::End);
+        }
+        break;
 
     case at_Activity:
     case at_Exception:
-    {
-        ActivityWidget *pActivity = dynamic_cast<ActivityWidget*>(widget);
-        return (pActivity == NULL || pActivity->getActivityType() != ActivityWidget::End);
-    }
-    break;
+        {
+            ActivityWidget *pActivity = dynamic_cast<ActivityWidget*>(widget);
+            return (pActivity == NULL || pActivity->getActivityType() != ActivityWidget::End);
+        }
+        break;
 
     case at_Anchor:
         return true;
@@ -112,7 +112,7 @@ bool AssocRules::allowAssociation( Association_Type assocType,
     bool bValid = false;
     for (int i = 0; i < m_nNumRules; i++) {
         if (assocType == m_AssocRules[i].assoc_type) {
-            if ( (widgetTypeA == m_AssocRules[i].widgetA_type &&
+            if( (widgetTypeA == m_AssocRules[i].widgetA_type &&
                     widgetTypeB == m_AssocRules[i].widgetB_type) ||
                     (widgetTypeB == m_AssocRules[i].widgetA_type &&
                      widgetTypeA == m_AssocRules[i].widgetB_type ) )
@@ -131,7 +131,7 @@ bool AssocRules::allowAssociation( Association_Type assocType,
     AssociationWidgetList list = widgetB -> getAssocList();
     AssociationWidgetListIt it( list );
     AssociationWidget * assoc = 0;
-    switch ( assocType ) {
+    switch( assocType ) {
     case at_Association:
     case at_Association_Self:
     case at_UniAssociation:
@@ -145,8 +145,8 @@ bool AssocRules::allowAssociation( Association_Type assocType,
     case at_Composition:   // can't have mutual composition
     case at_Containment:   // can't have mutual containment
     case at_Generalization://can have many sub/super types but can't sup/sub each
-        while ( ( assoc = it.current() ) ) {
-            if ( ( widgetA == assoc -> getWidget(A) || widgetA == assoc -> getWidget(B) )
+        while( ( assoc = it.current() ) ) {
+            if( ( widgetA == assoc -> getWidget(A) || widgetA == assoc -> getWidget(B) )
                     && assoc->getAssocType() == assocType )
                 return false;
             ++it;
@@ -155,8 +155,8 @@ bool AssocRules::allowAssociation( Association_Type assocType,
         break;
 
     case at_Realization: // can only connect to abstract (interface) classes
-        while ( ( assoc = it.current() ) ) {
-            if ( ( widgetA == assoc->getWidget(A) || widgetA == assoc->getWidget(B) )
+        while( ( assoc = it.current() ) ) {
+            if( ( widgetA == assoc->getWidget(A) || widgetA == assoc->getWidget(B) )
                     && assoc->getAssocType() == at_Realization ) {
                 return false;
             }
@@ -171,54 +171,54 @@ bool AssocRules::allowAssociation( Association_Type assocType,
         break;
 
     case at_State:
-    {
-        StateWidget *stateA = dynamic_cast<StateWidget*>(widgetA);
-        StateWidget *stateB = dynamic_cast<StateWidget*>(widgetB);
-        if (stateA && stateB) {
-            if (stateB->getStateType() == StateWidget::Initial)
-                return false;
-            if (stateB->getStateType() == StateWidget::End &&
+        {
+            StateWidget *stateA = dynamic_cast<StateWidget*>(widgetA);
+            StateWidget *stateB = dynamic_cast<StateWidget*>(widgetB);
+            if (stateA && stateB) {
+                if (stateB->getStateType() == StateWidget::Initial)
+                    return false;
+                if (stateB->getStateType() == StateWidget::End &&
                     stateA->getStateType() != StateWidget::Normal)
-                return false;
+                    return false;
+            }
         }
-    }
-    return true;
-    break;
+        return true;
+        break;
 
     case at_Activity:
     case at_Exception:
-    {
-        ActivityWidget *actA = dynamic_cast<ActivityWidget*>(widgetA);
-        ActivityWidget *actB = dynamic_cast<ActivityWidget*>(widgetB);
-        // no transitions to initial activity allowed
-        if (actB && actB->getActivityType() == ActivityWidget::Initial)
-            return false;
-        // Fork_DEPRECATED here means "not applicable".
-        ActivityWidget::ActivityType actTypeA = ActivityWidget::Fork_DEPRECATED;
-        if (actA)
-            actTypeA = actA->getActivityType();
-        ActivityWidget::ActivityType actTypeB = ActivityWidget::Fork_DEPRECATED;
-        if (actB)
-            actTypeB = actB->getActivityType();
-        // only from a normal, branch or fork activity to the end
-        if (actTypeB == ActivityWidget::End &&
+        {
+            ActivityWidget *actA = dynamic_cast<ActivityWidget*>(widgetA);
+            ActivityWidget *actB = dynamic_cast<ActivityWidget*>(widgetB);
+            // no transitions to initial activity allowed
+            if (actB && actB->getActivityType() == ActivityWidget::Initial)
+                return false;
+            // Fork_DEPRECATED here means "not applicable".
+            ActivityWidget::ActivityType actTypeA = ActivityWidget::Fork_DEPRECATED;
+            if (actA)
+                actTypeA = actA->getActivityType();
+            ActivityWidget::ActivityType actTypeB = ActivityWidget::Fork_DEPRECATED;
+            if (actB)
+                actTypeB = actB->getActivityType();
+            // only from a normal, branch or fork activity to the end
+            if (actTypeB == ActivityWidget::End &&
                 actTypeA != ActivityWidget::Normal &&
                 actTypeA != ActivityWidget::Branch &&
                 dynamic_cast<ForkJoinWidget*>(widgetA) == NULL) {
-            return false;
-        }
-        // only Forks and Branches can have more than one "outgoing" transition
-        if (actA != NULL && actTypeA != ActivityWidget::Branch) {
-            AssociationWidgetList list = widgetA->getAssocList();
-            for (AssociationWidget* assoc = list.first(); assoc; assoc = list.next()) {
-                if (assoc->getWidget(A) == widgetA) {
-                    return false;
+                return false;
+            }
+            // only Forks and Branches can have more than one "outgoing" transition
+            if (actA != NULL && actTypeA != ActivityWidget::Branch) {
+                AssociationWidgetList list = widgetA->getAssocList();
+                for (AssociationWidget* assoc = list.first(); assoc; assoc = list.next()) {
+                    if (assoc->getWidget(A) == widgetA) {
+                        return false;
+                    }
                 }
             }
         }
-    }
-    return true;
-    break;
+        return true;
+        break;
 
     case at_Anchor:
         return true;
@@ -232,24 +232,24 @@ bool AssocRules::allowAssociation( Association_Type assocType,
 }
 
 bool AssocRules::allowRole( Association_Type assocType ) {
-    for ( int i = 0; i < m_nNumRules; i++ )
-        if ( assocType == m_AssocRules[ i ].assoc_type )
+    for( int i = 0; i < m_nNumRules; i++ )
+        if( assocType == m_AssocRules[ i ].assoc_type )
             return m_AssocRules[ i ].role;
     return false;
 }
 
 bool AssocRules::allowMultiplicity( Association_Type assocType, Widget_Type widgetType ) {
-    for ( int i = 0; i < m_nNumRules; i++ )
-        if ( assocType == m_AssocRules[ i ].assoc_type )
-            if ( widgetType == m_AssocRules[ i ].widgetA_type || widgetType == m_AssocRules[ i ].widgetB_type )
+    for( int i = 0; i < m_nNumRules; i++ )
+        if( assocType == m_AssocRules[ i ].assoc_type )
+            if( widgetType == m_AssocRules[ i ].widgetA_type || widgetType == m_AssocRules[ i ].widgetB_type )
                 return m_AssocRules[ i ].multiplicity;
     return false;
 }
 
 bool AssocRules::allowSelf( Association_Type assocType, Widget_Type widgetType ) {
-    for ( int i = 0; i < m_nNumRules; i++ )
-        if ( assocType == m_AssocRules[ i ].assoc_type )
-            if ( widgetType == m_AssocRules[ i ].widgetA_type || widgetType == m_AssocRules[ i ].widgetB_type )
+    for( int i = 0; i < m_nNumRules; i++ )
+        if( assocType == m_AssocRules[ i ].assoc_type )
+            if( widgetType == m_AssocRules[ i ].widgetA_type || widgetType == m_AssocRules[ i ].widgetB_type )
                 return m_AssocRules[ i ].self;
 
     return false;
@@ -269,116 +269,116 @@ Association_Type AssocRules::isGeneralisationOrRealisation(UMLWidget* widgetA, U
 }
 
 AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
-            //  Association     widgetA         widgetB         role    multiplicity    directional     self
-            { at_Association_Self,wt_Class,     wt_Class,       true,   true,   true,   true  },
-            { at_Association_Self,wt_Object,    wt_Object,      true,   true,   true,   true  },
-            { at_Association_Self,wt_Interface, wt_Interface,   true,   true,   true,   true  },
-            { at_Association,   wt_Class,       wt_Class,       true,   true,   true,   true },
-            { at_Association,   wt_Object,      wt_Object,      true,   true,   true,   true },
-            { at_Association,   wt_Interface,   wt_Interface,   true,   true,   true,   true },
-            { at_Association,   wt_Interface,   wt_Class,       true,   true,   true,   false },
-            { at_Association,   wt_Class,       wt_Interface,   true,   true,   true,   false },
-            { at_Association,   wt_Datatype,    wt_Class,       true,   true,   true,   false },
-            { at_Association,   wt_Class,       wt_Datatype,    true,   true,   true,   false },
-            { at_Association,   wt_Enum,        wt_Class,       true,   true,   true,   false },
-            { at_Association,   wt_Class,       wt_Enum,        true,   true,   true,   false },
-            { at_Association,   wt_Actor,       wt_UseCase,     true,   false,  false,  false },
-            { at_Association,   wt_UseCase,     wt_UseCase,     true,   false,  false,  false },
-            { at_Association,   wt_Actor,       wt_Actor,       true,   false,  false,  false },
-            { at_Association,   wt_Actor,       wt_UseCase,     true,   false,  false,  false },
-            { at_Association,   wt_Component,   wt_Interface,   true,   false,  false,  false },
-            { at_Association,   wt_Interface,   wt_Artifact,    true,   false,  false,  false },
-            { at_Association,   wt_Node,        wt_Node,        true,   false,  false,  false },
-            { at_UniAssociation,wt_Class,       wt_Class,       true,   true,   true,   true  },
-            { at_UniAssociation,wt_Object,      wt_Object,      true,   true,   true,   true  },
-            { at_UniAssociation,wt_Interface,   wt_Interface,   true,   true,   true,   true  },
-            { at_UniAssociation,wt_Interface,   wt_Class,       true,   true,   true,   true  },
-            { at_UniAssociation,wt_Class,       wt_Interface,   true,   true,   true,   true  },
-            { at_UniAssociation,wt_Class,       wt_Datatype,    true,   true,   true,   true  },
-            { at_UniAssociation,wt_Class,       wt_Enum,        true,   true,   true,   true  },
-            { at_UniAssociation,wt_Actor,       wt_Actor,       true,   false,  false,  false },
-            { at_UniAssociation,wt_UseCase,     wt_UseCase,     true,   false,  false,  false },
-            { at_UniAssociation,wt_UseCase,     wt_Actor,       true,   false,  false,  false },
-            { at_Generalization,wt_Class,       wt_Datatype,    false,  false,  false,  false },
-            { at_Generalization,wt_Class,       wt_Class,       false,  false,  false,  false },
-            { at_Generalization,wt_Interface,   wt_Interface,   false,  false,  false,  false },
-            { at_Generalization,wt_UseCase,     wt_UseCase,     false,  false,  false,  false },
-            { at_Generalization,wt_Actor,       wt_Actor,       false,  false,  false,  false },
-            { at_Aggregation,   wt_Class,       wt_Class,       true,   true,   false,  true  },
-            { at_Aggregation,   wt_Class,       wt_Interface,   true,   true,   false,  false },
-            { at_Aggregation,   wt_Class,       wt_Enum,        true,   true,   false,  false },
-            { at_Aggregation,   wt_Class,       wt_Datatype,    true,   true,   false,  false },
-            { at_Dependency,    wt_Class,       wt_Class,       true,   false,  false,  true },
-            { at_Dependency,    wt_UseCase,     wt_UseCase,     true,   false,  false,  false },
-            { at_Dependency,    wt_Actor,       wt_Actor,       true,   false,  false,  false },
-            { at_Dependency,    wt_Actor,       wt_UseCase,     true,   false,  false,  false },
-            { at_Dependency,    wt_Package,     wt_Package,     true,   true,   true,   true  },
-            { at_Dependency,    wt_Package,     wt_Class,       true,   true,   true,   true  },
-            { at_Dependency,    wt_Class,       wt_Package,     true,   true,   true,   true  },
-            { at_Dependency,    wt_Package,     wt_Interface,   true,   true,   true,   true  },
-            { at_Dependency,    wt_Interface,   wt_Package,     true,   true,   true,   true  },
-            { at_Dependency,    wt_Interface,   wt_Interface,   true,   true,   true,   true  },
-            { at_Dependency,    wt_Interface,   wt_Class,       true,   true,   true,   true  },
-            { at_Dependency,    wt_Class,       wt_Interface,   true,   true,   true,   true  },
-            { at_Dependency,    wt_Class,       wt_Datatype,    true,   true,   true,   true  },
-            { at_Dependency,    wt_Class,       wt_Enum,        true,   true,   true,   true  },
-            { at_Dependency,    wt_Component,   wt_Component,   true,   true,   true,   true  },
-            { at_Dependency,    wt_Component,   wt_Interface,   true,   true,   true,   true  },
-            { at_Dependency,    wt_Component,   wt_Artifact,    true,   false,  false,  false },
-            { at_Dependency,    wt_Node,        wt_Component,   true,   false,  false,  false },
-            { at_Realization,   wt_Class,       wt_Interface,   false,  false,  false,  false },
-            { at_Realization,   wt_Interface,   wt_Package,     false,  false,  false,  false },
-            { at_Realization,   wt_Interface,   wt_Interface,   false,  false,  false,  false },
-            { at_Composition,   wt_Class,       wt_Class,       true,   true,   false,  true  },
-            { at_Composition,   wt_Class,       wt_Interface,   true,   true,   false,  false },
-            { at_Composition,   wt_Class,       wt_Enum,        true,   true,   false,  false },
-            { at_Composition,   wt_Class,       wt_Datatype,    false,  false,  false,  false },
-            { at_Composition,   wt_Class,       wt_Class,       false,  false,  false,  false },
-            { at_Containment,   wt_Package,     wt_Class,       false,  false,  true,   false },
-            { at_Containment,   wt_Package,     wt_Interface,   false,  false,  true,   false },
-            { at_Containment,   wt_Package,     wt_Enum,        false,  false,  true,   false },
-            { at_Containment,   wt_Package,     wt_Package,     false,  false,  true,   false },
-            { at_Containment,   wt_Package,     wt_Component,   false,  false,  true,   false },
-            { at_Containment,   wt_Class,       wt_Class,       false,  false,  true,   false },
-            { at_Containment,   wt_Class,       wt_Interface,   false,  false,  true,   false },
-            { at_Containment,   wt_Class,       wt_Enum,        false,  false,  true,   false },
-            { at_Containment,   wt_Interface,   wt_Class,       false,  false,  true,   false },
-            { at_Containment,   wt_Interface,   wt_Interface,   false,  false,  true,   false },
-            { at_Containment,   wt_Interface,   wt_Enum,        false,  false,  true,   false },
-            { at_Containment,   wt_Component,   wt_Component,   false,  false,  true,   false },
-            { at_Containment,   wt_Component,   wt_Artifact,    false,  false,  true,   false },
-            { at_Coll_Message,  wt_Object,      wt_Object,      true,   false,  true,   true  },
-            { at_State,         wt_State,       wt_State,       true,   false,  true,   true  },
-            { at_State,         wt_ForkJoin,    wt_State,       true,   false,  true,   true  },
-            { at_State,         wt_State,       wt_ForkJoin,    true,   false,  true,   true  },
-            { at_Activity,      wt_Signal,      wt_Activity,    true,   false,  true,   true  },
-            { at_Activity,      wt_Activity,    wt_Signal,      true,   false,  true,   true  },
-            { at_Activity,      wt_Object_Flow, wt_Activity,    true,   false,  true,   true  },
-            { at_Activity,      wt_Activity,    wt_Object_Flow, true,   false,  true,   true  },
-            { at_Activity,      wt_Activity,    wt_Activity,    true,   false,  true,   true  },
-            { at_Activity,      wt_ForkJoin,    wt_Activity,    true,   false,  true,   true  },
-            { at_Activity,      wt_Activity,    wt_ForkJoin,    true,   false,  true,   true  },
-            { at_Activity,      wt_Signal,      wt_ForkJoin,    true,   false,  true,   true  },
-            { at_Activity,      wt_ForkJoin,    wt_Signal,      true,   false,  true,   true  },
-            { at_Activity,      wt_ForkJoin,    wt_Object_Flow, true,   false,  true,   true  },
-            { at_Activity,      wt_Object_Flow, wt_ForkJoin,    true,   false,  true,   true  },
-            { at_Anchor,        wt_Class,       wt_Note,        false,  false,  false,  false },
-            { at_Anchor,        wt_Package,     wt_Note,        false,  false,  false,  false },
-            { at_Anchor,        wt_Interface,   wt_Note,        false,  false,  false,  false },
-            { at_Anchor,        wt_Datatype,    wt_Note,        false,  false,  false,  false },
-            { at_Anchor,        wt_Enum,        wt_Note,        false,  false,  false,  false },
-            { at_Anchor,        wt_Object,      wt_Note,        false,  false,  false,  false },
-            { at_Anchor,        wt_Actor,       wt_Note,        false,  false,  false,  false },
-            { at_Anchor,        wt_UseCase,     wt_Note,        false,  false,  false,  false },
-            { at_Anchor,        wt_Message,     wt_Note,        false,  false,  false,  false },
-            { at_Anchor,        wt_State,       wt_Note,        false,  false,  false,  false },
-            { at_Anchor,        wt_Activity,    wt_Note,        false,  false,  false,  false },
-            { at_Relationship,  wt_Entity,      wt_Entity,      true,   false,  true,   false },
-            { at_Exception,     wt_Activity,    wt_Activity,    true,   false,  true,   true  },
-            { at_Exception,     wt_Activity,    wt_Signal,      true,   false,  true,   true  },
-            { at_Exception,     wt_Signal,      wt_Activity,    true,   false,  true,   true  },
-            { at_Exception,     wt_Signal,      wt_Signal,      true,   false,  true,   true  },
-        };
+    //  Association     widgetA         widgetB         role    multiplicity    directional     self
+    { at_Association_Self,wt_Class,     wt_Class,       true,   true,   true,   true  },
+    { at_Association_Self,wt_Object,    wt_Object,      true,   true,   true,   true  },
+    { at_Association_Self,wt_Interface, wt_Interface,   true,   true,   true,   true  },
+    { at_Association,   wt_Class,       wt_Class,       true,   true,   true,   true },
+    { at_Association,   wt_Object,      wt_Object,      true,   true,   true,   true },
+    { at_Association,   wt_Interface,   wt_Interface,   true,   true,   true,   true },
+    { at_Association,   wt_Interface,   wt_Class,       true,   true,   true,   false },
+    { at_Association,   wt_Class,       wt_Interface,   true,   true,   true,   false },
+    { at_Association,   wt_Datatype,    wt_Class,       true,   true,   true,   false },
+    { at_Association,   wt_Class,       wt_Datatype,    true,   true,   true,   false },
+    { at_Association,   wt_Enum,        wt_Class,       true,   true,   true,   false },
+    { at_Association,   wt_Class,       wt_Enum,        true,   true,   true,   false },
+    { at_Association,   wt_Actor,       wt_UseCase,     true,   false,  false,  false },
+    { at_Association,   wt_UseCase,     wt_UseCase,     true,   false,  false,  false },
+    { at_Association,   wt_Actor,       wt_Actor,       true,   false,  false,  false },
+    { at_Association,   wt_Actor,       wt_UseCase,     true,   false,  false,  false },
+    { at_Association,   wt_Component,   wt_Interface,   true,   false,  false,  false },
+    { at_Association,   wt_Interface,   wt_Artifact,    true,   false,  false,  false },
+    { at_Association,   wt_Node,        wt_Node,        true,   false,  false,  false },
+    { at_UniAssociation,wt_Class,       wt_Class,       true,   true,   true,   true  },
+    { at_UniAssociation,wt_Object,      wt_Object,      true,   true,   true,   true  },
+    { at_UniAssociation,wt_Interface,   wt_Interface,   true,   true,   true,   true  },
+    { at_UniAssociation,wt_Interface,   wt_Class,       true,   true,   true,   true  },
+    { at_UniAssociation,wt_Class,       wt_Interface,   true,   true,   true,   true  },
+    { at_UniAssociation,wt_Class,       wt_Datatype,    true,   true,   true,   true  },
+    { at_UniAssociation,wt_Class,       wt_Enum,        true,   true,   true,   true  },
+    { at_UniAssociation,wt_Actor,       wt_Actor,       true,   false,  false,  false },
+    { at_UniAssociation,wt_UseCase,     wt_UseCase,     true,   false,  false,  false },
+    { at_UniAssociation,wt_UseCase,     wt_Actor,       true,   false,  false,  false },
+    { at_Generalization,wt_Class,       wt_Datatype,    false,  false,  false,  false },
+    { at_Generalization,wt_Class,       wt_Class,       false,  false,  false,  false },
+    { at_Generalization,wt_Interface,   wt_Interface,   false,  false,  false,  false },
+    { at_Generalization,wt_UseCase,     wt_UseCase,     false,  false,  false,  false },
+    { at_Generalization,wt_Actor,       wt_Actor,       false,  false,  false,  false },
+    { at_Aggregation,   wt_Class,       wt_Class,       true,   true,   false,  true  },
+    { at_Aggregation,   wt_Class,       wt_Interface,   true,   true,   false,  false },
+    { at_Aggregation,   wt_Class,       wt_Enum,        true,   true,   false,  false },
+    { at_Aggregation,   wt_Class,       wt_Datatype,    true,   true,   false,  false },
+    { at_Dependency,    wt_Class,       wt_Class,       true,   false,  false,  true },
+    { at_Dependency,    wt_UseCase,     wt_UseCase,     true,   false,  false,  false },
+    { at_Dependency,    wt_Actor,       wt_Actor,       true,   false,  false,  false },
+    { at_Dependency,    wt_Actor,       wt_UseCase,     true,   false,  false,  false },
+    { at_Dependency,    wt_Package,     wt_Package,     true,   true,   true,   true  },
+    { at_Dependency,    wt_Package,     wt_Class,       true,   true,   true,   true  },
+    { at_Dependency,    wt_Class,       wt_Package,     true,   true,   true,   true  },
+    { at_Dependency,    wt_Package,     wt_Interface,   true,   true,   true,   true  },
+    { at_Dependency,    wt_Interface,   wt_Package,     true,   true,   true,   true  },
+    { at_Dependency,    wt_Interface,   wt_Interface,   true,   true,   true,   true  },
+    { at_Dependency,    wt_Interface,   wt_Class,       true,   true,   true,   true  },
+    { at_Dependency,    wt_Class,       wt_Interface,   true,   true,   true,   true  },
+    { at_Dependency,    wt_Class,       wt_Datatype,    true,   true,   true,   true  },
+    { at_Dependency,    wt_Class,       wt_Enum,        true,   true,   true,   true  },
+    { at_Dependency,    wt_Component,   wt_Component,   true,   true,   true,   true  },
+    { at_Dependency,    wt_Component,   wt_Interface,   true,   true,   true,   true  },
+    { at_Dependency,    wt_Component,   wt_Artifact,    true,   false,  false,  false },
+    { at_Dependency,    wt_Node,        wt_Component,   true,   false,  false,  false },
+    { at_Realization,   wt_Class,       wt_Interface,   false,  false,  false,  false },
+    { at_Realization,   wt_Interface,   wt_Package,     false,  false,  false,  false },
+    { at_Realization,   wt_Interface,   wt_Interface,   false,  false,  false,  false },
+    { at_Composition,   wt_Class,       wt_Class,       true,   true,   false,  true  },
+    { at_Composition,   wt_Class,       wt_Interface,   true,   true,   false,  false },
+    { at_Composition,   wt_Class,       wt_Enum,        true,   true,   false,  false },
+    { at_Composition,   wt_Class,       wt_Datatype,    false,  false,  false,  false },
+    { at_Composition,   wt_Class,       wt_Class,       false,  false,  false,  false },
+    { at_Containment,   wt_Package,     wt_Class,       false,  false,  true,   false },
+    { at_Containment,   wt_Package,     wt_Interface,   false,  false,  true,   false },
+    { at_Containment,   wt_Package,     wt_Enum,        false,  false,  true,   false },
+    { at_Containment,   wt_Package,     wt_Package,     false,  false,  true,   false },
+    { at_Containment,   wt_Package,     wt_Component,   false,  false,  true,   false },
+    { at_Containment,   wt_Class,       wt_Class,       false,  false,  true,   false },
+    { at_Containment,   wt_Class,       wt_Interface,   false,  false,  true,   false },
+    { at_Containment,   wt_Class,       wt_Enum,        false,  false,  true,   false },
+    { at_Containment,   wt_Interface,   wt_Class,       false,  false,  true,   false },
+    { at_Containment,   wt_Interface,   wt_Interface,   false,  false,  true,   false },
+    { at_Containment,   wt_Interface,   wt_Enum,        false,  false,  true,   false },
+    { at_Containment,   wt_Component,   wt_Component,   false,  false,  true,   false },
+    { at_Containment,   wt_Component,   wt_Artifact,    false,  false,  true,   false },
+    { at_Coll_Message,  wt_Object,      wt_Object,      true,   false,  true,   true  },
+    { at_State,         wt_State,       wt_State,       true,   false,  true,   true  },
+    { at_State,         wt_ForkJoin,    wt_State,       true,   false,  true,   true  },
+    { at_State,         wt_State,       wt_ForkJoin,    true,   false,  true,   true  },
+    { at_Activity,      wt_Signal,      wt_Activity,    true,   false,  true,   true  },
+    { at_Activity,      wt_Activity,    wt_Signal,      true,   false,  true,   true  },
+    { at_Activity,      wt_Object_Flow, wt_Activity,    true,   false,  true,   true  },
+    { at_Activity,      wt_Activity,    wt_Object_Flow, true,   false,  true,   true  },
+    { at_Activity,      wt_Activity,    wt_Activity,    true,   false,  true,   true  },
+    { at_Activity,      wt_ForkJoin,    wt_Activity,    true,   false,  true,   true  },
+    { at_Activity,      wt_Activity,    wt_ForkJoin,    true,   false,  true,   true  },
+    { at_Activity,      wt_Signal,      wt_ForkJoin,    true,   false,  true,   true  },
+    { at_Activity,      wt_ForkJoin,    wt_Signal,      true,   false,  true,   true  },
+    { at_Activity,      wt_ForkJoin,    wt_Object_Flow, true,   false,  true,   true  },
+    { at_Activity,      wt_Object_Flow, wt_ForkJoin,    true,   false,  true,   true  },
+    { at_Anchor,        wt_Class,       wt_Note,        false,  false,  false,  false },
+    { at_Anchor,        wt_Package,     wt_Note,        false,  false,  false,  false },
+    { at_Anchor,        wt_Interface,   wt_Note,        false,  false,  false,  false },
+    { at_Anchor,        wt_Datatype,    wt_Note,        false,  false,  false,  false },
+    { at_Anchor,        wt_Enum,        wt_Note,        false,  false,  false,  false },
+    { at_Anchor,        wt_Object,      wt_Note,        false,  false,  false,  false },
+    { at_Anchor,        wt_Actor,       wt_Note,        false,  false,  false,  false },
+    { at_Anchor,        wt_UseCase,     wt_Note,        false,  false,  false,  false },
+    { at_Anchor,        wt_Message,     wt_Note,        false,  false,  false,  false },
+    { at_Anchor,        wt_State,       wt_Note,        false,  false,  false,  false },
+    { at_Anchor,        wt_Activity,    wt_Note,        false,  false,  false,  false },
+    { at_Relationship,  wt_Entity,      wt_Entity,      true,   false,  true,   false },
+    { at_Exception,     wt_Activity,    wt_Activity,    true,   false,  true,   true  },
+    { at_Exception,     wt_Activity,    wt_Signal,      true,   false,  true,   true  },
+    { at_Exception,     wt_Signal,      wt_Activity,    true,   false,  true,   true  },
+    { at_Exception,     wt_Signal,      wt_Signal,      true,   false,  true,   true  },
+};
 
 int AssocRules::m_nNumRules = sizeof( m_AssocRules ) / sizeof( AssocRules::Assoc_Rule );
 

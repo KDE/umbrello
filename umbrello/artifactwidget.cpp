@@ -70,7 +70,7 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY) {
                    w, fontHeight, Qt::AlignCenter, name);
     }
 
-    if (m_bSelected) {
+    if(m_bSelected) {
         drawSelected(&p, offsetX, offsetY);
     }
 }
@@ -103,7 +103,7 @@ void ArtifactWidget::drawAsFile(QPainter& p, int offsetX, int offsetY) {
     p.drawText(offsetX, offsetY + h - fontHeight,
                w, fontHeight, Qt::AlignCenter, name);
 
-    if (m_bSelected) {
+    if(m_bSelected) {
         drawSelected(&p, offsetX, offsetY);
     }
 }
@@ -137,7 +137,7 @@ void ArtifactWidget::drawAsLibrary(QPainter& p, int offsetX, int offsetY) {
     p.drawText(offsetX, offsetY + h - fontHeight,
                w, fontHeight, Qt::AlignCenter, name);
 
-    if (m_bSelected) {
+    if(m_bSelected) {
         drawSelected(&p, offsetX, offsetY);
     }
 }
@@ -173,7 +173,7 @@ void ArtifactWidget::drawAsTable(QPainter& p, int offsetX, int offsetY) {
     p.drawText(offsetX, offsetY + h - fontHeight,
                w, fontHeight, Qt::AlignCenter, name);
 
-    if (m_bSelected) {
+    if(m_bSelected) {
         drawSelected(&p, offsetX, offsetY);
     }
 }
@@ -227,7 +227,7 @@ QSize ArtifactWidget::calculateNormalSize() {
     int width = fm.width( m_pObject->getName() );
 
     int tempWidth = 0;
-    if (!m_pObject->getStereotype().isEmpty()) {
+    if(!m_pObject->getStereotype().isEmpty()) {
         tempWidth = fm.width( m_pObject->getStereotype(true) );
     }
     width = tempWidth>width ? tempWidth : width;

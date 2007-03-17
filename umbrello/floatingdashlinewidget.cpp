@@ -18,7 +18,7 @@
 #include <qpainter.h>
 
 FloatingDashLineWidget::FloatingDashLineWidget(UMLView * view, Uml::IDType id)
-        : UMLWidget(view, id)
+: UMLWidget(view, id)
 {
     UMLWidget::setBaseType(Uml::wt_FloatingDashLine);
     m_bResizable = false;
@@ -35,10 +35,10 @@ void FloatingDashLineWidget::draw(QPainter & p, int offsetX, int offsetY)
     p.setPen(Qt::black);
     p.setFont(UMLWidget::getFont());
     p.drawText(getX() + FLOATING_DASH_LINE_TEXT_MARGIN, getY(),
-               getWidth() - FLOATING_DASH_LINE_TEXT_MARGIN * 2, fontHeight, Qt::AlignLeft, m_text);
+                        getWidth() - FLOATING_DASH_LINE_TEXT_MARGIN * 2, fontHeight, Qt::AlignLeft, m_text);
     p.setPen(*(new QPen(UMLWidget::getLineColor(), 0, Qt::DashLine)));
     p.drawLine(getX(), getY(), getX() + getWidth(), getY());
-    if (m_bSelected)
+    if(m_bSelected)
         drawSelected(&p, getX(), getY());
 }
 
@@ -48,17 +48,17 @@ void FloatingDashLineWidget::setText(QString text)
 }
 
 bool FloatingDashLineWidget::onLine(const QPoint &point) {
-    /*check if the given point is the start or end point of the line */
+ /*check if the given point is the start or end point of the line */
     if (( (abs( getY() + getHeight() - point.y() )) <= POINT_DELTA) || (abs( getY() - point.y() ) <= POINT_DELTA)) {
         return true;
     }
     /* check if the given point is the start or end point of the line */
-    return false;
+   return false;
 }
 
 void FloatingDashLineWidget::setY(int y)
 {
-    if (y >= m_yMin + FLOATING_DASH_LINE_MARGIN && y <= m_yMax - FLOATING_DASH_LINE_MARGIN)
+    if(y >= m_yMin + FLOATING_DASH_LINE_MARGIN && y <= m_yMax - FLOATING_DASH_LINE_MARGIN)
         UMLWidget::setY(y);
 }
 
@@ -94,7 +94,7 @@ void FloatingDashLineWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElem
 }
 
 bool FloatingDashLineWidget::loadFromXMI( QDomElement & qElement ) {
-    if ( !UMLWidget::loadFromXMI( qElement ) )
+    if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
 
     m_yMax = qElement.attribute( "maxY", "" ).toInt();

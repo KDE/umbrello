@@ -5,7 +5,7 @@
     source code is not replicated in the XMI file.
                              -------------------
     copyright            : (C) 2003 Brian Thomas brian.thomas@gsfc.nasa.gov
-      (C) 2004-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
+      (C) 2004-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net> 
 ***************************************************************************/
 
 /***************************************************************************
@@ -87,27 +87,27 @@ void JavaWriter::writeClass(UMLClassifier *c)
     if (!isInterface) {
         UMLAttributeList atl = c->getAttributeList();
         for (UMLAttribute *at = atl.first(); at ; at = atl.next()) {
-            switch (at->getVisibility())
+            switch(at->getVisibility())
             {
-            case Uml::Visibility::Public:
-                if (at->getStatic())
+              case Uml::Visibility::Public:
+                if(at->getStatic())
                     final_atpub.append(at);
                 else
                     atpub.append(at);
                 break;
-            case Uml::Visibility::Protected:
-                if (at->getStatic())
+              case Uml::Visibility::Protected:
+                if(at->getStatic())
                     final_atprot.append(at);
                 else
                     atprot.append(at);
                 break;
-            case Uml::Visibility::Private:
-                if (at->getStatic())
+              case Uml::Visibility::Private:
+                if(at->getStatic())
                     final_atpriv.append(at);
                 else
                     atpriv.append(at);
                 break;
-            default:
+              default:
                 break;
             }
         }
@@ -116,7 +116,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
     // another preparation, determine what we have
     UMLAssociationList associations = c->getSpecificAssocs(Uml::at_Association); // BAD! only way to get "general" associations.
     UMLAssociationList uniAssociations = c->getUniAssociationToBeImplemented();
-
+    
     UMLAssociationList aggregations = c->getAggregations();
     UMLAssociationList compositions = c->getCompositions();
 
@@ -135,13 +135,13 @@ void JavaWriter::writeClass(UMLClassifier *c)
     //try to find a heading file (license, coments, etc)
     QString str;
     str = getHeadingFile(".java");
-    if (!str.isEmpty()) {
+    if(!str.isEmpty()) {
         str.replace(QRegExp("%filename%"),fileName);
         str.replace(QRegExp("%filepath%"),file.name());
         java<<str<<m_endl;
     }
 
-    if (!c->getPackage().isEmpty())
+    if(!c->getPackage().isEmpty())
         java<<"package "<<c->getPackage()<<";"<<m_endl;
 
     // IMPORT statements
@@ -196,7 +196,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
 
     // Constructors: anything we more we need to do here ?
     //
-    if (!isInterface)
+    if(!isInterface)
         writeConstructor(c, java);
 
     // METHODS
@@ -265,9 +265,9 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
     QString classname = cleanName(c->getName()); // our class name
 
     // write documentation for class, if any, first
-    if (forceDoc() || !c->getDoc().isEmpty())
+    if(forceDoc() || !c->getDoc().isEmpty())
     {
-        if (isInterface)
+        if(isInterface)
             writeDocumentation("Interface "+classname,c->getDoc(),"","",java);
         else
             writeDocumentation("Class "+classname,c->getDoc(),"","",java);
@@ -287,14 +287,14 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
         scope = "public ";
 
     java<<((c->getAbstract() && !isInterface) ? QString("abstract ") : QString(""))<<scope;
-    if (isInterface)
+    if(isInterface)
         java<<"interface ";
     else
         java<<"class ";
 
     java<<classname;
 
-    // Generics
+    // Generics 
     UMLTemplateList template_params = c->getTemplateList();
     if (template_params.count()) {
         java << "<";
@@ -324,7 +324,7 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
         }
         else
         {
-            //The java generated code is wrong ! : No multiple inheritence of class
+            //The java generated code is wrong ! : No multiple inheritence of class 
             java<< ", " ;
         }
         java<< cleanName(concept->getName());
@@ -344,7 +344,7 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
         }
         else
         {
-            //The java generated code is OK ! : multiple inheritence of interface
+            //The java generated code is OK ! : multiple inheritence of interface 
             java<< ", " ;
         }
         java<< cleanName(concept->getName());
@@ -358,37 +358,37 @@ void JavaWriter::writeAttributeDecls(UMLAttributeList &atpub, UMLAttributeList &
 {
     UMLAttribute *at;
 
-    for (at=atpub.first(); at; at=atpub.next())
+    for(at=atpub.first(); at; at=atpub.next())
     {
         QString documentation = at->getDoc();
         QString staticValue = at->getStatic() ? "static " : "";
         QString typeName = fixTypeName(at->getTypeName());
         QString initialValue = fixInitialStringDeclValue(at->getInitialValue(), typeName);
-        if (!documentation.isEmpty())
+        if(!documentation.isEmpty())
             writeComment(documentation, m_indentation, java, true);
         java<<startline<<staticValue<<"public "<<typeName<<" "<<cleanName(at->getName())
         <<(initialValue.isEmpty()?QString(""):QString(" = ") + initialValue)<<";";
     }
 
-    for (at=atprot.first();at;at=atprot.next())
+    for(at=atprot.first();at;at=atprot.next())
     {
         QString documentation = at->getDoc();
         QString typeName = fixTypeName(at->getTypeName());
         QString staticValue = at->getStatic() ? "static " : "";
         QString initialValue = fixInitialStringDeclValue(at->getInitialValue(), typeName);
-        if (!documentation.isEmpty())
+        if(!documentation.isEmpty())
             writeComment(documentation, m_indentation, java, true);
         java<<startline<<staticValue<<"protected "<<typeName<<" "<<cleanName(at->getName())
         <<(initialValue.isEmpty()?QString(""):QString(" = ") + initialValue)<<";";
     }
 
-    for (at=atpriv.first();at;at=atpriv.next())
+    for(at=atpriv.first();at;at=atpriv.next())
     {
         QString documentation = at->getDoc();
         QString typeName = fixTypeName(at->getTypeName());
         QString staticValue = at->getStatic() ? "static " : "";
         QString initialValue = fixInitialStringDeclValue(at->getInitialValue(), typeName);
-        if (!documentation.isEmpty())
+        if(!documentation.isEmpty())
             writeComment(documentation, m_indentation, java, true);
         java<<startline<<staticValue<<"private "<<typeName<<" "<<cleanName(at->getName())
         <<(initialValue.isEmpty()?QString(""):QString(" = ") + initialValue)<<";";
@@ -400,7 +400,7 @@ void JavaWriter::writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility 
 {
 
     UMLAttribute *at;
-    for (at=atpub.first(); at; at=atpub.next())
+    for(at=atpub.first(); at; at=atpub.next())
     {
         QString fieldName = cleanName(at->getName());
         // force capitalizing the field name, this is silly,
@@ -426,31 +426,31 @@ void JavaWriter::writeComment(const QString &comment, const QString &myIndent,
     // need to resolve for using with MAC/WinDoze eventually I assume
     if (comment.contains(QRegExp("\n"))) {
 
-        if (javaDocStyle)
+        if(javaDocStyle)
             java << myIndent << "/**" << m_endl;
         QStringList lines = QStringList::split( "\n", comment);
         for (int i= 0; i < lines.count(); i++)
         {
             writeBlankLine(java);
-            if (javaDocStyle)
+            if(javaDocStyle)
                 java<<myIndent<<" * ";
             else
                 java<<myIndent<<"// ";
             java << lines[i];
         }
-        if (javaDocStyle)
+        if(javaDocStyle)
             java << myIndent << " */" << m_endl;
     } else {
         // this should be more fancy in the future, breaking it up into 80 char
         // lines so that it doesn't look too bad
         writeBlankLine(java);
-        if (javaDocStyle)
+        if(javaDocStyle)
             java << myIndent << "/**" << m_endl << myIndent << " *";
         else
             java<<myIndent<<"//";
-        if (comment.length() > 0)
+        if(comment.length() > 0)
             java << " " << comment;
-        if (javaDocStyle)
+        if(javaDocStyle)
             java << m_endl << myIndent << " */";
     }
 }
@@ -475,10 +475,10 @@ void JavaWriter::writeDocumentation(QString header, QString body, QString end, Q
 void JavaWriter::writeAssociationDecls(UMLAssociationList associations, Uml::IDType id, QTextStream &java)
 {
 
-    if ( forceSections() || !associations.isEmpty() )
+    if( forceSections() || !associations.isEmpty() )
     {
         bool printRoleA = false, printRoleB = false;
-        for (UMLAssociation *a = associations.first(); a; a = associations.next())
+        for(UMLAssociation *a = associations.first(); a; a = associations.next())
         {
             // it may seem counter intuitive, but you want to insert the role of the
             // *other* class into *this* class.
@@ -529,7 +529,7 @@ void JavaWriter::writeAssociationRoleDecl(QString fieldClassName,
     // declare the association based on whether it is this a single variable
     // or a List (Vector). One day this will be done correctly with special
     // multiplicity object that we don't have to figure out what it means via regex.
-    if (multi.isEmpty() || multi.contains(QRegExp("^[01]$")))
+    if(multi.isEmpty() || multi.contains(QRegExp("^[01]$")))
     {
         QString fieldVarName = "m_" + roleName.replace(0, 1, roleName.left(1).lower());
         java<<startline<<scope<<" "<<fieldClassName<<" "<<fieldVarName<<";";
@@ -546,9 +546,9 @@ void JavaWriter::writeAssociationRoleDecl(QString fieldClassName,
 
 void JavaWriter::writeAssociationMethods (UMLAssociationList associations, UMLClassifier *thisClass, QTextStream &java)
 {
-    if ( forceSections() || !associations.isEmpty() )
+    if( forceSections() || !associations.isEmpty() )
     {
-        for (UMLAssociation *a = associations.first(); a; a = associations.next())
+        for(UMLAssociation *a = associations.first(); a; a = associations.next())
         {
 
             // insert the methods to access the role of the other
@@ -556,7 +556,7 @@ void JavaWriter::writeAssociationMethods (UMLAssociationList associations, UMLCl
             if (a->getObjectId(Uml::A) == thisClass->getID())
             {
                 // only write out IF there is a rolename given
-                if (!a->getRoleName(Uml::B).isEmpty()) {
+                if(!a->getRoleName(Uml::B).isEmpty()) {
                     QString fieldClassName = getUMLObjectName(a->getObject(Uml::B));
                     writeAssociationRoleMethod(fieldClassName,
                                                a->getRoleName(Uml::B),
@@ -569,7 +569,7 @@ void JavaWriter::writeAssociationMethods (UMLAssociationList associations, UMLCl
             if (a->getObjectId(Uml::B) == thisClass->getID())
             {
                 // only write out IF there is a rolename given
-                if (!a->getRoleName(Uml::A).isEmpty()) {
+                if(!a->getRoleName(Uml::A).isEmpty()) {
                     QString fieldClassName = getUMLObjectName(a->getObject(Uml::A));
                     writeAssociationRoleMethod(fieldClassName, a->getRoleName(Uml::A),
                                                a->getMulti(Uml::A),
@@ -588,7 +588,7 @@ void JavaWriter::writeAssociationRoleMethod (QString fieldClassName, QString rol
         QString description, Uml::Visibility visib, Uml::Changeability_Type change,
         QTextStream &java)
 {
-    if (multi.isEmpty() || multi.contains(QRegExp("^[01]$")))
+    if(multi.isEmpty() || multi.contains(QRegExp("^[01]$")))
     {
         QString fieldVarName = "m_" + roleName.replace(0, 1, roleName.left(1).lower());
         writeSingleAttributeAccessorMethods(fieldClassName, fieldVarName, roleName,
@@ -733,7 +733,7 @@ bool JavaWriter::compareJavaMethod(UMLOperation *op1, UMLOperation *op2)
             return false;
     }
     return true;
-
+    
 }
 
 bool JavaWriter::javaMethodInList(UMLOperation *umlOp, UMLOperationList &opl)
@@ -749,7 +749,7 @@ bool JavaWriter::javaMethodInList(UMLOperation *umlOp, UMLOperationList &opl)
 void JavaWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationList &yetImplementedOpList ,UMLOperationList &toBeImplementedOpList, bool noClassInPath)
 {
     UMLClassifierList superClasses = c->findSuperClassConcepts();
-
+    
     for (UMLClassifier *concept= superClasses.first(); concept; concept = superClasses.next())
     {
         getSuperImplementedOperations(concept, yetImplementedOpList, toBeImplementedOpList, (concept->isInterface() && noClassInPath));
@@ -766,7 +766,7 @@ void JavaWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationLis
             }
         }
     }
-
+    
 }
 
 void JavaWriter::getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOperationList &opList )
@@ -779,7 +779,7 @@ void JavaWriter::getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOpe
     {
         if ( ! JavaWriter::javaMethodInList(op, yetImplementedOpList) && ! JavaWriter::javaMethodInList(op, opList) )
             opList.append(op);
-    }
+    } 
 }
 
 void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
@@ -793,19 +793,19 @@ void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
     opl = c->getOpList();
     if (! c->isInterface()) {
         getInterfacesOperationsToBeImplemented(c, opl);
-    }
+    } 
     for (UMLOperation *op = opl.first(); op; op = opl.next()) {
-        switch (op->getVisibility()) {
-        case Uml::Visibility::Public:
+        switch(op->getVisibility()) {
+          case Uml::Visibility::Public:
             oppub.append(op);
             break;
-        case Uml::Visibility::Protected:
+          case Uml::Visibility::Protected:
             opprot.append(op);
             break;
-        case Uml::Visibility::Private:
+          case Uml::Visibility::Private:
             oppriv.append(op);
             break;
-        default:
+          default:
             break;
         }
     }
@@ -848,14 +848,14 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java) {
     QString str;
 
     // generate method decl for each operation given
-    for ( op=oplist.first(); op ;op=oplist.next())
+    for( op=oplist.first(); op ;op=oplist.next())
     {
 
         QString returnStr = "";
         // write documentation
 
         QString methodReturnType = fixTypeName(op->getTypeName());
-        if (methodReturnType != "void")
+        if(methodReturnType != "void")
             returnStr += "@return       "+methodReturnType+"\n";
 
         str = ""; // reset for next method
@@ -906,15 +906,15 @@ QString JavaWriter::fixInitialStringDeclValue(QString value, QString type)
 QString JavaWriter::scopeToJavaDecl(Uml::Visibility scope)
 {
     QString scopeString;
-    switch (scope)
+    switch(scope)
     {
-    case Uml::Visibility::Public:
+      case Uml::Visibility::Public:
         scopeString = "public";
         break;
-    case Uml::Visibility::Protected:
+      case Uml::Visibility::Protected:
         scopeString = "protected";
         break;
-    case Uml::Visibility::Private:
+      case Uml::Visibility::Private:
     default:
         scopeString = "private";
         break;

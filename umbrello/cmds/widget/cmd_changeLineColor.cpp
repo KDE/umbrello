@@ -9,8 +9,8 @@
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
-
-
+ 
+ 
 #include "cmd_changeLineColor.h"
 
 #include "uml.h"

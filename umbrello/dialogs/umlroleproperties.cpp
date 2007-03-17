@@ -43,20 +43,20 @@ void UMLRoleProperties::constructWidget() {
 
     // Visibility
     Uml::Visibility scope = m_pRole->getVisibility();
-    if ( scope == Uml::Visibility::Public )
+    if( scope == Uml::Visibility::Public )
         m_pPublicRB -> setChecked( true );
-    else if ( scope == Uml::Visibility::Private )
+    else if( scope == Uml::Visibility::Private )
         m_pPrivateRB -> setChecked( true );
-    else if ( scope == Uml::Visibility::Protected )
+    else if( scope == Uml::Visibility::Protected )
         m_pProtectedRB -> setChecked( true );
-    else if ( scope == Uml::Visibility::Implementation )
+    else if( scope == Uml::Visibility::Implementation )
         m_pImplementationRB -> setChecked( true );
 
     // Changeability
     Uml::Changeability_Type changeability = m_pRole->getChangeability();
-    if ( changeability == Uml::chg_Changeable )
+    if( changeability == Uml::chg_Changeable )
         m_pChangeableRB -> setChecked( true );
-    else if ( changeability == Uml::chg_Frozen )
+    else if( changeability == Uml::chg_Frozen )
         m_pFrozenRB -> setChecked( true );
     else
         m_pAddOnlyRB -> setChecked( true );
@@ -69,7 +69,7 @@ void UMLRoleProperties::constructWidget() {
 
 void UMLRoleProperties::updateObject() {
 
-    if (m_pRole) {
+    if(m_pRole) {
 
         // block signals to save work load..we only need to emit modified once,
         // not each time we update an attribute of the association. I suppose
@@ -82,18 +82,18 @@ void UMLRoleProperties::updateObject() {
         m_pRole->setName(m_pRoleLE->text());
         m_pRole->setMultiplicity(m_pMultiLE->text());
 
-        if (m_pPrivateRB->isChecked())
+        if(m_pPrivateRB->isChecked())
             m_pRole->setVisibility(Uml::Visibility::Private);
-        else if (m_pProtectedRB->isChecked())
+        else if(m_pProtectedRB->isChecked())
             m_pRole->setVisibility(Uml::Visibility::Protected);
-        else if (m_pPublicRB->isChecked())
+        else if(m_pPublicRB->isChecked())
             m_pRole->setVisibility(Uml::Visibility::Public);
-        else if (m_pImplementationRB->isChecked())
+        else if(m_pImplementationRB->isChecked())
             m_pRole->setVisibility(Uml::Visibility::Implementation);
 
-        if (m_pFrozenRB->isChecked())
+        if(m_pFrozenRB->isChecked())
             m_pRole->setChangeability(Uml::chg_Frozen);
-        else if (m_pAddOnlyRB->isChecked())
+        else if(m_pAddOnlyRB->isChecked())
             m_pRole->setChangeability(Uml::chg_AddOnly);
         else
             m_pRole->setChangeability(Uml::chg_Changeable);

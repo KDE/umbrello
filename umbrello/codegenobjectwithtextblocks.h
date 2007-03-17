@@ -110,19 +110,19 @@ public:
      * @param    text 
      * @param    indentationLevel 
      */
-    CodeComment * addOrUpdateTaggedCodeComment (const QString &tag = "", const QString &text = "", int indentationLevel = 0 );
+     CodeComment * addOrUpdateTaggedCodeComment (const QString &tag = "", const QString &text = "", int indentationLevel = 0 );
 
-    /** allows the user to either add a code block with comments to the end of the list
-     * of text blocks in this document OR, if a text block already exists
-     * with that tag, it will update it with the passed text as appropriate.
-     * @return codeblock/comment pointer to the object which was created/updated.
-     * @return   CodeBlockWithComments
-     * @param    tag 
-     * @param    text 
-     * @param    comment 
-     * @param    indentLevel 
-     * @param    forceUserBlockUpdate 
-     */
+   /** allows the user to either add a code block with comments to the end of the list
+    * of text blocks in this document OR, if a text block already exists
+    * with that tag, it will update it with the passed text as appropriate.
+    * @return codeblock/comment pointer to the object which was created/updated.
+    * @return   CodeBlockWithComments
+    * @param    tag 
+    * @param    text 
+    * @param    comment 
+    * @param    indentLevel 
+    * @param    forceUserBlockUpdate 
+    */
     CodeBlockWithComments * addOrUpdateTaggedCodeBlockWithComments (const QString &tag, const QString &text, const QString &comment, int indentLevel, bool forceUserBlockUpdate );
 
     /**

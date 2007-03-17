@@ -19,24 +19,24 @@
 namespace Uml
 {
 
-cmdRenameUMLObject::cmdRenameUMLObject(UMLObject* o, const QString& name):m_obj(o),m_name(name)
-{
-    setText(i18n("Rename object"));
-    m_oldname = o->getName();
-}
-
-cmdRenameUMLObject::~cmdRenameUMLObject()
-{
-}
-
-void cmdRenameUMLObject::redo()
-{
-    m_obj->setNamecmd(m_name);
-}
-
-void cmdRenameUMLObject::undo()
-{
-    m_obj->setNamecmd(m_oldname);
-}
+	cmdRenameUMLObject::cmdRenameUMLObject(UMLObject* o, const QString& name):m_obj(o),m_name(name)
+	{
+		setText(i18n("Rename object"));
+		m_oldname = o->getName();
+	}
+	
+	cmdRenameUMLObject::~cmdRenameUMLObject()
+	{
+	}
+	
+	void cmdRenameUMLObject::redo()
+	{
+		m_obj->setNamecmd(m_name);
+	}
+	
+	void cmdRenameUMLObject::undo()
+	{
+		m_obj->setNamecmd(m_oldname);
+	}
 
 }

@@ -108,8 +108,8 @@ void DiagramPrintPage::getOptions( QMap<QString,QString>& opts, bool /*incldef =
     int count = 0;
 
     QString diagram(i18n("kde-uml-Diagram"));
-    for (int     i=0;i<listCount;i++) {
-        if (m_pSelectLB -> isSelected(i)) {
+    for(int     i=0;i<listCount;i++) {
+        if(m_pSelectLB -> isSelected(i)) {
             UMLView *view = (UMLView *)m_pDoc -> findView(m_nIdList[i]);
             QString sCount = QString("%1").arg(count);
             QString sID = QString("%1").arg(ID2STR(view -> getID()));
@@ -125,8 +125,8 @@ void DiagramPrintPage::setOptions( const QMap<QString,QString>& /*opts*/ ) {}
 bool DiagramPrintPage::isValid( QString& msg ) {
     int listCount = m_pSelectLB -> count();
     bool sel = false;
-    for (int i =0;i<listCount;i++) {
-        if (m_pSelectLB -> isSelected(i)) {
+    for(int i =0;i<listCount;i++) {
+        if(m_pSelectLB -> isSelected(i)) {
             sel = true;
             i = listCount;
         }
@@ -143,7 +143,7 @@ void DiagramPrintPage::slotClicked(int id) {
     // clear list with diagrams to print
     m_nIdList.clear();
 
-    switch (id) {
+    switch(id) {
     case Current:
         m_pTypeCB -> setEnabled(false);
         m_pSelectLB -> setEnabled(false);
@@ -158,7 +158,7 @@ void DiagramPrintPage::slotClicked(int id) {
         m_pTypeCB -> setEnabled(false);
         m_pSelectLB -> setEnabled(false);
         m_pSelectLB -> clear();
-        for (view = list.first(); view; view = list.next()) {
+        for(view = list.first(); view; view = list.next()) {
             m_pSelectLB -> insertItem(view -> getName());
             m_nIdList.append(view -> getID());
         }
@@ -169,7 +169,7 @@ void DiagramPrintPage::slotClicked(int id) {
         m_pTypeCB -> setEnabled(false);
         m_pSelectLB -> setEnabled(true);
         m_pSelectLB -> clear();
-        for (view = list.first(); view; view = list.next()) {
+        for(view = list.first(); view; view = list.next()) {
             m_pSelectLB -> insertItem(view -> getName());
             m_nIdList.append(view -> getID());
         }
@@ -179,8 +179,8 @@ void DiagramPrintPage::slotClicked(int id) {
         m_pTypeCB -> setEnabled(true);
         m_pSelectLB -> setEnabled(true);
         m_pSelectLB -> clear();
-        for (view = list.first(); view; view = list.next()) {
-            if (view -> getType() == m_ViewType) {
+        for(view = list.first(); view; view = list.next()) {
+            if(view -> getType() == m_ViewType) {
                 m_pSelectLB -> insertItem(view -> getName());
                 m_nIdList.append(view -> getID());
             }
@@ -194,26 +194,26 @@ void DiagramPrintPage::slotActivated(const QString & text) {
     UMLViewList list = m_pDoc -> getViewIterator();
     UMLView * view = 0;
 
-    if (text == i18n("Class"))
+    if(text == i18n("Class"))
         m_ViewType = Uml::dt_Class;
-    else if (text == i18n("Sequence"))
+    else if(text == i18n("Sequence"))
         m_ViewType = Uml::dt_Sequence;
-    else if (text == i18n("Use Case"))
+    else if(text == i18n("Use Case"))
         m_ViewType = Uml::dt_UseCase;
-    else if (text == i18n("Collaboration"))
+    else if(text == i18n("Collaboration"))
         m_ViewType = Uml::dt_Collaboration;
-    else if (text == i18n("State"))
+    else if(text == i18n("State"))
         m_ViewType = Uml::dt_State;
-    else if (text == i18n("Activity"))
+    else if(text == i18n("Activity"))
         m_ViewType = Uml::dt_Activity;
-    else if (text == i18n("Component"))
+    else if(text == i18n("Component"))
         m_ViewType = Uml::dt_Component;
-    else if (text == i18n("Deployment"))
+    else if(text == i18n("Deployment"))
         m_ViewType = Uml::dt_Deployment;
     m_pSelectLB -> clear();
     m_nIdList.clear();
-    for (view = list.first(); view; view = list.next()) {
-        if (view -> getType() == m_ViewType) {
+    for(view = list.first(); view; view = list.next()) {
+        if(view -> getType() == m_ViewType) {
             m_pSelectLB -> insertItem(view -> getName());
             m_nIdList.append(view -> getID());
         }

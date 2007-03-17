@@ -61,7 +61,7 @@ void RubyCodeClassFieldDeclarationBlock::updateContent( )
     QString scopeStr = rdoc->scopeToRubyDecl(getParentObject()->getVisibility());
 
     // IF this is from an association, then scope taken as appropriate to policy
-    if (!rcf->parentIsAttribute())
+    if(!rcf->parentIsAttribute())
     {
         switch (scopePolicy) {
         case CodeGenerationPolicy::Public:
@@ -96,9 +96,9 @@ void RubyCodeClassFieldDeclarationBlock::updateContent( )
 
             // FIX?: IF a constructor method exists in the classifiercodedoc
             // of the parent Object, then we can use that instead (if its empty).
-            if (cf->fieldIsSingleValue())
+            if(cf->fieldIsSingleValue())
             {
-                if (!typeName.isEmpty())
+                if(!typeName.isEmpty())
                     body.append(" = " + typeName + ".new()");
             } else
                 body.append(" = []");

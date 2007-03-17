@@ -63,8 +63,8 @@ void CPPHeaderCodeAccessorMethod::updateContent( )
     QString itemClassName = cppfield->getTypeName();
     QString text = "";
 
-    if (isInlineMethod) {
-        switch (getType()) {
+    if(isInlineMethod) {
+        switch(getType()) {
         case CodeAccessorMethod::ADD:
             text = policy->getVectorMethodAppend(variableName, itemClassName);
             break;
@@ -101,7 +101,7 @@ void CPPHeaderCodeAccessorMethod::updateMethodDeclaration()
     QString fieldName = cppfield->getFieldName();
     QString fieldType = cppfield->getTypeName();
     QString objectType = cppfield->getListObjectType();
-    if (objectType.isEmpty())
+    if(objectType.isEmpty())
         objectType = fieldName;
 
     QString methodReturnType = "void";
@@ -110,7 +110,7 @@ void CPPHeaderCodeAccessorMethod::updateMethodDeclaration()
     QString headerText = "";
     QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
 
-    switch (getType()) {
+    switch(getType()) {
     case CodeAccessorMethod::ADD:
         methodName = "add_"+fieldType;
         methodReturnType = "void";
@@ -144,7 +144,7 @@ void CPPHeaderCodeAccessorMethod::updateMethodDeclaration()
 
     // set header
     CPPCodeDocumentation * header = new CPPCodeDocumentation(doc);
-    if (!getParentObject()->getDoc().isEmpty())
+    if(!getParentObject()->getDoc().isEmpty())
         header->setText(headerText);
     setComment(header);
 

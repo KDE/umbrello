@@ -21,7 +21,7 @@
 #include "listpopupmenu.h"
 
 ForkJoinWidget::ForkJoinWidget(UMLView * view, bool drawVertical, Uml::IDType id)
-        : BoxWidget(view, id), m_drawVertical(drawVertical) {
+  : BoxWidget(view, id), m_drawVertical(drawVertical) {
     init();
 }
 

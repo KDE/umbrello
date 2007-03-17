@@ -28,7 +28,7 @@ int CmdLineExportAllViewsEvent::getType() {
 }
 
 CmdLineExportAllViewsEvent::CmdLineExportAllViewsEvent(const QString &imageType, const KUrl &directory, const bool useFolders)
-        : QCustomEvent(CmdLineExportAllViewsEvent::getType()) {
+  : QCustomEvent(CmdLineExportAllViewsEvent::getType()) {
     m_imageType = imageType;
     m_directory = directory;
     m_useFolders = useFolders;
