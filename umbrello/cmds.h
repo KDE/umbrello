@@ -31,7 +31,7 @@
 #include "cmds/cmd_set_visibility.h"
 #include "cmds/cmd_set_stereotype.h"
 #include "cmds/cmd_handle_rename.h"
-
+#include "cmds/widget/cmd_changeMulti.h"
 /************************************************************
  * Class Diagram
  ************************************************************/

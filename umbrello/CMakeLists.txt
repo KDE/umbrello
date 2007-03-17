@@ -239,7 +239,7 @@ set(libcmds_SRCS
 	cmds/widget/cmd_changeFontSelection.cpp
 	cmds/widget/cmd_changeLineColor.cpp
 	cmds/widget/cmd_changeFillColor.cpp
-	
+	cmds/widget/cmd_changeMulti.cpp
 
 )
 kde4_automoc(${libclipboard_SRCS})

@@ -23,7 +23,7 @@
 #include "umlrole.h"
 #include "uniqueid.h"
 #include "model_utils.h"
-
+#include "cmds.h"
 using namespace Uml;
 
 // static members
@@ -532,7 +532,11 @@ void UMLAssociation::setChangeability(Changeability_Type value, Role_Type role) 
 }
 
 void UMLAssociation::setMulti(const QString &value, Role_Type role) {
-    m_pRole[role]->setMultiplicity(value);
+	
+	UMLApp::app()->executeCommand(new cmdChangeMulti(m_pRole[role], value));
+	
+	
+    //m_pRole[role]->setMultiplicity(value);
 }
 
 void UMLAssociation::setRoleName(const QString &value, Role_Type role) {

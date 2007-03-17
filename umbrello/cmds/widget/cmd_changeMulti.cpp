@@ -1,3 +1,4 @@
+
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -8,11 +9,9 @@
  *  copyright (C) 2002-2006                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
-
  
- 
-#include "cmd_changeLineColor.h"
-
+ /* Created by Bouchikhi Mohamed-Amine */
+#include "cmd_changeMulti.h"
 #include "uml.h"
 // app includes
 #include "umlwidgetcontroller.h"
@@ -27,40 +26,35 @@
 #include "classifierwidget.h"
 #include "associationwidget.h"
 #include "messagewidget.h"
-
+#include "umlrole.h"
 
 
 #include <klocale.h>
 
 namespace Uml
 {
-
-	/*cmdChangeLineColor::cmdChangeLineColor(UMLView *view, QColor col)
+	cmdChangeMulti::cmdChangeMulti(UMLRole *role, const QString &multi):UMLr(role),newMulti(multi)
 	{
-		setText(i18n("Change Line Color"));
-		UMLWidget * widget = view->getFirstMultiSelectedWidget();
-		pView=view;
-		color = col;
-		oldColor=widget -> getLineColor() ;
-	}*/
-
-cmdChangeLineColor::cmdChangeLineColor(UMLWidget *w, QColor col):UMLw(w),color(col)
-{	
-	setText(i18n("Change Line Color") + w->getName());
-	oldColor= w -> getLineColor() ;
-
-}
-	cmdChangeLineColor::~cmdChangeLineColor()
-	{
+		setText(i18n("Change Multiplicity"));
+		oldMulti=UMLr->getMultiplicity();
 	}
-	void cmdChangeLineColor::redo()
+	void cmdChangeMulti::undo()
 	{
-
-		UMLw -> setLineColorcmd( color );
+		if (!oldMulti.isEmpty())
+		{
+			UMLr->setMultiplicity(oldMulti);
+		}
+		else
+		{
+			UMLr->setMultiplicity("");
+		}
 	}
-	
-	void cmdChangeLineColor::undo()
-	{	
-		UMLw -> setLineColorcmd( oldColor );
+	void cmdChangeMulti::redo()
+	{
+		UMLr->setMultiplicity(newMulti);
 	}
 }
+
+/* line to add the commande in the undo/redo list :
+UMLApp::app()->executeCommand(new cmdChangeMulti(UMLRole role, QString newMulti));
+*/
