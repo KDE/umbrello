@@ -68,21 +68,21 @@ QString RubyCodeDocumentation::toString ( )
     QString output = "";
 
     // simple output method
-    if(getWriteOutText())
+    if (getWriteOutText())
     {
         bool  useHashOutput = true;
 
         // need to figure out output type from ruby policy
         CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
-        if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
-             useHashOutput = false;
+        if (p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
+            useHashOutput = false;
 
         QString indent = getIndentationString();
         QString endLine = getNewLineEndingChars();
         QString body = getText();
-        if( useHashOutput)
+        if ( useHashOutput)
         {
-            if(!body.isEmpty())
+            if (!body.isEmpty())
                 output.append(formatMultiLineText (body, indent +"# ", endLine));
         } else {
             output.append("=begin rdoc"+endLine);
@@ -97,7 +97,7 @@ QString RubyCodeDocumentation::toString ( )
 QString RubyCodeDocumentation::getNewEditorLine ( int amount )
 {
     CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
-    if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
+    if (p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
         return getIndentationString(amount) + ' ';
     else
         return getIndentationString(amount) + "# ";
@@ -105,14 +105,14 @@ QString RubyCodeDocumentation::getNewEditorLine ( int amount )
 
 int RubyCodeDocumentation::firstEditableLine() {
     CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
-    if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
+    if (p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
         return 1;
     return 0;
 }
 
 int RubyCodeDocumentation::lastEditableLine() {
     CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
-    if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
+    if (p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
     {
         return -1; // very last line is NOT editable
     }
@@ -129,7 +129,7 @@ QString RubyCodeDocumentation::unformatText ( const QString & text , const QStri
     CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
     // remove leading or trailing comment stuff
     mytext.remove(QRegExp('^'+indent));
-    if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
+    if (p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
     {
         mytext.remove(QRegExp("^=begin\\s*(rdoc)?\\s*\n?"));
         mytext.remove(QRegExp("^=end\\s*\n?$"));

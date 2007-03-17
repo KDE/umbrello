@@ -35,7 +35,7 @@
 #include "../dialog_utils.h"
 
 StateDialog::StateDialog( UMLView * pView, StateWidget * pWidget )
-    : KPageDialog( pView ) {
+        : KPageDialog( pView ) {
     setCaption(i18n("Properties") );
     setButtons( Help | Default | Apply | Ok | Cancel );
     setDefaultButton( Ok );
@@ -66,7 +66,7 @@ void StateDialog::slotApply() {
 
 void StateDialog::setupPages() {
     setupGeneralPage();
-    if( m_pStateWidget -> getStateType() == StateWidget::Normal )
+    if ( m_pStateWidget -> getStateType() == StateWidget::Normal )
         setupActivityPage();
     setupColorPage();
     setupFontPage();
@@ -81,7 +81,7 @@ void StateDialog::applyPage( KPageWidgetItem*item ) {
     }
     else if ( item == pageActivity )
     {
-        if( m_pActivityPage )
+        if ( m_pActivityPage )
             m_pActivityPage -> updateActivities();
     }
     else if ( item == pageColor )
@@ -113,13 +113,13 @@ void StateDialog::setupGeneralPage() {
     generalLayout -> setMargin(  fontMetrics().height()  );
 
     Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 0,
-                                    m_GenPageWidgets.typeL, i18n("State type:"),
-                                    m_GenPageWidgets.typeLE, types[ (int)type ] );
+                                        m_GenPageWidgets.typeL, i18n("State type:"),
+                                        m_GenPageWidgets.typeLE, types[ (int)type ] );
     m_GenPageWidgets.typeLE -> setEnabled( false );
 
     Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 1,
-                                    m_GenPageWidgets.nameL, i18n("State name:"),
-                                    m_GenPageWidgets.nameLE );
+                                        m_GenPageWidgets.nameL, i18n("State name:"),
+                                        m_GenPageWidgets.nameLE );
 
     m_GenPageWidgets.docGB = new Q3GroupBox( i18n( "Documentation"), (QWidget *)page );
 
@@ -131,7 +131,7 @@ void StateDialog::setupGeneralPage() {
     m_GenPageWidgets.docMLE -> setText( m_pStateWidget -> getDoc() );
     docLayout -> addWidget( m_GenPageWidgets.docMLE );
 
-    if( type != StateWidget::Normal ) {
+    if ( type != StateWidget::Normal ) {
         m_GenPageWidgets.nameLE -> setEnabled( false );
         m_GenPageWidgets.nameLE -> setText( "" );
     } else

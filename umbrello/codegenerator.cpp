@@ -74,7 +74,7 @@ CodeGenerator::~CodeGenerator ( ) {
     // destroy all owned codedocuments
     CodeDocument *doc;
     for (CodeDocumentListIt it(m_codedocumentVector);
-                     (doc = it.current()) != NULL; ++it)
+            (doc = it.current()) != NULL; ++it)
         delete doc;
     m_codedocumentVector.clear();
 }
@@ -98,7 +98,7 @@ QString CodeGenerator::getUniqueID(CodeDocument * codeDoc)
 
     // approach now differs by whether or not its a classifier code document
     ClassifierCodeDocument * classDoc = dynamic_cast<ClassifierCodeDocument*>(codeDoc);
-    if(classDoc) {
+    if (classDoc) {
         UMLClassifier *c = classDoc->getParentClassifier();
         id = ID2STR(c->getID()); // this is supposed to be unique already..
     } else {
@@ -118,7 +118,7 @@ QString CodeGenerator::getUniqueID(CodeDocument * codeDoc)
 CodeDocument * CodeGenerator::findCodeDocumentByID( const QString &tag ) {
     //if we already know to which file this class was written/should be written, just return it.
     CodeDocument * doc = (CodeDocument*)NULL;
-    if((doc = m_codeDocumentDictionary.find(tag)))
+    if ((doc = m_codeDocumentDictionary.find(tag)))
         return doc;
 
     return doc;
@@ -129,13 +129,13 @@ bool CodeGenerator::addCodeDocument ( CodeDocument * doc )
     QString tag = doc->getID();
 
     // assign a tag if one doesn't already exist
-    if(tag.isEmpty())
+    if (tag.isEmpty())
     {
         tag = getUniqueID(doc);
         doc->setID(tag);
     }
 
-    if(m_codeDocumentDictionary.find(tag))
+    if (m_codeDocumentDictionary.find(tag))
         return false; // return false, we already have some object with this tag in the list
     else
         m_codeDocumentDictionary.insert(tag, doc);
@@ -149,7 +149,7 @@ bool CodeGenerator::addCodeDocument ( CodeDocument * doc )
  */
 bool CodeGenerator::removeCodeDocument ( CodeDocument * remove_object ) {
     QString tag = remove_object->getID();
-    if(!(tag.isEmpty()))
+    if (!(tag.isEmpty()))
         m_codeDocumentDictionary.remove(tag);
     else
         return false;
@@ -180,7 +180,7 @@ CodeViewerDialog * CodeGenerator::getCodeViewerDialog ( QWidget* parent, CodeDoc
 void CodeGenerator::loadFromXMI (QDomElement & qElement ) {
 
     // don't do anything for simple (compatability) code generators
-    if(dynamic_cast<SimpleCodeGenerator*>(this))
+    if (dynamic_cast<SimpleCodeGenerator*>(this))
         return;
 
     //now look for our particular child element
@@ -195,15 +195,15 @@ void CodeGenerator::loadFromXMI (QDomElement & qElement ) {
     // codedocuments
     QDomNode codeDocNode = qElement.firstChild();
     QDomElement codeDocElement = codeDocNode.toElement();
-    while( !codeDocElement.isNull() ) {
+    while ( !codeDocElement.isNull() ) {
 
         QString docTag = codeDocElement.tagName();
-        if( docTag == "codedocument" ||
+        if ( docTag == "codedocument" ||
                 docTag == "classifiercodedocument"
-          ) {
+           ) {
             QString id = codeDocElement.attribute( "id", "-1" );
             CodeDocument * codeDoc = findCodeDocumentByID(id);
-            if(codeDoc)
+            if (codeDoc)
                 codeDoc->loadFromXMI(codeDocElement);
             else {
                 kWarning()<<" loadFromXMI: missing code document w/ id:"<<id<<", plowing ahead with pre-generated one."<<endl;
@@ -279,7 +279,7 @@ void CodeGenerator::checkAddUMLObject (UMLObject * obj) {
         return;
 
     UMLClassifier * c = dynamic_cast<UMLClassifier*>(obj);
-    if(c) {
+    if (c) {
         CodeDocument * cDoc = newClassifierCodeDocument(c);
         addCodeDocument(cDoc);
     }
@@ -292,7 +292,7 @@ void CodeGenerator::checkRemoveUMLObject (UMLObject * obj)
         return;
 
     UMLClassifier * c = dynamic_cast<UMLClassifier*>(obj);
-    if(c) {
+    if (c) {
         ClassifierCodeDocument * cDoc = (ClassifierCodeDocument*) findCodeDocumentByClassifier(c);
         if (cDoc)
             removeCodeDocument(cDoc);
@@ -324,7 +324,7 @@ void CodeGenerator::writeCodeToFile ( UMLClassifierList & concepts) {
     for (UMLClassifier *concept= concepts.first(); concept; concept= concepts.next())
     {
         CodeDocument * doc = findCodeDocumentByClassifier(concept);
-        if(doc)
+        if (doc)
             docs.append(doc);
     }
 
@@ -343,7 +343,7 @@ void CodeGenerator::writeListedCodeDocsToFile ( CodeDocumentList * docs ) {
         bool codeGenSuccess = false;
 
         // we only write the document, if so requested
-        if(doc->getWriteOutCode())
+        if (doc->getWriteOutCode())
         {
             QString filename = findFileName(doc);
             // check that we may open that file for writing
@@ -358,7 +358,7 @@ void CodeGenerator::writeListedCodeDocsToFile ( CodeDocumentList * docs ) {
             }
         }
 
-        if(cdoc)
+        if (cdoc)
             emit codeGenerated(cdoc->getParentClassifier(), codeGenSuccess);
 
     }
@@ -400,13 +400,13 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
 
     int suffix;
     OverwriteDialogue overwriteDialog( name, outputDirectory.absPath(),
-                                         m_applyToAllRemaining, kapp -> mainWidget() );
+                                       m_applyToAllRemaining, kapp -> mainWidget() );
     switch (pol->getOverwritePolicy()) {  //if it exists, check the OverwritePolicy we should use
     case CodeGenerationPolicy::Ok:              //ok to overwrite file
         filename = name + extension;
         break;
     case CodeGenerationPolicy::Ask:            //ask if we can overwrite
-        switch(overwriteDialog.exec()) {
+        switch (overwriteDialog.exec()) {
         case KDialog::Yes:  //overwrite file
             if ( overwriteDialog.applyToAllRemaining() ) {
                 pol->setOverwritePolicy(CodeGenerationPolicy::Ok);
@@ -465,13 +465,13 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
  */
 bool CodeGenerator::openFile (QFile & file, const QString &fileName ) {
     //open files for writing.
-    if(fileName.isEmpty()) {
+    if (fileName.isEmpty()) {
         kWarning() << "cannot find a file name" << endl;
         return false;
     } else {
         QDir outputDirectory = UMLApp::app()->getCommonPolicy()->getOutputDirectory();
         file.setName(outputDirectory.absoluteFilePath(fileName));
-        if(!file.open(QIODevice::WriteOnly)) {
+        if (!file.open(QIODevice::WriteOnly)) {
             KMessageBox::sorry(0,i18n("Cannot open file %1 for writing. Please make sure the folder exists and you have permissions to write to it.", file.name()),i18n("Cannot Open File"));
             return false;
         }
@@ -556,46 +556,45 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList) 
         case Uml::at_Generalization:
         case Uml::at_Realization:
             // only the "b" end is seen by the "a" end, not other way around
-            {
-                UMLObject *objB = a->getObject(Uml::B);
-                if (objB != c)
-                    temp = (UMLPackage*)objB;
-            }
-            break;
+        {
+            UMLObject *objB = a->getObject(Uml::B);
+            if (objB != c)
+                temp = (UMLPackage*)objB;
+        }
+        break;
         case Uml::at_Dependency:
         case Uml::at_UniAssociation:
-            {
-                UMLObject *objA = a->getObject(Uml::A);
-                UMLObject *objB = a->getObject(Uml::B);
-                if (objA == c)
-                    temp = static_cast<UMLPackage*>(objB);
-            }
-            break;
+        {
+            UMLObject *objA = a->getObject(Uml::A);
+            UMLObject *objB = a->getObject(Uml::B);
+            if (objA == c)
+                temp = static_cast<UMLPackage*>(objB);
+        }
+        break;
         case Uml::at_Aggregation:
         case Uml::at_Composition:
-        case Uml::at_Association_Self:
         case Uml::at_Association:
-            {
-                UMLObject *objA = a->getObject(Uml::A);
-                UMLObject *objB = a->getObject(Uml::B);
-                // Add related object only if the rolename is not empty.
-                if (objA == c && !a->getRoleName(Uml::B).isEmpty() &&
+        {
+            UMLObject *objA = a->getObject(Uml::A);
+            UMLObject *objB = a->getObject(Uml::B);
+            // Add related object only if the rolename is not empty.
+            if (objA == c && !a->getRoleName(Uml::B).isEmpty() &&
                     objB->getBaseType() != Uml::ot_Datatype)
-                    temp = static_cast<UMLPackage*>(objB);
-            }
-            break;
+                temp = static_cast<UMLPackage*>(objB);
+        }
+        break;
         default: /* all others.. like for state diagrams..we currently don't use */
             break;
         }
 
         // now add in list ONLY if its not already there
-        if(temp  && !cList.containsRef(temp))
+        if (temp  && !cList.containsRef(temp))
             cList.append(temp);
     }
 
     //operations
     UMLOperationList opl(c->getOpList());
-    for(UMLOperation *op = opl.first(); op ; op = opl.next()) {
+    for (UMLOperation *op = opl.first(); op ; op = opl.next()) {
         temp =0;
         //check return value
         temp =(UMLClassifier*) op->getType();

@@ -81,8 +81,8 @@ void UMLOperationDialog::setupDialog() {
     genLayout -> setSpacing(10);
 
     Dialog_Utils::makeLabeledEditField( m_pGenGB, genLayout, 0,
-                                    m_pNameL, i18n("&Name:"),
-                                    m_pNameLE, m_pOperation->getName() );
+                                        m_pNameL, i18n("&Name:"),
+                                        m_pNameLE, m_pOperation->getName() );
 
     m_pRtypeL = new QLabel(i18n("&Type:"), m_pGenGB );
     genLayout -> addWidget(m_pRtypeL, 0, 2);
@@ -181,7 +181,7 @@ void UMLOperationDialog::setupDialog() {
     //now add the Classes and Interfaces (both are Concepts)
     UMLClassifierList namesList( m_doc->getConcepts() );
     UMLClassifier* pConcept = 0;
-    for(pConcept=namesList.first(); pConcept!=0 ;pConcept=namesList.next()) {
+    for (pConcept=namesList.first(); pConcept!=0 ;pConcept=namesList.next()) {
         insertType( pConcept->getFullyQualifiedName() );
     }
 
@@ -211,14 +211,14 @@ void UMLOperationDialog::setupDialog() {
 
     //set scope
     Uml::Visibility scope = m_pOperation -> getVisibility();
-    if( scope == Uml::Visibility::Public )
-      m_pPublicRB -> setChecked( true );
-    else if( scope == Uml::Visibility::Private )
-      m_pPrivateRB -> setChecked( true );
-    else if( scope == Uml::Visibility::Protected )
-      m_pProtectedRB -> setChecked( true );
-    else if( scope == Uml::Visibility::Implementation )
-      m_pImplementationRB -> setChecked( true );
+    if ( scope == Uml::Visibility::Public )
+        m_pPublicRB -> setChecked( true );
+    else if ( scope == Uml::Visibility::Private )
+        m_pPrivateRB -> setChecked( true );
+    else if ( scope == Uml::Visibility::Protected )
+        m_pProtectedRB -> setChecked( true );
+    else if ( scope == Uml::Visibility::Implementation )
+        m_pImplementationRB -> setChecked( true );
 
     // manage stereotypes
     m_pStereoTypeCB -> setDuplicatesEnabled(false);//only allow one of each type in box
@@ -272,14 +272,14 @@ void UMLOperationDialog::slotNameChanged( const QString &_text )
 
 void UMLOperationDialog::slotParmRightButtonPressed(Q3ListBoxItem *item, const QPoint &p) {
     ListPopupMenu::Menu_Type type = ListPopupMenu::mt_Undefined;
-    if(item)//pressed on an item
+    if (item)//pressed on an item
     {
         type = ListPopupMenu::mt_Parameter_Selected;
     } else//pressed into fresh air
     {
         type = ListPopupMenu::mt_New_Parameter;
     }
-    if(m_pMenu) {
+    if (m_pMenu) {
         m_pMenu -> hide();
         disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotParmPopupMenuSel(int)));
         delete m_pMenu;
@@ -292,7 +292,7 @@ void UMLOperationDialog::slotParmRightButtonPressed(Q3ListBoxItem *item, const Q
 }
 
 void UMLOperationDialog::slotParmRightButtonClicked(Q3ListBoxItem */*item*/, const QPoint &/*p*/) {
-    if(m_pMenu) {
+    if (m_pMenu) {
         m_pMenu -> hide();
         disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotParmPopupMenuSel(int)));
         delete m_pMenu;
@@ -301,18 +301,18 @@ void UMLOperationDialog::slotParmRightButtonClicked(Q3ListBoxItem */*item*/, con
 }
 
 void UMLOperationDialog::slotParmDoubleClick(Q3ListBoxItem *item) {
-    if(!item)
+    if (!item)
         return;
     slotParmPopupMenuSel(ListPopupMenu::mt_Properties);
 }
 
 void UMLOperationDialog::slotParmPopupMenuSel(int id) {
-    if( id == ListPopupMenu::mt_Rename || id == ListPopupMenu::mt_Properties ) {
+    if ( id == ListPopupMenu::mt_Rename || id == ListPopupMenu::mt_Properties ) {
         slotParameterProperties();
-    } else if( id == ListPopupMenu::mt_New_Parameter ) {
+    } else if ( id == ListPopupMenu::mt_New_Parameter ) {
         slotNewParameter();
     }
-    else if( id == ListPopupMenu::mt_Delete ) {
+    else if ( id == ListPopupMenu::mt_Delete ) {
         slotDeleteParameter();
     }
 }
@@ -328,14 +328,14 @@ void UMLOperationDialog::slotNewParameter() {
     result = dlg.exec();
     QString name = dlg.getName();
     pAtt = m_pOperation -> findParm( name );
-    if( result ) {
-        if( name.length() == 0 ) {
+    if ( result ) {
+        if ( name.length() == 0 ) {
             KMessageBox::error(this, i18n("You have entered an invalid parameter name."),
                                i18n("Parameter Name Invalid"), false);
             delete newAttribute;
             return;
         }
-        if( !pAtt ) {
+        if ( !pAtt ) {
             /*
             m_pOperation->addParm( dlg.getTypeName(), name, dlg.getInitialValue(),
                                dlg.getDoc(), dlg.getParmKind() );
@@ -377,7 +377,7 @@ void UMLOperationDialog::slotParameterProperties() {
     UMLAttribute* pAtt = 0, * pOldAtt = 0;
     pOldAtt = m_pOperation->findParm( m_pParmsLB->currentText() );
 
-    if( !pOldAtt ) {
+    if ( !pOldAtt ) {
         kDebug() << "THE impossible has occurred for:" << m_pParmsLB->currentText() << endl;
         return;
     }//should never occur
@@ -385,8 +385,8 @@ void UMLOperationDialog::slotParameterProperties() {
     result = dlg.exec();
     QString name = dlg.getName();
     pAtt = m_pOperation->findParm( name );
-    if( result ) {
-        if( name.length() == 0 ) {
+    if ( result ) {
+        if ( name.length() == 0 ) {
             KMessageBox::error(this, i18n("You have entered an invalid parameter name."),
                                i18n("Parameter Name Invalid"), false);
             return;
@@ -416,7 +416,7 @@ void UMLOperationDialog::slotParameterProperties() {
             pOldAtt->setDoc( dlg.getDoc() );
             pOldAtt->setInitialValue( dlg.getInitialValue() );
             m_doc->setModified( true );
-        } else if( pAtt != pOldAtt ) {
+        } else if ( pAtt != pOldAtt ) {
             KMessageBox::error(this, i18n("The parameter name you have chosen is already being used in this operation."),
                                i18n("Parameter Name Not Unique"), false);
         }
@@ -466,7 +466,7 @@ void UMLOperationDialog::slotParamsBoxClicked(Q3ListBoxItem* parameterItem) {
 bool UMLOperationDialog::apply()
 {
     QString name = m_pNameLE -> text();
-    if( name.length() == 0 ) {
+    if ( name.length() == 0 ) {
         KMessageBox::error(this, i18n("You have entered an invalid operation name."),
                            i18n("Operation Name Invalid"), false);
         m_pNameLE -> setText( m_pOperation -> getName() );
@@ -474,7 +474,7 @@ bool UMLOperationDialog::apply()
     }
 
     UMLClassifier *classifier = dynamic_cast<UMLClassifier*>( m_pOperation->parent() );
-    if( classifier != 0L &&
+    if ( classifier != 0L &&
             classifier->checkOperationSignature(name, m_pOperation->getParmList(), m_pOperation) )
     {
         QString msg = i18n("An operation with that signature already exists in %1.\n", classifier->getName())
@@ -485,14 +485,14 @@ bool UMLOperationDialog::apply()
     }
     m_pOperation -> setName( name );
 
-    if( m_pPublicRB -> isChecked() )
-      m_pOperation -> setVisibility( Uml::Visibility::Public );
-    else if( m_pPrivateRB -> isChecked() )
-      m_pOperation -> setVisibility( Uml::Visibility::Private );
+    if ( m_pPublicRB -> isChecked() )
+        m_pOperation -> setVisibility( Uml::Visibility::Public );
+    else if ( m_pPrivateRB -> isChecked() )
+        m_pOperation -> setVisibility( Uml::Visibility::Private );
     else if (m_pProtectedRB -> isChecked() )
-      m_pOperation -> setVisibility( Uml::Visibility::Protected );
+        m_pOperation -> setVisibility( Uml::Visibility::Protected );
     else if (m_pImplementationRB -> isChecked() )
-      m_pOperation -> setVisibility( Uml::Visibility::Implementation );
+        m_pOperation -> setVisibility( Uml::Visibility::Implementation );
 
     QString typeName = m_pRtypeCB->currentText();
     UMLTemplate *tmplParam = classifier->findTemplate(typeName);

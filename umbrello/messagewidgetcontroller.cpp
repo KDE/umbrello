@@ -21,7 +21,7 @@
 #include "listpopupmenu.h"
 
 MessageWidgetController::MessageWidgetController(MessageWidget* messageWidget):
-            UMLWidgetController(messageWidget) {
+        UMLWidgetController(messageWidget) {
     m_messageWidget = messageWidget;
 }
 
@@ -39,7 +39,7 @@ QCursor MessageWidgetController::getResizeCursor() {
 }
 
 void MessageWidgetController::resizeWidget(int newW, int newH) {
-    if (m_messageWidget->getSequenceMessageType() == Uml::sequence_message_creation) 
+    if (m_messageWidget->getSequenceMessageType() == Uml::sequence_message_creation)
         m_messageWidget->setSize(m_messageWidget->width(), newH);
     else {
         int x1 = m_messageWidget->m_pOw[Uml::A]->getX();

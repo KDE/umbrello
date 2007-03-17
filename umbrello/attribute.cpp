@@ -57,7 +57,7 @@ QString UMLAttribute::getInitialValue() {
 }
 
 void UMLAttribute::setInitialValue(const QString &iv) {
-    if(m_InitialValue != iv) {
+    if (m_InitialValue != iv) {
         m_InitialValue = iv;
         emit modified();
     }
@@ -74,11 +74,11 @@ Uml::Parameter_Direction UMLAttribute::getParmKind () const {
 QString UMLAttribute::toString(Uml::Signature_Type sig) {
     QString s;
 
-    if(sig == Uml::st_ShowSig || sig == Uml::st_NoSig) {
+    if (sig == Uml::st_ShowSig || sig == Uml::st_NoSig) {
         s = m_Vis.toString(true) + ' ';
     }
 
-    if(sig == Uml::st_ShowSig || sig == Uml::st_SigNoVis) {
+    if (sig == Uml::st_ShowSig || sig == Uml::st_SigNoVis) {
         // Determine whether the type name needs to be scoped.
         UMLObject *owningObject = static_cast<UMLObject*>(parent());
         if (owningObject->getBaseType() == Uml::ot_Operation) {
@@ -111,7 +111,7 @@ QString UMLAttribute::toString(Uml::Signature_Type sig) {
             s += "out ";
         // Construct the attribute text.
         QString string = s + getName() + " : " + typeName;
-        if(m_InitialValue.length() > 0)
+        if (m_InitialValue.length() > 0)
             string += " = " + m_InitialValue;
         return string;
     }
@@ -119,7 +119,7 @@ QString UMLAttribute::toString(Uml::Signature_Type sig) {
 }
 
 QString UMLAttribute::getFullyQualifiedName(QString separator,
-                                            bool includeRoot /* = false */) const {
+        bool includeRoot /* = false */) const {
     UMLOperation *op = NULL;
     UMLObject *owningObject = static_cast<UMLObject*>(parent());
     if (owningObject->getBaseType() == Uml::ot_Operation) {
@@ -143,10 +143,10 @@ QString UMLAttribute::getFullyQualifiedName(QString separator,
 }
 
 bool UMLAttribute::operator==( UMLAttribute &rhs) {
-    if( this == &rhs )
+    if ( this == &rhs )
         return true;
 
-    if( !UMLObject::operator==( rhs ) )
+    if ( !UMLObject::operator==( rhs ) )
         return false;
 
     // The type name is the only distinguishing criterion.

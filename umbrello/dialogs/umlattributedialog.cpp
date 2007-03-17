@@ -75,16 +75,16 @@ void UMLAttributeDialog::setupDialog() {
     m_pTypeL->setBuddy(m_pTypeCB);
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
-                                    m_pNameL, i18n("&Name:"),
-                                    m_pNameLE, m_pAttribute->getName() );
+                                        m_pNameL, i18n("&Name:"),
+                                        m_pNameLE, m_pAttribute->getName() );
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 2,
-                                    m_pInitialL, i18n("&Initial value:"),
-                                    m_pInitialLE, m_pAttribute->getInitialValue() );
+                                        m_pInitialL, i18n("&Initial value:"),
+                                        m_pInitialLE, m_pAttribute->getInitialValue() );
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 3,
-                                    m_pStereoTypeL, i18n("Stereotype name:"),
-                                    m_pStereoTypeLE, m_pAttribute->getStereotype() );
+                                        m_pStereoTypeL, i18n("Stereotype name:"),
+                                        m_pStereoTypeLE, m_pAttribute->getStereotype() );
 
     m_pStaticCB = new QCheckBox( i18n("Classifier &scope (\"static\")"), m_pValuesGB );
     m_pStaticCB -> setChecked( m_pAttribute -> getStatic() );
@@ -112,14 +112,14 @@ void UMLAttributeDialog::setupDialog() {
 
     mainLayout -> addWidget(m_pScopeBG);
     Uml::Visibility scope = m_pAttribute -> getVisibility();
-    if( scope == Uml::Visibility::Public )
+    if ( scope == Uml::Visibility::Public )
         m_pPublicRB -> setChecked( true );
-    else if( scope == Uml::Visibility::Private )
-          m_pPrivateRB -> setChecked( true );
-    else if( scope == Uml::Visibility::Protected )
-          m_pProtectedRB -> setChecked( true );
-    else if( scope == Uml::Visibility::Implementation )
-          m_pImplementationRB -> setChecked( true );
+    else if ( scope == Uml::Visibility::Private )
+        m_pPrivateRB -> setChecked( true );
+    else if ( scope == Uml::Visibility::Protected )
+        m_pProtectedRB -> setChecked( true );
+    else if ( scope == Uml::Visibility::Implementation )
+        m_pImplementationRB -> setChecked( true );
 
     m_pTypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
     m_pTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );

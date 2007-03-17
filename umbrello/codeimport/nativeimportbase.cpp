@@ -53,22 +53,22 @@ void NativeImportBase::skipStmt(QString until /* = ";" */) {
 bool NativeImportBase::skipToClosing(QChar opener) {
     QString closing;
     switch (opener.toLatin1()) {
-        case '{':
-            closing = "}";
-            break;
-        case '[':
-            closing = "]";
-            break;
-        case '(':
-            closing = ")";
-            break;
-        case '<':
-            closing = ">";
-            break;
-        default:
-            kError() << "NativeImportBase::skipToClosing(" << opener
-                << "): " << "illegal input character" << endl;
-            return false;
+    case '{':
+        closing = "}";
+        break;
+    case '[':
+        closing = "]";
+        break;
+    case '(':
+        closing = ")";
+        break;
+    case '<':
+        closing = ">";
+        break;
+    default:
+        kError() << "NativeImportBase::skipToClosing(" << opener
+        << "): " << "illegal input character" << endl;
+        return false;
     }
     const QString opening(opener);
     skipStmt(opening);
@@ -99,9 +99,9 @@ QString NativeImportBase::advance() {
             break;
     }
     if (m_srcIndex >= m_source.count() - 1 ||
-        // if last item in m_source is a comment then it is dropped too
-        (m_srcIndex == m_source.count() - 1 &&
-         m_source[m_srcIndex].startsWith(m_singleLineCommentIntro))) {
+            // if last item in m_source is a comment then it is dropped too
+            (m_srcIndex == m_source.count() - 1 &&
+             m_source[m_srcIndex].startsWith(m_singleLineCommentIntro))) {
         return QString();
     }
     return m_source[m_srcIndex];
@@ -282,7 +282,7 @@ void NativeImportBase::parseFile(const QString& filename) {
         bool found = false;
         QStringList includePaths = Import_Utils::includePathList();
         for (QStringList::Iterator pathIt = includePaths.begin();
-                                   pathIt != includePaths.end(); ++pathIt) {
+                pathIt != includePaths.end(); ++pathIt) {
             QString path = (*pathIt);
             if (! path.endsWith("/")) {
                 path.append("/");
@@ -328,7 +328,7 @@ void NativeImportBase::parseFile(const QString& filename) {
             continue;
         }
         if (! parseStmt())
-           skipStmt();
+            skipStmt();
         m_comment.clear();
     }
     kDebug() << msgPrefix << "end of parse." << endl;

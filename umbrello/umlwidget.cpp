@@ -55,7 +55,7 @@ UMLWidget::UMLWidget( UMLView * view, UMLObject * o, UMLWidgetController *widget
     }
     init();
     m_pObject = o;
-    if(m_pObject) {
+    if (m_pObject) {
         connect( m_pObject, SIGNAL(modified()), this, SLOT(updateWidget()) );
         m_nId = m_pObject->getID();
     }
@@ -123,10 +123,10 @@ UMLWidget& UMLWidget::operator=(const UMLWidget& other) {
 }
 
 bool UMLWidget::operator==(const UMLWidget& other) {
-    if( this == &other )
+    if ( this == &other )
         return true;
 
-    if(m_Type != other.m_Type) {
+    if (m_Type != other.m_Type) {
         return false;
     }
 
@@ -148,7 +148,7 @@ bool UMLWidget::operator==(const UMLWidget& other) {
     while ( ((assoc=assoc_it.current()) != 0) &&  ((assoc2=assoc_it2.current()) != 0)) {
         ++assoc_it;
         ++assoc_it2;
-        if(!(*assoc == *assoc2)) {
+        if (!(*assoc == *assoc2)) {
             return false;
         }
     }
@@ -202,7 +202,7 @@ void UMLWidget::updateWidget()
     if (m_Type == Uml::wt_Class) {
         m_pView->createAutoAttributeAssociations(this);
     }
-    if(isVisible())
+    if (isVisible())
         update();
 }
 
@@ -270,7 +270,7 @@ void UMLWidget::slotMenuSelection(int sel) {
     const Uml::Widget_Type wt = m_Type;
     UMLWidget* widget = 0; // use for select the first object properties (fill, line color)
 
-    switch(sel) {
+    switch (sel) {
     case ListPopupMenu::mt_Rename:
         m_pDoc -> renameUMLObject(m_pObject);
         // adjustAssocs( getX(), getY() );//adjust assoc lines
@@ -281,20 +281,20 @@ void UMLWidget::slotMenuSelection(int sel) {
         m_pView -> removeWidget(this);
         break;
 
-    //UMLWidgetController::doMouseDoubleClick relies on this implementation
+        //UMLWidgetController::doMouseDoubleClick relies on this implementation
     case ListPopupMenu::mt_Properties:
         if (wt == wt_Actor || wt == wt_UseCase ||
                 wt == wt_Package || wt == wt_Interface || wt == wt_Datatype ||
                 wt == wt_Component || wt == wt_Artifact ||
                 wt == wt_Node || wt == wt_Enum || wt == wt_Entity ||
                 (wt == wt_Class && m_pView -> getType() == dt_Class)) {
- 		UMLApp::app()->BeginMacro("Change Properties");
-           	 showProperties();
-		UMLApp::app()->EndMacro();
+            UMLApp::app()->BeginMacro("Change Properties");
+            showProperties();
+            UMLApp::app()->EndMacro();
         } else if (wt == wt_Object) {
- 		UMLApp::app()->BeginMacro("Change Properties");
-            	m_pObject->showProperties();
-		UMLApp::app()->EndMacro();
+            UMLApp::app()->BeginMacro("Change Properties");
+            m_pObject->showProperties();
+            UMLApp::app()->EndMacro();
         } else {
             kWarning() << "making properties dialog for unknown widget type" << endl;
         }
@@ -304,18 +304,17 @@ void UMLWidget::slotMenuSelection(int sel) {
     case ListPopupMenu::mt_Line_Color:
     case ListPopupMenu::mt_Line_Color_Selection:
         widget = m_pView->getFirstMultiSelectedWidget();
-        if (widget) { newColour = widget->getLineColor(); }
-        if( KColorDialog::getColor(newColour) ) {
+    if (widget) { newColour = widget->getLineColor(); }
+        if ( KColorDialog::getColor(newColour) ) {
             m_pView -> selectionSetLineColor( newColour );
             m_pDoc -> setModified(true);
-
         }
         break;
 
     case ListPopupMenu::mt_Fill_Color:
     case ListPopupMenu::mt_Fill_Color_Selection:
         widget = m_pView->getFirstMultiSelectedWidget();
-        if (widget) { newColour = widget->getFillColour(); }
+    if (widget) { newColour = widget->getFillColour(); }
         if ( KColorDialog::getColor(newColour) ) {
             m_pView -> selectionSetFillColor( newColour );
             m_pDoc -> setModified(true);
@@ -341,13 +340,13 @@ void UMLWidget::slotMenuSelection(int sel) {
         break;
 
     case ListPopupMenu::mt_ViewCode: {
-            UMLClassifier *c = dynamic_cast<UMLClassifier*>(m_pObject);
-            if(c)
-            {
-                UMLApp::app()->viewCodeDocument(c);
-            }
-            break;
+        UMLClassifier *c = dynamic_cast<UMLClassifier*>(m_pObject);
+        if (c)
+        {
+            UMLApp::app()->viewCodeDocument(c);
         }
+        break;
+    }
 
     case ListPopupMenu::mt_Delete_Selection:
         m_pView -> deleteSelection();
@@ -355,17 +354,17 @@ void UMLWidget::slotMenuSelection(int sel) {
 
     case ListPopupMenu::mt_Change_Font:
         font = getFont();
-        if( KFontDialog::getFont( font, false, m_pView ) )
+        if ( KFontDialog::getFont( font, false, m_pView ) )
         {
-				UMLApp::app()->executeCommand(new cmdChangeFontSelection(m_pDoc,m_pView,font));
+            UMLApp::app()->executeCommand(new cmdChangeFontSelection(m_pDoc,m_pView,font));
         }
         break;
 
     case ListPopupMenu::mt_Change_Font_Selection:
         font = getFont();
-        if( KFontDialog::getFont( font, false, m_pView ) )
+        if ( KFontDialog::getFont( font, false, m_pView ) )
         {
-				UMLApp::app()->executeCommand(new cmdChangeFontSelection(m_pDoc,m_pView,font));
+            UMLApp::app()->executeCommand(new cmdChangeFontSelection(m_pDoc,m_pView,font));
         }
         break;
 
@@ -384,7 +383,7 @@ void UMLWidget::slotMenuSelection(int sel) {
 
     case ListPopupMenu::mt_Refactoring:
         //check if we are operating on a classifier, or some other kind of UMLObject
-        if(dynamic_cast<UMLClassifier*>(m_pObject))
+        if (dynamic_cast<UMLClassifier*>(m_pObject))
         {
             UMLApp::app()->refactor(static_cast<UMLClassifier*>(m_pObject));
         }
@@ -392,22 +391,22 @@ void UMLWidget::slotMenuSelection(int sel) {
 
     case ListPopupMenu::mt_Clone:
         // In principle we clone all the uml objects.
-        {
-            UMLObject *pClone = m_pObject->clone();
-            m_pView->addObject(pClone);
-        }
-        break;
+    {
+        UMLObject *pClone = m_pObject->clone();
+        m_pView->addObject(pClone);
+    }
+    break;
 
     case ListPopupMenu::mt_Rename_MultiA:
     case ListPopupMenu::mt_Rename_MultiB:
     case ListPopupMenu::mt_Rename_Name:
     case ListPopupMenu::mt_Rename_RoleAName:
     case ListPopupMenu::mt_Rename_RoleBName:
-        {
-            FloatingTextWidget *ft = static_cast<FloatingTextWidget*>(this);
-            ft->handleRename();
-            break;
-        }
+    {
+        FloatingTextWidget *ft = static_cast<FloatingTextWidget*>(this);
+        ft->handleRename();
+        break;
+    }
     }
 }
 
@@ -415,7 +414,7 @@ void UMLWidget::slotWidgetMoved(Uml::IDType /*id*/) {}
 
 void UMLWidget::slotColorChanged(Uml::IDType viewID) {
     //only change if on the diagram concerned
-    if(m_pView->getID() != viewID) {
+    if (m_pView->getID() != viewID) {
         return;
     }
     if ( m_bUsesDiagramFillColour ) {
@@ -432,7 +431,7 @@ void UMLWidget::slotColorChanged(Uml::IDType viewID) {
 
 void UMLWidget::slotLineWidthChanged(Uml::IDType viewID) {
     //only change if on the diagram concerned
-    if(m_pView->getID() != viewID) {
+    if (m_pView->getID() != viewID) {
         return;
     }
     if ( m_bUsesDiagramLineWidth ) {
@@ -457,11 +456,11 @@ void UMLWidget::setLineColorcmd(const QColor &colour) {
 }
 
 void UMLWidget::setLineColor(const QColor &colour) {
-	UMLApp::app()->executeCommand(new cmdChangeLineColor(this,colour));
+    UMLApp::app()->executeCommand(new cmdChangeLineColor(this,colour));
 }
 
 QColor UMLWidget::getLineColor() {
-	return  m_LineColour;
+    return  m_LineColour;
 }
 
 void UMLWidget::setLineWidth(uint width) {
@@ -470,7 +469,7 @@ void UMLWidget::setLineWidth(uint width) {
 }
 
 void UMLWidget::setFillColour(const QColor &colour) {
-	UMLApp::app()->executeCommand(new cmdChangeFillColor(this,colour));
+    UMLApp::app()->executeCommand(new cmdChangeFillColor(this,colour));
 }
 
 void UMLWidget::setFillColourcmd(const QColor &colour) {
@@ -480,7 +479,7 @@ void UMLWidget::setFillColourcmd(const QColor &colour) {
 }
 
 QColor UMLWidget::getFillColor() {
-	return  m_FillColour;
+    return  m_FillColour;
 }
 
 void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY) {
@@ -500,9 +499,9 @@ void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY) {
         p->drawLine(right - s, offsetY + h - 1, offsetX + w - 1, offsetY + h - s);
         p->drawLine(right - (s*2), bottom - 1, right - 1, bottom - (s*2) );
         p->drawLine(right - (s*3), bottom - 1, right - 1, bottom - (s*3) );
-     } else {
-         p->fillRect(offsetX + w - s, offsetY + h - s, s, s, brush);
-     }
+    } else {
+        p->fillRect(offsetX + w - s, offsetY + h - s, s, s, brush);
+    }
 }
 
 void UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
@@ -510,20 +509,20 @@ void UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
     setSize( getWidth(), getHeight() );
     m_bActivated = true;
     updateComponentSize();
-    if( m_pView -> getPastePoint().x() != 0 ) {
+    if ( m_pView -> getPastePoint().x() != 0 ) {
         FloatingTextWidget * ft = 0;
         QPoint point = m_pView -> getPastePoint();
         int x = point.x() + getX();
         int y = point.y() + getY();
         x = x < 0?0:x;
         y = y < 0?0:y;
-        if( m_pView -> getType() == dt_Sequence ) {
-            switch( getBaseType() ) {
+        if ( m_pView -> getType() == dt_Sequence ) {
+            switch ( getBaseType() ) {
             case wt_Object:
-	    case wt_Precondition : 
-		setY( getY() );
+            case wt_Precondition :
+                setY( getY() );
                 setX( x );
-                break; 
+                break;
 
             case wt_Message:
                 setY( getY() );
@@ -576,7 +575,7 @@ void UMLWidget::addAssoc(AssociationWidget* pAssoc) {
 }
 
 void UMLWidget::removeAssoc(AssociationWidget* pAssoc) {
-    if(pAssoc) {
+    if (pAssoc) {
         m_Assocs.remove(pAssoc);
     }
 }
@@ -615,13 +614,13 @@ void UMLWidget::adjustUnselectedAssocs(int x, int y)
     AssociationWidget* assocwidget = 0;
     while ((assocwidget = assoc_it.current())) {
         ++assoc_it;
-        if(!assocwidget->getSelected())
+        if (!assocwidget->getSelected())
             assocwidget->saveIdealTextPositions();
     }
     assoc_it.toFirst();
     while ((assocwidget = assoc_it.current())) {
         ++assoc_it;
-        if(!assocwidget->getSelected())
+        if (!assocwidget->getSelected())
             assocwidget->widgetMoved(this, x, y);
     }
 }
@@ -668,7 +667,7 @@ void UMLWidget::startPopupMenu( const QPoint &At) {
 
     // disable the "view code" menu for simple code generators
     CodeGenerator * currentCG = UMLApp::app()->getGenerator();
-    if(currentCG && dynamic_cast<SimpleCodeGenerator*>(currentCG))
+    if (currentCG && dynamic_cast<SimpleCodeGenerator*>(currentCG))
         m_pMenu->setItemEnabled(ListPopupMenu::mt_ViewCode, false);
 
     m_pMenu->popup(At);
@@ -677,7 +676,7 @@ void UMLWidget::startPopupMenu( const QPoint &At) {
 }
 
 void UMLWidget::slotRemovePopupMenu() {
-    if(m_pMenu) {
+    if (m_pMenu) {
         disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotMenuSelection(int)));
         delete m_pMenu;
         m_pMenu = 0;
@@ -692,7 +691,7 @@ int UMLWidget::onWidget(const QPoint & p) {
     const int top = getY();
     const int bottom = top + h;
     if (p.x() < left || p.x() > right ||
-        p.y() < top || p.y() > bottom)   // Qt coord.sys. origin in top left corner
+            p.y() < top || p.y() > bottom)   // Qt coord.sys. origin in top left corner
         return 0;
     return (w + h) / 2;
 }
@@ -715,8 +714,8 @@ void UMLWidget::drawShape(QPainter &p ) {
 
 void UMLWidget::setSelected(bool _select) {
     const Uml::Widget_Type wt = m_Type;
-    if( _select ) {
-        if( m_pView -> getSelectCount() == 0 ) {
+    if ( _select ) {
+        if ( m_pView -> getSelectCount() == 0 ) {
             if ( widgetHasUMLObject(wt) ) {
                 m_pView->showDocumentation(m_pObject, false);
             } else {
@@ -730,7 +729,7 @@ void UMLWidget::setSelected(bool _select) {
         /* if (wt != wt_Text && wt != wt_Box) {
             setZ(m_origZ);
         } */
-        if( m_bSelected )
+        if ( m_bSelected )
             m_pView -> updateDocumentation( true );
     }
     m_bSelected = _select;
@@ -739,7 +738,7 @@ void UMLWidget::setSelected(bool _select) {
     UMLWidget *bkgnd = m_pView->testOnWidget(pos);
     if (bkgnd && _select) {
         kDebug() << "UMLWidget::setSelected: setting Z to "
-            << bkgnd->getZ() + 1 << ", SelectState: " << _select << endl;
+        << bkgnd->getZ() + 1 << ", SelectState: " << _select << endl;
         setZ( bkgnd->getZ() + 1 );
     } else {
         setZ( m_origZ );
@@ -872,7 +871,7 @@ void UMLWidget::setDefaultFontMetrics(UMLWidget::FontType fontType) {
 }
 
 void UMLWidget::setupFontType(QFont &font, UMLWidget::FontType fontType) {
-    switch(fontType){
+    switch (fontType){
     case FT_NORMAL:
         font.setBold(false);
         font.setItalic(false);
@@ -913,7 +912,8 @@ void UMLWidget::setupFontType(QFont &font, UMLWidget::FontType fontType) {
         font.setItalic(true);
         font.setUnderline(true);
         break;
-    default: return;
+    default:
+        return;
     }
 }
 
@@ -1016,7 +1016,7 @@ bool UMLWidget::loadFromXMI( QDomElement & qElement ) {
 
     m_nId = STR2ID(id);
 
-    if( !font.isEmpty() ) {
+    if ( !font.isEmpty() ) {
         //QFont newFont;
         m_Font.fromString(font);
         //setFont(newFont);

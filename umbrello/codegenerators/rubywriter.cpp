@@ -4,7 +4,7 @@
     begin                : Sat Dec 21 2002
     copyright            : Vincent Decorges
     email                : vincent.decorges@eivd.ch
-      (C) 2003-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net> 
+      (C) 2003-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
  ***************************************************************************/
 
 /***************************************************************************
@@ -40,7 +40,7 @@ RubyWriter::RubyWriter() {
 RubyWriter::~RubyWriter() {}
 
 void RubyWriter::writeClass(UMLClassifier *c) {
-    if(!c) {
+    if (!c) {
         kDebug()<<"Cannot write class of NULL concept!" << endl;
         return;
     }
@@ -59,7 +59,7 @@ void RubyWriter::writeClass(UMLClassifier *c) {
     }
 
     QFile fileh;
-    if( !openFile(fileh, fileName) ) {
+    if ( !openFile(fileh, fileName) ) {
         emit codeGenerated(c, false);
         return;
     }
@@ -79,13 +79,13 @@ void RubyWriter::writeClass(UMLClassifier *c) {
     QString str;
 
     str = getHeadingFile(".rb");
-    if(!str.isEmpty()) {
+    if (!str.isEmpty()) {
         str.replace(QRegExp("%filename%"), fileName);
         str.replace(QRegExp("%filepath%"), fileh.name());
         h<<str<<m_endl;
     }
 
-    if(forceDoc() || !c->getDoc().isEmpty()) {
+    if (forceDoc() || !c->getDoc().isEmpty()) {
         QString docStr = c->getDoc();
         docStr.replace(QRegExp("\\n"), "\n# ");
         docStr.replace("@ref ", "");
@@ -101,7 +101,7 @@ void RubyWriter::writeClass(UMLClassifier *c) {
     UMLClassifier *concept;
 
     h<< "class " << cppToRubyType(classname) << (superclasses.count() > 0 ? " < ":"");
-    
+
     int i = 0;
     for (concept = superclasses.first(); concept; concept = superclasses.next()) {
         if (i == 0) {
@@ -179,8 +179,8 @@ void RubyWriter::writeOperations(UMLClassifier *c,QTextStream &h) {
 
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList opl(c->getOpList());
-    for(UMLOperation *op = opl.first(); op ; op = opl.next()) {
-        switch(op->getVisibility()) {
+    for (UMLOperation *op = opl.first(); op ; op = opl.next()) {
+        switch (op->getVisibility()) {
         case Uml::Visibility::Public:
             oppub.append(op);
             break;
@@ -198,22 +198,22 @@ void RubyWriter::writeOperations(UMLClassifier *c,QTextStream &h) {
     QString classname(cleanName(c->getName()));
 
     //write operations to file
-    if(forceSections() || !oppub.isEmpty()) {
+    if (forceSections() || !oppub.isEmpty()) {
         writeOperations(classname, oppub, Uml::Visibility::Public, h);
     }
 
-    if(forceSections() || !opprot.isEmpty()) {
+    if (forceSections() || !opprot.isEmpty()) {
         writeOperations(classname, opprot, Uml::Visibility::Protected, h);
     }
 
-    if(forceSections() || !oppriv.isEmpty()) {
+    if (forceSections() || !oppriv.isEmpty()) {
         writeOperations(classname, oppriv, Uml::Visibility::Private, h);
     }
 
 }
 
 void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opList,
-                                 Uml::Visibility permitScope, QTextStream &h) 
+                                 Uml::Visibility permitScope, QTextStream &h)
 {
     UMLOperation *op;
     UMLAttribute *at;
@@ -238,11 +238,11 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
 
         // Skip destructors, and operator methods which
         // can't be defined in ruby
-        if (    methodName.startsWith("~") 
+        if (    methodName.startsWith("~")
                 || methodName == "operator ="
                 || methodName == "operator --"
                 || methodName == "operator ++"
-                || methodName == "operator !=" ) 
+                || methodName == "operator !=" )
         {
             continue;
         }
@@ -257,7 +257,7 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
         UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
-        // Always write out the docs for ruby as the type of the 
+        // Always write out the docs for ruby as the type of the
         // arguments and return value of the methods is useful
         writeDoc = true;
 //        for (at = atl.first(); at; at = atl.next())
@@ -275,7 +275,7 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
             QRegExp re_params("@param (\\w)(\\w*)");
             int pos = re_params.search(docStr);
             while (pos != -1) {
-                docStr.replace( re_params.cap(0), 
+                docStr.replace( re_params.cap(0),
                                 QString("@param _") + re_params.cap(1).lower() + re_params.cap(2) + '_' );
                 commentedParams.append(re_params.cap(1).lower() + re_params.cap(2));
 
@@ -336,8 +336,8 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
                 h << nameStr;
             }
             h << (!(at->getInitialValue().isEmpty()) ?
-                (QString(" = ") + cppToRubyType(at->getInitialValue())) :
-                QString(""));
+                  (QString(" = ") + cppToRubyType(at->getInitialValue())) :
+                  QString(""));
         }
 
         h <<")" << m_endl;
@@ -353,14 +353,14 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
 // this is for writing file attribute methods
 //
 void RubyWriter::writeAttributeMethods(UMLAttributeList *attribs,
-                                      Uml::Visibility visibility, QTextStream &stream)
+                                       Uml::Visibility visibility, QTextStream &stream)
 {
     // return now if NO attributes to work on
     if (attribs->count() == 0 || visibility == Uml::Visibility::Private)
         return;
 
     UMLAttribute *at;
-    for(at=attribs->first(); at; at=attribs->next())
+    for (at=attribs->first(); at; at=attribs->next())
     {
         QString varName = cppToRubyName(cleanName(at->getName()));
 
@@ -370,9 +370,9 @@ void RubyWriter::writeAttributeMethods(UMLAttributeList *attribs,
 }
 
 void RubyWriter::writeSingleAttributeAccessorMethods(
-        const QString &fieldName,
-        const QString &descr,
-        QTextStream &h)
+    const QString &fieldName,
+    const QString &descr,
+    QTextStream &h)
 {
     QString description = descr;
     description.replace(QRegExp("m_[npb](?=[A-Z])"), "");

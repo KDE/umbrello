@@ -62,7 +62,7 @@ public:
                   int y, Uml::Sequence_Message_Type sequenceMessageType,
                   Uml::IDType id = Uml::id_None);
 
-     /**
+    /**
      * Constructs a MessageWidget.
      *
      * @param view              The parent to this class.
@@ -291,15 +291,15 @@ public:
      */
     void drawCreation(QPainter& p, int offsetX, int offsetY);
 
-     /**
-     * Draws a solid arrow line and a stick arrow head
-     * and a circle
-     */
+    /**
+    * Draws a solid arrow line and a stick arrow head
+    * and a circle
+    */
     void drawLost(QPainter& p, int offsetX, int offsetY);
 
-     /**
-     * Draws a circle and a solid arrow line and a stick arrow head
-     */
+    /**
+    * Draws a circle and a solid arrow line and a stick arrow head
+    */
     void drawFound(QPainter& p, int offsetX, int offsetY);
 
     /**
@@ -424,11 +424,11 @@ protected:
      */
     void updateResizability();
 
-     /**
-     * Sets the size.
-     * If m_pView->getSnapComponentSizeToGrid() is true, then
-     * set the next larger size that snaps to the grid.
-     */
+    /**
+    * Sets the size.
+    * If m_pView->getSnapComponentSizeToGrid() is true, then
+    * set the next larger size that snaps to the grid.
+    */
 //     void setSize(int width,int height);
 
     // Data loaded/saved

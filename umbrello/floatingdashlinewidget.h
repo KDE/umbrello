@@ -53,11 +53,11 @@ public:
      */
     void draw(QPainter & p, int offsetX, int offsetY);
 
-    
-     /**
-     * Returns true if the given point is near the floatingdashline 
-     */
-     bool onLine(const QPoint & point);
+
+    /**
+    * Returns true if the given point is near the floatingdashline 
+    */
+    bool onLine(const QPoint & point);
 
     /**
      * Sets m_text
@@ -83,15 +83,15 @@ public:
      * Returns m_yMin
      */
     int getYMin();
-    
+
     /**
      * Returns the difference between the y-coordinate of the dash line and m_yMin
      */
     int getDiffY();
 
-     /**
-     * Creates the <floatingdashline> XMI element.
-     */
+    /**
+    * Creates the <floatingdashline> XMI element.
+    */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     /**

@@ -34,13 +34,13 @@ UMLCanvasObject::~UMLCanvasObject() {
       UMLCanvasObject.
       Here is an example crash that happens if we rely on
       removeAllAssociations() at this point:
-#4  0x415aac7f in __dynamic_cast () from /usr/lib/libstdc++.so.5
-#5  0x081acdbd in UMLCanvasObject::removeAllAssociations() (this=0x89e5b08)
+    #4  0x415aac7f in __dynamic_cast () from /usr/lib/libstdc++.so.5
+    #5  0x081acdbd in UMLCanvasObject::removeAllAssociations() (this=0x89e5b08)
     at umlcanvasobject.cpp:83
-#6  0x081ac9fa in ~UMLCanvasObject (this=0x89e5b08) at umlcanvasobject.cpp:29
-#7  0x08193ffc in ~UMLPackage (this=0x89e5b08) at package.cpp:35
-#8  0x0813cbf6 in ~UMLClassifier (this=0x89e5b08) at classifier.cpp:40
-#9  0x081af3a6 in UMLDoc::closeDocument() (this=0x8468b10) at umldoc.cpp:284
+    #6  0x081ac9fa in ~UMLCanvasObject (this=0x89e5b08) at umlcanvasobject.cpp:29
+    #7  0x08193ffc in ~UMLPackage (this=0x89e5b08) at package.cpp:35
+    #8  0x0813cbf6 in ~UMLClassifier (this=0x89e5b08) at classifier.cpp:40
+    #9  0x081af3a6 in UMLDoc::closeDocument() (this=0x8468b10) at umldoc.cpp:284
      */
     if (associations())
         kDebug() << "UMLCanvasObject destructor: FIXME: there are still associations()" << endl;
@@ -61,7 +61,7 @@ UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::Association_Type asso
 
 bool UMLCanvasObject::addAssociationEnd(UMLAssociation* assoc) {
     // add association only if not already present in list
-    if(!hasAssociation(assoc))
+    if (!hasAssociation(assoc))
     {
         m_List.append( assoc );
 
@@ -77,15 +77,15 @@ bool UMLCanvasObject::addAssociationEnd(UMLAssociation* assoc) {
 }
 
 bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc) {
-    if(m_List.containsRef(assoc) > 0)
+    if (m_List.containsRef(assoc) > 0)
         return true;
     return false;
 }
 
 int UMLCanvasObject::removeAssociationEnd(UMLAssociation * assoc) {
-    if(!hasAssociation(assoc) || !m_List.remove(assoc)) {
+    if (!hasAssociation(assoc) || !m_List.remove(assoc)) {
         kWarning() << "UMLCanvasObject::removeAssociation: "
-            << "can't find given assoc in list" << endl;
+        << "can't find given assoc in list" << endl;
         return -1;
     }
     emit modified();
@@ -109,21 +109,21 @@ void UMLCanvasObject::removeAllAssociationEnds() {
             roleAObj->removeAssociationEnd(assoc);
         } else if (objA)
             kDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
-                << "): objA " << objA->getName() << " is not a UMLCanvasObject"
-                << endl;
+            << "): objA " << objA->getName() << " is not a UMLCanvasObject"
+            << endl;
         else
             kDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
-                << "): objA is NULL" << endl;
+            << "): objA is NULL" << endl;
         UMLCanvasObject *roleBObj = dynamic_cast<UMLCanvasObject*>(objB);
         if (roleBObj) {
             roleBObj->removeAssociationEnd(assoc);
         } else if (objB)
             kDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
-                << "): objB " << objB->getName() << " is not a UMLCanvasObject"
-                << endl;
+            << "): objB " << objB->getName() << " is not a UMLCanvasObject"
+            << endl;
         else
             kDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
-                << "): objB is NULL" << endl;
+            << "): objB is NULL" << endl;
         m_List.remove(assoc);
     }
 }
@@ -140,27 +140,27 @@ QString UMLCanvasObject::uniqChildName( const Uml::Object_Type type,
     QString currentName = prefix;
     if (currentName.isEmpty()) {
         switch (type) {
-            case Uml::ot_Association:
-                currentName = i18n("new_association");
-                break;
-            case Uml::ot_Attribute:
-                currentName = i18n("new_attribute");
-                break;
-            case Uml::ot_Template:
-                currentName = i18n("new_template");
-                break;
-            case Uml::ot_Operation:
-                currentName = i18n("new_operation");
-                break;
-            case Uml::ot_EnumLiteral:
-                currentName = i18n("new_literal");
-                break;
-            case Uml::ot_EntityAttribute:
-                currentName = i18n("new_field");
-                break;
-            default:
-                kWarning() << "uniqChildName() called for unknown child type " << type << endl;
-                return "ERROR_in_UMLCanvasObject_uniqChildName";
+        case Uml::ot_Association:
+            currentName = i18n("new_association");
+            break;
+        case Uml::ot_Attribute:
+            currentName = i18n("new_attribute");
+            break;
+        case Uml::ot_Template:
+            currentName = i18n("new_template");
+            break;
+        case Uml::ot_Operation:
+            currentName = i18n("new_operation");
+            break;
+        case Uml::ot_EnumLiteral:
+            currentName = i18n("new_literal");
+            break;
+        case Uml::ot_EntityAttribute:
+            currentName = i18n("new_field");
+            break;
+        default:
+            kWarning() << "uniqChildName() called for unknown child type " << type << endl;
+            return "ERROR_in_UMLCanvasObject_uniqChildName";
         }
     }
 
@@ -253,7 +253,7 @@ UMLClassifierList UMLCanvasObject::getSuperClasses() {
     UMLAssociationList assocs = getAssociations();
     for (UMLAssociation* a = assocs.first(); a; a = assocs.next()) {
         if ((a->getAssocType() != Uml::at_Generalization &&
-             a->getAssocType() != Uml::at_Realization) ||
+                a->getAssocType() != Uml::at_Realization) ||
                 a->getObjectId(Uml::A) != getID() )
             continue;
         UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::B));
@@ -273,7 +273,7 @@ UMLClassifierList UMLCanvasObject::getSubClasses() {
     UMLAssociationList assocs = getAssociations();
     for (UMLAssociation* a = assocs.first(); a; a = assocs.next()) {
         if ((a->getAssocType() != Uml::at_Generalization &&
-             a->getAssocType() != Uml::at_Realization) ||
+                a->getAssocType() != Uml::at_Realization) ||
                 a->getObjectId(Uml::B) != getID() )
             continue;
         UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::A));

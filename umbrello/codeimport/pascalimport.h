@@ -55,7 +55,8 @@ protected:
     bool m_inInterface;
 
     enum Section_Type { sect_NONE, sect_LABEL, sect_CONST, sect_RESOURCESTRING,
-                        sect_TYPE, sect_VAR, sect_THREADVAR };
+                        sect_TYPE, sect_VAR, sect_THREADVAR
+                      };
     /**
      * Auxiliary variable, contains the current section
      */

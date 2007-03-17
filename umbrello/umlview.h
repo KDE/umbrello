@@ -911,7 +911,7 @@ public:
      * Return the UMLDoc pointer
     */
     UMLDoc* getUMLDoc() {
-    	return m_pDoc;
+        return m_pDoc;
     }
 
 protected:
@@ -1137,7 +1137,7 @@ private:
      * Reset to false when clicking in an empty region of the view.
      */
     bool m_bChildDisplayedDoc;
-    
+
     ToolBarStateFactory* m_pToolBarStateFactory;
     ToolBarState* m_pToolBarState;
 

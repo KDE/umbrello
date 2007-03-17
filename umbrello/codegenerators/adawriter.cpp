@@ -250,7 +250,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
         QString stype = c->getStereotype();
         if (stype == "CORBAConstant") {
             ada << getIndent() << "-- " << stype << " is Not Yet Implemented" << m_endl << m_endl;
-        } else if(stype == "CORBAStruct") {
+        } else if (stype == "CORBAStruct") {
             if (isClass) {
                 UMLAttributeList atl = c->getAttributeList();
                 UMLAttribute *at;
@@ -268,9 +268,9 @@ void AdaWriter::writeClass(UMLClassifier *c) {
                 m_indentLevel--;
                 ada << getIndent() << "end record;" << m_endl << m_endl;
             }
-        } else if(stype == "CORBAUnion") {
+        } else if (stype == "CORBAUnion") {
             ada << getIndent() << "-- " << stype << " is Not Yet Implemented" << m_endl << m_endl;
-        } else if(stype == "CORBATypedef") {
+        } else if (stype == "CORBATypedef") {
             ada << getIndent() << "-- " << stype << " is Not Yet Implemented" << m_endl << m_endl;
         } else {
             ada << getIndent() << "-- " << stype << ": Unknown stereotype" << m_endl << m_endl;
@@ -316,7 +316,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 
         UMLAttribute *at;
         for (at = atl.first(); at; at = atl.next()) {
-              if (at->getVisibility() == Uml::Visibility::Public)
+            if (at->getVisibility() == Uml::Visibility::Public)
                 atpub.append(at);
         }
         if (forceSections() || atpub.count())
@@ -341,7 +341,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     oppub.setAutoDelete(false);
     UMLOperation *op;
     for (op = opl.first(); op; op = opl.next()) {
-         if (op->getVisibility() == Uml::Visibility::Public)
+        if (op->getVisibility() == Uml::Visibility::Public)
             oppub.append(op);
     }
     if (forceSections() || oppub.count())
@@ -434,7 +434,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     UMLOperationList opprot;
     opprot.setAutoDelete(false);
     for (op = opl.first(); op; op = opl.next()) {
-      if (op->getVisibility() == Uml::Visibility::Protected)
+        if (op->getVisibility() == Uml::Visibility::Protected)
             opprot.append(op);
     }
     if (forceSections() || opprot.count())
@@ -451,9 +451,9 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     UMLOperationList oppriv;
     oppriv.setAutoDelete(false);
     for (op = opl.first(); op; op = opl.next()) {
-          const Uml::Visibility::Value vis = op->getVisibility();
-          if (vis == Uml::Visibility::Private ||
-              vis == Uml::Visibility::Implementation)
+        const Uml::Visibility::Value vis = op->getVisibility();
+        if (vis == Uml::Visibility::Private ||
+                vis == Uml::Visibility::Implementation)
             oppriv.append(op);
     }
     if (forceSections() || oppriv.count())

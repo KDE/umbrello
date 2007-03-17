@@ -25,8 +25,8 @@ AST* findNodeAt( AST* node, int line, int column )
 {
     // kDebug(9007) << "findNodeAt(" << node << ")" << endl;
 
-    if( !node )
-	return 0;
+    if ( !node )
+        return 0;
 
     int startLine, startColumn;
     int endLine, endColumn;
@@ -34,21 +34,21 @@ AST* findNodeAt( AST* node, int line, int column )
     node->getStartPosition( &startLine, &startColumn );
     node->getEndPosition( &endLine, &endColumn );
 
-    if( (line > startLine || (line == startLine && column >= startColumn)) &&
-        (line < endLine || (line == endLine && column < endColumn)) ){
+    if ( (line > startLine || (line == startLine && column >= startColumn)) &&
+            (line < endLine || (line == endLine && column < endColumn)) ){
 
         Q3PtrList<AST> children = node->children();
-	Q3PtrListIterator<AST> it( children );
-	while( it.current() ){
-	    AST* a = it.current();
-	    ++it;
+        Q3PtrListIterator<AST> it( children );
+        while ( it.current() ){
+            AST* a = it.current();
+            ++it;
 
-	    AST* r = findNodeAt( a, line, column );
-	    if( r )
-		return r;
-	}
+            AST* r = findNodeAt( a, line, column );
+            if ( r )
+                return r;
+        }
 
-	return node;
+        return node;
     }
 
     return 0;
@@ -56,60 +56,60 @@ AST* findNodeAt( AST* node, int line, int column )
 
 void scopeOfNode( AST* ast, QStringList& scope )
 {
-    if( !ast )
-	return;
+    if ( !ast )
+        return;
 
-    if( ast->parent() )
-	scopeOfNode( ast->parent(), scope );
+    if ( ast->parent() )
+        scopeOfNode( ast->parent(), scope );
 
     QString s;
-    switch( ast->nodeType() )
+    switch ( ast->nodeType() )
     {
     case NodeType_ClassSpecifier:
-        if( ((ClassSpecifierAST*)ast)->name() ){
-	    s = ((ClassSpecifierAST*)ast)->name()->text();
-	    s = s.isEmpty() ? QString::fromLatin1("<unnamed>") : s;
-	    scope.push_back( s );
-	}
-	break;
+        if ( ((ClassSpecifierAST*)ast)->name() ){
+            s = ((ClassSpecifierAST*)ast)->name()->text();
+            s = s.isEmpty() ? QString::fromLatin1("<unnamed>") : s;
+            scope.push_back( s );
+        }
+        break;
 
     case NodeType_Namespace:
     {
         AST* namespaceName = ((NamespaceAST*)ast)->namespaceName();
-	s = namespaceName ? namespaceName->text() : QString::fromLatin1("<unnamed>");
-	scope.push_back( s );
+        s = namespaceName ? namespaceName->text() : QString::fromLatin1("<unnamed>");
+        scope.push_back( s );
     }
     break;
 
     case NodeType_FunctionDefinition:
     {
-	FunctionDefinitionAST* funDef = static_cast<FunctionDefinitionAST*>( ast );
-	DeclaratorAST* d = funDef->initDeclarator()->declarator();
-	
-	// hotfix for bug #68726
-	if ( !d->declaratorId() )
-		break;
-	
-	Q3PtrList<ClassOrNamespaceNameAST> l = d->declaratorId()->classOrNamespaceNameList();
-	Q3PtrListIterator<ClassOrNamespaceNameAST> nameIt( l );
-	while( nameIt.current() ){
-	    AST* name = nameIt.current()->name();
-	    scope.push_back( name->text() );
-	    
-	    ++nameIt;
-	}
+        FunctionDefinitionAST* funDef = static_cast<FunctionDefinitionAST*>( ast );
+        DeclaratorAST* d = funDef->initDeclarator()->declarator();
+
+        // hotfix for bug #68726
+        if ( !d->declaratorId() )
+            break;
+
+        Q3PtrList<ClassOrNamespaceNameAST> l = d->declaratorId()->classOrNamespaceNameList();
+        Q3PtrListIterator<ClassOrNamespaceNameAST> nameIt( l );
+        while ( nameIt.current() ){
+            AST* name = nameIt.current()->name();
+            scope.push_back( name->text() );
+
+            ++nameIt;
+        }
     }
     break;
 
     default:
-	break;
+        break;
     }
 }
 
 
 QString typeSpecToString( TypeSpecifierAST* typeSpec )  /// @todo remove
 {
-    if( !typeSpec )
+    if ( !typeSpec )
         return QString();
 
     return typeSpec->text().replace( QRegExp(" :: "), "::" );
@@ -117,62 +117,62 @@ QString typeSpecToString( TypeSpecifierAST* typeSpec )  /// @todo remove
 
 QString declaratorToString( DeclaratorAST* declarator, const QString& scope, bool skipPtrOp )
 {
-   if( !declarator )
-       return QString();
+    if ( !declarator )
+        return QString();
 
-   QString text;
+    QString text;
 
-   if( !skipPtrOp ){
-       Q3PtrList<AST> ptrOpList = declarator->ptrOpList();
-       for( Q3PtrListIterator<AST> it(ptrOpList); it.current(); ++it ){
-	  text += it.current()->text();
-       }
-       text += ' ';
-   }
+    if ( !skipPtrOp ){
+        Q3PtrList<AST> ptrOpList = declarator->ptrOpList();
+        for ( Q3PtrListIterator<AST> it(ptrOpList); it.current(); ++it ){
+            text += it.current()->text();
+        }
+        text += ' ';
+    }
 
-   text += scope;
+    text += scope;
 
-   if( declarator->subDeclarator() )
-       text += QString::fromLatin1("(") + declaratorToString(declarator->subDeclarator()) + QString::fromLatin1(")");
+    if ( declarator->subDeclarator() )
+        text += QString::fromLatin1("(") + declaratorToString(declarator->subDeclarator()) + QString::fromLatin1(")");
 
-   if( declarator->declaratorId() )
-       text += declarator->declaratorId()->text();
+    if ( declarator->declaratorId() )
+        text += declarator->declaratorId()->text();
 
-   Q3PtrList<AST> arrays = declarator->arrayDimensionList();
-   Q3PtrListIterator<AST> it( arrays );
-   while( it.current() ){
-       text += "[]";
-       ++it;
-   }
+    Q3PtrList<AST> arrays = declarator->arrayDimensionList();
+    Q3PtrListIterator<AST> it( arrays );
+    while ( it.current() ){
+        text += "[]";
+        ++it;
+    }
 
-   if( declarator->parameterDeclarationClause() ){
-       text += "( ";
+    if ( declarator->parameterDeclarationClause() ){
+        text += "( ";
 
-       ParameterDeclarationListAST* l = declarator->parameterDeclarationClause()->parameterDeclarationList();
-       if( l != 0 ){
-           Q3PtrList<ParameterDeclarationAST> params = l->parameterList();
-	   Q3PtrListIterator<ParameterDeclarationAST> it( params );
+        ParameterDeclarationListAST* l = declarator->parameterDeclarationClause()->parameterDeclarationList();
+        if ( l != 0 ){
+            Q3PtrList<ParameterDeclarationAST> params = l->parameterList();
+            Q3PtrListIterator<ParameterDeclarationAST> it( params );
 
-           while( it.current() ){
-	       QString type = typeSpecToString( it.current()->typeSpec() );
-	       text += type;
-	       if( !type.isEmpty() )
-		   text += ' ';
-               text += declaratorToString( it.current()->declarator() );
+            while ( it.current() ){
+                QString type = typeSpecToString( it.current()->typeSpec() );
+                text += type;
+                if ( !type.isEmpty() )
+                    text += ' ';
+                text += declaratorToString( it.current()->declarator() );
 
-               ++it;
+                ++it;
 
-	       if( it.current() )
-	           text += ", ";
-           }
-       }
+                if ( it.current() )
+                    text += ", ";
+            }
+        }
 
-       text += " )";
+        text += " )";
 
-       if( declarator->constant() != 0 )
-           text += " const";
-   }
+        if ( declarator->constant() != 0 )
+            text += " const";
+    }
 
-   return text.replace( QRegExp(" :: "), "::" ).simplified();
+    return text.replace( QRegExp(" :: "), "::" ).simplified();
 }
 

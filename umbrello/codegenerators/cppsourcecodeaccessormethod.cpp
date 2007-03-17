@@ -63,8 +63,8 @@ void CPPSourceCodeAccessorMethod::updateContent( )
     QString itemClassName = cppfield->getTypeName();
     QString text = "";
 
-    if(isInlineMethod) {
-        switch(getType()) {
+    if (isInlineMethod) {
+        switch (getType()) {
         case CodeAccessorMethod::ADD:
             text = policy->getVectorMethodAppend(variableName, itemClassName);
             break;
@@ -102,7 +102,7 @@ void CPPSourceCodeAccessorMethod::updateMethodDeclaration()
     QString fieldName = cppfield->getFieldName();
     QString fieldType = cppfield->getTypeName();
     QString objectType = cppfield->getListObjectType();
-    if(objectType.isEmpty())
+    if (objectType.isEmpty())
         objectType = fieldName;
 
     QString methodReturnType = "void";
@@ -112,7 +112,7 @@ void CPPSourceCodeAccessorMethod::updateMethodDeclaration()
     QString className = CodeGenerator::cleanName(c->getName());
     QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
 
-    switch(getType()) {
+    switch (getType()) {
     case CodeAccessorMethod::ADD:
         methodName = "add_"+fieldType;
         methodReturnType = "void";
@@ -146,7 +146,7 @@ void CPPSourceCodeAccessorMethod::updateMethodDeclaration()
 
     // set header
     CPPCodeDocumentation * header = new CPPCodeDocumentation(doc);
-    if(!getParentObject()->getDoc().isEmpty())
+    if (!getParentObject()->getDoc().isEmpty())
         header->setText(headerText);
     setComment(header);
 
@@ -156,7 +156,7 @@ void CPPSourceCodeAccessorMethod::updateMethodDeclaration()
     setOverallIndentationLevel(0);
 
     // these ONLY appear if they arent inline
-    if(isInlineMethod)
+    if (isInlineMethod)
         setWriteOutText(false);
 
 }

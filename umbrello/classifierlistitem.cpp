@@ -20,7 +20,7 @@
 #include "object_factory.h"
 
 UMLClassifierListItem::UMLClassifierListItem(const UMLObject *parent,
-                                             const QString& name, Uml::IDType id)
+        const QString& name, Uml::IDType id)
         : UMLObject(parent, name, id) {
     UMLObject *parentObj = const_cast<UMLObject*>(parent);
     UMLClassifier *pc = dynamic_cast<UMLClassifier*>(parentObj);

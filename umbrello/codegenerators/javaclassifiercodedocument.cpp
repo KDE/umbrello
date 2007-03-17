@@ -113,8 +113,8 @@ void JavaClassifierCodeDocument::init ( ) {
     setFileExtension(".java");
 
     //initCodeClassFields(); // this is dubious because it calls down to
-                             // CodeGenFactory::newCodeClassField(this)
-                             // but "this" is still in construction at that time.
+    // CodeGenFactory::newCodeClassField(this)
+    // but "this" is still in construction at that time.
 
     classDeclCodeBlock = 0;
     operationsBlock = 0;
@@ -131,7 +131,7 @@ void JavaClassifierCodeDocument::init ( ) {
 // of the document
 bool JavaClassifierCodeDocument::addCodeOperation (CodeOperation * op ) {
 
-    if(!op->getParentOperation()->isLifeOperation())
+    if (!op->getParentOperation()->isLifeOperation())
         return operationsBlock->addTextBlock(op);
     else
         return constructorBlock->addTextBlock(op);
@@ -148,10 +148,10 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
     QDomNode tnode = root.firstChild();
     QDomElement telement = tnode.toElement();
     bool loadCheckForChildrenOK = false;
-    while( !telement.isNull() ) {
+    while ( !telement.isNull() ) {
         QString nodeName = telement.tagName();
 
-        if( nodeName == "textblocks" ) {
+        if ( nodeName == "textblocks" ) {
 
             QDomNode node = telement.firstChild();
             QDomElement element = node.toElement();
@@ -159,26 +159,26 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
             // if there is nothing to begin with, then we don't worry about it
             loadCheckForChildrenOK = element.isNull() ? true : false;
 
-            while( !element.isNull() ) {
+            while ( !element.isNull() ) {
                 QString name = element.tagName();
 
-                if( name == "codecomment" ) {
+                if ( name == "codecomment" ) {
                     CodeComment * block = new JavaCodeComment(this);
                     block->loadFromXMI(element);
-                    if(!addTextBlock(block))
+                    if (!addTextBlock(block))
                     {
                         kError()<<"loadFromXMI : unable to add codeComment to :"<<this<<endl;
                         block->deleteLater();
                     } else
                         loadCheckForChildrenOK= true;
                 } else
-                    if( name == "codeaccessormethod" ||
+                    if ( name == "codeaccessormethod" ||
                             name == "ccfdeclarationcodeblock"
-                      ) {
+                       ) {
                         QString acctag = element.attribute("tag","");
                         // search for our method in the
                         TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
-                        if(!tb || !addTextBlock(tb))
+                        if (!tb || !addTextBlock(tb))
                         {
                             kError()<<"loadFromXMI : unable to add codeclassfield child method to:"<<this<<endl;
                             // DON'T delete
@@ -186,48 +186,48 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                             loadCheckForChildrenOK= true;
 
                     } else
-                        if( name == "codeblock" ) {
+                        if ( name == "codeblock" ) {
                             CodeBlock * block = newCodeBlock();
                             block->loadFromXMI(element);
-                            if(!addTextBlock(block))
+                            if (!addTextBlock(block))
                             {
                                 kError()<<"loadFromXMI : unable to add codeBlock to :"<<this<<endl;
                                 block->deleteLater();
                             } else
                                 loadCheckForChildrenOK= true;
                         } else
-                            if( name == "codeblockwithcomments" ) {
+                            if ( name == "codeblockwithcomments" ) {
                                 CodeBlockWithComments * block = newCodeBlockWithComments();
                                 block->loadFromXMI(element);
-                                if(!addTextBlock(block))
+                                if (!addTextBlock(block))
                                 {
                                     kError()<<"loadFromXMI : unable to add codeBlockwithcomments to:"<<this<<endl;
                                     block->deleteLater();
                                 } else
                                     loadCheckForChildrenOK= true;
                             } else
-                                if( name == "header" ) {
+                                if ( name == "header" ) {
                                     // do nothing.. this is treated elsewhere
                                 } else
-                                    if( name == "hierarchicalcodeblock" ) {
+                                    if ( name == "hierarchicalcodeblock" ) {
                                         HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
                                         block->loadFromXMI(element);
-                                        if(!addTextBlock(block))
+                                        if (!addTextBlock(block))
                                         {
                                             kError()<<"Unable to add hierarchicalcodeBlock to:"<<this<<endl;
                                             block->deleteLater();
                                         } else
                                             loadCheckForChildrenOK= true;
                                     } else
-                                        if( name == "codeoperation" ) {
+                                        if ( name == "codeoperation" ) {
                                             // find the code operation by id
                                             QString id = element.attribute("parent_id","-1");
                                             UMLObject * obj = UMLApp::app()->getDocument()->findObjectById(STR2ID(id));
                                             UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
-                                            if(op) {
+                                            if (op) {
                                                 CodeOperation * block = new JavaCodeOperation(this, op);
                                                 block->loadFromXMI(element);
-                                                if(addTextBlock(block))
+                                                if (addTextBlock(block))
                                                     loadCheckForChildrenOK= true;
                                                 else
                                                 {
@@ -237,11 +237,11 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                             } else
                                                 kError()<<"Unable to find operation create codeoperation for:"<<this<<endl;
                                         } else
-                                            if( name == "javaclassdeclarationblock" )
+                                            if ( name == "javaclassdeclarationblock" )
                                             {
                                                 JavaClassDeclarationBlock * block = getClassDecl();
                                                 block->loadFromXMI(element);
-                                                if(!addTextBlock(block))
+                                                if (!addTextBlock(block))
                                                 {
                                                     kError()<<"Unable to add java code declaration block to:"<<this<<endl;
                                                     // DON'T delete.
@@ -264,15 +264,15 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
         telement = tnode.toElement();
     }
 
-    if(!loadCheckForChildrenOK)
+    if (!loadCheckForChildrenOK)
     {
         CodeDocument * test = dynamic_cast<CodeDocument*>(this);
-        if(test)
+        if (test)
         {
             kWarning()<<" loadChildBlocks : unable to initialize any child blocks in doc: "<<test->getFileName()<<" "<<this<<endl;
         } else {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(this);
-            if(hb)
+            if (hb)
                 kWarning()<<" loadChildBlocks : unable to initialize any child blocks in Hblock: "<<hb->getTag()<<" "<<this<<endl;
             else
                 kDebug()<<" loadChildBlocks : unable to initialize any child blocks in UNKNOWN OBJ:"<<this<<endl;
@@ -285,17 +285,17 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
 QString JavaClassifierCodeDocument::scopeToJavaDecl(Uml::Visibility scope)
 {
     QString scopeString;
-    switch(scope)
+    switch (scope)
     {
-      case Uml::Visibility::Public:
+    case Uml::Visibility::Public:
         scopeString = "public";
         break;
-      case Uml::Visibility::Protected:
+    case Uml::Visibility::Protected:
         scopeString = "protected";
         break;
-      case Uml::Visibility::Private:
-      case Uml::Visibility::Implementation:
-          default:
+    case Uml::Visibility::Private:
+    case Uml::Visibility::Implementation:
+    default:
         scopeString = "private";
         break;
     }
@@ -304,7 +304,7 @@ QString JavaClassifierCodeDocument::scopeToJavaDecl(Uml::Visibility scope)
 
 JavaClassDeclarationBlock * JavaClassifierCodeDocument::getClassDecl()
 {
-    if(!classDeclCodeBlock)
+    if (!classDeclCodeBlock)
     {
         classDeclCodeBlock = new JavaClassDeclarationBlock (this);
         classDeclCodeBlock->setTag("ClassDeclBlock");
@@ -342,8 +342,8 @@ void JavaClassifierCodeDocument::updateContent( )
     // first, set the global flag on whether or not to show classfield info
     // This depends on whether or not we have attribute/association classes
     CodeClassFieldList * cfList = getCodeClassFieldList();
-    for(CodeClassField * field = cfList->first(); field; field = cfList->next())
-        if(field->parentIsAttribute())
+    for (CodeClassField * field = cfList->first(); field; field = cfList->next())
+        if (field->parentIsAttribute())
             field->setWriteOutMethods(policy->getAutoGenerateAttribAccessors());
         else
             field->setWriteOutMethods(policy->getAutoGenerateAssocAccessors());
@@ -373,7 +373,7 @@ void JavaClassifierCodeDocument::updateContent( )
     pkgs.replace(QRegExp("::"), ".");
     QString packageText = getPackage().isEmpty() ? "" : "package "+pkgs+';'+endLine;
     CodeBlockWithComments * pblock = addOrUpdateTaggedCodeBlockWithComments("packages", packageText, "", 0, false);
-    if(packageText.isEmpty() && pblock->getContentType() == CodeBlock::AutoGenerated)
+    if (packageText.isEmpty() && pblock->getContentType() == CodeBlock::AutoGenerated)
         pblock->setWriteOutText(false);
     else
         pblock->setWriteOutText(true);
@@ -392,7 +392,7 @@ void JavaClassifierCodeDocument::updateContent( )
     QMap<UMLPackage*, QString> packageMap; // so we don't repeat packages
 
     CodeGenerator::findObjectsRelated(c,imports);
-    for(UMLPackage *con = imports.first(); con ; con = imports.next())
+    for (UMLPackage *con = imports.first(); con ; con = imports.next())
         // NO (default) datatypes in the import statement.. use defined
         // ones whould be possible, but no idea how to do that...at least for now.
         // Dynamic casting is slow..not an optimal way to do this.
@@ -406,14 +406,14 @@ void JavaClassifierCodeDocument::updateContent( )
                     (c->getPackage().isEmpty() && con->getPackage().isEmpty()))
             {
                 importStatement.append(endLine+"import ");
-                if(!con->getPackage().isEmpty())
+                if (!con->getPackage().isEmpty())
                     importStatement.append(con->getPackage()+'.');
                 importStatement.append(CodeGenerator::cleanName(con->getName())+';');
             }
         }
     // now, add/update the imports codeblock
     CodeBlockWithComments * iblock = addOrUpdateTaggedCodeBlockWithComments("imports", importStatement, "", 0, false);
-    if(importStatement.isEmpty() && iblock->getContentType() == CodeBlock::AutoGenerated)
+    if (importStatement.isEmpty() && iblock->getContentType() == CodeBlock::AutoGenerated)
         iblock->setWriteOutText(false);
     else
         iblock->setWriteOutText(true);
@@ -531,7 +531,7 @@ void JavaClassifierCodeDocument::updateContent( )
         constBlock->addOrUpdateTaggedCodeBlockWithComments("emptyconstructor", emptyConstStatement, "Empty Constructor", 1, false);
     // Now, as an additional condition we only show the empty constructor block
     // IF it was desired to be shown
-    if(parentIsClass() && pol->getAutoGenerateConstructors())
+    if (parentIsClass() && pol->getAutoGenerateConstructors())
         emptyConstBlock->setWriteOutText(true);
     else
         emptyConstBlock->setWriteOutText(false);

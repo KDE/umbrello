@@ -35,14 +35,14 @@ class ObjectFlowWidget : public UMLWidget {
     Q_OBJECT
 
 public:
-  
+
     /**
      * Creates a Object Flow widget.
      *
      * @param view              The parent of the widget.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-     ObjectFlowWidget( UMLView * view, Uml::IDType id = Uml::id_None );
+    ObjectFlowWidget( UMLView * view, Uml::IDType id = Uml::id_None );
 
     /**
      *  destructor
@@ -77,20 +77,20 @@ public:
     /**
      * Returns the type of ObjectFlow.
      */
-   // ObjectFlowType getObjectFlowType() const;
+    // ObjectFlowType getObjectFlowType() const;
 
     /**
      * Sets the type of ObjectFlow.
      */
-   // void setObjectFlowType( ObjectFlowType objectflowType );
-// 
+    // void setObjectFlowType( ObjectFlowType objectflowType );
+//
 //     /**
 //      * Show a properties dialog for an ObjectFlowWidget.
 //      *
 //      * @return  True if we modified the ObjectFlow.
-     
+
 //     bool showProperties();
-// 
+//
 //     /**
 //      * Determines whether a toolbar button represents an ObjectFlow.
 //      * CHECK: currently unused - can this be removed?
@@ -128,14 +128,14 @@ protected:
     /**
      * Type of ObjectFlow.
      */
-  // ObjectFlow m_ObjectFlowType;
+    // ObjectFlow m_ObjectFlowType;
 
 //public slots:
 
     /**
      * Captures any popup menu signals for menus it created.
      */
-   // void slotMenuSelection(int sel);
+    // void slotMenuSelection(int sel);
 };
 
 #endif

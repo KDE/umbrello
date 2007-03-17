@@ -25,16 +25,16 @@ class UMLWidget;
  */
 namespace Widget_Factory {
 
-    /**
-     * Create a UMLWidget in the given view and representing the given document object.
-     */
-    UMLWidget *createWidget(UMLView *view, UMLObject *docObj);
+/**
+ * Create a UMLWidget in the given view and representing the given document object.
+ */
+UMLWidget *createWidget(UMLView *view, UMLObject *docObj);
 
-    /**
-     * Create a UMLWidget according to the given XMI tag.
-     */
-    UMLWidget* makeWidgetFromXMI(const QString& tag,
-                                 const QString& idStr, UMLView *view);
+/**
+ * Create a UMLWidget according to the given XMI tag.
+ */
+UMLWidget* makeWidgetFromXMI(const QString& tag,
+                             const QString& idStr, UMLView *view);
 
 }   // end namespace Widget_Factory
 

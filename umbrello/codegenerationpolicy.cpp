@@ -307,7 +307,7 @@ CodeGenerationPolicy::IndentationType CodeGenerationPolicy::getIndentationType (
 }
 
 void CodeGenerationPolicy::setIndentationAmount ( int amount ) {
-    if(amount > -1)
+    if (amount > -1)
     {
         m_indentationAmount = amount;
         calculateIndentation();
@@ -416,7 +416,7 @@ void CodeGenerationPolicy::emitModifiedCodeContentSig() {
 void CodeGenerationPolicy::setDefaults ( CodeGenerationPolicy * clone , bool emitUpdateSignal)
 {
 
-    if(!clone)
+    if (!clone)
         return;
 
     blockSignals(true); // we need to do this because otherwise most of these
@@ -436,7 +436,7 @@ void CodeGenerationPolicy::setDefaults ( CodeGenerationPolicy * clone , bool emi
 
     blockSignals(false); // "as you were citizen"
 
-    if(emitUpdateSignal)
+    if (emitUpdateSignal)
         emit modifiedCodeContent();
 
 }
@@ -444,7 +444,7 @@ void CodeGenerationPolicy::setDefaults ( CodeGenerationPolicy * clone , bool emi
 void CodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSignal)
 {
 
-    if(!config)
+    if (!config)
         return;
 
     blockSignals(true); // we need to do this because otherwise most of these
@@ -463,12 +463,12 @@ void CodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSignal)
     setIndentationAmount( config->readEntry("indentationAmount",defaultIndentAmount()));
 
     QString path = config -> readPathEntry("outputDirectory");
-    if(path.isEmpty())
+    if (path.isEmpty())
         path = QDir::homePath() + "/uml-generated-code/";
     setOutputDirectory ( QDir (path) );
 
     path = config -> readPathEntry("headingsDirectory");
-    if(path.isEmpty()) {
+    if (path.isEmpty()) {
         KStandardDirs stddirs;
         path =  stddirs.findDirs("data","umbrello/headings").first();
     }
@@ -480,7 +480,7 @@ void CodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSignal)
 
     blockSignals(false); // "as you were citizen"
 
-    if(emitUpdateSignal)
+    if (emitUpdateSignal)
         emit modifiedCodeContent();
 
 }
@@ -512,9 +512,9 @@ void CodeGenerationPolicy::writeConfig (KConfig * config) {
 // return the actual text
 QString CodeGenerationPolicy::getHeadingFile(QString str) {
 
-    if(!getIncludeHeadings() || str.isEmpty())
+    if (!getIncludeHeadings() || str.isEmpty())
         return QString("");
-    if(str.contains(" ") ||str.contains(";")) {
+    if (str.contains(" ") ||str.contains(";")) {
         kWarning() << "File folder must not have spaces or semi colons!" << endl;
         return QString("");
     }
@@ -522,8 +522,8 @@ QString CodeGenerationPolicy::getHeadingFile(QString str) {
     // heading.[extension]. If there is no such file, we try to
     // get any file with the same extension
     QString filename;
-    if(str.startsWith(".")) {
-        if(QFile::exists(m_headingFiles.absoluteFilePath("heading"+str)))
+    if (str.startsWith(".")) {
+        if (QFile::exists(m_headingFiles.absoluteFilePath("heading"+str)))
             filename = m_headingFiles.absoluteFilePath("heading"+str);
         else {
             str.prepend('*');
@@ -537,7 +537,7 @@ QString CodeGenerationPolicy::getHeadingFile(QString str) {
     }
 
     QFile f(filename);
-    if(!f.open(QIODevice::ReadOnly)) {
+    if (!f.open(QIODevice::ReadOnly)) {
         //                kWarning() << "Error opening heading file: " << f.name() << endl;
         //                kWarning() << "Headings directory was " << m_headingFiles.absPath() << endl;
         return QString("");
@@ -546,7 +546,7 @@ QString CodeGenerationPolicy::getHeadingFile(QString str) {
     QTextStream ts(&f);
     QString retstr = QString("");
     QString endLine = getNewLineEndingChars();
-    for(int l = 0; l < MAXLINES && !ts.atEnd(); l++)
+    for (int l = 0; l < MAXLINES && !ts.atEnd(); l++)
         retstr += ts.readLine()+endLine;
 
     //do variable substitution

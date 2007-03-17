@@ -37,12 +37,12 @@
 
 NoteWidget::NoteWidget(UMLView * view, NoteType noteType , Uml::IDType id)
         : UMLWidget(view, id, new NoteWidgetController(this)) {
-	
+
     init();
     setSize(100,80);
     setZ( 20 ); //make sure always on top.
 #ifdef NOTEWIDGET_EMBED_EDITOR
-	kDebug()<<"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<endl;
+    kDebug()<<"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<endl;
     // NB: This code is currently deactivated because
     // Zoom does not yet work with the embedded text editor.
     m_pEditor = new Q3TextEdit(view);
@@ -52,11 +52,9 @@ NoteWidget::NoteWidget(UMLView * view, NoteType noteType , Uml::IDType id)
     m_pEditor->setTextFormat(Qt::RichText);
     m_pEditor->setShown(true);
     setEditorGeometry();
-
     connect(m_pView, SIGNAL(contentsMoving(int, int)),
             this, SLOT(slotViewScrolled(int, int)));
 #endif
-
 }
 
 void NoteWidget::init() {
@@ -69,16 +67,16 @@ NoteWidget::NoteType NoteWidget::getNoteType() const {
 }
 NoteWidget::NoteType NoteWidget::getNoteType(QString noteType) const {
     if (noteType == "Precondition")
-		return NoteWidget::PreCondition;
-	if (noteType == "Postcondition")
-		return NoteWidget::PostCondition;
-	if (noteType == "Transformation")
-		return NoteWidget::Transformation;
+        return NoteWidget::PreCondition;
+    if (noteType == "Postcondition")
+        return NoteWidget::PostCondition;
+    if (noteType == "Transformation")
+        return NoteWidget::Transformation;
 }
 
 void NoteWidget::setNoteType( NoteType noteType ) {
     m_NoteType = noteType;
-   
+
 }
 void NoteWidget::setNoteType( QString noteType ) {
     setNoteType(getNoteType(noteType));
@@ -169,8 +167,8 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
     int w = width()-1;
 
     int h= height()-1;
-	const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-	const int fontHeight  = fm.lineSpacing();
+    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+    const int fontHeight  = fm.lineSpacing();
     QPolygon poly(6);
     poly.setPoint(0, offsetX, offsetY);
     poly.setPoint(1, offsetX, offsetY + h);
@@ -190,24 +188,25 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
         p.drawPolyline(poly);
     p.drawLine(offsetX + w - margin, offsetY, offsetX + w - margin, offsetY + margin);
     p.drawLine(offsetX + w - margin, offsetY + margin, offsetX + w, offsetY + margin);
-	
-	switch(m_NoteType) {
-	case NoteWidget::PreCondition :
-		p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< precondition >>");
-		break;
-	
-	case NoteWidget::PostCondition :
-		p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< postcondition >>");
-		break;
 
-	case NoteWidget::Transformation :
-		p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< transformation >>");
-		break;
+    switch (m_NoteType) {
+    case NoteWidget::PreCondition :
+        p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< precondition >>");
+        break;
 
-	default : break;
-	}   
+    case NoteWidget::PostCondition :
+        p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< postcondition >>");
+        break;
 
-if(m_bSelected) {
+    case NoteWidget::Transformation :
+        p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< transformation >>");
+        break;
+
+    default :
+        break;
+    }
+
+    if (m_bSelected) {
         drawSelected(&p, offsetX, offsetY);
     }
 
@@ -219,31 +218,31 @@ QSize NoteWidget::calculateSize() {
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
     const int textWidth = fm.width(m_Text);
-	if (m_NoteType == PreCondition)
-	{
-		const int widthtemp = fm.width("<< precondition >>");
-    	width = textWidth > widthtemp ? textWidth : widthtemp;
-		width += 10;
-	}
-	else if (m_NoteType == PostCondition)
-	{
-		const int widthtemp = fm.width("<< postcondition >>");
-    	width = textWidth > widthtemp ? textWidth : widthtemp;
-		width += 10;
-	}
-	else if (m_NoteType == Transformation)
-	{
-		const int widthtemp = fm.width("<< transformation >>");
-    	width = textWidth > widthtemp ? textWidth : widthtemp;
-		width += 10;
-	}
+    if (m_NoteType == PreCondition)
+    {
+        const int widthtemp = fm.width("<< precondition >>");
+        width = textWidth > widthtemp ? textWidth : widthtemp;
+        width += 10;
+    }
+    else if (m_NoteType == PostCondition)
+    {
+        const int widthtemp = fm.width("<< postcondition >>");
+        width = textWidth > widthtemp ? textWidth : widthtemp;
+        width += 10;
+    }
+    else if (m_NoteType == Transformation)
+    {
+        const int widthtemp = fm.width("<< transformation >>");
+        width = textWidth > widthtemp ? textWidth : widthtemp;
+        width += 10;
+    }
     return QSize(width, height);
 }
 
 void NoteWidget::slotMenuSelection(int sel) {
     NoteDialog * dlg = 0;
     UMLDoc *doc = UMLApp::app()->getDocument();
-    switch(sel) {
+    switch (sel) {
         ///OBSOLETE - remove ListPopupMenu::mt_Link_Docs
         // case ListPopupMenu::mt_Link_Docs:
         //      m_pView->updateNoteWidgets();
@@ -253,7 +252,7 @@ void NoteWidget::slotMenuSelection(int sel) {
     case ListPopupMenu::mt_Rename:
         m_pView -> updateDocumentation( false );
         dlg = new NoteDialog( m_pView, this );
-        if( dlg -> exec() ) {
+        if ( dlg -> exec() ) {
             m_pView -> showDocumentation( this, true );
             doc -> setModified(true);
             update();
@@ -302,9 +301,9 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
     QChar c;
 
 
- //   QString text = getDoc();
-	QString text = l_Type + "\n" + m_Text;
-    if( text.length() == 0 )
+    //   QString text = getDoc();
+    QString text = l_Type + "\n" + m_Text;
+    if ( text.length() == 0 )
         return;
 
     for (uint i = 0; i <= text.length(); i++) {
@@ -341,7 +340,7 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
                     fullLine = "";
                     textX = margin;
                     textY += fontHeight;
-                    if( textY > height ) return;
+                    if ( textY > height ) return;
                 }
             }
             else if ( c == returnChar ) {
@@ -369,7 +368,7 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
 }
 
 void NoteWidget::askForNoteType(UMLWidget* &targetWidget, const QString& dialogTitle,
-                      const QString& dialogPrompt, const QString& defaultName) {
+                                const QString& dialogPrompt, const QString& defaultName) {
 
     bool pressedOK = false;
     const QStringList list = QStringList() << "Precondition" << "Postcondition" << "Transformation";
@@ -394,7 +393,7 @@ void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 }
 
 bool NoteWidget::loadFromXMI( QDomElement & qElement ) {
-    if( !UMLWidget::loadFromXMI( qElement ) )
+    if ( !UMLWidget::loadFromXMI( qElement ) )
         return false;
     setZ( 20 ); //make sure always on top.
     setDoc( qElement.attribute("text", "") );

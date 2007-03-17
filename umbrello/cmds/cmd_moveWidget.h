@@ -19,26 +19,26 @@
 
 namespace Uml
 {
-	class cmdMoveWidget : public QUndoCommand
-	{
-		public:
-			cmdMoveWidget(UMLWidgetController* _UMLwc);
-			~cmdMoveWidget();
+class cmdMoveWidget : public QUndoCommand
+{
+public:
+    cmdMoveWidget(UMLWidgetController* _UMLwc);
+    ~cmdMoveWidget();
 
-			void redo();
-			void undo();
+    void redo();
+    void undo();
 
-			bool mergeWith(const QUndoCommand* other);
+    bool mergeWith(const QUndoCommand* other);
 
-		private:
-			UMLWidgetController* 	UMLwc;
-			int 		X;
-			int 		Y;
-			int 		oldX;
-			int 		oldY;
-			bool		already;
+private:
+    UMLWidgetController* 	UMLwc;
+    int 		X;
+    int 		Y;
+    int 		oldX;
+    int 		oldY;
+    bool		already;
 
-	};
+};
 };
 
 #endif

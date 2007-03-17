@@ -61,11 +61,8 @@ void UMLWidgetController::mousePressEvent(QMouseEvent *me) {
         return;
     }
 
-
-
     if (me->button() == Qt::LeftButton) {
         m_leftButtonDown = true;
-	//saveWidgetValues(me);
     } else if (me->button() == Qt::RightButton) {
         m_rightButtonDown = true;
     } else {
@@ -151,11 +148,6 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
         diffY = m_oldY - m_widget->getY();
     }
 
-/* Commands 
-    UMLDoc* m_doc = UMLApp::app()->getDocument();
-	m_doc->executeCommand(new cmdMoveWidget(this,diffX,diffY));*/
-
-   // moveWidget(diffX,diffY);
     constrainMovementForAllWidgets(diffX, diffY);
 
     //Nothing to move
@@ -180,10 +172,6 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
 
     while ((widget = it.current()) != 0) {
         ++it;
-	//UMLDoc* m_doc = UMLApp::app()->getDocument();
-	//cmdMoveWidgetBy* cmd = new cmdMoveWidgetBy(widget,diffX,diffY);
-	//m_doc->executeCommand(cmd);
-	//m_doc->executeCommand(new cmdMoveWidgetBy(widget,diffX,diffY));
         widget->getWidgetController()->moveWidgetBy(diffX, diffY);
     }
 
@@ -198,23 +186,22 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
 
     m_widget->m_pView->resizeCanvasToItems();
     updateSelectionBounds(diffX, diffY);
-
 }
 void UMLWidgetController::widgetMoved()
 {		    //reverseOldNewValues();
-                    m_moved = false;
+    m_moved = false;
 
-                    //Ensure associations are updated (the timer could prevent the
-                    //adjustment in the last move event before the release)
-                    UMLWidgetListIt it(m_selectedWidgetsList);
-                    UMLWidget* widget;
-                    it.toFirst();
-                    while ((widget = it.current()) != 0) {
-                        ++it;
-                        widget->adjustAssocs(widget->getX(), widget->getY());
-                    }
+    //Ensure associations are updated (the timer could prevent the
+    //adjustment in the last move event before the release)
+    UMLWidgetListIt it(m_selectedWidgetsList);
+    UMLWidget* widget;
+    it.toFirst();
+    while ((widget = it.current()) != 0) {
+        ++it;
+        widget->adjustAssocs(widget->getX(), widget->getY());
+    }
 
-                    m_widget->m_bStartMove = false;
+    m_widget->m_bStartMove = false;
 }
 
 
@@ -236,17 +223,19 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me) {
                 }
             } else {
                 if (m_moved) {
+                    m_moved = false;
 
-/* Commands */
-			UMLApp::app()->executeCommand(new cmdMoveWidget(this));
+                    /* Commands */
+                    UMLApp::app()->executeCommand(new cmdMoveWidget(this));
 
+                    m_widget->m_bStartMove = false;
                 } else {
-			UMLApp::app()->executeCommand(new cmdResizeWidget(this));
+                    UMLApp::app()->executeCommand(new cmdResizeWidget(this));
                     m_resized = false;
                 }
 
                 if ((m_inMoveArea && wasPositionChanged()) ||
-                            (m_inResizeArea && wasSizeChanged())) {
+                        (m_inResizeArea && wasSizeChanged())) {
                     m_widget->m_pDoc->setModified(true);
                 }
 
@@ -267,8 +256,8 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me) {
         } else if (m_leftButtonDown) {
             //Cancel move/edit
             QMouseEvent move(QMouseEvent::MouseMove,
-                                QPoint(m_oldX + m_pressOffsetX, m_oldY + m_pressOffsetY),
-                                Qt::LeftButton, Qt::NoButton);
+                             QPoint(m_oldX + m_pressOffsetX, m_oldY + m_pressOffsetY),
+                             Qt::LeftButton, Qt::NoButton);
             mouseMoveEvent(&move);
             QMouseEvent release(QMouseEvent::MouseButtonRelease,
                                 QPoint(m_oldX + m_pressOffsetX, m_oldY + m_pressOffsetY),
@@ -290,7 +279,7 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me) {
 
 UMLWidget* UMLWidgetController::getWidget()
 {
-return m_widget;
+    return m_widget;
 
 }
 
@@ -308,8 +297,8 @@ bool UMLWidgetController::isInResizeArea(QMouseEvent *me) {
     const int m = 10;
 
     if (m_widget->m_bResizable &&
-                me->x() >= (m_widget->getX() + m_widget->width() - m) &&
-                me->y() >= (m_widget->getY() + m_widget->height() - m)) {
+            me->x() >= (m_widget->getX() + m_widget->width() - m) &&
+            me->y() >= (m_widget->getY() + m_widget->height() - m)) {
         m_widget->m_pView->setCursor(getResizeCursor());
         return true;
     } else {
@@ -382,10 +371,10 @@ void UMLWidgetController::saveWidgetValues(QMouseEvent *me) {
 
 void UMLWidgetController::insertSaveValues(int _oldX, int _oldY, int X, int Y)
 {
-     	m_widget->setX(X);
-    	m_widget->setY(Y);
-	m_oldX = _oldX;
-	m_oldY = _oldY;
+    m_widget->setX(X);
+    m_widget->setY(Y);
+    m_oldX = _oldX;
+    m_oldY = _oldY;
 }
 
 int UMLWidgetController::getOldX()

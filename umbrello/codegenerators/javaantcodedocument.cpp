@@ -69,10 +69,10 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
     QDomNode tnode = root.firstChild();
     QDomElement telement = tnode.toElement();
     bool loadCheckForChildrenOK = false;
-    while( !telement.isNull() ) {
+    while ( !telement.isNull() ) {
         QString nodeName = telement.tagName();
 
-        if( nodeName == "textblocks" ) {
+        if ( nodeName == "textblocks" ) {
 
             QDomNode node = telement.firstChild();
             QDomElement element = node.toElement();
@@ -80,26 +80,26 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
             // if there is nothing to begin with, then we don't worry about it
             loadCheckForChildrenOK = element.isNull() ? true : false;
 
-            while( !element.isNull() ) {
+            while ( !element.isNull() ) {
                 QString name = element.tagName();
 
-                if( name == "codecomment" ) {
+                if ( name == "codecomment" ) {
                     CodeComment * block = new XMLCodeComment(this);
                     block->loadFromXMI(element);
-                    if(!addTextBlock(block))
+                    if (!addTextBlock(block))
                     {
                         kError()<<"Unable to add codeComment to :"<<this<<endl;
                         block->deleteLater();
                     } else
                         loadCheckForChildrenOK= true;
                 } else
-                    if( name == "codeaccessormethod" ||
+                    if ( name == "codeaccessormethod" ||
                             name == "ccfdeclarationcodeblock"
-                      ) {
+                       ) {
                         QString acctag = element.attribute("tag","");
                         // search for our method in the
                         TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
-                        if(!tb || !addTextBlock(tb))
+                        if (!tb || !addTextBlock(tb))
                         {
                             kError()<<"Unable to add codeclassfield child method to:"<<this<<endl;
                             // DON'T delete
@@ -107,50 +107,50 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                             loadCheckForChildrenOK= true;
 
                     } else
-                        if( name == "codeblock" ) {
+                        if ( name == "codeblock" ) {
                             CodeBlock * block = newCodeBlock();
                             block->loadFromXMI(element);
-                            if(!addTextBlock(block))
+                            if (!addTextBlock(block))
                             {
                                 kError()<<"Unable to add codeBlock to :"<<this<<endl;
                                 block->deleteLater();
                             } else
                                 loadCheckForChildrenOK= true;
                         } else
-                            if( name == "codeblockwithcomments" ) {
+                            if ( name == "codeblockwithcomments" ) {
                                 CodeBlockWithComments * block = newCodeBlockWithComments();
                                 block->loadFromXMI(element);
-                                if(!addTextBlock(block))
+                                if (!addTextBlock(block))
                                 {
                                     kError()<<"Unable to add codeBlockwithcomments to:"<<this<<endl;
                                     block->deleteLater();
                                 } else
                                     loadCheckForChildrenOK= true;
                             } else
-                                if( name == "header" ) {
+                                if ( name == "header" ) {
                                     // do nothing.. this is treated elsewhere
                                 } else
-                                    if( name == "hierarchicalcodeblock" ) {
+                                    if ( name == "hierarchicalcodeblock" ) {
                                         HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
                                         block->loadFromXMI(element);
-                                        if(!addTextBlock(block))
+                                        if (!addTextBlock(block))
                                         {
                                             kError()<<"Unable to add hierarchicalcodeBlock to:"<<this<<endl;
                                             block->deleteLater();
                                         } else
                                             loadCheckForChildrenOK= true;
                                     } else
-                                        if( name == "codeoperation" ) {
+                                        if ( name == "codeoperation" ) {
                                             // find the code operation by id
                                             QString id = element.attribute("parent_id","-1");
                                             UMLObject * obj = UMLApp::app()->getDocument()->findObjectById(STR2ID(id));
                                             UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
-                                            if(op) {
+                                            if (op) {
                                                 CodeOperation * block = 0;
                                                 kError() << "TODO: implement CodeGenFactory::newCodeOperation() for JavaANTCodeDocument" << endl;
                                                 break;  // remove when above is implemented
                                                 block->loadFromXMI(element);
-                                                if(addTextBlock(block))
+                                                if (addTextBlock(block))
                                                     loadCheckForChildrenOK= true;
                                                 else
                                                 {
@@ -160,11 +160,11 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                                             } else
                                                 kError()<<"Unable to find operation create codeoperation for:"<<this<<endl;
                                         } else
-                                            if( name == "xmlelementblock" ) {
+                                            if ( name == "xmlelementblock" ) {
                                                 QString xmltag = element.attribute("nodeName","UNKNOWN");
                                                 XMLElementCodeBlock * block = new XMLElementCodeBlock(this,xmltag);
                                                 block->loadFromXMI(element);
-                                                if(!addTextBlock(block))
+                                                if (!addTextBlock(block))
                                                 {
                                                     kError()<<"Unable to add XMLelement to Java ANT document:"<<this<<endl;
                                                     block->deleteLater();
@@ -187,15 +187,15 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
         telement = tnode.toElement();
     }
 
-    if(!loadCheckForChildrenOK)
+    if (!loadCheckForChildrenOK)
     {
         CodeDocument * test = dynamic_cast<CodeDocument*>(this);
-        if(test)
+        if (test)
         {
             kWarning()<<" loadChildBlocks : unable to initialize any child blocks in doc: "<<test->getFileName()<<" "<<this<<endl;
         } else {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(this);
-            if(hb)
+            if (hb)
                 kWarning()<<" loadChildBlocks : unable to initialize any child blocks in Hblock: "<<hb->getTag()<<" "<<this<<endl;
             else
                 kDebug()<<" loadChildBlocks : unable to initialize any child blocks in UNKNOWN OBJ:"<<this<<endl;

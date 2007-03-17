@@ -2,7 +2,7 @@
     begin               : Thu Jul 26 2005
     copyright           : (C) 2005 by Rene Meyer
     email               : rene.meyer@sturmit.de
-      (C) 2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net> 
+      (C) 2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
  ***************************************************************************/
 
 /***************************************************************************
@@ -231,7 +231,7 @@ TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     if (template_params.count()) {
         writeCode("#TODO template<");
         for (UMLTemplate * t = template_params.first(); t;
-                           t = template_params.next()) {
+                t = template_params.next()) {
             QString         formalName = t->getName();
             QString         typeName = t->getTypeName();
             writeCode(typeName + "# " + formalName);

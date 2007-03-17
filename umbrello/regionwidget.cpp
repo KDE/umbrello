@@ -38,7 +38,7 @@ RegionWidget::RegionWidget(UMLView * view, Uml::IDType id)
 
 RegionWidget::~RegionWidget() {}
 
-void RegionWidget::draw(QPainter & p, int offsetX, int offsetY) 
+void RegionWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
     UMLWidget::setPen(p);
     const int w = width();
@@ -52,7 +52,7 @@ void RegionWidget::draw(QPainter & p, int offsetX, int offsetY)
         p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
 
     }
-    if(m_bSelected)
+    if (m_bSelected)
         drawSelected(&p, offsetX, offsetY);
 }
 
@@ -82,7 +82,7 @@ QString RegionWidget::getName() const {
     return m_Text;
 }
 
-bool RegionWidget::showProperties() 
+bool RegionWidget::showProperties()
 {
     return true;
 }
@@ -97,7 +97,7 @@ void RegionWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 }
 
 bool RegionWidget::loadFromXMI( QDomElement & qElement ) {
-    if( !UMLWidget::loadFromXMI( qElement ) )
+    if ( !UMLWidget::loadFromXMI( qElement ) )
         return false;
     m_Text = qElement.attribute( "regionname", "" );
     m_Doc = qElement.attribute( "documentation", "" );

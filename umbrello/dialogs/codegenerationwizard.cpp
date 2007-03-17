@@ -34,7 +34,7 @@
 #include "../umldoc.h"
 
 CodeGenerationWizard::CodeGenerationWizard(UMLClassifierList *classList)
-  : CodeGenerationWizardBase((QWidget*)UMLApp::app()) {
+        : CodeGenerationWizardBase((QWidget*)UMLApp::app()) {
     m_doc = UMLApp::app()->getDocument();
     m_app = UMLApp::app();
     m_availableList -> setAllColumnsShowFocus(true);
@@ -107,7 +107,7 @@ void CodeGenerationWizard::generateCode() {
         UMLClassifierList cList;
         cList.setAutoDelete(false);
 
-        for(Q3ListViewItem *item = m_statusList->firstChild(); item;
+        for (Q3ListViewItem *item = m_statusList->firstChild(); item;
                 item = item-> nextSibling()) {
             UMLClassifier *concept =  m_doc->findUMLClassifier(item->text(0));
             cList.append(concept);
@@ -122,7 +122,7 @@ void CodeGenerationWizard::generateCode() {
 
 void CodeGenerationWizard::classGenerated(UMLClassifier* concept, bool generated) {
     Q3ListViewItem* item = m_statusList->findItem( concept->getFullyQualifiedName(), 0 );
-    if( !item ) {
+    if ( !item ) {
         kError()<<"GenerationStatusPage::Error finding class in list view"<<endl;
     } else if (generated) {
         item->setText( 1, i18n("Code Generated") );
@@ -133,7 +133,7 @@ void CodeGenerationWizard::classGenerated(UMLClassifier* concept, bool generated
 
 void CodeGenerationWizard::populateStatusList() {
     m_statusList->clear();
-    for(Q3ListViewItem* item = m_selectedList->firstChild(); item; item = item->nextSibling()) {
+    for (Q3ListViewItem* item = m_selectedList->firstChild(); item; item = item->nextSibling()) {
         new Q3ListViewItem(m_statusList,item->text(0),i18n("Not Yet Generated"));
     }
 }
@@ -152,14 +152,14 @@ void CodeGenerationWizard::showPage(QWidget *page) {
 
         // get the output directory path
         QFileInfo info(policy->getOutputDirectory().absPath());
-        if(!info.exists())
+        if (!info.exists())
         {
             if (KMessageBox::questionYesNo(this,
                                            i18n("The folder %1 does not exist. Do you want to create it now?", info.filePath()),
                                            i18n("Output Folder Does Not Exist"), KGuiItem(i18n("Create Folder")), KGuiItem(i18n("Do Not Create"))) == KMessageBox::Yes)
             {
                 QDir dir;
-                if(!dir.mkdir(info.filePath()))
+                if (!dir.mkdir(info.filePath()))
                 {
                     KMessageBox::sorry(this,i18n("The folder could not be created.\nPlease make sure you have write access to its parent folder or select another, valid, folder."),
                                        i18n("Error Creating Folder"));
@@ -175,14 +175,14 @@ void CodeGenerationWizard::showPage(QWidget *page) {
             }
         } else {
             //directory exists.. make sure we can write to it
-            if(!info.isWritable())
+            if (!info.isWritable())
             {
                 KMessageBox::sorry(this,i18n("The output folder exists, but it is not writable.\nPlease set the appropriate permissions or choose another folder."),
                                    i18n("Error Writing to Output Folder"));
                 return;
             }
             // it exits and we can write... make sure it is a directory
-            if(!info.isDir())
+            if (!info.isDir())
             {
                 KMessageBox::sorry(this,i18n("%1 does not seem to be a folder. Please choose a valid folder.", info.filePath()),
                                    i18n("Please Choose Valid Folder"));
@@ -223,7 +223,7 @@ CodeGenerator* CodeGenerationWizard::generator() {
 }
 
 void CodeGenerationWizard::moveSelectedItems(Q3ListView* fromList, Q3ListView* toList) {
-   Q3ListViewItemIterator it(fromList, Q3ListViewItemIterator::Selected);
+    Q3ListViewItemIterator it(fromList, Q3ListViewItemIterator::Selected);
     while (it.current()) {
         Q3ListViewItem* selectedItem = it.current();
 

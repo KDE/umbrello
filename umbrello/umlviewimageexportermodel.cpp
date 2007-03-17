@@ -61,7 +61,7 @@ QStringList UMLViewImageExporterModel::supportedImageTypes() {
 QStringList UMLViewImageExporterModel::supportedMimeTypes() {
     if (!supportedMimeTypesList.size()) {
         QStringList imageTypes = UMLViewImageExporterModel::supportedImageTypes();
-        for(QStringList::Iterator it = imageTypes.begin(); it != imageTypes.end(); ++it ) {
+        for (QStringList::Iterator it = imageTypes.begin(); it != imageTypes.end(); ++it ) {
             QString mimeType = imageTypeToMimeType(*it);
             if (!mimeType.isNull())
                 supportedMimeTypesList.append(mimeType);
@@ -107,7 +107,7 @@ QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, 
     QStringList errors;
 
     UMLViewList views = app->getDocument()->getViewIterator();
-    for(UMLView *view = views.first(); view; view = views.next()) {
+    for (UMLView *view = views.first(); view; view = views.next()) {
         KUrl url = directory;
         url.addPath(getDiagramFileName(view, imageType, useFolders));
 
@@ -294,14 +294,14 @@ bool UMLViewImageExporterModel::fixEPS(const QString &fileName, QRect rect) cons
     const int pos = rx.search(fileContent);
     if (pos < 0) {
         kError() << "UMLViewImageExporterModel::fixEPS(" << fileName
-                  << "): cannot find %%BoundingBox" << endl;
+        << "): cannot find %%BoundingBox" << endl;
         return false;
     }
 
     // write new content to file
     if (! epsfile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
         kError() << "UMLViewImageExporterModel::fixEPS(" << fileName
-                  << "): cannot open file for writing" << endl;
+        << "): cannot open file for writing" << endl;
         return false;
     }
 

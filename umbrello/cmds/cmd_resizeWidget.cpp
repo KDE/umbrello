@@ -32,30 +32,30 @@
 namespace Uml
 {
 
-	cmdResizeWidget::cmdResizeWidget(UMLWidgetController* _UMLwc):UMLwc(_UMLwc),already(false)
-	{	
-		UMLWidget * w = _UMLwc->getWidget();
-		W = w->width();
-		H = w->height();
-		oldH = _UMLwc->getOldH();
-		oldW = _UMLwc->getOldW();
-	}
-	
-	cmdResizeWidget::~cmdResizeWidget()
-	{
+cmdResizeWidget::cmdResizeWidget(UMLWidgetController* _UMLwc):UMLwc(_UMLwc),already(false)
+{
+    UMLWidget * w = _UMLwc->getWidget();
+    W = w->width();
+    H = w->height();
+    oldH = _UMLwc->getOldH();
+    oldW = _UMLwc->getOldW();
+}
 
-	}
-	
-	void cmdResizeWidget::redo()
-	{
-		if(already == false)
-		{already = true;}
-		else{UMLwc->resizeWidget(W,H);}
-	}
-	
-	void cmdResizeWidget::undo()
-	{	
-		UMLwc->resizeWidget(oldW,oldH);
-	}
+cmdResizeWidget::~cmdResizeWidget()
+{
+
+}
+
+void cmdResizeWidget::redo()
+{
+    if (already == false)
+    {already = true;}
+    else{UMLwc->resizeWidget(W,H);}
+}
+
+void cmdResizeWidget::undo()
+{
+    UMLwc->resizeWidget(oldW,oldH);
+}
 
 }

@@ -39,14 +39,14 @@ class PinWidget : public UMLWidget {
     Q_OBJECT
 
 public:
-  
+
     /**
      * Creates a Object Flow widget.
      *
      * @param view              The parent of the widget.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-     PinWidget( UMLView * view, ActivityWidget* a, Uml::IDType id = Uml::id_None );
+    PinWidget( UMLView * view, ActivityWidget* a, Uml::IDType id = Uml::id_None );
 
     /**
      *  destructor
@@ -62,10 +62,10 @@ public:
      * Overrides the standard paint event.
      */
     void draw(QPainter & p, int offsetX, int offsetY);
-/*
-     * Activates a PreconditionWidget.  Connects it m_pOw[] pointer
-     * to UMLObject
-     */
+    /*
+         * Activates a PreconditionWidget.  Connects it m_pOw[] pointer
+         * to UMLObject
+         */
 
 
 //    void activate(IDChangeLog * Log = 0);
@@ -103,18 +103,18 @@ protected:
     /**
      * Type of ObjectFlow.
      */
-  // ObjectFlow m_ObjectFlowType;
+    // ObjectFlow m_ObjectFlowType;
 
 //public slots:
 
     /**
      * Captures any popup menu signals for menus it created.
      */
-   // void slotMenuSelection(int sel);
+    // void slotMenuSelection(int sel);
 
 private:
     ActivityWidget * m_pOw[1];
-   int m_nY;
+    int m_nY;
 };
 
 #endif

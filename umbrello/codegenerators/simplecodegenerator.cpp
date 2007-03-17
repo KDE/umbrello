@@ -149,7 +149,7 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
     CodeGenerationPolicy *commonPolicy = UMLApp::app()->getCommonPolicy();
     QDir outputDir = commonPolicy->getOutputDirectory();
     QString filename = name + ext;
-    if(!outputDir.exists(filename)) {
+    if (!outputDir.exists(filename)) {
         m_fileMap.insert(concept,filename);
         return filename; //if not, "name" is OK and we have not much to to
     }
@@ -157,11 +157,11 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
     int suffix;
     OverwriteDialogue overwriteDialogue( filename, outputDir.absPath(),
                                          m_applyToAllRemaining, kapp -> mainWidget() );
-    switch(commonPolicy->getOverwritePolicy()) {  //if it exists, check the OverwritePolicy we should use
+    switch (commonPolicy->getOverwritePolicy()) { //if it exists, check the OverwritePolicy we should use
     case CodeGenerationPolicy::Ok:                //ok to overwrite file
         break;
     case CodeGenerationPolicy::Ask:               //ask if we can overwrite
-        switch(overwriteDialogue.exec()) {
+        switch (overwriteDialogue.exec()) {
         case KDialog::Yes:  //overwrite file
             if ( overwriteDialogue.applyToAllRemaining() ) {
                 commonPolicy->setOverwritePolicy(CodeGenerationPolicy::Ok);
@@ -215,16 +215,16 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
 
 bool SimpleCodeGenerator::hasDefaultValueAttr(UMLClassifier *c) {
     UMLAttributeList atl = c->getAttributeList();
-    for(UMLAttribute *at = atl.first(); at; at = atl.next())
-        if(!at->getInitialValue().isEmpty())
+    for (UMLAttribute *at = atl.first(); at; at = atl.next())
+        if (!at->getInitialValue().isEmpty())
             return true;
     return false;
 }
 
 bool SimpleCodeGenerator::hasAbstractOps(UMLClassifier *c) {
     UMLOperationList opl(c->getOpList());
-    for(UMLOperation *op = opl.first(); op ; op = opl.next())
-        if(op->getAbstract())
+    for (UMLOperation *op = opl.first(); op ; op = opl.next())
+        if (op->getAbstract())
             return true;
     return false;
 }

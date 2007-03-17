@@ -19,20 +19,20 @@
 
 namespace Uml
 {
-	class cmdCreateDeployDiag : public QUndoCommand
-	{
-		public:
-			cmdCreateDeployDiag(UMLDoc* doc, const QString& name = "");
-			~cmdCreateDeployDiag();
+class cmdCreateDeployDiag : public QUndoCommand
+{
+public:
+    cmdCreateDeployDiag(UMLDoc* doc, const QString& name = "");
+    ~cmdCreateDeployDiag();
 
-			void redo();
-			void undo();
+    void redo();
+    void undo();
 
-		private:
-			UMLDoc*		m_pUMLDoc;
-			UMLView*	m_pUMLView;
-			QString		m_Name;
-	};
+private:
+    UMLDoc*		m_pUMLDoc;
+    UMLView*	m_pUMLView;
+    QString		m_Name;
+};
 };
 
 #endif

@@ -838,20 +838,20 @@ void CodeEditor::updateTextBlockFromText (TextBlock * block) {
 
         // Assemble content from editiable paras
         Q3PtrList<ParaInfo> list = info->m_paraList;
-        for(ParaInfo * item = list.first(); item; item=list.next())
+        for (ParaInfo * item = list.first(); item; item=list.next())
         {
-            if(item->isEditable)
+            if (item->isEditable)
             {
                 int lastpara = item->start+pstart+item->size;
                 int endEdit = block->lastEditableLine();
                 int lastLineToAddNewLine = lastpara + endEdit;
-                for(int para=(item->start+pstart);para<=lastpara;para++)
+                for (int para=(item->start+pstart);para<=lastpara;para++)
                 {
                     QString line = block->unformatText(text(para), baseIndent);
                     content += line;
                     // \n are implicit in the editor (!) so we should put them
                     // back in, if there is any content from the line
-                    if(!line.isEmpty() && para != lastLineToAddNewLine)
+                    if (!line.isEmpty() && para != lastLineToAddNewLine)
                         content += "\n";
                 }
             }
@@ -862,11 +862,11 @@ void CodeEditor::updateTextBlockFromText (TextBlock * block) {
 
         // if a parent for the block, try to set its documentation
         // as long as its NOT an accessor codeblock.
-        if(parentObj && !info->isCodeAccessorMethod)
+        if (parentObj && !info->isCodeAccessorMethod)
             parentObj->setDoc(content);
 
         // make note that its now user generated
-        if(cmb)
+        if (cmb)
             cmb->setContentType(CodeBlock::UserGenerated);
 
     }
@@ -876,7 +876,7 @@ void CodeEditor::cursorPositionChanged(int para, int pos)
 {
 
     // safety.. this is endemic of a 'bad' pointer event and can crash us otherwise
-    if(pos < 0)
+    if (pos < 0)
         return;
 
     //      bool lastParaIsEditable = isReadOnly() ? false : true;
@@ -884,16 +884,16 @@ void CodeEditor::cursorPositionChanged(int para, int pos)
 
     // IF last para where cursor is coming from was editable
     // we have a variety of things to look out for.
-    if(lastParaIsEditable)
+    if (lastParaIsEditable)
     {
         // If we got here as the result of a newline, then expansion
         // of a para editablity occurs.
-        if((para-1) == m_lastPara && m_newLinePressed )
+        if ((para-1) == m_lastPara && m_newLinePressed )
             expandSelectedParagraph ( m_lastPara );
 
         // conversely, we contract the zone of editablity IF we
         // got to current position as result of backspace
-        if((para+1) == m_lastPara && m_backspacePressed )
+        if ((para+1) == m_lastPara && m_backspacePressed )
             contractSelectedParagraph( para );
 
     }
@@ -901,7 +901,7 @@ void CodeEditor::cursorPositionChanged(int para, int pos)
     // now check if the current paragraph is really editiable, and if so,
     // so some things
     bool editPara = isParaEditable(para);
-    if(editPara) {
+    if (editPara) {
 
         TextBlock * tBlock = m_textBlockList.at(para);
         CodeMethodBlock * cmb = dynamic_cast<CodeMethodBlock*>(tBlock);
@@ -913,18 +913,18 @@ void CodeEditor::cursorPositionChanged(int para, int pos)
         int minPos = baseIndent.length();
 
         // add indent chars to the current line, if missing
-        if(!m_backspacePressed && !currentParaText.contains(QRegExp('^'+baseIndent)))
+        if (!m_backspacePressed && !currentParaText.contains(QRegExp('^'+baseIndent)))
         {
             insertAt(baseIndent,para,0);
             setCursorPosition(para,pos+minPos);
             return;
         }
 
-        if(pos<minPos)
+        if (pos<minPos)
         {
 
             bool priorParaIsEditable = isParaEditable(para-1);
-            if(m_backspacePressed && para && priorParaIsEditable)
+            if (m_backspacePressed && para && priorParaIsEditable)
             {
                 int endOfPriorLine = paragraphLength(para-1);
                 // IN this case, we remove old (para) line, and tack its
@@ -935,7 +935,7 @@ void CodeEditor::cursorPositionChanged(int para, int pos)
                 // this next thing happens when we arent deleting last line
                 // of editable text, so we want to append whats left of this line
                 // onto the one we are backspacing into
-                if(paraIsNotSingleLine(para))
+                if (paraIsNotSingleLine(para))
                 {
                     removeParagraph(para);
                     insertAt(contents,(para-1),endOfPriorLine);
@@ -947,7 +947,7 @@ void CodeEditor::cursorPositionChanged(int para, int pos)
                 // are trying to hack away at the last line, which
                 // we cant allow to entirely disappear. Lets preserve
                 // the indentation
-                if(m_backspacePressed && !priorParaIsEditable)
+                if (m_backspacePressed && !priorParaIsEditable)
                 {
                     QString contents = text(para);
                     contents = contents.right(contents.length()-m_lastPos+1);
@@ -957,7 +957,7 @@ void CodeEditor::cursorPositionChanged(int para, int pos)
 
                     // furthermore, IF its nothing but indentation + whitespace
                     // we switch this back to Auto-Generated.
-                    if(cmb && contents.contains(QRegExp('^'+baseIndent+"\\s$")))
+                    if (cmb && contents.contains(QRegExp('^'+baseIndent+"\\s$")))
                     {
                         cmb->setContentType(CodeBlock::AutoGenerated);
                         cmb->syncToParent();
@@ -975,19 +975,19 @@ void CodeEditor::cursorPositionChanged(int para, int pos)
 
     // look for changes in editability, if they occur, we need to record
     // the edits which have been made
-    if((editPara && !m_lastTextBlockToBeEdited) || (!editPara && m_lastTextBlockToBeEdited)) {
+    if ((editPara && !m_lastTextBlockToBeEdited) || (!editPara && m_lastTextBlockToBeEdited)) {
 
         setReadOnly(editPara ? false : true);
 
         // IF this is a different text block, update the body of the method
         // it belongs to
-        if(m_lastTextBlockToBeEdited && (m_lastTextBlockToBeEdited != m_textBlockList.at(para) || !editPara))
+        if (m_lastTextBlockToBeEdited && (m_lastTextBlockToBeEdited != m_textBlockList.at(para) || !editPara))
         {
             updateTextBlockFromText (m_lastTextBlockToBeEdited);
             m_lastTextBlockToBeEdited = 0;
         }
 
-        if(editPara)
+        if (editPara)
             m_lastTextBlockToBeEdited = m_textBlockList.at(para);
         else
             m_lastTextBlockToBeEdited = 0;
@@ -1004,15 +1004,15 @@ void CodeEditor::cursorPositionChanged(int para, int pos)
 bool CodeEditor::paraIsNotSingleLine (int para)
 {
     TextBlock * tBlock = m_textBlockList.at(para);
-    if(tBlock)
+    if (tBlock)
     {
         int pstart = m_textBlockList.findRef(tBlock);
         TextBlockInfo *info = (*m_tbInfoMap)[tBlock];
         Q3PtrList<ParaInfo> list = info->m_paraList;
 
-        for(ParaInfo * item = list.first(); item; item=list.next())
-            if((pstart+item->start) <= para && (item->start+pstart+item->size) >= para )
-                if(item->size > 0)
+        for (ParaInfo * item = list.first(); item; item=list.next())
+            if ((pstart+item->start) <= para && (item->start+pstart+item->size) >= para )
+                if (item->size > 0)
                     return true;
     }
     return false;
@@ -1024,7 +1024,7 @@ bool CodeEditor::isParaEditable (int para) {
         return false;
 
     TextBlock * tBlock = m_textBlockList.at(para);
-    if(tBlock)
+    if (tBlock)
     {
         int editStart = tBlock->firstEditableLine();
         int editEnd = tBlock->lastEditableLine();
@@ -1033,10 +1033,10 @@ bool CodeEditor::isParaEditable (int para) {
         int pstart = m_textBlockList.findRef(tBlock);
         int relativeLine = para - pstart;
         Q3PtrList<ParaInfo> list = info->m_paraList;
-        for(ParaInfo * item = list.first(); item; item=list.next())
+        for (ParaInfo * item = list.first(); item; item=list.next())
         {
-            if((item->start+pstart) <= para && (item->start+pstart+item->size) >= para)
-                if(item->isEditable && hasEditableRange)
+            if ((item->start+pstart) <= para && (item->start+pstart+item->size) >= para)
+                if (item->isEditable && hasEditableRange)
                 {
                     if ( relativeLine >= editStart && relativeLine <= (item->size + editEnd) )
                         return true;
@@ -1051,19 +1051,19 @@ bool CodeEditor::isParaEditable (int para) {
 
 void CodeEditor::changeTextBlockHighlighting(TextBlock * tBlock, bool selected) {
 
-    if(tBlock)
+    if (tBlock)
     {
         TextBlockInfo *info = (*m_tbInfoMap)[tBlock];
         Q3PtrList<ParaInfo> list = info->m_paraList;
         int pstart = m_textBlockList.findRef(tBlock);
-        for(ParaInfo * item = list.first(); item; item=list.next())
-            for(int p=(item->start+pstart);p<=(item->start+pstart+item->size);p++)
-                if(selected)
-                    if(info->isClickable)
+        for (ParaInfo * item = list.first(); item; item=list.next())
+            for (int p=(item->start+pstart);p<=(item->start+pstart+item->size);p++)
+                if (selected)
+                    if (info->isClickable)
                         setParagraphBackgroundColor(p,getState().selectedColor);
                     else
                         setParagraphBackgroundColor(p,getState().nonEditBlockColor);
-                else if(m_isHighlighted)
+                else if (m_isHighlighted)
                     setParagraphBackgroundColor(p,item->bgcolor);
                 else
                     setParagraphBackgroundColor(p,getState().paperColor);
@@ -1073,7 +1073,7 @@ void CodeEditor::changeTextBlockHighlighting(TextBlock * tBlock, bool selected) 
 
 void CodeEditor::changeShowHidden (int signal) {
 
-    if(signal)
+    if (signal)
         m_showHiddenBlocks = true;
     else
         m_showHiddenBlocks = false;
@@ -1086,10 +1086,10 @@ void CodeEditor::changeShowHidden (int signal) {
 void CodeEditor::changeHighlighting(int signal) {
 
     int total_para = paragraphs()-1;
-    if(signal) {
+    if (signal) {
         // we want to highlight
         m_isHighlighted = true;
-        for(int para=0;para<total_para;para++)
+        for (int para=0;para<total_para;para++)
         {
             TextBlock * tblock = m_textBlockList.at(para);
             changeTextBlockHighlighting(tblock,false);
@@ -1099,37 +1099,37 @@ void CodeEditor::changeHighlighting(int signal) {
     } else {
         // we DON'T want to highlight
         m_isHighlighted = false;
-        for(int para=0;para<total_para;para++)
+        for (int para=0;para<total_para;para++)
             setParagraphBackgroundColor(para,getState().paperColor);
     }
 
     // now redo the "selected" para, should it exist
-    if(m_selectedTextBlock)
+    if (m_selectedTextBlock)
         changeTextBlockHighlighting(m_selectedTextBlock,true);
 
 }
 
 void CodeEditor::contractSelectedParagraph( int paraToRemove ) {
     TextBlock * tBlock = m_textBlockList.at(paraToRemove);
-    if(tBlock)
+    if (tBlock)
     {
         int pstart = m_textBlockList.findRef(tBlock);
         TextBlockInfo *info = (*m_tbInfoMap)[tBlock];
         Q3PtrList<ParaInfo> list = info->m_paraList;
 
         bool lowerStartPosition = false;
-        for(ParaInfo * item = list.first(); item; item=list.next())
+        for (ParaInfo * item = list.first(); item; item=list.next())
         {
-            if(lowerStartPosition)
+            if (lowerStartPosition)
                 item->start -= 1;
 
-            if((pstart+item->start) <= paraToRemove && (item->start+pstart+item->size) >= paraToRemove)
+            if ((pstart+item->start) <= paraToRemove && (item->start+pstart+item->size) >= paraToRemove)
             {
                 item->size -= 1;
                 // a little cheat.. we don't want to remove last line as we need
                 // to leave a place that can be 'edited' by the tool IF the user
                 // changes their mind about method body content
-                if(item->size < 0)
+                if (item->size < 0)
                     item->size = 0;
                 lowerStartPosition = true;
             }
@@ -1143,7 +1143,7 @@ void CodeEditor::expandSelectedParagraph( int priorPara ) {
 
 
     TextBlock * tBlock = m_textBlockList.at(priorPara);
-    if(tBlock)
+    if (tBlock)
     {
         // add this tBlock in
         m_textBlockList.insert(priorPara,tBlock);
@@ -1153,13 +1153,13 @@ void CodeEditor::expandSelectedParagraph( int priorPara ) {
 
         // now update the paragraph information
         bool upStartPosition = false;
-        for(ParaInfo * item = list.first(); item; item=list.next())
+        for (ParaInfo * item = list.first(); item; item=list.next())
         {
             // AFTER we get a match, then following para's need to have start position upped too
-            if(upStartPosition)
+            if (upStartPosition)
                 item->start += 1;
 
-            if((pstart+item->start) <= priorPara && (item->start+pstart+item->size) >= priorPara)
+            if ((pstart+item->start) <= priorPara && (item->start+pstart+item->size) >= priorPara)
             {
                 item->size += 1;
                 cursorPositionChanged(m_lastPara, m_lastPos);
@@ -1194,7 +1194,7 @@ void CodeEditor::contentsMouseMoveEvent ( QMouseEvent * e )
 
         m_selectedTextBlock = tblock;
 
-        if(m_lastTextBlockToBeEdited)
+        if (m_lastTextBlockToBeEdited)
         {
             updateTextBlockFromText (m_lastTextBlockToBeEdited);
             m_lastTextBlockToBeEdited = 0;

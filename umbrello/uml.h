@@ -51,7 +51,6 @@ class XhtmlGenerator;
 // KDE forward declarations
 class KActionMenu;
 class KRecentFilesAction;
-class KStatusBarLabel;
 class KToggleAction;
 class KTabWidget;
 class KMenu;
@@ -739,6 +738,11 @@ public slots:
     void slotImportClasses();
 
     /**
+     * Import project menu selection.
+     */
+    void slotImportProject();
+
+    /**
      * Class wizard menu selection.
      */
     void slotClassWizard();
@@ -914,6 +918,11 @@ private:
     void initSavedCodeGenerators();
 
     /**
+    * import the source files that are in fileList
+    */
+    void importFiles(QStringList* fileList);
+
+     /**
      * The configuration object of the application.
      */
     KSharedConfigPtr m_config;
@@ -1020,6 +1029,7 @@ private:
     QAction* genAll;
     QAction* genWizard;
     QAction* importClasses;
+    QAction* importProject;
     QAction* classWizard;
     QAction* m_langAct[Uml::pl_Reserved];
     QAction* deleteSelectedWidget;
@@ -1041,8 +1051,6 @@ private:
     QTimer* m_clipTimer;
     QTimer* m_copyTimer;
     AlignToolBar* m_alignToolBar;
-
-    KStatusBarLabel* m_statusLabel;
 
     /**
      * True if the application is opening an existing document

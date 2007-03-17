@@ -27,7 +27,7 @@
 
 
 NoteDialog::NoteDialog( QWidget * parent, NoteWidget * pNote )
-    : KDialog(parent) {
+        : KDialog(parent) {
     setCaption( i18n("Note Documentation") );
     setButtons( Help | Ok | Cancel );
     setDefaultButton( Ok );

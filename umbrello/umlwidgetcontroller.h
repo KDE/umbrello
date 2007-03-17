@@ -180,15 +180,15 @@ public:
 
     virtual void widgetMoved();
 
-int getOldX();
+    int getOldX();
 
-int getOldY();
+    int getOldY();
 
-int getOldH();
+    int getOldH();
 
-int getOldW();
+    int getOldW();
 
-void insertSaveValues(int _oldX, int _oldY, int X, int Y);
+    void insertSaveValues(int _oldX, int _oldY, int X, int Y);
 //avant c'estait protected?
     /**
      * Moves the widget to a new position using the difference between the
@@ -223,7 +223,7 @@ void insertSaveValues(int _oldX, int _oldY, int X, int Y);
     virtual void resizeWidget(int newW, int newH);
 
 
-	virtual UMLWidget* getWidget();
+    virtual UMLWidget* getWidget();
 
 
 protected:
@@ -241,8 +241,6 @@ protected:
      * @param me The QMouseEvent to get the offset from.
      */
     virtual void saveWidgetValues(QMouseEvent *me);
-
-
 
     /**
      * Checks if the mouse is in resize area (right bottom corner), and sets

@@ -100,7 +100,7 @@ int main(int argc, char *argv[]) {
     KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 
     KApplication app;
-    if( app.isSessionRestored() ) {
+    if ( app.isSessionRestored() ) {
         RESTORE( UMLApp );
     } else {
         KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
@@ -127,7 +127,7 @@ int main(int argc, char *argv[]) {
         // export option
         QByteArrayList exportOpt = args->getOptionList("export");
         if (exportOpt.size() > 0) {
-             exportAllViews(args, exportOpt);
+            exportAllViews(args, exportOpt);
         }
 
         if ( showGUI && (startLogo != 0L) && !startLogo->isHidden() ) {
@@ -153,10 +153,10 @@ KStartupLogo* showStartupLogo(KConfig* cfg, bool showGUI) {
     if (showGUI && showLogo) {
         startLogo = new KStartupLogo(0);
         startLogo->setHideEnabled(true);
-#ifdef Q_OS_UNIX	
+#ifdef Q_OS_UNIX
         KWin::setMainWindow(startLogo, UMLApp::app()->winId());
         KWin::setState(startLogo->winId(), NET::KeepAbove);
-#endif	
+#endif
         startLogo->show();
         QApplication::flush();
     }
@@ -171,7 +171,7 @@ void initDocument(KCmdLineArgs *args, KConfig* cfg) {
         cfg->setGroup( "General Options" );
         bool last = cfg->readEntry( "loadlast", false );
         QString file = cfg->readPathEntry( "lastFile" );
-        if( last && !file.isEmpty() ) {
+        if ( last && !file.isEmpty() ) {
             UMLApp::app()->openDocumentFile( KUrl( file ) );
         } else {
             UMLApp::app()->newDocument();

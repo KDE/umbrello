@@ -68,7 +68,7 @@ void KPlayerPopupFrame::mouseReleaseEvent (QMouseEvent* ev)
 }*/
 
 KPlayerPopupSliderAction::KPlayerPopupSliderAction (const QObject* receiver, const char* slot,
-                                                    QObject *parent)
+        QObject *parent)
         : KAction (parent)
 {
     connect (this, SIGNAL (triggered ()), receiver, slot);
@@ -120,19 +120,19 @@ void KPlayerPopupSliderAction::slotTriggered()
 {
     KAction::trigger();
     QWidget* button = 0;
-/*    if ( sender() )
-    {
-        //CHANGED    kDebug() << "Sender class name: " << sender() -> className() << "\n";
-        if ( sender() -> inherits ("KToolBarButton") )
-            button = (QWidget*) sender();
-        else if ( sender() -> inherits ("KToolBar") )
+    /*    if ( sender() )
         {
-            KToolBar* toolbar = (KToolBar*) sender();
-            int index = findContainer (toolbar);
-            if ( index >= 0 )
-                button = toolbar -> getButton (itemId (index));
-        }
-    }*/
+            //CHANGED    kDebug() << "Sender class name: " << sender() -> className() << "\n";
+            if ( sender() -> inherits ("KToolBarButton") )
+                button = (QWidget*) sender();
+            else if ( sender() -> inherits ("KToolBar") )
+            {
+                KToolBar* toolbar = (KToolBar*) sender();
+                int index = findContainer (toolbar);
+                if ( index >= 0 )
+                    button = toolbar -> getButton (itemId (index));
+            }
+        }*/
     QPoint point;
     if ( button )
         point = button -> mapToGlobal (QPoint (0, button -> height()));
@@ -268,7 +268,8 @@ void KPlayerSliderAction::unplug (QWidget* widget)
 
 KPlayerSlider::KPlayerSlider (Qt::Orientation orientation, QWidget* parent, const char* name)
 //CHANGED  : QSlider (orientation, parent, name)
-        : QSlider (300, 2200, 400, 1000, orientation, parent, name)
+        :
+        QSlider (300, 2200, 400, 1000, orientation, parent, name)
 {
     m_changing_orientation = false;
     setTickmarks (QSlider::TicksBothSides);

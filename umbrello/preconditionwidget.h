@@ -38,7 +38,7 @@ class PreconditionWidget : public UMLWidget {
     Q_OBJECT
 
 public:
-   
+
     /**
      * Creates a Precondition widget.
      *
@@ -79,7 +79,7 @@ public:
     /**
      * Calculates the size of the widget
      */
-     void calculateDimensions();
+    void calculateDimensions();
 
 
     /**
@@ -112,7 +112,7 @@ protected:
      */
     QSize calculateSize();
 
-   
+
 public slots:
 
     /**

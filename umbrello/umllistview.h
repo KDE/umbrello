@@ -228,7 +228,7 @@ public:
     /**
      * Creates a diagram out of the given list view item.
      */
-    UMLView* createDiagram( UMLListViewItem * item, Uml::Diagram_Type type );
+    void createDiagram( UMLListViewItem * item, Uml::Diagram_Type type );
 
     /**
      * Returns a unique name for a diagram.

@@ -19,24 +19,24 @@
 
 namespace Uml
 {
-	class cmdSetVisibility : public QUndoCommand
-	{
-		public:
-			/*Constructor */
-			cmdSetVisibility(UMLObject * _UMLObj, Uml::Visibility  _visibility);
-			/*Destructor */
-			~cmdSetVisibility();
-			/*Redo method */
-			void redo();
-			/*Undo method */
-			void undo();
+class cmdSetVisibility : public QUndoCommand
+{
+public:
+    /*Constructor */
+    cmdSetVisibility(UMLObject * _UMLObj, Uml::Visibility  _visibility);
+    /*Destructor */
+    ~cmdSetVisibility();
+    /*Redo method */
+    void redo();
+    /*Undo method */
+    void undo();
 
-		private:
+private:
 
-			Uml::Visibility  oldvisibility;
-			Uml::Visibility  visib;
-			UMLObject * UMLObj;
-	};
+    Uml::Visibility  oldvisibility;
+    Uml::Visibility  visib;
+    UMLObject * UMLObj;
+};
 };
 
 #endif

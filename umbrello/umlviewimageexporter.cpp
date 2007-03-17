@@ -43,7 +43,7 @@ void UMLViewImageExporter::exportView() {
     // export the view
     app->getDocument()->writeToStatusBar(i18n("Exporting view..."));
     QString error = UMLViewImageExporterModel().exportView(m_view,
-                            UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType), m_imageURL);
+                    UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType), m_imageURL);
     if (!error.isNull()) {
         KMessageBox::error(app, i18n("An error happened when exporting the image:\n") + error);
     }
@@ -61,8 +61,8 @@ bool UMLViewImageExporter::prepareExportView() {
         // check if the file exists
         if (KIO::NetAccess::exists(m_imageURL, true, UMLApp::app())) {
             int wantSave = KMessageBox::warningContinueCancel(0,
-                                i18n("The selected file %1 exists.\nDo you want to overwrite it?", m_imageURL.pathOrUrl()),
-                                i18n("File Already Exists"), KGuiItem(i18n("&Overwrite")));
+                           i18n("The selected file %1 exists.\nDo you want to overwrite it?", m_imageURL.pathOrUrl()),
+                           i18n("File Already Exists"), KGuiItem(i18n("&Overwrite")));
             if (wantSave == KMessageBox::Continue) {
                 exportPrepared = true;
             }
@@ -96,7 +96,7 @@ bool UMLViewImageExporter::getParametersFromUser() {
     QFileInfo info(m_imageURL.fileName());
     QString ext = info.extension(false);
     QString extDef = UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType);
-    if(ext != extDef) {
+    if (ext != extDef) {
         m_imageURL.setFileName(m_imageURL.fileName() + '.' + extDef);
     }
 

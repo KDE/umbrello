@@ -47,12 +47,12 @@ EndOfLifeWidget::EndOfLifeWidget(UMLView * view, ObjectWidget* a, Uml::IDType id
     m_nY = y;
     //updateResizability();
     updateComponentSize();
-   // calculateWidget();
+    // calculateWidget();
     y = y < getMinY() ? getMinY() : y;
     y = y > getMaxY() ? getMaxY() : y;
     m_nY = y;
     this->activate();
-    
+
 }
 
 EndOfLifeWidget::~EndOfLifeWidget() {}
@@ -75,10 +75,10 @@ void EndOfLifeWidget::draw(QPainter & p, int offsetX, int offsetY) {
     x1 -= w/2;
     setX(x1);
     int y1 = offsetY;
-    
+
     //test if y isn't above the object
     if (y1 <= m_pOw[Uml::A]->getY() + m_pOw[Uml::A]->getHeight() ) {
-	y1 = m_pOw[Uml::A]->getY() + m_pOw[Uml::A]->getHeight() + 15;
+        y1 = m_pOw[Uml::A]->getY() + m_pOw[Uml::A]->getHeight() + 15;
     }
     setY(y1);
     UMLWidget::setPen(p);
@@ -90,12 +90,12 @@ void EndOfLifeWidget::draw(QPainter & p, int offsetX, int offsetY) {
         const int fontHeight  = fm.lineSpacing();
 
         p.drawLine(x1, y1, x1+w, y1+h);
-	p.drawLine(x1, y1+h, x1+w, y1);
+        p.drawLine(x1, y1+h, x1+w, y1);
         p.setPen(Qt::black);
         p.setFont( UMLWidget::getFont() );
         m_pOw[Uml::A]->setEndLine(y1+h/2);
     }
-    if(m_bSelected)
+    if (m_bSelected)
         drawSelected(&p, x1, y1);
 }
 
@@ -107,7 +107,7 @@ QSize EndOfLifeWidget::calculateSize() {
     height = fontHeight;
     height = height > ENDOFLIFE_HEIGHT ? height : ENDOFLIFE_HEIGHT;
     height += ENDOFLIFE_MARGIN * 2;
-   
+
     return QSize(width, height);
 
 }
@@ -119,16 +119,16 @@ void EndOfLifeWidget::slotMenuSelection(int sel) {
     bool ok = false;
     QString name = m_Text;
 
-    switch( sel ) {
+    switch ( sel ) {
     case ListPopupMenu::mt_Rename:
         name = KInputDialog::getText( i18n("Enter Precondition Name"), i18n("Enter the precondition :"), m_Text, &ok );
-        if( ok && name.length() > 0 )
+        if ( ok && name.length() > 0 )
             m_Text = name;
         done = true;
         calculateWidget();
         break;
     }
-    if( !done )
+    if ( !done )
         UMLWidget::slotMenuSelection( sel );
 }
 
@@ -148,9 +148,9 @@ void EndOfLifeWidget::activate(IDChangeLog * Log /*= 0*/) {
         kDebug() << "EndOfLifeWidget::activate: can't make precondition" << endl;
         return;
     }
-    
+
     connect(m_pOw[Uml::A], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
-    
+
     calculateDimensions();
 }
 
@@ -179,7 +179,7 @@ void EndOfLifeWidget::slotWidgetMoved(Uml::IDType id) {
     const Uml::IDType idA = m_pOw[Uml::A]->getLocalID();
     if (idA != id ) {
         kDebug() << "MessageWidget::slotWidgetMoved(" << ID2STR(id)
-            << "): ignoring for idA=" << ID2STR(idA) << endl;
+        << "): ignoring for idA=" << ID2STR(idA) << endl;
         return;
     }
     m_nY = getY();
@@ -187,7 +187,7 @@ void EndOfLifeWidget::slotWidgetMoved(Uml::IDType id) {
         m_nY = getMinY();
     if (m_nY > getMaxY())
         m_nY = getMaxY();
-    
+
     calculateDimensions();
     if (m_pView->getSelectCount(true) > 1)
         return;
@@ -206,7 +206,7 @@ int EndOfLifeWidget::getMinY() {
 }
 
 int EndOfLifeWidget::getMaxY() {
-    if( !m_pOw[Uml::A]) {
+    if ( !m_pOw[Uml::A]) {
         return 0;
     }
 
@@ -226,14 +226,14 @@ void EndOfLifeWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 }
 
 bool EndOfLifeWidget::loadFromXMI( QDomElement & qElement ) {
-    if( !UMLWidget::loadFromXMI( qElement ) )
+    if ( !UMLWidget::loadFromXMI( qElement ) )
         return false;
     QString widgetaid = qElement.attribute( "widgetaid", "-1" );
     m_Text = qElement.attribute( "endoflifename", "" );
     m_Doc = qElement.attribute( "documentation", "" );
 
     Uml::IDType aId = STR2ID(widgetaid);
-    
+
     UMLWidget *pWA = m_pView -> findWidget( aId );
     if (pWA == NULL) {
         kDebug() << "EndOfLifeWidget::loadFromXMI: role A object "

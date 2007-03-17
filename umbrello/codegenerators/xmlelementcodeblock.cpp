@@ -121,7 +121,7 @@ void XMLElementCodeBlock::updateContent ( )
     UMLAttributeList * alist = getAttributeList();
     for (UMLAttribute *at = alist->first(); at; at=alist->next())
     {
-        if(at->getInitialValue().isEmpty())
+        if (at->getInitialValue().isEmpty())
             kWarning()<<" XMLElementCodeBlock : cant print out attribute that lacks an initial value"<<endl;
         else {
             startText.append(" " +at->getName()+"=\"");
@@ -130,7 +130,7 @@ void XMLElementCodeBlock::updateContent ( )
     }
 
     // now set close of starting/ending node, the style depending on whether we have child text or not
-    if(getTextBlockList()->count())
+    if (getTextBlockList()->count())
     {
         startText.append(">");
         endText = "</" + nodeName + '>';

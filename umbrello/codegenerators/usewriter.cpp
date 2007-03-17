@@ -35,7 +35,7 @@ USEWriter::~USEWriter() {}
 
 void USEWriter::writeClass(UMLClassifier *c)
 {
-    if(!c)
+    if (!c)
     {
         kDebug()<<"Cannot write class of NULL concept!" << endl;
         return;
@@ -53,7 +53,7 @@ void USEWriter::writeClass(UMLClassifier *c)
     }
 
     QFile fileuse;
-    if(!openFile(fileuse, fileName))
+    if (!openFile(fileuse, fileName))
     {
         emit codeGenerated(c, false);
         return;
@@ -68,7 +68,7 @@ void USEWriter::writeClass(UMLClassifier *c)
     //try to find a heading file (license, coments, etc)
     QString str;
     str = getHeadingFile(".use");
-    if(!str.isEmpty())
+    if (!str.isEmpty())
     {
         str.replace(QRegExp("%filename%"),fileName);
         str.replace(QRegExp("%filepath%"),filejs.name());
@@ -77,7 +77,7 @@ void USEWriter::writeClass(UMLClassifier *c)
 
 
     //Write class Documentation if there is somthing or if force option
-    if(forceDoc() || !c->getDoc().isEmpty())
+    if (forceDoc() || !c->getDoc().isEmpty())
     {
         js << m_endl << "/**" << m_endl;
         js << "  * class " << classname << m_endl;
@@ -87,8 +87,8 @@ void USEWriter::writeClass(UMLClassifier *c)
 
     js << "class " << classname << m_endl;
     js << "attributes" << m_endl;
-    
-    
+
+
     js << m_endl;
 
     //finish file

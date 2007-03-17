@@ -1,6 +1,6 @@
 /***************************************************************************
     copyright            : (C) 2003 Brian Thomas brian.thomas@gsfc.nasa.gov
-      (C) 2004-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net> 
+      (C) 2004-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
 ***************************************************************************/
 
 /***************************************************************************
@@ -75,7 +75,7 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
     QTextStream XMLschema(&file);
 
     // set package namespace tag appropriately
-    if(!c->getPackage().isEmpty())
+    if (!c->getPackage().isEmpty())
         packageNamespaceTag = c->getPackage();
 
     // START WRITING
@@ -86,11 +86,11 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
 
     // 1. create the header
     QString headerText = getHeadingFile(".xsd");
-    if(!headerText.isEmpty()) {
+    if (!headerText.isEmpty()) {
         headerText.replace(QRegExp("%filename%"),fileName);
         headerText.replace(QRegExp("%filepath%"),file.name());
     }
-    if(!headerText.isEmpty())
+    if (!headerText.isEmpty())
         XMLschema<<headerText<<m_endl;
 
     // 2. Open schema element node with appropriate namespace decl
@@ -143,7 +143,7 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
 
 void XMLSchemaWriter::writeElementDecl( const QString &elementName, const QString &elementTypeName, QTextStream &XMLschema)
 {
-    if(forceDoc())
+    if (forceDoc())
         writeComment(elementName+" is the root element, declared here.", XMLschema);
 
     XMLschema<<getIndent()<<"<"<<makeSchemaTag("element")
@@ -157,16 +157,16 @@ void XMLSchemaWriter::writeClassifier (UMLClassifier *c, QTextStream &XMLschema)
 {
 
     // NO doing this 2 or more times.
-    if(hasBeenWritten(c))
+    if (hasBeenWritten(c))
         return;
 
     XMLschema<<m_endl;
 
     // write documentation for class, if any, first
-    if(forceDoc() || !c->getDoc().isEmpty())
+    if (forceDoc() || !c->getDoc().isEmpty())
         writeComment(c->getDoc(),XMLschema);
 
-    if(c->getAbstract() || c->isInterface() )
+    if (c->getAbstract() || c->isInterface() )
         writeAbstractClassifier(c,XMLschema); // if its an interface or abstract class
     else
         writeConcreteClassifier(c,XMLschema);
@@ -181,17 +181,17 @@ UMLAttributeList XMLSchemaWriter::findAttributes (UMLClassifier *c)
 
     if (!c->isInterface()) {
         UMLAttributeList atl = c->getAttributeList();
-        for(UMLAttribute *at=atl.first(); at ; at=atl.next()) {
-            switch(at->getVisibility())
+        for (UMLAttribute *at=atl.first(); at ; at=atl.next()) {
+            switch (at->getVisibility())
             {
-              case Uml::Visibility::Public:
-              case Uml::Visibility::Protected:
+            case Uml::Visibility::Public:
+            case Uml::Visibility::Protected:
                 attribs.append(at);
                 break;
-              case Uml::Visibility::Private:
+            case Uml::Visibility::Private:
                 // DO NOTHING! no way to print in the schema
                 break;
-              default:
+            default:
                 break;
             }
         }
@@ -223,7 +223,7 @@ void XMLSchemaWriter::writeAbstractClassifier (UMLClassifier *c, QTextStream &XM
     markAsWritten(c);
 
     // now go back and make sure all sub-classing nodes are declared
-    if(subclasses.count() > 0)
+    if (subclasses.count() > 0)
     {
 
         QString elementName = getElementName(c);
@@ -233,12 +233,12 @@ void XMLSchemaWriter::writeAbstractClassifier (UMLClassifier *c, QTextStream &XM
         writeAttributeGroupDecl(elementName, attribs, XMLschema);
 
         // now write out inheriting classes, as needed
-        for(UMLClassifier * classifier = subclasses.first(); classifier; classifier = subclasses.next())
+        for (UMLClassifier * classifier = subclasses.first(); classifier; classifier = subclasses.next())
             writeClassifier(classifier, XMLschema);
     }
 
     // write out any superclasses as needed
-    for(UMLClassifier *classifier = superclasses.first(); classifier; classifier = superclasses.next())
+    for (UMLClassifier *classifier = superclasses.first(); classifier; classifier = superclasses.next())
         writeClassifier(classifier, XMLschema);
 
 }
@@ -258,7 +258,7 @@ void XMLSchemaWriter::writeGroupClassifierDecl (UMLClassifier *c,
     XMLschema<<getIndent()<<"<"<<makeSchemaTag("choice")<<">"<<m_endl;
     m_indentLevel++;
 
-    for(UMLClassifier *classifier = subclasses.first(); classifier; classifier = subclasses.next()) {
+    for (UMLClassifier *classifier = subclasses.first(); classifier; classifier = subclasses.next()) {
         writeAssociationRoleDecl(classifier, "1", XMLschema);
     }
 
@@ -299,14 +299,14 @@ void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
 
     XMLschema<<getIndent()<<"<"<<makeSchemaTag("complexType")<<" name=\""<<elementTypeName<<"\"";
 
-    if(hasAssociations || hasAttributes || hasSuperclass)
+    if (hasAssociations || hasAttributes || hasSuperclass)
     {
 
         XMLschema<<">"<<m_endl;
 
         m_indentLevel++;
 
-        if(hasSuperclass)
+        if (hasSuperclass)
         {
             QString superClassName = getElementTypeName(superclasses.first());
             XMLschema<<getIndent()<<"<"<<makeSchemaTag("complexContent")<<">"<<m_endl;
@@ -315,7 +315,7 @@ void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
             m_indentLevel++;
             XMLschema<<getIndent()<<"<"<<makeSchemaTag("extension")<<" base=\""<<makePackageTag(superClassName)
             <<"\"";
-            if(hasAssociations || hasAttributes )
+            if (hasAssociations || hasAttributes )
                 XMLschema<<">"<<m_endl;
             else
                 XMLschema<<"/>"<<m_endl;
@@ -323,7 +323,7 @@ void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
             m_indentLevel++;
         }
 
-        if(hasAssociations)
+        if (hasAssociations)
         {
             // Child Elements (from most associations)
             //
@@ -340,7 +340,7 @@ void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
 
         // ATTRIBUTES
         //
-        if(hasAttributes)
+        if (hasAttributes)
         {
             writeAttributeDecls(attribs, XMLschema);
             for (int i= 0; i < attribGroups.count(); i++)
@@ -348,11 +348,11 @@ void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
                 <<makePackageTag(attribGroups[i])<<"\"/>"<<m_endl;
         }
 
-        if(hasSuperclass)
+        if (hasSuperclass)
         {
             m_indentLevel--;
 
-            if(hasAssociations || hasAttributes )
+            if (hasAssociations || hasAttributes )
                 XMLschema<<getIndent()<<"</"<<makeSchemaTag("extension")<<">"<<m_endl;
 
             m_indentLevel--;
@@ -391,11 +391,11 @@ void XMLSchemaWriter::writeConcreteClassifier (UMLClassifier *c, QTextStream &XM
     writeChildObjsInAssociation(c, compositions, XMLschema);
 
     // write out any superclasses as needed
-    for(UMLClassifier *classifier = superclasses.first(); classifier; classifier = superclasses.next())
+    for (UMLClassifier *classifier = superclasses.first(); classifier; classifier = superclasses.next())
         writeClassifier(classifier, XMLschema);
 
     // write out any subclasses as needed
-    for(UMLClassifier *classifier = subclasses.first(); classifier; classifier = subclasses.next())
+    for (UMLClassifier *classifier = subclasses.first(); classifier; classifier = subclasses.next())
         writeClassifier(classifier, XMLschema);
 }
 
@@ -406,9 +406,9 @@ QStringList XMLSchemaWriter::findAttributeGroups (UMLClassifier *c)
     // have attributes, then we need to notice
     QStringList list;
     UMLClassifierList superclasses = c->findSuperClassConcepts(); // list of what inherits from us
-    for(UMLClassifier *classifier = superclasses.first(); classifier; classifier = superclasses.next())
+    for (UMLClassifier *classifier = superclasses.first(); classifier; classifier = superclasses.next())
     {
-        if(classifier->getAbstract())
+        if (classifier->getAbstract())
         {
             // only classes have attributes..
             if (!classifier->isInterface()) {
@@ -436,10 +436,10 @@ void XMLSchemaWriter::writeChildObjsInAssociation (UMLClassifier *c,
 {
 
     UMLObjectList list = findChildObjsInAssociations (c, assoc);
-    for(UMLObject * obj = list.first(); obj; obj = list.next())
+    for (UMLObject * obj = list.first(); obj; obj = list.next())
     {
         UMLClassifier * thisClassifier = dynamic_cast<UMLClassifier*>(obj);
-        if(thisClassifier)
+        if (thisClassifier)
             writeClassifier(thisClassifier, XMLschema);
     }
 }
@@ -459,7 +459,7 @@ void XMLSchemaWriter::writeAttributeDecls(UMLAttributeList &attribs, QTextStream
 {
 
     UMLAttribute *at;
-    for(at=attribs.first(); at; at=attribs.next())
+    for (at=attribs.first(); at; at=attribs.next())
     {
         writeAttributeDecl(at,XMLschema);
     }
@@ -474,7 +474,7 @@ void XMLSchemaWriter::writeAttributeDecl(UMLAttribute *attrib, QTextStream &XMLs
     bool isStatic = attrib->getStatic();
     QString initialValue = fixInitialStringDeclValue(attrib->getInitialValue(), typeName);
 
-    if(!documentation.isEmpty())
+    if (!documentation.isEmpty())
         writeComment(documentation, XMLschema);
 
     XMLschema<<getIndent()<<"<"<<makeSchemaTag("attribute")
@@ -482,11 +482,11 @@ void XMLSchemaWriter::writeAttributeDecl(UMLAttribute *attrib, QTextStream &XMLs
     <<" type=\""<<typeName<<"\"";
 
     // default value?
-    if(!initialValue.isEmpty())
+    if (!initialValue.isEmpty())
     {
         // IF its static, then we use "fixed", otherwise, we use "default" decl.
         // For the default decl, we _must_ use "optional" decl
-        if(isStatic)
+        if (isStatic)
             XMLschema<<" use=\"required\" fixed=\""<<initialValue<<"\"";
         else
             XMLschema<<" use=\"optional\" default=\""<<initialValue<<"\"";
@@ -510,7 +510,7 @@ void XMLSchemaWriter::writeAttributeGroupDecl (const QString &elementName, UMLAt
 
         m_indentLevel++;
 
-        for( UMLAttribute *at=attribs.first(); at; at=attribs.next())
+        for ( UMLAttribute *at=attribs.first(); at; at=attribs.next())
         {
             writeAttributeDecl(at,XMLschema);
         }
@@ -553,11 +553,11 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
         bool noRoleNameOK, bool didFirstOne, Uml::IDType id, QTextStream &XMLschema)
 {
 
-    if( !associations.isEmpty() )
+    if ( !associations.isEmpty() )
     {
         bool printRoleA = false, printRoleB = false;
 
-        for(UMLAssociation *a = associations.first(); a; a = associations.next())
+        for (UMLAssociation *a = associations.first(); a; a = associations.next())
         {
             // it may seem counter intuitive, but you want to insert the role of the
             // *other* class into *this* class.
@@ -574,7 +574,7 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
                 writeComment(a->getDoc(), XMLschema);
 
             // opening for sequence
-            if(!didFirstOne && (printRoleA || printRoleB))
+            if (!didFirstOne && (printRoleA || printRoleB))
             {
                 didFirstOne = true;
                 XMLschema<<getIndent()<<"<"<<makeSchemaTag("sequence")<<">"<<m_endl;
@@ -620,7 +620,7 @@ UMLObjectList XMLSchemaWriter::findChildObjsInAssociations (UMLClassifier *c, UM
 {
     Uml::IDType id = c->getID();
     UMLObjectList list;
-    for(UMLAssociation *a = associations.first(); a; a = associations.next())
+    for (UMLAssociation *a = associations.first(); a; a = associations.next())
     {
         if (a->getObjectId(Uml::A) == id
                 && a->getVisibility(Uml::B) != Uml::Visibility::Private
@@ -673,10 +673,10 @@ void XMLSchemaWriter::writeAssociationRoleDecl( UMLClassifier *c, const QString 
         {
             // populate both with the actual value as long as our value isnt an asterix
             // In that case, use special value (from above)
-            if(values[0].contains(QRegExp("\\d{1,}")))
+            if (values[0].contains(QRegExp("\\d{1,}")))
                 minOccurs = values[0]; // use first number in sequence
 
-            if(values[values.count()-1].contains(QRegExp("\\d{1,}")))
+            if (values[values.count()-1].contains(QRegExp("\\d{1,}")))
                 maxOccurs = values[values.count()-1]; // use only last number in sequence
         }
     }

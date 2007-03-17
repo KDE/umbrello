@@ -8,8 +8,8 @@
  *  copyright (C) 2002-2006                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
- 
- /* Created By Krzywda Stanislas and Bouchikhi Mohamed-Amine ;) */
+
+/* Created By Krzywda Stanislas and Bouchikhi Mohamed-Amine ;) */
 
 #include "cmd_changeFillColor.h"
 #include "uml.h"

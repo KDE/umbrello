@@ -255,7 +255,7 @@ struct NameAndType {
                 Uml::Parameter_Direction direction = Uml::pd_In,
                 QString initialValue = QString::null)
             : m_name(name), m_type(type),
-              m_direction(direction), m_initialValue(initialValue) {
+            m_direction(direction), m_initialValue(initialValue) {
     }
 };
 

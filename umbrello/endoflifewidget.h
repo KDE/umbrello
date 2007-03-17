@@ -29,7 +29,7 @@ class UMLOperation;
  *
  * The EndOfLifeWidget class inherits from the @ref UMLWidget class which adds most of the functionality
  * to this class.
- * 
+ *
  * A EndOfLifeWidgetWidget is used to show that an object in sequence diagram is dead
  *
  * @short  A graphical version of a UML EndOfLifeWidget (new in UML 2.0).
@@ -40,7 +40,7 @@ class EndOfLifeWidget : public UMLWidget {
     Q_OBJECT
 
 public:
-   
+
     /**
      * Creates a End Of Life widget.
      *
@@ -81,7 +81,7 @@ public:
     /**
      * Calculates the size of the widget by calling
      */
-     void calculateDimensions();
+    void calculateDimensions();
 
 
     /**
@@ -108,7 +108,7 @@ public:
      */
     bool loadFromXMI( QDomElement & qElement );
 
-	ObjectWidget * m_pOw[1];
+    ObjectWidget * m_pOw[1];
 
 protected:
     /**
@@ -116,7 +116,7 @@ protected:
      */
     QSize calculateSize();
 
-   
+
 public slots:
 
     /**
@@ -126,7 +126,7 @@ public slots:
     void slotWidgetMoved(Uml::IDType id);
 
 private:
-    
+
     int m_nY;
 };
 

@@ -21,10 +21,10 @@
 #include "overwritedialogue.h"
 
 OverwriteDialogue::OverwriteDialogue(
-        const QString& fileName,
-        const QString& outputDirectory,
-        bool applyToAllRemaining, QWidget* parent)
-    :KDialog(parent) {
+    const QString& fileName,
+    const QString& outputDirectory,
+    bool applyToAllRemaining, QWidget* parent)
+        :KDialog(parent) {
     setCaption( i18n("Destination File Already Exists") );
     setButtons( Help | Ok | Cancel );
     setDefaultButton( Yes );

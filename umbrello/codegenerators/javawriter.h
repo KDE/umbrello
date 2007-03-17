@@ -5,7 +5,7 @@
     source code is not replicated in the XMI file.
                              -------------------
     copyright            : (C) 2003 Brian Thomas
-         (C) 2004  Umbrello UML Modeller Authors <uml-devel@uml.sf.net> 
+         (C) 2004  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
  ***************************************************************************/
 
 /***************************************************************************
@@ -106,11 +106,11 @@ private:
      */
     void getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOperationList &opl);
 
-     /**
-     * write all operations for a given class
-     * @param c the class for which we are generating code
-     * @param j the stream associated with the output file
-     */
+    /**
+    * write all operations for a given class
+    * @param c the class for which we are generating code
+    * @param j the stream associated with the output file
+    */
     void writeOperations(UMLClassifier *c, QTextStream &j);
 
     /**

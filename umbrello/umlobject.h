@@ -136,7 +136,7 @@ public:
     /**
      * Method used by setVisibility: its called by  cmdSetVisibility, Don't use it!
      */
-     void setVisibilitycmd(Uml::Visibility s);
+    void setVisibilitycmd(Uml::Visibility s);
 
     /**
      * Sets the classes stereotype name.

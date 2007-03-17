@@ -118,7 +118,7 @@ private:
       * @param cs output stream
       */
     void writeOverridesRecursive(UMLClassifierList *superclasses, QTextStream &cs);
-    
+
     /** write all the attributes of a class
       * @param c the class we are generating code for
       * @param cs output stream
@@ -136,7 +136,7 @@ private:
       * @param associated list of associated objects
       * @param c currently written class, to see association direction
       * @param cs output stream
-      */ 
+      */
     void writeAssociatedAttributes(UMLAssociationList &associated, UMLClassifier *c, QTextStream &cs);
 
     /**

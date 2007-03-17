@@ -52,7 +52,7 @@ void CPPHeaderCodeClassFieldDeclarationBlock::updateContent( )
     // Set the comment
     QString notes = umlparent->getDoc();
     getComment()->setText(notes);
-    if(notes.isEmpty())
+    if (notes.isEmpty())
         getComment()->setWriteOutText(false);
     else
         getComment()->setWriteOutText(true);

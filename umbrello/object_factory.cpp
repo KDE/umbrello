@@ -43,7 +43,6 @@
 #include "codegenerator.h"
 #include "model_utils.h"
 #include "uniqueid.h"
-#include "cmds.h"
 
 namespace Object_Factory {
 
@@ -64,61 +63,61 @@ UMLObject* createNewUMLObject(Uml::Object_Type type, const QString &name,
                               UMLPackage *parentPkg) {
     if (parentPkg == NULL) {
         kError() << "Object_Factory::createNewUMLObject(" << name
-            << "): parentPkg is NULL" << endl;
+        << "): parentPkg is NULL" << endl;
         return NULL;
     }
     UMLObject *o = NULL;
     switch (type) {
-        case Uml::ot_Actor:
-            o = new UMLActor(name, g_predefinedId);
-            break;
-        case Uml::ot_UseCase:
-            o = new UMLUseCase(name, g_predefinedId);
-            break;
-        case Uml::ot_Class:
-            o = new UMLClassifier(name, g_predefinedId);
-            break;
-        case Uml::ot_Package:
-            o = new UMLPackage(name, g_predefinedId);
-            break;
-        case Uml::ot_Component:
-            o = new UMLComponent(name, g_predefinedId);
-            break;
-        case Uml::ot_Node:
-            o = new UMLNode(name, g_predefinedId);
-            break;
-        case Uml::ot_Artifact:
-            o = new UMLArtifact(name, g_predefinedId);
-            break;
-        case Uml::ot_Interface: {
-            UMLClassifier *c = new UMLClassifier(name, g_predefinedId);
-            c->setBaseType(Uml::ot_Interface);
-            o = c;
-            break;
-        }
-        case Uml::ot_Datatype: {
-            UMLClassifier *c = new UMLClassifier(name, g_predefinedId);
-            c->setBaseType(Uml::ot_Datatype);
-            o = c;
-            break;
-        }
-        case Uml::ot_Enum:
-            o = new UMLEnum(name, g_predefinedId);
-            break;
-        case Uml::ot_Entity:
-            o = new UMLEntity(name, g_predefinedId);
-            break;
-        case Uml::ot_Folder:
-            o = new UMLFolder(name, g_predefinedId);
-            break;
-        default:
-            kWarning() << "createNewUMLObject error unknown type: " << type << endl;
-            return NULL;
+    case Uml::ot_Actor:
+        o = new UMLActor(name, g_predefinedId);
+        break;
+    case Uml::ot_UseCase:
+        o = new UMLUseCase(name, g_predefinedId);
+        break;
+    case Uml::ot_Class:
+        o = new UMLClassifier(name, g_predefinedId);
+        break;
+    case Uml::ot_Package:
+        o = new UMLPackage(name, g_predefinedId);
+        break;
+    case Uml::ot_Component:
+        o = new UMLComponent(name, g_predefinedId);
+        break;
+    case Uml::ot_Node:
+        o = new UMLNode(name, g_predefinedId);
+        break;
+    case Uml::ot_Artifact:
+        o = new UMLArtifact(name, g_predefinedId);
+        break;
+    case Uml::ot_Interface: {
+        UMLClassifier *c = new UMLClassifier(name, g_predefinedId);
+        c->setBaseType(Uml::ot_Interface);
+        o = c;
+        break;
+    }
+    case Uml::ot_Datatype: {
+        UMLClassifier *c = new UMLClassifier(name, g_predefinedId);
+        c->setBaseType(Uml::ot_Datatype);
+        o = c;
+        break;
+    }
+    case Uml::ot_Enum:
+        o = new UMLEnum(name, g_predefinedId);
+        break;
+    case Uml::ot_Entity:
+        o = new UMLEntity(name, g_predefinedId);
+        break;
+    case Uml::ot_Folder:
+        o = new UMLFolder(name, g_predefinedId);
+        break;
+    default:
+        kWarning() << "createNewUMLObject error unknown type: " << type << endl;
+        return NULL;
     }
     o->setUMLPackage(parentPkg);
+    UMLDoc *doc = UMLApp::app()->getDocument();
     parentPkg->addObject(o);
-
-    UMLApp::app()->executeCommand(new Uml::cmdCreateUMLObject(o));
+    doc->signalUMLObjectCreated(o);
     kapp->processEvents();
     return o;
 }
@@ -130,7 +129,7 @@ UMLObject* createUMLObject(Uml::Object_Type type, const QString &n,
     if (parentPkg == NULL) {
         Uml::Model_Type mt = Model_Utils::convert_OT_MT(type);
         kDebug() << "Object_Factory::createUMLObject(" << n << "): "
-            << "parentPkg is not set, assuming Model_Type " << mt << endl;
+        << "parentPkg is not set, assuming Model_Type " << mt << endl;
         parentPkg = doc->getRootFolder(mt);
     }
     if (!n.isEmpty()) {
@@ -192,30 +191,30 @@ UMLClassifierListItem* createChildObject(UMLClassifier* parent, Uml::Object_Type
     switch (type) {
     case Uml::ot_Attribute:
     case Uml::ot_EntityAttribute: {
-            UMLClassifier *c = dynamic_cast<UMLClassifier*>(parent);
-            if (c && !c->isInterface())
-                returnObject = c->createAttribute();
-            break;
-        }
+        UMLClassifier *c = dynamic_cast<UMLClassifier*>(parent);
+        if (c && !c->isInterface())
+            returnObject = c->createAttribute();
+        break;
+    }
     case Uml::ot_Operation: {
-            UMLClassifier *c = dynamic_cast<UMLClassifier*>(parent);
-            if (c)
-                returnObject = c->createOperation();
-            break;
-        }
+        UMLClassifier *c = dynamic_cast<UMLClassifier*>(parent);
+        if (c)
+            returnObject = c->createOperation();
+        break;
+    }
     case Uml::ot_Template: {
-            UMLClassifier *c = dynamic_cast<UMLClassifier*>(parent);
-            if (c)
-                returnObject = c->createTemplate();
-            break;
-        }
+        UMLClassifier *c = dynamic_cast<UMLClassifier*>(parent);
+        if (c)
+            returnObject = c->createTemplate();
+        break;
+    }
     case Uml::ot_EnumLiteral: {
-            UMLEnum* umlenum = dynamic_cast<UMLEnum*>(parent);
-            if (umlenum) {
-                returnObject = umlenum->createEnumLiteral();
-            }
-            break;
+        UMLEnum* umlenum = dynamic_cast<UMLEnum*>(parent);
+        if (umlenum) {
+            returnObject = umlenum->createEnumLiteral();
         }
+        break;
+    }
     default:
         kDebug() << "ERROR UMLDoc::createChildObject type:" << type << endl;
     }

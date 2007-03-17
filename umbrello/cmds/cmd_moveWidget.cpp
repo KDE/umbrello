@@ -32,60 +32,60 @@
 namespace Uml
 {
 
-	cmdMoveWidget::cmdMoveWidget(UMLWidgetController* _UMLwc):QUndoCommand(),UMLwc(_UMLwc),already(false)
-	{	
-		UMLWidget * w = _UMLwc->getWidget();
-		setText(i18n("Move widget :") + w->getName());
-		X = w->getX();
-		Y = w->getY();
-		oldX = _UMLwc->getOldX();
-		oldY = _UMLwc->getOldY();
-	}
-	
-	cmdMoveWidget::~cmdMoveWidget()
-	{
+cmdMoveWidget::cmdMoveWidget(UMLWidgetController* _UMLwc):QUndoCommand(),UMLwc(_UMLwc),already(false)
+{
+    UMLWidget * w = _UMLwc->getWidget();
+    setText(i18n("Move widget :") + w->getName());
+    X = w->getX();
+    Y = w->getY();
+    oldX = _UMLwc->getOldX();
+    oldY = _UMLwc->getOldY();
+}
 
-	}
-	
-	void cmdMoveWidget::redo()
-	{
+cmdMoveWidget::~cmdMoveWidget()
+{
 
-		UMLwc->insertSaveValues(oldX,oldY,X,Y);
-		  UMLwc->widgetMoved();
+}
 
-		//UMLWidget * w = 
-		//UMLwc->reverseOldNewValues();
-		//UMLwc->widgetMoved();
-		//UMLwc->moveWidget(diffX,diffY);
-		//UMLwc->moveWidget(10,10);
-		//widget->getWidgetController()->moveWidgetBy(diffX, diffY);
-	}
-	
-	void cmdMoveWidget::undo()
-	{	
-		int tempX;
-		int tempY;
+void cmdMoveWidget::redo()
+{
 
-		//UMLWidget * w = 
-		UMLwc->insertSaveValues(X,Y,oldX,oldY);
-		UMLwc->widgetMoved();
-    		//w->setX(oldX);
-    		//w->setY(oldY);
-		
-		//UMLwc->moveWidget(w->getX() - oldX,w->getY() - oldY);
+    UMLwc->insertSaveValues(oldX,oldY,X,Y);
+    UMLwc->widgetMoved();
 
-	//UMLwc->moveWidget(-10,-10);
+    //UMLWidget * w =
+    //UMLwc->reverseOldNewValues();
+    //UMLwc->widgetMoved();
+    //UMLwc->moveWidget(diffX,diffY);
+    //UMLwc->moveWidget(10,10);
+    //widget->getWidgetController()->moveWidgetBy(diffX, diffY);
+}
 
-		//UMLwc->moveWidget(-diffX,-diffY);
-		//widget->getWidgetController()->moveWidgetBy(-diffX, -diffY);
-	}
+void cmdMoveWidget::undo()
+{
+    int tempX;
+    int tempY;
 
-	bool cmdMoveWidget::mergeWith(const QUndoCommand* other) {
-		const cmdMoveWidget* otherCmd = static_cast<const cmdMoveWidget*>(other);
-		if (UMLwc != otherCmd->UMLwc)
-			return false;
-		X = otherCmd->X;
-		Y = otherCmd->Y;
-		return true;
-	}
+    //UMLWidget * w =
+    UMLwc->insertSaveValues(X,Y,oldX,oldY);
+    UMLwc->widgetMoved();
+    //w->setX(oldX);
+    //w->setY(oldY);
+
+    //UMLwc->moveWidget(w->getX() - oldX,w->getY() - oldY);
+
+    //UMLwc->moveWidget(-10,-10);
+
+    //UMLwc->moveWidget(-diffX,-diffY);
+    //widget->getWidgetController()->moveWidgetBy(-diffX, -diffY);
+}
+
+bool cmdMoveWidget::mergeWith(const QUndoCommand* other) {
+    const cmdMoveWidget* otherCmd = static_cast<const cmdMoveWidget*>(other);
+    if (UMLwc != otherCmd->UMLwc)
+        return false;
+    X = otherCmd->X;
+    Y = otherCmd->Y;
+    return true;
+}
 }

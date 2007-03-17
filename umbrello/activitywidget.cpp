@@ -64,6 +64,7 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing();
+            //int middleX = w / 2;
             int textStartY = (h / 2) - (fontHeight / 2);
             p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
             p.setPen(Qt::black);
@@ -72,6 +73,7 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
 			   
         }
+        UMLWidget::setPen(p);
         break;
 
     case Initial :
@@ -175,7 +177,7 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
         p.fillRect( offsetX, offsetY, width(), height(), QBrush( Qt::darkYellow ));
         break;
     }
-    if(m_bSelected)
+    if (m_bSelected)
         drawSelected(&p, offsetX, offsetY);
 }
 
@@ -194,7 +196,7 @@ QSize ActivityWidget::calculateSize() {
 		
         if (m_ActivityType == Invok)
         {
-             height += 40;
+            height += 40;
         }
         else if ( m_ActivityType == Param) {
         	QString maxSize;
@@ -235,10 +237,10 @@ void ActivityWidget::slotMenuSelection(int sel) {
     bool ok = false;
     QString name = m_Text;
 
-    switch( sel ) {
+    switch ( sel ) {
     case ListPopupMenu::mt_Rename:
         name = KInputDialog::getText( i18n("Enter Activity Name"), i18n("Enter the name of the new activity:"), m_Text, &ok );
-        if( ok && name.length() > 0 )
+        if ( ok && name.length() > 0 )
             m_Text = name;
         done = true;
         break;
@@ -249,7 +251,7 @@ void ActivityWidget::slotMenuSelection(int sel) {
         break;
     }
 
-    if( !done )
+    if ( !done )
         UMLWidget::slotMenuSelection( sel );
 }
 
@@ -311,7 +313,7 @@ void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 }
 
 bool ActivityWidget::loadFromXMI( QDomElement & qElement ) {
-    if( !UMLWidget::loadFromXMI( qElement ) )
+    if ( !UMLWidget::loadFromXMI( qElement ) )
         return false;
     m_Text = qElement.attribute( "activityname", "" );
     m_Doc = qElement.attribute( "documentation", "" );

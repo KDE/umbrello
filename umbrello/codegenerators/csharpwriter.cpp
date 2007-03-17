@@ -28,86 +28,86 @@
 #include "../umlnamespace.h"
 
 static const char *reserved_words[] = {
-    "abstract",
-    "as",
-    "base",
-    "bool",
-    "break",
-    "byte",
-    "case",
-    "catch",
-    "char",
-    "checked",
-    "class",
-    "const",
-    "continue",
-    "decimal",
-    "default",
-    "delegate",
-    "do",
-    "double",
-    "else",
-    "enum",
-    "event",
-    "explicit",
-    "extern",
-    "false",
-    "finally",
-    "for",
-    "foreach",
-    "goto",
-    "if",
-    "implicit",
-    "in",
-    "int",
-    "interface",
-    "internal",
-    "is",
-    "lock",
-    "long",
-    "namespace",
-    "new",
-    "null",
-    "object",
-    "operator",
-    "out",
-    "override",
-    "params",
-    "private",
-    "protected",
-    "public",
-    "readonly",
-    "ref",
-    "return",
-    "sbyte",
-    "sealed",
-    "short",
-    "sizeof",
-    "stackalloc",
-    "static",
-    "string",
-    "struct",
-    "switch",
-    "this",
-    "throw",
-    "true",
-    "try",
-    "typeof",
-    "uint",
-    "ulong",
-    "unchecked",
-    "unsafe",
-    "ushort",
-    "using",
-    "virtual",
-    "void",
-    "volatile",
-    "while",
-    0
-};
+                                          "abstract",
+                                          "as",
+                                          "base",
+                                          "bool",
+                                          "break",
+                                          "byte",
+                                          "case",
+                                          "catch",
+                                          "char",
+                                          "checked",
+                                          "class",
+                                          "const",
+                                          "continue",
+                                          "decimal",
+                                          "default",
+                                          "delegate",
+                                          "do",
+                                          "double",
+                                          "else",
+                                          "enum",
+                                          "event",
+                                          "explicit",
+                                          "extern",
+                                          "false",
+                                          "finally",
+                                          "for",
+                                          "foreach",
+                                          "goto",
+                                          "if",
+                                          "implicit",
+                                          "in",
+                                          "int",
+                                          "interface",
+                                          "internal",
+                                          "is",
+                                          "lock",
+                                          "long",
+                                          "namespace",
+                                          "new",
+                                          "null",
+                                          "object",
+                                          "operator",
+                                          "out",
+                                          "override",
+                                          "params",
+                                          "private",
+                                          "protected",
+                                          "public",
+                                          "readonly",
+                                          "ref",
+                                          "return",
+                                          "sbyte",
+                                          "sealed",
+                                          "short",
+                                          "sizeof",
+                                          "stackalloc",
+                                          "static",
+                                          "string",
+                                          "struct",
+                                          "switch",
+                                          "this",
+                                          "throw",
+                                          "true",
+                                          "try",
+                                          "typeof",
+                                          "uint",
+                                          "ulong",
+                                          "unchecked",
+                                          "unsafe",
+                                          "ushort",
+                                          "using",
+                                          "virtual",
+                                          "void",
+                                          "volatile",
+                                          "while",
+                                          0
+                                      };
 
 CSharpWriter::CSharpWriter()
- : SimpleCodeGenerator()
+        : SimpleCodeGenerator()
 {
 }
 
@@ -257,7 +257,7 @@ void CSharpWriter::writeClass(UMLClassifier *c) {
             }
             if (supers > 1) {
                 cs << m_endl << "//WARNING: C# does not support multiple inheritance but there is more than 1 superclass defined in your UML model!" << m_endl;
-        }
+            }
         }
         //check for realizations
         UMLAssociationList realizations = c->getRealizations();
@@ -266,7 +266,7 @@ void CSharpWriter::writeClass(UMLClassifier *c) {
         if (!realizations.isEmpty()) {
             for (a = realizations.first(); a; a = realizations.next()) {
                 UMLClassifier *real = (UMLClassifier*)a->getObject(Uml::B);
-                if(real != c) {
+                if (real != c) {
                     // write list of realizations
                     cs << ", " << real->getName();
                 }
@@ -303,7 +303,7 @@ void CSharpWriter::writeClass(UMLClassifier *c) {
 
     if (container) {
         cs << "}  // end of namespace "
-            << container->getFullyQualifiedName(".") << m_endl << m_endl;
+        << container->getFullyQualifiedName(".") << m_endl << m_endl;
     }
 
     //close files and notfiy we are done
@@ -330,16 +330,16 @@ void CSharpWriter::writeOperations(UMLClassifier *c, QTextStream &cs) {
     UMLOperationList opl(c->getOpList());
     for (UMLOperation *op = opl.first(); op ; op = opl.next()) {
         switch (op->getVisibility()) {
-          case Uml::Visibility::Public:
+        case Uml::Visibility::Public:
             oppub.append(op);
             break;
-          case Uml::Visibility::Protected:
+        case Uml::Visibility::Protected:
             opprot.append(op);
             break;
-          case Uml::Visibility::Private:
+        case Uml::Visibility::Private:
             oppriv.append(op);
             break;
-          default:
+        default:
             break;
         }
     }
@@ -442,9 +442,9 @@ void CSharpWriter::writeRealizationsRecursive(UMLClassifier *currentClass, UMLAs
 }
 
 void CSharpWriter::writeOperations(UMLOperationList opList,
-                                 QTextStream &cs, bool isInterface /* = false */,
-                                 bool isOverride /* = false */,
-                                 bool generateErrorStub /* = false */) {
+                                   QTextStream &cs, bool isInterface /* = false */,
+                                   bool isOverride /* = false */,
+                                   bool generateErrorStub /* = false */) {
 
     for (UMLOperation *op=opList.first(); op ; op=opList.next()) {
         UMLAttributeList atl = op->getParmList();
@@ -557,16 +557,16 @@ void CSharpWriter::writeAttributes(UMLClassifier *c, QTextStream &cs) {
         if (!at->getInitialValue().isEmpty())
             atdefval.append(at);
         switch (at->getVisibility()) {
-          case Uml::Visibility::Public:
+        case Uml::Visibility::Public:
             atpub.append(at);
             break;
-          case Uml::Visibility::Protected:
+        case Uml::Visibility::Protected:
             atprot.append(at);
             break;
-          case Uml::Visibility::Private:
+        case Uml::Visibility::Private:
             atpriv.append(at);
             break;
-          default:
+        default:
             break;
         }
     }
@@ -604,7 +604,7 @@ void CSharpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &cs) {
             asProperty = false;
         }
         writeAttribute(at->getDoc(), at->getVisibility(), at->getStatic(),
-            makeLocalTypeName(at), at->getName(), at->getInitialValue(), asProperty, cs);
+                       makeLocalTypeName(at), at->getName(), at->getInitialValue(), asProperty, cs);
 
         cs << m_endl;
     } // end for

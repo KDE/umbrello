@@ -38,7 +38,7 @@ JavaCodeGenerationPolicy::JavaCodeGenerationPolicy(CodeGenerationPolicy *default
  */
 
 JavaCodeGenerationPolicy::JavaCodeGenerationPolicy(KConfig *config)
-  //      : CodeGenerationPolicy(config)
+//      : CodeGenerationPolicy(config)
 {
     init();
     setDefaults(config,false);
@@ -123,7 +123,7 @@ void JavaCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * clone, bool emit
 
 
     // now do java-specific stuff IF our clone is also a JavaCodeGenerationPolicy object
-    if((jclone = dynamic_cast<JavaCodeGenerationPolicy*>(clone)))
+    if ((jclone = dynamic_cast<JavaCodeGenerationPolicy*>(clone)))
     {
         setAutoGenerateAttribAccessors(jclone->getAutoGenerateAttribAccessors());
         setAutoGenerateAssocAccessors(jclone->getAutoGenerateAssocAccessors());
@@ -131,7 +131,7 @@ void JavaCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * clone, bool emit
 
     blockSignals(false); // "as you were citizen"
 
-    if(emitUpdateSignal)
+    if (emitUpdateSignal)
         m_commonPolicy->emitModifiedCodeContentSig();
 
 }
@@ -139,7 +139,7 @@ void JavaCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * clone, bool emit
 void JavaCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSignal )
 {
 
-    if(!config)
+    if (!config)
         return;
 
     // call method at the common policy to init default stuff
@@ -165,7 +165,7 @@ void JavaCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSig
 
     blockSignals(false); // "as you were citizen"
 
-    if(emitUpdateSignal)
+    if (emitUpdateSignal)
         m_commonPolicy->emitModifiedCodeContentSig();
 }
 

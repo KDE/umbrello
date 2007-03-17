@@ -26,7 +26,7 @@
 #include "object_factory.h"
 
 ClassifierWidget::ClassifierWidget(UMLView * view, UMLClassifier *c)
-  : UMLWidget(view, c) {
+        : UMLWidget(view, c) {
     init();
     if (c != NULL && c->isInterface()) {
         WidgetBase::setBaseType(Uml::wt_Interface);
@@ -56,7 +56,7 @@ void ClassifierWidget::init() {
     /* setShowOpSigs( ops.classState.showOpSig );
       Cannot do that because we get "pure virtual method called". Open code:
      */
-    if( !ops.classState.showOpSig ) {
+    if ( !ops.classState.showOpSig ) {
         if (m_bShowAccess)
             m_ShowOpSigs = Uml::st_NoSig;
         else
@@ -97,7 +97,7 @@ void ClassifierWidget::updateSigs() {
     } else {
         if (m_ShowAttSigs == Uml::st_ShowSig)
             m_ShowAttSigs = Uml::st_SigNoVis;
-        else if(m_ShowAttSigs == Uml::st_NoSig)
+        else if (m_ShowAttSigs == Uml::st_NoSig)
             m_ShowAttSigs = Uml::st_NoSigNoVis;
     }
     updateComponentSize();
@@ -169,7 +169,7 @@ Uml::Signature_Type ClassifierWidget::getShowOpSigs() const {
 }
 
 void ClassifierWidget::setShowOpSigs(bool _status) {
-    if( !_status ) {
+    if ( !_status ) {
         if (m_bShowAccess)
             m_ShowOpSigs = Uml::st_NoSig;
         else
@@ -238,7 +238,7 @@ void ClassifierWidget::setAttSignature(Uml::Signature_Type sig) {
 }
 
 void ClassifierWidget::setShowAttSigs(bool _status) {
-    if( !_status ) {
+    if ( !_status ) {
         if (m_bShowAccess)
             m_ShowAttSigs = Uml::st_NoSig;
         else
@@ -284,7 +284,7 @@ int ClassifierWidget::displayedMembers(Uml::Object_Type ot) {
     int count = 0;
     UMLClassifierListItemList list = getClassifier()->getFilteredList(ot);
     for (UMLClassifierListItem *m = list.first(); m; m = list.next()) {
-      if (!(m_bShowPublicOnly && m->getVisibility() != Uml::Visibility::Public))
+        if (!(m_bShowPublicOnly && m->getVisibility() != Uml::Visibility::Public))
             count++;
     }
     return count;
@@ -359,7 +359,7 @@ QSize ClassifierWidget::calculateSize() {
         // ... width
         UMLOperationList list(getClassifier()->getOpList());
         for (UMLOperation* op = list.first(); op; op = list.next()) {
-                  if (m_bShowPublicOnly && op->getVisibility() != Uml::Visibility::Public)
+            if (m_bShowPublicOnly && op->getVisibility() != Uml::Visibility::Public)
                 continue;
             const QString displayedOp = op->toString(m_ShowOpSigs);
             UMLWidget::FontType oft;
@@ -397,15 +397,15 @@ void ClassifierWidget::slotMenuSelection(int sel) {
     switch (mt) {
     case ListPopupMenu::mt_Attribute:
     case ListPopupMenu::mt_Operation:
-        {
-            UMLDoc *doc = UMLApp::app()->getDocument();
-            Uml::Object_Type ot = ListPopupMenu::convert_MT_OT(mt);
-            if (Object_Factory::createChildObject(getClassifier(), ot))
-                doc->setModified();
-            updateComponentSize();
-            update();
-            break;
-        }
+    {
+        UMLDoc *doc = UMLApp::app()->getDocument();
+        Uml::Object_Type ot = ListPopupMenu::convert_MT_OT(mt);
+        if (Object_Factory::createChildObject(getClassifier(), ot))
+            doc->setModified();
+        updateComponentSize();
+        update();
+        break;
+    }
     case ListPopupMenu::mt_Show_Operations:
     case ListPopupMenu::mt_Show_Operations_Selection:
         toggleShowOps();
@@ -689,7 +689,7 @@ void ClassifierWidget::drawMembers(QPainter & p, Uml::Object_Type ot, Uml::Signa
     f.setBold(false);
     UMLClassifierListItemList list = getClassifier()->getFilteredList(ot);
     for (UMLClassifierListItem *obj = list.first(); obj; obj = list.next()) {
-          if (m_bShowPublicOnly && obj->getVisibility() != Uml::Visibility::Public)
+        if (m_bShowPublicOnly && obj->getVisibility() != Uml::Visibility::Public)
             continue;
         QString text = obj->toString(sigType);
         f.setItalic( obj->getAbstract() );
