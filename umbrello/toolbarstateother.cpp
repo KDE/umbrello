@@ -205,25 +205,11 @@ bool ToolBarStateOther::newWidget() {
         FloatingTextWidget* ft = (FloatingTextWidget*) umlWidget;
         ft->changeTextDlg();
     } else if (getButton() == WorkToolBar::tbb_Object_Flow) {
-        Dialog_Utils::askNameForWidget(
+    	Dialog_Utils::askNameForWidget(
             umlWidget, i18n("Enter Object Flow Name"),
-            i18n("Enter Object Flow"), i18n("new object flow"));
-    } else if (getButton() == WorkToolBar::tbb_PrePostCondition) {
-        dynamic_cast<NoteWidget*>(umlWidget)->askForNoteType(
-            umlWidget, i18n("Select a note type"),
-            i18n("Select a note type"), i18n("Note type"));
-	}	//else if (getButton() == WorkToolBar::tbb_PrePostCondition) {
-		//Dialog_Utils::askForNoteType(
-
-
-
-	 /*else if (getButton() == WorkToolBar::tbb_Object_Flow) {
-        Dialog_Utils::askNameForWidgetType(umlWidget, i18n("Enter Object Flow Name"),
-            i18n("Enter the Object Flow"), i18n("new Object Flow"));
-    } */
-
-
-
+            i18n("Enter object flow name"), i18n("new object flow"));
+       dynamic_cast<ObjectFlowWidget*>(umlWidget)->askStateForWidget();
+    } 
     // Create the widget. Some setup functions can remove the widget.
     if (umlWidget != NULL) {
         m_pUMLView->setupNewWidget(umlWidget);

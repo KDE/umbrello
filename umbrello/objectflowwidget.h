@@ -54,6 +54,26 @@ public:
      */
     void draw(QPainter & p, int offsetX, int offsetY);
 
+
+
+    /**
+     * Sets the state in m_Text
+     * 
+     * @param strState The state to be set
+     */
+   	virtual void setState(const QString &strState);
+    
+    /**
+     * Gets the state from the corresponding UMLObject.
+     * Returns the local m_Text if m_pObject is NULL.
+     *
+     * @return The currently set state.
+     */
+    virtual QString getState() const;
+
+
+	void askStateForWidget();
+
     /**
      * Returns the type of ObjectFlow.
      */
@@ -98,6 +118,12 @@ protected:
      * Overrides method from UMLWidget
      */
     QSize calculateSize();
+
+    /**
+     * State variable
+     */
+    QString m_State;
+
 
     /**
      * Type of ObjectFlow.

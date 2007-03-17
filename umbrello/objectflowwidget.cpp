@@ -19,7 +19,7 @@
 #include <klocale.h>
 #include <kdebug.h>
 #include <kinputdialog.h>
-
+#include <kdialog.h>
 // app includes
 #include "uml.h"
 #include "umldoc.h"
@@ -51,12 +51,23 @@ void ObjectFlowWidget::draw(QPainter & p, int offsetX, int offsetY) {
         { 
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL); 
             const int fontHeight  = fm.lineSpacing(); 
+            QString objectflow_value;
+            if(getState() == "-")
+            {
+            	objectflow_value = " ";
+            }
+            else
+            {
+            	objectflow_value = "[" + getState() + "]";
+            }
+            
             int textStartY = (h / 2) - (fontHeight / 2);
             p.drawRect(offsetX, offsetY, w, h); 
             p.drawLine(offsetX + 10, offsetY + (h/2) +3 , (offsetX + w)-10, offsetY + (h/2) +3 );
             p.setPen(Qt::black);
             p.setFont( UMLWidget::getFont() ); 
-            p.drawText(offsetX + OBJECTFLOW_MARGIN, (offsetY + textStartY/2), w - OBJECTFLOW_MARGIN * 2, fontHeight, Qt::AlignHCenter, getName());
+            p.drawText(offsetX + OBJECTFLOW_MARGIN, (offsetY + textStartY/2)- 4, w - OBJECTFLOW_MARGIN * 2, fontHeight, Qt::AlignHCenter, getName());
+            p.drawText(offsetX + OBJECTFLOW_MARGIN, (offsetY + textStartY/2) + (h/2) - 3, w - OBJECTFLOW_MARGIN * 2, fontHeight, Qt::AlignHCenter, objectflow_value);
         }
         UMLWidget::setPen(p);
     if(m_bSelected)
@@ -65,16 +76,47 @@ void ObjectFlowWidget::draw(QPainter & p, int offsetX, int offsetY) {
  
 QSize ObjectFlowWidget::calculateSize() {
     int width = 10, height = 10;
-        const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-        const int fontHeight  = fm.lineSpacing();
-        const int textWidth = fm.width(getName());
-        height = fontHeight;
-        width = textWidth > OBJECTFLOW_WIDTH ? textWidth  : OBJECTFLOW_WIDTH;
-        height = height + 5  > OBJECTFLOW_HEIGHT ? height + 5 : OBJECTFLOW_HEIGHT;
-        width += OBJECTFLOW_MARGIN * 2;
-        height += (OBJECTFLOW_MARGIN * 2);
+    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+    const int fontHeight  = fm.lineSpacing();
+    int textWidth = fm.width(getName());
+    if(fm.width(getState()) > textWidth)
+    	textWidth = fm.width(getState());
+    height = fontHeight;
+    width = textWidth > OBJECTFLOW_WIDTH ? textWidth  : OBJECTFLOW_WIDTH;
+    height = height + 5  > OBJECTFLOW_HEIGHT ? height + 5 : OBJECTFLOW_HEIGHT;
+    width += OBJECTFLOW_MARGIN * 2;
+    height += (OBJECTFLOW_MARGIN * 2);
 
-    return QSize(width, height); 
+    return QSize(width, height+5); 
+}
+
+void ObjectFlowWidget::setState(const QString &strState){
+	/*if (m_pObject)
+		m_pObject->setState(strState);
+	else*/
+		m_State = strState;
+	    updateComponentSize();
+    	adjustAssocs( getX(), getY() );	
+}
+
+QString ObjectFlowWidget::getState() const{
+	/*if (m_pObject)
+		return m_pObject->getState();*/
+	return m_State;
+}
+
+
+
+void ObjectFlowWidget::askStateForWidget(){
+							
+	bool pressedOK = false;
+	QString state = KInputDialog::getText(i18n("Enter Object Flow State"),
+        	i18n("Enter State (keep '-' if there's no state for the object) "),i18n("-"), &pressedOK, UMLApp::app());
+	if (pressedOK) {
+		setState(state);
+    } else {
+        cleanup();
+    }					
 }
 
 // void ObjectFlowWidget::slotMenuSelection(int sel) { 
@@ -116,39 +158,14 @@ QSize ObjectFlowWidget::calculateSize() {
 //      return true; 
  //}
 // 
-// bool ObjectFlowWidget::isObjectFlow(WorkToolBar::ToolBar_Buttons tbb,
-//                                 ObjectFlowType& resultType)
-// {
-//     bool status = true;
-//     switch (tbb) {
-//     case WorkToolBar::tbb_Initial_ObjectFlow:
-//         resultType = Initial;
-//         break;
-//     case WorkToolBar::tbb_ObjectFlow:
-//         resultType = Normal;
-//         break;
-//     case WorkToolBar::tbb_End_ObjectFlow:
-//         resultType = End;
-//         break;
-//     case WorkToolBar::tbb_Branch:
-//         resultType = Branch;
-//         break;
-//     case WorkToolBar::tbb_Fork:
-//         kError() << "ObjectFlowWidget::isObjectFlow returns Fork_DEPRECATED" << endl;
-//         resultType = Fork_DEPRECATED;
-//         break;
-//     default:
-//         status = false;
-//         break;
-//     }
-//     return status;
-// }
+
 
 void ObjectFlowWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) { 
     QDomElement ObjectFlowElement = qDoc.createElement( "objectflowwidget" );
     UMLWidget::saveToXMI( qDoc, ObjectFlowElement ); 
     ObjectFlowElement.setAttribute( "objectflowname", m_Text ); 
     ObjectFlowElement.setAttribute( "documentation", m_Doc ); 
+    ObjectFlowElement.setAttribute( "objectflowstate", m_State );
     qElement.appendChild( ObjectFlowElement ); 
 }
 
@@ -156,8 +173,8 @@ bool ObjectFlowWidget::loadFromXMI( QDomElement & qElement ) {
     if( !UMLWidget::loadFromXMI( qElement ) ) 
         return false; 
     m_Text = qElement.attribute( "objectflowname", "" ); 
-kDebug() << "load objectflowwidget from xmi !!!! " << m_Text << endl;
     m_Doc = qElement.attribute( "documentation", "" );
+    m_State = qElement.attribute( "objectflowstate", "" );
     //QString type = qElement.attribute( "objectflowtype", "1" );
   //  setObjectFlowType( (ObjectFlowType)type.toInt() );
     return true; 
