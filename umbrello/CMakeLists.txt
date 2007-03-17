@@ -126,7 +126,8 @@ set(libdialogs_SRCS
 	dialogs/codevieweroptionspage.cpp 
 	dialogs/defaultcodegenpolicypage.cpp 
 	dialogs/diagramprintpage.cpp 
-    dialogs/exportallviewsdialog.cpp
+	dialogs/exportallviewsdialog.cpp
+	dialogs/importprojectdlg.cpp
 	dialogs/notedialog.cpp 
 	dialogs/overwritedialogue.cpp 
 	dialogs/pkgcontentspage.cpp 
@@ -149,7 +150,8 @@ kde4_add_ui3_files( libdialogs_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codegenerationwizardbase.ui 
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codeviewerdialogbase.ui 
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codevieweroptionsbase.ui 
-    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/exportallviewsdialogbase.ui 
+	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/exportallviewsdialogbase.ui 
+	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/importprojectdlgbase.ui 
 )
 
 kde4_add_ui_files(  libdialogs_SRCS 

@@ -70,6 +70,7 @@
 #include "dialogs/codegenerationwizard.h"
 #include "dialogs/codeviewerdialog.h"
 #include "dialogs/diagramprintpage.h"
+#include "dialogs/importprojectdlg.h"
 
 #include "refactoring/refactoringassistant.h"
 #include "codegenerators/simplecodegenerator.h"
@@ -172,7 +173,6 @@ UMLApp::~UMLApp() {
     delete m_clipTimer;
     delete m_copyTimer;
 
-    delete m_statusLabel;
     delete m_refactoringAssist;
 
     delete m_pUndoStack;
@@ -226,6 +226,11 @@ void UMLApp::initActions() {
     importClasses->setText(i18n("&Import Classes..."));
     connect(importClasses, SIGNAL( triggered( bool ) ), this, SLOT( slotImportClasses() ));
 
+    importProject = actionCollection()->addAction("import_project");
+    importProject->setIcon(KIcon("source_cpp"));
+    importProject->setText(i18n("Import &Project..."));
+    connect(importProject, SIGNAL( triggered( bool ) ), this, SLOT( slotImportProject() ));
+
     genWizard = actionCollection()->addAction("generation_wizard");
     genWizard->setText(i18n("&Code Generation Wizard..."));
     connect(genWizard, SIGNAL( triggered( bool ) ), this, SLOT( generationWizard() ));
@@ -273,14 +278,14 @@ void UMLApp::initActions() {
     preferences->setToolTip( i18n( "Set the default program preferences") );
 
     deleteSelectedWidget = actionCollection()->addAction("delete_selected");
-    deleteSelectedWidget->setIcon(KIcon("editdelete"));
+    deleteSelectedWidget->setIcon(KIcon("edit-delete"));
     deleteSelectedWidget->setText(i18n("Delete &Selected"));
     deleteSelectedWidget->setShortcut(QKeySequence(Qt::Key_Delete));
     connect(deleteSelectedWidget, SIGNAL( triggered( bool ) ), this, SLOT( slotDeleteSelectedWidget() ));
 
     // The different views
     newDiagram = actionCollection()->add<KActionMenu>( "new_view" );
-    newDiagram->setIcon( KIcon("filenew") );
+    newDiagram->setIcon( KIcon("document-new") );
     newDiagram->setText( "new_view" );
 
     classDiagram = actionCollection()->addAction( "new_class_diagram" );
@@ -329,7 +334,7 @@ void UMLApp::initActions() {
     connect(entityRelationshipDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotEntityRelationshipDiagram() ));
 
     viewClearDiagram = actionCollection()->addAction( "view_clear_diagram" );
-    viewClearDiagram->setIcon( KIcon("editclear") );
+    viewClearDiagram->setIcon( KIcon("edit-clear") );
     viewClearDiagram->setText( i18n("&Clear Diagram") );
     connect(viewClearDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewClearDiagram() ));
 
@@ -342,7 +347,7 @@ void UMLApp::initActions() {
     connect(viewShowGrid, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewToggleShowGrid() ));
     viewShowGrid->setCheckedState(KGuiItem(i18n("&Hide Grid")));
     deleteDiagram = actionCollection()->addAction( "view_delete" );
-    deleteDiagram->setIcon( KIcon("editdelete") );
+    deleteDiagram->setIcon( KIcon("edit-delete") );
     deleteDiagram->setText( i18n("&Delete") );
     connect(deleteDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotDeleteDiagram() ));
 
@@ -357,7 +362,7 @@ void UMLApp::initActions() {
     connect(viewExportImageAll, SIGNAL( triggered( bool ) ), this, SLOT( slotAllViewsExportImage() ));
 
     viewProperties = actionCollection()->addAction( "view_properties" );
-    viewProperties->setIcon( KIcon("info") );
+    viewProperties->setIcon( KIcon("document-properties") );
     viewProperties->setText( i18n("&Properties") );
     connect(viewProperties, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewProperties() ));
 
@@ -373,7 +378,7 @@ void UMLApp::initActions() {
 
     zoomAction = new KPlayerPopupSliderAction(this, SLOT(slotZoomSliderMoved()), this);
     zoomAction->setText(i18n("&Zoom Slider"));
-    zoomAction->setIcon(KIcon("viewmag"));
+    zoomAction->setIcon(KIcon("zoom-original"));
     zoomAction->setShortcuts(KShortcut(Qt::Key_F9));
     actionCollection()->addAction("popup_zoom", zoomAction);
     zoom100Action = actionCollection()->addAction("zoom100");
@@ -386,14 +391,14 @@ void UMLApp::initActions() {
     QString moveTabLeftString = i18n("&Move Tab Left");
     QString moveTabRightString = i18n("&Move Tab Right");
     moveTabLeft = actionCollection()->addAction("move_tab_left");
-    moveTabLeft->setIcon(KIcon(QApplication::layoutDirection() ? "forward" : "back"));
+    moveTabLeft->setIcon(KIcon(QApplication::layoutDirection() ? "go-next" : "go-previous"));
     moveTabLeft->setText(QApplication::layoutDirection() ? moveTabRightString : moveTabLeftString);
     moveTabLeft->setShortcut(QApplication::layoutDirection() ?
                  QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left));
     connect(moveTabLeft, SIGNAL( triggered( bool ) ), this, SLOT( slotMoveTabLeft() ));
 
     moveTabRight = actionCollection()->addAction("move_tab_right");
-    moveTabRight->setIcon(KIcon(QApplication::layoutDirection() ? "back" : "forward"));
+    moveTabRight->setIcon(KIcon(QApplication::layoutDirection() ? "go-previous" : "go-next"));
     moveTabRight->setText(QApplication::layoutDirection() ? moveTabLeftString : moveTabRightString);
     moveTabRight->setShortcut(QApplication::layoutDirection() ?
                   QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right));
@@ -473,17 +478,7 @@ void UMLApp::setupZoomMenu() {
 }
 
 void UMLApp::initStatusBar() {
-    m_statusLabel = new KStatusBarLabel( i18n("Ready."), 0, statusBar() );
-    m_statusLabel->setFixedHeight( m_statusLabel->sizeHint().height() );
-
-    m_statusLabel->setFrameStyle( QFrame::NoFrame | QFrame::Plain );
-    m_statusLabel->setMargin( 0 );
-    m_statusLabel->setLineWidth(0);
-
-    statusBar()->addWidget( m_statusLabel, 1, false );
-
-    m_statusLabel->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
-
+    statusBar()->insertPermanentItem( i18n( "Ready" ), 1 );
     connect(m_doc, SIGNAL( sigWriteToStatusBar(const QString &) ), this, SLOT( slotStatusMsg(const QString &) ));
 }
 
@@ -513,7 +508,7 @@ void UMLApp::initView() {
         m_tabWidget->setAutomaticResizeTabs( true );
 
         m_newSessionButton = new QToolButton(m_tabWidget);
-        m_newSessionButton->setIconSet( SmallIcon( "tab_new" ) );
+        m_newSessionButton->setIconSet( SmallIcon( "tab-new" ) );
         m_newSessionButton->adjustSize();
         m_newSessionButton->setAutoRaise(true);
         m_diagramMenu = new KMenu(m_newSessionButton);
@@ -533,7 +528,7 @@ void UMLApp::initView() {
 
         //m_closeDiagramButton = new QToolButton("tab_remove", 0, m_tabWidget);
         m_closeDiagramButton = new QToolButton(m_tabWidget);
-        m_closeDiagramButton->setIconSet( SmallIcon("tab_remove") );
+        m_closeDiagramButton->setIconSet( SmallIcon("tab-remove") );
         m_closeDiagramButton->adjustSize();
 
         connect(m_closeDiagramButton, SIGNAL(clicked()), SLOT(slotDeleteDiagram()));
@@ -590,7 +585,8 @@ void UMLApp::initView() {
     tabifyDockWidget(m_cmdHistoryDock, m_propertyDock);
     
     QByteArray dockConfig;
-    m_config->readEntry("DockConfig", dockConfig);
+    KConfigGroup general( m_config, "General Options" );
+    general.readEntry("DockConfig", dockConfig);
     restoreState(dockConfig); //reposition all the DockWindows to their saved positions
 }
 
@@ -640,14 +636,13 @@ void UMLApp::saveOptions() {
 
     cg.writeEntry( "diagram", (int)optionState.generalState.diagram );
     if( m_doc->url().fileName() == i18n( "Untitled" ) ) {
-        m_config -> writeEntry( "lastFile", "" );
+        cg.writeEntry( "lastFile", "" );
     } else {
-        m_config -> writePathEntry( "lastFile", m_doc -> url().prettyUrl() );
+        cg.writePathEntry( "lastFile", m_doc -> url().prettyUrl() );
     }
     cg.writeEntry( "imageMimeType", getImageMimeType() );
 
     cg.changeGroup( "TipOfDay");
-    optionState.generalState.tip = m_config -> readEntry( "RunOnStart", true );
     cg.writeEntry( "RunOnStart", optionState.generalState.tip );
 
     cg.changeGroup( "UI Options" );
@@ -760,7 +755,8 @@ void UMLApp::readProperties(const KConfigGroup& _config) {
 
 bool UMLApp::queryClose() {
     QByteArray dockConfig = saveState();
-    m_config->writeEntry("DockConfig", dockConfig);
+    KConfigGroup general( m_config, "General Options" );
+    general.writeEntry("DockConfig", dockConfig);
     return m_doc->saveModified();
 }
 
@@ -921,7 +917,8 @@ void UMLApp::slotFileQuit() {
     slotStatusMsg(i18n("Exiting..."));
     if(m_doc->saveModified()) {
         QByteArray dockConfig = saveState();
-        m_config->writeEntry("DockConfig", dockConfig);
+        KConfigGroup general( m_config, "General Options" );
+        general.writeEntry("DockConfig", dockConfig);
         saveOptions();
         kapp->quit();
     }
@@ -1027,10 +1024,7 @@ void UMLApp::slotViewStatusBar() {
 void UMLApp::slotStatusMsg(const QString &text) {
     ///////////////////////////////////////////////////////////////////
     // change status message permanently
-    statusBar()->clear();
-    m_statusLabel->setText( text );
-
-    m_statusLabel->repaint();
+    statusBar()->changeItem( text, 1 );
 }
 
 void UMLApp::slotClassDiagram() {
@@ -1151,9 +1145,9 @@ void UMLApp::slotCopyChanged() {
 
 void UMLApp::slotPrefs() {
     /* the KTipDialog may have changed the value */
-    m_config->setGroup("TipOfDay");
+    const KConfigGroup tipConfig( m_config, "TipOfDay");
     Settings::OptionState& optionState = Settings::getOptionState();
-    optionState.generalState.tip = m_config->readEntry( "RunOnStart", true );
+    optionState.generalState.tip = tipConfig.readEntry( "RunOnStart", true );
 
     m_dlg = new SettingsDlg(this, &optionState);
     connect(m_dlg, SIGNAL( applyClicked() ), this, SLOT( slotApplyPrefs() ) );
@@ -1169,9 +1163,9 @@ void UMLApp::slotPrefs() {
 void UMLApp::slotApplyPrefs() {
     if (m_dlg) {
         /* we need this to sync both values */
-        m_config -> setGroup( "TipOfDay");
+        KConfigGroup tipConfig( m_config, "TipOfDay");
         Settings::OptionState& optionState = Settings::getOptionState();
-        m_config -> writeEntry( "RunOnStart", optionState.generalState.tip );
+        tipConfig.writeEntry( "RunOnStart", optionState.generalState.tip );
 
         m_doc -> settingsChanged( optionState );
         const QString plStr = m_dlg->getCodeGenerationLanguage();
@@ -1210,20 +1204,20 @@ bool UMLApp::editCutCopy( bool bFromView ) {
 }
 
 void UMLApp::readOptionState() {
-    m_config -> setGroup( "General Options" );
+    const KConfigGroup generalGroup( m_config, "General Options" );
     Settings::OptionState& optionState = Settings::getOptionState();
-    optionState.generalState.undo = m_config->readEntry( "undo", true );
-    optionState.generalState.tabdiagrams = m_config->readEntry( "tabdiagrams", false );
+    optionState.generalState.undo = generalGroup.readEntry( "undo", true );
+    optionState.generalState.tabdiagrams = generalGroup.readEntry( "tabdiagrams", false );
 #if defined (BUG84739_FIXED)
-    optionState.generalState.newcodegen = m_config->readEntry("newcodegen", false );
+    optionState.generalState.newcodegen = generalGroup("newcodegen", false );
 #else
     optionState.generalState.newcodegen = false;
 #endif
-    optionState.generalState.angularlines = m_config->readEntry("angularlines", false);
-    optionState.generalState.footerPrinting = m_config->readEntry("footerPrinting", true);
-    optionState.generalState.autosave = m_config->readEntry("autosave", true);
-    optionState.generalState.time = m_config->readEntry("time", 0); //old autosavetime value kept for compatibility
-    optionState.generalState.autosavetime = m_config->readEntry("autosavetime", 0);
+    optionState.generalState.angularlines = generalGroup.readEntry("angularlines", false);
+    optionState.generalState.footerPrinting = generalGroup.readEntry("footerPrinting", true);
+    optionState.generalState.autosave = generalGroup.readEntry("autosave", true);
+    optionState.generalState.time = generalGroup.readEntry("time", 0); //old autosavetime value kept for compatibility
+    optionState.generalState.autosavetime = generalGroup.readEntry("autosavetime", 0);
     //if we don't have a "new" autosavetime value, convert the old one
     if (optionState.generalState.autosavetime == 0) {
         switch (optionState.generalState.time) {
@@ -1236,58 +1230,58 @@ void UMLApp::readOptionState() {
         }
     }
     // 2004-05-17 Achim Spangler: read new config entry for autosave sufix
-    optionState.generalState.autosavesuffix = m_config -> readEntry( "autosavesuffix", ".xmi" );
+    optionState.generalState.autosavesuffix = generalGroup.readEntry( "autosavesuffix", ".xmi" );
 
-    optionState.generalState.logo = m_config -> readEntry( "logo", true );
-    optionState.generalState.loadlast = m_config -> readEntry( "loadlast", true );
+    optionState.generalState.logo = generalGroup.readEntry( "logo", true );
+    optionState.generalState.loadlast = generalGroup.readEntry( "loadlast", true );
 
-    optionState.generalState.diagram  = (Uml::Diagram_Type) m_config->readEntry("diagram", 1);
-    m_config -> setGroup( "TipOfDay");
+    optionState.generalState.diagram  = (Uml::Diagram_Type) generalGroup.readEntry("diagram", 1);
 
-    optionState.generalState.tip = m_config -> readEntry( "RunOnStart", true );
+    const KConfigGroup tipGroup( m_config, "TipOfDay" );
+    optionState.generalState.tip = tipGroup.readEntry( "RunOnStart", true );
 
-    m_config -> setGroup( "UI Options" );
-    optionState.uiState.useFillColor = m_config -> readEntry( "useFillColor", true );
+    const KConfigGroup uiGroup( m_config, "UI Options" );
+    optionState.uiState.useFillColor = uiGroup.readEntry( "useFillColor", true );
     QColor defaultYellow = QColor( 255, 255, 192 );
     QColor red ( Qt::red );
 
-    optionState.uiState.fillColor = m_config -> readEntry( "fillColor", defaultYellow );
-    optionState.uiState.lineColor = m_config -> readEntry( "lineColor", red );
-    optionState.uiState.lineWidth = m_config -> readEntry( "lineWidth", 0 );
+    optionState.uiState.fillColor = uiGroup.readEntry( "fillColor", defaultYellow );
+    optionState.uiState.lineColor = uiGroup.readEntry( "lineColor", red );
+    optionState.uiState.lineWidth = uiGroup.readEntry( "lineWidth", 0 );
     QFont font = ((QWidget *) this)->font() ;
-    optionState.uiState.font = m_config -> readEntry("font", font );
+    optionState.uiState.font = uiGroup.readEntry("font", font );
 
-    m_config -> setGroup( "Class Options" );
+    const KConfigGroup classGroup( m_config, "Class Options" );
 
-    optionState.classState.showVisibility = m_config -> readEntry("showVisibility", true);
-    optionState.classState.showAtts = m_config -> readEntry("showAtts", true);
-    optionState.classState.showOps = m_config -> readEntry("showOps", true);
-    optionState.classState.showStereoType = m_config -> readEntry("showStereoType", false);
-    optionState.classState.showAttSig = m_config -> readEntry("showAttSig", true);
-    optionState.classState.showOpSig = m_config -> readEntry("ShowOpSig", true);
-    optionState.classState.showPackage = m_config -> readEntry("showPackage", false);
-    optionState.classState.defaultAttributeScope = (Uml::Visibility::Value) m_config -> readEntry ("defaultAttributeScope", uint(Uml::Visibility::Private));
-    optionState.classState.defaultOperationScope = (Uml::Visibility::Value) m_config -> readEntry ("defaultOperationScope", uint(Uml::Visibility::Public));
+    optionState.classState.showVisibility = classGroup.readEntry("showVisibility", true);
+    optionState.classState.showAtts = classGroup.readEntry("showAtts", true);
+    optionState.classState.showOps = classGroup.readEntry("showOps", true);
+    optionState.classState.showStereoType = classGroup.readEntry("showStereoType", false);
+    optionState.classState.showAttSig = classGroup.readEntry("showAttSig", true);
+    optionState.classState.showOpSig = classGroup.readEntry("ShowOpSig", true);
+    optionState.classState.showPackage = classGroup.readEntry("showPackage", false);
+    optionState.classState.defaultAttributeScope = (Uml::Visibility::Value) classGroup.readEntry ("defaultAttributeScope", uint(Uml::Visibility::Private));
+    optionState.classState.defaultOperationScope = (Uml::Visibility::Value) classGroup.readEntry ("defaultOperationScope", uint(Uml::Visibility::Public));
 
-    m_config -> setGroup( "Code Viewer Options" );
+    const KConfigGroup codeViewerGroup( m_config, "Code Viewer Options" );
 
     QColor defaultWhite = QColor( "white" );
     QColor defaultBlack = QColor( "black" );
     QColor defaultPink = QColor( "pink" );
     QColor defaultGrey = QColor( "grey" );
 
-    optionState.codeViewerState.height = m_config -> readEntry( "height", 40 );
-    optionState.codeViewerState.width = m_config -> readEntry( "width", 80 );
-    optionState.codeViewerState.font = m_config -> readEntry("font", font );
-    optionState.codeViewerState.showHiddenBlocks = m_config->readEntry( "showHiddenBlocks", false);
-    optionState.codeViewerState.blocksAreHighlighted = m_config->readEntry( "blocksAreHighlighted", false);
-    optionState.codeViewerState.selectedColor = m_config->readEntry( "selectedColor", defaultYellow );
-    optionState.codeViewerState.paperColor = m_config->readEntry( "paperColor", defaultWhite);
-    optionState.codeViewerState.fontColor = m_config->readEntry( "fontColor", defaultBlack);
-    optionState.codeViewerState.editBlockColor = m_config->readEntry( "editBlockColor", defaultPink);
-    optionState.codeViewerState.umlObjectColor = m_config->readEntry( "umlObjectBlockColor", defaultPink);
-    optionState.codeViewerState.nonEditBlockColor = m_config->readEntry( "nonEditBlockColor", defaultGrey);
-    optionState.codeViewerState.hiddenColor = m_config->readEntry( "hiddenColor", defaultGrey);
+    optionState.codeViewerState.height = codeViewerGroup.readEntry( "height", 40 );
+    optionState.codeViewerState.width = codeViewerGroup.readEntry( "width", 80 );
+    optionState.codeViewerState.font = codeViewerGroup.readEntry("font", font );
+    optionState.codeViewerState.showHiddenBlocks = codeViewerGroup.readEntry( "showHiddenBlocks", false);
+    optionState.codeViewerState.blocksAreHighlighted = codeViewerGroup.readEntry( "blocksAreHighlighted", false);
+    optionState.codeViewerState.selectedColor = codeViewerGroup.readEntry( "selectedColor", defaultYellow );
+    optionState.codeViewerState.paperColor = codeViewerGroup.readEntry( "paperColor", defaultWhite);
+    optionState.codeViewerState.fontColor = codeViewerGroup.readEntry( "fontColor", defaultBlack);
+    optionState.codeViewerState.editBlockColor = codeViewerGroup.readEntry( "editBlockColor", defaultPink);
+    optionState.codeViewerState.umlObjectColor = codeViewerGroup.readEntry( "umlObjectBlockColor", defaultPink);
+    optionState.codeViewerState.nonEditBlockColor = codeViewerGroup.readEntry( "nonEditBlockColor", defaultGrey);
+    optionState.codeViewerState.hiddenColor = codeViewerGroup.readEntry( "hiddenColor", defaultGrey);
 
 }
 
@@ -1561,6 +1555,22 @@ void UMLApp::slotUpdateViews() {
     }
 }
 
+
+void UMLApp::importFiles(QStringList* fileList) {
+    if (! fileList->isEmpty()) {
+        const QString& firstFile = fileList->first();
+        ClassImport *classImporter = ClassImport::createImporterByFileExt(firstFile);
+        classImporter->importFiles(*fileList);
+        delete classImporter;
+        m_doc->setLoading(false);
+        //Modification is set after the import is made, because the file was modified when adding the classes
+        //Allowing undo of the whole class importing. I think it eats a lot of memory
+        //m_doc->setModified(true);
+        //Setting the modification, but without allowing undo
+        m_doc->setModified(true);
+    }
+}
+
 void UMLApp::slotImportClasses() {
     m_doc->setLoading(true);
     // File selection is separated from invocation of ClassImport::import()
@@ -1584,16 +1594,16 @@ void UMLApp::slotImportClasses() {
     preselectedExtension.append("\n*|" + i18n("All Files"));
     QStringList fileList = KFileDialog::getOpenFileNames(KUrl(), preselectedExtension,
                            this, i18n("Select Code to Import") );
-    const QString& firstFile = fileList.first();
-    ClassImport *classImporter = ClassImport::createImporterByFileExt(firstFile);
-    classImporter->importFiles(fileList);
-    delete classImporter;
-    m_doc->setLoading(false);
-    //Modification is set after the import is made, because the file was modified when adding the classes
-    //Allowing undo of the whole class importing. I think it eats a lot of memory
-    //m_doc->setModified(true);
-    //Setting the modification, but without allowing undo
-    m_doc->setModified(true);
+    importFiles(&fileList);
+}
+
+void UMLApp::slotImportProject() {
+    QStringList listFile;
+
+    QDialog::DialogCode code = ImportProjectDlg::getFilesToImport(&listFile,m_codegen->getLanguage(), this);
+    if (code == QDialog::Accepted) {
+        importFiles(&listFile);
+    }
 }
 
 void UMLApp::slotClassWizard() {
@@ -1639,8 +1649,8 @@ void UMLApp::slotDeleteDiagram() {
 }
 
 Uml::Programming_Language UMLApp::getDefaultLanguage() {
-    m_config->setGroup("Code Generation");
-    QString activeLanguage = m_config->readEntry("activeLanguage", "C++");
+    const KConfigGroup codeGenGroup( m_config, "Code Generation");
+    QString activeLanguage = codeGenGroup.readEntry("activeLanguage", "C++");
     return Model_Utils::stringToProgLang(activeLanguage);
 }
 
@@ -1860,7 +1870,7 @@ KTabWidget* UMLApp::tabWidget() {
 }
 
 QString UMLApp::getStatusBarMsg() {
-    return m_statusLabel->text();
+    return statusBar()->itemText(1);
 }
 
 void UMLApp::clearUndoStack() {

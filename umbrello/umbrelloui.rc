@@ -41,6 +41,7 @@
 
   <Menu name="code"><text>&amp;Code</text>
     <Action name="import_class"/>
+    <Action name="import_project"/>
     <Action name="generation_wizard"/>
     <Action name="generate_all"/>
     <Menu name="active_lang_menu"><text>Active &amp;Language</text>

@@ -1096,7 +1096,7 @@ void UMLDoc::removeDiagram(Uml::IDType id) {
         kError()<<"Request to remove diagram " << ID2STR(id) << ": Diagram not found!"<<endl;
         return;
     }
-    if (KMessageBox::warningContinueCancel(0, i18n("Are you sure you want to delete diagram %1?", umlview->getName()), i18n("Delete Diagram"),KGuiItem( i18n("&Delete"), "editdelete")) == KMessageBox::Continue) {
+    if (KMessageBox::warningContinueCancel(0, i18n("Are you sure you want to delete diagram %1?", umlview->getName()), i18n("Delete Diagram"),KGuiItem( i18n("&Delete"), "edit-delete")) == KMessageBox::Continue) {
         removeView(umlview);
         emit sigDiagramRemoved(id);
         setModified(true);

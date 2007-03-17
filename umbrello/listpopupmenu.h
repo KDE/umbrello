@@ -122,6 +122,7 @@ public:
         mt_Delete,
         mt_Export_Image,
         mt_Import_Classes,
+        mt_Import_Project,
         mt_Sequence_Number,
         mt_Cut,
         mt_Copy,

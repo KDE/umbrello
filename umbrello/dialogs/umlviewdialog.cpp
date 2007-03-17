@@ -105,7 +105,7 @@ void UMLViewDialog::setupClassPage() {
     QFrame * newPage = new QFrame();
     pageDisplayItem = new KPageWidgetItem( newPage,i18n("Display") );
     pageDisplayItem->setHeader( i18n("Classes Display Options") );
-    pageDisplayItem->setIcon( KIcon( DesktopIcon( "info") ));
+    pageDisplayItem->setIcon( KIcon( DesktopIcon( "document-properties") ));
     addPage( pageDisplayItem);
 
     QHBoxLayout * m_pOptionsLayout = new QHBoxLayout( newPage );
