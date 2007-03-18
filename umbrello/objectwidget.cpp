@@ -207,18 +207,15 @@ void ObjectWidget::cleanup() {
     }
 }
 
-bool ObjectWidget::showProperties() {
+void ObjectWidget::showProperties() {
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
     ClassPropDlg *dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
-    bool modified = false;
     if (dlg->exec()) {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->getDocument()->setModified(true);
-        modified = true;
     }
     dlg->close(true);//wipe from memory
-    return modified;
 }
 
 void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY) {

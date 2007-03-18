@@ -146,19 +146,15 @@ void ActivityWidget::slotMenuSelection(int sel) {
         UMLWidget::slotMenuSelection( sel );
 }
 
-bool ActivityWidget::showProperties() {
+void ActivityWidget::showProperties() {
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
 
     ActivityDialog dialog(m_pView, this);
-    bool modified = false;
     if (dialog.exec() && dialog.getChangesMade()) {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->getDocument()->setModified(true);
-        modified = true;
     }
-
-    return modified;
 }
 
 bool ActivityWidget::isActivity(WorkToolBar::ToolBar_Buttons tbb,

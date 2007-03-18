@@ -76,10 +76,8 @@ public:
 
     /**
      * Show a properties dialog for an ActivityWidget.
-     *
-     * @return  True if we modified the activity.
      */
-    bool showProperties();
+    void showProperties();
 
     /**
      * Determines whether a toolbar button represents an Activity.

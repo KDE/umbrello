@@ -113,10 +113,8 @@ public:
 
     /**
      * Show a properties dialog for a StateWidget.
-     *
-     * @return  True if we modified the state.
      */
-    bool showProperties();
+    void showProperties();
 
     /**
      * Returns true if the given toolbar button represents a State.
