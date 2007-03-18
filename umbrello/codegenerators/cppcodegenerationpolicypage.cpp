@@ -24,8 +24,6 @@
 #include <qcheckbox.h>
 // app includes
 #include "cppcodegenerationformbase.h"
-#include "cppcodegenerator.h"
-//#include "../codegenerationpolicy.h"
 #include "../uml.h"
 
 CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage( QWidget *parent, const char *name, CPPCodeGenerationPolicy * policy )

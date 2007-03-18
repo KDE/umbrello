@@ -24,7 +24,6 @@
 #include <klocale.h>
 // app includes
 #include "javacodegenerationformbase.h"
-#include "javacodegenerator.h"
 #include "../uml.h"
 
 JavaCodeGenerationPolicyPage::JavaCodeGenerationPolicyPage( QWidget *parent, const char *name, JavaCodeGenerationPolicy * policy )
@@ -39,11 +38,13 @@ JavaCodeGenerationPolicyPage::JavaCodeGenerationPolicyPage( QWidget *parent, con
     form->m_accessorScopeCB->setCurrentItem(commonPolicy->getAttributeAccessorScope() - 200);
     form->m_assocFieldScopeCB->setCurrentItem(commonPolicy->getAssociationFieldScope() - 200);
 
+    /**
+     * @todo unclean - CreateANTBuildFile attribute should be in java policy
     CodeGenerator *codegen = UMLApp::app()->getGenerator();
     JavaCodeGenerator *javacodegen = dynamic_cast<JavaCodeGenerator*>(codegen);
-    // @todo unclean - CreateANTBuildFile attribute should be in java policy
     if (javacodegen)
         form->m_makeANTDocumentCheckBox->setChecked(javacodegen->getCreateANTBuildFile());
+     */
 }
 
 JavaCodeGenerationPolicyPage::~JavaCodeGenerationPolicyPage()
@@ -65,11 +66,13 @@ void JavaCodeGenerationPolicyPage::apply()
     parent->setAutoGenerateAttribAccessors(form->m_generateAttribAccessors->isChecked());
     parent->setAutoGenerateAssocAccessors(form->m_generateAssocAccessors->isChecked());
 
+    /**
+     * @todo unclean - CreateANTBuildFile attribute should be in java policy
     CodeGenerator *codegen = UMLApp::app()->getGenerator();
     JavaCodeGenerator *javacodegen = dynamic_cast<JavaCodeGenerator*>(codegen);
     if (javacodegen)
         javacodegen->setCreateANTBuildFile(form->m_makeANTDocumentCheckBox->isChecked());
-
+     */
     commonPolicy->blockSignals(false);
 
     // now send out modified code content signal

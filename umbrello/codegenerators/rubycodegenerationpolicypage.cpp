@@ -25,7 +25,6 @@
 #include <klocale.h>
 // app includes
 #include "rubycodegenerationformbase.h"
-#include "rubycodegenerator.h"
 #include "../codegenerationpolicy.h"
 #include "../uml.h"
 
