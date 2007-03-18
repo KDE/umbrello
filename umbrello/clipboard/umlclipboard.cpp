@@ -333,10 +333,8 @@ void UMLClipboard::CleanAssociations(AssociationWidgetList& associations) {
 /** If clipboard has mime type application/x-uml-clip1,
 Pastes the data from the clipboard into the current Doc */
 bool UMLClipboard::pasteClip1(QMimeSource* data) {
-    UMLDoc *doc = UMLApp::app()->getDocument();
     UMLListViewItemList itemdatalist;
     UMLObjectList objects;
-    IDChangeLog* idchanges = doc->getChangeLog();
     if (! UMLDrag::decodeClip1(data, objects, itemdatalist)) {
         return false;
     }
