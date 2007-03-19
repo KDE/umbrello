@@ -19,6 +19,7 @@
 #include "associationwidget.h"
 #include "messagewidget.h"
 #include "floatingdashlinewidget.h"
+#include "objectwidget.h"
 #include "uml.h"
 #include "umlview.h"
 #include "umlwidget.h"
@@ -179,6 +180,13 @@ void ToolBarState::setCurrentElement() {
     FloatingDashLineWidget* floatingline = getFloatingLineAt(m_pMouseEvent->pos());
     if (floatingline) {
         setCurrentWidget(floatingline);
+        return;
+    }
+
+
+    ObjectWidget* objectWidgetLine = m_pUMLView->onWidgetDestructionBox(m_pMouseEvent->pos());
+    if (objectWidgetLine) {
+        setCurrentWidget(objectWidgetLine);
         return;
     }
 

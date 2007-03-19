@@ -694,6 +694,24 @@ ObjectWidget * UMLView::onWidgetLine( const QPoint &point ) {
     return 0;
 }
 
+ObjectWidget * UMLView::onWidgetDestructionBox( const QPoint &point ){
+    UMLWidget *obj;
+    for (UMLWidgetListIt it(m_WidgetList); (obj = it.current()) != NULL; ++it) {
+        ObjectWidget *ow = dynamic_cast<ObjectWidget*>(obj);
+        if (ow == NULL)
+            continue;
+        SeqLineWidget *pLine = ow->getSeqLine();
+        if (pLine == NULL) {
+            kError() << "UMLView::onWidgetLine: SeqLineWidget of " << ow->getName()
+                << " (id=" << ID2STR(ow->getLocalID()) << ") is NULL" << endl;
+            continue;
+        }
+        if (pLine->onDestructionBox(point))
+            return ow;
+    }
+    return 0;
+}
+
 UMLWidget *UMLView::testOnWidget(QPoint p) {
     int relativeSize = 10000;  // start with an arbitrary large number
     UMLWidget *obj, *retObj = NULL;
