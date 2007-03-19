@@ -26,6 +26,7 @@
 // app includes
 #include "classifierinfo.h"
 #include "codegen_utils.h"
+#include "../uml.h"
 #include "../umldoc.h"
 #include "../classifier.h"
 #include "../operation.h"
@@ -34,27 +35,19 @@
 #include "../umlclassifierlistitemlist.h"
 #include "../classifierlistitem.h"
 #include "../model_utils.h"
+#include "../codegenerationpolicy.h"
 
 // 3-14-2003: this code developed from the javawriter with parts of the
 // original cppwriter by Luis De la Parra Blum
 
 CppWriter::CppWriter()
 {
-
-    // set some general parameters for how to generate code in this class
-    STRING_TYPENAME = "string";
-    STRING_TYPENAME_INCLUDE = "<string>";
-
-    VECTOR_TYPENAME = "vector"; // std::vector
-    VECTOR_TYPENAME_INCLUDE = "<vector>"; // std::vector
-
     // Probably we could resolve this better through the use of templates,
     // but its a quick n dirty fix for the timebeing.. until codegeneration
     // template system is in place.
     // You can insert code here. 3 general variables exist: "%VARNAME%"
     // allows you to specify where the vector variable should be in your code,
-    // ,"%ITEMCLASS%", if needed, where the class of the item is declared, and
-    // %VECTOR_TYPENAME%, which is as definition above.
+    // and "%ITEMCLASS%", if needed, where the class of the item is declared.
     VECTOR_METHOD_APPEND = "%VARNAME%.push_back(add_object);"; // for std::vector
     VECTOR_METHOD_REMOVE = "int i, size = %VARNAME%.size();\nfor ( i = 0; i < size; i++) {\n\t%ITEMCLASS% item = %VARNAME%.at(i);\n\tif(item == remove_object) {\n\t\tvector<%ITEMCLASS%>::iterator it = %VARNAME%.begin() + i;\n\t\t%VARNAME%.erase(it);\n\t\treturn;\n\t}\n }"; // for std::vector
     VECTOR_METHOD_INIT = QString(); // nothing to be done
@@ -67,18 +60,7 @@ CppWriter::CppWriter()
     OBJECT_METHOD_INIT = "%VARNAME% = new %ITEMCLASS%( );"; // Qt library
 
     // boolean config params
-    INLINE_ATTRIBUTE_METHODS = false;
     INLINE_ASSOCIATION_METHODS = false;
-    INLINE_OPERATION_METHODS = false;
-    WRITE_EMPTY_CONSTRUCTOR = true;
-    WRITE_EMPTY_DESTRUCTOR = true;
-    WRITE_VIRTUAL_DESTRUCTORS = true;
-    WRITE_ATTRIBUTE_ACCESSOR_METHODS = true;
-    WRITE_PACKAGE_NAMESPACE = true;
-
-    // should this go away?? Not currently used.. but might be by new code generator
-    /// to specifically 'tag' virtual classes and fields and methods.
-    //  FieldIsVirtual = false;
 
 }
 
@@ -86,6 +68,10 @@ CppWriter::~CppWriter() { }
 
 Uml::Programming_Language CppWriter::getLanguage() {
     return Uml::pl_Cpp;
+}
+
+CPPCodeGenerationPolicy *CppWriter::policyExt() {
+    return static_cast<CPPCodeGenerationPolicy*>(UMLApp::app()->getPolicyExt());
 }
 
 void CppWriter::writeClass(UMLClassifier *c)
@@ -267,14 +253,15 @@ void CppWriter::writeSourceFile (UMLClassifier *c, QFile &filecpp ) {
     }
 
     // Accessor methods for attributes
-    if (!INLINE_ATTRIBUTE_METHODS && m_classifierInfo->hasAttributes)
+    const bool bInlineAccessors = policyExt()->getAccessorsAreInline();
+    if (!bInlineAccessors && m_classifierInfo->hasAttributes)
     {
-        writeAttributeMethods(&(m_classifierInfo->static_atpub), Uml::Visibility::Public, false, true, !INLINE_ATTRIBUTE_METHODS, cpp);
-        writeAttributeMethods(&(m_classifierInfo->atpub), Uml::Visibility::Public, false, false, !INLINE_ATTRIBUTE_METHODS, cpp);
-        writeAttributeMethods(&(m_classifierInfo->static_atprot), Uml::Visibility::Protected, false, true, !INLINE_ATTRIBUTE_METHODS, cpp);
-        writeAttributeMethods(&(m_classifierInfo->atprot), Uml::Visibility::Protected, false, false, !INLINE_ATTRIBUTE_METHODS, cpp);
-        writeAttributeMethods(&(m_classifierInfo->static_atpriv), Uml::Visibility::Private, false, true, !INLINE_ATTRIBUTE_METHODS, cpp);
-        writeAttributeMethods(&(m_classifierInfo->atpriv), Uml::Visibility::Private, false, false, !INLINE_ATTRIBUTE_METHODS, cpp);
+        writeAttributeMethods(&(m_classifierInfo->static_atpub), Uml::Visibility::Public, false, true, !bInlineAccessors, cpp);
+        writeAttributeMethods(&(m_classifierInfo->atpub), Uml::Visibility::Public, false, false, !bInlineAccessors, cpp);
+        writeAttributeMethods(&(m_classifierInfo->static_atprot), Uml::Visibility::Protected, false, true, !bInlineAccessors, cpp);
+        writeAttributeMethods(&(m_classifierInfo->atprot), Uml::Visibility::Protected, false, false, !bInlineAccessors, cpp);
+        writeAttributeMethods(&(m_classifierInfo->static_atpriv), Uml::Visibility::Private, false, true, !bInlineAccessors, cpp);
+        writeAttributeMethods(&(m_classifierInfo->atpriv), Uml::Visibility::Private, false, false, !bInlineAccessors, cpp);
     }
 
     // accessor methods for associations
@@ -322,7 +309,7 @@ void CppWriter::writeSourceFile (UMLClassifier *c, QFile &filecpp ) {
         writeBlankLine(cpp);
     }
 
-    if(!INLINE_OPERATION_METHODS)
+    if(!policyExt()->getOperationsAreInline())
     {
         writeOperations(c,false,Uml::Visibility::Public,cpp);
         writeOperations(c,false,Uml::Visibility::Protected,cpp);
@@ -347,10 +334,10 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
     }
 
     writeBlankLine(cpp);
-    cpp << "#include " << STRING_TYPENAME_INCLUDE << m_endl;
+    cpp << "#include " << policyExt()->getStringClassNameInclude() << m_endl;
     if(m_classifierInfo->hasVectorFields)
     {
-        cpp << "#include " << VECTOR_TYPENAME_INCLUDE << m_endl;
+        cpp << "#include " << policyExt()->getVectorClassNameInclude() << m_endl;
         writeBlankLine(cpp);
     }
 
@@ -372,7 +359,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
         }
     }
 
-    if(!c->getPackage().isEmpty() && WRITE_PACKAGE_NAMESPACE)
+    if(!c->getPackage().isEmpty() && policyExt()->getPackageIsNamespace())
         cpp << m_endl << "namespace " << cleanName(c->getPackage()) << " {" << m_endl << m_endl;
 
     //Write class Documentation if there is somthing or if force option
@@ -406,7 +393,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
             cpp << m_endl;
         }
         cpp << m_endl << "};" << m_endl;  // end of class header
-        if(!c->getPackage().isEmpty() && WRITE_PACKAGE_NAMESPACE)
+        if(!c->getPackage().isEmpty() && policyExt()->getPackageIsNamespace())
             cpp << "}  // end of package namespace" << m_endl;
         return;
     }
@@ -479,7 +466,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
     cpp << m_endl << "};" << m_endl;
 
     // end of class namespace, if any
-    if(!c->getPackage().isEmpty() && WRITE_PACKAGE_NAMESPACE)
+    if(!c->getPackage().isEmpty() && policyExt()->getPackageIsNamespace())
         cpp << "}; // end of package namespace" << m_endl;
 
 }
@@ -597,7 +584,7 @@ void CppWriter::writeHeaderAttributeAccessorMethods (Uml::Visibility visibility,
         stream << "public:" << m_endl << m_endl;
 
     // write accessor methods for attribs we found
-    writeAttributeMethods(list, visibility, true, false, INLINE_ATTRIBUTE_METHODS, stream);
+    writeAttributeMethods(list, visibility, true, false, policyExt()->getAccessorsAreInline(), stream);
 
     // switch back to previous vis.
     if (visibility != Uml::Visibility::Public)
@@ -612,10 +599,10 @@ void CppWriter::writeAttributeMethods(UMLAttributeList *attribs,
                                       bool writeMethodBody, QTextStream &stream)
 {
 
-    if(!WRITE_ATTRIBUTE_ACCESSOR_METHODS)
+    if (!policyExt()->getAutoGenerateAccessors())
         return;
 
-    if(forceDoc() || attribs->count()>0)
+    if (forceDoc() || attribs->count() > 0)
     {
         QString strVis = capitalizeFirstLetter(visibility.toString());
         QString strStatic = (isStatic ? " static" : "");
@@ -775,7 +762,7 @@ void CppWriter::writeAssociationRoleDecl(QString fieldClassName, QString roleNam
         if(VectorFieldVariables.findIndex(fieldVarName) == -1)
             VectorFieldVariables.append(fieldVarName);
 
-        stream << indent << VECTOR_TYPENAME <<"<" << fieldClassName << "*";
+        stream << indent << policyExt()->getVectorClassName() <<"<" << fieldClassName << "*";
         stream << "> " << fieldVarName << ";" << m_endl;
     }
 }
@@ -874,7 +861,7 @@ void CppWriter::writeVectorAttributeAccessorMethods (
         if (writeMethodBody) {
             QString method = VECTOR_METHOD_APPEND;
             method.replace(QRegExp("%VARNAME%"),fieldVarName);
-            method.replace(QRegExp("%VECTORTYPENAME%"), VECTOR_TYPENAME);
+            method.replace(QRegExp("%VECTORTYPENAME%"), policyExt()->getVectorClassName());
             method.replace(QRegExp("%ITEMCLASS%"),className);
             stream << indent << " {" << m_endl;
             m_indentLevel++;
@@ -897,7 +884,7 @@ void CppWriter::writeVectorAttributeAccessorMethods (
         if (writeMethodBody) {
             QString method = VECTOR_METHOD_REMOVE;
             method.replace(QRegExp("%VARNAME%"),fieldVarName);
-            method.replace(QRegExp("%VECTORTYPENAME%"), VECTOR_TYPENAME);
+            method.replace(QRegExp("%VECTORTYPENAME%"), policyExt()->getVectorClassName());
             method.replace(QRegExp("%ITEMCLASS%"),className);
             stream << indent << " {" << m_endl;
             m_indentLevel++;
@@ -909,7 +896,7 @@ void CppWriter::writeVectorAttributeAccessorMethods (
     }
 
     // always allow getting the list of stuff
-    QString returnVarName = VECTOR_TYPENAME + '<' + className + '>';
+    QString returnVarName = policyExt()->getVectorClassName() + '<' + className + '>';
     writeDocumentation("Get the list of " + fldName + " objects held by " + fieldVarName,
                        description,
                        "@return " + returnVarName + " list of " + fldName + " objects held by " + fieldVarName,
@@ -994,125 +981,113 @@ void CppWriter::writeSingleAttributeAccessorMethods(
 // one day, this should print out non-empty constructor operations too.
 void CppWriter::writeConstructorDecls(QTextStream &stream)
 {
-
-    if (forceDoc() || WRITE_EMPTY_CONSTRUCTOR || WRITE_EMPTY_DESTRUCTOR)
+    const bool generateEmptyConstructors =
+        UMLApp::app()->getCommonPolicy()->getAutoGenerateConstructors();
+    if (forceDoc() || generateEmptyConstructors)
     {
         writeComment("Constructors/Destructors", getIndent(), stream);
         writeComment(" ", getIndent(), stream);
         writeBlankLine(stream);
     }
+    if (!generateEmptyConstructors)
+        return;
 
-    if(WRITE_EMPTY_CONSTRUCTOR)
-    {
-        writeDocumentation("", "Empty Constructor", "", stream);
-        stream << getIndent() << m_classifierInfo->className << " ( );" << m_endl;
-    }
-
-    if(WRITE_EMPTY_DESTRUCTOR)
-    {
-        writeDocumentation("", "Empty Destructor", "", stream);
-        stream << getIndent();
-        if (WRITE_VIRTUAL_DESTRUCTORS)
-            stream << "virtual ";
-        stream << "~" << m_classifierInfo->className << " ( );" << m_endl;
-    }
-
-    if(WRITE_EMPTY_DESTRUCTOR || WRITE_EMPTY_CONSTRUCTOR)
-        writeBlankLine(stream);
+    writeDocumentation("", "Empty Constructor", "", stream);
+    stream << getIndent() << m_classifierInfo->className << " ( );" << m_endl;
+    writeDocumentation("", "Empty Destructor", "", stream);
+    stream << getIndent();
+    stream << "virtual ~" << m_classifierInfo->className << " ( );" << m_endl;
+    writeBlankLine(stream);
 }
 
 void CppWriter::writeInitAttibuteDecl (QTextStream &stream)
 {
-    if(WRITE_EMPTY_CONSTRUCTOR && m_classifierInfo->hasAttributes)
+    if (UMLApp::app()->getCommonPolicy()->getAutoGenerateConstructors() &&
+        m_classifierInfo->hasAttributes)
         stream << getIndent() << "void initAttributes ( ) ;" << m_endl;
 }
 
 void CppWriter::writeInitAttibuteMethod (QTextStream &stream)
 {
-
     // only need to do this under certain conditions
-    if(WRITE_EMPTY_CONSTRUCTOR && m_classifierInfo->hasAttributes)
-    {
-        QString className = m_classifierInfo->className;
-        QString indent = getIndent();
+    if (!UMLApp::app()->getCommonPolicy()->getAutoGenerateConstructors() ||
+        !m_classifierInfo->hasAttributes)
+        return;
 
-        stream << indent << "void " << className << "::" << "initAttributes ( ) {" << m_endl;
+    QString className = m_classifierInfo->className;
+    QString indent = getIndent();
 
-        m_indentLevel++;
-        // first, initiation of fields derived from attributes
-        UMLAttributeList* atl = m_classifierInfo->getAttList();
-        for(UMLAttribute *at = atl->first(); at ; at = atl->next()) {
-            if(!at->getInitialValue().isEmpty()) {
-                QString varName = getAttributeVariableName(at);
-                stream << getIndent() << varName << " = " << at->getInitialValue() << ";" << m_endl;
-            }
+    stream << indent << "void " << className << "::" << "initAttributes ( ) {" << m_endl;
+
+    m_indentLevel++;
+    // first, initiation of fields derived from attributes
+    UMLAttributeList* atl = m_classifierInfo->getAttList();
+    for(UMLAttribute *at = atl->first(); at ; at = atl->next()) {
+        if(!at->getInitialValue().isEmpty()) {
+            QString varName = getAttributeVariableName(at);
+            stream << getIndent() << varName << " = " << at->getInitialValue() << ";" << m_endl;
         }
-        // Now initialize the association related fields (e.g. vectors)
-        if (!VECTOR_METHOD_INIT.isEmpty()) {
-            QStringList::Iterator it;
-            for( it = VectorFieldVariables.begin(); it != VectorFieldVariables.end(); ++it ) {
-                QString fieldVarName = *it;
-                QString method = VECTOR_METHOD_INIT;
-                method.replace(QRegExp("%VARNAME%"),fieldVarName);
-                method.replace(QRegExp("%VECTORTYPENAME%"), VECTOR_TYPENAME);
-                stream << getIndent() << method << m_endl;
-            }
-        }
-
-        if (!OBJECT_METHOD_INIT.isEmpty()) {
-            QStringList::Iterator it;
-            for( it = ObjectFieldVariables.begin(); it != ObjectFieldVariables.end(); ++it ) {
-                QString fieldVarName = *it;
-                it++;
-                QString fieldClassName = *it;
-                QString method = OBJECT_METHOD_INIT;
-                method.replace(QRegExp("%VARNAME%"),fieldVarName);
-                method.replace(QRegExp("%ITEMCLASS%"),fieldClassName);
-                stream << getIndent() << method << m_endl;
-            }
-        }
-
-        // clean up
-        ObjectFieldVariables.clear(); // shouldn't be needed?
-        VectorFieldVariables.clear(); // shouldn't be needed?
-
-        m_indentLevel--;
-
-        stream << indent << "}" << m_endl;
     }
+    // Now initialize the association related fields (e.g. vectors)
+    if (!VECTOR_METHOD_INIT.isEmpty()) {
+        QStringList::Iterator it;
+        for( it = VectorFieldVariables.begin(); it != VectorFieldVariables.end(); ++it ) {
+            QString fieldVarName = *it;
+            QString method = VECTOR_METHOD_INIT;
+            method.replace(QRegExp("%VARNAME%"),fieldVarName);
+            method.replace(QRegExp("%VECTORTYPENAME%"), policyExt()->getVectorClassName());
+            stream << getIndent() << method << m_endl;
+        }
+    }
+
+    if (!OBJECT_METHOD_INIT.isEmpty()) {
+        QStringList::Iterator it;
+        for( it = ObjectFieldVariables.begin(); it != ObjectFieldVariables.end(); ++it ) {
+            QString fieldVarName = *it;
+            it++;
+            QString fieldClassName = *it;
+            QString method = OBJECT_METHOD_INIT;
+            method.replace(QRegExp("%VARNAME%"),fieldVarName);
+            method.replace(QRegExp("%ITEMCLASS%"),fieldClassName);
+            stream << getIndent() << method << m_endl;
+        }
+    }
+
+    // clean up
+    ObjectFieldVariables.clear(); // shouldn't be needed?
+    VectorFieldVariables.clear(); // shouldn't be needed?
+
+    m_indentLevel--;
+
+    stream << indent << "}" << m_endl;
 }
 
 // one day, this should print out non-empty constructor operations too.
 void CppWriter::writeConstructorMethods(QTextStream &stream)
 {
+    const bool generateEmptyConstructors =
+        UMLApp::app()->getCommonPolicy()->getAutoGenerateConstructors();
 
-    if (forceDoc() || WRITE_EMPTY_CONSTRUCTOR || WRITE_EMPTY_DESTRUCTOR)
-    {
+    if (forceDoc() || generateEmptyConstructors) {
         writeComment("Constructors/Destructors", getIndent(), stream);
         writeComment(" ", getIndent(), stream);
         writeBlankLine(stream);
     }
+    if (!generateEmptyConstructors)
+        return;
 
     QString className = m_classifierInfo->className;
-
     // empty constructor
-    if(WRITE_EMPTY_CONSTRUCTOR)
-    {
-        QString indent = getIndent();
-        stream << indent << className << "::" << className << " ( ) {" << m_endl;
-        if(m_classifierInfo->hasAttributes)
-            stream << indent << INDENT << "initAttributes();" << m_endl;
-        stream << indent << "}" << m_endl;
-        writeBlankLine(stream);
-    }
+    QString indent = getIndent();
+    stream << indent << className << "::" << className << " ( ) {" << m_endl;
+    if(m_classifierInfo->hasAttributes)
+        stream << indent << indent << "initAttributes();" << m_endl;
+    stream << indent << "}" << m_endl;
+    writeBlankLine(stream);
 
     // empty destructor
-    if(WRITE_EMPTY_DESTRUCTOR)
-    {
-        stream << getIndent() << className << "::~" << className << " ( ) { }" << m_endl;
-        writeBlankLine(stream);
-    }
-
+    stream << getIndent() << className << "::~" << className << " ( ) { }" << m_endl;
+    writeBlankLine(stream);
 }
 
 // IF the type is "string" we need to declare it as
@@ -1122,7 +1097,7 @@ QString CppWriter::fixTypeName(const QString &string)
     if (string.isEmpty())
         return "void";
     if (string == "string")
-        return STRING_TYPENAME;
+        return policyExt()->getStringClassName();
     return string;
 }
 
@@ -1155,6 +1130,8 @@ void CppWriter::writeOperations(UMLClassifier *c, bool isHeaderMethod,
 // a source file
 void CppWriter::writeOperations(UMLOperationList &oplist, bool isHeaderMethod, QTextStream &cpp) {
     QString className = m_classifierInfo->className;
+    const bool generateEmptyConstructors =
+        UMLApp::app()->getCommonPolicy()->getAutoGenerateConstructors();
 
     // generate method decl for each operation given
     for (UMLOperation *op = oplist.first(); op; op = oplist.next()) {
@@ -1164,10 +1141,10 @@ void CppWriter::writeOperations(UMLOperationList &oplist, bool isHeaderMethod, Q
         UMLAttributeList atl = op->getParmList();  // method parameters
 
         if (op->isConstructorOperation()) {
-            if (WRITE_EMPTY_CONSTRUCTOR && atl.count() == 0)
+            if (generateEmptyConstructors && atl.count() == 0)
                 continue;  // it's already been written, see writeConstructor{Decls,Methods}
         } else if (op->isDestructorOperation()) {
-            if (WRITE_EMPTY_DESTRUCTOR)
+            if (generateEmptyConstructors)
                 continue;  // it's already been written, see writeConstructor{Decls,Methods}
         } else {
             methodReturnType = fixTypeName(op->getTypeName());
@@ -1214,7 +1191,7 @@ void CppWriter::writeOperations(UMLOperationList &oplist, bool isHeaderMethod, Q
             str += " const";
 
         // method body : only gets IF its not in a header
-        if (isHeaderMethod && !INLINE_OPERATION_METHODS)
+        if (isHeaderMethod && !policyExt()->getOperationsAreInline())
             str += ';'; // terminate now
         else
             str +=getIndent() + " {\n\n" + getIndent() + '}'; // empty method body
@@ -1260,7 +1237,7 @@ QString CppWriter::fixInitialStringDeclValue(const QString &value, const QString
 {
     QString val = value;
     // check for strings only
-    if (!val.isEmpty() && type == STRING_TYPENAME) {
+    if (!val.isEmpty() && type == policyExt()->getStringClassName()) {
         if (!val.startsWith("\""))
             val.prepend("\"");
         if (!val.endsWith("\""))

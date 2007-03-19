@@ -84,11 +84,16 @@
 #include "rubycodecomment.h"
 #include "xmlcodecomment.h"
 
+#include "cppcodegenerationpolicy.h"
+#include "javacodegenerationpolicy.h"
+#include "rubycodegenerationpolicy.h"
+
 namespace CodeGenFactory {
 
 CodeGenerator* createObject(Uml::Programming_Language pl)  {
     CodeGenerator* obj = 0;
     Settings::OptionState optionState = Settings::getOptionState();
+    UMLApp::app()->setPolicyExt(NULL);
     switch (pl) {
         case Uml::pl_Ada:
             obj = new AdaWriter();
@@ -101,6 +106,11 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
                 obj = new CPPCodeGenerator();
             else
                 obj = new CppWriter();
+            {
+                CPPCodeGenerationPolicy *p =
+                    new CPPCodeGenerationPolicy(UMLApp::app()->getConfig());
+                UMLApp::app()->setPolicyExt(p);
+            }
             break;
         case Uml::pl_CSharp:
             obj = new CSharpWriter();
@@ -109,9 +119,12 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
             obj = new IDLWriter();
             break;
         case Uml::pl_Java:
-            if (optionState.generalState.newcodegen)
+            if (optionState.generalState.newcodegen) {
                 obj = new JavaCodeGenerator();
-            else
+                JavaCodeGenerationPolicy *p =
+                    new JavaCodeGenerationPolicy(UMLApp::app()->getConfig());
+                UMLApp::app()->setPolicyExt(p);
+            } else
                 obj = new JavaWriter();
             break;
         case Uml::pl_JavaScript:
@@ -133,9 +146,12 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
             obj = new PythonWriter();
             break;
         case Uml::pl_Ruby:
-            if (optionState.generalState.newcodegen)
+            if (optionState.generalState.newcodegen) {
                 obj = new RubyCodeGenerator();
-            else
+                RubyCodeGenerationPolicy *p =
+                    new RubyCodeGenerationPolicy(UMLApp::app()->getConfig());
+                UMLApp::app()->setPolicyExt(p);
+            } else
                 obj = new RubyWriter();
             break;
         case Uml::pl_SQL:
