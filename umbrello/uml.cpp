@@ -562,14 +562,14 @@ void UMLApp::initView() {
     m_listView->init();
     m_listDock->setWidget(m_listView);
 
-    m_documentationDock = new QDockWidget( i18n("&Documentation"), this );
+    m_documentationDock = new QDockWidget( i18n("D&ocumentation"), this );
     addDockWidget(Qt::LeftDockWidgetArea, m_documentationDock);
     m_pDocWindow = new DocWindow(m_doc, m_documentationDock, "DOCWINDOW");
     m_documentationDock->setWidget(m_pDocWindow);
 
     m_doc->setupSignals();//make sure gets signal from list view
 
-    m_cmdHistoryDock = new QDockWidget(i18n("Command history"), this);
+    m_cmdHistoryDock = new QDockWidget(i18n("Co&mmand history"), this);
     addDockWidget(Qt::LeftDockWidgetArea, m_cmdHistoryDock);
     // create cmd history view
     m_pQUndoView = new QUndoView(m_cmdHistoryDock);
@@ -578,7 +578,7 @@ void UMLApp::initView() {
     m_pQUndoView->setStack(m_pUndoStack);
     
     // Create the property viewer
-    m_propertyDock = new QDockWidget(i18n("Properties"), this);
+    m_propertyDock = new QDockWidget(i18n("&Properties"), this);
     addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);
     
     tabifyDockWidget(m_documentationDock, m_cmdHistoryDock);
