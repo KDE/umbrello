@@ -1097,11 +1097,7 @@ void UMLApp::readOptionState() {
     Settings::OptionState& optionState = Settings::getOptionState();
     optionState.generalState.undo = m_config -> readBoolEntry( "undo", true );
     optionState.generalState.tabdiagrams = m_config -> readBoolEntry("tabdiagrams", false);
-#if defined (BUG84739_FIXED)
     optionState.generalState.newcodegen = m_config -> readBoolEntry("newcodegen", false);
-#else
-    optionState.generalState.newcodegen = false;
-#endif
     optionState.generalState.angularlines = m_config->readBoolEntry("angularlines", false);
     optionState.generalState.autosave = m_config -> readBoolEntry( "autosave", true );
     optionState.generalState.time = m_config -> readNumEntry( "time", 0 ); //old autosavetime value kept for compatibility
