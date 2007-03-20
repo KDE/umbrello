@@ -2164,25 +2164,40 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
     UMLAttributeList attrList = klass->getAttributeList();
     for (UMLAttributeListIt ait(attrList); ait.current(); ++ait) {
         UMLAttribute *attr = ait.current();
-        UMLClassifier *attrType = attr->getType();
-        if (attrType == NULL) {
-            // kDebug() << "UMLView::createAutoAttributeAssociations("
-            //     << klass->getName() << "): type is NULL for "
-            //     << "attribute " << attr->getName() << endl;
-            continue;
+        createAutoAttributeAssociation(attr->getType(), attr,widget);
+        /*
+         * The following code from attachment 19935 of http://bugs.kde.org/140669
+         * creates Aggregation/Composition to the template parameters.
+         * The current solution uses Dependency instead, see handling of template
+         * instantiation at Import_Utils::createUMLObject().
+        UMLClassifierList templateList = attr->getTemplateParams();
+        for (UMLClassifierListIt it(templateList); it.current(); ++it) {
+            createAutoAttributeAssociation(it,attr,widget);
         }
-        Uml::Association_Type assocType = Uml::at_Composition;
-        UMLWidget *w = findWidget( attrType->getID() );
-        AssociationWidget *aw = NULL;
-        // if the attribute type has a widget representation on this view
-        if (w) {
-           aw = findAssocWidget(widget, w) ;
-           if ( ( aw == NULL || aw->getRoleName(Uml::B) != attr->getName() ) &&
-              // if the current diagram type permits compositions
-                AssocRules::allowAssociation(assocType, widget, w, false) ) {
+         */
+    }
+}
+
+void UMLView::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute *attr,
+                                             UMLWidget *widget /*, UMLClassifier * klass*/) {
+    if (type == NULL) {
+        // kDebug() << "UMLView::createAutoAttributeAssociations("
+        //     << klass->getName() << "): type is NULL for "
+        //     << "attribute " << attr->getName() << endl;
+        return;
+    }
+    Uml::Association_Type assocType = Uml::at_Composition;
+    UMLWidget *w = findWidget( type->getID() );
+    AssociationWidget *aw = NULL;
+    // if the attribute type has a widget representation on this view
+    if (w) {
+        aw = findAssocWidget(widget, w) ;
+        if ( ( aw == NULL || aw->getRoleName(Uml::B) != attr->getName() ) &&
+               // if the current diagram type permits compositions
+               AssocRules::allowAssociation(assocType, widget, w, false) ) {
             // Create a composition AssocWidget, or, if the attribute type is
             // stereotyped <<CORBAInterface>>, create a UniAssociation widget.
-            if (attrType->getStereotype() == "CORBAInterface")
+            if (type->getStereotype() == "CORBAInterface")
                 assocType = at_UniAssociation;
             AssociationWidget *a = new AssociationWidget (this, widget, assocType, w);
             a->setUMLObject(attr);
@@ -2190,32 +2205,32 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
             a->setVisibility(attr->getVisibility(), B);
             /*
             if (assocType == at_Aggregation || assocType == at_UniAssociation)
-               a->setMulti("0..1", B);
-             */
+            a->setMulti("0..1", B);
+            */
             a->setRoleName(attr->getName(), B);
             a->setActivated(true);
             if (! addAssociation(a))
                 delete a;
-           }
         }
-        // if the attribute type is a Datatype then
-        if (attrType->getBaseType() == ot_Datatype) {
-            UMLClassifier *dt = static_cast<UMLClassifier*>(attrType);
-            // if the Datatype is a reference (pointer) type
-            if (dt->isReference()) {
-                Uml::Association_Type assocType = Uml::at_Composition;
-                UMLClassifier *c = dt->originType();
-                UMLWidget *w = c ? findWidget( c->getID() ) : 0;
-                // if the referenced type has a widget representation on this view
-                if (w) {
-                   aw = findAssocWidget(widget, w);
-                   if (aw == NULL &&
-                        // if the current diagram type permits aggregations
-                        AssocRules::allowAssociation(at_Aggregation, widget, w, false)) {
+    }
+    // if the attribute type is a Datatype then
+    if (type->getBaseType() == ot_Datatype) {
+        UMLClassifier *dt = static_cast<UMLClassifier*>(type);
+        // if the Datatype is a reference (pointer) type
+        if (dt->isReference()) {
+            //Uml::Association_Type assocType = Uml::at_Composition;
+            UMLClassifier *c = dt->originType();
+            UMLWidget *w = c ? findWidget( c->getID() ) : 0;
+            // if the referenced type has a widget representation on this view
+            if (w) {
+                aw = findAssocWidget(widget, w);
+                if (aw == NULL &&
+                    // if the current diagram type permits aggregations
+                    AssocRules::allowAssociation(at_Aggregation, widget, w, false)) {
                     // create an aggregation AssocWidget from the ClassifierWidget
                     // to the widget of the referenced type
                     AssociationWidget *a = new AssociationWidget
-                                           (this, widget, at_Aggregation, w);
+                            (this, widget, at_Aggregation, w);
                     a->setUMLObject(attr);
                     a->calculateEndingPoints();
                     a->setVisibility(attr->getVisibility(), B);
@@ -2225,7 +2240,6 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
                     a->setActivated(true);
                     if (! addAssociation(a))
                         delete a;
-                   }
                 }
             }
         }

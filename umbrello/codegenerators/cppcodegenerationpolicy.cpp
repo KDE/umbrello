@@ -28,7 +28,7 @@ const bool CPPCodeGenerationPolicy::DEFAULT_AUTO_GEN_ACCESSORS = true;
 const bool CPPCodeGenerationPolicy::DEFAULT_INLINE_ACCESSORS = false;
 const bool CPPCodeGenerationPolicy::DEFAULT_INLINE_OPERATIONS = false;
 const bool CPPCodeGenerationPolicy::DEFAULT_VIRTUAL_DESTRUCTORS = true;
-const bool CPPCodeGenerationPolicy::DEFAULT_PACKAGE_IS_NAMESPACE = false;
+const bool CPPCodeGenerationPolicy::DEFAULT_PACKAGE_IS_NAMESPACE = true;
 const char * CPPCodeGenerationPolicy::DEFAULT_STRING_CLASS_NAME = "string";
 const char * CPPCodeGenerationPolicy::DEFAULT_STRING_CLASS_INCLUDE = "string";
 const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_CLASS_NAME = "vector";
@@ -162,10 +162,6 @@ void CPPCodeGenerationPolicy::setAutoGenerateAccessors( bool var ) {
     UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
 }
 
-/**
- * Get the value of m_autoGenerateConstructors
- * @return the value of m_autoGenerateConstructors
- */
 bool CPPCodeGenerationPolicy::getAutoGenerateAccessors( ){
     return m_autoGenerateAccessors;
 }

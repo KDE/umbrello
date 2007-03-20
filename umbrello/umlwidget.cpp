@@ -601,21 +601,18 @@ void UMLWidget::adjustUnselectedAssocs(int x, int y)
     }
 }
 
-bool UMLWidget::showProperties() {
+void UMLWidget::showProperties() {
     // will already be selected so make sure docWindow updates the doc
     // back it the widget
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation( false );
     ClassPropDlg *dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
 
-    bool modified = false;
     if (dlg->exec()) {
         docwindow->showDocumentation( getUMLObject() , true );
         UMLApp::app()->getDocument()->setModified(true);
-        modified = true;
     }
     dlg->close(true); //wipe from memory
-    return modified;
 }
 
 void UMLWidget::startPopupMenu( const QPoint &At) {

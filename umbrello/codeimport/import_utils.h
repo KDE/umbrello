@@ -50,6 +50,12 @@ namespace Import_Utils {
     void putAtGlobalScope(bool yesno);
 
     /**
+     * Set a related classifier for creation of dependencies on template
+     * parameters in createUMLObject().
+     */
+    void setRelatedClassifier(UMLClassifier *c);
+
+    /**
      * Control whether the creation methods solicit a new unique ID for the
      * created object.
      * By default, unique ID generation is turned on.

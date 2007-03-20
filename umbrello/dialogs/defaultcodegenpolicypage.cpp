@@ -24,7 +24,7 @@
 /** This is the page which comes up IF there is no special options for the
  * code generator.
  */
-DefaultCodeGenPolicyPage::DefaultCodeGenPolicyPage ( QWidget *parent, const char *name, CodeGenerationPolicy * policy )
+DefaultCodeGenPolicyPage::DefaultCodeGenPolicyPage ( QWidget *parent, const char *name, CodeGenPolicyExt * policy )
         :CodeGenerationPolicyPage(parent,name,policy)
 {
     textLabel = new QLabel(parent,"textLabel");

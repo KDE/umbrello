@@ -246,4 +246,72 @@ bool UMLAttribute::showPropertiesDialog(QWidget* parent) {
 }
 
 
+void UMLAttribute::setTemplateParams(QString templateParam, UMLClassifierList &templateParamList) {
+    if (templateParam.isEmpty())
+        return;
+    QString type = templateParam.simplifyWhiteSpace();
+
+    int start = type.find(QChar('<'));
+    if (start >= 0 ) {
+        int end = start;
+        int count = 1;
+        int len = type.length();
+        while (count != 0 && ++end < len) {
+            QChar c = type.at(end);
+            if (c == QChar('<')) {
+                count++;
+            }
+            if (c == QChar('>')) {
+                count--;
+            }
+        }
+        if (count != 0) {
+            //The template is ill-formated, let's quit
+            return;
+        }
+        setTemplateParams(type.mid(start + 1, end - start - 1), templateParamList);
+        setTemplateParams(type.left(start) + type.right(len - end - 1), templateParamList);
+    } else {
+        QStringList paramsList = QStringList::split(QChar(','), type);
+        for ( QStringList::Iterator it = paramsList.begin(); it != paramsList.end(); ++it ) {
+            QString param = *it;
+            if (!param.isEmpty()) {
+                UMLDoc *pDoc = UMLApp::app()->getDocument();
+                UMLObject* obj = pDoc->findUMLObject(param);
+                if (obj == NULL ) {
+                    obj = pDoc->findUMLObject(param.remove(QChar(' ')));
+                }
+                if (obj != NULL ) {
+                    //We want to list only the params that already exist in this document
+                    //If the param doesnt't already exist, we couldn't draw an association anyway
+                    UMLClassifier* tmpClassifier = static_cast<UMLClassifier*>(obj);
+                    if (templateParamList.findRef(tmpClassifier) == -1) {
+                        templateParamList.append(tmpClassifier);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+UMLClassifierList UMLAttribute::getTemplateParams() {
+    UMLClassifierList templateParamList;
+    QString type = getType()->getName();
+    QString templateParam;
+    //template and generic only in C++ and Java ?
+    if (UMLApp::app()->getActiveLanguage() == Uml::pl_Cpp || UMLApp::app()->getActiveLanguage() == Uml::pl_Java) {
+        int start = type.find(QChar('<'));
+        if (start >= 0 ) {
+            int end = type.findRev(QChar('>'));
+            if (end > start) {
+                templateParam = type.mid(start + 1, end - start - 1);
+                setTemplateParams(templateParam, templateParamList);
+            }
+        }
+    }
+    return templateParamList;
+}
+
+
 

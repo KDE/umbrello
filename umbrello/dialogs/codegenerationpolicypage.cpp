@@ -21,7 +21,7 @@
 /** This is the page which comes up IF there is no special options for the
  * code generator.
  */
-CodeGenerationPolicyPage::CodeGenerationPolicyPage( QWidget *parent, const char *name, CodeGenerationPolicy * policy )
+CodeGenerationPolicyPage::CodeGenerationPolicyPage( QWidget *parent, const char *name, CodeGenPolicyExt * policy )
         :CodeGenerationPolicyBase(parent,name)
 {
     m_parentPolicy = policy;

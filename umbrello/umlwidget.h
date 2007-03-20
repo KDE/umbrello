@@ -423,10 +423,8 @@ public:
 
     /**
      * Show a properties dialog for a UMLWidget.
-     *
-     * @return  True if the widget was modified.
      */
-    bool showProperties();
+    virtual void showProperties();
 
     /**
      * Returns true if the Activate method has been called for this instance

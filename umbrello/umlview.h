@@ -45,7 +45,9 @@ class ObjectWidget;
 class UMLFolder;
 class UMLApp;
 class UMLDoc;
+class UMLAttribute;
 class UMLCanvasObject;
+class UMLClassifier;
 class UMLViewImageExporter;
 
 class KPrinter;
@@ -1165,6 +1167,14 @@ private:
      * The UMLViewImageExporter used to export the view.
      */
     UMLViewImageExporter* m_pImageExporter;
+
+    /**
+     * Create an association with the attribute attr associated with the UMLWidget
+     * widget if the UMLClassifier type is present on the current diagram.
+     */
+    void createAutoAttributeAssociation(UMLClassifier *type,
+                                        UMLAttribute *attr,
+                                        UMLWidget *widget);
 
 public slots:
 

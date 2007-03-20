@@ -402,7 +402,7 @@ CodeGenerationPolicy::ScopePolicy CodeGenerationPolicy::getAssociationFieldScope
  * @return dialog object
  */
 CodeGenerationPolicyPage * CodeGenerationPolicy::createPage ( QWidget *pWidget, const char *name ) {
-    return new CodeGenerationPolicyPage ( pWidget, name, this );
+    return new CodeGenerationPolicyPage ( pWidget, name, 0 );
 }
 
 // Other methods

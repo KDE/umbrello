@@ -141,10 +141,8 @@ public:
 
     /**
      * Show a properties dialog for an ObjectWidget.
-     *
-     * @return  True if we modified the object.
      */
-    bool showProperties();
+    void showProperties();
 
     /**
      * Returns whether to draw as an Actor or not.

@@ -23,7 +23,7 @@
 #include <qwidget.h>
 #include "codegenerationpolicybase.h"
 
-class CodeGenerationPolicy;
+class CodeGenPolicyExt;
 
 /**
  * @author Brian Thomas
@@ -32,7 +32,7 @@ class CodeGenerationPolicy;
 class CodeGenerationPolicyPage : public CodeGenerationPolicyBase  {
     Q_OBJECT
 public:
-    CodeGenerationPolicyPage (QWidget *parent=0, const char *name=0, CodeGenerationPolicy * policy = 0);
+    CodeGenerationPolicyPage (QWidget *parent=0, const char *name=0, CodeGenPolicyExt * policy = 0);
 
     virtual ~CodeGenerationPolicyPage();
 
@@ -40,7 +40,7 @@ public:
 
 protected:
 
-    CodeGenerationPolicy * m_parentPolicy;
+    CodeGenPolicyExt * m_parentPolicy;
 
 private:
 

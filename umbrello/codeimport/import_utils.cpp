@@ -47,6 +47,12 @@ namespace Import_Utils {
 bool bNewUMLObjectWasCreated = false;
 
 /**
+ * Related classifier for creation of dependencies on template
+ * parameters in createUMLObject().
+ */
+UMLClassifier * gRelatedClassifier = NULL;
+
+/**
  * On encountering a scoped typename string where the scopes
  * have not yet been seen, we synthesize UML objects for the
  * unknown scopes (using a question dialog to the user to decide
@@ -63,6 +69,10 @@ QStringList incPathList;
 
 void putAtGlobalScope(bool yesno) {
     bPutAtGlobalScope = yesno;
+}
+
+void setRelatedClassifier(UMLClassifier *c) {
+    gRelatedClassifier = c;
 }
 
 void assignUniqueIdOnCreation(bool yesno) {
@@ -123,6 +133,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
     QString name = inName;
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     UMLFolder *logicalView = umldoc->getRootFolder(Uml::mt_Logical);
+    const Uml::Programming_Language pl = UMLApp::app()->getActiveLanguage();
     if (parentPkg == NULL) {
         // kDebug() << "Import_Utils::createUMLObject(" << name
         //     << "): parentPkg is NULL, assuming Logical View" << endl;
@@ -155,7 +166,6 @@ UMLObject *createUMLObject(Uml::Object_Type type,
             if (components.count() > 1) {
                 typeName = components.back();
                 components.pop_back();
-                Uml::Programming_Language pl = UMLApp::app()->getActiveLanguage();
                 while ( components.count() ) {
                     QString scopeName = components.front();
                     components.pop_front();
@@ -221,12 +231,15 @@ UMLObject *createUMLObject(Uml::Object_Type type,
         }
     } else if (parentPkg && !bPutAtGlobalScope) {
         UMLPackage *existingPkg = o->getUMLPackage();
-        if (existingPkg == umldoc->getDatatypeFolder())
-            return o;
-        if (existingPkg)
-            existingPkg->removeObject(o);
-        o->setUMLPackage(parentPkg);
-        parentPkg->addObject(o);
+        if (existingPkg != umldoc->getDatatypeFolder()) {
+            if (existingPkg)
+                existingPkg->removeObject(o);
+            else
+                kError() << "createUMLObject(" << name << "): "
+                    << "o->getUMLPackage() was NULL" << endl;
+            o->setUMLPackage(parentPkg);
+            parentPkg->addObject(o);
+        }
     }
     QString strippedComment = formatComment(comment);
     if (! strippedComment.isEmpty()) {
@@ -235,6 +248,30 @@ UMLObject *createUMLObject(Uml::Object_Type type,
     }
     if (!stereotype.isEmpty()) {
         o->setStereotype(stereotype);
+    }
+    if (gRelatedClassifier == NULL || gRelatedClassifier == o)
+        return o;
+    QRegExp templateInstantiation("^[\\w:\\.]+\\s*<(.*)>");
+    int pos = templateInstantiation.search(name);
+    if (pos == -1)
+        return o;
+    // Create dependencies on template parameters.
+    QString caption = templateInstantiation.cap(1);
+    QStringList params = QStringList::split(QRegExp("[^\\w:\\.]+"), caption);
+    if (!params.count())
+        return o;
+    QStringList::Iterator end(params.end());
+    for (QStringList::Iterator it(params.begin()); it != end; ++it) {
+        UMLObject *p = umldoc->findUMLObject(*it, Uml::ot_UMLObject, parentPkg);
+        if (p == NULL || p->getBaseType() == Uml::ot_Datatype)
+            continue;
+        const Uml::Association_Type at = Uml::at_Dependency;
+        UMLAssociation *assoc = umldoc->findAssociation(at, gRelatedClassifier, p);
+        if (assoc)
+            continue;
+        assoc = new UMLAssociation(at, gRelatedClassifier, p);
+        assoc->setUMLPackage(umldoc->getRootFolder(Uml::mt_Logical));
+        umldoc->addAssociation(assoc);
     }
     return o;
 }
@@ -282,7 +319,9 @@ UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope,
     UMLObject *attrType = owner->findTemplate(type);
     if (attrType == NULL) {
         bPutAtGlobalScope = true;
+        gRelatedClassifier = owner;
         attrType = createUMLObject(Uml::ot_UMLObject, type, owner);
+        gRelatedClassifier = NULL;
         bPutAtGlobalScope = false;
     }
     return insertAttribute (owner, scope, name, 
@@ -304,7 +343,9 @@ void insertMethod(UMLClassifier *klass, UMLOperation *op,
             UMLObject *typeObj = klass->findTemplate(type);
             if (typeObj == NULL) {
                 bPutAtGlobalScope = true;
+                gRelatedClassifier = klass;
                 typeObj = createUMLObject(Uml::ot_UMLObject, type, klass);
+                gRelatedClassifier = NULL;
                 bPutAtGlobalScope = false;
                 op->setType(typeObj);
             }
@@ -338,7 +379,9 @@ UMLAttribute* addMethodParameter(UMLOperation *method,
     UMLObject *typeObj = owner->findTemplate(type);
     if (typeObj == NULL) {
         bPutAtGlobalScope = true;
+        gRelatedClassifier = owner;
         typeObj = createUMLObject(Uml::ot_UMLObject, type, owner);
+        gRelatedClassifier = NULL;
         bPutAtGlobalScope = false;
     }
     UMLAttribute *attr = Object_Factory::createAttribute(method, name, typeObj);
