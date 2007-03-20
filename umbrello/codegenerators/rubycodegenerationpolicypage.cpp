@@ -29,7 +29,7 @@
 #include "../uml.h"
 
 RubyCodeGenerationPolicyPage::RubyCodeGenerationPolicyPage( QWidget *parent, const char *name, RubyCodeGenerationPolicy * policy )
-        :CodeGenerationPolicyPage(parent, name, UMLApp::app()->getCommonPolicy())
+  : CodeGenerationPolicyPage(parent, name, policy)
 {
     CodeGenerationPolicy *common = UMLApp::app()->getCommonPolicy();
     form = new RubyCodeGenerationFormBase(this);

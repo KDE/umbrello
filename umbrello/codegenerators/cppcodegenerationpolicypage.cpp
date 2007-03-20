@@ -27,7 +27,7 @@
 #include "../uml.h"
 
 CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage( QWidget *parent, const char *name, CPPCodeGenerationPolicy * policy )
-  : CodeGenerationPolicyPage(parent, name, UMLApp::app()->getCommonPolicy())
+  : CodeGenerationPolicyPage(parent, name, policy)
 {
     CodeGenerationPolicy *common = UMLApp::app()->getCommonPolicy();
     form = new CPPCodeGenerationForm(this);

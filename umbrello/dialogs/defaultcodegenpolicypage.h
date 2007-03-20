@@ -19,7 +19,7 @@ class QVBoxLayout;
 class QHBoxLayout;
 class QGridLayout;
 class QLabel;
-class CodeGenerationPolicy;
+class CodeGenePolicyExt;
 
 class DefaultCodeGenPolicyPage : public CodeGenerationPolicyPage
 {
@@ -27,7 +27,7 @@ class DefaultCodeGenPolicyPage : public CodeGenerationPolicyPage
 
 public:
 
-    DefaultCodeGenPolicyPage( QWidget* parent = 0, const char* name = 0, CodeGenerationPolicy * policy =0);
+    DefaultCodeGenPolicyPage( QWidget* parent = 0, const char* name = 0, CodeGenPolicyExt * policy =0);
 
     ~DefaultCodeGenPolicyPage();
 
