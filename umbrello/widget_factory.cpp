@@ -53,7 +53,6 @@
 #include "combinedfragmentwidget.h"
 #include "seqlinewidget.h"
 #include "preconditionwidget.h"
-#include "endoflifewidget.h"
 #include "signalwidget.h"
 #include "floatingdashlinewidget.h"
 #include "objectnodewidget.h"
@@ -164,16 +163,15 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
     if (tag == "statewidget"             || tag == "notewidget" 
      || tag == "boxwidget"               || tag == "floatingtext" 
      || tag == "activitywidget"          || tag == "forkjoin" 
-     || tag == "preconditionwidget"      || tag == "endoflifewidget" 
-     || tag == "combinedFragmentwidget"  || tag == "signalwidget"  
+     || tag == "preconditionwidget"      || tag == "combinedFragmentwidget"  
+     || tag == "signalwidget"  
      || tag == "objectnodewidget"        || tag == "floatingdashlinewidget" 
      || tag == "regionwidget"
             // tests for backward compatibility:
      || tag == "UML:StateWidget"            || tag == "UML:NoteWidget" 
      || tag =="UML:CombinedFragmentWidget"  || tag == "UML:FloatingTextWidget" 
      || tag == "UML:SignalWidget"           || tag == "UML:ActivityWidget" 
-     || tag == "UML:EndOfLifeWidget"        || tag == "UML:PreconditionWidget"
-     || tag == "UML:FloatingDashLineWidget" || tag == "UML:ObjectNodeWidget" ) {
+     || tag == "UML:PreconditionWidget"     || tag == "UML:FloatingDashLineWidget" || tag == "UML:ObjectNodeWidget" ) {
         // Loading of widgets which do NOT represent any UMLObject, 
         // just graphic stuff with no real model information
         //FIXME while boxes and texts are just diagram objects, activities and
@@ -197,9 +195,6 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         } else if (tag == "preconditionwidget"
                    ||tag == "UML:PreconditionWidget") {
             widget = new PreconditionWidget(view, NULL, Uml::id_Reserved);
-	} else if (tag == "endoflifewidget"
-                   || tag == "UML:EndOfLifeWidget") {
-            widget = new EndOfLifeWidget(view, NULL, Uml::id_Reserved);
 	} else if (tag == "combinedFragmentwidget"
                    ||tag=="UML:CombinedFragmentWidget" ) {
             widget = new CombinedFragmentWidget(view, CombinedFragmentWidget::Ref, Uml::id_Reserved);

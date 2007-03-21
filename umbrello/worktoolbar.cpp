@@ -116,7 +116,6 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 	insertHotBtn(tbb_Seq_Message_Lost);
         insertHotBtn(tbb_Seq_Combined_Fragment);
 	insertHotBtn(tbb_Seq_Precondition);
-	insertHotBtn(tbb_Seq_End_Of_Life);
         break;
 
     case Uml::dt_Collaboration:
@@ -265,7 +264,6 @@ void WorkToolBar::loadPixmaps() {
         { tbb_Seq_Message_Found, i18n("Found Message"), "message-found.png", SLOT(slotSeq_Message_Found()) },
         { tbb_Seq_Message_Lost, i18n("Lost Message"), "message-lost.png", SLOT(slotSeq_Message_Lost()) },
         { tbb_Seq_Combined_Fragment, i18n("Combined Fragment"), "combined_fragment.png", SLOT(slotSeq_Combined_Fragment()) },
-	{ tbb_Seq_End_Of_Life, i18n("End of life"), "end_of_life.png", SLOT(slotSeq_End_Of_Life()) },
 	{ tbb_Seq_Precondition, i18n("Precondition"),"precondition.png",SLOT(slotSeq_Precondition()) },
         { tbb_Association, i18n("Association"), "association.png", SLOT(slotAssociation()) },
         { tbb_Containment, i18n("Containment"), "containment.png", SLOT(slotContainment()) },
@@ -362,7 +360,6 @@ void WorkToolBar::slotSeq_Message_Found(){buttonChanged(tbb_Seq_Message_Found);}
 void WorkToolBar::slotSeq_Message_Lost(){buttonChanged(tbb_Seq_Message_Lost);}
 void WorkToolBar::slotSeq_Combined_Fragment(){buttonChanged(tbb_Seq_Combined_Fragment);}
 void WorkToolBar::slotSeq_Precondition(){buttonChanged(tbb_Seq_Precondition);}
-void WorkToolBar::slotSeq_End_Of_Life(){buttonChanged(tbb_Seq_End_Of_Life);}
 void WorkToolBar::slotComposition() {buttonChanged(tbb_Composition);}
 void WorkToolBar::slotRelationship() {buttonChanged(tbb_Relationship);}
 void WorkToolBar::slotUniAssociation() {buttonChanged(tbb_UniAssociation);}

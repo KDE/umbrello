@@ -110,7 +110,6 @@ enum Widget_Type
     wt_FloatingDashLine,        // does not have UMLObject representation
     wt_Signal,	                // does not have UMLObject representation
     wt_Pin,
-    wt_EndOfLife,	
     wt_ObjectNode	
 };
 

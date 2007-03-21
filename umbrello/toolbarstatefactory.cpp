@@ -92,7 +92,6 @@ int ToolBarStateFactory::getKey(const WorkToolBar::ToolBar_Buttons &toolbarButto
     case WorkToolBar::tbb_Seq_Message_Lost: 	    return 2;
     
     case WorkToolBar::tbb_Seq_Precondition: return 4;
-    case WorkToolBar::tbb_Seq_End_Of_Life: return 4;
     case WorkToolBar::tbb_Pin: return 4;
     
     	// Arrow pointer

@@ -19,7 +19,6 @@
 #include "floatingtextwidget.h"
 #include "pinwidget.h"
 #include "preconditionwidget.h"
-#include "endoflifewidget.h"
 #include "messagewidget.h"
 #include "objectwidget.h"
 #include "activitywidget.h"
@@ -85,19 +84,7 @@ void ToolBarStateOneWidget::mouseReleaseWidget() {
     if (widgetType == Uml::wt_Pin) {
 	m_firstObject = 0;
     }
-    else if (widgetType == Uml::wt_EndOfLife) {
-	//test if there isn't an endoflife widget on the selected widget yet
-	UMLWidgetListIt w_it(m_umlView->getWidgetList());
-	while( ( widget = w_it.current() ) ) {
-            ++w_it;
-            if (widget->getBaseType() == Uml::wt_EndOfLife) {
-		if (dynamic_cast<EndOfLifeWidget*>(widget)->m_pOw[Uml::A]->getID() == getCurrentWidget()->getID())
-		    return;
-		else
-		     m_firstObject = 0;
-	    }
-	}
-    }
+  
     if (m_pMouseEvent->button() != Qt::LeftButton ||(
                 getCurrentWidget()->getBaseType() != Uml::wt_Object &&
                 getCurrentWidget()->getBaseType() != Uml::wt_Activity)) {
@@ -140,13 +127,6 @@ void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject) {
     	    // Create the widget. Some setup functions can remove the widget.
     	
     }
-    if (getWidgetType() == Uml::wt_EndOfLife) {
-   	umlwidget = new EndOfLifeWidget(m_pUMLView, static_cast<ObjectWidget*>(m_firstObject));
-
-	//Dialog_Utils::askNameForWidget(umlwidget, i18n("Enter Precondition Name"), i18n("Enter the precondition"), i18n("new precondition"));
-    	    // Create the widget. Some setup functions can remove the widget.
-    	
-    }
 
     if (umlwidget != NULL) {
             m_pUMLView->setupNewWidget(umlwidget);
@@ -159,9 +139,7 @@ Uml::Widget_Type ToolBarStateOneWidget::getWidgetType() {
     if (getButton() == WorkToolBar::tbb_Seq_Precondition) {
         return Uml::wt_Precondition;
     }
-    if (getButton() == WorkToolBar::tbb_Seq_End_Of_Life) {
-        return Uml::wt_EndOfLife;
-    }
+
     if (getButton() == WorkToolBar::tbb_Pin) {
         return Uml::wt_Pin;
     }
