@@ -16,6 +16,7 @@
 #include "umlwidget.h"
 #include "worktoolbar.h"
 #include "floatingtextwidget.h"
+#include "linkwidget.h"
 
 #define SIGNAL_MARGIN 5
 #define SIGNAL_WIDTH 45
@@ -52,6 +53,12 @@ public:
      */
     void draw(QPainter & p, int offsetX, int offsetY);
 
+     /**
+     * Overrides the standard methods.
+     */
+    void setX(int newX);
+    void setY(int newY);
+
     /**
      * Sets the name of the signal.
      */
@@ -72,12 +79,20 @@ public:
      */
     void setSignalType( SignalType signalType );
 
+    void slotMenuSelection(int sel);
+
     /**
      * Show a properties dialog for a SignalWidget.
      *
      * @return  True if we modified the signal.
      */
     bool showProperties();
+
+
+    /**
+     * Overrides mouseMoveEvent.
+     */
+    void mouseMoveEvent(QMouseEvent *me);
 
     /**
      * Creates the <signalwidget> XMI element.
@@ -100,7 +115,17 @@ protected:
      */
     SignalType m_SignalType;
 
+    /**
+     * Save the value of the widget to know how to move the floatingtext
+     */
+    int m_oldX;
+    int m_oldY;
+
     // Only for the time event
+    /**
+     * This is a pointer to the Floating Text widget which displays the
+     * name of the signal widget.
+     */
     FloatingTextWidget* m_pName;
 
 };

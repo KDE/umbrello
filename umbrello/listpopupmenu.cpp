@@ -359,7 +359,6 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         insertStdItem(mt_Line_Color);
         break;
 
-    case Uml::wt_Signal:
     case Uml::wt_Pin:
 	setupColor( object -> getUseFillColour() );
         insertSeparator();
@@ -431,6 +430,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         }
         break;
 
+    case Uml::wt_Signal:
     case Uml::wt_FloatingDashLine:
     case Uml::wt_Precondition:
 	setupColor( object -> getUseFillColour() );
