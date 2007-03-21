@@ -216,19 +216,15 @@ bool StateWidget::renameActivity( const QString &activity, const QString &newNam
     return true;
 }
 
-bool StateWidget::showProperties() {
+void StateWidget::showProperties() {
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
 
     StateDialog dialog(m_pView, this);
-    bool modified = false;
     if (dialog.exec() && dialog.getChangesMade()) {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->getDocument()->setModified(true);
-        modified = true;
     }
-
-    return modified;
 }
 
 bool StateWidget::isState(WorkToolBar::ToolBar_Buttons tbb, StateType& resultType)

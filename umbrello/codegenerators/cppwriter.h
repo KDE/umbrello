@@ -21,6 +21,7 @@
 #define CPPWRITER_H
 
 #include "simplecodegenerator.h"
+#include "cppcodegenerationpolicy.h"
 #include "../umloperationlist.h"
 #include "../umlattributelist.h"
 #include "../umlassociationlist.h"
@@ -266,58 +267,24 @@ private:
     void writeBlankLine(QTextStream &stream);
 
     /**
-     * Basic "unit" of indentation 
+     * Return the policy object
      */
-    QString INDENT;
+    CPPCodeGenerationPolicy *policyExt();
 
     /**
      * Summary information about current classifier.
      */
     ClassifierInfo * m_classifierInfo;
 
-    /**
-     * When we create a string variable, what do we use? this is the default..
-     */
-    QString STRING_TYPENAME;
-    QString STRING_TYPENAME_INCLUDE;
-
-    /**
-     * When we create a 'vector' variable, what do we use? this is the default..
-     */
-    QString VECTOR_TYPENAME;
-    QString VECTOR_TYPENAME_INCLUDE;
     QString VECTOR_METHOD_APPEND;
     QString VECTOR_METHOD_REMOVE;
     QString VECTOR_METHOD_INIT;
     QString OBJECT_METHOD_INIT;
 
     /**
-     * Create various methods for class attributes/associations/operations as inline decl in header.
+     * Create association methods for class attributes/associations/operations as inline decl in header.
      */
-    bool INLINE_ATTRIBUTE_METHODS;
     bool INLINE_ASSOCIATION_METHODS;
-    bool INLINE_OPERATION_METHODS;
-
-    /**
-     * Control whether or not we want to write the package name as a namespace
-     * in our class.
-     */
-    bool WRITE_PACKAGE_NAMESPACE;
-    /**
-     * Constrol whether or not we want to have a constructor/destructor written
-     */
-    bool WRITE_EMPTY_CONSTRUCTOR;
-    bool WRITE_EMPTY_DESTRUCTOR;
-
-    /**
-     * Control whether we want accessor methods generated for attributes.
-     */
-    bool WRITE_ATTRIBUTE_ACCESSOR_METHODS;
-
-    /**
-     * Should destuctors be declared as virtual?
-     */
-    bool WRITE_VIRTUAL_DESTRUCTORS;
 
     QStringList ObjectFieldVariables;
     QStringList VectorFieldVariables;

@@ -73,28 +73,28 @@ QStringList UMLViewImageExporterModel::supportedMimeTypes() {
 
 QString UMLViewImageExporterModel::imageTypeToMimeType(const QString& imageType) {
     const QString imgType = imageType.lower();
-    if (QString("bmp") == imgType) return "image/x-bmp";
+    if (QString("bmp") == imgType) return "image/bmp";
     if (QString("jpeg") == imgType) return "image/jpeg";
     if (QString("pbm") == imgType) return "image/x-portable-bitmap";
-    if (QString("pgm") == imgType) return "image/x-portable-greymap";
+    if (QString("pgm") == imgType) return "image/x-portable-graymap";
     if (QString("png") == imgType) return "image/png";
     if (QString("ppm") == imgType) return "image/x-portable-pixmap";
-    if (QString("xbm") == imgType) return "image/x-xbm";
-    if (QString("xpm") == imgType) return "image/x-xpm";
+    if (QString("xbm") == imgType) return "image/x-xbitmap";
+    if (QString("xpm") == imgType) return "image/x-xpixmap";
     if (QString("eps") == imgType) return "image/x-eps";
     if (QString("svg") == imgType) return "image/svg+xml";
     return QString();
 }
 
 QString UMLViewImageExporterModel::mimeTypeToImageType(const QString& mimeType) {
-    if (QString("image/x-bmp") == mimeType) return "bmp";
+    if (QString("image/bmp") == mimeType) return "bmp";
     if (QString("image/jpeg") == mimeType) return "jpeg";
     if (QString("image/x-portable-bitmap") == mimeType) return "pbm";
-    if (QString("image/x-portable-greymap") == mimeType) return "pgm";
+    if (QString("image/x-portable-graymap") == mimeType) return "pgm";
     if (QString("image/png") == mimeType) return "png";
     if (QString("image/x-portable-pixmap") == mimeType) return "ppm";
-    if (QString("image/x-xbm") == mimeType) return "xbm";
-    if (QString("image/x-xpm") == mimeType) return "xpm";
+    if (QString("image/x-xbitmap") == mimeType) return "xbm";
+    if (QString("image/x-xpixmap") == mimeType) return "xpm";
     if (QString("image/x-eps") == mimeType) return "eps";
     if (QString("image/svg+xml") == mimeType) return "svg";
     return QString();

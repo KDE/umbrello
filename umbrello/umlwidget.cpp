@@ -633,14 +633,11 @@ bool UMLWidget::showProperties() {
     docwindow->updateDocumentation( false );
     ClassPropDlg *dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
 
-    bool modified = false;
     if (dlg->exec()) {
         docwindow->showDocumentation( getUMLObject() , true );
         UMLApp::app()->getDocument()->setModified(true);
-        modified = true;
     }
     dlg->close(true); //wipe from memory
-    return modified;
 }
 
 void UMLWidget::startPopupMenu( const QPoint &At) {

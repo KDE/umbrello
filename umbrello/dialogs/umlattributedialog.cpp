@@ -40,6 +40,7 @@
 #include "../uml.h"
 #include "../dialog_utils.h"
 #include "../object_factory.h"
+#include "../codeimport/import_utils.h"
 
 UMLAttributeDialog::UMLAttributeDialog( QWidget * pParent, UMLAttribute * pAttribute )
         : KDialog( pParent) {
@@ -206,11 +207,19 @@ bool UMLAttributeDialog::apply() {
     UMLObject *obj = pDoc->findUMLObject(typeName);
     UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
     if (classifier == NULL) {
-        // If it's obviously a pointer type (C++) then create a datatype.
-        // Else we don't know what it is so as a compromise create a class.
-        Uml::Object_Type ot = (typeName.contains('*') ? Uml::ot_Datatype
-                               : Uml::ot_Class);
-        obj = Object_Factory::createUMLObject(ot, typeName);
+        Uml::Programming_Language pl = UMLApp::app()->getActiveLanguage();
+        if (pl == Uml::pl_Cpp || pl == Uml::pl_Java) {
+            // Import_Utils::createUMLObject works better for C++ namespace and java package than Object_Factory::createUMLObject 
+
+            Import_Utils::setRelatedClassifier(pConcept);
+            obj = Import_Utils::createUMLObject(Uml::ot_UMLObject, typeName);
+            Import_Utils::setRelatedClassifier(NULL);
+        } else {
+            // If it's obviously a pointer type (C++) then create a datatype.
+            // Else we don't know what it is so as a compromise create a class.
+            Uml::Object_Type ot = (typeName.contains('*') ? Uml::ot_Datatype : Uml::ot_Class);
+            obj = Object_Factory::createUMLObject(ot, typeName);
+        }
         if (obj == NULL)
             return false;
         classifier = static_cast<UMLClassifier*>(obj);
