@@ -374,7 +374,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* /*format =0*/) {
     {
         mimetype = "application/x-gzip";
     } else if (filetype.find(QRegExp("\\.tar.bz2$")) != -1) {
-        mimetype = "application/x-bzip2";
+        mimetype = "application/x-bzip";
     }
 
     if (mimetype.isEmpty() == false)
@@ -544,14 +544,14 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * /* format */) {
             {
                 archive = new KTar(d.path(), "application/x-gzip");
             } else {
-                archive = new KTar(d.path(), "application/x-bzip2");
+                archive = new KTar(d.path(), "application/x-bzip");
             }
         } else {
             if (fileFormat == "tgz") // check tgz or bzip2
             {
                 archive = new KTar(tmp_tgz_file.fileName(), "application/x-gzip");
             } else {
-                archive = new KTar(tmp_tgz_file.fileName(), "application/x-bzip2");
+                archive = new KTar(tmp_tgz_file.fileName(), "application/x-bzip");
             }
         }
 
