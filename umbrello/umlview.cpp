@@ -3070,7 +3070,7 @@ void UMLView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
         // We DONT want to record any text widgets which are belonging
         // to associations as they are recorded later in the "associations"
         // section when each owning association is dumped. -b.t.
-        if (widget->getBaseType() != wt_Text || widget->getBaseType() != wt_FloatingDashLine ||
+        if ((widget->getBaseType() != wt_Text && widget->getBaseType() != wt_FloatingDashLine ) ||
                 static_cast<FloatingTextWidget*>(widget)->getLink() == NULL)
             widget->saveToXMI( qDoc, widgetElement );
     }

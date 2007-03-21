@@ -123,7 +123,7 @@ private:
     /**
      * Dash lines of an alternative or parallel combined fragment
      */
-    QList<FloatingDashLineWidget*> *m_dashLines ;
+    QList<FloatingDashLineWidget*> m_dashLines ;
 };
 
 #endif

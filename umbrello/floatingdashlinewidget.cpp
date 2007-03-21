@@ -8,11 +8,18 @@
  *   copyright (C) 2002-2006                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
-
 // own header
 #include "floatingdashlinewidget.h"
+
+//kde includes
+#include "kdebug.h"
+#include "kinputdialog.h"
+#include "klocale.h"
+
+//app includes
 #include "umlview.h"
 #include "widget_utils.h"
+#include "listpopupmenu.h"
 
 // qt includes
 #include <qpainter.h>
@@ -22,7 +29,7 @@ FloatingDashLineWidget::FloatingDashLineWidget(UMLView * view, Uml::IDType id)
 {
     UMLWidget::setBaseType(Uml::wt_FloatingDashLine);
     m_bResizable = false;
-    m_text = "";
+    m_Text = "";
     updateComponentSize();
 }
 
@@ -35,7 +42,7 @@ void FloatingDashLineWidget::draw(QPainter & p, int offsetX, int offsetY)
     p.setPen(Qt::black);
     p.setFont(UMLWidget::getFont());
     p.drawText(getX() + FLOATING_DASH_LINE_TEXT_MARGIN, getY(),
-                        getWidth() - FLOATING_DASH_LINE_TEXT_MARGIN * 2, fontHeight, Qt::AlignLeft, m_text);
+                        getWidth() - FLOATING_DASH_LINE_TEXT_MARGIN * 2, fontHeight, Qt::AlignLeft, m_Text);
     p.setPen(*(new QPen(UMLWidget::getLineColor(), 0, Qt::DashLine)));
     p.drawLine(getX(), getY(), getX() + getWidth(), getY());
     if(m_bSelected)
@@ -44,7 +51,7 @@ void FloatingDashLineWidget::draw(QPainter & p, int offsetX, int offsetY)
 
 void FloatingDashLineWidget::setText(QString text)
 {
-    m_text = text;
+    m_Text = text;
 }
 
 bool FloatingDashLineWidget::onLine(const QPoint &point) {
@@ -54,6 +61,24 @@ bool FloatingDashLineWidget::onLine(const QPoint &point) {
     }
     /* check if the given point is the start or end point of the line */
    return false;
+}
+
+void FloatingDashLineWidget::slotMenuSelection(int sel) {
+    bool done = false;
+
+    bool ok = false;
+    QString name = m_Text;
+
+    switch( sel ) {
+    case ListPopupMenu::mt_Rename:
+        name = KInputDialog::getText( i18n("Enter alternative Name"), i18n("Enter the alternative :"), m_Text, &ok );
+        if( ok && name.length() > 0 )
+            m_Text = name;
+        done = true;
+        break;
+    }
+    if( !done )
+        UMLWidget::slotMenuSelection( sel );
 }
 
 void FloatingDashLineWidget::setY(int y)
@@ -86,7 +111,7 @@ void FloatingDashLineWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElem
     QDomElement textElement = qDoc.createElement( "floatingdashlinewidget" );
     UMLWidget::saveToXMI( qDoc, textElement );
     textElement.setAttribute( "text", m_Text );
-    textElement.setAttribute( "y", m_y );
+    textElement.setAttribute( "y", getY() );
     textElement.setAttribute( "minY", m_yMin );
     textElement.setAttribute( "maxY", m_yMax );
 
@@ -94,14 +119,16 @@ void FloatingDashLineWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElem
 }
 
 bool FloatingDashLineWidget::loadFromXMI( QDomElement & qElement ) {
-    if( !UMLWidget::loadFromXMI( qElement ) )
+    if( !UMLWidget::loadFromXMI( qElement ) ) {
         return false;
-
+    }
+    kDebug() <<"load......." <<endl;
     m_yMax = qElement.attribute( "maxY", "" ).toInt();
     m_yMin = qElement.attribute( "minY", "" ).toInt();
-    m_y = qElement.attribute( "y", "" ).toInt();
+    setY(qElement.attribute( "y", "" ).toInt());
     m_Text = qElement.attribute( "text", "" );
-
+    kDebug() <<"m_y......." <<m_y <<endl;
+    return true;
 }
 
 #include "floatingdashlinewidget.moc"

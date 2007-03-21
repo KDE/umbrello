@@ -13,7 +13,6 @@
 #define FLOATINGDASHLINEWIDGET_H
 
 #include "umlwidget.h"
-
 #define FLOATING_DASH_LINE_MARGIN 25
 #define FLOATING_DASH_LINE_TEXT_MARGIN 5
 
@@ -53,7 +52,7 @@ public:
      */
     void draw(QPainter & p, int offsetX, int offsetY);
 
-    
+    void slotMenuSelection(int sel);
      /**
      * Returns true if the given point is near the floatingdashline 
      */

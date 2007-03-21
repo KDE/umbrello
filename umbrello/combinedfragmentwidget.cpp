@@ -41,7 +41,11 @@ CombinedFragmentWidget::CombinedFragmentWidget(UMLView * view, CombinedFragmentT
     updateComponentSize();
 }
 
-CombinedFragmentWidget::~CombinedFragmentWidget() {}
+CombinedFragmentWidget::~CombinedFragmentWidget() {
+    for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines.begin() ; it!=m_dashLines.end() ; ++it) {
+        delete(*it);
+    }
+}
 
 void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
     int w = width();
@@ -115,7 +119,8 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
                 p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
 			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "alt");
                 // dash lines
-                for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines->begin() ; it!=m_dashLines->end() ; it++) {
+                m_dashLines.first()->draw(p,getX(),getY());
+                for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines.begin() ; it!=m_dashLines.end() ; ++it) {
                     (*it)->setX(getX());
                     old_Y = (*it)->getYMin();
                     (*it)->setYMin(getY());
@@ -130,7 +135,7 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
                 p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
 			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "parallel");
                 // dash lines
-                for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines->begin() ; it!=m_dashLines->end() ; it++) {
+                for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines.begin() ; it!=m_dashLines.end() ; ++it) {
                     (*it)->setX(getX());
                     old_Y = (*it)->getYMin();
                     (*it)->setYMin(getY());
@@ -178,20 +183,19 @@ void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combi
     UMLWidget::m_bResizable =  true ; //(m_CombinedFragment == Normal);
 
     // creates a dash line if the combined fragment type is alternative or parallel
-    if(m_CombinedFragment == Alt || m_CombinedFragment == Par)
+    if((m_CombinedFragment == Alt || m_CombinedFragment == Par) && m_dashLines.isEmpty())
     {
-        m_dashLines = new QList<FloatingDashLineWidget*>();
-        m_dashLines->push_back(new FloatingDashLineWidget(m_pView));
+        m_dashLines.push_back(new FloatingDashLineWidget(m_pView));
         if(m_CombinedFragment == Alt)
         {
-            m_dashLines->back()->setText("else");
+            m_dashLines.back()->setText("else");
         }
-        m_dashLines->back()->setX(getX());
-        m_dashLines->back()->setYMin(getY());
-        m_dashLines->back()->setYMax(getY() + getHeight());
-        m_dashLines->back()->setY(getY() + getHeight() / 2);
-        m_dashLines->back()->setSize(getWidth(), 0);
-        m_pView->setupNewWidget(m_dashLines->back());
+        m_dashLines.back()->setX(getX());
+        m_dashLines.back()->setYMin(getY());
+        m_dashLines.back()->setYMax(getY() + getHeight());
+        m_dashLines.back()->setY(getY() + getHeight() / 2);
+        m_dashLines.back()->setSize(getWidth(), 0);
+        m_pView->setupNewWidget(m_dashLines.back());
     }
 }
 
@@ -267,13 +271,9 @@ void CombinedFragmentWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElem
     combinedFragmentElement.setAttribute( "CombinedFragmenttype", m_CombinedFragment );
 
     // save the corresponding floating dash lines
-    /*QString dashlineId("dashlineId");
-    int i=1;
-    for (list<FloatingDashLineWidget*>::iterator it = m_dashLines->begin() ; it != m_dashLines->end() ; it++) {
-        combinedFragmentElement.setAttribute( dashlineId.append(i), ID2STR((*it)->getID()) );
-        (*it) -> saveToXMI( qDoc, combinedFragmentElement );
-        i++;
-    }*/
+    for (QList<FloatingDashLineWidget*>::iterator it = m_dashLines.begin() ; it != m_dashLines.end() ; ++it) {
+        (*it)-> saveToXMI( qDoc, combinedFragmentElement );
+    }
 
     qElement.appendChild( combinedFragmentElement );
 }
@@ -284,42 +284,35 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement ) {
     m_Text = qElement.attribute( "combinedFragmentname", "" );
     m_Doc = qElement.attribute( "documentation", "" );
     QString type = qElement.attribute( "CombinedFragmenttype", "");
-
-    // TODO : load floating dash lines of the combined fragment
-    /*QString dashlineId("dashlineId");
-    int i=1;
-    for (list<FloatingDashLineWidget>::iterator it = m_dashLines->begin() ; it != m_dashLines->end() ; it++) {
-        QString dashId = qElement.attribute( dashlineId.append(i), "");
-        Uml::IDType dashlineId = STR2ID(dashId);
-        if (dashlineId != Uml::id_None) {
-            UMLWidget *floatdashline = m_pView -> findWidget( dashlineId );
-            if (floatdashline != NULL) {
-                it = static_cast<FloatingDashLineWidget*>(floatdashline);
-                return true;
-            }
-        }
-        i++;
-    }*/
+    Uml::IDType dashlineId;
+    QList<FloatingDashLineWidget*> listline;
 
     //now load child elements
     QDomNode node = qElement.firstChild();
     QDomElement element = node.toElement();
-    if ( !element.isNull() ) {
+    while ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingdashlinewidget") {
-            /*m_dashLines.push_back(new FloatingDashLineWidget( m_pView , dashlineId ));
-            if( ! m_dashLine->loadFromXMI(element) ) {
-                // Most likely cause: The FloatingTextWidget is empty.
-                delete m_dashLine;
-                m_dashLine = NULL;
-            }*/
+            FloatingDashLineWidget * fdlwidget = new FloatingDashLineWidget(m_pView);
+            m_dashLines.push_back(fdlwidget);
+            if( !fdlwidget->loadFromXMI(element) ) {
+              // Most likely cause: The FloatingTextWidget is empty.
+                delete m_dashLines.back();
+                return false;
+            }
+            else {
+                m_pView->setupNewWidget(fdlwidget);
+            }
         } else {
             kError() << "MessageWidget::loadFromXMI: unknown tag "
             << tag << endl;
         }
+        node = node.nextSibling();
+        element = node.toElement();
     }
+   // m_dashLines = listline;
     setCombinedFragmentType( (CombinedFragmentType)type.toInt() );
-    
+
     return true;
 }
 
@@ -328,17 +321,17 @@ void CombinedFragmentWidget::slotMenuSelection(int sel) {
     switch (sel) {
         // for alternative or parallel combined fragments
         case ListPopupMenu::mt_AddInteractionOperand:
-            m_dashLines->push_back(new FloatingDashLineWidget(m_pView));
+            m_dashLines.push_back(new FloatingDashLineWidget(m_pView));
             if(m_CombinedFragment == Alt)
             {
-                m_dashLines->back()->setText("else");
+                m_dashLines.back()->setText("else");
             }
-            m_dashLines->back()->setX(getX());
-            m_dashLines->back()->setYMin(getY());
-            m_dashLines->back()->setYMax(getY() + getHeight());
-            m_dashLines->back()->setY(getY() + getHeight() / 2);
-            m_dashLines->back()->setSize(getWidth(), 0);
-            m_pView->setupNewWidget(m_dashLines->back());
+            m_dashLines.back()->setX(getX());
+            m_dashLines.back()->setYMin(getY());
+            m_dashLines.back()->setYMax(getY() + getHeight());
+            m_dashLines.back()->setY(getY() + getHeight() / 2);
+            m_dashLines.back()->setSize(getWidth(), 0);
+            m_pView->setupNewWidget(m_dashLines.back());
             break;
         default:
             break;

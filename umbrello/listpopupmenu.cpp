@@ -431,6 +431,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         }
         break;
 
+    case Uml::wt_FloatingDashLine:
     case Uml::wt_Precondition:
 	setupColor( object -> getUseFillColour() );
         insertSeparator();
