@@ -85,7 +85,7 @@ public:
     /**
      * Loads the widget from the <pinwidget> XMI element.
      */
-//     bool loadFromXMI( QDomElement & qElement );
+     bool loadFromXMI( QDomElement & qElement );
 
 
 

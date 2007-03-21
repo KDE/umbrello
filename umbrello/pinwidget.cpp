@@ -114,16 +114,35 @@ int PinWidget::getMinY() {
 
 void PinWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) { 
     QDomElement PinElement = qDoc.createElement( "pinwidget" );
+    PinElement.setAttribute( "widgetaid", ID2STR(m_pOw[Uml::A]->getID()) );
     UMLWidget::saveToXMI( qDoc, PinElement ); 
     qElement.appendChild( PinElement ); 
 }
 
-/*
+
 bool PinWidget::loadFromXMI( QDomElement & qElement ) { 
-    if( !UMLWidget::loadFromXMI( qElement ) ) 
-        return false; 
+    if( !UMLWidget::loadFromXMI( qElement ) )
+        return false;
+    QString widgetaid = qElement.attribute( "widgetaid", "-1" );
+
+    Uml::IDType aId = STR2ID(widgetaid);
+    
+    UMLWidget *pWA = m_pView -> findWidget( aId );
+    if (pWA == NULL) {
+        kDebug() << "PinWidget::loadFromXMI: role A object "
+        << ID2STR(aId) << " not found" << endl;
+        return false;
+    }
+
+    m_pOw[Uml::A] = dynamic_cast<ActivityWidget*>(pWA);
+    if (m_pOw[Uml::A] == NULL) {
+        kDebug() << "PinWidget::loadFromXMI: role A widget "
+        << ID2STR(aId) << " is not an ActivityWidget" << endl;
+        return false;
+    }
+
     return true; 
-}*/
+}
 
 
 #include "pinwidget.moc"
