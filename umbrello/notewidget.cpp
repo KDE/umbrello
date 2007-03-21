@@ -51,6 +51,7 @@ NoteWidget::NoteWidget(UMLView * view, NoteType noteType , Uml::IDType id)
     m_pEditor->setTextFormat(Qt::RichText);
     m_pEditor->setShown(true);
     setEditorGeometry();
+    setNoteType(noteType);
 
     connect(m_pView, SIGNAL(contentsMoving(int, int)),
             this, SLOT(slotViewScrolled(int, int)));
@@ -67,17 +68,18 @@ NoteWidget::NoteType NoteWidget::getNoteType() const {
     return m_NoteType;
 }
 NoteWidget::NoteType NoteWidget::getNoteType(QString noteType) const {
-    if (noteType == "Precondition")
+        if (noteType == "Precondition")
 		return NoteWidget::PreCondition;
-	if (noteType == "Postcondition")
+	else if (noteType == "Postcondition")
 		return NoteWidget::PostCondition;
-	if (noteType == "Transformation")
+	else if (noteType == "Transformation")
 		return NoteWidget::Transformation;
+        else
+                return NoteWidget::Normal;
 }
 
 void NoteWidget::setNoteType( NoteType noteType ) {
     m_NoteType = noteType;
-   
 }
 void NoteWidget::setNoteType( QString noteType ) {
     setNoteType(getNoteType(noteType));
@@ -168,8 +170,8 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
     int w = width()-1;
 
     int h= height()-1;
-	const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-	const int fontHeight  = fm.lineSpacing();
+    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+    const int fontHeight  = fm.lineSpacing();
     QPolygon poly(6);
     poly.setPoint(0, offsetX, offsetY);
     poly.setPoint(1, offsetX, offsetY + h);
@@ -177,10 +179,10 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
     poly.setPoint(3, offsetX + w, offsetY + margin);
     poly.setPoint(4, offsetX + w - margin, offsetY);
     poly.setPoint(5, offsetX, offsetY);
+
     UMLWidget::setPen(p);
     if ( UMLWidget::getUseFillColour() ) {
-        QBrush brush( UMLWidget::getFillColour() );
-        p.setBrush(brush);
+        p.setBrush( UMLWidget::getFillColour() );
         p.drawPolygon(poly);
 #if defined (NOTEWIDGET_EMBED_EDITOR)
         m_pEditor->setPaper(brush);
@@ -189,8 +191,8 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
         p.drawPolyline(poly);
     p.drawLine(offsetX + w - margin, offsetY, offsetX + w - margin, offsetY + margin);
     p.drawLine(offsetX + w - margin, offsetY + margin, offsetX + w, offsetY + margin);
-	
-	switch(m_NoteType) {
+    p.setPen(Qt::black);
+    switch(m_NoteType) {
 	case NoteWidget::PreCondition :
 		p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< precondition >>");
 		break;
@@ -202,9 +204,9 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
 	case NoteWidget::Transformation :
 		p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< transformation >>");
 		break;
-
-	default : break;
-	}   
+        case NoteWidget::Normal :
+	default :  break;
+	}
 
 if(m_bSelected) {
         drawSelected(&p, offsetX, offsetY);
@@ -221,19 +223,19 @@ QSize NoteWidget::calculateSize() {
 	if (m_NoteType == PreCondition)
 	{
 		const int widthtemp = fm.width("<< precondition >>");
-    	width = textWidth > widthtemp ? textWidth : widthtemp;
+    	        width = textWidth > widthtemp ? textWidth : widthtemp;
 		width += 10;
 	}
 	else if (m_NoteType == PostCondition)
 	{
 		const int widthtemp = fm.width("<< postcondition >>");
-    	width = textWidth > widthtemp ? textWidth : widthtemp;
+    	        width = textWidth > widthtemp ? textWidth : widthtemp;
 		width += 10;
 	}
 	else if (m_NoteType == Transformation)
 	{
 		const int widthtemp = fm.width("<< transformation >>");
-    	width = textWidth > widthtemp ? textWidth : widthtemp;
+    	        width = textWidth > widthtemp ? textWidth : widthtemp;
 		width += 10;
 	}
     return QSize(width, height);
