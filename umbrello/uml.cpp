@@ -1192,7 +1192,7 @@ void UMLApp::readOptionState() {
     Settings::OptionState& optionState = Settings::getOptionState();
     optionState.generalState.undo = generalGroup.readEntry( "undo", true );
     optionState.generalState.tabdiagrams = generalGroup.readEntry( "tabdiagrams", false );
-    optionState.generalState.newcodegen = generalGroup("newcodegen", false );
+    optionState.generalState.newcodegen = generalGroup.readEntry("newcodegen", false );
     optionState.generalState.angularlines = generalGroup.readEntry("angularlines", false);
     optionState.generalState.footerPrinting = generalGroup.readEntry("footerPrinting", true);
     optionState.generalState.autosave = generalGroup.readEntry("autosave", true);
