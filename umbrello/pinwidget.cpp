@@ -34,6 +34,7 @@
 PinWidget::PinWidget(UMLView * view, ActivityWidget* a, Uml::IDType id ): UMLWidget(view, id){
     
     init();
+    setZ(50);
     m_pOw[Uml::A] = a;
     int y = getY();
     m_nY = y;
@@ -111,33 +112,18 @@ int PinWidget::getMinY() {
     return heightA;
 }
 
-// int PinWidget::getMaxY() {
-//     if( !m_pOw[Uml::A]) {
-//         return 0;
-//     }
-// 
-//     int heightA = (int)((ActivityWidget*)m_pOw[Uml::A])->getEndLineY();
-//     int height = heightA;
-//     return (height - this->height());
-// }
-
 void PinWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) { 
     QDomElement PinElement = qDoc.createElement( "pinwidget" );
     UMLWidget::saveToXMI( qDoc, PinElement ); 
-    //PinElement.setAttribute( "pinname", m_Text ); 
-   // PinElement.setAttribute( "documentation", m_Doc ); 
     qElement.appendChild( PinElement ); 
 }
 
+/*
 bool PinWidget::loadFromXMI( QDomElement & qElement ) { 
     if( !UMLWidget::loadFromXMI( qElement ) ) 
         return false; 
-    //m_Text = qElement.attribute( "pinname", "" ); 
-   // m_Doc = qElement.attribute( "documentation", "" );
-    //QString type = qElement.attribute( "objectflowtype", "1" );
-  //  setObjectFlowType( (ObjectFlowType)type.toInt() );
     return true; 
-}
+}*/
 
 
 #include "pinwidget.moc"

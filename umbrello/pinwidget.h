@@ -24,11 +24,11 @@
 class UMLOperation;
 
 /**
- * This class is the graphical version of a UML Object Flow.  A ObjectFlowWidget is created
- * by a @ref UMLView.  An ObjectFlowWidget belongs to only one @ref UMLView instance.
+ * This class is the graphical version of a UML Pin.  A pinWidget is created
+ * by a @ref UMLView.  An pinWidget belongs to only one @ref UMLView instance.
  * When the @ref UMLView instance that this class belongs to, it will be automatically deleted.
  *
- * The ObjectFlowWidget class inherits from the @ref UMLWidget class which adds most of the functionality
+ * The pinWidget class inherits from the @ref UMLWidget class which adds most of the functionality
  * to this class.
  *
  * @short  A graphical version of a UML pin.
@@ -41,7 +41,7 @@ class PinWidget : public UMLWidget {
 public:
   
     /**
-     * Creates a Object Flow widget.
+     * Creates a Pin widget.
      *
      * @param view              The parent of the widget.
      * @param id                The ID to assign (-1 will prompt a new ID.)
@@ -62,13 +62,6 @@ public:
      * Overrides the standard paint event.
      */
     void draw(QPainter & p, int offsetX, int offsetY);
-/*
-     * Activates a PreconditionWidget.  Connects it m_pOw[] pointer
-     * to UMLObject
-     */
-
-
-//    void activate(IDChangeLog * Log = 0);
 
     /**
      * Returns the minimum height this widget should be set at on
@@ -85,14 +78,16 @@ public:
     int getMaxY();
 
     /**
-     * Saves the widget to the <objectflowwidget> XMI element.
+     * Saves the widget to the <pinwidget> XMI element.
      */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     /**
-     * Loads the widget from the <objectflowwidget> XMI element.
+     * Loads the widget from the <pinwidget> XMI element.
      */
-    bool loadFromXMI( QDomElement & qElement );
+//     bool loadFromXMI( QDomElement & qElement );
+
+
 
 protected:
     /**
@@ -111,6 +106,7 @@ protected:
      * Captures any popup menu signals for menus it created.
      */
    // void slotMenuSelection(int sel);
+
 
 private:
     ActivityWidget * m_pOw[1];
