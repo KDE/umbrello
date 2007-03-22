@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -57,16 +57,14 @@
 CodeGenerator::CodeGenerator ()
         : QObject (UMLApp::app()->getDocument())
 {
-    initFields(UMLApp::app()->getDocument());
-    CodeGenerationPolicy *commonPolicy = UMLApp::app()->getCommonPolicy();
-    connect(commonPolicy,SIGNAL(modifiedCodeContent()),this,SLOT(syncCodeToDocument()));
+    initFields();
 }
 
 // FIX
 // hmm. this should be pure virtual so that implemented in sub-class
 CodeGenerator::CodeGenerator (QDomElement & element )
         : QObject (UMLApp::app()->getDocument()) {
-    initFields(UMLApp::app()->getDocument());
+    initFields();
     loadFromXMI(element); // hmm. cant call this here.. its 'pure' virtual
 }
 
@@ -653,9 +651,9 @@ QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix,
     return output;
 }
 
-void CodeGenerator::initFields ( UMLDoc * doc ) {
+void CodeGenerator::initFields() {
 
-    m_document = doc;
+    m_document = UMLApp::app()->getDocument();
     m_codeDocumentDictionary.setAutoDelete(false);
     m_codedocumentVector.setAutoDelete(false);
     m_applyToAllRemaining = true;
@@ -667,11 +665,17 @@ void CodeGenerator::initFields ( UMLDoc * doc ) {
     // We should only call from the child
     // initFromParentDocument();
 
-    connect(doc,SIGNAL(sigObjectCreated(UMLObject*)),this,SLOT(checkAddUMLObject(UMLObject*)));
-    connect(doc,SIGNAL(sigObjectRemoved(UMLObject*)),this,SLOT(checkRemoveUMLObject(UMLObject*)));
-    CodeGenerationPolicy *commonPolicy = UMLApp::app()->getCommonPolicy();
-    connect(commonPolicy,SIGNAL(modifiedCodeContent()),this,SLOT(syncCodeToDocument()));
+}
 
+void CodeGenerator::connect_newcodegen_slots() {
+    UMLDoc *doc = UMLApp::app()->getDocument();
+    connect(doc, SIGNAL(sigObjectCreated(UMLObject*)),
+            this, SLOT(checkAddUMLObject(UMLObject*)));
+    connect(doc, SIGNAL(sigObjectRemoved(UMLObject*)),
+            this, SLOT(checkRemoveUMLObject(UMLObject*)));
+    CodeGenerationPolicy *commonPolicy = UMLApp::app()->getCommonPolicy();
+    connect(commonPolicy, SIGNAL(modifiedCodeContent()),
+            this, SLOT(syncCodeToDocument()));
 }
 
 // these are utility methods for accessing the default

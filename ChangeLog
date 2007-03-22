@@ -5,11 +5,14 @@ Version 1.5.7
 * Java interface inheritance, abstract classes and generics in code generation
   (53376)
 * Code generation ignores unidirectional association (72042)
+* Design bug in advanced code generators (84739)
 * %date% and %time% not being parsed (96612)
 * Operations of the Interface are not implemented in the class automatically
   (111593)
 * Relationships for entities do not live outside of the diagram (125146)
 * Multiplicity labels often are placed incorrectly (127628)
+* Crash on adding operation to class with Advanced Code Generators enabled
+  (131528)
 * Javascript wrong Code Generation (135527)
 * Javascript Code Generation creates bad format methods (135540)
 * Incorrect Association Properties text (139872)

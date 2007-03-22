@@ -282,7 +282,8 @@ void CPPCodeGenerator::initFromParentDocument( ) {
         CodeDocument * codeDoc = findCodeDocumentByClassifier(c);
         if (!codeDoc)
         {
-            codeDoc = new CPPSourceCodeDocument(c);
+            codeDoc = newClassifierCodeDocument(c);
+            codeDoc->synchronize();
             addCodeDocument(codeDoc); // this will also add a unique tag to the code document
         }
 
@@ -290,6 +291,7 @@ void CPPCodeGenerator::initFromParentDocument( ) {
         if (!hcodeDoc)
         {
             hcodeDoc = newHeaderClassifierCodeDocument(c);
+            hcodeDoc->synchronize();
             addHeaderCodeDocument(hcodeDoc); // this will also add a unique tag to the code document
         }
     }
