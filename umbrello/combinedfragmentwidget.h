@@ -81,12 +81,6 @@ public:
      */
     void setCombinedFragmentType( CombinedFragmentType combinedfragmentType );
     void setCombinedFragmentType( QString combinedfragmentType );
-    /**
-     * Show a properties dialog for a CombinedFragmentWidget.
-     *
-     * @return  True if we modified the Combined Fragment.
-     */
-    bool showProperties();
 
     void askNameForWidgetType(UMLWidget* &targetWidget, const QString& dialogTitle,
                       const QString& dialogPrompt, const QString& defaultName);

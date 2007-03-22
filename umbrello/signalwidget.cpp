@@ -215,20 +215,7 @@ void SignalWidget::slotMenuSelection(int sel) {
 }
 
 
-bool SignalWidget::showProperties() {
-//     DocWindow *docwindow = UMLApp::app()->getDocWindow();
-//     docwindow->updateDocumentation(false);
-//
-//     SignalDialog dialog(m_pView, this);
-//     bool modified = false;
-//     if (dialog.exec() && dialog.getChangesMade()) {
-//         docwindow->showDocumentation(this, true);
-//         UMLApp::app()->getDocument()->setModified(true);
-//         modified = true;
-//     }
-//
-    return true;
-}
+void SignalWidget::showProperties() {}
 
 void SignalWidget::mouseMoveEvent(QMouseEvent* me) {
     UMLWidget::mouseMoveEvent(me);

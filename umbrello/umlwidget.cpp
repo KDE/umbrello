@@ -626,7 +626,7 @@ void UMLWidget::adjustUnselectedAssocs(int x, int y)
     }
 }
 
-bool UMLWidget::showProperties() {
+void UMLWidget::showProperties() {
     // will already be selected so make sure docWindow updates the doc
     // back it the widget
     DocWindow *docwindow = UMLApp::app()->getDocWindow();

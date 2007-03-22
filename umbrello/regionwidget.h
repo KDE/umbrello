@@ -54,12 +54,6 @@ public:
      */
     virtual QString getName() const;
 
-    /**
-     * Show a properties dialog for a Region.
-     *
-     * @return  True if we modified the REGION.
-     */
-    bool showProperties();
 
     /**
      * Creates the <REGIONwidget> XMI element.

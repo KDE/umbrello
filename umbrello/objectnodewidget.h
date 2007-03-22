@@ -88,9 +88,8 @@ public:
     /**
      * Show a properties dialog for an ObjectNodeWidget.
      *
-     * @return  True if we modified the object node.
      */
-    bool showProperties();
+    virtual void showProperties();
 
 
     /**

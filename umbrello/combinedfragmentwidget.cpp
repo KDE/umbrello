@@ -116,9 +116,17 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
         break;
 
         case Alt :
+                if (combined_fragment_value != "-")
+                {
+                     temp = "[" + combined_fragment_value + "]";
+			p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY + 20,w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, temp);
+                }
                 p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
 			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "alt");
                 // dash lines
+		if (m_dashLines.size() == 1) {
+			m_dashLines.first()->setY(getY() + h/2); 
+		}
                 m_dashLines.first()->draw(p,getX(),getY());
                 for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines.begin() ; it!=m_dashLines.end() ; ++it) {
                     (*it)->setX(getX());
@@ -167,6 +175,8 @@ QSize CombinedFragmentWidget::calculateSize() {
     width = textWidth + 60 > COMBINED_FRAGMENT_WIDTH ? textWidth + 60: COMBINED_FRAGMENT_WIDTH;
     if ( m_CombinedFragment == Loop )
          width += textWidth * 0.4;
+    if ( m_CombinedFragment == Alt )
+         height += fontHeight + 40;
     height = height > COMBINED_FRAGMENT_HEIGHT ? height : COMBINED_FRAGMENT_HEIGHT;
     width += COMBINED_FRAGMENT_MARGIN * 2;
     height += COMBINED_FRAGMENT_MARGIN * 2;
@@ -181,7 +191,6 @@ void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combi
 
     m_CombinedFragment = combinedfragmentType;
     UMLWidget::m_bResizable =  true ; //(m_CombinedFragment == Normal);
-
     // creates a dash line if the combined fragment type is alternative or parallel
     if((m_CombinedFragment == Alt || m_CombinedFragment == Par) && m_dashLines.isEmpty())
     {
@@ -226,21 +235,6 @@ void CombinedFragmentWidget::setCombinedFragmentType( QString combinedfragmentTy
     setCombinedFragmentType(getCombinedFragmentType(combinedfragmentType) );
 }
 
-bool CombinedFragmentWidget::showProperties() {
-//     DocWindow *docwindow = UMLApp::app()->getDocWindow();
-//     docwindow->updateDocumentation(false);
-// 
-//     ActivityDialog dialog(m_pView, this);
-//     bool modified = false;
-//     if (dialog.exec() && dialog.getChangesMade()) {
-//         docwindow->showDocumentation(this, true);
-//         UMLApp::app()->getDocument()->setModified(true);
-//         modified = true;
-//     }
-
-    return true;
-}
-
 void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, const QString& dialogTitle,
                       const QString& dialogPrompt, const QString& defaultName) {
 
@@ -256,6 +250,8 @@ void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, cons
             Dialog_Utils::askNameForWidget(targetWidget, i18n("Enter the name of the diagram referenced"), i18n("Enter the name of the diagram referenced"), i18n("Diagram name"));
         if (type == "Loop")
             Dialog_Utils::askNameForWidget(targetWidget, i18n("Enter the guard of the loop"), i18n("Enter the guard of the loop"), i18n("-"));
+        if (type == "Alternative")
+            Dialog_Utils::askNameForWidget(targetWidget, i18n("Enter the first alternative name"), i18n("Enter the first alternative name"), i18n("-"));
     } else {
         targetWidget->cleanup();
         delete targetWidget;
@@ -318,6 +314,9 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement ) {
 
 void CombinedFragmentWidget::slotMenuSelection(int sel) {
     UMLWidget::slotMenuSelection(sel);
+    bool ok = false;
+    bool done = false;
+    QString name = m_Text;
     switch (sel) {
         // for alternative or parallel combined fragments
         case ListPopupMenu::mt_AddInteractionOperand:
@@ -332,10 +331,27 @@ void CombinedFragmentWidget::slotMenuSelection(int sel) {
             m_dashLines.back()->setY(getY() + getHeight() / 2);
             m_dashLines.back()->setSize(getWidth(), 0);
             m_pView->setupNewWidget(m_dashLines.back());
+        done = true;
+            break;
+	case ListPopupMenu::mt_Rename:
+	    if (m_CombinedFragment == Alt) {
+        	name = KInputDialog::getText( i18n("Enter first alternative"), i18n("Enter first alternative :"), m_Text, &ok );
+	    }
+	    else if (m_CombinedFragment == Ref) {
+		name = KInputDialog::getText( i18n("Enter referenced diagram name"), i18n("Enter referenced diagram name :"), m_Text, &ok );
+	    }
+	    else if (m_CombinedFragment == Loop) {
+		name = KInputDialog::getText( i18n("Enter the guard of the loop"), i18n("Enter the guard of the loop:"), m_Text, &ok );
+	    }
+            if( ok && name.length() > 0 )
+                m_Text = name;
+        	done = true;
             break;
         default:
             break;
     }
+   if( !done )
+        UMLWidget::slotMenuSelection( sel );
 }
 
 

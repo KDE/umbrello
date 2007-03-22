@@ -84,9 +84,8 @@ public:
     /**
      * Show a properties dialog for a SignalWidget.
      *
-     * @return  True if we modified the signal.
      */
-    bool showProperties();
+    virtual void  showProperties();
 
 
     /**

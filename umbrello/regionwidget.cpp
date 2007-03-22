@@ -82,10 +82,6 @@ QString RegionWidget::getName() const {
     return m_Text;
 }
 
-bool RegionWidget::showProperties() 
-{
-    return true;
-}
 
 void RegionWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement regionElement = qDoc.createElement( "regionwidget" );

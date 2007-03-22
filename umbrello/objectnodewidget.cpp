@@ -209,19 +209,16 @@ void ObjectNodeWidget::slotMenuSelection(int sel) {
         UMLWidget::slotMenuSelection( sel );
 }
 
-bool ObjectNodeWidget::showProperties() {
+void ObjectNodeWidget::showProperties() {
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
 
     ObjectNodeDialog dialog(m_pView, this);
-    bool modified = false;
     if (dialog.exec() && dialog.getChangesMade()) {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->getDocument()->setModified(true);
-        modified = true;
     }
 
-    return modified;
 }
 
 
