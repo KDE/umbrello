@@ -64,6 +64,10 @@ void UMLOperationDialog::setupDialog() {
 
     m_pGenGB = new QGroupBox(i18n("General Properties"), plainPage() );
     QGridLayout * genLayout = new QGridLayout(m_pGenGB, 3, 4 );
+    genLayout -> setColStretch(1, 1);
+    genLayout -> setColStretch(3, 1);
+    genLayout -> addColSpacing(1, 200);
+    genLayout -> addColSpacing(3, 200);
     genLayout -> setMargin(margin);
     genLayout -> setSpacing(10);
 
