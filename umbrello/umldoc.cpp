@@ -2245,8 +2245,11 @@ void UMLDoc::loadRedoData() {
 
 void UMLDoc::addDefaultDatatypes() {
     CodeGenerator *cg = UMLApp::app()->getGenerator();
-    if (cg == NULL)
+    if (cg == NULL) {
+        kDebug() << "UMLDoc::addDefaultDatatypes: CodeGenerator is still NULL"
+            << endl;
         return;
+    }
     QStringList entries = cg->defaultDatatypes();
     QStringList::Iterator end(entries.end());
     for (QStringList::Iterator it = entries.begin(); it != end; ++it)
