@@ -33,7 +33,8 @@ namespace Uml
 {
 
 	cmdResizeWidget::cmdResizeWidget(UMLWidgetController* _UMLwc):UMLwc(_UMLwc),already(false)
-	{	
+	{
+		setText(i18n("Resizing Widget."));	
 		UMLWidget * w = _UMLwc->getWidget();
 		W = w->width();
 		H = w->height();

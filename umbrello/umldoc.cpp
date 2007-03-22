@@ -1833,6 +1833,7 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
 void UMLDoc::removeAllViews() {
     for (int i = 0; i < Uml::N_MODELTYPES; i++)
         m_root[i]->removeAllViews();
+
     UMLApp::app()->setCurrentView(NULL);
     emit sigDiagramChanged(dt_Undefined);
     UMLApp::app()->setDiagramMenuItemsState(false);

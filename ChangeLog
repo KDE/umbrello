@@ -14,11 +14,14 @@ Version 1.5.7
 * Javascript Code Generation creates bad format methods (135540)
 * Incorrect Association Properties text (139872)
 * Buttons are not displayed (139913)
+* Java 5 generics support (140669)
 * Associations not updated during move of class on diagram (140709)
 * Crash when deleting the link between a package and a class (141602)
 * Ada95 Code Generation Errors for Aggregation (141644)
 * Unable to delete multiplicity information or lable from an association
   (141813)
+* Reinstate code generation options for C++ (141875)
+* C++ code generator does not correctly define namespaces (141876)
 * Ada code generator generates "withs" in both directions for certain
   associations (141956)
 * Ada code generator always generates methods abstract even if abstract box
@@ -53,8 +56,10 @@ Version 1.5.6
 * Association line nodes don't drag along with multiply-selected classes (57878)
 * Disappearing parameters when editing class properties (114477)
 * Umbrello saves too many copies in xmi (135606)
+* XML scheme: mixup of attribute names: *color and *colour (136061)
 * Artifacts of a component diagram are wrongly placed in Deployment View folder (137564)
 * Incorrect export to SQL (138139)
+* Parentheses do not appear around the parameters of the C++ operator() (139147)
 
 Version 1.5.52
 

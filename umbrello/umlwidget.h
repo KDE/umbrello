@@ -444,8 +444,6 @@ public:
 
     /**
      * Show a properties dialog for a UMLWidget.
-     *
-     * @return  True if the widget was modified.
      */
     virtual void showProperties();
 

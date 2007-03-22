@@ -154,14 +154,15 @@ void UMLFolder::removeAllViews() {
         UMLFolder *f = static_cast<UMLFolder*>(o);
         f->removeAllViews();
     }
+
     UMLView *v = NULL;
     for (UMLViewListIt vit(m_diagrams); (v = vit.current()) != NULL; ++vit) {
         // TODO ------------------ check this code - bad: calling back to UMLDoc::removeView()
-        v->removeAllAssociations(); // note : It may not be apparent, but when we remove all associations
+        //v->removeAllAssociations(); // note : It may not be apparent, but when we remove all associations
         // from a view, it also causes any UMLAssociations that lack parent
         // association widgets (but once had them) to remove themselves from
         // this document.
-        UMLApp::app()->getDocument()->removeView(v, false);
+	UMLApp::app()->getDocument()->removeView(v, false);
     }
     m_diagrams.clear();
 }
