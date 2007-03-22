@@ -297,7 +297,8 @@ void HierarchicalCodeBlock::setAttributesFromObject (TextBlock * obj) {
     {
         setStartText(hb->getStartText());
         setEndText(hb->getEndText());
-        CodeGenObjectWithTextBlocks::setAttributesFromObject((CodeGenObjectWithTextBlocks*)obj);
+        CodeGenObjectWithTextBlocks *cgowtb = dynamic_cast<CodeGenObjectWithTextBlocks*>(obj);
+        CodeGenObjectWithTextBlocks::setAttributesFromObject(cgowtb);
     }
 
 }

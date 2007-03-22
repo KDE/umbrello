@@ -155,7 +155,8 @@ CodeGenObjectWithTextBlocks * CodeGenObjectWithTextBlocks::findParentObjectForTa
         {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(tb);
             if(hb) {
-                CodeGenObjectWithTextBlocks * obj = ((CodeGenObjectWithTextBlocks*)hb)->findParentObjectForTaggedTextBlock(tag);
+                CodeGenObjectWithTextBlocks* cgowtb = dynamic_cast<CodeGenObjectWithTextBlocks*>(hb);
+                CodeGenObjectWithTextBlocks * obj = cgowtb->findParentObjectForTaggedTextBlock(tag);
                 if(obj)
                     return obj;
             }
@@ -179,7 +180,7 @@ CodeGenObjectWithTextBlocks * CodeGenObjectWithTextBlocks::findParentObjectForTa
 HierarchicalCodeBlock * CodeGenObjectWithTextBlocks::getHierarchicalCodeBlock ( const QString &tag, const QString &comment, int indentLevel ) {
 
     // now actually declare the fields
-    HierarchicalCodeBlock * codeBlock = (HierarchicalCodeBlock*) findTextBlockByTag(tag);
+    HierarchicalCodeBlock * codeBlock = dynamic_cast<HierarchicalCodeBlock*>(findTextBlockByTag(tag));
     if (!codeBlock) {
         codeBlock = newHierarchicalCodeBlock();
         codeBlock->setTag(tag);
@@ -211,7 +212,7 @@ HierarchicalCodeBlock * CodeGenObjectWithTextBlocks::getHierarchicalCodeBlock ( 
 CodeBlockWithComments * CodeGenObjectWithTextBlocks::getCodeBlockWithComments ( const QString &tag, const QString &comment, int indentLevel ) {
 
     // now actually declare the fields
-    CodeBlockWithComments * codeBlock = (CodeBlockWithComments *) findTextBlockByTag(tag);
+    CodeBlockWithComments * codeBlock = dynamic_cast<CodeBlockWithComments*>(findTextBlockByTag(tag));
     if (!codeBlock) {
         codeBlock = newCodeBlockWithComments();
         codeBlock->setTag(tag);

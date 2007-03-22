@@ -264,16 +264,20 @@ QPtrList<CodeOperation> ClassifierCodeDocument::getCodeOperations ( ) {
 /**
  * @param       op
  */
-void ClassifierCodeDocument::addOperation (UMLClassifierListItem * op ) {
-
-    QString tag = CodeOperation::findTag((UMLOperation*)op);
+void ClassifierCodeDocument::addOperation (UMLClassifierListItem * o) {
+    UMLOperation *op = dynamic_cast<UMLOperation*>(o);
+    if (op == NULL) {
+        kError() << "ClassifierCodeDocument::addOperation: arg is not a UMLOperation"
+            << endl;
+    }
+    QString tag = CodeOperation::findTag(op);
     CodeOperation * codeOp = dynamic_cast<CodeOperation*>(findTextBlockByTag(tag, true));
     bool createdNew = false;
 
     // create the block, if it doesn't already exist
     if(!codeOp)
     {
-        codeOp = CodeGenFactory::newCodeOperation(this, (UMLOperation*)op);
+        codeOp = CodeGenFactory::newCodeOperation(this, op);
         createdNew = true;
     }
 
