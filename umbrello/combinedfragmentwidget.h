@@ -95,12 +95,14 @@ public:
      */
     bool loadFromXMI( QDomElement & qElement );
 
+public slots:
     /**
      * Overrides the function from UMLWidget.
      *
      * @param sel  The command to be executed.
      */
     void slotMenuSelection(int sel);
+
 
 protected:
     /**

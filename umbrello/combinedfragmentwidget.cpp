@@ -15,12 +15,12 @@
 // qt includes
 #include <qpainter.h>
 #include <qstring.h>
+#include <qevent.h>
 
 // kde includes
 #include <klocale.h>
 #include <kdebug.h>
 #include <kinputdialog.h>
-#include <kmessagebox.h>
 
 // app includes
 #include "uml.h"
@@ -120,13 +120,12 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
                 {
                      temp = "[" + combined_fragment_value + "]";
 			p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY + 20,w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, temp);
+                    if (m_dashLines.size() == 1 && m_dashLines.first()->getY() < offsetY + 20 + fontHeight )
+                        m_dashLines.first()->setY(offsetY + h/2);
                 }
                 p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
 			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "alt");
                 // dash lines
-		if (m_dashLines.size() == 1) {
-			m_dashLines.first()->setY(getY() + h/2); 
-		}
                 m_dashLines.first()->draw(p,getX(),getY());
                 for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines.begin() ; it!=m_dashLines.end() ; ++it) {
                     (*it)->setX(getX());
@@ -143,6 +142,7 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
                 p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
 			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "parallel");
                 // dash lines
+                 m_dashLines.first()->draw(p,getX(),getY());
                 for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines.begin() ; it!=m_dashLines.end() ; ++it) {
                     (*it)->setX(getX());
                     old_Y = (*it)->getYMin();
@@ -151,7 +151,6 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
                     (*it)->setY(getY() + (*it)->getY() - old_Y);
                     (*it)->setSize(w, 0);
                 }
-                
         break;
 
 	default : break;
@@ -180,6 +179,7 @@ QSize CombinedFragmentWidget::calculateSize() {
     height = height > COMBINED_FRAGMENT_HEIGHT ? height : COMBINED_FRAGMENT_HEIGHT;
     width += COMBINED_FRAGMENT_MARGIN * 2;
     height += COMBINED_FRAGMENT_MARGIN * 2;
+
     return QSize(width, height);
 }
 
@@ -192,7 +192,7 @@ void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combi
     m_CombinedFragment = combinedfragmentType;
     UMLWidget::m_bResizable =  true ; //(m_CombinedFragment == Normal);
     // creates a dash line if the combined fragment type is alternative or parallel
-    if((m_CombinedFragment == Alt || m_CombinedFragment == Par) && m_dashLines.isEmpty())
+    if(m_CombinedFragment == Alt  && m_dashLines.isEmpty())
     {
         m_dashLines.push_back(new FloatingDashLineWidget(m_pView));
         if(m_CombinedFragment == Alt)
@@ -202,7 +202,7 @@ void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combi
         m_dashLines.back()->setX(getX());
         m_dashLines.back()->setYMin(getY());
         m_dashLines.back()->setYMax(getY() + getHeight());
-        m_dashLines.back()->setY(getY() + getHeight() / 2);
+        m_dashLines.back()->setY(getY() + height()/2);
         m_dashLines.back()->setSize(getWidth(), 0);
         m_pView->setupNewWidget(m_dashLines.back());
     }
@@ -313,27 +313,26 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement ) {
 }
 
 void CombinedFragmentWidget::slotMenuSelection(int sel) {
-    UMLWidget::slotMenuSelection(sel);
     bool ok = false;
     bool done = false;
     QString name = m_Text;
     switch (sel) {
-        // for alternative or parallel combined fragments
-        case ListPopupMenu::mt_AddInteractionOperand:
-            m_dashLines.push_back(new FloatingDashLineWidget(m_pView));
-            if(m_CombinedFragment == Alt)
-            {
-                m_dashLines.back()->setText("else");
-            }
-            m_dashLines.back()->setX(getX());
-            m_dashLines.back()->setYMin(getY());
-            m_dashLines.back()->setYMax(getY() + getHeight());
-            m_dashLines.back()->setY(getY() + getHeight() / 2);
-            m_dashLines.back()->setSize(getWidth(), 0);
-            m_pView->setupNewWidget(m_dashLines.back());
+          // for alternative or parallel combined fragments
+    case ListPopupMenu::mt_AddInteractionOperand:
+        m_dashLines.push_back(new FloatingDashLineWidget(m_pView));
+        if(m_CombinedFragment == Alt)
+        {
+            m_dashLines.back()->setText("else");
+        }
+        m_dashLines.back()->setX(getX());
+        m_dashLines.back()->setYMin(getY());
+        m_dashLines.back()->setYMax(getY() + getHeight());
+        m_dashLines.back()->setY(getY() + getHeight() / 2);
+        m_dashLines.back()->setSize(getWidth(), 0);
+        m_pView->setupNewWidget(m_dashLines.back());
         done = true;
-            break;
-	case ListPopupMenu::mt_Rename:
+        break;
+    case ListPopupMenu::mt_Rename:
 	    if (m_CombinedFragment == Alt) {
         	name = KInputDialog::getText( i18n("Enter first alternative"), i18n("Enter first alternative :"), m_Text, &ok );
 	    }
@@ -347,13 +346,10 @@ void CombinedFragmentWidget::slotMenuSelection(int sel) {
                 m_Text = name;
         	done = true;
             break;
-        default:
-            break;
     }
    if( !done )
         UMLWidget::slotMenuSelection( sel );
 }
-
 
 #include "combinedfragmentwidget.moc"
 
