@@ -208,9 +208,9 @@ QSize ActivityWidget::calculateSize() {
         }
         
         
-        width = textWidth;//textWidth > ACTIVITY_WIDTH ? textWidth : ACTIVITY_WIDTH;
+        width = textWidth > ACTIVITY_WIDTH ? textWidth : ACTIVITY_WIDTH;
      
-        width += textWidth + ACTIVITY_MARGIN * 2;
+        width += ACTIVITY_MARGIN * 4;
  
 
     } else if ( m_ActivityType == Branch ) {

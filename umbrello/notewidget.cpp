@@ -37,8 +37,8 @@
 
 NoteWidget::NoteWidget(UMLView * view, NoteType noteType , Uml::IDType id)
         : UMLWidget(view, id, new NoteWidgetController(this)) {
-	
     init();
+    m_NoteType = noteType;
     setSize(100,80);
     setZ( 20 ); //make sure always on top.
 #ifdef NOTEWIDGET_EMBED_EDITOR
@@ -390,6 +390,7 @@ void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     noteElement.setAttribute( "text", getDoc() );
     if (m_DiagramLink != Uml::id_None)
         noteElement.setAttribute( "diagramlink", ID2STR(m_DiagramLink) );
+    noteElement.setAttribute( "noteType", m_NoteType);
     qElement.appendChild( noteElement );
 }
 
@@ -401,6 +402,8 @@ bool NoteWidget::loadFromXMI( QDomElement & qElement ) {
     QString diagramlink = qElement.attribute("diagramlink", "");
     if (!diagramlink.isEmpty())
         m_DiagramLink = STR2ID(diagramlink);
+    QString type = qElement.attribute("noteType", "");
+    setNoteType( (NoteType)type.toInt() );
     return true;
 }
 
