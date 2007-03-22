@@ -122,7 +122,7 @@ public slots:
     void slotWidgetMoved(Uml::IDType id);
 
 private:
-    ObjectWidget * m_pOw[1];
+    ObjectWidget * m_pOw;
     int m_nY;
 };
 

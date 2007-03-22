@@ -33,6 +33,7 @@
 
 RegionWidget::RegionWidget(UMLView * view, Uml::IDType id)
         : UMLWidget(view, id) {
+     UMLWidget::setBaseType( Uml::wt_Region );
     updateComponentSize();
 }
 

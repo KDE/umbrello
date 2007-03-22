@@ -15,6 +15,7 @@
 #include "umlwidget.h"
 #include "worktoolbar.h"
 #include "activitywidget.h"
+#include "floatingtextwidget.h"
 
 #define PIN_MARGIN 5
 #define PIN_WIDTH 1
@@ -46,7 +47,7 @@ public:
      * @param view              The parent of the widget.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-     PinWidget( UMLView * view, ActivityWidget* a, Uml::IDType id = Uml::id_None );
+     PinWidget( UMLView * view, UMLWidget* a, Uml::IDType id = Uml::id_None );
 
     /**
      *  destructor
@@ -62,6 +63,12 @@ public:
      * Overrides the standard paint event.
      */
     void draw(QPainter & p, int offsetX, int offsetY);
+
+
+    /**
+     * Sets the name of the pin.
+     */
+    virtual void setName(const QString &strName);
 
     /**
      * Returns the minimum height this widget should be set at on
@@ -88,29 +95,30 @@ public:
      bool loadFromXMI( QDomElement & qElement );
 
 
-
 protected:
     /**
      * Overrides method from UMLWidget
      */
-    //  QSize calculateSize();
+     QSize calculateSize();
 
-    /**
-     * Type of ObjectFlow.
-     */
-  // ObjectFlow m_ObjectFlowType;
-
-//public slots:
+public slots:
 
     /**
      * Captures any popup menu signals for menus it created.
      */
-   // void slotMenuSelection(int sel);
+    void slotMenuSelection(int sel);
 
 
 private:
-    ActivityWidget * m_pOw[1];
-   int m_nY;
+    UMLWidget * m_pOw;
+
+    /**
+     * This is a pointer to the Floating Text widget which displays the
+     * name of the signal widget.
+     */
+    FloatingTextWidget * m_pName;
+    
+    int m_nY;
 };
 
 #endif

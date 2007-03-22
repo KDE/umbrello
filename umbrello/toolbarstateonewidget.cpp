@@ -22,6 +22,7 @@
 #include "messagewidget.h"
 #include "objectwidget.h"
 #include "activitywidget.h"
+#include "regionwidget.h"
 #include "umlwidget.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -87,7 +88,8 @@ void ToolBarStateOneWidget::mouseReleaseWidget() {
   
     if (m_pMouseEvent->button() != Qt::LeftButton ||(
                 getCurrentWidget()->getBaseType() != Uml::wt_Object &&
-                getCurrentWidget()->getBaseType() != Uml::wt_Activity)) {
+                getCurrentWidget()->getBaseType() != Uml::wt_Activity &&
+                getCurrentWidget()->getBaseType() != Uml::wt_Region)) {
         return;
     }
 	
@@ -123,7 +125,7 @@ void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject) {
     }
 
     if (getWidgetType() == Uml::wt_Pin) {
-   	umlwidget = new PinWidget(m_pUMLView, static_cast<ActivityWidget*>(m_firstObject));
+   	umlwidget = new PinWidget(m_pUMLView, m_firstObject);
     	    // Create the widget. Some setup functions can remove the widget.
     	
     }

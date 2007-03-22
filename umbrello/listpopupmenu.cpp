@@ -359,19 +359,6 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         insertStdItem(mt_Line_Color);
         break;
 
-    case Uml::wt_Pin:
-	setupColor( object -> getUseFillColour() );
-        insertSeparator();
-        insertStdItem(mt_Cut);
-        insertStdItem(mt_Copy);
-        insertStdItem(mt_Paste);
-        insertItem(SmallIcon( "editdelete"), i18n("Clear"), mt_Clear);
-        insertSeparator();
-        insertItem(i18n("Change Text..."), mt_Rename);
-        insertStdItem(mt_Delete);
-        insertStdItem(mt_Change_Font);
-        break;
-
     case Uml::wt_State:
         pState = static_cast< StateWidget *>( object );
         if( pState -> getStateType() == StateWidget::Normal ) {
@@ -429,7 +416,8 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
             insertStdItem(mt_Properties);
         }
         break;
-
+    
+    case Uml::wt_Pin:
     case Uml::wt_Signal:
     case Uml::wt_FloatingDashLine:
     case Uml::wt_Precondition:

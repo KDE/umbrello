@@ -26,20 +26,21 @@
 #include "docwindow.h"
 #include "umlview.h"
 #include "listpopupmenu.h"
+#include "floatingtextwidget.h"
 
 //Added by qt3to4:
 #include <QMouseEvent>
 #include <QPolygon>
 
-PinWidget::PinWidget(UMLView * view, ActivityWidget* a, Uml::IDType id ): UMLWidget(view, id){
+PinWidget::PinWidget(UMLView * view, UMLWidget* a, Uml::IDType id ): UMLWidget(view, id){
     
     init();
-    setZ(50);
-    m_pOw[Uml::A] = a;
+    m_pOw = a;
     int y = getY();
     m_nY = y;
     y = y < getMinY() ? getMinY() : y;
     m_nY = y;
+
     this->activate();
 } 
 
@@ -50,7 +51,7 @@ void PinWidget::init() {
     m_bIgnoreSnapToGrid = true;
     m_bIgnoreSnapComponentSizeToGrid = true;
     m_bResizable =  false ;
-    m_pOw[Uml::A] = NULL;
+    m_pOw = NULL;
     m_nY = 0;
     setVisible(true);
 }
@@ -58,32 +59,29 @@ void PinWidget::init() {
 void PinWidget::draw(QPainter & p, int offsetX, int offsetY) { 
     int w = 10;
     int h = 10;
-    int width_Activity = m_pOw[Uml::A]->getWidth();
-    int height_Activity = m_pOw[Uml::A]->getHeight();
+    int width_Activity = m_pOw->getWidth();
+    int height_Activity = m_pOw->getHeight();
     int y;
+    int x = m_pOw->getX() + (width_Activity/2);
 
-    int x = m_pOw[Uml::A]->getX() + (width_Activity/2);
-   
-
-    if ( (offsetY + height_Activity/2) <= m_pOw[Uml::A]->getY() + height_Activity){
-       y = m_pOw[Uml::A]->getY()-5;
-    } else if((offsetY + height_Activity/2) > m_pOw[Uml::A]->getY() + height_Activity){
-       y = (m_pOw[Uml::A]->getY() + height_Activity)-5;
+    if ( (offsetY + height_Activity/2) <= m_pOw->getY() + height_Activity){
+        y = m_pOw->getY()-5;
+    } else if((offsetY + height_Activity/2) > m_pOw->getY() + height_Activity){
+       y = (m_pOw->getY() + height_Activity)-5;
     }
 
-    if (offsetX + width_Activity/4 <= m_pOw[Uml::A]->getX() + width_Activity/2 
-         && (offsetY > m_pOw[Uml::A]->getY() +5 && offsetY < m_pOw[Uml::A]->getY() + height_Activity - 5) ){
-        x = m_pOw[Uml::A]->getX() -5;
-        y = m_pOw[Uml::A]->getY() + (height_Activity/2) -5;
-    } else if (offsetX + width_Activity/4 > m_pOw[Uml::A]->getX() + width_Activity/2
-         && (offsetY > m_pOw[Uml::A]->getY() +5 && offsetY < m_pOw[Uml::A]->getY() + height_Activity - 5) ){
-        x = m_pOw[Uml::A]->getX() + width_Activity -5;
-        y = m_pOw[Uml::A]->getY() + (height_Activity/2) -5;
+    if (offsetX + width_Activity/4 <= m_pOw->getX() + width_Activity/2 
+         && (offsetY > m_pOw->getY() +5 && offsetY < m_pOw->getY() + height_Activity - 5) ){
+        x = m_pOw->getX() -5;
+        y = m_pOw->getY() + (height_Activity/2) -5;
+    } else if (offsetX + width_Activity/4 > m_pOw->getX() + width_Activity/2
+         && (offsetY > m_pOw->getY() +5 && offsetY < m_pOw->getY() + height_Activity - 5) ){
+        x = m_pOw->getX() + width_Activity -5;
+        y = m_pOw->getY() + (height_Activity/2) -5;
     }
 
     setX(x);
     setY(y);
-
 
 //test if y isn't above the object
 //     if ( y <= m_pOw[Uml::A]->getY() + height_Activity-5 && x == m_pOw[Uml::A]->getX() + (width_Activity/2) ) {
@@ -99,22 +97,55 @@ void PinWidget::draw(QPainter & p, int offsetX, int offsetY) {
             p.setBrush( UMLWidget::getFillColour() ); 
         }
         p.drawRect(x,y,w, h); 
+        //make sure it's always above the other
+        setZ(20);
         UMLWidget::setPen(p);
         if(m_bSelected)
              drawSelected(&p, offsetX, offsetY);
 }
- 
+
+QSize PinWidget::calculateSize() {
+    setSize(10,10);
+    return QSize(10,10);
+}
+
+void PinWidget::setName(const QString &strName) {
+    m_Text = strName;
+    updateComponentSize();
+    m_pName->setText(m_Text);
+}
+
 int PinWidget::getMinY() {
-    if (!m_pOw[Uml::A]) {
+    if (!m_pOw) {
         return 0;
     }
-    int heightA = m_pOw[Uml::A]->getY() + m_pOw[Uml::A]->getHeight();
+    int heightA = m_pOw->getY() + m_pOw->getHeight();
     return heightA;
 }
 
+
+void PinWidget::slotMenuSelection(int sel) {
+    bool done = false;
+
+    bool ok = false;
+    QString name = m_Text;
+
+    switch( sel ) {
+    case ListPopupMenu::mt_Rename:
+        name = KInputDialog::getText( i18n("Enter Pin Name"), i18n("Enter the pin name :"), m_Text, &ok );
+        if( ok )
+            setName(name);
+        done = true;
+        break;
+    }
+    if( !done )
+        UMLWidget::slotMenuSelection( sel );
+}
+
+
 void PinWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) { 
     QDomElement PinElement = qDoc.createElement( "pinwidget" );
-    PinElement.setAttribute( "widgetaid", ID2STR(m_pOw[Uml::A]->getID()) );
+    PinElement.setAttribute( "widgetaid", ID2STR(m_pOw->getID()) );
     UMLWidget::saveToXMI( qDoc, PinElement ); 
     qElement.appendChild( PinElement ); 
 }
@@ -134,13 +165,8 @@ bool PinWidget::loadFromXMI( QDomElement & qElement ) {
         return false;
     }
 
-    m_pOw[Uml::A] = dynamic_cast<ActivityWidget*>(pWA);
-    if (m_pOw[Uml::A] == NULL) {
-        kDebug() << "PinWidget::loadFromXMI: role A widget "
-        << ID2STR(aId) << " is not an ActivityWidget" << endl;
-        return false;
-    }
-
+    m_pOw = pWA;
+  
     return true; 
 }
 
