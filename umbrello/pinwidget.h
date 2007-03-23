@@ -94,6 +94,10 @@ public:
      */
      bool loadFromXMI( QDomElement & qElement );
 
+    /**
+     * Overrides mouseMoveEvent.
+     */
+    void mouseMoveEvent(QMouseEvent *me);
 
 protected:
     /**
@@ -118,6 +122,12 @@ private:
      */
     FloatingTextWidget * m_pName;
     
+    /**
+     * Save the value of the widget to know how to move the floatingtext
+     */
+    int m_oldX;
+    int m_oldY;
+
     int m_nY;
 };
 

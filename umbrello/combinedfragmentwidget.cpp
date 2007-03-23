@@ -142,14 +142,16 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
                 p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
 			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "parallel");
                 // dash lines
-                 m_dashLines.first()->draw(p,getX(),getY());
-                for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines.begin() ; it!=m_dashLines.end() ; ++it) {
-                    (*it)->setX(getX());
-                    old_Y = (*it)->getYMin();
-                    (*it)->setYMin(getY());
-                    (*it)->setYMax(getY() + getHeight());
-                    (*it)->setY(getY() + (*it)->getY() - old_Y);
-                    (*it)->setSize(w, 0);
+                if (m_dashLines.size() != 0) {
+                    m_dashLines.first()->draw(p,getX(),getY());
+                    for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines.begin() ; it!=m_dashLines.end() ; ++it) {
+                        (*it)->setX(getX());
+                        old_Y = (*it)->getYMin();
+                        (*it)->setYMin(getY());
+                        (*it)->setYMax(getY() + getHeight());
+                        (*it)->setY(getY() + (*it)->getY() - old_Y);
+                        (*it)->setSize(w, 0);
+                    }
                 }
         break;
 

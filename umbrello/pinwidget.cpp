@@ -25,6 +25,7 @@
 #include "umldoc.h"
 #include "docwindow.h"
 #include "umlview.h"
+#include "uniqueid.h"
 #include "listpopupmenu.h"
 #include "floatingtextwidget.h"
 
@@ -41,6 +42,10 @@ PinWidget::PinWidget(UMLView * view, UMLWidget* a, Uml::IDType id ): UMLWidget(v
     y = y < getMinY() ? getMinY() : y;
     m_nY = y;
 
+    m_pName = new FloatingTextWidget(view,Uml::tr_Floating,"");
+    view->setupNewWidget(m_pName);
+    m_pName->setX(0);
+    m_pName->setY(0);
     this->activate();
 } 
 
@@ -64,23 +69,54 @@ void PinWidget::draw(QPainter & p, int offsetX, int offsetY) {
     int y;
     int x = m_pOw->getX() + (width_Activity/2);
 
+    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+    const int fontHeight  = fm.lineSpacing();
+    int cas = 0;
+
     if ( (offsetY + height_Activity/2) <= m_pOw->getY() + height_Activity){
         y = m_pOw->getY()-5;
+        if (m_pName->getX() == 0 && m_pName->getY() == 0) {
+            //the floating text has not been linked with the signal
+            m_pName->setX(x + 5 - m_Text.length()/2);
+            m_pName->setY(y -fontHeight);
+            cas = 1;
+        }
+       
+
     } else if((offsetY + height_Activity/2) > m_pOw->getY() + height_Activity){
        y = (m_pOw->getY() + height_Activity)-5;
+        if (m_pName->getX() == 0 && m_pName->getY() == 0) {
+            //the floating text has not been linked with the signal
+            m_pName->setX(x + 5 - m_Text.length()/2);
+            m_pName->setY(y + fontHeight);
+            cas = 2;
+        }
     }
 
     if (offsetX + width_Activity/4 <= m_pOw->getX() + width_Activity/2 
          && (offsetY > m_pOw->getY() +5 && offsetY < m_pOw->getY() + height_Activity - 5) ){
         x = m_pOw->getX() -5;
         y = m_pOw->getY() + (height_Activity/2) -5;
+        if (m_pName->getX() == 0 && m_pName->getY() == 0) {
+            m_pName->setX(x - m_Text.length());
+            m_pName->setY(y - fontHeight);
+            cas = 3;
+        }
     } else if (offsetX + width_Activity/4 > m_pOw->getX() + width_Activity/2
          && (offsetY > m_pOw->getY() +5 && offsetY < m_pOw->getY() + height_Activity - 5) ){
         x = m_pOw->getX() + width_Activity -5;
         y = m_pOw->getY() + (height_Activity/2) -5;
+        if (m_pName->getX() == 0 && m_pName->getY() == 0) {
+            //the floating text has not been linked with the signal
+            m_pName->setX(x + 10);
+            m_pName->setY(y - fontHeight);
+            cas = 4;
+        }
     }
 
+    m_oldX = getX();
     setX(x);
+    m_oldY = getY();
     setY(y);
 
 //test if y isn't above the object
@@ -100,6 +136,8 @@ void PinWidget::draw(QPainter & p, int offsetX, int offsetY) {
         //make sure it's always above the other
         setZ(20);
         UMLWidget::setPen(p);
+        m_pName->setVisible(( m_pName->getText().length() > 0 ));
+        m_pName->updateComponentSize();
         if(m_bSelected)
              drawSelected(&p, offsetX, offsetY);
 }
@@ -123,6 +161,15 @@ int PinWidget::getMinY() {
     return heightA;
 }
 
+void PinWidget::mouseMoveEvent(QMouseEvent* me) {
+    UMLWidget::mouseMoveEvent(me);
+    int diffX = m_oldX - getX();
+    int diffY = m_oldY - getY();
+    if (m_pName!=NULL && m_pName->getText() != "") {
+        m_pName->setX(m_pName->getX() - diffX);
+        m_pName->setY(m_pName->getY() - diffY);
+    }
+}
 
 void PinWidget::slotMenuSelection(int sel) {
     bool done = false;
@@ -147,6 +194,10 @@ void PinWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement PinElement = qDoc.createElement( "pinwidget" );
     PinElement.setAttribute( "widgetaid", ID2STR(m_pOw->getID()) );
     UMLWidget::saveToXMI( qDoc, PinElement ); 
+    if (m_pName && !m_pName->getText().isEmpty()) {
+        PinElement.setAttribute( "textid", ID2STR(m_pName->getID()) );
+        m_pName -> saveToXMI( qDoc, PinElement );
+    }
     qElement.appendChild( PinElement ); 
 }
 
@@ -166,7 +217,40 @@ bool PinWidget::loadFromXMI( QDomElement & qElement ) {
     }
 
     m_pOw = pWA;
-  
+    
+    QString textid = qElement.attribute( "textid", "-1" );
+    Uml::IDType textId = STR2ID(textid);
+    if (textId != Uml::id_None) {
+        UMLWidget *flotext = m_pView -> findWidget( textId );
+        if (flotext != NULL) {
+            // This only happens when loading files produced by
+            // umbrello-1.3-beta2.
+            m_pName = static_cast<FloatingTextWidget*>(flotext);
+            //return true;
+        }
+    } else {
+        // no textid stored -> get unique new one
+        textId = UniqueID::gen();
+    }
+
+      //now load child elements
+    QDomNode node = qElement.firstChild();
+    QDomElement element = node.toElement();
+    if ( !element.isNull() ) {
+        QString tag = element.tagName();
+        if (tag == "floatingtext") {
+            m_pName = new FloatingTextWidget( m_pView,Uml::tr_Floating,m_Text, textId );
+            if( ! m_pName->loadFromXMI(element) ) {
+                // Most likely cause: The FloatingTextWidget is empty.
+                delete m_pName;
+                m_pName = NULL;
+            }
+        } else {
+            kError() << "PinWidget::loadFromXMI: unknown tag "
+            << tag << endl;
+        }
+    }
+
     return true; 
 }
 
