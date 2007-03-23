@@ -159,11 +159,11 @@ ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::getObjectNodeType() const {
 }
 
 ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::getObjectNodeType(QString objectNodeType) const {
-    if (objectNodeType == "Buffer")
+    if (objectNodeType == "Central buffer")
        return ObjectNodeWidget::Buffer;
-    if (objectNodeType == "Data")
+    if (objectNodeType == "Data store")
        return ObjectNodeWidget::Data;
-    if (objectNodeType == "Flow")
+    if (objectNodeType == "Object Flow")
        return ObjectNodeWidget::Flow;
 }
 
@@ -247,18 +247,18 @@ bool ObjectNodeWidget::loadFromXMI( QDomElement & qElement ) {
 void ObjectNodeWidget::askForObjectNodeType(UMLWidget* &targetWidget){
     bool pressedOK = false;
     int current = 0;
-    const QStringList list = QStringList() << "Buffer" << "Data" <<"Flow"; 
+    const QStringList list = QStringList() << "Central buffer" << "Data store" <<"Object Flow"; 
 
     QString type = KInputDialog::getItem ( i18n("Select Object node type"),  i18n("Select the object node type"),list,current, false, &pressedOK, UMLApp::app());
 
     if (pressedOK) {
        // QString type = result.join("");
         dynamic_cast<ObjectNodeWidget*>(targetWidget)->setObjectNodeType(type);
-        if (type == "Data")
+        if (type == "Data store")
             Dialog_Utils::askNameForWidget(targetWidget, i18n("Enter the name of the data store node"), i18n("Enter the name of the data store node"), i18n("data store name"));
-        if (type == "Buffer")
+        if (type == "Central buffer")
             Dialog_Utils::askNameForWidget(targetWidget, i18n("Enter the name of the buffer node"), i18n("Enter the name of the buffer"), i18n("centralBuffer"));
-        if (type == "Flow") {
+        if (type == "Object Flow") {
             Dialog_Utils::askNameForWidget(targetWidget, i18n("Enter the name of the object flow"), i18n("Enter the name of the object flow"), i18n("object flow"));
             askStateForWidget();
         }

@@ -209,7 +209,7 @@ void ClassPropDlg::slotApply() {
         m_pColorPage->updateUMLWidget();
     }
     if (m_pWidget) {
-     //   m_pWidget->setFont( m_pChooser->font() );
+        m_pWidget->setFont( m_pChooser->font() );
     }
 }
 
@@ -332,8 +332,8 @@ void ClassPropDlg::setupFontPage() {
     pageItem->setHeader( i18n("Font Settings") );
     pageItem->setIcon( KIcon(DesktopIcon("fonts") ));
     addPage( pageItem);
-//    m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
-   // m_pChooser -> setFont( m_pWidget -> getFont() );
+    m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
+    m_pChooser -> setFont( m_pWidget -> getFont() );
 }
 
 
