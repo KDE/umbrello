@@ -13,6 +13,8 @@
 #include <typeinfo>
 
 #include "assocrules.h"
+#include "uml.h"
+#include "umlview.h"
 #include "umlwidget.h"
 #include "umlobject.h"
 #include "associationwidgetlist.h"
@@ -45,7 +47,13 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
         }
     }
     if( !bValid ) {
-        return false;
+        // Special case: Subsystem realizes interface in component diagram
+        UMLView *view = UMLApp::app()->getCurrentView();
+        if (view && view->getType() == dt_Component && widgetType == wt_Package &&
+            (assocType == at_Generalization || assocType == at_Realization))
+            bValid = true;
+        else
+            return false;
     }
     AssociationWidgetList list = widget -> getAssocList();
     AssociationWidgetListIt it( list );
@@ -301,6 +309,7 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
     { at_Generalization,wt_Interface,   wt_Interface,   false,  false,  false,  false },
     { at_Generalization,wt_UseCase,     wt_UseCase,     false,  false,  false,  false },
     { at_Generalization,wt_Actor,       wt_Actor,       false,  false,  false,  false },
+    { at_Generalization,wt_Component,   wt_Interface,   false,  false,  false,  false },
     { at_Aggregation,   wt_Class,       wt_Class,       true,   true,   false,  true  },
     { at_Aggregation,   wt_Class,       wt_Interface,   true,   true,   false,  false },
     { at_Aggregation,   wt_Class,       wt_Enum,        true,   true,   false,  false },
@@ -326,6 +335,8 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
     { at_Realization,   wt_Class,       wt_Interface,   false,  false,  false,  false },
     { at_Realization,   wt_Interface,   wt_Package,     false,  false,  false,  false },
     { at_Realization,   wt_Interface,   wt_Interface,   false,  false,  false,  false },
+    { at_Realization,   wt_Component,   wt_Interface,   false,  false,  false,  false },
+    { at_Realization,   wt_Package,     wt_Interface,   false,  false,  false,  false },
     { at_Composition,   wt_Class,       wt_Class,       true,   true,   false,  true  },
     { at_Composition,   wt_Class,       wt_Interface,   true,   true,   false,  false },
     { at_Composition,   wt_Class,       wt_Enum,        true,   true,   false,  false },
