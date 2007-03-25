@@ -54,7 +54,7 @@ CPPHeaderCodeAccessorMethod::~CPPHeaderCodeAccessorMethod ( ) { }
 void CPPHeaderCodeAccessorMethod::updateContent( )
 {
     CodeClassField * parentField = getParentClassField();
-    CPPCodeClassField * cppfield = (CPPCodeClassField*)parentField;
+    CPPCodeClassField * cppfield = dynamic_cast<CPPCodeClassField*>(parentField);
     CodeGenPolicyExt *pe = UMLApp::app()->getPolicyExt();
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
     bool isInlineMethod = policy->getAccessorsAreInline( );
