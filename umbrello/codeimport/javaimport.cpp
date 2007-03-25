@@ -173,7 +173,7 @@ UMLObject* JavaImport::resolveClass (QString className) {
                 // we need to set the package for the class that will be resolved
                 // start at the root package
                 UMLPackage *parent = m_scope[0];
-                UMLPackage *current;
+                UMLPackage *current = NULL;
 
                 for (QStringList::Iterator it = split.begin(); it != split.end(); ++it) {
                     QString name = (*it);
