@@ -197,8 +197,8 @@ bool CodeClassField::removeMethod ( CodeAccessorMethod * remove_object ) {
  * @return QPtrList<CodeMethodBlock *> list of Method objects held by
  * m_methodVector
  */
-CodeAccessorMethodList * CodeClassField::getMethodList ( ) {
-    return &m_methodVector;
+CodeAccessorMethodList CodeClassField::getMethodList() {
+    return m_methodVector;
 }
 
 /** determine if we will *allow* methods to be viewable.
@@ -254,8 +254,8 @@ void CodeClassField::setAttributesOnNode ( QDomDocument & doc, QDomElement & cfE
     m_declCodeBlock->saveToXMI(doc, cfElem);
 
     // now record the tags on our accessormethods
-    CodeAccessorMethodList * list = getMethodList ( );
-    for(CodeAccessorMethod * method=list->first(); method; method=list->next())
+    CodeAccessorMethod *method;
+    for (CodeAccessorMethodListIt it(m_methodVector); (method = it.current()) != NULL; ++it)
     {
         method->saveToXMI(doc,cfElem);
     }
@@ -378,8 +378,8 @@ QString CodeClassField::fixInitialStringDeclValue(QString value, const QString &
 void CodeClassField::synchronize ()
 {
     updateContent();
-    CodeAccessorMethodList * list = getMethodList();
-    for(CodeAccessorMethod * method=list->first(); method; method=list->next())
+    CodeAccessorMethod *method;
+    for (CodeAccessorMethodListIt it(m_methodVector); (method = it.current()) != NULL; ++it)
         method->syncToParent();
 
     if(m_declCodeBlock)

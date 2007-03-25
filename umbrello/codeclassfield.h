@@ -85,7 +85,7 @@ public:
      * @return CodeAccessorMethodList list of Method objects held by
      * m_methodVector
      */
-    CodeAccessorMethodList * getMethodList ( );
+    CodeAccessorMethodList getMethodList();
 
     /** Utility method to allow finding particular accessor method of this
          *  code class field by its type identifier.

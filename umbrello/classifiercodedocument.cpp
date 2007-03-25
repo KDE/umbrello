@@ -318,8 +318,9 @@ void ClassifierCodeDocument::addCodeClassFieldMethods(CodeClassFieldList &list )
     for (CodeClassFieldListIt ccflit(list); ccflit.current(); ++ccflit)
     {
         CodeClassField * field = ccflit.current();
-        CodeAccessorMethodList * list = field->getMethodList();
-        for (CodeAccessorMethod * method = list->first(); method; method = list->next())
+        CodeAccessorMethodList list = field->getMethodList();
+        CodeAccessorMethod * method;
+        for (CodeAccessorMethodListIt it(list); (method = it.current()) != NULL; ++it)
         {
             /*
                                 QString tag = method->getTag();
@@ -721,9 +722,9 @@ TextBlock * ClassifierCodeDocument::findCodeClassFieldTextBlockByTag (const QStr
         if(decl && decl->getTag() == tag)
             return decl;
         // well, if not in the decl block, then in the methods perhaps?
-        CodeAccessorMethodList * mlist = cf->getMethodList();
+        CodeAccessorMethodList mlist = cf->getMethodList();
         CodeAccessorMethod *m;
-        for(CodeAccessorMethodListIt it(*mlist); (m = it.current()) != NULL; ++it)
+        for (CodeAccessorMethodListIt it(mlist); (m = it.current()) != NULL; ++it)
             if(m->getTag() == tag)
                 return m;
     }
