@@ -24,8 +24,9 @@
 // Constructors/Destructors
 //
 
-JavaCodeOperation::JavaCodeOperation ( JavaClassifierCodeDocument * doc, UMLOperation *parent, const QString & body, const QString & comment )
-        : CodeOperation ((ClassifierCodeDocument*)doc, parent, body, comment)
+JavaCodeOperation::JavaCodeOperation
+ ( JavaClassifierCodeDocument * doc, UMLOperation *parent, const QString & body, const QString & comment )
+        : CodeOperation (doc, parent, body, comment)
 {
     // lets not go with the default comment and instead use
     // full-blown java documentation object instead
@@ -121,7 +122,7 @@ void JavaCodeOperation::updateMethodDeclaration()
 }
 
 int JavaCodeOperation::lastEditableLine() {
-    ClassifierCodeDocument * doc = (ClassifierCodeDocument*)getParentDocument();
+    ClassifierCodeDocument * doc = dynamic_cast<ClassifierCodeDocument*>(getParentDocument());
     if(doc->parentIsInterface())
         return -1; // very last line is NOT editable as its a one-line declaration w/ no body in
     // an interface.

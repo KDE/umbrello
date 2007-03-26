@@ -45,8 +45,8 @@ RubyCodeAccessorMethod::RubyCodeAccessorMethod ( CodeClassField * field, CodeAcc
     setType(type);
 
     // lets use full-blown comment
-    setComment(new RubyCodeDocumentation((RubyClassifierCodeDocument*)field->getParentDocument()));
-
+    RubyClassifierCodeDocument *rccd = dynamic_cast<RubyClassifierCodeDocument*>(field->getParentDocument());
+    setComment(new RubyCodeDocumentation(rccd));
 }
 
 RubyCodeAccessorMethod::~RubyCodeAccessorMethod ( ) { }
@@ -77,7 +77,7 @@ void RubyCodeAccessorMethod::updateContent( )
 {
 
     CodeClassField * parentField = getParentClassField();
-    RubyCodeClassField * rubyfield = (RubyCodeClassField*)parentField;
+    RubyCodeClassField * rubyfield = dynamic_cast<RubyCodeClassField*>(parentField);
     QString fieldName = rubyfield->getFieldName();
     QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
 
@@ -86,7 +86,6 @@ void RubyCodeAccessorMethod::updateContent( )
     case CodeAccessorMethod::ADD:
         {
             int maxOccurs = rubyfield->maximumListOccurances();
-            RubyClassifierCodeDocument * rubydoc = (RubyClassifierCodeDocument*) rubyfield->getParentDocument();
             QString fieldType = rubyfield->getTypeName();
             QString indent = getIndentation();
             if(maxOccurs > 0)
@@ -108,7 +107,7 @@ void RubyCodeAccessorMethod::updateContent( )
     case CodeAccessorMethod::REMOVE:
         {
             int minOccurs = rubyfield->minimumListOccurances();
-            RubyClassifierCodeDocument * rubydoc = (RubyClassifierCodeDocument*) rubyfield->getParentDocument();
+            RubyClassifierCodeDocument * rubydoc = dynamic_cast<RubyClassifierCodeDocument*>(rubyfield->getParentDocument());
             QString fieldType = rubyfield->getTypeName();
             QString indent = getIndentation();
 
@@ -137,8 +136,8 @@ void RubyCodeAccessorMethod::updateContent( )
 void RubyCodeAccessorMethod::updateMethodDeclaration()
 {
 
-    RubyCodeClassField * rubyfield = (RubyCodeClassField*) getParentClassField();
-    RubyClassifierCodeDocument * rubydoc = (RubyClassifierCodeDocument*) rubyfield->getParentDocument();
+    RubyCodeClassField * rubyfield = dynamic_cast<RubyCodeClassField*>(getParentClassField());
+    RubyClassifierCodeDocument * rubydoc = dynamic_cast<RubyClassifierCodeDocument*>(rubyfield->getParentDocument());
 
     // gather defs
     CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();

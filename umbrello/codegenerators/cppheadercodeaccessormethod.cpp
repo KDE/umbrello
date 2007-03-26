@@ -93,7 +93,7 @@ void CPPHeaderCodeAccessorMethod::updateMethodDeclaration()
     ClassifierCodeDocument * doc = parentField->getParentDocument();
     CodeGenPolicyExt *pe = UMLApp::app()->getPolicyExt();
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
-    CPPCodeClassField * cppfield = (CPPCodeClassField*) parentField;
+    CPPCodeClassField * cppfield = dynamic_cast<CPPCodeClassField*>(parentField);
 
     bool isInlineMethod = policy->getAccessorsAreInline( );
 

@@ -39,8 +39,8 @@ JavaCodeAccessorMethod::JavaCodeAccessorMethod ( CodeClassField * field, CodeAcc
     setType(type);
 
     // lets use full-blown comment
-    setComment(new JavaCodeDocumentation((JavaClassifierCodeDocument*)field->getParentDocument()));
-
+    JavaClassifierCodeDocument* jccd = dynamic_cast<JavaClassifierCodeDocument*>(field->getParentDocument());
+    setComment(new JavaCodeDocumentation(jccd));
 }
 
 JavaCodeAccessorMethod::~JavaCodeAccessorMethod ( ) { }
@@ -71,7 +71,7 @@ void JavaCodeAccessorMethod::updateContent( )
 {
 
     CodeClassField * parentField = getParentClassField();
-    JavaCodeClassField * javafield = (JavaCodeClassField*)parentField;
+    JavaCodeClassField * javafield = dynamic_cast<JavaCodeClassField*>(parentField);
     QString fieldName = javafield->getFieldName();
 
     QString text = "";
@@ -130,8 +130,8 @@ void JavaCodeAccessorMethod::updateContent( )
 void JavaCodeAccessorMethod::updateMethodDeclaration()
 {
 
-    JavaCodeClassField * javafield = (JavaCodeClassField*) getParentClassField();
-    JavaClassifierCodeDocument * javadoc = (JavaClassifierCodeDocument*) javafield->getParentDocument();
+    JavaCodeClassField * javafield = dynamic_cast<JavaCodeClassField*>(getParentClassField());
+    JavaClassifierCodeDocument * javadoc = dynamic_cast<JavaClassifierCodeDocument*>(javafield->getParentDocument());
     CodeGenerationPolicy *commonpolicy = UMLApp::app()->getCommonPolicy();
 
     // gather defs

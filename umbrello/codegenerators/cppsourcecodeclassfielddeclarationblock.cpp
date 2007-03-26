@@ -44,8 +44,8 @@ void CPPSourceCodeClassFieldDeclarationBlock::updateContent( )
     /*
     CodeClassField * cf = getParentClassField();
     ClassifierCodeDocument * doc = cf->getParentDocument();
-    CPPCodeClassField * jcf = (CPPCodeClassField*) cf;
-    CPPClassifierCodeDocument* jdoc = (CPPClassifierCodeDocument*) doc;
+    CPPCodeClassField * jcf = dynamic_cast<CPPCodeClassField*>(cf);
+    CPPClassifierCodeDocument* jdoc = dynamic_cast<CPPClassifierCodeDocument*>(doc);
 
     // Set the comment
     QString notes = getParentObject()->getDoc();
