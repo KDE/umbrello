@@ -53,6 +53,16 @@ public:
     CodeClassField ( ClassifierCodeDocument * parentDoc , UMLAttribute * attrib );
     CodeClassField ( ClassifierCodeDocument * parentDoc , UMLRole * role);
 
+    /**
+     * Finish off initializations of the object.
+     * This is necessary as a separate method because we cannot call
+     * virtual methods that are reimplemented in a language specific class
+     * during our own construction (the own object is not finished being
+     * constructed and therefore the C++ dispatch mechanism does not yet
+     * work as expected.)
+     */
+    void finishInitialization();
+
     // CodeClassField ( ClassifierCodeDocument * doc , UMLRole role);
 
     /**
@@ -213,7 +223,7 @@ private:
     virtual void setAttributesFromNode ( QDomElement & element);
 
     /** init class fields */
-    void initFields (  );
+    void initFields(bool inConstructor = false);
 
     // initialize the accessor methods for this field
     void initAccessorMethods();

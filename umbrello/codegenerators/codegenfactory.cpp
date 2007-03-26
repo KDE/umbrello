@@ -242,6 +242,7 @@ CodeClassField * newCodeClassField(ClassifierCodeDocument *ccd, UMLAttribute *at
         default:
             break;
     }
+    retval->finishInitialization();
     return retval;
 }
 

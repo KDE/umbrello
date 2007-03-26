@@ -37,7 +37,7 @@ CodeClassField::CodeClassField ( ClassifierCodeDocument * doc , UMLRole * role)
 {
 
     setParentUMLObject(role);
-    initFields( );
+    initFields(true);
 
 }
 
@@ -46,7 +46,7 @@ CodeClassField::CodeClassField ( ClassifierCodeDocument * doc , UMLAttribute * a
 {
 
     setParentUMLObject(attrib);
-    initFields( );
+    initFields(true);
 
 }
 
@@ -591,7 +591,7 @@ bool CodeClassField::fieldIsSingleValue ( )
     return false;
 }
 
-void CodeClassField::initFields ( ) {
+void CodeClassField::initFields(bool inConstructor) {
 
     m_writeOutMethods = false;
     m_listClassName = QString ("");
@@ -600,6 +600,11 @@ void CodeClassField::initFields ( ) {
     m_methodVector.setAutoDelete(false);
     // m_methodMap = new QMap<CodeAccessorMethod::AccessorType, CodeAccessorMethod *>;
 
+    if (!inConstructor)
+        finishInitialization();
+}
+
+void CodeClassField::finishInitialization() {
     initAccessorMethods();
     updateContent();
 
