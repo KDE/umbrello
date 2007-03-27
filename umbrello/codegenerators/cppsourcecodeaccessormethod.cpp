@@ -54,7 +54,7 @@ CPPSourceCodeAccessorMethod::~CPPSourceCodeAccessorMethod ( ) { }
 void CPPSourceCodeAccessorMethod::updateContent( )
 {
     CodeClassField * parentField = getParentClassField();
-    CPPCodeClassField * cppfield = (CPPCodeClassField*)parentField;
+    CPPCodeClassField * cppfield = dynamic_cast<CPPCodeClassField*>(parentField);
     CodeGenPolicyExt *pe = UMLApp::app()->getPolicyExt();
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
     bool isInlineMethod = policy->getAccessorsAreInline( );
@@ -93,7 +93,7 @@ void CPPSourceCodeAccessorMethod::updateMethodDeclaration()
     ClassifierCodeDocument * doc = parentField->getParentDocument();
     CodeGenPolicyExt *pe = UMLApp::app()->getPolicyExt();
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
-    CPPCodeClassField * cppfield = (CPPCodeClassField*) parentField;
+    CPPCodeClassField * cppfield = dynamic_cast<CPPCodeClassField*>(parentField);
     UMLClassifier * c = doc->getParentClassifier();
 
     bool isInlineMethod = policy->getAccessorsAreInline( );

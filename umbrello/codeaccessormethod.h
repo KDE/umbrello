@@ -22,9 +22,6 @@
 #include "codemethodblock.h"
 
 class CodeClassField;
-class UMLAttribute;
-class UMLObject;
-class UMLRole;
 
 class CodeAccessorMethod : public CodeMethodBlock
 {

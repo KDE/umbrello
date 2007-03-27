@@ -22,8 +22,9 @@
 // Constructors/Destructors
 //
 
-JavaClassDeclarationBlock::JavaClassDeclarationBlock ( JavaClassifierCodeDocument * parentDoc, const QString &startText, const QString &endText, const QString &comment)
-        : OwnedHierarchicalCodeBlock((UMLObject*) parentDoc->getParentClassifier(), (CodeDocument*)parentDoc, startText, endText, comment)
+JavaClassDeclarationBlock::JavaClassDeclarationBlock
+ ( JavaClassifierCodeDocument * parentDoc, const QString &startText, const QString &endText, const QString &comment)
+        : OwnedHierarchicalCodeBlock(parentDoc->getParentClassifier(), parentDoc, startText, endText, comment)
 {
     init(parentDoc, comment);
 }
@@ -65,7 +66,7 @@ void JavaClassDeclarationBlock::loadFromXMI ( QDomElement & root )
 void JavaClassDeclarationBlock::updateContent ( )
 {
 
-    JavaClassifierCodeDocument *parentDoc = (JavaClassifierCodeDocument*)getParentDocument();
+    JavaClassifierCodeDocument *parentDoc = dynamic_cast<JavaClassifierCodeDocument*>(getParentDocument());
     UMLClassifier *c = parentDoc->getParentClassifier();
     CodeGenerationPolicy *commonPolicy = UMLApp::app()->getCommonPolicy();
     QString endLine = commonPolicy->getNewLineEndingChars();

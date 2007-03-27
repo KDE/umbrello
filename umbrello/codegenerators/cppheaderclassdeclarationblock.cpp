@@ -24,8 +24,9 @@
 // Constructors/Destructors
 //
 
-CPPHeaderClassDeclarationBlock::CPPHeaderClassDeclarationBlock ( CPPHeaderCodeDocument * parentDoc, const QString &startText, const QString &endText, const QString &comment)
-        : OwnedHierarchicalCodeBlock((UMLObject*) parentDoc->getParentClassifier(), (CodeDocument*)parentDoc, startText, endText, comment)
+CPPHeaderClassDeclarationBlock::CPPHeaderClassDeclarationBlock
+  ( CPPHeaderCodeDocument * parentDoc, const QString &startText, const QString &endText, const QString &comment)
+        : OwnedHierarchicalCodeBlock(parentDoc->getParentClassifier(), parentDoc, startText, endText, comment)
 {
     init(parentDoc, comment);
 }
@@ -74,7 +75,7 @@ void CPPHeaderClassDeclarationBlock::saveToXMI ( QDomDocument & doc, QDomElement
 void CPPHeaderClassDeclarationBlock::updateContent ( )
 {
 
-    CPPHeaderCodeDocument *parentDoc = (CPPHeaderCodeDocument*)getParentDocument();
+    CPPHeaderCodeDocument *parentDoc = dynamic_cast<CPPHeaderCodeDocument*>(getParentDocument());
     UMLClassifier *c = parentDoc->getParentClassifier();
     QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
     bool isInterface = parentDoc->parentIsInterface(); // a little shortcut

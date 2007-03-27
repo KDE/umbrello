@@ -13,9 +13,9 @@
  *      Date   : Wed Jun 18 2003
  */
 
-
 #include "codecomment.h"
 #include "codedocument.h"
+#include <kdebug.h>
 
 // Constructors/Destructors
 //
@@ -44,6 +44,7 @@ CodeComment::~CodeComment ( ) { }
  * Save the XMI representation of this object
  */
 void CodeComment::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+    kDebug() << "CodeComment::saveToXMI is called!" << endl;
     QDomElement blockElement = doc.createElement( "codecomment" );
     setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
     // just use parent TextBlock method

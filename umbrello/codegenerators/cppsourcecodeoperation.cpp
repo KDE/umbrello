@@ -26,7 +26,7 @@
 //
 
 CPPSourceCodeOperation::CPPSourceCodeOperation ( CPPSourceCodeDocument * doc, UMLOperation *parent, const QString & body, const QString & comment )
-        : CodeOperation ((ClassifierCodeDocument*)doc, parent, body, comment)
+        : CodeOperation (doc, parent, body, comment)
 {
     // lets not go with the default comment and instead use
     // full-blown cpp documentation object instead
@@ -126,7 +126,7 @@ void CPPSourceCodeOperation::updateContent( )
 void CPPSourceCodeOperation::updateMethodDeclaration()
 {
 
-    CPPSourceCodeDocument * doc = (CPPSourceCodeDocument*) getParentDocument();
+    CPPSourceCodeDocument * doc = dynamic_cast<CPPSourceCodeDocument*>(getParentDocument());
     CodeGenPolicyExt *pe = UMLApp::app()->getPolicyExt();
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
     UMLClassifier * c = doc->getParentClassifier();

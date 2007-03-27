@@ -28,7 +28,7 @@
 //
 
 RubyCodeOperation::RubyCodeOperation ( RubyClassifierCodeDocument * doc, UMLOperation *parent, const QString & body, const QString & comment )
-        : CodeOperation ((ClassifierCodeDocument*)doc, parent, body, comment)
+        : CodeOperation (doc, parent, body, comment)
 {
     // lets not go with the default comment and instead use
     // full-blown ruby documentation object instead
@@ -211,7 +211,7 @@ void RubyCodeOperation::updateMethodDeclaration()
 }
 
 int RubyCodeOperation::lastEditableLine() {
-    ClassifierCodeDocument * doc = (ClassifierCodeDocument*)getParentDocument();
+    ClassifierCodeDocument * doc = dynamic_cast<ClassifierCodeDocument*>(getParentDocument());
     if(doc->parentIsInterface())
         return -1; // very last line is NOT editable as its a one-line declaration w/ no body in
     // an interface.

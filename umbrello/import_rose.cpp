@@ -184,7 +184,7 @@ QString collectVerbatimText(QTextStream& stream) {
         return QString();
     }
     if (! line.isEmpty()) {
-        for (uint i = 0; i < line.length(); i++) {
+        for (int i = 0; i < line.length(); i++) {
             const QChar& clParenth = line[i];
             if (clParenth != ')') {
                 kError() << loc() << "expected ')', found: " << clParenth << endl;

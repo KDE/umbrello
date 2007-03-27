@@ -213,8 +213,9 @@ void HierarchicalCodeBlock::addCodeClassFieldMethods(CodeClassFieldList &list )
     for (CodeClassFieldListIt ccflit(list); ccflit.current(); ++ccflit)
     {
         CodeClassField * field = ccflit.current();
-        CodeAccessorMethodList * list = field->getMethodList();
-        for (CodeAccessorMethod * method = list->first(); method; method = list->next())
+        CodeAccessorMethodList list = field->getMethodList();
+        CodeAccessorMethod * method;
+        for (CodeAccessorMethodListIt it(list); (method = it.current()) != NULL; ++it)
         {
             QString tag = method->getTag();
             if(tag.isEmpty())
@@ -297,7 +298,8 @@ void HierarchicalCodeBlock::setAttributesFromObject (TextBlock * obj) {
     {
         setStartText(hb->getStartText());
         setEndText(hb->getEndText());
-        CodeGenObjectWithTextBlocks::setAttributesFromObject((CodeGenObjectWithTextBlocks*)obj);
+        CodeGenObjectWithTextBlocks *cgowtb = dynamic_cast<CodeGenObjectWithTextBlocks*>(obj);
+        CodeGenObjectWithTextBlocks::setAttributesFromObject(cgowtb);
     }
 
 }

@@ -145,7 +145,7 @@ protected:
 
 private:
 
-    void initFields( ) ;
+    void init();
 
     bool m_createANTBuildFile;
 };

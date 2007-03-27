@@ -789,7 +789,7 @@ AssociationWidget * UMLView::findAssocWidget(UMLWidget *pWidgetA, UMLWidget *pWi
         assocTypes << Uml::at_Aggregation << Uml::at_Composition << Uml::at_Containment;
     }
     AssociationWidget* retval = NULL;
-    for (uint i=0; i < assocTypes.size(); ++i) {
+    for (int i = 0; i < assocTypes.size(); ++i) {
         retval = findAssocWidget(assocTypes[i], pWidgetA, pWidgetB);
         if (retval != NULL) return retval;
     }

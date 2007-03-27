@@ -266,16 +266,20 @@ Q3PtrList<CodeOperation> ClassifierCodeDocument::getCodeOperations ( ) {
 /**
  * @param       op
  */
-void ClassifierCodeDocument::addOperation (UMLClassifierListItem * op ) {
-
-    QString tag = CodeOperation::findTag((UMLOperation*)op);
+void ClassifierCodeDocument::addOperation (UMLClassifierListItem * o) {
+    UMLOperation *op = dynamic_cast<UMLOperation*>(o);
+    if (op == NULL) {
+        kError() << "ClassifierCodeDocument::addOperation: arg is not a UMLOperation"
+            << endl;
+    }
+    QString tag = CodeOperation::findTag(op);
     CodeOperation * codeOp = dynamic_cast<CodeOperation*>(findTextBlockByTag(tag, true));
     bool createdNew = false;
 
     // create the block, if it doesn't already exist
     if(!codeOp)
     {
-        codeOp = CodeGenFactory::newCodeOperation(this, (UMLOperation*)op);
+        codeOp = CodeGenFactory::newCodeOperation(this, op);
         createdNew = true;
     }
 
@@ -316,8 +320,9 @@ void ClassifierCodeDocument::addCodeClassFieldMethods(CodeClassFieldList &list )
     for (CodeClassFieldListIt ccflit(list); ccflit.current(); ++ccflit)
     {
         CodeClassField * field = ccflit.current();
-        CodeAccessorMethodList * list = field->getMethodList();
-        for (CodeAccessorMethod * method = list->first(); method; method = list->next())
+        CodeAccessorMethodList list = field->getMethodList();
+        CodeAccessorMethod * method;
+        for (CodeAccessorMethodListIt it(list); (method = it.current()) != NULL; ++it)
         {
             /*
                                 QString tag = method->getTag();
@@ -719,9 +724,9 @@ TextBlock * ClassifierCodeDocument::findCodeClassFieldTextBlockByTag (const QStr
         if(decl && decl->getTag() == tag)
             return decl;
         // well, if not in the decl block, then in the methods perhaps?
-        CodeAccessorMethodList * mlist = cf->getMethodList();
+        CodeAccessorMethodList mlist = cf->getMethodList();
         CodeAccessorMethod *m;
-        for(CodeAccessorMethodListIt it(*mlist); (m = it.current()) != NULL; ++it)
+        for (CodeAccessorMethodListIt it(mlist); (m = it.current()) != NULL; ++it)
             if(m->getTag() == tag)
                 return m;
     }

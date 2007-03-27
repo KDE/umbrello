@@ -47,7 +47,7 @@ void CPPHeaderCodeClassFieldDeclarationBlock::updateContent( )
     }
 
     CodeClassField * cf = getParentClassField();
-    CPPCodeClassField * hcppcf = (CPPCodeClassField*) cf;
+    CPPCodeClassField * hcppcf = dynamic_cast<CPPCodeClassField*>(cf);
 
     // Set the comment
     QString notes = umlparent->getDoc();

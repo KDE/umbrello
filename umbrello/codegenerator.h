@@ -314,6 +314,13 @@ public:
     */
     virtual void initFromParentDocument( );
 
+    /**
+     * Connect additional slots.
+     * Only required for Advanced Code Generators.
+     * To be called after constructing the code generator (see CodeGenFactory)
+     */
+    void connect_newcodegen_slots();
+
 protected:
 
     /**
@@ -380,7 +387,7 @@ private:
     CodeDocumentList m_codedocumentVector;
     int lastIDIndex;
 
-    void initFields ( UMLDoc * doc ) ;
+    void initFields() ;
 
 public slots:
 

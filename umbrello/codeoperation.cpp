@@ -75,7 +75,7 @@ QPtrList<CodeParameter> CodeOperation::getParameterList ( ) {
  * Get the parent UMLOperation of this codeoperation.
  */
 UMLOperation * CodeOperation::getParentOperation( ) {
-    return (UMLOperation*) getParentObject();
+    return dynamic_cast<UMLOperation*>(getParentObject());
 }
 
 // Other methods
@@ -163,6 +163,7 @@ void CodeOperation::init (UMLOperation * parentOp)
 }
 
 void CodeOperation::updateContent() {
+    kDebug() << "CodeOperation::updateContent is called!" << endl;
     // Empty. Unlike codeaccessor methods for most (all?) languages
     // we don't auto-generate content for operations
 }

@@ -125,9 +125,6 @@ protected:
      */
     CodeBlockWithComments * createClassDecl ( UMLClassifier *c, ClassifierInfo *info, RubyClassifierCodeDocument * doc);
 
-private:
-
-    void initFields( ) ;
 };
 
 #endif // RUBYCODEGENERATOR_H

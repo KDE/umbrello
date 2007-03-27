@@ -33,14 +33,12 @@
 //
 
 RubyCodeGenerator::RubyCodeGenerator (QDomElement & elem )
+  : CodeGenerator(elem)
 {
-    initFields();
-    loadFromXMI(elem);
 }
 
 RubyCodeGenerator::RubyCodeGenerator ()
 {
-    initFields();
 }
 
 RubyCodeGenerator::~RubyCodeGenerator ( ) { }
@@ -131,13 +129,13 @@ CodeDocument * RubyCodeGenerator::newClassifierCodeDocument ( UMLClassifier * c)
     return doc;
 }
 
+/* These initializations are done in CodeGenFactory::createObject()
 void RubyCodeGenerator::initFields() {
-
     UMLApp::app()->setPolicyExt ( new RubyCodeGenerationPolicy(UMLApp::app()->getConfig()) );
-
     // load Classifier documents from parent document
-    //initFromParentDocument();
+    initFromParentDocument();
 }
+ */
 
 const QStringList RubyCodeGenerator::reservedKeywords() const {
 

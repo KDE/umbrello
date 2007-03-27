@@ -232,7 +232,7 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
     const int height = this -> height() - fontHeight;
     QChar returnChar('\n');
     QChar c;
-    for (uint i = 0; i <= text.length(); i++) {
+    for (int i = 0; i <= text.length(); i++) {
         if (i < text.length()) {
             c = text[i];
         } else {

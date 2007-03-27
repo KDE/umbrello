@@ -32,14 +32,14 @@ const bool JavaCodeGenerator::DEFAULT_BUILD_ANT_DOC = false;
 //
 
 JavaCodeGenerator::JavaCodeGenerator (QDomElement & elem)
+  : CodeGenerator(elem)
 {
-    initFields();
-    loadFromXMI(elem);
+    init();
 }
 
 JavaCodeGenerator::JavaCodeGenerator ()
 {
-    initFields();
+    init();
 }
 
 JavaCodeGenerator::~JavaCodeGenerator ( ) { }
@@ -147,10 +147,7 @@ CodeDocument * JavaCodeGenerator::newClassifierCodeDocument ( UMLClassifier * c)
     return doc;
 }
 
-void JavaCodeGenerator::initFields() {
-
-    UMLApp::app()->setPolicyExt( new JavaCodeGenerationPolicy(UMLApp::app()->getConfig()) );
-
+void JavaCodeGenerator::init() {
     // load Classifier documents from parent document
     //initFromParentDocument();
 
@@ -160,7 +157,6 @@ void JavaCodeGenerator::initFields() {
 
     // set our 'writeout' policy for that code document
     setCreateANTBuildFile(DEFAULT_BUILD_ANT_DOC);
-
 }
 
 QStringList JavaCodeGenerator::defaultDatatypes() {
