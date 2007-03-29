@@ -659,7 +659,7 @@ ObjectWidget * UMLView::onWidgetLine( const QPoint &point ) {
     return 0;
 }
 
-UMLWidget *UMLView::testOnWidget(QPoint p) {
+UMLWidget *UMLView::getWidgetAt(QPoint p) {
     int relativeSize = 10000;  // start with an arbitrary large number
     UMLWidget *obj, *retObj = NULL;
     UMLWidgetListIt it(m_WidgetList);
