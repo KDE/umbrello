@@ -993,7 +993,6 @@ bool UMLClassifier::load(QDomElement& element) {
                 totalSuccess = false;
             }
         } else if (!Model_Utils::isCommonXMIAttribute(tag)) {
-            UMLDoc *umldoc = UMLApp::app()->getDocument();
             UMLObject *pObject = Object_Factory::makeObjectFromXMI(tag);
             if (pObject == NULL) {
                 totalSuccess = false;

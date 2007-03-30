@@ -45,10 +45,15 @@ void ToolBarStateArrow::mousePressWidget() {
 }
 
 void ToolBarStateArrow::mousePressEmpty() {
+    if (m_pMouseEvent->button() != Qt::LeftButton) {
+        // Leave widgets selected upon RMB press on empty diagram area.
+        // The popup menu is activated upon RMB release.
+        return;
+    }
     ToolBarState::mousePressEmpty();
 
     // Starts the selection rectangle
-    if (m_pMouseEvent->button() == Qt::LeftButton && m_selectionRect.count() == 0) {
+    if (m_selectionRect.count() == 0) {
         m_startPosition = m_pMouseEvent->pos();
 
         for (int i = 0; i < 4; i++) {

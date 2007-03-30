@@ -595,7 +595,7 @@ void CodeClassField::initFields(bool inConstructor) {
 
     m_writeOutMethods = false;
     m_listClassName = QString ("");
-    m_declCodeBlock = CodeGenFactory::newDeclarationCodeBlock(getParentDocument(), this);
+    m_declCodeBlock = NULL;
 
     m_methodVector.setAutoDelete(false);
     // m_methodMap = new QMap<CodeAccessorMethod::AccessorType, CodeAccessorMethod *>;
@@ -605,6 +605,7 @@ void CodeClassField::initFields(bool inConstructor) {
 }
 
 void CodeClassField::finishInitialization() {
+    m_declCodeBlock = CodeGenFactory::newDeclarationCodeBlock(getParentDocument(), this);
     initAccessorMethods();
     updateContent();
 
