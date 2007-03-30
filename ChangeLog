@@ -10,6 +10,7 @@ Version 1.5.7
 * Operations of the Interface are not implemented in the class automatically
   (111593)
 * Relationships for entities do not live outside of the diagram (125146)
+* Crashes while loading file (Advanced Code Generators enabled) (126262)
 * Multiplicity labels often are placed incorrectly (127628)
 * Crash on adding operation to class with Advanced Code Generators enabled
   (131528)
