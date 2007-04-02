@@ -20,6 +20,7 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
+#include <KStandardGuiItem>
 
 // app includes
 #include "aligntoolbar.h"
@@ -392,7 +393,7 @@ void AlignToolBar::slotButtonChanged(int btn) {
     } else {
         KMessageBox::messageBox(0, KMessageBox::Information,
                                 i18n("For alignment you have to select at least 2 objects like classes or actors. You can not align associations."),
-                                i18n("Information"), KGuiItem(i18n("&OK")), KGuiItem(QString(""))
+                                i18n("Information"), KStandardGuiItem::ok(), KGuiItem(QString("")), KStandardGuiItem::cancel()
                                 , "showAlignInformation"
                                );
     } // if (widgetList.count() > 1)
