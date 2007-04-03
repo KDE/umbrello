@@ -229,7 +229,7 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me) {
 
             if (m_inResizeArea) {
                 m_inResizeArea = false;
-                m_widget->m_pView->setCursor(KCursor::arrowCursor());
+                m_widget->m_pView->setCursor(Qt::ArrowCursor);
             } else {
                 m_inMoveArea = false;
             }
@@ -281,13 +281,13 @@ bool UMLWidgetController::isInResizeArea(QMouseEvent *me) {
         m_widget->m_pView->setCursor(getResizeCursor());
         return true;
     } else {
-        m_widget->m_pView->setCursor(KCursor::arrowCursor());
+        m_widget->m_pView->setCursor(Qt::ArrowCursor);
         return false;
     }
 }
 
 QCursor UMLWidgetController::getResizeCursor() {
-    return KCursor::sizeFDiagCursor();
+    return Qt::SizeFDiagCursor;
 }
 
 void UMLWidgetController::resizeWidget(int newW, int newH) {

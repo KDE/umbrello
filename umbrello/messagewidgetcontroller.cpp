@@ -35,7 +35,7 @@ void MessageWidgetController::saveWidgetValues(QMouseEvent *me) {
 }
 
 QCursor MessageWidgetController::getResizeCursor() {
-    return KCursor::sizeVerCursor();
+    return Qt::SizeVerCursor;
 }
 
 void MessageWidgetController::resizeWidget(int newW, int newH) {

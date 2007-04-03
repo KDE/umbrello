@@ -951,14 +951,14 @@ void UMLApp::slotEditPaste() {
     slotStatusMsg(i18n("Inserting clipboard contents..."));
     QMimeSource* data = QApplication::clipboard()->data();
     UMLClipboard clipboard;
-    setCursor(KCursor::waitCursor());
+    setCursor(Qt::WaitCursor);
     if(!clipboard.paste(data)) {
         KMessageBox::sorry( this, i18n("Umbrello could not paste the clipboard contents.  "
                                        "The objects in the clipboard may be of the wrong "
                                        "type to be pasted here."), i18n("Paste Error") );
     }
     slotStatusMsg(i18n("Ready."));
-    setCursor(KCursor::arrowCursor());
+    setCursor(Qt::ArrowCursor);
     editPaste->setEnabled(false);
     m_doc -> setModified( true );
 }
