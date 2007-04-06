@@ -349,7 +349,6 @@ install(TARGETS umbrello DESTINATION ${BIN_INSTALL_DIR} )
 ########### install files ###############
 
 install( FILES umbrello.desktop  DESTINATION  ${XDG_APPS_DIR} )
-install( FILES x-umbrello.desktop  DESTINATION  ${MIME_INSTALL_DIR}/application )
 install( FILES
   tips
   umbrelloui.rc
