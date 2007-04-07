@@ -3175,6 +3175,7 @@ void AssociationWidget::init (UMLView *view)
     m_role[B].m_Visibility = Uml::Visibility::Public;
     m_role[A].m_Changeability = Uml::chg_Changeable;
     m_role[B].m_Changeability = Uml::chg_Changeable;
+    m_positions_len = 0;
     m_bActivated = false;
     m_unNameLineSegment = 0;
     m_pMenu = 0;
