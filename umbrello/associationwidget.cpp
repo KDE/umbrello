@@ -873,26 +873,24 @@ void AssociationWidget::setAssocType(Association_Type type) {
     m_AssocType = type;
     m_LinePath.setAssocType(type);
     // If the association new type is not supposed to have Multiplicity
-    // FloatingTexts and a Role FloatingTextWidget then set the internal
-    // floating text pointers to null.
+    // FloatingTexts and a Role FloatingTextWidget then set the texts
+    // to empty.
+    // NB We do not physically delete the floatingtext widgets here because
+    // those widgets are also stored in the UMLView::m_WidgetList.
     if( !AssocRules::allowMultiplicity(type, getWidget(A)->getBaseType()) ) {
         if (m_role[A].m_pMulti) {
-            delete m_role[A].m_pMulti;
-            m_role[A].m_pMulti = NULL;
+            m_role[A].m_pMulti->setName("");
         }
         if (m_role[B].m_pMulti) {
-            delete m_role[B].m_pMulti;
-            m_role[B].m_pMulti = NULL;
+            m_role[B].m_pMulti->setName("");
         }
     }
     if( !AssocRules::allowRole( type ) ) {
         if (m_role[A].m_pRole) {
-            delete m_role[A].m_pRole;
-            m_role[A].m_pRole = NULL;
+            m_role[A].m_pRole->setName("");
         }
         if (m_role[B].m_pRole) {
-            delete m_role[B].m_pRole;
-            m_role[B].m_pRole = NULL;
+            m_role[B].m_pRole->setName("");
         }
         setRoleDoc("", A);
         setRoleDoc("", B);

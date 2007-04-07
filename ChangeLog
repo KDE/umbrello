@@ -33,6 +33,7 @@ Version 1.5.7
 * Missing "with" on Ada code generation for aggregation (142392)
 * Operation Properties "Type" combo box too small (143319)
 * Support duplication of diagrams (143581)
+* Crash on changing multiplicity in an association in ERD (143909)
 
 Version 1.5.61
 
