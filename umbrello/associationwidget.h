@@ -626,15 +626,15 @@ public:
     bool loadFromXMI( QDomElement & qElement, const UMLWidgetList& widgets,
                       const MessageWidgetList* pMessages = NULL);
 
-private:
-
-    /** set our internal umlAssociation */
-    void setUMLAssociation (UMLAssociation * assoc);
-
     /**
      * Cleans up all the association's data in the related widgets.
      */
     void cleanup();
+
+private:
+
+    /** set our internal umlAssociation */
+    void setUMLAssociation (UMLAssociation * assoc);
 
     /**
      * Merges/syncs the association widget data into UML object
@@ -847,10 +847,23 @@ private:
         Uml::Visibility m_Visibility;
         Uml::Changeability_Type m_Changeability;
         QString m_RoleDoc;
-        QString m_RoleName;
-        QString m_Multi;
 
     } m_role[2];
+
+    /**
+     * Change, create, or delete the FloatingTextWidget indicated by the given Text_Role.
+     *
+     * @param tr    Text_Role of the FloatingTextWidget to change or create.
+     * @param text  Text string that controls the action:
+     *              If empty and ft is NULL then setFloatingText() is a no-op.
+     *              If empty and ft is non-NULL then the existing ft is deleted.
+     *              If non-empty and ft is NULL then a new FloatingTextWidget is created
+     *              and returned in ft with the text set.
+     *              If non-empty and ft is non-NULL then the existing ft text is modified.
+     * @param ft    Reference to the pointer to FloatingTextWidget to change or create.
+     *              On creation/deletion, the pointer value will be changed.
+     */
+    void setFloatingText(Uml::Text_Role tr, const QString &text, FloatingTextWidget* &ft);
 
     /**
      * Called to tell the association that another association has added

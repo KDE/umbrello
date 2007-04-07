@@ -1749,6 +1749,7 @@ void UMLView::removeAssoc(AssociationWidget* pAssoc) {
 
     emit sigAssociationRemoved(pAssoc);
 
+    pAssoc->cleanup();
     m_AssociationList.remove(pAssoc); // will delete our association
     m_pDoc->setModified();
 }
