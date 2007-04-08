@@ -1444,8 +1444,6 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
     if( !pWidget ) {
         return false;
     }
-    if (pWidget->getName() == "bacx def")
-        kDebug() << "bacx: id=" << ID2STR(pWidget->getID()) << endl;
     if (!isPasteOperation && findWidget(pWidget->getID())) {
         kError() << "UMLView::addWidget: Not adding "
                   << "(id=" << ID2STR(pWidget->getID())
