@@ -180,7 +180,9 @@ void UMLOperation::addParm(UMLAttribute *parameter, int position) {
         m_List.insert(position,parameter);
     else
         m_List.append( parameter );
-    emit modified();
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    if (! umldoc->loading())
+        emit modified();
     connect(parameter,SIGNAL(modified()),this,SIGNAL(modified()));
 }
 

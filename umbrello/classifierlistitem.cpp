@@ -65,7 +65,9 @@ QString UMLClassifierListItem::getTypeName() {
 void UMLClassifierListItem::setType(UMLObject *type) {
     if (m_pSecondary != type) {
         m_pSecondary = type;
-        emit modified();
+        UMLDoc *umldoc = UMLApp::app()->getDocument();
+        if (! umldoc->loading())
+            emit modified();
     }
 }
 
@@ -87,7 +89,9 @@ void UMLClassifierListItem::setTypeName(const QString &type) {
             m_SecondaryId = type;
         }
     }
-    emit modified();
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    if (! umldoc->loading())
+        emit modified();
 }
 
 

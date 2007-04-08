@@ -65,17 +65,23 @@ void UMLRole::setObject (UMLObject *obj) {
     }
 
     m_pSecondary = obj;
-    emit modified();
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    if (! umldoc->loading())
+        emit modified();
 }
 
 void UMLRole::setChangeability (Uml::Changeability_Type value) {
     m_Changeability = value;
-    emit modified();
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    if (! umldoc->loading())
+        emit modified();
 }
 
 void UMLRole::setMultiplicity ( const QString &multi ) {
     m_Multi = multi;
-    emit modified();
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    if (! umldoc->loading())
+        emit modified();
 }
 
 Uml::Role_Type UMLRole::getRole() {

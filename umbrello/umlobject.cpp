@@ -94,12 +94,16 @@ bool UMLObject::acceptAssociationType(Uml::Association_Type)
 
 void UMLObject::setID(Uml::IDType NewID) {
     m_nId = NewID;
-    emit modified();
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    if (! umldoc->loading())
+        emit modified();
 }
 
 void UMLObject::setName(const QString &strName) {
     m_Name = strName;
-    emit modified();
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    if (! umldoc->loading())
+        emit modified();
 }
 
 QString UMLObject::getName() const {
@@ -211,7 +215,9 @@ bool UMLObject::getAbstract() const{
 
 void UMLObject::setAbstract(bool bAbstract) {
     m_bAbstract = bAbstract;
-    emit modified();
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    if (! umldoc->loading())
+        emit modified();
 }
 
 void UMLObject::setInPaste(bool bInPaste /* =true */) {
@@ -227,12 +233,16 @@ bool UMLObject::getStatic() const
 void UMLObject::setStatic(bool bStatic)
 {
     m_bStatic = bStatic;
-    emit modified();
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    if (! umldoc->loading())
+        emit modified();
 }
 
 void UMLObject::emitModified()
 {
-    emit modified();
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    if (! umldoc->loading())
+        emit modified();
 }
 
 void UMLObject::setDoc(const QString &d) {
@@ -262,7 +272,9 @@ Uml::Visibility UMLObject::getVisibility() const {
 
 void UMLObject::setVisibility(Uml::Visibility s) {
     m_Vis = s;
-    emit modified();
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    if (! umldoc->loading())
+        emit modified();
 }
 
 void UMLObject::setUMLStereotype(UMLStereotype *stereo) {
@@ -281,7 +293,9 @@ void UMLObject::setUMLStereotype(UMLStereotype *stereo) {
     }
     m_pStereotype = stereo;
     // TODO: don't emit modified() if predefined folder
-    emit modified();
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    if (! umldoc->loading())
+        emit modified();
 }
 
 void UMLObject::setStereotype(const QString &_name) {
@@ -319,7 +333,9 @@ void UMLObject::setPackage(const QString &_name) {
 
 void UMLObject::setUMLPackage(UMLPackage* pPkg) {
     m_pUMLPackage = pPkg;
-    emit modified();
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    if (! umldoc->loading())
+        emit modified();
 }
 
 const UMLStereotype * UMLObject::getUMLStereotype() {
