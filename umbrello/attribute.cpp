@@ -59,7 +59,9 @@ QString UMLAttribute::getInitialValue() {
 void UMLAttribute::setInitialValue(const QString &iv) {
     if(m_InitialValue != iv) {
         m_InitialValue = iv;
-        emit modified();
+        UMLDoc *umldoc = UMLApp::app()->getDocument();
+        if (! umldoc->loading())
+            emit modified();
     }
 }
 

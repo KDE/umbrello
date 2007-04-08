@@ -68,6 +68,7 @@ LinePath::LinePath() {
     m_pAssociation = 0;
     m_bHeadCreated = false;
     m_bParallelLineCreated = false;
+    m_DockRegion = TopBottom;
 }
 
 LinePath::~LinePath() {}
