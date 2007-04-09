@@ -44,6 +44,7 @@
 #include "notewidget.h"
 #include "boxwidget.h"
 #include "associationwidget.h"
+#include "messagewidget.h"
 #include "objectwidget.h"
 #include "messagewidget.h"
 #include "statewidget.h"
@@ -152,33 +153,28 @@ bool validateObjType(Uml::Object_Type expected, UMLObject *o) {
 UMLWidget* makeWidgetFromXMI(const QString& tag,
                              const QString& idStr, UMLView *view) {
     UMLWidget *widget = NULL;
-    if (tag == "statewidget" || tag == "notewidget" || tag == "boxwidget" ||
-        tag == "floatingtext" || tag == "activitywidget" || tag == "forkjoin" ||
-            // tests for backward compatibility:
-            tag == "UML:StateWidget" || tag == "UML:NoteWidget" ||
-            tag == "UML:FloatingTextWidget" || tag == "UML:ActivityWidget") {
+
         // Loading of widgets which do NOT represent any UMLObject, 
         // just graphic stuff with no real model information
         //FIXME while boxes and texts are just diagram objects, activities and
         // states should be UMLObjects
-        if (tag == "statewidget"
-                || tag == "UML:StateWidget") {         // for bkwd compatibility
-            widget = new StateWidget(view, StateWidget::Normal, Uml::id_Reserved);
-        } else if (tag == "notewidget"
-                   || tag == "UML:NoteWidget") {          // for bkwd compatibility
-            widget = new NoteWidget(view, Uml::id_Reserved);
-        } else if (tag == "boxwidget") {
-            widget = new BoxWidget(view, Uml::id_Reserved);
-        } else if (tag == "floatingtext"
-                   || tag == "UML:FloatingTextWidget") {  // for bkwd compatibility
-            widget = new FloatingTextWidget(view, Uml::tr_Floating, "", Uml::id_Reserved);
-        } else if (tag == "activitywidget"
-                   || tag == "UML:ActivityWidget") {      // for bkwd compatibility
-            widget = new ActivityWidget(view, ActivityWidget::Initial, Uml::id_Reserved);
-        } else if (tag == "forkjoin") {
-            widget = new ForkJoinWidget(view, false, Uml::id_Reserved);
-        }
+    if (tag == "statewidget") {
+        widget = new StateWidget(view, StateWidget::Normal, Uml::id_Reserved);
+    } else if (tag == "notewidget") {
+        widget = new NoteWidget(view, Uml::id_Reserved);
+    } else if (tag == "boxwidget") {
+        widget = new BoxWidget(view, Uml::id_Reserved);
+    } else if (tag == "floatingtext") {
+        widget = new FloatingTextWidget(view, Uml::tr_Floating, "", Uml::id_Reserved);
+    } else if (tag == "activitywidget") {
+        widget = new ActivityWidget(view, ActivityWidget::Initial, Uml::id_Reserved);
+    } else if (tag == "messagewidget") {
+        widget = new MessageWidget(view, Uml::sequence_message_asynchronous, Uml::id_Reserved);
+    } else if (tag == "forkjoin") {
+        widget = new ForkJoinWidget(view, false, Uml::id_Reserved);
     } else {
+        // Loading of widgets which represent an UMLObject
+
         // Find the UMLObject and create the Widget to represent it
         Uml::IDType id = STR2ID(idStr);
         UMLDoc *umldoc = UMLApp::app()->getDocument();
