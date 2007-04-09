@@ -1586,16 +1586,11 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
                 kDebug() << "UMLView::addWidget(): pObjectWidget is NULL" << endl;
                 return false;
             }
-            Uml::IDType newID = log->findNewID( pWidget -> getID() );
-            if (newID == Uml::id_None) {
-                return false;
-            }
-            pObjectWidget -> setID( newID );
             Uml::IDType nNewLocalID = getLocalID();
             Uml::IDType nOldLocalID = pObjectWidget -> getLocalID();
             m_pIDChangesLog->addIDChange( nOldLocalID, nNewLocalID );
             pObjectWidget -> setLocalID( nNewLocalID );
-            UMLObject *pObject = m_pDoc -> findObjectById( newID );
+            UMLObject *pObject = m_pDoc->findObjectById(pWidget->getID());
             if( !pObject ) {
                 kDebug() << "addWidget::Can't find UMLObject" << endl;
                 return false;
