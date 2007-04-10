@@ -172,7 +172,7 @@
                         <property name="name">
                             <cstring>unnamed</cstring>
                         </property>
-                        <widget class="KHistoryCombo" row="1" column="1" rowspan="1" colspan="2">
+                        <widget class="KHistoryComboBox" row="1" column="1" rowspan="1" colspan="2">
                             <property name="name">
                                 <cstring>m_listClassHCombo</cstring>
                             </property>
@@ -244,7 +244,7 @@
                                 <bool>true</bool>
                             </property>
                         </widget>
-                        <widget class="KHistoryCombo" row="2" column="1" rowspan="1" colspan="2">
+                        <widget class="KHistoryComboBox" row="2" column="1" rowspan="1" colspan="2">
                             <property name="name">
                                 <cstring>m_stringClassHCombo</cstring>
                             </property>
@@ -341,7 +341,7 @@
                                 <string>&lt;p align="center"&gt;List&lt;/p&gt;</string>
                             </property>
                         </widget>
-                        <widget class="KHistoryCombo" row="1" column="3">
+                        <widget class="KHistoryComboBox" row="1" column="3">
                             <property name="name">
                                 <cstring>m_listIncludeFileHistoryCombo</cstring>
                             </property>
@@ -374,7 +374,7 @@
                                 <string>&lt;i&gt;global?&lt;/i&gt;</string>
                             </property>
                         </widget>
-                        <widget class="KHistoryCombo" row="2" column="3">
+                        <widget class="KHistoryComboBox" row="2" column="3">
                             <property name="name">
                                 <cstring>m_stringIncludeFileHistoryCombo</cstring>
                             </property>
@@ -476,8 +476,8 @@
 <layoutdefaults spacing="6" margin="11"/>
 <customwidgets>
     <customwidget>
-    <class>KHistoryCombo</class>
-    <header>kcombobox.h</header>
+    <class>KHistoryComboBox</class>
+    <header>khistorycombobox.h</header>
     </customwidget>
 </customwidgets>
 <includehints>
