@@ -963,38 +963,6 @@ void UMLApp::slotEditPaste() {
     m_doc -> setModified( true );
 }
 
-//Remove these once we stop supporting KDE 3.1
-// #if !KDE_IS_VERSION(3,1,90)
-
-void UMLApp::slotViewToolBar() {
-    slotStatusMsg(i18n("Toggling toolbar..."));
-
-    ///////////////////////////////////////////////////////////////////
-    // turn Toolbar on or off
-
-    if(!viewToolBar->isChecked()) {
-        toolBar("mainToolBar")->hide();
-    } else {
-        toolBar("mainToolBar")->show();
-    }
-
-    slotStatusMsg(i18n("Ready."));
-}
-
-void UMLApp::slotViewStatusBar() {
-    slotStatusMsg(i18n("Toggle the statusbar..."));
-    ///////////////////////////////////////////////////////////////////
-    //turn Statusbar on or off
-    if(!viewStatusBar->isChecked()) {
-        statusBar()->hide();
-    } else {
-        statusBar()->show();
-    }
-
-    slotStatusMsg(i18n("Ready."));
-}
-// #endif
-
 
 void UMLApp::slotStatusMsg(const QString &text) {
     ///////////////////////////////////////////////////////////////////
