@@ -39,6 +39,6 @@ namespace Uml
 			int 		oldW; // old W value (used in undo method )
 			bool 		already; 
 	};
-};
+}
 
 #endif

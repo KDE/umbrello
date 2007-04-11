@@ -34,6 +34,6 @@ namespace Uml
 			QString 	newstring;
 			QString 	oldstring;
 	};
-};
+}
 
 #endif

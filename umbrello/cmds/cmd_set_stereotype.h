@@ -37,6 +37,6 @@ namespace Uml
 			QString oldst;
 			UMLObject * UMLObj;
 	};
-};
+}
 
 #endif

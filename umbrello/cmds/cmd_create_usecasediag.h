@@ -33,6 +33,6 @@ namespace Uml
 			UMLView*	m_pUMLView;
 			QString		m_Name;
 	};
-};
+}
 
 #endif

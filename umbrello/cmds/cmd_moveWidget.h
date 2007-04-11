@@ -39,6 +39,6 @@ namespace Uml
 			bool		already;
 
 	};
-};
+}
 
 #endif

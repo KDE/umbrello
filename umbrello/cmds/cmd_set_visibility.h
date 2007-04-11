@@ -37,6 +37,6 @@ namespace Uml
 			Uml::Visibility  visib;
 			UMLObject * UMLObj;
 	};
-};
+}
 
 #endif
