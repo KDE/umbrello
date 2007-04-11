@@ -32,7 +32,7 @@
  */
 
 class FloatingDashLineWidget : public UMLWidget {
-
+    Q_OBJECT
 public:
     /**
      * Creates a floating dash line.
