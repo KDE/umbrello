@@ -39,5 +39,5 @@ namespace Uml
 				/* nouvelle couleur */
 				QColor color;
 	};
-};
+}
 #endif /*CMD_CHANGELINECOLOR_H_*/

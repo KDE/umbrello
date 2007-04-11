@@ -31,6 +31,6 @@ namespace Uml
 			UMLWidget*	m_widget;
 			UMLView*	m_view;
 	};
-};
+}
 
 #endif

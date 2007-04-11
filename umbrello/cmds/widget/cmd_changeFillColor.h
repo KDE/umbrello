@@ -39,6 +39,6 @@ namespace Uml
 			void redo();
 			void undo();
 	};
-};
+}
 
 #endif /*CMD_CHANGEFILLCOLOR_H_*/

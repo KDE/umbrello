@@ -39,7 +39,7 @@ namespace Uml
 		void undo();
 	};
 
-};
+}
 
 #endif /*CMD_CHANGEMULTI_H_*/
 
