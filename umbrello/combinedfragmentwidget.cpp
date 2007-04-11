@@ -227,9 +227,11 @@ CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::getCombined
         return (CombinedFragmentWidget::Ass);
     if(type == "Alternative")
         return (CombinedFragmentWidget::Alt);
-//    if(type == "Parallel")
+    if(type == "Parallel")
         return (CombinedFragmentWidget::Par);
-
+    // Shouldn't happen
+    Q_ASSERT(0);
+    return (CombinedFragmentWidget::Ref);
 }
 
 void CombinedFragmentWidget::setCombinedFragmentType( QString combinedfragmentType ) {

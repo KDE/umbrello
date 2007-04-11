@@ -163,8 +163,11 @@ ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::getObjectNodeType(QString obj
        return ObjectNodeWidget::Buffer;
     if (objectNodeType == "Data store")
        return ObjectNodeWidget::Data;
-//    if (objectNodeType == "Object Flow")
+    if (objectNodeType == "Object Flow")
        return ObjectNodeWidget::Flow;
+    // Shouldn't happen
+    Q_ASSERT(0);
+    return ObjectNodeWidget::Flow;
 }
 
 void ObjectNodeWidget::setObjectNodeType( ObjectNodeType objectNodeType ) {
