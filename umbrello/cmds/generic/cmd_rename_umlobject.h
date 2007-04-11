@@ -32,6 +32,6 @@ namespace Uml
 			QString		m_name;
 			QString		m_oldname;
 	};
-};
+}
 
 #endif

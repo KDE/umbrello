@@ -30,6 +30,6 @@ namespace Uml
 		private:
 			UMLObject*	m_obj;
 	};
-};
+}
 
 #endif
