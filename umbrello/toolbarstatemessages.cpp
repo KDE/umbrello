@@ -23,9 +23,14 @@
 #include "umldoc.h"
 #include "umlview.h"
 
+#include <klocale.h>
+#include <kmessagebox.h>
+
 ToolBarStateMessages::ToolBarStateMessages(UMLView *umlView) : ToolBarStatePool(umlView) {
     m_firstObject = 0;
     m_messageLine = 0;
+    xclick = 0;
+    yclick = 0;
 }
 
 ToolBarStateMessages::~ToolBarStateMessages() {
@@ -108,25 +113,88 @@ void ToolBarStateMessages::mouseReleaseWidget() {
 }
 
 void ToolBarStateMessages::mouseReleaseEmpty() {
-    cleanMessage();
+    Uml::Sequence_Message_Type msgType = getMessageType();
+
+    if (m_firstObject && msgType ==  Uml::sequence_message_lost) {
+	xclick = m_pMouseEvent->x();
+	yclick = m_pMouseEvent->y();
+	
+	MessageWidget* message = new MessageWidget(m_pUMLView, m_firstObject,xclick, yclick, msgType);
+
+	cleanMessage();
+ 	m_pUMLView->getMessageList().append(message);
+        xclick = 0;
+        yclick = 0;
+
+   	FloatingTextWidget *ft = message->getFloatingTextWidget();
+    	//TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
+    	//Shouldn't it cancel also the whole creation?
+    	ft->showOpDlg();
+    	message->setTextPosition();
+    	m_pUMLView->getWidgetList().append(ft);
+
+    	UMLApp::app()->getDocument()->setModified();
+    }
+   
+    else if (!m_firstObject && msgType == Uml::sequence_message_found && xclick == 0 && yclick == 0) {
+	xclick = m_pMouseEvent->x();
+	yclick = m_pMouseEvent->y();
+
+	m_messageLine = new Q3CanvasLine(m_pUMLView->canvas());
+    	m_messageLine->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y());
+    	m_messageLine->setPen(QPen(m_pUMLView->getLineColor(), m_pUMLView->getLineWidth(), Qt::DashLine));
+
+    	m_messageLine->setVisible(true);
+
+    	m_pUMLView->viewport()->setMouseTracking(true);
+    }
+    else
+    	cleanMessage();
 }
 
 void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject) {
     m_firstObject = firstObject;
+    Uml::Sequence_Message_Type msgType = getMessageType();
 
-    m_messageLine = new Q3CanvasLine(m_pUMLView->canvas());
-    m_messageLine->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y());
-    m_messageLine->setPen(QPen(m_pUMLView->getLineColor(), m_pUMLView->getLineWidth(), Qt::DashLine));
+    if (msgType ==  Uml::sequence_message_found && xclick!=0 && yclick!=0) {
+        MessageWidget* message = new MessageWidget(m_pUMLView, m_firstObject,xclick, yclick, msgType);
+	cleanMessage();
+ 	m_pUMLView->getMessageList().append(message);
+        
+        xclick = 0;
+        yclick = 0;
+   	
+        FloatingTextWidget *ft = message->getFloatingTextWidget();
+    	//TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
+    	//Shouldn't it cancel also the whole creation?
+    	ft->showOpDlg();
+    	message->setTextPosition();
+    	m_pUMLView->getWidgetList().append(ft);
 
-    m_messageLine->setVisible(true);
+    	UMLApp::app()->getDocument()->setModified();
+    }
+    else {
+    	m_messageLine = new Q3CanvasLine(m_pUMLView->canvas());
+    	m_messageLine->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y());
+    	m_messageLine->setPen(QPen(m_pUMLView->getLineColor(), m_pUMLView->getLineWidth(), Qt::DashLine));
 
-    m_pUMLView->viewport()->setMouseTracking(true);
+    	m_messageLine->setVisible(true);
+
+    	m_pUMLView->viewport()->setMouseTracking(true);
+    }
 }
 
 void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageType messageType) {
     Uml::Sequence_Message_Type msgType = getMessageType();
-
-    //TODO shouldn't start position in the first widget be used also for normal messages
+    
+    //There shouldn't be second widget for a lost or a found message
+    if (msgType == Uml::sequence_message_lost || msgType == Uml::sequence_message_found) {
+        cleanMessage();
+        xclick = 0;
+        yclick = 0;
+        return;
+    }
+     //TODO shouldn't start position in the first widget be used also for normal messages
     //and not only for creation?
     int y = m_pMouseEvent->y();
     if (messageType == CreationMessage) {
@@ -155,7 +223,12 @@ Uml::Sequence_Message_Type ToolBarStateMessages::getMessageType() {
     if (getButton() == WorkToolBar::tbb_Seq_Message_Synchronous) {
         return Uml::sequence_message_synchronous;
     }
-
+    else if (getButton() == WorkToolBar::tbb_Seq_Message_Found) {
+        return Uml::sequence_message_found;
+    }
+    else if (getButton() == WorkToolBar::tbb_Seq_Message_Lost) {
+        return Uml::sequence_message_lost;
+    }
     return Uml::sequence_message_asynchronous;
 }
 

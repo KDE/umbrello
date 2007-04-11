@@ -16,6 +16,7 @@
 #include "toolbarstatearrow.h"
 #include "toolbarstatemessages.h"
 #include "toolbarstateassociation.h"
+#include "toolbarstateonewidget.h"
 
 #include "umlview.h"
 
@@ -54,11 +55,12 @@ ToolBarState* ToolBarStateFactory::getState(const WorkToolBar::ToolBar_Buttons &
 
             // This case has no pool.
         case 3: states[3] = new ToolBarStateArrow(m_pUMLView); break;
+	case 4: states[4] = new ToolBarStateOneWidget(m_pUMLView); break;
         }
     }
 
     // Make explicit the selected button. This is only necessary for states with a pool.
-    if (key <= 2) ((ToolBarStatePool *) states[key])->setButton(toolbarButton);
+    if (key != 3) ((ToolBarStatePool *) states[key])->setButton(toolbarButton);
 
     return states[key];
 }
@@ -81,12 +83,18 @@ int ToolBarStateFactory::getKey(const WorkToolBar::ToolBar_Buttons &toolbarButto
     case WorkToolBar::tbb_Coll_Message:        return 1;
     case WorkToolBar::tbb_State_Transition:    return 1;
     case WorkToolBar::tbb_Activity_Transition: return 1;
+    case WorkToolBar::tbb_Exception:           return 1;
 
         // Messages
     case WorkToolBar::tbb_Seq_Message_Synchronous:  return 2;
     case WorkToolBar::tbb_Seq_Message_Asynchronous: return 2;
-
-        // Arrow pointer
+    case WorkToolBar::tbb_Seq_Message_Found: 	    return 2;
+    case WorkToolBar::tbb_Seq_Message_Lost: 	    return 2;
+    
+    case WorkToolBar::tbb_Seq_Precondition: return 4;
+    case WorkToolBar::tbb_Pin: return 4;
+    
+    	// Arrow pointer
     case WorkToolBar::tbb_Arrow: return 3;
 
         // Other.

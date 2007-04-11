@@ -44,6 +44,15 @@ public:
     int onWidget(const QPoint & p);
 
     /**
+     * Return whether on the destruction box.
+     *
+     * @param p The point to investigate.
+     * @return  Non-zero if point is on the destruction box of this sequence line.
+     */
+    int onDestructionBox ( const QPoint & p );
+
+
+    /**
      * Clean up anything before deletion.
      */
     void cleanup();

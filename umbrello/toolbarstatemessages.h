@@ -131,7 +131,9 @@ protected:
      */
     enum MessageType {
         NormalMessage,
-        CreationMessage
+        CreationMessage,
+	FoundMessage,
+	LostMessage
     };
 
     /**
@@ -183,6 +185,13 @@ protected:
      * the line of an object, or false if it happened on a normal UMLWidget.
      */
     bool m_isObjectWidgetLine;
+
+private:
+    /**
+    * x and y clicked for lost and found messages
+    */
+    int xclick;
+    int yclick;
 
 };
 

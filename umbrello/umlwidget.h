@@ -133,6 +133,15 @@ public:
     /**
      * Overrides the method from WidgetBase.
      */
+    void setLineColorcmd(const QColor &colour);
+    /**
+     * get line color attribute.
+     */
+	QColor getLineColor() ;
+
+    /**
+     * Overrides the method from WidgetBase.
+     */
     void setLineWidth(uint width);
 
     /**
@@ -142,6 +151,18 @@ public:
      */
     void setFillColour(const QColor &colour);
 
+    /**
+     * Sets the background fill colour
+     *
+     * @param colour the new fill colour
+     */
+    void setFillColourcmd(const QColor &colour);
+
+    /**
+     * get fill color attribute.
+     */
+	QColor getFillColor();
+	
     /**
      * Read property of QColor m_FillColour.
      */

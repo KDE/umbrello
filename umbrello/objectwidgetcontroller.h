@@ -66,6 +66,16 @@ protected:
      */
     virtual void resizeWidget(int newW, int newH);
 
+     /**
+     * Overrides the standard operation.
+     */
+    virtual void mousePressEvent(QMouseEvent *me);
+
+     /**
+     * Overrides the standard operation.
+     */
+    virtual void mouseMoveEvent(QMouseEvent* me);
+
     /**
      * Overriden from UMLWidgetController.
      * Moves the widget to a new position using the difference between the
@@ -79,6 +89,15 @@ protected:
     virtual void moveWidgetBy(int diffX, int diffY);
 
     /**
+     * Moves the destruction Box to a new position using the difference between the
+     * current position and the new position.
+     * The destruction box is only moved along Y axis.
+     *
+     * @param diffY The difference between current Y position and new Y position
+     */
+    void moveDestructionBy (int diffY);
+
+    /**
      * Overriden from UMLWidgetController.
      * Modifies the value of the diffX and diffY variables used to move the widgets.
      * All the widgets are constrained to be moved only in X axis (diffY is set to 0).
@@ -87,6 +106,11 @@ protected:
      * @param diffY The difference between current Y position and new Y position.
      */
     virtual void constrainMovementForAllWidgets(int &diffX, int &diffY);
+
+    /**
+     * passed to true when a click occured on the destruction box
+     */
+    bool isOnDestructionBox;
 };
 
 #endif

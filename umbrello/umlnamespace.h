@@ -104,7 +104,14 @@ enum Widget_Type
     wt_Artifact,                // has UMLObject representation
     wt_Node,                    // has UMLObject representation
     wt_Association,             // has UMLObject representation
-    wt_ForkJoin                 // does not have UMLObject representation
+    wt_ForkJoin,                // does not have UMLObject representation
+    wt_Precondition,		// does not have UMLObject representation
+    wt_CombinedFragment,	// does not have UMLObject representation
+    wt_FloatingDashLine,        // does not have UMLObject representation
+    wt_Signal,	                // does not have UMLObject representation
+    wt_Pin,
+    wt_ObjectNode,	
+    wt_Region
 };
 
 enum Diagram_Type
@@ -141,6 +148,7 @@ enum Association_Type
     at_Anchor,
     at_State,
     at_Activity,
+    at_Exception,
     at_Relationship,
     at_Unknown  =  - 1
 };
@@ -276,7 +284,9 @@ enum Sequence_Message_Type
     //This is saved out to the file so only add new entries at the end
     sequence_message_synchronous = 1000,
     sequence_message_asynchronous,
-    sequence_message_creation
+    sequence_message_creation,
+    sequence_message_lost,
+    sequence_message_found
 };
 
 enum DBIndex_Type
@@ -321,6 +331,7 @@ enum Programming_Language {
     pl_SQL,
     pl_Tcl,
     pl_XMLSchema,
+    pl_Ocl,
     pl_Reserved
 };
 

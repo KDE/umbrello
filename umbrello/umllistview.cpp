@@ -2150,12 +2150,12 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
     return true;
 }
 
-void UMLListView::createDiagram( UMLListViewItem * item, Uml::Diagram_Type type ) {
+UMLView* UMLListView::createDiagram( UMLListViewItem * item, Uml::Diagram_Type type ) {
     QString name = item -> text( 0 );
     UMLView * view = m_doc -> findView( type, name );
     if( view ) {
         delete item;
-        return;
+        return view;
     }
     UMLListViewItem *parentItem = static_cast<UMLListViewItem*>(item->parent());
     UMLFolder *parentFolder = dynamic_cast<UMLFolder*>(parentItem->getUMLObject());
@@ -2163,7 +2163,7 @@ void UMLListView::createDiagram( UMLListViewItem * item, Uml::Diagram_Type type 
         kError() << "UMLListView::createDiagram(" << name
             << "): parent UMLObject is not a UMLFolder" << endl;
         delete item;
-        return;
+        return NULL;
     }
     view = new UMLView(parentFolder);
     view->setName( name );
@@ -2175,6 +2175,8 @@ void UMLListView::createDiagram( UMLListViewItem * item, Uml::Diagram_Type type 
     item -> setText( name );
     view->activate();
     m_doc -> changeCurrentView( view -> getID() );
+
+    return view;
 }
 
 QString UMLListView::getUniqueDiagramName(Uml::Diagram_Type type) {

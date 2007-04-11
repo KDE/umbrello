@@ -20,6 +20,7 @@ class QMouseEvent;
 
 class AssociationWidget;
 class MessageWidget;
+class FloatingDashLineWidget;
 class UMLView;
 class UMLWidget;
 
@@ -335,6 +336,16 @@ protected:
      * @todo Better handling for messages at the same point
      */
     MessageWidget* getMessageAt(QPoint pos);
+
+    /**
+     * Returns the FloatingDashLineWidget at the specified position, or null if there is none.
+     * The floatingdashline is only returned if it is visible.
+     *
+     * @param pos The position to get the floatingLine.
+     * @return The MessageWidget at the specified position, or null if there is none.
+     */
+    FloatingDashLineWidget* getFloatingLineAt(QPoint pos);
+
 
     /**
      * The UMLView.

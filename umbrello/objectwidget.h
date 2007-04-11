@@ -185,6 +185,13 @@ public:
     int topMargin();
 
     /**
+     * Sets the y position of the bottom of the vertical line.
+     *
+     * @param yPosition The y coordinate for the bottom of the line.
+     */
+    void setEndLine(int yPosition);
+
+    /**
      * Returns the end Y co-ord of the seq. line.
      *
      * @return  Y coordinate of the endpoint of the sequence line.

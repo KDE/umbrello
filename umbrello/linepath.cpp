@@ -264,10 +264,9 @@ bool LinePath::removePoint( int pointIndex, const QPoint &point, unsigned short 
 
 bool LinePath::setStartEndPoints( const QPoint &start, const QPoint &end ) {
     int count = m_LineList.count();
-
     if( count == 0 ) {
         Q3CanvasLine * line = new Q3CanvasLine(getCanvas() );
-        line -> setPoints( start.x(), start.y(), end.x(), end.y() );
+        line -> setPoints( start.x(), start.y(),end.x(),end.y() );
         line -> setZ( -2 );
         line -> setPen( getPen() );
         line -> setVisible( true );
@@ -276,7 +275,7 @@ bool LinePath::setStartEndPoints( const QPoint &start, const QPoint &end ) {
     }
     bool status = setPoint( 0, start );
     if( status)
-        return setPoint( count , end );
+        return setPoint(count,end);
     return false;
 }
 
@@ -553,10 +552,12 @@ void LinePath::updateHead() {
     switch( getAssocType() ) {
     case Uml::at_State:
     case Uml::at_Activity:
+    case Uml::at_Exception:
     case Uml::at_UniAssociation:
     case Uml::at_Dependency:
         if( count < 2)
             return;
+
         line = m_HeadList.at( 0 );
         line -> setPoints( m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointA.x(), m_ArrowPointA.y() );
 
@@ -647,6 +648,7 @@ void LinePath::createHeadLines() {
     Q3Canvas * canvas = getCanvas();
     switch( getAssocType() ) {
     case Uml::at_Activity:
+    case Uml::at_Exception:
     case Uml::at_State:
     case Uml::at_Dependency:
     case Uml::at_UniAssociation:

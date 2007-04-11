@@ -32,6 +32,10 @@
 #include "associationwidget.h"
 #include "messagewidget.h"
 
+// own header
+#include "uml.h"
+
+#include "cmds.h"
 using namespace Uml;
 
 UMLWidgetController::UMLWidgetController(UMLWidget *widget) {
@@ -57,8 +61,11 @@ void UMLWidgetController::mousePressEvent(QMouseEvent *me) {
         return;
     }
 
+
+
     if (me->button() == Qt::LeftButton) {
         m_leftButtonDown = true;
+	//saveWidgetValues(me);
     } else if (me->button() == Qt::RightButton) {
         m_rightButtonDown = true;
     } else {
@@ -144,6 +151,11 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
         diffY = m_oldY - m_widget->getY();
     }
 
+/* Commands 
+    UMLDoc* m_doc = UMLApp::app()->getDocument();
+	m_doc->executeCommand(new cmdMoveWidget(this,diffX,diffY));*/
+
+   // moveWidget(diffX,diffY);
     constrainMovementForAllWidgets(diffX, diffY);
 
     //Nothing to move
@@ -168,6 +180,10 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
 
     while ((widget = it.current()) != 0) {
         ++it;
+	//UMLDoc* m_doc = UMLApp::app()->getDocument();
+	//cmdMoveWidgetBy* cmd = new cmdMoveWidgetBy(widget,diffX,diffY);
+	//m_doc->executeCommand(cmd);
+	//m_doc->executeCommand(new cmdMoveWidgetBy(widget,diffX,diffY));
         widget->getWidgetController()->moveWidgetBy(diffX, diffY);
     }
 
@@ -182,7 +198,25 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
 
     m_widget->m_pView->resizeCanvasToItems();
     updateSelectionBounds(diffX, diffY);
+
 }
+void UMLWidgetController::widgetMoved()
+{		    //reverseOldNewValues();
+                    m_moved = false;
+
+                    //Ensure associations are updated (the timer could prevent the
+                    //adjustment in the last move event before the release)
+                    UMLWidgetListIt it(m_selectedWidgetsList);
+                    UMLWidget* widget;
+                    it.toFirst();
+                    while ((widget = it.current()) != 0) {
+                        ++it;
+                        widget->adjustAssocs(widget->getX(), widget->getY());
+                    }
+
+                    m_widget->m_bStartMove = false;
+}
+
 
 void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me) {
     if (me->button() != Qt::LeftButton && me->button() != Qt::RightButton) {
@@ -202,20 +236,12 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me) {
                 }
             } else {
                 if (m_moved) {
-                    m_moved = false;
 
-                    //Ensure associations are updated (the timer could prevent the
-                    //adjustment in the last move event before the release)
-                    UMLWidgetListIt it(m_selectedWidgetsList);
-                    UMLWidget* widget;
-                    it.toFirst();
-                    while ((widget = it.current()) != 0) {
-                        ++it;
-                        widget->adjustAssocs(widget->getX(), widget->getY());
-                    }
+/* Commands */
+			UMLApp::app()->executeCommand(new cmdMoveWidget(this));
 
-                    m_widget->m_bStartMove = false;
                 } else {
+			UMLApp::app()->executeCommand(new cmdResizeWidget(this));
                     m_resized = false;
                 }
 
@@ -260,6 +286,12 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me) {
     } else {
         m_widget->setZ(0);
     }
+}
+
+UMLWidget* UMLWidgetController::getWidget()
+{
+return m_widget;
+
 }
 
 void UMLWidgetController::mouseDoubleClickEvent(QMouseEvent *me) {
@@ -347,6 +379,26 @@ void UMLWidgetController::saveWidgetValues(QMouseEvent *me) {
     m_oldW = m_widget->width();
     m_oldH = m_widget->height();
 }
+
+void UMLWidgetController::insertSaveValues(int _oldX, int _oldY, int X, int Y)
+{
+     	m_widget->setX(X);
+    	m_widget->setY(Y);
+	m_oldX = _oldX;
+	m_oldY = _oldY;
+}
+
+int UMLWidgetController::getOldX()
+{	return m_oldX;	}
+
+int UMLWidgetController::getOldY()
+{	return m_oldY;	}
+
+int UMLWidgetController::getOldW()
+{	return m_oldW;	}
+
+int UMLWidgetController::getOldH()
+{	return m_oldH;	}
 
 void UMLWidgetController::setSelectionBounds() {
     if (m_widget->m_pView->getSelectCount() > 0) {

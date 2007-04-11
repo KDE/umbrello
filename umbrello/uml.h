@@ -22,11 +22,13 @@
 //Added by qt3to4:
 #include <QKeyEvent>
 #include <QMenu>
+#include <QUndoView>
 
 #include <kmainwindow.h>
 #include <kdeversion.h>
 #include <kurl.h>
 #include <ksharedconfig.h>
+#include <kundostack.h>
 
 // forward declaration of the UML classes
 class AlignToolBar;
@@ -322,6 +324,37 @@ public:
      * Returns the CodeGenPolicyExt object.
      */
     CodeGenPolicyExt *getPolicyExt();
+
+    /**
+     * Removes all entries from the UndoStack and RedoStack and disables the
+     * undo and redo actions.
+     */
+    void clearUndoStack();
+
+    /**
+     * Undo last command
+    */
+    void undo();
+
+    /**
+     * Redo last 'undoed' command
+    */
+    void redo();
+
+    /**
+     * Execute a command and pushit in the stack.
+    */
+    void executeCommand(QUndoCommand* cmd);
+
+    /**
+     * Begin a U/R command macro
+    */
+    void BeginMacro( const QString & text );
+
+    /**
+     * End an U/R command macro
+    */
+    void EndMacro();
 
 protected:
     virtual void keyPressEvent(QKeyEvent* e);
@@ -624,6 +657,7 @@ public slots:
     void set_lang_sql();
     void set_lang_tcl();
     void set_lang_xmlschema();
+    void set_lang_ocl();
 
     /**
      * Set the language for which code will be generated.
@@ -915,9 +949,24 @@ private:
     QDockWidget* m_documentationDock;
 
     /**
+     * Contains the undo/redo viewer widget.
+     */
+    QDockWidget* m_cmdHistoryDock;
+
+    /**
+     * Contains the property browser widget
+    */
+    QDockWidget* m_propertyDock;
+    
+    /**
      * Documentation window.
      */
     DocWindow* m_pDocWindow;
+
+    /**
+     * Undo / Redo Viewer
+    */
+    QUndoView* m_pQUndoView;
 
     /** Refactoring assistant. */
     RefactoringAssistant* m_refactoringAssist;
@@ -1026,6 +1075,17 @@ private:
      * running
      */
     XhtmlGenerator* m_xhtmlGenerator;
+
+    /**
+     * UndoStack
+     * used to store actions, to provide Undo/Redo feature.
+    */
+    KUndoStack*	m_pUndoStack;
+
+    /**
+     * Macro creation flag
+    */
+    bool m_hasBegunMacro;
 
 signals:
 

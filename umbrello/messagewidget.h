@@ -62,13 +62,27 @@ public:
                   int y, Uml::Sequence_Message_Type sequenceMessageType,
                   Uml::IDType id = Uml::id_None);
 
-    /**
+     /**
      * Constructs a MessageWidget.
      *
      * @param view              The parent to this class.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
     MessageWidget(UMLView * view, Uml::Sequence_Message_Type sequenceMessageType, Uml::IDType id = Uml::id_None);
+
+    /**
+     * Constructs a Lost or Found MessageWidget.
+     *
+     * @param view              The parent to this class.
+     * @param a The role A widget for this message.
+     * @param xclick The horizontal position clicked by the user
+     * @param yclick The vertical position clicked by the user
+     * @param sequenceMessageType Whether lost or found
+     * @param id                The ID to assign (-1 will prompt a new ID.)
+     */
+    MessageWidget(UMLView * view, ObjectWidget* a, int xclick, int yclick, Uml::Sequence_Message_Type sequenceMessageType,
+                  Uml::IDType id = Uml::id_None);
+
 
     /**
      * Initializes key variables of the class.
@@ -244,6 +258,16 @@ public:
     void calculateDimensionsCreation();
 
     /**
+     * Calculates and sets the size of the widget for a lost message
+     */
+    void calculateDimensionsLost();
+
+    /**
+     * Calculates and sets the size of the widget for a found message
+     */
+    void calculateDimensionsFound();
+
+    /**
      * Calls drawSynchronous() or drawAsynchronous()
      */
     void draw(QPainter& p, int offsetX, int offsetY);
@@ -266,6 +290,17 @@ public:
      * sequence line.
      */
     void drawCreation(QPainter& p, int offsetX, int offsetY);
+
+     /**
+     * Draws a solid arrow line and a stick arrow head
+     * and a circle
+     */
+    void drawLost(QPainter& p, int offsetX, int offsetY);
+
+     /**
+     * Draws a circle and a solid arrow line and a stick arrow head
+     */
+    void drawFound(QPainter& p, int offsetX, int offsetY);
 
     /**
      * Sets the text position relative to the sequence message.
@@ -338,6 +373,23 @@ public:
      */
     bool loadFromXMI( QDomElement & qElement );
 
+    /**
+    * Set the xclicked
+    */
+    void setxclicked (int xclick);
+
+    /**
+    * Set the xclicked
+    */
+    void setyclicked (int yclick);
+
+    /**
+    * Return the xclicked
+    */
+    int getxclicked() const {
+        return xclicked;
+    }
+
 protected:
     /**
      * Shortcut for calling m_pFText->setLink() followed by
@@ -372,6 +424,13 @@ protected:
      */
     void updateResizability();
 
+     /**
+     * Sets the size.
+     * If m_pView->getSnapComponentSizeToGrid() is true, then
+     * set the next larger size that snaps to the grid.
+     */
+//     void setSize(int width,int height);
+
     // Data loaded/saved
     QString m_SequenceNumber;
     QString m_CustomOp;
@@ -387,6 +446,10 @@ private:
     ObjectWidget * m_pOw[2];
     FloatingTextWidget * m_pFText;
     int m_nY;
+
+    int xclicked;
+    int yclicked;
+
 public slots:
     void slotWidgetMoved(Uml::IDType id);
     void slotMenuSelection(int sel);

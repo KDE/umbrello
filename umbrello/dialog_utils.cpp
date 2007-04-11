@@ -18,6 +18,9 @@
 #include <qlabel.h>
 #include <qlineedit.h>
 #include <kinputdialog.h>
+#include <kmessagebox.h>
+#include <klocale.h>
+
 //Added by qt3to4:
 #include <QGridLayout>
 
@@ -27,10 +30,7 @@
 
 namespace Dialog_Utils {
 
-QLineEdit* makeLabeledEditField(Q3GroupBox *containingBox, QGridLayout *layout, int row,
-                                QLabel * &label, const QString& labelText,
-                                QLineEdit * &editField,
-                                const QString& editFieldText /* = QString::null */)
+QLineEdit* makeLabeledEditField(Q3GroupBox *containingBox, QGridLayout *layout, int row,QLabel * &label, const QString& labelText, QLineEdit * &editField, const QString& editFieldText /* = QString::null */)
 {
     label = new QLabel(labelText, containingBox);
     layout->addWidget(label, row, 0);
@@ -56,7 +56,6 @@ void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
         targetWidget = NULL;
     }
 }
-
 
 }  // end namespace Dialog_Utils
 

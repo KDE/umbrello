@@ -84,8 +84,11 @@
 #include "objectwidget.h"
 #include "messagewidget.h"
 #include "statewidget.h"
+#include "signalwidget.h"
 #include "forkjoinwidget.h"
 #include "activitywidget.h"
+#include "objectnodewidget.h"
+#include "pinwidget.h"
 #include "seqlinewidget.h"
 #include "uniqueid.h"
 #include "umllistviewitemlist.h"
@@ -98,7 +101,7 @@
 #include "object_factory.h"
 #include "umlwidget.h"
 #include "toolbarstatefactory.h"
-
+#include "cmds.h"
 
 // control the manual DoubleBuffering of QCanvas
 // with a define, so that this memory X11 effect can
@@ -398,6 +401,8 @@ void UMLView::setupNewWidget(UMLWidget *w) {
     resizeCanvasToItems();
     m_WidgetList.append( w );
     m_pDoc->setModified();
+     
+    UMLApp::app()->executeCommand(new cmdCreateWidget(this, w));
 }
 
 void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
@@ -460,22 +465,27 @@ void UMLView::hideEvent(QHideEvent* /*he*/) {
 }
 
 void UMLView::slotObjectCreated(UMLObject* o) {
+    kDebug() << "UMLView::slotObjectCreated( " << o->getName() << ")" << endl;
     m_bPaste = false;
     //check to see if we want the message
     //may be wanted by someone else e.g. list view
+
     if (!m_bCreateObject)  {
         return;
     }
 
     UMLWidget* newWidget = Widget_Factory::createWidget(this, o);
+
     if (newWidget == NULL)
         return;
+    
     newWidget->setVisible( true );
     newWidget->setActivated();
     newWidget->setFont( getFont() );
     newWidget->slotColorChanged( getID() );
     newWidget->slotLineWidthChanged( getID() );
     newWidget->updateComponentSize();
+
     if (m_Type == Uml::dt_Sequence) {
         // Set proper position on the sequence line widget which is
         // attached to the object widget.
@@ -485,6 +495,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
     }
     m_bCreateObject = false;
     m_WidgetList.append(newWidget);
+
     switch (o->getBaseType()) {
     case ot_Actor:
     case ot_UseCase:
@@ -514,6 +525,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 }
 
 void UMLView::slotObjectRemoved(UMLObject * o) {
+    kDebug() << "UMLView::slotObjectRemoved( " << o->getName() << ")" << endl;
     m_bPaste = false;
     Uml::IDType id = o->getID();
     UMLWidgetListIt it( m_WidgetList );
@@ -682,6 +694,24 @@ ObjectWidget * UMLView::onWidgetLine( const QPoint &point ) {
     return 0;
 }
 
+ObjectWidget * UMLView::onWidgetDestructionBox( const QPoint &point ){
+    UMLWidget *obj;
+    for (UMLWidgetListIt it(m_WidgetList); (obj = it.current()) != NULL; ++it) {
+        ObjectWidget *ow = dynamic_cast<ObjectWidget*>(obj);
+        if (ow == NULL)
+            continue;
+        SeqLineWidget *pLine = ow->getSeqLine();
+        if (pLine == NULL) {
+            kError() << "UMLView::onWidgetLine: SeqLineWidget of " << ow->getName()
+                << " (id=" << ID2STR(ow->getLocalID()) << ") is NULL" << endl;
+            continue;
+        }
+        if (pLine->onDestructionBox(point))
+            return ow;
+    }
+    return 0;
+}
+
 UMLWidget *UMLView::getWidgetAt(QPoint p) {
     int relativeSize = 10000;  // start with an arbitrary large number
     UMLWidget *obj, *retObj = NULL;
@@ -826,6 +856,8 @@ void UMLView::removeWidget(UMLWidget * o) {
     if(!o)
         return;
 
+    kDebug() << "UMLView::removeWidget( " << o->getName() << ")" << endl;
+
     emit sigWidgetRemoved(o);
 
     removeAssociations(o);
@@ -844,7 +876,6 @@ void UMLView::removeWidget(UMLWidget * o) {
     else
         m_WidgetList.remove(o);
     m_pDoc->setModified();
-    delete o;
 }
 
 bool UMLView::getUseFillColor() const {
@@ -1000,6 +1031,7 @@ void UMLView::selectionSetFont( const QFont &font )
 
 void UMLView::selectionSetLineColor( const QColor &color )
 {
+    UMLApp::app()->BeginMacro("Change Line Color");
     UMLWidget * temp = 0;
     for (temp = m_SelectedList.first(); temp; temp = m_SelectedList.next()) {
         temp->setLineColor(color);
@@ -1010,6 +1042,7 @@ void UMLView::selectionSetLineColor( const QColor &color )
         aw->setLineColor(color);
         aw->setUsesDiagramLineColour(false);
     }
+    UMLApp::app()->EndMacro();
 }
 
 void UMLView::selectionSetLineWidth( uint width )
@@ -1026,8 +1059,10 @@ void UMLView::selectionSetLineWidth( uint width )
     }
 }
 
+
 void UMLView::selectionSetFillColor( const QColor &color )
 {
+    UMLApp::app()->BeginMacro("Change Fill Color");
     UMLWidget * temp = 0;
     for(temp=(UMLWidget *) m_SelectedList.first();
             temp;
@@ -1035,6 +1070,7 @@ void UMLView::selectionSetFillColor( const QColor &color )
         temp -> setFillColour( color );
         temp -> setUsesDiagramFillColour(false);
     }
+    UMLApp::app()->EndMacro();
 }
 
 void UMLView::selectionToggleShow(int sel)
@@ -1464,6 +1500,7 @@ AssociationWidgetList UMLView::getSelectedAssocs() {
 }
 
 bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
+    kDebug() << "UMLView::addWidget( " << pWidget->getName() << ")" << endl;
     if( !pWidget ) {
         return false;
     }
@@ -1560,6 +1597,7 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
     case wt_Text:
     case wt_State:
     case wt_Activity:
+    case wt_ObjectNode:
         {
             Uml::IDType newID = m_pDoc->assignNewID( pWidget->getID() );
             pWidget->setID(newID);
@@ -1603,6 +1641,60 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
         break;
 
     case wt_Object:
+        {
+            ObjectWidget* pObjectWidget = static_cast<ObjectWidget*>(pWidget);
+            if (pObjectWidget == NULL) {
+                kDebug() << "UMLView::addWidget(): pObjectWidget is NULL" << endl;
+                return false;
+            }
+            Uml::IDType newID = log->findNewID( pWidget -> getID() );
+            if (newID == Uml::id_None) {
+                return false;
+            }
+            pObjectWidget -> setID( newID );
+            Uml::IDType nNewLocalID = getLocalID();
+            Uml::IDType nOldLocalID = pObjectWidget -> getLocalID();
+            m_pIDChangesLog->addIDChange( nOldLocalID, nNewLocalID );
+            pObjectWidget -> setLocalID( nNewLocalID );
+            UMLObject *pObject = m_pDoc -> findObjectById( newID );
+            if( !pObject ) {
+                kDebug() << "addWidget::Can't find UMLObject" << endl;
+                return false;
+            }
+            pWidget -> setUMLObject( pObject );
+            m_WidgetList.append( pWidget );
+        }
+        break;
+
+    case wt_Precondition:
+        {
+            ObjectWidget* pObjectWidget = static_cast<ObjectWidget*>(pWidget);
+            if (pObjectWidget == NULL) {
+                kDebug() << "UMLView::addWidget(): pObjectWidget is NULL" << endl;
+                return false;
+            }
+            Uml::IDType newID = log->findNewID( pWidget -> getID() );
+            if (newID == Uml::id_None) {
+                return false;
+            }
+            pObjectWidget -> setID( newID );
+            Uml::IDType nNewLocalID = getLocalID();
+            Uml::IDType nOldLocalID = pObjectWidget -> getLocalID();
+            m_pIDChangesLog->addIDChange( nOldLocalID, nNewLocalID );
+            pObjectWidget -> setLocalID( nNewLocalID );
+            UMLObject *pObject = m_pDoc -> findObjectById( newID );
+            if( !pObject ) {
+                kDebug() << "addWidget::Can't find UMLObject" << endl;
+                return false;
+            }
+            pWidget -> setUMLObject( pObject );
+            m_WidgetList.append( pWidget );
+        }
+        break;
+
+    case wt_Pin:
+    case wt_CombinedFragment:
+    case wt_Signal:
         {
             ObjectWidget* pObjectWidget = static_cast<ObjectWidget*>(pWidget);
             if (pObjectWidget == NULL) {
@@ -2403,11 +2495,11 @@ void UMLView::slotRemovePopupMenu() {
 void UMLView::slotMenuSelection(int sel) {
     switch( (ListPopupMenu::Menu_Type)sel ) {
     case ListPopupMenu::mt_Undo:
-        m_pDoc->loadUndoData();
+        UMLApp::app()->undo();
         break;
 
     case ListPopupMenu::mt_Redo:
-        m_pDoc->loadRedoData();
+        UMLApp::app()->redo();
         break;
 
     case ListPopupMenu::mt_Clear:
@@ -2943,7 +3035,7 @@ void UMLView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
         // We DONT want to record any text widgets which are belonging
         // to associations as they are recorded later in the "associations"
         // section when each owning association is dumped. -b.t.
-        if (widget->getBaseType() != wt_Text ||
+        if ((widget->getBaseType() != wt_Text && widget->getBaseType() != wt_FloatingDashLine ) ||
                 static_cast<FloatingTextWidget*>(widget)->getLink() == NULL)
             widget->saveToXMI( qDoc, widgetElement );
     }
@@ -3142,7 +3234,7 @@ bool UMLView::loadWidgetsFromXMI( QDomElement & qElement ) {
 }
 
 UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
-
+    UMLWidget* widget = 0;
     if ( !m_pDoc ) {
         kWarning() << "UMLView::loadWidgetFromXMI(): m_pDoc is NULL" << endl;
         return 0L;
@@ -3150,7 +3242,8 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
 
     QString tag  = widgetElement.tagName();
     QString idstr  = widgetElement.attribute( "xmi.id", "-1" );
-    UMLWidget* widget = Widget_Factory::makeWidgetFromXMI(tag, idstr, this);
+    widget = Widget_Factory::makeWidgetFromXMI(tag, idstr, this);
+    
     if (widget == NULL)
         return NULL;
     if (!widget->loadFromXMI(widgetElement)) {

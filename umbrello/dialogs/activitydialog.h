@@ -17,6 +17,7 @@
 #include <qlineedit.h>
 #include <q3multilineedit.h>
 #include <q3groupbox.h>
+#include <qradiobutton.h>
 
 //kde class includes
 #include <kpagedialog.h>
@@ -64,6 +65,9 @@ protected slots:
     *   Entered when Apply button pressed.
     */
     void slotApply();
+    
+    void slotShowActivityParameter();
+    void slotHideActivityParameter();
 protected:
     /**
     *   Sets up the pages of the dialog.
@@ -85,6 +89,11 @@ protected:
     */
     void setupFontPage();
 
+    /**
+    *   Show the Activity Parameter entry text.
+    */
+    void showParameterActivity();
+    
     /**
     *     Applys changes to the given page.
     */
@@ -116,10 +125,10 @@ protected:
     bool m_bChangesMade;
 
     struct GeneralPageWidgets {
-        QLabel * nameL, * typeL;
-        QLineEdit * nameLE, * typeLE;
+        QLabel * nameL, * typeL , * preL , * postL;
+        QLineEdit * nameLE, * typeLE , * preLE , * postLE;
         Q3MultiLineEdit * docMLE;
-
+        QRadioButton * NormalRB, * ParamRB, * InvokRB; // this is to implement the parameter node activity or an invok action
         Q3GroupBox * docGB, * generalGB;
     }
     m_GenPageWidgets;

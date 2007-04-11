@@ -20,7 +20,9 @@
 #include <QMouseEvent>
 // kde includes
 #include <kdebug.h>
+#include <klocale.h>
 #include <kcolordialog.h>
+#include <kinputdialog.h>
 // app includes
 #include "notewidgetcontroller.h"
 #include "dialogs/notedialog.h"
@@ -29,12 +31,14 @@
 #include "umlview.h"
 #include "uml.h"
 #include "listpopupmenu.h"
+#include "dialog_utils.h"
 
 #define NOTEMARGIN 10
 
-NoteWidget::NoteWidget(UMLView * view, Uml::IDType id)
+NoteWidget::NoteWidget(UMLView * view, NoteType noteType , Uml::IDType id)
         : UMLWidget(view, id, new NoteWidgetController(this)) {
     init();
+    m_NoteType = noteType;
     setSize(100,80);
     setZ( 20 ); //make sure always on top.
 #ifdef NOTEWIDGET_EMBED_EDITOR
@@ -47,14 +51,38 @@ NoteWidget::NoteWidget(UMLView * view, Uml::IDType id)
     m_pEditor->setTextFormat(Qt::RichText);
     m_pEditor->setShown(true);
     setEditorGeometry();
+    setNoteType(noteType);
+
     connect(m_pView, SIGNAL(contentsMoving(int, int)),
             this, SLOT(slotViewScrolled(int, int)));
 #endif
+
 }
 
 void NoteWidget::init() {
     UMLWidget::setBaseType(Uml::wt_Note);
     m_DiagramLink = Uml::id_None;
+}
+
+NoteWidget::NoteType NoteWidget::getNoteType() const {
+    return m_NoteType;
+}
+NoteWidget::NoteType NoteWidget::getNoteType(QString noteType) const {
+        if (noteType == "Precondition")
+		return NoteWidget::PreCondition;
+	else if (noteType == "Postcondition")
+		return NoteWidget::PostCondition;
+	else if (noteType == "Transformation")
+		return NoteWidget::Transformation;
+        else
+                return NoteWidget::Normal;
+}
+
+void NoteWidget::setNoteType( NoteType noteType ) {
+    m_NoteType = noteType;
+}
+void NoteWidget::setNoteType( QString noteType ) {
+    setNoteType(getNoteType(noteType));
 }
 
 NoteWidget::~NoteWidget() {
@@ -142,6 +170,8 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
     int w = width()-1;
 
     int h= height()-1;
+    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+    const int fontHeight  = fm.lineSpacing();
     QPolygon poly(6);
     poly.setPoint(0, offsetX, offsetY);
     poly.setPoint(1, offsetX, offsetY + h);
@@ -149,6 +179,7 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
     poly.setPoint(3, offsetX + w, offsetY + margin);
     poly.setPoint(4, offsetX + w - margin, offsetY);
     poly.setPoint(5, offsetX, offsetY);
+
     UMLWidget::setPen(p);
     if ( UMLWidget::getUseFillColour() ) {
         QBrush brush( UMLWidget::getFillColour() );
@@ -161,7 +192,24 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
         p.drawPolyline(poly);
     p.drawLine(offsetX + w - margin, offsetY, offsetX + w - margin, offsetY + margin);
     p.drawLine(offsetX + w - margin, offsetY + margin, offsetX + w, offsetY + margin);
-    if(m_bSelected) {
+    p.setPen(Qt::black);
+    switch(m_NoteType) {
+	case NoteWidget::PreCondition :
+		p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< precondition >>");
+		break;
+	
+	case NoteWidget::PostCondition :
+		p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< postcondition >>");
+		break;
+
+	case NoteWidget::Transformation :
+		p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< transformation >>");
+		break;
+        case NoteWidget::Normal :
+	default :  break;
+	}
+
+if(m_bSelected) {
         drawSelected(&p, offsetX, offsetY);
     }
 
@@ -169,7 +217,29 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
 }
 
 QSize NoteWidget::calculateSize() {
-    return QSize(50, 50);
+    int width = 50, height = 50;
+    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+    const int fontHeight  = fm.lineSpacing();
+    const int textWidth = fm.width(m_Text);
+	if (m_NoteType == PreCondition)
+	{
+		const int widthtemp = fm.width("<< precondition >>");
+    	        width = textWidth > widthtemp ? textWidth : widthtemp;
+		width += 10;
+	}
+	else if (m_NoteType == PostCondition)
+	{
+		const int widthtemp = fm.width("<< postcondition >>");
+    	        width = textWidth > widthtemp ? textWidth : widthtemp;
+		width += 10;
+	}
+	else if (m_NoteType == Transformation)
+	{
+		const int widthtemp = fm.width("<< transformation >>");
+    	        width = textWidth > widthtemp ? textWidth : widthtemp;
+		width += 10;
+	}
+    return QSize(width, height);
 }
 
 void NoteWidget::slotMenuSelection(int sel) {
@@ -232,6 +302,13 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
     const int height = this -> height() - fontHeight;
     QChar returnChar('\n');
     QChar c;
+
+
+ //   QString text = getDoc();
+    //QString text = l_Type + "\n" + m_Text;
+    if( text.length() == 0 )
+        return;
+
     for (int i = 0; i <= text.length(); i++) {
         if (i < text.length()) {
             c = text[i];
@@ -293,12 +370,28 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
 #endif
 }
 
+void NoteWidget::askForNoteType(UMLWidget* &targetWidget) {
+
+    bool pressedOK = false;
+    const QStringList list = QStringList() << "Precondition" << "Postcondition" << "Transformation";
+    QString type = KInputDialog::getItem (i18n("Note Type"), i18n("Select the Note Type"), list, 0, false, &pressedOK, UMLApp::app());
+
+    if (pressedOK) {
+        dynamic_cast<NoteWidget*>(targetWidget)->setNoteType(type);
+    } else {
+        targetWidget->cleanup();
+        delete targetWidget;
+        targetWidget = NULL;
+    }
+}
+
 void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement noteElement = qDoc.createElement( "notewidget" );
     UMLWidget::saveToXMI( qDoc, noteElement );
     noteElement.setAttribute( "text", getDoc() );
     if (m_DiagramLink != Uml::id_None)
         noteElement.setAttribute( "diagramlink", ID2STR(m_DiagramLink) );
+    noteElement.setAttribute( "noteType", m_NoteType);
     qElement.appendChild( noteElement );
 }
 
@@ -310,6 +403,8 @@ bool NoteWidget::loadFromXMI( QDomElement & qElement ) {
     QString diagramlink = qElement.attribute("diagramlink", "");
     if (!diagramlink.isEmpty())
         m_DiagramLink = STR2ID(diagramlink);
+    QString type = qElement.attribute("noteType", "");
+    setNoteType( (NoteType)type.toInt() );
     return true;
 }
 

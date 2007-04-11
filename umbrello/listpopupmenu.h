@@ -179,6 +179,8 @@ public:
         mt_Externalize_Folder,  // Mark folder for saving as separate submodel
         mt_Internalize_Folder,  // Reintegrate separate submodel into main model
 
+        mt_AddInteractionOperand,   // add a dash line to an alternative or a parallel combined fragment
+
         mt_Undefined  =  - 1
     };
 

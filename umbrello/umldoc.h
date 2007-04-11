@@ -24,11 +24,13 @@
 #include <q3ptrstack.h>
 //Added by qt3to4:
 #include <Q3PtrList>
+#include <QUndoView>
 
 // kde includes
 #include <kurl.h>
 #include <k3dockwidget.h>
 #include <kmenu.h>
+#include <kundostack.h>
 
 // app includes
 #include "umlnamespace.h"
@@ -121,10 +123,8 @@ public:
      * action on the view connected to the document.
      *
      * @param _m                The value to set the modified flag to.
-     * @param addToUndo Whether this is an action which should be
-     *                  added to the undo stack.
      */
-    void setModified(bool _m=true, bool addToUndo=true);
+    void setModified(bool _m=true);
 
     /**
      * Returns if the document is modified or not. Use this to
@@ -266,8 +266,9 @@ public:
      * @param type              The type of diagram to create.
      * @param askForName        If true shows a dialog box asking for name,
      *                  else uses a default name.
+     * @return Pointer to the UMLView of the new diagram.
      */
-    void createDiagram(UMLFolder *folder, Uml::Diagram_Type type, bool askForName = true);
+    UMLView* createDiagram(UMLFolder *folder, Uml::Diagram_Type type, bool askForName = true);
 
     /**
      * Removes an @ref UMLObject from the current file.  If this object
@@ -670,36 +671,6 @@ public:
     int getFileVersion(void) {return version;}
 
     /**
-     * Performs the undo function, loading the document back to the
-     * state is was before the last addToUndoStack()
-     */
-    void loadUndoData();
-
-    /**
-     * Performs the redo function, loading the document back to the
-     * state is was before the last undo()
-     */
-    void loadRedoData();
-
-    /**
-     * Takes an image of the document and adds it to the UndoStack.
-     * Implemented using the saveToXMI functions.
-     */
-    void addToUndoStack();
-
-    /**
-     * Removes all entries from the UndoStack and RedoStack and disables the
-     * undo and redo actions.
-     */
-    void clearUndoStack();
-
-    /**
-     * Removes all entries from the RedoStack and disables the
-     * redo action.
-     */
-    void clearRedoStack();
-
-    /**
      * Returns a name for the new object, appended with a number
      * if the default name is taken e.g. class diagram, class
      * diagram_1 etc
@@ -820,20 +791,6 @@ private:
      * Stores the version of old UML files.
      */
     int version;
-
-    /**
-     * The stack of images of the document added to each time
-     * something is changed.  A QPtrList is used rather than a
-     * QPtrStack to be able to remove the ones off the bottom once
-     * the stack gets too big.
-     */
-    Q3PtrList<QDataStream> undoStack;
-
-    /**
-     * The stack of images of the document added to each time
-     * undo is called.
-     */
-    Q3PtrList<QDataStream> redoStack;
 
     /**
      * Auxiliary to <docsettings> processing

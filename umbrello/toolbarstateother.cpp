@@ -21,14 +21,22 @@
 #include "activitywidget.h"
 #include "boxwidget.h"
 #include "dialog_utils.h"
+#include "regionwidget.h"
 #include "floatingtextwidget.h"
 #include "forkjoinwidget.h"
 #include "notewidget.h"
 #include "object_factory.h"
+#include "preconditionwidget.h"
+#include "combinedfragmentwidget.h"
 #include "statewidget.h"
+#include "signalwidget.h"
 #include "uml.h"
 #include "umlview.h"
 #include "umldoc.h"
+#include "objectwidget.h"
+#include "objectnodewidget.h"
+#include "pinwidget.h"
+
 
 using namespace Uml;
 
@@ -83,7 +91,7 @@ bool ToolBarStateOther::newWidget() {
 
     switch (getButton()) {
         case WorkToolBar::tbb_Note:
-            umlWidget = new NoteWidget(m_pUMLView);
+            umlWidget = new NoteWidget(m_pUMLView, NoteWidget::Normal);
             break;
 
         case WorkToolBar::tbb_Box:
@@ -107,6 +115,10 @@ bool ToolBarStateOther::newWidget() {
             umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::End);
             break;
 
+        case WorkToolBar::tbb_Final_Activity:
+            umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::Final);
+            break;
+
         case WorkToolBar::tbb_Branch:
             umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::Branch);
             break;
@@ -128,6 +140,34 @@ bool ToolBarStateOther::newWidget() {
             umlWidget = new StateWidget(m_pUMLView, StateWidget::End);
             break;
 
+        case WorkToolBar::tbb_Send_Signal:
+            umlWidget = new SignalWidget(m_pUMLView, SignalWidget::Send);
+            break;
+
+        case WorkToolBar::tbb_Accept_Signal:
+            umlWidget = new SignalWidget(m_pUMLView, SignalWidget::Accept);
+            break;
+
+        case WorkToolBar::tbb_Accept_Time_Event:
+            umlWidget = new SignalWidget(m_pUMLView, SignalWidget::Time);
+            break;
+
+        case WorkToolBar::tbb_Region:
+            umlWidget = new RegionWidget(m_pUMLView);
+            break;
+
+        case WorkToolBar::tbb_Seq_Combined_Fragment:
+            umlWidget = new CombinedFragmentWidget(m_pUMLView);
+            break;
+
+        case WorkToolBar::tbb_Object_Node:
+            umlWidget = new ObjectNodeWidget(m_pUMLView, ObjectNodeWidget::Data);
+            break;
+
+	case WorkToolBar::tbb_PrePostCondition:
+            umlWidget = new NoteWidget(m_pUMLView, NoteWidget::Normal);
+            break;
+
         default:
             break;
     }
@@ -142,6 +182,19 @@ bool ToolBarStateOther::newWidget() {
         Dialog_Utils::askNameForWidget(
             umlWidget, i18n("Enter Activity Name"),
             i18n("Enter the name of the new activity:"), i18n("new activity"));
+    } else if (getButton() == WorkToolBar::tbb_Accept_Signal
+            || getButton() == WorkToolBar::tbb_Send_Signal) {
+        Dialog_Utils::askNameForWidget(
+            umlWidget, i18n("Enter Signal Name"),
+            i18n("Enter Signal"), i18n("new Signal"));
+    } else if (getButton() == WorkToolBar::tbb_Accept_Time_Event) {
+        Dialog_Utils::askNameForWidget(
+            umlWidget, i18n("Enter Time Event Name"),
+            i18n("Enter Time Event"), i18n("new time event"));
+    } else if (getButton() == WorkToolBar::tbb_Seq_Combined_Fragment) {
+        dynamic_cast<CombinedFragmentWidget*>(umlWidget)->askNameForWidgetType(
+            umlWidget, i18n("Enter Combined Fragment Name"),
+            i18n("Enter the Combined Fragment"), i18n("new Combined Fragment"));
     } else if (getButton() == WorkToolBar::tbb_State) {
         Dialog_Utils::askNameForWidget(
             umlWidget, i18n("Enter State Name"),
@@ -150,6 +203,10 @@ bool ToolBarStateOther::newWidget() {
         // It is pretty invisible otherwise.
         FloatingTextWidget* ft = (FloatingTextWidget*) umlWidget;
         ft->changeTextDlg();
+    } else if (getButton() == WorkToolBar::tbb_Object_Node) {
+         dynamic_cast<ObjectNodeWidget*>(umlWidget)->askForObjectNodeType(umlWidget);
+    } else if (getButton() == WorkToolBar::tbb_PrePostCondition) {
+         dynamic_cast<NoteWidget*>(umlWidget)->askForNoteType(umlWidget);
     }
 
     // Create the widget. Some setup functions can remove the widget.

@@ -309,6 +309,10 @@ void ObjectWidget::setShowDestruction( bool bShow ) {
         m_pLine -> setupDestructionBox();
 }
 
+void ObjectWidget::setEndLine(int yPosition) {
+	m_pLine->setEndOfLine(yPosition);
+}
+
 int ObjectWidget::getEndLineY() {
     int y = this -> getY() + getHeight();
     if( m_pLine)

@@ -34,13 +34,18 @@
 class ActivityWidget : public UMLWidget {
     Q_OBJECT
 
+	QString preText;
+	QString postText;
 public:
     enum ActivityType
     {
         Initial = 0,
         Normal,
         End,
+        Final,
         Branch,
+        Invok,
+        Param,
         Fork_DEPRECATED  // use ForkJoinWidget instead
     };
 
@@ -101,6 +106,27 @@ public:
      */
     bool loadFromXMI( QDomElement & qElement );
 
+
+    /**
+     * This method set the name of the preText attribute
+     */
+     void setPreText(QString);
+     
+    /**
+     * This method get the name of the preText attribute
+     */
+     QString getPreText();
+     
+     /**
+     * This method set the name of the postText attribute
+     */
+     void setPostText(QString);  
+   
+   /**
+     * This method get the name of the postText attribute
+     */
+     QString getPostText();
+     
 protected:
     /**
      * Overrides method from UMLWidget
@@ -111,6 +137,13 @@ protected:
      * Type of activity.
      */
     ActivityType m_ActivityType;
+
+
+    /**
+     * Type of normal activity (Invok or not).
+     * This function is call by the dialog box properties
+     */
+    bool m_NormalActivityType;
 
 public slots:
 

@@ -23,7 +23,7 @@
 #include "umlrole.h"
 #include "uniqueid.h"
 #include "model_utils.h"
-
+#include "cmds.h"
 using namespace Uml;
 
 // static members
@@ -97,6 +97,7 @@ const QString UMLAssociation::assocTypeStr[UMLAssociation::nAssocTypes] = {
             i18n("Anchor"),                     // at_Anchor
             i18n("State Transition"),           // at_State
             i18n("Activity"),                   // at_Activity
+            i18n("Exception"),                  // at_Activity
         };
 
 Uml::Association_Type UMLAssociation::getAssocType() const {
@@ -373,6 +374,7 @@ bool UMLAssociation::load( QDomElement & element ) {
                     "anchor",           // at_Anchor
                     "state",            // at_State
                     "activity",         // at_Activity
+                    "exception",        // at_Exception
                     "relationship"      // at_Relationship
                 };
 
@@ -532,7 +534,11 @@ void UMLAssociation::setChangeability(Changeability_Type value, Role_Type role) 
 }
 
 void UMLAssociation::setMulti(const QString &value, Role_Type role) {
-    m_pRole[role]->setMultiplicity(value);
+	
+	UMLApp::app()->executeCommand(new cmdChangeMulti(m_pRole[role], value));
+	
+	
+    //m_pRole[role]->setMultiplicity(value);
 }
 
 void UMLAssociation::setRoleName(const QString &value, Role_Type role) {

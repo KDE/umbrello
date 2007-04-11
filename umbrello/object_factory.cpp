@@ -43,6 +43,7 @@
 #include "codegenerator.h"
 #include "model_utils.h"
 #include "uniqueid.h"
+#include "cmds.h"
 
 namespace Object_Factory {
 
@@ -115,9 +116,9 @@ UMLObject* createNewUMLObject(Uml::Object_Type type, const QString &name,
             return NULL;
     }
     o->setUMLPackage(parentPkg);
-    UMLDoc *doc = UMLApp::app()->getDocument();
     parentPkg->addObject(o);
-    doc->signalUMLObjectCreated(o);
+
+    UMLApp::app()->executeCommand(new Uml::cmdCreateUMLObject(o));
     kapp->processEvents();
     return o;
 }

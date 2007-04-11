@@ -30,6 +30,10 @@
 #include "docwindow.h"
 #include "dialogs/classpropdlg.h"
 
+#include "cmds.h"
+
+using namespace Uml;
+
 UMLObject::UMLObject(const UMLObject * parent, const QString &name, Uml::IDType id)
         : QObject(const_cast<UMLObject*>(parent), "UMLObject" ) {
     init();
@@ -100,11 +104,17 @@ void UMLObject::setID(Uml::IDType NewID) {
 }
 
 void UMLObject::setName(const QString &strName) {
+	UMLApp::app()->executeCommand(new Uml::cmdRenameUMLObject(this,strName));
+}
+
+void UMLObject::setNamecmd(const QString &strName) {
     m_Name = strName;
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     if (! umldoc->loading())
         emit modified();
 }
+
+
 
 QString UMLObject::getName() const {
     return m_Name;
@@ -271,11 +281,17 @@ Uml::Visibility UMLObject::getVisibility() const {
 }
 
 void UMLObject::setVisibility(Uml::Visibility s) {
+	UMLApp::app()->executeCommand(new cmdSetVisibility(this,s));
+}
+
+void UMLObject::setVisibilitycmd(Uml::Visibility s) {
     m_Vis = s;
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     if (! umldoc->loading())
         emit modified();
 }
+
+
 
 void UMLObject::setUMLStereotype(UMLStereotype *stereo) {
     if (stereo == m_pStereotype)
@@ -299,6 +315,8 @@ void UMLObject::setUMLStereotype(UMLStereotype *stereo) {
 }
 
 void UMLObject::setStereotype(const QString &_name) {
+     // UMLDoc* m_doc = UMLApp::app()->getDocument();
+      //m_doc->executeCommand(new cmdSetStereotype(this,_name));
     if (_name.isEmpty()) {
         setUMLStereotype(NULL);
         return;
@@ -306,6 +324,10 @@ void UMLObject::setStereotype(const QString &_name) {
     UMLDoc *pDoc = UMLApp::app()->getDocument();
     UMLStereotype *s = pDoc->findOrCreateStereotype(_name);
     setUMLStereotype(s);
+}
+
+void UMLObject::setStereotypecmd(const QString &_name) {
+//TODO: put SetStereotype into QundoStack
 }
 
 void UMLObject::setPackage(const QString &_name) {

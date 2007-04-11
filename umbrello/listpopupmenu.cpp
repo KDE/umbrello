@@ -32,9 +32,14 @@
 #include "folder.h"
 #include "umlview.h"
 #include "statewidget.h"
+#include "signalwidget.h"
 #include "activitywidget.h"
+#include "preconditionwidget.h"
+#include "combinedfragmentwidget.h"
+#include "objectnodewidget.h"
 #include "forkjoinwidget.h"
 #include "objectwidget.h"
+#include "pinwidget.h"
 
 //ListPopupMenu for a UMLView (diagram)
 ListPopupMenu::ListPopupMenu(QWidget *parent, Menu_Type type, UMLView * view)
@@ -259,6 +264,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 
     StateWidget *pState;
     ActivityWidget *pActivity;
+    ObjectNodeWidget * objWidget;
     UMLView * pView = static_cast<UMLView *>( parent );
 
     switch(type) {
@@ -381,14 +387,69 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 
     case Uml::wt_Activity:
         pActivity = static_cast<ActivityWidget *>( object );
-        if( pActivity -> getActivityType() == ActivityWidget::Normal )
+        if( pActivity -> getActivityType() == ActivityWidget::Normal
+         || pActivity -> getActivityType() == ActivityWidget::Invok
+         || pActivity -> getActivityType() == ActivityWidget::Param)
             setupColor( object -> getUseFillColour() );
         insertStdItems(false, type);
-        if( pActivity -> getActivityType() == ActivityWidget::Normal ) {
+        if( pActivity -> getActivityType() == ActivityWidget::Normal 
+         || pActivity -> getActivityType() == ActivityWidget::Invok
+         || pActivity -> getActivityType() == ActivityWidget::Param) {
             insertItem(i18n("Change Activity Name..."), mt_Rename);
             insertStdItem(mt_Change_Font);
             insertStdItem(mt_Properties);
         }
+        break;
+
+    case Uml::wt_ObjectNode:
+        objWidget = static_cast<ObjectNodeWidget *>( object );
+        if ( objWidget -> getObjectNodeType() == ObjectNodeWidget::Buffer
+                || objWidget -> getObjectNodeType() == ObjectNodeWidget::Data
+                || objWidget -> getObjectNodeType() == ObjectNodeWidget::Flow)
+            setupColor( object -> getUseFillColour() );
+        insertStdItems(false, type);
+        if ( objWidget -> getObjectNodeType() == ObjectNodeWidget::Buffer
+                || objWidget -> getObjectNodeType() == ObjectNodeWidget::Data
+                || objWidget -> getObjectNodeType() == ObjectNodeWidget::Flow){
+            insertItem(i18n("Change Object Node Name..."), mt_Rename);
+            insertStdItem(mt_Change_Font);
+            insertStdItem(mt_Properties);
+        }
+        break;
+    
+    case Uml::wt_Pin:
+    case Uml::wt_Signal:
+    case Uml::wt_FloatingDashLine:
+    case Uml::wt_Precondition:
+	setupColor( object -> getUseFillColour() );
+        insertSeparator();
+        insertStdItem(mt_Cut);
+        insertStdItem(mt_Copy);
+        insertStdItem(mt_Paste);
+        insertItem(SmallIcon( "editdelete"), i18n("Clear"), mt_Clear);
+        insertSeparator();
+        insertItem(i18n("Change Text..."), mt_Rename);
+        insertStdItem(mt_Delete);
+        insertStdItem(mt_Change_Font);
+        break;
+
+    case Uml::wt_CombinedFragment:
+        // for alternative and parallel combined fragments
+        if ((static_cast<CombinedFragmentWidget*>(object))->getCombinedFragmentType() == CombinedFragmentWidget::Alt ||
+            (static_cast<CombinedFragmentWidget*>(object))->getCombinedFragmentType() == CombinedFragmentWidget::Par) {
+            insertItem(i18n("Add Interaction Operand"), mt_AddInteractionOperand);
+            insertSeparator();
+        }
+	setupColor( object -> getUseFillColour() );
+        insertSeparator();
+        insertStdItem(mt_Cut);
+        insertStdItem(mt_Copy);
+        insertStdItem(mt_Paste);
+        insertItem(SmallIcon( "editdelete"), i18n("Clear"), mt_Clear);
+        insertSeparator();
+        insertItem(i18n("Change Text..."), mt_Rename);
+        insertStdItem(mt_Delete);
+        insertStdItem(mt_Change_Font);
         break;
 
     case Uml::wt_Text:

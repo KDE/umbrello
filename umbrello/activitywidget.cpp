@@ -14,11 +14,13 @@
 
 // qt includes
 #include <qpainter.h>
+//#include <pen.h>
 
 // kde includes
 #include <klocale.h>
 #include <kdebug.h>
 #include <kinputdialog.h>
+#include <cmath>
 
 // app includes
 #include "uml.h"
@@ -45,8 +47,15 @@ ActivityWidget::~ActivityWidget() {}
 void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
     int w = width();
     int h = height();
+
+    // Only for the final activity
+    float x;
+    float y;
+    QPen pen = p.pen();
+
     switch ( m_ActivityType )
     {
+
     case Normal :
         UMLWidget::setPen(p);
         if ( UMLWidget::getUseFillColour() ) {
@@ -55,21 +64,40 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing();
-            //int middleX = w / 2;
             int textStartY = (h / 2) - (fontHeight / 2);
             p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
             p.setPen(Qt::black);
             p.setFont( UMLWidget::getFont() );
             p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + textStartY,
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
+			   
         }
-        UMLWidget::setPen(p);
         break;
+
     case Initial :
         UMLWidget::setPen(p);
         p.setBrush( WidgetBase::getLineColor() );
         p.drawEllipse( offsetX, offsetY, w, h );
         break;
+
+    case Final :
+
+        UMLWidget::setPen(p);
+        p.setBrush( Qt::white );
+        pen.setWidth( 2 );
+        pen.setColor ( Qt::red );
+        p.setPen( pen );
+        p.drawEllipse( offsetX, offsetY, w, h );
+
+        x = offsetX + w/2 ;
+        y = offsetY + h/2 ;
+
+        p.drawLine(x - (sqrt(2)/2) * (w/2) + 1, y - (sqrt(2)/2) * (w/2) + 1,
+                   x + (sqrt(2)/2) * (w/2), y + (sqrt(2)/2) * (w/2));
+        p.drawLine(x + (sqrt(2)/2) * (w/2) - 1, y - (sqrt(2)/2) * (w/2) + 1,
+                   x - (sqrt(2)/2) * (w/2), y + (sqrt(2)/2) * (w/2));
+        break;
+
     case End :
         UMLWidget::setPen(p);
         p.setBrush( WidgetBase::getLineColor() );
@@ -79,6 +107,7 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
         p.setBrush( WidgetBase::getLineColor() );
         p.drawEllipse( offsetX + 3, offsetY + 3, w - 6, h - 6 );
         break;
+
     case Branch :
         UMLWidget::setPen(p);
         p.setBrush( UMLWidget::getFillColour() );
@@ -92,6 +121,56 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
             p.drawPolyline( array );
         }
         break;
+
+    case Invok :
+        UMLWidget::setPen(p);
+        if ( UMLWidget::getUseFillColour() ) {
+            p.setBrush( UMLWidget::getFillColour() );
+        }
+        {
+            const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+            const int fontHeight  = fm.lineSpacing();
+            int textStartY = (h / 2) - (fontHeight / 2);
+            p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
+            p.setPen(Qt::black);
+            p.setFont( UMLWidget::getFont() );
+            p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + textStartY,
+                       w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
+
+        }
+        x = offsetX + w - (w/5);
+        y = offsetY + h - (h/3);
+
+        p.drawLine(x,      y,      x,      y + 20);
+        p.drawLine(x - 10, y + 10, x + 10, y + 10);
+        p.drawLine(x - 10, y + 10, x - 10, y + 20);
+        p.drawLine(x + 10, y + 10, x + 10, y + 20);
+        break;
+
+    case Param :
+        UMLWidget::setPen(p);
+        if ( UMLWidget::getUseFillColour() ) {
+            p.setBrush( UMLWidget::getFillColour() );
+        }
+        {
+            const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+            const int fontHeight  = fm.lineSpacing();
+            QString preCond= "<<precondition>> "+getPreText();
+           	QString postCond= "<<postcondition>> "+getPostText();
+            int textStartY = (h / 2) - (fontHeight / 2);
+            p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
+            p.setPen(Qt::black);
+            p.setFont( UMLWidget::getFont() );
+            p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + fontHeight + 10,
+                       w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, preCond);
+            p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + fontHeight * 2 + 10,
+                       w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, postCond);
+            p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + (fontHeight / 2),
+                       w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
+        }
+
+        break;
+
     case Fork_DEPRECATED :  // to be removed
         p.fillRect( offsetX, offsetY, width(), height(), QBrush( Qt::darkYellow ));
         break;
@@ -102,15 +181,38 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
 
 QSize ActivityWidget::calculateSize() {
     int width = 10, height = 10;
-    if ( m_ActivityType == Normal ) {
+    if ( m_ActivityType == Normal || m_ActivityType == Invok || m_ActivityType == Param ) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
-        const int textWidth = fm.width(getName());
-        height = fontHeight;
+
+        int textWidth = fm.width(getName());
+		height = fontHeight;
+		height = height > ACTIVITY_HEIGHT ? height : ACTIVITY_HEIGHT;
+		height += ACTIVITY_MARGIN * 2;
+		
+		textWidth = textWidth > ACTIVITY_WIDTH ? textWidth : ACTIVITY_WIDTH;
+		
+        if (m_ActivityType == Invok)
+        {
+             height += 40;
+        }
+        else if ( m_ActivityType == Param) {
+        	QString maxSize;
+ 
+        	maxSize = getName().length() > getPostText().length() ? getName() : getPostText();
+        	maxSize = maxSize.length() > getPreText().length() ? maxSize : getPreText();
+        	
+        	textWidth = fm.width(maxSize);
+        	textWidth = textWidth + 50;
+        	height += 100;
+        }
+        
+        
         width = textWidth > ACTIVITY_WIDTH ? textWidth : ACTIVITY_WIDTH;
-        height = height > ACTIVITY_HEIGHT ? height : ACTIVITY_HEIGHT;
-        width += ACTIVITY_MARGIN * 2;
-        height += ACTIVITY_MARGIN * 2;
+     
+        width += ACTIVITY_MARGIN * 4;
+ 
+
     } else if ( m_ActivityType == Branch ) {
         width = height = 20;
     }
@@ -123,7 +225,8 @@ ActivityWidget::ActivityType ActivityWidget::getActivityType() const {
 
 void ActivityWidget::setActivityType( ActivityType activityType ) {
     m_ActivityType = activityType;
-    UMLWidget::m_bResizable = (m_ActivityType == Normal);
+    updateComponentSize();
+    UMLWidget::m_bResizable = (m_ActivityType == Normal || m_ActivityType == Invok || m_ActivityType == Param );
 }
 
 void ActivityWidget::slotMenuSelection(int sel) {
@@ -175,6 +278,9 @@ bool ActivityWidget::isActivity(WorkToolBar::ToolBar_Buttons tbb,
     case WorkToolBar::tbb_End_Activity:
         resultType = End;
         break;
+    case WorkToolBar::tbb_Final_Activity:
+        resultType = Final;
+        break;
     case WorkToolBar::tbb_Branch:
         resultType = Branch;
         break;
@@ -194,6 +300,8 @@ void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     UMLWidget::saveToXMI( qDoc, activityElement );
     activityElement.setAttribute( "activityname", m_Text );
     activityElement.setAttribute( "documentation", m_Doc );
+    activityElement.setAttribute( "precondition", preText );
+    activityElement.setAttribute( "postcondition", postText );
     activityElement.setAttribute( "activitytype", m_ActivityType );
     qElement.appendChild( activityElement );
 }
@@ -203,11 +311,37 @@ bool ActivityWidget::loadFromXMI( QDomElement & qElement ) {
         return false;
     m_Text = qElement.attribute( "activityname", "" );
     m_Doc = qElement.attribute( "documentation", "" );
+    preText = qElement.attribute( "precondition", "" );
+    postText = qElement.attribute( "postcondition", "" );
+    
     QString type = qElement.attribute( "activitytype", "1" );
     setActivityType( (ActivityType)type.toInt() );
+
     return true;
 }
 
+void ActivityWidget::setPreText(QString aPreText)
+{
+	preText=aPreText;
+	updateComponentSize();
+    adjustAssocs( getX(), getY() );
+}
 
+QString ActivityWidget::getPreText()
+{
+	return preText;
+}
+
+void ActivityWidget::setPostText(QString aPostText)
+{
+	postText=aPostText;
+	updateComponentSize();
+    adjustAssocs( getX(), getY() );
+}
+
+QString ActivityWidget::getPostText()
+{
+	return postText;
+}
 #include "activitywidget.moc"
 

@@ -19,6 +19,7 @@
 //kde includes
 #include <kdebug.h>
 #include <kcursor.h>
+#include <kmessagebox.h>
 //app includes
 #include "messagewidget.h"
 #include "messagewidgetcontroller.h"
@@ -60,6 +61,28 @@ MessageWidget::MessageWidget(UMLView * view, Uml::Sequence_Message_Type seqMsgTy
     m_sequenceMessageType = seqMsgType;
 }
 
+MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, int xclick, int yclick, Uml::Sequence_Message_Type sequenceMessageType, Uml::IDType id /*= Uml::id_None*/) : UMLWidget(view, id, new MessageWidgetController(this)) {
+    init();
+    m_pOw[Uml::A] = a;
+    m_pOw[Uml::B] = a;
+    
+    m_sequenceMessageType = sequenceMessageType;
+    m_nY = yclick;
+    
+    xclicked = xclick;
+    yclicked = yclick;
+    m_nY = yclick;
+
+    updateResizability();
+    calculateWidget();
+    yclick = yclick < getMinY() ? getMinY() : yclick;
+    yclick = yclick > getMaxY() ? getMaxY() : yclick;
+    m_nY = yclick;
+    yclicked = yclick;
+
+    this->activate();
+}
+
 void MessageWidget::init() {
     UMLWidget::setBaseType(Uml::wt_Message);
     m_bIgnoreSnapToGrid = true;
@@ -92,6 +115,10 @@ void MessageWidget::draw(QPainter& p, int offsetX, int offsetY) {
         drawAsynchronous(p, offsetX, offsetY);
     } else if (m_sequenceMessageType == Uml::sequence_message_creation) {
         drawCreation(p, offsetX, offsetY);
+    } else if (m_sequenceMessageType == Uml::sequence_message_lost) {
+        drawLost(p, offsetX, offsetY);
+    } else if (m_sequenceMessageType == Uml::sequence_message_found) {
+        drawFound(p, offsetX, offsetY);
     } else {
         kWarning() << "Unknown message type" << endl;
     }
@@ -254,6 +281,80 @@ void MessageWidget::drawCreation(QPainter& p, int offsetX, int offsetY) {
 
     if (m_bSelected)
         drawSelected(&p, offsetX, offsetY);
+}
+
+
+void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY){
+    int x1 = m_pOw[Uml::A]->getX();
+    int x2 = xclicked;
+    int w1 = m_pOw[Uml::A]->getWidth() / 2;
+    x1 += w1;
+    
+    int w = getWidth() ;
+
+    int h = 10;
+    bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( getY(), this );
+    //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( getY(), this );
+
+    if(x1 < x2) {
+	if (messageOverlapsA)  {
+            offsetX += 7;
+            w -= 7;
+        }
+
+        UMLWidget::setPen(p);
+        p.setBrush( WidgetBase::getLineColor() );
+        p.drawEllipse(x1 + w - h , offsetY - h/2, h, h);
+        drawArrow(p,offsetX, offsetY, w - h, Qt::RightArrow);
+	
+        if (messageOverlapsA)  {
+            offsetX -= 7;
+        }
+    } else      {
+        UMLWidget::setPen(p);
+        p.setBrush( WidgetBase::getLineColor() );
+        p.drawEllipse(offsetX, offsetY - h/2, h, h);
+        drawArrow(p, offsetX + h, offsetY, w - h, Qt::LeftArrow);
+    }
+
+    if (m_bSelected)
+        drawSelected(&p, offsetX, offsetY);
+}
+
+void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY){
+    int x1 = m_pOw[Uml::A]->getX();
+    int x2 = xclicked;
+    int w = getWidth() ;
+
+    int h = 10;
+    bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( getY(), this );
+    //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( getY(), this );
+
+    if(x1 < x2) {
+        if (messageOverlapsA)  {
+            offsetX += 7;
+            w -= 7;
+        }
+	UMLWidget::setPen(p);
+        p.setBrush( WidgetBase::getLineColor() );
+	p.drawEllipse(x2, offsetY - h/2, h, h);
+        drawArrow(p, x2 - w + h, offsetY, w, Qt::LeftArrow);
+        if (messageOverlapsA)  {
+            offsetX -= 7;
+        }
+    } else {
+        if (messageOverlapsA)  {
+            w -= 7;
+        }
+        UMLWidget::setPen(p);
+        p.setBrush( WidgetBase::getLineColor() );
+	p.drawEllipse(x2, offsetY - h/2, h, h);
+	drawArrow(p, x2, offsetY, w, Qt::RightArrow);
+    }
+
+    if (m_bSelected)
+            drawSelected(&p, offsetX, offsetY);
+
 }
 
 int MessageWidget::onWidget(const QPoint & p) {
@@ -520,6 +621,10 @@ void MessageWidget::calculateDimensions() {
         calculateDimensionsAsynchronous();
     } else if (m_sequenceMessageType == Uml::sequence_message_creation) {
         calculateDimensionsCreation();
+    } else if (m_sequenceMessageType == Uml::sequence_message_lost) {
+        calculateDimensionsLost();
+    } else if (m_sequenceMessageType == Uml::sequence_message_found) {
+        calculateDimensionsFound();
     } else {
         kWarning() << "Unknown message type" << endl;
     }
@@ -621,6 +726,53 @@ void MessageWidget::calculateDimensionsCreation() {
     setSize(widgetWidth, widgetHeight);
 }
 
+void MessageWidget::calculateDimensionsLost() {
+    int x = 0;
+
+    int x1 = m_pOw[Uml::A]->getX();
+    int x2 = xclicked;
+    int w1 = m_pOw[Uml::A]->getWidth() / 2;
+
+    x1 += w1;
+
+    int widgetWidth = 0;
+    int widgetHeight = 10;
+    if( x1 < x2 ) {
+        x = x1;
+        widgetWidth = x2 - x1 + widgetHeight;
+    } else {
+        x = x2;
+        widgetWidth = x1 - x2;
+    }
+    x += 1;
+    m_nPosX = x;
+    setSize(widgetWidth, widgetHeight);
+}
+
+void MessageWidget::calculateDimensionsFound() {
+    int x = 0;
+
+    int x1 = m_pOw[Uml::A]->getX();
+    int x2 = xclicked;
+    int w1 = m_pOw[Uml::A]->getWidth() / 2;
+    x1 += w1;
+
+
+    int widgetWidth = 0;
+    int widgetHeight = 10;
+    if( x1 < x2 ) {
+        x = x1;
+        widgetWidth = x2 - x1 + widgetHeight;
+    } else {
+        x = x2 ;
+        widgetWidth = x1 - x2;
+    }
+    x += 1;
+
+    m_nPosX = x;
+    setSize(widgetWidth, widgetHeight);
+}
+
 void MessageWidget::cleanup() {
     if (m_pOw[Uml::A]) {
         disconnect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::A], SLOT(slotMessageMoved()) );
@@ -689,6 +841,21 @@ ObjectWidget* MessageWidget::getWidget(Uml::Role_Type role) {
     return m_pOw[role];
 }
 
+void MessageWidget::setxclicked (int xclick){
+	xclicked = xclick;
+}
+
+
+void MessageWidget::setyclicked (int yclick){
+	yclicked = yclick;
+}
+
+// void  MessageWidget::setSize(int width,int height);
+// {   
+//     
+//     UMLWidget::setSize(width,height);
+// }
+
 void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement messageElement = qDoc.createElement( "messagewidget" );
     UMLWidget::saveToXMI( qDoc, messageElement );
@@ -701,6 +868,10 @@ void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
         messageElement.setAttribute( "operation", m_CustomOp );
     messageElement.setAttribute( "seqnum", m_SequenceNumber );
     messageElement.setAttribute( "sequencemessagetype", m_sequenceMessageType );
+    if (m_sequenceMessageType == Uml::sequence_message_lost || m_sequenceMessageType == Uml::sequence_message_found) {
+	 messageElement.setAttribute( "xclicked", xclicked );
+	 messageElement.setAttribute( "yclicked", yclicked );
+    }
 
     // save the corresponding message text
     if (m_pFText && !m_pFText->getText().isEmpty()) {
@@ -722,6 +893,10 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
     m_SequenceNumber = qElement.attribute( "seqnum", "" );
     QString sequenceMessageType = qElement.attribute( "sequencemessagetype", "1001" );
     m_sequenceMessageType = (Uml::Sequence_Message_Type)sequenceMessageType.toInt();
+    if (m_sequenceMessageType == Uml::sequence_message_lost || m_sequenceMessageType == Uml::sequence_message_found) {
+	 xclicked = qElement.attribute( "xclicked", "-1" ).toInt();
+	 yclicked = qElement.attribute( "yclicked", "-1" ).toInt();
+    }
 
     Uml::IDType aId = STR2ID(widgetaid);
     Uml::IDType bId = STR2ID(widgetbid);
@@ -813,6 +988,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
 /// @todo verify in 3.5 branch
 void MessageWidget::mousePressEvent(QMouseEvent *me)
 {
+    UMLWidget::mousePressEvent(me);
 }
 
 #include "messagewidget.moc"

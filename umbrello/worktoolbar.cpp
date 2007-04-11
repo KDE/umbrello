@@ -112,6 +112,10 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
         insertHotBtn(tbb_Object);
         insertHotBtn(tbb_Seq_Message_Synchronous);
         insertHotBtn(tbb_Seq_Message_Asynchronous);
+	insertHotBtn(tbb_Seq_Message_Found);
+	insertHotBtn(tbb_Seq_Message_Lost);
+        insertHotBtn(tbb_Seq_Combined_Fragment);
+	insertHotBtn(tbb_Seq_Precondition);
         break;
 
     case Uml::dt_Collaboration:
@@ -137,9 +141,18 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
         insertHotBtn(tbb_Initial_Activity);
         insertHotBtn(tbb_Activity);
         insertHotBtn(tbb_End_Activity);
+        insertHotBtn(tbb_Final_Activity);
         insertHotBtn(tbb_Branch);
         insertHotBtn(tbb_Fork);
         insertHotBtn(tbb_Activity_Transition);
+        insertHotBtn(tbb_Exception);
+	insertHotBtn(tbb_PrePostCondition);
+        insertHotBtn(tbb_Send_Signal);
+        insertHotBtn(tbb_Accept_Signal);
+        insertHotBtn(tbb_Accept_Time_Event);
+        insertHotBtn(tbb_Region);
+        insertHotBtn(tbb_Pin);
+        insertHotBtn(tbb_Object_Node);
         break;
 
     case Uml::dt_Component:
@@ -244,11 +257,14 @@ void WorkToolBar::loadPixmaps() {
         const char *pngName;
         const char *slotName;
     } buttonInfo[] = {
-    
 
         { tbb_Object, i18n("Object"), "object.png", SLOT(slotObject()) },
         { tbb_Seq_Message_Synchronous, i18n("Synchronous Message"), "message-synchronous.png", SLOT(slotSeq_Message_Synchronous()) },
         { tbb_Seq_Message_Asynchronous, i18n("Asynchronous Message"), "message-asynchronous.png", SLOT(slotSeq_Message_Asynchronous()) },
+        { tbb_Seq_Message_Found, i18n("Found Message"), "message-found.png", SLOT(slotSeq_Message_Found()) },
+        { tbb_Seq_Message_Lost, i18n("Lost Message"), "message-lost.png", SLOT(slotSeq_Message_Lost()) },
+        { tbb_Seq_Combined_Fragment, i18n("Combined Fragment"), "combined_fragment.png", SLOT(slotSeq_Combined_Fragment()) },
+	{ tbb_Seq_Precondition, i18n("Precondition"),"precondition.png",SLOT(slotSeq_Precondition()) },
         { tbb_Association, i18n("Association"), "association.png", SLOT(slotAssociation()) },
         { tbb_Containment, i18n("Containment"), "containment.png", SLOT(slotContainment()) },
         { tbb_Anchor, i18n("Anchor"), "anchor.png", SLOT(slotAnchor()) },
@@ -265,8 +281,12 @@ void WorkToolBar::loadPixmaps() {
         { tbb_UseCase, i18n("Use Case"), "usecase.png", SLOT(slotUseCase()) },
         { tbb_Class, i18n("Class"), "class.png", SLOT(slotClass()) },
         { tbb_Initial_State, i18n("Initial State"), "initial_state.png", SLOT(slotInitial_State()) },
+        { tbb_Region, i18n("Region"), "region.png", SLOT(slotRegion()) },
         { tbb_End_State, i18n("End State"), "end_state.png", SLOT(slotEnd_State()) },
         { tbb_Branch, i18n("Branch/Merge"), "branch.png", SLOT(slotBranch()) },
+        { tbb_Send_Signal, i18n("Send signal"), "send_signal.png", SLOT(slotSend_Signal()) },
+        { tbb_Accept_Signal, i18n("Accept signal"), "accept_signal.png", SLOT(slotAccept_Signal()) },
+        { tbb_Accept_Time_Event, i18n("Accept time event"), "accept_time_event.png", SLOT(slotAccept_Time_Event()) },
         { tbb_Fork, i18n("Fork/Join"), "fork.png", SLOT(slotFork()) },
         { tbb_Package, i18n("Package"), "package.png", SLOT(slotPackage()) },
         { tbb_Component, i18n("Component"), "component.png", SLOT(slotComponent()) },
@@ -290,9 +310,16 @@ void WorkToolBar::loadPixmaps() {
         { tbb_Activity, i18n("Activity"), "usecase.png", SLOT(slotActivity()) },
         { tbb_State, i18n("State"), "usecase.png", SLOT(slotState()) },
         { tbb_End_Activity, i18n("End Activity"), "end_state.png", SLOT(slotEnd_Activity()) },
+        { tbb_Final_Activity, i18n("Final Activity"), "final_activity.png", SLOT(slotFinal_Activity()) },
+        { tbb_Pin, i18n("Pin"), "pin.png", SLOT(slotPin()) },
         { tbb_Initial_Activity, i18n("Initial Activity"), "initial_state.png", SLOT(slotInitial_Activity()) },
-        { tbb_Coll_Message, i18n("Message"), "message-asynchronous.png", SLOT(slotColl_Message()) }
+        { tbb_Coll_Message, i18n("Message"), "message-asynchronous.png", SLOT(slotColl_Message()) },
+        { tbb_Exception, i18n("Exception"), "exception.png", SLOT(slotException()) },
+        { tbb_Object_Node, i18n("Object Node"), "object_node.png", SLOT(slotObject_Node()) },
+	{ tbb_PrePostCondition, i18n("Pre/Post condition"), "PrePostCondition.png", SLOT(slotPrePostCondition()) }
     };
+
+
     KStandardDirs * dirs = KGlobal::dirs();
     QString dataDir = dirs->findResourceDir( "data", "umbrello/pics/object.png" );
     dataDir += "/umbrello/pics/";
@@ -328,7 +355,11 @@ void WorkToolBar::slotAssociation() {buttonChanged(tbb_Association);}
 void WorkToolBar::slotContainment() {buttonChanged(tbb_Containment);}
 void WorkToolBar::slotColl_Message() {buttonChanged(tbb_Coll_Message);}
 void WorkToolBar::slotSeq_Message_Synchronous() {buttonChanged(tbb_Seq_Message_Synchronous);}
-void WorkToolBar::slotSeq_Message_Asynchronous() {buttonChanged(tbb_Seq_Message_Asynchronous);}
+void WorkToolBar::slotSeq_Message_Asynchronous(){buttonChanged(tbb_Seq_Message_Asynchronous);}
+void WorkToolBar::slotSeq_Message_Found(){buttonChanged(tbb_Seq_Message_Found);}
+void WorkToolBar::slotSeq_Message_Lost(){buttonChanged(tbb_Seq_Message_Lost);}
+void WorkToolBar::slotSeq_Combined_Fragment(){buttonChanged(tbb_Seq_Combined_Fragment);}
+void WorkToolBar::slotSeq_Precondition(){buttonChanged(tbb_Seq_Precondition);}
 void WorkToolBar::slotComposition() {buttonChanged(tbb_Composition);}
 void WorkToolBar::slotRelationship() {buttonChanged(tbb_Relationship);}
 void WorkToolBar::slotUniAssociation() {buttonChanged(tbb_UniAssociation);}
@@ -352,19 +383,28 @@ void WorkToolBar::slotArtifact() {buttonChanged(tbb_Artifact);}
 void WorkToolBar::slotObject() {buttonChanged(tbb_Object);}
 void WorkToolBar::slotInitial_State() {buttonChanged(tbb_Initial_State);}
 void WorkToolBar::slotState() {buttonChanged(tbb_State);}
+void WorkToolBar::slotSend_Signal() {buttonChanged(tbb_Send_Signal);}
+void WorkToolBar::slotAccept_Signal() {buttonChanged(tbb_Accept_Signal);}
+void WorkToolBar::slotAccept_Time_Event() {buttonChanged(tbb_Accept_Time_Event);}
 void WorkToolBar::slotEnd_State() {buttonChanged(tbb_End_State);}
+void WorkToolBar::slotRegion() {buttonChanged(tbb_Region);}
 void WorkToolBar::slotInitial_Activity() {buttonChanged(tbb_Initial_Activity);}
 void WorkToolBar::slotActivity() {buttonChanged(tbb_Activity);}
 void WorkToolBar::slotEnd_Activity() {buttonChanged(tbb_End_Activity);}
+void WorkToolBar::slotFinal_Activity() {buttonChanged(tbb_Final_Activity);}
 void WorkToolBar::slotBranch() {buttonChanged(tbb_Branch);}
 void WorkToolBar::slotFork() {buttonChanged(tbb_Fork);}
 void WorkToolBar::slotDeepHistory() {buttonChanged(tbb_DeepHistory);}
 void WorkToolBar::slotShallowHistory() {buttonChanged(tbb_ShallowHistory);}
 void WorkToolBar::slotJoin() {buttonChanged(tbb_Join);}
+void WorkToolBar::slotPin() {buttonChanged(tbb_Pin);}
 void WorkToolBar::slotStateFork() {buttonChanged(tbb_StateFork);}
 void WorkToolBar::slotJunction() {buttonChanged(tbb_Junction);}
 void WorkToolBar::slotChoice() {buttonChanged(tbb_Choice);}
 void WorkToolBar::slotAndline() {buttonChanged(tbb_Andline);}
+void WorkToolBar::slotException() {buttonChanged(tbb_Exception);}
+void WorkToolBar::slotObject_Node() {buttonChanged(tbb_Object_Node);}
+void WorkToolBar::slotPrePostCondition() {buttonChanged(tbb_PrePostCondition);}
 
 
 #include "worktoolbar.moc"

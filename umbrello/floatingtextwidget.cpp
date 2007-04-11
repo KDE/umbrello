@@ -36,6 +36,12 @@
 #include "dialogs/assocpropdlg.h"
 #include "dialogs/selectopdlg.h"
 
+// own header
+#include "uml.h"
+
+#include "cmds.h"
+using namespace Uml;
+
 FloatingTextWidget::FloatingTextWidget(UMLView * view, Uml::Text_Role role,
                                        const QString& text, Uml::IDType id)
   : UMLWidget(view, id, new FloatingTextWidgetController(this))
@@ -178,6 +184,13 @@ void FloatingTextWidget::handleRename() {
                                             m_pView, &v);
     if (!ok || newText == getText())
         return;
+
+    UMLApp::app()->executeCommand(new cmdHandleRename(this,newText));
+}
+
+void FloatingTextWidget::changeName(QString newText)
+{
+
     if (m_pLink && !isTextValid(newText)) {
         AssociationWidget *assoc = dynamic_cast<AssociationWidget*>(m_pLink);
         if (assoc) {
@@ -223,6 +236,12 @@ void FloatingTextWidget::handleRename() {
     setVisible( true );
     updateComponentSize();
     update();
+
+}
+
+
+void FloatingTextWidget::setTextcmd(const QString &t) {
+      UMLApp::app()->executeCommand(new cmdSetTxt(this,t));
 }
 
 void FloatingTextWidget::setText(const QString &t) {
@@ -240,6 +259,7 @@ void FloatingTextWidget::setText(const QString &t) {
     updateComponentSize();
     update();
 }
+
 
 void FloatingTextWidget::setPreText (const QString &t)
 {

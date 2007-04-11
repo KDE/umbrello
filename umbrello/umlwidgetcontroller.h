@@ -22,6 +22,7 @@ class QCursor;
 class QMouseEvent;
 class QMoveEvent;
 class QPoint;
+class UMLDoc;
 
 class UMLWidget;
 
@@ -177,6 +178,54 @@ public:
      */
     virtual void mouseDoubleClickEvent(QMouseEvent *me);
 
+    virtual void widgetMoved();
+
+int getOldX();
+
+int getOldY();
+
+int getOldH();
+
+int getOldW();
+
+void insertSaveValues(int _oldX, int _oldY, int X, int Y);
+//avant c'estait protected?
+    /**
+     * Moves the widget to a new position using the difference between the
+     * current position and the new position.
+     * This method doesn't adjust associations. It only moves the widget.
+     *
+     * It can be overridden to constrain movement of m_widget only in one axis even when
+     * the user isn't constraining the movement with shift or control buttons, for example.
+     * The movement policy set here is applied whenever the widget is moved, being it
+     * moving it explicitly, or as a part of a selection but not receiving directly the
+     * mouse events.
+     *
+     * Default behaviour is move the widget to the new position using the diffs.
+     * @see constrainMovementForAllWidgets
+     *
+     * @param diffX The difference between current X position and new X position.
+     * @param diffY The difference between current Y position and new Y position.
+     */
+    virtual void moveWidgetBy(int diffX, int diffY);
+
+    /**
+     * Resizes the widget.
+     * It's called from resize, after the values are constrained and before
+     * the associations are adjusted.
+     *
+     * Default behaviour is resize the widget using the new size values.
+     * @see resize
+     *
+     * @param newW The new width for the widget.
+     * @param newH The new height for the widget.
+     */
+    virtual void resizeWidget(int newW, int newH);
+
+
+	virtual UMLWidget* getWidget();
+
+
 protected:
 
     /**
@@ -192,6 +241,8 @@ protected:
      * @param me The QMouseEvent to get the offset from.
      */
     virtual void saveWidgetValues(QMouseEvent *me);
+
+
 
     /**
      * Checks if the mouse is in resize area (right bottom corner), and sets
@@ -212,37 +263,9 @@ protected:
      */
     virtual QCursor getResizeCursor();
 
-    /**
-     * Resizes the widget.
-     * It's called from resize, after the values are constrained and before
-     * the associations are adjusted.
-     *
-     * Default behaviour is resize the widget using the new size values.
-     * @see resize
-     *
-     * @param newW The new width for the widget.
-     * @param newH The new height for the widget.
-     */
-    virtual void resizeWidget(int newW, int newH);
 
-    /**
-     * Moves the widget to a new position using the difference between the
-     * current position and the new position.
-     * This method doesn't adjust associations. It only moves the widget.
-     *
-     * It can be overridden to constrain movement of m_widget only in one axis even when
-     * the user isn't constraining the movement with shift or control buttons, for example.
-     * The movement policy set here is applied whenever the widget is moved, being it
-     * moving it explicitly, or as a part of a selection but not receiving directly the
-     * mouse events.
-     *
-     * Default behaviour is move the widget to the new position using the diffs.
-     * @see constrainMovementForAllWidgets
-     *
-     * @param diffX The difference between current X position and new X position.
-     * @param diffY The difference between current Y position and new Y position.
-     */
-    virtual void moveWidgetBy(int diffX, int diffY);
+
+
 
     /**
      * Modifies the value of the diffX and diffY variables used to move the widgets.

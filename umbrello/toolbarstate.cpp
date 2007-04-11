@@ -18,6 +18,8 @@
 // app includes
 #include "associationwidget.h"
 #include "messagewidget.h"
+#include "floatingdashlinewidget.h"
+#include "objectwidget.h"
 #include "uml.h"
 #include "umlview.h"
 #include "umlwidget.h"
@@ -173,6 +175,20 @@ void ToolBarState::setCurrentElement() {
         setCurrentWidget(message);
         return;
     }
+    
+    //TODO check why message widgets are treated different
+    FloatingDashLineWidget* floatingline = getFloatingLineAt(m_pMouseEvent->pos());
+    if (floatingline) {
+        setCurrentWidget(floatingline);
+        return;
+    }
+
+
+    ObjectWidget* objectWidgetLine = m_pUMLView->onWidgetDestructionBox(m_pMouseEvent->pos());
+    if (objectWidgetLine) {
+        setCurrentWidget(objectWidgetLine);
+        return;
+    }
 
     // Check widgets.
     UMLWidget *widget = m_pUMLView->getWidgetAt(m_pMouseEvent->pos());
@@ -257,4 +273,19 @@ AssociationWidget* ToolBarState::getAssociationAt(QPoint pos) {
     return association;
 }
 
+FloatingDashLineWidget* ToolBarState::getFloatingLineAt(QPoint pos) {
+   FloatingDashLineWidget* floatingline = 0;
+   UMLWidget * widget = 0;
+   UMLWidgetListIt w_it(m_pUMLView->getWidgetList());
+	while( ( widget = w_it.current() ) ) {
+            ++w_it;
+            if (widget->getBaseType() == Uml::wt_FloatingDashLine){
+                if (dynamic_cast<FloatingDashLineWidget*>(widget)->onLine(pos)) {
+                    floatingline = dynamic_cast<FloatingDashLineWidget*>(widget);
+                }
+            }
+        }
+
+    return floatingline;
+}
 #include "toolbarstate.moc"

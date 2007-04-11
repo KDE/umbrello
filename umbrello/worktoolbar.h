@@ -82,11 +82,18 @@ public:
         tbb_Coll_Message,
         tbb_Seq_Message_Synchronous,
         tbb_Seq_Message_Asynchronous,
-        tbb_Composition,
+	tbb_Seq_Message_Found,
+	tbb_Seq_Message_Lost,
+        tbb_Seq_Combined_Fragment,
+        tbb_Seq_Precondition,
+	tbb_Composition,
         tbb_Relationship,
         tbb_UniAssociation,
         tbb_State_Transition,
         tbb_Activity_Transition,
+        tbb_Send_Signal,
+        tbb_Accept_Signal,
+        tbb_Accept_Time_Event,
         tbb_Anchor,//keep anchor as last association until code uses better algorithm for testing
         tbb_Note,
         tbb_Box,
@@ -105,10 +112,13 @@ public:
         tbb_Object,
         tbb_Initial_State,
         tbb_State,
+        tbb_Region,
         tbb_End_State,
         tbb_Initial_Activity,
         tbb_Activity,
         tbb_End_Activity,
+        tbb_Final_Activity,
+        tbb_Pin,
         tbb_Branch,
         tbb_Fork,
         tbb_DeepHistory,
@@ -117,7 +127,10 @@ public:
         tbb_StateFork,
         tbb_Junction,
         tbb_Choice,
-        tbb_Andline
+        tbb_Andline,
+	tbb_Exception,
+        tbb_Object_Node,
+	tbb_PrePostCondition
     };
 
 private:
@@ -180,7 +193,7 @@ public slots:
     void slotCheckToolBar(Uml::Diagram_Type dt);
     void buttonChanged(int b);
     void slotResetToolBar();
-    
+
     /** 
       * These slots are triggered by the buttons. They call buttonChanged with
       * the button id
@@ -195,6 +208,10 @@ public slots:
     void slotColl_Message();
     void slotSeq_Message_Synchronous();
     void slotSeq_Message_Asynchronous();
+    void slotSeq_Message_Found();
+    void slotSeq_Message_Lost();
+    void slotSeq_Combined_Fragment();
+    void slotSeq_Precondition();
     void slotComposition();
     void slotRelationship();
     void slotUniAssociation();
@@ -216,13 +233,18 @@ public slots:
     void slotNode();
     void slotArtifact();
     void slotObject();
+    void slotRegion();
     void slotInitial_State();
     void slotState();
     void slotEnd_State();
     void slotInitial_Activity();
     void slotActivity();
     void slotEnd_Activity();
+    void slotFinal_Activity();
     void slotBranch();
+    void slotSend_Signal();
+    void slotAccept_Signal();
+    void slotAccept_Time_Event();
     void slotFork();
     void slotDeepHistory();
     void slotShallowHistory();
@@ -231,6 +253,11 @@ public slots:
     void slotJunction();
     void slotChoice();
     void slotAndline();
+    void slotException();
+    void slotPrePostCondition();
+    void slotPin();
+    void slotObject_Node();
+
 
 };
 

@@ -3,4 +3,28 @@ Version 2.0  (First Qt4/KDE4 based version)
 * Bugs/wishes from http://bugs.kde.org:
 * Turn off header/footer and page numbers when printing (69113)
 * Recursively scan source files when reverse engineering (109157)
+* Implement the UML 2.0 standard (115269)
+  - Sequence Diagram
+    * Combined Fragments
+      * Operators : Alternative, Option, Break, Parallel, Reference, Negative, Critical
+		Ignore, Consider, Assertion, Loop.
+      * Found / Lost Messages.
+  - Sequence Diagram
+      * Pre/Post conditions.
+      * ‘accept time event’ symbol.
+      * Control Flow.
+      * Object Flow.
+      * interruptible region.
+      * expansion region.
+      * Control node : flow final.
+      * Transformation.
+      * Objects nodes :  
+        * Activity Invoke.
+        * Activity Parameter Nodes.
+        * Central buffer nodes.
+        * Data stores nodes.
+        * Input / Output / Constant Pins.
 
+* Code generation and undo/redo take up too much memory (72644)
+  - Use the KUndoStack derived from QT4 QUndoStack in order to manage commands.
+  - Commands are stored in cmds folder.

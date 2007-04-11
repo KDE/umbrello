@@ -11,6 +11,7 @@
 
 #include <kdebug.h>
 #include <typeinfo>
+#include <kmessagebox.h>
 
 #include "assocrules.h"
 #include "uml.h"
@@ -21,6 +22,7 @@
 #include "associationwidget.h"
 #include "statewidget.h"
 #include "activitywidget.h"
+#include "signalwidget.h"
 #include "forkjoinwidget.h"
 
 using namespace Uml;
@@ -92,6 +94,7 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
         break;
 
     case at_Activity:
+    case at_Exception:
         {
             ActivityWidget *pActivity = dynamic_cast<ActivityWidget*>(widget);
             return (pActivity == NULL || pActivity->getActivityType() != ActivityWidget::End);
@@ -192,12 +195,24 @@ bool AssocRules::allowAssociation( Association_Type assocType,
         break;
 
     case at_Activity:
+    case at_Exception:
         {
+           
             ActivityWidget *actA = dynamic_cast<ActivityWidget*>(widgetA);
             ActivityWidget *actB = dynamic_cast<ActivityWidget*>(widgetB);
+           
+            bool isSignal = false;
+            bool isObjectNode = false;
+       
+            if (widgetTypeA == wt_Signal)
+                isSignal = true;
+            else if (widgetTypeA == wt_ObjectNode)
+                isObjectNode = true;
+
             // no transitions to initial activity allowed
-            if (actB && actB->getActivityType() == ActivityWidget::Initial)
+            if (actB && actB->getActivityType() == ActivityWidget::Initial) {
                 return false;
+            }
             // Fork_DEPRECATED here means "not applicable".
             ActivityWidget::ActivityType actTypeA = ActivityWidget::Fork_DEPRECATED;
             if (actA)
@@ -205,11 +220,11 @@ bool AssocRules::allowAssociation( Association_Type assocType,
             ActivityWidget::ActivityType actTypeB = ActivityWidget::Fork_DEPRECATED;
             if (actB)
                 actTypeB = actB->getActivityType();
-            // only from a normal, branch or fork activity to the end
-            if (actTypeB == ActivityWidget::End &&
+            // only from a signalwidget a objectnode widget, a normal activity, branch or fork activity, to the end
+            if ((actTypeB == ActivityWidget::End || actTypeB == ActivityWidget::Final) &&
                 actTypeA != ActivityWidget::Normal &&
                 actTypeA != ActivityWidget::Branch &&
-                dynamic_cast<ForkJoinWidget*>(widgetA) == NULL) {
+                dynamic_cast<ForkJoinWidget*>(widgetA) == NULL && !isSignal &&!isObjectNode) {
                 return false;
             }
             // only Forks and Branches can have more than one "outgoing" transition
@@ -360,9 +375,22 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
     { at_State,         wt_State,       wt_State,       true,   false,  true,   true  },
     { at_State,         wt_ForkJoin,    wt_State,       true,   false,  true,   true  },
     { at_State,         wt_State,       wt_ForkJoin,    true,   false,  true,   true  },
+    { at_Activity,      wt_Signal,      wt_Activity,    true,   false,  true,   true  },
+    { at_Activity,      wt_Activity,    wt_Signal,      true,   false,  true,   true  },
+    { at_Activity,      wt_ObjectNode,  wt_Activity,    true,   false,  true,   true  },
+    { at_Activity,      wt_Activity,    wt_ObjectNode,  true,   false,  true,   true  },
     { at_Activity,      wt_Activity,    wt_Activity,    true,   false,  true,   true  },
     { at_Activity,      wt_ForkJoin,    wt_Activity,    true,   false,  true,   true  },
     { at_Activity,      wt_Activity,    wt_ForkJoin,    true,   false,  true,   true  },
+    { at_Activity,      wt_Signal,      wt_ForkJoin,    true,   false,  true,   true  },
+    { at_Activity,      wt_ForkJoin,    wt_Signal,      true,   false,  true,   true  },
+    { at_Activity,      wt_ForkJoin,    wt_ObjectNode,  true,   false,  true,   true  },
+    { at_Activity,      wt_ObjectNode,  wt_ForkJoin,    true,   false,  true,   true  },
+    { at_Activity,      wt_Pin,         wt_Activity,    true,   false,  true,   true  },
+    { at_Activity,      wt_Pin,         wt_Pin,         true,   false,  true,   true  },
+    { at_Activity,      wt_Activity,    wt_Pin,         true,   false,  true,   true  },
+    { at_Activity,      wt_Pin,         wt_ForkJoin,    true,   false,  true,   true  },
+    { at_Activity,      wt_ForkJoin,    wt_Pin,    true,   false,  true,   true  },
     { at_Anchor,        wt_Class,       wt_Note,        false,  false,  false,  false },
     { at_Anchor,        wt_Package,     wt_Note,        false,  false,  false,  false },
     { at_Anchor,        wt_Interface,   wt_Note,        false,  false,  false,  false },
@@ -375,6 +403,10 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
     { at_Anchor,        wt_State,       wt_Note,        false,  false,  false,  false },
     { at_Anchor,        wt_Activity,    wt_Note,        false,  false,  false,  false },
     { at_Relationship,  wt_Entity,      wt_Entity,      true,   true,   true,   true  },
+    { at_Exception,     wt_Activity,    wt_Activity,    true,   false,  true,   true  },
+    { at_Exception,     wt_Activity,    wt_Signal,      true,   false,  true,   true  },
+    { at_Exception,     wt_Signal,      wt_Activity,    true,   false,  true,   true  },
+    { at_Exception,     wt_Signal,      wt_Signal,      true,   false,  true,   true  },
 };
 
 int AssocRules::m_nNumRules = sizeof( m_AssocRules ) / sizeof( AssocRules::Assoc_Rule );

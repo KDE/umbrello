@@ -3,6 +3,7 @@ find_package(LibXslt)
 
 add_subdirectory( pics ) 
 add_subdirectory( headings ) 
+add_subdirectory( cmds )
 
 macro(CREATE_VERSION _in_FILE _out_FILE)
     FILE(READ ${_in_FILE} _contents)
@@ -106,7 +107,7 @@ set(libdocgenerator_SRCS
 kde4_automoc(${libdocgenerator_SRCS})
 
 set(libdialogs_SRCS
-	dialogs/activitydialog.cpp 
+	dialogs/activitydialog.cpp
 	dialogs/activitypage.cpp 
 	dialogs/assocgenpage.cpp 
 	dialogs/assocpage.cpp 
@@ -125,7 +126,9 @@ set(libdialogs_SRCS
 	dialogs/codevieweroptionspage.cpp 
 	dialogs/defaultcodegenpolicypage.cpp 
 	dialogs/diagramprintpage.cpp 
-	dialogs/exportallviewsdialog.cpp
+        dialogs/exportallviewsdialog.cpp
+	dialogs/notedialog.cpp
+        dialogs/objectnodedialog.cpp
 	dialogs/importprojectdlg.cpp
 	dialogs/notedialog.cpp 
 	dialogs/overwritedialogue.cpp 
@@ -212,6 +215,39 @@ set(libclipboard_SRCS
 	clipboard/idchangelog.cpp
 )
 kde4_automoc(${libclipboard_SRCS})
+
+set(libcmds_SRCS
+	cmds/cmd_create_activitydiag.cpp
+	cmds/cmd_create_classdiag.cpp
+	cmds/cmd_create_collaborationdiag.cpp
+	cmds/cmd_create_componentdiag.cpp
+	cmds/cmd_create_deploydiag.cpp
+	cmds/cmd_create_entityrelationdiag.cpp
+	cmds/cmd_create_seqdiag.cpp
+	cmds/cmd_create_statediag.cpp
+	cmds/cmd_create_usecasediag.cpp
+
+	cmds/classdiag/cmd_create_class.cpp
+
+	cmds/generic/cmd_create_umlobject.cpp
+	cmds/generic/cmd_rename_umlobject.cpp
+	
+	cmds/widget/cmd_create_widget.cpp
+	
+	cmds/cmd_moveWidget.cpp
+	cmds/cmd_resizeWidget.cpp
+	cmds/cmd_set_visibility.cpp
+	cmds/cmd_set_stereotype.cpp
+	cmds/widget/cmd_set_name.cpp
+	cmds/widget/cmd_set_txt.cpp
+	cmds/cmd_handle_rename.cpp
+	cmds/widget/cmd_changeFontSelection.cpp
+	cmds/widget/cmd_changeLineColor.cpp
+	cmds/widget/cmd_changeFillColor.cpp
+	cmds/widget/cmd_changeMulti.cpp
+
+)
+kde4_automoc(${libclipboard_SRCS})
 ########### next target ###############
 
 set(libumbrello_SRCS 
@@ -244,6 +280,7 @@ set(libumbrello_SRCS
    codemethodblock.cpp 
    codeoperation.cpp 
    codeparameter.cpp 
+   combinedfragmentwidget.cpp 
    component.cpp 
    componentwidget.cpp 
    configurable.cpp 
@@ -253,9 +290,11 @@ set(libumbrello_SRCS
    entity.cpp 
    entityattribute.cpp 
    entitywidget.cpp 
+   regionwidget.cpp 
    enum.cpp 
    enumliteral.cpp 
    enumwidget.cpp 
+   floatingdashlinewidget.cpp
    floatingtextwidget.cpp 
    floatingtextwidgetcontroller.cpp
    folder.cpp
@@ -275,6 +314,7 @@ set(libumbrello_SRCS
    nodewidget.cpp 
    notewidget.cpp 
    notewidgetcontroller.cpp
+   objectnodewidget.cpp
    objectwidget.cpp 
    objectwidgetcontroller.cpp
    object_factory.cpp 
@@ -286,10 +326,13 @@ set(libumbrello_SRCS
    packagewidget.cpp 
    petalnode.cpp 
    petaltree2uml.cpp 
+   pinwidget.cpp   
    plugin.cpp 
    pluginloader.cpp 
+   preconditionwidget.cpp
    seqlinewidget.cpp 
    statewidget.cpp 
+   signalwidget.cpp 
    stereotype.cpp 
    template.cpp 
    textblock.cpp 
@@ -298,6 +341,7 @@ set(libumbrello_SRCS
    toolbarstateassociation.cpp 
    toolbarstatefactory.cpp 
    toolbarstatemessages.cpp 
+   toolbarstateonewidget.cpp 
    toolbarstateother.cpp 
    toolbarstatepool.cpp 
    uml.cpp 
@@ -339,6 +383,7 @@ set (umbrello_SRCS
 	${libcodeimport_SRCS}
 	${libcodegenerator_SRCS}
 	${libdocgenerator_SRCS}
+	${libcmds_SRCS}
 	${libumbrello_SRCS}
 )
 

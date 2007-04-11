@@ -862,6 +862,15 @@ public:
     ObjectWidget * onWidgetLine( const QPoint &point );
 
     /**
+     * Determine whether on a sequence diagram we have clicked on 
+     * the destruction box of an Object.
+     *
+     * @return The widget thats destruction box was clicked on.
+     *  Returns 0 if no destruction box was clicked on.
+     */
+    ObjectWidget * onWidgetDestructionBox(const QPoint &point );
+
+    /**
      * Return pointer to the first selected widget (for multi-selection)
      */
     UMLWidget* getFirstMultiSelectedWidget() {
@@ -908,6 +917,13 @@ public:
      * Used for creating unique name of collaboration messages.
      */
     int generateCollaborationId();
+
+    /**
+     * Return the UMLDoc pointer
+    */
+    UMLDoc* getUMLDoc() {
+    	return m_pDoc;
+    }
 
 protected:
 

@@ -86,6 +86,8 @@
 #include "docgenerators/docbookgenerator.h"
 #include "docgenerators/xhtmlgenerator.h"
 
+#include "cmds.h"
+
 /// @todo This is an ugly _HACK_ to allow to compile umbrello.
 /// All the menu stuff should be ported to KDE4 (using actions)
 QMenu* UMLApp::findMenu(KMenuBar* menu, const QString &name)
@@ -117,6 +119,8 @@ UMLApp::UMLApp(QWidget* parent) : KMainWindow(parent) {
     readOptionState();
     m_doc = new UMLDoc();
     m_doc->init();
+    m_pUndoStack = new KUndoStack(this);
+    m_hasBegunMacro = false;
     initActions(); //now calls initStatusBar() because it is affected by setupGUI()
     initView();
     initClip();
@@ -170,6 +174,8 @@ UMLApp::~UMLApp() {
     delete m_copyTimer;
 
     delete m_refactoringAssist;
+
+    delete m_pUndoStack;
 }
 
 UMLApp* UMLApp::app()
@@ -186,8 +192,10 @@ void UMLApp::initActions() {
     fileClose = KStandardAction::close(this, SLOT(slotFileClose()), actionCollection());
     filePrint = KStandardAction::print(this, SLOT(slotFilePrint()), actionCollection());
     fileQuit = KStandardAction::quit(this, SLOT(slotFileQuit()), actionCollection());
-    editUndo = KStandardAction::undo(this, SLOT(slotEditUndo()), actionCollection());
-    editRedo = KStandardAction::redo(this, SLOT(slotEditRedo()), actionCollection());
+    
+    editUndo = m_pUndoStack->createUndoAction(actionCollection());
+    editRedo = m_pUndoStack->createRedoAction(actionCollection());
+    
     editCut = KStandardAction::cut(this, SLOT(slotEditCut()), actionCollection());
     editCopy = KStandardAction::copy(this, SLOT(slotEditCopy()), actionCollection());
     editPaste = KStandardAction::paste(this, SLOT(slotEditPaste()), actionCollection());
@@ -251,6 +259,7 @@ void UMLApp::initActions() {
     setProgLangAction(Uml::pl_SQL,          "SQL",          "set_lang_sql");
     setProgLangAction(Uml::pl_Tcl,          "Tcl",          "set_lang_tcl");
     setProgLangAction(Uml::pl_XMLSchema,    "XMLSchema",    "set_lang_xmlschema");
+    setProgLangAction(Uml::pl_Ocl,	    "Ocl",	    "set_lang_ocl");
 #undef setProgLangAction
 
     fileNew->setToolTip(i18n("Creates a new document"));
@@ -546,6 +555,7 @@ void UMLApp::initView() {
 //     setMainWidget(m_);
 
     m_listDock = new QDockWidget( i18n("&Tree View"), this );
+    m_listDock->setObjectName("TreeViewDock");
     addDockWidget(Qt::LeftDockWidgetArea, m_listDock);
     m_listView = new UMLListView(m_listDock ,"LISTVIEW");
     //m_listView->setSorting(-1);
@@ -553,13 +563,31 @@ void UMLApp::initView() {
     m_listView->init();
     m_listDock->setWidget(m_listView);
 
-    m_documentationDock = new QDockWidget( i18n("&Documentation"), this );
+    m_documentationDock = new QDockWidget( i18n("Doc&umentation"), this );
+    m_documentationDock->setObjectName("DocumentationDock");
+
     addDockWidget(Qt::LeftDockWidgetArea, m_documentationDock);
     m_pDocWindow = new DocWindow(m_doc, m_documentationDock, "DOCWINDOW");
     m_documentationDock->setWidget(m_pDocWindow);
 
     m_doc->setupSignals();//make sure gets signal from list view
 
+    m_cmdHistoryDock = new QDockWidget(i18n("Co&mmand history"), this);
+    m_cmdHistoryDock->setObjectName("CmdHistoryDock");
+    addDockWidget(Qt::LeftDockWidgetArea, m_cmdHistoryDock);
+    // create cmd history view
+    m_pQUndoView = new QUndoView(m_cmdHistoryDock);
+    m_cmdHistoryDock->setWidget(m_pQUndoView);
+    m_pQUndoView->setCleanIcon(KIcon("filesave"));
+    m_pQUndoView->setStack(m_pUndoStack);
+    
+    // Create the property viewer
+    //m_propertyDock = new QDockWidget(i18n("&Properties"), this);
+    //addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);
+    
+    tabifyDockWidget(m_documentationDock, m_cmdHistoryDock);
+    //tabifyDockWidget(m_cmdHistoryDock, m_propertyDock);
+    
     QByteArray dockConfig;
     KConfigGroup general( m_config, "General Options" );
     general.readEntry("DockConfig", dockConfig);
@@ -815,6 +843,7 @@ void UMLApp::slotFileSave() {
     else
         m_doc->saveDocument(m_doc -> url());
 
+    m_pUndoStack->setClean();
     slotStatusMsg(i18n("Ready."));
 }
 
@@ -917,12 +946,12 @@ void UMLApp::slotFileExportXhtml()
 }
 
 void UMLApp::slotEditUndo() {
-    m_doc->loadUndoData();
+    undo();
     slotStatusMsg(i18n("Ready."));
 }
 
 void UMLApp::slotEditRedo() {
-    m_doc->loadRedoData();
+    redo();
     slotStatusMsg(i18n("Ready."));
 }
 
@@ -971,49 +1000,40 @@ void UMLApp::slotStatusMsg(const QString &text) {
 }
 
 void UMLApp::slotClassDiagram() {
-    UMLFolder *root = m_doc->getRootFolder(Uml::mt_Logical);
-    getDocument()->createDiagram(root, Uml::dt_Class);
+    executeCommand(new Uml::cmdCreateClassDiag(m_doc));
 }
 
 
 void UMLApp::slotSequenceDiagram() {
-    UMLFolder *root = m_doc->getRootFolder(Uml::mt_Logical);
-    m_doc->createDiagram(root, Uml::dt_Sequence);
+    executeCommand(new Uml::cmdCreateSeqDiag(m_doc));
 }
 
 void UMLApp::slotCollaborationDiagram() {
-    UMLFolder *root = m_doc->getRootFolder(Uml::mt_Logical);
-    m_doc->createDiagram(root, Uml::dt_Collaboration);
+	executeCommand(new Uml::cmdCreateCollaborationDiag(m_doc));
 }
 
 void UMLApp::slotUseCaseDiagram() {
-    UMLFolder *root = m_doc->getRootFolder(Uml::mt_UseCase);
-    m_doc->createDiagram(root, Uml::dt_UseCase);
+	executeCommand(new Uml::cmdCreateUseCaseDiag(m_doc));
 }
 
 void UMLApp::slotStateDiagram() {
-    UMLFolder *root = m_doc->getRootFolder(Uml::mt_Logical);
-    m_doc->createDiagram(root, Uml::dt_State);
+	executeCommand(new Uml::cmdCreateStateDiag(m_doc));
 }
 
 void UMLApp::slotActivityDiagram() {
-    UMLFolder *root = m_doc->getRootFolder(Uml::mt_Logical);
-    m_doc->createDiagram(root, Uml::dt_Activity);
+	executeCommand(new Uml::cmdCreateActivityDiag(m_doc));
 }
 
 void UMLApp::slotComponentDiagram() {
-    UMLFolder *root = m_doc->getRootFolder(Uml::mt_Component);
-    m_doc->createDiagram(root, Uml::dt_Component );
+	executeCommand(new Uml::cmdCreateComponentDiag(m_doc));
 }
 
 void UMLApp::slotDeploymentDiagram() {
-    UMLFolder *root = m_doc->getRootFolder(Uml::mt_Deployment);
-    m_doc->createDiagram(root, Uml::dt_Deployment);
+	executeCommand(new Uml::cmdCreateDeployDiag(m_doc));
 }
 
 void UMLApp::slotEntityRelationshipDiagram() {
-    UMLFolder *root = m_doc->getRootFolder(Uml::mt_EntityRelationship);
-    m_doc->createDiagram(root, Uml::dt_EntityRelationship);
+	executeCommand(new Uml::cmdCreateEntityRelationDiag(m_doc));
 }
 
 WorkToolBar* UMLApp::getWorkToolBar() {
@@ -1385,6 +1405,10 @@ void UMLApp::set_lang_xmlschema() {
     setProgLangMenu(Uml::pl_XMLSchema);
 }
 
+void UMLApp::set_lang_ocl() {
+    setProgLangMenu(Uml::pl_Ocl);
+}
+
 void UMLApp::setProgLangMenu(Uml::Programming_Language pl) {
     // only change the active language if different from one we currently have
     if (pl == m_activeLanguage)
@@ -1511,7 +1535,7 @@ void UMLApp::importFiles(QStringList* fileList) {
         //Allowing undo of the whole class importing. I think it eats a lot of memory
         //m_doc->setModified(true);
         //Setting the modification, but without allowing undo
-        m_doc->setModified(true, false);
+        m_doc->setModified(true);
     }
 }
 
@@ -1815,6 +1839,62 @@ KTabWidget* UMLApp::tabWidget() {
 
 QString UMLApp::getStatusBarMsg() {
     return statusBar()->itemText(1);
+}
+
+void UMLApp::clearUndoStack() {
+	m_pUndoStack->clear();
+}
+
+void UMLApp::undo()
+{
+	kDebug() << "UMLApp::undo(" << m_pUndoStack->undoText() << ") [" << m_pUndoStack->count() << "]" << endl;
+	m_pUndoStack->undo();
+
+	if(m_pUndoStack->canUndo())
+		UMLApp::app()->enableUndo(true);
+	else 
+		UMLApp::app()->enableUndo(false);
+	
+	UMLApp::app()->enableRedo(true);
+}
+
+void UMLApp::redo()
+{
+	kDebug() << "UMLApp::undo(" << m_pUndoStack->redoText() << ") [" << m_pUndoStack->count() << "]" << endl;
+	m_pUndoStack->redo();
+
+	if(m_pUndoStack->canRedo())
+		UMLApp::app()->enableRedo(true);
+	else 
+		UMLApp::app()->enableRedo(false);
+	
+	UMLApp::app()->enableUndo(true);
+}
+
+void UMLApp::executeCommand(QUndoCommand* cmd)
+{
+	if(cmd != NULL)
+		m_pUndoStack->push(cmd);
+
+	kDebug() << "UMLApp::executeCommand(" << cmd->text() << ") [" << m_pUndoStack->count() << "]" << endl;
+
+	UMLApp::app()->enableUndo(true);
+}
+
+void UMLApp::BeginMacro( const QString & text ) {
+	if(m_hasBegunMacro)
+		return;
+	
+	m_hasBegunMacro = true;
+
+	m_pUndoStack->beginMacro(text);
+}
+
+void UMLApp::EndMacro() {
+	if(m_hasBegunMacro)
+		m_pUndoStack->endMacro();
+
+	m_hasBegunMacro = false;
 }
 
 //static pointer, holding the unique instance

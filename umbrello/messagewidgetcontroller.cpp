@@ -39,7 +39,25 @@ QCursor MessageWidgetController::getResizeCursor() {
 }
 
 void MessageWidgetController::resizeWidget(int newW, int newH) {
-    m_messageWidget->setSize(m_messageWidget->width(), newH);
+    if (m_messageWidget->getSequenceMessageType() == Uml::sequence_message_creation) 
+        m_messageWidget->setSize(m_messageWidget->width(), newH);
+    else {
+        int x1 = m_messageWidget->m_pOw[Uml::A]->getX();
+        int x2 = m_messageWidget->getxclicked();
+        int diffX = 0;
+        if (x1 < x2) {
+            diffX = x2 + (newW - m_messageWidget->width());
+        }
+        else {
+            diffX = x2 - (newW - m_messageWidget->width());
+        }
+        if (diffX <= 0 )
+            diffX = 10;
+        m_messageWidget->setxclicked (diffX);
+        m_messageWidget->setSize(newW, newH);
+        m_messageWidget->calculateWidget();
+
+    }
     emit m_messageWidget->sigMessageMoved();
 }
 
