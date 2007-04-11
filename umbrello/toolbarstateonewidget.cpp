@@ -68,7 +68,7 @@ void ToolBarStateOneWidget::setCurrentElement() {
 	return;
     }
 
-    UMLWidget *widget = m_pUMLView->testOnWidget(m_pMouseEvent->pos());
+    UMLWidget *widget = m_pUMLView->getWidgetAt(m_pMouseEvent->pos());
     if (widget) {
         setCurrentWidget(widget);
         return;

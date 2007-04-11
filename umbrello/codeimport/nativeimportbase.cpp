@@ -196,7 +196,7 @@ QStringList NativeImportBase::split(const QString& lin) {
     QChar stringIntro = 0;  // buffers the string introducer character
     bool seenSpace = false;
     QString line = lin.trimmed();
-    for (uint i = 0; i < line.length(); i++) {
+    for (int i = 0; i < line.length(); i++) {
         const QChar& c = line[i];
         if (stringIntro.toLatin1()) {        // we are in a string
             listElement += c;

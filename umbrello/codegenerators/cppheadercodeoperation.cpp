@@ -25,8 +25,9 @@
 // Constructors/Destructors
 //
 
-CPPHeaderCodeOperation::CPPHeaderCodeOperation ( CPPHeaderCodeDocument * doc, UMLOperation *parent, const QString & body, const QString & comment )
-        : CodeOperation ((ClassifierCodeDocument*)doc, parent, body, comment)
+CPPHeaderCodeOperation::CPPHeaderCodeOperation
+ ( CPPHeaderCodeDocument * doc, UMLOperation *parent, const QString & body, const QString & comment )
+        : CodeOperation (doc, parent, body, comment)
 {
     // lets not go with the default comment and instead use
     // full-blown cpp documentation object instead
@@ -66,8 +67,8 @@ void CPPHeaderCodeOperation::updateContent( )
 // we basically want to update the doc and start text of this method
 void CPPHeaderCodeOperation::updateMethodDeclaration()
 {
-
-    bool isInterface = ((ClassifierCodeDocument*)getParentDocument())->parentIsInterface();
+    ClassifierCodeDocument *ccd = dynamic_cast<ClassifierCodeDocument*>(getParentDocument());
+    bool isInterface = ccd->parentIsInterface();
     UMLOperation * o = getParentOperation();
 
     CodeGenPolicyExt *pe = UMLApp::app()->getPolicyExt();
@@ -131,7 +132,7 @@ void CPPHeaderCodeOperation::updateMethodDeclaration()
 }
 
 int CPPHeaderCodeOperation::lastEditableLine() {
-    ClassifierCodeDocument * doc = (ClassifierCodeDocument*)getParentDocument();
+    ClassifierCodeDocument * doc = dynamic_cast<ClassifierCodeDocument*>(getParentDocument());
     UMLOperation * o = getParentOperation();
     if(doc->parentIsInterface() || o->getAbstract())
         return -1; // very last line is NOT editable as its a one-line declaration w/ no body in

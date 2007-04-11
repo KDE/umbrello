@@ -28,7 +28,7 @@
 //
 
 JavaCodeDocumentation::JavaCodeDocumentation ( JavaClassifierCodeDocument * doc, const QString & text )
-        : CodeComment ((CodeDocument*) doc, text)
+        : CodeComment(doc, text)
 {
 
 }

@@ -232,11 +232,13 @@ void UMLWidget::init() {
         const Settings::OptionState& optionState = m_pView->getOptionState();
         m_FillColour = optionState.uiState.fillColor;
         m_Font       = optionState.uiState.font;
+        m_bShowStereotype = optionState.classState.showStereoType;
     } else {
         kError() << "UMLWidget::init: SERIOUS PROBLEM - m_pView is NULL" << endl;
         m_bUseFillColour = false;
         m_bUsesDiagramFillColour = false;
         m_bUsesDiagramUseFillColour = false;
+        m_bShowStereotype = false;
     }
 
     for (int i = 0; i < (int)FT_INVALID; ++i)
@@ -733,7 +735,7 @@ void UMLWidget::setSelected(bool _select) {
     m_bSelected = _select;
 
     const QPoint pos(getX(), getY());
-    UMLWidget *bkgnd = m_pView->testOnWidget(pos);
+    UMLWidget *bkgnd = m_pView->getWidgetAt(pos);
     if (bkgnd && _select) {
         kDebug() << "UMLWidget::setSelected: setting Z to "
             << bkgnd->getZ() + 1 << ", SelectState: " << _select << endl;

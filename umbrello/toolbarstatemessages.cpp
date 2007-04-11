@@ -80,7 +80,7 @@ void ToolBarStateMessages::setCurrentElement() {
     //However, the applied patch doesn't seem to be necessary no more, so it was removed
     //The widgets weren't got from UMLView, but from a method in this class similarto the
     //one in UMLView but containing special code to handle the zoom
-    UMLWidget *widget = m_pUMLView->testOnWidget(m_pMouseEvent->pos());
+    UMLWidget *widget = m_pUMLView->getWidgetAt(m_pMouseEvent->pos());
     if (widget) {
         setCurrentWidget(widget);
         return;

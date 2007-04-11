@@ -47,8 +47,8 @@ void RubyCodeClassFieldDeclarationBlock::updateContent( )
 
     CodeClassField * cf = getParentClassField();
     ClassifierCodeDocument * doc = cf->getParentDocument();
-    RubyCodeClassField * rcf = (RubyCodeClassField*) cf;
-    RubyClassifierCodeDocument* rdoc = (RubyClassifierCodeDocument*) doc;
+    RubyCodeClassField * rcf = dynamic_cast<RubyCodeClassField*>(cf);
+    RubyClassifierCodeDocument* rdoc = dynamic_cast<RubyClassifierCodeDocument*>(doc);
     CodeGenerationPolicy * p = UMLApp::app()->getCommonPolicy();
     CodeGenerationPolicy::ScopePolicy scopePolicy = p->getAssociationFieldScope();
 

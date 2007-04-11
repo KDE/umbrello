@@ -102,10 +102,12 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
             obj = new ASWriter();
             break;
         case Uml::pl_Cpp:
-            if (optionState.generalState.newcodegen)
+            if (optionState.generalState.newcodegen) {
                 obj = new CPPCodeGenerator();
-            else
+                obj->connect_newcodegen_slots();
+            } else {
                 obj = new CppWriter();
+            }
             {
                 CPPCodeGenerationPolicy *p =
                     new CPPCodeGenerationPolicy(UMLApp::app()->getConfig());
@@ -121,6 +123,7 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
         case Uml::pl_Java:
             if (optionState.generalState.newcodegen) {
                 obj = new JavaCodeGenerator();
+                obj->connect_newcodegen_slots();
                 JavaCodeGenerationPolicy *p =
                     new JavaCodeGenerationPolicy(UMLApp::app()->getConfig());
                 UMLApp::app()->setPolicyExt(p);
@@ -148,6 +151,7 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
         case Uml::pl_Ruby:
             if (optionState.generalState.newcodegen) {
                 obj = new RubyCodeGenerator();
+                obj->connect_newcodegen_slots();
                 RubyCodeGenerationPolicy *p =
                     new RubyCodeGenerationPolicy(UMLApp::app()->getConfig());
                 UMLApp::app()->setPolicyExt(p);
@@ -168,7 +172,8 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
                         << ". Type unknown" << endl;
             break;
     }
-    obj->initFromParentDocument();
+    if (obj)
+        obj->initFromParentDocument();
     return obj;
 }
 
@@ -191,6 +196,8 @@ CodeDocument * newClassifierCodeDocument (UMLClassifier * c)
         default:
             break;
     }
+    retval->initCodeClassFields();
+    retval->synchronize();
     return retval;
 }
 
@@ -235,6 +242,7 @@ CodeClassField * newCodeClassField(ClassifierCodeDocument *ccd, UMLAttribute *at
         default:
             break;
     }
+    retval->finishInitialization();
     return retval;
 }
 

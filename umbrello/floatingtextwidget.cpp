@@ -215,15 +215,16 @@ void FloatingTextWidget::changeName(QString newText)
                 break;
               default:
                 assoc->setName(QString::null);
+                m_pView->removeWidget(this);
                 break;
             }
         } else {
             MessageWidget *msg = dynamic_cast<MessageWidget*>(m_pLink);
             if (msg) {
                 msg->setName(QString::null);
+                m_pView->removeWidget(this);
             }
         }
-        m_pView->removeWidget(this);
         return;
     }
     if (m_pLink && m_Role != Uml::tr_Seq_Message && m_Role != Uml::tr_Seq_Message_Self) {

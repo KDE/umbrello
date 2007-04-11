@@ -52,7 +52,7 @@ void PetalNode::setAttributes(PetalNode::NameValueList vl) {
 }
 
 PetalNode::StringOrNode PetalNode::findAttribute(const QString& name) const {
-    for (uint i = 0; i < m_attributes.count(); i++) {
+    for (int i = 0; i < m_attributes.count(); i++) {
         if (m_attributes[i].first == name)
             return m_attributes[i].second;
     }

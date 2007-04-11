@@ -131,8 +131,6 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 }
 
 AssociationWidget::~AssociationWidget() {
-    cleanup();
-    removeAssocClassLine();
 }
 
 AssociationWidget& AssociationWidget::operator=(AssociationWidget & Other) {
@@ -358,48 +356,50 @@ void AssociationWidget::setName(const QString &strName) {
 
 }
 
-void AssociationWidget::setMulti(const QString &strMulti, Role_Type role) {
-    bool newLabel = false;
-    Text_Role tr = (role == A ? tr_MultiA : tr_MultiB);
-
-    if(!m_role[role].m_pMulti) {
-        // Don't construct the FloatingTextWidget if the string is empty.
-        if (strMulti.isEmpty())
-            return;
-
-        newLabel = true;
-        m_role[role].m_pMulti = new FloatingTextWidget(m_pView, tr, strMulti);
-        m_role[role].m_pMulti->setLink(this);
-        m_pView->addWidget(m_role[role].m_pMulti);
-    } else {
-        if (m_role[role].m_pMulti->getText().isEmpty()) {
-            newLabel = true;
+void AssociationWidget::setFloatingText(Uml::Text_Role tr,
+                                        const QString &text,
+                                        FloatingTextWidget* &ft) {
+    if (! FloatingTextWidget::isTextValid(text)) {
+        if (ft) {
+            // Remove preexisting FloatingTextWidget
+            m_pView->removeWidget(ft);  // physically deletes ft
+            ft = NULL;
         }
-        m_role[role].m_pMulti->setText(strMulti);
-        if (strMulti.isEmpty()) {
-            m_role[role].m_pMulti->hide();
-            m_role[role].m_pMulti = NULL;
-            return;
-        }
+        return;
     }
 
-    m_role[role].m_pMulti->setActivated();
+    bool newLabel = false;
+    if (ft == NULL) {
+        ft = new FloatingTextWidget(m_pView, tr, text);
+        ft->setLink(this);
+        m_pView->addWidget(ft);
+        newLabel = true;
+    } else {
+        if (ft->getText().isEmpty()) {
+            newLabel = true;
+        }
+        ft->setText(text);
+    }
+
+    ft->setActivated();
 
     if (newLabel) {
         setTextPosition( tr );
     }
 
-    if(FloatingTextWidget::isTextValid(m_role[role].m_pMulti->getText()))
-        m_role[role].m_pMulti -> show();
-    else
-        m_role[role].m_pMulti -> hide();
+    ft->show();
+}
+
+void AssociationWidget::setMulti(const QString &strMulti, Role_Type role) {
+    Text_Role tr = (role == A ? tr_MultiA : tr_MultiB);
+
+    setFloatingText(tr, strMulti, m_role[role].m_pMulti);
 
     if (m_pObject && m_pObject->getBaseType() == ot_Association)
         getAssociation()->setMulti(strMulti, role);
 }
 
 void AssociationWidget::setRoleName (const QString &strRole, Role_Type role) {
-    bool newLabel = false;
     Association_Type type = getAssocType();
     //if the association is not supposed to have a Role FloatingTextWidget
     if (!AssocRules::allowRole(type))  {
@@ -407,44 +407,21 @@ void AssociationWidget::setRoleName (const QString &strRole, Role_Type role) {
     }
 
     Text_Role tr = (role == A ? tr_RoleAName : tr_RoleBName);
-    if(!m_role[role].m_pRole) {
-        // Don't construct the FloatingTextWidget if the string is empty.
-        if (strRole.isEmpty())
-            return;
-
-        newLabel = true;
-        m_role[role].m_pRole = new FloatingTextWidget(m_pView, tr, strRole);
-        m_role[role].m_pRole->setLink(this);
-        m_pView->addWidget(m_role[role].m_pRole);
+    setFloatingText(tr, strRole, m_role[role].m_pRole);
+    if (m_role[role].m_pRole) {
         Uml::Visibility vis = getVisibility(role);
-        m_role[role].m_pRole->setPreText(vis.toString(true));
-    } else {
-        if (m_role[role].m_pRole->getText().isEmpty()) {
-            newLabel = true;
-        }
-        m_role[role].m_pRole->setText(strRole);
-        if (strRole.isEmpty()) {
-            m_role[role].m_pRole->hide();
-            m_role[role].m_pRole = NULL;
-            return;
+        if (FloatingTextWidget::isTextValid(m_role[role].m_pRole->getText())) {
+            m_role[role].m_pRole->setPreText(vis.toString(true));
+            //m_role[role].m_pRole->show();
+        } else {
+            m_role[role].m_pRole->setPreText("");
+            //m_role[role].m_pRole->hide();
         }
     }
 
     // set attribute of UMLAssociation associated with this associationwidget
     if (m_pObject && m_pObject->getBaseType() == ot_Association)
         getAssociation()->setRoleName(strRole, role);
-    m_role[role].m_RoleName = strRole;
-
-    m_role[role].m_pRole->setActivated();
-
-    if (newLabel) {
-        setTextPosition( tr );
-    }
-
-    if(FloatingTextWidget::isTextValid(m_role[role].m_pRole->getText()))
-        m_role[role].m_pRole -> show();
-    else
-        m_role[role].m_pRole -> hide();
 }
 
 void AssociationWidget::setRoleDoc (const QString &doc, Role_Type role) {
@@ -787,6 +764,7 @@ void AssociationWidget::cleanup() {
     }
 
     m_LinePath.cleanup();
+    removeAssocClassLine();
 }
 
 void AssociationWidget::setUMLAssociation (UMLAssociation * assoc)
@@ -877,26 +855,24 @@ void AssociationWidget::setAssocType(Association_Type type) {
     m_AssocType = type;
     m_LinePath.setAssocType(type);
     // If the association new type is not supposed to have Multiplicity
-    // FloatingTexts and a Role FloatingTextWidget then set the internal
-    // floating text pointers to null.
+    // FloatingTexts and a Role FloatingTextWidget then set the texts
+    // to empty.
+    // NB We do not physically delete the floatingtext widgets here because
+    // those widgets are also stored in the UMLView::m_WidgetList.
     if( !AssocRules::allowMultiplicity(type, getWidget(A)->getBaseType()) ) {
         if (m_role[A].m_pMulti) {
-            delete m_role[A].m_pMulti;
-            m_role[A].m_pMulti = NULL;
+            m_role[A].m_pMulti->setName("");
         }
         if (m_role[B].m_pMulti) {
-            delete m_role[B].m_pMulti;
-            m_role[B].m_pMulti = NULL;
+            m_role[B].m_pMulti->setName("");
         }
     }
     if( !AssocRules::allowRole( type ) ) {
         if (m_role[A].m_pRole) {
-            delete m_role[A].m_pRole;
-            m_role[A].m_pRole = NULL;
+            m_role[A].m_pRole->setName("");
         }
         if (m_role[B].m_pRole) {
-            delete m_role[B].m_pRole;
-            m_role[B].m_pRole = NULL;
+            m_role[B].m_pRole->setName("");
         }
         setRoleDoc("", A);
         setRoleDoc("", B);
@@ -2658,7 +2634,7 @@ void AssociationWidget::mouseMoveEvent(QMouseEvent* me) {
 
     // Prevent the moving vertex from disappearing underneath a widget
     // (else there's no way to get it back.)
-    UMLWidget *onW = m_pView->testOnWidget(p);
+    UMLWidget *onW = m_pView->getWidgetAt(p);
     if (onW && onW->getBaseType() != Uml::wt_Box) {  // boxes are transparent
         const int pX = p.x();
         const int pY = p.y();
@@ -3283,6 +3259,7 @@ void AssociationWidget::init (UMLView *view)
     m_role[B].m_Visibility = Uml::Visibility::Public;
     m_role[A].m_Changeability = Uml::chg_Changeable;
     m_role[B].m_Changeability = Uml::chg_Changeable;
+    m_positions_len = 0;
     m_bActivated = false;
     m_unNameLineSegment = 0;
     m_pMenu = 0;
@@ -3295,10 +3272,6 @@ void AssociationWidget::init (UMLView *view)
 
     // Initialize local members.
     // These are only used if we don't have a UMLAssociation attached.
-    m_role[A].m_Visibility = Uml::Visibility::Public;
-    m_role[B].m_Visibility = Uml::Visibility::Public;
-    m_role[A].m_Changeability = chg_Changeable;
-    m_role[B].m_Changeability = chg_Changeable;
     m_AssocType = Uml::at_Association;
     m_umldoc = UMLApp::app()->getDocument();
     m_LinePath.setAssociation( this );

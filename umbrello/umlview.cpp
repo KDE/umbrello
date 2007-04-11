@@ -305,7 +305,7 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
             QColor textColor(50, 50, 50);
             pPainter.setPen(textColor);
             pPainter.drawLine(0, height + 2, width, height + 2);
-            pPainter.drawTex t(0, height + 4, width, fontHeight, Qt::AlignLeft, string);
+            pPainter.drawText(0, height + 4, width, fontHeight, Qt::AlignLeft, string);
 
             if(pageX+1 < numPagesX || pageY+1 < numPagesY) {
                 pPrinter -> newPage();
@@ -712,7 +712,7 @@ ObjectWidget * UMLView::onWidgetDestructionBox( const QPoint &point ){
     return 0;
 }
 
-UMLWidget *UMLView::testOnWidget(QPoint p) {
+UMLWidget *UMLView::getWidgetAt(QPoint p) {
     int relativeSize = 10000;  // start with an arbitrary large number
     UMLWidget *obj, *retObj = NULL;
     UMLWidgetListIt it(m_WidgetList);
@@ -819,7 +819,7 @@ AssociationWidget * UMLView::findAssocWidget(UMLWidget *pWidgetA, UMLWidget *pWi
         assocTypes << Uml::at_Aggregation << Uml::at_Composition << Uml::at_Containment;
     }
     AssociationWidget* retval = NULL;
-    for (uint i=0; i < assocTypes.size(); ++i) {
+    for (int i = 0; i < assocTypes.size(); ++i) {
         retval = findAssocWidget(assocTypes[i], pWidgetA, pWidgetB);
         if (retval != NULL) return retval;
     }
@@ -1864,6 +1864,7 @@ void UMLView::removeAssoc(AssociationWidget* pAssoc) {
 
     emit sigAssociationRemoved(pAssoc);
 
+    pAssoc->cleanup();
     m_AssociationList.remove(pAssoc); // will delete our association
     m_pDoc->setModified();
 }

@@ -255,7 +255,7 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me) {
 
             if (m_inResizeArea) {
                 m_inResizeArea = false;
-                m_widget->m_pView->setCursor(KCursor::arrowCursor());
+                m_widget->m_pView->setCursor(Qt::ArrowCursor);
             } else {
                 m_inMoveArea = false;
             }
@@ -278,7 +278,7 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me) {
     }
 
     //TODO Copied from old code. Does it really work as intended?
-    UMLWidget *bkgnd = m_widget->m_pView->testOnWidget(me->pos());
+    UMLWidget *bkgnd = m_widget->m_pView->getWidgetAt(me->pos());
     if (bkgnd) {
         //kDebug() << "UMLWidgetController::mouseReleaseEvent: setting Z to "
         //    << bkgnd->getZ() + 1 << endl;
@@ -313,13 +313,13 @@ bool UMLWidgetController::isInResizeArea(QMouseEvent *me) {
         m_widget->m_pView->setCursor(getResizeCursor());
         return true;
     } else {
-        m_widget->m_pView->setCursor(KCursor::arrowCursor());
+        m_widget->m_pView->setCursor(Qt::ArrowCursor);
         return false;
     }
 }
 
 QCursor UMLWidgetController::getResizeCursor() {
-    return KCursor::sizeFDiagCursor();
+    return Qt::SizeFDiagCursor;
 }
 
 void UMLWidgetController::resizeWidget(int newW, int newH) {

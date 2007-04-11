@@ -41,7 +41,7 @@ ObjectWidgetController::~ObjectWidgetController() {
 }
 
 QCursor ObjectWidgetController::getResizeCursor() {
-    return KCursor::sizeHorCursor();
+    return Qt::SizeHorCursor;
 }
 
 void ObjectWidgetController::resizeWidget(int newW, int newH) {

@@ -25,8 +25,9 @@
 // Constructors/Destructors
 //
 
-RubyClassDeclarationBlock::RubyClassDeclarationBlock ( RubyClassifierCodeDocument * parentDoc, const QString &startText, const QString &endText, const QString &comment)
-        : OwnedHierarchicalCodeBlock((UMLObject*) parentDoc->getParentClassifier(), (CodeDocument*)parentDoc, startText, endText, comment)
+RubyClassDeclarationBlock::RubyClassDeclarationBlock
+ ( RubyClassifierCodeDocument * parentDoc, const QString &startText, const QString &endText, const QString &comment)
+        : OwnedHierarchicalCodeBlock(parentDoc->getParentClassifier(), parentDoc, startText, endText, comment)
 {
     init(parentDoc, comment);
 }
@@ -68,7 +69,7 @@ void RubyClassDeclarationBlock::loadFromXMI ( QDomElement & root )
 void RubyClassDeclarationBlock::updateContent ( )
 {
 
-    RubyClassifierCodeDocument *parentDoc = (RubyClassifierCodeDocument*)getParentDocument();
+    RubyClassifierCodeDocument *parentDoc = dynamic_cast<RubyClassifierCodeDocument*>(getParentDocument());
     UMLClassifier *c = parentDoc->getParentClassifier();
     CodeGenerationPolicy * p = UMLApp::app()->getCommonPolicy();
     QString endLine = p->getNewLineEndingChars();

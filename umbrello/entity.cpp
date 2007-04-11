@@ -97,9 +97,12 @@ UMLAttribute* UMLEntity::createAttribute(const QString &name /*=null*/) {
 UMLObject* UMLEntity::addEntityAttribute(const QString& name, Uml::IDType id) {
     UMLEntityAttribute* literal = new UMLEntityAttribute(this, name, id);
     m_List.append(literal);
-    emit modified();
-    connect(literal,SIGNAL(modified()),this,SIGNAL(modified()));
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    if (! umldoc->loading()) {
+        emit modified();
+    }
     emit entityAttributeAdded(literal);
+    connect(literal,SIGNAL(modified()),this,SIGNAL(modified()));
     return literal;
 }
 
@@ -109,9 +112,12 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* attribute, IDChangeLog* L
         attribute->parent()->removeChild(attribute);
         this->insertChild(attribute);
         m_List.append(attribute);
-        emit modified();
-        connect(attribute,SIGNAL(modified()),this,SIGNAL(modified()));
+        UMLDoc *umldoc = UMLApp::app()->getDocument();
+        if (! umldoc->loading()) {
+            emit modified();
+        }
         emit entityAttributeAdded(attribute);
+        connect(attribute,SIGNAL(modified()),this,SIGNAL(modified()));
         return true;
     } else if (Log) {
         Log->removeChangeByNewID( attribute->getID() );
@@ -130,9 +136,12 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* attribute, int position) 
         } else {
             m_List.append(attribute);
         }
-        emit modified();
-        connect(attribute,SIGNAL(modified()),this,SIGNAL(modified()));
+        UMLDoc *umldoc = UMLApp::app()->getDocument();
+        if (! umldoc->loading()) {
+            emit modified();
+        }
         emit entityAttributeAdded(attribute);
+        connect(attribute,SIGNAL(modified()),this,SIGNAL(modified()));
         return true;
     }
     return false;
@@ -143,7 +152,10 @@ int UMLEntity::removeEntityAttribute(UMLClassifierListItem* literal) {
         kDebug() << "can't find att given in list" << endl;
         return -1;
     }
-    emit entityAttributeRemoved(literal);
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    if (! umldoc->loading()) {
+        emit entityAttributeRemoved(literal);
+    }
     emit modified();
     // If we are deleting the object, then we don't need to disconnect..this is done auto-magically
     // for us by QObject. -b.t.

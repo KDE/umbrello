@@ -14,6 +14,8 @@
 #include <kmessagebox.h>
 
 #include "assocrules.h"
+#include "uml.h"
+#include "umlview.h"
 #include "umlwidget.h"
 #include "umlobject.h"
 #include "associationwidgetlist.h"
@@ -47,7 +49,13 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
         }
     }
     if( !bValid ) {
-        return false;
+        // Special case: Subsystem realizes interface in component diagram
+        UMLView *view = UMLApp::app()->getCurrentView();
+        if (view && view->getType() == dt_Component && widgetType == wt_Package &&
+            (assocType == at_Generalization || assocType == at_Realization))
+            bValid = true;
+        else
+            return false;
     }
     AssociationWidgetList list = widget -> getAssocList();
     AssociationWidgetListIt it( list );
@@ -281,7 +289,8 @@ Association_Type AssocRules::isGeneralisationOrRealisation(UMLWidget* widgetA, U
 }
 
 AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
-    //  Association     widgetA         widgetB         role    multiplicity    directional     self
+    //  Association     widgetA         widgetB         role    multi   directional  self
+    //---------------+----------------+----------------+-------+-------+-------+---------
     { at_Association_Self,wt_Class,     wt_Class,       true,   true,   true,   true  },
     { at_Association_Self,wt_Object,    wt_Object,      true,   true,   true,   true  },
     { at_Association_Self,wt_Interface, wt_Interface,   true,   true,   true,   true  },
@@ -316,6 +325,7 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
     { at_Generalization,wt_Interface,   wt_Interface,   false,  false,  false,  false },
     { at_Generalization,wt_UseCase,     wt_UseCase,     false,  false,  false,  false },
     { at_Generalization,wt_Actor,       wt_Actor,       false,  false,  false,  false },
+    { at_Generalization,wt_Component,   wt_Interface,   false,  false,  false,  false },
     { at_Aggregation,   wt_Class,       wt_Class,       true,   true,   false,  true  },
     { at_Aggregation,   wt_Class,       wt_Interface,   true,   true,   false,  false },
     { at_Aggregation,   wt_Class,       wt_Enum,        true,   true,   false,  false },
@@ -341,6 +351,8 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
     { at_Realization,   wt_Class,       wt_Interface,   false,  false,  false,  false },
     { at_Realization,   wt_Interface,   wt_Package,     false,  false,  false,  false },
     { at_Realization,   wt_Interface,   wt_Interface,   false,  false,  false,  false },
+    { at_Realization,   wt_Component,   wt_Interface,   false,  false,  false,  false },
+    { at_Realization,   wt_Package,     wt_Interface,   false,  false,  false,  false },
     { at_Composition,   wt_Class,       wt_Class,       true,   true,   false,  true  },
     { at_Composition,   wt_Class,       wt_Interface,   true,   true,   false,  false },
     { at_Composition,   wt_Class,       wt_Enum,        true,   true,   false,  false },
@@ -390,7 +402,7 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
     { at_Anchor,        wt_Message,     wt_Note,        false,  false,  false,  false },
     { at_Anchor,        wt_State,       wt_Note,        false,  false,  false,  false },
     { at_Anchor,        wt_Activity,    wt_Note,        false,  false,  false,  false },
-    { at_Relationship,  wt_Entity,      wt_Entity,      true,   false,  true,   false },
+    { at_Relationship,  wt_Entity,      wt_Entity,      true,   true,   true,   true  },
     { at_Exception,     wt_Activity,    wt_Activity,    true,   false,  true,   true  },
     { at_Exception,     wt_Activity,    wt_Signal,      true,   false,  true,   true  },
     { at_Exception,     wt_Signal,      wt_Activity,    true,   false,  true,   true  },

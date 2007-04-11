@@ -556,20 +556,6 @@ public slots:
      */
     void slotEditPaste();
 
-    // #if !KDE_IS_VERSION(3,1,90)
-    /**
-     * Toggles the toolbar.
-     * Deprecated. For compatibility with KDE 3.1, remove if we stop supporting KDE 3.1
-     */
-    void slotViewToolBar();
-
-    /**
-     * Toggles the statusbar.
-     * Deprecated. For compatibility with KDE 3.1, remove if we stop supporting KDE 3.1
-     */
-    void slotViewStatusBar();
-    // #endif
-
     /**
      * Changes the statusbar contents for the standard label
      * permanently, used to indicate current actions.

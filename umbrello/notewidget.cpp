@@ -182,7 +182,8 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
 
     UMLWidget::setPen(p);
     if ( UMLWidget::getUseFillColour() ) {
-        p.setBrush( UMLWidget::getFillColour() );
+        QBrush brush( UMLWidget::getFillColour() );
+        p.setBrush(brush);
         p.drawPolygon(poly);
 #if defined (NOTEWIDGET_EMBED_EDITOR)
         m_pEditor->setPaper(brush);
@@ -288,9 +289,9 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
     p->setFont( font );
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
-
-
-
+    QString text = getDoc();
+    if( text.length() == 0 )
+        return;
     QString word = "";
     QString fullLine = "";
     QString testCombineLine = "";
@@ -304,11 +305,11 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
 
 
  //   QString text = getDoc();
-	QString text = l_Type + "\n" + m_Text;
+    //QString text = l_Type + "\n" + m_Text;
     if( text.length() == 0 )
         return;
 
-    for (uint i = 0; i <= text.length(); i++) {
+    for (int i = 0; i <= text.length(); i++) {
         if (i < text.length()) {
             c = text[i];
         } else {

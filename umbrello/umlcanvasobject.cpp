@@ -69,8 +69,8 @@ bool UMLCanvasObject::addAssociationEnd(UMLAssociation* assoc) {
         UMLDoc *umldoc = UMLApp::app()->getDocument();
         if (! umldoc->loading()) {
             emit modified();
-            emit sigAssociationEndAdded(assoc);
         }
+        emit sigAssociationEndAdded(assoc);
         return true;
     }
     return false;

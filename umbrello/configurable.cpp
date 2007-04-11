@@ -46,7 +46,7 @@ Configurable::loadPlugins(KConfig *config,
     bool ret = true;
 
     QStringList names = config->readEntry(key,QStringList());
-    for(uint i = 0; i != names.size(); i++) {
+    for (int i = 0; i != names.size(); i++) {
         const QString &name = names[i];
 
         kDebug() << "loading plugin " << name << endl;

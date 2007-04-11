@@ -100,7 +100,7 @@ void ToolBarState::mouseRelease(QMouseEvent* ome) {
 void ToolBarState::mouseDoubleClick(QMouseEvent* ome) {
     setMouseEvent(ome, QEvent::MouseButtonDblClick);
 
-    UMLWidget* currentWidget = m_pUMLView->testOnWidget(m_pMouseEvent->pos());
+    UMLWidget* currentWidget = m_pUMLView->getWidgetAt(m_pMouseEvent->pos());
     AssociationWidget* currentAssociation = getAssociationAt(m_pMouseEvent->pos());
     if (currentWidget) {
         setCurrentWidget(currentWidget);
@@ -191,7 +191,7 @@ void ToolBarState::setCurrentElement() {
     }
 
     // Check widgets.
-    UMLWidget *widget = m_pUMLView->testOnWidget(m_pMouseEvent->pos());
+    UMLWidget *widget = m_pUMLView->getWidgetAt(m_pMouseEvent->pos());
     if (widget) {
         setCurrentWidget(widget);
         return;

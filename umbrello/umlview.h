@@ -884,7 +884,7 @@ public:
      * Returns NULL if the point is not inside any widget.
      * Does not use or modify the m_pOnWidget member.
      */
-    UMLWidget *testOnWidget(QPoint p);
+    UMLWidget *getWidgetAt(QPoint p);
 
     /**
      * Initialize and announce a newly created widget.

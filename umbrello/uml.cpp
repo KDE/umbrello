@@ -555,6 +555,7 @@ void UMLApp::initView() {
 //     setMainWidget(m_);
 
     m_listDock = new QDockWidget( i18n("&Tree View"), this );
+    m_listDock->setObjectName("TreeViewDock");
     addDockWidget(Qt::LeftDockWidgetArea, m_listDock);
     m_listView = new UMLListView(m_listDock ,"LISTVIEW");
     //m_listView->setSorting(-1);
@@ -562,7 +563,9 @@ void UMLApp::initView() {
     m_listView->init();
     m_listDock->setWidget(m_listView);
 
-    m_documentationDock = new QDockWidget( i18n("D&ocumentation"), this );
+    m_documentationDock = new QDockWidget( i18n("Doc&umentation"), this );
+    m_documentationDock->setObjectName("DocumentationDock");
+
     addDockWidget(Qt::LeftDockWidgetArea, m_documentationDock);
     m_pDocWindow = new DocWindow(m_doc, m_documentationDock, "DOCWINDOW");
     m_documentationDock->setWidget(m_pDocWindow);
@@ -570,6 +573,7 @@ void UMLApp::initView() {
     m_doc->setupSignals();//make sure gets signal from list view
 
     m_cmdHistoryDock = new QDockWidget(i18n("Co&mmand history"), this);
+    m_cmdHistoryDock->setObjectName("CmdHistoryDock");
     addDockWidget(Qt::LeftDockWidgetArea, m_cmdHistoryDock);
     // create cmd history view
     m_pQUndoView = new QUndoView(m_cmdHistoryDock);
@@ -578,11 +582,11 @@ void UMLApp::initView() {
     m_pQUndoView->setStack(m_pUndoStack);
     
     // Create the property viewer
-    m_propertyDock = new QDockWidget(i18n("&Properties"), this);
-    addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);
+    //m_propertyDock = new QDockWidget(i18n("&Properties"), this);
+    //addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);
     
     tabifyDockWidget(m_documentationDock, m_cmdHistoryDock);
-    tabifyDockWidget(m_cmdHistoryDock, m_propertyDock);
+    //tabifyDockWidget(m_cmdHistoryDock, m_propertyDock);
     
     QByteArray dockConfig;
     KConfigGroup general( m_config, "General Options" );
@@ -976,49 +980,17 @@ void UMLApp::slotEditPaste() {
     slotStatusMsg(i18n("Inserting clipboard contents..."));
     QMimeSource* data = QApplication::clipboard()->data();
     UMLClipboard clipboard;
-    setCursor(KCursor::waitCursor());
+    setCursor(Qt::WaitCursor);
     if(!clipboard.paste(data)) {
         KMessageBox::sorry( this, i18n("Umbrello could not paste the clipboard contents.  "
                                        "The objects in the clipboard may be of the wrong "
                                        "type to be pasted here."), i18n("Paste Error") );
     }
     slotStatusMsg(i18n("Ready."));
-    setCursor(KCursor::arrowCursor());
+    setCursor(Qt::ArrowCursor);
     editPaste->setEnabled(false);
     m_doc -> setModified( true );
 }
-
-//Remove these once we stop supporting KDE 3.1
-// #if !KDE_IS_VERSION(3,1,90)
-
-void UMLApp::slotViewToolBar() {
-    slotStatusMsg(i18n("Toggling toolbar..."));
-
-    ///////////////////////////////////////////////////////////////////
-    // turn Toolbar on or off
-
-    if(!viewToolBar->isChecked()) {
-        toolBar("mainToolBar")->hide();
-    } else {
-        toolBar("mainToolBar")->show();
-    }
-
-    slotStatusMsg(i18n("Ready."));
-}
-
-void UMLApp::slotViewStatusBar() {
-    slotStatusMsg(i18n("Toggle the statusbar..."));
-    ///////////////////////////////////////////////////////////////////
-    //turn Statusbar on or off
-    if(!viewStatusBar->isChecked()) {
-        statusBar()->hide();
-    } else {
-        statusBar()->show();
-    }
-
-    slotStatusMsg(i18n("Ready."));
-}
-// #endif
 
 
 void UMLApp::slotStatusMsg(const QString &text) {
