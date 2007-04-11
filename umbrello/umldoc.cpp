@@ -999,6 +999,7 @@ UMLView* UMLDoc::createDiagram(UMLFolder *folder, Diagram_Type type, bool askFor
             KMessageBox::error(0, i18n("A diagram is already using that name."), i18n("Not a Unique Name"));
         }
     }//end while
+    return 0;
 }
 
 void UMLDoc::renameDiagram(Uml::IDType id) {

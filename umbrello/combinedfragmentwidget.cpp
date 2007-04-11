@@ -227,7 +227,7 @@ CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::getCombined
         return (CombinedFragmentWidget::Ass);
     if(type == "Alternative")
         return (CombinedFragmentWidget::Alt);
-    if(type == "Parallel")
+//    if(type == "Parallel")
         return (CombinedFragmentWidget::Par);
 
 }

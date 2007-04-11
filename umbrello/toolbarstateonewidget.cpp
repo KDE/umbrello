@@ -145,6 +145,9 @@ Uml::Widget_Type ToolBarStateOneWidget::getWidgetType() {
     if (getButton() == WorkToolBar::tbb_Pin) {
         return Uml::wt_Pin;
     }
+
+    //return something
+    return Uml::wt_Pin;
 }
 
 
