@@ -19,6 +19,6 @@ enum {
 	IdResizeWidget
 };
 
-};
+}
 
 #endif // __CMD_ID__

@@ -130,7 +130,6 @@ set(libdialogs_SRCS
 	dialogs/notedialog.cpp
         dialogs/objectnodedialog.cpp
 	dialogs/importprojectdlg.cpp
-	dialogs/notedialog.cpp 
 	dialogs/overwritedialogue.cpp 
 	dialogs/pkgcontentspage.cpp 
 	dialogs/parmpropdlg.cpp 
