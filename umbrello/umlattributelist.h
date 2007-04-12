@@ -14,8 +14,7 @@
 
 #include <q3ptrlist.h>
 
-// forward declaration
-class UMLAttribute;
+#include "attribute.h"
 
 //typedef QPtrList<UMLAttribute> UMLAttributeList;
 typedef Q3PtrListIterator<UMLAttribute> UMLAttributeListIt;
