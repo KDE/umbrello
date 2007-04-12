@@ -12,8 +12,6 @@
 #ifndef UMLVIEW_H
 #define UMLVIEW_H
 
-#include <config.h>
-
 // system includes
 #include <kurl.h>
 #include <qdom.h>

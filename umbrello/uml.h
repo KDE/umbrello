@@ -12,8 +12,6 @@
 #ifndef UML_H
 #define UML_H
 
-#include <config.h>
-
 #include "umlnamespace.h"
 
 #include <qmap.h>

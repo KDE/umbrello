@@ -12,8 +12,6 @@
 #ifndef UMLDOC_H
 #define UMLDOC_H
 
-#include <config.h>
-
 // system includes
 #include <typeinfo>
 
