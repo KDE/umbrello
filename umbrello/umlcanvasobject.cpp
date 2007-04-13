@@ -5,12 +5,20 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
+
+// own header
+#include "umlcanvasobject.h"
+
+// qt/kde includes
+#include <kdebug.h>
+#include <klocale.h>
+
+// local includes
 #include "uml.h"
 #include "umldoc.h"
-#include "umlcanvasobject.h"
 #include "classifier.h"
 #include "association.h"
 #include "attribute.h"
@@ -18,8 +26,6 @@
 #include "template.h"
 #include "stereotype.h"
 #include "clipboard/idchangelog.h"
-#include <kdebug.h>
-#include <klocale.h>
 
 UMLCanvasObject::UMLCanvasObject(const QString & name, Uml::IDType id)
         : UMLObject(name, id)
@@ -66,10 +72,7 @@ bool UMLCanvasObject::addAssociationEnd(UMLAssociation* assoc) {
         m_List.append( assoc );
 
         // Don't emit signals during load from XMI
-        UMLDoc *umldoc = UMLApp::app()->getDocument();
-        if (! umldoc->loading()) {
-            emit modified();
-        }
+        UMLObject::emitModified();
         emit sigAssociationEndAdded(assoc);
         return true;
     }
@@ -88,7 +91,7 @@ int UMLCanvasObject::removeAssociationEnd(UMLAssociation * assoc) {
             << "can't find given assoc in list" << endl;
         return -1;
     }
-    emit modified();
+    UMLObject::emitModified();
     emit sigAssociationEndRemoved(assoc);
     return m_List.count();
 }

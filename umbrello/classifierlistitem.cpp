@@ -5,14 +5,18 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
+// own header
+#include "classifierlistitem.h"
+
+// qt/kde includes
 #include <kdebug.h>
 #include <klocale.h>
 
-#include "classifierlistitem.h"
+// local includes
 #include "classifier.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -65,9 +69,7 @@ QString UMLClassifierListItem::getTypeName() {
 void UMLClassifierListItem::setType(UMLObject *type) {
     if (m_pSecondary != type) {
         m_pSecondary = type;
-        UMLDoc *umldoc = UMLApp::app()->getDocument();
-        if (! umldoc->loading())
-            emit modified();
+        UMLObject::emitModified();
     }
 }
 
@@ -89,9 +91,7 @@ void UMLClassifierListItem::setTypeName(const QString &type) {
             m_SecondaryId = type;
         }
     }
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-    if (! umldoc->loading())
-        emit modified();
+    UMLObject::emitModified();
 }
 
 
