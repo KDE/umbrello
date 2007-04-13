@@ -94,16 +94,12 @@ bool UMLObject::acceptAssociationType(Uml::Association_Type)
 
 void UMLObject::setID(Uml::IDType NewID) {
     m_nId = NewID;
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-    if (! umldoc->loading())
-        emit modified();
+    emitModified();
 }
 
 void UMLObject::setName(const QString &strName) {
     m_Name = strName;
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-    if (! umldoc->loading())
-        emit modified();
+    emitModified();
 }
 
 QString UMLObject::getName() const {
@@ -215,9 +211,7 @@ bool UMLObject::getAbstract() const{
 
 void UMLObject::setAbstract(bool bAbstract) {
     m_bAbstract = bAbstract;
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-    if (! umldoc->loading())
-        emit modified();
+    emitModified();
 }
 
 void UMLObject::setInPaste(bool bInPaste /* =true */) {
@@ -233,9 +227,7 @@ bool UMLObject::getStatic() const
 void UMLObject::setStatic(bool bStatic)
 {
     m_bStatic = bStatic;
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-    if (! umldoc->loading())
-        emit modified();
+    emitModified();
 }
 
 void UMLObject::emitModified()
@@ -272,9 +264,7 @@ Uml::Visibility UMLObject::getVisibility() const {
 
 void UMLObject::setVisibility(Uml::Visibility s) {
     m_Vis = s;
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-    if (! umldoc->loading())
-        emit modified();
+    emitModified();
 }
 
 void UMLObject::setUMLStereotype(UMLStereotype *stereo) {
@@ -293,9 +283,7 @@ void UMLObject::setUMLStereotype(UMLStereotype *stereo) {
     }
     m_pStereotype = stereo;
     // TODO: don't emit modified() if predefined folder
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-    if (! umldoc->loading())
-        emit modified();
+    emitModified();
 }
 
 void UMLObject::setStereotype(const QString &_name) {
@@ -333,9 +321,7 @@ void UMLObject::setPackage(const QString &_name) {
 
 void UMLObject::setUMLPackage(UMLPackage* pPkg) {
     m_pUMLPackage = pPkg;
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-    if (! umldoc->loading())
-        emit modified();
+    emitModified();
 }
 
 const UMLStereotype * UMLObject::getUMLStereotype() {

@@ -649,10 +649,16 @@ UMLOperationList UMLClassifier::getOpList(bool includeInherited) {
             ops.append(static_cast<UMLOperation*>(li));
     }
     if (includeInherited) {
-        UMLClassifierList parents(findSuperClassConcepts());
-        for (UMLClassifierListIt pit(parents); pit.current(); ++pit) {
+        UMLClassifierList parents = findSuperClassConcepts();
+        UMLClassifier *c;
+        for (UMLClassifierListIt pit(parents); (c = pit.current()) != NULL; ++pit) {
+            if (c == this) {
+                kError() << "UMLClassifier::getOpList: class " << c->getName()
+                    << " is parent of itself ?!?" << endl;
+                continue;
+            }
             // get operations for each parent by recursive call
-            UMLOperationList pops = pit.current()->getOpList(true);
+            UMLOperationList pops = c->getOpList(true);
             // add these operations to operation list, but only if unique.
             for (UMLOperation *po = pops.first(); po; po = pops.next()) {
                 QString po_as_string(po->toString(Uml::st_SigNoVis));
