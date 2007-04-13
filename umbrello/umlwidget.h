@@ -83,16 +83,6 @@ public:
     virtual bool operator==(const UMLWidget& other);
 
     /**
-    * Write property of m_nId.
-    */
-    void setID( Uml::IDType id );
-
-    /**
-    * Read property of m_nId.
-    */
-    Uml::IDType getID() const;
-
-    /**
      * Calls the method with the same name in UMLWidgetController.
      * @see UMLWidgetController#mouseReleaseEvent
      *
@@ -592,13 +582,6 @@ protected:
     void init();
 
     ///////////////// Data Loaded/Saved /////////////////////////////////
-
-    /**
-     * This ID is only used when the UMLWidget does not have a
-     * corresponding UMLObject (i.e. the m_pObject pointer is NULL.)
-     * For UML objects, the ID from the UMLObject is used.
-     */
-    Uml::IDType m_nId;
 
     /**
      * This flag indicates if the UMLWidget uses the Diagram FillColour

@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -53,6 +53,23 @@ UMLObject *WidgetBase::getUMLObject() {
 
 void WidgetBase::setUMLObject(UMLObject * o) {
     m_pObject = o;
+}
+
+void WidgetBase::setID(Uml::IDType id) {
+    if (m_pObject) {
+        if (m_pObject->getID() != Uml::id_None)
+            kWarning() << "WidgetBase::setID(): changing old UMLObject "
+            << ID2STR(m_pObject->getID()) << " to "
+            << ID2STR(id) << endl;
+        m_pObject->setID(id);
+    }
+    m_nId = id;
+}
+
+Uml::IDType WidgetBase::getID() const {
+    if (m_pObject)
+        return m_pObject->getID();
+    return m_nId;
 }
 
 QString WidgetBase::getDoc() const {

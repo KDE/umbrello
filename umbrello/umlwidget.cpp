@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -165,23 +165,6 @@ bool UMLWidget::operator==(const UMLWidget& other) {
     if(m_nY != other.m_nY)
         return false;
      */
-}
-
-void UMLWidget::setID(Uml::IDType id) {
-    if (m_Type != wt_Text && m_pObject && m_pObject->getBaseType() == ot_Association) {
-        if (m_pObject->getID() != Uml::id_None)
-            kWarning() << "UMLWidget::setID(): changing old UMLObject "
-            << ID2STR(m_pObject->getID()) << " to "
-            << ID2STR(id) << endl;
-        m_pObject->setID( id );
-    }
-    m_nId = id;
-}
-
-Uml::IDType UMLWidget::getID() const {
-    if (m_Type != wt_Text && m_pObject && m_pObject->getBaseType() == ot_Association)
-        return m_pObject->getID();
-    return m_nId;
 }
 
 void UMLWidget::mouseMoveEvent(QMouseEvent* me) {

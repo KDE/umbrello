@@ -1383,21 +1383,21 @@ void UMLView::activate() {
 
     }//end while
 
-    //Activate All associationswidgets
-    AssociationWidgetListIt assoc_it( m_AssociationList );
-    AssociationWidget *assocwidget;
-    //first get total count
-    while((assocwidget = assoc_it.current())) {
-        ++assoc_it;
-        if( assocwidget->isActivated() )
-            continue;
-        assocwidget->activate();
-        if( m_PastePoint.x() != 0 ) {
-            int x = m_PastePoint.x() - m_Pos.x();
-            int y = m_PastePoint.y() - m_Pos.y();
-            assocwidget -> moveEntireAssoc( x, y );
+    // Activate all association widgets
+    AssociationWidget *aw;
+    for (AssociationWidgetListIt ait(m_AssociationList);
+            (aw = ait.current()); ++ait) {
+        if (aw->activate()) {
+            if (m_PastePoint.x() != 0) {
+                int x = m_PastePoint.x() - m_Pos.x();
+                int y = m_PastePoint.y() - m_Pos.y();
+                aw->moveEntireAssoc(x, y);
+            }
+        } else {
+            m_AssociationList.remove(aw);
+            delete aw;
         }
-    }//end while
+    }
 }
 
 int UMLView::getSelectCount(bool filterText) const {
