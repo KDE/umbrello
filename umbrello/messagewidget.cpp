@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -404,12 +404,12 @@ void MessageWidget::slotMenuSelection(int sel) {
     }
 }
 
-void MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
+bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
     m_pView->resetPastePoint();
     UMLWidget::activate(Log);
     if (m_pOw[Uml::A] == NULL || m_pOw[Uml::B] == NULL) {
         kDebug() << "MessageWidget::activate: can't make message" << endl;
-        return;
+        return false;
     }
     if( !m_pFText ) {
         Uml::Text_Role tr = Uml::tr_Seq_Message;
@@ -434,6 +434,7 @@ void MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
     calculateDimensions();
 
     emit sigMessageMoved();
+    return true;
 }
 
 void MessageWidget::setMessageText(FloatingTextWidget *ft) {

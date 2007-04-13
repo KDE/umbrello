@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -214,7 +214,7 @@ public:
      * Activates a MessageWidget.  Connects its m_pOw[] pointers
      * to UMLObjects and also send signals about its FloatingTextWidget.
      */
-    void activate(IDChangeLog * Log = 0);
+    bool activate(IDChangeLog * Log = 0);
 
     /**
      * Calculates the size of the widget by calling

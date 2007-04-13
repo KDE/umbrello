@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -195,8 +195,9 @@ public:
      * Activate the object after serializing it from a QDataStream
      *
      * @param ChangeLog
+     * @return  true for success
      */
-    virtual void activate(IDChangeLog* ChangeLog = 0);
+    virtual bool activate(IDChangeLog* ChangeLog = 0);
 
     /**
      * Returns 0 if the given point is not in the boundaries of the widget,

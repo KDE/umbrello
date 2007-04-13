@@ -1362,8 +1362,12 @@ void UMLView::activate() {
         if(obj->isActivated() || obj->getBaseType() == wt_Message)
             continue;
 
-        obj->activate();
-        obj->setVisible( true );
+        if (obj->activate()) {
+            obj->setVisible(true);
+        } else {
+            m_WidgetList.remove(obj);
+            delete obj;
+        }
     }//end while
 
     MessageWidgetListIt it2( m_MessageList );

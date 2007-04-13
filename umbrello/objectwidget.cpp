@@ -162,11 +162,13 @@ void ObjectWidget::setMultipleInstance(bool multiple) {
     update();
 }
 
-void ObjectWidget::activate(IDChangeLog* ChangeLog /*= 0*/) {
-    UMLWidget::activate(ChangeLog);
+bool ObjectWidget::activate(IDChangeLog* ChangeLog /*= 0*/) {
+    if (! UMLWidget::activate(ChangeLog))
+        return false;
     if (m_bShowDestruction && m_pLine)
         m_pLine->setupDestructionBox();
     moveEvent(0);
+    return true;
 }
 
 void ObjectWidget::setX( int x ) {

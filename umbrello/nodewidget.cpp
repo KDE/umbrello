@@ -5,24 +5,30 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
+// own header
 #include "nodewidget.h"
-#include "node.h"
-#include "umlview.h"
-#include <kdebug.h>
+
+// qt/kde includes
 #include <qpainter.h>
+#include <kdebug.h>
+
+// app includes
+#include "node.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlview.h"
 
 NodeWidget::NodeWidget(UMLView * view, UMLNode *n )
   : UMLWidget(view, n) {
     UMLWidget::setBaseType(Uml::wt_Node);
     setZ(m_origZ = 1);  // above box but below UMLWidget because may embed widgets
-    updateComponentSize();
-    update();
     setSize(100, 30);
-    updateComponentSize();
+    if (n && !UMLApp::app()->getDocument()->loading())
+        updateComponentSize();
 }
 
 NodeWidget::~NodeWidget() {}

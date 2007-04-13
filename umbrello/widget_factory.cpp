@@ -141,6 +141,8 @@ UMLWidget *createWidget(UMLView *view, UMLObject *o) {
 }
 
 bool validateObjType(Uml::Object_Type expected, UMLObject *o) {
+    if (o == NULL)
+        return true;  // cannot validate
     Uml::Object_Type actual = o->getBaseType();
     if (actual == expected)
         return true;
@@ -180,9 +182,8 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         UMLDoc *umldoc = UMLApp::app()->getDocument();
         UMLObject *o = umldoc->findObjectById(id);
         if (o == NULL) {
-            kError() << "makeWidgetFromXMI: cannot find object with id "
+            kDebug() << "makeWidgetFromXMI: cannot find object with id "
                       << ID2STR(id) << endl;
-            return NULL;
         }
 
         if (tag == "actorwidget"
