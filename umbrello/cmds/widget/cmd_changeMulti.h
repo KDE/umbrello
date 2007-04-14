@@ -21,23 +21,23 @@
 #include "umlrole.h"
 namespace Uml
 {
-	class cmdChangeMulti: public QUndoCommand
-	{
-		/* Object selected */
-		UMLRole *UMLr;
-		
-		/* Old multiplicity */
-		QString oldMulti;
-		
-		/* New multiplicity */
-		QString newMulti;
-		
-		
-	public:
-		cmdChangeMulti(UMLRole *role,const QString &multi);
-		void redo();
-		void undo();
-	};
+    class cmdChangeMulti: public QUndoCommand
+    {
+        /* Object selected */
+        UMLRole *UMLr;
+
+        /* Old multiplicity */
+        QString oldMulti;
+
+        /* New multiplicity */
+        QString newMulti;
+
+
+    public:
+        cmdChangeMulti(UMLRole *role,const QString &multi);
+        void redo();
+        void undo();
+    };
 
 }
 

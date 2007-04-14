@@ -8,7 +8,7 @@
  *  copyright (C) 2002-2006                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
- 
+
  /* Created By Krzywda Stanislas and Bouchikhi Mohamed-Amine ;) */
 
 #include "cmd_changeFillColor.h"
@@ -33,24 +33,24 @@
 
 namespace Uml
 {
-	cmdChangeFillColor::cmdChangeFillColor(UMLWidget *w, QColor col):UMLw(w),color(col)
-	{
-		setText(i18n("Change Fill Color")+ w->getName());
-		oldColor= w -> getFillColor() ;
-	}
+    cmdChangeFillColor::cmdChangeFillColor(UMLWidget *w, QColor col):UMLw(w),color(col)
+    {
+        setText(i18n("Change Fill Color")+ w->getName());
+        oldColor= w -> getFillColor() ;
+    }
 
-	cmdChangeFillColor::~cmdChangeFillColor()
-	{
+    cmdChangeFillColor::~cmdChangeFillColor()
+    {
 
-	}
-	void cmdChangeFillColor::redo()
-	{
-		UMLw -> setFillColourcmd( color );
-	}
-	
-	void cmdChangeFillColor::undo()
-	{	
-		
-		UMLw -> setFillColourcmd( oldColor );
-	}
+    }
+    void cmdChangeFillColor::redo()
+    {
+        UMLw -> setFillColourcmd( color );
+    }
+
+    void cmdChangeFillColor::undo()
+    {
+
+        UMLw -> setFillColourcmd( oldColor );
+    }
 }

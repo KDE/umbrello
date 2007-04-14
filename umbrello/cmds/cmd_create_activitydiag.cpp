@@ -22,19 +22,19 @@ namespace Uml
     {
         setText(i18n("Create activity diagram"));
     }
-    
+
     cmdCreateActivityDiag::~cmdCreateActivityDiag()
     {
         if(m_pUMLView)
             delete m_pUMLView;
     }
-    
+
     void cmdCreateActivityDiag::redo()
     {
         UMLFolder* temp = m_pUMLDoc->getRootFolder(Uml::mt_Logical);
         m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::dt_Activity);
     }
-    
+
     void cmdCreateActivityDiag::undo()
     {
         if(m_pUMLView)

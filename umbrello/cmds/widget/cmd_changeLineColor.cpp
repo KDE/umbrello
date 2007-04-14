@@ -9,8 +9,8 @@
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
- 
- 
+
+
 #include "cmd_changeLineColor.h"
 
 #include "uml.h"
@@ -35,32 +35,32 @@
 namespace Uml
 {
 
-	/*cmdChangeLineColor::cmdChangeLineColor(UMLView *view, QColor col)
-	{
-		setText(i18n("Change Line Color"));
-		UMLWidget * widget = view->getFirstMultiSelectedWidget();
-		pView=view;
-		color = col;
-		oldColor=widget -> getLineColor() ;
-	}*/
+    /*cmdChangeLineColor::cmdChangeLineColor(UMLView *view, QColor col)
+    {
+        setText(i18n("Change Line Color"));
+        UMLWidget * widget = view->getFirstMultiSelectedWidget();
+        pView=view;
+        color = col;
+        oldColor=widget -> getLineColor() ;
+    }*/
 
 cmdChangeLineColor::cmdChangeLineColor(UMLWidget *w, QColor col):UMLw(w),color(col)
-{	
-	setText(i18n("Change Line Color") + w->getName());
-	oldColor= w -> getLineColor() ;
+{
+    setText(i18n("Change Line Color") + w->getName());
+    oldColor= w -> getLineColor() ;
 
 }
-	cmdChangeLineColor::~cmdChangeLineColor()
-	{
-	}
-	void cmdChangeLineColor::redo()
-	{
+    cmdChangeLineColor::~cmdChangeLineColor()
+    {
+    }
+    void cmdChangeLineColor::redo()
+    {
 
-		UMLw -> setLineColorcmd( color );
-	}
-	
-	void cmdChangeLineColor::undo()
-	{	
-		UMLw -> setLineColorcmd( oldColor );
-	}
+        UMLw -> setLineColorcmd( color );
+    }
+
+    void cmdChangeLineColor::undo()
+    {
+        UMLw -> setLineColorcmd( oldColor );
+    }
 }

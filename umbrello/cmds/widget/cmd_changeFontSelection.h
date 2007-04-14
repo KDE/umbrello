@@ -18,19 +18,19 @@
 
 namespace Uml
 {
-	class cmdChangeFontSelection: public QUndoCommand
-	{
-		public:
-			cmdChangeFontSelection(UMLDoc * doc,UMLView *view,QFont fon);
-			void undo();
-			void redo();
-		
-		private:
-			UMLDoc *pDoc;
-			UMLView *pView;
-			
-			QFont newFont;
-			QFont oldFont;
-	};
+    class cmdChangeFontSelection: public QUndoCommand
+    {
+        public:
+            cmdChangeFontSelection(UMLDoc * doc,UMLView *view,QFont fon);
+            void undo();
+            void redo();
+
+        private:
+            UMLDoc *pDoc;
+            UMLView *pView;
+
+            QFont newFont;
+            QFont oldFont;
+    };
 }
 #endif /*CMD_CHANGEFONTSELECTION_H_*/

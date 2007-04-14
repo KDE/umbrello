@@ -22,19 +22,19 @@ namespace Uml
     {
         setText(i18n("Create deployment diagram"));
     }
-    
+
     cmdCreateDeployDiag::~cmdCreateDeployDiag()
     {
         if(m_pUMLView)
             delete m_pUMLView;
     }
-    
+
     void cmdCreateDeployDiag::redo()
     {
         UMLFolder* temp = m_pUMLDoc->getRootFolder(Uml::mt_Logical);
         m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::dt_Deployment);
     }
-    
+
     void cmdCreateDeployDiag::undo()
     {
         if(m_pUMLView)

@@ -22,19 +22,19 @@ namespace Uml
     {
         setText(i18n("Create state diagram"));
     }
-    
+
     cmdCreateStateDiag::~cmdCreateStateDiag()
     {
         if(m_pUMLView)
             delete m_pUMLView;
     }
-    
+
     void cmdCreateStateDiag::redo()
     {
         UMLFolder* temp = m_pUMLDoc->getRootFolder(Uml::mt_Logical);
         m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::dt_State);
     }
-    
+
     void cmdCreateStateDiag::undo()
     {
         if(m_pUMLView)

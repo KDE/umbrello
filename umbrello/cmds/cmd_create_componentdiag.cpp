@@ -22,19 +22,19 @@ namespace Uml
     {
         setText(i18n("Create conpoment diagram"));
     }
-    
+
     cmdCreateComponentDiag::~cmdCreateComponentDiag()
     {
         if(m_pUMLView)
             delete m_pUMLView;
     }
-    
+
     void cmdCreateComponentDiag::redo()
     {
         UMLFolder* temp = m_pUMLDoc->getRootFolder(Uml::mt_Logical);
         m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::dt_Component);
     }
-    
+
     void cmdCreateComponentDiag::undo()
     {
         if(m_pUMLView)

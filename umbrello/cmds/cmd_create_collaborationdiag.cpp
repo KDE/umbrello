@@ -22,19 +22,19 @@ namespace Uml
     {
         setText(i18n("Create collaboration diagram"));
     }
-    
+
     cmdCreateCollaborationDiag::~cmdCreateCollaborationDiag()
     {
         if(m_pUMLView)
             delete m_pUMLView;
     }
-    
+
     void cmdCreateCollaborationDiag::redo()
     {
         UMLFolder* temp = m_pUMLDoc->getRootFolder(Uml::mt_Logical);
         m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::dt_Collaboration);
     }
-    
+
     void cmdCreateCollaborationDiag::undo()
     {
         if(m_pUMLView)

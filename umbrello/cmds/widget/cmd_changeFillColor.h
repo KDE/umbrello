@@ -21,24 +21,24 @@
 namespace Uml
 {
 
-	class cmdChangeFillColor : public QUndoCommand
-	{
-		
-		
-		UMLWidget *UMLw;
-				
-		/* ancienne couleur */
-		QColor oldColor;
-				
-		/* nouvelle couleur */
-		QColor color;
-				
-		public:
-			cmdChangeFillColor(UMLWidget *w, QColor col);
-			~cmdChangeFillColor();
-			void redo();
-			void undo();
-	};
+    class cmdChangeFillColor : public QUndoCommand
+    {
+
+
+        UMLWidget *UMLw;
+
+        /* ancienne couleur */
+        QColor oldColor;
+
+        /* nouvelle couleur */
+        QColor color;
+
+        public:
+            cmdChangeFillColor(UMLWidget *w, QColor col);
+            ~cmdChangeFillColor();
+            void redo();
+            void undo();
+    };
 }
 
 #endif /*CMD_CHANGEFILLCOLOR_H_*/

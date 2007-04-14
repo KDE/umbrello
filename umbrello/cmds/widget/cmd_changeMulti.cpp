@@ -9,7 +9,7 @@
  *  copyright (C) 2002-2006                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
- 
+
  /* Created by Bouchikhi Mohamed-Amine */
 #include "cmd_changeMulti.h"
 #include "uml.h"
@@ -33,26 +33,26 @@
 
 namespace Uml
 {
-	cmdChangeMulti::cmdChangeMulti(UMLRole *role, const QString &multi):UMLr(role),newMulti(multi)
-	{
-		setText(i18n("Change Multiplicity"));
-		oldMulti=UMLr->getMultiplicity();
-	}
-	void cmdChangeMulti::undo()
-	{
-		if (!oldMulti.isEmpty())
-		{
-			UMLr->setMultiplicity(oldMulti);
-		}
-		else
-		{
-			UMLr->setMultiplicity("");
-		}
-	}
-	void cmdChangeMulti::redo()
-	{
-		UMLr->setMultiplicity(newMulti);
-	}
+    cmdChangeMulti::cmdChangeMulti(UMLRole *role, const QString &multi):UMLr(role),newMulti(multi)
+    {
+        setText(i18n("Change Multiplicity"));
+        oldMulti=UMLr->getMultiplicity();
+    }
+    void cmdChangeMulti::undo()
+    {
+        if (!oldMulti.isEmpty())
+        {
+            UMLr->setMultiplicity(oldMulti);
+        }
+        else
+        {
+            UMLr->setMultiplicity("");
+        }
+    }
+    void cmdChangeMulti::redo()
+    {
+        UMLr->setMultiplicity(newMulti);
+    }
 }
 
 /* line to add the commande in the undo/redo list :

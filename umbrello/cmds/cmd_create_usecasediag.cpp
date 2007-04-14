@@ -22,19 +22,19 @@ namespace Uml
     {
         setText(i18n("Create class diagram"));
     }
-    
+
     cmdCreateUseCaseDiag::~cmdCreateUseCaseDiag()
     {
         if(m_pUMLView)
             delete m_pUMLView;
     }
-    
+
     void cmdCreateUseCaseDiag::redo()
     {
         UMLFolder* temp = m_pUMLDoc->getRootFolder(Uml::mt_Logical);
         m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::dt_UseCase);
     }
-    
+
     void cmdCreateUseCaseDiag::undo()
     {
         if(m_pUMLView)

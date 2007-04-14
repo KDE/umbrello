@@ -34,28 +34,28 @@ namespace Uml
 
     cmdResizeWidget::cmdResizeWidget(UMLWidgetController* _UMLwc):UMLwc(_UMLwc),already(false)
     {
-        setText(i18n("Resizing Widget."));  
+        setText(i18n("Resizing Widget."));
         UMLWidget * w = _UMLwc->getWidget();
         W = w->width();
         H = w->height();
         oldH = _UMLwc->getOldH();
         oldW = _UMLwc->getOldW();
     }
-    
+
     cmdResizeWidget::~cmdResizeWidget()
     {
 
     }
-    
+
     void cmdResizeWidget::redo()
     {
         if(already == false)
         {already = true;}
         else{UMLwc->resizeWidget(W,H);}
     }
-    
+
     void cmdResizeWidget::undo()
-    {   
+    {
         UMLwc->resizeWidget(oldW,oldH);
     }
 

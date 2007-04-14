@@ -37,7 +37,7 @@ namespace Uml
             int         W; // new W value (used in redo method )
             int         oldH; // old H value (used in undo method )
             int         oldW; // old W value (used in undo method )
-            bool        already; 
+            bool        already;
     };
 }
 
