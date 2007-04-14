@@ -240,7 +240,7 @@ public:
 
     /**
      * Set the variable m_bStartedCut
-     * to indicate that selection should be deleted 
+     * to indicate that selection should be deleted
      * in slotCutSuccessful()
      */
     void setStartedCut(bool startedCut);
@@ -358,7 +358,7 @@ protected:
      * Adds a new operation, attribute or template item to a classifier, identical to
      * childObjectAdded(obj) but with an explicit parent.
      * @param child the child object
-     * @param parent the parent object 
+     * @param parent the parent object
      */
     void childObjectAdded(UMLClassifierListItem* child, UMLClassifier* parent);
 

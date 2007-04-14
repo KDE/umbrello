@@ -2602,7 +2602,7 @@ void UMLListView::closeDatatypesFolder()  {
 
 bool UMLListView::deleteItem(UMLListViewItem *temp) {
     if (!temp)
-        return false; 
+        return false;
     UMLObject *object = temp->getUMLObject();
     Uml::ListView_Type lvt = temp->getType();
     if ( Model_Utils::typeIsDiagram(lvt) ) {

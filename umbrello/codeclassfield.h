@@ -48,7 +48,7 @@ public:
     //
 
     /**
-     * Constructors 
+     * Constructors
      */
     CodeClassField ( ClassifierCodeDocument * parentDoc , UMLAttribute * attrib );
     CodeClassField ( ClassifierCodeDocument * parentDoc , UMLRole * role);
@@ -99,7 +99,7 @@ public:
 
     /** Utility method to allow finding particular accessor method of this
          *  code class field by its type identifier.
-     */ 
+     */
     CodeAccessorMethod * findMethodByType(CodeAccessorMethod::AccessorType type, int role_id = -1);
 
     /** Determine whether the parent object in this classfield indicates that it is
@@ -133,7 +133,7 @@ public:
     void setWriteOutMethods( bool val);
 
     /** Find the minimum number of things that can occur in an association
-      * If mistakenly called on attribute CF's the default value of is "0" 
+      * If mistakenly called on attribute CF's the default value of is "0"
       * is returned. Similarly, if the association (role) CF doesn't have a multiplicty
       * 0 is returned.
       */

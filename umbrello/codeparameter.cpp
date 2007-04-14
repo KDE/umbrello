@@ -55,16 +55,16 @@ bool CodeParameter::getAbstract ( ) {
 /**
  * Utility method to get the value of parent object static
  * Whether or not this is static.
- * @return the value of static 
+ * @return the value of static
  */
 bool CodeParameter::getStatic ( ) {
     return m_parentObject->getStatic();
 }
 
 /**
- * Utility method to get the value of parent object name 
+ * Utility method to get the value of parent object name
  * The name of this code parameter.
- * @return the value 
+ * @return the value
  */
 QString CodeParameter::getName ( ) const {
     return m_parentObject->getName();
@@ -82,7 +82,7 @@ QString CodeParameter::getTypeName ( ) {
 }
 
 /**
- * Utility method to get the value of parent object scope. 
+ * Utility method to get the value of parent object scope.
  * The visibility of this code parameter.
  * @return the value of parent object scope
  */

@@ -851,7 +851,7 @@ UMLAssociationList  UMLClassifier::getUniAssociationToBeImplemented() {
         if (!roleNameB.isEmpty()) {
             UMLAttributeList atl = getAttributeList();
             bool found = false;
-            //make sure that an attribute with the same name doesn't already exist 
+            //make sure that an attribute with the same name doesn't already exist
             for (UMLAttribute *at = atl.first(); at ; at = atl.next()) {
                 if (at->getName() == roleNameB) {
                     found = true;

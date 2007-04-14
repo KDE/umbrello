@@ -42,7 +42,7 @@ public:
 
 
     /**
-     * Constructors 
+     * Constructors
      */
     CodeAccessorMethod ( CodeClassField * field );
 

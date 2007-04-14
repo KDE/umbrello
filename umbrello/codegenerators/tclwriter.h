@@ -32,7 +32,7 @@ class           ClassifierInfo;
 /**
   * class TclWriter is a code generator for UMLClassifier objects.
   * Create an instance of this class, and feed it a UMLClassifier when
-  * calling writeClass and it will generate both a header (.h) and 
+  * calling writeClass and it will generate both a header (.h) and
   * source (.tcl) file for that classifier.
   */
 class TclWriter : public SimpleCodeGenerator

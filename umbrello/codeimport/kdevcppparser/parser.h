@@ -61,7 +61,7 @@ public: /*rules*/
     bool parseAsmDefinition( DeclarationAST::Node& node );
     bool parseTemplateDeclaration( DeclarationAST::Node& node );
     bool parseDeclarationInternal( DeclarationAST::Node& node, QString& comment );
-    
+
     bool parseUnqualifiedName( ClassOrNamespaceNameAST::Node& node );
     bool parseStringLiteral( AST::Node& node );
     bool parseName( NameAST::Node& node );
@@ -153,7 +153,7 @@ public: /*rules*/
     bool parseLabeledStatement( StatementAST::Node& node );
     bool parseDeclarationStatement( StatementAST::Node& node );
     bool parseTryBlockStatement( StatementAST::Node& node );
-    
+
     // objective c
     bool parseObjcDef( DeclarationAST::Node& node );
     bool parseObjcClassDef( DeclarationAST::Node& node );
@@ -162,38 +162,38 @@ public: /*rules*/
     bool parseObjcAliasDecl( DeclarationAST::Node& node );
     bool parseObjcProtocolDef( DeclarationAST::Node& node );
     bool parseObjcMethodDef( DeclarationAST::Node& node );
-    
-    bool parseIvarDeclList( AST::Node& node ); 
-    bool parseIvarDecls( AST::Node& node ); 
-    bool parseIvarDecl( AST::Node& node ); 
-    bool parseIvars( AST::Node& node ); 
+
+    bool parseIvarDeclList( AST::Node& node );
+    bool parseIvarDecls( AST::Node& node );
+    bool parseIvarDecl( AST::Node& node );
+    bool parseIvars( AST::Node& node );
     bool parseIvarDeclarator( AST::Node& node );
-    bool parseMethodDecl( AST::Node& node ); 
-    bool parseUnarySelector( AST::Node& node ); 
-    bool parseKeywordSelector( AST::Node& node ); 
+    bool parseMethodDecl( AST::Node& node );
+    bool parseUnarySelector( AST::Node& node );
+    bool parseKeywordSelector( AST::Node& node );
     bool parseSelector( AST::Node& node );
-    bool parseKeywordDecl( AST::Node& node ); 
-    bool parseReceiver( AST::Node& node ); 
-    bool parseObjcMessageExpr( AST::Node& node ); 
+    bool parseKeywordDecl( AST::Node& node );
+    bool parseReceiver( AST::Node& node );
+    bool parseObjcMessageExpr( AST::Node& node );
     bool parseMessageArgs( AST::Node& node );
-    bool parseKeywordExpr( AST::Node& node ); 
-    bool parseKeywordArgList( AST::Node& node ); 
-    bool parseKeywordArg( AST::Node& node ); 
+    bool parseKeywordExpr( AST::Node& node );
+    bool parseKeywordArgList( AST::Node& node );
+    bool parseKeywordArg( AST::Node& node );
     bool parseReservedWord( AST::Node& node );
-    bool parseMyParms( AST::Node& node ); 
-    bool parseMyParm( AST::Node& node ); 
-    bool parseOptParmList( AST::Node& node ); 
+    bool parseMyParms( AST::Node& node );
+    bool parseMyParm( AST::Node& node );
+    bool parseOptParmList( AST::Node& node );
     bool parseObjcSelectorExpr( AST::Node& node );
-    bool parseSelectorArg( AST::Node& node ); 
-    bool parseKeywordNameList( AST::Node& node ); 
-    bool parseKeywordName( AST::Node& node ); 
+    bool parseSelectorArg( AST::Node& node );
+    bool parseKeywordNameList( AST::Node& node );
+    bool parseKeywordName( AST::Node& node );
     bool parseObjcEncodeExpr( AST::Node& node );
-    bool parseObjcString( AST::Node& node ); 
-    bool parseProtocolRefs( AST::Node& node ); 
-    bool parseIdentifierList( GroupAST::Node& node ); 
+    bool parseObjcString( AST::Node& node );
+    bool parseProtocolRefs( AST::Node& node );
+    bool parseIdentifierList( GroupAST::Node& node );
     bool parseIdentifierColon( AST::Node& node );
-    bool parseObjcProtocolExpr( AST::Node& node ); 
-    bool parseObjcOpenBracketExpr( AST::Node& node ); 
+    bool parseObjcProtocolExpr( AST::Node& node );
+    bool parseObjcOpenBracketExpr( AST::Node& node );
     bool parseObjcCloseBracket( AST::Node& node );
 
     void advanceAndCheckTrailingComment(QString& comment);

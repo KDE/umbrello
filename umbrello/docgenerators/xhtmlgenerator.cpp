@@ -73,7 +73,7 @@ bool XhtmlGenerator::generateXhtmlForProjectInto(const KURL& destDir)
   }
   kDebug() << "Connecting..." << endl;
   connect(docbookJob, SIGNAL(result( KIO::Job * )), this, SLOT(slotDocbookToXhtml( KIO::Job *)));
-  return true; 
+  return true;
 }
 
 void XhtmlGenerator::slotDocbookToXhtml(KIO::Job * docbookJob)
@@ -84,24 +84,24 @@ void XhtmlGenerator::slotDocbookToXhtml(KIO::Job * docbookJob)
     docbookJob->showErrorDialog( 0L  );
     return;
   }
-  
+
   UMLApp* app = UMLApp::app();
   UMLDoc* umlDoc = app->getDocument();
-  
+
   const KURL& url = umlDoc->URL();
   QString docbookName = url.fileName();
   docbookName.replace(QRegExp(".xmi$"),".docbook");
 //   KURL docbookUrl(QString("file://")+m_tmpDir.name());
   KURL docbookUrl = m_destDir;
   docbookUrl.addPath(docbookName);
-  
+
   xsltStylesheetPtr cur = NULL;
   xmlDocPtr doc, res;
-    
+
   const char *params[16 + 1];
   int nbparams = 0;
   params[nbparams] = NULL;
-  
+
   QString xsltFileName(KGlobal::dirs()->findResource("appdata","docbook2xhtml.xsl"));
   kDebug() << "XSLT file is'"<<xsltFileName<<"'" << endl;
   QFile xsltFile(xsltFileName);
@@ -109,7 +109,7 @@ void XhtmlGenerator::slotDocbookToXhtml(KIO::Job * docbookJob)
   QString xslt = xsltFile.readAll();
   kDebug() << "XSLT is'"<<xslt<<"'" << endl;
   xsltFile.close();
-  
+
   QString localXsl = KGlobal::dirs()->findResource("data","ksgmltools2/docbook/xsl/html/docbook.xsl");
   kDebug() << "Local xsl is'"<<localXsl<<"'" << endl;
   if (!localXsl.isEmpty())
@@ -120,8 +120,8 @@ void XhtmlGenerator::slotDocbookToXhtml(KIO::Job * docbookJob)
   KTempFile tmpXsl;
   *tmpXsl.textStream() << xslt;
   tmpXsl.file()->close();
-  
-  
+
+
   xmlSubstituteEntitiesDefault(1);
   xmlLoadExtDtdDefaultValue = 1;
   kDebug() << "Parsing stylesheet " << tmpXsl.name() << endl;
@@ -130,25 +130,25 @@ void XhtmlGenerator::slotDocbookToXhtml(KIO::Job * docbookJob)
   doc = xmlParseFile((const char*)(docbookUrl.path().utf8()));
   kDebug() << "Applying stylesheet " << endl;
   res = xsltApplyStylesheet(cur, doc, params);
-  
+
   KTempFile tmpXhtml;
   tmpXhtml.setAutoDelete(false);
-  
+
   kDebug() << "Writing HTML result to temp file: " << tmpXhtml.file()->name() << endl;
   xsltSaveResultToFile(tmpXhtml.fstream(), res, cur);
-  
+
   xsltFreeStylesheet(cur);
   xmlFreeDoc(res);
   xmlFreeDoc(doc);
 
   xsltCleanupGlobals();
   xmlCleanupParser();
-  
+
   QString xhtmlName = url.fileName();
   xhtmlName.replace(QRegExp(".xmi$"),".html");
   KURL xhtmlUrl = m_destDir;
   xhtmlUrl.addPath(xhtmlName);
-  
+
   kDebug() << "Copying HTML result to: " << xhtmlUrl << endl;
   KIO::Job* job = KIO::file_copy(tmpXhtml.file()->name(),xhtmlUrl,-1,true,false,false);
   job->setAutoErrorHandlingEnabled(true);
@@ -161,7 +161,7 @@ void XhtmlGenerator::slotDocbookToXhtml(KIO::Job * docbookJob)
   KIO::Job* cssJob = KIO::file_copy(cssFileName,cssUrl,-1,true,false,false);
   cssJob->setAutoErrorHandlingEnabled(true);
 }
-    
+
 void XhtmlGenerator::slotHtmlCopyFinished( KIO::Job* )
 {
   kDebug() << "HTML copy finished: emiting finished" << endl;

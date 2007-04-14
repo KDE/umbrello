@@ -136,7 +136,7 @@ void RubyClassifierCodeDocument::init ( ) {
  */
 // in the vanilla version, we just tack all operations on the end
 // of the document
-bool RubyClassifierCodeDocument::addCodeOperation (CodeOperation * op ) 
+bool RubyClassifierCodeDocument::addCodeOperation (CodeOperation * op )
 {
     Uml::Visibility scope = op->getParentOperation()->getVisibility();
     if(!op->getParentOperation()->isConstructorOperation())

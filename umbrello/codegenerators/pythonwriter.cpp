@@ -4,7 +4,7 @@
     begin                : Sat Dec 21 2002
     copyright            : Vincent Decorges
     email                : vincent.decorges@eivd.ch
-      (C) 2003-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net> 
+      (C) 2003-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
  ***************************************************************************/
 
 /***************************************************************************
@@ -87,23 +87,23 @@ void PythonWriter::writeClass(UMLClassifier *c) {
         h<<str<<m_endl;
     }
 
-    // generate import statement for superclasses and take packages into account 
-    str = cleanName(c->getName()); 
+    // generate import statement for superclasses and take packages into account
+    str = cleanName(c->getName());
     QString pkg = cleanName(c->getPackage());
     if (!pkg.isEmpty())
-        str.prepend(pkg + '.'); 
-    QStringList includesList  = QStringList(str); //save imported classes 
-    int i = superclasses.count(); 
-    for (UMLClassifier *classifier = superclasses.first(); 
-            classifier && i; classifier = superclasses.next(), i--) { 
-        str = cleanName(classifier->getName()); 
+        str.prepend(pkg + '.');
+    QStringList includesList  = QStringList(str); //save imported classes
+    int i = superclasses.count();
+    for (UMLClassifier *classifier = superclasses.first();
+            classifier && i; classifier = superclasses.next(), i--) {
+        str = cleanName(classifier->getName());
         pkg = cleanName(classifier->getPackage());
-        if (!pkg.isEmpty()) 
-            str.prepend(pkg + '.'); 
-        includesList.append(str); 
-        h << "from " + str + " import *" << m_endl; 
-    } 
- 
+        if (!pkg.isEmpty())
+            str.prepend(pkg + '.');
+        includesList.append(str);
+        h << "from " + str + " import *" << m_endl;
+    }
+
     //write includes and take namespaces into account
     UMLPackageList includes;
     findObjectsRelated(c,includes);

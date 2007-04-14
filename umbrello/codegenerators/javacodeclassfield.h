@@ -33,7 +33,7 @@ public:
     //
 
     /**
-     * Constructors 
+     * Constructors
      */
     JavaCodeClassField (ClassifierCodeDocument * parentDoc, UMLRole * role);
     JavaCodeClassField (ClassifierCodeDocument * parentDoc, UMLAttribute * attrib);

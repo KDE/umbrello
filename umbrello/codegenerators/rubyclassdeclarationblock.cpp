@@ -109,14 +109,14 @@ void RubyClassDeclarationBlock::updateContent ( )
 
     // write out inheritance
     startText.append(RubyClassName);
-    
+
     int i = 0;
     for (UMLClassifier * concept= superclasses.first(); concept; concept = superclasses.next()) {
         if (i == 0) {
             startText.append(QString(" < ") + RubyCodeGenerator::cppToRubyType(concept->getName()) + endLine);
         } else {
-            // After the first superclass name in the list, assume the classes 
-            // are ruby modules that can be mixed in, 
+            // After the first superclass name in the list, assume the classes
+            // are ruby modules that can be mixed in,
             startText.append("include " + RubyCodeGenerator::cppToRubyType(concept->getName()) + endLine);
         }
         i++;

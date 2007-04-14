@@ -33,7 +33,7 @@ public:
     //
 
     /**
-     * Constructors 
+     * Constructors
      */
     CodeOperation ( ClassifierCodeDocument * doc , UMLOperation * parent,
                     const QString & body = "", const QString & comment = "");

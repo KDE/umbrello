@@ -96,10 +96,10 @@ void UMLAttributeDialog::setupDialog() {
 
     m_pProtectedRB = new QRadioButton(i18n("Prot&ected"), m_pScopeBG);
     scopeLayout -> addWidget(m_pProtectedRB);
-    
+
     m_pImplementationRB = new QRadioButton(i18n("I&mplementation"), m_pScopeBG);
     scopeLayout -> addWidget(m_pImplementationRB);
-    
+
     mainLayout -> addWidget(m_pScopeBG);
     Uml::Visibility scope = m_pAttribute -> getVisibility();
     if( scope == Uml::Visibility::Public )
@@ -196,7 +196,7 @@ bool UMLAttributeDialog::apply() {
     if (classifier == NULL) {
         Uml::Programming_Language pl = UMLApp::app()->getActiveLanguage();
         if (pl == Uml::pl_Cpp || pl == Uml::pl_Java) {
-            // Import_Utils::createUMLObject works better for C++ namespace and java package than Object_Factory::createUMLObject 
+            // Import_Utils::createUMLObject works better for C++ namespace and java package than Object_Factory::createUMLObject
 
             Import_Utils::setRelatedClassifier(pConcept);
             obj = Import_Utils::createUMLObject(Uml::ot_UMLObject, typeName);

@@ -4,7 +4,7 @@
     begin                : Sat Dec 21 2002
     copyright            : Vincent Decorges
     email                : vincent.decorges@eivd.ch
-      (C) 2003-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net> 
+      (C) 2003-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
  ***************************************************************************/
 
 /***************************************************************************
@@ -101,7 +101,7 @@ void RubyWriter::writeClass(UMLClassifier *c) {
     UMLClassifier *concept;
 
     h<< "class " << cppToRubyType(classname) << (superclasses.count() > 0 ? " < ":"");
-    
+
     int i = 0;
     for (concept = superclasses.first(); concept; concept = superclasses.next()) {
         if (i == 0) {
@@ -213,7 +213,7 @@ void RubyWriter::writeOperations(UMLClassifier *c,QTextStream &h) {
 }
 
 void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opList,
-                                 Uml::Visibility permitScope, QTextStream &h) 
+                                 Uml::Visibility permitScope, QTextStream &h)
 {
     UMLOperation *op;
     UMLAttribute *at;
@@ -238,11 +238,11 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
 
         // Skip destructors, and operator methods which
         // can't be defined in ruby
-        if (    methodName.startsWith("~") 
+        if (    methodName.startsWith("~")
                 || methodName == "operator ="
                 || methodName == "operator --"
                 || methodName == "operator ++"
-                || methodName == "operator !=" ) 
+                || methodName == "operator !=" )
         {
             continue;
         }
@@ -257,7 +257,7 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
         UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
-        // Always write out the docs for ruby as the type of the 
+        // Always write out the docs for ruby as the type of the
         // arguments and return value of the methods is useful
         writeDoc = true;
 //        for (at = atl.first(); at; at = atl.next())
@@ -275,7 +275,7 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
             QRegExp re_params("@param (\\w)(\\w*)");
             int pos = re_params.search(docStr);
             while (pos != -1) {
-                docStr.replace( re_params.cap(0), 
+                docStr.replace( re_params.cap(0),
                                 QString("@param _") + re_params.cap(1).lower() + re_params.cap(2) + '_' );
                 commentedParams.append(re_params.cap(1).lower() + re_params.cap(2));
 

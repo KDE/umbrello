@@ -84,9 +84,9 @@ public:
      * doesn't exist, then it will create it at the end of the document textBlock
      * list and pass back a reference.
      * @return  HierarchicalCodeBlock
-     * @param   tag 
-     * @param   comment 
-     * @param   indentLevel 
+     * @param   tag
+     * @param   comment
+     * @param   indentLevel
      */
     virtual HierarchicalCodeBlock * getHierarchicalCodeBlock ( const QString &tag, const QString &comment, int indentLevel );
 
@@ -95,9 +95,9 @@ public:
             * doesn't exist, then it will create it at the end of the document textBlock
             * list and pass back a reference.
      * @return  CodeBlockWithComments
-     * @param   tag 
-     * @param   comment 
-     * @param   indentLevel 
+     * @param   tag
+     * @param   comment
+     * @param   indentLevel
      */
     virtual CodeBlockWithComments * getCodeBlockWithComments ( const QString &tag, const QString &comment, int indentLevel );
 
@@ -106,9 +106,9 @@ public:
      * with that tag, it will update it with the passed text as appropriate.
      * @return codeblock/comment pointer to the object which was created/updated.
      * @return   CodeComment
-     * @param    tag 
-     * @param    text 
-     * @param    indentationLevel 
+     * @param    tag
+     * @param    text
+     * @param    indentationLevel
      */
      CodeComment * addOrUpdateTaggedCodeComment (const QString &tag = "", const QString &text = "", int indentationLevel = 0 );
 
@@ -117,24 +117,24 @@ public:
     * with that tag, it will update it with the passed text as appropriate.
     * @return codeblock/comment pointer to the object which was created/updated.
     * @return   CodeBlockWithComments
-    * @param    tag 
-    * @param    text 
-    * @param    comment 
-    * @param    indentLevel 
-    * @param    forceUserBlockUpdate 
+    * @param    tag
+    * @param    text
+    * @param    comment
+    * @param    indentLevel
+    * @param    forceUserBlockUpdate
     */
     CodeBlockWithComments * addOrUpdateTaggedCodeBlockWithComments (const QString &tag, const QString &text, const QString &comment, int indentLevel, bool forceUserBlockUpdate );
 
     /**
      * @return  TextBlock
-     * @param   tag 
-     * @param   descendIntoChildren 
+     * @param   tag
+     * @param   descendIntoChildren
      */
     virtual TextBlock * findTextBlockByTag ( const QString &tag );
 
     /**
      * @return  QString
-     * @param   prefix 
+     * @param   prefix
      */
     virtual QString getUniqueTag (QString prefix = "" ) = 0;
 
@@ -146,7 +146,7 @@ public:
 
     /** Find the direct parent for a given textblock. This
      * may be any object which holds text blocks, e.g. a CodeGenObjectWithTextBlocks.
-     * @return parent object. Could return null if the textblock is missing from the 
+     * @return parent object. Could return null if the textblock is missing from the
      * branch of the document tree being examined.
      */
     CodeGenObjectWithTextBlocks * findParentObjectForTaggedTextBlock (const QString & tag);
@@ -170,7 +170,7 @@ protected:
       * as they are the only instanciatable (vanilla) things
       * this method should be overridden if this class is inherited
       * by some other class that is concrete and takes children
-      * derived from codeblock/codecomment/hierarchicalcb/ownedhiercodeblock 
+      * derived from codeblock/codecomment/hierarchicalcb/ownedhiercodeblock
       */
     virtual void loadChildTextBlocksFromNode ( QDomElement & root);
 

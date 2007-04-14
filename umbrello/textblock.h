@@ -39,7 +39,7 @@ public:
     //
 
     /**
-     * Constructors 
+     * Constructors
      */
     TextBlock ( CodeDocument * parent, const QString & text = "");
 
@@ -187,9 +187,9 @@ public:
     virtual QString getNewEditorLine( int indentAmount = 0 );
 
     /** Ush. These are terrifically bad and must one day go away.
-     * Both methods indicate the range of lines in this textblock 
+     * Both methods indicate the range of lines in this textblock
      * which may be edited by the codeeditor (assuming that any are
-     * actually editable). The default case is no lines are editable. 
+     * actually editable). The default case is no lines are editable.
      * The line numbering starts with '0' and a '-1' means no line
      * qualifies.
      */
@@ -217,7 +217,7 @@ protected:
 
     /** set the class attributes of this object from
      * the passed element node.
-     */ 
+     */
     virtual void setAttributesFromNode ( QDomElement & element);
 
     bool m_canDelete;

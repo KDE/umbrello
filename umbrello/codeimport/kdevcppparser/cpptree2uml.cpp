@@ -144,8 +144,8 @@ void CppTree2Uml::parseTypedef( TypedefAST* ast )
 //#endif
             /* @todo Trace typedefs back to their root type for deciding
                      whether to build a Datatype (for pointers.)  */
-            /* check out if the ID type is a Datatype 
-               ex: typedef unsigned int uint; 
+            /* check out if the ID type is a Datatype
+               ex: typedef unsigned int uint;
                where unsigned int is a known datatype
                I'm not sure if setIsReference() should be run
              */
@@ -478,7 +478,7 @@ void CppTree2Uml::parseAccessDeclaration( AccessDeclarationAST * access )
     QPtrList<AST> l = access->accessList();
 
     QString accessStr = l.at( 0 )->text();
-    
+
     m_currentAccess=Uml::Visibility::fromString(accessStr);
 
     m_inSlots = l.count() > 1 ? l.at( 1 )->text() == "slots" : false;

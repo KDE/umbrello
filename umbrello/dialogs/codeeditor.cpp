@@ -349,7 +349,7 @@ void CodeEditor::appendText(TextBlockList * items)
         /*
                         // no! shouldn't be any 'naked' comments floating about. Always
                         // are assocated with a parent code block
-                        else if ( (cm = dynamic_cast<CodeComment*>(tb)) )  
+                        else if ( (cm = dynamic_cast<CodeComment*>(tb)) )
                                 appendText(cm);
         */
         else

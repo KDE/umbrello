@@ -176,13 +176,13 @@ void UMLApp::initActions() {
     createStandardStatusBarAction();
     setStandardToolBarMenuEnabled(true);
     selectAll = KStdAction::selectAll(this,  SLOT( slotSelectAll() ), actionCollection());
-    fileExportDocbook = new KAction(i18n("&Export model to DocBook"), 0, 
-                                    this, SLOT( slotFileExportDocbook() ), 
+    fileExportDocbook = new KAction(i18n("&Export model to DocBook"), 0,
+                                    this, SLOT( slotFileExportDocbook() ),
                                     actionCollection(), "file_export_docbook");
-    fileExportXhtml = new KAction(i18n("&Export model to XHTML"), 0, 
+    fileExportXhtml = new KAction(i18n("&Export model to XHTML"), 0,
                                     this, SLOT( slotFileExportXhtml() ),
                                     actionCollection(), "file_export_xhtml");
-    
+
     classWizard = new KAction(i18n("&New Class Wizard..."),0,this,SLOT(slotClassWizard()),
                               actionCollection(),"class_wizard");
     new KAction(i18n("&Add Default Datatypes for Active Language"), 0, this,
@@ -806,7 +806,7 @@ void UMLApp::slotFileExportDocbook()
 {
   DocbookGenerator().generateDocbookForProject();
 }
-    
+
 void UMLApp::slotFileExportXhtml()
 {
   if (m_xhtmlGenerator != 0)
@@ -817,7 +817,7 @@ void UMLApp::slotFileExportXhtml()
   m_xhtmlGenerator->generateXhtmlForProject();
   connect(m_xhtmlGenerator,SIGNAL(finished()),this,SLOT(slotXhtmlDocGenerationFinished()));
 }
-    
+
 void UMLApp::slotEditUndo() {
     m_doc->loadUndoData();
     slotStatusMsg(i18n("Ready."));

@@ -40,7 +40,7 @@ class AutolayoutDlg : public MyDialog1
     void readConfig(KConfig*);
     void writeConfig(KConfig*);
     virtual void slotSelectAlgorithm(const QString&);
-  
+
 
   private:
     UMLView *view;

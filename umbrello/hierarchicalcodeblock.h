@@ -80,7 +80,7 @@ public:
     bool removeTextBlock ( TextBlock * remove_object );
 
     /**
-     * @param   text 
+     * @param   text
      */
     void setStartText ( const QString &text );
 

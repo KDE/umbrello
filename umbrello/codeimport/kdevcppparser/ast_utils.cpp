@@ -93,7 +93,7 @@ void scopeOfNode( AST* ast, QStringList& scope )
 	while( nameIt.current() ){
 	    AST* name = nameIt.current()->name();
 	    scope.push_back( name->text() );
-	    
+	
 	    ++nameIt;
 	}
     }

@@ -127,9 +127,9 @@ UMLAttribute* UMLOperation::findParm(const QString &name) {
 QString UMLOperation::toString(Uml::Signature_Type sig) {
     QString s = "";
 
-    if(sig == Uml::st_ShowSig || sig == Uml::st_NoSig) 
+    if(sig == Uml::st_ShowSig || sig == Uml::st_NoSig)
           s = m_Vis.toString(true) + ' ';
-    
+
     s += getName();
     Uml::Programming_Language pl = UMLApp::app()->getActiveLanguage();
     bool parameterlessOpNeedsParentheses = (pl != Uml::pl_Pascal && pl != Uml::pl_Ada);

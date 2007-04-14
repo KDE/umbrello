@@ -156,7 +156,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
                              const QString& idStr, UMLView *view) {
     UMLWidget *widget = NULL;
 
-        // Loading of widgets which do NOT represent any UMLObject, 
+        // Loading of widgets which do NOT represent any UMLObject,
         // just graphic stuff with no real model information
         //FIXME while boxes and texts are just diagram objects, activities and
         // states should be UMLObjects

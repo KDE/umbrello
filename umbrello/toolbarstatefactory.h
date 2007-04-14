@@ -24,10 +24,10 @@ class UMLView;
 /**
  * The ToolBarStateFactory keeps track of all the toolbar states. For the first
  * request, the factory creates a new state object. The next requests to this
- * object, this factory will return the existing object. 
- * 
+ * object, this factory will return the existing object.
+ *
  * States that inherit from the ToolBarStatePool share multiple toolbar states.
- * Therefore the setButton function is called. Internally the shared state object 
+ * Therefore the setButton function is called. Internally the shared state object
  * determines the exact behavior by itself.
  */
 class ToolBarStateFactory

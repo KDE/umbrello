@@ -71,16 +71,16 @@ KIO::Job* DocbookGenerator::generateDocbookForProjectInto(const KURL& destDir)
   QStringList errors = UMLViewImageExporterModel().exportAllViews(
       UMLViewImageExporterModel::mimeTypeToImageType("image/png"),
       destDir, false);
-  if (!errors.empty()) 
+  if (!errors.empty())
   {
     KMessageBox::errorList(app, i18n("Some errors happened when exporting the images:"), errors);
     return 0;
   }
-  
+
   //write the XMI model in an in-memory char* string
   QString xmi;
   QTextOStream xmiStream(&xmi);
-  
+
   KTempFile tmpfile; // we need this tmp file if we are writing to a remote file
 
   QFile file;
@@ -94,14 +94,14 @@ KIO::Job* DocbookGenerator::generateDocbookForProjectInto(const KURL& destDir)
   umlDoc->saveToXMI(file); // save the xmi stuff to it
   file.close();
   tmpfile.close();
-  
+
   xsltStylesheetPtr cur = NULL;
   xmlDocPtr doc, res;
-    
+
   const char *params[16 + 1];
   int nbparams = 0;
   params[nbparams] = NULL;
-  
+
   QString xsltFile(KGlobal::dirs()->findResource("appdata","xmi2docbook.xsl"));
 
   xmlSubstituteEntitiesDefault(1);
@@ -109,10 +109,10 @@ KIO::Job* DocbookGenerator::generateDocbookForProjectInto(const KURL& destDir)
   cur = xsltParseStylesheetFile((const xmlChar *)xsltFile.latin1());
   doc = xmlParseFile((const char*)(tmpfile.name().utf8()));
   res = xsltApplyStylesheet(cur, doc, params);
-  
+
   KTempFile tmpDocBook;
   tmpDocBook.setAutoDelete(false);
-  
+
   xsltSaveResultToFile(tmpDocBook.fstream(), res, cur);
   xsltFreeStylesheet(cur);
   xmlFreeDoc(res);
@@ -120,7 +120,7 @@ KIO::Job* DocbookGenerator::generateDocbookForProjectInto(const KURL& destDir)
 
   xsltCleanupGlobals();
   xmlCleanupParser();
-  
+
   KURL url = umlDoc->URL();
   QString fileName = url.fileName();
   fileName.replace(QRegExp(".xmi$"),".docbook");
@@ -132,6 +132,6 @@ KIO::Job* DocbookGenerator::generateDocbookForProjectInto(const KURL& destDir)
 
   return job;
 }
-    
+
 
 #include "docbookgenerator.moc"

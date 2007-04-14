@@ -14,7 +14,7 @@
  */
 
 /** basicially a class to allow for syncronization of the contents based on the
- *  values of the parentClassField's parentObject 
+ *  values of the parentClassField's parentObject
  */
 #include "codeclassfielddeclarationblock.h"
 

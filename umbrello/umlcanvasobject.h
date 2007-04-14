@@ -215,9 +215,9 @@ protected:
      * Inheriting classes add more types of objects that are possible in this list;
      * for example, UMLClassifier adds operations, attributes, and templates.
      *
-     * @todo Only a pointer to the appropriate assocation end object 
+     * @todo Only a pointer to the appropriate assocation end object
      *       (UMLRole) should be saved here, not the entire UMLAssociation.
-     *      
+     *
      */
     UMLObjectList m_List;
 

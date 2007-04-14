@@ -251,7 +251,7 @@ void Driver::parseFile( const QString& fileName, bool onlyPreProcess, bool force
         m_parsedUnits.insert( fileName, translationUnit.release() );
         fileParsed( fileName );
     }
-    
+
     m_currentFileName = QString::null;
     lexer = 0;
 }

@@ -64,12 +64,12 @@ void RubyCodeOperation::updateMethodDeclaration()
     QString fixedReturn = RubyCodeGenerator::cppToRubyType(o->getTypeName());
     QString returnType = o->isConstructorOperation() ? QString("") : (fixedReturn + QString(" "));
     QString methodName = o->getName();
-    
+
     QString RubyClassName = rubydoc->getRubyClassName(c->getName());
 
     // Skip destructors, and operator methods which
     // can't be defined in ruby
-    if (    methodName.startsWith("~") 
+    if (    methodName.startsWith("~")
             || QRegExp("operator\\s*(=|--|\\+\\+|!=)$").exactMatch(methodName) )
     {
         getComment()->setText("");
@@ -137,20 +137,20 @@ void RubyCodeOperation::updateMethodDeclaration()
     } else {
         comment.replace(QRegExp("[\\n\\r]+ *"), endLine);
         comment.replace(QRegExp("[\\n\\r]+\\t*"), endLine);
-    
+
         comment.replace(" m_", " ");
         comment.replace(QRegExp("\\s[npb](?=[A-Z])"), " ");
         QRegExp re_params("@param (\\w)(\\w*)");
         int pos = re_params.search(comment);
         while (pos != -1) {
-            comment.replace( re_params.cap(0), 
+            comment.replace( re_params.cap(0),
                             QString("@param _") + re_params.cap(1).lower() + re_params.cap(2) + '_' );
             commentedParams.append(re_params.cap(1).lower() + re_params.cap(2));
-    
+
             pos += re_params.matchedLength() + 3;
             pos = re_params.search(comment, pos);
         }
-    
+
         UMLAttributeList parameters = o->getParmList();
         for (UMLAttributeListIt iterator(parameters); iterator.current(); ++iterator) {
             // Only write an individual @param entry if one hasn't been found already
@@ -164,11 +164,11 @@ void RubyCodeOperation::updateMethodDeclaration()
                 }
             }
         }
-    
+
         comment.replace("@ref ", "");
         comment.replace("@param", "*");
         comment.replace("@return", "* _returns_");
-    
+
         // All lines after the first one starting with '*' in the doc comment
         // must be indented correctly. If they aren't a list
         // item starting with '*', then indent the text with
@@ -178,25 +178,25 @@ void RubyCodeOperation::updateMethodDeclaration()
             pos += endLine.length() + 1;
             pos = comment.find(endLine, pos);
         }
-    
+
         while (pos > 0) {
             pos += endLine.length();
             if (comment[pos] != '*') {
                 comment.insert(pos, "  ");
                 pos += 2;
             }
-    
+
             pos = comment.find(endLine, pos);
         }
-    
+
         QString typeStr = RubyCodeGenerator::cppToRubyType(o->getTypeName());
         if ( !typeStr.isEmpty()
-                && !QRegExp("^void\\s*$").exactMatch(typeStr) 
-                && comment.contains("_returns_") == 0 ) 
+                && !QRegExp("^void\\s*$").exactMatch(typeStr)
+                && comment.contains("_returns_") == 0 )
         {
             comment += endLine + "* _returns_ " + typeStr;
         }
-    
+
         getComment()->setText(comment);
     }
 

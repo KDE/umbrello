@@ -72,7 +72,7 @@ private:
        so we can translate both ways */
     QValueList<Uml::Association_Type> m_AssocTypes;
     QStringList m_AssocTypeStrings;
-        
+
     QMultiLineEdit * m_pDoc;
 
     AssociationWidget *m_pAssociationWidget;

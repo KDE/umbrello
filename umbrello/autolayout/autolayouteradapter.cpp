@@ -153,7 +153,7 @@ Autolayout::Graph  * Autolayout::AutolayouterAdapter::setGraph( UMLView * view )
 
 void Autolayout::AutolayouterAdapter::updateView( UMLView* view )
   {
-if (! view) return ;  
+if (! view) return ;
 UMLWidgetList list = view->getWidgetList();
   UMLWidget* widget;
   Graph *g=getGraph();

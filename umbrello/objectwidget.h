@@ -45,7 +45,7 @@ public:
     ObjectWidget(UMLView * view, UMLObject *o, Uml::IDType lid = Uml::id_None );
 
     /**
-     * destructor 
+     * destructor
      */
     virtual ~ObjectWidget();
 
@@ -215,7 +215,7 @@ public:
     /**
      * Returns whether a message is overlapping with another message.
      * Used by MessageWidget::draw() methods.
-     * 
+     *
      * @param y         The top of your message.
      * @param messageWidget     A pointer to your message so it doesn't
      *                  check against itself.
@@ -305,7 +305,7 @@ protected:
     bool m_bMultipleInstance;
 
     /**
-     * Determines whether the object should be drawn as an Actor or 
+     * Determines whether the object should be drawn as an Actor or
      * an Object.
      */
     bool m_bDrawAsActor;

@@ -175,8 +175,8 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                         if ((type == Uml::ot_Class ||
                              type == Uml::ot_Interface ||
                              type == Uml::ot_Datatype) &&
-                            (foundType == Uml::ot_Class || 
-                             foundType == Uml::ot_Interface || 
+                            (foundType == Uml::ot_Class ||
+                             foundType == Uml::ot_Interface ||
                              foundType == Uml::ot_Datatype)) {
                             return obj;
                         }

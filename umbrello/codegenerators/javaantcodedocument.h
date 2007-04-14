@@ -26,7 +26,7 @@
 
 /**
   * class JavaANTCodeDocument
-  * Represents 
+  * Represents
   */
 
 class JavaANTCodeDocument : public CodeDocument

@@ -68,5 +68,5 @@ private:
 
 };
 
-#endif /* ASSOCPROPDLG_H */ 
+#endif /* ASSOCPROPDLG_H */
 
