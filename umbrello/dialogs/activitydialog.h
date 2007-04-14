@@ -54,13 +54,6 @@ public:
 
 protected slots:
 
-    enum Page
-    {
-        GeneralPage = 0,
-        ColorPage,
-        FontPage
-    };
-
     /**
     *   Entered when OK button pressed.
     */
@@ -70,7 +63,16 @@ protected slots:
     *   Entered when Apply button pressed.
     */
     void slotApply();
+
 protected:
+
+    enum Page
+    {
+        GeneralPage = 0,
+        ColorPage,
+        FontPage
+    };
+
     /**
     *   Sets up the pages of the dialog.
     */
@@ -82,7 +84,7 @@ protected:
     void setupGeneralPage();
 
     /**
-    *           Sets up the color page.
+    *   Sets up the color page.
     */
     void setupColorPage();
 
