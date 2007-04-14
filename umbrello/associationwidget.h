@@ -275,7 +275,7 @@ public:
      *
      * @return  True if this AssociationWidget has been activated.
      */
-    const bool isActivated();
+    bool isActivated();
 
     /**
      * Set the m_bActivated flag of a widget but does not perform the
