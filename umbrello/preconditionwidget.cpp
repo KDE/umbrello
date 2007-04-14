@@ -77,7 +77,7 @@ void PreconditionWidget::draw(QPainter & p, int offsetX, int offsetY) {
     
     //test if y isn't above the object
     if (y <= m_pOw->getY() + m_pOw->getHeight() ) {
-	y = m_pOw->getY() + m_pOw->getHeight() + 15;
+        y = m_pOw->getY() + m_pOw->getHeight() + 15;
     }
     if (y + h >= m_pOw->getEndLineY()) {
         y = m_pOw->getEndLineY() - h;
@@ -90,7 +90,7 @@ void PreconditionWidget::draw(QPainter & p, int offsetX, int offsetY) {
     {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
-	const QString precondition_value = "{ " + getName() + " }";
+        const QString precondition_value = "{ " + getName() + " }";
         //int middleX = w / 2;
         int textStartY = (h / 2) - (fontHeight / 2);
         p.drawRoundRect(x, y, w, h, (h * 60) / w, 60);

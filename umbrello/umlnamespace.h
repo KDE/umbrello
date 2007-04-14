@@ -105,12 +105,12 @@ enum Widget_Type
     wt_Node,                    // has UMLObject representation
     wt_Association,             // has UMLObject representation
     wt_ForkJoin,                // does not have UMLObject representation
-    wt_Precondition,		// does not have UMLObject representation
-    wt_CombinedFragment,	// does not have UMLObject representation
+    wt_Precondition,            // does not have UMLObject representation
+    wt_CombinedFragment,        // does not have UMLObject representation
     wt_FloatingDashLine,        // does not have UMLObject representation
-    wt_Signal,	                // does not have UMLObject representation
+    wt_Signal,                  // does not have UMLObject representation
     wt_Pin,
-    wt_ObjectNode,	
+    wt_ObjectNode,
     wt_Region
 };
 

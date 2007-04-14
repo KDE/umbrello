@@ -290,13 +290,13 @@ void UMLWidget::slotMenuSelection(int sel) {
                 wt == wt_Component || wt == wt_Artifact ||
                 wt == wt_Node || wt == wt_Enum || wt == wt_Entity ||
                 (wt == wt_Class && m_pView -> getType() == dt_Class)) {
- 		UMLApp::app()->BeginMacro("Change Properties");
-           	 showProperties();
-		UMLApp::app()->EndMacro();
+             UMLApp::app()->BeginMacro("Change Properties");
+             showProperties();
+             UMLApp::app()->EndMacro();
         } else if (wt == wt_Object) {
- 		UMLApp::app()->BeginMacro("Change Properties");
-            	m_pObject->showProperties();
-		UMLApp::app()->EndMacro();
+             UMLApp::app()->BeginMacro("Change Properties");
+             m_pObject->showProperties();
+             UMLApp::app()->EndMacro();
         } else {
             kWarning() << "making properties dialog for unknown widget type" << endl;
         }
@@ -359,7 +359,7 @@ void UMLWidget::slotMenuSelection(int sel) {
         font = getFont();
         if( KFontDialog::getFont( font, false, m_pView ) )
         {
-				UMLApp::app()->executeCommand(new cmdChangeFontSelection(m_pDoc,m_pView,font));
+            UMLApp::app()->executeCommand(new cmdChangeFontSelection(m_pDoc,m_pView,font));
         }
         break;
 
@@ -367,7 +367,7 @@ void UMLWidget::slotMenuSelection(int sel) {
         font = getFont();
         if( KFontDialog::getFont( font, false, m_pView ) )
         {
-				UMLApp::app()->executeCommand(new cmdChangeFontSelection(m_pDoc,m_pView,font));
+            UMLApp::app()->executeCommand(new cmdChangeFontSelection(m_pDoc,m_pView,font));
         }
         break;
 
@@ -459,11 +459,11 @@ void UMLWidget::setLineColorcmd(const QColor &colour) {
 }
 
 void UMLWidget::setLineColor(const QColor &colour) {
-	UMLApp::app()->executeCommand(new cmdChangeLineColor(this,colour));
+    UMLApp::app()->executeCommand(new cmdChangeLineColor(this,colour));
 }
 
 QColor UMLWidget::getLineColor() {
-	return  m_LineColour;
+    return  m_LineColour;
 }
 
 void UMLWidget::setLineWidth(uint width) {
@@ -472,7 +472,7 @@ void UMLWidget::setLineWidth(uint width) {
 }
 
 void UMLWidget::setFillColour(const QColor &colour) {
-	UMLApp::app()->executeCommand(new cmdChangeFillColor(this,colour));
+    UMLApp::app()->executeCommand(new cmdChangeFillColor(this,colour));
 }
 
 void UMLWidget::setFillColourcmd(const QColor &colour) {
@@ -482,7 +482,7 @@ void UMLWidget::setFillColourcmd(const QColor &colour) {
 }
 
 QColor UMLWidget::getFillColor() {
-	return  m_FillColour;
+    return  m_FillColour;
 }
 
 void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY) {
@@ -522,8 +522,8 @@ void UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
         if( m_pView -> getType() == dt_Sequence ) {
             switch( getBaseType() ) {
             case wt_Object:
-	    case wt_Precondition : 
-		setY( getY() );
+            case wt_Precondition : 
+                setY( getY() );
                 setX( x );
                 break; 
 

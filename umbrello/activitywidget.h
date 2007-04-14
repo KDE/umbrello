@@ -34,8 +34,8 @@
 class ActivityWidget : public UMLWidget {
     Q_OBJECT
 
-	QString preText;
-	QString postText;
+    QString preText;
+    QString postText;
 public:
     enum ActivityType
     {

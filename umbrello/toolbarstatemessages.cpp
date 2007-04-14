@@ -116,40 +116,40 @@ void ToolBarStateMessages::mouseReleaseEmpty() {
     Uml::Sequence_Message_Type msgType = getMessageType();
 
     if (m_firstObject && msgType ==  Uml::sequence_message_lost) {
-	xclick = m_pMouseEvent->x();
-	yclick = m_pMouseEvent->y();
-	
-	MessageWidget* message = new MessageWidget(m_pUMLView, m_firstObject,xclick, yclick, msgType);
+        xclick = m_pMouseEvent->x();
+        yclick = m_pMouseEvent->y();
+       
+        MessageWidget* message = new MessageWidget(m_pUMLView, m_firstObject,xclick, yclick, msgType);
 
-	cleanMessage();
- 	m_pUMLView->getMessageList().append(message);
+        cleanMessage();
+        m_pUMLView->getMessageList().append(message);
         xclick = 0;
         yclick = 0;
 
-   	FloatingTextWidget *ft = message->getFloatingTextWidget();
-    	//TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
-    	//Shouldn't it cancel also the whole creation?
-    	ft->showOpDlg();
-    	message->setTextPosition();
-    	m_pUMLView->getWidgetList().append(ft);
+        FloatingTextWidget *ft = message->getFloatingTextWidget();
+        //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
+        //Shouldn't it cancel also the whole creation?
+        ft->showOpDlg();
+        message->setTextPosition();
+        m_pUMLView->getWidgetList().append(ft);
 
-    	UMLApp::app()->getDocument()->setModified();
+        UMLApp::app()->getDocument()->setModified();
     }
    
     else if (!m_firstObject && msgType == Uml::sequence_message_found && xclick == 0 && yclick == 0) {
-	xclick = m_pMouseEvent->x();
-	yclick = m_pMouseEvent->y();
+        xclick = m_pMouseEvent->x();
+        yclick = m_pMouseEvent->y();
 
-	m_messageLine = new Q3CanvasLine(m_pUMLView->canvas());
-    	m_messageLine->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y());
-    	m_messageLine->setPen(QPen(m_pUMLView->getLineColor(), m_pUMLView->getLineWidth(), Qt::DashLine));
+        m_messageLine = new Q3CanvasLine(m_pUMLView->canvas());
+        m_messageLine->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y());
+        m_messageLine->setPen(QPen(m_pUMLView->getLineColor(), m_pUMLView->getLineWidth(), Qt::DashLine));
 
-    	m_messageLine->setVisible(true);
+        m_messageLine->setVisible(true);
 
-    	m_pUMLView->viewport()->setMouseTracking(true);
+        m_pUMLView->viewport()->setMouseTracking(true);
     }
     else
-    	cleanMessage();
+        cleanMessage();
 }
 
 void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject) {
@@ -158,29 +158,29 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject) {
 
     if (msgType ==  Uml::sequence_message_found && xclick!=0 && yclick!=0) {
         MessageWidget* message = new MessageWidget(m_pUMLView, m_firstObject,xclick, yclick, msgType);
-	cleanMessage();
- 	m_pUMLView->getMessageList().append(message);
+        cleanMessage();
+        m_pUMLView->getMessageList().append(message);
         
         xclick = 0;
         yclick = 0;
-   	
+   
         FloatingTextWidget *ft = message->getFloatingTextWidget();
-    	//TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
-    	//Shouldn't it cancel also the whole creation?
-    	ft->showOpDlg();
-    	message->setTextPosition();
-    	m_pUMLView->getWidgetList().append(ft);
+        //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
+        //Shouldn't it cancel also the whole creation?
+        ft->showOpDlg();
+        message->setTextPosition();
+        m_pUMLView->getWidgetList().append(ft);
 
-    	UMLApp::app()->getDocument()->setModified();
+        UMLApp::app()->getDocument()->setModified();
     }
     else {
-    	m_messageLine = new Q3CanvasLine(m_pUMLView->canvas());
-    	m_messageLine->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y());
-    	m_messageLine->setPen(QPen(m_pUMLView->getLineColor(), m_pUMLView->getLineWidth(), Qt::DashLine));
+        m_messageLine = new Q3CanvasLine(m_pUMLView->canvas());
+        m_messageLine->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y());
+        m_messageLine->setPen(QPen(m_pUMLView->getLineColor(), m_pUMLView->getLineWidth(), Qt::DashLine));
 
-    	m_messageLine->setVisible(true);
+        m_messageLine->setVisible(true);
 
-    	m_pUMLView->viewport()->setMouseTracking(true);
+        m_pUMLView->viewport()->setMouseTracking(true);
     }
 }
 

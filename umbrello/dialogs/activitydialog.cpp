@@ -67,11 +67,11 @@ void ActivityDialog::slotShowActivityParameter()
 	m_GenPageWidgets.postLE->show();
 	if (m_pActivityWidget->getPostText() != NULL)
 	{
-		m_GenPageWidgets.postLE->setText(m_pActivityWidget->getPostText());			
+		m_GenPageWidgets.postLE->setText(m_pActivityWidget->getPostText());
 	}
 	if (m_pActivityWidget->getPreText() != NULL)
 	{
-		m_GenPageWidgets.preLE->setText(m_pActivityWidget->getPreText());			
+		m_GenPageWidgets.preLE->setText(m_pActivityWidget->getPreText());
 	}
 }
 
@@ -141,8 +141,8 @@ void ActivityDialog::setupGeneralPage() {
 
     Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 1,
                                     m_GenPageWidgets.nameL, i18n("Activity name:"),
-                                    m_GenPageWidgets.nameLE );	
-		
+                                    m_GenPageWidgets.nameLE );
+
 	Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 2,
                                     m_GenPageWidgets.preL, i18n("Precondition :"),
                                     m_GenPageWidgets.preLE );
@@ -154,7 +154,7 @@ void ActivityDialog::setupGeneralPage() {
 	m_GenPageWidgets.preLE->hide();
 	m_GenPageWidgets.postL->hide();                    
 	m_GenPageWidgets.postLE->hide();
-		
+
     m_GenPageWidgets.NormalRB = new QRadioButton( i18n("&Normal activity"),(QWidget *)page);
     generalLayout -> addWidget( m_GenPageWidgets.NormalRB );
 
@@ -163,12 +163,12 @@ void ActivityDialog::setupGeneralPage() {
 
     m_GenPageWidgets.ParamRB = new QRadioButton( i18n("&Parameter activity node"),(QWidget *)page);
     generalLayout -> addWidget( m_GenPageWidgets.ParamRB );
-	
+
 	if (type == ActivityWidget::Param)
 	{
 		showParameterActivity();
 	}
-	
+
 	connect(m_GenPageWidgets.ParamRB,SIGNAL(clicked()),this,SLOT(slotShowActivityParameter()));
 	connect(m_GenPageWidgets.NormalRB,SIGNAL(clicked()),this,SLOT(slotHideActivityParameter()));
 	connect(m_GenPageWidgets.InvokRB,SIGNAL(clicked()),this,SLOT(slotHideActivityParameter()));
@@ -215,11 +215,11 @@ void ActivityDialog::showParameterActivity()
 		m_GenPageWidgets.postLE->show();
 		if (m_pActivityWidget->getPostText() != NULL)
 		{
-			m_GenPageWidgets.postLE->setText(m_pActivityWidget->getPostText());			
+			m_GenPageWidgets.postLE->setText(m_pActivityWidget->getPostText());
 		}
 		if (m_pActivityWidget->getPreText() != NULL)
 		{
-			m_GenPageWidgets.preLE->setText(m_pActivityWidget->getPreText());			
+			m_GenPageWidgets.preLE->setText(m_pActivityWidget->getPreText());
 		}
 }
 void ActivityDialog::setupColorPage() {

@@ -310,7 +310,7 @@ void ObjectWidget::setShowDestruction( bool bShow ) {
 }
 
 void ObjectWidget::setEndLine(int yPosition) {
-	m_pLine->setEndOfLine(yPosition);
+    m_pLine->setEndOfLine(yPosition);
 }
 
 int ObjectWidget::getEndLineY() {

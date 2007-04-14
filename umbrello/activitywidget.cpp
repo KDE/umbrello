@@ -70,7 +70,6 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
             p.setFont( UMLWidget::getFont() );
             p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + textStartY,
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
-			   
         }
         break;
 
@@ -156,7 +155,7 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing();
             QString preCond= "<<precondition>> "+getPreText();
-           	QString postCond= "<<postcondition>> "+getPostText();
+            QString postCond= "<<postcondition>> "+getPostText();
             int textStartY = (h / 2) - (fontHeight / 2);
             p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
             p.setPen(Qt::black);
@@ -186,25 +185,25 @@ QSize ActivityWidget::calculateSize() {
         const int fontHeight  = fm.lineSpacing();
 
         int textWidth = fm.width(getName());
-		height = fontHeight;
-		height = height > ACTIVITY_HEIGHT ? height : ACTIVITY_HEIGHT;
-		height += ACTIVITY_MARGIN * 2;
-		
-		textWidth = textWidth > ACTIVITY_WIDTH ? textWidth : ACTIVITY_WIDTH;
-		
+        height = fontHeight;
+        height = height > ACTIVITY_HEIGHT ? height : ACTIVITY_HEIGHT;
+        height += ACTIVITY_MARGIN * 2;
+        
+        textWidth = textWidth > ACTIVITY_WIDTH ? textWidth : ACTIVITY_WIDTH;
+
         if (m_ActivityType == Invok)
         {
              height += 40;
         }
         else if ( m_ActivityType == Param) {
-        	QString maxSize;
+            QString maxSize;
  
-        	maxSize = getName().length() > getPostText().length() ? getName() : getPostText();
-        	maxSize = maxSize.length() > getPreText().length() ? maxSize : getPreText();
-        	
-        	textWidth = fm.width(maxSize);
-        	textWidth = textWidth + 50;
-        	height += 100;
+            maxSize = getName().length() > getPostText().length() ? getName() : getPostText();
+            maxSize = maxSize.length() > getPreText().length() ? maxSize : getPreText();
+            
+            textWidth = fm.width(maxSize);
+            textWidth = textWidth + 50;
+            height += 100;
         }
         
         
@@ -322,26 +321,26 @@ bool ActivityWidget::loadFromXMI( QDomElement & qElement ) {
 
 void ActivityWidget::setPreText(QString aPreText)
 {
-	preText=aPreText;
-	updateComponentSize();
+    preText=aPreText;
+    updateComponentSize();
     adjustAssocs( getX(), getY() );
 }
 
 QString ActivityWidget::getPreText()
 {
-	return preText;
+    return preText;
 }
 
 void ActivityWidget::setPostText(QString aPostText)
 {
-	postText=aPostText;
-	updateComponentSize();
+    postText=aPostText;
+    updateComponentSize();
     adjustAssocs( getX(), getY() );
 }
 
 QString ActivityWidget::getPostText()
 {
-	return postText;
+    return postText;
 }
 #include "activitywidget.moc"
 

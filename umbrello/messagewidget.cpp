@@ -297,7 +297,7 @@ void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY){
     //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( getY(), this );
 
     if(x1 < x2) {
-	if (messageOverlapsA)  {
+        if (messageOverlapsA)  {
             offsetX += 7;
             w -= 7;
         }
@@ -306,7 +306,7 @@ void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY){
         p.setBrush( WidgetBase::getLineColor() );
         p.drawEllipse(x1 + w - h , offsetY - h/2, h, h);
         drawArrow(p,offsetX, offsetY, w - h, Qt::RightArrow);
-	
+
         if (messageOverlapsA)  {
             offsetX -= 7;
         }
@@ -335,9 +335,9 @@ void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY){
             offsetX += 7;
             w -= 7;
         }
-	UMLWidget::setPen(p);
+        UMLWidget::setPen(p);
         p.setBrush( WidgetBase::getLineColor() );
-	p.drawEllipse(x2, offsetY - h/2, h, h);
+        p.drawEllipse(x2, offsetY - h/2, h, h);
         drawArrow(p, x2 - w + h, offsetY, w, Qt::LeftArrow);
         if (messageOverlapsA)  {
             offsetX -= 7;
@@ -348,8 +348,8 @@ void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY){
         }
         UMLWidget::setPen(p);
         p.setBrush( WidgetBase::getLineColor() );
-	p.drawEllipse(x2, offsetY - h/2, h, h);
-	drawArrow(p, x2, offsetY, w, Qt::RightArrow);
+        p.drawEllipse(x2, offsetY - h/2, h, h);
+        drawArrow(p, x2, offsetY, w, Qt::RightArrow);
     }
 
     if (m_bSelected)
@@ -842,12 +842,12 @@ ObjectWidget* MessageWidget::getWidget(Uml::Role_Type role) {
 }
 
 void MessageWidget::setxclicked (int xclick){
-	xclicked = xclick;
+    xclicked = xclick;
 }
 
 
 void MessageWidget::setyclicked (int yclick){
-	yclicked = yclick;
+    yclicked = yclick;
 }
 
 // void  MessageWidget::setSize(int width,int height);
@@ -869,8 +869,8 @@ void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     messageElement.setAttribute( "seqnum", m_SequenceNumber );
     messageElement.setAttribute( "sequencemessagetype", m_sequenceMessageType );
     if (m_sequenceMessageType == Uml::sequence_message_lost || m_sequenceMessageType == Uml::sequence_message_found) {
-	 messageElement.setAttribute( "xclicked", xclicked );
-	 messageElement.setAttribute( "yclicked", yclicked );
+        messageElement.setAttribute( "xclicked", xclicked );
+        messageElement.setAttribute( "yclicked", yclicked );
     }
 
     // save the corresponding message text
@@ -894,8 +894,8 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
     QString sequenceMessageType = qElement.attribute( "sequencemessagetype", "1001" );
     m_sequenceMessageType = (Uml::Sequence_Message_Type)sequenceMessageType.toInt();
     if (m_sequenceMessageType == Uml::sequence_message_lost || m_sequenceMessageType == Uml::sequence_message_found) {
-	 xclicked = qElement.attribute( "xclicked", "-1" ).toInt();
-	 yclicked = qElement.attribute( "yclicked", "-1" ).toInt();
+        xclicked = qElement.attribute( "xclicked", "-1" ).toInt();
+        yclicked = qElement.attribute( "yclicked", "-1" ).toInt();
     }
 
     Uml::IDType aId = STR2ID(widgetaid);

@@ -19,20 +19,20 @@
 
 namespace Uml
 {
-	class cmdCreateEntityRelationDiag : public QUndoCommand
-	{
-		public:
-			cmdCreateEntityRelationDiag(UMLDoc* doc, const QString& name = "");
-			~cmdCreateEntityRelationDiag();
+    class cmdCreateEntityRelationDiag : public QUndoCommand
+    {
+        public:
+            cmdCreateEntityRelationDiag(UMLDoc* doc, const QString& name = "");
+            ~cmdCreateEntityRelationDiag();
 
-			void redo();
-			void undo();
+            void redo();
+            void undo();
 
-		private:
-			UMLDoc*		m_pUMLDoc;
-			UMLView*	m_pUMLView;
-			QString		m_Name;
-	};
+        private:
+            UMLDoc*     m_pUMLDoc;
+            UMLView*    m_pUMLView;
+            QString     m_Name;
+    };
 }
 
 #endif

@@ -39,7 +39,7 @@ using std::type_info;
 RefactoringAssistant::RefactoringAssistant( UMLDoc *doc, UMLClassifier *obj, QWidget *parent, const char *name ):
         K3ListView( parent), m_doc( doc )
 {
-	setObjectName(name);
+    setObjectName(name);
     loadPixmaps();
 
     setRootIsDecorated( true );

@@ -69,11 +69,11 @@ NoteWidget::NoteType NoteWidget::getNoteType() const {
 }
 NoteWidget::NoteType NoteWidget::getNoteType(QString noteType) const {
         if (noteType == "Precondition")
-		return NoteWidget::PreCondition;
-	else if (noteType == "Postcondition")
-		return NoteWidget::PostCondition;
-	else if (noteType == "Transformation")
-		return NoteWidget::Transformation;
+        return NoteWidget::PreCondition;
+    else if (noteType == "Postcondition")
+        return NoteWidget::PostCondition;
+    else if (noteType == "Transformation")
+        return NoteWidget::Transformation;
         else
                 return NoteWidget::Normal;
 }
@@ -194,20 +194,20 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
     p.drawLine(offsetX + w - margin, offsetY + margin, offsetX + w, offsetY + margin);
     p.setPen(Qt::black);
     switch(m_NoteType) {
-	case NoteWidget::PreCondition :
-		p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< precondition >>");
-		break;
-	
-	case NoteWidget::PostCondition :
-		p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< postcondition >>");
-		break;
+    case NoteWidget::PreCondition :
+        p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< precondition >>");
+        break;
+    
+    case NoteWidget::PostCondition :
+        p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< postcondition >>");
+        break;
 
-	case NoteWidget::Transformation :
-		p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< transformation >>");
-		break;
+    case NoteWidget::Transformation :
+        p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< transformation >>");
+        break;
         case NoteWidget::Normal :
-	default :  break;
-	}
+    default :  break;
+    }
 
 if(m_bSelected) {
         drawSelected(&p, offsetX, offsetY);
@@ -221,24 +221,24 @@ QSize NoteWidget::calculateSize() {
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
     const int textWidth = fm.width(m_Text);
-	if (m_NoteType == PreCondition)
-	{
-		const int widthtemp = fm.width("<< precondition >>");
-    	        width = textWidth > widthtemp ? textWidth : widthtemp;
-		width += 10;
-	}
-	else if (m_NoteType == PostCondition)
-	{
-		const int widthtemp = fm.width("<< postcondition >>");
-    	        width = textWidth > widthtemp ? textWidth : widthtemp;
-		width += 10;
-	}
-	else if (m_NoteType == Transformation)
-	{
-		const int widthtemp = fm.width("<< transformation >>");
-    	        width = textWidth > widthtemp ? textWidth : widthtemp;
-		width += 10;
-	}
+    if (m_NoteType == PreCondition)
+    {
+        const int widthtemp = fm.width("<< precondition >>");
+                width = textWidth > widthtemp ? textWidth : widthtemp;
+        width += 10;
+    }
+    else if (m_NoteType == PostCondition)
+    {
+        const int widthtemp = fm.width("<< postcondition >>");
+                width = textWidth > widthtemp ? textWidth : widthtemp;
+        width += 10;
+    }
+    else if (m_NoteType == Transformation)
+    {
+        const int widthtemp = fm.width("<< transformation >>");
+                width = textWidth > widthtemp ? textWidth : widthtemp;
+        width += 10;
+    }
     return QSize(width, height);
 }
 

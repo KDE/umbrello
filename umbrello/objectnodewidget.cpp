@@ -92,11 +92,11 @@ void ObjectNodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
             QString objectflow_value;
             if(getState() == "-" || getState() == NULL)
             {
-            	objectflow_value = " ";
+                objectflow_value = " ";
             }
             else
             {
-            	objectflow_value = "[" + getState() + "]";
+                objectflow_value = "[" + getState() + "]";
             }
 
             p.drawLine(offsetX + 10 , offsetY + h/2, (offsetX + w)-10, offsetY + h/2  );
@@ -181,11 +181,11 @@ void ObjectNodeWidget::setObjectNodeType( QString objectNodeType ) {
 
 void ObjectNodeWidget::setState(QString state){
     m_State = state;
-    updateComponentSize();	
+    updateComponentSize();
 }
 
 QString ObjectNodeWidget::getState() {
-	return m_State;
+    return m_State;
 }
 
 void ObjectNodeWidget::slotMenuSelection(int sel) {
@@ -273,7 +273,6 @@ void ObjectNodeWidget::askForObjectNodeType(UMLWidget* &targetWidget){
 }
 
 void ObjectNodeWidget::askStateForWidget(){
-							
     bool pressedOK = false;
     QString state = KInputDialog::getText(i18n("Enter Object Flow State"),i18n("Enter State (keep '-' if there's no state for the object) "),i18n("-"), &pressedOK, UMLApp::app());
 
@@ -281,7 +280,7 @@ void ObjectNodeWidget::askStateForWidget(){
         setState(state);
     } else {
         cleanup();
-    }					
+    }
 }
 
 void ObjectNodeWidget::slotOk() {

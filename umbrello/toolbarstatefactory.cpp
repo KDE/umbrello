@@ -55,7 +55,7 @@ ToolBarState* ToolBarStateFactory::getState(const WorkToolBar::ToolBar_Buttons &
 
             // This case has no pool.
         case 3: states[3] = new ToolBarStateArrow(m_pUMLView); break;
-	case 4: states[4] = new ToolBarStateOneWidget(m_pUMLView); break;
+        case 4: states[4] = new ToolBarStateOneWidget(m_pUMLView); break;
         }
     }
 
@@ -88,13 +88,13 @@ int ToolBarStateFactory::getKey(const WorkToolBar::ToolBar_Buttons &toolbarButto
         // Messages
     case WorkToolBar::tbb_Seq_Message_Synchronous:  return 2;
     case WorkToolBar::tbb_Seq_Message_Asynchronous: return 2;
-    case WorkToolBar::tbb_Seq_Message_Found: 	    return 2;
-    case WorkToolBar::tbb_Seq_Message_Lost: 	    return 2;
+    case WorkToolBar::tbb_Seq_Message_Found:        return 2;
+    case WorkToolBar::tbb_Seq_Message_Lost:         return 2;
     
     case WorkToolBar::tbb_Seq_Precondition: return 4;
     case WorkToolBar::tbb_Pin: return 4;
     
-    	// Arrow pointer
+        // Arrow pointer
     case WorkToolBar::tbb_Arrow: return 3;
 
         // Other.

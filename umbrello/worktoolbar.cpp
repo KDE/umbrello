@@ -112,10 +112,10 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
         insertHotBtn(tbb_Object);
         insertHotBtn(tbb_Seq_Message_Synchronous);
         insertHotBtn(tbb_Seq_Message_Asynchronous);
-	insertHotBtn(tbb_Seq_Message_Found);
-	insertHotBtn(tbb_Seq_Message_Lost);
+        insertHotBtn(tbb_Seq_Message_Found);
+        insertHotBtn(tbb_Seq_Message_Lost);
         insertHotBtn(tbb_Seq_Combined_Fragment);
-	insertHotBtn(tbb_Seq_Precondition);
+        insertHotBtn(tbb_Seq_Precondition);
         break;
 
     case Uml::dt_Collaboration:
@@ -146,7 +146,7 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
         insertHotBtn(tbb_Fork);
         insertHotBtn(tbb_Activity_Transition);
         insertHotBtn(tbb_Exception);
-	insertHotBtn(tbb_PrePostCondition);
+        insertHotBtn(tbb_PrePostCondition);
         insertHotBtn(tbb_Send_Signal);
         insertHotBtn(tbb_Accept_Signal);
         insertHotBtn(tbb_Accept_Time_Event);
@@ -264,7 +264,7 @@ void WorkToolBar::loadPixmaps() {
         { tbb_Seq_Message_Found, i18n("Found Message"), "message-found.png", SLOT(slotSeq_Message_Found()) },
         { tbb_Seq_Message_Lost, i18n("Lost Message"), "message-lost.png", SLOT(slotSeq_Message_Lost()) },
         { tbb_Seq_Combined_Fragment, i18n("Combined Fragment"), "combined_fragment.png", SLOT(slotSeq_Combined_Fragment()) },
-	{ tbb_Seq_Precondition, i18n("Precondition"),"precondition.png",SLOT(slotSeq_Precondition()) },
+        { tbb_Seq_Precondition, i18n("Precondition"),"precondition.png",SLOT(slotSeq_Precondition()) },
         { tbb_Association, i18n("Association"), "association.png", SLOT(slotAssociation()) },
         { tbb_Containment, i18n("Containment"), "containment.png", SLOT(slotContainment()) },
         { tbb_Anchor, i18n("Anchor"), "anchor.png", SLOT(slotAnchor()) },
@@ -316,7 +316,7 @@ void WorkToolBar::loadPixmaps() {
         { tbb_Coll_Message, i18n("Message"), "message-asynchronous.png", SLOT(slotColl_Message()) },
         { tbb_Exception, i18n("Exception"), "exception.png", SLOT(slotException()) },
         { tbb_Object_Node, i18n("Object Node"), "object_node.png", SLOT(slotObject_Node()) },
-	{ tbb_PrePostCondition, i18n("Pre/Post condition"), "PrePostCondition.png", SLOT(slotPrePostCondition()) }
+        { tbb_PrePostCondition, i18n("Pre/Post condition"), "PrePostCondition.png", SLOT(slotPrePostCondition()) }
     };
 
 

@@ -55,39 +55,37 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
 
     UMLWidget::setPen(p);
 
-     if ( m_CombinedFragment == Ref )
-     {
-	if ( UMLWidget::getUseFillColour() ) {
-		p.setBrush( UMLWidget::getFillColour() );
-	}
-     }
-{
-	const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-	const int fontHeight  = fm.lineSpacing();
-	const QString combined_fragment_value =  getName();
-	int textStartY = (h / 2) - (fontHeight / 2);
-	p.drawRect(offsetX, offsetY, w, h );
+    if ( m_CombinedFragment == Ref ) {
+    if ( UMLWidget::getUseFillColour() ) {
+        p.setBrush( UMLWidget::getFillColour() );
+    }
+    }
+    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+    const int fontHeight  = fm.lineSpacing();
+    const QString combined_fragment_value =  getName();
+    int textStartY = (h / 2) - (fontHeight / 2);
+    p.drawRect(offsetX, offsetY, w, h );
 
-	p.setPen(Qt::black);
-	p.setFont( UMLWidget::getFont() );
+    p.setPen(Qt::black);
+    p.setFont( UMLWidget::getFont() );
         QString temp = "loop";
 
     switch ( m_CombinedFragment )
     {
         case Ref :
-		p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY + textStartY, w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignCenter, combined_fragment_value);
-	
-		p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY , w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "ref");
+        p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY + textStartY, w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignCenter, combined_fragment_value);
+    
+        p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY , w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "ref");
         break;
 
         case Opt :
-		p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
-			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "opt");
+        p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
+            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "opt");
         break;
 
         case Break :
-		p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
-			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "break");
+        p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
+            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "break");
         break;
 
         case Loop :
@@ -96,35 +94,35 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
                      temp += " [" + combined_fragment_value + "]";
                      line_width += (combined_fragment_value.size() + 2) * 8;
                 }
-		p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, temp);
+        p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, temp);
 
         break;
 
         case Neg :
-		p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
-			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "neg");
+        p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
+            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "neg");
         break;
 
         case Crit :
-		p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
-			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "critical");
+        p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
+            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "critical");
         break;
 
         case Ass :
-		p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
-			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "assert");
+        p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
+            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "assert");
         break;
 
         case Alt :
                 if (combined_fragment_value != "-")
                 {
                      temp = "[" + combined_fragment_value + "]";
-			p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY + 20,w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, temp);
+            p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY + 20,w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, temp);
                     if (m_dashLines.size() == 1 && m_dashLines.first()->getY() < offsetY + 20 + fontHeight )
                         m_dashLines.first()->setY(offsetY + h/2);
                 }
                 p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
-			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "alt");
+            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "alt");
                 // dash lines
                 m_dashLines.first()->draw(p,getX(),getY());
                 for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines.begin() ; it!=m_dashLines.end() ; ++it) {
@@ -140,7 +138,7 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
 
         case Par :
                 p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
-			w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "parallel");
+            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "parallel");
                 // dash lines
                 if (m_dashLines.size() != 0) {
                     m_dashLines.first()->draw(p,getX(),getY());
@@ -155,9 +153,9 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
                 }
         break;
 
-	default : break;
+    default : break;
     }
-}
+
     p.setPen(Qt::red);
     p.drawLine(offsetX,      offsetY + 20, offsetX + line_width, offsetY + 20);
     p.drawLine(offsetX + line_width, offsetY + 20, offsetX + line_width + 10, offsetY + 10);
@@ -337,18 +335,18 @@ void CombinedFragmentWidget::slotMenuSelection(int sel) {
         done = true;
         break;
     case ListPopupMenu::mt_Rename:
-	    if (m_CombinedFragment == Alt) {
-        	name = KInputDialog::getText( i18n("Enter first alternative"), i18n("Enter first alternative :"), m_Text, &ok );
-	    }
-	    else if (m_CombinedFragment == Ref) {
-		name = KInputDialog::getText( i18n("Enter referenced diagram name"), i18n("Enter referenced diagram name :"), m_Text, &ok );
-	    }
-	    else if (m_CombinedFragment == Loop) {
-		name = KInputDialog::getText( i18n("Enter the guard of the loop"), i18n("Enter the guard of the loop:"), m_Text, &ok );
-	    }
+        if (m_CombinedFragment == Alt) {
+            name = KInputDialog::getText( i18n("Enter first alternative"), i18n("Enter first alternative :"), m_Text, &ok );
+        }
+        else if (m_CombinedFragment == Ref) {
+        name = KInputDialog::getText( i18n("Enter referenced diagram name"), i18n("Enter referenced diagram name :"), m_Text, &ok );
+        }
+        else if (m_CombinedFragment == Loop) {
+        name = KInputDialog::getText( i18n("Enter the guard of the loop"), i18n("Enter the guard of the loop:"), m_Text, &ok );
+        }
             if( ok && name.length() > 0 )
                 m_Text = name;
-        	done = true;
+            done = true;
             break;
     }
    if( !done )

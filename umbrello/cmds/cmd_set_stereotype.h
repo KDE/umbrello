@@ -19,24 +19,24 @@
 
 namespace Uml
 {
-	class cmdSetStereotype : public QUndoCommand
-	{
-		public:
-			/*Constructor */
-			cmdSetStereotype(UMLObject * _UMLOb, QString stereo);
-			/*Destructor */
-			~cmdSetStereotype();
-			/*Redo method */
-			void redo();
-			/*Undo method */
-			void undo();
+    class cmdSetStereotype : public QUndoCommand
+    {
+        public:
+            /*Constructor */
+            cmdSetStereotype(UMLObject * _UMLOb, QString stereo);
+            /*Destructor */
+            ~cmdSetStereotype();
+            /*Redo method */
+            void redo();
+            /*Undo method */
+            void undo();
 
-		private:
+        private:
 
-			QString st;
-			QString oldst;
-			UMLObject * UMLObj;
-	};
+            QString st;
+            QString oldst;
+            UMLObject * UMLObj;
+    };
 }
 
 #endif

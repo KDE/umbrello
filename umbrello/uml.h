@@ -1078,7 +1078,7 @@ private:
      * UndoStack
      * used to store actions, to provide Undo/Redo feature.
     */
-    KUndoStack*	m_pUndoStack;
+    KUndoStack* m_pUndoStack;
 
     /**
      * Macro creation flag

@@ -274,18 +274,20 @@ AssociationWidget* ToolBarState::getAssociationAt(QPoint pos) {
 }
 
 FloatingDashLineWidget* ToolBarState::getFloatingLineAt(QPoint pos) {
-   FloatingDashLineWidget* floatingline = 0;
-   UMLWidget * widget = 0;
-   UMLWidgetListIt w_it(m_pUMLView->getWidgetList());
-	while( ( widget = w_it.current() ) ) {
-            ++w_it;
-            if (widget->getBaseType() == Uml::wt_FloatingDashLine){
-                if (dynamic_cast<FloatingDashLineWidget*>(widget)->onLine(pos)) {
-                    floatingline = dynamic_cast<FloatingDashLineWidget*>(widget);
-                }
+    FloatingDashLineWidget* floatingline = 0;
+    UMLWidget * widget = 0;
+    UMLWidgetListIt w_it(m_pUMLView->getWidgetList());
+    while( ( widget = w_it.current() ) ) {
+        ++w_it;
+        if (widget->getBaseType() == Uml::wt_FloatingDashLine){
+            if (dynamic_cast<FloatingDashLineWidget*>(widget)->onLine(pos)) {
+                floatingline = dynamic_cast<FloatingDashLineWidget*>(widget);
             }
         }
+    }
 
     return floatingline;
 }
+
 #include "toolbarstate.moc"
+

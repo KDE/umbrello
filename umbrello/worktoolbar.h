@@ -82,11 +82,11 @@ public:
         tbb_Coll_Message,
         tbb_Seq_Message_Synchronous,
         tbb_Seq_Message_Asynchronous,
-	tbb_Seq_Message_Found,
-	tbb_Seq_Message_Lost,
+        tbb_Seq_Message_Found,
+        tbb_Seq_Message_Lost,
         tbb_Seq_Combined_Fragment,
         tbb_Seq_Precondition,
-	tbb_Composition,
+        tbb_Composition,
         tbb_Relationship,
         tbb_UniAssociation,
         tbb_State_Transition,
@@ -128,9 +128,9 @@ public:
         tbb_Junction,
         tbb_Choice,
         tbb_Andline,
-	tbb_Exception,
+        tbb_Exception,
         tbb_Object_Node,
-	tbb_PrePostCondition
+        tbb_PrePostCondition
     };
 
 private:

@@ -19,26 +19,26 @@
 
 namespace Uml
 {
-	class cmdResizeWidget : public QUndoCommand
-	{
-		public:
-			/*Constructor */
-			cmdResizeWidget(UMLWidgetController* _UMLwc);
-			/*Destructor */
-			~cmdResizeWidget();
-			/*Redo method */
-			void redo();
-			/*Undo method */
-			void undo();
+    class cmdResizeWidget : public QUndoCommand
+    {
+        public:
+            /*Constructor */
+            cmdResizeWidget(UMLWidgetController* _UMLwc);
+            /*Destructor */
+            ~cmdResizeWidget();
+            /*Redo method */
+            void redo();
+            /*Undo method */
+            void undo();
 
-		private:
-			UMLWidgetController* 	UMLwc; // Attribute used to find which widget moved
-			int 		H; // new H value (used in redo method )
-			int 		W; // new W value (used in redo method )
-			int 		oldH; // old H value (used in undo method )
-			int 		oldW; // old W value (used in undo method )
-			bool 		already; 
-	};
+        private:
+            UMLWidgetController*    UMLwc; // Attribute used to find which widget moved
+            int         H; // new H value (used in redo method )
+            int         W; // new W value (used in redo method )
+            int         oldH; // old H value (used in undo method )
+            int         oldW; // old W value (used in undo method )
+            bool        already; 
+    };
 }
 
 #endif

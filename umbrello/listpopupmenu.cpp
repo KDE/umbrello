@@ -421,7 +421,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     case Uml::wt_Signal:
     case Uml::wt_FloatingDashLine:
     case Uml::wt_Precondition:
-	setupColor( object -> getUseFillColour() );
+        setupColor( object -> getUseFillColour() );
         insertSeparator();
         insertStdItem(mt_Cut);
         insertStdItem(mt_Copy);
@@ -440,7 +440,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
             insertItem(i18n("Add Interaction Operand"), mt_AddInteractionOperand);
             insertSeparator();
         }
-	setupColor( object -> getUseFillColour() );
+        setupColor( object -> getUseFillColour() );
         insertSeparator();
         insertStdItem(mt_Cut);
         insertStdItem(mt_Copy);

@@ -223,7 +223,7 @@ void insertSaveValues(int _oldX, int _oldY, int X, int Y);
     virtual void resizeWidget(int newW, int newH);
 
 
-	virtual UMLWidget* getWidget();
+    virtual UMLWidget* getWidget();
 
 
 protected:

@@ -89,7 +89,7 @@ void ObjectNodeDialog::applyPage( KPageWidgetItem *item ) {
         m_pObjectNodeWidget -> setName( m_GenPageWidgets.nameLE -> text() );
         m_pObjectNodeWidget -> setDoc( m_GenPageWidgets.docMLE -> text() );
         m_pObjectNodeWidget -> setState( m_GenPageWidgets.stateLE -> text() );
-	
+
         ObjectNodeWidget::ObjectNodeType newType = ObjectNodeWidget::Normal;
         if ( m_GenPageWidgets.BufferRB->isOn() )
             newType = ObjectNodeWidget::Buffer;
@@ -136,7 +136,7 @@ void ObjectNodeDialog::setupGeneralPage() {
 
     Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 1,
                                     m_GenPageWidgets.nameL, i18n("Object Node name:"),
-                                    m_GenPageWidgets.nameLE );	
+                                    m_GenPageWidgets.nameLE );
 
     Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 2,
                                     m_GenPageWidgets.stateL, i18n("State :"),
@@ -152,12 +152,12 @@ void ObjectNodeDialog::setupGeneralPage() {
 
     m_GenPageWidgets.FlowRB = new QRadioButton( i18n("&Object Flow"),(QWidget *)page);
     generalLayout -> addWidget( m_GenPageWidgets.FlowRB );
-	
+
     if (type == ObjectNodeWidget::Flow)
     {
-	showState();
+        showState();
     }
-	
+
     connect(m_GenPageWidgets.BufferRB,SIGNAL(clicked()),this,SLOT(slotHideState()));
     connect(m_GenPageWidgets.DataRB,SIGNAL(clicked()),this,SLOT(slotHideState()));
     connect(m_GenPageWidgets.FlowRB,SIGNAL(clicked()),this,SLOT(slotShowState()));
@@ -204,7 +204,7 @@ void ObjectNodeDialog::showState()
 
     if (m_pObjectNodeWidget->getState() != NULL)
     {
-        m_GenPageWidgets.stateLE->setText(m_pObjectNodeWidget->getState());			
+        m_GenPageWidgets.stateLE->setText(m_pObjectNodeWidget->getState());
     }
 }
 void ObjectNodeDialog::setupColorPage() {

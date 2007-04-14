@@ -121,7 +121,7 @@ void PinWidget::draw(QPainter & p, int offsetX, int offsetY) {
 
 //test if y isn't above the object
 //     if ( y <= m_pOw[Uml::A]->getY() + height_Activity-5 && x == m_pOw[Uml::A]->getX() + (width_Activity/2) ) {
-// 	y = m_pOw[Uml::A]->getY() + height_Activity + 15;
+//         y = m_pOw[Uml::A]->getY() + height_Activity + 15;
 //     }
 //     if (y + h >= m_pOw[Uml::A]->getEndLineY()) {
 //         y = m_pOw[Uml::A]->getEndLineY() - h;

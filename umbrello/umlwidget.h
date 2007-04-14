@@ -137,7 +137,7 @@ public:
     /**
      * get line color attribute.
      */
-	QColor getLineColor() ;
+    QColor getLineColor() ;
 
     /**
      * Overrides the method from WidgetBase.

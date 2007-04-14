@@ -259,7 +259,7 @@ void UMLApp::initActions() {
     setProgLangAction(Uml::pl_SQL,          "SQL",          "set_lang_sql");
     setProgLangAction(Uml::pl_Tcl,          "Tcl",          "set_lang_tcl");
     setProgLangAction(Uml::pl_XMLSchema,    "XMLSchema",    "set_lang_xmlschema");
-    setProgLangAction(Uml::pl_Ocl,	    "Ocl",	    "set_lang_ocl");
+    setProgLangAction(Uml::pl_Ocl,          "Ocl",          "set_lang_ocl");
 #undef setProgLangAction
 
     fileNew->setToolTip(i18n("Creates a new document"));
@@ -1009,31 +1009,31 @@ void UMLApp::slotSequenceDiagram() {
 }
 
 void UMLApp::slotCollaborationDiagram() {
-	executeCommand(new Uml::cmdCreateCollaborationDiag(m_doc));
+    executeCommand(new Uml::cmdCreateCollaborationDiag(m_doc));
 }
 
 void UMLApp::slotUseCaseDiagram() {
-	executeCommand(new Uml::cmdCreateUseCaseDiag(m_doc));
+    executeCommand(new Uml::cmdCreateUseCaseDiag(m_doc));
 }
 
 void UMLApp::slotStateDiagram() {
-	executeCommand(new Uml::cmdCreateStateDiag(m_doc));
+    executeCommand(new Uml::cmdCreateStateDiag(m_doc));
 }
 
 void UMLApp::slotActivityDiagram() {
-	executeCommand(new Uml::cmdCreateActivityDiag(m_doc));
+    executeCommand(new Uml::cmdCreateActivityDiag(m_doc));
 }
 
 void UMLApp::slotComponentDiagram() {
-	executeCommand(new Uml::cmdCreateComponentDiag(m_doc));
+    executeCommand(new Uml::cmdCreateComponentDiag(m_doc));
 }
 
 void UMLApp::slotDeploymentDiagram() {
-	executeCommand(new Uml::cmdCreateDeployDiag(m_doc));
+    executeCommand(new Uml::cmdCreateDeployDiag(m_doc));
 }
 
 void UMLApp::slotEntityRelationshipDiagram() {
-	executeCommand(new Uml::cmdCreateEntityRelationDiag(m_doc));
+    executeCommand(new Uml::cmdCreateEntityRelationDiag(m_doc));
 }
 
 WorkToolBar* UMLApp::getWorkToolBar() {
@@ -1842,59 +1842,59 @@ QString UMLApp::getStatusBarMsg() {
 }
 
 void UMLApp::clearUndoStack() {
-	m_pUndoStack->clear();
+    m_pUndoStack->clear();
 }
 
 void UMLApp::undo()
 {
-	kDebug() << "UMLApp::undo(" << m_pUndoStack->undoText() << ") [" << m_pUndoStack->count() << "]" << endl;
-	m_pUndoStack->undo();
+    kDebug() << "UMLApp::undo(" << m_pUndoStack->undoText() << ") [" << m_pUndoStack->count() << "]" << endl;
+    m_pUndoStack->undo();
 
-	if(m_pUndoStack->canUndo())
-		UMLApp::app()->enableUndo(true);
-	else 
-		UMLApp::app()->enableUndo(false);
-	
-	UMLApp::app()->enableRedo(true);
+    if(m_pUndoStack->canUndo())
+        UMLApp::app()->enableUndo(true);
+    else 
+        UMLApp::app()->enableUndo(false);
+    
+    UMLApp::app()->enableRedo(true);
 }
 
 void UMLApp::redo()
 {
-	kDebug() << "UMLApp::undo(" << m_pUndoStack->redoText() << ") [" << m_pUndoStack->count() << "]" << endl;
-	m_pUndoStack->redo();
+    kDebug() << "UMLApp::undo(" << m_pUndoStack->redoText() << ") [" << m_pUndoStack->count() << "]" << endl;
+    m_pUndoStack->redo();
 
-	if(m_pUndoStack->canRedo())
-		UMLApp::app()->enableRedo(true);
-	else 
-		UMLApp::app()->enableRedo(false);
-	
-	UMLApp::app()->enableUndo(true);
+    if(m_pUndoStack->canRedo())
+        UMLApp::app()->enableRedo(true);
+    else 
+        UMLApp::app()->enableRedo(false);
+    
+    UMLApp::app()->enableUndo(true);
 }
 
 void UMLApp::executeCommand(QUndoCommand* cmd)
 {
-	if(cmd != NULL)
-		m_pUndoStack->push(cmd);
+    if(cmd != NULL)
+        m_pUndoStack->push(cmd);
 
-	kDebug() << "UMLApp::executeCommand(" << cmd->text() << ") [" << m_pUndoStack->count() << "]" << endl;
+    kDebug() << "UMLApp::executeCommand(" << cmd->text() << ") [" << m_pUndoStack->count() << "]" << endl;
 
-	UMLApp::app()->enableUndo(true);
+    UMLApp::app()->enableUndo(true);
 }
 
 void UMLApp::BeginMacro( const QString & text ) {
-	if(m_hasBegunMacro)
-		return;
-	
-	m_hasBegunMacro = true;
+    if(m_hasBegunMacro)
+        return;
+    
+    m_hasBegunMacro = true;
 
-	m_pUndoStack->beginMacro(text);
+    m_pUndoStack->beginMacro(text);
 }
 
 void UMLApp::EndMacro() {
-	if(m_hasBegunMacro)
-		m_pUndoStack->endMacro();
+    if(m_hasBegunMacro)
+        m_pUndoStack->endMacro();
 
-	m_hasBegunMacro = false;
+    m_hasBegunMacro = false;
 }
 
 //static pointer, holding the unique instance

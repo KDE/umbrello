@@ -164,7 +164,7 @@ bool ToolBarStateOther::newWidget() {
             umlWidget = new ObjectNodeWidget(m_pUMLView, ObjectNodeWidget::Data);
             break;
 
-	case WorkToolBar::tbb_PrePostCondition:
+        case WorkToolBar::tbb_PrePostCondition:
             umlWidget = new NoteWidget(m_pUMLView, NoteWidget::Normal);
             break;
 

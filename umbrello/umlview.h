@@ -920,7 +920,7 @@ public:
      * Return the UMLDoc pointer
     */
     UMLDoc* getUMLDoc() {
-    	return m_pDoc;
+        return m_pDoc;
     }
 
 protected:

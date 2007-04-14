@@ -534,10 +534,7 @@ void UMLAssociation::setChangeability(Changeability_Type value, Role_Type role) 
 }
 
 void UMLAssociation::setMulti(const QString &value, Role_Type role) {
-	
-	UMLApp::app()->executeCommand(new cmdChangeMulti(m_pRole[role], value));
-	
-	
+    UMLApp::app()->executeCommand(new cmdChangeMulti(m_pRole[role], value));
     //m_pRole[role]->setMultiplicity(value);
 }
 
