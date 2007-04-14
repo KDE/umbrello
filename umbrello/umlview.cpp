@@ -1349,9 +1349,6 @@ UMLObjectList UMLView::getUMLObjects() {
 }
 
 void UMLView::activate() {
-    if (!m_pDoc->loading()) {
-        kError() << "UMLView::activate() called while not loading ?!?" << endl;
-    }
     UMLWidgetListIt it( m_WidgetList );
     UMLWidget *obj;
 
@@ -1448,15 +1445,21 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
     if( !pWidget ) {
         return false;
     }
+    Widget_Type type = pWidget->getBaseType();
+    if (isPasteOperation) {
+        if (type == Uml::wt_Message)
+            m_MessageList.append(static_cast<MessageWidget*>(pWidget));
+        else
+            m_WidgetList.append(pWidget);
+        return true;
+    }
     if (!isPasteOperation && findWidget(pWidget->getID())) {
         kError() << "UMLView::addWidget: Not adding "
                   << "(id=" << ID2STR(pWidget->getID())
-                  << "/type=" << pWidget->getBaseType()
-                  << "/name=" << pWidget->getName()
+                  << "/type=" << type << "/name=" << pWidget->getName()
                   << ") because it's already there" << endl;
         return false;
     }
-    Widget_Type type = pWidget->getBaseType();
     //kDebug() << "UMLView::addWidget called for basetype " << type << endl;
     IDChangeLog * log = m_pDoc -> getChangeLog();
     if( isPasteOperation && (!log || !m_pIDChangesLog)) {
