@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -143,6 +143,16 @@ public:
         m_bUsesDiagramLineWidth = usesDiagramLineWidth;
     }
 
+    /**
+    * Write property of m_nId.
+    */
+    void setID( Uml::IDType id );
+
+    /**
+    * Read property of m_nId.
+    */
+    Uml::IDType getID() const;
+
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     virtual bool loadFromXMI( QDomElement & qElement );
@@ -161,6 +171,13 @@ protected:
     UMLView   *m_pView;
     UMLObject *m_pObject;
     QString m_Doc;  ///< Only used if m_pObject is not set.
+
+    /**
+     * This ID is only used when the widget does not have a
+     * corresponding UMLObject (i.e. the m_pObject pointer is NULL.)
+     * For UMLObjects, the ID from the UMLObject is used.
+     */
+    Uml::IDType m_nId;
 
     /**
      * Color of the lines of the widget. Is saved to XMI.

@@ -5,16 +5,22 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
+// own header
 #include "artifactwidget.h"
-#include "artifact.h"
-#include "umlview.h"
-#include <kdebug.h>
+
+// qt/kde includes
 #include <qpainter.h>
 #include <q3pointarray.h>
+#include <kdebug.h>
+
+// app includes
+#include "artifact.h"
+#include "umlview.h"
+
 
 ArtifactWidget::ArtifactWidget(UMLView *view, UMLArtifact *a) : UMLWidget(view, a) {
     init();
@@ -26,11 +32,6 @@ ArtifactWidget::ArtifactWidget(UMLView *view, UMLArtifact *a) : UMLWidget(view, 
 void ArtifactWidget::init() {
     UMLWidget::setBaseType( Uml::wt_Artifact );
     m_pMenu = 0;
-    //  //maybe loading and this may not be set.
-    //  if (m_pObject) {
-    updateComponentSize();
-    update();
-    //  }
 }
 
 ArtifactWidget::~ArtifactWidget() {}

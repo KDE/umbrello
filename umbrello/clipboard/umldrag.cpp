@@ -730,7 +730,8 @@ bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
     UMLView *view = UMLApp::app()->getCurrentView();
     while ( !widgetElement.isNull() ) {
         UMLWidget* widget = view->loadWidgetFromXMI(widgetElement);
-        widgets.append(widget);
+        if (widget)
+            widgets.append(widget);
         widgetNode = widgetNode.nextSibling();
         widgetElement = widgetNode.toElement();
     }

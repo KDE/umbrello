@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -232,7 +232,7 @@ public:
      * Activates a MessageWidget.  Connects its m_pOw[] pointers
      * to UMLObjects and also send signals about its FloatingTextWidget.
      */
-    void activate(IDChangeLog * Log = 0);
+    bool activate(IDChangeLog * Log = 0);
 
     /**
      * Calculates the size of the widget by calling
@@ -359,11 +359,6 @@ public:
     int onWidget(const QPoint & p);
 
     /**
-     * Overrides the standard operation.
-     */
-    virtual void mousePressEvent(QMouseEvent *me);
-
-    /**
      * Saves to the <messagewidget> XMI element.
      */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
@@ -449,6 +444,13 @@ private:
 
     int xclicked;
     int yclicked;
+
+    /**
+     * The following variables are used by loadFromXMI() as an intermediate
+     * store. activate() resolves the IDs, i.e. after activate() the variables
+     * m_pOw[] and m_pFText can be used.
+     */
+    Uml::IDType m_widgetAId, m_widgetBId, m_textId;
 
 public slots:
     void slotWidgetMoved(Uml::IDType id);

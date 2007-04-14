@@ -9,7 +9,14 @@
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
+// own header
 #include "datatypewidget.h"
+
+// qt/kde includes
+#include <qpainter.h>
+#include <kdebug.h>
+
+// app includes
 #include "classifier.h"
 #include "operation.h"
 #include "classifierlistitem.h"
@@ -17,21 +24,18 @@
 #include "umldoc.h"
 #include "listpopupmenu.h"
 
-#include <kdebug.h>
-#include <qpainter.h>
 
 #define CIRCLE_SIZE 30
 
 DatatypeWidget::DatatypeWidget(UMLView* view, UMLClassifier *d) : UMLWidget(view, d) {
     init();
-    setSize(100,30);
-    updateComponentSize();
 }
 
 DatatypeWidget::~DatatypeWidget() {}
 
 void DatatypeWidget::init() {
     UMLWidget::setBaseType(Uml::wt_Datatype);
+    setSize(100, 30);
     m_pMenu = 0;
 }
 

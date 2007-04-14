@@ -1408,9 +1408,6 @@ UMLObjectList UMLView::getUMLObjects() {
 }
 
 void UMLView::activate() {
-    if (!m_pDoc->loading()) {
-        kError() << "UMLView::activate() called while not loading ?!?" << endl;
-    }
     UMLWidgetListIt it( m_WidgetList );
     UMLWidget *obj;
 
@@ -1421,8 +1418,12 @@ void UMLView::activate() {
         if(obj->isActivated() || obj->getBaseType() == wt_Message)
             continue;
 
-        obj->activate();
-        obj->setVisible( true );
+        if (obj->activate()) {
+            obj->setVisible(true);
+        } else {
+            m_WidgetList.remove(obj);
+            delete obj;
+        }
     }//end while
 
     MessageWidgetListIt it2( m_MessageList );
@@ -1438,21 +1439,21 @@ void UMLView::activate() {
 
     }//end while
 
-    //Activate All associationswidgets
-    AssociationWidgetListIt assoc_it( m_AssociationList );
-    AssociationWidget *assocwidget;
-    //first get total count
-    while((assocwidget = assoc_it.current())) {
-        ++assoc_it;
-        if( assocwidget->isActivated() )
-            continue;
-        assocwidget->activate();
-        if( m_PastePoint.x() != 0 ) {
-            int x = m_PastePoint.x() - m_Pos.x();
-            int y = m_PastePoint.y() - m_Pos.y();
-            assocwidget -> moveEntireAssoc( x, y );
+    // Activate all association widgets
+    AssociationWidget *aw;
+    for (AssociationWidgetListIt ait(m_AssociationList);
+            (aw = ait.current()); ++ait) {
+        if (aw->activate()) {
+            if (m_PastePoint.x() != 0) {
+                int x = m_PastePoint.x() - m_Pos.x();
+                int y = m_PastePoint.y() - m_Pos.y();
+                aw->moveEntireAssoc(x, y);
+            }
+        } else {
+            m_AssociationList.remove(aw);
+            delete aw;
         }
-    }//end while
+    }
 }
 
 int UMLView::getSelectCount(bool filterText) const {
@@ -1504,15 +1505,21 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
     if( !pWidget ) {
         return false;
     }
+    Widget_Type type = pWidget->getBaseType();
+    if (isPasteOperation) {
+        if (type == Uml::wt_Message)
+            m_MessageList.append(static_cast<MessageWidget*>(pWidget));
+        else
+            m_WidgetList.append(pWidget);
+        return true;
+    }
     if (!isPasteOperation && findWidget(pWidget->getID())) {
         kError() << "UMLView::addWidget: Not adding "
                   << "(id=" << ID2STR(pWidget->getID())
-                  << "/type=" << pWidget->getBaseType()
-                  << "/name=" << pWidget->getName()
+                  << "/type=" << type << "/name=" << pWidget->getName()
                   << ") because it's already there" << endl;
         return false;
     }
-    Widget_Type type = pWidget->getBaseType();
     //kDebug() << "UMLView::addWidget called for basetype " << type << endl;
     IDChangeLog * log = m_pDoc -> getChangeLog();
     if( isPasteOperation && (!log || !m_pIDChangesLog)) {
@@ -1647,16 +1654,11 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
                 kDebug() << "UMLView::addWidget(): pObjectWidget is NULL" << endl;
                 return false;
             }
-            Uml::IDType newID = log->findNewID( pWidget -> getID() );
-            if (newID == Uml::id_None) {
-                return false;
-            }
-            pObjectWidget -> setID( newID );
             Uml::IDType nNewLocalID = getLocalID();
             Uml::IDType nOldLocalID = pObjectWidget -> getLocalID();
             m_pIDChangesLog->addIDChange( nOldLocalID, nNewLocalID );
             pObjectWidget -> setLocalID( nNewLocalID );
-            UMLObject *pObject = m_pDoc -> findObjectById( newID );
+            UMLObject *pObject = m_pDoc->findObjectById(pWidget->getID());
             if( !pObject ) {
                 kDebug() << "addWidget::Can't find UMLObject" << endl;
                 return false;

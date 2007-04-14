@@ -5,26 +5,33 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
+// own header
 #include "packagewidget.h"
+
+// qt/kde includes
+#include <qpainter.h>
+#include <kdebug.h>
+
+// app includes
 #include "package.h"
+#include "uml.h"
+#include "umldoc.h"
 #include "umlview.h"
 #include "umlobject.h"
-#include <kdebug.h>
-#include <qpainter.h>
+
 
 PackageWidget::PackageWidget(UMLView * view, UMLPackage *o)
   : UMLWidget(view, o) {
     init();
-    setSize(100, 30);
-    updateComponentSize();
 }
 
 void PackageWidget::init() {
     UMLWidget::setBaseType(Uml::wt_Package);
+    setSize(100, 30);
     setZ(m_origZ = 1);  // above box but below UMLWidget because may embed widgets
     m_pMenu = 0;
     //set defaults from m_pView
@@ -34,10 +41,8 @@ void PackageWidget::init() {
         m_bShowStereotype = ops.classState.showStereoType;
     }
     //maybe loading and this may not be set.
-    if (m_pObject) {
+    if (m_pObject && !UMLApp::app()->getDocument()->loading())
         updateComponentSize();
-        update();
-    }
 }
 
 PackageWidget::~PackageWidget() {}

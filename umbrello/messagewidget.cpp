@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -510,13 +510,47 @@ void MessageWidget::slotMenuSelection(int sel) {
     }
 }
 
-void MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
+bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
     m_pView->resetPastePoint();
-    UMLWidget::activate(Log);
-    if (m_pOw[Uml::A] == NULL || m_pOw[Uml::B] == NULL) {
-        kDebug() << "MessageWidget::activate: can't make message" << endl;
-        return;
+    // UMLWidget::activate(Log);   CHECK: I don't think we need this ?
+    UMLWidget *pWA = m_pView->findWidget(m_widgetAId);
+    if (pWA == NULL) {
+        kDebug() << "MessageWidget::activate: role A object "
+            << ID2STR(m_widgetAId) << " not found" << endl;
+        return false;
     }
+    UMLWidget *pWB = m_pView->findWidget(m_widgetBId);
+    if (pWB == NULL) {
+        kDebug() << "MessageWidget::activate: role B object "
+            << ID2STR(m_widgetBId) << " not found" << endl;
+        return false;
+    }
+    m_pOw[Uml::A] = dynamic_cast<ObjectWidget*>(pWA);
+    if (m_pOw[Uml::A] == NULL) {
+        kDebug() << "MessageWidget::activate: role A widget "
+            << ID2STR(m_widgetAId) << " is not an ObjectWidget" << endl;
+        return false;
+    }
+    m_pOw[Uml::B] = dynamic_cast<ObjectWidget*>(pWB);
+    if (m_pOw[Uml::B] == NULL) {
+        kDebug() << "MessageWidget::activate: role B widget "
+            << ID2STR(m_widgetBId) << " is not an ObjectWidget" << endl;
+        return false;
+    }
+    updateResizability();
+
+    UMLClassifier *c = dynamic_cast<UMLClassifier*>(pWB->getUMLObject());
+    UMLOperation *op = NULL;
+    if (c) {
+        Uml::IDType opId = STR2ID(m_CustomOp);
+        op = dynamic_cast<UMLOperation*>( c->findChildObjectById(opId, true) );
+        if (op) {
+            // If the UMLOperation is set, m_CustomOp isn't used anyway.
+            // Just setting it empty for the sake of sanity.
+            m_CustomOp = QString::null;
+        }
+    }
+
     if( !m_pFText ) {
         Uml::Text_Role tr = Uml::tr_Seq_Message;
         if (m_pOw[Uml::A] == m_pOw[Uml::B])
@@ -524,6 +558,8 @@ void MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
         m_pFText = new FloatingTextWidget( m_pView, tr, "" );
         m_pFText->setFont(UMLWidget::getFont());
     }
+    if (op)
+        setOperation(op);  // This requires a valid m_pFText.
     setLinkAndTextPos();
     m_pFText -> setText("");
     m_pFText->setActivated();
@@ -540,6 +576,7 @@ void MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
     calculateDimensions();
 
     emit sigMessageMoved();
+    return true;
 }
 
 void MessageWidget::setMessageText(FloatingTextWidget *ft) {
@@ -898,64 +935,12 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
         yclicked = qElement.attribute( "yclicked", "-1" ).toInt();
     }
 
-    Uml::IDType aId = STR2ID(widgetaid);
-    Uml::IDType bId = STR2ID(widgetbid);
-
-    UMLWidget *pWA = m_pView -> findWidget( aId );
-    if (pWA == NULL) {
-        kDebug() << "MessageWidget::loadFromXMI: role A object "
-        << ID2STR(aId) << " not found" << endl;
-        return false;
-    }
-    UMLWidget *pWB = m_pView -> findWidget( bId );
-    if (pWB == NULL) {
-        kDebug() << "MessageWidget::loadFromXMI: role B object "
-        << ID2STR(bId) << " not found" << endl;
-        return false;
-    }
-    m_pOw[Uml::A] = dynamic_cast<ObjectWidget*>(pWA);
-    if (m_pOw[Uml::A] == NULL) {
-        kDebug() << "MessageWidget::loadFromXMI: role A widget "
-        << ID2STR(aId) << " is not an ObjectWidget" << endl;
-        return false;
-    }
-    m_pOw[Uml::B] = dynamic_cast<ObjectWidget*>(pWB);
-    if (m_pOw[Uml::B] == NULL) {
-        kDebug() << "MessageWidget::loadFromXMI: role B widget "
-        << ID2STR(bId) << " is not an ObjectWidget" << endl;
-        return false;
-    }
-    updateResizability();
-
-    UMLClassifier *c = dynamic_cast<UMLClassifier*>( pWB->getUMLObject() );
-    UMLOperation *op = NULL;
-    if (c) {
-        Uml::IDType opId = STR2ID(m_CustomOp);
-        op = dynamic_cast<UMLOperation*>( c->findChildObjectById(opId, true) );
-        if (op) {
-            // If the UMLOperation is set, m_CustomOp isn't used anyway.
-            // Just setting it empty for the sake of sanity.
-            m_CustomOp.clear();
-        }
-    }
-
-    Uml::IDType textId = STR2ID(textid);
-    if (textId != Uml::id_None) {
-        UMLWidget *flotext = m_pView -> findWidget( textId );
-        if (flotext != NULL) {
-            // This only happens when loading files produced by
-            // umbrello-1.3-beta2.
-            m_pFText = static_cast<FloatingTextWidget*>(flotext);
-            setLinkAndTextPos();
-            return true;
-        }
-    } else {
-        // no textid stored -> get unique new one
-        textId = UniqueID::gen();
-    }
+    m_widgetAId = STR2ID(widgetaid);
+    m_widgetBId = STR2ID(widgetbid);
+    m_textId = STR2ID(textid);
 
     Uml::Text_Role tr = Uml::tr_Seq_Message;
-    if (m_pOw[Uml::A] == m_pOw[Uml::B])
+    if (m_widgetAId == m_widgetBId)
         tr = Uml::tr_Seq_Message_Self;
 
     //now load child elements
@@ -964,7 +949,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
     if ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingtext") {
-            m_pFText = new FloatingTextWidget( m_pView, tr, getOperationText(m_pView), textId );
+            m_pFText = new FloatingTextWidget( m_pView, tr, getOperationText(m_pView), m_textId );
             if( ! m_pFText->loadFromXMI(element) ) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pFText;
@@ -975,20 +960,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
             << tag << endl;
         }
     }
-    if (op)                // Do it here and not earlier because now we have the
-        setOperation(op);  // m_pFText and setOperation() can make connections.
-
-    // always need this
-    setLinkAndTextPos();
-
     return true;
-}
-
-/// Added by GC. Was missing. What should it do ?
-/// @todo verify in 3.5 branch
-void MessageWidget::mousePressEvent(QMouseEvent *me)
-{
-    UMLWidget::mousePressEvent(me);
 }
 
 #include "messagewidget.moc"

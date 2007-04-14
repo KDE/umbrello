@@ -5,22 +5,23 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header file
 #include "actorwidget.h"
+
 // system includes
 #include <qpainter.h>
+
 // local includes
 #include "actor.h"
 #include "umlview.h"
 
+
 ActorWidget::ActorWidget(UMLView * view, UMLActor *a) : UMLWidget(view, a) {
     UMLWidget::setBaseType( Uml::wt_Actor );
-    //updateComponentSize();  Doing this during loadFromXMI() gives futile updates.
-    //                  Instead, it is done afterwards by UMLWidget::activate()
 }
 
 ActorWidget::~ActorWidget() {}

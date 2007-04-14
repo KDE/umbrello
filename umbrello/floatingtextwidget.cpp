@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -375,9 +375,11 @@ QString FloatingTextWidget::getDisplayText() const
     return displayText;
 }
 
-void FloatingTextWidget::activate( IDChangeLog* ChangeLog /*= 0 */) {
-    UMLWidget::activate( ChangeLog );
+bool FloatingTextWidget::activate( IDChangeLog* ChangeLog /*= 0 */) {
+    if (! UMLWidget::activate(ChangeLog))
+        return false;
     update();
+    return true;
 }
 
 void FloatingTextWidget::setLink(LinkWidget * l) {

@@ -564,11 +564,30 @@ void AssociationWidget::setText(FloatingTextWidget *ft, const QString &text) {
     }
 }
 
-void AssociationWidget::activate() {
-    if(isActivated())
-        return;
+bool AssociationWidget::activate() {
+    if (m_pObject == NULL &&
+        UMLAssociation::assocTypeHasUMLRepresentation(m_AssocType)) {
+        UMLObject *myObj = m_umldoc->findObjectById(m_nId);
+        if (myObj == NULL) {
+            kError() << "AssociationWidget::activate: cannot find UMLObject "
+                << ID2STR(m_nId) << endl;
+            return false;
+        } else {
+            const Uml::Object_Type ot = myObj->getBaseType();
+            if (ot == ot_Association) {
+                UMLAssociation * myAssoc = static_cast<UMLAssociation*>(myObj);
+                setUMLAssociation(myAssoc);
+                m_LinePath.setAssocType( myAssoc->getAssocType() );
+            } else {
+                setUMLObject(myObj);
+                setAssocType(m_AssocType);
+            }
+        }
+    }
 
-    bool status = true;
+    if (m_bActivated)
+        return true;
+
     Association_Type type = getAssocType();
 
     if (m_role[A].m_pWidget == NULL)
@@ -578,7 +597,7 @@ void AssociationWidget::activate() {
 
     if(!m_role[A].m_pWidget || !m_role[B].m_pWidget) {
         kDebug() << "Can't make association" << endl;
-        return;
+        return false;
     }
 
     calculateEndingPoints();
@@ -655,9 +674,8 @@ void AssociationWidget::activate() {
         createAssocClassLine();
     }
 
-    if(status) {
-        m_bActivated = true;
-    }
+    m_bActivated = true;
+    return true;
 }
 
 /** This function calculates which role should be set for the m_pName FloatingTextWidget */
@@ -3383,8 +3401,8 @@ void AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     if (m_pObject) {
         assocElement.setAttribute( "xmi.id", ID2STR(m_pObject->getID()) );
     }
+    assocElement.setAttribute( "type", m_AssocType );
     if (getAssociation() == NULL) {
-        assocElement.setAttribute( "type", m_AssocType );
         assocElement.setAttribute( "visibilityA", m_role[A].m_Visibility);
         assocElement.setAttribute( "visibilityB", m_role[B].m_Visibility);
         assocElement.setAttribute( "changeabilityA", m_role[A].m_Changeability);
@@ -3513,8 +3531,6 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
         setRoleDoc( qElement.attribute("roleAdoc", ""), A );
         setRoleDoc( qElement.attribute("roleBdoc", ""), B );
 
-        setAssocType(aType);
-
         // visibilty defaults to Public if it cant set it here..
         QString visibilityA = qElement.attribute( "visibilityA", "0");
         if (visibilityA.toInt() > 0)
@@ -3544,24 +3560,10 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
         }
 
         // New style: The xmi.id is a reference to the UMLAssociation.
-        Uml::IDType nId = STR2ID(id);
-        UMLObject *myObj = m_umldoc->findObjectById(nId);
-        if (myObj == NULL) {
-            kError() << "AssociationWidget::loadFromXMI: cannot find UMLObject "
-            << ID2STR(nId) << endl;
-            return false;
-        } else {
-            const Uml::Object_Type ot = myObj->getBaseType();
-            if (ot != ot_Association) {
-                setUMLObject(myObj);
-                setAssocType(aType);
-            } else {
-                UMLAssociation * myAssoc = static_cast<UMLAssociation*>(myObj);
-                setUMLAssociation(myAssoc);
-                m_LinePath.setAssocType( myAssoc->getAssocType() );
-            }
-        }
+        m_nId = STR2ID(id);
     }
+
+    setAssocType(aType);
 
     QString indexa = qElement.attribute( "indexa", "0" );
     QString indexb = qElement.attribute( "indexb", "0" );

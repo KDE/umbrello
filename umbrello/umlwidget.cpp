@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -168,23 +168,6 @@ bool UMLWidget::operator==(const UMLWidget& other) {
     if(m_nY != other.m_nY)
         return false;
      */
-}
-
-void UMLWidget::setID(Uml::IDType id) {
-    if (m_Type != wt_Text && m_pObject && m_pObject->getBaseType() == ot_Association) {
-        if (m_pObject->getID() != Uml::id_None)
-            kWarning() << "UMLWidget::setID(): changing old UMLObject "
-            << ID2STR(m_pObject->getID()) << " to "
-            << ID2STR(id) << endl;
-        m_pObject->setID( id );
-    }
-    m_nId = id;
-}
-
-Uml::IDType UMLWidget::getID() const {
-    if (m_Type != wt_Text && m_pObject && m_pObject->getBaseType() == ot_Association)
-        return m_pObject->getID();
-    return m_nId;
 }
 
 void UMLWidget::mouseMoveEvent(QMouseEvent* me) {
@@ -507,10 +490,18 @@ void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY) {
      }
 }
 
-void UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
+bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
     setFont( m_Font );
     setSize( getWidth(), getHeight() );
     m_bActivated = true;
+    if (widgetHasUMLObject(m_Type) && m_pObject == NULL) {
+        m_pObject = m_pDoc->findObjectById(m_nId);
+        if (m_pObject == NULL) {
+            kError() << "UMLWidget::activate: cannot find UMLObject with id="
+                << ID2STR(m_nId) << endl;
+            return false;
+        }
+    }
     updateComponentSize();
     if( m_pView -> getPastePoint().x() != 0 ) {
         FloatingTextWidget * ft = 0;
@@ -560,6 +551,7 @@ void UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
     if ( m_pView -> getPaste() )
         m_pView -> createAutoAssociations( this );
     updateComponentSize();
+    return true;
 }
 
 /** Read property of bool m_bActivated. */
@@ -637,7 +629,7 @@ void UMLWidget::showProperties() {
 
     if (dlg->exec()) {
         docwindow->showDocumentation( getUMLObject() , true );
-        UMLApp::app()->getDocument()->setModified(true);
+        m_pDoc->setModified(true);
     }
     dlg->close(true); //wipe from memory
 }

@@ -45,6 +45,7 @@
 #include "notewidget.h"
 #include "boxwidget.h"
 #include "associationwidget.h"
+#include "messagewidget.h"
 #include "objectwidget.h"
 #include "messagewidget.h"
 #include "statewidget.h"
@@ -149,6 +150,8 @@ UMLWidget *createWidget(UMLView *view, UMLObject *o) {
 }
 
 bool validateObjType(Uml::Object_Type expected, UMLObject *o) {
+    if (o == NULL)
+        return true;  // cannot validate
     Uml::Object_Type actual = o->getBaseType();
     if (actual == expected)
         return true;
@@ -161,56 +164,51 @@ bool validateObjType(Uml::Object_Type expected, UMLObject *o) {
 UMLWidget* makeWidgetFromXMI(const QString& tag,
                              const QString& idStr, UMLView *view) {
     UMLWidget *widget = NULL;
-    if (tag == "statewidget"             || tag == "notewidget"
-     || tag == "boxwidget"               || tag == "floatingtext"
-     || tag == "activitywidget"          || tag == "forkjoin"
-     || tag == "preconditionwidget"      || tag == "combinedFragmentwidget"
-     || tag == "signalwidget"            || tag == "pinwidget"
-     || tag == "objectnodewidget"        || tag == "floatingdashlinewidget"
-     || tag == "regionwidget") {
+
         // Loading of widgets which do NOT represent any UMLObject,
         // just graphic stuff with no real model information
         //FIXME while boxes and texts are just diagram objects, activities and
         // states should be UMLObjects
-        if (tag == "statewidget") {
-            widget = new StateWidget(view, StateWidget::Normal, Uml::id_Reserved);
-        } else if (tag == "notewidget") {
-            widget = new NoteWidget(view,NoteWidget::Normal, Uml::id_Reserved);
-        } else if (tag == "boxwidget") {
-            widget = new BoxWidget(view, Uml::id_Reserved);
-        } else if (tag == "floatingtext") {
-            widget = new FloatingTextWidget(view, Uml::tr_Floating, "", Uml::id_Reserved);
-        } else if (tag == "activitywidget") {
-            widget = new ActivityWidget(view, ActivityWidget::Initial, Uml::id_Reserved);
-        } else if (tag == "forkjoin") {
-            widget = new ForkJoinWidget(view, false, Uml::id_Reserved);
-        } else if (tag == "preconditionwidget") {
-            widget = new PreconditionWidget(view, NULL, Uml::id_Reserved);
-        } else if (tag == "combinedFragmentwidget") {
-            widget = new CombinedFragmentWidget(view, CombinedFragmentWidget::Ref, Uml::id_Reserved);
-        } else if (tag == "signalwidget") {
-            widget = new SignalWidget(view, SignalWidget::Send,  Uml::id_Reserved);
-        } else if (tag == "floatingdashlinewidget") {
-            widget = new FloatingDashLineWidget(view,Uml::id_Reserved);
-        } else if (tag == "objectnodewidget") {
-            widget = new ObjectNodeWidget(view,ObjectNodeWidget::Normal, Uml::id_Reserved);
-        } else if (tag == "regionwidget") {
-            widget = new RegionWidget(view, Uml::id_Reserved);
-        } else if (tag == "pinwidget") {
-            widget = new PinWidget(view, NULL, Uml::id_Reserved);
-        }
-
+    if (tag == "statewidget") {
+        widget = new StateWidget(view, StateWidget::Normal, Uml::id_Reserved);
+    } else if (tag == "notewidget") {
+        widget = new NoteWidget(view, NoteWidget::Normal, Uml::id_Reserved);
+    } else if (tag == "boxwidget") {
+        widget = new BoxWidget(view, Uml::id_Reserved);
+    } else if (tag == "floatingtext") {
+        widget = new FloatingTextWidget(view, Uml::tr_Floating, "", Uml::id_Reserved);
+    } else if (tag == "activitywidget") {
+        widget = new ActivityWidget(view, ActivityWidget::Initial, Uml::id_Reserved);
+    } else if (tag == "messagewidget") {
+        widget = new MessageWidget(view, Uml::sequence_message_asynchronous, Uml::id_Reserved);
+    } else if (tag == "forkjoin") {
+        widget = new ForkJoinWidget(view, false, Uml::id_Reserved);
+    } else if (tag == "preconditionwidget") {
+        widget = new PreconditionWidget(view, NULL, Uml::id_Reserved);
+    } else if (tag == "combinedFragmentwidget") {
+        widget = new CombinedFragmentWidget(view, CombinedFragmentWidget::Ref, Uml::id_Reserved);
+    } else if (tag == "signalwidget") {
+        widget = new SignalWidget(view, SignalWidget::Send,  Uml::id_Reserved);
+    } else if (tag == "floatingdashlinewidget") {
+        widget = new FloatingDashLineWidget(view, Uml::id_Reserved);
+    } else if (tag == "objectnodewidget") {
+        widget = new ObjectNodeWidget(view, ObjectNodeWidget::Normal, Uml::id_Reserved);
+    } else if (tag == "regionwidget") {
+        widget = new RegionWidget(view, Uml::id_Reserved);
+    } else if (tag == "pinwidget") {
+        widget = new PinWidget(view, NULL, Uml::id_Reserved);
     }
     else
     {
+        // Loading of widgets which represent an UMLObject
+
         // Find the UMLObject and create the Widget to represent it
         Uml::IDType id = STR2ID(idStr);
         UMLDoc *umldoc = UMLApp::app()->getDocument();
         UMLObject *o = umldoc->findObjectById(id);
         if (o == NULL) {
-            kError() << "makeWidgetFromXMI: cannot find object with id "
+            kDebug() << "makeWidgetFromXMI: cannot find object with id "
                 << ID2STR(id) << endl;
-            return NULL;
         }
 
         if (tag == "actorwidget") {

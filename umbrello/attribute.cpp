@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -59,9 +59,7 @@ QString UMLAttribute::getInitialValue() {
 void UMLAttribute::setInitialValue(const QString &iv) {
     if(m_InitialValue != iv) {
         m_InitialValue = iv;
-        UMLDoc *umldoc = UMLApp::app()->getDocument();
-        if (! umldoc->loading())
-            emit modified();
+        UMLObject::emitModified();
     }
 }
 

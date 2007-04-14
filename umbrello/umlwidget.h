@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -84,16 +84,6 @@ public:
      * Overload '==' operator
      */
     virtual bool operator==(const UMLWidget& other);
-
-    /**
-    * Write property of m_nId.
-    */
-    void setID( Uml::IDType id );
-
-    /**
-    * Read property of m_nId.
-    */
-    Uml::IDType getID() const;
 
     /**
      * Calls the method with the same name in UMLWidgetController.
@@ -219,8 +209,9 @@ public:
      * Activate the object after serializing it from a QDataStream
      *
      * @param ChangeLog
+     * @return  true for success
      */
-    virtual void activate(IDChangeLog* ChangeLog = 0);
+    virtual bool activate(IDChangeLog* ChangeLog = 0);
 
     /**
      * Returns 0 if the given point is not in the boundaries of the widget,
@@ -615,13 +606,6 @@ protected:
     void init();
 
     ///////////////// Data Loaded/Saved /////////////////////////////////
-
-    /**
-     * This ID is only used when the UMLWidget does not have a
-     * corresponding UMLObject (i.e. the m_pObject pointer is NULL.)
-     * For UML objects, the ID from the UMLObject is used.
-     */
-    Uml::IDType m_nId;
 
     /**
      * This flag indicates if the UMLWidget uses the Diagram FillColour

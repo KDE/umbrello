@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -89,10 +89,7 @@ UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::IDType id) {
     }
     UMLEnumLiteral* literal = new UMLEnumLiteral(this, name, id);
     m_List.append(literal);
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-    if (! umldoc->loading()) {
-        emit modified();
-    }
+    UMLObject::emitModified();
     emit enumLiteralAdded(literal);
     connect(literal,SIGNAL(modified()),this,SIGNAL(modified()));
     return literal;
@@ -104,10 +101,7 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log /* = 0*/)
         literal->parent()->removeChild(literal);
         this->insertChild(literal);
         m_List.append(literal);
-        UMLDoc *umldoc = UMLApp::app()->getDocument();
-        if (! umldoc->loading()) {
-            emit modified();
-        }
+        UMLObject::emitModified();
         emit enumLiteralAdded(literal);
         connect(literal,SIGNAL(modified()),this,SIGNAL(modified()));
         return true;
@@ -128,10 +122,7 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, int position) {
         } else {
             m_List.append(literal);
         }
-        UMLDoc *umldoc = UMLApp::app()->getDocument();
-        if (! umldoc->loading()) {
-            emit modified();
-        }
+        UMLObject::emitModified();
         emit enumLiteralAdded(literal);
         connect(literal,SIGNAL(modified()),this,SIGNAL(modified()));
         return true;
@@ -144,10 +135,7 @@ int UMLEnum::removeEnumLiteral(UMLEnumLiteral* literal) {
         kDebug() << "can't find att given in list" << endl;
         return -1;
     }
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-    if (! umldoc->loading()) {
-        emit modified();
-    }
+    UMLObject::emitModified();
     emit enumLiteralRemoved(literal);
     // If we are deleting the object, then we don't need to disconnect..this is done auto-magically
     // for us by QObject. -b.t.

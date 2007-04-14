@@ -148,17 +148,18 @@ void PreconditionWidget::calculateWidget() {
     setY(m_nY);
 }
 
-void PreconditionWidget::activate(IDChangeLog * Log /*= 0*/) {
+bool PreconditionWidget::activate(IDChangeLog * Log /*= 0*/) {
     m_pView->resetPastePoint();
     UMLWidget::activate(Log);
     if (m_pOw == NULL) {
         kDebug() << "PreconditionWidget::activate: can't make precondition" << endl;
-        return;
+        return false;
     }
 
     connect(m_pOw, SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
 
     calculateDimensions();
+    return true;
 }
 
 void PreconditionWidget::calculateDimensions() {

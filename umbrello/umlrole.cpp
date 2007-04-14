@@ -5,16 +5,22 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
+// own header
+#include "umlrole.h"
+
+// qt/kde includes
 #include <kdebug.h>
 #include <qregexp.h>
-#include "umlrole.h"
+
+// local includes
 #include "association.h"
 #include "umldoc.h"
 #include "uml.h"
+
 
 // constructor
 UMLRole::UMLRole(UMLAssociation * parent, UMLObject * parentObj, Uml::Role_Type role)
@@ -65,23 +71,17 @@ void UMLRole::setObject (UMLObject *obj) {
     }
 
     m_pSecondary = obj;
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-    if (! umldoc->loading())
-        emit modified();
+    UMLObject::emitModified();
 }
 
 void UMLRole::setChangeability (Uml::Changeability_Type value) {
     m_Changeability = value;
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-    if (! umldoc->loading())
-        emit modified();
+    UMLObject::emitModified();
 }
 
 void UMLRole::setMultiplicity ( const QString &multi ) {
     m_Multi = multi;
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-    if (! umldoc->loading())
-        emit modified();
+    UMLObject::emitModified();
 }
 
 Uml::Role_Type UMLRole::getRole() {

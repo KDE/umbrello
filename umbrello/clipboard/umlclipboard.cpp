@@ -505,11 +505,16 @@ bool UMLClipboard::pasteClip4(QMimeSource* data) {
     while ( (widget=widget_it.current()) != 0 ) {
         ++widget_it;
 
-        if (currentView->findWidget(idchanges->findNewID(widget->getID()))) {
+        Uml::IDType oldId = widget->getID();
+        Uml::IDType newId = idchanges->findNewID(oldId);
+        if (currentView->findWidget(newId)) {
+            kError() << "UMLClipboard::pasteClip4: widget (oldID=" << ID2STR(oldId)
+                << ", newID=" << ID2STR(newId) << ") already exists in target view."
+                << endl;
+            widgets.remove(widget);
+            delete widget;
             objectAlreadyExists = true;
-        }
-
-        if ( !currentView->addWidget(widget, true) ) {
+        } else if (! currentView->addWidget(widget, true)) {
             currentView->endPartialWidgetPaste();
             return false;
         }

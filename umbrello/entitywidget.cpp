@@ -5,11 +5,18 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
+// own header
 #include "entitywidget.h"
+
+// qt/kde includes
+#include <qpainter.h>
+#include <kdebug.h>
+
+// app includes
 #include "entity.h"
 #include "entityattribute.h"
 #include "classifier.h"
@@ -21,27 +28,22 @@
 #include "listpopupmenu.h"
 #include "object_factory.h"
 
-#include <kdebug.h>
-#include <qpainter.h>
 
 EntityWidget::EntityWidget(UMLView* view, UMLObject* o): UMLWidget(view, o) {
     init();
-    if ( !UMLApp::app()->getDocument()->loading() )
-    { // set default size - but only if we aren't loading a XMI file at the
-        // moment - then just recreate the saved settings
-        setSize(100,30);
-        updateComponentSize();
-    }
 }
 
 void EntityWidget::init() {
     UMLWidget::setBaseType(Uml::wt_Entity);
+    setSize(100, 30);
     m_pMenu = 0;
     //set defaults from m_pView
     if (m_pView) {
         //check to see if correct
         const Settings::OptionState& ops = m_pView->getOptionState();
     }
+    if (! UMLApp::app()->getDocument()->loading())
+        updateComponentSize();
 }
 
 EntityWidget::~EntityWidget() {}

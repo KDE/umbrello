@@ -186,8 +186,9 @@ public:
      * Activate the FloatingTextWidget after the saved data has been loaded
      *
      * @param ChangeLog Pointer to the IDChangeLog.
+     * @return  true for success
      */
-    void activate( IDChangeLog* ChangeLog = 0 );
+    bool activate( IDChangeLog* ChangeLog = 0 );
 
     /**
      * Sets the role type of this FloatingTextWidget.

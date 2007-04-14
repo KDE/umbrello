@@ -5,25 +5,30 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
+// own header
 #include "componentwidget.h"
+
+// qt/kde includes
+#include <qpainter.h>
+
+// app includes
+#include <kdebug.h>
 #include "component.h"
 #include "umlview.h"
-#include <kdebug.h>
-#include <qpainter.h>
+
 
 ComponentWidget::ComponentWidget(UMLView * view, UMLComponent *c)
   : UMLWidget(view, c) {
     init();
-    setSize(100, 30);
-    updateComponentSize();
-    UMLWidget::setBaseType(Uml::wt_Component);
 }
 
 void ComponentWidget::init() {
+    UMLWidget::setBaseType(Uml::wt_Component);
+    setSize(100, 30);
     m_pMenu = 0;
     //set defaults from m_pView
     if (m_pView) {

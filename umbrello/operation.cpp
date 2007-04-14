@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -176,9 +176,7 @@ void UMLOperation::addParm(UMLAttribute *parameter, int position) {
         m_List.insert(position,parameter);
     else
         m_List.append( parameter );
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-    if (! umldoc->loading())
-        emit modified();
+    UMLObject::emitModified();
     connect(parameter,SIGNAL(modified()),this,SIGNAL(modified()));
 }
 

@@ -5,11 +5,18 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
+// own header
 #include "enumwidget.h"
+
+// qt/kde includes
+#include <qpainter.h>
+#include <kdebug.h>
+
+// app includes
 #include "enum.h"
 #include "enumliteral.h"
 #include "classifier.h"
@@ -21,21 +28,14 @@
 #include "listpopupmenu.h"
 #include "object_factory.h"
 
-#include <kdebug.h>
-#include <qpainter.h>
 
 EnumWidget::EnumWidget(UMLView* view, UMLObject* o) : UMLWidget(view, o) {
     init();
-    if ( ! UMLApp::app()->getDocument()->loading() )
-    { // set default size - but only if we aren't loading a XMI file at the
-        // moment - then just recreate the saved settings
-        setSize(100,30);
-        updateComponentSize();
-    }
 }
 
 void EnumWidget::init() {
     UMLWidget::setBaseType(Uml::wt_Enum);
+    setSize(100, 30);
     m_pMenu = 0;
     //set defaults from m_pView
     if (m_pView) {
@@ -46,6 +46,8 @@ void EnumWidget::init() {
         // For completeness only. Not supposed to happen.
         m_bShowPackage = false;
     }
+    if (! UMLApp::app()->getDocument()->loading())
+        updateComponentSize();
 }
 
 EnumWidget::~EnumWidget() {}

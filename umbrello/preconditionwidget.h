@@ -71,10 +71,11 @@ public:
     void calculateWidget();
 
     /**
-     * Activates a PreconditionWidget.  Connects it m_pOw[] pointer
-     * to UMLObject
+     * Activates a PreconditionWidget.  Connects the WidgetMoved signal from
+     * its m_pOw pointer so that PreconditionWidget can adjust to the move of
+     * the object widget.
      */
-    void activate(IDChangeLog * Log = 0);
+    bool activate(IDChangeLog * Log = 0);
 
     /**
      * Calculates the size of the widget
