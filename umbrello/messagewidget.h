@@ -378,6 +378,13 @@ private:
     ObjectWidget * m_pOw[2];
     FloatingTextWidget * m_pFText;
     int m_nY;
+    /**
+     * The following variables are used by loadFromXMI() as an intermediate
+     * store. activate() resolves the IDs, i.e. after activate() the variables
+     * m_pOw[] and m_pFText can be used.
+     */
+    Uml::IDType m_widgetAId, m_widgetBId, m_textId;
+
 public slots:
     void slotWidgetMoved(Uml::IDType id);
     void slotMenuSelection(int sel);

@@ -27,7 +27,7 @@ Version 1.5.7
 * Ada code generator always generates methods abstract even if abstract box not checked (142093)
 * Missing "with" on Ada code generation for aggregation (142392)
 * Operation Properties "Type" combo box too small (143319)
-* Support duplication of diagrams (143581)
+* Support duplication of diagrams (139856, 143581)
 * Crash on changing multiplicity in an association in ERD (143909)
 * Class diagram in folder not loaded correctly from xmi (144119)
 
