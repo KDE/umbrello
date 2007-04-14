@@ -85,7 +85,7 @@ void ToolBarStateOneWidget::mouseReleaseWidget() {
     if (widgetType == Uml::wt_Pin) {
         m_firstObject = 0;
     }
-  
+
     if (m_pMouseEvent->button() != Qt::LeftButton ||(
                 getCurrentWidget()->getBaseType() != Uml::wt_Object &&
                 getCurrentWidget()->getBaseType() != Uml::wt_Activity &&
@@ -96,15 +96,15 @@ void ToolBarStateOneWidget::mouseReleaseWidget() {
     if (!m_firstObject && widgetType == Uml::wt_Pin) {
         setWidget(getCurrentWidget());
         return ;
-    } 
+    }
 
     if (!m_isObjectWidgetLine && !m_firstObject) {
         return;
     }
-    
+
     if (!m_firstObject) {
         setWidget(getCurrentWidget());
-    } 
+    }
 
 }
 

@@ -354,7 +354,7 @@ void SettingsDlg::setupFontPage() {
 
 void SettingsDlg::slotApply() {
     applyPage( currentPage() );
-    //do no emit signal applyClicked in the slot slotApply -> infinite loop 
+    //do no emit signal applyClicked in the slot slotApply -> infinite loop
     //emit applyClicked();
 }
 

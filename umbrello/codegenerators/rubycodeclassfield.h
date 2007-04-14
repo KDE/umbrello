@@ -33,7 +33,7 @@ public:
     //
 
     /**
-     * Constructors 
+     * Constructors
      */
     RubyCodeClassField (ClassifierCodeDocument * parentDoc, UMLRole * role);
     RubyCodeClassField (ClassifierCodeDocument * parentDoc, UMLAttribute * attrib);

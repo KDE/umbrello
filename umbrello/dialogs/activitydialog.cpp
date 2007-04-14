@@ -61,9 +61,9 @@ void ActivityDialog::slotApply() {
 
 void ActivityDialog::slotShowActivityParameter()
 {
-        m_GenPageWidgets.preL->show();                    
+        m_GenPageWidgets.preL->show();
 	m_GenPageWidgets.preLE->show();
-	m_GenPageWidgets.postL->show();                    
+	m_GenPageWidgets.postL->show();
 	m_GenPageWidgets.postLE->show();
 	if (m_pActivityWidget->getPostText() != NULL)
 	{
@@ -77,9 +77,9 @@ void ActivityDialog::slotShowActivityParameter()
 
 void ActivityDialog::slotHideActivityParameter()
 {
-	m_GenPageWidgets.preL->hide();                    
+	m_GenPageWidgets.preL->hide();
 	m_GenPageWidgets.preLE->hide();
-	m_GenPageWidgets.postL->hide();                    
+	m_GenPageWidgets.postL->hide();
 	m_GenPageWidgets.postLE->hide();
 }
 void ActivityDialog::setupPages() {
@@ -150,9 +150,9 @@ void ActivityDialog::setupGeneralPage() {
 	Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 3,
                                     m_GenPageWidgets.postL, i18n("Postcondition :"),
                                     m_GenPageWidgets.postLE );
-    m_GenPageWidgets.preL->hide();                    
+    m_GenPageWidgets.preL->hide();
 	m_GenPageWidgets.preLE->hide();
-	m_GenPageWidgets.postL->hide();                    
+	m_GenPageWidgets.postL->hide();
 	m_GenPageWidgets.postLE->hide();
 
     m_GenPageWidgets.NormalRB = new QRadioButton( i18n("&Normal activity"),(QWidget *)page);
@@ -209,9 +209,9 @@ void ActivityDialog::setupFontPage() {
 }
 void ActivityDialog::showParameterActivity()
 {
-		m_GenPageWidgets.preL->show();                    
+		m_GenPageWidgets.preL->show();
 		m_GenPageWidgets.preLE->show();
-		m_GenPageWidgets.postL->show();                    
+		m_GenPageWidgets.postL->show();
 		m_GenPageWidgets.postLE->show();
 		if (m_pActivityWidget->getPostText() != NULL)
 		{

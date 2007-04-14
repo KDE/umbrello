@@ -24,7 +24,7 @@ class CodeDocument;
 /**
   * class OwnedHierarchicalCodeBlock
   * A "chunk" of code within the code document that is "owned" by some
-  * umlobject. This is an abstract class that should be inherited. 
+  * umlobject. This is an abstract class that should be inherited.
   */
 
 class OwnedHierarchicalCodeBlock : public HierarchicalCodeBlock, public OwnedCodeBlock

@@ -197,7 +197,7 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
     case NoteWidget::PreCondition :
         p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< precondition >>");
         break;
-    
+
     case NoteWidget::PostCondition :
         p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< postcondition >>");
         break;

@@ -188,7 +188,7 @@ QSize ActivityWidget::calculateSize() {
         height = fontHeight;
         height = height > ACTIVITY_HEIGHT ? height : ACTIVITY_HEIGHT;
         height += ACTIVITY_MARGIN * 2;
-        
+
         textWidth = textWidth > ACTIVITY_WIDTH ? textWidth : ACTIVITY_WIDTH;
 
         if (m_ActivityType == Invok)
@@ -197,20 +197,20 @@ QSize ActivityWidget::calculateSize() {
         }
         else if ( m_ActivityType == Param) {
             QString maxSize;
- 
+
             maxSize = getName().length() > getPostText().length() ? getName() : getPostText();
             maxSize = maxSize.length() > getPreText().length() ? maxSize : getPreText();
-            
+
             textWidth = fm.width(maxSize);
             textWidth = textWidth + 50;
             height += 100;
         }
-        
-        
+
+
         width = textWidth > ACTIVITY_WIDTH ? textWidth : ACTIVITY_WIDTH;
-     
+
         width += ACTIVITY_MARGIN * 4;
- 
+
 
     } else if ( m_ActivityType == Branch ) {
         width = height = 20;
@@ -312,7 +312,7 @@ bool ActivityWidget::loadFromXMI( QDomElement & qElement ) {
     m_Doc = qElement.attribute( "documentation", "" );
     preText = qElement.attribute( "precondition", "" );
     postText = qElement.attribute( "postcondition", "" );
-    
+
     QString type = qElement.attribute( "activitytype", "1" );
     setActivityType( (ActivityType)type.toInt() );
 

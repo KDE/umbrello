@@ -53,7 +53,7 @@ public:
     //
 
     /**
-     * Constructors 
+     * Constructors
      */
     CPPCodeGenerationPolicy ( KConfig * config = 0 );
 

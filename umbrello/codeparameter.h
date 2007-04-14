@@ -114,12 +114,12 @@ public:
     virtual QString getInitialValue ( );
 
     /**
-     * Set a Comment 
+     * Set a Comment
      */
     void setComment ( CodeComment * comment );
 
     /**
-     * get any Comment object on this 
+     * get any Comment object on this
      */
     CodeComment * getComment ( );
 

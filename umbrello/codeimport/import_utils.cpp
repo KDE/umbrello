@@ -324,14 +324,14 @@ UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope,
         gRelatedClassifier = NULL;
         bPutAtGlobalScope = false;
     }
-    return insertAttribute (owner, scope, name, 
-                            static_cast<UMLClassifier*>(attrType), 
+    return insertAttribute (owner, scope, name,
+                            static_cast<UMLClassifier*>(attrType),
                             comment, isStatic);
 }
 
 void insertMethod(UMLClassifier *klass, UMLOperation *op,
                   Uml::Visibility scope, const QString& type,
-                  bool isStatic, bool isAbstract, 
+                  bool isStatic, bool isAbstract,
                   bool isFriend, bool isConstructor,
                   const QString& comment) {
     op->setVisibility(scope);
@@ -350,8 +350,8 @@ void insertMethod(UMLClassifier *klass, UMLOperation *op,
                 op->setType(typeObj);
             }
         }
-    } 
-    
+    }
+
     op->setStatic(isStatic);
     op->setAbstract(isAbstract);
 

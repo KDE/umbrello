@@ -2,7 +2,7 @@
     begin               : Thu Oct 17 2002
     copyright           : (C) 2002 by Heiko Nardmann
     email               : h.nardmann@secunet.de
-      (C) 2003-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net> 
+      (C) 2003-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
     php5 version by Thorsten Kunz (tk AT bytecrash DOT net)
  ***************************************************************************/
 

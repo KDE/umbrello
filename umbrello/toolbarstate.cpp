@@ -175,7 +175,7 @@ void ToolBarState::setCurrentElement() {
         setCurrentWidget(message);
         return;
     }
-    
+
     //TODO check why message widgets are treated different
     FloatingDashLineWidget* floatingline = getFloatingLineAt(m_pMouseEvent->pos());
     if (floatingline) {

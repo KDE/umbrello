@@ -65,10 +65,10 @@ MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, int xclick, int yc
     init();
     m_pOw[Uml::A] = a;
     m_pOw[Uml::B] = a;
-    
+
     m_sequenceMessageType = sequenceMessageType;
     m_nY = yclick;
-    
+
     xclicked = xclick;
     yclicked = yclick;
     m_nY = yclick;
@@ -289,7 +289,7 @@ void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY){
     int x2 = xclicked;
     int w1 = m_pOw[Uml::A]->getWidth() / 2;
     x1 += w1;
-    
+
     int w = getWidth() ;
 
     int h = 10;
@@ -851,8 +851,8 @@ void MessageWidget::setyclicked (int yclick){
 }
 
 // void  MessageWidget::setSize(int width,int height);
-// {   
-//     
+// {
+//
 //     UMLWidget::setSize(width,height);
 // }
 

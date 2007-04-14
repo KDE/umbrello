@@ -118,7 +118,7 @@ void ToolBarStateMessages::mouseReleaseEmpty() {
     if (m_firstObject && msgType ==  Uml::sequence_message_lost) {
         xclick = m_pMouseEvent->x();
         yclick = m_pMouseEvent->y();
-       
+
         MessageWidget* message = new MessageWidget(m_pUMLView, m_firstObject,xclick, yclick, msgType);
 
         cleanMessage();
@@ -135,7 +135,7 @@ void ToolBarStateMessages::mouseReleaseEmpty() {
 
         UMLApp::app()->getDocument()->setModified();
     }
-   
+
     else if (!m_firstObject && msgType == Uml::sequence_message_found && xclick == 0 && yclick == 0) {
         xclick = m_pMouseEvent->x();
         yclick = m_pMouseEvent->y();
@@ -160,10 +160,10 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject) {
         MessageWidget* message = new MessageWidget(m_pUMLView, m_firstObject,xclick, yclick, msgType);
         cleanMessage();
         m_pUMLView->getMessageList().append(message);
-        
+
         xclick = 0;
         yclick = 0;
-   
+
         FloatingTextWidget *ft = message->getFloatingTextWidget();
         //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
         //Shouldn't it cancel also the whole creation?
@@ -186,7 +186,7 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject) {
 
 void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageType messageType) {
     Uml::Sequence_Message_Type msgType = getMessageType();
-    
+
     //There shouldn't be second widget for a lost or a found message
     if (msgType == Uml::sequence_message_lost || msgType == Uml::sequence_message_found) {
         cleanMessage();

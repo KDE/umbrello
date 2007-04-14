@@ -87,8 +87,8 @@ void USEWriter::writeClass(UMLClassifier *c)
 
     js << "class " << classname << m_endl;
     js << "attributes" << m_endl;
-    
-    
+
+
     js << m_endl;
 
     //finish file

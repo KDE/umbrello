@@ -955,7 +955,7 @@ private:
      * Contains the property browser widget
     */
     QDockWidget* m_propertyDock;
-    
+
     /**
      * Documentation window.
      */

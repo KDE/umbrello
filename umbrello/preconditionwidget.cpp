@@ -51,7 +51,7 @@ PreconditionWidget::PreconditionWidget(UMLView * view, ObjectWidget* a, Uml::IDT
     y = y > getMaxY() ? getMaxY() : y;
     m_nY = y;
     this->activate();
-    
+
 }
 
 PreconditionWidget::~PreconditionWidget() {}
@@ -74,7 +74,7 @@ void PreconditionWidget::draw(QPainter & p, int offsetX, int offsetY) {
     x -= w/2;
     setX(x);
     int y = offsetY;
-    
+
     //test if y isn't above the object
     if (y <= m_pOw->getY() + m_pOw->getHeight() ) {
         y = m_pOw->getY() + m_pOw->getHeight() + 15;
@@ -114,7 +114,7 @@ QSize PreconditionWidget::calculateSize() {
     height = height > PRECONDITION_HEIGHT ? height : PRECONDITION_HEIGHT;
     width += PRECONDITION_MARGIN * 2;
     height += PRECONDITION_MARGIN * 2;
-    
+
     return QSize(width, height);
 
 }
@@ -155,9 +155,9 @@ void PreconditionWidget::activate(IDChangeLog * Log /*= 0*/) {
         kDebug() << "PreconditionWidget::activate: can't make precondition" << endl;
         return;
     }
-    
+
     connect(m_pOw, SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
-    
+
     calculateDimensions();
 }
 
@@ -194,7 +194,7 @@ void PreconditionWidget::slotWidgetMoved(Uml::IDType id) {
         m_nY = getMinY();
     if (m_nY > getMaxY())
         m_nY = getMaxY();
-    
+
     calculateDimensions();
     if (m_pView->getSelectCount(true) > 1)
         return;
@@ -240,7 +240,7 @@ bool PreconditionWidget::loadFromXMI( QDomElement & qElement ) {
     m_Doc = qElement.attribute( "documentation", "" );
 
     Uml::IDType aId = STR2ID(widgetaid);
-    
+
     UMLWidget *pWA = m_pView -> findWidget( aId );
     if (pWA == NULL) {
         kDebug() << "PreconditionWidget::loadFromXMI: role A object "

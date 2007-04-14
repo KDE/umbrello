@@ -197,13 +197,13 @@ bool AssocRules::allowAssociation( Association_Type assocType,
     case at_Activity:
     case at_Exception:
         {
-           
+
             ActivityWidget *actA = dynamic_cast<ActivityWidget*>(widgetA);
             ActivityWidget *actB = dynamic_cast<ActivityWidget*>(widgetB);
-           
+
             bool isSignal = false;
             bool isObjectNode = false;
-       
+
             if (widgetTypeA == wt_Signal)
                 isSignal = true;
             else if (widgetTypeA == wt_ObjectNode)

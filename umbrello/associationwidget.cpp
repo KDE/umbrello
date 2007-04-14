@@ -107,7 +107,7 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
     setAssocType(assocType);
 
     calculateEndingPoints();
-    
+
     //The AssociationWidget is set to Activated because it already has its side widgets
     setActivated(true);
 
@@ -280,7 +280,7 @@ FloatingTextWidget* AssociationWidget::getChangeWidget(Role_Type role) {
     return m_role[role].m_pChangeWidget;
 }
 
-FloatingTextWidget* AssociationWidget::getTextWidgetByRole(Uml::Text_Role tr) { 
+FloatingTextWidget* AssociationWidget::getTextWidgetByRole(Uml::Text_Role tr) {
     switch (tr) {
         case tr_MultiA:
             return m_role[A].m_pMulti;
@@ -1123,7 +1123,7 @@ void AssociationWidget::calculateEndingPoints() {
         }
         return;
     }//end a == b
-    
+
     if (getAssocType() == at_Exception && size < 4) {
         int xa = pWidgetA -> getX();
         int ya = pWidgetA -> getY();
@@ -1304,7 +1304,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y ) {
     // 2004-04-30: Achim Spangler
     // Simple Approach to block moveEvent during load of
     // XMI
-    
+
     /// @todo avoid trigger of this event during load
     if ( m_umldoc->loading() ) {
         // hmmh - change of position during load of XMI
@@ -1327,7 +1327,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y ) {
     }
     else
         calculateEndingPoints();
-    
+
     // Assoc to self - move all points:
     if( m_role[A].m_pWidget == m_role[B].m_pWidget) {
         for( int i=1 ; i < (int)pos ; i++ ) {
@@ -1439,7 +1439,7 @@ void AssociationWidget::updatePointsException () {
         ydeb = ya + ha/2;
         yfin = yb + hb/2;
     }
-      
+
     ymil = ydeb + (yfin - ydeb)/2;
 
      p1.setX(xmil + (xfin - xmil)*1/2); p1.setY(ymil + (yfin - ymil)*1/3);

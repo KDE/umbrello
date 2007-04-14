@@ -34,7 +34,7 @@ public:
     //
 
     /**
-     * Constructors 
+     * Constructors
      */
     CPPCodeClassField (ClassifierCodeDocument * parentDoc, UMLRole * role);
     CPPCodeClassField (ClassifierCodeDocument * parentDoc, UMLAttribute * attrib);

@@ -111,22 +111,22 @@ public:
      * This method set the name of the preText attribute
      */
      void setPreText(QString);
-     
+
     /**
      * This method get the name of the preText attribute
      */
      QString getPreText();
-     
+
      /**
      * This method set the name of the postText attribute
      */
-     void setPostText(QString);  
-   
+     void setPostText(QString);
+
    /**
      * This method get the name of the postText attribute
      */
      QString getPostText();
-     
+
 protected:
     /**
      * Overrides method from UMLWidget

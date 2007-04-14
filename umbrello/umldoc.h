@@ -549,7 +549,7 @@ public:
 
     /**
      * Assigns an already created UMLObject a new ID.
-     * If the object is a classifier then the operations/attributes 
+     * If the object is a classifier then the operations/attributes
      * are also assigned new IDs.
      *
      * @param Obj               Pointer to the UMLObject to add.
@@ -801,7 +801,7 @@ private:
     bool m_bTypesAreResolved;
 
     /**
-     * the context menu on the tabs, 
+     * the context menu on the tabs,
      * plugs into umlview::slotMenuSelection()
      */
     KMenu* m_pTabPopupMenu;

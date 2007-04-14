@@ -151,7 +151,7 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
         diffY = m_oldY - m_widget->getY();
     }
 
-/* Commands 
+/* Commands
     UMLDoc* doc = UMLApp::app()->getDocument();
     doc->executeCommand(new cmdMoveWidget(this,diffX,diffY));*/
 

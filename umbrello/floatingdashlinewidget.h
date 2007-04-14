@@ -54,7 +54,7 @@ public:
 
     void slotMenuSelection(int sel);
      /**
-     * Returns true if the given point is near the floatingdashline 
+     * Returns true if the given point is near the floatingdashline
      */
      bool onLine(const QPoint & point);
 
@@ -82,7 +82,7 @@ public:
      * Returns m_yMin
      */
     int getYMin();
-    
+
     /**
      * Returns the difference between the y-coordinate of the dash line and m_yMin
      */

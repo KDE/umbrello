@@ -35,7 +35,7 @@ class UMLRole;
 
 /**
   * class ClassifierCodeDocument
-  * A CodeDocument which represents a UMLClassifier (e.g. a Class or Interface) 
+  * A CodeDocument which represents a UMLClassifier (e.g. a Class or Interface)
   */
 
 class ClassifierCodeDocument : public CodeDocument
@@ -228,7 +228,7 @@ private:
 
     /**
      * Init from a UMLClassifier object.
-     * @param       classifier 
+     * @param       classifier
      */
     void init ( UMLClassifier * classifier );
 

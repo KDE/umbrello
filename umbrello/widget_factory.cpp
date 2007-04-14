@@ -161,14 +161,14 @@ bool validateObjType(Uml::Object_Type expected, UMLObject *o) {
 UMLWidget* makeWidgetFromXMI(const QString& tag,
                              const QString& idStr, UMLView *view) {
     UMLWidget *widget = NULL;
-    if (tag == "statewidget"             || tag == "notewidget" 
-     || tag == "boxwidget"               || tag == "floatingtext" 
-     || tag == "activitywidget"          || tag == "forkjoin" 
-     || tag == "preconditionwidget"      || tag == "combinedFragmentwidget"  
+    if (tag == "statewidget"             || tag == "notewidget"
+     || tag == "boxwidget"               || tag == "floatingtext"
+     || tag == "activitywidget"          || tag == "forkjoin"
+     || tag == "preconditionwidget"      || tag == "combinedFragmentwidget"
      || tag == "signalwidget"            || tag == "pinwidget"
-     || tag == "objectnodewidget"        || tag == "floatingdashlinewidget" 
+     || tag == "objectnodewidget"        || tag == "floatingdashlinewidget"
      || tag == "regionwidget") {
-        // Loading of widgets which do NOT represent any UMLObject, 
+        // Loading of widgets which do NOT represent any UMLObject,
         // just graphic stuff with no real model information
         //FIXME while boxes and texts are just diagram objects, activities and
         // states should be UMLObjects

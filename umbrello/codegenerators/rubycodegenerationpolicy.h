@@ -39,7 +39,7 @@ public:
     //
 
     /**
-     * Constructors 
+     * Constructors
      */
     RubyCodeGenerationPolicy (KConfig * config = 0);
 

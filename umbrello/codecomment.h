@@ -25,7 +25,7 @@
 /**
   * class CodeComment
   * Text which will be comments. These should be bracketed by what ever code type
-  * comment the language requires. 
+  * comment the language requires.
   */
 
 class CodeComment : public TextBlock

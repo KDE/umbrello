@@ -101,12 +101,12 @@ public:
      * Loads the widget from the <objectnodewidget> XMI element.
      */
     bool loadFromXMI( QDomElement & qElement );
-    
+
     /**
      * Open a dialog box to select the objectNode type (Data, Buffer or Flow)
      */
     void askForObjectNodeType(UMLWidget* &targetWidget);
-    
+
     /**
      * Open a dialog box to input the state of the widget
      * This box is shown only if m_ObjectNodeType = Flow
@@ -123,7 +123,7 @@ protected:
      * Type of object node.
      */
     ObjectNodeType m_ObjectNodeType;
-    
+
     /**
     * State of the object node when it's an objectFlow
     */

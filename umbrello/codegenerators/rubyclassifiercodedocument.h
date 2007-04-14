@@ -82,7 +82,7 @@ protected:
     void resetTextBlocks();
 
     /**
-      * need to overwrite this for ruby since we need to pick up the 
+      * need to overwrite this for ruby since we need to pick up the
     * ruby class declaration block.
       */
     virtual void loadChildTextBlocksFromNode ( QDomElement & root);

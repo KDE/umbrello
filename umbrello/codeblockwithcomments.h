@@ -51,12 +51,12 @@ public:
 
 
     /**
-     * Set the Comment object 
+     * Set the Comment object
      */
     void setComment ( CodeComment * object );
 
     /**
-     * Get the Comment object 
+     * Get the Comment object
      */
     CodeComment * getComment ( );
 

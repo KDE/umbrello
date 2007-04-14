@@ -98,14 +98,14 @@ void AssocGenPage::constructWidget() {
         QString typeStr = UMLAssociation::typeAsString(m_AssocTypes[i]);
         m_AssocTypeStrings << typeStr;
     }
-    
+
     if (!found) {
         m_AssocTypes.clear();
         m_AssocTypes << currentType;
         m_AssocTypeStrings.clear();
         m_AssocTypeStrings << currentTypeAsString;
     }
-    
+
     m_pTypeCB = new KComboBox(nameGB);
     pTypeL->setBuddy(m_pTypeCB);
     m_pTypeCB->insertStringList(m_AssocTypeStrings);

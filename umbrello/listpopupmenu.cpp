@@ -392,7 +392,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
          || pActivity -> getActivityType() == ActivityWidget::Param)
             setupColor( object -> getUseFillColour() );
         insertStdItems(false, type);
-        if( pActivity -> getActivityType() == ActivityWidget::Normal 
+        if( pActivity -> getActivityType() == ActivityWidget::Normal
          || pActivity -> getActivityType() == ActivityWidget::Invok
          || pActivity -> getActivityType() == ActivityWidget::Param) {
             insertItem(i18n("Change Activity Name..."), mt_Rename);
@@ -416,7 +416,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
             insertStdItem(mt_Properties);
         }
         break;
-    
+
     case Uml::wt_Pin:
     case Uml::wt_Signal:
     case Uml::wt_FloatingDashLine:

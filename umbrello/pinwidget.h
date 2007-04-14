@@ -40,7 +40,7 @@ class PinWidget : public UMLWidget {
     Q_OBJECT
 
 public:
-  
+
     /**
      * Creates a Pin widget.
      *
@@ -121,7 +121,7 @@ private:
      * name of the signal widget.
      */
     FloatingTextWidget * m_pName;
-    
+
     /**
      * Save the value of the widget to know how to move the floatingtext
      */

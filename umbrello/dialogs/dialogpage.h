@@ -12,7 +12,7 @@
 
 
 /**
- * @short A basic interface for all Dialog Pages in Umbrello. 
+ * @short A basic interface for all Dialog Pages in Umbrello.
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
@@ -24,8 +24,8 @@ public:
 
     /**
      * If auto apply is true, the observed object will be modified
-     * inmediatly when the user changes something in the dialog 
-     */ 
+     * inmediatly when the user changes something in the dialog
+     */
     inline void setAutoApply( bool a ) {m_autoApply = a;}
 
 

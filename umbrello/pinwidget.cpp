@@ -34,7 +34,7 @@
 #include <QPolygon>
 
 PinWidget::PinWidget(UMLView * view, UMLWidget* a, Uml::IDType id ): UMLWidget(view, id){
-    
+
     init();
     m_pOw = a;
     int y = getY();
@@ -47,10 +47,10 @@ PinWidget::PinWidget(UMLView * view, UMLWidget* a, Uml::IDType id ): UMLWidget(v
     m_pName->setX(0);
     m_pName->setY(0);
     this->activate();
-} 
+}
 
-PinWidget::~PinWidget() {} 
- 
+PinWidget::~PinWidget() {}
+
 void PinWidget::init() {
     UMLWidget::setBaseType(Uml::wt_Pin);
     m_bIgnoreSnapToGrid = true;
@@ -61,7 +61,7 @@ void PinWidget::init() {
     setVisible(true);
 }
 
-void PinWidget::draw(QPainter & p, int offsetX, int offsetY) { 
+void PinWidget::draw(QPainter & p, int offsetX, int offsetY) {
     int w = 10;
     int h = 10;
     int width_Activity = m_pOw->getWidth();
@@ -81,7 +81,7 @@ void PinWidget::draw(QPainter & p, int offsetX, int offsetY) {
             m_pName->setY(y -fontHeight);
             cas = 1;
         }
-       
+
 
     } else if((offsetY + height_Activity/2) > m_pOw->getY() + height_Activity){
        y = (m_pOw->getY() + height_Activity)-5;
@@ -93,7 +93,7 @@ void PinWidget::draw(QPainter & p, int offsetX, int offsetY) {
         }
     }
 
-    if (offsetX + width_Activity/4 <= m_pOw->getX() + width_Activity/2 
+    if (offsetX + width_Activity/4 <= m_pOw->getX() + width_Activity/2
          && (offsetY > m_pOw->getY() +5 && offsetY < m_pOw->getY() + height_Activity - 5) ){
         x = m_pOw->getX() -5;
         y = m_pOw->getY() + (height_Activity/2) -5;
@@ -126,13 +126,13 @@ void PinWidget::draw(QPainter & p, int offsetX, int offsetY) {
 //     if (y + h >= m_pOw[Uml::A]->getEndLineY()) {
 //         y = m_pOw[Uml::A]->getEndLineY() - h;
 //     }
-    
-    
-    UMLWidget::setPen(p); 
-        if ( UMLWidget::getUseFillColour() ) { 
-            p.setBrush( UMLWidget::getFillColour() ); 
+
+
+    UMLWidget::setPen(p);
+        if ( UMLWidget::getUseFillColour() ) {
+            p.setBrush( UMLWidget::getFillColour() );
         }
-        p.drawRect(x,y,w, h); 
+        p.drawRect(x,y,w, h);
         //make sure it's always above the other
         setZ(20);
         UMLWidget::setPen(p);
@@ -190,25 +190,25 @@ void PinWidget::slotMenuSelection(int sel) {
 }
 
 
-void PinWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) { 
+void PinWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement PinElement = qDoc.createElement( "pinwidget" );
     PinElement.setAttribute( "widgetaid", ID2STR(m_pOw->getID()) );
-    UMLWidget::saveToXMI( qDoc, PinElement ); 
+    UMLWidget::saveToXMI( qDoc, PinElement );
     if (m_pName && !m_pName->getText().isEmpty()) {
         PinElement.setAttribute( "textid", ID2STR(m_pName->getID()) );
         m_pName -> saveToXMI( qDoc, PinElement );
     }
-    qElement.appendChild( PinElement ); 
+    qElement.appendChild( PinElement );
 }
 
 
-bool PinWidget::loadFromXMI( QDomElement & qElement ) { 
+bool PinWidget::loadFromXMI( QDomElement & qElement ) {
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
     QString widgetaid = qElement.attribute( "widgetaid", "-1" );
 
     Uml::IDType aId = STR2ID(widgetaid);
-    
+
     UMLWidget *pWA = m_pView -> findWidget( aId );
     if (pWA == NULL) {
         kDebug() << "PinWidget::loadFromXMI: role A object "
@@ -217,7 +217,7 @@ bool PinWidget::loadFromXMI( QDomElement & qElement ) {
     }
 
     m_pOw = pWA;
-    
+
     QString textid = qElement.attribute( "textid", "-1" );
     Uml::IDType textId = STR2ID(textid);
     if (textId != Uml::id_None) {
@@ -251,7 +251,7 @@ bool PinWidget::loadFromXMI( QDomElement & qElement ) {
         }
     }
 
-    return true; 
+    return true;
 }
 
 

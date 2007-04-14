@@ -53,7 +53,7 @@ AssocPropDlg::AssocPropDlg (QWidget *parent, AssociationWidget * assocWidget, in
     setupPages(assocWidget);
 #ifdef __GNUC__
 #warning "kde4: port it"
-#endif    
+#endif
     //showPage(pageNum);
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));

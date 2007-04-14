@@ -53,7 +53,7 @@ UMLEntityAttributeDialog::UMLEntityAttributeDialog( QWidget * pParent, UMLEntity
     m_pEntityAttribute = pEntityAttribute;
     setupDialog();
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
-    connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply())); 
+    connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
 UMLEntityAttributeDialog::~UMLEntityAttributeDialog() {}

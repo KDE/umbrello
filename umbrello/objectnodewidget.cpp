@@ -53,42 +53,42 @@ ObjectNodeWidget::ObjectNodeWidget(UMLView * view, ObjectNodeType objectNodeType
 ObjectNodeWidget::~ObjectNodeWidget() {}
 
 void ObjectNodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
-    int w = width(); 
+    int w = width();
     int h = height();
 
-    const QFontMetrics &fm = getFontMetrics(FT_NORMAL); 
-    const int fontHeight  = fm.lineSpacing(); 
+    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+    const int fontHeight  = fm.lineSpacing();
     int textStartY = (h / 2) - (fontHeight / 2);
 
     UMLWidget::setPen(p);
 
-    if ( UMLWidget::getUseFillColour() ) { 
-        p.setBrush( UMLWidget::getFillColour() ); 
+    if ( UMLWidget::getUseFillColour() ) {
+        p.setBrush( UMLWidget::getFillColour() );
     }
-        
-    p.drawRect(offsetX, offsetY, w, h); 
-    p.setFont( UMLWidget::getFont() ); 
 
- 
+    p.drawRect(offsetX, offsetY, w, h);
+    p.setFont( UMLWidget::getFont() );
+
+
     switch ( m_ObjectNodeType )
     {
     case Normal : break;
     case Buffer :
-        { 
+        {
             p.setPen(Qt::black);
             p.drawText(offsetX + OBJECTNODE_MARGIN, (offsetY + textStartY/2), w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, "<< centralBuffer >>");
             p.drawText(offsetX + OBJECTNODE_MARGIN, (offsetY + textStartY/2) + fontHeight + 5, w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, getName());
         }
         break;
     case Data :
-        { 
+        {
             p.setPen(Qt::black);
             p.drawText(offsetX + OBJECTNODE_MARGIN, (offsetY + textStartY/2), w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, "<< datastore >>");
             p.drawText(offsetX + OBJECTNODE_MARGIN, (offsetY + textStartY/2) + fontHeight + 5, w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, getName());
         }
         break;
     case Flow :
-        { 
+        {
             QString objectflow_value;
             if(getState() == "-" || getState() == NULL)
             {
@@ -101,7 +101,7 @@ void ObjectNodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
 
             p.drawLine(offsetX + 10 , offsetY + h/2, (offsetX + w)-10, offsetY + h/2  );
             p.setPen(Qt::black);
-            p.setFont( UMLWidget::getFont() ); 
+            p.setFont( UMLWidget::getFont() );
             p.drawText(offsetX + OBJECTNODE_MARGIN, offsetY + textStartY/2 - OBJECTNODE_MARGIN , w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, getName());
             p.drawText(offsetX + OBJECTNODE_MARGIN, offsetY + textStartY/2 + textStartY + OBJECTNODE_MARGIN, w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, objectflow_value);
         }
@@ -150,7 +150,7 @@ QSize ObjectNodeWidget::calculateSize() {
         width += OBJECTNODE_MARGIN * 2;
         height += OBJECTNODE_MARGIN * 4;
     }
-    
+
     return QSize(width, height);
 }
 
@@ -250,7 +250,7 @@ bool ObjectNodeWidget::loadFromXMI( QDomElement & qElement ) {
 void ObjectNodeWidget::askForObjectNodeType(UMLWidget* &targetWidget){
     bool pressedOK = false;
     int current = 0;
-    const QStringList list = QStringList() << "Central buffer" << "Data store" <<"Object Flow"; 
+    const QStringList list = QStringList() << "Central buffer" << "Data store" <<"Object Flow";
 
     QString type = KInputDialog::getItem ( i18n("Select Object node type"),  i18n("Select the object node type"),list,current, false, &pressedOK, UMLApp::app());
 

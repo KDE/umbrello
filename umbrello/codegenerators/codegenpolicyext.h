@@ -33,7 +33,7 @@ public:
     virtual ~CodeGenPolicyExt() {}
 
     /**
-     * Create a new dialog interface for this object. 
+     * Create a new dialog interface for this object.
      * @return dialog object
      */
     virtual CodeGenerationPolicyPage * createPage(QWidget *parent = 0, const char *name = 0) = 0;

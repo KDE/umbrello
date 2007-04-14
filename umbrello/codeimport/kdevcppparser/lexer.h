@@ -174,7 +174,7 @@ public:
     void setPosition( int position );
 
     QString text() const;
-    
+
 private:
     int m_type;
     int m_position;

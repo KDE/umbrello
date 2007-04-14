@@ -139,9 +139,9 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
             roleElement.setAttribute("relationship", "true");
         }
     }
-    
+
     roleElement.setAttribute("visibility", getVisibility().toString(false));
-    
+
     switch (m_Changeability) {
     case Uml::chg_Frozen:
         roleElement.setAttribute("changeability", "frozen");

@@ -97,7 +97,7 @@ void ObjectNodeDialog::applyPage( KPageWidgetItem *item ) {
             newType = ObjectNodeWidget::Data;
         else if (m_GenPageWidgets.FlowRB->isOn() )
              newType = ObjectNodeWidget::Flow;
-        
+
         m_pObjectNodeWidget->setObjectNodeType (newType);
 
     }

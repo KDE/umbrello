@@ -94,22 +94,22 @@ void JavaImport::spawnImport( QString file ) {
           QStringList fileList;
           fileList.append( file );
           s_filesAlreadyParsed.append( file );
-          importer.importFiles( fileList ); 
+          importer.importFiles( fileList );
     }
 }
 
 
-///returns the UML Object if found, or null otherwise 
+///returns the UML Object if found, or null otherwise
 UMLObject* findObject( QString name,   UMLPackage *parentPkg ) {
     UMLDoc *umldoc = UMLApp::app()->getDocument();
-    UMLObject * o = umldoc->findUMLObject(name, Uml::ot_UMLObject , parentPkg); 
+    UMLObject * o = umldoc->findUMLObject(name, Uml::ot_UMLObject , parentPkg);
     return o;
 }
 
 
-///Resolve the specified className 
+///Resolve the specified className
 UMLObject* JavaImport::resolveClass (QString className) {
-    kDebug() << "importJava trying to resolve " << className << endl; 
+    kDebug() << "importJava trying to resolve " << className << endl;
     // keep track if we are dealing with an array
     //
     bool isArray = className.contains('[');
@@ -119,7 +119,7 @@ UMLObject* JavaImport::resolveClass (QString className) {
     baseClassName.remove('[');
     baseClassName.remove(']');
 
-    // java has a few implicit imports.  Most relevant for this is the 
+    // java has a few implicit imports.  Most relevant for this is the
     // current package, which is in the same directory as the current file
     // being parsed
     //
@@ -137,7 +137,7 @@ UMLObject* JavaImport::resolveClass (QString className) {
     if ( QFile::exists(myFile) ) {
         spawnImport( myFile );
         if ( isArray ) {
-            // we have imported the type. For arrays we want to return 
+            // we have imported the type. For arrays we want to return
             // the array type
             return Import_Utils::createUMLObject(Uml::ot_Class, className, m_scope[m_scopeIndex]);
         }
@@ -183,7 +183,7 @@ UMLObject* JavaImport::resolveClass (QString className) {
                     parent = current;
                 } // for
                 if ( isArray ) {
-                    // we have imported the type. For arrays we want to return 
+                    // we have imported the type. For arrays we want to return
                     // the array type
                     return Import_Utils::createUMLObject(Uml::ot_Class, className, current);
                 }
@@ -200,12 +200,12 @@ UMLObject* JavaImport::resolveClass (QString className) {
 void JavaImport::parseFile(const QString& filename) {
     m_currentFileName= filename;
     m_imports.clear();
-    // default visibility is Impl, unless we are an interface, then it is 
+    // default visibility is Impl, unless we are an interface, then it is
     // public for member vars and methods
     m_defaultCurrentAccess = Uml::Visibility::Implementation;
     m_currentAccess = m_defaultCurrentAccess;
     s_parseDepth++;
-    // in the case of self referencing types, we can avoid parsing the 
+    // in the case of self referencing types, we can avoid parsing the
     // file twice by adding it to the list
     s_filesAlreadyParsed.append(filename);
     NativeImportBase::parseFile(filename);
@@ -296,7 +296,7 @@ bool JavaImport::parseStmt() {
             if ( parent ) {
                 Import_Utils::createGeneralization(m_klass, static_cast<UMLClassifier*>(parent));
             } else {
-                kDebug() << "importJava parentClass " << baseName 
+                kDebug() << "importJava parentClass " << baseName
                     << " is not resolveable. Creating placeholder" << endl;
                 Import_Utils::createGeneralization(m_klass, baseName);
             }
@@ -305,15 +305,15 @@ bool JavaImport::parseStmt() {
         if (m_source[m_srcIndex] == "implements") {
             while (m_srcIndex < srcLength - 1 && advance() != "{") {
                 const QString& baseName = m_source[m_srcIndex];
-                // try to resolve the interface we are implementing, if this fails 
+                // try to resolve the interface we are implementing, if this fails
                 // create a placeholder
                 UMLObject *interface = resolveClass( baseName );
                 if ( interface ) {
                      Import_Utils::createGeneralization(m_klass, static_cast<UMLClassifier*>(interface));
                 } else {
-                    kDebug() << "importJava implementing interface "<< baseName 
+                    kDebug() << "importJava implementing interface "<< baseName
                         <<" is not resolvable. Creating placeholder" <<endl;
-                    Import_Utils::createGeneralization(m_klass, baseName); 
+                    Import_Utils::createGeneralization(m_klass, baseName);
                 }
                 if (advance() != ",")
                     break;
@@ -397,7 +397,7 @@ bool JavaImport::parseStmt() {
         }
         m_imports.append( import );
 
-        // move past ; 
+        // move past ;
         skipStmt();
         return true;
     }
@@ -454,7 +454,7 @@ bool JavaImport::parseStmt() {
             if ( typeName == "final" || typeName.startsWith( "//") ) {
                 // ignore the "final" keyword and any comments in method args
                 typeName = advance();
-            } 
+            }
             typeName = joinTypename(typeName);
             QString parName = advance();
             // the Class might not be resolved yet so resolve it if necessary
@@ -521,7 +521,7 @@ bool JavaImport::parseStmt() {
         // try to resolve the class type, or create a placeholder if that fails
         UMLObject *type = resolveClass( typeName );
         UMLObject *o;
-        if (type) { 
+        if (type) {
             o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name,
                                            static_cast<UMLClassifier*>(type), m_comment, m_isStatic);
         } else {

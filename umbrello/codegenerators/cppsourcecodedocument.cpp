@@ -15,11 +15,11 @@
  */
 
 /**
-  We carve the CPP document up into 2 documents, "source" and "header". 
+  We carve the CPP document up into 2 documents, "source" and "header".
   The sections of each are as follows:
 
   * header
-  * includes 
+  * includes
   * constructor methods
   * all other methods
 

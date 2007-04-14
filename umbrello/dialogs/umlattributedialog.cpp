@@ -209,7 +209,7 @@ bool UMLAttributeDialog::apply() {
     if (classifier == NULL) {
         Uml::Programming_Language pl = UMLApp::app()->getActiveLanguage();
         if (pl == Uml::pl_Cpp || pl == Uml::pl_Java) {
-            // Import_Utils::createUMLObject works better for C++ namespace and java package than Object_Factory::createUMLObject 
+            // Import_Utils::createUMLObject works better for C++ namespace and java package than Object_Factory::createUMLObject
 
             Import_Utils::setRelatedClassifier(pConcept);
             obj = Import_Utils::createUMLObject(Uml::ot_UMLObject, typeName);

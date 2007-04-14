@@ -93,7 +93,7 @@ public:
 
     /**
      * Set the value of m_overwritePolicy
-     * Policy of how to deal with overwriting existing files. 
+     * Policy of how to deal with overwriting existing files.
      * OverwritePolicy  can have the following values
      *  - Ok: if there is a file named the same as what you want to name your output file,
      *        you can overwrite the old file.
@@ -121,7 +121,7 @@ public:
     /**
      * Set the value of m_codeVerboseSectionComments
      * Whether or not verbose code commenting for sections is desired. If true, comments
-     * for sections will be written even if the section is empty. 
+     * for sections will be written even if the section is empty.
      * @param new_var the new value of m_codeVerboseSectionComments
      */
     void setCodeVerboseSectionComments ( bool new_var );
@@ -129,7 +129,7 @@ public:
     /**
      * Get the value of m_codeVerboseSectionComments
      * Whether or not verbose code commenting for sections is desired. If true, comments
-     * for sections will be written even if the section is empty. 
+     * for sections will be written even if the section is empty.
      * @return the value of m_codeVerboseSectionComments
      */
     bool getCodeVerboseSectionComments ( ) const;
@@ -231,7 +231,7 @@ public:
     int getIndentationAmount ( );
 
     /**
-     * Get the string representation of each level of indentation. 
+     * Get the string representation of each level of indentation.
      * The amount and type of whitespace to indent with.
      * @return the value of m_indentationType
      */
@@ -286,7 +286,7 @@ public:
     ScopePolicy getAssociationFieldScope();
 
     /**
-     * Create a new dialog interface for this object. 
+     * Create a new dialog interface for this object.
      * @return dialog object
      */
     virtual CodeGenerationPolicyPage * createPage ( QWidget *parent = 0, const char * name = 0);

@@ -202,7 +202,7 @@ struct Slice
     QString source;
     int position;
     int length;
-    
+
     inline Slice()
         : position(0), length(0) {}
 };
@@ -212,7 +212,7 @@ class AST
 public:
     typedef AUTO_PTR<AST> Node;
     enum { Type=NodeType_Generic };
-    
+
     DECLARE_ALLOC( AST )
 
 public:
@@ -237,22 +237,22 @@ public:
     void removeChild( AST* child );
 #endif
 
-    virtual inline QString text() const 
+    virtual inline QString text() const
     { return m_slice.source.mid(m_slice.position, m_slice.length); }
 
     QString comment() const
     { return m_comment; }
 
-    inline void setSlice( const Slice& slice ) 
+    inline void setSlice( const Slice& slice )
     { m_slice = slice; }
 
-    inline void setSlice( const QString &text, int position, int length ) 
+    inline void setSlice( const QString &text, int position, int length )
     {
         m_slice.source = text;
         m_slice.position = position;
         m_slice.length = length;
     }
-    
+
     inline void setText(const QString &text)
     { setSlice(text, 0, text.length()); }
 
@@ -282,7 +282,7 @@ public:
     enum { Type = NodeType_Group };
 
     DECLARE_ALLOC( GroupAST )
-    
+
 public:
     GroupAST();
 
@@ -307,7 +307,7 @@ public:
     enum { Type = NodeType_TemplateArgumentList };
 
     DECLARE_ALLOC( TemplateArgumentListAST )
-    
+
 public:
     TemplateArgumentListAST();
 
@@ -331,7 +331,7 @@ public:
     enum { Type = NodeType_ClassOrNamespaceName };
 
     DECLARE_ALLOC( ClassOrNamespaceNameAST )
-    
+
 public:
     ClassOrNamespaceNameAST();
 
@@ -359,7 +359,7 @@ public:
     enum { Type = NodeType_Name };
 
     DECLARE_ALLOC( NameAST )
-    
+
 public:
     NameAST();
 
@@ -391,7 +391,7 @@ public:
     enum { Type = NodeType_TypeParameter };
 
     DECLARE_ALLOC( TypeParameterAST )
-    
+
 public:
     TypeParameterAST();
 
@@ -425,7 +425,7 @@ public:
     enum { Type = NodeType_Declaration };
 
     DECLARE_ALLOC( DeclarationAST )
-    
+
 public:
     DeclarationAST();
 
@@ -441,7 +441,7 @@ public:
     enum { Type = NodeType_AccessDeclaration };
 
     DECLARE_ALLOC( AccessDeclarationAST )
-    
+
 public:
     AccessDeclarationAST();
 
@@ -465,7 +465,7 @@ public:
     enum { Type = NodeType_TypeSpecifier };
 
     DECLARE_ALLOC( TypeSpecifierAST )
-    
+
 public:
     TypeSpecifierAST();
 
@@ -497,7 +497,7 @@ public:
     enum { Type = NodeType_BaseSpecifier };
 
     DECLARE_ALLOC( BaseSpecifierAST )
-    
+
 public:
     BaseSpecifierAST();
 
@@ -527,7 +527,7 @@ public:
     enum { Type = NodeType_BaseClause };
 
     DECLARE_ALLOC( BaseClauseAST )
-    
+
 public:
     BaseClauseAST();
 
@@ -549,7 +549,7 @@ public:
     enum { Type = NodeType_ClassSpecifier };
 
     DECLARE_ALLOC( ClassSpecifierAST )
-    
+
 public:
     ClassSpecifierAST();
 
@@ -583,7 +583,7 @@ public:
     enum { Type = NodeType_Enumerator };
 
     DECLARE_ALLOC( EnumeratorAST )
-    
+
 public:
     EnumeratorAST();
 
@@ -609,7 +609,7 @@ public:
     enum { Type = NodeType_EnumSpecifier };
 
     DECLARE_ALLOC( EnumSpecifierAST )
-    
+
 public:
     EnumSpecifierAST();
 
@@ -631,7 +631,7 @@ public:
     enum { Type = NodeType_ElaboratedTypeSpecifier };
 
     DECLARE_ALLOC( ElaboratedTypeSpecifierAST )
-    
+
 public:
     ElaboratedTypeSpecifierAST();
 
@@ -656,7 +656,7 @@ public:
     enum { Type = NodeType_LinkageBody };
 
     DECLARE_ALLOC( LinkageBodyAST )
-    
+
 public:
     LinkageBodyAST();
 
@@ -678,7 +678,7 @@ public:
     enum { Type = NodeType_LinkageSpecification };
 
     DECLARE_ALLOC( LinkageSpecificationAST )
-    
+
 public:
     LinkageSpecificationAST();
 
@@ -708,7 +708,7 @@ public:
     enum { Type = NodeType_Namespace };
 
     DECLARE_ALLOC( NamespaceAST )
-    
+
 public:
     NamespaceAST();
 
@@ -734,7 +734,7 @@ public:
     enum { Type = NodeType_NamespaceAlias };
 
     DECLARE_ALLOC( NamespaceAliasAST )
-    
+
 public:
     NamespaceAliasAST();
 
@@ -760,7 +760,7 @@ public:
     enum { Type = NodeType_Using };
 
     DECLARE_ALLOC( UsingAST )
-    
+
 public:
     UsingAST();
 
@@ -786,7 +786,7 @@ public:
     enum { Type = NodeType_UsingDirective };
 
     DECLARE_ALLOC( UsingDirectiveAST )
-    
+
 public:
     UsingDirectiveAST();
 
@@ -808,7 +808,7 @@ public:
     enum { Type = NodeType_Declarator };
 
     DECLARE_ALLOC( DeclaratorAST )
-    
+
 public:
     DeclaratorAST();
 
@@ -859,7 +859,7 @@ public:
     enum { Type = NodeType_ParameterDeclaration };
 
     DECLARE_ALLOC( ParameterDeclarationAST )
-    
+
 public:
     ParameterDeclarationAST();
 
@@ -891,7 +891,7 @@ public:
     enum { Type = NodeType_ParameterDeclarationList };
 
     DECLARE_ALLOC( ParameterDeclarationListAST )
-    
+
 public:
     ParameterDeclarationListAST();
 
@@ -915,7 +915,7 @@ public:
     enum { Type = NodeType_ParameterDeclarationClause };
 
     DECLARE_ALLOC( ParameterDeclarationClauseAST )
-    
+
 public:
     ParameterDeclarationClauseAST();
 
@@ -944,7 +944,7 @@ public:
     enum { Type = NodeType_InitDeclarator };
 
     DECLARE_ALLOC( InitDeclaratorAST )
-    
+
 public:
     InitDeclaratorAST();
 
@@ -970,7 +970,7 @@ public:
     enum { Type = NodeType_InitDeclaratorList };
 
     DECLARE_ALLOC( InitDeclaratorListAST )
-    
+
 public:
     InitDeclaratorListAST();
 
@@ -992,7 +992,7 @@ public:
     enum { Type = NodeType_Typedef };
 
     DECLARE_ALLOC( TypedefAST )
-    
+
 public:
     TypedefAST();
 
@@ -1018,7 +1018,7 @@ public:
     enum { Type = NodeType_TemplateParameter };
 
     DECLARE_ALLOC( TemplateParameterAST )
-    
+
 public:
     TemplateParameterAST();
 
@@ -1044,7 +1044,7 @@ public:
     enum { Type = NodeType_TemplateParameterList };
 
     DECLARE_ALLOC( TemplateParameterListAST )
-    
+
 public:
     TemplateParameterListAST();
 
@@ -1066,7 +1066,7 @@ public:
     enum { Type = NodeType_TemplateDeclaration };
 
     DECLARE_ALLOC( TemplateDeclarationAST )
-    
+
 public:
     TemplateDeclarationAST();
 
@@ -1096,7 +1096,7 @@ public:
     enum { Type = NodeType_SimpleDeclaration };
 
     DECLARE_ALLOC( SimpleDeclarationAST )
-    
+
 public:
     SimpleDeclarationAST();
 
@@ -1134,7 +1134,7 @@ public:
     enum { Type = NodeType_Statement };
 
     DECLARE_ALLOC( StatementAST )
-    
+
 public:
     StatementAST();
 
@@ -1150,7 +1150,7 @@ public:
     enum { Type = NodeType_ExpressionStatement };
 
     DECLARE_ALLOC( ExpressionStatementAST )
-    
+
 public:
     ExpressionStatementAST();
 
@@ -1172,7 +1172,7 @@ public:
     enum { Type = NodeType_Condition };
 
     DECLARE_ALLOC( ConditionAST )
-    
+
 public:
     ConditionAST();
 
@@ -1202,7 +1202,7 @@ public:
     enum { Type = NodeType_IfStatement };
 
     DECLARE_ALLOC( IfStatementAST )
-    
+
 public:
     IfStatementAST();
 
@@ -1232,7 +1232,7 @@ public:
     enum { Type = NodeType_WhileStatement };
 
     DECLARE_ALLOC( WhileStatementAST )
-    
+
 public:
     WhileStatementAST();
 
@@ -1258,7 +1258,7 @@ public:
     enum { Type = NodeType_DoStatement };
 
     DECLARE_ALLOC( DoStatementAST )
-    
+
 public:
     DoStatementAST();
 
@@ -1284,7 +1284,7 @@ public:
     enum { Type = NodeType_ForStatement };
 
     DECLARE_ALLOC( ForStatementAST )
-    
+
 public:
     ForStatementAST();
 
@@ -1318,7 +1318,7 @@ public:
     enum { Type = NodeType_SwitchStatement };
 
     DECLARE_ALLOC( SwitchStatementAST )
-    
+
 public:
     SwitchStatementAST();
 
@@ -1344,7 +1344,7 @@ public:
     enum { Type = NodeType_StatementList };
 
     DECLARE_ALLOC( StatementListAST )
-    
+
 public:
     StatementListAST();
 
@@ -1366,7 +1366,7 @@ public:
     enum { Type = NodeType_DeclarationStatement };
 
     DECLARE_ALLOC( DeclarationStatementAST )
-    
+
 public:
     DeclarationStatementAST();
 
@@ -1388,7 +1388,7 @@ public:
     enum { Type = NodeType_FunctionDefinition };
 
     DECLARE_ALLOC( FunctionDefinitionAST )
-    
+
 public:
     FunctionDefinitionAST();
 
@@ -1431,7 +1431,7 @@ public:
     enum { Type = NodeType_TranslationUnit };
 
     DECLARE_ALLOC( TranslationUnitAST )
-    
+
 public:
     TranslationUnitAST();
 

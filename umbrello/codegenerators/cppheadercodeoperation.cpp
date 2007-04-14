@@ -167,7 +167,7 @@ void CPPHeaderCodeOperation::applyStereotypes (QString& prototype, UMLOperation 
     if (!pOp->getStereotype().isEmpty()) {
         if ((pOp->getStereotype() == "friend") || (pOp->getStereotype(false) == "virtual")) {
             if (!pOp->isLifeOperation() && !(interface || pOp->getAbstract()) && !pOp->getStatic())
-                prototype = pOp->getStereotype() + ' ' + prototype; 
+                prototype = pOp->getStereotype() + ' ' + prototype;
         }
     }
 }

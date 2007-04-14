@@ -15,12 +15,12 @@
  */
 
 /**
-  We carve the CPP document up into 2 documents, "source" and "header". 
+  We carve the CPP document up into 2 documents, "source" and "header".
   This one represents the header portion.
   The sections of each are as follows:
 
   * header
-  * includes 
+  * includes
   * import statements
   * class declaration
   *   guts of the class (e.g. field decl, accessor methods, operations, dependant classes)

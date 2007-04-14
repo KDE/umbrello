@@ -65,7 +65,7 @@ protected slots:
     *   Entered when Apply button pressed.
     */
     void slotApply();
-    
+
     void slotShowState();
     void slotHideState();
 protected:
@@ -93,7 +93,7 @@ protected:
     *   Show the State entry text.
     */
     void showState();
-    
+
     /**
     *     Applys changes to the given page.
     */

@@ -107,7 +107,7 @@ public:
 
     /**
      * @return  ClassifierCodeDocument
-     * @param   classifier 
+     * @param   classifier
      */
     CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier);
 
@@ -122,7 +122,7 @@ public:
     /**
      * IF the type is "string" we need to declare it as
      * the Java Object "String" (there is no string primative in Java).
-     * Same thing again for "bool" to "boolean". 
+     * Same thing again for "bool" to "boolean".
      */
     static QString fixTypeName(const QString &string);
 

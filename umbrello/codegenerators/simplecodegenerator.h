@@ -12,7 +12,7 @@
  *      Date   : Sep Mon 1 2003
  *
  *  copyright (C) 2004
- *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net> 
+ *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
  */
 
 
@@ -68,7 +68,7 @@ public:
     /**
      * This is implemented only because we HAVE to.
      * @return  ClassifierCodeDocument
-     * @param   classifier 
+     * @param   classifier
      * @param   this This package generator object.
      */
     CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier);

@@ -36,7 +36,7 @@ public:
     //
 
     /**
-     * Constructors 
+     * Constructors
      */
     //JavaCodeGenerationPolicy (CodeGenerationPolicy * defaults = 0);
     JavaCodeGenerationPolicy (KConfig * config = 0);

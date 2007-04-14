@@ -5,7 +5,7 @@
     source code is not replicated in the XMI file.
                              -------------------
     copyright            : (C) 2003 Brian Thomas
-         (C) 2004  Umbrello UML Modeller Authors <uml-devel@uml.sf.net> 
+         (C) 2004  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
  ***************************************************************************/
 
 /***************************************************************************
@@ -84,7 +84,7 @@ private:
 
     /**
      * return true if the operation is in the list
-     * @param umlOp operation to be searched 
+     * @param umlOp operation to be searched
      * @param opl list of operations
      */
     static bool javaMethodInList(UMLOperation *umlOp, UMLOperationList &opl);
@@ -95,7 +95,7 @@ private:
      * @param c the class for which we are generating code
      * @param yetImplementedOpList the list of yet implemented operations
      * @param toBeImplementedOpList the list of to be implemented operations
-     * @param noClassInPath tells if there is a class between the base class and the current interface 
+     * @param noClassInPath tells if there is a class between the base class and the current interface
      */
     void getSuperImplementedOperations(UMLClassifier *c, UMLOperationList &yetImplementedOpList ,UMLOperationList &toBeImplementedOpList, bool noClassInPath = true);
 

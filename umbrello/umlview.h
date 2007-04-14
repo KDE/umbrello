@@ -860,7 +860,7 @@ public:
     ObjectWidget * onWidgetLine( const QPoint &point );
 
     /**
-     * Determine whether on a sequence diagram we have clicked on 
+     * Determine whether on a sequence diagram we have clicked on
      * the destruction box of an Object.
      *
      * @return The widget thats destruction box was clicked on.
@@ -1146,7 +1146,7 @@ private:
      * Reset to false when clicking in an empty region of the view.
      */
     bool m_bChildDisplayedDoc;
-    
+
     ToolBarStateFactory* m_pToolBarStateFactory;
     ToolBarState* m_pToolBarState;
 

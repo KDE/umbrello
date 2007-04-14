@@ -54,7 +54,7 @@ public:
 
 private:
     /**
-     * Convert a C++ type such as 'int' or 'QWidget' to 
+     * Convert a C++ type such as 'int' or 'QWidget' to
      * ruby types Integer and Qt::Widget
      *
      * @param cppType the C++ type to be converted
@@ -62,7 +62,7 @@ private:
     QString cppToRubyType(const QString &cppType);
 
     /**
-     * Convert C++ names such as 'm_foobar' or pFoobar to 
+     * Convert C++ names such as 'm_foobar' or pFoobar to
      * just 'foobar' for ruby
      *
      * @param cppName the C++ name to be converted
@@ -77,7 +77,7 @@ private:
 
 
     /**
-     * write all method declarations, for attributes and associations 
+     * write all method declarations, for attributes and associations
      * for the given permitted scope.
      */
     void writeSingleAttributeAccessorMethods(const QString &fieldName,

@@ -44,16 +44,16 @@ AlignToolBar::AlignToolBar(QMainWindow* parentWindow, const char* )
         this, SLOT(slotAlignTop()));
     addAction(QIcon(m_Pixmaps[alac_align_bottom]), i18n("Align Bottom"),
         this, SLOT(slotAlignBottom()));
-    addAction(QIcon(m_Pixmaps[alac_align_vertical_middle]), 
+    addAction(QIcon(m_Pixmaps[alac_align_vertical_middle]),
         i18n("Align Vertical Middle"),
         this, SLOT(slotAlignVerticalMiddle()));
-    addAction(QIcon(m_Pixmaps[alac_align_horizontal_middle]), 
+    addAction(QIcon(m_Pixmaps[alac_align_horizontal_middle]),
         i18n("Align Horizontal Middle"),
         this, SLOT(slotAlignHorizontalMiddle()));
-    addAction(QIcon(m_Pixmaps[alac_align_vertical_distribute]), 
+    addAction(QIcon(m_Pixmaps[alac_align_vertical_distribute]),
         i18n("Align Vertical Distribute"),
         this, SLOT(slotAlignVerticalDistribute()));
-    addAction(QIcon(m_Pixmaps[alac_align_horizontal_distribute]), 
+    addAction(QIcon(m_Pixmaps[alac_align_horizontal_distribute]),
         i18n("Align Horizontal Distribute"),
         this, SLOT(slotAlignHorizontalDistribute()));
 

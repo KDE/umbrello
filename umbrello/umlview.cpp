@@ -401,7 +401,7 @@ void UMLView::setupNewWidget(UMLWidget *w) {
     resizeCanvasToItems();
     m_WidgetList.append( w );
     m_pDoc->setModified();
-     
+
     UMLApp::app()->executeCommand(new cmdCreateWidget(this, w));
 }
 
@@ -478,7 +478,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 
     if (newWidget == NULL)
         return;
-    
+
     newWidget->setVisible( true );
     newWidget->setActivated();
     newWidget->setFont( getFont() );
@@ -3243,7 +3243,7 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
     QString tag  = widgetElement.tagName();
     QString idstr  = widgetElement.attribute( "xmi.id", "-1" );
     widget = Widget_Factory::makeWidgetFromXMI(tag, idstr, this);
-    
+
     if (widget == NULL)
         return NULL;
     if (!widget->loadFromXMI(widgetElement)) {

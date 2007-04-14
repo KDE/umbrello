@@ -74,7 +74,7 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
     {
         case Ref :
         p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY + textStartY, w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignCenter, combined_fragment_value);
-    
+
         p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY , w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "ref");
         break;
 
@@ -133,7 +133,7 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
                     (*it)->setY(getY() + (*it)->getY() - old_Y);
                     (*it)->setSize(w, 0);
                 }
-                
+
         break;
 
         case Par :

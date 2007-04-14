@@ -58,7 +58,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, int pageNum, bool ass
     setupPages(c, assoc);
 #ifdef __GNUC__
 #warning "kde4: reimplement showPage"
-#endif    
+#endif
     //showPage(pageNum);
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
@@ -106,7 +106,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget * o)
     setupFontPage();
 #ifdef __GNUC__
 #warning "kde4: reimplement showPage"
-#endif    
+#endif
     //showPage(0);
     setMinimumSize(340,420);
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));

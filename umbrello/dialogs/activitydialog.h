@@ -65,7 +65,7 @@ protected slots:
     *   Entered when Apply button pressed.
     */
     void slotApply();
-    
+
     void slotShowActivityParameter();
     void slotHideActivityParameter();
 protected:
@@ -93,7 +93,7 @@ protected:
     *   Show the Activity Parameter entry text.
     */
     void showParameterActivity();
-    
+
     /**
     *     Applys changes to the given page.
     */

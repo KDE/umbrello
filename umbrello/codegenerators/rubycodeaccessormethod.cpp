@@ -149,7 +149,7 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
     if(objectType.isEmpty())
         objectType = fieldName;
     QString endLine = p->getNewLineEndingChars();
-    
+
     QString description = getParentObject()->getDoc();
     description.replace(QRegExp("m_[npb](?=[A-Z])"), "");
     description.replace("m_", "");
@@ -186,7 +186,7 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
         setEndMethodText("end");
         break;
     case CodeAccessorMethod::GET:
-        headerText = "Get the value of " + fieldName + endLine + description; 
+        headerText = "Get the value of " + fieldName + endLine + description;
         setStartMethodText(QString("attr_reader :") + fieldName);
         setEndMethodText("");
         break;

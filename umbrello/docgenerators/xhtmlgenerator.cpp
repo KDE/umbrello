@@ -85,23 +85,23 @@ void XhtmlGenerator::slotDocbookToXhtml(KJob * docbookJob)
     // error shown by setAutoErrorHandlingEnabled(true) already
     return;
   }
-  
+
   UMLApp* app = UMLApp::app();
   UMLDoc* umlDoc = app->getDocument();
-  
+
   const KUrl& url = umlDoc->url();
   QString docbookName = url.fileName();
   docbookName.replace(QRegExp(".xmi$"),".docbook");
   KUrl docbookUrl = m_destDir;
   docbookUrl.addPath(docbookName);
-  
+
   xsltStylesheetPtr cur = NULL;
   xmlDocPtr doc, res;
-    
+
   const char *params[16 + 1];
   int nbparams = 0;
   params[nbparams] = NULL;
-  
+
   QString xsltFileName(KGlobal::dirs()->findResource("appdata","docbook2xhtml.xsl"));
   kDebug() << "XSLT file is'"<<xsltFileName<<"'" << endl;
   QFile xsltFile(xsltFileName);
@@ -109,7 +109,7 @@ void XhtmlGenerator::slotDocbookToXhtml(KJob * docbookJob)
   QString xslt = xsltFile.readAll();
   kDebug() << "XSLT is'"<<xslt<<"'" << endl;
   xsltFile.close();
-  
+
   QString localXsl = KGlobal::dirs()->findResource("data","ksgmltools2/docbook/xsl/html/docbook.xsl");
   kDebug() << "Local xsl is'"<<localXsl<<"'" << endl;
   if (!localXsl.isEmpty())
@@ -132,26 +132,26 @@ void XhtmlGenerator::slotDocbookToXhtml(KJob * docbookJob)
   doc = xmlParseFile((const char*)(docbookUrl.path().utf8()));
   kDebug() << "Applying stylesheet " << endl;
   res = xsltApplyStylesheet(cur, doc, params);
-  
+
   KTemporaryFile tmpXhtml;
   tmpXhtml.setAutoRemove(false);
   tmpXhtml.open();
-  
+
   kDebug() << "Writing HTML result to temp file: " << tmpXhtml.fileName() << endl;
   xsltSaveResultToFd(tmpXhtml.handle(), res, cur);
-  
+
   xsltFreeStylesheet(cur);
   xmlFreeDoc(res);
   xmlFreeDoc(doc);
 
   xsltCleanupGlobals();
   xmlCleanupParser();
-  
+
   QString xhtmlName = url.fileName();
   xhtmlName.replace(QRegExp(".xmi$"),".html");
   KUrl xhtmlUrl = m_destDir;
   xhtmlUrl.addPath(xhtmlName);
-  
+
   kDebug() << "Copying HTML result to: " << xhtmlUrl << endl;
   KIO::Job* job = KIO::file_copy(tmpXhtml.fileName(),xhtmlUrl,-1,true,false,false);
   job->ui()->setAutoErrorHandlingEnabled(true);
@@ -164,7 +164,7 @@ void XhtmlGenerator::slotDocbookToXhtml(KJob * docbookJob)
   KIO::Job* cssJob = KIO::file_copy(cssFileName,cssUrl,-1,true,false,false);
   cssJob->ui()->setAutoErrorHandlingEnabled(true);
 }
-    
+
 void XhtmlGenerator::slotHtmlCopyFinished( KJob* )
 {
   kDebug() << "HTML copy finished: emiting finished" << endl;

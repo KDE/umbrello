@@ -80,7 +80,7 @@ private:
 
     /**
       * write realizations of a class and recurse to parent classes
-      
+
       * @param currentClass class to start with
       * @param realizations realizations of this class
       * @param cs output stream
@@ -118,7 +118,7 @@ private:
       * @param cs output stream
       */
     void writeOverridesRecursive(UMLClassifierList *superclasses, QTextStream &cs);
-    
+
     /** write all the attributes of a class
       * @param c the class we are generating code for
       * @param cs output stream
@@ -136,7 +136,7 @@ private:
       * @param associated list of associated objects
       * @param c currently written class, to see association direction
       * @param cs output stream
-      */ 
+      */
     void writeAssociatedAttributes(UMLAssociationList &associated, UMLClassifier *c, QTextStream &cs);
 
     /**
@@ -148,7 +148,7 @@ private:
       * @param name name of the attribute
       * @param initialValue initial value given to the attribute at declaration
       * @param asProperty true writes as property (get/set), false writes single line variable
-      * @param cs output stream 
+      * @param cs output stream
       */
     void writeAttribute(QString doc, Uml::Visibility visibility, bool isStatic, QString typeName, QString name, QString initialValue, bool asProperty, QTextStream &cs);
 

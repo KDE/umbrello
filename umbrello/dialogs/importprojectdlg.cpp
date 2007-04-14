@@ -22,11 +22,11 @@ const QString ImportProjectDlg::ADA = "Ada";
 const QString ImportProjectDlg::CPP = "C++";
 const QString ImportProjectDlg::IDL = "Idl";
 const QString ImportProjectDlg::JAVA = "Java";
-const QString ImportProjectDlg::PASCAL = "Pascal"; 
+const QString ImportProjectDlg::PASCAL = "Pascal";
 const QString ImportProjectDlg::PYTHON = "Python";
 
 
-ImportProjectDlg::ImportProjectDlg(QStringList* list, const  Uml::Programming_Language pl, 
+ImportProjectDlg::ImportProjectDlg(QStringList* list, const  Uml::Programming_Language pl,
                                    QWidget* parent,const char* name,bool modal,Qt::WindowFlags fl)
   : ImportProjectDlgBase(parent,name, modal,fl), fileList(list) {
     QStringList languages;
@@ -59,7 +59,7 @@ ImportProjectDlg::ImportProjectDlg(QStringList* list, const  Uml::Programming_La
     m_kURL->setMode(KFile::Directory | KFile::ExistingOnly | KFile::LocalOnly);
 }
 
-QDialog::DialogCode ImportProjectDlg::getFilesToImport(QStringList* list, const  Uml::Programming_Language pl, 
+QDialog::DialogCode ImportProjectDlg::getFilesToImport(QStringList* list, const  Uml::Programming_Language pl,
                                      QWidget* parent) {
 
     ImportProjectDlg dlg(list, pl, parent);
@@ -88,7 +88,7 @@ void ImportProjectDlg::accept() {
     if (url.isEmpty()) {
         KMessageBox::sorry(this, i18n("You have to choose a directory."));
         return;
-    } 
+    }
     QDir dir(url.path());
     if (!dir.exists()){
         KMessageBox::sorry(this, i18n("This directory doesn't exist."));

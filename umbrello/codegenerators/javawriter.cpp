@@ -5,7 +5,7 @@
     source code is not replicated in the XMI file.
                              -------------------
     copyright            : (C) 2003 Brian Thomas brian.thomas@gsfc.nasa.gov
-      (C) 2004-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net> 
+      (C) 2004-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
 ***************************************************************************/
 
 /***************************************************************************
@@ -116,7 +116,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
     // another preparation, determine what we have
     UMLAssociationList associations = c->getSpecificAssocs(Uml::at_Association); // BAD! only way to get "general" associations.
     UMLAssociationList uniAssociations = c->getUniAssociationToBeImplemented();
-    
+
     UMLAssociationList aggregations = c->getAggregations();
     UMLAssociationList compositions = c->getCompositions();
 
@@ -294,7 +294,7 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
 
     java<<classname;
 
-    // Generics 
+    // Generics
     UMLTemplateList template_params = c->getTemplateList();
     if (template_params.count()) {
         java << "<";
@@ -324,7 +324,7 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
         }
         else
         {
-            //The java generated code is wrong ! : No multiple inheritence of class 
+            //The java generated code is wrong ! : No multiple inheritence of class
             java<< ", " ;
         }
         java<< cleanName(concept->getName());
@@ -344,7 +344,7 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
         }
         else
         {
-            //The java generated code is OK ! : multiple inheritence of interface 
+            //The java generated code is OK ! : multiple inheritence of interface
             java<< ", " ;
         }
         java<< cleanName(concept->getName());
@@ -733,7 +733,7 @@ bool JavaWriter::compareJavaMethod(UMLOperation *op1, UMLOperation *op2)
             return false;
     }
     return true;
-    
+
 }
 
 bool JavaWriter::javaMethodInList(UMLOperation *umlOp, UMLOperationList &opl)
@@ -749,7 +749,7 @@ bool JavaWriter::javaMethodInList(UMLOperation *umlOp, UMLOperationList &opl)
 void JavaWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationList &yetImplementedOpList ,UMLOperationList &toBeImplementedOpList, bool noClassInPath)
 {
     UMLClassifierList superClasses = c->findSuperClassConcepts();
-    
+
     for (UMLClassifier *concept= superClasses.first(); concept; concept = superClasses.next())
     {
         getSuperImplementedOperations(concept, yetImplementedOpList, toBeImplementedOpList, (concept->isInterface() && noClassInPath));
@@ -766,7 +766,7 @@ void JavaWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationLis
             }
         }
     }
-    
+
 }
 
 void JavaWriter::getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOperationList &opList )
@@ -779,7 +779,7 @@ void JavaWriter::getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOpe
     {
         if ( ! JavaWriter::javaMethodInList(op, yetImplementedOpList) && ! JavaWriter::javaMethodInList(op, opList) )
             opList.append(op);
-    } 
+    }
 }
 
 void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
@@ -793,7 +793,7 @@ void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
     opl = c->getOpList();
     if (! c->isInterface()) {
         getInterfacesOperationsToBeImplemented(c, opl);
-    } 
+    }
     for (UMLOperation *op = opl.first(); op; op = opl.next()) {
         switch(op->getVisibility()) {
           case Uml::Visibility::Public:

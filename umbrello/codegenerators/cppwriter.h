@@ -5,7 +5,7 @@
     source code is not replicated in the XMI file.
                              -------------------
     copyright            : (C) 2003 Brian Thomas
-         (C) 2004  Umbrello UML Modeller Authors <uml-devel@uml.sf.net> 
+         (C) 2004  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
  ***************************************************************************/
 
 /***************************************************************************
@@ -32,7 +32,7 @@ class ClassifierInfo;
 /**
   * class CppWriter is a code generator for UMLClassifier objects.
   * Create an instance of this class, and feed it a UMLClassifier when
-  * calling writeClass and it will generate both a header (.h) and 
+  * calling writeClass and it will generate both a header (.h) and
   * source (.cpp) file for that classifier.
   */
 class CppWriter : public SimpleCodeGenerator {
@@ -78,7 +78,7 @@ private:
     void writeClassDecl(UMLClassifier *c, QTextStream &cpp);
 
     /**
-     * Writes the comment and class constructor declaration or methods 
+     * Writes the comment and class constructor declaration or methods
      */
     void writeConstructorDecls(QTextStream &h);
     void writeConstructorMethods(QTextStream &cpp);
@@ -90,7 +90,7 @@ private:
     void writeFieldDecl(UMLClassifier *c, Uml::Visibility permitScope, QTextStream &stream);
 
     /**
-     * write all method declarations, for attributes and associations 
+     * write all method declarations, for attributes and associations
      * for the given permitted scope.
      */
     void writeAccessorMethodDecl(UMLClassifier *c, Uml::Visibility permitScope, QTextStream &stream);

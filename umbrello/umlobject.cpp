@@ -461,7 +461,7 @@ bool UMLObject::resolveRef() {
         m_SecondaryFallback = m_SecondaryId;
     }
 #ifdef VERBOSE_DEBUGGING
-    kDebug() << "UMLObject::resolveRef(" << m_Name 
+    kDebug() << "UMLObject::resolveRef(" << m_Name
               << "): could not resolve secondary ID " << m_SecondaryId
               << ", using secondary fallback " << m_SecondaryFallback
               << endl;

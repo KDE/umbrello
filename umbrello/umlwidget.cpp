@@ -522,10 +522,10 @@ void UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
         if( m_pView -> getType() == dt_Sequence ) {
             switch( getBaseType() ) {
             case wt_Object:
-            case wt_Precondition : 
+            case wt_Precondition :
                 setY( getY() );
                 setX( x );
-                break; 
+                break;
 
             case wt_Message:
                 setY( getY() );

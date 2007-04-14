@@ -53,7 +53,7 @@ WorkToolBar::~WorkToolBar() {
 }
 
 QAction* WorkToolBar::insertHotBtn(ToolBar_Buttons tbb) {
-    QAction* action = addAction(QIcon(m_ToolButtons[tbb].Symbol), m_ToolButtons[tbb].Label, 
+    QAction* action = addAction(QIcon(m_ToolButtons[tbb].Symbol), m_ToolButtons[tbb].Label,
         /*receiver*/this, /*member*/m_ToolButtons[tbb].Slot);
     m_actions[tbb] = action;
     action->setChecked(true);

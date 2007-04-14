@@ -150,8 +150,8 @@ void CodeAccessorMethod::setAttributesFromNode ( QDomElement & root) {
         if(cdoc)
                 newCF = cdoc->findCodeClassFieldFromParentID (STR2ID(id));
 
-        m_parentclassfield->disconnect(this); // always disconnect 
-        if(newCF) 
+        m_parentclassfield->disconnect(this); // always disconnect
+        if(newCF)
                 initFields(newCF);
         else
                 kError()<<"ERROR: code accessor method cant load parent codeclassfield, corrupt file?"<<endl;

@@ -75,7 +75,7 @@ void ObjectWidgetController::mouseMoveEvent(QMouseEvent* me) {
     if (isOnDestructionBox) {
         moveDestructionBy (diffY);
     }
-    
+
     else
         UMLWidgetController::mouseMoveEvent(me);
 

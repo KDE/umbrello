@@ -61,7 +61,7 @@ protected:
      * figure out if the type is really an array or template of the given typeName
      */
     QString joinTypename(QString typeName);
-    
+
     /**
      * true if the member var or method is declared static
      */
@@ -74,7 +74,7 @@ protected:
 
     /**
      * the current package of the file being parsed
-     */ 
+     */
     QString m_currentPackage;
 
     /**
@@ -89,7 +89,7 @@ protected:
     static QStringList s_filesAlreadyParsed;
 
     /**
-     * Keep track of the parses so that the filesAlreadyParsed 
+     * Keep track of the parses so that the filesAlreadyParsed
      * can be reset when we're done.
      */
     static int s_parseDepth;

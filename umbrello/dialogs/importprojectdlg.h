@@ -20,7 +20,7 @@
 
 /**
  * Dialog for collecting the "Import project" params and searching the files that match the params.
- * Inherits ImportProjectDlgBase 
+ * Inherits ImportProjectDlgBase
  * The user chooses the directory with a KUrlRequester widget and chooses the language in a combobox.
  * The slot accept() do the search
  */
@@ -51,7 +51,7 @@ public:
      */
     virtual ~ImportProjectDlg() {
     }
- 
+
     /**
      * Static convenience method that creates a ImportProjectDlg and fills the first param
      * with all the source files in the directory chosen by the user.
@@ -76,7 +76,7 @@ protected slots:
 private:
 
     /**
-    * Recursively get all the sources files that matches the filters from the path aPath 
+    * Recursively get all the sources files that matches the filters from the path aPath
     */
     virtual void getFiles(const QString& aPath, QStringList& filters);
 

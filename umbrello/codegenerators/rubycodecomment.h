@@ -23,7 +23,7 @@
 
 /**
   * class RubyCodeComment
-  * A Ruby code comment. There are two styles of comments: 
+  * A Ruby code comment. There are two styles of comments:
   * these are simply started with a hash and no terminating
   * characters, or delimited by '=begin' and '=end' tags at the
   * start of lines

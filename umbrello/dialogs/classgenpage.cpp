@@ -187,7 +187,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
     m_pProtectedRB = new QRadioButton(i18n("Pro&tected"), m_pButtonBG);
     scopeLayout -> addWidget(m_pProtectedRB);
     topLayout -> addWidget(m_pButtonBG);
-    
+
     m_pImplementationRB = new QRadioButton(i18n("Imple&mentation"), m_pButtonBG);
     scopeLayout -> addWidget(m_pImplementationRB);
     topLayout -> addWidget(m_pButtonBG);

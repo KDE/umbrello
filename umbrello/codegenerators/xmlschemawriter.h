@@ -31,10 +31,10 @@
   * calling writeClass and it will generate a XMLschema source file for
   * that concept
   *
-  * Our basic approach is to map UMLClassifiers (classes/interfaces) into 
-  * XML elements (or nodes). We declare these element in the schema either 
-  * as complexType or as groups based on whether they are concrete or abstract 
-  * in nature. This is not a perfect decision, but thats life with XML Schema... 
+  * Our basic approach is to map UMLClassifiers (classes/interfaces) into
+  * XML elements (or nodes). We declare these element in the schema either
+  * as complexType or as groups based on whether they are concrete or abstract
+  * in nature. This is not a perfect decision, but thats life with XML Schema...
   * you cant fully represent Objects in the XML world ..yet. -b.t.
   */
 
@@ -90,7 +90,7 @@ private:
 
     /**
      * write a <group> declaration for this classifier. Used for interfaces to classes with
-     * inheriting children. 
+     * inheriting children.
      */
     void writeGroupClassifierDecl(UMLClassifier *c,
                                   UMLClassifierList superclassifiers,
@@ -138,7 +138,7 @@ private:
 
     /**
      * Searches a list of associations for appropriate ones to write out as attributes.
-     * This works well for compositions, aggregations and self-associations but will 
+     * This works well for compositions, aggregations and self-associations but will
      * not work right for plain associations between 2 different classes.
      */
     bool writeAssociationDecls(UMLAssociationList associations, bool noRoleOK, bool didOne,
@@ -155,12 +155,12 @@ private:
     void writeAssociationRoleDecl(UMLClassifier *c, const QString &multi, QTextStream &XMLschema);
 
     /**
-     * Construct an element tag with the schema namespace 
+     * Construct an element tag with the schema namespace
      */
     QString makeSchemaTag ( QString tagName );
 
     /**
-     * Construct an element tag with the package namespace 
+     * Construct an element tag with the package namespace
      */
     QString makePackageTag ( QString tagName );
 
@@ -170,7 +170,7 @@ private:
     void writeComment(const QString &text, QTextStream &XMLschema);
 
     /**
-     * Find and return a list of child UMLObjects pointed to by the associations 
+     * Find and return a list of child UMLObjects pointed to by the associations
      * in this UMLClassifier.
      */
     UMLObjectList findChildObjsInAssociations (UMLClassifier *c, UMLAssociationList associations);
@@ -198,12 +198,12 @@ private:
     QString getElementTypeName(UMLClassifier *c);
 
     /**
-     * Find the group node "type" name. Used for elements which define an interface/are abstract. 
+     * Find the group node "type" name. Used for elements which define an interface/are abstract.
      */
     QString getElementGroupTypeName(UMLClassifier *c);
 
     /**
-     * Find all the child objects in this association and make sure they get 
+     * Find all the child objects in this association and make sure they get
      * written out (if they havent already been)
      */
     void writeChildObjsInAssociation (UMLClassifier *c, UMLAssociationList assoc, QTextStream &s);
@@ -215,7 +215,7 @@ private:
 
     /**
      * mark a concept as written, so it is not repeatedly re-declared in the schema
-     */ 
+     */
     void markAsWritten(UMLClassifier *c);
 
     /**

@@ -56,11 +56,11 @@ int SeqLineWidget::onDestructionBox ( const QPoint & p ) {
     int nOnDestructionBox = 0;
     int x = m_pObject->getX() + m_pObject->getWidth() / 2;
     int y = m_pObject->getY() + m_pObject->getHeight() + m_nLengthY;
- 
+
     //see if on destruction box
     if( !m_pObject->getShowDestruction() ) {
         return 0;
-    }    
+    }
     if( x - 10 < p.x() && x + 10 > p.x()
             && y - 10 < p.y() && y + 10 > p.y() )
     {

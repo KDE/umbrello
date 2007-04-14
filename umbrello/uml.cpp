@@ -192,10 +192,10 @@ void UMLApp::initActions() {
     fileClose = KStandardAction::close(this, SLOT(slotFileClose()), actionCollection());
     filePrint = KStandardAction::print(this, SLOT(slotFilePrint()), actionCollection());
     fileQuit = KStandardAction::quit(this, SLOT(slotFileQuit()), actionCollection());
-    
+
     editUndo = m_pUndoStack->createUndoAction(actionCollection());
     editRedo = m_pUndoStack->createRedoAction(actionCollection());
-    
+
     editCut = KStandardAction::cut(this, SLOT(slotEditCut()), actionCollection());
     editCopy = KStandardAction::copy(this, SLOT(slotEditCopy()), actionCollection());
     editPaste = KStandardAction::paste(this, SLOT(slotEditPaste()), actionCollection());
@@ -580,14 +580,14 @@ void UMLApp::initView() {
     m_cmdHistoryDock->setWidget(m_pQUndoView);
     m_pQUndoView->setCleanIcon(KIcon("filesave"));
     m_pQUndoView->setStack(m_pUndoStack);
-    
+
     // Create the property viewer
     //m_propertyDock = new QDockWidget(i18n("&Properties"), this);
     //addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);
-    
+
     tabifyDockWidget(m_documentationDock, m_cmdHistoryDock);
     //tabifyDockWidget(m_cmdHistoryDock, m_propertyDock);
-    
+
     QByteArray dockConfig;
     KConfigGroup general( m_config, "General Options" );
     general.readEntry("DockConfig", dockConfig);
@@ -1852,9 +1852,9 @@ void UMLApp::undo()
 
     if(m_pUndoStack->canUndo())
         UMLApp::app()->enableUndo(true);
-    else 
+    else
         UMLApp::app()->enableUndo(false);
-    
+
     UMLApp::app()->enableRedo(true);
 }
 
@@ -1865,9 +1865,9 @@ void UMLApp::redo()
 
     if(m_pUndoStack->canRedo())
         UMLApp::app()->enableRedo(true);
-    else 
+    else
         UMLApp::app()->enableRedo(false);
-    
+
     UMLApp::app()->enableUndo(true);
 }
 
@@ -1884,7 +1884,7 @@ void UMLApp::executeCommand(QUndoCommand* cmd)
 void UMLApp::BeginMacro( const QString & text ) {
     if(m_hasBegunMacro)
         return;
-    
+
     m_hasBegunMacro = true;
 
     m_pUndoStack->beginMacro(text);
