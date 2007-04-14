@@ -167,52 +167,36 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
      || tag == "preconditionwidget"      || tag == "combinedFragmentwidget"  
      || tag == "signalwidget"            || tag == "pinwidget"
      || tag == "objectnodewidget"        || tag == "floatingdashlinewidget" 
-     || tag == "regionwidget"
-            // tests for backward compatibility:
-     || tag == "UML:StateWidget"            || tag == "UML:NoteWidget" 
-     || tag =="UML:CombinedFragmentWidget"  || tag == "UML:FloatingTextWidget" 
-     || tag == "UML:SignalWidget"           || tag == "UML:ActivityWidget" 
-     || tag == "UML:PreconditionWidget"     || tag == "UML:FloatingDashLineWidget" 
-     || tag == "UML:ObjectNodeWidget"       || tag == "UML::PinWidget" ) {
+     || tag == "regionwidget") {
         // Loading of widgets which do NOT represent any UMLObject, 
         // just graphic stuff with no real model information
         //FIXME while boxes and texts are just diagram objects, activities and
         // states should be UMLObjects
-        if (tag == "statewidget"
-                   || tag == "UML:StateWidget") {         // for bkwd compatibility
+        if (tag == "statewidget") {
             widget = new StateWidget(view, StateWidget::Normal, Uml::id_Reserved);
-        } else if (tag == "notewidget"
-                   || tag == "UML:NoteWidget") {          // for bkwd compatibility
+        } else if (tag == "notewidget") {
             widget = new NoteWidget(view,NoteWidget::Normal, Uml::id_Reserved);
         } else if (tag == "boxwidget") {
             widget = new BoxWidget(view, Uml::id_Reserved);
-        } else if (tag == "floatingtext"
-                   || tag == "UML:FloatingTextWidget") {  // for bkwd compatibility
+        } else if (tag == "floatingtext") {
             widget = new FloatingTextWidget(view, Uml::tr_Floating, "", Uml::id_Reserved);
-        } else if (tag == "activitywidget"
-                   || tag == "UML:ActivityWidget") {      // for bkwd compatibility
+        } else if (tag == "activitywidget") {
             widget = new ActivityWidget(view, ActivityWidget::Initial, Uml::id_Reserved);
         } else if (tag == "forkjoin") {
             widget = new ForkJoinWidget(view, false, Uml::id_Reserved);
-        } else if (tag == "preconditionwidget"
-                   ||tag == "UML:PreconditionWidget") {
+        } else if (tag == "preconditionwidget") {
             widget = new PreconditionWidget(view, NULL, Uml::id_Reserved);
-	} else if (tag == "combinedFragmentwidget"
-                   ||tag=="UML:CombinedFragmentWidget" ) {
+        } else if (tag == "combinedFragmentwidget") {
             widget = new CombinedFragmentWidget(view, CombinedFragmentWidget::Ref, Uml::id_Reserved);
-        } else if (tag == "signalwidget"
-                   || tag == "UML:SignalWidget") {
+        } else if (tag == "signalwidget") {
             widget = new SignalWidget(view, SignalWidget::Send,  Uml::id_Reserved);
-        } else if (tag == "floatingdashlinewidget"
-                   || tag == "UML:FloatingDashLineWidget") {
+        } else if (tag == "floatingdashlinewidget") {
             widget = new FloatingDashLineWidget(view,Uml::id_Reserved);
-        } else if (tag == "objectnodewidget"
-                   || tag == "UML:ObjectNodeWidget" ) {
+        } else if (tag == "objectnodewidget") {
             widget = new ObjectNodeWidget(view,ObjectNodeWidget::Normal, Uml::id_Reserved);
-        } else if (tag == "regionwidget" ) {
+        } else if (tag == "regionwidget") {
             widget = new RegionWidget(view, Uml::id_Reserved);
-        } else if (tag == "pinwidget" 
-                   || tag == "UML:PinWidget" ) {
+        } else if (tag == "pinwidget") {
             widget = new PinWidget(view, NULL, Uml::id_Reserved);
         }
 
@@ -229,16 +213,13 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
             return NULL;
         }
 
-        if (tag == "actorwidget" || tag == "UML:ActorWidget") {           // for bkwd compatibility
+        if (tag == "actorwidget") {
                 if (validateObjType(Uml::ot_Actor, o))
                     widget = new ActorWidget(view, static_cast<UMLActor*>(o));
-            } else if (tag == "usecasewidget"
-                       || tag == "UML:UseCaseWidget") {  // for bkwd compatibility
+            } else if (tag == "usecasewidget") {  // for bkwd compatibility
                 if (validateObjType(Uml::ot_UseCase, o))
                     widget = new UseCaseWidget(view, static_cast<UMLUseCase*>(o));
-            } else if (tag == "classwidget"
-                       || tag == "UML:ClassWidget"       // for bkwd compatibility
-                       || tag == "UML:ConceptWidget") {  // for bkwd compatibility
+            } else if (tag == "classwidget") {
                 if (validateObjType(Uml::ot_Class, o))
                     widget = new ClassifierWidget(view, static_cast<UMLClassifier*>(o));
             } else if (tag == "packagewidget") {
@@ -265,8 +246,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
             } else if (tag == "entitywidget") {
                 if (validateObjType(Uml::ot_Entity, o))
                     widget = new EntityWidget(view, static_cast<UMLEntity*>(o));
-            } else if (tag == "objectwidget"
-                       || tag == "UML:ObjectWidget") {  // for bkwd compatibility
+            } else if (tag == "objectwidget") {
                 widget = new ObjectWidget(view, o );
             } else {
                 kWarning() << "Trying to create an unknown widget:" << tag << endl;
