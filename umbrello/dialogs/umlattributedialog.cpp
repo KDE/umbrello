@@ -61,6 +61,7 @@ void UMLAttributeDialog::setupDialog() {
     int margin = fontMetrics().height();
 
     QFrame * frame = new QFrame( this );
+    setMainWidget( frame );
     QVBoxLayout * mainLayout = new QVBoxLayout( frame );
 
     m_pValuesGB = new Q3GroupBox(i18n("General Properties"), frame );
