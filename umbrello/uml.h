@@ -22,7 +22,7 @@
 #include <QMenu>
 #include <QUndoView>
 
-#include <kmainwindow.h>
+#include <kxmlguiwindow.h>
 #include <kdeversion.h>
 #include <kurl.h>
 #include <ksharedconfig.h>
@@ -77,7 +77,7 @@ class QDockWidget;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class UMLApp : public KMainWindow {
+class UMLApp : public KXmlGuiWindow {
     Q_OBJECT
 public:
     /**

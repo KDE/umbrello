@@ -99,7 +99,7 @@ QMenu* UMLApp::findMenu(KMenuBar* menu, const QString &name)
     return 0;
 }
 
-UMLApp::UMLApp(QWidget* parent) : KMainWindow(parent) {
+UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent) {
     s_instance = this;
     m_pDocWindow = 0;
     m_config = KGlobal::config();
