@@ -161,7 +161,7 @@
   </cppsupportpart>
   <kdevfilecreate>
     <filetypes>
-      <type icon="source_cpp" ext="cpp" name="C++ Source" create="template" >
+      <type icon="source-cpp" ext="cpp" name="C++ Source" create="template" >
         <descr>A new empty C++ file.</descr>
       </type>
     </filetypes>
