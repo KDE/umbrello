@@ -222,12 +222,12 @@ void UMLApp::initActions() {
     preferences = KStandardAction::preferences(this,  SLOT( slotPrefs() ), actionCollection());
 
     importClasses = actionCollection()->addAction("import_class");
-    importClasses->setIcon(KIcon("source_cpp"));
+    importClasses->setIcon(KIcon("source-cpp"));
     importClasses->setText(i18n("&Import Classes..."));
     connect(importClasses, SIGNAL( triggered( bool ) ), this, SLOT( slotImportClasses() ));
 
     importProject = actionCollection()->addAction("import_project");
-    importProject->setIcon(KIcon("source_cpp"));
+    importProject->setIcon(KIcon("source-cpp"));
     importProject->setText(i18n("Import &Project..."));
     connect(importProject, SIGNAL( triggered( bool ) ), this, SLOT( slotImportProject() ));
 
