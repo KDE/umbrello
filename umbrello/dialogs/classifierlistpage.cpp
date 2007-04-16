@@ -21,7 +21,6 @@
 #include "../enumliteral.h"
 #include "../entityattribute.h"
 #include "../object_factory.h"
-#include <kapplication.h>
 #include <kbuttonbox.h>
 #include <kdebug.h>
 #include <klocale.h>
@@ -29,6 +28,7 @@
 //Added by qt3to4:
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QApplication>
 
 using namespace Uml;
 
@@ -581,7 +581,7 @@ bool ClassifierListPage::takeItem(UMLClassifierListItem* listItem,
     int wasAtIndex = m_pClassifier->takeItem(listItem);
     if (wasAtIndex == -1)
         return false;
-    kapp->processEvents();
+    qApp->processEvents();
     peerIndex = -1;
     UMLObject *o;
     const Uml::Object_Type seekType = listItem->getBaseType();

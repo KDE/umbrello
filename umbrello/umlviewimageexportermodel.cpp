@@ -13,6 +13,7 @@
 
 // include files for Qt
 #include <QStringList>
+#include <QApplication>
 #include <QImageWriter>
 #include <qrect.h>
 #include <qimage.h>
@@ -26,7 +27,6 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <ktemporaryfile.h>
-#include <kapplication.h>
 #include <kio/netaccess.h>
 
 // application specific includes
@@ -166,7 +166,7 @@ QString UMLViewImageExporterModel::getDiagramFileName(UMLView *view, const QStri
         return name;
     }
 
-    kapp->processEvents();
+    qApp->processEvents();
     UMLListView *listView = UMLApp::app()->getListView();
     UMLListViewItem* listViewItem = listView->findItem(view->getID());
     // skip the name of the first item because it's the View

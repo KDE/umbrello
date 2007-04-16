@@ -17,8 +17,8 @@
 
 // KDE includes
 #include <kdebug.h>
-#include <kapplication.h>
 #include <kconfig.h>
+#include <kapplication.h>
 
 // U2 includes
 #include "pluginloader.h"

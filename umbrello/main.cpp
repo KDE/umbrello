@@ -85,7 +85,7 @@ void initDocument(KCmdLineArgs *args, KConfig* cfg);
 void exportAllViews(KCmdLineArgs *args, const QByteArrayList &exportOpt);
 
 extern "C" int flushEvents() {
-    kapp->processEvents();
+    qApp->processEvents();
     return 0;
 }
 

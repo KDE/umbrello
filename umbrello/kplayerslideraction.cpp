@@ -20,15 +20,14 @@
 //CHANGED #include "kplayersettings.h"
 #include "kplayerslideraction.h"
 
-#include <kapplication.h>
 #include <ktoolbar.h>
 
 #include <qtooltip.h>
-#include <q3whatsthis.h>
 //Added by qt3to4:
 #include <QFrame>
 #include <QKeyEvent>
 #include <QDesktopWidget>
+#include <QApplication>
 #include <kdebug.h>
 
 void KPlayerPopupFrame::keyPressEvent (QKeyEvent* ev)

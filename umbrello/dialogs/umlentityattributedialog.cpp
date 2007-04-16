@@ -24,13 +24,12 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QGridLayout>
-
+#include <QApplication>
 // kde includes
 #include <kcombobox.h>
 #include <kcompletion.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kapplication.h>
 #include <kdebug.h>
 
 // app includes
@@ -154,7 +153,7 @@ void UMLEntityAttributeDialog::setupDialog() {
         // Switch to SQL as the active language if no datatypes are set.
         UMLApp::app()->setActiveLanguage(Uml::pl_SQL);
         pDoc->addDefaultDatatypes();
-        kapp->processEvents();
+        qApp->processEvents();
         dataTypes = pDoc->getDatatypes();
     }
     UMLClassifier *dat;

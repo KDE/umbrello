@@ -25,7 +25,6 @@
 
 // kde includes
 #include <kaboutdata.h>
-#include <kapplication.h>
 #include <kcmdlineargs.h>
 #include <kconfig.h>
 #include <klocale.h>

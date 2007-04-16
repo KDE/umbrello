@@ -14,7 +14,6 @@
 // qt/kde includes
 #include <qmap.h>
 #include <qregexp.h>
-#include <kapplication.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
 // app includes

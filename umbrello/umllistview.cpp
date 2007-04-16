@@ -26,14 +26,13 @@
 #include <QDropEvent>
 #include <QMouseEvent>
 #include <kiconloader.h>
-#include <kapplication.h>
 #include <kdebug.h>
 #include <kfiledialog.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 #include <kinputdialog.h>
-
+#include <kapplication.h>
 // app includes
 #include "actor.h"
 #include "classifier.h"

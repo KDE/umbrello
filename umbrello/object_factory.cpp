@@ -15,11 +15,11 @@
 // qt/kde includes
 #include <qregexp.h>
 #include <qstringlist.h>
-#include <kapplication.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
 #include <kinputdialog.h>
+#include <QApplication>
 
 // app includes
 #include "umlobject.h"
@@ -119,7 +119,7 @@ UMLObject* createNewUMLObject(Uml::Object_Type type, const QString &name,
     parentPkg->addObject(o);
 
     UMLApp::app()->executeCommand(new Uml::cmdCreateUMLObject(o));
-    kapp->processEvents();
+    qApp->processEvents();
     return o;
 }
 

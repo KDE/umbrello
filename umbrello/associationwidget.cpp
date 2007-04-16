@@ -20,11 +20,11 @@
 //Added by qt3to4:
 #include <QMouseEvent>
 #include <QMoveEvent>
+#include <QApplication>
 #include <kdebug.h>
 #include <klocale.h>
 #include <kinputdialog.h>
 #include <kcolordialog.h>
-#include <kapplication.h>
 
 // app includes
 #include "activitywidget.h"
@@ -3112,7 +3112,7 @@ void AssociationWidget::setSelected(bool _select /* = true */) {
         m_role[A].m_pChangeWidget-> setSelected( _select );
     if( m_role[B].m_pChangeWidget)
         m_role[B].m_pChangeWidget-> setSelected( _select );
-    kapp->processEvents();
+    qApp->processEvents();
     //Update the docwindow for this association.
     // This is done last because each of the above setSelected calls
     // overwrites the docwindow, but we want the main association doc
@@ -3122,7 +3122,7 @@ void AssociationWidget::setSelected(bool _select /* = true */) {
                 m_pView -> showDocumentation( this, false );
     } else
         m_pView -> updateDocumentation( true );
-    kapp->processEvents();
+    qApp->processEvents();
     m_LinePath.setSelected( _select );
     if (! _select) {
         // For now, if _select is true we don't make the assoc class line

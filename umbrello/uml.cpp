@@ -31,7 +31,6 @@
 #include <kstandardaction.h>
 #include <ktoggleaction.h>
 #include <krecentfilesaction.h>
-#include <kapplication.h>
 #include <kconfig.h>
 #include <kcursor.h>
 #include <kdebug.h>
@@ -49,6 +48,7 @@
 #include <kactionmenu.h>
 #include <kmenu.h>
 #include <kxmlguifactory.h>
+#include <kapplication.h>
 
 // app includes
 #include "aligntoolbar.h"
@@ -924,7 +924,7 @@ void UMLApp::slotFileQuit() {
         KConfigGroup general( m_config, "General Options" );
         general.writeEntry("DockConfig", dockConfig);
         saveOptions();
-        kapp->quit();
+        qApp->quit();
     }
     slotStatusMsg(i18n("Ready."));
 }
@@ -1757,7 +1757,7 @@ void UMLApp::setCurrentView(UMLView* view) {
     if (m_viewStack->indexOf(view) < 0)
         m_viewStack->addWidget(view);
     m_viewStack->setCurrentWidget(view);
-    kapp->processEvents();
+    qApp->processEvents();
     slotStatusMsg(view->getName());
     UMLListViewItem* lvitem = m_listView->findView(view);
     if (lvitem)

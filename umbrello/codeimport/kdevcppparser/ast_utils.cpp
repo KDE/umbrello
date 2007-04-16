@@ -19,7 +19,6 @@
 
 #include <klocale.h>
 #include <kdebug.h>
-#include <kapplication.h>
 
 AST* findNodeAt( AST* node, int line, int column )
 {

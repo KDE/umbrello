@@ -26,7 +26,6 @@
 #include <QUndoStack>
 
 // kde includes
-#include <kapplication.h>
 #include <kdeversion.h>
 #include <kdebug.h>
 #include <kio/job.h>
@@ -41,6 +40,7 @@
 #include <kiconloader.h>
 #include <kinputdialog.h>
 #include <ktabwidget.h>
+#include <kapplication.h>
 
 // app includes
 #include "uniqueid.h"
@@ -201,7 +201,7 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView ) {
         if (!firstView && enforceCurrentView) //create a diagram
         {
             createDiagram(m_root[mt_Logical], dt_Class, false);
-            kapp->processEvents();
+            qApp->processEvents();
             m_root[mt_Logical]->appendViews(viewList);
             firstView = viewList.first();
         }
@@ -1428,7 +1428,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
     }
 
     QString data = stream.read();
-    kapp->processEvents();  // give UI events a chance
+    qApp->processEvents();  // give UI events a chance
     QString error;
     int line;
     QDomDocument doc;
@@ -1436,7 +1436,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
         kWarning()<<"Can't set content:"<<error<<" Line:"<<line<<endl;
         return false;
     }
-    kapp->processEvents();  // give UI events a chance
+    qApp->processEvents();  // give UI events a chance
     QDomNode node = doc.firstChild();
     //Before Umbrello 1.1-rc1 we didn't add a <?xml heading
     //so we allow the option of this being missing
@@ -1556,7 +1556,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
     if (UMLApp::app()->getGenerator() == NULL)
         UMLApp::app()->setGenerator(UMLApp::app()->getDefaultLanguage());
     emit sigWriteToStatusBar( i18n("Setting up the document...") );
-    kapp->processEvents();  // give UI events a chance
+    qApp->processEvents();  // give UI events a chance
     activateAllViews();
 
     UMLView *viewToBeSet = NULL;
@@ -1591,7 +1591,7 @@ void UMLDoc::resolveTypes() {
 #endif
         obj->resolveRef();
     }
-    kapp->processEvents();  // give UI events a chance
+    qApp->processEvents();  // give UI events a chance
 }
 
 bool UMLDoc::validateXMIHeader(QDomNode& headerNode) {
@@ -1823,7 +1823,7 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
             pView -> hide();
             addView( pView );
             emit sigSetStatusbarProgress( ++count );
-            kapp->processEvents();  // give UI events a chance
+            qApp->processEvents();  // give UI events a chance
         }
         node = node.nextSibling();
         element = node.toElement();

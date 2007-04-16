@@ -13,8 +13,8 @@
 #include "umlobject.h"
 // qt/kde includes
 #include <qregexp.h>
+#include <QApplication>
 #include <kdebug.h>
-#include <kapplication.h>
 // app includes
 #include "uniqueid.h"
 #include "uml.h"
@@ -470,7 +470,7 @@ bool UMLObject::resolveRef() {
         if (m_pSecondary) {
             if (Import_Utils::newUMLObjectWasCreated()) {
                 maybeSignalObjectCreated();
-                kapp->processEvents();
+                qApp->processEvents();
                 kDebug() << "UMLObject::resolveRef: Import_Utils::createUMLObject() "
                           << "created a new type for " << m_SecondaryId << endl;
             } else {
@@ -502,7 +502,7 @@ bool UMLObject::resolveRef() {
         return false;
     m_SecondaryId = "";
     maybeSignalObjectCreated();
-    //kapp->processEvents();
+    //qApp->processEvents();
     return true;
 }
 
