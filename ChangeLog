@@ -30,6 +30,7 @@ Version 1.5.7
 * Support duplication of diagrams (139856, 143581)
 * Crash on changing multiplicity in an association in ERD (143909)
 * Class diagram in folder not loaded correctly from xmi (144119)
+* Sequence diagram crashs during message inserting (144293)
 
 Version 1.5.61
 
