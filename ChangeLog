@@ -8,7 +8,6 @@ Version 1.5.7
 * %date% and %time% not being parsed (96612)
 * Operations of the Interface are not implemented in the class automatically (111593)
 * Relationships for entities do not live outside of the diagram (125146)
-* Crashes while loading file (Advanced Code Generators enabled) (126262)
 * Multiplicity labels often are placed incorrectly (127628)
 * Association role labels are duplicated (130172)
 * Crash on adding operation to class with Advanced Code Generators enabled (131528)
@@ -30,6 +29,7 @@ Version 1.5.7
 * Support duplication of diagrams (139856, 143581)
 * Crash on changing multiplicity in an association in ERD (143909)
 * Class diagram in folder not loaded correctly from xmi (144119)
+* Sequence diagram crashes during message inserting (144293)
 
 Version 1.5.61
 

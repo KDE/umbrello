@@ -3,8 +3,7 @@
 # Make a release from the current branches/KDE/3.5/kdesdk/umbrello
 #
 # Run this script as follows:
-#   . make-umbrello-release.sh VERSION [BRANCH_VERSION]
-# VERSION is the version to release.
+#   . make-umbrello-release.sh [BRANCH_VERSION]
 # BRANCH_VERSION defaults to 3.5.
 # @todo Create release from trunk if BRANCH_VERSION not given.
 #       Note: trunk uses the cmake based build process.
@@ -12,18 +11,14 @@
 # The script creates a directory, /tmp/kdesdk, which is used
 # as the work area for building the release.
 # The release tarfile will be placed in the current working dir.
+# The release version is taken from the VERSION file.
 # 
-if [ $# -lt 1 ]; then
-  echo "usage:"
-  echo "  . make-umbrello-release.sh VERSION [BRANCH_VERSION]"
-  exit 1
-fi
-version=$1
 branchver=3.5
 if [ $# -gt 1 ]; then
   branchver=$2
 fi
 origdir=`pwd`
+version=`grep "^[1-9]" VERSION`
 udir=umbrello-$version
 svnroot=svn://anonsvn.kde.org:/home/kde/branches/KDE/$branchver
 cd /tmp

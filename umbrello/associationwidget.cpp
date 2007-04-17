@@ -1225,7 +1225,7 @@ void AssociationWidget::doUpdates(int otherX, int otherY, Role_Type role) {
 }
 
 /** Read property of bool m_bActivated. */
-const bool AssociationWidget::isActivated() {
+bool AssociationWidget::isActivated() {
     return m_bActivated;
 }
 

@@ -32,7 +32,8 @@
 namespace Uml
 {
 
-    cmdSetVisibility::cmdSetVisibility(UMLObject * _UMLObj, Uml::Visibility _visib):UMLObj(_UMLObj), visib (_visib)
+    cmdSetVisibility::cmdSetVisibility(UMLObject * _UMLObj, Uml::Visibility _visib)
+      : visib(_visib), UMLObj(_UMLObj)
     {
         setText(i18n("Change visibility : ") + _UMLObj->getName());
         oldvisibility = _UMLObj->getVisibility();

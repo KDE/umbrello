@@ -55,7 +55,6 @@ public:
 
 protected slots:
 
-
     /**
     *   Entered when OK button pressed.
     */
@@ -68,7 +67,9 @@ protected slots:
 
     void slotShowActivityParameter();
     void slotHideActivityParameter();
+
 protected:
+
     /**
     *   Sets up the pages of the dialog.
     */
@@ -80,7 +81,7 @@ protected:
     void setupGeneralPage();
 
     /**
-    *           Sets up the color page.
+    *   Sets up the color page.
     */
     void setupColorPage();
 

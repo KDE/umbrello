@@ -1180,7 +1180,11 @@ void UMLApp::readOptionState() {
     Settings::OptionState& optionState = Settings::getOptionState();
     optionState.generalState.undo = generalGroup.readEntry( "undo", true );
     optionState.generalState.tabdiagrams = generalGroup.readEntry( "tabdiagrams", false );
+#if defined (WORK_ON_BUG_126262)
     optionState.generalState.newcodegen = generalGroup.readEntry("newcodegen", false );
+#else
+    optionState.generalState.newcodegen = false;
+#endif
     optionState.generalState.angularlines = generalGroup.readEntry("angularlines", false);
     optionState.generalState.footerPrinting = generalGroup.readEntry("footerPrinting", true);
     optionState.generalState.autosave = generalGroup.readEntry("autosave", true);

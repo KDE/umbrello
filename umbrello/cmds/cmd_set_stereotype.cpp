@@ -32,10 +32,10 @@
 namespace Uml
 {
 
-    cmdSetStereotype::cmdSetStereotype(UMLObject * _UMLObj, QString stereo):UMLObj(_UMLObj), st (stereo)
+    cmdSetStereotype::cmdSetStereotype(UMLObject * _UMLObj, QString stereo)
+        : st(stereo), UMLObj(_UMLObj)
     {
-        //oldst = _UMLObj->getStereotype();
-
+        oldst = _UMLObj->getStereotype();
     }
 
     cmdSetStereotype::~cmdSetStereotype()

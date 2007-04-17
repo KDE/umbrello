@@ -513,35 +513,39 @@ void MessageWidget::slotMenuSelection(int sel) {
 bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
     m_pView->resetPastePoint();
     // UMLWidget::activate(Log);   CHECK: I don't think we need this ?
-    UMLWidget *pWA = m_pView->findWidget(m_widgetAId);
-    if (pWA == NULL) {
-        kDebug() << "MessageWidget::activate: role A object "
-            << ID2STR(m_widgetAId) << " not found" << endl;
-        return false;
-    }
-    UMLWidget *pWB = m_pView->findWidget(m_widgetBId);
-    if (pWB == NULL) {
-        kDebug() << "MessageWidget::activate: role B object "
-            << ID2STR(m_widgetBId) << " not found" << endl;
-        return false;
-    }
-    m_pOw[Uml::A] = dynamic_cast<ObjectWidget*>(pWA);
     if (m_pOw[Uml::A] == NULL) {
-        kDebug() << "MessageWidget::activate: role A widget "
-            << ID2STR(m_widgetAId) << " is not an ObjectWidget" << endl;
-        return false;
+        UMLWidget *pWA = m_pView->findWidget(m_widgetAId);
+        if (pWA == NULL) {
+            kDebug() << "MessageWidget::activate: role A object "
+                << ID2STR(m_widgetAId) << " not found" << endl;
+            return false;
+        }
+        m_pOw[Uml::A] = dynamic_cast<ObjectWidget*>(pWA);
+        if (m_pOw[Uml::A] == NULL) {
+            kDebug() << "MessageWidget::activate: role A widget "
+                << ID2STR(m_widgetAId) << " is not an ObjectWidget" << endl;
+            return false;
+        }
     }
-    m_pOw[Uml::B] = dynamic_cast<ObjectWidget*>(pWB);
     if (m_pOw[Uml::B] == NULL) {
-        kDebug() << "MessageWidget::activate: role B widget "
-            << ID2STR(m_widgetBId) << " is not an ObjectWidget" << endl;
-        return false;
+        UMLWidget *pWB = m_pView->findWidget(m_widgetBId);
+        if (pWB == NULL) {
+            kDebug() << "MessageWidget::activate: role B object "
+                << ID2STR(m_widgetBId) << " not found" << endl;
+            return false;
+        }
+        m_pOw[Uml::B] = dynamic_cast<ObjectWidget*>(pWB);
+        if (m_pOw[Uml::B] == NULL) {
+            kDebug() << "MessageWidget::activate: role B widget "
+                << ID2STR(m_widgetBId) << " is not an ObjectWidget" << endl;
+            return false;
+        }
     }
     updateResizability();
 
-    UMLClassifier *c = dynamic_cast<UMLClassifier*>(pWB->getUMLObject());
+    UMLClassifier *c = dynamic_cast<UMLClassifier*>(m_pOw[Uml::B]->getUMLObject());
     UMLOperation *op = NULL;
-    if (c) {
+    if (c && !m_CustomOp.isEmpty()) {
         Uml::IDType opId = STR2ID(m_CustomOp);
         op = dynamic_cast<UMLOperation*>( c->findChildObjectById(opId, true) );
         if (op) {
