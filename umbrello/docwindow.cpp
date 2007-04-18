@@ -50,8 +50,7 @@ DocWindow::~DocWindow() {}
 void DocWindow::showDocumentation( UMLObject * object, bool overwrite ) {
     if( object == m_pUMLObject && !overwrite )
         return;
-    if( object != m_pUMLObject )
-        updateDocumentation( true );
+
     m_Showing = st_UMLObject;
     if( !object ) {
         m_pDocMLE->setText( m_pUMLDoc->getDocumentation() );
