@@ -545,7 +545,7 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
     bool bAccept = true;
     switch (diagramType) {
         case dt_UseCase:
-            if (widgetOnDiagram(id) ||
+            if ((widgetOnDiagram(id) && ot == ot_Actor) ||
                 (ot != ot_Actor && ot != ot_UseCase))
                 bAccept = false;
             break;

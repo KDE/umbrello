@@ -16,6 +16,7 @@ Version 1.5.7
 * Sequence diagram object size incorrect after toggling "Draw as Actor" (136869)
 * Incorrect Association Properties text (139872)
 * Buttons are not displayed (139913)
+* Impossible to reuse same use case in a use case diagram (140150)
 * Java 5 generics support (140669)
 * Associations not updated during move of class on diagram (140709)
 * Crash when deleting the link between a package and a class (141602)
