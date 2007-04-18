@@ -93,9 +93,16 @@ namespace Import_Utils {
     UMLOperation* makeOperation(UMLClassifier *parent, const QString &name);
 
     /**
-     * Insert the UMLOperation into the document.
+     * Insert the UMLOperation into the given classifier.
+     *
+     * @param klass  The classifier into which the operation shall be added.
+     * @param op     Reference to pointer to the temporary UMLOperation
+     *               for insertion. If an UMLOperation of same signature
+     *               already exists at the classifier then the incoming
+     *               UMLOperation is deleted and the pointer is set to
+     *               the existing UMLOperation.
      */
-    void insertMethod(UMLClassifier *klass, UMLOperation *op,
+    void insertMethod(UMLClassifier *klass, UMLOperation* &op,
                       Uml::Visibility scope, const QString& type,
                       bool isStatic, bool isAbstract,
                       bool isFriend = false, bool isConstructor = false,

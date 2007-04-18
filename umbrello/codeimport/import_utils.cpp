@@ -23,7 +23,6 @@
 #include "../umllistview.h"
 #include "../umllistviewitem.h"
 #include "../umlobject.h"
-#include "../docwindow.h"
 #include "../package.h"
 #include "../folder.h"
 #include "../enum.h"
@@ -244,7 +243,6 @@ UMLObject *createUMLObject(Uml::Object_Type type,
     QString strippedComment = formatComment(comment);
     if (! strippedComment.isEmpty()) {
         o->setDoc(strippedComment);
-        //UMLApp::app()->getDocWindow()->showDocumentation(o, true);
     }
     if (!stereotype.isEmpty()) {
         o->setStereotype(stereotype);
@@ -304,7 +302,6 @@ UMLObject* insertAttribute(UMLClassifier *owner,
     QString strippedComment = formatComment(comment);
     if (! strippedComment.isEmpty()) {
         attr->setDoc(strippedComment);
-        //UMLApp::app()->getDocWindow()->showDocumentation(attr, true);
     }
 
     UMLApp::app()->getDocument()->setModified(true);
@@ -329,7 +326,7 @@ UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope,
                             comment, isStatic);
 }
 
-void insertMethod(UMLClassifier *klass, UMLOperation *op,
+void insertMethod(UMLClassifier *klass, UMLOperation* &op,
                   Uml::Visibility scope, const QString& type,
                   bool isStatic, bool isAbstract,
                   bool isFriend, bool isConstructor,
@@ -388,8 +385,9 @@ void insertMethod(UMLClassifier *klass, UMLOperation *op,
             exParam->setInitialValue(param->getInitialValue());
             exParam->setParmKind(param->getParmKind());
         }
-        // delete temporary UMLOperation
+        // delete incoming UMLOperation and pass out the existing one
         delete op;
+        op = exist;
     } else {
         klass->addOperation(op);
     }
