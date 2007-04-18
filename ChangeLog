@@ -13,6 +13,7 @@ Version 1.5.7
 * Crash on adding operation to class with Advanced Code Generators enabled (131528)
 * Javascript wrong Code Generation (135527)
 * Javascript Code Generation creates bad format methods (135540)
+* Sequence diagram object size incorrect after toggling "Draw as Actor" (136869)
 * Incorrect Association Properties text (139872)
 * Buttons are not displayed (139913)
 * Java 5 generics support (140669)
