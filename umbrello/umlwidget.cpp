@@ -469,9 +469,6 @@ void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY) {
 }
 
 bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
-    setFont( m_Font );
-    setSize( getWidth(), getHeight() );
-    m_bActivated = true;
     if (widgetHasUMLObject(m_Type) && m_pObject == NULL) {
         m_pObject = m_pDoc->findObjectById(m_nId);
         if (m_pObject == NULL) {
@@ -480,6 +477,9 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
             return false;
         }
     }
+    setFont(m_Font);
+    setSize(getWidth(), getHeight());
+    m_bActivated = true;
     updateComponentSize();
     if( m_pView -> getPastePoint().x() != 0 ) {
         FloatingTextWidget * ft = 0;

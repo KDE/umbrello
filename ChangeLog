@@ -33,6 +33,7 @@ Version 1.5.7
 * Class diagram in folder not loaded correctly from xmi (144119)
 * Sequence diagram crashes during message inserting (144293)
 * No synchronisation of comments when round-tripping (144346)
+* Crash when loading xmi with actor as object of sequence diagram (144442)
 
 Version 1.5.61
 
