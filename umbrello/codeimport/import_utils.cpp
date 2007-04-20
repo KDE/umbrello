@@ -23,7 +23,6 @@
 #include "../umllistview.h"
 #include "../umllistviewitem.h"
 #include "../umlobject.h"
-#include "../docwindow.h"
 #include "../package.h"
 #include "../folder.h"
 #include "../enum.h"
@@ -244,7 +243,6 @@ UMLObject *createUMLObject(Uml::Object_Type type,
     QString strippedComment = formatComment(comment);
     if (! strippedComment.isEmpty()) {
         o->setDoc(strippedComment);
-        UMLApp::app()->getDocWindow()->showDocumentation(o, true);
     }
     if (!stereotype.isEmpty()) {
         o->setStereotype(stereotype);
@@ -304,7 +302,6 @@ UMLObject* insertAttribute(UMLClassifier *owner,
     QString strippedComment = formatComment(comment);
     if (! strippedComment.isEmpty()) {
         attr->setDoc(strippedComment);
-        UMLApp::app()->getDocWindow()->showDocumentation(attr, true);
     }
 
     UMLApp::app()->getDocument()->setModified(true);
@@ -329,7 +326,7 @@ UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope,
                             comment, isStatic);
 }
 
-void insertMethod(UMLClassifier *klass, UMLOperation *op,
+void insertMethod(UMLClassifier *klass, UMLOperation* &op,
                   Uml::Visibility scope, const QString& type,
                   bool isStatic, bool isAbstract,
                   bool isFriend, bool isConstructor,
@@ -362,14 +359,38 @@ void insertMethod(UMLClassifier *klass, UMLOperation *op,
     if (isConstructor)
         op->setStereotype("constructor");
 
-    klass->addOperation(op);
-    //umldoc->signalUMLObjectCreated(op);
     QString strippedComment = formatComment(comment);
     if (! strippedComment.isEmpty()) {
         op->setDoc(strippedComment);
-        UMLApp::app()->getDocWindow()->showDocumentation(op, true);
     }
-    //setModified(true);
+
+    UMLAttributeList params = op->getParmList();
+    UMLOperation *exist = klass->checkOperationSignature(op->getName(), params);
+    if (exist) {
+        // copy contents to existing operation
+        exist->setVisibility(scope);
+        exist->setStatic(isStatic);
+        exist->setAbstract(isAbstract);
+        if (! strippedComment.isEmpty())
+            exist->setDoc(strippedComment);
+        UMLAttributeList exParams = exist->getParmList();
+        UMLAttribute *param, *exParam = exParams.first();
+        for (UMLAttributeListIt it(params); (param = it.current()) != NULL;
+                                            ++it, exParam = exParams.next()) {
+            exParam->setName(param->getName());
+            exParam->setVisibility(param->getVisibility());
+            exParam->setStatic(param->getStatic());
+            exParam->setAbstract(param->getAbstract());
+            exParam->setDoc(param->getDoc());
+            exParam->setInitialValue(param->getInitialValue());
+            exParam->setParmKind(param->getParmKind());
+        }
+        // delete incoming UMLOperation and pass out the existing one
+        delete op;
+        op = exist;
+    } else {
+        klass->addOperation(op);
+    }
 }
 
 UMLAttribute* addMethodParameter(UMLOperation *method,

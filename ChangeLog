@@ -13,8 +13,10 @@ Version 1.5.7
 * Crash on adding operation to class with Advanced Code Generators enabled (131528)
 * Javascript wrong Code Generation (135527)
 * Javascript Code Generation creates bad format methods (135540)
+* Sequence diagram object size incorrect after toggling "Draw as Actor" (136869)
 * Incorrect Association Properties text (139872)
 * Buttons are not displayed (139913)
+* Impossible to reuse same use case in a use case diagram (140150)
 * Java 5 generics support (140669)
 * Associations not updated during move of class on diagram (140709)
 * Crash when deleting the link between a package and a class (141602)
@@ -30,6 +32,8 @@ Version 1.5.7
 * Crash on changing multiplicity in an association in ERD (143909)
 * Class diagram in folder not loaded correctly from xmi (144119)
 * Sequence diagram crashes during message inserting (144293)
+* No synchronisation of comments when round-tripping (144346)
+* Crash when loading xmi with actor as object of sequence diagram (144442)
 
 Version 1.5.61
 

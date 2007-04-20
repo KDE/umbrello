@@ -491,9 +491,6 @@ void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY) {
 }
 
 bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
-    setFont( m_Font );
-    setSize( getWidth(), getHeight() );
-    m_bActivated = true;
     if (widgetHasUMLObject(m_Type) && m_pObject == NULL) {
         m_pObject = m_pDoc->findObjectById(m_nId);
         if (m_pObject == NULL) {
@@ -502,6 +499,9 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
             return false;
         }
     }
+    setFont(m_Font);
+    setSize(getWidth(), getHeight());
+    m_bActivated = true;
     updateComponentSize();
     if( m_pView -> getPastePoint().x() != 0 ) {
         FloatingTextWidget * ft = 0;
@@ -851,7 +851,8 @@ void UMLWidget::updateComponentSize() {
     const QSize minSize = calculateSize();
     const int w = minSize.width();
     const int h = minSize.height();
-    if (m_Type != Uml::wt_ForkJoin && getWidth() >= w && getHeight() >= h)
+    if (m_Type != Uml::wt_ForkJoin && m_Type != Uml::wt_Object &&
+        getWidth() >= w && getHeight() >= h)
         return;
     setSize(w, h);
     adjustAssocs( getX(), getY() );  // adjust assoc lines
