@@ -14,7 +14,7 @@
 
 // qt includes
 #include <qlayout.h>
-#include <qtooltip.h>
+
 #include <kvbox.h>
 //Added by qt3to4:
 #include <QLabel>
@@ -178,8 +178,8 @@ void SettingsDlg::setupGeneralPage() {
                                           "and will be named like the file's name, followed by the suffix specified.</p>"
                                           "<p>If the suffix is equal to the suffix of the file you've saved, "
                                           "the autosave will overwrite your file automatically.</p></qt>" );
-    QToolTip::add( m_GeneralWidgets.autosaveSuffixL, autoSaveSuffixToolTip );
-    QToolTip::add( m_GeneralWidgets.autosaveSuffixT, autoSaveSuffixToolTip );
+    m_GeneralWidgets.autosaveSuffixL->setToolTip( autoSaveSuffixToolTip );
+    m_GeneralWidgets.autosaveSuffixT->setToolTip( autoSaveSuffixToolTip );
 
     //setup startup settings
     m_GeneralWidgets.startupGB = new Q3GroupBox( i18n("Startup"), page );

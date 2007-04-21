@@ -18,7 +18,7 @@
 #include <qrect.h>
 #include <qevent.h>
 #include <q3header.h>
-#include <qtooltip.h>
+
 //Added by qt3to4:
 #include <QPixmap>
 #include <QFocusEvent>

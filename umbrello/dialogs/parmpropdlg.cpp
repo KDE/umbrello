@@ -14,7 +14,7 @@
 
 // qt includes
 #include <qlayout.h>
-#include <qtooltip.h>
+
 //Added by qt3to4:
 #include <QLabel>
 #include <QVBoxLayout>
@@ -92,7 +92,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
 
     m_pKind =  new Q3ButtonGroup(i18n("Passing Direction"), frame);
     m_pKind->setExclusive(true);
-    QToolTip::add(m_pKind, i18n("\"in\" is a readonly parameter, \"out\" is a writeonly parameter and \"inout\" is a parameter for reading and writing."));
+    m_pKind->setToolTip( i18n("\"in\" is a readonly parameter, \"out\" is a writeonly parameter and \"inout\" is a parameter for reading and writing."));
 
     QHBoxLayout * kindLayout = new QHBoxLayout( m_pKind );
     kindLayout->setMargin(margin);

@@ -10,7 +10,7 @@
 // include files for Qt
 #include <qlayout.h>
 #include <qlabel.h>
-#include <qtooltip.h>
+
 
 // kde include files
 #include <kfilefiltercombo.h>
@@ -45,7 +45,7 @@ ExportAllViewsDialog::ExportAllViewsDialog(
 
 void ExportAllViewsDialog::languageChange() {
     ExportAllViewsDialogBase::languageChange();
-    QToolTip::add(m_imageType, tr2i18n("The format that the images will be exported to"));
+    m_imageType->setToolTip(i18n("The format that the images will be exported to"));
 }
 
 #include "exportallviewsdialog.moc"
