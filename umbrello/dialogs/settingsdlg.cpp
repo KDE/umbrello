@@ -211,10 +211,10 @@ void SettingsDlg::setupGeneralPage() {
                             i18n("Use Case Diagram"), i18n("Sequence Diagram"),
                             i18n("Collaboration Diagram"), i18n("State Diagram"),
                             i18n("Activity Diagram"), i18n("Component Diagram"),
-                            i18n("Deployment Diagram") };
+                            i18n("Deployment Diagram"), i18n("Entity Relationship Diagram") };
 
     //start at 1 because we don't allow No Diagram any more
-    for (int i=1; i<9; i++) {
+    for (int i=1; i<10; i++) {
         insertDiagram( diagrams[i] );
     }
 

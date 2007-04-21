@@ -45,11 +45,11 @@ WorkToolBar::WorkToolBar(QMainWindow *parentWindow)
     m_map.insert(Uml::dt_Undefined,tbb_Arrow);
 
     slotCheckToolBar( Uml::dt_Undefined );
-    connect( this, SIGNAL( released( int ) ), this, SLOT( buttonChanged (int ) ) );
+    
 }
 
 WorkToolBar::~WorkToolBar() {
-    disconnect(this, SIGNAL(released(int)),this,SLOT(buttonChanged(int)));
+
 }
 
 QAction* WorkToolBar::insertHotBtn(ToolBar_Buttons tbb) {

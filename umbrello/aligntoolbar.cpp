@@ -61,8 +61,8 @@ AlignToolBar::AlignToolBar(QMainWindow* parentWindow, const char* )
 //     Removed for KDE4
 //     setVerticalStretchable( true );
 
-    // gets called whenever a button in the toolbar is clicked
-    connect( this, SIGNAL( released( int ) ), this, SLOT( slotButtonChanged (int ) ) );
+   
+   
 }
 
 AlignToolBar::~AlignToolBar() {
