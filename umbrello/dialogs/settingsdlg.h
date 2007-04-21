@@ -104,7 +104,6 @@ private:
         QCheckBox * angularLinesCB;
         QCheckBox * footerPrintingCB;
         QCheckBox * autosaveCB;
-        QCheckBox * logoCB;
         QCheckBox * tipCB;
         QCheckBox * loadlastCB;
 

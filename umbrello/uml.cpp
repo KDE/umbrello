@@ -635,7 +635,6 @@ void UMLApp::saveOptions() {
     cg.writeEntry( "autosavetime", optionState.generalState.autosavetime );
     cg.writeEntry( "autosavesuffix", optionState.generalState.autosavesuffix );
 
-    cg.writeEntry( "logo", optionState.generalState.logo );
     cg.writeEntry( "loadlast", optionState.generalState.loadlast );
 
     cg.writeEntry( "diagram", (int)optionState.generalState.diagram );
@@ -1204,7 +1203,6 @@ void UMLApp::readOptionState() {
     // 2004-05-17 Achim Spangler: read new config entry for autosave sufix
     optionState.generalState.autosavesuffix = generalGroup.readEntry( "autosavesuffix", ".xmi" );
 
-    optionState.generalState.logo = generalGroup.readEntry( "logo", true );
     optionState.generalState.loadlast = generalGroup.readEntry( "loadlast", true );
 
     optionState.generalState.diagram  = (Uml::Diagram_Type) generalGroup.readEntry("diagram", 1);

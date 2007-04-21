@@ -26,7 +26,7 @@
 #include "version.h"
 #include "umldoc.h"
 #include "cmdlineexportallviewsevent.h"
-#include "kstartuplogo.h"
+
 
 static const char description[] =
     I18N_NOOP("Umbrello UML Modeller");
@@ -53,16 +53,6 @@ static KCmdLineOptions options[] =
  */
 bool getShowGUI(KCmdLineArgs *args);
 
-/**
- * Creates, shows and returns the startup logo for the application if it should be shown,
- * else returns null pointer.
- * The startup logo is shown if it is configured to be shown and also the GUI must be shown.
- *
- * @param cfg The application configuration.
- * @param showGUI If the GUI should be shown.
- * @return The startup logo for the application, or a null pointer if it shouldn't be shown.
- */
-KStartupLogo* showStartupLogo(KConfig* cfg, bool showGUI);
 
 /**
  * Initializes the document used by the application.
@@ -110,8 +100,7 @@ int main(int argc, char *argv[]) {
         flushEvents();
         KConfig * cfg = app.sessionConfig();
 
-        KStartupLogo* startLogo = showStartupLogo(cfg, showGUI);
-
+       
         if (showGUI) {
             uml->show();
         }
@@ -130,9 +119,7 @@ int main(int argc, char *argv[]) {
              exportAllViews(args, exportOpt);
         }
 
-        if ( showGUI && (startLogo != 0L) && !startLogo->isHidden() ) {
-            startLogo->raise();
-        }
+       
     }
     return app.exec();
 }
@@ -145,24 +132,6 @@ bool getShowGUI(KCmdLineArgs *args) {
     return true;
 }
 
-KStartupLogo* showStartupLogo(KConfig* cfg, bool showGUI) {
-    KStartupLogo* startLogo = 0L;
-
-    cfg->setGroup( "General Options" );
-    bool showLogo = cfg->readEntry( "logo", true );
-    if (showGUI && showLogo) {
-        startLogo = new KStartupLogo(0);
-        startLogo->setHideEnabled(true);
-#ifdef Q_OS_UNIX
-        KWM::setMainWindow(startLogo, UMLApp::app()->winId());
-        KWM::setState(startLogo->winId(), NET::KeepAbove);
-#endif
-        startLogo->show();
-        QApplication::flush();
-    }
-
-    return startLogo;
-}
 
 void initDocument(KCmdLineArgs *args, KConfig* cfg) {
     if ( args -> count() ) {

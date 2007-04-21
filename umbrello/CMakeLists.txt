@@ -301,7 +301,6 @@ set(libumbrello_SRCS
    hierarchicalcodeblock.cpp 
    import_rose.cpp 
    kplayerslideraction.cpp
-   kstartuplogo.cpp 
    linepath.cpp 
    linkwidget.cpp 
    listpopupmenu.cpp 
