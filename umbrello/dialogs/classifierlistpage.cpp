@@ -21,8 +21,8 @@
 #include "../enumliteral.h"
 #include "../entityattribute.h"
 #include "../object_factory.h"
-#include <kbuttonbox.h>
 #include <kdebug.h>
+#include <kdialogbuttonbox.h>
 #include <klocale.h>
 #include <qlayout.h>
 //Added by qt3to4:
@@ -97,11 +97,13 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
     buttonLayout->addWidget( m_pBottomArrowB );
 
     //the action buttons
-    KButtonBox* buttonBox = new KButtonBox(m_pItemListGB);
-    buttonBox->addButton( newItemType, this, SLOT(slotNewListItem()) );
+    KDialogButtonBox* buttonBox = new KDialogButtonBox(m_pItemListGB);
+    buttonBox->addButton( newItemType, KDialogButtonBox::ActionRole, this,
+                          SLOT(slotNewListItem()) );
     m_pDeleteListItemButton = buttonBox->addButton( i18n("&Delete"),
-                              this, SLOT(slotDelete()) );
-    m_pPropertiesButton = buttonBox->addButton( i18n("&Properties"), this, SLOT(slotProperties()) );
+                              KDialogButtonBox::ActionRole, this, SLOT(slotDelete()) );
+    m_pPropertiesButton = buttonBox->addButton( i18n("&Properties"), KDialogButtonBox::ActionRole, this,
+                                                SLOT(slotProperties()) );
     listVBoxLayout->addWidget(buttonBox);
 
     mainLayout->addWidget(m_pItemListGB);

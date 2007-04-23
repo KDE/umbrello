@@ -32,7 +32,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kbuttonbox.h>
+#include <kdialogbuttonbox.h>
 #include <karrowbutton.h>
 
 //app includes
@@ -151,11 +151,13 @@ void UMLOperationDialog::setupDialog() {
     m_pDownButton->setEnabled( false );
     buttonLayout->addWidget( m_pDownButton );
 
-    KButtonBox* buttonBox = new KButtonBox(m_pParmsGB);
-    buttonBox->addButton( i18n("Ne&w Parameter..."), this, SLOT(slotNewParameter()) );
-    m_pDeleteButton = buttonBox->addButton( i18n("&Delete"), this, SLOT(slotDeleteParameter()) );
-    m_pPropertiesButton = buttonBox->addButton( i18n("&Properties"), this,
-                          SLOT(slotParameterProperties()) );
+    KDialogButtonBox* buttonBox = new KDialogButtonBox(m_pParmsGB);
+    buttonBox->addButton( i18n("Ne&w Parameter..."), KDialogButtonBox::ActionRole,
+                          this, SLOT(slotNewParameter()) );
+    m_pDeleteButton = buttonBox->addButton( i18n("&Delete"), KDialogButtonBox::ActionRole,
+                                            this, SLOT(slotDeleteParameter()) );
+    m_pPropertiesButton = buttonBox->addButton( i18n("&Properties"), KDialogButtonBox::ActionRole,
+                          this, SLOT(slotParameterProperties()) );
     parmsLayout->addWidget(buttonBox);
 
     topLayout -> addWidget(m_pParmsGB);

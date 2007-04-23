@@ -16,7 +16,7 @@
 
 #include <kinputdialog.h>
 #include <klocale.h>
-#include <kbuttonbox.h>
+#include <kdialogbuttonbox.h>
 #include <kdebug.h>
 #include <qlayout.h>
 #include <qstringlist.h>
@@ -54,11 +54,13 @@ void ActivityPage::setupPage() {
     m_pDownArrowB -> setEnabled( false );
     buttonLayout -> addWidget( m_pDownArrowB );
 
-    KButtonBox* buttonBox = new KButtonBox(m_pActivityGB);
-    buttonBox->addButton( i18n("New Activity..."), this, SLOT(slotNewActivity()) );
-    m_pDeleteActivityButton = buttonBox->addButton( i18n("Delete"),
+    KDialogButtonBox* buttonBox = new KDialogButtonBox(m_pActivityGB);
+    buttonBox->addButton( i18n("New Activity..."), KDialogButtonBox::ActionRole,
+                          this, SLOT(slotNewActivity()) );
+    m_pDeleteActivityButton = buttonBox->addButton( i18n("Delete"), KDialogButtonBox::ActionRole,
                               this, SLOT(slotDelete()) );
-    m_pRenameButton = buttonBox->addButton( i18n("Rename"), this, SLOT(slotRename()) );
+    m_pRenameButton = buttonBox->addButton( i18n("Rename"), KDialogButtonBox::ActionRole,
+                                            this, SLOT(slotRename()) );
     activityLayout->addMultiCellWidget(buttonBox, 1, 1, 0, 1);
 
     mainLayout -> addWidget( m_pActivityGB );
