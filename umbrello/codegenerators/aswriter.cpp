@@ -268,7 +268,7 @@ void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
             as << " */" << m_endl;
         }//end if : write method documentation
 
-        as << classname << ".prototype." << cleanName(op->getName()) << " function " << "(";
+        as << classname << ".prototype." << cleanName(op->getName()) << " = function " << "(";
 
         int i= atl.count();
         int j=0;
