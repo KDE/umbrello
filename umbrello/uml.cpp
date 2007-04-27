@@ -292,46 +292,55 @@ void UMLApp::initActions() {
     classDiagram->setIcon( KIcon("umbrello_diagram_class") );
     classDiagram->setText( i18n( "&Class Diagram..." ) );
     connect(classDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotClassDiagram() ));
+    newDiagram->addAction(classDiagram);
 
     sequenceDiagram= actionCollection()->addAction( "new_sequence_diagram" );
     sequenceDiagram->setIcon( KIcon("umbrello_diagram_sequence") );
     sequenceDiagram->setText( i18n( "&Sequence Diagram..." ) );
     connect(sequenceDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotSequenceDiagram() ));
+    newDiagram->addAction(sequenceDiagram);
 
     collaborationDiagram = actionCollection()->addAction( "new_collaboration_diagram" );
     collaborationDiagram->setIcon( KIcon("umbrello_diagram_collaboration") );
     collaborationDiagram->setText( i18n( "C&ollaboration Diagram..." ) );
     connect(collaborationDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotCollaborationDiagram() ));
+    newDiagram->addAction(collaborationDiagram);
 
     useCaseDiagram= actionCollection()->addAction( "new_use_case_diagram" );
     useCaseDiagram->setIcon( KIcon("umbrello_diagram_usecase") );
     useCaseDiagram->setText( i18n( "&Use Case Diagram..." ) );
     connect(useCaseDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotUseCaseDiagram() ));
+    newDiagram->addAction(useCaseDiagram);
 
     stateDiagram= actionCollection()->addAction( "new_state_diagram" );
     stateDiagram->setIcon( KIcon("umbrello_diagram_state") );
     stateDiagram->setText( i18n( "S&tate Diagram..." ) );
     connect(stateDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotStateDiagram() ));
+    newDiagram->addAction(stateDiagram);
 
     activityDiagram= actionCollection()->addAction( "new_activity_diagram" );
     activityDiagram->setIcon( KIcon("umbrello_diagram_activity") );
     activityDiagram->setText( i18n( "&Activity Diagram..." ) );
     connect(activityDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotActivityDiagram() ));
+    newDiagram->addAction(activityDiagram);
 
     componentDiagram = actionCollection()->addAction( "new_component_diagram" );
     componentDiagram->setIcon( KIcon("umbrello_diagram_component") );
     componentDiagram->setText( i18n("Co&mponent Diagram...") );
     connect(componentDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotComponentDiagram() ));
+    newDiagram->addAction(componentDiagram);    
 
     deploymentDiagram = actionCollection()->addAction( "new_deployment_diagram" );
     deploymentDiagram->setIcon( KIcon("umbrello_diagram_deployment") );
     deploymentDiagram->setText( i18n("&Deployment Diagram...") );
     connect(deploymentDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotDeploymentDiagram() ));
+    newDiagram->addAction(deploymentDiagram);
 
     entityRelationshipDiagram = actionCollection()->addAction( "new_entityrelationship_diagram" );
     entityRelationshipDiagram->setIcon( KIcon("umbrello_diagram_entityrelationship") );
     entityRelationshipDiagram->setText( i18n("&Entity Relationship Diagram...") );
     connect(entityRelationshipDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotEntityRelationshipDiagram() ));
+    newDiagram->addAction(entityRelationshipDiagram);
 
     viewClearDiagram = actionCollection()->addAction( "view_clear_diagram" );
     viewClearDiagram->setIcon( KIcon("edit-clear") );
@@ -511,20 +520,10 @@ void UMLApp::initView() {
         m_newSessionButton->setIconSet( SmallIcon( "tab-new" ) );
         m_newSessionButton->adjustSize();
         m_newSessionButton->setAutoRaise(true);
-        m_diagramMenu = new KMenu(m_newSessionButton);
-
-        m_diagramMenu->addAction(Widget_Utils::iconSet(Uml::dt_Class), i18n("Class Diagram..."), this, SLOT(slotClassDiagram()) );
-        m_diagramMenu->addAction(Widget_Utils::iconSet(Uml::dt_Sequence), i18n("Sequence Diagram..."), this, SLOT(slotSequenceDiagram()) );
-        m_diagramMenu->addAction(Widget_Utils::iconSet(Uml::dt_Collaboration), i18n("Collaboration Diagram..."), this, SLOT(slotCollaborationDiagram()) );
-        m_diagramMenu->addAction(Widget_Utils::iconSet(Uml::dt_UseCase), i18n("Use Case Diagram..."), this, SLOT(slotUseCaseDiagram()) );
-        m_diagramMenu->addAction(Widget_Utils::iconSet(Uml::dt_State), i18n("State Diagram..."), this, SLOT(slotStateDiagram()) );
-        m_diagramMenu->addAction(Widget_Utils::iconSet(Uml::dt_Activity), i18n("Activity Diagram..."), this, SLOT(slotActivityDiagram()) );
-        m_diagramMenu->addAction(Widget_Utils::iconSet(Uml::dt_Component), i18n("Component Diagram..."), this, SLOT(slotComponentDiagram()) );
-        m_diagramMenu->addAction(Widget_Utils::iconSet(Uml::dt_Deployment), i18n("Deployment Diagram..."), this, SLOT(slotDeploymentDiagram()) );
-        m_diagramMenu->addAction(Widget_Utils::iconSet(Uml::dt_EntityRelationship), i18n("Entity Relationship Diagram..."), this, SLOT(slotEntityRelationshipDiagram()) );
-        m_newSessionButton->setPopup(m_diagramMenu);
-        //FIXME why doesn't this work?
-        //m_newSessionButton->setPopup(newDiagram->popupMenu());
+        m_newSessionButton->setPopupMode(QToolButton::InstantPopup);
+        
+        m_newSessionButton->setMenu(newDiagram->menu());
+	      
 
         //m_closeDiagramButton = new QToolButton("tab_remove", 0, m_tabWidget);
         m_closeDiagramButton = new QToolButton(m_tabWidget);
