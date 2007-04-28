@@ -1730,19 +1730,19 @@ void UMLListView::loadPixmaps() {
     dataDir += "/umbrello/pics/";
 
 #define makeBarIcon(iconType, barIcon)   m_Pixmaps[iconType] = BarIcon(barIcon)
-    makeBarIcon(Uml::it_Home,               "user-home");
+    makeBarIcon(Uml::it_Home,               "folder-home");
     makeBarIcon(Uml::it_Folder_Cyan,        "folder");
     makeBarIcon(Uml::it_Folder_Cyan_Open,   "folder-open");
-    makeBarIcon(Uml::it_Folder_Green,       "folder_green");
-    makeBarIcon(Uml::it_Folder_Green_Open,  "folder_green_open");
-    makeBarIcon(Uml::it_Folder_Orange,      "folder_orange");
-    makeBarIcon(Uml::it_Folder_Orange_Open, "folder_orange_open");
-    makeBarIcon(Uml::it_Folder_Grey,        "folder_grey");
-    makeBarIcon(Uml::it_Folder_Grey_Open,   "folder_grey_open");
-    makeBarIcon(Uml::it_Folder_Red,         "folder_red");
-    makeBarIcon(Uml::it_Folder_Red_Open,    "folder_red_open");
-    makeBarIcon(Uml::it_Folder_Violet,      "folder_violet");
-    makeBarIcon(Uml::it_Folder_Violet_Open, "folder_violet_open");
+    makeBarIcon(Uml::it_Folder_Green,       "folder-green");
+    makeBarIcon(Uml::it_Folder_Green_Open,  "folder-green"); //FIXME was folder_green_open
+    makeBarIcon(Uml::it_Folder_Orange,      "folder-orange");
+    makeBarIcon(Uml::it_Folder_Orange_Open, "folder-orange"); //FIXME was folder_orange_open
+    makeBarIcon(Uml::it_Folder_Grey,        "folder-grey");
+    makeBarIcon(Uml::it_Folder_Grey_Open,   "folder-grey"); //FIXME was folder_grey_open
+    makeBarIcon(Uml::it_Folder_Red,         "folder-red");
+    makeBarIcon(Uml::it_Folder_Red_Open,    "folder-red"); //FIXME was folder_red_open
+    makeBarIcon(Uml::it_Folder_Violet,      "folder-violet");
+    makeBarIcon(Uml::it_Folder_Violet_Open, "folder-violet"); //FIXME was folder_violet_open
 
     makeBarIcon(Uml::it_Diagram_Activity,           "umbrello_diagram_activity");
     makeBarIcon(Uml::it_Diagram_Class,              "umbrello_diagram_class");
