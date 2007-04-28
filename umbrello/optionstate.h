@@ -39,7 +39,6 @@ struct GeneralState {
     int time;        //old autosave time, kept for compatibility
     int autosavetime;
     QString autosavesuffix;  ///< Text input field for suffix of autosave
-    bool tip;
     bool loadlast;
     Uml::Diagram_Type diagram;
     QString lastFile;

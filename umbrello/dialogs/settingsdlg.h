@@ -104,7 +104,6 @@ private:
         QCheckBox * angularLinesCB;
         QCheckBox * footerPrintingCB;
         QCheckBox * autosaveCB;
-        QCheckBox * tipCB;
         QCheckBox * loadlastCB;
 
         // 2004-05-17 Achim Spangler: Allow definition of Suffix for autosave

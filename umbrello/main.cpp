@@ -106,11 +106,7 @@ int main(int argc, char *argv[]) {
         }
         uml->initGenerator();
 
-        //show tips if wanted
-        if (showGUI) {
-            KTipDialog::showTip();
-        }
-
+        
         initDocument(args, cfg);
 
         // export option

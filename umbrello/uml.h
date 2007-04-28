@@ -457,12 +457,6 @@ protected:
 
     void setProgLangMenu(Uml::Programming_Language pl);
 
-protected slots:
-
-    /**
-     * Show "Tip of the Day" dialog
-     */
-    void tipOfTheDay();
 
 public slots:
 

@@ -393,7 +393,6 @@ install(TARGETS umbrello DESTINATION ${BIN_INSTALL_DIR} )
 
 install( FILES umbrello.desktop  DESTINATION  ${XDG_APPS_DIR} )
 install( FILES
-  tips
   umbrelloui.rc
   docgenerators/xmi2docbook.xsl
   docgenerators/docbook2xhtml.xsl

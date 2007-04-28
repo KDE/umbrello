@@ -188,13 +188,9 @@ void SettingsDlg::setupGeneralPage() {
     startupLayout -> setSpacing( spacingHint() );
     startupLayout -> setMargin( fontMetrics().height() );
 
-    m_GeneralWidgets.tipCB = new QCheckBox( i18n("&Tip of the day"), m_GeneralWidgets.startupGB );
-    m_GeneralWidgets.tipCB -> setChecked( m_pOptionState->generalState.tip );
-    startupLayout -> addWidget( m_GeneralWidgets.tipCB, 0, 0 );
-
     m_GeneralWidgets.loadlastCB = new QCheckBox( i18n("&Load last project"), m_GeneralWidgets.startupGB );
     m_GeneralWidgets.loadlastCB -> setChecked( m_pOptionState->generalState.loadlast );
-    startupLayout -> addWidget( m_GeneralWidgets.loadlastCB, 0, 1 );
+    startupLayout -> addWidget( m_GeneralWidgets.loadlastCB, 0, 0 );
 
     m_GeneralWidgets.startL = new QLabel( i18n("Start new project with:"), m_GeneralWidgets.startupGB );
     startupLayout -> addWidget( m_GeneralWidgets.startL, 1, 0 );
@@ -377,7 +373,6 @@ void SettingsDlg::slotDefault() {
         m_GeneralWidgets.autosaveCB -> setChecked( false );
         m_GeneralWidgets.timeISB -> setValue( 5 );
         m_GeneralWidgets.timeISB->setEnabled( true );
-        m_GeneralWidgets.tipCB -> setChecked( true );
         m_GeneralWidgets.loadlastCB -> setChecked( true );
         m_GeneralWidgets.diagramKB -> setCurrentIndex( 0 );
     }
@@ -422,8 +417,7 @@ void SettingsDlg::applyPage( KPageWidgetItem*item ) {
         m_pOptionState->generalState.autosavetime = m_GeneralWidgets.timeISB -> value();
         // 2004-05-17 Achim Spangler: retrieve Suffix setting from dialog entry
         m_pOptionState->generalState.autosavesuffix = m_GeneralWidgets.autosaveSuffixT -> text();
-        m_pOptionState->generalState.tip = m_GeneralWidgets.tipCB -> isChecked();
-        m_pOptionState->generalState.loadlast = m_GeneralWidgets.loadlastCB -> isChecked();
+	m_pOptionState->generalState.loadlast = m_GeneralWidgets.loadlastCB -> isChecked();
         m_pOptionState->generalState.diagram  = (Uml::Diagram_Type)(m_GeneralWidgets.diagramKB->currentItem() + 1);
     }
     else if ( item == pageFont )

@@ -395,8 +395,6 @@ void UMLApp::initActions() {
     zoom100Action->setText(i18n("Z&oom to 100%"));
     connect(zoom100Action, SIGNAL( triggered( bool ) ), this, SLOT( slotZoom100() ));
 
-    KStandardAction::tipOfDay( this, SLOT( tipOfTheDay() ), actionCollection() );
-
     QString moveTabLeftString = i18n("&Move Tab Left");
     QString moveTabRightString = i18n("&Move Tab Right");
     moveTabLeft = actionCollection()->addAction("move_tab_left");
@@ -644,8 +642,6 @@ void UMLApp::saveOptions() {
     }
     cg.writeEntry( "imageMimeType", getImageMimeType() );
 
-    cg.changeGroup( "TipOfDay");
-    cg.writeEntry( "RunOnStart", optionState.generalState.tip );
 
     cg.changeGroup( "UI Options" );
     cg.writeEntry( "useFillColor", optionState.uiState.useFillColor );
@@ -1114,11 +1110,9 @@ void UMLApp::slotCopyChanged() {
 }
 
 void UMLApp::slotPrefs() {
-    /* the KTipDialog may have changed the value */
-    const KConfigGroup tipConfig( m_config, "TipOfDay");
+   
     Settings::OptionState& optionState = Settings::getOptionState();
-    optionState.generalState.tip = tipConfig.readEntry( "RunOnStart", true );
-
+  
     m_dlg = new SettingsDlg(this, &optionState);
     connect(m_dlg, SIGNAL( applyClicked() ), this, SLOT( slotApplyPrefs() ) );
 
@@ -1133,10 +1127,9 @@ void UMLApp::slotPrefs() {
 void UMLApp::slotApplyPrefs() {
     if (m_dlg) {
         /* we need this to sync both values */
-        KConfigGroup tipConfig( m_config, "TipOfDay");
+      
         Settings::OptionState& optionState = Settings::getOptionState();
-        tipConfig.writeEntry( "RunOnStart", optionState.generalState.tip );
-
+      
         m_doc -> settingsChanged( optionState );
         const QString plStr = m_dlg->getCodeGenerationLanguage();
         Uml::Programming_Language pl = Model_Utils::stringToProgLang(plStr);
@@ -1206,8 +1199,6 @@ void UMLApp::readOptionState() {
 
     optionState.generalState.diagram  = (Uml::Diagram_Type) generalGroup.readEntry("diagram", 1);
 
-    const KConfigGroup tipGroup( m_config, "TipOfDay" );
-    optionState.generalState.tip = tipGroup.readEntry( "RunOnStart", true );
 
     const KConfigGroup uiGroup( m_config, "UI Options" );
     optionState.uiState.useFillColor = uiGroup.readEntry( "useFillColor", true );
@@ -1643,10 +1634,6 @@ void UMLApp::updateLangSelectMenu(Uml::Programming_Language activeLanguage) {
     }
 }
 
-void UMLApp::tipOfTheDay()
-{
-    KTipDialog::showTip(this ,QString::null, true);
-}
 
 void UMLApp::keyPressEvent(QKeyEvent *e) {
     switch(e->key()) {
