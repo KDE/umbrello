@@ -156,30 +156,19 @@ void ASWriter::writeClass(UMLClassifier *c)
     if (forceSections() || !aggregations.isEmpty ())
     {
         as <<  m_endl << m_indentation << "/**Aggregations: */" << m_endl;
-        for (UMLAssociation *a = aggregations.first(); a; a = aggregations.next())
-        {
-            QString nm(cleanName(a->getObject(Uml::A)->getName()));
-            if (a->getMulti(Uml::A).isEmpty())
-                as << m_indentation << "this.m_" << nm << " = new " << nm << " ();" << m_endl;
-            else
-                as << m_indentation << "this.m_" << nm.lower() << " = new Array ();" << m_endl;
-        }
+        writeAssociation(classname, aggregations , as );
+
     }
+
     if( forceSections() || !compositions.isEmpty())
     {
         as <<  m_endl << m_indentation << "/**Compositions: */" << m_endl;
-        for(UMLAssociation *a = compositions.first(); a; a = compositions.next())
-        {
-            QString nm(cleanName(a->getObject(Uml::A)->getName()));
-            if(a->getMulti(Uml::A).isEmpty())
-                as << m_indentation << "this.m_" << nm << " = new " << nm << " ();" << m_endl;
-            else
-                as << m_indentation << "this.m_" << nm.lower() << " = new Array ();" << m_endl;
-        }
+        writeAssociation(classname, compositions , as );
     }
-    as << m_endl;
 
+    as << m_endl;
     as << m_indentation << "/**Protected: */" << m_endl;
+
     if (isClass) {
         UMLAttributeList atl = c->getAttributeList();
         for (UMLAttribute *at = atl.first(); at ; at = atl.next())
@@ -238,6 +227,56 @@ void ASWriter::writeClass(UMLClassifier *c)
 
 ////////////////////////////////////////////////////////////////////////////////////
 //  Helper Methods
+
+
+void ASWriter::writeAssociation(QString& classname, UMLAssociationList& assocList , QTextStream &as )
+{
+    for(UMLAssociation *a = assocList.first(); a; a = assocList.next())
+    {
+        // association side
+        Uml::Role_Type role = a->getObject(Uml::A)->getName() == classname ? Uml::B:Uml::A;
+
+        QString roleName(cleanName(a->getRoleName(role)));
+
+        if (!roleName.isEmpty()) {
+
+            // association doc
+            if (forceDoc() || !a->getDoc().isEmpty()) {
+                as << m_indentation << "/**" << m_endl
+                << formatDoc(a->getDoc(), m_indentation + " * ")
+                << m_indentation << " */" << m_endl;
+            }
+
+            // role doc
+            if (forceDoc() || !a->getRoleDoc(role).isEmpty()) {
+                as << m_indentation << "/**" << m_endl
+                << formatDoc(a->getRoleDoc(role), m_indentation + " * ")
+                << m_indentation << " */" << m_endl;
+            }
+
+            bool okCvt;
+            int nMulti = a->getMulti(role).toInt(&okCvt,10);
+            bool isNotMulti = a->getMulti(role).isEmpty() || (okCvt && nMulti == 1);
+
+            QString typeName(cleanName(a->getObject(role)->getName()));
+
+            if (isNotMulti)
+                as << m_indentation << "this.m_" << roleName << " = new " << typeName << "();" << m_endl;
+            else
+                as << m_indentation << "this.m_" << roleName << " = new Array();" << m_endl;
+
+            // role visibility
+            if (a->getVisibility(role) == Uml::Visibility::Private)
+            {
+               as << m_indentation << "ASSetPropFlags (this, \"m_" << roleName << "\", 7);" << m_endl;
+            }
+            else if (a->getVisibility(role)== Uml::Visibility::Protected)
+            {
+                as << m_indentation << "ASSetPropFlags (this, \"m_" << roleName << "\", 1);" << m_endl;
+            }
+        }
+    }
+}
 
 void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTextStream &as)
 {

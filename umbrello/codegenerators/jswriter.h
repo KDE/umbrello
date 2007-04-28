@@ -20,6 +20,7 @@
 
 #include "simplecodegenerator.h"
 #include "../umloperationlist.h"
+#include "../umlassociationlist.h"
 
 /**
   * class JSWriter is a JavaScript code generator for UMLClassifier objects
@@ -62,8 +63,16 @@ private:
       * @param opList the list of operations
       * @param js output stream for the JS file
       */
-    void writeOperations(QString classname, UMLOperationList *opList,
-                         QTextStream &js);
+    void writeOperations(QString classname, UMLOperationList *opList, QTextStream &js);
+
+    /**
+     * write a list of associations
+     *
+     * @param classname the name of the class
+     * @param assocList the list of associations
+     * @param as output stream for the AS file
+     */
+    void writeAssociation(QString& classname, UMLAssociationList& assoclist , QTextStream &js);
 };
 
 #endif //JSWRITER

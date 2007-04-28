@@ -20,6 +20,7 @@
 
 #include "simplecodegenerator.h"
 #include "../umloperationlist.h"
+#include "../umlassociationlist.h"
 
 /**
   * class ASWriter is a ActionScript code generator for UMLClassifier objects
@@ -63,8 +64,17 @@ private:
       * @param opList the list of operations
       * @param as output stream for the AS file
       */
-    void writeOperations(QString classname, UMLOperationList *opList,
-                         QTextStream &as);
+    void writeOperations(QString classname, UMLOperationList *opList, QTextStream &as);
+
+    /**
+     * write a list of associations
+     *
+     * @param classname the name of the class
+     * @param assocList the list of associations
+     * @param as output stream for the AS file
+     */
+    void writeAssociation(QString& classname, UMLAssociationList& assoclist , QTextStream &as);
+
 };
 
 #endif //ASWRITER
