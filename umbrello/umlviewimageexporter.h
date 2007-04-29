@@ -10,8 +10,10 @@
 #ifndef UMLVIEWIMAGEEXPORTER_H
 #define UMLVIEWIMAGEEXPORTER_H
 
+#include <qstring.h>
+#include <kurl.h>
+
 class UMLView;
-class KUrl;
 class KFileDialog;
 
 /**
