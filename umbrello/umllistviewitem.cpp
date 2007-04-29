@@ -23,7 +23,6 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
-#include <kapplication.h>
 
 // app includes
 #include "folder.h"

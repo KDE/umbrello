@@ -12,13 +12,12 @@
  /* Created By Krzywda Stanislas and Bouchikhi Mohamed-Amine ;) */
 
 #include "cmd_changeFillColor.h"
-#include "uml.h"
 // app includes
+#include "uml.h"
 #include "umlwidgetcontroller.h"
 #include "umlwidget.h"
 #include "umlwidgetlist.h"
 #include "umlnamespace.h"
-#include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
 #include "umlobject.h"

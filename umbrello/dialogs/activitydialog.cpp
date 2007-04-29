@@ -30,7 +30,6 @@
 #include "../umlview.h"
 #include "../activitywidget.h"
 #include "../dialog_utils.h"
-#include "../activitywidget.h"
 
 ActivityDialog::ActivityDialog( UMLView * pView, ActivityWidget * pWidget )
         : KPageDialog(pView) {

@@ -28,7 +28,6 @@
 #include "classifiercodedocument.h"
 #include "hierarchicalcodeblock.h"
 #include "uml.h"
-#include "codegenerators/codegenfactory.h"
 
 // Constructors/Destructors
 //

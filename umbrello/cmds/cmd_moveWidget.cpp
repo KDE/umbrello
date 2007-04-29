@@ -11,8 +11,6 @@
 
 #include "cmd_moveWidget.h"
 
-#include "uml.h"
-
 // app includes
 #include "umlwidgetcontroller.h"
 #include "umlwidget.h"

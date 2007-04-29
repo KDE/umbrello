@@ -32,8 +32,6 @@
 #include "associationwidget.h"
 #include "messagewidget.h"
 
-// own header
-#include "uml.h"
 
 ObjectWidgetController::ObjectWidgetController(ObjectWidget* objectWidget):
             UMLWidgetController(objectWidget) {

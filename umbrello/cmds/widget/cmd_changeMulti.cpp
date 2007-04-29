@@ -1,4 +1,3 @@
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,7 +11,7 @@
 
  /* Created by Bouchikhi Mohamed-Amine */
 #include "cmd_changeMulti.h"
-#include "uml.h"
+
 // app includes
 #include "umlwidgetcontroller.h"
 #include "umlwidget.h"

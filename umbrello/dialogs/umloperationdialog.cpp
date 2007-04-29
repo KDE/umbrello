@@ -41,7 +41,6 @@
 #include "../operation.h"
 #include "../classifier.h"
 #include "../template.h"
-#include "../umldoc.h"
 #include "../listpopupmenu.h"
 #include "../umlattributelist.h"
 #include "../classifierlistitem.h"

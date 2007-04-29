@@ -10,10 +10,8 @@
  ***************************************************************************/
 
 
-
 #include "cmd_changeLineColor.h"
 
-#include "uml.h"
 // app includes
 #include "umlwidgetcontroller.h"
 #include "umlwidget.h"

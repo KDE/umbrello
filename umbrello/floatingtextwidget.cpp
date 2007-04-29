@@ -35,11 +35,8 @@
 #include "messagewidget.h"
 #include "dialogs/assocpropdlg.h"
 #include "dialogs/selectopdlg.h"
-
-// own header
-#include "uml.h"
-
 #include "cmds.h"
+
 using namespace Uml;
 
 FloatingTextWidget::FloatingTextWidget(UMLView * view, Uml::Text_Role role,

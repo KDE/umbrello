@@ -11,8 +11,6 @@
 
 #include "cmd_set_name.h"
 
-#include "uml.h"
-
 // app includes
 #include "umlwidgetcontroller.h"
 #include "umlwidget.h"

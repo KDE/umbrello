@@ -153,33 +153,15 @@ void JSWriter::writeClass(UMLClassifier *c)
     if (forceSections() || !aggregations.isEmpty ())
     {
         js << m_endl << m_indentation << "/**Aggregations: */" << m_endl;
-        for (UMLAssociation* a = aggregations.first(); a; a = aggregations.next())
-        {
-            UMLObject *b = a->getObject(Uml::B);
-            if (b == c)
-                continue;   // we need to be at the "A" side and the other guy at "B"
-            QString nm(cleanName(b->getName()));
-            if (a->getMulti(Uml::B).isEmpty())
-                js << m_indentation << "this.m_" << nm << " = new " << nm << " ();" << m_endl;
-            else
-                js << m_indentation << "this.m_" << nm.lower() << " = new Array ();" << m_endl;
-        }
+        writeAssociation(classname, aggregations , js );
+
     }
     UMLAssociationList compositions = c->getCompositions();
     if( forceSections() || !compositions.isEmpty())
     {
         js << m_endl << m_indentation << "/**Compositions: */" << m_endl;
-        for (UMLAssociation *a = compositions.first(); a; a = compositions.next())
-        {
-            UMLObject *b = a->getObject(Uml::B);
-            if (b == c)
-                continue;   // we need to be at the "A" side and the other guy at "B"
-            QString nm(cleanName(b->getName()));
-            if (a->getMulti(Uml::B).isEmpty())
-                js << m_indentation << "this.m_" << nm << " = new "<< nm << " ();" << m_endl;
-            else
-                js << m_indentation << "this.m_" << nm.lower() << " = new Array ();" << m_endl;
-        }
+        writeAssociation(classname, compositions , js );
+
     }
     js << m_endl;
     js << "}" << m_endl;
@@ -200,6 +182,48 @@ void JSWriter::writeClass(UMLClassifier *c)
 
 ////////////////////////////////////////////////////////////////////////////////////
 //  Helper Methods
+
+void JSWriter::writeAssociation(QString& classname, UMLAssociationList& assocList , QTextStream &js)
+{
+    for (UMLAssociation *a = assocList.first(); a; a = assocList.next()) {
+        // association side
+        Uml::Role_Type role = (a->getObject(Uml::A)->getName() == classname ? Uml::B : Uml::A);
+
+        QString roleName(cleanName(a->getRoleName(role)));
+
+        if (!roleName.isEmpty()) {
+
+            // association doc
+            if (forceDoc() || !a->getDoc().isEmpty())
+            {
+                js << m_indentation << "/**" << m_endl
+                   << formatDoc(a->getDoc(), m_indentation + " * ")
+                   << m_indentation << " */" << m_endl;
+            }
+
+            // role doc
+            if (forceDoc() || !a->getRoleDoc(role).isEmpty())
+            {
+                js << m_indentation << "/**" << m_endl
+                   << formatDoc(a->getRoleDoc(role), m_indentation + " * ")
+                   << m_indentation << " */" << m_endl;
+            }
+
+            bool okCvt;
+            int nMulti = a->getMulti(role).toInt(&okCvt,10);
+            bool isNotMulti = a->getMulti(role).isEmpty() || (okCvt && nMulti == 1);
+
+            QString typeName(cleanName(a->getObject(role)->getName()));
+
+            if (isNotMulti)
+                js << m_indentation << "this.m_" << roleName << " = new " << typeName << "();" << m_endl;
+            else
+                js << m_indentation << "this.m_" << roleName << " = new Array();" << m_endl;
+
+            // role visibility
+        }
+    }
+}
 
 void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTextStream &js)
 {

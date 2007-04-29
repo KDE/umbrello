@@ -1735,11 +1735,12 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
 }
 
 // Add the association, and its child widgets to this view
-bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation) {
+bool UMLView::addAssociation(AssociationWidget* pAssoc , bool isPasteOperation) {
 
     if (!pAssoc) {
         return false;
     }
+    const Association_Type type = pAssoc->getAssocType();
 
     if( isPasteOperation )
     {
@@ -1749,7 +1750,6 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation)
             return false;
 
         Uml::IDType ida = Uml::id_None, idb = Uml::id_None;
-        Association_Type type = pAssoc -> getAssocType();
         if( getType() == dt_Collaboration || getType() == dt_Sequence ) {
             //check local log first
             ida = m_pIDChangesLog->findNewID( pAssoc->getWidgetID(A) );
@@ -1786,18 +1786,18 @@ bool UMLView::addAssociation( AssociationWidget* pAssoc , bool isPasteOperation)
         pAssoc->setWidget(findWidget(idb), B);
     }
 
-    UMLWidget * m_pWidgetA = findWidget(pAssoc->getWidgetID(A));
-    UMLWidget * m_pWidgetB = findWidget(pAssoc->getWidgetID(B));
+    UMLWidget * pWidgetA = findWidget(pAssoc->getWidgetID(A));
+    UMLWidget * pWidgetB = findWidget(pAssoc->getWidgetID(B));
     //make sure valid widget ids
-    if (!m_pWidgetA || !m_pWidgetB) {
+    if (!pWidgetA || !pWidgetB) {
         return false;
     }
 
     //make sure valid
-    if( !isPasteOperation &&
-            !AssocRules::allowAssociation(pAssoc->getAssocType(), m_pWidgetA, m_pWidgetB, false) ) {
+    if (!isPasteOperation && !m_pDoc->loading() &&
+        !AssocRules::allowAssociation(type, pWidgetA, pWidgetB, false)) {
         kWarning() << "UMLView::addAssociation: allowAssociation returns false "
-                    << "for AssocType " << pAssoc->getAssocType() << endl;
+                   << "for AssocType " << type << endl;
         return false;
     }
 

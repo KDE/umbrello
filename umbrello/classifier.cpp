@@ -31,7 +31,6 @@
 #include "uniqueid.h"
 #include "object_factory.h"
 #include "model_utils.h"
-#include "uniqueid.h"
 #include "clipboard/idchangelog.h"
 #include "dialogs/umloperationdialog.h"
 #include "dialogs/umlattributedialog.h"

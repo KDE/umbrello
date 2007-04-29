@@ -33,11 +33,8 @@
 #include "classifierwidget.h"
 #include "associationwidget.h"
 #include "messagewidget.h"
-
-// own header
-#include "uml.h"
-
 #include "cmds.h"
+
 using namespace Uml;
 
 UMLWidgetController::UMLWidgetController(UMLWidget *widget) {
