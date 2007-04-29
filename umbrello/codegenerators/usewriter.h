@@ -49,4 +49,5 @@ public:
     virtual const QStringList reservedKeywords() const;
 };
 
-#endif //JSWRITER
+#endif // _USEWRITER_H_
+
