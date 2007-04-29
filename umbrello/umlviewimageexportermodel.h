@@ -10,6 +10,9 @@
 #ifndef UMLVIEWIMAGEEXPORTERMODEL_H
 #define UMLVIEWIMAGEEXPORTERMODEL_H
 
+#include <qstringlist.h>
+#include <qrect.h>
+
 // forward declarations
 class UMLView;
 
