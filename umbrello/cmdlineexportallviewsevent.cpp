@@ -18,7 +18,6 @@
 // kde includes
 #include <kapplication.h>
 #include <kdebug.h>
-#include <kurl.h>
 
 // app includes
 #include "uml.h"
