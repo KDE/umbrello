@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,9 +14,14 @@
  *      Date   : Wed Jun 18 2003
  */
 
+
+// own header
+#include "textblock.h"
+
+// qt/kde includes
 #include <qregexp.h>
 
-#include "textblock.h"
+// local includes
 #include "codedocument.h"
 #include "codegenerator.h"
 #include "codegenerationpolicy.h"

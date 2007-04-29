@@ -108,7 +108,7 @@ protected:
     virtual void constrainMovementForAllWidgets(int &diffX, int &diffY);
 
     /**
-     * passed to true when a click occured on the destruction box
+     * passed to true when a click occurred on the destruction box
      */
     bool isOnDestructionBox;
 };

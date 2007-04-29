@@ -5,17 +5,18 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2007                                                    *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
+// own header
+#include "importprojectdlg.h"
 
+// qt/kde includes
 #include <QStringList>
 #include <QFileInfo>
 #include <QRegExp>
 #include <kmessagebox.h>
-
-
-// application specific includes
-#include "importprojectdlg.h"
 
 
 const QString ImportProjectDlg::ADA = "Ada";

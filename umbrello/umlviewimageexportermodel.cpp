@@ -5,10 +5,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006                                                    *
+ *   copyright (C) 2006-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
+// own header
+#include "umlviewimageexportermodel.h"
+
+// system includes
 #include <math.h>
 
 // include files for Qt
@@ -30,7 +34,6 @@
 #include <kio/netaccess.h>
 
 // application specific includes
-#include "umlviewimageexportermodel.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"

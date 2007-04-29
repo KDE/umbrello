@@ -13,18 +13,21 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006                                                    *
+ *   copyright (C) 2006-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
+// own header
+#include "rubycodegenerator.h"
+
+// qt/kde includes
+#include <qregexp.h>
 #include <kconfig.h>
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
-#include <qregexp.h>
-
-#include "rubycodegenerator.h"
+// local includes
 #include "rubycodecomment.h"
 #include "codeviewerdialog.h"
 #include "../uml.h"

@@ -14,14 +14,17 @@
  *      Date   : Thu Jun 19 2003
  */
 
+// own header
+#include "javacodegenerator.h"
+
+// qt/kde includes
+#include <qregexp.h>
 #include <kconfig.h>
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
-#include <qregexp.h>
-
-#include "javacodegenerator.h"
+// local includes
 #include "javacodecomment.h"
 #include "codeviewerdialog.h"
 #include "../uml.h"

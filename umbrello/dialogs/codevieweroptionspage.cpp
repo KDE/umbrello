@@ -13,14 +13,18 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2003-2007                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
+
+// own header
+#include "codevieweroptionspage.h"
+
+// qt/kde includes
 #include <kdebug.h>
 #include <kfontdialog.h>
 #include <kcolorbutton.h>
-#include "codevieweroptionspage.h"
 
-//kde include
-//qt include
 
 CodeViewerOptionsPage::CodeViewerOptionsPage( Settings::CodeViewerState options, QWidget *parent, const char *name )
         :CodeViewerOptionsBase(parent,name)

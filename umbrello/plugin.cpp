@@ -15,14 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
+// own header
+#include "plugin.h"
+
 // KDE includes
 #include <kdebug.h>
 #include <kconfig.h>
 #include <kapplication.h>
 
-// U2 includes
+// app includes
 #include "pluginloader.h"
-#include "plugin.h"
 
 using namespace Umbrello;
 

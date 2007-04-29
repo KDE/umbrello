@@ -5,14 +5,19 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2006-2007                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
+
+// own header
+#include "umlviewimageexporterall.h"
 
 // include files for Qt
 #include <qstring.h>
 #include <qstringlist.h>
 #include <qcheckbox.h>
 
-//kde include files
+// kde include files
 #include <klocale.h>
 #include <kurl.h>
 #include <kurlrequester.h>
@@ -20,7 +25,6 @@
 #include <kmessagebox.h>
 
 // application specific includes
-#include "umlviewimageexporterall.h"
 #include "dialogs/exportallviewsdialog.h"
 #include "umlviewimageexportermodel.h"
 #include "uml.h"

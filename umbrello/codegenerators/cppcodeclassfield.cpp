@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,20 +14,21 @@
  *      Date   : Mon Sep 1 2003
  */
 
+// own header
+#include "cppcodeclassfield.h"
 
+// qt/kde includes
 #include <kdebug.h>
 
-#include "cppcodeclassfield.h"
-#include "cppcodegenerationpolicy.h"
-
+// local includes
 #include "../codegenerator.h"
 #include "../classifiercodedocument.h"
 #include "../attribute.h"
 #include "../umlobject.h"
 #include "../umlrole.h"
 #include "../uml.h"
+#include "cppcodegenerationpolicy.h"
 
-// #include "cppclassifiercodedocument.h"
 
 // Constructors/Destructors
 //
