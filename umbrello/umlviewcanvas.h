@@ -12,6 +12,7 @@
 #ifndef UMLVIEWCANVAS_H
 #define UMLVIEWCANVAS_H
 
+#include <q3canvas.h>
 
 /**
  *@author Paul Hensgen
