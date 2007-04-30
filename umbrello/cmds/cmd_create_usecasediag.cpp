@@ -20,7 +20,7 @@ namespace Uml
 
     cmdCreateUseCaseDiag::cmdCreateUseCaseDiag(UMLDoc* doc, const QString& name):m_pUMLDoc(doc),m_pUMLView(NULL),m_Name(name)
     {
-        setText(i18n("Create class diagram"));
+        setText(i18n("Create use case diagram"));
     }
 
     cmdCreateUseCaseDiag::~cmdCreateUseCaseDiag()
