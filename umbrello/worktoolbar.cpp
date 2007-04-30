@@ -15,6 +15,7 @@
 // qt/kde include files
 #include <QPixmap>
 #include <QAction>
+#include <Q3MainWindow>
 #include <QToolButton>
 #include <kdebug.h>
 #include <klocale.h>

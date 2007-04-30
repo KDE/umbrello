@@ -14,13 +14,14 @@
 
 #include <QMap>
 #include <QPixmap>
-#include <Q3MainWindow>
 #include <qcursor.h>
 #include <ktoolbar.h>
 
 #include "umlnamespace.h"
 
+class QMainWindow;
 class QAction;
+
 /**
  * This is the toolbar that is displayed on the right-hand side of the program
  * window.  For each type of diagram it will change to suit that document.
