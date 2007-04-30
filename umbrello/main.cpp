@@ -19,7 +19,7 @@
 #include <klocale.h>
 #include <ktip.h>
 #include <kdebug.h>
-#include <kwm.h>
+#include <kwindowsystem.h>
 
 // app includes
 #include "uml.h"
