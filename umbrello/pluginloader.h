@@ -1,5 +1,3 @@
-//Added by qt3to4:
-#include <Q3ValueList>
 /***************************************************************************
                           pluginloader.h
                              -------------------
@@ -20,8 +18,10 @@
 
 #ifndef UMBRELLO_PLUGINLOADER_H
 #define UMBRELLO_PLUGINLOADER_H
-#include <QMap>
+
 // Qt includes
+#include <Q3ValueList>
+#include <QMap>
 
 // forward declarations
 class QString;
