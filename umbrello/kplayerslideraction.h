@@ -112,7 +112,7 @@ public:
     /** The KPlayerPopupFrame constructor. Parameters are passed on to QFrame.
       */
     KPlayerPopupFrame (QWidget* parent = 0/*, const char* name = 0*/)
-            : QFrame (parent/*, name, Qt::WType_Popup*/) { }
+            : QFrame (parent, Qt::WType_Popup) { }
     /** The KPlayerPopupFrame destructor. Does nothing.
       */
     virtual ~KPlayerPopupFrame() { }

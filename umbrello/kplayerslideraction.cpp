@@ -70,14 +70,14 @@ KPlayerPopupSliderAction::KPlayerPopupSliderAction (const QObject* receiver, con
                                                     QObject *parent)
         : KAction (parent)
 {
-    connect (this, SIGNAL (triggered ()), receiver, slot);
     m_frame = new KPlayerPopupFrame;
-    m_frame -> setFrameStyle (QFrame::PopupPanel | QFrame::Raised);
+    m_frame -> setFrameStyle (QFrame::Raised);
     m_frame -> setLineWidth (2);
     m_slider = new KPlayerSlider (Qt::Vertical, m_frame);
     m_frame -> resize (36, m_slider -> sizeHint().height() + 4);
     m_slider -> setGeometry (m_frame -> contentsRect());
     //CHANGED  kDebug() << "Popup slider size " << m_slider -> width() << "x" << m_slider -> height() << "\n";
+    connect (this, SIGNAL(triggered()), this , SLOT(slotTriggered()));
     connect (m_slider, SIGNAL (changed (int)), receiver, slot);
 }
 
@@ -87,66 +87,50 @@ KPlayerPopupSliderAction::~KPlayerPopupSliderAction()
     m_frame = 0;
 }
 
-/*int KPlayerPopupSliderAction::plug (QWidget* widget, int index)
-{
-  Q_ASSERT (m_slider);
-  Q_ASSERT (widget);
-  Q_ASSERT (! isPlugged());
-  if ( ! m_slider || ! widget || isPlugged() )
-    return -1;
-  Q_ASSERT (widget -> inherits ("KToolBar"));
-  if ( ! widget -> inherits ("KToolBar") )
-    return -1;
-  int retval = KAction::plug (widget, index);
-//  if ( retval >= 0 )
-//    m_slider -> reparent (widget, QPoint());
-  return retval;
-}
 
-void KPlayerPopupSliderAction::unplug (QWidget* widget)
-{
-  Q_ASSERT (m_slider);
-  Q_ASSERT (widget);
-  Q_ASSERT (isPlugged());
-  Q_ASSERT (widget -> inherits ("KToolBar"));
-  if ( ! m_slider || ! widget || ! isPlugged() || ! widget -> inherits ("KToolBar") )
-    return;
-//m_slider -> reparent (0, QPoint());
-  KAction::unplug (widget);
-}*/
 
 void KPlayerPopupSliderAction::slotTriggered()
 {
-    KAction::trigger();
-    QWidget* button = 0;
-/*    if ( sender() )
-    {
-        //CHANGED    kDebug() << "Sender class name: " << sender() -> className() << "\n";
-        if ( sender() -> inherits ("KToolBarButton") )
-            button = (QWidget*) sender();
-        else if ( sender() -> inherits ("KToolBar") )
-        {
-            KToolBar* toolbar = (KToolBar*) sender();
-            int index = findContainer (toolbar);
-            if ( index >= 0 )
-                button = toolbar -> getButton (itemId (index));
-        }
-    }*/
+
     QPoint point;
-    if ( button )
-        point = button -> mapToGlobal (QPoint (0, button -> height()));
-    else
-    {
-        point = QCursor::pos() - QPoint (m_frame -> width() / 2, m_frame -> height() / 2);
-        if ( point.x() + m_frame -> width() > QApplication::desktop() -> width() )
-            point.setX (QApplication::desktop() -> width() - m_frame -> width());
-        if ( point.y() + m_frame -> height() > QApplication::desktop() -> height() )
-            point.setY (QApplication::desktop() -> height() - m_frame -> height());
-        if ( point.x() < 0 )
-            point.setX (0);
-        if ( point.y() < 0 )
-            point.setY (0);
+    
+    QList<QWidget*> associatedWidgetsList = QWidgetAction::associatedWidgets();
+   
+    QWidget* associatedWidget = 0;
+    QWidget* associatedToolButton = 0;
+    KToolBar* toolBar = 0;
+    
+    // find the toolbutton which was clicked on
+ 
+   foreach(associatedWidget, associatedWidgetsList) {
+
+      if(KToolBar* associatedToolBar = dynamic_cast<KToolBar*>(associatedWidget)) {
+       
+	associatedToolButton = associatedToolBar->childAt(associatedToolBar->mapFromGlobal(QCursor::pos()));
+        if(associatedToolButton)
+          break;             // found the tool button which was clicked 
+    
+      }
+
     }
+
+   if ( associatedToolButton  ) {
+     point = associatedToolButton->mapToGlobal(QPoint(0,associatedToolButton->height()));
+
+   } else {
+
+     point = QCursor::pos() - QPoint (m_frame -> width() / 2, m_frame -> height() / 2);
+     if ( point.x() + m_frame -> width() > QApplication::desktop() -> width() )
+       point.setX (QApplication::desktop() -> width() - m_frame -> width());
+     if ( point.y() + m_frame -> height() > QApplication::desktop() -> height() )
+       point.setY (QApplication::desktop() -> height() - m_frame -> height());
+     if ( point.x() < 0 )
+       point.setX (0);
+     if ( point.y() < 0 )
+       point.setY (0);
+   }
+    
+
     //CHANGED  kDebug() << "Point: " << point.x() << "x" << point.y() << "\n";
     m_frame -> move (point);
     /*if ( kapp && kapp -> activeWindow() )
