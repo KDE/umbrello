@@ -5,12 +5,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-#include <klocale.h>
+// own header
+#include "diagramprintpage.h"
 
+// qt/kde includes
 #include <qlayout.h>
 #include <qptrlist.h>
 #include <qlistbox.h>
@@ -18,13 +20,15 @@
 #include <qcombobox.h>
 #include <qbuttongroup.h>
 #include <qgroupbox.h>
+#include <klocale.h>
 
-#include "diagramprintpage.h"
+// local includes
 #include "../uml.h"
 #include "../umldoc.h"
 #include "../umlview.h"
 #include "../umlviewlist.h"
 #include "../umlnamespace.h"
+
 
 DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : KPrintDialogPage(parent), m_pDoc(m_pDoc) {
     int margin = fontMetrics().height();

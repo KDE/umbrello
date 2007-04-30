@@ -13,6 +13,9 @@
  *                                                                         *
  ***************************************************************************/
 
+// own header
+#include "pluginloader.h"
+
 // Qt includes
 #include <qstring.h>
 
@@ -21,7 +24,6 @@
 #include <klibloader.h>
 
 // u2 includes
-#include "pluginloader.h"
 #include "plugin.h"
 
 using namespace Umbrello;

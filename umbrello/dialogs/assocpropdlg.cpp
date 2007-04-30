@@ -5,11 +5,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
+// own header
+#include "assocpropdlg.h"
 
+// qt/kde includes
 #include <qlayout.h>
 #include <qlabel.h>
 
@@ -18,10 +21,9 @@
 #include <kiconloader.h>
 #include <kdebug.h>
 
-#include "assocpropdlg.h"
+// local includes
 #include "assocgenpage.h"
 #include "assocrolepage.h"
-
 #include "classpropdlg.h"
 #include "classgenpage.h"
 #include "umlwidgetcolorpage.h"
@@ -31,6 +33,7 @@
 #include "../objectwidget.h"
 #include "../uml.h"
 #include "../umlview.h"
+
 
 AssocPropDlg::AssocPropDlg (QWidget *parent, AssociationWidget * assocWidget, int pageNum)
         : KDialogBase(IconList, i18n("Association Properties"), Ok | Apply | Cancel | Help,

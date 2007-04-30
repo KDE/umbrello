@@ -14,10 +14,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2004-2007                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
-#include <kdebug.h>
-#include <klocale.h>
 
+// own header
+#include "codeeditor.h"
+
+// qt/kde includes
 #include <qkeysequence.h>
 #include <qcursor.h>
 #include <qcolor.h>
@@ -25,9 +29,10 @@
 #include <qbrush.h>
 #include <qlayout.h>
 #include <qregexp.h>
+#include <kdebug.h>
+#include <klocale.h>
 
-#include "codeeditor.h"
-
+// local includes
 #include "../attribute.h"
 #include "../classifier.h"
 #include "../umldoc.h"

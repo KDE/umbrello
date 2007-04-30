@@ -5,20 +5,20 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-#include <kdebug.h>
-//qt includes
-#include <qlayout.h>
+// own header
+#include "umlroledialog.h"
 
-//kde includes
+// qt/kde  includes
+#include <qlayout.h>
+#include <kdebug.h>
 #include <klocale.h>
 
-//app includes
+// app includes
 #include "../umlrole.h"
-#include "umlroledialog.h"
 #include "umlroleproperties.h"
 
 UMLRoleDialog::UMLRoleDialog( QWidget * parent, UMLRole * pRole )

@@ -68,7 +68,7 @@ public:
 
 private:
     QButtonGroup * m_pFilterBG;
-    QGroupBox * m_pSelectGB, m_pOptionsGB;
+    QGroupBox * m_pSelectGB;
     QListBox * m_pSelectLB;
     QRadioButton * m_pAllRB, * m_pCurrentRB, * m_pSelectRB, * m_pTypeRB;
     QComboBox * m_pTypeCB;

@@ -9,13 +9,15 @@
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
+// onw header
+#include "messagewidget.h"
+
 //qt includes
 #include <qpainter.h>
 //kde includes
 #include <kdebug.h>
 #include <kcursor.h>
 //app includes
-#include "messagewidget.h"
 #include "messagewidgetcontroller.h"
 #include "floatingtextwidget.h"
 #include "objectwidget.h"

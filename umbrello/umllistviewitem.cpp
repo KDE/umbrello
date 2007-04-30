@@ -5,9 +5,12 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
+
+// own header
+#include "umllistviewitem.h"
 
 // system includes
 #include <cstdlib>
@@ -28,7 +31,6 @@
 #include "operation.h"
 #include "umldoc.h"
 #include "umllistview.h"
-#include "umllistviewitem.h"
 #include "umlobjectlist.h"
 #include "umlview.h"
 #include "model_utils.h"

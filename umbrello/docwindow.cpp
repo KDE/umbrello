@@ -5,20 +5,26 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-#include "associationwidget.h"
+// own header
 #include "docwindow.h"
+
+// qt/kde includes
+#include <qgroupbox.h>
+#include <qlayout.h>
+#include <qmultilineedit.h>
+#include <klocale.h>
+
+// local includes
+#include "associationwidget.h"
 #include "umldoc.h"
 #include "umlobject.h"
 #include "umlview.h"
 #include "umlwidget.h"
-#include <klocale.h>
-#include <qgroupbox.h>
-#include <qlayout.h>
-#include <qmultilineedit.h>
+
 
 DocWindow::DocWindow( UMLDoc * doc, QWidget *parent, const char *name ) : QWidget( parent, name ) {
     //setup visual display

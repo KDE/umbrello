@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -26,10 +26,14 @@
   *   guts of the class (e.g. field decl, accessor methods, operations, dependant classes)
 */
 
-#include <kdebug.h>
-#include <qregexp.h>
-
+// own header
 #include "cppheadercodedocument.h"
+
+// qt/kde includes
+#include <qregexp.h>
+#include <kdebug.h>
+
+// local includes
 #include "cppcodegenerator.h"
 #include "cppcodegenerationpolicy.h"
 #include "cppcodedocumentation.h"

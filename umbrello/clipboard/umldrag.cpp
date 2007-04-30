@@ -5,13 +5,18 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
-#include <kdebug.h>
-#include <qdom.h>
 
+// own header
 #include "umldrag.h"
+
+// qt/kde includes
+#include <qdom.h>
+#include <kdebug.h>
+
+// local includes
 #include "idchangelog.h"
 #include "../uml.h"
 #include "../umldoc.h"

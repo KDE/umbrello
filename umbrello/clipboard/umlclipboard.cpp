@@ -5,15 +5,19 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
+// own header
+#include "umlclipboard.h"
+
+// qt/kde includes
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <klocale.h>
 
-#include "umlclipboard.h"
+// local includes
 #include "umldrag.h"
 #include "idchangelog.h"
 #include "../associationwidget.h"

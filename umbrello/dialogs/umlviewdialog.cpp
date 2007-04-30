@@ -5,15 +5,15 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-#include <kiconloader.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-#include <kfontdialog.h>
-#include <kdebug.h>
+// own header
+#include "umlviewdialog.h"
+
+// qt/kde includes
+#include <qvbox.h>
 #include <qlayout.h>
 #include <qcheckbox.h>
 #include <qlabel.h>
@@ -21,14 +21,19 @@
 #include <qgroupbox.h>
 #include <qtextedit.h>
 #include <qspinbox.h>
+#include <kiconloader.h>
+#include <klocale.h>
+#include <kmessagebox.h>
+#include <kfontdialog.h>
+#include <kdebug.h>
 #include <knuminput.h>
-#include <qvbox.h>
 
-#include "umlviewdialog.h"
+// local includes
 #include "../umlview.h"
 #include "../umldoc.h"
 #include "../uml.h"
 #include "diagrampropertiespage.h"
+
 
 UMLViewDialog::UMLViewDialog( QWidget * pParent, UMLView * pView ) : KDialogBase(IconList, i18n("Properties"), Ok | Apply | Cancel | Help,
         Ok, pParent, "_VIEWDLG_", true, true) {

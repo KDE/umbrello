@@ -24,10 +24,15 @@
   * class declaration
   *   guts of the class (e.g. accessor methods, operations, dependant classes)
 */
-#include <kdebug.h>
-#include <qregexp.h>
 
+// own header
 #include "rubyclassifiercodedocument.h"
+
+// qt/kde includes
+#include <qregexp.h>
+#include <kdebug.h>
+
+// local includes
 #include "rubycodegenerator.h"
 #include "rubycodecomment.h"
 #include "rubyclassdeclarationblock.h"

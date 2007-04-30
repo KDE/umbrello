@@ -23,10 +23,15 @@
   * class declaration
   *   guts of the class (e.g. field decl, accessor methods, operations, dependant classes)
 */
+
+// own header
+#include "javaclassifiercodedocument.h"
+
+// qt/kde includes
 #include <kdebug.h>
 #include <qregexp.h>
 
-#include "javaclassifiercodedocument.h"
+// local includes
 #include "javacodegenerator.h"
 #include "javacodecomment.h"
 #include "javaclassdeclarationblock.h"

@@ -9,6 +9,9 @@
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
+// own header
+#include "seqlinewidget.h"
+
 //kde includes
 #include <kcursor.h>
 #include <kdebug.h>
@@ -16,7 +19,6 @@
 #include "umlview.h"
 #include "objectwidget.h"
 #include "messagewidget.h"
-#include "seqlinewidget.h"
 
 // class members
 int const SeqLineWidget::m_nMouseDownEpsilonX = 20;

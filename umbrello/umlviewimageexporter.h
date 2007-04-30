@@ -5,13 +5,17 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2006-2007                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef UMLVIEWIMAGEEXPORTER_H
 #define UMLVIEWIMAGEEXPORTER_H
 
+#include <qstring.h>
+#include <kurl.h>
+
 class UMLView;
-class KURL;
 class KFileDialog;
 
 /**

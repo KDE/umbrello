@@ -13,8 +13,7 @@
 #define CMDLINEEXPORTALLVIEWSEVENT_H
 
 #include <qevent.h>
-
-class KURL;
+#include <kurl.h>
 
 /**
  * This class provides an event that is posted to the UMLApp when the "export all views"

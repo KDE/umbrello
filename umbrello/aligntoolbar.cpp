@@ -5,10 +5,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
+// own header
+#include "aligntoolbar.h"
+
+// system includes
 #include <algorithm>
 #include <vector>
 
@@ -21,7 +25,6 @@
 #include <kstandarddirs.h>
 
 // app includes
-#include "aligntoolbar.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"

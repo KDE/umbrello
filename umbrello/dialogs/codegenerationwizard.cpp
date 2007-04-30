@@ -13,24 +13,29 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-#include <kdebug.h>
+// own header
+#include "codegenerationwizard.h"
+
+// qt/kde includes
 #include <qdir.h>
 #include <qlistview.h>
 #include <qfileinfo.h>
+#include <qapplication.h>
+#include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <qapplication.h>
 
-#include "codegenerationwizard.h"
+// local includes
 #include "codegenerationoptionspage.h"
 #include "../classifier.h"
 #include "../codegenerator.h"
 #include "../uml.h"
 #include "../umldoc.h"
+
 
 CodeGenerationWizard::CodeGenerationWizard(UMLClassifierList *classList)
   : CodeGenerationWizardBase((QWidget*)UMLApp::app()) {

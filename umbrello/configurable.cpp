@@ -11,7 +11,12 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2004-2007                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
+
+// own header
+#include "configurable.h"
 
 // Qt includes
 #include <qstringlist.h>
@@ -21,7 +26,6 @@
 #include <kconfig.h>
 
 // local includes
-#include "configurable.h"
 #include "pluginloader.h"
 #include "plugin.h"
 

@@ -5,22 +5,21 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-//qt includes
-#include <qlayout.h>
-#include <qlabel.h>
-//kde includes
-#include <klocale.h>
-#include <kmessagebox.h>
-//app includes
+// own header
 #include "notedialog.h"
-//qt includes
+
+// qt/kde includes
 #include <qlineedit.h>
 #include <qgroupbox.h>
 #include <qtextedit.h>
+#include <qlayout.h>
+#include <qlabel.h>
+#include <klocale.h>
+#include <kmessagebox.h>
 
 
 NoteDialog::NoteDialog( QWidget * parent, NoteWidget * pNote ) : KDialogBase(Plain, i18n("Note Documentation"), Help | Ok | Cancel , Ok, parent, "_NOTEDIALOG_", true, true) {

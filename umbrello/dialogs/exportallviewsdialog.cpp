@@ -5,7 +5,12 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2006-2007                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
+
+// own header
+#include "exportallviewsdialog.h"
 
 // include files for Qt
 #include <qlayout.h>
@@ -17,7 +22,6 @@
 #include <klocale.h>
 
 // application specific includes
-#include "exportallviewsdialog.h"
 #include "../umlviewimageexportermodel.h"
 
 ExportAllViewsDialog::ExportAllViewsDialog(

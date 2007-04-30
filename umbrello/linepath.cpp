@@ -5,10 +5,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
+// own header
+#include "linepath.h"
+
+// system includes
 #include <cstdlib>
 #include <cmath>
 
@@ -27,7 +31,6 @@
 #include "umlview.h"
 #include "umldoc.h"
 #include "uml.h"
-#include "linepath.h"
 
 LinePath::Circle::Circle(QCanvas * canvas, int radius /* = 0 */)
         : QCanvasEllipse(radius * 2, radius * 2, canvas) {

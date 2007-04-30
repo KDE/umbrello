@@ -9,6 +9,10 @@
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
+// own header
+#include "umlview.h"
+
+// system includes
 #include <climits>
 #include <math.h>
 
@@ -41,7 +45,6 @@
 #include <kdebug.h>
 
 // application specific includes
-#include "umlview.h"
 #include "umlviewimageexporter.h"
 #include "listpopupmenu.h"
 #include "uml.h"

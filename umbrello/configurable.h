@@ -19,6 +19,8 @@
 #ifndef UMBRELLO_CONFIGURABLE_H
 #define UMBRELLO_CONFIGURABLE_H
 
+#include <qstring.h>
+#include <qptrlist.h>
 
 // forward declarations
 class KLibrary;
