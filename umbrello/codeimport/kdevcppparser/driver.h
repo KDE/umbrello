@@ -188,7 +188,9 @@ public:
     Q3ValueList<Problem> problems( const QString& fileName ) const;
 
     bool hasMacro( const QString& name ) const { return m_macros.contains( name ); }
-    const Macro& macro( const QString& name ) const { return m_macros[ name ]; }
+    /* gcc4 says "returning reference to temporary":
+      const Macro& macro( const QString& name ) const { return m_macros[ name ]; }
+     */
     Macro& macro( const QString& name ) { return m_macros[ name ]; }
 
     virtual void removeMacro( const QString& macroName );
