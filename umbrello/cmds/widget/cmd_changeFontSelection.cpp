@@ -11,7 +11,6 @@
 
 #include "cmd_changeFontSelection.h"
 
-#include "uml.h"
 // app includes
 #include "umlwidgetcontroller.h"
 #include "umlwidget.h"
