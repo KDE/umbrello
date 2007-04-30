@@ -14,7 +14,7 @@
  *      Date   : Fri Aug 31 2003
  */
 
-// onw header
+// own header
 #include "cppsourcecodeaccessormethod.h"
 
 // qt/kde includes
