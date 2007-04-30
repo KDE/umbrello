@@ -1,8 +1,7 @@
 /***************************************************************************
-    begin                : Mon Jun 17 2002
-    copyright            : (C) 2002 by Luis De la Parra Blum
+    begin             : Mon Jun 17 2002
+    copyright         : (C) 2002 Luis De la Parra Blum <luis@delaparra.org>
                                         and Brian Thomas
-    email                : luis@delaparra.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -12,7 +11,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
