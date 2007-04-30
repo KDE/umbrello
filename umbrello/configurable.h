@@ -1,5 +1,3 @@
-//Added by qt3to4:
-#include <Q3PtrList>
 /***************************************************************************
                           configurable.h
                              -------------------
@@ -21,6 +19,7 @@
 #ifndef UMBRELLO_CONFIGURABLE_H
 #define UMBRELLO_CONFIGURABLE_H
 
+#include <Q3PtrList>
 
 // forward declarations
 class KLibrary;
