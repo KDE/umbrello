@@ -645,38 +645,6 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
         m_bStatic = (ownerScope == "classifier");
     }
 
-    /**** Handle XMI_FLAT_PACKAGES and old files *************************/
-    QString pkg = element.attribute( "packageid", "-1" );
-    // Some interim versions used "packageid" so test for it.
-    Uml::IDType pkgId = Uml::id_None;
-    if (pkg != "-1") {
-        pkgId = STR2ID(pkg);
-    } else {
-        pkg = element.attribute( "package", "" );
-        if (! pkg.isEmpty()) {
-            if (pkg.contains(QRegExp("\\D")))
-                // Old versions saved the package name instead of the xmi.id.
-                setPackage( pkg );
-            else
-                pkgId = STR2ID(pkg);
-        }
-    }
-    if (pkgId != Uml::id_None) {
-        UMLObject *pkgObj = umldoc->findObjectById( pkgId );
-        if (pkgObj != NULL) {
-            m_pUMLPackage = dynamic_cast<UMLPackage *>(pkgObj);
-            if (m_pUMLPackage == NULL)  // soft error
-                kError() << "UMLObject::loadFromXMI(" << m_Name
-                << "): object of packageid "
-                << ID2STR(pkgId) << " is not a package" << endl;
-        } else {  // soft error
-            kError() << "UMLObject::loadFromXMI(" << m_Name
-            << "): cannot resolve packageid "
-            << ID2STR(pkgId) << endl;
-        }
-    }
-    /**** End of XMI_FLAT_PACKAGES and old files handling ****************/
-
     // If the node has child nodes, check whether attributes can be
     // extracted from them.
     if (element.hasChildNodes()) {

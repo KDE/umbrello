@@ -499,18 +499,24 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
     m = m.simplified();
     if (m.isEmpty())
         return PS_Empty;
-    /**
-     * The search pattern includes everything until the opening parenthesis
-     * because UML also permits non programming-language oriented designs
-     * using narrative names, for example "check water temperature".
-     */
-    QRegExp pat( "^([^\\(]+)" );
-    int pos = pat.search(m);
-    if (pos == -1)
-        return PS_Illegal_MethodName;
-    desc.m_name = pat.cap(1);
+    if (m.contains(QRegExp("operator *()"))) {
+        // C++ special case: two sets of parentheses
+        desc.m_name = "operator()";
+        m.remove(QRegExp("operator *()"));
+    } else {
+        /**
+         * The search pattern includes everything up to the opening parenthesis
+         * because UML also permits non programming-language oriented designs
+         * using narrative names, for example "check water temperature".
+         */
+        QRegExp beginningUpToOpenParenth( "^([^\\(]+)" );
+        int pos = beginningUpToOpenParenth.search(m);
+        if (pos == -1)
+            return PS_Illegal_MethodName;
+        desc.m_name = beginningUpToOpenParenth.cap(1);
+    }
     desc.m_pReturnType = NULL;
-    pat = QRegExp("\\) *:(.*)$");
+    QRegExp pat = QRegExp("\\) *:(.*)$");
     pos = pat.search(m);
     if (pos != -1) {  // return type is optional
         QString retType = pat.cap(1);
