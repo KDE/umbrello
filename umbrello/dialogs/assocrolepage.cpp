@@ -62,7 +62,7 @@ void AssocRolePage::constructWidget() {
 
     // general configuration of the GUI
     int margin = fontMetrics().height();
-    setMinimumSize(310,330);
+    
     QGridLayout * mainLayout = new QGridLayout(this);
     mainLayout -> setSpacing(6);
 
@@ -79,15 +79,7 @@ void AssocRolePage::constructWidget() {
     propsBGB -> setTitle(titleB);
     docAGB -> setTitle(i18n("Documentation"));
     docBGB -> setTitle(i18n("Documentation"));
-    mainLayout -> addWidget( propsAGB, 0, 0);
-    mainLayout -> addWidget( scopeABG, 1, 0);
-    mainLayout -> addWidget(changeABG, 2, 0);
-    mainLayout -> addWidget(   docAGB, 3, 0);
-    mainLayout -> addWidget( propsBGB, 0, 1);
-    mainLayout -> addWidget( scopeBBG, 1, 1);
-    mainLayout -> addWidget(changeBBG, 2, 1);
-    mainLayout -> addWidget(   docBGB, 3, 1);
-
+    
     QGridLayout * propsALayout = new QGridLayout(propsAGB);
     propsALayout -> setSpacing(6);
     propsALayout -> setMargin(margin);
@@ -239,6 +231,16 @@ void AssocRolePage::constructWidget() {
     m_pDocB-> setText(m_pAssociationWidget-> getRoleDoc(Uml::B));
     // m_pDocB-> setEnabled(false);
     m_pDocB->setWordWrap(Q3MultiLineEdit::WidgetWidth);
+
+    // add group boxes to main layout 
+    mainLayout -> addWidget( propsAGB, 0, 0);
+    mainLayout -> addWidget( scopeABG, 1, 0);
+    mainLayout -> addWidget(changeABG, 2, 0);
+    mainLayout -> addWidget(   docAGB, 3, 0);
+    mainLayout -> addWidget( propsBGB, 0, 1);
+    mainLayout -> addWidget( scopeBBG, 1, 1);
+    mainLayout -> addWidget(changeBBG, 2, 1);
+    mainLayout -> addWidget(   docBGB, 3, 1);
 
 }
 
