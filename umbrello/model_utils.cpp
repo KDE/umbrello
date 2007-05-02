@@ -517,7 +517,7 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
     }
     desc.m_pReturnType = NULL;
     QRegExp pat = QRegExp("\\) *:(.*)$");
-    pos = pat.search(m);
+    int pos = pat.search(m);
     if (pos != -1) {  // return type is optional
         QString retType = pat.cap(1);
         retType = retType.trimmed();
