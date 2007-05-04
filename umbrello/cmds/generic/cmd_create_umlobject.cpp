@@ -13,6 +13,7 @@
 
 #include "uml.h"
 #include "umldoc.h"
+#include "package.h"
 
 #include <klocale.h>
 
@@ -32,6 +33,18 @@ namespace Uml
     void cmdCreateUMLObject::redo()
     {
         UMLDoc *doc = UMLApp::app()->getDocument();
+
+	// This object was removed from it's package when it was deleted
+        // so add it back to it's package ( if it belonged to one )
+        UMLPackage *pkg = m_obj->getUMLPackage();
+        if (pkg == NULL) {
+          // object does not belong to any package
+
+        } else {
+          // add this object to its parent package
+          pkg->addObject(m_obj);
+        }
+
         doc->signalUMLObjectCreated(m_obj);
     }
 

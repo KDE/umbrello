@@ -142,6 +142,8 @@ void UMLView::init() {
 
     // Initialize other data
     m_AssociationList.setAutoDelete( true );
+    m_WidgetList.setAutoDelete( true );
+
     //Setup up booleans
     m_bChildDisplayedDoc = false;
     m_bPaste = false;
