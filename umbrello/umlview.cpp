@@ -143,6 +143,7 @@ void UMLView::init() {
     // Initialize other data
     m_AssociationList.setAutoDelete( true );
     m_WidgetList.setAutoDelete( true );
+    m_MessageList.setAutoDelete( true );
 
     //Setup up booleans
     m_bChildDisplayedDoc = false;
@@ -2031,7 +2032,7 @@ void UMLView::updateContainment(UMLCanvasObject *self) {
             // Wow, all done. Great!
             return;
         }
-        m_AssociationList.remove(a);  // AutoDelete is true
+        removeAssoc(a);  // AutoDelete is true
         // It's okay to break out because there can only be a single
         // containing object.
         break;

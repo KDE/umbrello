@@ -45,7 +45,7 @@ WorkToolBar::WorkToolBar(QMainWindow *parentWindow)
     m_map.insert(Uml::dt_Undefined,tbb_Arrow);
 
     slotCheckToolBar( Uml::dt_Undefined );
-    
+
 }
 
 WorkToolBar::~WorkToolBar() {
@@ -189,6 +189,11 @@ void WorkToolBar::buttonChanged(int b) {
     ToolBar_Buttons tbb = (ToolBar_Buttons)b;
     if (tbb == tbb_Arrow && m_CurrentButtonID == tbb_Arrow) {
         m_actions[tbb_Arrow]->toggle();
+
+        // signal needed, in the case ( when switching diagrams ) that
+        // Arrow Button gets activated, but the toolBarState of the Views may be different
+        emit sigButtonChanged( m_CurrentButtonID );
+
         view->setCursor( currentCursor() );
         return;
     }
