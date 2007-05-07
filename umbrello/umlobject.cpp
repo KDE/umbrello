@@ -728,7 +728,8 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
                     m_pUMLPackage = static_cast<UMLPackage*>( o );
                 }
             }
-        } else if (m_pUMLPackage) {
+        }
+        if (m_pUMLPackage) {
             m_pUMLPackage->addObject(this);
         } else if (umldoc->rootFolderType(this) == Uml::N_MODELTYPES) {
             // m_pUMLPackage is not set on the root folders.

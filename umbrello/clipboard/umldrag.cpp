@@ -66,10 +66,9 @@ public:
     }
 };
 
-UMLDrag::UMLDrag(UMLObjectList& objects, UMLListViewItemList& umlListViewItems,
-                 QWidget* dragSource /*= 0*/, const char* name /*= 0*/ ): Q3DragObject(dragSource, name) {
+UMLDrag::UMLDrag(UMLObjectList& objects, QWidget* dragSource /*= 0*/, const char* name /*= 0*/ ): Q3DragObject(dragSource, name) {
     data = new UMLDragPrivate;
-    setUMLDataClip1(objects, umlListViewItems);
+    setUMLDataClip1(objects);
 }
 
 UMLDrag::UMLDrag(UMLObjectList& objects, UMLListViewItemList& umlListViewItems, UMLViewList& diagrams,
@@ -84,18 +83,18 @@ UMLDrag::UMLDrag(UMLListViewItemList& umlListViewItems, QWidget* dragSource /*= 
     setUMLDataClip3(umlListViewItems);
 }
 
-UMLDrag::UMLDrag(UMLObjectList& objects, UMLListViewItemList& umlListViewItems,
+UMLDrag::UMLDrag(UMLObjectList& objects,
                  UMLWidgetList& widgets, AssociationWidgetList& associationDatas,
                  QPixmap& pngImage, Uml::Diagram_Type dType, QWidget * dragSource /*= 0*/,
                  const char * name /*= 0*/ ): Q3DragObject(dragSource, name) {
     data = new UMLDragPrivate;
-    setUMLDataClip4(objects, umlListViewItems, widgets, associationDatas, pngImage, dType);
+    setUMLDataClip4(objects, widgets, associationDatas, pngImage, dType);
 }
 
-UMLDrag::UMLDrag(UMLObjectList& objects, UMLListViewItemList& umlListViewItems, int,
+UMLDrag::UMLDrag(UMLObjectList& objects, int,
                  QWidget* /*dragSource = 0*/, const char* /*name = 0*/ ) {
     data = new UMLDragPrivate;
-    setUMLDataClip5(objects, umlListViewItems);
+    setUMLDataClip5(objects);
 }
 
 UMLDrag::UMLDrag(QWidget* dragSource /*= 0*/, const char * name /*= 0*/ ): Q3DragObject(dragSource, name) {
@@ -129,7 +128,7 @@ const char* UMLDrag::format(int index) const {
     return result;
 }
 
-void UMLDrag::setUMLDataClip1(UMLObjectList& objects, UMLListViewItemList& umlListViewItems) {
+void UMLDrag::setUMLDataClip1(UMLObjectList& objects) {
     setSubType("clip1", 0);
 
     QDomDocument domDoc;
@@ -148,12 +147,6 @@ void UMLDrag::setUMLDataClip1(UMLObjectList& objects, UMLListViewItemList& umlLi
     QDomElement itemsTag = domDoc.createElement("umllistviewitems");
     xmiclip.appendChild(itemsTag);
 
-    UMLListViewItemListIt item_it2(umlListViewItems);
-    UMLListViewItem* item = 0;
-    while ( (item=item_it2.current()) != 0 ) {
-        ++item_it2;
-        item->saveToXMI(domDoc, itemsTag);
-    }
     setEncodedData(domDoc.toString().utf8(), 0);
 }
 
@@ -215,8 +208,7 @@ void UMLDrag::setUMLDataClip3(UMLListViewItemList& umlListViewItems) {
     setEncodedData(domDoc.toString().utf8(), 0);
 }
 
-void UMLDrag::setUMLDataClip4(UMLObjectList& objects, UMLListViewItemList& umlListViewItems,
-                              UMLWidgetList& widgets, AssociationWidgetList& associations,
+void UMLDrag::setUMLDataClip4(UMLObjectList& objects, UMLWidgetList& widgets, AssociationWidgetList& associations,
                               QPixmap& pngImage, Uml::Diagram_Type dType ) {
     setSubType("clip4", 0);
 
@@ -257,12 +249,6 @@ void UMLDrag::setUMLDataClip4(UMLObjectList& objects, UMLListViewItemList& umlLi
     QDomElement itemsTag = domDoc.createElement("umllistviewitems");
     xmiclip.appendChild(itemsTag);
 
-    UMLListViewItemListIt item_it2(umlListViewItems);
-    UMLListViewItem* item = 0;
-    while ( (item=item_it2.current()) != 0 ) {
-        ++item_it2;
-        item->saveToXMI(domDoc, itemsTag);
-    }
     setEncodedData(domDoc.toString().utf8(), 0);
 
     data->setType("image/PNG", 1);
@@ -274,7 +260,7 @@ void UMLDrag::setUMLDataClip4(UMLObjectList& objects, UMLListViewItemList& umlLi
     setEncodedData(clipdata, 1);
 }
 
-void UMLDrag::setUMLDataClip5(UMLObjectList& objects, UMLListViewItemList& umlListViewItems) {
+void UMLDrag::setUMLDataClip5(UMLObjectList& objects) {
     setSubType("clip5", 0);
 
     QDomDocument domDoc;
@@ -293,17 +279,10 @@ void UMLDrag::setUMLDataClip5(UMLObjectList& objects, UMLListViewItemList& umlLi
     QDomElement itemsTag = domDoc.createElement("umllistviewitems");
     xmiclip.appendChild(itemsTag);
 
-    UMLListViewItemListIt item_it2(umlListViewItems);
-    UMLListViewItem* item = 0;
-    while ( (item=item_it2.current()) != 0 ) {
-        ++item_it2;
-        item->saveToXMI(domDoc, itemsTag);
-    }
     setEncodedData(domDoc.toString().utf8(), 0);
 }
 
-bool UMLDrag::decodeClip1(const QMimeSource* mimeSource, UMLObjectList& objects,
-                          UMLListViewItemList& umlListViewItems) {
+bool UMLDrag::decodeClip1(const QMimeSource* mimeSource, UMLObjectList& objects) {
     UMLDoc* doc = UMLApp::app()->getDocument();
     if ( !mimeSource->provides("application/x-uml-clip1") ) {
         return false;
@@ -380,69 +359,21 @@ bool UMLDrag::decodeClip1(const QMimeSource* mimeSource, UMLObjectList& objects,
                                                                 pObject->getName());
             pObject->setName(newName);
             /****************************************************************/
-
-            pObject->resolveRef();
         }
+
+        pObject->resolveRef();
+
         objects.append(pObject);
         objectElement = objectElement.nextSibling();
         element = objectElement.toElement();
     }
 
-    //listviewitems
-    QDomNode listItemNode = objectsNode.nextSibling();
-    QDomNode listItems = listItemNode.firstChild();
-    QDomElement listItemElement = listItems.toElement();
-    if ( listItemElement.isNull() ) {
-        kWarning() << "no listitems in XMI clip" << endl;
-        return false;
-    }
-    UMLListViewItem *currentItem = (UMLListViewItem*)listView->currentItem();
-    while ( !listItemElement.isNull() ) {
-        UMLListViewItem* itemData;
-        if (currentItem)
-            itemData = new UMLListViewItem( currentItem );
-        else
-            itemData = new UMLListViewItem( listView );
-        if (!itemData->loadFromXMI(listItemElement)) {
-            delete itemData;
-            return false;
-        }
-        if (listView->startedCopy()) {
-            IDChangeLog *idchanges = doc->getChangeLog();
-            Uml::IDType oldID = itemData->getID();
-            Uml::IDType newID = idchanges->findNewID(oldID);
-            UMLListViewItem *shouldNotExist = listView->findItem(newID);
-            if (shouldNotExist) {
-                kDebug() << "UMLDrag::decodeClip1: new list view item "
-                << ID2STR(newID) << " already exists" << endl;
-                listItems = listItems.nextSibling();
-                listItemElement = listItems.toElement();
-                continue;
-            }
-            UMLObject *newObj = doc->findObjectById(newID);
-            if (newObj) {
-                kDebug() << "UMLDrag::decodeClip1: adjusting lvitem(" << ID2STR(oldID)
-                << ") to new UMLObject(" << ID2STR(newID) << ")" << endl;
-                itemData->setUMLObject(newObj);
-                itemData->setText(newObj->getName());
-                if (! listView->loadChildrenFromXMI(itemData, listItemElement)) {
-                    kError() << "UMLDrag::decodeClip1: listView->loadChildrenFromXMI() failed"
-                    << endl;
-                }
-            } else {
-                kDebug() << "UMLDrag::decodeClip1: no UMLObject found for lvitem "
-                << ID2STR(newID) << endl;
-            }
-        }
-        umlListViewItems.append(itemData);
-        listItems = listItems.nextSibling();
-        listItemElement = listItems.toElement();
-    }
     return true;
 }
 
 bool UMLDrag::decodeClip2(const QMimeSource* mimeSource, UMLObjectList& objects,
                           UMLListViewItemList& umlListViewItems, UMLViewList& diagrams) {
+
     if ( !mimeSource->provides("application/x-uml-clip2") ) {
         return false;
     }
@@ -608,9 +539,8 @@ bool UMLDrag::getClip3TypeAndID(const QMimeSource* mimeSource,
     return true;
 }
 
-bool UMLDrag::decodeClip3(const QMimeSource* mimeSource,
-                          UMLListViewItemList& umlListViewItems,
-                          const UMLListView* parentListView) {
+bool UMLDrag::decodeClip3(const QMimeSource* mimeSource, UMLListViewItemList& umlListViewItems,
+                            const UMLListView* parentListView){
     if ( !mimeSource->provides("application/x-uml-clip3") ) {
         return false;
     }
@@ -668,8 +598,9 @@ bool UMLDrag::decodeClip3(const QMimeSource* mimeSource,
 }
 
 bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
-                          UMLListViewItemList& umlListViewItems, UMLWidgetList& widgets,
+                          UMLWidgetList& widgets,
                           AssociationWidgetList& associations, Uml::Diagram_Type & dType) {
+    UMLDoc* doc = UMLApp::app()->getDocument();
     if ( !mimeSource->provides("application/x-uml-clip4") ) {
         return false;
     }
@@ -715,14 +646,17 @@ bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
             kWarning() << "Given wrong type of umlobject to create: " << type << endl;
             return false;
         }
+
         if ( !pObject->loadFromXMI( element ) ) {
             kWarning() << "failed to load object from XMI" << endl;
             return false;
         }
+
         objects.append(pObject);
         objectElement = objectElement.nextSibling();
         element = objectElement.toElement();
     }
+
     //widgets
     QDomNode widgetsNode = objectsNode.nextSibling();
     QDomNode widgetNode = widgetsNode.firstChild();
@@ -731,11 +665,14 @@ bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
         kWarning() << "no widgets in XMI clip" << endl;
         return false;
     }
+
     UMLView *view = UMLApp::app()->getCurrentView();
     while ( !widgetElement.isNull() ) {
+
         UMLWidget* widget = view->loadWidgetFromXMI(widgetElement);
         if (widget)
             widgets.append(widget);
+
         widgetNode = widgetNode.nextSibling();
         widgetElement = widgetNode.toElement();
     }
@@ -756,30 +693,11 @@ bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
         associationWidgetElement = associationWidgetNode.toElement();
     }
 
-    //listviewitems
-    UMLListView *listView = UMLApp::app()->getListView();
-    UMLListViewItem *currentItem = (UMLListViewItem*)listView->currentItem();
-    QDomNode listItemNode = associationWidgetsNode.nextSibling();
-    QDomNode listItems = listItemNode.firstChild();
-    QDomElement listItemElement = listItems.toElement();
-    while ( !listItemElement.isNull() ) {
-        UMLListViewItem* itemData;
-        if (currentItem)
-            itemData = new UMLListViewItem( currentItem );
-        else
-            itemData = new UMLListViewItem( listView );
-        if ( itemData->loadFromXMI(listItemElement) )
-            umlListViewItems.append(itemData);
-        else
-            delete itemData;
-        listItems = listItems.nextSibling();
-        listItemElement = listItems.toElement();
-    }
     return true;
 }
 
 bool UMLDrag::decodeClip5(const QMimeSource* mimeSource, UMLObjectList& objects,
-                          UMLListViewItemList& umlListViewItems, UMLClassifier* newParent) {
+                          UMLClassifier* newParent) {
     if ( !mimeSource->provides("application/x-uml-clip5") ) {
         return false;
     }
@@ -829,31 +747,7 @@ bool UMLDrag::decodeClip5(const QMimeSource* mimeSource, UMLObjectList& objects,
         objectElement = objectElement.nextSibling();
         element = objectElement.toElement();
     }
-    /*
-        //listviewitems
-        QDomNode listItemNode = objectsNode.nextSibling();
-        QDomNode listItems = listItemNode.firstChild();
-        QDomElement listItemElement = listItems.toElement();
-        if ( listItemElement.isNull() ) {
-                kWarning() << "no listitems in XMI clip" << endl;
-                return false;
-        }
-        UMLListView *listView = UMLApp::app()->getListView();
-        UMLListViewItem *currentItem = (UMLListViewItem*)listView->currentItem();
-        while ( !listItemElement.isNull() ) {
-                UMLListViewItem* itemData;
-                if (currentItem)
-                        itemData = new UMLListViewItem( currentItem );
-                else
-                        itemData = new UMLListViewItem( listView );
-                if ( itemData->loadFromXMI(listItemElement) )
-                        umlListViewItems.append(itemData);
-                else
-                        delete itemData;
-                listItems = listItems.nextSibling();
-                listItemElement = listItems.toElement();
-        }
-     */
+
     return true;
 }
 

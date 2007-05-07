@@ -70,6 +70,7 @@ QMimeSource* UMLClipboard::copy(bool fromView/*=false*/) {
         }
         m_AssociationList = view->getSelectedAssocs();
         view->copyAsImage(png);
+
     } else { //if the copy action is being performed from the ListView
         if(!listView->getSelectedItems(selectedItems)) {
             return 0;
@@ -108,7 +109,7 @@ QMimeSource* UMLClipboard::copy(bool fromView/*=false*/) {
     int i =0;
     switch(m_type) {
     case clip1:
-        data = new UMLDrag(m_ObjectList, m_ItemList);
+        data = new UMLDrag(m_ObjectList);
         break;
     case clip2:
         data = new UMLDrag(m_ObjectList, m_ItemList, m_ViewList);
@@ -119,14 +120,14 @@ QMimeSource* UMLClipboard::copy(bool fromView/*=false*/) {
     case clip4:
         if(png) {
             UMLView *view = UMLApp::app()->getCurrentView();
-            data = new UMLDrag(m_ObjectList, m_ItemList, m_WidgetList,
+            data = new UMLDrag(m_ObjectList, m_WidgetList,
                                m_AssociationList, *png, view->getType());
         } else {
             return 0;
         }
         break;
     case clip5:
-        data = new UMLDrag(m_ObjectList, m_ItemList, i);
+        data = new UMLDrag(m_ObjectList, i);
         // The int i is used to differentiate
         // which UMLDrag constructor gets called.
         break;
@@ -339,9 +340,8 @@ void UMLClipboard::CleanAssociations(AssociationWidgetList& associations) {
 /** If clipboard has mime type application/x-uml-clip1,
 Pastes the data from the clipboard into the current Doc */
 bool UMLClipboard::pasteClip1(QMimeSource* data) {
-    UMLListViewItemList itemdatalist;
     UMLObjectList objects;
-    if (! UMLDrag::decodeClip1(data, objects, itemdatalist)) {
+    if (! UMLDrag::decodeClip1(data, objects)) {
         return false;
     }
     UMLListView *lv = UMLApp::app()->getListView();
@@ -457,8 +457,6 @@ bool UMLClipboard::pasteClip3(QMimeSource* data) {
 Pastes the data from the clipboard into the current Doc */
 bool UMLClipboard::pasteClip4(QMimeSource* data) {
     UMLDoc *doc = UMLApp::app()->getDocument();
-    UMLListViewItemList itemdatalist;
-    itemdatalist.setAutoDelete(false);
 
     UMLObjectList objects;
     objects.setAutoDelete(false);
@@ -474,7 +472,7 @@ bool UMLClipboard::pasteClip4(QMimeSource* data) {
 
     Uml::Diagram_Type diagramType;
 
-    if( !UMLDrag::decodeClip4(data, objects, itemdatalist, widgets, assocs, diagramType) ) {
+    if( !UMLDrag::decodeClip4(data, objects, widgets, assocs, diagramType) ) {
         return false;
     }
 
@@ -490,15 +488,17 @@ bool UMLClipboard::pasteClip4(QMimeSource* data) {
     if(!idchanges) {
         return false;
     }
-    //make sure the file we are pasting into has the objects
-    //we need if there are widgets to be pasted
-    UMLObject* obj = 0;
-    while ( (obj=object_it.current()) != 0 ) {
-        ++object_it;
+     //make sure the file we are pasting into has the objects
+     //we need if there are widgets to be pasted
+     UMLObject* obj = 0;
+     while ( (obj=object_it.current()) != 0 ) {
+         ++object_it;
+
         if(!doc->assignNewIDs(obj)) {
             return false;
         }
-    }
+
+     }
 
     //now add any widget we are want to paste
     bool objectAlreadyExists = false;
@@ -539,6 +539,7 @@ bool UMLClipboard::pasteClip4(QMimeSource* data) {
     currentView->activate();
     currentView->endPartialWidgetPaste();
 
+    /*
     UMLListView *listView = UMLApp::app()->getListView();
     UMLListViewItem* item = 0;
     UMLListViewItem* itemdata = 0;
@@ -554,7 +555,7 @@ bool UMLClipboard::pasteClip4(QMimeSource* data) {
             }
         }
         ++it;
-    }
+        }*/
 
     if (objectAlreadyExists) {
         pasteItemAlreadyExists();
@@ -578,11 +579,11 @@ bool UMLClipboard::pasteClip5(QMimeSource* data) {
         << endl;
         return false;
     }
-    UMLListViewItemList itemdatalist;
+
     UMLObjectList objects;
     objects.setAutoDelete(false);
     IDChangeLog* idchanges = 0;
-    bool result = UMLDrag::decodeClip5(data, objects, itemdatalist, parent);
+    bool result = UMLDrag::decodeClip5(data, objects, parent);
 
     if(!result) {
         return false;
@@ -631,7 +632,7 @@ bool UMLClipboard::pasteClip5(QMimeSource* data) {
                 break;
             }
         default :
-            kWarning() << "pasteing unknown children type in clip type 5" << endl;
+            kWarning() << "pasting unknown children type in clip type 5" << endl;
             return false;
         }
     }

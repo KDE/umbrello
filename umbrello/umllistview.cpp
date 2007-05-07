@@ -1397,7 +1397,9 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                 newParentType == Uml::lvt_Interface) {
             // update list view
             newItem = move->deepCopy(newParent);
-            delete move;
+            // we don't delete move right away, it will be deleted in slots,
+            // called by subsequent steps
+            //delete move;
             UMLClassifierListItem *cli = dynamic_cast<UMLClassifierListItem*>(srcObj);
             newParent->addClassifierListItem(cli, newItem);
             // update model objects
