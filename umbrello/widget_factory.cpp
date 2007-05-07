@@ -19,6 +19,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
+#include "object_factory.h"
 #include "floatingtextwidget.h"
 #include "classifierwidget.h"
 #include "classifier.h"
@@ -147,9 +148,19 @@ UMLWidget *createWidget(UMLView *view, UMLObject *o) {
     return newWidget;
 }
 
-bool validateObjType(Uml::Object_Type expected, UMLObject *o) {
-    if (o == NULL)
-        return true;  // cannot validate
+bool validateObjType(Uml::Object_Type expected, UMLObject* &o, Uml::IDType id) {
+    if (o == NULL) {
+        kDebug() << "Widget_Factory::validateObjType: creating new object of type "
+                 << expected << endl;
+        QString artificialName = "LOST_" + ID2STR(id);
+        o = Object_Factory::createUMLObject(expected, artificialName, NULL, false);
+        if (o == NULL)
+            return false;
+        o->setID(id);
+        UMLPackage *parentPkg = o->getUMLPackage();
+        parentPkg->addObject(o);
+        return true;
+    }
     Uml::Object_Type actual = o->getBaseType();
     if (actual == expected)
         return true;
@@ -210,37 +221,37 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         }
 
         if (tag == "actorwidget") {
-            if (validateObjType(Uml::ot_Actor, o))
+            if (validateObjType(Uml::ot_Actor, o, id))
                 widget = new ActorWidget(view, static_cast<UMLActor*>(o));
         } else if (tag == "usecasewidget") {  // for bkwd compatibility
-            if (validateObjType(Uml::ot_UseCase, o))
+            if (validateObjType(Uml::ot_UseCase, o, id))
                 widget = new UseCaseWidget(view, static_cast<UMLUseCase*>(o));
         } else if (tag == "classwidget") {
-            if (validateObjType(Uml::ot_Class, o))
+            if (validateObjType(Uml::ot_Class, o, id))
                 widget = new ClassifierWidget(view, static_cast<UMLClassifier*>(o));
         } else if (tag == "packagewidget") {
-            if (validateObjType(Uml::ot_Package, o))
+            if (validateObjType(Uml::ot_Package, o, id))
                 widget = new PackageWidget(view, static_cast<UMLPackage*>(o));
         } else if (tag == "componentwidget") {
-            if (validateObjType(Uml::ot_Component, o))
+            if (validateObjType(Uml::ot_Component, o, id))
                 widget = new ComponentWidget(view, static_cast<UMLComponent*>(o));
         } else if (tag == "nodewidget") {
-            if (validateObjType(Uml::ot_Node, o))
+            if (validateObjType(Uml::ot_Node, o, id))
                 widget = new NodeWidget(view, static_cast<UMLNode*>(o));
         } else if (tag == "artifactwidget") {
-            if (validateObjType(Uml::ot_Artifact, o))
+            if (validateObjType(Uml::ot_Artifact, o, id))
                 widget = new ArtifactWidget(view, static_cast<UMLArtifact*>(o));
         } else if (tag == "interfacewidget") {
-            if (validateObjType(Uml::ot_Interface, o))
+            if (validateObjType(Uml::ot_Interface, o, id))
                 widget = new ClassifierWidget(view, static_cast<UMLClassifier*>(o));
         } else if (tag == "datatypewidget") {
-            if (validateObjType(Uml::ot_Datatype, o))
+            if (validateObjType(Uml::ot_Datatype, o, id))
                 widget = new DatatypeWidget(view, static_cast<UMLClassifier*>(o));
         } else if (tag == "enumwidget") {
-            if (validateObjType(Uml::ot_Enum, o))
+            if (validateObjType(Uml::ot_Enum, o, id))
                 widget = new EnumWidget(view, static_cast<UMLEnum*>(o));
         } else if (tag == "entitywidget") {
-            if (validateObjType(Uml::ot_Entity, o))
+            if (validateObjType(Uml::ot_Entity, o, id))
                 widget = new EntityWidget(view, static_cast<UMLEntity*>(o));
         } else if (tag == "objectwidget") {
             widget = new ObjectWidget(view, o );

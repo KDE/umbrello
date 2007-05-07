@@ -380,12 +380,25 @@ bool UMLFolder::load(QDomElement& element) {
                 continue;
             }
         }
-        QString stereoID = tempElement.attribute("stereotype", "");
-        UMLObject *pObject = Object_Factory::makeObjectFromXMI(type, stereoID);
-        if (!pObject) {
-            kWarning() << "UMLFolder::load: "
-                << "Unknown type of umlobject to create: " << type << endl;
-            continue;
+        UMLObject *pObject = NULL;
+        // Avoid duplicate creation of forward declared object
+        QString idStr = tempElement.attribute("xmi.id", "");
+        if (!idStr.isEmpty()) {
+            Uml::IDType id = STR2ID(idStr);
+            pObject = umldoc->findObjectById(id);
+            if (pObject) {
+                kDebug() << "UMLFolder::load: object " << idStr
+                  << "already exists" << endl;
+            }
+        }
+        if (pObject == NULL) {
+            QString stereoID = tempElement.attribute("stereotype", "");
+            pObject = Object_Factory::makeObjectFromXMI(type, stereoID);
+            if (!pObject) {
+                kWarning() << "UMLFolder::load: "
+                    << "Unknown type of umlobject to create: " << type << endl;
+                continue;
+            }
         }
         pObject->setUMLPackage(this);
         if (!pObject->loadFromXMI(tempElement)) {
