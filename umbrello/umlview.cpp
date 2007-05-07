@@ -750,7 +750,6 @@ void UMLView::checkMessages(ObjectWidget * w) {
         //make sure not in selected list
         m_SelectedList.remove(obj);
         m_MessageList.remove(obj);
-        delete obj;
     }
 }
 
@@ -1428,7 +1427,6 @@ void UMLView::activate() {
             obj->setVisible(true);
         } else {
             m_WidgetList.remove(obj);
-            delete obj;
         }
     }//end while
 
