@@ -45,8 +45,7 @@ public:
      * the ListView but no diagrams to be copied, Mime type =
      * "application/x-uml-clip1
      */
-    UMLDrag(UMLObjectList& Objects, UMLListViewItemList& UMLListViewItems,
-            QWidget* dragSource = 0, const char* name = 0 );
+    UMLDrag(UMLObjectList& Objects,QWidget* dragSource = 0, const char* name = 0 );
 
     /**
      * For use when the user selects UML Object and Diagrams
@@ -71,8 +70,7 @@ public:
      * its respective ListView Items, Mime type =
      * "application/x-uml-clip4
      */
-    UMLDrag(UMLObjectList& Objects, UMLListViewItemList& UMLListViewItems,
-            UMLWidgetList& Widgets, AssociationWidgetList& Associations,
+    UMLDrag(UMLObjectList& Objects, UMLWidgetList& Widgets, AssociationWidgetList& Associations,
             QPixmap& PngImage, Uml::Diagram_Type dType, QWidget* dragSource = 0,
             const char* name = 0 );
 
@@ -81,8 +79,7 @@ public:
      * Attributes from the ListView, Mime type =
      * "application/x-uml-clip5
      */
-    UMLDrag(UMLObjectList& Objects, UMLListViewItemList& UMLListViewItems,
-            int, QWidget* dragSource = 0, const char* name = 0);
+    UMLDrag(UMLObjectList& Objects, int, QWidget* dragSource = 0, const char* name = 0);
 
     /**
      *  Constructor
@@ -98,7 +95,7 @@ public:
      * For use when the user selects only UMLObjects from the
      * ListView but no diagrams to be copied
      */
-    void setUMLDataClip1(UMLObjectList& Objects, UMLListViewItemList& UMLListViewItems);
+    void setUMLDataClip1(UMLObjectList& Objects);
 
     /**
      * For use when the user selects UML Object and Diagrams
@@ -119,7 +116,7 @@ public:
      * between only selected widgets will be copied and also
      * its respective ListView Items
      */
-    void setUMLDataClip4(UMLObjectList& Objects, UMLListViewItemList& UMLListViewItems,
+    void setUMLDataClip4(UMLObjectList& Objects,
                          UMLWidgetList& WidgetDatas,
                          AssociationWidgetList& Associations, QPixmap& PngImage,
                          Uml::Diagram_Type dType);
@@ -128,7 +125,7 @@ public:
      * For use when the user selects only Attirbutes and/or
      * Operation from the ListView
      */
-    void setUMLDataClip5(UMLObjectList& Objects, UMLListViewItemList& UMLListViewItems);
+    void setUMLDataClip5(UMLObjectList& Objects);
 
     /**
      * Sets the type of the clip to "application/x-uml-" + sub
@@ -159,8 +156,7 @@ public:
      * copied, decodes Mime type =
      * "application/x-uml-clip1
      */
-    static bool decodeClip1(const QMimeSource* mimeSource, UMLObjectList& objects,
-                            UMLListViewItemList& umlListViewItems);
+    static bool decodeClip1(const QMimeSource* mimeSource, UMLObjectList& objects);
 
     /**
      * For use when the user selects UML Object and Diagrams
@@ -205,7 +201,6 @@ public:
      * type = "application/x-uml-clip4
      */
     static bool decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
-                            UMLListViewItemList& umlListViewItems,
                             UMLWidgetList& widgets,
                             AssociationWidgetList& associations,
                             Uml::Diagram_Type & dType);
@@ -216,7 +211,7 @@ public:
      * type = "application/x-uml-clip5
      */
     static bool decodeClip5(const QMimeSource* mimeSource, UMLObjectList& objects,
-                            UMLListViewItemList& umlListViewItems, UMLClassifier *newParent);
+                            UMLClassifier *newParent);
 
     /**
      * Converts application/x-uml-clip[1-5] clip type to an integer

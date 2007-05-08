@@ -33,7 +33,7 @@
 #include "../classifierlistitem.h"
 #include "../model_utils.h"
 
-static const char *words[] = {
+static const char *tclwords[] = {
                                  "body",
                                  "break",
                                  "case",
@@ -943,8 +943,8 @@ TclWriter::reservedKeywords() const
 
     if              (keywords.isEmpty())
     {
-        for (int i = 0; words[i]; i++)
-            keywords.append(words[i]);
+        for (int i = 0; tclwords[i]; i++)
+            keywords.append(tclwords[i]);
     }
     return          keywords;
 }

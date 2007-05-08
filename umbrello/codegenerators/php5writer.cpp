@@ -28,7 +28,7 @@
 #include "../operation.h"
 #include "../umlnamespace.h"
 
-static const char *words[] =
+static const char *php5words[] =
     {
         "abs",
         "abstract",
@@ -3407,8 +3407,8 @@ const QStringList Php5Writer::reservedKeywords() const {
     static QStringList keywords;
 
     if (keywords.isEmpty()) {
-        for (int i = 0; words[i]; i++)
-            keywords.append(words[i]);
+        for (int i = 0; php5words[i]; i++)
+            keywords.append(php5words[i]);
     }
 
     return keywords;

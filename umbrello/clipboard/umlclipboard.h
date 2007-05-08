@@ -63,10 +63,10 @@ public:
     /// Enumeration that codes the different types of UML clips.
     enum UMLCopyType
     {
-        clip1 = 1, ///<UMLObjects and UMLListViewItems (not diagrams)
+        clip1 = 1, ///<UMLObjects (not diagrams)
         clip2 = 2, ///<UMLObjects, UMLListViewItems (not diagrams) and diagrams
         clip3 = 3, ///<UMLListViewItems (not diagrams)
-        clip4 = 4, ///<UMLObjects, UMLListViewItems, Associations and UMLWidgets
+        clip4 = 4, ///<UMLObjects, Associations and UMLWidgets
         clip5 = 5  ///<Only Attributes and Operations
     };
 
