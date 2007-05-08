@@ -62,3 +62,4 @@ void NoteDialog::slotOk() {
     accept();
 }
 
+#include "notedialog.moc"
