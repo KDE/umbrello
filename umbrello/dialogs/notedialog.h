@@ -25,6 +25,9 @@ class QLineEdit;
 class QTextEdit;
 
 class NoteDialog : public KDialogBase {
+
+   Q_OBJECT
+
 public:
     /**
      *  Constructs an NoteDialog.
