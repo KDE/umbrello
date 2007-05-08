@@ -203,7 +203,6 @@ void FloatingTextWidget::handleRename() {
                 break;
               default:
                 assoc->setName(QString::null);
-                m_pView->removeWidget(this);
                 break;
             }
         } else {

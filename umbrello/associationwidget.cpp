@@ -117,12 +117,6 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
         // Create a temporary name to bring on setName()
         int collabID = m_pView->generateCollaborationId();
         setName('m' + QString::number(collabID));
-        if (m_pObject) {
-            m_pName->setUMLObject( m_pObject );
-        } else {
-            ObjectWidget *ow = static_cast<ObjectWidget*>(m_role[B].m_pWidget);
-            m_pName->setUMLObject( ow->getUMLObject() );
-        }
     }
 }
 
@@ -313,43 +307,35 @@ QString AssociationWidget::getRoleDoc(Role_Type role) const {
 }
 
 void AssociationWidget::setName(const QString &strName) {
+    // set attribute of UMLAssociation associated with this associationwidget
+    UMLAssociation *umla = getAssociation();
+    if (umla)
+        umla->setName(strName);
+
     bool newLabel = false;
     if(!m_pName) {
         // Don't construct the FloatingTextWidget if the string is empty.
-        if (strName.isEmpty())
+        if (! FloatingTextWidget::isTextValid(strName))
             return;
 
         newLabel = true;
         m_pName = new FloatingTextWidget(m_pView, CalculateNameType(tr_Name), strName);
         m_pName->setLink(this);
-        if (m_role[B].m_pWidget)
-            m_pName->setUMLObject(m_role[B].m_pWidget->getUMLObject());
     } else {
         m_pName->setText(strName);
-        /**** This code leads to bug 141813 (unable to delete label or multi)
-        if (strName.isEmpty()) {
-            m_pName->hide();
+        if (! FloatingTextWidget::isTextValid(strName)) {
+            //m_pName->hide();
+            m_pView->removeWidget(m_pName);
             m_pName = NULL;
             return;
         }
-         ********************************************************************/
     }
-
-    // set attribute of UMLAssociation associated with this associationwidget
-    if (m_pObject)
-        m_pObject->setName(strName);
 
     setTextPosition( tr_Name );
     if (newLabel) {
         m_pName->setActivated();
         m_pView->addWidget(m_pName);
     }
-
-    if(FloatingTextWidget::isTextValid(m_pName->getText()))
-        m_pName -> show();
-    else
-        m_pName -> hide();
-
 }
 
 void AssociationWidget::setFloatingText(Uml::Text_Role tr,
@@ -628,9 +614,6 @@ bool AssociationWidget::activate() {
             m_pName-> show();
         } else {
             m_pName-> hide();
-        }
-        if( m_pView->getType() == dt_Collaboration && m_pName) {
-            m_pName->setUMLObject(m_role[B].m_pWidget->getUMLObject());
         }
         m_pName->activate();
         calculateNameTextSegment();
