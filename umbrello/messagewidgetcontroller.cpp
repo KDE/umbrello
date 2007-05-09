@@ -25,6 +25,7 @@
 MessageWidgetController::MessageWidgetController(MessageWidget* messageWidget):
             UMLWidgetController(messageWidget) {
     m_messageWidget = messageWidget;
+    m_unconstrainedPositionY = 0;
 }
 
 MessageWidgetController::~MessageWidgetController() {
