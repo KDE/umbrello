@@ -212,7 +212,6 @@ void FloatingTextWidget::changeName(QString newText)
                 break;
               default:
                 assoc->setName(QString::null);
-                m_pView->removeWidget(this);
                 break;
             }
         } else {
