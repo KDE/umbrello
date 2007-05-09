@@ -1455,7 +1455,6 @@ void UMLView::activate() {
             }
         } else {
             m_AssociationList.remove(aw);
-            delete aw;
         }
     }
 }
