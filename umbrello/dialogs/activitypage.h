@@ -69,7 +69,7 @@ protected:
     //GUI widgets
     QListBox * m_pActivityLB;
     QGroupBox * m_pActivityGB;
-    KArrowButton * m_pUpArrowB, * m_pDownArrowB;
+    KArrowButton * m_pUpArrowB, * m_pDownArrowB, * m_pTopArrowB, *m_pBottomArrowB;
     QPushButton* m_pDeleteActivityButton;
     QPushButton* m_pRenameButton;
 
@@ -82,8 +82,10 @@ public slots:
     void slotDoubleClicked( QListBoxItem* item );
     void slotRightButtonClicked(QListBoxItem* item, const QPoint& p);
     void slotRightButtonPressed(QListBoxItem* item, const QPoint& p);
+    void slotTopClicked();
     void slotUpClicked();
     void slotDownClicked();
+    void slotBottomClicked();
     void slotNewActivity();
     void slotDelete();
     void slotRename();
