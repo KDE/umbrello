@@ -383,6 +383,13 @@ void ClassGenPage::updateObject() {
         if(m_pPackageLE)
             m_pObject -> setPackage(m_pPackageLE -> text());
          */
+
+        if ( m_pObject->getUMLPackage() == NULL ) {
+            kDebug() << k_funcinfo << "Parent package not set, setting it to Logical View folder"<<endl;
+            UMLFolder* folder = m_pUmldoc->getRootFolder(  Uml::mt_Logical );
+            m_pObject->setUMLPackage( ( UMLPackage* )folder );
+        }
+
         if( m_pAbstractCB )
             m_pObject -> setAbstract( m_pAbstractCB -> isChecked() );
         //make sure unique name

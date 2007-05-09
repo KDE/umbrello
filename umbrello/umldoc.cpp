@@ -734,6 +734,7 @@ bool UMLDoc::addUMLObject(UMLObject* object) {
         pkg = currentRoot();
         kDebug() << "UMLDoc::addUMLObject(" << object->getName()
             << "): no parent package set, assuming " << pkg->getName() << endl;
+        object->setUMLPackage( pkg );
     }
     return pkg->addObject(object);
 }
@@ -1117,7 +1118,7 @@ UMLFolder *UMLDoc::currentRoot() {
         return m_root[Uml::mt_Logical];
     }
     UMLFolder *f = currentView->getFolder();
-    while (f) {
+    while (f->getUMLPackage()) {
         f = static_cast<UMLFolder*>(f->getUMLPackage());
     }
     return f;
