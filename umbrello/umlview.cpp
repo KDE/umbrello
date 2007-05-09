@@ -131,6 +131,9 @@ void UMLView::init() {
 
     // Initialize other data
     m_AssociationList.setAutoDelete( true );
+    m_WidgetList.setAutoDelete( true );
+    m_MessageList.setAutoDelete( true );
+
     //Setup up booleans
     m_bChildDisplayedDoc = false;
     m_bPaste = false;
@@ -694,7 +697,6 @@ void UMLView::checkMessages(ObjectWidget * w) {
         //make sure not in selected list
         m_SelectedList.remove(obj);
         m_MessageList.remove(obj);
-        delete obj;
     }
 }
 
@@ -1366,7 +1368,6 @@ void UMLView::activate() {
             obj->setVisible(true);
         } else {
             m_WidgetList.remove(obj);
-            delete obj;
         }
     }//end while
 
@@ -1914,7 +1915,7 @@ void UMLView::updateContainment(UMLCanvasObject *self) {
             // Wow, all done. Great!
             return;
         }
-        m_AssociationList.remove(a);  // AutoDelete is true
+        removeAssoc(a);  // AutoDelete is true
         // It's okay to break out because there can only be a single
         // containing object.
         break;

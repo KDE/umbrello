@@ -172,6 +172,11 @@ void WorkToolBar::buttonChanged(int b) {
     ToolBar_Buttons tbb = (ToolBar_Buttons)b;
     if (tbb == tbb_Arrow && m_CurrentButtonID == tbb_Arrow) {
         toggleButton(tbb_Arrow);
+
+        // signal needed, in the case ( when switching diagrams ) that
+        // Arrow Button gets activated, but the toolBarState of the Views may be different
+        emit sigButtonChanged( m_CurrentButtonID );
+
         view->setCursor( currentCursor() );
         return;
     }
