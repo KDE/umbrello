@@ -195,17 +195,13 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
                       << ID2STR(id) << endl;
         }
 
-        if (tag == "actorwidget"
-                || tag == "UML:ActorWidget") {           // for bkwd compatibility
+        if (tag == "actorwidget") {
             if (validateObjType(Uml::ot_Actor, o, id))
                 widget = new ActorWidget(view, static_cast<UMLActor*>(o));
-        } else if (tag == "usecasewidget"
-                   || tag == "UML:UseCaseWidget") {  // for bkwd compatibility
+        } else if (tag == "usecasewidget") {
             if (validateObjType(Uml::ot_UseCase, o, id))
                 widget = new UseCaseWidget(view, static_cast<UMLUseCase*>(o));
-        } else if (tag == "classwidget"
-                   || tag == "UML:ClassWidget"       // for bkwd compatibility
-                   || tag == "UML:ConceptWidget") {  // for bkwd compatibility
+        } else if (tag == "classwidget") {
             if (validateObjType(Uml::ot_Class, o, id))
                 widget = new ClassifierWidget(view, static_cast<UMLClassifier*>(o));
         } else if (tag == "packagewidget") {
@@ -232,8 +228,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         } else if (tag == "entitywidget") {
             if (validateObjType(Uml::ot_Entity, o, id))
                 widget = new EntityWidget(view, static_cast<UMLEntity*>(o));
-        } else if (tag == "objectwidget"
-                   || tag == "UML:ObjectWidget") {  // for bkwd compatibility
+        } else if (tag == "objectwidget") {
             widget = new ObjectWidget(view, o );
         } else {
             kWarning() << "Trying to create an unknown widget:" << tag << endl;
