@@ -826,7 +826,6 @@ void UMLView::removeWidget(UMLWidget * o) {
     else
         m_WidgetList.remove(o);
     m_pDoc->setModified();
-    delete o;
 }
 
 bool UMLView::getUseFillColor() const {
@@ -1396,7 +1395,6 @@ void UMLView::activate() {
             }
         } else {
             m_AssociationList.remove(aw);
-            delete aw;
         }
     }
 }
