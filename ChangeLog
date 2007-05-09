@@ -36,6 +36,7 @@ Version 1.5.7
 * Crash when loading xmi with actor as object of sequence diagram (144442)
 * ActionScript/JavaScript association code generation error (144788)
 * Segmentation fault on loading corrupted file (145035)
+* Crash when moving all elements in a sequence diagram (145202)
 
 Version 1.5.61
 
