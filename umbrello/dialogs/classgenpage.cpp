@@ -390,7 +390,7 @@ void ClassGenPage::updateObject() {
          */
 
         if ( m_pObject->getUMLPackage() == NULL ) {
-            kdDebug() << k_funcinfo << "Parent package not set, setting it to Logical View folder"<<endl;
+            kDebug() << k_funcinfo << "Parent package not set, setting it to Logical View folder"<<endl;
             UMLFolder* folder = m_pUmldoc->getRootFolder(  Uml::mt_Logical );
             m_pObject->setUMLPackage( ( UMLPackage* )folder );
         }
