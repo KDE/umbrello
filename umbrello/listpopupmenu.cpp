@@ -253,12 +253,6 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
             }
         }
 
-        if(m_pInsert)
-            connect(m_pInsert, SIGNAL(activated(int)), this, SIGNAL(activated(int)));
-        if(m_pShow)
-            connect(m_pShow, SIGNAL(activated(int)), this, SIGNAL(activated(int)));
-        if(m_pColor)
-            connect(m_pColor, SIGNAL(activated(int)), this, SIGNAL(activated(int)));
         return;
     }
 
@@ -496,13 +490,6 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     default:
         break;
     }//end switch
-
-    if(m_pInsert)
-        connect(m_pInsert, SIGNAL(activated(int)), this, SIGNAL(activated(int)));
-    if(m_pShow)
-        connect(m_pShow, SIGNAL(activated(int)), this, SIGNAL(activated(int)));
-    if(m_pColor)
-        connect(m_pColor, SIGNAL(activated(int)), this, SIGNAL(activated(int)));
 
     bool bCutState = UMLApp::app() -> getCutCopyState();
     setItemEnabled( mt_Cut, bCutState );
@@ -1368,12 +1355,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         setItemEnabled( mt_Copy, bCutState );
         setItemEnabled( mt_Paste, UMLApp::app() -> getPasteState() );
     }
-    if(m_pInsert)
-        connect(m_pInsert, SIGNAL(activated(int)), this, SIGNAL(activated(int)));
-    if(m_pShow)
-        connect(m_pShow, SIGNAL(activated(int)), this, SIGNAL(activated(int)));
-    if(m_pColor)
-        connect(m_pColor, SIGNAL(activated(int)), this, SIGNAL(activated(int)));
+
 }
 
 void ListPopupMenu::setupDiagramMenu(UMLView* view) {
