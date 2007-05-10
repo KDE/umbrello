@@ -1287,8 +1287,21 @@ void UMLDoc::saveToXMI(QIODevice& file) {
 
     // Save stereotypes and toplevel datatypes first so that upon loading
     // they are known first.
+    // There is a bug causing duplication of the same stereotype in m_stereoList.
+    // As a workaround, we use a string list to memorize which stereotype has been saved.
+    QStringList stereoNames;
+    QValueList<Uml::IDType> stereoIDs;
     for (UMLStereotype *s = m_stereoList.first(); s; s = m_stereoList.next() ) {
-        s->saveToXMI(doc, ownedNS);
+        QString stName = s->getName();
+        Uml::IDType stID = s->getID();
+        if (!stereoNames.contains(stName) && !stereoIDs.contains(stID)) {
+            s->saveToXMI(doc, ownedNS);
+            stereoNames.append(stName);
+            stereoIDs.append(stID);
+        } else {
+            kDebug() << "UMLDoc::saveToXMI: encountered duplicated stereotype "
+                << stName << " (id " << ID2STR(stID) << "), see bug 144924" << endl;
+        }
     }
     for (int i = 0; i < Uml::N_MODELTYPES; i++) {
         m_root[i]->saveToXMI(doc, ownedNS);
