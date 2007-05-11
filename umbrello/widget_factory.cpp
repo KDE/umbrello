@@ -223,7 +223,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         if (tag == "actorwidget") {
             if (validateObjType(Uml::ot_Actor, o, id))
                 widget = new ActorWidget(view, static_cast<UMLActor*>(o));
-        } else if (tag == "usecasewidget") {  // for bkwd compatibility
+        } else if (tag == "usecasewidget") {
             if (validateObjType(Uml::ot_UseCase, o, id))
                 widget = new UseCaseWidget(view, static_cast<UMLUseCase*>(o));
         } else if (tag == "classwidget") {
