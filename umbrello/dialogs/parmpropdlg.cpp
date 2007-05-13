@@ -34,6 +34,8 @@
 #include "../object_factory.h"
 #include "../stereotype.h"
 
+#include "parmpropdlg.moc"
+
 ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
         : KDialog(parent)
 {
