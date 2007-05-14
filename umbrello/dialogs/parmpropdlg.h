@@ -36,6 +36,7 @@ class UMLDoc;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ParmPropDlg : public KDialogBase {
+    Q_OBJECT
 public:
     /**
      * Constructs a ParmPropDlg.

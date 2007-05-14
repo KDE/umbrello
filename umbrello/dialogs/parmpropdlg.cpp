@@ -29,6 +29,8 @@
 #include "../object_factory.h"
 #include "../stereotype.h"
 
+#include "parmpropdlg.moc"
+
 ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
         : KDialogBase(Plain, i18n("Parameter Properties"), Help | Ok | Cancel , Ok, parent, "_PARMPROPDLG_", true, true)
 {
