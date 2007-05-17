@@ -1396,14 +1396,15 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
         if (newParentType == Uml::lvt_Class ||
                 newParentType == Uml::lvt_Interface) {
             // update list view
+
             newItem = move->deepCopy(newParent);
             // we don't delete move right away, it will be deleted in slots,
             // called by subsequent steps
             //delete move;
-            UMLClassifierListItem *cli = dynamic_cast<UMLClassifierListItem*>(srcObj);
-            newParent->addClassifierListItem(cli, newItem);
+
             // update model objects
             m_bCreatingChildObject = true;
+
             UMLClassifier *oldParentClassifier = dynamic_cast<UMLClassifier*>(srcObj->parent());
             UMLClassifier *newParentClassifier = dynamic_cast<UMLClassifier*>(newParentObj);
             if (srcType == Uml::lvt_Attribute) {
@@ -1424,7 +1425,11 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                     newAtt->setType(att->getType());
                     newAtt->setVisibility(att->getVisibility());
                     newAtt->setInitialValue(att->getInitialValue());
+
                     newItem->setUMLObject(newAtt);
+                    newParent->addClassifierListItem( newAtt, newItem );
+
+                    connectNewObjectsSlots( newAtt );
                     // Let's not forget to update the DocWindow::m_pObject
                     // because the old one is about to be physically deleted !
                     UMLApp::app()->getDocWindow()->showDocumentation(newAtt, true);
@@ -1457,6 +1462,10 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                         newOp->addParm(newParm);
                     }
                     newItem->setUMLObject(newOp);
+                    newParent->addClassifierListItem( newOp, newItem );
+
+                    connectNewObjectsSlots( newOp );
+
                     // Let's not forget to update the DocWindow::m_pObject
                     // because the old one is about to be physically deleted !
                     UMLApp::app()->getDocWindow()->showDocumentation(newOp, true);
@@ -2145,9 +2154,19 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
         return false;
     }
 
+    // make changes to the object visible to this umllistviewitem
+    connectNewObjectsSlots( newObject );
     item->setUMLObject( newObject );
     item->setText( text );
     ensureItemVisible(item);
+
+    // if it's a ClassifierListItem add it to the childObjectMap of the parent
+    if ( type==Uml::ot_Template ||type == Uml::ot_Operation
+         || type == Uml::ot_Attribute || type == Uml::ot_EntityAttribute ) {
+        UMLClassifierListItem* classifierItem = static_cast<UMLClassifierListItem*>( newObject );
+      static_cast<UMLListViewItem*>( item->parent() )->addClassifierListItem(classifierItem, item );
+    }
+
     m_bCreatingChildObject = false;
 
     //m_doc->setModified();
