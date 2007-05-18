@@ -2160,12 +2160,9 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
     item->setText( text );
     ensureItemVisible(item);
 
-    // if it's a ClassifierListItem add it to the childObjectMap of the parent
-    if ( type==Uml::ot_Template ||type == Uml::ot_Operation
-         || type == Uml::ot_Attribute || type == Uml::ot_EntityAttribute ) {
-        UMLClassifierListItem* classifierItem = static_cast<UMLClassifierListItem*>( newObject );
-      static_cast<UMLListViewItem*>( item->parent() )->addClassifierListItem(classifierItem, item );
-    }
+    // as it's a ClassifierListItem add it to the childObjectMap of the parent
+    UMLClassifierListItem* classifierListItem = static_cast<UMLClassifierListItem*>( newObject );
+    static_cast<UMLListViewItem*>( item->parent() )->addClassifierListItem(classifierListItem, item );
 
     m_bCreatingChildObject = false;
 
