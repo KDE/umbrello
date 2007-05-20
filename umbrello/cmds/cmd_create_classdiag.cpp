@@ -25,8 +25,6 @@ namespace Uml
 
     cmdCreateClassDiag::~cmdCreateClassDiag()
     {
-        if(m_pUMLView)
-            delete m_pUMLView;
     }
 
     void cmdCreateClassDiag::redo()
@@ -40,7 +38,6 @@ namespace Uml
         if(m_pUMLView)
         {
             m_pUMLDoc->removeDiagram(m_pUMLView->getID());
-            delete m_pUMLView;
         }
     }
 

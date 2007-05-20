@@ -328,7 +328,7 @@ void UMLApp::initActions() {
     componentDiagram->setIcon( KIcon("umbrello_diagram_component") );
     componentDiagram->setText( i18n("Co&mponent Diagram...") );
     connect(componentDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotComponentDiagram() ));
-    newDiagram->addAction(componentDiagram);    
+    newDiagram->addAction(componentDiagram);
 
     deploymentDiagram = actionCollection()->addAction( "new_deployment_diagram" );
     deploymentDiagram->setIcon( KIcon("umbrello_diagram_deployment") );
@@ -505,50 +505,50 @@ void UMLApp::initView() {
     m_newSessionButton = NULL;
     m_diagramMenu = NULL;
     m_closeDiagramButton = NULL;
-    Settings::OptionState& optionState = Settings::getOptionState();
-    if (optionState.generalState.tabdiagrams) {
-        m_viewStack = NULL;
-//         m_tabWidget = new KTabWidget(m_mainDock);
-        m_tabWidget = new KTabWidget(this);
 
-        m_tabWidget->setAutomaticResizeTabs( true );
+    // Prepare Stacked Diagram Representation
+    m_viewStack = new QStackedWidget(this);
 
-        m_newSessionButton = new QToolButton(m_tabWidget);
-        m_newSessionButton->setIconSet( SmallIcon( "tab-new" ) );
-        m_newSessionButton->adjustSize();
-        m_newSessionButton->setAutoRaise(true);
-        m_newSessionButton->setPopupMode(QToolButton::InstantPopup);
-        
-        m_newSessionButton->setMenu(newDiagram->menu());
-	      
+    // Prepare Tabbed Diagram Representation
+    m_tabWidget = new KTabWidget(this);
+    m_tabWidget->setAutomaticResizeTabs( true );
 
-        //m_closeDiagramButton = new QToolButton("tab_remove", 0, m_tabWidget);
-        m_closeDiagramButton = new QToolButton(m_tabWidget);
-        m_closeDiagramButton->setIconSet( SmallIcon("tab-remove") );
-        m_closeDiagramButton->adjustSize();
+    m_newSessionButton = new QToolButton(m_tabWidget);
+    m_newSessionButton->setIconSet(SmallIcon("tab-new"));
+    m_newSessionButton->adjustSize();
+    m_newSessionButton->setAutoRaise(true);
+    m_newSessionButton->setPopupMode(QToolButton::InstantPopup);
+    m_newSessionButton->setMenu(newDiagram->menu());
 
-        connect(m_closeDiagramButton, SIGNAL(clicked()), SLOT(slotDeleteDiagram()));
-        connect(m_tabWidget, SIGNAL(currentChanged(QWidget*)), SLOT(slotTabChanged(QWidget*)));
-        connect(m_tabWidget, SIGNAL(contextMenu(QWidget*,const QPoint&)), m_doc, SLOT(slotDiagramPopupMenu(QWidget*,const QPoint&)));
-        m_tabWidget->setCornerWidget( m_newSessionButton, Qt::TopLeftCorner );
-        m_tabWidget->setCornerWidget( m_closeDiagramButton, Qt::TopRightCorner );
-        m_newSessionButton->installEventFilter(this);
+    m_closeDiagramButton = new QToolButton(m_tabWidget);
+    m_closeDiagramButton->setIconSet( SmallIcon("tab-remove"));
+    m_closeDiagramButton->adjustSize();
 
-//         m_mainDock->setWidget(m_tabWidget);
-        setCentralWidget(m_tabWidget);
+    connect(m_closeDiagramButton, SIGNAL(clicked()), SLOT(slotDeleteDiagram()));
+    connect(m_tabWidget, SIGNAL(currentChanged(QWidget*)), SLOT(slotTabChanged(QWidget*)));
+    connect(m_tabWidget, SIGNAL(contextMenu(QWidget*,const QPoint&)), m_doc, SLOT(slotDiagramPopupMenu(QWidget*,const QPoint&)));
+    m_tabWidget->setCornerWidget( m_newSessionButton, Qt::TopLeftCorner );
+    m_tabWidget->setCornerWidget( m_closeDiagramButton, Qt::TopRightCorner );
+    m_newSessionButton->installEventFilter(this);
+
+    // Prepare Stacked Diagram Representation
+    m_viewStack = new QStackedWidget(this);
+
+    m_layout = new QVBoxLayout;
+    if (Settings::getOptionState().generalState.tabdiagrams) {
+        // Tabbed Diagram Representation
+        m_layout->addWidget(m_tabWidget);
+        m_viewStack->hide();
     }
-    else
-    {
-        m_tabWidget = NULL;
-//         m_viewStack = new QStackedWidget(m_mainDock);
-        m_viewStack = new QStackedWidget(this);
-//         m_mainDock->setWidget(m_viewStack);
-        setCentralWidget(m_viewStack);
+    else {
+        // Stacked Diagram Representation
+        m_layout->addWidget(m_viewStack);
+        m_tabWidget->hide();
     }
-//     m_mainDock->setDockSite(QDockWidget::DockCorner);
-//     m_mainDock->setEnableDocking(QDockWidget::DockNone);
-//     setView(m_mainDock);
-//     setMainWidget(m_);
+
+    QWidget *widget = new QWidget;
+    widget->setLayout(m_layout);
+    setCentralWidget(widget);
 
     m_listDock = new QDockWidget( i18n("&Tree View"), this );
     m_listDock->setObjectName("TreeViewDock");
@@ -1109,9 +1109,9 @@ void UMLApp::slotCopyChanged() {
 }
 
 void UMLApp::slotPrefs() {
-   
+
     Settings::OptionState& optionState = Settings::getOptionState();
-  
+
     m_dlg = new SettingsDlg(this, &optionState);
     connect(m_dlg, SIGNAL( applyClicked() ), this, SLOT( slotApplyPrefs() ) );
 
@@ -1126,9 +1126,47 @@ void UMLApp::slotPrefs() {
 void UMLApp::slotApplyPrefs() {
     if (m_dlg) {
         /* we need this to sync both values */
-      
+
         Settings::OptionState& optionState = Settings::getOptionState();
-      
+        bool currentTabbedBrowsing = (m_layout->findWidget(m_tabWidget) != -1);
+        bool newTabbedBrowsing = optionState.generalState.tabdiagrams;
+
+        if (currentTabbedBrowsing != newTabbedBrowsing) {
+            // Diagram Representation Modified
+            UMLView* currentView;
+            UMLViewList views = m_doc->getViewIterator();
+
+            if (newTabbedBrowsing) {
+                currentView=static_cast<UMLView*>(m_viewStack->currentWidget());
+                m_layout->removeWidget(m_viewStack);
+                m_viewStack->hide();
+
+                UMLViewList views = m_doc->getViewIterator();
+                for(UMLView *view = views.first(); view; view = views.next()) {
+                    m_viewStack->removeWidget(view);
+                    m_tabWidget->addTab(view, view->getName());
+                    m_tabWidget->setTabIconSet(view, Widget_Utils::iconSet(view->getType()));
+                }
+                m_layout->addWidget(m_tabWidget);
+                m_tabWidget->show();
+            }
+            else {
+                currentView=static_cast<UMLView*>(m_tabWidget->currentPage());
+                m_layout->removeWidget (m_tabWidget);
+                m_tabWidget->hide();
+
+                for(UMLView *view = views.first(); view; view = views.next()) {
+                    m_tabWidget->removePage(view);
+                    m_viewStack->addWidget(view);
+                }
+
+                m_layout->addWidget(m_viewStack);
+                m_viewStack->show();
+            }
+
+            setCurrentView(currentView);
+        }
+
         m_doc -> settingsChanged( optionState );
         const QString plStr = m_dlg->getCodeGenerationLanguage();
         Uml::Programming_Language pl = Model_Utils::stringToProgLang(plStr);
@@ -1728,22 +1766,34 @@ void UMLApp::newDocument() {
 
 QWidget* UMLApp::getMainViewWidget() {
     Settings::OptionState& optionState = Settings::getOptionState();
-    if (optionState.generalState.tabdiagrams)
+    if ( optionState.generalState.tabdiagrams )
         return m_tabWidget;
-    return m_viewStack;
+    else
+        return m_viewStack;
 }
 
 void UMLApp::setCurrentView(UMLView* view) {
     m_view = view;
-    if (m_viewStack == NULL)
-        return;
     if (view == NULL) {
         kDebug() << "UMLApp::setCurrentView: view is NULL" << endl;
         return;
     }
-    if (m_viewStack->indexOf(view) < 0)
-        m_viewStack->addWidget(view);
-    m_viewStack->setCurrentWidget(view);
+
+    Settings::OptionState optionState = Settings::getOptionState();
+    if (optionState.generalState.tabdiagrams) {
+        if ( m_tabWidget->indexOf (view) < 0 ) {
+            m_tabWidget->addTab(view, view->getName());
+            m_tabWidget->setTabIconSet(view, Widget_Utils::iconSet(view->getType()));
+        }
+
+        m_tabWidget->showPage(view);
+        m_tabWidget->setCurrentPage(m_tabWidget->currentPageIndex());
+    }
+    else {
+        if (m_viewStack->indexOf(view) < 0) m_viewStack->addWidget(view);
+        m_viewStack->setCurrentWidget(view);
+        view->show();
+    }
     qApp->processEvents();
     slotStatusMsg(view->getName());
     UMLListViewItem* lvitem = m_listView->findView(view);

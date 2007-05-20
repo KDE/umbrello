@@ -25,8 +25,6 @@ namespace Uml
 
     cmdCreateComponentDiag::~cmdCreateComponentDiag()
     {
-        if(m_pUMLView)
-            delete m_pUMLView;
     }
 
     void cmdCreateComponentDiag::redo()
@@ -40,7 +38,6 @@ namespace Uml
         if(m_pUMLView)
         {
             m_pUMLDoc->removeDiagram(m_pUMLView->getID());
-            delete m_pUMLView;
         }
     }
 

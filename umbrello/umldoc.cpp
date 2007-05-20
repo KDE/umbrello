@@ -151,25 +151,13 @@ void UMLDoc::addView(UMLView *view) {
         connect(this, SIGNAL(sigObjectRemoved(UMLObject *)), view, SLOT(slotObjectRemoved(UMLObject *)));
 
     pApp->setCurrentView(view);
-    if ( ! m_bLoading ) {
+    if ( !m_bLoading ) {
         view -> show();
         emit sigDiagramChanged(view ->getType());
     }
 
-    Settings::OptionState optionState = Settings::getOptionState();
-    KTabWidget* tabWidget = NULL;
-    if (optionState.generalState.tabdiagrams) {
-        tabWidget = UMLApp::app()->tabWidget();
-        tabWidget->addTab(view, view->getName());
-        tabWidget->setTabIconSet(view, Widget_Utils::iconSet(view->getType()));
-    }
     pApp->setDiagramMenuItemsState(true);
     pApp->slotUpdateViews();
-    pApp->setCurrentView(view);
-    if (tabWidget) {
-        tabWidget->showPage(view);
-        tabWidget->setCurrentPage(tabWidget->currentPageIndex());
-    }
 }
 
 void UMLDoc::removeView(UMLView *view , bool enforceCurrentView ) {
@@ -1572,10 +1560,6 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
         viewToBeSet = findView( m_nViewID );
     if (viewToBeSet) {
         changeCurrentView( m_nViewID );
-        Settings::OptionState optionState = Settings::getOptionState();
-        if (optionState.generalState.tabdiagrams) {
-            UMLApp::app()->tabWidget()->showPage(viewToBeSet);
-        }
     } else {
         createDiagram(m_root[mt_Logical], Uml::dt_Class, false);
         m_pCurrentRoot = m_root[mt_Logical];
@@ -2153,9 +2137,6 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point) {
         delete m_pTabPopupMenu;
         m_pTabPopupMenu = 0;
     }
-    Settings::OptionState optionState = Settings::getOptionState();
-    if (! optionState.generalState.tabdiagrams)
-        return;
 
     Uml::ListView_Type type = lvt_Unknown;
     switch( view->getType() ) {

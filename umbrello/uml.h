@@ -61,6 +61,7 @@ class QClipboard;
 class QToolButton;
 class QCustomEvent;
 class QDockWidget;
+class QVBoxLayout;
 
 /**
  * The base class for UML application windows. It sets up the main
@@ -1046,6 +1047,13 @@ private:
      * if tabbed diagrams are enabled.
      */
     KTabWidget* m_tabWidget;
+
+    /**
+     * Layout supports the dynamic management of the diagram representation (tabbed/stacked)
+     * if tabbed diagrams is enabled it contains m_tabWidget
+     * if tabbed diagrams is disabled it contains m_viewStack
+     */
+    QVBoxLayout* m_layout;
 
     /**
      * Default mime type to use for image export.

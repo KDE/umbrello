@@ -830,12 +830,9 @@ void UMLListView::setDocument(UMLDoc *d) {
     }
     m_doc = d;
 
-    Settings::OptionState optionState = Settings::getOptionState();
-    if (! optionState.generalState.tabdiagrams) {
-        connect(m_doc, SIGNAL(sigDiagramCreated(Uml::IDType)), this, SLOT(slotDiagramCreated(Uml::IDType)));
-        connect(m_doc, SIGNAL(sigDiagramRemoved(Uml::IDType)), this, SLOT(slotDiagramRemoved(Uml::IDType)));
-        connect(m_doc, SIGNAL(sigDiagramRenamed(Uml::IDType)), this, SLOT(slotDiagramRenamed(Uml::IDType)));
-    }
+    connect(m_doc, SIGNAL(sigDiagramCreated(Uml::IDType)), this, SLOT(slotDiagramCreated(Uml::IDType)));
+    connect(m_doc, SIGNAL(sigDiagramRemoved(Uml::IDType)), this, SLOT(slotDiagramRemoved(Uml::IDType)));
+    connect(m_doc, SIGNAL(sigDiagramRenamed(Uml::IDType)), this, SLOT(slotDiagramRenamed(Uml::IDType)));
     connect(m_doc, SIGNAL(sigObjectCreated(UMLObject *)), this, SLOT(slotObjectCreated(UMLObject *)));
     connect(m_doc, SIGNAL(sigObjectRemoved(UMLObject *)), this, SLOT(slotObjectRemoved(UMLObject *)));
 }
@@ -2533,11 +2530,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
             break;
         default:
             if (Model_Utils::typeIsDiagram(lvType)) {
-                Settings::OptionState optionState = Settings::getOptionState();
-                // don't load diagrams any more when using tabbed diagrams
-                if (!optionState.generalState.tabdiagrams) {
-                    item = new UMLListViewItem( parent, label, lvType, nID );
-                }
+                item = new UMLListViewItem( parent, label, lvType, nID );
             } else {
                 kError() << pfx << "INTERNAL ERROR: unexpected listview type "
                     << lvType << " (ID " << ID2STR(nID) << ")" << endl;

@@ -25,8 +25,6 @@ namespace Uml
 
     cmdCreateActivityDiag::~cmdCreateActivityDiag()
     {
-        if(m_pUMLView)
-            delete m_pUMLView;
     }
 
     void cmdCreateActivityDiag::redo()
