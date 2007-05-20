@@ -20,7 +20,7 @@
         <number>6</number>
       </property>
       <item>
-        <widget class="Q3GroupBox" name="GroupBox1" >
+        <widget class="QGroupBox" name="GroupBox1" >
           <property name="title" >
             <string>Diagram Properties</string>
           </property>
@@ -334,7 +334,7 @@ If 'Snap to Grid' is enabled a component will always be aligned with the grid on
         </widget>
       </item>
       <item>
-        <widget class="Q3GroupBox" name="GroupBox2" >
+        <widget class="QGroupBox" name="GroupBox2" >
           <property name="title" >
             <string>Documentation</string>
           </property>

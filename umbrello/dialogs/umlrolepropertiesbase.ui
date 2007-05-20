@@ -26,7 +26,7 @@
           <number>0</number>
         </property>
         <item row="0" column="0" >
-          <widget class="Q3GroupBox" name="propsGroupBox" >
+          <widget class="QGroupBox" name="propsGroupBox" >
             <property name="title" >
               <string>Role Properties</string>
             </property>
@@ -74,7 +74,7 @@
           </widget>
         </item>
         <item row="3" column="0" >
-          <widget class="Q3GroupBox" name="docGroupBox" >
+          <widget class="QGroupBox" name="docGroupBox" >
             <property name="title" >
               <string>Documentation</string>
             </property>
