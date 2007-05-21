@@ -20,7 +20,7 @@ namespace Uml
 
     cmdCreateEntityRelationDiag::cmdCreateEntityRelationDiag(UMLDoc* doc, const QString& name):m_pUMLDoc(doc),m_pUMLView(NULL),m_Name(name)
     {
-        setText(i18n("Create class diagram"));
+        setText(i18n("Create entity relationship diagram"));
     }
 
     cmdCreateEntityRelationDiag::~cmdCreateEntityRelationDiag()
@@ -29,7 +29,7 @@ namespace Uml
 
     void cmdCreateEntityRelationDiag::redo()
     {
-        UMLFolder* temp = m_pUMLDoc->getRootFolder(Uml::mt_Logical);
+        UMLFolder* temp = m_pUMLDoc->getRootFolder(Uml::mt_EntityRelationship);
         m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::dt_EntityRelationship);
     }
 

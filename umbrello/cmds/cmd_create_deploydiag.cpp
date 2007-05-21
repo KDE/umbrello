@@ -29,7 +29,7 @@ namespace Uml
 
     void cmdCreateDeployDiag::redo()
     {
-        UMLFolder* temp = m_pUMLDoc->getRootFolder(Uml::mt_Logical);
+        UMLFolder* temp = m_pUMLDoc->getRootFolder(Uml::mt_Deployment);
         m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::dt_Deployment);
     }
 
