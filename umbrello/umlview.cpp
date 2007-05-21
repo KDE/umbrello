@@ -131,8 +131,6 @@ void UMLView::init() {
 
     // Initialize other data
     m_AssociationList.setAutoDelete( true );
-    m_WidgetList.setAutoDelete( true );
-    m_MessageList.setAutoDelete( true );
 
     //Setup up booleans
     m_bChildDisplayedDoc = false;
@@ -697,6 +695,7 @@ void UMLView::checkMessages(ObjectWidget * w) {
         //make sure not in selected list
         m_SelectedList.remove(obj);
         m_MessageList.remove(obj);
+        delete obj;
     }
 }
 
@@ -826,6 +825,7 @@ void UMLView::removeWidget(UMLWidget * o) {
     else
         m_WidgetList.remove(o);
     m_pDoc->setModified();
+    delete o;
 }
 
 bool UMLView::getUseFillColor() const {
@@ -1367,6 +1367,7 @@ void UMLView::activate() {
             obj->setVisible(true);
         } else {
             m_WidgetList.remove(obj);
+            delete obj;
         }
     }//end while
 

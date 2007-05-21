@@ -1,3 +1,8 @@
+Version 1.5.71
+
+* Bugs/wishes from http://bugs.kde.org:
+* Crash on deleting class in list view (145762)
+
 Version 1.5.7
 
 * Bugs/wishes from http://bugs.kde.org:
