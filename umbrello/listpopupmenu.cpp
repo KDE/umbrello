@@ -17,6 +17,7 @@
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kdebug.h>
+#include <kactioncollection.h>
 
 // app includes
 #include "umlwidget.h"
@@ -569,15 +570,13 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
         m_pInsert->insertItem(m_pixmap[pm_Artifact], i18n("Artifact"), mt_Artifact);
         break;
     case mt_Component_Diagram:
-        m_pInsert->insertItem(BarIcon("umbrello_diagram_component"), i18n("Component Diagram..."),
-                              mt_Component_Diagram);
+        m_pInsert->addAction(UMLApp::app()->actionCollection()->action("new_component_diagram"));
         break;
     case mt_Node:
         m_pInsert->insertItem(m_pixmap[pm_Node], i18n("Node"), mt_Node);
         break;
     case mt_Deployment_Diagram:
-        m_pInsert->insertItem(Widget_Utils::iconSet(Uml::dt_Deployment), i18n("Deployment Diagram..."),
-                              mt_Deployment_Diagram);
+        m_pInsert->addAction(UMLApp::app()->actionCollection()->action("new_deployment_diagram"));
         break;
     case mt_Deployment_Folder:
     case mt_Component_Folder:
@@ -589,8 +588,7 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
         m_pInsert->insertItem(m_pixmap[pm_Entity], i18n("Entity"), mt_Entity);
         break;
     case mt_EntityRelationship_Diagram:
-        m_pInsert->insertItem(Widget_Utils::iconSet(Uml::dt_EntityRelationship), i18n("Entity Relationship Diagram..."),
-                              mt_EntityRelationship_Diagram);
+        m_pInsert->addAction(UMLApp::app()->actionCollection()->action("new_entityrelationship_diagram"));
         break;
     case mt_Actor:
         m_pInsert->insertItem(m_pixmap[pm_Actor], i18n("Actor"), mt_Actor);
@@ -599,8 +597,7 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
         m_pInsert->insertItem(m_pixmap[pm_Usecase], i18n("Use Case"), mt_UseCase);
         break;
     case mt_UseCase_Diagram:
-        m_pInsert->insertItem(Widget_Utils::iconSet(Uml::dt_UseCase), i18n("Use Case Diagram..."),
-                              mt_UseCase_Diagram);
+        m_pInsert->addAction(UMLApp::app()->actionCollection()->action("new_use_case_diagram"));
         break;
     case mt_FloatText:
         m_pInsert->insertItem(m_pixmap[pm_Text], i18n("Text Line..." ), mt_FloatText);
@@ -663,11 +660,11 @@ void ListPopupMenu::insertContainerItems(bool folderAndDiagrams) {
     m_pInsert -> insertItem(m_pixmap[pm_Enum], i18n("Enum"), mt_Enum);
     insertStdItem(mt_Package);
     if (folderAndDiagrams) {
-        m_pInsert->insertItem(Widget_Utils::iconSet(Uml::dt_Class), i18n("Class Diagram..."), mt_Class_Diagram);
-        m_pInsert->insertItem(Widget_Utils::iconSet(Uml::dt_State), i18n("State Diagram..."), mt_State_Diagram);
-        m_pInsert->insertItem(Widget_Utils::iconSet(Uml::dt_Activity), i18n("Activity Diagram..."), mt_Activity_Diagram);
-        m_pInsert->insertItem(Widget_Utils::iconSet(Uml::dt_Sequence), i18n("Sequence Diagram..."), mt_Sequence_Diagram);
-        m_pInsert->insertItem(Widget_Utils::iconSet(Uml::dt_Collaboration), i18n("Collaboration Diagram..."), mt_Collaboration_Diagram);
+        m_pInsert->addAction(UMLApp::app()->actionCollection()->action("new_class_diagram"));
+        m_pInsert->addAction(UMLApp::app()->actionCollection()->action("new_sequence_diagram"));
+        m_pInsert->addAction(UMLApp::app()->actionCollection()->action("new_collaboration_diagram"));
+        m_pInsert->addAction(UMLApp::app()->actionCollection()->action("new_state_diagram"));
+        m_pInsert->addAction(UMLApp::app()->actionCollection()->action("new_activity_diagram"));
     }
     insertFileNew();
 }
