@@ -942,7 +942,7 @@ QString UMLDoc::uniqViewName(const Diagram_Type type) {
         kWarning() << "uniqViewName() called with unknown diagram type" << endl;
     }
     QString name = dname;
-    for (int number = 0; findView(type, name); ++number,
+    for (int number = 0; findView(type, name, true); ++number,
             name = dname + '_' + QString::number(number))
         ;
     return name;
