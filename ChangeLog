@@ -1,6 +1,7 @@
 Version 1.5.71
 
 * Bugs/wishes from http://bugs.kde.org:
+* Unstable saves and loads, class names become dirty (145709)
 * Crash on deleting class in list view (145762)
 
 Version 1.5.7
