@@ -436,15 +436,20 @@ bool UMLObject::resolveRef() {
             maybeSignalObjectCreated();
             return true;
         }
-    }
-    if (m_SecondaryFallback.isEmpty()) {
-        if (m_SecondaryId.isEmpty()) {
-            kError() << "UMLObject::resolveRef(" << m_Name
-                << "): both m_SecondaryId and m_SecondaryFallback are empty"
-                << endl;
-            return false;
+        if (m_SecondaryFallback.isEmpty()) {
+            kDebug() << "UMLObject::resolveRef: object with xmi.id=" << m_SecondaryId
+                << " not found, setting to undef" << endl;
+            UMLFolder *datatypes = pDoc->getDatatypeFolder();
+            m_pSecondary = Object_Factory::createUMLObject(Uml::ot_Datatype, "undef", datatypes, false);
+            return true;
         }
         m_SecondaryFallback = m_SecondaryId;
+    }
+    if (m_SecondaryFallback.isEmpty()) {
+        kError() << "UMLObject::resolveRef(" << m_Name
+            << "): cannot find type with id "
+            << m_SecondaryId << endl;
+        return false;
     }
 #ifdef VERBOSE_DEBUGGING
     kDebug() << "UMLObject::resolveRef(" << m_Name
