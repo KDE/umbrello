@@ -134,12 +134,12 @@ void PythonWriter::writeClass(UMLClassifier *c) {
 
     h<<(superclasses.count() > 0 ? ")":"")<<":"<<m_endl<<m_endl;
 
-    if(forceDoc() || !c->getDoc().isEmpty()) {
-        h<<m_indentation<<"\"\"\""<<m_endl;
-        h<<m_indentation<<c->getDoc()<<m_endl;
-        h<<m_indentation<<":version:"<<m_endl;
-        h<<m_indentation<<":author:"<<m_endl;
-        h<<m_indentation<<"\"\"\""<<m_endl<<m_endl;
+    if (forceDoc() || !c->getDoc().isEmpty()) {
+        h << m_indentation << "\"\"\"" << m_endl;
+        h << formatDoc(c->getDoc(), m_indentation + ' ') << m_endl;
+        h << m_indentation << ":version:" << m_endl;
+        h << m_indentation << ":author:" << m_endl;
+        h << m_indentation << "\"\"\"" << m_endl << m_endl;
         m_bNeedPass = false;
     }
 
@@ -247,8 +247,8 @@ void PythonWriter::writeOperations(const QString& /*classname*/, UMLOperationLis
 
         if( writeDoc )  //write method documentation
         {
-            h<<m_indentation<<m_indentation<<"\"\"\""<<m_endl;
-            h<<m_indentation<<m_indentation<<op->getDoc()<<m_endl<<m_endl;
+            h << m_indentation << m_indentation << "\"\"\"" << m_endl;
+            h << formatDoc(op->getDoc(), m_indentation + m_indentation + ' ') << m_endl;
 
             for (at = atl.first(); at; at = atl.next())  //write parameter documentation
             {
