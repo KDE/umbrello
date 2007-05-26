@@ -5,6 +5,7 @@ Version 1.5.71
 * Crash on deleting class in list view (145762)
 * Class attribute documentation not generated for python (145916)
 * Python code generator does not wrap lines properly (145918)
+* Attribute documentation not generated for 'Export to XHTML' (145972)
 
 Version 1.5.7
 
