@@ -1,0 +1,7 @@
+/** @mainpage Umbrello
+*
+* Umbrello is KDE's software modeling tool for UML (Unified Modeling Language.)
+* This section describes the internal classes used to create Umbrello.
+* It should not be used as a public API.
+*
+*/
