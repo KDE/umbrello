@@ -666,6 +666,12 @@
       <xsl:value-of select="@name"/>
       </entry>
   </row>
+
+  <row>
+      <entry role="comment"/>
+      <entry namest="c2" nameend="c3" role="comment"><xsl:value-of select="@comment"/></entry>
+  </row>
+
 </xsl:template>
 
 

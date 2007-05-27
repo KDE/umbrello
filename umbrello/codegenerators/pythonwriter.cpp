@@ -30,6 +30,7 @@
 #include "../association.h"
 #include "../attribute.h"
 #include "../classifier.h"
+#include "../attribute.h"
 #include "../operation.h"
 #include "../umlnamespace.h"
 
@@ -134,14 +135,17 @@ void PythonWriter::writeClass(UMLClassifier *c) {
 
     h<<(superclasses.count() > 0 ? ")":"")<<":"<<m_endl<<m_endl;
 
-    if(forceDoc() || !c->getDoc().isEmpty()) {
-        h<<m_indentation<<"\"\"\""<<m_endl;
-        h<<m_indentation<<c->getDoc()<<m_endl;
-        h<<m_indentation<<":version:"<<m_endl;
-        h<<m_indentation<<":author:"<<m_endl;
-        h<<m_indentation<<"\"\"\""<<m_endl<<m_endl;
+    if (forceDoc() || !c->getDoc().isEmpty()) {
+        h << m_indentation << "\"\"\"" << m_endl;
+        h << formatDoc(c->getDoc(), m_indentation + ' ') << m_endl;
+        h << m_indentation << ":version:" << m_endl;
+        h << m_indentation << ":author:" << m_endl;
+        h << m_indentation << "\"\"\"" << m_endl << m_endl;
         m_bNeedPass = false;
     }
+
+    // attributes
+    writeAttributes(c->getAttributeList(), h);
 
     //operations
     writeOperations(c,h);
@@ -161,7 +165,20 @@ void PythonWriter::writeClass(UMLClassifier *c) {
 ////////////////////////////////////////////////////////////////////////////////////
 //  Helper Methods
 
-void PythonWriter::writeOperations(UMLClassifier *c,QTextStream &h) {
+void PythonWriter::writeAttributes(UMLAttributeList atList, QTextStream &py) {
+    if (!forceDoc() || atList.count() == 0)
+        return;
+    py << m_indentation << "\"\"\" ATTRIBUTES" << m_endl << m_endl;
+    for (UMLAttribute *at = atList.first(); at; at = atList.next()) {
+        py << formatDoc(at->getDoc(), m_indentation + ' ') << m_endl;
+        Uml::Visibility vis = at->getVisibility();
+        py << m_indentation << cleanName(at->getName()) << "  ("
+            << vis.toString() << ")" << m_endl << m_endl ;
+    } // end for
+    py << m_indentation << "\"\"\"" << m_endl << m_endl;
+}
+
+void PythonWriter::writeOperations(UMLClassifier *c, QTextStream &h) {
 
     //Lists to store operations  sorted by scope
     UMLOperationList oppub,opprot,oppriv;
@@ -247,8 +264,8 @@ void PythonWriter::writeOperations(const QString& /*classname*/, UMLOperationLis
 
         if( writeDoc )  //write method documentation
         {
-            h<<m_indentation<<m_indentation<<"\"\"\""<<m_endl;
-            h<<m_indentation<<m_indentation<<op->getDoc()<<m_endl<<m_endl;
+            h << m_indentation << m_indentation << "\"\"\"" << m_endl;
+            h << formatDoc(op->getDoc(), m_indentation + m_indentation + ' ') << m_endl;
 
             for (at = atl.first(); at; at = atl.next())  //write parameter documentation
             {

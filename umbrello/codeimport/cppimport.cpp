@@ -50,6 +50,9 @@ CppImport::CppImport() {
 CppImport::~CppImport() {}
 
 void CppImport::feedTheModel(const QString& fileName) {
+    if (ms_seenFiles.find(fileName) != ms_seenFiles.end())
+        return;
+    ms_seenFiles.append(fileName);
     QMap<QString, Dependence> deps = ms_driver->dependences(fileName);
     if (! deps.empty()) {
         QMap<QString, Dependence>::Iterator it;
@@ -67,9 +70,6 @@ void CppImport::feedTheModel(const QString& fileName) {
                 feedTheModel(includeFile);
         }
     }
-    if (ms_seenFiles.find(fileName) != ms_seenFiles.end())
-        return;
-    ms_seenFiles.append(fileName);
     TranslationUnitAST *ast = ms_driver->translationUnit( fileName );
     if (ast == NULL) {
         kError() << "CppImport::feedTheModel: " << fileName << " not found" << endl;

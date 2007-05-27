@@ -1,5 +1,5 @@
 /***************************************************************************
- *                        xhtmlgenerator.cpp  -  description             *
+ *                        xhtmlgenerator.cpp  -  description               *
  *                           -------------------                           *
  *  copyright            : (C) 2006 by Gael de Chalendar (aka Kleag)       *
  *    (C) 2006 Umbrello UML Modeller Authors <uml-devel@uml.sf.net>        *

@@ -20,6 +20,7 @@
 #define PYTHONWRITER_H
 
 #include "simplecodegenerator.h"
+#include "../umlattributelist.h"
 #include "../umloperationlist.h"
 
 enum Access {PRIVATE, PUBLIC, PROTECTED};
@@ -52,6 +53,14 @@ public:
     virtual const QStringList reservedKeywords() const;
 
 private:
+
+    /**
+     * write all attributes for a given class
+     *
+     * @param c   the concept we are generating code for
+     * @param py  output stream for the header file
+     */
+    void writeAttributes(UMLAttributeList atList, QTextStream &py);
 
     /**
       * write all operations for a given class
