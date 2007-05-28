@@ -1,12 +1,14 @@
 Version 1.5.71
 
 * Bugs/wishes from http://bugs.kde.org:
+* Switching between tabbed and non-tabbed views requires restart (98204)
 * Preprocessor keywords ignored which causes endless loop in code import (119125)
 * Unstable saves and loads, class names become dirty (145709)
 * Crash on deleting class in list view (145762)
 * Class attribute documentation not generated for python (145916)
 * Python code generator does not wrap lines properly (145918)
 * Attribute documentation not generated for 'Export to XHTML' (145972)
+* Arrowheads are not shown (146064)
 
 Version 1.5.7
 
