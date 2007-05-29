@@ -12,7 +12,7 @@ macro(CREATE_VERSION _in_FILE _out_FILE)
     FILE(APPEND ${_out_FILE} "#define UMBRELLO_VERSION \"${_contents}\"\n")
 endmacro(CREATE_VERSION)
 
-macro_additional_clean_files( ${CMAKE_CURRENT_BINARY_DIR}/version.h )
+#macro_additional_clean_files( ${CMAKE_CURRENT_BINARY_DIR}/version.h )
 create_version(${CMAKE_SOURCE_DIR}/umbrello/VERSION ${CMAKE_CURRENT_BINARY_DIR}/version.h)
 
 include_directories (${LIBXML2_INCLUDE_DIR} ${LIBXSLT_INCLUDE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/)
