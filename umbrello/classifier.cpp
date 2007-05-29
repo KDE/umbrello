@@ -272,8 +272,8 @@ int UMLClassifier::removeOperation(UMLOperation *op) {
     // disconnection needed.
     // note that we don't delete the operation, just remove it from the Classifier
     disconnect(op,SIGNAL(modified()),this,SIGNAL(modified()));
-    UMLObject::emitModified();
     emit operationRemoved(op);
+    UMLObject::emitModified();
     return m_List.count();
 }
 
@@ -592,8 +592,8 @@ int UMLClassifier::removeAttribute(UMLAttribute* a) {
         kDebug() << "can't find att given in list" << endl;
         return -1;
     }
-    UMLObject::emitModified();
     emit attributeRemoved(a);
+    UMLObject::emitModified();
     // If we are deleting the object, then we don't need to disconnect..this is done auto-magically
     // for us by QObject. -b.t.
     // disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
@@ -721,8 +721,8 @@ int UMLClassifier::removeTemplate(UMLTemplate* umltemplate) {
         kWarning() << "can't find att given in list" << endl;
         return -1;
     }
-    UMLObject::emitModified();
     emit templateRemoved(umltemplate);
+    UMLObject::emitModified();
     disconnect(umltemplate,SIGNAL(modified()),this,SIGNAL(modified()));
     return m_List.count();
 }
