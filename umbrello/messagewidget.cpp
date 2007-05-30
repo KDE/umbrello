@@ -552,7 +552,7 @@ bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
         if (op) {
             // If the UMLOperation is set, m_CustomOp isn't used anyway.
             // Just setting it empty for the sake of sanity.
-            m_CustomOp = QString::null;
+            m_CustomOp.clear();
         }
     }
 

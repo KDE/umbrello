@@ -24,6 +24,6 @@ namespace KTextEditor{ class EditInterface; }
 AST* findNodeAt( AST* unit, int line, int column );
 void scopeOfNode( AST* ast, QStringList& );
 QString typeSpecToString( TypeSpecifierAST* typeSpec );
-QString declaratorToString( DeclaratorAST* declarator, const QString& scope = QString::null, bool skipPtrOp=false );
+QString declaratorToString( DeclaratorAST* declarator, const QString& scope = QString(), bool skipPtrOp=false );
 
 #endif // __ast_utils_h

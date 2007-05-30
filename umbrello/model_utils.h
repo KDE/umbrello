@@ -82,7 +82,7 @@ UMLObject* findUMLObject( const UMLObjectList& inList,
  */
 QString uniqObjectName(Uml::Object_Type type,
                        UMLPackage *parentPkg,
-                       QString prefix = QString::null);
+                       QString prefix = QString());
 
 /**
  * Return true if the given tag is a one of the common XMI
@@ -253,7 +253,7 @@ struct NameAndType {
     }
     NameAndType(QString name, UMLObject *type,
                 Uml::Parameter_Direction direction = Uml::pd_In,
-                QString initialValue = QString::null)
+                QString initialValue = QString())
             : m_name(name), m_type(type),
               m_direction(direction), m_initialValue(initialValue) {
     }

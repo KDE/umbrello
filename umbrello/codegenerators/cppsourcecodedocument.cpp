@@ -144,7 +144,7 @@ void CPPSourceCodeDocument::updateContent( )
     // Include own header file
     QString myOwnName( getParentClassifier()->getName() );
     includeStatement.append("#include \""+CodeGenerator::cleanName(myOwnName.lower())+".h\""+endLine);
-    CodeBlockWithComments * iblock = addOrUpdateTaggedCodeBlockWithComments("includes", includeStatement, QString::null, 0, false);
+    CodeBlockWithComments * iblock = addOrUpdateTaggedCodeBlockWithComments("includes", includeStatement, QString(), 0, false);
     iblock->setWriteOutText(true);
 
     // After the includes we have just 2 big blocks basically, the "constructor" block and the

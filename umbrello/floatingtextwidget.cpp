@@ -193,16 +193,16 @@ void FloatingTextWidget::changeName(QString newText)
         if (assoc) {
             switch (m_Role) {
               case Uml::tr_MultiA:
-                assoc->setMulti(QString::null, Uml::A);
+                assoc->setMulti(QString(), Uml::A);
                 break;
               case Uml::tr_MultiB:
-                assoc->setMulti(QString::null, Uml::B);
+                assoc->setMulti(QString(), Uml::B);
                 break;
               case Uml::tr_RoleAName:
-                assoc->setRoleName(QString::null, Uml::A);
+                assoc->setRoleName(QString(), Uml::A);
                 break;
               case Uml::tr_RoleBName:
-                assoc->setRoleName(QString::null, Uml::B);
+                assoc->setRoleName(QString(), Uml::B);
                 break;
               case Uml::tr_ChangeA:
                 assoc->setChangeability(Uml::chg_Changeable, Uml::A);
@@ -211,13 +211,13 @@ void FloatingTextWidget::changeName(QString newText)
                 assoc->setChangeability(Uml::chg_Changeable, Uml::B);
                 break;
               default:
-                assoc->setName(QString::null);
+                assoc->setName(QString());
                 break;
             }
         } else {
             MessageWidget *msg = dynamic_cast<MessageWidget*>(m_pLink);
             if (msg) {
-                msg->setName(QString::null);
+                msg->setName(QString());
                 m_pView->removeWidget(this);
             }
         }

@@ -80,7 +80,7 @@ public:
      * @param name  An optional name, used by when creating through UMLListView
      * @return  The UMLAttribute created
      */
-    virtual UMLAttribute* createAttribute(const QString &name = QString::null);
+    virtual UMLAttribute* createAttribute(const QString &name = QString());
 
     /**
      * Adds an attribute to the class.

@@ -165,7 +165,7 @@ void PinWidget::mouseMoveEvent(QMouseEvent* me) {
     UMLWidget::mouseMoveEvent(me);
     int diffX = m_oldX - getX();
     int diffY = m_oldY - getY();
-    if (m_pName!=NULL && m_pName->getText() != "") {
+    if (m_pName!=NULL && !( m_pName->getText() ).isEmpty()) {
         m_pName->setX(m_pName->getX() - diffX);
         m_pName->setY(m_pName->getY() - diffY);
     }

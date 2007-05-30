@@ -110,7 +110,7 @@ namespace URLUtil
   * Will dump the list of KUrl @p urls on standard output, eventually printing @ aMessage if it
   * is not null.
   */
-  void dump( const KUrl::List &urls, const QString &aMessage = QString::null );
+  void dump( const KUrl::List &urls, const QString &aMessage = QString() );
 
   /**
    * Same as QDir::canonicalPath in later versions of QT. Earlier versions of QT

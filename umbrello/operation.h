@@ -40,7 +40,7 @@ public:
     UMLOperation(const UMLClassifier * parent, const QString& name,
                  Uml::IDType id = Uml::id_None,
                  Uml::Visibility s = Uml::Visibility::Public,
-                 const QString& rt = QString::null);
+                 const QString& rt = QString());
 
     /**
      * Constructs an UMLOperation.

@@ -96,7 +96,7 @@ public:
     /**
      * Reimplement method from UMLObject.
      */
-    QString getFullyQualifiedName(QString separator = QString::null,
+    QString getFullyQualifiedName(QString separator = QString(),
                                   bool includeRoot = false) const;
 
     /**

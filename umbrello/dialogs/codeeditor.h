@@ -49,7 +49,7 @@ class CodeEditor : public Q3TextEdit
     Q_OBJECT
 public:
 
-    CodeEditor ( const QString & text, const QString & context = QString::null, CodeViewerDialog * parent = 0, const char * name = 0 , CodeDocument * doc = 0);
+    CodeEditor ( const QString & text, const QString & context = QString(), CodeViewerDialog * parent = 0, const char * name = 0 , CodeDocument * doc = 0);
     CodeEditor ( CodeViewerDialog * parent, const char* name = 0, CodeDocument * doc = 0);
     ~CodeEditor ();
 

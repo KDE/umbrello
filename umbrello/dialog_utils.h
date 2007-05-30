@@ -45,7 +45,7 @@ namespace Dialog_Utils {
 QLineEdit* makeLabeledEditField(Q3GroupBox *containingBox, QGridLayout *layout, int row,
                                 QLabel * &label, const QString& labelText,
                                 QLineEdit * &editField,
-                                const QString& editFieldText = QString::null);
+                                const QString& editFieldText = QString());
 
 /**
  * Helper function for requesting a name for an UMLWidget using a dialog.

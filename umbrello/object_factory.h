@@ -39,7 +39,7 @@ namespace Object_Factory {
  *                        The default is to ask for the new name.
  */
 UMLObject* createUMLObject(Uml::Object_Type type,
-                           const QString &n = QString::null,
+                           const QString &n = QString(),
                            UMLPackage *parentPkg = 0,
                            bool solicitNewName = true);
 

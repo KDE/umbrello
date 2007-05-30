@@ -92,7 +92,7 @@ void ImportProjectDlg::accept() {
     }
     QDir dir(url.path());
     if (!dir.exists()){
-        KMessageBox::sorry(this, i18n("This directory doesn't exist."));
+        KMessageBox::sorry(this, i18n("This directory does not exist."));
         return;
     }
     QStringList filter;

@@ -556,7 +556,7 @@ void CppTree2Uml::parseFunctionArguments(DeclaratorAST* declarator,
 
             QString name;
             if (param->declarator())
-                name = declaratorToString(param->declarator(), QString::null, true );
+                name = declaratorToString(param->declarator(), QString(), true );
 
             QString tp = typeOfDeclaration( param->typeSpec(), param->declarator() );
 

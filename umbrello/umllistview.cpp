@@ -406,7 +406,7 @@ void UMLListView::popupMenuSel(int sel) {
                 kError() << "UMLListView::popupMenuSel: modelFolder is NULL" << endl;
                 return;
             }
-            modelFolder->setFolderFile(QString::null);
+            modelFolder->setFolderFile(QString());
             // Recompute text of the folder
             QString folderText = current->getText();
             folderText.remove( QRegExp("\\s*\\(.*$") );

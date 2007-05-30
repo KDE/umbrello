@@ -206,7 +206,7 @@ public:
      *                     Default: false.
      * @return  The UMLObject's enclosing package(s) as a text.
      */
-    QString getPackage(QString separator = QString::null,
+    QString getPackage(QString separator = QString(),
                        bool includeRoot = false);
 
     /**
@@ -258,7 +258,7 @@ public:
      *                     See UMLDoc::getRootFolder(). Default: false.
      * @return  The fully qualified name of this UMLObject.
      */
-    virtual QString getFullyQualifiedName(QString separator = QString::null,
+    virtual QString getFullyQualifiedName(QString separator = QString(),
                                           bool includeRoot = false) const;
 
     /**

@@ -64,7 +64,7 @@ void UMLClassifier::setBaseType(Uml::Object_Type ot) {
             newIcon = Uml::it_Interface;
             break;
         case ot_Class:
-            UMLObject::setStereotype(QString::null);
+            UMLObject::setStereotype(QString());
             UMLObject::m_bAbstract = false;
             newIcon = Uml::it_Class;
             break;
@@ -277,7 +277,7 @@ int UMLClassifier::removeOperation(UMLOperation *op) {
     return m_List.count();
 }
 
-UMLObject* UMLClassifier::createTemplate(const QString& currentName /*= QString::null*/) {
+UMLObject* UMLClassifier::createTemplate(const QString& currentName /*= QString()*/) {
     QString name = currentName;
     bool goodName = !name.isEmpty();
     if (!goodName)

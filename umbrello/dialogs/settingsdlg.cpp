@@ -40,7 +40,7 @@ SettingsDlg::SettingsDlg( QWidget * parent, Settings::OptionState *state )
     setFaceType( KPageDialog::List );
     m_bChangesApplied = false;
     m_pOptionState = state;
-    setHelp( "umbrello/index.html", QString::null );
+    setHelp( "umbrello/index.html", QString() );
     setupGeneralPage();
     setupFontPage();
     setupUIPage();
