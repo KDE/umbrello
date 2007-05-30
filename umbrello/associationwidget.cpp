@@ -3543,7 +3543,21 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
         }
 
         // New style: The xmi.id is a reference to the UMLAssociation.
+        // If the UMLObject is not found right now, we try again later
+        // during the type resolution pass - see activate().
         m_nId = STR2ID(id);
+        UMLObject *myObj = m_umldoc->findObjectById(m_nId);
+        if (myObj) {
+            const Uml::Object_Type ot = myObj->getBaseType();
+            if (ot != ot_Association) {
+                setUMLObject(myObj);
+            } else {
+                UMLAssociation * myAssoc = static_cast<UMLAssociation*>(myObj);
+                setUMLAssociation(myAssoc);
+                if (type == "-1")
+                    aType = myAssoc->getAssocType();
+            }
+        }
     }
 
     setAssocType(aType);

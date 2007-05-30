@@ -87,14 +87,13 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
         pen.setColor ( Qt::red );
         p.setPen( pen );
         p.drawEllipse( offsetX, offsetY, w, h );
-
         x = offsetX + w/2 ;
         y = offsetY + h/2 ;
-
-        p.drawLine(x - (sqrt(2)/2) * (w/2) + 1, y - (sqrt(2)/2) * (w/2) + 1,
-                   x + (sqrt(2)/2) * (w/2), y + (sqrt(2)/2) * (w/2));
-        p.drawLine(x + (sqrt(2)/2) * (w/2) - 1, y - (sqrt(2)/2) * (w/2) + 1,
-                   x - (sqrt(2)/2) * (w/2), y + (sqrt(2)/2) * (w/2));
+        {
+            const float w2 = 0.7071 * (float)w / 2.0;
+            p.drawLine(x - w2 + 1, y - w2 + 1, x + w2, y + w2);
+            p.drawLine(x + w2 - 1, y - w2 + 1, x - w2, y + w2);
+        }
         break;
 
     case End :

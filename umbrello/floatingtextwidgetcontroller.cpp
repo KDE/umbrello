@@ -18,6 +18,10 @@
 FloatingTextWidgetController::FloatingTextWidgetController(FloatingTextWidget *floatingTextWidget):
             UMLWidgetController(floatingTextWidget) {
     m_floatingTextWidget = floatingTextWidget;
+    m_unconstrainedPositionX = 0;
+    m_unconstrainedPositionY = 0;
+    m_movementDirectionX = 0;
+    m_movementDirectionY = 0;
 }
 
 FloatingTextWidgetController::~FloatingTextWidgetController() {

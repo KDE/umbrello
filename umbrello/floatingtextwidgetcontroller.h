@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006                                                    *
+ *   copyright (C) 2006-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -53,7 +53,7 @@ public:
 protected:
 
     /**
-     * Overriden from UMLWidgetController.
+     * Overridden from UMLWidgetController.
      * Saves the values of the widget needed for move/resize.
      * Calls parent method and then saves the value of m_unconstrainedPositionX/Y
      * and m_movementDirectionX/Y.
@@ -63,7 +63,7 @@ protected:
     virtual void saveWidgetValues(QMouseEvent *me);
 
     /**
-     * Overriden from UMLWidgetController.
+     * Overridden from UMLWidgetController.
      * FloatingTextWidgets can't be resized, so this method always returns false.
      * Cursor isn't changed.
      *
@@ -73,7 +73,7 @@ protected:
     virtual bool isInResizeArea(QMouseEvent *me);
 
     /**
-     * Overriden from UMLWidgetController.
+     * Overridden from UMLWidgetController.
      * Moves the widget to a new position using the difference between the
      * current position and the new position.
      * If the floating text widget is part of a sequence message, and the
@@ -94,7 +94,7 @@ protected:
     virtual void moveWidgetBy(int diffX, int diffY);
 
     /**
-     * Overriden from UMLWidgetController.
+     * Overridden from UMLWidgetController.
      * Modifies the value of the diffX and diffY variables used to move the
      * widgets.
      * The values are constrained using constrainPosition.
