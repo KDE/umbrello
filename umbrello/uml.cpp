@@ -247,6 +247,7 @@ void UMLApp::initActions() {
     setProgLangAction(Uml::pl_Ada,          "Ada",          "set_lang_ada");
     setProgLangAction(Uml::pl_Cpp,          "C++",          "set_lang_cpp");
     setProgLangAction(Uml::pl_CSharp,       "C#",           "set_lang_csharp");
+    setProgLangAction(Uml::pl_D,            "D",            "set_lang_d");
     setProgLangAction(Uml::pl_IDL,          "IDL",          "set_lang_idl");
     setProgLangAction(Uml::pl_Java,         "Java",         "set_lang_java");
     setProgLangAction(Uml::pl_JavaScript,   "JavaScript",   "set_lang_javascript");
@@ -1384,6 +1385,10 @@ void UMLApp::set_lang_cpp() {
 
 void UMLApp::set_lang_csharp() {
     setProgLangMenu(Uml::pl_CSharp);
+}
+
+void UMLApp::set_lang_d() {
+    setProgLangMenu(Uml::pl_D);
 }
 
 void UMLApp::set_lang_idl() {

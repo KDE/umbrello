@@ -300,7 +300,7 @@ UMLClassifierList UMLAttribute::getTemplateParams() {
     QString type = getType()->getName();
     QString templateParam;
     //template and generic only in C++ and Java ?
-    if (UMLApp::app()->getActiveLanguage() == Uml::pl_Cpp || UMLApp::app()->getActiveLanguage() == Uml::pl_Java) {
+    if (UMLApp::app()->getActiveLanguage() == Uml::pl_Cpp || UMLApp::app()->getActiveLanguage() == Uml::pl_Java || UMLApp::app()->getActiveLanguage() == Uml::pl_D) {
         int start = type.find(QChar('<'));
         if (start >= 0 ) {
             int end = type.findRev(QChar('>'));

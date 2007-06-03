@@ -34,6 +34,7 @@
 #include "adawriter.h"
 #include "cppwriter.h"
 #include "csharpwriter.h"
+#include "dwriter.h"
 #include "idlwriter.h"
 #include "javawriter.h"
 #include "pascalwriter.h"
@@ -50,40 +51,48 @@
 
 // the new
 #include "cppcodegenerator.h"
+#include "dcodegenerator.h"
 #include "javacodegenerator.h"
 #include "rubycodegenerator.h"
 
 #include "cppheadercodedocument.h"
 #include "cppsourcecodedocument.h"
+#include "dclassifiercodedocument.h"
 #include "javaclassifiercodedocument.h"
 #include "rubyclassifiercodedocument.h"
 #include "javaantcodedocument.h"
 
 #include "cppheadercodeoperation.h"
 #include "cppsourcecodeoperation.h"
+#include "dcodeoperation.h"
 #include "javacodeoperation.h"
 #include "rubycodeoperation.h"
 
 #include "cppcodeclassfield.h"
+#include "dcodeclassfield.h"
 #include "javacodeclassfield.h"
 #include "rubycodeclassfield.h"
 
 #include "cppheadercodeaccessormethod.h"
 #include "cppsourcecodeaccessormethod.h"
+#include "dcodeaccessormethod.h"
 #include "javacodeaccessormethod.h"
 #include "rubycodeaccessormethod.h"
 
 #include "cppheadercodeclassfielddeclarationblock.h"
 #include "cppsourcecodeclassfielddeclarationblock.h"
+#include "dcodeclassfielddeclarationblock.h"
 #include "javacodeclassfielddeclarationblock.h"
 #include "rubycodeclassfielddeclarationblock.h"
 
 #include "cppcodedocumentation.h"
+#include "dcodecomment.h"
 #include "javacodecomment.h"
 #include "rubycodecomment.h"
 #include "xmlcodecomment.h"
 
 #include "cppcodegenerationpolicy.h"
+#include "dcodegenerationpolicy.h"
 #include "javacodegenerationpolicy.h"
 #include "rubycodegenerationpolicy.h"
 
@@ -115,6 +124,16 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
             break;
         case Uml::pl_CSharp:
             obj = new CSharpWriter();
+            break;
+        case Uml::pl_D:
+            if (optionState.generalState.newcodegen) {
+                obj = new DCodeGenerator();
+                obj->connect_newcodegen_slots();
+                DCodeGenerationPolicy *p =
+                    new DCodeGenerationPolicy(UMLApp::app()->getConfig());
+                UMLApp::app()->setPolicyExt(p);
+            } else
+                obj = new DWriter();
             break;
         case Uml::pl_IDL:
             obj = new IDLWriter();
@@ -186,6 +205,9 @@ CodeDocument * newClassifierCodeDocument (UMLClassifier * c)
         case Uml::pl_Cpp:
             retval = new CPPSourceCodeDocument(c);
             break;
+        case Uml::pl_D:
+            retval = new DClassifierCodeDocument(c);
+            break;
         case Uml::pl_Java:
             retval = new JavaClassifierCodeDocument(c);
             break;
@@ -213,6 +235,9 @@ CodeOperation *newCodeOperation(ClassifierCodeDocument *ccd, UMLOperation * op) 
                     return new CPPSourceCodeOperation(scd, op);
             }
             break;
+        case Uml::pl_D:
+            retval = new DCodeOperation(dynamic_cast<DClassifierCodeDocument*>(ccd), op);
+            break;
         case Uml::pl_Java:
             retval = new JavaCodeOperation(dynamic_cast<JavaClassifierCodeDocument*>(ccd), op);
             break;
@@ -232,6 +257,9 @@ CodeClassField * newCodeClassField(ClassifierCodeDocument *ccd, UMLAttribute *at
         case Uml::pl_Cpp:
             retval = new CPPCodeClassField(ccd, at);
             break;
+        case Uml::pl_D:
+            retval = new DCodeClassField(ccd, at);
+            break;
         case Uml::pl_Java:
             retval = new JavaCodeClassField(ccd, at);
             break;
@@ -250,6 +278,9 @@ CodeClassField * newCodeClassField(ClassifierCodeDocument *ccd, UMLRole *role) {
     switch (UMLApp::app()->getActiveLanguage()) {
         case Uml::pl_Cpp:
             retval = new CPPCodeClassField(ccd, role);
+            break;
+        case Uml::pl_D:
+            retval = new DCodeClassField(ccd, role);
             break;
         case Uml::pl_Java:
             retval = new JavaCodeClassField(ccd, role);
@@ -280,6 +311,14 @@ CodeAccessorMethod * newCodeAccessorMethod(ClassifierCodeDocument *ccd,
                     cscam->update();
                     retval = cscam;
                 }
+            }
+            break;
+        case Uml::pl_D:
+            {
+                DCodeAccessorMethod *jcam = new DCodeAccessorMethod(cf, type);
+                jcam->update();
+                retval = jcam;
+                retval->setOverallIndentationLevel(1);
             }
             break;
         case Uml::pl_Java:
@@ -318,6 +357,9 @@ CodeClassFieldDeclarationBlock * newDeclarationCodeBlock (ClassifierCodeDocument
                     return new CPPSourceCodeClassFieldDeclarationBlock(cf);
             }
             break;
+        case Uml::pl_D:
+            retval = new DCodeClassFieldDeclarationBlock(cf);
+            break;
         case Uml::pl_Java:
             retval = new JavaCodeClassFieldDeclarationBlock(cf);
             break;
@@ -336,6 +378,10 @@ CodeComment * newCodeComment (CodeDocument *cd) {
             if (dynamic_cast<CPPHeaderCodeDocument*>(cd) ||
                 dynamic_cast<CPPSourceCodeDocument*>(cd))
                 return new CPPCodeDocumentation(cd);
+            break;
+        case Uml::pl_D:
+            if (dynamic_cast<DClassifierCodeDocument*>(cd))
+                return new DCodeComment(cd);
             break;
         case Uml::pl_Java:
             if (dynamic_cast<JavaClassifierCodeDocument*>(cd))

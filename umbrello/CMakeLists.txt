@@ -49,6 +49,17 @@ set(libcodegenerator_SRCS
 	codegenerators/cppcodegenerationpolicy.cpp 
 	codegenerators/cppcodegenerationpolicypage.cpp
 	codegenerators/cppcodegenerationform.cpp 
+	codegenerators/dcodegenerator.cpp 
+	codegenerators/dcodedocumentation.cpp 
+	codegenerators/dcodeclassfield.cpp
+	codegenerators/dcodecomment.cpp 
+	codegenerators/dclassdeclarationblock.cpp
+	codegenerators/dclassifiercodedocument.cpp 
+	codegenerators/dcodeoperation.cpp 
+	codegenerators/dcodeaccessormethod.cpp
+	codegenerators/dcodeclassfielddeclarationblock.cpp
+	codegenerators/dcodegenerationpolicy.cpp 
+	codegenerators/dcodegenerationpolicypage.cpp
 	codegenerators/rubycodegenerator.cpp 
 	codegenerators/rubycodeclassfield.cpp 
 	codegenerators/rubyclassifiercodedocument.cpp 
@@ -65,6 +76,7 @@ set(libcodegenerator_SRCS
 	codegenerators/aswriter.cpp 
 	codegenerators/cppwriter.cpp 
 	codegenerators/csharpwriter.cpp 
+	codegenerators/dwriter.cpp 
 	codegenerators/javawriter.cpp 
 	codegenerators/jswriter.cpp
 	codegenerators/idlwriter.cpp 
@@ -88,6 +100,7 @@ kde4_add_ui3_files( libcodegenerator_SRCS
 )
 
 kde4_add_ui_files(  libcodegenerator_SRCS
+	${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/dcodegenerationformbase.ui
 	${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/javacodegenerationformbase.ui
 )
 
