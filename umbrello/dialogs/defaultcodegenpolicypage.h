@@ -24,7 +24,6 @@ class QVBoxLayout;
 class QHBoxLayout;
 class QGridLayout;
 class QLabel;
-class CodeGenePolicyExt;
 
 class DefaultCodeGenPolicyPage : public CodeGenerationPolicyPage
 {

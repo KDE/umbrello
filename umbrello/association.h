@@ -16,7 +16,6 @@
 #include "umlnamespace.h"
 #include "umlobject.h"
 
-class UMLDoc;
 class UMLRole;
 
 /**

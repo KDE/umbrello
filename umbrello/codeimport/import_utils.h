@@ -16,13 +16,11 @@
 #include "../umlnamespace.h"
 #include "../umlattributelist.h"
 
-class UMLDoc;
 class UMLObject;
 class UMLClassifier;
 class UMLPackage;
 class UMLOperation;
 class UMLEnum;
-class CppDriver;
 
 /**
  * Utilities for code import

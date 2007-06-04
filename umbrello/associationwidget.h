@@ -23,11 +23,8 @@
 #include <QMouseEvent>
 #include <QMoveEvent>
 
-class IDChangeLog;
 class ListPopupMenu;
-class QBitmap;
 class QPixmap;
-class QDataStream;
 class Q3CanvasLine;
 class ClassifierWidget;
 class UMLDoc;

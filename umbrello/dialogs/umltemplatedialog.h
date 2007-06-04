@@ -16,12 +16,9 @@
 //Added by qt3to4:
 #include <QLabel>
 
-class Q3ButtonGroup;
-class QCheckBox;
 class KComboBox;
 class Q3GroupBox;
 class QLineEdit;
-class QRadioButton;
 class UMLTemplate;
 
 /**

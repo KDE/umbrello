@@ -56,8 +56,6 @@ class KMenuBar;
 
 // Qt forward declarations
 class QStackedWidget;
-class QMenuData;
-class QClipboard;
 class QToolButton;
 class QCustomEvent;
 class QDockWidget;

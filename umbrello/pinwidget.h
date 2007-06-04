@@ -22,7 +22,6 @@
 #define PIN_HEIGHT 1
 
 //class ActivityWidget;
-class UMLOperation;
 
 /**
  * This class is the graphical version of a UML Pin.  A pinWidget is created

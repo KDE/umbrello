@@ -37,7 +37,6 @@ class QVBoxLayout;
 class QHBoxLayout;
 class QGridLayout;
 
-class UMLObject;
 
 /** This class is sooo ugly I don't know where to begin. For now, its a prototype
   * that works, and thats all we need. In the future, a re-write is mandated to

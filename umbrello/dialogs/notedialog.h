@@ -21,7 +21,6 @@
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class Q3GroupBox;
-class QLineEdit;
 class Q3TextEdit;
 
 class NoteDialog : public KDialog {

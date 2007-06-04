@@ -32,24 +32,15 @@
 #include "codeviewerstate.h"
 #include "umlnamespace.h"
 
-class UMLAttribute;
 class UMLDoc;
 class UMLObject;
-class UMLRole;
-class UMLOperation;
 
 class ClassifierCodeDocument;
-class CodeAccessorMethod;
 class CodeBlock;
-class CodeBlockWithComments;
 class CodeClassField;
-class CodeClassFieldDeclarationBlock;
-class CodeComment;
 class CodeDocument;
-class CodeOperation;
 class CodeViewerDialog;
 
-class KConfig;
 
 /**
   * class CodeGenerator

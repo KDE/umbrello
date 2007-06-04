@@ -22,7 +22,6 @@
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLWidget;
-class UMLView;
 class KColorButton;
 class QLabel;
 class QPushButton;

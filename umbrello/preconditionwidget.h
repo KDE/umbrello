@@ -20,7 +20,6 @@
 #define PRECONDITION_HEIGHT 10
 
 class ObjectWidget;
-class UMLOperation;
 
 /**
  * This class is the graphical version of a UML Precondition.  A PreconditionWidget is created

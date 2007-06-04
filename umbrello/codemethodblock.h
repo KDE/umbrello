@@ -25,7 +25,6 @@
 #include "umlnamespace.h"
 
 class ClassifierCodeDocument;
-class CodeClassField;
 
 /**
   * class CodeMethodBlock

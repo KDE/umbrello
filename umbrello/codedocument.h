@@ -25,11 +25,8 @@
 #include "codegenobjectwithtextblocks.h"
 #include "hierarchicalcodeblock.h"
 
-class QWidget;
-class CodeAccessorMethod;
 class CodeBlockWithComments;
 class CodeComment;
-class CodeOperation;
 class TextBlock;
 class UMLPackage;
 

@@ -23,7 +23,6 @@
 
 class TextBlock;
 class CodeDocument;
-// class CodeGenObjectWithTextBlocks;
 class UMLObject;
 
 /**

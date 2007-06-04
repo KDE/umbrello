@@ -17,7 +17,6 @@
 #include <QMouseEvent>
 #include <qpoint.h>
 
-class Q3CanvasLine;
 class ObjectWidget;
 class UMLWidget;
 

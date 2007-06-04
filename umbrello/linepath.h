@@ -23,10 +23,8 @@
 #define POINT_DELTA 5
 
 class AssociationWidget;
-class UMLView;
 
 // Qt forward declarations
-class QDataStream;
 class QDomDocument;
 class QDomElement;
 

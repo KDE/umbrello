@@ -27,8 +27,6 @@
 
 class CodeViewerDialog;
 class CPPHeaderCodeDocument;
-class CodeBlockWithComments;
-class KConfig;
 
 class CPPCodeGenerator : public CodeGenerator
 {

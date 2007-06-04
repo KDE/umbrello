@@ -14,7 +14,6 @@
 
 #include "umlcanvasobject.h"
 
-class IDChangeLog;
 
 /**
  * This class contains the non-graphical information required for a UML

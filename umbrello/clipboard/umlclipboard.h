@@ -21,7 +21,6 @@
 
 class IDChangeLog;
 class QMimeSource;
-class UMLDrag;
 
 /**
  * This class manages the uml's interaction with the KDE

@@ -31,7 +31,6 @@ struct ParserPrivateData;
 
 class Driver;
 class Lexer;
-class Token;
 struct Error;
 
 class Parser

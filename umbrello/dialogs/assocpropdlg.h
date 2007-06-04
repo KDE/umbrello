@@ -20,10 +20,7 @@
 class AssocRolePage;
 class AssocGenPage;
 class UMLDoc;
-// class ObjectWidget;
-// class UMLObject;
-// class UMLWidget;
-
+// // // 
 /**
  * Based off of AssocPropDlg class
  * @author Brian Thomas <Brian.A.Thomas@gsfc.nasa.gov>

@@ -22,7 +22,6 @@
 #include <Q3PtrList>
 
 // forward declarations
-class KLibrary;
 class KConfig;
 
 /**

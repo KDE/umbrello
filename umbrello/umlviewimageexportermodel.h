@@ -19,7 +19,6 @@
 class UMLView;
 
 // KDE forward declarations
-class KTemporaryFile;
 class KUrl;
 
 /**

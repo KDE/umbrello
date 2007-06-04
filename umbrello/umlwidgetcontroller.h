@@ -20,9 +20,7 @@
 
 class QCursor;
 class QMouseEvent;
-class QMoveEvent;
 class QPoint;
-class UMLDoc;
 
 class UMLWidget;
 

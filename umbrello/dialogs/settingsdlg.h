@@ -32,7 +32,6 @@
 
 class CodeGenerationOptionsPage;
 class CodeViewerOptionsPage;
-class CodeGenerator;
 
 /**
  * @author Paul Hensgen

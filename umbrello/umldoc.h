@@ -46,16 +46,11 @@
 
 // forward declarations
 class QDomNode;
-class QFile;
-class QSplitter;
 
 class KPrinter;
 class KMenu;
 
-class DocWindow;
 class IDChangeLog;
-class ObjectWidget;
-class UMLWidget;
 class UMLPackage;
 class UMLFolder;
 

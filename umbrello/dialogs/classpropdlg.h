@@ -20,14 +20,11 @@
 
 class ClassGenPage;
 class ClassifierListPage;
-class ClassOpsPage;
-class ClassTemplatePage;
 class PkgContentsPage;
 class AssocPage;
 class ClassOptionsPage;
 class UMLWidgetColorPage;
 
-class ComponentWidget;
 class ObjectWidget;
 class UMLDoc;
 class UMLObject;
