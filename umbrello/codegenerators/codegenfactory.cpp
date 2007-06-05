@@ -34,6 +34,7 @@
 #include "adawriter.h"
 #include "cppwriter.h"
 #include "csharpwriter.h"
+#include "dwriter.h"
 #include "idlwriter.h"
 #include "javawriter.h"
 #include "pascalwriter.h"
@@ -115,6 +116,9 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
             break;
         case Uml::pl_CSharp:
             obj = new CSharpWriter();
+            break;
+        case Uml::pl_D:
+            obj = new DWriter();
             break;
         case Uml::pl_IDL:
             obj = new IDLWriter();

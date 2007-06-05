@@ -4,6 +4,7 @@ heading.ads \
 heading.as \
 heading.cpp \
 heading.cs \
+heading.d \
 heading.h \
 heading.idl \
 heading.java \

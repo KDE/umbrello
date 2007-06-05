@@ -572,6 +572,8 @@ QString progLangToString(Uml::Programming_Language pl) {
             return "C++";
         case Uml::pl_CSharp:
             return "C#";
+        case Uml::pl_D:
+            return "D";
         case Uml::pl_IDL:
             return "IDL";
         case Uml::pl_Java:
