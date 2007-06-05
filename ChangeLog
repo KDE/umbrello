@@ -10,6 +10,7 @@ Version 1.5.71
 * Attribute documentation not generated for 'Export to XHTML' (145972)
 * Crash when moving a class in a Java UML diagram (146058)
 * Arrowheads are not shown (146064)
+* Crash when creating a class that refers to more than one other classes/datatypes (146367)
 
 Version 1.5.7
 

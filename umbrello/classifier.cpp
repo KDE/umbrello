@@ -243,8 +243,8 @@ bool UMLClassifier::addOperation(UMLOperation* op, int position )
         kDebug() << "  UMLClassifier::addOperation list after change: " << buf << endl;
      } else
         m_List.append( op );
-    UMLObject::emitModified();
     emit operationAdded(op);
+    UMLObject::emitModified();
     connect(op,SIGNAL(modified()),this,SIGNAL(modified()));
     return true;
 }
@@ -547,8 +547,8 @@ UMLAttribute* UMLClassifier::addAttribute(const QString &name, Uml::IDType id /*
     Uml::Visibility scope = Settings::getOptionState().classState.defaultAttributeScope;
     UMLAttribute *a = new UMLAttribute(this, name, id, scope);
     m_List.append(a);
-    UMLObject::emitModified();
     emit attributeAdded(a);
+    UMLObject::emitModified();
     connect(a,SIGNAL(modified()),this,SIGNAL(modified()));
     return a;
 }
@@ -561,8 +561,8 @@ UMLAttribute* UMLClassifier::addAttribute(const QString &name, UMLObject *type, 
     if (type)
         a->setType(type);
     m_List.append(a);
-    UMLObject::emitModified();
     emit attributeAdded(a);
+    UMLObject::emitModified();
     connect(a,SIGNAL(modified()),this,SIGNAL(modified()));
     return a;
 }
@@ -576,8 +576,8 @@ bool UMLClassifier::addAttribute(UMLAttribute* att, IDChangeLog* Log /* = 0 */,
             m_List.insert(position, att);
         else
             m_List.append(att);
-        UMLObject::emitModified();
         emit attributeAdded(att);
+        UMLObject::emitModified();
         connect(att, SIGNAL(modified()), this, SIGNAL(modified()));
         return true;
     } else if (Log) {
@@ -674,8 +674,8 @@ UMLTemplate* UMLClassifier::addTemplate(const QString &name, Uml::IDType id) {
         return t;
     t = new UMLTemplate(this, name, id);
     m_List.append(t);
-    UMLObject::emitModified();
     emit templateAdded(t);
+    UMLObject::emitModified();
     connect(t, SIGNAL(modified()), this, SIGNAL(modified()));
     return t;
 }
@@ -686,8 +686,8 @@ bool UMLClassifier::addTemplate(UMLTemplate* newTemplate, IDChangeLog* log /* = 
         newTemplate->parent()->removeChild(newTemplate);
         this->insertChild(newTemplate);
         m_List.append(newTemplate);
-        UMLObject::emitModified();
         emit templateAdded(newTemplate);
+        UMLObject::emitModified();
         connect(newTemplate,SIGNAL(modified()),this,SIGNAL(modified()));
         return true;
     } else if (log) {
@@ -707,8 +707,8 @@ bool UMLClassifier::addTemplate(UMLTemplate* Template, int position)
             m_List.insert(position,Template);
         else
             m_List.append(Template);
-        UMLObject::emitModified();
         emit templateAdded(Template);
+        UMLObject::emitModified();
         connect(Template,SIGNAL(modified()),this,SIGNAL(modified()));
         return true;
     }
