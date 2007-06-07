@@ -5,8 +5,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2006                                                *
- *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
+ *   copyright (C) 2002-2007                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
@@ -350,23 +350,17 @@ void AssociationWidget::setFloatingText(Uml::Text_Role tr,
         return;
     }
 
-    bool newLabel = false;
     if (ft == NULL) {
         ft = new FloatingTextWidget(m_pView, tr, text);
         ft->setLink(this);
+        ft->activate();
+        setTextPosition(tr);
         m_pView->addWidget(ft);
-        newLabel = true;
     } else {
-        if (ft->getText().isEmpty()) {
-            newLabel = true;
-        }
+        bool newLabel = ft->getText().isEmpty();
         ft->setText(text);
-    }
-
-    ft->setActivated();
-
-    if (newLabel) {
-        setTextPosition( tr );
+        if (newLabel)
+            setTextPosition(tr);
     }
 
     ft->show();
