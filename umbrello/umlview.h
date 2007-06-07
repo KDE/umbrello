@@ -399,10 +399,19 @@ public:
                                         UMLWidget *pWidgetA, UMLWidget *pWidgetB);
 
     /**
-     * calls findAssocWidget on three possible types:
-     * Uml::at_Aggregation << Uml::at_Composition << Uml::at_Containment
+     * Finds an association widget with the given widgets and the given role B name.
+     * Considers the following association types:
+     *  at_Association, at_UniAssociation, at_Composition, at_Aggregation
+     * This is used for seeking an attribute association.
+     *
+     * @param pWidgetA  Pointer to the UMLWidget of role A.
+     * @param pWidgetB  Pointer to the UMLWidget of role B.
+     * @param roleNameB Name at the B side of the association (the attribute name)
+     *
+     * @return Returns the widget found, returns 0 if no widget found.
      */
-    AssociationWidget * findAssocWidget(UMLWidget *pWidgetA, UMLWidget *pWidgetB);
+    AssociationWidget * findAssocWidget(UMLWidget *pWidgetA,
+                                        UMLWidget *pWidgetB, const QString& roleNameB);
 
     /**
      * Remove a widget from view.
