@@ -326,10 +326,6 @@ void UMLOperationDialog::slotNewParameter() {
             return;
         }
         if( !pAtt ) {
-            /*
-            m_pOperation->addParm( dlg.getTypeName(), name, dlg.getInitialValue(),
-                               dlg.getDoc(), dlg.getParmKind() );
-             */
             newAttribute->setID( UniqueID::gen() );
             newAttribute->setName( name );
             newAttribute->setTypeName( dlg.getTypeName() );

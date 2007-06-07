@@ -75,20 +75,6 @@ public:
     virtual UMLObject* clone() const;
 
     /**
-     * Add a parameter to the operation.
-     *
-     * @param type              The type of the parameter.
-     * @param name              The name of the parameter.
-     * @param initialValue      The initial value of the parameter.
-     * @param kind              Optional: The parameter kind (in|inout|out).
-     *                      Default is "in".
-     * @return  Pointer to the UMLAttribute created.
-     */
-    UMLAttribute * addParm(const QString& type, const QString& name,
-                           const QString& initialValue, const QString& doc,
-                           Uml::Parameter_Direction kind = Uml::pd_In);
-
-    /**
      * Move a parameter one position to the left.
      *
      * @param a         The parameter to move.
