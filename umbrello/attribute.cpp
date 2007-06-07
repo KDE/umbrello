@@ -26,22 +26,18 @@
 UMLAttribute::UMLAttribute( const UMLObject *parent,
                             const QString& name, Uml::IDType id,
                             Uml::Visibility s,
-                            const QString& type, const QString& iv )
+                            UMLObject *type, const QString& iv )
         : UMLClassifierListItem(parent, name, id) {
     m_InitialValue = iv;
     m_BaseType = Uml::ot_Attribute;
     m_Vis = s;
     m_ParmKind = Uml::pd_In;
-    if (!type.isEmpty()) {
-        UMLDoc *pDoc = UMLApp::app()->getDocument();
-        m_pSecondary = pDoc->findUMLObject(type);
-        if (m_pSecondary == NULL) {
-            if (type.contains( QRegExp("[\\*\\&]") ))
-                m_pSecondary = Object_Factory::createUMLObject(Uml::ot_Datatype, type);
-            else
-                m_pSecondary = Object_Factory::createUMLObject(Uml::ot_Class, type);
-        }
+    /* CHECK: Do we need this:
+    if (type == NULL) {
+        type = Object_Factory::createUMLObject(Uml::ot_Datatype, "undef");
     }
+     */
+    m_pSecondary = type;
 }
 
 UMLAttribute::UMLAttribute(const UMLObject *parent) : UMLClassifierListItem(parent) {

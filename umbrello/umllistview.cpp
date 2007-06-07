@@ -1409,11 +1409,10 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                         << att->getName() << ") returns NULL" << endl;
                 } else {
                     const QString& nm = att->getName();
-                    UMLAttribute *newAtt = newParentClassifier->createAttribute(nm);
-                    newAtt->setType(att->getType());
-                    newAtt->setVisibility(att->getVisibility());
-                    newAtt->setInitialValue(att->getInitialValue());
-
+                    UMLAttribute *newAtt = newParentClassifier->createAttribute(nm,
+                                                                                att->getType(),
+                                                                                att->getVisibility(),
+                                                                                att->getInitialValue());
                     newItem->setUMLObject(newAtt);
                     newParent->addClassifierListItem( newAtt, newItem );
 
@@ -1442,11 +1441,13 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                     UMLAttributeList parmList = op->getParmList();
                     for (UMLAttributeListIt plit(parmList); plit.current(); ++plit) {
                         UMLAttribute *parm = plit.current();
-                        UMLAttribute *newParm = new UMLAttribute(newParentClassifier, parm->getName());
-                        newParm->setVisibility(parm->getVisibility());
-                        newParm->setType(parm->getType());
+                        UMLAttribute *newParm = new UMLAttribute(newParentClassifier,
+                                                                 parm->getName(),
+                                                                 Uml::id_None,
+                                                                 parm->getVisibility(),
+                                                                 parm->getType(),
+                                                                 parm->getInitialValue());
                         newParm->setParmKind(parm->getParmKind());
-                        newParm->setInitialValue(parm->getInitialValue());
                         newOp->addParm(newParm);
                     }
                     newItem->setUMLObject(newOp);
@@ -2099,12 +2100,9 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
             m_bCreatingChildObject = false;
             return false;
         }
-        newObject = owningClass->createAttribute(nt.m_name);
+        newObject = owningClass->createAttribute(nt.m_name, nt.m_type, vis, nt.m_initialValue);
         UMLAttribute *att = static_cast<UMLAttribute*>(newObject);
-        att->setType(nt.m_type);
-        att->setVisibility(vis);
         att->setParmKind(nt.m_direction);
-        att->setInitialValue(nt.m_initialValue);
         text = att->toString(Uml::st_SigNoVis);
     } else if ( type == Uml::ot_Operation ) {
         UMLClassifier *owningClassifier = static_cast<UMLClassifier*>(parent);
@@ -2152,7 +2150,8 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
 
     m_bCreatingChildObject = false;
 
-    //m_doc->setModified();
+    if (! m_doc->loading())
+        m_doc->setModified();
     return true;
 }
 

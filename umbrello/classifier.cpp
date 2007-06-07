@@ -182,10 +182,9 @@ UMLOperation* UMLClassifier::createOperation(const QString &name /*=null*/,
     if (params) {
         for (Model_Utils::NameAndType_ListIt it = params->begin(); it != params->end(); ++it ) {
             const Model_Utils::NameAndType &nt = *it;
-            UMLAttribute *par = new UMLAttribute(op, nt.m_name);
-            par->setType(nt.m_type);
+            UMLAttribute *par = new UMLAttribute(op, nt.m_name, Uml::id_None, Uml::Visibility::Private,
+                                                 nt.m_type, nt.m_initialValue);
             par->setParmKind(nt.m_direction);
-            par->setInitialValue(nt.m_initialValue);
             op->addParm(par);
         }
     }
@@ -496,7 +495,10 @@ bool UMLClassifier::acceptAssociationType(Uml::Association_Type type)
     return false; //shutup compiler warning
 }
 
-UMLAttribute* UMLClassifier::createAttribute(const QString &name /*=null*/) {
+UMLAttribute* UMLClassifier::createAttribute(const QString &name /*=null*/,
+                                             UMLObject *type,
+                                             Uml::Visibility vis,
+                                             const QString &init) {
     Uml::IDType id = UniqueID::gen();
     QString currentName;
     if (name.isNull())  {
@@ -504,9 +506,7 @@ UMLAttribute* UMLClassifier::createAttribute(const QString &name /*=null*/) {
     } else {
         currentName = name;
     }
-    const Settings::OptionState optionState = Settings::getOptionState();
-    Uml::Visibility scope = optionState.classState.defaultAttributeScope;
-    UMLAttribute* newAttribute = new UMLAttribute(this, currentName, id, scope);
+    UMLAttribute* newAttribute = new UMLAttribute(this, currentName, id, vis, type, init);
 
     int button = QDialog::Accepted;
     bool goodName = false;
@@ -528,6 +528,7 @@ UMLAttribute* UMLClassifier::createAttribute(const QString &name /*=null*/) {
     }
 
     if (button != QDialog::Accepted) {
+        delete newAttribute;
         return NULL;
     }
 

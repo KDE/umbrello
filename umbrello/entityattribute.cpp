@@ -23,7 +23,7 @@
 
 UMLEntityAttribute::UMLEntityAttribute( const UMLObject *parent, const QString& name,
                                         Uml::IDType id, Uml::Visibility s,
-                                        const QString& type, const QString& iv )
+                                        UMLObject *type, const QString& iv )
         : UMLAttribute(parent, name, id, s, type, iv) {
     init();
     if (m_pSecondary) {
