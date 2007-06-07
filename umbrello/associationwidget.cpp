@@ -336,6 +336,8 @@ void AssociationWidget::setName(const QString &strName) {
         m_pName->setActivated();
         m_pView->addWidget(m_pName);
     }
+
+    m_pName->show();
 }
 
 void AssociationWidget::setFloatingText(Uml::Text_Role tr,
