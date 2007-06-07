@@ -52,7 +52,7 @@ void UMLEntity::init() {
     m_BaseType = Uml::ot_Entity;
 }
 
-UMLAttribute* UMLEntity::createAttribute(const QString &name /*=null*/) {
+UMLAttribute* UMLEntity::createAttribute(const QString &name /*=null*/, UMLObject *type /*=NULL*/) {
     Uml::IDType id = UniqueID::gen();
     QString currentName;
     if (name.isNull())  {
@@ -62,7 +62,7 @@ UMLAttribute* UMLEntity::createAttribute(const QString &name /*=null*/) {
     }
     const Settings::OptionState optionState = Settings::getOptionState();
     Uml::Visibility scope = optionState.classState.defaultAttributeScope;
-    UMLEntityAttribute* newAttribute = new UMLEntityAttribute(this, currentName, id, scope);
+    UMLEntityAttribute* newAttribute = new UMLEntityAttribute(this, currentName, id, scope, type);
 
     int button = QDialog::Accepted;
     bool goodName = false;
@@ -84,6 +84,7 @@ UMLAttribute* UMLEntity::createAttribute(const QString &name /*=null*/) {
     }
 
     if (button != QDialog::Accepted) {
+        delete newAttribute;
         return NULL;
     }
 

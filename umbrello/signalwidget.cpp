@@ -163,7 +163,7 @@ QSize SignalWidget::calculateSize() {
         int textWidth = fm.width(getName());
 
         if (m_SignalType == Accept)
-             textWidth *= 1.3;
+             textWidth = int((float)textWidth * 1.3f);
         height  = fontHeight;
         if (m_SignalType != Time)
         {

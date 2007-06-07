@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -62,11 +62,12 @@ public:
      * Creates an entity attribute for the parent concept.
      * Reimplementation of method from UMLClassifier.
      *
-     * @param o The parent concept
      * @param name  An optional name, used by when creating through UMLListView
+     * @param type  An optional type, used by when creating through UMLListView
      * @return  The UMLEntityAttribute created
      */
-    UMLAttribute* createAttribute(const QString &name = QString::null);
+    UMLAttribute* createAttribute(const QString &name = QString::null,
+                                  UMLObject *type = 0);
 
     /**
          * Adds an entityAttribute to the entity.

@@ -173,7 +173,7 @@ QSize CombinedFragmentWidget::calculateSize() {
     height = fontHeight;
     width = textWidth + 60 > COMBINED_FRAGMENT_WIDTH ? textWidth + 60: COMBINED_FRAGMENT_WIDTH;
     if ( m_CombinedFragment == Loop )
-         width += textWidth * 0.4;
+         width += int((float)textWidth * 0.4f);
     if ( m_CombinedFragment == Alt )
          height += fontHeight + 40;
     height = height > COMBINED_FRAGMENT_HEIGHT ? height : COMBINED_FRAGMENT_HEIGHT;

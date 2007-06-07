@@ -46,18 +46,6 @@ UMLOperation::UMLOperation(const UMLClassifier * parent)
 UMLOperation::~UMLOperation() {
 }
 
-UMLAttribute * UMLOperation::addParm(const QString& type, const QString& name,
-                                     const QString& initialValue, const QString& doc,
-                                     Uml::Parameter_Direction kind) {
-    // make the new parameter (attribute) public, just to be safe
-    UMLAttribute * a = new UMLAttribute(this, name, UniqueID::gen(), Uml::Visibility::Public, type);
-    a -> setDoc(doc);
-    a -> setInitialValue(initialValue);
-    a -> setParmKind(kind);
-    addParm(a);
-    return a;
-}
-
 void UMLOperation::moveParmLeft(UMLAttribute * a) {
     if (a == NULL) {
         kDebug() << "UMLOperation::moveParmLeft called on NULL attribute"

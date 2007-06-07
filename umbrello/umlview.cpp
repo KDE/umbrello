@@ -818,17 +818,24 @@ AssociationWidget * UMLView::findAssocWidget( Uml::IDType id ) {
     return 0;
 }
 
-AssociationWidget * UMLView::findAssocWidget(UMLWidget *pWidgetA, UMLWidget *pWidgetB) {
-    static Q3ValueList<Association_Type> assocTypes;
-    if (assocTypes.isEmpty()) {
-        assocTypes << Uml::at_Aggregation << Uml::at_Composition << Uml::at_Containment;
+AssociationWidget * UMLView::findAssocWidget(UMLWidget *pWidgetA,
+                                             UMLWidget *pWidgetB, const QString& roleNameB) {
+    AssociationWidget *assoc;
+    AssociationWidgetListIt it(m_AssociationList);
+    while ((assoc = it.current()) != 0) {
+        ++it;
+        const Association_Type testType = assoc->getAssocType();
+        if (testType != Uml::at_Association &&
+            testType != Uml::at_UniAssociation &&
+            testType != Uml::at_Composition &&
+            testType != Uml::at_Aggregation)
+            continue;
+        if (pWidgetA->getID() == assoc->getWidgetID(A) &&
+            pWidgetB->getID() == assoc->getWidgetID(B) &&
+            assoc->getRoleName(Uml::B) == roleNameB)
+            return assoc;
     }
-    AssociationWidget* retval = NULL;
-    for (int i = 0; i < assocTypes.size(); ++i) {
-        retval = findAssocWidget(assocTypes[i], pWidgetA, pWidgetB);
-        if (retval != NULL) return retval;
-    }
-    return retval;
+    return 0;
 }
 
 
@@ -844,15 +851,6 @@ AssociationWidget * UMLView::findAssocWidget(Association_Type at,
         if (pWidgetA->getID() == assoc->getWidgetID(A) &&
                 pWidgetB->getID() == assoc->getWidgetID(B))
             return assoc;
-        // Allow for the swapped roles of generalization/realization assocwidgets.
-        // When the swapped roles bug is fixed, this code can disappear.
-        if (pWidgetA->getID() == assoc->getWidgetID(B) &&
-                pWidgetB->getID() == assoc->getWidgetID(A)) {
-            kDebug() << "UMLView::findAssocWidget: found assoctype " << at
-                      << "with swapped roles (A: " << pWidgetA->getName()
-                      << ", B: " << pWidgetB->getName() << ")" << endl;
-            return assoc;
-        }
     }
     return 0;
 }
@@ -2262,7 +2260,7 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
     UMLAttributeList attrList = klass->getAttributeList();
     for (UMLAttributeListIt ait(attrList); ait.current(); ++ait) {
         UMLAttribute *attr = ait.current();
-        createAutoAttributeAssociation(attr->getType(), attr,widget);
+        createAutoAttributeAssociation(attr->getType(), attr, widget);
         /*
          * The following code from attachment 19935 of http://bugs.kde.org/140669
          * creates Aggregation/Composition to the template parameters.
@@ -2289,8 +2287,8 @@ void UMLView::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute *
     AssociationWidget *aw = NULL;
     // if the attribute type has a widget representation on this view
     if (w) {
-        aw = findAssocWidget(widget, w) ;
-        if ( ( aw == NULL || aw->getRoleName(Uml::B) != attr->getName() ) &&
+        aw = findAssocWidget(widget, w, attr->getName());
+        if ( aw == NULL &&
                // if the current diagram type permits compositions
                AssocRules::allowAssociation(assocType, widget, w, false) ) {
             // Create a composition AssocWidget, or, if the attribute type is
@@ -2321,7 +2319,7 @@ void UMLView::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute *
             UMLWidget *w = c ? findWidget( c->getID() ) : 0;
             // if the referenced type has a widget representation on this view
             if (w) {
-                aw = findAssocWidget(widget, w);
+                aw = findAssocWidget(widget, w, attr->getName());
                 if (aw == NULL &&
                     // if the current diagram type permits aggregations
                     AssocRules::allowAssociation(at_Aggregation, widget, w, false)) {

@@ -441,8 +441,8 @@ void DWriter::writeComment(const QString &comment, const QString &myIndent,
         QString tmp = lines[i];
         
         while (tmp.count() > 77) {
-            int l = tmp.left(77).lastIndexOf(" ");
-            if (l < 1) l = tmp.indexOf(" ", 77);
+            int l = tmp.left(77).lastIndexOf(' ');
+            if (l < 1) l = tmp.indexOf(' ', 77);
             if (l < 1 || l > tmp.count()) {
                 d << myIndent << (dDocStyle ? " * " : "// ") << tmp << m_endl;
                 break;
@@ -969,6 +969,6 @@ QString DWriter::unPluralize(QString string) {
 }
 
 void DWriter::writeBlankLine(QTextStream &d) {
-    d<<m_endl;
+    d << m_endl;
 }
 

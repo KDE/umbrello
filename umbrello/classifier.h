@@ -78,9 +78,15 @@ public:
      * Creates an attribute for the class.
      *
      * @param name  An optional name, used by when creating through UMLListView
+     * @param type  An optional type, used by when creating through UMLListView
+     * @param vis   An optional visibility, used by when creating through UMLListView
+     * @param init  An optional initial value, used by when creating through UMLListView
      * @return  The UMLAttribute created
      */
-    virtual UMLAttribute* createAttribute(const QString &name = QString());
+    virtual UMLAttribute* createAttribute(const QString &name = QString(),
+                                          UMLObject *type = 0,
+                                          Uml::Visibility vis = Uml::Visibility::Private,
+                                          const QString &init = QString::null);
 
     /**
      * Adds an attribute to the class.

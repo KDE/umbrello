@@ -128,10 +128,14 @@ UMLObject* createUMLObject(Uml::Object_Type type, const QString &n,
                            bool solicitNewName /* = true */) {
     UMLDoc *doc = UMLApp::app()->getDocument();
     if (parentPkg == NULL) {
-        Uml::Model_Type mt = Model_Utils::convert_OT_MT(type);
-        kDebug() << "Object_Factory::createUMLObject(" << n << "): "
-            << "parentPkg is not set, assuming Model_Type " << mt << endl;
-        parentPkg = doc->getRootFolder(mt);
+        if (type == Uml::ot_Datatype) {
+            parentPkg = doc->getDatatypeFolder();
+        } else {
+            Uml::Model_Type mt = Model_Utils::convert_OT_MT(type);
+            kDebug() << "Object_Factory::createUMLObject(" << n << "): "
+                << "parentPkg is not set, assuming Model_Type " << mt << endl;
+            parentPkg = doc->getRootFolder(mt);
+        }
     }
     if (!n.isEmpty()) {
         UMLObject *o = doc->findUMLObject(n, type, parentPkg);

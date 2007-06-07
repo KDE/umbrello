@@ -503,7 +503,7 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
     setSize(getWidth(), getHeight());
     m_bActivated = true;
     updateComponentSize();
-    if( m_pView -> getPastePoint().x() != 0 ) {
+    if (m_pView->getPaste()) {
         FloatingTextWidget * ft = 0;
         QPoint point = m_pView -> getPastePoint();
         int x = point.x() + getX();

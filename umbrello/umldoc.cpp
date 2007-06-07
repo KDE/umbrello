@@ -1175,8 +1175,12 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
 
 void UMLDoc::signalUMLObjectCreated(UMLObject * o) {
     emit sigObjectCreated(o);
-    if (!m_bLoading)
-        setModified(true);
+    /* This is the wrong place to do:
+               setModified(true);
+       Instead, that should be done by the callers when object creation and all
+       its side effects (e.g. new widget in view, new list view item, etc.) is
+       finalized.
+     */
 }
 
 void UMLDoc::setName(const QString& name) {
