@@ -91,7 +91,7 @@ public:
      *
      * @param type      Pointer to the UMLObject of the type.
      */
-    void setType(UMLObject *type);
+    virtual void setType(UMLObject *type);
 
     /**
      * Returns a string representation of the list item.
