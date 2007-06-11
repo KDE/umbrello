@@ -241,7 +241,7 @@ void PascalWriter::writeClass(UMLClassifier *c) {
 
     UMLClassifierList superclasses = c->getSuperClasses();
 
-    pas << getIndent() << "TObject = object";
+    pas << getIndent() << classname << " = object";
     if (!superclasses.isEmpty()) {
         // FIXME: Multiple inheritance is not yet supported
         UMLClassifier* parent = superclasses.first();
@@ -312,7 +312,7 @@ void PascalWriter::writeClass(UMLClassifier *c) {
     }
     pas << getIndent() << "end;" << m_endl << m_endl;
 
-    pas << getIndent() << "PObject = ^TObject;" << m_endl << m_endl;
+    pas << getIndent() << "P" << classname << " = ^" << classname <<";" << m_endl << m_endl;
 
     m_indentLevel--;
     pas << "end;" << m_endl << m_endl;

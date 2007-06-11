@@ -1,3 +1,8 @@
+Version 1.5.72
+
+* Bugs/wishes from http://bugs.kde.org:
+* Wrong pascal code generation (146676)
+
 Version 1.5.71
 
 * Bugs/wishes from http://bugs.kde.org:

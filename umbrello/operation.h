@@ -40,7 +40,7 @@ public:
     UMLOperation(const UMLClassifier * parent, const QString& name,
                  Uml::IDType id = Uml::id_None,
                  Uml::Visibility s = Uml::Visibility::Public,
-                 const QString& rt = QString());
+                 UMLObject *rt = 0);
 
     /**
      * Constructs an UMLOperation.
@@ -73,6 +73,13 @@ public:
      * Make a clone of this object.
      */
     virtual UMLObject* clone() const;
+
+    /**
+     * Reimplement method from UMLClassifierListItem.
+     *
+     * @param type      Pointer to the type object.
+     */
+    void setType(UMLObject *type);
 
     /**
      * Move a parameter one position to the left.
@@ -194,8 +201,9 @@ protected:
     bool load( QDomElement & element );
 
 private:
-    UMLAttributeList m_List;
-    bool m_bConst;
+    Uml::IDType m_returnId;   ///< Holds the xmi.id of the <UML:Parameter kind="return">
+    UMLAttributeList m_List;   /// Parameter list
+    bool m_bConst;   ///< Holds the isQuery attribute of the <UML:Operation>
 };
 
 #endif

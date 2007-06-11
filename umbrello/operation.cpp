@@ -26,11 +26,14 @@
 #include "dialogs/umloperationdialog.h"
 
 UMLOperation::UMLOperation(const UMLClassifier *parent, const QString& name,
-                           Uml::IDType id, Uml::Visibility s, const QString& rt)
+                           Uml::IDType id, Uml::Visibility s, UMLObject *rt)
         : UMLClassifierListItem(parent, name, id)
 {
-    if (!rt.isEmpty())
-        setTypeName( rt );
+    if (rt)
+        m_returnId = UniqueID::gen();
+    else
+        m_returnId = Uml::id_None;
+    m_pSecondary = rt;
     m_Vis = s;
     m_BaseType = Uml::ot_Operation;
     m_bConst = false;
@@ -44,6 +47,12 @@ UMLOperation::UMLOperation(const UMLClassifier * parent)
 }
 
 UMLOperation::~UMLOperation() {
+}
+
+void UMLOperation::setType(UMLObject *type) {
+    UMLClassifierListItem::setType(type);
+    if (m_returnId == Uml::id_None)
+        m_returnId = UniqueID::gen();
 }
 
 void UMLOperation::moveParmLeft(UMLAttribute * a) {
@@ -281,7 +290,12 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement featureElement = qDoc.createElement( "UML:BehavioralFeature.parameter" );
     if (m_pSecondary) {
         QDomElement retElement = qDoc.createElement("UML:Parameter");
-        retElement.setAttribute( "xmi.id", ID2STR(UniqueID::gen()) );
+        if (m_returnId == Uml::id_None) {
+            kDebug() << "UMLOperation::saveToXMI(" << m_Name
+                << "): m_returnId is not set, setting it now." << endl;
+            m_returnId = UniqueID::gen();
+        }
+        retElement.setAttribute( "xmi.id", ID2STR(m_returnId) );
         retElement.setAttribute( "type", ID2STR(m_pSecondary->getID()) );
         retElement.setAttribute( "kind", "return" );
         featureElement.appendChild( retElement );
@@ -353,6 +367,9 @@ bool UMLOperation::load( QDomElement & element ) {
                 }
             }
             if (kind == "return") {
+                QString returnId = attElement.attribute("xmi.id", "");
+                if (!returnId.isEmpty())
+                    m_returnId = STR2ID(returnId);
                 m_SecondaryId = attElement.attribute( "type", "" );
                 if (m_SecondaryId.isEmpty()) {
                     // Perhaps the type is stored in a child node:
