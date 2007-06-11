@@ -1,3 +1,9 @@
+Version 1.5.72
+
+* Bugs/wishes from http://bugs.kde.org:
+* Umbrello appends ".xmi" to the saved diagram name when it is told not to do so (146061)
+* Wrong pascal code generation (146676)
+
 Version 1.5.71
 
 * Bugs/wishes from http://bugs.kde.org:
