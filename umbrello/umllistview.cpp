@@ -2389,8 +2389,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
             // Pull a new ID now.
             nID = UniqueID::get();
         } else {
-            kError() << "UMLListView::loadChildrenFromXMI: item of type "
-                << type << " has no ID, skipping." << endl;
+            kError() << pfx << "item of type " << type << " has no ID, skipping." << endl;
             domElement = node.toElement();
             continue;
         }
@@ -2451,14 +2450,19 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
                 // listview item might be located in a user created folder.
                 // Thanks to Achim Spangler for spotting the problem.
                 UMLListViewItem *itmParent = dynamic_cast<UMLListViewItem*>(item->parent());
-                kDebug() << pfx << parent->getText() << " (" << parent << ") != "
+                kDebug() << pfx << item->getText() << " parent "
+                    << parent->getText() << " (" << parent << ") != "
                     << itmParent->getText() << " (" << itmParent << ")" << endl;
-                UMLListViewItem *newItem = moveObject(nID, lvType, parent);
-                item = newItem;
-                if (item) {
-                    kDebug() << pfx << "Attempted reparenting of " << item->getText()
-                        << "(current parent: " << (itmParent ? itmParent->getText() : "NULL")
-                        << ", new parent: " << parent->getText() << ")" << endl;
+                if (item == m_datatypeFolder && itmParent == m_lv[Uml::mt_Logical]) {
+                    kDebug() << pfx << "Reparenting the Datatypes folder is prohibited" << endl;
+                } else {
+                    UMLListViewItem *newItem = moveObject(nID, lvType, parent);
+                    item = newItem;
+                    if (item) {
+                        kDebug() << pfx << "Attempted reparenting of " << item->getText()
+                            << "(current parent: " << (itmParent ? itmParent->getText() : "NULL")
+                            << ", new parent: " << parent->getText() << ")" << endl;
+                    }
                 }
             }
             break;
