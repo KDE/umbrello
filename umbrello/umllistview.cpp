@@ -1284,7 +1284,10 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
         if (newParentType == Uml::lvt_UseCase_Folder ||
                 newParentType == Uml::lvt_UseCase_View) {
             newItem = move->deepCopy(newParent);
-            delete move;
+            if (m_doc->loading())         // deletion is not safe while loading
+                move->setVisible(false);  // (the <listview> XMI may be corrupted)
+            else
+                delete move;
             addAtContainer(newItem, newParent);
         }
         break;
@@ -1294,7 +1297,10 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
         if (newParentType == Uml::lvt_Component_Folder ||
                 newParentType == Uml::lvt_Component_View) {
             newItem = move->deepCopy(newParent);
-            delete move;
+            if (m_doc->loading())         // deletion is not safe while loading
+                move->setVisible(false);  // (the <listview> XMI may be corrupted)
+            else
+                delete move;
             addAtContainer(newItem, newParent);
         }
         break;
@@ -1303,7 +1309,10 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
             newParentType == Uml::lvt_Component_View ||
             newParentType == Uml::lvt_Subsystem) {
             newItem = move->deepCopy(newParent);
-            delete move;
+            if (m_doc->loading())         // deletion is not safe while loading
+                move->setVisible(false);  // (the <listview> XMI may be corrupted)
+            else
+                delete move;
             addAtContainer(newItem, newParent);
         }
         break;
@@ -1313,7 +1322,10 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
             newParentType == Uml::lvt_Component ||
             newParentType == Uml::lvt_Subsystem) {
             newItem = move->deepCopy(newParent);
-            delete move;
+            if (m_doc->loading())         // deletion is not safe while loading
+                move->setVisible(false);  // (the <listview> XMI may be corrupted)
+            else
+                delete move;
             addAtContainer(newItem, newParent);
         }
         break;
@@ -1323,7 +1335,10 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
         if (newParentType == Uml::lvt_Deployment_Folder ||
                 newParentType == Uml::lvt_Deployment_View) {
             newItem = move->deepCopy(newParent);
-            delete move;
+            if (m_doc->loading())         // deletion is not safe while loading
+                move->setVisible(false);  // (the <listview> XMI may be corrupted)
+            else
+                delete move;
             addAtContainer(newItem, newParent);
         }
         break;
@@ -1333,7 +1348,10 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
         if (newParentType == Uml::lvt_EntityRelationship_Folder ||
                 newParentType == Uml::lvt_EntityRelationship_Model) {
             newItem = move->deepCopy(newParent);
-            delete move;
+            if (m_doc->loading())         // deletion is not safe while loading
+                move->setVisible(false);  // (the <listview> XMI may be corrupted)
+            else
+                delete move;
             addAtContainer(newItem, newParent);
         }
         break;
@@ -1346,7 +1364,10 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
         if (newParentType == Uml::lvt_Logical_Folder ||
                 newParentType == Uml::lvt_Logical_View) {
             newItem = move->deepCopy(newParent);
-            delete move;
+            if (m_doc->loading())         // deletion is not safe while loading
+                move->setVisible(false);  // (the <listview> XMI may be corrupted)
+            else
+                delete move;
             addAtContainer(newItem, newParent);
         }
         break;
@@ -1362,7 +1383,10 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                 newParentType == Uml::lvt_Interface ||
                 newParentType == Uml::lvt_Package) {
             newItem = move->deepCopy(newParent);
-            delete move;
+            if (m_doc->loading())         // deletion is not safe while loading
+                move->setVisible(false);  // (the <listview> XMI may be corrupted)
+            else
+                delete move;
             UMLCanvasObject *o = static_cast<UMLCanvasObject*>(newItem->getUMLObject());
             if (o == NULL) {
                 kDebug() << "moveObject: newItem's UMLObject is NULL" << endl;
