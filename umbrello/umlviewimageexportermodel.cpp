@@ -16,7 +16,6 @@
 #include <math.h>
 
 // include files for Qt
-#include <QStringList>
 #include <QApplication>
 #include <QImageWriter>
 #include <qrect.h>

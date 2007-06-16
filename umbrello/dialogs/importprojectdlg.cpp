@@ -13,7 +13,6 @@
 #include "importprojectdlg.h"
 
 // qt/kde includes
-#include <QStringList>
 #include <QFileInfo>
 #include <QRegExp>
 #include <kmessagebox.h>

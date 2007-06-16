@@ -13,7 +13,6 @@
 #define IMPORTPROJECTDLG_H
 
 
-#include <QStringList>
 // application specific includes
 #include "importprojectdlgbase.h"
 #include "../umlnamespace.h"
