@@ -25,6 +25,7 @@
 // app includes
 #include "classgenpage.h"
 #include "classifierlistpage.h"
+#include "constraintlistpage.h"
 #include "pkgcontentspage.h"
 #include "assocpage.h"
 #include "classoptionspage.h"
@@ -36,6 +37,7 @@
 #include "../componentwidget.h"
 #include "../uml.h"
 #include "../umlview.h"
+#include "../entity.h"
 
 ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, int pageNum, bool assoc)
         : KPageDialog(parent) {
@@ -277,16 +279,27 @@ void ClassPropDlg::setupPages(UMLObject * c, bool assoc) {
         enumLiteralsLayout->addWidget(m_pEnumLiteralPage);
     }
     if (ot == Uml::ot_Entity) {
-        //setup enum literals page
+        //setup entity attributes page
         newPage = new QFrame();
         pageItem = new KPageWidgetItem( newPage, i18n("Entity Attributes") );
         pageItem->setHeader( i18n("Entity Attributes Settings") );
         pageItem->setIcon( KIcon(DesktopIcon("misc") ));
         addPage( pageItem);
-        m_pEntityAttributePage = new ClassifierListPage(newPage, (UMLClassifier*)c, m_pDoc, Uml::ot_EntityAttribute);
+        m_pEntityAttributePage = new ClassifierListPage(newPage, (UMLEntity*)c, m_pDoc, Uml::ot_EntityAttribute);
         QHBoxLayout* entityAttributesLayout = new QHBoxLayout(newPage);
         entityAttributesLayout->addWidget(m_pEntityAttributePage);
+
+        // setup constraints page
+        newPage = new QFrame();
+        pageItem = new KPageWidgetItem( newPage, i18n( "Entity Constraints" ) );
+        pageItem->setHeader( i18n( "Entity Constraints Settings" ) );
+        pageItem->setIcon( KIcon( DesktopIcon( "misc" ) ) );
+        addPage( pageItem );
+        m_pEntityConstraintPage = new ConstraintListPage( newPage, ( UMLClassifier* )c, m_pDoc, Uml::ot_EntityConstraint );
+        QHBoxLayout* entityConstraintsLayout = new QHBoxLayout( newPage );
+        entityConstraintsLayout->addWidget( m_pEntityConstraintPage );
     }
+
     if (ot == Uml::ot_Package ) {
         // Set up containment page.
         newPage = new QFrame();

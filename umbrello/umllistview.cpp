@@ -49,6 +49,8 @@
 #include "operation.h"
 #include "attribute.h"
 #include "entityattribute.h"
+#include "uniqueconstraint.h"
+#include "foreignkeyconstraint.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umllistviewitemlist.h"
@@ -649,7 +651,9 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
         return;
     }
     UMLListViewItem* newItem = findUMLObject(object);
+
     if (newItem) {
+    kDebug()<<k_funcinfo<<newItem->getType()<< endl;
         kDebug() << "UMLListView::slotObjectCreated(" << object->getName()
             << ", id= " << ID2STR(object->getID())
             << "): item already exists." << endl;
@@ -723,11 +727,20 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object) {
         break;
     case Uml::ot_Entity:
         {
+            kdDebug() << k_funcinfo << endl;
             UMLEntity *ent = static_cast<UMLEntity*>(object);
             connect(ent, SIGNAL(entityAttributeAdded(UMLClassifierListItem*)),
                     this, SLOT(childObjectAdded(UMLClassifierListItem*)));
+            kdDebug() << k_funcinfo << endl;
             connect(ent, SIGNAL(entityAttributeRemoved(UMLClassifierListItem*)),
                     this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
+            kdDebug() << k_funcinfo << endl;
+            connect(ent, SIGNAL(entityConstraintAdded(UMLClassifierListItem*)),
+                    this, SLOT(childObjectAdded(UMLClassifierListItem*)));
+            kdDebug() << k_funcinfo << endl;
+            connect(ent, SIGNAL(entityConstraintRemoved(UMLClassifierListItem*)),
+                    this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
+            kdDebug() << k_funcinfo << endl;
         }
         connect(object,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
         break;
@@ -737,6 +750,8 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object) {
     case Uml::ot_Template:
     case Uml::ot_EnumLiteral:
     case Uml::ot_EntityAttribute:
+    case Uml::ot_UniqueConstraint:
+    case Uml::ot_ForeignKeyConstraint:
     case Uml::ot_Package:
     case Uml::ot_Actor:
     case Uml::ot_UseCase:
@@ -1785,6 +1800,9 @@ void UMLListView::loadPixmaps() {
     loadPixmap(Uml::it_Public_Attribute,  "CVpublic_var.png");
     loadPixmap(Uml::it_Private_Attribute,  "CVprivate_var.png");
     loadPixmap(Uml::it_Protected_Attribute, "CVprotected_var.png");
+    loadPixmap(Uml::it_PrimaryKey_Constraint, "primarykey_constraint.png" );
+    loadPixmap(Uml::it_ForeignKey_Constraint, "foreignkey_constraint.png" );
+    loadPixmap(Uml::it_Unique_Constraint, "unique_constraint.png" );
 #undef loadPixmap
 }
 

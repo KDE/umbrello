@@ -40,6 +40,8 @@
 #include "association.h"
 #include "umldoc.h"
 #include "uml.h"
+#include "uniqueconstraint.h"
+#include "foreignkeyconstraint.h"
 #include "codegenerator.h"
 #include "model_utils.h"
 #include "uniqueid.h"
@@ -194,12 +196,18 @@ UMLOperation *createOperation(UMLClassifier *parent, const QString& name) {
 UMLClassifierListItem* createChildObject(UMLClassifier* parent, Uml::Object_Type type) {
     UMLObject* returnObject = NULL;
     switch (type) {
-    case Uml::ot_Attribute:
-    case Uml::ot_EntityAttribute: {
-            UMLClassifier *c = dynamic_cast<UMLClassifier*>(parent);
+    case Uml::ot_Attribute: {
+        UMLClassifier *c = dynamic_cast<UMLClassifier*>(parent);
             if (c && !c->isInterface())
                 returnObject = c->createAttribute();
             break;
+        }
+    case Uml::ot_EntityAttribute: {
+         UMLEntity *e = dynamic_cast<UMLEntity*>( parent );
+         if ( e ) {
+             returnObject = e->createAttribute();
+         }
+         break;
         }
     case Uml::ot_Operation: {
             UMLClassifier *c = dynamic_cast<UMLClassifier*>(parent);
@@ -217,6 +225,20 @@ UMLClassifierListItem* createChildObject(UMLClassifier* parent, Uml::Object_Type
             UMLEnum* umlenum = dynamic_cast<UMLEnum*>(parent);
             if (umlenum) {
                 returnObject = umlenum->createEnumLiteral();
+            }
+            break;
+        }
+    case Uml::ot_UniqueConstraint: {
+            UMLEntity* umlentity = dynamic_cast<UMLEntity*>( parent );
+            if ( umlentity ) {
+                returnObject = umlentity->createUniqueConstraint();
+            }
+            break;
+        }
+    case Uml::ot_ForeignKeyConstraint: {
+            UMLEntity* umlentity = dynamic_cast<UMLEntity*>( parent );
+            if ( umlentity ) {
+                returnObject = umlentity->createForeignKeyConstraint();
             }
             break;
         }

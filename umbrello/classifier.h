@@ -320,7 +320,7 @@ public:
      *
      * @return  The list of true operations for the Concept.
      */
-    UMLClassifierListItemList getFilteredList(Uml::Object_Type ot);
+    virtual UMLClassifierListItemList getFilteredList(Uml::Object_Type ot);
 
     /**
      * Needs to be called after all UML objects are loaded from file.

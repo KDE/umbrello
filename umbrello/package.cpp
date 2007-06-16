@@ -21,6 +21,7 @@
 #include "umldoc.h"
 #include "classifier.h"
 #include "association.h"
+#include "entity.h"
 #include "object_factory.h"
 #include "model_utils.h"
 #include "umllistview.h"
@@ -198,6 +199,21 @@ void UMLPackage::appendClasses(UMLClassifierList& classes,
         } else if (includeNested && (ot == ot_Package || ot == ot_Folder)) {
             UMLPackage *inner = static_cast<UMLPackage *>(o);
             inner->appendClasses(classes);
+        }
+    }
+}
+
+void UMLPackage::appendEntities( UMLEntityList& entities,
+                                 bool includeNested /* = true */ ) {
+    for (UMLObjectListIt oit(m_objects); oit.current(); ++oit) {
+        UMLObject *o = oit.current();
+        Object_Type ot = o->getBaseType();
+        if (ot == ot_Entity) {
+            UMLEntity *c = static_cast<UMLEntity*>(o);
+            entities.append(c);
+        } else if (includeNested && (ot == ot_Package || ot == ot_Folder)) {
+            UMLPackage *inner = static_cast<UMLPackage *>(o);
+            inner->appendEntities(entities);
         }
     }
 }

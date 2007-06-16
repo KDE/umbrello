@@ -19,6 +19,7 @@
 #include <q3textedit.h>
 //kde includes
 #include <karrowbutton.h>
+#include <kdialogbuttonbox.h>
 
 //app includes
 #include "../listpopupmenu.h"
@@ -27,6 +28,7 @@
 class UMLObject;
 class UMLClassifier;
 class UMLDoc;
+
 
 /**
  * A dialog page to display classifier list properties.  This is not normally setup
@@ -60,7 +62,13 @@ public:
      */
     void updateObject();
 
+
 private:
+
+    /**
+     * Sets up the page
+     */
+    void setupPage();
     /**
      *  Set the state of the widgets on the page with the given value.
      *
@@ -74,7 +82,7 @@ private:
     void saveCurrentItemDocumentation();
 
     /**
-     * Get classifiers
+     * Get classifier list items
      */
     UMLClassifierListItemList getItemList();
 
@@ -110,23 +118,38 @@ private:
      */
     void printItemList(const QString &prologue);
 
-    UMLClassifier* m_pClassifier;
     Q3GroupBox* m_pDocGB;
     Q3GroupBox* m_pItemListGB;
-    Q3ListBox* m_pItemListLB;
     Q3TextEdit* m_pDocTE;
-    Uml::Object_Type m_itemType;
+    Q3ListBox* m_pItemListLB;
 
     KArrowButton* m_pTopArrowB;
     KArrowButton* m_pUpArrowB;
     KArrowButton* m_pDownArrowB;
     KArrowButton* m_pBottomArrowB;
+
+    UMLDoc* m_pDoc;
+    ListPopupMenu* m_pMenu;
+    UMLClassifierListItem* m_pOldListItem;
+
+protected:
+
+    /** 
+     * Sets the visibility of the arrow buttons
+     * @param hide true hides the arrow buttons
+     */
+    void hideArrowButtons(bool hide);
+
+    virtual int calculateNewIndex(UMLClassifierListItem* listItem);
+    
+    Uml::Object_Type m_itemType;
+    UMLClassifier* m_pClassifier;
+    UMLClassifierListItem* m_pLastObjectCreated;
+
+    QPushButton* m_pNewClassifierListItemButton;
     QPushButton* m_pDeleteListItemButton;
     QPushButton* m_pPropertiesButton;
 
-    UMLClassifierListItem* m_pOldListItem;
-    UMLDoc* m_pDoc;
-    ListPopupMenu* m_pMenu;
     bool m_bSigWaiting;
 
 public slots:

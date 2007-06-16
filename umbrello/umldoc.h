@@ -36,6 +36,7 @@
 #include "umlobjectlist.h"
 #include "umlassociationlist.h"
 #include "umlclassifierlist.h"
+#include "umlentitylist.h"
 #include "umlviewlist.h"
 #include "umlstereotypelist.h"
 
@@ -505,6 +506,15 @@ public:
      */
     UMLClassifierList getClassesAndInterfaces(bool includeNested = true);
 
+    /**
+     * Returns a list of the entities in this UMLDoc.
+     *
+     * @param includeNested     Whether to include the entities from
+     *                          nested packages (default: true.)
+     * @return  List of UML Entities.
+     */
+    UMLEntityList getEntities(bool includeNested = true);
+    
     /**
      * Returns a list of the interfaces in this UMLDoc.
      *

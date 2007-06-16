@@ -161,6 +161,12 @@ QString UMLCanvasObject::uniqChildName( const Uml::Object_Type type,
             case Uml::ot_EntityAttribute:
                 currentName = i18n("new_field");
                 break;
+            case Uml::ot_UniqueConstraint:
+                currentName = i18n( "new_unique_constraint" );
+                break;
+            case Uml::ot_ForeignKeyConstraint:
+                currentName = i18n( "new_fkey_constraint" );
+                break;
             default:
                 kWarning() << "uniqChildName() called for unknown child type " << type << endl;
                 return "ERROR_in_UMLCanvasObject_uniqChildName";

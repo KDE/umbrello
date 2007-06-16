@@ -35,33 +35,47 @@ using namespace Uml;
 ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifier,
                                        UMLDoc* doc, Object_Type type) : QWidget(parent) {
     m_itemType = type;
-    QString typeName("");
-    QString newItemType("");
-    if (type == ot_Attribute) {
-        typeName = i18n("Attributes");
-        newItemType = i18n("N&ew Attribute...");
-    } else if (type == ot_Operation) {
-        typeName = i18n("Operations");
-        newItemType = i18n("N&ew Operation...");
-    } else if (type == ot_Template) {
-        typeName = i18n("Templates");
-        newItemType = i18n("N&ew Template...");
-    } else if (type == ot_EnumLiteral) {
-        typeName = i18n("Enum Literals");
-        newItemType = i18n("N&ew Enum Literal...");
-    } else if (type == ot_EntityAttribute) {
-        typeName = i18n("Entity Attributes");
-        newItemType = i18n("N&ew Entity Attribute...");
-    } else {
-        kWarning() << "unknown listItem type in ClassifierListPage" << endl;
-    }
+
 
     m_bSigWaiting = false;
     m_pDoc = doc;
     m_pClassifier = classifier;
     m_pMenu = 0;
+
+    setupPage();
+
+}
+
+
+void ClassifierListPage::setupPage() {
+
+    QString typeName("");
+    QString newItemType("");
+
+    if (m_itemType == ot_Attribute) {
+        typeName = i18n("Attributes");
+        newItemType = i18n("N&ew Attribute...");
+    } else if (m_itemType == ot_Operation) {
+        typeName = i18n("Operations");
+        newItemType = i18n("N&ew Operation...");
+    } else if (m_itemType == ot_Template) {
+        typeName = i18n("Templates");
+        newItemType = i18n("N&ew Template...");
+    } else if (m_itemType == ot_EnumLiteral) {
+        typeName = i18n("Enum Literals");
+        newItemType = i18n("N&ew Enum Literal...");
+    } else if (m_itemType == ot_EntityAttribute) {
+        typeName = i18n("Entity Attributes");
+        newItemType = i18n("N&ew Entity Attribute...");
+    } else if (m_itemType == ot_EntityConstraint ) {
+        typeName = i18n( "Constraints" );
+        newItemType = i18n( "N&ew Constraint..." );
+    } else {
+        kWarning() << "unknown listItem type in ClassifierListPage" << endl;
+    }
+
     int margin = fontMetrics().height();
-    setMinimumSize(310,330);
+    //setMinimumSize(310,330);
 
     //main layout contains our two group boxes, the list and the documentation
     QVBoxLayout* mainLayout = new QVBoxLayout( this );
@@ -98,12 +112,13 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
 
     //the action buttons
     KDialogButtonBox* buttonBox = new KDialogButtonBox(m_pItemListGB);
-    buttonBox->addButton( newItemType, KDialogButtonBox::ActionRole, this,
+    m_pNewClassifierListItemButton = buttonBox->addButton( newItemType, KDialogButtonBox::ActionRole, this,
                           SLOT(slotNewListItem()) );
     m_pDeleteListItemButton = buttonBox->addButton( i18n("&Delete"),
                               KDialogButtonBox::ActionRole, this, SLOT(slotDelete()) );
-    m_pPropertiesButton = buttonBox->addButton( i18n("&Properties"), KDialogButtonBox::ActionRole, this,
-                                                SLOT(slotProperties()) );
+    m_pPropertiesButton = buttonBox->addButton( i18n("&Properties"), KDialogButtonBox::ActionRole, this,SLOT(slotProperties()) );
+
+
     listVBoxLayout->addWidget(buttonBox);
 
     mainLayout->addWidget(m_pItemListGB);
@@ -143,7 +158,9 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
     connect( m_pBottomArrowB, SIGNAL( clicked() ), this, SLOT( slotBottomClicked() ) );
     connect( m_pItemListLB, SIGNAL( doubleClicked( Q3ListBoxItem* ) ),
              this, SLOT( slotDoubleClick( Q3ListBoxItem* ) ) );
+
 }
+
 
 ClassifierListPage::~ClassifierListPage() {
 
@@ -249,7 +266,9 @@ void ClassifierListPage::slotListItemCreated(UMLObject* object) {
     if (listItem == NULL)  {
         return;
     }
-    int index = m_pItemListLB->count();
+
+    int index = calculateNewIndex(listItem);
+
     m_pItemListLB->insertItem(listItem->toString(Uml::st_SigNoVis), index);
     m_bSigWaiting = false;
 
@@ -257,6 +276,7 @@ void ClassifierListPage::slotListItemCreated(UMLObject* object) {
     // the property dialog
     m_pItemListLB->setSelected(index, true);
     slotClicked(m_pItemListLB->item(index));
+    connect( object, SIGNAL( modified() ), this, SLOT( slotListItemModified() ) );
 }
 
 void ClassifierListPage::slotListItemModified() {
@@ -504,6 +524,7 @@ void ClassifierListPage::slotDoubleClick( Q3ListBoxItem* item ) {
         return;
     }
 
+    m_bSigWaiting = true;
     if( listItem->showPropertiesDialog(this) ) {
         m_pItemListLB->changeItem( listItem->toString(Uml::st_SigNoVis), m_pItemListLB->index(item) );
     }
@@ -527,7 +548,9 @@ void ClassifierListPage::slotProperties() {
 void ClassifierListPage::slotNewListItem() {
     saveCurrentItemDocumentation();
     m_bSigWaiting = true;
-    Object_Factory::createChildObject(m_pClassifier, m_itemType);
+    m_pLastObjectCreated = Object_Factory::createChildObject(m_pClassifier, m_itemType);
+    if ( m_pLastObjectCreated == NULL )
+        m_bSigWaiting = false;
 }
 
 void ClassifierListPage::saveCurrentItemDocumentation() {
@@ -607,6 +630,20 @@ bool ClassifierListPage::takeItem(UMLClassifierListItem* listItem,
     return true;
 }
 
+
+int ClassifierListPage::calculateNewIndex(UMLClassifierListItem* listItem){
+    return m_pItemListLB->count();
+}
+
+void ClassifierListPage::hideArrowButtons(bool hide){
+    // if hide is true, we have to make state = false
+    bool state = !hide;
+
+    m_pTopArrowB->setVisible(state);
+    m_pUpArrowB->setVisible(state);
+    m_pDownArrowB->setVisible(state);
+    m_pBottomArrowB->setVisible(state) ;
+}
 
 #include "classifierlistpage.moc"
 

@@ -83,19 +83,19 @@ public:
      */
     void setAttributes(const QString& attributes);
 
-    /**
-     * Returns The initial value of the UMLEntityAttribute's index type property.
-     *
-     * @return  The initial value of the UMLEntityAttribute's index type property.
-     */
-    Uml::DBIndex_Type getIndexType();
+     /** 
+      * Returns The initial value of the UMLEntityAttribute's index type property. 
+      * 
+      * @return  The initial value of the UMLEntityAttribute's index type property. 
+      */ 
+     Uml::DBIndex_Type getIndexType(); 
 
-    /**
-     * Sets the initial value of the UMLEntityAttribute's index type property.
-     *
-     * @param iv        The initial value of the UMLEntityAttribute's index type property.
-     */
-    void setIndexType(const Uml::DBIndex_Type indexType);
+     /** 
+      * Sets the initial value of the UMLEntityAttribute's index type property. 
+      * 
+      * @param iv  The initial value of the UMLEntityAttribute's index type property. 
+      */ 
+     void setIndexType(const Uml::DBIndex_Type indexType); 
 
     /**
      * Returns The initial value of the UMLEntityAttribute's length/values property.

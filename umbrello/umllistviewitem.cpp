@@ -243,6 +243,11 @@ void UMLListViewItem::updateObject() {
         else
             icon = Uml::it_Protected_Attribute;
         break;
+    case Uml::ot_UniqueConstraint:
+        m_Type = Model_Utils::convert_OT_LVT( getUMLObject() );
+        icon = Model_Utils::convert_LVT_IT( m_Type );
+        break;
+
     default:
         icon = Model_Utils::convert_LVT_IT(m_Type);
         break;

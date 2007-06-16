@@ -22,6 +22,7 @@
 // app includes
 #include "umlobject.h"
 #include "umlpackagelist.h"
+#include "uniqueconstraint.h"
 #include "package.h"
 #include "folder.h"
 #include "classifier.h"
@@ -318,7 +319,9 @@ bool isClassifierListitem(Uml::Object_Type type) {
         type == Uml::ot_Operation ||
         type == Uml::ot_Template ||
         type == Uml::ot_EntityAttribute ||
-        type == Uml::ot_EnumLiteral) {
+        type == Uml::ot_EnumLiteral ||
+        type == Uml::ot_UniqueConstraint ||
+        type == Uml::ot_ForeignKeyConstraint) {
         return true;
     } else {
         return false;
@@ -355,6 +358,8 @@ Uml::Model_Type guessContainer(UMLObject *o) {
             break;
         case Uml::ot_Entity:
         case Uml::ot_EntityAttribute:
+        case Uml::ot_UniqueConstraint:
+        case Uml::ot_ForeignKeyConstraint:
             mt = Uml::mt_EntityRelationship;
             break;
         case Uml::ot_Association:
@@ -712,6 +717,9 @@ bool typeIsClassifierList(Uml::ListView_Type type) {
         type == Uml::lvt_Operation ||
         type == Uml::lvt_Template ||
         type == Uml::lvt_EntityAttribute ||
+        type == Uml::lvt_UniqueConstraint ||
+        type == Uml::lvt_ForeignKeyConstraint ||
+        type == Uml::lvt_PrimaryKeyConstraint ||
         type == Uml::lvt_EnumLiteral) {
         return true;
     } else {
@@ -949,6 +957,21 @@ Uml::ListView_Type convert_OT_LVT(UMLObject *o) {
         type = Uml::lvt_EntityAttribute;
         break;
 
+    case Uml::ot_UniqueConstraint: {
+         UMLEntity* ent = static_cast<UMLEntity*>(o->parent());
+         UMLUniqueConstraint* uc = static_cast<UMLUniqueConstraint*>( o );
+         if ( ent->isPrimaryKey( uc ) ) {
+             type = Uml::lvt_PrimaryKeyConstraint;
+         } else {
+             type = Uml::lvt_UniqueConstraint;
+         }
+         break;
+        }
+
+    case Uml::ot_ForeignKeyConstraint:
+        type = Uml::lvt_ForeignKeyConstraint;
+        break;
+
     case Uml::ot_Attribute:
         type = Uml::lvt_Attribute;
         break;
@@ -1016,6 +1039,18 @@ Uml::Object_Type convert_LVT_OT(Uml::ListView_Type lvt) {
 
     case Uml::lvt_EntityAttribute:
         ot = Uml::ot_EntityAttribute;
+        break;
+
+    case Uml::lvt_UniqueConstraint:
+        ot = Uml::ot_UniqueConstraint;
+        break;
+
+    case Uml::lvt_PrimaryKeyConstraint:
+        ot = Uml::ot_UniqueConstraint;
+        break;
+
+    case Uml::lvt_ForeignKeyConstraint:
+        ot = Uml::ot_ForeignKeyConstraint;
         break;
 
     case Uml::lvt_Attribute:
@@ -1120,7 +1155,15 @@ Uml::Icon_Type convert_LVT_IT(Uml::ListView_Type lvt) {
         case Uml::lvt_Operation:
             icon = Uml::it_Public_Method;
             break;
-
+        case Uml::lvt_UniqueConstraint:
+            icon = Uml::it_Unique_Constraint;
+            break;
+        case Uml::lvt_PrimaryKeyConstraint:
+            icon = Uml::it_PrimaryKey_Constraint;
+            break;
+        case Uml::lvt_ForeignKeyConstraint:
+            icon = Uml::it_ForeignKey_Constraint;
+            break;
         case Uml::lvt_Class_Diagram:
             icon = Uml::it_Diagram_Class;
             break;
@@ -1207,6 +1250,8 @@ Uml::Model_Type convert_OT_MT(Uml::Object_Type ot) {
             break;
         case Uml::ot_Entity:
         case Uml::ot_EntityAttribute:
+        case Uml::ot_UniqueConstraint:
+        case Uml::ot_ForeignKeyConstraint:
             mt = Uml::mt_EntityRelationship;
             break;
         default:

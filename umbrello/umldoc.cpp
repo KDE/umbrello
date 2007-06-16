@@ -68,6 +68,7 @@
 #include "umllistview.h"
 #include "umllistviewitem.h"
 #include "umlview.h"
+#include "entityconstraint.h"
 #include "clipboard/idchangelog.h"
 #include "dialogs/classpropdlg.h"
 #include "codegenerators/codegenfactory.h"
@@ -1139,6 +1140,9 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
         } else if (type == ot_EntityAttribute) {
             UMLEntity *ent = static_cast<UMLEntity*>(parent);
             ent->removeEntityAttribute(static_cast<UMLClassifierListItem*>(umlobject));
+        } else if ( type == ot_UniqueConstraint || type == ot_ForeignKeyConstraint ) {
+            UMLEntity* ent = static_cast<UMLEntity*>( parent );
+            ent->removeConstraint( static_cast<UMLEntityConstraint*>( umlobject ) );
         } else {
             UMLClassifier* pClass = dynamic_cast<UMLClassifier*>(parent);
             if (pClass == NULL)  {
@@ -1852,6 +1856,12 @@ UMLClassifierList UMLDoc::getClassesAndInterfaces(bool includeNested /* =true */
     UMLClassifierList conceptList;
     m_root[mt_Logical]->appendClassesAndInterfaces(conceptList, includeNested);
     return conceptList;
+}
+
+UMLEntityList UMLDoc::getEntities( bool includeNested /* =true */ ) {
+    UMLEntityList entityList;
+    m_root[mt_EntityRelationship]->appendEntities(entityList, includeNested);
+    return entityList;
 }
 
 UMLClassifierList UMLDoc::getInterfaces(bool includeNested /* =true */) {

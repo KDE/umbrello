@@ -54,7 +54,10 @@ enum Object_Type
     ot_Role,
     ot_Entity,
     ot_EntityAttribute,
-    ot_Folder
+    ot_Folder,
+    ot_EntityConstraint,
+    ot_UniqueConstraint,
+    ot_ForeignKeyConstraint,
 };
 
 class Visibility {
@@ -216,6 +219,9 @@ enum ListView_Type
     lvt_Enum,
     lvt_Entity,
     lvt_EntityAttribute,
+    lvt_UniqueConstraint,
+    lvt_PrimaryKeyConstraint,
+    lvt_ForeignKeyConstraint,
     lvt_EntityRelationship_Diagram,
     lvt_EntityRelationship_Folder,
     lvt_EntityRelationship_Model,
@@ -260,6 +266,9 @@ enum Icon_Type
     it_Public_Attribute,
     it_Private_Attribute,
     it_Protected_Attribute,
+    it_Unique_Constraint,
+    it_PrimaryKey_Constraint,
+    it_ForeignKey_Constraint,
     it_Diagram_Activity,
     it_Diagram_Class,
     it_Diagram_Collaboration,

@@ -14,6 +14,7 @@
 
 #include "umlcanvasobject.h"
 #include "umlclassifierlist.h"
+#include "umlentitylist.h"
 
 // forward declarations
 class UMLAssociation;
@@ -152,6 +153,17 @@ public:
      *                          nested packages (default: true.)
      */
     void appendClassesAndInterfaces(UMLClassifierList& classifiers,
+                                    bool includeNested = true);
+
+     /**
+     * Append all entities from this package (and those
+     * from nested packages) to the given UMLEntityList.
+     *
+     * @param entities               The list to append to.
+     * @param includeNested          Whether to include the entities from
+     *                          nested packages (default: true.)
+     */
+    void appendEntities(UMLEntityList& entities,
                                     bool includeNested = true);
 
     /**

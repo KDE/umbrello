@@ -120,26 +120,32 @@ void UMLEntityAttributeDialog::setupDialog() {
     QHBoxLayout* scopeLayout = new QHBoxLayout(m_pScopeBG);
     scopeLayout->setMargin(margin);
 
-    m_pNoneRB = new QRadioButton(i18n("&None"), m_pScopeBG);
+    m_pNoneRB = new QRadioButton(i18n("&Not Indexed"), m_pScopeBG);
     scopeLayout->addWidget(m_pNoneRB);
 
+    /*
     m_pPublicRB = new QRadioButton(i18n("&Primary"), m_pScopeBG);
     scopeLayout->addWidget(m_pPublicRB);
 
-    m_pPrivateRB = new QRadioButton(i18n("&Index"), m_pScopeBG);
-    scopeLayout->addWidget(m_pPrivateRB);
-
     m_pProtectedRB = new QRadioButton(i18n("&Unique"), m_pScopeBG);
     scopeLayout->addWidget(m_pProtectedRB);
+    */
+
+    m_pPrivateRB = new QRadioButton(i18n("&Indexed"), m_pScopeBG);
+    scopeLayout->addWidget(m_pPrivateRB);
 
     mainLayout->addWidget(m_pScopeBG);
     Uml::DBIndex_Type scope = m_pEntityAttribute->getIndexType();
+
+    /*
     if ( scope == Uml::Primary )
         m_pPublicRB->setChecked( true );
-    else if( scope == Uml::Index )
-        m_pPrivateRB -> setChecked( true );
     else if( scope == Uml::Unique )
         m_pProtectedRB -> setChecked( true );
+    else */
+
+    if( scope == Uml::Index )
+        m_pPrivateRB->setChecked( true );
     else {
         m_pNoneRB->setChecked(true);
     }
@@ -213,12 +219,16 @@ bool UMLEntityAttributeDialog::apply() {
     m_pEntityAttribute->setAutoIncrement( m_pAutoIncrementCB->isChecked() );
     m_pEntityAttribute->setNull( m_pNullCB->isChecked() );
 
+    /*
     if ( m_pPublicRB->isChecked() ) {
         m_pEntityAttribute->setIndexType(Uml::Primary);
-    } else if ( m_pPrivateRB -> isChecked() ) {
-        m_pEntityAttribute->setIndexType(Uml::Index);
     } else if ( m_pProtectedRB -> isChecked() ) {
         m_pEntityAttribute->setIndexType(Uml::Unique);
+    } else
+    */
+
+    if ( m_pPrivateRB -> isChecked() ) {
+        m_pEntityAttribute->setIndexType(Uml::Index);
     } else {
         m_pEntityAttribute->setIndexType(Uml::None);
     }

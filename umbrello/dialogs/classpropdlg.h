@@ -20,6 +20,7 @@
 
 class ClassGenPage;
 class ClassifierListPage;
+class ConstraintListPage;
 class PkgContentsPage;
 class AssocPage;
 class ClassOptionsPage;
@@ -106,6 +107,7 @@ private:
     ClassifierListPage* m_pTemplatePage;
     ClassifierListPage* m_pEnumLiteralPage;
     ClassifierListPage* m_pEntityAttributePage;
+    ConstraintListPage* m_pEntityConstraintPage;
     PkgContentsPage * m_pPkgContentsPage;
     AssocPage * m_pAssocPage;
     ClassOptionsPage * m_pOptionsPage;

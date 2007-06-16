@@ -128,6 +128,7 @@ set(libdialogs_SRCS
 	dialogs/assocrolepage.cpp 
 	dialogs/classgenpage.cpp 
 	dialogs/classifierlistpage.cpp
+        dialogs/constraintlistpage.cpp
 	dialogs/classoptionspage.cpp 
 	dialogs/classpropdlg.cpp
 	dialogs/classwizard.cpp 
@@ -150,12 +151,14 @@ set(libdialogs_SRCS
 	dialogs/settingsdlg.cpp 
 	dialogs/statedialog.cpp 
 	dialogs/umlattributedialog.cpp 
-	dialogs/umlentityattributedialog.cpp 
+	dialogs/umlentityattributedialog.cpp
+        dialogs/umlforeignkeyconstraintdialog.cpp 
 	dialogs/umloperationdialog.cpp 
 	dialogs/umltemplatedialog.cpp 
 	dialogs/umlroledialog.cpp 
 	dialogs/umlroleproperties.cpp 
-	dialogs/umlviewdialog.cpp 
+	dialogs/umluniqueconstraintdialog.cpp
+        dialogs/umlviewdialog.cpp 
 	dialogs/umlwidgetcolorpage.cpp )
 
 kde4_add_ui3_files( libdialogs_SRCS
@@ -301,6 +304,7 @@ set(libumbrello_SRCS
    docwindow.cpp 
    entity.cpp 
    entityattribute.cpp 
+   entityconstraint.cpp
    entitywidget.cpp 
    regionwidget.cpp 
    enum.cpp 
@@ -310,6 +314,7 @@ set(libumbrello_SRCS
    floatingtextwidget.cpp 
    floatingtextwidgetcontroller.cpp
    folder.cpp
+   foreignkeyconstraint.cpp
    forkjoinwidget.cpp 
    hierarchicalcodeblock.cpp 
    import_rose.cpp 
@@ -358,6 +363,7 @@ set(libumbrello_SRCS
    uml.cpp 
    umlattributelist.cpp 
    umlentityattributelist.cpp 
+   umlentityconstraintlist.cpp
    umlcanvasobject.cpp 
    umlclassifierlistitemlist.cpp 
    umldoc.cpp 
@@ -375,6 +381,7 @@ set(libumbrello_SRCS
    umlwidget.cpp 
    umlwidgetcontroller.cpp
    uniqueid.cpp
+   uniqueconstraint.cpp
    usecase.cpp 
    usecasewidget.cpp 
    widgetbase.cpp 
