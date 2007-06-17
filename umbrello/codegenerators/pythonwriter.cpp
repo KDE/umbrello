@@ -28,7 +28,6 @@
 #include "../umldoc.h"
 #include "../umlattributelist.h"
 #include "../association.h"
-#include "../attribute.h"
 #include "../classifier.h"
 #include "../attribute.h"
 #include "../operation.h"
