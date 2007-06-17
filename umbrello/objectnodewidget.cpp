@@ -96,7 +96,7 @@ void ObjectNodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
             }
             else
             {
-                objectflow_value = "[" + getState() + "]";
+                objectflow_value = '[' + getState() + ']';
             }
 
             p.drawLine(offsetX + 10 , offsetY + h/2, (offsetX + w)-10, offsetY + h/2  );
@@ -141,7 +141,7 @@ QSize ObjectNodeWidget::calculateSize() {
     } else if ( m_ObjectNodeType == Flow ) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
-        const int textWidth = fm.width("[" + getState() + "]");
+        const int textWidth = fm.width('[' + getState() + ']');
         const int namewidth = fm.width(getName());
         height = fontHeight * 2;
         widthtmp = textWidth > OBJECTNODE_WIDTH ? textWidth : OBJECTNODE_WIDTH;

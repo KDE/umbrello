@@ -176,7 +176,7 @@ QString collectVerbatimText(QTextStream& stream) {
             kError() << loc() << "expecting '|' at start of verbatim text" << endl;
             return QString();
         } else {
-            result += line.mid(1) + "\n";
+            result += line.mid(1) + '\n';
         }
     }
     if (line.isNull()) {

@@ -856,7 +856,7 @@ void CodeEditor::updateTextBlockFromText (TextBlock * block) {
                     // \n are implicit in the editor (!) so we should put them
                     // back in, if there is any content from the line
                     if(!line.isEmpty() && para != lastLineToAddNewLine)
-                        content += "\n";
+                        content += '\n';
                 }
             }
         }

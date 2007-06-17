@@ -856,7 +856,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java) {
 
         QString methodReturnType = fixTypeName(op->getTypeName());
         if(methodReturnType != "void")
-            returnStr += "@return       "+methodReturnType+"\n";
+            returnStr += "@return       " + methodReturnType + '\n';
 
         str = ""; // reset for next method
         str += ((op->getAbstract() && !isInterface) ? "abstract ":"");
@@ -875,7 +875,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java) {
                     (QString(" = ")+at->getInitialValue()) :
                     QString(""))
                    + ((j < i-1)?", ":"");
-            returnStr += "@param        "+atName+' '+at->getDoc()+"\n";
+            returnStr += "@param        " + atName + ' ' + at->getDoc() + '\n';
         }
         str+= " )";
 

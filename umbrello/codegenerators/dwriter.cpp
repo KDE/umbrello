@@ -608,7 +608,7 @@ void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QStri
     // ONLY IF changeability is NOT Frozen
     if (changeType != Uml::chg_Frozen) {
         writeDocumentation("Adds a " + fieldNameUP + " to the list of " +
-                           fieldName + ".", description, "", m_indentation, d);
+                           fieldName + '.', description, "", m_indentation, d);
         
         d << m_indentation << "void add" << fieldNameUC << "(";
         d << fieldClassName << " new" << fieldNameUC << ") {";
@@ -619,7 +619,7 @@ void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QStri
     // ONLY IF changeability is Changeable
     if (changeType == Uml::chg_Changeable) {
         writeDocumentation("Removes a " + fieldNameUP + " from the list of " +
-                           fieldName + ".", description, "", m_indentation, d);
+                           fieldName + '.', description, "", m_indentation, d);
 
         d << m_indentation << "void remove" << fieldNameUC << "(";
         d << fieldClassName << " " << fieldNameUP << ") {" << startline;
@@ -635,8 +635,8 @@ void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QStri
     }
 
     // always allow getting the list of stuff
-    writeDocumentation("Returns the list of " + fieldName + ".",
-                       description, "@return List of "+fieldName + ".",
+    writeDocumentation("Returns the list of " + fieldName + '.',
+                       description, "@return List of " + fieldName + '.',
                        m_indentation, d);
     
     d << m_indentation << fieldClassName << "[] get" << fieldName << "() {";
@@ -655,8 +655,8 @@ void DWriter::writeSingleAttributeAccessorMethods(QString fieldClassName,
 
     // set method
     if (change == Uml::chg_Changeable && !isFinal) {
-        writeDocumentation("Sets the value of " + fieldName + ".", description,
-                           "@param new" + fieldNameUC + " The new value of " + fieldName + ".",
+        writeDocumentation("Sets the value of " + fieldName + '.', description,
+                           "@param new" + fieldNameUC + " The new value of " + fieldName + '.',
                            m_indentation, d);
         
         d << m_indentation << fieldClassName << " " << fieldName << "(";
@@ -666,8 +666,8 @@ void DWriter::writeSingleAttributeAccessorMethods(QString fieldClassName,
     }
 
     // get method
-    writeDocumentation("Returns the value of " + fieldName + ".", description,
-                       "@return The value of " + fieldName + ".",
+    writeDocumentation("Returns the value of " + fieldName + '.', description,
+                       "@return The value of " + fieldName + '.',
                        m_indentation, d);
     
     d << m_indentation << fieldClassName << " " << fieldName << "() {";
@@ -881,7 +881,7 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d) {
         if (op->getAbstract() && !isInterface) str += "abstract ";
         if (op->getStatic()) str += "static ";
         
-        str += methodReturnType + ' ' +cleanName(op->getName()) + "(";
+        str += methodReturnType + ' ' +cleanName(op->getName()) + '(';
 
         atl = op->getParmList();
         int i = atl.count();
@@ -897,13 +897,13 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d) {
             returnStr += "@param " + atName+' '+at->getDoc() + m_endl;
         }
         
-        str+= ")";
+        str+= ')';
 
         // method only gets a body IF its not abstract
         if (op->getAbstract() || isInterface)
-            str += ";"; // terminate now
+            str += ';'; // terminate now
         else
-            str += startline + "{" + startline + "}"; // empty method body
+            str += startline + '{' + startline + '}'; // empty method body
 
         // write it out
         writeDocumentation("", op->getDoc(), returnStr, m_indentation, d);

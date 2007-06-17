@@ -91,7 +91,7 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
         case Loop :
                 if (combined_fragment_value != "-")
                 {
-                     temp += " [" + combined_fragment_value + "]";
+                     temp += " [" + combined_fragment_value + ']';
                      line_width += (combined_fragment_value.size() + 2) * 8;
                 }
         p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, temp);
@@ -116,7 +116,7 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
         case Alt :
                 if (combined_fragment_value != "-")
                 {
-                     temp = "[" + combined_fragment_value + "]";
+                     temp = '[' + combined_fragment_value + ']';
             p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY + 20,w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, temp);
                     if (m_dashLines.size() == 1 && m_dashLines.first()->getY() < offsetY + 20 + fontHeight )
                         m_dashLines.first()->setY(offsetY + h/2);

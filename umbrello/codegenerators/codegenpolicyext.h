@@ -28,6 +28,7 @@ class CodeGenerationPolicyPage;
  */
 
 class CodeGenPolicyExt : public QObject {
+    Q_OBJECT
 public:
     CodeGenPolicyExt() {}
     virtual ~CodeGenPolicyExt() {}

@@ -77,7 +77,7 @@ void DCodeOperation::updateMethodDeclaration()
     startText += o->getName();
 
     // (g) params
-    startText += "(";
+    startText += '(';
 
     // assemble parameters
     QString paramStr = QString("");
@@ -95,7 +95,7 @@ void DCodeOperation::updateMethodDeclaration()
 
     startText += paramStr;
 
-    startText += ")";
+    startText += ')';
 
     // (h) function body
     if(isInterface) {

@@ -42,7 +42,8 @@ void FloatingDashLineWidget::draw(QPainter & p, int offsetX, int offsetY)
     p.setPen(Qt::black);
     p.setFont(UMLWidget::getFont());
     p.drawText(getX() + FLOATING_DASH_LINE_TEXT_MARGIN, getY(),
-                        getWidth() - FLOATING_DASH_LINE_TEXT_MARGIN * 2, fontHeight, Qt::AlignLeft, "["+m_Text +"]");
+               getWidth() - FLOATING_DASH_LINE_TEXT_MARGIN * 2, fontHeight,
+               Qt::AlignLeft, '[' + m_Text + ']');
     p.setPen(*(new QPen(UMLWidget::getLineColor(), 0, Qt::DashLine)));
     p.drawLine(getX(), getY(), getX() + getWidth(), getY());
     if(m_bSelected)

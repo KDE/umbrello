@@ -118,7 +118,7 @@ bool NativeImportBase::preprocess(QString& line) {
             if (! m_multiLineAltCommentEnd.isEmpty())
                 pos = line.find(m_multiLineAltCommentEnd);
             if (pos == -1) {
-                m_comment += line + "\n";
+                m_comment += line + '\n';
                 return true;  // done
             }
             delimiterLen = m_multiLineAltCommentEnd.length();
@@ -163,7 +163,7 @@ bool NativeImportBase::preprocess(QString& line) {
             m_inComment = true;
             if (pos + delimIntroLen < (int)line.length()) {
                 QString cmnt = line.mid(pos + delimIntroLen);
-                m_comment += cmnt.trimmed() + "\n";
+                m_comment += cmnt.trimmed() + '\n';
             }
             if (pos == 0)
                 return true;  // done

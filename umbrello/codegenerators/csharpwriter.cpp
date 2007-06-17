@@ -637,7 +637,7 @@ void CSharpWriter::writeAssociatedAttributes(UMLAssociationList &associated, UML
             writeAttribute(roleDoc, a->getVisibility(Uml::B), false, typeName, roleName, "", ( a->getVisibility(Uml::B) != Uml::Visibility::Private), cs);
         } else {
             // array
-            roleDoc += "\n(Array of " + typeName + ")";
+            roleDoc += "\n(Array of " + typeName + ')';
             writeAttribute(roleDoc, a->getVisibility(Uml::B), false, "ArrayList", roleName, "", ( a->getVisibility(Uml::B) != Uml::Visibility::Private), cs);
         }
     }
