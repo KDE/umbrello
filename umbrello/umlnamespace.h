@@ -57,7 +57,7 @@ enum Object_Type
     ot_Folder,
     ot_EntityConstraint,
     ot_UniqueConstraint,
-    ot_ForeignKeyConstraint,
+    ot_ForeignKeyConstraint
 };
 
 class Visibility {
