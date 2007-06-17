@@ -219,15 +219,15 @@ enum ListView_Type
     lvt_Enum,
     lvt_Entity,
     lvt_EntityAttribute,
-    lvt_UniqueConstraint,
-    lvt_PrimaryKeyConstraint,
-    lvt_ForeignKeyConstraint,
     lvt_EntityRelationship_Diagram,
     lvt_EntityRelationship_Folder,
     lvt_EntityRelationship_Model,
     lvt_Subsystem,
     lvt_Model,
     lvt_EnumLiteral,
+    lvt_UniqueConstraint,
+    lvt_PrimaryKeyConstraint,
+    lvt_ForeignKeyConstraint,
     lvt_Unknown = -1
 };
 
