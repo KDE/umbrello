@@ -19,6 +19,7 @@ include_directories (${LIBXML2_INCLUDE_DIR} ${LIBXSLT_INCLUDE_DIR} ${CMAKE_CURRE
 
 set(libcodegenerator_SRCS
 	codegenerators/codegenfactory.cpp 
+	codegenerators/codegenpolicyext.cpp 
 	codegenerators/classifierinfo.cpp 
 	codegenerators/javacodegenerator.cpp 
 	codegenerators/javaantcodedocument.cpp 
