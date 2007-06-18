@@ -169,15 +169,15 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         // just graphic stuff with no real model information
         //FIXME while boxes and texts are just diagram objects, activities and
         // states should be UMLObjects
-    if (tag == "statewidget") {
+    if (tag == "statewidget" || tag == "UML:StateWidget") {
         widget = new StateWidget(view, StateWidget::Normal, Uml::id_Reserved);
-    } else if (tag == "notewidget") {
+    } else if (tag == "notewidget" || tag == "UML:NoteWidget") {
         widget = new NoteWidget(view, Uml::id_Reserved);
     } else if (tag == "boxwidget") {
         widget = new BoxWidget(view, Uml::id_Reserved);
-    } else if (tag == "floatingtext") {
+    } else if (tag == "floatingtext" || tag == "UML:FloatingTextWidget") {
         widget = new FloatingTextWidget(view, Uml::tr_Floating, "", Uml::id_Reserved);
-    } else if (tag == "activitywidget") {
+    } else if (tag == "activitywidget" || tag == "UML:ActivityWidget") {
         widget = new ActivityWidget(view, ActivityWidget::Initial, Uml::id_Reserved);
     } else if (tag == "messagewidget") {
         widget = new MessageWidget(view, Uml::sequence_message_asynchronous, Uml::id_Reserved);
@@ -195,13 +195,13 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
                       << ID2STR(id) << endl;
         }
 
-        if (tag == "actorwidget") {
+        if (tag == "actorwidget" || tag == "UML:ActorWidget") {
             if (validateObjType(Uml::ot_Actor, o, id))
                 widget = new ActorWidget(view, static_cast<UMLActor*>(o));
-        } else if (tag == "usecasewidget") {
+        } else if (tag == "usecasewidget" || tag ==  "UML:UseCaseWidget") {
             if (validateObjType(Uml::ot_UseCase, o, id))
                 widget = new UseCaseWidget(view, static_cast<UMLUseCase*>(o));
-        } else if (tag == "classwidget") {
+        } else if (tag == "classwidget" || tag == "UML:ClassWidget") {
             if (validateObjType(Uml::ot_Class, o, id))
                 widget = new ClassifierWidget(view, static_cast<UMLClassifier*>(o));
         } else if (tag == "packagewidget") {
@@ -228,7 +228,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         } else if (tag == "entitywidget") {
             if (validateObjType(Uml::ot_Entity, o, id))
                 widget = new EntityWidget(view, static_cast<UMLEntity*>(o));
-        } else if (tag == "objectwidget") {
+        } else if (tag == "objectwidget" || tag == "UML:ObjectWidget") {
             widget = new ObjectWidget(view, o );
         } else {
             kWarning() << "Trying to create an unknown widget:" << tag << endl;
