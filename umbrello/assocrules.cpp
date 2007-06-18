@@ -218,11 +218,11 @@ bool AssocRules::allowAssociation( Association_Type assocType,
             if (actB && actB->getActivityType() == ActivityWidget::Initial) {
                 return false;
             }
-            // Fork_DEPRECATED here means "not applicable".
-            ActivityWidget::ActivityType actTypeA = ActivityWidget::Fork_DEPRECATED;
+            // actType -1 here means "not applicable".
+            int actTypeA = -1;
             if (actA)
                 actTypeA = actA->getActivityType();
-            ActivityWidget::ActivityType actTypeB = ActivityWidget::Fork_DEPRECATED;
+            int actTypeB = -1;
             if (actB)
                 actTypeB = actB->getActivityType();
             // only from a signalwidget a objectnode widget, a normal activity, branch or fork activity, to the end
