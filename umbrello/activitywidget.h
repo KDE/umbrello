@@ -40,8 +40,7 @@ public:
         Initial = 0,
         Normal,
         End,
-        Branch,
-        Fork_DEPRECATED  // use ForkJoinWidget instead
+        Branch
     };
 
     /**
@@ -63,6 +62,11 @@ public:
      * Overrides the standard paint event.
      */
     void draw(QPainter & p, int offsetX, int offsetY);
+
+    /**
+     * Overrides Method from UMLWidget.
+     */
+    void constrain(int& width, int& height);
 
     /**
      * Returns the type of activity.

@@ -62,12 +62,12 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
         UMLWidget::setPen(p);
         break;
     case Initial :
-        UMLWidget::setPen(p);
+        p.setPen( QPen(m_LineColour, 1) );
         p.setBrush( WidgetBase::getLineColor() );
         p.drawEllipse( offsetX, offsetY, w, h );
         break;
     case End :
-        UMLWidget::setPen(p);
+        p.setPen( QPen(m_LineColour, 1) );
         p.setBrush( WidgetBase::getLineColor() );
         p.drawEllipse( offsetX, offsetY, w, h );
         p.setBrush( Qt::white );
@@ -88,16 +88,45 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
             p.drawPolyline( array );
         }
         break;
-    case Fork_DEPRECATED :  // to be removed
-        p.fillRect( offsetX, offsetY, width(), height(), QBrush( Qt::darkYellow ));
-        break;
     }
     if(m_bSelected)
         drawSelected(&p, offsetX, offsetY);
 }
 
+void ActivityWidget::constrain(int& width, int& height) {
+    if (m_ActivityType == Normal) {
+        QSize minSize = calculateSize();
+        if (width < minSize.width())
+            width = minSize.width();
+        if (height < minSize.height())
+            height = minSize.height();
+        return;
+    }
+    if (width > height)
+        width = height;
+    else if (height > width)
+        height = width;
+    if (m_ActivityType == Branch) {
+        if (width < 20) {
+            width = 20;
+            height = 20;
+        } else if (width > 50) {
+            width = 50;
+            height = 50;
+        }
+    } else {
+        if (width < 15) {
+            width = 15;
+            height = 15;
+        } else if (width > 30) {
+            width = 30;
+            height = 30;
+        }
+    }
+}
+
 QSize ActivityWidget::calculateSize() {
-    int width = 10, height = 10;
+    int width, height;
     if ( m_ActivityType == Normal ) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
@@ -107,7 +136,7 @@ QSize ActivityWidget::calculateSize() {
         height = height > ACTIVITY_HEIGHT ? height : ACTIVITY_HEIGHT;
         width += ACTIVITY_MARGIN * 2;
         height += ACTIVITY_MARGIN * 2;
-    } else if ( m_ActivityType == Branch ) {
+    } else {
         width = height = 20;
     }
     return QSize(width, height);
@@ -119,7 +148,7 @@ ActivityWidget::ActivityType ActivityWidget::getActivityType() const {
 
 void ActivityWidget::setActivityType( ActivityType activityType ) {
     m_ActivityType = activityType;
-    UMLWidget::m_bResizable = (m_ActivityType == Normal);
+    UMLWidget::m_bResizable = true;
 }
 
 void ActivityWidget::slotMenuSelection(int sel) {
@@ -173,10 +202,6 @@ bool ActivityWidget::isActivity(WorkToolBar::ToolBar_Buttons tbb,
         break;
     case WorkToolBar::tbb_Branch:
         resultType = Branch;
-        break;
-    case WorkToolBar::tbb_Fork:
-        kError() << "ActivityWidget::isActivity returns Fork_DEPRECATED" << endl;
-        resultType = Fork_DEPRECATED;
         break;
     default:
         status = false;
