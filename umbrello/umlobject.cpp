@@ -719,7 +719,8 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
     if (m_BaseType != Uml::ot_Operation && m_BaseType != Uml::ot_Attribute &&
             m_BaseType != Uml::ot_EnumLiteral && m_BaseType != Uml::ot_EntityAttribute &&
             m_BaseType != Uml::ot_Template && m_BaseType != Uml::ot_Stereotype &&
-            m_BaseType != Uml::ot_Role) {
+            m_BaseType != Uml::ot_Role && m_BaseType !=Uml::ot_UniqueConstraint &&
+            m_BaseType != Uml::ot_ForeignKeyConstraint ) {
         if (m_bInPaste) {
             m_pUMLPackage = NULL;  // forget any old parent
             UMLListView *listView = UMLApp::app()->getListView();

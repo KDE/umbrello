@@ -182,9 +182,15 @@ void UMLWidget::updateWidget()
 {
     updateComponentSize();
     adjustAssocs( getX(), getY() ); //adjust assoc lines.
-    if (m_Type == Uml::wt_Class) {
-        m_pView->createAutoAttributeAssociations(this);
+    switch( m_Type ) {
+        case Uml::wt_Class:
+            m_pView->createAutoAttributeAssociations( this );
+            break;
+        case Uml::wt_Entity:
+            m_pView->createAutoConstraintAssociations( this );
+            break;
     }
+
     if(isVisible())
         update();
 }

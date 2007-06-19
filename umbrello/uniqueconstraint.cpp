@@ -78,7 +78,6 @@ UMLObject* UMLUniqueConstraint::clone() const {
 
 QString UMLUniqueConstraint::toString(Uml::Signature_Type sig ) {
      QString s;
-    //FIXME
 
     if(sig == Uml::st_ShowSig || sig == Uml::st_ShowSig || sig == Uml::st_SigNoVis) {
         s = getName() + ':';
@@ -94,7 +93,7 @@ QString UMLUniqueConstraint::toString(Uml::Signature_Type sig ) {
             if ( first ) {
                first = false;
             } else
-                s += ' , ';
+                s += ',';
             s += att->getName();
         }
         s +=  ')' ;
@@ -111,7 +110,20 @@ QString UMLUniqueConstraint::getFullyQualifiedName(QString separator,
 }
 
 void UMLUniqueConstraint::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-    kDebug()<< k_funcinfo <<"Nothing implemented yet";
+    QDomElement uniqueConstraintElement = UMLObject::save("UML:UniqueConstraint", qDoc);
+
+    UMLEntity* parentEnt = static_cast<UMLEntity*>( parent() );
+    if ( parentEnt->isPrimaryKey( this ) ) {
+        uniqueConstraintElement.setAttribute( "isPrimary", "1" );
+    } else {
+        uniqueConstraintElement.setAttribute( "isPrimary", "0" );
+    }
+
+    foreach( UMLEntityAttribute* att, m_EntityAttributeList ) {
+        att->saveToXMI(qDoc,uniqueConstraintElement);
+    }
+
+    qElement.appendChild( uniqueConstraintElement );
 }
 
 bool UMLUniqueConstraint::showPropertiesDialog(QWidget* parent) {
@@ -120,7 +132,40 @@ bool UMLUniqueConstraint::showPropertiesDialog(QWidget* parent) {
 }
 
 bool UMLUniqueConstraint::load( QDomElement & element ) {
-    kDebug()<< k_funcinfo <<"Nothing implemented yet"<<endl;
+
+    int isPrimary = element.attribute( "isPrimary", "0" ).toInt();
+    UMLEntity* parentEnt = static_cast<UMLEntity*>(parent());
+
+    if ( isPrimary == 1 ) {
+        parentEnt->setAsPrimaryKey(this);
+    }
+
+    QDomNode node = element.firstChild();
+    while ( !node.isNull() ) {
+        if (node.isComment()) {
+            node = node.nextSibling();
+            continue;
+        }
+        QDomElement tempElement = node.toElement();
+        QString tag = tempElement.tagName();
+        if (Uml::tagEq(tag, "EntityAttribute")) {
+
+            QString attName = tempElement.attribute("name","" );
+            UMLObject* obj = parentEnt->findChildObject( attName );
+
+            UMLEntityAttribute* entAtt = static_cast<UMLEntityAttribute*>(obj);
+            if ( entAtt == NULL )
+                continue;
+
+            m_EntityAttributeList.append(entAtt);
+
+        } else {
+            kWarning() << "unknown child type in UMLUniqueConstraint::load" << endl;
+        }
+
+        node = node.nextSibling();
+    }
+
     return true;
 }
 

@@ -90,7 +90,7 @@ QString UMLForeignKeyConstraint::toString(Uml::Signature_Type sig ){
             if ( first ) {
                 first = false;
             } else
-                s += ' , ';
+                s += ',';
             s += key->getName();
         }
         s += ')';

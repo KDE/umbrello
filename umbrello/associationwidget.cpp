@@ -3214,17 +3214,21 @@ void AssociationWidget::setUMLObject(UMLObject *obj) {
     if (ot == Uml::ot_Attribute) {
         UMLClassifier *klass = static_cast<UMLClassifier*>(obj->parent());
         connect(klass, SIGNAL(attributeRemoved(UMLClassifierListItem*)),
-                this, SLOT(slotAttributeRemoved(UMLClassifierListItem*)));
+                this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
     } else if (ot == Uml::ot_EntityAttribute) {
         UMLEntity *ent = static_cast<UMLEntity*>(obj->parent());
         connect(ent, SIGNAL(entityAttributeRemoved(UMLClassifierListItem*)),
-                this, SLOT(slotAttributeRemoved(UMLClassifierListItem*)));
+                this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
+    } else if (ot == Uml::ot_ForeignKeyConstraint) {
+        UMLEntity* ent = static_cast<UMLEntity*>(obj->parent());
+        connect(ent, SIGNAL(entityConstraintRemoved(UMLClassifierListItem*)),
+                this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
     }
 }
 
-void AssociationWidget::slotAttributeRemoved(UMLClassifierListItem* obj) {
+void AssociationWidget::slotClassifierListItemRemoved(UMLClassifierListItem* obj) {
     if (obj != m_pObject)
-        kDebug() << "AssociationWidget::slotAttributeRemoved:(obj=" << obj
+        kDebug() << "AssociationWidget::slotClassifierListItemRemoved:(obj=" << obj
                   << "): m_pObject=" << m_pObject << endl;
     m_pObject = NULL;
     m_pView->removeAssoc(this);
@@ -3683,5 +3687,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement ) {
     const MessageWidgetList& messages = m_pView->getMessageList();
     return loadFromXMI( qElement, m_pView->getWidgetList(), &messages );
 }
+
+
 
 #include "associationwidget.moc"

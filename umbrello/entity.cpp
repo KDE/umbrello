@@ -286,6 +286,12 @@ void UMLEntity::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
          (pEntityAttribute = it.current()) != NULL; ++it) {
         pEntityAttribute->saveToXMI(qDoc, entityElement);
     }
+
+    UMLClassifierListItemList entityConstraints = getFilteredList(Uml::ot_EntityConstraint);
+    foreach(UMLClassifierListItem* cli, entityConstraints) {
+        cli->saveToXMI(qDoc,entityElement);
+    }
+
     qElement.appendChild(entityElement);
 }
 
@@ -304,6 +310,19 @@ bool UMLEntity::load(QDomElement& element) {
                 return false;
             }
             m_List.append(pEntityAttribute);
+        } else if ( Uml::tagEq( tag, "UniqueConstraint" ) ) {
+            UMLUniqueConstraint* pUniqueConstraint = new UMLUniqueConstraint(this);
+            if ( !pUniqueConstraint->loadFromXMI(tempElement) ) {
+                return false;
+            }
+            addConstraint( pUniqueConstraint );
+        } else if ( Uml::tagEq( tag,"ForeignKeyConstraint" ) ) {
+            UMLForeignKeyConstraint* pForeignKeyConstraint = new UMLForeignKeyConstraint(this);
+            if ( !pForeignKeyConstraint->loadFromXMI(tempElement) ) {
+                return false;
+            }
+
+            addConstraint( pForeignKeyConstraint );
         } else if (tag == "stereotype") {
             kDebug() << "UMLEntity::load(" << m_Name
             << "): losing old-format stereotype." << endl;

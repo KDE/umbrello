@@ -47,6 +47,8 @@ class UMLAttribute;
 class UMLCanvasObject;
 class UMLClassifier;
 class UMLViewImageExporter;
+class UMLForeignKeyConstraint;
+class UMLEntity;
 
 class KPrinter;
 class ToolBarState;
@@ -731,6 +733,9 @@ public:
      */
     void createAutoAttributeAssociations(UMLWidget *widget);
 
+    void createAutoConstraintAssociations(UMLWidget* widget);
+
+
     /**
      * Refreshes containment association, i.e. removes possible old
      * containment and adds new containment association if applicable.
@@ -1198,6 +1203,10 @@ private:
     void createAutoAttributeAssociation(UMLClassifier *type,
                                         UMLAttribute *attr,
                                         UMLWidget *widget);
+
+    void createAutoConstraintAssociation(UMLEntity* refEntity, 
+                                         UMLForeignKeyConstraint* fkConstraint, 
+                                         UMLWidget* widget);
 
 public slots:
 

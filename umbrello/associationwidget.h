@@ -1030,12 +1030,14 @@ public slots:
     void slotClearAllSelected();
 
     /**
-     * Connected to UMLClassifier::attributeRemoved() in case this
-     * AssociationWidget is linked to a classifer's attribute type.
+     * Connected to UMLClassifier::attributeRemoved() or UMLEntity::constraintRemoved()
+     * in case this AssociationWidget is linked to a clasifier list item
+     * ( an attribute or a foreign key constraint )
      *
-     * @param obj               The UMLAttribute removed.
+     * @param obj               The UMLClassifierListItem removed.
      */
-    void slotAttributeRemoved(UMLClassifierListItem* obj);
+    void slotClassifierListItemRemoved(UMLClassifierListItem* obj);
+
 
     /**
      * Synchronize this widget from the UMLAssociation.

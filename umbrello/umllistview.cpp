@@ -2526,6 +2526,9 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
         case Uml::lvt_Template:
         case Uml::lvt_Operation:
         case Uml::lvt_EnumLiteral:
+        case Uml::lvt_UniqueConstraint:
+        case Uml::lvt_PrimaryKeyConstraint:
+        case Uml::lvt_ForeignKeyConstraint:
             item = findItem(nID);
             if (item == NULL) {
                 kDebug() << pfx << "item " << ID2STR(nID) << " (of type "

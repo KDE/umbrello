@@ -105,6 +105,8 @@
 #include "umlwidget.h"
 #include "toolbarstatefactory.h"
 #include "cmds.h"
+#include "entity.h"
+#include "foreignkeyconstraint.h"
 
 // control the manual DoubleBuffering of QCanvas
 // with a define, so that this memory X11 effect can
@@ -520,8 +522,12 @@ void UMLView::slotObjectCreated(UMLObject* o) {
         // widget might saturate some latent attribute assocs.
         for (UMLWidgetListIt it(m_WidgetList); it.current(); ++it) {
             UMLWidget *w = it.current();
-            if (w != newWidget)
+            if (w != newWidget) {
                 createAutoAttributeAssociations(w);
+
+                if ( o->getBaseType() == ot_Entity )
+                  createAutoConstraintAssociations(w);
+            }
         }
         break;
     default:
@@ -828,7 +834,8 @@ AssociationWidget * UMLView::findAssocWidget(UMLWidget *pWidgetA,
         if (testType != Uml::at_Association &&
             testType != Uml::at_UniAssociation &&
             testType != Uml::at_Composition &&
-            testType != Uml::at_Aggregation)
+            testType != Uml::at_Aggregation &&
+            testType != Uml::at_Relationship)
             continue;
         if (pWidgetA->getID() == assoc->getWidgetID(A) &&
             pWidgetB->getID() == assoc->getWidgetID(B) &&
@@ -2046,9 +2053,9 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
     if (widget == NULL ||
         (m_Type != Uml::dt_Class &&
          m_Type != Uml::dt_Component &&
-         m_Type != Uml::dt_Deployment &&
-         m_Type != Uml::dt_EntityRelationship))
-        return;
+         m_Type != Uml::dt_Deployment
+         && m_Type != Uml::dt_EntityRelationship))
+         return;
     // Recipe:
     // If this widget has an underlying UMLCanvasObject then
     //   for each of the UMLCanvasObject's UMLAssociations
@@ -2161,7 +2168,13 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
         if (! addAssociation(assocwidget))
             delete assocwidget;
     }
+
     createAutoAttributeAssociations(widget);
+
+    if ( m_Type == Uml::dt_EntityRelationship ) {
+        createAutoConstraintAssociations(widget);
+    }
+
     // if this object is capable of containing nested objects then
     Uml::Object_Type t = umlObj->getBaseType();
     if (t == ot_Package || t == ot_Class || t == ot_Interface || t == ot_Component) {
@@ -2341,6 +2354,85 @@ void UMLView::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute *
         }
     }
 }
+
+void UMLView::createAutoConstraintAssociations(UMLWidget *widget) {
+    if (widget == NULL || m_Type != Uml::dt_EntityRelationship)
+        return;
+
+    // Pseudocode:
+    //   if the underlying model object is really a UMLEntity then
+    //     for each of the UMLEntity's UMLForeignKeyConstraint's
+    //       if the attribute type has a widget representation on this view then
+    //         if the AssocWidget does not already exist then
+    //           if the current diagram type permits relationships then
+    //             create a relationship AssocWidget
+    //           end if
+    //         end if
+    //       end if
+
+    UMLObject *tmpUmlObj = widget->getUMLObject();
+    if (tmpUmlObj == NULL)
+        return;
+    // check if the underlying model object is really a UMLEntity
+    UMLCanvasObject *umlObj = dynamic_cast<UMLCanvasObject*>(tmpUmlObj);
+    if (umlObj == NULL)
+        return;
+     // finished checking whether this widget has a UMLCanvas Object
+
+    if (tmpUmlObj->getBaseType() != Uml::ot_Entity)
+        return;
+    UMLEntity *entity = static_cast<UMLEntity*>(tmpUmlObj);
+
+    // for each of the UMLEntity's UMLForeignKeyConstraints
+    UMLClassifierListItemList constrList = entity->getFilteredList(Uml::ot_ForeignKeyConstraint);
+
+    for (UMLClassifierListItemListIt ect(constrList); ect.current(); ++ect) {
+        UMLEntityConstraint *eConstr = static_cast<UMLEntityConstraint*>( ect.current() );
+
+        UMLForeignKeyConstraint* fkc = static_cast<UMLForeignKeyConstraint*>(eConstr);
+        if( fkc == NULL ){
+            return;
+        }
+
+        UMLEntity* refEntity = fkc->getReferencedEntity();
+        if( refEntity == NULL ){
+            return;
+        }
+
+        createAutoConstraintAssociation(refEntity , fkc , widget);
+
+    }
+}
+
+void UMLView::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignKeyConstraint* fkConstraint, UMLWidget* widget){
+
+    if (refEntity == NULL) {
+         return;
+    }
+
+    Uml::Association_Type assocType = Uml::at_Relationship;
+    UMLWidget *w = findWidget( refEntity->getID() );
+    AssociationWidget *aw = NULL;
+
+    if (w) {
+        aw = findAssocWidget(widget, w, fkConstraint->getName());
+        if ( aw == NULL &&
+               // if the current diagram type permits relationships
+               AssocRules::allowAssociation(assocType, widget, w, false) ) {
+
+            AssociationWidget *a = new AssociationWidget (this, widget, assocType, w);
+            a->setUMLObject(fkConstraint);
+            a->calculateEndingPoints();
+            //a->setVisibility(attr->getVisibility(), B);
+            a->setRoleName(fkConstraint->getName(), B);
+            a->setActivated(true);
+            if (! addAssociation(a))
+                delete a;
+        }
+    }
+
+}
+
 
 void UMLView::findMaxBoundingRectangle(const FloatingTextWidget* ft, int& px, int& py, int& qx, int& qy)
 {
