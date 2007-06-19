@@ -360,6 +360,7 @@ bool UMLEntity::setAsPrimaryKey(UMLUniqueConstraint* uconstr) {
 
     uuc->emitModified();
     emitModified();
+    return true;
 }
 
 void UMLEntity::unsetPrimaryKey() {

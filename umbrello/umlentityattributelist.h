@@ -13,9 +13,7 @@
 #define UMLENTITYATTRIBUTELIST_H
 
 #include <q3ptrlist.h>
-
-// forward declaration
-class UMLEntityAttribute;
+#include "entityattribute.h"
 
 //typedef QPtrList<UMLEntityAttribute> UMLEntityAttributeList;
 typedef Q3PtrListIterator<UMLEntityAttribute> UMLEntityAttributeListIt;

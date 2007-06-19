@@ -189,6 +189,8 @@ void UMLWidget::updateWidget()
         case Uml::wt_Entity:
             m_pView->createAutoConstraintAssociations( this );
             break;
+        default:
+            break;
     }
 
     if(isVisible())
