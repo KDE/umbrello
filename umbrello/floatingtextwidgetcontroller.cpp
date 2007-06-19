@@ -9,8 +9,11 @@
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-// app includes
+// own header
 #include "floatingtextwidgetcontroller.h"
+// qt/kde includes
+#include <kdebug.h>
+// app includes
 #include "floatingtextwidget.h"
 #include "messagewidget.h"
 #include "objectwidget.h"
@@ -74,8 +77,6 @@ void FloatingTextWidgetController::moveWidgetBy(int diffX, int diffY) {
                (m_movementDirectionY > 0 && m_unconstrainedPositionY < m_floatingTextWidget->getY()) ) {
         newY = m_unconstrainedPositionY;
         m_movementDirectionY = 0;
-    } else {
-        return;
     }
 
     m_floatingTextWidget->setX(newX);
