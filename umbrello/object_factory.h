@@ -77,7 +77,7 @@ bool assignUniqueIdOnCreation();
  * Used by loadFromXMI and clipboard paste.
  */
 UMLObject* makeObjectFromXMI(const QString& xmiTag,
-                             const QString& stereoID = QString::null);
+                             const QString& stereoID = QString());
 
 }
 

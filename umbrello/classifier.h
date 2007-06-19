@@ -86,7 +86,7 @@ public:
     virtual UMLAttribute* createAttribute(const QString &name = QString(),
                                           UMLObject *type = 0,
                                           Uml::Visibility vis = Uml::Visibility::Private,
-                                          const QString &init = QString::null);
+                                          const QString &init = QString());
 
     /**
      * Adds an attribute to the class.
@@ -165,7 +165,7 @@ public:
      *         created because for example, the user canceled the dialog
      *         or no appropriate name can be found.
     */
-    UMLOperation* createOperation( const QString &name = QString::null,
+    UMLOperation* createOperation( const QString &name = QString(),
                                    bool *isExistingOp = NULL,
                                    Model_Utils::NameAndType_List *params = NULL);
 
@@ -239,7 +239,7 @@ public:
      *
      * @return  The UMLTemplate created
      */
-    UMLObject* createTemplate(const QString& name = QString::null);
+    UMLObject* createTemplate(const QString& name = QString());
 
     /**
      * Adds a template to the class if it is not there yet.

@@ -81,7 +81,7 @@ public:
      * @param name An optional name
      * @return The UniqueConstraint created
      */ 
-    UMLUniqueConstraint* createUniqueConstraint(const QString &name = QString::null);
+    UMLUniqueConstraint* createUniqueConstraint(const QString &name = QString());
 
     /**
      * Creates a Foreign Key  Constraint for this Entity. 
@@ -89,7 +89,7 @@ public:
      * @param name An optional name
      * @return The ForeignKeyConstraint created
      */ 
-    UMLForeignKeyConstraint* createForeignKeyConstraint(const QString &name = QString::null);
+    UMLForeignKeyConstraint* createForeignKeyConstraint(const QString &name = QString());
     
     /**
          * Adds an entityAttribute to the entity.

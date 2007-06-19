@@ -36,8 +36,8 @@ namespace Import_Utils {
     UMLObject* createUMLObject(Uml::Object_Type type,
                                const QString& name,
                                UMLPackage *parentPkg = NULL,
-                               const QString& comment = QString::null,
-                               const QString& stereotype = QString::null);
+                               const QString& comment = QString(),
+                               const QString& stereotype = QString());
     /**
      * Control whether an object which is newly created by createUMLObject()
      * is put at the global scope.
@@ -68,7 +68,7 @@ namespace Import_Utils {
     UMLObject* insertAttribute(UMLClassifier *klass, Uml::Visibility scope,
                                const QString& name,
                                const QString& type,
-                               const QString& comment = QString::null,
+                               const QString& comment = QString(),
                                bool isStatic = false);
     /**
      * Create a UMLAttribute and insert it into the document.
@@ -105,7 +105,7 @@ namespace Import_Utils {
                       Uml::Visibility scope, const QString& type,
                       bool isStatic, bool isAbstract,
                       bool isFriend = false, bool isConstructor = false,
-                      const QString& comment = QString::null);
+                      const QString& comment = QString());
 
     /**
      * Add an argument to a UMLOperation.
