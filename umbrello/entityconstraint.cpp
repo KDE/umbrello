@@ -57,28 +57,34 @@ UMLObject* UMLEntityConstraint::clone() const {
 }
 
 QString UMLEntityConstraint::getFullyQualifiedName(QString separator,
-                                                   bool includeRoot ) const {
+                                                   bool includeRoot ) const
+{
     kDebug() << k_funcinfo << "Not Yet implemented "<< endl;
-
+    return QString();
 }
 
-void UMLEntityConstraint::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void UMLEntityConstraint::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
       kDebug() << k_funcinfo << "Not Yet implemented "<< endl;
 
 }
 
-bool UMLEntityConstraint::showPropertiesDialog(QWidget* parent) {
+bool UMLEntityConstraint::showPropertiesDialog(QWidget* parent)
+{
       kDebug() << k_funcinfo << "Not Yet implemented "<< endl;
-
+      return false;
 }
 
-bool UMLEntityConstraint::load( QDomElement & element ) {
+bool UMLEntityConstraint::load( QDomElement & element ) 
+{
       kDebug() << k_funcinfo << "Not Yet implemented "<< endl;
-
+      return false;
 }
 
-QString UMLEntityConstraint::toString(Uml::Signature_Type sig ) {
+QString UMLEntityConstraint::toString(Uml::Signature_Type sig )
+{
       kDebug() << k_funcinfo << "Not Yet implemented "<< endl;
+      return QString();
 
 }
 
