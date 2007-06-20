@@ -67,6 +67,8 @@
 #include "dialogs/umlentityattributedialog.h"
 #include "dialogs/umloperationdialog.h"
 #include "dialogs/umltemplatedialog.h"
+#include "dialogs/umluniqueconstraintdialog.h"
+#include "dialogs/umlforeignkeyconstraintdialog.h"
 
 #ifdef WANT_LVTOOLTIP
 class LVToolTip : public QToolTip
@@ -320,6 +322,18 @@ void UMLListView::popupMenuSel(int sel) {
         addNewItem( temp, Uml::lvt_Operation );
         break;
 
+    case ListPopupMenu::mt_UniqueConstraint:
+        addNewItem( temp, Uml::lvt_UniqueConstraint );
+        break;
+
+    case ListPopupMenu::mt_PrimaryKeyConstraint:
+        addNewItem( temp, Uml::lvt_PrimaryKeyConstraint );
+        break;
+
+    case ListPopupMenu::mt_ForeignKeyConstraint:
+        addNewItem( temp, Uml::lvt_ForeignKeyConstraint );
+        break;
+
     case ListPopupMenu::mt_Import_Classes:
         UMLApp::app()->slotImportClasses();
         break;
@@ -478,6 +492,16 @@ void UMLListView::popupMenuSel(int sel) {
             UMLTemplate* selectedTemplate = static_cast<UMLTemplate*>(object);
             UMLTemplateDialog dialog( this, selectedTemplate );
             dialog.exec();
+        } else if (umlType == Uml::ot_UniqueConstraint ) {
+            // show the Unique Constraint dialog
+            UMLUniqueConstraint* selectedUniqueConstraint = static_cast<UMLUniqueConstraint*>(object);
+            UMLUniqueConstraintDialog dialog(this,selectedUniqueConstraint);
+            dialog.exec();
+        } else if (umlType == Uml::ot_ForeignKeyConstraint) {
+            // show the Unique Constraint dialog
+            UMLForeignKeyConstraint* selectedForeignKeyConstraint = static_cast<UMLForeignKeyConstraint*>(object);
+            UMLForeignKeyConstraintDialog dialog(this,selectedForeignKeyConstraint);
+            dialog.exec();
         } else {
             kWarning() << "calling properties on unknown type" << endl;
         }
@@ -592,6 +616,8 @@ UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const {
     case Uml::ot_Template:
     case Uml::ot_EnumLiteral:
     case Uml::ot_EntityAttribute:
+    case Uml::ot_UniqueConstraint:
+    case Uml::ot_ForeignKeyConstraint:
         //this will be handled by childObjectAdded
         return NULL;
         break;
@@ -1650,6 +1676,9 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
     case Uml::lvt_Operation:
     case Uml::lvt_Template:
     case Uml::lvt_EnumLiteral:
+    case Uml::lvt_UniqueConstraint:
+    case Uml::lvt_PrimaryKeyConstraint:
+    case Uml::lvt_ForeignKeyConstraint:
         {
             UMLClassifier *pClass =  static_cast<UMLClassifier*>(parent->getUMLObject());
             Uml::IDType newID = IDChanges.findNewID( Data.getID() );
@@ -1986,7 +2015,23 @@ bool UMLListView::itemRenamed( Q3ListViewItem * item , int /*col*/ ) {
     case Uml::lvt_Operation:
     case Uml::lvt_Template:
     case Uml::lvt_EnumLiteral:
+    case Uml::lvt_UniqueConstraint:
+    case Uml::lvt_ForeignKeyConstraint:
+
         return createChildUMLObject( renamedItem, Model_Utils::convert_LVT_OT(type) );
+        break;
+
+    case Uml::lvt_PrimaryKeyConstraint:{
+
+         bool result = createChildUMLObject( renamedItem, Model_Utils::convert_LVT_OT(type) );
+         UMLObject* obj = renamedItem->getUMLObject();
+         UMLUniqueConstraint* uuc = static_cast<UMLUniqueConstraint*>(obj);
+         UMLEntity* ent = static_cast<UMLEntity*>( uuc->parent() );
+         if ( ent!=NULL )
+             ent->setAsPrimaryKey(uuc);
+
+        return result;
+        }
         break;
 
     case Uml::lvt_Class_Diagram:
@@ -2184,7 +2229,28 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
             op->setType(od.m_pReturnType);
         }
         text = op->toString(Uml::st_SigNoVis);
-    } else {
+    } else if (  type == Uml::ot_UniqueConstraint || type == Uml::ot_ForeignKeyConstraint ) {
+
+        UMLEntity *owningEntity = static_cast<UMLEntity*>(parent);
+
+        QString name;
+        Model_Utils::Parse_Status st = Model_Utils::parseConstraint(text, name, owningEntity);
+        if (st) {
+            KMessageBox::error( kapp->mainWidget(),
+                                Model_Utils::psText(st),
+                                i18n("Creation canceled") );
+            m_bCreatingChildObject = false;
+            return false;
+        }
+        if ( type == Uml::ot_UniqueConstraint)
+            newObject = owningEntity->createUniqueConstraint(name);
+        else if ( type == Uml::ot_ForeignKeyConstraint)
+            newObject = owningEntity->createForeignKeyConstraint(name);
+
+        UMLEntityConstraint* uec = static_cast<UMLEntityConstraint*>(newObject);
+
+        text = uec->toString(Uml::st_SigNoVis);
+    } else  {
         kError() << "UMLListView::createChildUMLObject called for type "
             << type << " (ignored)" << endl;
         m_bCreatingChildObject = false;
@@ -2320,6 +2386,9 @@ bool UMLListView::isUnique( UMLListViewItem * item, const QString &name ) {
     case Uml::lvt_EntityAttribute:
     case Uml::lvt_Operation:
     case Uml::lvt_EnumLiteral:
+    case Uml::lvt_UniqueConstraint:
+    case Uml::lvt_PrimaryKeyConstraint:
+    case Uml::lvt_ForeignKeyConstraint:
         {
             UMLClassifier *parent = static_cast<UMLClassifier*>(parentItem->getUMLObject());
             return (parent->findChildObject(name) == NULL);

@@ -37,7 +37,11 @@ UMLForeignKeyConstraint::UMLForeignKeyConstraint(const UMLObject *parent)
 void UMLForeignKeyConstraint::init() {
     // initialise attributes
      m_BaseType = Uml::ot_ForeignKeyConstraint;
-     m_ReferencedEntity = NULL;
+
+     // should be NULL actually
+     // self referencing assigned to protect default behaviour
+     m_ReferencedEntity = static_cast<UMLEntity*>( parent() );
+
      m_UpdateAction = uda_NoAction;
      m_DeleteAction = uda_NoAction;
 

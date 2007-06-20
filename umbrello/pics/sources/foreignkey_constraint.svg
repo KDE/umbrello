@@ -14,7 +14,10 @@
    sodipodi:version="0.32"
    inkscape:version="0.44.1"
    sodipodi:docbase="/home/kde-devel/src/KDE/kdesdk/umbrello/umbrello/pics/sources"
-   sodipodi:docname="foreignkey_constraint.svg">
+   sodipodi:docname="foreignkey_constraint.svg"
+   inkscape:export-filename="/home/kde-devel/src/KDE/kdesdk/umbrello/umbrello/pics/foreignkey_constraint.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs1910" />
   <sodipodi:namedview
@@ -27,7 +30,7 @@
      inkscape:zoom="22.197802"
      inkscape:cx="8"
      inkscape:cy="8"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer4"
      showgrid="true"
      inkscape:grid-bbox="true"
      inkscape:document-units="px"
@@ -47,19 +50,35 @@
     </rdf:RDF>
   </metadata>
   <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="background"
+     style="opacity:0">
+    <rect
+       style="fill:white;fill-opacity:1"
+       id="rect4033"
+       width="12"
+       height="14"
+       x="2"
+       y="1"
+       inkscape:export-filename="/home/kde-devel/src/KDE/kdesdk/umbrello/umbrello/pics/foreignkey_constraint.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+  </g>
+  <g
      id="layer1"
      inkscape:label="Layer 1"
      inkscape:groupmode="layer">
     <text
        xml:space="preserve"
-       style="font-size:21.41018677px;font-style:normal;font-weight:normal;fill:red;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-       x="0.58961546"
-       y="16.722975"
+       style="font-size:16.92944145px;font-style:normal;font-weight:normal;fill:red;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="2.0963359"
+       y="14.470498"
        id="text1916"
-       transform="scale(1.114865,0.89697)"><tspan
+       transform="scale(1.064434,0.939467)"><tspan
          sodipodi:role="line"
          id="tspan1918"
-         x="0.58961546"
-         y="16.722975">F</tspan></text>
+         x="2.0963359"
+         y="14.470498">F</tspan></text>
   </g>
 </svg>

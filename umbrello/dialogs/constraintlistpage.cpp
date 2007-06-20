@@ -41,16 +41,14 @@ ConstraintListPage::ConstraintListPage(QWidget* parent, UMLClassifier* classifie
     setupActions();
 
     buttonMenu = new KMenu(this );
-
-    slotResetButtonMenu();
-
     // add a button menu
     m_pNewClassifierListItemButton->setMenu( buttonMenu );
+    buttonMenu->addAction( newPrimaryKeyConstraintAction );
+    buttonMenu->addAction( newUniqueConstraintAction );
+    buttonMenu->addAction( newForeignKeyConstraintAction );
 
     // because we order the list items. first the Unique Constraints and then the ForeignKey Constraints
     hideArrowButtons( true );
-
-    connect( m_pClassifier, SIGNAL( modified() ), this , SLOT( slotResetButtonMenu()) );
 }
 
 
@@ -95,6 +93,7 @@ void ConstraintListPage::slotNewPrimaryKeyConstraint(){
     if ( m_pLastObjectCreated!=NULL ) {
         m_bSigWaiting = true;
         ent->setAsPrimaryKey( static_cast<UMLUniqueConstraint*>(m_pLastObjectCreated ) );
+        reloadItemListBox();
     }
 
     // shift back
@@ -137,19 +136,5 @@ int ConstraintListPage::calculateNewIndex(UMLClassifierListItem* listItem){
     return index;
 }
 
-void ConstraintListPage::slotResetButtonMenu(){
-
-    UMLEntity* ent = static_cast<UMLEntity*>( m_pClassifier );
-
-    buttonMenu->clear();
-
-    if ( !(ent->hasPrimaryKey()) ) {
-        buttonMenu->addAction( newPrimaryKeyConstraintAction );
-    }
-
-    buttonMenu->addAction( newUniqueConstraintAction );
-    buttonMenu->addAction( newForeignKeyConstraintAction );
-
-}
 
 #include "constraintlistpage.moc"

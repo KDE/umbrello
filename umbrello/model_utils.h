@@ -28,6 +28,7 @@
 // forward declarations
 class UMLClassifier;
 class UMLPackage;
+class UMLEntity;
 
 namespace Model_Utils {
 
@@ -317,6 +318,18 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
  * @return      Error status of the parse, PS_OK for success.
  */
 Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owningScope);
+
+/** 
+ * Parses a constraint 
+ *
+ * @param m             Input text of the constraint
+ *
+ * @param name          The name returned by this method
+ * @param owningScope   Poitner to the owning scope of the constraint
+ * @return       Error status of the parse, PS_OK for success.
+ */
+Parse_Status parseConstraint(QString m, QString& name, UMLEntity* owningScope);
+
 
 /**
  * Returns the Parse_Status as a text.

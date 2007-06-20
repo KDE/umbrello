@@ -3227,9 +3227,11 @@ void AssociationWidget::setUMLObject(UMLObject *obj) {
 }
 
 void AssociationWidget::slotClassifierListItemRemoved(UMLClassifierListItem* obj) {
-    if (obj != m_pObject)
+    if (obj != m_pObject) {
         kDebug() << "AssociationWidget::slotClassifierListItemRemoved:(obj=" << obj
-                  << "): m_pObject=" << m_pObject << endl;
+                 << "): m_pObject=" << m_pObject << endl;
+        return;
+    }
     m_pObject = NULL;
     m_pView->removeAssoc(this);
 }

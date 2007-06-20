@@ -356,7 +356,12 @@ bool UMLEntity::setAsPrimaryKey(UMLUniqueConstraint* uconstr) {
         uuc = uconstr;
     }
 
+    UMLUniqueConstraint* oldPrimaryKey = m_PrimaryKey;
+
     m_PrimaryKey = uuc;
+
+    if ( oldPrimaryKey!= NULL )
+        oldPrimaryKey->emitModified();
 
     uuc->emitModified();
     emitModified();

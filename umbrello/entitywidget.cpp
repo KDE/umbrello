@@ -19,6 +19,8 @@
 // app includes
 #include "entity.h"
 #include "entityattribute.h"
+#include "uniqueconstraint.h"
+#include "foreignkeyconstraint.h"
 #include "classifier.h"
 #include "umlclassifierlistitemlist.h"
 #include "classifierlistitem.h"
@@ -183,6 +185,27 @@ void EntityWidget::slotMenuSelection(int sel) {
         if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(m_pObject),
                                               Uml::ot_EntityAttribute) )  {
             UMLApp::app()->getDocument()->setModified();
+        }
+        break;
+
+    case ListPopupMenu::mt_PrimaryKeyConstraint:
+    case ListPopupMenu::mt_UniqueConstraint:
+        if ( UMLObject* obj = Object_Factory::createChildObject(static_cast<UMLEntity*>(m_pObject),
+                                               Uml::ot_UniqueConstraint) ) {
+            UMLApp::app()->getDocument()->setModified();
+
+            if ( sel == ListPopupMenu::mt_PrimaryKeyConstraint ) {
+                UMLUniqueConstraint* uc = static_cast<UMLUniqueConstraint*>(obj);
+                static_cast<UMLEntity*>(m_pObject)->setAsPrimaryKey(uc);
+            }
+        }
+        break;
+
+    case ListPopupMenu::mt_ForeignKeyConstraint:
+         if (Object_Factory::createChildObject(static_cast<UMLEntity*>(m_pObject),
+                                               Uml::ot_ForeignKeyConstraint) ) {
+             UMLApp::app()->getDocument()->setModified();
+
         }
         break;
     }

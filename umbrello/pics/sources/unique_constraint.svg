@@ -14,7 +14,10 @@
    sodipodi:version="0.32"
    inkscape:version="0.44.1"
    sodipodi:docbase="/home/kde-devel/src/KDE/kdesdk/umbrello/umbrello/pics/sources"
-   sodipodi:docname="unique_constraint.svg">
+   sodipodi:docname="unique_constraint.svg"
+   inkscape:export-filename="/home/kde-devel/src/KDE/kdesdk/umbrello/umbrello/pics/unique_constraint.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs1873" />
   <sodipodi:namedview
@@ -27,7 +30,7 @@
      inkscape:zoom="22.197802"
      inkscape:cx="8"
      inkscape:cy="8"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer3"
      showgrid="true"
      inkscape:grid-bbox="true"
      inkscape:document-units="px"
@@ -47,19 +50,32 @@
     </rdf:RDF>
   </metadata>
   <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="background"
+     style="opacity:0">
+    <rect
+       style="fill:white;fill-opacity:1"
+       id="rect3965"
+       width="12.010396"
+       height="13.963861"
+       x="2"
+       y="1" />
+  </g>
+  <g
      id="layer1"
      inkscape:label="Layer 1"
      inkscape:groupmode="layer">
     <text
        xml:space="preserve"
-       style="font-size:19.28829956px;font-style:normal;font-weight:normal;fill:red;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-       x="0.75220436"
-       y="15.085129"
+       style="font-size:15.13630867px;font-style:normal;font-weight:normal;fill:red;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="2.5095575"
+       y="12.909222"
        id="text1879"
-       transform="scale(1.023884,0.976674)"><tspan
+       transform="scale(0.937397,1.066784)"><tspan
          sodipodi:role="line"
          id="tspan1881"
-         x="0.75220436"
-         y="15.085129">U</tspan></text>
+         x="2.5095575"
+         y="12.909222">U</tspan></text>
   </g>
 </svg>

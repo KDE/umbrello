@@ -200,6 +200,18 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type)
         mt = mt_EntityAttribute;
         break;
 
+    case Uml::lvt_UniqueConstraint:
+        mt = mt_UniqueConstraint;
+        break;
+
+    case Uml::lvt_PrimaryKeyConstraint:
+        mt = mt_PrimaryKeyConstraint;
+        break;
+
+    case Uml::lvt_ForeignKeyConstraint:
+        mt = mt_ForeignKeyConstraint;
+        break;
+
     case Uml::lvt_Model:
         mt = mt_Model;
         break;
@@ -291,6 +303,10 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     case Uml::wt_Entity:
         m_pInsert = new KMenu(this);
         m_pInsert->insertItem(SmallIcon("source"), i18n("Entity Attribute..."), mt_EntityAttribute);
+        m_pInsert->insertItem(SmallIcon("primarykey_constraint"),i18n("Primary Key Constraint..."),mt_PrimaryKeyConstraint );
+        m_pInsert->insertItem(SmallIcon("unique_constraint"),i18n("Unique Constraint..."),mt_UniqueConstraint );
+        m_pInsert->insertItem(SmallIcon("foreignkey_constraint"),i18n("Foreign Key Constraint..."),mt_ForeignKeyConstraint );
+
         insertFileNew();
         setupColor(object->getUseFillColour());
         insertStdItems(true, type);
@@ -1188,6 +1204,10 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
     case mt_Entity:
         m_pInsert = new KMenu(this);
         m_pInsert->insertItem(SmallIcon("source"), i18n("Entity Attribute..."), mt_EntityAttribute);
+        m_pInsert->insertItem(SmallIcon("primarykey_constraint"),i18n("Primary Key Constraint..."),mt_PrimaryKeyConstraint );
+        m_pInsert->insertItem(SmallIcon("unique_constraint"),i18n("Unique Constraint..."),mt_UniqueConstraint );
+        m_pInsert->insertItem(SmallIcon("foreignkey_constraint"),i18n("Foreign Key Constraint..."),mt_ForeignKeyConstraint );
+
         insertFileNew();
         insertStdItems();
         insertStdItem(mt_Properties);
@@ -1203,7 +1223,16 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
     case mt_EntityAttribute:
     case mt_Operation:
     case mt_Template:
+
         insertStdItems(false);
+        insertStdItem(mt_Properties);
+        break;
+
+    case mt_UniqueConstraint:
+    case mt_PrimaryKeyConstraint:
+    case mt_ForeignKeyConstraint:
+        insertStdItem(mt_Rename);
+        insertStdItem(mt_Delete);
         insertStdItem(mt_Properties);
         break;
 
@@ -1229,6 +1258,18 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
     case mt_New_EntityAttribute:
         insertStdItem(mt_New_EntityAttribute);
+        break;
+
+    case mt_New_UniqueConstraint:
+        insertStdItem(mt_New_UniqueConstraint);
+        break;
+
+    case mt_New_PrimaryKeyConstraint:
+        insertStdItem(mt_New_PrimaryKeyConstraint);
+        break;
+
+    case mt_New_ForeignKeyConstraint:
+        insertStdItem(mt_New_ForeignKeyConstraint);
         break;
 
     case mt_New_Activity:
@@ -1281,6 +1322,25 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         insertStdItem(mt_Delete);
         insertStdItem(mt_Properties);
         break;
+
+    case mt_UniqueConstraint_Selected:
+        insertStdItem(mt_New_UniqueConstraint);
+        insertStdItem(mt_Delete);
+        insertStdItem(mt_Properties);
+        break;
+
+    case mt_PrimaryKeyConstraint_Selected:
+        insertStdItem(mt_New_PrimaryKeyConstraint);
+        insertStdItem(mt_Delete);
+        insertStdItem(mt_Properties);
+        break;
+
+    case mt_ForeignKeyConstraint_Selected:
+        insertStdItem(mt_New_ForeignKeyConstraint);
+        insertStdItem(mt_Delete);
+        insertStdItem(mt_Properties);
+        break;
+
 
     case mt_Association_Selected:
         insertStdItem(mt_Delete);

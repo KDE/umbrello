@@ -558,6 +558,23 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
     return PS_OK;
 }
 
+
+Parse_Status parseConstraint(QString m, QString& name, UMLEntity* owningScope) {
+
+    m = m.simplified();
+    if (m.isEmpty())
+        return PS_Empty;
+
+    int colonPos = m.find(':');
+    if (colonPos < 0) {
+        name = m;
+        return PS_OK;
+    }
+
+    name = m.left(colonPos).trimmed();
+    return PS_OK;
+}
+
 QString psText(Parse_Status value) {
     const QString text[] = {
                                i18n("OK"), i18n("Empty"), i18n("Malformed argument"),

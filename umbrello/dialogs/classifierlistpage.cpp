@@ -131,14 +131,7 @@ void ClassifierListPage::setupPage() {
     docLayout->addWidget( m_pDocTE );
     mainLayout->addWidget(m_pDocGB);
 
-    UMLClassifierListItemList itemList(getItemList());
-
-    // add each item in the list to the ListBox and connect each item modified signal
-    // to the ListItemModified slot in this class
-    for (UMLClassifierListItem* listItem = itemList.first(); listItem != 0; listItem = itemList.next() ) {
-        m_pItemListLB->insertItem(listItem->toString(Uml::st_SigNoVis));
-        connect( listItem, SIGNAL(modified()),this,SLOT(slotListItemModified()) );
-    }
+    reloadItemListBox();
 
     enableWidgets(false);//disable widgets until an att is chosen
     m_pOldListItem = 0;
@@ -159,6 +152,20 @@ void ClassifierListPage::setupPage() {
     connect( m_pItemListLB, SIGNAL( doubleClicked( Q3ListBoxItem* ) ),
              this, SLOT( slotDoubleClick( Q3ListBoxItem* ) ) );
 
+}
+
+void ClassifierListPage::reloadItemListBox() {
+    UMLClassifierListItemList itemList(getItemList());
+
+    // remove any items if present
+    m_pItemListLB->clear();
+
+    // add each item in the list to the ListBox and connect each item modified signal
+    // to the ListItemModified slot in this class
+    for (UMLClassifierListItem* listItem = itemList.first(); listItem != 0; listItem = itemList.next() ) {
+        m_pItemListLB->insertItem(listItem->toString(Uml::st_SigNoVis));
+        connect( listItem, SIGNAL(modified()),this,SLOT(slotListItemModified()) );
+    }
 }
 
 
@@ -280,8 +287,8 @@ void ClassifierListPage::slotListItemCreated(UMLObject* object) {
 }
 
 void ClassifierListPage::slotListItemModified() {
-    if(!m_bSigWaiting) {
-        return;
+     if(!m_bSigWaiting) {
+         return;
     }
     //is this safe???
     UMLClassifierListItem* object = const_cast<UMLClassifierListItem*>(dynamic_cast<const UMLClassifierListItem*>(sender()));
@@ -644,6 +651,8 @@ void ClassifierListPage::hideArrowButtons(bool hide){
     m_pDownArrowB->setVisible(state);
     m_pBottomArrowB->setVisible(state) ;
 }
+
+
 
 #include "classifierlistpage.moc"
 

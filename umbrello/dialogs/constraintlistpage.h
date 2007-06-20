@@ -66,7 +66,6 @@ private slots:
     void slotNewUniqueConstraint();
     void slotNewPrimaryKeyConstraint();
     void slotNewForeignKeyConstraint();
-    void slotResetButtonMenu();
 
 protected:
 

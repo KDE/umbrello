@@ -27,9 +27,11 @@
 // app includes
 #include "folder.h"
 #include "classifier.h"
+#include "entity.h"
 #include "template.h"
 #include "attribute.h"
 #include "operation.h"
+#include "entityconstraint.h"
 #include "umldoc.h"
 #include "umllistview.h"
 #include "umlobjectlist.h"
@@ -407,6 +409,37 @@ void UMLListViewItem::okRename( int col ) {
                 pAtt->setParmKind(nt.m_direction);
                 pAtt->setInitialValue(nt.m_initialValue);
                 m_Label = pAtt->toString(Uml::st_SigNoVis);
+            } else {
+                KMessageBox::error( kapp->mainWidget(),
+                                    Model_Utils::psText(st),
+                                    i18n("Rename canceled") );
+            }
+            Q3ListViewItem::setText(0, m_Label);
+            break;
+        }
+
+    case Uml::lvt_PrimaryKeyConstraint:
+    case Uml::lvt_UniqueConstraint:
+    case Uml::lvt_ForeignKeyConstraint:
+        {
+            if (m_pObject == NULL) {
+                cancelRenameWithMsg();
+                return;
+            }
+            UMLEntity *parent = static_cast<UMLEntity*>(m_pObject->parent());
+            QString name;
+            Model_Utils::Parse_Status st;
+            st = Model_Utils::parseConstraint(newText, name,  parent);
+            if (st == Model_Utils::PS_OK) {
+                UMLObject *exists = parent->findChildObject(name);
+                if (exists) {
+                    cancelRenameWithMsg();
+                    return;
+                }
+                UMLApp::app()->executeCommand(new Uml::cmdRenameUMLObject(m_pObject,name));
+
+                UMLEntityConstraint* uec = static_cast<UMLEntityConstraint*>(m_pObject);
+                m_Label = uec->toString(Uml::st_SigNoVis);
             } else {
                 KMessageBox::error( kapp->mainWidget(),
                                     Model_Utils::psText(st),

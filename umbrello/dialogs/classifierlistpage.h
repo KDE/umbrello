@@ -69,6 +69,7 @@ private:
      * Sets up the page
      */
     void setupPage();
+
     /**
      *  Set the state of the widgets on the page with the given value.
      *
@@ -133,6 +134,11 @@ private:
     UMLClassifierListItem* m_pOldListItem;
 
 protected:
+
+    /** Loads the Item nList Box
+     *
+     */
+    void reloadItemListBox();
 
     /** 
      * Sets the visibility of the arrow buttons
