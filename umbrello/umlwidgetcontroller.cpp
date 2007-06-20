@@ -144,10 +144,10 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
 
     if ((me->modifiers() & Qt::ShiftModifier) && (me->modifiers() & Qt::ControlModifier)) {
         //Move in Y axis
-        diffX = m_oldX - m_widget->getX();
+        diffX = 0;
     } else if ((me->modifiers() & Qt::ShiftModifier) || (me->modifiers() & Qt::ControlModifier)) {
         //Move in X axis
-        diffY = m_oldY - m_widget->getY();
+        diffY = 0;
     }
 
 /* Commands
@@ -155,7 +155,12 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
     doc->executeCommand(new cmdMoveWidget(this,diffX,diffY));*/
 
     // moveWidget(diffX,diffY);
+
+    // kDebug() << "UMLWidgetController::mouseMoveEvent before constrainMovementForAllWidgets:"
+    //     << " diffX=" << diffX << ", diffY=" << diffY << endl;
     constrainMovementForAllWidgets(diffX, diffY);
+    // kDebug() << "UMLWidgetController::mouseMoveEvent after constrainMovementForAllWidgets:"
+    //     << " diffX=" << diffX << ", diffY=" << diffY << endl;
 
     //Nothing to move
     if (diffX == 0 && diffY == 0) {
@@ -185,6 +190,7 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
         //m_doc->executeCommand(new cmdMoveWidgetBy(widget,diffX,diffY));
         widget->getWidgetController()->moveWidgetBy(diffX, diffY);
     }
+    // kDebug() << endl;
 
     // Move any selected associations.
     AssociationWidgetList awl = m_widget->m_pView->getSelectedAssocs();
@@ -529,21 +535,36 @@ int UMLWidgetController::getBiggestY(const UMLWidgetList &widgetList) {
 }
 
 QPoint UMLWidgetController::getPositionDifference(QMouseEvent* me) {
-    int newX = me->x() - m_pressOffsetX;
-    int newY = me->y() - m_pressOffsetY;
+    /*
+    kDebug() << "UMLWidgetController::getPositionDifference: me->x=" << me->x()
+        << " m_widget->getX=" << m_widget->getX() << ", m_oldX=" << m_oldX
+        << ", m_pressOffsetX=" << m_pressOffsetX << endl;
+    kDebug() << "UMLWidgetController::getPositionDifference: me->y=" << me->y()
+        << " m_widget->getY=" << m_widget->getY() << ", m_oldY=" << m_oldY
+        << ", m_pressOffsetY=" << m_pressOffsetY << endl;
+     */
+    int newX = me->x() + m_widget->getX() - m_oldX - m_pressOffsetX;
+    int newY = me->y() + m_widget->getY() - m_oldY - m_pressOffsetY;
     int maxX = m_widget->m_pView->canvas()->width();
     int maxY = m_widget->m_pView->canvas()->height();
 
+    m_oldX = newX;
+    m_oldY = newY;
+
     if (newX + (m_minSelectedX - m_widget->getX()) < 0) {
+        //kDebug() << "UMLWidgetController::getPositionDifference: got into cond.1" << endl;
         newX = m_widget->getX() - m_minSelectedX;
     }
     if (newY + (m_minSelectedY - m_widget->getY()) < 0) {
+        //kDebug() << "UMLWidgetController::getPositionDifference: got into cond.2" << endl;
         newY = m_widget->getY() - m_minSelectedY;
     }
     if (newX + (m_maxSelectedX - m_widget->getX()) > maxX) {
+        //kDebug() << "UMLWidgetController::getPositionDifference: got into cond.3" << endl;
         newX = maxX - (m_maxSelectedX - m_widget->getX());
     }
     if (newY + (m_maxSelectedY - m_widget->getY()) > maxY) {
+        //kDebug() << "UMLWidgetController::getPositionDifference: got into cond.4" << endl;
         newY = maxY - (m_maxSelectedY - m_widget->getY());
     }
 
