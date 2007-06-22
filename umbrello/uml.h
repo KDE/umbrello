@@ -640,10 +640,12 @@ public slots:
     void set_lang_idl();
     void set_lang_java();
     void set_lang_javascript();
+    void set_lang_mysql();
     void set_lang_pascal();
     void set_lang_perl();
     void set_lang_php();
     void set_lang_php5();
+    void set_lang_postgresql();
     void set_lang_python();
     void set_lang_ruby();
     void set_lang_sql();

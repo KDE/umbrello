@@ -21,6 +21,11 @@
 #include "simplecodegenerator.h"
 #include "../umlattributelist.h"
 
+//forward declarations
+class UMLEntity;
+class UMLEntityAttributeList;
+class UMLClassifierListItemList;
+
 /**
   * class SQLWriter is a code generator for UMLClassifier objects.
   * Create an instance of this class, and feed it a UMLClassifier when
@@ -55,23 +60,40 @@ public:
      */
     virtual const QStringList reservedKeywords() const;
 
-private:
+protected:
 
-    /**
-     * write all attributes for a given class
-     * @param c the class for which we are generating code
-     * @param j the stream associated with the output file
-     */
-    void writeAttributes(UMLClassifier *c, QTextStream &j);
+    UMLEntity* m_pEntity;
 
     /**
      * Prints out attributes as columns in the table
      *
      * @param sql the stream we should print to
      * @param attributeList the attributes to be printed
-     * @param first if the attributes are the first one
      */
-    void printAttributes(QTextStream& sql, UMLAttributeList attributeList, bool first);
+    virtual void printEntityAttributes(QTextStream& sql, UMLEntityAttributeList entityAttributeList);
+   
+    /**
+     * Prints out unique constraints (including primary key ) as "ALTER TABLE" statements
+     * @param sql the stream we should print to
+     * @param constrList the unique constraints to be printed
+     */
+    virtual void printUniqueConstraints(QTextStream& sql, UMLClassifierListItemList constrList); 
+
+    /**
+     * Prints out foreign key constraints as "ALTER TABLE" statements
+     * @param sql the stream we should print to
+     * @param constrList the foreignkey constraints to be printed
+     */
+    virtual void printForeignKeyConstraints(QTextStream& sql, UMLClassifierListItemList contrList);
+
+    /**
+     * Prints out Indexes as "CREATE INDEX " statements
+     * @param sql The Stream we should print to
+     * @param ent The Entity's attributes on which we want to create an Index
+     * @param entAtt The list of entities to create and index upon
+     */
+    virtual void printIndex(QTextStream& sql, UMLEntity* ent, UMLEntityAttributeList entAttList);
+
 };
 
 #endif // SQLWRITER_H

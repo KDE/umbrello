@@ -14,12 +14,14 @@
 
 #include "classifier.h"
 
-#include "umlentityconstraintlist.h"
-
 //forward declarations
 class UMLEntityAttribute;
+class UMLEntityConstraint;
 class UMLUniqueConstraint;
 class UMLForeignKeyConstraint;
+class UMLEntityConstraintList;
+class UMLEntityAttributeList;
+
 /**
  * This class contains the non-graphical information required for a UML
  * Entity.
@@ -210,6 +212,12 @@ public:
      * Reimplementation of getFilteredList to support ot=Uml::ot_EntityConstraint
      */
     UMLClassifierListItemList getFilteredList(Uml::Object_Type ot);
+
+    /**
+     * Returns the Entity Attributes
+     * Same as getFilteredList(Uml::ot_EntityAttribute)
+     */
+    UMLEntityAttributeList getEntityAttributes();
 
 private slots:
     void slotEntityAttributeRemoved(UMLClassifierListItem*);

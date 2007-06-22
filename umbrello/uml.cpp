@@ -251,10 +251,12 @@ void UMLApp::initActions() {
     setProgLangAction(Uml::pl_IDL,          "IDL",          "set_lang_idl");
     setProgLangAction(Uml::pl_Java,         "Java",         "set_lang_java");
     setProgLangAction(Uml::pl_JavaScript,   "JavaScript",   "set_lang_javascript");
+    setProgLangAction(Uml::pl_MySQL,        "MySQL (SQL)",  "set_lang_mysql");
     setProgLangAction(Uml::pl_Pascal,       "Pascal",       "set_lang_pascal");
     setProgLangAction(Uml::pl_Perl,         "Perl",         "set_lang_perl");
     setProgLangAction(Uml::pl_PHP,          "PHP",          "set_lang_php");
     setProgLangAction(Uml::pl_PHP5,         "PHP5",         "set_lang_php5");
+    setProgLangAction(Uml::pl_PostgreSQL,   "PostgreSQL(SQL)","set_lang_postgresql");
     setProgLangAction(Uml::pl_Python,       "Python",       "set_lang_python");
     setProgLangAction(Uml::pl_Ruby,         "Ruby",         "set_lang_ruby");
     setProgLangAction(Uml::pl_SQL,          "SQL",          "set_lang_sql");
@@ -1351,6 +1353,8 @@ CodeGenerator *UMLApp::setGenerator(Uml::Programming_Language pl) {
     m_codegen = CodeGenFactory::createObject(pl);
     updateLangSelectMenu(pl);
 
+    slotAddDefaultDatatypes();
+
     if (m_policyext)
         m_policyext->setDefaults(m_config.data(), false); // picks up language specific stuff
     return m_codegen;
@@ -1403,6 +1407,10 @@ void UMLApp::set_lang_javascript() {
     setProgLangMenu(Uml::pl_JavaScript);
 }
 
+void UMLApp::set_lang_mysql() {
+    setProgLangMenu(Uml::pl_MySQL);
+}
+
 void UMLApp::set_lang_pascal() {
     setProgLangMenu(Uml::pl_Pascal);
 }
@@ -1417,6 +1425,10 @@ void UMLApp::set_lang_php() {
 
 void UMLApp::set_lang_php5() {
     setProgLangMenu(Uml::pl_PHP5);
+}
+
+void UMLApp::set_lang_postgresql() {
+    setProgLangMenu(Uml::pl_PostgreSQL);
 }
 
 void UMLApp::set_lang_python() {

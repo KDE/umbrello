@@ -602,6 +602,8 @@ QString progLangToString(Uml::Programming_Language pl) {
             return "Java";
         case Uml::pl_JavaScript:
             return "JavaScript";
+        case Uml::pl_MySQL:
+             return "MySQL";
         case Uml::pl_Pascal:
             return "Pascal";
         case Uml::pl_Perl:
@@ -610,6 +612,8 @@ QString progLangToString(Uml::Programming_Language pl) {
             return "PHP";
         case Uml::pl_PHP5:
             return "PHP5";
+        case Uml::pl_PostgreSQL:
+            return "PostgreSQL";
         case Uml::pl_Python:
             return "Python";
         case Uml::pl_Ruby:
@@ -643,6 +647,8 @@ Uml::Programming_Language stringToProgLang(QString str) {
         return Uml::pl_Java;
     if (str == "JavaScript")
         return Uml::pl_JavaScript;
+    if (str == "MySQL")
+        return Uml::pl_MySQL;
     if (str == "Pascal")
         return Uml::pl_Pascal;
     if (str == "Perl")
@@ -651,6 +657,8 @@ Uml::Programming_Language stringToProgLang(QString str) {
         return Uml::pl_PHP;
     if (str == "PHP5")
         return Uml::pl_PHP5;
+    if (str == "PostgreSQL")
+        return Uml::pl_PostgreSQL;
     if (str == "Python")
         return Uml::pl_Python;
     if (str == "Ruby")
@@ -1276,6 +1284,24 @@ Uml::Model_Type convert_OT_MT(Uml::Object_Type ot) {
             break;
     }
     return mt;
+}
+
+QString convertUpdateDeleteActionToString( UMLForeignKeyConstraint::UpdateDeleteAction uda ) {
+
+    switch( uda ) {
+     case UMLForeignKeyConstraint::uda_NoAction:
+         return "NO ACTION";
+     case  UMLForeignKeyConstraint::uda_Restrict:
+         return "RESTRICT";
+     case UMLForeignKeyConstraint::uda_Cascade:
+         return "CASCADE";
+     case  UMLForeignKeyConstraint::uda_SetNull:
+         return "SET NULL";
+     case  UMLForeignKeyConstraint::uda_SetDefault:
+         return "SET DEFAULT";
+     default:
+         return QString();
+    }
 }
 
 }  // namespace Model_Utils

@@ -17,6 +17,7 @@
 
 #include "umlnamespace.h"
 #include "umlobjectlist.h"
+#include "foreignkeyconstraint.h"
 
 /**
  * General purpose model utilities.
@@ -29,6 +30,7 @@
 class UMLClassifier;
 class UMLPackage;
 class UMLEntity;
+class UMLForeignKeyConstraint;
 
 namespace Model_Utils {
 
@@ -335,6 +337,12 @@ Parse_Status parseConstraint(QString m, QString& name, UMLEntity* owningScope);
  * Returns the Parse_Status as a text.
  */
 QString psText(Parse_Status value);
+
+/**
+ * Converts from the UpdateDeleteAction enum to a QString
+ * @param uda The UpdateDeleteAction enum literal
+ */
+QString convertUpdateDeleteActionToString( UMLForeignKeyConstraint::UpdateDeleteAction uda );
 
 }
 

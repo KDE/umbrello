@@ -37,10 +37,12 @@
 #include "dwriter.h"
 #include "idlwriter.h"
 #include "javawriter.h"
+#include "mysqlwriter.h"
 #include "pascalwriter.h"
 #include "perlwriter.h"
 #include "phpwriter.h"
 #include "php5writer.h"
+#include "postgresqlwriter.h"
 #include "pythonwriter.h"
 #include "rubywriter.h"
 #include "sqlwriter.h"
@@ -151,6 +153,9 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
         case Uml::pl_JavaScript:
             obj = new JSWriter();
             break;
+        case Uml::pl_MySQL:
+            obj = new MySQLWriter();
+            break;
         case Uml::pl_PHP:
             obj = new PhpWriter();
             break;
@@ -162,6 +167,9 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
             break;
         case Uml::pl_Perl:
             obj = new PerlWriter();
+            break;
+        case Uml::pl_PostgreSQL:
+            obj = new PostgreSQLWriter();
             break;
         case Uml::pl_Python:
             obj = new PythonWriter();

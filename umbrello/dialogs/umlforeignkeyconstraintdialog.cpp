@@ -99,10 +99,6 @@ void UMLForeignKeyConstraintDialog::slotAddPair() {
 
     m_ColumnWidgets.mappingTW->addTopLevelItem( mapping );
 
-    foreach(pair, m_pAttributeMapList ) {
-        kDebug()<<( pair.first )->getName()<<" "<< ( pair.first )->getBaseType()<<" "
-                <<( pair.second )->getName()<<" "<< ( pair.second )->getBaseType()<<endl;
-    }
 }
 
 void UMLForeignKeyConstraintDialog::slotDeletePair(){
@@ -318,9 +314,15 @@ void UMLForeignKeyConstraintDialog::setupColumnPage() {
         int indexL = m_pLocalAttributeList.findRef( localColumn );
         int indexR = m_pReferencedAttributeList.findRef( referencedColumn );
 
+        m_pLocalAttributeList.remove( indexL );
+        m_pReferencedAttributeList.remove( indexR );
+
         // remove them from combo boxes
-        m_ColumnWidgets.localColumnCB->removeItem( indexL );
-        m_ColumnWidgets.referencedColumnCB->removeItem( indexR );
+        // the conditions may never be violated . Just for safety though
+        if ( indexL>=0 && indexL < (m_ColumnWidgets.localColumnCB )->count() )
+            m_ColumnWidgets.localColumnCB->removeItem( indexL );
+        if ( indexR>=0 && indexR < (m_ColumnWidgets.referencedColumnCB )->count() )
+            m_ColumnWidgets.referencedColumnCB->removeItem( indexR );
 
 
         // add to local cache

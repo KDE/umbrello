@@ -53,10 +53,12 @@
       <Action name="set_lang_idl"/>
       <Action name="set_lang_java"/>
       <Action name="set_lang_javascript"/>
+      <Action name="set_lang_mysql"/>
       <Action name="set_lang_pascal"/>
       <Action name="set_lang_perl"/>
       <Action name="set_lang_php"/>
       <Action name="set_lang_php5"/>
+      <Action name="set_lang_postgresql"/>
       <Action name="set_lang_python"/>
       <Action name="set_lang_ruby"/>
       <Action name="set_lang_tcl"/>

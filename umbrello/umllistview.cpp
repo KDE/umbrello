@@ -753,20 +753,15 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object) {
         break;
     case Uml::ot_Entity:
         {
-            kdDebug() << k_funcinfo << endl;
             UMLEntity *ent = static_cast<UMLEntity*>(object);
             connect(ent, SIGNAL(entityAttributeAdded(UMLClassifierListItem*)),
                     this, SLOT(childObjectAdded(UMLClassifierListItem*)));
-            kdDebug() << k_funcinfo << endl;
             connect(ent, SIGNAL(entityAttributeRemoved(UMLClassifierListItem*)),
                     this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
-            kdDebug() << k_funcinfo << endl;
             connect(ent, SIGNAL(entityConstraintAdded(UMLClassifierListItem*)),
                     this, SLOT(childObjectAdded(UMLClassifierListItem*)));
-            kdDebug() << k_funcinfo << endl;
             connect(ent, SIGNAL(entityConstraintRemoved(UMLClassifierListItem*)),
                     this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
-            kdDebug() << k_funcinfo << endl;
         }
         connect(object,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
         break;

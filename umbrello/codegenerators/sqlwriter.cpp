@@ -23,12 +23,19 @@
 #include <qfile.h>
 #include <qtextstream.h>
 #include <qregexp.h>
+#include <qlist.h>
 
 #include "../classifier.h"
 #include "../operation.h"
 #include "../umlnamespace.h"
 #include "../association.h"
 #include "../attribute.h"
+#include "../entity.h"
+#include "../model_utils.h"
+#include "../uniqueconstraint.h"
+#include "../foreignkeyconstraint.h"
+#include "../umlentityattributelist.h"
+#include "../umlclassifierlistitemlist.h"
 
 SQLWriter::SQLWriter() {
 }
@@ -37,24 +44,27 @@ SQLWriter::~SQLWriter() {}
 
 void SQLWriter::writeClass(UMLClassifier *c) {
 
-    if(!c) {
-        kDebug()<<"Cannot write class of NULL concept!" << endl;
+    UMLEntity* e = static_cast<UMLEntity*>(c);
+
+    if(!e) {
+        kDebug()<<"Cannot write entity of NULL concept!" << endl;
         return;
     }
 
-    const bool isClass = !c->isInterface();
-    QString classname = cleanName(c->getName());
+    m_pEntity = e;
+
+    QString entityname = cleanName(m_pEntity->getName());
 
     //find an appropriate name for our file
-    QString fileName = findFileName(c, ".sql");
+    QString fileName = findFileName(m_pEntity, ".sql");
     if (fileName.isEmpty()) {
-        emit codeGenerated(c, false);
+        emit codeGenerated(m_pEntity, false);
         return;
     }
 
     QFile file;
     if( !openFile(file, fileName) ) {
-        emit codeGenerated(c, false);
+        emit codeGenerated(m_pEntity, false);
         return;
     }
 
@@ -71,27 +81,49 @@ void SQLWriter::writeClass(UMLClassifier *c) {
     }
 
     //Write class Documentation if there is somthing or if force option
-    if(forceDoc() || !c->getDoc().isEmpty()) {
+    if(forceDoc() || !m_pEntity->getDoc().isEmpty()) {
         sql << m_endl << "--" << m_endl;
-        sql<<"-- TABLE: "<<classname<<m_endl;
-        sql<<formatDoc(c->getDoc(),"-- ");
+        sql<<"-- TABLE: "<<entityname<<m_endl;
+        sql<<formatDoc(m_pEntity->getDoc(),"-- ");
         sql << "--  " << m_endl << m_endl;
     }
 
-    sql << "CREATE TABLE "<< classname << " ( " << m_endl;
+    sql << "CREATE TABLE "<< entityname << " ( " << m_endl;
 
-    if (isClass)
-        writeAttributes(c, sql);
+    // write all entity attributes
+    UMLEntityAttributeList entAttList = m_pEntity->getEntityAttributes();
+
+    printEntityAttributes(sql, entAttList);
 
     sql << m_endl << ");" << m_endl;
 
-    QMap<UMLAssociation*,UMLAssociation*> constraintMap; // so we don't repeat constraint
-    UMLAssociationList aggregations = c->getAggregations();
-    if( forceSections() || !aggregations.isEmpty() ) {
-        for(UMLAssociation* a = aggregations.first(); a; a = aggregations.next()) {
+
+    // write all unqiue constraint ( including primary key )
+    UMLClassifierListItemList constrList = m_pEntity->getFilteredList(Uml::ot_UniqueConstraint);
+    printUniqueConstraints(sql, constrList);
+
+
+    // write all foreign key constraints
+    constrList = m_pEntity->getFilteredList(Uml::ot_ForeignKeyConstraint);
+    printForeignKeyConstraints(sql, constrList);
+
+    // write all other indexex
+    foreach( UMLEntityAttribute* ea, entAttList ) {
+        if ( ea->getIndexType() != Uml::Index )
+            continue;
+        UMLEntityAttributeList tempList;
+        tempList.append( ea );
+        printIndex( sql, m_pEntity, tempList );
+        tempList.clear();
+    }
+
+        QMap<UMLAssociation*,UMLAssociation*> constraintMap; // so we don't repeat constraint
+    UMLAssociationList relationships = m_pEntity->getRelationships();
+    if( forceSections() || !relationships.isEmpty() ) {
+        for(UMLAssociation* a = relationships.first(); a; a = relationships.next()) {
             UMLObject *objA = a->getObject(Uml::A);
             UMLObject *objB = a->getObject(Uml::B);
-            if (objA->getID() == c->getID() && objB->getID() != c->getID())
+            if (objA->getID() == m_pEntity->getID() && objB->getID() != m_pEntity->getID())
                 continue;
             constraintMap[a] = a;
         }
@@ -100,116 +132,19 @@ void SQLWriter::writeClass(UMLClassifier *c) {
     QMap<UMLAssociation*,UMLAssociation*>::Iterator itor = constraintMap.begin();
     for (;itor != constraintMap.end();itor++) {
         UMLAssociation* a = itor.data();
-        sql << "ALTER TABLE "<< classname
+        sql << "ALTER TABLE "<< entityname
             << " ADD CONSTRAINT " << a->getName() << " FOREIGN KEY ("
             << a->getRoleName(Uml::B) << ") REFERENCES "
             << a->getObject(Uml::A)->getName()
             << " (" << a->getRoleName(Uml::A) << ");" << m_endl;
+
     }
 
 
     file.close();
-    emit codeGenerated(c, true);
+    emit codeGenerated(m_pEntity, true);
 }
 
-
-void SQLWriter::writeAttributes(UMLClassifier *c, QTextStream &sql) {
-    UMLAttributeList atpub, atprot, atpriv, atimp;
-    atpub.setAutoDelete(false);
-    atprot.setAutoDelete(false);
-    atpriv.setAutoDelete(false);
-    atimp.setAutoDelete(false);
-
-    //sort attributes by scope and see if they have a default value
-    UMLAttributeList atl = c->getAttributeList();
-    for(UMLAttribute* at=atl.first(); at ; at=atl.next()) {
-        switch(at->getVisibility()) {
-          case Uml::Visibility::Public:
-            atpub.append(at);
-            break;
-          case Uml::Visibility::Protected:
-            atprot.append(at);
-            break;
-          case Uml::Visibility::Private:
-            atpriv.append(at);
-            break;
-          case Uml::Visibility::Implementation:
-            atimp.append(at);
-            break;
-        }
-    }
-
-    // now print the attributes; they are sorted by there scope
-    // in front of the first attribute shouldn't be a , -> so we need to find
-    // out, when the first attribute was added
-    bool first = true;
-
-    if (atpub.count() > 0)
-    {
-        printAttributes(sql, atpub, first);
-        first = false;
-    }
-
-    if (atprot.count() > 0)
-    {
-        printAttributes(sql, atprot, first);
-        first = false;
-    }
-
-    if (atpriv.count() > 0)
-    {
-        printAttributes(sql, atpriv, first);
-        first = false;
-    }
-
-    if (atimp.count() > 0)
-    {
-        printAttributes(sql, atimp, first);
-        first = false;
-    }
-
-    return;
-}
-
-void SQLWriter::printAttributes(QTextStream& sql, UMLAttributeList attributeList, bool first) {
-    QString attrDoc = "";
-    UMLAttribute* at;
-
-    for (at=attributeList.first();at;at=attributeList.next())
-    {
-        // print , after attribute
-        if (first == false) {
-            sql <<",";
-        } else {
-            first = false;
-        }
-
-        // print documentation/comment of last attribute at end of line
-        if (attrDoc.isEmpty() == false)
-        {
-            sql << " -- " << attrDoc << m_endl;
-        } else {
-            sql << m_endl;
-        }
-
-        // write the attribute
-        sql << m_indentation << cleanName(at->getName()) << " " << at->getTypeName() << " "
-        << (at->getInitialValue().isEmpty()?QString(""):QString(" DEFAULT ")+at->getInitialValue());
-
-        // now get documentation/comment of current attribute
-        attrDoc = at->getDoc();
-    }
-
-    // print documentation/comment at end of line
-    if (attrDoc.isEmpty() == false)
-    {
-        sql << " -- " << attrDoc << m_endl;
-    } else {
-        sql << m_endl;
-    }
-
-    return;
-}
 
 Uml::Programming_Language SQLWriter::getLanguage() {
     return Uml::pl_SQL;
@@ -390,5 +325,203 @@ const QStringList SQLWriter::reservedKeywords() const {
 
     return keywords;
 }
+
+void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList entityAttributeList ) {
+    QString attrDoc = "";
+    UMLEntityAttribute* at;
+
+    bool first = true;
+
+    for (at=entityAttributeList.first();at;at=entityAttributeList.next())
+    {
+       // print , after attribute
+         if (first == false) {
+             sql <<",";
+         } else {
+             first = false;
+         }
+
+        // print documentation/comment of last attribute at end of line
+        if (attrDoc.isEmpty() == false) {
+            sql << " -- " << attrDoc << m_endl;
+        } else {
+            sql << m_endl;
+        }
+
+        // write the attribute name
+        sql << m_indentation << cleanName(at->getName()) ;
+
+        // the datatype
+        sql<< ' ' << at->getTypeName();
+
+        // the length ( if there's some value)
+        QString lengthStr = at->getValues().trimmed();
+        bool ok;
+        uint length = lengthStr.toUInt(&ok);
+
+        if ( ok )
+            sql<<'('<<length<<')';
+
+        // write the attributes ( unsigned, zerofill etc)
+        QString attributes = at->getAttributes().trimmed();
+        if ( !attributes.isEmpty() ) {
+            sql<<' '<<attributes;
+        }
+
+        if ( !at->getNull() ) {
+            sql<<" NOT NULL ";
+        }
+
+        // write any default values
+        sql<< (at->getInitialValue().isEmpty()?QString(""):QString(" DEFAULT ")+at->getInitialValue());
+
+        // now get documentation/comment of current attribute
+        attrDoc = at->getDoc();
+
+
+        // print documentation/comment at end of line
+        if (attrDoc.isEmpty() == false) {
+          sql << " -- " << attrDoc << m_endl;
+        } else {
+          sql << m_endl;
+        }
+    }
+
+    return;
+}
+
+void SQLWriter::printUniqueConstraints(QTextStream& sql, UMLClassifierListItemList constrList){
+
+   foreach( UMLClassifierListItem* cli, constrList ) {
+
+       sql<<m_endl;
+       UMLUniqueConstraint* uuc = static_cast<UMLUniqueConstraint*>(cli);
+
+       UMLEntityAttributeList attList = uuc->getEntityAttributeList();
+
+       sql<<"ALTER TABLE "<<cleanName(m_pEntity->getName())
+          <<" ADD CONSTRAINT "<<cleanName(uuc->getName());
+
+       if ( m_pEntity->isPrimaryKey( uuc ) )
+           sql<<" PRIMARY KEY ";
+       else
+           sql<<" UNIQUE ";
+
+       sql<<'(';
+
+       bool first = true;
+       foreach( UMLEntityAttribute* entAtt, attList ) {
+           if ( first )
+               first = false;
+           else
+               sql<<",";
+
+           sql<<cleanName(entAtt->getName());
+       }
+
+       sql<<");";
+
+       sql<<m_endl;
+   }
+
+}
+
+void SQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierListItemList constrList) {
+   foreach( UMLClassifierListItem* cli, constrList ) {
+
+       sql<<m_endl;
+       UMLForeignKeyConstraint* fkc = static_cast<UMLForeignKeyConstraint*>(cli);
+
+       QMap<UMLEntityAttribute*,UMLEntityAttribute*> attributeMap;
+       attributeMap = fkc->getEntityAttributePairs();
+
+       sql<<"ALTER TABLE "<<cleanName(m_pEntity->getName())
+          <<" ADD CONSTRAINT "<<cleanName(fkc->getName());
+
+       sql<<" FOREIGN KEY (";
+
+       QList<UMLEntityAttribute*> entAttList = attributeMap.keys();
+
+       bool first = true;
+       // the local attributes which refer the attributes of the referenced entity
+       foreach( UMLEntityAttribute* entAtt, entAttList ) {
+           if ( first )
+               first = false;
+           else
+               sql<<',';
+
+           sql<<cleanName( entAtt->getName() );
+       }
+
+       sql<<')';
+
+       sql<<" REFERENCES ";
+
+       UMLEntity* referencedEntity = fkc->getReferencedEntity();
+       sql<<cleanName( referencedEntity->getName() );
+
+       sql<<'(';
+
+       QList<UMLEntityAttribute*> refEntAttList = attributeMap.values();
+
+       first = true;
+       // the attributes of the referenced entity which are being referenced
+       foreach( UMLEntityAttribute* refEntAtt, refEntAttList ) {
+          if ( first )
+              first = false;
+          else
+              sql<<',';
+
+          sql<<cleanName( refEntAtt->getName() );
+       }
+
+       sql<<')';
+
+       UMLForeignKeyConstraint::UpdateDeleteAction updateAction, deleteAction;
+       updateAction = fkc->getUpdateAction();
+       deleteAction = fkc->getDeleteAction();
+
+       sql<<" ON UPDATE "<<Model_Utils::convertUpdateDeleteActionToString(updateAction);
+       sql<<" ON DELETE "<<Model_Utils::convertUpdateDeleteActionToString(deleteAction);
+
+       sql<<';';
+
+       sql<<m_endl;
+   }
+
+}
+
+void SQLWriter::printIndex(QTextStream& sql, UMLEntity* ent , UMLEntityAttributeList entAttList) {
+
+    sql<<m_endl;
+    sql<<"CREATE INDEX ";
+
+    // we don;t have any name, so we just merge the names of all attributes along with their entity name
+
+    sql<<cleanName( ent->getName() )<<'_';
+    foreach( UMLEntityAttribute* entAtt,  entAttList ) {
+        sql<<cleanName( entAtt->getName() )<<'_';
+    }
+    sql<<"index ";
+
+    sql<<" ON "<<cleanName( m_pEntity->getName() )<<'(';
+
+    bool first = true;
+
+    foreach( UMLEntityAttribute* entAtt, entAttList ) {
+        if ( first )
+            first = false;
+        else
+            sql<<',';
+
+        sql<<cleanName( entAtt->getName() );
+    }
+
+    sql<<");";
+
+    sql<<m_endl;
+
+}
+
 
 #include "sqlwriter.moc"

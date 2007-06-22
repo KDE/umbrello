@@ -36,7 +36,9 @@
 #include "../codegenerator.h"
 #include "../uml.h"
 #include "../umldoc.h"
-
+#include "../folder.h"
+#include "../umlentitylist.h"
+#include "../entity.h"
 
 CodeGenerationWizard::CodeGenerationWizard(UMLClassifierList *classList)
   : CodeGenerationWizardBase((QWidget*)UMLApp::app()) {
@@ -57,9 +59,27 @@ CodeGenerationWizard::CodeGenerationWizard(UMLClassifierList *classList)
     UMLClassifierList cList;
 
     if (classList == NULL) {
-        cList = m_doc->getClassesAndInterfaces();
-        classList = &cList;
+        UMLFolder* currRoot = m_doc->currentRoot();
+        Uml::Model_Type type = m_doc->rootFolderType(currRoot);
+
+        switch( type ) {
+           case Uml::mt_Logical:
+               cList = m_doc->getClassesAndInterfaces();
+               break;
+           case Uml::mt_EntityRelationship:
+               foreach( UMLEntity* ent, m_doc->getEntities() ) {
+                   cList.append( ent );
+               }
+               break;
+           default:
+               break;
+        }
+
+        if ( !cList.isEmpty() ) {
+           classList = &cList;
+        }
     }
+
     for (UMLClassifier *c = classList->first(); c ; c = classList->next()) {
         new Q3ListViewItem( m_selectedList, c->getFullyQualifiedName());
     }

@@ -81,10 +81,12 @@ set(libcodegenerator_SRCS
 	codegenerators/javawriter.cpp 
 	codegenerators/jswriter.cpp
 	codegenerators/idlwriter.cpp 
+        codegenerators/mysqlwriter.cpp
 	codegenerators/pascalwriter.cpp 
 	codegenerators/perlwriter.cpp 
 	codegenerators/phpwriter.cpp 
 	codegenerators/php5writer.cpp 
+        codegenerators/postgresqlwriter.cpp
 	codegenerators/pythonwriter.cpp
 	codegenerators/rubywriter.cpp 
 	codegenerators/sqlwriter.cpp 

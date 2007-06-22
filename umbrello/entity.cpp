@@ -22,6 +22,8 @@
 #include "umldoc.h"
 #include "uml.h"
 #include "uniqueid.h"
+#include "umlentityattributelist.h"
+#include "umlentityconstraintlist.h"
 #include "clipboard/idchangelog.h"
 #include "dialogs/umlentityattributedialog.h"
 #include "dialogs/umluniqueconstraintdialog.h"
@@ -470,6 +472,17 @@ bool UMLEntity::isPrimaryKey(UMLUniqueConstraint* uConstr){
     }
 
     return false;
+}
+
+UMLEntityAttributeList UMLEntity::getEntityAttributes() {
+    UMLEntityAttributeList entityAttributeList;
+    for (UMLObjectListIt lit(m_List); lit.current(); ++lit) {
+        UMLObject *listItem = lit.current();
+        if (listItem->getBaseType() == Uml::ot_EntityAttribute) {
+            entityAttributeList.append(static_cast<UMLEntityAttribute*>(listItem));
+        }
+    }
+    return entityAttributeList;
 }
 
 #include "entity.moc"
