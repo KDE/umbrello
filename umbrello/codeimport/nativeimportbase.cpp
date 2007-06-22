@@ -275,7 +275,7 @@ void NativeImportBase::parseFile(const QString& filename) {
         Import_Utils::addIncludePath(path);
     }
     if (! QFile::exists(filename)) {
-        if (filename.startsWith("/")) {
+        if (filename.startsWith('/')) {
             kError() << msgPrefix << "cannot find file" << endl;
             return;
         }
@@ -284,8 +284,8 @@ void NativeImportBase::parseFile(const QString& filename) {
         for (QStringList::Iterator pathIt = includePaths.begin();
                                    pathIt != includePaths.end(); ++pathIt) {
             QString path = (*pathIt);
-            if (! path.endsWith("/")) {
-                path.append("/");
+            if (! path.endsWith('/')) {
+                path.append('/');
             }
             if (QFile::exists(path + filename)) {
                 fname.prepend(path);

@@ -522,7 +522,7 @@ QString CodeGenerationPolicy::getHeadingFile(QString str) {
     // heading.[extension]. If there is no such file, we try to
     // get any file with the same extension
     QString filename;
-    if(str.startsWith(".")) {
+    if(str.startsWith('.')) {
         if(QFile::exists(m_headingFiles.absoluteFilePath("heading"+str)))
             filename = m_headingFiles.absoluteFilePath("heading"+str);
         else {

@@ -112,16 +112,16 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
     // If we have a pointer or a reference in cpp we need to remove
     // the asterisks and ampersands in order to find the appropriate object
     if (UMLApp::app()->getActiveLanguage() == Uml::pl_Cpp) {
-        if (name.endsWith("*"))
-            name.remove("*");
-        else if (name.contains("&"))
-            name.remove("&");
+        if (name.endsWith('*'))
+            name.remove('*');
+        else if (name.contains('&'))
+            name.remove('&');
     }
 #endif
     if (name.contains("::"))
         components = QStringList::split("::", name);
-    else if (name.contains("."))
-        components = QStringList::split(".", name);
+    else if (name.contains('.'))
+        components = QStringList::split('.', name);
     QString nameWithoutFirstPrefix;
     if (components.size() > 1) {
         name = components.front();

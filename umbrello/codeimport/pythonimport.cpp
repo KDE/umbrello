@@ -79,7 +79,7 @@ bool PythonImport::preprocess(QString& line) {
             m_srcIndex++;
         }
     }
-    if (line.endsWith(":")) {
+    if (line.endsWith(':')) {
         line.replace( QRegExp(":$"), "{" );
         m_braceWasOpened = true;
     } else {

@@ -74,7 +74,7 @@ void RubyCodeOperation::updateMethodDeclaration()
 
     // Skip destructors, and operator methods which
     // can't be defined in ruby
-    if (    methodName.startsWith("~")
+    if (    methodName.startsWith('~')
             || QRegExp("operator\\s*(=|--|\\+\\+|!=)$").exactMatch(methodName) )
     {
         getComment()->setText("");

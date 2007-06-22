@@ -261,7 +261,7 @@ bool UMLOperation::isDestructorOperation() {
     // Special support for C++ syntax:
     // It's a destructor operation if the operation name begins
     // with "~" followed by the name of the parent classifier.
-    if (! opName.startsWith("~"))
+    if (! opName.startsWith('~'))
         return false;
     opName.remove( QRegExp("^~\\s*") );
     return (cName == opName);

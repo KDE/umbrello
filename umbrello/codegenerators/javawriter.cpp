@@ -895,10 +895,10 @@ QString JavaWriter::fixInitialStringDeclValue(QString value, QString type)
 {
     // check for strings only
     if (!value.isEmpty() && type == "String") {
-        if (!value.startsWith("\""))
-            value.prepend("\"");
-        if (!value.endsWith("\""))
-            value.append("\"");
+        if (!value.startsWith('\"'))
+            value.prepend('\"');
+        if (!value.endsWith('\"'))
+            value.append('\"');
     }
     return value;
 }

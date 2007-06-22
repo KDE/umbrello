@@ -745,9 +745,9 @@ QString XMLSchemaWriter::fixInitialStringDeclValue(QString value, const QString 
 {
     // check for strings only
     if (!value.isEmpty() && type == "xs:string") {
-        if (!value.startsWith("\""))
+        if (!value.startsWith('\"'))
             value.remove(0,1);
-        if (!value.endsWith("\""))
+        if (!value.endsWith('\"'))
             value.remove(value.length(),1);
     }
     return value;

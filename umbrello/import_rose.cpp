@@ -170,7 +170,7 @@ QString collectVerbatimText(QTextStream& stream) {
     while (!(line = stream.readLine()).isNull()) {
         linum++;
         line = line.trimmed();
-        if (line.isEmpty() || line.startsWith(")"))
+        if (line.isEmpty() || line.startsWith(')'))
             break;
         if (line[0] != '|') {
             kError() << loc() << "expecting '|' at start of verbatim text" << endl;
@@ -322,7 +322,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
             QString nxt = tokens.first();
             if (isImmediateValue(nxt)) {
                 value.string = extractImmediateValues(tokens);
-            } else if (nxt == "value" || nxt.startsWith("\"")) {
+            } else if (nxt == "value" || nxt.startsWith('\"')) {
                 value.string = extractValue(tokens, stream);
             } else {
                 value.node = readAttributes(tokens, stream);

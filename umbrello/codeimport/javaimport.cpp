@@ -163,7 +163,7 @@ UMLObject* JavaImport::resolveClass (QString className) {
         QString import = (*pathIt);
         QStringList split = QStringList::split( '.', import );
         split.pop_back(); // remove the * or the classname
-        if ( import.endsWith( "*" ) || import.endsWith( baseClassName) ) {
+        if ( import.endsWith( '*' ) || import.endsWith( baseClassName) ) {
             // check if the file we want is in this imported package
             // convert the org.test type package into a filename
             //
@@ -390,7 +390,7 @@ bool JavaImport::parseStmt() {
     if (keyword == "import") {
         // keep track of imports so we can resolve classes we are dependent on
         QString import = advance();
-        if ( import.endsWith(".") ) {
+        if ( import.endsWith('.') ) {
             //this most likely an import that ends with a *
             //
             import = import + advance();

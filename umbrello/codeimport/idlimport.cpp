@@ -50,7 +50,7 @@ QString IDLImport::joinTypename() {
 
 bool IDLImport::preprocess(QString& line) {
     // Ignore C preprocessor generated lines.
-    if (line.startsWith("#"))
+    if (line.startsWith('#'))
         return true;  // done
     return NativeImportBase::preprocess(line);
 }
