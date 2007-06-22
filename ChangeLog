@@ -5,6 +5,7 @@ Version 1.5.72
 * Wrong pascal code generation (146676)
 * Crash when linking to undefined xmi.id (146748)
 * End Activity Symbol gets invalid when line thickness is increased (146925)
+* The size of a fork/join is not restored (147069)
 
 Version 1.5.71
 
