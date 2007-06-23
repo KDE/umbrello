@@ -856,6 +856,8 @@ void UMLWidget::setSize(int width,int height) {
 }
 
 void UMLWidget::updateComponentSize() {
+    if (m_pDoc->loading())
+        return;
     const QSize minSize = calculateSize();
     const int w = minSize.width();
     const int h = minSize.height();
