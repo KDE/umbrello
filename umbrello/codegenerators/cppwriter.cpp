@@ -1235,10 +1235,10 @@ QString CppWriter::fixInitialStringDeclValue(const QString &value, const QString
     QString val = value;
     // check for strings only
     if (!val.isEmpty() && type == policyExt()->getStringClassName()) {
-        if (!val.startsWith("\""))
-            val.prepend('\"');
-        if (!val.endsWith('\"'))
-            val.append('\"');
+        if (!val.startsWith('"'))
+            val.prepend('"');
+        if (!val.endsWith('"'))
+            val.append('"');
     }
     return val;
 }
