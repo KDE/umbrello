@@ -15,7 +15,6 @@
 
 #include <klocale.h>
 #include <qlist.h>
-#include <qlist.h>
 
 #include "../foreignkeyconstraint.h"
 #include "../entityattribute.h"
