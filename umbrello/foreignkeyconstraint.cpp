@@ -118,7 +118,7 @@ bool UMLForeignKeyConstraint::addEntityAttributePair(UMLEntityAttribute* pAttr, 
 
     UMLEntity *owningParent = dynamic_cast<UMLEntity*>(parent());
 
-    if ( pAttr == NULL or rAttr == NULL ) {
+    if ( pAttr == NULL || rAttr == NULL ) {
         kError()<< k_funcinfo <<"null values passed to function"<<endl;
         return false;
     }

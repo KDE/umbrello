@@ -109,13 +109,6 @@ kde4_add_ui_files(  libcodegenerator_SRCS
 
 kde4_automoc(${libcodegenerator_SRCS})
 
-if (WIN32)
-  kde4_add_library(codegenerators STATIC ${libcodegenerator_SRCS})
-  target_link_libraries(codegenerators)
-  set (LIBS ${LIBS} codegenerators)
-  set(libcodegenerator_SRCS)
-endif (WIN32)
-
 set(libdocgenerator_SRCS
     docgenerators/docbookgenerator.cpp 
     docgenerators/xhtmlgenerator.cpp)
@@ -181,13 +174,6 @@ kde4_add_ui_files(  libdialogs_SRCS
 
 kde4_automoc(${libdialogs_SRCS})
 
-if (WIN32)
-  kde4_add_library(dialogs STATIC ${libdialogs_SRCS})
-  target_link_libraries(dialogs )
-  set (LIBS ${LIBS} dialogs )
-  set(libdialogs_SRCS)
-endif (WIN32)
-
 set(librefactoring_SRCS 
 		refactoring/refactoringassistant.cpp )
 
@@ -219,13 +205,6 @@ set(libkdevcppparser_SRCS
 )
 
 kde4_automoc(${libkdevcppparser_SRCS})
-
-if (WIN32)
-  kde4_add_library(kdevcppparser STATIC ${libkdevcppparser_SRCS})
-  target_link_libraries(kdevcppparser)
-  set (LIBS ${LIBS} kdevcppparser )
-  set(kdevcppparser_SRCS)
-endif (WIN32)
 
 set(libclipboard_SRCS 
 	clipboard/umldrag.cpp 
@@ -409,7 +388,7 @@ set (umbrello_SRCS
 )
 
 kde4_add_executable(umbrello ${umbrello_SRCS})
-target_link_libraries(umbrello ${KDE4_KIO_LIBS} ${KDE4_KDEPRINT_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${LIBUUID} ${LIBS})
+target_link_libraries(umbrello ${KDE4_KIO_LIBS} ${KDE4_KDEPRINT_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${LIBUUID})
 install(TARGETS umbrello DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### install files ###############

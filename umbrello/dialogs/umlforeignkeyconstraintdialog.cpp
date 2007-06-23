@@ -71,7 +71,7 @@ void UMLForeignKeyConstraintDialog::slotAddPair() {
     int indexL = m_ColumnWidgets.localColumnCB->currentIndex();
     int indexR = m_ColumnWidgets.referencedColumnCB->currentIndex();
 
-    if ( indexL==-1 or indexR==-1 )
+    if ( indexL==-1 || indexR==-1 )
         return;
 
     // local entity attribute
