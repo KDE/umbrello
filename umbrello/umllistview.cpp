@@ -1104,14 +1104,28 @@ void UMLListView::contentsMouseDoubleClickEvent(QMouseEvent * me) {
 
     Uml::Object_Type type = object -> getBaseType();
     int page = ClassPropDlg::page_gen;
-    if(type == Uml::ot_Attribute || type == Uml::ot_Operation)
+    if( Model_Utils::isClassifierListitem( type ) )
         object = (UMLObject *)object -> parent();
     //set what page to show
-    if(type == Uml::ot_Attribute)
-        page = ClassPropDlg::page_att;
-    else if(type == Uml::ot_Operation)
-        page = ClassPropDlg::page_op;
-    //FIXME for entityattributes
+    switch( type ) {
+
+       case Uml::ot_Attribute:
+         page = ClassPropDlg::page_att;
+         break;
+       case Uml::ot_Operation:
+         page = ClassPropDlg::page_op;
+         break;
+       case Uml::ot_EntityAttribute:
+         page = ClassPropDlg::page_entatt;
+         break;
+       case Uml::ot_UniqueConstraint:
+       case Uml::ot_ForeignKeyConstraint:
+         page = ClassPropDlg::page_constraint;
+         break;
+       default:
+         page = ClassPropDlg::page_gen;
+         break;
+    }
 
     if(object)
         object->showProperties(page);
