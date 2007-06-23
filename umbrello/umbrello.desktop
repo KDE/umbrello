@@ -45,5 +45,5 @@ GenericName[tg]=Воситаи UML моделкунонӣ
 GenericName[tr]=UML Modelleyici
 GenericName[uk]=Засіб моделювання UML
 GenericName[x-test]=xxUML Modellerxx
-MimeType=application/x-uml
+MimeType=application/x-uml;
 Categories=Qt;KDE;Development;
