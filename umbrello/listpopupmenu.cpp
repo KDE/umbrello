@@ -770,6 +770,8 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
     if (type == Uml::wt_Class)
         m_pInsert->insertItem(SmallIcon( "CVpublic_var" ), i18n("Attribute..."), mt_Attribute);
     m_pInsert->insertItem( SmallIcon( "CVpublic_meth"), i18n("Operation..."), mt_Operation);
+    m_pInsert->insertItem( SmallIcon( "source" ), i18n( "Template..." ), mt_Template );
+
     insertFileNew();
 
     makeMultiClassifierPopup(c);
@@ -866,6 +868,9 @@ Uml::Object_Type ListPopupMenu::convert_MT_OT(Menu_Type mt) {
         break;
     case mt_Attribute:
         type = Uml::ot_Attribute;
+        break;
+    case mt_Template:
+        type = Uml::ot_Template;
         break;
     case mt_EntityAttribute:
         type = Uml::ot_EntityAttribute;
