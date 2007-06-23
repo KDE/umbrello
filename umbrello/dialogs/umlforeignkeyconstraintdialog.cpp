@@ -225,7 +225,6 @@ void UMLForeignKeyConstraintDialog::setupGeneralPage() {
     UMLEntityList entList = m_doc->getEntities();
 
     foreach( UMLEntity* ent, entList ) {
-        kdDebug() << k_funcinfo << ent->getName()<<endl;
         m_GeneralWidgets.referencedEntityCB->addItem( ent->getName() );
     }
 

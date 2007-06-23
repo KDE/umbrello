@@ -228,21 +228,21 @@ public:
     /**
      * Call the refactoring assistant on a classifier.
      *
-     * @param   Pointer to the classifier to refactor.
+     * @param classifier  Pointer to the classifier to refactor.
      */
     void refactor(UMLClassifier* classifier);
 
     /**
      * Call the code viewing assistant on a given UMLClassifier.
      *
-     * @param   Pointer to the classifier to view.
+     * @param classifier  Pointer to the classifier to view.
      */
     void viewCodeDocument(UMLClassifier* classifier);
 
     /**
      * Sets the state of the view properties menu item.
      *
-     * @param   Boolean, true to enable the view properties item.
+     * @param bState  Boolean, true to enable the view properties item.
      */
     void setDiagramMenuItemsState(bool bState);
 

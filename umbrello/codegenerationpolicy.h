@@ -216,7 +216,7 @@ public:
     /**
      * Set the value of m_indentationType
      * The amount and type of whitespace to indent with.
-     * @param new_var the new value of m_indentationType
+     * @param type the new value of m_indentationType
      */
     void  setIndentationType ( IndentationType type );
 

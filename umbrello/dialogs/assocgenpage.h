@@ -49,7 +49,7 @@ public:
      *
      *  @param  d       The UMLDoc which controls controls object creation.
      *  @param  parent  The parent to the AssocGenPage.
-     *  @param  o       The ObjectWidget to display the properties of.
+     *  @param  a       The AssociationWidget to display the properties of.
      */
     AssocGenPage(UMLDoc *d, QWidget *parent, AssociationWidget *a);
 

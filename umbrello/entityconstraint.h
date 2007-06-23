@@ -35,7 +35,6 @@ public:
      * @param parent    The parent of this UMLEntityConstraint.
      * @param name      The name of this UMLEntityConstraint.
      * @param id        The unique id given to this UMLEntityConstraint.
-     * @param type      The type of this UMLEntityConstraint.
      */
     UMLEntityConstraint(const UMLObject *parent, const QString& name,
 			Uml::IDType id = Uml::id_None );

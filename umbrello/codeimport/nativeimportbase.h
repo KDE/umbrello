@@ -76,7 +76,7 @@ protected:
      * The default implementation should be feasible for languages that
      * don't depend on an external preprocessor.
      *
-     * @param file  The file to import.
+     * @param filename  The file to import.
      */
     virtual void parseFile(const QString& filename);
 

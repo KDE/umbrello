@@ -29,7 +29,6 @@ public:
      * Creates a Region widget.
      *
      * @param view              The parent of the widget.
-     * @param REGIONType        The type of Region.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
     RegionWidget( UMLView * view, Uml::IDType id = Uml::id_None );

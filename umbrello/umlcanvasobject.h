@@ -81,7 +81,7 @@ public:
     /**
      * Remove an association end from the CanvasObject.
      *
-     * @param o         The association to remove.
+     * @param assoc         The association to remove.
      *                  @todo change param type to UMLRole
      */
     int removeAssociationEnd(UMLAssociation *assoc);

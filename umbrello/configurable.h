@@ -91,7 +91,7 @@ protected:
      * Each name corresponds the the share object implementing the plugin.
      *
      * @param config    The object used for configuration.
-     * @param plugins   The key in the group that contains libraries to load.
+     * @param key   The key in the group that contains libraries to load.
      *
      * @return True on success, false on failure.
      */

@@ -68,7 +68,7 @@ protected:
      * Prints out attributes as columns in the table
      *
      * @param sql the stream we should print to
-     * @param attributeList the attributes to be printed
+     * @param entityAttributeList the attributes to be printed
      */
     virtual void printEntityAttributes(QTextStream& sql, UMLEntityAttributeList entityAttributeList);
    
@@ -84,13 +84,13 @@ protected:
      * @param sql the stream we should print to
      * @param constrList the foreignkey constraints to be printed
      */
-    virtual void printForeignKeyConstraints(QTextStream& sql, UMLClassifierListItemList contrList);
+    virtual void printForeignKeyConstraints(QTextStream& sql, UMLClassifierListItemList constrList);
 
     /**
      * Prints out Indexes as "CREATE INDEX " statements
      * @param sql The Stream we should print to
      * @param ent The Entity's attributes on which we want to create an Index
-     * @param entAtt The list of entities to create and index upon
+     * @param entAttList The list of entityattributes to create and index upon
      */
     virtual void printIndex(QTextStream& sql, UMLEntity* ent, UMLEntityAttributeList entAttList);
 

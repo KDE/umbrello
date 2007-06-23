@@ -107,7 +107,7 @@ public:
      * Adds an already created entityAttribute.
      * The entityAttribute object must not belong to any other concept.
          *
-         * @param Att           Pointer to the UMLEntityAttribute.
+         * @param att           Pointer to the UMLEntityAttribute.
      * @param Log               Pointer to the IDChangeLog.
      * @return  True if the entityAttribute was successfully added.
      */
@@ -118,7 +118,7 @@ public:
      * If position is negative or too large, the entityAttribute is added
      * to the end of the list.
          *
-         * @param Att           Pointer to the UMLEntityAttribute.
+         * @param att           Pointer to the UMLEntityAttribute.
      * @param position  Position index for the insertion.
      * @return  True if the entityAttribute was successfully added.
      */

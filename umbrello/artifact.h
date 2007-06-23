@@ -43,7 +43,7 @@ public:
     /**
      * Sets up a Artifact.
      *
-     * @param name              The name of the Concept.
+     * @param Name              The name of the Concept.
      * @param id                The unique id of the Concept.
      */
     UMLArtifact(const QString & Name = "", Uml::IDType id = Uml::id_None);

@@ -267,7 +267,7 @@ Q3PtrList<CodeOperation> ClassifierCodeDocument::getCodeOperations ( ) {
 }
 
 /**
- * @param       op
+ * @param  o The Operation to add
  */
 void ClassifierCodeDocument::addOperation (UMLClassifierListItem * o) {
     UMLOperation *op = dynamic_cast<UMLOperation*>(o);

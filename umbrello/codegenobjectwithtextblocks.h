@@ -125,7 +125,6 @@ public:
     /**
      * @return  TextBlock
      * @param   tag
-     * @param   descendIntoChildren
      */
     virtual TextBlock * findTextBlockByTag ( const QString &tag );
 

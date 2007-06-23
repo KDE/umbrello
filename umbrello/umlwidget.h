@@ -429,7 +429,7 @@ public:
     /**
      * Set the status of whether to show Stereotype.
      *
-     * @param _show             True if stereotype shall be shown.
+     * @param _status             True if stereotype shall be shown.
      */
     virtual void setShowStereotype(bool _status);
 

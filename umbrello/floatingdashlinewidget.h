@@ -38,7 +38,6 @@ public:
      * Creates a floating dash line.
      * @param view              The parent of the widget
      * @param id                The ID to assign (-1 will prompt a new ID)
-     * @param cf                The combined fragment that the dash line belongs to
      */
     FloatingDashLineWidget(UMLView * view, Uml::IDType id = Uml::id_None);
 

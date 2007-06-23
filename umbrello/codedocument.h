@@ -113,7 +113,7 @@ public:
 
     /**
      * Set the value of m_ID
-     * @param new_var the new value of m_ID
+     * @param new_id the new value of m_ID
      */
     void setID ( const QString &new_id);
 

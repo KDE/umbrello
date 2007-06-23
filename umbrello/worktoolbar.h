@@ -47,7 +47,6 @@ public:
      * Creates a work tool bar.
      *
      * @param parentWindow      The parent of the toolbar.
-     * @param name              The name of the toolbar.
      */
     WorkToolBar(QMainWindow *parentWindow);
 

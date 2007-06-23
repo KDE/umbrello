@@ -189,7 +189,7 @@ public:
      * Return just the LvTypeAndID of a Clip3.
      *
      * @param mimeSource        The encoded source.
-     * @param type              The LvTypeAndID_List decoded from the source.
+     * @param typeAndIdList     The LvTypeAndID_List decoded from the source.
      * @return  True if decoding was successful.
      */
     static bool getClip3TypeAndID(const QMimeSource* mimeSource,

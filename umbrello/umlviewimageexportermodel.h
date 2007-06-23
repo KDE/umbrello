@@ -54,7 +54,7 @@ public:
      * Returns the mime type for an image type.
      * The supported image types are those that the diagrams can be exported to.
      *
-     * @param imagetype The type of the image.
+     * @param imageType The type of the image.
      * @return A QString with the equivalent mime type, or QString::null if
      *         it's unknown.
      */

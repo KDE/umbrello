@@ -94,7 +94,7 @@ public:
     /**
      * Set the type of the object.
      *
-     * @param  The Uml::Object_Type to set.
+     * @param ot The Uml::Object_Type to set.
      */
     virtual void setBaseType(Uml::Object_Type ot);
 

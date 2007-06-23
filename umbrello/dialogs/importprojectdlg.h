@@ -40,7 +40,6 @@ public:
      * @param modal If modal is true the dialog will block input to other the windows
      *              in the application until it's closed.
      * @param fl Window flags.
-     * @param defaultFileExtension The default file extension.
      *
      * @see QDialog::QDialog
      */

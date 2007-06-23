@@ -32,7 +32,7 @@ public:
      * Constructs a NodeWidget.
      *
      * @param view              The parent of this NodeWidget.
-     * @param o         The UMLNode this will be representing.
+     * @param n         The UMLNode this will be representing.
      */
     NodeWidget(UMLView * view, UMLNode *n );
 

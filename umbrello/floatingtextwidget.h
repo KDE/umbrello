@@ -161,7 +161,7 @@ public:
     /**
      * Set the LinkWidget that this FloatingTextWidget is related to.
      *
-     * @param m The related LinkWidget.
+     * @param l The related LinkWidget.
      */
     void setLink(LinkWidget * l);
 

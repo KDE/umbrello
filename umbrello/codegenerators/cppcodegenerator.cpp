@@ -239,8 +239,7 @@ CPPHeaderCodeDocument * CPPCodeGenerator::findHeaderCodeDocumentByClassifier (UM
 
 /**
  * @return      ClassifierCodeDocument
- * @param       classifier
- * @param       this This package generator object.
+ * @param       classifier The classifier for which the CodeDocument is to be created
  */
 // source document version.
 CodeDocument * CPPCodeGenerator::newClassifierCodeDocument (UMLClassifier * classifier)

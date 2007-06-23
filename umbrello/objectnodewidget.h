@@ -47,7 +47,7 @@ public:
      * Creates a Object Node widget.
      *
      * @param view              The parent of the widget.
-     * @param activityType      The type of object node
+     * @param objectNodeType      The type of object node
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
     ObjectNodeWidget( UMLView * view, ObjectNodeType objectNodeType = Normal, Uml::IDType id = Uml::id_None );

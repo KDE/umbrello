@@ -45,7 +45,7 @@ public:
      *
      *  @param  d       The UMLDoc which controls controls object creation.
      *  @param  parent  The parent to the AssocRolePage.
-     *  @param  o       The ObjectWidget to display the properties of.
+     *  @param  a       The AssociationWidget to display the properties of.
      */
     AssocRolePage(UMLDoc *d, QWidget *parent, AssociationWidget *a);
 

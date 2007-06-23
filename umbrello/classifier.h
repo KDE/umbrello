@@ -276,7 +276,7 @@ public:
     /**
      * Removes a template from the class.
      *
-     * @param template  The template to remove.
+     * @param umltemplate  The template to remove.
      * @return  Count of the remaining templates after removal.
      *          Returns -1 if the given template was not found.
      */
