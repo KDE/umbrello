@@ -90,10 +90,17 @@ protected:
      * Prints out Indexes as "CREATE INDEX " statements
      * @param sql The Stream we should print to
      * @param ent The Entity's attributes on which we want to create an Index
-     * @param entAttList The list of entityattributes to create and index upon
+     * @param entAttList The list of entityattributes to create an index upon
      */
     virtual void printIndex(QTextStream& sql, UMLEntity* ent, UMLEntityAttributeList entAttList);
 
+    /**
+     * Handles AutoIncrements
+     * The derived classes provide the actual body
+     * @param sql The Stream we should print to
+     * @param entAttList The List of Entity Attributes that we want to auto increment
+     */
+    virtual void printAutoIncrements(QTextStream& sql, UMLEntityAttributeList entAttList );
 };
 
 #endif // SQLWRITER_H

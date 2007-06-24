@@ -88,17 +88,25 @@ void SQLWriter::writeClass(UMLClassifier *c) {
         sql << "--  " << m_endl << m_endl;
     }
 
-    sql << "CREATE TABLE "<< entityname << " ( " << m_endl;
-
     // write all entity attributes
     UMLEntityAttributeList entAttList = m_pEntity->getEntityAttributes();
+
+    sql << "CREATE TABLE "<< entityname << " ( " << m_endl;
 
     printEntityAttributes(sql, entAttList);
 
     sql << m_endl << ");" << m_endl;
 
+    // auto increments
+    UMLEntityAttributeList autoIncrementList;
+    foreach( UMLEntityAttribute* entAtt, entAttList ) {
+        autoIncrementList.append(entAtt);
+    }
 
-    // write all unqiue constraint ( including primary key )
+    printAutoIncrements( sql, autoIncrementList );
+
+
+    // write all unique constraint ( including primary key )
     UMLClassifierListItemList constrList = m_pEntity->getFilteredList(Uml::ot_UniqueConstraint);
     printUniqueConstraints(sql, constrList);
 
@@ -523,5 +531,9 @@ void SQLWriter::printIndex(QTextStream& sql, UMLEntity* ent , UMLEntityAttribute
 
 }
 
+
+void SQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeList entAttList ) {
+    // defer to derived classes
+}
 
 #include "sqlwriter.moc"

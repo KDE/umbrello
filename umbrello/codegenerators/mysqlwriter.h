@@ -46,6 +46,12 @@ public:
      */
     void printForeignKeyConstraints(QTextStream& sql, UMLClassifierListItemList constrList);
 
+protected:
+
+    /**
+     * Reimplement printAutoIncrements from Base Class for MySQL
+     */
+    void printAutoIncrements(QTextStream& sql, UMLEntityAttributeList entAttList);
 
 };
 

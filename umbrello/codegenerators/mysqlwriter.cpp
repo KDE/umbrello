@@ -16,10 +16,12 @@
 #include <klocale.h>
 #include <qlist.h>
 
-#include "../foreignkeyconstraint.h"
+#include "../entity.h"
 #include "../entityattribute.h"
-#include "../umlentityattributelist.h"
+#include "../foreignkeyconstraint.h"
 #include "../umlclassifierlistitemlist.h"
+#include "../umlentityattributelist.h"
+
 
 MySQLWriter::MySQLWriter() {
 }
@@ -95,6 +97,47 @@ void MySQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierList
     }
 
     SQLWriter::printForeignKeyConstraints( sql, constrList );
+}
+
+void MySQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeList entAttList) {
+
+    // rules
+    // only one attribute can have an auto increment in a table in MySQL
+    // and that attribute should have an index on it :/
+
+    // get the first attribute of list with auto increment
+    UMLEntityAttribute* ea,  *autoIncrementEntAtt = NULL;
+    foreach( ea, entAttList ) {
+       if ( ea->getAutoIncrement() ) {
+           autoIncrementEntAtt = ea;
+           break;
+       }
+    }
+
+    if ( autoIncrementEntAtt == NULL ) {
+        return;
+    }
+
+    // create an index on this attribute
+    UMLEntityAttributeList indexList;
+    indexList.append( autoIncrementEntAtt );
+
+    printIndex( sql, m_pEntity, indexList );
+
+    // now alter the table and this column to add the auto increment
+    sql<<"ALTER TABLE "<<cleanName( m_pEntity->getName() )
+       <<" CHANGE "<<cleanName( autoIncrementEntAtt->getName() )
+       <<" "<<cleanName( autoIncrementEntAtt->getName() )
+       <<" "<<cleanName( autoIncrementEntAtt->getTypeName() )
+       <<" "<<cleanName( autoIncrementEntAtt->getAttributes() )
+       <<" "<<" NOT NULL AUTO_INCREMENT ; ";
+
+    sql<<m_endl;
+
+    // we don't support start values currently, but when we do, uncomment the following
+    //sql<<" ALTER TABLE "<<cleanName( m_pEntity->getName() )
+    //   <<" AUTO_INCREMENT = "<<theValue;
+    //sql<<m_endl;
 }
 
 #include "mysqlwriter.moc"

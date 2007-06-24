@@ -16,6 +16,9 @@
 #include <klocale.h>
 #include <qlist.h>
 
+#include "../entity.h"
+#include "../umlentityattributelist.h"
+
 PostgreSQLWriter::PostgreSQLWriter() {
 }
 
@@ -65,5 +68,47 @@ QStringList PostgreSQLWriter::defaultDatatypes() {
     return l;
 }
 
+
+void PostgreSQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeList entAttList) {
+
+    // rules
+    // postgres has no such thing as auto increment
+    // instead it uses sequences. For simulating auto increment, set default value of
+    // each attribute to the nextval() of it's very own sequence
+
+    foreach( UMLEntityAttribute* ea, entAttList ) {
+        if ( !ea->getAutoIncrement() )
+            continue;
+
+        QString sequenceName;
+        // we keep the sequence name as entityName + '_' + entityAttributeName
+        sequenceName = m_pEntity->getName() + '_' + ea->getName();
+
+        // we assume the sequence count starts with 1 and interval is 1 too
+        // change the values when we start suporting different start values and
+        // interval values
+
+        sql<<"CREATE SEQUENCE "<<cleanName( sequenceName )
+           <<" START 1 INCREMENT 1 ;";
+
+        sql<<m_endl;
+
+        // alter the table column ( set not null )
+        sql<<"ALTER TABLE "<<cleanName( m_pEntity->getName() )
+           <<" ALTER COLUMN "<<cleanName( ea->getName() )
+           <<" SET NOT NULL ";
+
+        sql<<m_endl;
+
+        // alter the table column
+        sql<<"ALTER TABLE "<<cleanName( m_pEntity->getName() )
+           <<" ALTER COLUMN "<<cleanName( ea->getName() )
+           <<" SET DEFAULT nextval('"<<cleanName( sequenceName )
+           <<"');";
+
+        sql<<m_endl;
+    }
+
+}
 
 #include "postgresqlwriter.moc"

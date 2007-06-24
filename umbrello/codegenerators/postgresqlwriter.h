@@ -37,6 +37,13 @@ public:
      */
     QStringList defaultDatatypes();
 
+protected:
+
+    /**
+     * Reimplement printAutoIncrement statements from Base Class for PostgreSQL
+     */
+    void printAutoIncrements(QTextStream& sql, UMLEntityAttributeList entAttList);
+
 };
 
 #endif // PostgreSQLWRITER_H
