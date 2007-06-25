@@ -97,6 +97,7 @@ private:
 
         KIntSpinBox * timeISB;
         KComboBox * diagramKB;
+        KComboBox * languageKB;
 
         QCheckBox * undoCB;
         QCheckBox * tabdiagramsCB;
@@ -114,6 +115,7 @@ private:
 
         QLabel * startL;
         QLabel *  autosaveL;
+        QLabel * defaultLanguageL;
     }
     ;//end struct GeneralWidgets
 

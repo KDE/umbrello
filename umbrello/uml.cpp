@@ -637,6 +637,8 @@ void UMLApp::saveOptions() {
     cg.writeEntry( "loadlast", optionState.generalState.loadlast );
 
     cg.writeEntry( "diagram", (int)optionState.generalState.diagram );
+    cg.writeEntry( "defaultLanguage", optionState.generalState.defaultLanguage );
+
     if( m_doc->url().fileName() == i18n( "Untitled" ) ) {
         cg.writeEntry( "lastFile", "" );
     } else {
@@ -685,11 +687,7 @@ void UMLApp::saveOptions() {
     // now write the basic defaults to the m_config file
     m_commoncodegenpolicy->writeConfig(m_config.data());
 
-    // next, we record the activeLanguage in the Code Generation Group
-    if (m_codegen) {
-        cg.changeGroup("Code Generation");
-        cg.writeEntry("activeLanguage", Model_Utils::progLangToString(m_codegen->getLanguage()));
-    }
+    cg.sync();
 }
 
 void UMLApp::readOptions() {
@@ -1118,6 +1116,7 @@ void UMLApp::slotPrefs() {
     m_dlg = new SettingsDlg(this, &optionState);
     connect(m_dlg, SIGNAL( applyClicked() ), this, SLOT( slotApplyPrefs() ) );
 
+
     if ( m_dlg->exec() == QDialog::Accepted && m_dlg->getChangesApplied() ) {
         slotApplyPrefs();
     }
@@ -1239,6 +1238,7 @@ void UMLApp::readOptionState() {
 
     optionState.generalState.diagram  = (Uml::Diagram_Type) generalGroup.readEntry("diagram", 1);
 
+    optionState.generalState.defaultLanguage = generalGroup.readEntry( "defaultLanguage", "C++" );
 
     const KConfigGroup uiGroup( m_config, "UI Options" );
     optionState.uiState.useFillColor = uiGroup.readEntry( "useFillColor", true );
@@ -1663,9 +1663,9 @@ void UMLApp::slotDeleteDiagram() {
 }
 
 Uml::Programming_Language UMLApp::getDefaultLanguage() {
-    const KConfigGroup codeGenGroup( m_config, "Code Generation");
-    QString activeLanguage = codeGenGroup.readEntry("activeLanguage", "C++");
-    return Model_Utils::stringToProgLang(activeLanguage);
+    Settings::OptionState& optionState = Settings::getOptionState();
+    QString defaultLanguage = optionState.generalState.defaultLanguage;
+    return Model_Utils::stringToProgLang(defaultLanguage);
 }
 
 void UMLApp::initGenerator() {

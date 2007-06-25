@@ -29,6 +29,7 @@
 #include "codegenerationoptionspage.h"
 #include "codevieweroptionspage.h"
 #include "../dialog_utils.h"
+#include  "../model_utils.h"
 
 SettingsDlg::SettingsDlg( QWidget * parent, Settings::OptionState *state )
         : KPageDialog( parent) {
@@ -212,6 +213,22 @@ void SettingsDlg::setupGeneralPage() {
 
     m_GeneralWidgets.diagramKB->setCurrentIndex( (int)m_pOptionState->generalState.diagram-1 );
     connect( m_GeneralWidgets.autosaveCB, SIGNAL(clicked()), this, SLOT(slotAutosaveCBClicked()) );
+
+    m_GeneralWidgets.defaultLanguageL = new QLabel( i18n( "Default Language :" ), m_GeneralWidgets.startupGB );
+    startupLayout -> addWidget( m_GeneralWidgets.defaultLanguageL, 2, 0 );
+
+    m_GeneralWidgets.languageKB = new KComboBox( m_GeneralWidgets.startupGB );
+    m_GeneralWidgets.languageKB->setCompletionMode( KGlobalSettings::CompletionPopup );
+    startupLayout -> addWidget( m_GeneralWidgets.languageKB, 2, 1 );
+
+    int indexCounter = 0;
+    while (indexCounter < Uml::pl_Reserved) {
+        QString language = Model_Utils::progLangToString((Uml::Programming_Language) indexCounter);
+        m_GeneralWidgets.languageKB->insertItem(language, indexCounter);
+        indexCounter++;
+    }
+    m_GeneralWidgets.languageKB->setCurrentIndex(Model_Utils::stringToProgLang(m_pOptionState->generalState.defaultLanguage));
+
 }
 
 /**
@@ -375,6 +392,7 @@ void SettingsDlg::slotDefault() {
         m_GeneralWidgets.timeISB->setEnabled( true );
         m_GeneralWidgets.loadlastCB -> setChecked( true );
         m_GeneralWidgets.diagramKB -> setCurrentIndex( 0 );
+        m_GeneralWidgets.languageKB->setCurrentIndex( ( int )Model_Utils::stringToProgLang( "C++" ) );
     }
     else if ( current == pageFont )
     {
@@ -419,6 +437,8 @@ void SettingsDlg::applyPage( KPageWidgetItem*item ) {
         m_pOptionState->generalState.autosavesuffix = m_GeneralWidgets.autosaveSuffixT -> text();
 	m_pOptionState->generalState.loadlast = m_GeneralWidgets.loadlastCB -> isChecked();
         m_pOptionState->generalState.diagram  = (Uml::Diagram_Type)(m_GeneralWidgets.diagramKB->currentItem() + 1);
+        m_pOptionState->generalState.defaultLanguage = Model_Utils::progLangToString( ( Uml::Programming_Language )( m_GeneralWidgets.languageKB->currentItem() ) );
+
     }
     else if ( item == pageFont )
     {

@@ -41,6 +41,7 @@ struct GeneralState {
     QString autosavesuffix;  ///< Text input field for suffix of autosave
     bool loadlast;
     Uml::Diagram_Type diagram;
+    QString defaultLanguage;
     QString lastFile;
 };
 
