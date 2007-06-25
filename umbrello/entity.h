@@ -43,7 +43,7 @@ public:
      * @param name              The name of the Entity.
      * @param id                The unique id of the Entity.
      */
-    UMLEntity(const QString& name = "", Uml::IDType id = Uml::id_None);
+    explicit UMLEntity(const QString& name = "", Uml::IDType id = Uml::id_None);
 
     /**
      * Standard deconstructor.

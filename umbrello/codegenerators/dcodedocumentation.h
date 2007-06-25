@@ -31,7 +31,7 @@ public:
     /**
      * Constructors
      */
-    DCodeDocumentation ( CodeDocument * doc, const QString & text = "");
+    explicit DCodeDocumentation ( CodeDocument * doc, const QString & text = "");
 
     /**
      * Empty Destructor

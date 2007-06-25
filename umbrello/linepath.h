@@ -200,7 +200,7 @@ protected:
      */
     class Circle : public Q3CanvasEllipse {
     public:
-        Circle(Q3Canvas * canvas, int radius = 0);
+        explicit Circle(Q3Canvas * canvas, int radius = 0);
         void setRadius(int radius);
         int getRadius() const;
         void setX(int x);

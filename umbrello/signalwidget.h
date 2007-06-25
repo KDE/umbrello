@@ -41,7 +41,7 @@ public:
      * @param signalType        The type of Signal.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-    SignalWidget( UMLView * view, SignalType signalType = Send, Uml::IDType id = Uml::id_None );
+    explicit SignalWidget( UMLView * view, SignalType signalType = Send, Uml::IDType id = Uml::id_None );
 
     /**
      * destructor

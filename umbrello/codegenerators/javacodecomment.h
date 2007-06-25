@@ -40,7 +40,7 @@ public:
     /**
      * Constructors
      */
-    JavaCodeComment ( CodeDocument * doc, const QString & text = "");
+    explicit JavaCodeComment ( CodeDocument * doc, const QString & text = "");
 
     /**
      * Empty Destructor

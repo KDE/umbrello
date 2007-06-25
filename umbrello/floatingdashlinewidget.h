@@ -39,7 +39,7 @@ public:
      * @param view              The parent of the widget
      * @param id                The ID to assign (-1 will prompt a new ID)
      */
-    FloatingDashLineWidget(UMLView * view, Uml::IDType id = Uml::id_None);
+    explicit FloatingDashLineWidget(UMLView * view, Uml::IDType id = Uml::id_None);
 
     /**
      * destructor

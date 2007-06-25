@@ -41,8 +41,8 @@ public:
     /**
      * Basic Constructor
      */
-    CodeBlockWithComments ( CodeDocument * doc , const QString & body = "", const QString & comment = "");
-    CodeBlockWithComments ( HierarchicalCodeBlock * hblock, const QString & body = "", const QString & comment = "" );
+    explicit CodeBlockWithComments ( CodeDocument * doc , const QString & body = "", const QString & comment = "");
+    explicit CodeBlockWithComments ( HierarchicalCodeBlock * hblock, const QString & body = "", const QString & comment = "" );
 
     /**
      * Empty Destructor

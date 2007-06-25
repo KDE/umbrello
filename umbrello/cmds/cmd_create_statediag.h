@@ -22,7 +22,7 @@ namespace Uml
     class cmdCreateStateDiag : public QUndoCommand
     {
         public:
-            cmdCreateStateDiag(UMLDoc* doc, const QString& name = "");
+            explicit cmdCreateStateDiag(UMLDoc* doc, const QString& name = "");
             ~cmdCreateStateDiag();
 
             void redo();

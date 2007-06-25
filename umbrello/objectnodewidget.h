@@ -50,7 +50,7 @@ public:
      * @param objectNodeType      The type of object node
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-    ObjectNodeWidget( UMLView * view, ObjectNodeType objectNodeType = Normal, Uml::IDType id = Uml::id_None );
+    explicit ObjectNodeWidget( UMLView * view, ObjectNodeType objectNodeType = Normal, Uml::IDType id = Uml::id_None );
 
 
     /**

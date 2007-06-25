@@ -33,7 +33,7 @@ class RubyCodeGenerationPolicyPage : public CodeGenerationPolicyPage {
     Q_OBJECT
 public:
 
-    RubyCodeGenerationPolicyPage (QWidget *parent=0, const char *name=0, RubyCodeGenerationPolicy * policy = 0);
+    explicit RubyCodeGenerationPolicyPage (QWidget *parent=0, const char *name=0, RubyCodeGenerationPolicy * policy = 0);
 
     virtual ~RubyCodeGenerationPolicyPage();
 

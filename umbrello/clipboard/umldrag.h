@@ -47,7 +47,7 @@ public:
      * the ListView but no diagrams to be copied, Mime type =
      * "application/x-uml-clip1
      */
-    UMLDrag(UMLObjectList& Objects,QWidget* dragSource = 0, const char* name = 0 );
+    explicit UMLDrag(UMLObjectList& Objects,QWidget* dragSource = 0, const char* name = 0 );
 
     /**
      * For use when the user selects UML Object and Diagrams
@@ -62,7 +62,7 @@ public:
      * the ListView to be copied, Mime type =
      * "application/x-uml-clip3
      */
-    UMLDrag(UMLListViewItemList& UMLListViewItems, QWidget* dragSource = 0,
+    explicit UMLDrag(UMLListViewItemList& UMLListViewItems, QWidget* dragSource = 0,
             const char* name = 0 );
 
     /*
@@ -86,7 +86,7 @@ public:
     /**
      *  Constructor
      */
-    UMLDrag(QWidget* dragSource = 0, const char* name = 0);
+    explicit UMLDrag(QWidget* dragSource = 0, const char* name = 0);
 
     /**
      *  Deconstructor

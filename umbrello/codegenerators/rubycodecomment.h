@@ -38,7 +38,7 @@ public:
     /**
      * Constructors
      */
-    RubyCodeComment ( CodeDocument * doc, const QString & text = "");
+    explicit RubyCodeComment ( CodeDocument * doc, const QString & text = "");
 
     /**
      * Empty Destructor

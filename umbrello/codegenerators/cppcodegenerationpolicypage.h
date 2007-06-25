@@ -30,7 +30,7 @@ class CPPCodeGenerationPolicyPage : public CodeGenerationPolicyPage {
     Q_OBJECT
 public:
 
-    CPPCodeGenerationPolicyPage (QWidget *parent=0, const char *name=0, CPPCodeGenerationPolicy * policy = 0);
+    explicit CPPCodeGenerationPolicyPage (QWidget *parent=0, const char *name=0, CPPCodeGenerationPolicy * policy = 0);
 
     virtual ~CPPCodeGenerationPolicyPage();
 

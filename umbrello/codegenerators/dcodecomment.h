@@ -30,7 +30,7 @@ public:
     /**
      * Constructors
      */
-    DCodeComment ( CodeDocument * doc, const QString & text = "");
+    explicit DCodeComment ( CodeDocument * doc, const QString & text = "");
 
     /**
      * Empty Destructor

@@ -32,7 +32,7 @@ class CodeGenPolicyExt;
 class CodeGenerationPolicyPage : public CodeGenerationPolicyBase  {
     Q_OBJECT
 public:
-    CodeGenerationPolicyPage (QWidget *parent=0, const char *name=0, CodeGenPolicyExt * policy = 0);
+    explicit CodeGenerationPolicyPage (QWidget *parent=0, const char *name=0, CodeGenPolicyExt * policy = 0);
 
     virtual ~CodeGenerationPolicyPage();
 

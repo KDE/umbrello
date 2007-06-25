@@ -40,7 +40,7 @@ class RefactoringAssistant : public K3ListView
 public:
     typedef std::map<Q3ListViewItem*, UMLObject*> UMLObjectMap;
 
-    RefactoringAssistant( UMLDoc *doc, UMLClassifier *obj = 0, QWidget *parent = 0, const char *name = 0 );
+    explicit RefactoringAssistant( UMLDoc *doc, UMLClassifier *obj = 0, QWidget *parent = 0, const char *name = 0 );
     virtual ~RefactoringAssistant();
 
     void refactor( UMLClassifier *obj );

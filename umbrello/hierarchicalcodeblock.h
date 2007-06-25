@@ -37,7 +37,7 @@ public:
     /**
      * Constructor
      */
-    HierarchicalCodeBlock ( CodeDocument * doc , const QString &startString = "", const QString &endString = "", const QString &comment = "");
+    explicit HierarchicalCodeBlock ( CodeDocument * doc , const QString &startString = "", const QString &endString = "", const QString &comment = "");
 
     /**
      * Empty Destructor

@@ -22,7 +22,7 @@ namespace Uml
     class cmdCreateCollaborationDiag : public QUndoCommand
     {
         public:
-            cmdCreateCollaborationDiag(UMLDoc* doc, const QString& name = "");
+            explicit cmdCreateCollaborationDiag(UMLDoc* doc, const QString& name = "");
             ~cmdCreateCollaborationDiag();
 
             void redo();

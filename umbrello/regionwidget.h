@@ -31,7 +31,7 @@ public:
      * @param view              The parent of the widget.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-    RegionWidget( UMLView * view, Uml::IDType id = Uml::id_None );
+    explicit RegionWidget( UMLView * view, Uml::IDType id = Uml::id_None );
 
     /**
      * destructor

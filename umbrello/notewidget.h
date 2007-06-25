@@ -53,7 +53,7 @@ public:
      * @param id                The unique id of the widget.
      *                  The default (-1) will prompt a new ID.
      */
-    NoteWidget(UMLView * view, NoteWidget::NoteType noteType = Normal, Uml::IDType id = Uml::id_None );
+    explicit NoteWidget(UMLView * view, NoteWidget::NoteType noteType = Normal, Uml::IDType id = Uml::id_None );
 
     /**
      * destructor

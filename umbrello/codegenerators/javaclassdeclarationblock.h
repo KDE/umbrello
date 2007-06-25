@@ -33,7 +33,7 @@ public:
     /**
      * Empty Constructor
      */
-    JavaClassDeclarationBlock ( JavaClassifierCodeDocument * parentDoc, const QString &start = "", const QString &endText = "}", const QString &comment = "");
+    explicit JavaClassDeclarationBlock ( JavaClassifierCodeDocument * parentDoc, const QString &start = "", const QString &endText = "}", const QString &comment = "");
 
     /**
      * Empty Destructor

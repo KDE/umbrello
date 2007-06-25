@@ -201,7 +201,7 @@ public:
      * @param parent    The parent to ListPopupMenu.
      * @param type              The type of menu to display.
      */
-    ListPopupMenu(QWidget* parent, Menu_Type type = mt_Undefined, UMLView* view = 0);
+    explicit ListPopupMenu(QWidget* parent, Menu_Type type = mt_Undefined, UMLView* view = 0);
 
     /**
      * Constructs the popup menu for a list view item.

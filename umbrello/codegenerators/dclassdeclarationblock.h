@@ -29,7 +29,7 @@ public:
     /**
      * Empty Constructor
      */
-    DClassDeclarationBlock ( DClassifierCodeDocument * parentDoc, const QString &start = "", const QString &endText = "}", const QString &comment = "");
+    explicit DClassDeclarationBlock ( DClassifierCodeDocument * parentDoc, const QString &start = "", const QString &endText = "}", const QString &comment = "");
 
     /**
      * Empty Destructor

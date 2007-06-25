@@ -22,7 +22,7 @@ namespace Uml
     class cmdCreateEntityRelationDiag : public QUndoCommand
     {
         public:
-            cmdCreateEntityRelationDiag(UMLDoc* doc, const QString& name = "");
+            explicit cmdCreateEntityRelationDiag(UMLDoc* doc, const QString& name = "");
             ~cmdCreateEntityRelationDiag();
 
             void redo();

@@ -63,7 +63,7 @@ public:
      * @param id The id of the widget.
      *  The default value (id_None) will prompt generation of a new ID.
      */
-    UMLWidget( UMLView * view, Uml::IDType id = Uml::id_None, UMLWidgetController *widgetController = 0 );
+    explicit UMLWidget( UMLView * view, Uml::IDType id = Uml::id_None, UMLWidgetController *widgetController = 0 );
 
     /**
      * Standard deconstructor

@@ -36,7 +36,7 @@ public:
      * @param name              The name of the Concept.
      * @param id                The unique id of the Concept.
      */
-    UMLComponent(const QString & name = "", Uml::IDType id = Uml::id_None);
+    explicit UMLComponent(const QString & name = "", Uml::IDType id = Uml::id_None);
 
     /**
      * Empty deconstructor.

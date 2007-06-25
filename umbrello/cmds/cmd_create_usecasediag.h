@@ -22,7 +22,7 @@ namespace Uml
     class cmdCreateUseCaseDiag : public QUndoCommand
     {
         public:
-            cmdCreateUseCaseDiag(UMLDoc* doc, const QString& name = "");
+            explicit cmdCreateUseCaseDiag(UMLDoc* doc, const QString& name = "");
             ~cmdCreateUseCaseDiag();
 
             void redo();

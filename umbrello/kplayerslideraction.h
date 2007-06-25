@@ -33,7 +33,7 @@ class KPlayerSlider : public QSlider
 public:
     /** The KPlayerSlider constructor. Parameters are passed on to QSlider.
       */
-    KPlayerSlider (Qt::Orientation, QWidget* parent = 0, const char* name = 0);
+    explicit KPlayerSlider (Qt::Orientation, QWidget* parent = 0, const char* name = 0);
     /** The KPlayerSlider destructor. Does nothing.
       */
     virtual ~KPlayerSlider();
