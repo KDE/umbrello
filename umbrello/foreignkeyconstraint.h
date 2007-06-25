@@ -176,6 +176,12 @@ public:
      */
     void clearMappings();
 
+    /**
+     * Remimplementation from base classes
+     * Used to resolve forward references to referenced entities in xmi
+     */
+    bool resolveRef();
+
 signals:
 
     void sigReferencedEntityChanged();
@@ -190,6 +196,19 @@ protected:
     bool load( QDomElement & element );
 
 private:
+
+    /** 
+     * Used to resolve forward references to UMLEntity
+     */
+    Uml::IDType m_pReferencedEntityID;
+
+    /**
+     * Used to resolve forward references to UMLEntityAttributes
+     * Key -> The local attribute
+     * Value -> Id of the attribute it is mapping to
+     */
+    QMap<UMLEntityAttribute*, Uml::IDType> m_pEntityAttributeIDMap;
+
 
     /**
      * Initialisation of common variables

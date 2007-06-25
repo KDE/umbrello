@@ -18,8 +18,6 @@
 #include "umlobject.h"
 #include "umldoc.h"
 #include "uml.h"
-#include "dialogs/umlattributedialog.h"
-#include "object_factory.h"
 
 
 UMLEntityConstraint::UMLEntityConstraint(const UMLObject *parent,
@@ -49,44 +47,6 @@ bool UMLEntityConstraint::operator==( UMLEntityConstraint &rhs) {
 
 UMLEntityConstraint::~UMLEntityConstraint() {}
 
-UMLObject* UMLEntityConstraint::clone() const {
-    //FIXME: The new attribute should be slaved to the NEW parent not the old.
-    UMLEntityConstraint *clone = new UMLEntityConstraint( static_cast<UMLObject*>(parent()) );
-    copyInto(clone);
-    return clone;
-}
-
-QString UMLEntityConstraint::getFullyQualifiedName(QString separator,
-                                                   bool includeRoot ) const
-{
-    kDebug() << k_funcinfo << "Not Yet implemented "<< endl;
-    return QString();
-}
-
-void UMLEntityConstraint::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
-{
-      kDebug() << k_funcinfo << "Not Yet implemented "<< endl;
-
-}
-
-bool UMLEntityConstraint::showPropertiesDialog(QWidget* parent)
-{
-      kDebug() << k_funcinfo << "Not Yet implemented "<< endl;
-      return false;
-}
-
-bool UMLEntityConstraint::load( QDomElement & element ) 
-{
-      kDebug() << k_funcinfo << "Not Yet implemented "<< endl;
-      return false;
-}
-
-QString UMLEntityConstraint::toString(Uml::Signature_Type sig )
-{
-      kDebug() << k_funcinfo << "Not Yet implemented "<< endl;
-      return QString();
-
-}
 
 void UMLEntityConstraint::copyInto(UMLEntityConstraint *rhs) const {
 

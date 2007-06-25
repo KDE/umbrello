@@ -272,8 +272,17 @@ bool UMLEntity::resolveRef() {
         UMLObject* obj = oit.current();
         if (obj->resolveRef()) {
             UMLClassifierListItem *cli = static_cast<UMLClassifierListItem*>(obj);
-            if (cli->getBaseType() == Uml::ot_EntityAttribute)
-                emit entityAttributeAdded(cli);
+            switch (cli->getBaseType() ) {
+                case Uml::ot_EntityAttribute:
+                    emit entityAttributeAdded(cli);
+                    break;
+                case Uml::ot_UniqueConstraint:
+                case Uml::ot_ForeignKeyConstraint:
+                    emit entityConstraintAdded(cli);
+                    break;
+                default:
+                    break;
+            }
         }
     }
     return success;

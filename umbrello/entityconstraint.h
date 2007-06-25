@@ -65,39 +65,8 @@ public:
     /**
      * Make a clone of the UMLEntityConstraint.
      */
-    virtual UMLObject* clone() const;
+    virtual UMLObject* clone() const = 0;
 
-    /**
-     * Returns a string representation of the UMLEntityConstraint.
-     *
-     * @param sig               If true will show the attribute type and
-     *                  initial value.
-     * @return  Returns a string representation of the UMLAttribute.
-     */
-    QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
-
-    /**
-     * Reimplement method from UMLObject.
-     */
-    QString getFullyQualifiedName(QString separator = QString(),
-                                  bool includeRoot = false) const;
-
-    /**
-     * Creates the <UML:EntityConstraint> XMI element.
-     */
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-
-    /**
-     * Display the properties configuration dialog for the attribute.
-     */
-    virtual bool showPropertiesDialog(QWidget* parent);
-
-
-protected:
-    /**
-     * Loads the <UML:EntityConstraint> XMI element.
-     */
-    bool load( QDomElement & element );
 
 };
 
