@@ -179,7 +179,7 @@ public:
     /**
      * Sets the multiplicity of the given role of the UMLAssociation.
      *
-     * @param multiA    The multiplicity of the given role.
+     * @param multi    The multiplicity of the given role.
      */
     void setMulti(const QString &multi, Uml::Role_Type role);
 

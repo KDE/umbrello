@@ -45,8 +45,8 @@ class CodeEditor : public QTextEdit
     Q_OBJECT
 public:
 
-    CodeEditor ( const QString & text, const QString & context = QString::null, CodeViewerDialog * parent = 0, const char * name = 0 , CodeDocument * doc = 0);
-    CodeEditor ( CodeViewerDialog * parent, const char* name = 0, CodeDocument * doc = 0);
+    explicit CodeEditor ( const QString & text, const QString & context = QString(), CodeViewerDialog * parent = 0, const char * name = 0 , CodeDocument * doc = 0);
+    explicit CodeEditor ( CodeViewerDialog * parent, const char* name = 0, CodeDocument * doc = 0);
     ~CodeEditor ();
 
     // return code viewer state

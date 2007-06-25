@@ -127,7 +127,6 @@ protected:
 
     /**
      * @return  CPPMakeCodeDocument
-     * @param   this
      */
     CPPMakefileCodeDocument * newMakefileCodeDocument ( );
 

@@ -35,7 +35,7 @@ public:
      * @param drawVertical  Whether to draw the plate horizontally or vertically.
      * @param id            The ID to assign (-1 will prompt a new ID.)
      */
-    ForkJoinWidget(UMLView * view, bool drawVertical = false, Uml::IDType id = Uml::id_None);
+    explicit ForkJoinWidget(UMLView * view, bool drawVertical = false, Uml::IDType id = Uml::id_None);
 
     /**
      * destructor

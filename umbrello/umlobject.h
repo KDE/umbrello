@@ -60,7 +60,7 @@ public:
      * @param   name            The name of the object.
      * @param   id              The unique ID of the object.
      */
-    UMLObject(const QString &name = "" , Uml::IDType id = Uml::id_None);
+    explicit UMLObject(const QString &name = "" , Uml::IDType id = Uml::id_None);
 
     /**
      * Overloaded '==' operator
@@ -94,7 +94,7 @@ public:
     /**
      * Set the type of the object.
      *
-     * @param  The Uml::Object_Type to set.
+     * @param ot The Uml::Object_Type to set.
      */
     virtual void setBaseType(Uml::Object_Type ot);
 

@@ -58,7 +58,7 @@ namespace CodeGenFactory {
      * Only applies to the advanced generators.
      *
      * @param cd         the parent ClassifierCodeDocument
-     * @param attribute  attribute which is parent of this class field
+     * @param at         attribute which is parent of this class field
      * @return  CodeClassField which is specific to the current language
      */
     CodeClassField * newCodeClassField (ClassifierCodeDocument *cd, UMLAttribute * at);

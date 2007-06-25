@@ -50,7 +50,7 @@ public:
      * @param activityType      The type of activity.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-    ActivityWidget( UMLView * view, ActivityType activityType = Normal, Uml::IDType id = Uml::id_None );
+    explicit ActivityWidget( UMLView * view, ActivityType activityType = Normal, Uml::IDType id = Uml::id_None );
 
 
     /**

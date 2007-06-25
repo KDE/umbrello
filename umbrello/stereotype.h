@@ -33,7 +33,7 @@ public:
      * @param name              The name of this UMLStereotype.
      * @param id                The unique id given to this UMLStereotype.
      */
-    UMLStereotype(const QString &name, Uml::IDType id = Uml::id_None);
+    explicit UMLStereotype(const QString &name, Uml::IDType id = Uml::id_None);
 
     /**
      * Sets up a stereotype.

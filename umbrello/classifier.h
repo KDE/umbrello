@@ -51,7 +51,7 @@ public:
      * @param name              The name of the Concept.
      * @param id                The unique id of the Concept.
      */
-    UMLClassifier(const QString & name = "", Uml::IDType id = Uml::id_None);
+    explicit UMLClassifier(const QString & name = "", Uml::IDType id = Uml::id_None);
 
     /**
      * Standard deconstructor.
@@ -276,7 +276,7 @@ public:
     /**
      * Removes a template from the class.
      *
-     * @param template  The template to remove.
+     * @param umltemplate  The template to remove.
      * @return  Count of the remaining templates after removal.
      *          Returns -1 if the given template was not found.
      */

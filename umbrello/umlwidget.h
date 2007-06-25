@@ -60,7 +60,7 @@ public:
      * @param id The id of the widget.
      *  The default value (id_None) will prompt generation of a new ID.
      */
-    UMLWidget( UMLView * view, Uml::IDType id = Uml::id_None, UMLWidgetController *widgetController = 0 );
+    explicit UMLWidget( UMLView * view, Uml::IDType id = Uml::id_None, UMLWidgetController *widgetController = 0 );
 
     /**
      * Standard deconstructor
@@ -405,7 +405,7 @@ public:
     /**
      * Set the status of whether to show Stereotype.
      *
-     * @param _show             True if stereotype shall be shown.
+     * @param _status             True if stereotype shall be shown.
      */
     virtual void setShowStereotype(bool _status);
 

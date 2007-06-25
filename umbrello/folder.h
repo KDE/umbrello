@@ -41,7 +41,7 @@ public:
      * @param id      The unique id of the Folder. A new ID will be generated
      *                if this argument is left away.
      */
-    UMLFolder(const QString & name = "", Uml::IDType id = Uml::id_None);
+    explicit UMLFolder(const QString & name = "", Uml::IDType id = Uml::id_None);
 
     /**
      * Empty deconstructor.

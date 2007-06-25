@@ -202,7 +202,7 @@ protected:
      */
     class Circle : public QCanvasEllipse {
     public:
-        Circle(QCanvas * canvas, int radius = 0);
+        explicit Circle(QCanvas * canvas, int radius = 0);
         void setRadius(int radius);
         int getRadius() const;
         void setX(int x);

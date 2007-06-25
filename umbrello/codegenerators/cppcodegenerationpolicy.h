@@ -67,7 +67,7 @@ public:
 
     /**
      * Set the value of m_inlineAccessors
-     * @param new_var the new value
+     * @param var the new value
      */
     void setAccessorsAreInline ( bool var );
 
@@ -79,7 +79,7 @@ public:
 
     /**
      * Set the value of m_inlineOperations
-     * @param new_var the new value
+     * @param var the new value
      */
     void setOperationsAreInline ( bool var );
 
@@ -91,7 +91,7 @@ public:
 
     /**
       * Set the value of m_virtualDestructors
-      * @param new_var the new value
+      * @param var the new value
       */
     void setDestructorsAreVirtual ( bool var );
 
@@ -103,7 +103,7 @@ public:
 
     /**
        * Set the value of m_packageIsNamespace
-       * @param new_var the new value
+       * @param var the new value
        */
     void setPackageIsNamespace ( bool var );
 
@@ -116,7 +116,7 @@ public:
 
     /**
       * Set the value of m_autoGenerateAccessors
-      * @param new_var the new value
+      * @param var the new value
       */
     void setAutoGenerateAccessors ( bool var );
 
@@ -128,7 +128,7 @@ public:
 
     /**
      * Set the value of m_publicAccessors
-     * @param new_var the new value
+     * @param var the new value
      */
     void setAccessorsArePublic ( bool var );
 

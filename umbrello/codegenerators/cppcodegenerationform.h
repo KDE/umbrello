@@ -30,7 +30,7 @@ public:
     /**
      * std ctor
      */
-    CPPCodeGenerationForm (QWidget *parent=0, const char *name=0);
+    explicit CPPCodeGenerationForm (QWidget *parent=0, const char *name=0);
 
     /**
      * std dtor

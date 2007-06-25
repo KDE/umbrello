@@ -40,7 +40,7 @@ public:
     /**
      * Constructors
      */
-    XMLCodeComment ( CodeDocument * doc, const QString & text = "" );
+    explicit XMLCodeComment ( CodeDocument * doc, const QString & text = "" );
 
     /**
      * Empty Destructor

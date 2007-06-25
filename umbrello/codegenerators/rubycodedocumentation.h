@@ -44,7 +44,7 @@ public:
     /**
      * Constructors
      */
-    RubyCodeDocumentation ( RubyClassifierCodeDocument * doc, const QString & text = "");
+    explicit RubyCodeDocumentation ( RubyClassifierCodeDocument * doc, const QString & text = "");
 
     /**
      * Empty Destructor

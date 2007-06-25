@@ -30,7 +30,7 @@ class JavaCodeGenerationPolicyPage : public CodeGenerationPolicyPage {
     Q_OBJECT
 public:
 
-    JavaCodeGenerationPolicyPage (QWidget *parent=0, const char *name=0, JavaCodeGenerationPolicy * policy = 0);
+    explicit JavaCodeGenerationPolicyPage (QWidget *parent=0, const char *name=0, JavaCodeGenerationPolicy * policy = 0);
 
     virtual ~JavaCodeGenerationPolicyPage();
 

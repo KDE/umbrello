@@ -63,7 +63,7 @@ public:
     /**
      * Set the status of whether to show Package.
      *
-     * @param _show             True if package shall be shown.
+     * @param _status             True if package shall be shown.
      */
     void setShowPackage(bool _status);
 

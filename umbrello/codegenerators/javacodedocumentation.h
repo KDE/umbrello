@@ -42,7 +42,7 @@ public:
     /**
      * Constructors
      */
-    JavaCodeDocumentation ( JavaClassifierCodeDocument * doc, const QString & text = "");
+    explicit JavaCodeDocumentation ( JavaClassifierCodeDocument * doc, const QString & text = "");
 
     /**
      * Empty Destructor

@@ -55,7 +55,7 @@ public:
      *
      * @param rPossiblyReservedKeyword  The string to check.
      */
-    virtual bool isReservedKeyword(const QString & rPossiblyReservedWord);
+    virtual bool isReservedKeyword(const QString & rPossiblyReservedKeyWord);
 
     /**
      * get list of reserved keywords

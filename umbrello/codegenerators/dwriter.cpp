@@ -192,7 +192,7 @@ void DWriter::writeClass(UMLClassifier *c) {
             }
         }
     }
-    
+
     // another preparation, determine what we have
     UMLAssociationList associations = c->getSpecificAssocs(Uml::at_Association); // BAD! only way to get "general" associations.
     UMLAssociationList uniAssociations = c->getUniAssociationToBeImplemented();
@@ -271,7 +271,7 @@ void DWriter::writeClass(UMLClassifier *c) {
     }
 
     writeOperations(c, d);
-    
+
     d << "}" << m_endl; // end class
 
     file.close();
@@ -350,18 +350,18 @@ void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d) {
         // (f) base classes
         for (UMLClassifier * concept= superclasses.first(); concept; concept = superclasses.next()) {
             d << cleanName(concept->getName());
-    
+
             count--;
-    
+
             if (count>0) d << ", ";
         }
-    
+
         // (g) interfaces
         for (UMLClassifier * concept= superinterfaces.first(); concept; concept = superinterfaces.next()) {
             d << cleanName(concept->getName());
-    
+
             count--;
-    
+
             if (count>0) d << ", ";
         }
     }
@@ -392,7 +392,7 @@ void DWriter::writeAttributeDecl(Uml::Visibility visibility, UMLAttributeList &a
 
         // TODO: find out whether this class has accessors or not
         bool hasAccessorMethods = true;
-        
+
         // attribute name
         if (hasAccessorMethods) {
             d << "m_";
@@ -440,7 +440,7 @@ void DWriter::writeComment(const QString &comment, const QString &myIndent,
 
     for (uint i = 0; i < lines.count(); ++i) {
         QString tmp = lines[i];
-        
+
         while (tmp.length() > 77) {
             uint l = tmp.left(77).findRev(' ');
             if (l < 1) l = tmp.find(' ', 77);
@@ -451,10 +451,10 @@ void DWriter::writeComment(const QString &comment, const QString &myIndent,
             d << myIndent << (dDocStyle ? " * " : "// ") << tmp.left(l) << m_endl;
             tmp = tmp.right(tmp.length() - l);
         }
-        
+
         d << myIndent << (dDocStyle ? " * " : "// ") << tmp << m_endl;
     }
-    
+
     if(dDocStyle) {
         d << myIndent << " */" << m_endl;
     }
@@ -523,22 +523,22 @@ void DWriter::writeAssociationRoleDecl(QString fieldClassName,
     }
 
     bool hasAccessors = true;
-    
+
     // declare the association based on whether it is this a single variable
     // or a List (Vector). One day this will be done correctly with special
     // multiplicity object that we don't have to figure out what it means via regex.
     if(multi.isEmpty() || multi.contains(QRegExp("^[01]$"))) {
         d << m_indentation << fieldClassName << " ";
-        
+
         if (hasAccessors) d << "m_";
-        
+
         d << deCapitaliseFirstLetter(roleName) << ";";
     } else {
         d << m_indentation << fieldClassName << "[] ";
         //TODO: templated containers
-        
+
         if (hasAccessors) d << "m_";
-        
+
         d << pluralize(deCapitaliseFirstLetter(roleName)) << ";";
         // from here we could initialize default values, or put in an init() section
         // of the constructors
@@ -610,7 +610,7 @@ void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QStri
     if (changeType != Uml::chg_Frozen) {
         writeDocumentation("Adds a " + fieldNameUP + " to the list of " +
                            fieldName + ".", description, "", m_indentation, d);
-        
+
         d << m_indentation << "void add" << fieldNameUC << "(";
         d << fieldClassName << " new" << fieldNameUC << ") {";
         d << startline << m_indentation << fieldVarName << " ~= new" << fieldNameUC << ";";
@@ -639,7 +639,7 @@ void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QStri
     writeDocumentation("Returns the list of " + fieldName + ".",
                        description, "@return List of "+fieldName + ".",
                        m_indentation, d);
-    
+
     d << m_indentation << fieldClassName << "[] get" << fieldName << "() {";
     d << startline << m_indentation << "return " << fieldVarName << ";";
     d << startline << "}" << m_endl << m_endl;
@@ -659,7 +659,7 @@ void DWriter::writeSingleAttributeAccessorMethods(QString fieldClassName,
         writeDocumentation("Sets the value of " + fieldName + ".", description,
                            "@param new" + fieldNameUC + " The new value of " + fieldName + ".",
                            m_indentation, d);
-        
+
         d << m_indentation << fieldClassName << " " << fieldName << "(";
         d << fieldClassName << " new" << fieldNameUC << ") {";
         d << startline << m_indentation << "return " << fieldVarName << " = new" << fieldNameUC << ";";
@@ -670,7 +670,7 @@ void DWriter::writeSingleAttributeAccessorMethods(QString fieldClassName,
     writeDocumentation("Returns the value of " + fieldName + ".", description,
                        "@return The value of " + fieldName + ".",
                        m_indentation, d);
-    
+
     d << m_indentation << fieldClassName << " " << fieldName << "() {";
     d << startline << m_indentation << "return " << fieldVarName << ";";
     d << startline << "}" << m_endl << m_endl;
@@ -844,19 +844,19 @@ void DWriter::writeOperations(UMLClassifier *c, QTextStream &d) {
 
     if (oppub.count() > 0) {
         writeProtectionMod(Uml::Visibility::Public, d);
-    
+
         writeOperations(oppub,d);
     }
 
     if (opprot.count() > 0) {
         writeProtectionMod(Uml::Visibility::Protected, d);
-        
+
         writeOperations(opprot, d);
     }
 
     if (oppriv.count() > 0) {
         writeProtectionMod(Uml::Visibility::Private, d);
-        
+
         writeOperations(oppriv, d);
     }
 
@@ -881,7 +881,7 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d) {
         str = ""; // reset for next method
         if (op->getAbstract() && !isInterface) str += "abstract ";
         if (op->getStatic()) str += "static ";
-        
+
         str += methodReturnType + ' ' +cleanName(op->getName()) + "(";
 
         atl = op->getParmList();
@@ -897,7 +897,7 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d) {
                    + ((j < i-1)?", ":"");
             returnStr += "@param " + atName+' '+at->getDoc() + m_endl;
         }
-        
+
         str+= ")";
 
         // method only gets a body IF its not abstract
@@ -925,14 +925,14 @@ QString DWriter::fixInitialStringDeclValue(QString value, QString type) {
 
 QString DWriter::scopeToDDecl(Uml::Visibility scope) {
     QString scopeString;
-    
+
     switch(scope) {
         case Uml::Visibility::Public: scopeString = "public"; break;
         case Uml::Visibility::Protected: scopeString = "protected"; break;
         case Uml::Visibility::Private: scopeString = "private"; break;
         default: break; //TODO: package and export
     }
-    
+
     return scopeString;
 }
 
@@ -957,7 +957,7 @@ QString DWriter::pluralize(QString string) {
 
 QString DWriter::unPluralize(QString string) {
     // does not handle special cases liek datum -> data, etc.
-    
+
     if (string.length() > 2 && string.right(3) == "ses") {
         return string.left(string.length() - 2);
     }
@@ -965,7 +965,7 @@ QString DWriter::unPluralize(QString string) {
     if (string.right(1) == "s") {
         return string.left(string.length() - 1);
     }
-    
+
     return string;
 }
 

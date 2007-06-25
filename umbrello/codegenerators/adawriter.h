@@ -62,8 +62,9 @@ public:
      * language of this code generator
      *
      * @param rPossiblyReservedKeyword  The string to check.
+     * @return true if the keyword is reserved
      */
-    virtual bool isReservedKeyword(const QString & rPossiblyReservedWord);
+    virtual bool isReservedKeyword(const QString & rPossiblyReservedKeyWord);
 
     /**
      * get list of reserved keywords

@@ -38,7 +38,7 @@ class RefactoringAssistant : public KListView
 public:
     typedef std::map<QListViewItem*, UMLObject*> UMLObjectMap;
 
-    RefactoringAssistant( UMLDoc *doc, UMLClassifier *obj = 0, QWidget *parent = 0, const char *name = 0 );
+    explicit RefactoringAssistant( UMLDoc *doc, UMLClassifier *obj = 0, QWidget *parent = 0, const char *name = 0 );
     virtual ~RefactoringAssistant();
 
     void refactor( UMLClassifier *obj );

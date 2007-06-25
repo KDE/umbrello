@@ -41,7 +41,7 @@ public:
     /**
      * Constructors
      */
-    TextBlock ( CodeDocument * parent, const QString & text = "");
+    explicit TextBlock ( CodeDocument * parent, const QString & text = "");
 
     // destructor
     ~TextBlock ( );

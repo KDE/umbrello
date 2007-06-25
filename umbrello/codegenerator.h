@@ -94,14 +94,12 @@ public:
     /**
      * Build a code generator.
      * @return      CodeGenerator
-     * @param       doc
      */
     CodeGenerator ();
 
     /**
      * Build a code generator and then initialize it from an XMI element.
      * @return      CodeGenerator
-     * @param       doc
      * @param       element an element from an XMI document
      */
     CodeGenerator (QDomElement & element );

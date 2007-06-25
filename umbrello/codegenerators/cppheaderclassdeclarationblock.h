@@ -33,7 +33,7 @@ public:
     /**
      * Empty Constructor
      */
-    CPPHeaderClassDeclarationBlock ( CPPHeaderCodeDocument * parentDoc, const QString &start = "", const QString &endText = "}", const QString &comment = "");
+    explicit CPPHeaderClassDeclarationBlock ( CPPHeaderCodeDocument * parentDoc, const QString &start = "", const QString &endText = "}", const QString &comment = "");
 
     /**
      * Empty Destructor

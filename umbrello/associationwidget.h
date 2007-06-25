@@ -385,7 +385,7 @@ public:
      * Creates the association class connecting line using the specified
      * ClassifierWidget.
      *
-     * @param classifier The ClassifierWidget to use.
+     * @param classifierWidget The ClassifierWidget to use.
      * @param linePathSegmentIndex The index of the segment where the
      *        association class is created.
      */

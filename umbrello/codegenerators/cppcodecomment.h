@@ -40,7 +40,7 @@ public:
     /**
      * Constructors
      */
-    CPPCodeComment ( CodeDocument * doc, const QString & text = "");
+    explicit CPPCodeComment ( CodeDocument * doc, const QString & text = "");
 
     /**
      * Empty Destructor

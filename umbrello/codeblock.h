@@ -43,8 +43,8 @@ public:
     /** constructor with QString so we can create & populate it in
      * one step.
      */
-    CodeBlock ( CodeDocument * parent, const QString & body = "");
-    CodeBlock ( HierarchicalCodeBlock * parent, const QString & body = "" );
+    explicit CodeBlock ( CodeDocument * parent, const QString & body = "");
+    explicit CodeBlock ( HierarchicalCodeBlock * parent, const QString & body = "" );
 
     /**
      * Empty Destructor

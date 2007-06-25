@@ -55,7 +55,7 @@ public:
 
     /**
       * Set the value of m_autoGenerateAttribAccessors
-      * @param new_var the new value
+      * @param var the new value
       */
     void setAutoGenerateAttribAccessors ( bool var );
 
@@ -67,7 +67,7 @@ public:
 
     /**
       * Set the value of m_autoGenerateAssocAccessors
-      * @param new_var the new value
+      * @param var the new value
       */
     void setAutoGenerateAssocAccessors ( bool var );
 
