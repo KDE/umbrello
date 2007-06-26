@@ -199,10 +199,11 @@ public:
     virtual QString getHeadingFile (const QString &file );
 
     /**
-     * Finds an appropriate file name for class c, taking into account the Overwrite
-     * Policy and asking the user what to do if need be. (if policy == Ask)
+     * Finds an appropriate file name for the given CodeDocument, taking into
+     * account the Overwrite Policy and asking the user what to do if need be
+     * (if policy == Ask).
      *
-     * @param concept the class for which an output file name is desired.
+     * @param doc  the CodeDocument for which an output file name is desired.
      * @return the file name that should be used. (with extension) or
      *      NULL if none to be used
      */
@@ -223,7 +224,7 @@ public:
     *
     * @return the formatted documentation text
     */
-    QString formatDoc (const QString & text, const QString & lineprefix = " *", int linewidth = 80 );
+    QString formatDoc (const QString & text, const QString & linePrefix = " *", int lineWidth = 80 );
 
     /**
     * Finds all classes in the current document to which objects of class c

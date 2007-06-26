@@ -136,6 +136,7 @@ public:
      * codeclassfield object in this classifiercodedocument. Returns
      * NULL if no such codeclassfield object exists in this document.
      *
+     * @param id       ID of the parent object
      * @param role_id  0 for role A of the asssociation
      *                 1 for role B of the asssociation
      *                -1 if this is an attribute.

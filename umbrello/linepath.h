@@ -269,7 +269,8 @@ protected:
     /**
      * Create a number of new lines and append them to the given list.
      *
-     * @param by  The number of lines to insert into the given list.
+     * @param list  The list into which to append lines.
+     * @param by    The number of lines to insert into the given list.
      */
     void growList(LineList &list, int by);
 

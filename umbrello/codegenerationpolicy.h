@@ -251,7 +251,7 @@ public:
 
     /**
      * Set the value of m_autoGenerateConstructors
-     * @param new_var the new value
+     * @param var     the new value
      */
     void setAutoGenerateConstructors ( bool var );
 
