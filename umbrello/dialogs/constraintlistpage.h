@@ -57,6 +57,7 @@ private:
     KAction* newUniqueConstraintAction;
     KAction* newPrimaryKeyConstraintAction;
     KAction* newForeignKeyConstraintAction;
+    KAction* newCheckConstraintAction;
 
     void setupActions();
 
@@ -66,6 +67,7 @@ private slots:
     void slotNewUniqueConstraint();
     void slotNewPrimaryKeyConstraint();
     void slotNewForeignKeyConstraint();
+    void slotNewCheckConstraint();
 
 protected:
 

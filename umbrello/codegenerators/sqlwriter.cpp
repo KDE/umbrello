@@ -34,6 +34,7 @@
 #include "../model_utils.h"
 #include "../uniqueconstraint.h"
 #include "../foreignkeyconstraint.h"
+#include "../checkconstraint.h"
 #include "../umlentityattributelist.h"
 #include "../umlclassifierlistitemlist.h"
 
@@ -115,7 +116,11 @@ void SQLWriter::writeClass(UMLClassifier *c) {
     constrList = m_pEntity->getFilteredList(Uml::ot_ForeignKeyConstraint);
     printForeignKeyConstraints(sql, constrList);
 
-    // write all other indexex
+    // write all check constraints
+    constrList = m_pEntity->getFilteredList(Uml::ot_CheckConstraint);
+    printCheckConstraints(sql,constrList);
+
+    // write all other indexes
     foreach( UMLEntityAttribute* ea, entAttList ) {
         if ( ea->getIndexType() != Uml::Index )
             continue;
@@ -407,6 +412,10 @@ void SQLWriter::printUniqueConstraints(QTextStream& sql, UMLClassifierListItemLi
 
        UMLEntityAttributeList attList = uuc->getEntityAttributeList();
 
+       // print documentation
+       sql<<"-- "<<uuc->getDoc();
+       sql<<m_endl;
+
        sql<<"ALTER TABLE "<<cleanName(m_pEntity->getName())
           <<" ADD CONSTRAINT "<<cleanName(uuc->getName());
 
@@ -442,6 +451,10 @@ void SQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierListIt
 
        QMap<UMLEntityAttribute*,UMLEntityAttribute*> attributeMap;
        attributeMap = fkc->getEntityAttributePairs();
+
+       // print documentation
+       sql<<"-- "<<fkc->getDoc();
+       sql<<m_endl;
 
        sql<<"ALTER TABLE "<<cleanName(m_pEntity->getName())
           <<" ADD CONSTRAINT "<<cleanName(fkc->getName());
@@ -534,6 +547,28 @@ void SQLWriter::printIndex(QTextStream& sql, UMLEntity* ent , UMLEntityAttribute
 
 void SQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeList entAttList ) {
     // defer to derived classes
+}
+
+void SQLWriter::printCheckConstraints(QTextStream& sql,UMLClassifierListItemList constrList) {
+
+    foreach( UMLClassifierListItem* cli, constrList ) {
+        UMLCheckConstraint* chConstr = static_cast<UMLCheckConstraint*>(cli);
+
+        sql<<m_endl;
+        // print documentation
+        sql<<"-- "<<chConstr->getDoc();
+
+        sql<<m_endl;
+
+        sql<<"ALTER TABLE "<<cleanName( m_pEntity->getName() )
+           <<" ADD CONSTRAINT "<<cleanName( chConstr->getName() )
+           <<" CHECK ("<<chConstr->getCheckCondition()
+           <<" )";
+
+        sql<<m_endl;
+
+   }
+
 }
 
 #include "sqlwriter.moc"

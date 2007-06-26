@@ -19,6 +19,7 @@ class UMLEntityAttribute;
 class UMLEntityConstraint;
 class UMLUniqueConstraint;
 class UMLForeignKeyConstraint;
+class UMLCheckConstraint;
 class UMLEntityConstraintList;
 class UMLEntityAttributeList;
 
@@ -92,6 +93,14 @@ public:
      * @return The ForeignKeyConstraint created
      */ 
     UMLForeignKeyConstraint* createForeignKeyConstraint(const QString &name = QString());
+    
+    /**
+     * Creates a Check  Constraint for this Entity. 
+     *
+     * @param name An optional name
+     * @return The CheckConstraint created
+     */ 
+    UMLCheckConstraint* createCheckConstraint(const QString &name = QString());
     
     /**
          * Adds an entityAttribute to the entity.

@@ -42,6 +42,7 @@
 #include "uml.h"
 #include "uniqueconstraint.h"
 #include "foreignkeyconstraint.h"
+#include "checkconstraint.h"
 #include "codegenerator.h"
 #include "model_utils.h"
 #include "uniqueid.h"
@@ -239,6 +240,13 @@ UMLClassifierListItem* createChildObject(UMLClassifier* parent, Uml::Object_Type
             UMLEntity* umlentity = dynamic_cast<UMLEntity*>( parent );
             if ( umlentity ) {
                 returnObject = umlentity->createForeignKeyConstraint();
+            }
+            break;
+        }
+    case Uml::ot_CheckConstraint: {
+            UMLEntity* umlentity = dynamic_cast<UMLEntity*>( parent );
+            if ( umlentity ) {
+                returnObject = umlentity->createCheckConstraint();
             }
             break;
         }

@@ -46,6 +46,7 @@ ConstraintListPage::ConstraintListPage(QWidget* parent, UMLClassifier* classifie
     buttonMenu->addAction( newPrimaryKeyConstraintAction );
     buttonMenu->addAction( newUniqueConstraintAction );
     buttonMenu->addAction( newForeignKeyConstraintAction );
+    buttonMenu->addAction( newCheckConstraintAction );
 
     // because we order the list items. first the Unique Constraints and then the ForeignKey Constraints
     hideArrowButtons( true );
@@ -66,6 +67,10 @@ void ConstraintListPage::setupActions(){
 
     newForeignKeyConstraintAction = new KAction( i18n( "Foreign Key Constraint..." ), this );
     connect( newForeignKeyConstraintAction, SIGNAL( triggered( bool ) ), this ,  SLOT( slotNewForeignKeyConstraint() ) );
+
+    newCheckConstraintAction = new KAction( i18n( "Check Constraint..." ), this );
+    connect( newCheckConstraintAction, SIGNAL( triggered( bool ) ), this ,  SLOT( slotNewCheckConstraint() ) );
+
 
 }
 
@@ -108,17 +113,26 @@ void ConstraintListPage::slotNewForeignKeyConstraint(){
     m_itemType = Uml::ot_EntityConstraint;
 }
 
+void ConstraintListPage::slotNewCheckConstraint() {
+    m_itemType = Uml::ot_CheckConstraint;
+    ClassifierListPage::slotNewListItem();
+
+    // shift back
+    m_itemType = Uml::ot_EntityConstraint;
+}
 
 int ConstraintListPage::calculateNewIndex(UMLClassifierListItem* listItem){
 
     // we want to show all Unique Constraints first , followed by ForeignKey Constraints
-    UMLClassifierListItemList ucList, fkcList;
+    UMLClassifierListItemList ucList, fkcList,  ccList;
     ucList =  m_pClassifier->getFilteredList(Uml::ot_UniqueConstraint);
     fkcList = m_pClassifier->getFilteredList(Uml::ot_ForeignKeyConstraint);
+    ccList =  m_pClassifier->getFilteredList(Uml::ot_CheckConstraint);
 
-    int ucCount,  fkcCount;
+    int ucCount,  fkcCount, ccCount;
     ucCount = ucList.count();
     fkcCount = fkcList.count();
+    ccCount = ccList.count();
 
     QString listItemString = listItem->toString( Uml::st_SigNoVis );
     int type = listItem->getBaseType();
@@ -126,15 +140,22 @@ int ConstraintListPage::calculateNewIndex(UMLClassifierListItem* listItem){
     int index = 0;
     // we subtract 1 from the count as the new item is already in the list (m_List) and
     // hence contributes to the count we obtained
-    if ( type == Uml::ot_UniqueConstraint ) {
-        index = ucCount -1 ;
+    switch( type ) {
+        case Uml::ot_UniqueConstraint:
+            index = ucCount - 1;
+            break;
+        case Uml::ot_ForeignKeyConstraint:
+            index = ucCount + fkcCount - 1;
+            break;
+        case Uml::ot_CheckConstraint:
+            index = ucCount + fkcCount + ccCount - 1;
+            break;
+        default:
+            break;
 
-    } else if ( type == Uml::ot_ForeignKeyConstraint ) {
-        index = ucCount + fkcCount - 1;
     }
 
     return index;
 }
-
 
 #include "constraintlistpage.moc"

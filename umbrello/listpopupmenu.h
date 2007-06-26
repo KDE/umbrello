@@ -81,6 +81,7 @@ public:
         mt_UniqueConstraint,
         mt_PrimaryKeyConstraint,
         mt_ForeignKeyConstraint,
+        mt_CheckConstraint,
         mt_Object,
         mt_Initial_State,
         mt_End_State,
@@ -99,6 +100,7 @@ public:
         mt_New_UniqueConstraint,
         mt_New_PrimaryKeyConstraint,
         mt_New_ForeignKeyConstraint,
+        mt_New_CheckConstraint,
         mt_Parameter_Selected,
         mt_Operation_Selected,
         mt_Attribute_Selected,
@@ -108,6 +110,7 @@ public:
         mt_UniqueConstraint_Selected,
         mt_PrimaryKeyConstraint_Selected,
         mt_ForeignKeyConstraint_Selected,
+        mt_CheckConstraint_Selected,
         mt_Association_Selected,          // Association without role names
         mt_Show_Attributes,
         mt_Show_Attributes_Selection,     //SHOWATTS, multiple items

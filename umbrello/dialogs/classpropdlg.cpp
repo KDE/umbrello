@@ -206,6 +206,9 @@ void ClassPropDlg::slotApply() {
     if (m_pEntityAttributePage) {
         m_pEntityAttributePage->updateObject();
     }
+    if (m_pEntityConstraintPage) {
+        m_pEntityConstraintPage->updateObject();
+    }
     if (m_pOptionsPage) {
         m_pOptionsPage->updateUMLWidget();
     }

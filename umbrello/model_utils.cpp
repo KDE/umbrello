@@ -321,7 +321,8 @@ bool isClassifierListitem(Uml::Object_Type type) {
         type == Uml::ot_EntityAttribute ||
         type == Uml::ot_EnumLiteral ||
         type == Uml::ot_UniqueConstraint ||
-        type == Uml::ot_ForeignKeyConstraint) {
+        type == Uml::ot_ForeignKeyConstraint  ||
+        type == Uml::ot_CheckConstraint) {
         return true;
     } else {
         return false;
@@ -360,6 +361,7 @@ Uml::Model_Type guessContainer(UMLObject *o) {
         case Uml::ot_EntityAttribute:
         case Uml::ot_UniqueConstraint:
         case Uml::ot_ForeignKeyConstraint:
+        case Uml::ot_CheckConstraint:
             mt = Uml::mt_EntityRelationship;
             break;
         case Uml::ot_Association:
@@ -745,6 +747,7 @@ bool typeIsClassifierList(Uml::ListView_Type type) {
         type == Uml::lvt_UniqueConstraint ||
         type == Uml::lvt_ForeignKeyConstraint ||
         type == Uml::lvt_PrimaryKeyConstraint ||
+        type == Uml::lvt_CheckConstraint  ||
         type == Uml::lvt_EnumLiteral) {
         return true;
     } else {
@@ -997,6 +1000,10 @@ Uml::ListView_Type convert_OT_LVT(UMLObject *o) {
         type = Uml::lvt_ForeignKeyConstraint;
         break;
 
+    case Uml::ot_CheckConstraint:
+        type = Uml::lvt_CheckConstraint;
+        break;
+
     case Uml::ot_Attribute:
         type = Uml::lvt_Attribute;
         break;
@@ -1076,6 +1083,10 @@ Uml::Object_Type convert_LVT_OT(Uml::ListView_Type lvt) {
 
     case Uml::lvt_ForeignKeyConstraint:
         ot = Uml::ot_ForeignKeyConstraint;
+        break;
+
+    case Uml::lvt_CheckConstraint:
+        ot = Uml::ot_CheckConstraint;
         break;
 
     case Uml::lvt_Attribute:
@@ -1189,6 +1200,9 @@ Uml::Icon_Type convert_LVT_IT(Uml::ListView_Type lvt) {
         case Uml::lvt_ForeignKeyConstraint:
             icon = Uml::it_ForeignKey_Constraint;
             break;
+        case Uml::lvt_CheckConstraint:
+            icon = Uml::it_Check_Constraint;
+            break;
         case Uml::lvt_Class_Diagram:
             icon = Uml::it_Diagram_Class;
             break;
@@ -1277,6 +1291,7 @@ Uml::Model_Type convert_OT_MT(Uml::Object_Type ot) {
         case Uml::ot_EntityAttribute:
         case Uml::ot_UniqueConstraint:
         case Uml::ot_ForeignKeyConstraint:
+        case Uml::ot_CheckConstraint:
             mt = Uml::mt_EntityRelationship;
             break;
         default:

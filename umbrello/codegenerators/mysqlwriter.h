@@ -46,6 +46,12 @@ public:
      */
     void printForeignKeyConstraints(QTextStream& sql, UMLClassifierListItemList constrList);
 
+
+    /**
+     * Reimplemented from Base Class to print warning
+     */
+    void printCheckConstraints(QTextStream& sql,UMLClassifierListItemList constrList);
+
 protected:
 
     /**

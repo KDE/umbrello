@@ -1140,7 +1140,8 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject) {
         } else if (type == ot_EntityAttribute) {
             UMLEntity *ent = static_cast<UMLEntity*>(parent);
             ent->removeEntityAttribute(static_cast<UMLClassifierListItem*>(umlobject));
-        } else if ( type == ot_UniqueConstraint || type == ot_ForeignKeyConstraint ) {
+        } else if ( type == ot_UniqueConstraint || type == ot_ForeignKeyConstraint ||
+                    type == ot_CheckConstraint) {
             UMLEntity* ent = static_cast<UMLEntity*>( parent );
             ent->removeConstraint( static_cast<UMLEntityConstraint*>( umlobject ) );
         } else {

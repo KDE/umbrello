@@ -147,6 +147,7 @@ set(libdialogs_SRCS
 	dialogs/settingsdlg.cpp 
 	dialogs/statedialog.cpp 
 	dialogs/umlattributedialog.cpp 
+        dialogs/umlcheckconstraintdialog.cpp
 	dialogs/umlentityattributedialog.cpp
         dialogs/umlforeignkeyconstraintdialog.cpp 
 	dialogs/umloperationdialog.cpp 
@@ -259,6 +260,7 @@ set(libumbrello_SRCS
    assocrules.cpp 
    attribute.cpp 
    boxwidget.cpp 
+   checkconstraint.cpp
    classifier.cpp 
    classifiercodedocument.cpp 
    classifierlistitem.cpp 

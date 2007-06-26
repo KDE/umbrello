@@ -212,6 +212,10 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type)
         mt = mt_ForeignKeyConstraint;
         break;
 
+    case Uml::lvt_CheckConstraint:
+        mt = mt_CheckConstraint;
+        break;
+
     case Uml::lvt_Model:
         mt = mt_Model;
         break;
@@ -307,6 +311,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         m_pInsert->insertItem(SmallIcon("unique_constraint"),i18n("Unique Constraint..."),mt_UniqueConstraint );
         m_pInsert->insertItem(SmallIcon("foreignkey_constraint"),i18n("Foreign Key Constraint..."),mt_ForeignKeyConstraint );
 
+        m_pInsert->insertItem(SmallIcon("check_constraint"), i18n("Check Constraint..."), mt_CheckConstraint);
         insertFileNew();
         setupColor(object->getUseFillColour());
         insertStdItems(true, type);
@@ -1213,6 +1218,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         m_pInsert->insertItem(SmallIcon("unique_constraint"),i18n("Unique Constraint..."),mt_UniqueConstraint );
         m_pInsert->insertItem(SmallIcon("foreignkey_constraint"),i18n("Foreign Key Constraint..."),mt_ForeignKeyConstraint );
 
+        m_pInsert->insertItem(SmallIcon("check_constraint"),i18n("Check Constraint..."),mt_CheckConstraint );
         insertFileNew();
         insertStdItems();
         insertStdItem(mt_Properties);
@@ -1236,6 +1242,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
     case mt_UniqueConstraint:
     case mt_PrimaryKeyConstraint:
     case mt_ForeignKeyConstraint:
+    case mt_CheckConstraint:
         insertStdItem(mt_Rename);
         insertStdItem(mt_Delete);
         insertStdItem(mt_Properties);
@@ -1275,6 +1282,10 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
 
     case mt_New_ForeignKeyConstraint:
         insertStdItem(mt_New_ForeignKeyConstraint);
+        break;
+
+    case mt_New_CheckConstraint:
+        insertStdItem(mt_New_CheckConstraint);
         break;
 
     case mt_New_Activity:
@@ -1346,6 +1357,11 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         insertStdItem(mt_Properties);
         break;
 
+    case mt_CheckConstraint_Selected:
+        insertStdItem(mt_New_ForeignKeyConstraint);
+        insertStdItem(mt_Delete);
+        insertStdItem(mt_Properties);
+        break;
 
     case mt_Association_Selected:
         insertStdItem(mt_Delete);

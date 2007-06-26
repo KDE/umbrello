@@ -208,7 +208,16 @@ void EntityWidget::slotMenuSelection(int sel) {
 
         }
         break;
+
+    case ListPopupMenu::mt_CheckConstraint:
+         if (Object_Factory::createChildObject(static_cast<UMLEntity*>(m_pObject),
+                                               Uml::ot_CheckConstraint) ) {
+             UMLApp::app()->getDocument()->setModified();
+
+        }
+        break;
     }
+
     UMLWidget::slotMenuSelection(sel);
 }
 

@@ -140,4 +140,15 @@ void MySQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeList e
     //sql<<m_endl;
 }
 
+void MySQLWriter::printCheckConstraints(QTextStream& sql,UMLClassifierListItemList constrList) {
+
+    sql<<m_endl;
+    sql<<"-- CHECK Constraints are not supported in Mysql ( as of version 5.x )";
+    sql<<m_endl;
+    sql<<"-- But it'll parse the statements without error ";
+
+    // call base class
+    SQLWriter::printCheckConstraints( sql, constrList );
+}
+
 #include "mysqlwriter.moc"

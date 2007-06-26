@@ -19,6 +19,7 @@
 #include "entityattribute.h"
 #include "uniqueconstraint.h"
 #include "foreignkeyconstraint.h"
+#include "checkconstraint.h"
 #include "umldoc.h"
 #include "uml.h"
 #include "uniqueid.h"
@@ -28,6 +29,7 @@
 #include "dialogs/umlentityattributedialog.h"
 #include "dialogs/umluniqueconstraintdialog.h"
 #include "dialogs/umlforeignkeyconstraintdialog.h"
+#include "dialogs/umlcheckconstraintdialog.h"
 
 UMLEntity::UMLEntity(const QString& name, Uml::IDType id) : UMLClassifier(name, id) {
     init();
@@ -199,6 +201,51 @@ UMLForeignKeyConstraint* UMLEntity::createForeignKeyConstraint(const QString &na
 
 }
 
+
+UMLCheckConstraint* UMLEntity::createCheckConstraint(const QString &name ) {
+
+    Uml::IDType id = UniqueID::gen();
+    QString currentName;
+    if (name.isNull())  {
+        currentName = uniqChildName(Uml::ot_CheckConstraint);
+    } else {
+        currentName = name;
+    }
+
+    UMLCheckConstraint* newCheckConstraint = new UMLCheckConstraint(this, currentName, id);
+
+    int button = QDialog::Accepted;
+    bool goodName = false;
+
+    //check for name.isNull() stops dialog being shown
+    //when creating attribute via list view
+    while (button==QDialog::Accepted && !goodName && name.isNull()) {
+        UMLCheckConstraintDialog checkConstraintDialog(0, newCheckConstraint);
+        button = checkConstraintDialog.exec();
+        QString name = newCheckConstraint->getName();
+
+        if(name.length() == 0) {
+            KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
+        } else if ( findChildObject(name) != NULL ) {
+            KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
+        } else {
+            goodName = true;
+        }
+    }
+
+    if (button != QDialog::Accepted) {
+        return NULL;
+    }
+
+    addConstraint(newCheckConstraint);
+
+    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    emitModified();
+    umldoc->signalUMLObjectCreated(newCheckConstraint);
+    return newCheckConstraint;
+}
+
+
 UMLObject* UMLEntity::addEntityAttribute(const QString& name, Uml::IDType id) {
     UMLEntityAttribute* literal = new UMLEntityAttribute(this, name, id);
     m_List.append(literal);
@@ -334,6 +381,14 @@ bool UMLEntity::load(QDomElement& element) {
             }
 
             addConstraint( pForeignKeyConstraint );
+        } else if ( Uml::tagEq( tag, "CheckConstraint" ) ) {
+
+            UMLCheckConstraint* pCheckConstraint = new UMLCheckConstraint( this );
+            if ( !pCheckConstraint->loadFromXMI( tempElement ) ) {
+                return false;
+            }
+
+            addConstraint( pCheckConstraint );
         } else if (tag == "stereotype") {
             kDebug() << "UMLEntity::load(" << m_Name
             << "): losing old-format stereotype." << endl;
@@ -452,11 +507,12 @@ void UMLEntity::slotEntityAttributeRemoved(UMLClassifierListItem* cli){
 UMLClassifierListItemList UMLEntity::getFilteredList(Uml::Object_Type ot){
 
     if ( ot == Uml::ot_EntityConstraint ) {
-        UMLClassifierListItemList ucList,fcList, rcList;
+        UMLClassifierListItemList ucList,fcList,ccList, rcList;
         ucList = UMLClassifier::getFilteredList( Uml::ot_UniqueConstraint );
         fcList = UMLClassifier::getFilteredList( Uml::ot_ForeignKeyConstraint );
+        ccList = UMLClassifier::getFilteredList( Uml::ot_CheckConstraint );
 
-        // append the two lists to rcList
+        // append the lists to rcList
         // first the Unique Constraints
         foreach( UMLClassifierListItem* ucli, ucList ) {
             rcList.append( ucli );
@@ -464,6 +520,10 @@ UMLClassifierListItemList UMLEntity::getFilteredList(Uml::Object_Type ot){
 
         // then the Foreign Key Constraints
         foreach( UMLClassifierListItem* ucli, fcList ) {
+            rcList.append( ucli );
+        }
+
+        foreach( UMLClassifierListItem* ucli, ccList ) {
             rcList.append( ucli );
         }
 
@@ -493,5 +553,6 @@ UMLEntityAttributeList UMLEntity::getEntityAttributes() {
     }
     return entityAttributeList;
 }
+
 
 #include "entity.moc"

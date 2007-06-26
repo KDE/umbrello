@@ -421,6 +421,7 @@ void UMLListViewItem::okRename( int col ) {
     case Uml::lvt_PrimaryKeyConstraint:
     case Uml::lvt_UniqueConstraint:
     case Uml::lvt_ForeignKeyConstraint:
+    case Uml::lvt_CheckConstraint:
         {
             if (m_pObject == NULL) {
                 cancelRenameWithMsg();

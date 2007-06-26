@@ -17,7 +17,6 @@
 // app includes
 #include "entity.h"
 #include "entityattribute.h"
-#include "umlobject.h"
 #include "umldoc.h"
 #include "uml.h"
 #include "dialogs/umlattributedialog.h"

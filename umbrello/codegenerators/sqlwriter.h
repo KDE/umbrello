@@ -86,6 +86,14 @@ protected:
      */
     virtual void printForeignKeyConstraints(QTextStream& sql, UMLClassifierListItemList constrList);
 
+
+    /**
+     * Prints out Check Constraints as "ALTER TABLE" statements
+     * @param sql The stream we should print to
+     * @param constrList The checkConstraints to be printed
+     */
+    virtual void printCheckConstraints(QTextStream& sql,UMLClassifierListItemList constrList);
+    
     /**
      * Prints out Indexes as "CREATE INDEX " statements
      * @param sql The Stream we should print to
