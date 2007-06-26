@@ -505,7 +505,7 @@ public:
      *
      * @param me The move event.
      */
-    virtual void moveEvent(QMoveEvent *) { }
+    virtual void moveEvent(QMoveEvent *me);
 
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
@@ -671,8 +671,6 @@ public slots:
 
     /**
      * When a widget changes this slot captures that signal.
-     *
-     * @param o The changed UMLobject
      */
     virtual void updateWidget();
 

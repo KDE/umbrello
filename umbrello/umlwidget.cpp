@@ -938,6 +938,9 @@ bool UMLWidget::getShowStereotype() const {
     return m_bShowStereotype;
 }
 
+void UMLWidget::moveEvent(QMoveEvent *me) {
+}
+
 void UMLWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     /*
       Call after required actions in child class.

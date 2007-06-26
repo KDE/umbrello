@@ -77,65 +77,65 @@ public:
     QString getAttributes();
 
     /**
-     * Sets the initial value of the UMLEntityAttribute's attributes property.
+     * Sets the UMLEntityAttribute's attributes property.
      *
-     * @param iv  The initial value of the UMLEntityAttribute's attributes property.
+     * @param attributes  The new value for the attributes property.
      */
     void setAttributes(const QString& attributes);
 
     /**
-     * Returns The initial value of the UMLEntityAttribute's index type property.
+     * Returns the UMLEntityAttribute's index type property.
      *
-     * @return  The initial value of the UMLEntityAttribute's index type property.
+     * @return  The value of the UMLEntityAttribute's index type property.
      */
     Uml::DBIndex_Type getIndexType();
 
     /**
-     * Sets the initial value of the UMLEntityAttribute's index type property.
+     * Sets the UMLEntityAttribute's index type property.
      *
-     * @param iv        The initial value of the UMLEntityAttribute's index type property.
+     * @param indexType  The UMLEntityAttribute's index type property.
      */
     void setIndexType(const Uml::DBIndex_Type indexType);
 
     /**
-     * Returns The initial value of the UMLEntityAttribute's length/values property.
+     * Returns the UMLEntityAttribute's length/values property.
      *
-     * @return  The initial value of the UMLEntityAttribute's length/values property.
+     * @return  The UMLEntityAttribute's length/values property.
      */
     QString getValues();
 
     /**
-     * Sets the initial value of the UMLEntityAttribute's length/values property.
+     * Sets the UMLEntityAttribute's length/values property.
      *
-     * @param iv        The initial value of the UMLEntityAttribute's length/values property.
+     * @param values    The new value of the length/values property.
      */
     void setValues(const QString& values);
 
     /**
-     * Returns The initial value of the UMLEntityAttribute's auto_increment boolean
+     * Returns the UMLEntityAttribute's auto_increment boolean
      *
-     * @return  The initial value of the UMLEntityAttribute's auto_increment boolean
+     * @return  The UMLEntityAttribute's auto_increment boolean
      */
     bool getAutoIncrement();
 
     /**
-     * Sets the initial value of the UMLEntityAttribute's auto_increment boolean
+     * Sets the UMLEntityAttribute's auto_increment property
      *
-     * @param iv        The initial value of the UMLEntityAttribute's auto_increment boolean
+     * @param autoIncrement  The UMLEntityAttribute's auto_increment property
      */
     void setAutoIncrement(const bool autoIncrement);
 
     /**
-     * Returns The initial value of the UMLEntityAttribute's allow null value.
+     * Returns the UMLEntityAttribute's allow null value.
      *
-     * @return  The initial value of the UMLEntityAttribute's allow null value.
+     * @return  The UMLEntityAttribute's allow null value.
      */
     bool getNull();
 
     /**
-     * Sets the initial value of the UMLEntityAttribute's allow null value.
+     * Sets the UMLEntityAttribute's allow null value.
      *
-     * @param iv        The initial value of the UMLEntityAttribute's allow null value.
+     * @param null      The UMLEntityAttribute's allow null value.
      */
     void setNull(const bool null);
 

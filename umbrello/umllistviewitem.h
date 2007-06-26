@@ -110,7 +110,7 @@ public:
     /**
      * Set the UMLObject associated with this instance.
      *
-     * @param The object this class represents.
+     * @param obj  The object this class represents.
      */
     void setUMLObject(UMLObject * obj) {
         m_pObject = obj;

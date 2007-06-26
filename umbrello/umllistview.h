@@ -184,7 +184,7 @@ public:
 
     /**
      * Searches through the tree for the item which represents the diagram given
-     * @param the diagram to search for
+     * @param v  the diagram to search for
      * @return the item which represents the diagram
      */
     UMLListViewItem * findView(UMLView *v);
@@ -379,7 +379,7 @@ public slots:
 
     /**
      * renames a diagram in the list view
-     * @param the id of the renamed diagram
+     * @param id    the id of the renamed diagram
      */
     void slotDiagramRenamed(Uml::IDType id);
 

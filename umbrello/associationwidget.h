@@ -116,6 +116,7 @@ public:
      * Set the widget of the given role.
      *
      * @param widget    Pointer to the UMLWidget.
+     * @param role      Role for which to set the widget.
      */
     void setWidget(UMLWidget* widget, Uml::Role_Type role);
 

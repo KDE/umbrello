@@ -186,7 +186,8 @@ public:
     /**
      * Sets the name of the given role of the UMLAssociation.
      *
-     * @param roleNameA The name of the given role.
+     * @param roleName  The name to set for the given role.
+     * @param role      The Uml::Role_Type for which to set the name.
      */
     void setRoleName(const QString &roleName, Uml::Role_Type role);
 

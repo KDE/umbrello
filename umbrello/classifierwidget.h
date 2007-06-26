@@ -227,7 +227,7 @@ public:
      * Sets whether to draw as circle.
      * Only applies when m_pObject->getBaseType() is ot_Interface.
      *
-     * @param _show             True if widget shall be drawn as circle.
+     * @param drawAsCircle      True if widget shall be drawn as circle.
      */
     void setDrawAsCircle(bool drawAsCircle);
 
