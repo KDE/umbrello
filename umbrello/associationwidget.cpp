@@ -63,13 +63,13 @@ AssociationWidget::AssociationWidget(UMLView *view)
 // the preferred constructor
 AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
                                      Association_Type assocType, UMLWidget* pWidgetB,
-                                     UMLAssociation *umlassoc /* = NULL */)
+                                     UMLObject *umlobject /* = NULL */)
         : WidgetBase(view)
 {
     init(view);
-    if (umlassoc)
-        setUMLAssociation(umlassoc);
-    else
+    if (umlobject) {
+        setUMLObject(umlobject);
+    } else {
         // set up UMLAssociation obj if assoc is represented and both roles are UML objects
         if (UMLAssociation::assocTypeHasUMLRepresentation(assocType)) {
             UMLObject* umlRoleA = pWidgetA->getUMLObject();
@@ -100,6 +100,7 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
                 setUMLAssociation(myAssoc);
             }
         }
+    }
 
     setWidget(pWidgetA, A);
     setWidget(pWidgetB, B);
@@ -2349,6 +2350,8 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
         else
             menuType = ListPopupMenu::mt_Association_Selected;
     }
+    if (m_pObject && getAssociation() == NULL)  // atm m_pObject must be UMLAssociation
+        return;                  // @todo allow ListPopupMenu for other m_pObject types
     m_pMenu = new ListPopupMenu(m_pView, menuType);
     m_pMenu->popup(me -> globalPos());
     connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotMenuSelection(int)));
@@ -3210,19 +3213,33 @@ void AssociationWidget::setUMLObject(UMLObject *obj) {
     WidgetBase::setUMLObject(obj);
     if (obj == NULL)
         return;
-    Uml::Object_Type ot = obj->getBaseType();
-    if (ot == Uml::ot_Attribute) {
-        UMLClassifier *klass = static_cast<UMLClassifier*>(obj->parent());
-        connect(klass, SIGNAL(attributeRemoved(UMLClassifierListItem*)),
-                this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
-    } else if (ot == Uml::ot_EntityAttribute) {
-        UMLEntity *ent = static_cast<UMLEntity*>(obj->parent());
-        connect(ent, SIGNAL(entityAttributeRemoved(UMLClassifierListItem*)),
-                this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
-    } else if (ot == Uml::ot_ForeignKeyConstraint) {
-        UMLEntity* ent = static_cast<UMLEntity*>(obj->parent());
-        connect(ent, SIGNAL(entityConstraintRemoved(UMLClassifierListItem*)),
-                this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
+    UMLClassifier *klass = NULL;
+    UMLEntity *ent = NULL;
+    const Uml::Object_Type ot = obj->getBaseType();
+    switch (ot) {
+        case Uml::ot_Association:
+            setUMLAssociation(dynamic_cast<UMLAssociation*>(obj));
+            break;
+        case Uml::ot_Operation:
+            setOperation(dynamic_cast<UMLOperation *>(obj));
+            break;
+        case Uml::ot_Attribute:
+            klass = static_cast<UMLClassifier*>(obj->parent());
+            connect(klass, SIGNAL(attributeRemoved(UMLClassifierListItem*)),
+                    this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
+            break;
+        case Uml::ot_EntityAttribute:
+            ent = static_cast<UMLEntity*>(obj->parent());
+            connect(ent, SIGNAL(entityAttributeRemoved(UMLClassifierListItem*)),
+                    this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
+            break;
+        case Uml::ot_ForeignKeyConstraint:
+            ent = static_cast<UMLEntity*>(obj->parent());
+            connect(ent, SIGNAL(entityConstraintRemoved(UMLClassifierListItem*)),
+                    this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
+        default:
+            kError() << "UMLAssociation constructor: cannot associate UMLObject of type "
+                << ot << endl;
     }
 }
 
