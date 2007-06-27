@@ -2244,6 +2244,8 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
         else
             menuType = ListPopupMenu::mt_Association_Selected;
     }
+    if (m_pObject && getAssociation() == NULL)  // atm m_pObject must be UMLAssociation
+        return;                  // @todo allow ListPopupMenu for other m_pObject types
     m_pMenu = new ListPopupMenu(m_pView, menuType);
     m_pMenu->popup(me -> globalPos());
     connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotMenuSelection(int)));
