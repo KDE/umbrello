@@ -2180,8 +2180,7 @@ void UMLView::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute *
             // stereotyped <<CORBAInterface>>, create a UniAssociation widget.
             if (type->getStereotype() == "CORBAInterface")
                 assocType = at_UniAssociation;
-            AssociationWidget *a = new AssociationWidget (this, widget, assocType, w);
-            a->setUMLObject(attr);
+            AssociationWidget *a = new AssociationWidget (this, widget, assocType, w, attr);
             a->calculateEndingPoints();
             a->setVisibility(attr->getVisibility(), B);
             /*
@@ -2211,8 +2210,7 @@ void UMLView::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute *
                     // create an aggregation AssocWidget from the ClassifierWidget
                     // to the widget of the referenced type
                     AssociationWidget *a = new AssociationWidget
-                            (this, widget, at_Aggregation, w);
-                    a->setUMLObject(attr);
+                            (this, widget, at_Aggregation, w, attr);
                     a->calculateEndingPoints();
                     a->setVisibility(attr->getVisibility(), B);
                     //a->setChangeability(true, B);
