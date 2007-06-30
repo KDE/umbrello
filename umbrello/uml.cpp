@@ -1492,7 +1492,9 @@ Uml::Programming_Language UMLApp::getActiveLanguage() {
 bool UMLApp::activeLanguageIsCaseSensitive() {
     return (m_activeLanguage != Uml::pl_Pascal &&
             m_activeLanguage != Uml::pl_Ada &&
-            m_activeLanguage != Uml::pl_SQL);
+            m_activeLanguage != Uml::pl_SQL &&
+            m_activeLanguage != Uml::pl_MySQL &&
+            m_activeLanguage != Uml::pl_PostgreSQL);
 }
 
 QString UMLApp::activeLanguageScopeSeparator() {
