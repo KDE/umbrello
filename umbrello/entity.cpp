@@ -98,8 +98,8 @@ UMLAttribute* UMLEntity::createAttribute(const QString &name /*=null*/, UMLObjec
 UMLObject* UMLEntity::addEntityAttribute(const QString& name, Uml::IDType id) {
     UMLEntityAttribute* literal = new UMLEntityAttribute(this, name, id);
     m_List.append(literal);
-    UMLObject::emitModified();
     emit entityAttributeAdded(literal);
+    UMLObject::emitModified();
     connect(literal,SIGNAL(modified()),this,SIGNAL(modified()));
     return literal;
 }
@@ -110,8 +110,8 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* attribute, IDChangeLog* L
         attribute->parent()->removeChild(attribute);
         this->insertChild(attribute);
         m_List.append(attribute);
-        UMLObject::emitModified();
         emit entityAttributeAdded(attribute);
+        UMLObject::emitModified();
         connect(attribute,SIGNAL(modified()),this,SIGNAL(modified()));
         return true;
     } else if (Log) {
@@ -131,8 +131,8 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* attribute, int position) 
         } else {
             m_List.append(attribute);
         }
-        UMLObject::emitModified();
         emit entityAttributeAdded(attribute);
+        UMLObject::emitModified();
         connect(attribute,SIGNAL(modified()),this,SIGNAL(modified()));
         return true;
     }
