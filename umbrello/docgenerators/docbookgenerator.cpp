@@ -73,7 +73,15 @@ KIO::Job* DocbookGenerator::generateDocbookForProjectInto(const KURL& destDir)
       destDir, false);
   if (!errors.empty())
   {
+#if KDE_IS_VERSION(3,4,0)
     KMessageBox::errorList(app, i18n("Some errors happened when exporting the images:"), errors);
+#else
+    QString errorsCaption;
+    for (QStringList::Iterator it = errors.begin(); it != errors.end(); ++it) {
+        errorsCaption += "\n" + *it;
+    }
+    KMessageBox::error(app, i18n("Some errors happened when exporting the images:") + errorsCaption);
+#endif
     return 0;
   }
 
