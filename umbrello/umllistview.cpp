@@ -339,13 +339,13 @@ void UMLListView::popupMenuSel(int sel) {
             }
             // configure & show the file dialog
             const QString rootDir(m_doc->URL().directory());
-            KFileDialog fileDialog(rootDir, "*.xm1", this, ":externalize-folder", true);
+            KFileDialog fileDialog(rootDir, "*.xml", this, ":externalize-folder", true);
             fileDialog.setCaption(i18n("Externalize Folder"));
             fileDialog.setOperationMode(KFileDialog::Other);
             // set a sensible default filename
             QString defaultFilename = current->getText().lower();
             defaultFilename.replace(QRegExp("\\W+"), "_");
-            defaultFilename.append(".xm1");  // default extension
+            defaultFilename.append(".xml");  // default extension
             fileDialog.setSelection(defaultFilename);
             fileDialog.exec();
             KURL selURL = fileDialog.selectedURL();
