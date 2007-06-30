@@ -151,8 +151,8 @@ UMLUniqueConstraint* UMLEntity::createUniqueConstraint(const QString &name ){
     addConstraint(newUniqueConstraint);
 
     UMLDoc *umldoc = UMLApp::app()->getDocument();
-    emitModified();
     umldoc->signalUMLObjectCreated(newUniqueConstraint);
+    emitModified();
     return newUniqueConstraint;
 
 }
@@ -195,8 +195,8 @@ UMLForeignKeyConstraint* UMLEntity::createForeignKeyConstraint(const QString &na
     addConstraint(newForeignKeyConstraint);
 
     UMLDoc *umldoc = UMLApp::app()->getDocument();
-    emitModified();
     umldoc->signalUMLObjectCreated(newForeignKeyConstraint);
+    emitModified();
     return newForeignKeyConstraint;
 
 }
@@ -240,8 +240,8 @@ UMLCheckConstraint* UMLEntity::createCheckConstraint(const QString &name ) {
     addConstraint(newCheckConstraint);
 
     UMLDoc *umldoc = UMLApp::app()->getDocument();
-    emitModified();
     umldoc->signalUMLObjectCreated(newCheckConstraint);
+    emitModified();
     return newCheckConstraint;
 }
 
@@ -249,8 +249,8 @@ UMLCheckConstraint* UMLEntity::createCheckConstraint(const QString &name ) {
 UMLObject* UMLEntity::addEntityAttribute(const QString& name, Uml::IDType id) {
     UMLEntityAttribute* literal = new UMLEntityAttribute(this, name, id);
     m_List.append(literal);
-    UMLObject::emitModified();
     emit entityAttributeAdded(literal);
+    UMLObject::emitModified();
     connect(literal,SIGNAL(modified()),this,SIGNAL(modified()));
     return literal;
 }
@@ -261,8 +261,8 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* attribute, IDChangeLog* L
         attribute->parent()->removeChild(attribute);
         this->insertChild(attribute);
         m_List.append(attribute);
-        UMLObject::emitModified();
         emit entityAttributeAdded(attribute);
+        UMLObject::emitModified();
         connect(attribute,SIGNAL(modified()),this,SIGNAL(modified()));
         return true;
     } else if (Log) {
@@ -282,8 +282,8 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* attribute, int position) 
         } else {
             m_List.append(attribute);
         }
-        UMLObject::emitModified();
         emit entityAttributeAdded(attribute);
+        UMLObject::emitModified();
         connect(attribute,SIGNAL(modified()),this,SIGNAL(modified()));
         return true;
     }
@@ -455,8 +455,8 @@ bool UMLEntity::addConstraint(UMLEntityConstraint* constr) {
 
     m_List.append( constr );
 
-    UMLObject::emitModified();
     emit entityConstraintAdded(constr);
+    UMLObject::emitModified();
     connect(constr,SIGNAL(modified()),this,SIGNAL(modified()));
 
     return true;
@@ -475,8 +475,8 @@ bool UMLEntity::removeConstraint(UMLEntityConstraint* constr) {
 
     m_List.remove( constr );
 
-    UMLObject::emitModified();
     emit entityConstraintRemoved(constr);
+    UMLObject::emitModified();
 
     delete constr;
     return true;
