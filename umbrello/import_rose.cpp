@@ -355,6 +355,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
 
 bool loadFromMDL(QIODevice& file) {
     QTextStream stream(&file);
+    stream.setEncoding(QTextStream::Latin1);
     QString line;
     PetalNode *root = NULL;
     linum = 0;
