@@ -304,6 +304,30 @@ protected:
 };
 
 /**
+ * Handle a controlled unit.
+ *
+ * @param node       Pointer to the PetalNode which may contain a controlled unit
+ * @param name       Name of the current node
+ * @param id         QUID of the current node
+ * @param parentPkg  Pointer to the current parent UMLPackage.
+ * @return      True if the node actually contained a controlled unit.
+ */
+bool handleControlledUnit(PetalNode *node, QString name, Uml::IDType id, UMLPackage *parentPkg) {
+    if (node->findAttribute("is_unit").string != "TRUE")
+        return false;
+    bool is_loaded = (node->findAttribute("is_loaded").string != "FALSE");
+    QString file_name = node->findAttribute("file_name").string;
+    if (file_name.isEmpty()) {
+        kError() << "handleControlledUnit(" << name
+            << "): attribute file_name not found (?)" << endl;
+        return true;
+    }
+    // To Be Continued.
+
+    return true;
+}
+
+/**
  * Create an Umbrello object from a PetalNode of the Logical View.
  *
  * @return   True for success.
@@ -324,14 +348,15 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
         UMLObject *o = Import_Utils::createUMLObject(Uml::ot_Package, name, parentPkg);
         o->setID(id);
         PetalNode *logical_models = node->findAttribute("logical_models").node;
-        if (logical_models == NULL) {
-            kError() << "umbrellify: cannot find logical_models" << endl;
-            return false;
-        }
-        UMLPackage *localParent = static_cast<UMLPackage*>(o);
-        PetalNode::NameValueList atts = logical_models->attributes();
-        for (int i = 0; i < atts.count(); i++) {
-            umbrellify(atts[i].second.node, localParent);
+        if (logical_models) {
+            UMLPackage *localParent = static_cast<UMLPackage*>(o);
+            PetalNode::NameValueList atts = logical_models->attributes();
+            for (int i = 0; i < atts.count(); i++) {
+                umbrellify(atts[i].second.node, localParent);
+            }
+        } else if (!handleControlledUnit(node, name, id, parentPkg)) {
+            kDebug() << "umbrellify: handling of " << objType << " " << name
+               << " is not yet implemented" << endl;
         }
 
     } else if (objType == "Class") {
