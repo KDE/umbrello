@@ -23,6 +23,7 @@
 #include "operation.h"
 #include "association.h"
 #include "umlrole.h"
+#include "actor.h"
 #include "usecase.h"
 #include "component.h"
 #include "node.h"
@@ -489,7 +490,7 @@ Uml::ListView_Type folderType(UMLListViewItem *parent) {
  */
 bool umbrellify(PetalNode *node, const QString& modelsName, UMLListViewItem *parent) {
     if (node == NULL) {
-        kError() << "umbrellify: node is NULL" << endl;
+        kError() << "umbrellify(" << modelsName << "): node is NULL" << endl;
         return false;
     }
     QStringList args = node->initialArgs();
@@ -502,6 +503,16 @@ bool umbrellify(PetalNode *node, const QString& modelsName, UMLListViewItem *par
     if (objType == "Class_Category") {
         Uml::ListView_Type lvType = folderType(parent);
         item = new UMLListViewItem( parent, name, lvType, id );
+    } else if (objType == "Class") {
+        QString stereotype = node->findAttribute("stereotype").string;
+        if (stereotype == "Actor") {
+            UMLActor *act = new UMLActor(name, id);
+            item = new UMLListViewItem(parent, name, Uml::lvt_Actor, act);
+            obj = act;
+        } else {
+            kDebug() << "umbrellify(" << name << "): handling of Class stereotype "
+                << stereotype << " is not yet implemented" << endl;
+        }
     } else if (objType == "UseCase") {
         UMLUseCase *uc = new UMLUseCase(name, id);
         item = new UMLListViewItem(parent, name, Uml::lvt_UseCase, uc);
