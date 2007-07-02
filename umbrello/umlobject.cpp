@@ -443,7 +443,6 @@ bool UMLObject::resolveRef() {
             m_pSecondary = Object_Factory::createUMLObject(Uml::ot_Datatype, "undef", datatypes, false);
             return true;
         }
-        m_SecondaryFallback = m_SecondaryId;
     }
     if (m_SecondaryFallback.isEmpty()) {
         kError() << "UMLObject::resolveRef(" << m_Name
@@ -471,7 +470,7 @@ bool UMLObject::resolveRef() {
     // of on-the-fly scope creation:
     if (m_SecondaryId.contains("::")) {
         // TODO: Merge Import_Utils::createUMLObject() into Object_Factory::createUMLObject()
-        m_pSecondary = Import_Utils::createUMLObject(Uml::ot_UMLObject, m_SecondaryId, NULL);
+        m_pSecondary = Import_Utils::createUMLObject(Uml::ot_UMLObject, m_SecondaryId, m_pUMLPackage);
         if (m_pSecondary) {
             if (Import_Utils::newUMLObjectWasCreated()) {
                 maybeSignalObjectCreated();
