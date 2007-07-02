@@ -41,14 +41,6 @@ static const char description[] =
 // INSERT A DESCRIPTION FOR YOUR APPLICATION HERE
 
 
-static KCmdLineOptions options[] =
-{
-  { "+[File]", I18N_NOOP("File to transform"), 0 },
-  { "xslt <url>", I18N_NOOP("The XSLT file to use"), 0},
-        // INSERT YOUR COMMANDLINE OPTIONS HERE
-  KCmdLineLastOption
-};
-
 int main(int argc, char *argv[])
 {
   xsltStylesheetPtr cur = NULL;
@@ -58,13 +50,17 @@ int main(int argc, char *argv[])
   int nbparams = 0;
   params[nbparams] = NULL;
 
-  KAboutData aboutData( "umbodoc", I18N_NOOP("Umbrello UML Modeller autonomous code generator"),
-                        UMBRELLO_VERSION, description, KAboutData::License_GPL,
-                        I18N_NOOP("(c) 2006 Gael de Chalendar (aka Kleag), (c) 2002-2006 Umbrello UML Modeller Authors"), 0,
+  KAboutData aboutData( "umbodoc", 0, ki18n("Umbrello UML Modeller autonomous code generator"),
+                        UMBRELLO_VERSION, ki18n(description), KAboutData::License_GPL,
+                        ki18n("(c) 2006 Gael de Chalendar (aka Kleag), (c) 2002-2006 Umbrello UML Modeller Authors"), KLocalizedString(),
                         "http://uml.sf.net/");
-  aboutData.addAuthor("Gael de Chalendar (aka Kleag)",0, "kleag@free.fr");
-  aboutData.addAuthor(I18N_NOOP("Umbrello UML Modeller Authors"), 0, "uml-devel@lists.sourceforge.net");
+  aboutData.addAuthor(ki18n("Gael de Chalendar (aka Kleag)"),KLocalizedString(), "kleag@free.fr");
+  aboutData.addAuthor(ki18n("Umbrello UML Modeller Authors"), KLocalizedString(), "uml-devel@lists.sourceforge.net");
   KCmdLineArgs::init( argc, argv, &aboutData );
+
+  KCmdLineOptions options;
+  options.add("+[File]", ki18n("File to transform"));
+  options.add("xslt <url>", ki18n("The XSLT file to use"));
   KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();

@@ -35,16 +35,6 @@ static const char description[] =
 /**
  * @todo Add options to use the documentation generators from command line.
  */
-static KCmdLineOptions options[] =
-    {
-        { "+[File]", I18N_NOOP("File to open"), 0 },
-        { "export <extension>", I18N_NOOP("export diagrams to extension and exit"), 0},
-        { "directory <url>", I18N_NOOP("the local directory to save the exported diagrams in"), I18N_NOOP("the directory of the file")},
-        { "use-folders", I18N_NOOP("keep the tree structure used to store the views in the document in the target directory"), 0},
-        // INSERT YOUR COMMANDLINE OPTIONS HERE
-        KCmdLineLastOption
-    };
-
 /**
  * Determines if the application GUI should be shown based on command line arguments.
  *
@@ -72,7 +62,7 @@ void initDocument(KCmdLineArgs *args, KConfig* cfg);
  * @param args The command line arguments given.
  * @param exportOpt A list containing all the "export" arguments given.
  */
-void exportAllViews(KCmdLineArgs *args, const QByteArrayList &exportOpt);
+void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt);
 
 extern "C" int flushEvents() {
     qApp->processEvents();
@@ -80,13 +70,19 @@ extern "C" int flushEvents() {
 }
 
 int main(int argc, char *argv[]) {
-    KAboutData aboutData( "umbrello", I18N_NOOP("Umbrello UML Modeller"),
-                          UMBRELLO_VERSION, description, KAboutData::License_GPL,
-                          I18N_NOOP("(c) 2001 Paul Hensgen, (c) 2002-2006 Umbrello UML Modeller Authors"), 0,
+    KAboutData aboutData( "umbrello", 0, ki18n("Umbrello UML Modeller"),
+                          UMBRELLO_VERSION, ki18n(description), KAboutData::License_GPL,
+                          ki18n("(c) 2001 Paul Hensgen, (c) 2002-2006 Umbrello UML Modeller Authors"), KLocalizedString(),
                           "http://uml.sf.net/");
-    aboutData.addAuthor("Paul Hensgen",0, "phensgen@users.sourceforge.net");
-    aboutData.addAuthor(I18N_NOOP("Umbrello UML Modeller Authors"), 0, "uml-devel@lists.sourceforge.net");
+    aboutData.addAuthor(ki18n("Paul Hensgen"),KLocalizedString(), "phensgen@users.sourceforge.net");
+    aboutData.addAuthor(ki18n("Umbrello UML Modeller Authors"), KLocalizedString(), "uml-devel@lists.sourceforge.net");
     KCmdLineArgs::init( argc, argv, &aboutData );
+
+    KCmdLineOptions options;
+    options.add("+[File]", ki18n("File to open"));
+    options.add("export <extension>", ki18n("export diagrams to extension and exit"));
+    options.add("directory <url>", ki18n("the local directory to save the exported diagrams in"), I18N_NOOP("the directory of the file"));
+    options.add("use-folders", ki18n("keep the tree structure used to store the views in the document in the target directory"));
     KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 
     KApplication app;
@@ -110,7 +106,7 @@ int main(int argc, char *argv[]) {
         initDocument(args, cfg);
 
         // export option
-        QByteArrayList exportOpt = args->getOptionList("export");
+        QStringList exportOpt = args->getOptionList("export");
         if (exportOpt.size() > 0) {
              exportAllViews(args, exportOpt);
         }
@@ -145,16 +141,16 @@ void initDocument(KCmdLineArgs *args, KConfig* cfg) {
 }
 
 
-void exportAllViews(KCmdLineArgs *args, const QByteArrayList &exportOpt) {
+void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt) {
     QString extension(exportOpt.last());
     kDebug() << "extension: " << extension << endl;
 
     // export to the specified directory, or the directory where the file is saved
     // if no directory was specified
     KUrl directory;
-    QByteArrayList directoryOpt = args->getOptionList("directory");
+    QStringList directoryOpt = args->getOptionList("directory");
     if (directoryOpt.size() > 0) {
-        directory = KCmdLineArgs::makeURL(directoryOpt.last());
+        directory = KCmdLineArgs::makeURL(directoryOpt.last().toLocal8Bit());
     } else {
         directory = KUrl(UMLApp::app()->getDocument()->url().directory());
     }
