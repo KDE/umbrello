@@ -49,7 +49,6 @@ public:
      * @param parent    The parent of this UMLForeignKeyConstraint.
      * @param name      The name of this UMLForeignKeyConstraint.
      * @param id        The unique id given to this UMLForeignKeyConstraint.
-     * @param type      The type of this UMLForeignKeyConstraint.
      */
     UMLForeignKeyConstraint(const UMLObject *parent, const QString& name,
 			    Uml::IDType id = Uml::id_None );

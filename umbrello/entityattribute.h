@@ -79,7 +79,7 @@ public:
     /**
      * Sets the initial value of the UMLEntityAttribute's attributes property.
      *
-     * @param iv  The initial value of the UMLEntityAttribute's attributes property.
+     * @param attributes  The initial value of the UMLEntityAttribute's attributes property.
      */
     void setAttributes(const QString& attributes);
 
@@ -93,7 +93,7 @@ public:
      /** 
       * Sets the initial value of the UMLEntityAttribute's index type property. 
       * 
-      * @param iv  The initial value of the UMLEntityAttribute's index type property. 
+      * @param indexType  The initial value of the UMLEntityAttribute's index type property. 
       */ 
      void setIndexType(const Uml::DBIndex_Type indexType); 
 
@@ -107,7 +107,7 @@ public:
     /**
      * Sets the initial value of the UMLEntityAttribute's length/values property.
      *
-     * @param iv        The initial value of the UMLEntityAttribute's length/values property.
+     * @param values        The initial value of the UMLEntityAttribute's length/values property.
      */
     void setValues(const QString& values);
 
@@ -121,7 +121,7 @@ public:
     /**
      * Sets the initial value of the UMLEntityAttribute's auto_increment boolean
      *
-     * @param iv        The initial value of the UMLEntityAttribute's auto_increment boolean
+     * @param autoIncrement        The initial value of the UMLEntityAttribute's auto_increment boolean
      */
     void setAutoIncrement(const bool autoIncrement);
 
@@ -135,7 +135,7 @@ public:
     /**
      * Sets the initial value of the UMLEntityAttribute's allow null value.
      *
-     * @param iv        The initial value of the UMLEntityAttribute's allow null value.
+     * @param null        The initial value of the UMLEntityAttribute's allow null value.
      */
     void setNull(const bool null);
 

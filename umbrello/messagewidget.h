@@ -66,6 +66,7 @@ public:
      * Constructs a MessageWidget.
      *
      * @param view              The parent to this class.
+     * @param sequenceMessageType The Uml::Sequence_Message_Type of this message widget
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
     MessageWidget(UMLView * view, Uml::Sequence_Message_Type sequenceMessageType, Uml::IDType id = Uml::id_None);

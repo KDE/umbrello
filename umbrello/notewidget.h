@@ -49,6 +49,7 @@ public:
      * Constructs a NoteWidget.
      *
      * @param view              The parent to this widget.
+     * @param noteType          The NoteWidget::NoteType of this NoteWidget
      * @param id                The unique id of the widget.
      *                  The default (-1) will prompt a new ID.
      */

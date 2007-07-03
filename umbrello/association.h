@@ -157,14 +157,16 @@ public:
     /**
      * Sets the UMLObject playing the given role in the association.
      *
-     * @param obj               Pointer to the UMLObject of the given role.
+     * @param obj  Pointer to the UMLObject of the given role.
+     * @param role The Uml::Role_Type played by the association
      */
     void setObject(UMLObject *obj, Uml::Role_Type role);
 
     /**
      * Sets the visibility of the given role of the UMLAssociation.
      *
-     * @param value     Visibility of role A visibility.
+     * @param value  Visibility of role.
+     * @param role   The Uml::Role_Type to which the visibility is being applied 
      */
     void setVisibility(Uml::Visibility value, Uml::Role_Type role);
 
@@ -172,6 +174,7 @@ public:
      * Sets the changeability of the given role of the UMLAssociation.
      *
      * @param value     Changeability_Type of the given role.
+     * @param role      The Uml::Role_Type to which the changeability is being set
      */
     void setChangeability(Uml::Changeability_Type value, Uml::Role_Type role);
 
@@ -179,6 +182,7 @@ public:
      * Sets the multiplicity of the given role of the UMLAssociation.
      *
      * @param multi    The multiplicity of the given role.
+     * @param role     The Uml::Role_Type to which the multiplicity is being applied
      */
     void setMulti(const QString &multi, Uml::Role_Type role);
 
@@ -193,7 +197,8 @@ public:
     /**
      * Sets the documentation on the given role in the association.
      *
-     * @param doc               The string with the documentation.
+     * @param doc      The string with the documentation.
+     * @param role     The Uml::Role_Type to which the documentation is being applied         
      */
     void setRoleDoc(const QString &doc, Uml::Role_Type role);
 

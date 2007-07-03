@@ -53,6 +53,7 @@ public:
      *
      * @param view The view to be displayed on.
      * @param o The UMLObject to represent.
+     * @param widgetController The UMLWidgetController of this UMLWidget
      */
     UMLWidget( UMLView * view, UMLObject * o, UMLWidgetController *widgetController = 0 );
 
@@ -62,6 +63,7 @@ public:
      * @param view The view to be displayed on.
      * @param id The id of the widget.
      *  The default value (id_None) will prompt generation of a new ID.
+     * @param widgetController The UMLWidgetController of this UMLWidget
      */
     explicit UMLWidget( UMLView * view, Uml::IDType id = Uml::id_None, UMLWidgetController *widgetController = 0 );
 
