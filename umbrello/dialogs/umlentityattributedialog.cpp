@@ -187,6 +187,7 @@ void UMLEntityAttributeDialog::setupDialog() {
 
     m_pNameLE->setFocus();
     connect( m_pNameLE, SIGNAL( textChanged ( const QString & ) ), SLOT( slotNameChanged( const QString & ) ) );
+    connect( m_pAutoIncrementCB, SIGNAL( clicked( bool ) ), this, SLOT( slotAutoIncrementStateChanged( bool) ) );
     slotNameChanged(m_pNameLE->text() );
 }
 
@@ -277,6 +278,17 @@ void UMLEntityAttributeDialog::insertType( const QString& type, int index ) {
 void UMLEntityAttributeDialog::insertAttribute( const QString& type, int index ) {
     m_pAttributesCB->insertItem( type, index );
     m_pAttributesCB->completionObject()->addItem( type );
+}
+
+
+void UMLEntityAttributeDialog::slotAutoIncrementStateChanged(bool checked) {
+    if ( checked == true ) {
+        m_pNullCB->setChecked( false );
+        m_pNullCB->setEnabled( false );
+    } else if ( checked == false ) {
+        m_pNullCB->setEnabled( true );
+    }
+
 }
 
 

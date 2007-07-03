@@ -73,6 +73,11 @@ protected:
     QCheckBox* m_pNullCB;
 
 public slots:
+
+    /**
+     * is activated when the auto increment state is changed
+     */
+    void slotAutoIncrementStateChanged(bool checked);
     /**
      * I don't think this is used, but if we had an apply button
      * it would slot into here
