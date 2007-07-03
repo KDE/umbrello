@@ -88,7 +88,6 @@
 
 #include "cmds.h"
 #include "umbrellosettings.h"
-#include "ui_settings.h"
 #include "kconfigdialog.h"
 
 /// @todo This is an ugly _HACK_ to allow to compile umbrello.
