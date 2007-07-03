@@ -28,8 +28,8 @@
 #include "javacodecomment.h"
 #include "codeviewerdialog.h"
 #include "../uml.h"
+#include "umbrellosettings.h"
 
-const bool JavaCodeGenerator::DEFAULT_BUILD_ANT_DOC = false;
 
 // Constructors/Destructors
 //
@@ -159,7 +159,7 @@ void JavaCodeGenerator::init() {
     addCodeDocument(buildDoc);
 
     // set our 'writeout' policy for that code document
-    setCreateANTBuildFile(DEFAULT_BUILD_ANT_DOC);
+    setCreateANTBuildFile(UmbrelloSettings::buildANTDocumentJava());
 }
 
 QStringList JavaCodeGenerator::defaultDatatypes() {

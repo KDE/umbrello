@@ -22,9 +22,7 @@
 #include "javacodegenerationpolicypage.h"
 #include "javacodegenerator.h"
 #include "../uml.h"
-
-const bool JavaCodeGenerationPolicy::DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS = true;
-const bool JavaCodeGenerationPolicy::DEFAULT_AUTO_GEN_ASSOC_ACCESSORS = true;
+#include "umbrellosettings.h"
 
 // Constructors/Destructors
 /*
@@ -37,11 +35,11 @@ JavaCodeGenerationPolicy::JavaCodeGenerationPolicy(CodeGenerationPolicy *default
 }
  */
 
-JavaCodeGenerationPolicy::JavaCodeGenerationPolicy(KConfig *config)
-  //      : CodeGenerationPolicy(config)
+JavaCodeGenerationPolicy::JavaCodeGenerationPolicy()
+  //      : CodeGenerationPolicy()
 {
-    init();
-    setDefaults(config,false);
+    m_commonPolicy = UMLApp::app()->getCommonPolicy();
+    setDefaults(false);
 }
 
 JavaCodeGenerationPolicy::~JavaCodeGenerationPolicy ( ) { }
@@ -93,19 +91,18 @@ bool JavaCodeGenerationPolicy::getAutoGenerateAssocAccessors( ){
 // Other methods
 //
 
-void JavaCodeGenerationPolicy::writeConfig ( KConfig * config )
+void JavaCodeGenerationPolicy::writeConfig ()
 {
 
     // write ONLY the Java specific stuff
-    KConfigGroup cg( config, "Java Code Generation" );
 
-    cg.writeEntry("autoGenAccessors",getAutoGenerateAttribAccessors());
-    cg.writeEntry("autoGenAssocAccessors",getAutoGenerateAssocAccessors());
+    UmbrelloSettings::setAutoGenerateAttributeAccessorsJava( getAutoGenerateAttribAccessors());
+    UmbrelloSettings::setAutoGenerateAssocAccessorsJava( getAutoGenerateAssocAccessors());
 
     CodeGenerator *codegen = UMLApp::app()->getGenerator();
     JavaCodeGenerator *javacodegen = dynamic_cast<JavaCodeGenerator*>(codegen);
     if (javacodegen)
-        cg.writeEntry("buildANTDocument", javacodegen->getCreateANTBuildFile());
+        UmbrelloSettings::setBuildANTDocumentJava( javacodegen->getCreateANTBuildFile());
 
 }
 
@@ -136,30 +133,24 @@ void JavaCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * clone, bool emit
 
 }
 
-void JavaCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSignal )
+void JavaCodeGenerationPolicy::setDefaults( bool emitUpdateSignal )
 {
 
-    if(!config)
-        return;
-
     // call method at the common policy to init default stuff
-    m_commonPolicy->setDefaults(config, false);
+    m_commonPolicy->setDefaults(false);
 
     // NOW block signals (because call to super-class method will leave value at "true")
     blockSignals(true); // we need to do this because otherwise most of these
     // settors below will each send the modifiedCodeContent() signal
     // needlessly (we can just make one call at the end).
 
-    // now do java specific stuff
-    KConfigGroup cg( config, "Java Code Generation");
-
-    setAutoGenerateAttribAccessors(cg.readEntry("autoGenAccessors",DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS));
-    setAutoGenerateAssocAccessors(cg.readEntry("autoGenAssocAccessors",DEFAULT_AUTO_GEN_ASSOC_ACCESSORS));
+    setAutoGenerateAttribAccessors(UmbrelloSettings::autoGenerateAttributeAccessorsJava());
+    setAutoGenerateAssocAccessors(UmbrelloSettings::autoGenerateAssocAccessorsJava());
 
     CodeGenerator *codegen = UMLApp::app()->getGenerator();
     JavaCodeGenerator *javacodegen = dynamic_cast<JavaCodeGenerator*>(codegen);
     if (javacodegen) {
-        bool mkant = cg.readEntry("buildANTDocument", JavaCodeGenerator::DEFAULT_BUILD_ANT_DOC);
+        bool mkant = UmbrelloSettings::buildANTDocumentJava();
         javacodegen->setCreateANTBuildFile(mkant);
     }
 
@@ -177,12 +168,5 @@ void JavaCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSig
 CodeGenerationPolicyPage * JavaCodeGenerationPolicy::createPage ( QWidget *parent, const char *name ) {
     return new JavaCodeGenerationPolicyPage ( parent, name, this );
 }
-
-void JavaCodeGenerationPolicy::init() {
-    m_commonPolicy = UMLApp::app()->getCommonPolicy();
-    m_autoGenerateAttribAccessors = DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS;
-    m_autoGenerateAssocAccessors = DEFAULT_AUTO_GEN_ASSOC_ACCESSORS;
-}
-
 
 #include "javacodegenerationpolicy.moc"

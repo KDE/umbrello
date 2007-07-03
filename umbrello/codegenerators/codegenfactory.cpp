@@ -120,7 +120,7 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
             }
             {
                 CPPCodeGenerationPolicy *p =
-                    new CPPCodeGenerationPolicy(UMLApp::app()->getConfig());
+                    new CPPCodeGenerationPolicy();
                 UMLApp::app()->setPolicyExt(p);
             }
             break;
@@ -132,7 +132,7 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
                 obj = new DCodeGenerator();
                 obj->connect_newcodegen_slots();
                 DCodeGenerationPolicy *p =
-                    new DCodeGenerationPolicy(UMLApp::app()->getConfig());
+                    new DCodeGenerationPolicy();
                 UMLApp::app()->setPolicyExt(p);
             } else
                 obj = new DWriter();
@@ -145,7 +145,7 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
                 obj = new JavaCodeGenerator();
                 obj->connect_newcodegen_slots();
                 JavaCodeGenerationPolicy *p =
-                    new JavaCodeGenerationPolicy(UMLApp::app()->getConfig());
+                    new JavaCodeGenerationPolicy();
                 UMLApp::app()->setPolicyExt(p);
             } else
                 obj = new JavaWriter();
@@ -179,7 +179,7 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
                 obj = new RubyCodeGenerator();
                 obj->connect_newcodegen_slots();
                 RubyCodeGenerationPolicy *p =
-                    new RubyCodeGenerationPolicy(UMLApp::app()->getConfig());
+                    new RubyCodeGenerationPolicy();
                 UMLApp::app()->setPolicyExt(p);
             } else
                 obj = new RubyWriter();

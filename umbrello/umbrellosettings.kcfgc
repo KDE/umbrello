@@ -1,0 +1,5 @@
+File=umbrello.kcfg
+ClassName=UmbrelloSettings
+Singleton=true
+Mutators=true
+UseEnumTypes=true

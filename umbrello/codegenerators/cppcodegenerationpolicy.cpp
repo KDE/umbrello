@@ -23,32 +23,19 @@
 // app includes
 #include "cppcodegenerationpolicypage.h"
 #include "../uml.h"
+#include "umbrellosettings.h"
 
-const bool CPPCodeGenerationPolicy::DEFAULT_AUTO_GEN_ACCESSORS = true;
-const bool CPPCodeGenerationPolicy::DEFAULT_INLINE_ACCESSORS = false;
-const bool CPPCodeGenerationPolicy::DEFAULT_INLINE_OPERATIONS = false;
-const bool CPPCodeGenerationPolicy::DEFAULT_VIRTUAL_DESTRUCTORS = true;
-const bool CPPCodeGenerationPolicy::DEFAULT_PACKAGE_IS_NAMESPACE = true;
-const char * CPPCodeGenerationPolicy::DEFAULT_STRING_CLASS_NAME = "string";
-const char * CPPCodeGenerationPolicy::DEFAULT_STRING_CLASS_INCLUDE = "string";
-const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_CLASS_NAME = "vector";
-const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_CLASS_INCLUDE = "vector";
 const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_METHOD_APPEND = "%VARNAME%.push_back(value);";
 const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_METHOD_REMOVE = "int size = %VARNAME%.size();\nfor ( int i = 0; i < size; ++i) {\n\t%ITEMCLASS% item = %VARNAME%.at(i);\n\tif(item == value) {\n\t\tvector<%ITEMCLASS%>::iterator it = %VARNAME%.begin() + i;\n\t\t%VARNAME%.erase(it);\n\t\treturn;\n\t}\n }";
 const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_METHOD_INIT = ""; // nothing to do in std::vector
 const char * CPPCodeGenerationPolicy::DEFAULT_OBJECT_METHOD_INIT = "%VARNAME% = new %ITEMCLASS%( );";
-const bool CPPCodeGenerationPolicy::DEFAULT_STRING_INCLUDE_GLOBAL = true;
-const bool CPPCodeGenerationPolicy::DEFAULT_VECTOR_INCLUDE_GLOBAL = true;
-const bool CPPCodeGenerationPolicy::DEFAULT_PUBLIC_ACCESSORS = false;
-
 
 // Constructors/Destructors
 //
 
-CPPCodeGenerationPolicy::CPPCodeGenerationPolicy(KConfig *config)
+CPPCodeGenerationPolicy::CPPCodeGenerationPolicy()
 {
-    init();
-    setDefaults(config,false);
+    setDefaults(false);
 }
 
 CPPCodeGenerationPolicy::~CPPCodeGenerationPolicy ( ) { }
@@ -264,27 +251,24 @@ QString CPPCodeGenerationPolicy::getObjectMethodInit(const QString & variableNam
 // Other methods
 //
 
-void CPPCodeGenerationPolicy::writeConfig ( KConfig * config )
+void CPPCodeGenerationPolicy::writeConfig ()
 {
 
-    // write ONLY the CPP specific stuff
-    config->setGroup("CPP Code Generation");
+    UmbrelloSettings::setAutoGenAccessors( getAutoGenerateAccessors());
 
-    config->writeEntry("autoGenAccessors",getAutoGenerateAccessors());
+    UmbrelloSettings::setInlineAccessors(getAccessorsAreInline());
+    UmbrelloSettings::setPublicAccessors( getAccessorsArePublic());
+    UmbrelloSettings::setInlineOps(getOperationsAreInline());
+    UmbrelloSettings::setVirtualDestructors( getDestructorsAreVirtual());
+    UmbrelloSettings::setPackageIsNamespace(getPackageIsNamespace());
 
-    config->writeEntry("inlineAccessors",getAccessorsAreInline());
-    config->writeEntry("publicAccessors",getAccessorsArePublic());
-    config->writeEntry("inlineOps",getOperationsAreInline());
-    config->writeEntry("virtualDestructors",getDestructorsAreVirtual());
-    config->writeEntry("packageIsNamespace",getPackageIsNamespace());
+    UmbrelloSettings::setStringClassName(getStringClassName());
+    UmbrelloSettings::setStringClassNameInclude(getStringClassNameInclude());
+    UmbrelloSettings::setStringIncludeIsGlobal(stringIncludeIsGlobal());
 
-    config->writeEntry("stringClassName",getStringClassName());
-    config->writeEntry("stringClassNameInclude",getStringClassNameInclude());
-    config->writeEntry("stringIncludeIsGlobal",stringIncludeIsGlobal());
-
-    config->writeEntry("vectorClassName",getVectorClassName());
-    config->writeEntry("vectorClassNameInclude",getVectorClassNameInclude());
-    config->writeEntry("vectorIncludeIsGlobal",vectorIncludeIsGlobal());
+    UmbrelloSettings::setVectorClassName(getVectorClassName());
+    UmbrelloSettings::setVectorClassNameInclude(getVectorClassNameInclude());
+    UmbrelloSettings::setVectorIncludeIsGlobal(vectorIncludeIsGlobal());
 
 }
 
@@ -319,34 +303,28 @@ void CPPCodeGenerationPolicy::setDefaults ( CPPCodeGenerationPolicy * cppclone, 
 
 }
 
-void CPPCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSignal )
+void CPPCodeGenerationPolicy::setDefaults(bool emitUpdateSignal )
 {
-
-    if(!config)
-        return;
 
     blockSignals(true); // we need to do this because otherwise most of these
     // settors below will each send the modifiedCodeContent() signal
     // needlessly (we can just make one call at the end).
 
-    // now do cpp specific stuff
-    config -> setGroup("CPP Code Generation");
+    setAutoGenerateAccessors(UmbrelloSettings::autoGenAccessors());
 
-    setAutoGenerateAccessors(config->readEntry("autoGenAccessors",DEFAULT_AUTO_GEN_ACCESSORS));
+    setAccessorsAreInline(UmbrelloSettings::inlineAccessors());
+    setAccessorsArePublic(UmbrelloSettings::publicAccessors());
+    setOperationsAreInline(UmbrelloSettings::inlineOps());
+    setDestructorsAreVirtual(UmbrelloSettings::virtualDestructors());
+    setPackageIsNamespace(UmbrelloSettings::packageIsNamespace());
 
-    setAccessorsAreInline(config->readEntry("inlineAccessors",DEFAULT_INLINE_ACCESSORS));
-    setAccessorsArePublic(config->readEntry("publicAccessors",DEFAULT_PUBLIC_ACCESSORS));
-    setOperationsAreInline(config->readEntry("inlineOps",DEFAULT_INLINE_OPERATIONS));
-    setDestructorsAreVirtual(config->readEntry("virtualDestructors",DEFAULT_VIRTUAL_DESTRUCTORS));
-    setPackageIsNamespace(config->readEntry("packageIsNamespace",DEFAULT_PACKAGE_IS_NAMESPACE));
+    setStringClassName(UmbrelloSettings::stringClassName());
+    setStringClassNameInclude(UmbrelloSettings::stringClassNameInclude());
+    setStringIncludeIsGlobal(UmbrelloSettings::stringIncludeIsGlobal());
 
-    setStringClassName(config->readEntry("stringClassName",DEFAULT_STRING_CLASS_NAME) );
-    setStringClassNameInclude(config->readEntry("stringClassNameInclude",DEFAULT_STRING_CLASS_INCLUDE ) );
-    setStringIncludeIsGlobal(config->readEntry("stringIncludeIsGlobal",DEFAULT_STRING_INCLUDE_GLOBAL) );
-
-    setVectorClassName(config->readEntry("vectorClassName",DEFAULT_VECTOR_CLASS_NAME) );
-    setVectorClassNameInclude(config->readEntry("vectorClassNameInclude",DEFAULT_VECTOR_CLASS_INCLUDE) );
-    setVectorIncludeIsGlobal(config->readEntry("vectorIncludeIsGlobal",DEFAULT_VECTOR_INCLUDE_GLOBAL) );
+    setVectorClassName(UmbrelloSettings::vectorClassName());
+    setVectorClassNameInclude(UmbrelloSettings::vectorClassNameInclude());
+    setVectorIncludeIsGlobal(UmbrelloSettings::vectorIncludeIsGlobal());
 
     blockSignals(false); // "as you were citizen"
 
@@ -364,20 +342,6 @@ CodeGenerationPolicyPage * CPPCodeGenerationPolicy::createPage ( QWidget *parent
 }
 
 void CPPCodeGenerationPolicy::init() {
-
-    m_inlineAccessors = DEFAULT_INLINE_ACCESSORS;
-    m_publicAccessors = DEFAULT_PUBLIC_ACCESSORS;
-    m_inlineOperations = DEFAULT_INLINE_OPERATIONS;
-    m_virtualDestructors = DEFAULT_VIRTUAL_DESTRUCTORS;
-    m_packageIsNamespace = DEFAULT_PACKAGE_IS_NAMESPACE;
-
-    m_stringClassName = DEFAULT_STRING_CLASS_NAME;
-    m_stringClassNameInclude = DEFAULT_STRING_CLASS_INCLUDE;
-    m_stringIncludeIsGlobal = DEFAULT_STRING_INCLUDE_GLOBAL;
-
-    m_vectorClassName = DEFAULT_VECTOR_CLASS_NAME;
-    m_vectorClassNameInclude = DEFAULT_VECTOR_CLASS_INCLUDE;
-    m_vectorIncludeIsGlobal = DEFAULT_VECTOR_INCLUDE_GLOBAL;
 
     m_vectorMethodAppendBase = DEFAULT_VECTOR_METHOD_APPEND;
     m_vectorMethodRemoveBase = DEFAULT_VECTOR_METHOD_REMOVE;

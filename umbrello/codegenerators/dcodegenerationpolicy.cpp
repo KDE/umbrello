@@ -18,9 +18,7 @@
 #include "dcodegenerationpolicypage.h"
 #include "dcodegenerator.h"
 #include "../uml.h"
-
-const bool DCodeGenerationPolicy::DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS = true;
-const bool DCodeGenerationPolicy::DEFAULT_AUTO_GEN_ASSOC_ACCESSORS = true;
+#include "umbrellosettings.h"
 
 // Constructors/Destructors
 /*
@@ -33,11 +31,11 @@ DCodeGenerationPolicy::DCodeGenerationPolicy(CodeGenerationPolicy *defaults)
 }
  */
 
-DCodeGenerationPolicy::DCodeGenerationPolicy(KConfig *config)
-  //      : CodeGenerationPolicy(config)
+DCodeGenerationPolicy::DCodeGenerationPolicy()
+  //      : CodeGenerationPolicy()
 {
-    init();
-    setDefaults(config,false);
+    m_commonPolicy = UMLApp::app()->getCommonPolicy();
+    setDefaults(false);
 }
 
 DCodeGenerationPolicy::~DCodeGenerationPolicy ( ) { }
@@ -89,19 +87,18 @@ bool DCodeGenerationPolicy::getAutoGenerateAssocAccessors( ){
 // Other methods
 //
 
-void DCodeGenerationPolicy::writeConfig ( KConfig * config )
+void DCodeGenerationPolicy::writeConfig ( )
 {
 
     // write ONLY the D specific stuff
-    KConfigGroup cg( config, "D Code Generation" );
 
-    cg.writeEntry("autoGenAccessors",getAutoGenerateAttribAccessors());
-    cg.writeEntry("autoGenAssocAccessors",getAutoGenerateAssocAccessors());
+    UmbrelloSettings::setAutoGenerateAttributeAccessorsD( getAutoGenerateAttribAccessors());
+    UmbrelloSettings::setAutoGenerateAssocAccessorsD( getAutoGenerateAssocAccessors());
 
     CodeGenerator *codegen = UMLApp::app()->getGenerator();
     DCodeGenerator *dcodegen = dynamic_cast<DCodeGenerator*>(codegen);
 //    if (dcodegen)
-//        cg.writeEntry("buildANTDocument", dcodegen->getCreateANTBuildFile());
+//        UmbrelloSettings::setBuildANTDocument(dcodegen->getCreateANTBuildFile());
 
 }
 
@@ -132,14 +129,11 @@ void DCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * clone, bool emitUpd
 
 }
 
-void DCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSignal )
+void DCodeGenerationPolicy::setDefaults(bool emitUpdateSignal )
 {
 
-    if(!config)
-        return;
-
     // call method at the common policy to init default stuff
-    m_commonPolicy->setDefaults(config, false);
+    m_commonPolicy->setDefaults(false);
 
     // NOW block signals (because call to super-class method will leave value at "true")
     blockSignals(true); // we need to do this because otherwise most of these
@@ -147,15 +141,14 @@ void DCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSignal
     // needlessly (we can just make one call at the end).
 
     // now do d specific stuff
-    KConfigGroup cg( config, "D Code Generation");
 
-    setAutoGenerateAttribAccessors(cg.readEntry("autoGenAccessors",DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS));
-    setAutoGenerateAssocAccessors(cg.readEntry("autoGenAssocAccessors",DEFAULT_AUTO_GEN_ASSOC_ACCESSORS));
+    setAutoGenerateAttribAccessors(UmbrelloSettings::autoGenerateAttributeAccessorsD());
+    setAutoGenerateAssocAccessors(UmbrelloSettings::autoGenerateAssocAccessorsD());
 
     CodeGenerator *codegen = UMLApp::app()->getGenerator();
     DCodeGenerator *dcodegen = dynamic_cast<DCodeGenerator*>(codegen);
 /*    if (dcodegen) {
-        bool mkant = cg.readEntry("buildANTDocument", DCodeGenerator::DEFAULT_BUILD_ANT_DOC);
+        bool mkant = UmbrelloSettings::buildANTDocumentD();
         dcodegen->setCreateANTBuildFile(mkant);
     }*/
 
@@ -173,12 +166,5 @@ void DCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSignal
 CodeGenerationPolicyPage * DCodeGenerationPolicy::createPage ( QWidget *parent, const char *name ) {
     return new DCodeGenerationPolicyPage ( parent, name, this );
 }
-
-void DCodeGenerationPolicy::init() {
-    m_commonPolicy = UMLApp::app()->getCommonPolicy();
-    m_autoGenerateAttribAccessors = DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS;
-    m_autoGenerateAssocAccessors = DEFAULT_AUTO_GEN_ASSOC_ACCESSORS;
-}
-
 
 #include "dcodegenerationpolicy.moc"

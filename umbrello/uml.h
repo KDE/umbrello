@@ -868,7 +868,7 @@ private:
 
     /**
      * Active policy extension.
-     * Only used for new code generators ({Cpp,Java,Ruby}CodeGenerator)
+     * Only used for new code generators ({Cpp,Java,Ruby,D}CodeGenerator)
      */
     CodeGenPolicyExt *m_policyext;
 

@@ -25,17 +25,15 @@
 #include "rubycodegenerationpolicypage.h"
 #include "rubycodegenerator.h"
 #include "../uml.h"
-
-const bool RubyCodeGenerationPolicy::DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS = true;
-const bool RubyCodeGenerationPolicy::DEFAULT_AUTO_GEN_ASSOC_ACCESSORS = true;
+#include "umbrellosettings.h"
 
 // Constructors/Destructors
 //
 
-RubyCodeGenerationPolicy::RubyCodeGenerationPolicy(KConfig *config)
+RubyCodeGenerationPolicy::RubyCodeGenerationPolicy()
 {
-    init();
-    setDefaults(config,false);
+    m_commonPolicy = UMLApp::app()->getCommonPolicy();
+    setDefaults(false);
 }
 
 RubyCodeGenerationPolicy::~RubyCodeGenerationPolicy ( ) { }
@@ -87,15 +85,12 @@ bool RubyCodeGenerationPolicy::getAutoGenerateAssocAccessors( ){
 // Other methods
 //
 
-void RubyCodeGenerationPolicy::writeConfig ( KConfig * config )
+void RubyCodeGenerationPolicy::writeConfig ()
 {
-    // @todo do we need to call CodeGenerationPolicy::writeConfig ???
+    UmbrelloSettings::setAutoGenerateAttributeAccessorsRuby(getAutoGenerateAttribAccessors());
+    UmbrelloSettings::setAutoGenerateAssocAccessorsRuby(getAutoGenerateAssocAccessors());
 
-    // write ONLY the Ruby specific stuff
-    config->setGroup("Ruby Code Generation");
-
-    config->writeEntry("autoGenAccessors",getAutoGenerateAttribAccessors());
-    config->writeEntry("autoGenAssocAccessors",getAutoGenerateAssocAccessors());
+    // will be written to disk from the place where it is called
 }
 
 void RubyCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * clone, bool emitUpdateSignal )
@@ -125,14 +120,11 @@ void RubyCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * clone, bool emit
 
 }
 
-void RubyCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSignal )
+void RubyCodeGenerationPolicy::setDefaults( bool emitUpdateSignal )
 {
 
-    if(!config)
-        return;
-
     // call the superclass to init default stuff
-    m_commonPolicy->setDefaults(config, false);
+    m_commonPolicy->setDefaults(false);
 
     // NOW block signals (because call to super-class method will leave value at "true")
     blockSignals(true); // we need to do this because otherwise most of these
@@ -140,10 +132,9 @@ void RubyCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSig
     // needlessly (we can just make one call at the end).
 
     // now do ruby specific stuff
-    config -> setGroup("Ruby Code Generation");
 
-    setAutoGenerateAttribAccessors(config->readEntry("autoGenAccessors",DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS));
-    setAutoGenerateAssocAccessors(config->readEntry("autoGenAssocAccessors",DEFAULT_AUTO_GEN_ASSOC_ACCESSORS));
+    setAutoGenerateAttribAccessors(UmbrelloSettings::autoGenerateAttributeAccessorsRuby());
+    setAutoGenerateAssocAccessors(UmbrelloSettings::autoGenerateAssocAccessorsRuby());
 
     blockSignals(false); // "as you were citizen"
 
@@ -158,12 +149,6 @@ void RubyCodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSig
  */
 CodeGenerationPolicyPage * RubyCodeGenerationPolicy::createPage ( QWidget *parent, const char *name ) {
     return new RubyCodeGenerationPolicyPage ( parent, name, this );
-}
-
-void RubyCodeGenerationPolicy::init() {
-    m_commonPolicy = UMLApp::app()->getCommonPolicy();
-    m_autoGenerateAttribAccessors = DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS;
-    m_autoGenerateAssocAccessors = DEFAULT_AUTO_GEN_ASSOC_ACCESSORS;
 }
 
 

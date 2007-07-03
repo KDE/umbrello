@@ -345,7 +345,7 @@ void CPPCodeGenerator::initAttributes ( )
 {
     m_createMakefile = false;
 
-    UMLApp::app()->setPolicyExt ( new CPPCodeGenerationPolicy(UMLApp::app()->getConfig()) );
+    UMLApp::app()->setPolicyExt ( new CPPCodeGenerationPolicy() );
 
     // load Classifier documents from parent document
     //initFromParentDocument();

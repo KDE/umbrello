@@ -42,12 +42,12 @@ public:
     /**
      * set the defaults from a config file for this code generator from the passed KConfig pointer.
      */
-    virtual void setDefaults(KConfig * config, bool emitUpdateSignal = true) = 0;
+    virtual void setDefaults(bool emitUpdateSignal = true) = 0;
 
     /**
-     * write Default params to passed KConfig pointer.
+     * write Default params .
      */
-    virtual void writeConfig (KConfig * config) = 0;
+    virtual void writeConfig () = 0;
 };
 
 #endif

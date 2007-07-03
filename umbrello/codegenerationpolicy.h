@@ -55,7 +55,7 @@ public:
     enum CommentStyle { SingleLine=0, MultiLine };
     enum ScopePolicy { Public=200, Private, Protected, FromParent };
 
-    // set some reasonable defaults
+/*    // set some reasonable defaults
     OverwritePolicy  defaultOverwritePolicy()          const;
     bool             defaultVerboseSectionComments()   const;
     bool             defaultVerboseDocumentComments()  const;
@@ -68,7 +68,7 @@ public:
     ScopePolicy      defaultAttribAccessorScope()      const;
     ScopePolicy      defaultAssocFieldScope()          const;
     bool             defaultAutoGenerateConstructors() const;
-
+*/
     // Constructors/Destructors
     //
 
@@ -77,8 +77,8 @@ public:
      */
     // note that as the code gen policy may be the 'default' policy, it may
     // not be coupled with a code generator.
-    CodeGenerationPolicy (CodeGenerationPolicy * clone = 0);
-    CodeGenerationPolicy (KConfig * config );
+    CodeGenerationPolicy (CodeGenerationPolicy * clone);
+    CodeGenerationPolicy ();
 
     /**
      * Empty Destructor
@@ -314,14 +314,14 @@ public:
     virtual void setDefaults (CodeGenerationPolicy * defaults, bool emitUpdateSignal = true);
 
     /**
-     * set the defaults from a config file for this code generator from the passed KConfig pointer.
+     * set the defaults from a config file 
      */
-    virtual void setDefaults(KConfig * config, bool emitUpdateSignal = true);
+    virtual void setDefaults(bool emitUpdateSignal = true);
 
     /**
-     * write Default params to passed KConfig pointer.
+     * write Default params .
      */
-    virtual void writeConfig (KConfig * config);
+    virtual void writeConfig ();
 
     void emitModifiedCodeContentSig();
 
@@ -374,11 +374,11 @@ protected:
     QString m_indentation;
 
     void calculateIndentation ( );
-
+/*
 protected:
 
     void initFields ( );
-
+*/
 };
 
 #endif // CODEGENERATIONPOLICY_H

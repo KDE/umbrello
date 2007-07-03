@@ -87,6 +87,9 @@
 #include "docgenerators/xhtmlgenerator.h"
 
 #include "cmds.h"
+#include "umbrellosettings.h"
+#include "ui_settings.h"
+#include "kconfigdialog.h"
 
 /// @todo This is an ugly _HACK_ to allow to compile umbrello.
 /// All the menu stuff should be ported to KDE4 (using actions)
@@ -162,7 +165,7 @@ UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent) {
 
     m_refactoringAssist = 0L;
 
-    m_commoncodegenpolicy = new CodeGenerationPolicy(m_config.data());
+    m_commoncodegenpolicy = new CodeGenerationPolicy();
 
     m_imageExporterAll = new UMLViewImageExporterAll();
 }
@@ -588,8 +591,7 @@ void UMLApp::initView() {
     //tabifyDockWidget(m_cmdHistoryDock, m_propertyDock);
 
     QByteArray dockConfig;
-    KConfigGroup general( m_config, "General Options" );
-    general.readEntry("DockConfig", dockConfig);
+    dockConfig += UmbrelloSettings::dockConfig().toAscii();
     restoreState(dockConfig); //reposition all the DockWindows to their saved positions
 }
 
@@ -613,6 +615,7 @@ UMLListView* UMLApp::getListView() {
 
 
 void UMLApp::saveOptions() {
+    // The Toolbar settings will be handled by the respective classes ( KToolBar )
     KConfigGroup cg( m_config, "toolbar" );
     toolBar("mainToolBar")->saveSettings( cg );
     cg.changeGroup( "workbar" );
@@ -620,74 +623,71 @@ void UMLApp::saveOptions() {
     cg.changeGroup( "aligntoolbar" );
     m_alignToolBar->saveSettings( cg );
     fileOpenRecent->saveEntries( m_config->group( "Recent Files") );
-    cg.changeGroup( "General Options" );
-    cg.writeEntry( "Geometry", size() );
+
+    UmbrelloSettings::setGeometry( size() );
 
     Settings::OptionState& optionState = Settings::getOptionState();
-    cg.writeEntry( "undo", optionState.generalState.undo );
-    cg.writeEntry( "tabdiagrams", optionState.generalState.tabdiagrams );
-    cg.writeEntry( "newcodegen", optionState.generalState.newcodegen );
-    cg.writeEntry( "angularlines", optionState.generalState.angularlines );
-    cg.writeEntry( "footerPrinting", optionState.generalState.footerPrinting );
-    cg.writeEntry( "autosave", optionState.generalState.autosave );
-    cg.writeEntry( "time", optionState.generalState.time );
-    cg.writeEntry( "autosavetime", optionState.generalState.autosavetime );
-    cg.writeEntry( "autosavesuffix", optionState.generalState.autosavesuffix );
 
-    cg.writeEntry( "loadlast", optionState.generalState.loadlast );
+    UmbrelloSettings::setUndo( optionState.generalState.undo );
+    UmbrelloSettings::setTabdiagrams( optionState.generalState.tabdiagrams );
+    UmbrelloSettings::setNewcodegen( optionState.generalState.newcodegen );
+    UmbrelloSettings::setAngularlines( optionState.generalState.angularlines );
+    UmbrelloSettings::setFooterPrinting( optionState.generalState.footerPrinting );
+    UmbrelloSettings::setAutosave( optionState.generalState.autosave );
+    UmbrelloSettings::setTime(  optionState.generalState.time );
+    UmbrelloSettings::setAutosavetime( optionState.generalState.autosavetime );
+    UmbrelloSettings::setAutosavesuffix(  optionState.generalState.autosavesuffix );
+    UmbrelloSettings::setLoadlast( optionState.generalState.loadlast );
 
-    cg.writeEntry( "diagram", (int)optionState.generalState.diagram );
-    cg.writeEntry( "defaultLanguage", optionState.generalState.defaultLanguage );
+    UmbrelloSettings::setDiagram( optionState.generalState.diagram );
+    UmbrelloSettings::setDefaultLanguage(  optionState.generalState.defaultLanguage );
 
     if( m_doc->url().fileName() == i18n( "Untitled" ) ) {
-        cg.writeEntry( "lastFile", "" );
+        UmbrelloSettings::setLastFile(  "" );
     } else {
-        cg.writePathEntry( "lastFile", m_doc -> url().prettyUrl() );
+        UmbrelloSettings::setLastFile(  m_doc -> url().prettyUrl() );
     }
-    cg.writeEntry( "imageMimeType", getImageMimeType() );
 
+    UmbrelloSettings::setImageMimeType(  getImageMimeType() );
 
-    cg.changeGroup( "UI Options" );
-    cg.writeEntry( "useFillColor", optionState.uiState.useFillColor );
-    cg.writeEntry( "fillColor", optionState.uiState.fillColor );
-    cg.writeEntry( "lineColor", optionState.uiState.lineColor );
-    cg.writeEntry( "lineWidth", optionState.uiState.lineWidth );
-    cg.writeEntry( "showDocWindow", m_documentationDock->isVisible() );
-    cg.writeEntry( "font", optionState.uiState.font );
+    UmbrelloSettings::setUseFillColor(  optionState.uiState.useFillColor );
+    UmbrelloSettings::setFillColor(  optionState.uiState.fillColor );
+    UmbrelloSettings::setLineColor(  optionState.uiState.lineColor );
+    UmbrelloSettings::setLineWidth(  optionState.uiState.lineWidth );
+    UmbrelloSettings::setShowDocWindow(  m_documentationDock->isVisible() );
+    UmbrelloSettings::setUiFont(  optionState.uiState.font );
 
-    cg.changeGroup( "Class Options" );
-    cg.writeEntry( "showVisibility", optionState.classState.showVisibility );
-    cg.writeEntry( "showAtts", optionState.classState.showAtts);
-    cg.writeEntry( "showOps", optionState.classState.showOps );
-    cg.writeEntry( "showStereoType", optionState.classState.showStereoType );
-    cg.writeEntry( "showAttSig", optionState.classState.showAttSig );
-    cg.writeEntry( "ShowOpSig", optionState.classState.showOpSig );
-    cg.writeEntry( "showPackage", optionState.classState.showPackage );
-    cg.writeEntry( "defaultAttributeScope", (int)optionState.classState.defaultAttributeScope);
-    cg.writeEntry( "defaultOperationScope", (int)optionState.classState.defaultOperationScope);
+    UmbrelloSettings::setShowVisibility(  optionState.classState.showVisibility );
+    UmbrelloSettings::setShowAtts( optionState.classState.showAtts);
+    UmbrelloSettings::setShowOps(  optionState.classState.showOps );
+    UmbrelloSettings::setShowStereoType( optionState.classState.showStereoType );
+    UmbrelloSettings::setShowAttSig(  optionState.classState.showAttSig );
+    UmbrelloSettings::setShowOpSig( optionState.classState.showOpSig );
+    UmbrelloSettings::setShowPackage(  optionState.classState.showPackage );
+    UmbrelloSettings::setDefaultAttributeScope( optionState.classState.defaultAttributeScope);
+    UmbrelloSettings::setDefaultOperationScope( optionState.classState.defaultOperationScope);
 
-    cg.changeGroup( "Code Viewer Options" );
-    cg.writeEntry( "height", optionState.codeViewerState.height );
-    cg.writeEntry( "width", optionState.codeViewerState.width);
-    cg.writeEntry( "font", optionState.codeViewerState.font);
-    cg.writeEntry( "fontColor", optionState.codeViewerState.fontColor);
-    cg.writeEntry( "paperColor", optionState.codeViewerState.paperColor);
-    cg.writeEntry( "selectedColor", optionState.codeViewerState.selectedColor);
-    cg.writeEntry( "editBlockColor", optionState.codeViewerState.editBlockColor);
-    cg.writeEntry( "nonEditBlockColor", optionState.codeViewerState.nonEditBlockColor);
-    cg.writeEntry( "umlObjectBlockColor", optionState.codeViewerState.umlObjectColor);
-    cg.writeEntry( "blocksAreHighlighted", optionState.codeViewerState.blocksAreHighlighted);
-    cg.writeEntry( "showHiddenBlocks", optionState.codeViewerState.showHiddenBlocks);
-    cg.writeEntry( "hiddenColor", optionState.codeViewerState.hiddenColor);
+    UmbrelloSettings::setHeight(  optionState.codeViewerState.height );
+    UmbrelloSettings::setWidth(  optionState.codeViewerState.width);
+    UmbrelloSettings::setCodeViewerFont(  optionState.codeViewerState.font);
+    UmbrelloSettings::setFontColor(  optionState.codeViewerState.fontColor);
+    UmbrelloSettings::setPaperColor( optionState.codeViewerState.paperColor);
+    UmbrelloSettings::setSelectedColor(  optionState.codeViewerState.selectedColor);
+    UmbrelloSettings::setEditBlockColor( optionState.codeViewerState.editBlockColor);
+    UmbrelloSettings::setNonEditBlockColor(  optionState.codeViewerState.nonEditBlockColor);
+    UmbrelloSettings::setUmlObjectColor( optionState.codeViewerState.umlObjectColor);
+    UmbrelloSettings::setBlocksAreHighlighted(  optionState.codeViewerState.blocksAreHighlighted);
+    UmbrelloSettings::setShowHiddenBlocks( optionState.codeViewerState.showHiddenBlocks);
+    UmbrelloSettings::setHiddenColor(  optionState.codeViewerState.hiddenColor);
 
     // write the config for a language-specific code gen policy
     if (m_policyext)
-        m_policyext->writeConfig(m_config.data());
+        m_policyext->writeConfig();
 
-    // now write the basic defaults to the m_config file
-    m_commoncodegenpolicy->writeConfig(m_config.data());
+    // now write the basic defaults to config
+    m_commoncodegenpolicy->writeConfig();
 
-    cg.sync();
+    UmbrelloSettings::self()->writeConfig();
 }
 
 void UMLApp::readOptions() {
@@ -697,10 +697,8 @@ void UMLApp::readOptions() {
     toolsbar->applySettings(m_config->group( "workbar") );
     m_alignToolBar->applySettings(m_config->group( "aligntoolbar") );
     fileOpenRecent->loadEntries(m_config->group( "Recent Files") );
-    KConfigGroup general( m_config, "General Options");
-    setImageMimeType( general.readEntry("imageMimeType","image/png"));
-    QSize tmpQSize(630,460);
-    resize( general.readEntry("Geometry", tmpQSize) );
+    setImageMimeType( UmbrelloSettings::imageMimeType() );
+    resize( UmbrelloSettings::geometry());
 }
 
 void UMLApp::saveProperties(KConfigGroup &_config) {
@@ -753,8 +751,7 @@ void UMLApp::readProperties(const KConfigGroup& _config) {
 
 bool UMLApp::queryClose() {
     QByteArray dockConfig = saveState();
-    KConfigGroup general( m_config, "General Options" );
-    general.writeEntry("DockConfig", dockConfig);
+    UmbrelloSettings::setDockConfig( dockConfig );
     return m_doc->saveModified();
 }
 
@@ -915,8 +912,7 @@ void UMLApp::slotFileQuit() {
     slotStatusMsg(i18n("Exiting..."));
     if(m_doc->saveModified()) {
         QByteArray dockConfig = saveState();
-        KConfigGroup general( m_config, "General Options" );
-        general.writeEntry("DockConfig", dockConfig);
+        UmbrelloSettings::setDockConfig( dockConfig );
         saveOptions();
         qApp->quit();
     }
@@ -1206,20 +1202,21 @@ bool UMLApp::editCutCopy( bool bFromView ) {
 }
 
 void UMLApp::readOptionState() {
-    const KConfigGroup generalGroup( m_config, "General Options" );
     Settings::OptionState& optionState = Settings::getOptionState();
-    optionState.generalState.undo = generalGroup.readEntry( "undo", true );
-    optionState.generalState.tabdiagrams = generalGroup.readEntry( "tabdiagrams", false );
+
+    UmbrelloSettings::self()->readConfig();
+    optionState.generalState.undo = UmbrelloSettings::undo();
+    optionState.generalState.tabdiagrams = UmbrelloSettings::tabdiagrams();
 #if defined (WORK_ON_BUG_126262)
-    optionState.generalState.newcodegen = generalGroup.readEntry("newcodegen", false );
+    optionState.generalState.newcodegen = UmbrelloSettings::newCodeGen();
 #else
     optionState.generalState.newcodegen = false;
 #endif
-    optionState.generalState.angularlines = generalGroup.readEntry("angularlines", false);
-    optionState.generalState.footerPrinting = generalGroup.readEntry("footerPrinting", true);
-    optionState.generalState.autosave = generalGroup.readEntry("autosave", true);
-    optionState.generalState.time = generalGroup.readEntry("time", 0); //old autosavetime value kept for compatibility
-    optionState.generalState.autosavetime = generalGroup.readEntry("autosavetime", 0);
+    optionState.generalState.angularlines = UmbrelloSettings::angularlines();
+    optionState.generalState.footerPrinting =  UmbrelloSettings::footerPrinting();
+    optionState.generalState.autosave =  UmbrelloSettings::autosave();
+    optionState.generalState.time =  UmbrelloSettings::time(); //old autosavetime value kept for compatibility
+    optionState.generalState.autosavetime =  UmbrelloSettings::autosavetime();
     //if we don't have a "new" autosavetime value, convert the old one
     if (optionState.generalState.autosavetime == 0) {
         switch (optionState.generalState.time) {
@@ -1232,56 +1229,44 @@ void UMLApp::readOptionState() {
         }
     }
     // 2004-05-17 Achim Spangler: read new config entry for autosave sufix
-    optionState.generalState.autosavesuffix = generalGroup.readEntry( "autosavesuffix", ".xmi" );
+    optionState.generalState.autosavesuffix =  UmbrelloSettings::autosavesuffix();
 
-    optionState.generalState.loadlast = generalGroup.readEntry( "loadlast", true );
+    optionState.generalState.loadlast =  UmbrelloSettings::loadlast();
 
-    optionState.generalState.diagram  = (Uml::Diagram_Type) generalGroup.readEntry("diagram", 1);
+    optionState.generalState.diagram  = UmbrelloSettings::diagram();
 
-    optionState.generalState.defaultLanguage = generalGroup.readEntry( "defaultLanguage", "C++" );
+    optionState.generalState.defaultLanguage =  UmbrelloSettings::defaultLanguage();
 
-    const KConfigGroup uiGroup( m_config, "UI Options" );
-    optionState.uiState.useFillColor = uiGroup.readEntry( "useFillColor", true );
-    QColor defaultYellow = QColor( 255, 255, 192 );
-    QColor red ( Qt::red );
+    optionState.uiState.useFillColor =  UmbrelloSettings::useFillColor();
 
-    optionState.uiState.fillColor = uiGroup.readEntry( "fillColor", defaultYellow );
-    optionState.uiState.lineColor = uiGroup.readEntry( "lineColor", red );
-    optionState.uiState.lineWidth = uiGroup.readEntry( "lineWidth", 0 );
-    QFont font = ((QWidget *) this)->font() ;
-    optionState.uiState.font = uiGroup.readEntry("font", font );
+    optionState.uiState.fillColor =  UmbrelloSettings::fillColor();
+    optionState.uiState.lineColor =  UmbrelloSettings::lineColor();
+    optionState.uiState.lineWidth =  UmbrelloSettings::lineWidth();
 
-    const KConfigGroup classGroup( m_config, "Class Options" );
+    optionState.uiState.font =  UmbrelloSettings::uiFont();
 
-    optionState.classState.showVisibility = classGroup.readEntry("showVisibility", true);
-    optionState.classState.showAtts = classGroup.readEntry("showAtts", true);
-    optionState.classState.showOps = classGroup.readEntry("showOps", true);
-    optionState.classState.showStereoType = classGroup.readEntry("showStereoType", false);
-    optionState.classState.showAttSig = classGroup.readEntry("showAttSig", true);
-    optionState.classState.showOpSig = classGroup.readEntry("ShowOpSig", true);
-    optionState.classState.showPackage = classGroup.readEntry("showPackage", false);
-    optionState.classState.defaultAttributeScope = (Uml::Visibility::Value) classGroup.readEntry ("defaultAttributeScope", uint(Uml::Visibility::Private));
-    optionState.classState.defaultOperationScope = (Uml::Visibility::Value) classGroup.readEntry ("defaultOperationScope", uint(Uml::Visibility::Public));
+    optionState.classState.showVisibility =  UmbrelloSettings::showVisibility();
+    optionState.classState.showAtts =  UmbrelloSettings::showAtts();
+    optionState.classState.showOps =  UmbrelloSettings::showOps();
+    optionState.classState.showStereoType =  UmbrelloSettings::showStereoType();
+    optionState.classState.showAttSig =  UmbrelloSettings::showAttSig();
+    optionState.classState.showOpSig =  UmbrelloSettings::showOpSig();
+    optionState.classState.showPackage =  UmbrelloSettings::showPackage();
+    optionState.classState.defaultAttributeScope = UmbrelloSettings::defaultAttributeScope();
+    optionState.classState.defaultOperationScope = UmbrelloSettings::defaultOperationScope();
 
-    const KConfigGroup codeViewerGroup( m_config, "Code Viewer Options" );
-
-    QColor defaultWhite = QColor( "white" );
-    QColor defaultBlack = QColor( "black" );
-    QColor defaultPink = QColor( "pink" );
-    QColor defaultGrey = QColor( "grey" );
-
-    optionState.codeViewerState.height = codeViewerGroup.readEntry( "height", 40 );
-    optionState.codeViewerState.width = codeViewerGroup.readEntry( "width", 80 );
-    optionState.codeViewerState.font = codeViewerGroup.readEntry("font", font );
-    optionState.codeViewerState.showHiddenBlocks = codeViewerGroup.readEntry( "showHiddenBlocks", false);
-    optionState.codeViewerState.blocksAreHighlighted = codeViewerGroup.readEntry( "blocksAreHighlighted", false);
-    optionState.codeViewerState.selectedColor = codeViewerGroup.readEntry( "selectedColor", defaultYellow );
-    optionState.codeViewerState.paperColor = codeViewerGroup.readEntry( "paperColor", defaultWhite);
-    optionState.codeViewerState.fontColor = codeViewerGroup.readEntry( "fontColor", defaultBlack);
-    optionState.codeViewerState.editBlockColor = codeViewerGroup.readEntry( "editBlockColor", defaultPink);
-    optionState.codeViewerState.umlObjectColor = codeViewerGroup.readEntry( "umlObjectBlockColor", defaultPink);
-    optionState.codeViewerState.nonEditBlockColor = codeViewerGroup.readEntry( "nonEditBlockColor", defaultGrey);
-    optionState.codeViewerState.hiddenColor = codeViewerGroup.readEntry( "hiddenColor", defaultGrey);
+    optionState.codeViewerState.height =  UmbrelloSettings::height();
+    optionState.codeViewerState.width =  UmbrelloSettings::width();
+    optionState.codeViewerState.font =  UmbrelloSettings::codeViewerFont();
+    optionState.codeViewerState.showHiddenBlocks =  UmbrelloSettings::showHiddenBlocks();
+    optionState.codeViewerState.blocksAreHighlighted =  UmbrelloSettings::blocksAreHighlighted();
+    optionState.codeViewerState.selectedColor =  UmbrelloSettings::selectedColor();
+    optionState.codeViewerState.paperColor =  UmbrelloSettings::paperColor();
+    optionState.codeViewerState.fontColor =  UmbrelloSettings::fontColor();
+    optionState.codeViewerState.editBlockColor =  UmbrelloSettings::editBlockColor();
+    optionState.codeViewerState.umlObjectColor =  UmbrelloSettings::umlObjectColor();
+    optionState.codeViewerState.nonEditBlockColor =  UmbrelloSettings::nonEditBlockColor();
+    optionState.codeViewerState.hiddenColor =  UmbrelloSettings::hiddenColor();
 
 }
 
@@ -1356,7 +1341,7 @@ CodeGenerator *UMLApp::setGenerator(Uml::Programming_Language pl) {
     slotAddDefaultDatatypes();
 
     if (m_policyext)
-        m_policyext->setDefaults(m_config.data(), false); // picks up language specific stuff
+        m_policyext->setDefaults(false); // picks up language specific stuff
     return m_codegen;
 }
 

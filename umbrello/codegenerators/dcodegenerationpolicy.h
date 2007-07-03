@@ -25,9 +25,6 @@ class DCodeGenerationPolicy : public CodeGenPolicyExt
     Q_OBJECT
 public:
 
-    static const bool DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS;
-    static const bool DEFAULT_AUTO_GEN_ASSOC_ACCESSORS;
-
     // Constructors/Destructors
     //
 
@@ -35,7 +32,7 @@ public:
      * Constructors
      */
     //DCodeGenerationPolicy (CodeGenerationPolicy * defaults = 0);
-    DCodeGenerationPolicy (KConfig * config = 0);
+    DCodeGenerationPolicy ();
 
     /**
      * Empty Destructor
@@ -81,12 +78,12 @@ public:
     /**
      * set the defaults from a config file for this code generator from the passed KConfig pointer.
      */
-    virtual void setDefaults(KConfig * config, bool emitUpdateSignal = true);
+    virtual void setDefaults(bool emitUpdateSignal = true);
 
     /**
      * write Default params to passed KConfig pointer.
      */
-    virtual void writeConfig (KConfig * config);
+    virtual void writeConfig ();
 
     /**
      * Create a new dialog interface for this object.

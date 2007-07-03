@@ -15,6 +15,8 @@ endmacro(CREATE_VERSION)
 #macro_additional_clean_files( ${CMAKE_CURRENT_BINARY_DIR}/version.h )
 create_version(${CMAKE_SOURCE_DIR}/umbrello/VERSION ${CMAKE_CURRENT_BINARY_DIR}/version.h)
 
+
+
 include_directories (${LIBXML2_INCLUDE_DIR} ${LIBXSLT_INCLUDE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/)
 
 set(libcodegenerator_SRCS
@@ -388,6 +390,8 @@ set (umbrello_SRCS
 	${libcmds_SRCS}
 	${libumbrello_SRCS}
 )
+
+kde4_add_kcfg_files(umbrello_SRCS umbrellosettings.kcfgc)
 
 kde4_add_executable(umbrello ${umbrello_SRCS})
 target_link_libraries(umbrello ${KDE4_KIO_LIBS} ${KDE4_KDEPRINT_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${LIBUUID})

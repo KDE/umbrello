@@ -37,58 +37,10 @@
 #include "umldoc.h"
 #include "dialogs/codegenerationpolicypage.h"
 
+#include "umbrellosettings.h"
 using namespace std;
 
 #define MAXLINES 256
-
-CodeGenerationPolicy::OverwritePolicy CodeGenerationPolicy::defaultOverwritePolicy() const {
-    return Ask;
-}
-
-bool CodeGenerationPolicy::defaultVerboseSectionComments() const {
-    return true;
-}
-
-bool CodeGenerationPolicy::defaultVerboseDocumentComments() const {
-    return true;
-}
-
-bool CodeGenerationPolicy::defaultIncludeHeadings() const {
-    return true;
-}
-
-CodeGenerationPolicy::NewLineType CodeGenerationPolicy::defaultLineEndingType() const {
-    return UNIX;
-}
-
-CodeGenerationPolicy::IndentationType CodeGenerationPolicy::defaultIndentType() const {
-    return SPACE;
-}
-
-int CodeGenerationPolicy::defaultIndentAmount() const {
-    return 2;
-}
-
-CodeGenerationPolicy::ModifyNamePolicy CodeGenerationPolicy::defaultModifyNamePolicy() const {
-    return No;
-}
-
-CodeGenerationPolicy::CommentStyle CodeGenerationPolicy::defaultCommentStyle() const {
-    return SingleLine;
-}
-
-CodeGenerationPolicy::ScopePolicy CodeGenerationPolicy::defaultAttribAccessorScope() const {
-    return FromParent;
-}
-
-CodeGenerationPolicy::ScopePolicy CodeGenerationPolicy::defaultAssocFieldScope() const {
-    return FromParent;
-}
-
-bool CodeGenerationPolicy::defaultAutoGenerateConstructors() const {
-    return false;
-}
-
 
 // Constructors/Destructors
 //
@@ -96,14 +48,15 @@ bool CodeGenerationPolicy::defaultAutoGenerateConstructors() const {
 CodeGenerationPolicy::CodeGenerationPolicy(CodeGenerationPolicy * clone)
 {
 
-    initFields();
+    // first call the function which can give us values from disk, so that we have something to fall back on
+    setDefaults(false);
+    // then set the values from the object passed.
     setDefaults(clone,false);
 }
 
-CodeGenerationPolicy::CodeGenerationPolicy(KConfig * config)
+CodeGenerationPolicy::CodeGenerationPolicy()
 {
-    initFields();
-    setDefaults(config,false);
+    setDefaults(false);
 }
 
 CodeGenerationPolicy::~CodeGenerationPolicy ( ) { }
@@ -434,6 +387,7 @@ void CodeGenerationPolicy::setDefaults ( CodeGenerationPolicy * clone , bool emi
     setModifyPolicy ( clone->getModifyPolicy());
     setOverwritePolicy ( clone->getOverwritePolicy() );
 
+    calculateIndentation();
     blockSignals(false); // "as you were citizen"
 
     if(emitUpdateSignal)
@@ -441,42 +395,40 @@ void CodeGenerationPolicy::setDefaults ( CodeGenerationPolicy * clone , bool emi
 
 }
 
-void CodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSignal)
+void CodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
 {
-
-    if(!config)
-        return;
 
     blockSignals(true); // we need to do this because otherwise most of these
     // settors below will each send the modifiedCodeContent() signal
     // needlessly (we can just make one call at the end).
 
-    config -> setGroup("Code Generation");
-    setAttributeAccessorScope((ScopePolicy)config->readEntry("defaultAttributeAccessorScope",(int)defaultAttribAccessorScope()));
-    setAssociationFieldScope((ScopePolicy)config->readEntry("defaultAssocFieldScope",(int)defaultAssocFieldScope()));
-    setCommentStyle((CommentStyle)config->readEntry("commentStyle",(int)defaultCommentStyle()));
-    setAutoGenerateConstructors(config->readEntry("autoGenEmptyConstructors",defaultAutoGenerateConstructors()));
-    setCodeVerboseDocumentComments( config->readEntry("forceDoc",defaultVerboseDocumentComments()) );
-    setCodeVerboseSectionComments( config->readEntry("forceSections",defaultVerboseSectionComments()) );
-    setLineEndingType( (NewLineType) config->readEntry("lineEndingType",(int)defaultLineEndingType()) );
-    setIndentationType( (IndentationType) config->readEntry("indentationType",(int)defaultIndentType()) );
-    setIndentationAmount( config->readEntry("indentationAmount",defaultIndentAmount()));
+    setAttributeAccessorScope(UmbrelloSettings::defaultAttributeAccessorScope());
+    setAssociationFieldScope(UmbrelloSettings::defaultAssocFieldScope());
+    setCommentStyle(UmbrelloSettings::commentStyle());
+    setAutoGenerateConstructors(UmbrelloSettings::autoGenEmptyConstructors());
+    setCodeVerboseDocumentComments(UmbrelloSettings::forceDoc());
+    setCodeVerboseSectionComments(UmbrelloSettings::forceSections());
+    setLineEndingType(UmbrelloSettings::lineEndingType());
+    setIndentationType(UmbrelloSettings::indentationType());
+    setIndentationAmount(UmbrelloSettings::indentationAmount());
 
-    QString path = config -> readPathEntry("outputDirectory");
+    calculateIndentation();
+
+    QString path = UmbrelloSettings::outputDirectory();
     if(path.isEmpty())
         path = QDir::homePath() + "/uml-generated-code/";
     setOutputDirectory ( QDir (path) );
 
-    path = config -> readPathEntry("headingsDirectory");
+    path = UmbrelloSettings::headingsDirectory();
     if(path.isEmpty()) {
         KStandardDirs stddirs;
         path =  stddirs.findDirs("data","umbrello/headings").first();
     }
     setHeadingFileDir ( path );
 
-    setIncludeHeadings( config->readEntry("includeHeadings",defaultIncludeHeadings()) );
-    setOverwritePolicy( (OverwritePolicy)config->readEntry("overwritePolicy",(int)defaultOverwritePolicy()));
-    setModifyPolicy( (ModifyNamePolicy)config->readEntry("modnamePolicy",(int)defaultModifyNamePolicy()));
+    setIncludeHeadings(UmbrelloSettings::includeHeadings());
+    setOverwritePolicy(UmbrelloSettings::overwritePolicy());
+    setModifyPolicy(UmbrelloSettings::modnamePolicy());
 
     blockSignals(false); // "as you were citizen"
 
@@ -485,28 +437,27 @@ void CodeGenerationPolicy::setDefaults( KConfig * config, bool emitUpdateSignal)
 
 }
 
-void CodeGenerationPolicy::writeConfig (KConfig * config) {
+void CodeGenerationPolicy::writeConfig () {
 
-    config->setGroup("Code Generation");
+    UmbrelloSettings::setDefaultAttributeAccessorScope(getAttributeAccessorScope());
+    UmbrelloSettings::setDefaultAssocFieldScope(getAssociationFieldScope());
+    UmbrelloSettings::setCommentStyle(getCommentStyle());
+    UmbrelloSettings::setAutoGenEmptyConstructors(getAutoGenerateConstructors());
+    //UmbrelloSettings::setNewcodegen(getNewCodegen());
+    UmbrelloSettings::setForceDoc(getCodeVerboseDocumentComments());
+    UmbrelloSettings::setForceSections(getCodeVerboseSectionComments());
 
-    config->writeEntry("defaultAttributeAccessorScope",( int )getAttributeAccessorScope());
-    config->writeEntry("defaultAssocFieldScope",( int )getAssociationFieldScope());
-    config->writeEntry("commentStyle",( int )getCommentStyle());
-    config->writeEntry("autoGenEmptyConstructors",getAutoGenerateConstructors());
-    //config->writeEntry("newCodegen", getNewCodegen());
-    config->writeEntry("forceDoc",getCodeVerboseDocumentComments());
-    config->writeEntry("forceSections",getCodeVerboseSectionComments());
+    UmbrelloSettings::setLineEndingType(getLineEndingType());
+    UmbrelloSettings::setIndentationType(getIndentationType());
+    UmbrelloSettings::setIndentationAmount(getIndentationAmount());
 
-    config->writeEntry("lineEndingType",int(getLineEndingType()));
-    config->writeEntry("indentationType",int(getIndentationType()));
-    config->writeEntry("indentationAmount",getIndentationAmount());
+    UmbrelloSettings::setOutputDirectory( getOutputDirectory().absPath());
+    UmbrelloSettings::setHeadingsDirectory( getHeadingFileDir());
+    UmbrelloSettings::setIncludeHeadings( getIncludeHeadings());
+    UmbrelloSettings::setOverwritePolicy(getOverwritePolicy());
+    UmbrelloSettings::setModnamePolicy(getModifyPolicy());
 
-    config->writePathEntry("outputDirectory",getOutputDirectory().absPath());
-    config->writePathEntry("headingsDirectory",getHeadingFileDir());
-    config->writeEntry("includeHeadings",getIncludeHeadings());
-    config->writeEntry("overwritePolicy",int(getOverwritePolicy()));
-    config->writeEntry("modnamePolicy",  int(getModifyPolicy()));
-
+    // this will be written to the disk from the place it was called :)
 }
 
 // return the actual text
@@ -558,31 +509,6 @@ QString CodeGenerationPolicy::getHeadingFile(QString str) {
     // (which is not a virtual function)...
 
     return retstr;
-}
-
-void CodeGenerationPolicy::initFields ( ) {
-
-    blockSignals(true);
-
-    m_overwritePolicy = defaultOverwritePolicy();
-    m_codeVerboseSectionComments = defaultVerboseSectionComments();
-    m_codeVerboseDocumentComments = defaultVerboseDocumentComments();
-    m_includeHeadings = defaultIncludeHeadings();
-    setLineEndingType(defaultLineEndingType());
-    m_indentationType = defaultIndentType();
-    m_indentationAmount = defaultIndentAmount();
-    m_modifyPolicy = defaultModifyNamePolicy();
-    m_autoGenerateConstructors = defaultAutoGenerateConstructors();
-    m_attributeAccessorScope = defaultAttribAccessorScope();
-    m_associationFieldScope = defaultAssocFieldScope();
-    m_commentStyle = defaultCommentStyle();
-
-    m_outputDirectory.setPath(QDir::home().absPath() + "/uml-generated-code/");
-    m_headingFiles.setPath(QDir::home().absPath() + "/headings/");
-
-    calculateIndentation();
-
-    blockSignals(false);
 }
 
 #include "codegenerationpolicy.moc"

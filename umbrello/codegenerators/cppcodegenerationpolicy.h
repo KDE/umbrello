@@ -29,21 +29,6 @@ class CPPCodeGenerationPolicy : public CodeGenPolicyExt
     Q_OBJECT
 public:
 
-    static const bool DEFAULT_AUTO_GEN_EMPTY_CONSTRUCTORS;
-    static const bool DEFAULT_AUTO_GEN_ACCESSORS;
-    static const bool DEFAULT_INLINE_ACCESSORS;
-    static const bool DEFAULT_INLINE_OPERATIONS;
-    static const bool DEFAULT_VIRTUAL_DESTRUCTORS;
-    static const bool DEFAULT_PACKAGE_IS_NAMESPACE;
-    static const bool DEFAULT_PUBLIC_ACCESSORS;
-
-    static const bool DEFAULT_STRING_INCLUDE_GLOBAL;
-    static const bool DEFAULT_VECTOR_INCLUDE_GLOBAL;
-
-    static const char * DEFAULT_STRING_CLASS_NAME;
-    static const char * DEFAULT_STRING_CLASS_INCLUDE;
-    static const char * DEFAULT_VECTOR_CLASS_NAME;
-    static const char * DEFAULT_VECTOR_CLASS_INCLUDE;
     static const char * DEFAULT_VECTOR_METHOD_APPEND;
     static const char * DEFAULT_VECTOR_METHOD_REMOVE;
     static const char * DEFAULT_VECTOR_METHOD_INIT;
@@ -55,7 +40,7 @@ public:
     /**
      * Constructors
      */
-    CPPCodeGenerationPolicy ( KConfig * config = 0 );
+    CPPCodeGenerationPolicy ();
 
     /**
      * Empty Destructor
@@ -181,12 +166,12 @@ public:
     /**
      * set the defaults from a config file for this code generator from the passed KConfig pointer.
      */
-    virtual void setDefaults(KConfig * config, bool emitUpdateSignal = true);
+    virtual void setDefaults(bool emitUpdateSignal = true);
 
     /**
      * write Default params to passed KConfig pointer.
      */
-    virtual void writeConfig (KConfig * config);
+    virtual void writeConfig ();
 
     /**
      * Create a new dialog interface for this object.
