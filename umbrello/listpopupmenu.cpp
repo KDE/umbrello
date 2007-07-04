@@ -1404,6 +1404,10 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         insertStdItem(mt_Properties);
         break;
 
+    case mt_AttributeAssociation:
+        insertStdItem(mt_Delete);  // @todo add more items
+        break;
+
     case mt_Collaboration_Message:
         //                      insertStdItem(mt_Cut);
         //                      insertStdItem(mt_Copy);

@@ -2345,13 +2345,13 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
             menuType = ListPopupMenu::mt_Anchor;
         else if (isCollaboration())
             menuType = ListPopupMenu::mt_Collaboration_Message;
-        else if( AssocRules::allowRole( type ) )
+        else if (getAssociation() == NULL)
+            menuType = ListPopupMenu::mt_AttributeAssociation;
+        else if (AssocRules::allowRole(type))
             menuType = ListPopupMenu::mt_FullAssociation;
         else
             menuType = ListPopupMenu::mt_Association_Selected;
     }
-    if (m_pObject && getAssociation() == NULL)  // atm m_pObject must be UMLAssociation
-        return;                  // @todo allow ListPopupMenu for other m_pObject types
     m_pMenu = new ListPopupMenu(m_pView, menuType);
     m_pMenu->popup(me -> globalPos());
     connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotMenuSelection(int)));
@@ -2418,8 +2418,10 @@ void AssociationWidget::slotMenuSelection(int sel) {
     case ListPopupMenu::mt_Delete:
         if (m_pAssocClassLineSel0)
             removeAssocClassLine();
-        else
+        else if (getAssociation())
             m_pView->removeAssocInViewAndDoc(this);
+        else
+            m_pView->removeAssoc(this);
         break;
 
     case ListPopupMenu::mt_Rename_MultiA:

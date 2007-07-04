@@ -156,6 +156,7 @@ public:
         mt_MultiB,
         mt_Name,                          //Association name
         mt_FullAssociation,                 // Association with role names
+        mt_AttributeAssociation,   // Rendering of an attribute as an association
         mt_RoleNameA,
         mt_RoleNameB,
         mt_Delete_Selection,
