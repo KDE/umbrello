@@ -602,6 +602,7 @@ public:
 
     /**
      * Removes a AssociationWidget from a diagram
+     * Physically deletes the AssociationWidget passed in.
      *
      * @param pAssoc  Pointer to the AssociationWidget.
      */
