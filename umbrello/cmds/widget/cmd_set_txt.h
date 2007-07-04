@@ -23,7 +23,7 @@ namespace Uml
     {
         public:
             /*Constructor */
-            cmdSetTxt(FloatingTextWidget* _ftw, QString txt);
+            cmdSetTxt(FloatingTextWidget* _ftw, const QString& txt);
             /*Destructor */
             ~cmdSetTxt();
             /*Redo method */

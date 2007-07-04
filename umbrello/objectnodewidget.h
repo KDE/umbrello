@@ -67,18 +67,18 @@ public:
      * Returns the type of object node.
      */
     ObjectNodeType getObjectNodeType() const;
-    ObjectNodeType getObjectNodeType(QString objectNodeType) const;
+    ObjectNodeType getObjectNodeType(const QString& objectNodeType) const;
 
     /**
      * Sets the type of object node.
      */
     void setObjectNodeType( ObjectNodeType objectNodeType );
-    void setObjectNodeType( QString objectNodeType ) ;
+    void setObjectNodeType( const QString& objectNodeType ) ;
 
      /**
      * Sets the state of an object node when it's an objectflow.
      */
-    void setState(QString state);
+    void setState(const QString& state);
 
     /**
      * Returns the state of object node.

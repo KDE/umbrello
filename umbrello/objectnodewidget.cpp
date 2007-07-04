@@ -158,7 +158,7 @@ ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::getObjectNodeType() const {
     return m_ObjectNodeType;
 }
 
-ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::getObjectNodeType(QString objectNodeType) const {
+ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::getObjectNodeType(const QString& objectNodeType) const {
     if (objectNodeType == "Central buffer")
        return ObjectNodeWidget::Buffer;
     if (objectNodeType == "Data store")
@@ -175,11 +175,11 @@ void ObjectNodeWidget::setObjectNodeType( ObjectNodeType objectNodeType ) {
     UMLWidget::m_bResizable = true;
 }
 
-void ObjectNodeWidget::setObjectNodeType( QString objectNodeType ) {
+void ObjectNodeWidget::setObjectNodeType( const QString& objectNodeType ) {
    setObjectNodeType(getObjectNodeType(objectNodeType) );
 }
 
-void ObjectNodeWidget::setState(QString state){
+void ObjectNodeWidget::setState(const QString& state){
     m_State = state;
     updateComponentSize();
 }

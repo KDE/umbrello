@@ -64,13 +64,13 @@ public:
      * Returns the type of note.
      */
     NoteType getNoteType() const;
-    NoteType getNoteType(QString noteType) const;
+    NoteType getNoteType(const QString& noteType) const;
 
     /**
      * Sets the type of note.
      */
     void setNoteType( NoteType noteType );
-    void setNoteType( QString noteType );
+    void setNoteType( const QString& noteType );
 
     /**
      * Overrides method from UMLWidget.

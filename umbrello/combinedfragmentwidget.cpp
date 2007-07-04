@@ -208,7 +208,7 @@ void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combi
     }
 }
 
-CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::getCombinedFragmentType(QString type) const {
+CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::getCombinedFragmentType(const QString& type) const {
     if(type == "Reference")
         return (CombinedFragmentWidget::Ref);
     if(type == "Option")
@@ -232,7 +232,7 @@ CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::getCombined
     return (CombinedFragmentWidget::Ref);
 }
 
-void CombinedFragmentWidget::setCombinedFragmentType( QString combinedfragmentType ) {
+void CombinedFragmentWidget::setCombinedFragmentType( const QString& combinedfragmentType ) {
 
     setCombinedFragmentType(getCombinedFragmentType(combinedfragmentType) );
 }

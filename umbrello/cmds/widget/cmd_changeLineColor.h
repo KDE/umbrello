@@ -23,7 +23,7 @@ namespace Uml
     {
     public:
         //cmdChangeLineColor(UMLView *view, QColor col);
-        cmdChangeLineColor(UMLWidget *w, QColor col);
+        cmdChangeLineColor(UMLWidget *w, const QColor& col);
         ~cmdChangeLineColor();
         void redo();
         void undo();

@@ -30,7 +30,7 @@
 namespace Uml
 {
 
-    cmdSetTxt::cmdSetTxt(FloatingTextWidget* _ftw, QString txt):ftw(_ftw),newstring(txt)
+    cmdSetTxt::cmdSetTxt(FloatingTextWidget* _ftw, const QString& txt):ftw(_ftw),newstring(txt)
     {
 
         oldstring = _ftw->getText();

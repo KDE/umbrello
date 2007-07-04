@@ -96,7 +96,7 @@ public:
     /**
      * Reimplement method from UMLObject.
      */
-    QString getFullyQualifiedName(QString separator = QString(),
+    QString getFullyQualifiedName( QString separator = QString(),
                                   bool includeRoot = false) const;
 
     /**
@@ -130,7 +130,7 @@ private:
     /**
     * Puts in the param templateParamList all the template params that are in templateParam
     */
-    void setTemplateParams(QString templateParam, UMLClassifierList &templateParamList);
+    void setTemplateParams(const QString& templateParam, UMLClassifierList &templateParamList);
 
 };
 

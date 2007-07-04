@@ -249,7 +249,7 @@ void ToolBarState::setMouseEvent(QMouseEvent* ome, const QEvent::Type &type) {
                                     ome->button(),ome->state());
 }
 
-MessageWidget* ToolBarState::getMessageAt(QPoint pos) {
+MessageWidget* ToolBarState::getMessageAt(const QPoint& pos) {
     MessageWidget* message = 0;
     for (MessageWidgetListIt it(m_pUMLView->getMessageList());
                                 (message = it.current()) != 0; ++it) {
@@ -261,7 +261,7 @@ MessageWidget* ToolBarState::getMessageAt(QPoint pos) {
     return message;
 }
 
-AssociationWidget* ToolBarState::getAssociationAt(QPoint pos) {
+AssociationWidget* ToolBarState::getAssociationAt(const QPoint& pos) {
     AssociationWidget* association = 0;
     for (AssociationWidgetListIt it(m_pUMLView->getAssociationList());
                                 (association = it.current()) != 0; ++it) {
@@ -273,7 +273,7 @@ AssociationWidget* ToolBarState::getAssociationAt(QPoint pos) {
     return association;
 }
 
-FloatingDashLineWidget* ToolBarState::getFloatingLineAt(QPoint pos) {
+FloatingDashLineWidget* ToolBarState::getFloatingLineAt(const QPoint& pos) {
     FloatingDashLineWidget* floatingline = 0;
     UMLWidget * widget = 0;
     UMLWidgetListIt w_it(m_pUMLView->getWidgetList());

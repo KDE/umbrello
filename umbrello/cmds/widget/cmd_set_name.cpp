@@ -30,7 +30,7 @@
 namespace Uml
 {
 
-    cmdSetName::cmdSetName(UMLObject * _UMLObj, QString _name):UMLObj(_UMLObj), name (_name)
+    cmdSetName::cmdSetName(UMLObject * _UMLObj, const QString& _name):UMLObj(_UMLObj), name (_name)
     {
         oldname = _UMLObj->getName();
     }

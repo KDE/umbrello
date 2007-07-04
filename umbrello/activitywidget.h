@@ -114,7 +114,7 @@ public:
     /**
      * This method set the name of the preText attribute
      */
-     void setPreText(QString);
+     void setPreText(const QString&);
 
     /**
      * This method get the name of the preText attribute
@@ -124,7 +124,7 @@ public:
      /**
      * This method set the name of the postText attribute
      */
-     void setPostText(QString);
+     void setPostText(const QString&);
 
    /**
      * This method get the name of the postText attribute

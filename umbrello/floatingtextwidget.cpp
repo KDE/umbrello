@@ -185,7 +185,7 @@ void FloatingTextWidget::handleRename() {
     UMLApp::app()->executeCommand(new cmdHandleRename(this,newText));
 }
 
-void FloatingTextWidget::changeName(QString newText)
+void FloatingTextWidget::changeName(const QString& newText)
 {
 
     if (m_pLink && !isTextValid(newText)) {

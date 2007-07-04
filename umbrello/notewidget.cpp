@@ -67,7 +67,7 @@ void NoteWidget::init() {
 NoteWidget::NoteType NoteWidget::getNoteType() const {
     return m_NoteType;
 }
-NoteWidget::NoteType NoteWidget::getNoteType(QString noteType) const {
+NoteWidget::NoteType NoteWidget::getNoteType(const QString& noteType) const {
         if (noteType == "Precondition")
         return NoteWidget::PreCondition;
     else if (noteType == "Postcondition")
@@ -81,7 +81,7 @@ NoteWidget::NoteType NoteWidget::getNoteType(QString noteType) const {
 void NoteWidget::setNoteType( NoteType noteType ) {
     m_NoteType = noteType;
 }
-void NoteWidget::setNoteType( QString noteType ) {
+void NoteWidget::setNoteType( const QString& noteType ) {
     setNoteType(getNoteType(noteType));
 }
 

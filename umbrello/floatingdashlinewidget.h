@@ -60,7 +60,7 @@ public:
     /**
      * Sets m_text
      */
-    void setText(QString text);
+    void setText(const QString& text);
 
     /**
      * Overrides the setY method

@@ -74,13 +74,13 @@ public:
      * Returns the type of combined fragment.
      */
     CombinedFragmentType getCombinedFragmentType() const;
-    CombinedFragmentType getCombinedFragmentType(QString combinedfragmentType) const;
+    CombinedFragmentType getCombinedFragmentType(const QString& combinedfragmentType) const;
 
     /**
      * Sets the type of combined fragment.
      */
     void setCombinedFragmentType( CombinedFragmentType combinedfragmentType );
-    void setCombinedFragmentType( QString combinedfragmentType );
+    void setCombinedFragmentType( const QString& combinedfragmentType );
 
     void askNameForWidgetType(UMLWidget* &targetWidget, const QString& dialogTitle,
                       const QString& dialogPrompt, const QString& defaultName);

@@ -339,7 +339,7 @@ bool ActivityWidget::loadFromXMI( QDomElement & qElement ) {
     return true;
 }
 
-void ActivityWidget::setPreText(QString aPreText)
+void ActivityWidget::setPreText(const QString& aPreText)
 {
     preText=aPreText;
     updateComponentSize();
@@ -351,7 +351,7 @@ QString ActivityWidget::getPreText()
     return preText;
 }
 
-void ActivityWidget::setPostText(QString aPostText)
+void ActivityWidget::setPostText(const QString& aPostText)
 {
     postText=aPostText;
     updateComponentSize();

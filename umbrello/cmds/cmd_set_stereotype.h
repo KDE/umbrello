@@ -23,7 +23,7 @@ namespace Uml
     {
         public:
             /*Constructor */
-            cmdSetStereotype(UMLObject * _UMLOb, QString stereo);
+            cmdSetStereotype(UMLObject * _UMLOb, const QString& stereo);
             /*Destructor */
             ~cmdSetStereotype();
             /*Redo method */

@@ -73,7 +73,7 @@ public:
      */
     QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
 
-    QString getFullyQualifiedName(QString separator = QString(),
+    QString getFullyQualifiedName(const QString& separator = QString(),
                                   bool includeRoot = false) const;
 
     /**

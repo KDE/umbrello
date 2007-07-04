@@ -114,7 +114,7 @@ QString UMLAttribute::toString(Uml::Signature_Type sig) {
     return s + getName();
 }
 
-QString UMLAttribute::getFullyQualifiedName(QString separator,
+QString UMLAttribute::getFullyQualifiedName( QString separator,
                                             bool includeRoot /* = false */) const {
     UMLOperation *op = NULL;
     UMLObject *owningObject = static_cast<UMLObject*>(parent());
@@ -242,7 +242,7 @@ bool UMLAttribute::showPropertiesDialog(QWidget* parent) {
 }
 
 
-void UMLAttribute::setTemplateParams(QString templateParam, UMLClassifierList &templateParamList) {
+void UMLAttribute::setTemplateParams(const QString& templateParam, UMLClassifierList &templateParamList) {
     if (templateParam.isEmpty())
         return;
     QString type = templateParam.simplifyWhiteSpace();

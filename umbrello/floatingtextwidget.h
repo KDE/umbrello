@@ -227,7 +227,7 @@ public:
     /**
      * Change Name
      */
-    void changeName(QString newText);
+    void changeName(const QString& newText);
 
     /**
      * Shows an operation dialog box.

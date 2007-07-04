@@ -724,7 +724,7 @@ ObjectWidget * UMLView::onWidgetDestructionBox( const QPoint &point ){
     return 0;
 }
 
-UMLWidget *UMLView::getWidgetAt(QPoint p) {
+UMLWidget *UMLView::getWidgetAt(const QPoint& p) {
     int relativeSize = 10000;  // start with an arbitrary large number
     UMLWidget *obj, *retObj = NULL;
     UMLWidgetListIt it(m_WidgetList);

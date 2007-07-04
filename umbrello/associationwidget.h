@@ -757,12 +757,12 @@ private:
      * P3. If this value is negative an error ocurred.
      * This method is not currently used.
      */
-    static float perpendicularProjection(QPoint P1, QPoint P2, QPoint P3, QPoint& ResultingPoint);
+    static float perpendicularProjection(const QPoint& P1, const QPoint& P2, const QPoint& P3, QPoint& ResultingPoint);
 
     /**
      * Return the mid point between p0 and p1
      */
-    static QPoint midPoint(QPoint p0, QPoint p1);
+    static QPoint midPoint(const QPoint& p0, const QPoint& p1);
 
     /**
      * Calculates the position of the text widget depending on the role

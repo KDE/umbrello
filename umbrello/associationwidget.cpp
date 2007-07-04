@@ -1786,7 +1786,7 @@ QPoint AssociationWidget::calculatePointAtDistanceOnPerpendicular(const QPoint &
 /** Calculates the intersection (PS) between line P1P2 and a perpendicular line containing
     P3, the result is returned in ResultingPoint. and result value represents the distance
     between ResultingPoint and P3; if this value is negative an error ocurred. */
-float AssociationWidget::perpendicularProjection(QPoint P1, QPoint P2, QPoint P3,
+float AssociationWidget::perpendicularProjection(const QPoint& P1, const QPoint& P2, const QPoint& P3,
         QPoint& ResultingPoint) {
     //line P1P2 is Line 1 = y=slope1*x + b1
 
@@ -1914,7 +1914,7 @@ QPoint AssociationWidget::calculateTextPosition(Text_Role role) {
     return p;
 }
 
-QPoint AssociationWidget::midPoint(QPoint p0, QPoint p1) {
+QPoint AssociationWidget::midPoint(const QPoint& p0, const QPoint& p1) {
     QPoint midP;
     if (p0.x() < p1.x())
         midP.setX(p0.x() + (p1.x() - p0.x()) / 2);

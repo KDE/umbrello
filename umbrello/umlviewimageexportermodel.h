@@ -184,7 +184,7 @@ private:
      * @return True if the operation was successful,
      *         false if a problem occurred while exporting.
      */
-    bool fixEPS(const QString &fileName, QRect rect) const;
+    bool fixEPS(const QString &fileName, const QRect& rect) const;
 
     /**
      * Exports the view to the file 'fileName' as SVG.

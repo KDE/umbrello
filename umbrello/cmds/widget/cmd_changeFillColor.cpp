@@ -32,7 +32,7 @@
 
 namespace Uml
 {
-    cmdChangeFillColor::cmdChangeFillColor(UMLWidget *w, QColor col):UMLw(w),color(col)
+    cmdChangeFillColor::cmdChangeFillColor(UMLWidget *w, const QColor& col):UMLw(w),color(col)
     {
         setText(i18n("Change Fill Color")+ w->getName());
         oldColor= w -> getFillColor() ;

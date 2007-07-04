@@ -34,7 +34,7 @@ namespace Uml
         QColor color;
 
         public:
-            cmdChangeFillColor(UMLWidget *w, QColor col);
+            cmdChangeFillColor(UMLWidget *w, const QColor& col);
             ~cmdChangeFillColor();
             void redo();
             void undo();

@@ -23,7 +23,7 @@ namespace Uml
     {
         public:
             /*Constructor */
-            cmdSetName(UMLObject * _UMLObj, QString _name);
+            cmdSetName(UMLObject * _UMLObj, const QString& _name);
             /*Destructor */
             ~cmdSetName();
             /*Redo method */

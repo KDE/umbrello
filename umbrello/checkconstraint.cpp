@@ -68,7 +68,7 @@ QString UMLCheckConstraint::toString(Uml::Signature_Type sig ) {
     return s;
 }
 
-QString UMLCheckConstraint::getFullyQualifiedName(QString separator,
+QString UMLCheckConstraint::getFullyQualifiedName(const QString& separator,
                                                    bool includeRoot ) const {
 
     kDebug()<< k_funcinfo <<"Nothing implemented yet";

@@ -50,7 +50,7 @@ void FloatingDashLineWidget::draw(QPainter & p, int offsetX, int offsetY)
         drawSelected(&p, getX(), getY());
 }
 
-void FloatingDashLineWidget::setText(QString text)
+void FloatingDashLineWidget::setText(const QString& text)
 {
     m_Text = text;
 }

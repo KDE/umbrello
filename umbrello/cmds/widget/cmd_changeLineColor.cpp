@@ -42,7 +42,7 @@ namespace Uml
         oldColor=widget -> getLineColor() ;
     }*/
 
-cmdChangeLineColor::cmdChangeLineColor(UMLWidget *w, QColor col):UMLw(w),color(col)
+cmdChangeLineColor::cmdChangeLineColor(UMLWidget *w, const QColor& col):UMLw(w),color(col)
 {
     setText(i18n("Change Line Color") + w->getName());
     oldColor= w -> getLineColor() ;
