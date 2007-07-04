@@ -254,7 +254,6 @@ set(libumbrello_SRCS
    activitywidget.cpp 
    actor.cpp 
    actorwidget.cpp 
-   aligntoolbar.cpp 
    artifact.cpp 
    artifactwidget.cpp 
    association.cpp 

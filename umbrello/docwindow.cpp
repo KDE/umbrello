@@ -37,7 +37,6 @@ DocWindow::DocWindow( UMLDoc * doc, QWidget *parent, const char *name ) : QWidge
     QHBoxLayout * docLayout = new QHBoxLayout( m_pDocGB );
     m_pDocMLE = new Q3MultiLineEdit( m_pDocGB );
     m_pDocMLE -> setText( "" );
-    docLayout -> setMargin( fontMetrics().height() );
     docLayout -> addWidget( m_pDocMLE);
     m_pDocMLE -> setWordWrap(Q3MultiLineEdit::WidgetWidth);
 

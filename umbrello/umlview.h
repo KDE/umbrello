@@ -1208,6 +1208,80 @@ private:
                                          UMLForeignKeyConstraint* fkConstraint, 
                                          UMLWidget* widget);
 
+    /**
+     * Returns true if the first widget's X is smaller than second's.
+     * Used for sorting the UMLWidgetList.
+     *
+     * @param widget1 The widget to compare.
+     * @param widget2 The widget to compare with.
+     */
+    static bool hasWidgetSmallerX(const UMLWidget* widget1, const UMLWidget* widget2);
+
+    /**
+     * Returns true if the first widget's Y is smaller than second's.
+     * Used for sorting the UMLWidgetList.
+     *
+     * @param widget1 The widget to compare.
+     * @param widget2 The widget to compare with.
+     */
+    static bool hasWidgetSmallerY(const UMLWidget* widget1, const UMLWidget* widget2);
+
+    /**
+     * Looks for the smallest x-value of the given UMLWidgets.
+     *
+     * @param widgetList A list with UMLWidgets.
+     */
+    int getSmallestX(const UMLWidgetList &widgetList);
+
+    /**
+     * Looks for the smallest y-value of the given UMLWidgets.
+     *
+     * @param widgetList A list with UMLWidgets.
+     */
+    int getSmallestY(const UMLWidgetList &widgetList);
+
+    /**
+     * Looks for the biggest x-value of the given UMLWidgets.
+     *
+     * @param widgetList A list with UMLWidgets.
+     */
+    int getBiggestX(const UMLWidgetList &widgetList);
+
+    /**
+     * Looks for the biggest y-value of the given UMLWidgets.
+     *
+     * @param widgetList A list with UMLWidgets.
+     */
+    int getBiggestY(const UMLWidgetList &widgetList);
+
+    /**
+     * Returns the sum of the heights of the given UMLWidgets
+     *
+     * @param widgetList A list with UMLWidgets.
+     */
+    int getHeightsSum(const UMLWidgetList &widgetList);
+
+    /**
+     * Returns the sum of the widths of the given UMLWidgets.
+     *
+     * @param widgetList A list with UMLWidgets.
+     */
+    int getWidthsSum(const UMLWidgetList &widgetList);
+
+    /**
+     * Sorts the given UMLWidgetList based on the Compare function.
+     * The list is cleared and all the widgets are added again in order.
+     *
+     * The comp function gets two const UMLWidget* params and returns
+     * a boolean telling if the first widget was smaller than the second,
+     * whatever the "smaller" concept is depending on the sorting to do.
+     *
+     * @param widgetList The list with the widgets to order.
+     * @param comp The comp function to compare the widgets.
+     */
+    template<typename Compare>
+    void sortWidgetList(UMLWidgetList &widgetList, Compare comp);
+
 public slots:
 
     void zoomIn();
@@ -1259,6 +1333,46 @@ public slots:
      * it's shown.
      */
     void show();
+
+    /**
+     * Left Alignment
+     */
+    void alignLeft();
+
+    /**
+     * Right Alignment
+     */
+    void alignRight();
+
+    /**
+     * Top Alignment
+     */
+    void alignTop();
+
+    /**
+     * Bottom Alignment
+     */
+    void alignBottom();
+
+    /**
+     * Vertical Middle Alignment
+     */
+    void alignVerticalMiddle();
+
+    /**
+     * Horizontal Middle Alignment
+     */
+    void alignHorizontalMiddle();
+
+    /**
+     * Vertical Distribute Alignment
+     */
+    void alignVerticalDistribute();
+
+    /**
+     * Horizontal Distribute Alignment
+     */
+    void alignHorizontalDistribute();
 
 signals:
     void sigResetToolBar();

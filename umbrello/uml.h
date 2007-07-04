@@ -599,6 +599,46 @@ public slots:
     void slotEntityRelationshipDiagram();
 
     /**
+     * Left Alignment
+     */
+    void slotAlignLeft();
+
+    /**
+     * Right Alignment
+     */
+    void slotAlignRight();
+
+    /**
+     * Top Alignment
+     */
+    void slotAlignTop();
+
+    /**
+     * Bottom Alignment
+     */
+    void slotAlignBottom();
+
+    /**
+     * Vertical Middle Alignment
+     */
+    void slotAlignVerticalMiddle();
+
+    /**
+     * Horizontal Middle Alignment
+     */
+    void slotAlignHorizontalMiddle();
+
+    /**
+     * Vertical Distribute Alignment
+     */
+    void slotAlignVerticalDistribute();
+
+    /**
+     * Horizontal Distribute Alignment
+     */
+    void slotAlignHorizontalDistribute();
+
+    /**
      * Notification of changed clipboard data.
      */
     void slotClipDataChanged();
@@ -1005,6 +1045,15 @@ private:
 
     QAction* zoom100Action;
     KPlayerPopupSliderAction* zoomAction;
+     
+    QAction* alignLeft;
+    QAction* alignRight;
+    QAction* alignTop;
+    QAction* alignBottom;
+    QAction* alignVerticalMiddle;
+    QAction* alignHorizontalMiddle;
+    QAction* alignVerticalDistribute;
+    QAction* alignHorizontalDistribute;
 
     QAction* genAll;
     QAction* genWizard;

@@ -281,7 +281,7 @@ void WorkToolBar::loadPixmaps() {
         { tbb_Aggregation, i18n("Aggregation"), "aggregation.png", SLOT(slotAggregation()) },
         { tbb_Relationship, i18n("Relationship"), "relationship.png", SLOT(slotRelationship()) },
         { tbb_UniAssociation, i18n("Directional Association"), "uniassociation.png", SLOT(slotUniAssociation()) },
-        { tbb_Generalization, i18n("Implements (Generalisation/Realisation)"), "generalisation.png", SLOT(slotGeneralization()) },
+        { tbb_Generalization, i18n("Implements"), "generalisation.png", SLOT(slotGeneralization()) },
         { tbb_Composition, i18n("Composition"), "composition.png", SLOT(slotComposition()) },
         { tbb_UseCase, i18n("Use Case"), "usecase.png", SLOT(slotUseCase()) },
         { tbb_Class, i18n("Class"), "class.png", SLOT(slotClass()) },

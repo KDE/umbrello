@@ -84,10 +84,11 @@
          <choices name="Uml::Diagram_Type" />
          <default>Uml::dt_Class</default>
        </entry>
-       <entry name="defaultLanguage" type="String">
+       <entry name="defaultLanguage" type="Enum">
          <label>Default Language at Startup</label>
          <whatisthis>The Language that Umbrello should start with by default</whatisthis>
-         <default>C++</default>
+         <choices name="Uml::Programming_Language" />
+         <default>Uml::pl_Cpp</default>
        </entry>
        <entry name="lastFile" type="String">
          <label></label>

@@ -33,6 +33,16 @@
     </Menu>
     <Menu name="zoom_menu"><text>&amp;Zoom</text>
     </Menu>
+    <Menu name="align_menu"><text>&amp;Align</text>
+      <Action name="align_left" />
+      <Action name="align_right" />
+      <Action name="align_top" />
+      <Action name="align_bottom" />
+      <Action name="align_vertical_middle" />
+      <Action name="align_horizontal_middle" />
+      <Action name="align_vertical_distribute" />
+      <Action name="align_horizontal_distribute" /> 
+    </Menu>
     <Separator/>
     <Action name="view_snap_to_grid"/>
     <Action name="view_show_grid"/>

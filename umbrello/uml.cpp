@@ -49,9 +49,7 @@
 #include <kmenu.h>
 #include <kxmlguifactory.h>
 #include <kapplication.h>
-
 // app includes
-#include "aligntoolbar.h"
 #include "codeimport/classimport.h"
 #include "docwindow.h"
 #include "codegenerator.h"
@@ -400,6 +398,47 @@ void UMLApp::initActions() {
     zoom100Action->setText(i18n("Z&oom to 100%"));
     connect(zoom100Action, SIGNAL( triggered( bool ) ), this, SLOT( slotZoom100() ));
 
+    alignRight = actionCollection()->addAction( "align_right" );
+    alignRight->setText(i18n("Align Right" ));
+    alignRight->setIcon(KIcon("align_right" ) );
+    connect(alignRight, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignRight() ));
+
+    alignLeft = actionCollection()->addAction( "align_left" );
+    alignLeft->setText(i18n("Align Left" ));
+    alignLeft->setIcon(KIcon("align_left" ) );
+    connect(alignLeft, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignLeft() ));
+
+    alignTop = actionCollection()->addAction( "align_top" );
+    alignTop->setText(i18n("Align Top" ));
+    alignTop->setIcon(KIcon("align_top" ) );
+    connect(alignTop, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignTop() ));
+
+    alignBottom = actionCollection()->addAction( "align_bottom" );
+    alignBottom->setText(i18n("Align Bottom" ));
+    alignBottom->setIcon(KIcon("align_bottom" ) );
+    connect(alignBottom, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignBottom() ));
+
+    alignVerticalMiddle = actionCollection()->addAction( "align_vertical_middle" );
+    alignVerticalMiddle->setText(i18n("Align Vertical Middle" ));
+    alignVerticalMiddle->setIcon(KIcon("align_vert_middle" ) );
+    connect(alignVerticalMiddle, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignVerticalMiddle() ));
+
+    alignHorizontalMiddle = actionCollection()->addAction( "align_horizontal_middle" );
+    alignHorizontalMiddle->setText(i18n("Align Horizontal Middle" ));
+    alignHorizontalMiddle->setIcon(KIcon("align_hori_middle" ) );
+    connect(alignHorizontalMiddle, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignHorizontalMiddle() ));
+
+    alignVerticalDistribute = actionCollection()->addAction( "align_vertical_distribute" );
+    alignVerticalDistribute->setText(i18n("Align Vertical Distribute" ));
+    alignVerticalDistribute->setIcon(KIcon("align_vert_distribute" ) );
+    connect(alignVerticalDistribute, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignVerticalDistribute() ));
+
+    alignHorizontalDistribute = actionCollection()->addAction( "align_horizontal_distribute" );
+    alignHorizontalDistribute->setText(i18n("Align Horizontal Distribute" ));
+    alignHorizontalDistribute->setIcon(KIcon("align_hori_distribute" ) );
+    connect(alignHorizontalDistribute, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignHorizontalDistribute() ));
+
+
     QString moveTabLeftString = i18n("&Move Tab Left");
     QString moveTabRightString = i18n("&Move Tab Right");
     moveTabLeft = actionCollection()->addAction("move_tab_left");
@@ -499,10 +538,6 @@ void UMLApp::initView() {
     toolsbar = new WorkToolBar(this);
     toolsbar->setLabel(i18n("Diagram Toolbar"));
     addToolBar(Qt::TopToolBarArea, toolsbar);
-
-    m_alignToolBar = new AlignToolBar(this, "");
-    m_alignToolBar->setLabel(i18n("Alignment Toolbar"));
-    addToolBar(Qt::TopToolBarArea, m_alignToolBar);
 
     //setupGUI();
 //     m_mainDock = new QDockWidget( this );
@@ -619,8 +654,6 @@ void UMLApp::saveOptions() {
     toolBar("mainToolBar")->saveSettings( cg );
     cg.changeGroup( "workbar" );
     toolsbar->saveSettings(cg );
-    cg.changeGroup( "aligntoolbar" );
-    m_alignToolBar->saveSettings( cg );
     fileOpenRecent->saveEntries( m_config->group( "Recent Files") );
 
     UmbrelloSettings::setGeometry( size() );
@@ -694,7 +727,6 @@ void UMLApp::readOptions() {
     toolBar("mainToolBar")->applySettings(m_config->group( "toolbar") );
     // do config for work toolbar
     toolsbar->applySettings(m_config->group( "workbar") );
-    m_alignToolBar->applySettings(m_config->group( "aligntoolbar") );
     fileOpenRecent->loadEntries(m_config->group( "Recent Files") );
     setImageMimeType( UmbrelloSettings::imageMimeType() );
     resize( UmbrelloSettings::geometry());
@@ -1025,6 +1057,39 @@ void UMLApp::slotEntityRelationshipDiagram() {
     executeCommand(new Uml::cmdCreateEntityRelationDiag(m_doc));
 }
 
+
+void UMLApp::slotAlignLeft() {
+    getCurrentView()->alignLeft();
+}
+
+void UMLApp::slotAlignRight() {
+    getCurrentView()->alignLeft();
+}
+
+void UMLApp::slotAlignTop() {
+    getCurrentView()->alignTop();
+}
+
+void UMLApp::slotAlignBottom() {
+    getCurrentView()->alignBottom();
+}
+
+void UMLApp::slotAlignVerticalMiddle() {
+    getCurrentView()->alignVerticalMiddle();
+}
+
+void UMLApp::slotAlignHorizontalMiddle() {
+    getCurrentView()->alignHorizontalMiddle();
+}
+
+void UMLApp::slotAlignVerticalDistribute() {
+    getCurrentView()->alignVerticalDistribute();
+}
+
+void UMLApp::slotAlignHorizontalDistribute() {
+    getCurrentView()->alignHorizontalDistribute();
+}
+
 WorkToolBar* UMLApp::getWorkToolBar() {
     return toolsbar;
 }
@@ -1106,18 +1171,19 @@ void UMLApp::slotCopyChanged() {
 
 void UMLApp::slotPrefs() {
 
-    Settings::OptionState& optionState = Settings::getOptionState();
+       Settings::OptionState& optionState = Settings::getOptionState();
 
-    m_dlg = new SettingsDlg(this, &optionState);
-    connect(m_dlg, SIGNAL( applyClicked() ), this, SLOT( slotApplyPrefs() ) );
+       m_dlg = new SettingsDlg(this, &optionState);
+       connect(m_dlg, SIGNAL( applyClicked() ), this, SLOT( slotApplyPrefs() ) );
 
 
-    if ( m_dlg->exec() == QDialog::Accepted && m_dlg->getChangesApplied() ) {
-        slotApplyPrefs();
-    }
+       if ( m_dlg->exec() == QDialog::Accepted && m_dlg->getChangesApplied() ) {
+           slotApplyPrefs();
+       }
 
-    delete m_dlg;
-    m_dlg = NULL;
+       delete m_dlg;
+       m_dlg = NULL;
+
 }
 
 void UMLApp::slotApplyPrefs() {
@@ -1650,8 +1716,7 @@ void UMLApp::slotDeleteDiagram() {
 
 Uml::Programming_Language UMLApp::getDefaultLanguage() {
     Settings::OptionState& optionState = Settings::getOptionState();
-    QString defaultLanguage = optionState.generalState.defaultLanguage;
-    return Model_Utils::stringToProgLang(defaultLanguage);
+    return optionState.generalState.defaultLanguage;
 }
 
 void UMLApp::initGenerator() {

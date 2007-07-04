@@ -227,7 +227,7 @@ void SettingsDlg::setupGeneralPage() {
         m_GeneralWidgets.languageKB->insertItem(language, indexCounter);
         indexCounter++;
     }
-    m_GeneralWidgets.languageKB->setCurrentIndex(Model_Utils::stringToProgLang(m_pOptionState->generalState.defaultLanguage));
+    m_GeneralWidgets.languageKB->setCurrentIndex(m_pOptionState->generalState.defaultLanguage);
 
 }
 
@@ -437,7 +437,7 @@ void SettingsDlg::applyPage( KPageWidgetItem*item ) {
         m_pOptionState->generalState.autosavesuffix = m_GeneralWidgets.autosaveSuffixT -> text();
 	m_pOptionState->generalState.loadlast = m_GeneralWidgets.loadlastCB -> isChecked();
         m_pOptionState->generalState.diagram  = (Uml::Diagram_Type)(m_GeneralWidgets.diagramKB->currentItem() + 1);
-        m_pOptionState->generalState.defaultLanguage = Model_Utils::progLangToString( ( Uml::Programming_Language )( m_GeneralWidgets.languageKB->currentItem() ) );
+        m_pOptionState->generalState.defaultLanguage = ( Uml::Programming_Language )( m_GeneralWidgets.languageKB->currentItem()  );
 
     }
     else if ( item == pageFont )

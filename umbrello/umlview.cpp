@@ -32,6 +32,8 @@
 #include <qmatrix.h>
 #include <qregexp.h>
 #include <q3paintdevicemetrics.h>
+#include <qvector.h>
+
 //Added by qt3to4:
 #include <QTextStream>
 #include <QHideEvent>
@@ -3557,5 +3559,269 @@ bool UMLView::loadUISDiagram(QDomElement & qElement) {
     return true;
 }
 
+
+void UMLView::alignLeft() {
+    UMLWidgetList widgetList;
+    getSelectedWidgets( widgetList );
+    int smallestX = getSmallestX(widgetList);
+
+    UMLWidget* widget;
+    UMLWidgetListIt it(widgetList);
+
+    it.toFirst();
+    while ((widget = it.current()) != 0) {
+        ++it;
+        widget->setX(smallestX);
+    }
+}
+
+void UMLView::alignRight() {
+    UMLWidgetList widgetList;
+    getSelectedWidgets( widgetList );
+    int biggestX = getBiggestX(widgetList);
+
+    UMLWidget* widget;
+    UMLWidgetListIt it(widgetList);
+
+    it.toFirst();
+    while ((widget = it.current()) != 0) {
+        ++it;
+        widget->setX(biggestX - widget->getWidth());
+    }
+}
+
+void UMLView::alignTop() {
+    UMLWidgetList widgetList;
+    getSelectedWidgets( widgetList );
+    int smallestY = getSmallestY(widgetList);
+
+    UMLWidget* widget;
+    UMLWidgetListIt it(widgetList);
+
+    it.toFirst();
+    while ((widget = it.current()) != 0) {
+        ++it;
+        widget->setY(smallestY);
+    }
+}
+
+void UMLView::alignBottom() {
+    UMLWidgetList widgetList;
+    getSelectedWidgets( widgetList );
+    int biggestY = getBiggestY(widgetList);
+
+    UMLWidget* widget;
+    UMLWidgetListIt it(widgetList);
+
+    it.toFirst();
+    while ((widget = it.current()) != 0) {
+        ++it;
+        widget->setY(biggestY - widget->getHeight());
+    }
+}
+
+void UMLView::alignVerticalMiddle() {
+    UMLWidgetList widgetList;
+    getSelectedWidgets( widgetList );
+    int smallestX = getSmallestX(widgetList);
+    int biggestX = getBiggestX(widgetList);
+    int middle = int((biggestX - smallestX) / 2) + smallestX;
+
+    UMLWidget* widget;
+    UMLWidgetListIt it(widgetList);
+
+    it.toFirst();
+    while ((widget = it.current()) != 0) {
+        ++it;
+        widget->setX(middle - int(widget->getWidth() / 2));
+    }
+}
+
+void UMLView::alignHorizontalMiddle() {
+    UMLWidgetList widgetList;
+    getSelectedWidgets( widgetList );
+    int smallestY = getSmallestY(widgetList);
+    int biggestY = getBiggestY(widgetList);
+    int middle = int((biggestY - smallestY) / 2) + smallestY;
+
+    UMLWidget* widget;
+    UMLWidgetListIt it(widgetList);
+
+    it.toFirst();
+    while ((widget = it.current()) != 0) {
+        ++it;
+        widget->setY(middle - int(widget->getHeight() / 2));
+    }
+}
+
+void UMLView::alignVerticalDistribute() {
+    UMLWidgetList widgetList;
+    getSelectedWidgets( widgetList );
+    int smallestY = getSmallestY(widgetList);
+    int biggestY = getBiggestY(widgetList);
+    int heightsSum = getHeightsSum(widgetList);
+    int distance = int(((biggestY - smallestY) - heightsSum) / (widgetList.count()-1.0) + 0.5);
+
+    sortWidgetList(widgetList, hasWidgetSmallerY);
+
+    UMLWidget* widget;
+    UMLWidgetListIt it(widgetList);
+
+    it = UMLWidgetListIt(widgetList);
+
+    UMLWidget* widgetPrev = it.toFirst();
+    ++it;
+    while ((widget = it.current()) != 0) {
+        ++it;
+        widget->setY(widgetPrev->getY() + widgetPrev->getHeight() + distance);
+        widgetPrev = widget;
+    }
+}
+
+void UMLView::alignHorizontalDistribute() {
+    UMLWidgetList widgetList;
+    getSelectedWidgets( widgetList );
+    int smallestX = getSmallestX(widgetList);
+    int biggestX = getBiggestX(widgetList);
+    int widthsSum = getWidthsSum(widgetList);
+    int distance = int(((biggestX - smallestX) - widthsSum) / (widgetList.count()-1.0) + 0.5);
+
+    sortWidgetList(widgetList, hasWidgetSmallerX);
+
+    UMLWidget* widget;
+    UMLWidgetListIt it(widgetList);
+
+    it = UMLWidgetListIt(widgetList);
+
+    UMLWidget* widgetPrev = it.toFirst();
+    ++it;
+    while ((widget = it.current()) != 0) {
+        ++it;
+        widget->setX(widgetPrev->getX() + widgetPrev->getWidth() + distance);
+        widgetPrev = widget;
+    }
+
+}
+
+bool UMLView::hasWidgetSmallerX(const UMLWidget* widget1, const UMLWidget* widget2) {
+    return widget1->getX() < widget2->getX();
+}
+
+bool UMLView::hasWidgetSmallerY(const UMLWidget* widget1, const UMLWidget* widget2) {
+    return widget1->getY() < widget2->getY();
+}
+
+int UMLView::getSmallestX(const UMLWidgetList &widgetList) {
+    UMLWidgetListIt it(widgetList);
+    UMLWidget* widget;
+
+    int smallestX = it.toFirst()->getX();
+    ++it;
+
+    while ((widget = it.current()) != 0) {
+        ++it;
+        if (smallestX > widget->getX())
+            smallestX = widget->getX();
+    }
+
+    return smallestX;
+}
+
+int UMLView::getSmallestY(const UMLWidgetList &widgetList) {
+    UMLWidgetListIt it(widgetList);
+    UMLWidget* widget;
+
+    int smallestY = it.toFirst()->getY();
+    ++it;
+
+    while ((widget = it.current()) != 0) {
+        ++it;
+        if (smallestY > widget->getY())
+            smallestY = widget->getY();
+    }
+
+    return smallestY;
+}
+
+int UMLView::getBiggestX(const UMLWidgetList &widgetList) {
+    UMLWidgetListIt it(widgetList);
+    UMLWidget* widget;
+
+    int biggestX = it.toFirst()->getX();
+    biggestX += it.current()->getWidth();
+    ++it;
+
+    while ((widget = it.current()) != 0) {
+        ++it;
+        if (biggestX < widget->getX() + widget->getWidth())
+            biggestX = widget->getX() + widget->getWidth();
+    }
+
+    return biggestX;
+}
+
+int UMLView::getBiggestY(const UMLWidgetList &widgetList) {
+    UMLWidgetListIt it(widgetList);
+    UMLWidget* widget;
+
+    int biggestY = it.toFirst()->getY();
+    biggestY += it.current()->getHeight();
+    ++it;
+
+    while ((widget = it.current()) != 0) {
+        ++it;
+        if (biggestY < widget->getY() + widget->getHeight())
+            biggestY = widget->getY() + widget->getHeight();
+    }
+
+    return biggestY;
+}
+
+int UMLView::getHeightsSum(const UMLWidgetList &widgetList) {
+    UMLWidget* widget;
+    UMLWidgetListIt it(widgetList);
+
+    int heightsSum = 0;
+
+    it.toFirst();
+    while ((widget = it.current()) != 0) {
+        ++it;
+        heightsSum += widget->getHeight();
+    }
+
+    return heightsSum;
+}
+
+int UMLView::getWidthsSum(const UMLWidgetList &widgetList) {
+    UMLWidget* widget;
+    UMLWidgetListIt it(widgetList);
+
+    int widthsSum = 0;
+
+    it.toFirst();
+    while ((widget = it.current()) != 0) {
+        ++it;
+        widthsSum += widget->getWidth();
+    }
+
+    return widthsSum;
+}
+
+template<typename Compare>
+void UMLView::sortWidgetList(UMLWidgetList &widgetList, Compare comp) {
+    QVector<UMLWidget*> widgetVector;
+    UMLWidgetListIt it(widgetList);
+    while (it.current() != 0) {
+        widgetVector.push_back(*it);
+        ++it;
+    }
+    qSort(widgetVector.begin(), widgetVector.end(), comp);
+
+    widgetList.clear();
+
+    for (QVector<UMLWidget*>::iterator it=widgetVector.begin(); it != widgetVector.end(); ++it) {
+        widgetList.append(*it);
+    }
+}
 
 #include "umlview.moc"
