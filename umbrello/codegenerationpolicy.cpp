@@ -409,9 +409,8 @@ void CodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
     setCodeVerboseDocumentComments(UmbrelloSettings::forceDoc());
     setCodeVerboseSectionComments(UmbrelloSettings::forceSections());
     setLineEndingType(UmbrelloSettings::lineEndingType());
-    setIndentationType(UmbrelloSettings::indentationType());
-    setIndentationAmount(UmbrelloSettings::indentationAmount());
-
+    m_indentationType = UmbrelloSettings::indentationType();
+    m_indentationAmount = UmbrelloSettings::indentationAmount();
     calculateIndentation();
 
     QString path = UmbrelloSettings::outputDirectory();
