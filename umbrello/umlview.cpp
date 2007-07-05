@@ -848,7 +848,7 @@ AssociationWidget * UMLView::findAssocWidget(UMLWidget *pWidgetA,
 }
 
 
-AssociationWidget * UMLView::findAssocWidget(Association_Type at,
+AssociationWidget * UMLView::findAssocWidget(Uml::Association_Type at,
         UMLWidget *pWidgetA, UMLWidget *pWidgetB) {
     AssociationWidget *assoc;
     AssociationWidgetListIt it(m_AssociationList);

@@ -332,7 +332,7 @@ bool CodeGenerationPolicy::getAutoGenerateConstructors( ){
     return m_autoGenerateConstructors;
 }
 
-void CodeGenerationPolicy::setAttributeAccessorScope(CodeGenerationPolicy::ScopePolicy var) {
+void CodeGenerationPolicy::setAttributeAccessorScope(ScopePolicy var) {
     m_attributeAccessorScope = var;
     emit modifiedCodeContent();
 }
@@ -341,7 +341,7 @@ CodeGenerationPolicy::ScopePolicy CodeGenerationPolicy::getAttributeAccessorScop
     return m_attributeAccessorScope;
 }
 
-void CodeGenerationPolicy::setAssociationFieldScope(CodeGenerationPolicy::ScopePolicy var) {
+void CodeGenerationPolicy::setAssociationFieldScope(ScopePolicy var) {
     m_associationFieldScope = var;
     emit modifiedCodeContent();
 }

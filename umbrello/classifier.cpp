@@ -656,7 +656,7 @@ UMLOperationList UMLClassifier::getOpList(bool includeInherited) {
     return ops;
 }
 
-UMLClassifierListItemList UMLClassifier::getFilteredList(Object_Type ot) {
+UMLClassifierListItemList UMLClassifier::getFilteredList(Uml::Object_Type ot) {
     UMLClassifierListItemList resultList;
     UMLObject *o;
     for (UMLObjectListIt lit(m_List); (o = lit.current()) != NULL; ++lit) {

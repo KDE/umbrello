@@ -131,6 +131,7 @@ public:
      * Sets the related widget on the given side.
      *
      * @param ow        The ObjectWidget we are related to.
+     * @param role      The Uml::Role_Type to be set for the ObjectWidget
      */
     void setWidget(ObjectWidget * ow, Uml::Role_Type role) ;
 

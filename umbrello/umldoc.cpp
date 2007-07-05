@@ -655,7 +655,7 @@ UMLView * UMLDoc::findView(Uml::IDType id) {
     return v;
 }
 
-UMLView * UMLDoc::findView(Diagram_Type type, const QString &name,
+UMLView * UMLDoc::findView(Uml::Diagram_Type type, const QString &name,
                            bool searchAllScopes /* =false */) {
     Uml::Model_Type mt = Model_Utils::convert_DT_MT(type);
     return m_root[mt]->findView(type, name, searchAllScopes);
@@ -683,7 +683,7 @@ UMLStereotype * UMLDoc::findStereotypeById(Uml::IDType id) {
 }
 
 UMLObject* UMLDoc::findUMLObject(const QString &name,
-                                 Object_Type type /* = ot_UMLObject */,
+                                 Uml::Object_Type type /* = ot_UMLObject */,
                                  UMLObject *currentObj /* = NULL */) {
     UMLObject *o = m_datatypeRoot->findObject(name);
     if (o)
@@ -919,7 +919,7 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
     setModified(true);
 }
 
-QString UMLDoc::uniqViewName(const Diagram_Type type) {
+QString UMLDoc::uniqViewName(const Uml::Diagram_Type type) {
     QString dname;
     if(type == dt_UseCase)
         dname = i18n("use case diagram");
@@ -957,7 +957,7 @@ void UMLDoc::setLoading(bool state /* = true */) {
     m_bLoading = state;
 }
 
-UMLView* UMLDoc::createDiagram(UMLFolder *folder, Diagram_Type type, bool askForName /*= true */) {
+UMLView* UMLDoc::createDiagram(UMLFolder *folder, Uml::Diagram_Type type, bool askForName /*= true */) {
     bool ok = true;
     QString name,
     dname = uniqViewName(type);
