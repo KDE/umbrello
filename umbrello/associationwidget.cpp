@@ -659,7 +659,7 @@ bool AssociationWidget::activate() {
 }
 
 /** This function calculates which role should be set for the m_pName FloatingTextWidget */
-Uml::Text_Role AssociationWidget::CalculateNameType(Text_Role defaultRole) {
+Uml::Text_Role AssociationWidget::CalculateNameType(Uml::Text_Role defaultRole) {
 
     Text_Role result = defaultRole;
     if( m_pView -> getType() == dt_Collaboration ) {
@@ -1828,7 +1828,7 @@ float AssociationWidget::perpendicularProjection(const QPoint& P1, const QPoint&
     return distance;
 }
 
-QPoint AssociationWidget::calculateTextPosition(Text_Role role) {
+QPoint AssociationWidget::calculateTextPosition(Uml::Text_Role role) {
     const int SPACE = 2;
     QPoint p(-1, -1), q(-1, -1);
 
@@ -2099,7 +2099,7 @@ void AssociationWidget::calculateNameTextSegment() {
     }
 }
 
-void AssociationWidget::setTextPosition(Text_Role role) {
+void AssociationWidget::setTextPosition(Uml::Text_Role role) {
     bool startMove = false;
     if( m_role[A].m_pMulti && m_role[A].m_pMulti->getStartMove() )
         startMove = true;
@@ -2136,7 +2136,7 @@ void AssociationWidget::setTextPosition(Text_Role role) {
     ft->setY( y );
 }
 
-void AssociationWidget::setTextPositionRelatively(Text_Role role, const QPoint &oldPosition) {
+void AssociationWidget::setTextPositionRelatively(Uml::Text_Role role, const QPoint &oldPosition) {
     bool startMove = false;
     if( m_role[A].m_pMulti && m_role[A].m_pMulti->getStartMove() )
         startMove = true;

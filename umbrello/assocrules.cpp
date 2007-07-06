@@ -263,7 +263,7 @@ bool AssocRules::allowRole( Uml::Association_Type assocType ) {
     return false;
 }
 
-bool AssocRules::allowMultiplicity( Uml::Association_Type assocType, Widget_Type widgetType ) {
+bool AssocRules::allowMultiplicity( Uml::Association_Type assocType, Uml::Widget_Type widgetType ) {
     for( int i = 0; i < m_nNumRules; i++ )
         if( assocType == m_AssocRules[ i ].assoc_type )
             if( widgetType == m_AssocRules[ i ].widgetA_type || widgetType == m_AssocRules[ i ].widgetB_type )
@@ -271,7 +271,7 @@ bool AssocRules::allowMultiplicity( Uml::Association_Type assocType, Widget_Type
     return false;
 }
 
-bool AssocRules::allowSelf( Uml::Association_Type assocType, Widget_Type widgetType ) {
+bool AssocRules::allowSelf( Uml::Association_Type assocType, Uml::Widget_Type widgetType ) {
     for( int i = 0; i < m_nNumRules; i++ )
         if( assocType == m_AssocRules[ i ].assoc_type )
             if( widgetType == m_AssocRules[ i ].widgetA_type || widgetType == m_AssocRules[ i ].widgetB_type )
