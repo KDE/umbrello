@@ -308,7 +308,8 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
             stringOrNodeOpener = shift(tokens);
         } else if (stringOrNodeOpener != "(") {
             value.string = stringOrNodeOpener;
-            PetalNode::NameValue attr(QString(), value);
+            PetalNode::NameValue attr;
+            attr.second = value;
             attrs.append(attr);
             if (tokens.count() && tokens.first() != ")") {
                 kDebug() << loc()
