@@ -153,7 +153,7 @@ public:
      *
      * @return  The number of entityAttributes for the class.
      */
-    int entityAttributes();
+    int entityAttributes() ;
 
     /**
      * Sets the UniqueConstraint passed as the Primary Key of this Entity
@@ -178,14 +178,14 @@ public:
      *
      * @return true if a Primary Key Exists for this UMLEntity
      */
-    bool hasPrimaryKey();
+    bool hasPrimaryKey() const;
 
     /**
      * Checks if a given Unique Constraint is primary key of this entity
      * @param uConstr A Unique Constraint
      * @return bool true if passed paramater is a primary key of this entity
      */
-    bool isPrimaryKey(UMLUniqueConstraint* uConstr);
+    bool isPrimaryKey(UMLUniqueConstraint* uConstr) const;
 
     /**
      * Adds a Constraint to this UMLEntity
@@ -220,13 +220,13 @@ public:
     /**
      * Reimplementation of getFilteredList to support ot=Uml::ot_EntityConstraint
      */
-    UMLClassifierListItemList getFilteredList(Uml::Object_Type ot);
+    UMLClassifierListItemList getFilteredList(Uml::Object_Type ot) const;
 
     /**
      * Returns the Entity Attributes
      * Same as getFilteredList(Uml::ot_EntityAttribute)
      */
-    UMLEntityAttributeList getEntityAttributes();
+    UMLEntityAttributeList getEntityAttributes() const;
 
 private slots:
     void slotEntityAttributeRemoved(UMLClassifierListItem*);

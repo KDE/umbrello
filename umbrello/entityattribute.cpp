@@ -44,7 +44,7 @@ void UMLEntityAttribute::init() {
     m_null = false;
 }
 
-QString UMLEntityAttribute::getAttributes() {
+QString UMLEntityAttribute::getAttributes() const{
     return m_attributes;
 }
 
@@ -52,7 +52,7 @@ void UMLEntityAttribute::setAttributes(const QString& attributes) {
     m_attributes = attributes;
 }
 
-QString UMLEntityAttribute::getValues() {
+QString UMLEntityAttribute::getValues() const{
     return m_values;
 }
 
@@ -60,7 +60,7 @@ void UMLEntityAttribute::setValues(const QString& values) {
     m_values = values;
 }
 
-bool UMLEntityAttribute::getAutoIncrement() {
+bool UMLEntityAttribute::getAutoIncrement() const{
     return m_autoIncrement;
 }
 
@@ -68,7 +68,7 @@ void UMLEntityAttribute::setAutoIncrement(const bool autoIncrement) {
     m_autoIncrement = autoIncrement;
 }
 
-Uml::DBIndex_Type UMLEntityAttribute::getIndexType() {
+Uml::DBIndex_Type UMLEntityAttribute::getIndexType() const{
     return m_indexType;
 }
 
@@ -76,7 +76,7 @@ void UMLEntityAttribute::setIndexType(const Uml::DBIndex_Type indexType) {
     m_indexType = indexType;
 }
 
-bool UMLEntityAttribute::getNull() {
+bool UMLEntityAttribute::getNull() const{
     return m_null;
 }
 
@@ -174,5 +174,5 @@ bool UMLEntityAttribute::showPropertiesDialog(QWidget* parent) {
     return dialog.exec();
 }
 
-
+#include "entityattribute.moc"
 

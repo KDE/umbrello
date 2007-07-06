@@ -117,7 +117,7 @@ public:
     /**
      * Get the Entity Attributes List
      */
-    UMLEntityAttributeList getEntityAttributeList(){
+    UMLEntityAttributeList getEntityAttributeList() const {
 	return m_EntityAttributeList;
     }
 

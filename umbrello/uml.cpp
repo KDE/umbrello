@@ -86,7 +86,6 @@
 
 #include "cmds.h"
 #include "umbrellosettings.h"
-#include "kconfigdialog.h"
 
 /// @todo This is an ugly _HACK_ to allow to compile umbrello.
 /// All the menu stuff should be ported to KDE4 (using actions)

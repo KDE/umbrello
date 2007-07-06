@@ -55,20 +55,6 @@ public:
     enum CommentStyle { SingleLine=0, MultiLine };
     enum ScopePolicy { Public=200, Private, Protected, FromParent };
 
-/*    // set some reasonable defaults
-    OverwritePolicy  defaultOverwritePolicy()          const;
-    bool             defaultVerboseSectionComments()   const;
-    bool             defaultVerboseDocumentComments()  const;
-    bool             defaultIncludeHeadings()          const;
-    NewLineType      defaultLineEndingType()           const;
-    IndentationType  defaultIndentType()               const;
-    int              defaultIndentAmount()             const;
-    ModifyNamePolicy defaultModifyNamePolicy()         const;
-    CommentStyle     defaultCommentStyle()             const;
-    ScopePolicy      defaultAttribAccessorScope()      const;
-    ScopePolicy      defaultAssocFieldScope()          const;
-    bool             defaultAutoGenerateConstructors() const;
-*/
     // Constructors/Destructors
     //
 

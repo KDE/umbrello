@@ -199,7 +199,7 @@ bool UMLForeignKeyConstraint::removeEntityAttributePair(UMLEntityAttribute* /*ke
 
 }
 
-bool UMLForeignKeyConstraint::hasEntityAttributePair(UMLEntityAttribute* pAttr,UMLEntityAttribute* rAttr) {
+bool UMLForeignKeyConstraint::hasEntityAttributePair(UMLEntityAttribute* pAttr,UMLEntityAttribute* rAttr) const {
 
     if ( m_AttributeMap.contains( pAttr ) ) {
         if ( m_AttributeMap.value( pAttr ) == rAttr ) {

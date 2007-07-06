@@ -96,7 +96,7 @@ public:
      */
     void setReferencedEntity(UMLEntity* ent);
 
-    UMLEntity* getReferencedEntity(){
+    UMLEntity* getReferencedEntity() const {
         return m_ReferencedEntity;    
     }
 
@@ -133,7 +133,7 @@ public:
      * @param rAttr The Attribute of the Referenced Entity
      * @return true if the attribute pair could be found. 
      */
-    bool hasEntityAttributePair(UMLEntityAttribute* pAttr,UMLEntityAttribute* rAttr);
+    bool hasEntityAttributePair(UMLEntityAttribute* pAttr,UMLEntityAttribute* rAttr) const;
 
     /**
      * Retrieve all Pairs of Attributes
@@ -145,14 +145,14 @@ public:
     /**
      * Get the Delete Action 
      */
-    UpdateDeleteAction getDeleteAction(){
+    UpdateDeleteAction getDeleteAction() const {
         return m_DeleteAction;      
     }
 
     /**
      * Get the Update Action 
      */
-    UpdateDeleteAction getUpdateAction(){
+    UpdateDeleteAction getUpdateAction() const {
         return m_UpdateAction;       
     }
 

@@ -89,7 +89,7 @@ public:
     /**
      * Returns a string represention of the condition that this constraint is checking
      */
-    QString getCheckCondition() {
+    QString getCheckCondition() const {
         return m_CheckCondition;
     }
 

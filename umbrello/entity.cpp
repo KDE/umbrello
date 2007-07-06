@@ -438,7 +438,7 @@ void UMLEntity::unsetPrimaryKey() {
     m_PrimaryKey = NULL;
 }
 
-bool UMLEntity::hasPrimaryKey() {
+bool UMLEntity::hasPrimaryKey() const{
     if ( m_PrimaryKey == NULL ) {
         return false;
     }
@@ -504,7 +504,7 @@ void UMLEntity::slotEntityAttributeRemoved(UMLClassifierListItem* cli){
 
 }
 
-UMLClassifierListItemList UMLEntity::getFilteredList(Uml::Object_Type ot){
+UMLClassifierListItemList UMLEntity::getFilteredList(Uml::Object_Type ot) const{
 
     if ( ot == Uml::ot_EntityConstraint ) {
         UMLClassifierListItemList ucList,fcList,ccList, rcList;
@@ -535,7 +535,7 @@ UMLClassifierListItemList UMLEntity::getFilteredList(Uml::Object_Type ot){
     }
 }
 
-bool UMLEntity::isPrimaryKey(UMLUniqueConstraint* uConstr){
+bool UMLEntity::isPrimaryKey(UMLUniqueConstraint* uConstr) const{
     if ( uConstr == m_PrimaryKey ) {
         return true;
     }
@@ -543,7 +543,7 @@ bool UMLEntity::isPrimaryKey(UMLUniqueConstraint* uConstr){
     return false;
 }
 
-UMLEntityAttributeList UMLEntity::getEntityAttributes() {
+UMLEntityAttributeList UMLEntity::getEntityAttributes() const{
     UMLEntityAttributeList entityAttributeList;
     for (UMLObjectListIt lit(m_List); lit.current(); ++lit) {
         UMLObject *listItem = lit.current();
