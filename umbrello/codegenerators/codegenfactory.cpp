@@ -103,7 +103,6 @@ namespace CodeGenFactory {
 CodeGenerator* createObject(Uml::Programming_Language pl)  {
     CodeGenerator* obj = 0;
     Settings::OptionState optionState = Settings::getOptionState();
-    UMLApp::app()->setPolicyExt(NULL);
     switch (pl) {
         case Uml::pl_Ada:
             obj = new AdaWriter();
@@ -118,11 +117,6 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
             } else {
                 obj = new CppWriter();
             }
-            {
-                CPPCodeGenerationPolicy *p =
-                    new CPPCodeGenerationPolicy();
-                UMLApp::app()->setPolicyExt(p);
-            }
             break;
         case Uml::pl_CSharp:
             obj = new CSharpWriter();
@@ -131,11 +125,9 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
             if (optionState.generalState.newcodegen) {
                 obj = new DCodeGenerator();
                 obj->connect_newcodegen_slots();
-                DCodeGenerationPolicy *p =
-                    new DCodeGenerationPolicy();
-                UMLApp::app()->setPolicyExt(p);
-            } else
+            } else {
                 obj = new DWriter();
+            }
             break;
         case Uml::pl_IDL:
             obj = new IDLWriter();
@@ -144,11 +136,9 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
             if (optionState.generalState.newcodegen) {
                 obj = new JavaCodeGenerator();
                 obj->connect_newcodegen_slots();
-                JavaCodeGenerationPolicy *p =
-                    new JavaCodeGenerationPolicy();
-                UMLApp::app()->setPolicyExt(p);
-            } else
+            } else {
                 obj = new JavaWriter();
+            }
             break;
         case Uml::pl_JavaScript:
             obj = new JSWriter();
@@ -178,10 +168,7 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
             if (optionState.generalState.newcodegen) {
                 obj = new RubyCodeGenerator();
                 obj->connect_newcodegen_slots();
-                RubyCodeGenerationPolicy *p =
-                    new RubyCodeGenerationPolicy();
-                UMLApp::app()->setPolicyExt(p);
-            } else
+             } else
                 obj = new RubyWriter();
             break;
         case Uml::pl_SQL:
@@ -198,6 +185,8 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
                         << ". Type unknown" << endl;
             break;
     }
+
+    UMLApp::app()->setPolicyExt(CodeGenFactory::newCodeGenPolicyExt(pl));
     if (obj)
         obj->initFromParentDocument();
     return obj;
@@ -407,5 +396,36 @@ CodeComment * newCodeComment (CodeDocument *cd) {
     return new CodeComment(cd);
 }
 
+CodeGenPolicyExt* newCodeGenPolicyExt(Uml::Programming_Language pl) {
+
+    Settings::OptionState optionState = Settings::getOptionState();
+
+    if ( pl == Uml::pl_Cpp )
+        return new CPPCodeGenerationPolicy();
+
+    if ( optionState.generalState.newcodegen ) {
+       switch( pl ) {
+          case Uml::pl_Java:
+              return new JavaCodeGenerationPolicy();
+              break;
+          case Uml::pl_D:
+              return new DCodeGenerationPolicy();
+              break;
+          case Uml::pl_Ruby:
+              return new RubyCodeGenerationPolicy();
+              break;
+          default:
+              return NULL;
+              break;
+        }
+    } else {
+
+        return NULL;
+    }
+
+}
+
+
 }  // end namespace CodeGenFactory
+
 

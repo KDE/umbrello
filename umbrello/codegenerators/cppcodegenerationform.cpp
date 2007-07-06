@@ -29,8 +29,10 @@
 
 
 CPPCodeGenerationForm::CPPCodeGenerationForm( QWidget *parent, const char *name )
-        : CPPCodeGenerationFormBase (parent,name)
+        : QWidget (parent)
 {
+    setObjectName(name);
+    setupUi(this);
     init();
 
     GeneralOptionsListView->addColumn(tr2i18n("General Options"));

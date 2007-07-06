@@ -19,14 +19,14 @@
 #define CODEVIEWEROPTIONSPAGE_H
 
 #include <qwidget.h>
-#include "codevieweroptionsbase.h"
+#include "ui_codevieweroptionsbase.h"
 #include "../codeviewerstate.h"
 
 /**
  * @author Brian Thomas
  */
 
-class CodeViewerOptionsPage : public CodeViewerOptionsBase  {
+class CodeViewerOptionsPage : public QWidget,private Ui::CodeViewerOptionsBase  {
     Q_OBJECT
 public:
     CodeViewerOptionsPage (Settings::CodeViewerState options, QWidget *parent, const char *name=0);

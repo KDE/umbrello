@@ -22,7 +22,7 @@
 #define CODEGENERATIONOPTIONSPAGE_H
 
 #include <qwidget.h>
-#include "codegenerationoptionsbase.h"
+#include "ui_codegenerationoptionsbase.h"
 #include "../codegenerationpolicy.h"
 #include "../umlnamespace.h"
 
@@ -37,14 +37,13 @@ class CodeGenerationPolicyPage;
 // 2003-07-30 : Updated for new code generation system. No longer need Yucky codegenstate
 // structure.
 
-class CodeGenerationOptionsPage : public CodeGenerationOptionsBase  {
+class CodeGenerationOptionsPage : public QWidget, private Ui::CodeGenerationOptionsBase  {
     Q_OBJECT
 public:
     CodeGenerationOptionsPage(QWidget *parent=0);
     ~CodeGenerationOptionsPage();
     void setDefaults();
     QString getCodeGenerationLanguage();
-    void updateCodeGenerationPolicyTab();
     void apply();
 
 protected:
@@ -61,6 +60,7 @@ private:
 
 protected slots:
     void activeLanguageChanged(int id);
+    void updateCodeGenerationPolicyTab();
     void browseClicked();
 
 signals:

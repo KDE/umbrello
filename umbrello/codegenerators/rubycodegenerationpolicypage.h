@@ -21,7 +21,7 @@
 #define RUBYCODEGENERATIONPOLICYPAGE_H
 
 #include "../dialogs/codegenerationpolicypage.h"
-#include "rubycodegenerationformbase.h"
+#include "ui_rubycodegenerationformbase.h"
 
 #include "rubycodegenerationpolicy.h"
 
@@ -39,7 +39,7 @@ public:
 
 protected:
 
-    RubyCodeGenerationFormBase * form;
+    Ui::RubyCodeGenerationFormBase form;
 
 public slots:
 

@@ -15,7 +15,7 @@
 #ifndef CPPCODEGENERATIONFORM_H
 #define CPPCODEGENERATIONFORM_H
 
-#include "cppcodegenerationformbase.h"
+#include "ui_cppcodegenerationformbase.h"
 
 class Q3CheckListItem;
 
@@ -23,7 +23,7 @@ class Q3CheckListItem;
  * @author Brian Thomas
  */
 
-class CPPCodeGenerationForm : public CPPCodeGenerationFormBase {
+class CPPCodeGenerationForm : public QWidget,private Ui::CPPCodeGenerationFormBase {
     Q_OBJECT
 public:
 
@@ -128,6 +128,7 @@ private slots:
 
 private:
 
+    friend class CPPCodeGenerationPolicyPage;
     /*
      * check boxes for the available options
      */

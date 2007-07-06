@@ -30,7 +30,7 @@
 #include <QHBoxLayout>
 #include <QGridLayout>
 #include "../codeviewerstate.h"
-#include "codeviewerdialogbase.h"
+#include "ui_codeviewerdialogbase.h"
 
 class CodeDocument;
 class QVBoxLayout;
@@ -42,7 +42,7 @@ class QGridLayout;
   * that works, and thats all we need. In the future, a re-write is mandated to
   * bring a bit of beauty to this beast. -b.t.
   */
-class CodeViewerDialog : public CodeViewerDialogBase
+class CodeViewerDialog : public QDialog, private Ui::CodeViewerDialogBase
 {
     Q_OBJECT
 public:
@@ -66,6 +66,8 @@ protected:
     bool close ( bool alsoDelete );
 
 private:
+
+    friend class CodeEditor;
 
     Settings::CodeViewerState m_state;
 

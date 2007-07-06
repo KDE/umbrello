@@ -29,7 +29,12 @@ ExportAllViewsDialog::ExportAllViewsDialog(
         bool modal /* = false */,
         Qt::WindowFlags fl /* = 0*/,
         const QString &defaultMimeType /*= "image/png"*/)
-  : ExportAllViewsDialogBase(parent,name, modal,fl) {
+  : QDialog(parent,fl) {
+
+    setObjectName(name);
+    setModal(modal);
+    setupUi(this);
+
     // create and initialize m_imageType
     m_imageType = new KFileFilterCombo(this);
     m_imageType->setSizePolicy(QSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed, 0, 0, m_imageType->sizePolicy().hasHeightForWidth()));
@@ -47,7 +52,7 @@ ExportAllViewsDialog::ExportAllViewsDialog(
 }
 
 void ExportAllViewsDialog::languageChange() {
-    ExportAllViewsDialogBase::languageChange();
+    //ExportAllViewsDialogBase::languageChange();
     m_imageType->setToolTip(i18n("The format that the images will be exported to"));
 }
 

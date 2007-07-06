@@ -26,7 +26,6 @@
 #include <kdebug.h>
 #include <klocale.h>
 // app includes
-#include "rubycodegenerationformbase.h"
 #include "../codegenerationpolicy.h"
 #include "../uml.h"
 
@@ -34,13 +33,13 @@ RubyCodeGenerationPolicyPage::RubyCodeGenerationPolicyPage( QWidget *parent, con
   : CodeGenerationPolicyPage(parent, name, policy)
 {
     CodeGenerationPolicy *common = UMLApp::app()->getCommonPolicy();
-    form = new RubyCodeGenerationFormBase(this);
-    form->m_SelectCommentStyle->setCurrentItem((int)(common->getCommentStyle()));
-    form->m_generateConstructors->setChecked(common->getAutoGenerateConstructors());
-    form->m_generateAttribAccessors->setChecked(policy->getAutoGenerateAttribAccessors());
-    form->m_generateAssocAccessors->setChecked(policy->getAutoGenerateAssocAccessors());
-    form->m_accessorScopeCB->setCurrentItem((common->getAttributeAccessorScope() - 200));
-    form->m_assocFieldScopeCB->setCurrentItem((common->getAssociationFieldScope() - 200));
+    form.setupUi(this);
+    form.m_SelectCommentStyle->setCurrentItem((int)(common->getCommentStyle()));
+    form.m_generateConstructors->setChecked(common->getAutoGenerateConstructors());
+    form.m_generateAttribAccessors->setChecked(policy->getAutoGenerateAttribAccessors());
+    form.m_generateAssocAccessors->setChecked(policy->getAutoGenerateAssocAccessors());
+    form.m_accessorScopeCB->setCurrentItem((common->getAttributeAccessorScope() - 200));
+    form.m_assocFieldScopeCB->setCurrentItem((common->getAssociationFieldScope() - 200));
 }
 
 RubyCodeGenerationPolicyPage::~RubyCodeGenerationPolicyPage()
@@ -57,12 +56,12 @@ void RubyCodeGenerationPolicyPage::apply()
     // block signals so we don't cause too many update content calls to code documents
     parent->blockSignals(true);
 
-    common->setCommentStyle((CodeGenerationPolicy::CommentStyle) form->m_SelectCommentStyle->currentItem());
-    common->setAttributeAccessorScope((CodeGenerationPolicy::ScopePolicy) (form->m_accessorScopeCB->currentItem()+200));
-    common->setAssociationFieldScope((CodeGenerationPolicy::ScopePolicy) (form->m_assocFieldScopeCB->currentItem()+200));
-    common->setAutoGenerateConstructors(form->m_generateConstructors->isChecked());
-    parent->setAutoGenerateAttribAccessors(form->m_generateAttribAccessors->isChecked());
-    parent->setAutoGenerateAssocAccessors(form->m_generateAssocAccessors->isChecked());
+    common->setCommentStyle((CodeGenerationPolicy::CommentStyle) form.m_SelectCommentStyle->currentItem());
+    common->setAttributeAccessorScope((CodeGenerationPolicy::ScopePolicy) (form.m_accessorScopeCB->currentItem()+200));
+    common->setAssociationFieldScope((CodeGenerationPolicy::ScopePolicy) (form.m_assocFieldScopeCB->currentItem()+200));
+    common->setAutoGenerateConstructors(form.m_generateConstructors->isChecked());
+    parent->setAutoGenerateAttribAccessors(form.m_generateAttribAccessors->isChecked());
+    parent->setAutoGenerateAssocAccessors(form.m_generateAssocAccessors->isChecked());
 
     parent->blockSignals(false);
 

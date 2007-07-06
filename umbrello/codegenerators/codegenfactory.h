@@ -21,6 +21,7 @@ class ClassifierCodeDocument;
 class CodeOperation;
 class CodeClassField;
 class CodeClassFieldDeclarationBlock;
+class CodeGenPolicyExt;
 class UMLClassifier;
 class UMLOperation;
 class UMLAttribute;
@@ -114,6 +115,14 @@ namespace CodeGenFactory {
      * Currently unused (for possible future use)
      */
     CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier);
+
+    /**
+     * Returns the CodeGenPolicyExt for the given Uml::Programming_Language
+     *
+     * @param pl The Uml::Programming_Language for which we have to create the CodeGenPolicyExt
+     * @return A Language Specific CodeGenPolicyExt if the Language supports it else NULL
+     */
+    CodeGenPolicyExt* newCodeGenPolicyExt(Uml::Programming_Language pl);
 }
 
 #endif //CODEGENFACTORY_H

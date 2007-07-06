@@ -100,11 +100,12 @@ set(libcodegenerator_SRCS
 )
 
 kde4_add_ui3_files( libcodegenerator_SRCS
-	${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/cppcodegenerationformbase.ui
-	${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/rubycodegenerationformbase.ui
+
 )
 
 kde4_add_ui_files(  libcodegenerator_SRCS
+	${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/cppcodegenerationformbase.ui
+	${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/rubycodegenerationformbase.ui
 	${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/dcodegenerationformbase.ui
 	${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/javacodegenerationformbase.ui
 )
@@ -161,6 +162,12 @@ set(libdialogs_SRCS
 	dialogs/umlwidgetcolorpage.cpp )
 
 kde4_add_ui3_files( libdialogs_SRCS
+
+
+
+)
+
+kde4_add_ui_files(  libdialogs_SRCS 
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codegenerationoptionsbase.ui 
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codegenerationpolicybase.ui 
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codegenerationwizardbase.ui 
@@ -168,9 +175,6 @@ kde4_add_ui3_files( libdialogs_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codevieweroptionsbase.ui 
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/exportallviewsdialogbase.ui 
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/importprojectdlgbase.ui 
-)
-
-kde4_add_ui_files(  libdialogs_SRCS 
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/umlrolepropertiesbase.ui
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/diagrampropertiespage.ui
 )

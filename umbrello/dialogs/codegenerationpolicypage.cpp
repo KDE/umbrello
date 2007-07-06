@@ -30,8 +30,10 @@
  * code generator.
  */
 CodeGenerationPolicyPage::CodeGenerationPolicyPage( QWidget *parent, const char *name, CodeGenPolicyExt * policy )
-        :CodeGenerationPolicyBase(parent,name)
+        :QWidget( parent )
 {
+    setObjectName(name);
+    setupUi(this);
     m_parentPolicy = policy;
 }
 

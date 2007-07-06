@@ -33,9 +33,12 @@
 CodeViewerDialog::CodeViewerDialog ( QWidget* parent, CodeDocument * doc,
                                      Settings::CodeViewerState state,
                                      const char* name, bool modal, Qt::WFlags fl )
-        : CodeViewerDialogBase ( parent, name, modal, fl )
-
+        : QDialog ( parent, fl )
 {
+    setObjectName(name);
+    setModal(modal);
+    setupUi(this);
+
     m_state = state;
 
     initGUI(name);
@@ -106,7 +109,7 @@ bool CodeViewerDialog::close ( bool alsoDelete )
     m_state.showHiddenBlocks = m_showHiddenCodeCB->isChecked();
 
     // run superclass close now
-    return CodeViewerDialogBase::close(alsoDelete);
+    return QDialog::close();
 
 }
 

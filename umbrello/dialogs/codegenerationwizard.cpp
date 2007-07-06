@@ -41,7 +41,10 @@
 #include "../entity.h"
 
 CodeGenerationWizard::CodeGenerationWizard(UMLClassifierList *classList)
-  : CodeGenerationWizardBase((QWidget*)UMLApp::app()) {
+  : Q3Wizard((QWidget*)UMLApp::app()) {
+
+    setupUi(this);
+
     m_doc = UMLApp::app()->getDocument();
     m_app = UMLApp::app();
     m_availableList -> setAllColumnsShowFocus(true);

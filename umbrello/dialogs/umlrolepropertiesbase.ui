@@ -1,182 +1,248 @@
-<ui version="4.0" stdsetdef="1" >
-  <author></author>
-  <comment></comment>
-  <exportmacro></exportmacro>
-  <class>UMLRolePropertiesBase</class>
-  <widget class="QWidget" name="UMLRolePropertiesBase" >
-    <property name="geometry" >
-      <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>572</width>
-        <height>545</height>
-      </rect>
+<ui version="4.0" >
+ <class>UMLRolePropertiesBase</class>
+ <widget class="QWidget" name="UMLRolePropertiesBase" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>572</width>
+    <height>545</height>
+   </rect>
+  </property>
+  <widget class="QWidget" name="layout6" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>400</width>
+     <height>520</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" >
+    <property name="leftMargin" >
+     <number>0</number>
     </property>
-    <widget class="QWidget" name="layout6" >
-      <property name="geometry" >
-        <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>400</width>
-          <height>520</height>
-        </rect>
+    <property name="topMargin" >
+     <number>0</number>
+    </property>
+    <property name="rightMargin" >
+     <number>0</number>
+    </property>
+    <property name="bottomMargin" >
+     <number>0</number>
+    </property>
+    <item row="0" column="0" >
+     <widget class="QGroupBox" name="propsGroupBox" >
+      <property name="title" >
+       <string>Role Properties</string>
       </property>
-      <layout class="QGridLayout" >
-        <property name="margin" >
-          <number>0</number>
+      <widget class="QWidget" name="layout5" >
+       <property name="geometry" >
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>360</width>
+         <height>70</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" >
+        <property name="leftMargin" >
+         <number>0</number>
+        </property>
+        <property name="topMargin" >
+         <number>0</number>
+        </property>
+        <property name="rightMargin" >
+         <number>0</number>
+        </property>
+        <property name="bottomMargin" >
+         <number>0</number>
         </property>
         <item row="0" column="0" >
-          <widget class="QGroupBox" name="propsGroupBox" >
-            <property name="title" >
-              <string>Role Properties</string>
-            </property>
-            <widget class="QWidget" name="layout5" >
-              <property name="geometry" >
-                <rect>
-                  <x>10</x>
-                  <y>30</y>
-                  <width>360</width>
-                  <height>70</height>
-                </rect>
-              </property>
-              <layout class="QGridLayout" >
-                <property name="margin" >
-                  <number>0</number>
-                </property>
-                <item row="0" column="0" >
-                  <widget class="QLabel" name="roleNameLabel" >
-                    <property name="text" >
-                      <string>Rolename:</string>
-                    </property>
-                    <property name="wordWrap" >
-                      <bool>false</bool>
-                    </property>
-                  </widget>
-                </item>
-                <item row="1" column="1" >
-                  <widget class="QLineEdit" name="m_pMultiLE" />
-                </item>
-                <item row="0" column="1" >
-                  <widget class="QLineEdit" name="m_pRoleLE" />
-                </item>
-                <item row="1" column="0" >
-                  <widget class="QLabel" name="textLabel2" >
-                    <property name="text" >
-                      <string>Multiplicity:</string>
-                    </property>
-                    <property name="wordWrap" >
-                      <bool>false</bool>
-                    </property>
-                  </widget>
-                </item>
-              </layout>
-            </widget>
-          </widget>
+         <widget class="QLabel" name="roleNameLabel" >
+          <property name="text" >
+           <string>Rolename:</string>
+          </property>
+          <property name="wordWrap" >
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
-        <item row="3" column="0" >
-          <widget class="QGroupBox" name="docGroupBox" >
-            <property name="title" >
-              <string>Documentation</string>
-            </property>
-            <layout class="QGridLayout" >
-              <property name="margin" >
-                <number>0</number>
-              </property>
-              <item row="0" column="0" >
-                <widget class="Q3TextEdit" name="m_pDocTE" />
-              </item>
-            </layout>
-          </widget>
+        <item row="1" column="1" >
+         <widget class="QLineEdit" name="m_pMultiLE" />
         </item>
-        <item row="2" column="0" >
-          <widget class="Q3ButtonGroup" name="changeabilityButtonGroup" >
-            <property name="title" >
-              <string>Role Changeability</string>
-            </property>
-            <layout class="QGridLayout" >
-              <property name="margin" >
-                <number>0</number>
-              </property>
-              <item row="0" column="0" >
-                <layout class="QGridLayout" >
-                  <property name="margin" >
-                    <number>0</number>
-                  </property>
-                  <item row="0" column="2" >
-                    <widget class="QRadioButton" name="m_pAddOnlyRB" >
-                      <property name="text" >
-                        <string>Add only</string>
-                      </property>
-                    </widget>
-                  </item>
-                  <item row="0" column="1" >
-                    <widget class="QRadioButton" name="m_pFrozenRB" >
-                      <property name="text" >
-                        <string>Frozen</string>
-                      </property>
-                    </widget>
-                  </item>
-                  <item row="0" column="0" >
-                    <widget class="QRadioButton" name="m_pChangeableRB" >
-                      <property name="text" >
-                        <string>Changeable</string>
-                      </property>
-                      <property name="checked" >
-                        <bool>true</bool>
-                      </property>
-                    </widget>
-                  </item>
-                </layout>
-              </item>
-            </layout>
-          </widget>
+        <item row="0" column="1" >
+         <widget class="QLineEdit" name="m_pRoleLE" />
         </item>
         <item row="1" column="0" >
-          <widget class="Q3ButtonGroup" name="visibilityButtonGroup" >
-            <property name="title" >
-              <string>Role Visibility</string>
-            </property>
-            <layout class="QGridLayout" >
-              <property name="margin" >
-                <number>0</number>
-              </property>
-              <item row="0" column="0" >
-                <widget class="QRadioButton" name="m_pPublicRB" >
-                  <property name="text" >
-                    <string>Public</string>
-                  </property>
-                  <property name="checked" >
-                    <bool>true</bool>
-                  </property>
-                </widget>
-              </item>
-              <item row="0" column="1" >
-                <widget class="QRadioButton" name="m_pPrivateRB" >
-                  <property name="text" >
-                    <string>Private</string>
-                  </property>
-                </widget>
-              </item>
-              <item row="0" column="2" >
-                <widget class="QRadioButton" name="m_pProtectedRB" >
-                  <property name="text" >
-                    <string>Protected</string>
-                  </property>
-                </widget>
-              </item>
-              <item row="0" column="3" >
-                <widget class="QRadioButton" name="m_pImplementationRB" >
-                  <property name="text" >
-                    <string>Implementation</string>
-                  </property>
-                </widget>
-              </item>
-            </layout>
-          </widget>
+         <widget class="QLabel" name="textLabel2" >
+          <property name="text" >
+           <string>Multiplicity:</string>
+          </property>
+          <property name="wordWrap" >
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item row="3" column="0" >
+     <widget class="QGroupBox" name="docGroupBox" >
+      <property name="title" >
+       <string>Documentation</string>
+      </property>
+      <layout class="QGridLayout" >
+       <property name="leftMargin" >
+        <number>0</number>
+       </property>
+       <property name="topMargin" >
+        <number>0</number>
+       </property>
+       <property name="rightMargin" >
+        <number>0</number>
+       </property>
+       <property name="bottomMargin" >
+        <number>0</number>
+       </property>
+       <item row="0" column="0" >
+        <widget class="Q3TextEdit" name="m_pDocTE" />
+       </item>
       </layout>
-    </widget>
+     </widget>
+    </item>
+    <item row="2" column="0" >
+     <widget class="Q3ButtonGroup" name="changeabilityButtonGroup" >
+      <property name="title" >
+       <string>Role Changeability</string>
+      </property>
+      <layout class="QGridLayout" >
+       <property name="leftMargin" >
+        <number>0</number>
+       </property>
+       <property name="topMargin" >
+        <number>0</number>
+       </property>
+       <property name="rightMargin" >
+        <number>0</number>
+       </property>
+       <property name="bottomMargin" >
+        <number>0</number>
+       </property>
+       <item row="0" column="0" >
+        <layout class="QGridLayout" >
+         <property name="leftMargin" >
+          <number>0</number>
+         </property>
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <property name="rightMargin" >
+          <number>0</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>0</number>
+         </property>
+         <item row="0" column="2" >
+          <widget class="QRadioButton" name="m_pAddOnlyRB" >
+           <property name="text" >
+            <string>Add only</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1" >
+          <widget class="QRadioButton" name="m_pFrozenRB" >
+           <property name="text" >
+            <string>Frozen</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0" >
+          <widget class="QRadioButton" name="m_pChangeableRB" >
+           <property name="text" >
+            <string>Changeable</string>
+           </property>
+           <property name="checked" >
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="1" column="0" >
+     <widget class="Q3ButtonGroup" name="visibilityButtonGroup" >
+      <property name="title" >
+       <string>Role Visibility</string>
+      </property>
+      <layout class="QGridLayout" >
+       <property name="leftMargin" >
+        <number>0</number>
+       </property>
+       <property name="topMargin" >
+        <number>0</number>
+       </property>
+       <property name="rightMargin" >
+        <number>0</number>
+       </property>
+       <property name="bottomMargin" >
+        <number>0</number>
+       </property>
+       <item row="0" column="0" >
+        <widget class="QRadioButton" name="m_pPublicRB" >
+         <property name="text" >
+          <string>Public</string>
+         </property>
+         <property name="checked" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" >
+        <widget class="QRadioButton" name="m_pPrivateRB" >
+         <property name="text" >
+          <string>Private</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2" >
+        <widget class="QRadioButton" name="m_pProtectedRB" >
+         <property name="text" >
+          <string>Protected</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3" >
+        <widget class="QRadioButton" name="m_pImplementationRB" >
+         <property name="text" >
+          <string>Implementation</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
   </widget>
-  <layoutdefault spacing="6" margin="11" />
-  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>Q3ButtonGroup</class>
+   <extends>Q3GroupBox</extends>
+   <header>Qt3Support/Q3ButtonGroup</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Q3TextEdit</class>
+   <extends>Q3Frame</extends>
+   <header>q3textedit.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
 </ui>

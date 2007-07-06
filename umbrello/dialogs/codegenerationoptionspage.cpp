@@ -22,6 +22,7 @@
 // app includes
 #include "../codegenerator.h"
 #include "codegenerationpolicypage.h"
+#include "../codegenerators/codegenfactory.h"
 #include "../codegenerators/codegenpolicyext.h"
 #include "defaultcodegenpolicypage.h"
 #include "../model_utils.h"
@@ -38,8 +39,9 @@
 #include <q3buttongroup.h>
 
 CodeGenerationOptionsPage::CodeGenerationOptionsPage(QWidget *parent)
-  : CodeGenerationOptionsBase(parent)
+    : QWidget( parent )
 {
+    setupUi(this);
     init();
 }
 
@@ -66,11 +68,12 @@ void CodeGenerationOptionsPage::init()
     m_SelectIndentationNumber->setValue(policy->getIndentationAmount());
 
     connect(this,SIGNAL(syncCodeDocumentsToParent()),gen,SLOT(syncCodeToDocument()));
+    connect(this,SIGNAL(languageChanged()), this, SLOT(updateCodeGenerationPolicyTab()));
+
+    setupActiveLanguageBox();
 
     // now insert the language-dependant page, should there be one
     updateCodeGenerationPolicyTab();
-
-    setupActiveLanguageBox();
 }
 
 void CodeGenerationOptionsPage::setupActiveLanguageBox()
@@ -82,6 +85,7 @@ void CodeGenerationOptionsPage::setupActiveLanguageBox()
         indexCounter++;
     }
     m_SelectLanguageBox->setCurrentIndex(UMLApp::app()->getActiveLanguage());
+    connect(m_SelectLanguageBox, SIGNAL(activated(int)), this, SLOT(activeLanguageChanged(int)));
 }
 
 int CodeGenerationOptionsPage::indentTypeToInteger(CodeGenerationPolicy::IndentationType value) {
@@ -129,7 +133,9 @@ void CodeGenerationOptionsPage::updateCodeGenerationPolicyTab() {
         m_pCodePolicyPage = 0;
     }
 
-    CodeGenPolicyExt *policyExt = UMLApp::app()->getPolicyExt();
+    Uml::Programming_Language pl = (Uml::Programming_Language) m_SelectLanguageBox->currentIndex();
+    CodeGenPolicyExt *policyExt = CodeGenFactory::newCodeGenPolicyExt(pl);
+
     if (policyExt)
         m_pCodePolicyPage = policyExt->createPage(languageOptionsFrame, "codelangpolicypage");
     else

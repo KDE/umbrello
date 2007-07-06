@@ -27,8 +27,10 @@
 
 
 CodeViewerOptionsPage::CodeViewerOptionsPage( Settings::CodeViewerState options, QWidget *parent, const char *name )
-        :CodeViewerOptionsBase(parent,name)
+        :QWidget(parent)
 {
+    setObjectName(name);
+    setupUi(this);
     init (options);
 }
 

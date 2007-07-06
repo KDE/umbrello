@@ -14,7 +14,7 @@
 
 
 // application specific includes
-#include "importprojectdlgbase.h"
+#include "ui_importprojectdlgbase.h"
 #include "../umlnamespace.h"
 
 
@@ -25,7 +25,7 @@
  * The user chooses the directory with a KUrlRequester widget and chooses the language in a combobox.
  * The slot accept() do the search
  */
-class ImportProjectDlg : public ImportProjectDlgBase {
+class ImportProjectDlg : public QDialog,private Ui::ImportProjectDlgBase {
   Q_OBJECT
 
 public:

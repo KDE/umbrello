@@ -1272,7 +1272,7 @@ void UMLApp::readOptionState() {
     optionState.generalState.undo = UmbrelloSettings::undo();
     optionState.generalState.tabdiagrams = UmbrelloSettings::tabdiagrams();
 #if defined (WORK_ON_BUG_126262)
-    optionState.generalState.newcodegen = UmbrelloSettings::newCodeGen();
+    optionState.generalState.newcodegen = UmbrelloSettings::newcodegen();
 #else
     optionState.generalState.newcodegen = false;
 #endif

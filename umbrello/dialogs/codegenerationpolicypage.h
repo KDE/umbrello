@@ -21,7 +21,7 @@
 #define CODEGENERATIONPOLICYPAGE_H
 
 #include <qwidget.h>
-#include "codegenerationpolicybase.h"
+#include "ui_codegenerationpolicybase.h"
 
 class CodeGenPolicyExt;
 
@@ -29,7 +29,7 @@ class CodeGenPolicyExt;
  * @author Brian Thomas
  */
 
-class CodeGenerationPolicyPage : public CodeGenerationPolicyBase  {
+class CodeGenerationPolicyPage : public QWidget,private Ui::CodeGenerationPolicyBase  {
     Q_OBJECT
 public:
     explicit CodeGenerationPolicyPage (QWidget *parent=0, const char *name=0, CodeGenPolicyExt * policy = 0);

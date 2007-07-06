@@ -28,7 +28,11 @@ const QString ImportProjectDlg::PYTHON = "Python";
 
 ImportProjectDlg::ImportProjectDlg(QStringList* list, const  Uml::Programming_Language pl,
                                    QWidget* parent,const char* name,bool modal,Qt::WindowFlags fl)
-  : ImportProjectDlgBase(parent,name, modal,fl), fileList(list) {
+  : QDialog(parent,fl), fileList(list) {
+
+    setObjectName(name);
+    setModal(modal);
+    setupUi(this);
     QStringList languages;
 
     languages += ImportProjectDlg::ADA;

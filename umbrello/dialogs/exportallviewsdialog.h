@@ -13,7 +13,7 @@
 #define EXPORTALLVIEWSDIALOG_H
 
 // application specific includes
-#include "exportallviewsdialogbase.h"
+#include "ui_exportallviewsdialogbase.h"
 
 // KDE forward declarations
 class KFileFilterCombo;
@@ -26,7 +26,7 @@ class KFileFilterCombo;
  * The KFileFilterCombo is declared here instead of in the .ui file because QT
  * Designer and uic don't recognize it.
  */
-class ExportAllViewsDialog : public ExportAllViewsDialogBase {
+class ExportAllViewsDialog : public QDialog,private Ui::ExportAllViewsDialogBase {
   Q_OBJECT
 
 public:
@@ -59,6 +59,8 @@ public:
     KFileFilterCombo* m_imageType;
 
 protected slots:
+
+    friend class UMLViewImageExporterAll;
 
     /**
      *  Sets the strings of the subwidgets using the current

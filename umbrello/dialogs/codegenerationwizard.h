@@ -23,7 +23,7 @@
 
 #include <qwidget.h>
 #include <q3ptrlist.h>
-#include "codegenerationwizardbase.h"
+#include "ui_codegenerationwizardbase.h"
 #include "settingsdlg.h"
 #include "../umlclassifierlist.h"
 
@@ -37,7 +37,7 @@ class CodeGenerationOptionsPage;
  * based on wizard from Paul Hensgen
  */
 
-class CodeGenerationWizard : public CodeGenerationWizardBase {
+class CodeGenerationWizard : public Q3Wizard,private Ui::CodeGenerationWizardBase {
     Q_OBJECT
 public:
     CodeGenerationWizard(UMLClassifierList *classList);
