@@ -99,10 +99,6 @@ set(libcodegenerator_SRCS
 	codegenerators/codegen_utils.cpp
 )
 
-kde4_add_ui3_files( libcodegenerator_SRCS
-
-)
-
 kde4_add_ui_files(  libcodegenerator_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/cppcodegenerationformbase.ui
 	${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/rubycodegenerationformbase.ui
@@ -160,12 +156,6 @@ set(libdialogs_SRCS
 	dialogs/umluniqueconstraintdialog.cpp
         dialogs/umlviewdialog.cpp 
 	dialogs/umlwidgetcolorpage.cpp )
-
-kde4_add_ui3_files( libdialogs_SRCS
-
-
-
-)
 
 kde4_add_ui_files(  libdialogs_SRCS 
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codegenerationoptionsbase.ui 
