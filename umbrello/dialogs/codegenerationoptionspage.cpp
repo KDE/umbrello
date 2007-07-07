@@ -136,6 +136,8 @@ void CodeGenerationOptionsPage::updateCodeGenerationPolicyTab() {
     Uml::Programming_Language pl = (Uml::Programming_Language) m_SelectLanguageBox->currentIndex();
     CodeGenPolicyExt *policyExt = CodeGenFactory::newCodeGenPolicyExt(pl);
 
+    qDeleteAll( languageOptionsFrame->children() );
+
     if (policyExt)
         m_pCodePolicyPage = policyExt->createPage(languageOptionsFrame, "codelangpolicypage");
     else
