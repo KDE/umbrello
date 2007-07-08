@@ -23,7 +23,6 @@
 #include <kcombobox.h>
 #include <qcheckbox.h>
 // app includes
-#include "cppcodegenerationformbase.h"
 #include "../uml.h"
 
 CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage( QWidget *parent, const char *name, CPPCodeGenerationPolicy * policy )
