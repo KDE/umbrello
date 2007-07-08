@@ -331,6 +331,7 @@ signals:
 
 protected:
 
+/*
     // Policy of how to deal with overwriting existing files. Allowed values are "ask", "yes" and "no".
     OverwritePolicy m_overwritePolicy;
 
@@ -354,12 +355,14 @@ protected:
     CommentStyle m_commentStyle;
     ScopePolicy m_attributeAccessorScope;
     ScopePolicy m_associationFieldScope;
-
+*/
+   
     // these 2 private fields 'cache' the string values of other fields we may frequently call for
     QString m_lineEndingChars;
     QString m_indentation;
 
     void calculateIndentation ( );
+  
 /*
 protected:
 

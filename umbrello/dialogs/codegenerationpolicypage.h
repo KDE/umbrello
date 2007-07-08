@@ -42,8 +42,6 @@ protected:
 
     CodeGenPolicyExt * m_parentPolicy;
 
-private:
-
 public slots:
 
     virtual void apply();

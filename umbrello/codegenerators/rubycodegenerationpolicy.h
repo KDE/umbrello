@@ -32,9 +32,6 @@ class RubyCodeGenerationPolicy : public CodeGenPolicyExt
     Q_OBJECT
 public:
 
-/*    static const bool DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS;
-    static const bool DEFAULT_AUTO_GEN_ASSOC_ACCESSORS;
-*/
     // Constructors/Destructors
     //
 
@@ -90,11 +87,6 @@ public:
     virtual void setDefaults(bool emitUpdateSignal = true);
 
     /**
-     * write Default params to passed KConfig pointer.
-     */
-    virtual void writeConfig ();
-
-    /**
      * Create a new dialog interface for this object.
      * @return dialog object
      */
@@ -103,9 +95,8 @@ public:
 private:
 
     CodeGenerationPolicy *m_commonPolicy;
-    bool m_autoGenerateAttribAccessors;
-    bool m_autoGenerateAssocAccessors;
 
+    void init();
 };
 
 #endif // RUBYCODEGENERATIONPOLICY_H

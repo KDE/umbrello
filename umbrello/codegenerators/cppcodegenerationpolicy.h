@@ -169,11 +169,6 @@ public:
     virtual void setDefaults(bool emitUpdateSignal = true);
 
     /**
-     * write Default params to passed KConfig pointer.
-     */
-    virtual void writeConfig ();
-
-    /**
      * Create a new dialog interface for this object.
      * @return dialog object
      */
@@ -187,21 +182,6 @@ protected:
 
 private:
 
-    bool m_autoGenerateAccessors;
-
-    bool m_inlineAccessors;
-    bool m_inlineOperations;
-    bool m_virtualDestructors;
-    bool m_packageIsNamespace;
-    bool m_publicAccessors;
-
-    bool m_stringIncludeIsGlobal;
-    bool m_vectorIncludeIsGlobal;
-
-    QString m_stringClassName;
-    QString m_stringClassNameInclude;
-    QString m_vectorClassName;
-    QString m_vectorClassNameInclude;
     QString m_vectorMethodAppendBase;
     QString m_vectorMethodRemoveBase;
     QString m_vectorMethodInitBase;

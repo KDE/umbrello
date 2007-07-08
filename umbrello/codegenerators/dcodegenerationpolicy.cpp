@@ -19,6 +19,7 @@
 #include "dcodegenerator.h"
 #include "../uml.h"
 #include "umbrellosettings.h"
+#include "optionstate.h"
 
 // Constructors/Destructors
 /*
@@ -35,7 +36,7 @@ DCodeGenerationPolicy::DCodeGenerationPolicy()
   //      : CodeGenerationPolicy()
 {
     m_commonPolicy = UMLApp::app()->getCommonPolicy();
-    setDefaults(false);
+    init();
 }
 
 DCodeGenerationPolicy::~DCodeGenerationPolicy ( ) { }
@@ -55,7 +56,7 @@ DCodeGenerationPolicy::~DCodeGenerationPolicy ( ) { }
  * @param new_var the new value
  */
 void DCodeGenerationPolicy::setAutoGenerateAttribAccessors( bool var ) {
-    m_autoGenerateAttribAccessors = var;
+    Settings::getOptionState().codeGenerationState.dCodeGenerationState.autoGenerateAttributeAccessors = var;
     m_commonPolicy->emitModifiedCodeContentSig();
 }
 
@@ -64,7 +65,7 @@ void DCodeGenerationPolicy::setAutoGenerateAttribAccessors( bool var ) {
  * @param new_var the new value
  */
 void DCodeGenerationPolicy::setAutoGenerateAssocAccessors( bool var ) {
-    m_autoGenerateAssocAccessors = var;
+    Settings::getOptionState().codeGenerationState.dCodeGenerationState.autoGenerateAssocAccessors = var;
     m_commonPolicy->emitModifiedCodeContentSig();
 }
 
@@ -73,7 +74,7 @@ void DCodeGenerationPolicy::setAutoGenerateAssocAccessors( bool var ) {
  * @return the value of m_autoGenerateAttribAccessors
  */
 bool DCodeGenerationPolicy::getAutoGenerateAttribAccessors( ){
-    return m_autoGenerateAttribAccessors;
+    return Settings::getOptionState().codeGenerationState.dCodeGenerationState.autoGenerateAttributeAccessors;
 }
 
 /**
@@ -81,26 +82,11 @@ bool DCodeGenerationPolicy::getAutoGenerateAttribAccessors( ){
  * @return the value of m_autoGenerateAssocAccessors
  */
 bool DCodeGenerationPolicy::getAutoGenerateAssocAccessors( ){
-    return m_autoGenerateAssocAccessors;
+    return Settings::getOptionState().codeGenerationState.dCodeGenerationState.autoGenerateAssocAccessors;
 }
 
 // Other methods
 //
-
-void DCodeGenerationPolicy::writeConfig ( )
-{
-
-    // write ONLY the D specific stuff
-
-    UmbrelloSettings::setAutoGenerateAttributeAccessorsD( getAutoGenerateAttribAccessors());
-    UmbrelloSettings::setAutoGenerateAssocAccessorsD( getAutoGenerateAssocAccessors());
-
-    CodeGenerator *codegen = UMLApp::app()->getGenerator();
-    DCodeGenerator *dcodegen = dynamic_cast<DCodeGenerator*>(codegen);
-//    if (dcodegen)
-//        UmbrelloSettings::setBuildANTDocument(dcodegen->getCreateANTBuildFile());
-
-}
 
 void DCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * clone, bool emitUpdateSignal )
 {
@@ -165,6 +151,18 @@ void DCodeGenerationPolicy::setDefaults(bool emitUpdateSignal )
  */
 CodeGenerationPolicyPage * DCodeGenerationPolicy::createPage ( QWidget *parent, const char *name ) {
     return new DCodeGenerationPolicyPage ( parent, name, this );
+}
+
+void DCodeGenerationPolicy::init( ) {
+
+    blockSignals( true );
+
+    Settings::OptionState optionState = Settings::getOptionState();
+    setAutoGenerateAttribAccessors( optionState.codeGenerationState.dCodeGenerationState.autoGenerateAttributeAccessors);
+    setAutoGenerateAssocAccessors( optionState.codeGenerationState.dCodeGenerationState.autoGenerateAssocAccessors);
+
+    blockSignals( false );
+
 }
 
 #include "dcodegenerationpolicy.moc"

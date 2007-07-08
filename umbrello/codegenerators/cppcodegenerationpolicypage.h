@@ -38,6 +38,7 @@ protected:
 
     CPPCodeGenerationForm * form;
 
+
 public slots:
 
     void apply();

@@ -29,9 +29,6 @@ class JavaCodeGenerationPolicy : public CodeGenPolicyExt
     Q_OBJECT
 public:
 
-/*    static const bool DEFAULT_AUTO_GEN_ATTRIB_ACCESSORS;
-    static const bool DEFAULT_AUTO_GEN_ASSOC_ACCESSORS;
-*/
     // Constructors/Destructors
     //
 
@@ -88,11 +85,6 @@ public:
     virtual void setDefaults(bool emitUpdateSignal = true);
 
     /**
-     * write Default params to disk
-     */
-    virtual void writeConfig ();
-
-    /**
      * Create a new dialog interface for this object.
      * @return dialog object
      */
@@ -101,10 +93,8 @@ public:
 private:
 
     CodeGenerationPolicy *m_commonPolicy;
-    bool m_autoGenerateConstructors;
-    bool m_autoGenerateAttribAccessors;
-    bool m_autoGenerateAssocAccessors;
-
+    
+    void init();
 };
 
 #endif // JAVACODEGENERATIONPOLICY_H

@@ -47,6 +47,7 @@ CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage( QWidget *parent, const
 
     form->m_globalStringCheckBox->setChecked(policy->stringIncludeIsGlobal());
     form->m_globalListCheckBox->setChecked(policy->vectorIncludeIsGlobal());
+
 }
 
 CPPCodeGenerationPolicyPage::~CPPCodeGenerationPolicyPage()
@@ -67,6 +68,7 @@ void CPPCodeGenerationPolicyPage::apply()
     common->setCommentStyle((CodeGenerationPolicy::CommentStyle ) form->m_SelectCommentStyle->currentItem());
     common->setAutoGenerateConstructors(form->getGenerateEmptyConstructors());
     parent->setAutoGenerateAccessors(form->getGenerateAccessorMethods());
+    kDebug()<<k_funcinfo<<form->getGenerateAccessorMethods()<<endl;
 
     parent->setDestructorsAreVirtual(form->getVirtualDestructors());
     parent->setPackageIsNamespace(form->getPackageIsANamespace());

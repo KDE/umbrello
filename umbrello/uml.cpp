@@ -711,9 +711,42 @@ void UMLApp::saveOptions() {
     UmbrelloSettings::setShowHiddenBlocks( optionState.codeViewerState.showHiddenBlocks);
     UmbrelloSettings::setHiddenColor(  optionState.codeViewerState.hiddenColor);
 
-    // write the config for a language-specific code gen policy
-    if (m_policyext)
-        m_policyext->writeConfig();
+    // write config for CPP code generation options
+    UmbrelloSettings::setAutoGenAccessors( optionState.codeGenerationState.cppCodeGenerationState.autoGenAccessors);
+
+    UmbrelloSettings::setInlineAccessors(optionState.codeGenerationState.cppCodeGenerationState.inlineAccessors);
+    UmbrelloSettings::setPublicAccessors( optionState.codeGenerationState.cppCodeGenerationState.publicAccessors);
+    UmbrelloSettings::setInlineOps(optionState.codeGenerationState.cppCodeGenerationState.inlineOps);
+    UmbrelloSettings::setVirtualDestructors( optionState.codeGenerationState.cppCodeGenerationState.virtualDestructors);
+    UmbrelloSettings::setPackageIsNamespace(optionState.codeGenerationState.cppCodeGenerationState.packageIsNamespace);
+
+    UmbrelloSettings::setStringClassName(optionState.codeGenerationState.cppCodeGenerationState.stringClassName);
+    UmbrelloSettings::setStringClassNameInclude(optionState.codeGenerationState.cppCodeGenerationState.stringClassNameInclude);
+    UmbrelloSettings::setStringIncludeIsGlobal(optionState.codeGenerationState.cppCodeGenerationState.stringIncludeIsGlobal);
+
+    UmbrelloSettings::setVectorClassName(optionState.codeGenerationState.cppCodeGenerationState.vectorClassName);
+    UmbrelloSettings::setVectorClassNameInclude(optionState.codeGenerationState.cppCodeGenerationState.vectorClassNameInclude);
+    UmbrelloSettings::setVectorIncludeIsGlobal(optionState.codeGenerationState.cppCodeGenerationState.vectorIncludeIsGlobal);
+
+    // write config for Java code generation options
+    UmbrelloSettings::setAutoGenerateAttributeAccessorsJava(optionState.codeGenerationState.javaCodeGenerationState.autoGenerateAttributeAccessors);
+    UmbrelloSettings::setAutoGenerateAssocAccessorsJava(optionState.codeGenerationState.javaCodeGenerationState.autoGenerateAssocAccessors);
+
+//     CodeGenerator *codegen = UMLApp::app()->getGenerator();
+//     JavaCodeGenerator *javacodegen = dynamic_cast<JavaCodeGenerator*>(codegen);
+//     if (javacodegen)
+//         UmbrelloSettings::setBuildANTDocumentJava( javacodegen->getCreateANTBuildFile());
+
+    // write config for D code generation options
+
+    UmbrelloSettings::setAutoGenerateAttributeAccessorsD( optionState.codeGenerationState.dCodeGenerationState.autoGenerateAttributeAccessors);
+    UmbrelloSettings::setAutoGenerateAssocAccessorsD( optionState.codeGenerationState.dCodeGenerationState.autoGenerateAssocAccessors);
+
+    // write config for Ruby code generation options
+
+    UmbrelloSettings::setAutoGenerateAttributeAccessorsRuby( optionState.codeGenerationState.rubyCodeGenerationState.autoGenerateAttributeAccessors);
+    UmbrelloSettings::setAutoGenerateAssocAccessorsRuby( optionState.codeGenerationState.rubyCodeGenerationState.autoGenerateAssocAccessors);
+
 
     // now write the basic defaults to config
     m_commoncodegenpolicy->writeConfig();
@@ -1271,11 +1304,11 @@ void UMLApp::readOptionState() {
     UmbrelloSettings::self()->readConfig();
     optionState.generalState.undo = UmbrelloSettings::undo();
     optionState.generalState.tabdiagrams = UmbrelloSettings::tabdiagrams();
-#if defined (WORK_ON_BUG_126262)
+//#if defined (WORK_ON_BUG_126262)
     optionState.generalState.newcodegen = UmbrelloSettings::newcodegen();
-#else
-    optionState.generalState.newcodegen = false;
-#endif
+//#else
+//    optionState.generalState.newcodegen = false;
+//#endif
     optionState.generalState.angularlines = UmbrelloSettings::angularlines();
     optionState.generalState.footerPrinting =  UmbrelloSettings::footerPrinting();
     optionState.generalState.autosave =  UmbrelloSettings::autosave();
@@ -1332,6 +1365,37 @@ void UMLApp::readOptionState() {
     optionState.codeViewerState.nonEditBlockColor =  UmbrelloSettings::nonEditBlockColor();
     optionState.codeViewerState.hiddenColor =  UmbrelloSettings::hiddenColor();
 
+    // CPP code generation options
+
+    optionState.codeGenerationState.cppCodeGenerationState.autoGenAccessors = UmbrelloSettings::autoGenAccessors();
+
+    optionState.codeGenerationState.cppCodeGenerationState.inlineAccessors = UmbrelloSettings::inlineAccessors();
+    optionState.codeGenerationState.cppCodeGenerationState.publicAccessors = UmbrelloSettings::publicAccessors();
+    optionState.codeGenerationState.cppCodeGenerationState.inlineOps = UmbrelloSettings::inlineOps();
+    optionState.codeGenerationState.cppCodeGenerationState.virtualDestructors = UmbrelloSettings::virtualDestructors();
+    optionState.codeGenerationState.cppCodeGenerationState.packageIsNamespace = UmbrelloSettings::packageIsNamespace();
+
+    optionState.codeGenerationState.cppCodeGenerationState.stringClassName = UmbrelloSettings::stringClassName();
+    optionState.codeGenerationState.cppCodeGenerationState.stringClassNameInclude = UmbrelloSettings::stringClassNameInclude();
+    optionState.codeGenerationState.cppCodeGenerationState.stringIncludeIsGlobal = UmbrelloSettings::stringIncludeIsGlobal();
+
+    optionState.codeGenerationState.cppCodeGenerationState.vectorClassName = UmbrelloSettings::vectorClassName();
+    optionState.codeGenerationState.cppCodeGenerationState.vectorClassNameInclude = UmbrelloSettings::vectorClassNameInclude();
+    optionState.codeGenerationState.cppCodeGenerationState.vectorIncludeIsGlobal = UmbrelloSettings::vectorIncludeIsGlobal();
+
+    // Java code generation options
+    optionState.codeGenerationState.javaCodeGenerationState.autoGenerateAttributeAccessors = UmbrelloSettings::autoGenerateAttributeAccessorsJava();
+    optionState.codeGenerationState.javaCodeGenerationState.autoGenerateAssocAccessors = UmbrelloSettings::autoGenerateAssocAccessorsJava();
+
+    // D code generation options
+    optionState.codeGenerationState.dCodeGenerationState.autoGenerateAttributeAccessors = UmbrelloSettings::autoGenerateAttributeAccessorsD();
+    optionState.codeGenerationState.dCodeGenerationState.autoGenerateAssocAccessors = UmbrelloSettings::autoGenerateAssocAccessorsD();
+
+    // Ruby code generation options
+    optionState.codeGenerationState.rubyCodeGenerationState.autoGenerateAttributeAccessors = UmbrelloSettings::autoGenerateAttributeAccessorsRuby();
+    optionState.codeGenerationState.rubyCodeGenerationState.autoGenerateAssocAccessors = UmbrelloSettings::autoGenerateAssocAccessorsRuby();
+
+    // general config options will be read when created
 }
 
 

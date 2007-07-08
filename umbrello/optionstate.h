@@ -15,6 +15,7 @@
 
 #include "umlnamespace.h"
 #include "codeviewerstate.h"
+#include "codegenerationpolicy.h"
 
 namespace Settings {
 
@@ -65,13 +66,72 @@ struct ClassState {
     Uml::Visibility defaultOperationScope;
 };
 
+
+
+struct CodeGenerationState{
+    bool autoGenEmptyConstructors;
+    CodeGenerationPolicy::CommentStyle commentStyle;
+    CodeGenerationPolicy::ScopePolicy defaultAssocFieldScope;
+    CodeGenerationPolicy::ScopePolicy defaultAttributeAccessorScope;
+    bool forceDoc;
+    bool forceSections;
+    QDir headingsDirectory;
+    bool includeHeadings;
+    int indentationAmount;
+    CodeGenerationPolicy::IndentationType indentationType;
+    CodeGenerationPolicy::NewLineType lineEndingType;
+    CodeGenerationPolicy::ModifyNamePolicy modnamePolicy;
+    QDir outputDirectory;
+    CodeGenerationPolicy::OverwritePolicy overwritePolicy;
+
+    
+    struct CPPCodeGenerationState {
+        bool autoGenAccessors;
+        bool inlineAccessors;
+        bool inlineOps;
+        bool packageIsNamespace;
+        bool publicAccessors;
+        QString stringClassName;
+        QString stringClassNameInclude;
+        bool stringIncludeIsGlobal;
+        QString vectorClassName;
+        QString vectorClassNameInclude;
+        bool vectorIncludeIsGlobal;
+        bool virtualDestructors;
+    };
+
+    struct DCodeGenerationState {
+        bool autoGenerateAttributeAccessors;
+        bool autoGenerateAssocAccessors;
+        bool buildANTDocument;
+    };
+
+    struct JavaCodeGenerationState{
+        bool autoGenerateAttributeAccessors;
+        bool autoGenerateAssocAccessors;
+        bool buildANTDocument;  
+    };
+
+    struct RubyCodeGenerationState{
+        bool autoGenerateAttributeAccessors;
+        bool autoGenerateAssocAccessors;
+    }; 
+
+    CPPCodeGenerationState cppCodeGenerationState;
+    DCodeGenerationState dCodeGenerationState;
+    JavaCodeGenerationState javaCodeGenerationState;
+    RubyCodeGenerationState rubyCodeGenerationState;
+
+};
+
 struct OptionState {
     GeneralState generalState;
     UIState uiState;
     ClassState classState;
     CodeViewerState codeViewerState;
+    CodeGenerationState codeGenerationState;
+   
 };
-
 
 OptionState& getOptionState();
 void setOptionState(const OptionState& optstate);

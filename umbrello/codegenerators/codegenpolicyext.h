@@ -44,10 +44,6 @@ public:
      */
     virtual void setDefaults(bool emitUpdateSignal = true) = 0;
 
-    /**
-     * write Default params .
-     */
-    virtual void writeConfig () = 0;
 };
 
 #endif

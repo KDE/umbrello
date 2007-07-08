@@ -161,6 +161,7 @@ void CodeGenerationOptionsPage::apply() {
         m_parentPolicy->setIndentationType((CodeGenerationPolicy::IndentationType) m_SelectIndentationTypeBox->currentItem());
         m_parentPolicy->setIndentationAmount(m_SelectIndentationNumber->value());
 
+        m_pCodePolicyPage->apply();
         // emit in THIS order.. the first signal triggers any sub-class to do its apply
         // slot, THEN, once we are all updated, we may sync the parent generator's code
         // documents

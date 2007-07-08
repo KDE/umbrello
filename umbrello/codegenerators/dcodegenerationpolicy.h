@@ -81,11 +81,6 @@ public:
     virtual void setDefaults(bool emitUpdateSignal = true);
 
     /**
-     * write Default params to passed KConfig pointer.
-     */
-    virtual void writeConfig ();
-
-    /**
      * Create a new dialog interface for this object.
      * @return dialog object
      */
@@ -100,9 +95,6 @@ protected:
 private:
 
     CodeGenerationPolicy *m_commonPolicy;
-    bool m_autoGenerateConstructors;
-    bool m_autoGenerateAttribAccessors;
-    bool m_autoGenerateAssocAccessors;
 
 };
 

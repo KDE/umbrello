@@ -26,6 +26,7 @@
 #include "rubycodegenerator.h"
 #include "../uml.h"
 #include "umbrellosettings.h"
+#include "optionstate.h"
 
 // Constructors/Destructors
 //
@@ -33,7 +34,7 @@
 RubyCodeGenerationPolicy::RubyCodeGenerationPolicy()
 {
     m_commonPolicy = UMLApp::app()->getCommonPolicy();
-    setDefaults(false);
+    init();
 }
 
 RubyCodeGenerationPolicy::~RubyCodeGenerationPolicy ( ) { }
@@ -49,49 +50,41 @@ RubyCodeGenerationPolicy::~RubyCodeGenerationPolicy ( ) { }
 //
 
 /**
- * Set the value of m_autoGenerateAttribAccessors
+ * Set the value of autoGenerateAttribAccessors
  * @param new_var the new value
  */
 void RubyCodeGenerationPolicy::setAutoGenerateAttribAccessors( bool var ) {
-    m_autoGenerateAttribAccessors = var;
+    Settings::getOptionState().codeGenerationState.rubyCodeGenerationState.autoGenerateAttributeAccessors = var;
     m_commonPolicy->emitModifiedCodeContentSig();
 }
 
 /**
- * Set the value of m_autoGenerateAssocAccessors
+ * Set the value of autoGenerateAssocAccessors
  * @param new_var the new value
  */
 void RubyCodeGenerationPolicy::setAutoGenerateAssocAccessors( bool var ) {
-    m_autoGenerateAssocAccessors = var;
+    Settings::getOptionState().codeGenerationState.rubyCodeGenerationState.autoGenerateAssocAccessors = var;
     m_commonPolicy->emitModifiedCodeContentSig();
 }
 
 /**
- * Get the value of m_autoGenerateAttribAccessors
- * @return the value of m_autoGenerateAttribAccessors
+ * Get the value of autoGenerateAttribAccessors
+ * @return the value of autoGenerateAttribAccessors
  */
 bool RubyCodeGenerationPolicy::getAutoGenerateAttribAccessors( ){
-    return m_autoGenerateAttribAccessors;
+    return Settings::getOptionState().codeGenerationState.rubyCodeGenerationState.autoGenerateAttributeAccessors;
 }
 
 /**
- * Get the value of m_autoGenerateAssocAccessors
- * @return the value of m_autoGenerateAssocAccessors
+ * Get the value of autoGenerateAssocAccessors
+ * @return the value of autoGenerateAssocAccessors
  */
 bool RubyCodeGenerationPolicy::getAutoGenerateAssocAccessors( ){
-    return m_autoGenerateAssocAccessors;
+    return Settings::getOptionState().codeGenerationState.rubyCodeGenerationState.autoGenerateAssocAccessors;
 }
 
 // Other methods
 //
-
-void RubyCodeGenerationPolicy::writeConfig ()
-{
-    UmbrelloSettings::setAutoGenerateAttributeAccessorsRuby(getAutoGenerateAttribAccessors());
-    UmbrelloSettings::setAutoGenerateAssocAccessorsRuby(getAutoGenerateAssocAccessors());
-
-    // will be written to disk from the place where it is called
-}
 
 void RubyCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * clone, bool emitUpdateSignal )
 {
@@ -151,5 +144,16 @@ CodeGenerationPolicyPage * RubyCodeGenerationPolicy::createPage ( QWidget *paren
     return new RubyCodeGenerationPolicyPage ( parent, name, this );
 }
 
+
+void RubyCodeGenerationPolicy::init() {
+
+    blockSignals(true);
+
+    Settings::OptionState optionState = Settings::getOptionState();
+    setAutoGenerateAttribAccessors( optionState.codeGenerationState.rubyCodeGenerationState.autoGenerateAttributeAccessors);
+    setAutoGenerateAssocAccessors( optionState.codeGenerationState.rubyCodeGenerationState.autoGenerateAssocAccessors);
+
+    blockSignals(false);
+}
 
 #include "rubycodegenerationpolicy.moc"

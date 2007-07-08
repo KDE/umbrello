@@ -23,6 +23,7 @@
 #include "javacodegenerator.h"
 #include "../uml.h"
 #include "umbrellosettings.h"
+#include "optionstate.h"
 
 // Constructors/Destructors
 /*
@@ -39,7 +40,7 @@ JavaCodeGenerationPolicy::JavaCodeGenerationPolicy()
   //      : CodeGenerationPolicy()
 {
     m_commonPolicy = UMLApp::app()->getCommonPolicy();
-    setDefaults(false);
+    init();
 }
 
 JavaCodeGenerationPolicy::~JavaCodeGenerationPolicy ( ) { }
@@ -55,11 +56,11 @@ JavaCodeGenerationPolicy::~JavaCodeGenerationPolicy ( ) { }
 //
 
 /**
- * Set the value of m_autoGenerateAttribAccessors
+ * Set the value of autoGenerateAttribAccessors
  * @param new_var the new value
  */
 void JavaCodeGenerationPolicy::setAutoGenerateAttribAccessors( bool var ) {
-    m_autoGenerateAttribAccessors = var;
+    Settings::getOptionState().codeGenerationState.javaCodeGenerationState.autoGenerateAttributeAccessors = var;
     m_commonPolicy->emitModifiedCodeContentSig();
 }
 
@@ -68,7 +69,7 @@ void JavaCodeGenerationPolicy::setAutoGenerateAttribAccessors( bool var ) {
  * @param new_var the new value
  */
 void JavaCodeGenerationPolicy::setAutoGenerateAssocAccessors( bool var ) {
-    m_autoGenerateAssocAccessors = var;
+    Settings::getOptionState().codeGenerationState.javaCodeGenerationState.autoGenerateAssocAccessors = var;
     m_commonPolicy->emitModifiedCodeContentSig();
 }
 
@@ -77,7 +78,7 @@ void JavaCodeGenerationPolicy::setAutoGenerateAssocAccessors( bool var ) {
  * @return the value of m_autoGenerateAttribAccessors
  */
 bool JavaCodeGenerationPolicy::getAutoGenerateAttribAccessors( ){
-    return m_autoGenerateAttribAccessors;
+    return Settings::getOptionState().codeGenerationState.javaCodeGenerationState.autoGenerateAttributeAccessors;
 }
 
 /**
@@ -85,26 +86,11 @@ bool JavaCodeGenerationPolicy::getAutoGenerateAttribAccessors( ){
  * @return the value of m_autoGenerateAssocAccessors
  */
 bool JavaCodeGenerationPolicy::getAutoGenerateAssocAccessors( ){
-    return m_autoGenerateAssocAccessors;
+    return Settings::getOptionState().codeGenerationState.javaCodeGenerationState.autoGenerateAssocAccessors;
 }
 
 // Other methods
 //
-
-void JavaCodeGenerationPolicy::writeConfig ()
-{
-
-    // write ONLY the Java specific stuff
-
-    UmbrelloSettings::setAutoGenerateAttributeAccessorsJava( getAutoGenerateAttribAccessors());
-    UmbrelloSettings::setAutoGenerateAssocAccessorsJava( getAutoGenerateAssocAccessors());
-
-    CodeGenerator *codegen = UMLApp::app()->getGenerator();
-    JavaCodeGenerator *javacodegen = dynamic_cast<JavaCodeGenerator*>(codegen);
-    if (javacodegen)
-        UmbrelloSettings::setBuildANTDocumentJava( javacodegen->getCreateANTBuildFile());
-
-}
 
 void JavaCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * clone, bool emitUpdateSignal )
 {
@@ -167,6 +153,19 @@ void JavaCodeGenerationPolicy::setDefaults( bool emitUpdateSignal )
  */
 CodeGenerationPolicyPage * JavaCodeGenerationPolicy::createPage ( QWidget *parent, const char *name ) {
     return new JavaCodeGenerationPolicyPage ( parent, name, this );
+}
+
+void JavaCodeGenerationPolicy::init() {
+
+    blockSignals( true );
+
+    Settings::OptionState optionState = Settings::getOptionState();
+    setAutoGenerateAttribAccessors(optionState.codeGenerationState.javaCodeGenerationState.autoGenerateAttributeAccessors);
+    setAutoGenerateAssocAccessors(optionState.codeGenerationState.javaCodeGenerationState.autoGenerateAssocAccessors);
+
+
+    blockSignals( false );
+
 }
 
 #include "javacodegenerationpolicy.moc"
