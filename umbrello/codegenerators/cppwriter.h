@@ -177,8 +177,9 @@ private:
     /**
      * Writes getFoo() and setFoo() accessor methods for the attribute
      */
-    void writeSingleAttributeAccessorMethods(QString fieldClassName, const QString &Name,
-            QString fieldName, const QString &description,
+    void writeSingleAttributeAccessorMethods(
+            const QString &fieldClassName, const QString &Name,
+            const QString &fieldName, const QString &description,
             Uml::Changeability_Type change,
             bool isHeaderMethod,
             bool isStatic, bool writeMethodBody, QTextStream &cpp);
@@ -186,8 +187,9 @@ private:
     /**
      * Writes addFoo() and removeFoo() accessor methods for the Vector attribute
      */
-    void writeVectorAttributeAccessorMethods(QString fieldClassName, const QString &fieldVarName,
-            QString fieldName, const QString &description,
+    void writeVectorAttributeAccessorMethods(
+            const QString &fieldClassName, const QString &fieldVarName,
+            const QString &fieldName, const QString &description,
             Uml::Changeability_Type change,
             bool isHeaderMethod,
             bool writeMethodBody,

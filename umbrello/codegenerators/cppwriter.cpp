@@ -626,7 +626,7 @@ void CppWriter::writeAttributeMethods(UMLAttributeList *attribs,
         // force capitalizing the field name, this is silly,
         // from what I can tell, this IS the default behavior for
         // cleanName. I dunno why its not working -b.t.
-        methodBaseName.trimmed();
+        methodBaseName = methodBaseName.trimmed();
         methodBaseName.replace(0,1,methodBaseName.at(0).upper());
 
         writeSingleAttributeAccessorMethods(at->getTypeName(), varName,
@@ -837,31 +837,32 @@ void CppWriter::writeAssociationRoleMethod (const QString &fieldClassName,
     }
 }
 
-void CppWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, const QString &fieldVarName,
-        QString fieldName, const QString &description,
+void CppWriter::writeVectorAttributeAccessorMethods (
+        const QString &fieldClassName, const QString &fieldVarName,
+        const QString &fieldName, const QString &description,
         Uml::Changeability_Type changeType,
         bool isHeaderMethod,
         bool writeMethodBody,
         QTextStream &stream)
 {
 
-    fieldClassName = fixTypeName(fieldClassName);
-    fieldName = capitalizeFirstLetter(fieldName);
+    QString className = fixTypeName(fieldClassName);
+    QString fldName = capitalizeFirstLetter(fieldName);
     QString indent = getIndent();
 
     // ONLY IF changeability is NOT Frozen
     if (changeType != Uml::chg_Frozen)
     {
-        writeDocumentation("Add a " + fieldName + " object to the " + fieldVarName + " List",description,"",stream);
+        writeDocumentation("Add a " + fldName + " object to the " + fieldVarName + " List",description,"",stream);
         stream << indent << "void ";
         if(!isHeaderMethod)
             stream << m_classifierInfo->className << "::";
-        stream << "add" << fieldName << " ( " << fieldClassName << " add_object )";
+        stream << "add" << fldName << " ( " << className << " add_object )";
         if (writeMethodBody) {
             QString method = VECTOR_METHOD_APPEND;
             method.replace(QRegExp("%VARNAME%"),fieldVarName);
             method.replace(QRegExp("%VECTORTYPENAME%"), policyExt()->getVectorClassName());
-            method.replace(QRegExp("%ITEMCLASS%"),fieldClassName);
+            method.replace(QRegExp("%ITEMCLASS%"),className);
             stream << indent << " {" << m_endl;
             m_indentLevel++;
             printTextAsSeparateLinesWithIndent(method,getIndent(),stream);
@@ -874,16 +875,17 @@ void CppWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, con
     // ONLY IF changeability is Changeable
     if (changeType == Uml::chg_Changeable)
     {
-        writeDocumentation("Remove a " + fieldName + " object from " + fieldVarName + " List",description,"",stream);
+        writeDocumentation("Remove a " + fldName + " object from " + fieldVarName + " List",
+                           description, "", stream);
         stream << indent << "void ";
         if(!isHeaderMethod)
             stream << m_classifierInfo->className << "::";
-        stream << "remove" << fieldName << " ( " << fieldClassName << " remove_object )";
+        stream << "remove" << fldName << " ( " << className << " remove_object )";
         if (writeMethodBody) {
             QString method = VECTOR_METHOD_REMOVE;
             method.replace(QRegExp("%VARNAME%"),fieldVarName);
             method.replace(QRegExp("%VECTORTYPENAME%"), policyExt()->getVectorClassName());
-            method.replace(QRegExp("%ITEMCLASS%"),fieldClassName);
+            method.replace(QRegExp("%ITEMCLASS%"),className);
             stream << indent << " {" << m_endl;
             m_indentLevel++;
             printTextAsSeparateLinesWithIndent(method,getIndent(),stream);
@@ -894,15 +896,15 @@ void CppWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, con
     }
 
     // always allow getting the list of stuff
-    QString returnVarName = policyExt()->getVectorClassName() + '<' + fieldClassName + '>';
-    writeDocumentation("Get the list of " + fieldName + " objects held by " + fieldVarName,
+    QString returnVarName = policyExt()->getVectorClassName() + '<' + className + '>';
+    writeDocumentation("Get the list of " + fldName + " objects held by " + fieldVarName,
                        description,
-                       "@return " + returnVarName + " list of " + fieldName + " objects held by " + fieldVarName,
+                       "@return " + returnVarName + " list of " + fldName + " objects held by " + fieldVarName,
                        stream);
     stream << indent << returnVarName << " ";
     if(!isHeaderMethod)
         stream << m_classifierInfo->className << "::";
-    stream << "get" << fieldName << "List ( )";
+    stream << "get" << fldName << "List ( )";
     if(writeMethodBody) {
         stream << indent << " {" << m_endl;
         m_indentLevel++;
@@ -915,8 +917,9 @@ void CppWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, con
 }
 
 
-void CppWriter::writeSingleAttributeAccessorMethods(QString fieldClassName, const QString& fieldVarName,
-        QString fieldName, const QString &description,
+void CppWriter::writeSingleAttributeAccessorMethods(
+        const QString& fieldClassName, const QString& fieldVarName,
+        const QString& fieldName, const QString &description,
         Uml::Changeability_Type change,
         bool isHeaderMethod,
         bool isStatic,
@@ -928,8 +931,8 @@ void CppWriter::writeSingleAttributeAccessorMethods(QString fieldClassName, cons
     if(!isHeaderMethod && !writeMethodBody)
         return;
 
-    fieldClassName = fixTypeName(fieldClassName);
-    fieldName = capitalizeFirstLetter(fieldName);
+    QString className = fixTypeName(fieldClassName);
+    QString fldName = capitalizeFirstLetter(fieldName);
     QString indent = getIndent();
 
     // set method
@@ -938,7 +941,7 @@ void CppWriter::writeSingleAttributeAccessorMethods(QString fieldClassName, cons
         stream << indent << "void ";
         if(!isHeaderMethod)
             stream << m_classifierInfo->className << "::";
-        stream << "set" << fieldName << " ( " << fieldClassName << " new_var )";
+        stream << "set" << fldName << " ( " << className << " new_var )";
 
         if(writeMethodBody) {
             stream << indent << " {" << m_endl;
@@ -955,10 +958,10 @@ void CppWriter::writeSingleAttributeAccessorMethods(QString fieldClassName, cons
 
     // get method
     writeDocumentation("Get the value of " + fieldVarName,description,"@return the value of " + fieldVarName,stream);
-    stream << indent << fieldClassName << " ";
+    stream << indent << className << " ";
     if(!isHeaderMethod)
         stream << m_classifierInfo->className << "::";
-    stream << "get" << fieldName << " ( )";
+    stream << "get" << fldName << " ( )";
 
     if(writeMethodBody) {
         stream << indent << " {" << m_endl;
