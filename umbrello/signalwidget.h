@@ -54,9 +54,12 @@ public:
     void draw(QPainter & p, int offsetX, int offsetY);
 
      /**
-     * Overrides the standard methods.
+     * Overrides the UMLWidget method.
      */
     void setX(int newX);
+     /**
+     * Overrides the UMLWidget method.
+     */
     void setY(int newY);
 
     /**

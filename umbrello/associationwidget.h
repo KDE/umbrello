@@ -517,7 +517,7 @@ public:
     UMLAttribute * getAttribute() const;
 
     /**
-     * Sets the text of the FloatingTextWidget identified by the ft's Text_Role.
+     * Sets the text of the given FloatingTextWidget.
      * Overrides operation from LinkWidget.
      * Required by FloatingTextWidget.
      */

@@ -27,14 +27,14 @@
 
 /**
  * Displays a page on the tabbed dialog window of @ref ClassPropDlg.
- * The page shows all the Associations that belong to a @ref ConceptWidget.
+ * The page shows all the Associations that belong to a UMLClassifier.
  *
  *
  * @see ClassPropDlg
 
- * @see ConceptWidget
+ * @see UMLClassifier
  *
- * @short The page shows all the Associations that belong to a @ref ConceptWidget.
+ * @short The page shows all the Associations that belong to a UMLClassifier.
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */

@@ -27,7 +27,7 @@ class UMLActor;
  * When the @ref UMLView instance that this class belongs to is destroyed, the
  * ActorWidget will be automatically deleted.
  *
- * If the @ref Actor class that this ActorWidget is displaying is deleted, the
+ * If the UMLActor class that this ActorWidget is displaying is deleted, the
  * @ref UMLView will make sure that this instance is also deleted.
  *
  * The ActorWidget class inherits from the @ref UMLWidget class which adds most

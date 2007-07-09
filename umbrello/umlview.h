@@ -769,7 +769,7 @@ public:
     bool showPropDialog();
 
     /**
-     * Sets some options for all the @ref ClassWidget on the view.
+     * Sets some options for all the @ref ClassifierWidget on the view.
      */
     void setClassWidgetOptions( ClassOptionsPage * page );
 
@@ -952,7 +952,7 @@ protected:
 
     /**
      * Contains the unique ID to allocate to a widget that needs an
-     * ID for the view.  @ref ObjectWidgets are an example of this.
+     * ID for the view.  @ref ObjectWidget is an example of this.
      */
     Uml::IDType m_nLocalID;
 
@@ -982,17 +982,17 @@ protected:
     Settings::OptionState m_Options;
 
     /**
-     * Contains all the data items for @ref MessageWidgets on the diagram.
+     * Contains all the message widgets on the diagram.
      */
     MessageWidgetList m_MessageList;
 
     /**
-     * Contains all the data for @ref UMLWidgets on the diagram.
+     * Contains all the UMLWidgets on the diagram.
      */
     UMLWidgetList m_WidgetList;
 
     /**
-     * Contains all the data for @ref AssociationWidgets on the diagram.
+     * Contains all the AssociationWidgets on the diagram.
      */
     AssociationWidgetList m_AssociationList;
 
