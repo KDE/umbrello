@@ -1470,7 +1470,7 @@ void AssociationWidget::updatePointsException () {
     8 = On diagonal 1 between Region 4 and 1
     9 = On diagonal 1 and On diagonal 2 (the center)
 */
-AssociationWidget::Region AssociationWidget::findPointRegion(QRect Rect, int PosX, int PosY) {
+AssociationWidget::Region AssociationWidget::findPointRegion(const QRect& Rect, int PosX, int PosY) {
     float w = (float)Rect.width();
     float h = (float)Rect.height();
     float x = (float)Rect.x();

@@ -687,7 +687,7 @@ private:
      *          8 = On diagonal 1 between Region4 and 1
      *          9 = On diagonal 1 and On diagonal 2 (the center)
      */
-    static Region findPointRegion(QRect Rect, int PosX, int PosY);
+    static Region findPointRegion(const QRect& Rect, int PosX, int PosY);
 
     /**
      * Given a rectangle and a point, findInterceptOnEdge computes the

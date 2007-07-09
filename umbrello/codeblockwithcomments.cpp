@@ -171,7 +171,7 @@ void CodeBlockWithComments::setOverallIndentationLevel ( int level )
     m_comment->setIndentationLevel(level);
 }
 
-void CodeBlockWithComments::initFields(CodeDocument *parent, QString comment)
+void CodeBlockWithComments::initFields(CodeDocument *parent, const QString& comment)
 {
     CodeComment * codecomment = CodeGenFactory::newCodeComment(parent);
     codecomment->setText(comment);

@@ -363,9 +363,9 @@ QString CodeClassField::cleanName ( const QString &name ) {
     return getParentDocument()->cleanName(name);
 }
 
-QString CodeClassField::fixInitialStringDeclValue(QString value, const QString &type)
+QString CodeClassField::fixInitialStringDeclValue(const QString& val, const QString &type)
 {
-    // check for strings only
+    // check for strings only<F2>String value = val;
     if (!value.isEmpty() && type == "String") {
         if (!value.startsWith('"'))
             value.prepend('"');
