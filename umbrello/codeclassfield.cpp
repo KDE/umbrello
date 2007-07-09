@@ -365,6 +365,7 @@ QString CodeClassField::cleanName ( const QString &name ) {
 
 QString CodeClassField::fixInitialStringDeclValue(const QString& val, const QString &type)
 {
+    QString value = val;
     // check for strings only<F2>String value = val;
     if (!value.isEmpty() && type == "String") {
         if (!value.startsWith('"'))
