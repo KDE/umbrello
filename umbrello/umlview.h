@@ -836,22 +836,22 @@ public:
     // Load/Save interface:
 
     /**
-     * Creates the <diagram> tag and fills it with the contents of the diagram.
+     * Creates the "diagram" tag and fills it with the contents of the diagram.
      */
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     /**
-     * Loads the <diagram> tag.
+     * Loads the "diagram" tag.
      */
     virtual bool loadFromXMI( QDomElement & qElement );
 
     /**
-     * Loads the <UISDiagram> tag of Unisys.IntegratePlus.2 generated files.
+     * Loads the "UISDiagram" tag of Unisys.IntegratePlus.2 generated files.
      */
     bool loadUISDiagram(QDomElement & qElement);
 
     /**
-     * Loads a <widget> element such as <UML:Class>, used by loadFromXMI() and the clipboard.
+     * Loads a "widget" element from XMI, used by loadFromXMI() and the clipboard.
      */
     UMLWidget* loadWidgetFromXMI(QDomElement& widgetElement);
 

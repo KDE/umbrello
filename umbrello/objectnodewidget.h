@@ -93,12 +93,12 @@ public:
 
 
     /**
-     * Saves the widget to the <objectnodewidget> XMI element.
+     * Saves the widget to the "objectnodewidget" XMI element.
      */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     /**
-     * Loads the widget from the <objectnodewidget> XMI element.
+     * Loads the widget from the "objectnodewidget" XMI element.
      */
     bool loadFromXMI( QDomElement & qElement );
 

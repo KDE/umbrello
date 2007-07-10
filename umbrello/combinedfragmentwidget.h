@@ -86,12 +86,12 @@ public:
                       const QString& dialogPrompt, const QString& defaultName);
 
     /**
-     * Saves the widget to the <combinedFragmentwidget> XMI element.
+     * Saves the widget to the "combinedFragmentwidget" XMI element.
      */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     /**
-     * Loads the widget from the <CombinedFragmentwidget> XMI element.
+     * Loads the widget from the "CombinedFragmentwidget" XMI element.
      */
     bool loadFromXMI( QDomElement & qElement );
 

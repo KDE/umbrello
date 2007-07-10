@@ -654,7 +654,7 @@ protected:
     QString m_instanceName;
 
     /**
-     * Should it show the <<stereotype>> of the widget
+     * Should the stereotype be displayed
      */
     bool m_bShowStereotype;
 

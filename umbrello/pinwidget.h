@@ -84,12 +84,12 @@ public:
     int getMaxY();
 
     /**
-     * Saves the widget to the <pinwidget> XMI element.
+     * Saves the widget to the "pinwidget" XMI element.
      */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     /**
-     * Loads the widget from the <pinwidget> XMI element.
+     * Loads the widget from the "pinwidget" XMI element.
      */
      bool loadFromXMI( QDomElement & qElement );
 

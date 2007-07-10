@@ -54,12 +54,12 @@ public:
     void draw(QPainter& p, int offsetX, int offsetY);
 
     /**
-     * Saves to the <entitywidget> XMI element.
+     * Saves to the "entitywidget" XMI element.
      */
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
     /**
-     * Loads from an <entitywidget> XMI element.
+     * Loads from an "entitywidget" XMI element.
      */
     bool loadFromXMI(QDomElement& qElement);
 

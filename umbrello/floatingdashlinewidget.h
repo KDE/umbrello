@@ -88,12 +88,12 @@ public:
     int getDiffY();
 
      /**
-     * Creates the <floatingdashline> XMI element.
+     * Creates the "floatingdashline" XMI element.
      */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     /**
-     * Loads the <floatingdashline> XMI element.
+     * Loads the "floatingdashline" XMI element.
      */
     bool loadFromXMI( QDomElement & qElement );
 

@@ -97,12 +97,12 @@ public:
     void mouseMoveEvent(QMouseEvent *me);
 
     /**
-     * Creates the <signalwidget> XMI element.
+     * Creates the "signalwidget" XMI element.
      */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     /**
-     * Loads a <signalwidget> XMI element.
+     * Loads a "signalwidget" XMI element.
      */
     bool loadFromXMI( QDomElement & qElement );
 

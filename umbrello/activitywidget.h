@@ -101,12 +101,12 @@ public:
                             ActivityType& resultType );
 
     /**
-     * Saves the widget to the <activitywidget> XMI element.
+     * Saves the widget to the "activitywidget" XMI element.
      */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     /**
-     * Loads the widget from the <activitywidget> XMI element.
+     * Loads the widget from the "activitywidget" XMI element.
      */
     bool loadFromXMI( QDomElement & qElement );
 

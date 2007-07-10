@@ -97,12 +97,12 @@ public:
     int getMaxY();
 
     /**
-     * Saves the widget to the <preconditionwidget> XMI element.
+     * Saves the widget to the "preconditionwidget" XMI element.
      */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     /**
-     * Loads the widget from the <preconditionwidget> XMI element.
+     * Loads the widget from the "preconditionwidget" XMI element.
      */
     bool loadFromXMI( QDomElement & qElement );
 

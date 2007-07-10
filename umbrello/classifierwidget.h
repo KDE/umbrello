@@ -282,12 +282,12 @@ public:
     virtual void adjustAssocs(int x, int y);
 
     /**
-     * Creates the <classwidget> or <interfacewidget >XML element.
+     * Creates the "classwidget" or "interfacewidget" XML element.
      */
     void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
     /**
-     * Loads the <classwidget> or <interfacewidget> XML element.
+     * Loads the "classwidget" or "interfacewidget" XML element.
      */
     bool loadFromXMI(QDomElement & qElement);
 

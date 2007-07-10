@@ -620,12 +620,12 @@ public:
     void setUMLObject(UMLObject *obj);
 
     /**
-     * Saves this widget to the <assocwidget> XMI element.
+     * Saves this widget to the "assocwidget" XMI element.
      */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     /**
-     * Loads this widget from the <assocwidget> XMI element.
+     * Loads this widget from the "assocwidget" XMI element.
      */
     bool loadFromXMI( QDomElement & qElement );
 

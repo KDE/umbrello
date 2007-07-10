@@ -442,8 +442,8 @@ public:
 
     /**
      * Loads umbrello specific extensions from XMI to the UMLDoc.
-     * The extension tags are: <docsettings>, <diagrams>, <listview>,
-     * and <codegeneration>.
+     * The extension tags are: "docsettings", "diagrams", "listview",
+     * and "codegeneration".
      */
     void loadExtensionsFromXMI(QDomNode & node);
 

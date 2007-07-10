@@ -55,12 +55,12 @@ public:
 
 
     /**
-     * Creates the <REGIONwidget> XMI element.
+     * Creates the "REGIONwidget" XMI element.
      */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     /**
-     * Loads a <REGIONwidget> XMI element.
+     * Loads a "REGIONwidget" XMI element.
      */
     bool loadFromXMI( QDomElement & qElement );
 

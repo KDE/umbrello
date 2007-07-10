@@ -139,7 +139,7 @@ public:
     /**
      * Creates a UML:Model or UML:Package element:
      * UML:Model is created for the predefined fixed folders,
-     * UML:Package with stereotype <<folder>> is created for all else.
+     * UML:Package with stereotype "folder" is created for all else.
      */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
@@ -161,7 +161,7 @@ protected:
 
     /**
      * Auxiliary to load():
-     * Load the diagrams from the <diagrams> in the <XMI.extension>
+     * Load the diagrams from the "diagrams" in the <XMI.extension>
      */
     bool loadDiagramsFromXMI(QDomNode& diagrams);
 

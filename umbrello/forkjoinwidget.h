@@ -64,12 +64,12 @@ public:
     void draw(QPainter & p, int offsetX, int offsetY);
 
     /**
-     * Saves the widget to the <forkjoinwidget> XMI element.
+     * Saves the widget to the "forkjoinwidget" XMI element.
      */
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
     /**
-     * Loads the widget from the <forkjoinwidget> XMI element.
+     * Loads the widget from the "forkjoinwidget" XMI element.
      */
     bool loadFromXMI(QDomElement & qElement);
 

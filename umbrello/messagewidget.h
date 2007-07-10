@@ -361,12 +361,12 @@ public:
     int onWidget(const QPoint & p);
 
     /**
-     * Saves to the <messagewidget> XMI element.
+     * Saves to the "messagewidget" XMI element.
      */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     /**
-     * Loads from the <messagewidget> XMI element.
+     * Loads from the "messagewidget" XMI element.
      */
     bool loadFromXMI( QDomElement & qElement );
 

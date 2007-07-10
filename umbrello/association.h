@@ -219,7 +219,7 @@ public:
     /**
      * Set backward compatibility flag for loading version 1.3.x files.
      * This flag is necessary because the handling of the isNavigable
-     * attribute of <AssociationEnd> was incorrect.
+     * attribute of <UML:AssociationEnd> was incorrect.
      */
     void setOldLoadMode(bool value = true);
 

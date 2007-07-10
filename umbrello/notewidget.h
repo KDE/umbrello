@@ -133,12 +133,12 @@ public:
     void askForNoteType(UMLWidget* &targetWidget);
 
     /**
-     * Saves to the <notewidget> XMI element.
+     * Saves to the "notewidget" XMI element.
      */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     /**
-     * Loads a <notewidget> XMI element.
+     * Loads a "notewidget" XMI element.
      */
     bool loadFromXMI( QDomElement & qElement );
 
