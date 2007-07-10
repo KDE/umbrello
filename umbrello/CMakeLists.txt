@@ -106,13 +106,11 @@ kde4_add_ui_files(  libcodegenerator_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/javacodegenerationformbase.ui
 )
 
-kde4_automoc(${libcodegenerator_SRCS})
 
 set(libdocgenerator_SRCS
     docgenerators/docbookgenerator.cpp 
     docgenerators/xhtmlgenerator.cpp)
 
-kde4_automoc(${libdocgenerator_SRCS})
 
 set(libdialogs_SRCS
 	dialogs/activitydialog.cpp
@@ -169,12 +167,10 @@ kde4_add_ui_files(  libdialogs_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/diagrampropertiespage.ui
 )
 
-kde4_automoc(${libdialogs_SRCS})
 
 set(librefactoring_SRCS 
 		refactoring/refactoringassistant.cpp )
 
-kde4_automoc(${librefactoring_SRCS})
 
 set(libcodeimport_SRCS 
 	codeimport/adaimport.cpp
@@ -201,14 +197,12 @@ set(libkdevcppparser_SRCS
 	codeimport/kdevcppparser/cpptree2uml.cpp
 )
 
-kde4_automoc(${libkdevcppparser_SRCS})
 
 set(libclipboard_SRCS 
 	clipboard/umldrag.cpp 
 	clipboard/umlclipboard.cpp 
 	clipboard/idchangelog.cpp
 )
-kde4_automoc(${libclipboard_SRCS})
 
 set(libcmds_SRCS
 	cmds/cmd_create_activitydiag.cpp
@@ -241,7 +235,6 @@ set(libcmds_SRCS
 	cmds/widget/cmd_changeMulti.cpp
 
 )
-kde4_automoc(${libclipboard_SRCS})
 ########### next target ###############
 
 set(libumbrello_SRCS 
@@ -369,7 +362,6 @@ set(libumbrello_SRCS
    worktoolbar.cpp 
 )
 
-kde4_automoc(${libumbrello_SRCS})
 
 set (umbrello_SRCS
 	${libdialogs_SRCS} 
