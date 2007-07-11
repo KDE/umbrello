@@ -197,7 +197,7 @@ public:
     virtual CodeBlockWithComments * newCodeBlockWithComments ( );
 
     // return a unique, and currently unallocated, text block tag for this document
-    virtual QString getUniqueTag( QString prefix = QString("") );
+    virtual QString getUniqueTag( const QString& prefix = QString("") );
 
     /** a little utility method to make life easier for the code document programmer
      */

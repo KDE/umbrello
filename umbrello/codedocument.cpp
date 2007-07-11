@@ -186,13 +186,13 @@ CodeComment * CodeDocument::getHeader ( ) {
 // Other methods
 //
 
-QString CodeDocument::getUniqueTag ( QString prefix )
+QString CodeDocument::getUniqueTag ( const QString& prefix )
 {
+    QString tag = prefix ;
+    if(tag.isEmpty())
+        tag += "tblock";
 
-    if(prefix.isEmpty())
-        prefix = "tblock";
-
-    QString tag = prefix + "_0";
+    tag = tag + "_0";
     int number = lastTagIndex;
     for ( ; findTextBlockByTag(tag, true); number++) {
         tag = prefix + '_' + QString::number(number);

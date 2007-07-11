@@ -461,7 +461,7 @@ void CodeGenerationPolicy::writeConfig () {
 }
 
 // return the actual text
-QString CodeGenerationPolicy::getHeadingFile(QString str) {
+QString CodeGenerationPolicy::getHeadingFile(const QString& str) {
 
     if(!getIncludeHeadings() || str.isEmpty())
         return QString("");
@@ -478,8 +478,7 @@ QString CodeGenerationPolicy::getHeadingFile(QString str) {
         if(QFile::exists(headingFiles.absoluteFilePath("heading"+str)))
             filename = headingFiles.absoluteFilePath("heading"+str);
         else {
-            str.prepend('*');
-            headingFiles.setNameFilter(str);
+            headingFiles.setNameFilter('*' + str);
             //if there is more than one match we just take the first one
             QStringList fileList = headingFiles.entryList();
             if ( !fileList.isEmpty() )
