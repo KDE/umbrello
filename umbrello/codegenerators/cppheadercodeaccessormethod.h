@@ -16,9 +16,9 @@
 #ifndef CPPHEADERACCESSORMETHOD_H
 #define CPPHEADERACCESSORMETHOD_H
 
-#include <qstring.h>
-
 #include "../codeaccessormethod.h"
+
+#include <qstring.h>
 
 class CodeClassField;
 
