@@ -315,7 +315,7 @@ int UMLClassifier::attributes() {
     return atts.count();
 }
 
-UMLAttributeList UMLClassifier::getAttributeList() {
+UMLAttributeList UMLClassifier::getAttributeList() const{
     UMLAttributeList attributeList;
     for (UMLObjectListIt lit(m_List); lit.current(); ++lit) {
         UMLObject *listItem = lit.current();
@@ -607,7 +607,7 @@ void UMLClassifier::setClassAssoc(UMLAssociation *assoc) {
     m_pClassAssoc = assoc;
 }
 
-UMLAssociation *UMLClassifier::getClassAssoc() {
+UMLAssociation *UMLClassifier::getClassAssoc() const{
     return m_pClassAssoc;
 }
 
@@ -656,7 +656,7 @@ UMLOperationList UMLClassifier::getOpList(bool includeInherited) {
     return ops;
 }
 
-UMLClassifierListItemList UMLClassifier::getFilteredList(Object_Type ot) {
+UMLClassifierListItemList UMLClassifier::getFilteredList(Uml::Object_Type ot) const {
     UMLClassifierListItemList resultList;
     UMLObject *o;
     for (UMLObjectListIt lit(m_List); (o = lit.current()) != NULL; ++lit) {
@@ -743,7 +743,7 @@ int UMLClassifier::templates() {
     return tempList.count();
 }
 
-UMLTemplateList UMLClassifier::getTemplateList() {
+UMLTemplateList UMLClassifier::getTemplateList() const {
     UMLTemplateList templateList;
     for (UMLObjectListIt lit(m_List); lit.current(); ++lit) {
         UMLObject *listItem = lit.current();
@@ -827,7 +827,7 @@ void UMLClassifier::setOriginType(UMLClassifier *origType) {
     m_pSecondary = origType;
 }
 
-UMLClassifier * UMLClassifier::originType() {
+UMLClassifier * UMLClassifier::originType() const{
     return static_cast<UMLClassifier*>(m_pSecondary);
 }
 
@@ -835,7 +835,7 @@ void UMLClassifier::setIsReference(bool isRef) {
     m_isRef = isRef;
 }
 
-bool UMLClassifier::isReference() {
+bool UMLClassifier::isReference() const{
     return m_isRef;
 }
 

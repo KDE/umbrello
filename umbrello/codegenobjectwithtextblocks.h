@@ -135,7 +135,7 @@ public:
      * @return  QString
      * @param   prefix
      */
-    virtual QString getUniqueTag (QString prefix = "" ) = 0;
+    virtual QString getUniqueTag (const QString& prefix = "" ) = 0;
 
     /** Virtual methods that return a new code document objects.
      */

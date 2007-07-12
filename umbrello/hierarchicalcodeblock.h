@@ -106,7 +106,7 @@ public:
 
     // return a unique, and currently unallocated, text block tag for this hblock
     QString getUniqueTag();
-    QString getUniqueTag( QString prefix );
+    QString getUniqueTag( const QString& prefix );
 
     /**
      * Utility method to add accessormethods in this object

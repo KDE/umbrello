@@ -106,7 +106,7 @@ QString UMLObject::getName() const {
     return m_Name;
 }
 
-QString UMLObject::getFullyQualifiedName(QString separator,
+QString UMLObject::getFullyQualifiedName(const QString& separator,
                                          bool includeRoot /* = false */) const {
     QString fqn;
     if (m_pUMLPackage) {
@@ -118,10 +118,11 @@ QString UMLObject::getFullyQualifiedName(QString separator,
                 skipPackage = true;
         }
         if (!skipPackage) {
-            if (separator.isEmpty())
-                separator = UMLApp::app()->activeLanguageScopeSeparator();
-            fqn = m_pUMLPackage->getFullyQualifiedName(separator, includeRoot);
-            fqn.append(separator);
+            QString tempSeparator = separator;
+            if (tempSeparator.isEmpty())
+                tempSeparator = UMLApp::app()->activeLanguageScopeSeparator();
+            fqn = m_pUMLPackage->getFullyQualifiedName(tempSeparator, includeRoot);
+            fqn.append(tempSeparator);
         }
     }
     fqn.append(m_Name);
@@ -337,13 +338,14 @@ QString UMLObject::getStereotype(bool includeAdornments /* = false */) const {
     return name;
 }
 
-QString UMLObject::getPackage(QString separator, bool includeRoot) {
-    if (separator.isEmpty())
-        separator = UMLApp::app()->activeLanguageScopeSeparator();
-    QString fqn = getFullyQualifiedName(separator, includeRoot);
-    if (!fqn.contains(separator))
+QString UMLObject::getPackage(const QString& separator, bool includeRoot) {
+    QString tempSeparator = separator;
+    if (tempSeparator.isEmpty())
+        tempSeparator = UMLApp::app()->activeLanguageScopeSeparator();
+    QString fqn = getFullyQualifiedName(tempSeparator, includeRoot);
+    if (!fqn.contains(tempSeparator))
         return "";
-    QString scope = fqn.left(fqn.length() - separator.length() - m_Name.length());
+    QString scope = fqn.left(fqn.length() - tempSeparator.length() - m_Name.length());
     return scope;
 }
 
@@ -421,7 +423,6 @@ bool UMLObject::resolveRef() {
             m_pSecondary = Object_Factory::createUMLObject(Uml::ot_Datatype, "undef", datatypes, false);
             return true;
         }
-        m_SecondaryFallback = m_SecondaryId;
     }
     if (m_SecondaryFallback.isEmpty()) {
         kError() << "UMLObject::resolveRef(" << m_Name
@@ -449,7 +450,7 @@ bool UMLObject::resolveRef() {
     // of on-the-fly scope creation:
     if (m_SecondaryId.contains("::")) {
         // TODO: Merge Import_Utils::createUMLObject() into Object_Factory::createUMLObject()
-        m_pSecondary = Import_Utils::createUMLObject(Uml::ot_UMLObject, m_SecondaryId, NULL);
+        m_pSecondary = Import_Utils::createUMLObject(Uml::ot_UMLObject, m_SecondaryId, m_pUMLPackage);
         if (m_pSecondary) {
             if (Import_Utils::newUMLObjectWasCreated()) {
                 maybeSignalObjectCreated();

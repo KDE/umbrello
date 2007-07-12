@@ -92,7 +92,7 @@ QIconSet iconSet(Uml::Diagram_Type dt) {
     return diagramIconSet;
 }
 
-QCanvasRectangle *decoratePoint(QPoint p) {
+QCanvasRectangle *decoratePoint(const QPoint& p) {
     const int SIZE = 4;
     UMLView *currentView = UMLApp::app()->getCurrentView();
     QCanvasRectangle *rect;

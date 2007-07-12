@@ -68,7 +68,7 @@ QString HierarchicalCodeBlock::getUniqueTag()
     return getUniqueTag("hblock_tag");
 }
 
-QString HierarchicalCodeBlock::getUniqueTag( QString prefix )
+QString HierarchicalCodeBlock::getUniqueTag( const QString& prefix )
 {
     return getParentDocument()->getUniqueTag(prefix);
 }

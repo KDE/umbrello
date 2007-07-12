@@ -179,6 +179,11 @@ void FloatingTextWidget::handleRename() {
                                             m_pView, NULL, &v);
     if (!ok || newText == getText())
         return;
+}
+
+void FloatingTextWidget::changeName(const QString& newText)
+{
+
     if (m_pLink && !isTextValid(newText)) {
         AssociationWidget *assoc = dynamic_cast<AssociationWidget*>(m_pLink);
         if (assoc) {

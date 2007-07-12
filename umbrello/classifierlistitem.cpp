@@ -53,11 +53,11 @@ QString UMLClassifierListItem::toString(Uml::Signature_Type /*sig*/) {
     return getName();
 }
 
-UMLClassifier * UMLClassifierListItem::getType() {
+UMLClassifier * UMLClassifierListItem::getType() const{
     return static_cast<UMLClassifier*>(m_pSecondary);
 }
 
-QString UMLClassifierListItem::getTypeName() {
+QString UMLClassifierListItem::getTypeName() const{
     if (m_pSecondary == NULL)
         return m_SecondaryId;
     const UMLPackage *typePkg = m_pSecondary->getUMLPackage();

@@ -40,7 +40,7 @@ bool allowAssociation( Association_Type/* assocType*/, const std::type_info/* &t
 
 }
 
-bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widget ) {
+bool AssocRules::allowAssociation( Uml::Association_Type assocType, UMLWidget * widget ) {
     Widget_Type widgetType = widget -> getBaseType();
     bool bValid = false;
     for (int i = 0; i < m_nNumRules; i++) {
@@ -115,7 +115,7 @@ bool AssocRules::allowAssociation( Association_Type assocType, UMLWidget * widge
 
 // when we know what we are going to connect both ends of the association to, we can
 // use this method.
-bool AssocRules::allowAssociation( Association_Type assocType,
+bool AssocRules::allowAssociation( Uml::Association_Type assocType,
                                    UMLWidget * widgetA, UMLWidget * widgetB,
                                    bool extendedCheck ) {
     Widget_Type widgetTypeA = widgetA->getBaseType();
@@ -241,14 +241,14 @@ bool AssocRules::allowAssociation( Association_Type assocType,
     return false;
 }
 
-bool AssocRules::allowRole( Association_Type assocType ) {
+bool AssocRules::allowRole( Uml::Association_Type assocType ) {
     for( int i = 0; i < m_nNumRules; i++ )
         if( assocType == m_AssocRules[ i ].assoc_type )
             return m_AssocRules[ i ].role;
     return false;
 }
 
-bool AssocRules::allowMultiplicity( Association_Type assocType, Widget_Type widgetType ) {
+bool AssocRules::allowMultiplicity( Uml::Association_Type assocType, Uml::Widget_Type widgetType ) {
     for( int i = 0; i < m_nNumRules; i++ )
         if( assocType == m_AssocRules[ i ].assoc_type )
             if( widgetType == m_AssocRules[ i ].widgetA_type || widgetType == m_AssocRules[ i ].widgetB_type )
@@ -256,7 +256,7 @@ bool AssocRules::allowMultiplicity( Association_Type assocType, Widget_Type widg
     return false;
 }
 
-bool AssocRules::allowSelf( Association_Type assocType, Widget_Type widgetType ) {
+bool AssocRules::allowSelf( Uml::Association_Type assocType, Uml::Widget_Type widgetType ) {
     for( int i = 0; i < m_nNumRules; i++ )
         if( assocType == m_AssocRules[ i ].assoc_type )
             if( widgetType == m_AssocRules[ i ].widgetA_type || widgetType == m_AssocRules[ i ].widgetB_type )
@@ -265,7 +265,7 @@ bool AssocRules::allowSelf( Association_Type assocType, Widget_Type widgetType )
     return false;
 }
 
-Association_Type AssocRules::isGeneralisationOrRealisation(UMLWidget* widgetA, UMLWidget* widgetB) {
+Uml::Association_Type AssocRules::isGeneralisationOrRealisation(UMLWidget* widgetA, UMLWidget* widgetB) {
     Widget_Type widgetTypeA = widgetA->getBaseType();
     Widget_Type widgetTypeB = widgetB->getBaseType();
     for (int i = 0; i < m_nNumRules; i++) {

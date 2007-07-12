@@ -379,7 +379,7 @@ bool CodeGenerationPolicy::getAutoGenerateConstructors( ){
     return m_autoGenerateConstructors;
 }
 
-void CodeGenerationPolicy::setAttributeAccessorScope(CodeGenerationPolicy::ScopePolicy var) {
+void CodeGenerationPolicy::setAttributeAccessorScope(ScopePolicy var) {
     m_attributeAccessorScope = var;
     emit modifiedCodeContent();
 }
@@ -388,7 +388,7 @@ CodeGenerationPolicy::ScopePolicy CodeGenerationPolicy::getAttributeAccessorScop
     return m_attributeAccessorScope;
 }
 
-void CodeGenerationPolicy::setAssociationFieldScope(CodeGenerationPolicy::ScopePolicy var) {
+void CodeGenerationPolicy::setAssociationFieldScope(ScopePolicy var) {
     m_associationFieldScope = var;
     emit modifiedCodeContent();
 }
@@ -510,7 +510,7 @@ void CodeGenerationPolicy::writeConfig (KConfig * config) {
 }
 
 // return the actual text
-QString CodeGenerationPolicy::getHeadingFile(QString str) {
+QString CodeGenerationPolicy::getHeadingFile(const QString& str) {
 
     if(!getIncludeHeadings() || str.isEmpty())
         return QString("");
@@ -526,8 +526,7 @@ QString CodeGenerationPolicy::getHeadingFile(QString str) {
         if(QFile::exists(m_headingFiles.absFilePath("heading"+str)))
             filename = m_headingFiles.absFilePath("heading"+str);
         else {
-            str.prepend('*');
-            m_headingFiles.setNameFilter(str);
+            m_headingFiles.setNameFilter('*' + str);
             //if there is more than one match we just take the first one
             filename = m_headingFiles.absFilePath(m_headingFiles.entryList().first());
             // kWarning() << "header file name set to " << filename << " because it was *" << endl;

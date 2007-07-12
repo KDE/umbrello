@@ -33,7 +33,7 @@ const unsigned UMLAssociation::nAssocTypes = (unsigned)atypeLast -
         (unsigned)atypeFirst + 1;
 
 // constructor
-UMLAssociation::UMLAssociation( Association_Type type,
+UMLAssociation::UMLAssociation( Uml::Association_Type type,
                                 UMLObject * roleA, UMLObject * roleB )
         : UMLObject("")
 {
@@ -43,7 +43,7 @@ UMLAssociation::UMLAssociation( Association_Type type,
     m_pRole[Uml::B]->setID( UniqueID::gen() );
 }
 
-UMLAssociation::UMLAssociation( Association_Type type /* = Uml::at_Unknown */)
+UMLAssociation::UMLAssociation( Uml::Association_Type type /* = Uml::at_Unknown */)
         : UMLObject("", Uml::id_Reserved)
 {
     init(type, NULL, NULL);
@@ -437,18 +437,18 @@ bool UMLAssociation::load( QDomElement & element ) {
     QString changeabilityA = element.attribute( "changeabilitya", "0");
     QString changeabilityB = element.attribute( "changeabilityb", "0");
     if (changeabilityA.toInt() > 0)
-        setChangeability ( (Changeability_Type) changeabilityA.toInt(), A);
+        setChangeability ( (Uml::Changeability_Type) changeabilityA.toInt(), A);
     if (changeabilityB.toInt() > 0)
-        setChangeability ( (Changeability_Type) changeabilityB.toInt(), B);
+        setChangeability ( (Uml::Changeability_Type) changeabilityB.toInt(), B);
 
     return true;
 }
 
-UMLObject* UMLAssociation::getObject(Role_Type role) {
+UMLObject* UMLAssociation::getObject(Uml::Role_Type role) {
     return m_pRole[role]->getObject();
 }
 
-Uml::IDType UMLAssociation::getObjectId(Role_Type role) {
+Uml::IDType UMLAssociation::getObjectId(Uml::Role_Type role) {
     UMLRole *roleObj = m_pRole[role];
     UMLObject *o = roleObj->getObject();
     if (o == NULL) {
@@ -472,27 +472,27 @@ Uml::IDType UMLAssociation::getRoleId(Role_Type role) const {
 }
  */
 
-Changeability_Type UMLAssociation::getChangeability(Role_Type role) const {
+Uml::Changeability_Type UMLAssociation::getChangeability(Uml::Role_Type role) const {
     return m_pRole[role]->getChangeability();
 }
 
-Uml::Visibility UMLAssociation::getVisibility(Role_Type role) const {
+Uml::Visibility UMLAssociation::getVisibility(Uml::Role_Type role) const {
     return m_pRole[role]->getVisibility();
 }
 
-QString UMLAssociation::getMulti(Role_Type role) const {
+QString UMLAssociation::getMulti(Uml::Role_Type role) const {
     return m_pRole[role]->getMultiplicity();
 }
 
-QString UMLAssociation::getRoleName(Role_Type role) const {
+QString UMLAssociation::getRoleName(Uml::Role_Type role) const {
     return m_pRole[role]->getName();
 }
 
-QString UMLAssociation::getRoleDoc(Role_Type role) const {
+QString UMLAssociation::getRoleDoc(Uml::Role_Type role) const {
     return m_pRole[role]->getDoc();
 }
 
-UMLRole * UMLAssociation::getUMLRole(Role_Type role) {
+UMLRole * UMLAssociation::getUMLRole(Uml::Role_Type role) {
     return m_pRole[role];
 }
 
@@ -519,27 +519,27 @@ void UMLAssociation::setAssocType(Uml::Association_Type assocType) {
         emit modified();
 }
 
-void UMLAssociation::setObject(UMLObject *obj, Role_Type role) {
+void UMLAssociation::setObject(UMLObject *obj, Uml::Role_Type role) {
     m_pRole[role]->setObject(obj);
 }
 
-void UMLAssociation::setVisibility(Uml::Visibility value, Role_Type role) {
+void UMLAssociation::setVisibility(Uml::Visibility value, Uml::Role_Type role) {
     m_pRole[role]->setVisibility(value);
 }
 
-void UMLAssociation::setChangeability(Changeability_Type value, Role_Type role) {
+void UMLAssociation::setChangeability(Uml::Changeability_Type value, Uml::Role_Type role) {
     m_pRole[role]->setChangeability(value);
 }
 
-void UMLAssociation::setMulti(const QString &value, Role_Type role) {
+void UMLAssociation::setMulti(const QString &value, Uml::Role_Type role) {
     m_pRole[role]->setMultiplicity(value);
 }
 
-void UMLAssociation::setRoleName(const QString &value, Role_Type role) {
+void UMLAssociation::setRoleName(const QString &value, Uml::Role_Type role) {
     m_pRole[role]->setName(value);
 }
 
-void UMLAssociation::setRoleDoc(const QString &doc, Role_Type role) {
+void UMLAssociation::setRoleDoc(const QString &doc, Uml::Role_Type role) {
     m_pRole[role]->setDoc(doc);
 }
 
@@ -558,7 +558,7 @@ QString UMLAssociation::ChangeabilityToString(Uml::Changeability_Type type) {
     }
 }
 
-void UMLAssociation::init(Association_Type type, UMLObject *roleAObj, UMLObject *roleBObj) {
+void UMLAssociation::init(Uml::Association_Type type, UMLObject *roleAObj, UMLObject *roleBObj) {
     m_AssocType = type;
     m_BaseType = ot_Association;
     m_Name = "";

@@ -41,6 +41,7 @@ public:
      * Constructs a NoteWidget.
      *
      * @param view              The parent to this widget.
+     * @param noteType          The NoteWidget::NoteType of this NoteWidget
      * @param id                The unique id of the widget.
      *                  The default (-1) will prompt a new ID.
      */
@@ -107,12 +108,12 @@ public:
     void setY(int y);
 
     /**
-     * Saves to the <notewidget> XMI element.
+     * Saves to the "notewidget" XMI element.
      */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     /**
-     * Loads a <notewidget> XMI element.
+     * Loads a "notewidget" XMI element.
      */
     bool loadFromXMI( QDomElement & qElement );
 

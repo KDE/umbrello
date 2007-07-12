@@ -49,7 +49,7 @@ public:
     void draw(QPainter& p, int offsetX, int offsetY);
 
     /**
-     * Saves to the <componentwidget> XMI element.
+     * Saves to the "componentwidget" XMI element.
      */
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 

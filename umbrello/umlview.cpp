@@ -663,7 +663,7 @@ ObjectWidget * UMLView::onWidgetLine( const QPoint &point ) {
     return 0;
 }
 
-UMLWidget *UMLView::getWidgetAt(QPoint p) {
+UMLWidget *UMLView::getWidgetAt(const QPoint& p) {
     int relativeSize = 10000;  // start with an arbitrary large number
     UMLWidget *obj, *retObj = NULL;
     UMLWidgetListIt it(m_WidgetList);
@@ -785,7 +785,7 @@ AssociationWidget * UMLView::findAssocWidget(UMLWidget *pWidgetA,
 }
 
 
-AssociationWidget * UMLView::findAssocWidget(Association_Type at,
+AssociationWidget * UMLView::findAssocWidget(Uml::Association_Type at,
         UMLWidget *pWidgetA, UMLWidget *pWidgetB) {
     AssociationWidget *assoc;
     AssociationWidgetListIt it(m_AssociationList);

@@ -323,7 +323,7 @@ protected:
      * @return The AssociationWidget at the specified position, or null if there is none.
      * @todo Better handling for associations at the same point
      */
-    AssociationWidget* getAssociationAt(QPoint pos);
+    AssociationWidget* getAssociationAt(const QPoint& pos);
 
     /**
      * Returns the MessageWidget at the specified position, or null if there is none.
@@ -334,7 +334,7 @@ protected:
      * @return The MessageWidget at the specified position, or null if there is none.
      * @todo Better handling for messages at the same point
      */
-    MessageWidget* getMessageAt(QPoint pos);
+    MessageWidget* getMessageAt(const QPoint& pos);
 
     /**
      * The UMLView.

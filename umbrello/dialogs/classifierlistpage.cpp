@@ -30,7 +30,7 @@
 using namespace Uml;
 
 ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifier,
-                                       UMLDoc* doc, Object_Type type) : QWidget(parent) {
+                                       UMLDoc* doc, Uml::Object_Type type) : QWidget(parent) {
     m_itemType = type;
     QString typeName("");
     QString newItemType("");

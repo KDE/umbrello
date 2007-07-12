@@ -102,6 +102,13 @@ namespace Import_Utils {
      *               already exists  at the classifier then the incoming
      *               UMLOperation is deleted and the pointer is set to the
      *               existing UMLOperation.
+     * @param scope  The Uml::Visibility of the method
+     * @param type   The return type
+     * @param isStatic boolean switch to decide if method is static
+     * @param isAbstract boolean switch to decide if method is abstract
+     * @param isFriend true boolean switch to decide if methods is a friend function
+     * @param isConstructor boolean switch to decide if methods is a constructor
+     * @param comment The Documentation for this method
      */
     void insertMethod(UMLClassifier *klass, UMLOperation* &op,
                       Uml::Visibility scope, const QString& type,

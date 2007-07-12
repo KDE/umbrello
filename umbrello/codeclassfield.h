@@ -177,7 +177,7 @@ protected:
      * this one fixes the initial declared value of string attributes so that if
      * its empty or lacking quotations, it comes out as ""
      */
-    QString fixInitialStringDeclValue(QString value, const QString &type);
+    QString fixInitialStringDeclValue(const QString& val, const QString &type);
 
     // set the list class name
     void setListClassName ( const QString &className );

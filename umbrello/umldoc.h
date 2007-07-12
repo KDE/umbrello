@@ -206,6 +206,7 @@ public:
       * Returns true if the given name is unique within its scope of given package.
       *
       * @param name          The name to check.
+      * @package     The UMLPackage in which we have to determine the unique-ness
       * @return      True if name is unique.
       */
     bool isUnique(const QString &name, UMLPackage *package);
@@ -265,8 +266,9 @@ public:
      * @param type              The type of diagram to create.
      * @param askForName        If true shows a dialog box asking for name,
      *                  else uses a default name.
+     * @return Pointer to the UMLView of the new diagram.
      */
-    void createDiagram(UMLFolder *folder, Uml::Diagram_Type type, bool askForName = true);
+    UMLView* createDiagram(UMLFolder *folder, Uml::Diagram_Type type, bool askForName = true);
 
     /**
      * Removes an @ref UMLObject from the current file.  If this object
@@ -445,8 +447,8 @@ public:
 
     /**
      * Loads umbrello specific extensions from XMI to the UMLDoc.
-     * The extension tags are: <docsettings>, <diagrams>, <listview>,
-     * and <codegeneration>.
+     * The extension tags are: "docsettings", "diagrams", "listview",
+     * and "codegeneration".
      */
     void loadExtensionsFromXMI(QDomNode & node);
 

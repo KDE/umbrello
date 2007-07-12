@@ -282,7 +282,7 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLView* view, const QString &fi
     return exportSuccessful;
 }
 
-bool UMLViewImageExporterModel::fixEPS(const QString &fileName, QRect rect) const {
+bool UMLViewImageExporterModel::fixEPS(const QString &fileName, const QRect& rect) const {
     // now open the file and make a correct eps out of it
     QFile epsfile(fileName);
     if (! epsfile.open(IO_ReadOnly)) {

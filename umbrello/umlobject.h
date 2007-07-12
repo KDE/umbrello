@@ -27,7 +27,7 @@ class UMLObject;
 /**
  * This class is the non-graphical version of @ref UMLWidget.  These are
  * created and maintained in the class @ref UMLDoc.  This class holds all
- * the generic information needed for all UMLObjects.
+ * the generic information needed for all UML objects.
  *
  * @short The base class for UML objects.
  * @author Paul Hensgen <phensgen@techie.com>
@@ -196,7 +196,7 @@ public:
      *                     Default: false.
      * @return  The UMLObject's enclosing package(s) as a text.
      */
-    QString getPackage(QString separator = QString::null,
+    QString getPackage(const QString& separator = QString::null,
                        bool includeRoot = false);
 
     /**
@@ -242,7 +242,7 @@ public:
      *                     See UMLDoc::getRootFolder(). Default: false.
      * @return  The fully qualified name of this UMLObject.
      */
-    virtual QString getFullyQualifiedName(QString separator = QString::null,
+    virtual QString getFullyQualifiedName(const QString& separator = QString::null,
                                           bool includeRoot = false) const;
 
     /**

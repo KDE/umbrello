@@ -233,7 +233,7 @@ void ToolBarState::setMouseEvent(QMouseEvent* ome, const QEvent::Type &type) {
                                     ome->button(),ome->state());
 }
 
-MessageWidget* ToolBarState::getMessageAt(QPoint pos) {
+MessageWidget* ToolBarState::getMessageAt(const QPoint& pos) {
     MessageWidget* message = 0;
     for (MessageWidgetListIt it(m_pUMLView->getMessageList());
                                 (message = it.current()) != 0; ++it) {
@@ -245,7 +245,7 @@ MessageWidget* ToolBarState::getMessageAt(QPoint pos) {
     return message;
 }
 
-AssociationWidget* ToolBarState::getAssociationAt(QPoint pos) {
+AssociationWidget* ToolBarState::getAssociationAt(const QPoint& pos) {
     AssociationWidget* association = 0;
     for (AssociationWidgetListIt it(m_pUMLView->getAssociationList());
                                 (association = it.current()) != 0; ++it) {

@@ -62,6 +62,7 @@ public:
      * Constructs a MessageWidget.
      *
      * @param view              The parent to this class.
+     * @param sequenceMessageType The Uml::Sequence_Message_Type of this message widget
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
     MessageWidget(UMLView * view, Uml::Sequence_Message_Type sequenceMessageType, Uml::IDType id = Uml::id_None);
@@ -112,6 +113,7 @@ public:
      * Sets the related widget on the given side.
      *
      * @param ow        The ObjectWidget we are related to.
+     * @param role      The Uml::Role_Type to be set for the ObjectWidget
      */
     void setWidget(ObjectWidget * ow, Uml::Role_Type role) ;
 
@@ -320,12 +322,12 @@ public:
     int onWidget(const QPoint & p);
 
     /**
-     * Saves to the <messagewidget> XMI element.
+     * Saves to the "messagewidget" XMI element.
      */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     /**
-     * Loads from the <messagewidget> XMI element.
+     * Loads from the "messagewidget" XMI element.
      */
     bool loadFromXMI( QDomElement & qElement );
 

@@ -218,6 +218,11 @@ public:
     void handleRename();
 
     /**
+     * Change Name
+     */
+    void changeName(const QString& newText);
+
+    /**
      * Shows an operation dialog box.
      */
     void showOpDlg();
@@ -231,12 +236,12 @@ public:
     void showProperties();
 
     /**
-     * Creates the <floatingtext> XMI element.
+     * Creates the "floatingtext" XMI element.
      */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     /**
-     * Loads the <floatingtext> XMI element.
+     * Loads the "floatingtext" XMI element.
      */
     bool loadFromXMI( QDomElement & qElement );
 

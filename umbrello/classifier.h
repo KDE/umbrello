@@ -133,7 +133,7 @@ public:
      *
      * @return  The number of attributes for the class.
      */
-    int attributes();
+    int attributes() ;
 
     /**
      * Returns the attributes.
@@ -142,7 +142,7 @@ public:
      *
      * @return  List of true attributes for the class.
      */
-    UMLAttributeList getAttributeList();
+    UMLAttributeList getAttributeList() const;
 
     /**
      * Creates an operation in the current document.
@@ -224,7 +224,7 @@ public:
      *
      * @return  The number of operations for the Classifier.
      */
-    int operations();
+    int operations() ;
 
     /**
      * Return a list of operations for the Classifier.
@@ -301,7 +301,7 @@ public:
      *
      * @return  Pointer to the list of true templates for the class.
      */
-    UMLTemplateList getTemplateList();
+    UMLTemplateList getTemplateList() const;
 
     /**
      * Take and return a subordinate item from this classifier.
@@ -320,7 +320,7 @@ public:
      *
      * @return  The list of true operations for the Concept.
      */
-    UMLClassifierListItemList getFilteredList(Uml::Object_Type ot);
+    virtual UMLClassifierListItemList getFilteredList(Uml::Object_Type ot) const;
 
     /**
      * Needs to be called after all UML objects are loaded from file.
@@ -390,7 +390,7 @@ public:
      * association class. Returns NULL if this class does not act
      * as an association class.
      */
-    UMLAssociation *getClassAssoc();
+    UMLAssociation *getClassAssoc() const;
 
     /**
      * Reimplementation of method from class UMLObject for controlling the
@@ -416,7 +416,7 @@ public:
     /**
      * Get the origin type (in case of e.g. typedef)
      */
-    UMLClassifier * originType();
+    UMLClassifier * originType() const;
 
     /**
      * Set the m_isRef flag (true when dealing with a pointer type)
@@ -426,7 +426,7 @@ public:
     /**
      * Get the m_isRef flag.
      */
-    bool isReference();
+    bool isReference() const;
 
     /**
      * Return true if this classifier has abstract operations.

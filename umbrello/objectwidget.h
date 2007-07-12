@@ -230,12 +230,12 @@ public:
     SeqLineWidget *getSeqLine();
 
     /**
-     * Saves to the <objectwidget> XMI element.
+     * Saves to the "objectwidget" XMI element.
      */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     /**
-     * Loads from a <objectwidget> XMI element.
+     * Loads from a "objectwidget" XMI element.
      */
     bool loadFromXMI( QDomElement & qElement );
 

@@ -45,7 +45,7 @@ UMLWidget* findWidget(Uml::IDType id,
  */
 QIconSet iconSet(Uml::Diagram_Type dt);
 
-QCanvasRectangle *decoratePoint(QPoint p);
+QCanvasRectangle *decoratePoint(const QPoint& p);
 
 }
 

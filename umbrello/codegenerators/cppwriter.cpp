@@ -918,8 +918,8 @@ void CppWriter::writeVectorAttributeAccessorMethods (
 
 
 void CppWriter::writeSingleAttributeAccessorMethods(
-        const QString &fieldClassName, const QString& fieldVarName,
-        const QString &fieldName, const QString &description,
+        const QString& fieldClassName, const QString& fieldVarName,
+        const QString& fieldName, const QString &description,
         Uml::Changeability_Type change,
         bool isHeaderMethod,
         bool isStatic,

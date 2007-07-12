@@ -175,6 +175,7 @@ public:
      * Find an association.
      *
      * @param id        The id of the object to find.
+     * @param considerAncestors boolean switch to consider ancestors while searching
      * @return  Pointer to the object found (NULL if not found.)
      */
     virtual UMLObject *findChildObjectById(Uml::IDType id, bool considerAncestors = false);

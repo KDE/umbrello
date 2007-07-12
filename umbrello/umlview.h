@@ -595,6 +595,7 @@ public:
 
     /**
      * Removes a AssociationWidget from a diagram
+     * Physically deletes the AssociationWidget passed in.
      *
      * @param pAssoc  Pointer to the AssociationWidget.
      */
@@ -758,7 +759,7 @@ public:
     bool showPropDialog();
 
     /**
-     * Sets some options for all the @ref ClassWidget on the view.
+     * Sets some options for all the @ref ClassifierWidget on the view.
      */
     void setClassWidgetOptions( ClassOptionsPage * page );
 
@@ -825,22 +826,22 @@ public:
     // Load/Save interface:
 
     /**
-     * Creates the <diagram> tag and fills it with the contents of the diagram.
+     * Creates the "diagram" tag and fills it with the contents of the diagram.
      */
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     /**
-     * Loads the <diagram> tag.
+     * Loads the "diagram" tag.
      */
     virtual bool loadFromXMI( QDomElement & qElement );
 
     /**
-     * Loads the <UISDiagram> tag of Unisys.IntegratePlus.2 generated files.
+     * Loads the "UISDiagram" tag of Unisys.IntegratePlus.2 generated files.
      */
     bool loadUISDiagram(QDomElement & qElement);
 
     /**
-     * Loads a <widget> element such as <UML:Class>, used by loadFromXMI() and the clipboard.
+     * Loads a "widget" element from XMI, used by loadFromXMI() and the clipboard.
      */
     UMLWidget* loadWidgetFromXMI(QDomElement& widgetElement);
 
@@ -877,7 +878,7 @@ public:
      * Returns NULL if the point is not inside any widget.
      * Does not use or modify the m_pOnWidget member.
      */
-    UMLWidget *getWidgetAt(QPoint p);
+    UMLWidget *getWidgetAt(const QPoint& p);
 
     /**
      * Initialize and announce a newly created widget.
@@ -925,7 +926,7 @@ protected:
 
     /**
      * Contains the unique ID to allocate to a widget that needs an
-     * ID for the view.  @ref ObjectWidgets are an example of this.
+     * ID for the view.  @ref ObjectWidget is an example of this.
      */
     Uml::IDType m_nLocalID;
 
@@ -955,17 +956,17 @@ protected:
     Settings::OptionState m_Options;
 
     /**
-     * Contains all the data items for @ref MessageWidgets on the diagram.
+     * Contains all the message widgets on the diagram.
      */
     MessageWidgetList m_MessageList;
 
     /**
-     * Contains all the data for @ref UMLWidgets on the diagram.
+     * Contains all the UMLWidgets on the diagram.
      */
     UMLWidgetList m_WidgetList;
 
     /**
-     * Contains all the data for @ref AssociationWidgets on the diagram.
+     * Contains all the AssociationWidgets on the diagram.
      */
     AssociationWidgetList m_AssociationList;
 

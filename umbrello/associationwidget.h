@@ -508,7 +508,7 @@ public:
     UMLAttribute * getAttribute() const;
 
     /**
-     * Sets the text of the FloatingTextWidget identified by the ft's Text_Role.
+     * Sets the text of the given FloatingTextWidget.
      * Overrides operation from LinkWidget.
      * Required by FloatingTextWidget.
      */
@@ -611,12 +611,12 @@ public:
     void setUMLObject(UMLObject *obj);
 
     /**
-     * Saves this widget to the <assocwidget> XMI element.
+     * Saves this widget to the "assocwidget" XMI element.
      */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     /**
-     * Loads this widget from the <assocwidget> XMI element.
+     * Loads this widget from the "assocwidget" XMI element.
      */
     bool loadFromXMI( QDomElement & qElement );
 
@@ -678,7 +678,7 @@ private:
      *          8 = On diagonal 1 between Region4 and 1
      *          9 = On diagonal 1 and On diagonal 2 (the center)
      */
-    static Region findPointRegion(QRect Rect, int PosX, int PosY);
+    static Region findPointRegion(const QRect& Rect, int PosX, int PosY);
 
     /**
      * Given a rectangle and a point, findInterceptOnEdge computes the
@@ -748,12 +748,12 @@ private:
      * P3. If this value is negative an error ocurred.
      * This method is not currently used.
      */
-    static float perpendicularProjection(QPoint P1, QPoint P2, QPoint P3, QPoint& ResultingPoint);
+    static float perpendicularProjection(const QPoint& P1, const QPoint& P2, const QPoint& P3, QPoint& ResultingPoint);
 
     /**
      * Return the mid point between p0 and p1
      */
-    static QPoint midPoint(QPoint p0, QPoint p1);
+    static QPoint midPoint(const QPoint& p0, const QPoint& p1);
 
     /**
      * Calculates the position of the text widget depending on the role

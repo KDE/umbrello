@@ -143,6 +143,7 @@ public:
         mt_MultiB,
         mt_Name,                          //Association name
         mt_FullAssociation,                 // Association with role names
+        mt_AttributeAssociation,   // Rendering of an attribute as an association
         mt_RoleNameA,
         mt_RoleNameB,
         mt_Delete_Selection,
@@ -187,7 +188,8 @@ public:
      * Constructs the popup menu for a diagram
      *
      * @param parent    The parent to ListPopupMenu.
-     * @param type              The type of menu to display.
+     * @param type      The type of menu to display.
+     * @param view      The UMLView in which this ListPopupMenu is going to be displayed
      */
     explicit ListPopupMenu(QWidget* parent, Menu_Type type = mt_Undefined, UMLView* view = 0);
 

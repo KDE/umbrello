@@ -120,7 +120,7 @@ public:
      *
      * @return  The number of entityAttributes for the class.
      */
-    int entityAttributes();
+    int entityAttributes() ;
 
     /**
      * Resolve the types referenced by our UMLEntityAttributes.

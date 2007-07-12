@@ -21,7 +21,7 @@
 class UMLUseCase;
 
 /**
- * This class is the graphical version of a UML UseCase.  A UseCaseWidget is created
+ * This class is the graphical version of a UMLUseCase.  A UseCaseWidget is created
  * by a @ref UMLView.  An UseCaseWidget belongs to only one @ref UMLView instance.
  * When the @ref UMLView instance that this class belongs to, it will be automatically deleted.
  *
@@ -31,7 +31,7 @@ class UMLUseCase;
  * The UseCaseWidget class inherits from the @ref UMLWidget class which adds most of the functionality
  * to this class.
  *
- * @short  A graphical version of a UML UseCase.
+ * @short  A graphical version of a UMLUseCase.
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */

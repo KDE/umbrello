@@ -25,6 +25,7 @@
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLEntityAttribute : public UMLAttribute {
+    Q_OBJECT
 public:
     /**
      * Sets up an entityattribute.
@@ -74,7 +75,7 @@ public:
      *
      * @return  The value of the UMLEntityAttribute's attributes property.
      */
-    QString getAttributes();
+    QString getAttributes() const;
 
     /**
      * Sets the UMLEntityAttribute's attributes property.
@@ -88,7 +89,7 @@ public:
      *
      * @return  The value of the UMLEntityAttribute's index type property.
      */
-    Uml::DBIndex_Type getIndexType();
+    Uml::DBIndex_Type getIndexType() const;
 
     /**
      * Sets the UMLEntityAttribute's index type property.
@@ -102,7 +103,7 @@ public:
      *
      * @return  The UMLEntityAttribute's length/values property.
      */
-    QString getValues();
+    QString getValues() const;
 
     /**
      * Sets the UMLEntityAttribute's length/values property.
@@ -116,7 +117,7 @@ public:
      *
      * @return  The UMLEntityAttribute's auto_increment boolean
      */
-    bool getAutoIncrement();
+    bool getAutoIncrement() const;
 
     /**
      * Sets the UMLEntityAttribute's auto_increment property
@@ -130,7 +131,7 @@ public:
      *
      * @return  The UMLEntityAttribute's allow null value.
      */
-    bool getNull();
+    bool getNull() const;
 
     /**
      * Sets the UMLEntityAttribute's allow null value.

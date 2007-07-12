@@ -20,6 +20,7 @@
 #include <qregexp.h>
 #include <qmessagebox.h>
 #include <klocale.h>
+#include <kapplication.h>
 #include <kdebug.h>
 // app includes
 #include "petalnode.h"
@@ -309,7 +310,8 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
             stringOrNodeOpener = shift(tokens);
         } else if (stringOrNodeOpener != "(") {
             value.string = stringOrNodeOpener;
-            PetalNode::NameValue attr(QString::null, value);
+            PetalNode::NameValue attr;
+            attr.second = value;
             attrs.append(attr);
             if (tokens.count() && tokens.first() != ")") {
                 kDebug() << loc()
@@ -326,6 +328,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
             } else if (nxt == "value" || nxt.startsWith("\"")) {
                 value.string = extractValue(tokens, stream);
             } else {
+                kapp->processEvents();
                 value.node = readAttributes(tokens, stream);
                 if (value.node == NULL)
                     return NULL;
@@ -356,6 +359,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
 
 bool loadFromMDL(QIODevice& file) {
     QTextStream stream(&file);
+    stream.setEncoding(QTextStream::Latin1);
     QString line;
     PetalNode *root = NULL;
     linum = 0;

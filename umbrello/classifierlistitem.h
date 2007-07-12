@@ -69,14 +69,14 @@ public:
      *
      * @return  The type of the UMLClassifierListItem.
      */
-    UMLClassifier * getType();
+    UMLClassifier * getType() const;
 
     /**
      * Returns the type name of the UMLClassifierListItem.
      *
      * @return  The type name of the UMLClassifierListItem.
      */
-    virtual QString getTypeName();
+    virtual QString getTypeName() const;
 
     /**
      * Sets the type name of the UMLClassifierListItem.

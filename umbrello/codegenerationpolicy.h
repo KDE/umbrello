@@ -306,7 +306,7 @@ public:
       *  %time%
       *  %filepath%
       */
-    QString getHeadingFile(QString str);
+    QString getHeadingFile(const QString& str);
 
     /**
      * set the defaults for this code generator from the passed generator.
