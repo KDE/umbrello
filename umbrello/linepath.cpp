@@ -106,6 +106,10 @@ bool LinePath::setPoint( int pointIndex, const QPoint &point ) {
     int count = m_LineList.count();
     if( count == 0 || pointIndex > count  || pointIndex < 0)
         return false;
+    if (point.x() == 0 && point.y() == 0) {
+        kError() << "LinePath::setPoint:ignoring request for (0,0)" << endl;
+        return false;
+    }
 
     if( pointIndex == count) {
         QCanvasLine * line = m_LineList.last();
