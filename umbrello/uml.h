@@ -274,7 +274,7 @@ public:
      *
      * @param mimeType  The MIME type to set as the default.
      */
-    void setImageMimeType(QString const & mimeType){m_imageMimeType=mimeType;};
+    void setImageMimeType(QString const & mimeType){m_imageMimeType=mimeType;}
 
     /**
      * Gets the default mime type for all diagrams that are exported as
@@ -282,7 +282,7 @@ public:
      *
      * @return  The default MIME type for images.
      */
-    QString const & getImageMimeType()const{return m_imageMimeType;};
+    QString const & getImageMimeType()const{return m_imageMimeType;}
 
     /**
      * Carries out the cut/copy command with different action performed
