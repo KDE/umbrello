@@ -134,9 +134,9 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
         setSelectionBounds();
     }
 
-    QPoint positionDifference = getPositionDifference(me);
-    int diffX = positionDifference.x();
-    int diffY = positionDifference.y();
+    QPoint position = getPosition(me);
+    int diffX = position.x() - m_widget->getX();
+    int diffY = position.y() - m_widget->getY();
 
     if ((me->state() & Qt::ShiftButton) && (me->state() & Qt::ControlButton)) {
         //Move in Y axis
@@ -166,10 +166,7 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
         update = true;
         lastUpdate.restart();
 
-        // CHECK: UMLWidget::adjustUnselectedAssocs(x,y) appears to take absolute
-        //      values for x and y. Surprisingly, supplying diffX and diffY seems
-        //      to work all the same ?!?
-        m_widget->adjustUnselectedAssocs(diffX, diffY);
+        m_widget->adjustUnselectedAssocs(position.x(), position.y());
     }
 
     while ((widget = it.current()) != 0) {
@@ -481,12 +478,12 @@ int UMLWidgetController::getBiggestY(const UMLWidgetList &widgetList) {
     return biggestY;
 }
 
-QPoint UMLWidgetController::getPositionDifference(QMouseEvent* me) {
+QPoint UMLWidgetController::getPosition(QMouseEvent* me) {
     /*
-    kDebug() << "UMLWidgetController::getPositionDifference: me->x=" << me->x()
+    kDebug() << "UMLWidgetController::getPosition: me->x=" << me->x()
         << " m_widget->getX=" << m_widget->getX() << ", m_oldX=" << m_oldX
         << ", m_pressOffsetX=" << m_pressOffsetX << endl;
-    kDebug() << "UMLWidgetController::getPositionDifference: me->y=" << me->y()
+    kDebug() << "UMLWidgetController::getPosition: me->y=" << me->y()
         << " m_widget->getY=" << m_widget->getY() << ", m_oldY=" << m_oldY
         << ", m_pressOffsetY=" << m_pressOffsetY << endl;
      */
@@ -499,26 +496,29 @@ QPoint UMLWidgetController::getPositionDifference(QMouseEvent* me) {
     m_oldY = newY;
 
     if (newX + (m_minSelectedX - m_widget->getX()) < 0) {
-        //kDebug() << "UMLWidgetController::getPositionDifference: got into cond.1" << endl;
+        //kDebug() << "UMLWidgetController::getPosition: got into cond.1" << endl;
         newX = m_widget->getX() - m_minSelectedX;
     }
     if (newY + (m_minSelectedY - m_widget->getY()) < 0) {
-        //kDebug() << "UMLWidgetController::getPositionDifference: got into cond.2" << endl;
+        //kDebug() << "UMLWidgetController::getPosition: got into cond.2" << endl;
         newY = m_widget->getY() - m_minSelectedY;
     }
     if (newX + (m_maxSelectedX - m_widget->getX()) > maxX) {
-        //kDebug() << "UMLWidgetController::getPositionDifference: got into cond.3" << endl;
+        //kDebug() << "UMLWidgetController::getPosition: got into cond.3" << endl;
         newX = maxX - (m_maxSelectedX - m_widget->getX());
     }
     if (newY + (m_maxSelectedY - m_widget->getY()) > maxY) {
-        //kDebug() << "UMLWidgetController::getPositionDifference: got into cond.4" << endl;
+        //kDebug() << "UMLWidgetController::getPosition: got into cond.4" << endl;
         newY = maxY - (m_maxSelectedY - m_widget->getY());
     }
-
-    newX -= m_widget->getX();
-    newY -= m_widget->getY();
-
     return QPoint(newX, newY);
+}
+
+QPoint UMLWidgetController::getPositionDifference(QMouseEvent* me) {
+    QPoint newPoint = getPosition(me);
+    const int diffX = newPoint.x() - m_widget->getX();
+    const int diffY = newPoint.y() - m_widget->getY();
+    return QPoint(diffX, diffY);
 }
 
 void UMLWidgetController::showPopupMenu(QMouseEvent *me) {
