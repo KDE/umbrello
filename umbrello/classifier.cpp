@@ -971,8 +971,10 @@ bool UMLClassifier::load(QDomElement& element) {
                 tagEq(tag, "Classifier.feature") ||
                 tagEq(tag, "Namespace.ownedElement") ||
                 tagEq(tag, "Namespace.contents")) {
-            if (! load(element))
-                return false;
+            load(element);
+            // Not evaluating the return value from load()
+            // because we want a best effort.
+
         } else if ((child = makeChildObject(tag)) != NULL) {
             if (child->loadFromXMI(element)) {
                 switch (child->getBaseType()) {
@@ -1001,7 +1003,8 @@ bool UMLClassifier::load(QDomElement& element) {
         } else if (!Model_Utils::isCommonXMIAttribute(tag)) {
             UMLObject *pObject = Object_Factory::makeObjectFromXMI(tag);
             if (pObject == NULL) {
-                totalSuccess = false;
+                // Not setting totalSuccess to false
+                // because we want a best effort.
                 continue;
             }
             pObject->setUMLPackage(this);

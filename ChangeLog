@@ -7,6 +7,7 @@ Version 1.5.72
 * End Activity Symbol gets invalid when line thickness is increased (146925)
 * The size of a fork/join is not restored (147069)
 * Crash when changing the association type to containment (147202)
+* Moving component on diagram results in absurd shape of self-association (147810)
 
 Version 1.5.71
 

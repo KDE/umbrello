@@ -14,13 +14,11 @@
 
 // qt includes
 #include <qpainter.h>
-//#include <pen.h>
 
 // kde includes
 #include <klocale.h>
 #include <kdebug.h>
 #include <kinputdialog.h>
-#include <cmath>
 
 // app includes
 #include "uml.h"

@@ -296,8 +296,9 @@ UMLClassifierList UMLAttribute::getTemplateParams() {
     UMLClassifierList templateParamList;
     QString type = getType()->getName();
     QString templateParam;
-    //template and generic only in C++ and Java ?
-    if (UMLApp::app()->getActiveLanguage() == Uml::pl_Cpp || UMLApp::app()->getActiveLanguage() == Uml::pl_Java || UMLApp::app()->getActiveLanguage() == Uml::pl_D) {
+    // Handle C++/D/Java template/generic parameters
+    const Uml::Programming_Language pl = UMLApp::app()->getActiveLanguage();
+    if (pl == Uml::pl_Cpp || pl == Uml::pl_Java || pl == Uml::pl_D) {
         int start = type.find(QChar('<'));
         if (start >= 0 ) {
             int end = type.findRev(QChar('>'));

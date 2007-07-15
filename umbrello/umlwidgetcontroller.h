@@ -383,10 +383,21 @@ protected:
     int getBiggestY(const UMLWidgetList &widgetList);
 
     /**
+     * Returns the adjusted position for the given mouse event.
+     * The adjusted position is computed using the current widget position
+     * m_widget->get{X,Y}(), the previous position m_old{X,Y}, and the
+     * mouse press offset m_pressOffset{X,Y}.
+     *
+     * @param me The QMouseEvent for which to get the adjusted position.
+     * @return A QPoint with the adjusted position.
+     */
+    QPoint getPosition(QMouseEvent *me);
+
+    /**
      * Returns a QPoint with the new X and Y position difference of the mouse event
      * respect to the position of the widget.
      *
-     * @param me The QMouseEVent to get the position to compare.
+     * @param me The QMouseEvent to get the position to compare.
      * @return A QPoint with the position difference.
      */
     QPoint getPositionDifference(QMouseEvent *me);
