@@ -166,7 +166,7 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
         update = true;
         lastUpdate.restart();
 
-        m_widget->adjustUnselectedAssocs(position.x(), position.y());
+        m_widget->adjustUnselectedAssocs(m_widget->getX(), m_widget->getY());
     }
 
     while ((widget = it.current()) != 0) {
