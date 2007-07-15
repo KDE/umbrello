@@ -21,7 +21,6 @@
 
 class IDChangeLog;
 class QMimeSource;
-class UMLDrag;
 
 /**
  * This class manages the uml's interaction with the KDE
@@ -33,6 +32,7 @@ class UMLDrag;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLClipboard : public QObject {
+    Q_OBJECT
 public:
     /**
      * Constructor.

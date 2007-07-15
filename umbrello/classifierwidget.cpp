@@ -397,6 +397,7 @@ void ClassifierWidget::slotMenuSelection(int sel) {
     switch (mt) {
     case ListPopupMenu::mt_Attribute:
     case ListPopupMenu::mt_Operation:
+    case ListPopupMenu::mt_Template:
         {
             UMLDoc *doc = UMLApp::app()->getDocument();
             Uml::Object_Type ot = ListPopupMenu::convert_MT_OT(mt);

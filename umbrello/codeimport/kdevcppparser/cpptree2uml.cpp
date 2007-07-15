@@ -59,7 +59,7 @@ void CppTree2Uml::parseTranslationUnit( TranslationUnitAST* ast )
 void CppTree2Uml::parseNamespace( NamespaceAST* ast )
 {
     if (m_clsCnt > 0) {
-        kdDebug() << "CppTree2Uml::parseNamespace: error - cannot nest namespace inside class"
+        kDebug() << "CppTree2Uml::parseNamespace: error - cannot nest namespace inside class"
                   << endl;
         return;
     }
@@ -75,7 +75,7 @@ void CppTree2Uml::parseNamespace( NamespaceAST* ast )
     }
 
 #ifdef DEBUG_CPPTREE2UML
-    kdDebug() << "CppTree2Uml::parseNamespace: " << nsName << endl;
+    kDebug() << "CppTree2Uml::parseNamespace: " << nsName << endl;
 #endif
     UMLObject * o = Import_Utils::createUMLObject( Uml::ot_Package, nsName,
                                                  m_currentNamespace[m_nsCnt],
@@ -139,7 +139,7 @@ void CppTree2Uml::parseTypedef( TypedefAST* ast )
                   id = d->declaratorId()->text();
             }
 //#ifdef DEBUG_CPPTREE2UML
-            kdDebug() << "CppTree2Uml::parseTypedef: name=" << id << ", type=" << type << endl;
+            kDebug() << "CppTree2Uml::parseTypedef: name=" << id << ", type=" << type << endl;
 //#endif
             /* @todo Trace typedefs back to their root type for deciding
                      whether to build a Datatype (for pointers.)  */
@@ -291,7 +291,7 @@ void CppTree2Uml::parseFunctionDefinition( FunctionDefinitionAST* ast )
 
     UMLClassifier *c = m_currentClass[m_clsCnt];
     if (c == NULL) {
-        kdDebug() << "CppTree2Uml::parseFunctionDefinition (" << id
+        kDebug() << "CppTree2Uml::parseFunctionDefinition (" << id
                   << "): need a surrounding class." << endl;
         return;
     }
@@ -339,10 +339,10 @@ void CppTree2Uml::parseClassSpecifier( ClassSpecifierAST* ast )
         className = ast->name()->unqualifiedName()->text().stripWhiteSpace();
     }
 //#ifdef DEBUG_CPPTREE2UML
-    kdDebug() << "CppTree2Uml::parseClassSpecifier: name=" << className << endl;
+    kDebug() << "CppTree2Uml::parseClassSpecifier: name=" << className << endl;
 //#endif
     if( !scopeOfName( ast->name(), QStringList() ).isEmpty() ){
-        kdDebug() << "skip private class declarations" << endl;
+        kDebug() << "skip private class declarations" << endl;
         return;
     }
 
@@ -410,7 +410,7 @@ void CppTree2Uml::parseElaboratedTypeSpecifier( ElaboratedTypeSpecifierAST* type
     ///              - Using typeSpec->text() is probably not good, decode
     ///                the kind() instead.
     QString text = typeSpec->text();
-    kdDebug() << "CppTree2Uml::parseElaboratedTypeSpecifier: text is " << text << endl;
+    kDebug() << "CppTree2Uml::parseElaboratedTypeSpecifier: text is " << text << endl;
     text.remove(QRegExp("^class\\s+"));
     UMLObject *o = Import_Utils::createUMLObject(Uml::ot_Class, text, m_currentNamespace[m_nsCnt]);
     flushTemplateParams( static_cast<UMLClassifier*>(o) );
@@ -439,14 +439,14 @@ void CppTree2Uml::parseDeclaration( GroupAST* funSpec, GroupAST* storageSpec,
         id = t->declaratorId()->unqualifiedName()->text();
 
     if( !scopeOfDeclarator(d, QStringList()).isEmpty() ){
-        kdDebug() << "CppTree2Uml::parseDeclaration (" << id << "): skipping."
+        kDebug() << "CppTree2Uml::parseDeclaration (" << id << "): skipping."
                   << endl;
         return;
     }
 
     UMLClassifier *c = m_currentClass[m_clsCnt];
     if (c == NULL) {
-        kdDebug() << "CppTree2Uml::parseDeclaration (" << id
+        kDebug() << "CppTree2Uml::parseDeclaration (" << id
                   << "): need a surrounding class." << endl;
         return;
     }
@@ -521,7 +521,7 @@ void CppTree2Uml::parseFunctionDeclaration(  GroupAST* funSpec, GroupAST* storag
 
     UMLClassifier *c = m_currentClass[m_clsCnt];
     if (c == NULL) {
-        kdDebug() << "CppTree2Uml::parseFunctionDeclaration (" << id
+        kDebug() << "CppTree2Uml::parseFunctionDeclaration (" << id
                   << "): need a surrounding class." << endl;
         return;
     }
@@ -590,7 +590,7 @@ void CppTree2Uml::parseBaseClause( BaseClauseAST * baseClause, UMLClassifier* kl
         ++it;
 
         if (baseSpecifier->name() == NULL) {
-                kdDebug() << "CppTree2Uml::parseBaseClause: baseSpecifier->name() is NULL"
+                kDebug() << "CppTree2Uml::parseBaseClause: baseSpecifier->name() is NULL"
                           << endl;
                 continue;
         }
@@ -629,7 +629,7 @@ void CppTree2Uml::flushTemplateParams(UMLClassifier *klass) {
         Model_Utils::NameAndType_ListIt it;
         for (it = m_templateParams.begin(); it != m_templateParams.end(); ++it) {
             const Model_Utils::NameAndType &nt = *it;
-            kdDebug() << "CppTree2Uml::parseClassSpecifier: adding template param: "
+            kDebug() << "CppTree2Uml::parseClassSpecifier: adding template param: "
                       << nt.m_name << endl;
             UMLTemplate *tmpl = klass->addTemplate(nt.m_name);
             tmpl->setType(nt.m_type);
