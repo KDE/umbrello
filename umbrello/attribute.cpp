@@ -48,6 +48,18 @@ UMLAttribute::UMLAttribute(const UMLObject *parent) : UMLClassifierListItem(pare
 
 UMLAttribute::~UMLAttribute() { }
 
+void UMLAttribute::setName(const QString &name) {
+    m_Name = name;
+    emit attributeChanged();
+    UMLObject::emitModified();
+}
+
+void UMLAttribute::setVisibility(Uml::Visibility s) {
+    m_Vis = s;
+    emit attributeChanged();
+    UMLObject::emitModified();
+}
+
 QString UMLAttribute::getInitialValue() {
     return m_InitialValue;
 }
@@ -312,4 +324,4 @@ UMLClassifierList UMLAttribute::getTemplateParams() {
 }
 
 
-
+#include "attribute.moc"

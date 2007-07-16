@@ -3110,6 +3110,7 @@ void AssociationWidget::setUMLObject(UMLObject *obj) {
     if (obj == NULL)
         return;
     UMLClassifier *klass = NULL;
+    UMLAttribute *attr = NULL;
     UMLEntity *ent = NULL;
     const Uml::Object_Type ot = obj->getBaseType();
     switch (ot) {
@@ -3123,6 +3124,8 @@ void AssociationWidget::setUMLObject(UMLObject *obj) {
             klass = static_cast<UMLClassifier*>(obj->parent());
             connect(klass, SIGNAL(attributeRemoved(UMLClassifierListItem*)),
                     this, SLOT(slotAttributeRemoved(UMLClassifierListItem*)));
+            attr = static_cast<UMLAttribute*>(obj);
+            connect(attr, SIGNAL(attributeChanged()), this, SLOT(slotAttributeChanged()));
             break;
         case Uml::ot_EntityAttribute:
             ent = static_cast<UMLEntity*>(obj->parent());
@@ -3141,6 +3144,17 @@ void AssociationWidget::slotAttributeRemoved(UMLClassifierListItem* obj) {
                   << "): m_pObject=" << m_pObject << endl;
     m_pObject = NULL;
     m_pView->removeAssoc(this);
+}
+
+void AssociationWidget::slotAttributeChanged() {
+    UMLAttribute *attr = getAttribute();
+    if (attr == NULL) {
+        kError() << "AssociationWidget::slotAttributeChanged: getAttribute returns NULL"
+            << endl;
+        return;
+    }
+    setVisibility(attr->getVisibility(), B);
+    setRoleName(attr->getName(), B);
 }
 
 void AssociationWidget::init (UMLView *view)

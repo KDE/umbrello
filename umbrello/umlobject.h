@@ -131,7 +131,7 @@ public:
      *
      * @param s The visibility of the object.
      */
-    void setVisibility(Uml::Visibility s);
+    virtual void setVisibility(Uml::Visibility s);
 
     /**
      * Sets the classes stereotype name.
@@ -229,7 +229,7 @@ public:
     /**
      * Set the UMLObject's name
      */
-    void setName(const QString &strName);
+    virtual void setName(const QString &strName);
 
     /**
      * Returns the fully qualified name, i.e. all package prefixes and then m_Name.
