@@ -155,9 +155,9 @@ enum Association_Type
     at_State,
     at_Activity,
     at_Exception,
-    at_Relationship,
     at_Category2Parent,
     at_Child2Category,
+    at_Relationship,
     at_Unknown  =  - 1
 };
 
