@@ -113,9 +113,9 @@ void UMLViewDialog::setupClassPage() {
     pageDisplayItem->setIcon( KIcon( DesktopIcon( "document-properties") ));
     addPage( pageDisplayItem);
 
-    QHBoxLayout * m_pOptionsLayout = new QHBoxLayout( newPage );
+    QHBoxLayout * pOptionsLayout = new QHBoxLayout( newPage );
     m_pOptionsPage = new ClassOptionsPage( newPage, &m_options );
-    m_pOptionsLayout -> addWidget( m_pOptionsPage );
+    pOptionsLayout -> addWidget( m_pOptionsPage );
 }
 
 void UMLViewDialog::setupColorPage() {

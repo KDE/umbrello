@@ -92,7 +92,8 @@ protected:
     QCheckBox * m_pShowVisibilityCB, * m_pShowAttSigCB;
     QCheckBox * m_pShowOpSigCB, * m_pShowAttsCB, * m_pShowOpsCB;
     QCheckBox * m_pShowStereotypeCB, * m_pShowPackageCB;
-    QCheckBox* m_pDrawAsCircleCB;
+    QCheckBox * m_pShowAttribAssocsCB;
+    QCheckBox * m_pDrawAsCircleCB;
 
     /**
      * The classifier widget to represent in the dialog page.

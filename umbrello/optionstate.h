@@ -62,6 +62,7 @@ struct ClassState {
     bool showAttSig;
     bool showOpSig;
     bool showPackage;
+    bool showAttribAssocs;
     Uml::Visibility defaultAttributeScope;
     Uml::Visibility defaultOperationScope;
 };

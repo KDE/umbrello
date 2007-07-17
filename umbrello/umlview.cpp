@@ -2227,7 +2227,7 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
 }
 
 void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
-    if (widget == NULL || m_Type != Uml::dt_Class)
+    if (widget == NULL || m_Type != Uml::dt_Class || !m_Options.classState.showAttribAssocs)
         return;
 
     // Pseudocode:
@@ -3108,6 +3108,7 @@ void UMLView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     viewElement.setAttribute( "showopsig", m_Options.classState.showOpSig );
     viewElement.setAttribute( "showops", m_Options.classState.showOps );
     viewElement.setAttribute( "showpackage", m_Options.classState.showPackage );
+    viewElement.setAttribute( "showattribassocs", m_Options.classState.showAttribAssocs );
     viewElement.setAttribute( "showscope", m_Options.classState.showVisibility );
     viewElement.setAttribute( "showstereotype", m_Options.classState.showStereoType );
     //misc
@@ -3202,6 +3203,8 @@ bool UMLView::loadFromXMI( QDomElement & qElement ) {
     m_Options.classState.showOps = (bool)temp.toInt();
     temp = qElement.attribute( "showpackage", "0" );
     m_Options.classState.showPackage = (bool)temp.toInt();
+    temp = qElement.attribute( "showattribassocs", "0" );
+    m_Options.classState.showAttribAssocs = (bool)temp.toInt();
     temp = qElement.attribute( "showscope", "0" );
     m_Options.classState.showVisibility = (bool)temp.toInt();
     temp = qElement.attribute( "showstereotype", "0" );

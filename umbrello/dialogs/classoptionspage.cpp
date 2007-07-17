@@ -45,6 +45,7 @@ void ClassOptionsPage::init() {
     m_pShowStereotypeCB = NULL;
     m_pShowAttsCB = NULL;
     m_pShowAttSigCB = NULL;
+    m_pShowAttribAssocsCB = NULL;
     m_pDrawAsCircleCB = NULL;
 }
 
@@ -154,6 +155,10 @@ void ClassOptionsPage::setupClassPageOption() {
     m_pShowStereotypeCB -> setChecked(m_options->classState.showStereoType);
     visibilityLayout -> addWidget(m_pShowStereotypeCB, 2, 1);
 
+    m_pShowAttribAssocsCB = new QCheckBox(i18n("&Attribute associations"), m_pVisibilityGB);
+    m_pShowAttribAssocsCB -> setChecked(m_options->classState.showAttribAssocs);
+    visibilityLayout -> addWidget(m_pShowAttribAssocsCB, 3, 1);
+
 }
 
 void ClassOptionsPage::updateUMLWidget() {
@@ -188,6 +193,8 @@ void ClassOptionsPage::updateOptionState() {
     if (m_pShowStereotypeCB)
         m_options->classState.showStereoType = m_pShowStereotypeCB->isChecked();
     m_options->classState.showPackage = m_pShowPackageCB->isChecked();
+    if (m_pShowAttribAssocsCB)
+        m_options->classState.showAttribAssocs = m_pShowAttribAssocsCB->isChecked();
     if (m_pShowAttSigCB)
         m_options->classState.showAttSig = m_pShowAttSigCB->isChecked();
     m_options->classState.showOpSig = m_pShowOpSigCB->isChecked();

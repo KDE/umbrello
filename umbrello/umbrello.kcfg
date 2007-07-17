@@ -154,6 +154,11 @@
          <whatisthis>Show Stereotypes</whatisthis>
          <default>true</default>
        </entry>
+       <entry name="showAttribAssocs" type="Bool">
+         <label>Show Attribute Associations</label>
+         <whatisthis>Show Attribute Associations</whatisthis>
+         <default>true</default>
+       </entry>
        <entry name="showAttSig" type="Bool">
          <label>Show Attribute Signature</label>
          <whatisthis>Show Attribute Signature</whatisthis>
