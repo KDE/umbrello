@@ -173,6 +173,7 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
     case Uml::dt_EntityRelationship:
         insertHotBtn(tbb_Entity);
         insertHotBtn(tbb_Relationship);
+        insertHotBtn(tbb_Category);
         break;
 
     default:
@@ -321,7 +322,8 @@ void WorkToolBar::loadPixmaps() {
         { tbb_Coll_Message, i18n("Message"), "message-asynchronous.png", SLOT(slotColl_Message()) },
         { tbb_Exception, i18n("Exception"), "exception.png", SLOT(slotException()) },
         { tbb_Object_Node, i18n("Object Node"), "object_node.png", SLOT(slotObject_Node()) },
-        { tbb_PrePostCondition, i18n("Pre/Post condition"), "PrePostCondition.png", SLOT(slotPrePostCondition()) }
+        { tbb_PrePostCondition, i18n("Pre/Post condition"), "PrePostCondition.png", SLOT(slotPrePostCondition()) },
+        { tbb_Category, i18n("Category"), "category.png", SLOT(slotCategory())  }
     };
 
 
@@ -410,6 +412,6 @@ void WorkToolBar::slotAndline() {buttonChanged(tbb_Andline);}
 void WorkToolBar::slotException() {buttonChanged(tbb_Exception);}
 void WorkToolBar::slotObject_Node() {buttonChanged(tbb_Object_Node);}
 void WorkToolBar::slotPrePostCondition() {buttonChanged(tbb_PrePostCondition);}
-
+void WorkToolBar::slotCategory() {buttonChanged(tbb_Category);}
 
 #include "worktoolbar.moc"

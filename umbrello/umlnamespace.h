@@ -58,7 +58,8 @@ enum Object_Type
     ot_EntityConstraint,
     ot_UniqueConstraint,
     ot_ForeignKeyConstraint,
-    ot_CheckConstraint
+    ot_CheckConstraint,
+    ot_Category
 };
 
 class Visibility {
@@ -115,7 +116,8 @@ enum Widget_Type
     wt_Signal,                  // does not have UMLObject representation
     wt_Pin,
     wt_ObjectNode,
-    wt_Region
+    wt_Region,
+    wt_Category                 // has UMLObject representation
 };
 
 enum Diagram_Type
@@ -154,6 +156,8 @@ enum Association_Type
     at_Activity,
     at_Exception,
     at_Relationship,
+    at_Category2Parent,
+    at_Child2Category,
     at_Unknown  =  - 1
 };
 
@@ -230,6 +234,7 @@ enum ListView_Type
     lvt_PrimaryKeyConstraint,
     lvt_ForeignKeyConstraint,
     lvt_CheckConstraint,
+    lvt_Category,
     lvt_Unknown = -1
 };
 
@@ -262,6 +267,7 @@ enum Icon_Type
     it_Entity,
     it_Actor,
     it_UseCase,
+    it_Category,
     it_Public_Method,
     it_Private_Method,
     it_Protected_Method,

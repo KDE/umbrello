@@ -78,6 +78,7 @@ Uml::Object_Type ToolBarStateOther::getObjectType() {
         case WorkToolBar::tbb_Enum:         ot = ot_Enum;           break;
         case WorkToolBar::tbb_Entity:       ot = ot_Entity;         break;
         case WorkToolBar::tbb_Datatype:     ot = ot_Datatype;       break;
+        case WorkToolBar::tbb_Category:     ot = ot_Category;       break;
 
         default:                            ot = ot_UMLObject;      break;
     }

@@ -248,6 +248,8 @@ set(libumbrello_SRCS
    assocrules.cpp 
    attribute.cpp 
    boxwidget.cpp 
+   category.cpp
+   categorywidget.cpp
    checkconstraint.cpp
    classifier.cpp 
    classifiercodedocument.cpp 

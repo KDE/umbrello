@@ -1578,6 +1578,7 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
     case wt_Datatype:
     case wt_Actor:
     case wt_UseCase:
+    case wt_Category:
         {
             Uml::IDType id = pWidget -> getID();
             Uml::IDType newID = log->findNewID( id );

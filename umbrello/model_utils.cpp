@@ -265,6 +265,8 @@ QString uniqObjectName(Uml::Object_Type type, UMLPackage *parentPkg, QString pre
             currentName = i18n("new_folder");
         else if(type == Uml::ot_Association)
             currentName = i18n("new_association");
+        else if(type == Uml::ot_Category)
+            currentName = i18n("new_category");
         else {
             currentName = i18n("new_object");
             kWarning() << "unknown object type in umldoc::uniqObjectName()" << endl;
@@ -362,6 +364,7 @@ Uml::Model_Type guessContainer(UMLObject *o) {
         case Uml::ot_UniqueConstraint:
         case Uml::ot_ForeignKeyConstraint:
         case Uml::ot_CheckConstraint:
+        case Uml::ot_Category:
             mt = Uml::mt_EntityRelationship;
             break;
         case Uml::ot_Association:
@@ -981,6 +984,10 @@ Uml::ListView_Type convert_OT_LVT(UMLObject *o) {
         type = Uml::lvt_Entity;
         break;
 
+    case Uml::ot_Category:
+        type = Uml::lvt_Category;
+        break;
+
     case Uml::ot_EntityAttribute:
         type = Uml::lvt_EntityAttribute;
         break;
@@ -1067,6 +1074,10 @@ Uml::Object_Type convert_LVT_OT(Uml::ListView_Type lvt) {
 
     case Uml::lvt_Entity:
         ot = Uml::ot_Entity;
+        break;
+
+    case Uml::lvt_Category:
+        ot = Uml::ot_Category;
         break;
 
     case Uml::lvt_EntityAttribute:
@@ -1175,6 +1186,9 @@ Uml::Icon_Type convert_LVT_IT(Uml::ListView_Type lvt) {
             break;
         case Uml::lvt_Entity:
             icon = Uml::it_Entity;
+            break;
+        case Uml::lvt_Category:
+            icon = Uml::it_Category;
             break;
         case Uml::lvt_Template:
             icon = Uml::it_Template;
@@ -1292,6 +1306,7 @@ Uml::Model_Type convert_OT_MT(Uml::Object_Type ot) {
         case Uml::ot_UniqueConstraint:
         case Uml::ot_ForeignKeyConstraint:
         case Uml::ot_CheckConstraint:
+        case Uml::ot_Category:
             mt = Uml::mt_EntityRelationship;
             break;
         default:

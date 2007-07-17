@@ -44,6 +44,7 @@
 #include "usecase.h"
 #include "notewidget.h"
 #include "boxwidget.h"
+#include "category.h"
 #include "associationwidget.h"
 #include "messagewidget.h"
 #include "objectwidget.h"
@@ -57,6 +58,7 @@
 #include "floatingdashlinewidget.h"
 #include "objectnodewidget.h"
 #include "pinwidget.h"
+#include "categorywidget.h"
 #include "cmds.h"
 
 namespace Widget_Factory {
@@ -135,6 +137,9 @@ UMLWidget *createWidget(UMLView *view, UMLObject *o) {
             }
             newWidget = ow;
         }
+        break;
+    case Uml::ot_Category:
+        newWidget = new CategoryWidget(view, static_cast<UMLCategory*>(o));
         break;
     default:
         kWarning() << "trying to create an invalid widget" << endl;

@@ -793,6 +793,7 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object) {
     case Uml::ot_Artifact:
     case Uml::ot_Node:
     case Uml::ot_Folder:
+    case Uml::ot_Category:
         connect(object,SIGNAL(modified()),this,SLOT(slotObjectChanged()));
         break;
     case Uml::ot_UMLObject:
@@ -1763,6 +1764,7 @@ UMLListViewItem* UMLListView::determineParentItem(Uml::ListView_Type lvt) const 
         break;
     case Uml::lvt_EntityRelationship_Diagram:
     case Uml::lvt_Entity:
+    case Uml::lvt_Category:
         parent = m_lv[Uml::mt_EntityRelationship];
         break;
     default:
@@ -2021,6 +2023,7 @@ bool UMLListView::itemRenamed( Q3ListViewItem * item , int /*col*/ ) {
     case Uml::lvt_Enum:
     case Uml::lvt_Entity:
     case Uml::lvt_UseCase:
+    case Uml::lvt_Category:
         {
             Uml::Object_Type ot = Model_Utils::convert_LVT_OT(type);
             if (! ot) {
@@ -2388,6 +2391,7 @@ bool UMLListView::isUnique( UMLListViewItem * item, const QString &name ) {
     case Uml::lvt_UseCase:
     case Uml::lvt_Node:
     case Uml::lvt_Artifact:
+    case Uml::lvt_Category:
         return !m_doc->findUMLObject( name, Model_Utils::convert_LVT_OT(type) );
         break;
 

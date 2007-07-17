@@ -131,7 +131,8 @@ public:
         tbb_Andline,
         tbb_Exception,
         tbb_Object_Node,
-        tbb_PrePostCondition
+        tbb_PrePostCondition,
+        tbb_Category
     };
 
 private:
@@ -258,7 +259,7 @@ public slots:
     void slotPrePostCondition();
     void slotPin();
     void slotObject_Node();
-
+    void slotCategory();
 
 };
 

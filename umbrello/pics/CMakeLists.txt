@@ -9,9 +9,9 @@ CVpublic_slot.png  CVpublic_var.png  CVstruct.png  deep-history.png  shallow-his
 final_activity.png  end_state.png  generalisation.png  initial_state.png  interface.png  join.png  junction.png  datatype.png  enum.png  
 message-synchronous.png  message-asynchronous.png  note.png pin.png object_node.png object.png  
 startlogo.png  template.png  text.png  
-class.png  uniassociation.png  usecase.png  branch.png  fork.png  state-fork.png  package.png  artifact.png  
+class.png  uniassociation.png  usecase.png category.png  branch.png  fork.png  state-fork.png  package.png  artifact.png  
 box.png  node.png  entity.png  relationship.png  subsystem.png foreignkey_constraint.png unique_constraint.png primarykey_constraint.png check_constraint.png cursor-actor.png  message-found.png  accept_signal.png  accept_time_event.png  send_signal.png    cursor-andline.png  
-cursor-choice-rhomb.png  cursor-choice-round.png  cursor-combined_fragment.png  cursor-deep-history.png  cursor-join.png  cursor-junction.png  
+cursor-choice-rhomb.png  cursor-choice-round.png  cursor-combined_fragment.png  cursor-deep-history.png  cursor-join.png  cursor-junction.png  cursor-category.png
 cursor-shallow-history.png  cursor-state-fork.png  cursor-usecase.png  cursor-initial_state.png  cursor-package.png  
 cursor-aggregation.png  cursor-component.png  cursor-containment.png  cursor-interface.png  cursor-datatype.png  
 cursor-enum.png  cursor-text.png  cursor-anchor.png cursor-pin.png cursor-composition.png  cursor-message-asynchronous.png  

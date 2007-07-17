@@ -37,6 +37,7 @@
 #include "node.h"
 #include "artifact.h"
 #include "stereotype.h"
+#include "category.h"
 #include "association.h"
 #include "umldoc.h"
 #include "uml.h"
@@ -113,6 +114,9 @@ UMLObject* createNewUMLObject(Uml::Object_Type type, const QString &name,
             break;
         case Uml::ot_Folder:
             o = new UMLFolder(name, g_predefinedId);
+            break;
+        case Uml::ot_Category:
+            o = new UMLCategory(name, g_predefinedId);
             break;
         default:
             kWarning() << "createNewUMLObject error unknown type: " << type << endl;
