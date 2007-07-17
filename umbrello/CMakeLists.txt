@@ -362,24 +362,50 @@ set(libumbrello_SRCS
    worktoolbar.cpp 
 )
 
+if (WIN32)
+    # workaround for win32 command line to long problem
+    # build intermediate libraries 
+    
+    add_library(dialogs  	${libdialogs_SRCS})
+    target_link_libraries (dialogs)
 
-set (umbrello_SRCS
-	${libdialogs_SRCS} 
-	${librefactoring_SRCS} 
-	${libclassparser_SRCS} 
-	${libclipboard_SRCS} 
-	${libkdevcppparser_SRCS}
-	${libcodeimport_SRCS}
-	${libcodegenerator_SRCS}
-	${libdocgenerator_SRCS}
-	${libcmds_SRCS}
-	${libumbrello_SRCS}
-)
+    add_library(generators ${libcodegenerator_SRCS})
+    target_link_libraries (generators )
+
+    add_library(cmds ${libcmds_SRCS})
+    target_link_libraries (cmds)
+
+    set (LIBS dialogs generators cmds)
+    set (umbrello_SRCS
+    	${librefactoring_SRCS} 
+    	${libclassparser_SRCS} 
+    	${libclipboard_SRCS} 
+    	${libkdevcppparser_SRCS}
+    	${libcodeimport_SRCS}
+    	${libdocgenerator_SRCS}
+    	${libumbrello_SRCS}
+    )
+else (WIN32)
+
+    set (umbrello_SRCS
+    	${libdialogs_SRCS} 
+    	${librefactoring_SRCS} 
+    	${libclassparser_SRCS} 
+    	${libclipboard_SRCS} 
+    	${libkdevcppparser_SRCS}
+    	${libcodeimport_SRCS}
+    	${libcodegenerator_SRCS}
+    	${libdocgenerator_SRCS}
+    	${libcmds_SRCS}
+    	${libumbrello_SRCS}
+    )
+    set (LIBS )
+endif (WIN32)
 
 kde4_add_kcfg_files(umbrello_SRCS umbrellosettings.kcfgc)
 
 kde4_add_executable(umbrello ${umbrello_SRCS})
-target_link_libraries(umbrello  ${KDE4_KDEPRINT_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${LIBUUID})
+target_link_libraries(umbrello  ${LIBS} ${KDE4_KDEPRINT_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${LIBUUID} )
 install(TARGETS umbrello DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### install files ###############
