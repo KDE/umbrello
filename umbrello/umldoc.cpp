@@ -1114,9 +1114,8 @@ UMLFolder *UMLDoc::currentRoot() {
     if (currentView == NULL) {
         if (m_pCurrentRoot)
             return m_pCurrentRoot;
-        kDebug() << "UMLDoc::currentRoot: currentView is NULL, assuming Logical View"
-            << endl;
-        return m_root[Uml::mt_Logical];
+        kError() << "UMLDoc::currentRoot: m_pCurrentRoot is NULL" << endl;
+        return NULL;
     }
     UMLFolder *f = currentView->getFolder();
     while (f->getUMLPackage()) {
