@@ -370,39 +370,33 @@ if (WIN32)
     
     add_library(dialogs  	${libdialogs_SRCS})
     target_link_libraries (dialogs)
+    set (libdialogs_SRCS)
 
     add_library(generators ${libcodegenerator_SRCS})
     target_link_libraries (generators )
-
+    set (libcodegenerator_SRCS)
+    
     add_library(cmds ${libcmds_SRCS})
     target_link_libraries (cmds)
+    set (libcmds_SRCS)
 
     set (LIBS dialogs generators cmds)
-    set (umbrello_SRCS
-    	${librefactoring_SRCS} 
-    	${libclassparser_SRCS} 
-    	${libclipboard_SRCS} 
-    	${libkdevcppparser_SRCS}
-    	${libcodeimport_SRCS}
-    	${libdocgenerator_SRCS}
-    	${libumbrello_SRCS}
-    )
 else (WIN32)
-
-    set (umbrello_SRCS
-    	${libdialogs_SRCS} 
-    	${librefactoring_SRCS} 
-    	${libclassparser_SRCS} 
-    	${libclipboard_SRCS} 
-    	${libkdevcppparser_SRCS}
-    	${libcodeimport_SRCS}
-    	${libcodegenerator_SRCS}
-    	${libdocgenerator_SRCS}
-    	${libcmds_SRCS}
-    	${libumbrello_SRCS}
-    )
     set (LIBS )
 endif (WIN32)
+
+set (umbrello_SRCS
+	${libdialogs_SRCS} 
+	${librefactoring_SRCS} 
+	${libclassparser_SRCS} 
+	${libclipboard_SRCS} 
+	${libkdevcppparser_SRCS}
+	${libcodeimport_SRCS}
+	${libcodegenerator_SRCS}
+	${libdocgenerator_SRCS}
+	${libcmds_SRCS}
+	${libumbrello_SRCS}
+)
 
 kde4_add_kcfg_files(umbrello_SRCS umbrellosettings.kcfgc)
 
