@@ -1041,6 +1041,14 @@ public slots:
 
 
     /**
+     * Connected to UMLObject::modified() in case this
+     * AssociationWidget is linked to a classifer's attribute type.
+     *
+     * @param obj               The UMLAttribute removed.
+     */
+    void slotAttributeChanged();
+
+    /**
      * Synchronize this widget from the UMLAssociation.
      */
     void syncToModel();

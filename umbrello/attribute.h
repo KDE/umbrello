@@ -26,6 +26,7 @@
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLAttribute : public UMLClassifierListItem {
+    Q_OBJECT
 public:
     /**
      * Sets up an attribute.
@@ -64,6 +65,18 @@ public:
      * object.
      */
     virtual void copyInto(UMLAttribute *rhs) const;
+
+    /**
+     * Reimplementation of method from UMLObject is required as
+     * an extra signal, attributeChanged(), is emitted.
+     */
+    void setName(const QString &name);
+
+    /**
+     * Reimplementation of method from UMLObject is required as
+     * an extra signal, attributeChanged(), is emitted.
+     */
+    void setVisibility(Uml::Visibility s);
 
     /**
      * Make a clone of the UMLAttribute.
@@ -116,6 +129,13 @@ public:
      * Returns all the template params (if any) that are in the type of this attribute
      */
     virtual UMLClassifierList getTemplateParams();
+
+signals:
+    /**
+     * Required for informing AssociationWidgets representing this attribute
+     * that the attribute name or visibility has changed.
+     */
+    void attributeChanged();
 
 protected:
     /**

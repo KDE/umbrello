@@ -131,7 +131,7 @@ public:
      *
      * @param s The visibility of the object.
      */
-    void setVisibility(Uml::Visibility s);
+    virtual void setVisibility(Uml::Visibility s);
 
     /**
      * Method used by setVisibility: its called by  cmdSetVisibility, Don't use it!
@@ -239,7 +239,7 @@ public:
     /**
      * Set the UMLObject's name
      */
-    void setName(const QString &strName);
+    virtual void setName(const QString &strName);
 
     /**
      * Method used by setName: its called by  cmdSetName, Don't use it!
