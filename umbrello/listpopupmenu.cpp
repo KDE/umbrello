@@ -192,6 +192,10 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type)
         mt = mt_Template;
         break;
 
+    case Uml::lvt_Category:
+        mt = mt_Category;
+        break;
+
     case Uml::lvt_Entity:
         mt = mt_Entity;
         break;
@@ -281,6 +285,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     switch(type) {
     case Uml::wt_Actor:
     case Uml::wt_UseCase:
+    case Uml::wt_Category:
         setupColor(object -> getUseFillColour());
         insertStdItems(true, type);
         insertStdItem(mt_Rename);
@@ -611,6 +616,9 @@ void ListPopupMenu::insertStdItem(Menu_Type m)
     case mt_EntityRelationship_Diagram:
         m_pInsert->addAction(UMLApp::app()->actionCollection()->action("new_entityrelationship_diagram"));
         break;
+    case mt_Category:
+        m_pInsert->insertItem(m_pixmap[pm_Category], i18n("Category"), mt_Category);
+        break;
     case mt_Actor:
         m_pInsert->insertItem(m_pixmap[pm_Actor], i18n("Actor"), mt_Actor);
         break;
@@ -883,6 +891,9 @@ Uml::Object_Type ListPopupMenu::convert_MT_OT(Menu_Type mt) {
     case mt_Operation:
         type = Uml::ot_Operation;
         break;
+    case mt_Category:
+        type = Uml::ot_Category;
+        break;
     default:
         break;
     }
@@ -914,6 +925,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
     m_pixmap[pm_Component]   .load(dataDir+"component.png",     "PNG");
     m_pixmap[pm_Node]        .load(dataDir+"node.png",          "PNG");
     m_pixmap[pm_Entity]      .load(dataDir+"entity.png",        "PNG");
+    m_pixmap[pm_Category]    .load(dataDir+"category.png",      "PNG");
     m_pixmap[pm_Artifact]    .load(dataDir+"artifact.png",      "PNG");
     m_pixmap[pm_Text]        .load(dataDir+"text.png",          "PNG");
     m_pixmap[pm_Subsystem]   .load(dataDir+"subsystem.png",     "PNG");
@@ -964,6 +976,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         m_pInsert = new KMenu(this);
         insertStdItem(mt_EntityRelationship_Folder);
         insertStdItem(mt_Entity);
+        insertStdItem(mt_Category);
         insertStdItem(mt_EntityRelationship_Diagram);
         insertFileNew();
         insertSeparator();
@@ -1234,6 +1247,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
     case mt_EntityAttribute:
     case mt_Operation:
     case mt_Template:
+    case mt_Category:
 
         insertStdItems(false);
         insertStdItem(mt_Properties);

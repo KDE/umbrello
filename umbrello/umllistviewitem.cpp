@@ -324,6 +324,7 @@ void UMLListViewItem::okRename( int col ) {
     case Uml::lvt_Subsystem:
     case Uml::lvt_Component:
     case Uml::lvt_Node:
+    case Uml::lvt_Category:
         if (m_pObject == NULL || !doc->isUnique(newText)) {
             cancelRenameWithMsg();
             return;

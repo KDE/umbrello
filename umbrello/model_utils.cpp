@@ -712,6 +712,7 @@ bool typeIsCanvasWidget(Uml::ListView_Type type) {
         case Uml::lvt_Datatype:
         case Uml::lvt_Enum:
         case Uml::lvt_Entity:
+        case Uml::lvt_Category:
             return true;
             break;
         default:

@@ -43,6 +43,7 @@
 #include "artifact.h"
 #include "enum.h"
 #include "entity.h"
+#include "category.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
 #include "template.h"
@@ -298,6 +299,10 @@ void UMLListView::popupMenuSel(int sel) {
 
     case ListPopupMenu::mt_Entity:
         addNewItem(temp, Uml::lvt_Entity);
+        break;
+
+    case ListPopupMenu::mt_Category:
+        addNewItem(temp, Uml::lvt_Category);
         break;
 
     case ListPopupMenu::mt_Datatype:
@@ -949,6 +954,7 @@ UMLListViewItem * UMLListView::findUMLObjectInFolder(UMLListViewItem* folder, UM
         case Uml::lvt_Datatype :
         case Uml::lvt_Enum :
         case Uml::lvt_Entity :
+        case Uml::lvt_Category:
             if(item->getUMLObject() == obj)
                 return item;
             break;
@@ -1278,6 +1284,7 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
             break;
         case Uml::lvt_Entity:
         case Uml::lvt_EntityRelationship_Diagram:
+        case Uml::lvt_Category:
             accept = (dstType == Uml::lvt_EntityRelationship_Folder);
             break;
         default:
@@ -1418,6 +1425,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
         break;
     case Uml::lvt_EntityRelationship_Folder:
     case Uml::lvt_Entity:
+    case Uml::lvt_Category:
     case Uml::lvt_EntityRelationship_Diagram:
         if (newParentType == Uml::lvt_EntityRelationship_Folder ||
                 newParentType == Uml::lvt_EntityRelationship_Model) {
@@ -1676,6 +1684,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
     case Uml::lvt_Datatype:
     case Uml::lvt_Enum:
     case Uml::lvt_Entity:
+    case Uml::lvt_Category:
     case Uml::lvt_Logical_Folder:
     case Uml::lvt_UseCase_Folder:
     case Uml::lvt_Component_Folder:
@@ -2164,6 +2173,10 @@ UMLObject *UMLListView::createUMLObject( UMLListViewItem * item, Uml::Object_Typ
 
     case Uml::ot_Entity:
         object = new UMLEntity( name );
+        break;
+
+    case Uml::ot_Category:
+        object = new UMLCategory(name );
         break;
 
     default:

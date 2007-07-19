@@ -518,6 +518,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
     case ot_Enum:
     case ot_Entity:
     case ot_Datatype:
+    case ot_Category:
         createAutoAssociations(newWidget);
         // We need to invoke createAutoAttributeAssociations()
         // on all other widgets again because the newly created
@@ -640,7 +641,7 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
                 bAccept = false;
             break;
         case dt_EntityRelationship:
-            if (ot != ot_Entity)
+            if (ot != ot_Entity && ot != ot_Category)
                 bAccept = false;
             break;
         default:
