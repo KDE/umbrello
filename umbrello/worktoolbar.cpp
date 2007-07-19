@@ -172,8 +172,8 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
 
     case Uml::dt_EntityRelationship:
         insertHotBtn(tbb_Entity);
-        insertHotBtn(tbb_Relationship);
         insertHotBtn(tbb_Category);
+        insertHotBtn(tbb_Relationship);
         insertHotBtn(tbb_Category2Parent);
         insertHotBtn(tbb_Child2Category);
         break;
