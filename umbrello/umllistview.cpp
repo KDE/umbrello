@@ -2579,6 +2579,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
         case Uml::lvt_Component_Folder:
         case Uml::lvt_Deployment_Folder:
         case Uml::lvt_EntityRelationship_Folder:
+        case Uml::lvt_Category:
             item = findItem(nID);
             if (item == NULL) {
                 kError() << pfx << "INTERNAL ERROR: "

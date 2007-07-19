@@ -187,6 +187,21 @@ void UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
         qElement.appendChild( assocElement );
         return;
     }
+    if (m_AssocType == Uml::at_Child2Category ) {
+        QDomElement assocElement = UMLObject::save("UML:Child2Category", qDoc);
+        assocElement.setAttribute( "client", ID2STR(getObjectId(A)) );
+        assocElement.setAttribute( "supplier", ID2STR(getObjectId(B)) );
+        qElement.appendChild( assocElement );
+        return;
+    }
+    if (m_AssocType == Uml::at_Category2Parent ) {
+        QDomElement assocElement = UMLObject::save("UML:Category2Parent", qDoc);
+        assocElement.setAttribute( "client", ID2STR(getObjectId(A)) );
+        assocElement.setAttribute( "supplier", ID2STR(getObjectId(B)) );
+        qElement.appendChild( assocElement );
+        return;
+    }
+
     QDomElement associationElement = UMLObject::save("UML:Association", qDoc);
     QDomElement connElement = qDoc.createElement("UML:Association.connection");
     getUMLRole(A)->saveToXMI (qDoc, connElement);
@@ -203,7 +218,10 @@ bool UMLAssociation::load( QDomElement & element ) {
     UMLObject * obj[2] = { NULL, NULL };
     if (m_AssocType == Uml::at_Generalization ||
         m_AssocType == Uml::at_Realization ||
-        m_AssocType == Uml::at_Dependency) {
+        m_AssocType == Uml::at_Dependency ||
+        m_AssocType == Uml::at_Child2Category ||
+        m_AssocType == Uml::at_Category2Parent
+        ) {
         for (unsigned r = Uml::A; r <= Uml::B; r++) {
             const QString fetch = (m_AssocType == Uml::at_Generalization ?
                                    r == Uml::A ? "child" : "parent"

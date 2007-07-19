@@ -298,6 +298,8 @@ UMLObject* makeObjectFromXMI(const QString& xmiTag,
         pObject = new UMLEnum();
     } else if (Uml::tagEq(xmiTag, "Entity")) {
         pObject = new UMLEntity();
+    } else if (Uml::tagEq(xmiTag, "Category")) {
+        pObject = new UMLCategory();
     } else if (Uml::tagEq(xmiTag, "Stereotype")) {
         pObject = new UMLStereotype();
     } else if (Uml::tagEq(xmiTag, "Association") ||
@@ -310,7 +312,13 @@ UMLObject* makeObjectFromXMI(const QString& xmiTag,
         pObject = new UMLAssociation(Uml::at_Realization);
     } else if (Uml::tagEq(xmiTag, "Dependency")) {
         pObject = new UMLAssociation(Uml::at_Dependency);
+    } else if (Uml::tagEq(xmiTag, "Child2Category")) {
+        pObject = new UMLAssociation(Uml::at_Child2Category);
+    } else if (Uml::tagEq(xmiTag, "Category2Parent")) {
+        pObject = new UMLAssociation(Uml::at_Category2Parent);
     }
+
+
     return pObject;
 }
 

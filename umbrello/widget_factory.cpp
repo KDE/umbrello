@@ -258,6 +258,9 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         } else if (tag == "entitywidget") {
             if (validateObjType(Uml::ot_Entity, o, id))
                 widget = new EntityWidget(view, static_cast<UMLEntity*>(o));
+        } else if (tag == "categorywidget") {
+            if (validateObjType(Uml::ot_Category, o, id))
+                widget = new CategoryWidget(view, static_cast<UMLCategory*>(o));
         } else if (tag == "objectwidget" || tag == "UML:ObjectWidget") {
             widget = new ObjectWidget(view, o );
         } else {
