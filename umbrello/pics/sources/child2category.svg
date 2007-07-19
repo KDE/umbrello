@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="64px"
+   height="64px"
+   id="svg1891"
+   sodipodi:version="0.32"
+   inkscape:version="0.44.1"
+   sodipodi:docbase="/home/kde-devel/kde/src/KDE/kdesdk/umbrello/umbrello/pics/sources"
+   sodipodi:docname="child2category.svg">
+  <defs
+     id="defs1893">
+    <marker
+       inkscape:stockid="CurveIn"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="CurveIn"
+       style="overflow:visible">
+      <path
+         id="path7547"
+         d="M 4.6254930,-5.0456926 C 1.8654930,-5.0456926 -0.37450702,-2.8056926 -0.37450702,-0.045692580 C -0.37450702,2.7143074 1.8654930,4.9543074 4.6254930,4.9543074"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;marker-start:none;marker-end:none;fill:none"
+         transform="scale(0.6)" />
+    </marker>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient830"
+       id="linearGradient1089"
+       spreadMethod="reflect"
+       x1="23.537647"
+       y1="37.602750"
+       x2="3.7720042"
+       y2="28.123806"
+       gradientTransform="matrix(1.701614,0,0,1.09521,0,-22.63705)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       id="linearGradient830">
+      <stop
+         style="stop-color:#ebffff;stop-opacity:0.0000000;"
+         offset="0.0000000"
+         id="stop831" />
+      <stop
+         style="stop-color:#fff;stop-opacity:1;"
+         offset="1"
+         id="stop832" />
+    </linearGradient>
+    <linearGradient
+       xlink:href="#linearGradient830"
+       id="linearGradient829"
+       x1="21.635329"
+       y1="9.6104371"
+       x2="3.4203537"
+       y2="0.8751411"
+       spreadMethod="reflect"
+       gradientTransform="scale(1.846475,0.541572)"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.5"
+     inkscape:cx="32"
+     inkscape:cy="32"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:document-units="px"
+     inkscape:grid-bbox="true"
+     inkscape:window-width="902"
+     inkscape:window-height="583"
+     inkscape:window-x="44"
+     inkscape:window-y="68" />
+  <metadata
+     id="metadata1896">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <g
+       id="g1196"
+       transform="matrix(0.609769,0,0,0.602267,7.500182,34.77151)">
+      <rect
+         style="font-size:12px;fill:yellow;fill-rule:evenodd;stroke:red;stroke-width:1.23962998"
+         id="rect837"
+         width="26.249929"
+         height="26.188568"
+         x="0.66534913"
+         y="0.71917963" />
+      <rect
+         style="font-size:12px;fill:url(#linearGradient829);fill-opacity:0.75;fill-rule:evenodd;stroke-width:0.45652699pt"
+         id="rect825"
+         width="24.991924"
+         height="7.3301492"
+         ry="0"
+         x="1.2116134"
+         y="1.367873" />
+      <text
+         xml:space="preserve"
+         style="font-size:12px;font-weight:normal;stroke-width:1pt;font-family:Bitstream Vera Sans"
+         x="2.5917132"
+         y="11.314754"
+         id="text838"
+         transform="scale(0.933669,0.722645)"><tspan
+           id="tspan839">ABC</tspan></text>
+      <path
+         style="font-size:12px;fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:red;stroke-width:1.25"
+         d="M 1.1533278,9.3908034 L 26.731652,9.3908034"
+         id="path842" />
+      <rect
+         style="font-size:12px;fill:url(#linearGradient1089);fill-opacity:0.75;fill-rule:evenodd;stroke-width:0.45652699pt"
+         id="rect847"
+         width="24.991922"
+         height="16.085562"
+         ry="0"
+         x="1.3145113"
+         y="10.12609" />
+    </g>
+    <path
+       sodipodi:type="arc"
+       style="fill:yellow;fill-opacity:1;fill-rule:evenodd;stroke:red;stroke-width:6.55090475;stroke-dasharray:none;stroke-opacity:1"
+       id="path863"
+       sodipodi:cx="63.4375"
+       sodipodi:cy="39.375"
+       sodipodi:rx="31.25"
+       sodipodi:ry="31.5625"
+       d="M 94.6875 39.375 A 31.25 31.5625 0 1 1  32.1875,39.375 A 31.25 31.5625 0 1 1  94.6875 39.375 z"
+       transform="matrix(0.257743,0,0,0.228556,25.64943,3.009395)"
+       inkscape:export-filename="/home/kde-devel/kde/src/KDE/kdesdk/umbrello/umbrello/pics/category.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:red;stroke-width:0.40835997;stroke-linecap:butt;stroke-linejoin:round;marker-start:none;marker-mid:url(#CurveIn);stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 16.166275,35.19736 C 16.166275,35.19736 37.832594,34.151521 39.810433,26.772533 C 41.78827,19.393548 41.78827,19.393548 41.78827,19.393548"
+       id="path6609" />
+    <text
+       xml:space="preserve"
+       style="font-size:6px;font-style:normal;font-weight:normal;fill:red;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="39.668945"
+       y="13.915039"
+       id="text7676"><tspan
+         sodipodi:role="line"
+         id="tspan7678"
+         x="39.668945"
+         y="13.915039">d</tspan></text>
+  </g>
+</svg>

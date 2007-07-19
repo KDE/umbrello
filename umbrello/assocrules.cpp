@@ -109,6 +109,17 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType, UMLWidget * 
     case at_Anchor:
         return true;
         break;
+
+    case at_Category2Parent:
+        if ( widgetType == wt_Category )
+            return true;
+        break;
+
+    case at_Child2Category:
+        if ( widgetType == wt_Entity )
+            return true;
+        break;
+
     default:
         kWarning() << "allowAssociation() on unknown type" << endl;
         break;
@@ -247,6 +258,18 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
 
     case at_Anchor:
         return true;
+        break;
+
+    case at_Category2Parent:
+        if ( widgetTypeA == wt_Category && widgetTypeB == wt_Entity ) {
+            return true;
+        }
+        break;
+
+    case at_Child2Category:
+        if ( widgetTypeA == wt_Entity && widgetTypeB == wt_Category ) {
+            return true;
+        }
         break;
 
     default:
@@ -412,6 +435,8 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
     { at_Exception,     wt_Activity,    wt_Signal,      true,   false,  true,   true  },
     { at_Exception,     wt_Signal,      wt_Activity,    true,   false,  true,   true  },
     { at_Exception,     wt_Signal,      wt_Signal,      true,   false,  true,   true  },
+    { at_Category2Parent, wt_Category,  wt_Entity,      false,  false,  true,   false },
+    { at_Child2Category, wt_Entity,     wt_Category,    false,  false,  true,   false }
 };
 
 int AssocRules::m_nNumRules = sizeof( m_AssocRules ) / sizeof( AssocRules::Assoc_Rule );

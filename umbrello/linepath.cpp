@@ -67,10 +67,12 @@ LinePath::LinePath() {
     m_bSelected = false;
     m_pClearPoly = 0;
     m_pCircle = 0;
+    m_pSubsetSymbol = 0;
     m_PointArray.resize( 4 );
     m_ParallelLines.resize( 4 );
     m_pAssociation = 0;
     m_bHeadCreated = false;
+    m_bSubsetSymbolCreated = false;
     m_bParallelLineCreated = false;
     m_DockRegion = TopBottom;
 }
@@ -83,6 +85,7 @@ void LinePath::setAssociation(AssociationWidget * association ) {
     cleanup();
     m_pAssociation = association;
     createHeadLines();
+    createSubsetSymbol();
     if( getAssocType() == Uml::at_Coll_Message )
         setupParallelLine();
     UMLView * view =  (UMLView *)m_pAssociation -> parent();
@@ -323,8 +326,10 @@ void LinePath::setAssocType( Uml::Association_Type type ) {
     }
     if( type == Uml::at_Coll_Message )
         setupParallelLine();
-    else
+    else {
         createHeadLines();
+        createSubsetSymbol();
+    }
     update();
 }
 
@@ -340,6 +345,12 @@ void LinePath::update() {
         updateHead();
     } else {
         createHeadLines();
+    }
+
+    if ( m_bSubsetSymbolCreated ) {
+        updateSubsetSymbol();
+    } else {
+        createSubsetSymbol();
     }
 }
 
@@ -846,9 +857,12 @@ void LinePath::cleanup() {
         delete m_pClearPoly;
     if( m_pCircle )
         delete m_pCircle;
+    if( m_pSubsetSymbol )
+        delete m_pSubsetSymbol;
     m_pCircle = 0;
     m_pClearPoly = 0;
-    m_bHeadCreated = m_bParallelLineCreated = false;
+    m_pSubsetSymbol = 0;
+    m_bHeadCreated = m_bParallelLineCreated = m_bSubsetSymbolCreated = false;
     if( m_pAssociation ) {
         UMLView * view =  (UMLView *)m_pAssociation -> parent();
         if(view) {
@@ -956,5 +970,81 @@ void LinePath::activate() {
 }
 
 
+
+void LinePath::createSubsetSymbol() {
+    if ( m_LineList.count() < 1 ) {
+        return;
+    }
+
+    switch( getAssocType() ) {
+       case Uml::at_Child2Category:
+           m_pSubsetSymbol = new SubsetSymbol(getCanvas());
+           m_pSubsetSymbol->setPen( QPen( getLineColor(), getLineWidth() ) );
+           updateSubsetSymbol();
+           m_pSubsetSymbol->show();
+           break;
+       default:
+           break;
+    }
+    m_bSubsetSymbolCreated = true;
+}
+
+
+void LinePath::updateSubsetSymbol() {
+    if ( m_LineList.count() < 1 ) {
+        return;
+    }
+    Q3CanvasLine* firstLine = m_LineList.first();
+    QPoint startPoint = firstLine->startPoint();
+    QPoint endPoint = firstLine->endPoint();
+    QPoint centrePoint;
+    centrePoint.setX( ( startPoint.x() + endPoint.x() )/2 );
+    centrePoint.setY( ( startPoint.y() + endPoint.y() )/2 );
+
+    if ( m_pSubsetSymbol ) {
+
+        double xDiff = endPoint.x() - startPoint.x();
+        double yDiff = endPoint.y() - startPoint.y();
+
+        int inclination;
+        if ( xDiff == 0 ) {
+            if ( yDiff > 0 )
+                inclination = 90;
+            else // yDiff < 0
+                inclination = 270;
+        } else {
+           inclination = atan( yDiff/xDiff )*180/3.14159 ;
+           // convert to 360 degree scale
+           if (  xDiff < 0 ) {
+               inclination = 180 + inclination ;
+           } else if ( xDiff > 0 && yDiff < 0 ) {
+               inclination = 360 +  inclination;
+           }
+        }
+
+        m_pSubsetSymbol->setInclination(inclination);
+        m_pSubsetSymbol->setX(centrePoint.x());
+        m_pSubsetSymbol->setY(centrePoint.y());
+    }
+}
+
+LinePath::SubsetSymbol::SubsetSymbol(Q3Canvas* canvas)
+    : Q3CanvasEllipse(canvas) {
+    inclination = 0;
+}
+
+
+
+void LinePath::SubsetSymbol::drawShape(QPainter& p) {
+    p.translate(QPoint( x(), y() ) );
+    p.rotate( inclination );
+    int width = 30, height = 20;
+    int startAngle = 90, endAngle = 180;
+    p.drawArc( 0 ,-height/2, width, height, startAngle*16, endAngle*16 );
+    // revert back
+    p.rotate( -inclination );
+    p.translate( QPoint( -x(), -y() ) );
+
+}
 
 #include "linepath.moc"

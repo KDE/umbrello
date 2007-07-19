@@ -98,6 +98,8 @@ const QString UMLAssociation::assocTypeStr[UMLAssociation::nAssocTypes] = {
             i18n("State Transition"),           // at_State
             i18n("Activity"),                   // at_Activity
             i18n("Exception"),                  // at_Activity
+            i18n("Category to Parent"),         // at_Category2Parent
+            i18n("Child to Category")           // at_Child2Category
         };
 
 Uml::Association_Type UMLAssociation::getAssocType() const {
@@ -140,7 +142,9 @@ bool UMLAssociation::assocTypeHasUMLRepresentation(Uml::Association_Type atype)
             atype == Uml::at_Aggregation ||
             atype == Uml::at_Relationship ||
             atype == Uml::at_Composition ||
-            atype == Uml::at_Dependency);
+            atype == Uml::at_Dependency ||
+            atype == Uml::at_Category2Parent ||
+            atype == Uml::at_Child2Category);
 }
 
 bool UMLAssociation::resolveRef() {
@@ -376,7 +380,9 @@ bool UMLAssociation::load( QDomElement & element ) {
                     "activity",         // at_Activity
                     "exception",        // at_Exception
                     "relationship"      // at_Relationship
-                };
+                    "category2parent"   // at_Category2Parent
+                    "child2category"    // at_Child2Category
+            };
 
         unsigned index;
         for (index = 0; index < nAssocTypes; index++)

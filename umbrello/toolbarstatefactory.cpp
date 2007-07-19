@@ -84,6 +84,8 @@ int ToolBarStateFactory::getKey(const WorkToolBar::ToolBar_Buttons &toolbarButto
     case WorkToolBar::tbb_State_Transition:    return 1;
     case WorkToolBar::tbb_Activity_Transition: return 1;
     case WorkToolBar::tbb_Exception:           return 1;
+    case WorkToolBar::tbb_Category2Parent:     return 1;
+    case WorkToolBar::tbb_Child2Category:      return 1;
 
         // Messages
     case WorkToolBar::tbb_Seq_Message_Synchronous:  return 2;

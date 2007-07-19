@@ -174,6 +174,8 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt) {
         insertHotBtn(tbb_Entity);
         insertHotBtn(tbb_Relationship);
         insertHotBtn(tbb_Category);
+        insertHotBtn(tbb_Category2Parent);
+        insertHotBtn(tbb_Child2Category);
         break;
 
     default:
@@ -323,7 +325,9 @@ void WorkToolBar::loadPixmaps() {
         { tbb_Exception, i18n("Exception"), "exception.png", SLOT(slotException()) },
         { tbb_Object_Node, i18n("Object Node"), "object_node.png", SLOT(slotObject_Node()) },
         { tbb_PrePostCondition, i18n("Pre/Post condition"), "PrePostCondition.png", SLOT(slotPrePostCondition()) },
-        { tbb_Category, i18n("Category"), "category.png", SLOT(slotCategory())  }
+        { tbb_Category, i18n("Category"), "category.png", SLOT(slotCategory())  },
+        { tbb_Category2Parent, i18n("Category to Parent"), "category2parent.png", SLOT(slotCategory2Parent()) },
+        { tbb_Child2Category, i18n("Child to Category"), "child2category.png", SLOT(slotChild2Category()) }
     };
 
 
@@ -413,5 +417,7 @@ void WorkToolBar::slotException() {buttonChanged(tbb_Exception);}
 void WorkToolBar::slotObject_Node() {buttonChanged(tbb_Object_Node);}
 void WorkToolBar::slotPrePostCondition() {buttonChanged(tbb_PrePostCondition);}
 void WorkToolBar::slotCategory() {buttonChanged(tbb_Category);}
+void WorkToolBar::slotCategory2Parent() {buttonChanged(tbb_Category2Parent);}
+void WorkToolBar::slotChild2Category() {buttonChanged(tbb_Child2Category);}
 
 #include "worktoolbar.moc"

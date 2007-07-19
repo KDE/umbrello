@@ -212,6 +212,31 @@ protected:
     };
 
     /**
+     * Draw the subset Symbol
+     */
+    class SubsetSymbol : public Q3CanvasEllipse {
+    public:
+        explicit SubsetSymbol(Q3Canvas* canvas);
+    
+        /**
+         * Sets the Inclination of the Subset Symbol w.r.t horizontal x axis
+         * @param angle The inclination angle
+         */
+        void setInclination(int angle) {
+	    inclination = angle;           
+        }
+    protected:
+	/**
+         * Reimplementation from base class
+         */
+        void drawShape(QPainter& p);
+    
+    private:
+        int inclination;   
+
+    };
+
+    /**
     *   Returns the canvas being used.
     *   Will return zero if the Association hasn't been set.
     *
@@ -267,6 +292,11 @@ protected:
     void createHeadLines();
 
     /**
+    *   Creates the subset symbol
+    */
+    void createSubsetSymbol();
+
+    /**
      * Create a number of new lines and append them to the given list.
      *
      * @param list  The list into which to append lines.
@@ -278,6 +308,11 @@ protected:
     *   Updates the head lines.  Call after calculating the new points.
     */
     void updateHead();
+
+    /**
+    *   Updates the subset symbol.Call after calculating the new points.
+    */
+    void updateSubsetSymbol();
 
     /**
     *   Creates the line objects to display the parallel line.
@@ -348,6 +383,11 @@ protected:
     Circle * m_pCircle;
 
     /**
+     * The subset notation required by Child to Category associations.
+     */
+    SubsetSymbol* m_pSubsetSymbol;
+ 
+    /**
     *   Contains the calculated points for the parallel line
     *   on a collaboration message to use.
     */
@@ -359,6 +399,8 @@ protected:
     Region m_DockRegion;
 
     bool m_bHeadCreated;
+
+    bool m_bSubsetSymbolCreated;
 
     bool m_bParallelLineCreated;
 

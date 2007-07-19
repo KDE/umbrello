@@ -132,7 +132,9 @@ public:
         tbb_Exception,
         tbb_Object_Node,
         tbb_PrePostCondition,
-        tbb_Category
+        tbb_Category,
+        tbb_Category2Parent,
+        tbb_Child2Category
     };
 
 private:
@@ -260,7 +262,8 @@ public slots:
     void slotPin();
     void slotObject_Node();
     void slotCategory();
-
+    void slotCategory2Parent();
+    void slotChild2Category();
 };
 
 #endif

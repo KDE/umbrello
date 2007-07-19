@@ -1883,6 +1883,7 @@ void UMLListView::loadPixmaps() {
     loadPixmap(Uml::it_ForeignKey_Constraint, "foreignkey_constraint.png" );
     loadPixmap(Uml::it_Unique_Constraint, "unique_constraint.png" );
     loadPixmap(Uml::it_Check_Constraint, "check_constraint.png" );
+    loadPixmap(Uml::it_Category, "category.png" );
 #undef loadPixmap
 }
 

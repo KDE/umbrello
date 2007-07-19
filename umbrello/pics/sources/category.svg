@@ -6,21 +6,37 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   id="svg1"
+   width="48px"
+   height="48px"
+   id="svg1930"
    sodipodi:version="0.32"
    inkscape:version="0.44.1"
-   width="128.00000pt"
-   height="128.00000pt"
    sodipodi:docbase="/home/kde-devel/kde/src/KDE/kdesdk/umbrello/umbrello/pics/sources"
-   sodipodi:docname="category.svg"
-   inkscape:export-filename="/home/kde-devel/kde/src/KDE/kdesdk/umbrello/umbrello/pics/category.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   sodipodi:docname="category.svg">
+  <defs
+     id="defs1932" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="7"
+     inkscape:cx="24"
+     inkscape:cy="24"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:grid-bbox="true"
+     inkscape:document-units="px"
+     inkscape:window-width="902"
+     inkscape:window-height="583"
+     inkscape:window-x="0"
+     inkscape:window-y="105" />
   <metadata
-     id="metadata25">
+     id="metadata1935">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -30,112 +46,43 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <defs
-     id="defs3">
-    <linearGradient
-       id="linearGradient868">
-      <stop
-         style="stop-color:#ffffff;stop-opacity:0.0000000;"
-         offset="0.0000000"
-         id="stop869" />
-      <stop
-         style="stop-color:#fff;stop-opacity:1;"
-         offset="1"
-         id="stop870" />
-    </linearGradient>
-    <linearGradient
-       id="linearGradient893">
-      <stop
-         style="stop-color:#19839a;stop-opacity:0.0000000;"
-         offset="0.0000000"
-         id="stop894" />
-      <stop
-         style="stop-color:#fff;stop-opacity:1;"
-         offset="1"
-         id="stop895" />
-    </linearGradient>
-    <linearGradient
-       id="linearGradient830">
-      <stop
-         style="stop-color:#ebffff;stop-opacity:0.0000000;"
-         offset="0.0000000"
-         id="stop831" />
-      <stop
-         style="stop-color:#fff;stop-opacity:1;"
-         offset="1"
-         id="stop832" />
-    </linearGradient>
-    <linearGradient
-       id="linearGradient826">
-      <stop
-         style="stop-color:#000;stop-opacity:1;"
-         offset="0"
-         id="stop827" />
-      <stop
-         style="stop-color:#fff;stop-opacity:1;"
-         offset="1"
-         id="stop828" />
-    </linearGradient>
-    <linearGradient
-       xlink:href="#linearGradient830"
-       id="linearGradient829"
-       x1="1.5500000"
-       y1="0.52343750"
-       x2="0.20422535"
-       y2="-0.12195122"
-       spreadMethod="reflect" />
-    <linearGradient
-       xlink:href="#linearGradient830"
-       id="linearGradient834"
-       x1="-0.31159419"
-       y1="0.19531250"
-       x2="0.77536231"
-       y2="0.94531250" />
-    <linearGradient
-       xlink:href="#linearGradient830"
-       id="linearGradient836" />
-    <linearGradient
-       xlink:href="#linearGradient868"
-       id="linearGradient892" />
-  </defs>
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="4"
-     inkscape:cx="79.132812"
-     inkscape:cy="91.934691"
-     inkscape:window-width="1016"
-     inkscape:window-height="688"
-     gridspacingy="1.0000000pt"
-     gridspacingx="1.0000000pt"
-     gridtolerance="1.0000000px"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:current-layer="svg1" />
-  <path
-     sodipodi:type="arc"
-     style="fill:yellow;fill-opacity:1;fill-rule:evenodd;stroke:red;stroke-width:6.55090475;stroke-dasharray:none;stroke-opacity:1"
-     id="path863"
-     sodipodi:cx="63.4375"
-     sodipodi:cy="39.375"
-     sodipodi:rx="31.25"
-     sodipodi:ry="31.5625"
-     d="M 94.6875 39.375 A 31.25 31.5625 0 1 1  32.1875,39.375 A 31.25 31.5625 0 1 1  94.6875 39.375 z"
-     transform="matrix(1.139994,0,0,1.022211,2.432974,37.00392)" />
-  <path
-     style="fill:red;fill-rule:evenodd;stroke:red;stroke-width:7.7891283;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="M 74.75,14.041908 C 74.75,47.458092 74.75,47.458092 74.75,47.458092 L 74.75,47.458092"
-     id="path2823" />
-  <path
-     style="fill:red;fill-rule:evenodd;stroke:red;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="M 51.75,99 L 28,123.25 L 28.25,123"
-     id="path3714" />
-  <path
-     style="fill:red;fill-rule:evenodd;stroke:red;stroke-width:9.01898956;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="M 95.009494,101.50949 L 117.74051,123.49051 L 117.74051,123.49051"
-     id="path4609" />
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <path
+       sodipodi:type="arc"
+       style="fill:yellow;fill-opacity:1;fill-rule:evenodd;stroke:red;stroke-width:6.55090475;stroke-dasharray:none;stroke-opacity:1"
+       id="path863"
+       sodipodi:cx="63.4375"
+       sodipodi:cy="39.375"
+       sodipodi:rx="31.25"
+       sodipodi:ry="31.5625"
+       d="M 94.6875 39.375 A 31.25 31.5625 0 1 1  32.1875,39.375 A 31.25 31.5625 0 1 1  94.6875 39.375 z"
+       transform="matrix(0.257743,0,0,0.228556,0.119829,7.473148)"
+       inkscape:export-filename="/home/kde-devel/kde/src/KDE/kdesdk/umbrello/umbrello/pics/category.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:red;fill-rule:evenodd;stroke:red;stroke-width:1.75128698;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 16.470176,2.3391041 C 16.470176,9.8105948 16.470176,9.8105948 16.470176,9.8105948 L 16.470176,9.8105948"
+       id="path2823"
+       inkscape:export-filename="/home/kde-devel/kde/src/KDE/kdesdk/umbrello/umbrello/pics/category.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:red;fill-rule:evenodd;stroke:red;stroke-width:1.79869914;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 11.270042,21.334798 L 5.9003429,26.756832 L 5.9568665,26.700938"
+       id="path3714"
+       inkscape:export-filename="/home/kde-devel/kde/src/KDE/kdesdk/umbrello/umbrello/pics/category.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:red;fill-rule:evenodd;stroke:red;stroke-width:2.02780581;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 21.050699,21.895895 L 26.190016,26.81061 L 26.190016,26.81061"
+       id="path4609"
+       inkscape:export-filename="/home/kde-devel/kde/src/KDE/kdesdk/umbrello/umbrello/pics/category.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+  </g>
 </svg>
