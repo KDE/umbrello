@@ -591,7 +591,8 @@ void UMLAssociation::init(Uml::Association_Type type, UMLObject *roleAObj, UMLOb
     m_Name = "";
     m_bOldLoadMode = false;
     nrof_parent_widgets = -1;
-    m_pUMLPackage = UMLApp::app()->getDocument()->currentRoot();
+    if (!UMLApp::app()->getDocument()->loading())
+        m_pUMLPackage = UMLApp::app()->getDocument()->currentRoot();
     m_pRole[Uml::A] = new UMLRole (this, roleAObj, Uml::A);
     m_pRole[Uml::B] = new UMLRole (this, roleBObj, Uml::B);
 }

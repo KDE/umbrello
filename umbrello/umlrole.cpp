@@ -64,9 +64,9 @@ void UMLRole::setObject (UMLObject *obj) {
     // parent objects. In fact, there is probably good reason
     // to only take UMLClassifiers here, but I'll leave it more open
     // for the time being. -b.t.
-    if(obj && dynamic_cast<UMLRole*>(obj))
-    {
-        kError()<<"ERROR: UMLRole cant setObject() to another UMLRole!, ignoring"<<endl;
+    if (obj && dynamic_cast<UMLRole*>(obj)) {
+        kError() << "UMLRole(" << ID2STR(m_nId) << ") cannot setObject() to another UMLRole("
+            << ID2STR(obj->getID()) << ")" << endl;
         return;
     }
 
@@ -253,7 +253,7 @@ bool UMLRole::load( QDomElement & element ) {
     if (!m_Multi.isEmpty())
         kDebug() << "UMLRole::load(" << m_Name << "): m_Multi is " << m_Multi << endl;
     if (m_SecondaryId.isEmpty()) {
-        kError() << "UMLRole::load: type not given or illegal" << endl;
+        kError() << "UMLRole::load(" << m_Name << "): type not given or illegal" << endl;
         return false;
     }
     UMLObject * obj;
