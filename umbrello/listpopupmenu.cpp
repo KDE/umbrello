@@ -803,6 +803,9 @@ Uml::Object_Type ListPopupMenu::convert_MT_OT(Menu_Type mt) {
     case mt_Attribute:
         type = Uml::ot_Attribute;
         break;
+    case mt_EnumLiteral:
+        type = Uml::ot_EnumLiteral;
+        break;
     case mt_EntityAttribute:
         type = Uml::ot_EntityAttribute;
         break;
@@ -1141,6 +1144,10 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         insertFileNew();
         insertStdItems();
         insertStdItem(mt_Properties);
+        break;
+
+    case mt_EnumLiteral:
+        insertStdItems(false);
         break;
 
     case mt_Datatype:

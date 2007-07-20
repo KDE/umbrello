@@ -311,6 +311,7 @@ void UMLListViewItem::okRename( int col ) {
     case Uml::lvt_Interface:
     case Uml::lvt_Datatype:
     case Uml::lvt_Enum:
+    case Uml::lvt_EnumLiteral:
     case Uml::lvt_Subsystem:
     case Uml::lvt_Component:
     case Uml::lvt_Node:
