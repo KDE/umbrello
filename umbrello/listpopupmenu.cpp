@@ -904,6 +904,9 @@ Uml::Object_Type ListPopupMenu::convert_MT_OT(Menu_Type mt) {
     case mt_Template:
         type = Uml::ot_Template;
         break;
+    case mt_EnumLiteral:
+        type = Uml::ot_EnumLiteral;
+        break;
     case mt_EntityAttribute:
         type = Uml::ot_EntityAttribute;
         break;
