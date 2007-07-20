@@ -1288,8 +1288,15 @@ void ListPopupMenu::setupMenu(Menu_Type type) {
         insertStdItem(mt_Properties);
         break;
 
-    case mt_Datatype:
     case mt_Enum:
+        m_pInsert = new KMenu(this);
+        m_pInsert->insertItem(SmallIcon("source"), i18n("Enum Literal..."), mt_EnumLiteral);
+        insertFileNew();
+        insertStdItems();
+        insertStdItem(mt_Properties);
+        break;
+
+    case mt_Datatype:
     case mt_EnumLiteral:
     case mt_Node:
     case mt_Artifact:

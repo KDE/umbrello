@@ -42,6 +42,7 @@
 #include "node.h"
 #include "artifact.h"
 #include "enum.h"
+#include "enumliteral.h"
 #include "entity.h"
 #include "category.h"
 #include "docwindow.h"
@@ -292,6 +293,10 @@ void UMLListView::popupMenuSel(int sel) {
 
     case ListPopupMenu::mt_Enum:
         addNewItem(temp, Uml::lvt_Enum);
+        break;
+
+    case ListPopupMenu::mt_EnumLiteral:
+        addNewItem(temp, Uml::lvt_EnumLiteral);
         break;
 
     case ListPopupMenu::mt_Template:
@@ -2235,7 +2240,13 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
 
     //kDebug() << "UMLListView::createChildUMLObject (" << text << ")" << endl;
     UMLObject* newObject = NULL;
-    if ( type == Uml::ot_Template )  {
+    if ( type == Uml::ot_EnumLiteral ) {
+        UMLEnum *owningEnum = static_cast<UMLEnum*>(parent);
+        newObject = owningEnum->createEnumLiteral(text);
+
+        UMLEnumLiteral* enumLiteral = static_cast<UMLEnumLiteral*>(newObject);
+        text = enumLiteral->toString(Uml::st_SigNoVis);
+    } else if ( type == Uml::ot_Template )  {
         UMLClassifier *owningClassifier = static_cast<UMLClassifier*>(parent);
         Model_Utils::NameAndType nt;
         Model_Utils::Parse_Status st = Model_Utils::parseTemplate(text, nt, owningClassifier);
