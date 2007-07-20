@@ -1290,6 +1290,7 @@ void ListPopupMenu::setupMenu(Menu_Type type) {
 
     case mt_Datatype:
     case mt_Enum:
+    case mt_EnumLiteral:
     case mt_Node:
     case mt_Artifact:
     case mt_Actor:
@@ -1298,6 +1299,9 @@ void ListPopupMenu::setupMenu(Menu_Type type) {
     case mt_EntityAttribute:
     case mt_Operation:
     case mt_Template:
+        insertStdItems(false);
+        break;
+
     case mt_Category:
         if ( m_TriggerObjectType!= tot_Object ) {
             kError()<<k_funcinfo<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
