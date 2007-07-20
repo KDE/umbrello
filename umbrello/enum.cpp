@@ -19,6 +19,7 @@
 #include "enumliteral.h"
 #include "umldoc.h"
 #include "uml.h"
+#include "uniqueid.h"
 #include "clipboard/idchangelog.h"
 
 UMLEnum::UMLEnum(const QString& name, Uml::IDType id) : UMLClassifier(name, id) {
@@ -51,14 +52,23 @@ void UMLEnum::init() {
     setStereotype( "enum" );
 }
 
-UMLObject* UMLEnum::createEnumLiteral() {
-    QString currentName = uniqChildName(Uml::ot_EnumLiteral);
+UMLObject* UMLEnum::createEnumLiteral(const QString& name) {
+    Uml::IDType id = UniqueID::gen();
+    QString currentName;
+    if (name.isNull())  {
+        currentName = uniqChildName(Uml::ot_EnumLiteral);
+    } else {
+        currentName = name;
+    }
+
     UMLEnumLiteral* newEnumLiteral = new UMLEnumLiteral(this, currentName);
 
     bool ok = true;
     bool goodName = false;
 
-    while (ok && !goodName) {
+    //check for name.isNull() stops dialog being shown
+    //when creating enum literal via list view
+    while (ok && !goodName && name.isNull()) {
         ok = newEnumLiteral->showPropertiesDialog( UMLApp::app() );
         QString name = newEnumLiteral->getName();
 
@@ -70,6 +80,7 @@ UMLObject* UMLEnum::createEnumLiteral() {
     }
 
     if (!ok) {
+        delete newEnumLiteral;
         return NULL;
     }
 

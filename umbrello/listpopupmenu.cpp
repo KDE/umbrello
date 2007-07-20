@@ -1150,8 +1150,15 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         insertStdItems(false);
         break;
 
-    case mt_Datatype:
     case mt_Enum:
+        m_pInsert = new KPopupMenu(this);
+        m_pInsert->insertItem(SmallIcon("source"), i18n("Enum Literal..."), mt_EnumLiteral);
+        insertFileNew();
+        insertStdItems();
+        insertStdItem(mt_Properties);
+        break;
+
+    case mt_Datatype:
     case mt_Node:
     case mt_Artifact:
     case mt_Actor:

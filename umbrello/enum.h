@@ -63,7 +63,7 @@ public:
      *
      * @return  The UMLEnum created
      */
-    UMLObject* createEnumLiteral();
+    UMLObject* createEnumLiteral(const QString& name = QString());
 
     /**
      * Adds an enumliteral to the enum.
