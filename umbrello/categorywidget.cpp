@@ -17,7 +17,7 @@
 // local includes
 #include "category.h"
 #include "umlview.h"
-
+#include "listpopupmenu.h"
 
 CategoryWidget::CategoryWidget(UMLView * view, UMLCategory *o) : UMLWidget(view, o) {
     UMLWidget::setBaseType(Uml::wt_Category);
@@ -84,5 +84,23 @@ void CategoryWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement categoryElement = qDoc.createElement( "categorywidget" );
     UMLWidget::saveToXMI( qDoc, categoryElement );
     qElement.appendChild( categoryElement );
+}
+
+void CategoryWidget::slotMenuSelection(int sel){
+    UMLCategory* catObj = static_cast<UMLCategory*>(m_pObject);
+    switch(sel) {
+      case ListPopupMenu::mt_DisjointSpecialisation:
+          catObj->setType(UMLCategory::ct_Disjoint_Specialisation);
+          break;
+
+      case ListPopupMenu::mt_OverlappingSpecialisation:
+          catObj->setType(UMLCategory::ct_Overlapping_Specialisation);
+          break;
+
+      case ListPopupMenu::mt_Union:
+          catObj->setType(UMLCategory::ct_Union);
+          break;
+    }
+    UMLWidget::slotMenuSelection(sel);
 }
 

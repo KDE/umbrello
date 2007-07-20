@@ -162,7 +162,8 @@ bool UMLListView::eventFilter(QObject *o, QEvent *e) {
             disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(popupMenuSel(int)));
             delete m_pMenu;
         }
-        m_pMenu = new ListPopupMenu(this, Uml::lvt_Model);
+        UMLListViewItem * temp = (UMLListViewItem*)currentItem();
+        m_pMenu = new ListPopupMenu(this, Uml::lvt_Model, temp->getUMLObject());
         m_pMenu->popup(me->globalPos());
         connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(popupMenuSel(int)));
         return true;
@@ -200,7 +201,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
             m_pMenu = 0;
         }
         const Uml::ListView_Type type = item->getType();
-        m_pMenu = new ListPopupMenu(this, type);
+        m_pMenu = new ListPopupMenu(this, type, item->getUMLObject());
         m_pMenu->popup(me->globalPos());
         connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(popupMenuSel(int)));
     }//end if right button
@@ -304,6 +305,27 @@ void UMLListView::popupMenuSel(int sel) {
     case ListPopupMenu::mt_Category:
         addNewItem(temp, Uml::lvt_Category);
         break;
+
+    case ListPopupMenu::mt_DisjointSpecialisation:
+        {
+          UMLCategory* catObj = static_cast<UMLCategory*>(temp->getUMLObject());
+          catObj->setType(UMLCategory::ct_Disjoint_Specialisation);
+          break;
+        }
+
+    case ListPopupMenu::mt_OverlappingSpecialisation:
+        {
+          UMLCategory* catObj = static_cast<UMLCategory*>(temp->getUMLObject());
+          catObj->setType(UMLCategory::ct_Overlapping_Specialisation);
+          break;
+        }
+
+    case ListPopupMenu::mt_Union:
+        {
+          UMLCategory* catObj = static_cast<UMLCategory*>(temp->getUMLObject());
+          catObj->setType(UMLCategory::ct_Union);
+          break;
+        }
 
     case ListPopupMenu::mt_Datatype:
         addNewItem(temp, Uml::lvt_Datatype);

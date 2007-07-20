@@ -53,6 +53,7 @@ UMLCategory::Category_Type UMLCategory::getType() {
 
 void UMLCategory::setType(Category_Type type) {
     m_CategoryType = type;
+    emitModified();
 }
 
 

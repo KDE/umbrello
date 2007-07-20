@@ -2196,7 +2196,7 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point) {
         break;
     }//end switch
 
-    m_pTabPopupMenu = new ListPopupMenu(UMLApp::app()->getMainViewWidget(), type);
+    m_pTabPopupMenu = new ListPopupMenu(UMLApp::app()->getMainViewWidget(), type, 0);
     m_pTabPopupMenu->popup(point);
     connect(m_pTabPopupMenu, SIGNAL(activated(int)), view, SLOT(slotMenuSelection(int)));
 }

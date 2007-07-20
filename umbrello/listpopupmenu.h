@@ -18,6 +18,8 @@
 class UMLView;
 class UMLWidget;
 class ClassifierWidget;
+class UMLCategory;
+class UMLObject;
 
 /**
  * A popup menu that depending on what type it is set to will
@@ -84,6 +86,9 @@ public:
         mt_CheckConstraint,
         mt_Object,
         mt_Category,
+        mt_DisjointSpecialisation,
+        mt_OverlappingSpecialisation,
+        mt_Union,
         mt_Initial_State,
         mt_End_State,
         mt_State,
@@ -214,8 +219,9 @@ public:
      *
      * @param parent    The parent to ListPopupMenu.
      * @param type              The type of menu to display.
+     * @param object   The UMLObject of the ListViewItem
      */
-    ListPopupMenu(QWidget* parent, Uml::ListView_Type type);
+    ListPopupMenu(QWidget* parent, Uml::ListView_Type type, UMLObject* object);
 
     /**
      * Constructs the popup menu for a canvas widget.
@@ -307,14 +313,19 @@ private:
      * Creates a popup menu for a single class or interface widgets.
      */
     void makeClassifierPopup(ClassifierWidget *c);
+ 
+    /**
+     * Creates a popup menu for a single category Object
+     * @param category The UMLCategory for which the category menu is created
+     */
+    KMenu* makeCategoryTypeMenu(UMLCategory* category);
 
     /**
      * Shortcut for commonly used menu initializations.
      *
      * @param type      The Menu_Type for which to set up the menu.
-     * @param view      The UMLView parent of the menu.
      */
-    void setupMenu(Menu_Type type, UMLView * view = 0);
+    void setupMenu(Menu_Type type);
 
     enum PixMap_Type {
         pm_Class,
@@ -342,6 +353,27 @@ private:
     void setupColor(bool fc);
     void setupColorSelection(bool fc);
     void setupDiagramMenu(UMLView* view);
+ 
+    /**
+     * The List Popup Menu is triggered by either by right clicking on the 
+     * View, a ListViewItem ( Object ) , or a widget
+     */
+    union TriggerObject{
+	UMLView* m_View;
+        UMLObject* m_Object;
+        UMLWidget* m_Widget;
+    };
+    
+    /**
+     * Enum to keep track on TriggerObject Type
+     */
+    enum TriggerObjectType {
+        tot_View,tot_Object,tot_Widget
+    };
+
+    TriggerObject m_TriggerObject;
+    TriggerObjectType m_TriggerObjectType;
+ 
 };
 
 #endif

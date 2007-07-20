@@ -41,18 +41,23 @@
 #include "forkjoinwidget.h"
 #include "objectwidget.h"
 #include "pinwidget.h"
+#include "category.h"
 
 //ListPopupMenu for a UMLView (diagram)
 ListPopupMenu::ListPopupMenu(QWidget *parent, Menu_Type type, UMLView * view)
         : KMenu(parent) {
     init();
-    setupMenu(type, view);
+    m_TriggerObject.m_View = view;
+    m_TriggerObjectType = tot_View;
+    setupMenu(type);
 }
 
 //ListPopupMenu for the tree list view
-ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type)
+ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type, UMLObject* object)
         : KMenu(parent) {
     init();
+    m_TriggerObject.m_Object = object;
+    m_TriggerObjectType = tot_Object;
     Menu_Type mt = mt_Undefined;
     switch(type)
     {
@@ -236,6 +241,8 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         : KMenu(parent)
 {
     init();
+    m_TriggerObject.m_Widget = object;
+    m_TriggerObjectType = tot_Widget;
     //make the right menu for the type
     //make menu for logical view
     if(!object)
@@ -285,7 +292,6 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     switch(type) {
     case Uml::wt_Actor:
     case Uml::wt_UseCase:
-    case Uml::wt_Category:
         setupColor(object -> getUseFillColour());
         insertStdItems(true, type);
         insertStdItem(mt_Rename);
@@ -293,6 +299,19 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         insertStdItem(mt_Properties);
         break;
 
+    case Uml::wt_Category:
+       {
+         insertItem(i18n("Category Type"),makeCategoryTypeMenu(
+                                            static_cast<UMLCategory*>(object->getUMLObject())
+                                          )
+                    );
+
+         setupColor(object -> getUseFillColour());
+         insertStdItems(true, type);
+         insertStdItem(mt_Rename);
+         insertStdItem(mt_Change_Font);
+         break;
+       }
     case Uml::wt_Class:
     case Uml::wt_Interface:
         makeClassifierPopup(static_cast<ClassifierWidget*>(object));
@@ -900,7 +919,7 @@ Uml::Object_Type ListPopupMenu::convert_MT_OT(Menu_Type mt) {
     return type;
 }
 
-void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
+void ListPopupMenu::setupMenu(Menu_Type type) {
     //make the right menu for the type
     //make menu for logical view
     m_pInsert = 0;
@@ -1095,7 +1114,11 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         insertStdItem(mt_FloatText );
         insertFileNew();
         insertSeparator();
-        setupDiagramMenu(view);
+        if ( m_TriggerObjectType!= tot_View ) {
+            kError()<<k_funcinfo<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
+            return;
+        }
+        setupDiagramMenu(m_TriggerObject.m_View);
         break;
 
     case mt_On_Class_Diagram:
@@ -1108,7 +1131,11 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         insertStdItem(mt_FloatText);
         insertFileNew();
         insertSeparator();
-        setupDiagramMenu(view);
+        if ( m_TriggerObjectType!= tot_View ) {
+            kError()<<k_funcinfo<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
+            return;
+        }
+        setupDiagramMenu(m_TriggerObject.m_View);
         break;
 
     case mt_On_State_Diagram:
@@ -1119,7 +1146,11 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         insertStdItem(mt_FloatText);
         insertFileNew();
         insertSeparator();
-        setupDiagramMenu(view);
+        if ( m_TriggerObjectType!= tot_View ) {
+            kError()<<k_funcinfo<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
+            return;
+        }
+        setupDiagramMenu(m_TriggerObject.m_View);
         break;
 
     case mt_On_Activity_Diagram:
@@ -1131,7 +1162,11 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         insertStdItem(mt_FloatText);
         insertFileNew();
         insertSeparator();
-        setupDiagramMenu(view);
+        if ( m_TriggerObjectType!= tot_View ) {
+            kError()<<k_funcinfo<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
+            return;
+        }
+        setupDiagramMenu(m_TriggerObject.m_View);
         break;
 
     case mt_On_Component_Diagram:
@@ -1141,7 +1176,11 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         m_pInsert->insertItem(m_pixmap[pm_Artifact], i18n("Artifact..."), mt_Artifact);
         insertFileNew();
         insertSeparator();
-        setupDiagramMenu(view);
+        if ( m_TriggerObjectType!= tot_View ) {
+            kError()<<k_funcinfo<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
+            return;
+        }
+        setupDiagramMenu(m_TriggerObject.m_View);
         break;
 
     case mt_On_Deployment_Diagram:
@@ -1149,7 +1188,11 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         m_pInsert->insertItem(m_pixmap[pm_Node], i18n("Node..."), mt_Node);
         insertFileNew();
         insertSeparator();
-        setupDiagramMenu(view);
+        if ( m_TriggerObjectType!= tot_View ) {
+            kError()<<k_funcinfo<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
+            return;
+        }
+        setupDiagramMenu(m_TriggerObject.m_View);
         break;
 
     case mt_On_EntityRelationship_Diagram:
@@ -1157,7 +1200,11 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         m_pInsert->insertItem(m_pixmap[pm_Entity], i18n("Entity..."), mt_Entity);
         insertFileNew();
         insertSeparator();
-        setupDiagramMenu(view);
+        if ( m_TriggerObjectType!= tot_View ) {
+            kError()<<k_funcinfo<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
+            return;
+        }
+        setupDiagramMenu(m_TriggerObject.m_View);
         break;
 
     case mt_On_Sequence_Diagram:
@@ -1167,7 +1214,11 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         insertStdItem(mt_FloatText);
         insertFileNew();
         insertSeparator();
-        setupDiagramMenu(view);
+        if ( m_TriggerObjectType!= tot_View ) {
+            kError()<<k_funcinfo<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
+            return;
+        }
+        setupDiagramMenu(m_TriggerObject.m_View);
         break;
 
     case mt_Class:
@@ -1248,9 +1299,15 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
     case mt_Operation:
     case mt_Template:
     case mt_Category:
-
+        if ( m_TriggerObjectType!= tot_Object ) {
+            kError()<<k_funcinfo<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
+            return;
+        }
+        insertItem(i18n("Category Type"),makeCategoryTypeMenu(
+                                            static_cast<UMLCategory*>(m_TriggerObject.m_Object)
+                                          )
+                    );
         insertStdItems(false);
-        insertStdItem(mt_Properties);
         break;
 
     case mt_UniqueConstraint:
@@ -1443,7 +1500,7 @@ void ListPopupMenu::setupMenu(Menu_Type type, UMLView* view) {
         break;
     }//end switch
 
-    if( view ) {
+    if( m_TriggerObjectType == tot_View ) {
         bool bCutState = UMLApp::app() -> getCutCopyState();
         setItemEnabled( mt_Undo, UMLApp::app()->getUndoEnabled() );
         setItemEnabled( mt_Redo, UMLApp::app()->getRedoEnabled() );
@@ -1470,5 +1527,17 @@ void ListPopupMenu::setupDiagramMenu(UMLView* view) {
     insertItem(i18n("Show Grid"), mt_ShowSnapGrid );
     setItemChecked(mt_ShowSnapGrid, view->getShowSnapGrid() );
     insertStdItem(mt_Properties);
+}
+
+KMenu* ListPopupMenu::makeCategoryTypeMenu(UMLCategory* category) {
+    KMenu* catTypeMenu = new KMenu(this);
+    catTypeMenu->insertItem(i18n("Disjoint(Specialisation)"), mt_DisjointSpecialisation );
+    catTypeMenu->insertItem(i18n("Overlapping(Specialisation)"), mt_OverlappingSpecialisation);
+    catTypeMenu->insertItem(i18n("Union"), mt_Union);
+    catTypeMenu->setItemChecked(mt_DisjointSpecialisation, category->getType()==UMLCategory::ct_Disjoint_Specialisation );
+    catTypeMenu->setItemChecked(mt_OverlappingSpecialisation, category->getType()==UMLCategory::ct_Overlapping_Specialisation );
+    catTypeMenu->setItemChecked(mt_Union, category->getType()==UMLCategory::ct_Union );
+
+    return catTypeMenu;
 }
 
