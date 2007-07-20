@@ -2763,6 +2763,7 @@ bool UMLListView::loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & e
 /** Open all items in the list view*/
 void UMLListView::expandAll(Q3ListViewItem *item) {
     if(!item) item = firstChild();
+    item->setOpen(true);
     for (item = item->firstChild(); item; item = item->nextSibling())  {
         item->setOpen(true);
     }
@@ -2770,6 +2771,7 @@ void UMLListView::expandAll(Q3ListViewItem *item) {
 /** Close all items in the list view*/
 void UMLListView::collapseAll(Q3ListViewItem *item) {
     if(!item) item = firstChild();
+    item->setOpen(false);
     for( item = item->firstChild(); item; item = item->nextSibling())
         item->setOpen(false);
 }
