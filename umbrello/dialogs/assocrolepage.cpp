@@ -37,8 +37,8 @@ AssocRolePage::AssocRolePage (UMLDoc *d, QWidget *parent, AssociationWidget *ass
 
     m_pRoleALE = 0;
     m_pRoleBLE = 0;
-    m_pMultiALE = 0;
-    m_pMultiBLE = 0;
+    m_pMultiACB = 0;
+    m_pMultiBCB = 0;
 
     constructWidget();
 
@@ -62,7 +62,7 @@ void AssocRolePage::constructWidget() {
 
     // general configuration of the GUI
     int margin = fontMetrics().height();
-    
+
     QGridLayout * mainLayout = new QGridLayout(this);
     mainLayout -> setSpacing(6);
 
@@ -79,7 +79,7 @@ void AssocRolePage::constructWidget() {
     propsBGB -> setTitle(titleB);
     docAGB -> setTitle(i18n("Documentation"));
     docBGB -> setTitle(i18n("Documentation"));
-    
+
     QGridLayout * propsALayout = new QGridLayout(propsAGB);
     propsALayout -> setSpacing(6);
     propsALayout -> setMargin(margin);
@@ -87,6 +87,9 @@ void AssocRolePage::constructWidget() {
     QGridLayout * propsBLayout = new QGridLayout(propsBGB);
     propsBLayout -> setSpacing(6);
     propsBLayout -> setMargin(margin);
+
+    QStringList multiplicities;
+    multiplicities<<"1"<<"*"<<"1..*"<<"*..1";
 
     // Properties
     //
@@ -99,9 +102,19 @@ void AssocRolePage::constructWidget() {
 
     // Multi A
     QLabel *pMultiAL = NULL;
-    Dialog_Utils::makeLabeledEditField( propsAGB, propsALayout, 1,
-                                    pMultiAL, i18n("Multiplicity:"),
-                                    m_pMultiALE, m_pAssociationWidget->getMulti(Uml::A) );
+    pMultiAL = new QLabel( i18n( "Multiplicity:" ), propsAGB );
+    m_pMultiACB = new QComboBox(propsAGB);
+    m_pMultiACB->addItems( multiplicities );
+    m_pMultiACB->setDuplicatesEnabled(false);
+    m_pMultiACB->setEditable(true);
+
+    QString multiA =  m_pAssociationWidget->getMulti(Uml::A );
+    if ( !multiA.isEmpty() )
+        m_pMultiACB->setEditText(multiA);
+
+    propsALayout->addWidget(pMultiAL, 1, 0 );
+    propsALayout->addWidget(m_pMultiACB, 1, 1 );
+
 
     // Visibility A
     QHBoxLayout * scopeALayout = new QHBoxLayout(scopeABG);
@@ -157,10 +170,19 @@ void AssocRolePage::constructWidget() {
                                     m_pRoleBLE, nameB );
 
     // Multi B
-    QLabel * pMultiBL = NULL;
-    Dialog_Utils::makeLabeledEditField( propsBGB, propsBLayout, 1,
-                                    pMultiBL, i18n("Multiplicity:"),
-                                    m_pMultiBLE, m_pAssociationWidget->getMulti(Uml::B) );
+    QLabel *pMultiBL = NULL;
+    pMultiBL = new QLabel( i18n( "Multiplicity:" ), propsBGB );
+    m_pMultiBCB = new QComboBox(propsBGB);
+    m_pMultiBCB->addItems( multiplicities );
+    m_pMultiBCB->setDuplicatesEnabled(false);
+    m_pMultiBCB->setEditable(true);
+
+    QString multiB =  m_pAssociationWidget->getMulti(Uml::B );
+    if ( !multiB.isEmpty() )
+        m_pMultiBCB->setEditText(multiB);
+
+    propsBLayout->addWidget(pMultiBL, 1, 0 );
+    propsBLayout->addWidget(m_pMultiBCB, 1, 1 );
 
     // Visibility B
 
@@ -232,7 +254,7 @@ void AssocRolePage::constructWidget() {
     // m_pDocB-> setEnabled(false);
     m_pDocB->setWordWrap(Q3MultiLineEdit::WidgetWidth);
 
-    // add group boxes to main layout 
+    // add group boxes to main layout
     mainLayout -> addWidget( propsAGB, 0, 0);
     mainLayout -> addWidget( scopeABG, 1, 0);
     mainLayout -> addWidget(changeABG, 2, 0);
@@ -251,8 +273,8 @@ void AssocRolePage::updateObject() {
         // set props
         m_pAssociationWidget->setRoleName(m_pRoleALE->text(), Uml::A);
         m_pAssociationWidget->setRoleName(m_pRoleBLE->text(), Uml::B);
-        m_pAssociationWidget->setMulti(m_pMultiALE->text(), Uml::A);
-        m_pAssociationWidget->setMulti(m_pMultiBLE->text(), Uml::B);
+        m_pAssociationWidget->setMulti(m_pMultiACB->currentText(), Uml::A);
+        m_pAssociationWidget->setMulti(m_pMultiBCB->currentText(), Uml::B);
 
         if(m_PrivateARB->isChecked())
               m_pAssociationWidget->setVisibility(Uml::Visibility::Private, Uml::A);
