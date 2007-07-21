@@ -41,23 +41,10 @@
 
 ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, int pageNum, bool assoc)
         : KPageDialog(parent) {
-    setCaption( i18n("Properties") );
-    setButtons( Ok | Apply | Cancel | Help );
-    setDefaultButton( Ok );
-    setModal( true );
-    showButtonSeparator( true );
-    setFaceType( KPageDialog::List );
+    init();
     m_pWidget = 0;
-    m_pGenPage = 0;
-    m_pAttPage = 0;
-    m_pOpsPage = 0;
-    m_pTemplatePage = 0;
-    m_pEnumLiteralPage = 0;
-    m_pEntityAttributePage = 0;
-    m_pOptionsPage = 0;
-    m_pColorPage = 0;
     m_Type = pt_Object;
-    m_pDoc = UMLApp::app()->getDocument();
+
     m_pObject = c;
     setupPages(c, assoc);
 #ifdef __GNUC__
@@ -70,20 +57,8 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, int pageNum, bool ass
 
 ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget * o)
         : KPageDialog(parent) {
-    setCaption( i18n("Properties") );
-    setButtons( Ok | Apply | Cancel | Help );
-    setDefaultButton(Ok );
-    setModal( true );
-    showButtonSeparator( true );
-    setFaceType( KPageDialog::List );
+    init();
     m_pWidget = o;
-    m_pGenPage = 0;
-    m_pAttPage = 0;
-    m_pOpsPage = 0;
-    m_pTemplatePage = 0;
-    m_pEnumLiteralPage = 0;
-    m_pEntityAttributePage = 0;
-    m_pOptionsPage = 0;
     m_Type = pt_ObjectWidget;
     m_pObject = m_pWidget->getUMLObject();
     m_pDoc = UMLApp::app()->getDocument();
@@ -119,23 +94,10 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget * o)
 
 ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget * w)
         : KPageDialog(parent) {
-    setCaption( i18n("Properties") );
-    setButtons( Ok | Apply | Cancel | Help );
-    setDefaultButton(Ok );
-    setModal( true );
-    showButtonSeparator( true );
-    setFaceType( KPageDialog::List );
+    init();
     m_pWidget = w;
-    m_pGenPage = 0;
-    m_pAttPage = 0;
-    m_pOpsPage = 0;
-    m_pTemplatePage = 0;
-    m_pEnumLiteralPage = 0;
-    m_pEntityAttributePage = 0;
-    m_pOptionsPage = 0;
     m_Type = pt_Widget;
     m_pObject = w -> getUMLObject();
-    m_pDoc = ((UMLApp *)parent) -> getDocument();
 
     if (w->getBaseType() == Uml::wt_Class
             || w->getBaseType() == Uml::wt_Interface
@@ -178,6 +140,26 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget * w)
     setupFontPage();
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
+}
+
+
+void ClassPropDlg::init() {
+    setCaption( i18n("Properties") );
+    setButtons( Ok | Apply | Cancel | Help );
+    setDefaultButton( Ok );
+    setModal( true );
+    showButtonSeparator( true );
+    setFaceType( KPageDialog::List );
+    m_pGenPage = 0;
+    m_pAttPage = 0;
+    m_pOpsPage = 0;
+    m_pTemplatePage = 0;
+    m_pEnumLiteralPage = 0;
+    m_pEntityAttributePage = 0;
+    m_pEntityConstraintPage = 0;
+    m_pOptionsPage = 0;
+    m_pColorPage = 0;
+    m_pDoc = UMLApp::app()->getDocument();
 }
 
 ClassPropDlg::~ClassPropDlg() {}
@@ -353,7 +335,6 @@ void ClassPropDlg::setupFontPage() {
     m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
     m_pChooser -> setFont( m_pWidget -> getFont() );
 }
-
 
 
 #include "classpropdlg.moc"

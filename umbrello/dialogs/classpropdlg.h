@@ -122,6 +122,10 @@ private:
                      pt_Widget         //Shows pages needed for any other widget
                   };
     Page_Type m_Type;
+
+private:
+
+    void init();
 };
 
 #endif
