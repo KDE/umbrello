@@ -9,6 +9,7 @@ Version 1.5.72
 * Crash when changing the association type to containment (147202)
 * Moving component on diagram results in absurd shape of self-association (147810)
 * Crash when changing the attribute name (147919)
+* Reads XMI exported by version 1.5 but crashes when rereading after saving (147988)
 
 Version 1.5.71
 

@@ -565,6 +565,18 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
         }
     } else {
         m_nId = STR2ID(id);
+        if (m_BaseType == Uml::ot_Role) {
+            // Some older Umbrello versions had a problem with xmi.id's
+            // of other objects being reused for the UMLRole, see e.g.
+            // attachment 21179 at http://bugs.kde.org/147988 .
+            // If the xmi.id is already being used then we generate a new one.
+            UMLObject *o = umldoc->findObjectById(m_nId);
+            if (o) {
+                kDebug() << "loadFromXMI(UMLRole): id " << id
+                    << " is already in use, generating a new one." << endl;
+                m_nId = UniqueID::gen();
+            }
+        }
     }
 
     if (element.hasAttribute("documentation"))  // for bkwd compat.
@@ -647,11 +659,11 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
                 if (vis.isEmpty())
                     vis = elem.text();
                 if (vis == "private" || vis == "private_vis")
-                      m_Vis = Uml::Visibility::Private;
+                    m_Vis = Uml::Visibility::Private;
                 else if (vis == "protected" || vis == "protected_vis")
-                  m_Vis = Uml::Visibility::Protected;
+                    m_Vis = Uml::Visibility::Protected;
                 else if (vis == "implementation")
-                  m_Vis = Uml::Visibility::Implementation;
+                    m_Vis = Uml::Visibility::Implementation;
             } else if (Uml::tagEq(tag, "isAbstract")) {
                 QString isAbstract = elem.attribute("xmi.value", "");
                 if (isAbstract.isEmpty())
