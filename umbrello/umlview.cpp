@@ -2672,6 +2672,11 @@ void UMLView::slotMenuSelection(int sel) {
         Object_Factory::createUMLObject(ot_Entity);
         break;
 
+    case ListPopupMenu::mt_Category:
+        m_bCreateObject = true;
+        Object_Factory::createUMLObject(ot_Category);
+        break;
+
     case ListPopupMenu::mt_Datatype:
         m_bCreateObject = true;
         Object_Factory::createUMLObject(ot_Datatype);

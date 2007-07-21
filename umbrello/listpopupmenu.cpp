@@ -1201,6 +1201,7 @@ void ListPopupMenu::setupMenu(Menu_Type type) {
     case mt_On_EntityRelationship_Diagram:
         m_pInsert = new KMenu(this);
         m_pInsert->insertItem(m_pixmap[pm_Entity], i18n("Entity..."), mt_Entity);
+        m_pInsert->insertItem(m_pixmap[pm_Category], i18n("Category..."), mt_Category);
         insertFileNew();
         insertSeparator();
         if ( m_TriggerObjectType!= tot_View ) {
