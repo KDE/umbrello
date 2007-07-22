@@ -77,10 +77,7 @@ CodeGenerationWizard::CodeGenerationWizard(UMLClassifierList *classList)
            default:
                break;
         }
-
-        if ( !cList.isEmpty() ) {
-           classList = &cList;
-        }
+        classList = &cList;
     }
 
     for (UMLClassifier *c = classList->first(); c ; c = classList->next()) {
