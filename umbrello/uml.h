@@ -454,8 +454,6 @@ protected:
      */
     void updateLangSelectMenu(Uml::Programming_Language activeLanguage);
 
-    void setProgLangMenu(Uml::Programming_Language pl);
-
 
 public slots:
 

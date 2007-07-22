@@ -97,8 +97,6 @@ int main(int argc, char *argv[]) {
         if (showGUI) {
             uml->show();
         }
-        uml->initGenerator();
-
 
         initDocument(args);
 

@@ -313,8 +313,6 @@ bool UMLDoc::newDocument() {
     createDiagram(m_root[mt], dt, false);
 
     UMLApp::app()->initGenerator();
-    addDefaultDatatypes();
-    addDefaultStereotypes();
 
     setModified(false);
     initSaveTimer();

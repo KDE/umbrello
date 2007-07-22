@@ -240,6 +240,7 @@ void UMLApp::initActions() {
 
 #define setProgLangAction(pl, name, action) \
         m_langAct[pl] = actionCollection()->addAction(action);          \
+        m_langAct[pl]->setCheckable( true );                            \
         m_langAct[pl]->setText(name);                                   \
         connect(m_langAct[pl], SIGNAL(triggered()), this, "1"action"()")
     setProgLangAction(Uml::pl_ActionScript, "ActionScript", "set_lang_actionscript");
@@ -1469,6 +1470,7 @@ CodeGenerator *UMLApp::setGenerator(Uml::Programming_Language pl) {
     updateLangSelectMenu(pl);
 
     slotAddDefaultDatatypes();
+    m_codegen->createDefaultStereotypes();
 
     if (m_policyext)
         m_policyext->setDefaults(false); // picks up language specific stuff
@@ -1491,113 +1493,88 @@ void UMLApp::generationWizard() {
 }
 
 void UMLApp::set_lang_actionscript() {
-    setProgLangMenu(Uml::pl_ActionScript);
+    setActiveLanguage(Uml::pl_ActionScript);
 }
 
 void UMLApp::set_lang_ada() {
-    setProgLangMenu(Uml::pl_Ada);
+    setActiveLanguage(Uml::pl_Ada);
 }
 
 void UMLApp::set_lang_cpp() {
-    setProgLangMenu(Uml::pl_Cpp);
+    setActiveLanguage(Uml::pl_Cpp);
 }
 
 void UMLApp::set_lang_csharp() {
-    setProgLangMenu(Uml::pl_CSharp);
+    setActiveLanguage(Uml::pl_CSharp);
 }
 
 void UMLApp::set_lang_d() {
-    setProgLangMenu(Uml::pl_D);
+    setActiveLanguage(Uml::pl_D);
 }
 
 void UMLApp::set_lang_idl() {
-    setProgLangMenu(Uml::pl_IDL);
+    setActiveLanguage(Uml::pl_IDL);
 }
 
 void UMLApp::set_lang_java() {
-    setProgLangMenu(Uml::pl_Java);
+    setActiveLanguage(Uml::pl_Java);
 }
 
 void UMLApp::set_lang_javascript() {
-    setProgLangMenu(Uml::pl_JavaScript);
+    setActiveLanguage(Uml::pl_JavaScript);
 }
 
 void UMLApp::set_lang_mysql() {
-    setProgLangMenu(Uml::pl_MySQL);
+    setActiveLanguage(Uml::pl_MySQL);
 }
 
 void UMLApp::set_lang_pascal() {
-    setProgLangMenu(Uml::pl_Pascal);
+    setActiveLanguage(Uml::pl_Pascal);
 }
 
 void UMLApp::set_lang_perl() {
-    setProgLangMenu(Uml::pl_Perl);
+    setActiveLanguage(Uml::pl_Perl);
 }
 
 void UMLApp::set_lang_php() {
-    setProgLangMenu(Uml::pl_PHP);
+    setActiveLanguage(Uml::pl_PHP);
 }
 
 void UMLApp::set_lang_php5() {
-    setProgLangMenu(Uml::pl_PHP5);
+    setActiveLanguage(Uml::pl_PHP5);
 }
 
 void UMLApp::set_lang_postgresql() {
-    setProgLangMenu(Uml::pl_PostgreSQL);
+    setActiveLanguage(Uml::pl_PostgreSQL);
 }
 
 void UMLApp::set_lang_python() {
-    setProgLangMenu(Uml::pl_Python);
+    setActiveLanguage(Uml::pl_Python);
 }
 
 void UMLApp::set_lang_ruby() {
-    setProgLangMenu(Uml::pl_Ruby);
+    setActiveLanguage(Uml::pl_Ruby);
 }
 
 void UMLApp::set_lang_sql() {
-    setProgLangMenu(Uml::pl_SQL);
+    setActiveLanguage(Uml::pl_SQL);
 }
 
 void UMLApp::set_lang_tcl() {
-    setProgLangMenu(Uml::pl_Tcl);
+    setActiveLanguage(Uml::pl_Tcl);
 }
 
 void UMLApp::set_lang_xmlschema() {
-    setProgLangMenu(Uml::pl_XMLSchema);
+    setActiveLanguage(Uml::pl_XMLSchema);
 }
 
 void UMLApp::set_lang_ocl() {
-    setProgLangMenu(Uml::pl_Ocl);
-}
-
-void UMLApp::setProgLangMenu(Uml::Programming_Language pl) {
-    // only change the active language if different from one we currently have
-    if (pl == m_activeLanguage)
-        return;
-
-    m_langAct[m_activeLanguage]->setChecked(false);
-    m_activeLanguage = pl;
-    m_langAct[m_activeLanguage]->setChecked(true);
-    setGenerator(m_activeLanguage);
+    setActiveLanguage(Uml::pl_Ocl);
 }
 
 void UMLApp::setActiveLanguage(Uml::Programming_Language pl) {
-    QString activeLanguage = Model_Utils::progLangToString(pl);
-
-    for(unsigned int j=0; j < m_langSelect->count(); j++) {
-        int id = m_langSelect->idAt(j);
-
-        if (m_langSelect->text(id) == activeLanguage &&
-                m_langSelect->isItemChecked(id))
-            return; // already set.. no need to do anything
-    }
-
-    for(unsigned int i=0; i < m_langSelect->count(); i++) {
-        bool isActiveLang = (m_langSelect->text(m_langSelect->idAt(i)) == activeLanguage);
-        //uncheck everything except the active language
-        m_langSelect->setItemChecked(m_langSelect->idAt(i), isActiveLang);
-    }
-    setGenerator(Model_Utils::stringToProgLang(activeLanguage));
+    updateLangSelectMenu(pl);
+    setGenerator(pl);
 }
 
 Uml::Programming_Language UMLApp::getActiveLanguage() {
@@ -1791,14 +1768,10 @@ void UMLApp::initGenerator() {
     }
     Uml::Programming_Language defaultLanguage = getDefaultLanguage();
     setActiveLanguage(defaultLanguage);
-    if (m_codegen == NULL)
-        setGenerator(defaultLanguage);
-    updateLangSelectMenu(defaultLanguage);
 }
 
 void UMLApp::updateLangSelectMenu(Uml::Programming_Language activeLanguage) {
     //m_langSelect->clear();
-    m_langSelect->setCheckable(true);
     for (int i = 0; i < Uml::pl_Reserved; i++) {
         m_langAct[i]->setChecked(i == activeLanguage);
     }
@@ -1887,13 +1860,6 @@ void UMLApp::keyReleaseEvent(QKeyEvent *e) {
 
 void UMLApp::newDocument() {
     m_doc->newDocument();
-    Uml::Programming_Language defaultLanguage = getDefaultLanguage();
-    if (m_codegen) {
-        defaultLanguage = m_codegen->getLanguage();
-        delete m_codegen;
-        m_codegen = NULL;
-    }
-    setGenerator(defaultLanguage);
     slotUpdateViews();
 }
 
