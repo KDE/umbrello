@@ -26,7 +26,7 @@
 #include "version.h"
 #include "umldoc.h"
 #include "cmdlineexportallviewsevent.h"
-
+#include "umbrellosettings.h"
 
 static const char description[] =
     I18N_NOOP("Umbrello UML Modeller");
@@ -51,9 +51,8 @@ bool getShowGUI(KCmdLineArgs *args);
  * in the configuration.
  *
  * @param args The command line arguments given.
- * @param cfg The application configuration.
  */
-void initDocument(KCmdLineArgs *args, KConfig* cfg);
+void initDocument(KCmdLineArgs *args);
 
 /**
  * Export all the views in the document using the command line args set by the user.
@@ -94,16 +93,14 @@ int main(int argc, char *argv[]) {
 
         UMLApp *uml = new UMLApp();
         flushEvents();
-        KConfig * cfg = app.sessionConfig();
 
-       
         if (showGUI) {
             uml->show();
         }
         uml->initGenerator();
 
-        
-        initDocument(args, cfg);
+
+        initDocument(args);
 
         // export option
         QStringList exportOpt = args->getOptionList("export");
@@ -111,7 +108,7 @@ int main(int argc, char *argv[]) {
              exportAllViews(args, exportOpt);
         }
 
-       
+
     }
     return app.exec();
 }
@@ -125,13 +122,12 @@ bool getShowGUI(KCmdLineArgs *args) {
 }
 
 
-void initDocument(KCmdLineArgs *args, KConfig* cfg) {
+void initDocument(KCmdLineArgs *args) {
     if ( args -> count() ) {
         UMLApp::app()->openDocumentFile( args->url( 0 ) );
     } else {
-        cfg->setGroup( "General Options" );
-        bool last = cfg->readEntry( "loadlast", false );
-        QString file = cfg->readPathEntry( "lastFile" );
+        bool last = UmbrelloSettings::loadlast();
+        QString file = UmbrelloSettings::lastFile();
         if( last && !file.isEmpty() ) {
             UMLApp::app()->openDocumentFile( KUrl( file ) );
         } else {
