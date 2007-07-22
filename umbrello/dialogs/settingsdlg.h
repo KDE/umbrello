@@ -163,7 +163,6 @@ private:
     CodeGenerationOptionsPage * m_pCodeGenPage;
     CodeViewerOptionsPage * m_pCodeViewerPage;
 
-    KConfig * m_pCfg;
     bool m_bChangesApplied;
     KPageWidgetItem*pageCodeViewer,*pageFont,*pageCodeGen,*pageUserInterface,* pageGeneral,*pageClass;
 private slots:
