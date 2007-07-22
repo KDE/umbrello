@@ -168,13 +168,16 @@ QSize EnumWidget::calculateSize() {
 }
 
 void EnumWidget::slotMenuSelection(int sel) {
-    switch(sel) {
-    case ListPopupMenu::mt_EnumLiteral:
+    if (sel == ListPopupMenu::mt_EnumLiteral) {
         if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(m_pObject),
                                               Uml::ot_EnumLiteral) )  {
+            /* I don't know why it works without these calls:
+            updateComponentSize();
+            update();
+             */
             UMLApp::app()->getDocument()->setModified();
         }
-        break;
+        return;
     }
     UMLWidget::slotMenuSelection(sel);
 }
