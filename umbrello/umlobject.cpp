@@ -543,6 +543,36 @@ bool UMLObject::load( QDomElement& ) {
     return true;
 }
 
+bool UMLObject::loadStereotype(QDomElement & element) {
+    QString tag = element.tagName();
+    if (!Uml::tagEq(tag, "stereotype"))
+        return false;
+    QString stereo = element.attribute("xmi.value", "");
+    if (stereo.isEmpty() && element.hasChildNodes()) {
+        /* like so:
+         <UML:ModelElement.stereotype>
+           <UML:Stereotype xmi.idref = '07CD'/>
+         </UML:ModelElement.stereotype>
+         */
+        QDomNode stereoNode = element.firstChild();
+        QDomElement stereoElem = stereoNode.toElement();
+        tag = stereoElem.tagName();
+        if (Uml::tagEq(tag, "Stereotype")) {
+            stereo = stereoElem.attribute("xmi.idref", "");
+        }
+    }
+    if (stereo.isEmpty())
+        return false;
+    Uml::IDType stereoID = STR2ID(stereo);
+    UMLDoc *pDoc = UMLApp::app()->getDocument();
+    m_pStereotype = pDoc->findStereotypeById(stereoID);
+    if (m_pStereotype)
+        m_pStereotype->incrRefCount();
+    else
+        m_SecondaryId = stereo;  // leave it to resolveRef()
+    return true;
+}
+
 bool UMLObject::loadFromXMI( QDomElement & element) {
     UMLDoc* umldoc = UMLApp::app()->getDocument();
     if (umldoc == NULL) {
@@ -674,29 +704,8 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
                 if (ownerScope.isEmpty())
                     ownerScope = elem.text();
                 m_bStatic = (ownerScope == "classifier");
-            } else if (Uml::tagEq(tag, "stereotype")) {
-                QString stereo = elem.attribute("xmi.value", "");
-                if (stereo.isEmpty() && elem.hasChildNodes()) {
-                    /* like so:
-                     <UML:ModelElement.stereotype>
-                       <UML:Stereotype xmi.idref = '07CD'/>
-                     </UML:ModelElement.stereotype>
-                     */
-                    QDomNode stereoNode = elem.firstChild();
-                    QDomElement stereoElem = stereoNode.toElement();
-                    tag = stereoElem.tagName();
-                    if (Uml::tagEq(tag, "Stereotype")) {
-                        stereo = stereoElem.attribute("xmi.idref", "");
-                    }
-                }
-                if (! stereo.isEmpty()) {
-                    Uml::IDType stereoID = STR2ID(stereo);
-                    m_pStereotype = umldoc->findStereotypeById(stereoID);
-                    if (m_pStereotype)
-                        m_pStereotype->incrRefCount();
-                    else
-                        m_SecondaryId = stereo;  // leave it to resolveRef()
-                }
+            } else {
+                loadStereotype(elem);
             }
             node = node.nextSibling();
             if (node.isComment())

@@ -1660,16 +1660,14 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
         // From here on, it's support for stereotypes, pre 1.5.5 versions, and foreign files
         if (tagEq(type, "Namespace.ownedElement") ||
                 tagEq(type, "Namespace.contents") ||
-                tagEq(type, "Model") || tagEq(type, "ModelElement.stereotype")) {
+                tagEq(type, "Model")) {
             //CHECK: Umbrello currently assumes that nested elements
             // are ownedElements anyway.
             // Therefore the <UML:Namespace.ownedElement> tag is of no
             // significance.
             if( !loadUMLObjectsFromXMI( tempElement ) ) {
-                if (! tagEq(type, "ModelElement.stereotype")) {  // not yet implemented
-                    kWarning() << "failed load on " << type << endl;
-                    return false;
-                }
+                kWarning() << "failed load on " << type << endl;
+                return false;
             }
             continue;
         }
