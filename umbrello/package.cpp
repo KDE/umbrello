@@ -173,6 +173,22 @@ UMLObject * UMLPackage::findObjectById(Uml::IDType id) {
     return Model_Utils::findObjectInList(id, m_objects);
 }
 
+
+void UMLPackage::appendPackages(UMLPackageList& packages, bool includeNested ) {
+    for (UMLObjectListIt oit(m_objects); oit.current(); ++oit) {
+        UMLObject *o = oit.current();
+        Object_Type ot = o->getBaseType();
+        if (ot == ot_Package) {
+            packages.append((UMLPackage *)o);
+            if (includeNested) {
+               UMLPackage *inner = static_cast<UMLPackage*>(o);
+               inner->appendPackages(packages);
+            }
+         }
+    }
+}
+
+
 void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
                                    bool includeNested /* = true */) {
     for (UMLObjectListIt oit(m_objects); oit.current(); ++oit) {

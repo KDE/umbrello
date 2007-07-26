@@ -84,7 +84,7 @@ private:
     Q3ButtonGroup       * m_pButtonBG;
     QLabel * m_pNameL, * m_pInstanceL, * m_pStereoTypeL, * m_pPackageL;
     QLineEdit * m_pClassNameLE, *m_pInstanceLE, * m_pPackageLE;
-    KComboBox * m_pStereoTypeCB;
+    KComboBox * m_pStereoTypeCB, *m_pPackageCB ;
     QRadioButton *m_pPublicRB, *m_pPrivateRB, *m_pProtectedRB, *m_pImplementationRB;
     QCheckBox * m_pMultiCB, * m_pDrawActorCB, * m_pAbstractCB, * m_pDeconCB;
     Q3MultiLineEdit * m_pDoc;

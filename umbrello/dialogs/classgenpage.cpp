@@ -42,6 +42,13 @@
 #include "../component.h"
 #include "../umlview.h"
 #include "../stereotype.h"
+#include "../umlpackagelist.h"
+#include "../umllistviewitem.h"
+#include "../umllistview.h"
+#include "../model_utils.h"
+#include "../package.h"
+#include "../folder.h"
+#include "../codeimport/import_utils.h"
 
 ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(parent) {
     m_pWidget = 0;
@@ -109,15 +116,25 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
     }
 
     if (t == Uml::ot_Class || t == Uml::ot_Interface) {
-        m_pPackageL = new QLabel(i18n("&Package name:"), this);
+        m_pPackageL = new QLabel(i18n("Package name:"), this);
         m_pNameLayout -> addWidget(m_pPackageL, 2, 0);
 
-        m_pPackageLE = new QLineEdit(this);
-        m_pNameLayout -> addWidget(m_pPackageLE, 2, 1);
+        m_pPackageCB = new KComboBox(this);
+        m_pPackageCB->setEditable(true);
+        m_pNameLayout -> addWidget(m_pPackageCB, 2, 1);
 
-        m_pPackageLE -> setText(o -> getPackage());
-        m_pPackageLE -> setEnabled(false);
-        m_pPackageL->setBuddy(m_pPackageLE);
+        UMLPackageList packageList = m_pUmldoc->getPackages();
+        foreach( UMLPackage* package, packageList ) {
+            m_pPackageCB->addItem(package->getName());
+        }
+        UMLPackage* parentPackage = o->getUMLPackage();
+
+        // if parent package == NULL
+        // or if the parent package is the Logical View folder
+        if ( parentPackage == NULL || parentPackage== static_cast<UMLPackage*>(m_pUmldoc->getRootFolder(Uml::mt_Logical)))
+            m_pPackageCB->setEditText( QString() );
+        else
+            m_pPackageCB->setEditText(parentPackage->getName());
     }
 
     if (t == Uml::ot_Class || t == Uml::ot_UseCase ) {
@@ -172,6 +189,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
         }
     }
 
+
     //setup scope
     m_pButtonBG = new Q3ButtonGroup(i18n("Visibility"), this);
     QHBoxLayout * scopeLayout = new QHBoxLayout(m_pButtonBG);
@@ -191,6 +209,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
     m_pImplementationRB = new QRadioButton(i18n("Imple&mentation"), m_pButtonBG);
     scopeLayout -> addWidget(m_pImplementationRB);
     topLayout -> addWidget(m_pButtonBG);
+
     //setup documentation
     m_pDocGB = new Q3GroupBox(this);
     QHBoxLayout * docLayout = new QHBoxLayout(m_pDocGB);
@@ -383,17 +402,25 @@ void ClassGenPage::updateObject() {
 
         if(m_pStereoTypeCB)
             m_pObject -> setStereotype(m_pStereoTypeCB->currentText());
-        /**
-         * @todo enable the package lineedit field amd add logic for changing the package
-        if(m_pPackageLE)
-            m_pObject -> setPackage(m_pPackageLE -> text());
-         */
 
-        if ( m_pObject->getUMLPackage() == NULL ) {
-            kDebug() << k_funcinfo << "Parent package not set, setting it to Logical View folder"<<endl;
-            UMLFolder* folder = m_pUmldoc->getRootFolder(  Uml::mt_Logical );
-            m_pObject->setUMLPackage( ( UMLPackage* )folder );
+        QString packageName = m_pPackageCB->currentText().trimmed();
+        UMLObject* newPackage = NULL;
+
+        if ( !packageName.isEmpty()) {
+            if ( ( newPackage = m_pUmldoc->findUMLObject(packageName, Uml::ot_Package) ) == NULL )
+                newPackage = Import_Utils::createUMLObject(Uml::ot_Package, packageName);
+        } else {
+            newPackage = m_pUmldoc->getRootFolder( Uml::mt_Logical );
         }
+
+        // adjust list view items
+        UMLListView *lv = UMLApp::app()->getListView();
+        UMLListViewItem *newLVParent = lv->findUMLObject(newPackage);
+        lv->moveObject(m_pObject->getID(),
+                         Model_Utils::convert_OT_LVT(m_pObject),
+                           newLVParent);
+
+        m_pObject->emitModified();
 
         if( m_pAbstractCB )
             m_pObject -> setAbstract( m_pAbstractCB -> isChecked() );

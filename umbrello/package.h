@@ -123,6 +123,17 @@ public:
      */
     UMLObject * findObjectById(Uml::IDType id);
 
+    
+    /**
+     * Append all packages from this packaed ( and those from nested packeges)
+     * to the given UMLPackageList.
+     *
+     * @param packages     The list to append to
+     * @param includeNested  Whether to include the packages from nested packages
+     *                          (default:true)
+     */
+    void appendPackages(UMLPackageList& packages, bool includeNested = true);
+
     /**
      * Append all classifiers from this package (and those from
      * nested packages) to the given UMLClassifierList.

@@ -39,6 +39,7 @@
 #include "umlentitylist.h"
 #include "umlviewlist.h"
 #include "umlstereotypelist.h"
+#include "umlpackagelist.h"
 
 #define ENC_UNKNOWN 0
 #define ENC_UNICODE 1
@@ -538,6 +539,14 @@ public:
      * @return  List of UML associations.
      */
     UMLAssociationList getAssociations();
+
+
+    /**
+     * Returns a list of the packages in this UMLDoc,
+     *
+     * @return List of UMLPackages.
+     */
+    UMLPackageList getPackages(bool includeNested = true);
 
     /**
      * Controls the printing of the program.

@@ -1838,6 +1838,14 @@ void UMLDoc::removeAllViews() {
     UMLApp::app()->setDiagramMenuItemsState(false);
 }
 
+
+UMLPackageList UMLDoc::getPackages(bool includeNested /* = true */) {
+    UMLPackageList packageList;
+    m_root[mt_Logical]->appendPackages(packageList, includeNested);
+    return packageList;
+}
+
+
 UMLClassifierList UMLDoc::getConcepts(bool includeNested /* =true */) {
     UMLClassifierList conceptList;
     m_root[mt_Logical]->appendClassifiers(conceptList, includeNested);

@@ -41,6 +41,7 @@ ClassWizard::ClassWizard( UMLDoc * pDoc ) : K3Wizard( (QWidget*)pDoc -> parent()
         num.setNum( ++i);
         newName = name;
         newName.append("_").append( num );
+        m_pDoc->signalUMLObjectCreated(m_pClass);
     } while( pTemp );
     //setup pages
     setupPages();
