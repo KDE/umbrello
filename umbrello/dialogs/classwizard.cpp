@@ -41,7 +41,6 @@ ClassWizard::ClassWizard( UMLDoc * pDoc ) : K3Wizard( (QWidget*)pDoc -> parent()
         num.setNum( ++i);
         newName = name;
         newName.append("_").append( num );
-        m_pDoc->signalUMLObjectCreated(m_pClass);
     } while( pTemp );
     //setup pages
     setupPages();
@@ -94,10 +93,15 @@ void ClassWizard::accept() {
     m_pDoc -> addUMLObject( m_pClass );
     m_pDoc->signalUMLObjectCreated(m_pClass);
 
+    // call updateObject of General Page again so as to bind to package
+    // now that the classifier object is in the document.
+    m_pGenPage->updateObject();
+
     Q3Wizard::accept();
 }
 
 void ClassWizard::reject() {
+    m_pDoc->removeUMLObject(m_pClass);
     delete m_pClass;
     Q3Wizard::reject();
 }

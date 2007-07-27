@@ -116,9 +116,9 @@ UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent) {
     ///////////////////////////////////////////////////////////////////
     // call inits to invoke all other construction parts
     readOptionState();
+    m_pUndoStack = new KUndoStack(this);
     m_doc = new UMLDoc();
     m_doc->init();
-    m_pUndoStack = new KUndoStack(this);
     m_hasBegunMacro = false;
     initActions(); //now calls initStatusBar() because it is affected by setupGUI()
     initView();

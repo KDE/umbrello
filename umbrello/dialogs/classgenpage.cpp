@@ -398,6 +398,9 @@ void ClassGenPage::updateObject() {
     if(m_pObject) {
         QString name = m_pClassNameLE -> text();
 
+        // set name first. We'll check for clashes later.
+        m_pObject->setName( name );
+
         m_pObject -> setDoc(m_pDoc -> text());
 
         if(m_pStereoTypeCB)
@@ -419,19 +422,19 @@ void ClassGenPage::updateObject() {
         lv->moveObject(m_pObject->getID(),
                          Model_Utils::convert_OT_LVT(m_pObject),
                            newLVParent);
-
-        m_pObject->emitModified();
+        // the name may have changed when the class was added to the package
+        name = m_pObject->getName();
 
         if( m_pAbstractCB )
             m_pObject -> setAbstract( m_pAbstractCB -> isChecked() );
-        //make sure unique name
-        UMLObject *o = m_pUmldoc -> findUMLObject(name);
-        if(o && m_pObject != o) {
-            KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
-                               i18n("Name is Not Unique"), false);
-            m_pClassNameLE -> setText( m_pObject -> getName() );
-        } else
-            m_pObject -> setName(name);
+//         //make sure unique name
+//         UMLObject *o = m_pUmldoc -> findUMLObject(name);
+//         if(o && m_pObject != o) {
+//             KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
+//                                i18n("Name is Not Unique"), false);
+//             m_pClassNameLE -> setText( m_pObject -> getName() );
+//         } else
+//             m_pObject -> setName(name);
         Uml::Visibility s;
         if(m_pPublicRB -> isChecked())
           s = Uml::Visibility::Public;

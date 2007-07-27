@@ -15,6 +15,8 @@
 // system includes
 #include <kdebug.h>
 #include <klocale.h>
+#include <kinputdialog.h>
+#include <kmessagebox.h>
 
 // local includes
 #include "uml.h"
@@ -119,6 +121,25 @@ bool UMLPackage::addObject(UMLObject *pObject) {
             }
             addAssocToConcepts(assoc);
         }
+    }
+    QString name = pObject->getName();
+    QString oldName = name;
+    while ( findObject( name ) != NULL  ) {
+       name = Model_Utils::uniqObjectName(pObject->getBaseType(),this);
+       bool ok = true;
+       name = KInputDialog::getText(i18n("Name"), i18n("An object with this name already exists in the package %1.<br /> Please enter a new name:", this->getName()), name, &ok, (QWidget*)UMLApp::app());
+        if (!ok) {
+            name = oldName;
+            continue;
+        }
+        if (name.length() == 0) {
+            KMessageBox::error(0, i18n("That is an invalid name."),
+                               i18n("Invalid Name"));
+            continue;
+        }
+    }
+    if ( oldName != name ) {
+        pObject->setName(name);
     }
     m_objects.append( pObject );
     return true;
