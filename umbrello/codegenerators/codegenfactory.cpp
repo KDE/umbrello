@@ -416,12 +416,10 @@ CodeGenPolicyExt* newCodeGenPolicyExt(Uml::Programming_Language pl) {
               break;
           default:
               return NULL;
-              break;
         }
-    } else {
-
-        return NULL;
     }
+
+    return NULL;
 
 }
 

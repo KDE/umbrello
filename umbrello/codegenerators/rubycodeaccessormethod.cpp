@@ -109,7 +109,9 @@ void RubyCodeAccessorMethod::updateContent( )
     case CodeAccessorMethod::REMOVE:
         {
             int minOccurs = rubyfield->minimumListOccurances();
-            RubyClassifierCodeDocument * rubydoc = dynamic_cast<RubyClassifierCodeDocument*>(rubyfield->getParentDocument());
+            /*
+             RubyClassifierCodeDocument * rubydoc = dynamic_cast<RubyClassifierCodeDocument*>(rubyfield->getParentDocument());
+             */
             QString fieldType = rubyfield->getTypeName();
             QString indent = getIndentation();
 

@@ -545,7 +545,7 @@ void SQLWriter::printIndex(QTextStream& sql, UMLEntity* ent , UMLEntityAttribute
 }
 
 
-void SQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeList entAttList ) {
+void SQLWriter::printAutoIncrements(QTextStream& /*sql*/, UMLEntityAttributeList /*entAttList*/ ) {
     // defer to derived classes
 }
 

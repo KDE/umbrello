@@ -512,7 +512,7 @@ void DWriter::writeAssociationDecls(UMLAssociationList associations, Uml::IDType
 
 void DWriter::writeAssociationRoleDecl(QString fieldClassName,
         QString roleName, QString multi,
-        QString doc, Uml::Visibility visib, QTextStream &d) {
+        QString doc, Uml::Visibility /*visib*/, QTextStream &d) {
     // ONLY write out IF there is a rolename given
     // otherwise its not meant to be declared in the code
     if (roleName.isEmpty()) return;
@@ -598,7 +598,7 @@ void DWriter::writeAssociationRoleMethod (QString fieldClassName, QString roleNa
 
 void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QString fieldVarName,
         QString fieldName, QString description,
-        Uml::Visibility visibility, Uml::Changeability_Type changeType,
+        Uml::Visibility /*visibility*/, Uml::Changeability_Type changeType,
         QTextStream &d) {
 
     fieldClassName = fixTypeName(fieldClassName);
@@ -646,7 +646,7 @@ void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QStri
 
 
 void DWriter::writeSingleAttributeAccessorMethods(QString fieldClassName,
-     QString fieldVarName, QString fieldName, QString description, Uml::Visibility visibility,
+     QString fieldVarName, QString fieldName, QString description, Uml::Visibility /*visibility*/,
      Uml::Changeability_Type change, bool isFinal, QTextStream &d) {
 
     fieldClassName = fixTypeName(fieldClassName);

@@ -34,8 +34,8 @@ namespace Uml
         private:
 
             QString oldname;
-            QString name;
             UMLObject * UMLObj;
+            QString name;
     };
 }
 

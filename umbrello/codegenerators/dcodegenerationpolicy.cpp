@@ -131,9 +131,10 @@ void DCodeGenerationPolicy::setDefaults(bool emitUpdateSignal )
     setAutoGenerateAttribAccessors(UmbrelloSettings::autoGenerateAttributeAccessorsD());
     setAutoGenerateAssocAccessors(UmbrelloSettings::autoGenerateAssocAccessorsD());
 
+    /*
     CodeGenerator *codegen = UMLApp::app()->getGenerator();
     DCodeGenerator *dcodegen = dynamic_cast<DCodeGenerator*>(codegen);
-/*    if (dcodegen) {
+     if (dcodegen) {
         bool mkant = UmbrelloSettings::buildANTDocumentD();
         dcodegen->setCreateANTBuildFile(mkant);
     }*/

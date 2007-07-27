@@ -638,7 +638,7 @@ bool ClassifierListPage::takeItem(UMLClassifierListItem* listItem,
 }
 
 
-int ClassifierListPage::calculateNewIndex(UMLClassifierListItem* listItem){
+int ClassifierListPage::calculateNewIndex(UMLClassifierListItem* /*listItem*/){
     return m_pItemListLB->count();
 }
 

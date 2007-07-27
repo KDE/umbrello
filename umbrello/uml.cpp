@@ -89,7 +89,7 @@
 
 /// @todo This is an ugly _HACK_ to allow to compile umbrello.
 /// All the menu stuff should be ported to KDE4 (using actions)
-QMenu* UMLApp::findMenu(KMenuBar* menu, const QString &name)
+QMenu* UMLApp::findMenu(KMenuBar* /*menu*/, const QString &name)
 {
     QWidget* widget = factory()->container(name, this);
     if (widget)
@@ -775,7 +775,7 @@ void UMLApp::saveProperties(KConfigGroup &_config) {
         _config.writePathEntry("filename", url.url());
         _config.writeEntry("modified", m_doc->isModified());
         QString tempname = kapp->tempSaveName(url.url());
-        QString tempurl= KUrl::encode_string(tempname);
+        QString tempurl= QUrl::toPercentEncoding(tempname);
 
         KUrl _url(tempurl);
         m_doc->saveDocument(_url);
@@ -1904,7 +1904,7 @@ UMLView* UMLApp::getCurrentView() {
     return m_view;
 }
 
-QMenu* UMLApp::findMenu(QMenu* menu, const QString &name) {
+QMenu* UMLApp::findMenu(QMenu* /*menu*/, const QString &name) {
     QWidget* widget = factory()->container(name, this);
     if (widget)
         return dynamic_cast<QMenu*>(widget);

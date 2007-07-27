@@ -264,7 +264,7 @@ void PascalWriter::writeClass(UMLClassifier *c) {
             pas << ";" << m_endl;
         }
     }
-    bool haveAttrs = (isClass && atl.count());
+    //bool haveAttrs = (isClass && atl.count());
 
     // Generate public operations.
     UMLOperationList opl(c->getOpList());

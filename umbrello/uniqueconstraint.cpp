@@ -101,10 +101,9 @@ QString UMLUniqueConstraint::toString(Uml::Signature_Type sig ) {
     return s;
 }
 
-QString UMLUniqueConstraint::getFullyQualifiedName(const QString& separator,
-                                                   bool includeRoot ) const {
+QString UMLUniqueConstraint::getFullyQualifiedName(const QString& /*separator*/,
+                                                   bool /*includeRoot*/ ) const {
 
-    kDebug()<< k_funcinfo <<"Nothing implemented yet";
     return this->getName();
 }
 

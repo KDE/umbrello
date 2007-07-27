@@ -38,7 +38,7 @@
 #include "../umlview.h"
 
 
-AssocPropDlg::AssocPropDlg (QWidget *parent, AssociationWidget * assocWidget, int pageNum)
+AssocPropDlg::AssocPropDlg (QWidget *parent, AssociationWidget * assocWidget, int /*pageNum*/)
         : KPageDialog(parent)
 {
     setCaption( i18n("Association Properties") );

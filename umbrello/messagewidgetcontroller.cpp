@@ -64,7 +64,7 @@ void MessageWidgetController::resizeWidget(int newW, int newH) {
     emit m_messageWidget->sigMessageMoved();
 }
 
-void MessageWidgetController::moveWidgetBy(int diffX, int diffY) {
+void MessageWidgetController::moveWidgetBy(int /*diffX*/, int diffY) {
     m_unconstrainedPositionY += diffY;
     int newY = constrainPositionY(diffY);
 
@@ -91,7 +91,7 @@ void MessageWidgetController::constrainMovementForAllWidgets(int &diffX, int &di
     diffY = constrainPositionY(diffY) - m_widget->getY();
 }
 
-void MessageWidgetController::doMouseDoubleClick(QMouseEvent *me) {
+void MessageWidgetController::doMouseDoubleClick(QMouseEvent* /*me*/) {
     if (m_messageWidget->m_pFText != NULL) {
         m_messageWidget->m_pFText->slotMenuSelection(ListPopupMenu::mt_Select_Operation);
     }

@@ -1131,7 +1131,7 @@ void AssociationWidget::calculateEndingPoints() {
         int xb = pWidgetB -> getX();
         int yb = pWidgetB -> getY();
         int hb = pWidgetB -> getHeight();
-        int wb = pWidgetB -> getWidth();
+        //int wb = pWidgetB -> getWidth();
 
         m_LinePath.setStartEndPoints( QPoint( xa + wa , ya + ha/2 ) , QPoint( xb , yb + hb/2 ) );
         m_LinePath.insertPoint( 1, QPoint( xa + wa , ya + ha/2 ));
@@ -1399,7 +1399,6 @@ void AssociationWidget::updatePointsException () {
     int xmil;int ymil;
     int xdeb;int ydeb;
     int xfin;int yfin;
-    float mulX; float mulY;
     int ESPACEX;int ESPACEY;
     QPoint p1;
     QPoint p2;

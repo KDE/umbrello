@@ -44,7 +44,7 @@ QCursor ObjectWidgetController::getResizeCursor() {
     return Qt::SizeHorCursor;
 }
 
-void ObjectWidgetController::resizeWidget(int newW, int newH) {
+void ObjectWidgetController::resizeWidget(int newW, int /*newH*/) {
     m_widget->setSize(newW, m_widget->getHeight());
 }
 
@@ -81,7 +81,7 @@ void ObjectWidgetController::mouseMoveEvent(QMouseEvent* me) {
 
 }
 
-void ObjectWidgetController::moveWidgetBy(int diffX, int diffY) {
+void ObjectWidgetController::moveWidgetBy(int diffX, int /*diffY*/) {
     m_widget->setX(m_widget->getX() + diffX);
 }
 
@@ -93,6 +93,6 @@ void ObjectWidgetController::moveDestructionBy(int diffY) {
     m_oldY = endLine;
 }
 
-void ObjectWidgetController::constrainMovementForAllWidgets(int &diffX, int &diffY) {
+void ObjectWidgetController::constrainMovementForAllWidgets(int& /*diffX*/, int& diffY) {
     diffY = 0;
 }

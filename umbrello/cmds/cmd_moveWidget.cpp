@@ -61,8 +61,6 @@ namespace Uml
 
     void cmdMoveWidget::undo()
     {
-        int tempX;
-        int tempY;
 
         //UMLWidget * w =
         UMLwc->insertSaveValues(X,Y,oldX,oldY);

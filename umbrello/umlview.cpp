@@ -3507,8 +3507,8 @@ bool UMLView::loadUisDiagramPresentation(QDomElement & qElement) {
                 }
             case Uml::ot_Role:
                 {
-                    UMLRole *robj = static_cast<UMLRole*>(o);
-                    UMLAssociation *umla = robj->getParentAssociation();
+                    //UMLRole *robj = static_cast<UMLRole*>(o);
+                    //UMLAssociation *umla = robj->getParentAssociation();
                     // @todo properly display role names.
                     //       For now, in order to get the role names displayed
                     //       simply delete the participating diagram objects

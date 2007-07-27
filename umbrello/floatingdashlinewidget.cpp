@@ -35,7 +35,7 @@ FloatingDashLineWidget::FloatingDashLineWidget(UMLView * view, Uml::IDType id)
 
 FloatingDashLineWidget::~FloatingDashLineWidget() {}
 
-void FloatingDashLineWidget::draw(QPainter & p, int offsetX, int offsetY)
+void FloatingDashLineWidget::draw(QPainter & p, int /*offsetX*/, int /*offsetY*/)
 {
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();

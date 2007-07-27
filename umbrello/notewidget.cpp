@@ -219,7 +219,7 @@ if(m_bSelected) {
 QSize NoteWidget::calculateSize() {
     int width = 50, height = 50;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const int fontHeight  = fm.lineSpacing();
+    //const int fontHeight  = fm.lineSpacing();
     const int textWidth = fm.width(m_Text);
     if (m_NoteType == PreCondition)
     {

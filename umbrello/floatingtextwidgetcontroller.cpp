@@ -39,7 +39,7 @@ void FloatingTextWidgetController::saveWidgetValues(QMouseEvent *me) {
     m_movementDirectionY = 0;
 }
 
-bool FloatingTextWidgetController::isInResizeArea(QMouseEvent *me) {
+bool FloatingTextWidgetController::isInResizeArea(QMouseEvent* /*me*/) {
     return false;
 }
 

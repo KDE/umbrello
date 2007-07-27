@@ -39,7 +39,7 @@
 #include "../umlview.h"
 #include "../entity.h"
 
-ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, int pageNum, bool assoc)
+ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, int /*pageNum*/, bool assoc)
         : KPageDialog(parent) {
     init();
     m_pWidget = 0;

@@ -1036,14 +1036,14 @@ LinePath::SubsetSymbol::SubsetSymbol(Q3Canvas* canvas)
 
 
 void LinePath::SubsetSymbol::drawShape(QPainter& p) {
-    p.translate(QPoint( x(), y() ) );
+    p.translate(QPoint( ( int )x(), ( int )y() ) );
     p.rotate( inclination );
     int width = 30, height = 20;
     int startAngle = 90, endAngle = 180;
     p.drawArc( 0 ,-height/2, width, height, startAngle*16, endAngle*16 );
     // revert back
     p.rotate( -inclination );
-    p.translate( QPoint( -x(), -y() ) );
+    p.translate( QPoint( ( int )-x(), ( int )-y() ) );
 
 }
 

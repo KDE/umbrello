@@ -42,7 +42,7 @@ void EntityWidget::init() {
     //set defaults from m_pView
     if (m_pView) {
         //check to see if correct
-        const Settings::OptionState& ops = m_pView->getOptionState();
+        //const Settings::OptionState& ops = m_pView->getOptionState();
     }
     if (! UMLApp::app()->getDocument()->loading())
         updateComponentSize();

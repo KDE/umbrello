@@ -95,7 +95,7 @@ Settings::CodeViewerState CodeViewerDialog::getState() {
     return m_state;
 }
 
-bool CodeViewerDialog::close ( bool alsoDelete )
+bool CodeViewerDialog::close ( bool /*alsoDelete*/ )
 {
 
     // remember widget size for next time

@@ -564,7 +564,7 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
 }
 
 
-Parse_Status parseConstraint(QString m, QString& name, UMLEntity* owningScope) {
+Parse_Status parseConstraint(QString m, QString& name, UMLEntity* /*owningScope*/) {
 
     m = m.simplified();
     if (m.isEmpty())

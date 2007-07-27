@@ -93,23 +93,22 @@ void KPlayerPopupSliderAction::slotTriggered()
 {
 
     QPoint point;
-    
+
     QList<QWidget*> associatedWidgetsList = QWidgetAction::associatedWidgets();
-   
+
     QWidget* associatedWidget = 0;
     QWidget* associatedToolButton = 0;
-    KToolBar* toolBar = 0;
-    
+
     // find the toolbutton which was clicked on
- 
+
    foreach(associatedWidget, associatedWidgetsList) {
 
       if(KToolBar* associatedToolBar = dynamic_cast<KToolBar*>(associatedWidget)) {
-       
+
 	associatedToolButton = associatedToolBar->childAt(associatedToolBar->mapFromGlobal(QCursor::pos()));
         if(associatedToolButton)
-          break;             // found the tool button which was clicked 
-    
+          break;             // found the tool button which was clicked
+
       }
 
     }
@@ -129,7 +128,7 @@ void KPlayerPopupSliderAction::slotTriggered()
      if ( point.y() < 0 )
        point.setY (0);
    }
-    
+
 
     //CHANGED  kDebug() << "Point: " << point.x() << "x" << point.y() << "\n";
     m_frame -> move (point);

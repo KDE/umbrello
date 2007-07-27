@@ -49,7 +49,6 @@ UMLCheckConstraintDialog::~UMLCheckConstraintDialog() {
 void UMLCheckConstraintDialog::setupDialog(){
     QFrame *frame = new QFrame( this );
     setMainWidget( frame );
-    int margin = fontMetrics().height();
 
     //main layout contains the name fields, the text field
     QVBoxLayout* mainLayout = new QVBoxLayout( frame );

@@ -28,8 +28,8 @@ namespace Uml
             void undo();
 
         private:
-            UMLWidget*  m_widget;
             UMLView*    m_view;
+            UMLWidget*  m_widget;
     };
 }
 

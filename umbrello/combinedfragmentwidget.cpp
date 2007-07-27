@@ -238,7 +238,7 @@ void CombinedFragmentWidget::setCombinedFragmentType( const QString& combinedfra
 }
 
 void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, const QString& dialogTitle,
-                      const QString& dialogPrompt, const QString& defaultName) {
+    const QString& dialogPrompt, const QString& /*defaultName*/) {
 
     bool pressedOK = false;
     const QStringList list = QStringList() << "Reference" << "Option" << "Break" << "Loop" << "Negative" << "Critical" << "Assertion" << "Alternative" << "Parallel" ;

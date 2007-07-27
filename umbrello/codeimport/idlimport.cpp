@@ -211,7 +211,6 @@ bool IDLImport::parseStmt() {
         return true;
     }
     if (keyword == "typedef") {
-        const QString& existingType = advance();
         const QString& newType = advance();
         Import_Utils::createUMLObject(Uml::ot_Class, newType, m_scope[m_scopeIndex],
                                      m_comment, "CORBATypedef" /* stereotype */);

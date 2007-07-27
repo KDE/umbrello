@@ -77,7 +77,6 @@ void ToolBarStateOneWidget::setCurrentElement() {
 
 void ToolBarStateOneWidget::mouseReleaseWidget() {
     Uml::Widget_Type widgetType = getWidgetType();
-    UMLWidget * widget = 0;
 
     if (widgetType == Uml::wt_Precondition) {
         m_firstObject = 0;

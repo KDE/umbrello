@@ -118,9 +118,9 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
                             offsetX + w, offsetY);
 
             p.drawPolygon( a );
-            const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-            const int fontHeight  = fm.lineSpacing();
-            int textStartY = (h / 2) - (fontHeight / 2);
+            //const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+            //const int fontHeight  = fm.lineSpacing();
+            //int textStartY = (h / 2) - (fontHeight / 2);
             p.setPen(Qt::black);
             QFont font = UMLWidget::getFont();
             font.setBold( false );

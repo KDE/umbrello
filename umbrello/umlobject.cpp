@@ -315,7 +315,7 @@ void UMLObject::setStereotype(const QString &_name) {
     setUMLStereotype(s);
 }
 
-void UMLObject::setStereotypecmd(const QString &_name) {
+void UMLObject::setStereotypecmd(const QString& /*_name*/) {
 //TODO: put SetStereotype into QundoStack
 }
 

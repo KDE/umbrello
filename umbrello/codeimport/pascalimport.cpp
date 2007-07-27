@@ -363,7 +363,7 @@ bool PascalImport::parseStmt() {
             return true;
         }
         if (keyword == "function" || keyword == "procedure") {
-            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Datatype, name,
+            /*UMLObject *ns =*/ Import_Utils::createUMLObject(Uml::ot_Datatype, name,
                                                           m_scope[m_scopeIndex], m_comment);
             if (m_source[m_srcIndex + 1] == "(")
                 skipToClosing('(');

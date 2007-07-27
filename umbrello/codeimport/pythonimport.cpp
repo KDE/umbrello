@@ -167,7 +167,7 @@ bool PythonImport::parseStmt() {
         }
         while (m_srcIndex < srcLength && advance() != ")") {
             const QString& parName = m_source[m_srcIndex];
-            UMLAttribute *att = Import_Utils::addMethodParameter(op, "string", parName);
+            /*UMLAttribute *att =*/ Import_Utils::addMethodParameter(op, "string", parName);
             if (advance() != ",")
                 break;
         }

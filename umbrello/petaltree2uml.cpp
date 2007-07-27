@@ -313,10 +313,10 @@ protected:
  * @param parentPkg  Pointer to the current parent UMLPackage.
  * @return      True if the node actually contained a controlled unit.
  */
-bool handleControlledUnit(PetalNode *node, const QString& name, Uml::IDType id, UMLPackage *parentPkg) {
+bool handleControlledUnit(PetalNode *node, const QString& name, Uml::IDType /*id*/, UMLPackage * /*parentPkg*/) {
     if (node->findAttribute("is_unit").string != "TRUE")
         return false;
-    bool is_loaded = (node->findAttribute("is_loaded").string != "FALSE");
+    //bool is_loaded = (node->findAttribute("is_loaded").string != "FALSE");
     QString file_name = node->findAttribute("file_name").string;
     if (file_name.isEmpty()) {
         kError() << "handleControlledUnit(" << name

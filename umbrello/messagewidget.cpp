@@ -511,7 +511,7 @@ void MessageWidget::slotMenuSelection(int sel) {
     }
 }
 
-bool MessageWidget::activate(IDChangeLog * Log /*= 0*/) {
+bool MessageWidget::activate(IDChangeLog * /*Log = 0*/) {
     m_pView->resetPastePoint();
     // UMLWidget::activate(Log);   CHECK: I don't think we need this ?
     if (m_pOw[Uml::A] == NULL) {

@@ -600,7 +600,6 @@ bool UMLDrag::decodeClip3(const QMimeSource* mimeSource, UMLListViewItemList& um
 bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
                           UMLWidgetList& widgets,
                           AssociationWidgetList& associations, Uml::Diagram_Type & dType) {
-    UMLDoc* doc = UMLApp::app()->getDocument();
     if ( !mimeSource->provides("application/x-uml-clip4") ) {
         return false;
     }
