@@ -1013,7 +1013,7 @@ void LinePath::updateSubsetSymbol() {
             else // yDiff < 0
                 inclination = 270;
         } else {
-           inclination = atan( yDiff/xDiff )*180/3.14159 ;
+           inclination = (int)(atan( yDiff/xDiff )*180/3.14159) ;
            // convert to 360 degree scale
            if (  xDiff < 0 ) {
                inclination = 180 + inclination ;

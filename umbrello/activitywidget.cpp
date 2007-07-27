@@ -89,8 +89,8 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
         y = offsetY + h/2 ;
         {
             const float w2 = 0.7071 * (float)w / 2.0;
-            p.drawLine(x - w2 + 1, y - w2 + 1, x + w2, y + w2);
-            p.drawLine(x + w2 - 1, y - w2 + 1, x - w2, y + w2);
+            p.drawLine((int)(x - w2 + 1), (int)(y - w2 + 1), (int)(x + w2), (int)(y + w2) );
+            p.drawLine((int)(x + w2 - 1), (int)(y - w2 + 1), (int)(x - w2), (int)(y + w2) );
         }
         break;
 
@@ -137,10 +137,10 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
         x = offsetX + w - (w/5);
         y = offsetY + h - (h/3);
 
-        p.drawLine(x,      y,      x,      y + 20);
-        p.drawLine(x - 10, y + 10, x + 10, y + 10);
-        p.drawLine(x - 10, y + 10, x - 10, y + 20);
-        p.drawLine(x + 10, y + 10, x + 10, y + 20);
+        p.drawLine((int)x, (int) y, (int)x, (int)( y + 20));
+        p.drawLine((int)(x - 10),(int)(y + 10), (int)(x + 10), (int)(y + 10));
+        p.drawLine((int)(x - 10),(int)(y + 10), (int)(x - 10), (int)(y + 20));
+        p.drawLine((int)(x + 10),(int)(y + 10), (int)(x + 10), (int)(y + 20));
         break;
 
     case Param :
@@ -153,7 +153,7 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
             const int fontHeight  = fm.lineSpacing();
             QString preCond= "<<precondition>> "+getPreText();
             QString postCond= "<<postcondition>> "+getPostText();
-            int textStartY = (h / 2) - (fontHeight / 2);
+            //int textStartY = (h / 2) - (fontHeight / 2);
             p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
             p.setPen(Qt::black);
             p.setFont( UMLWidget::getFont() );
