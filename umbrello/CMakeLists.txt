@@ -368,15 +368,15 @@ if (WIN32)
     # workaround for win32 command line to long problem
     # build intermediate libraries 
     
-    add_library(dialogs  	${libdialogs_SRCS})
+    kde4_add_library(dialogs  	${libdialogs_SRCS})
     target_link_libraries (dialogs)
     set (libdialogs_SRCS)
 
-    add_library(generators ${libcodegenerator_SRCS})
+    kde4_add_library(generators ${libcodegenerator_SRCS})
     target_link_libraries (generators )
     set (libcodegenerator_SRCS)
     
-    add_library(cmds ${libcmds_SRCS})
+    kde4_add_library(cmds ${libcmds_SRCS})
     target_link_libraries (cmds)
     set (libcmds_SRCS)
 
