@@ -372,6 +372,7 @@ if (WIN32)
     target_link_libraries (dialogs)
     set (libdialogs_SRCS)
 
+    kde4_add_kcfg_files(libcodegenerator_SRCS umbrellosettings.kcfgc)
     kde4_add_library(generators ${libcodegenerator_SRCS})
     target_link_libraries (generators )
     set (libcodegenerator_SRCS)
@@ -383,9 +384,11 @@ if (WIN32)
     set (LIBS dialogs generators cmds)
 else (WIN32)
     set (LIBS )
+    kde4_add_kcfg_files(umbrello_SRCS umbrellosettings.kcfgc)
 endif (WIN32)
 
 set (umbrello_SRCS
+	${umbrello_SRCS}
 	${libdialogs_SRCS} 
 	${librefactoring_SRCS} 
 	${libclassparser_SRCS} 
@@ -397,8 +400,6 @@ set (umbrello_SRCS
 	${libcmds_SRCS}
 	${libumbrello_SRCS}
 )
-
-kde4_add_kcfg_files(umbrello_SRCS umbrellosettings.kcfgc)
 
 kde4_add_executable(umbrello ${umbrello_SRCS})
 target_link_libraries(umbrello  ${LIBS} ${KDE4_KDEPRINT_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${LIBUUID} )
