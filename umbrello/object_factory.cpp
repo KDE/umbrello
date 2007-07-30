@@ -123,7 +123,9 @@ UMLObject* createNewUMLObject(Uml::Object_Type type, const QString &name,
             return NULL;
     }
     o->setUMLPackage(parentPkg);
-    parentPkg->addObject(o);
+
+    // will be caled in cmdCreateUMLObject
+    //parentPkg->addObject(o);
 
     UMLApp::app()->executeCommand(new Uml::cmdCreateUMLObject(o));
     qApp->processEvents();
