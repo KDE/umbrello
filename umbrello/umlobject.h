@@ -20,7 +20,6 @@
 #include "umlnamespace.h"
 #include "umlpackagelist.h"
 
-class kdbgstream;
 class UMLStereotype;
 class UMLObject;
 
@@ -494,10 +493,12 @@ protected:
     QString m_SecondaryFallback;
 };
 
+#ifndef QT_NO_DEBUG_STREAM
 /**
  * Print UML Object to kdgstream, so it can be used like
  *   kdWarn() << "This object shouldn't be here:" << illegalObject << endl;
  */
-kdbgstream& operator<< (kdbgstream& s, const UMLObject& a);
+QDebug operator<< (QDebug s, const UMLObject& a);
+#endif
 
 #endif

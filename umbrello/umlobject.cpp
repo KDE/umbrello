@@ -747,7 +747,7 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
     return load(element);
 }
 
-kdbgstream& operator<< (kdbgstream& s, const UMLObject& a) {
+QDebug operator<< (QDebug s, const UMLObject& a) {
     s << a.getName();
     return s;
 }
