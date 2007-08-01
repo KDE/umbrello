@@ -3573,6 +3573,9 @@ bool UMLView::loadUISDiagram(QDomElement & qElement) {
 void UMLView::alignLeft() {
     UMLWidgetList widgetList;
     getSelectedWidgets( widgetList );
+    if ( widgetList.isEmpty() )
+        return;
+
     int smallestX = getSmallestX(widgetList);
 
     UMLWidget* widget;
@@ -3588,6 +3591,8 @@ void UMLView::alignLeft() {
 void UMLView::alignRight() {
     UMLWidgetList widgetList;
     getSelectedWidgets( widgetList );
+    if ( widgetList.isEmpty() )
+        return;
     int biggestX = getBiggestX(widgetList);
 
     UMLWidget* widget;
@@ -3603,6 +3608,9 @@ void UMLView::alignRight() {
 void UMLView::alignTop() {
     UMLWidgetList widgetList;
     getSelectedWidgets( widgetList );
+    if ( widgetList.isEmpty() )
+        return;
+
     int smallestY = getSmallestY(widgetList);
 
     UMLWidget* widget;
@@ -3618,6 +3626,8 @@ void UMLView::alignTop() {
 void UMLView::alignBottom() {
     UMLWidgetList widgetList;
     getSelectedWidgets( widgetList );
+    if ( widgetList.isEmpty() )
+        return;
     int biggestY = getBiggestY(widgetList);
 
     UMLWidget* widget;
@@ -3633,11 +3643,14 @@ void UMLView::alignBottom() {
 void UMLView::alignVerticalMiddle() {
     UMLWidgetList widgetList;
     getSelectedWidgets( widgetList );
+    if ( widgetList.isEmpty() )
+        return;
+
     int smallestX = getSmallestX(widgetList);
     int biggestX = getBiggestX(widgetList);
     int middle = int((biggestX - smallestX) / 2) + smallestX;
 
-    UMLWidget* widget;
+    UMLWidget* widget = NULL;
     UMLWidgetListIt it(widgetList);
 
     it.toFirst();
@@ -3650,11 +3663,14 @@ void UMLView::alignVerticalMiddle() {
 void UMLView::alignHorizontalMiddle() {
     UMLWidgetList widgetList;
     getSelectedWidgets( widgetList );
+    if ( widgetList.isEmpty() )
+        return;
+
     int smallestY = getSmallestY(widgetList);
     int biggestY = getBiggestY(widgetList);
     int middle = int((biggestY - smallestY) / 2) + smallestY;
 
-    UMLWidget* widget;
+    UMLWidget* widget = NULL;
     UMLWidgetListIt it(widgetList);
 
     it.toFirst();
@@ -3667,6 +3683,9 @@ void UMLView::alignHorizontalMiddle() {
 void UMLView::alignVerticalDistribute() {
     UMLWidgetList widgetList;
     getSelectedWidgets( widgetList );
+    if ( widgetList.isEmpty() )
+        return;
+
     int smallestY = getSmallestY(widgetList);
     int biggestY = getBiggestY(widgetList);
     int heightsSum = getHeightsSum(widgetList);
@@ -3674,10 +3693,13 @@ void UMLView::alignVerticalDistribute() {
 
     sortWidgetList(widgetList, hasWidgetSmallerY);
 
-    UMLWidget* widget;
+    UMLWidget* widget = NULL;
     UMLWidgetListIt it(widgetList);
 
     it = UMLWidgetListIt(widgetList);
+
+    if ( it.isEmpty() )
+        return;
 
     UMLWidget* widgetPrev = it.toFirst();
     ++it;
@@ -3691,6 +3713,9 @@ void UMLView::alignVerticalDistribute() {
 void UMLView::alignHorizontalDistribute() {
     UMLWidgetList widgetList;
     getSelectedWidgets( widgetList );
+    if ( widgetList.isEmpty() )
+        return;
+
     int smallestX = getSmallestX(widgetList);
     int biggestX = getBiggestX(widgetList);
     int widthsSum = getWidthsSum(widgetList);
@@ -3698,10 +3723,13 @@ void UMLView::alignHorizontalDistribute() {
 
     sortWidgetList(widgetList, hasWidgetSmallerX);
 
-    UMLWidget* widget;
+    UMLWidget* widget = NULL;
     UMLWidgetListIt it(widgetList);
 
     it = UMLWidgetListIt(widgetList);
+
+    if ( it.isEmpty() )
+        return;
 
     UMLWidget* widgetPrev = it.toFirst();
     ++it;
@@ -3723,7 +3751,7 @@ bool UMLView::hasWidgetSmallerY(const UMLWidget* widget1, const UMLWidget* widge
 
 int UMLView::getSmallestX(const UMLWidgetList &widgetList) {
     UMLWidgetListIt it(widgetList);
-    UMLWidget* widget;
+    UMLWidget* widget = NULL;
 
     int smallestX = it.toFirst()->getX();
     ++it;
@@ -3739,7 +3767,10 @@ int UMLView::getSmallestX(const UMLWidgetList &widgetList) {
 
 int UMLView::getSmallestY(const UMLWidgetList &widgetList) {
     UMLWidgetListIt it(widgetList);
-    UMLWidget* widget;
+    UMLWidget* widget = NULL;
+
+    if ( it.isEmpty() )
+        return -1;
 
     int smallestY = it.toFirst()->getY();
     ++it;
@@ -3755,7 +3786,10 @@ int UMLView::getSmallestY(const UMLWidgetList &widgetList) {
 
 int UMLView::getBiggestX(const UMLWidgetList &widgetList) {
     UMLWidgetListIt it(widgetList);
-    UMLWidget* widget;
+    UMLWidget* widget = NULL;
+
+    if ( it.isEmpty() )
+        return -1;
 
     int biggestX = it.toFirst()->getX();
     biggestX += it.current()->getWidth();
@@ -3772,7 +3806,10 @@ int UMLView::getBiggestX(const UMLWidgetList &widgetList) {
 
 int UMLView::getBiggestY(const UMLWidgetList &widgetList) {
     UMLWidgetListIt it(widgetList);
-    UMLWidget* widget;
+    UMLWidget* widget = NULL;
+
+    if ( it.isEmpty() )
+        return -1;
 
     int biggestY = it.toFirst()->getY();
     biggestY += it.current()->getHeight();
@@ -3788,7 +3825,7 @@ int UMLView::getBiggestY(const UMLWidgetList &widgetList) {
 }
 
 int UMLView::getHeightsSum(const UMLWidgetList &widgetList) {
-    UMLWidget* widget;
+    UMLWidget* widget = NULL;
     UMLWidgetListIt it(widgetList);
 
     int heightsSum = 0;
@@ -3803,7 +3840,7 @@ int UMLView::getHeightsSum(const UMLWidgetList &widgetList) {
 }
 
 int UMLView::getWidthsSum(const UMLWidgetList &widgetList) {
-    UMLWidget* widget;
+    UMLWidget* widget = NULL;
     UMLWidgetListIt it(widgetList);
 
     int widthsSum = 0;
