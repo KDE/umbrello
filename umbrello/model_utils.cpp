@@ -290,6 +290,7 @@ bool isCommonXMIAttribute( const QString &tag ) {
                    Uml::tagEq(tag, "isActive") ||
                    Uml::tagEq(tag, "namespace") ||
                    Uml::tagEq(tag, "ownerScope") ||
+                   Uml::tagEq(tag, "ModelElement.stereotype") ||
                    Uml::tagEq(tag, "GeneralizableElement.generalization") ||
                    Uml::tagEq(tag, "specialization") ||   //NYI
                    Uml::tagEq(tag, "clientDependency") || //NYI

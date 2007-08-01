@@ -318,6 +318,14 @@ public:
     virtual bool loadFromXMI( QDomElement & element );
 
     /**
+     * Analyzes the given QDomElement for a reference to a stereotype.
+     *
+     * @param element    QDomElement to analyze.
+     * @return        True if a stereotype reference was found, else false.
+     */
+    bool loadStereotype(QDomElement & element);
+
+    /**
      * Returns true if this UMLObject has classifier scope,
      * otherwise false (the default).
      */

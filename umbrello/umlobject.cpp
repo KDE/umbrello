@@ -565,6 +565,36 @@ bool UMLObject::load( QDomElement& ) {
     return true;
 }
 
+bool UMLObject::loadStereotype(QDomElement & element) {
+    QString tag = element.tagName();
+    if (!Uml::tagEq(tag, "stereotype"))
+        return false;
+    QString stereo = element.attribute("xmi.value", "");
+    if (stereo.isEmpty() && element.hasChildNodes()) {
+        /* like so:
+         <UML:ModelElement.stereotype>
+           <UML:Stereotype xmi.idref = '07CD'/>
+         </UML:ModelElement.stereotype>
+         */
+        QDomNode stereoNode = element.firstChild();
+        QDomElement stereoElem = stereoNode.toElement();
+        tag = stereoElem.tagName();
+        if (Uml::tagEq(tag, "Stereotype")) {
+            stereo = stereoElem.attribute("xmi.idref", "");
+        }
+    }
+    if (stereo.isEmpty())
+        return false;
+    Uml::IDType stereoID = STR2ID(stereo);
+    UMLDoc *pDoc = UMLApp::app()->getDocument();
+    m_pStereotype = pDoc->findStereotypeById(stereoID);
+    if (m_pStereotype)
+        m_pStereotype->incrRefCount();
+    else
+        m_SecondaryId = stereo;  // leave it to resolveRef()
+    return true;
+}
+
 bool UMLObject::loadFromXMI( QDomElement & element) {
     UMLDoc* umldoc = UMLApp::app()->getDocument();
     if (umldoc == NULL) {
@@ -587,6 +617,18 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
         }
     } else {
         m_nId = STR2ID(id);
+        if (m_BaseType == Uml::ot_Role) {
+            // Some older Umbrello versions had a problem with xmi.id's
+            // of other objects being reused for the UMLRole, see e.g.
+            // attachment 21179 at http://bugs.kde.org/147988 .
+            // If the xmi.id is already being used then we generate a new one.
+            UMLObject *o = umldoc->findObjectById(m_nId);
+            if (o) {
+                kDebug() << "loadFromXMI(UMLRole): id " << id
+                    << " is already in use, generating a new one." << endl;
+                m_nId = UniqueID::gen();
+            }
+        }
     }
 
     if (element.hasAttribute("documentation"))  // for bkwd compat.
@@ -669,11 +711,11 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
                 if (vis.isEmpty())
                     vis = elem.text();
                 if (vis == "private" || vis == "private_vis")
-                      m_Vis = Uml::Visibility::Private;
+                    m_Vis = Uml::Visibility::Private;
                 else if (vis == "protected" || vis == "protected_vis")
-                  m_Vis = Uml::Visibility::Protected;
+                    m_Vis = Uml::Visibility::Protected;
                 else if (vis == "implementation")
-                  m_Vis = Uml::Visibility::Implementation;
+                    m_Vis = Uml::Visibility::Implementation;
             } else if (Uml::tagEq(tag, "isAbstract")) {
                 QString isAbstract = elem.attribute("xmi.value", "");
                 if (isAbstract.isEmpty())
@@ -684,29 +726,8 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
                 if (ownerScope.isEmpty())
                     ownerScope = elem.text();
                 m_bStatic = (ownerScope == "classifier");
-            } else if (Uml::tagEq(tag, "stereotype")) {
-                QString stereo = elem.attribute("xmi.value", "");
-                if (stereo.isEmpty() && elem.hasChildNodes()) {
-                    /* like so:
-                     <UML:ModelElement.stereotype>
-                       <UML:Stereotype xmi.idref = '07CD'/>
-                     </UML:ModelElement.stereotype>
-                     */
-                    QDomNode stereoNode = elem.firstChild();
-                    QDomElement stereoElem = stereoNode.toElement();
-                    tag = stereoElem.tagName();
-                    if (Uml::tagEq(tag, "Stereotype")) {
-                        stereo = stereoElem.attribute("xmi.idref", "");
-                    }
-                }
-                if (! stereo.isEmpty()) {
-                    Uml::IDType stereoID = STR2ID(stereo);
-                    m_pStereotype = umldoc->findStereotypeById(stereoID);
-                    if (m_pStereotype)
-                        m_pStereotype->incrRefCount();
-                    else
-                        m_SecondaryId = stereo;  // leave it to resolveRef()
-                }
+            } else {
+                loadStereotype(elem);
             }
             node = node.nextSibling();
             if (node.isComment())
