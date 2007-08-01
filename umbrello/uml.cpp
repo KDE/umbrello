@@ -575,6 +575,7 @@ void UMLApp::initView() {
     m_viewStack = new QStackedWidget(this);
 
     m_layout = new QVBoxLayout;
+    m_layout->setMargin(0);
     if (Settings::getOptionState().generalState.tabdiagrams) {
         // Tabbed Diagram Representation
         m_layout->addWidget(m_tabWidget);

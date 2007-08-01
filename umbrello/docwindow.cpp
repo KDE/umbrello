@@ -13,10 +13,10 @@
 #include "docwindow.h"
 
 // qt/kde includes
-#include <QHBoxLayout>
-#include <q3groupbox.h>
+#include <QVBoxLayout>
+#include <qgroupbox.h>
 #include <qlayout.h>
-#include <q3multilineedit.h>
+#include <qtextedit.h>
 #include <klocale.h>
 
 // local includes
@@ -29,16 +29,13 @@
 
 DocWindow::DocWindow( UMLDoc * doc, QWidget *parent, const char *name ) : QWidget( parent, name ) {
     //setup visual display
-    QHBoxLayout * mainLayout = new QHBoxLayout( this );
 
-    m_pDocGB = new Q3GroupBox( i18n( "Documentation" ), this );
-    mainLayout -> addWidget( m_pDocGB );
-
-    QHBoxLayout * docLayout = new QHBoxLayout( m_pDocGB );
-    m_pDocMLE = new Q3MultiLineEdit( m_pDocGB );
-    m_pDocMLE -> setText( "" );
-    docLayout -> addWidget( m_pDocMLE);
-    m_pDocMLE -> setWordWrap(Q3MultiLineEdit::WidgetWidth);
+    QVBoxLayout * docLayout = new QVBoxLayout( this );
+    m_pDocTE = new QTextEdit( this );
+    m_pDocTE -> setText( "" );
+    docLayout -> addWidget( m_pDocTE);
+    docLayout->setMargin(0);
+    //m_pDocTE -> setWordWrapMode(QTextEdit::WidgetWidth);
 
     //setup the documentation variables
     //show projects documentation to start
@@ -60,12 +57,12 @@ void DocWindow::showDocumentation( UMLObject * object, bool overwrite ) {
         updateDocumentation( true );
     m_Showing = st_UMLObject;
     if( !object ) {
-        m_pDocMLE->setText( m_pUMLDoc->getDocumentation() );
+        m_pDocTE->setText( m_pUMLDoc->getDocumentation() );
         m_pUMLObject = 0;
         return;
     }
     m_pUMLObject = object;
-    m_pDocMLE -> setText( m_pUMLObject -> getDoc() );
+    m_pDocTE -> setText( m_pUMLObject -> getDoc() );
 }
 
 void DocWindow::updateDocumentation( bool clear, bool startup ) {
@@ -76,52 +73,52 @@ void DocWindow::updateDocumentation( bool clear, bool startup ) {
         // the file is marked modified, if the documentation differs
         // we don't do this on startup/load of a xmi file, because every time
         // modified is set, we get another undo/redo backup point
-        if ( startup == false && m_pDocMLE -> text() != m_pUMLObject -> getDoc() )
+        if ( startup == false && m_pDocTE -> text() != m_pUMLObject -> getDoc() )
         {
             mark_modified = true;
         }
-        m_pUMLObject -> setDoc( m_pDocMLE -> text() );
+        m_pUMLObject -> setDoc( m_pDocTE -> text() );
 
     } else if( m_pUMLView ) {
         // the file is marked modified, if the documentation differs
         // we don't do this on startup/load of a xmi file, because every time
         // modified is set, we get another undo/redo backup point
-        if ( startup == false && m_pDocMLE -> text() != m_pUMLView -> getDoc() )
+        if ( startup == false && m_pDocTE -> text() != m_pUMLView -> getDoc() )
         {
             mark_modified = true;
         }
 
-        m_pUMLView -> setDoc( m_pDocMLE -> text() );
+        m_pUMLView -> setDoc( m_pDocTE -> text() );
     } else if ( m_pUMLWidget ) {
         // the file is marked modified, if the documentation differs
         // we don't do this on startup/load of a xmi file, because every time
         // modified is set, we get another undo/redo backup point
-        if ( startup == false && m_pDocMLE -> text() != m_pUMLWidget -> getDoc() )
+        if ( startup == false && m_pDocTE -> text() != m_pUMLWidget -> getDoc() )
         {
             mark_modified = true;
         }
 
-        m_pUMLWidget -> setDoc( m_pDocMLE -> text() );
+        m_pUMLWidget -> setDoc( m_pDocTE -> text() );
     } else if( m_pAssocWidget ) {
         // the file is marked modified, if the documentation differs
         // we don't do this on startup/load of a xmi file, because every time
         // modified is set, we get another undo/redo backup point
-        if ( startup == false && m_pDocMLE -> text() != m_pAssocWidget -> getDoc() )
+        if ( startup == false && m_pDocTE -> text() != m_pAssocWidget -> getDoc() )
         {
             mark_modified = true;
         }
 
-        m_pAssocWidget -> setDoc( m_pDocMLE -> text() );
+        m_pAssocWidget -> setDoc( m_pDocTE -> text() );
     } else {
         // the file is marked modified, if the documentation differs
         // we don't do this on startup/load of a xmi file, because every time
         // modified is set, we get another undo/redo backup point
-        if ( startup == false && m_pDocMLE -> text() != m_pUMLDoc->getDocumentation() )
+        if ( startup == false && m_pDocTE -> text() != m_pUMLDoc->getDocumentation() )
         {
             mark_modified = true;
         }
 
-        m_pUMLDoc->setDocumentation( m_pDocMLE->text() );
+        m_pUMLDoc->setDocumentation( m_pDocTE->text() );
     }
 
     // now do the setModified call
@@ -130,7 +127,7 @@ void DocWindow::updateDocumentation( bool clear, bool startup ) {
 
     // we should show the documentation of the whole project
     if( clear ) {
-        m_pDocMLE->setText( m_pUMLDoc->getDocumentation() );
+        m_pDocTE->setText( m_pUMLDoc->getDocumentation() );
         m_pUMLObject = 0;
         m_pUMLView = 0;
         m_pUMLWidget = 0;
@@ -148,12 +145,12 @@ void DocWindow::showDocumentation( UMLView * view, bool overwrite ) {
         updateDocumentation( true );
     m_Showing = st_UMLView;
     if( !view ) {
-        m_pDocMLE->setText( m_pUMLDoc->getDocumentation() );
+        m_pDocTE->setText( m_pUMLDoc->getDocumentation() );
         m_pUMLView = 0;
         return;
     }
     m_pUMLView = view;
-    m_pDocMLE -> setText( m_pUMLView -> getDoc() );
+    m_pDocTE -> setText( m_pUMLView -> getDoc() );
 }
 
 void DocWindow::showDocumentation( UMLWidget * widget, bool overwrite ) {
@@ -163,12 +160,12 @@ void DocWindow::showDocumentation( UMLWidget * widget, bool overwrite ) {
         updateDocumentation( true );
     m_Showing = st_UMLWidget;
     if( !widget ) {
-        m_pDocMLE->setText( m_pUMLDoc->getDocumentation() );
+        m_pDocTE->setText( m_pUMLDoc->getDocumentation() );
         m_pUMLWidget = 0;
         return;
     }
     m_pUMLWidget = widget;
-    m_pDocMLE -> setText( m_pUMLWidget -> getDoc() );
+    m_pDocTE -> setText( m_pUMLWidget -> getDoc() );
 }
 
 void DocWindow::showDocumentation( AssociationWidget * widget, bool overwrite ) {
@@ -178,12 +175,12 @@ void DocWindow::showDocumentation( AssociationWidget * widget, bool overwrite ) 
         updateDocumentation( true );
     m_Showing = st_Association;
     if( !widget ) {
-        m_pDocMLE->setText( m_pUMLDoc->getDocumentation() );
+        m_pDocTE->setText( m_pUMLDoc->getDocumentation() );
         m_pAssocWidget = 0;
         return;
     }
     m_pAssocWidget = widget;
-    m_pDocMLE -> setText( m_pAssocWidget -> getDoc() );
+    m_pDocTE -> setText( m_pAssocWidget -> getDoc() );
 }
 
 void DocWindow::newDocumentation( ) {
@@ -192,12 +189,12 @@ void DocWindow::newDocumentation( ) {
     m_pUMLWidget = 0;
     m_pAssocWidget = 0;
     m_Showing = st_Project;
-    m_pDocMLE->setText( m_pUMLDoc->getDocumentation() );
+    m_pDocTE->setText( m_pUMLDoc->getDocumentation() );
 }
 
 bool DocWindow::isTyping()
 {
-    if (m_pDocMLE->hasFocus())
+    if (m_pDocTE->hasFocus())
         return true;
     else
         return false;
