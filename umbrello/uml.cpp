@@ -917,14 +917,14 @@ bool UMLApp::slotFileSaveAs()
             cont = false;
         else {
             // now check that we have a file extension; standard will be plain xmi
-            QString file = url.path( KUrl::RemoveTrailingSlash );
-            QFileInfo info(file);
-            ext = info.extension();
-            if (ext != "xmi" && ext != "xmi.tgz" && ext != "xmi.tar.bz2")
-            {
-                url.setFileName(url.fileName() + ".xmi");
-                ext = "xmi";
-            }
+            //QString file = url.path( KUrl::RemoveTrailingSlash );
+            //QFileInfo info(file);
+            //ext = info.completeSuffix();
+            //if (ext != "xmi" && ext != "xmi.tgz" && ext != "xmi.tar.bz2")
+            //{
+            //    url.setFileName(url.fileName() + ".xmi");
+            //    ext = "xmi";
+            //}
             QDir d = url.path( KUrl::RemoveTrailingSlash );
 
             if(QFile::exists(d.path())) {
