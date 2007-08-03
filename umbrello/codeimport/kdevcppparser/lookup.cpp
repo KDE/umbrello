@@ -32,7 +32,7 @@ const HashEntry* Lookup::findEntry( const struct HashTable *table,
                               const QChar *c, unsigned int len )
 {
   if (table->type != 2) {
-    kDebug() << "KJS: Unknown hash table version" << endl;
+    kDebug() << "KJS: Unknown hash table version";
     return 0;
   }
   char *ascii = new char[len+1];

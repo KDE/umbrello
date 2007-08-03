@@ -137,7 +137,7 @@ void initDocument(KCmdLineArgs *args) {
 
 void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt) {
     QString extension(exportOpt.last());
-    kDebug() << "extension: " << extension << endl;
+    kDebug() << "extension: " << extension;
 
     // export to the specified directory, or the directory where the file is saved
     // if no directory was specified
@@ -151,7 +151,7 @@ void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt) {
 
     bool useFolders = args->isSet("use-folders");
 
-    kDebug() << "directory: " << directory.prettyUrl() << endl;
+    kDebug() << "directory: " << directory.prettyUrl();
 
     // the event is posted so when the QT loop begins it's processed. UMLApp process this event executing
     // the method it provides for exporting the views. Once all the views were exported, a quit event

@@ -61,7 +61,7 @@ UMLListViewItem::UMLListViewItem(UMLListView * parent)
         : Q3ListViewItem(parent) {
     init(parent);
     if (parent == NULL)
-        kDebug() << "UMLListViewItem constructor called with a NULL listview parent" << endl;
+        kDebug() << "UMLListViewItem constructor called with a NULL listview parent";
 }
 
 UMLListViewItem::UMLListViewItem(UMLListViewItem * parent)
@@ -553,14 +553,14 @@ int UMLListViewItem::compare(Q3ListViewItem *other, int col, bool ascending) con
     if (m_pObject == NULL) {
         retval = (subItem ? 1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kDebug() << dbgPfx << retval << " because (m_pObject==NULL)" << endl;
+        kDebug() << dbgPfx << retval << " because (m_pObject==NULL)";
 #endif
         return retval;
     }
     if (otherObj == NULL) {
         retval = (subItem ? -1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kDebug() << dbgPfx << retval << " because (otherObj==NULL)" << endl;
+        kDebug() << dbgPfx << retval << " because (otherObj==NULL)";
 #endif
         return retval;
     }
@@ -569,21 +569,21 @@ int UMLListViewItem::compare(Q3ListViewItem *other, int col, bool ascending) con
     if (ourParent == NULL) {
         retval = (subItem ? 1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kDebug() << dbgPfx << retval << " because (ourParent==NULL)" << endl;
+        kDebug() << dbgPfx << retval << " because (ourParent==NULL)";
 #endif
         return retval;
     }
     if (otherParent == NULL) {
         retval = (subItem ? -1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kDebug() << dbgPfx << retval << " because (otherParent==NULL)" << endl;
+        kDebug() << dbgPfx << retval << " because (otherParent==NULL)";
 #endif
         return retval;
     }
     if (ourParent != otherParent) {
         retval = (subItem ? 0 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kDebug() << dbgPfx << retval << " because (ourParent != otherParent)" << endl;
+        kDebug() << dbgPfx << retval << " because (ourParent != otherParent)";
 #endif
         return retval;
     }
@@ -592,14 +592,14 @@ int UMLListViewItem::compare(Q3ListViewItem *other, int col, bool ascending) con
     if (thisUmlItem == NULL) {
         retval = (subItem ? 1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kDebug() << dbgPfx << retval << " because (thisUmlItem==NULL)" << endl;
+        kDebug() << dbgPfx << retval << " because (thisUmlItem==NULL)";
 #endif
         return retval;
     }
     if (otherUmlItem == NULL) {
         retval = (subItem ? -1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kDebug() << dbgPfx << retval << " because (otherUmlItem==NULL)" << endl;
+        kDebug() << dbgPfx << retval << " because (otherUmlItem==NULL)";
 #endif
         return retval;
     }

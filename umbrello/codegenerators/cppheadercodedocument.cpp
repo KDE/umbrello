@@ -218,7 +218,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                                             }
                 // only needed for extreme debugging conditions (E.g. making new codeclassdocument loader)
                 //else
-                //kDebug()<<" LoadFromXMI: Got strange tag in text block stack:"<<name<<", ignorning"<<endl;
+                //kDebug()<<" LoadFromXMI: Got strange tag in text block stack:"<<name<<", ignorning";
 
                 node = element.nextSibling();
                 element = node.toElement();
@@ -235,13 +235,13 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
         CodeDocument * test = dynamic_cast<CodeDocument*>(this);
         if(test)
         {
-            kWarning()<<" loadChildBlocks : unable to initialize any child blocks in doc: "<<test->getFileName()<<" "<<this<<endl;
+            kWarning()<<" loadChildBlocks : unable to initialize any child blocks in doc: "<<test->getFileName()<<" "<<this;
         } else {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(this);
             if(hb)
-                kWarning()<<" loadChildBlocks : unable to initialize any child blocks in Hblock: "<<hb->getTag()<<" "<<this<<endl;
+                kWarning()<<" loadChildBlocks : unable to initialize any child blocks in Hblock: "<<hb->getTag()<<" "<<this;
             else
-                kDebug()<<" loadChildBlocks : unable to initialize any child blocks in UNKNOWN OBJ:"<<this<<endl;
+                kDebug()<<" loadChildBlocks : unable to initialize any child blocks in UNKNOWN OBJ:"<<this;
         }
     }
 

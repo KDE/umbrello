@@ -58,13 +58,13 @@ bool XhtmlGenerator::generateXhtmlForProject()
   QString fileName = url.fileName();
   fileName.replace(QRegExp(".xmi$"),"");
   url.setFileName(fileName);
-  kDebug() << "Exporting to directory: " << url << endl;
+  kDebug() << "Exporting to directory: " << url;
   return generateXhtmlForProjectInto(url);
 }
 
 bool XhtmlGenerator::generateXhtmlForProjectInto(const KUrl& destDir)
 {
-  kDebug() << "First convert to docbook" << endl;
+  kDebug() << "First convert to docbook";
   m_destDir = destDir;
 //   KUrl url(QString("file://")+m_tmpDir.name());
   KIO::Job* docbookJob = DocbookGenerator().generateDocbookForProjectInto(destDir);
@@ -72,14 +72,14 @@ bool XhtmlGenerator::generateXhtmlForProjectInto(const KUrl& destDir)
   {
     return false;
   }
-  kDebug() << "Connecting..." << endl;
+  kDebug() << "Connecting...";
   connect(docbookJob, SIGNAL(result(KJob*)), this, SLOT(slotDocbookToXhtml(KJob*)));
   return true;
 }
 
 void XhtmlGenerator::slotDocbookToXhtml(KJob * docbookJob)
 {
-  kDebug() << "Now convert docbook to html..." << endl;
+  kDebug() << "Now convert docbook to html...";
   if ( docbookJob->error() )
   {
     // error shown by setAutoErrorHandlingEnabled(true) already
@@ -103,15 +103,15 @@ void XhtmlGenerator::slotDocbookToXhtml(KJob * docbookJob)
   params[nbparams] = NULL;
 
   QString xsltFileName(KGlobal::dirs()->findResource("appdata","docbook2xhtml.xsl"));
-  kDebug() << "XSLT file is'"<<xsltFileName<<"'" << endl;
+  kDebug() << "XSLT file is'"<<xsltFileName<<"'";
   QFile xsltFile(xsltFileName);
   xsltFile.open(QIODevice::ReadOnly);
   QString xslt = xsltFile.readAll();
-  kDebug() << "XSLT is'"<<xslt<<"'" << endl;
+  kDebug() << "XSLT is'"<<xslt<<"'";
   xsltFile.close();
 
   QString localXsl = KGlobal::dirs()->findResource("data","ksgmltools2/docbook/xsl/html/docbook.xsl");
-  kDebug() << "Local xsl is'"<<localXsl<<"'" << endl;
+  kDebug() << "Local xsl is'"<<localXsl<<"'";
   if (!localXsl.isEmpty())
   {
     localXsl = QString("href=\"file://") + localXsl + "\"";
@@ -126,18 +126,18 @@ void XhtmlGenerator::slotDocbookToXhtml(KJob * docbookJob)
 
   xmlSubstituteEntitiesDefault(1);
   xmlLoadExtDtdDefaultValue = 1;
-  kDebug() << "Parsing stylesheet " << tmpXsl.fileName() << endl;
+  kDebug() << "Parsing stylesheet " << tmpXsl.fileName();
   cur = xsltParseStylesheetFile((const xmlChar *)tmpXsl.fileName().latin1());
-  kDebug() << "Parsing file " << docbookUrl.path() << endl;
+  kDebug() << "Parsing file " << docbookUrl.path();
   doc = xmlParseFile((const char*)(docbookUrl.path().utf8()));
-  kDebug() << "Applying stylesheet " << endl;
+  kDebug() << "Applying stylesheet ";
   res = xsltApplyStylesheet(cur, doc, params);
 
   KTemporaryFile tmpXhtml;
   tmpXhtml.setAutoRemove(false);
   tmpXhtml.open();
 
-  kDebug() << "Writing HTML result to temp file: " << tmpXhtml.fileName() << endl;
+  kDebug() << "Writing HTML result to temp file: " << tmpXhtml.fileName();
   xsltSaveResultToFd(tmpXhtml.handle(), res, cur);
 
   xsltFreeStylesheet(cur);
@@ -152,13 +152,13 @@ void XhtmlGenerator::slotDocbookToXhtml(KJob * docbookJob)
   KUrl xhtmlUrl = m_destDir;
   xhtmlUrl.addPath(xhtmlName);
 
-  kDebug() << "Copying HTML result to: " << xhtmlUrl << endl;
+  kDebug() << "Copying HTML result to: " << xhtmlUrl;
   KIO::Job* job = KIO::file_copy(tmpXhtml.fileName(),xhtmlUrl,-1,true,false,false);
   job->ui()->setAutoErrorHandlingEnabled(true);
   connect (job, SIGNAL(result( KJob* )), this, SLOT(slotHtmlCopyFinished( KJob* )));
 
   QString cssFileName(KGlobal::dirs()->findResource("appdata","xmi.css"));
-  kDebug() << "CSS file is'"<<cssFileName<<"'" << endl;
+  kDebug() << "CSS file is'"<<cssFileName<<"'";
   KUrl cssUrl = m_destDir;
   cssUrl.addPath("xmi.css");
   KIO::Job* cssJob = KIO::file_copy(cssFileName,cssUrl,-1,true,false,false);
@@ -167,7 +167,7 @@ void XhtmlGenerator::slotDocbookToXhtml(KJob * docbookJob)
 
 void XhtmlGenerator::slotHtmlCopyFinished( KJob* )
 {
-  kDebug() << "HTML copy finished: emiting finished" << endl;
+  kDebug() << "HTML copy finished: emiting finished";
   emit(finished());
 }
 

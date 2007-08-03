@@ -138,7 +138,7 @@ Plugin::configure()
     // grab the OnStartup map
     KConfig *conf = config();
     if(!conf) {
-        kDebug() << "no configuration for " << instanceName() << endl;
+        kDebug() << "no configuration for " << instanceName();
         ret = false;
     }
 

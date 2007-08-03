@@ -109,7 +109,7 @@ UMLObject* findObject( QString name,   UMLPackage *parentPkg ) {
 
 ///Resolve the specified className
 UMLObject* JavaImport::resolveClass (QString className) {
-    kDebug() << "importJava trying to resolve " << className << endl;
+    kDebug() << "importJava trying to resolve " << className;
     // keep track if we are dealing with an array
     //
     bool isArray = className.contains('[');
@@ -224,7 +224,7 @@ void JavaImport::parseFile(const QString& filename) {
 bool JavaImport::parseStmt() {
     const int srcLength = m_source.count();
     const QString& keyword = m_source[m_srcIndex];
-    //kDebug() << '"' << keyword << '"' << endl;
+    //kDebug() << '"' << keyword << '"';
     if (keyword == "package") {
         m_currentPackage = advance();
         const QString& qualifiedName = m_currentPackage;

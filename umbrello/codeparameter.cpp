@@ -255,7 +255,7 @@ void CodeParameter::setAttributesFromNode ( QDomElement & root) {
     }
 
     if(!gotComment)
-        kWarning()<<" loadFromXMI : Warning: unable to initialize CodeComment in codeparam:"<<this<<endl;
+        kWarning()<<" loadFromXMI : Warning: unable to initialize CodeComment in codeparam:"<<this;
 
 
 }

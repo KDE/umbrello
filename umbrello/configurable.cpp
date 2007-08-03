@@ -53,7 +53,7 @@ Configurable::loadPlugins(KConfig *config,
     for (int i = 0; i != names.size(); i++) {
         const QString &name = names[i];
 
-        kDebug() << "loading plugin " << name << endl;
+        kDebug() << "loading plugin " << name;
 
         // load the plugin
         Plugin *plugin = PluginLoader::instance()->loadPlugin(name);

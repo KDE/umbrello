@@ -430,7 +430,7 @@ void UMLView::slotToolBarChanged(int c) {
 void UMLView::showEvent(QShowEvent* /*se*/) {
 
 # ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
-    //kWarning() << "Show Event for " << getName() << endl;
+    //kWarning() << "Show Event for " << getName();
     canvas()->setDoubleBuffering( true );
     // as the diagram gets now visible again,
     // the update of the diagram elements shall be
@@ -464,7 +464,7 @@ void UMLView::hideEvent(QHideEvent* /*he*/) {
                UMLApp::app()->getDocWindow(), SLOT(slotWidgetRemoved(UMLWidget*)));
 
 # ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
-    //kWarning() << "Hide Event for " << getName() << endl;
+    //kWarning() << "Hide Event for " << getName();
     canvas()->setDoubleBuffering( false );
     // a periodic update of all - also invisible - diagrams
     // can cause a very high CPU load if more than 100diagrams
@@ -475,7 +475,7 @@ void UMLView::hideEvent(QHideEvent* /*he*/) {
 }
 
 void UMLView::slotObjectCreated(UMLObject* o) {
-    kDebug() << "UMLView::slotObjectCreated( " << o->getName() << ")" << endl;
+    kDebug() << "UMLView::slotObjectCreated( " << o->getName() << ")";
     m_bPaste = false;
     //check to see if we want the message
     //may be wanted by someone else e.g. list view
@@ -540,7 +540,7 @@ void UMLView::slotObjectCreated(UMLObject* o) {
 }
 
 void UMLView::slotObjectRemoved(UMLObject * o) {
-    kDebug() << "UMLView::slotObjectRemoved( " << o->getName() << ")" << endl;
+    kDebug() << "UMLView::slotObjectRemoved( " << o->getName() << ")";
     m_bPaste = false;
     Uml::IDType id = o->getID();
     UMLWidgetListIt it( m_WidgetList );
@@ -584,7 +584,7 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
     }
     //make sure can find UMLObject
     if( !(temp = m_pDoc->findObjectById(id) ) ) {
-        kDebug() << "object " << ID2STR(id) << " not found" << endl;
+        kDebug() << "object " << ID2STR(id) << " not found";
         e->accept(false);
         return;
     }
@@ -869,7 +869,7 @@ void UMLView::removeWidget(UMLWidget * o) {
     if(!o)
         return;
 
-    kDebug() << "UMLView::removeWidget( " << o->getName() << ")" << endl;
+    kDebug() << "UMLView::removeWidget( " << o->getName() << ")";
 
     emit sigWidgetRemoved(o);
 
@@ -1512,7 +1512,7 @@ AssociationWidgetList UMLView::getSelectedAssocs() {
 }
 
 bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
-    kDebug() << "UMLView::addWidget( " << pWidget->getName() << ")" << endl;
+    kDebug() << "UMLView::addWidget( " << pWidget->getName() << ")";
     if( !pWidget ) {
         return false;
     }
@@ -1531,7 +1531,7 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
                   << ") because it's already there" << endl;
         return false;
     }
-    //kDebug() << "UMLView::addWidget called for basetype " << type << endl;
+    //kDebug() << "UMLView::addWidget called for basetype " << type;
     IDChangeLog * log = m_pDoc -> getChangeLog();
     if( isPasteOperation && (!log || !m_pIDChangesLog)) {
         kError()<<" Cant addWidget to view in paste op because a log is not open"<<endl;
@@ -1628,7 +1628,7 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
             // Handling of wt_Message:
             MessageWidget *pMessage = static_cast<MessageWidget *>( pWidget );
             if (pMessage == NULL) {
-                kDebug() << "UMLView::addWidget(): pMessage is NULL" << endl;
+                kDebug() << "UMLView::addWidget(): pMessage is NULL";
                 return false;
             }
             ObjectWidget *objWidgetA = pMessage -> getWidget(A);
@@ -1648,7 +1648,7 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
             objWidgetB -> setLocalID( newWBID );
             FloatingTextWidget *ft = pMessage->getFloatingTextWidget();
             if (ft == NULL)
-                kDebug() << "UMLView::addWidget: FloatingTextWidget of Message is NULL" << endl;
+                kDebug() << "UMLView::addWidget: FloatingTextWidget of Message is NULL";
             else if (ft->getID() == Uml::id_None)
                 ft->setID( UniqueID::gen() );
             else {
@@ -1663,7 +1663,7 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
         {
             ObjectWidget* pObjectWidget = static_cast<ObjectWidget*>(pWidget);
             if (pObjectWidget == NULL) {
-                kDebug() << "UMLView::addWidget(): pObjectWidget is NULL" << endl;
+                kDebug() << "UMLView::addWidget(): pObjectWidget is NULL";
                 return false;
             }
             Uml::IDType nNewLocalID = getLocalID();
@@ -1672,7 +1672,7 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
             pObjectWidget -> setLocalID( nNewLocalID );
             UMLObject *pObject = m_pDoc->findObjectById(pWidget->getID());
             if( !pObject ) {
-                kDebug() << "addWidget::Can't find UMLObject" << endl;
+                kDebug() << "addWidget::Can't find UMLObject";
                 return false;
             }
             pWidget -> setUMLObject( pObject );
@@ -1684,7 +1684,7 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
         {
             ObjectWidget* pObjectWidget = static_cast<ObjectWidget*>(pWidget);
             if (pObjectWidget == NULL) {
-                kDebug() << "UMLView::addWidget(): pObjectWidget is NULL" << endl;
+                kDebug() << "UMLView::addWidget(): pObjectWidget is NULL";
                 return false;
             }
             Uml::IDType newID = log->findNewID( pWidget -> getID() );
@@ -1698,7 +1698,7 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
             pObjectWidget -> setLocalID( nNewLocalID );
             UMLObject *pObject = m_pDoc -> findObjectById( newID );
             if( !pObject ) {
-                kDebug() << "addWidget::Can't find UMLObject" << endl;
+                kDebug() << "addWidget::Can't find UMLObject";
                 return false;
             }
             pWidget -> setUMLObject( pObject );
@@ -1712,7 +1712,7 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
         {
             ObjectWidget* pObjectWidget = static_cast<ObjectWidget*>(pWidget);
             if (pObjectWidget == NULL) {
-                kDebug() << "UMLView::addWidget(): pObjectWidget is NULL" << endl;
+                kDebug() << "UMLView::addWidget(): pObjectWidget is NULL";
                 return false;
             }
             Uml::IDType newID = log->findNewID( pWidget -> getID() );
@@ -1726,7 +1726,7 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
             pObjectWidget -> setLocalID( nNewLocalID );
             UMLObject *pObject = m_pDoc -> findObjectById( newID );
             if( !pObject ) {
-                kDebug() << "addWidget::Can't find UMLObject" << endl;
+                kDebug() << "addWidget::Can't find UMLObject";
                 return false;
             }
             pWidget -> setUMLObject( pObject );
@@ -1735,7 +1735,7 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
         break;
 
     default:
-        kDebug() << "Trying to add an invalid widget type" << endl;
+        kDebug() << "Trying to add an invalid widget type";
         return false;
         break;
     }
@@ -2570,7 +2570,7 @@ void UMLView::setMenu() {
         break;
 
     default:
-        kWarning() << "setMenu() called on unknown diagram type" << endl;
+        kWarning() << "setMenu() called on unknown diagram type";
         menu = ListPopupMenu::mt_Undefined;
         break;
     }//end switch
@@ -3303,15 +3303,15 @@ bool UMLView::loadFromXMI( QDomElement & qElement ) {
     }
 
     if (!widgetsLoaded) {
-        kWarning() << "failed umlview load on widgets" << endl;
+        kWarning() << "failed umlview load on widgets";
         return false;
     }
     if (!messagesLoaded) {
-        kWarning() << "failed umlview load on messages" << endl;
+        kWarning() << "failed umlview load on messages";
         return false;
     }
     if (!associationsLoaded) {
-        kWarning() << "failed umlview load on associations" << endl;
+        kWarning() << "failed umlview load on associations";
         return false;
     }
     return true;
@@ -3341,7 +3341,7 @@ bool UMLView::loadWidgetsFromXMI( QDomElement & qElement ) {
 UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
     UMLWidget* widget = 0;
     if ( !m_pDoc ) {
-        kWarning() << "UMLView::loadWidgetFromXMI(): m_pDoc is NULL" << endl;
+        kWarning() << "UMLView::loadWidgetFromXMI(): m_pDoc is NULL";
         return 0L;
     }
 
@@ -3446,7 +3446,7 @@ bool UMLView::loadUisDiagramPresentation(QDomElement & qElement) {
         int x = 0, y = 0, w = 0, h = 0;
         while (!e.isNull()) {
             tag = e.tagName();
-            kDebug() << "Presentation: tag = " << tag << endl;
+            kDebug() << "Presentation: tag = " << tag;
             if (Uml::tagEq(tag, "Presentation.geometry")) {
                 QDomNode gnode = e.firstChild();
                 QDomElement gelem = gnode.toElement();
@@ -3476,7 +3476,7 @@ bool UMLView::loadUisDiagramPresentation(QDomElement & qElement) {
                       << idStr << endl;
         } else {
             Uml::Object_Type ot = o->getBaseType();
-            kDebug() << "Create widget for model object of type " << ot << endl;
+            kDebug() << "Create widget for model object of type " << ot;
             UMLWidget *widget = NULL;
             switch (ot) {
             case Uml::ot_Class:
@@ -3563,7 +3563,7 @@ bool UMLView::loadUISDiagram(QDomElement & qElement) {
         } else if (tag == "uisDiagramPresentation") {
             loadUisDiagramPresentation(elem);
         } else if (tag != "uisToolName") {
-            kDebug() << "UMLView::uisLoadFromXMI: ignoring tag " << tag << endl;
+            kDebug() << "UMLView::uisLoadFromXMI: ignoring tag " << tag;
         }
     }
     return true;

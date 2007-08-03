@@ -301,7 +301,7 @@ int ObjectWidget::topMargin() {
 
 bool ObjectWidget::canTabUp() {
     int y = getY();
-    //kDebug() << "ObjectWidget::canTabUp: y is " << y << endl;
+    //kDebug() << "ObjectWidget::canTabUp: y is " << y;
     return (y > topMargin());
 }
 

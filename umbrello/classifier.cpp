@@ -239,7 +239,7 @@ bool UMLClassifier::addOperation(UMLOperation* op, int position )
         QString buf;
         for (UMLClassifierListItemListIt it0(itemList); (currentAtt = it0.current()); ++it0)
             buf.append(' ' + currentAtt->getName());
-        kDebug() << "  UMLClassifier::addOperation list after change: " << buf << endl;
+        kDebug() << "  UMLClassifier::addOperation list after change: " << buf;
      } else
         m_List.append( op );
     emit operationAdded(op);
@@ -590,7 +590,7 @@ bool UMLClassifier::addAttribute(UMLAttribute* att, IDChangeLog* Log /* = 0 */,
 
 int UMLClassifier::removeAttribute(UMLAttribute* a) {
     if (!m_List.remove(a)) {
-        kDebug() << "can't find att given in list" << endl;
+        kDebug() << "can't find att given in list";
         return -1;
     }
     emit attributeRemoved(a);
@@ -719,7 +719,7 @@ bool UMLClassifier::addTemplate(UMLTemplate* Template, int position)
 
 int UMLClassifier::removeTemplate(UMLTemplate* umltemplate) {
     if ( !m_List.remove(umltemplate) ) {
-        kWarning() << "can't find att given in list" << endl;
+        kWarning() << "can't find att given in list";
         return -1;
     }
     emit templateRemoved(umltemplate);
@@ -764,7 +764,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item) {
               txt = "Type-" + QString::number((int) currentAtt->getBaseType());
             buf.append(' ' + currentAtt->getName());
         }
-        kDebug() << "  UMLClassifier::takeItem (before): m_List is " << buf << endl;
+        kDebug() << "  UMLClassifier::takeItem (before): m_List is " << buf;
     int index = m_List.findRef(item);
     if (index == -1)
         return -1;
@@ -996,7 +996,7 @@ bool UMLClassifier::load(QDomElement& element) {
                         break;
                 }
             } else {
-                kWarning() << "UMLClassifier::load: failed to load " << tag << endl;
+                kWarning() << "UMLClassifier::load: failed to load " << tag;
                 delete child;
                 totalSuccess = false;
             }

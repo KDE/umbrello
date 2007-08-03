@@ -65,7 +65,7 @@ void CppImport::feedTheModel(const QString& fileName) {
                 << " not found" << endl;
                 continue;
             }
-            kDebug() << fileName << ": " << includeFile << " => " << it.data().first << endl;
+            kDebug() << fileName << ": " << includeFile << " => " << it.data().first;
             if (ms_seenFiles.find(includeFile) == ms_seenFiles.end())
                 feedTheModel(includeFile);
         }

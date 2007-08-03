@@ -119,7 +119,7 @@ UMLObject* createNewUMLObject(Uml::Object_Type type, const QString &name,
             o = new UMLCategory(name, g_predefinedId);
             break;
         default:
-            kWarning() << "createNewUMLObject error unknown type: " << type << endl;
+            kWarning() << "createNewUMLObject error unknown type: " << type;
             return NULL;
     }
     o->setUMLPackage(parentPkg);
@@ -257,7 +257,7 @@ UMLClassifierListItem* createChildObject(UMLClassifier* parent, Uml::Object_Type
             break;
         }
     default:
-        kDebug() << "ERROR UMLDoc::createChildObject type:" << type << endl;
+        kDebug() << "ERROR UMLDoc::createChildObject type:" << type;
     }
     return static_cast<UMLClassifierListItem*>(returnObject);
 }

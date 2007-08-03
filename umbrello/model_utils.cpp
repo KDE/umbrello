@@ -269,7 +269,7 @@ QString uniqObjectName(Uml::Object_Type type, UMLPackage *parentPkg, QString pre
             currentName = i18n("new_category");
         else {
             currentName = i18n("new_object");
-            kWarning() << "unknown object type in umldoc::uniqObjectName()" << endl;
+            kWarning() << "unknown object type in umldoc::uniqObjectName()";
         }
     }
     UMLDoc *doc = UMLApp::app()->getDocument();
@@ -894,7 +894,7 @@ Uml::ListView_Type convert_DT_LVT(Uml::Diagram_Type dt) {
         break;
 
     default:
-        kWarning() << "convert_DT_LVT() called on unknown diagram type" << endl;
+        kWarning() << "convert_DT_LVT() called on unknown diagram type";
     }
     return type;
 }

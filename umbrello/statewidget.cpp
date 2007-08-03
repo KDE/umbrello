@@ -103,7 +103,7 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
         p.drawEllipse( offsetX + 3, offsetY + 3, w - 6, h - 6 );
         break;
     default:
-        kWarning() << "Unknown state type:" << m_StateType << endl;
+        kWarning() << "Unknown state type:" << m_StateType;
         break;
     }
     if(m_bSelected)

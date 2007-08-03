@@ -58,7 +58,7 @@ bool AdaWriter::isOOClass(UMLClassifier *c) {
     if (ot == Uml::ot_Enum)
         return false;
     if (ot != Uml::ot_Class) {
-        kDebug() << "AdaWriter::isOOClass: unknown object type " << ot << endl;
+        kDebug() << "AdaWriter::isOOClass: unknown object type " << ot;
         return false;
     }
     QString stype = c->getStereotype();
@@ -147,7 +147,7 @@ void AdaWriter::computeAssocTypeAndRole(UMLClassifier *c,
 
 void AdaWriter::writeClass(UMLClassifier *c) {
     if (!c) {
-        kDebug() << "Cannot write class of NULL concept!" << endl;
+        kDebug() << "Cannot write class of NULL concept!";
         return;
     }
 

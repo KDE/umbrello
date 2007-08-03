@@ -303,7 +303,7 @@ void CodeClassField::setAttributesFromNode ( QDomElement & root) {
                 if( tag == "header" ) {
                     // this is treated in parent.. skip over here
                 } else
-                    kWarning()<<"ERROR: bad savefile? code classfield loadFromXMI got child element with unknown tag:"<<tag<<" ignoring node."<<endl;
+                    kWarning()<<"ERROR: bad savefile? code classfield loadFromXMI got child element with unknown tag:"<<tag<<" ignoring node.";
 
         node = element.nextSibling();
         element = node.toElement();

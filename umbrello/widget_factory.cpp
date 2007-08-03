@@ -142,7 +142,7 @@ UMLWidget *createWidget(UMLView *view, UMLObject *o) {
         newWidget = new CategoryWidget(view, static_cast<UMLCategory*>(o));
         break;
     default:
-        kWarning() << "trying to create an invalid widget" << endl;
+        kWarning() << "trying to create an invalid widget";
     }
 
     if (newWidget) {
@@ -264,7 +264,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         } else if (tag == "objectwidget" || tag == "UML:ObjectWidget") {
             widget = new ObjectWidget(view, o );
         } else {
-            kWarning() << "Trying to create an unknown widget:" << tag << endl;
+            kWarning() << "Trying to create an unknown widget:" << tag;
         }
     }
     return widget;

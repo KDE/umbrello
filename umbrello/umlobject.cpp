@@ -212,7 +212,7 @@ void UMLObject::copyInto(UMLObject *rhs) const
 
     // Hope that the parent from QObject is okay.
     if (rhs->parent() != parent())
-        kDebug() << "copyInto has a wrong parent" << endl;
+        kDebug() << "copyInto has a wrong parent";
 }
 
 
@@ -490,7 +490,7 @@ bool UMLObject::resolveRef() {
                   << "failed to create a new type for " << m_SecondaryId << endl;
         return false;
     }
-    kDebug() << "UMLObject::resolveRef: Creating new type for " << m_SecondaryId << endl;
+    kDebug() << "UMLObject::resolveRef: Creating new type for " << m_SecondaryId;
     // This is very C++ specific - we rely on  some '*' or
     // '&' to decide it's a ref type. Plus, we don't recognize
     // typedefs of ref types.

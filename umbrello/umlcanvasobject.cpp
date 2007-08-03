@@ -49,7 +49,7 @@ UMLCanvasObject::~UMLCanvasObject() {
 #9  0x081af3a6 in UMLDoc::closeDocument() (this=0x8468b10) at umldoc.cpp:284
      */
     if (associations())
-        kDebug() << "UMLCanvasObject destructor: FIXME: there are still associations()" << endl;
+        kDebug() << "UMLCanvasObject destructor: FIXME: there are still associations()";
 }
 
 UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::Association_Type assocType) {
@@ -171,7 +171,7 @@ QString UMLCanvasObject::uniqChildName( const Uml::Object_Type type,
                 currentName = i18n( "new_check_constraint" );
                 break;
             default:
-                kWarning() << "uniqChildName() called for unknown child type " << type << endl;
+                kWarning() << "uniqChildName() called for unknown child type " << type;
                 return "ERROR_in_UMLCanvasObject_uniqChildName";
         }
     }

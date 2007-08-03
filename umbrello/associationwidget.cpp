@@ -579,7 +579,7 @@ bool AssociationWidget::activate() {
         setWidget(m_pView->findWidget(getWidgetID(B)), B);
 
     if(!m_role[A].m_pWidget || !m_role[B].m_pWidget) {
-        kDebug() << "Can't make association" << endl;
+        kDebug() << "Can't make association";
         return false;
     }
 
@@ -3520,7 +3520,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
             {
                 oldStyleLoad = true; // flag for further special config below
                 if (aType == at_Aggregation || aType == at_Composition) {
-                    kWarning()<<" Old Style save file? swapping roles on association widget"<<this<<endl;
+                    kWarning()<<" Old Style save file? swapping roles on association widget"<<this;
                     // We have to swap the A and B widgets to compensate
                     // for the long standing bug in LinePath of drawing
                     // the diamond at the wrong end which was fixed

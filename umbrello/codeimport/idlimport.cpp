@@ -87,7 +87,7 @@ void IDLImport::parseFile(const QString& filename) {
     if (filename.contains('/')) {
         QString path = filename;
         path.remove( QRegExp("/[^/]+$") );
-        kDebug() << "IDLImport::parseFile: adding path " << path << endl;
+        kDebug() << "IDLImport::parseFile: adding path " << path;
         Import_Utils::addIncludePath(path);
     }
     QStringList includePaths = Import_Utils::includePathList();
@@ -100,7 +100,7 @@ void IDLImport::parseFile(const QString& filename) {
         command += " -I" + path;
     }
     command += ' ' + filename;
-    kDebug() << "importIDL: " << command << endl;
+    kDebug() << "importIDL: " << command;
     FILE *fp = popen(command.ascii(), "r");
     if (fp == NULL) {
         kError() << "IDLImport::parseFile: cannot popen(" << command << ")" << endl;
@@ -121,7 +121,7 @@ void IDLImport::parseFile(const QString& filename) {
     const int srcLength = m_source.count();
     for (m_srcIndex = 0; m_srcIndex < srcLength; m_srcIndex++) {
         const QString& keyword = m_source[m_srcIndex];
-        //kDebug() << '"' << keyword << '"' << endl;
+        //kDebug() << '"' << keyword << '"';
         if (keyword.startsWith(m_singleLineCommentIntro)) {
             m_comment = keyword.mid(m_singleLineCommentIntro.length());
             continue;

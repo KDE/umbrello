@@ -297,7 +297,7 @@ bool UMLDrag::decodeClip1(const QMimeSource* mimeSource, UMLObjectList& objects)
     int line;
     QDomDocument domDoc;
     if( !domDoc.setContent(xmiClip, false, &error, &line) ) {
-        kWarning() << "Can't set content:" << error << " Line:" << line << endl;
+        kWarning() << "Can't set content:" << error << " Line:" << line;
         return false;
     }
     QDomNode xmiClipNode = domDoc.firstChild();
@@ -387,7 +387,7 @@ bool UMLDrag::decodeClip2(const QMimeSource* mimeSource, UMLObjectList& objects,
     int line;
     QDomDocument domDoc;
     if( !domDoc.setContent(xmiClip, false, &error, &line) ) {
-        kWarning() << "Can't set content:" << error << " Line:" << line << endl;
+        kWarning() << "Can't set content:" << error << " Line:" << line;
         return false;
     }
     QDomNode xmiClipNode = domDoc.firstChild();
@@ -415,11 +415,11 @@ bool UMLDrag::decodeClip2(const QMimeSource* mimeSource, UMLObjectList& objects,
             pObject = Object_Factory::makeObjectFromXMI(type);
 
             if( !pObject ) {
-                kWarning() << "Given wrong type of umlobject to create:" << type << endl;
+                kWarning() << "Given wrong type of umlobject to create:" << type;
                 return false;
             }
             if( !pObject->loadFromXMI(element) ) {
-                kWarning() << "failed to load object from XMI" << endl;
+                kWarning() << "failed to load object from XMI";
                 return false;
             }
             objects.append(pObject);
@@ -433,7 +433,7 @@ bool UMLDrag::decodeClip2(const QMimeSource* mimeSource, UMLObjectList& objects,
     QDomNode diagramNode = umlviewsNode.firstChild();
     QDomElement diagramElement = diagramNode.toElement();
     if ( diagramElement.isNull() ) {
-        kWarning() << "no diagrams in XMI clip" << endl;
+        kWarning() << "no diagrams in XMI clip";
         return false;
     }
     UMLListView *listView = UMLApp::app()->getListView();
@@ -461,7 +461,7 @@ bool UMLDrag::decodeClip2(const QMimeSource* mimeSource, UMLObjectList& objects,
     QDomNode listItems = listItemNode.firstChild();
     QDomElement listItemElement = listItems.toElement();
     if ( listItemElement.isNull() ) {
-        kWarning() << "no listitems in XMI clip" << endl;
+        kWarning() << "no listitems in XMI clip";
         return false;
     }
     UMLListViewItem *currentItem = (UMLListViewItem*)listView->currentItem();
@@ -498,7 +498,7 @@ bool UMLDrag::getClip3TypeAndID(const QMimeSource* mimeSource,
     int line;
     QDomDocument domDoc;
     if( !domDoc.setContent(xmiClip, false, &error, &line) ) {
-        kWarning() << "getClip3Type: Can't set content:" << error << " Line:" << line << endl;
+        kWarning() << "getClip3Type: Can't set content:" << error << " Line:" << line;
         return false;
     }
     QDomNode xmiClipNode = domDoc.firstChild();
@@ -515,18 +515,18 @@ bool UMLDrag::getClip3TypeAndID(const QMimeSource* mimeSource,
     QDomNode listItems = listItemNode.firstChild();
     QDomElement listItemElement = listItems.toElement();
     if ( listItemElement.isNull() ) {
-        kWarning() << "getClip3Type: no listitems in XMI clip" << endl;
+        kWarning() << "getClip3Type: no listitems in XMI clip";
         return false;
     }
     while ( !listItemElement.isNull() ) {
         QString typeStr = listItemElement.attribute( "type", "-1" );
         if (typeStr == "-1") {
-            kDebug() << "getClip3Type: bad type" << endl;
+            kDebug() << "getClip3Type: bad type";
             return false;
         }
         QString idStr = listItemElement.attribute( "id", "-1" );
         if (idStr == "-1") {
-            kDebug() << "getClip3Type: bad id" << endl;
+            kDebug() << "getClip3Type: bad id";
             return false;
         }
         LvTypeAndID * pData = new LvTypeAndID;
@@ -555,7 +555,7 @@ bool UMLDrag::decodeClip3(const QMimeSource* mimeSource, UMLListViewItemList& um
     int line;
     QDomDocument domDoc;
     if( !domDoc.setContent(xmiClip, false, &error, &line) ) {
-        kWarning() << "Can't set content:" << error << " Line:" << line << endl;
+        kWarning() << "Can't set content:" << error << " Line:" << line;
         return false;
     }
     QDomNode xmiClipNode = domDoc.firstChild();
@@ -573,7 +573,7 @@ bool UMLDrag::decodeClip3(const QMimeSource* mimeSource, UMLListViewItemList& um
     QDomNode listItems = listItemNode.firstChild();
     QDomElement listItemElement = listItems.toElement();
     if ( listItemElement.isNull() ) {
-        kWarning() << "no listitems in XMI clip" << endl;
+        kWarning() << "no listitems in XMI clip";
         return false;
     }
     while ( !listItemElement.isNull() ) {
@@ -581,7 +581,7 @@ bool UMLDrag::decodeClip3(const QMimeSource* mimeSource, UMLListViewItemList& um
         // UMLListViewItem instance.
         QString type = listItemElement.attribute( "type", "-1" );
         if (type == "-1") {
-            kDebug() << "Pech gehabt" << endl;
+            kDebug() << "Pech gehabt";
             continue;
         }
         Uml::ListView_Type t = (Uml::ListView_Type)(type.toInt());
@@ -614,7 +614,7 @@ bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
     int line;
     QDomDocument domDoc;
     if( !domDoc.setContent(xmiClip, false, &error, &line) ) {
-        kWarning() << "Can't set content:" << error << " Line:" << line << endl;
+        kWarning() << "Can't set content:" << error << " Line:" << line;
         return false;
     }
     QDomNode xmiClipNode = domDoc.firstChild();
@@ -642,12 +642,12 @@ bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
         pObject = Object_Factory::makeObjectFromXMI(type);
 
         if ( !pObject ) {
-            kWarning() << "Given wrong type of umlobject to create: " << type << endl;
+            kWarning() << "Given wrong type of umlobject to create: " << type;
             return false;
         }
 
         if ( !pObject->loadFromXMI( element ) ) {
-            kWarning() << "failed to load object from XMI" << endl;
+            kWarning() << "failed to load object from XMI";
             return false;
         }
 
@@ -661,7 +661,7 @@ bool UMLDrag::decodeClip4(const QMimeSource* mimeSource, UMLObjectList& objects,
     QDomNode widgetNode = widgetsNode.firstChild();
     QDomElement widgetElement = widgetNode.toElement();
     if ( widgetElement.isNull() ) {
-        kWarning() << "no widgets in XMI clip" << endl;
+        kWarning() << "no widgets in XMI clip";
         return false;
     }
 
@@ -710,7 +710,7 @@ bool UMLDrag::decodeClip5(const QMimeSource* mimeSource, UMLObjectList& objects,
     int line;
     QDomDocument domDoc;
     if( !domDoc.setContent(xmiClip, false, &error, &line) ) {
-        kWarning() << "Can't set content:" << error << " Line:" << line << endl;
+        kWarning() << "Can't set content:" << error << " Line:" << line;
         return false;
     }
     QDomNode xmiClipNode = domDoc.firstChild();
@@ -734,11 +734,11 @@ bool UMLDrag::decodeClip5(const QMimeSource* mimeSource, UMLObjectList& objects,
         QString type = element.tagName();
         UMLClassifierListItem *pObject = newParent->makeChildObject(type);
         if( !pObject ) {
-            kWarning() << "Given wrong type of umlobject to create:" << type << endl;
+            kWarning() << "Given wrong type of umlobject to create:" << type;
             return false;
         }
         if( !pObject->loadFromXMI( element ) ) {
-            kWarning() << "failed to load object from XMI" << endl;
+            kWarning() << "failed to load object from XMI";
             return false;
         }
         pObject->resolveRef();

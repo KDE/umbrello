@@ -64,7 +64,7 @@ void UMLUniqueConstraint::copyInto(UMLUniqueConstraint *rhs) const {
 
     if ( !valid ) {
         rhs->m_EntityAttributeList.clear();
-        kDebug() << k_funcinfo <<"Copying Attributes Failed : Rhs List cleared instead"<<endl;
+        kDebug() << k_funcinfo <<"Copying Attributes Failed : Rhs List cleared instead";
     }
 }
 
@@ -158,7 +158,7 @@ bool UMLUniqueConstraint::load( QDomElement & element ) {
             m_EntityAttributeList.append(entAtt);
 
         } else {
-            kWarning() << "unknown child type in UMLUniqueConstraint::load" << endl;
+            kWarning() << "unknown child type in UMLUniqueConstraint::load";
         }
 
         node = node.nextSibling();
@@ -185,7 +185,7 @@ bool UMLUniqueConstraint::addEntityAttribute(UMLEntityAttribute* attr) {
     UMLEntity *owningParent = dynamic_cast<UMLEntity*>(parent());
 
     if ( hasEntityAttribute( attr ) ) {
-        kDebug() << k_funcinfo << "Unique Constraint already contains"<<attr->getName()<<endl;
+        kDebug() << k_funcinfo << "Unique Constraint already contains"<<attr->getName();
         return false;
 
     }

@@ -166,7 +166,7 @@ PluginLoader::slotDestroyed(QObject *obj)
     for(PluginMap::iterator i = _plugins.begin(); i != end; ++i) {
         Plugin *p = i.data();
         if(p == plugin) {
-            kDebug() << "unloading plugin " << i.key() << endl;
+            kDebug() << "unloading plugin " << i.key();
 
             // remove it from the mapping
             _plugins.remove(i);

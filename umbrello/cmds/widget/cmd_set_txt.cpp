@@ -34,7 +34,7 @@ namespace Uml
     {
 
         oldstring = _ftw->getText();
-kDebug() << "la valeur de l'oldstring est: "<< oldstring << ", la valeur de la newstring est: "<< newstring <<endl;
+kDebug() << "la valeur de l'oldstring est: "<< oldstring << ", la valeur de la newstring est: "<< newstring;
     }
 
     cmdSetTxt::~cmdSetTxt()
@@ -46,14 +46,14 @@ kDebug() << "la valeur de l'oldstring est: "<< oldstring << ", la valeur de la n
     {
 
         ftw->setTextcmd(newstring);
-kDebug() << "string apres redo " << ftw->getText()<< ", la valeur de l'oldstring est: "<< oldstring << ", la valeur de la newstring est: "<< newstring <<endl;
+kDebug() << "string apres redo " << ftw->getText()<< ", la valeur de l'oldstring est: "<< oldstring << ", la valeur de la newstring est: "<< newstring;
     }
 
     void cmdSetTxt::undo()
     {
         ftw->setName("balbalbalbalbla");
         ftw->setTextcmd(oldstring);
-kDebug() << "string apres undo: " << ftw->getText()<< "la valeur de l'oldstring est: "<< oldstring << "la valeur de la newstring est: "<< newstring <<endl;
+kDebug() << "string apres undo: " << ftw->getText()<< "la valeur de l'oldstring est: "<< oldstring << "la valeur de la newstring est: "<< newstring;
     }
 
 }

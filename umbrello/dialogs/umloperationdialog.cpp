@@ -379,7 +379,7 @@ void UMLOperationDialog::slotParameterProperties() {
     pOldAtt = m_pOperation->findParm( m_pParmsLB->currentText() );
 
     if( !pOldAtt ) {
-        kDebug() << "THE impossible has occurred for:" << m_pParmsLB->currentText() << endl;
+        kDebug() << "THE impossible has occurred for:" << m_pParmsLB->currentText();
         return;
     }//should never occur
     ParmPropDlg dlg(this, m_doc, pOldAtt);
@@ -426,7 +426,7 @@ void UMLOperationDialog::slotParameterProperties() {
 
 void UMLOperationDialog::slotParameterUp()
 {
-    kDebug() << k_funcinfo << endl;
+    kDebug() << k_funcinfo;
     UMLAttribute* pOldAtt = m_pOperation->findParm( m_pParmsLB->currentText() );
 
     m_pOperation->moveParmLeft( pOldAtt );

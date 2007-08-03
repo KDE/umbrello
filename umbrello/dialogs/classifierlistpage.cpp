@@ -71,7 +71,7 @@ void ClassifierListPage::setupPage() {
         typeName = i18n( "Constraints" );
         newItemType = i18n( "N&ew Constraint..." );
     } else {
-        kWarning() << "unknown listItem type in ClassifierListPage" << endl;
+        kWarning() << "unknown listItem type in ClassifierListPage";
     }
 
     int margin = fontMetrics().height();
@@ -322,7 +322,7 @@ void ClassifierListPage::slotRightButtonPressed(Q3ListBoxItem* item, const QPoin
         } else if (m_itemType == ot_EntityAttribute) {
             type = ListPopupMenu::mt_EntityAttribute_Selected;
         } else {
-            kWarning() << "unknown type in ClassifierListPage" << endl;
+            kWarning() << "unknown type in ClassifierListPage";
         }
     } else { //pressed into fresh air
         if (m_itemType == ot_Attribute) {
@@ -336,7 +336,7 @@ void ClassifierListPage::slotRightButtonPressed(Q3ListBoxItem* item, const QPoin
         } else if (m_itemType == ot_EntityAttribute) {
             type = ListPopupMenu::mt_New_EntityAttribute;
         } else {
-            kWarning() << "unknown type in ClassifierListPage" << endl;
+            kWarning() << "unknown type in ClassifierListPage";
         }
     }
     if(m_pMenu) {
@@ -354,7 +354,7 @@ void ClassifierListPage::slotRightButtonPressed(Q3ListBoxItem* item, const QPoin
 void ClassifierListPage::slotPopupMenuSel(int id) {
     UMLClassifierListItem* listItem = getItemList().at( m_pItemListLB->currentItem() );
     if(!listItem && id != ListPopupMenu::mt_New_Attribute) {
-        kDebug() << "can't find att from selection" << endl;
+        kDebug() << "can't find att from selection";
         return;
     }
     switch(id) {
@@ -388,7 +388,7 @@ void ClassifierListPage::printItemList(const QString &prologue) {
     UMLClassifierListItemList itemList = getItemList();
     for (UMLClassifierListItemListIt it(itemList); (item = it.current()) != NULL; ++it)
         buf.append(' ' + item->getName());
-    kDebug() << prologue << buf << endl;
+    kDebug() << prologue << buf;
 #endif
 }
 
@@ -527,7 +527,7 @@ void ClassifierListPage::slotDoubleClick( Q3ListBoxItem* item ) {
 
     UMLClassifierListItem* listItem  = getItemList().at( m_pItemListLB->index( item ) );
     if( !listItem ) {
-        kDebug() << "can't find att from selection" << endl;
+        kDebug() << "can't find att from selection";
         return;
     }
 
@@ -600,7 +600,7 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int posi
             break;
         }
     default: {
-            kWarning() << "unknown type in ClassifierListPage" << endl;
+            kWarning() << "unknown type in ClassifierListPage";
             return false;
         }
     }

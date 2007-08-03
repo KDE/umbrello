@@ -224,19 +224,19 @@ CodeGenerator* CodeGenerationWizard::generator() {
     /*
         KLibLoader* loader = KLibLoader::self();
         if(!loader) {
-                kDebug()<<"error getting KLibLoader!"<<endl;
+                kDebug()<<"error getting KLibLoader!";
                 return 0;
         }
 
         KLibFactory* fact = loader->factory(info->library.latin1());
         if(!fact) {
-                kDebug()<<"error getting the Factory"<<endl;
+                kDebug()<<"error getting the Factory";
                 return 0;
         }
 
         QObject* o=fact->create(m_doc, 0, info->object.latin1());
         if(!o) {
-                kDebug()<<"could not create object"<<endl;
+                kDebug()<<"could not create object";
                 return 0;
         }
 

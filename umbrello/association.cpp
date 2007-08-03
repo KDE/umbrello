@@ -316,7 +316,7 @@ bool UMLAssociation::load( QDomElement & element ) {
             node = node.nextSibling();
         tempElement = node.toElement();
         if (tempElement.isNull()) {
-            kWarning() << "UML:Association : element (A) is Null" << endl;
+            kWarning() << "UML:Association : element (A) is Null";
             return false;
         }
         tag = tempElement.tagName();
@@ -334,7 +334,7 @@ bool UMLAssociation::load( QDomElement & element ) {
             node = node.nextSibling();
         tempElement = node.toElement();
         if (tempElement.isNull()) {
-            kWarning() << "UML:Association : element (B) is Null" << endl;
+            kWarning() << "UML:Association : element (B) is Null";
             return false;
         }
         tag = tempElement.tagName();
@@ -350,7 +350,7 @@ bool UMLAssociation::load( QDomElement & element ) {
         if (m_pUMLPackage == NULL) {
             Uml::Model_Type mt = Model_Utils::convert_OT_MT(getObject(B)->getBaseType());
             m_pUMLPackage = doc->getRootFolder(mt);
-            kDebug() << "UMLAssociation::load: setting model type " << mt << endl;
+            kDebug() << "UMLAssociation::load: setting model type " << mt;
         }
 
         // setting the association type:
@@ -537,7 +537,7 @@ void UMLAssociation::setAssocType(Uml::Association_Type assocType) {
         // In this case we need to auto-set the multiplicity/rolenames
         // of the roles
 #ifdef VERBOSE_DEBUGGING
-        kDebug() << " A new uni-association has been created." << endl;
+        kDebug() << " A new uni-association has been created.";
 #endif
     }
     UMLDoc *umldoc = UMLApp::app()->getDocument();

@@ -143,7 +143,7 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, int position) {
 
 int UMLEnum::removeEnumLiteral(UMLEnumLiteral* literal) {
     if (!m_List.remove(literal)) {
-        kDebug() << "can't find att given in list" << endl;
+        kDebug() << "can't find att given in list";
         return -1;
     }
     emit enumLiteralRemoved(literal);
@@ -195,7 +195,7 @@ bool UMLEnum::load(QDomElement& element) {
             kDebug() << "UMLEnum::load(" << m_Name
             << "): losing old-format stereotype." << endl;
         } else {
-            kWarning() << "unknown child type in UMLEnum::load" << endl;
+            kWarning() << "unknown child type in UMLEnum::load";
         }
         node = node.nextSibling();
     }//end while

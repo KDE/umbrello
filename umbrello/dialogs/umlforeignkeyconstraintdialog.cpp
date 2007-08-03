@@ -122,7 +122,7 @@ void UMLForeignKeyConstraintDialog::slotDeletePair(){
     m_pReferencedAttributeList.append( pair.second );
 
     // add them to the view ( combo boxes )
-    kDebug()<< k_funcinfo << ( pair.first ) << ( pair.second ) << endl;
+    kDebug()<< k_funcinfo << ( pair.first ) << ( pair.second );
     m_ColumnWidgets.localColumnCB->addItem( ( pair.first )->toString(Uml::st_SigNoVis) );
     m_ColumnWidgets.referencedColumnCB->addItem( ( pair.second )->toString(Uml::st_SigNoVis) );
 
@@ -141,7 +141,7 @@ bool UMLForeignKeyConstraintDialog::apply(){
     UMLEntity* ue = static_cast<UMLEntity*>( uo );
 
     if ( ue==NULL ) {
-        kDebug()<< k_funcinfo << " Couldn't find UML Entity with name "<< entityName <<endl;
+        kDebug()<< k_funcinfo << " Couldn't find UML Entity with name "<< entityName;
         return false;
     }
 

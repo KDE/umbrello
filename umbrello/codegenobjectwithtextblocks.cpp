@@ -479,7 +479,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                 /*
                                                 // only needed for extreme debugging conditions (E.g. making new codeclassdocument loader)
                                                 else
-                                                        kWarning()<<" LoadFromXMI: Got strange tag in text block stack:"<<name.latin1()<<", ignorning"<<endl;
+                                                        kWarning()<<" LoadFromXMI: Got strange tag in text block stack:"<<name.latin1()<<", ignorning";
                 */
 
                 node = element.nextSibling();
@@ -497,13 +497,13 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
         CodeDocument * test = dynamic_cast<CodeDocument*>(this);
         if(test)
         {
-            kWarning()<<" loadChildBlocks : unable to initialize any child blocks in doc: "<<test->getFileName()<<" "<<this<<endl;
+            kWarning()<<" loadChildBlocks : unable to initialize any child blocks in doc: "<<test->getFileName()<<" "<<this;
         } else {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(this);
             if(hb)
-                kWarning()<<" loadChildBlocks : unable to initialize any child blocks in Hblock: "<<hb->getTag()<<" "<<this<<endl;
+                kWarning()<<" loadChildBlocks : unable to initialize any child blocks in Hblock: "<<hb->getTag()<<" "<<this;
             else
-                kDebug()<<" loadChildBlocks : unable to initialize any child blocks in UNKNOWN OBJ:"<<this<<endl;
+                kDebug()<<" loadChildBlocks : unable to initialize any child blocks in UNKNOWN OBJ:"<<this;
         }
     }
 

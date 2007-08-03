@@ -77,7 +77,7 @@ void CppTree2Uml::parseNamespace( NamespaceAST* ast )
     }
 
 #ifdef DEBUG_CPPTREE2UML
-    kDebug() << "CppTree2Uml::parseNamespace: " << nsName << endl;
+    kDebug() << "CppTree2Uml::parseNamespace: " << nsName;
 #endif
     UMLObject * o = Import_Utils::createUMLObject( Uml::ot_Package, nsName,
                                                  m_currentNamespace[m_nsCnt],
@@ -141,7 +141,7 @@ void CppTree2Uml::parseTypedef( TypedefAST* ast )
                   id = d->declaratorId()->text();
             }
 //#ifdef DEBUG_CPPTREE2UML
-            kDebug() << "CppTree2Uml::parseTypedef: name=" << id << ", type=" << type << endl;
+            kDebug() << "CppTree2Uml::parseTypedef: name=" << id << ", type=" << type;
 //#endif
             /* @todo Trace typedefs back to their root type for deciding
                      whether to build a Datatype (for pointers.)  */
@@ -341,10 +341,10 @@ void CppTree2Uml::parseClassSpecifier( ClassSpecifierAST* ast )
         className = ast->name()->unqualifiedName()->text().trimmed();
     }
 //#ifdef DEBUG_CPPTREE2UML
-    kDebug() << "CppTree2Uml::parseClassSpecifier: name=" << className << endl;
+    kDebug() << "CppTree2Uml::parseClassSpecifier: name=" << className;
 //#endif
     if( !scopeOfName( ast->name(), QStringList() ).isEmpty() ){
-        kDebug() << "skip private class declarations" << endl;
+        kDebug() << "skip private class declarations";
         return;
     }
 
@@ -412,7 +412,7 @@ void CppTree2Uml::parseElaboratedTypeSpecifier( ElaboratedTypeSpecifierAST* type
     ///              - Using typeSpec->text() is probably not good, decode
     ///                the kind() instead.
     QString text = typeSpec->text();
-    kDebug() << "CppTree2Uml::parseElaboratedTypeSpecifier: text is " << text << endl;
+    kDebug() << "CppTree2Uml::parseElaboratedTypeSpecifier: text is " << text;
     text.remove(QRegExp("^class\\s+"));
     UMLObject *o = Import_Utils::createUMLObject(Uml::ot_Class, text, m_currentNamespace[m_nsCnt]);
     flushTemplateParams( static_cast<UMLClassifier*>(o) );

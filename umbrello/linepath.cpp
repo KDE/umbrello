@@ -887,7 +887,7 @@ void LinePath::dumpPoints () {
     int count = m_LineList.count();
     for( int i = 1; i < count; i++ ) {
         QPoint point = getPoint( i );
-        kDebug()<<" * point x:"<<point.x()<<" y:"<<point.y()<<endl;
+        kDebug()<<" * point x:"<<point.x()<<" y:"<<point.y();
     }
 }
 

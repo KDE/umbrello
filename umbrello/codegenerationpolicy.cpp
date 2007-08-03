@@ -466,7 +466,7 @@ QString CodeGenerationPolicy::getHeadingFile(const QString& str) {
     if(!getIncludeHeadings() || str.isEmpty())
         return QString("");
     if(str.contains(" ") ||str.contains(";")) {
-        kWarning() << "File folder must not have spaces or semi colons!" << endl;
+        kWarning() << "File folder must not have spaces or semi colons!";
         return QString("");
     }
     //if we only get the extension, then we look for the default
@@ -483,7 +483,7 @@ QString CodeGenerationPolicy::getHeadingFile(const QString& str) {
             QStringList fileList = headingFiles.entryList();
             if ( !fileList.isEmpty() )
               filename = headingFiles.absoluteFilePath(fileList.first());
-            // kWarning() << "header file name set to " << filename << " because it was *" << endl;
+            // kWarning() << "header file name set to " << filename << " because it was *";
         }
     } else {   //we got a file name (not only extension)
         filename = headingFiles.absoluteFilePath(str);
@@ -491,8 +491,8 @@ QString CodeGenerationPolicy::getHeadingFile(const QString& str) {
 
     QFile f(filename);
     if(!f.open(QIODevice::ReadOnly)) {
-        //                kWarning() << "Error opening heading file: " << f.name() << endl;
-        //                kWarning() << "Headings directory was " << headingFiles.absPath() << endl;
+        //                kWarning() << "Error opening heading file: " << f.name();
+        //                kWarning() << "Headings directory was " << headingFiles.absPath();
         return QString("");
     }
 

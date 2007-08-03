@@ -86,7 +86,7 @@ QIcon iconSet(Uml::Diagram_Type dt) {
         diagramIconSet = KIcon("umbrello_diagram_entityrelationship");
         break;
     default:
-        kDebug() << "Widget_Utils::iconSet: unknown diagram type " << dt << endl;
+        kDebug() << "Widget_Utils::iconSet: unknown diagram type " << dt;
         diagramIconSet = KIcon("unknown");
     }
     return diagramIconSet;

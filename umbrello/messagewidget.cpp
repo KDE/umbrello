@@ -121,7 +121,7 @@ void MessageWidget::draw(QPainter& p, int offsetX, int offsetY) {
     } else if (m_sequenceMessageType == Uml::sequence_message_found) {
         drawFound(p, offsetX, offsetY);
     } else {
-        kWarning() << "Unknown message type" << endl;
+        kWarning() << "Unknown message type";
     }
 }
 
@@ -437,7 +437,7 @@ void MessageWidget::setLinkAndTextPos() {
 }
 
 void MessageWidget::moveEvent(QMoveEvent* /*m*/) {
-    //kDebug() << "MessageWidget::moveEvent: m_pFText is " << m_pFText << endl;
+    //kDebug() << "MessageWidget::moveEvent: m_pFText is " << m_pFText;
     if (!m_pFText) {
         return;
     }
@@ -668,7 +668,7 @@ void MessageWidget::calculateDimensions() {
     } else if (m_sequenceMessageType == Uml::sequence_message_found) {
         calculateDimensionsFound();
     } else {
-        kWarning() << "Unknown message type" << endl;
+        kWarning() << "Unknown message type";
     }
     if (! UMLApp::app()->getDocument()->loading()) {
         adjustAssocs( getX(), getY() );  // adjust assoc lines

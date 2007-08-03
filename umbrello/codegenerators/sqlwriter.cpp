@@ -48,7 +48,7 @@ void SQLWriter::writeClass(UMLClassifier *c) {
     UMLEntity* e = static_cast<UMLEntity*>(c);
 
     if(!e) {
-        kDebug()<<"Cannot write entity of NULL concept!" << endl;
+        kDebug()<<"Cannot write entity of NULL concept!";
         return;
     }
 

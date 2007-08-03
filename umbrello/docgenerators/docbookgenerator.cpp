@@ -58,7 +58,7 @@ bool DocbookGenerator::generateDocbookForProject()
   QString fileName = url.fileName();
   fileName.replace(QRegExp(".xmi$"),"");
   url.setFileName(fileName);
-  kDebug() << "Exporting to directory: " << url << endl;
+  kDebug() << "Exporting to directory: " << url;
   generateDocbookForProjectInto(url);
   return true;
 }
@@ -125,7 +125,7 @@ KIO::Job* DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDir)
   fileName.replace(QRegExp(".xmi$"),".docbook");
   url.setPath(destDir.path());
   url.addPath(fileName);
-  kDebug() << "Copying result to: " << url << endl;
+  kDebug() << "Copying result to: " << url;
   KIO::Job* job = KIO::file_copy(KUrl::fromPath(tmpDocBook.fileName()),url,true);
   job->ui()->setAutoErrorHandlingEnabled(true);
 

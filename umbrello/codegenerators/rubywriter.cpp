@@ -41,7 +41,7 @@ RubyWriter::~RubyWriter() {}
 
 void RubyWriter::writeClass(UMLClassifier *c) {
     if(!c) {
-        kDebug()<<"Cannot write class of NULL concept!" << endl;
+        kDebug()<<"Cannot write class of NULL concept!";
         return;
     }
 

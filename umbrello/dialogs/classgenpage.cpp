@@ -79,7 +79,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
     } else if (t == Uml::ot_Entity) {
         name = i18n("Entity &name:");
     } else {
-        kWarning() << "creating class gen page for unknown widget type" << endl;
+        kWarning() << "creating class gen page for unknown widget type";
     }
     setMinimumSize(310,330);
     QVBoxLayout * topLayout = new QVBoxLayout(this);
@@ -347,7 +347,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget) : QWid
     } else if (widget->getBaseType() == Uml::wt_Node) {
         m_pNameL->setText(i18n("Node name:"));
     } else {
-        kWarning() << "ClassGenPage called on unknown widget type" << endl;
+        kWarning() << "ClassGenPage called on unknown widget type";
     }
     m_pNameLayout->addWidget(m_pNameL, 0, 0);
 

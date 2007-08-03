@@ -66,7 +66,7 @@ void UMLOperation::moveParmLeft(UMLAttribute * a) {
     disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
     int idx;
     if ( (idx=m_List.find( a )) == -1 ) {
-        kDebug() << "Error move parm left " << a->getName() << endl;
+        kDebug() << "Error move parm left " << a->getName();
         return;
     }
     if ( idx == 0 )
@@ -86,7 +86,7 @@ void UMLOperation::moveParmRight(UMLAttribute * a) {
     disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
     int idx;
     if ( (idx=m_List.find( a )) == -1 ) {
-        kDebug() << "Error move parm right " << a->getName() << endl;
+        kDebug() << "Error move parm right " << a->getName();
         return;
     }
     int count = m_List.count();
@@ -106,7 +106,7 @@ void UMLOperation::removeParm(UMLAttribute * a, bool emitModifiedSignal /* =true
     << endl;
     disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
     if(!m_List.remove(a))
-        kDebug() << "Error removing parm " << a->getName() << endl;
+        kDebug() << "Error removing parm " << a->getName();
 
     if (emitModifiedSignal)
         emit modified();

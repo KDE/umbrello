@@ -169,7 +169,7 @@ bool AdaImport::parseStmt() {
     const int srcLength = m_source.count();
     QString keyword = m_source[m_srcIndex];
     UMLDoc *umldoc = UMLApp::app()->getDocument();
-    //kDebug() << '"' << keyword << '"' << endl;
+    //kDebug() << '"' << keyword << '"';
     if (keyword == "with") {
         if (m_inGenericFormalPart) {
             // mapping of generic formal subprograms or packages is not yet implemented
@@ -426,7 +426,7 @@ bool AdaImport::parseStmt() {
             // subprograms.
             // In order to map those, we would need to create a UML
             // class with stereotype <<utility>> for the Ada package.
-            kDebug() << "ignoring parameterless " << keyword << " " << name << endl;
+            kDebug() << "ignoring parameterless " << keyword << " " << name;
             skipStmt();
             return true;
         }

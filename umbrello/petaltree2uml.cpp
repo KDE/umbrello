@@ -556,7 +556,7 @@ bool importView(PetalNode *root, const QString& rootName,
                 const QString& modelsName, UMLListViewItem *lvParent) {
     PetalNode *viewRoot = root->findAttribute(rootName).node;
     if (viewRoot == NULL) {
-        kDebug() << "importView: cannot find " << rootName << endl;
+        kDebug() << "importView: cannot find " << rootName;
         return false;
     }
     PetalNode *models = viewRoot->findAttribute(modelsName).node;

@@ -256,7 +256,7 @@ bool UMLForeignKeyConstraint::load( QDomElement & element ) {
 
 
         } else {
-            kWarning() << "unknown child type in UMLUniqueConstraint::load" << endl;
+            kWarning() << "unknown child type in UMLUniqueConstraint::load";
         }
 
         node = node.nextSibling();

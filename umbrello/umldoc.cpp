@@ -937,7 +937,7 @@ QString UMLDoc::uniqViewName(const Uml::Diagram_Type type) {
     else if( type == dt_EntityRelationship )
         dname = i18n( "entity relationship diagram" );
     else {
-        kWarning() << "uniqViewName() called with unknown diagram type" << endl;
+        kWarning() << "uniqViewName() called with unknown diagram type";
     }
     QString name = dname;
     for (int number = 0; findView(type, name, true); ++number,
@@ -1038,7 +1038,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o) {
     bool ok = false;
     UMLClassifier* p = dynamic_cast<UMLClassifier *>(o->parent());
     if(!p) {
-        kDebug() << "Can't create object, no parent found" << endl;
+        kDebug() << "Can't create object, no parent found";
         return;
     }
 
@@ -1345,7 +1345,7 @@ short UMLDoc::getEncoding(QIODevice & file)
     QDomDocument doc;
     if( !doc.setContent( data, false, &error, &line ) )
     {
-        kWarning()<<"Can't set content: "<<error<<" Line: "<<line<<endl;
+        kWarning()<<"Can't set content: "<<error<<" Line: "<<line;
         return ENC_UNKNOWN;
     }
 
@@ -1434,7 +1434,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
     int line;
     QDomDocument doc;
     if( !doc.setContent( data, false, &error, &line ) ) {
-        kWarning()<<"Can't set content:"<<error<<" Line:"<<line<<endl;
+        kWarning()<<"Can't set content:"<<error<<" Line:"<<line;
         return false;
     }
     qApp->processEvents();  // give UI events a chance
@@ -1460,7 +1460,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
             continue;
         QDomElement element = node.toElement();
         if (element.isNull()) {
-            kDebug() << "loadFromXMI: skip empty elem" << endl;
+            kDebug() << "loadFromXMI: skip empty elem";
             continue;
         }
         bool recognized = false;
@@ -1498,7 +1498,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
                     || tagEq(tag, "Subsystem")
                     || tagEq(tag, "Model") ) {
                 if( !loadUMLObjectsFromXMI( element ) ) {
-                    kWarning() << "failed load on objects" << endl;
+                    kWarning() << "failed load on objects";
                     return false;
                 }
                 m_Name = element.attribute( "name", i18n("UML Model") );
@@ -1512,7 +1512,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
                 // are missing the <Model> tag (e.g. NSUML)
                 QDomElement parentElem = node.toElement();
                 if( !loadUMLObjectsFromXMI( parentElem ) ) {
-                    kWarning() << "failed load on model objects" << endl;
+                    kWarning() << "failed load on model objects";
                     return false;
                 }
                 seen_UMLObjects = true;
@@ -1550,7 +1550,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
         }
     }
 #ifdef VERBOSE_DEBUGGING
-    kDebug() << "UMLDoc::m_objectList.count() is " << m_objectList.count() << endl;
+    kDebug() << "UMLDoc::m_objectList.count() is " << m_objectList.count();
 #endif
     resolveTypes();
     // set a default code generator if no <XMI.extensions><codegeneration> tag seen
@@ -1648,7 +1648,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
             // Therefore the <UML:Namespace.ownedElement> tag is of no
             // significance.
             if( !loadUMLObjectsFromXMI( tempElement ) ) {
-                kWarning() << "failed load on " << type << endl;
+                kWarning() << "failed load on " << type;
                 return false;
             }
             continue;
@@ -1669,7 +1669,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element) {
         QString stID = tempElement.attribute("stereotype", "");
         UMLObject *pObject = Object_Factory::makeObjectFromXMI(type, stID);
         if( !pObject ) {
-            kWarning() << "Unknown type of umlobject to create: " << type << endl;
+            kWarning() << "Unknown type of umlobject to create: " << type;
             // We want a best effort, therefore this is handled as a
             // soft error.
             continue;
@@ -1750,7 +1750,7 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node) {
             diagramNode = diagramNode.firstChild();
         }
         if( !loadDiagramsFromXMI( diagramNode ) ) {
-            kWarning() << "failed load on diagrams" << endl;
+            kWarning() << "failed load on diagrams";
         }
 
     } else if (tag == "listview") {
@@ -1758,7 +1758,7 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node) {
         //       else listview items are duplicated.
         resolveTypes();
         if( !UMLApp::app()->getListView() -> loadFromXMI( element ) ) {
-            kWarning() << "failed load on listview" << endl;
+            kWarning() << "failed load on listview";
         }
 
     } else if (tag == "codegeneration") {
@@ -1807,7 +1807,7 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node ) {
                 success = pView->loadFromXMI(element);
             }
             if (!success) {
-                kWarning() << "failed load on viewdata loadfromXMI" << endl;
+                kWarning() << "failed load on viewdata loadfromXMI";
                 delete pView;
                 return false;
             }
@@ -1931,7 +1931,7 @@ void UMLDoc::setModified(bool modified /*=true*/) {
 
 bool UMLDoc::assignNewIDs(UMLObject* Obj) {
     if(!Obj || !m_pChangeLog) {
-        kDebug() << "no Obj || Changelog" << endl;
+        kDebug() << "no Obj || Changelog";
         return false;
     }
     Uml::IDType result = assignNewID(Obj->getID());
@@ -2194,7 +2194,7 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point) {
         break;
 
     default:
-        kWarning() << "unknown diagram type in slotDiagramPopupMenu()" << endl;
+        kWarning() << "unknown diagram type in slotDiagramPopupMenu()";
         break;
     }//end switch
 

@@ -88,7 +88,7 @@ void PascalImport::checkModifiers(bool& isVirtual, bool& isAbstract) {
 bool PascalImport::parseStmt() {
     const int srcLength = m_source.count();
     QString keyword = m_source[m_srcIndex].lower();
-    //kDebug() << '"' << keyword << '"' << endl;
+    //kDebug() << '"' << keyword << '"';
     if (keyword == "uses") {
         while (m_srcIndex < srcLength - 1) {
             QString unit = advance();
@@ -375,7 +375,7 @@ bool PascalImport::parseStmt() {
     }
     // At this point we need a class because we're expecting its member attributes.
     if (m_klass == NULL) {
-        kDebug() << "importPascal: skipping " << m_source[m_srcIndex] << endl;
+        kDebug() << "importPascal: skipping " << m_source[m_srcIndex];
         skipStmt();
         return true;
     }

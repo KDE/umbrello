@@ -293,7 +293,7 @@ void LinkageSpecificationAST::setDeclaration( DeclarationAST::Node& decl )
 // ------------------------------------------------------------------------
 TranslationUnitAST::TranslationUnitAST()
 {
-    //kDebug(9007) << "++ TranslationUnitAST::TranslationUnitAST()" << endl;
+    //kDebug(9007) << "++ TranslationUnitAST::TranslationUnitAST()";
     m_declarationList.setAutoDelete( true );
 }
 

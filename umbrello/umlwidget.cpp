@@ -289,7 +289,7 @@ void UMLWidget::slotMenuSelection(int sel) {
              m_pObject->showProperties();
              UMLApp::app()->EndMacro();
         } else {
-            kWarning() << "making properties dialog for unknown widget type" << endl;
+            kWarning() << "making properties dialog for unknown widget type";
         }
         // adjustAssocs( getX(), getY() );//adjust assoc lines
         break;

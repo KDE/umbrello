@@ -271,7 +271,7 @@ void NativeImportBase::parseFile(const QString& filename) {
     if (filename.contains('/')) {
         QString path = filename;
         path.remove( QRegExp("/[^/]+$") );
-        kDebug() << msgPrefix << "adding path " << path << endl;
+        kDebug() << msgPrefix << "adding path " << path;
         Import_Utils::addIncludePath(path);
     }
     if (! QFile::exists(filename)) {
@@ -303,7 +303,7 @@ void NativeImportBase::parseFile(const QString& filename) {
         kError() << msgPrefix << "cannot open file" << endl;
         return;
     }
-    kDebug() << msgPrefix << "parsing." << endl;
+    kDebug() << msgPrefix << "parsing.";
     // Scan the input file into the QStringList m_source.
     m_source.clear();
     m_srcIndex = 0;
@@ -322,7 +322,7 @@ void NativeImportBase::parseFile(const QString& filename) {
     const int srcLength = m_source.count();
     for (m_srcIndex = 0; m_srcIndex < srcLength; m_srcIndex++) {
         const QString& firstToken = m_source[m_srcIndex];
-        //kDebug() << '"' << firstToken << '"' << endl;
+        //kDebug() << '"' << firstToken << '"';
         if (firstToken.startsWith(m_singleLineCommentIntro)) {
             m_comment = firstToken.mid(m_singleLineCommentIntro.length());
             continue;
@@ -331,7 +331,7 @@ void NativeImportBase::parseFile(const QString& filename) {
            skipStmt();
         m_comment.clear();
     }
-    kDebug() << msgPrefix << "end of parse." << endl;
+    kDebug() << msgPrefix << "end of parse.";
 }
 
 void NativeImportBase::initialize() {

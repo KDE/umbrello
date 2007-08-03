@@ -88,7 +88,7 @@ bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
 void PerlWriter::writeClass(UMLClassifier *c) {
 
   /*  if(!c) {
-      kDebug()<<"Cannot write class of NULL concept!" << endl;
+      kDebug()<<"Cannot write class of NULL concept!";
       return;
       }
   */

@@ -152,7 +152,7 @@ bool PreconditionWidget::activate(IDChangeLog * Log /*= 0*/) {
     m_pView->resetPastePoint();
     UMLWidget::activate(Log);
     if (m_pOw == NULL) {
-        kDebug() << "PreconditionWidget::activate: can't make precondition" << endl;
+        kDebug() << "PreconditionWidget::activate: can't make precondition";
         return false;
     }
 

@@ -112,7 +112,7 @@ void UMLUniqueConstraintDialog::setupDialog(){
 
     // We first insert all attributes to the combo box
     UMLEntity* ue = static_cast<UMLEntity*>( m_pUniqueConstraint->parent() );
-    kDebug() << k_funcinfo << ue << endl;
+    kDebug() << k_funcinfo << ue;
     if ( ue ) {
        UMLClassifierListItemList ual = ue->getFilteredList(Uml::ot_EntityAttribute);
        foreach( UMLClassifierListItem* att, ual ) {

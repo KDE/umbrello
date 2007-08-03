@@ -123,12 +123,12 @@ bool FloatingDashLineWidget::loadFromXMI( QDomElement & qElement ) {
     if( !UMLWidget::loadFromXMI( qElement ) ) {
         return false;
     }
-    kDebug() <<"load......." <<endl;
+    kDebug() <<"load.......";
     m_yMax = qElement.attribute( "maxY", "" ).toInt();
     m_yMin = qElement.attribute( "minY", "" ).toInt();
     setY(qElement.attribute( "y", "" ).toInt());
     m_Text = qElement.attribute( "text", "" );
-    kDebug() <<"m_y......." <<m_y <<endl;
+    kDebug() <<"m_y......." <<m_y;
     return true;
 }
 

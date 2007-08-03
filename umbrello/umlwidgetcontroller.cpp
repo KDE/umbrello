@@ -187,7 +187,7 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
         //m_doc->executeCommand(new cmdMoveWidgetBy(widget,diffX,diffY));
         widget->getWidgetController()->moveWidgetBy(diffX, diffY);
     }
-    // kDebug() << endl;
+    // kDebug();
 
     // Move any selected associations.
     AssociationWidgetList awl = m_widget->m_pView->getSelectedAssocs();
@@ -549,19 +549,19 @@ QPoint UMLWidgetController::getPosition(QMouseEvent* me) {
     m_oldY = newY;
 
     if (newX + (m_minSelectedX - m_widget->getX()) < 0) {
-        //kDebug() << "UMLWidgetController::getPosition: got into cond.1" << endl;
+        //kDebug() << "UMLWidgetController::getPosition: got into cond.1";
         newX = m_widget->getX() - m_minSelectedX;
     }
     if (newY + (m_minSelectedY - m_widget->getY()) < 0) {
-        //kDebug() << "UMLWidgetController::getPosition: got into cond.2" << endl;
+        //kDebug() << "UMLWidgetController::getPosition: got into cond.2";
         newY = m_widget->getY() - m_minSelectedY;
     }
     if (newX + (m_maxSelectedX - m_widget->getX()) > maxX) {
-        //kDebug() << "UMLWidgetController::getPosition: got into cond.3" << endl;
+        //kDebug() << "UMLWidgetController::getPosition: got into cond.3";
         newX = maxX - (m_maxSelectedX - m_widget->getX());
     }
     if (newY + (m_maxSelectedY - m_widget->getY()) > maxY) {
-        //kDebug() << "UMLWidgetController::getPosition: got into cond.4" << endl;
+        //kDebug() << "UMLWidgetController::getPosition: got into cond.4";
         newY = maxY - (m_maxSelectedY - m_widget->getY());
     }
     return QPoint(newX, newY);

@@ -44,7 +44,7 @@ CodeComment::~CodeComment ( ) { }
  * Save the XMI representation of this object
  */
 void CodeComment::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
-    kDebug() << "CodeComment::saveToXMI is called!" << endl;
+    kDebug() << "CodeComment::saveToXMI is called!";
     QDomElement blockElement = doc.createElement( "codecomment" );
     setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
     // just use parent TextBlock method

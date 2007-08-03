@@ -138,7 +138,7 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
 
         break;
     default:
-        kWarning() << "Unknown signal type:" << m_SignalType << endl;
+        kWarning() << "Unknown signal type:" << m_SignalType;
         break;
     }
     if(m_bSelected)

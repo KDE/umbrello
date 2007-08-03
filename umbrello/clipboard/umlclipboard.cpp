@@ -294,7 +294,7 @@ bool UMLClipboard::insertItemChildren(UMLListViewItem * Item, UMLListViewItemLis
 
 bool UMLClipboard::pasteChildren(UMLListViewItem *parent, IDChangeLog *chgLog) {
     if (!parent) {
-        kWarning() << "Paste Children Error, parent missing" << endl;
+        kWarning() << "Paste Children Error, parent missing";
         return false;
     }
     UMLDoc *doc = UMLApp::app()->getDocument();
@@ -387,7 +387,7 @@ bool UMLClipboard::pasteClip2(QMimeSource* data) {
     while ( (obj=object_it.current()) != 0 ) {
         ++object_it;
         if(!doc->assignNewIDs(obj)) {
-            kDebug()<<"UMLClipboard: error adding umlobject"<<endl;
+            kDebug()<<"UMLClipboard: error adding umlobject";
             return false;
         }
     }
@@ -632,7 +632,7 @@ bool UMLClipboard::pasteClip5(QMimeSource* data) {
                 break;
             }
         default :
-            kWarning() << "pasting unknown children type in clip type 5" << endl;
+            kWarning() << "pasting unknown children type in clip type 5";
             return false;
         }
     }

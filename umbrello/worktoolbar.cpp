@@ -347,7 +347,7 @@ void WorkToolBar::loadPixmaps() {
                                     QCursor(),
                                     SLOT(slotArrow())) );
 
-    kDebug() << "WorkToolBar::loadPixmaps: n_buttonInfos = " << n_buttonInfos << endl;
+    kDebug() << "WorkToolBar::loadPixmaps: n_buttonInfos = " << n_buttonInfos;
     for (uint i = 0; i < n_buttonInfos; i++) {
         const ButtonInfo& info = buttonInfo[i];
         m_ToolButtons.insert(info.tbb,

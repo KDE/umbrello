@@ -128,7 +128,7 @@ void XMLElementCodeBlock::updateContent ( )
     for (UMLAttribute *at = alist->first(); at; at=alist->next())
     {
         if(at->getInitialValue().isEmpty())
-            kWarning()<<" XMLElementCodeBlock : cant print out attribute that lacks an initial value"<<endl;
+            kWarning()<<" XMLElementCodeBlock : cant print out attribute that lacks an initial value";
         else {
             startText.append(" " +at->getName()+"=\"");
             startText.append(at->getInitialValue()+"\"");

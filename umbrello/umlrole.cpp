@@ -251,7 +251,7 @@ bool UMLRole::load( QDomElement & element ) {
         }
     }
     if (!m_Multi.isEmpty())
-        kDebug() << "UMLRole::load(" << m_Name << "): m_Multi is " << m_Multi << endl;
+        kDebug() << "UMLRole::load(" << m_Name << "): m_Multi is " << m_Multi;
     if (m_SecondaryId.isEmpty()) {
         kError() << "UMLRole::load(" << m_Name << "): type not given or illegal" << endl;
         return false;
