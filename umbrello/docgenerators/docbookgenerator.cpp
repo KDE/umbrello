@@ -126,7 +126,7 @@ KIO::Job* DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDir)
   url.setPath(destDir.path());
   url.addPath(fileName);
   kDebug() << "Copying result to: " << url;
-  KIO::Job* job = KIO::file_copy(KUrl::fromPath(tmpDocBook.fileName()),url,true);
+  KIO::Job* job = KIO::file_copy(KUrl::fromPath(tmpDocBook.fileName()),url,-1);
   job->ui()->setAutoErrorHandlingEnabled(true);
 
   return job;
