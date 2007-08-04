@@ -81,9 +81,6 @@ Only the folders made by the user are created in the base directory (Logical vie
        <property name="text" >
         <string>Use &amp;folders</string>
        </property>
-       <property name="shortcut" >
-        <string>Alt+F</string>
-       </property>
       </widget>
      </item>
     </layout>
