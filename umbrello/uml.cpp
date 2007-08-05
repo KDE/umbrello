@@ -195,6 +195,9 @@ void UMLApp::initActions() {
     editUndo = m_pUndoStack->createUndoAction(actionCollection());
     editRedo = m_pUndoStack->createRedoAction(actionCollection());
 
+    disconnect( m_pUndoStack, SIGNAL( undoTextChanged(const QString& ) ),editUndo, 0 );
+    disconnect( m_pUndoStack, SIGNAL( redoTextChanged(const QString& ) ),editRedo, 0 );
+
     editCut = KStandardAction::cut(this, SLOT(slotEditCut()), actionCollection());
     editCopy = KStandardAction::copy(this, SLOT(slotEditCopy()), actionCollection());
     editPaste = KStandardAction::paste(this, SLOT(slotEditPaste()), actionCollection());
