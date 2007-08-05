@@ -40,9 +40,12 @@ using namespace Uml;
 UMLWidgetController::UMLWidgetController(UMLWidget *widget) {
     m_widget = widget;
 
-    m_pressOffsetX = m_pressOffsetY = 0;
+
     m_oldX = m_oldY = 0;
+    m_pressOffsetX = m_pressOffsetY = 0;
+    m_prevX = m_prevY = 0;
     m_oldW = m_oldH = 0;
+
     m_minSelectedX = m_minSelectedY = m_maxSelectedX = m_maxSelectedY = 0;
 
     m_shiftPressed = false;
@@ -375,8 +378,8 @@ void UMLWidgetController::saveWidgetValues(QMouseEvent *me) {
     m_pressOffsetX = me->x() - m_widget->getX();
     m_pressOffsetY = me->y() - m_widget->getY();
 
-    m_oldX = m_widget->getX();
-    m_oldY = m_widget->getY();
+    m_prevX = m_oldX = m_widget->getX();
+    m_prevY = m_oldY = m_widget->getY();
 
     m_oldW = m_widget->width();
     m_oldH = m_widget->height();
@@ -540,13 +543,13 @@ QPoint UMLWidgetController::getPosition(QMouseEvent* me) {
         << " m_widget->getY=" << m_widget->getY() << ", m_oldY=" << m_oldY
         << ", m_pressOffsetY=" << m_pressOffsetY << endl;
      */
-    int newX = me->x() + m_widget->getX() - m_oldX - m_pressOffsetX;
-    int newY = me->y() + m_widget->getY() - m_oldY - m_pressOffsetY;
+    int newX = me->x() + m_widget->getX() - m_prevX - m_pressOffsetX;
+    int newY = me->y() + m_widget->getY() - m_prevY - m_pressOffsetY;
     int maxX = m_widget->m_pView->canvas()->width();
     int maxY = m_widget->m_pView->canvas()->height();
 
-    m_oldX = newX;
-    m_oldY = newY;
+    m_prevX = newX;
+    m_prevY = newY;
 
     if (newX + (m_minSelectedX - m_widget->getX()) < 0) {
         //kDebug() << "UMLWidgetController::getPosition: got into cond.1";

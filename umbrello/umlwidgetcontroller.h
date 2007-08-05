@@ -461,6 +461,12 @@ protected:
     int m_oldX, m_oldY;
 
     /**
+     * The previous recorded X/Y position of the widget during its movement
+     * This keeps changing as the widget is dragged along its path
+     */
+    int m_prevX, m_prevY;
+
+    /**
      * The width/height the widget had when the resize started.
      */
     int m_oldW, m_oldH;
