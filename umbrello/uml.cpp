@@ -992,6 +992,7 @@ void UMLApp::slotFileExportDocbook()
 {
   DocbookGenerator* docbookGenerator = new DocbookGenerator;
   docbookGenerator->generateDocbookForProject();
+  connect( docbookGenerator, SIGNAL( finished( bool ) ), docbookGenerator, SLOT( deleteLater() ) );
 }
 
 void UMLApp::slotFileExportXhtml()

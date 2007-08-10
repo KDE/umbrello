@@ -22,6 +22,8 @@
 #include <kio/netaccess.h>
 #include <kio/job.h>
 
+#include <QApplication>
+
 #include <qfile.h>
 #include <qregexp.h>
 #include <qtextstream.h>
@@ -36,6 +38,8 @@ DocbookGenerator::DocbookGenerator()
 {
   umlDoc = UMLApp::app()->getDocument();
   m_pStatus = true;
+  m_pThreadFinished = false;
+  docbookGeneratorJob = 0;
 }
 
 DocbookGenerator::~DocbookGenerator() {}
@@ -56,6 +60,7 @@ void DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDir)
 {
     m_destDir = destDir;
     umlDoc->writeToStatusBar(i18n("Exporting all views..."));
+
     QStringList errors = UMLViewImageExporterModel().exportAllViews(
         UMLViewImageExporterModel::mimeTypeToImageType("image/png"), destDir, false);
     if (!errors.empty()) {
@@ -64,15 +69,17 @@ void DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDir)
     }
 
     umlDoc->writeToStatusBar(i18n("Generating Docbook..."));
-    DocbookGeneratorJob* docbookGeneratorJob = new DocbookGeneratorJob( this );
+
+    docbookGeneratorJob = new DocbookGeneratorJob( this );
     connect( docbookGeneratorJob , SIGNAL(docbookGenerated(const QString&)), this, SLOT(slotDocbookGenerationFinished(const QString&)));
+    connect( docbookGeneratorJob, SIGNAL( finished() ), this, SLOT( threadFinished() ) );
     kDebug()<<k_funcinfo<<"Threading";
     docbookGeneratorJob->start();
 }
 
 void DocbookGenerator::slotDocbookGenerationFinished(const QString& tmpFileName)
 {
-    kDebug()<<"Generation Finished"<<tmpFileName;
+    kDebug()<<k_funcinfo<<"Generation Finished"<<tmpFileName;
     KUrl url = umlDoc->url();
     QString fileName = url.fileName();
     fileName.replace(QRegExp(".xmi$"),".docbook");
@@ -88,7 +95,19 @@ void DocbookGenerator::slotDocbookGenerationFinished(const QString& tmpFileName)
         m_pStatus = false;
     }
 
+    while ( m_pThreadFinished == false ) {
+        // wait for thread to finish
+        qApp->processEvents();
+    }
+
     emit finished(m_pStatus);
 }
+
+void DocbookGenerator::threadFinished() {
+    m_pThreadFinished = true;
+    delete docbookGeneratorJob;
+    docbookGeneratorJob = 0;
+}
+
 
 #include "docbookgenerator.moc"

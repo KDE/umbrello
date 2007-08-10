@@ -21,6 +21,8 @@
 #include <kio/netaccess.h>
 #include <kio/job.h>
 
+#include <QApplication>
+
 #include <qfile.h>
 #include <qregexp.h>
 #include <qtextstream.h>
@@ -35,6 +37,8 @@ XhtmlGenerator::XhtmlGenerator()
 {
   umlDoc = UMLApp::app()->getDocument();
   m_pStatus = true;
+  m_pThreadFinished = false;
+  d2xg = 0;
 }
 
 XhtmlGenerator::~XhtmlGenerator(){}
@@ -79,9 +83,9 @@ void XhtmlGenerator::slotDocbookToXhtml(bool status)
     url.addPath(fileName);
 
     umlDoc->writeToStatusBar( i18n( "Generating XHTML..." ) );
-    Docbook2XhtmlGeneratorJob* d2xg  = new Docbook2XhtmlGeneratorJob( url, this );
+    d2xg  = new Docbook2XhtmlGeneratorJob( url, this );
     connect( d2xg, SIGNAL( xhtmlGenerated( const QString& ) ), this, SLOT( slotHtmlGenerated(const QString&) ) );
-    connect( d2xg, SIGNAL( finished() ), this, SLOT( cleanUpAndExit() ) );
+    connect( d2xg, SIGNAL( finished() ), this, SLOT( threadFinished() ) );
     kDebug()<<k_funcinfo<<"Threading";
     d2xg->start();
   }
@@ -90,7 +94,7 @@ void XhtmlGenerator::slotDocbookToXhtml(bool status)
 void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
 {
 
-    kDebug() << "HTML Generated"<<tmpFileName;
+    kDebug() << k_funcinfo<< "HTML Generated"<<tmpFileName;
     KUrl url = umlDoc->url();
     QString fileName = url.fileName();
     fileName.replace(QRegExp(".xmi$"),".html");
@@ -120,10 +124,18 @@ void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
         m_pStatus = false;
     }
 
+    while ( m_pThreadFinished == false ) {
+        // wait for thread to finish
+        qApp->processEvents();
+    }
+
+    emit finished( m_pStatus );
 }
 
-void XhtmlGenerator::cleanUpAndExit() {
-    emit finished( m_pStatus );
+void XhtmlGenerator::threadFinished() {
+    m_pThreadFinished = true;
+    delete d2xg;
+    d2xg = 0;
 }
 
 #include "xhtmlgenerator.moc"
