@@ -14,161 +14,116 @@
 
 #include "xhtmlgenerator.h"
 
-#include <libxml/xmlmemory.h>
-#include <libxml/debugXML.h>
-#include <libxml/HTMLtree.h>
-#include <libxml/xmlIO.h>
-#include <libxml/xinclude.h>
-#include <libxml/catalog.h>
-#include <libxslt/xslt.h>
-#include <libxslt/xsltInternals.h>
-#include <libxslt/transform.h>
-#include <libxslt/xsltutils.h>
-
 #include <kdebug.h>
 #include <klocale.h>
-#include <ktemporaryfile.h>
 #include <kmessagebox.h>
-#include <kio/job.h>
-#include <kio/jobuidelegate.h>
 #include <kstandarddirs.h>
+#include <kio/netaccess.h>
+#include <kio/job.h>
+
 #include <qfile.h>
 #include <qregexp.h>
 #include <qtextstream.h>
 
+#include "docbook2xhtmlgeneratorjob.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlviewimageexportermodel.h"
 #include "docbookgenerator.h"
 
-extern int xmlLoadExtDtdDefaultValue;
-
 XhtmlGenerator::XhtmlGenerator()
 {
+  umlDoc = UMLApp::app()->getDocument();
+  m_pStatus = true;
 }
 
-XhtmlGenerator::~XhtmlGenerator() {}
-
+XhtmlGenerator::~XhtmlGenerator(){}
 
 bool XhtmlGenerator::generateXhtmlForProject()
 {
-  UMLApp *app = UMLApp::app();
-  UMLDoc* umlDoc = app->getDocument();
   KUrl url = umlDoc->url();
   QString fileName = url.fileName();
   fileName.replace(QRegExp(".xmi$"),"");
   url.setFileName(fileName);
-  kDebug() << "Exporting to directory: " << url;
+  kDebug()<<k_funcinfo<< "Exporting to directory: " << url;
   return generateXhtmlForProjectInto(url);
 }
 
 bool XhtmlGenerator::generateXhtmlForProjectInto(const KUrl& destDir)
 {
-  kDebug() << "First convert to docbook";
+    kDebug() <<k_funcinfo<< "First convert to docbook";
   m_destDir = destDir;
 //   KUrl url(QString("file://")+m_tmpDir.name());
-  KIO::Job* docbookJob = DocbookGenerator().generateDocbookForProjectInto(destDir);
-  if (docbookJob == 0)
-  {
-    return false;
-  }
-  kDebug() << "Connecting...";
-  connect(docbookJob, SIGNAL(result(KJob*)), this, SLOT(slotDocbookToXhtml(KJob*)));
+  DocbookGenerator* docbookGenerator = new DocbookGenerator;
+  docbookGenerator->generateDocbookForProjectInto(destDir);
+
+  kDebug() <<k_funcinfo<< "Connecting...";
+  connect(docbookGenerator, SIGNAL(finished(bool)), this, SLOT(slotDocbookToXhtml(bool)));
   return true;
 }
 
-void XhtmlGenerator::slotDocbookToXhtml(KJob * docbookJob)
+void XhtmlGenerator::slotDocbookToXhtml(bool status)
 {
   kDebug() << "Now convert docbook to html...";
-  if ( docbookJob->error() )
+  if ( !status )
   {
-    // error shown by setAutoErrorHandlingEnabled(true) already
-    return;
+      kDebug()<<k_funcinfo<<"Error in converting to docbook";
+      m_pStatus = false;
+      return;
+  } else {
+
+    KUrl url = umlDoc->url();
+    QString fileName = url.fileName();
+    fileName.replace(QRegExp(".xmi$"),".docbook");
+    url.setPath(m_destDir.path());
+    url.addPath(fileName);
+
+    umlDoc->writeToStatusBar( i18n( "Generating XHTML..." ) );
+    Docbook2XhtmlGeneratorJob* d2xg  = new Docbook2XhtmlGeneratorJob( url, this );
+    connect( d2xg, SIGNAL( xhtmlGenerated( const QString& ) ), this, SLOT( slotHtmlGenerated(const QString&) ) );
+    connect( d2xg, SIGNAL( finished() ), this, SLOT( cleanUpAndExit() ) );
+    kDebug()<<k_funcinfo<<"Threading";
+    d2xg->start();
   }
-
-  UMLApp* app = UMLApp::app();
-  UMLDoc* umlDoc = app->getDocument();
-
-  const KUrl& url = umlDoc->url();
-  QString docbookName = url.fileName();
-  docbookName.replace(QRegExp(".xmi$"),".docbook");
-  KUrl docbookUrl = m_destDir;
-  docbookUrl.addPath(docbookName);
-
-  xsltStylesheetPtr cur = NULL;
-  xmlDocPtr doc, res;
-
-  const char *params[16 + 1];
-  int nbparams = 0;
-  params[nbparams] = NULL;
-
-  QString xsltFileName(KGlobal::dirs()->findResource("appdata","docbook2xhtml.xsl"));
-  kDebug() << "XSLT file is'"<<xsltFileName<<"'";
-  QFile xsltFile(xsltFileName);
-  xsltFile.open(QIODevice::ReadOnly);
-  QString xslt = xsltFile.readAll();
-  kDebug() << "XSLT is'"<<xslt<<"'";
-  xsltFile.close();
-
-  QString localXsl = KGlobal::dirs()->findResource("data","ksgmltools2/docbook/xsl/html/docbook.xsl");
-  kDebug() << "Local xsl is'"<<localXsl<<"'";
-  if (!localXsl.isEmpty())
-  {
-    localXsl = QString("href=\"file://") + localXsl + "\"";
-    xslt.replace(QRegExp("href=\"http://[^\"]*\""),localXsl);
-  }
-  KTemporaryFile tmpXsl;
-  tmpXsl.setAutoRemove(false);
-  tmpXsl.open();
-  QTextStream str ( &tmpXsl );
-  str << xslt;
-  str.flush();
-
-  xmlSubstituteEntitiesDefault(1);
-  xmlLoadExtDtdDefaultValue = 1;
-  kDebug() << "Parsing stylesheet " << tmpXsl.fileName();
-  cur = xsltParseStylesheetFile((const xmlChar *)tmpXsl.fileName().latin1());
-  kDebug() << "Parsing file " << docbookUrl.path();
-  doc = xmlParseFile((const char*)(docbookUrl.path().utf8()));
-  kDebug() << "Applying stylesheet ";
-  res = xsltApplyStylesheet(cur, doc, params);
-
-  KTemporaryFile tmpXhtml;
-  tmpXhtml.setAutoRemove(false);
-  tmpXhtml.open();
-
-  kDebug() << "Writing HTML result to temp file: " << tmpXhtml.fileName();
-  xsltSaveResultToFd(tmpXhtml.handle(), res, cur);
-
-  xsltFreeStylesheet(cur);
-  xmlFreeDoc(res);
-  xmlFreeDoc(doc);
-
-  xsltCleanupGlobals();
-  xmlCleanupParser();
-
-  QString xhtmlName = url.fileName();
-  xhtmlName.replace(QRegExp(".xmi$"),".html");
-  KUrl xhtmlUrl = m_destDir;
-  xhtmlUrl.addPath(xhtmlName);
-
-  kDebug() << "Copying HTML result to: " << xhtmlUrl;
-  KIO::Job* job = KIO::file_copy(tmpXhtml.fileName(),xhtmlUrl,-1,true,false,false);
-  job->ui()->setAutoErrorHandlingEnabled(true);
-  connect (job, SIGNAL(result( KJob* )), this, SLOT(slotHtmlCopyFinished( KJob* )));
-
-  QString cssFileName(KGlobal::dirs()->findResource("appdata","xmi.css"));
-  kDebug() << "CSS file is'"<<cssFileName<<"'";
-  KUrl cssUrl = m_destDir;
-  cssUrl.addPath("xmi.css");
-  KIO::Job* cssJob = KIO::file_copy(cssFileName,cssUrl,-1,true,false,false);
-  cssJob->ui()->setAutoErrorHandlingEnabled(true);
 }
 
-void XhtmlGenerator::slotHtmlCopyFinished( KJob* )
+void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
 {
-  kDebug() << "HTML copy finished: emiting finished";
-  emit(finished());
+
+    kDebug() << "HTML Generated"<<tmpFileName;
+    KUrl url = umlDoc->url();
+    QString fileName = url.fileName();
+    fileName.replace(QRegExp(".xmi$"),".html");
+    url.setPath(m_destDir.path());
+    url.addPath(fileName);
+
+    KIO::Job* htmlCopyJob = KIO::file_copy( KUrl::fromPath( tmpFileName ), url, -1, true, true, false );
+    if ( KIO::NetAccess::synchronousRun( htmlCopyJob, (QWidget*)UMLApp::app() ) ) {
+        umlDoc->writeToStatusBar(i18n("XHTML Generation Complete..."));
+    } else {
+        m_pStatus = false;
+        return;
+    }
+
+    umlDoc->writeToStatusBar(i18n("Copying CSS..."));
+
+    QString cssFileName(KGlobal::dirs()->findResource("appdata","xmi.css"));
+    KUrl cssUrl = m_destDir;
+    cssUrl.addPath("xmi.css");
+    KIO::Job* cssJob = KIO::file_copy(cssFileName,cssUrl,-1,true,true,false);
+
+    if ( KIO::NetAccess::synchronousRun( cssJob, (QWidget*)UMLApp::app() ) ) {
+        umlDoc->writeToStatusBar(i18n("Finished Copying CSS..."));
+        m_pStatus = true;
+    } else {
+        umlDoc->writeToStatusBar(i18n("Failed Copying CSS..."));
+        m_pStatus = false;
+    }
+
+}
+
+void XhtmlGenerator::cleanUpAndExit() {
+    emit finished( m_pStatus );
 }
 
 #include "xhtmlgenerator.moc"

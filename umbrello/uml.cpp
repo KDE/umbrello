@@ -990,7 +990,8 @@ void UMLApp::slotFileQuit() {
 
 void UMLApp::slotFileExportDocbook()
 {
-  DocbookGenerator().generateDocbookForProject();
+  DocbookGenerator* docbookGenerator = new DocbookGenerator;
+  docbookGenerator->generateDocbookForProject();
 }
 
 void UMLApp::slotFileExportXhtml()
@@ -1001,7 +1002,7 @@ void UMLApp::slotFileExportXhtml()
   }
   m_xhtmlGenerator = new XhtmlGenerator();
   m_xhtmlGenerator->generateXhtmlForProject();
-  connect(m_xhtmlGenerator,SIGNAL(finished()),this,SLOT(slotXhtmlDocGenerationFinished()));
+  connect(m_xhtmlGenerator,SIGNAL(finished(bool)),this,SLOT(slotXhtmlDocGenerationFinished(bool)));
 }
 
 void UMLApp::slotEditUndo() {
@@ -1967,8 +1968,12 @@ void UMLApp::slotMoveTabRight() {
     //m_tabWidget->moveTab( m_tabWidget->currentPageIndex(), m_tabWidget->currentPageIndex() + 1 );
 }
 
-void UMLApp::slotXhtmlDocGenerationFinished()
+void UMLApp::slotXhtmlDocGenerationFinished(bool status)
 {
+  if ( !status ) {
+      m_doc->writeToStatusBar( i18n( "XHTML Generation failed ." ) );
+  }
+
   delete m_xhtmlGenerator;
   m_xhtmlGenerator = 0;
 }

@@ -22,12 +22,7 @@
 #include <ktempdir.h>
 #include <qobject.h>
 
-class KJob;
-
-namespace KIO
-{
-  class Job;
-}
+class UMLDoc;
 
 /**
  * class XhtmlGenerator is a documentation generator for UML documents.
@@ -77,8 +72,10 @@ class XhtmlGenerator : public QObject
 
   signals:
 
-    /** Emited when the documentation generation is finished */
-    void finished();
+    /** Emited when the documentation generation is finished 
+     * @param status true if success else false
+     */
+    void finished(bool status);
 
   protected slots:
 
@@ -87,20 +84,22 @@ class XhtmlGenerator : public QObject
      * @param docbookJob the job copying the docbook file to its destination.
      * Used only for error reporting
      */
-    void slotDocbookToXhtml(KJob * docbookJob);
+    void slotDocbookToXhtml(bool);
 
     /** Triggered when the copying of the HTML result file is finished. Emits
      * the signal finished().
      */
-    void slotHtmlCopyFinished( KJob* );
+    void slotHtmlGenerated(const QString&);
 
+    void cleanUpAndExit();
   private:
 
+    bool m_pStatus;
     /** The destination directory where the final documentation will be
      * written.
      */
     KUrl m_destDir;
-//     KTempDir m_tmpDir;
+    UMLDoc* umlDoc;
 };
 
 #endif // XHTMLGENERATOR_H

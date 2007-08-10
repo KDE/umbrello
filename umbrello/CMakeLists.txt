@@ -109,7 +109,10 @@ kde4_add_ui_files(  libcodegenerator_SRCS
 
 set(libdocgenerator_SRCS
     docgenerators/docbookgenerator.cpp 
-    docgenerators/xhtmlgenerator.cpp)
+    docgenerators/docbookgeneratorjob.cpp
+    docgenerators/xhtmlgenerator.cpp    
+    docgenerators/docbook2xhtmlgeneratorjob.cpp
+)
 
 
 set(libdialogs_SRCS

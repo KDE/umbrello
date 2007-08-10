@@ -1,0 +1,105 @@
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   copyright (C) 2007                                                    *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
+ ***************************************************************************/
+
+#include "docbook2xhtmlgeneratorjob.h"
+
+#include <libxml/xmlmemory.h>
+#include <libxml/debugXML.h>
+#include <libxml/HTMLtree.h>
+#include <libxml/xmlIO.h>
+#include <libxml/xinclude.h>
+#include <libxml/catalog.h>
+#include <libxslt/xslt.h>
+#include <libxslt/xsltInternals.h>
+#include <libxslt/transform.h>
+#include <libxslt/xsltutils.h>
+
+#include <QTextOStream>
+
+#include <ktemporaryfile.h>
+#include <kstandarddirs.h>
+#include <klocale.h>
+#include <kdebug.h>
+
+#include "uml.h"
+#include "umldoc.h"
+
+extern int xmlLoadExtDtdDefaultValue;
+
+Docbook2XhtmlGeneratorJob::Docbook2XhtmlGeneratorJob(KUrl& docBookUrl, QObject* parent )
+    :QThread(parent),m_pDocbookUrl( docBookUrl ) {
+}
+
+
+void Docbook2XhtmlGeneratorJob::run() {
+
+  UMLDoc* umlDoc = UMLApp::app()->getDocument();
+  xsltStylesheetPtr cur = NULL;
+  xmlDocPtr doc, res;
+
+  const char *params[16 + 1];
+  int nbparams = 0;
+  params[nbparams] = NULL;
+
+  umlDoc->writeToStatusBar(i18n("Exporting to XHTML..."));
+
+  QString xsltFileName(KGlobal::dirs()->findResource("appdata","docbook2xhtml.xsl"));
+  kDebug() <<k_funcinfo<< "XSLT file is'"<<xsltFileName<<"'";
+  QFile xsltFile(xsltFileName);
+  xsltFile.open(QIODevice::ReadOnly);
+  QString xslt = xsltFile.readAll();
+  kDebug() <<k_funcinfo<< "XSLT is'"<<xslt<<"'";
+  xsltFile.close();
+
+  QString localXsl = KGlobal::dirs()->findResource("data","ksgmltools2/docbook/xsl/html/docbook.xsl");
+  kDebug() <<k_funcinfo<< "Local xsl is'"<<localXsl<<"'";
+  if (!localXsl.isEmpty())
+  {
+    localXsl = QString("href=\"file://") + localXsl + "\"";
+    xslt.replace(QRegExp("href=\"http://[^\"]*\""),localXsl);
+  }
+  KTemporaryFile tmpXsl;
+  tmpXsl.setAutoRemove(false);
+  tmpXsl.open();
+  QTextStream str ( &tmpXsl );
+  str << xslt;
+  str.flush();
+
+  xmlSubstituteEntitiesDefault(1);
+  xmlLoadExtDtdDefaultValue = 1;
+  kDebug() <<k_funcinfo<< "Parsing stylesheet " << tmpXsl.fileName();
+  cur = xsltParseStylesheetFile((const xmlChar *)tmpXsl.fileName().latin1());
+  kDebug() <<k_funcinfo<< "Parsing file " << m_pDocbookUrl.path();
+  doc = xmlParseFile((const char*)(m_pDocbookUrl.path().utf8()));
+  kDebug() <<k_funcinfo<< "Applying stylesheet ";
+  res = xsltApplyStylesheet(cur, doc, params);
+
+  KTemporaryFile tmpXhtml;
+  tmpXhtml.setAutoRemove(false);
+  tmpXhtml.open();
+
+  kDebug() <<k_funcinfo<< "Writing HTML result to temp file: " << tmpXhtml.fileName();
+  xsltSaveResultToFd(tmpXhtml.handle(), res, cur);
+
+  xsltFreeStylesheet(cur);
+  xmlFreeDoc(res);
+  xmlFreeDoc(doc);
+
+  xsltCleanupGlobals();
+  xmlCleanupParser();
+
+  emit xhtmlGenerated( tmpXhtml.fileName() );
+
+}
+
+#include "docbook2xhtmlgeneratorjob.moc"
+
+

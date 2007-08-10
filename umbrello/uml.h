@@ -878,8 +878,9 @@ public slots:
     /**
      * This slot deletes the current XHTML documentation generator as soon as
      * this one signals that it has finished.
+     * @param status true if successful else false
      */
-    void slotXhtmlDocGenerationFinished();
+    void slotXhtmlDocGenerationFinished(bool status);
 
 private:
     static UMLApp* s_instance;
