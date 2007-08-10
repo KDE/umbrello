@@ -13,14 +13,15 @@
 #ifndef SELECTOPDLG_H
 #define SELECTOPDLG_H
 
+#include <q3groupbox.h>
+#include <qradiobutton.h>
+#include <qlabel.h>
+#include <q3buttongroup.h>
+
+#include <klineedit.h>
+#include <kcombobox.h>
 #include <kdialog.h>
 
-#include <q3groupbox.h>
-#include <kcombobox.h>
-#include <qradiobutton.h>
-#include <q3buttongroup.h>
-#include <qlineedit.h>
-#include <qlabel.h>
 #include "../classifier.h"
 
 class UMLView;
@@ -105,7 +106,7 @@ private:
     Q3GroupBox * m_pOpGB;
     KComboBox * m_pOpCB;
     QLabel * m_pSeqL;
-    QLineEdit * m_pOpLE, * m_pSeqLE;
+    KLineEdit * m_pOpLE, * m_pSeqLE;
     QRadioButton * m_pCustomRB, * m_pOpRB;
     Q3ButtonGroup * m_pOpBG, * m_pDocGB;
     QString m_Text;

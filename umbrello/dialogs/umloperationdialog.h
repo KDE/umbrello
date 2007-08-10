@@ -33,7 +33,7 @@ class QPushButton;
 class QLabel;
 class QCheckBox;
 class KComboBox;
-class QLineEdit;
+class KLineEdit;
 class UMLDoc;
 class KArrowButton;
 
@@ -95,7 +95,7 @@ protected:
     QRadioButton * m_pPublicRB, * m_pPrivateRB,  * m_pProtectedRB, * m_pImplementationRB;
     QLabel * m_pRtypeL, * m_pNameL, * m_pStereoTypeL;
     KComboBox * m_pRtypeCB, * m_pStereoTypeCB;
-    QLineEdit * m_pNameLE;
+    KLineEdit * m_pNameLE;
     QCheckBox * m_pAbstractCB;
     QCheckBox * m_pStaticCB;
     QCheckBox * m_pQueryCB;

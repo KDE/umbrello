@@ -16,12 +16,13 @@
 #include <qwidget.h>
 #include <q3groupbox.h>
 #include <qlabel.h>
-#include <qlineedit.h>
 #include <q3buttongroup.h>
 #include <q3multilineedit.h>
 #include <qradiobutton.h>
 #include <qcheckbox.h>
-#include <qcombobox.h>
+
+#include <klineedit.h>
+#include <kcombobox.h>
 
 //my class includes
 #include "../umlobject.h"
@@ -62,8 +63,8 @@ public:
     void updateObject();
 
 private:
-    QLineEdit *m_pRoleALE, *m_pRoleBLE;
-    QComboBox *m_pMultiACB, *m_pMultiBCB;
+    KLineEdit *m_pRoleALE, *m_pRoleBLE;
+    KComboBox *m_pMultiACB, *m_pMultiBCB;
     Q3MultiLineEdit *m_pDocA, *m_pDocB;
     AssociationWidget *m_pAssociationWidget;
     UMLDoc * m_pUmldoc;

@@ -12,16 +12,18 @@
 #ifndef PARMPROPDLG_H
 #define PARMPROPDLG_H
 
-#include <kdialog.h>
-#include <kcombobox.h>
 #include <q3groupbox.h>
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qradiobutton.h>
-#include <qlineedit.h>
 #include <q3buttongroup.h>
 #include <q3multilineedit.h>
 #include <qcombobox.h>
+
+#include <kdialog.h>
+#include <kcombobox.h>
+#include <klineedit.h>
+
 #include "../attribute.h"
 
 class UMLDoc;
@@ -116,7 +118,7 @@ private:
     QRadioButton * m_pIn, * m_pOut, *m_pInOut;
     QLabel * m_pTypeL, * m_pNameL, * m_pInitialL, * m_pStereoTypeL;
     KComboBox * m_pTypeCB, * m_pStereoTypeCB;
-    QLineEdit * m_pNameLE, * m_pInitialLE;
+    KLineEdit * m_pNameLE, * m_pInitialLE;
     Q3MultiLineEdit * m_pDoc;
     UMLDoc * m_pUmldoc;
     UMLAttribute * m_pAtt;

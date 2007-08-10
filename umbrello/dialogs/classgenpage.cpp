@@ -32,6 +32,7 @@
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <kcombobox.h>
+#include <klineedit.h>
 
 // my class includes
 #include "../umlobject.h"
@@ -92,7 +93,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
     m_pNameL -> setText(name);
     m_pNameLayout -> addWidget(m_pNameL, 0, 0);
 
-    m_pClassNameLE = new QLineEdit(this);
+    m_pClassNameLE = new KLineEdit(this);
     m_pNameLayout -> addWidget(m_pClassNameLE, 0, 1);
     m_pClassNameLE->setFocus();
     m_pNameL->setBuddy(m_pClassNameLE);
@@ -280,7 +281,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidge
     m_pNameL -> setText(i18n("Class name:"));
     m_pNameLayout -> addWidget(m_pNameL, 0, 0);
 
-    m_pClassNameLE = new QLineEdit(this);
+    m_pClassNameLE = new KLineEdit(this);
     m_pClassNameLE -> setText(o -> getName());
     m_pNameLayout -> addWidget(m_pClassNameLE, 0, 1);
 
@@ -288,7 +289,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidge
     m_pInstanceL -> setText(i18n("Instance name:"));
     m_pNameLayout -> addWidget(m_pInstanceL, 1, 0);
 
-    m_pInstanceLE = new QLineEdit(this);
+    m_pInstanceLE = new KLineEdit(this);
     m_pInstanceLE -> setText(o -> getInstanceName());
     m_pNameLayout -> addWidget(m_pInstanceLE, 1, 1);
     UMLView *view = UMLApp::app()->getCurrentView();
@@ -351,7 +352,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget) : QWid
     }
     m_pNameLayout->addWidget(m_pNameL, 0, 0);
 
-    m_pClassNameLE = new QLineEdit(this);
+    m_pClassNameLE = new KLineEdit(this);
     m_pClassNameLE->setText(widget->getName());
     m_pNameLayout->addWidget(m_pClassNameLE, 0, 1);
 
@@ -368,7 +369,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget) : QWid
     m_pInstanceL->setText(i18n("Instance name:"));
     m_pNameLayout->addWidget(m_pInstanceL, 2, 0);
 
-    m_pInstanceLE = new QLineEdit(this);
+    m_pInstanceLE = new KLineEdit(this);
     m_pInstanceLE->setText(widget->getInstanceName());
     m_pNameLayout->addWidget(m_pInstanceLE, 2, 1);
 

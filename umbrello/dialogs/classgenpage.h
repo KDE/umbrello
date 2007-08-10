@@ -17,12 +17,12 @@
 
 class Q3GroupBox;
 class QLabel;
-class QLineEdit;
 class Q3ButtonGroup;
 class Q3MultiLineEdit;
 class QRadioButton;
 class QCheckBox;
 class KComboBox;
+class KLineEdit;
 
 class UMLObject;
 class UMLWidget;
@@ -83,7 +83,7 @@ private:
     Q3GroupBox *m_pDocGB;
     Q3ButtonGroup       * m_pButtonBG;
     QLabel * m_pNameL, * m_pInstanceL, * m_pStereoTypeL, * m_pPackageL;
-    QLineEdit * m_pClassNameLE, *m_pInstanceLE, * m_pPackageLE;
+    KLineEdit * m_pClassNameLE, *m_pInstanceLE, * m_pPackageLE;
     KComboBox * m_pStereoTypeCB, *m_pPackageCB ;
     QRadioButton *m_pPublicRB, *m_pPrivateRB, *m_pProtectedRB, *m_pImplementationRB;
     QCheckBox * m_pMultiCB, * m_pDrawActorCB, * m_pAbstractCB, * m_pDeconCB;

@@ -14,12 +14,12 @@
 
 //qt class includes
 #include <qlabel.h>
-#include <qlineedit.h>
 #include <q3multilineedit.h>
 #include <q3groupbox.h>
 #include <qradiobutton.h>
 
 //kde class includes
+#include <klineedit.h>
 #include <kpagedialog.h>
 #include <kfontdialog.h>
 
@@ -126,7 +126,7 @@ protected:
 
     struct GeneralPageWidgets {
         QLabel * nameL, * typeL , * stateL;
-        QLineEdit * nameLE, * typeLE , *stateLE;
+        KLineEdit * nameLE, * typeLE , *stateLE;
         Q3MultiLineEdit * docMLE;
         QRadioButton * BufferRB, * DataRB, * FlowRB;
         Q3GroupBox * docGB, * generalGB;

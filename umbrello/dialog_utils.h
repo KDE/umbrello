@@ -20,8 +20,9 @@
 class Q3GroupBox;
 class QGridLayout;
 class QLabel;
-class QLineEdit;
 class UMLWidget;
+class KLineEdit;
+
 
 /**
  * Dialog utilities.
@@ -38,13 +39,13 @@ namespace Dialog_Utils {
  * @param row                   The row number within the QGridLayout.
  * @param label                 The QLabel object allocated (return value)
  * @param labelText             The label text.
- * @param editField             The QLineEdit object allocated (return value)
+ * @param editField             The KLineEdit object allocated (return value)
  * @param editFieldText         Initialization text in the editField (optional.)
- * @return a pointer to the QLineEdit so you can setFocus() if necessary
+ * @return a pointer to the KLineEdit so you can setFocus() if necessary
  */
-QLineEdit* makeLabeledEditField(Q3GroupBox *containingBox, QGridLayout *layout, int row,
+KLineEdit* makeLabeledEditField(Q3GroupBox *containingBox, QGridLayout *layout, int row,
                                 QLabel * &label, const QString& labelText,
-                                QLineEdit * &editField,
+                                KLineEdit * &editField,
                                 const QString& editFieldText = QString());
 
 /**

@@ -15,11 +15,12 @@
 //qt  includes
 #include <qwidget.h>
 #include <qlabel.h>
-#include <qlineedit.h>
-#include <qtextedit.h>
 
 //kde includes
 #include <kdialog.h>
+
+class KLineEdit;
+class KTextEdit;
 
 class UMLDoc;
 class UMLCheckConstraint;
@@ -73,10 +74,10 @@ private:
      * The GUI widgets
      */
     QLabel* m_pNameL;
-    QLineEdit* m_pNameLE;
+    KLineEdit* m_pNameLE;
 
     QLabel* m_pCheckConditionL;
-    QTextEdit* m_pCheckConditionTE;
+    KTextEdit* m_pCheckConditionTE;
  
 public slots:
 

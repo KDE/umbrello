@@ -14,9 +14,10 @@
 
 class Q3ListBox;
 class QRadioButton;
-class QComboBox;
 class Q3ButtonGroup;
 class Q3GroupBox;
+
+class KComboBox;
 
 #include <Q3ValueList>
 #include <kdeprint/kprintdialogpage.h>
@@ -72,7 +73,7 @@ private:
     Q3GroupBox * m_pSelectGB;
     Q3ListBox * m_pSelectLB;
     QRadioButton * m_pAllRB, * m_pCurrentRB, * m_pSelectRB, * m_pTypeRB;
-    QComboBox * m_pTypeCB;
+    KComboBox * m_pTypeCB;
 
     UMLDoc * m_pDoc;
     Uml::Diagram_Type m_ViewType;

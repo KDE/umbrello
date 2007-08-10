@@ -16,7 +16,7 @@
 
 class AssociationWidget;
 class QGroupBox;
-class QTextEdit;
+class KTextEdit;
 class UMLObject;
 class UMLDoc;
 class UMLView;
@@ -160,7 +160,7 @@ private:
     Showing_Type m_Showing;
 
     //visual widgets
-    QTextEdit      * m_pDocTE;
+    KTextEdit      * m_pDocTE;
 
 };
 

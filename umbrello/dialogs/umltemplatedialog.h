@@ -18,7 +18,7 @@
 
 class KComboBox;
 class Q3GroupBox;
-class QLineEdit;
+class KLineEdit;
 class UMLTemplate;
 
 /**
@@ -56,7 +56,7 @@ protected:
     Q3GroupBox* m_pValuesGB;
     QLabel *m_pTypeL, *m_pNameL, *m_pStereoTypeL;
     KComboBox* m_pTypeCB;
-    QLineEdit *m_pNameLE, *m_pStereoTypeLE;
+    KLineEdit *m_pNameLE, *m_pStereoTypeLE;
 
 public slots:
     /**

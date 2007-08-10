@@ -25,7 +25,7 @@
 class UMLView;
 class StateWidget;
 class QLabel;
-class QLineEdit;
+class KLineEdit;
 class Q3MultiLineEdit;
 class Q3GroupBox;
 class KFontChooser;
@@ -127,7 +127,7 @@ protected:
 
     struct GeneralPageWidgets {
         QLabel * nameL, * typeL;
-        QLineEdit * nameLE, * typeLE;
+        KLineEdit * nameLE, * typeLE;
         Q3MultiLineEdit * docMLE;
 
         Q3GroupBox * docGB, * generalGB;

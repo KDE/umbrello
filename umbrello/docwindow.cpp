@@ -16,7 +16,8 @@
 #include <QVBoxLayout>
 #include <qgroupbox.h>
 #include <qlayout.h>
-#include <qtextedit.h>
+
+#include <ktextedit.h>
 #include <klocale.h>
 
 // local includes
@@ -31,7 +32,7 @@ DocWindow::DocWindow( UMLDoc * doc, QWidget *parent, const char *name ) : QWidge
     //setup visual display
 
     QVBoxLayout * docLayout = new QVBoxLayout( this );
-    m_pDocTE = new QTextEdit( this );
+    m_pDocTE = new KTextEdit( this );
     m_pDocTE -> setText( "" );
     docLayout -> addWidget( m_pDocTE);
     docLayout->setMargin(0);

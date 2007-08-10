@@ -26,6 +26,7 @@
 #include <kpagedialog.h>
 #include <kcolorbutton.h>
 #include <knuminput.h>
+#include <klineedit.h>
 //app includes
 
 #include "../optionstate.h"
@@ -109,7 +110,7 @@ private:
 
         // 2004-05-17 Achim Spangler: Allow definition of Suffix for autosave
         // ( Default: ".xmi" )
-        QLineEdit * autosaveSuffixT;
+        KLineEdit * autosaveSuffixT;
         QLabel    * autosaveSuffixL;
         // End AutoSave Suffix
 

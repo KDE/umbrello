@@ -14,7 +14,6 @@
 
 // qt includes
 #include <qlayout.h>
-#include <qlineedit.h>
 #include <qcheckbox.h>
 #include <q3groupbox.h>
 #include <q3buttongroup.h>
@@ -26,6 +25,7 @@
 #include <QGridLayout>
 
 // kde includes
+#include <klineedit.h>
 #include <kcombobox.h>
 #include <kcompletion.h>
 #include <klocale.h>

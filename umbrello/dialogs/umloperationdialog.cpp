@@ -21,13 +21,13 @@
 #include <qradiobutton.h>
 #include <qlabel.h>
 #include <qcheckbox.h>
-#include <qlineedit.h>
 //Added by qt3to4:
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QGridLayout>
 
 //kde includes
+#include <klineedit.h>
 #include <kcombobox.h>
 #include <kdebug.h>
 #include <klocale.h>

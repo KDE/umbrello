@@ -17,6 +17,8 @@
 // kde includes
 #include <kdebug.h>
 #include <klocale.h>
+#include <ktextedit.h>
+#include <klineedit.h>
 
 // qt includes
 #include <qlayout.h>
@@ -61,7 +63,7 @@ void UMLCheckConstraintDialog::setupDialog(){
     m_pNameL = new QLabel( i18n( "Name" ), this );
     nameLayout->addWidget( m_pNameL );
     // name lineEdit
-    m_pNameLE = new QLineEdit( this );
+    m_pNameLE = new KLineEdit( this );
     nameLayout->addWidget( m_pNameLE );
 
     QVBoxLayout* checkConditionLayout = new QVBoxLayout( mainLayout );
@@ -69,7 +71,7 @@ void UMLCheckConstraintDialog::setupDialog(){
     m_pCheckConditionL = new QLabel( i18n( "Check Condition :" ), frame );
     checkConditionLayout->addWidget( m_pCheckConditionL );
 
-    m_pCheckConditionTE = new QTextEdit( frame );
+    m_pCheckConditionTE = new KTextEdit( frame );
     checkConditionLayout->addWidget( m_pCheckConditionTE );
 
     // set text of text edit

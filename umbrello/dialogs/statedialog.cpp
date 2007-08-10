@@ -15,7 +15,6 @@
 //qt includes
 #include <qlayout.h>
 #include <qlabel.h>
-#include <qlineedit.h>
 #include <q3multilineedit.h>
 #include <q3groupbox.h>
 #include <kicon.h>
@@ -25,6 +24,7 @@
 #include <QGridLayout>
 #include <kvbox.h>
 //kde includes
+#include <klineedit.h>
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kfontdialog.h>

@@ -103,7 +103,7 @@ void AssocRolePage::constructWidget() {
     // Multi A
     QLabel *pMultiAL = NULL;
     pMultiAL = new QLabel( i18n( "Multiplicity:" ), propsAGB );
-    m_pMultiACB = new QComboBox(propsAGB);
+    m_pMultiACB = new KComboBox(propsAGB);
     m_pMultiACB->addItems( multiplicities );
     m_pMultiACB->setDuplicatesEnabled(false);
     m_pMultiACB->setEditable(true);
@@ -172,7 +172,7 @@ void AssocRolePage::constructWidget() {
     // Multi B
     QLabel *pMultiBL = NULL;
     pMultiBL = new QLabel( i18n( "Multiplicity:" ), propsBGB );
-    m_pMultiBCB = new QComboBox(propsBGB);
+    m_pMultiBCB = new KComboBox(propsBGB);
     m_pMultiBCB->addItems( multiplicities );
     m_pMultiBCB->setDuplicatesEnabled(false);
     m_pMultiBCB->setEditable(true);

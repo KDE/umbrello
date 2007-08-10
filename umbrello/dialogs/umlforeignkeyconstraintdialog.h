@@ -20,11 +20,11 @@
 #include <q3listbox.h>
 #include <q3textedit.h>
 #include <qtreewidget.h>
-#include <qlineedit.h>
 #include <qmap.h>
 #include <qlist.h>
 
 //kde includes
+#include <klineedit.h>
 #include <karrowbutton.h>
 #include <kcombobox.h>
 #include <kdialog.h>
@@ -99,7 +99,7 @@ private:
         QLabel* referencedEntityL;
         QLabel* nameL;
 
-        QLineEdit* nameT;
+        KLineEdit* nameT;
  
         KComboBox* referencedEntityCB;
 

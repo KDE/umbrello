@@ -66,7 +66,7 @@ SelectOpDlg::SelectOpDlg(UMLView * parent, UMLClassifier * c)
     m_pCustomRB = new QRadioButton(i18n("Custom operation:"), m_pOpGB);
     mainLayout -> addWidget(m_pCustomRB, 2, 0);
 
-    m_pOpLE = new QLineEdit(m_pOpGB);
+    m_pOpLE = new KLineEdit(m_pOpGB);
     mainLayout -> addWidget(m_pOpLE, 2, 1);
 
     m_pOpBG = new Q3ButtonGroup(0);

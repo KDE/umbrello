@@ -19,9 +19,10 @@
 #include <q3ptrlist.h>
 #include <q3listbox.h>
 #include <qradiobutton.h>
-#include <qcombobox.h>
 #include <q3buttongroup.h>
 #include <q3groupbox.h>
+
+#include <kcombobox.h>
 #include <klocale.h>
 
 // local includes
@@ -71,7 +72,7 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : KPrintDi
     select -> setSpacing(10);
     select-> setMargin(margin);
 
-    m_pTypeCB = new QComboBox(m_pSelectGB);
+    m_pTypeCB = new KComboBox(m_pSelectGB);
     select -> addWidget(m_pTypeCB);
     m_pTypeCB -> setEnabled(false);
 

@@ -779,7 +779,7 @@ void UMLApp::saveProperties(KConfigGroup &_config) {
         _config.writePathEntry("filename", url.url());
         _config.writeEntry("modified", m_doc->isModified());
         QString tempname = kapp->tempSaveName(url.url());
-        QString tempurl= QUrl::toPercentEncoding(tempname);
+        QString tempurl= KUrl::toPercentEncoding(tempname);
 
         KUrl _url(tempurl);
         m_doc->saveDocument(_url);

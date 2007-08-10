@@ -27,7 +27,7 @@ class Q3GroupBox;
 class QRadioButton;
 class UMLEntityAttribute;
 class KComboBox;
-class QLineEdit;
+class KLineEdit;
 
 class UMLEntityAttributeDialog : public KDialog {
     Q_OBJECT
@@ -68,7 +68,7 @@ protected:
     QLabel * m_pTypeL, * m_pNameL, * m_pInitialL, * m_pStereoTypeL, * m_pValuesL, * m_pAttributesL ;
     KComboBox * m_pTypeCB;
     KComboBox * m_pAttributesCB;
-    QLineEdit * m_pNameLE, * m_pInitialLE, * m_pStereoTypeLE, * m_pValuesLE;
+    KLineEdit * m_pNameLE, * m_pInitialLE, * m_pStereoTypeLE, * m_pValuesLE;
     QCheckBox* m_pAutoIncrementCB;
     QCheckBox* m_pNullCB;
 

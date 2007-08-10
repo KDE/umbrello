@@ -16,12 +16,13 @@
 #include <qwidget.h>
 #include <q3groupbox.h>
 #include <qlabel.h>
-#include <qlineedit.h>
 #include <q3buttongroup.h>
 #include <q3multilineedit.h>
 #include <qradiobutton.h>
 #include <qcheckbox.h>
 #include <q3valuelist.h>
+
+#include <klineedit.h>
 
 //my class includes
 #include "../umlobject.h"
@@ -65,7 +66,7 @@ public:
     void updateObject();
 
 private:
-    QLineEdit * m_pAssocNameLE;
+    KLineEdit * m_pAssocNameLE;
     KComboBox *m_pTypeCB;
 
     /* Choices for the QComboBox, and we store ints and strings

@@ -17,12 +17,12 @@
 #include <q3groupbox.h>
 #include <qcombobox.h>
 #include <qlabel.h>
-#include <qlineedit.h>
 //Added by qt3to4:
 #include <QVBoxLayout>
 #include <QGridLayout>
 
 // kde includes
+#include <klineedit.h>
 #include <kcombobox.h>
 #include <klocale.h>
 #include <kmessagebox.h>
