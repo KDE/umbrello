@@ -293,10 +293,8 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me) {
     }
 }
 
-UMLWidget* UMLWidgetController::getWidget()
-{
-return m_widget;
-
+UMLWidget* UMLWidgetController::getWidget() {
+    return m_widget;
 }
 
 void UMLWidgetController::mouseDoubleClickEvent(QMouseEvent *me) {
