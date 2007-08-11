@@ -506,7 +506,7 @@ void CppWriter::writeAttributeDecls (Uml::Visibility visibility, bool writeStati
     //write documentation
     if(forceDoc() || list->count() > 0)
     {
-        QString strVis = capitalizeFirstLetter(visibility.toString());
+        QString strVis = Codegen_Utils::capitalizeFirstLetter(visibility.toString());
         QString strStatic = writeStatic ? "Static ":"";
         writeComment(strStatic + strVis + " attributes",getIndent(), stream);
         writeComment(" ",getIndent(), stream);
@@ -604,7 +604,7 @@ void CppWriter::writeAttributeMethods(UMLAttributeList *attribs,
 
     if (forceDoc() || attribs->count() > 0)
     {
-        QString strVis = capitalizeFirstLetter(visibility.toString());
+        QString strVis = Codegen_Utils::capitalizeFirstLetter(visibility.toString());
         QString strStatic = (isStatic ? " static" : "");
         writeBlankLine(stream);
         writeComment(strVis + strStatic + " attribute accessor methods",getIndent(),stream);
@@ -847,7 +847,7 @@ void CppWriter::writeVectorAttributeAccessorMethods (
 {
 
     QString className = fixTypeName(fieldClassName);
-    QString fldName = capitalizeFirstLetter(fieldName);
+    QString fldName = Codegen_Utils::capitalizeFirstLetter(fieldName);
     QString indent = getIndent();
 
     // ONLY IF changeability is NOT Frozen
@@ -932,7 +932,7 @@ void CppWriter::writeSingleAttributeAccessorMethods(
         return;
 
     QString className = fixTypeName(fieldClassName);
-    QString fldName = capitalizeFirstLetter(fieldName);
+    QString fldName = Codegen_Utils::capitalizeFirstLetter(fieldName);
     QString indent = getIndent();
 
     // set method
@@ -1250,14 +1250,6 @@ QString CppWriter::fixInitialStringDeclValue(const QString &value, const QString
 QString CppWriter::getUMLObjectName(UMLObject *obj)
 {
     return(obj!=0)?obj->getName():QString("NULL");
-}
-
-QString CppWriter::capitalizeFirstLetter(const QString &string)
-{
-    // we could lowercase everything tostart and then capitalize? Nah, it would
-    // screw up formatting like getMyRadicalVariable() to getMyradicalvariable(). Bah.
-    QChar firstChar = string.at(0);
-    return firstChar + string.mid(1);
 }
 
 void CppWriter::writeBlankLine(QTextStream &stream)

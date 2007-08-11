@@ -200,11 +200,6 @@ private:
     QString getUMLObjectName(UMLObject *obj);
 
     /**
-     * Raises the case of the first letter in the given string
-     */
-    QString capitaliseFirstLetter(QString string);
-
-    /**
      * Replaces `string' with `String' and `bool' with `boolean'
      */
     QString fixTypeName(const QString& string);

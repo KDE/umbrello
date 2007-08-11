@@ -20,7 +20,6 @@
 #include "dwriter.h"
 // qt includes
 #include <qfile.h>
-#include <qstringlist.h>
 #include <qtextstream.h>
 #include <qregexp.h>
 // kde includes
@@ -33,6 +32,7 @@
 #include "../association.h"
 #include "../template.h"
 #include "../umltemplatelist.h"
+#include "codegen_utils.h"
 
 DWriter::DWriter() {
     startline = m_endl + m_indentation;
@@ -513,7 +513,7 @@ void DWriter::writeAssociationDecls(UMLAssociationList associations, Uml::IDType
 
 void DWriter::writeAssociationRoleDecl(QString fieldClassName,
         QString roleName, QString multi,
-        QString doc, Uml::Visibility /* visib */, QTextStream &d) {
+        QString doc, Uml::Visibility /*visib*/, QTextStream &d) {
     // ONLY write out IF there is a rolename given
     // otherwise its not meant to be declared in the code
     if (roleName.isEmpty()) return;
@@ -599,17 +599,17 @@ void DWriter::writeAssociationRoleMethod (QString fieldClassName, QString roleNa
 
 void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QString fieldVarName,
         QString fieldName, QString description,
-        Uml::Visibility /* visibility */, Uml::Changeability_Type changeType,
+        Uml::Visibility /*visibility*/, Uml::Changeability_Type changeType,
         QTextStream &d) {
 
     fieldClassName = fixTypeName(fieldClassName);
     QString fieldNameUP = unPluralize(fieldName);
-    QString fieldNameUC = capitaliseFirstLetter(fieldNameUP);
+    QString fieldNameUC = Codegen_Utils::capitalizeFirstLetter(fieldNameUP);
 
     // ONLY IF changeability is NOT Frozen
     if (changeType != Uml::chg_Frozen) {
         writeDocumentation("Adds a " + fieldNameUP + " to the list of " +
-                           fieldName + ".", description, "", m_indentation, d);
+                           fieldName + '.', description, "", m_indentation, d);
 
         d << m_indentation << "void add" << fieldNameUC << "(";
         d << fieldClassName << " new" << fieldNameUC << ") {";
@@ -620,7 +620,7 @@ void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QStri
     // ONLY IF changeability is Changeable
     if (changeType == Uml::chg_Changeable) {
         writeDocumentation("Removes a " + fieldNameUP + " from the list of " +
-                           fieldName + ".", description, "", m_indentation, d);
+                           fieldName + '.', description, "", m_indentation, d);
 
         d << m_indentation << "void remove" << fieldNameUC << "(";
         d << fieldClassName << " " << fieldNameUP << ") {" << startline;
@@ -636,8 +636,8 @@ void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QStri
     }
 
     // always allow getting the list of stuff
-    writeDocumentation("Returns the list of " + fieldName + ".",
-                       description, "@return List of "+fieldName + ".",
+    writeDocumentation("Returns the list of " + fieldName + '.',
+                       description, "@return List of "+fieldName + '.',
                        m_indentation, d);
 
     d << m_indentation << fieldClassName << "[] get" << fieldName << "() {";
@@ -647,17 +647,17 @@ void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QStri
 
 
 void DWriter::writeSingleAttributeAccessorMethods(QString fieldClassName,
-     QString fieldVarName, QString fieldName, QString description, Uml::Visibility /* visibility */,
+     QString fieldVarName, QString fieldName, QString description, Uml::Visibility /*visibility*/,
      Uml::Changeability_Type change, bool isFinal, QTextStream &d) {
 
     fieldClassName = fixTypeName(fieldClassName);
-    QString fieldNameUC = capitaliseFirstLetter(fieldName);
+    QString fieldNameUC = Codegen_Utils::capitalizeFirstLetter(fieldName);
     if (fieldName.left(2) == "m_") fieldName = fieldName.right(fieldName.length()-2);
 
     // set method
     if (change == Uml::chg_Changeable && !isFinal) {
-        writeDocumentation("Sets the value of " + fieldName + ".", description,
-                           "@param new" + fieldNameUC + " The new value of " + fieldName + ".",
+        writeDocumentation("Sets the value of " + fieldName + '.', description,
+                           "@param new" + fieldNameUC + " The new value of " + fieldName + '.',
                            m_indentation, d);
 
         d << m_indentation << fieldClassName << " " << fieldName << "(";
@@ -667,8 +667,8 @@ void DWriter::writeSingleAttributeAccessorMethods(QString fieldClassName,
     }
 
     // get method
-    writeDocumentation("Returns the value of " + fieldName + ".", description,
-                       "@return The value of " + fieldName + ".",
+    writeDocumentation("Returns the value of " + fieldName + '.', description,
+                       "@return The value of " + fieldName + '.',
                        m_indentation, d);
 
     d << m_indentation << fieldClassName << " " << fieldName << "() {";
@@ -882,7 +882,7 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d) {
         if (op->getAbstract() && !isInterface) str += "abstract ";
         if (op->getStatic()) str += "static ";
 
-        str += methodReturnType + ' ' +cleanName(op->getName()) + "(";
+        str += methodReturnType + ' ' +cleanName(op->getName()) + '(';
 
         atl = op->getParmList();
         int i = atl.count();
@@ -898,13 +898,13 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d) {
             returnStr += "@param " + atName+' '+at->getDoc() + m_endl;
         }
 
-        str+= ")";
+        str+= ')';
 
         // method only gets a body IF its not abstract
         if (op->getAbstract() || isInterface)
-            str += ";"; // terminate now
+            str += ';'; // terminate now
         else
-            str += startline + "{" + startline + "}"; // empty method body
+            str += startline + '{' + startline + '}'; // empty method body
 
         // write it out
         writeDocumentation("", op->getDoc(), returnStr, m_indentation, d);
@@ -939,11 +939,6 @@ QString DWriter::scopeToDDecl(Uml::Visibility scope) {
 // methods like this _shouldn't_ be needed IF we properly did things thruought the code.
 QString DWriter::getUMLObjectName(UMLObject *obj) {
     return(obj!=0)?obj->getName():QString("NULL");
-}
-
-QString DWriter::capitaliseFirstLetter(QString string) {
-    string.replace( 0, 1, string[0].upper());
-    return string;
 }
 
 QString DWriter::deCapitaliseFirstLetter(QString string) {

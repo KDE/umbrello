@@ -38,6 +38,7 @@
 #include "rubyclassdeclarationblock.h"
 #include "rubycodeclassfielddeclarationblock.h"
 #include "rubycodeoperation.h"
+#include "codegen_utils.h"
 #include "../classifier.h"
 #include "../uml.h"
 
@@ -100,16 +101,9 @@ QString RubyClassifierCodeDocument::getPath ( )
 // Other methods
 //
 
-QString RubyClassifierCodeDocument::capitalizeFirstLetter(const QString &string)
-{
-    CodeGenerator *g = UMLApp::app()->getGenerator();
-    RubyCodeGenerator * gen = dynamic_cast<RubyCodeGenerator *>(g);
-    return gen->capitalizeFirstLetter(string);
-}
-
 QString RubyClassifierCodeDocument::getRubyClassName (const QString &name) {
     CodeGenerator *g = UMLApp::app()->getGenerator();
-    return capitalizeFirstLetter(g->cleanName(name));
+    return Codegen_Utils::capitalizeFirstLetter(g->cleanName(name));
 }
 
 // Initialize this ruby classifier code document

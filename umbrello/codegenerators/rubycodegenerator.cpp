@@ -88,14 +88,6 @@ QString RubyCodeGenerator::getListFieldClassName () {
 // Other methods
 //
 
-QString RubyCodeGenerator::capitalizeFirstLetter(const QString &string)
-{
-    // we could lowercase everything tostart and then capitalize? Nah, it would
-    // screw up formatting like getMyRadicalVariable() to getMyradicalvariable(). Bah.
-    QChar firstChar = string.at(0);
-    return firstChar.upper() + string.mid(1);
-}
-
 QString RubyCodeGenerator::cppToRubyType(const QString &typeStr) {
     QString type = cleanName(typeStr);
     type.replace("const ", "");

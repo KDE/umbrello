@@ -110,14 +110,6 @@ QString JavaCodeGenerator::getListFieldClassName () {
 // Other methods
 //
 
-QString JavaCodeGenerator::capitalizeFirstLetter(const QString &string)
-{
-    // we could lowercase everything tostart and then capitalize? Nah, it would
-    // screw up formatting like getMyRadicalVariable() to getMyradicalvariable(). Bah.
-    QChar firstChar = string.at(0);
-    return firstChar.upper() + string.mid(1);
-}
-
 // IF the type is "string" we need to declare it as
 // the Java Object "String" (there is no string primative in Java).
 // Same thing again for "bool" to "boolean"

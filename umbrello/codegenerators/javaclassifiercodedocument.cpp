@@ -36,6 +36,7 @@
 #include "javacodecomment.h"
 #include "javaclassdeclarationblock.h"
 #include "javacodeclassfielddeclarationblock.h"
+#include "codegen_utils.h"
 #include "../classifier.h"
 #include "../codegenerationpolicy.h"
 #include "../uml.h"
@@ -103,13 +104,8 @@ QString JavaClassifierCodeDocument::getPath ( )
 // Other methods
 //
 
-QString JavaClassifierCodeDocument::capitalizeFirstLetter(const QString &string)
-{
-    return JavaCodeGenerator::capitalizeFirstLetter(string);
-}
-
 QString JavaClassifierCodeDocument::getJavaClassName (const QString &name) {
-    return capitalizeFirstLetter(CodeGenerator::cleanName(name));
+    return Codegen_Utils::capitalizeFirstLetter(CodeGenerator::cleanName(name));
 }
 
 // Initialize this java classifier code document
