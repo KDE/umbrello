@@ -75,14 +75,14 @@ CodeDocumentDialog RubyClassifierCodeDocument::getDialog ( ) {
 }
 */
 
-// We overwritten by Ruby language implementation to get lowercase path
+// Overwritten by Ruby language implementation to get lowercase path
 QString RubyClassifierCodeDocument::getPath ( )
 {
 
     QString path = getPackage();
 
     // Replace all white spaces with blanks
-    path.simplified();
+    path = path.simplified();
 
     // Replace all blanks with underscore
     path.replace(QRegExp(" "), "_");

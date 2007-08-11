@@ -736,7 +736,7 @@ void UMLWidget::setSelected(bool _select) {
 
     const QPoint pos(getX(), getY());
     UMLWidget *bkgnd = m_pView->getWidgetAt(pos);
-    if (bkgnd && _select) {
+    if (bkgnd && bkgnd != this && _select) {
         kDebug() << "UMLWidget::setSelected: setting Z to "
             << bkgnd->getZ() + 1 << ", SelectState: " << _select << endl;
         setZ( bkgnd->getZ() + 1 );
@@ -989,12 +989,13 @@ void UMLWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     qElement.setAttribute( "y", getY() );
     qElement.setAttribute( "width", getWidth() );
     qElement.setAttribute( "height", getHeight() );
-    qElement.setAttribute( "usesdiagramfillcolour", m_bUsesDiagramFillColour );
-    qElement.setAttribute( "usesdiagramusefillcolour", m_bUsesDiagramUseFillColour );
+    // for consistency the following attributes now use american spelling for "color"
+    qElement.setAttribute( "usesdiagramfillcolor", m_bUsesDiagramFillColour );
+    qElement.setAttribute( "usesdiagramusefillcolor", m_bUsesDiagramUseFillColour );
     if (m_bUsesDiagramFillColour) {
-        qElement.setAttribute( "fillcolour", "none" );
+        qElement.setAttribute( "fillcolor", "none" );
     } else {
-        qElement.setAttribute( "fillcolour", m_FillColour.name() );
+        qElement.setAttribute( "fillcolor", m_FillColour.name() );
     }
     qElement.setAttribute("isinstance", m_bIsInstance);
     if (!m_instanceName.isEmpty())
@@ -1012,9 +1013,17 @@ bool UMLWidget::loadFromXMI( QDomElement & qElement ) {
     QString y = qElement.attribute( "y", "0" );
     QString h = qElement.attribute( "height", "0" );
     QString w = qElement.attribute( "width", "0" );
+    /*
+      For the next three *color attributes, there was a mixup of american and english spelling for "color".
+      So first we need to keep backward compatibility and try to retrieve the *colour attribute.
+      Next we overwrite this value if we find a *color, otherwise the former *colour is kept.
+    */
     QString fillColour = qElement.attribute( "fillcolour", "none" );
+    fillColour = qElement.attribute( "fillcolor", fillColour );
     QString usesDiagramFillColour = qElement.attribute( "usesdiagramfillcolour", "1" );
+    usesDiagramFillColour = qElement.attribute( "usesdiagramfillcolor", usesDiagramFillColour );
     QString usesDiagramUseFillColour = qElement.attribute( "usesdiagramusefillcolour", "1" );
+    usesDiagramUseFillColour = qElement.attribute( "usesdiagramusefillcolor", usesDiagramUseFillColour );
 
     m_nId = STR2ID(id);
 
