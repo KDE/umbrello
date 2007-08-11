@@ -327,7 +327,7 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
  * @param m             Input text of the constraint
  *
  * @param name          The name returned by this method
- * @param owningScope   Poitner to the owning scope of the constraint
+ * @param owningScope   Pointer to the owning scope of the constraint
  * @return       Error status of the parse, PS_OK for success.
  */
 Parse_Status parseConstraint(QString m, QString& name, UMLEntity* owningScope);
