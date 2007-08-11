@@ -1396,24 +1396,22 @@ void AssociationWidget::updatePointsException () {
     int yb = pWidgetB -> getY();
     int hb = pWidgetB -> getHeight();
     int wb = pWidgetB -> getWidth();
-    int xmil;int ymil;
-    int xdeb;int ydeb;
-    int xfin;int yfin;
-    int ESPACEX;int ESPACEY;
+    int xmil, ymil;
+    int xdeb, ydeb;
+    int xfin, yfin;
+    int ESPACEX, ESPACEY;
     QPoint p1;
     QPoint p2;
     //calcul des coordonnées au milieu de la flèche eclair
-    if ( (xb - xa - wa) >= 45) {
+    if (xb - xa - wa >= 45) {
         ESPACEX = 0;
         xdeb = xa + wa;
         xfin = xb;
-    }
-    else if ( (xa - xb - wb) > 45 ) {
+    } else if (xa - xb - wb > 45 ) {
         ESPACEX = 0;
         xdeb = xa;
         xfin = xb + wb;
-    }
-    else {
+    } else {
         ESPACEX = 15;
         xdeb = xa + wa/2;
         xfin = xb + wb/2;
@@ -1421,17 +1419,15 @@ void AssociationWidget::updatePointsException () {
 
     xmil = xdeb + (xfin - xdeb)/2;
 
-    if (( yb - ya - ha) >= 45  )  {
+    if (yb - ya - ha >= 45  )  {
         ESPACEY = 0;
         ydeb = ya + ha;
         yfin = yb;
-    }
-    else if (( ya - yb - hb) > 45 ) {
+    } else if (ya - yb - hb > 45 ) {
         ESPACEY = 0;
         ydeb = ya;
         yfin = yb + hb;
-    }
-    else {
+    } else {
         ESPACEY = 15;
         ydeb = ya + ha/2;
         yfin = yb + hb/2;
@@ -1439,20 +1435,19 @@ void AssociationWidget::updatePointsException () {
 
     ymil = ydeb + (yfin - ydeb)/2;
 
-     p1.setX(xmil + (xfin - xmil)*1/2); p1.setY(ymil + (yfin - ymil)*1/3);
-     p2.setX(xmil - (xmil - xdeb)*1/2); p2.setY(ymil - (ymil - ydeb)*1/3);
+    p1.setX(xmil + (xfin - xmil)*1/2); p1.setY(ymil + (yfin - ymil)*1/3);
+    p2.setX(xmil - (xmil - xdeb)*1/2); p2.setY(ymil - (ymil - ydeb)*1/3);
 
-     if (abs(p1.x() - p2.x()) <= 10)
-         ESPACEX = 15;
-     if (abs(p1.y() - p2.y()) <= 10)
+    if (abs(p1.x() - p2.x()) <= 10)
+        ESPACEX = 15;
+    if (abs(p1.y() - p2.y()) <= 10)
         ESPACEY = 15;
 
-     m_LinePath.setStartEndPoints( QPoint( xdeb , ydeb ) , QPoint( xfin , yfin ) );
-     m_LinePath.setPoint( 1, QPoint(p1.x() + ESPACEX,p1.y() + ESPACEY));
-     m_LinePath.setPoint( 2 ,QPoint(p2.x() - ESPACEX,p2.y() - ESPACEY));
+    m_LinePath.setStartEndPoints( QPoint( xdeb , ydeb ) , QPoint( xfin , yfin ) );
+    m_LinePath.setPoint( 1, QPoint(p1.x() + ESPACEX,p1.y() + ESPACEY));
+    m_LinePath.setPoint( 2 ,QPoint(p2.x() - ESPACEX,p2.y() - ESPACEY));
 
-     m_role[A].m_WidgetRegion = m_role[B].m_WidgetRegion = North;
-
+    m_role[A].m_WidgetRegion = m_role[B].m_WidgetRegion = North;
 
 }
 
@@ -1833,7 +1828,6 @@ QPoint AssociationWidget::calculateTextPosition(Uml::Text_Role role) {
 
     // used to find out if association end point (p)
     // is at top or bottom edge of widget.
-    bool is_top_or_bottom(false);
     UMLWidget *pWidget(0);
 
     if (role == tr_MultiA || role == tr_ChangeA || role == tr_RoleAName) {
@@ -1850,9 +1844,6 @@ QPoint AssociationWidget::calculateTextPosition(Uml::Text_Role role) {
                   << role << endl;
         return QPoint(-1, -1);
     }
-
-    if ( pWidget && ( pWidget->getY() == p.y() || pWidget->getY() + pWidget->height() == p.y() ))
-        is_top_or_bottom = true;
 
     FloatingTextWidget *text = getTextWidgetByRole(role);
     int textW = 0, textH = 0;
