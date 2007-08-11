@@ -64,7 +64,7 @@ void CPPHeaderCodeAccessorMethod::updateContent( )
     Uml::Visibility scope = parentField->getVisibility();
     QString variableName = cppfield->getFieldName();
     QString itemClassName = cppfield->getTypeName();
-    QString text = "";
+    QString text;
 
     if(isInlineMethod) {
         switch(getType()) {
@@ -108,9 +108,9 @@ void CPPHeaderCodeAccessorMethod::updateMethodDeclaration()
         objectType = fieldName;
 
     QString methodReturnType = "void";
-    QString methodName = ""; // "get"+cppdoc->capitalizeFirstLetter(fieldName);
-    QString methodParams = " "; // "get"+cppdoc->capitalizeFirstLetter(fieldName);
-    QString headerText = "";
+    QString methodName;
+    QString methodParams;
+    QString headerText;
     QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
 
     switch(getType()) {

@@ -64,7 +64,7 @@ void CPPSourceCodeAccessorMethod::updateContent( )
 
     QString variableName = cppfield->getFieldName();
     QString itemClassName = cppfield->getTypeName();
-    QString text = "";
+    QString text;
 
     if(isInlineMethod) {
         switch(getType()) {
@@ -109,9 +109,9 @@ void CPPSourceCodeAccessorMethod::updateMethodDeclaration()
         objectType = fieldName;
 
     QString methodReturnType = "void";
-    QString methodName = ""; // "get"+cppdoc->capitalizeFirstLetter(fieldName);
-    QString methodParams = " "; // "get"+cppdoc->capitalizeFirstLetter(fieldName);
-    QString headerText = "";
+    QString methodName;
+    QString methodParams;
+    QString headerText;
     QString className = CodeGenerator::cleanName(c->getName());
     QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
 
