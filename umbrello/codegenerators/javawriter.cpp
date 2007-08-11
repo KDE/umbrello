@@ -406,7 +406,6 @@ void JavaWriter::writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility 
         // force capitalizing the field name, this is silly,
         // from what I can tell, this IS the default behavior for
         // cleanName. I dunno why its not working -b.t.
-        fieldName.trimmed();
         fieldName.replace(0,1,fieldName.at(0).upper());
 
         writeSingleAttributeAccessorMethods(at->getTypeName(),

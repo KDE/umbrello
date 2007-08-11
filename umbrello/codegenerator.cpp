@@ -485,7 +485,7 @@ bool CodeGenerator::openFile (QFile & file, const QString &fileName ) {
  */
 QString CodeGenerator::cleanName ( const QString &name ) {
     QString retval = name;
-    retval.replace(QRegExp("\\W"), "_");
+    retval.replace(QRegExp("\\W+"), "_");
     return retval;
 }
 

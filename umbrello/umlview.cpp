@@ -2528,7 +2528,6 @@ void UMLView::copyAsImage(QPixmap*& pix) {
     m_bDrawSelectedOnly = false;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 void UMLView::setMenu() {
     slotRemovePopupMenu();
     ListPopupMenu::Menu_Type menu = ListPopupMenu::mt_Undefined;
@@ -3339,7 +3338,7 @@ bool UMLView::loadWidgetsFromXMI( QDomElement & qElement ) {
 }
 
 UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
-    UMLWidget* widget = 0;
+
     if ( !m_pDoc ) {
         kWarning() << "UMLView::loadWidgetFromXMI(): m_pDoc is NULL";
         return 0L;
@@ -3347,7 +3346,7 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement) {
 
     QString tag  = widgetElement.tagName();
     QString idstr  = widgetElement.attribute( "xmi.id", "-1" );
-    widget = Widget_Factory::makeWidgetFromXMI(tag, idstr, this);
+    UMLWidget* widget = Widget_Factory::makeWidgetFromXMI(tag, idstr, this);
 
     if (widget == NULL)
         return NULL;

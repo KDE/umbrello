@@ -67,7 +67,7 @@ QStringList scan(const QString& lin) {
             lexeme += c;
             if (inString) {
                 result.append(lexeme);
-                lexeme.clear();
+                lexeme = QString();
             }
             inString = !inString;
         } else if (inString ||
@@ -76,7 +76,7 @@ QStringList scan(const QString& lin) {
         } else {
             if (!lexeme.isEmpty()) {
                 result.append(lexeme);
-                lexeme.clear();
+                lexeme = QString();
             }
             if (! c.isSpace()) {
                 result.append(QString(c));

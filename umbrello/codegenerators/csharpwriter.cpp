@@ -477,7 +477,7 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
 
             // FIXME: "returns" should contain documentation, not type.
             cs << m_container_indent << m_indentation << "/// <returns>";
-            if (!( op->getTypeName() ).isEmpty()) {
+            if (! op->getTypeName().isEmpty()) {
                 cs << makeLocalTypeName(op);
             }
             cs << "</returns>" << m_endl;
@@ -500,7 +500,7 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
         }
 
         // return type
-        if (( op->getTypeName() ).isEmpty()) {
+        if (op->getTypeName().isEmpty()) {
             cs << "void ";
         }
         else {
