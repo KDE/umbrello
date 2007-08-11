@@ -636,7 +636,6 @@ void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement) {
     if (id != Uml::id_None)
         itemElement.setAttribute( "id", idStr );
     itemElement.setAttribute( "type", m_Type );
-    UMLDoc *umldoc = s_pListView->getDocument();
     UMLFolder *extFolder = NULL;
     if (m_pObject == NULL) {
         if (! Model_Utils::typeIsDiagram(m_Type) && m_Type != Uml::lvt_View)

@@ -26,12 +26,9 @@ class CodeBlockWithComments;
 class CodeClassField;
 class CodeComment;
 class CodeDocument;
-class CodeOperation;
 class HierarchicalCodeBlock;
 class TextBlock;
 
-class UMLDoc;
-class UMLOperation;
 
 /**
   * class CodeGenObjectWithTextBlocks

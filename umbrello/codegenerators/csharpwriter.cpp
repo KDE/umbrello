@@ -477,7 +477,7 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
 
             // FIXME: "returns" should contain documentation, not type.
             cs << m_container_indent << m_indentation << "/// <returns>";
-            if (op->getTypeName() != "") {
+            if (! op->getTypeName().isEmpty()) {
                 cs << makeLocalTypeName(op);
             }
             cs << "</returns>" << m_endl;
@@ -500,7 +500,7 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
         }
 
         // return type
-        if (op->getTypeName() == "") {
+        if (op->getTypeName().isEmpty()) {
             cs << "void ";
         }
         else {
@@ -637,7 +637,7 @@ void CSharpWriter::writeAssociatedAttributes(UMLAssociationList &associated, UML
             writeAttribute(roleDoc, a->getVisibility(Uml::B), false, typeName, roleName, "", ( a->getVisibility(Uml::B) != Uml::Visibility::Private), cs);
         } else {
             // array
-            roleDoc += "\n(Array of " + typeName + ")";
+            roleDoc += "\n(Array of " + typeName + ')';
             writeAttribute(roleDoc, a->getVisibility(Uml::B), false, "ArrayList", roleName, "", ( a->getVisibility(Uml::B) != Uml::Visibility::Private), cs);
         }
     }

@@ -26,10 +26,7 @@
 #include "../codegenerator.h"
 #include "../umlnamespace.h"
 
-class QTextStream;
 class UMLDoc;
-class UMLAttribute;
-class CodeBlockWithComments;
 
 /**
   * A simple code generator interface designed to work with

@@ -614,6 +614,8 @@ Uml::Programming_Language stringToProgLang(QString str) {
         return Uml::pl_Cpp;
     if (str == "C#")
         return Uml::pl_CSharp;
+    if (str == "D")
+        return Uml::pl_D;
     if (str == "IDL")
         return Uml::pl_IDL;
     if (str == "Java")

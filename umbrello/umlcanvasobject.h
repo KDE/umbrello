@@ -17,7 +17,6 @@
 #include "umlclassifierlist.h"
 #include "umlassociationlist.h"
 
-class IDChangeLog;
 
 /**
  * This class contains the non-graphical information required for UMLObjects

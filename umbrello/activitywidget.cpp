@@ -148,6 +148,7 @@ ActivityWidget::ActivityType ActivityWidget::getActivityType() const {
 
 void ActivityWidget::setActivityType( ActivityType activityType ) {
     m_ActivityType = activityType;
+    updateComponentSize();
     UMLWidget::m_bResizable = true;
 }
 

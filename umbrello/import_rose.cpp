@@ -69,7 +69,7 @@ QStringList scan(const QString& lin) {
             lexeme += c;
             if (inString) {
                 result.append(lexeme);
-                lexeme = QString::null;
+                lexeme = QString();
             }
             inString = !inString;
         } else if (inString ||
@@ -78,7 +78,7 @@ QStringList scan(const QString& lin) {
         } else {
             if (!lexeme.isEmpty()) {
                 result.append(lexeme);
-                lexeme = QString::null;
+                lexeme = QString();
             }
             if (! c.isSpace()) {
                 result.append(QString(c));
@@ -142,7 +142,7 @@ bool isImmediateValue(QString s) {
  */
 QString extractImmediateValues(QStringList& l) {
     if (l.count() == 0)
-        return QString::null;
+        return QString();
     if (l.first() == "(")
         l.pop_front();
     QString result;
@@ -176,21 +176,21 @@ QString collectVerbatimText(QTextStream& stream) {
             break;
         if (line[0] != '|') {
             kError() << loc() << "expecting '|' at start of verbatim text" << endl;
-            return QString::null;
+            return QString();
         } else {
-            result += line.mid(1) + "\n";
+            result += line.mid(1) + '\n';
         }
     }
     if (line.isNull()) {
         kError() << loc() << "premature EOF" << endl;
-        return QString::null;
+        return QString();
     }
     if (! line.isEmpty()) {
         for (uint i = 0; i < line.length(); i++) {
             const QChar& clParenth = line[i];
             if (clParenth != ')') {
                 kError() << loc() << "expected ')', found: " << clParenth << endl;
-                return QString::null;
+                return QString();
             }
             nClosures++;
         }
@@ -221,11 +221,11 @@ QString collectVerbatimText(QTextStream& stream) {
 QString extractValue(QStringList& l, QTextStream& stream) {
     methodName("extractValue");
     if (l.count() == 0)
-        return QString::null;
+        return QString();
     if (l.first() == "(")
         l.pop_front();
     if (l.first() != "value")
-        return QString::null;
+        return QString();
     l.pop_front();  // remove "value"
     l.pop_front();  // remove the value type: could be e.g. "Text" or "cardinality"
     QString result;

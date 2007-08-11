@@ -450,7 +450,7 @@ void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY) {
     int w = width();
     int h = height();
     int s = 4;
-    QBrush brush(blue);
+    QBrush brush(Qt::blue);
     p -> fillRect(offsetX, offsetY, s,  s, brush);
     p -> fillRect(offsetX, offsetY + h - s, s, s, brush);
     p -> fillRect(offsetX + w - s, offsetY, s, s, brush);
@@ -938,7 +938,7 @@ bool UMLWidget::getShowStereotype() const {
     return m_bShowStereotype;
 }
 
-void UMLWidget::moveEvent(QMoveEvent *me) {
+void UMLWidget::moveEvent(QMoveEvent* /*me*/) {
 }
 
 void UMLWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {

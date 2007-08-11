@@ -1848,10 +1848,6 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, Uml::ListView_Type typ
          parentItem = m_datatypeFolder;
      }
 
-    UMLPackage *parentPkg = dynamic_cast<UMLPackage*>(parentItem->getUMLObject());
-    if (parentPkg == NULL)
-        kError() << "UMLListView::addNewItem(type " << type
-            << "): parentPkg is NULL" << endl;
     UMLListViewItem * newItem = NULL;
     parentItem->setOpen( true );
 
@@ -1869,6 +1865,13 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, Uml::ListView_Type typ
                 << type << endl;
             return;
         }
+        UMLPackage *parentPkg =
+            dynamic_cast<UMLPackage*>(parentItem->getUMLObject());
+        if (parentPkg == NULL) {
+            kError() << "UMLListView::addNewItem(type " << type
+                << "): parentPkg is NULL" << endl;
+            return;
+        }
         if (Model_Utils::typeIsClassifierList(type)) {
             UMLClassifier *parent = static_cast<UMLClassifier*>(parentPkg);
             name = parent->uniqChildName(ot);
@@ -1876,7 +1879,6 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, Uml::ListView_Type typ
             name = Model_Utils::uniqObjectName(ot, parentPkg);
         }
         newItem = new UMLListViewItem(parentItem, name, type, (UMLObject*)0);
-        newItem->setIcon(icon);
     }
     m_bIgnoreCancelRename = false;
     newItem->setIcon( icon );
