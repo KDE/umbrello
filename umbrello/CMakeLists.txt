@@ -15,7 +15,7 @@ endmacro(CREATE_VERSION)
 #macro_additional_clean_files( ${CMAKE_CURRENT_BINARY_DIR}/version.h )
 create_version(${CMAKE_SOURCE_DIR}/umbrello/VERSION ${CMAKE_CURRENT_BINARY_DIR}/version.h)
 
-
+add_definitions (-DQT3_SUPPORT_WARNINGS)
 
 include_directories (${LIBXML2_INCLUDE_DIR} ${LIBXSLT_INCLUDE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/)
 
