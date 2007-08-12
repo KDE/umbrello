@@ -637,7 +637,7 @@ void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QStri
 
     // always allow getting the list of stuff
     writeDocumentation("Returns the list of " + fieldName + '.',
-                       description, "@return List of "+fieldName + '.',
+                       description, "@return List of " + fieldName + '.',
                        m_indentation, d);
 
     d << m_indentation << fieldClassName << "[] get" << fieldName << "() {";
