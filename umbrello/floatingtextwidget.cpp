@@ -181,7 +181,7 @@ void FloatingTextWidget::handleRename() {
     if (!ok || newText == getText())
         return;
 
-    UMLApp::app()->executeCommand(new cmdHandleRename(this,newText));
+    UMLApp::app()->executeCommand(new Uml::cmdHandleRename(this,newText));
 }
 
 void FloatingTextWidget::changeName(const QString& newText)
@@ -236,7 +236,7 @@ void FloatingTextWidget::changeName(const QString& newText)
 
 
 void FloatingTextWidget::setTextcmd(const QString &t) {
-      UMLApp::app()->executeCommand(new cmdSetTxt(this,t));
+      UMLApp::app()->executeCommand(new Uml::cmdSetTxt(this,t));
 }
 
 void FloatingTextWidget::setText(const QString &t) {
