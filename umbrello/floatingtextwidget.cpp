@@ -37,7 +37,6 @@
 #include "dialogs/selectopdlg.h"
 #include "cmds.h"
 
-using namespace Uml;
 
 FloatingTextWidget::FloatingTextWidget(UMLView * view, Uml::Text_Role role,
                                        const QString& text, Uml::IDType id)
@@ -331,7 +330,7 @@ void FloatingTextWidget::showOpDlg() {
             if (od.m_pReturnType)
                 op->setType(od.m_pReturnType);
             m_pLink->setOperation(op);
-            opText.clear();
+            opText = QString();
         } else {
             m_pLink->setOperation(NULL);
         }
