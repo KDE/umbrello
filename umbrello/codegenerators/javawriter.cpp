@@ -26,6 +26,7 @@
 // kde includes
 #include <kdebug.h>
 // app includes
+#include "codegen_utils.h"
 #include "../umldoc.h"
 #include "../classifier.h"
 #include "../operation.h"
@@ -608,7 +609,7 @@ void JavaWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QS
 {
 
     fieldClassName = fixTypeName(fieldClassName);
-    fieldName = capitaliseFirstLetter(fieldName);
+    fieldName = Codegen_Utils::capitalizeFirstLetter(fieldName);
     QString strVis = scopeToJavaDecl(visibility);
 
     // ONLY IF changeability is NOT Frozen
@@ -647,7 +648,7 @@ void JavaWriter::writeSingleAttributeAccessorMethods(QString fieldClassName, QSt
 
     QString strVis = scopeToJavaDecl(visibility);
     fieldClassName = fixTypeName(fieldClassName);
-    fieldName = capitaliseFirstLetter(fieldName);
+    fieldName = Codegen_Utils::capitalizeFirstLetter(fieldName);
 
     // set method
     if (change == Uml::chg_Changeable && !isFinal) {
@@ -925,15 +926,6 @@ QString JavaWriter::scopeToJavaDecl(Uml::Visibility scope)
 QString JavaWriter::getUMLObjectName(UMLObject *obj)
 {
     return(obj!=0)?obj->getName():QString("NULL");
-}
-
-QString JavaWriter::capitaliseFirstLetter(QString string)
-{
-    // we could lowercase everything tostart and then capitalize? Nah, it would
-    // screw up formatting like getMyRadicalVariable() to getMyradicalvariable(). Bah.
-    QChar firstChar = string.at(0);
-    string.replace( 0, 1, firstChar.upper());
-    return string;
 }
 
 void JavaWriter::writeBlankLine(QTextStream &java)

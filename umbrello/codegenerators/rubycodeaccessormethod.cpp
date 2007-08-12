@@ -31,7 +31,7 @@
 #include "../umlobject.h"
 #include "../umlrole.h"
 #include "../uml.h"
-
+#include "codegen_utils.h"
 #include "rubyclassifiercodedocument.h"
 #include "rubycodegenerationpolicy.h"
 #include "rubycodegenerator.h"
@@ -179,7 +179,7 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
 
     switch(getType()) {
     case CodeAccessorMethod::ADD:
-        methodName = "add"+rubydoc->capitalizeFirstLetter(fieldType);
+        methodName = "add" + Codegen_Utils::capitalizeFirstLetter(fieldType);
         methodReturnType = "";
         methodParams = objectType+" value ";
         headerText = "Add an object of type "+objectType+" to the Array "+fieldName+endLine+description+endLine+"@return nil";
@@ -192,14 +192,14 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
         setEndMethodText("");
         break;
     case CodeAccessorMethod::LIST:
-        methodName = "get"+rubydoc->capitalizeFirstLetter(fieldType)+"List";
+        methodName = "get" + Codegen_Utils::capitalizeFirstLetter(fieldType)+"List";
         methodReturnType = "";
         headerText = "Get the list of "+fieldName+endLine+description+endLine+"_returns_ List of "+fieldName;
         setStartMethodText("def "+ methodName + '(' + methodParams + ')');
         setEndMethodText("end");
         break;
     case CodeAccessorMethod::REMOVE:
-        methodName = "remove"+rubydoc->capitalizeFirstLetter(fieldType);
+        methodName = "remove" + Codegen_Utils::capitalizeFirstLetter(fieldType);
         methodReturnType = "";
         methodParams = objectType+" value ";
         headerText = "Remove an object of type "+objectType+" from the List "+fieldName+endLine+description;

@@ -32,6 +32,7 @@
 #include "../association.h"
 #include "../template.h"
 #include "../umltemplatelist.h"
+#include "codegen_utils.h"
 
 DWriter::DWriter() {
     startline = m_endl + m_indentation;
@@ -603,7 +604,7 @@ void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QStri
 
     fieldClassName = fixTypeName(fieldClassName);
     QString fieldNameUP = unPluralize(fieldName);
-    QString fieldNameUC = capitaliseFirstLetter(fieldNameUP);
+    QString fieldNameUC = Codegen_Utils::capitalizeFirstLetter(fieldNameUP);
 
     // ONLY IF changeability is NOT Frozen
     if (changeType != Uml::chg_Frozen) {
@@ -650,7 +651,7 @@ void DWriter::writeSingleAttributeAccessorMethods(QString fieldClassName,
      Uml::Changeability_Type change, bool isFinal, QTextStream &d) {
 
     fieldClassName = fixTypeName(fieldClassName);
-    QString fieldNameUC = capitaliseFirstLetter(fieldName);
+    QString fieldNameUC = Codegen_Utils::capitalizeFirstLetter(fieldName);
     if (fieldName.left(2) == "m_") fieldName = fieldName.right(fieldName.count()-2);
 
     // set method
@@ -938,11 +939,6 @@ QString DWriter::scopeToDDecl(Uml::Visibility scope) {
 // methods like this _shouldn't_ be needed IF we properly did things thruought the code.
 QString DWriter::getUMLObjectName(UMLObject *obj) {
     return(obj!=0)?obj->getName():QString("NULL");
-}
-
-QString DWriter::capitaliseFirstLetter(QString string) {
-    string.replace( 0, 1, string[0].upper());
-    return string;
 }
 
 QString DWriter::deCapitaliseFirstLetter(QString string) {

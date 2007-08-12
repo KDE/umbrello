@@ -31,6 +31,11 @@ const QStringList reservedCppKeywords();
  */
 void createCppStereotypes();
 
+/**
+ * Return the input string with the first letter capitalized.
+ */
+QString capitalizeFirstLetter(const QString &string);
+
 }
 
 #endif  // CODEGEN_UTILS_H

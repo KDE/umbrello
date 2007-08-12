@@ -95,9 +95,6 @@ public:
     // Other methods
     //
 
-    // general purpose function we may reuse for all types of Java code documents
-    static QString capitalizeFirstLetter(const QString &string);
-
     /**
      * Utility function for getting the java code generation policy.
      */

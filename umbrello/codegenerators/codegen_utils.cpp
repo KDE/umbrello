@@ -395,13 +395,18 @@ const QStringList reservedCppKeywords() {
     return keywords;
 }
 
-void createCppStereotypes(){
+void createCppStereotypes() {
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     umldoc->findOrCreateStereotype("constructor");
     // declares an operation as friend
     umldoc->findOrCreateStereotype("friend");
     // to use in methods that aren't abstract
     umldoc->findOrCreateStereotype("virtual");
+}
+
+QString capitalizeFirstLetter(const QString &string) {
+    QChar firstChar = string.at(0);
+    return firstChar.upper() + string.mid(1);
 }
 
 }  // end namespace Codegen_Utils

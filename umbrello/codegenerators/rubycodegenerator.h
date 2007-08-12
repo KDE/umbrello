@@ -82,9 +82,6 @@ public:
     // Other methods
     //
 
-    // general purpose function we may reuse for all types of Ruby code documents
-    QString capitalizeFirstLetter(const QString &string);
-
     /**
      * Utility function for getting the ruby code generation policy.
      */

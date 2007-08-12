@@ -62,7 +62,6 @@ public:
     //CodeDocumentDialog getDialog ( );
 
     QString scopeToJavaDecl(Uml::Visibility scope);
-    QString capitalizeFirstLetter(const QString &string);
 
     // Make it easier on ourselves
     JavaCodeGenerationPolicy * getJavaPolicy();
