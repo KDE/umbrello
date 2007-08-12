@@ -2,6 +2,7 @@ Version 1.5.8
 
 * Bugs/wishes from http://bugs.kde.org:
 * Cannot move text and label correctly after enabling snap to grid (137041)
+* Umbrello gratuitously appends ".xmi" to the saved file name (146061)
 * Wrong pascal code generation (146676)
 * Crash when linking to undefined xmi.id (146748)
 * End Activity Symbol gets invalid when line thickness is increased (146925)
