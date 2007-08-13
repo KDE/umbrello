@@ -107,8 +107,9 @@ void PythonWriter::writeClass(UMLClassifier *c) {
     //write includes and take namespaces into account
     UMLPackageList includes;
     findObjectsRelated(c,includes);
-    UMLPackage* conc;
-    for(conc = includes.first(); conc ;conc = includes.next()) {
+    UMLPackage* conc = NULL;
+    for(UMLPackageListIt includesIt( includes ); includesIt.hasNext(); ) {
+        UMLPackage* conc = includesIt.next();
         QString headerName = findFileName(conc, ".py");
         if ( !headerName.isEmpty() ) {
             headerName.remove(QRegExp(".py$"));

@@ -54,8 +54,9 @@ UMLCanvasObject::~UMLCanvasObject() {
 
 UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::Association_Type assocType) {
     UMLAssociationList list;
-    UMLObject *o;
-    for (UMLObjectListIt oit(m_List); (o = oit.current()) != NULL; ++oit) {
+    UMLObject *o = NULL;
+    for (UMLObjectListIt oit(m_List); oit.hasNext(); ) {
+        o = oit.next();
         if (o->getBaseType() != Uml::ot_Association)
             continue;
         UMLAssociation *a = static_cast<UMLAssociation*>(o);
@@ -80,7 +81,7 @@ bool UMLCanvasObject::addAssociationEnd(UMLAssociation* assoc) {
 }
 
 bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc) {
-    if(m_List.containsRef(assoc) > 0)
+    if(m_List.count(assoc) > 0)
         return true;
     return false;
 }
@@ -97,11 +98,16 @@ int UMLCanvasObject::removeAssociationEnd(UMLAssociation * assoc) {
 }
 
 void UMLCanvasObject::removeAllAssociationEnds() {
-    UMLObject *o;
-    for (UMLObjectListIt oit(m_List); (o = oit.current()) != NULL; ) {
+    UMLObject *o = NULL;
+    for (UMLObjectListIt oit(m_List); oit.hasNext(); ) {
+        o = oit.next();
         if (o->getBaseType() != Uml::ot_Association) {
-            ++oit;
-            continue;
+            if ( oit.hasNext() ) {
+                o = oit.next();
+                continue;
+            } else {
+                break;
+            }
         }
         UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
         //umldoc->slotRemoveUMLObject(assoc);
@@ -133,9 +139,9 @@ void UMLCanvasObject::removeAllAssociationEnds() {
 
 void UMLCanvasObject::removeAllChildObjects() {
     removeAllAssociationEnds();
-    m_List.setAutoDelete(true);
-    m_List.clear();
-    m_List.setAutoDelete(false);
+    while ( !m_List.isEmpty() ) {
+        delete m_List.takeFirst();
+    }
 }
 
 QString UMLCanvasObject::uniqChildName( const Uml::Object_Type type,
@@ -185,8 +191,9 @@ QString UMLCanvasObject::uniqChildName( const Uml::Object_Type type,
 
 UMLObject * UMLCanvasObject::findChildObject(const QString &n, Uml::Object_Type t) {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
-    UMLObject *obj;
-    for (UMLObjectListIt oit(m_List); (obj = oit.current()) != NULL; ++oit) {
+    UMLObject *obj = NULL;
+    for (UMLObjectListIt oit(m_List); oit.hasNext(); ) {
+        obj = oit.next();
         if (t != Uml::ot_UMLObject && obj->getBaseType() != t)
             continue;
         if (caseSensitive) {
@@ -200,8 +207,9 @@ UMLObject * UMLCanvasObject::findChildObject(const QString &n, Uml::Object_Type 
 }
 
 UMLObject* UMLCanvasObject::findChildObjectById(Uml::IDType id, bool /* considerAncestors */) {
-    UMLObject *o;
-    for (UMLObjectListIt oit(m_List); (o = oit.current()) != NULL; ++oit) {
+    UMLObject *o = NULL;
+    for (UMLObjectListIt oit(m_List); oit.hasNext(); ) {
+        o = oit.next();
         if (o->getID() == id)
             return o;
     }
@@ -209,7 +217,7 @@ UMLObject* UMLCanvasObject::findChildObjectById(Uml::IDType id, bool /* consider
 }
 
 void UMLCanvasObject::init() {
-    m_List.setAutoDelete(false);
+
 }
 
 bool UMLCanvasObject::operator==(UMLCanvasObject& rhs) {
@@ -240,8 +248,9 @@ void UMLCanvasObject::copyInto(UMLCanvasObject *rhs) const
 
 int UMLCanvasObject::associations() {
     int count = 0;
-    UMLObject *obj;
-    for (UMLObjectListIt oit(m_List); (obj = oit.current()) != NULL; ++oit) {
+    UMLObject *obj = NULL;
+    for (UMLObjectListIt oit(m_List); oit.hasNext(); ) {
+        obj = oit.next();
         if (obj->getBaseType() == Uml::ot_Association)
             count++;
     }
@@ -250,8 +259,9 @@ int UMLCanvasObject::associations() {
 
 UMLAssociationList UMLCanvasObject::getAssociations() {
     UMLAssociationList assocs;
-    UMLObject *o;
-    for (UMLObjectListIt oit(m_List); (o = oit.current()) != NULL; ++oit) {
+    UMLObject *o = NULL;
+    for (UMLObjectListIt oit(m_List); oit.hasNext() ; ) {
+        o = oit.next();
         if (o->getBaseType() != Uml::ot_Association)
             continue;
         UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
@@ -317,8 +327,8 @@ UMLAssociationList UMLCanvasObject::getRelationships() {
 
 bool UMLCanvasObject::resolveRef() {
     bool overallSuccess = UMLObject::resolveRef();
-    for (UMLObjectListIt ait(m_List); ait.current(); ++ait) {
-        UMLObject *obj = ait.current();
+    for (UMLObjectListIt ait(m_List); ait.hasNext(); ) {
+        UMLObject *obj = ait.next();
         if (! obj->resolveRef()) {
             m_List.remove(obj);
             overallSuccess = false;

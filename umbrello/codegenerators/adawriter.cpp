@@ -185,7 +185,8 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     UMLPackageList imports;
     findObjectsRelated(c, imports);
     if (imports.count()) {
-        for (UMLPackage *con = imports.first(); con; con = imports.next()) {
+        for (UMLPackageListIt importsIt( imports );importsIt.hasNext(); ) {
+            UMLPackage* con = importsIt.next();
             if (con->getBaseType() != Uml::ot_Datatype)
                 ada << "with " << packageName(con) << "; " << m_endl;
         }

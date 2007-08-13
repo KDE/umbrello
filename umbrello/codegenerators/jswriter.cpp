@@ -77,8 +77,8 @@ void JSWriter::writeClass(UMLClassifier *c)
     //write includes
     UMLPackageList includes;
     findObjectsRelated(c,includes);
-    for (UMLPackage *conc = includes.first(); conc; conc = includes.next())
-    {
+    for (UMLPackageListIt includesIt( includes ); includesIt.hasNext(); ) {
+        UMLPackage* conc = includesIt.next();
         QString headerName = findFileName(conc, ".js");
         if ( !headerName.isEmpty() )
         {

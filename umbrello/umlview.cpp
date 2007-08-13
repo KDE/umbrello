@@ -2185,7 +2185,8 @@ void UMLView::createAutoAssociations( UMLWidget * widget ) {
         // for each of the object's containedObjects
         UMLPackage *umlPkg = static_cast<UMLPackage*>(umlObj);
         UMLObjectList lst = umlPkg->containedObjects();
-        for (UMLObject *obj = lst.first(); obj; obj = lst.next()) {
+        for (UMLObjectListIt oit( lst ); oit.hasNext() ; ) {
+            UMLObject* obj = oit.next();
             // if the containedObject has a widget representation on this view then
             Uml::IDType id = obj->getID();
             for (UMLWidget *w = m_WidgetList.first(); w; w = m_WidgetList.next()) {

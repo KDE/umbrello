@@ -14,6 +14,12 @@
 #include <kdebug.h>
 #include <klocale.h>
 
+UMLObjectList::UMLObjectList()
+{}
+
+UMLObjectList::~UMLObjectList()
+{}
+
 void UMLObjectList::copyInto(UMLObjectList *rhs) const {
     // Don't copy yourself.
     if (rhs == this) return;
@@ -23,9 +29,10 @@ void UMLObjectList::copyInto(UMLObjectList *rhs) const {
     // Suffering from const; we shall not modify our object.
     UMLObjectList *tmp = new UMLObjectList(*this);
 
-    UMLObject *item;
-    for (item = tmp->first(); item; item = tmp->next() )
+    UMLObject *item = NULL;
+    for (UMLObjectListIt oit( *tmp ); oit.hasNext() ; )
     {
+        item = oit.next();
         rhs->append(item->clone());
     }
     delete tmp;
@@ -37,6 +44,8 @@ UMLObjectList* UMLObjectList::clone() const {
     copyInto(clone);
     return clone;
 }
+
+
 
 
 

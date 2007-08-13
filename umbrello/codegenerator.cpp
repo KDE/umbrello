@@ -584,7 +584,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList) 
         }
 
         // now add in list ONLY if its not already there
-        if(temp  && !cList.containsRef(temp))
+        if(temp  && !cList.count(temp))
             cList.append(temp);
     }
 
@@ -594,13 +594,13 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList) 
         temp =0;
         //check return value
         temp =(UMLClassifier*) op->getType();
-        if (temp && temp->getBaseType() != Uml::ot_Datatype && !cList.containsRef(temp))
+        if (temp && temp->getBaseType() != Uml::ot_Datatype && !cList.count(temp) )
             cList.append(temp);
         //check parameters
         UMLAttributeList atl = op->getParmList();
         for (UMLAttribute *at = atl.first(); at; at = atl.next()) {
             temp = (UMLClassifier*)at->getType();
-            if (temp && temp->getBaseType() != Uml::ot_Datatype && !cList.containsRef(temp))
+            if (temp && temp->getBaseType() != Uml::ot_Datatype && !cList.count(temp) )
                 cList.append(temp);
         }
 
@@ -612,7 +612,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList) 
         for (UMLAttribute *at = atl.first(); at; at = atl.next()) {
             temp=0;
             temp = (UMLClassifier*) at->getType();
-            if (temp && temp->getBaseType() != Uml::ot_Datatype && !cList.containsRef(temp))
+            if (temp && temp->getBaseType() != Uml::ot_Datatype && !cList.count(temp) )
                 cList.append(temp);
         }
     }

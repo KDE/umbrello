@@ -19,23 +19,27 @@
 #ifndef UMLOBJECTLIST_H
 #define UMLOBJECTLIST_H
 
-#include <q3ptrlist.h>
+#include <qlist.h>
 
 // forward declarations
 class UMLObject;
 
 //typedef QPtrList<UMLObject> UMLObjectList;
-typedef Q3PtrListIterator<UMLObject> UMLObjectListIt;
+typedef QListIterator<UMLObject*> UMLObjectListIt;
 
 
 /**
  * This sub-class adds copyInto and clone to the QPtrList<UMLObject>
  * base class.
  */
-class UMLObjectList : public Q3PtrList<UMLObject>
+class UMLObjectList : public QList<UMLObject*>
 {
 
 public:
+
+    UMLObjectList();
+
+    virtual ~UMLObjectList();
 
     /**
      * Copy the internal presentation of this object into the new

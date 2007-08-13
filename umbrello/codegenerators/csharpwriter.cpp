@@ -195,11 +195,12 @@ void CSharpWriter::writeClass(UMLClassifier *c) {
     //m_seenIncludes.append(logicalView);
     if (includes.count()) {
         UMLPackage *p;
-        for (UMLPackageListIt it(includes); (p = it.current()) != NULL; ++it) {
+        for (UMLPackageListIt it(includes); it.hasNext() ; ) {
+            p = it.next();
             UMLClassifier *cl = dynamic_cast<UMLClassifier*>(p);
             if (cl)
                 p = cl->getUMLPackage();
-            if (p != logicalView && m_seenIncludes.findRef(p) == -1 && p != container) {
+            if (p != logicalView && m_seenIncludes.indexOf(p) == -1 && p != container) {
                 cs << "using " << p->getFullyQualifiedName(".") << ";" << m_endl;
                 m_seenIncludes.append(p);
             }
@@ -691,7 +692,7 @@ void CSharpWriter::writeAttribute(QString doc, Uml::Visibility visibility, bool 
 
 QString CSharpWriter::makeLocalTypeName(UMLClassifierListItem *cl) {
     UMLPackage *p = cl->getType()->getUMLPackage();
-    if (m_seenIncludes.findRef(p) != -1) {
+    if (m_seenIncludes.indexOf(p) != -1) {
         return cl->getType()->getName();
     }
     else {

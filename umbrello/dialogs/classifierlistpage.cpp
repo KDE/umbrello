@@ -619,7 +619,7 @@ bool ClassifierListPage::takeItem(UMLClassifierListItem* listItem,
     const Uml::Object_Type seekType = listItem->getBaseType();
     UMLObjectList listItems = m_pClassifier->subordinates();
     UMLObjectListIt it(listItems);
-    for (int i = 0; (o = it.current()) != NULL; ++i, ++it) {
+    for (int i = 0; it.hasNext(); ++i, it.next()) {
         if (seekPeerBefore) {
             if (i >= wasAtIndex)
                 break;

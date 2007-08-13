@@ -78,9 +78,9 @@ void PkgContentsPage::fillListBox() {
     UMLObjectListIt objList_it(contents);
     UMLObject* umlo = NULL;
     int i = 0;
-    while ((umlo = objList_it.current()) != NULL) {
+    while (objList_it.hasNext()) {
+        umlo = objList_it.next();
         m_pContentLB->insertItem(umlo->getName(), i++);
-        ++objList_it;
     }
 }
 

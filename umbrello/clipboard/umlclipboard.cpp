@@ -90,8 +90,8 @@ QMimeSource* UMLClipboard::copy(bool fromView/*=false*/) {
             //widgets in the ListView
             for (UMLViewListIt vit(m_ViewList); vit.current(); ++vit) {
                 UMLObjectList objects = vit.current()->getUMLObjects();
-                for (UMLObjectListIt oit(objects); oit.current(); ++oit) {
-                    UMLObject *o = oit.current();
+                for (UMLObjectListIt oit(objects); oit.hasNext(); ) {
+                    UMLObject *o = oit.next();
                     UMLListViewItem *item = listView->findUMLObject(o);
                     if(item) {
                         listView->setSelected(item, true);
@@ -370,7 +370,6 @@ bool UMLClipboard::pasteClip2(QMimeSource* data) {
     UMLDoc *doc = UMLApp::app()->getDocument();
     UMLListViewItemList itemdatalist;
     UMLObjectList objects;
-    objects.setAutoDelete(false);
     UMLViewList         views;
     IDChangeLog* idchanges = 0;
 
@@ -384,8 +383,8 @@ bool UMLClipboard::pasteClip2(QMimeSource* data) {
     if(!idchanges) {
         return false;
     }
-    while ( (obj=object_it.current()) != 0 ) {
-        ++object_it;
+    while ( object_it.hasNext() ) {
+        obj = object_it.next();
         if(!doc->assignNewIDs(obj)) {
             kDebug()<<"UMLClipboard: error adding umlobject";
             return false;
@@ -459,7 +458,6 @@ bool UMLClipboard::pasteClip4(QMimeSource* data) {
     UMLDoc *doc = UMLApp::app()->getDocument();
 
     UMLObjectList objects;
-    objects.setAutoDelete(false);
 
 
     UMLWidgetList               widgets;
@@ -491,8 +489,8 @@ bool UMLClipboard::pasteClip4(QMimeSource* data) {
      //make sure the file we are pasting into has the objects
      //we need if there are widgets to be pasted
      UMLObject* obj = 0;
-     while ( (obj=object_it.current()) != 0 ) {
-         ++object_it;
+     while ( object_it.hasNext() ) {
+        obj = object_it.next();
 
         if(!doc->assignNewIDs(obj)) {
             return false;
@@ -581,7 +579,7 @@ bool UMLClipboard::pasteClip5(QMimeSource* data) {
     }
 
     UMLObjectList objects;
-    objects.setAutoDelete(false);
+
     IDChangeLog* idchanges = 0;
     bool result = UMLDrag::decodeClip5(data, objects, parent);
 
@@ -596,7 +594,8 @@ bool UMLClipboard::pasteClip5(QMimeSource* data) {
     if (objects.count())
         result = false;
 
-    for (UMLObjectListIt it(objects); (obj = it.current()) != NULL; ++it) {
+    for (UMLObjectListIt it(objects); it.hasNext(); ) {
+        obj = it.next();
         obj->setID(doc->assignNewID(obj->getID()));
         switch(obj->getBaseType()) {
         case Uml::ot_Attribute :

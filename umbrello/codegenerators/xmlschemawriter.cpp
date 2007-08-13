@@ -436,8 +436,8 @@ void XMLSchemaWriter::writeChildObjsInAssociation (UMLClassifier *c,
 {
 
     UMLObjectList list = findChildObjsInAssociations (c, assoc);
-    for(UMLObject * obj = list.first(); obj; obj = list.next())
-    {
+    for(UMLObjectListIt listIt( list ); listIt.hasNext();) {
+        UMLObject* obj = listIt.next();
         UMLClassifier * thisClassifier = dynamic_cast<UMLClassifier*>(obj);
         if(thisClassifier)
             writeClassifier(thisClassifier, XMLschema);

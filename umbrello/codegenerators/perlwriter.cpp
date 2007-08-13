@@ -48,7 +48,8 @@ bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
   QString AV = "@";
   QString SV = "$";
   QString HV = "%";
-  for(conc = includes.first(); conc ;conc = includes.next()) {
+  for(UMLPackageListIt includesIt( includes );includesIt.hasNext(); ) {
+      UMLPackage* conc = includesIt.next();
     if (conc->getBaseType() == Uml::ot_Datatype)
         continue;
     QString neatName = cleanName(conc->getName());

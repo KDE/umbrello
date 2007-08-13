@@ -45,8 +45,10 @@ void UMLComponent::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     // Save contained components if any.
     if (m_objects.count()) {
         QDomElement ownedElement = qDoc.createElement( "UML:Namespace.ownedElement" );
-        for (UMLObject *obj = m_objects.first(); obj; obj = m_objects.next())
+        for (UMLObjectListIt objectsIt( m_objects ); objectsIt.hasNext(); ) {
+            UMLObject* obj = objectsIt.next();
             obj->saveToXMI (qDoc, ownedElement);
+        }
         componentElement.appendChild(ownedElement);
     }
     qElement.appendChild(componentElement);

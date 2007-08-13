@@ -65,7 +65,8 @@ void UMLFolder::removeView(UMLView *view) {
 void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested) {
     if (includeNested) {
         UMLObject *o;
-        for (UMLObjectListIt oit(m_objects); (o = oit.current()) != NULL; ++oit) {
+        for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
+            o = oit.next();
             if (o->getBaseType() == Uml::ot_Folder) {
                 UMLFolder *f = static_cast<UMLFolder*>(o);
                 f->appendViews(viewList);
@@ -79,7 +80,8 @@ void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested) {
 
 void UMLFolder::activateViews() {
     UMLObject *o;
-    for (UMLObjectListIt oit(m_objects); (o = oit.current()) != NULL; ++oit) {
+    for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
+        o = oit.next();
         if (o->getBaseType() == Uml::ot_Folder) {
             UMLFolder *f = static_cast<UMLFolder*>(o);
             f->activateViews();
@@ -107,8 +109,9 @@ UMLView *UMLFolder::findView(Uml::IDType id) {
         if (v->getID() == id)
             return v;
     }
-    UMLObject *o;
-    for (UMLObjectListIt oit(m_objects); (o = oit.current()) != NULL; ++oit) {
+    UMLObject *o = NULL;
+    for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
+        o = oit.next();
         if (o->getBaseType() != Uml::ot_Folder)
             continue;
         UMLFolder *f = static_cast<UMLFolder*>(o);
@@ -126,8 +129,9 @@ UMLView *UMLFolder::findView(Uml::Diagram_Type type, const QString &name, bool s
             return v;
     }
     if (searchAllScopes) {
-        UMLObject *o;
-        for (UMLObjectListIt oit(m_objects); (o = oit.current()) != NULL; ++oit) {
+        UMLObject *o = NULL;
+        for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
+            o = oit.next();
             if (o->getBaseType() != Uml::ot_Folder)
                 continue;
             UMLFolder *f = static_cast<UMLFolder*>(o);
@@ -147,8 +151,9 @@ void UMLFolder::setViewOptions(const Settings::OptionState& optionState) {
 }
 
 void UMLFolder::removeAllViews() {
-    UMLObject *o;
-    for (UMLObjectListIt oit(m_objects); (o = oit.current()) != NULL; ++oit) {
+    UMLObject *o = NULL;
+    for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
+        o = oit.next();
         if (o->getBaseType() != Uml::ot_Folder)
             continue;
         UMLFolder *f = static_cast<UMLFolder*>(o);
@@ -177,13 +182,17 @@ QString UMLFolder::getFolderFile() {
 
 void UMLFolder::saveContents(QDomDocument& qDoc, QDomElement& qElement) {
     QDomElement ownedElement = qDoc.createElement("UML:Namespace.ownedElement");
-    UMLObject *obj;
+    UMLObject *obj = NULL;
     // Save contained objects if any.
-    for (UMLObjectListIt oit(m_objects); (obj = oit.current()) != NULL; ++oit)
+    for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
+        obj = oit.next();
         obj->saveToXMI (qDoc, ownedElement);
+    }
     // Save asscociations if any.
-    for (UMLObjectListIt ait(m_List); (obj = ait.current()) != NULL; ++ait)
+    for (UMLObjectListIt ait(m_List); ait.hasNext(); ) {
+        obj = ait.next();
         obj->saveToXMI (qDoc, ownedElement);
+    }
     qElement.appendChild(ownedElement);
     // Save diagrams to `extension'.
     if (m_diagrams.count()) {

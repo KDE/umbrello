@@ -58,8 +58,8 @@ bool isCloneable(Uml::Widget_Type type) {
 }
 
 UMLObject * findObjectInList(Uml::IDType id, const UMLObjectList& inList) {
-    for (UMLObjectListIt oit(inList); oit.current(); ++oit) {
-        UMLObject *obj = oit.current();
+    for (UMLObjectListIt oit(inList); oit.hasNext(); ) {
+        UMLObject *obj = oit.next();
         if (obj->getID() == id)
             return obj;
         UMLObject *o;
@@ -147,7 +147,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                     return pkg;
                 }
             }
-            if (seenPkgs.findRef(pkg) != -1) {
+            if (seenPkgs.indexOf(pkg) != -1) {
                 kError() << "findUMLObject(" << name << "): "
                     << "breaking out of cycle involving "
                     << pkg->getName() << endl;
@@ -155,8 +155,8 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
             }
             seenPkgs.append(pkg);
             UMLObjectList objectsInCurrentScope = pkg->containedObjects();
-            for (UMLObjectListIt oit(objectsInCurrentScope); oit.current(); ++oit) {
-                UMLObject *obj = oit.current();
+            for (UMLObjectListIt oit(objectsInCurrentScope); oit.hasNext(); ) {
+                UMLObject *obj = oit.next();
                 if (caseSensitive) {
                     if (obj->getName() != name)
                         continue;
@@ -201,8 +201,8 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
             currentObj = pkg;
         }
     }
-    for (UMLObjectListIt oit(inList); oit.current(); ++oit) {
-        UMLObject *obj = oit.current();
+    for (UMLObjectListIt oit(inList); oit.hasNext(); ) {
+        UMLObject *obj = oit.next();
         if (caseSensitive) {
             if (obj->getName() != name)
                 continue;

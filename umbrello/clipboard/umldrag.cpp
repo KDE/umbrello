@@ -139,8 +139,8 @@ void UMLDrag::setUMLDataClip1(UMLObjectList& objects) {
 
     UMLObjectListIt object_it(objects);
     UMLObject* obj = 0;
-    while ( (obj=object_it.current()) != 0 ) {
-        ++object_it;
+    while ( object_it.hasNext() ) {
+        obj = object_it.next();
         obj->saveToXMI(domDoc, objectsTag);
     }
 
@@ -162,8 +162,8 @@ void UMLDrag::setUMLDataClip2(UMLObjectList& objects, UMLListViewItemList& umlLi
 
     UMLObjectListIt object_it(objects);
     UMLObject* obj = 0;
-    while ( (obj=object_it.current()) != 0 ) {
-        ++object_it;
+    while ( object_it.hasNext() ) {
+        obj = object_it.next();
         obj->saveToXMI(domDoc, objectsTag);
     }
 
@@ -221,8 +221,8 @@ void UMLDrag::setUMLDataClip4(UMLObjectList& objects, UMLWidgetList& widgets, As
 
     UMLObjectListIt object_it(objects);
     UMLObject* obj = 0;
-    while ( (obj=object_it.current()) != 0 ) {
-        ++object_it;
+    while ( object_it.hasNext() ) {
+        obj = object_it.next();
         obj->saveToXMI(domDoc, objectsTag);
     }
 
@@ -271,8 +271,8 @@ void UMLDrag::setUMLDataClip5(UMLObjectList& objects) {
 
     UMLObjectListIt object_it(objects);
     UMLObject* obj = 0;
-    while ( (obj=object_it.current()) != 0 ) {
-        ++object_it;
+    while ( object_it.hasNext() ) {
+        obj = object_it.next();
         obj->saveToXMI(domDoc, objectsTag);
     }
 

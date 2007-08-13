@@ -165,7 +165,8 @@ void PascalWriter::writeClass(UMLClassifier *c) {
     if (imports.count()) {
         pas << "uses" << m_endl;
         bool first = true;
-        for (UMLPackage *con = imports.first(); con; con = imports.next()) {
+        for (UMLPackageListIt importsIt( imports );importsIt.hasNext();) {
+            UMLPackage* con = importsIt.next();
             if (con->getBaseType() != Uml::ot_Datatype) {
                 if (first)
                     first = false;

@@ -138,7 +138,8 @@ void IDLWriter::writeClass(UMLClassifier *c) {
     UMLPackageList includes;
     findObjectsRelated(c, includes);
     if (includes.count()) {
-        for (UMLPackage *conc = includes.first(); conc; conc = includes.next()) {
+        for (UMLPackageListIt includesIt( includes ); includesIt.hasNext(); ) {
+            UMLPackage* conc = includesIt.next();
             if (conc->getBaseType() == Uml::ot_Datatype)
                 continue;
             QString incName = findFileName(conc, ".idl");
@@ -151,8 +152,9 @@ void IDLWriter::writeClass(UMLClassifier *c) {
     // Generate the module declaration(s) for the package(s) in which
     // we are embedded.
     UMLPackageList pkgList = c->getPackages();
-    UMLPackage *pkg;
-    for (pkg = pkgList.first(); pkg != NULL; pkg = pkgList.next()) {
+    UMLPackage *pkg = NULL;
+    for (UMLPackageListIt pkgListIt( pkgList );pkgListIt.hasNext(); ) {
+        pkg = pkgListIt.next();
         idl << getIndent() << "module " << pkg->getName() << " {" << m_endl << m_endl;
         m_indentLevel++;
     }
@@ -180,7 +182,8 @@ void IDLWriter::writeClass(UMLClassifier *c) {
         m_indentLevel--;
         idl << getIndent() << "};" << m_endl << m_endl;
         // Close the modules inside which we might be nested.
-        for (pkg = pkgList.first(); pkg != NULL; pkg = pkgList.next()) {
+        for (UMLPackageListIt pkgListIt( pkgList );pkgListIt.hasNext(); ) {
+            pkg = pkgListIt.next();
             m_indentLevel--;
             idl << getIndent() << "};" << m_endl << m_endl;
         }
@@ -256,7 +259,8 @@ void IDLWriter::writeClass(UMLClassifier *c) {
             idl << getIndent() << "// " << stype << ": Unknown stereotype" << m_endl << m_endl;
         }
         // Close the modules inside which we might be nested.
-        for (pkg = pkgList.first(); pkg != NULL; pkg = pkgList.next()) {
+        for (UMLPackageListIt pkgListIt( pkgList );pkgListIt.hasNext(); ) {
+            pkg = pkgListIt.next();
             m_indentLevel--;
             idl << getIndent() << "};" << m_endl << m_endl;
         }
@@ -377,7 +381,8 @@ void IDLWriter::writeClass(UMLClassifier *c) {
     idl << getIndent() << "};" << m_endl << m_endl;
 
     // Close the modules inside which we might be nested.
-    for (pkg = pkgList.first(); pkg != NULL; pkg = pkgList.next()) {
+    for (UMLPackageListIt pkgListIt( pkgList );pkgListIt.hasNext(); ) {
+        pkg = pkgListIt.next();
         m_indentLevel--;
         idl << getIndent() << "};" << m_endl << m_endl;
     }
