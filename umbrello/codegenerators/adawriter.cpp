@@ -153,7 +153,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 
     const bool isClass = !c->isInterface();
     QString classname = cleanName(c->getName());
-    QString fileName = packageName(c).lower();
+    QString fileName = packageName(c).toLower();
     fileName.replace('.', '-');
 
     //find an appropriate name for our file
@@ -177,7 +177,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     str = getHeadingFile(".ads");
     if (!str.isEmpty()) {
         str.replace(QRegExp("%filename%"), fileName);
-        str.replace(QRegExp("%filepath%"), file.name());
+        str.replace(QRegExp("%filepath%"), file.fileName());
         ada << str << endl;
     }
 
@@ -262,7 +262,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
                     QString typeName = at->getTypeName();
                     ada << getIndent() << name << " : " << typeName;
                     QString initialVal = at->getInitialValue();
-                    if (initialVal.latin1() && ! initialVal.isEmpty())
+                    if (! initialVal.isEmpty() && ! initialVal.toLatin1().isEmpty())
                         ada << " := " << initialVal;
                     ada << ";" << m_endl;
                 }
@@ -401,7 +401,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
                 continue;
             ada << getIndent() << cleanName(at->getName()) << " : "
             << at->getTypeName();
-            if (at && at->getInitialValue().latin1() && ! at->getInitialValue().isEmpty())
+            if (at && ! at->getInitialValue().isEmpty() && ! at->getInitialValue().toLatin1().isEmpty())
                 ada << " := " << at->getInitialValue();
             ada << ";" << m_endl;
         }
@@ -424,7 +424,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
             if (at->getVisibility() == Uml::Visibility::Private)
                 ada << "-- Private:  ";
             ada << cleanName(at->getName()) << " : " << at->getTypeName();
-            if (at && at->getInitialValue().latin1() && ! at->getInitialValue().isEmpty())
+            if (at && ! at->getInitialValue().isEmpty() && ! at->getInitialValue().toLatin1().isEmpty() )
                 ada << " := " << at->getInitialValue();
             ada << ";" << m_endl;
         }
@@ -550,7 +550,7 @@ bool AdaWriter::isReservedKeyword(const QString & rPossiblyReservedKeyword) {
 
     QStringList::ConstIterator it;
     for (it = keywords.begin(); it != keywords.end(); ++it)
-        if ((*it).lower() == rPossiblyReservedKeyword.lower())
+        if ((*it).toLower() == rPossiblyReservedKeyword.toLower())
             return true;
 
     return false;

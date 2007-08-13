@@ -166,7 +166,7 @@ TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     QString         str = getHeadingFile(".tcl");
     if (!str.isEmpty()) {
         str.replace(QRegExp("%filename%"), classifierInfo->fileName);
-        str.replace(QRegExp("%filepath%"), fileh.name());
+        str.replace(QRegExp("%filepath%"), fileh.fileName());
         writeCode(str);
     }
     // set current namespace
@@ -338,7 +338,7 @@ TclWriter::writeSourceFile(UMLClassifier * c, QFile & filetcl)
     str = getHeadingFile(".tclbody");
     if (!str.isEmpty()) {
         str.replace(QRegExp("%filename%"), classifierInfo->fileName + "body");
-        str.replace(QRegExp("%filepath%"), filetcl.name());
+        str.replace(QRegExp("%filepath%"), filetcl.fileName());
         writeCode(str);
     }
     // Start body of class
@@ -371,7 +371,7 @@ TclWriter::writeCode(const QString &text)
 void
 TclWriter::writeComm(const QString &text)
 {
-    QStringList     lines = QStringList::split("\n", text, true);
+    QStringList     lines = text.split(QRegExp("\n"));
     for (int i = 0; i < lines.count(); i++) {
         *mStream << getIndent() << "# " << lines[i] << m_endl;
     }
@@ -380,7 +380,7 @@ TclWriter::writeComm(const QString &text)
 void
 TclWriter::writeDocu(const QString &text)
 {
-    QStringList     lines = QStringList::split("\n", text, true);
+    QStringList     lines = text.split(QRegExp("\n"));
     for (int i = 0; i < lines.count(); i++) {
         *mStream << getIndent() << "## " << lines[i] << m_endl;
     }
@@ -600,11 +600,11 @@ TclWriter::writeAssociationRoleDecl(const QString &fieldClassName, const QString
     // or a List (Vector). One day this will be done correctly with special
     // multiplicity object that we don't have to figure out what it means via regex.
     if (multi.isEmpty() || multi.contains(QRegExp("^[01]$"))) {
-        QString         fieldVarName = roleName.lower();
+        QString         fieldVarName = roleName.toLower();
 
         // record this for later consideration of initialization IF the
         // multi value requires 1 of these objects
-        if (ObjectFieldVariables.findIndex(fieldVarName) == -1 &&
+        if (ObjectFieldVariables.indexOf(fieldVarName) == -1 &&
                 multi.contains(QRegExp("^1$"))
            ) {
             // ugh. UGLY. Storing variable name and its class in pairs.
@@ -615,11 +615,11 @@ TclWriter::writeAssociationRoleDecl(const QString &fieldClassName, const QString
                   "> " + fieldVarName + m_endl + doc);
         writeCode(scope + " variable " + fieldVarName + m_endl);
     } else {
-        QString         fieldVarName = roleName.lower();
+        QString         fieldVarName = roleName.toLower();
 
         // record unique occurrences for later when we want to check
         // for initialization of this vector
-        if (VectorFieldVariables.findIndex(fieldVarName) == -1)
+        if (VectorFieldVariables.indexOf(fieldVarName) == -1)
             VectorFieldVariables.append(fieldVarName);
         writeDocu(m_endl + "@var" + scope + " variable <" + fieldClassName +
                   "*> " + fieldVarName + m_endl + doc);
@@ -889,7 +889,7 @@ TclWriter::writeAssociationRoleSource(const QString &fieldClassName,
     // or a List (Vector). One day this will be done correctly with special
     // multiplicity object that we don't have to figure out what it means via regex.
     if (multi.isEmpty() || multi.contains(QRegExp("^[01]$"))) {
-        QString         fieldVarName = roleName.lower();
+        QString         fieldVarName = roleName.toLower();
 
         writeCode("configbody " + mClassGlobal + "::" + fieldVarName + " {} {");
         m_indentLevel++;
@@ -902,7 +902,7 @@ TclWriter::writeAssociationRoleSource(const QString &fieldClassName,
         m_indentLevel--;
 
     } else {
-        QString         fieldVarName = roleName.lower();
+        QString         fieldVarName = roleName.toLower();
 
         writeCode("configbody " + mClassGlobal + "::" + fieldVarName + " {} {");
         m_indentLevel++;

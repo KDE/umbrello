@@ -36,7 +36,7 @@ void ClassifierInfo::init(UMLClassifier *c) {
 
     // set default class, file names
     className = c->getName();
-    fileName = c->getName().lower();
+    fileName = c->getName().toLower();
 
     // determine up-front what we are dealing with
     isInterface = c->isInterface();

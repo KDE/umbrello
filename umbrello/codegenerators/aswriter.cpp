@@ -39,7 +39,7 @@ void ASWriter::writeClass(UMLClassifier *c)
     }
 
     QString classname = cleanName(c->getName());
-    QString fileName = c->getName().lower();
+    QString fileName = c->getName().toLower();
 
     //find an appropriate name for our file
     fileName = findFileName(c,".as");
@@ -68,7 +68,7 @@ void ASWriter::writeClass(UMLClassifier *c)
     if(!str.isEmpty())
     {
         str.replace(QRegExp("%filename%"),fileName+".as");
-        str.replace(QRegExp("%filepath%"),fileas.name());
+        str.replace(QRegExp("%filepath%"),fileas.fileName());
         as << str << m_endl;
     }
 
