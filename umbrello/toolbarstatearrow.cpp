@@ -21,30 +21,38 @@
 #include "umlview.h"
 #include "umlwidget.h"
 
-ToolBarStateArrow::ToolBarStateArrow(UMLView *umlView): ToolBarState(umlView) {
-    m_selectionRect.setAutoDelete(true);
+#include <kdebug.h>
 
+ToolBarStateArrow::ToolBarStateArrow(UMLView *umlView): ToolBarState(umlView)
+{
     init();
 }
 
-ToolBarStateArrow::~ToolBarStateArrow() {
+ToolBarStateArrow::~ToolBarStateArrow() 
+{
 }
 
-void ToolBarStateArrow::init() {
+void ToolBarStateArrow::init()
+{
     ToolBarState::init();
 
+    while (!m_selectionRect.isEmpty())
+        delete m_selectionRect.takeFirst();
     m_selectionRect.clear();
 }
 
-void ToolBarStateArrow::mousePressAssociation() {
+void ToolBarStateArrow::mousePressAssociation()
+{
     getCurrentAssociation()->mousePressEvent(m_pMouseEvent);
 }
 
-void ToolBarStateArrow::mousePressWidget() {
+void ToolBarStateArrow::mousePressWidget()
+{
     getCurrentWidget()->mousePressEvent(m_pMouseEvent);
 }
 
-void ToolBarStateArrow::mousePressEmpty() {
+void ToolBarStateArrow::mousePressEmpty() 
+{
     if (m_pMouseEvent->button() != Qt::LeftButton) {
         // Leave widgets selected upon RMB press on empty diagram area.
         // The popup menu is activated upon RMB release.
@@ -68,7 +76,8 @@ void ToolBarStateArrow::mousePressEmpty() {
     }
 }
 
-void ToolBarStateArrow::mouseReleaseAssociation() {
+void ToolBarStateArrow::mouseReleaseAssociation() 
+{
     getCurrentAssociation()->mouseReleaseEvent(m_pMouseEvent);
 }
 
@@ -76,31 +85,39 @@ void ToolBarStateArrow::mouseReleaseWidget() {
     getCurrentWidget()->mouseReleaseEvent(m_pMouseEvent);
 }
 
-void ToolBarStateArrow::mouseReleaseEmpty() {
+void ToolBarStateArrow::mouseReleaseEmpty()
+{
     if (m_selectionRect.count() == 4) {
+        while (!m_selectionRect.isEmpty())
+            delete m_selectionRect.takeFirst();
         m_selectionRect.clear();
     } else if (m_pMouseEvent->button() == Qt::RightButton) {
         m_pUMLView->setMenu();
     }
 }
 
-void ToolBarStateArrow::mouseDoubleClickAssociation() {
+void ToolBarStateArrow::mouseDoubleClickAssociation() 
+{
     getCurrentAssociation()->mouseDoubleClickEvent(m_pMouseEvent);
 }
 
-void ToolBarStateArrow::mouseDoubleClickWidget() {
+void ToolBarStateArrow::mouseDoubleClickWidget()
+{
     getCurrentWidget()->mouseDoubleClickEvent(m_pMouseEvent);
 }
 
-void ToolBarStateArrow::mouseMoveAssociation() {
+void ToolBarStateArrow::mouseMoveAssociation()
+{
     getCurrentAssociation()->mouseMoveEvent(m_pMouseEvent);
 }
 
-void ToolBarStateArrow::mouseMoveWidget() {
+void ToolBarStateArrow::mouseMoveWidget()
+{
     getCurrentWidget()->mouseMoveEvent(m_pMouseEvent);
 }
 
-void ToolBarStateArrow::mouseMoveEmpty() {
+void ToolBarStateArrow::mouseMoveEmpty()
+{
     if (m_selectionRect.count() == 4) {
         Q3CanvasLine* line = m_selectionRect.at(0);
         line->setPoints(m_startPosition.x(), m_startPosition.y(),
@@ -123,10 +140,12 @@ void ToolBarStateArrow::mouseMoveEmpty() {
     }
 }
 
-void ToolBarStateArrow::changeTool() {
+void ToolBarStateArrow::changeTool() 
+{
 }
 
-void ToolBarStateArrow::setCurrentWidget(UMLWidget* currentWidget) {
+void ToolBarStateArrow::setCurrentWidget(UMLWidget* currentWidget) 
+{
     if (currentWidget != 0 && getCurrentWidget() != 0) {
         return;
     }

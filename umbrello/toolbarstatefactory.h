@@ -34,20 +34,18 @@ class ToolBarStateFactory
 {
 public:
     // constructor.
-    ToolBarStateFactory(UMLView* umlView);
+    ToolBarStateFactory();
 
     // Destructor
     virtual ~ToolBarStateFactory();
 
-    ToolBarState* getState(const WorkToolBar::ToolBar_Buttons &toolbarButton);
+    ToolBarState* getState(const WorkToolBar::ToolBar_Buttons &toolbarButton, UMLView* umlView);
 
 protected:
     int getKey(const WorkToolBar::ToolBar_Buttons &toolbarButton) const;
 
 protected:
-    ToolBarState* states[NR_OF_TOOLBAR_STATES];
-
-    UMLView* m_pUMLView;
+    ToolBarState* m_states[NR_OF_TOOLBAR_STATES];
 };
 
 #endif //TOOLBARSTATEFACTORY_H

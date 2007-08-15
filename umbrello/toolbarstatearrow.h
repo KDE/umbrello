@@ -12,17 +12,13 @@
 #ifndef TOOLBARSTATEARROW_H
 #define TOOLBARSTATEARROW_H
 
-
 #include "toolbarstate.h"
-
 #include "worktoolbar.h"
-//Added by qt3to4:
-#include <QMouseEvent>
-#include <Q3PtrList>
+
+#include <QList>
 
 class QMouseEvent;
 class UMLView;
-
 class Q3CanvasLine;
 
 /**
@@ -149,7 +145,7 @@ protected:
     /**
      * The selection rectangle that contains the four lines of its borders.
      */
-    Q3PtrList<Q3CanvasLine> m_selectionRect;
+    QList<Q3CanvasLine *> m_selectionRect;
 
     /**
      * The start position of the selection rectangle.

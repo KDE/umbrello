@@ -189,8 +189,8 @@ void UMLView::init() {
 
     // Create the ToolBarState factory. This class is not a singleton, because it
     // needs a pointer to this object.
-    m_pToolBarStateFactory = new ToolBarStateFactory(this);
-    m_pToolBarState = m_pToolBarStateFactory->getState(WorkToolBar::tbb_Arrow);
+    m_pToolBarStateFactory = new ToolBarStateFactory();
+    m_pToolBarState = m_pToolBarStateFactory->getState(WorkToolBar::tbb_Arrow, this);
 
 }
 
@@ -421,7 +421,7 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome) {
 
 void UMLView::slotToolBarChanged(int c) {
     m_pToolBarState->cleanBeforeChange();
-    m_pToolBarState = m_pToolBarStateFactory->getState((WorkToolBar::ToolBar_Buttons)c);
+    m_pToolBarState = m_pToolBarStateFactory->getState((WorkToolBar::ToolBar_Buttons)c, this);
     m_pToolBarState->init();
 
     m_bPaste = false;
