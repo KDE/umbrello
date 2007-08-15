@@ -77,8 +77,7 @@ void JSWriter::writeClass(UMLClassifier *c)
     //write includes
     UMLPackageList includes;
     findObjectsRelated(c,includes);
-    for (UMLPackageListIt includesIt( includes ); includesIt.hasNext(); ) {
-        UMLPackage* conc = includesIt.next();
+    foreach (UMLPackage* conc,  includes ) {
         QString headerName = findFileName(conc, ".js");
         if ( !headerName.isEmpty() )
         {
@@ -112,8 +111,7 @@ void JSWriter::writeClass(UMLClassifier *c)
     js << m_endl;
 
     UMLClassifierList superclasses = c->getSuperClasses();
-    for (UMLClassifier *obj = superclasses.first();
-            obj; obj = superclasses.next()) {
+    foreach (UMLClassifier *obj , superclasses ) {
         js << classname << ".prototype = new " << cleanName(obj->getName()) << " ();" << m_endl;
     }
 
@@ -129,8 +127,7 @@ void JSWriter::writeClass(UMLClassifier *c)
         js << " */" << m_endl;
         js << classname << ".prototype._init = function ()" << m_endl;
         js << "{" << m_endl;
-        for(UMLAttribute *at = atl.first(); at ; at = atl.next())
-        {
+        foreach (UMLAttribute *at, atl ) {
             if (forceDoc() || !at->getDoc().isEmpty())
             {
                 js << m_indentation << "/**" << m_endl
@@ -230,19 +227,19 @@ void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
     UMLOperation *op;
     UMLAttribute *at;
 
-    for(op = opList->first(); op; op = opList->next())
+    foreach (op ,  *opList )
     {
         UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
-        for (at = atl.first(); at; at = atl.next())
+        foreach (at , atl )
             writeDoc |= !at->getDoc().isEmpty();
 
         if( writeDoc )  //write method documentation
         {
             js << "/**" << m_endl << formatDoc(op->getDoc()," * ");
 
-            for (at = atl.first(); at; at = atl.next())  //write parameter documentation
+            foreach (at , atl )  //write parameter documentation
             {
                 if(forceDoc() || !at->getDoc().isEmpty())
                 {
@@ -257,11 +254,11 @@ void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
 
         int i = atl.count();
         int j=0;
-        for (at = atl.first(); at ;at = atl.next(),j++)
-        {
+        foreach (at , atl ) {
             js << cleanName(at->getName())
             << (!(at->getInitialValue().isEmpty()) ? (QString(" = ")+at->getInitialValue()) : QString(""))
             << ((j < i-1)?", ":"");
+            j++;
         }
         js << ")" << m_endl << "{" << m_endl <<
         m_indentation << m_endl << "}" << m_endl;

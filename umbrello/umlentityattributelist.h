@@ -12,20 +12,25 @@
 #ifndef UMLENTITYATTRIBUTELIST_H
 #define UMLENTITYATTRIBUTELIST_H
 
-#include <q3ptrlist.h>
+#include <qlist.h>
 #include "entityattribute.h"
 
 //typedef QPtrList<UMLEntityAttribute> UMLEntityAttributeList;
-typedef Q3PtrListIterator<UMLEntityAttribute> UMLEntityAttributeListIt;
+typedef QListIterator<UMLEntityAttribute*> UMLEntityAttributeListIt;
 
 /**
  * This sub-class adds copyInto and clone to the QPtrList<UMLEntityAttribute>
  * base class.
  */
-class UMLEntityAttributeList : public Q3PtrList<UMLEntityAttribute>
+class UMLEntityAttributeList : public QList<UMLEntityAttribute*>
 {
 public:
 
+    UMLEntityAttributeList();
+
+    UMLEntityAttributeList(const UMLEntityAttributeList&);
+
+    virtual ~UMLEntityAttributeList();
     /**
      * Copy the internal presentation of this object into the new
      * object.

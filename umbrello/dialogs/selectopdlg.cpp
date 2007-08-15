@@ -76,7 +76,7 @@ SelectOpDlg::SelectOpDlg(UMLView * parent, UMLClassifier * c)
     m_pOpBG -> setButton(OP);
 
     UMLOperationList list = c -> getOpList(true);
-    for (UMLOperation *obj = list.first(); obj; obj=list.next()) {
+    foreach (UMLOperation* obj, list ) {
         insertOperation( obj->toString(Uml::st_SigNoVis) );
     }
     //disableResize();

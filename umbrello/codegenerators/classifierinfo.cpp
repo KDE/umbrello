@@ -25,15 +25,6 @@ ClassifierInfo::~ClassifierInfo() { }
 
 void ClassifierInfo::init(UMLClassifier *c) {
 
-    // make all QPtrLists autoDelete false
-    atpub.setAutoDelete(false);
-    atprot.setAutoDelete(false);
-    atpriv.setAutoDelete(false);
-
-    static_atpub.setAutoDelete(false);
-    static_atprot.setAutoDelete(false);
-    static_atpriv.setAutoDelete(false);
-
     // set default class, file names
     className = c->getName();
     fileName = c->getName().toLower();
@@ -47,7 +38,7 @@ void ClassifierInfo::init(UMLClassifier *c) {
     // sort attributes by Scope
     if(!isInterface) {
         UMLAttributeList atl = c->getAttributeList();
-        for(UMLAttribute *at=atl.first(); at ; at=atl.next()) {
+        foreach(UMLAttribute* at, atl ) {
             switch(at->getVisibility())
             {
               case Uml::Visibility::Public:
@@ -76,23 +67,17 @@ void ClassifierInfo::init(UMLClassifier *c) {
 
     // inheritance issues
     superclasses = c->getSuperClasses(); // list of what we inherit from
-    superclasses.setAutoDelete(false);
 
     subclasses = c->getSubClasses();     // list of what inherits from us
-    subclasses.setAutoDelete(false);
 
     // another preparation, determine what we have
     plainAssociations = c->getSpecificAssocs(Uml::at_Association); // BAD! only way to get "general" associations.
-    plainAssociations.setAutoDelete(false);
 
     uniAssociations = c->getUniAssociationToBeImplemented();
-    uniAssociations.setAutoDelete(false);
 
     aggregations = c->getAggregations();
-    aggregations.setAutoDelete(false);
 
     compositions = c->getCompositions();
-    compositions.setAutoDelete(false);
 
     // set some summary information about the classifier now
     hasAssociations = plainAssociations.count() > 0 || aggregations.count() > 0 || compositions.count() > 0 || uniAssociations.count() > 0;
@@ -136,7 +121,6 @@ UMLClassifierList ClassifierInfo::findAssocClassifierObjsInRoles (UMLAssociation
 
 
     UMLClassifierList classifiers;
-    classifiers.setAutoDelete(false);
 
     for (UMLAssociation *a = list->first(); a; a = list->next()) {
         // DONT accept a classifier IF the association role is empty, by

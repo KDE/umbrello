@@ -12,22 +12,27 @@
 #ifndef UMLENTITYCONSTRAINTLIST_H
 #define UMLENTITYCONSTRAINTLIST_H
 
-#include <q3ptrlist.h>
+#include <qlist.h>
 
 // forward declaration
 class UMLEntityConstraint;
 
 
-typedef Q3PtrListIterator<UMLEntityConstraint> UMLEntityConstraintListIt;
+typedef QListIterator<UMLEntityConstraint*> UMLEntityConstraintListIt;
 
 /**
  * This sub-class adds copyInto and clone to the QPtrList<UMLEntityConstraint>
  * base class.
  */
-class UMLEntityConstraintList : public Q3PtrList<UMLEntityConstraint>
+class UMLEntityConstraintList : public QList<UMLEntityConstraint*>
 {
 public:
 
+    UMLEntityConstraintList();
+
+    UMLEntityConstraintList(const UMLEntityConstraintList& );
+
+    virtual ~UMLEntityConstraintList();
     /**
      * Copy the internal presentation of this object into the new
      * object.

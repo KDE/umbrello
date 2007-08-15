@@ -604,8 +604,8 @@ int UMLListViewItem::compare(Q3ListViewItem *other, int col, bool ascending) con
         return retval;
     }
     UMLClassifierListItemList items = ourParent->getFilteredList(thisUmlItem->getBaseType());
-    int myIndex = items.findRef(thisUmlItem);
-    int otherIndex = items.findRef(otherUmlItem);
+    int myIndex = items.indexOf(thisUmlItem);
+    int otherIndex = items.indexOf(otherUmlItem);
     if (myIndex < 0) {
         retval = (subItem ? -1 : alphaOrder);
         kError() << dbgPfx << retval << " because (myIndex < 0)" << endl;

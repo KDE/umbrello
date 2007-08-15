@@ -294,7 +294,7 @@ void UMLAttribute::setTemplateParams(const QString& templateParam, UMLClassifier
                     //We want to list only the params that already exist in this document
                     //If the param doesnt't already exist, we couldn't draw an association anyway
                     UMLClassifier* tmpClassifier = static_cast<UMLClassifier*>(obj);
-                    if (templateParamList.findRef(tmpClassifier) == -1) {
+                    if (templateParamList.indexOf(tmpClassifier) == -1) {
                         templateParamList.append(tmpClassifier);
                     }
                 }

@@ -341,12 +341,10 @@ const QStringList SQLWriter::reservedKeywords() const {
 
 void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList entityAttributeList ) {
     QString attrDoc = "";
-    UMLEntityAttribute* at;
 
     bool first = true;
 
-    for (at=entityAttributeList.first();at;at=entityAttributeList.next())
-    {
+    foreach ( UMLEntityAttribute* at, entityAttributeList ) {
        // print , after attribute
          if (first == false) {
              sql <<",";

@@ -177,11 +177,10 @@ UMLAttributeList XMLSchemaWriter::findAttributes (UMLClassifier *c)
 {
     // sort attributes by Scope
     UMLAttributeList attribs;
-    attribs.setAutoDelete(false);
 
     if (!c->isInterface()) {
         UMLAttributeList atl = c->getAttributeList();
-        for(UMLAttribute *at=atl.first(); at ; at=atl.next()) {
+        foreach(UMLAttribute *at ,  atl ) {
             switch(at->getVisibility())
             {
               case Uml::Visibility::Public:
@@ -233,12 +232,12 @@ void XMLSchemaWriter::writeAbstractClassifier (UMLClassifier *c, QTextStream &XM
         writeAttributeGroupDecl(elementName, attribs, XMLschema);
 
         // now write out inheriting classes, as needed
-        for(UMLClassifier * classifier = subclasses.first(); classifier; classifier = subclasses.next())
+        foreach (UMLClassifier * classifier , subclasses )
             writeClassifier(classifier, XMLschema);
     }
 
     // write out any superclasses as needed
-    for(UMLClassifier *classifier = superclasses.first(); classifier; classifier = superclasses.next())
+    foreach (UMLClassifier *classifier , superclasses )
         writeClassifier(classifier, XMLschema);
 
 }
@@ -258,7 +257,7 @@ void XMLSchemaWriter::writeGroupClassifierDecl (UMLClassifier *c,
     XMLschema<<getIndent()<<"<"<<makeSchemaTag("choice")<<">"<<m_endl;
     m_indentLevel++;
 
-    for(UMLClassifier *classifier = subclasses.first(); classifier; classifier = subclasses.next()) {
+    foreach(UMLClassifier *classifier , subclasses ) {
         writeAssociationRoleDecl(classifier, "1", XMLschema);
     }
 
@@ -391,11 +390,11 @@ void XMLSchemaWriter::writeConcreteClassifier (UMLClassifier *c, QTextStream &XM
     writeChildObjsInAssociation(c, compositions, XMLschema);
 
     // write out any superclasses as needed
-    for(UMLClassifier *classifier = superclasses.first(); classifier; classifier = superclasses.next())
+    foreach(UMLClassifier *classifier , superclasses)
         writeClassifier(classifier, XMLschema);
 
     // write out any subclasses as needed
-    for(UMLClassifier *classifier = subclasses.first(); classifier; classifier = subclasses.next())
+    foreach(UMLClassifier *classifier , subclasses )
         writeClassifier(classifier, XMLschema);
 }
 
@@ -406,7 +405,7 @@ QStringList XMLSchemaWriter::findAttributeGroups (UMLClassifier *c)
     // have attributes, then we need to notice
     QStringList list;
     UMLClassifierList superclasses = c->findSuperClassConcepts(); // list of what inherits from us
-    for(UMLClassifier *classifier = superclasses.first(); classifier; classifier = superclasses.next())
+    foreach (UMLClassifier *classifier , superclasses )
     {
         if(classifier->getAbstract())
         {
@@ -436,8 +435,7 @@ void XMLSchemaWriter::writeChildObjsInAssociation (UMLClassifier *c,
 {
 
     UMLObjectList list = findChildObjsInAssociations (c, assoc);
-    for(UMLObjectListIt listIt( list ); listIt.hasNext();) {
-        UMLObject* obj = listIt.next();
+    foreach(UMLObject* obj, list ) {
         UMLClassifier * thisClassifier = dynamic_cast<UMLClassifier*>(obj);
         if(thisClassifier)
             writeClassifier(thisClassifier, XMLschema);
@@ -459,7 +457,7 @@ void XMLSchemaWriter::writeAttributeDecls(UMLAttributeList &attribs, QTextStream
 {
 
     UMLAttribute *at;
-    for(at=attribs.first(); at; at=attribs.next())
+    foreach ( at , attribs )
     {
         writeAttributeDecl(at,XMLschema);
     }
@@ -510,7 +508,7 @@ void XMLSchemaWriter::writeAttributeGroupDecl (const QString &elementName, UMLAt
 
         m_indentLevel++;
 
-        for( UMLAttribute *at=attribs.first(); at; at=attribs.next())
+        foreach( UMLAttribute *at , attribs )
         {
             writeAttributeDecl(at,XMLschema);
         }

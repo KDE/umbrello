@@ -283,7 +283,7 @@ void ClassifierWidget::toggleShowAttSigs()
 int ClassifierWidget::displayedMembers(Uml::Object_Type ot) {
     int count = 0;
     UMLClassifierListItemList list = getClassifier()->getFilteredList(ot);
-    for (UMLClassifierListItem *m = list.first(); m; m = list.next()) {
+    foreach (UMLClassifierListItem *m , list ) {
       if (!(m_bShowPublicOnly && m->getVisibility() != Uml::Visibility::Public))
             count++;
     }
@@ -341,7 +341,7 @@ QSize ClassifierWidget::calculateSize() {
         height += fontHeight * numAtts;
         // calculate width of the attributes
         UMLClassifierListItemList list = getClassifier()->getFilteredList(Uml::ot_Attribute);
-        for (UMLClassifierListItem *a = list.first(); a; a = list.next()) {
+        foreach (UMLClassifierListItem *a , list ) {
             if (m_bShowPublicOnly && a->getVisibility() != Uml::Visibility::Public)
                 continue;
             const int attWidth = fm.size(0,a->toString(m_ShowAttSigs)).width();
@@ -358,7 +358,7 @@ QSize ClassifierWidget::calculateSize() {
         height += numOps * fontHeight;
         // ... width
         UMLOperationList list(getClassifier()->getOpList());
-        for (UMLOperation* op = list.first(); op; op = list.next()) {
+        foreach (UMLOperation* op ,  list) {
                   if (m_bShowPublicOnly && op->getVisibility() != Uml::Visibility::Public)
                 continue;
             const QString displayedOp = op->toString(m_ShowOpSigs);
@@ -486,7 +486,7 @@ QSize ClassifierWidget::calculateTemplatesBoxSize() {
 
     height = count * fm.lineSpacing() + (MARGIN*2);
 
-    for (UMLTemplate *t = list.first(); t; t = list.next()) {
+    foreach (UMLTemplate *t , list ) {
         int textWidth = fm.size(0, t->toString() ).width();
         if (textWidth > width)
             width = textWidth;
@@ -563,7 +563,7 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
         p.setFont(font);
         const int x = offsetX + width() - templatesBoxSize.width() + MARGIN;
         int y = offsetY + MARGIN;
-        for ( UMLTemplate *t = tlist.first(); t; t = tlist.next() ) {
+        foreach ( UMLTemplate *t , tlist ) {
             QString text = t->toString();
             p.drawText(x, y, fm.size(0,text).width(), fontHeight, Qt::AlignVCenter, text);
             y += fontHeight;
@@ -689,7 +689,7 @@ void ClassifierWidget::drawMembers(QPainter & p, Uml::Object_Type ot, Uml::Signa
     QFont f = UMLWidget::getFont();
     f.setBold(false);
     UMLClassifierListItemList list = getClassifier()->getFilteredList(ot);
-    for (UMLClassifierListItem *obj = list.first(); obj; obj = list.next()) {
+    foreach (UMLClassifierListItem *obj , list ) {
           if (m_bShowPublicOnly && obj->getVisibility() != Uml::Visibility::Public)
             continue;
         QString text = obj->toString(sigType);

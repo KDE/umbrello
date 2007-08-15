@@ -183,8 +183,7 @@ TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
         writeComm
         ("Source found and used class files and import class command if necessary");
 
-        for (UMLClassifier * classifier = superclasses.first(); classifier;
-                classifier = superclasses.next()) {
+        foreach (UMLClassifier * classifier , superclasses ) {
             writeUse(classifier);
         }
     }
@@ -214,8 +213,7 @@ TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
                 c->getFilteredList(Uml::ot_EnumLiteral);
             writeCode("set enum_" + mClass + " [list\\");
             m_indentLevel++;
-            for (UMLClassifierListItem * lit = litList.first(); lit;
-                    lit = litList.next()) {
+            foreach (UMLClassifierListItem * lit , litList ) {
                 QString         enumLiteral = cleanName(lit->getName());
                 writeCode(enumLiteral + "\\");
             }
@@ -230,8 +228,7 @@ TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     UMLTemplateList template_params = c->getTemplateList();
     if (template_params.count()) {
         writeCode("#TODO template<");
-        for (UMLTemplate * t = template_params.first(); t;
-                           t = template_params.next()) {
+        foreach (UMLTemplate * t , template_params ) {
             QString         formalName = t->getName();
             QString         typeName = t->getTypeName();
             writeCode(typeName + "# " + formalName);
@@ -242,8 +239,7 @@ TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     m_indentLevel++;
     if (classifierInfo->superclasses.count() > 0) {
         QString         code = "inherit";
-        for (UMLClassifier * superClass = classifierInfo->superclasses.first();
-                superClass; superClass = classifierInfo->superclasses.next()) {
+        foreach (UMLClassifier * superClass , classifierInfo->superclasses ) {
             /*
             if (superClass->getAbstract() || superClass->isInterface())
                 stream << getIndent() << "virtual ";
@@ -532,7 +528,7 @@ TclWriter::writeAttributeDecl(Uml::Visibility visibility, bool writeStatic)
         writeComm(m_endl + scope + ' ' + type + " attributes" + m_endl);
         // write attrib declarations now
         QString         documentation;
-        for (UMLAttribute * at = list->first(); at; at = list->next()) {
+        foreach (UMLAttribute * at , *list ) {
             documentation = at->getDoc();
             QString         varName = cleanName(at->getName());
             QString         typeName = fixTypeName(at->getTypeName());
@@ -650,7 +646,7 @@ TclWriter::writeInitAttributeSource()
 
         // first, initiation of fields derived from attributes
         UMLAttributeList *atl = classifierInfo->getAttList();
-        for (UMLAttribute * at = atl->first(); at; at = atl->next()) {
+        foreach (UMLAttribute * at , *atl ) {
             if (!at->getInitialValue().isEmpty()) {
                 varName = cleanName(at->getName());
                 writeCode("set " + varName + ' ' + at->getInitialValue());
@@ -691,7 +687,7 @@ TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility permitScope)
 
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList inputlist = c->getOpList();
-    for (UMLOperation * op = inputlist.first(); op; op = inputlist.next()) {
+    foreach (UMLOperation * op , inputlist ) {
         switch (op->getVisibility()) {
         case Uml::Visibility::Public:
             if (permitScope == Uml::Visibility::Public)
@@ -714,7 +710,7 @@ TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility permitScope)
     if (oplist.count() > 0) {
         writeComm("Operations");
     }
-    for (op = oplist.first(); op; op = oplist.next()) {
+    foreach ( op , oplist ) {
         QString         doc = "";
         QString         code = "";
         QString         methodReturnType = fixTypeName(op->getTypeName());
@@ -735,7 +731,7 @@ TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility permitScope)
         // method parameters
         UMLAttributeList atl = op->getParmList();
         j = 0;
-        for (at = atl.first(); at; at = atl.next(), j++) {
+        foreach ( at , atl ) {
             QString         typeName = fixTypeName(at->getTypeName());
             QString         atName = cleanName(at->getName());
             if (at->getInitialValue().isEmpty()) {
@@ -749,6 +745,7 @@ TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility permitScope)
                     at->getInitialValue() + ") " + m_endl + at->getDoc() + m_endl;
                 code += " {" + atName + ' ' + at->getInitialValue() + "} ";
             }
+            j++;
         }
         if (methodReturnType != "void") {
             doc += "@return     " + methodReturnType + m_endl;
@@ -769,7 +766,7 @@ TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility permitScope)
 
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList inputlist = c->getOpList();
-    for (UMLOperation * op = inputlist.first(); op; op = inputlist.next()) {
+    foreach (UMLOperation * op , inputlist ) {
         switch (op->getVisibility()) {
         case Uml::Visibility::Public:
             if (permitScope == Uml::Visibility::Public)
@@ -789,7 +786,7 @@ TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility permitScope)
     }
 
     // generate source for each operation given
-    for (op = oplist.first(); op; op = oplist.next()) {
+    foreach ( op , oplist ) {
         QString         code = "";
         QString         methodReturnType = fixTypeName(op->getTypeName());
         QString         name;
@@ -803,13 +800,14 @@ TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility permitScope)
         // parameters
         UMLAttributeList atl = op->getParmList();
         j = 0;
-        for (at = atl.first(); at; at = atl.next(), j++) {
+        foreach ( at , atl ) {
             QString         atName = cleanName(at->getName());
             if (at->getInitialValue().isEmpty()) {
                 code += ' ' + atName;
             } else {
                 code += " {" + atName + ' ' + at->getInitialValue() + "} ";
             }
+            j++;
         }
         writeCode(code += "} {");
         m_indentLevel++;
@@ -828,7 +826,7 @@ TclWriter::writeAttributeSource()
 {
     UMLAttributeList *list = &(classifierInfo->atpub);
     UMLAttribute   *at;
-    for (at = list->first(); at; at = list->next()) {
+    foreach ( at , *list ) {
         QString         name = mClassGlobal + "::" + cleanName(at->getName());
 
         writeComm(name);

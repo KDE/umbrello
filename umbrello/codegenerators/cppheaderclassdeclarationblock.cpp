@@ -128,10 +128,9 @@ void CPPHeaderClassDeclarationBlock::updateContent ( )
     int i = 0;
     if(nrof_superclasses >0)
         startText.append(" : ");
-    for (UMLClassifier * concept= superclasses.first(); concept; concept = superclasses.next())
-    {
+    foreach (UMLClassifier* concept, superclasses ) {
         startText.append(concept->getVisibility().toString() + ' ' +
-                         CodeGenerator::cleanName(concept->getName()));
+        CodeGenerator::cleanName(concept->getName()));
         if(i != (nrof_superclasses-1))
             startText.append(", ");
         i++;

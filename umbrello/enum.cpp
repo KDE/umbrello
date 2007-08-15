@@ -167,9 +167,7 @@ void UMLEnum::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     QDomElement enumElement = UMLObject::save("UML:Enumeration", qDoc);
     // save enum literals
     UMLClassifierListItemList enumLiterals = getFilteredList(Uml::ot_EnumLiteral);
-    UMLClassifierListItem* pEnumLiteral = 0;
-    for (UMLClassifierListItemListIt it(enumLiterals);
-         (pEnumLiteral = it.current()) != NULL; ++it) {
+    foreach (UMLClassifierListItem* pEnumLiteral , enumLiterals ) {
         pEnumLiteral->saveToXMI(qDoc, enumElement);
     }
     qElement.appendChild(enumElement);

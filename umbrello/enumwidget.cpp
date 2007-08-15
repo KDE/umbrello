@@ -99,7 +99,7 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY) {
     UMLClassifier *classifier = (UMLClassifier*)m_pObject;
     UMLClassifierListItem* enumLiteral = 0;
     UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EnumLiteral);
-    for (enumLiteral = list.first(); enumLiteral; enumLiteral = list.next()) {
+    foreach (enumLiteral , list ) {
         QString text = enumLiteral->getName();
         p.setPen( QPen(Qt::black) );
         p.drawText(offsetX + ENUM_MARGIN, offsetY + y,
@@ -156,7 +156,7 @@ QSize EnumWidget::calculateSize() {
     UMLClassifier *classifier = (UMLClassifier*)m_pObject;
     UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EnumLiteral);
     UMLClassifierListItem* listItem = 0;
-    for (listItem = list.first(); listItem; listItem = list.next()) {
+    foreach (listItem , list ) {
         int w = fm.width( listItem->getName() );
         width = w > width?w:width;
     }

@@ -2276,8 +2276,7 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget) {
     UMLClassifier * klass = static_cast<UMLClassifier*>(tmpUmlObj);
     // for each of the UMLClassifier's UMLAttributes
     UMLAttributeList attrList = klass->getAttributeList();
-    for (UMLAttributeListIt ait(attrList); ait.current(); ++ait) {
-        UMLAttribute *attr = ait.current();
+    foreach (UMLAttribute* attr, attrList ) {
         createAutoAttributeAssociation(attr->getType(), attr, widget);
         /*
          * The following code from attachment 19935 of http://bugs.kde.org/140669
@@ -2389,8 +2388,8 @@ void UMLView::createAutoConstraintAssociations(UMLWidget *widget) {
     // for each of the UMLEntity's UMLForeignKeyConstraints
     UMLClassifierListItemList constrList = entity->getFilteredList(Uml::ot_ForeignKeyConstraint);
 
-    for (UMLClassifierListItemListIt ect(constrList); ect.current(); ++ect) {
-        UMLEntityConstraint *eConstr = static_cast<UMLEntityConstraint*>( ect.current() );
+    foreach (UMLClassifierListItem* cli, constrList ) {
+        UMLEntityConstraint *eConstr = static_cast<UMLEntityConstraint*>( cli );
 
         UMLForeignKeyConstraint* fkc = static_cast<UMLForeignKeyConstraint*>(eConstr);
         if( fkc == NULL ){

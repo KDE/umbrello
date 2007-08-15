@@ -71,8 +71,7 @@ void DWriter::writeModuleImports(UMLClassifier *c, QTextStream &d) {
     //only import classes in a different package as this class
     UMLPackageList imports;
     findObjectsRelated(c, imports);
-    for (UMLPackageListIt importsIt( imports );importsIt.hasNext(); ) {
-        UMLPackage* con = importsIt.next();
+    foreach (UMLPackage* con, imports  ) {
         if (con->getBaseType() == Uml::ot_Datatype)
             continue;
         QString pkg = con->getPackage();
@@ -142,20 +141,10 @@ void DWriter::writeClass(UMLClassifier *c) {
     UMLAttributeList  atpub, atprot, atpriv, atpkg, atexport;
     UMLAttributeList  final_atpub, final_atprot, final_atpriv, final_atpkg, final_atexport;
 
-    atpub.setAutoDelete(false);
-    final_atpub.setAutoDelete(false);
-    atprot.setAutoDelete(false);
-    final_atprot.setAutoDelete(false);
-    atpriv.setAutoDelete(false);
-    final_atpriv.setAutoDelete(false);
-    atpkg.setAutoDelete(false);
-    final_atpkg.setAutoDelete(false);
-    atexport.setAutoDelete(false);
-    final_atexport.setAutoDelete(false);
 
     if (!isInterface) {
         UMLAttributeList atl = c->getAttributeList();
-        for (UMLAttribute *at = atl.first(); at ; at = atl.next()) {
+        foreach (UMLAttribute* at, atl ) {
             switch(at->getVisibility())
             {
                 case Uml::Visibility::Public:
@@ -320,7 +309,8 @@ void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d) {
     if (template_params.count()) {
         d << "(";
 
-        for (UMLTemplate *t = template_params.first(); t; ) {
+        for (UMLTemplateListIt tlit( template_params ); tlit.hasNext(); ) {
+            UMLTemplate* t = tlit.next();
             // TODO: hm, leaving the type blank results in "class"
             // so we omit it (also because "class" in this context is illegal)
             if (t->getTypeName() != "class") {
@@ -330,8 +320,10 @@ void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d) {
 
             d << t->getName();
 
-            if ((t = template_params.next()) != NULL)
+            if (tlit.hasNext()) {
+                t = tlit.next();
                 d << ", ";
+            }
         }
 
         d << ")";
@@ -349,7 +341,7 @@ void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d) {
         d << " : ";
 
         // (f) base classes
-        for (UMLClassifier * concept= superclasses.first(); concept; concept = superclasses.next()) {
+        foreach (UMLClassifier* concept, superclasses ) {
             d << cleanName(concept->getName());
 
             count--;
@@ -358,7 +350,7 @@ void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d) {
         }
 
         // (g) interfaces
-        for (UMLClassifier * concept= superinterfaces.first(); concept; concept = superinterfaces.next()) {
+        foreach (UMLClassifier* concept, superinterfaces ) {
             d << cleanName(concept->getName());
 
             count--;
@@ -377,7 +369,7 @@ void DWriter::writeAttributeDecl(Uml::Visibility visibility, UMLAttributeList &a
 
     writeProtectionMod(visibility, d);
 
-    for(UMLAttribute *at=atlist.first(); at; at=atlist.next()) {
+    foreach (UMLAttribute* at, atlist ) {
         // documentation
         if (!at->getDoc().isEmpty()) {
             writeComment(at->getDoc(), m_indentation, d, true);
@@ -421,7 +413,7 @@ void DWriter::writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility vis
 
     writeProtectionMod(visibility, d);
 
-    for(UMLAttribute *at=atpub.first(); at; at=atpub.next()) {
+    foreach (UMLAttribute* at, atpub ) {
         QString fieldName = cleanName(at->getName());
         writeSingleAttributeAccessorMethods(
             at->getTypeName(), "m_" + fieldName, fieldName, at->getDoc(),
@@ -752,10 +744,9 @@ bool DWriter::compareDMethod(UMLOperation *op1, UMLOperation *op2) {
     UMLAttributeList atl2 = op2->getParmList();
     if (atl1.count() != atl2.count())
         return false;
-    UMLAttribute *at1;
-    UMLAttribute *at2;
-    for (at1  = atl1.first(), at2 = atl2.first(); at1 && at2 ; at1 = atl1.next(),at2 = atl2.next())
-    {
+
+    for (UMLAttributeListIt atl1It( atl1 ), atl2It( atl2 ); atl1It.hasNext() && atl2It.hasNext(); ) {
+        UMLAttribute* at1 = atl1It.next(), *at2 = atl2It.next();
         if (at1->getTypeName() != at2->getTypeName())
             return false;
     }
@@ -764,7 +755,7 @@ bool DWriter::compareDMethod(UMLOperation *op1, UMLOperation *op2) {
 }
 
 bool DWriter::dMethodInList(UMLOperation *umlOp, UMLOperationList &opl) {
-    for (UMLOperation *op = opl.first(); op; op = opl.next()) {
+    foreach (UMLOperation* op, opl ) {
         if (DWriter::compareDMethod(op, umlOp)) {
             return true;
         }
@@ -775,11 +766,10 @@ bool DWriter::dMethodInList(UMLOperation *umlOp, UMLOperationList &opl) {
 void DWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationList &yetImplementedOpList ,UMLOperationList &toBeImplementedOpList, bool noClassInPath) {
     UMLClassifierList superClasses = c->findSuperClassConcepts();
 
-    for (UMLClassifier *concept= superClasses.first(); concept; concept = superClasses.next())
-    {
+    foreach (UMLClassifier* concept, superClasses ) {
         getSuperImplementedOperations(concept, yetImplementedOpList, toBeImplementedOpList, (concept->isInterface() && noClassInPath));
         UMLOperationList opl = concept->getOpList();
-        for (UMLOperation *op = opl.first(); op; op = opl.next()) {
+        foreach (UMLOperation* op, opl ) {
             if (concept->isInterface() && noClassInPath) {
                 if (!DWriter::dMethodInList(op,toBeImplementedOpList))
                     toBeImplementedOpList.append(op);
@@ -799,8 +789,7 @@ void DWriter::getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOperat
     UMLOperationList toBeImplementedOpList;
 
     getSuperImplementedOperations(c,yetImplementedOpList, toBeImplementedOpList);
-    for (UMLOperation *op = toBeImplementedOpList.first(); op; op = toBeImplementedOpList.next())
-    {
+    foreach (UMLOperation* op, toBeImplementedOpList ) {
         if ( ! DWriter::dMethodInList(op, yetImplementedOpList) && ! DWriter::dMethodInList(op, opList) )
             opList.append(op);
     }
@@ -809,16 +798,13 @@ void DWriter::getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOperat
 void DWriter::writeOperations(UMLClassifier *c, QTextStream &d) {
     UMLOperationList opl;
     UMLOperationList oppub,opprot,oppriv;
-    oppub.setAutoDelete(false);
-    opprot.setAutoDelete(false);
-    oppriv.setAutoDelete(false);
 
     //sort operations by scope first and see if there are abstract methods
     opl = c->getOpList();
     if (! c->isInterface()) {
         getInterfacesOperationsToBeImplemented(c, opl);
     }
-    for (UMLOperation *op = opl.first(); op; op = opl.next()) {
+    foreach (UMLOperation* op, opl ) {
         switch(op->getVisibility()) {
           case Uml::Visibility::Public:
             oppub.append(op);
@@ -868,7 +854,7 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d) {
     QString str;
 
     // generate method decl for each operation given
-    for(UMLOperation *op=oplist.first(); op; op=oplist.next()) {
+    foreach (UMLOperation* op, oplist ) {
         QString returnStr = "";
         // write documentation
 
@@ -888,7 +874,8 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d) {
         atl = op->getParmList();
         int i = atl.count();
         int j = 0;
-        for (UMLAttribute *at = atl.first(); at; at = atl.next(), j++) {
+        for (UMLAttributeListIt atlIt( atl ); atlIt.hasNext();  j++) {
+            UMLAttribute* at = atlIt.next();
             QString typeName = fixTypeName(at->getTypeName());
             QString atName = cleanName(at->getName());
             str += typeName + ' ' + atName +

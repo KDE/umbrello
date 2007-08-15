@@ -340,8 +340,7 @@ void UMLEntity::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     //save operations
     UMLClassifierListItemList entityAttributes = getFilteredList(Uml::ot_EntityAttribute);
     UMLClassifierListItem* pEntityAttribute = 0;
-    for (UMLClassifierListItemListIt it(entityAttributes);
-         (pEntityAttribute = it.current()) != NULL; ++it) {
+    foreach (pEntityAttribute, entityAttributes) {
         pEntityAttribute->saveToXMI(qDoc, entityElement);
     }
 

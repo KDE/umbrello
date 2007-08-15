@@ -48,8 +48,7 @@ bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
   QString AV = "@";
   QString SV = "$";
   QString HV = "%";
-  for(UMLPackageListIt includesIt( includes );includesIt.hasNext(); ) {
-      UMLPackage* conc = includesIt.next();
+  foreach (UMLPackage* conc, includes ) {
     if (conc->getBaseType() == Uml::ot_Datatype)
         continue;
     QString neatName = cleanName(conc->getName());
@@ -73,8 +72,7 @@ bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
   if (superclasses.count()) {
     Ret += m_endl;
     Ret += "use base qw( ";
-    for (UMLClassifier *obj = superclasses.first();
-         obj; obj = superclasses.next()) {
+    foreach (UMLClassifier *obj , superclasses ) {
       QString packageName =  obj->getPackage(".");
       packageName.replace(QRegExp("\\."),"::");
 
@@ -266,14 +264,10 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl) {
     //Lists to store operations  sorted by scope
     UMLOperationList oppub,opprot,oppriv;
 
-    oppub.setAutoDelete(false);
-    opprot.setAutoDelete(false);
-    oppriv.setAutoDelete(false);
-
     //sort operations by scope first and see if there are abstract methods
     //keep this for documentation only!
     UMLOperationList opl(c->getOpList());
-    for(UMLOperation *op = opl.first(); op ; op = opl.next()) {
+    foreach (UMLOperation *op , opl ) {
         switch(op->getVisibility()) {
           case Uml::Visibility::Public:
             oppub.append(op);
@@ -321,7 +315,7 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl) {
         perl << "_init sets all " + classname + " attributes to their default values unless already set" << m_endl << m_endl << "=cut" << m_endl << m_endl;
         perl << "sub _init {" << m_endl << m_indentation << "my $self = shift;" << m_endl<<m_endl;
 
-        for(UMLAttribute *at = atl.first(); at ; at = atl.next()) {
+        foreach (UMLAttribute *at , atl ) {
             if(!at->getInitialValue().isEmpty())
                 perl << m_indentation << "defined $self->{" << cleanName(at->getName())<<"}"
                 << " or $self->{" << cleanName(at->getName()) << "} = "
@@ -338,12 +332,11 @@ void PerlWriter::writeOperations(const QString &/* classname */, UMLOperationLis
     UMLOperation *op;
     UMLAttribute *at;
 
-    for(op=opList.first(); op ; op=opList.next())
-    {
+    foreach (op , opList ) {
         UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
-        for (at = atl.first(); at ; at = atl.next())
+        foreach (at , atl )
             writeDoc |= !at->getDoc().isEmpty();
 
         if( writeDoc )  //write method documentation
@@ -353,7 +346,7 @@ void PerlWriter::writeOperations(const QString &/* classname */, UMLOperationLis
 
             perl << "   Parameters :" << m_endl ;
           //write parameter documentation
-          for (at = atl.first(); at ; at = atl.next()) {
+          foreach (at , atl ) {
             if(forceDoc() || !at->getDoc().isEmpty()) {
               perl << "      "
                    << cleanName(at->getName()) << " : "
@@ -377,7 +370,7 @@ void PerlWriter::writeOperations(const QString &/* classname */, UMLOperationLis
 
         bool bStartPrinted = false;
         //write parameters
-        for (at = atl.first(); at; at = atl.next()) {
+        foreach (at , atl ) {
           if (!bStartPrinted) {
               bStartPrinted = true;
               perl << "," << m_endl;
@@ -398,15 +391,11 @@ void PerlWriter::writeOperations(const QString &/* classname */, UMLOperationLis
 
 void PerlWriter::writeAttributes(UMLClassifier *c, QTextStream &perl) {
     UMLAttributeList  atpub, atprot, atpriv, atdefval;
-    atpub.setAutoDelete(false);
-    atprot.setAutoDelete(false);
-    atpriv.setAutoDelete(false);
-    atdefval.setAutoDelete(false);
 
     //sort attributes by scope and see if they have a default value
     UMLAttributeList atl = c->getAttributeList();
     UMLAttribute *at;
-    for(at = atl.first(); at ; at = atl.next()) {
+    foreach (at , atl ) {
         if(!at->getInitialValue().isEmpty())
             atdefval.append(at);
         switch(at->getVisibility()) {
@@ -444,8 +433,7 @@ void PerlWriter::writeAttributes(UMLAttributeList &atList, QTextStream &perl)
 {
     perl << m_endl << "=head1 PUBLIC ATTRIBUTES" << m_endl << m_endl;
     perl << "=pod "  << m_endl << m_endl ;
-    for (UMLAttribute *at = atList.first(); at ; at = atList.next())
-    {
+    foreach (UMLAttribute *at , atList ) {
         if (forceDoc() || !at->getDoc().isEmpty())
         {
             perl  << "=head3 " << cleanName(at->getName()) << m_endl << m_endl ;

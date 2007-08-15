@@ -162,7 +162,7 @@ void ClassifierListPage::reloadItemListBox() {
 
     // add each item in the list to the ListBox and connect each item modified signal
     // to the ListItemModified slot in this class
-    for (UMLClassifierListItem* listItem = itemList.first(); listItem != 0; listItem = itemList.next() ) {
+    foreach (UMLClassifierListItem* listItem, itemList ) {
         m_pItemListLB->insertItem(listItem->toString(Uml::st_SigNoVis));
         connect( listItem, SIGNAL(modified()),this,SLOT(slotListItemModified()) );
     }
@@ -352,7 +352,12 @@ void ClassifierListPage::slotRightButtonPressed(Q3ListBoxItem* item, const QPoin
 }
 
 void ClassifierListPage::slotPopupMenuSel(int id) {
-    UMLClassifierListItem* listItem = getItemList().at( m_pItemListLB->currentItem() );
+    int currentItemIndex = m_pItemListLB->currentItem();
+
+    if ( currentItemIndex == -1 )
+        return;
+
+    UMLClassifierListItem* listItem = getItemList().at( currentItemIndex );
     if(!listItem && id != ListPopupMenu::mt_New_Attribute) {
         kDebug() << "can't find att from selection";
         return;
@@ -461,7 +466,7 @@ void ClassifierListPage::slotDownClicked() {
     int count = m_pItemListLB->count();
     int index = m_pItemListLB->currentItem();
     //shouldn't occur, but just in case
-    if( count <= 1 || index >= count - 1 )
+    if( count <= 1 || index >= count - 1 || index == -1 )
         return;
     m_pOldListItem = NULL;
 
@@ -494,7 +499,7 @@ void ClassifierListPage::slotBottomClicked() {
     int count = m_pItemListLB->count();
     int index = m_pItemListLB->currentItem();
     //shouldn't occur, but just in case
-    if( count <= 1 || index >= count - 1 )
+    if( count <= 1 || index >= count - 1 || index == -1)
         return;
     m_pOldListItem = NULL;
 
@@ -538,7 +543,13 @@ void ClassifierListPage::slotDoubleClick( Q3ListBoxItem* item ) {
 }
 
 void ClassifierListPage::slotDelete() {
-    UMLClassifierListItem* selectedItem = getItemList().at( m_pItemListLB->currentItem() );
+    int currentItemIndex = m_pItemListLB->currentItem();
+
+    // index is -1 . Quit
+    if ( currentItemIndex==-1 )
+        return;
+
+    UMLClassifierListItem* selectedItem = getItemList().at( currentItemIndex );
     //should really wait for signal back
     //but really shouldn't matter
     m_pDoc->removeUMLObject(selectedItem);
@@ -561,7 +572,13 @@ void ClassifierListPage::slotNewListItem() {
 }
 
 void ClassifierListPage::saveCurrentItemDocumentation() {
-    UMLClassifierListItem* selectedItem = getItemList().at( m_pItemListLB->currentItem() );
+    int currentItemIndex = m_pItemListLB->currentItem();
+
+    // index is -1 . Quit
+    if ( currentItemIndex==-1 )
+        return;
+
+    UMLClassifierListItem* selectedItem = getItemList().at( currentItemIndex );
     if (selectedItem) {
         selectedItem->setDoc( m_pDocTE->text() );
     }

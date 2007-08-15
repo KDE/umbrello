@@ -317,7 +317,7 @@ void FloatingTextWidget::showOpDlg() {
             UMLClassifierList selfAndAncestors = c->findSuperClassConcepts();
             selfAndAncestors.prepend(c);
             UMLOperation *op = NULL;
-            for (UMLClassifier *cl = selfAndAncestors.first(); cl; cl = selfAndAncestors.next()) {
+            foreach (UMLClassifier *cl , selfAndAncestors) {
                 op = cl->findOperation(od.m_name, od.m_args);
                 if (op != NULL)
                     break;

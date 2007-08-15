@@ -12,12 +12,12 @@
 #ifndef UMLENUMLITERALLIST_H
 #define UMLENUMLITERALLIST_H
 
-#include <Q3PtrList>
+#include <QList>
 
 // forward declaration
 class UMLEnumLiteral;
 
-typedef Q3PtrList<UMLEnumLiteral> UMLEnumLiteralList;
-typedef Q3PtrListIterator<UMLEnumLiteral> UMLEnumLiteralListIt;
+typedef QList<UMLEnumLiteral*> UMLEnumLiteralList;
+typedef QListIterator<UMLEnumLiteral*> UMLEnumLiteralListIt;
 
 #endif

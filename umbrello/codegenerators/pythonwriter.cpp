@@ -94,22 +94,21 @@ void PythonWriter::writeClass(UMLClassifier *c) {
         str.prepend(pkg + '.');
     QStringList includesList  = QStringList(str); //save imported classes
     int i = superclasses.count();
-    for (UMLClassifier *classifier = superclasses.first();
-            classifier && i; classifier = superclasses.next(), i--) {
+    foreach (UMLClassifier *classifier ,  superclasses ) {
         str = cleanName(classifier->getName());
         pkg = cleanName(classifier->getPackage());
         if (!pkg.isEmpty())
             str.prepend(pkg + '.');
         includesList.append(str);
         h << "from " + str + " import *" << m_endl;
+        i--;
     }
 
     //write includes and take namespaces into account
     UMLPackageList includes;
     findObjectsRelated(c,includes);
     UMLPackage* conc = NULL;
-    for(UMLPackageListIt includesIt( includes ); includesIt.hasNext(); ) {
-        UMLPackage* conc = includesIt.next();
+    foreach(UMLPackage* conc, includes ) {
         QString headerName = findFileName(conc, ".py");
         if ( !headerName.isEmpty() ) {
             headerName.remove(QRegExp(".py$"));
@@ -126,10 +125,10 @@ void PythonWriter::writeClass(UMLClassifier *c) {
     h << "class " << classname << (superclasses.count() > 0 ? " (" : "(object)");
     i = superclasses.count();
 
-    for (UMLClassifier *obj = superclasses.first();
-            obj && i; obj = superclasses.next(), i--) {
+    foreach (UMLClassifier *obj , superclasses ) {
 
         h<<cleanName(obj->getName())<<(i>1?", ":"");
+        i--;
     }
 
 
@@ -169,7 +168,7 @@ void PythonWriter::writeAttributes(UMLAttributeList atList, QTextStream &py) {
     if (!forceDoc() || atList.count() == 0)
         return;
     py << m_indentation << "\"\"\" ATTRIBUTES" << m_endl << m_endl;
-    for (UMLAttribute *at = atList.first(); at; at = atList.next()) {
+    foreach (UMLAttribute *at , atList ) {
         py << formatDoc(at->getDoc(), m_indentation + ' ') << m_endl;
         Uml::Visibility vis = at->getVisibility();
         py << m_indentation << cleanName(at->getName()) << "  ("
@@ -183,13 +182,9 @@ void PythonWriter::writeOperations(UMLClassifier *c, QTextStream &h) {
     //Lists to store operations  sorted by scope
     UMLOperationList oppub,opprot,oppriv;
 
-    oppub.setAutoDelete(false);
-    opprot.setAutoDelete(false);
-    oppriv.setAutoDelete(false);
-
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList opl(c->getOpList());
-    for(UMLOperation *op = opl.first(); op ; op = opl.next()) {
+    foreach(UMLOperation *op , opl ) {
         switch(op->getVisibility()) {
           case Uml::Visibility::Public:
             oppub.append(op);
@@ -243,21 +238,22 @@ void PythonWriter::writeOperations(const QString& /*classname*/, UMLOperationLis
     }
 
 
-    for(op=opList.first(); op ; op=opList.next()) {
+    foreach (op  ,  opList ) {
         UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
-        for (at = atl.first(); at; at = atl.next())
+        foreach ( at , atl )
             writeDoc |= !at->getDoc().isEmpty();
 
         h<< m_indentation << "def "<< sAccess + cleanName(op->getName()) << "(self";
 
         int j=0;
-        for (at = atl.first(); at; at = atl.next(), j++) {
+        foreach (at , atl ) {
             h << ", " << cleanName(at->getName())
             << (!(at->getInitialValue().isEmpty()) ?
                 (QString(" = ")+at->getInitialValue()) :
                 QString(""));
+            j++;
         }
 
         h<<"):"<<m_endl;
@@ -267,7 +263,7 @@ void PythonWriter::writeOperations(const QString& /*classname*/, UMLOperationLis
             h << m_indentation << m_indentation << "\"\"\"" << m_endl;
             h << formatDoc(op->getDoc(), m_indentation + m_indentation + ' ') << m_endl;
 
-            for (at = atl.first(); at; at = atl.next())  //write parameter documentation
+            foreach (at , atl )  //write parameter documentation
             {
                 if(forceDoc() || !at->getDoc().isEmpty()) {
                     h<<m_indentation<<m_indentation<<"@param "<<at->getTypeName()<<

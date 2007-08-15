@@ -162,8 +162,7 @@ void UMLEntityAttributeDialog::setupDialog() {
         qApp->processEvents();
         dataTypes = pDoc->getDatatypes();
     }
-    UMLClassifier *dat;
-    for (UMLClassifierListIt dit(dataTypes); (dat = dit.current()) != NULL; ++dit) {
+    foreach (UMLClassifier* dat, dataTypes ) {
         insertType(dat->getName());
     }
 
@@ -237,8 +236,7 @@ bool UMLEntityAttributeDialog::apply() {
     QString typeName = m_pTypeCB->currentText();
     UMLDoc *pDoc = UMLApp::app()->getDocument();
     UMLClassifierList dataTypes = pDoc->getDatatypes();
-    UMLClassifier *dat;
-    for (UMLClassifierListIt dit(dataTypes); (dat = dit.current()) != NULL; ++dit) {
+    foreach (UMLClassifier* dat, dataTypes ) {
         if (typeName == dat->getName()) {
             m_pEntityAttribute->setType(dat);
             return true;

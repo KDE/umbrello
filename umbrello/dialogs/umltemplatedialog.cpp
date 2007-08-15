@@ -84,8 +84,7 @@ void UMLTemplateDialog::setupDialog() {
     // Add the active data types to combo box
     UMLDoc *pDoc = UMLApp::app()->getDocument();
     UMLClassifierList namesList( pDoc->getConcepts() );
-    UMLClassifier* obj = 0;
-    for (obj = namesList.first(); obj; obj = namesList.next()) {
+    foreach (UMLClassifier* obj, namesList ) {
         insertType( obj->getName() );
     }
 
@@ -126,7 +125,7 @@ bool UMLTemplateDialog::apply() {
     UMLDoc *pDoc = UMLApp::app()->getDocument();
     UMLClassifierList namesList( pDoc->getConcepts() );
     UMLClassifier* obj = 0;
-    for (obj = namesList.first(); obj; obj = namesList.next()) {
+    foreach ( obj, namesList ) {
         if (typeName == obj->getName()) {
             m_pTemplate->setType( obj );
         }

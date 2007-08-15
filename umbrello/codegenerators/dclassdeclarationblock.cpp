@@ -103,7 +103,7 @@ void DClassDeclarationBlock::updateContent ( )
     if (count > 0) startText += " : ";
 
     // (e) base classes
-    for (UMLClassifier * concept= superclasses.first(); concept; concept = superclasses.next()) {
+    foreach (UMLClassifier* concept, superclasses ) {
         startText += parentDoc->cleanName(concept->getName());
 
         count--;
@@ -112,7 +112,7 @@ void DClassDeclarationBlock::updateContent ( )
     }
 
     // (f) interfaces
-    for (UMLClassifier * concept= superinterfaces.first(); concept; concept = superinterfaces.next()) {
+    foreach (UMLClassifier* concept, superinterfaces ) {
         startText += parentDoc->cleanName(concept->getName());
 
         count--;

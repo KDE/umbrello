@@ -212,8 +212,7 @@ void CPPCodeGenerator::writeCodeToFile ( UMLClassifierList & concepts) {
     CodeDocumentList docs;
     docs.setAutoDelete(false);
 
-    for (UMLClassifier *concept= concepts.first(); concept; concept= concepts.next())
-    {
+    foreach (UMLClassifier* concept, concepts ) {
         CodeDocument * doc = findCodeDocumentByClassifier(concept);
         if(doc)
             docs.append(doc);
@@ -274,9 +273,7 @@ void CPPCodeGenerator::initFromParentDocument( ) {
     // Walk through the document converting classifiers into
     // classifier code documents as needed (e.g only if doesn't exist)
     UMLClassifierList concepts = UMLApp::app()->getDocument()->getClassesAndInterfaces();
-    for (UMLClassifier *c = concepts.first(); c; c = concepts.next())
-    {
-
+    foreach (UMLClassifier* c, concepts ) {
         // Doesn't exist? Then build one.
         CodeDocument * codeDoc = findCodeDocumentByClassifier(c);
         if (!codeDoc)

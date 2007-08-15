@@ -214,17 +214,19 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
 
 bool SimpleCodeGenerator::hasDefaultValueAttr(UMLClassifier *c) {
     UMLAttributeList atl = c->getAttributeList();
-    for(UMLAttribute *at = atl.first(); at; at = atl.next())
+    foreach (UMLAttribute* at, atl ) {
         if(!at->getInitialValue().isEmpty())
             return true;
+    }
     return false;
 }
 
 bool SimpleCodeGenerator::hasAbstractOps(UMLClassifier *c) {
     UMLOperationList opl(c->getOpList());
-    for(UMLOperation *op = opl.first(); op ; op = opl.next())
+    foreach (UMLOperation* op, opl ) {
         if(op->getAbstract())
             return true;
+    }
     return false;
 }
 
@@ -242,7 +244,7 @@ CodeDocument * SimpleCodeGenerator::newClassifierCodeDocument(UMLClassifier* /*c
 void SimpleCodeGenerator::writeCodeToFile ( ) {
     m_fileMap.clear(); // need to do this, else just keep getting same directory to write to.
     UMLClassifierList concepts = m_doc->getClassesAndInterfaces();
-    for (UMLClassifier *c = concepts.first(); c; c = concepts.next()) {
+    foreach (UMLClassifier* c, concepts ) {
         if (! Model_Utils::isCommonDataType(c->getName()))
             this->writeClass(c); // call the writer for each class.
     }
@@ -251,8 +253,9 @@ void SimpleCodeGenerator::writeCodeToFile ( ) {
 // write only selected concepts to file
 void SimpleCodeGenerator::writeCodeToFile ( UMLClassifierList & concepts) {
     m_fileMap.clear(); // ??
-    for (UMLClassifier *c = concepts.first(); c; c = concepts.next())
+    foreach (UMLClassifier* c, concepts ) {
         this->writeClass(c); // call the writer for each class.
+    }
 }
 
 void SimpleCodeGenerator::initFields ( UMLDoc * parentDoc ) {

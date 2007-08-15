@@ -130,8 +130,8 @@ void UMLUniqueConstraintDialog::setupDialog(){
         // add to list box
         m_pAttributeListLB->insertItem( att->toString( Uml::st_SigNoVis ) );
 
-        int index = m_pEntityAttributeList.findRef( att );
-        m_pEntityAttributeList.remove( index );
+        int index = m_pEntityAttributeList.indexOf( att );
+        m_pEntityAttributeList.removeAt( index );
         m_pAttributeCB->removeItem( index );
     }
 
@@ -151,8 +151,8 @@ void UMLUniqueConstraintDialog::slotAddAttribute(){
     UMLEntityAttribute* entAtt = m_pEntityAttributeList.at(index);
 
     //find and remove from list
-    index = m_pEntityAttributeList.findRef( entAtt );
-    m_pEntityAttributeList.remove( index );
+    index = m_pEntityAttributeList.indexOf( entAtt );
+    m_pEntityAttributeList.removeAt( index );
 
     // remove from combo box
     m_pAttributeCB->removeItem( index );
@@ -179,7 +179,7 @@ void UMLUniqueConstraintDialog::slotDeleteAttribute(){
     UMLEntityAttribute* entAtt = m_pConstraintAttributeList.at(index );
 
     //remove from constraint
-    m_pConstraintAttributeList.remove( index );
+    m_pConstraintAttributeList.removeAt( index );
     // remove from list box
     m_pAttributeListLB->removeItem( index );
 

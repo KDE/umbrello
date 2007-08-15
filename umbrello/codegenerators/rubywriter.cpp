@@ -103,7 +103,7 @@ void RubyWriter::writeClass(UMLClassifier *c) {
     h<< "class " << cppToRubyType(classname) << (superclasses.count() > 0 ? " < ":"");
 
     int i = 0;
-    for (concept = superclasses.first(); concept; concept = superclasses.next()) {
+    foreach (concept , superclasses ) {
         if (i == 0) {
             h << cppToRubyType(concept->getName()) << m_endl;
         } else {
@@ -173,13 +173,9 @@ void RubyWriter::writeOperations(UMLClassifier *c,QTextStream &h) {
     //Lists to store operations  sorted by scope
     UMLOperationList oppub,opprot,oppriv;
 
-    oppub.setAutoDelete(false);
-    opprot.setAutoDelete(false);
-    oppriv.setAutoDelete(false);
-
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList opl(c->getOpList());
-    for(UMLOperation *op = opl.first(); op ; op = opl.next()) {
+    foreach (UMLOperation *op , opl ) {
         switch(op->getVisibility()) {
         case Uml::Visibility::Public:
             oppub.append(op);
@@ -232,7 +228,7 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
         break;
     }
 
-    for (op=opList.first(); op ; op=opList.next()) {
+    foreach (op ,  opList ) {
         QString methodName = cleanName(op->getName());
         QStringList commentedParams;
 
@@ -286,7 +282,7 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
             docStr.replace("\n", QString("\n") + m_indentation + "# ");
 
             // Write parameter documentation
-            for (at = atl.first(); at ; at = atl.next()) {
+            foreach ( at , atl ) {
                 // Only write an individual @param entry if one hasn't been found already
                 // in the main doc comment
                 if (commentedParams.contains(cppToRubyName(at->getName())) == 0) {
@@ -328,7 +324,7 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
         h<< m_indentation << "def " + methodName << "(";
 
         int j=0;
-        for (at = atl.first(); at; at = atl.next(), j++) {
+        foreach (at , atl ) {
             QString nameStr = cppToRubyName(at->getName());
             if (j > 0) {
                 h << ", " << nameStr;
@@ -338,6 +334,7 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
             h << (!(at->getInitialValue().isEmpty()) ?
                 (QString(" = ") + cppToRubyType(at->getInitialValue())) :
                 QString(""));
+            j++;
         }
 
         h <<")" << m_endl;
@@ -360,7 +357,7 @@ void RubyWriter::writeAttributeMethods(UMLAttributeList *attribs,
         return;
 
     UMLAttribute *at;
-    for(at=attribs->first(); at; at=attribs->next())
+    foreach (at ,  *attribs)
     {
         QString varName = cppToRubyName(cleanName(at->getName()));
 

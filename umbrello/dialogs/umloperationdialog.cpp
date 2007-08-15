@@ -180,13 +180,13 @@ void UMLOperationDialog::setupDialog() {
     UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(m_pOperation->parent());
     if (classifier) {
         UMLClassifierListItemList tmplParams( classifier->getFilteredList(Uml::ot_Template) );
-        for (UMLClassifierListItem *li = tmplParams.first(); li; li = tmplParams.next())
+        foreach (UMLClassifierListItem* li, tmplParams ) {
             insertType( li->getName() );
+        }
     }
     //now add the Classes and Interfaces (both are Concepts)
     UMLClassifierList namesList( m_doc->getConcepts() );
-    UMLClassifier* pConcept = 0;
-    for(pConcept=namesList.first(); pConcept!=0 ;pConcept=namesList.next()) {
+    foreach (UMLClassifier* pConcept, namesList) {
         insertType( pConcept->getFullyQualifiedName() );
     }
 
@@ -210,9 +210,9 @@ void UMLOperationDialog::setupDialog() {
 
     //fill in parm list box
     UMLAttributeList list = m_pOperation->getParmList();
-    UMLAttribute * pAtt = 0;
-    for (pAtt = list.first(); pAtt; pAtt = list.next())
+    foreach (UMLAttribute* pAtt, list ) {
         m_pParmsLB->insertItem( pAtt->getName() );
+    }
 
     //set scope
     Uml::Visibility scope = m_pOperation -> getVisibility();
@@ -231,14 +231,14 @@ void UMLOperationDialog::setupDialog() {
     insertStereotype (QString("")); // an empty stereotype is the default
     int defaultStereotype=0;
     bool foundDefaultStereotype = false;
-    for (UMLStereotypeListIt it(m_doc->getStereotypes()); it.current(); ++it) {
+    foreach (UMLStereotype* currentSt, m_doc->getStereotypes() ) {
         if (!foundDefaultStereotype) {
-            if ( m_pOperation->getStereotype() == it.current()->getName()) {
+            if ( m_pOperation->getStereotype() == currentSt->getName()) {
                 foundDefaultStereotype = true;
             }
             defaultStereotype++;
         }
-        insertStereotype (it.current()->getName());
+        insertStereotype (currentSt->getName());
     }
     // lookup for a default stereotype, if the operation doesn't have one
     if (foundDefaultStereotype)
@@ -400,7 +400,7 @@ void UMLOperationDialog::slotParameterProperties() {
             if (pOldAtt->getTypeName() != typeName) {
                 UMLClassifierList namesList( m_doc->getConcepts() );
                 UMLClassifier* obj = NULL;
-                for (obj=namesList.first(); obj!=0; obj=namesList.next()) {
+                foreach ( obj, namesList) {
                     if (typeName == obj->getFullyQualifiedName()) {
                         pOldAtt->setType( obj );
                         break;

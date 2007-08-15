@@ -84,8 +84,8 @@ void UMLForeignKeyConstraintDialog::slotAddPair() {
     m_ColumnWidgets.referencedColumnCB->removeItem( indexR );
 
     // remove from local cache
-    m_pLocalAttributeList.remove( indexL );
-    m_pReferencedAttributeList.remove( indexR );
+    m_pLocalAttributeList.removeAt( indexL );
+    m_pReferencedAttributeList.removeAt( indexR );
 
     // add to local cache of mapping
     QPair<UMLEntityAttribute*, UMLEntityAttribute*> pair =
@@ -310,11 +310,11 @@ void UMLForeignKeyConstraintDialog::setupColumnPage() {
         referencedColumn = const_cast<UMLEntityAttribute*>( i.value() );
 
         // remove these columns from local cache
-        int indexL = m_pLocalAttributeList.findRef( localColumn );
-        int indexR = m_pReferencedAttributeList.findRef( referencedColumn );
+        int indexL = m_pLocalAttributeList.indexOf( localColumn );
+        int indexR = m_pReferencedAttributeList.indexOf( referencedColumn );
 
-        m_pLocalAttributeList.remove( indexL );
-        m_pReferencedAttributeList.remove( indexR );
+        m_pLocalAttributeList.removeAt( indexL );
+        m_pReferencedAttributeList.removeAt( indexR );
 
         // remove them from combo boxes
         // the conditions may never be violated . Just for safety though

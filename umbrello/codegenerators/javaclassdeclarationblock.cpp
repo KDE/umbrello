@@ -120,8 +120,7 @@ void JavaClassDeclarationBlock::updateContent ( )
     int i = 0;
     if(nrof_superclasses >0)
         startText.append(" extends ");
-    for (UMLClassifier * concept= superclasses.first(); concept; concept = superclasses.next())
-    {
+    foreach (UMLClassifier* concept, superclasses ) {
         startText.append(parentDoc->cleanName(concept->getName()));
         if(i != (nrof_superclasses-1))
             startText.append(", ");
@@ -138,8 +137,7 @@ void JavaClassDeclarationBlock::updateContent ( )
         else
             startText.append(" implements ");
     }
-    for (UMLClassifier * concept= superinterfaces.first(); concept; concept = superinterfaces.next())
-    {
+    foreach (UMLClassifier* concept, superinterfaces ) {
         startText.append(parentDoc->cleanName(concept->getName()));
         if(i != (nrof_superinterfaces-1))
             startText.append(", ");

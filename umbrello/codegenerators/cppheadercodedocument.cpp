@@ -408,8 +408,7 @@ void CPPHeaderCodeDocument::updateContent( )
     QMap<UMLPackage *,QString> packageMap; // so we don't repeat packages
 
     CodeGenerator::findObjectsRelated(c,includes);
-    for(UMLPackageListIt includesIt( includes ); includesIt.hasNext() ; ) {
-        UMLPackage* con = includesIt.next();
+    foreach(UMLPackage* con, includes ) {
         if (con->getBaseType() != Uml::ot_Datatype && !packageMap.contains(con)) {
             packageMap.insert(con,con->getPackage());
             if(con != getParentClassifier())
@@ -425,7 +424,7 @@ void CPPHeaderCodeDocument::updateContent( )
 
     // Using
     QString usingStatement;
-    for(UMLClassifier *classifier = superclasses.first(); classifier ; classifier = superclasses.next()) {
+    foreach(UMLClassifier* classifier, superclasses ) {
         if(classifier->getPackage()!=c->getPackage() && !classifier->getPackage().isEmpty()) {
             usingStatement.append("using "+CodeGenerator::cleanName(c->getPackage())+"::"+cleanName(c->getName())+';'+endLine);
         }
@@ -452,13 +451,12 @@ void CPPHeaderCodeDocument::updateContent( )
         UMLPackageList pkgList = c->getPackages();
         QString pkgs;
         UMLPackage *pkg;
-        for (UMLPackageListIt pkgListIt( pkgList ); pkgListIt.hasNext(); ) {
-            pkg = pkgListIt.next();
+        foreach (pkg, pkgList ) {
             pkgs += "namespace " + CodeGenerator::cleanName(pkg->getName()) + " { ";
         }
         namespaceBlock->setStartText(pkgs);
         QString closingBraces;
-        for (UMLPackageListIt pkgListIt( pkgList ); pkgListIt.hasNext(); ) {
+        foreach (pkg, pkgList ) {
             closingBraces += "} ";
         }
         namespaceBlock->setEndText(closingBraces);
@@ -479,13 +477,16 @@ void CPPHeaderCodeDocument::updateContent( )
 
             // populate
             UMLClassifierListItemList ell = e->getFilteredList(Uml::ot_EnumLiteral);
-            for (UMLClassifierListItem *el=ell.first(); el ; ) {
+            for (UMLClassifierListItemListIt elit( ell ) ; elit.hasNext() ; ) {
+                UMLClassifierListItem* el = elit.next();
                 enumStatement.append(indent+indent);
                 enumStatement.append(CodeGenerator::cleanName(el->getName()));
-                if ((el=ell.next()) != 0)
+                if ( elit.hasNext() ) {
+                    el=elit.next();
                     enumStatement.append(", "+endLine);
-                else
+                } else {
                     break;
+                }
                 enumStatement.append(endLine);
             }
             enumStatement.append(indent+"};");

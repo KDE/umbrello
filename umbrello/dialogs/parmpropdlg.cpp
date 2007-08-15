@@ -146,14 +146,14 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
         << " is not a UMLClassifier" << endl;
     } else {
         UMLTemplateList tmplParams( pConcept->getTemplateList() );
-        for (UMLTemplate *t = tmplParams.first(); t; t = tmplParams.next())
+        foreach( UMLTemplate* t, tmplParams ) {
             insertType( t->getName() );
+        }
     }
     //now add the Concepts
     UMLClassifierList namesList( m_pUmldoc->getConcepts() );
-    UMLClassifier * obj;
-    for(obj=namesList.first(); obj!=0 ;obj=namesList.next()) {
-        insertType( obj->getFullyQualifiedName() );
+    foreach(UMLClassifier* obj, namesList ) {
+       insertType( obj->getFullyQualifiedName() );
     }
 
     //work out which one to select
@@ -180,14 +180,14 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
     insertStereotype (QString("")); // an empty stereotype is the default
     int defaultStereotype=0;
     bool foundDefaultStereotype = false;
-    for (UMLStereotypeListIt it(m_pUmldoc->getStereotypes()); it.current(); ++it) {
+    foreach (UMLStereotype* currentSt, m_pUmldoc->getStereotypes() ) {
         if (!foundDefaultStereotype) {
-            if ( m_pAtt->getStereotype() == it.current()->getName()) {
+            if ( m_pAtt->getStereotype() == currentSt->getName()) {
                 foundDefaultStereotype = true;
             }
             defaultStereotype++;
         }
-        insertStereotype (it.current()->getName());
+        insertStereotype (currentSt->getName());
     }
     // lookup for a default stereotype, if the operation doesn't have one
     if (foundDefaultStereotype)
@@ -245,8 +245,8 @@ void ParmPropDlg::slotOk() {
             }
         }
         UMLClassifierList namesList( m_pUmldoc->getConcepts() );
-        UMLClassifier * obj;
-        for (obj = namesList.first(); obj; obj = namesList.next()) {
+        UMLClassifier * obj = NULL;
+        foreach ( obj, namesList) {
             if (obj->getFullyQualifiedName() == typeName) {
                 m_pAtt->setType( obj );
                 break;

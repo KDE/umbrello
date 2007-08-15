@@ -14,6 +14,16 @@
 #include <kdebug.h>
 #include <klocale.h>
 
+UMLAttributeList::UMLAttributeList()
+{ }
+
+UMLAttributeList::UMLAttributeList(const UMLAttributeList& other)
+    : QList<UMLAttribute*>( other )
+{}
+
+UMLAttributeList::~UMLAttributeList()
+{ }
+
 void UMLAttributeList::copyInto(UMLAttributeList *rhs) const {
     // Don't copy yourself.
     if (rhs == this) return;
@@ -24,8 +34,9 @@ void UMLAttributeList::copyInto(UMLAttributeList *rhs) const {
     UMLAttributeList *tmp = new UMLAttributeList(*this);
 
     UMLAttribute *item;
-    for (item = tmp->first(); item; item = tmp->next() )
+    for (UMLAttributeListIt ait( *tmp ); ait.hasNext() ; )
     {
+        item = ait.next();
         rhs->append((UMLAttribute*)item->clone());
     }
     delete tmp;
@@ -37,3 +48,5 @@ UMLAttributeList* UMLAttributeList::clone() const {
     copyInto(clone);
     return clone;
 }
+
+

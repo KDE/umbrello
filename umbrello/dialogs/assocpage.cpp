@@ -65,6 +65,8 @@ void AssocPage::slotDoubleClick(Q3ListBoxItem * i) {
 
     int item = m_pAssocLB -> currentItem();
 
+    if ( item ==-1 )
+        return;
     AssociationWidget * a = m_List.at(item);
 
     if (a->showDialog())
@@ -110,7 +112,10 @@ void AssocPage::slotRightButtonPressed(Q3ListBoxItem * item, const QPoint & p) {
 }
 
 void AssocPage::slotPopupMenuSel(int id) {
-    AssociationWidget * a = m_List.at(m_pAssocLB -> currentItem());
+    int currentItemIndex = m_pAssocLB->currentItem();
+    if ( currentItemIndex == -1 )
+        return;
+    AssociationWidget * a = m_List.at(currentItemIndex);
     switch(id) {
     case ListPopupMenu::mt_Delete:
         m_pView->removeAssocInViewAndDoc(a);

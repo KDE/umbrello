@@ -241,14 +241,14 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
     insertStereotype (QString("")); // an empty stereotype is the default
     int defaultStereotype=0;
     bool foundDefaultStereotype = false;
-    for (UMLStereotypeListIt it(m_pUmldoc->getStereotypes()); it.current(); ++it) {
+    foreach (UMLStereotype* ust, m_pUmldoc->getStereotypes()) {
         if (!foundDefaultStereotype) {
-            if ( m_pObject->getStereotype() == it.current()->getName()) {
+            if ( m_pObject->getStereotype() == ust->getName()) {
                 foundDefaultStereotype = true;
             }
             defaultStereotype++;
         }
-        insertStereotype (it.current()->getName());
+        insertStereotype (ust->getName());
     }
     // lookup for a default stereotype, if the operation doesn't have one
     if (foundDefaultStereotype)

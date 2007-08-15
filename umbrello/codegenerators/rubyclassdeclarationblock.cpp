@@ -111,7 +111,7 @@ void RubyClassDeclarationBlock::updateContent ( )
     startText.append(RubyClassName);
 
     int i = 0;
-    for (UMLClassifier * concept= superclasses.first(); concept; concept = superclasses.next()) {
+    foreach (UMLClassifier* concept, superclasses ) {
         if (i == 0) {
             startText.append(QString(" < ") + RubyCodeGenerator::cppToRubyType(concept->getName()) + endLine);
         } else {
@@ -123,7 +123,7 @@ void RubyClassDeclarationBlock::updateContent ( )
     }
 
     // Write out the interfaces we 'implement'. Are these modules to be mixed in, in Ruby?
-    for (UMLClassifier * concept= superinterfaces.first(); concept; concept = superinterfaces.next()) {
+    foreach (UMLClassifier* concept, superinterfaces ) {
         startText.append(QString("include ") + RubyCodeGenerator::cppToRubyType(concept->getName()) + endLine);
     }
 

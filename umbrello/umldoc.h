@@ -719,12 +719,12 @@ public:
     /**
      * Add a UMLStereotype to the application.
      */
-    void addStereotype(const UMLStereotype *s);
+    void addStereotype(UMLStereotype *s);
 
     /**
      * Remove a UMLStereotype from the application.
      */
-    void removeStereotype(const UMLStereotype *s);
+    void removeStereotype(UMLStereotype *s);
 
     /**
      * Add a stereotype if it doesn't already exist.

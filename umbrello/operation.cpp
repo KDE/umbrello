@@ -65,7 +65,7 @@ void UMLOperation::moveParmLeft(UMLAttribute * a) {
     << endl;
     disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
     int idx;
-    if ( (idx=m_List.find( a )) == -1 ) {
+    if ( (idx=m_List.indexOf( a )) == -1 ) {
         kDebug() << "Error move parm left " << a->getName();
         return;
     }
@@ -85,7 +85,7 @@ void UMLOperation::moveParmRight(UMLAttribute * a) {
     << endl;
     disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
     int idx;
-    if ( (idx=m_List.find( a )) == -1 ) {
+    if ( (idx=m_List.indexOf( a )) == -1 ) {
         kDebug() << "Error move parm right " << a->getName();
         return;
     }
@@ -114,7 +114,7 @@ void UMLOperation::removeParm(UMLAttribute * a, bool emitModifiedSignal /* =true
 
 UMLAttribute* UMLOperation::findParm(const QString &name) {
     UMLAttribute * obj=0;
-    for (obj = m_List.first(); obj; obj = m_List.next()) {
+    foreach (obj , m_List ) {
         if (obj->getName() == name)
             return obj;
     }
@@ -140,7 +140,7 @@ QString UMLOperation::toString(Uml::Signature_Type sig) {
     if (last) {
         s.append("(");
         int i = 0;
-        for (UMLAttribute *param = m_List.first(); param; param = m_List.next()) {
+        foreach (UMLAttribute *param , m_List ) {
             i++;
             s.append(param->toString(Uml::st_SigNoVis));
             if (i < last)
@@ -228,8 +228,7 @@ UMLObject* UMLOperation::clone() const
 bool UMLOperation::resolveRef() {
     bool overallSuccess = UMLObject::resolveRef();
     // See remark on iteration style in UMLClassifier::resolveRef()
-    for (UMLAttributeListIt ait(m_List); ait.current(); ++ait) {
-        UMLAttribute *pAtt = ait.current();
+    foreach (UMLAttribute* pAtt, m_List ) {
         if (! pAtt->resolveRef())
             overallSuccess = false;
     }
@@ -304,8 +303,8 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
         << m_SecondaryId << endl;
     }
     //save each attribute here, type different
-    UMLAttribute* pAtt = 0;
-    for( pAtt = m_List.first(); pAtt != 0; pAtt = m_List.next() ) {
+
+    foreach( UMLAttribute* pAtt , m_List ) {
         QDomElement attElement = pAtt->UMLObject::save("UML:Parameter", qDoc);
         UMLClassifier *attrType = pAtt->getType();
         if (attrType) {

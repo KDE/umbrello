@@ -195,8 +195,7 @@ void CSharpWriter::writeClass(UMLClassifier *c) {
     //m_seenIncludes.append(logicalView);
     if (includes.count()) {
         UMLPackage *p;
-        for (UMLPackageListIt it(includes); it.hasNext() ; ) {
-            p = it.next();
+        foreach ( p , includes ) {
             UMLClassifier *cl = dynamic_cast<UMLClassifier*>(p);
             if (cl)
                 p = cl->getUMLPackage();
@@ -245,9 +244,8 @@ void CSharpWriter::writeClass(UMLClassifier *c) {
 
         // write baseclass, ignore interfaces, write error on multiple inheritance
         if (superclasses.count() > 0) {
-            UMLClassifier *obj;
             int supers = 0;
-            for (obj = superclasses.first(); obj; obj = superclasses.next()) {
+            foreach (UMLClassifier* obj, superclasses ) {
                 if (!obj->isInterface()) {
                     if (supers > 0) {
                         cs << " // AND ";
@@ -265,7 +263,7 @@ void CSharpWriter::writeClass(UMLClassifier *c) {
         UMLAssociation *a;
 
         if (!realizations.isEmpty()) {
-            for (a = realizations.first(); a; a = realizations.next()) {
+            foreach (a , realizations ) {
                 UMLClassifier *real = (UMLClassifier*)a->getObject(Uml::B);
                 if(real != c) {
                     // write list of realizations
@@ -323,13 +321,9 @@ void CSharpWriter::writeOperations(UMLClassifier *c, QTextStream &cs) {
     bool isInterface = c->isInterface();
     bool generateErrorStub = true;
 
-    oppub.setAutoDelete(false);
-    opprot.setAutoDelete(false);
-    oppriv.setAutoDelete(false);
-
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList opl(c->getOpList());
-    for (UMLOperation *op = opl.first(); op ; op = opl.next()) {
+    foreach (UMLOperation* op,  opl ) {
         switch (op->getVisibility()) {
           case Uml::Visibility::Public:
             oppub.append(op);
@@ -386,14 +380,12 @@ void CSharpWriter::writeOperations(UMLClassifier *c, QTextStream &cs) {
 void CSharpWriter::writeOverridesRecursive(UMLClassifierList *superclasses, QTextStream &cs) {
     // oplist for implemented abstract operations
     UMLOperationList opabstract;
-    opabstract.setAutoDelete(false);
-    UMLClassifier *obj;
 
-    for (obj = superclasses->first(); obj; obj = superclasses->next()) {
+    foreach (UMLClassifier* obj, *superclasses ) {
         if (!obj->isInterface() && obj->hasAbstractOps()) {
             // collect abstract ops
             UMLOperationList opl(obj->getOpList());
-            for (UMLOperation *op = opl.first(); op ; op = opl.next()) {
+            foreach (UMLOperation* op, opl ) {
                 if (op->getAbstract()) {
                     opabstract.append(op);
                 }
@@ -447,14 +439,14 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
                                  bool isOverride /* = false */,
                                  bool generateErrorStub /* = false */) {
 
-    for (UMLOperation *op=opList.first(); op ; op=opList.next()) {
+    foreach (UMLOperation* op, opList ) {
         UMLAttributeList atl = op->getParmList();
-        UMLAttribute *at;
 
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
 
-        for (at = atl.first(); at; at = atl.next()) {
+        UMLAttribute* at = NULL;
+        foreach ( at, atl ) {
             writeDoc |= !at->getDoc().isEmpty();
         }
 
@@ -466,8 +458,7 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
             cs << m_container_indent << m_indentation << "/// </summary>" << m_endl;
 
             //write parameter documentation
-            for (at = atl.first(); at; at = atl.next())
-            {
+            foreach ( at, atl ) {
                 if (forceDoc() || !at->getDoc().isEmpty()) {
                     cs << m_container_indent << m_indentation << "/// <param name=\"" << cleanName(at->getName()) << "\">";
                     //removing newlines from parameter doc
@@ -514,8 +505,8 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
         // method parameters
         int i= atl.count();
         int j=0;
-        for (at = atl.first(); at; at = atl.next(), j++) {
-
+        for (UMLAttributeListIt atlIt( atl ); atlIt.hasNext() ; j++) {
+            at = atlIt.next();
             cs << makeLocalTypeName(at) << " " << cleanName(at->getName());
 
             // no initial values in C#
@@ -545,16 +536,13 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
 void CSharpWriter::writeAttributes(UMLClassifier *c, QTextStream &cs) {
 
     UMLAttributeList  atpub, atprot, atpriv, atdefval;
-    atpub.setAutoDelete(false);
-    atprot.setAutoDelete(false);
-    atpriv.setAutoDelete(false);
-    atdefval.setAutoDelete(false);
+
 
     //sort attributes by scope and see if they have a default value
     UMLAttributeList atl = c->getAttributeList();
     UMLAttribute *at;
 
-    for (at = atl.first(); at ; at = atl.next()) {
+    foreach ( at, atl ) {
         if (!at->getInitialValue().isEmpty())
             atdefval.append(at);
         switch (at->getVisibility()) {
@@ -598,7 +586,7 @@ void CSharpWriter::writeAttributes(UMLClassifier *c, QTextStream &cs) {
 
 void CSharpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &cs) {
 
-    for (UMLAttribute *at = atList.first(); at ; at = atList.next()) {
+    foreach (UMLAttribute* at, atList ) {
 
         bool asProperty = true;
         if (at->getVisibility() == Uml::Visibility::Private) {

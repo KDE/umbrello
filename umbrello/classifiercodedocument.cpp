@@ -457,8 +457,7 @@ void ClassifierCodeDocument::syncClassFields( )
 void ClassifierCodeDocument::updateOperations( ) {
 
     UMLOperationList opList(getParentClassifier()->getOpList());
-    for (UMLOperation *op = opList.first(); op; op = opList.next())
-    {
+    foreach (UMLOperation *op , opList ) {
         QString tag = CodeOperation::findTag(op);
         CodeOperation * codeOp = dynamic_cast<CodeOperation*>(findTextBlockByTag(tag, true));
         bool createdNew = false;
@@ -497,8 +496,7 @@ void ClassifierCodeDocument::initCodeClassFields ( ) {
     // first, do the code classifields that arise from attributes
     if (parentIsClass()) {
         UMLAttributeList alist = c->getAttributeList();
-        for(UMLAttribute * at = alist.first(); at; at = alist.next())
-        {
+        foreach(UMLAttribute * at , alist ) {
             CodeClassField * field = CodeGenFactory::newCodeClassField(this, at);
             addCodeClassField(field);
         }

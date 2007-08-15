@@ -672,7 +672,7 @@ UMLObject* UMLDoc::findObjectById(Uml::IDType id) {
 }
 
 UMLStereotype * UMLDoc::findStereotypeById(Uml::IDType id) {
-    for (UMLStereotype *s = m_stereoList.first(); s; s = m_stereoList.next() ) {
+    foreach (UMLStereotype *s , m_stereoList ) {
         if (s->getID() == id)
             return s;
     }
@@ -727,12 +727,12 @@ bool UMLDoc::addUMLObject(UMLObject* object) {
     return pkg->addObject(object);
 }
 
-void UMLDoc::addStereotype(const UMLStereotype *s) {
+void UMLDoc::addStereotype(UMLStereotype *s) {
     if (! m_stereoList.contains(s))
         m_stereoList.append(s);
 }
 
-void UMLDoc::removeStereotype(const UMLStereotype *s) {
+void UMLDoc::removeStereotype(UMLStereotype *s) {
     if (m_stereoList.contains(s))
         m_stereoList.remove(s);
 }
@@ -809,8 +809,7 @@ bool UMLDoc::isUnique(const QString &name, UMLPackage *package)
 }
 
 UMLStereotype* UMLDoc::findStereotype(const QString &name) {
-    UMLStereotype *s;
-    for (UMLStereotypeListIt it(m_stereoList); (s = it.current()) != NULL; ++it) {
+    foreach (UMLStereotype *s, m_stereoList ) {
         if (s->getName() == name)
             return s;
     }
@@ -1286,7 +1285,7 @@ void UMLDoc::saveToXMI(QIODevice& file) {
     // There is a bug causing duplication of the same stereotype in m_stereoList.
     // As a workaround, we use a string list to memorize which stereotype has been saved.
     QStringList stereoNames;
-    for (UMLStereotype *s = m_stereoList.first(); s; s = m_stereoList.next() ) {
+    foreach (UMLStereotype *s , m_stereoList ) {
         QString stName = s->getName();
         if (!stereoNames.contains(stName)) {
             s->saveToXMI(doc, ownedNS);
@@ -1876,9 +1875,7 @@ UMLClassifierList UMLDoc::getInterfaces(bool includeNested /* =true */) {
 UMLClassifierList UMLDoc::getDatatypes() {
     UMLObjectList objects = m_datatypeRoot->containedObjects();
     UMLClassifierList datatypeList;
-    UMLObject *obj = NULL;
-    for (UMLObjectListIt oit(objects); oit.hasNext(); ) {
-        obj = oit.next();
+    foreach (UMLObject *obj , objects) {
         if (obj->getBaseType() == ot_Datatype) {
             datatypeList.append(static_cast<UMLClassifier*>(obj));
         }
@@ -1942,13 +1939,13 @@ bool UMLDoc::assignNewIDs(UMLObject* Obj) {
     if(Obj->getBaseType() == ot_Class ) {
         UMLClassifier *c = static_cast<UMLClassifier*>(Obj);
         UMLClassifierListItemList attributes = c->getFilteredList(ot_Attribute);
-        for(UMLObject* listItem = attributes.first(); listItem; listItem = attributes.next()) {
+        foreach (UMLObject* listItem ,  attributes ) {
             result = assignNewID(listItem->getID());
             listItem->setID(result);
         }
 
         UMLClassifierListItemList templates = c->getFilteredList(ot_Template);
-        for(UMLObject* listItem = templates.first(); listItem; listItem = templates.next()) {
+        foreach (UMLObject* listItem , templates ) {
             result = assignNewID(listItem->getID());
             listItem->setID(result);
         }
@@ -1956,7 +1953,7 @@ bool UMLDoc::assignNewIDs(UMLObject* Obj) {
 
     if(Obj->getBaseType() == ot_Interface || Obj->getBaseType() == ot_Class ) {
         UMLOperationList operations(((UMLClassifier*)Obj)->getOpList());
-        for(UMLObject* listItem = operations.first(); listItem; listItem = operations.next()) {
+        foreach (UMLObject* listItem , operations) {
             result = assignNewID(listItem->getID());
             listItem->setID(result);
         }

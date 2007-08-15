@@ -66,6 +66,8 @@ void PkgContentsPage::slotDoubleClick(Q3ListBoxItem * i) {
     if (!i)
         return;
     int item = m_pContentLB -> currentItem();
+    if ( item == -1 )
+        return;
     UMLObjectList contents = m_pPackage->containedObjects();
     UMLObject *o = contents.at(item);
     ClassPropDlg dlg(this, o, item, true);
@@ -112,6 +114,8 @@ void PkgContentsPage::slotPopupMenuSel(int id) {
     case ListPopupMenu::mt_Delete:
         {
             UMLObjectList contents = m_pPackage->containedObjects();
+            if ( m_pContentLB->currentItem() == -1 )
+                break;
             UMLObject *o = contents.at( m_pContentLB->currentItem() );
             UMLApp::app()->getDocument()->removeUMLObject(o);
             fillListBox();

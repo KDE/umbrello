@@ -246,7 +246,7 @@ void CodeGenerator::initFromParentDocument( ) {
     // Walk through the document converting classifiers into
     // classifier code documents as needed (e.g only if doesn't exist)
     UMLClassifierList concepts = UMLApp::app()->getDocument()->getClassesAndInterfaces();
-    for (UMLClassifier *c = concepts.first(); c; c = concepts.next())
+    foreach (UMLClassifier *c , concepts)
     {
 
         // Doesn't exist? Then build one.
@@ -319,8 +319,7 @@ void CodeGenerator::writeCodeToFile ( UMLClassifierList & concepts) {
     CodeDocumentList docs;
     docs.setAutoDelete(false);
 
-    for (UMLClassifier *concept= concepts.first(); concept; concept= concepts.next())
-    {
+    foreach (UMLClassifier *concept, concepts ) {
         CodeDocument * doc = findCodeDocumentByClassifier(concept);
         if(doc)
             docs.append(doc);
@@ -590,7 +589,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList) 
 
     //operations
     UMLOperationList opl(c->getOpList());
-    for(UMLOperation *op = opl.first(); op ; op = opl.next()) {
+    foreach(UMLOperation *op , opl ) {
         temp =0;
         //check return value
         temp =(UMLClassifier*) op->getType();
@@ -598,7 +597,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList) 
             cList.append(temp);
         //check parameters
         UMLAttributeList atl = op->getParmList();
-        for (UMLAttribute *at = atl.first(); at; at = atl.next()) {
+        foreach (UMLAttribute *at , atl ) {
             temp = (UMLClassifier*)at->getType();
             if (temp && temp->getBaseType() != Uml::ot_Datatype && !cList.count(temp) )
                 cList.append(temp);
@@ -609,7 +608,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList) 
     //attributes
     if (!c->isInterface()) {
         UMLAttributeList atl = c->getAttributeList();
-        for (UMLAttribute *at = atl.first(); at; at = atl.next()) {
+        foreach (UMLAttribute *at , atl ) {
             temp=0;
             temp = (UMLClassifier*) at->getType();
             if (temp && temp->getBaseType() != Uml::ot_Datatype && !cList.count(temp) )

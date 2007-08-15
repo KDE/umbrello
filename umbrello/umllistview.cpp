@@ -749,8 +749,7 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
     if (mayHaveChildItems(type)) {
         UMLClassifier *c = static_cast<UMLClassifier*>(object);
         UMLClassifierListItemList cListItems = c->getFilteredList(Uml::ot_UMLObject);
-        UMLClassifierListItem *cli;
-        for (UMLClassifierListItemListIt it(cListItems); (cli = it.current()) != NULL; ++it)
+        foreach (UMLClassifierListItem *cli, cListItems )
             childObjectAdded(cli, c);
     }
     if (m_doc->loading())
@@ -1572,8 +1571,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                     newOp->setType(op->getType());
                     newOp->setVisibility(op->getVisibility());
                     UMLAttributeList parmList = op->getParmList();
-                    for (UMLAttributeListIt plit(parmList); plit.current(); ++plit) {
-                        UMLAttribute *parm = plit.current();
+                    foreach (UMLAttribute* parm, parmList ) {
                         UMLAttribute *newParm = new UMLAttribute(newParentClassifier,
                                                                  parm->getName(),
                                                                  Uml::id_None,

@@ -76,9 +76,7 @@ void ASWriter::writeClass(UMLClassifier *c)
     //write includes
     UMLPackageList includes;
     findObjectsRelated(c,includes);
-    for (UMLPackageListIt includesIt( includes ); includesIt.hasNext(); )
-    {
-        UMLPackage* conc = includesIt.next();
+    foreach (UMLPackage* conc, includes ) {
         QString headerName = findFileName(conc, ".as");
         if ( !headerName.isEmpty() )
         {
@@ -114,8 +112,7 @@ void ASWriter::writeClass(UMLClassifier *c)
     as << "}" << m_endl;
     as << m_endl;
 
-    for(UMLClassifier *obj = superclasses.first();
-            obj; obj = superclasses.next()) {
+    foreach(UMLClassifier* obj, superclasses ) {
         as << classname << ".prototype = new " << cleanName(obj->getName()) << " ();" << m_endl;
     }
 
@@ -134,8 +131,7 @@ void ASWriter::writeClass(UMLClassifier *c)
         as << " */" << m_endl;
         as << classname << ".prototype._init = function ()" << m_endl;
         as << "{" << m_endl;
-        for(UMLAttribute *at = atl.first(); at ; at = atl.next())
-        {
+        foreach (UMLAttribute* at, atl ) {
             if (forceDoc() || !at->getDoc().isEmpty())
             {
                 as << m_indentation << "/**" << m_endl
@@ -172,20 +168,16 @@ void ASWriter::writeClass(UMLClassifier *c)
 
     if (isClass) {
         UMLAttributeList atl = c->getAttributeList();
-        for (UMLAttribute *at = atl.first(); at ; at = atl.next())
-        {
-          if (at->getVisibility() == Uml::Visibility::Protected)
-            {
+        foreach (UMLAttribute* at, atl ) {
+          if (at->getVisibility() == Uml::Visibility::Protected) {
                 as << m_indentation << "ASSetPropFlags (this, \"" << cleanName(at->getName()) << "\", 1);" << m_endl;
-            }
+          }
         }
     }
 
     UMLOperationList opList(c->getOpList());
-    for (UMLOperation *op = opList.first(); op; op = opList.next())
-    {
-          if (op->getVisibility() == Uml::Visibility::Protected)
-        {
+    foreach (UMLOperation* op, opList ) {
+        if (op->getVisibility() == Uml::Visibility::Protected) {
             as << m_indentation << "ASSetPropFlags (this, \"" << cleanName(op->getName()) << "\", 1);" << m_endl;
         }
     }
@@ -193,19 +185,15 @@ void ASWriter::writeClass(UMLClassifier *c)
     as << m_indentation << "/**Private: */" << m_endl;
     if (isClass) {
         UMLAttributeList atl = c->getAttributeList();
-        for (UMLAttribute *at = atl.first(); at; at = atl.next())
-        {
-              if (at->getVisibility() == Uml::Visibility::Private)
-            {
+        foreach (UMLAttribute* at,  atl ) {
+            if (at->getVisibility() == Uml::Visibility::Private) {
                 as << m_indentation << "ASSetPropFlags (this, \"" << cleanName(at->getName()) << "\", 7);" << m_endl;
             }
         }
     }
 
-    for (UMLOperation *op = opList.first(); op; op = opList.next())
-    {
-          if (op->getVisibility() == Uml::Visibility::Protected)
-        {
+    foreach (UMLOperation* op, opList ) {
+        if (op->getVisibility() == Uml::Visibility::Protected) {
             as << m_indentation << "ASSetPropFlags (this, \"" << cleanName(op->getName()) << "\", 7);" << m_endl;
         }
     }
@@ -285,22 +273,20 @@ void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
     UMLAttributeList atl;
     UMLAttribute *at;
 
-    for(op = opList->first(); op; op = opList->next())
-    {
+    foreach ( op , *opList ) {
         atl = op -> getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
-        for (at = atl.first(); at ; at = atl.next())
+        foreach ( at,  atl  ) {
             writeDoc |= !at->getDoc().isEmpty();
+        }
 
         if( writeDoc )  //write method documentation
         {
             as << "/**" << m_endl << formatDoc(op->getDoc()," * ");
 
-            for (at = atl.first(); at; at = atl.next())  //write parameter documentation
-            {
-                if(forceDoc() || !at->getDoc().isEmpty())
-                {
+            foreach ( at,  atl ) {
+                if(forceDoc() || !at->getDoc().isEmpty()) {
                     as << " * @param " + cleanName(at->getName())<<m_endl;
                     as << formatDoc(at->getDoc(),"    *      ");
                 }
@@ -312,8 +298,8 @@ void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
 
         int i= atl.count();
         int j=0;
-        for (at = atl.first(); at; at = atl.next(),j++)
-        {
+        for (UMLAttributeListIt atlIt( atl ); atlIt.hasNext(); j++ ) {
+            at = atlIt.next();
             as << cleanName(at->getName())
             << (!(at->getInitialValue().isEmpty()) ? (QString(" = ")+at->getInitialValue()) : QString(""))
             << ((j < i-1)?", ":"");

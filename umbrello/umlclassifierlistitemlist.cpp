@@ -14,6 +14,16 @@
 #include <kdebug.h>
 #include <klocale.h>
 
+UMLClassifierListItemList::UMLClassifierListItemList()
+{ }
+
+UMLClassifierListItemList::UMLClassifierListItemList(const UMLClassifierListItemList& other)
+    : QList<UMLClassifierListItem*>( other )
+{}
+
+UMLClassifierListItemList::~UMLClassifierListItemList()
+{ }
+
 void UMLClassifierListItemList::copyInto(UMLClassifierListItemList *rhs) const {
     // Prevent copying to yourself. (Can cause serious injuries)
     if (rhs == this) return;
@@ -24,8 +34,8 @@ void UMLClassifierListItemList::copyInto(UMLClassifierListItemList *rhs) const {
     UMLClassifierListItemList *tmp = new UMLClassifierListItemList(*this);
 
     UMLClassifierListItem *item;
-    for (item = tmp->first(); item; item = tmp->next() )
-    {
+    for (UMLClassifierListItemListIt clit( *tmp ); clit.hasNext() ; ) {
+        item = clit.next();
         rhs->append((UMLClassifierListItem*)item->clone());
     }
     delete tmp;
@@ -37,6 +47,9 @@ UMLClassifierListItemList* UMLClassifierListItemList::clone() const {
     copyInto(clone);
     return clone;
 }
+
+
+
 
 
 

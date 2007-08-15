@@ -57,8 +57,7 @@ CPPSourceCodeOperation::CPPSourceCodeOperation ( CPPSourceCodeDocument * doc, UM
     UMLAttributeList list = getParentOperation()->getParmList();
     int nrofParam = list.count();
     int paramNum = 0;
-    for(UMLAttribute* parm = list.first(); parm; parm=list.next())
-    {
+    foreach (UMLAttribute* parm, list ) {
         QString rType = parm->getTypeName();
         QString paramName = parm->getName();
         paramStr += rType + ' ' + paramName;
@@ -147,8 +146,7 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
     UMLAttributeList list = getParentOperation()->getParmList();
     int nrofParam = list.count();
     int paramNum = 0;
-    for(UMLAttribute* parm = list.first(); parm; parm=list.next())
-    {
+    foreach (UMLAttribute* parm, list ) {
         QString rType = parm->getTypeName();
         QString paramName = parm->getName();
         paramStr += rType + ' ' + paramName;

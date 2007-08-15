@@ -3030,8 +3030,7 @@ void PhpWriter::writeClass(UMLClassifier *c) {
     UMLPackageList includes;
     findObjectsRelated(c,includes);
     UMLPackage *conc;
-    for(UMLPackageListIt includesIt( includes ); includesIt.hasNext();) {
-        UMLPackage* conc = includesIt.next();
+    foreach(UMLPackage* conc , includes ) {
         QString headerName = findFileName(conc, ".php");
         if (headerName.isEmpty()) {
             php << "include '" << headerName << "';" << m_endl;
@@ -3062,8 +3061,7 @@ void PhpWriter::writeClass(UMLClassifier *c) {
         << "*****************************************************************************/" << m_endl << m_endl;
 
     php << "class " << classname << (superclasses.count() > 0 ? " extends ":"");
-    for (UMLClassifier *obj = superclasses.first();
-            obj; obj = superclasses.next()) {
+    foreach (UMLClassifier *obj , superclasses ) {
         php<<cleanName(obj->getName());
     }
     php<< m_endl << "{" << m_endl;
@@ -3119,7 +3117,7 @@ void PhpWriter::writeClass(UMLClassifier *c) {
         php << m_indentation << " */" << m_endl;
         php << m_indentation << "function "<<"initAttributes( )" << m_endl;
         php << m_indentation << "{" << m_endl;
-        for(UMLAttribute* at = atl.first(); at; at = atl.next())  {
+        foreach (UMLAttribute* at , atl )  {
             if(!at->getInitialValue().isEmpty())  {
                 php << m_indentation << m_indentation << "$this->" << cleanName(at->getName()) << " = " <<
                 at->getInitialValue() << ";" << m_endl;
@@ -3147,13 +3145,9 @@ void PhpWriter::writeOperations(UMLClassifier *c, QTextStream &php) {
     //Lists to store operations  sorted by scope
     UMLOperationList oppub,opprot,oppriv;
 
-    oppub.setAutoDelete(false);
-    opprot.setAutoDelete(false);
-    oppriv.setAutoDelete(false);
-
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList opl(c->getOpList());
-    for(UMLOperation *op = opl.first(); op ; op = opl.next()) {
+    foreach (UMLOperation *op , opl ) {
         switch(op->getVisibility()) {
           case Uml::Visibility::Public:
             oppub.append(op);
@@ -3192,11 +3186,11 @@ void PhpWriter::writeOperations(QString /* classname */, UMLOperationList &opLis
     UMLOperation *op;
     UMLAttribute *at;
 
-    for(op=opList.first(); op ; op=opList.next()) {
+    foreach (op , opList ) {
         UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
-        for (at = atl.first(); at; at = atl.next())
+        foreach (at , atl )
             writeDoc |= !at->getDoc().isEmpty();
 
         if( writeDoc )  //write method documentation
@@ -3204,7 +3198,7 @@ void PhpWriter::writeOperations(QString /* classname */, UMLOperationList &opLis
             php <<m_indentation << "/**" << m_endl <<formatDoc(op->getDoc(),m_indentation + " * ");
             php << m_indentation << " *" << m_endl;
 
-            for (at = atl.first(); at; at = atl.next())  //write parameter documentation
+            foreach (at , atl )  //write parameter documentation
             {
                 if(forceDoc() || !at->getDoc().isEmpty()) {
                     php <<m_indentation << " * @param " + at->getTypeName() + " " + cleanName(at->getName());
@@ -3234,12 +3228,13 @@ void PhpWriter::writeOperations(QString /* classname */, UMLOperationList &opLis
 
         int i= atl.count();
         int j=0;
-        for (at = atl.first(); at; at = atl.next(), j++) {
+        foreach (at , atl ) {
             php << " $" << cleanName(at->getName())
             << (!(at->getInitialValue().isEmpty()) ?
                 (QString(" = ")+at->getInitialValue()) :
                 QString(""))
             << ((j < i-1)?", ":"");
+            j++;
         }
         php <<" )" << m_endl << m_indentation << "{" << m_endl << m_indentation << m_indentation << m_endl << m_indentation << "} // end of member function " + cleanName(op->getName()) + m_endl;
         php << m_endl;
@@ -3248,15 +3243,11 @@ void PhpWriter::writeOperations(QString /* classname */, UMLOperationList &opLis
 
 void PhpWriter::writeAttributes(UMLClassifier *c, QTextStream &php) {
     UMLAttributeList  atpub, atprot, atpriv, atdefval;
-    atpub.setAutoDelete(false);
-    atprot.setAutoDelete(false);
-    atpriv.setAutoDelete(false);
-    atdefval.setAutoDelete(false);
 
     //sort attributes by scope and see if they have a default value
     UMLAttributeList atl = c->getAttributeList();
     UMLAttribute *at;
-    for(at = atl.first(); at ; at = atl.next()) {
+    foreach (at , atl ) {
         if(!at->getInitialValue().isEmpty())
             atdefval.append(at);
         switch(at->getVisibility()) {
@@ -3292,7 +3283,7 @@ void PhpWriter::writeAttributes(UMLClassifier *c, QTextStream &php) {
 
 
 void PhpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &php) {
-    for (UMLAttribute *at = atList.first(); at ; at = atList.next()) {
+    foreach (UMLAttribute *at , atList ) {
         if (forceDoc() || !at->getDoc().isEmpty()) {
             php << m_indentation << "/**" << m_endl << formatDoc(at->getDoc(), m_indentation + " * ");
             switch(at->getVisibility()) {

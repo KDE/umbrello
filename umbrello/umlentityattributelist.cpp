@@ -14,6 +14,17 @@
 #include <kdebug.h>
 #include <klocale.h>
 
+UMLEntityAttributeList::UMLEntityAttributeList()
+{}
+
+
+UMLEntityAttributeList::UMLEntityAttributeList(const UMLEntityAttributeList& other)
+    : QList<UMLEntityAttribute*>( other )
+{}
+
+UMLEntityAttributeList::~UMLEntityAttributeList()
+{}
+
 void UMLEntityAttributeList::copyInto(UMLEntityAttributeList* rhs) const {
     // Don't copy yourself.
     if (rhs == this) return;
@@ -24,7 +35,8 @@ void UMLEntityAttributeList::copyInto(UMLEntityAttributeList* rhs) const {
     UMLEntityAttributeList* tmp = new UMLEntityAttributeList(*this);
 
     UMLEntityAttribute* item;
-    for (item = tmp->first(); item; item = tmp->next() ) {
+    for (UMLEntityAttributeListIt eait( *tmp ); eait.hasNext() ;) {
+        item = eait.next();
         rhs->append((UMLEntityAttribute*)item->clone());
     }
     delete tmp;
@@ -36,3 +48,5 @@ UMLEntityAttributeList* UMLEntityAttributeList::clone() const {
     copyInto(clone);
     return clone;
 }
+
+

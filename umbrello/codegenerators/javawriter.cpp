@@ -78,16 +78,10 @@ void JavaWriter::writeClass(UMLClassifier *c)
     UMLAttributeList  atl;
     UMLAttributeList  atpub, atprot, atpriv;
     UMLAttributeList  final_atpub, final_atprot, final_atpriv;
-    atpub.setAutoDelete(false);
-    final_atpub.setAutoDelete(false);
-    atprot.setAutoDelete(false);
-    final_atprot.setAutoDelete(false);
-    atpriv.setAutoDelete(false);
-    final_atpriv.setAutoDelete(false);
 
     if (!isInterface) {
         UMLAttributeList atl = c->getAttributeList();
-        for (UMLAttribute *at = atl.first(); at ; at = atl.next()) {
+        foreach (UMLAttribute *at ,  atl ) {
             switch(at->getVisibility())
             {
               case Uml::Visibility::Public:
@@ -158,8 +152,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
     //only import classes in a different package as this class
     UMLPackageList imports;
     findObjectsRelated(c,imports);
-    for (UMLPackageListIt importsIt( imports );importsIt.hasNext(); ) {
-        UMLPackage* con = importsIt.next();
+    foreach (UMLPackage* con,  imports ) {
         if (con->getBaseType() == Uml::ot_Datatype)
             continue;
         QString pkg = con->getPackage();
@@ -300,26 +293,27 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
     UMLTemplateList template_params = c->getTemplateList();
     if (template_params.count()) {
         java << "<";
-        for (UMLTemplate *t = template_params.first(); t; ) {
+        for (UMLTemplateListIt tlit( template_params ); tlit.hasNext(); ) {
+            UMLTemplate* t = tlit.next();
             QString formalName = t->getName();
             java <<  formalName;
             QString typeName = t->getTypeName();
             if (typeName != "class") {
                 java << " extends " << typeName;
             }
-            if ((t = template_params.next()) != NULL)
+            if ( tlit.hasNext() ) {
+                tlit.next();
                 java << ", ";
+            }
         }
         java << ">" << m_endl;
     }
 
     // write inheritances out
-    UMLClassifier *concept;
     UMLClassifierList superclasses = c->findSuperClassConcepts(UMLClassifier::CLASS);
 
     int i = 0;
-    for (concept= superclasses.first(); concept; concept = superclasses.next())
-    {
+    foreach ( UMLClassifier *concept, superclasses ) {
         if (i == 0)
         {
             java<< " extends ";
@@ -335,8 +329,7 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
 
     UMLClassifierList superInterfaces = c->findSuperClassConcepts(UMLClassifier::INTERFACE);
     i = 0;
-    for (concept= superInterfaces.first(); concept; concept = superInterfaces.next())
-    {
+    foreach ( UMLClassifier *concept, superInterfaces ) {
         if (i == 0)
         {
             if (isInterface)
@@ -358,10 +351,8 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
 void JavaWriter::writeAttributeDecls(UMLAttributeList &atpub, UMLAttributeList &atprot,
                                      UMLAttributeList &atpriv, QTextStream &java )
 {
-    UMLAttribute *at;
 
-    for(at=atpub.first(); at; at=atpub.next())
-    {
+    foreach (UMLAttribute *at, atpub ) {
         QString documentation = at->getDoc();
         QString staticValue = at->getStatic() ? "static " : "";
         QString typeName = fixTypeName(at->getTypeName());
@@ -372,8 +363,7 @@ void JavaWriter::writeAttributeDecls(UMLAttributeList &atpub, UMLAttributeList &
         <<(initialValue.isEmpty()?QString(""):QString(" = ") + initialValue)<<";";
     }
 
-    for(at=atprot.first();at;at=atprot.next())
-    {
+    foreach (UMLAttribute *at, atprot ){
         QString documentation = at->getDoc();
         QString typeName = fixTypeName(at->getTypeName());
         QString staticValue = at->getStatic() ? "static " : "";
@@ -384,8 +374,7 @@ void JavaWriter::writeAttributeDecls(UMLAttributeList &atpub, UMLAttributeList &
         <<(initialValue.isEmpty()?QString(""):QString(" = ") + initialValue)<<";";
     }
 
-    for(at=atpriv.first();at;at=atpriv.next())
-    {
+    foreach (UMLAttribute *at, atpriv ) {
         QString documentation = at->getDoc();
         QString typeName = fixTypeName(at->getTypeName());
         QString staticValue = at->getStatic() ? "static " : "";
@@ -401,9 +390,7 @@ void JavaWriter::writeAttributeDecls(UMLAttributeList &atpub, UMLAttributeList &
 void JavaWriter::writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility visibility, QTextStream &java)
 {
 
-    UMLAttribute *at;
-    for(at=atpub.first(); at; at=atpub.next())
-    {
+    foreach (UMLAttribute *at, atpub ){
         QString fieldName = cleanName(at->getName());
         // force capitalizing the field name, this is silly,
         // from what I can tell, this IS the default behavior for
@@ -547,10 +534,9 @@ void JavaWriter::writeAssociationRoleDecl(QString fieldClassName,
 
 void JavaWriter::writeAssociationMethods (UMLAssociationList associations, UMLClassifier *thisClass, QTextStream &java)
 {
-    if( forceSections() || !associations.isEmpty() )
-    {
-        for(UMLAssociation *a = associations.first(); a; a = associations.next())
-        {
+    if( forceSections() || !associations.isEmpty() ) {
+
+        foreach(UMLAssociation *a , associations ) {
 
             // insert the methods to access the role of the other
             // class in the code of this one
@@ -670,8 +656,7 @@ void JavaWriter::writeSingleAttributeAccessorMethods(QString fieldClassName, QSt
 void JavaWriter::writeConstructor(UMLClassifier *c, QTextStream &java)
 {
 
-    if (forceDoc())
-    {
+    if (forceDoc()) {
         java<<startline;
         writeComment("", m_indentation, java);
         writeComment("Constructors", m_indentation, java);
@@ -726,10 +711,8 @@ bool JavaWriter::compareJavaMethod(UMLOperation *op1, UMLOperation *op2)
     UMLAttributeList atl2 = op2->getParmList();
     if (atl1.count() != atl2.count())
         return false;
-    UMLAttribute *at1;
-    UMLAttribute *at2;
-    for (at1  = atl1.first(), at2 = atl2.first(); at1 && at2 ; at1 = atl1.next(),at2 = atl2.next())
-    {
+    for (UMLAttributeListIt atl1It( atl1 ), atl2It( atl2 ); atl1It.hasNext() && atl2It.hasNext(); ) {
+        UMLAttribute *at1, *at2;
         if (at1->getTypeName() != at2->getTypeName())
             return false;
     }
@@ -739,7 +722,7 @@ bool JavaWriter::compareJavaMethod(UMLOperation *op1, UMLOperation *op2)
 
 bool JavaWriter::javaMethodInList(UMLOperation *umlOp, UMLOperationList &opl)
 {
-    for (UMLOperation *op = opl.first(); op; op = opl.next()) {
+    foreach (UMLOperation *op , opl ) {
         if (JavaWriter::compareJavaMethod(op, umlOp)) {
             return true;
         }
@@ -751,11 +734,11 @@ void JavaWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationLis
 {
     UMLClassifierList superClasses = c->findSuperClassConcepts();
 
-    for (UMLClassifier *concept= superClasses.first(); concept; concept = superClasses.next())
-    {
+    foreach (UMLClassifier *concept, superClasses) {
+
         getSuperImplementedOperations(concept, yetImplementedOpList, toBeImplementedOpList, (concept->isInterface() && noClassInPath));
         UMLOperationList opl = concept->getOpList();
-        for (UMLOperation *op = opl.first(); op; op = opl.next()) {
+        foreach (UMLOperation *op , opl ) {
             if (concept->isInterface() && noClassInPath) {
                 if (!JavaWriter::javaMethodInList(op,toBeImplementedOpList))
                     toBeImplementedOpList.append(op);
@@ -776,8 +759,7 @@ void JavaWriter::getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOpe
     UMLOperationList toBeImplementedOpList;
 
     getSuperImplementedOperations(c,yetImplementedOpList, toBeImplementedOpList);
-    for (UMLOperation *op = toBeImplementedOpList.first(); op; op = toBeImplementedOpList.next())
-    {
+    foreach (UMLOperation *op , toBeImplementedOpList) {
         if ( ! JavaWriter::javaMethodInList(op, yetImplementedOpList) && ! JavaWriter::javaMethodInList(op, opList) )
             opList.append(op);
     }
@@ -786,16 +768,13 @@ void JavaWriter::getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOpe
 void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
     UMLOperationList opl;
     UMLOperationList oppub,opprot,oppriv;
-    oppub.setAutoDelete(false);
-    opprot.setAutoDelete(false);
-    oppriv.setAutoDelete(false);
 
     //sort operations by scope first and see if there are abstract methods
     opl = c->getOpList();
     if (! c->isInterface()) {
         getInterfacesOperationsToBeImplemented(c, opl);
     }
-    for (UMLOperation *op = opl.first(); op; op = opl.next()) {
+    foreach (UMLOperation *op , opl ) {
         switch(op->getVisibility()) {
           case Uml::Visibility::Public:
             oppub.append(op);
@@ -849,8 +828,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java) {
     QString str;
 
     // generate method decl for each operation given
-    for( op=oplist.first(); op ;op=oplist.next())
-    {
+    foreach( op ,  oplist ){
 
         QString returnStr = "";
         // write documentation
@@ -868,7 +846,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java) {
         atl = op->getParmList();
         i= atl.count();
         j=0;
-        for (at = atl.first(); at; at = atl.next(), j++) {
+        foreach ( at , atl ) {
             QString typeName = fixTypeName(at->getTypeName());
             QString atName = cleanName(at->getName());
             str += typeName + ' ' + atName +
@@ -877,6 +855,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java) {
                     QString(""))
                    + ((j < i-1)?", ":"");
             returnStr += "@param        " + atName + ' ' + at->getDoc() + '\n';
+            j++;
         }
         str+= " )";
 

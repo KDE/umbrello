@@ -185,8 +185,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     UMLPackageList imports;
     findObjectsRelated(c, imports);
     if (imports.count()) {
-        for (UMLPackageListIt importsIt( imports );importsIt.hasNext(); ) {
-            UMLPackage* con = importsIt.next();
+        foreach (UMLPackage* con, imports ) {
             if (con->getBaseType() != Uml::ot_Datatype)
                 ada << "with " << packageName(con) << "; " << m_endl;
         }
@@ -198,7 +197,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     if (template_params.count()) {
         ada << getIndent() << "generic" << m_endl;
         m_indentLevel++;
-        for (UMLTemplate *t = template_params.first(); t; t = template_params.next()) {
+        foreach (UMLTemplate* t, template_params ) {
             QString formalName = t->getName();
             QString typeName = t->getTypeName();
             if (typeName == "class") {
@@ -235,7 +234,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
         uint i = 0;
         ada << getIndent() << "type " << classname << " is (" << m_endl;
         m_indentLevel++;
-        for (UMLClassifierListItem *lit = litList.first(); lit; lit = litList.next()) {
+        foreach (UMLClassifierListItem* lit, litList ) {
             QString enumLiteral = cleanName(lit->getName());
             ada << getIndent() << enumLiteral;
             if (++i < litList.count())
@@ -254,10 +253,9 @@ void AdaWriter::writeClass(UMLClassifier *c) {
         } else if(stype == "CORBAStruct") {
             if (isClass) {
                 UMLAttributeList atl = c->getAttributeList();
-                UMLAttribute *at;
                 ada << getIndent() << "type " << classname << " is record" << m_endl;
                 m_indentLevel++;
-                for (at = atl.first(); at; at = atl.next()) {
+                foreach (UMLAttribute* at,  atl ) {
                     QString name = cleanName(at->getName());
                     QString typeName = at->getTypeName();
                     ada << getIndent() << name << " : " << typeName;
@@ -311,18 +309,17 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     UMLAttributeList atl;
     if (isClass) {
         UMLAttributeList atpub;
-        atpub.setAutoDelete(false);
 
         atl = c->getAttributeList();
 
-        UMLAttribute *at;
-        for (at = atl.first(); at; at = atl.next()) {
-              if (at->getVisibility() == Uml::Visibility::Public)
+        foreach (UMLAttribute* at, atl ) {
+            if (at->getVisibility() == Uml::Visibility::Public)
                 atpub.append(at);
         }
         if (forceSections() || atpub.count())
             ada << getIndent() << "-- Accessors for public attributes:" << m_endl << m_endl;
-        for (at = atpub.first(); at; at = atpub.next()) {
+
+        foreach (UMLAttribute* at, atpub ) {
             QString member = cleanName(at->getName());
             ada << getIndent() << "procedure Set_" << member << " (";
             if (! at->getStatic())
@@ -339,16 +336,16 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     // Generate public operations.
     UMLOperationList opl(c->getOpList());
     UMLOperationList oppub;
-    oppub.setAutoDelete(false);
-    UMLOperation *op;
-    for (op = opl.first(); op; op = opl.next()) {
-         if (op->getVisibility() == Uml::Visibility::Public)
+    foreach (UMLOperation* op, opl ) {
+        if (op->getVisibility() == Uml::Visibility::Public)
             oppub.append(op);
     }
     if (forceSections() || oppub.count())
         ada << getIndent() << "-- Public methods:" << m_endl << m_endl;
-    for (op = oppub.first(); op; op = oppub.next())
+
+    foreach (UMLOperation* op, oppub ) {
         writeOperation(op, ada);
+    }
 
     m_indentLevel--;
     ada << getIndent() << "private" << m_endl << m_endl;
@@ -395,8 +392,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 
     if (isClass && (forceSections() || atl.count())) {
         ada << getIndent() << "-- Attributes:" << m_endl;
-        UMLAttribute *at;
-        for (at = atl.first(); at; at = atl.next()) {
+        foreach (UMLAttribute* at, atl ) {
             if (at->getStatic())
                 continue;
             ada << getIndent() << cleanName(at->getName()) << " : "
@@ -413,7 +409,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     ada << getIndent() << "end record;" << m_endl << m_endl;
     if (haveAttrs) {
         bool seen_static_attr = false;
-        for (UMLAttribute *at = atl.first(); at; at = atl.next()) {
+        foreach (UMLAttribute* at, atl ) {
             if (! at->getStatic())
                 continue;
             if (! seen_static_attr) {
@@ -433,15 +429,15 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     }
     // Generate protected operations.
     UMLOperationList opprot;
-    opprot.setAutoDelete(false);
-    for (op = opl.first(); op; op = opl.next()) {
-      if (op->getVisibility() == Uml::Visibility::Protected)
+    foreach (UMLOperation* op,  opl ) {
+        if (op->getVisibility() == Uml::Visibility::Protected)
             opprot.append(op);
     }
     if (forceSections() || opprot.count())
         ada << getIndent() << "-- Protected methods:" << m_endl << m_endl;
-    for (op = opprot.first(); op; op = opprot.next())
+    foreach (UMLOperation* op, opprot ) {
         writeOperation(op, ada);
+    }
 
     // Generate private operations.
     // These are currently only generated as comments in the private part
@@ -450,17 +446,17 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     // hand written code sections, private operations should be generated
     // into the package body.
     UMLOperationList oppriv;
-    oppriv.setAutoDelete(false);
-    for (op = opl.first(); op; op = opl.next()) {
-          const Uml::Visibility::Value vis = op->getVisibility();
-          if (vis == Uml::Visibility::Private ||
-              vis == Uml::Visibility::Implementation)
-            oppriv.append(op);
+    foreach (UMLOperation* op, opl ) {
+        const Uml::Visibility::Value vis = op->getVisibility();
+        if (vis == Uml::Visibility::Private ||
+            vis == Uml::Visibility::Implementation)
+        oppriv.append(op);
     }
     if (forceSections() || oppriv.count())
         ada << getIndent() << "-- Private methods:" << m_endl << m_endl;
-    for (op = oppriv.first(); op; op = oppriv.next())
+    foreach (UMLOperation* op, oppriv ) {
         writeOperation(op, ada, true);
+    }
 
     m_indentLevel--;
     ada << getIndent() << "end " << pkg << ";" << m_endl << m_endl;
@@ -493,7 +489,7 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
     if (atl.count()) {
         uint i = 0;
         m_indentLevel++;
-        for (UMLAttribute *at = atl.first(); at; at = atl.next()) {
+        foreach (UMLAttribute* at, atl ) {
             ada << getIndent();
             if (is_comment)
                 ada << "-- ";

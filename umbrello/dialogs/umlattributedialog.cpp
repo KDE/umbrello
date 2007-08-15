@@ -128,9 +128,8 @@ void UMLAttributeDialog::setupDialog() {
 
     //now add the Concepts
     UMLClassifierList namesList( pDoc->getConcepts() );
-    UMLClassifier* obj;
-    for (obj=namesList.first(); obj!=0; obj=namesList.next()) {
-        insertType( obj->getFullyQualifiedName() );
+    foreach (UMLClassifier* obj, namesList ) {
+         insertType( obj->getFullyQualifiedName() );
     }
 
     //work out which one to select

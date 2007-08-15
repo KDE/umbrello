@@ -80,7 +80,7 @@ CodeGenerationWizard::CodeGenerationWizard(UMLClassifierList *classList)
         classList = &cList;
     }
 
-    for (UMLClassifier *c = classList->first(); c ; c = classList->next()) {
+    foreach (UMLClassifier* c, cList ) {
         new Q3ListViewItem( m_selectedList, c->getFullyQualifiedName());
     }
 
@@ -130,7 +130,6 @@ void CodeGenerationWizard::generateCode() {
                  this, SLOT(classGenerated(UMLClassifier*, bool)) );
 
         UMLClassifierList cList;
-        cList.setAutoDelete(false);
 
         for(Q3ListViewItem *item = m_statusList->firstChild(); item;
                 item = item-> nextSibling()) {

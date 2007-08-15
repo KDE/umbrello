@@ -138,8 +138,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
     UMLPackageList includes;
     findObjectsRelated(c, includes);
     if (includes.count()) {
-        for (UMLPackageListIt includesIt( includes ); includesIt.hasNext(); ) {
-            UMLPackage* conc = includesIt.next();
+        foreach (UMLPackage* conc, includes ) {
             if (conc->getBaseType() == Uml::ot_Datatype)
                 continue;
             QString incName = findFileName(conc, ".idl");
@@ -153,8 +152,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
     // we are embedded.
     UMLPackageList pkgList = c->getPackages();
     UMLPackage *pkg = NULL;
-    for (UMLPackageListIt pkgListIt( pkgList );pkgListIt.hasNext(); ) {
-        pkg = pkgListIt.next();
+    foreach ( pkg,  pkgList ) {
         idl << getIndent() << "module " << pkg->getName() << " {" << m_endl << m_endl;
         m_indentLevel++;
     }
@@ -172,7 +170,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
         uint i = 0;
         idl << getIndent() << "enum " << classname << " {" << m_endl;
         m_indentLevel++;
-        for (UMLClassifierListItem *lit = litList.first(); lit; lit = litList.next()) {
+        foreach (UMLClassifierListItem *lit , litList ) {
             QString enumLiteral = cleanName(lit->getName());
             idl << getIndent() << enumLiteral;
             if (++i < litList.count())
@@ -182,8 +180,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
         m_indentLevel--;
         idl << getIndent() << "};" << m_endl << m_endl;
         // Close the modules inside which we might be nested.
-        for (UMLPackageListIt pkgListIt( pkgList );pkgListIt.hasNext(); ) {
-            pkg = pkgListIt.next();
+        foreach ( pkg,  pkgList ) {
             m_indentLevel--;
             idl << getIndent() << "};" << m_endl << m_endl;
         }
@@ -208,7 +205,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
             idl << getIndent() << "enum " << classname << " {" << m_endl;
             m_indentLevel++;
             uint i = 0;
-            for (at = atl.first(); at; at = atl.next()) {
+            foreach (at , atl ) {
                 QString enumLiteral = cleanName(at->getName());
                 idl << getIndent() << enumLiteral;
                 if (++i < atl.count())
@@ -222,7 +219,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
             UMLAttribute *at;
             idl << getIndent() << "struct " << classname << " {" << m_endl;
             m_indentLevel++;
-            for (at = atl.first(); at; at = atl.next()) {
+            foreach (at , atl ) {
                 QString name = cleanName(at->getName());
                 idl << getIndent() << at->getTypeName() << " " << name << ";" << m_endl;
                 // Initial value not possible in IDL.
@@ -259,8 +256,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
             idl << getIndent() << "// " << stype << ": Unknown stereotype" << m_endl << m_endl;
         }
         // Close the modules inside which we might be nested.
-        for (UMLPackageListIt pkgListIt( pkgList );pkgListIt.hasNext(); ) {
-            pkg = pkgListIt.next();
+        foreach ( pkg , pkgList ) {
             m_indentLevel--;
             idl << getIndent() << "};" << m_endl << m_endl;
         }
@@ -279,13 +275,12 @@ void IDLWriter::writeClass(UMLClassifier *c) {
     UMLClassifierList superclasses = c->getSuperClasses();
     if (! superclasses.isEmpty()) {
         idl << " : ";
-        UMLClassifier *parent = superclasses.first();
-        int n_parents = superclasses.count();
-        while (n_parents--) {
+        int count = superclasses.count();
+        foreach( UMLClassifier* parent, superclasses ) {
+            count--;
             idl << parent->getFullyQualifiedName("::");
-            if (n_parents)
+            if (count)
                 idl << ", ";
-            parent = superclasses.next();
         }
     }
     idl << " {" << m_endl << m_endl;
@@ -316,7 +311,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
         UMLAttributeList atl = c->getAttributeList();
         if (forceSections() || atl.count()) {
             idl << getIndent() << "// Attributes:" << m_endl << m_endl;
-            for (UMLAttribute *at = atl.first(); at; at = atl.next()) {
+            foreach (UMLAttribute *at , atl ) {
                 QString attName = cleanName(at->getName());
                 Uml::Visibility scope = at->getVisibility();
                 idl << getIndent();
@@ -344,13 +339,13 @@ void IDLWriter::writeClass(UMLClassifier *c) {
     UMLOperationList opl(c->getOpList());
     UMLOperationList oppub;
     UMLOperation *op;
-    for (op = opl.first(); op; op = opl.next()) {
+    foreach (op , opl ) {
           if (op->getVisibility() == Uml::Visibility::Public)
             oppub.append(op);
     }
     if (forceSections() || oppub.count()) {
         idl << getIndent() << "// Public methods:" << m_endl << m_endl;
-        for (op = oppub.first(); op; op = oppub.next())
+        foreach ( op , oppub )
             writeOperation(op, idl);
         idl << m_endl;
     }
@@ -381,8 +376,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
     idl << getIndent() << "};" << m_endl << m_endl;
 
     // Close the modules inside which we might be nested.
-    for (UMLPackageListIt pkgListIt( pkgList );pkgListIt.hasNext(); ) {
-        pkg = pkgListIt.next();
+    foreach ( pkg,  pkgList ) {
         m_indentLevel--;
         idl << getIndent() << "};" << m_endl << m_endl;
     }
@@ -405,7 +399,7 @@ void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comme
         idl << m_endl;
         m_indentLevel++;
         uint i = 0;
-        for (UMLAttribute *at = atl.first(); at; at = atl.next()) {
+        foreach (UMLAttribute *at , atl ) {
             idl << getIndent();
             if (is_comment)
                 idl << "// ";

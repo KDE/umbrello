@@ -103,7 +103,7 @@ void EntityWidget::draw(QPainter& p, int offsetX, int offsetY) {
     UMLClassifier *classifier = (UMLClassifier*)m_pObject;
     UMLClassifierListItem* entityattribute = 0;
     UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EntityAttribute);
-    for (entityattribute = list.first(); entityattribute; entityattribute = list.next()) {
+    foreach (entityattribute , list ) {
         QString text = entityattribute->getName();
         p.setPen( QPen(Qt::black) );
         UMLEntityAttribute* casted = dynamic_cast<UMLEntityAttribute*>( entityattribute );
@@ -168,7 +168,7 @@ QSize EntityWidget::calculateSize() {
     UMLClassifier* classifier = (UMLClassifier*)m_pObject;
     UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EntityAttribute);
     UMLClassifierListItem* listItem = 0;
-    for (listItem = list.first(); listItem; listItem = list.next()) {
+    foreach (listItem , list ) {
         int w = fm.width( listItem->getName() );
         width = w > width?w:width;
     }

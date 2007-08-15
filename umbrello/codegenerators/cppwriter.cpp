@@ -326,7 +326,7 @@ void CppWriter::writeSourceFile (UMLClassifier *c, QFile &filecpp ) {
 void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
 {
     UMLClassifierList superclasses = m_classifierInfo->superclasses;
-    for(UMLClassifier *classifier = superclasses.first(); classifier ;classifier = superclasses.next()) {
+    foreach (UMLClassifier* classifier, superclasses ) {
         QString headerName = findFileName(classifier, ".h");
         if (!headerName.isEmpty()) {
             cpp << "#include \"" << headerName << "\"" << m_endl;
@@ -353,7 +353,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
     }
 
 
-    for(UMLClassifier *classifier = superclasses.first(); classifier ; classifier = superclasses.next()) {
+    foreach (UMLClassifier* classifier, superclasses ) {
         if(classifier->getPackage()!=c->getPackage() && !classifier->getPackage().isEmpty()) {
             cpp << "using " << cleanName(classifier->getPackage()) << "::" << cleanName(classifier->getName()) << ";" << m_endl;
         }
@@ -385,7 +385,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
         UMLClassifierListItemList litList = c->getFilteredList(Uml::ot_EnumLiteral);
         uint i = 0;
         cpp << "enum " << m_classifierInfo->className << " {" << m_endl;
-        for (UMLClassifierListItem *lit = litList.first(); lit; lit = litList.next()) {
+        foreach (UMLClassifierListItem* lit, litList ) {
             QString enumLiteral = cleanName(lit->getName());
             cpp << getIndent() << enumLiteral;
             if (++i < litList.count())
@@ -402,12 +402,15 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
     UMLTemplateList template_params = c->getTemplateList();
     if (template_params.count()) {
         cpp << "template<";
-        for (UMLTemplate *t = template_params.first(); t; ) {
+        for (UMLTemplateListIt tlit( template_params ); tlit.hasNext(); ) {
+            UMLTemplate* t = tlit.next();
             QString formalName = t->getName();
             QString typeName = t->getTypeName();
             cpp << typeName << " " << formalName;
-            if ((t = template_params.next()) != NULL)
+            if ( tlit.hasNext() ) {
+                t = tlit.next();
                 cpp << ", ";
+            }
         }
         cpp << ">" << m_endl;
     }
@@ -417,9 +420,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
         cpp << " : ";
     uint numOfSuperClasses = m_classifierInfo->superclasses.count();
     uint i = 0;
-    for (UMLClassifier *superClass = m_classifierInfo->superclasses.first();
-            superClass ; superClass = m_classifierInfo->superclasses.next())
-    {
+    foreach (UMLClassifier* superClass, m_classifierInfo->superclasses  ) {
         i++;
         if (superClass->getAbstract() || superClass->isInterface())
             cpp << "virtual ";
@@ -518,8 +519,7 @@ void CppWriter::writeAttributeDecls (Uml::Visibility visibility, bool writeStati
         // write attrib declarations now
         bool isFirstAttrib = true;
         QString documentation;
-        for(UMLAttribute *at=list->first(); at; at=list->next())
-        {
+        foreach (UMLAttribute* at, *list ) {
 
             //                  bool noPriorDocExists = documentation.isEmpty();
             documentation = at->getDoc();
@@ -616,10 +616,7 @@ void CppWriter::writeAttributeMethods(UMLAttributeList *attribs,
     if (attribs->count() == 0)
         return;
 
-    UMLAttribute *at;
-    for(at=attribs->first(); at; at=attribs->next())
-    {
-
+    foreach (UMLAttribute* at, *attribs ) {
         QString varName = getAttributeVariableName(at);
         QString methodBaseName = cleanName(at->getName());
 
@@ -680,7 +677,7 @@ void CppWriter::writeAssociationDecls(UMLAssociationList associations, Uml::Visi
     if( forceSections() || !associations.isEmpty() )
     {
         bool printRoleA = false, printRoleB = false;
-        for(UMLAssociation *a = associations.first(); a; a = associations.next())
+        foreach (UMLAssociation *a , associations )
         {
 
             // it may seem counter intuitive, but you want to insert the role of the
@@ -777,7 +774,7 @@ void CppWriter::writeAssociationMethods (UMLAssociationList associations,
 {
     if( forceSections() || !associations.isEmpty() )
     {
-        for(UMLAssociation *a = associations.first(); a; a = associations.next())
+        foreach (UMLAssociation *a , associations )
         {
 
             // insert the methods to access the role of the other
@@ -1022,7 +1019,7 @@ void CppWriter::writeInitAttibuteMethod (QTextStream &stream)
     m_indentLevel++;
     // first, initiation of fields derived from attributes
     UMLAttributeList* atl = m_classifierInfo->getAttList();
-    for(UMLAttribute *at = atl->first(); at ; at = atl->next()) {
+    foreach (UMLAttribute* at, *atl ) {
         if(!at->getInitialValue().isEmpty()) {
             QString varName = getAttributeVariableName(at);
             stream << getIndent() << varName << " = " << at->getInitialValue() << ";" << m_endl;
@@ -1108,7 +1105,7 @@ void CppWriter::writeOperations(UMLClassifier *c, bool isHeaderMethod,
 
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList inputlist = c->getOpList();
-    for (UMLOperation *op = inputlist.first(); op; op = inputlist.next()) {
+    foreach (UMLOperation* op, inputlist ) {
         if (op->getVisibility() == permitScope) {
             oplist.append(op);
         }
@@ -1134,8 +1131,7 @@ void CppWriter::writeOperations(UMLOperationList &oplist, bool isHeaderMethod, Q
         UMLApp::app()->getCommonPolicy()->getAutoGenerateConstructors();
 
     // generate method decl for each operation given
-    for (UMLOperation *op = oplist.first(); op; op = oplist.next()) {
-
+    foreach (UMLOperation* op, oplist  ) {
         QString returnStr;  // buffer for documentation
         QString methodReturnType;
         UMLAttributeList atl = op->getParmList();  // method parameters
@@ -1174,7 +1170,8 @@ void CppWriter::writeOperations(UMLOperationList &oplist, bool isHeaderMethod, Q
 
         // generate parameters
         uint j = 0;
-        for (UMLAttribute *at = atl.first(); at; at = atl.next(), j++) {
+        for (UMLAttributeListIt atlIt( atl ); atlIt.hasNext() ; j++) {
+            UMLAttribute* at = atlIt.next();
             QString typeName = fixTypeName(at->getTypeName());
             QString atName = cleanName(at->getName());
             str += typeName + ' ' + atName;
@@ -1210,7 +1207,7 @@ void CppWriter::writeOperations(UMLOperationList &oplist, bool isHeaderMethod, Q
 void CppWriter::printAssociationIncludeDecl (UMLAssociationList list, Uml::IDType myId, QTextStream &stream)
 {
 
-    for (UMLAssociation *a = list.first(); a; a = list.next()) {
+    foreach (UMLAssociation *a , list ) {
         UMLClassifier *current = NULL;
         bool isFirstClass = true;
 

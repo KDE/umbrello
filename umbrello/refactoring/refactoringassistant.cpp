@@ -485,9 +485,8 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, Q3ListViewI
         attsFolder->setPixmap(0,SmallIcon("folder_green_open"));
         attsFolder->setExpandable( true );
         UMLAttributeList atts = klass->getAttributeList();
-        for( UMLAttribute *att = atts.first(); att; att = atts.next() )
-        {
-            attributeAdded( att );
+        for( UMLAttributeListIt alit( atts ) ; alit.hasNext(); ) {
+            attributeAdded( alit.next() );
         }
 
     }
@@ -502,8 +501,7 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, Q3ListViewI
     opsFolder->setPixmap(0,SmallIcon("folder_blue_open"));
     opsFolder->setExpandable( true );
     UMLOperationList ops(classifier->getOpList());
-    for( UMLOperation *op = ops.first(); op ; op = ops.next() )
-    {
+    foreach ( UMLOperation* op, ops ) {
         operationAdded( op );
     }
 
@@ -513,8 +511,7 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, Q3ListViewI
         Q3ListViewItem *superFolder = new K3ListViewItem( classifierItem, i18n("Base Classifiers") );
         superFolder->setExpandable( true );
         UMLClassifierList super = classifier->findSuperClassConcepts();
-        for( UMLClassifier *cl = super.first(); cl ; cl = super.next() )
-        {
+        foreach ( UMLClassifier* cl, super ) {
             item = new K3ListViewItem( superFolder, cl->getName() );
             item->setPixmap(0,m_pixmaps.Generalization);
             item->setExpandable( true );
@@ -532,8 +529,7 @@ void RefactoringAssistant::addClassifier( UMLClassifier *classifier, Q3ListViewI
         Q3ListViewItem *derivedFolder = new K3ListViewItem( classifierItem, i18n("Derived Classifiers") );
         derivedFolder->setExpandable( true );
         UMLClassifierList derived = classifier->findSubClassConcepts();
-        for( UMLClassifier *d = derived.first(); d ; d = derived.next() )
-        {
+        foreach ( UMLClassifier* d, derived ) {
             item = new K3ListViewItem( derivedFolder, d->getName() );
             item->setPixmap(0,m_pixmaps.Subclass);
             item->setExpandable( true );

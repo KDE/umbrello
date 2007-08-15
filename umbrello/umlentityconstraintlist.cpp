@@ -14,6 +14,18 @@
 #include <kdebug.h>
 #include <klocale.h>
 
+UMLEntityConstraintList::UMLEntityConstraintList()
+{
+}
+
+UMLEntityConstraintList::UMLEntityConstraintList(const UMLEntityConstraintList& other)
+    : QList<UMLEntityConstraint*>( other )
+{
+}
+
+UMLEntityConstraintList::~UMLEntityConstraintList()
+{}
+
 void UMLEntityConstraintList::copyInto(UMLEntityConstraintList* rhs) const {
     // Don't copy yourself.
     if (rhs == this) return;
@@ -24,7 +36,8 @@ void UMLEntityConstraintList::copyInto(UMLEntityConstraintList* rhs) const {
     UMLEntityConstraintList* tmp = new UMLEntityConstraintList(*this);
 
     UMLEntityConstraint* item;
-    for (item = tmp->first(); item; item = tmp->next() ) {
+    for (UMLEntityConstraintListIt ecit( *tmp ); ecit.hasNext() ; ) {
+        item = ecit.next();
         rhs->append((UMLEntityConstraint*)item->clone());
     }
     delete tmp;
@@ -36,3 +49,4 @@ UMLEntityConstraintList* UMLEntityConstraintList::clone() const {
     copyInto(clone);
     return clone;
 }
+

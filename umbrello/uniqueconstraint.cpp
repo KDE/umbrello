@@ -170,7 +170,7 @@ bool UMLUniqueConstraint::load( QDomElement & element ) {
 
 bool UMLUniqueConstraint::hasEntityAttribute(UMLEntityAttribute* attr) {
 
-    if ( m_EntityAttributeList.findRef( attr ) == -1 ) {
+    if ( m_EntityAttributeList.indexOf( attr ) == -1 ) {
         //not present
         return false;
     }
