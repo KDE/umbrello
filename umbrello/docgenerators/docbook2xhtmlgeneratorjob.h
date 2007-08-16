@@ -19,7 +19,7 @@
 /**
  * This class is used to generate XHTML from Docbook.
  * It emits the name of the temporary file to which it as generated the XHtml as output.
- * It runs on a seperate thread
+ * It runs in a separate thread.
  *
  * @short Generates XHtml from Docbook
  * @author Sharan Rao

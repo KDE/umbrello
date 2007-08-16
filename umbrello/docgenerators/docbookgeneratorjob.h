@@ -17,7 +17,7 @@
 /**
  * This class is used to generate docbook from the document.
  * It emits the name of the temporary file to which it as generated the docbook as output.
- * It runs on a seperate thread
+ * It runs in a separate thread.
  *
  * @short Generates DocBook from the Document
  * @author Sharan Rao
