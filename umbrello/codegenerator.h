@@ -332,7 +332,7 @@ protected:
      * @param name the proposed output file name
      * @param extension the extension to use
      * @return the real file name that should be used (including extension) or
-     *      QString::null if none to be used
+     *      QString() if none to be used
      */
     QString overwritableName (const QString& name, const QString &extension );
 

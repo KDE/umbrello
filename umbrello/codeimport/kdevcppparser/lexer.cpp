@@ -377,7 +377,7 @@ void Lexer::nextToken( Token& tk, bool stopOnNewline )
                     //Problem p( i18n("unsafe use of macro '%1'").arg(ide), m_currentLine, m_currentColumn );
                     //m_driver->addProblem( m_driver->currentFileName(), p );
                     m_driver->removeMacro( ide );
-                    // str = QString::null;
+                    // str = QString();
                 }
 
                 if( stringify ) {

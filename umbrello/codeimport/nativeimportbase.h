@@ -153,7 +153,7 @@ protected:
     /**
      * Advance m_srcIndex until m_source[m_srcIndex] contains a non-comment.
      * Comments encountered during advancement are accumulated in `m_comment'.
-     * If m_srcIndex hits the end of m_source then QString::null is returned.
+     * If m_srcIndex hits the end of m_source then QString() is returned.
      */
     QString advance();
 

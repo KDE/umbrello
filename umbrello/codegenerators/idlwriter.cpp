@@ -70,7 +70,7 @@ void IDLWriter::computeAssocTypeAndRole
                 at == Uml::at_UniAssociation) {
             // Assuming unidirectional association, and we are
             // at the "wrong" side.
-            // Returning roleName = QString::null tells caller to
+            // Returning roleName = QString() tells caller to
             // skip this association at this side.
             roleName = QString();
             return;

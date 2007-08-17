@@ -31,7 +31,7 @@
 
 namespace Dialog_Utils {
 
-KLineEdit* makeLabeledEditField(Q3GroupBox *containingBox, QGridLayout *layout, int row,QLabel * &label, const QString& labelText, KLineEdit * &editField, const QString& editFieldText /* = QString::null */)
+KLineEdit* makeLabeledEditField(Q3GroupBox *containingBox, QGridLayout *layout, int row,QLabel * &label, const QString& labelText, KLineEdit * &editField, const QString& editFieldText /* = QString() */)
 {
     label = new QLabel(labelText, containingBox);
     layout->addWidget(label, row, 0);

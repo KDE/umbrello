@@ -263,7 +263,7 @@ UMLClassifierListItem* createChildObject(UMLClassifier* parent, Uml::Object_Type
 }
 
 UMLObject* makeObjectFromXMI(const QString& xmiTag,
-                             const QString& stereoID /* = QString::null */) {
+                             const QString& stereoID /* = QString() */) {
     UMLObject* pObject = 0;
     if (Uml::tagEq(xmiTag, "UseCase")) {
         pObject = new UMLUseCase();

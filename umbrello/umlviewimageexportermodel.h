@@ -55,7 +55,7 @@ public:
      * The supported image types are those that the diagrams can be exported to.
      *
      * @param imageType The type of the image.
-     * @return A QString with the equivalent mime type, or QString::null if
+     * @return A QString with the equivalent mime type, or QString() if
      *         it's unknown.
      */
     static QString imageTypeToMimeType(const QString& imageType);
@@ -65,7 +65,7 @@ public:
      * The supported image types are those that the diagrams can be exported to.
      *
      * @param mimeType The mime type.
-     * @return A lowercase QString with the equivalent image type, or QString::null
+     * @return A lowercase QString with the equivalent image type, or QString()
      *         if it's unknown.
      */
     static QString mimeTypeToImageType(const QString& mimeType);
@@ -119,7 +119,7 @@ public:
      * @param imageType The type of the image the view will be exported to.
      * @param url The url where the image will be saved.
      * @return The message error if some problem occurred when exporting, or
-     *         QString::null if all went fine.
+     *         QString() if all went fine.
      */
     QString exportView(UMLView* view, const QString &imageType, const KUrl &url) const;
 
