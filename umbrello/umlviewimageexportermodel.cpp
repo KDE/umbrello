@@ -196,7 +196,7 @@ bool UMLViewImageExporterModel::prepareDirectory(const KUrl &url) const {
     for (QStringList::ConstIterator it = dirs.begin() ; it != dirs.end(); ++it ) {
         directory.addPath(*it);
 
-        if (!KIO::NetAccess::exists(directory, true, UMLApp::app())) {
+        if (!KIO::NetAccess::exists(directory, KIO::NetAccess::SourceSide, UMLApp::app())) {
 
             if (!KIO::NetAccess::mkdir(directory, UMLApp::app())) {
                 return false;
