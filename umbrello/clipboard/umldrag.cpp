@@ -170,20 +170,14 @@ void UMLDrag::setUMLDataClip2(UMLObjectList& objects, UMLListViewItemList& umlLi
     QDomElement viewsTag = domDoc.createElement("umlviews");
     xmiclip.appendChild(viewsTag);
 
-    UMLViewListIt diagram_it(diagrams);
-    UMLView* view = 0;
-    while ( (view=diagram_it.current()) != 0 ) {
-        ++diagram_it;
+    foreach( UMLView* view, diagrams ) {
         view->saveToXMI(domDoc, viewsTag);
     }
 
     QDomElement itemsTag = domDoc.createElement("umllistviewitems");
     xmiclip.appendChild(itemsTag);
 
-    UMLListViewItemListIt item_it2(umlListViewItems);
-    UMLListViewItem* item = 0;
-    while ( (item=item_it2.current()) != 0 ) {
-        ++item_it2;
+    foreach( UMLListViewItem* item, umlListViewItems ) {
         item->saveToXMI(domDoc, itemsTag);
     }
     setEncodedData(domDoc.toString().utf8(), 0);
@@ -199,12 +193,10 @@ void UMLDrag::setUMLDataClip3(UMLListViewItemList& umlListViewItems) {
     QDomElement itemsTag = domDoc.createElement("umllistviewitems");
     xmiclip.appendChild(itemsTag);
 
-    UMLListViewItemListIt item_it2(umlListViewItems);
-    UMLListViewItem* item = 0;
-    while ( (item=item_it2.current()) != 0 ) {
-        ++item_it2;
+    foreach( UMLListViewItem* item, umlListViewItems ) {
         item->saveToXMI(domDoc, itemsTag);
     }
+
     setEncodedData(domDoc.toString().utf8(), 0);
 }
 
@@ -219,30 +211,21 @@ void UMLDrag::setUMLDataClip4(UMLObjectList& objects, UMLWidgetList& widgets, As
     QDomElement objectsTag = domDoc.createElement("umlobjects");
     xmiclip.appendChild(objectsTag);
 
-    UMLObjectListIt object_it(objects);
-    UMLObject* obj = 0;
-    while ( object_it.hasNext() ) {
-        obj = object_it.next();
+    foreach ( UMLObject* obj, objects ) {
         obj->saveToXMI(domDoc, objectsTag);
     }
 
     QDomElement widgetsTag = domDoc.createElement("widgets");
     xmiclip.appendChild(widgetsTag);
 
-    UMLWidgetListIt widget_it(widgets);
-    UMLWidget* widget = 0;
-    while ( (widget=widget_it.current()) != 0 ) {
-        ++widget_it;
+    foreach ( UMLWidget* widget, widgets ) {
         widget->saveToXMI(domDoc, widgetsTag);
     }
 
     QDomElement associationWidgetsTag = domDoc.createElement("associations");
     xmiclip.appendChild(associationWidgetsTag);
 
-    AssociationWidgetListIt associations_it(associations);
-    AssociationWidget* association;
-    while ( (association=associations_it.current()) != 0 ) {
-        ++associations_it;
+    foreach ( AssociationWidget* association, associations ) {
         association->saveToXMI(domDoc, associationWidgetsTag);
     }
 
@@ -269,10 +252,7 @@ void UMLDrag::setUMLDataClip5(UMLObjectList& objects) {
     QDomElement objectsTag = domDoc.createElement("umlobjects");
     xmiclip.appendChild(objectsTag);
 
-    UMLObjectListIt object_it(objects);
-    UMLObject* obj = 0;
-    while ( object_it.hasNext() ) {
-        obj = object_it.next();
+    foreach ( UMLObject* obj, objects ) {
         obj->saveToXMI(domDoc, objectsTag);
     }
 

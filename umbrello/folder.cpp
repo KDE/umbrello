@@ -31,11 +31,16 @@ UMLFolder::UMLFolder(const QString & name, Uml::IDType id)
 }
 
 UMLFolder::~UMLFolder() {
+    // TODO : check if safe
+    while ( !m_diagrams.isEmpty() ) {
+        delete m_diagrams.takeFirst();
+    }
 }
 
 void UMLFolder::init() {
     m_BaseType = Uml::ot_Folder;
-    m_diagrams.setAutoDelete(true);
+    // Porting to QList. No autodelete supported. TODO: check if all elements of m_diagrams are properly disposed
+    //m_diagrams.setAutoDelete(true);
     UMLObject::setStereotype("folder");
 }
 
@@ -60,35 +65,31 @@ void UMLFolder::addView(UMLView *view) {
 void UMLFolder::removeView(UMLView *view) {
     // m_diagrams is set to autodelete!
     m_diagrams.remove(view);
+    delete view;
 }
 
 void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested) {
     if (includeNested) {
-        UMLObject *o;
-        for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
-            o = oit.next();
+        foreach (UMLObject* o, m_objects ) {
             if (o->getBaseType() == Uml::ot_Folder) {
                 UMLFolder *f = static_cast<UMLFolder*>(o);
                 f->appendViews(viewList);
             }
         }
     }
-    UMLView *v;
-    for (UMLViewListIt vit(m_diagrams); (v = vit.current()) != NULL; ++vit)
+    foreach (UMLView* v, m_diagrams )
         viewList.append(v);
 }
 
 void UMLFolder::activateViews() {
-    UMLObject *o;
-    for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
-        o = oit.next();
+    foreach (UMLObject* o, m_objects ) {
         if (o->getBaseType() == Uml::ot_Folder) {
             UMLFolder *f = static_cast<UMLFolder*>(o);
             f->activateViews();
         }
     }
-    UMLView *v;
-    for (UMLViewListIt vit(m_diagrams); (v = vit.current()) != NULL; ++vit)
+
+    foreach (UMLView* v, m_diagrams)
         v->activateAfterLoad();
     // Make sure we have a treeview item for each diagram.
     // It may happen that we are missing them after switching off tabbed widgets.
@@ -96,7 +97,7 @@ void UMLFolder::activateViews() {
     if (optionState.generalState.tabdiagrams)
         return;
     UMLListView *lv = UMLApp::app()->getListView();
-    for (UMLViewListIt it(m_diagrams); (v = it.current()) != NULL; ++it) {
+    foreach (UMLView* v,  m_diagrams ) {
         if (lv->findItem(v->getID()) != NULL)
             continue;
         lv->createDiagramItem(v);
@@ -104,14 +105,13 @@ void UMLFolder::activateViews() {
 }
 
 UMLView *UMLFolder::findView(Uml::IDType id) {
-    UMLView *v = NULL;
-    for (UMLViewListIt vit(m_diagrams); (v = vit.current()) != NULL; ++vit) {
+    foreach (UMLView* v, m_diagrams ) {
         if (v->getID() == id)
             return v;
     }
-    UMLObject *o = NULL;
-    for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
-        o = oit.next();
+
+    UMLView* v = NULL;
+    foreach (UMLObject* o, m_objects ) {
         if (o->getBaseType() != Uml::ot_Folder)
             continue;
         UMLFolder *f = static_cast<UMLFolder*>(o);
@@ -123,15 +123,15 @@ UMLView *UMLFolder::findView(Uml::IDType id) {
 }
 
 UMLView *UMLFolder::findView(Uml::Diagram_Type type, const QString &name, bool searchAllScopes) {
-    UMLView *v = NULL;
-    for (UMLViewListIt vit(m_diagrams); (v = vit.current()) != NULL; ++vit) {
+
+    foreach (UMLView* v, m_diagrams ) {
         if (v->getType() == type && v->getName() == name)
             return v;
     }
+
+    UMLView* v = NULL;
     if (searchAllScopes) {
-        UMLObject *o = NULL;
-        for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
-            o = oit.next();
+        foreach (UMLObject* o, m_objects  ) {
             if (o->getBaseType() != Uml::ot_Folder)
                 continue;
             UMLFolder *f = static_cast<UMLFolder*>(o);
@@ -145,23 +145,19 @@ UMLView *UMLFolder::findView(Uml::Diagram_Type type, const QString &name, bool s
 
 void UMLFolder::setViewOptions(const Settings::OptionState& optionState) {
     // for each view update settings
-    UMLView *v;
-    for (UMLViewListIt vit(m_diagrams); (v = vit.current()) != NULL; ++vit)
+    foreach (UMLView* v, m_diagrams )
         v->setOptionState(optionState);
 }
 
 void UMLFolder::removeAllViews() {
-    UMLObject *o = NULL;
-    for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
-        o = oit.next();
+    foreach (UMLObject* o, m_objects) {
         if (o->getBaseType() != Uml::ot_Folder)
             continue;
         UMLFolder *f = static_cast<UMLFolder*>(o);
         f->removeAllViews();
     }
 
-    UMLView *v = NULL;
-    for (UMLViewListIt vit(m_diagrams); (v = vit.current()) != NULL; ++vit) {
+    foreach (UMLView* v, m_diagrams ) {
         // TODO ------------------ check this code - bad: calling back to UMLDoc::removeView()
         v->removeAllAssociations(); // note : It may not be apparent, but when we remove all associations
         // from a view, it also causes any UMLAssociations that lack parent
@@ -169,7 +165,11 @@ void UMLFolder::removeAllViews() {
         // this document.
         UMLApp::app()->getDocument()->removeView(v, false);
     }
-    m_diagrams.clear();
+
+    // m_diagrams.clear()
+    while ( !m_diagrams.empty() ) {
+        delete m_diagrams.takeFirst();
+    }
 }
 
 void UMLFolder::setFolderFile(const QString& fileName) {
@@ -197,8 +197,8 @@ void UMLFolder::saveContents(QDomDocument& qDoc, QDomElement& qElement) {
     // Save diagrams to `extension'.
     if (m_diagrams.count()) {
         QDomElement diagramsElement = qDoc.createElement("diagrams");
-        UMLView *pView;
-        for (UMLViewListIt vit(m_diagrams); (pView = vit.current()) != NULL; ++vit) {
+
+        foreach (UMLView* pView, m_diagrams ) {
             pView->saveToXMI(qDoc, diagramsElement);
         }
         QDomElement extension = qDoc.createElement("XMI.extension");

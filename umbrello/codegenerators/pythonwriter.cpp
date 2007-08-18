@@ -107,7 +107,7 @@ void PythonWriter::writeClass(UMLClassifier *c) {
     //write includes and take namespaces into account
     UMLPackageList includes;
     findObjectsRelated(c,includes);
-    UMLPackage* conc = NULL;
+
     foreach(UMLPackage* conc, includes ) {
         QString headerName = findFileName(conc, ".py");
         if ( !headerName.isEmpty() ) {
@@ -219,9 +219,6 @@ void PythonWriter::writeOperations(UMLClassifier *c, QTextStream &h) {
 
 void PythonWriter::writeOperations(const QString& /*classname*/, UMLOperationList &opList,
                                    QTextStream &h, Access access) {
-    UMLOperation *op;
-    UMLAttribute *at;
-
     QString sAccess;
 
     switch (access) {
@@ -238,17 +235,17 @@ void PythonWriter::writeOperations(const QString& /*classname*/, UMLOperationLis
     }
 
 
-    foreach (op  ,  opList ) {
+    foreach (UMLOperation* op  ,  opList ) {
         UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
-        foreach ( at , atl )
+        foreach (UMLAttribute* at , atl )
             writeDoc |= !at->getDoc().isEmpty();
 
         h<< m_indentation << "def "<< sAccess + cleanName(op->getName()) << "(self";
 
         int j=0;
-        foreach (at , atl ) {
+        foreach (UMLAttribute* at , atl ) {
             h << ", " << cleanName(at->getName())
             << (!(at->getInitialValue().isEmpty()) ?
                 (QString(" = ")+at->getInitialValue()) :
@@ -263,7 +260,7 @@ void PythonWriter::writeOperations(const QString& /*classname*/, UMLOperationLis
             h << m_indentation << m_indentation << "\"\"\"" << m_endl;
             h << formatDoc(op->getDoc(), m_indentation + m_indentation + ' ') << m_endl;
 
-            foreach (at , atl )  //write parameter documentation
+            foreach (UMLAttribute* at , atl )  //write parameter documentation
             {
                 if(forceDoc() || !at->getDoc().isEmpty()) {
                     h<<m_indentation<<m_indentation<<"@param "<<at->getTypeName()<<

@@ -399,14 +399,15 @@ void UMLOperationDialog::slotParameterProperties() {
             QString typeName = dlg.getTypeName();
             if (pOldAtt->getTypeName() != typeName) {
                 UMLClassifierList namesList( m_doc->getConcepts() );
-                UMLClassifier* obj = NULL;
-                foreach ( obj, namesList) {
+                bool breakFlag = false;
+                foreach ( UMLObject* obj, namesList) {
                     if (typeName == obj->getFullyQualifiedName()) {
                         pOldAtt->setType( obj );
+                        breakFlag = true;
                         break;
                     }
                 }
-                if (obj == NULL) {
+                if (!breakFlag) {
                     // Nothing found: set type name directly. Bad.
                     kDebug() << "UMLOperationDialog::slotParameterProperties: "
                     << typeName << " not found." << endl;

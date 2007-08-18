@@ -1245,7 +1245,7 @@ void UMLApp::slotApplyPrefs() {
                 m_viewStack->hide();
 
                 UMLViewList views = m_doc->getViewIterator();
-                for(UMLView *view = views.first(); view; view = views.next()) {
+                foreach (UMLView *view ,  views  ) {
                     m_viewStack->removeWidget(view);
                     m_tabWidget->addTab(view, view->getName());
                     m_tabWidget->setTabIconSet(view, Widget_Utils::iconSet(view->getType()));
@@ -1258,7 +1258,7 @@ void UMLApp::slotApplyPrefs() {
                 m_layout->removeWidget (m_tabWidget);
                 m_tabWidget->hide();
 
-                for(UMLView *view = views.first(); view; view = views.next()) {
+                foreach (UMLView *view , views ) {
                     m_tabWidget->removePage(view);
                     m_viewStack->addWidget(view);
                 }
@@ -1663,7 +1663,7 @@ void UMLApp::slotUpdateViews() {
     menu->clear();
 
     UMLViewList views = getDocument()->getViewIterator();
-    for(UMLView *view = views.first(); view; view = views.next()) {
+    foreach (UMLView *view , views ) {
         menu->insertItem( view->getName(), view, SLOT( slotShowView() ) );
         view->fileLoaded();
     }
@@ -1929,12 +1929,18 @@ void UMLApp::slotChangeTabLeft() {
         return;
     }
     UMLViewList views = m_doc->getViewIterator();
+    UMLViewListIt viewsIt( views );
     UMLView *currView = m_view;
-    if (views.find(currView) < 0) {
+    int viewIndex = 0;
+    if ( (viewIndex = views.indexOf(currView)) < 0) {
         kError() << "UMLApp::slotChangeTabLeft(): currView not found in viewlist" << endl;
         return;
     }
-    if ((currView = views.prev()) != NULL)
+    UMLView* prevView = NULL;
+    if ( viewIndex!=0 )
+        prevView = views.begin()[viewIndex -1 ];
+
+    if ((currView = prevView) != NULL)
         setCurrentView(currView);
     else
         setCurrentView(views.last());
@@ -1946,12 +1952,18 @@ void UMLApp::slotChangeTabRight() {
         return;
     }
     UMLViewList views = m_doc->getViewIterator();
+    UMLViewListIt viewsIt( views );
     UMLView *currView = m_view;
-    if (views.find(currView) < 0) {
+    int viewIndex = 0;
+    if (( viewIndex = views.indexOf(currView) ) < 0) {
         kError() << "UMLApp::slotChangeTabRight(): currView not found in viewlist" << endl;
         return;
     }
-    if ((currView = views.next()) != NULL)
+    UMLView* nextView = NULL;
+    if ( viewIndex!= views.count() )
+        views.begin()[viewIndex + 1];
+
+    if ( (currView = nextView ) != NULL)
         setCurrentView(currView);
     else
         setCurrentView(views.first());

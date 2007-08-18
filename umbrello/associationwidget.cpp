@@ -2669,10 +2669,7 @@ int AssociationWidget::getRegionCount(AssociationWidget::Region region, Uml::Rol
         return 0;
     int widgetCount = 0;
     AssociationWidgetList list = m_pView -> getAssociationList();
-    AssociationWidgetListIt assoc_it(list);
-    AssociationWidget* assocwidget = 0;
-    while((assocwidget = assoc_it.current())) {
-        ++assoc_it;
+    foreach ( AssociationWidget* assocwidget, list ) {
         //don't count this association
         if (assocwidget == this)
             continue;
@@ -2690,7 +2687,7 @@ int AssociationWidget::getRegionCount(AssociationWidget::Region region, Uml::Rol
             widgetCount++;
         else if (m_role[role].m_pWidget == b && region == otherB.m_WidgetRegion)
             widgetCount++;
-    }//end while
+    }//end foreach
     return widgetCount;
 }
 
@@ -2866,14 +2863,14 @@ void AssociationWidget::insertIntoLists(int position, const AssociationWidget* a
             for (int moveback = m_positions_len; moveback > index; moveback--)
                 m_positions[moveback] = m_positions[moveback - 1];
             m_positions[index] = position;
-            m_ordered.insert(index, assoc);
+            m_ordered.insert(index, const_cast<AssociationWidget*>(assoc));
             did_insertion = true;
             break;
         }
     }
     if (! did_insertion) {
         m_positions[m_positions_len] = position;
-        m_ordered.append(assoc);
+        m_ordered.append(const_cast<AssociationWidget*>(assoc));
     }
     m_positions_len++;
 }
@@ -2885,14 +2882,12 @@ void AssociationWidget::updateAssociations(int totalCount,
     if( region == Error )
         return;
     AssociationWidgetList list = m_pView -> getAssociationList();
-    AssociationWidgetListIt assoc_it(list);
-    AssociationWidget* assocwidget = 0;
+
     UMLWidget *ownWidget = m_role[role].m_pWidget;
     m_positions_len = 0;
     m_ordered.clear();
     // we order the AssociationWidget list by region and x/y value
-    while ( (assocwidget = assoc_it.current()) ) {
-        ++assoc_it;
+    foreach ( AssociationWidget* assocwidget, list ) {
         WidgetRole *roleA = &assocwidget->m_role[A];
         WidgetRole *roleB = &assocwidget->m_role[B];
         UMLWidget *wA = roleA->m_pWidget;
@@ -2938,7 +2933,7 @@ void AssociationWidget::updateAssociations(int totalCount,
 
     // we now have an ordered list and we only have to call updateRegionLineCount
     int index = 1;
-    for (assocwidget = m_ordered.first(); assocwidget; assocwidget = m_ordered.next()) {
+    foreach (AssociationWidget* assocwidget , m_ordered ) {
         if (ownWidget == assocwidget->getWidget(A)) {
             assocwidget->updateRegionLineCount(index++, totalCount, region, A);
         } else if (ownWidget == assocwidget->getWidget(B)) {

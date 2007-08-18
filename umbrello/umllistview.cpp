@@ -240,8 +240,7 @@ void UMLListView::keyPressEvent(QKeyEvent *ke) {
             // delete every selected item
             UMLListViewItemList selecteditems;
             getSelectedItemsRoot(selecteditems);
-            UMLListViewItemListIt it(selecteditems);
-            for (UMLListViewItem *item = 0; (item = it.current()); ++it) {
+            foreach (UMLListViewItem *item , selecteditems ) {
                 deleteItem(dynamic_cast<UMLListViewItem*>(item));
             }
         } else {
@@ -937,13 +936,9 @@ void UMLListView::slotDiagramRemoved(Uml::IDType id) {
 Q3DragObject* UMLListView::dragObject() {
     UMLListViewItemList selecteditems;
     getSelectedItems(selecteditems);
-    selecteditems.setAutoDelete( false );
-    UMLListViewItemListIt it(selecteditems);
-    UMLListViewItem * item = 0;
+
     UMLListViewItemList  list;
-    list.setAutoDelete( false );
-    while((item=it.current()) != 0) {
-        ++it;
+    foreach( UMLListViewItem* item, selecteditems ) {
         Uml::ListView_Type type = item->getType();
         if (!Model_Utils::typeIsCanvasWidget(type) && !Model_Utils::typeIsDiagram(type)
                 && !Model_Utils::typeIsClassifierList(type)) {
@@ -1625,7 +1620,6 @@ void UMLListView::slotDropped(QDropEvent* de, Q3ListViewItem* /* parent */, Q3Li
 }
 
 int UMLListView::getSelectedItems(UMLListViewItemList &ItemList) {
-    ItemList.setAutoDelete( false );
     Q3ListViewItemIterator it(this);
     // iterate through all items of the list view
     for ( ; it.current(); ++it ) {
@@ -1640,7 +1634,7 @@ int UMLListView::getSelectedItems(UMLListViewItemList &ItemList) {
 }
 
 int UMLListView::getSelectedItemsRoot(UMLListViewItemList &ItemList) {
-    ItemList.setAutoDelete( false );
+
     Q3ListViewItemIterator it(this);
 
     // iterate through all items of the list view

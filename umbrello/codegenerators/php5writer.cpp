@@ -3054,7 +3054,7 @@ void Php5Writer::writeClass(UMLClassifier *c) {
     UMLAssociationList aggregations = c->getAggregations();
     UMLAssociationList compositions = c->getCompositions();
     UMLAssociationList realizations = c->getRealizations();
-    UMLAssociation *a;
+
     bool isInterface = c->isInterface();
 
     //check if it is an interface or regular class
@@ -3076,7 +3076,7 @@ void Php5Writer::writeClass(UMLClassifier *c) {
         if( !realizations.isEmpty()) {
             int rc = realizations.count();
             int ri = rc;
-            for (a = realizations.first(); a; a = realizations.next()) {
+            foreach ( UMLAssociation* a , realizations ) {
                 UMLObject *o = a->getObject(Uml::B);
                 QString typeName = cleanName(o->getName());
                 if(ri == rc)
@@ -3090,7 +3090,7 @@ void Php5Writer::writeClass(UMLClassifier *c) {
     //associations
     if( forceSections() || !aggregations.isEmpty()) {
         php<< m_endl << m_indentation << "/** Aggregations: */" << m_endl;
-        for (a = aggregations.first(); a; a = aggregations.next()) {
+        foreach ( UMLAssociation* a , aggregations ) {
             php<< m_endl;
             //maybe we should parse the string here and take multiplicity into account to decide
             //which container to use.
@@ -3110,7 +3110,7 @@ void Php5Writer::writeClass(UMLClassifier *c) {
 
     if( forceSections() || !compositions.isEmpty()) {
         php<< m_endl << m_indentation << "/** Compositions: */" << m_endl;
-        for (a = compositions.first(); a ; a = compositions.next()) {
+        foreach ( UMLAssociation* a , compositions ) {
             // see comment on Aggregation about multiplicity...
             UMLObject *o = a->getObject(Uml::A);
             if (o == NULL) {
@@ -3197,10 +3197,9 @@ void Php5Writer::writeOperations(UMLClassifier *c, QTextStream &php) {
 
     // go through each of the realizations, taking each op
     UMLAssociationList realizations = c->getRealizations();
-    UMLAssociation *a;
 
     if( !realizations.isEmpty()) {
-        for (a = realizations.first(); a; a = realizations.next()) {
+        foreach ( UMLAssociation* a , realizations ) {
 
             // we know its a classifier if its in the list
             UMLClassifier *real = (UMLClassifier*)a->getObject(Uml::B);
@@ -3222,10 +3221,10 @@ void Php5Writer::writeOperations(const QString &/* classname */, UMLOperationLis
                                  bool generateErrorStub /* = false */) {
     foreach (UMLOperation *op , opList ) {
         UMLAttributeList atl = op->getParmList();
-        UMLAttribute *at;
+
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
-        foreach (at ,  atl )
+        foreach (UMLAttribute* at ,  atl )
             writeDoc |= !at->getDoc().isEmpty();
 
         if( writeDoc )  //write method documentation
@@ -3233,7 +3232,7 @@ void Php5Writer::writeOperations(const QString &/* classname */, UMLOperationLis
             php <<m_indentation << "/**" << m_endl <<formatDoc(op->getDoc(),m_indentation + " * ");
             php << m_indentation << " *" << m_endl;
 
-            foreach (at , atl )  //write parameter documentation
+            foreach (UMLAttribute* at , atl )  //write parameter documentation
             {
                 if(forceDoc() || !at->getDoc().isEmpty()) {
                     php <<m_indentation << " * @param " + at->getTypeName() + ' ' + cleanName(at->getName());
@@ -3279,7 +3278,7 @@ void Php5Writer::writeOperations(const QString &/* classname */, UMLOperationLis
 
         int i= atl.count();
         int j=0;
-        foreach (at , atl ) {
+        foreach (UMLAttribute* at , atl ) {
             php << " $" << cleanName(at->getName())
             << (!(at->getInitialValue().isEmpty()) ?
                 (QString(" = ")+at->getInitialValue()) :
@@ -3307,8 +3306,8 @@ void Php5Writer::writeAttributes(UMLClassifier *c, QTextStream &php) {
 
     //sort attributes by scope and see if they have a default value
     UMLAttributeList atl = c->getAttributeList();
-    UMLAttribute *at;
-    foreach(at , atl ) {
+
+    foreach(UMLAttribute* at , atl ) {
         if(!at->getInitialValue().isEmpty())
             atdefval.append(at);
         switch(at->getVisibility()) {

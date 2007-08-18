@@ -63,8 +63,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType, UMLWidget * 
             return false;
     }
     AssociationWidgetList list = widget -> getAssocList();
-    AssociationWidgetListIt it( list );
-    AssociationWidget * assoc = 0;
+
     switch( assocType ) {
     case at_Association:
     case at_UniAssociation:
@@ -83,10 +82,9 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType, UMLWidget * 
         break;
 
     case at_Realization:  // one connected to widget only (a or b)
-        while( ( assoc = it.current() ) ) {
+        foreach ( AssociationWidget* assoc, list ) {
             if( assoc -> getAssocType() == at_Realization )
                 return false;
-            ++it;
         }
         return true;
         break;
@@ -154,8 +152,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
         return false;
     }
     AssociationWidgetList list = widgetB -> getAssocList();
-    AssociationWidgetListIt it( list );
-    AssociationWidget * assoc = 0;
+
     switch( assocType ) {
     case at_Association:
     case at_Association_Self:
@@ -170,22 +167,20 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
     case at_Composition:   // can't have mutual composition
     case at_Containment:   // can't have mutual containment
     case at_Generalization://can have many sub/super types but can't sup/sub each
-        while( ( assoc = it.current() ) ) {
+        foreach ( AssociationWidget * assoc, list ) {
             if( ( widgetA == assoc -> getWidget(A) || widgetA == assoc -> getWidget(B) )
                     && assoc->getAssocType() == assocType )
                 return false;
-            ++it;
         }
         return true;
         break;
 
     case at_Realization: // can only connect to abstract (interface) classes
-        while( ( assoc = it.current() ) ) {
+        foreach( AssociationWidget * assoc, list ) {
             if( ( widgetA == assoc->getWidget(A) || widgetA == assoc->getWidget(B) )
                     && assoc->getAssocType() == at_Realization ) {
                 return false;
             }
-            ++it;
         }
         if (widgetB->getBaseType() == wt_Class) {
             return widgetB->getUMLObject()->getAbstract();
@@ -246,7 +241,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
             // only Forks and Branches can have more than one "outgoing" transition
             if (actA != NULL && actTypeA != ActivityWidget::Branch) {
                 AssociationWidgetList list = widgetA->getAssocList();
-                for (AssociationWidget* assoc = list.first(); assoc; assoc = list.next()) {
+                foreach (AssociationWidget* assoc , list ) {
                     if (assoc->getWidget(A) == widgetA) {
                         return false;
                     }

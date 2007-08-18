@@ -44,7 +44,7 @@ bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
 
   UMLPackageList includes;
   findObjectsRelated(c,includes);
-  UMLPackage *conc;
+
   QString AV = "@";
   QString SV = "$";
   QString HV = "%";
@@ -329,14 +329,12 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl) {
 }
 
 void PerlWriter::writeOperations(const QString &/* classname */, UMLOperationList &opList, QTextStream &perl) {
-    UMLOperation *op;
-    UMLAttribute *at;
 
-    foreach (op , opList ) {
+    foreach (UMLOperation* op , opList ) {
         UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
-        foreach (at , atl )
+        foreach (UMLAttribute* at , atl )
             writeDoc |= !at->getDoc().isEmpty();
 
         if( writeDoc )  //write method documentation
@@ -346,7 +344,7 @@ void PerlWriter::writeOperations(const QString &/* classname */, UMLOperationLis
 
             perl << "   Parameters :" << m_endl ;
           //write parameter documentation
-          foreach (at , atl ) {
+          foreach (UMLAttribute* at , atl ) {
             if(forceDoc() || !at->getDoc().isEmpty()) {
               perl << "      "
                    << cleanName(at->getName()) << " : "
@@ -370,7 +368,7 @@ void PerlWriter::writeOperations(const QString &/* classname */, UMLOperationLis
 
         bool bStartPrinted = false;
         //write parameters
-        foreach (at , atl ) {
+        foreach (UMLAttribute* at , atl ) {
           if (!bStartPrinted) {
               bStartPrinted = true;
               perl << "," << m_endl;
@@ -394,8 +392,8 @@ void PerlWriter::writeAttributes(UMLClassifier *c, QTextStream &perl) {
 
     //sort attributes by scope and see if they have a default value
     UMLAttributeList atl = c->getAttributeList();
-    UMLAttribute *at;
-    foreach (at , atl ) {
+
+    foreach (UMLAttribute* at , atl ) {
         if(!at->getInitialValue().isEmpty())
             atdefval.append(at);
         switch(at->getVisibility()) {

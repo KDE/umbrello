@@ -220,7 +220,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 
 void ASWriter::writeAssociation(QString& classname, UMLAssociationList& assocList , QTextStream &as )
 {
-    for(UMLAssociation *a = assocList.first(); a; a = assocList.next())
+    foreach (UMLAssociation *a , assocList )
     {
         // association side
         Uml::Role_Type role = a->getObject(Uml::A)->getName() == classname ? Uml::B:Uml::A;
@@ -269,15 +269,13 @@ void ASWriter::writeAssociation(QString& classname, UMLAssociationList& assocLis
 
 void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTextStream &as)
 {
-    UMLOperation *op;
     UMLAttributeList atl;
-    UMLAttribute *at;
 
-    foreach ( op , *opList ) {
+    foreach (UMLOperation* op , *opList ) {
         atl = op -> getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
-        foreach ( at,  atl  ) {
+        foreach (UMLAttribute* at,  atl  ) {
             writeDoc |= !at->getDoc().isEmpty();
         }
 
@@ -285,7 +283,7 @@ void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
         {
             as << "/**" << m_endl << formatDoc(op->getDoc()," * ");
 
-            foreach ( at,  atl ) {
+            foreach (UMLAttribute* at,  atl ) {
                 if(forceDoc() || !at->getDoc().isEmpty()) {
                     as << " * @param " + cleanName(at->getName())<<m_endl;
                     as << formatDoc(at->getDoc(),"    *      ");
@@ -299,7 +297,7 @@ void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
         int i= atl.count();
         int j=0;
         for (UMLAttributeListIt atlIt( atl ); atlIt.hasNext(); j++ ) {
-            at = atlIt.next();
+            UMLAttribute* at = atlIt.next();
             as << cleanName(at->getName())
             << (!(at->getInitialValue().isEmpty()) ? (QString(" = ")+at->getInitialValue()) : QString(""))
             << ((j < i-1)?", ":"");

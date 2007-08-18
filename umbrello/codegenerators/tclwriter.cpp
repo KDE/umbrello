@@ -390,7 +390,7 @@ void
 TclWriter::writeAssociationIncl(UMLAssociationList list, Uml::IDType myId,
                                 const QString &type)
 {
-    for (UMLAssociation * a = list.first(); a; a = list.next()) {
+    foreach (UMLAssociation * a , list ) {
         UMLClassifier  *classifier = NULL;
 
         writeComm(m_endl + type + m_endl + a->toString() + m_endl + a->getDoc());
@@ -546,8 +546,7 @@ TclWriter::writeAssociationDecl(UMLAssociationList associations,
 {
     if (forceSections() || !associations.isEmpty()) {
         bool            printRoleA = false, printRoleB = false;
-        for (UMLAssociation * a = associations.first(); a;
-                a = associations.next()) {
+        foreach (UMLAssociation * a , associations ) {
 
             // it may seem counter intuitive, but you want to insert the role of the
             // *other* class into *this* class.
@@ -681,8 +680,6 @@ TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility permitScope)
 {
 
     UMLOperationList oplist;
-    UMLOperation   *op;
-    UMLAttribute   *at;
     int             j;
 
     //sort operations by scope first and see if there are abstract methods
@@ -710,7 +707,7 @@ TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility permitScope)
     if (oplist.count() > 0) {
         writeComm("Operations");
     }
-    foreach ( op , oplist ) {
+    foreach ( UMLOperation* op , oplist ) {
         QString         doc = "";
         QString         code = "";
         QString         methodReturnType = fixTypeName(op->getTypeName());
@@ -731,7 +728,7 @@ TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility permitScope)
         // method parameters
         UMLAttributeList atl = op->getParmList();
         j = 0;
-        foreach ( at , atl ) {
+        foreach ( UMLAttribute* at , atl ) {
             QString         typeName = fixTypeName(at->getTypeName());
             QString         atName = cleanName(at->getName());
             if (at->getInitialValue().isEmpty()) {
@@ -760,8 +757,6 @@ TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility permitScope)
 {
 
     UMLOperationList oplist;
-    UMLOperation   *op;
-    UMLAttribute   *at;
     int             j;
 
     //sort operations by scope first and see if there are abstract methods
@@ -786,7 +781,7 @@ TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility permitScope)
     }
 
     // generate source for each operation given
-    foreach ( op , oplist ) {
+    foreach ( UMLOperation* op , oplist ) {
         QString         code = "";
         QString         methodReturnType = fixTypeName(op->getTypeName());
         QString         name;
@@ -800,7 +795,7 @@ TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility permitScope)
         // parameters
         UMLAttributeList atl = op->getParmList();
         j = 0;
-        foreach ( at , atl ) {
+        foreach ( UMLAttribute* at , atl ) {
             QString         atName = cleanName(at->getName());
             if (at->getInitialValue().isEmpty()) {
                 code += ' ' + atName;
@@ -825,8 +820,8 @@ void
 TclWriter::writeAttributeSource()
 {
     UMLAttributeList *list = &(classifierInfo->atpub);
-    UMLAttribute   *at;
-    foreach ( at , *list ) {
+
+    foreach ( UMLAttribute* at , *list ) {
         QString         name = mClassGlobal + "::" + cleanName(at->getName());
 
         writeComm(name);
@@ -843,7 +838,7 @@ TclWriter::writeAssociationSource(UMLAssociationList associations,
     }
 
     bool            printRoleA = false, printRoleB = false;
-    for (UMLAssociation * a = associations.first(); a; a = associations.next()) {
+    foreach (UMLAssociation * a , associations ) {
 
         // it may seem counter intuitive, but you want to insert the role of the
         // *other* class into *this* class.

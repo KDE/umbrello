@@ -547,7 +547,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList) 
     UMLPackage *temp;
     UMLAssociationList associations = c->getAssociations();
 
-    for (UMLAssociation *a = associations.first(); a; a = associations.next()) {
+    foreach (UMLAssociation *a , associations ) {
         temp = 0;
         switch (a->getAssocType()) {
         case Uml::at_Generalization:

@@ -18,12 +18,12 @@
 #ifndef _ASSOCIATIONWIDGETLIST_H
 #define _ASSOCIATIONWIDGETLIST_H
 
-#include <q3ptrlist.h>
+#include <qlist.h>
 
 // forward declarations
 class AssociationWidget;
 
-typedef Q3PtrList<AssociationWidget> AssociationWidgetList;
-typedef Q3PtrListIterator<AssociationWidget> AssociationWidgetListIt;
+typedef QList<AssociationWidget*> AssociationWidgetList;
+typedef QListIterator<AssociationWidget*> AssociationWidgetListIt;
 
 #endif

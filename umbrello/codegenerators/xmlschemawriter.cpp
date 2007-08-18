@@ -456,9 +456,7 @@ void XMLSchemaWriter::markAsWritten(UMLClassifier *c) {
 void XMLSchemaWriter::writeAttributeDecls(UMLAttributeList &attribs, QTextStream &XMLschema )
 {
 
-    UMLAttribute *at;
-    foreach ( at , attribs )
-    {
+    foreach ( UMLAttribute* at , attribs ) {
         writeAttributeDecl(at,XMLschema);
     }
 
@@ -555,7 +553,7 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
     {
         bool printRoleA = false, printRoleB = false;
 
-        for(UMLAssociation *a = associations.first(); a; a = associations.next())
+        foreach (UMLAssociation *a , associations )
         {
             // it may seem counter intuitive, but you want to insert the role of the
             // *other* class into *this* class.
@@ -618,7 +616,7 @@ UMLObjectList XMLSchemaWriter::findChildObjsInAssociations (UMLClassifier *c, UM
 {
     Uml::IDType id = c->getID();
     UMLObjectList list;
-    for(UMLAssociation *a = associations.first(); a; a = associations.next())
+    foreach (UMLAssociation *a , associations )
     {
         if (a->getObjectId(Uml::A) == id
                 && a->getVisibility(Uml::B) != Uml::Visibility::Private

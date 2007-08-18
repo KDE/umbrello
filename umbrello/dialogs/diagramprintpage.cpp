@@ -141,7 +141,6 @@ bool DiagramPrintPage::isValid( QString& msg ) {
 
 void DiagramPrintPage::slotClicked(int id) {
     UMLViewList list = m_pDoc -> getViewIterator();
-    UMLView * view = 0;
     QString type;
 
     // clear list with diagrams to print
@@ -162,7 +161,7 @@ void DiagramPrintPage::slotClicked(int id) {
         m_pTypeCB -> setEnabled(false);
         m_pSelectLB -> setEnabled(false);
         m_pSelectLB -> clear();
-        for(view = list.first(); view; view = list.next()) {
+        foreach ( UMLView * view , list ) {
             m_pSelectLB -> insertItem(view -> getName());
             m_nIdList.append(view -> getID());
         }
@@ -173,7 +172,7 @@ void DiagramPrintPage::slotClicked(int id) {
         m_pTypeCB -> setEnabled(false);
         m_pSelectLB -> setEnabled(true);
         m_pSelectLB -> clear();
-        for(view = list.first(); view; view = list.next()) {
+        foreach ( UMLView * view , list) {
             m_pSelectLB -> insertItem(view -> getName());
             m_nIdList.append(view -> getID());
         }
@@ -183,7 +182,7 @@ void DiagramPrintPage::slotClicked(int id) {
         m_pTypeCB -> setEnabled(true);
         m_pSelectLB -> setEnabled(true);
         m_pSelectLB -> clear();
-        for(view = list.first(); view; view = list.next()) {
+        foreach ( UMLView * view , list) {
             if(view -> getType() == m_ViewType) {
                 m_pSelectLB -> insertItem(view -> getName());
                 m_nIdList.append(view -> getID());
@@ -196,7 +195,6 @@ void DiagramPrintPage::slotClicked(int id) {
 
 void DiagramPrintPage::slotActivated(const QString & text) {
     UMLViewList list = m_pDoc -> getViewIterator();
-    UMLView * view = 0;
 
     if(text == i18n("Class"))
         m_ViewType = Uml::dt_Class;
@@ -216,7 +214,7 @@ void DiagramPrintPage::slotActivated(const QString & text) {
         m_ViewType = Uml::dt_Deployment;
     m_pSelectLB -> clear();
     m_nIdList.clear();
-    for(view = list.first(); view; view = list.next()) {
+    foreach ( UMLView * view , list) {
         if(view -> getType() == m_ViewType) {
             m_pSelectLB -> insertItem(view -> getName());
             m_nIdList.append(view -> getID());

@@ -182,7 +182,7 @@ void JSWriter::writeClass(UMLClassifier *c)
 
 void JSWriter::writeAssociation(QString& classname, UMLAssociationList& assocList , QTextStream &js)
 {
-    for (UMLAssociation *a = assocList.first(); a; a = assocList.next()) {
+    foreach (UMLAssociation *a , assocList ) {
         // association side
         Uml::Role_Type role = (a->getObject(Uml::A)->getName() == classname ? Uml::B : Uml::A);
 
@@ -224,22 +224,20 @@ void JSWriter::writeAssociation(QString& classname, UMLAssociationList& assocLis
 
 void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTextStream &js)
 {
-    UMLOperation *op;
-    UMLAttribute *at;
 
-    foreach (op ,  *opList )
+    foreach (UMLOperation* op ,  *opList )
     {
         UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
-        foreach (at , atl )
+        foreach (UMLAttribute* at , atl )
             writeDoc |= !at->getDoc().isEmpty();
 
         if( writeDoc )  //write method documentation
         {
             js << "/**" << m_endl << formatDoc(op->getDoc()," * ");
 
-            foreach (at , atl )  //write parameter documentation
+            foreach (UMLAttribute* at , atl )  //write parameter documentation
             {
                 if(forceDoc() || !at->getDoc().isEmpty())
                 {
@@ -254,7 +252,7 @@ void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
 
         int i = atl.count();
         int j=0;
-        foreach (at , atl ) {
+        foreach (UMLAttribute* at , atl ) {
             js << cleanName(at->getName())
             << (!(at->getInitialValue().isEmpty()) ? (QString(" = ")+at->getInitialValue()) : QString(""))
             << ((j < i-1)?", ":"");

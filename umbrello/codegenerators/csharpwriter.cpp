@@ -194,8 +194,8 @@ void CSharpWriter::writeClass(UMLClassifier *c) {
     m_seenIncludes.clear();
     //m_seenIncludes.append(logicalView);
     if (includes.count()) {
-        UMLPackage *p;
-        foreach ( p , includes ) {
+
+        foreach ( UMLPackage* p , includes ) {
             UMLClassifier *cl = dynamic_cast<UMLClassifier*>(p);
             if (cl)
                 p = cl->getUMLPackage();
@@ -260,10 +260,9 @@ void CSharpWriter::writeClass(UMLClassifier *c) {
         }
         //check for realizations
         UMLAssociationList realizations = c->getRealizations();
-        UMLAssociation *a;
 
         if (!realizations.isEmpty()) {
-            foreach (a , realizations ) {
+            foreach (UMLAssociation* a , realizations ) {
                 UMLClassifier *real = (UMLClassifier*)a->getObject(Uml::B);
                 if(real != c) {
                     // write list of realizations
@@ -408,8 +407,8 @@ void CSharpWriter::writeOverridesRecursive(UMLClassifierList *superclasses, QTex
 }
 void CSharpWriter::writeRealizationsRecursive(UMLClassifier *currentClass, UMLAssociationList *realizations, QTextStream &cs) {
 
-    UMLAssociation *a;
-    for (a = realizations->first(); a; a = realizations->next()) {
+    for (UMLAssociationListIt alit(*realizations); alit.hasNext(); ) {
+        UMLAssociation *a = alit.next();
 
         // we know its a classifier if its in the list
         UMLClassifier *real = (UMLClassifier*)a->getObject(Uml::B);
@@ -445,8 +444,7 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
 
-        UMLAttribute* at = NULL;
-        foreach ( at, atl ) {
+        foreach ( UMLAttribute* at, atl ) {
             writeDoc |= !at->getDoc().isEmpty();
         }
 
@@ -458,7 +456,7 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
             cs << m_container_indent << m_indentation << "/// </summary>" << m_endl;
 
             //write parameter documentation
-            foreach ( at, atl ) {
+            foreach ( UMLAttribute* at, atl ) {
                 if (forceDoc() || !at->getDoc().isEmpty()) {
                     cs << m_container_indent << m_indentation << "/// <param name=\"" << cleanName(at->getName()) << "\">";
                     //removing newlines from parameter doc
@@ -506,7 +504,7 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
         int i= atl.count();
         int j=0;
         for (UMLAttributeListIt atlIt( atl ); atlIt.hasNext() ; j++) {
-            at = atlIt.next();
+            UMLAttribute* at = atlIt.next();
             cs << makeLocalTypeName(at) << " " << cleanName(at->getName());
 
             // no initial values in C#
@@ -540,9 +538,8 @@ void CSharpWriter::writeAttributes(UMLClassifier *c, QTextStream &cs) {
 
     //sort attributes by scope and see if they have a default value
     UMLAttributeList atl = c->getAttributeList();
-    UMLAttribute *at;
 
-    foreach ( at, atl ) {
+    foreach ( UMLAttribute* at, atl ) {
         if (!at->getInitialValue().isEmpty())
             atdefval.append(at);
         switch (at->getVisibility()) {
@@ -602,8 +599,7 @@ void CSharpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &cs) {
 
 void CSharpWriter::writeAssociatedAttributes(UMLAssociationList &associated, UMLClassifier *c, QTextStream &cs) {
 
-    UMLAssociation *a;
-    for (a = associated.first(); a ; a = associated.next()) {
+    foreach (UMLAssociation *a,  associated ) {
         if (c != a->getObject(Uml::A))  // we need to be at the A side
             continue;
 

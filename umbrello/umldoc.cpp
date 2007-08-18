@@ -186,7 +186,11 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView ) {
         UMLApp::app()->setCurrentView(NULL);
         UMLViewList viewList;
         m_root[mt_Logical]->appendViews(viewList);
-        UMLView* firstView = viewList.first();
+        UMLView* firstView = 0;
+        if ( !viewList.isEmpty() ) {
+            firstView =  viewList.first();
+        }
+
         if (!firstView && enforceCurrentView) //create a diagram
         {
             createDiagram(m_root[mt_Logical], dt_Class, false);
@@ -850,8 +854,8 @@ UMLAssociation * UMLDoc::findAssociation(Uml::Association_Type assocType,
         bool *swap)
 {
     UMLAssociationList assocs = getAssociations();
-    UMLAssociation *a, *ret = NULL;
-    for (a = assocs.first(); a; a = assocs.next()) {
+    UMLAssociation *ret = NULL;
+    foreach ( UMLAssociation* a , assocs ) {
         if (a->getAssocType() != assocType)
             continue;
         if (a->getObject(Uml::A) == roleAObj && a->getObject(Uml::B) == roleBObj)
@@ -886,8 +890,7 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
     // This may happen when loading old XMI files where all the association
     // information was taken from the <UML:AssocWidget> tag.
     UMLAssociationList assocs = getAssociations();
-    for (UMLAssociationListIt ait(assocs); ait.current(); ++ait) {
-        UMLAssociation *a = ait.current();
+    foreach (UMLAssociation* a,  assocs ) {
         // check if its already been added (shouldn't be the case right now
         // as UMLAssociations only belong to one associationwidget at a time)
         if (a == Assoc)
@@ -1887,8 +1890,8 @@ UMLAssociationList UMLDoc::getAssociations() {
     UMLAssociationList associationList;
     for (int i = 0; i < Uml::N_MODELTYPES; i++) {
         UMLAssociationList assocs = m_root[i]->getAssociations();
-        UMLAssociation *a;
-        for (UMLAssociationListIt ait(assocs); (a = ait.current()) != NULL; ++ait)
+
+        foreach (UMLAssociation* a, assocs )
             associationList.append(a);
     }
     return associationList;

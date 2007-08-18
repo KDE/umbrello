@@ -133,7 +133,7 @@ void SQLWriter::writeClass(UMLClassifier *c) {
         QMap<UMLAssociation*,UMLAssociation*> constraintMap; // so we don't repeat constraint
     UMLAssociationList relationships = m_pEntity->getRelationships();
     if( forceSections() || !relationships.isEmpty() ) {
-        for(UMLAssociation* a = relationships.first(); a; a = relationships.next()) {
+        foreach ( UMLAssociation* a , relationships ) {
             UMLObject *objA = a->getObject(Uml::A);
             UMLObject *objB = a->getObject(Uml::B);
             if (objA->getID() == m_pEntity->getID() && objB->getID() != m_pEntity->getID())

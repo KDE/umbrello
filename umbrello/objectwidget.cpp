@@ -54,7 +54,6 @@ void ObjectWidget::init() {
     m_bMultipleInstance = false;
     m_bDrawAsActor = false;
     m_bShowDestruction = false;
-    messageWidgetList.setAutoDelete(false);
     if( m_pView != NULL && m_pView -> getType() == Uml::dt_Sequence ) {
         m_pLine = new SeqLineWidget( m_pView, this );
 
@@ -325,7 +324,7 @@ int ObjectWidget::getEndLineY() {
 }
 
 void ObjectWidget::messageAdded(MessageWidget* message) {
-    if (messageWidgetList.containsRef(message) ) {
+    if ( messageWidgetList.count(message) ) {
         kError() << "ObjectWidget::messageAdded("
                   << message->getName() << ") : duplicate entry !"
                   << endl;
@@ -344,11 +343,9 @@ void ObjectWidget::messageRemoved(MessageWidget* message) {
 }
 
 void ObjectWidget::slotMessageMoved() {
-    MessageWidgetListIt iterator(messageWidgetList);
-    MessageWidget* message;
+
     int lowestMessage = 0;
-    while ( (message = iterator.current()) != 0 ) {
-        ++iterator;
+    foreach ( MessageWidget* message, messageWidgetList ) {
         int messageHeight = message->getY() + message->getHeight();
         if (lowestMessage < messageHeight) {
             lowestMessage = messageHeight;
@@ -358,10 +355,8 @@ void ObjectWidget::slotMessageMoved() {
 }
 
 bool ObjectWidget::messageOverlap(int y, MessageWidget* messageWidget) {
-    MessageWidgetListIt iterator(messageWidgetList);
-    MessageWidget* message;
-    while ( (message = iterator.current()) != 0 ) {
-        ++iterator;
+
+    foreach ( MessageWidget* message , messageWidgetList ) {
         const int msgY = message->getY();
         const int msgHeight = msgY + message->getHeight();
         if (y >= msgY && y <= msgHeight && message != messageWidget) {

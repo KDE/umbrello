@@ -145,9 +145,10 @@ bool UMLWidget::operator==(const UMLWidget& other) {
     AssociationWidgetListIt assoc_it( m_Assocs );
     AssociationWidgetListIt assoc_it2( other.m_Assocs );
     AssociationWidget * assoc = 0, *assoc2 = 0;
-    while ( ((assoc=assoc_it.current()) != 0) &&  ((assoc2=assoc_it2.current()) != 0)) {
-        ++assoc_it;
-        ++assoc_it2;
+    while ( assoc_it.hasNext() &&  assoc_it2.hasNext() ) {
+        assoc = assoc_it.next();
+        assoc2 = assoc_it2.next();
+
         if(!(*assoc == *assoc2)) {
             return false;
         }
@@ -599,30 +600,26 @@ void UMLWidget::adjustAssocs(int x, int y)
         return;
     }
     AssociationWidgetListIt assoc_it(m_Assocs);
-    AssociationWidget* assocwidget = 0;
-    while ((assocwidget = assoc_it.current())) {
-        ++assoc_it;
+
+    foreach ( AssociationWidget* assocwidget , m_Assocs ) {
         assocwidget->saveIdealTextPositions();
     }
-    assoc_it.toFirst();
-    while ((assocwidget = assoc_it.current())) {
-        ++assoc_it;
+
+    foreach (AssociationWidget* assocwidget , m_Assocs ) {
         assocwidget->widgetMoved(this, x, y);
     }
 }
 
 void UMLWidget::adjustUnselectedAssocs(int x, int y)
 {
-    AssociationWidgetListIt assoc_it(m_Assocs);
-    AssociationWidget* assocwidget = 0;
-    while ((assocwidget = assoc_it.current())) {
-        ++assoc_it;
+
+    foreach ( AssociationWidget* assocwidget , m_Assocs) {
+
         if(!assocwidget->getSelected())
             assocwidget->saveIdealTextPositions();
     }
-    assoc_it.toFirst();
-    while ((assocwidget = assoc_it.current())) {
-        ++assoc_it;
+
+    foreach ( AssociationWidget* assocwidget , m_Assocs ) {
         if(!assocwidget->getSelected())
             assocwidget->widgetMoved(this, x, y);
     }

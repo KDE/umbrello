@@ -237,7 +237,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
         foreach (UMLClassifierListItem* lit, litList ) {
             QString enumLiteral = cleanName(lit->getName());
             ada << getIndent() << enumLiteral;
-            if (++i < litList.count())
+            if (++i < ( uint )litList.count())
                 ada << "," << m_endl;
         }
         m_indentLevel--;
@@ -369,7 +369,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
 
     if (forceSections() || !aggregations.isEmpty()) {
         ada << getIndent() << "-- Aggregations:" << m_endl;
-        for (UMLAssociation *a = aggregations.first(); a; a = aggregations.next()) {
+        foreach (UMLAssociation *a , aggregations) {
             if (c != a->getObject(Uml::A))
                 continue;
             QString typeName, roleName;
@@ -380,7 +380,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
     }
     if (forceSections() || !compositions.isEmpty()) {
         ada << getIndent() << "-- Compositions:" << m_endl;
-        for (UMLAssociation *a = compositions.first(); a; a = compositions.next()) {
+        foreach (UMLAssociation *a , compositions ) {
             if (c != a->getObject(Uml::A))
                 continue;
             QString typeName, roleName;
@@ -504,7 +504,7 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
             ada << at->getTypeName();
             if (! at->getInitialValue().isEmpty())
                 ada << " := " << at->getInitialValue();
-            if (++i < atl.count()) //FIXME gcc warning
+            if (++i < ( uint )atl.count()) //FIXME gcc warning
                 ada << ";" << m_endl;
         }
         m_indentLevel--;

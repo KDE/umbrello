@@ -32,9 +32,7 @@ UMLWidget* findWidget(Uml::IDType id,
                       const MessageWidgetList* pMessages /* = NULL */)
 {
     UMLWidgetListIt it( widgets );
-    UMLWidget * obj = NULL;
-    while ( (obj = it.current()) != NULL ) {
-        ++it;
+    foreach ( UMLWidget* obj , widgets ) {
         if (obj->getBaseType() == Uml::wt_Object) {
             if (static_cast<ObjectWidget *>(obj)->getLocalID() == id)
                 return obj;
@@ -46,9 +44,7 @@ UMLWidget* findWidget(Uml::IDType id,
     if (pMessages == NULL)
         return NULL;
 
-    MessageWidgetListIt mit( *pMessages );
-    while ( (obj = (UMLWidget*)mit.current()) != NULL ) {
-        ++mit;
+    foreach ( UMLWidget* obj , *pMessages ) {
         if( obj -> getID() == id )
             return obj;
     }

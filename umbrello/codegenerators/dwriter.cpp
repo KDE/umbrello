@@ -473,8 +473,7 @@ void DWriter::writeAssociationDecls(UMLAssociationList associations, Uml::IDType
     if( forceSections() || !associations.isEmpty() )
     {
         bool printRoleA = false, printRoleB = false;
-        for(UMLAssociation *a = associations.first(); a; a = associations.next())
-        {
+        foreach (UMLAssociation *a , associations ) {
             // it may seem counter intuitive, but you want to insert the role of the
             // *other* class into *this* class.
             if (a->getObjectId(Uml::A) == id)
@@ -543,7 +542,7 @@ void DWriter::writeAssociationRoleDecl(QString fieldClassName,
 
 void DWriter::writeAssociationMethods (UMLAssociationList associations, UMLClassifier *thisClass, QTextStream &d) {
     if( forceSections() || !associations.isEmpty() ) {
-        for(UMLAssociation *a = associations.first(); a; a = associations.next()) {
+        foreach (UMLAssociation *a , associations ) {
             // insert the methods to access the role of the other
             // class in the code of this one
             if (a->getObjectId(Uml::A) == thisClass->getID()) {

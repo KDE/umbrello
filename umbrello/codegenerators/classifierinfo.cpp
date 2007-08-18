@@ -122,7 +122,8 @@ UMLClassifierList ClassifierInfo::findAssocClassifierObjsInRoles (UMLAssociation
 
     UMLClassifierList classifiers;
 
-    for (UMLAssociation *a = list->first(); a; a = list->next()) {
+    for (UMLAssociationListIt alit(*list); alit.hasNext(); ) {
+        UMLAssociation* a = alit.next();
         // DONT accept a classifier IF the association role is empty, by
         // convention, that means to ignore the classifier on that end of
         // the association.

@@ -12,11 +12,11 @@
 #ifndef MESSAGEWIDGETLIST_H
 #define MESSAGEWIDGETLIST_H
 
-#include <q3ptrlist.h>
+#include <qlist.h>
 
 class MessageWidget;
 
-typedef Q3PtrList<MessageWidget> MessageWidgetList;
-typedef Q3PtrListIterator<MessageWidget> MessageWidgetListIt;
+typedef QList<MessageWidget*> MessageWidgetList;
+typedef QListIterator<MessageWidget*> MessageWidgetListIt;
 
 #endif

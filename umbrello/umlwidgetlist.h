@@ -19,11 +19,11 @@
 #ifndef UMLWIDGETLIST_H
 #define UMLWIDGETLIST_H
 
-#include <q3ptrlist.h>
+#include <qlist.h>
 
 class UMLWidget;
 
-typedef Q3PtrList<UMLWidget> UMLWidgetList;
-typedef Q3PtrListIterator<UMLWidget> UMLWidgetListIt;
+typedef QList<UMLWidget*> UMLWidgetList;
+typedef QListIterator<UMLWidget*> UMLWidgetListIt;
 
 #endif

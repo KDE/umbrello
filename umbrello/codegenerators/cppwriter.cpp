@@ -388,7 +388,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
         foreach (UMLClassifierListItem* lit, litList ) {
             QString enumLiteral = cleanName(lit->getName());
             cpp << getIndent() << enumLiteral;
-            if (++i < litList.count())
+            if (++i < ( uint )litList.count())
                 cpp << ",";
             cpp << m_endl;
         }
@@ -1178,7 +1178,7 @@ void CppWriter::writeOperations(UMLOperationList &oplist, bool isHeaderMethod, Q
             const QString initVal = at->getInitialValue();
             if (! initVal.isEmpty())
                 str += " = " + initVal;
-            if (j < atl.count() - 1)
+            if (j < ( uint )( atl.count() - 1 ))
                 str += ", ";
             returnStr += "@param  " + atName + ' ' + at->getDoc() + '\n';
         }

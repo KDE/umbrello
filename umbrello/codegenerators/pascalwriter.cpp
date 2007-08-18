@@ -188,7 +188,7 @@ void PascalWriter::writeClass(UMLClassifier *c) {
         foreach (UMLClassifierListItem *lit , litList ) {
             QString enumLiteral = cleanName(lit->getName());
             pas << getIndent() << enumLiteral;
-            if (++i < litList.count())
+            if (++i < ( uint )litList.count())
                 pas << "," << m_endl;
         }
         m_indentLevel--;
@@ -204,10 +204,10 @@ void PascalWriter::writeClass(UMLClassifier *c) {
             pas << getIndent() << "// " << stype << " is Not Yet Implemented" << m_endl << m_endl;
         } else if(stype == "CORBAStruct") {
             if (isClass) {
-                UMLAttribute *at;
+
                 pas << getIndent() << classname << " = record" << m_endl;
                 m_indentLevel++;
-                foreach (at , atl ) {
+                foreach (UMLAttribute* at , atl ) {
                     QString name = cleanName(at->getName());
                     QString typeName = at->getTypeName();
                     pas << getIndent() << name << " : " << typeName;
@@ -253,8 +253,8 @@ void PascalWriter::writeClass(UMLClassifier *c) {
     UMLAttributeList atpub = info.atpub;
     if (isClass && (forceSections() || atpub.count())) {
         pas << getIndent() << "// Public attributes:" << m_endl;
-        UMLAttribute *at;
-        foreach ( at , atpub ) {
+
+        foreach ( UMLAttribute* at  , atpub ) {
             // if (at->getStatic())
             //     continue;
             pas << getIndent() << cleanName(at->getName()) << " : "
@@ -269,21 +269,21 @@ void PascalWriter::writeClass(UMLClassifier *c) {
     // Generate public operations.
     UMLOperationList opl(c->getOpList());
     UMLOperationList oppub;
-    UMLOperation *op = NULL;
-    foreach (op , opl ) {
+
+    foreach (UMLOperation* op , opl ) {
          if (op->getVisibility() == Uml::Visibility::Public)
             oppub.append(op);
     }
     if (forceSections() || oppub.count())
         pas << getIndent() << "// Public methods:" << m_endl << m_endl;
-    foreach ( op , oppub )
+    foreach (UMLOperation* op , oppub )
         writeOperation(op, pas);
 
     if (info.atprot.count()) {
         pas << "protected" << m_endl << m_endl;
-        UMLAttribute *at = NULL;
+
         UMLAttributeList atprot = info.atprot;
-        foreach ( at , atprot ) {
+        foreach (UMLAttribute*  at , atprot ) {
             // if (at->getStatic())
             //     continue;
             pas << getIndent() << cleanName(at->getName()) << " : "
@@ -296,9 +296,9 @@ void PascalWriter::writeClass(UMLClassifier *c) {
     }
     if (info.atpriv.count()) {
         pas << "private" << m_endl << m_endl;
-        UMLAttribute *at = NULL;
+
         UMLAttributeList atpriv = info.atpriv;
-        foreach ( at , atpriv ) {
+        foreach (UMLAttribute* at , atpriv ) {
             // if (at->getStatic())
             //     continue;
             pas << getIndent() << cleanName(at->getName()) << " : "

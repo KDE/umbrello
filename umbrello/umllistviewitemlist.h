@@ -19,11 +19,11 @@
 #ifndef UMLLISTVIEWITEMLIST_H
 #define UMLLISTVIEWITEMLIST_H
 
-#include <q3ptrlist.h>
+#include <qlist.h>
 
 class UMLListViewItem;
 
-typedef Q3PtrList<UMLListViewItem> UMLListViewItemList;
-typedef Q3PtrListIterator<UMLListViewItem> UMLListViewItemListIt;
+typedef QList<UMLListViewItem*> UMLListViewItemList;
+typedef QListIterator<UMLListViewItem*> UMLListViewItemListIt;
 
 #endif

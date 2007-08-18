@@ -170,9 +170,6 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
         return;
     }
 
-    UMLWidgetListIt it(m_selectedWidgetsList);
-    UMLWidget* widget;
-    it.toFirst();
 
     bool update = false;
     if (lastUpdate.elapsed() > 25) {
@@ -182,8 +179,8 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
         m_widget->adjustUnselectedAssocs(m_widget->getX(), m_widget->getY());
     }
 
-    while ((widget = it.current()) != 0) {
-        ++it;
+    foreach ( UMLWidget* widget , m_selectedWidgetsList ) {
+
         //UMLDoc* m_doc = UMLApp::app()->getDocument();
         //cmdMoveWidgetBy* cmd = new cmdMoveWidgetBy(widget,diffX,diffY);
         //m_doc->executeCommand(cmd);
@@ -193,9 +190,8 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
     // kDebug();
 
     // Move any selected associations.
-    AssociationWidgetList awl = m_widget->m_pView->getSelectedAssocs();
-    AssociationWidget *aw = NULL;
-    for (AssociationWidgetListIt ai(awl); (aw = ai.current()) != NULL; ++ai) {
+
+    foreach (AssociationWidget* aw, m_widget->m_pView->getSelectedAssocs()) {
         if (aw->getSelected()) {
             aw->moveEntireAssoc(diffX, diffY);
         }
@@ -211,11 +207,9 @@ void UMLWidgetController::widgetMoved()
 
                     //Ensure associations are updated (the timer could prevent the
                     //adjustment in the last move event before the release)
-                    UMLWidgetListIt it(m_selectedWidgetsList);
-                    UMLWidget* widget;
-                    it.toFirst();
-                    while ((widget = it.current()) != 0) {
-                        ++it;
+
+                    foreach ( UMLWidget* widget , m_selectedWidgetsList) {
+
                         widget->adjustAssocs(widget->getX(), widget->getY());
                     }
 
@@ -452,19 +446,18 @@ void UMLWidgetController::resize(QMouseEvent *me) {
 
 //TODO refactor with AlignToolbar method.
 int UMLWidgetController::getSmallestX(const UMLWidgetList &widgetList) {
-    UMLWidgetListIt it(widgetList);
-    UMLWidget* widget;
-
-    widget = it.toFirst();
-    // leave function upon empty widget list
-    if (NULL == widget) return 0;
-    int smallestX = widget->getX();
-    ++it;
-
-    while ((widget = it.current()) != 0) {
-        ++it;
-        if (smallestX > widget->getX())
+    int smallestX ;
+    int i = 1;
+    foreach ( UMLWidget* widget , widgetList ) {
+        if ( i == 1 ) {
+            if ( widget == NULL )
+                break;
             smallestX = widget->getX();
+        } else {
+           if (smallestX > widget->getX())
+             smallestX = widget->getX();
+        }
+        i++;
     }
 
     return smallestX;
@@ -472,19 +465,20 @@ int UMLWidgetController::getSmallestX(const UMLWidgetList &widgetList) {
 
 //TODO refactor with AlignToolbar method.
 int UMLWidgetController::getSmallestY(const UMLWidgetList &widgetList) {
-    UMLWidgetListIt it(widgetList);
-    UMLWidget* widget;
 
-    widget = it.toFirst();
-    // leave function upon empty widget list
-    if (NULL == widget) return 0;
-    int smallestY = widget->getY();
-    ++it;
-
-    while ((widget = it.current()) != 0) {
-        ++it;
-        if (smallestY > widget->getY())
+    int smallestY ;
+    int i = 1;
+    foreach ( UMLWidget* widget , widgetList ) {
+        if ( i == 1 ) {
+            if ( widget == NULL )
+                break;
             smallestY = widget->getY();
+        } else {
+           if (smallestY > widget->getY())
+              smallestY = widget->getY();
+
+        }
+        i++;
     }
 
     return smallestY;
@@ -492,20 +486,21 @@ int UMLWidgetController::getSmallestY(const UMLWidgetList &widgetList) {
 
 //TODO refactor with AlignToolbar method.
 int UMLWidgetController::getBiggestX(const UMLWidgetList &widgetList) {
-    UMLWidgetListIt it(widgetList);
-    UMLWidget* widget;
 
-    widget = it.toFirst();
-    // leave function upon empty widget list
-    if (NULL == widget) return 0;
-    int biggestX = widget->getX();
-    biggestX += it.current()->getWidth();
-    ++it;
+    int biggestX ;
 
-    while ((widget = it.current()) != 0) {
-        ++it;
-        if (biggestX < widget->getX() + widget->getWidth())
+    int i = 1;
+    foreach ( UMLWidget* widget , widgetList ) {
+        if ( i == 1 ) {
+            if ( widget == NULL )
+                break;
+            biggestX = widget->getX();
+            biggestX+= widget->getWidth();
+        } else {
+          if (biggestX < widget->getX() + widget->getWidth())
             biggestX = widget->getX() + widget->getWidth();
+        }
+        i++;
     }
 
     return biggestX;
@@ -513,20 +508,20 @@ int UMLWidgetController::getBiggestX(const UMLWidgetList &widgetList) {
 
 //TODO refactor with AlignToolbar method.
 int UMLWidgetController::getBiggestY(const UMLWidgetList &widgetList) {
-    UMLWidgetListIt it(widgetList);
-    UMLWidget* widget;
 
-    widget = it.toFirst();
-    // leave function upon empty widget list
-    if (NULL == widget) return 0;
-    int biggestY = widget->getY();
-    biggestY += it.current()->getHeight();
-    ++it;
-
-    while ((widget = it.current()) != 0) {
-        ++it;
-        if (biggestY < widget->getY() + widget->getHeight())
-            biggestY = widget->getY() + widget->getHeight();
+    int biggestY ;
+    int i = 1;
+    foreach ( UMLWidget* widget , widgetList ) {
+        if ( i == 1 ) {
+            if ( widget == NULL )
+                break;
+            biggestY = widget->getY();
+            biggestY+= widget->getHeight();
+        } else {
+           if (biggestY < widget->getY() + widget->getHeight())
+             biggestY = widget->getY() + widget->getHeight();
+        }
+        i++;
     }
 
     return biggestY;

@@ -134,12 +134,12 @@ UMLOperation* UMLClassifier::findOperation(const QString& name,
         return NULL;
     // If there are operation(s) with the same name then compare the parameter list
     const int inputParmCount = params.count();
-    UMLOperation* test = NULL;
-    foreach (test, list ) {
+
+    foreach (UMLOperation* test, list ) {
         UMLAttributeList testParams = test->getParmList();
         const int pCount = testParams.count();
         if (inputParmCount == 0 && pCount == 0)
-            break;
+            return test;
         if (inputParmCount != pCount)
             continue;
         int i = 0;
@@ -154,9 +154,9 @@ UMLOperation* UMLClassifier::findOperation(const QString& name,
                 break;
         }
         if (i == pCount)
-            break;  // all parameters matched
+            return test;  // all parameters matched
     }
-    return test;
+    return 0;
 }
 
 UMLOperation* UMLClassifier::createOperation(const QString &name /*=null*/,
@@ -393,8 +393,7 @@ UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type) {
             parentConcepts.append(concept);
     }
 
-    for (UMLAssociation *a = rlist.first(); a; a = rlist.next())
-    {
+    foreach (UMLAssociation *a , rlist ) {
         if (a->getObjectId(A) == myID)
         {
             UMLObject* obj = a->getObject(B);
@@ -632,11 +631,14 @@ UMLOperationList UMLClassifier::getOpList(bool includeInherited) {
             // add these operations to operation list, but only if unique.
             foreach (UMLOperation *po , pops ) {
                 QString po_as_string(po->toString(Uml::st_SigNoVis));
-                UMLOperation* o = NULL;
-                foreach (o ,  ops )
-                    if (o->toString(Uml::st_SigNoVis) == po_as_string)
+                bool breakFlag = false;
+                foreach (UMLOperation* o ,  ops ) {
+                    if (o->toString(Uml::st_SigNoVis) == po_as_string) {
+                        breakFlag = true;
                         break;
-                if (!o)
+                    }
+                }
+                if (breakFlag == false)
                     ops.append(po);
             }
         }
@@ -828,7 +830,7 @@ UMLAssociationList  UMLClassifier::getUniAssociationToBeImplemented() {
     UMLAssociationList associations = getSpecificAssocs(Uml::at_UniAssociation);
     UMLAssociationList uniAssocListToBeImplemented;
 
-    for(UMLAssociation *a = associations.first(); a; a = associations.next()) {
+    foreach (UMLAssociation *a , associations ) {
         if (a->getObjectId(Uml::B) == getID())
             continue;  // we need to be at the A side
 
@@ -887,7 +889,7 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement) {
     UMLAssociationList generalizations = getSpecificAssocs(Uml::at_Generalization);
     if (generalizations.count()) {
         QDomElement genElement = qDoc.createElement("UML:GeneralizableElement.generalization");
-        for (UMLAssociation *a = generalizations.first(); a; a = generalizations.next()) {
+        foreach (UMLAssociation *a , generalizations ) {
             // We are the subclass if we are at the role A end.
             if (m_nId != a->getObjectId(Uml::A))
                 continue;

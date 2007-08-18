@@ -466,8 +466,7 @@ void JavaWriter::writeAssociationDecls(UMLAssociationList associations, Uml::IDT
     if( forceSections() || !associations.isEmpty() )
     {
         bool printRoleA = false, printRoleB = false;
-        for(UMLAssociation *a = associations.first(); a; a = associations.next())
-        {
+        foreach (UMLAssociation *a , associations ) {
             // it may seem counter intuitive, but you want to insert the role of the
             // *other* class into *this* class.
             if (a->getObjectId(Uml::A) == id)
@@ -821,14 +820,13 @@ void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
 }
 
 void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java) {
-    UMLOperation *op;
+
     UMLAttributeList atl;
-    UMLAttribute *at;
     int i,j;
     QString str;
 
     // generate method decl for each operation given
-    foreach( op ,  oplist ){
+    foreach( UMLOperation* op ,  oplist ){
 
         QString returnStr = "";
         // write documentation
@@ -846,7 +844,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java) {
         atl = op->getParmList();
         i= atl.count();
         j=0;
-        foreach ( at , atl ) {
+        foreach ( UMLAttribute* at , atl ) {
             QString typeName = fixTypeName(at->getTypeName());
             QString atName = cleanName(at->getName());
             str += typeName + ' ' + atName +
