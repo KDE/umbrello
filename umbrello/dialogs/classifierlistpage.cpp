@@ -242,7 +242,8 @@ void ClassifierListPage::slotClicked(Q3ListBoxItem*item) {
         m_pItemListLB->setSelected(0, true);
         listItem = getItemList().at(0);
     } else {
-        listItem = getItemList().at( m_pItemListLB->index(item) );
+        int relativeItemIndex = relativeIndexOf( item );
+        listItem = getItemList().at( relativeItemIndex );
     }
 
     if (listItem) {
@@ -274,7 +275,7 @@ void ClassifierListPage::slotListItemCreated(UMLObject* object) {
         return;
     }
 
-    int index = calculateNewIndex(listItem);
+    int index = calculateNewIndex(listItem->getBaseType());
 
     m_pItemListLB->insertItem(listItem->toString(Uml::st_SigNoVis), index);
     m_bSigWaiting = false;
@@ -574,8 +575,8 @@ void ClassifierListPage::slotNewListItem() {
 void ClassifierListPage::saveCurrentItemDocumentation() {
     int currentItemIndex = m_pItemListLB->currentItem();
 
-    // index is -1 . Quit
-    if ( currentItemIndex==-1 )
+    // index is not in range, quit
+    if ( currentItemIndex < 0 || currentItemIndex >= getItemList().count() )
         return;
 
     UMLClassifierListItem* selectedItem = getItemList().at( currentItemIndex );
@@ -655,7 +656,7 @@ bool ClassifierListPage::takeItem(UMLClassifierListItem* listItem,
 }
 
 
-int ClassifierListPage::calculateNewIndex(UMLClassifierListItem* /*listItem*/){
+int ClassifierListPage::calculateNewIndex(Uml::Object_Type /* ot */){
     return m_pItemListLB->count();
 }
 

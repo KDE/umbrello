@@ -135,6 +135,7 @@ private:
 
 protected:
 
+
     /** Loads the Item nList Box
      *
      */
@@ -146,7 +147,20 @@ protected:
      */
     void hideArrowButtons(bool hide);
 
-    virtual int calculateNewIndex(UMLClassifierListItem* listItem);
+    /**
+     * Calculates the new index to be assigned when an object of type ot is to
+     * be added to the list box. The default Implementation is to add it to the end of the list
+     * @param ot The Object Type to be added
+     * @return The index
+     */
+    virtual int calculateNewIndex(Uml::Object_Type ot);
+
+    /** 
+     * Returns the index of the Item in the List Box. Default Implementation is same as actual Index of Item
+     */
+    virtual int relativeIndexOf(Q3ListBoxItem* item) {
+	return m_pItemListLB->index( item);
+    }
     
     Uml::Object_Type m_itemType;
     UMLClassifier* m_pClassifier;

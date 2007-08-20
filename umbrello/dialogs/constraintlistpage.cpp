@@ -98,6 +98,7 @@ void ConstraintListPage::slotNewPrimaryKeyConstraint(){
     if ( m_pLastObjectCreated!=NULL ) {
         m_bSigWaiting = true;
         ent->setAsPrimaryKey( static_cast<UMLUniqueConstraint*>(m_pLastObjectCreated ) );
+        m_itemType = Uml::ot_EntityConstraint;
         reloadItemListBox();
     }
 
@@ -121,7 +122,7 @@ void ConstraintListPage::slotNewCheckConstraint() {
     m_itemType = Uml::ot_EntityConstraint;
 }
 
-int ConstraintListPage::calculateNewIndex(UMLClassifierListItem* listItem){
+int ConstraintListPage::calculateNewIndex(Uml::Object_Type ot){
 
     // we want to show all Unique Constraints first , followed by ForeignKey Constraints
     UMLClassifierListItemList ucList, fkcList,  ccList;
@@ -134,28 +135,73 @@ int ConstraintListPage::calculateNewIndex(UMLClassifierListItem* listItem){
     fkcCount = fkcList.count();
     ccCount = ccList.count();
 
-    QString listItemString = listItem->toString( Uml::st_SigNoVis );
-    int type = listItem->getBaseType();
-
     int index = 0;
-    // we subtract 1 from the count as the new item is already in the list (m_List) and
-    // hence contributes to the count we obtained
-    switch( type ) {
-        case Uml::ot_UniqueConstraint:
-            index = ucCount - 1;
-            break;
-        case Uml::ot_ForeignKeyConstraint:
-            index = ucCount + fkcCount - 1;
-            break;
-        case Uml::ot_CheckConstraint:
-            index = ucCount + fkcCount + ccCount - 1;
-            break;
-        default:
-            break;
 
+    if ( greaterThan( Uml::ot_UniqueConstraint, ot ) ) {
+        index += ucCount;
     }
 
+    if ( greaterThan( Uml::ot_ForeignKeyConstraint, ot ) ) {
+        index += fkcCount;
+    }
+
+    if ( greaterThan( Uml::ot_CheckConstraint, ot ) ) {
+        index += ccCount;
+    }
+
+    // we subtract 1 from the count as the new item is already in the list (m_List) and
+    // hence contributes to the count we obtained
+    index = index - 1;
+
     return index;
+}
+
+int ConstraintListPage::relativeIndexOf(Q3ListBoxItem* item) {
+    int actualIndex = ClassifierListPage::relativeIndexOf( item );
+
+    int ucCount = m_pClassifier->getFilteredList( Uml::ot_UniqueConstraint ).count();
+    int fkcCount = m_pClassifier->getFilteredList( Uml::ot_ForeignKeyConstraint ).count();
+    int ccCount = m_pClassifier->getFilteredList( Uml::ot_CheckConstraint ).count();
+
+    //if ( m_itemType == Uml::ot_EntityConstraint )
+    //    return actualIndex;
+
+    int newIndex = actualIndex;
+
+    if ( !greaterThan( m_itemType, Uml::ot_UniqueConstraint ) ) {
+        newIndex -= ucCount;
+    }
+
+    if ( !greaterThan( m_itemType, Uml::ot_ForeignKeyConstraint ) ) {
+        newIndex -= fkcCount;
+    }
+
+    return newIndex;
+}
+
+bool ConstraintListPage::greaterThan(Uml::Object_Type ct1,Uml::Object_Type ct2) {
+    // define ordering
+    switch( ct1 ) {
+       case Uml::ot_EntityConstraint:
+       case Uml::ot_UniqueConstraint:
+           // Unique Constraint greater than all others
+            return true;
+            break;
+       case Uml:: ot_ForeignKeyConstraint:
+           if ( ct2 != Uml::ot_UniqueConstraint )
+             return true;
+           else
+               return false;
+           break;
+       case Uml::ot_CheckConstraint:
+           if ( ct2 != Uml::ot_CheckConstraint )
+               return false;
+           else
+               return true;
+           break;
+       default:
+           return false;
+    }
 }
 
 #include "constraintlistpage.moc"

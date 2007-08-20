@@ -71,7 +71,28 @@ private slots:
 
 protected:
 
-    int calculateNewIndex(UMLClassifierListItem* listItem);
+
+    /** 
+     * Returns the index of the Item in the List Box
+     */
+    int relativeIndexOf(Q3ListBoxItem* item);
+ 
+    /**
+     * Calculates the new index to be assigned when an object of type ot is to
+     * be added to the list box. The default Implementation is to add it to the end of the list
+     * @param ot The Object Type to be added
+     * @return The index
+     */
+    int calculateNewIndex(Uml::Object_Type ot);
+
+    /**
+     * Will return true if ot1 has a higher (top)  place in the list than ot2
+     *
+     * @param ct1 Contraint Type 1
+     * @param ct2 Constraint Type 2
+     * @return true if ct1 is to be shown above ct2 else false
+     */
+    bool greaterThan(Uml::Object_Type ct1,Uml::Object_Type ct2);
 
     KMenu* buttonMenu;
 
