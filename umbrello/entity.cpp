@@ -402,14 +402,14 @@ bool UMLEntity::load(QDomElement& element) {
 
 bool UMLEntity::setAsPrimaryKey(UMLUniqueConstraint* uconstr) {
     if ( uconstr == NULL ) {
-        kDebug()<< k_funcinfo<<"NULL value passed. To unset a Primary Key use "
+        kDebug()<<"NULL value passed. To unset a Primary Key use "
                 <<"unsetPrimaryKey()"<<endl;
         return false;
     }
 
     if ( static_cast<UMLEntity*>( uconstr->parent() ) != this ) {
 
-        kDebug()<< k_funcinfo <<"Parent of "<<uconstr->getName()
+        kDebug()<<"Parent of "<<uconstr->getName()
                 <<" doesn't match with current entity"<<endl;
         return false;
     }
@@ -447,7 +447,7 @@ bool UMLEntity::hasPrimaryKey() const{
 
 bool UMLEntity::addConstraint(UMLEntityConstraint* constr) {
     if ( findChildObjectById( constr->getID() ) != NULL ) {
-        kDebug()<< k_funcinfo<<"Constraint with id "<<ID2STR(constr->getID())
+        kDebug()<<"Constraint with id "<<ID2STR(constr->getID())
                 <<" already exists ";
         return false;
     }
@@ -463,7 +463,7 @@ bool UMLEntity::addConstraint(UMLEntityConstraint* constr) {
 
 bool UMLEntity::removeConstraint(UMLEntityConstraint* constr) {
      if ( findChildObjectById( constr->getID() ) == NULL ) {
-        kDebug()<< k_funcinfo<<"Constraint with id "<<ID2STR(constr->getID())
+        kDebug()<<"Constraint with id "<<ID2STR(constr->getID())
                 <<" does not exist ";
         return false;
     }

@@ -91,7 +91,7 @@ void ConstraintListPage::slotNewPrimaryKeyConstraint(){
     UMLEntity* ent = static_cast<UMLEntity*>( m_pClassifier );
 
     if ( ent == NULL ) {
-        kError()<< k_funcinfo<<"Couldn't set Primary Key. Entity Value is Null"<<endl;
+        kError()<<"Couldn't set Primary Key. Entity Value is Null"<<endl;
         return;
     }
 

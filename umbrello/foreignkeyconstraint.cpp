@@ -138,19 +138,19 @@ bool UMLForeignKeyConstraint::addEntityAttributePair(UMLEntityAttribute* pAttr, 
     UMLEntity *owningParent = dynamic_cast<UMLEntity*>(parent());
 
     if ( pAttr == NULL || rAttr == NULL ) {
-        kError()<< k_funcinfo <<"null values passed to function"<<endl;
+        kError()<<"null values passed to function"<<endl;
         return false;
     }
     // check for sanity of pAttr ( parent entity attribute )
     if (owningParent == NULL) {
-        kError() << k_funcinfo << m_Name
+        kError() << m_Name
         << "): parent " << owningParent->getName()
         << " is not a UMLEntity" << endl;
         return false;
     }
 
     if ( owningParent->findChildObjectById( pAttr->getID() ) == NULL ) {
-        kError() << k_funcinfo
+        kError() 
         << " parent " << owningParent->getName()
                  << " does not contain attribute " << pAttr->getName()<<endl;
         return false;
@@ -159,13 +159,13 @@ bool UMLForeignKeyConstraint::addEntityAttributePair(UMLEntityAttribute* pAttr, 
     //check for sanity of rAttr ( referenced entity attribute )
     if ( m_ReferencedEntity != NULL ) {
        if ( m_ReferencedEntity->findChildObjectById( rAttr->getID() ) == NULL ) {
-        kError() << k_funcinfo
+        kError() 
         << " parent " << m_ReferencedEntity->getName()
                  << " does not contain attribute " << rAttr->getName()<<endl;
         return false;
        }
     } else {
-        kError()<< k_funcinfo << "Referenced Table Not set. Not Adding Pair "<< endl;
+        kError()<< "Referenced Table Not set. Not Adding Pair "<< endl;
         return false;
     }
 

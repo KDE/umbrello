@@ -722,7 +722,7 @@ void UMLListView::slotObjectCreated(UMLObject* object) {
     UMLListViewItem* newItem = findUMLObject(object);
 
     if (newItem) {
-    kDebug()<<k_funcinfo<<newItem->getType();
+    kDebug()<<newItem->getType();
         kDebug() << "UMLListView::slotObjectCreated(" << object->getName()
             << ", id= " << ID2STR(object->getID())
             << "): item already exists." << endl;

@@ -64,7 +64,7 @@ void UMLUniqueConstraint::copyInto(UMLUniqueConstraint *rhs) const {
 
     if ( !valid ) {
         rhs->m_EntityAttributeList.clear();
-        kDebug() << k_funcinfo <<"Copying Attributes Failed : Rhs List cleared instead";
+        kDebug() <<"Copying Attributes Failed : Rhs List cleared instead";
     }
 }
 
@@ -185,19 +185,19 @@ bool UMLUniqueConstraint::addEntityAttribute(UMLEntityAttribute* attr) {
     UMLEntity *owningParent = dynamic_cast<UMLEntity*>(parent());
 
     if ( hasEntityAttribute( attr ) ) {
-        kDebug() << k_funcinfo << "Unique Constraint already contains"<<attr->getName();
+        kDebug() << "Unique Constraint already contains"<<attr->getName();
         return false;
 
     }
     if (owningParent == NULL) {
-        kError() << k_funcinfo << m_Name
+        kError() << m_Name
         << "): parent " << owningParent->getName()
         << " is not a UMLEntity" << endl;
         return false;
     }
 
     if ( owningParent->findChildObjectById( attr->getID() ) == NULL ) {
-        kError() << k_funcinfo
+        kError() 
         << " parent " << owningParent->getName()
                  << " does not contain attribute " << attr->getName()<<endl;
         return false;
@@ -215,7 +215,7 @@ bool UMLUniqueConstraint::removeEntityAttribute(UMLEntityAttribute* attr) {
     UMLEntity *owningParent = dynamic_cast<UMLEntity*>(parent());
 
     if (owningParent == NULL) {
-        kError() << k_funcinfo << m_Name
+        kError() << m_Name
         << "): parent " << owningParent->getName()
         << " is not a UMLEntity" << endl;
         return false;
@@ -226,7 +226,7 @@ bool UMLUniqueConstraint::removeEntityAttribute(UMLEntityAttribute* attr) {
      * is called. So checking this is not right
      *
      * if ( owningParent->findChildObjectById( attr->getID() ) == NULL ) {
-     *    kError() << k_funcinfo
+     *    kError() 
      *    << " parent " << owningParent->getName()
      *             << " does not contain attribute " << attr->getName()<<endl;
      *    return false;

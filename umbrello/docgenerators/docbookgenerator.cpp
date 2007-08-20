@@ -51,7 +51,7 @@ bool DocbookGenerator::generateDocbookForProject()
   QString fileName = url.fileName();
   fileName.replace(QRegExp(".xmi$"),"");
   url.setFileName(fileName);
-  kDebug() <<k_funcinfo<<"Exporting to directory: " << url;
+  kDebug() <<"Exporting to directory: " << url;
   generateDocbookForProjectInto(url);
   return true;
 }
@@ -73,13 +73,13 @@ void DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDir)
     docbookGeneratorJob = new DocbookGeneratorJob( this );
     connect( docbookGeneratorJob , SIGNAL(docbookGenerated(const QString&)), this, SLOT(slotDocbookGenerationFinished(const QString&)));
     connect( docbookGeneratorJob, SIGNAL( finished() ), this, SLOT( threadFinished() ) );
-    kDebug()<<k_funcinfo<<"Threading";
+    kDebug()<<"Threading";
     docbookGeneratorJob->start();
 }
 
 void DocbookGenerator::slotDocbookGenerationFinished(const QString& tmpFileName)
 {
-    kDebug()<<k_funcinfo<<"Generation Finished"<<tmpFileName;
+    kDebug()<<"Generation Finished"<<tmpFileName;
     KUrl url = umlDoc->url();
     QString fileName = url.fileName();
     fileName.replace(QRegExp(".xmi$"),".docbook");

@@ -49,19 +49,19 @@ bool XhtmlGenerator::generateXhtmlForProject()
   QString fileName = url.fileName();
   fileName.replace(QRegExp(".xmi$"),"");
   url.setFileName(fileName);
-  kDebug()<<k_funcinfo<< "Exporting to directory: " << url;
+  kDebug()<< "Exporting to directory: " << url;
   return generateXhtmlForProjectInto(url);
 }
 
 bool XhtmlGenerator::generateXhtmlForProjectInto(const KUrl& destDir)
 {
-    kDebug() <<k_funcinfo<< "First convert to docbook";
+    kDebug() << "First convert to docbook";
   m_destDir = destDir;
 //   KUrl url(QString("file://")+m_tmpDir.name());
   DocbookGenerator* docbookGenerator = new DocbookGenerator;
   docbookGenerator->generateDocbookForProjectInto(destDir);
 
-  kDebug() <<k_funcinfo<< "Connecting...";
+  kDebug() << "Connecting...";
   connect(docbookGenerator, SIGNAL(finished(bool)), this, SLOT(slotDocbookToXhtml(bool)));
   return true;
 }
@@ -71,7 +71,7 @@ void XhtmlGenerator::slotDocbookToXhtml(bool status)
   kDebug() << "Now convert docbook to html...";
   if ( !status )
   {
-      kDebug()<<k_funcinfo<<"Error in converting to docbook";
+      kDebug()<<"Error in converting to docbook";
       m_pStatus = false;
       return;
   } else {
@@ -86,7 +86,7 @@ void XhtmlGenerator::slotDocbookToXhtml(bool status)
     d2xg  = new Docbook2XhtmlGeneratorJob( url, this );
     connect( d2xg, SIGNAL( xhtmlGenerated( const QString& ) ), this, SLOT( slotHtmlGenerated(const QString&) ) );
     connect( d2xg, SIGNAL( finished() ), this, SLOT( threadFinished() ) );
-    kDebug()<<k_funcinfo<<"Threading";
+    kDebug()<<"Threading";
     d2xg->start();
   }
 }
@@ -94,7 +94,7 @@ void XhtmlGenerator::slotDocbookToXhtml(bool status)
 void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
 {
 
-    kDebug() << k_funcinfo<< "HTML Generated"<<tmpFileName;
+    kDebug() << "HTML Generated"<<tmpFileName;
     KUrl url = umlDoc->url();
     QString fileName = url.fileName();
     fileName.replace(QRegExp(".xmi$"),".html");

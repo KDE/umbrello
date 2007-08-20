@@ -427,7 +427,7 @@ void UMLOperationDialog::slotParameterProperties() {
 
 void UMLOperationDialog::slotParameterUp()
 {
-    kDebug() << k_funcinfo;
+    kDebug() ;
     UMLAttribute* pOldAtt = m_pOperation->findParm( m_pParmsLB->currentText() );
 
     m_pOperation->moveParmLeft( pOldAtt );

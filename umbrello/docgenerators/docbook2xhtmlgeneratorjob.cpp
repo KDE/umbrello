@@ -52,15 +52,15 @@ void Docbook2XhtmlGeneratorJob::run() {
   umlDoc->writeToStatusBar(i18n("Exporting to XHTML..."));
 
   QString xsltFileName(KGlobal::dirs()->findResource("appdata","docbook2xhtml.xsl"));
-  kDebug() <<k_funcinfo<< "XSLT file is'"<<xsltFileName<<"'";
+  kDebug() << "XSLT file is'"<<xsltFileName<<"'";
   QFile xsltFile(xsltFileName);
   xsltFile.open(QIODevice::ReadOnly);
   QString xslt = xsltFile.readAll();
-  kDebug() <<k_funcinfo<< "XSLT is'"<<xslt<<"'";
+  kDebug() << "XSLT is'"<<xslt<<"'";
   xsltFile.close();
 
   QString localXsl = KGlobal::dirs()->findResource("data","ksgmltools2/docbook/xsl/html/docbook.xsl");
-  kDebug() <<k_funcinfo<< "Local xsl is'"<<localXsl<<"'";
+  kDebug() << "Local xsl is'"<<localXsl<<"'";
   if (!localXsl.isEmpty())
   {
     localXsl = QString("href=\"file://") + localXsl + "\"";
@@ -75,18 +75,18 @@ void Docbook2XhtmlGeneratorJob::run() {
 
   xmlSubstituteEntitiesDefault(1);
   xmlLoadExtDtdDefaultValue = 1;
-  kDebug() <<k_funcinfo<< "Parsing stylesheet " << tmpXsl.fileName();
+  kDebug() << "Parsing stylesheet " << tmpXsl.fileName();
   cur = xsltParseStylesheetFile((const xmlChar *)tmpXsl.fileName().latin1());
-  kDebug() <<k_funcinfo<< "Parsing file " << m_pDocbookUrl.path();
+  kDebug() << "Parsing file " << m_pDocbookUrl.path();
   doc = xmlParseFile((const char*)(m_pDocbookUrl.path().utf8()));
-  kDebug() <<k_funcinfo<< "Applying stylesheet ";
+  kDebug() << "Applying stylesheet ";
   res = xsltApplyStylesheet(cur, doc, params);
 
   KTemporaryFile tmpXhtml;
   tmpXhtml.setAutoRemove(false);
   tmpXhtml.open();
 
-  kDebug() <<k_funcinfo<< "Writing HTML result to temp file: " << tmpXhtml.fileName();
+  kDebug() << "Writing HTML result to temp file: " << tmpXhtml.fileName();
   xsltSaveResultToFd(tmpXhtml.handle(), res, cur);
 
   xsltFreeStylesheet(cur);

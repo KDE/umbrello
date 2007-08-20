@@ -1118,7 +1118,7 @@ void ListPopupMenu::setupMenu(Menu_Type type) {
         insertFileNew();
         insertSeparator();
         if ( m_TriggerObjectType!= tot_View ) {
-            kError()<<k_funcinfo<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
+            kError()<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
@@ -1135,7 +1135,7 @@ void ListPopupMenu::setupMenu(Menu_Type type) {
         insertFileNew();
         insertSeparator();
         if ( m_TriggerObjectType!= tot_View ) {
-            kError()<<k_funcinfo<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
+            kError()<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
@@ -1150,7 +1150,7 @@ void ListPopupMenu::setupMenu(Menu_Type type) {
         insertFileNew();
         insertSeparator();
         if ( m_TriggerObjectType!= tot_View ) {
-            kError()<<k_funcinfo<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
+            kError()<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
@@ -1166,7 +1166,7 @@ void ListPopupMenu::setupMenu(Menu_Type type) {
         insertFileNew();
         insertSeparator();
         if ( m_TriggerObjectType!= tot_View ) {
-            kError()<<k_funcinfo<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
+            kError()<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
@@ -1180,7 +1180,7 @@ void ListPopupMenu::setupMenu(Menu_Type type) {
         insertFileNew();
         insertSeparator();
         if ( m_TriggerObjectType!= tot_View ) {
-            kError()<<k_funcinfo<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
+            kError()<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
@@ -1192,7 +1192,7 @@ void ListPopupMenu::setupMenu(Menu_Type type) {
         insertFileNew();
         insertSeparator();
         if ( m_TriggerObjectType!= tot_View ) {
-            kError()<<k_funcinfo<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
+            kError()<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
@@ -1205,7 +1205,7 @@ void ListPopupMenu::setupMenu(Menu_Type type) {
         insertFileNew();
         insertSeparator();
         if ( m_TriggerObjectType!= tot_View ) {
-            kError()<<k_funcinfo<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
+            kError()<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
@@ -1219,7 +1219,7 @@ void ListPopupMenu::setupMenu(Menu_Type type) {
         insertFileNew();
         insertSeparator();
         if ( m_TriggerObjectType!= tot_View ) {
-            kError()<<k_funcinfo<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
+            kError()<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
@@ -1315,7 +1315,7 @@ void ListPopupMenu::setupMenu(Menu_Type type) {
 
     case mt_Category:
         if ( m_TriggerObjectType!= tot_Object ) {
-            kError()<<k_funcinfo<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
+            kError()<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
             return;
         }
         insertItem(i18n("Category Type"),makeCategoryTypeMenu(

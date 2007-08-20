@@ -68,7 +68,7 @@ void CPPCodeGenerationPolicyPage::apply()
     common->setCommentStyle((CodeGenerationPolicy::CommentStyle ) form->m_SelectCommentStyle->currentItem());
     common->setAutoGenerateConstructors(form->getGenerateEmptyConstructors());
     parent->setAutoGenerateAccessors(form->getGenerateAccessorMethods());
-    kDebug()<<k_funcinfo<<form->getGenerateAccessorMethods();
+    kDebug()<<form->getGenerateAccessorMethods();
 
     parent->setDestructorsAreVirtual(form->getVirtualDestructors());
     parent->setPackageIsNamespace(form->getPackageIsANamespace());
