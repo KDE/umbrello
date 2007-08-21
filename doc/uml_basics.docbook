@@ -67,6 +67,10 @@ linkend="deployment-diagram">Deployment Diagrams</link></emphasis> show
 the instances of the components and their
 relationships.</para></listitem> 
 
+<listitem><para><emphasis><link
+linkend="entity-relationship-diagram">Entity Relationship Diagrams</link></emphasis> show
+data and the relationships and constraints between the data.</para></listitem> 
+
 </itemizedlist>
 
 </sect1>   <!-- about-uml -->
@@ -610,6 +614,172 @@ are made out of such as source code files, programming libraries or relational d
 associations.  They include Nodes which are physical resources,
 typically a single computer.  They also show interfaces and objects (class instances).</para>
 
+</sect2>
+
+<sect2 id="entity-relationship-diagram">
+<title>Entity Relationship Diagrams</title>
+
+<para>Entity Relationship Diagrams (ER Diagrams) show the conceptual design of database applications. They depict the
+various entities (concepts) in the information system and the existing relationships and cosntraints between them.
+An extension of Entity Relationship Diagrams named 'Extended Entity Relationship Diagrams' or 'Enhanced Entity Relationship Diagrams' (EER), are used to incorporate Object Oriented design techniques in ER Diagrams. </para> 
+<para>
+<screenshot>
+<screeninfo>An example Entity Relationship diagram.</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="entity-relationship-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>Umbrello showing an Entity Relationship Diagram</phrase>
+	  </textobject>
+	  <caption>
+	    <para>Umbrello showing an Entity Relationship Diagram
+	    </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="entity">
+<title>Entity</title>
+<para>An <emphasis>Entity</emphasis> is any concept in the real world with an independent existence. It may be an object with a physical existence ( example, Computer, Robot) or it may be an object with a conceptual existence ( eq: University Course). Each entity has a set of attributes which describe the properties of the Entity.</para>
+<para>
+<emphasis>Note:</emphasis> No standard notations exist for depicting ER Diagrams. Different texts on this subject use different notations. The concepts and notations for EER diagrams used in Umbrello are from the following book :
+<emphasis>Elmasri R. and Navathe S. (2004). Fundamentals of Database Systems 4th edn. Addison Wesley</emphasis>
+</para>
+<para>
+In an ER Diagram, Entities are represented by rectangles, with the name of the entity at the top, and can also show
+the attributes of the entity in another <quote>compartment</quote> inside the rectangle.
+</para>
+<para>
+<screenshot>
+<screeninfo>An Entity in an ER Diagram;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="entity.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>Visual representation of an entity in an ER Diagram</phrase>
+	  </textobject>
+	  <caption>
+	    <para>Visual representation of an entity in an ER Diagram
+	    </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect4 id="entity-attribute">
+<title>Entity Attributes</title>
+<para>
+In ER Diagrams , Entity Attributes are shown with their name in a different compartment of the Entity to which they belong.
+</para>
+</sect4>
+<sect4 id="constraint">
+<title>Constraints</title>
+<para> Constraints in ER Diagrams specify the restrictions on data in the information schema. 
+</para>
+<para>There are four types of constraints supported in Umbrello :
+ <itemizedlist>
+ <listitem>
+    <para>
+     <emphasis>Primary Key:</emphasis> The set of attributes declared as <emphasis>primary key</emphasis> are unique to the entity. There can be only one primary key in an Entity and none of its constituent attributes can be NULL.
+    </para>
+</listitem>
+ <listitem>
+    <para>
+     <emphasis>Unique Key:</emphasis> The set of attributes declared as <emphasis>unique</emphasis> are unique to the entity. There can be many unique constraints on an Entity. Its constituent attributes can be NULL. 
+     Unique Keys and Primary Keys uniquely identify a row in a table ( entity )</para>
+ </listitem>
+ <listitem>
+    <para>
+      <emphasis>Foreign Key:</emphasis>  A Foreign Key is a referential constraint between two tables. The foreign key identifies a column or a set of columns in one (referencing) table that refers to a column or set of columns in another (referenced) table. The columns in the referenced table must form a primary key or unique key.
+     </para>
+ </listitem>
+ <listitem>
+     <para>
+      <emphasis>Check Constraint:</emphasis> A check constraint (also known as table check constraint) is a condition that defines valid data when adding or updating an entry in a table of a relational database. A check constraint is applied to each row in the table. The constraint must be a predicate. It can refer to a single or multiple columns of the table.
+     </para>
+     <para>
+      Example:   price >= 0     
+     </para>
+ </listitem>
+ </itemizedlist>
+</para>
+</sect4>
+</sect3>
+<sect3 id="extended-entity-relationship-concepts">
+<title>Extended Entity Relationship (EER) Diagram Concepts</title>
+<sect4 id="specialization">
+<title>Specialization</title>
+<para> Specialization is a way to form new entities using entities that have already been defined. The new entities, known as derived entities, take over (or inherit) attributes of the pre-existing entities, which are referred to as base entities . It is intended to help reuse existing data with little or no modification.</para>
+<para> In Umbrello, one can specify Disjoint and Overlapping Specialization</para>
+ <sect5 id="disjoint-specialization">
+   <title>Disjoint Specialization</title>
+   <para>Disjoint Specialization specifies that the subclasses of the specialization must be disjoint. This means that an entity can be a member of at most one of the derived entities of the specialization</para>
+   <para>
+   <screenshot>
+    <screeninfo>Entities taking part in Disjoint Specialization</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="disjoint-specialization.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>Visual representation of Disjoint Specialization in EER Diagram</phrase>
+	  </textobject>
+	  <caption>
+	    <para>Visual representation of Disjoint Specialization in EER Diagram
+	    </para>
+	  </caption>
+	</mediaobject>
+   </screenshot>
+    </para>
+ </sect5>
+ <sect5 id="overlapping-specialization">
+   <title>Overlapping Specialization</title>
+   <para>When the derived entities are not constrained to be disjoint, their set of entities are said to be in overlapping specialization. This means that the same real world entity may be a member of more than one derived entity of the specialization</para>
+   <para>
+   <screenshot>
+    <screeninfo>Entities taking part in Overlapping Specialization</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="overlapping-specialization.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>Visual representation of Overlapping Specialization in EER Diagram</phrase>
+	  </textobject>
+	  <caption>
+	    <para>Visual representation of Overlapping Specialization in EER Diagram
+	    </para>
+	  </caption>
+	</mediaobject>
+   </screenshot>
+  </para>
+ </sect5>
+ <sect5 id="category">
+
+ <title>Category</title>
+ <para>
+  A derived Entity is said to be a <emphasis>Category</emphasis> when it represents a collection of objects that is a subset of Union of the distinct entity types. A Category is modelled when the need arises for a single superclass/subclass relationship with more than one superclass, where the superclasses represent different entity types. ( Much like multiple inheritance in Object Oriented Programming ).
+ </para>
+   <para>
+   <screenshot>
+    <screeninfo>Entities taking part in a Category relationship</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="category.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>Visual representation of a Category in EER Diagram</phrase>
+	  </textobject>
+	  <caption>
+	    <para>Visual representation of a Category in EER Diagram</para>
+	  </caption>
+	</mediaobject>
+   </screenshot>
+  </para>
+ </sect5>
+
+</sect4>
+</sect3>
 </sect2>
 
 </sect1> 
