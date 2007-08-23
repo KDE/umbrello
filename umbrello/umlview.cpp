@@ -3769,8 +3769,8 @@ template<typename Compare>
 void UMLView::sortWidgetList(UMLWidgetList &widgetList, Compare comp) {
     QVector<UMLWidget*> widgetVector;
 
-    foreach ( UMLWidget* widget, widgetList ) {
-        widgetVector.push_back(widget);
+    for (UMLWidgetList::iterator it=widgetList.begin(); it != widgetList.end(); ++it) {
+        widgetVector.push_back(*it);
     }
     qSort(widgetVector.begin(), widgetVector.end(), comp);
 
