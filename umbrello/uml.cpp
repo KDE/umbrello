@@ -75,6 +75,9 @@
 #include "umlviewimageexporter.h"
 #include "umlviewimageexporterall.h"
 
+#include "clipboard/umlclipboard.h"
+#include "clipboard/umldragdata.h"
+
 #include "kplayerslideraction.h"
 
 #include "configurable.h"
@@ -1039,7 +1042,7 @@ void UMLApp::slotEditCopy() {
 
 void UMLApp::slotEditPaste() {
     slotStatusMsg(i18n("Inserting clipboard contents..."));
-    QMimeSource* data = QApplication::clipboard()->data();
+    const QMimeData* data = QApplication::clipboard()->mimeData();
     UMLClipboard clipboard;
     setCursor(Qt::WaitCursor);
     if(!clipboard.paste(data)) {
@@ -1180,9 +1183,10 @@ void UMLApp::initClip() {
     connect(m_copyTimer, SIGNAL(timeout()), this, SLOT(slotCopyChanged()));
 }
 
-bool UMLApp::canDecode(const QMimeSource* mimeSource) {
-    const char* f;
-    for (int i=0; (f=mimeSource->format(i)); i++) {
+bool UMLApp::canDecode(const QMimeData* mimeData) {
+    QStringList supportedFormats = mimeData->formats();
+    foreach( QString format, supportedFormats ) {
+        const char* f = format.toAscii().constData();
         if ( !qstrnicmp(f,"application/x-uml-clip", 22) ) {
             //FIXME need to test for clip1, clip2, clip3, clip4 or clip5
             //(the only valid clip types)
@@ -1193,7 +1197,7 @@ bool UMLApp::canDecode(const QMimeSource* mimeSource) {
 }
 
 void UMLApp::slotClipDataChanged() {
-    QMimeSource * data = QApplication::clipboard()->data();
+    const QMimeData * data = QApplication::clipboard()->mimeData();
 
     //Pass the MimeSource to the Doc
     editPaste->setEnabled( data && canDecode(data) );
@@ -1295,11 +1299,11 @@ bool UMLApp::getCutCopyState() {
 
 bool UMLApp::editCutCopy( bool bFromView ) {
     UMLClipboard clipboard;
-    QMimeSource * clipdata = 0;
+    QMimeData * clipdata = 0;
 
     if ((clipdata = clipboard.copy(bFromView)) != 0) {
         QClipboard* clip = QApplication::clipboard();
-        clip->setData(clipdata);//the global clipboard takes ownership of the clipdata memory
+        clip->setMimeData(clipdata);//the global clipboard takes ownership of the clipdata memory
         connect(clip, SIGNAL(dataChanged()), this, SLOT(slotClipDataChanged()));
         return true;
     }

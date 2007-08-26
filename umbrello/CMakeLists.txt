@@ -202,7 +202,7 @@ set(libkdevcppparser_SRCS
 
 
 set(libclipboard_SRCS 
-	clipboard/umldrag.cpp 
+	clipboard/umldragdata.cpp 
 	clipboard/umlclipboard.cpp 
 	clipboard/idchangelog.cpp
 )

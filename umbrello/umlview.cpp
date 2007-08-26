@@ -67,7 +67,7 @@
 #include "dialogs/classoptionspage.h"
 #include "dialogs/umlviewdialog.h"
 #include "clipboard/idchangelog.h"
-#include "clipboard/umldrag.h"
+#include "clipboard/umldragdata.h"
 #include "widget_factory.h"
 #include "floatingtextwidget.h"
 #include "classifierwidget.h"
@@ -550,16 +550,16 @@ void UMLView::slotObjectRemoved(UMLObject * o) {
     }
 }
 
-void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
-    UMLDrag::LvTypeAndID_List tidList;
-    if(!UMLDrag::getClip3TypeAndID(e, tidList)) {
+void UMLView::dragEnterEvent(QDragEnterEvent *e) {
+    UMLDragData::LvTypeAndID_List tidList;
+    if(!UMLDragData::getClip3TypeAndID(e->mimeData(), tidList)) {
         return;
     }
-    UMLDrag::LvTypeAndID_It tidIt(tidList);
-    UMLDrag::LvTypeAndID * tid = tidIt.current();
+    UMLDragData::LvTypeAndID_It tidIt(tidList);
+    UMLDragData::LvTypeAndID * tid = tidIt.current();
     if (!tid) {
         kDebug() << "UMLView::contentsDragEnterEvent: "
-                  << "UMLDrag::getClip3TypeAndID returned empty list" << endl;
+                  << "UMLDragData::getClip3TypeAndID returned empty list" << endl;
         return;
     }
     ListView_Type lvtype = tid->type;
@@ -570,18 +570,18 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
     UMLObject* temp = 0;
     //if dragging diagram - might be a drag-to-note
     if (Model_Utils::typeIsDiagram(lvtype)) {
-        e->accept(true);
+        e->accept();
         return;
     }
     //can't drag anything onto state/activity diagrams
     if( diagramType == dt_State || diagramType == dt_Activity) {
-        e->accept(false);
+        e->ignore();
         return;
     }
     //make sure can find UMLObject
     if( !(temp = m_pDoc->findObjectById(id) ) ) {
         kDebug() << "object " << ID2STR(id) << " not found";
-        e->accept(false);
+        e->ignore();
         return;
     }
     //make sure dragging item onto correct diagram
@@ -643,19 +643,28 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
         default:
             break;
     }
-    e->accept(bAccept);
+    if ( bAccept ) {
+       e->accept();
+    } else {
+       e->ignore();
+    }
 }
 
-void UMLView::contentsDropEvent(QDropEvent *e) {
-    UMLDrag::LvTypeAndID_List tidList;
-    if( !UMLDrag::getClip3TypeAndID(e, tidList) ) {
+void UMLView::dragMoveEvent( QDragMoveEvent* e ) {
+    e->accept();
+}
+
+
+void UMLView::dropEvent(QDropEvent *e) {
+    UMLDragData::LvTypeAndID_List tidList;
+    if( !UMLDragData::getClip3TypeAndID(e->mimeData(), tidList) ) {
         return;
     }
-    UMLDrag::LvTypeAndID_It tidIt(tidList);
-    UMLDrag::LvTypeAndID * tid = tidIt.current();
+    UMLDragData::LvTypeAndID_It tidIt(tidList);
+    UMLDragData::LvTypeAndID * tid = tidIt.current();
     if (!tid) {
         kDebug() << "UMLView::contentsDropEvent: "
-                  << "UMLDrag::getClip3TypeAndID returned empty list" << endl;
+                  << "UMLDragData::getClip3TypeAndID returned empty list" << endl;
         return;
     }
     ListView_Type lvtype = tid->type;

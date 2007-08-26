@@ -1048,12 +1048,17 @@ protected:
     /**
      * Override standard method.
      */
-    void contentsDragEnterEvent(QDragEnterEvent* mouseEvent);
+    void dragEnterEvent(QDragEnterEvent* enterEvent);
 
     /**
      * Override standard method.
      */
-    void contentsDropEvent(QDropEvent* mouseEvent);
+    void dragMoveEvent(QDragMoveEvent* moveEvent);
+
+    /**
+     * Override standard method.
+     */
+    void dropEvent(QDropEvent* dropEvent);
 
 
     /**

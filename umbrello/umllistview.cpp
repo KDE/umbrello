@@ -64,7 +64,7 @@
 #include "model_utils.h"
 #include "uniqueid.h"
 #include "clipboard/idchangelog.h"
-#include "clipboard/umldrag.h"
+#include "clipboard/umldragdata.h"
 #include "dialogs/classpropdlg.h"
 #include "dialogs/umlattributedialog.h"
 #include "dialogs/umlentityattributedialog.h"
@@ -143,8 +143,6 @@ UMLListView::UMLListView(QWidget *parent, const char *)
         m_lv[i] = NULL;
     m_datatypeFolder = NULL;
     //setup slots/signals
-    connect(this, SIGNAL(dropped(QDropEvent *, Q3ListViewItem *, Q3ListViewItem *)),
-            this, SLOT(slotDropped(QDropEvent *, Q3ListViewItem *, Q3ListViewItem *)));
     connect( this, SIGNAL( collapsed( Q3ListViewItem * ) ),
              this, SLOT( slotCollapsed( Q3ListViewItem * ) ) );
     connect( this, SIGNAL( expanded( Q3ListViewItem * ) ), this, SLOT( slotExpanded( Q3ListViewItem * ) ) );
@@ -178,8 +176,11 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
         currentView->clearSelected();
     if( me -> modifiers() != Qt::ShiftModifier )
         clearSelection();
+
+    // Get the UMLListViewItem at the point where the mouse pointer was pressed
     QPoint pt = this->Q3ScrollView::contentsToViewport( me->pos() );
     UMLListViewItem * item = (UMLListViewItem*)itemAt(pt);
+
     const Qt::ButtonState button = me->button();
 
     if (!item || (button != Qt::RightButton && button != Qt::LeftButton)) {
@@ -193,6 +194,8 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
             UMLApp::app()->getDocWindow()->showDocumentation(o, false);
         else
             UMLApp::app()->getDocWindow()->updateDocumentation(true);
+
+        m_dragStartPosition = me->pos();
     }
     if (button == Qt::RightButton) {
         if(m_pMenu != 0) {
@@ -207,7 +210,20 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
         connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(popupMenuSel(int)));
     }//end if right button
 
-    this->K3ListView::contentsMousePressEvent(me);
+    K3ListView::contentsMousePressEvent(me);
+}
+
+void UMLListView::contentsMouseMoveEvent( QMouseEvent* me ) {
+    if (!(me->buttons() & Qt::LeftButton))
+         return;
+    if ((me->pos() - m_dragStartPosition).manhattanLength()
+          < QApplication::startDragDistance())
+         return;
+
+    QDrag* drag = new QDrag( this );
+    drag->setMimeData( getDragData() );
+    drag->exec( Qt::CopyAction );
+
 }
 
 void UMLListView::contentsMouseReleaseEvent(QMouseEvent *me) {
@@ -933,7 +949,7 @@ void UMLListView::slotDiagramRemoved(Uml::IDType id) {
     UMLApp::app()->getDocWindow()->updateDocumentation(true);
 }
 
-Q3DragObject* UMLListView::dragObject() {
+UMLDragData* UMLListView::getDragData() {
     UMLListViewItemList selecteditems;
     getSelectedItems(selecteditems);
 
@@ -946,15 +962,10 @@ Q3DragObject* UMLListView::dragObject() {
         }
         list.append(item);
     }
-    UMLDrag *t = new UMLDrag(list, this);
+
+    UMLDragData *t = new UMLDragData(list, this);
 
     return t;
-}
-
-void UMLListView::startDrag() {
-    Q3DragObject *o = dragObject();
-    if (o)
-        o->dragCopy();
 }
 
 UMLListViewItem * UMLListView::findUMLObjectInFolder(UMLListViewItem* folder, UMLObject* obj) {
@@ -1186,15 +1197,15 @@ bool UMLListView::acceptDrag(QDropEvent* event) const {
     }
     ((Q3ListView*)this)->setCurrentItem( (Q3ListViewItem*)item );
 
-    UMLDrag::LvTypeAndID_List list;
-    if (! UMLDrag::getClip3TypeAndID(event, list)) {
-        kDebug() << "UMLListView::acceptDrag: UMLDrag::getClip3TypeAndID returns false"
+    UMLDragData::LvTypeAndID_List list;
+    if (! UMLDragData::getClip3TypeAndID(event->mimeData(), list)) {
+        kDebug() << "UMLListView::acceptDrag: UMLDragData::getClip3TypeAndID returns false"
             << endl;
         return false;
     }
 
-    UMLDrag::LvTypeAndID_It it(list);
-    UMLDrag::LvTypeAndID * data = 0;
+    UMLDragData::LvTypeAndID_It it(list);
+    UMLDragData::LvTypeAndID * data = 0;
     Uml::ListView_Type dstType = item->getType();
     bool accept = true;
     while(accept && ((data = it.current()) != 0)) {
@@ -1605,14 +1616,14 @@ void UMLListView::slotDropped(QDropEvent* de, Q3ListViewItem* /* parent */, Q3Li
         kDebug() << "UMLListView::slotDropped: item is NULL - doing nothing";
         return;
     }
-    UMLDrag::LvTypeAndID_List srcList;
-    if (! UMLDrag::getClip3TypeAndID(de, srcList)) {
+    UMLDragData::LvTypeAndID_List srcList;
+    if (! UMLDragData::getClip3TypeAndID(de->mimeData(), srcList)) {
         return;
     }
     UMLListViewItem *newParent = (UMLListViewItem*)item;
     kDebug() << "slotDropped: newParent->getText() is " << newParent->getText();
-    UMLDrag::LvTypeAndID_It it(srcList);
-    UMLDrag::LvTypeAndID * src = 0;
+    UMLDragData::LvTypeAndID_It it(srcList);
+    UMLDragData::LvTypeAndID * src = 0;
     while((src = it.current()) != 0) {
         ++it;
         moveObject(src->id, src->type, newParent);
@@ -2874,5 +2885,36 @@ bool UMLListView::deleteItem(UMLListViewItem *temp) {
     return true;
 }
 
+
+void UMLListView::contentsDragEnterEvent(QDragEnterEvent* event) {
+    event->accept();
+    K3ListView::contentsDragEnterEvent(event);
+}
+
+
+
+void UMLListView::contentsDragMoveEvent(QDragMoveEvent* event) {
+    event->accept();
+    K3ListView::contentsDragMoveEvent( event );
+}
+
+void UMLListView::contentsDropEvent(QDropEvent* event) {
+    if ( !acceptDrag( event ) )
+        event->ignore();
+    else {
+      QPoint mousePoint = ((UMLListView*)this)->contentsToViewport( event->pos() );
+
+      UMLListViewItem* item = (UMLListViewItem*)itemAt(mousePoint);
+      if(!item) {
+        kDebug() << "UMLListView::acceptDrag: itemAt(mousePoint) returns NULL"
+            << endl;
+        event->ignore();
+        return;
+      }
+      slotDropped( event, 0, item );
+
+    }
+    K3ListView::contentsDropEvent( event );
+}
 
 #include "umllistview.moc"

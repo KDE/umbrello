@@ -47,6 +47,7 @@ class UMLListViewItem;
 class UMLView;
 class UMLObject;
 class UMLClassifierListItem;
+class UMLDragData;
 
 class UMLListView : public K3ListView {
     Q_OBJECT
@@ -322,12 +323,18 @@ protected:
     bool eventFilter(QObject *o, QEvent *e);
     void contentsMouseReleaseEvent(QMouseEvent * me);
     void contentsMousePressEvent(QMouseEvent *me);
+    void contentsMouseMoveEvent(QMouseEvent* me);
     void contentsMouseDoubleClickEvent(QMouseEvent * me);
     void focusOutEvent ( QFocusEvent * fe);
-    Q3DragObject* dragObject();
-    void startDrag();
+
+    UMLDragData* getDragData();
+
     bool acceptDrag (QDropEvent* event) const;
     void keyPressEvent(QKeyEvent *);
+    void contentsDragEnterEvent(QDragEnterEvent* event);
+    void contentsDragMoveEvent(QDragMoveEvent* event);
+    void contentsDropEvent(QDropEvent* event);
+   
 
     /**
      * This methods looks for a object in a folder an its subfolders recursive.
@@ -475,6 +482,7 @@ private:
     UMLListViewItem* recursiveSearchForView(UMLListViewItem* folder,
                                             Uml::ListView_Type type, Uml::IDType id);
 
+    QPoint m_dragStartPosition;
 };
 
 #endif

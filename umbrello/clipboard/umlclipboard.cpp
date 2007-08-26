@@ -18,7 +18,7 @@
 #include <klocale.h>
 
 // local includes
-#include "umldrag.h"
+#include "umldragdata.h"
 #include "idchangelog.h"
 #include "../associationwidget.h"
 #include "../attribute.h"
@@ -43,14 +43,14 @@ UMLClipboard::UMLClipboard() {
 UMLClipboard::~UMLClipboard() {
 }
 
-QMimeSource* UMLClipboard::copy(bool fromView/*=false*/) {
+QMimeData* UMLClipboard::copy(bool fromView/*=false*/) {
     //Clear previous copied data
     m_AssociationList.clear();
     m_ItemList.clear();
     m_ObjectList.clear();
     m_ViewList.clear();
 
-    UMLDrag *data = 0;
+    UMLDragData *data = 0;
     QPixmap* png = 0;
 
     UMLListView * listView = UMLApp::app()->getListView();
@@ -107,38 +107,38 @@ QMimeSource* UMLClipboard::copy(bool fromView/*=false*/) {
     int i =0;
     switch(m_type) {
     case clip1:
-        data = new UMLDrag(m_ObjectList);
+        data = new UMLDragData(m_ObjectList);
         break;
     case clip2:
-        data = new UMLDrag(m_ObjectList, m_ItemList, m_ViewList);
+        data = new UMLDragData(m_ObjectList, m_ItemList, m_ViewList);
         break;
     case clip3:
-        data = new UMLDrag(m_ItemList);
+        data = new UMLDragData(m_ItemList);
         break;
     case clip4:
         if(png) {
             UMLView *view = UMLApp::app()->getCurrentView();
-            data = new UMLDrag(m_ObjectList, m_WidgetList,
+            data = new UMLDragData(m_ObjectList, m_WidgetList,
                                m_AssociationList, *png, view->getType());
         } else {
             return 0;
         }
         break;
     case clip5:
-        data = new UMLDrag(m_ObjectList, i);
+        data = new UMLDragData(m_ObjectList, i);
         // The int i is used to differentiate
-        // which UMLDrag constructor gets called.
+        // which UMLDragData constructor gets called.
         break;
     }
 
-    return (QMimeSource*)data;
+    return (QMimeData*)data;
 }
 
-bool UMLClipboard::paste(QMimeSource* data) {
+bool UMLClipboard::paste(const QMimeData* data) {
     UMLDoc *doc = UMLApp::app()->getDocument();
     bool result = false;
     doc->beginPaste();
-    switch(UMLDrag::getCodingType(data)) {
+    switch(UMLDragData::getCodingType(data)) {
     case 1:
         result = pasteClip1(data);
         break;
@@ -330,9 +330,9 @@ void UMLClipboard::CleanAssociations(AssociationWidgetList& associations) {
 
 /** If clipboard has mime type application/x-uml-clip1,
 Pastes the data from the clipboard into the current Doc */
-bool UMLClipboard::pasteClip1(QMimeSource* data) {
+bool UMLClipboard::pasteClip1(const QMimeData* data) {
     UMLObjectList objects;
-    if (! UMLDrag::decodeClip1(data, objects)) {
+    if (! UMLDragData::decodeClip1(data, objects)) {
         return false;
     }
     UMLListView *lv = UMLApp::app()->getListView();
@@ -357,14 +357,14 @@ bool UMLClipboard::pasteClip1(QMimeSource* data) {
 
 /** If clipboard has mime type application/x-uml-clip2,
 Pastes the data from the clipboard into the current Doc */
-bool UMLClipboard::pasteClip2(QMimeSource* data) {
+bool UMLClipboard::pasteClip2(const QMimeData* data) {
     UMLDoc *doc = UMLApp::app()->getDocument();
     UMLListViewItemList itemdatalist;
     UMLObjectList objects;
     UMLViewList         views;
     IDChangeLog* idchanges = 0;
 
-    bool result = UMLDrag::decodeClip2(data, objects, itemdatalist, views);
+    bool result = UMLDragData::decodeClip2(data, objects, itemdatalist, views);
     if(!result) {
         return false;
     }
@@ -405,7 +405,7 @@ bool UMLClipboard::pasteClip2(QMimeSource* data) {
 
 /** If clipboard has mime type application/x-uml-clip3,
 Pastes the data from the clipboard into the current Doc */
-bool UMLClipboard::pasteClip3(QMimeSource* data) {
+bool UMLClipboard::pasteClip3(const QMimeData* data) {
     UMLDoc *doc = UMLApp::app()->getDocument();
     UMLListViewItemList itemdatalist;
     IDChangeLog* idchanges = doc->getChangeLog();
@@ -415,7 +415,7 @@ bool UMLClipboard::pasteClip3(QMimeSource* data) {
     }
 
     UMLListView *listView = UMLApp::app()->getListView();
-    bool result = UMLDrag::decodeClip3(data, itemdatalist, listView);
+    bool result = UMLDragData::decodeClip3(data, itemdatalist, listView);
     if(!result) {
         return false;
     }
@@ -434,7 +434,7 @@ bool UMLClipboard::pasteClip3(QMimeSource* data) {
 
 /** If clipboard has mime type application/x-uml-clip4,
 Pastes the data from the clipboard into the current Doc */
-bool UMLClipboard::pasteClip4(QMimeSource* data) {
+bool UMLClipboard::pasteClip4(const QMimeData* data) {
     UMLDoc *doc = UMLApp::app()->getDocument();
 
     UMLObjectList objects;
@@ -445,7 +445,7 @@ bool UMLClipboard::pasteClip4(QMimeSource* data) {
 
     Uml::Diagram_Type diagramType;
 
-    if( !UMLDrag::decodeClip4(data, objects, widgets, assocs, diagramType) ) {
+    if( !UMLDragData::decodeClip4(data, objects, widgets, assocs, diagramType) ) {
         return false;
     }
 
@@ -531,7 +531,7 @@ bool UMLClipboard::pasteClip4(QMimeSource* data) {
 
 /** If clipboard has mime type application/x-uml-clip5,
 Pastes the data from the clipboard into the current Doc */
-bool UMLClipboard::pasteClip5(QMimeSource* data) {
+bool UMLClipboard::pasteClip5(const QMimeData* data) {
     UMLDoc *doc = UMLApp::app()->getDocument();
     UMLListView *listView = UMLApp::app()->getListView();
     UMLListViewItem* lvitem = dynamic_cast<UMLListViewItem *>( listView->currentItem() );
@@ -549,7 +549,7 @@ bool UMLClipboard::pasteClip5(QMimeSource* data) {
     UMLObjectList objects;
 
     IDChangeLog* idchanges = 0;
-    bool result = UMLDrag::decodeClip5(data, objects, parent);
+    bool result = UMLDragData::decodeClip5(data, objects, parent);
 
     if(!result) {
         return false;

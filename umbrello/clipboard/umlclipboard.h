@@ -12,6 +12,8 @@
 #ifndef UMLCLIPBOARD_H
 #define UMLCLIPBOARD_H
 
+#include <qmimedata.h>
+
 #include "../associationwidgetlist.h"
 #include "../umlobjectlist.h"
 #include "../umllistviewitemlist.h"
@@ -50,15 +52,15 @@ public:
      * @param Data              Pointer to the MIME format clipboard data.
      * @return  True for successful operation.
      */
-    bool paste(QMimeSource* Data);
+    bool paste(const QMimeData* Data);
 
     /**
      * Copies the selected stuff from the list view or current diagram
-     * to a QMimeSource ready to be put in the clipboard.
+     * to a QMimeData ready to be put in the clipboard.
      *
      * @return  Pointer to the created clipboard data.
      */
-    QMimeSource* copy(bool fromView = false);
+    QMimeData* copy(bool fromView = false);
 
     /// Enumeration that codes the different types of UML clips.
     enum UMLCopyType
@@ -86,7 +88,7 @@ private:
      * @param data              Pointer to the source clip.
      * @return  True for successful operation.
      */
-    bool pasteClip1(QMimeSource* data);
+    bool pasteClip1(const QMimeData* data);
 
     /**
      * If clipboard has mime type application/x-uml-clip2,
@@ -95,7 +97,7 @@ private:
      * @param data              Pointer to the source clip.
      * @return  True for successful operation.
      */
-    bool pasteClip2(QMimeSource* data);
+    bool pasteClip2(const QMimeData* data);
 
     /**
      * If clipboard has mime type application/x-uml-clip3,
@@ -104,7 +106,7 @@ private:
      * @param data              Pointer to the source clip.
      * @return  True for successful operation.
      */
-    bool pasteClip3(QMimeSource* data);
+    bool pasteClip3(const QMimeData* data);
 
     /**
      * If clipboard has mime type application/x-uml-clip4,
@@ -113,7 +115,7 @@ private:
      * @param data              Pointer to the source clip.
      * @return  True for successful operation.
      */
-    bool pasteClip4(QMimeSource* data);
+    bool pasteClip4(const QMimeData* data);
 
     /**
      * If clipboard has mime type application/x-uml-clip5,
@@ -122,7 +124,7 @@ private:
      * @param data              Pointer to the source clip.
      * @return  True for successful operation.
      */
-    bool pasteClip5(QMimeSource* data);
+    bool pasteClip5(const QMimeData* data);
 
     /**
      * When pasting widgets see if they can be pasted on

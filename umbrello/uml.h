@@ -60,6 +60,7 @@ class QToolButton;
 class QCustomEvent;
 class QDockWidget;
 class QVBoxLayout;
+class QMimeData;
 
 /**
  * The base class for UML application windows. It sets up the main
@@ -914,7 +915,7 @@ private:
     /**
      *  Returns whether we can decode the given mimesource
      */
-    static bool canDecode(const QMimeSource* mimeSource);
+    static bool canDecode(const QMimeData* mimeSource);
 
     /**
      * Reads from the config file the options state.

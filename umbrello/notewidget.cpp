@@ -26,7 +26,6 @@
 // app includes
 #include "notewidgetcontroller.h"
 #include "dialogs/notedialog.h"
-#include "clipboard/umldrag.h"
 #include "umldoc.h"
 #include "umlview.h"
 #include "uml.h"

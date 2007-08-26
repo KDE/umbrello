@@ -18,6 +18,7 @@
 // qt/kde includes
 #include <QTextStream>
 #include <qfile.h>
+#include <qdrag.h>
 #include <qregexp.h>
 #include <kapplication.h>
 #include <klocale.h>
