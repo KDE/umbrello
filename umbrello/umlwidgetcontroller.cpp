@@ -446,7 +446,7 @@ void UMLWidgetController::resize(QMouseEvent *me) {
 
 //TODO refactor with AlignToolbar method.
 int UMLWidgetController::getSmallestX(const UMLWidgetList &widgetList) {
-    int smallestX ;
+    int smallestX = 0;
     int i = 1;
     foreach ( UMLWidget* widget , widgetList ) {
         if ( i == 1 ) {
@@ -466,7 +466,7 @@ int UMLWidgetController::getSmallestX(const UMLWidgetList &widgetList) {
 //TODO refactor with AlignToolbar method.
 int UMLWidgetController::getSmallestY(const UMLWidgetList &widgetList) {
 
-    int smallestY ;
+    int smallestY = 0;
     int i = 1;
     foreach ( UMLWidget* widget , widgetList ) {
         if ( i == 1 ) {
@@ -487,7 +487,7 @@ int UMLWidgetController::getSmallestY(const UMLWidgetList &widgetList) {
 //TODO refactor with AlignToolbar method.
 int UMLWidgetController::getBiggestX(const UMLWidgetList &widgetList) {
 
-    int biggestX ;
+    int biggestX = 0;
 
     int i = 1;
     foreach ( UMLWidget* widget , widgetList ) {
@@ -509,7 +509,7 @@ int UMLWidgetController::getBiggestX(const UMLWidgetList &widgetList) {
 //TODO refactor with AlignToolbar method.
 int UMLWidgetController::getBiggestY(const UMLWidgetList &widgetList) {
 
-    int biggestY ;
+    int biggestY = 0;
     int i = 1;
     foreach ( UMLWidget* widget , widgetList ) {
         if ( i == 1 ) {
