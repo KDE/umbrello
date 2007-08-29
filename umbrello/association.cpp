@@ -471,6 +471,8 @@ bool UMLAssociation::load( QDomElement & element ) {
 }
 
 UMLObject* UMLAssociation::getObject(Uml::Role_Type role) {
+    if (m_pRole[role] == NULL)
+        return NULL;
     return m_pRole[role]->getObject();
 }
 
