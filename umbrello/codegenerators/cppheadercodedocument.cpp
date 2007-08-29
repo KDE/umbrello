@@ -364,7 +364,7 @@ void CPPHeaderCodeDocument::updateContent( )
     CodeClassFieldList privAggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation, Uml::Visibility::Private);
     CodeClassFieldList privCompositionClassFields = getSpecificClassFields ( CodeClassField::Composition, Uml::Visibility::Private);
 
-    bool hasOperationMethods = c->getOpList().last() ? true : false;
+    bool hasOperationMethods = c->getOpList().count() ? true : false;
     bool hasNamespace = false;
     bool isEnumeration = false;
     bool isInterface = parentIsInterface();
