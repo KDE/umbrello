@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2003-2006                                                *
+ *  copyright (C) 2003-2007                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -67,8 +67,8 @@ void CPPSourceCodeDocument::init ( ) {
 
     setFileExtension(".cpp");
 
-    methodsBlock = 0;
-    constructorBlock = 0;
+    m_methodsBlock = 0;
+    m_constructorBlock = 0;
 
     //initCodeClassFields(); // this is dubious because it calls down to
                              // CodeGenFactory::newCodeClassField(this)
@@ -84,12 +84,19 @@ void CPPSourceCodeDocument::init ( ) {
 // in the vannilla version, we just tack all operations on the end
 // of the document
 bool CPPSourceCodeDocument::addCodeOperation (CodeOperation * op ) {
-
-    if(!op->getParentOperation()->isLifeOperation())
-    {
-        return methodsBlock->addTextBlock(op);
-    } else
-        return constructorBlock->addTextBlock(op);
+    bool retval = false;
+    if (op->getParentOperation()->isLifeOperation()) {
+        if (m_constructorBlock)
+            retval = m_constructorBlock->addTextBlock(op);
+        else
+            kError() << "CPPSourceCodeDocument::addCodeOperation: m_constructorBlock is NULL";
+    } else {
+        if (m_methodsBlock)
+            retval = m_methodsBlock->addTextBlock(op);
+        else
+            kError() << "CPPSourceCodeDocument::addCodeOperation: m_methodsBlock is NULL";
+    }
+    return retval;
 }
 
 
@@ -97,8 +104,8 @@ void CPPSourceCodeDocument::resetTextBlocks()
 {
 
     // all special pointers need to be zero'd out.
-    methodsBlock = 0;
-    constructorBlock = 0;
+    m_methodsBlock = 0;
+    m_constructorBlock = 0;
 
     // now do the traditional release of child text blocks
     ClassifierCodeDocument::resetTextBlocks();
@@ -150,15 +157,15 @@ void CPPSourceCodeDocument::updateContent( )
     // After the includes we have just 2 big blocks basically, the "constructor" block and the
     // block for the rest of our methods (operations + accessors)
 
-    constructorBlock = getHierarchicalCodeBlock("constructionMethodsBlock", "Constructors/Destructors", 0);
-    methodsBlock = getHierarchicalCodeBlock("otherMethodsBlock", "Methods", 0);
+    m_constructorBlock = getHierarchicalCodeBlock("constructionMethodsBlock", "Constructors/Destructors", 0);
+    m_methodsBlock = getHierarchicalCodeBlock("otherMethodsBlock", "Methods", 0);
 
     // add accessors to the methods block
-    methodsBlock->addCodeClassFieldMethods(staticAttribClassFields);
-    methodsBlock->addCodeClassFieldMethods(attribClassFields);
-    methodsBlock->addCodeClassFieldMethods(plainAssocClassFields);
-    methodsBlock->addCodeClassFieldMethods(aggregationClassFields);
-    methodsBlock->addCodeClassFieldMethods(compositionClassFields);
+    m_methodsBlock->addCodeClassFieldMethods(staticAttribClassFields);
+    m_methodsBlock->addCodeClassFieldMethods(attribClassFields);
+    m_methodsBlock->addCodeClassFieldMethods(plainAssocClassFields);
+    m_methodsBlock->addCodeClassFieldMethods(aggregationClassFields);
+    m_methodsBlock->addCodeClassFieldMethods(compositionClassFields);
 
     // constructors and other operations are handled by the "addCodeOperation" method above.
 
