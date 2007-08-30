@@ -518,7 +518,6 @@ void ClassifierCodeDocument::initCodeClassFields ( ) {
 
 void ClassifierCodeDocument::updateAssociationClassFields ( UMLAssociationList &assocList )
 {
-    CodeClassFieldList list;
     foreach(UMLAssociation * a , assocList )
         addAssociationClassField(a, false); // syncToParent later
 }
