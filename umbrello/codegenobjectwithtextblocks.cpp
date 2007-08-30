@@ -386,124 +386,114 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
     QDomNode tnode = root.firstChild();
     QDomElement telement = tnode.toElement();
     bool loadCheckForChildrenOK = false;
-    while( !telement.isNull() ) {
+    QString pfx("CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode: ");
+    while (!telement.isNull()) {
         QString nodeName = telement.tagName();
 
-        if( nodeName == "textblocks" ) {
+        if (nodeName != "textblocks") {
+            kDebug() << pfx << "ignoring tag " << nodeName << endl;
+            tnode = telement.nextSibling();
+            telement = tnode.toElement();
+            continue;
+        }
 
-            QDomNode node = telement.firstChild();
-            QDomElement element = node.toElement();
+        QDomNode node = telement.firstChild();
+        QDomElement element = node.toElement();
 
-            // if there is nothing to begin with, then we don't worry about it
-            loadCheckForChildrenOK = element.isNull() ? true : false;
+        // if there is nothing to begin with, then we don't worry about it
+        loadCheckForChildrenOK = element.isNull() ? true : false;
 
-            while( !element.isNull() ) {
-                QString name = element.tagName();
+        while (!element.isNull()) {
+            QString name = element.tagName();
 
-                if( name == "codecomment" ) {
-                    CodeComment * block = CodeGenFactory::newCodeComment(m_pCodeDoc);
-                    block->loadFromXMI(element);
-                    if(!addTextBlock(block))
-                    {
-                        kError()<<"loadFromXMI: unable to add codeComment to :"<<this<<endl;
-                        delete block;
-                    } else
-                        loadCheckForChildrenOK= true;
+            if (name == "codecomment") {
+                CodeComment * block = CodeGenFactory::newCodeComment(m_pCodeDoc);
+                block->loadFromXMI(element);
+                if (!addTextBlock(block)) {
+                    kError() << pfx << "unable to add codeComment to :" << this << endl;
+                    delete block;
                 } else
-                    if( name == "codeaccessormethod" ||
-                            name == "ccfdeclarationcodeblock"
-                      ) {
-                        QString acctag = element.attribute("tag","");
-                        // search for our method in the
-                        TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
-                        if(!tb || !addTextBlock(tb))
-                        {
-                            kError()<<"loadFromXMI : unable to add code accessor/decl method block (tag:"<<acctag<<") to:"<<this<<endl;
-                            // DON'T delete
+                    loadCheckForChildrenOK = true;
 
-                        } else
-                            loadCheckForChildrenOK= true;
+            } else if (name == "codeaccessormethod" ||
+                       name == "ccfdeclarationcodeblock") {
+                QString acctag = element.attribute("tag","");
+                // search for our method in the
+                TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
+                if (!tb || !addTextBlock(tb)) {
+                    kError() << pfx << "unable to add code accessor/decl method block (tag:"
+                        << acctag << ") to:" << this << endl;
+                    // DON'T delete
+                } else
+                    loadCheckForChildrenOK = true;
 
-                    } else
-                        if( name == "codeblock" ) {
-                            CodeBlock * block = newCodeBlock();
-                            block->loadFromXMI(element);
-                            if(!addTextBlock(block))
-                            {
-                                kError()<<"loadFromXMI : unable to add codeBlock to :"<<this<<endl;
-                                delete block;
-                            } else
-                                loadCheckForChildrenOK= true;
-                        } else
-                            if( name == "codeblockwithcomments" ) {
-                                CodeBlockWithComments * block = newCodeBlockWithComments();
-                                block->loadFromXMI(element);
-                                if(!addTextBlock(block))
-                                {
-                                    kError()<<"loadFromXMI : unable to add codeBlockwithcomments to:"<<this<<endl;
-                                    delete block;
-                                } else
-                                    loadCheckForChildrenOK= true;
-                            } else
-                                if( name == "header" ) {
-                                    // do nothing.. this is treated elsewhere
-                                } else
-                                    if( name == "hierarchicalcodeblock" ) {
-                                        HierarchicalCodeBlock * block = new HierarchicalCodeBlock(m_pCodeDoc);
-                                        block->loadFromXMI(element);
-                                        if(!addTextBlock(block))
-                                        {
-                                            kError()<<"loadFromXMI : unable to add hierarchicalcodeBlock to:"<<this<<endl;
-                                            delete block;
-                                        } else
-                                            loadCheckForChildrenOK= true;
-                                    } else
-                                        if( name == "codeoperation" ) {
-                                            // find the code operation by id
-                                            QString id = element.attribute("parent_id","-1");
-                                            UMLObject * obj = UMLApp::app()->getDocument()->findObjectById(STR2ID(id));
-                                            UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
-                                            if(op) {
-                                                CodeOperation * block = CodeGenFactory::newCodeOperation(dynamic_cast<ClassifierCodeDocument*>(m_pCodeDoc), op);
-                                                block->loadFromXMI(element);
-                                                if(addTextBlock(block))
-                                                    loadCheckForChildrenOK= true;
-                                                else
-                                                {
-                                                    kError()<<"loadFromXMI : unable to add codeoperation to:"<<this<<endl;
-                                                    delete block;
-                                                }
-                                            } else
-                                                kError()<<"loadFromXMI : unable to create codeoperation for obj id:"<<id<<endl;
-                                        }
-                /*
-                                                // only needed for extreme debugging conditions (E.g. making new codeclassdocument loader)
-                                                else
-                                                        kWarning()<<" LoadFromXMI: Got strange tag in text block stack:"<<name.latin1()<<", ignorning";
-                */
+            } else if( name == "codeblock") {
+                CodeBlock * block = newCodeBlock();
+                block->loadFromXMI(element);
+                if (!addTextBlock(block)) {
+                    kError() << pfx << "unable to add codeBlock to :" << this << endl;
+                    delete block;
+                } else
+                    loadCheckForChildrenOK = true;
 
-                node = element.nextSibling();
-                element = node.toElement();
-            }
-            break;
+            } else if (name == "codeblockwithcomments") {
+                CodeBlockWithComments * block = newCodeBlockWithComments();
+                block->loadFromXMI(element);
+                if (!addTextBlock(block)) {
+                    kError() << pfx << "unable to add codeBlockwithcomments to:" << this << endl;
+                    delete block;
+                } else
+                    loadCheckForChildrenOK = true;
+
+            } else if (name == "header") {
+                // do nothing.. this is treated elsewhere
+
+            } else if (name == "hierarchicalcodeblock") {
+                HierarchicalCodeBlock * block = new HierarchicalCodeBlock(m_pCodeDoc);
+                block->loadFromXMI(element);
+                if (!addTextBlock(block)) {
+                    kError() << pfx << "unable to add hierarchicalcodeBlock to:" << this << endl;
+                    delete block;
+                } else
+                    loadCheckForChildrenOK = true;
+
+            } else if (name == "codeoperation") {
+                // find the code operation by id
+                QString id = element.attribute("parent_id","-1");
+                UMLObject * obj = UMLApp::app()->getDocument()->findObjectById(STR2ID(id));
+                UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
+                if (op) {
+                    CodeOperation * block = CodeGenFactory::newCodeOperation(dynamic_cast<ClassifierCodeDocument*>(m_pCodeDoc), op);
+                    block->loadFromXMI(element);
+                    if (addTextBlock(block))
+                        loadCheckForChildrenOK = true;
+                    else {
+                        kError() << pfx << "unable to add codeoperation to:" << this << endl;
+                        delete block;
+                    }
+                } else
+                    kError() << pfx << "unable to create codeoperation for obj id:" << id << endl;
+            } else
+                kWarning() << pfx << "Got strange tag in text block stack:" << name << ", ignorning";
+
+            node = element.nextSibling();
+            element = node.toElement();
         }
 
         tnode = telement.nextSibling();
         telement = tnode.toElement();
     }
 
-    if(!loadCheckForChildrenOK)
-    {
+    if (!loadCheckForChildrenOK) {
         CodeDocument * test = dynamic_cast<CodeDocument*>(this);
-        if(test)
-        {
-            kWarning()<<" loadChildBlocks : unable to initialize any child blocks in doc: "<<test->getFileName()<<" "<<this;
+        if (test) {
+            kWarning() << pfx << "unable to initialize any child blocks in doc: " << test->getFileName() << " " << this;
         } else {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(this);
-            if(hb)
-                kWarning()<<" loadChildBlocks : unable to initialize any child blocks in Hblock: "<<hb->getTag()<<" "<<this;
+            if (hb)
+                kWarning() << pfx << "unable to initialize any child blocks in Hblock: "<< hb->getTag() << " " << this;
             else
-                kDebug()<<" loadChildBlocks : unable to initialize any child blocks in UNKNOWN OBJ:"<<this;
+                kDebug() << pfx << "unable to initialize any child blocks in UNKNOWN OBJ:" << this;
         }
     }
 
