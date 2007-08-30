@@ -288,6 +288,7 @@ CodeClassField * newCodeClassField(ClassifierCodeDocument *ccd, UMLRole *role) {
         default:
             break;
     }
+    retval->finishInitialization();
     return retval;
 }
 
