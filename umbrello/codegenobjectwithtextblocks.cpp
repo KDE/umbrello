@@ -40,13 +40,6 @@ CodeGenObjectWithTextBlocks::CodeGenObjectWithTextBlocks ( CodeDocument *parent 
 
 CodeGenObjectWithTextBlocks::~CodeGenObjectWithTextBlocks ( ) {
     resetTextBlocks();
-    // delete all the text blocks we have
-    TextBlock *tb;
-    for (TextBlockListIt it(m_textblockVector); (tb = it.current()) != NULL; ++it)
-      delete tb;
-
-    m_textBlockTagMap.clear();
-    m_textblockVector.clear();
 }
 
 //
@@ -480,8 +473,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
             element = node.toElement();
         }
 
-        tnode = telement.nextSibling();
-        telement = tnode.toElement();
+        break;
     }
 
     if (!loadCheckForChildrenOK) {
