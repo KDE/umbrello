@@ -3089,7 +3089,7 @@ void UMLView::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     foreach ( UMLWidget *widget , m_WidgetList ) {
         // Having an exception is bad I know, but gotta work with
         // system we are given.
-        // We DONT want to record any text widgets which are belonging
+        // We DON'T want to record any text widgets which are belonging
         // to associations as they are recorded later in the "associations"
         // section when each owning association is dumped. -b.t.
         if ((widget->getBaseType() != wt_Text && widget->getBaseType() != wt_FloatingDashLine ) ||

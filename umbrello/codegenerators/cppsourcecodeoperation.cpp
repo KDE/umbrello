@@ -108,7 +108,7 @@ CPPSourceCodeOperation::~CPPSourceCodeOperation ( ) { }
 
 // we basically just want to know whether or not to print out
 // the body of the operation.
-// In C++ if the operations are inline, then we DONT print out
+// In C++ if the operations are inline, then we DON'T print out
 // the body text.
 void CPPSourceCodeOperation::updateContent( )
 {

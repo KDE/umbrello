@@ -156,8 +156,8 @@ public:
      */
     virtual void loadFromXMI ( QDomElement & root );
 
-    /** Force the syncronization of the content (methods and declarations)
-         *  of this class field.
+    /** Force the synchronization of the content (methods and declarations)
+     *  of this class field.
      */
     virtual void synchronize ();
 

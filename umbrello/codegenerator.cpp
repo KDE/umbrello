@@ -177,7 +177,7 @@ CodeViewerDialog * CodeGenerator::getCodeViewerDialog ( QWidget* parent, CodeDoc
 
 void CodeGenerator::loadFromXMI (QDomElement & qElement ) {
 
-    // don't do anything for simple (compatability) code generators
+    // don't do anything for simple (compatibility) code generators
     if(dynamic_cast<SimpleCodeGenerator*>(this))
         return;
 

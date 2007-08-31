@@ -260,7 +260,7 @@
        </entry>
        <entry name="defaultAssocFieldScope" type="Enum">
          <label>Default Association Field Scope</label>
-         <whatisthis>Sets the default Associatin field scope</whatisthis>
+         <whatisthis>Sets the default Association field scope</whatisthis>
          <choices name="CodeGenerationPolicy::ScopePolicy" />
          <default>CodeGenerationPolicy::FromParent</default>
        </entry>

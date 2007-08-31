@@ -116,7 +116,7 @@ private:
     /**
      * Utility method called by "get*ChildClassfierList()" methods. It basically
      * finds all the classifiers named in each association in the given association list
-     * which arent the current one. Usefull for finding which classifiers are "owned" by the
+     * which aren't the current one. Useful for finding which classifiers are "owned" by the
      * current one via declared associations such as in aggregations/compositions.
      */
     UMLClassifierList findAssocClassifierObjsInRoles (UMLAssociationList * list);

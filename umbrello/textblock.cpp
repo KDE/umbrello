@@ -255,7 +255,7 @@ void TextBlock::setAttributesOnNode ( QDomDocument & doc, QDomElement & blockEle
 void TextBlock::setAttributesFromObject(TextBlock * obj)
 {
 
-    // DONT set tag here.
+    // DON'T set tag here.
     setIndentationLevel(obj->getIndentationLevel());
     setText(obj->getText());
     setWriteOutText(obj->getWriteOutText());

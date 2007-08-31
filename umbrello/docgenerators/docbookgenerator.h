@@ -71,7 +71,7 @@ class DocbookGenerator : public QObject
 
   signals:
  
-    /** Emited when the documentation generation is finished 
+    /** Emitted when the documentation generation is finished 
      * @param status true if success else false
      */
     void finished(bool status);

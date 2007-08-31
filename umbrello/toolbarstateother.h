@@ -42,7 +42,7 @@ private:
 
     /**
      * Sets nothing.
-     * Overriden from base class to ignore associations and widgets and treat
+     * Overridden from base class to ignore associations and widgets and treat
      * them as empty spaces to create widgets on it.
      */
     virtual void setCurrentElement();

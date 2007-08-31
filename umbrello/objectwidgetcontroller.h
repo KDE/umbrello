@@ -48,7 +48,7 @@ public:
 protected:
 
     /**
-     * Overriden from UMLWidgetController.
+     * Overridden from UMLWidgetController.
      * Returns the cursor to be shown when resizing the widget.
      * The cursor shown is KCursor::sizeHorCursor().
      *
@@ -57,7 +57,7 @@ protected:
     virtual QCursor getResizeCursor();
 
     /**
-     * Overriden from UMLWidgetController.
+     * Overridden from UMLWidgetController.
      * Resizes the width of the object widget.
      * Object widgets can only be resized horizontally, so height isn't modified.
      *
@@ -77,7 +77,7 @@ protected:
     virtual void mouseMoveEvent(QMouseEvent* me);
 
     /**
-     * Overriden from UMLWidgetController.
+     * Overridden from UMLWidgetController.
      * Moves the widget to a new position using the difference between the
      * current position and the new position.
      * Y position is ignored, and widget is only moved along X axis.
@@ -98,7 +98,7 @@ protected:
     void moveDestructionBy (int diffY);
 
     /**
-     * Overriden from UMLWidgetController.
+     * Overridden from UMLWidgetController.
      * Modifies the value of the diffX and diffY variables used to move the widgets.
      * All the widgets are constrained to be moved only in X axis (diffY is set to 0).
      *

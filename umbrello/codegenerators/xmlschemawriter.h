@@ -178,7 +178,7 @@ private:
     QString fixTypeName(const QString& string);
 
     /**
-     * check that initial values of strings DONT have quotes around them
+     * check that initial values of strings DON'T have quotes around them
      * (we get double quoting then!!
      */
     QString fixInitialStringDeclValue( QString value, const QString &type);

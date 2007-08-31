@@ -13,7 +13,7 @@
  *      Date   : Fri Jul 25 2003
  */
 
-/** basicially a class to allow for syncronization of the contents based on the
+/** basicially a class to allow for synchronization of the contents based on the
  *  values of the parentClassField's parentObject
  */
 #include "codeclassfielddeclarationblock.h"
@@ -65,7 +65,7 @@ CodeDocument * CodeClassFieldDeclarationBlock::getParentDocument ( ) {
 //
 
 // this type of textblock is special
-// we DONT release it when resetTextBlocks is
+// we DON'T release it when resetTextBlocks is
 // called because we re-use it over and over
 // until the codeclassfield is released.
 void CodeClassFieldDeclarationBlock::release () {
@@ -139,7 +139,7 @@ void CodeClassFieldDeclarationBlock::setAttributesFromObject (TextBlock * obj) {
 
 void CodeClassFieldDeclarationBlock::syncToParent () {
 
-    // for role-based accessors, we DONT write ourselves out when
+    // for role-based accessors, we DON'T write ourselves out when
     // the name of the role is not defined.
     if(!(getParentClassField()->parentIsAttribute()))
     {

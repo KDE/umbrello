@@ -204,7 +204,7 @@ void RubyCodeOperation::updateMethodDeclaration()
         getComment()->setText(comment);
     }
 
-    // In Java, for interfaces..we DONT write out non-public
+    // In Java, for interfaces..we DON'T write out non-public
     // method declarations. And for Ruby modules?
     if (isInterface) {
         UMLOperation * o = getParentOperation();

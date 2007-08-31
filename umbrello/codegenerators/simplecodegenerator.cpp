@@ -272,7 +272,7 @@ void SimpleCodeGenerator::initFields ( UMLDoc * parentDoc ) {
     syncCodeToDocument();
 }
 
-// a little method to provide some compatability between
+// a little method to provide some compatibility between
 // the newer codegenpolicy object and the older class fields.
 void SimpleCodeGenerator::syncCodeToDocument() {
 

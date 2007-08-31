@@ -42,7 +42,7 @@ public:
     virtual ~NoteWidgetController();
 
     /**
-     * Overriden from UMLWidgetController.
+     * Overridden from UMLWidgetController.
      * Handles a mouse move event.
      * Executes base code and then sets the geometry of the editor.
      *
@@ -51,7 +51,7 @@ public:
     virtual void mouseMoveEvent(QMouseEvent* me);
 
     /**
-     * Overriden from UMLWidgetController.
+     * Overridden from UMLWidgetController.
      * Handles a mouse release event.
      * Executes base code and then draws the text in the note.
      *
@@ -62,7 +62,7 @@ public:
 protected:
 
     /**
-     * Overriden from UMLWidgetController.
+     * Overridden from UMLWidgetController.
      * Executes the action for double click in the widget.
      * Shows the dialog to change the text of the note.
      *

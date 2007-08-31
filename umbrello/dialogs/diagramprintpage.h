@@ -53,18 +53,18 @@ public:
     ~DiagramPrintPage();
 
     /**
-     * Overriden method. It builds a list with the diagram name and the diagram
+     * Overridden method. It builds a list with the diagram name and the diagram
      * IDs.
      */
     void getOptions(QMap<QString,QString>& opts, bool /* incldef=false */);
 
     /**
-     * Overriden method.
+     * Overridden method.
      */
     void setOptions( const QMap<QString,QString>& /*opts*/ );
 
     /**
-     * Overriden method.
+     * Overridden method.
      */
     bool isValid( QString& msg );
 
