@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -53,7 +53,7 @@ public:
     enum NewLineType {UNIX=0, DOS, MAC};
     enum IndentationType {NONE=0, TAB, SPACE};
     enum CommentStyle { SingleLine=0, MultiLine };
-    enum ScopePolicy { Public=200, Private, Protected, FromParent };
+    enum ScopePolicy { Public=0, Private, Protected, FromParent };
 
     // Constructors/Destructors
     //

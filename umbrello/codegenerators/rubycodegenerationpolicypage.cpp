@@ -38,8 +38,8 @@ RubyCodeGenerationPolicyPage::RubyCodeGenerationPolicyPage( QWidget *parent, con
     form.m_generateConstructors->setChecked(common->getAutoGenerateConstructors());
     form.m_generateAttribAccessors->setChecked(policy->getAutoGenerateAttribAccessors());
     form.m_generateAssocAccessors->setChecked(policy->getAutoGenerateAssocAccessors());
-    form.m_accessorScopeCB->setCurrentItem((common->getAttributeAccessorScope() - 200));
-    form.m_assocFieldScopeCB->setCurrentItem((common->getAssociationFieldScope() - 200));
+    form.m_accessorScopeCB->setCurrentItem(common->getAttributeAccessorScope());
+    form.m_assocFieldScopeCB->setCurrentItem(common->getAssociationFieldScope());
 }
 
 RubyCodeGenerationPolicyPage::~RubyCodeGenerationPolicyPage()
@@ -57,8 +57,8 @@ void RubyCodeGenerationPolicyPage::apply()
     parent->blockSignals(true);
 
     common->setCommentStyle((CodeGenerationPolicy::CommentStyle) form.m_SelectCommentStyle->currentItem());
-    common->setAttributeAccessorScope((CodeGenerationPolicy::ScopePolicy) (form.m_accessorScopeCB->currentItem()+200));
-    common->setAssociationFieldScope((CodeGenerationPolicy::ScopePolicy) (form.m_assocFieldScopeCB->currentItem()+200));
+    common->setAttributeAccessorScope((CodeGenerationPolicy::ScopePolicy) form.m_accessorScopeCB->currentItem());
+    common->setAssociationFieldScope((CodeGenerationPolicy::ScopePolicy) form.m_assocFieldScopeCB->currentItem());
     common->setAutoGenerateConstructors(form.m_generateConstructors->isChecked());
     parent->setAutoGenerateAttribAccessors(form.m_generateAttribAccessors->isChecked());
     parent->setAutoGenerateAssocAccessors(form.m_generateAssocAccessors->isChecked());

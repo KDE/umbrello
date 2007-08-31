@@ -163,7 +163,7 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
         case CodeGenerationPolicy::Public:
         case CodeGenerationPolicy::Private:
         case CodeGenerationPolicy::Protected:
-            strVis = rubydoc->scopeToRubyDecl((Uml::Visibility::Value) scopePolicy);
+            strVis = rubydoc->scopeToRubyDecl((Uml::Visibility::Value) (scopePolicy + 200));
             break;
         default:
         case CodeGenerationPolicy::FromParent:

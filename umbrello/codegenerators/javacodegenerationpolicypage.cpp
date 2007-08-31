@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -34,8 +34,8 @@ JavaCodeGenerationPolicyPage::JavaCodeGenerationPolicyPage( QWidget *parent, con
     form->m_generateConstructors->setChecked(commonPolicy->getAutoGenerateConstructors());
     form->m_generateAttribAccessors->setChecked(policy->getAutoGenerateAttribAccessors());
     form->m_generateAssocAccessors->setChecked(policy->getAutoGenerateAssocAccessors());
-    form->m_accessorScopeCB->setCurrentItem(commonPolicy->getAttributeAccessorScope() - 200);
-    form->m_assocFieldScopeCB->setCurrentItem(commonPolicy->getAssociationFieldScope() - 200);
+    form->m_accessorScopeCB->setCurrentItem(commonPolicy->getAttributeAccessorScope());
+    form->m_assocFieldScopeCB->setCurrentItem(commonPolicy->getAssociationFieldScope());
 
     /**
      * @todo unclean - CreateANTBuildFile attribute should be in java policy
@@ -59,8 +59,8 @@ void JavaCodeGenerationPolicyPage::apply()
     commonPolicy->blockSignals(true);
 
     commonPolicy->setCommentStyle((CodeGenerationPolicy::CommentStyle ) form->m_SelectCommentStyle->currentItem());
-    commonPolicy->setAttributeAccessorScope((CodeGenerationPolicy::ScopePolicy) (form->m_accessorScopeCB->currentItem()+200));
-    commonPolicy->setAssociationFieldScope((CodeGenerationPolicy::ScopePolicy) (form->m_assocFieldScopeCB->currentItem()+200));
+    commonPolicy->setAttributeAccessorScope((CodeGenerationPolicy::ScopePolicy) (form->m_accessorScopeCB->currentItem()));
+    commonPolicy->setAssociationFieldScope((CodeGenerationPolicy::ScopePolicy) (form->m_assocFieldScopeCB->currentItem()));
     commonPolicy->setAutoGenerateConstructors(form->m_generateConstructors->isChecked());
     parent->setAutoGenerateAttribAccessors(form->m_generateAttribAccessors->isChecked());
     parent->setAutoGenerateAssocAccessors(form->m_generateAssocAccessors->isChecked());
