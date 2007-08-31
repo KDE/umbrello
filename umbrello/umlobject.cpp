@@ -624,9 +624,8 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
             // If the xmi.id is already being used then we generate a new one.
             UMLObject *o = umldoc->findObjectById(m_nId);
             if (o) {
-                kDebug() << "loadFromXMI(UMLRole): id " << id
-                    << " is already in use, generating a new one." << endl;
-                m_nId = UniqueID::gen();
+                kError() << "loadFromXMI(UMLRole): id " << id
+                    << " is already in use!!! Please fix your XMI file." << endl;
             }
         }
     }
