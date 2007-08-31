@@ -1500,7 +1500,7 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
         kError() << "UMLView::addWidget: Not adding "
                   << "(id=" << ID2STR(pWidget->getID())
                   << "/type=" << type << "/name=" << pWidget->getName()
-                  << ") because it's already there" << endl;
+                  << ") because it is already there" << endl;
         return false;
     }
     //kDebug() << "UMLView::addWidget called for basetype " << type;
@@ -1574,7 +1574,7 @@ bool UMLView::addWidget( UMLWidget * pWidget , bool isPasteOperation ) {
                           << "(id=" << ID2STR(pWidget->getID())
                           << "/type=" << pWidget->getBaseType()
                           << "/name=" << pWidget->getName()
-                          << ") because it's already there" << endl;
+                          << ") because it is already there" << endl;
                 delete pWidget; // Not nice but if _we_ don't do it nobody else will
                 return true;//don't stop paste just because widget found.
             }

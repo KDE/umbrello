@@ -96,7 +96,8 @@ void RubyCodeAccessorMethod::updateContent( )
             if(maxOccurs > 0)
             {
                 text += endLine+"else"+endLine;
-                text += indent + "puts(\"ERROR: Can't add"+fieldType+" to "+fieldName+", minimum number of items reached.\")"+endLine+"end"+endLine;
+                text += indent + "puts(\"ERROR: Cannot add" + fieldType + " to " + fieldName
+                     + ", minimum number of items reached.\")" + endLine + "end" + endLine;
             }
             break;
         }
@@ -163,7 +164,7 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
         case CodeGenerationPolicy::Public:
         case CodeGenerationPolicy::Private:
         case CodeGenerationPolicy::Protected:
-            strVis = rubydoc->scopeToRubyDecl((Uml::Visibility::Value) (scopePolicy + 200));
+            strVis = rubydoc->scopeToRubyDecl((Uml::Visibility::Value) scopePolicy);
             break;
         default:
         case CodeGenerationPolicy::FromParent:

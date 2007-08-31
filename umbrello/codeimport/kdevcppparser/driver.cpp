@@ -153,7 +153,7 @@ void Driver::addDependence( const QString & fileName, const Dependence & dep )
 	return;
 
     if ( !QFile::exists( file ) ) {
-	Problem p( "Couldn't find include file " + dep.first,
+	Problem p( "Could not find include file " + dep.first,
 		   lexer ? lexer->currentLine() : -1,
 		   lexer ? lexer->currentColumn() : -1 );
 	addProblem( fileName, p );
