@@ -98,16 +98,11 @@ int UMLCanvasObject::removeAssociationEnd(UMLAssociation * assoc) {
 }
 
 void UMLCanvasObject::removeAllAssociationEnds() {
-    UMLObject *o = NULL;
-    for (UMLObjectListIt oit(m_List); oit.hasNext(); ) {
-        o = oit.next();
+    for (int i = 0; i < m_List.count(); ) {
+        UMLObject *o = m_List.at(i);
         if (o->getBaseType() != Uml::ot_Association) {
-            if ( oit.hasNext() ) {
-                o = oit.next();
-                continue;
-            } else {
-                break;
-            }
+            ++i;
+            continue;
         }
         UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
         //umldoc->slotRemoveUMLObject(assoc);
@@ -133,7 +128,7 @@ void UMLCanvasObject::removeAllAssociationEnds() {
         else
             kDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
                 << "): objB is NULL" << endl;
-        m_List.remove(assoc);
+        m_List.removeAt(i);
     }
 }
 
