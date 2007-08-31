@@ -67,7 +67,7 @@ void RubyCodeClassFieldDeclarationBlock::updateContent( )
         case CodeGenerationPolicy::Public:
         case CodeGenerationPolicy::Private:
         case CodeGenerationPolicy::Protected:
-            scopeStr = rdoc->scopeToRubyDecl((Uml::Visibility::Value) (scopePolicy + 200));
+            scopeStr = rdoc->scopeToRubyDecl((Uml::Visibility::Value) scopePolicy);
             break;
         default:
         case CodeGenerationPolicy::FromParent:

@@ -454,10 +454,14 @@ bool UMLAssociation::load( QDomElement & element ) {
     // Visibility defaults to Public if it cant set it here..
     QString visibilityA = element.attribute( "visibilitya", "0");
     QString visibilityB = element.attribute( "visibilityb", "0");
-    if (visibilityA.toInt() > 0)
-        setVisibility((Uml::Visibility::Value)visibilityA.toInt(), A);
-    if (visibilityB.toInt() > 0)
-        setVisibility((Uml::Visibility::Value)visibilityB.toInt(), B);
+    int vis = visibilityA.toInt();
+    if (vis >= 200)  // bkwd compat.
+        vis -= 200;
+    setVisibility((Uml::Visibility::Value)vis, A);
+    vis = visibilityB.toInt();
+    if (vis >= 200)  // bkwd compat.
+        vis -= 200;
+    setVisibility((Uml::Visibility::Value)vis, B);
 
     // Changeability defaults to Changeable if it cant set it here..
     QString changeabilityA = element.attribute( "changeabilitya", "0");

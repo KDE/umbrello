@@ -65,7 +65,7 @@ enum Object_Type
 class Visibility {
   public:
     enum Value {
-        Public  =  200,
+        Public,
         Private,
         Protected,
         Implementation // objects marked with this are declared in the implementation file.

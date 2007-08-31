@@ -644,11 +644,20 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
             m_bStatic = true;
         else {
             int nScope = scope.toInt();
-            if (nScope >= Uml::Visibility::Public && nScope <= Uml::Visibility::Protected)
-              m_Vis = (Uml::Visibility::Value)nScope;
-            else
-                kError() << "UMLObject::loadFromXMI(" << m_Name
-                << "): illegal scope" << endl;  // soft error
+            switch (nScope) {
+                case 200:
+                    m_Vis = Uml::Visibility::Public;
+                    break;
+                case 201:
+                    m_Vis = Uml::Visibility::Private;
+                    break;
+                case 202:
+                    m_Vis = Uml::Visibility::Protected;
+                    break;
+                default:
+                    kError() << "UMLObject::loadFromXMI(" << m_Name
+                        << "): illegal scope " << nScope << endl;
+            }
         }
     } else {
         QString visibility = element.attribute( "visibility", "public" );

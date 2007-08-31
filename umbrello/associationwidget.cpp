@@ -3534,14 +3534,18 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
         setRoleDoc( qElement.attribute("roleAdoc", ""), A );
         setRoleDoc( qElement.attribute("roleBdoc", ""), B );
 
-        // visibilty defaults to Public if it cant set it here..
+        // visibility defaults to Public if it cant set it here..
         QString visibilityA = qElement.attribute( "visibilityA", "0");
-        if (visibilityA.toInt() > 0)
-          setVisibility( (Uml::Visibility::Value)visibilityA.toInt(), A);
+        int vis = visibilityA.toInt();
+        if (vis >= 200)  // bkwd compat.
+            vis -= 200;
+        setVisibility((Uml::Visibility::Value)vis, A);
 
         QString visibilityB = qElement.attribute( "visibilityB", "0");
-        if (visibilityB.toInt() > 0)
-          setVisibility( (Uml::Visibility::Value)visibilityB.toInt(), B);
+        vis = visibilityB.toInt();
+        if (vis >= 200)  // bkwd compat.
+            vis -= 200;
+        setVisibility((Uml::Visibility::Value)vis, B);
 
         // Changeability defaults to "Changeable" if it cant set it here..
         QString changeabilityA = qElement.attribute( "changeabilityA", "0");

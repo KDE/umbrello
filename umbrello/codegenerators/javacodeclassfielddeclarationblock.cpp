@@ -73,7 +73,7 @@ void JavaCodeClassFieldDeclarationBlock::updateContent( )
         case CodeGenerationPolicy::Public:
         case CodeGenerationPolicy::Private:
         case CodeGenerationPolicy::Protected:
-              scopeStr = jdoc->scopeToJavaDecl((Uml::Visibility::Value) (scopePolicy + 200));
+              scopeStr = jdoc->scopeToJavaDecl((Uml::Visibility::Value) scopePolicy);
             break;
         default:
         case CodeGenerationPolicy::FromParent:

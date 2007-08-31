@@ -69,7 +69,7 @@ void DCodeClassFieldDeclarationBlock::updateContent( )
         case CodeGenerationPolicy::Public:
         case CodeGenerationPolicy::Private:
         case CodeGenerationPolicy::Protected:
-              scopeStr = jdoc->scopeToDDecl((Uml::Visibility::Value) (scopePolicy + 200));
+              scopeStr = jdoc->scopeToDDecl((Uml::Visibility::Value) scopePolicy);
             break;
         default:
         case CodeGenerationPolicy::FromParent:

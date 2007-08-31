@@ -175,9 +175,9 @@ void SettingsDlg::setupGeneralPage() {
                                     m_GeneralWidgets.autosaveSuffixT, m_pOptionState->generalState.autosavesuffix );
     QString autoSaveSuffixToolTip = i18n( "<qt><p>The autosave file will be saved to ~/autosave.xmi if the autosaving occurs "
                                           "before you have manually saved the file.</p>"
-                                          "<p>If you've already saved it, the autosave file will be saved in the same folder as the file "
+                                          "<p>If you have already saved it, the autosave file will be saved in the same folder as the file "
                                           "and will be named like the file's name, followed by the suffix specified.</p>"
-                                          "<p>If the suffix is equal to the suffix of the file you've saved, "
+                                          "<p>If the suffix is equal to the suffix of the file you have saved, "
                                           "the autosave will overwrite your file automatically.</p></qt>" );
     m_GeneralWidgets.autosaveSuffixL->setToolTip( autoSaveSuffixToolTip );
     m_GeneralWidgets.autosaveSuffixT->setToolTip( autoSaveSuffixToolTip );
@@ -299,7 +299,7 @@ void SettingsDlg::setupClassPage() {
     insertAttribScope( tr2i18n( "Public" ) );
     insertAttribScope( tr2i18n( "Private" ) );
     insertAttribScope( tr2i18n( "Protected" ) );
-    m_ClassWidgets.m_pAttribScopeCB->setCurrentIndex((m_pOptionState->classState.defaultAttributeScope - 200));
+    m_ClassWidgets.m_pAttribScopeCB->setCurrentIndex(m_pOptionState->classState.defaultAttributeScope);
     m_ClassWidgets.m_pAttribScopeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
     scopeLayout -> addWidget( m_ClassWidgets.m_pAttribScopeCB, 0, 1 );
 
@@ -307,7 +307,7 @@ void SettingsDlg::setupClassPage() {
     insertOperationScope( tr2i18n( "Public" ) );
     insertOperationScope( tr2i18n( "Private" ) );
     insertOperationScope( tr2i18n( "Protected" ) );
-    m_ClassWidgets.m_pOperationScopeCB->setCurrentIndex((m_pOptionState->classState.defaultOperationScope - 200));
+    m_ClassWidgets.m_pOperationScopeCB->setCurrentIndex(m_pOptionState->classState.defaultOperationScope);
     m_ClassWidgets.m_pOperationScopeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
     scopeLayout -> addWidget( m_ClassWidgets.m_pOperationScopeCB, 1, 1 );
 
@@ -460,8 +460,8 @@ void SettingsDlg::applyPage( KPageWidgetItem*item ) {
         m_pOptionState->classState.showAttSig = m_ClassWidgets.showAttSigCB -> isChecked();
         m_pOptionState->classState.showOpSig = m_ClassWidgets.showOpSigCB -> isChecked();
         m_pOptionState->classState.showPackage = m_ClassWidgets.showPackageCB -> isChecked();
-            m_pOptionState->classState.defaultAttributeScope = (Uml::Visibility::Value) (m_ClassWidgets.m_pAttribScopeCB->currentItem() + 200);
-            m_pOptionState->classState.defaultOperationScope = (Uml::Visibility::Value) (m_ClassWidgets.m_pOperationScopeCB->currentItem() + 200);
+        m_pOptionState->classState.defaultAttributeScope = (Uml::Visibility::Value) m_ClassWidgets.m_pAttribScopeCB->currentItem();
+        m_pOptionState->classState.defaultOperationScope = (Uml::Visibility::Value) m_ClassWidgets.m_pOperationScopeCB->currentItem();
     }
     else if ( item == pageCodeGen )
     {

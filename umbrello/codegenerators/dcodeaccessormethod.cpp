@@ -150,7 +150,7 @@ void DCodeAccessorMethod::updateMethodDeclaration()
         case CodeGenerationPolicy::Public:
         case CodeGenerationPolicy::Private:
         case CodeGenerationPolicy::Protected:
-              strVis = ddoc->scopeToDDecl((Uml::Visibility::Value) (scopePolicy + 200));
+              strVis = ddoc->scopeToDDecl((Uml::Visibility::Value) scopePolicy);
             break;
         default:
         case CodeGenerationPolicy::FromParent:
