@@ -261,14 +261,14 @@
        <entry name="defaultAssocFieldScope" type="Enum">
          <label>Default Association Field Scope</label>
          <whatisthis>Sets the default Association field scope</whatisthis>
-         <choices name="CodeGenerationPolicy::ScopePolicy" />
-         <default>CodeGenerationPolicy::FromParent</default>
+         <choices name="Uml::Visibility::Value" />
+         <default>Uml::Visibility::FromParent</default>
        </entry>
        <entry name="defaultAttributeAccessorScope" type="Enum">
          <label>Default Attribute Accessor Scope</label>
          <whatisthis>Sets the default attribute accessor scope</whatisthis>
-         <choices name="CodeGenerationPolicy::ScopePolicy" />
-         <default>CodeGenerationPolicy::FromParent</default>
+         <choices name="Uml::Visibility::Value" />
+         <default>Uml::Visibility::FromParent</default>
        </entry>
        <entry name="forceDoc" type="Bool">
          <label>Force Documentation</label>

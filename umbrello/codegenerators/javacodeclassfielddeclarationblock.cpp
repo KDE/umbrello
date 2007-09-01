@@ -56,7 +56,7 @@ void JavaCodeClassFieldDeclarationBlock::updateContent( )
     JavaClassifierCodeDocument* jdoc = dynamic_cast<JavaClassifierCodeDocument*>(doc);
     CodeGenerationPolicy * commonpolicy = UMLApp::app()->getCommonPolicy();
 
-    CodeGenerationPolicy::ScopePolicy scopePolicy = commonpolicy->getAssociationFieldScope();
+    Uml::Visibility::Value scopePolicy = commonpolicy->getAssociationFieldScope();
 
     // Set the comment
     QString notes = getParentObject()->getDoc();
@@ -70,13 +70,13 @@ void JavaCodeClassFieldDeclarationBlock::updateContent( )
     if(!jcf->parentIsAttribute())
     {
         switch (scopePolicy) {
-        case CodeGenerationPolicy::Public:
-        case CodeGenerationPolicy::Private:
-        case CodeGenerationPolicy::Protected:
+        case Uml::Visibility::Public:
+        case Uml::Visibility::Private:
+        case Uml::Visibility::Protected:
               scopeStr = jdoc->scopeToJavaDecl((Uml::Visibility::Value) scopePolicy);
             break;
         default:
-        case CodeGenerationPolicy::FromParent:
+        case Uml::Visibility::FromParent:
             // do nothing here... will leave as from parent object
             break;
         }

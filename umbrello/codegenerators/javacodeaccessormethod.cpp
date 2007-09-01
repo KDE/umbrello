@@ -139,7 +139,7 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
     CodeGenerationPolicy *commonpolicy = UMLApp::app()->getCommonPolicy();
 
     // gather defs
-    CodeGenerationPolicy::ScopePolicy scopePolicy = commonpolicy->getAttributeAccessorScope();
+    Uml::Visibility::Value scopePolicy = commonpolicy->getAttributeAccessorScope();
     QString strVis = javadoc->scopeToJavaDecl(javafield->getVisibility());
     QString fieldName = javafield->getFieldName();
     QString fieldType = javafield->getTypeName();
@@ -152,13 +152,13 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
     // we need to be more sophisticated
     if(javafield->parentIsAttribute())
         switch (scopePolicy) {
-        case CodeGenerationPolicy::Public:
-        case CodeGenerationPolicy::Private:
-        case CodeGenerationPolicy::Protected:
+        case Uml::Visibility::Public:
+        case Uml::Visibility::Private:
+        case Uml::Visibility::Protected:
               strVis = javadoc->scopeToJavaDecl((Uml::Visibility::Value) scopePolicy);
             break;
         default:
-        case CodeGenerationPolicy::FromParent:
+        case Uml::Visibility::FromParent:
             // do nothing..already have taken parent value
             break;
         }

@@ -332,21 +332,21 @@ bool CodeGenerationPolicy::getAutoGenerateConstructors( ){
     return Settings::getOptionState().codeGenerationState.autoGenEmptyConstructors;
 }
 
-void CodeGenerationPolicy::setAttributeAccessorScope(ScopePolicy var) {
+void CodeGenerationPolicy::setAttributeAccessorScope(Uml::Visibility::Value var) {
     Settings::getOptionState().codeGenerationState.defaultAttributeAccessorScope = var;
     emit modifiedCodeContent();
 }
 
-CodeGenerationPolicy::ScopePolicy CodeGenerationPolicy::getAttributeAccessorScope() {
+Uml::Visibility::Value CodeGenerationPolicy::getAttributeAccessorScope() {
     return Settings::getOptionState().codeGenerationState.defaultAttributeAccessorScope;
 }
 
-void CodeGenerationPolicy::setAssociationFieldScope(ScopePolicy var) {
+void CodeGenerationPolicy::setAssociationFieldScope(Uml::Visibility::Value var) {
     Settings::getOptionState().codeGenerationState.defaultAssocFieldScope = var;
     emit modifiedCodeContent();
 }
 
-CodeGenerationPolicy::ScopePolicy CodeGenerationPolicy::getAssociationFieldScope() {
+Uml::Visibility::Value CodeGenerationPolicy::getAssociationFieldScope() {
     return Settings::getOptionState().codeGenerationState.defaultAssocFieldScope;
 }
 

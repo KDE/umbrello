@@ -50,7 +50,7 @@ void RubyCodeClassFieldDeclarationBlock::updateContent( )
     RubyCodeClassField * rcf = dynamic_cast<RubyCodeClassField*>(cf);
     RubyClassifierCodeDocument* rdoc = dynamic_cast<RubyClassifierCodeDocument*>(doc);
     CodeGenerationPolicy * p = UMLApp::app()->getCommonPolicy();
-    CodeGenerationPolicy::ScopePolicy scopePolicy = p->getAssociationFieldScope();
+    Uml::Visibility::Value scopePolicy = p->getAssociationFieldScope();
 
     // Set the comment
     QString notes = getParentObject()->getDoc();
@@ -64,13 +64,13 @@ void RubyCodeClassFieldDeclarationBlock::updateContent( )
     if(!rcf->parentIsAttribute())
     {
         switch (scopePolicy) {
-        case CodeGenerationPolicy::Public:
-        case CodeGenerationPolicy::Private:
-        case CodeGenerationPolicy::Protected:
+        case Uml::Visibility::Public:
+        case Uml::Visibility::Private:
+        case Uml::Visibility::Protected:
             scopeStr = rdoc->scopeToRubyDecl((Uml::Visibility::Value) scopePolicy);
             break;
         default:
-        case CodeGenerationPolicy::FromParent:
+        case Uml::Visibility::FromParent:
             // do nothing here... will leave as from parent object
             break;
         }

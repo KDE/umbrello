@@ -134,7 +134,7 @@ void DCodeAccessorMethod::updateMethodDeclaration()
     CodeGenerationPolicy *commonpolicy = UMLApp::app()->getCommonPolicy();
 
     // gather defs
-    CodeGenerationPolicy::ScopePolicy scopePolicy = commonpolicy->getAttributeAccessorScope();
+    Uml::Visibility::Value scopePolicy = commonpolicy->getAttributeAccessorScope();
     QString strVis = ddoc->scopeToDDecl(dfield->getVisibility());
     QString fieldName = dfield->getFieldName();
     QString fieldType = dfield->getTypeName();
@@ -147,13 +147,13 @@ void DCodeAccessorMethod::updateMethodDeclaration()
     // we need to be more sophisticated
     if(dfield->parentIsAttribute())
         switch (scopePolicy) {
-        case CodeGenerationPolicy::Public:
-        case CodeGenerationPolicy::Private:
-        case CodeGenerationPolicy::Protected:
+        case Uml::Visibility::Public:
+        case Uml::Visibility::Private:
+        case Uml::Visibility::Protected:
               strVis = ddoc->scopeToDDecl((Uml::Visibility::Value) scopePolicy);
             break;
         default:
-        case CodeGenerationPolicy::FromParent:
+        case Uml::Visibility::FromParent:
             // do nothing..already have taken parent value
             break;
         }

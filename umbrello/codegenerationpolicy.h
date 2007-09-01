@@ -23,6 +23,8 @@
 #include <qdir.h>
 #include <qdom.h>
 
+#include "umlnamespace.h"
+
 class QWidget;
 class KConfig;
 class CodeGenerationPolicyPage;
@@ -53,7 +55,6 @@ public:
     enum NewLineType {UNIX=0, DOS, MAC};
     enum IndentationType {NONE=0, TAB, SPACE};
     enum CommentStyle { SingleLine=0, MultiLine };
-    enum ScopePolicy { Public=0, Private, Protected, FromParent };
 
     // Constructors/Destructors
     //
@@ -251,25 +252,25 @@ public:
      * Set the value of m_attributeAccessorScope
      * @param var the new value
      */
-    void setAttributeAccessorScope(ScopePolicy var);
+    void setAttributeAccessorScope(Uml::Visibility::Value var);
 
     /**
      * Get the value of m_attributeAccessorScope
-     * @return the ScopePolicy value of m_attributeAccessorScope
+     * @return the Visibility value of m_attributeAccessorScope
      */
-    ScopePolicy getAttributeAccessorScope();
+    Uml::Visibility::Value getAttributeAccessorScope();
 
     /**
      * Set the value of m_associationFieldScope
      * @param var the new value
      */
-    void setAssociationFieldScope(ScopePolicy var);
+    void setAssociationFieldScope(Uml::Visibility::Value var);
 
     /**
      * Get the value of m_associationFieldScope
-     * @return the ScopePolicy value of m_associationFieldScope
+     * @return the Visibility value of m_associationFieldScope
      */
-    ScopePolicy getAssociationFieldScope();
+    Uml::Visibility::Value getAssociationFieldScope();
 
     /**
      * Create a new dialog interface for this object.
@@ -353,8 +354,8 @@ protected:
     ModifyNamePolicy m_modifyPolicy;
     bool m_autoGenerateConstructors;
     CommentStyle m_commentStyle;
-    ScopePolicy m_attributeAccessorScope;
-    ScopePolicy m_associationFieldScope;
+    Uml::Visibility::Value m_attributeAccessorScope;
+    Uml::Visibility::Value m_associationFieldScope;
 */
    
     // these 2 private fields 'cache' the string values of other fields we may frequently call for

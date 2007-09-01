@@ -57,8 +57,8 @@ void RubyCodeGenerationPolicyPage::apply()
     parent->blockSignals(true);
 
     common->setCommentStyle((CodeGenerationPolicy::CommentStyle) form.m_SelectCommentStyle->currentItem());
-    common->setAttributeAccessorScope((CodeGenerationPolicy::ScopePolicy) form.m_accessorScopeCB->currentItem());
-    common->setAssociationFieldScope((CodeGenerationPolicy::ScopePolicy) form.m_assocFieldScopeCB->currentItem());
+    common->setAttributeAccessorScope((Uml::Visibility::Value) form.m_accessorScopeCB->currentItem());
+    common->setAssociationFieldScope((Uml::Visibility::Value) form.m_assocFieldScopeCB->currentItem());
     common->setAutoGenerateConstructors(form.m_generateConstructors->isChecked());
     parent->setAutoGenerateAttribAccessors(form.m_generateAttribAccessors->isChecked());
     parent->setAutoGenerateAssocAccessors(form.m_generateAssocAccessors->isChecked());

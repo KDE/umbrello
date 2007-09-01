@@ -72,8 +72,8 @@ struct ClassState {
 struct CodeGenerationState{
     bool autoGenEmptyConstructors;
     CodeGenerationPolicy::CommentStyle commentStyle;
-    CodeGenerationPolicy::ScopePolicy defaultAssocFieldScope;
-    CodeGenerationPolicy::ScopePolicy defaultAttributeAccessorScope;
+    Uml::Visibility::Value defaultAssocFieldScope;
+    Uml::Visibility::Value defaultAttributeAccessorScope;
     bool forceDoc;
     bool forceSections;
     QDir headingsDirectory;

@@ -68,7 +68,8 @@ class Visibility {
         Public,
         Private,
         Protected,
-        Implementation // objects marked with this are declared in the implementation file.
+        Implementation, // objects marked with this are declared in the implementation file.
+        FromParent = 3  // alias for Implementation, used by CodeGenerationPolicy
     };
     Visibility();
     Visibility(Value v);

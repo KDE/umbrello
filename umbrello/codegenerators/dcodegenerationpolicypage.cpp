@@ -55,8 +55,8 @@ void DCodeGenerationPolicyPage::apply()
     commonPolicy->blockSignals(true);
 
     commonPolicy->setCommentStyle((CodeGenerationPolicy::CommentStyle ) form->m_SelectCommentStyle->currentItem());
-    commonPolicy->setAttributeAccessorScope((CodeGenerationPolicy::ScopePolicy) (form->m_accessorScopeCB->currentItem()));
-    commonPolicy->setAssociationFieldScope((CodeGenerationPolicy::ScopePolicy) (form->m_assocFieldScopeCB->currentItem()));
+    commonPolicy->setAttributeAccessorScope((Uml::Visibility::Value) (form->m_accessorScopeCB->currentItem()));
+    commonPolicy->setAssociationFieldScope((Uml::Visibility::Value) (form->m_assocFieldScopeCB->currentItem()));
     commonPolicy->setAutoGenerateConstructors(form->m_generateConstructors->isChecked());
     parent->setAutoGenerateAttribAccessors(form->m_generateAttribAccessors->isChecked());
     parent->setAutoGenerateAssocAccessors(form->m_generateAssocAccessors->isChecked());

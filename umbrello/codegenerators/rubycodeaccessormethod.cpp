@@ -143,7 +143,7 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
 
     // gather defs
     CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
-    CodeGenerationPolicy::ScopePolicy scopePolicy = p->getAttributeAccessorScope();
+    Uml::Visibility::Value scopePolicy = p->getAttributeAccessorScope();
     QString strVis = rubydoc->scopeToRubyDecl(rubyfield->getVisibility());
     QString fieldName = RubyCodeGenerator::cppToRubyName(rubyfield->getFieldName());
     QString fieldType = RubyCodeGenerator::cppToRubyType(rubyfield->getTypeName());
@@ -161,13 +161,13 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
     // we need to be more sophisticated
     if(rubyfield->parentIsAttribute())
         switch (scopePolicy) {
-        case CodeGenerationPolicy::Public:
-        case CodeGenerationPolicy::Private:
-        case CodeGenerationPolicy::Protected:
+        case Uml::Visibility::Public:
+        case Uml::Visibility::Private:
+        case Uml::Visibility::Protected:
             strVis = rubydoc->scopeToRubyDecl((Uml::Visibility::Value) scopePolicy);
             break;
         default:
-        case CodeGenerationPolicy::FromParent:
+        case Uml::Visibility::FromParent:
             // do nothing..already have taken parent value
             break;
         }
