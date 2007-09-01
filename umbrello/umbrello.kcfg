@@ -37,7 +37,7 @@
        <entry name="newcodegen" type="Bool">
          <label>New Code Generator</label>
          <whatisthis>Enables/Disables Support for the New Code Generator</whatisthis>
-         <default>true</default>
+         <default>false</default>
        </entry>
        <entry name="angularlines" type="Bool">
          <label>Angular Lines</label>
