@@ -628,7 +628,14 @@ void CSharpWriter::writeAssociatedAttributes(UMLAssociationList &associated, UML
     }
 }
 
-void CSharpWriter::writeAttribute(QString doc, Uml::Visibility visibility, bool isStatic, QString typeName, QString name, QString initialValue, bool asProperty, QTextStream &cs) {
+void CSharpWriter::writeAttribute(const QString& doc,
+                                  Uml::Visibility visibility,
+                                  bool isStatic,
+                                  const QString& typeName,
+                                  const QString& name,
+                                  const QString& initialValue,
+                                  bool asProperty,
+                                  QTextStream &cs) {
 
     if (forceDoc() || !doc.isEmpty()) {
 

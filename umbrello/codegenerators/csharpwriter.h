@@ -150,7 +150,14 @@ private:
       * @param asProperty true writes as property (get/set), false writes single line variable
       * @param cs output stream
       */
-    void writeAttribute(QString doc, Uml::Visibility visibility, bool isStatic, QString typeName, QString name, QString initialValue, bool asProperty, QTextStream &cs);
+    void writeAttribute(const QString& doc,
+                        Uml::Visibility visibility,
+                        bool isStatic,
+                        const QString& typeName,
+                        const QString& name,
+                        const QString& initialValue,
+                        bool asProperty,
+                        QTextStream &cs);
 
     /** find the type in used namespaces, if namespace found return short name, complete otherwise.
       *

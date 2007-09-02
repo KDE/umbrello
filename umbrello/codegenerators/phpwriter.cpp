@@ -3181,8 +3181,9 @@ void PhpWriter::writeOperations(UMLClassifier *c, QTextStream &php) {
     }
 }
 
-void PhpWriter::writeOperations(QString /* classname */, UMLOperationList &opList, QTextStream &php) {
-
+void PhpWriter::writeOperations(const QString& /* classname */,
+                                UMLOperationList &opList,
+                                QTextStream &php) {
     foreach (UMLOperation* op , opList ) {
         UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc

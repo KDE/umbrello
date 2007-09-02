@@ -227,17 +227,17 @@ private:
     /**
      * Lowers the case of the first letter in the given string
      */
-    QString deCapitaliseFirstLetter(QString string);
+    QString deCapitaliseFirstLetter(const QString& str);
 
     /**
      * Returns the plural form of a subject.
      */
-    QString pluralize(QString string);
+    QString pluralize(const QString& string);
  
     /**
      * Returns the non-plural form of a subject.
      */
-    QString unPluralize(QString string);
+    QString unPluralize(const QString& str);
     
     /**
      * Replaces `string' with `String' and `bool' with `boolean'
@@ -247,7 +247,7 @@ private:
     /**
      * check that initial values of strings have quotes around them
      */
-    QString fixInitialStringDeclValue(QString value, QString type);
+    QString fixInitialStringDeclValue(const QString& val, const QString& type);
 
     /**
      * Write a blank line

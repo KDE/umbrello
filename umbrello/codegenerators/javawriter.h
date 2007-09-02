@@ -207,7 +207,7 @@ private:
     /**
      * check that initial values of strings have quotes around them
      */
-    QString fixInitialStringDeclValue(QString value, QString type);
+    QString fixInitialStringDeclValue(const QString& val, QString type);
 
     /**
      * Write a blank line

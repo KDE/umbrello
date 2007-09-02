@@ -71,7 +71,8 @@ private:
       * @param opList the list of operations
       * @param php output stream for the PHP file
       */
-    void writeOperations(QString classname, UMLOperationList &opList,
+    void writeOperations(const QString& classname,
+                         UMLOperationList &opList,
                          QTextStream &php);
 
     /** write all the attributes of a class

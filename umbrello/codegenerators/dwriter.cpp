@@ -899,7 +899,8 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d) {
     }
 }
 
-QString DWriter::fixInitialStringDeclValue(QString value, QString type) {
+QString DWriter::fixInitialStringDeclValue(const QString& val, const QString& type) {
+    QString value = val;
     // check for strings only
     if (!value.isEmpty() && type == "String") {
         if (!value.startsWith('"'))
@@ -928,16 +929,17 @@ QString DWriter::getUMLObjectName(UMLObject *obj) {
     return(obj!=0)?obj->getName():QString("NULL");
 }
 
-QString DWriter::deCapitaliseFirstLetter(QString string) {
+QString DWriter::deCapitaliseFirstLetter(const QString& str) {
+    QString string = str;
     string.replace( 0, 1, string[0].lower());
     return string;
 }
 
-QString DWriter::pluralize(QString string) {
+QString DWriter::pluralize(const QString& string) {
     return string + (string.right(1) == "s" ? "es" : "s");
 }
 
-QString DWriter::unPluralize(QString string) {
+QString DWriter::unPluralize(const QString& string) {
     // does not handle special cases liek datum -> data, etc.
 
     if (string.count() > 2 && string.right(3) == "ses") {

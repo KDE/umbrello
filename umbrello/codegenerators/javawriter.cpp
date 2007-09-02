@@ -869,8 +869,9 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java) {
     }
 }
 
-QString JavaWriter::fixInitialStringDeclValue(QString value, QString type)
+QString JavaWriter::fixInitialStringDeclValue(const QString& val, QString type)
 {
+    QString value = val;
     // check for strings only
     if (!value.isEmpty() && type == "String") {
         if (!value.startsWith('"'))
