@@ -40,11 +40,9 @@ CPPSourceCodeClassFieldDeclarationBlock::~CPPSourceCodeClassFieldDeclarationBloc
 void CPPSourceCodeClassFieldDeclarationBlock::updateContent( )
 {
 
-    /*
     CodeClassField * cf = getParentClassField();
     ClassifierCodeDocument * doc = cf->getParentDocument();
     CPPCodeClassField * jcf = dynamic_cast<CPPCodeClassField*>(cf);
-    CPPClassifierCodeDocument* jdoc = dynamic_cast<CPPClassifierCodeDocument*>(doc);
 
     // Set the comment
     QString notes = getParentObject()->getDoc();
@@ -62,9 +60,6 @@ void CPPSourceCodeClassFieldDeclarationBlock::updateContent( )
     if (!initialV.isEmpty())
             body.append(" = " + initialV);
     setText(body+";");
-    */
-    setText("FIX ME;");
-
 
 }
 
