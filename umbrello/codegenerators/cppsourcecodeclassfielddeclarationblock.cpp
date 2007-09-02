@@ -24,7 +24,6 @@ CPPSourceCodeClassFieldDeclarationBlock::CPPSourceCodeClassFieldDeclarationBlock
         : CodeClassFieldDeclarationBlock ( parent )
 {
     setOverallIndentationLevel(1);
-    updateContent();
 }
 
 CPPSourceCodeClassFieldDeclarationBlock::~CPPSourceCodeClassFieldDeclarationBlock ( ) { }

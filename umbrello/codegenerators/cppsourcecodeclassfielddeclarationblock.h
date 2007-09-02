@@ -38,9 +38,9 @@ public:
      */
     virtual ~CPPSourceCodeClassFieldDeclarationBlock ( );
 
-protected:
-
-    // this will be called by syncToParent whenever the parent object is "modified"
+    /**
+     * This will be called by syncToParent whenever the parent object is "modified"
+     */
     void updateContent ( );
 
 private:

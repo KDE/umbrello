@@ -66,6 +66,9 @@ public:
      */
     virtual void setAttributesFromObject (TextBlock * obj);
 
+    virtual void updateMethodDeclaration() = 0;
+    virtual void updateContent();
+
 protected:
 
     // list of parameters used by this code operation.
@@ -80,9 +83,6 @@ protected:
      * the passed element node.
      */
     virtual void setAttributesFromNode ( QDomElement & element);
-
-    virtual void updateMethodDeclaration() = 0;
-    virtual void updateContent();
 
 private:
 

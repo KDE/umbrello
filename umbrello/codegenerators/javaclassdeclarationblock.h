@@ -50,8 +50,6 @@ public:
      */
     virtual void loadFromXMI ( QDomElement & root );
 
-protected:
-
     /**
      * Update the start/end text of this codeblock.
      */

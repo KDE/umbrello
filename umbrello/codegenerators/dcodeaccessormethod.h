@@ -42,6 +42,9 @@ public:
      */
     void update();
 
+    virtual void updateMethodDeclaration();
+    virtual void updateContent();
+
 protected:
 
     /** set attributes of the node that represents this class
@@ -53,9 +56,6 @@ protected:
      * the passed element node.
      */
     virtual void setAttributesFromNode ( QDomElement & element);
-
-    virtual void updateMethodDeclaration();
-    virtual void updateContent();
 
 };
 

@@ -158,9 +158,6 @@ void JavaClassDeclarationBlock::init (JavaClassifierCodeDocument *parentDoc, con
     getComment()->setText(comment);
 
     setEndText("}");
-
-    updateContent();
-
 }
 
 

@@ -44,10 +44,10 @@ public:
 
     virtual int lastEditableLine();
 
-protected:
-
     virtual void updateMethodDeclaration();
     virtual void updateContent( );
+
+protected:
 
     /**
      * Check to see if we have a valid stereotype to apply in the operation

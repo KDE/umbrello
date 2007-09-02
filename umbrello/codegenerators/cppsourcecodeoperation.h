@@ -41,8 +41,6 @@ public:
      */
     virtual ~CPPSourceCodeOperation ( );
 
-protected:
-
     virtual void updateMethodDeclaration();
     virtual void updateContent( );
 

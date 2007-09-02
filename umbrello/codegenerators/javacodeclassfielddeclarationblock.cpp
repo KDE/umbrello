@@ -31,7 +31,6 @@ JavaCodeClassFieldDeclarationBlock::JavaCodeClassFieldDeclarationBlock ( CodeCla
         : CodeClassFieldDeclarationBlock ( parent )
 {
     setOverallIndentationLevel(1);
-    updateContent();
 }
 
 JavaCodeClassFieldDeclarationBlock::~JavaCodeClassFieldDeclarationBlock ( ) { }

@@ -161,6 +161,12 @@ public:
      */
     virtual void synchronize ();
 
+    /**
+     * Updates the status of the accessor methods
+     * as to whether or not they should be written out.
+     */
+    void updateContent();
+
 protected:
 
     /** Set the parent UMLobject appropriately.
@@ -193,10 +199,6 @@ protected:
      * Remove a Method object from m_methodVector List
      */
     bool removeMethod ( CodeAccessorMethod * remove);
-
-    // Updates the status of the accessor methods
-    // as to whether or not they should be written out.
-    void updateContent();
 
 private:
 

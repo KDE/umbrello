@@ -91,6 +91,7 @@ CPPHeaderClassDeclarationBlock * CPPHeaderCodeDocument::getClassDecl()
 
     if(!classDeclCodeBlock) {
         classDeclCodeBlock = new CPPHeaderClassDeclarationBlock (this); // was deleted before our load
+        classDeclCodeBlock->updateContent();
         classDeclCodeBlock->setTag("classDeclarationBlock");
     }
     return classDeclCodeBlock;
@@ -187,6 +188,8 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                                             UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
                                             if(op) {
                                                 CodeOperation * block = new CPPHeaderCodeOperation(this, op);
+                                                block->updateMethodDeclaration();
+                                                block->updateContent();
                                                 block->loadFromXMI(element);
                                                 if(addTextBlock(block))
                                                     loadCheckForChildrenOK= true;

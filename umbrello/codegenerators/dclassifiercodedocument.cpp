@@ -307,6 +307,7 @@ DClassDeclarationBlock * DClassifierCodeDocument::getClassDecl()
     if(!classDeclCodeBlock)
     {
         classDeclCodeBlock = new DClassDeclarationBlock (this);
+        classDeclCodeBlock->updateContent();
         classDeclCodeBlock->setTag("ClassDeclBlock");
     }
     return classDeclCodeBlock;

@@ -57,6 +57,11 @@ public:
     // get the parent code document of this code block
     virtual CodeDocument * getParentDocument ( ) = 0;
 
+    /**
+     * This is the method called from within syncToParent
+     */
+    virtual void updateContent ( ) = 0;
+
 protected:
 
     /** causes the text block to release all of its connections
@@ -76,13 +81,8 @@ protected:
     virtual void setAttributesFromNode ( QDomElement & element);
 
     /** set the class attributes from a passed object
-            */
-    virtual void setAttributesFromObject (TextBlock * obj);
-
-    /**
-            * This is the method called from within syncToParent
      */
-    virtual void updateContent ( ) = 0;
+    virtual void setAttributesFromObject (TextBlock * obj);
 
 private:
 

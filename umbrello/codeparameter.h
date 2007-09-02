@@ -126,9 +126,9 @@ public:
     // the id of this parameter is the same as the parent UMLObject id.
     QString getID ();
 
-protected:
-
     virtual void updateContent() = 0;
+
+protected:
 
     /** set attributes of the node that represents this class
      * in the XMI document.

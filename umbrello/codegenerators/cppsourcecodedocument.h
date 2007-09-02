@@ -51,6 +51,8 @@ public:
      */
     bool addCodeOperation (CodeOperation * op );
 
+    void updateContent();
+
 protected:
 
     // reset/clear our inventory of textblocks in this document
@@ -58,8 +60,6 @@ protected:
 
     // a little utility method to save us some work
     QString getCPPClassName (const QString &name);
-
-    void updateContent();
 
 private:
 

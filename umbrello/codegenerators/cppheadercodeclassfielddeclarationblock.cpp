@@ -25,7 +25,6 @@ CPPHeaderCodeClassFieldDeclarationBlock::CPPHeaderCodeClassFieldDeclarationBlock
         : CodeClassFieldDeclarationBlock ( parent )
 {
     setOverallIndentationLevel(1);
-    updateContent();
 }
 
 CPPHeaderCodeClassFieldDeclarationBlock::~CPPHeaderCodeClassFieldDeclarationBlock ( ) { }

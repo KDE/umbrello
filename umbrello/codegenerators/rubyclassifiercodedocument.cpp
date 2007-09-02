@@ -337,6 +337,7 @@ RubyClassDeclarationBlock * RubyClassifierCodeDocument::getClassDecl()
     if(!classDeclCodeBlock)
     {
         classDeclCodeBlock = new RubyClassDeclarationBlock (this);
+        classDeclCodeBlock->updateContent();
         classDeclCodeBlock->setTag("ClassDeclBlock");
     }
     return classDeclCodeBlock;

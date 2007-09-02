@@ -41,6 +41,11 @@ public:
     virtual ~CPPHeaderClassDeclarationBlock ( );
 
     /**
+     * Update the start/end text of this codeblock.
+     */
+    void updateContent ( );
+
+    /**
      * Save the XMI representation of this object
      */
     virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
@@ -52,11 +57,6 @@ protected:
     /** set the class attributes from a passed object
      */
     virtual void setAttributesFromObject (TextBlock * obj);
-
-    /**
-     * Update the start/end text of this codeblock.
-     */
-    void updateContent ( );
 
 private:
 

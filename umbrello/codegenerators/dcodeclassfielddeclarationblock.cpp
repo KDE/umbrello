@@ -27,7 +27,6 @@ DCodeClassFieldDeclarationBlock::DCodeClassFieldDeclarationBlock ( CodeClassFiel
         : CodeClassFieldDeclarationBlock ( parent )
 {
     setOverallIndentationLevel(1);
-    updateContent();
 }
 
 DCodeClassFieldDeclarationBlock::~DCodeClassFieldDeclarationBlock ( ) { }

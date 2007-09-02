@@ -51,6 +51,8 @@ public:
     // Return the parent code document
     CodeDocument * getParentDocument();
 
+    virtual void updateContent ( ) = 0;
+
     // these next 2 methods should be supplied by inheriting classes
     /**
      * Save the XMI representation of this object
@@ -83,8 +85,6 @@ protected:
     /** set the class attributes from a passed object
     */
     virtual void setAttributesFromObject (TextBlock * obj);
-
-    virtual void updateContent ( ) = 0;
 
 private:
 

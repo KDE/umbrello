@@ -39,10 +39,6 @@ CPPHeaderCodeOperation::CPPHeaderCodeOperation
     setText("");
     setStartMethodText("");
     setEndMethodText("");
-
-    updateMethodDeclaration();
-    updateContent();
-
 }
 
 CPPHeaderCodeOperation::~CPPHeaderCodeOperation ( ) { }

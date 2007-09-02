@@ -30,9 +30,6 @@ const QString & body, const QString & comment ) : CodeOperation (doc, parent, bo
 
     // these things never change..
     setOverallIndentationLevel(1);
-
-    updateMethodDeclaration();
-    updateContent();
 }
 
 DCodeOperation::~DCodeOperation ( ) { }

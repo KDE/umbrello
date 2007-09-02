@@ -138,9 +138,6 @@ void RubyClassDeclarationBlock::init (RubyClassifierCodeDocument *parentDoc, con
     getComment()->setText(comment);
 
     setEndText("end");
-
-    updateContent();
-
 }
 
 

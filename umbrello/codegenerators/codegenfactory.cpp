@@ -225,21 +225,35 @@ CodeOperation *newCodeOperation(ClassifierCodeDocument *ccd, UMLOperation * op) 
         case Uml::pl_Cpp:
             {
                 CPPHeaderCodeDocument *hcd = dynamic_cast<CPPHeaderCodeDocument*>(ccd);
-                if (hcd)
-                    return new CPPHeaderCodeOperation(hcd, op);
+                if (hcd) {
+                    CPPHeaderCodeOperation *cpphcd = new CPPHeaderCodeOperation(hcd, op);
+                    cpphcd->updateMethodDeclaration();
+                    cpphcd->updateContent();
+                    return cpphcd;
+                }
                 CPPSourceCodeDocument *scd = dynamic_cast<CPPSourceCodeDocument*>(ccd);
-                if (scd)
-                    return new CPPSourceCodeOperation(scd, op);
+                if (scd) {
+                    CPPSourceCodeOperation *cppscd = new CPPSourceCodeOperation(scd, op);
+                    cppscd->updateMethodDeclaration();
+                    cppscd->updateContent();
+                    return cppscd;
+                }
             }
             break;
         case Uml::pl_D:
             retval = new DCodeOperation(dynamic_cast<DClassifierCodeDocument*>(ccd), op);
+            retval->updateMethodDeclaration();
+            retval->updateContent();
             break;
         case Uml::pl_Java:
             retval = new JavaCodeOperation(dynamic_cast<JavaClassifierCodeDocument*>(ccd), op);
+            retval->updateMethodDeclaration();
+            retval->updateContent();
             break;
         case Uml::pl_Ruby:
             retval = new RubyCodeOperation(dynamic_cast<RubyClassifierCodeDocument*>(ccd), op);
+            retval->updateMethodDeclaration();
+            retval->updateContent();
             break;
         default:
             break;
@@ -348,21 +362,30 @@ CodeClassFieldDeclarationBlock * newDeclarationCodeBlock (ClassifierCodeDocument
         case Uml::pl_Cpp:
             {
                 CPPHeaderCodeDocument *hcd = dynamic_cast<CPPHeaderCodeDocument*>(cd);
-                if (hcd)
-                    return new CPPHeaderCodeClassFieldDeclarationBlock(cf);
+                if (hcd) {
+                    CPPHeaderCodeClassFieldDeclarationBlock * cpphcd = new CPPHeaderCodeClassFieldDeclarationBlock(cf);
+                    cpphcd->updateContent();
+                    return cpphcd;
+                }
                 CPPSourceCodeDocument *scd = dynamic_cast<CPPSourceCodeDocument*>(cd);
-                if (scd)
-                    return new CPPSourceCodeClassFieldDeclarationBlock(cf);
+                if (scd) {
+                    CPPSourceCodeClassFieldDeclarationBlock *cppscd = new CPPSourceCodeClassFieldDeclarationBlock(cf);
+                    cppscd->updateContent();
+                    return cppscd;
+                }
             }
             break;
         case Uml::pl_D:
             retval = new DCodeClassFieldDeclarationBlock(cf);
+            retval->updateContent();
             break;
         case Uml::pl_Java:
             retval = new JavaCodeClassFieldDeclarationBlock(cf);
+            retval->updateContent();
             break;
         case Uml::pl_Ruby:
             retval = new RubyCodeClassFieldDeclarationBlock(cf);
+            retval->updateContent();
             break;
         default:
             break;

@@ -203,8 +203,17 @@ public:
      */
     QString cleanName ( const QString &name );
 
-    // Cause this code document to synchronize to current generator policy
+    /**
+     * Cause this code document to synchronize to current generator policy
+     */
     virtual void synchronize();
+
+    /**
+     * update the content of this code document
+     * this is where you should lay out your code document structure of textblocks
+     * in the inheriting class, should it have any text in it.
+     */
+    virtual void updateContent();
 
 
 protected:
@@ -232,11 +241,6 @@ protected:
 
     // reset/clear our inventory of textblocks in this document
     void resetTextBlocks();
-
-    // update the content of this code document
-    // this is where you should lay out your code document structure of textblocks
-    // in the inheriting class, should it have any text in it.
-    virtual void updateContent();
 
     // have to implement this for CodeObjectWithTextBlocks
     // doenst actually do anythying fo ra vannilla code document

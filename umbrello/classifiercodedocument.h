@@ -165,6 +165,8 @@ public:
      */
     virtual bool addCodeOperation (CodeOperation *opBlock) = 0;
 
+    virtual void updateContent( ) = 0;
+
     /**
      * Save the XMI representation of this object
      */
@@ -198,8 +200,6 @@ protected:
 
     // add the declaration text blocks for various classfields
     void declareClassFields (CodeClassFieldList & list , CodeGenObjectWithTextBlocks * parent);
-
-    virtual void updateContent( ) = 0;
 
     // force synchronization of child classfields to their parent objects
     void syncClassFields( );

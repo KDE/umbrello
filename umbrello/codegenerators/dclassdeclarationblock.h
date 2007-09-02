@@ -46,16 +46,16 @@ public:
      */
     virtual void loadFromXMI ( QDomElement & root );
 
+    /**
+     * Update the start and end text for this hierarchical codeblock.
+     */
+    void updateContent ( );
+
 protected:
 
     /** Set the class attributes from a passed object.
      */
     virtual void setAttributesFromObject (TextBlock * obj);
-
-    /**
-     * Update the start and end text for this hierarchical codeblock.
-     */
-    void updateContent ( );
 
 private:
 

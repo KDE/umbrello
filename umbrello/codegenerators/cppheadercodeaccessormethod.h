@@ -46,8 +46,6 @@ public:
      */
     void update();
 
-protected:
-
     virtual void updateMethodDeclaration();
     virtual void updateContent();
 

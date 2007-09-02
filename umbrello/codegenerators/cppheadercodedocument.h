@@ -54,6 +54,8 @@ public:
      */
     bool addCodeOperation (CodeOperation * op );
 
+    void updateContent();
+
     /**
      * Save the XMI representation of this object
      */
@@ -76,8 +78,6 @@ protected:
      * create a new code comment. IN this case it is a CPPCodeDocumentation object.
      */
     CodeComment * newCodeComment ( );
-
-    void updateContent();
 
 private:
 

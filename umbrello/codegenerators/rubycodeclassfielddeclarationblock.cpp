@@ -26,7 +26,6 @@ RubyCodeClassFieldDeclarationBlock::RubyCodeClassFieldDeclarationBlock ( CodeCla
         : CodeClassFieldDeclarationBlock ( parent )
 {
     setOverallIndentationLevel(1);
-    updateContent();
 }
 
 RubyCodeClassFieldDeclarationBlock::~RubyCodeClassFieldDeclarationBlock ( ) { }

@@ -63,6 +63,14 @@ public:
     // get the parent document
     CodeDocument * getParentDocument ( );
 
+    /** set the class attributes from a passed object
+     */
+    virtual void setAttributesFromObject (TextBlock * obj);
+
+    /** this is called by syncToParent
+     */
+    virtual void updateContent() = 0;
+
     /**
      * Save the XMI representation of this object
      */
@@ -72,10 +80,6 @@ public:
      * load params from the appropriate XMI element node.
      */
     virtual void loadFromXMI ( QDomElement & root );
-
-    /** set the class attributes from a passed object
-     */
-    virtual void setAttributesFromObject (TextBlock * obj);
 
 protected:
 
@@ -90,10 +94,6 @@ protected:
      * the passed element node.
      */
     virtual void setAttributesFromNode ( QDomElement & element);
-
-    /** this is called by syncToParent
-     */
-    virtual void updateContent() = 0;
 
     // so parent can actually release this block
     void forceRelease ();

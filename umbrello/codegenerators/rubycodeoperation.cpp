@@ -41,10 +41,6 @@ RubyCodeOperation::RubyCodeOperation ( RubyClassifierCodeDocument * doc, UMLOper
 
     // these things never change..
     setOverallIndentationLevel(1);
-
-    updateMethodDeclaration();
-    updateContent();
-
 }
 
 RubyCodeOperation::~RubyCodeOperation ( ) { }

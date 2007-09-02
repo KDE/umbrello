@@ -308,6 +308,7 @@ JavaClassDeclarationBlock * JavaClassifierCodeDocument::getClassDecl()
     if(!classDeclCodeBlock)
     {
         classDeclCodeBlock = new JavaClassDeclarationBlock (this);
+        classDeclCodeBlock->updateContent();
         classDeclCodeBlock->setTag("ClassDeclBlock");
     }
     return classDeclCodeBlock;

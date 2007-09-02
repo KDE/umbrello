@@ -150,9 +150,6 @@ void CPPHeaderClassDeclarationBlock::init (CPPHeaderCodeDocument *parentDoc, con
     getComment()->setText(comment);
 
     setEndText("};");
-
-    updateContent();
-
 }
 
 

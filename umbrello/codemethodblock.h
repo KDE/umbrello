@@ -73,6 +73,13 @@ public:
     // get the parent code document
     CodeDocument * getParentDocument();
 
+    /**
+     * This is the method called from within syncToparent()
+     * to update the *body* of the method.
+     * It is only called if the method is Auto-generated.
+     */
+    virtual void updateContent ( ) = 0;
+
 protected:
 
 
@@ -97,12 +104,6 @@ protected:
                   * whether or not the method is Auto or User generated.
       */
     virtual void updateMethodDeclaration ( ) = 0;
-
-    /** this is the method called from within syncToparent().
-      * to update the *body* of the method
-                  * It is only called if the method is Auto-generated.
-      */
-    virtual void updateContent ( ) = 0;
 
     /** set attributes of the node that represents this class
      * in the XMI document.

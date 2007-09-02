@@ -70,12 +70,11 @@ void CPPSourceCodeDocument::init ( ) {
     m_methodsBlock = 0;
     m_constructorBlock = 0;
 
-    //initCodeClassFields(); // this is dubious because it calls down to
-                             // CodeGenFactory::newCodeClassField(this)
-                             // but "this" is still in construction at that time.
-
-    // this will call updateContent() as well as other things that sync our document.
-    //synchronize();
+    /* We cannot call any virtual initialization functions here because
+       the object is still under construction and the C++ dispatch table
+       is not yet set up.
+       Full initialization is done in CodeGenFactory::newCodeOperation()
+     */
 }
 
 /**

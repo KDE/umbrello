@@ -70,6 +70,8 @@ public:
      */
     bool addCodeOperation (CodeOperation * op );
 
+    void updateContent();
+
 protected:
 
     // reset/clear our inventory of textblocks in this document
@@ -84,8 +86,6 @@ protected:
     void addOrUpdateCodeClassFieldMethodsInCodeBlock(CodeClassFieldList &list, DClassDeclarationBlock * codeBlock);
 
     bool forceDoc ();
-
-    void updateContent();
 
 private:
 

@@ -71,6 +71,8 @@ public:
 
     bool parentIsAttribute();
 
+    virtual void updateContent() = 0;
+
     /**
      * Save the XMI representation of this object
      */
@@ -100,8 +102,6 @@ protected:
     virtual void setAttributesFromNode ( QDomElement & element);
 
     virtual void updateMethodDeclaration() = 0;
-
-    virtual void updateContent() = 0;
 
     // a method so the parent code classfield can force code block to release
     void forceRelease ();

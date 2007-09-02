@@ -34,9 +34,6 @@ JavaCodeOperation::JavaCodeOperation
 
     // these things never change..
     setOverallIndentationLevel(1);
-
-    updateMethodDeclaration();
-    updateContent();
 }
 
 JavaCodeOperation::~JavaCodeOperation ( ) { }

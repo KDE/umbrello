@@ -132,8 +132,6 @@ void DClassDeclarationBlock::init (DClassifierCodeDocument *parentDoc, const QSt
     getComment()->setText(comment);
 
     setEndText("}");
-
-    updateContent();
 }
 
 
