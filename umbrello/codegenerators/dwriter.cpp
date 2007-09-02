@@ -361,7 +361,7 @@ void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d) {
 }
 
 void DWriter::writeProtectionMod(Uml::Visibility visibility, QTextStream &d) {
-    d << m_indentation << scopeToDDecl(visibility) << ":" << m_endl << m_endl;
+    d << m_indentation << visibility.toString() << ":" << m_endl << m_endl;
 }
 
 void DWriter::writeAttributeDecl(Uml::Visibility visibility, UMLAttributeList &atlist, QTextStream &d) {
@@ -909,19 +909,6 @@ QString DWriter::fixInitialStringDeclValue(const QString& val, const QString& ty
             value.append('"');
     }
     return value;
-}
-
-QString DWriter::scopeToDDecl(Uml::Visibility scope) {
-    QString scopeString;
-
-    switch(scope) {
-        case Uml::Visibility::Public: scopeString = "public"; break;
-        case Uml::Visibility::Protected: scopeString = "protected"; break;
-        case Uml::Visibility::Private: scopeString = "private"; break;
-        default: break; //TODO: package and export
-    }
-
-    return scopeString;
 }
 
 // methods like this _shouldn't_ be needed IF we properly did things thruought the code.

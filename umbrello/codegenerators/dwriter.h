@@ -255,11 +255,6 @@ private:
     void writeBlankLine(QTextStream& d);
 
     /**
-     * a little method for converting scope to string value
-     */
-    QString scopeToDDecl(Uml::Visibility scope);
-
-    /**
      * A \n, used at the end of each line
      */
     QString startline;

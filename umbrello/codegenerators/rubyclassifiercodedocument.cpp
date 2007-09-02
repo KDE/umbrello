@@ -313,25 +313,6 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
 
 }
 
-QString RubyClassifierCodeDocument::scopeToRubyDecl(Uml::Visibility scope)
-{
-    QString scopeString;
-    switch(scope)
-    {
-    case Uml::Visibility::Public:
-        scopeString = "public";
-        break;
-    case Uml::Visibility::Protected:
-        scopeString = "protected";
-        break;
-    case Uml::Visibility::Private:
-    default:
-        scopeString = "private";
-        break;
-    }
-    return scopeString;
-}
-
 RubyClassDeclarationBlock * RubyClassifierCodeDocument::getClassDecl()
 {
     if(!classDeclCodeBlock)

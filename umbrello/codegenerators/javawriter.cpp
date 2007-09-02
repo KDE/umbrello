@@ -271,7 +271,7 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
     }
 
     // Now write the actual class declaration
-    QString scope = ""; // = scopeToJavaDecl(c->getVisibility());
+    QString scope = ""; // = c->getVisibility().toString();
     if (c->getVisibility() != Uml::Visibility::Public) {
         // We should emit a warning in here .. java doesn't like to allow
         // private/protected classes. The best we can do (I believe)
@@ -505,7 +505,7 @@ void JavaWriter::writeAssociationRoleDecl(QString fieldClassName,
     if (roleName.isEmpty())
         return;
 
-    QString scope = scopeToJavaDecl(visib);
+    QString scope = visib.toString();
 
     // always put space between this and prior decl, if any
     writeBlankLine(java);
@@ -596,7 +596,7 @@ void JavaWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QS
 
     fieldClassName = fixTypeName(fieldClassName);
     fieldName = Codegen_Utils::capitalizeFirstLetter(fieldName);
-    QString strVis = scopeToJavaDecl(visibility);
+    QString strVis = visibility.toString();
 
     // ONLY IF changeability is NOT Frozen
     if (changeType != Uml::chg_Frozen)
@@ -632,7 +632,7 @@ void JavaWriter::writeSingleAttributeAccessorMethods(QString fieldClassName, QSt
         bool isFinal, QTextStream &java)
 {
 
-    QString strVis = scopeToJavaDecl(visibility);
+    QString strVis = visibility.toString();
     fieldClassName = fixTypeName(fieldClassName);
     fieldName = Codegen_Utils::capitalizeFirstLetter(fieldName);
 
@@ -837,7 +837,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java) {
 
         str = ""; // reset for next method
         str += ((op->getAbstract() && !isInterface) ? "abstract ":"");
-        str += scopeToJavaDecl(op->getVisibility()) + ' ';
+        str += op->getVisibility().toString() + ' ';
         str += (op->getStatic() ? "static ":"");
         str += methodReturnType + ' ' +cleanName(op->getName()) + "( ";
 
@@ -880,25 +880,6 @@ QString JavaWriter::fixInitialStringDeclValue(const QString& val, QString type)
             value.append('"');
     }
     return value;
-}
-
-QString JavaWriter::scopeToJavaDecl(Uml::Visibility scope)
-{
-    QString scopeString;
-    switch(scope)
-    {
-      case Uml::Visibility::Public:
-        scopeString = "public";
-        break;
-      case Uml::Visibility::Protected:
-        scopeString = "protected";
-        break;
-      case Uml::Visibility::Private:
-    default:
-        scopeString = "private";
-        break;
-    }
-    return scopeString;
 }
 
 // methods like this _shouldn't_ be needed IF we properly did things thruought the code.

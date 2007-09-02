@@ -31,6 +31,7 @@
 #include "dcodecomment.h"
 #include "dclassdeclarationblock.h"
 #include "dcodeclassfielddeclarationblock.h"
+#include "codegen_utils.h"
 #include "../classifier.h"
 #include "../codegenerationpolicy.h"
 #include "../uml.h"
@@ -98,13 +99,8 @@ QString DClassifierCodeDocument::getPath ( )
 // Other methods
 //
 
-QString DClassifierCodeDocument::capitalizeFirstLetter(const QString &string)
-{
-    return DCodeGenerator::capitalizeFirstLetter(string);
-}
-
 QString DClassifierCodeDocument::getDClassName (const QString &name) {
-    return capitalizeFirstLetter(CodeGenerator::cleanName(name));
+    return Codegen_Utils::capitalizeFirstLetter(CodeGenerator::cleanName(name));
 }
 
 // Initialize this d classifier code document
@@ -280,26 +276,6 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
     }
 
 
-}
-
-QString DClassifierCodeDocument::scopeToDDecl(Uml::Visibility scope)
-{
-    QString scopeString;
-    switch(scope)
-    {
-      case Uml::Visibility::Public:
-        scopeString = "public";
-        break;
-      case Uml::Visibility::Protected:
-        scopeString = "protected";
-        break;
-      case Uml::Visibility::Private:
-      case Uml::Visibility::Implementation:
-          default:
-        scopeString = "private";
-        break;
-    }
-    return scopeString;
 }
 
 DClassDeclarationBlock * DClassifierCodeDocument::getClassDecl()

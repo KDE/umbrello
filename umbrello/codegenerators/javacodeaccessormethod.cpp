@@ -140,7 +140,7 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
 
     // gather defs
     Uml::Visibility::Value scopePolicy = commonpolicy->getAttributeAccessorScope();
-    QString strVis = javadoc->scopeToJavaDecl(javafield->getVisibility());
+    QString strVis = javafield->getVisibility().toString();
     QString fieldName = javafield->getFieldName();
     QString fieldType = javafield->getTypeName();
     QString objectType = javafield->getListObjectType();
@@ -155,7 +155,7 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
         case Uml::Visibility::Public:
         case Uml::Visibility::Private:
         case Uml::Visibility::Protected:
-              strVis = javadoc->scopeToJavaDecl((Uml::Visibility::Value) scopePolicy);
+              strVis = Uml::Visibility::toString((Uml::Visibility::Value) scopePolicy);
             break;
         default:
         case Uml::Visibility::FromParent:

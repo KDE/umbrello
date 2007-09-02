@@ -60,7 +60,7 @@ void RubyCodeOperation::updateMethodDeclaration()
     QString endLine = getNewLineEndingChars();
 
     // now, the starting text.
-    QString strVis = rubydoc->scopeToRubyDecl(o->getVisibility());
+    QString strVis = o->getVisibility().toString();
     // no return type for constructors
     QString fixedReturn = RubyCodeGenerator::cppToRubyType(o->getTypeName());
     QString returnType = o->isConstructorOperation() ? QString("") : (fixedReturn + QString(" "));

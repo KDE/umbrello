@@ -63,7 +63,7 @@ void JavaCodeClassFieldDeclarationBlock::updateContent( )
 
     // Set the body
     QString staticValue = getParentObject()->getStatic() ? "static " : "";
-    QString scopeStr = jdoc->scopeToJavaDecl(getParentObject()->getVisibility());
+    QString scopeStr = getParentObject()->getVisibility().toString();
 
     // IF this is from an association, then scope taken as appropriate to policy
     if(!jcf->parentIsAttribute())
@@ -72,7 +72,7 @@ void JavaCodeClassFieldDeclarationBlock::updateContent( )
         case Uml::Visibility::Public:
         case Uml::Visibility::Private:
         case Uml::Visibility::Protected:
-              scopeStr = jdoc->scopeToJavaDecl((Uml::Visibility::Value) scopePolicy);
+            scopeStr = Uml::Visibility::toString((Uml::Visibility::Value) scopePolicy);
             break;
         default:
         case Uml::Visibility::FromParent:

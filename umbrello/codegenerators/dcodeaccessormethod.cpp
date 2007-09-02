@@ -28,6 +28,7 @@
 #include "dcodegenerationpolicy.h"
 #include "dcodeclassfield.h"
 #include "dcodedocumentation.h"
+#include "codegen_utils.h"
 
 // Constructors/Destructors
 //
@@ -135,7 +136,7 @@ void DCodeAccessorMethod::updateMethodDeclaration()
 
     // gather defs
     Uml::Visibility::Value scopePolicy = commonpolicy->getAttributeAccessorScope();
-    QString strVis = ddoc->scopeToDDecl(dfield->getVisibility());
+    QString strVis = dfield->getVisibility().toString();
     QString fieldName = dfield->getFieldName();
     QString fieldType = dfield->getTypeName();
     QString objectType = dfield->getListObjectType();
@@ -150,7 +151,7 @@ void DCodeAccessorMethod::updateMethodDeclaration()
         case Uml::Visibility::Public:
         case Uml::Visibility::Private:
         case Uml::Visibility::Protected:
-              strVis = ddoc->scopeToDDecl((Uml::Visibility::Value) scopePolicy);
+              strVis = Uml::Visibility::toString((Uml::Visibility::Value) scopePolicy);
             break;
         default:
         case Uml::Visibility::FromParent:
@@ -166,29 +167,29 @@ void DCodeAccessorMethod::updateMethodDeclaration()
 
     switch(getType()) {
     case CodeAccessorMethod::ADD:
-        methodName = "add"+ddoc->capitalizeFirstLetter(fieldType);
+        methodName = "add" + Codegen_Utils::capitalizeFirstLetter(fieldType);
         methodReturnType = "void";
         methodParams = objectType+" value ";
         headerText = "Add an object of type "+objectType+" to the List "+fieldName+endLine+getParentObject()->getDoc()+endLine+"@return void";
         break;
     case CodeAccessorMethod::GET:
-        methodName = "get"+ddoc->capitalizeFirstLetter(fieldName);
+        methodName = "get" + Codegen_Utils::capitalizeFirstLetter(fieldName);
         methodReturnType = fieldType;
         headerText = "Get the value of "+fieldName+endLine+getParentObject()->getDoc()+endLine+"@return the value of "+fieldName;
         break;
     case CodeAccessorMethod::LIST:
-        methodName = "get"+ddoc->capitalizeFirstLetter(fieldType)+"List";
+        methodName = "get" + Codegen_Utils::capitalizeFirstLetter(fieldType)+"List";
         methodReturnType = "List";
         headerText = "Get the list of "+fieldName+endLine+getParentObject()->getDoc()+endLine+"@return List of "+fieldName;
         break;
     case CodeAccessorMethod::REMOVE:
-        methodName = "remove"+ddoc->capitalizeFirstLetter(fieldType);
+        methodName = "remove" + Codegen_Utils::capitalizeFirstLetter(fieldType);
         methodReturnType = "void";
         methodParams = objectType+" value ";
         headerText = "Remove an object of type "+objectType+" from the List "+fieldName+endLine+getParentObject()->getDoc();
         break;
     case CodeAccessorMethod::SET:
-        methodName = "set"+ddoc->capitalizeFirstLetter(fieldName);
+        methodName = "set" + Codegen_Utils::capitalizeFirstLetter(fieldName);
         methodReturnType = "void";
         methodParams = fieldType + " value ";
         headerText = "Set the value of "+fieldName+endLine+getParentObject()->getDoc()+endLine;

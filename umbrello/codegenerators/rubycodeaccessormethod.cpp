@@ -144,7 +144,7 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
     // gather defs
     CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
     Uml::Visibility::Value scopePolicy = p->getAttributeAccessorScope();
-    QString strVis = rubydoc->scopeToRubyDecl(rubyfield->getVisibility());
+    QString strVis = rubyfield->getVisibility().toString();
     QString fieldName = RubyCodeGenerator::cppToRubyName(rubyfield->getFieldName());
     QString fieldType = RubyCodeGenerator::cppToRubyType(rubyfield->getTypeName());
     QString objectType = rubyfield->getListObjectType();
@@ -164,7 +164,7 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
         case Uml::Visibility::Public:
         case Uml::Visibility::Private:
         case Uml::Visibility::Protected:
-            strVis = rubydoc->scopeToRubyDecl((Uml::Visibility::Value) scopePolicy);
+            strVis = Uml::Visibility::toString((Uml::Visibility::Value) scopePolicy);
             break;
         default:
         case Uml::Visibility::FromParent:

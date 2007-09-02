@@ -55,9 +55,6 @@ public:
      */
     //CodeDocumentDialog getDialog ( );
 
-    QString scopeToDDecl(Uml::Visibility scope);
-    QString capitalizeFirstLetter(const QString &string);
-
     // Make it easier on ourselves
     DCodeGenerationPolicy * getDPolicy();
 

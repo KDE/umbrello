@@ -57,7 +57,7 @@ void RubyCodeClassFieldDeclarationBlock::updateContent( )
 
     // Set the body
     QString staticValue = getParentObject()->getStatic() ? "static " : "";
-    QString scopeStr = rdoc->scopeToRubyDecl(getParentObject()->getVisibility());
+    QString scopeStr = Uml::Visibility::toString(getParentObject()->getVisibility());
 
     // IF this is from an association, then scope taken as appropriate to policy
     if(!rcf->parentIsAttribute())
@@ -66,7 +66,7 @@ void RubyCodeClassFieldDeclarationBlock::updateContent( )
         case Uml::Visibility::Public:
         case Uml::Visibility::Private:
         case Uml::Visibility::Protected:
-            scopeStr = rdoc->scopeToRubyDecl((Uml::Visibility::Value) scopePolicy);
+            scopeStr = Uml::Visibility::toString((Uml::Visibility::Value) scopePolicy);
             break;
         default:
         case Uml::Visibility::FromParent:

@@ -54,7 +54,7 @@ void DCodeOperation::updateMethodDeclaration()
     QString startText;
 
     // (a) visibility modifier
-    //FIXME: startText += ddoc->scopeToDDecl(o->getVisibility()) + " ";
+    //FIXME: startText += o->getVisibility().toString() + " ";
 
     // (b) static
     if (o->getStatic()) startText += "static ";

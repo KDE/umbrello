@@ -61,8 +61,6 @@ public:
      */
     //CodeDocumentDialog getDialog ( );
 
-    QString scopeToJavaDecl(Uml::Visibility scope);
-
     // Make it easier on ourselves
     JavaCodeGenerationPolicy * getJavaPolicy();
 

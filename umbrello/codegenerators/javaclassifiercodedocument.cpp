@@ -283,26 +283,6 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
 
 }
 
-QString JavaClassifierCodeDocument::scopeToJavaDecl(Uml::Visibility scope)
-{
-    QString scopeString;
-    switch(scope)
-    {
-      case Uml::Visibility::Public:
-        scopeString = "public";
-        break;
-      case Uml::Visibility::Protected:
-        scopeString = "protected";
-        break;
-      case Uml::Visibility::Private:
-      case Uml::Visibility::Implementation:
-          default:
-        scopeString = "private";
-        break;
-    }
-    return scopeString;
-}
-
 JavaClassDeclarationBlock * JavaClassifierCodeDocument::getClassDecl()
 {
     if(!classDeclCodeBlock)

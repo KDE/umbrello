@@ -52,7 +52,7 @@ void JavaCodeOperation::updateMethodDeclaration()
     QString endLine = getNewLineEndingChars();
 
     // now, the starting text.
-    QString strVis = javadoc->scopeToJavaDecl(o->getVisibility());
+    QString strVis = o->getVisibility().toString();
     // no return type for constructors
     QString fixedReturn = JavaCodeGenerator::fixTypeName(o->getTypeName());
     QString returnType = o->isConstructorOperation() ? QString("") : (fixedReturn + QString(" "));

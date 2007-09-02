@@ -73,7 +73,7 @@ class Visibility {
     };
     Visibility();
     Visibility(Value v);
-    static QString toString(Value value, bool mnemonic);
+    static QString toString(Value value, bool mnemonic = false);
     static Visibility fromString(const QString& vis);
     /**
      * Convert Visibility value into QString representation.

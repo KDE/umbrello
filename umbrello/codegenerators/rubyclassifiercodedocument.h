@@ -63,8 +63,6 @@ public:
      */
     //CodeDocumentDialog getDialog ( );
 
-    QString scopeToRubyDecl(Uml::Visibility scope);
-
     // Make it easier on ourselves
     RubyCodeGenerationPolicy * getRubyPolicy();
 
