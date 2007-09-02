@@ -76,7 +76,7 @@ in the document to store the views</string>
        </property>
        <property name="whatsThis" >
         <string>The views are stored in folders in the document. The same tree structure used in the document to store the views can be created in the selected base directory with this option.
-Only the folders made by the user are created in the base directory (Logical view, use case view and so on aren't created).</string>
+Only the folders made by the user are created in the base directory (Logical view, use case view and so on are not created).</string>
        </property>
        <property name="text" >
         <string>Use &amp;folders</string>
