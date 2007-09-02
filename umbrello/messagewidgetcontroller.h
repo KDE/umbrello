@@ -62,7 +62,7 @@ public:
 protected:
 
     /**
-     * Overriden from UMLWidgetController.
+     * Overridden from UMLWidgetController.
      * Saves the values of the widget needed for move/resize.
      * Calls parent method and then saves the value of m_unconstrainedPositionY
      *
@@ -71,7 +71,7 @@ protected:
     virtual void saveWidgetValues(QMouseEvent *me);
 
     /**
-     * Overriden from UMLWidgetController.
+     * Overridden from UMLWidgetController.
      * Returns the cursor to be shown when resizing the widget.
      * The cursor shown is KCursor::sizeVerCursor().
      *
@@ -80,7 +80,7 @@ protected:
     virtual QCursor getResizeCursor();
 
     /**
-     * Overriden from UMLWidgetController.
+     * Overridden from UMLWidgetController.
      * Resizes the height of the message widget and emits the message moved signal.
      * Message widgets can only be resized vertically, so width isn't modified.
      *
@@ -90,7 +90,7 @@ protected:
     virtual void resizeWidget(int newW, int newH);
 
     /**
-     * Overriden from UMLWidgetController.
+     * Overridden from UMLWidgetController.
      * Moves the widget to a new position using the difference between the
      * current position and the new position. X position is ignored, and widget
      * is only moved along Y axis. If message goes upper than the object, it's
@@ -107,7 +107,7 @@ protected:
     virtual void moveWidgetBy(int diffX, int diffY);
 
     /**
-     * Overriden from UMLWidgetController.
+     * Overridden from UMLWidgetController.
      * Modifies the value of the diffX and diffY variables used to move the widgets.
      * All the widgets are constrained to be moved only in Y axis (diffX is set to 0).
      * @see constrainPositionY
@@ -118,7 +118,7 @@ protected:
     virtual void constrainMovementForAllWidgets(int &diffX, int &diffY);
 
     /**
-     * Overriden from UMLWidgetController.
+     * Overridden from UMLWidgetController.
      * Executes the action for double click in the widget.
      * Shows the dialog to select the operation of the message.
      *

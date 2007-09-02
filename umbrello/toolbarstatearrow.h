@@ -138,7 +138,7 @@ protected:
     virtual void setCurrentWidget(UMLWidget* currentWidget);
 
     /**
-     * Overriden from base class to do nothing, as arrow is the default tool.
+     * Overridden from base class to do nothing, as arrow is the default tool.
      */
     virtual void changeTool();
 

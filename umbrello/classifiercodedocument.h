@@ -201,7 +201,7 @@ protected:
 
     virtual void updateContent( ) = 0;
 
-    // force syncronization of child classfields to their parent objects
+    // force synchronization of child classfields to their parent objects
     void syncClassFields( );
 
     // IF the classifier object is modified, this will get called.
