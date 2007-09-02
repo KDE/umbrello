@@ -8,3 +8,8 @@
  *  copyright (C) 2002-2006                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
+
+#ifndef __CMD_CREATE_CLASS_H__
+#define __CMD_CREATE_CLASS_H__
+
+#endif

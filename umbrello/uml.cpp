@@ -63,7 +63,6 @@
 #include "umlviewlist.h"
 #include "worktoolbar.h"
 #include "model_utils.h"
-#include "clipboard/umlclipboard.h"
 #include "dialogs/classwizard.h"
 #include "dialogs/codegenerationwizard.h"
 #include "dialogs/codeviewerdialog.h"
