@@ -429,7 +429,6 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
         QString nodeName = telement.tagName();
 
         if (nodeName != "textblocks") {
-            kDebug() << pfx << "ignoring tag " << nodeName << endl;
             tnode = telement.nextSibling();
             telement = tnode.toElement();
             continue;
