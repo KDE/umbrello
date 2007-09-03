@@ -59,25 +59,26 @@ CPPHeaderCodeDocument::CPPHeaderCodeDocument ( UMLClassifier * concept )
                              // CodeGenFactory::newCodeClassField(this)
                              // but "this" is still in construction at that time.
 
-    // needed? I doubt it, but it feels good to do it.
-    classDeclCodeBlock = 0;
-    publicBlock = 0;
-    protectedBlock = 0;
-    privateBlock = 0;
-    namespaceBlock = 0;
-    pubConstructorBlock = 0;
-    protConstructorBlock = 0;
-    privConstructorBlock = 0;
-    pubOperationsBlock = 0;
-    privOperationsBlock = 0;
-    protOperationsBlock = 0;
+    m_classDeclCodeBlock = 0;
+    m_publicBlock = 0;
+    m_protectedBlock = 0;
+    m_privateBlock = 0;
+    m_namespaceBlock = 0;
+    m_pubConstructorBlock = 0;
+    m_protConstructorBlock = 0;
+    m_privConstructorBlock = 0;
+    m_pubOperationsBlock = 0;
+    m_privOperationsBlock = 0;
+    m_protOperationsBlock = 0;
 
     // this will call updateContent() as well as other things that sync our document.
     //synchronize();
 
 }
 
-CPPHeaderCodeDocument::~CPPHeaderCodeDocument ( ) { }
+CPPHeaderCodeDocument::~CPPHeaderCodeDocument ( ) {
+    resetTextBlocks();
+}
 
 //
 // Methods
@@ -89,12 +90,12 @@ CPPHeaderCodeDocument::~CPPHeaderCodeDocument ( ) { }
 CPPHeaderClassDeclarationBlock * CPPHeaderCodeDocument::getClassDecl()
 {
 
-    if(!classDeclCodeBlock) {
-        classDeclCodeBlock = new CPPHeaderClassDeclarationBlock (this); // was deleted before our load
-        classDeclCodeBlock->updateContent();
-        classDeclCodeBlock->setTag("classDeclarationBlock");
+    if(!m_classDeclCodeBlock) {
+        m_classDeclCodeBlock = new CPPHeaderClassDeclarationBlock (this); // was deleted before our load
+        m_classDeclCodeBlock->updateContent();
+        m_classDeclCodeBlock->setTag("classDeclarationBlock");
     }
-    return classDeclCodeBlock;
+    return m_classDeclCodeBlock;
 }
 
 // Other methods
@@ -208,9 +209,9 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                                                 block->loadFromXMI(element);
                                                 // normally this would be populated by the following syncToparent
                                                 // call, but we cant wait for it, so lets just do it now.
-                                                namespaceBlock = getHierarchicalCodeBlock("namespace", "Namespace", 0);
+                                                m_namespaceBlock = getHierarchicalCodeBlock("namespace", "Namespace", 0);
 
-                                                if(!namespaceBlock || !namespaceBlock->addTextBlock(block))
+                                                if(!m_namespaceBlock || !m_namespaceBlock->addTextBlock(block))
                                                 {
                                                     kError()<<"Error:cant add class declaration codeblock"<<endl;
                                                     // DON'T delete/release block
@@ -254,17 +255,50 @@ void CPPHeaderCodeDocument::resetTextBlocks()
 {
 
     // all special pointers need to be zero'd out.
-    classDeclCodeBlock = 0;
-    publicBlock = 0;
-    protectedBlock = 0;
-    privateBlock = 0;
-    namespaceBlock = 0;
-    pubConstructorBlock = 0;
-    protConstructorBlock = 0;
-    privConstructorBlock = 0;
-    pubOperationsBlock = 0;
-    privOperationsBlock = 0;
-    protOperationsBlock = 0;
+    if (m_classDeclCodeBlock) {
+        delete m_classDeclCodeBlock;
+        m_classDeclCodeBlock = 0;
+    }
+    if (m_publicBlock) {
+        delete m_publicBlock;
+        m_publicBlock = 0;
+    }
+    if (m_protectedBlock) {
+        delete m_protectedBlock;
+        m_protectedBlock = 0;
+    }
+    if (m_privateBlock) {
+        delete m_privateBlock;
+        m_privateBlock = 0;
+    }
+    if (m_namespaceBlock) {
+        delete m_namespaceBlock;
+        m_namespaceBlock = 0;
+    }
+    if (m_pubConstructorBlock) {
+        delete m_pubConstructorBlock;
+        m_pubConstructorBlock = 0;
+    }
+    if (m_protConstructorBlock) {
+        delete m_protConstructorBlock;
+        m_protConstructorBlock = 0;
+    }
+    if (m_privConstructorBlock) {
+        delete m_privConstructorBlock;
+        m_privConstructorBlock = 0;
+    }
+    if (m_pubOperationsBlock) {
+        delete m_pubOperationsBlock;
+        m_pubOperationsBlock = 0;
+    }
+    if (m_privOperationsBlock) {
+        delete m_privOperationsBlock;
+        m_privOperationsBlock = 0;
+    }
+    if (m_protOperationsBlock) {
+        delete m_protOperationsBlock;
+        m_protOperationsBlock = 0;
+    }
 
     // now do the traditional release of child text blocks
     ClassifierCodeDocument::resetTextBlocks();
@@ -284,26 +318,26 @@ bool CPPHeaderCodeDocument::addCodeOperation (CodeOperation * op ) {
         switch (scope) {
         default:
               case Uml::Visibility::Public:
-            return pubOperationsBlock->addTextBlock(op);
+            return m_pubOperationsBlock->addTextBlock(op);
             break;
               case Uml::Visibility::Protected:
-            return protOperationsBlock->addTextBlock(op);
+            return m_protOperationsBlock->addTextBlock(op);
             break;
               case Uml::Visibility::Private:
-            return privOperationsBlock->addTextBlock(op);
+            return m_privOperationsBlock->addTextBlock(op);
             break;
         }
     } else {
         switch (scope) {
         default:
               case Uml::Visibility::Public:
-            return pubConstructorBlock->addTextBlock(op);
+            return m_pubConstructorBlock->addTextBlock(op);
             break;
               case Uml::Visibility::Protected:
-            return protConstructorBlock->addTextBlock(op);
+            return m_protConstructorBlock->addTextBlock(op);
             break;
               case Uml::Visibility::Private:
-            return privConstructorBlock->addTextBlock(op);
+            return m_privConstructorBlock->addTextBlock(op);
             break;
         }
     }
@@ -449,7 +483,7 @@ void CPPHeaderCodeDocument::updateContent( )
         hasNamespace = false;
 
     // set start/end text of namespace block
-    namespaceBlock = getHierarchicalCodeBlock("namespace", "Namespace", 0);
+    m_namespaceBlock = getHierarchicalCodeBlock("namespace", "Namespace", 0);
     if(hasNamespace) {
         UMLPackageList pkgList = c->getPackages();
         QString pkgs;
@@ -457,17 +491,17 @@ void CPPHeaderCodeDocument::updateContent( )
         foreach (pkg, pkgList ) {
             pkgs += "namespace " + CodeGenerator::cleanName(pkg->getName()) + " { ";
         }
-        namespaceBlock->setStartText(pkgs);
+        m_namespaceBlock->setStartText(pkgs);
         QString closingBraces;
         foreach (pkg, pkgList ) {
             closingBraces += "} ";
         }
-        namespaceBlock->setEndText(closingBraces);
-        namespaceBlock->getComment()->setWriteOutText(true);
+        m_namespaceBlock->setEndText(closingBraces);
+        m_namespaceBlock->getComment()->setWriteOutText(true);
     } else {
-        namespaceBlock->setStartText("");
-        namespaceBlock->setEndText("");
-        namespaceBlock->getComment()->setWriteOutText(false);
+        m_namespaceBlock->setStartText("");
+        m_namespaceBlock->setEndText("");
+        m_namespaceBlock->getComment()->setWriteOutText(false);
     }
 
     // Enum types for include
@@ -495,7 +529,7 @@ void CPPHeaderCodeDocument::updateContent( )
             enumStatement.append(indent+"};");
             isEnumeration = true;
         }
-        namespaceBlock->addOrUpdateTaggedCodeBlockWithComments("enums", enumStatement, "", 0, false);
+        m_namespaceBlock->addOrUpdateTaggedCodeBlockWithComments("enums", enumStatement, "", 0, false);
     }
 
     // CLASS DECLARATION BLOCK
@@ -503,7 +537,7 @@ void CPPHeaderCodeDocument::updateContent( )
 
     // add the class declaration block to the namespace block.
     CPPHeaderClassDeclarationBlock * myClassDeclCodeBlock = getClassDecl();
-    namespaceBlock->addTextBlock(myClassDeclCodeBlock); // note: wont add if already present
+    m_namespaceBlock->addTextBlock(myClassDeclCodeBlock); // note: wont add if already present
 
     // Is this really true?? hmm..
     if(isEnumeration)
@@ -517,20 +551,20 @@ void CPPHeaderCodeDocument::updateContent( )
 
     // declare public, protected and private methods, attributes (fields).
     // set the start text ONLY if this is the first time we created the objects.
-    bool createdPublicBlock = publicBlock == 0 ? true : false;
-    publicBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("publicBlock","Public stuff",0);
+    bool createdPublicBlock = m_publicBlock == 0 ? true : false;
+    m_publicBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("publicBlock","Public stuff",0);
     if (createdPublicBlock)
-        publicBlock->setStartText("public:");
+        m_publicBlock->setStartText("public:");
 
-    bool createdProtBlock = protectedBlock == 0 ? true : false;
-    protectedBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("protectedBlock","Protected stuff",0);
+    bool createdProtBlock = m_protectedBlock == 0 ? true : false;
+    m_protectedBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("protectedBlock","Protected stuff",0);
     if(createdProtBlock)
-        protectedBlock->setStartText("protected:");
+        m_protectedBlock->setStartText("protected:");
 
-    bool createdPrivBlock = privateBlock == 0 ? true : false;
-    privateBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("privateBlock","Private stuff",0);
+    bool createdPrivBlock = m_privateBlock == 0 ? true : false;
+    m_privateBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("privateBlock","Private stuff",0);
     if(createdPrivBlock)
-        privateBlock->setStartText("private:");
+        m_privateBlock->setStartText("private:");
 
     //
     // * CLASS FIELD declaration section
@@ -540,7 +574,7 @@ void CPPHeaderCodeDocument::updateContent( )
     //
 
     // public fields: Update the comment: we only set comment to appear under the following conditions
-    HierarchicalCodeBlock * publicFieldDeclBlock = publicBlock->getHierarchicalCodeBlock("publicFieldsDecl", "Fields", 1);
+    HierarchicalCodeBlock * publicFieldDeclBlock = m_publicBlock->getHierarchicalCodeBlock("publicFieldsDecl", "Fields", 1);
     CodeComment * pubFcomment = publicFieldDeclBlock->getComment();
     if (!forcedoc && !hasclassFields )
         pubFcomment->setWriteOutText(false);
@@ -548,7 +582,7 @@ void CPPHeaderCodeDocument::updateContent( )
         pubFcomment->setWriteOutText(true);
 
     // protected fields: Update the comment: we only set comment to appear under the following conditions
-    HierarchicalCodeBlock * protectedFieldDeclBlock = protectedBlock->getHierarchicalCodeBlock("protectedFieldsDecl", "Fields", 1);
+    HierarchicalCodeBlock * protectedFieldDeclBlock = m_protectedBlock->getHierarchicalCodeBlock("protectedFieldsDecl", "Fields", 1);
     CodeComment * protFcomment = protectedFieldDeclBlock->getComment();
     if (!forcedoc && !hasclassFields )
         protFcomment->setWriteOutText(false);
@@ -556,7 +590,7 @@ void CPPHeaderCodeDocument::updateContent( )
         protFcomment->setWriteOutText(true);
 
     // private fields: Update the comment: we only set comment to appear under the following conditions
-    HierarchicalCodeBlock * privateFieldDeclBlock = privateBlock->getHierarchicalCodeBlock("privateFieldsDecl", "Fields", 1);
+    HierarchicalCodeBlock * privateFieldDeclBlock = m_privateBlock->getHierarchicalCodeBlock("privateFieldsDecl", "Fields", 1);
     CodeComment * privFcomment = privateFieldDeclBlock->getComment();
     if (!forcedoc && !hasclassFields )
         privFcomment->setWriteOutText(false);
@@ -595,7 +629,7 @@ void CPPHeaderCodeDocument::updateContent( )
     // get/create the method codeblock
 
     // public methods
-    HierarchicalCodeBlock * pubMethodsBlock = publicBlock->getHierarchicalCodeBlock("pubMethodsBlock", "", 1);
+    HierarchicalCodeBlock * pubMethodsBlock = m_publicBlock->getHierarchicalCodeBlock("pubMethodsBlock", "", 1);
     CodeComment * pubMethodsComment = pubMethodsBlock->getComment();
     // set conditions for showing this comment
     if (!forcedoc && !hasclassFields && !hasOperationMethods)
@@ -604,7 +638,7 @@ void CPPHeaderCodeDocument::updateContent( )
         pubMethodsComment->setWriteOutText(true);
 
     // protected methods
-    HierarchicalCodeBlock * protMethodsBlock = protectedBlock->getHierarchicalCodeBlock("protMethodsBlock", "", 1);
+    HierarchicalCodeBlock * protMethodsBlock = m_protectedBlock->getHierarchicalCodeBlock("protMethodsBlock", "", 1);
     CodeComment * protMethodsComment = protMethodsBlock->getComment();
     // set conditions for showing this comment
     if (!forcedoc && !hasclassFields && !hasOperationMethods)
@@ -613,7 +647,7 @@ void CPPHeaderCodeDocument::updateContent( )
         protMethodsComment->setWriteOutText(true);
 
     // private methods
-    HierarchicalCodeBlock * privMethodsBlock = privateBlock->getHierarchicalCodeBlock("privMethodsBlock", "", 1);
+    HierarchicalCodeBlock * privMethodsBlock = m_privateBlock->getHierarchicalCodeBlock("privMethodsBlock", "", 1);
     CodeComment * privMethodsComment = privMethodsBlock->getComment();
     // set conditions for showing this comment
     if (!forcedoc && !hasclassFields && !hasOperationMethods)
@@ -629,30 +663,30 @@ void CPPHeaderCodeDocument::updateContent( )
     // setup/get/create the constructor codeblocks
 
     // public
-    pubConstructorBlock = pubMethodsBlock->getHierarchicalCodeBlock("constructionMethods", "Constructors", 1);
+    m_pubConstructorBlock = pubMethodsBlock->getHierarchicalCodeBlock("constructionMethods", "Constructors", 1);
     // special condiions for showing comment: only when autogenerateding empty constructors
     // Although, we *should* check for other constructor methods too
-    CodeComment * pubConstComment = pubConstructorBlock->getComment();
+    CodeComment * pubConstComment = m_pubConstructorBlock->getComment();
     if (!forcedoc && (isInterface || !pol->getAutoGenerateConstructors()))
         pubConstComment->setWriteOutText(false);
     else
         pubConstComment->setWriteOutText(true);
 
     // protected
-    protConstructorBlock = protMethodsBlock->getHierarchicalCodeBlock("constructionMethods", "Constructors", 1);
+    m_protConstructorBlock = protMethodsBlock->getHierarchicalCodeBlock("constructionMethods", "Constructors", 1);
     // special condiions for showing comment: only when autogenerateding empty constructors
     // Although, we *should* check for other constructor methods too
-    CodeComment * protConstComment = protConstructorBlock->getComment();
+    CodeComment * protConstComment = m_protConstructorBlock->getComment();
     if (!forcedoc && (isInterface || !pol->getAutoGenerateConstructors()))
         protConstComment->setWriteOutText(false);
     else
         protConstComment->setWriteOutText(true);
 
     // private
-    privConstructorBlock = privMethodsBlock->getHierarchicalCodeBlock("constructionMethods", "Constructors", 1);
+    m_privConstructorBlock = privMethodsBlock->getHierarchicalCodeBlock("constructionMethods", "Constructors", 1);
     // special condiions for showing comment: only when autogenerateding empty constructors
     // Although, we *should* check for other constructor methods too
-    CodeComment * privConstComment = privConstructorBlock->getComment();
+    CodeComment * privConstComment = m_privConstructorBlock->getComment();
     if (!forcedoc && (isInterface || !pol->getAutoGenerateConstructors()))
         privConstComment->setWriteOutText(false);
     else
@@ -670,7 +704,7 @@ void CPPHeaderCodeDocument::updateContent( )
     TextBlock * emptyConstTb = findTextBlockByTag("emptyconstructor", true);
     CodeBlockWithComments * emptyConstBlock = dynamic_cast<CodeBlockWithComments*>(emptyConstTb);
     if(!emptyConstBlock)
-        emptyConstBlock = pubConstructorBlock->addOrUpdateTaggedCodeBlockWithComments("emptyconstructor", emptyConstStatement, "Empty Constructor", 1, false);
+        emptyConstBlock = m_pubConstructorBlock->addOrUpdateTaggedCodeBlockWithComments("emptyconstructor", emptyConstStatement, "Empty Constructor", 1, false);
 
     // Now, as an additional condition we only show the empty constructor block
     // IF it was desired to be shown
@@ -776,27 +810,27 @@ void CPPHeaderCodeDocument::updateContent( )
     // setup/get/create the operations codeblock
 
     // public
-    pubOperationsBlock = pubMethodsBlock->getHierarchicalCodeBlock("operationMethods", "Operations", 1);
+    m_pubOperationsBlock = pubMethodsBlock->getHierarchicalCodeBlock("operationMethods", "Operations", 1);
     // set conditions for showing section comment
-    CodeComment * pubOcomment = pubOperationsBlock->getComment();
+    CodeComment * pubOcomment = m_pubOperationsBlock->getComment();
     if (!forcedoc && !hasOperationMethods )
         pubOcomment->setWriteOutText(false);
     else
         pubOcomment->setWriteOutText(true);
 
     //protected
-    protOperationsBlock = protMethodsBlock->getHierarchicalCodeBlock("operationMethods", "Operations", 1);
+    m_protOperationsBlock = protMethodsBlock->getHierarchicalCodeBlock("operationMethods", "Operations", 1);
     // set conditions for showing section comment
-    CodeComment * protOcomment = protOperationsBlock->getComment();
+    CodeComment * protOcomment = m_protOperationsBlock->getComment();
     if (!forcedoc && !hasOperationMethods )
         protOcomment->setWriteOutText(false);
     else
         protOcomment->setWriteOutText(true);
 
     //private
-    privOperationsBlock = privMethodsBlock->getHierarchicalCodeBlock("operationMethods", "Operations", 1);
+    m_privOperationsBlock = privMethodsBlock->getHierarchicalCodeBlock("operationMethods", "Operations", 1);
     // set conditions for showing section comment
-    CodeComment * privOcomment = privOperationsBlock->getComment();
+    CodeComment * privOcomment = m_privOperationsBlock->getComment();
     if (!forcedoc && !hasOperationMethods )
         privOcomment->setWriteOutText(false);
     else

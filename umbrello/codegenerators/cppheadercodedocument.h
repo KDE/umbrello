@@ -81,21 +81,21 @@ protected:
 
 private:
 
-    CPPHeaderClassDeclarationBlock * classDeclCodeBlock;
+    CPPHeaderClassDeclarationBlock * m_classDeclCodeBlock;
 
-    HierarchicalCodeBlock * publicBlock;
-    HierarchicalCodeBlock * privateBlock;
-    HierarchicalCodeBlock * protectedBlock;
+    HierarchicalCodeBlock * m_publicBlock;
+    HierarchicalCodeBlock * m_privateBlock;
+    HierarchicalCodeBlock * m_protectedBlock;
 
-    HierarchicalCodeBlock * namespaceBlock;
+    HierarchicalCodeBlock * m_namespaceBlock;
 
-    HierarchicalCodeBlock * pubConstructorBlock;
-    HierarchicalCodeBlock * protConstructorBlock;
-    HierarchicalCodeBlock * privConstructorBlock;
+    HierarchicalCodeBlock * m_pubConstructorBlock;
+    HierarchicalCodeBlock * m_protConstructorBlock;
+    HierarchicalCodeBlock * m_privConstructorBlock;
 
-    HierarchicalCodeBlock * pubOperationsBlock;
-    HierarchicalCodeBlock * privOperationsBlock;
-    HierarchicalCodeBlock * protOperationsBlock;
+    HierarchicalCodeBlock * m_pubOperationsBlock;
+    HierarchicalCodeBlock * m_privOperationsBlock;
+    HierarchicalCodeBlock * m_protOperationsBlock;
 
     QString fileName; // Just for our convience in creating code
     QString endLine; // characters for ending line. Just for our convience in creating code
