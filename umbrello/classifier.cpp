@@ -765,7 +765,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item) {
             UMLAttribute *retval = dynamic_cast<UMLAttribute*>(m_List.takeAt( index ));
             if (retval) {
                 emit attributeRemoved(retval);
-                emit modified();
+                UMLObject::emitModified();
             } else {
                 index = -1;
             }
@@ -775,7 +775,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item) {
             UMLTemplate *t = dynamic_cast<UMLTemplate*>(m_List.takeAt( index));
             if (t) {
                 emit templateRemoved(t);
-                emit modified();
+                UMLObject::emitModified();
             } else {
                 index = -1;
             }
@@ -786,7 +786,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item) {
             if (el) {
                 UMLEnum *e = static_cast<UMLEnum*>(this);
                 e->signalEnumLiteralRemoved(el);
-                emit modified();
+                UMLObject::emitModified();
             } else {
                 index = -1;
             }
@@ -797,7 +797,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item) {
             if (el) {
                 UMLEntity *e = static_cast<UMLEntity*>(this);
                 e->signalEntityAttributeRemoved(el);
-                emit modified();
+                UMLObject::emitModified();
             } else {
                 index = -1;
             }

@@ -95,6 +95,7 @@ UMLDoc::UMLDoc() {
     m_nViewID = Uml::id_None;
     m_pTabPopupMenu = 0;
     m_pCurrentRoot = NULL;
+    m_bClosing = false;
 }
 
 void UMLDoc::init() {
@@ -257,6 +258,7 @@ bool UMLDoc::saveModified() {
 }
 
 void UMLDoc::closeDocument() {
+    m_bClosing = true;
     UMLApp::app()->setGenerator(Uml::pl_Reserved);  // delete the codegen
     m_Doc = "";
     DocWindow* dw = UMLApp::app()->getDocWindow();
@@ -299,6 +301,7 @@ void UMLDoc::closeDocument() {
         }
          */
     }
+    m_bClosing = false;
     m_bTypesAreResolved = false;
 }
 
@@ -827,7 +830,6 @@ UMLStereotype* UMLDoc::findOrCreateStereotype(const QString &name) {
     }
     s = new UMLStereotype(name, STR2ID(name));
     addStereotype(s);
-    //emit modified();
     return s;
 }
 
@@ -954,6 +956,10 @@ bool UMLDoc::loading() const {
 
 void UMLDoc::setLoading(bool state /* = true */) {
     m_bLoading = state;
+}
+
+bool UMLDoc::closing() const {
+    return m_bClosing;
 }
 
 UMLView* UMLDoc::createDiagram(UMLFolder *folder, Uml::Diagram_Type type, bool askForName /*= true */) {

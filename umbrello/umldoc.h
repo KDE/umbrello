@@ -701,6 +701,11 @@ public:
     void setLoading(bool state = true);
 
     /**
+     * Returns the m_bClosing flag.
+     */
+    bool closing() const;
+
+    /**
      * Calls the active code generator to create its default datatypes
      */
     void addDefaultDatatypes();
@@ -827,6 +832,11 @@ private:
      * returns NULL.
      */
     UMLFolder * m_pCurrentRoot;
+
+    /**
+     * True while closeDocument() is executing.
+     */
+    bool m_bClosing;
 
 public slots:
 

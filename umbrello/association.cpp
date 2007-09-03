@@ -546,9 +546,7 @@ void UMLAssociation::setAssocType(Uml::Association_Type assocType) {
         kDebug() << " A new uni-association has been created.";
 #endif
     }
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-    if (! umldoc->loading())
-        emit modified();
+    UMLObject::emitModified();
 }
 
 void UMLAssociation::setObject(UMLObject *obj, Uml::Role_Type role) {

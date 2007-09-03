@@ -244,7 +244,7 @@ void UMLObject::setStatic(bool bStatic)
 void UMLObject::emitModified()
 {
     UMLDoc *umldoc = UMLApp::app()->getDocument();
-    if (! umldoc->loading())
+    if (!umldoc->loading() && !umldoc->closing())
         emit modified();
 }
 
