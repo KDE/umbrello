@@ -547,6 +547,7 @@ void UMLView::slotObjectRemoved(UMLObject * o) {
         if(obj -> getID() != id)
             continue;
         removeWidget(obj);
+        break;
     }
 }
 
