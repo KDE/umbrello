@@ -78,14 +78,14 @@ void ObjectWidget::draw(QPainter & p , int offsetX, int offsetY) {
         drawSelected(&p, offsetX, offsetY);
 }
 
-void ObjectWidget::slotMenuSelection(int sel) {
-    QString name = "";
+void ObjectWidget::slotMenuSelection(QAction* action) {
+    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     switch(sel) {
     case ListPopupMenu::mt_Rename_Object:
         {
             bool ok;
             QRegExpValidator* validator = new QRegExpValidator(QRegExp(".*"), 0);
-            name = KInputDialog::getText
+            QString name = KInputDialog::getText
                    (i18n("Rename Object"),
                     i18n("Enter object name:"),
                     m_InstanceName,
@@ -118,7 +118,7 @@ void ObjectWidget::slotMenuSelection(int sel) {
         break;
 
     default:
-        UMLWidget::slotMenuSelection(sel);
+        UMLWidget::slotMenuSelection(action);
         break;
     }
 }

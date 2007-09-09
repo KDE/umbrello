@@ -80,9 +80,9 @@ public slots:
      * Will be called when a menu selection has been made from the
      * popup menu.
      *
-     * @param sel       The selection id that has been selected.
+     * @param action       The action that has been selected.
      */
-    void slotMenuSelection(int sel);
+    void slotMenuSelection(QAction* action);
 };
 
 #endif

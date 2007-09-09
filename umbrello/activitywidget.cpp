@@ -250,12 +250,13 @@ void ActivityWidget::setActivityType( ActivityType activityType ) {
     UMLWidget::m_bResizable = true;
 }
 
-void ActivityWidget::slotMenuSelection(int sel) {
+void ActivityWidget::slotMenuSelection(QAction* action) {
     bool done = false;
 
     bool ok = false;
     QString name = m_Text;
 
+    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     switch( sel ) {
     case ListPopupMenu::mt_Rename:
         name = KInputDialog::getText( i18n("Enter Activity Name"), i18n("Enter the name of the new activity:"), m_Text, &ok );
@@ -271,7 +272,7 @@ void ActivityWidget::slotMenuSelection(int sel) {
     }
 
     if( !done )
-        UMLWidget::slotMenuSelection( sel );
+        UMLWidget::slotMenuSelection(action);
 }
 
 void ActivityWidget::showProperties() {

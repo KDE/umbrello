@@ -70,7 +70,7 @@ public slots:
     void slotDoubleClick(Q3ListBoxItem * i);
     void slotRightButtonClicked(Q3ListBoxItem */* item*/, const QPoint &/* p*/);
     void slotRightButtonPressed(Q3ListBoxItem * item, const QPoint & p);
-    void slotPopupMenuSel(int id);
+    void slotPopupMenuSel(QAction* action);
 };
 
 #endif

@@ -118,8 +118,9 @@ void ActivityPage::updateActivities() {
     m_pStateWidget -> setActivities( list );
 }
 
-void ActivityPage::slotMenuSelection( int sel ) {
-    switch( sel ) {
+void ActivityPage::slotMenuSelection(QAction* action) {
+    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
+    switch(sel) {
     case ListPopupMenu::mt_New_Activity:
         slotNewActivity();
         break;
@@ -182,14 +183,14 @@ void ActivityPage::slotRightButtonPressed(Q3ListBoxItem * item, const QPoint & p
     }
 
     if(m_pMenu) {
-        m_pMenu -> hide();
-        disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotMenuSelection(int)));
+        m_pMenu->hide();
+        disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
         delete m_pMenu;
         m_pMenu = 0;
     }
     m_pMenu = new ListPopupMenu(this, type);
     m_pMenu->popup(p);
-    connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotMenuSelection(int)));
+    connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
 }
 
 

@@ -258,9 +258,9 @@ public slots:
      * This method is public due to called by @ref MessageWidget
      * when this is text for a @ref MessageWidget.
      *
-     * @param sel  The selection that has been made.
+     * @param action  The action that has been selected.
      */
-    void slotMenuSelection(int sel);
+    void slotMenuSelection(QAction* action);
 
     /**
      * Sets the text for this label if it is acting as a sequence

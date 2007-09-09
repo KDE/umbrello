@@ -64,12 +64,13 @@ bool FloatingDashLineWidget::onLine(const QPoint &point) {
    return false;
 }
 
-void FloatingDashLineWidget::slotMenuSelection(int sel) {
+void FloatingDashLineWidget::slotMenuSelection(QAction* action) {
     bool done = false;
 
     bool ok = false;
     QString name = m_Text;
 
+    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     switch( sel ) {
     case ListPopupMenu::mt_Rename:
         name = KInputDialog::getText( i18n("Enter alternative Name"), i18n("Enter the alternative :"), m_Text, &ok );
@@ -79,7 +80,7 @@ void FloatingDashLineWidget::slotMenuSelection(int sel) {
         break;
     }
     if( !done )
-        UMLWidget::slotMenuSelection( sel );
+        UMLWidget::slotMenuSelection(action);
 }
 
 void FloatingDashLineWidget::setY(int y)

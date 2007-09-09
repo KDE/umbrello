@@ -26,7 +26,6 @@
 #include <kdialog.h>
 
 //app includes
-#include "../listpopupmenu.h"
 #include "../umlclassifierlistitemlist.h"
 #include "../umlentityattributelist.h" 
 
@@ -34,6 +33,7 @@ class UMLObject;
 class UMLClassifier;
 class UMLDoc;
 class UMLUniqueConstraint;
+
 /**
  * A dialog page to display unique constraint properties.
  * 

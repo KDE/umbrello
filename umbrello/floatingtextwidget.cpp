@@ -87,7 +87,8 @@ QSize FloatingTextWidget::calculateSize() {
     return QSize(w + 8, h + 4);  // give a small margin
 }
 
-void FloatingTextWidget::slotMenuSelection(int sel) {
+void FloatingTextWidget::slotMenuSelection(QAction* action) {
+    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     switch(sel) {
     case ListPopupMenu::mt_Properties:
         showProperties();
@@ -151,7 +152,7 @@ void FloatingTextWidget::slotMenuSelection(int sel) {
         break;
 
     default:
-        UMLWidget::slotMenuSelection(sel);
+        UMLWidget::slotMenuSelection(action);
         break;
     }//end switch
 }

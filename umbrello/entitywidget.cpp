@@ -179,7 +179,8 @@ QSize EntityWidget::calculateSize() {
     return QSize(width, height);
 }
 
-void EntityWidget::slotMenuSelection(int sel) {
+void EntityWidget::slotMenuSelection(QAction* action) {
+    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     switch(sel) {
     case ListPopupMenu::mt_EntityAttribute:
         if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(m_pObject),
@@ -218,7 +219,7 @@ void EntityWidget::slotMenuSelection(int sel) {
         break;
     }
 
-    UMLWidget::slotMenuSelection(sel);
+    UMLWidget::slotMenuSelection(action);
 }
 
 void EntityWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement ) {

@@ -99,9 +99,9 @@ public slots:
     /**
      * Overrides the function from UMLWidget.
      *
-     * @param sel  The command to be executed.
+     * @param action  The command to be executed.
      */
-    void slotMenuSelection(int sel);
+    void slotMenuSelection(QAction* action);
 
 
 protected:

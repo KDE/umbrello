@@ -250,7 +250,7 @@ public slots:
     /**
      * Handles a popup menu selection.
      */
-    void slotMenuSelection(int sel);
+    void slotMenuSelection(QAction* action);
 
     /**
      * Handles a color change signal.

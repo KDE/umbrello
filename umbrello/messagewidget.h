@@ -456,7 +456,7 @@ private:
 
 public slots:
     void slotWidgetMoved(Uml::IDType id);
-    void slotMenuSelection(int sel);
+    void slotMenuSelection(QAction* action);
 signals:
     /**
      * emitted when the message widget is moved up or down

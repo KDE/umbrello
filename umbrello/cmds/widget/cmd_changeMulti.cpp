@@ -21,7 +21,6 @@
 #include "umldoc.h"
 #include "umlview.h"
 #include "umlobject.h"
-#include "listpopupmenu.h"
 #include "classifierwidget.h"
 #include "associationwidget.h"
 #include "messagewidget.h"

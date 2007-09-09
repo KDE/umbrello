@@ -93,7 +93,8 @@ void MessageWidgetController::constrainMovementForAllWidgets(int &diffX, int &di
 
 void MessageWidgetController::doMouseDoubleClick(QMouseEvent* /*me*/) {
     if (m_messageWidget->m_pFText != NULL) {
-        m_messageWidget->m_pFText->slotMenuSelection(ListPopupMenu::mt_Select_Operation);
+        QAction* action = m_messageWidget->m_pMenu->getAction(ListPopupMenu::mt_Select_Operation);
+        m_messageWidget->m_pFText->slotMenuSelection(action);
     }
 }
 

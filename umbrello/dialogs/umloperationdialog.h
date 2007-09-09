@@ -108,7 +108,7 @@ public slots:
     void slotParmRightButtonPressed(Q3ListBoxItem *item, const QPoint &p);
     void slotParmRightButtonClicked(Q3ListBoxItem *item, const QPoint &p);
     void slotParmDoubleClick(Q3ListBoxItem *item);
-    void slotParmPopupMenuSel(int id);
+    void slotParmPopupMenuSel(QAction* action);
     void slotNewParameter();
     void slotDeleteParameter();
     void slotParameterProperties();

@@ -36,7 +36,6 @@ EnumWidget::EnumWidget(UMLView* view, UMLObject* o) : UMLWidget(view, o) {
 void EnumWidget::init() {
     UMLWidget::setBaseType(Uml::wt_Enum);
     setSize(100, 30);
-    m_pMenu = 0;
     //set defaults from m_pView
     if (m_pView) {
         //check to see if correct
@@ -167,7 +166,8 @@ QSize EnumWidget::calculateSize() {
     return QSize(width, height);
 }
 
-void EnumWidget::slotMenuSelection(int sel) {
+void EnumWidget::slotMenuSelection(QAction* action) {
+    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     if (sel == ListPopupMenu::mt_EnumLiteral) {
         if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(m_pObject),
                                               Uml::ot_EnumLiteral) )  {
@@ -179,7 +179,7 @@ void EnumWidget::slotMenuSelection(int sel) {
         }
         return;
     }
-    UMLWidget::slotMenuSelection(sel);
+    UMLWidget::slotMenuSelection(action);
 }
 
 void EnumWidget::setShowPackage(bool _status) {

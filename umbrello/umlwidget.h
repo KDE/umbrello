@@ -704,9 +704,9 @@ public slots:
     /**
      * Captures any popup menu signals for menus it created.
      *
-     * @param sel The command which has to be executed.
+     * @param action The action which has to be executed.
      */
-    virtual void slotMenuSelection(int sel);
+    virtual void slotMenuSelection(QAction* action);
 
     /**
      * Captures when another widget moves if it is link to it that signal.

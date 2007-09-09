@@ -342,22 +342,22 @@ void ClassifierListPage::slotRightButtonPressed(Q3ListBoxItem* item, const QPoin
     }
     if(m_pMenu) {
         m_pMenu->hide();
-        disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotPopupMenuSel(int)));
+        disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotPopupMenuSel(QAction*)));
         delete m_pMenu;
         m_pMenu = 0;
     }
     m_pMenu = new ListPopupMenu(this, type);
 
     m_pMenu->popup(p);
-    connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotPopupMenuSel(int)));
+    connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotPopupMenuSel(QAction*)));
 }
 
-void ClassifierListPage::slotPopupMenuSel(int id) {
+void ClassifierListPage::slotPopupMenuSel(QAction* action) {
     int currentItemIndex = m_pItemListLB->currentItem();
-
     if ( currentItemIndex == -1 )
         return;
 
+    ListPopupMenu::Menu_Type id = m_pMenu->getMenuType(action);
     UMLClassifierListItem* listItem = getItemList().at( currentItemIndex );
     if(!listItem && id != ListPopupMenu::mt_New_Attribute) {
         kDebug() << "can't find att from selection";

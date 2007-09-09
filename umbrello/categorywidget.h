@@ -76,7 +76,7 @@ public slots:
      *
      * @param sel       The selection id that has been selected.
      */
-    void slotMenuSelection(int sel);
+    void slotMenuSelection(QAction* action);
 
 };
 

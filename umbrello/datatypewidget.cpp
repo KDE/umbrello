@@ -22,7 +22,6 @@
 #include "classifierlistitem.h"
 #include "umlview.h"
 #include "umldoc.h"
-#include "listpopupmenu.h"
 
 
 #define CIRCLE_SIZE 30

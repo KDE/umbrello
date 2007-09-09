@@ -314,10 +314,11 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement ) {
     return true;
 }
 
-void CombinedFragmentWidget::slotMenuSelection(int sel) {
+void CombinedFragmentWidget::slotMenuSelection(QAction* action) {
     bool ok = false;
     bool done = false;
     QString name = m_Text;
+    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     switch (sel) {
           // for alternative or parallel combined fragments
     case ListPopupMenu::mt_AddInteractionOperand:
@@ -350,7 +351,7 @@ void CombinedFragmentWidget::slotMenuSelection(int sel) {
             break;
     }
    if( !done )
-        UMLWidget::slotMenuSelection( sel );
+        UMLWidget::slotMenuSelection(action);
 }
 
 #include "combinedfragmentwidget.moc"

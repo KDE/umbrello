@@ -158,13 +158,13 @@ bool UMLListView::eventFilter(QObject *o, QEvent *e) {
     if (me->button() == Qt::RightButton) {
         if (m_pMenu) {
             m_pMenu->hide();
-            disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(popupMenuSel(int)));
+            disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(popupMenuSel(QAction*)));
             delete m_pMenu;
         }
         UMLListViewItem * temp = (UMLListViewItem*)currentItem();
         m_pMenu = new ListPopupMenu(this, Uml::lvt_Model, temp->getUMLObject());
         m_pMenu->popup(me->globalPos());
-        connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(popupMenuSel(int)));
+        connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(popupMenuSel(QAction*)));
         return true;
     }
     return Q3ListView::eventFilter(o, e);
@@ -200,14 +200,14 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me) {
     if (button == Qt::RightButton) {
         if(m_pMenu != 0) {
             m_pMenu->hide();
-            disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(popupMenuSel(int)));
+            disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(popupMenuSel(QAction*)));
             delete m_pMenu;
             m_pMenu = 0;
         }
         const Uml::ListView_Type type = item->getType();
         m_pMenu = new ListPopupMenu(this, type, item->getUMLObject());
         m_pMenu->popup(me->globalPos());
-        connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(popupMenuSel(int)));
+        connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(popupMenuSel(QAction*)));
     }//end if right button
 
     K3ListView::contentsMousePressEvent(me);
@@ -265,7 +265,7 @@ void UMLListView::keyPressEvent(QKeyEvent *ke) {
     }
 }
 
-void UMLListView::popupMenuSel(int sel) {
+void UMLListView::popupMenuSel(QAction* action) {
     UMLListViewItem * temp = (UMLListViewItem*)currentItem();
     if ( !temp ) {
         kDebug() << "popupMenuSel invoked without currently selectedItem";
@@ -274,7 +274,7 @@ void UMLListView::popupMenuSel(int sel) {
     UMLObject * object = temp -> getUMLObject();
     Uml::ListView_Type lvt = temp -> getType();
     Uml::Object_Type umlType = Uml::ot_UMLObject;
-    ListPopupMenu::Menu_Type menuType = (ListPopupMenu::Menu_Type)sel;
+    ListPopupMenu::Menu_Type menuType = m_pMenu->getMenuType(action);
     QString name;
 
     switch (menuType) {
@@ -607,7 +607,7 @@ void UMLListView::popupMenuSel(int sel) {
             Uml::Diagram_Type dt = ListPopupMenu::convert_MT_DT(menuType);
             if (dt == Uml::dt_Undefined) {
                 kWarning() << "UMLListView::popupMenuSel: unknown type"
-                    << sel << endl;
+                    << menuType << endl;
             } else {
                 UMLFolder *f = dynamic_cast<UMLFolder*>(object);
                 if (f == NULL)
@@ -1955,7 +1955,7 @@ void UMLListView::slotCollapsed( Q3ListViewItem * item ) {
 
 void UMLListView::slotCutSuccessful() {
     if( m_bStartedCut ) {
-        popupMenuSel( ListPopupMenu::mt_Delete );
+        popupMenuSel(m_pMenu->getAction(ListPopupMenu::mt_Delete));
         //deletion code here
         m_bStartedCut = false;
     }
@@ -2879,7 +2879,7 @@ bool UMLListView::deleteItem(UMLListViewItem *temp) {
             delete temp;
         }
     } else {
-        kWarning() << "umllistview::listpopupmenu::mt_Delete called with unknown type"
+        kWarning() << "umllistview::ListPopupMenu::mt_Delete called with unknown type"
             << endl;
     }
     return true;

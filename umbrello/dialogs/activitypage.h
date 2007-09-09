@@ -77,7 +77,7 @@ public slots:
     /**
      *  Popup menu item selected
      */
-    void slotMenuSelection( int sel );
+    void slotMenuSelection(QAction* action);
     void slotClicked( Q3ListBoxItem* item );
     void slotDoubleClicked( Q3ListBoxItem* item );
     void slotRightButtonClicked(Q3ListBoxItem* item, const QPoint& p);

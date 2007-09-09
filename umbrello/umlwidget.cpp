@@ -258,12 +258,13 @@ void UMLWidget::init() {
     setZ(m_origZ = 2);  // default for most widgets
 }
 
-void UMLWidget::slotMenuSelection(int sel) {
+void UMLWidget::slotMenuSelection(QAction* action) {
     QFont font;
     QColor newColour;
     const Uml::Widget_Type wt = m_Type;
     UMLWidget* widget = 0; // use for select the first object properties (fill, line color)
 
+    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     switch(sel) {
     case ListPopupMenu::mt_Rename:
         m_pDoc -> renameUMLObject(m_pObject);
@@ -296,7 +297,6 @@ void UMLWidget::slotMenuSelection(int sel) {
         break;
 
     case ListPopupMenu::mt_Line_Color:
-    case ListPopupMenu::mt_Line_Color_Selection:
         widget = m_pView->getFirstMultiSelectedWidget();
         if (widget) { newColour = widget->getLineColor(); }
         if( KColorDialog::getColor(newColour) ) {
@@ -307,7 +307,6 @@ void UMLWidget::slotMenuSelection(int sel) {
         break;
 
     case ListPopupMenu::mt_Fill_Color:
-    case ListPopupMenu::mt_Fill_Color_Selection:
         widget = m_pView->getFirstMultiSelectedWidget();
         if (widget) { newColour = widget->getFillColour(); }
         if ( KColorDialog::getColor(newColour) ) {
@@ -669,12 +668,12 @@ void UMLWidget::startPopupMenu( const QPoint &At) {
 
     m_pMenu->popup(At);
 
-    connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotMenuSelection(int)));
+    connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
 }
 
 void UMLWidget::slotRemovePopupMenu() {
     if(m_pMenu) {
-        disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotMenuSelection(int)));
+        disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
         delete m_pMenu;
         m_pMenu = 0;
     }

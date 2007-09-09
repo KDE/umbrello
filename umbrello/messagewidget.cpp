@@ -493,7 +493,8 @@ bool MessageWidget::contains(ObjectWidget * w) {
         return false;
 }
 
-void MessageWidget::slotMenuSelection(int sel) {
+void MessageWidget::slotMenuSelection(QAction* action) {
+    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     if(sel == ListPopupMenu::mt_Delete) {
         // This will clean up this widget and the text widget:
         m_pView -> removeWidget(this);
@@ -507,7 +508,7 @@ void MessageWidget::slotMenuSelection(int sel) {
             setLinkAndTextPos();
             m_pView->getWidgetList().append(m_pFText);
         }
-        m_pFText -> slotMenuSelection(sel);
+        m_pFText -> slotMenuSelection(action);
     }
 }
 

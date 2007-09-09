@@ -41,7 +41,8 @@ void NoteWidgetController::mouseReleaseEvent(QMouseEvent *me) {
 void NoteWidgetController::doMouseDoubleClick(QMouseEvent* /*me*/) {
     //TODO Copied from old code. What it does?
     if (m_noteWidget->m_DiagramLink == Uml::id_None) {
-        m_noteWidget->slotMenuSelection(ListPopupMenu::mt_Rename);
+        QAction* action = m_noteWidget->m_pMenu->getAction(ListPopupMenu::mt_Rename);
+        m_noteWidget->slotMenuSelection(action);
     } else {
         UMLDoc *umldoc = UMLApp::app()->getDocument();
         umldoc->changeCurrentView(m_noteWidget->m_DiagramLink);

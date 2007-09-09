@@ -1015,7 +1015,7 @@ public slots:
     /**
      * Handles the selection from the popup menu.
      */
-    void slotMenuSelection(int sel);
+    void slotMenuSelection(QAction* action);
 
     /**
      * This slot is entered when an event has occurred on the views display,

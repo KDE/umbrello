@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                              *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -40,13 +40,14 @@
 #include "objectnodewidget.h"
 #include "forkjoinwidget.h"
 #include "objectwidget.h"
-#include "pinwidget.h"
 #include "category.h"
+
+const bool CHECKABLE = true;
 
 //ListPopupMenu for a UMLView (diagram)
 ListPopupMenu::ListPopupMenu(QWidget *parent, Menu_Type type, UMLView * view)
-        : KMenu(parent) {
-    init();
+        : KMenu(parent)
+{
     m_TriggerObject.m_View = view;
     m_TriggerObjectType = tot_View;
     setupMenu(type);
@@ -54,8 +55,8 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Menu_Type type, UMLView * view)
 
 //ListPopupMenu for the tree list view
 ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type, UMLObject* object)
-        : KMenu(parent) {
-    init();
+        : KMenu(parent)
+{
     m_TriggerObject.m_Object = object;
     m_TriggerObjectType = tot_Object;
     Menu_Type mt = mt_Undefined;
@@ -229,8 +230,8 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type, UMLObject
         mt = mt_Model;
         break;
 
-    default:   ;
-        //break;
+    default:
+        break;
     }
     setupMenu(mt);
 }
@@ -240,14 +241,15 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
                              bool multi, bool unique)
         : KMenu(parent)
 {
-    init();
     m_TriggerObject.m_Widget = object;
     m_TriggerObjectType = tot_Widget;
     //make the right menu for the type
     //make menu for logical view
     if(!object)
         return;
-    Uml::Widget_Type type = object -> getBaseType();
+    Uml::Widget_Type type = object->getBaseType();
+    // kDebug() << "ListPopupMenu created with multi=" << multi << " , unique="
+    //         << unique << " for Widget_Type=" << type << endl;
 
     if(multi) {
         ClassifierWidget *c = NULL;
@@ -255,61 +257,52 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
             c = static_cast<ClassifierWidget *>( object );
             makeMultiClassifierPopup(c);
         }
-        setupColorSelection(object -> getUseFillColour());
-        insertSeparator();
-        insertStdItem(mt_Cut);
-        insertStdItem(mt_Copy);
-        insertStdItem(mt_Paste);
-        insertSeparator();
-        insertItem(SmallIcon( "fonts" ), i18n( "Change Font..." ),
-                   mt_Change_Font_Selection );
-        insertItem(SmallIcon( "edit-delete" ), i18n("Delete Selected Items"),
-                   mt_Delete_Selection);
+        insertSubMenuColor(object->getUseFillColour());
+        addSeparator();
+        insert(mt_Cut);
+        insert(mt_Copy);
+        insert(mt_Paste);
+        addSeparator();
+        insert(mt_Change_Font_Selection, SmallIcon("newfont"), i18n("Change Font..."));
+        insert(mt_Delete_Selection, SmallIcon("edit-delete"), i18n("Delete Selected Items"));
 
         // add this here and not above with the other stuff of the interface
         // user might expect it at this position of the context menu
         if (unique) {
             if (type == Uml::wt_Interface) {
-                insertItem(i18n("Draw as Circle"), mt_DrawAsCircle_Selection);
-                setItemChecked( mt_DrawAsCircle_Selection,
-                                c->getDrawAsCircle() );
-                insertItem(i18n("Change into Class"), mt_ChangeToClass_Selection);
+                insert(mt_DrawAsCircle_Selection, i18n("Draw as Circle"), CHECKABLE);
+                setActionChecked(mt_DrawAsCircle_Selection, c->getDrawAsCircle());
+                insert(mt_ChangeToClass_Selection, i18n("Change into Class"));
             } else if (type == Uml::wt_Class) {
                 UMLClassifier *umlc = c->getClassifier();
                 if (umlc->getAbstract() && umlc->attributes() == 0)
-                    insertItem(i18n("Change into Interface"), mt_ChangeToInterface_Selection);
+                    insert(mt_ChangeToInterface_Selection, i18n("Change into Interface"));
             }
         }
 
         return;
     }
 
-    StateWidget *pState;
-    ActivityWidget *pActivity;
-    ObjectNodeWidget * objWidget;
-    UMLView * pView = static_cast<UMLView *>( parent );
-
     switch(type) {
     case Uml::wt_Actor:
     case Uml::wt_UseCase:
-        setupColor(object -> getUseFillColour());
+        insertSubMenuColor(object->getUseFillColour());
         insertStdItems(true, type);
-        insertStdItem(mt_Rename);
-        insertStdItem(mt_Change_Font);
-        insertStdItem(mt_Properties);
+        insert(mt_Rename);
+        insert(mt_Change_Font);
+        insert(mt_Properties);
         break;
 
     case Uml::wt_Category:
        {
-         insertItem(i18n("Category Type"),makeCategoryTypeMenu(
-                                            static_cast<UMLCategory*>(object->getUMLObject())
-                                          )
-                    );
-
-         setupColor(object -> getUseFillColour());
+         KMenu* m = makeCategoryTypeMenu(
+                        static_cast<UMLCategory*>(object->getUMLObject()));
+         m->setTitle(i18n("Category Type"));
+         addMenu(m);
+         insertSubMenuColor(object->getUseFillColour());
          insertStdItems(true, type);
-         insertStdItem(mt_Rename);
-         insertStdItem(mt_Change_Font);
+         insert(mt_Rename);
+         insert(mt_Change_Font);
          break;
        }
     case Uml::wt_Class:
@@ -318,30 +311,21 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         break;
 
     case Uml::wt_Enum:
-        m_pInsert = new KMenu(this);
-        m_pInsert->insertItem(SmallIcon("source"), i18n("Enum Literal..."), mt_EnumLiteral);
-        insertFileNew();
-        setupColor(object->getUseFillColour());
+        insertSubMenuNew(mt_Enum);
+        insertSubMenuColor(object->getUseFillColour());
         insertStdItems(true, type);
-        insertStdItem(mt_Rename);
-        insertStdItem(mt_Change_Font);
-        insertStdItem(mt_Properties);
+        insert(mt_Rename);
+        insert(mt_Change_Font);
+        insert(mt_Properties);
         break;
 
     case Uml::wt_Entity:
-        m_pInsert = new KMenu(this);
-        m_pInsert->insertItem(SmallIcon("source"), i18n("Entity Attribute..."), mt_EntityAttribute);
-        m_pInsert->insertItem(SmallIcon("primarykey_constraint"),i18n("Primary Key Constraint..."),mt_PrimaryKeyConstraint );
-        m_pInsert->insertItem(SmallIcon("unique_constraint"),i18n("Unique Constraint..."),mt_UniqueConstraint );
-        m_pInsert->insertItem(SmallIcon("foreignkey_constraint"),i18n("Foreign Key Constraint..."),mt_ForeignKeyConstraint );
-
-        m_pInsert->insertItem(SmallIcon("check_constraint"), i18n("Check Constraint..."), mt_CheckConstraint);
-        insertFileNew();
-        setupColor(object->getUseFillColour());
+        insertSubMenuNew(mt_Entity);
+        insertSubMenuColor(object->getUseFillColour());
         insertStdItems(true, type);
-        insertStdItem(mt_Rename);
-        insertStdItem(mt_Change_Font);
-        insertStdItem(mt_Properties);
+        insert(mt_Rename);
+        insert(mt_Change_Font);
+        insert(mt_Properties);
         break;
 
     case Uml::wt_Datatype:
@@ -349,69 +333,73 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     case Uml::wt_Component:
     case Uml::wt_Node:
     case Uml::wt_Artifact:
-        setupColor(object->getUseFillColour());
+        insertSubMenuColor(object->getUseFillColour());
         insertStdItems(false, type);
-        insertStdItem(mt_Rename);
-        insertStdItem(mt_Change_Font);
-        insertStdItem(mt_Properties);
+        insert(mt_Rename);
+        insert(mt_Change_Font);
+        insert(mt_Properties);
         break;
 
     case Uml::wt_Object:
-        //Used for sequence diagram and collaboration diagram widgets
-        setupColor( object->getUseFillColour() );
-        if( pView->getType() == Uml::dt_Sequence ) {
-            insertSeparator();
-            int tabUp = insertItem( SmallIcon( "arrow-up"), i18n("Move Up"), mt_Up);
-            insertItem( SmallIcon( "arrow-down"), i18n("Move Down"), mt_Down);
-            if ( !(static_cast<ObjectWidget*>(object))->canTabUp() ) {
-                setItemEnabled(tabUp, false);
+        {
+            UMLView * pView = static_cast<UMLView *>(parent);
+            //Used for sequence diagram and collaboration diagram widgets
+            insertSubMenuColor( object->getUseFillColour() );
+            if( pView->getType() == Uml::dt_Sequence ) {
+                addSeparator();
+                Menu_Type tabUp = mt_Up;
+                insert(mt_Up, SmallIcon("arrow-up"), i18n("Move Up"));
+                insert(mt_Down, SmallIcon("arrow-down"), i18n("Move Down"));
+                if ( !(static_cast<ObjectWidget*>(object))->canTabUp() ) {
+                    setActionEnabled(tabUp, false);
+                }
             }
+            insertStdItems(true, type);
+            insert(mt_Rename, i18n("Rename Class..."));
+            insert(mt_Rename_Object, i18n("Rename Object..."));
+            insert(mt_Change_Font);
+            insert(mt_Properties);
         }
-        insertStdItems(true, type);
-        insertItem(i18n("Rename Class..."), mt_Rename);
-        insertItem(i18n("Rename Object..."), mt_Rename_Object);
-        insertStdItem(mt_Change_Font);
-        insertStdItem(mt_Properties);
         break;
 
     case Uml::wt_Message:
         insertStdItems(false, type);
-        insertStdItem(mt_Change_Font);
-        insertItem(SmallIcon( "document-new"), i18n("New Operation..."), mt_Operation);
-        insertItem(i18n("Select Operation..."), mt_Select_Operation);
+        insert(mt_Change_Font);
+        insert(mt_Operation, SmallIcon( "document-new"), i18n("New Operation..."));
+        insert(mt_Select_Operation, i18n("Select Operation..."));
         break;
 
     case Uml::wt_Note:
-        setupColor(object -> getUseFillColour());
-        insertSeparator();
-        insertStdItem(mt_Cut);
-        insertStdItem(mt_Copy);
-        insertStdItem(mt_Paste);
-        insertItem(SmallIcon( "edit-delete"), i18n("Clear"), mt_Clear);
-        insertSeparator();
-        insertItem(i18n("Change Text..."), mt_Rename);
-        insertStdItem(mt_Delete);
-        insertStdItem(mt_Change_Font);
+        insertSubMenuColor(object->getUseFillColour());
+        addSeparator();
+        insert(mt_Cut);
+        insert(mt_Copy);
+        insert(mt_Paste);
+        insert(mt_Clear, SmallIcon("edit-delete"), i18n("Clear"));
+        addSeparator();
+        insert(mt_Rename, i18n("Change Text..."));
+        insert(mt_Delete);
+        insert(mt_Change_Font);
         break;
 
     case Uml::wt_Box:
         insertStdItems(false, type);
-        insertStdItem(mt_Line_Color);
+        insert(mt_Line_Color);
         break;
 
     case Uml::wt_State:
-        pState = static_cast< StateWidget *>( object );
-        if( pState -> getStateType() == StateWidget::Normal ) {
-            m_pInsert = new KMenu(this);
-            m_pInsert -> insertItem(SmallIcon( "document-new"), i18n("Activity..."), mt_New_Activity);
-            insertFileNew();
-        }
-        setupColor( object -> getUseFillColour() );
-        insertStdItems(false, type);
-        if( pState -> getStateType() == StateWidget::Normal ) {
-            insertItem(i18n("Change State Name..."), mt_Rename);
-            insertStdItem(mt_Change_Font);
-            insertStdItem(mt_Properties);
+        {
+            StateWidget* pState = static_cast< StateWidget *>( object );
+            if (pState->getStateType() == StateWidget::Normal) {
+                insertSubMenuNew(mt_New_Activity);
+            }
+            insertSubMenuColor( object->getUseFillColour() );
+            insertStdItems(false, type);
+            if (pState->getStateType() == StateWidget::Normal) {
+                insert(mt_Rename, i18n("Change State Name..."));
+                insert(mt_Change_Font);
+                insert(mt_Properties);
+            }
         }
         break;
 
@@ -419,41 +407,47 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         {
             ForkJoinWidget *pForkJoin = static_cast<ForkJoinWidget*>(object);
             if (pForkJoin->getDrawVertical())
-                insertItem(i18n("Flip Horizontal"), mt_Flip);
+                insert(mt_Flip, i18n("Flip Horizontal"));
             else
-                insertItem(i18n("Flip Vertical"), mt_Flip);
+                insert(mt_Flip, i18n("Flip Vertical"));
         }
         break;
 
     case Uml::wt_Activity:
-        pActivity = static_cast<ActivityWidget *>( object );
-        if( pActivity -> getActivityType() == ActivityWidget::Normal
-         || pActivity -> getActivityType() == ActivityWidget::Invok
-         || pActivity -> getActivityType() == ActivityWidget::Param)
-            setupColor( object -> getUseFillColour() );
-        insertStdItems(false, type);
-        if( pActivity -> getActivityType() == ActivityWidget::Normal
-         || pActivity -> getActivityType() == ActivityWidget::Invok
-         || pActivity -> getActivityType() == ActivityWidget::Param) {
-            insertItem(i18n("Change Activity Name..."), mt_Rename);
-            insertStdItem(mt_Change_Font);
-            insertStdItem(mt_Properties);
+        {
+            ActivityWidget* pActivity = static_cast<ActivityWidget *>(object);
+            if( pActivity -> getActivityType() == ActivityWidget::Normal
+              || pActivity -> getActivityType() == ActivityWidget::Invok
+              || pActivity -> getActivityType() == ActivityWidget::Param) {
+                insertSubMenuColor( object->getUseFillColour() );
+            }
+            insertStdItems(false, type);
+            if( pActivity -> getActivityType() == ActivityWidget::Normal
+              || pActivity -> getActivityType() == ActivityWidget::Invok
+              || pActivity -> getActivityType() == ActivityWidget::Param) {
+                insert(mt_Rename, i18n("Change Activity Name..."));
+                insert(mt_Change_Font);
+                insert(mt_Properties);
+            }
         }
         break;
 
     case Uml::wt_ObjectNode:
-        objWidget = static_cast<ObjectNodeWidget *>( object );
-        if ( objWidget -> getObjectNodeType() == ObjectNodeWidget::Buffer
+        {
+            ObjectNodeWidget* objWidget = static_cast<ObjectNodeWidget *>(object);
+            if (objWidget -> getObjectNodeType() == ObjectNodeWidget::Buffer
+              || objWidget -> getObjectNodeType() == ObjectNodeWidget::Data
+              || objWidget -> getObjectNodeType() == ObjectNodeWidget::Flow) {
+                insertSubMenuColor( object->getUseFillColour() );
+            }
+            insertStdItems(false, type);
+            if (objWidget -> getObjectNodeType() == ObjectNodeWidget::Buffer
                 || objWidget -> getObjectNodeType() == ObjectNodeWidget::Data
-                || objWidget -> getObjectNodeType() == ObjectNodeWidget::Flow)
-            setupColor( object -> getUseFillColour() );
-        insertStdItems(false, type);
-        if ( objWidget -> getObjectNodeType() == ObjectNodeWidget::Buffer
-                || objWidget -> getObjectNodeType() == ObjectNodeWidget::Data
-                || objWidget -> getObjectNodeType() == ObjectNodeWidget::Flow){
-            insertItem(i18n("Change Object Node Name..."), mt_Rename);
-            insertStdItem(mt_Change_Font);
-            insertStdItem(mt_Properties);
+                || objWidget -> getObjectNodeType() == ObjectNodeWidget::Flow) {
+                insert(mt_Rename, i18n("Change Object Node Name..."));
+                insert(mt_Change_Font);
+                insert(mt_Properties);
+            }
         }
         break;
 
@@ -461,35 +455,35 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     case Uml::wt_Signal:
     case Uml::wt_FloatingDashLine:
     case Uml::wt_Precondition:
-        setupColor( object -> getUseFillColour() );
-        insertSeparator();
-        insertStdItem(mt_Cut);
-        insertStdItem(mt_Copy);
-        insertStdItem(mt_Paste);
-        insertItem(SmallIcon( "editdelete"), i18n("Clear"), mt_Clear);
-        insertSeparator();
-        insertItem(i18n("Change Text..."), mt_Rename);
-        insertStdItem(mt_Delete);
-        insertStdItem(mt_Change_Font);
+        insertSubMenuColor(object->getUseFillColour());
+        addSeparator();
+        insert(mt_Cut);
+        insert(mt_Copy);
+        insert(mt_Paste);
+        insert(mt_Clear, SmallIcon( "editdelete"), i18n("Clear"));
+        addSeparator();
+        insert(mt_Rename, i18n("Change Text..."));
+        insert(mt_Delete);
+        insert(mt_Change_Font);
         break;
 
     case Uml::wt_CombinedFragment:
         // for alternative and parallel combined fragments
         if ((static_cast<CombinedFragmentWidget*>(object))->getCombinedFragmentType() == CombinedFragmentWidget::Alt ||
             (static_cast<CombinedFragmentWidget*>(object))->getCombinedFragmentType() == CombinedFragmentWidget::Par) {
-            insertItem(i18n("Add Interaction Operand"), mt_AddInteractionOperand);
-            insertSeparator();
+            insert(mt_AddInteractionOperand, i18n("Add Interaction Operand"));
+            addSeparator();
         }
-        setupColor( object -> getUseFillColour() );
-        insertSeparator();
-        insertStdItem(mt_Cut);
-        insertStdItem(mt_Copy);
-        insertStdItem(mt_Paste);
-        insertItem(SmallIcon( "editdelete"), i18n("Clear"), mt_Clear);
-        insertSeparator();
-        insertItem(i18n("Change Text..."), mt_Rename);
-        insertStdItem(mt_Delete);
-        insertStdItem(mt_Change_Font);
+        insertSubMenuColor(object->getUseFillColour());
+        addSeparator();
+        insert(mt_Cut);
+        insert(mt_Copy);
+        insert(mt_Paste);
+        insert(mt_Clear, SmallIcon( "editdelete"), i18n("Clear"));
+        addSeparator();
+        insert(mt_Rename, i18n("Change Text..."));
+        insert(mt_Delete);
+        insert(mt_Change_Font);
         break;
 
     case Uml::wt_Text:
@@ -511,25 +505,25 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
             break;
         case Uml::tr_ChangeA:
         case Uml::tr_ChangeB:
-            insertStdItem(mt_Change_Font);
-            insertStdItem(mt_Reset_Label_Positions);
-            insertStdItem(mt_Properties);
+            insert(mt_Change_Font);
+            insert(mt_Reset_Label_Positions);
+            insert(mt_Properties);
             break;
 
         case Uml::tr_Coll_Message_Self:
         case Uml::tr_Coll_Message:
         case Uml::tr_Seq_Message_Self:
         case Uml::tr_Seq_Message:
-            insertStdItem(mt_Change_Font);
-            insertItem(SmallIcon( "document-new"), i18n("New Operation..."), mt_Operation);
-            insertItem(i18n("Select Operation..."), mt_Select_Operation);
+            insert(mt_Change_Font);
+            insert(mt_Operation, SmallIcon( "document-new"), i18n("New Operation..."));
+            insert(mt_Select_Operation, i18n("Select Operation..."));
             break;
 
         case Uml::tr_Floating:
         default:
             insertStdItems(false, type);
-            insertItem(i18n("Change Text..."), mt_Rename);
-            insertStdItem(mt_Change_Font);
+            insert(mt_Rename, i18n("Change Text..."));
+            insert(mt_Change_Font);
             break;
         }
         break;
@@ -538,148 +532,195 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     }//end switch
 
     bool bCutState = UMLApp::app() -> getCutCopyState();
-    setItemEnabled( mt_Cut, bCutState );
-    setItemEnabled( mt_Copy, bCutState );
-    setItemEnabled( mt_Paste, false );
+    setActionEnabled( mt_Cut, bCutState );
+    setActionEnabled( mt_Copy, bCutState );
+    setActionEnabled( mt_Paste, false );
 }
 
-ListPopupMenu::~ListPopupMenu() {}
-
-void ListPopupMenu::init() {
-    m_pInsert = 0;
-    m_pShow = 0;
-    m_pColor = 0;
+ListPopupMenu::~ListPopupMenu()
+{
+    foreach (QAction* action, m_actions) {
+        delete action;
+    }
+    m_actions.clear();
 }
 
-void ListPopupMenu::insertFileNew() {
-    insertItem(SmallIcon("document-new"), i18n("New"), m_pInsert);
-}
-
-void ListPopupMenu::insertStdItem(Menu_Type m)
+void ListPopupMenu::insert(Menu_Type m)
 {
     switch (m) {
     case mt_Properties:
-        insertItem(SmallIcon("document-properties"), i18n("Properties"), mt_Properties);
+        m_actions[m] = addAction(SmallIcon("document-properties"), i18n("Properties"));
         break;
     case mt_Rename:
-        insertItem(i18n("Rename..."), mt_Rename);
+        m_actions[m] = addAction(i18n("Rename..."));
         break;
     case mt_Delete:
-        insertItem(SmallIcon("edit-delete"), i18n("Delete"), mt_Delete);
+        m_actions[m] = addAction(SmallIcon("edit-delete"), i18n("Delete"));
         break;
     case mt_Cut:
-        insertItem(SmallIcon("edit-cut"), i18n("Cut"), mt_Cut);
+        m_actions[m] = addAction(SmallIcon("edit-cut"), i18n("Cut"));
         break;
     case mt_Copy:
-        insertItem(SmallIcon("edit-copy"), i18n("Copy"), mt_Copy);
+        m_actions[m] = addAction(SmallIcon("edit-copy"), i18n("Copy"));
         break;
     case mt_Paste:
-        insertItem(SmallIcon("edit-paste"), i18n("Paste"), mt_Paste);
+        m_actions[m] = addAction(SmallIcon("edit-paste"), i18n("Paste"));
         break;
     case mt_Change_Font:
-        insertItem(SmallIcon("fonts"), i18n("Change Font..."), mt_Change_Font);
+        m_actions[m] = addAction(SmallIcon("newfont"), i18n("Change Font..."));
         break;
     case mt_Line_Color:
-        insertItem(SmallIcon("color_line"), i18n("Line Color..."), mt_Line_Color);
+        m_actions[m] = addAction(SmallIcon("color-line"), i18n("Line Color..."));
         break;
     case mt_Expand_All:
-        insertItem(i18n("Expand All"), mt_Expand_All);
+        m_actions[m] = addAction(i18n("Expand All"));
         break;
     case mt_Collapse_All:
-        insertItem(i18n("Collapse All"), mt_Collapse_All);
+        m_actions[m] = addAction(i18n("Collapse All"));
         break;
     case mt_Clone:
-        insertItem(i18n("Duplicate"), mt_Clone);
+        m_actions[m] = addAction(i18n("Duplicate"));
         break;
     case mt_Externalize_Folder:
-        insertItem(i18n("Externalize Folder..."), mt_Externalize_Folder);
+        m_actions[m] = addAction(i18n("Externalize Folder..."));
         break;
     case mt_Internalize_Folder:
-        insertItem(i18n("Internalize Folder"), mt_Internalize_Folder);
+        m_actions[m] = addAction(i18n("Internalize Folder"));
         break;
     case mt_Import_Classes:
-        insertItem(BarIcon("source-cpp"), i18n("Import Classes..."), mt_Import_Classes);
+        m_actions[m] = addAction(BarIcon("file-import"), i18n("Import Classes..."));
         break;
     case mt_Import_Project:
-        insertItem(BarIcon("source-cpp"), i18n("Import Project..."), mt_Import_Project);
+        m_actions[m] = addAction(BarIcon("file-import"), i18n("Import Project..."));
         break;
-    case mt_Package:
-        m_pInsert->insertItem(m_pixmap[pm_Package], i18n("Package"), mt_Package);
+    case mt_Reset_Label_Positions:
+        m_actions[m] = addAction(i18n("Reset Label Positions"));
+        break;
+    case mt_New_Parameter:
+        m_actions[m] = addAction(SmallIcon("fileview-text"), i18n("New Parameter..."));
+        break;
+    case mt_New_Operation:
+        m_actions[m] = addAction(SmallIcon("CVpublic_meth"),i18n("New Operation..."));
+        break;
+    case mt_New_Attribute:
+        m_actions[m] = addAction(SmallIcon("CVpublic_var"), i18n("New Attribute..."));
+        break;
+    case mt_New_Template:
+        m_actions[m] = addAction(SmallIcon("fileview-text"), i18n("New Template..."));
+        break;
+    case mt_New_EnumLiteral:
+        m_actions[m] = addAction(SmallIcon("fileview-text"), i18n("New Literal..."));
+        break;
+    case mt_New_EntityAttribute:
+        m_actions[m] = addAction(SmallIcon("fileview-text"), i18n("New Entity Attribute..."));
+        break;
+    case mt_Export_Image:
+        m_actions[m] = addAction(SmallIcon("image"), i18n("Export as Picture..."));
+        break;
+    default:
+        kWarning() << "ListPopupMenu::insert called on unimplemented Menu_Type " << m << endl;
+        break;
+    }
+}
+
+void ListPopupMenu::insert(Menu_Type m, KMenu* menu)
+{
+    Q_ASSERT(menu != NULL);
+    switch (m) {
     case mt_Subsystem:
-        m_pInsert->insertItem(m_pixmap[pm_Subsystem], i18n("Subsystem"), mt_Subsystem);
+        m_actions[m] = menu->addAction(m_pixmap[pm_Subsystem], i18n("Subsystem"));
         break;
     case mt_Component:
-        m_pInsert->insertItem(m_pixmap[pm_Component], i18n("Component"), mt_Component);
+        m_actions[m] = menu->addAction(m_pixmap[pm_Component], i18n("Component"));
         break;
     case mt_Artifact:
-        m_pInsert->insertItem(m_pixmap[pm_Artifact], i18n("Artifact"), mt_Artifact);
+        m_actions[m] = menu->addAction(m_pixmap[pm_Artifact], i18n("Artifact"));
         break;
     case mt_Component_Diagram:
-        m_pInsert->addAction(UMLApp::app()->actionCollection()->action("new_component_diagram"));
+        {
+            QAction* act = UMLApp::app()->actionCollection()->action("new_component_diagram");
+            m_actions[m] = act;
+            menu->addAction(act);
+        }
         break;
     case mt_Node:
-        m_pInsert->insertItem(m_pixmap[pm_Node], i18n("Node"), mt_Node);
+        m_actions[m] = menu->addAction(m_pixmap[pm_Node], i18n("Node"));
         break;
     case mt_Deployment_Diagram:
-        m_pInsert->addAction(UMLApp::app()->actionCollection()->action("new_deployment_diagram"));
+        {
+            QAction* act = UMLApp::app()->actionCollection()->action("new_deployment_diagram");
+            m_actions[m] = act;
+            menu->addAction(act);
+        }
         break;
     case mt_Deployment_Folder:
     case mt_Component_Folder:
     case mt_UseCase_Folder:
     case mt_EntityRelationship_Folder:
-        m_pInsert->insertItem(BarIcon("folder-new"), i18n("Folder"), m);
+        m_actions[m] = menu->addAction(BarIcon("folder-new"), i18n("Folder"));
         break;
     case mt_Entity:
-        m_pInsert->insertItem(m_pixmap[pm_Entity], i18n("Entity"), mt_Entity);
+        m_actions[m] = menu->addAction(m_pixmap[pm_Entity], i18n("Entity"));
         break;
     case mt_EntityRelationship_Diagram:
-        m_pInsert->addAction(UMLApp::app()->actionCollection()->action("new_entityrelationship_diagram"));
+        {
+            QAction* act = UMLApp::app()->actionCollection()->action("new_entityrelationship_diagram");
+            m_actions[m] = act;
+            menu->addAction(act);
+        }
         break;
     case mt_Category:
-        m_pInsert->insertItem(m_pixmap[pm_Category], i18n("Category"), mt_Category);
+        m_actions[m] = menu->addAction(m_pixmap[pm_Category], i18n("Category"));
         break;
     case mt_Actor:
-        m_pInsert->insertItem(m_pixmap[pm_Actor], i18n("Actor"), mt_Actor);
+        m_actions[m] = menu->addAction(m_pixmap[pm_Actor], i18n("Actor"));
         break;
     case mt_UseCase:
-        m_pInsert->insertItem(m_pixmap[pm_Usecase], i18n("Use Case"), mt_UseCase);
+        m_actions[m] = menu->addAction(m_pixmap[pm_Usecase], i18n("Use Case"));
         break;
     case mt_UseCase_Diagram:
-        m_pInsert->addAction(UMLApp::app()->actionCollection()->action("new_use_case_diagram"));
+        {
+            QAction* act = UMLApp::app()->actionCollection()->action("new_use_case_diagram");
+            m_actions[m] = act;
+            menu->addAction(act);
+        }
         break;
     case mt_FloatText:
-        m_pInsert->insertItem(m_pixmap[pm_Text], i18n("Text Line..." ), mt_FloatText);
-        break;
-    case mt_Reset_Label_Positions:
-        insertItem(i18n("Reset Label Positions"), mt_Reset_Label_Positions);
-        break;
-    case mt_New_Parameter:
-        insertItem(SmallIcon("source"), i18n("New Parameter..."), mt_New_Parameter);
-        break;
-    case mt_New_Operation:
-        insertItem(SmallIcon("CVpublic_meth"),i18n("New Operation..."), mt_New_Operation);
-        break;
-    case mt_New_Attribute:
-        insertItem(SmallIcon("CVpublic_var"), i18n("New Attribute..."), mt_New_Attribute);
-        break;
-    case mt_New_Template:
-        insertItem(SmallIcon("source"), i18n("New Template..."), mt_New_Template);
-        break;
-    case mt_New_EnumLiteral:
-        insertItem(SmallIcon("source"), i18n("New Literal..."), mt_New_EnumLiteral);
-        break;
-    case mt_New_EntityAttribute:
-        insertItem(SmallIcon("source"), i18n("New Entity Attribute..."), mt_New_EntityAttribute);
-        break;
-    case mt_New_Activity:
-        m_pInsert->insertItem(SmallIcon("source"), i18n("Activity..."), mt_New_Activity);
-        break;
-    case mt_Export_Image:
-        insertItem(SmallIcon("image"), i18n("Export as Picture..."), mt_Export_Image);
+        m_actions[m] = menu->addAction(m_pixmap[pm_Text], i18n("Text Line..." ));
         break;
     default:
-        kWarning() << "ListPopupMenu::insertStdItem called on unimplemented Menu_Type " << m;
+        kWarning() << "ListPopupMenu::insert called on unimplemented Menu_Type " << m << endl;
         break;
+    }
+}
+
+void ListPopupMenu::insert(const Menu_Type m, const QIcon & icon, const QString & text)
+{
+    m_actions[m] = addAction(icon, text);
+}
+
+void ListPopupMenu::insert(const Menu_Type m, const QString & text, const bool checkable)
+{
+    m_actions[m] = addAction(text);
+    if (checkable) {
+        QAction* action = getAction(m);
+        if (action)
+            action->setCheckable(checkable);
+    }
+}
+
+void ListPopupMenu::insert(const Menu_Type m, KMenu* menu, const QIcon & icon, const QString & text)
+{
+    m_actions[m] = menu->addAction(icon, text);
+}
+
+void ListPopupMenu::insert(const Menu_Type m, KMenu* menu, const QString & text, const bool checkable)
+{
+    m_actions[m] = menu->addAction(text);
+    if (checkable) {
+        QAction* action = getAction(m);
+        if (action)
+            action->setCheckable(checkable);
     }
 }
 
@@ -687,44 +728,49 @@ void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
                                    Uml::Widget_Type type /* = wt_UMLWidget */)
 {
     if (insertLeadingSeparator)
-        insertSeparator();
-    insertStdItem(mt_Cut);
-    insertStdItem(mt_Copy);
-    insertStdItem(mt_Paste);
-    insertSeparator();
+        addSeparator();
+    insert(mt_Cut);
+    insert(mt_Copy);
+    insert(mt_Paste);
+    addSeparator();
     if (type == Uml::wt_UMLWidget)
-        insertStdItem(mt_Rename);
+        insert(mt_Rename);
     else if (Model_Utils::isCloneable(type))
-        insertStdItem(mt_Clone);
-    insertStdItem(mt_Delete);
+        insert(mt_Clone);
+    insert(mt_Delete);
 }
 
-void ListPopupMenu::insertContainerItems(bool folderAndDiagrams) {
+void ListPopupMenu::insertContainerItems(bool folderAndDiagrams) 
+{
+    KMenu* menu = new KMenu(i18n("New"), this);
+    menu->setIcon(SmallIcon("document-new"));
     if (folderAndDiagrams)
-        m_pInsert -> insertItem(BarIcon("folder-new"), i18n("Folder"), mt_Logical_Folder);
-    m_pInsert -> insertItem(m_pixmap[pm_Class], i18n("Class"), mt_Class);
-    m_pInsert -> insertItem(m_pixmap[pm_Interface], i18n("Interface"), mt_Interface);
-    m_pInsert -> insertItem(m_pixmap[pm_Datatype], i18n("Datatype"), mt_Datatype);
-    m_pInsert -> insertItem(m_pixmap[pm_Enum], i18n("Enum"), mt_Enum);
-    insertStdItem(mt_Package);
+        insert(mt_Logical_Folder, menu, BarIcon("folder-new"), i18n("Folder"));
+    insert(mt_Class, menu, m_pixmap[pm_Class], i18n("Class"));
+    insert(mt_Interface, menu, m_pixmap[pm_Interface], i18n("Interface"));
+    insert(mt_Datatype, menu, m_pixmap[pm_Datatype], i18n("Datatype"));
+    insert(mt_Enum, menu, m_pixmap[pm_Enum], i18n("Enum"));
+    insert(mt_Package, menu, m_pixmap[pm_Package], i18n("Package"));
     if (folderAndDiagrams) {
-        m_pInsert->addAction(UMLApp::app()->actionCollection()->action("new_class_diagram"));
-        m_pInsert->addAction(UMLApp::app()->actionCollection()->action("new_sequence_diagram"));
-        m_pInsert->addAction(UMLApp::app()->actionCollection()->action("new_collaboration_diagram"));
-        m_pInsert->addAction(UMLApp::app()->actionCollection()->action("new_state_diagram"));
-        m_pInsert->addAction(UMLApp::app()->actionCollection()->action("new_activity_diagram"));
+        menu->addAction(UMLApp::app()->actionCollection()->action("new_class_diagram"));
+        menu->addAction(UMLApp::app()->actionCollection()->action("new_sequence_diagram"));
+        menu->addAction(UMLApp::app()->actionCollection()->action("new_collaboration_diagram"));
+        menu->addAction(UMLApp::app()->actionCollection()->action("new_state_diagram"));
+        menu->addAction(UMLApp::app()->actionCollection()->action("new_activity_diagram"));
     }
-    insertFileNew();
+    addMenu(menu);
 }
 
-void ListPopupMenu::insertAssocItem(const QString &label, Menu_Type mt) {
-    insertItem(label, mt);
-    insertStdItem(mt_Change_Font);
-    insertStdItem(mt_Reset_Label_Positions);
-    insertStdItem(mt_Properties);
+void ListPopupMenu::insertAssocItem(const QString &label, Menu_Type mt)
+{
+    insert(mt, label);
+    insert(mt_Change_Font);
+    insert(mt_Reset_Label_Positions);
+    insert(mt_Properties);
 }
 
-void ListPopupMenu::insertSubmodelAction() {
+void ListPopupMenu::insertSubmodelAction() 
+{
     const Settings::OptionState& ostat = Settings::getOptionState();
     if (ostat.generalState.tabdiagrams) {
         // Umbrello currently does not support External Folders
@@ -749,9 +795,9 @@ void ListPopupMenu::insertSubmodelAction() {
     }
     QString submodelFile = f->getFolderFile();
     if (submodelFile.isEmpty())
-        insertStdItem(mt_Externalize_Folder);
+        insert(mt_Externalize_Folder);
     else
-        insertStdItem(mt_Internalize_Folder);
+        insert(mt_Internalize_Folder);
 }
 
 void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
@@ -759,96 +805,82 @@ void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
     Uml::Widget_Type type = c->getBaseType();
     ClassifierWidget *cls = NULL;
 
-    m_pShow = new KMenu(this);
-    m_pShow->setCheckable(true);
+    KMenu* show = new KMenu(i18n("Show"), this);
+    show->setIcon(SmallIcon("datashow"));
     if (type == Uml::wt_Class) {
         cls = static_cast<ClassifierWidget*>(c);
-        m_pShow->insertItem( i18n("Attributes"), mt_Show_Attributes_Selection);
-        m_pShow->setItemChecked(mt_Show_Attributes_Selection,
-                                cls->getShowAtts());
+        insert(mt_Show_Attributes_Selection, show, i18n("Attributes"), CHECKABLE);
+        setActionChecked(mt_Show_Attributes_Selection, cls->getShowAtts());
     }
-    m_pShow->insertItem(i18n("Operations"), mt_Show_Operations_Selection);
-    m_pShow->setItemChecked(mt_Show_Operations_Selection, c->getShowOps());
-    m_pShow->insertItem(i18n("Public Only"), mt_Show_Public_Only_Selection);
-    m_pShow->setItemChecked(mt_Show_Public_Only_Selection, c->getShowPublicOnly());
-    m_pShow->insertItem(i18n("Visibility"), mt_Visibility_Selection);
-    m_pShow->setItemChecked(mt_Visibility_Selection, c->getShowVisibility());
-    m_pShow->insertItem(i18n("Operation Signature"),
-                        mt_Show_Operation_Signature_Selection);
+    insert(mt_Show_Operations_Selection, show, i18n("Operations"), CHECKABLE);
+    setActionChecked(mt_Show_Operations_Selection, c->getShowOps());
+    insert(mt_Show_Public_Only_Selection, show, i18n("Public Only"), CHECKABLE);
+    setActionChecked(mt_Show_Public_Only_Selection, c->getShowPublicOnly());
+    insert(mt_Visibility_Selection, show, i18n("Visibility"), CHECKABLE);
+    setActionChecked(mt_Visibility_Selection, c->getShowVisibility());
+    insert(mt_Show_Operation_Signature_Selection, show, i18n("Operation Signature"), CHECKABLE);
     bool sig = (c->getShowOpSigs() == Uml::st_SigNoVis ||
                 c->getShowOpSigs() == Uml::st_ShowSig);
-    m_pShow->setItemChecked(mt_Show_Operation_Signature_Selection, sig);
+    setActionChecked(mt_Show_Operation_Signature_Selection, sig);
     if (type == Uml::wt_Class) {
-        m_pShow->insertItem(i18n("Attribute Signature"),
-                            mt_Show_Attribute_Signature_Selection);
+        insert(mt_Show_Attribute_Signature_Selection, show, i18n("Attribute Signature"), CHECKABLE);
         sig = (cls->getShowAttSigs() == Uml::st_SigNoVis ||
                cls->getShowAttSigs() == Uml::st_ShowSig);
-        m_pShow->setItemChecked(mt_Show_Attribute_Signature_Selection, sig);
+        setActionChecked(mt_Show_Attribute_Signature_Selection, sig);
     }
-    m_pShow->insertItem(i18n("Package"), mt_Show_Packages_Selection);
-    m_pShow->setItemChecked(mt_Show_Packages_Selection, c->getShowPackage());
+    insert(mt_Show_Packages_Selection, show, i18n("Package"), CHECKABLE);
+    setActionChecked(mt_Show_Packages_Selection, c->getShowPackage());
     if (type == Uml::wt_Class) {
-        m_pShow->insertItem(i18n("Stereotype"), mt_Show_Stereotypes_Selection);
-        m_pShow->setItemChecked(mt_Show_Stereotypes_Selection,
-                                cls->getShowStereotype());
+        insert(mt_Show_Stereotypes_Selection, show, i18n("Stereotype"), CHECKABLE);
+        setActionChecked(mt_Show_Stereotypes_Selection, cls->getShowStereotype());
     }
-    insertItem(i18n("Show"), m_pShow);
+    addMenu(show);
 }
 
 void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
 {
     Uml::Widget_Type type = c->getBaseType();
-    m_pInsert = new KMenu(this);
+    KMenu* menu = new KMenu(i18n("New"), this);
+    menu->setIcon(SmallIcon("document-new"));
     if (type == Uml::wt_Class)
-        m_pInsert->insertItem(SmallIcon( "CVpublic_var" ), i18n("Attribute..."), mt_Attribute);
-    m_pInsert->insertItem( SmallIcon( "CVpublic_meth"), i18n("Operation..."), mt_Operation);
-    m_pInsert->insertItem( SmallIcon( "source" ), i18n( "Template..." ), mt_Template );
-
-    insertFileNew();
+        insert(mt_Attribute, menu, SmallIcon( "CVpublic_var" ), i18n("Attribute..."));
+    insert(mt_Operation, menu, SmallIcon( "CVpublic_meth"), i18n("Operation..."));
+    insert(mt_Template, menu, SmallIcon( "fileview-text" ), i18n( "Template..." ));
+    addMenu(menu);
 
     makeMultiClassifierPopup(c);
 
-    setupColor(c->getUseFillColour());
+    insertSubMenuColor(c->getUseFillColour());
     insertStdItems(true, type);
-    insertStdItem(mt_Rename);
-    insertStdItem(mt_Change_Font);
+    insert(mt_Rename);
+    insert(mt_Change_Font);
     if (type == Uml::wt_Interface) {
-        insertItem(i18n("Draw as Circle"), mt_DrawAsCircle);
-        setItemChecked( mt_DrawAsCircle, c->getDrawAsCircle() );
-        insertItem(i18n("Change into Class"), mt_ChangeToClass);
+        insert(mt_DrawAsCircle, i18n("Draw as Circle"), CHECKABLE);
+        setActionChecked(mt_DrawAsCircle, c->getDrawAsCircle());
+        insert(mt_ChangeToClass, i18n("Change into Class"));
     } else {
-        insertItem(i18n("Refactor"), mt_Refactoring);
-        insertItem(i18n("View Code"), mt_ViewCode);
+        insert(mt_Refactoring, i18n("Refactor"));
+        insert(mt_ViewCode, SmallIcon("text-plain"), i18n("View Code"));
         UMLClassifier *umlc = c->getClassifier();
         if (umlc->getAbstract() && umlc->attributes() == 0)
-            insertItem(i18n("Change into Interface"), mt_ChangeToInterface);
+            insert(mt_ChangeToInterface, i18n("Change into Interface"));
     }
-    insertStdItem(mt_Properties);
+    insert(mt_Properties);
 }
 
-void ListPopupMenu::setupColor(bool fc)
+void ListPopupMenu::insertSubMenuColor(bool fc)
 {
-    m_pColor = new KMenu(this);
-    m_pColor -> insertItem(SmallIcon( "color_line"), i18n("Line Color..."), mt_Line_Color);
-    m_pColor -> insertItem(SmallIcon( "color_fill"), i18n("Fill Color..."), mt_Fill_Color);
-    m_pColor -> insertItem( i18n("Use Fill Color"), mt_Use_Fill_Color);
-
-    m_pColor -> setItemChecked(mt_Use_Fill_Color, fc);
-    insertItem(SmallIcon( "colorize"), i18n("Color"), m_pColor);
+    KMenu* color = new KMenu(i18n("Color"), this);
+    color->setIcon(SmallIcon("paintbrush"));
+    insert(mt_Line_Color, color, SmallIcon("color-line"), i18n("Line Color..."));
+    insert(mt_Fill_Color, color, SmallIcon("color-fill"), i18n("Fill Color..."));
+    insert(mt_Use_Fill_Color, color, i18n("Use Fill Color"), CHECKABLE);
+    setActionChecked(mt_Use_Fill_Color, fc);
+    addMenu(color);
 }
 
-void ListPopupMenu::setupColorSelection(bool fc)
+Uml::Diagram_Type ListPopupMenu::convert_MT_DT(Menu_Type mt) 
 {
-    m_pColor = new KMenu(this);
-    m_pColor -> insertItem(SmallIcon( "color_line"), i18n("Line Color..."), mt_Line_Color_Selection);
-    m_pColor -> insertItem(SmallIcon( "color_fill"), i18n("Fill Color..."), mt_Fill_Color_Selection);
-    m_pColor -> insertItem( i18n("Use Fill Color"), mt_Use_Fill_Color);
-
-    m_pColor -> setItemChecked(mt_Use_Fill_Color, fc);
-    insertItem(SmallIcon( "colorize"), i18n("Color"), m_pColor);
-}
-
-Uml::Diagram_Type ListPopupMenu::convert_MT_DT(Menu_Type mt) {
     Uml::Diagram_Type type =  Uml::dt_Undefined;
 
     switch(mt) {
@@ -885,7 +917,8 @@ Uml::Diagram_Type ListPopupMenu::convert_MT_DT(Menu_Type mt) {
     return type;
 }
 
-Uml::Object_Type ListPopupMenu::convert_MT_OT(Menu_Type mt) {
+Uml::Object_Type ListPopupMenu::convert_MT_OT(Menu_Type mt)
+{
     Uml::Object_Type type =  Uml::ot_UMLObject;
 
     switch(mt) {
@@ -922,14 +955,136 @@ Uml::Object_Type ListPopupMenu::convert_MT_OT(Menu_Type mt) {
     return type;
 }
 
-void ListPopupMenu::setupMenu(Menu_Type type) {
-    //make the right menu for the type
-    //make menu for logical view
-    m_pInsert = 0;
+void ListPopupMenu::insertSubMenuNew(Menu_Type type)
+{
+    KMenu* menu = new KMenu(i18n("New"), this);
+    menu->setIcon(SmallIcon("document-new"));
+    switch (type) {
+        case mt_Deployment_View:
+            insert(mt_Deployment_Folder, menu);
+            insert(mt_Node, menu);
+            insert(mt_Deployment_Diagram, menu);
+            break;
+        case mt_EntityRelationship_Model:
+            insert(mt_EntityRelationship_Folder, menu);
+            insert(mt_Entity, menu);
+            insert(mt_Category, menu);
+            insert(mt_EntityRelationship_Diagram, menu);
+            break;
+        case mt_UseCase_View:
+            insert(mt_UseCase_Folder, menu);
+            insert(mt_Actor, menu);
+            insert(mt_UseCase, menu);
+            insert(mt_UseCase_Diagram, menu);
+            break;
+        case mt_Component:
+            insert(mt_Component, menu);
+            insert(mt_Artifact, menu);
+            break;
+        case mt_Component_View:
+        case mt_Component_Folder:
+            insert(mt_Component_Folder, menu);
+            insert(mt_Subsystem, menu);
+            insert(mt_Component, menu);
+            insert(mt_Artifact, menu);
+            insert(mt_Component_Diagram, menu);
+            break;
+        case mt_Deployment_Folder:
+            insert(mt_Deployment_Folder, menu);
+            insert(mt_Node, menu);
+            insert(mt_Deployment_Diagram, menu);
+            break;
+        case mt_UseCase_Folder:
+            insert(mt_UseCase_Folder, menu);
+            insert(mt_Actor, menu);
+            insert(mt_UseCase, menu);
+            insert(mt_UseCase_Diagram, menu);
+            break;
+        case mt_EntityRelationship_Folder:
+            insert(mt_EntityRelationship_Folder, menu);
+            insert(mt_Entity, menu);
+            insert(mt_EntityRelationship_Diagram, menu);
+            break;
+        case mt_On_UseCase_Diagram:
+            insert(mt_Actor, menu, m_pixmap[pm_Actor], i18n( "Actor..." ));
+            insert(mt_UseCase, menu, m_pixmap[pm_Usecase], i18n( "Use Case..."));
+            insert(mt_FloatText, menu);
+            break;
+        case mt_On_Class_Diagram:
+            insert(mt_Class, menu, m_pixmap[pm_Class], i18n("Class..."));
+            insert(mt_Interface, menu, m_pixmap[pm_Interface], i18n("Interface..."));
+            insert(mt_Datatype, menu, m_pixmap[pm_Datatype], i18n("Datatype..."));
+            insert(mt_Enum, menu, m_pixmap[pm_Enum], i18n("Enum..."));
+            insert(mt_Package, menu, m_pixmap[pm_Package], i18n("Package..."));
+            insert(mt_FloatText, menu);
+            break;
+        case mt_On_State_Diagram:
+            insert(mt_Initial_State, menu, m_pixmap[pm_InitialState], i18n("Initial State"));
+            insert(mt_End_State, menu, m_pixmap[pm_EndState], i18n("End State"));
+            insert(mt_State, menu, m_pixmap[pm_Usecase], i18n("State..."));
+            insert(mt_FloatText, menu);
+            break;
+        case mt_On_Activity_Diagram:
+            insert(mt_Initial_Activity, menu, m_pixmap[pm_InitialState], i18n("Initial Activity"));
+            insert(mt_End_Activity, menu, m_pixmap[pm_EndState], i18n("End Activity"));
+            insert(mt_Activity, menu, m_pixmap[pm_Usecase], i18n("Activity..."));
+            insert(mt_Branch, menu, m_pixmap[pm_Branch], i18n("Branch/Merge"));
+            insert(mt_FloatText, menu);
+            break;
+        case mt_On_Component_Diagram:
+            insert(mt_Subsystem, menu, m_pixmap[pm_Subsystem], i18n("Subsystem..."));
+            insert(mt_Component, menu, m_pixmap[pm_Component], i18n("Component..."));
+            insert(mt_Artifact, menu, m_pixmap[pm_Artifact], i18n("Artifact..."));
+            break;
+        case mt_On_Deployment_Diagram:
+            insert(mt_Node, menu, m_pixmap[pm_Node], i18n("Node..."));
+            break;
+        case mt_On_EntityRelationship_Diagram:
+            insert(mt_Entity, menu, m_pixmap[pm_Entity], i18n("Entity..."));
+            insert(mt_Category, menu, m_pixmap[pm_Category], i18n("Category..."));
+            break;
+        case mt_On_Sequence_Diagram:
+        case mt_On_Collaboration_Diagram:
+            insert(mt_Object, menu, m_pixmap[pm_Object], i18n("Object..."));
+            insert(mt_FloatText, menu);
+            break;
+        case mt_Class:
+            insert(mt_Attribute, menu, SmallIcon( "CVpublic_var"), i18n("Attribute"));
+            insert(mt_Operation, menu, SmallIcon( "CVpublic_meth"), i18n("Operation"));
+            insert(mt_Template, menu, SmallIcon("fileview-text"), i18n("Template"));
+            break;
+        case mt_Interface:
+            insert(mt_Operation, menu, SmallIcon("CVpublic_meth"), i18n("Operation"));
+            insert(mt_Template, menu, SmallIcon("fileview-text"), i18n("Template"));
+            break;
+        case mt_Entity:
+            insert(mt_EntityAttribute, menu, SmallIcon("fileview-text"), i18n("Entity Attribute..."));
+            insert(mt_PrimaryKeyConstraint, menu, SmallIcon("primarykey_constraint"),i18n("Primary Key Constraint..."));
+            insert(mt_UniqueConstraint, menu, SmallIcon("unique_constraint"),i18n("Unique Constraint..."));
+            insert(mt_ForeignKeyConstraint, menu, SmallIcon("foreignkey_constraint"),i18n("Foreign Key Constraint..."));
+            insert(mt_CheckConstraint, menu, SmallIcon("check_constraint"),i18n("Check Constraint..."));
+            break;
+        case mt_Enum:
+            insert(mt_EnumLiteral, menu, SmallIcon("fileview-text"), i18n("Enum Literal..."));
+            break;
+        case mt_New_Activity:
+        case mt_Activity_Selected:
+            insert(mt_New_Activity, menu, SmallIcon("fileview-text"), i18n("Activity..."));
+            break;
+        case mt_Subsystem:
+            insert(mt_Subsystem, menu);
+            insert(mt_Component, menu);
+            insert(mt_Artifact, menu);
+            break;
+        default:
+            break;
+    }
+    addMenu(menu);
+}
 
-    m_pShow = 0;
-    m_pColor = 0;
-
+void ListPopupMenu::setupMenu(Menu_Type type)
+{
+    // kDebug() << "ListPopupMenu created for Menu_Type=" << type << endl;
     KStandardDirs* dirs = KGlobal::dirs();
     QString dataDir = dirs->findResourceDir("data", "umbrello/pics/object.png");
     dataDir += "/umbrello/pics/";
@@ -954,141 +1109,100 @@ void ListPopupMenu::setupMenu(Menu_Type type) {
 
     switch(type) {
     case mt_Logical_View:
-        m_pInsert = new KMenu(this);
         insertContainerItems(true);
-        insertSeparator();
-        insertStdItem(mt_Paste);
-        insertSeparator();
-        insertStdItem(mt_Import_Classes);
-        insertStdItem(mt_Import_Project);
-        insertSeparator();
-        insertStdItem(mt_Expand_All);
-        insertStdItem(mt_Collapse_All);
+        addSeparator();
+        insert(mt_Paste);
+        addSeparator();
+        insert(mt_Import_Classes);
+        insert(mt_Import_Project);
+        addSeparator();
+        insert(mt_Expand_All);
+        insert(mt_Collapse_All);
         break;
 
     case mt_Component_View:
-        m_pInsert = new KMenu(this);
-        insertStdItem(mt_Component_Folder);
-        insertStdItem(mt_Subsystem);
-        insertStdItem(mt_Component);
-        insertStdItem(mt_Artifact);
-        insertStdItem(mt_Component_Diagram);
-        insertFileNew();
-        insertSeparator();
-        insertStdItem(mt_Paste);
-        insertSeparator();
-        insertStdItem(mt_Expand_All);
-        insertStdItem(mt_Collapse_All);
+        insertSubMenuNew(type);
+        addSeparator();
+        insert(mt_Paste);
+        addSeparator();
+        insert(mt_Expand_All);
+        insert(mt_Collapse_All);
         break;
 
     case mt_Deployment_View:
-        m_pInsert = new KMenu(this);
-        insertStdItem(mt_Deployment_Folder);
-        insertStdItem(mt_Node);
-        insertStdItem(mt_Deployment_Diagram);
-        insertFileNew();
-        insertSeparator();
-        insertStdItem(mt_Paste);
-        insertSeparator();
-        insertStdItem(mt_Expand_All);
-        insertStdItem(mt_Collapse_All);
+        insertSubMenuNew(type);
+        addSeparator();
+        insert(mt_Paste);
+        addSeparator();
+        insert(mt_Expand_All);
+        insert(mt_Collapse_All);
         break;
 
     case mt_EntityRelationship_Model:
-        m_pInsert = new KMenu(this);
-        insertStdItem(mt_EntityRelationship_Folder);
-        insertStdItem(mt_Entity);
-        insertStdItem(mt_Category);
-        insertStdItem(mt_EntityRelationship_Diagram);
-        insertFileNew();
-        insertSeparator();
-        insertStdItem(mt_Paste);
-        insertSeparator();
-        insertStdItem(mt_Expand_All);
-        insertStdItem(mt_Collapse_All);
+        insertSubMenuNew(type);
+        addSeparator();
+        insert(mt_Paste);
+        addSeparator();
+        insert(mt_Expand_All);
+        insert(mt_Collapse_All);
         break;
 
     case mt_UseCase_View:
-        m_pInsert = new KMenu(this);
-        insertStdItem(mt_UseCase_Folder);
-        insertStdItem(mt_Actor);
-        insertStdItem(mt_UseCase);
-        insertStdItem(mt_UseCase_Diagram);
-        insertFileNew();
-        insertSeparator();
-        //                      insertStdItem(mt_Cut);
-        //                      insertStdItem(mt_Copy);
-        insertStdItem(mt_Paste);
-        insertSeparator();
-        insertStdItem(mt_Expand_All);
-        insertStdItem(mt_Collapse_All);
+        insertSubMenuNew(type);
+        addSeparator();
+        //  insert(mt_Cut);
+        //  insert(mt_Copy);
+        insert(mt_Paste);
+        addSeparator();
+        insert(mt_Expand_All);
+        insert(mt_Collapse_All);
         break;
 
     case mt_Logical_Folder:
-        m_pInsert = new KMenu(this);
         insertContainerItems(true);
         insertStdItems();
-        insertStdItem(mt_Import_Classes);
-        insertStdItem(mt_Import_Project);
+        insert(mt_Import_Classes);
+        insert(mt_Import_Project);
         insertSubmodelAction();
-        insertSeparator();
-        insertStdItem(mt_Expand_All);
-        insertStdItem(mt_Collapse_All);
+        addSeparator();
+        insert(mt_Expand_All);
+        insert(mt_Collapse_All);
         break;
 
     case mt_Component_Folder:
-        m_pInsert = new KMenu(this);
-        insertStdItem(mt_Component_Folder);
-        insertStdItem(mt_Subsystem);
-        insertStdItem(mt_Component);
-        insertStdItem(mt_Artifact);
-        insertStdItem(mt_Component_Diagram);
-        insertFileNew();
+        insertSubMenuNew(type);
         insertStdItems();
         insertSubmodelAction();
-        insertSeparator();
-        insertStdItem(mt_Expand_All);
-        insertStdItem(mt_Collapse_All);
+        addSeparator();
+        insert(mt_Expand_All);
+        insert(mt_Collapse_All);
         break;
 
     case mt_Deployment_Folder:
-        m_pInsert = new KMenu(this);
-        insertStdItem(mt_Deployment_Folder);
-        insertStdItem(mt_Node);
-        insertStdItem(mt_Deployment_Diagram);
-        insertFileNew();
+        insertSubMenuNew(type);
         insertStdItems();
         insertSubmodelAction();
-        insertSeparator();
-        insertStdItem(mt_Expand_All);
-        insertStdItem(mt_Collapse_All);
+        addSeparator();
+        insert(mt_Expand_All);
+        insert(mt_Collapse_All);
         break;
 
     case mt_UseCase_Folder:
-        m_pInsert = new KMenu(this);
-        insertStdItem(mt_UseCase_Folder);
-        insertStdItem(mt_Actor);
-        insertStdItem(mt_UseCase);
-        insertStdItem(mt_UseCase_Diagram);
-        insertFileNew();
+        insertSubMenuNew(type);
         insertStdItems();
         insertSubmodelAction();
-        insertSeparator();
-        insertStdItem(mt_Expand_All);
-        insertStdItem(mt_Collapse_All);
+        addSeparator();
+        insert(mt_Expand_All);
+        insert(mt_Collapse_All);
         break;
 
     case mt_EntityRelationship_Folder:
-        m_pInsert = new KMenu(this);
-        insertStdItem(mt_EntityRelationship_Folder);
-        insertStdItem(mt_Entity);
-        insertStdItem(mt_EntityRelationship_Diagram);
-        insertFileNew();
+        insertSubMenuNew(type);
         insertStdItems();
         insertSubmodelAction();
-        insertSeparator();
-        insertStdItem(mt_Expand_All);
-        insertStdItem(mt_Collapse_All);
+        addSeparator();
+        insert(mt_Expand_All);
+        insert(mt_Collapse_All);
         break;
 
     case mt_UseCase_Diagram:
@@ -1100,112 +1214,80 @@ void ListPopupMenu::setupMenu(Menu_Type type) {
     case mt_Component_Diagram:
     case mt_Deployment_Diagram:
     case mt_EntityRelationship_Diagram:
-        //don't insert standard items because cut/copy not currently
+        //don't insert standard items because cut/copy are not currently
         // possible with tabbed diagrams (it didn't work anyway)
         //insertStdItems(false);
-        insertStdItem(mt_Rename);
-        insertStdItem(mt_Delete);
-        insertStdItem(mt_Export_Image);
-        insertStdItem(mt_Properties);
+        insert(mt_Rename);
+        insert(mt_Delete);
+        insert(mt_Export_Image);
+        insert(mt_Properties);
         break;
 
-        //FIXME a lot of these insertItem()s could be insertStandardItem()s
     case mt_On_UseCase_Diagram:
-        m_pInsert = new KMenu(this);
-        m_pInsert -> insertItem(m_pixmap[pm_Actor], i18n( "Actor..." ), mt_Actor );
-        m_pInsert -> insertItem(m_pixmap[pm_Usecase], i18n( "Use Case..."), mt_UseCase );
-        insertStdItem(mt_FloatText );
-        insertFileNew();
-        insertSeparator();
+        insertSubMenuNew(type);
+        addSeparator();
         if ( m_TriggerObjectType!= tot_View ) {
-            kError()<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
+            kError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType << endl;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
         break;
 
     case mt_On_Class_Diagram:
-        m_pInsert = new KMenu(this);
-        m_pInsert -> insertItem(m_pixmap[pm_Class], i18n("Class..."), mt_Class);
-        m_pInsert->insertItem(m_pixmap[pm_Interface], i18n("Interface..."), mt_Interface);
-        m_pInsert->insertItem(m_pixmap[pm_Datatype], i18n("Datatype..."), mt_Datatype);
-        m_pInsert->insertItem(m_pixmap[pm_Enum], i18n("Enum..."), mt_Enum);
-        m_pInsert -> insertItem(m_pixmap[pm_Package], i18n("Package..."), mt_Package);
-        insertStdItem(mt_FloatText);
-        insertFileNew();
-        insertSeparator();
+        insertSubMenuNew(type);
+        addSeparator();
         if ( m_TriggerObjectType!= tot_View ) {
-            kError()<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
+            kError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType << endl;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
         break;
 
     case mt_On_State_Diagram:
-        m_pInsert = new KMenu(this);
-        m_pInsert -> insertItem(m_pixmap[pm_InitialState], i18n("Initial State"), mt_Initial_State );
-        m_pInsert -> insertItem(m_pixmap[pm_EndState], i18n("End State"), mt_End_State );
-        m_pInsert -> insertItem(m_pixmap[pm_Usecase], i18n("State..."), mt_State );
-        insertStdItem(mt_FloatText);
-        insertFileNew();
-        insertSeparator();
+        insertSubMenuNew(type);
+        addSeparator();
         if ( m_TriggerObjectType!= tot_View ) {
-            kError()<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
+            kError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType << endl;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
         break;
 
     case mt_On_Activity_Diagram:
-        m_pInsert = new KMenu(this);
-        m_pInsert -> insertItem(m_pixmap[pm_InitialState], i18n("Initial Activity"), mt_Initial_Activity );
-        m_pInsert -> insertItem(m_pixmap[pm_EndState], i18n("End Activity"), mt_End_Activity );
-        m_pInsert -> insertItem(m_pixmap[pm_Usecase], i18n("Activity..."), mt_Activity );
-        m_pInsert -> insertItem(m_pixmap[pm_Branch], i18n("Branch/Merge"), mt_Branch );
-        insertStdItem(mt_FloatText);
-        insertFileNew();
-        insertSeparator();
+        insertSubMenuNew(type);
+        addSeparator();
         if ( m_TriggerObjectType!= tot_View ) {
-            kError()<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
+            kError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType << endl;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
         break;
 
     case mt_On_Component_Diagram:
-        m_pInsert = new KMenu(this);
-        m_pInsert->insertItem(m_pixmap[pm_Subsystem], i18n("Subsystem..."), mt_Subsystem);
-        m_pInsert->insertItem(m_pixmap[pm_Component], i18n("Component..."), mt_Component);
-        m_pInsert->insertItem(m_pixmap[pm_Artifact], i18n("Artifact..."), mt_Artifact);
-        insertFileNew();
-        insertSeparator();
+        insertSubMenuNew(type);
+        addSeparator();
         if ( m_TriggerObjectType!= tot_View ) {
-            kError()<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
+            kError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType << endl;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
         break;
 
     case mt_On_Deployment_Diagram:
-        m_pInsert = new KMenu(this);
-        m_pInsert->insertItem(m_pixmap[pm_Node], i18n("Node..."), mt_Node);
-        insertFileNew();
-        insertSeparator();
+        insertSubMenuNew(type);
+        addSeparator();
         if ( m_TriggerObjectType!= tot_View ) {
-            kError()<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
+            kError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType<<endl;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
         break;
 
     case mt_On_EntityRelationship_Diagram:
-        m_pInsert = new KMenu(this);
-        m_pInsert->insertItem(m_pixmap[pm_Entity], i18n("Entity..."), mt_Entity);
-        m_pInsert->insertItem(m_pixmap[pm_Category], i18n("Category..."), mt_Category);
-        insertFileNew();
-        insertSeparator();
+        insertSubMenuNew(type);
+        addSeparator();
         if ( m_TriggerObjectType!= tot_View ) {
-            kError()<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
+            kError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType << endl;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
@@ -1213,91 +1295,64 @@ void ListPopupMenu::setupMenu(Menu_Type type) {
 
     case mt_On_Sequence_Diagram:
     case mt_On_Collaboration_Diagram:
-        m_pInsert = new KMenu(this);
-        m_pInsert -> insertItem(m_pixmap[pm_Object], i18n("Object..."), mt_Object);
-        insertStdItem(mt_FloatText);
-        insertFileNew();
-        insertSeparator();
+        insertSubMenuNew(type);
+        addSeparator();
         if ( m_TriggerObjectType!= tot_View ) {
-            kError()<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
+            kError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType << endl;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
         break;
 
     case mt_Class:
-        m_pInsert = new KMenu(this);
-        m_pInsert -> insertItem(SmallIcon( "CVpublic_var"), i18n("Attribute"), mt_Attribute);
-        m_pInsert -> insertItem(SmallIcon( "CVpublic_meth"), i18n("Operation"), mt_Operation);
-        m_pInsert -> insertItem(SmallIcon("source"), i18n("Template"), mt_Template);
-        insertFileNew();
+        insertSubMenuNew(type);
         insertStdItems();
-        insertStdItem(mt_Properties);
+        insert(mt_Properties);
         break;
 
     case mt_Interface:
-        m_pInsert = new KMenu(this);
-        m_pInsert->insertItem(SmallIcon("CVpublic_meth"), i18n("Operation"), mt_Operation);
-        m_pInsert -> insertItem(SmallIcon("source"), i18n("Template"), mt_Template);
-        insertFileNew();
+        insertSubMenuNew(type);
         insertStdItems();
-        insertStdItem(mt_Properties);
+        insert(mt_Properties);
         break;
 
     case mt_Package:
-        m_pInsert = new KMenu(this);
         insertContainerItems(false);
         insertStdItems();
-        insertStdItem(mt_Properties);
-        insertSeparator();
-        insertStdItem(mt_Expand_All);
-        insertStdItem(mt_Collapse_All);
+        insert(mt_Properties);
+        addSeparator();
+        insert(mt_Expand_All);
+        insert(mt_Collapse_All);
         break;
 
     case mt_Subsystem:
-        m_pInsert = new KMenu(this);
-        insertStdItem(mt_Subsystem);
-        insertStdItem(mt_Component);
-        insertStdItem(mt_Artifact);
-        insertFileNew();
+        insertSubMenuNew(type);
         insertStdItems();
-        insertStdItem(mt_Properties);
-        insertSeparator();
-        insertStdItem(mt_Expand_All);
-        insertStdItem(mt_Collapse_All);
+        insert(mt_Properties);
+        addSeparator();
+        insert(mt_Expand_All);
+        insert(mt_Collapse_All);
         break;
 
     case mt_Component:
-        m_pInsert = new KMenu(this);
-        insertStdItem(mt_Component);
-        insertStdItem(mt_Artifact);
-        insertFileNew();
+        insertSubMenuNew(type);
         insertStdItems();
-        insertStdItem(mt_Properties);
-        insertSeparator();
-        insertStdItem(mt_Expand_All);
-        insertStdItem(mt_Collapse_All);
+        insert(mt_Properties);
+        addSeparator();
+        insert(mt_Expand_All);
+        insert(mt_Collapse_All);
         break;
 
     case mt_Entity:
-        m_pInsert = new KMenu(this);
-        m_pInsert->insertItem(SmallIcon("source"), i18n("Entity Attribute..."), mt_EntityAttribute);
-        m_pInsert->insertItem(SmallIcon("primarykey_constraint"),i18n("Primary Key Constraint..."),mt_PrimaryKeyConstraint );
-        m_pInsert->insertItem(SmallIcon("unique_constraint"),i18n("Unique Constraint..."),mt_UniqueConstraint );
-        m_pInsert->insertItem(SmallIcon("foreignkey_constraint"),i18n("Foreign Key Constraint..."),mt_ForeignKeyConstraint );
-
-        m_pInsert->insertItem(SmallIcon("check_constraint"),i18n("Check Constraint..."),mt_CheckConstraint );
-        insertFileNew();
+        insertSubMenuNew(type);
         insertStdItems();
-        insertStdItem(mt_Properties);
+        insert(mt_Properties);
         break;
 
     case mt_Enum:
-        m_pInsert = new KMenu(this);
-        m_pInsert->insertItem(SmallIcon("source"), i18n("Enum Literal..."), mt_EnumLiteral);
-        insertFileNew();
+        insertSubMenuNew(type);
         insertStdItems();
-        insertStdItem(mt_Properties);
+        insert(mt_Properties);
         break;
 
     case mt_Datatype:
@@ -1314,149 +1369,146 @@ void ListPopupMenu::setupMenu(Menu_Type type) {
         break;
 
     case mt_Category:
-        if ( m_TriggerObjectType!= tot_Object ) {
-            kError()<<"Invalid Trigger Object Type Set for Use Case Diagram "<<m_TriggerObjectType<<endl;
-            return;
+        {
+            if (m_TriggerObjectType != tot_Object) {
+                kError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType << endl;
+                return;
+            }
+            KMenu* menu = makeCategoryTypeMenu(static_cast<UMLCategory*>(m_TriggerObject.m_Object));
+            menu->setTitle(i18n("Category Type"));
+            addMenu(menu);
+            insertStdItems(false);
         }
-        insertItem(i18n("Category Type"),makeCategoryTypeMenu(
-                                            static_cast<UMLCategory*>(m_TriggerObject.m_Object)
-                                          )
-                    );
-        insertStdItems(false);
         break;
 
     case mt_UniqueConstraint:
     case mt_PrimaryKeyConstraint:
     case mt_ForeignKeyConstraint:
     case mt_CheckConstraint:
-        insertStdItem(mt_Rename);
-        insertStdItem(mt_Delete);
-        insertStdItem(mt_Properties);
+        insert(mt_Rename);
+        insert(mt_Delete);
+        insert(mt_Properties);
         break;
 
     case mt_New_Parameter:
-        insertStdItem(mt_New_Parameter);
+        insert(mt_New_Parameter);
         break;
 
     case mt_New_Operation:
-        insertStdItem(mt_New_Operation);
+        insert(mt_New_Operation);
         break;
 
     case mt_New_Attribute:
-        insertStdItem(mt_New_Attribute);
+        insert(mt_New_Attribute);
         break;
 
     case mt_New_Template:
-        insertStdItem(mt_New_Template);
+        insert(mt_New_Template);
         break;
 
     case mt_New_EnumLiteral:
-        insertStdItem(mt_New_EnumLiteral);
+        insert(mt_New_EnumLiteral);
         break;
 
     case mt_New_EntityAttribute:
-        insertStdItem(mt_New_EntityAttribute);
+        insert(mt_New_EntityAttribute);
         break;
 
     case mt_New_UniqueConstraint:
-        insertStdItem(mt_New_UniqueConstraint);
+        insert(mt_New_UniqueConstraint);
         break;
 
     case mt_New_PrimaryKeyConstraint:
-        insertStdItem(mt_New_PrimaryKeyConstraint);
+        insert(mt_New_PrimaryKeyConstraint);
         break;
 
     case mt_New_ForeignKeyConstraint:
-        insertStdItem(mt_New_ForeignKeyConstraint);
+        insert(mt_New_ForeignKeyConstraint);
         break;
 
     case mt_New_CheckConstraint:
-        insertStdItem(mt_New_CheckConstraint);
+        insert(mt_New_CheckConstraint);
         break;
 
     case mt_New_Activity:
-        m_pInsert = new KMenu(this);
-        insertStdItem(mt_New_Activity);
-        insertFileNew();
+        insertSubMenuNew(type);
         break;
 
     case mt_Activity_Selected:
-        m_pInsert = new KMenu(this);
-        insertStdItem(mt_New_Activity);
-        insertFileNew();
-        insertStdItem(mt_Rename);
-        insertStdItem(mt_Delete);
+        insertSubMenuNew(type);
+        insert(mt_Rename);
+        insert(mt_Delete);
         break;
 
     case mt_Parameter_Selected:
-        insertStdItem(mt_New_Parameter);
-        insertStdItem(mt_Rename);
-        insertStdItem(mt_Delete);
-        insertStdItem(mt_Properties);
+        insert(mt_New_Parameter);
+        insert(mt_Rename);
+        insert(mt_Delete);
+        insert(mt_Properties);
         break;
 
     case mt_Operation_Selected:
-        insertStdItem(mt_New_Operation);
-        insertStdItem(mt_Delete);
-        insertStdItem(mt_Properties);
+        insert(mt_New_Operation);
+        insert(mt_Delete);
+        insert(mt_Properties);
         break;
 
     case mt_Attribute_Selected:
-        insertStdItem(mt_New_Attribute);
-        insertStdItem(mt_Delete);
-        insertStdItem(mt_Properties);
+        insert(mt_New_Attribute);
+        insert(mt_Delete);
+        insert(mt_Properties);
         break;
 
     case mt_Template_Selected:
-        insertItem(SmallIcon("source"),i18n("New Template..."), mt_New_Attribute);
-        insertStdItem(mt_Delete);
-        insertStdItem(mt_Properties);
+        insert(mt_New_Attribute, SmallIcon("fileview-text"), i18n("New Template..."));
+        insert(mt_Delete);
+        insert(mt_Properties);
         break;
 
     case mt_EnumLiteral_Selected:
-        insertStdItem(mt_New_EnumLiteral);
-        insertStdItem(mt_Delete);
-        insertStdItem(mt_Properties);
+        insert(mt_New_EnumLiteral);
+        insert(mt_Delete);
+        insert(mt_Properties);
         break;
 
     case mt_EntityAttribute_Selected:
-        insertStdItem(mt_New_EntityAttribute);
-        insertStdItem(mt_Delete);
-        insertStdItem(mt_Properties);
+        insert(mt_New_EntityAttribute);
+        insert(mt_Delete);
+        insert(mt_Properties);
         break;
 
     case mt_UniqueConstraint_Selected:
-        insertStdItem(mt_New_UniqueConstraint);
-        insertStdItem(mt_Delete);
-        insertStdItem(mt_Properties);
+        insert(mt_New_UniqueConstraint);
+        insert(mt_Delete);
+        insert(mt_Properties);
         break;
 
     case mt_PrimaryKeyConstraint_Selected:
-        insertStdItem(mt_New_PrimaryKeyConstraint);
-        insertStdItem(mt_Delete);
-        insertStdItem(mt_Properties);
+        insert(mt_New_PrimaryKeyConstraint);
+        insert(mt_Delete);
+        insert(mt_Properties);
         break;
 
     case mt_ForeignKeyConstraint_Selected:
-        insertStdItem(mt_New_ForeignKeyConstraint);
-        insertStdItem(mt_Delete);
-        insertStdItem(mt_Properties);
+        insert(mt_New_ForeignKeyConstraint);
+        insert(mt_Delete);
+        insert(mt_Properties);
         break;
 
     case mt_CheckConstraint_Selected:
-        insertStdItem(mt_New_ForeignKeyConstraint);
-        insertStdItem(mt_Delete);
-        insertStdItem(mt_Properties);
+        insert(mt_New_ForeignKeyConstraint);
+        insert(mt_Delete);
+        insert(mt_Properties);
         break;
 
     case mt_Association_Selected:
-        insertStdItem(mt_Delete);
-        insertStdItem(mt_Line_Color);
-        insertStdItem(mt_Properties);
+        insert(mt_Delete);
+        insert(mt_Line_Color);
+        insert(mt_Properties);
         break;
 
     case mt_Anchor:
-        insertItem(SmallIcon( "edit-delete"),i18n("Delete Anchor"), mt_Delete);
+        insert(mt_Delete, SmallIcon("edit-delete"), i18n("Delete Anchor"));
         break;
 
     case mt_RoleNameA:
@@ -1480,79 +1532,114 @@ void ListPopupMenu::setupMenu(Menu_Type type) {
         break;
 
     case mt_FullAssociation:
-        insertStdItem(mt_Delete);
-        insertItem(i18n("Change Association Name..."), mt_Rename_Name);
-        insertItem(i18n("Change Role A Name..."), mt_Rename_RoleAName);
-        insertItem(i18n("Change Role B Name..."), mt_Rename_RoleBName);
-        insertStdItem(mt_Change_Font);
-        insertStdItem(mt_Reset_Label_Positions);
-        insertStdItem(mt_Line_Color);
-        insertStdItem(mt_Properties);
+        insert(mt_Delete);
+        insert(mt_Rename_Name, i18n("Change Association Name..."));
+        insert(mt_Rename_RoleAName, i18n("Change Role A Name..."));
+        insert(mt_Rename_RoleBName, i18n("Change Role B Name..."));
+        insert(mt_Change_Font);
+        insert(mt_Reset_Label_Positions);
+        insert(mt_Line_Color);
+        insert(mt_Properties);
         break;
 
     case mt_AttributeAssociation:
-        insertStdItem(mt_Delete);  // @todo add more items
+        insert(mt_Delete);  // @todo add more items
         break;
 
     case mt_Collaboration_Message:
-        //                      insertStdItem(mt_Cut);
-        //                      insertStdItem(mt_Copy);
-        //                      insertStdItem(mt_Paste);
-        //                      insertSeparator();
-        insertStdItem(mt_Delete);
-        insertStdItem(mt_Change_Font);
-        insertStdItem(mt_New_Operation);
-        insertItem(i18n("Select Operation..."), mt_Select_Operation);
+        // insert(mt_Cut);
+        // insert(mt_Copy);
+        // insert(mt_Paste);
+        // addSeparator();
+        insert(mt_Delete);
+        insert(mt_Change_Font);
+        insert(mt_New_Operation);
+        insert(mt_Select_Operation, i18n("Select Operation..."));
         break;
 
     case mt_Model:
-        insertItem(i18n("Rename..."), mt_Model);
+        insert(mt_Model, i18n("Rename..."));
         break;
 
     default:
-        insertStdItem(mt_Expand_All);
-        insertStdItem(mt_Collapse_All);
+        insert(mt_Expand_All);
+        insert(mt_Collapse_All);
         break;
     }//end switch
 
     if( m_TriggerObjectType == tot_View ) {
-        bool bCutState = UMLApp::app() -> getCutCopyState();
-        setItemEnabled( mt_Undo, UMLApp::app()->getUndoEnabled() );
-        setItemEnabled( mt_Redo, UMLApp::app()->getRedoEnabled() );
-        setItemEnabled( mt_Cut, bCutState );
-        setItemEnabled( mt_Copy, bCutState );
-        setItemEnabled( mt_Paste, UMLApp::app() -> getPasteState() );
+        bool bCutState = UMLApp::app()->getCutCopyState();
+        setActionEnabled( mt_Undo, UMLApp::app()->getUndoEnabled() );
+        setActionEnabled( mt_Redo, UMLApp::app()->getRedoEnabled() );
+        setActionEnabled( mt_Cut, bCutState );
+        setActionEnabled( mt_Copy, bCutState );
+        setActionEnabled( mt_Paste, UMLApp::app()->getPasteState() );
     }
 
 }
 
-void ListPopupMenu::setupDiagramMenu(UMLView* view) {
-    insertItem(SmallIcon("edit-undo"), i18n("Undo"), mt_Undo);
-    insertItem(SmallIcon("edit-redo"), i18n("Redo"), mt_Redo);
-    insertSeparator();
-    insertStdItem(mt_Cut);
-    insertStdItem(mt_Copy);
-    insertStdItem(mt_Paste);
-    insertSeparator();
-    insertItem(SmallIcon("edit-clear"), i18n("Clear Diagram"), mt_Clear);
-    insertStdItem(mt_Export_Image);
-    insertSeparator();
-    insertItem(i18n("Snap to Grid"), mt_SnapToGrid);
-    setItemChecked(mt_SnapToGrid, view->getSnapToGrid() );
-    insertItem(i18n("Show Grid"), mt_ShowSnapGrid );
-    setItemChecked(mt_ShowSnapGrid, view->getShowSnapGrid() );
-    insertStdItem(mt_Properties);
+void ListPopupMenu::setupDiagramMenu(UMLView* view)
+{
+    insert(mt_Undo, SmallIcon("edit-undo"), i18n("Undo"));
+    insert(mt_Redo, SmallIcon("edit-redo"), i18n("Redo"));
+    addSeparator();
+    insert(mt_Cut);
+    insert(mt_Copy);
+    insert(mt_Paste);
+    addSeparator();
+    insert(mt_Clear, SmallIcon("edit-clear"), i18n("Clear Diagram"));
+    insert(mt_Export_Image);
+    addSeparator();
+    insert(mt_SnapToGrid, i18n("Snap to Grid"), CHECKABLE);
+    setActionChecked(mt_SnapToGrid, view->getSnapToGrid() );
+    insert(mt_ShowSnapGrid, i18n("Show Grid"), CHECKABLE);
+    setActionChecked(mt_ShowSnapGrid, view->getShowSnapGrid() );
+    insert(mt_Properties);
 }
 
-KMenu* ListPopupMenu::makeCategoryTypeMenu(UMLCategory* category) {
+KMenu* ListPopupMenu::makeCategoryTypeMenu(UMLCategory* category)
+{
     KMenu* catTypeMenu = new KMenu(this);
-    catTypeMenu->insertItem(i18n("Disjoint(Specialisation)"), mt_DisjointSpecialisation );
-    catTypeMenu->insertItem(i18n("Overlapping(Specialisation)"), mt_OverlappingSpecialisation);
-    catTypeMenu->insertItem(i18n("Union"), mt_Union);
-    catTypeMenu->setItemChecked(mt_DisjointSpecialisation, category->getType()==UMLCategory::ct_Disjoint_Specialisation );
-    catTypeMenu->setItemChecked(mt_OverlappingSpecialisation, category->getType()==UMLCategory::ct_Overlapping_Specialisation );
-    catTypeMenu->setItemChecked(mt_Union, category->getType()==UMLCategory::ct_Union );
+    insert(mt_DisjointSpecialisation, catTypeMenu, i18n("Disjoint(Specialisation)"), CHECKABLE);
+    insert(mt_OverlappingSpecialisation, catTypeMenu, i18n("Overlapping(Specialisation)"), CHECKABLE);
+    insert(mt_Union, catTypeMenu, i18n("Union"), CHECKABLE);
+    setActionChecked(mt_DisjointSpecialisation, category->getType()==UMLCategory::ct_Disjoint_Specialisation );
+    setActionChecked(mt_OverlappingSpecialisation, category->getType()==UMLCategory::ct_Overlapping_Specialisation );
+    setActionChecked(mt_Union, category->getType()==UMLCategory::ct_Union );
 
     return catTypeMenu;
 }
 
+QAction* ListPopupMenu::getAction(Menu_Type idx)
+{
+    return m_actions.value(idx, NULL); 
+}
+
+// ListPopupMenu::Menu_Type ListPopupMenu::getMenuType(KAction* action)
+// {
+//     return m_actions.key(action);
+// }
+
+ListPopupMenu::Menu_Type ListPopupMenu::getMenuType(QAction* action)
+{
+    Menu_Type mt = m_actions.key(action);
+    return mt;
+}
+
+void ListPopupMenu::setActionChecked(Menu_Type idx, bool value)
+{
+    QAction* action = getAction(idx);
+    if (action && action->isCheckable())
+        action->setChecked(value);
+    else
+        kWarning() << "ListPopupMenu::setActionChecked called on unknown Menu_Type " << idx << endl;
+}
+
+void ListPopupMenu::setActionEnabled(Menu_Type idx, bool value)
+{
+    QAction* action = getAction(idx);
+    if (action)
+        action->setEnabled(value);
+    else
+        kWarning() << "ListPopupMenu::setActionEnabled called on unknown Menu_Type " << idx << endl;
+}

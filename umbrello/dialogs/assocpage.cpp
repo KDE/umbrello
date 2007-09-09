@@ -105,14 +105,15 @@ void AssocPage::slotRightButtonPressed(Q3ListBoxItem * item, const QPoint & p) {
     }
     m_pMenu = new ListPopupMenu(this, ListPopupMenu::mt_Association_Selected);
     m_pMenu->popup(p);
-    connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotPopupMenuSel(int)));
+    connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotPopupMenuSel(QAction*)));
 }
 
-void AssocPage::slotPopupMenuSel(int id) {
+void AssocPage::slotPopupMenuSel(QAction* action) {
     int currentItemIndex = m_pAssocLB->currentItem();
     if ( currentItemIndex == -1 )
         return;
     AssociationWidget * a = m_List.at(currentItemIndex);
+    ListPopupMenu::Menu_Type id = m_pMenu->getMenuType(action);
     switch(id) {
     case ListPopupMenu::mt_Delete:
         m_pView->removeAssocInViewAndDoc(a);

@@ -74,7 +74,8 @@ void ForkJoinWidget::constrain(int& width, int& height) {
     }
 }
 
-void ForkJoinWidget::slotMenuSelection(int sel) {
+void ForkJoinWidget::slotMenuSelection(QAction* action) {
+    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     switch (sel) {
     case ListPopupMenu::mt_Flip:
         setDrawVertical(!m_drawVertical);

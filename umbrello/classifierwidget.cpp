@@ -392,14 +392,14 @@ QSize ClassifierWidget::calculateSize() {
     return QSize(width, height);
 }
 
-void ClassifierWidget::slotMenuSelection(int sel) {
-    ListPopupMenu::Menu_Type mt = (ListPopupMenu::Menu_Type)sel;
-    switch (mt) {
+void ClassifierWidget::slotMenuSelection(QAction* action) {
+    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
+    switch (sel) {
     case ListPopupMenu::mt_Attribute:
     case ListPopupMenu::mt_Operation:
     case ListPopupMenu::mt_Template:
         {
-            Uml::Object_Type ot = ListPopupMenu::convert_MT_OT(mt);
+            Uml::Object_Type ot = ListPopupMenu::convert_MT_OT(sel);
             if (Object_Factory::createChildObject(getClassifier(), ot)) {
                 updateComponentSize();
                 update();
@@ -463,7 +463,7 @@ void ClassifierWidget::slotMenuSelection(int sel) {
         break;
 
     default:
-        UMLWidget::slotMenuSelection(sel);
+        UMLWidget::slotMenuSelection(action);
         break;
     }
 }

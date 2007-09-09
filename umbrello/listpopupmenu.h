@@ -12,7 +12,10 @@
 #ifndef LISTPOPUPMENU_H
 #define LISTPOPUPMENU_H
 
+#include <QtCore/QHash>
 #include <kmenu.h>
+// #include <kaction.h>
+
 #include "umlnamespace.h"
 
 class UMLView;
@@ -46,7 +49,7 @@ public:
         mt_Sequence_Diagram,
         mt_Class_Diagram,
         mt_Collaboration_Diagram,
-        mt_State_Diagram,
+        mt_State_Diagram,				// 10
         mt_Activity_Diagram,
         mt_Component_Diagram,
         mt_Deployment_Diagram,
@@ -56,7 +59,7 @@ public:
         mt_On_Class_Diagram,
         mt_On_Collaboration_Diagram,
         mt_On_State_Diagram,
-        mt_On_Activity_Diagram,
+        mt_On_Activity_Diagram,				// 20
         mt_On_Component_Diagram,
         mt_On_Deployment_Diagram,
         mt_On_EntityRelationship_Diagram,
@@ -66,7 +69,7 @@ public:
         mt_Deployment_Folder,
         mt_EntityRelationship_Folder,
         mt_Class,
-        mt_Package,
+        mt_Package,					// 30
         mt_Subsystem,
         mt_Component,
         mt_Node,
@@ -76,7 +79,7 @@ public:
         mt_Entity,
         mt_Datatype,
         mt_Actor,
-        mt_UseCase,
+        mt_UseCase,					// 40
         mt_Attribute,
         mt_EntityAttribute,
         mt_EnumLiteral,
@@ -86,7 +89,7 @@ public:
         mt_CheckConstraint,
         mt_Object,
         mt_Category,
-        mt_DisjointSpecialisation,
+        mt_DisjointSpecialisation,			// 50
         mt_OverlappingSpecialisation,
         mt_Union,
         mt_Initial_State,
@@ -96,7 +99,7 @@ public:
         mt_Initial_Activity,
         mt_End_Activity,
         mt_Operation,
-        mt_Template,
+        mt_Template,					// 60
         mt_New_Parameter,
         mt_New_Operation,
         mt_New_Attribute,
@@ -106,7 +109,7 @@ public:
         mt_New_UniqueConstraint,
         mt_New_PrimaryKeyConstraint,
         mt_New_ForeignKeyConstraint,
-        mt_New_CheckConstraint,
+        mt_New_CheckConstraint,				// 70
         mt_Parameter_Selected,
         mt_Operation_Selected,
         mt_Attribute_Selected,
@@ -116,7 +119,7 @@ public:
         mt_UniqueConstraint_Selected,
         mt_PrimaryKeyConstraint_Selected,
         mt_ForeignKeyConstraint_Selected,
-        mt_CheckConstraint_Selected,
+        mt_CheckConstraint_Selected,			// 80
         mt_Association_Selected,          // Association without role names
         mt_Show_Attributes,
         mt_Show_Attributes_Selection,     //SHOWATTS, multiple items
@@ -126,7 +129,7 @@ public:
         mt_Show_Packages_Selection,       //SHOWPACKAGE, multiple items
         mt_Show_Stereotypes,
         mt_Show_Stereotypes_Selection,    //SHOWSTEREOTYPE, multiple items
-        mt_Visibility,
+        mt_Visibility,					// 90
         mt_Visibility_Selection,               //SCOPE, multiple items
         mt_DrawAsCircle,
         mt_DrawAsCircle_Selection,        //DRAWASCIRCLE, multiple items
@@ -136,7 +139,7 @@ public:
         mt_ChangeToInterface_Selection,
         mt_Rename_Object,
         mt_Select_Operation,
-        mt_Anchor,
+        mt_Anchor,					// 100
         mt_Properties,
         mt_Rename,
         mt_Delete,
@@ -146,7 +149,7 @@ public:
         mt_Sequence_Number,
         mt_Cut,
         mt_Copy,
-        mt_Paste,
+        mt_Paste,					// 110
         mt_Clear,
         mt_Redo,
         mt_Undo,
@@ -156,7 +159,7 @@ public:
         mt_Show_Attribute_Signature,
         mt_Show_Attribute_Signature_Selection, //SHOWATTSIG, multiple items
         mt_Message_Text,
-        mt_Collaboration_Message,
+        mt_Collaboration_Message,			// 120
         mt_FloatText,
         mt_MultiA,
         mt_MultiB,
@@ -166,11 +169,9 @@ public:
         mt_RoleNameA,
         mt_RoleNameB,
         mt_Delete_Selection,
-        mt_Reset_Label_Positions,
+        mt_Reset_Label_Positions,			// 130
         mt_Line_Color,
-        mt_Line_Color_Selection,          //LINECOLOR, multiple items
         mt_Fill_Color,
-        mt_Fill_Color_Selection,          //FILLCOLOR, multiple items
         mt_Use_Fill_Color,
         mt_Default_Properties,
         mt_Rename_MultiA,
@@ -178,7 +179,7 @@ public:
         mt_Rename_Name,
         mt_Rename_RoleAName,
         mt_Rename_RoleBName,
-        mt_Change_Font,
+        mt_Change_Font,					// 140
         mt_Change_Font_Selection,
         mt_SnapToGrid,
         mt_ShowSnapGrid,
@@ -189,8 +190,8 @@ public:
         mt_Branch,
         mt_Flip,
 
-        mt_Expand_All,                     //Expand all items in the list
-        mt_Collapse_All,                   //Collapse all items in the list
+        mt_Expand_All,					// 150 Expand all items in the list
+        mt_Collapse_All,				// Collapse all items in the list
 
         mt_Refactoring,
         mt_ViewCode, // view code document contents
@@ -249,23 +250,71 @@ public:
      */
     static Uml::Diagram_Type convert_MT_DT(Menu_Type mt);
 
+    /**
+     * Get the action from the menu type as index.
+     */
+//    KAction* getAction(Menu_Type idx);
+    QAction* getAction(Menu_Type idx);
+
+    /**
+     * Get the Menu_Type from the action.
+     */
+//    Menu_Type getMenuType(KAction* action);
+    Menu_Type getMenuType(QAction* action);
+
 private:
-    /**
-     * Basic initialization - common to all constructors.
-     */
-    void init();
 
     /**
-     * Shortcut for inserting a "File->New" choice.
-     */
-    void insertFileNew();
-
-    /**
-     * Shortcut for the most frequently used insertItem() calls.
+     * Shortcut for the most frequently used addAction() calls.
      *
      * @param m The Menu_Type for which to insert a menu item.
      */
-    void insertStdItem(Menu_Type m);
+    void insert(Menu_Type m);
+
+    /**
+     * Shortcut for the frequently used addAction() calls.
+     *
+     * @param m The Menu_Type for which to insert a menu item.
+     * @param menu The KMenu for which to insert a menu item.
+     */
+    void insert(const Menu_Type m, KMenu* menu);
+
+    /**
+     * Shortcut for the frequently used addAction() calls.
+     *
+     * @param m The Menu_Type for which to insert a menu item.
+     * @param icon The icon for this action.
+     * @param text The text for this action.
+     */
+    void insert(const Menu_Type m, const QIcon & icon, const QString & text);
+
+    /**
+     * Shortcut for the frequently used addAction() calls.
+     *
+     * @param m The Menu_Type for which to insert a menu item.
+     * @param text The text for this action.
+     * @param cheable Sets the action to checkable.
+     */
+    void insert(const Menu_Type m, const QString & text, const bool checkable = false);
+
+    /**
+     * Shortcut for the frequently used addAction() calls.
+     *
+     * @param m The Menu_Type for which to insert a menu item.
+     * @param menu The KMenu for which to insert a menu item.
+     * @param icon The icon for this action.
+     * @param text The text for this action.
+     */
+    void insert(const Menu_Type m, KMenu* menu, const QIcon & icon, const QString & text);
+
+    /**
+     * Shortcut for the frequently used addAction() calls.
+     *
+     * @param m The Menu_Type for which to insert a menu item.
+     * @param menu The KMenu for which to insert a menu item.
+     * @param text The text for this action.
+     */
+    void insert(const Menu_Type m, KMenu* menu, const QString & text, const bool checkable = false);
 
     /**
      * Shortcut for the most frequently used insertStdItem() calls.
@@ -321,11 +370,46 @@ private:
     KMenu* makeCategoryTypeMenu(UMLCategory* category);
 
     /**
+     * Shortcut for commonly used sub menu initializations.
+     *
+     * @param type      The Menu_Type for which to set up the menu.
+     */
+    void insertSubMenuNew(Menu_Type type);
+
+    /**
+     * Shortcut for commonly used sub menu initializations.
+     *
+     * @param fc      The "Use Fill Color" is checked.
+     */
+    void insertSubMenuColor(bool fc);
+
+    /**
+     *
+     */
+    void setupDiagramMenu(UMLView* view);
+
+    /**
      * Shortcut for commonly used menu initializations.
      *
      * @param type      The Menu_Type for which to set up the menu.
      */
     void setupMenu(Menu_Type type);
+    
+    /**
+     * Checks the action item.
+     *
+     * @param idx       The Menu_Type for which to check the menu item.
+     * @param value     The value.
+     */
+    void setActionChecked(Menu_Type idx, bool value);
+
+    /**
+     * Enables the action item.
+     *
+     * @param idx       The Menu_Type for which to enable the menu item.
+     * @param value     The value.
+     */
+    void setActionEnabled(Menu_Type idx, bool value);
 
     enum PixMap_Type {
         pm_Class,
@@ -349,10 +433,6 @@ private:
         pm_NUMBER_OF_PIXMAPS
     };
     QPixmap m_pixmap[pm_NUMBER_OF_PIXMAPS];
-    KMenu * m_pInsert, * m_pShow, * m_pColor;
-    void setupColor(bool fc);
-    void setupColorSelection(bool fc);
-    void setupDiagramMenu(UMLView* view);
  
     /**
      * The List Popup Menu is triggered by either by right clicking on the 
@@ -368,11 +448,16 @@ private:
      * Enum to keep track on TriggerObject Type
      */
     enum TriggerObjectType {
-        tot_View,tot_Object,tot_Widget
+        tot_View,
+        tot_Object,
+        tot_Widget
     };
 
     TriggerObject m_TriggerObject;
     TriggerObjectType m_TriggerObjectType;
+    
+//    QHash<Menu_Type, KAction *> m_actions;
+    QHash<Menu_Type, QAction *> m_actions;
  
 };
 

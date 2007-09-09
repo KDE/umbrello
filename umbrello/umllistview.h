@@ -441,7 +441,7 @@ public slots:
     /**
      * Called when a right mouse button menu has an item selected
      */
-    void popupMenuSel(int sel);
+    void popupMenuSel(QAction* action);
 
     /**
      * Something has been dragged and dropped onto the list view

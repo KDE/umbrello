@@ -155,11 +155,12 @@ void StateWidget::setStateType( StateType stateType ) {
     m_StateType = stateType;
 }
 
-void StateWidget::slotMenuSelection(int sel) {
+void StateWidget::slotMenuSelection(QAction* action) {
     bool done = false;
     bool ok = false;
     QString name = getName();
 
+    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     switch( sel ) {
     case ListPopupMenu::mt_Rename:
         name = KInputDialog::getText( i18n("Enter State Name"), i18n("Enter the name of the new state:"), getName(), &ok );
@@ -181,7 +182,7 @@ void StateWidget::slotMenuSelection(int sel) {
     }
 
     if( !done )
-        UMLWidget::slotMenuSelection( sel );
+        UMLWidget::slotMenuSelection(action);
 }
 
 bool StateWidget::addActivity( const QString &activity ) {

@@ -20,7 +20,6 @@
 // app includes
 #include "objectwidget.h"
 #include "seqlinewidget.h"
-#include "listpopupmenu.h"
 #include "umlnamespace.h"
 #include "uml.h"
 #include "umldoc.h"

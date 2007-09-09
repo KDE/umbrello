@@ -143,7 +143,7 @@ public:
     bool loadFromXMI( QDomElement & qElement );
 
 public slots:
-    void slotMenuSelection(int sel);
+    void slotMenuSelection(QAction* action);
     void slotViewScrolled(int x, int y);
 
 protected:

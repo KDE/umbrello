@@ -120,12 +120,13 @@ QSize PreconditionWidget::calculateSize() {
 }
 
 
-void PreconditionWidget::slotMenuSelection(int sel) {
+void PreconditionWidget::slotMenuSelection(QAction* action) {
     bool done = false;
 
     bool ok = false;
     QString name = m_Text;
 
+    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     switch( sel ) {
     case ListPopupMenu::mt_Rename:
         name = KInputDialog::getText( i18n("Enter Precondition Name"), i18n("Enter the precondition :"), m_Text, &ok );
@@ -136,7 +137,7 @@ void PreconditionWidget::slotMenuSelection(int sel) {
         break;
     }
     if( !done )
-        UMLWidget::slotMenuSelection( sel );
+        UMLWidget::slotMenuSelection(action);
 }
 
 void PreconditionWidget::calculateWidget() {

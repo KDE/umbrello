@@ -22,7 +22,6 @@
 #include <kaction.h>
 
 //app includes
-#include "../listpopupmenu.h"
 #include "../umlclassifierlistitemlist.h"
 #include "classifierlistpage.h"
 

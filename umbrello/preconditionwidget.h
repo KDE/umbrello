@@ -118,7 +118,7 @@ public slots:
     /**
      * Captures any popup menu signals for menus it created.
      */
-    void slotMenuSelection(int sel);
+    void slotMenuSelection(QAction* action);
     void slotWidgetMoved(Uml::IDType id);
 
 private:

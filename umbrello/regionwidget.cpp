@@ -29,8 +29,6 @@
 #include "umlview.h"
 #include "floatingtextwidget.h"
 
-#include "listpopupmenu.h"
-
 RegionWidget::RegionWidget(UMLView * view, Uml::IDType id)
         : UMLWidget(view, id) {
      UMLWidget::setBaseType( Uml::wt_Region );

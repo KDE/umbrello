@@ -51,7 +51,7 @@ public:
      */
     void draw(QPainter & p, int offsetX, int offsetY);
 
-    void slotMenuSelection(int sel);
+    void slotMenuSelection(QAction* action);
      /**
      * Returns true if the given point is near the floatingdashline
      */

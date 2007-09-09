@@ -89,7 +89,7 @@ void PkgContentsPage::fillListBox() {
 void PkgContentsPage::slotRightButtonClicked(Q3ListBoxItem */* item*/, const QPoint &/* p*/) {
     if(m_pMenu) {
         m_pMenu -> hide();
-        disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotPopupMenuSel(int)));
+        disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotPopupMenuSel(QAction*)));
         delete m_pMenu;
         m_pMenu = 0;
     }
@@ -100,16 +100,17 @@ void PkgContentsPage::slotRightButtonPressed(Q3ListBoxItem * item, const QPoint 
         return;
     if(m_pMenu) {
         m_pMenu -> hide();
-        disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotPopupMenuSel(int)));
+        disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotPopupMenuSel(QAction*)));
         delete m_pMenu;
         m_pMenu = 0;
     }
     m_pMenu = new ListPopupMenu(this, ListPopupMenu::mt_Association_Selected);
     m_pMenu->popup(p);
-    connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotPopupMenuSel(int)));
+    connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotPopupMenuSel(QAction*)));
 }
 
-void PkgContentsPage::slotPopupMenuSel(int id) {
+void PkgContentsPage::slotPopupMenuSel(QAction* action) {
+    ListPopupMenu::Menu_Type id = m_pMenu->getMenuType(action);
     switch(id) {
     case ListPopupMenu::mt_Delete:
         {

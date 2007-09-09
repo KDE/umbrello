@@ -2207,7 +2207,7 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point) {
 
     m_pTabPopupMenu = new ListPopupMenu(UMLApp::app()->getMainViewWidget(), type, 0);
     m_pTabPopupMenu->popup(point);
-    connect(m_pTabPopupMenu, SIGNAL(activated(int)), view, SLOT(slotMenuSelection(int)));
+    connect(m_pTabPopupMenu, SIGNAL(triggered(QAction*)), view, SLOT(slotMenuSelection(QAction*)));
 }
 
 void UMLDoc::addDefaultStereotypes() {

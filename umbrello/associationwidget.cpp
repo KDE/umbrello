@@ -2344,7 +2344,7 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me) {
     }
     m_pMenu = new ListPopupMenu(m_pView, menuType);
     m_pMenu->popup(me -> globalPos());
-    connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotMenuSelection(int)));
+    connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
     setSelected();
 }//end method mouseReleaseEvent
 
@@ -2376,17 +2376,18 @@ bool AssociationWidget::showDialog() {
     return true;
 }
 
-void AssociationWidget::slotMenuSelection(int sel) {
+void AssociationWidget::slotMenuSelection(QAction* action) {
     QString oldText, newText;
     QFont font;
     QRegExpValidator v(QRegExp(".*"), 0);
     Uml::Association_Type atype = getAssocType();
     Uml::Role_Type r = Uml::B;
+    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
 
     //if it's a collaboration message we now just use the code in floatingtextwidget
     //this means there's some redundant code below but that's better than duplicated code
     if (isCollaboration() && sel != ListPopupMenu::mt_Delete) {
-        m_pName->slotMenuSelection(sel);
+        m_pName->slotMenuSelection(action);
         return;
     }
 
@@ -2487,7 +2488,6 @@ void AssociationWidget::slotMenuSelection(int sel) {
         break;
 
     case ListPopupMenu::mt_Line_Color:
-    case ListPopupMenu::mt_Line_Color_Selection:
         {
        /*     QColor newColour;
             if( KColorDialog::getColor(newColour) ) {
@@ -3123,7 +3123,7 @@ bool AssociationWidget::onAssociation(const QPoint & point) {
 void AssociationWidget::slotRemovePopupMenu()
 {
     if(m_pMenu) {
-        disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotMenuSelection(int)));
+        disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
         delete m_pMenu;
         m_pMenu = 0;
     }

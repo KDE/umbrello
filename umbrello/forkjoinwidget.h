@@ -12,7 +12,7 @@
 #ifndef FORKJOINWIDGET_H
 #define FORKJOINWIDGET_H
 //qt includes
-#include <qpainter.h>
+#include <QtGui/QPainter>
 //app includes
 #include "boxwidget.h"
 
@@ -56,7 +56,7 @@ public:
      *
      * @param sel  The command to be executed.
      */
-    void slotMenuSelection(int sel);
+    void slotMenuSelection(QAction* action);
 
     /**
      * Draws a slim solid black rectangle.

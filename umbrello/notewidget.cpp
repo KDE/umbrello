@@ -241,9 +241,10 @@ QSize NoteWidget::calculateSize() {
     return QSize(width, height);
 }
 
-void NoteWidget::slotMenuSelection(int sel) {
+void NoteWidget::slotMenuSelection(QAction* action) {
     NoteDialog * dlg = 0;
     UMLDoc *doc = UMLApp::app()->getDocument();
+    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     switch(sel) {
         ///OBSOLETE - remove ListPopupMenu::mt_Link_Docs
         // case ListPopupMenu::mt_Link_Docs:
@@ -263,7 +264,7 @@ void NoteWidget::slotMenuSelection(int sel) {
         break;
 
     default:
-        UMLWidget::slotMenuSelection(sel);
+        UMLWidget::slotMenuSelection(action);
         break;
     }
 }

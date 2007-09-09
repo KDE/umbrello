@@ -196,12 +196,13 @@ void SignalWidget::setSignalType( SignalType signalType ) {
     m_SignalType = signalType;
 }
 
-void SignalWidget::slotMenuSelection(int sel) {
+void SignalWidget::slotMenuSelection(QAction* action) {
     bool done = false;
 
     bool ok = false;
     QString name = m_Text;
 
+    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     switch( sel ) {
     case ListPopupMenu::mt_Rename:
         name = KInputDialog::getText( i18n("Enter signal name"), i18n("Enter the signal name :"), m_Text, &ok );
@@ -211,7 +212,7 @@ void SignalWidget::slotMenuSelection(int sel) {
         break;
     }
     if( !done )
-        UMLWidget::slotMenuSelection( sel );
+        UMLWidget::slotMenuSelection(action);
 }
 
 

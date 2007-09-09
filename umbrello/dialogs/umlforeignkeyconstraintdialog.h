@@ -31,7 +31,6 @@
 #include <kpagedialog.h>
 
 //app includes
-#include "../listpopupmenu.h"
 #include "../umlclassifierlistitemlist.h"
 #include "../umlentityattributelist.h"
 

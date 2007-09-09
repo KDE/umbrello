@@ -332,7 +332,8 @@ void UMLWidgetController::constrainMovementForAllWidgets(int &/*diffX*/, int &/*
 }
 
 void UMLWidgetController::doMouseDoubleClick(QMouseEvent *) {
-    m_widget->slotMenuSelection(ListPopupMenu::mt_Properties);
+    QAction* action = m_widget->m_pMenu->getAction(ListPopupMenu::mt_Properties);
+    m_widget->slotMenuSelection(action);
 }
 
 void UMLWidgetController::resetSelection() {

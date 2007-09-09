@@ -1305,7 +1305,7 @@ public slots:
      * When a menu selection has been made on the menu
      * that this view created, this method gets called.
      */
-    void slotMenuSelection(int sel);
+    void slotMenuSelection(QAction* action);
 
     /**
      * This slot is entered when an event has occurred on the views display,

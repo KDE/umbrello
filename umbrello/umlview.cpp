@@ -2543,21 +2543,22 @@ void UMLView::setMenu() {
     }//end switch
     if( menu != ListPopupMenu::mt_Undefined ) {
         m_pMenu = new ListPopupMenu(this, menu, this);
-        connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotMenuSelection(int)));
+        connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
         m_pMenu->popup( mapToGlobal( contentsToViewport(worldMatrix().map(m_Pos)) ) );
     }
 }
 
 void UMLView::slotRemovePopupMenu() {
     if(m_pMenu) {
-        disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotMenuSelection(int)));
+        disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
         delete m_pMenu;
         m_pMenu = 0;
     }
 }
 
-void UMLView::slotMenuSelection(int sel) {
-    switch( (ListPopupMenu::Menu_Type)sel ) {
+void UMLView::slotMenuSelection(QAction* action) {
+    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
+    switch(sel) {
     case ListPopupMenu::mt_Undo:
         UMLApp::app()->undo();
         break;

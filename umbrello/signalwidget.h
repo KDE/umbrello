@@ -82,7 +82,7 @@ public:
      */
     void setSignalType( SignalType signalType );
 
-    void slotMenuSelection(int sel);
+    void slotMenuSelection(QAction* action);
 
     /**
      * Show a properties dialog for a SignalWidget.

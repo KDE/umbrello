@@ -277,41 +277,45 @@ void UMLOperationDialog::slotNameChanged( const QString &_text )
 
 void UMLOperationDialog::slotParmRightButtonPressed(Q3ListBoxItem *item, const QPoint &p) {
     ListPopupMenu::Menu_Type type = ListPopupMenu::mt_Undefined;
-    if(item)//pressed on an item
+    if (item)//pressed on an item
     {
         type = ListPopupMenu::mt_Parameter_Selected;
     } else//pressed into fresh air
     {
         type = ListPopupMenu::mt_New_Parameter;
     }
-    if(m_pMenu) {
+    if (m_pMenu) {
         m_pMenu -> hide();
-        disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotParmPopupMenuSel(int)));
+        disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotParmPopupMenuSel(QAction*)));
         delete m_pMenu;
         m_pMenu = 0;
     }
     m_pMenu = new ListPopupMenu(this, type);
     m_pMenu->popup(p);
-    connect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotParmPopupMenuSel(int)));
+    connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotParmPopupMenuSel(QAction*)));
 
 }
 
 void UMLOperationDialog::slotParmRightButtonClicked(Q3ListBoxItem */*item*/, const QPoint &/*p*/) {
-    if(m_pMenu) {
+    if (m_pMenu) {
         m_pMenu -> hide();
-        disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotParmPopupMenuSel(int)));
+        disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotParmPopupMenuSel(QAction*)));
         delete m_pMenu;
         m_pMenu = 0;
     }
 }
 
 void UMLOperationDialog::slotParmDoubleClick(Q3ListBoxItem *item) {
-    if(!item)
+    if (!item)
         return;
-    slotParmPopupMenuSel(ListPopupMenu::mt_Properties);
+    if (m_pMenu) {
+        QAction* action = m_pMenu->getAction(ListPopupMenu::mt_Properties);
+        slotParmPopupMenuSel(action);
+    }
 }
 
-void UMLOperationDialog::slotParmPopupMenuSel(int id) {
+void UMLOperationDialog::slotParmPopupMenuSel(QAction* action) {
+    ListPopupMenu::Menu_Type id = m_pMenu->getMenuType(action);
     if( id == ListPopupMenu::mt_Rename || id == ListPopupMenu::mt_Properties ) {
         slotParameterProperties();
     } else if( id == ListPopupMenu::mt_New_Parameter ) {

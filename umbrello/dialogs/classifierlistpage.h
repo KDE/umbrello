@@ -182,7 +182,7 @@ public slots:
     /**
     * Called when an item is selected in a right click menu
     */
-    void slotPopupMenuSel(int id);
+    void slotPopupMenuSel(QAction* action);
 
     void slotListItemCreated(UMLObject* object);
     void slotListItemModified();
