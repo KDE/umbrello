@@ -17,6 +17,7 @@
 #include <q3listbox.h>
 //kde includes
 #include <karrowbutton.h>
+#include <kdebug.h>
 //app includes
 
 class StateWidget;

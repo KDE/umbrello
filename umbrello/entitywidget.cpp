@@ -217,9 +217,11 @@ void EntityWidget::slotMenuSelection(QAction* action) {
 
         }
         break;
+
+    default:
+        UMLWidget::slotMenuSelection(action);
     }
 
-    UMLWidget::slotMenuSelection(action);
 }
 
 void EntityWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement ) {

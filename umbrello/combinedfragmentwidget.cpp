@@ -316,7 +316,6 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement ) {
 
 void CombinedFragmentWidget::slotMenuSelection(QAction* action) {
     bool ok = false;
-    bool done = false;
     QString name = m_Text;
     ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     switch (sel) {
@@ -333,8 +332,8 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action) {
         m_dashLines.back()->setY(getY() + getHeight() / 2);
         m_dashLines.back()->setSize(getWidth(), 0);
         m_pView->setupNewWidget(m_dashLines.back());
-        done = true;
         break;
+
     case ListPopupMenu::mt_Rename:
         if (m_CombinedFragment == Alt) {
             name = KInputDialog::getText( i18n("Enter first alternative"), i18n("Enter first alternative :"), m_Text, &ok );
@@ -345,13 +344,13 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action) {
         else if (m_CombinedFragment == Loop) {
         name = KInputDialog::getText( i18n("Enter the guard of the loop"), i18n("Enter the guard of the loop:"), m_Text, &ok );
         }
-            if( ok && name.length() > 0 )
-                m_Text = name;
-            done = true;
-            break;
-    }
-   if( !done )
+        if( ok && name.length() > 0 )
+            m_Text = name;
+        break;
+
+    default:
         UMLWidget::slotMenuSelection(action);
+    }
 }
 
 #include "combinedfragmentwidget.moc"

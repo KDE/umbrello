@@ -384,6 +384,10 @@ void ClassifierListPage::slotPopupMenuSel(QAction* action) {
     case ListPopupMenu::mt_Properties:
         slotProperties();
         break;
+
+    default:
+        kDebug() << "ClassifierListPage::slotPopupMenuSel: Menu_Type "
+            << id << " not implemented" << endl;
     }
 }
 

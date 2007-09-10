@@ -132,6 +132,10 @@ void ActivityPage::slotMenuSelection(QAction* action) {
     case ListPopupMenu::mt_Rename:
         slotRename();
         break;
+
+    default:
+        kDebug() << "ActivityPage::slotMenuSelection: Menu_Type "
+            << sel << " not implemented" << endl;
     }
 }
 

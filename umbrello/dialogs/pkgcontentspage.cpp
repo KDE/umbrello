@@ -14,6 +14,7 @@
 //Added by qt3to4:
 #include <QHBoxLayout>
 #include <klocale.h>
+#include <kdebug.h>
 #include "../umlobjectlist.h"
 #include "../uml.h"
 #include "../umldoc.h"
@@ -126,6 +127,10 @@ void PkgContentsPage::slotPopupMenuSel(QAction* action) {
     case ListPopupMenu::mt_Properties:
         slotDoubleClick(m_pContentLB->item(m_pContentLB->currentItem()));
         break;
+
+    default:
+        kDebug() << "PkgContentsPage::slotPopupMenuSel: Menu_Type "
+            << id << " not implemented" << endl;
     }
 }
 

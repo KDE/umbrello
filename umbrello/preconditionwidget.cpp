@@ -121,8 +121,6 @@ QSize PreconditionWidget::calculateSize() {
 
 
 void PreconditionWidget::slotMenuSelection(QAction* action) {
-    bool done = false;
-
     bool ok = false;
     QString name = m_Text;
 
@@ -132,12 +130,12 @@ void PreconditionWidget::slotMenuSelection(QAction* action) {
         name = KInputDialog::getText( i18n("Enter Precondition Name"), i18n("Enter the precondition :"), m_Text, &ok );
         if( ok && name.length() > 0 )
             m_Text = name;
-        done = true;
         calculateWidget();
         break;
-    }
-    if( !done )
+
+    default:
         UMLWidget::slotMenuSelection(action);
+    }
 }
 
 void PreconditionWidget::calculateWidget() {

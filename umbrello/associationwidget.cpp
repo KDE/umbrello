@@ -2513,6 +2513,10 @@ void AssociationWidget::slotMenuSelection(QAction* action) {
     case ListPopupMenu::mt_Reset_Label_Positions:
         resetTextPositions();
         break;
+
+    default:
+        kDebug() << "AssociationWidget::slotMenuSelection: Menu_Type "
+            << sel << " not implemented" << endl;
     }//end switch
 }
 

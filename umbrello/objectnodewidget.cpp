@@ -189,7 +189,6 @@ QString ObjectNodeWidget::getState() {
 }
 
 void ObjectNodeWidget::slotMenuSelection(QAction* action) {
-    bool done = false;
     bool ok = false;
     QString name = m_Text;
 
@@ -199,17 +198,15 @@ void ObjectNodeWidget::slotMenuSelection(QAction* action) {
         name = KInputDialog::getText( i18n("Enter Object Node Name"), i18n("Enter the name of the object node :"), m_Text, &ok );
         if( ok && name.length() > 0 )
             m_Text = name;
-        done = true;
         break;
 
     case ListPopupMenu::mt_Properties:
         showProperties();
-        done = true;
         break;
-    }
 
-    if( !done )
+    default:
         UMLWidget::slotMenuSelection(action);
+    }
 }
 
 void ObjectNodeWidget::showProperties() {

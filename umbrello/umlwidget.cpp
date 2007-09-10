@@ -401,6 +401,10 @@ void UMLWidget::slotMenuSelection(QAction* action) {
             ft->handleRename();
             break;
         }
+
+    default:
+        kDebug() << "UMLWidget::slotMenuSelection: Menu_Type "
+            << sel << " not implemented" << endl;
     }
 }
 

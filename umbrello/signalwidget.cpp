@@ -197,8 +197,6 @@ void SignalWidget::setSignalType( SignalType signalType ) {
 }
 
 void SignalWidget::slotMenuSelection(QAction* action) {
-    bool done = false;
-
     bool ok = false;
     QString name = m_Text;
 
@@ -208,11 +206,11 @@ void SignalWidget::slotMenuSelection(QAction* action) {
         name = KInputDialog::getText( i18n("Enter signal name"), i18n("Enter the signal name :"), m_Text, &ok );
         if( ok && name.length() > 0 )
             setName(name);
-        done = true;
         break;
-    }
-    if( !done )
+
+    default:
         UMLWidget::slotMenuSelection(action);
+    }
 }
 
 

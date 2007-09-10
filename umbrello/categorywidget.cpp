@@ -101,6 +101,10 @@ void CategoryWidget::slotMenuSelection(QAction* action){
       case ListPopupMenu::mt_Union:
           catObj->setType(UMLCategory::ct_Union);
           break;
+
+      default:
+          kDebug() << "CategoryWidget::slotMenuSelection: Menu_Type "
+            << sel << " not implemented" << endl;
     }
     UMLWidget::slotMenuSelection(action);
 }

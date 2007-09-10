@@ -14,6 +14,7 @@
 //Added by qt3to4:
 #include <QHBoxLayout>
 #include <klocale.h>
+#include <kdebug.h>
 #include "assocpropdlg.h"
 
 AssocPage::AssocPage(QWidget *parent, UMLView * v, UMLObject * o) : QWidget(parent) {
@@ -123,6 +124,10 @@ void AssocPage::slotPopupMenuSel(QAction* action) {
     case ListPopupMenu::mt_Properties:
         slotDoubleClick(m_pAssocLB -> item(m_pAssocLB -> currentItem()));
         break;
+
+    default:
+        kDebug() << "AssocPage::slotPopupMenuSel: Menu_Type "
+            << id << " not implemented" << endl;
     }
 }
 

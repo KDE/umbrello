@@ -172,8 +172,6 @@ void PinWidget::mouseMoveEvent(QMouseEvent* me) {
 }
 
 void PinWidget::slotMenuSelection(QAction* action) {
-    bool done = false;
-
     bool ok = false;
     QString name = m_Text;
 
@@ -183,11 +181,11 @@ void PinWidget::slotMenuSelection(QAction* action) {
         name = KInputDialog::getText( i18n("Enter Pin Name"), i18n("Enter the pin name :"), m_Text, &ok );
         if( ok )
             setName(name);
-        done = true;
         break;
-    }
-    if( !done )
+
+    default:
         UMLWidget::slotMenuSelection(action);
+    }
 }
 
 
