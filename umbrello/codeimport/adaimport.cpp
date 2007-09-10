@@ -176,7 +176,7 @@ bool AdaImport::parseStmt() {
             return false;
         }
         while (++m_srcIndex < srcLength && m_source[m_srcIndex] != ";") {
-            QStringList components = QStringList::split(".", m_source[m_srcIndex].lower());
+            QStringList components = m_source[m_srcIndex].toLower().split(".");
             const QString& prefix = components.first();
             if (prefix == "system" || prefix == "ada" || prefix == "gnat" ||
                 prefix == "interfaces" || prefix == "text_io" ||
@@ -198,7 +198,7 @@ bool AdaImport::parseStmt() {
     }
     if (keyword == "package") {
         const QString& name = advance();
-        QStringList parentPkgs = QStringList::split(".", name.lower());
+        QStringList parentPkgs = name.toLower().split(".");
         parentPkgs.pop_back();  // exclude the current package
         parseStems(parentPkgs);
         UMLObject *ns = NULL;
@@ -240,7 +240,7 @@ bool AdaImport::parseStmt() {
         QString name = advance();
         advance();  // "is"
         QString base = expand(advance());
-        base.remove("Standard.", false);
+        base.remove("Standard.", Qt::CaseInsensitive);
         UMLObject *type = umldoc->findUMLObject(base, Uml::ot_UMLObject, m_scope[m_scopeIndex]);
         if (type == NULL) {
             type = Import_Utils::createUMLObject(Uml::ot_Datatype, base, m_scope[m_scopeIndex]);
@@ -354,7 +354,7 @@ bool AdaImport::parseStmt() {
             if (isExtension || m_isAbstract) {
                 t = Uml::ot_Class;
             } else {
-                base.remove("Standard.", false);
+                base.remove("Standard.", Qt::CaseInsensitive);
                 UMLObject *known = umldoc->findUMLObject(base, Uml::ot_UMLObject, m_scope[m_scopeIndex]);
                 t = (known ? known->getBaseType() : Uml::ot_Datatype);
             }
@@ -401,7 +401,7 @@ bool AdaImport::parseStmt() {
         } else if (m_scopeIndex) {
             if (advance() != ";") {
                 QString scopeName = m_scope[m_scopeIndex]->getFullyQualifiedName();
-                if (scopeName.lower() != m_source[m_srcIndex].lower())
+                if (scopeName.toLower() != m_source[m_srcIndex].toLower())
                     kError() << "end: expecting " << scopeName << ", found "
                               << m_source[m_srcIndex] << endl;
             }
@@ -470,7 +470,7 @@ bool AdaImport::parseStmt() {
             } else {
                 typeName = direction;  // In Ada, the default direction is "in"
             }
-            typeName.remove("Standard.", false);
+            typeName.remove("Standard.", Qt::CaseInsensitive);
             typeName = expand(typeName);
             if (op == NULL) {
                 // In Ada, the first parameter indicates the class.
@@ -507,7 +507,7 @@ bool AdaImport::parseStmt() {
                 return false;
             }
             returnType = expand(advance());
-            returnType.remove("Standard.", false);
+            returnType.remove("Standard.", Qt::CaseInsensitive);
         }
         bool isAbstract = false;
         if (advance() == "is" && advance() == "abstract")

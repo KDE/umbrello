@@ -4,7 +4,7 @@
     begin                : Sat Dec 21 2002
     copyright            : Vincent Decorges
     email                : vincent.decorges@eivd.ch
-      (C) 2003-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
+      (C) 2003-2007  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
  ***************************************************************************/
 
 /***************************************************************************
@@ -164,7 +164,7 @@ QString RubyWriter::cppToRubyName(const QString &nameStr) {
     QString name = cleanName(nameStr);
     name.replace(QRegExp("^m_"), "");
     name.replace(QRegExp("^[pbn](?=[A-Z])"), "");
-    name = name.mid(0, 1).lower() + name.mid(1);
+    name = name.mid(0, 1).toLower() + name.mid(1);
     return name;
 }
 
@@ -248,7 +248,7 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
         }
 
         methodName.replace("operator ", "");
-        methodName = methodName.mid(0, 1).lower() + methodName.mid(1);
+        methodName = methodName.mid(0, 1).toLower() + methodName.mid(1);
 
         UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
@@ -272,8 +272,8 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
             int pos = re_params.search(docStr);
             while (pos != -1) {
                 docStr.replace( re_params.cap(0),
-                                QString("@param _") + re_params.cap(1).lower() + re_params.cap(2) + '_' );
-                commentedParams.append(re_params.cap(1).lower() + re_params.cap(2));
+                                QString("@param _") + re_params.cap(1).toLower() + re_params.cap(2) + '_' );
+                commentedParams.append(re_params.cap(1).toLower() + re_params.cap(2));
 
                 pos += re_params.matchedLength() + 3;
                 pos = re_params.search(docStr, pos);

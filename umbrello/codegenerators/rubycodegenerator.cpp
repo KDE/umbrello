@@ -109,7 +109,7 @@ QString RubyCodeGenerator::cppToRubyName(const QString &nameStr) {
     QString name = cleanName(nameStr);
     name.replace(QRegExp("^m_"), "");
     name.replace(QRegExp("^[pbn](?=[A-Z])"), "");
-    name = name.mid(0, 1).lower() + name.mid(1);
+    name = name.mid(0, 1).toLower() + name.mid(1);
     return name;
 }
 

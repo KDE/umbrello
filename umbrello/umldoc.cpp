@@ -741,7 +741,7 @@ void UMLDoc::addStereotype(UMLStereotype *s) {
 
 void UMLDoc::removeStereotype(UMLStereotype *s) {
     if (m_stereoList.contains(s))
-        m_stereoList.remove(s);
+        m_stereoList.removeAll(s);
 }
 
 void UMLDoc::writeToStatusBar(const QString &text) {

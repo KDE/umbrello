@@ -5,7 +5,7 @@
  *  source code is not replicated in the XMI file.                         *
  *                                                                         *
  *  copyright       : (C) 2003 Brian Thomas brian.thomas@gsfc.nasa.gov     *
- *  (C) 2004-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>    *
+ *  (C) 2004-2007  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>    *
  *                                                                         *
  ***************************************************************************
  *                                                                         *
@@ -640,7 +640,7 @@ void CppWriter::writeComment(const QString &comment, const QString &myIndent, QT
     // need to resolve for using with MAC/WinDoze eventually I assume
     if (comment.contains(QRegExp("\n"))) {
 
-        QStringList lines = QStringList::split( "\n", comment);
+        QStringList lines = comment.split( "\n" );
         for (int i= 0; i < lines.count(); i++)
         {
             cpp << myIndent << "// " << lines[i] << m_endl;
@@ -664,7 +664,7 @@ void CppWriter::writeDocumentation(QString header, QString body, QString end, QT
         cpp << formatDoc(body, indent + " * ");
     if (!end.isEmpty())
     {
-        QStringList lines = QStringList::split( "\n", end);
+        QStringList lines = end.split( "\n" );
         for (int i= 0; i < lines.count(); i++)
             cpp << formatDoc(lines[i], indent + " * ");
     }
@@ -735,7 +735,7 @@ void CppWriter::writeAssociationRoleDecl(QString fieldClassName, QString roleNam
     // multiplicity object that we don't have to figure out what it means via regex.
     if(multi.isEmpty() || multi.contains(QRegExp("^[01]$")))
     {
-        QString fieldVarName = "m_" + roleName.lower();
+        QString fieldVarName = "m_" + roleName.toLower();
 
         // record this for later consideration of initialization IF the
         // multi value requires 1 of these objects
@@ -752,7 +752,7 @@ void CppWriter::writeAssociationRoleDecl(QString fieldClassName, QString roleNam
     }
     else
     {
-        QString fieldVarName = "m_" + roleName.lower() + "Vector";
+        QString fieldVarName = "m_" + roleName.toLower() + "Vector";
 
         // record unique occurrences for later when we want to check
         // for initialization of this vector
@@ -822,13 +822,13 @@ void CppWriter::writeAssociationRoleMethod (const QString &fieldClassName,
 {
     if(multi.isEmpty() || multi.contains(QRegExp("^[01]$")))
     {
-        QString fieldVarName = "m_" + roleName.lower();
+        QString fieldVarName = "m_" + roleName.toLower();
         writeSingleAttributeAccessorMethods(fieldClassName, fieldVarName, roleName,
                                             description, change, isHeaderMethod, false, writeMethodBody, stream);
     }
     else
     {
-        QString fieldVarName = "m_" + roleName.lower() + "Vector";
+        QString fieldVarName = "m_" + roleName.toLower() + "Vector";
         writeVectorAttributeAccessorMethods(fieldClassName, fieldVarName, roleName,
                                             description, change, isHeaderMethod, writeMethodBody, stream);
     }
@@ -1259,7 +1259,7 @@ void CppWriter::printTextAsSeparateLinesWithIndent (const QString &text, const Q
     if(text.isEmpty())
         return;
 
-    QStringList lines = QStringList::split( "\n", text);
+    QStringList lines = text.split( "\n" );
     for (int i= 0; i < lines.count(); i++)
         stream << indent << lines[i] << m_endl;
 }

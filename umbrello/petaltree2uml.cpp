@@ -90,7 +90,7 @@ Uml::Object_Type typeToCreate(const QString& name) {
 void transferVisibility(const PetalNode *from, UMLObject *to) {
     QString vis = from->findAttribute("exportControl").string;
     if (!vis.isEmpty()) {
-        Uml::Visibility v = Uml::Visibility::fromString(clean(vis.lower()));
+        Uml::Visibility v = Uml::Visibility::fromString(clean(vis.toLower()));
         to->setVisibility(v);
     }
 }
@@ -367,7 +367,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
         // set stereotype
         QString stereotype = clean(node->findAttribute("stereotype").string);
         if (!stereotype.isEmpty()) {
-            if (stereotype.lower() == "interface")
+            if (stereotype.toLower() == "interface")
                 c->setBaseType(Uml::ot_Interface);
             else
                 c->setStereotype(stereotype);
@@ -523,7 +523,7 @@ bool umbrellify(PetalNode *node, const QString& modelsName, UMLListViewItem *par
         obj = comp;
     } else if (objType == "Processor" || objType == "Device") {
         UMLNode *un = new UMLNode(name, id);
-        un->setStereotype(objType.lower());
+        un->setStereotype(objType.toLower());
         item = new UMLListViewItem(parent, name, Uml::lvt_Node, un);
         obj = un;
     } else {

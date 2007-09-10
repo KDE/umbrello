@@ -517,7 +517,7 @@ QString CodeGenerator::findFileName ( CodeDocument * codeDocument ) {
         if (!pathDir.exists())
         {
             // ugh. dir separator here is UNIX specific..
-            QStringList dirs = QStringList::split("/",pathDir.absPath());
+            QStringList dirs = pathDir.absPath().split("/");
             QString currentDir = "";
 
             QStringList::iterator end(dirs.end());
@@ -630,7 +630,7 @@ QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix,
     QString output;
 
     const QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
-    QStringList lines = QStringList::split(endLine, text);
+    QStringList lines = text.split(endLine);
     for (QStringList::ConstIterator lit = lines.begin(); lit != lines.end(); ++lit) {
         QString input = *lit;
         input.remove( QRegExp("\\s+$") );

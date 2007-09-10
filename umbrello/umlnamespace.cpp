@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -21,7 +21,7 @@ bool tagEq (const QString& inTag, const QString& inPattern) {
     tag.remove( QRegExp("^\\w+:") );  // remove leading "UML:" or other
     int patSections = pattern.count('.') + 1;
     QString tagEnd = tag.section('.', -patSections);
-    return (tagEnd.lower() == pattern.lower());
+    return (tagEnd.toLower() == pattern.toLower());
 }
 
 QString Visibility::toString(Value value, bool mnemonic) {

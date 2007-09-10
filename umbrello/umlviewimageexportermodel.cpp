@@ -53,7 +53,7 @@ QStringList UMLViewImageExporterModel::supportedImageTypes() {
         QList<QByteArray>::const_iterator it, it_end;
         it = qImageFormats.begin(); it_end = qImageFormats.end();
         for (; it != it_end; it++) {
-            supportedImageTypesList << QString(*it).lower();
+            supportedImageTypesList << QString(*it).toLower();
         }
     }
 
@@ -74,7 +74,7 @@ QStringList UMLViewImageExporterModel::supportedMimeTypes() {
 }
 
 QString UMLViewImageExporterModel::imageTypeToMimeType(const QString& imageType) {
-    const QString imgType = imageType.lower();
+    const QString imgType = imageType.toLower();
     if (QString("bmp") == imgType) return "image/bmp";
     if (QString("jpeg") == imgType) return "image/jpeg";
     if (QString("pbm") == imgType) return "image/x-portable-bitmap";
@@ -162,7 +162,7 @@ QString UMLViewImageExporterModel::exportView(UMLView* view, const QString &imag
 }
 
 QString UMLViewImageExporterModel::getDiagramFileName(UMLView *view, const QString &imageType, bool useFolders /* = false */) const {
-    QString name = view->getName() + '.' + imageType.lower();
+    QString name = view->getName() + '.' + imageType.toLower();
 
     if (!useFolders) {
         return name;
@@ -192,7 +192,7 @@ bool UMLViewImageExporterModel::prepareDirectory(const KUrl &url) const {
     directory.setPath("");
 
     // creates the directory and any needed parent directories
-    QStringList dirs = QStringList::split(QDir::separator(), url.directory());
+    QStringList dirs = url.directory().split(QDir::separator());
     for (QStringList::ConstIterator it = dirs.begin() ; it != dirs.end(); ++it ) {
         directory.addPath(*it);
 

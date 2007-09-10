@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -159,7 +159,7 @@ void UMLPackage::removeObject(UMLObject *pObject) {
         kDebug() << m_Name << " removeObject: object with id="
             << ID2STR(pObject->getID()) << "not found." << endl;
     else
-        m_objects.remove(pObject);
+        m_objects.removeAll(pObject);
 }
 
 void UMLPackage::removeAllObjects() {
@@ -188,7 +188,7 @@ UMLObject * UMLPackage::findObject(const QString &name) {
         if (caseSensitive) {
             if (obj->getName() == name)
                 return obj;
-        } else if (obj->getName().lower() == name.lower()) {
+        } else if (obj->getName().toLower() == name.toLower()) {
             return obj;
         }
     }
@@ -297,7 +297,7 @@ bool UMLPackage::resolveRef() {
         if (! obj->resolveRef()) {
             Uml::Object_Type ot = obj->getBaseType();
             if (ot != Uml::ot_Package && ot != Uml::ot_Folder)
-                m_objects.remove(obj);
+                m_objects.removeAll(obj);
             overallSuccess = false;
         }
     }

@@ -65,9 +65,9 @@ QString CPPCodeClassField::getFieldName() {
         UMLRole * role = (UMLRole*) getParentObject();
         QString roleName = role->getName();
         if(fieldIsSingleValue()) {
-            return roleName.replace(0, 1, roleName.left(1).lower());
+            return roleName.replace(0, 1, roleName.left(1).toLower());
         } else {
-            return roleName.lower() + "Vector";
+            return roleName.toLower() + "Vector";
         }
     }
 }

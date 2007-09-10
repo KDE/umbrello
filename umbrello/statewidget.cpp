@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -192,7 +192,7 @@ bool StateWidget::removeActivity( const QString &activity ) {
     int index = - 1;
     if( ( index = m_Activities.findIndex( activity ) ) == -1 )
         return false;
-    m_Activities.remove( m_Activities.at( index ) );
+    m_Activities.removeAll( m_Activities.at( index ) );
     updateComponentSize();
     return true;
 }

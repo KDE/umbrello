@@ -1,6 +1,6 @@
 /***************************************************************************
     copyright            : (C) 2003 Brian Thomas brian.thomas@gsfc.nasa.gov
-      (C) 2004-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
+      (C) 2004-2007  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
 ***************************************************************************/
 
 /***************************************************************************
@@ -527,7 +527,7 @@ void XMLSchemaWriter::writeComment( const QString &comment, QTextStream &XMLsche
     XMLschema<<indent<<"<!-- ";
     if (comment.contains(QRegExp("\n"))) {
         XMLschema<<m_endl;
-        QStringList lines = QStringList::split( "\n", comment);
+        QStringList lines = comment.split( "\n" );
         for (int i= 0; i < lines.count(); i++)
             XMLschema<<indent<<"     "<<lines[i]<<m_endl;
 
@@ -660,7 +660,7 @@ void XMLSchemaWriter::writeAssociationRoleDecl( UMLClassifier *c, const QString 
     }
     else
     {
-        QStringList values = QStringList::split( QRegExp("[^\\d{1,}|\\*]"), multi);
+        QStringList values = multi.split( QRegExp("[^\\d{1,}|\\*]") );
 
         // could use some improvement here.. for sequences like "0..1,3..5,10" we
         // don't capture the whole "richness" of the multi. Instead we translate it

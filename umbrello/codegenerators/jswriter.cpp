@@ -11,6 +11,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2004-2007                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "jswriter.h"
@@ -40,7 +42,7 @@ void JSWriter::writeClass(UMLClassifier *c)
     }
 
     QString classname = cleanName(c->getName());
-    QString fileName = c->getName().lower();
+    QString fileName = c->getName().toLower();
 
     //find an appropriate name for our file
     fileName = findFileName(c,".js");

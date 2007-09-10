@@ -82,7 +82,7 @@ void RubyCodeOperation::updateMethodDeclaration()
     }
 
     methodName.replace(QRegExp("operator\\s*"), "");
-    methodName = methodName.mid(0, 1).lower() + methodName.mid(1);
+    methodName = methodName.mid(0, 1).toLower() + methodName.mid(1);
 
     QString paramStr = QString("");
     QStringList commentedParams;
@@ -144,8 +144,8 @@ void RubyCodeOperation::updateMethodDeclaration()
         int pos = re_params.search(comment);
         while (pos != -1) {
             comment.replace( re_params.cap(0),
-                            QString("@param _") + re_params.cap(1).lower() + re_params.cap(2) + '_' );
-            commentedParams.append(re_params.cap(1).lower() + re_params.cap(2));
+                            QString("@param _") + re_params.cap(1).toLower() + re_params.cap(2) + '_' );
+            commentedParams.append(re_params.cap(1).toLower() + re_params.cap(2));
 
             pos += re_params.matchedLength() + 3;
             pos = re_params.search(comment, pos);

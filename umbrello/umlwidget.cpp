@@ -583,7 +583,7 @@ void UMLWidget::addAssoc(AssociationWidget* pAssoc) {
 
 void UMLWidget::removeAssoc(AssociationWidget* pAssoc) {
     if(pAssoc) {
-        m_Assocs.remove(pAssoc);
+        m_Assocs.removeAll(pAssoc);
     }
 }
 
@@ -668,7 +668,7 @@ void UMLWidget::startPopupMenu( const QPoint &At) {
     // disable the "view code" menu for simple code generators
     CodeGenerator * currentCG = UMLApp::app()->getGenerator();
     if(currentCG && dynamic_cast<SimpleCodeGenerator*>(currentCG))
-        m_pMenu->setItemEnabled(ListPopupMenu::mt_ViewCode, false);
+        m_pMenu->setActionEnabled(ListPopupMenu::mt_ViewCode, false);
 
     m_pMenu->popup(At);
 

@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -105,8 +105,8 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ex
     }
 
     if (! UMLApp::app()->activeLanguageIsCaseSensitive()) {
-        package = package.lower();
-        name = name.lower();
+        package = package.toLower();
+        name = name.toLower();
     }
 
     // if a package name exists check the existence of the package directory
@@ -115,7 +115,7 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ex
         // does our complete output directory exist yet? if not, try to create it
         if (!pathDir.exists())
         {
-            QStringList dirs = QStringList::split("/",pathDir.absPath());
+            QStringList dirs = pathDir.absPath().split("/");
             QString currentDir = "";
 
             QStringList::iterator end(dirs.end());

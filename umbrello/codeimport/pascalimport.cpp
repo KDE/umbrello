@@ -68,7 +68,7 @@ void PascalImport::fillSource(const QString& word) {
 void PascalImport::checkModifiers(bool& isVirtual, bool& isAbstract) {
     const int srcLength = m_source.count();
     while (m_srcIndex < srcLength - 1) {
-        QString lookAhead = m_source[m_srcIndex + 1].lower();
+        QString lookAhead = m_source[m_srcIndex + 1].toLower();
         if (lookAhead != "virtual" && lookAhead != "abstract" &&
             lookAhead != "override" &&
             lookAhead != "register" && lookAhead != "cdecl" &&
@@ -87,12 +87,12 @@ void PascalImport::checkModifiers(bool& isVirtual, bool& isAbstract) {
 
 bool PascalImport::parseStmt() {
     const int srcLength = m_source.count();
-    QString keyword = m_source[m_srcIndex].lower();
+    QString keyword = m_source[m_srcIndex].toLower();
     //kDebug() << '"' << keyword << '"';
     if (keyword == "uses") {
         while (m_srcIndex < srcLength - 1) {
             QString unit = advance();
-            const QString& prefix = unit.lower();
+            const QString& prefix = unit.toLower();
             if (prefix == "sysutils" || prefix == "types" || prefix == "classes" ||
                 prefix == "graphics" || prefix == "controls" || prefix == "strings" ||
                 prefix == "forms" || prefix == "windows" || prefix == "messages" ||
@@ -215,7 +215,7 @@ bool PascalImport::parseStmt() {
             advance();
             const uint MAX_PARNAMES = 16;
             while (m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
-                QString nextToken = m_source[m_srcIndex + 1].lower();
+                QString nextToken = m_source[m_srcIndex + 1].toLower();
                 Uml::Parameter_Direction dir = Uml::pd_In;
                 if (nextToken == "var") {
                     dir = Uml::pd_InOut;
@@ -241,8 +241,8 @@ bool PascalImport::parseStmt() {
                     break;
                 }
                 nextToken = advance();
-                if (nextToken.lower() == "array") {
-                    nextToken = advance().lower();
+                if (nextToken.toLower() == "array") {
+                    nextToken = advance().toLower();
                     if (nextToken != "of") {
                         kError() << "importPascal(" << name << "): expecting 'array OF' at "
                                   << nextToken << endl;
@@ -290,7 +290,7 @@ bool PascalImport::parseStmt() {
                 << "expecting '=' at " << nextToken << endl;
             return false;
         }
-        keyword = advance().lower();
+        keyword = advance().toLower();
         if (keyword == "(") {
             // enum type
             UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Enum,

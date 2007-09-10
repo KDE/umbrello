@@ -257,6 +257,14 @@ public:
     QAction* getAction(Menu_Type idx);
 
     /**
+     * Enables the action item.
+     *
+     * @param idx       The Menu_Type for which to enable the menu item.
+     * @param value     The value.
+     */
+    void setActionEnabled(Menu_Type idx, bool value);
+
+    /**
      * Get the Menu_Type from the action.
      */
 //    Menu_Type getMenuType(KAction* action);
@@ -402,14 +410,6 @@ private:
      * @param value     The value.
      */
     void setActionChecked(Menu_Type idx, bool value);
-
-    /**
-     * Enables the action item.
-     *
-     * @param idx       The Menu_Type for which to enable the menu item.
-     * @param value     The value.
-     */
-    void setActionEnabled(Menu_Type idx, bool value);
 
     enum PixMap_Type {
         pm_Class,

@@ -334,7 +334,7 @@ void ObjectWidget::messageAdded(MessageWidget* message) {
 }
 
 void ObjectWidget::messageRemoved(MessageWidget* message) {
-    if ( messageWidgetList.remove(message) == false ) {
+    if ( messageWidgetList.removeAll(message) == false ) {
         kError() << "ObjectWidget::messageRemoved("
                   << message->getName() << ") : missing entry !"
                   << endl;

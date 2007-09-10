@@ -281,7 +281,7 @@ void UMLAttribute::setTemplateParams(const QString& templateParam, UMLClassifier
         setTemplateParams(type.mid(start + 1, end - start - 1), templateParamList);
         setTemplateParams(type.left(start) + type.right(len - end - 1), templateParamList);
     } else {
-        QStringList paramsList = QStringList::split(QChar(','), type);
+        QStringList paramsList = type.split(QChar(','));
         for ( QStringList::Iterator it = paramsList.begin(); it != paramsList.end(); ++it ) {
             QString param = *it;
             if (!param.isEmpty()) {

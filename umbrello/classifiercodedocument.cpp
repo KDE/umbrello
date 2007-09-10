@@ -429,7 +429,7 @@ void ClassifierCodeDocument::syncNamesToParent( ) {
     QString fileName = CodeGenerator::cleanName(getParentClassifier()->getName());
     if (!UMLApp::app()->activeLanguageIsCaseSensitive()) {
         // @todo let the user decide about mixed case file names (codegen setup menu)
-        fileName = fileName.lower();
+        fileName = fileName.toLower();
     }
     setFileName(fileName);
     setPackage(m_parentclassifier->getUMLPackage());

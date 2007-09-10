@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006                                                    *
+ *   copyright (C) 2006-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -128,7 +128,7 @@ void PascalWriter::writeClass(UMLClassifier *c) {
 
     const bool isClass = !c->isInterface();
     QString classname = cleanName(c->getName());
-    QString fileName = qualifiedName(c).lower();
+    QString fileName = qualifiedName(c).toLower();
     fileName.replace('.', '-');
 
     //find an appropriate name for our file
@@ -405,7 +405,7 @@ bool PascalWriter::isReservedKeyword(const QString & rPossiblyReservedKeyword) {
 
     QStringList::ConstIterator it;
     for (it = keywords.begin(); it != keywords.end(); ++it)
-        if ((*it).lower() == rPossiblyReservedKeyword.lower())
+        if ((*it).toLower() == rPossiblyReservedKeyword.toLower())
             return true;
 
     return false;

@@ -401,7 +401,12 @@ void CPPHeaderCodeDocument::updateContent( )
     CodeClassFieldList privAggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation, Uml::Visibility::Private);
     CodeClassFieldList privCompositionClassFields = getSpecificClassFields ( CodeClassField::Composition, Uml::Visibility::Private);
 
-    bool hasOperationMethods = c->getOpList().count() ? true : false;
+    bool hasOperationMethods = false;
+    Q_ASSERT(c != NULL);
+    if (c) {
+        UMLOperationList list = c->getOpList();
+        hasOperationMethods = ! list.isEmpty();
+    }
     bool hasNamespace = false;
     bool isEnumeration = false;
     bool isInterface = parentIsInterface();
@@ -449,7 +454,7 @@ void CPPHeaderCodeDocument::updateContent( )
         if (con->getBaseType() != Uml::ot_Datatype && !packageMap.contains(con)) {
             packageMap.insert(con,con->getPackage());
             if(con != getParentClassifier())
-                includeStatement.append("#include \""+CodeGenerator::cleanName(con->getName().lower())+".h\""+endLine);
+                includeStatement.append("#include \""+CodeGenerator::cleanName(con->getName().toLower())+".h\""+endLine);
         }
     }
     // now, add/update the includes codeblock

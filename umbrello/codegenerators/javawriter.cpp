@@ -5,7 +5,7 @@
     source code is not replicated in the XMI file.
                              -------------------
     copyright            : (C) 2003 Brian Thomas brian.thomas@gsfc.nasa.gov
-      (C) 2004-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
+      (C) 2004-2007  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
 ***************************************************************************/
 
 /***************************************************************************
@@ -55,7 +55,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
 
     isInterface = c->isInterface();
 
-    QString fileName = cleanName(c->getName().lower());
+    QString fileName = cleanName(c->getName().toLower());
 
     //find an appropriate name for our file
     fileName = findFileName(c,".java");
@@ -416,7 +416,7 @@ void JavaWriter::writeComment(const QString &comment, const QString &myIndent,
 
         if(javaDocStyle)
             java << myIndent << "/**" << m_endl;
-        QStringList lines = QStringList::split( "\n", comment);
+        QStringList lines = comment.split( "\n" );
         for (int i= 0; i < lines.count(); i++)
         {
             writeBlankLine(java);
@@ -453,7 +453,7 @@ void JavaWriter::writeDocumentation(QString header, QString body, QString end, Q
         java<<formatDoc(body, indent+" * ");
     if (!end.isEmpty())
     {
-        QStringList lines = QStringList::split( "\n", end);
+        QStringList lines = end.split( "\n" );
         for (int i= 0; i < lines.count(); i++)
             java<<formatDoc(lines[i], indent+" * ");
     }
@@ -518,12 +518,12 @@ void JavaWriter::writeAssociationRoleDecl(QString fieldClassName,
     // multiplicity object that we don't have to figure out what it means via regex.
     if(multi.isEmpty() || multi.contains(QRegExp("^[01]$")))
     {
-        QString fieldVarName = "m_" + roleName.replace(0, 1, roleName.left(1).lower());
+        QString fieldVarName = "m_" + roleName.replace(0, 1, roleName.left(1).toLower());
         java<<startline<<scope<<" "<<fieldClassName<<" "<<fieldVarName<<";";
     }
     else
     {
-        QString fieldVarName = roleName.lower() + "Vector";
+        QString fieldVarName = roleName.toLower() + "Vector";
         java<<startline<<scope<<" Vector "<<fieldVarName<<" = new Vector();";
         // from here we could initialize default values, or put in an init() section
         // of the constructors
@@ -576,13 +576,13 @@ void JavaWriter::writeAssociationRoleMethod (QString fieldClassName, QString rol
 {
     if(multi.isEmpty() || multi.contains(QRegExp("^[01]$")))
     {
-        QString fieldVarName = "m_" + roleName.replace(0, 1, roleName.left(1).lower());
+        QString fieldVarName = "m_" + roleName.replace(0, 1, roleName.left(1).toLower());
         writeSingleAttributeAccessorMethods(fieldClassName, fieldVarName, roleName,
                                             description, visib, change, false, java);
     }
     else
     {
-        QString fieldVarName = roleName.lower() + "Vector";
+        QString fieldVarName = roleName.toLower() + "Vector";
         writeVectorAttributeAccessorMethods(fieldClassName, fieldVarName, roleName,
                                             description, visib, change, java);
     }

@@ -421,7 +421,7 @@ void UMLListView::popupMenuSel(QAction* action) {
             fileDialog.setCaption(i18n("Externalize Folder"));
             fileDialog.setOperationMode(KFileDialog::Other);
             // set a sensible default filename
-            QString defaultFilename = current->getText().lower();
+            QString defaultFilename = current->getText().toLower();
             defaultFilename.replace(QRegExp("\\W+"), "_");
             defaultFilename.append(".xml");  // default extension
             fileDialog.setSelection(defaultFilename);

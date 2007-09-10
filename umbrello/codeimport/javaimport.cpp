@@ -123,7 +123,7 @@ UMLObject* JavaImport::resolveClass (QString className) {
     // current package, which is in the same directory as the current file
     // being parsed
     //
-    QStringList file = QStringList::split( '/', m_currentFileName);
+    QStringList file = m_currentFileName.split( '/' );
     // remove the filename.  This leaves the full path to the containing
     // dir which should also include the package hierarchy
     //
@@ -147,7 +147,7 @@ UMLObject* JavaImport::resolveClass (QString className) {
     // the class we want is not in the same package as the one being imported.
     // use the imports to find the one we want.
     //
-    QStringList package = QStringList::split( '.', m_currentPackage);
+    QStringList package = m_currentPackage.split( '.' );
     int dirsInPackageCount = package.size();
 
     for (int count=0; count < dirsInPackageCount; count ++ ) {
@@ -161,7 +161,7 @@ UMLObject* JavaImport::resolveClass (QString className) {
     for (QStringList::Iterator pathIt = m_imports.begin();
                                    pathIt != m_imports.end(); ++pathIt) {
         QString import = (*pathIt);
-        QStringList split = QStringList::split( '.', import );
+        QStringList split = import.split( '.' );
         split.pop_back(); // remove the * or the classname
         if ( import.endsWith( '*' ) || import.endsWith( baseClassName) ) {
             // check if the file we want is in this imported package
@@ -228,7 +228,7 @@ bool JavaImport::parseStmt() {
     if (keyword == "package") {
         m_currentPackage = advance();
         const QString& qualifiedName = m_currentPackage;
-        QStringList names = QStringList::split(".", qualifiedName);
+        QStringList names = qualifiedName.split(".");
         for (QStringList::Iterator it = names.begin(); it != names.end(); ++it) {
             QString name = (*it);
             UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package,

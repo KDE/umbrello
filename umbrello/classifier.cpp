@@ -260,7 +260,7 @@ int UMLClassifier::removeOperation(UMLOperation *op) {
         << endl;
         return -1;
     }
-    if(!m_List.remove(op)) {
+    if(!m_List.removeAll(op)) {
         kDebug() << "UMLClassifier::removeOperation: can't find op "
         << op->getName() << " in list" << endl;
         return -1;
@@ -332,7 +332,7 @@ UMLOperationList UMLClassifier::findOperations(const QString &n) {
         if (caseSensitive) {
             if (obj->getName() == n)
                 list.append(op);
-        } else if (obj->getName().lower() == n.lower()) {
+        } else if (obj->getName().toLower() == n.toLower()) {
             list.append(op);
         }
     }
@@ -578,7 +578,7 @@ bool UMLClassifier::addAttribute(UMLAttribute* att, IDChangeLog* Log /* = 0 */,
 }
 
 int UMLClassifier::removeAttribute(UMLAttribute* a) {
-    if (!m_List.remove(a)) {
+    if (!m_List.removeAll(a)) {
         kDebug() << "can't find att given in list";
         return -1;
     }
@@ -707,7 +707,7 @@ bool UMLClassifier::addTemplate(UMLTemplate* Template, int position)
 }
 
 int UMLClassifier::removeTemplate(UMLTemplate* umltemplate) {
-    if ( !m_List.remove(umltemplate) ) {
+    if ( !m_List.removeAll(umltemplate) ) {
         kWarning() << "can't find att given in list";
         return -1;
     }

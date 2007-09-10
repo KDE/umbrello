@@ -71,7 +71,7 @@ void UMLOperation::moveParmLeft(UMLAttribute * a) {
     }
     if ( idx == 0 )
         return;
-    m_List.remove( a );
+    m_List.removeAll( a );
     m_List.insert( idx-1, a );
 }
 
@@ -92,7 +92,7 @@ void UMLOperation::moveParmRight(UMLAttribute * a) {
     int count = m_List.count();
     if ( idx == count-1 )
         return;
-    m_List.remove( a );
+    m_List.removeAll( a );
     m_List.insert( idx+1, a );
 }
 
@@ -105,7 +105,7 @@ void UMLOperation::removeParm(UMLAttribute * a, bool emitModifiedSignal /* =true
     kDebug() << "UMLOperation::removeParm(" << a->getName() << ") called"
     << endl;
     disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
-    if(!m_List.remove(a))
+    if(!m_List.removeAll(a))
         kDebug() << "Error removing parm " << a->getName();
 
     if (emitModifiedSignal)

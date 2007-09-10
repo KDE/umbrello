@@ -87,7 +87,7 @@ bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc) {
 }
 
 int UMLCanvasObject::removeAssociationEnd(UMLAssociation * assoc) {
-    if(!hasAssociation(assoc) || !m_List.remove(assoc)) {
+    if(!hasAssociation(assoc) || !m_List.removeAll(assoc)) {
         kWarning() << "UMLCanvasObject::removeAssociation: "
             << "can't find given assoc in list" << endl;
         return -1;
@@ -194,7 +194,7 @@ UMLObject * UMLCanvasObject::findChildObject(const QString &n, Uml::Object_Type 
         if (caseSensitive) {
             if (obj->getName() == n)
                 return obj;
-        } else if (obj->getName().lower() == n.lower()) {
+        } else if (obj->getName().toLower() == n.toLower()) {
             return obj;
         }
     }
@@ -325,7 +325,7 @@ bool UMLCanvasObject::resolveRef() {
     for (UMLObjectListIt ait(m_List); ait.hasNext(); ) {
         UMLObject *obj = ait.next();
         if (! obj->resolveRef()) {
-            m_List.remove(obj);
+            m_List.removeAll(obj);
             overallSuccess = false;
         }
     }

@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,7 +13,7 @@
 #define UMLNAMESPACE_H
 
 #include <string>
-#include <qstring.h>
+#include <QtCore/QString>
 
 
 /**
@@ -361,13 +361,14 @@ enum Programming_Language {
  * The data type used for unique IDs.
  */
 typedef std::string IDType;
+
 /**
  * Reserved value for uninitialized/illegal ID.
  */
 const IDType id_None = "-1";
 const IDType id_Reserved = "0";
 
-# define STR2ID(id)  id.ascii()
+# define STR2ID(id)  id.toAscii().data()
 # define ID2STR(id)  QString(id.c_str())
 
 

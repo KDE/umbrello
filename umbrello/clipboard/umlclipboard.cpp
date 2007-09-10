@@ -276,7 +276,7 @@ bool UMLClipboard::insertItemChildren(UMLListViewItem * Item, UMLListViewItemLis
             // If the child is selected, remove it from the list of selected items
             // otherwise it will be inserted twice in m_ObjectList.
             if(child->isSelected()) {
-                SelectedItems.remove(SelectedItems.find(child) );
+                SelectedItems.removeAll(child);
             }
             insertItemChildren(child, SelectedItems);
             child = (UMLListViewItem*)child->nextSibling();
@@ -484,7 +484,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data) {
             kError() << "UMLClipboard::pasteClip4: widget (oldID=" << ID2STR(oldId)
                 << ", newID=" << ID2STR(newId) << ") already exists in target view."
                 << endl;
-            widgets.remove(widget);
+            widgets.removeAll(widget);
             delete widget;
             objectAlreadyExists = true;
         } else if (! currentView->addWidget(widget, true)) {
@@ -629,7 +629,7 @@ bool UMLClipboard::checkPasteWidgets( UMLWidgetList & widgetList ) {
             {
                 FloatingTextWidget *ft = static_cast<FloatingTextWidget*>(p);
                 if (ft->getRole() != Uml::tr_Floating) {
-                    widgetList.remove(p);
+                    widgetList.removeAll(p);
                     delete ft;
                     retval = false;
                 }
@@ -637,7 +637,7 @@ bool UMLClipboard::checkPasteWidgets( UMLWidgetList & widgetList ) {
             break;
 
         default:
-            widgetList.remove(p);
+            widgetList.removeAll(p);
             delete p;
             retval = false;
             break;

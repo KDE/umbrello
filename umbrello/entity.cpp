@@ -291,7 +291,7 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* attribute, int position) 
 }
 
 int UMLEntity::removeEntityAttribute(UMLClassifierListItem* literal) {
-    if (!m_List.remove((UMLEntityAttribute*)literal)) {
+    if (!m_List.removeAll((UMLEntityAttribute*)literal)) {
         kDebug() << "can't find att given in list";
         return -1;
     }
@@ -472,7 +472,7 @@ bool UMLEntity::removeConstraint(UMLEntityConstraint* constr) {
         unsetPrimaryKey();
     }
 
-    m_List.remove( constr );
+    m_List.removeAll( constr );
 
     emit entityConstraintRemoved(constr);
     UMLObject::emitModified();

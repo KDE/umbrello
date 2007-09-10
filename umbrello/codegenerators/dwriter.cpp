@@ -91,7 +91,7 @@ void DWriter::writeClass(UMLClassifier *c) {
 
     isInterface = c->isInterface();
 
-    QString fileName = cleanName(c->getName().lower());
+    QString fileName = cleanName(c->getName().toLower());
 
     //find an appropriate name for our file
     fileName = findFileName(c, ".d");
@@ -427,7 +427,7 @@ void DWriter::writeComment(const QString &comment, const QString &myIndent,
         d << myIndent << "/**" << m_endl;
     }
 
-    QStringList lines = QStringList::split("\n", comment);
+    QStringList lines = comment.split("\n" );
 
     if (lines.count() == 0) lines << comment;
 
@@ -461,7 +461,7 @@ void DWriter::writeDocumentation(QString header, QString body, QString end, QStr
         d << formatDoc(body, indent+" * ");
     if (!end.isEmpty())
     {
-        QStringList lines = QStringList::split( "\n", end);
+        QStringList lines = end.split( "\n" );
         for (int i= 0; i < lines.count(); i++)
             d << formatDoc(lines[i], indent + " * ");
     }
@@ -918,7 +918,7 @@ QString DWriter::getUMLObjectName(UMLObject *obj) {
 
 QString DWriter::deCapitaliseFirstLetter(const QString& str) {
     QString string = str;
-    string.replace( 0, 1, string[0].lower());
+    string.replace( 0, 1, string[0].toLower());
     return string;
 }
 

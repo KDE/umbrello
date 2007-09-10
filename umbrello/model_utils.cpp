@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2004-2006                                                *
+ *  copyright (C) 2004-2007                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -119,9 +119,9 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
     }
 #endif
     if (name.contains("::"))
-        components = QStringList::split("::", name);
+        components = name.split("::");
     else if (name.contains('.'))
-        components = QStringList::split('.', name);
+        components = name.split('.');
     QString nameWithoutFirstPrefix;
     if (components.size() > 1) {
         name = components.front();
@@ -143,7 +143,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                 if (caseSensitive) {
                     if (pkg->getName() == name)
                         return pkg;
-                } else if (pkg->getName().lower() == name.lower()) {
+                } else if (pkg->getName().toLower() == name.toLower()) {
                     return pkg;
                 }
             }
@@ -160,7 +160,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                 if (caseSensitive) {
                     if (obj->getName() != name)
                         continue;
-                } else if (obj->getName().lower() != name.lower()) {
+                } else if (obj->getName().toLower() != name.toLower()) {
                     continue;
                 }
                 Uml::Object_Type foundType = obj->getBaseType();
@@ -206,7 +206,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
         if (caseSensitive) {
             if (obj->getName() != name)
                 continue;
-        } else if (obj->getName().lower() != name.lower()) {
+        } else if (obj->getName().toLower() != name.toLower()) {
             continue;
         }
         Uml::Object_Type foundType = obj->getBaseType();
@@ -310,7 +310,7 @@ bool isCommonDataType(QString type) {
         if (caseSensitive) {
             if (type == *it)
                 return true;
-        } else if (type.lower() == (*it).lower()) {
+        } else if (type.toLower() == (*it).toLower()) {
             return true;
         }
     }
@@ -425,7 +425,7 @@ Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningSc
     if (t.isEmpty())
         return PS_Empty;
 
-    QStringList nameAndType = QStringList::split( QRegExp("\\s*:\\s*"), t);
+    QStringList nameAndType = t.split( QRegExp("\\s*:\\s*"));
     if (nameAndType.count() == 2) {
         UMLObject *pType = NULL;
         if (nameAndType[1] != "class") {
@@ -489,7 +489,7 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
         nmTp = NameAndType(name, NULL, pd);
         return PS_OK;
     }
-    QStringList typeAndInitialValue = QStringList::split( QRegExp("\\s*=\\s*"), a );
+    QStringList typeAndInitialValue = a.split( QRegExp("\\s*=\\s*") );
     const QString &type = typeAndInitialValue[0];
     UMLObject *pType = pDoc->findUMLObject(type, Uml::ot_UMLObject, owningScope);
     if (pType == NULL) {
@@ -553,7 +553,7 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
     arglist = arglist.trimmed();
     if (arglist.isEmpty())
         return PS_OK;
-    QStringList args = QStringList::split( QRegExp("\\s*,\\s*"), arglist);
+    QStringList args = arglist.split( QRegExp("\\s*,\\s*") );
     for (QStringList::Iterator lit = args.begin(); lit != args.end(); ++lit) {
         NameAndType nmTp;
         Parse_Status ps = parseAttribute(*lit, nmTp, owningScope);

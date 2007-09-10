@@ -86,7 +86,7 @@ QString formatComment(const QString &comment) {
     if (comment.isEmpty())
         return comment;
 
-    QStringList lines = QStringList::split("\n", comment);
+    QStringList lines = comment.split("\n");
     QString& first = lines.first();
     QRegExp wordex("\\w");
     if (first.startsWith("/*")) {
@@ -158,9 +158,9 @@ UMLObject *createUMLObject(Uml::Object_Type type,
             // Find, or create, the scopes.
             QStringList components;
             if (typeName.contains("::")) {
-                components = QStringList::split("::", typeName);
+                components = typeName.split("::");
             } else if (typeName.contains(".")) {
-                components = QStringList::split(".", typeName);
+                components = typeName.split(".");
             }
             if (components.count() > 1) {
                 typeName = components.back();
@@ -255,7 +255,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
         return o;
     // Create dependencies on template parameters.
     QString caption = templateInstantiation.cap(1);
-    QStringList params = QStringList::split(QRegExp("[^\\w:\\.]+"), caption);
+    QStringList params = caption.split(QRegExp("[^\\w:\\.]+"));
     if (!params.count())
         return o;
     QStringList::Iterator end(params.end());
@@ -440,9 +440,9 @@ void createGeneralization(UMLClassifier *child, const QString &parentName) {
 
 QStringList includePathList() {
     QStringList includePathList(incPathList);
-    char *umbrello_incpath = getenv( "UMBRELLO_INCPATH" );
-    if (umbrello_incpath) {
-        includePathList += QStringList::split( ':', umbrello_incpath );
+    QString umbrello_incpath = QString(getenv("UMBRELLO_INCPATH"));
+    if (!umbrello_incpath.isEmpty()) {
+        includePathList += umbrello_incpath.split( ':' );
     }
     return includePathList;
 }

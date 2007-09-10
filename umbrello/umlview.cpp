@@ -763,8 +763,8 @@ void UMLView::checkMessages(ObjectWidget * w) {
         removeAssociations(obj);
         obj -> cleanup();
         //make sure not in selected list
-        m_SelectedList.remove(obj);
-        m_MessageList.remove(obj);
+        m_SelectedList.removeAll(obj);
+        m_MessageList.removeAll(obj);
         delete obj;
     }
 }
@@ -870,14 +870,14 @@ void UMLView::removeWidget(UMLWidget * o) {
         checkMessages( static_cast<ObjectWidget*>(o) );
 
     o -> cleanup();
-    m_SelectedList.remove(o);
+    m_SelectedList.removeAll(o);
     disconnect( this, SIGNAL( sigRemovePopupMenu() ), o, SLOT( slotRemovePopupMenu() ) );
     disconnect( this, SIGNAL( sigClearAllSelected() ), o, SLOT( slotClearAllSelected() ) );
     disconnect( this, SIGNAL(sigColorChanged(Uml::IDType)), o, SLOT(slotColorChanged(Uml::IDType)));
     if (t == wt_Message) {
-        m_MessageList.remove(static_cast<MessageWidget*>(o));
+        m_MessageList.removeAll(static_cast<MessageWidget*>(o));
     } else
-        m_WidgetList.remove(o);
+        m_WidgetList.removeAll(o);
     delete o;
     m_pDoc->setModified();
 }
@@ -990,7 +990,7 @@ QRect UMLView::getDiagramRect() {
 
 void UMLView::setSelected(UMLWidget * w, QMouseEvent * /*me*/) {
     //only add if wasn't in list
-    if(!m_SelectedList.remove(w))
+    if(!m_SelectedList.removeAll(w))
         m_SelectedList.append(w);
     int count = m_SelectedList.count();
     //only call once - if we select more, no need to keep clearing  window
@@ -1239,7 +1239,7 @@ void UMLView::makeSelected (UMLWidget * uw) {
     if (uw == NULL)
         return;
     uw -> setSelected(true);
-    m_SelectedList.remove(uw);  // make sure not in there
+    m_SelectedList.removeAll(uw);  // make sure not in there
     m_SelectedList.append(uw);
 }
 
@@ -1411,7 +1411,7 @@ void UMLView::activate() {
         if (obj->activate()) {
             obj->setVisible(true);
         } else {
-            m_WidgetList.remove(obj);
+            m_WidgetList.removeAll(obj);
             delete obj;
         }
     }//end foreach
@@ -1437,7 +1437,7 @@ void UMLView::activate() {
                 aw->moveEntireAssoc(x, y);
             }
         } else {
-            m_AssociationList.remove(aw);
+            m_AssociationList.removeAll(aw);
             delete  aw;
         }
     }
@@ -1850,7 +1850,7 @@ void UMLView::removeAssoc(AssociationWidget* pAssoc) {
     emit sigAssociationRemoved(pAssoc);
 
     pAssoc->cleanup();
-    m_AssociationList.remove(pAssoc);
+    m_AssociationList.removeAll(pAssoc);
     delete pAssoc;
     m_pDoc->setModified();
 }
@@ -3404,7 +3404,7 @@ bool UMLView::loadUisDiagramPresentation(QDomElement & qElement) {
                 QDomNode gnode = e.firstChild();
                 QDomElement gelem = gnode.toElement();
                 QString csv = gelem.text();
-                QStringList dim = QStringList::split(",", csv);
+                QStringList dim = csv.split(",");
                 x = dim[0].toInt();
                 y = dim[1].toInt();
                 w = dim[2].toInt();

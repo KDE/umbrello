@@ -94,7 +94,7 @@ QString JavaClassifierCodeDocument::getPath ( )
     path.replace(QRegExp("\\."),"/");
     path.replace(QRegExp("::"), "/");
 
-    path.lower();
+    path.toLower();
 
     return path;
 

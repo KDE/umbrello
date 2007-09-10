@@ -544,7 +544,7 @@ inline void Lexer::readWhiteSpaces( bool skipNewLine )
 inline void Lexer::readLineComment()
 {
     while( !currentChar().isNull() && currentChar() != '\n' ){
-	if( m_reportMessages && currentChar() == '@' && m_source.mid(currentPosition()+1, 4).lower() == "todo" ){
+	if( m_reportMessages && currentChar() == '@' && m_source.mid(currentPosition()+1, 4).toLower() == "todo" ){
 	    nextChar( 5 );
 	    QString msg;
 	    int line = m_currentLine;
@@ -561,7 +561,7 @@ inline void Lexer::readLineComment()
 	    }
 	    m_driver->addProblem( m_driver->currentFileName(), Problem(msg, line, col, Problem::Level_Todo) );
 	} else
-        if( m_reportMessages && m_source.mid(currentPosition(), 5).lower() == "fixme" ){
+        if( m_reportMessages && m_source.mid(currentPosition(), 5).toLower() == "fixme" ){
             nextChar( 5 );
             QString msg;
             int line = m_currentLine;
@@ -588,7 +588,7 @@ inline void Lexer::readMultiLineComment()
         if( currentChar() == '*' && peekChar() == '/' ){
             nextChar( 2 );
             return;
-	} else if( m_reportMessages && currentChar() == '@' && m_source.mid(currentPosition()+1, 4).lower() == "todo" ){
+	} else if( m_reportMessages && currentChar() == '@' && m_source.mid(currentPosition()+1, 4).toLower() == "todo" ){
 	    nextChar( 5 );
 	    QString msg;
 	    int line = m_currentLine;
@@ -604,7 +604,7 @@ inline void Lexer::readMultiLineComment()
 	    }
 	    m_driver->addProblem( m_driver->currentFileName(), Problem(msg, line, col, Problem::Level_Todo) );
 	} else
-        if( m_reportMessages && m_source.mid(currentPosition(), 5).lower() == "fixme" ){
+        if( m_reportMessages && m_source.mid(currentPosition(), 5).toLower() == "fixme" ){
             nextChar( 5 );
             QString msg;
             int line = m_currentLine;

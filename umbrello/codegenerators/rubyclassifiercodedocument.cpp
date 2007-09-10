@@ -91,7 +91,7 @@ QString RubyClassifierCodeDocument::getPath ( )
     path.replace(QRegExp("\\."),"/");
     path.replace(QRegExp("::"), "/");
 
-    path.lower();
+    path = path.toLower();
 
     return path;
 
