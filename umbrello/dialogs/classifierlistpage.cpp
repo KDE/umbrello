@@ -637,11 +637,10 @@ bool ClassifierListPage::takeItem(UMLClassifierListItem* listItem,
         return false;
     qApp->processEvents();
     peerIndex = -1;
-    UMLObject *o;
     const Uml::Object_Type seekType = listItem->getBaseType();
     UMLObjectList listItems = m_pClassifier->subordinates();
-    UMLObjectListIt it(listItems);
-    for (int i = 0; it.hasNext(); ++i, it.next()) {
+    for (int i = 0; i < listItems.count(); ++i) {
+        UMLObject *o = listItems.at(i);
         if (seekPeerBefore) {
             if (i >= wasAtIndex)
                 break;

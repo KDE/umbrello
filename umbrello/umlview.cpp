@@ -3675,7 +3675,7 @@ bool UMLView::hasWidgetSmallerY(const UMLWidget* widget1, const UMLWidget* widge
 int UMLView::getSmallestX(const UMLWidgetList &widgetList) {
     UMLWidgetListIt it(widgetList);
 
-    int smallestX ;
+    int smallestX = 0;
 
     int i = 1;
     foreach ( UMLWidget *widget ,  widgetList ) {
@@ -3696,7 +3696,7 @@ int UMLView::getSmallestY(const UMLWidgetList &widgetList) {
     if ( widgetList.isEmpty() )
         return -1;
 
-    int smallestY ;
+    int smallestY = 0;
 
     int i = 1;
     foreach ( UMLWidget *widget ,  widgetList ) {
@@ -3716,7 +3716,7 @@ int UMLView::getBiggestX(const UMLWidgetList &widgetList) {
     if ( widgetList.isEmpty() )
         return -1;
 
-    int biggestX ;
+    int biggestX = 0;
 
     int i = 1;
     foreach ( UMLWidget *widget , widgetList ) {
@@ -3738,7 +3738,7 @@ int UMLView::getBiggestY(const UMLWidgetList &widgetList) {
     if ( widgetList.isEmpty() )
         return -1;
 
-    int biggestY ;
+    int biggestY = 0;
 
     int i = 1;
     foreach ( UMLWidget *widget , widgetList ) {

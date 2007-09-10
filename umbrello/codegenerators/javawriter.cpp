@@ -711,7 +711,8 @@ bool JavaWriter::compareJavaMethod(UMLOperation *op1, UMLOperation *op2)
     if (atl1.count() != atl2.count())
         return false;
     for (UMLAttributeListIt atl1It( atl1 ), atl2It( atl2 ); atl1It.hasNext() && atl2It.hasNext(); ) {
-        UMLAttribute *at1, *at2;
+        UMLAttribute *at1 = atl1It.next();
+        UMLAttribute *at2 = atl2It.next();
         if (at1->getTypeName() != at2->getTypeName())
             return false;
     }
