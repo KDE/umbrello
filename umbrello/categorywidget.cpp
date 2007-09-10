@@ -103,9 +103,7 @@ void CategoryWidget::slotMenuSelection(QAction* action){
           break;
 
       default:
-          kDebug() << "CategoryWidget::slotMenuSelection: Menu_Type "
-            << sel << " not implemented" << endl;
+          UMLWidget::slotMenuSelection(action);
     }
-    UMLWidget::slotMenuSelection(action);
 }
 
