@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -56,7 +56,7 @@ void initDocument(KCmdLineArgs *args);
 
 /**
  * Export all the views in the document using the command line args set by the user.
- * Errors that occurred while exporting, if any, are shown using kError().
+ * Errors that occurred while exporting, if any, are shown using uError().
  *
  * @param args The command line arguments given.
  * @param exportOpt A list containing all the "export" arguments given.
@@ -137,7 +137,7 @@ void initDocument(KCmdLineArgs *args) {
 
 void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt) {
     QString extension(exportOpt.last());
-    kDebug() << "extension: " << extension;
+    uDebug() << "extension: " << extension;
 
     // export to the specified directory, or the directory where the file is saved
     // if no directory was specified
@@ -151,7 +151,7 @@ void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt) {
 
     bool useFolders = args->isSet("use-folders");
 
-    kDebug() << "directory: " << directory.prettyUrl();
+    uDebug() << "directory: " << directory.prettyUrl();
 
     // the event is posted so when the QT loop begins it's processed. UMLApp process this event executing
     // the method it provides for exporting the views. Once all the views were exported, a quit event

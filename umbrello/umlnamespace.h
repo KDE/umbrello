@@ -371,6 +371,10 @@ const IDType id_Reserved = "0";
 # define STR2ID(id)  id.toAscii().data()
 # define ID2STR(id)  QString(id.c_str())
 
+// convenience macros for console output to the Umbrello area
+#define uDebug()   kDebug(8060)
+#define uError()   kError(8060)
+#define uWarning() kWarning(8060)
 
 /**
  * Function for comparing tags in XMI files.

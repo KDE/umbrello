@@ -62,7 +62,7 @@ UMLListViewItem::UMLListViewItem(UMLListView * parent)
         : Q3ListViewItem(parent) {
     init(parent);
     if (parent == NULL)
-        kDebug() << "UMLListViewItem constructor called with a NULL listview parent";
+        uDebug() << "UMLListViewItem constructor called with a NULL listview parent";
 }
 
 UMLListViewItem::UMLListViewItem(UMLListViewItem * parent)
@@ -140,8 +140,7 @@ void UMLListViewItem::init(UMLListView * parent) {
     m_nId = Uml::id_None;
     m_nChildren = 0;
     if (s_pListView == NULL && parent != NULL) {
-        kDebug() << "UMLListViewItem::init: s_pListView still NULL, setting it now "
-                  << endl;
+        uDebug() << "s_pListView still NULL, setting it now " << endl;
         s_pListView = parent;
     }
 }
@@ -157,8 +156,7 @@ void UMLListViewItem::addClassifierListItem(UMLClassifierListItem *child, UMLLis
 void UMLListViewItem::deleteChildItem(UMLClassifierListItem *child) {
     UMLListViewItem *childItem = findChildObject(child);
     if (childItem == NULL) {
-        kError() << "UMLListViewItem::deleteChildItem(" << child->getName()
-                  << "): child listview item not found" << endl;
+        uError() << child->getName() << ": child listview item not found" << endl;
         return;
     }
     m_comap.remove(child);
@@ -175,8 +173,8 @@ void UMLListViewItem::setID(Uml::IDType id) {
     if (m_pObject) {
         Uml::IDType oid = m_pObject->getID();
         if (id != Uml::id_None && oid != id)
-            kDebug() << "UMLListViewItem::setID: new id " << ID2STR(id)
-                << " does not agree with object id " << ID2STR(oid) << endl;
+            uDebug() << "new id " << ID2STR(id) << " does not agree with object id "
+                << ID2STR(oid) << endl;
     }
     m_nId = id;
 }
@@ -184,8 +182,7 @@ void UMLListViewItem::setID(Uml::IDType id) {
 bool UMLListViewItem::isOwnParent(Uml::IDType listViewItemID) {
     Q3ListViewItem *lvi = (Q3ListViewItem*)s_pListView->findItem(listViewItemID);
     if (lvi == NULL) {
-        kError() << "UMLListViewItem::isOwnParent: ListView->findItem("
-            << ID2STR(listViewItemID) << ") returns NULL" << endl;
+        uError() << "ListView->findItem(" << ID2STR(listViewItemID) << ") returns NULL" << endl;
         return true;
     }
     for (Q3ListViewItem *self = (Q3ListViewItem*)this; self; self = self->parent()) {
@@ -554,14 +551,14 @@ int UMLListViewItem::compare(Q3ListViewItem *other, int col, bool ascending) con
     if (m_pObject == NULL) {
         retval = (subItem ? 1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kDebug() << dbgPfx << retval << " because (m_pObject==NULL)";
+        uDebug() << dbgPfx << retval << " because (m_pObject==NULL)";
 #endif
         return retval;
     }
     if (otherObj == NULL) {
         retval = (subItem ? -1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kDebug() << dbgPfx << retval << " because (otherObj==NULL)";
+        uDebug() << dbgPfx << retval << " because (otherObj==NULL)";
 #endif
         return retval;
     }
@@ -570,21 +567,21 @@ int UMLListViewItem::compare(Q3ListViewItem *other, int col, bool ascending) con
     if (ourParent == NULL) {
         retval = (subItem ? 1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kDebug() << dbgPfx << retval << " because (ourParent==NULL)";
+        uDebug() << dbgPfx << retval << " because (ourParent==NULL)";
 #endif
         return retval;
     }
     if (otherParent == NULL) {
         retval = (subItem ? -1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kDebug() << dbgPfx << retval << " because (otherParent==NULL)";
+        uDebug() << dbgPfx << retval << " because (otherParent==NULL)";
 #endif
         return retval;
     }
     if (ourParent != otherParent) {
         retval = (subItem ? 0 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kDebug() << dbgPfx << retval << " because (ourParent != otherParent)";
+        uDebug() << dbgPfx << retval << " because (ourParent != otherParent)";
 #endif
         return retval;
     }
@@ -593,14 +590,14 @@ int UMLListViewItem::compare(Q3ListViewItem *other, int col, bool ascending) con
     if (thisUmlItem == NULL) {
         retval = (subItem ? 1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kDebug() << dbgPfx << retval << " because (thisUmlItem==NULL)";
+        uDebug() << dbgPfx << retval << " because (thisUmlItem==NULL)";
 #endif
         return retval;
     }
     if (otherUmlItem == NULL) {
         retval = (subItem ? -1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        kDebug() << dbgPfx << retval << " because (otherUmlItem==NULL)";
+        uDebug() << dbgPfx << retval << " because (otherUmlItem==NULL)";
 #endif
         return retval;
     }
@@ -609,12 +606,12 @@ int UMLListViewItem::compare(Q3ListViewItem *other, int col, bool ascending) con
     int otherIndex = items.indexOf(otherUmlItem);
     if (myIndex < 0) {
         retval = (subItem ? -1 : alphaOrder);
-        kError() << dbgPfx << retval << " because (myIndex < 0)" << endl;
+        uError() << dbgPfx << retval << " because (myIndex < 0)" << endl;
         return retval;
     }
     if (otherIndex < 0) {
         retval = (subItem ? 1 : alphaOrder);
-        kError() << dbgPfx << retval << " because (otherIndex < 0)" << endl;
+        uError() << dbgPfx << retval << " because (otherIndex < 0)" << endl;
         return retval;
     }
     return (myIndex < otherIndex ? -1 : myIndex > otherIndex ? 1 : 0);
@@ -675,25 +672,21 @@ void UMLListViewItem::saveToXMI( QDomDocument & qDoc, QDomElement & qElement) {
     QDomElement itemElement = qDoc.createElement( "listitem" );
     Uml::IDType id = getID();
     QString idStr = ID2STR(id);
-    //kDebug() << "UMLListViewItem::saveToXMI: id = " << idStr
-    //    << ", type = " << m_Type << endl;
+    //uDebug() << "id = " << idStr << ", type = " << m_Type << endl;
     if (id != Uml::id_None)
         itemElement.setAttribute( "id", idStr );
     itemElement.setAttribute( "type", m_Type );
     UMLFolder *extFolder = NULL;
     if (m_pObject == NULL) {
         if (! Model_Utils::typeIsDiagram(m_Type) && m_Type != Uml::lvt_View)
-            kError() << "UMLListViewItem::saveToXMI(" << m_Label
-                << "): m_pObject is NULL" << endl;
+            uError() << m_Label << ": m_pObject is NULL" << endl;
         itemElement.setAttribute( "label", m_Label );
     } else if (m_pObject->getID() == Uml::id_None) {
         if (m_Label.isEmpty()) {
-            kDebug() << "UMLListViewItem::saveToXMI(): Skipping empty item"
-                << endl;
+            uDebug() << "Skipping empty item" << endl;
             return;
         }
-        kDebug() << "UMLListViewItem::saveToXMI(): saving local label "
-            << m_Label << " because umlobject ID is not set" << endl;
+        uDebug() << "saving local label " << m_Label << " because umlobject ID is not set" << endl;
         itemElement.setAttribute( "label", m_Label );
     } else if (m_pObject->getBaseType() == Uml::ot_Folder) {
         extFolder = static_cast<UMLFolder*>(m_pObject);
@@ -721,8 +714,7 @@ bool UMLListViewItem::loadFromXMI(QDomElement& qElement) {
     if (!label.isEmpty())
         setText( label );
     else if (id == "-1") {
-        kError() << "UMLListViewItem::loadFromXMI: Item of type "
-            << type << " has neither ID nor label" << endl;
+        uError() << "Item of type " << type << " has neither ID nor label" << endl;
         return false;
     }
 

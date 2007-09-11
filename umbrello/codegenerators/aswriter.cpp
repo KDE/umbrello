@@ -11,6 +11,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2004-2007                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "aswriter.h"
@@ -34,7 +36,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 {
     if(!c)
     {
-        kDebug()<<"Cannot write class of NULL concept!";
+        uDebug()<<"Cannot write class of NULL concept!";
         return;
     }
 

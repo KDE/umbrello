@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -82,7 +82,7 @@ QIcon iconSet(Uml::Diagram_Type dt) {
         diagramIconSet = KIcon("umbrello_diagram_entityrelationship");
         break;
     default:
-        kDebug() << "Widget_Utils::iconSet: unknown diagram type " << dt;
+        uDebug() << "Widget_Utils::iconSet: unknown diagram type " << dt;
         diagramIconSet = KIcon("unknown");
     }
     return diagramIconSet;

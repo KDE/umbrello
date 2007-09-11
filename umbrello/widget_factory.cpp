@@ -142,7 +142,7 @@ UMLWidget *createWidget(UMLView *view, UMLObject *o) {
         newWidget = new CategoryWidget(view, static_cast<UMLCategory*>(o));
         break;
     default:
-        kWarning() << "trying to create an invalid widget";
+        uWarning() << "trying to create an invalid widget";
     }
 
     if (newWidget) {
@@ -155,7 +155,7 @@ UMLWidget *createWidget(UMLView *view, UMLObject *o) {
 
 bool validateObjType(Uml::Object_Type expected, UMLObject* &o, Uml::IDType id) {
     if (o == NULL) {
-        kDebug() << "Widget_Factory::validateObjType: creating new object of type "
+        uDebug() << "Widget_Factory::validateObjType: creating new object of type "
                  << expected << endl;
         QString artificialName = "LOST_" + ID2STR(id);
         o = Object_Factory::createUMLObject(expected, artificialName, NULL, false);
@@ -169,7 +169,7 @@ bool validateObjType(Uml::Object_Type expected, UMLObject* &o, Uml::IDType id) {
     Uml::Object_Type actual = o->getBaseType();
     if (actual == expected)
         return true;
-    kError() << "validateObjType(" << o->getName()
+    uError() << "validateObjType(" << o->getName()
         << "): expected type " << expected << ", actual type "
         << actual << endl;
     return false;
@@ -221,7 +221,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         UMLDoc *umldoc = UMLApp::app()->getDocument();
         UMLObject *o = umldoc->findObjectById(id);
         if (o == NULL) {
-            kDebug() << "makeWidgetFromXMI: cannot find object with id "
+            uDebug() << "makeWidgetFromXMI: cannot find object with id "
                 << ID2STR(id) << endl;
         }
 
@@ -264,7 +264,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         } else if (tag == "objectwidget" || tag == "UML:ObjectWidget") {
             widget = new ObjectWidget(view, o );
         } else {
-            kWarning() << "Trying to create an unknown widget:" << tag;
+            uWarning() << "Trying to create an unknown widget:" << tag;
         }
     }
     return widget;

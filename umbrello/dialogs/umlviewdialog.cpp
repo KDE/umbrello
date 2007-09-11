@@ -165,8 +165,7 @@ void UMLViewDialog::applyPage( KPageWidgetItem*item ) {
     }
     else if ( item == pageFontItem )
     {
-        kDebug() << "UMLViewDialog::applyPage: setting font "
-                 << m_pChooser->font().toString() << endl;
+        uDebug() << "setting font " << m_pChooser->font().toString() << endl;
         m_pView->setFont( m_pChooser->font(), true );
     }
     else if ( item == pageDisplayItem )

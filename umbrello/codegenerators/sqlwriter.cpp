@@ -2,7 +2,7 @@
     begin                : 10.02.2003
     copyright            : (C) 2003 Nikolaus Gradwohl
     email                : guru@local-guru.net
-      (C) 2004-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
+      (C) 2004-2007  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
  ***************************************************************************/
 
 /***************************************************************************
@@ -48,7 +48,7 @@ void SQLWriter::writeClass(UMLClassifier *c) {
     UMLEntity* e = static_cast<UMLEntity*>(c);
 
     if(!e) {
-        kDebug()<<"Cannot write entity of NULL concept!";
+        uDebug()<<"Cannot write entity of NULL concept!";
         return;
     }
 

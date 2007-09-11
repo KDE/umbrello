@@ -78,7 +78,7 @@ void CppWriter::writeClass(UMLClassifier *c)
 {
 
     if (!c) {
-        kDebug() << "Cannot write class of NULL concept!\n";
+        uDebug() << "Cannot write class of NULL concept!\n";
         return;
     }
 

@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -297,13 +297,13 @@ void CodeClassField::setAttributesFromNode ( QDomElement & root) {
                 if(method)
                     method->loadFromXMI(element);
                 else
-                    kError()<<"Cant load code accessor method for type:"<<type<<" which doesn't exist in this codeclassfield. Is XMI out-dated or corrupt?"<<endl;
+                    uError()<<"Cant load code accessor method for type:"<<type<<" which doesn't exist in this codeclassfield. Is XMI out-dated or corrupt?"<<endl;
 
             } else
                 if( tag == "header" ) {
                     // this is treated in parent.. skip over here
                 } else
-                    kWarning()<<"ERROR: bad savefile? code classfield loadFromXMI got child element with unknown tag:"<<tag<<" ignoring node.";
+                    uWarning()<<"ERROR: bad savefile? code classfield loadFromXMI got child element with unknown tag:"<<tag<<" ignoring node.";
 
         node = element.nextSibling();
         element = node.toElement();
@@ -408,7 +408,7 @@ CodeAccessorMethod * CodeClassField::findMethodByType ( CodeAccessorMethod::Acce
         {
             UMLRole * role = dynamic_cast<UMLRole*>(m->getParentObject());
             if(!role)
-                kError()<<"    FindMethodByType()  cant create role for method type:"<<m->getType()<<endl;
+                uError()<<"    FindMethodByType()  cant create role for method type:"<<m->getType()<<endl;
             if( role && m->getType() == type && role->getRole() == role_id)
                 return m;
         }

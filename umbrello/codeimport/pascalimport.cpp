@@ -88,7 +88,7 @@ void PascalImport::checkModifiers(bool& isVirtual, bool& isAbstract) {
 bool PascalImport::parseStmt() {
     const int srcLength = m_source.count();
     QString keyword = m_source[m_srcIndex].toLower();
-    //kDebug() << '"' << keyword << '"';
+    //uDebug() << '"' << keyword << '"';
     if (keyword == "uses") {
         while (m_srcIndex < srcLength - 1) {
             QString unit = advance();
@@ -193,7 +193,7 @@ bool PascalImport::parseStmt() {
             m_scopeIndex--;
             m_currentAccess = Uml::Visibility::Public;
         } else {
-            kError() << "importPascal: too many \"end\"" << endl;
+            uError() << "importPascal: too many \"end\"" << endl;
         }
         skipStmt();
         return true;
@@ -230,13 +230,13 @@ bool PascalImport::parseStmt() {
                 uint parNameCount = 0;
                 do {
                     if (parNameCount >= MAX_PARNAMES) {
-                        kError() << "MAX_PARNAMES is exceeded at " << name << endl;
+                        uError() << "MAX_PARNAMES is exceeded at " << name << endl;
                         break;
                     }
                     parName[parNameCount++] = advance();
                 } while (advance() == ",");
                 if (m_source[m_srcIndex] != ":") {
-                    kError() << "importPascal: expecting ':' at " << m_source[m_srcIndex] << endl;
+                    uError() << "importPascal: expecting ':' at " << m_source[m_srcIndex] << endl;
                     skipStmt();
                     break;
                 }
@@ -244,7 +244,7 @@ bool PascalImport::parseStmt() {
                 if (nextToken.toLower() == "array") {
                     nextToken = advance().toLower();
                     if (nextToken != "of") {
-                        kError() << "importPascal(" << name << "): expecting 'array OF' at "
+                        uError() << "importPascal(" << name << "): expecting 'array OF' at "
                                   << nextToken << endl;
                         skipStmt();
                         return false;
@@ -262,7 +262,7 @@ bool PascalImport::parseStmt() {
         QString returnType;
         if (keyword == "function") {
             if (advance() != ":") {
-                kError() << "importPascal: expecting \":\" at function "
+                uError() << "importPascal: expecting \":\" at function "
                         << name << endl;
                 return false;
             }
@@ -286,8 +286,7 @@ bool PascalImport::parseStmt() {
         const QString& name = m_source[m_srcIndex];
         QString nextToken = advance();
         if (nextToken != "=") {
-            kDebug() << "PascalImport::parseStmt(" << name << "): "
-                << "expecting '=' at " << nextToken << endl;
+            uDebug() << name << ": expecting '=' at " << nextToken << endl;
             return false;
         }
         keyword = advance().toLower();
@@ -337,7 +336,7 @@ bool PascalImport::parseStmt() {
                     Import_Utils::createGeneralization(klass, parent);
                 } while (advance() == ",");
                 if (m_source[m_srcIndex] != ")") {
-                    kError() << "PascalImport: expecting \")\" at "
+                    uError() << "PascalImport: expecting \")\" at "
                         << m_source[m_srcIndex] << endl;
                     return false;
                 }
@@ -375,7 +374,7 @@ bool PascalImport::parseStmt() {
     }
     // At this point we need a class because we're expecting its member attributes.
     if (m_klass == NULL) {
-        kDebug() << "importPascal: skipping " << m_source[m_srcIndex];
+        uDebug() << "importPascal: skipping " << m_source[m_srcIndex];
         skipStmt();
         return true;
     }
@@ -387,7 +386,7 @@ bool PascalImport::parseStmt() {
         name = m_source[m_srcIndex];
     }
     if (advance() != ":") {
-        kError() << "PascalImport: expecting \":\" at " << name << " "
+        uError() << "PascalImport: expecting \":\" at " << name << " "
                   << m_source[m_srcIndex] << endl;
         skipStmt();
         return true;

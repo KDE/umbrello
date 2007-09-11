@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -383,7 +383,7 @@ void UMLOperationDialog::slotParameterProperties() {
     pOldAtt = m_pOperation->findParm( m_pParmsLB->currentText() );
 
     if( !pOldAtt ) {
-        kDebug() << "THE impossible has occurred for:" << m_pParmsLB->currentText();
+        uDebug() << "THE impossible has occurred for:" << m_pParmsLB->currentText();
         return;
     }//should never occur
     ParmPropDlg dlg(this, m_doc, pOldAtt);
@@ -413,8 +413,7 @@ void UMLOperationDialog::slotParameterProperties() {
                 }
                 if (!breakFlag) {
                     // Nothing found: set type name directly. Bad.
-                    kDebug() << "UMLOperationDialog::slotParameterProperties: "
-                    << typeName << " not found." << endl;
+                    uDebug() << typeName << " not found." << endl;
                     pOldAtt->setTypeName( typeName );  // Bad.
                 }
             }
@@ -431,7 +430,7 @@ void UMLOperationDialog::slotParameterProperties() {
 
 void UMLOperationDialog::slotParameterUp()
 {
-    kDebug() ;
+    uDebug() ;
     UMLAttribute* pOldAtt = m_pOperation->findParm( m_pParmsLB->currentText() );
 
     m_pOperation->moveParmLeft( pOldAtt );

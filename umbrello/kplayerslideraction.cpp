@@ -76,7 +76,7 @@ KPlayerPopupSliderAction::KPlayerPopupSliderAction (const QObject* receiver, con
     m_slider = new KPlayerSlider (Qt::Vertical, m_frame);
     m_frame -> resize (36, m_slider -> sizeHint().height() + 4);
     m_slider -> setGeometry (m_frame -> contentsRect());
-    //CHANGED  kDebug() << "Popup slider size " << m_slider -> width() << "x" << m_slider -> height() << "\n";
+    //CHANGED  uDebug() << "Popup slider size " << m_slider -> width() << "x" << m_slider -> height() << "\n";
     connect (this, SIGNAL(triggered()), this , SLOT(slotTriggered()));
     connect (m_slider, SIGNAL (changed (int)), receiver, slot);
 }
@@ -130,7 +130,7 @@ void KPlayerPopupSliderAction::slotTriggered()
    }
 
 
-    //CHANGED  kDebug() << "Point: " << point.x() << "x" << point.y() << "\n";
+    //CHANGED  uDebug() << "Point: " << point.x() << "x" << point.y() << "\n";
     m_frame -> move (point);
     /*if ( kapp && kapp -> activeWindow() )
       {
@@ -171,7 +171,7 @@ int KPlayerSliderAction::plug (QWidget* widget, int index)
         return result;
     KToolBar* toolbar = (KToolBar*) widget;
     //int id = getToolButtonID();
-    //kDebug() << "Orientation: " << toolbar -> orientation() << "\n";
+    //uDebug() << "Orientation: " << toolbar -> orientation() << "\n";
     //m_slider -> reparent (toolbar, QPoint());
     //toolbar -> insertWidget (id, 0, m_slider, index);
     //toolbar -> setItemAutoSized (id, true);
@@ -259,7 +259,7 @@ KPlayerSlider::KPlayerSlider (Qt::Orientation orientation, QWidget* parent, cons
 
 KPlayerSlider::~KPlayerSlider()
 {
-    //CHANGED  kDebug() << "KPlayerSlider destroyed\n";
+    //CHANGED  uDebug() << "KPlayerSlider destroyed\n";
 }
 
 QSize KPlayerSlider::sizeHint() const
@@ -282,7 +282,7 @@ QSize KPlayerSlider::sizeHint() const
 
 QSize KPlayerSlider::minimumSizeHint() const
 {
-    //kDebug() << "KPlayerSlider minimum size hint\n";
+    //uDebug() << "KPlayerSlider minimum size hint\n";
     QSize hint = QSlider::minimumSizeHint();
     //CHANGED  int length = kPlayerSettings() -> minimumSliderLength();
     int length = 200;

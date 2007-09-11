@@ -49,7 +49,7 @@ UMLCanvasObject::~UMLCanvasObject() {
 #9  0x081af3a6 in UMLDoc::closeDocument() (this=0x8468b10) at umldoc.cpp:284
      */
     if (associations())
-        kDebug() << "UMLCanvasObject destructor: FIXME: there are still associations()";
+        uDebug() << "UMLCanvasObject destructor: FIXME: there are still associations()";
 }
 
 UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::Association_Type assocType) {
@@ -88,8 +88,7 @@ bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc) {
 
 int UMLCanvasObject::removeAssociationEnd(UMLAssociation * assoc) {
     if(!hasAssociation(assoc) || !m_List.removeAll(assoc)) {
-        kWarning() << "UMLCanvasObject::removeAssociation: "
-            << "can't find given assoc in list" << endl;
+        uWarning() << "can't find given assoc in list" << endl;
         return -1;
     }
     UMLObject::emitModified();
@@ -112,22 +111,18 @@ void UMLCanvasObject::removeAllAssociationEnds() {
         if (roleAObj) {
             roleAObj->removeAssociationEnd(assoc);
         } else if (objA)
-            kDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
-                << "): objA " << objA->getName() << " is not a UMLCanvasObject"
+            uDebug() << m_Name << ": objA " << objA->getName() << " is not a UMLCanvasObject"
                 << endl;
         else
-            kDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
-                << "): objA is NULL" << endl;
+            uDebug() << m_Name << "): objA is NULL" << endl;
         UMLCanvasObject *roleBObj = dynamic_cast<UMLCanvasObject*>(objB);
         if (roleBObj) {
             roleBObj->removeAssociationEnd(assoc);
         } else if (objB)
-            kDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
-                << "): objB " << objB->getName() << " is not a UMLCanvasObject"
+            uDebug() << m_Name << "): objB " << objB->getName() << " is not a UMLCanvasObject"
                 << endl;
         else
-            kDebug() << "UMLCanvasObject::removeAllAssociations(" << m_Name
-                << "): objB is NULL" << endl;
+            uDebug() << m_Name << "): objB is NULL" << endl;
         m_List.removeAt(i);
     }
 }
@@ -172,7 +167,7 @@ QString UMLCanvasObject::uniqChildName( const Uml::Object_Type type,
                 currentName = i18n( "new_check_constraint" );
                 break;
             default:
-                kWarning() << "uniqChildName() called for unknown child type " << type;
+                uWarning() << "uniqChildName() called for unknown child type " << type;
                 return "ERROR_in_UMLCanvasObject_uniqChildName";
         }
     }
@@ -277,10 +272,9 @@ UMLClassifierList UMLCanvasObject::getSuperClasses() {
         if (c)
             list.append(c);
         else
-            kDebug() << "UMLCanvasObject::getSuperClasses(" << m_Name
-            << "): generalization's other end is not a "
-            << "UMLClassifier (id= " << ID2STR(a->getObjectId(Uml::B)) << ")"
-            << endl;
+            uDebug() << m_Name << ": generalization's other end is not a "
+                << "UMLClassifier (id= " << ID2STR(a->getObjectId(Uml::B)) << ")"
+                << endl;
     }
     return list;
 }
@@ -297,9 +291,8 @@ UMLClassifierList UMLCanvasObject::getSubClasses() {
         if (c)
             list.append(c);
         else
-            kDebug() << "UMLCanvasObject::getSubClasses: specialization's"
-            << " other end is not a UMLClassifier"
-            << " (id=" << ID2STR(a->getObjectId(Uml::A)) << ")" << endl;
+            uDebug() << "specialization's other end is not a UMLClassifier"
+                << " (id=" << ID2STR(a->getObjectId(Uml::A)) << ")" << endl;
     }
     return list;
 }

@@ -226,7 +226,7 @@ void UMLWidget::init() {
         m_Font       = optionState.uiState.font;
         m_bShowStereotype = optionState.classState.showStereoType;
     } else {
-        kError() << "UMLWidget::init: SERIOUS PROBLEM - m_pView is NULL" << endl;
+        uError() << "SERIOUS PROBLEM - m_pView is NULL" << endl;
         m_bUseFillColour = false;
         m_bUsesDiagramFillColour = false;
         m_bUsesDiagramUseFillColour = false;
@@ -291,7 +291,7 @@ void UMLWidget::slotMenuSelection(QAction* action) {
              m_pObject->showProperties();
              UMLApp::app()->EndMacro();
         } else {
-            kWarning() << "making properties dialog for unknown widget type";
+            uWarning() << "making properties dialog for unknown widget type";
         }
         // adjustAssocs( getX(), getY() );//adjust assoc lines
         break;
@@ -403,8 +403,7 @@ void UMLWidget::slotMenuSelection(QAction* action) {
         }
 
     default:
-        kDebug() << "UMLWidget::slotMenuSelection: Menu_Type "
-            << sel << " not implemented" << endl;
+        uDebug() << "Menu_Type " << sel << " not implemented" << endl;
     }
 }
 
@@ -506,8 +505,7 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */) {
     if (widgetHasUMLObject(m_Type) && m_pObject == NULL) {
         m_pObject = m_pDoc->findObjectById(m_nId);
         if (m_pObject == NULL) {
-            kError() << "UMLWidget::activate: cannot find UMLObject with id="
-                << ID2STR(m_nId) << endl;
+            uError() << "cannot find UMLObject with id=" << ID2STR(m_nId) << endl;
             return false;
         }
     }
@@ -737,8 +735,7 @@ void UMLWidget::setSelected(bool _select) {
     const QPoint pos(getX(), getY());
     UMLWidget *bkgnd = m_pView->getWidgetAt(pos);
     if (bkgnd && bkgnd != this && _select) {
-        kDebug() << "UMLWidget::setSelected: setting Z to "
-            << bkgnd->getZ() + 1 << ", SelectState: " << _select << endl;
+        uDebug() << "setting Z to " << bkgnd->getZ() + 1 << ", SelectState: " << _select << endl;
         setZ( bkgnd->getZ() + 1 );
     } else {
         setZ( m_origZ );
@@ -1032,7 +1029,7 @@ bool UMLWidget::loadFromXMI( QDomElement & qElement ) {
         m_Font.fromString(font);
         //setFont(newFont);
     } else {
-        kWarning() << "Using default font " << m_Font.toString()
+        uWarning() << "Using default font " << m_Font.toString()
         << " for widget with xmi.id " << ID2STR(m_nId) << endl;
         //setFont( m_Font );
     }

@@ -141,7 +141,7 @@ QStringList CSharpWriter::defaultDatatypes() {
 
 void CSharpWriter::writeClass(UMLClassifier *c) {
     if (!c) {
-        kDebug()<<"Cannot write class of NULL concept!";
+        uDebug()<<"Cannot write class of NULL concept!";
         return;
     }
 
@@ -605,7 +605,7 @@ void CSharpWriter::writeAssociatedAttributes(UMLAssociationList &associated, UML
 
         UMLObject *o = a->getObject(Uml::B);
         if (o == NULL) {
-            kError() << "composition role B object is NULL" << endl;
+            uError() << "composition role B object is NULL" << endl;
             continue;
         }
         // Take name and documentaton from Role, take type name from the referenced object

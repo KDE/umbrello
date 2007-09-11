@@ -65,7 +65,7 @@ void UMLRole::setObject (UMLObject *obj) {
     // to only take UMLClassifiers here, but I'll leave it more open
     // for the time being. -b.t.
     if (obj && dynamic_cast<UMLRole*>(obj)) {
-        kError() << "UMLRole(" << ID2STR(m_nId) << ") cannot setObject() to another UMLRole("
+        uError() << "UMLRole(" << ID2STR(m_nId) << ") cannot setObject() to another UMLRole("
             << ID2STR(obj->getID()) << ")" << endl;
         return;
     }
@@ -106,8 +106,7 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     if (m_pSecondary)
         roleElement.setAttribute( "type", ID2STR(m_pSecondary->getID()) );
     else
-        kError() << "UMLRole::saveToXMI(id " << ID2STR(m_nId)
-        << "): m_pSecondary is NULL" << endl;
+        uError() << "id " << ID2STR(m_nId) << ": m_pSecondary is NULL" << endl;
     if (!m_Multi.isEmpty())
         roleElement.setAttribute("multiplicity", m_Multi);
     if (m_role == Uml::A) {  // role aggregation based on parent type
@@ -161,9 +160,8 @@ bool UMLRole::load( QDomElement & element ) {
     QString type = element.attribute("type", "");
     if (!type.isEmpty()) {
         if (!m_SecondaryId.isEmpty())
-            kWarning() << "UMLRole::load: overwriting old m_SecondaryId \""
-            << m_SecondaryId << " with new value \""
-            << type << "\"" << endl;
+            uWarning() << "overwriting old m_SecondaryId \"" << m_SecondaryId
+                << " with new value \"" << type << "\"" << endl;
         m_SecondaryId = type;
     }
     // Inspect child nodes - for multiplicity (and type if not set above.)
@@ -251,9 +249,9 @@ bool UMLRole::load( QDomElement & element ) {
         }
     }
     if (!m_Multi.isEmpty())
-        kDebug() << "UMLRole::load(" << m_Name << "): m_Multi is " << m_Multi;
+        uDebug() << m_Name << ": m_Multi is " << m_Multi;
     if (m_SecondaryId.isEmpty()) {
-        kError() << "UMLRole::load(" << m_Name << "): type not given or illegal" << endl;
+        uError() << m_Name << ": type not given or illegal" << endl;
         return false;
     }
     UMLObject * obj;

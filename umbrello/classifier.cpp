@@ -74,8 +74,7 @@ void UMLClassifier::setBaseType(Uml::Object_Type ot) {
             newIcon = Uml::it_Datatype;
             break;
         default:
-            kError() << "UMLClassifier::setBaseType: cannot set to type "
-                << ot << endl;
+            uError() << "cannot set to type " << ot << endl;
             return;
     }
     // @todo get rid of direct dependencies to UMLListView
@@ -217,26 +216,23 @@ UMLOperation* UMLClassifier::createOperation(const QString &name /*=null*/,
 bool UMLClassifier::addOperation(UMLOperation* op, int position )
 {
     if (m_List.indexOf(op) != -1) {
-        kDebug() << "UMLClassifier::addOperation: findRef("
-        << op->getName() << ") finds op (bad)"
-        << endl;
+        uDebug() << "findRef(" << op->getName() << ") finds op (bad)" << endl;
         return false;
     }
     if (checkOperationSignature(op->getName(), op->getParmList()) ) {
-        kDebug() << "UMLClassifier::addOperation: checkOperationSignature("
-        << op->getName() << ") op is non-unique" << endl;
+        uDebug() << "checkOperationSignature(" << op->getName() << ") op is non-unique"
+            << endl;
         return false;
     }
 
     if( position >= 0 && position <= (int)m_List.count() ) {
-        kDebug() << "UMLClassifier::addOperation(" << op->getName()
-            << "): inserting at position " << position << endl;
+        uDebug() << op->getName() << ": inserting at position " << position << endl;
         m_List.insert(position,op);
         UMLClassifierListItemList itemList = getFilteredList(Uml::ot_Operation);
         QString buf;
         foreach (UMLClassifierListItem* currentAtt, itemList )
             buf.append(' ' + currentAtt->getName());
-        kDebug() << "  UMLClassifier::addOperation list after change: " << buf;
+        uDebug() << "  list after change: " << buf;
      } else
         m_List.append( op );
     emit operationAdded(op);
@@ -256,13 +252,11 @@ bool UMLClassifier::addOperation(UMLOperation* Op, IDChangeLog* Log) {
 
 int UMLClassifier::removeOperation(UMLOperation *op) {
     if (op == NULL) {
-        kDebug() << "UMLClassifier::removeOperation called on NULL op"
-        << endl;
+        uDebug() << "called on NULL op" << endl;
         return -1;
     }
     if(!m_List.removeAll(op)) {
-        kDebug() << "UMLClassifier::removeOperation: can't find op "
-        << op->getName() << " in list" << endl;
+        uDebug() << "can't find op " << op->getName() << " in list" << endl;
         return -1;
     }
     // disconnection needed.
@@ -579,7 +573,7 @@ bool UMLClassifier::addAttribute(UMLAttribute* att, IDChangeLog* Log /* = 0 */,
 
 int UMLClassifier::removeAttribute(UMLAttribute* a) {
     if (!m_List.removeAll(a)) {
-        kDebug() << "can't find att given in list";
+        uDebug() << "can't find att given in list";
         return -1;
     }
     emit attributeRemoved(a);
@@ -622,7 +616,7 @@ UMLOperationList UMLClassifier::getOpList(bool includeInherited) {
         UMLClassifierList parents = findSuperClassConcepts();
         foreach (UMLClassifier* c ,  parents) {
             if (c == this) {
-                kError() << "UMLClassifier::getOpList: class " << c->getName()
+                uError() << "class " << c->getName()
                     << " is parent of itself ?!?" << endl;
                 continue;
             }
@@ -708,7 +702,7 @@ bool UMLClassifier::addTemplate(UMLTemplate* Template, int position)
 
 int UMLClassifier::removeTemplate(UMLTemplate* umltemplate) {
     if ( !m_List.removeAll(umltemplate) ) {
-        kWarning() << "can't find att given in list";
+        uWarning() << "can't find att given in list";
         return -1;
     }
     emit templateRemoved(umltemplate);
@@ -750,7 +744,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item) {
               txt = "Type-" + QString::number((int) currentAtt->getBaseType());
             buf.append(' ' + currentAtt->getName());
         }
-        kDebug() << "  UMLClassifier::takeItem (before): m_List is " << buf;
+        uDebug() << "  UMLClassifier::takeItem (before): m_List is " << buf;
 
     int index = m_List.indexOf(item);
     if (index == -1)
@@ -866,8 +860,7 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement) {
             tag = "UML:DataType";
             break;
         default:
-            kError() << "UMLClassifier::saveToXMI() internal error: basetype is "
-                << m_BaseType << endl;
+            uError() << "internal error: basetype is " << m_BaseType << endl;
             return;
     }
     QDomElement classifierElement = UMLObject::save(tag, qDoc);
@@ -969,8 +962,7 @@ bool UMLClassifier::load(QDomElement& element) {
                         break;
                     case Uml::ot_Operation:
                         if (! addOperation(static_cast<UMLOperation*>(child)) ) {
-                            kError() << "UMLClassifier::load: error from addOperation(op)"
-                                      << endl;
+                            uError() << "error from addOperation(op)" << endl;
                             delete child;
                             totalSuccess = false;
                         }
@@ -982,7 +974,7 @@ bool UMLClassifier::load(QDomElement& element) {
                         break;
                 }
             } else {
-                kWarning() << "UMLClassifier::load: failed to load " << tag;
+                uWarning() << "failed to load " << tag;
                 delete child;
                 totalSuccess = false;
             }

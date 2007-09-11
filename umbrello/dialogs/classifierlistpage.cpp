@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2003-2006                                                *
+ *  copyright (C) 2003-2007                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -71,7 +71,7 @@ void ClassifierListPage::setupPage() {
         typeName = i18n( "Constraints" );
         newItemType = i18n( "N&ew Constraint..." );
     } else {
-        kWarning() << "unknown listItem type in ClassifierListPage";
+        uWarning() << "unknown listItem type in ClassifierListPage";
     }
 
     int margin = fontMetrics().height();
@@ -323,7 +323,7 @@ void ClassifierListPage::slotRightButtonPressed(Q3ListBoxItem* item, const QPoin
         } else if (m_itemType == ot_EntityAttribute) {
             type = ListPopupMenu::mt_EntityAttribute_Selected;
         } else {
-            kWarning() << "unknown type in ClassifierListPage";
+            uWarning() << "unknown type in ClassifierListPage";
         }
     } else { //pressed into fresh air
         if (m_itemType == ot_Attribute) {
@@ -337,7 +337,7 @@ void ClassifierListPage::slotRightButtonPressed(Q3ListBoxItem* item, const QPoin
         } else if (m_itemType == ot_EntityAttribute) {
             type = ListPopupMenu::mt_New_EntityAttribute;
         } else {
-            kWarning() << "unknown type in ClassifierListPage";
+            uWarning() << "unknown type in ClassifierListPage";
         }
     }
     if(m_pMenu) {
@@ -360,7 +360,7 @@ void ClassifierListPage::slotPopupMenuSel(QAction* action) {
     ListPopupMenu::Menu_Type id = m_pMenu->getMenuType(action);
     UMLClassifierListItem* listItem = getItemList().at( currentItemIndex );
     if(!listItem && id != ListPopupMenu::mt_New_Attribute) {
-        kDebug() << "can't find att from selection";
+        uDebug() << "can't find att from selection";
         return;
     }
     switch(id) {
@@ -386,8 +386,7 @@ void ClassifierListPage::slotPopupMenuSel(QAction* action) {
         break;
 
     default:
-        kDebug() << "ClassifierListPage::slotPopupMenuSel: Menu_Type "
-            << id << " not implemented" << endl;
+        uDebug() << "Menu_Type " << id << " not implemented" << endl;
     }
 }
 
@@ -398,7 +397,7 @@ void ClassifierListPage::printItemList(const QString &prologue) {
     UMLClassifierListItemList itemList = getItemList();
     for (UMLClassifierListItemListIt it(itemList); (item = it.current()) != NULL; ++it)
         buf.append(' ' + item->getName());
-    kDebug() << prologue << buf;
+    uDebug() << prologue << buf;
 #endif
 }
 
@@ -426,8 +425,7 @@ void ClassifierListPage::slotTopClicked() {
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
     takeItem(currentAtt, true, index);  // now we index the UMLClassifier::m_List
-    kDebug() << "ClassifierListPage::slotTopClicked(" << currentAtt->getName()
-            << "): peer index in UMLCanvasItem::m_List is " << index << endl;
+    uDebug() << currentAtt->getName() << ": peer index in UMLCanvasItem::m_List is " << index << endl;
     addClassifier(currentAtt, 0);
     printItemList("itemList after change: ");
     slotClicked(item);
@@ -458,8 +456,7 @@ void ClassifierListPage::slotUpClicked() {
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
     takeItem(currentAtt, true, index);  // now we index the UMLClassifier::m_List
-    kDebug() << "ClassifierListPage::slotUpClicked(" << currentAtt->getName()
-        << "): peer index in UMLCanvasItem::m_List is " << index << endl;
+    uDebug() << currentAtt->getName() << ": peer index in UMLCanvasItem::m_List is " << index << endl;
     if (index == -1)
         index = 0;
     addClassifier(currentAtt, index);
@@ -491,8 +488,7 @@ void ClassifierListPage::slotDownClicked() {
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
     takeItem(currentAtt, false, index);  // now we index the UMLClassifier::m_List
-    kDebug() << "ClassifierListPage::slotDownClicked(" << currentAtt->getName()
-        << "): peer index in UMLCanvasItem::m_List is " << index << endl;
+    uDebug() << currentAtt->getName() << ": peer index in UMLCanvasItem::m_List is " << index << endl;
     if (index != -1)
         index++;   // because we want to go _after_ the following peer item
     addClassifier(currentAtt, index);
@@ -524,8 +520,7 @@ void ClassifierListPage::slotBottomClicked() {
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
     takeItem(currentAtt, false, index);  // now we index the UMLClassifier::m_List
-    kDebug() << "ClassifierListPage::slotDownClicked(" << currentAtt->getName()
-            << "): peer index in UMLCanvasItem::m_List is " << index << endl;
+    uDebug() << currentAtt->getName() << ": peer index in UMLCanvasItem::m_List is " << index << endl;
     addClassifier(currentAtt, getItemList().count());
     printItemList("itemList after change: ");
     slotClicked( item );
@@ -537,7 +532,7 @@ void ClassifierListPage::slotDoubleClick( Q3ListBoxItem* item ) {
 
     UMLClassifierListItem* listItem  = getItemList().at( m_pItemListLB->index( item ) );
     if( !listItem ) {
-        kDebug() << "can't find att from selection";
+        uDebug() << "can't find att from selection";
         return;
     }
 
@@ -622,11 +617,11 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int posi
             break;
         }
     default: {
-            kWarning() << "unknown type in ClassifierListPage";
+            uWarning() << "unknown type in ClassifierListPage";
             return false;
         }
     }
-    kError() << "ClassifierListPage::addClassifier unable to handle listitem type in current state" << endl;
+    uError() << "unable to handle listitem type in current state" << endl;
     return false;
 }
 

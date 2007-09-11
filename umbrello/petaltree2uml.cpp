@@ -152,7 +152,7 @@ public:
         PetalNode *attributes = node->findAttribute(m_attributeTag).node;
         if (attributes == NULL) {
 #ifdef VERBOSE_DEBUGGING
-            kDebug() << "read(" << name << "): no " << m_attributeTag << " found"
+            uDebug() << "read(" << name << "): no " << m_attributeTag << " found"
                       << endl;
 #endif
             return;
@@ -162,7 +162,7 @@ public:
             PetalNode *attNode = attributeList[i].second.node;
             QStringList initialArgs = attNode->initialArgs();
             if (attNode->name() != m_elementName) {
-                kDebug() << "read(" << name << "): expecting " << m_elementName
+                uDebug() << "read(" << name << "): expecting " << m_elementName
                           << ", " << "found " << initialArgs[0] << endl;
                 continue;
             }
@@ -319,7 +319,7 @@ bool handleControlledUnit(PetalNode *node, const QString& name, Uml::IDType /*id
     //bool is_loaded = (node->findAttribute("is_loaded").string != "FALSE");
     QString file_name = node->findAttribute("file_name").string;
     if (file_name.isEmpty()) {
-        kError() << "handleControlledUnit(" << name
+        uError() << "handleControlledUnit(" << name
             << "): attribute file_name not found (?)" << endl;
         return true;
     }
@@ -337,7 +337,7 @@ bool handleControlledUnit(PetalNode *node, const QString& name, Uml::IDType /*id
  */
 bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
     if (node == NULL) {
-        kError() << "umbrellify: node is NULL" << endl;
+        uError() << "umbrellify: node is NULL" << endl;
         return false;
     }
     QStringList args = node->initialArgs();
@@ -356,7 +356,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
                 umbrellify(atts[i].second.node, localParent);
             }
         } else if (!handleControlledUnit(node, name, id, parentPkg)) {
-            kDebug() << "umbrellify: handling of " << objType << " " << name
+            uDebug() << "umbrellify: handling of " << objType << " " << name
                << " is not yet implemented" << endl;
         }
 
@@ -388,7 +388,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
     } else if (objType == "Association") {
         PetalNode *roles = node->findAttribute("roles").node;
         if (node == NULL) {
-            kError() << "umbrellify: cannot find roles of Association" << endl;
+            uError() << "umbrellify: cannot find roles of Association" << endl;
             return false;
         }
         UMLAssociation *assoc = new UMLAssociation(Uml::at_UniAssociation);
@@ -396,11 +396,11 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
         for (uint i = 0; i <= 1; i++) {
             PetalNode *roleNode = roleList[i].second.node;
             if (roleNode == NULL) {
-                kError() << "umbrellify: roleNode of Association is NULL" << endl;
+                uError() << "umbrellify: roleNode of Association is NULL" << endl;
                 return false;
             }
             if (roleNode->name() != "Role") {
-                kDebug() << "umbrellify(" << name << "): expecting Role, found \""
+                uDebug() << "umbrellify(" << name << "): expecting Role, found \""
                           << roleNode->name() << endl;
                 continue;
             }
@@ -449,7 +449,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
         UMLApp::app()->getDocument()->addAssociation(assoc);
 
     } else {
-        kDebug() << "umbrellify: object type " << objType
+        uDebug() << "umbrellify: object type " << objType
                   << " is not yet implemented" << endl;
     }
     return true;
@@ -490,7 +490,7 @@ Uml::ListView_Type folderType(UMLListViewItem *parent) {
  */
 bool umbrellify(PetalNode *node, const QString& modelsName, UMLListViewItem *parent) {
     if (node == NULL) {
-        kError() << "umbrellify(" << modelsName << "): node is NULL" << endl;
+        uError() << "umbrellify(" << modelsName << "): node is NULL" << endl;
         return false;
     }
     QStringList args = node->initialArgs();
@@ -510,7 +510,7 @@ bool umbrellify(PetalNode *node, const QString& modelsName, UMLListViewItem *par
             item = new UMLListViewItem(parent, name, Uml::lvt_Actor, act);
             obj = act;
         } else {
-            kDebug() << "umbrellify(" << name << "): handling of Class stereotype "
+            uDebug() << "umbrellify(" << name << "): handling of Class stereotype "
                 << stereotype << " is not yet implemented" << endl;
         }
     } else if (objType == "UseCase") {
@@ -527,7 +527,7 @@ bool umbrellify(PetalNode *node, const QString& modelsName, UMLListViewItem *par
         item = new UMLListViewItem(parent, name, Uml::lvt_Node, un);
         obj = un;
     } else {
-        kDebug() << "umbrellify: object type " << objType
+        uDebug() << "umbrellify: object type " << objType
                   << " is not yet implemented" << endl;
         return true;
     }
@@ -556,12 +556,12 @@ bool importView(PetalNode *root, const QString& rootName,
                 const QString& modelsName, UMLListViewItem *lvParent) {
     PetalNode *viewRoot = root->findAttribute(rootName).node;
     if (viewRoot == NULL) {
-        kDebug() << "importView: cannot find " << rootName;
+        uDebug() << "importView: cannot find " << rootName;
         return false;
     }
     PetalNode *models = viewRoot->findAttribute(modelsName).node;
     if (models == NULL) {
-        kError() << "importView: cannot find " << modelsName
+        uError() << "importView: cannot find " << modelsName
                   << " of " << rootName << endl;
         return false;
     }
@@ -574,27 +574,27 @@ bool importView(PetalNode *root, const QString& rootName,
 
 bool petalTree2Uml(PetalNode *root) {
     if (root == NULL) {
-        kError() << "petalTree2Uml: root is NULL" << endl;
+        uError() << "petalTree2Uml: root is NULL" << endl;
         return false;
     }
     if (root->name() != "Design") {
-        kError() << "petalTree2Uml: expecting root name Design" << endl;
+        uError() << "petalTree2Uml: expecting root name Design" << endl;
         return false;
     }
     /*************************** import  Logical View ********************************/
     PetalNode *root_category = root->findAttribute("root_category").node;
     if (root_category == NULL) {
-        kError() << "petalTree2Uml: cannot find root_category" << endl;
+        uError() << "petalTree2Uml: cannot find root_category" << endl;
         return false;
     }
     if (root_category->name() != "Class_Category") {
-        kError() << "petalTree2Uml: expecting root_category object Class_Category"
+        uError() << "petalTree2Uml: expecting root_category object Class_Category"
                   << endl;
         return false;
     }
     PetalNode *logical_models = root_category->findAttribute("logical_models").node;
     if (logical_models == NULL) {
-        kError() << "petalTree2Uml: cannot find logical_models" << endl;
+        uError() << "petalTree2Uml: cannot find logical_models" << endl;
         return false;
     }
     UMLDoc *umldoc = UMLApp::app()->getDocument();

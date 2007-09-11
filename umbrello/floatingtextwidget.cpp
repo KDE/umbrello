@@ -100,11 +100,8 @@ void FloatingTextWidget::slotMenuSelection(QAction* action) {
 
     case ListPopupMenu::mt_Operation:
         {
-            kDebug() << "FloatingTextWidget::slotMenuSelection(mt_Operation) is called."
-            << endl;
             if (m_pLink == NULL) {
-                kDebug() << "FloatingTextWidget::slotMenuSelection(mt_Operation): "
-                << "m_pLink is NULL" << endl;
+                uDebug() << "mt_Operation: " << "m_pLink is NULL" << endl;
                 return;
             }
             UMLClassifier* c = m_pLink->getOperationOwner();
@@ -286,15 +283,13 @@ void FloatingTextWidget::changeTextDlg() {
 
 void FloatingTextWidget::showOpDlg() {
     if (m_pLink == NULL) {
-        kError() << "FloatingTextWidget::showOpDlg: m_pLink is NULL" << endl;
+        uError() << "m_pLink is NULL" << endl;
         return;
     }
     QString seqNum, opText;
     UMLClassifier* c = m_pLink->getSeqNumAndOp(seqNum, opText);
     if (c == NULL) {
-        kError() << "FloatingTextWidget::showOpDlg: "
-        << "m_pLink->getSeqNumAndOp() returns a NULL classifier"
-        << endl;
+        uError() << "m_pLink->getSeqNumAndOp() returns a NULL classifier" << endl;
         return;
     }
 

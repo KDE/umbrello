@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -138,19 +138,19 @@ bool UMLForeignKeyConstraint::addEntityAttributePair(UMLEntityAttribute* pAttr, 
     UMLEntity *owningParent = dynamic_cast<UMLEntity*>(parent());
 
     if ( pAttr == NULL || rAttr == NULL ) {
-        kError()<<"null values passed to function"<<endl;
+        uError()<<"null values passed to function"<<endl;
         return false;
     }
     // check for sanity of pAttr ( parent entity attribute )
     if (owningParent == NULL) {
-        kError() << m_Name
+        uError() << m_Name
         << "): parent " << owningParent->getName()
         << " is not a UMLEntity" << endl;
         return false;
     }
 
     if ( owningParent->findChildObjectById( pAttr->getID() ) == NULL ) {
-        kError() 
+        uError() 
         << " parent " << owningParent->getName()
                  << " does not contain attribute " << pAttr->getName()<<endl;
         return false;
@@ -159,13 +159,13 @@ bool UMLForeignKeyConstraint::addEntityAttributePair(UMLEntityAttribute* pAttr, 
     //check for sanity of rAttr ( referenced entity attribute )
     if ( m_ReferencedEntity != NULL ) {
        if ( m_ReferencedEntity->findChildObjectById( rAttr->getID() ) == NULL ) {
-        kError() 
+        uError() 
         << " parent " << m_ReferencedEntity->getName()
                  << " does not contain attribute " << rAttr->getName()<<endl;
         return false;
        }
     } else {
-        kError()<< "Referenced Table Not set. Not Adding Pair "<< endl;
+        uError()<< "Referenced Table Not set. Not Adding Pair "<< endl;
         return false;
     }
 
@@ -184,7 +184,7 @@ bool UMLForeignKeyConstraint::addEntityAttributePair(UMLEntityAttribute* pAttr, 
 
      QMap<UMLEntityAttribute*, UMLEntityAttribute*>::iterator i;
      for (i = m_AttributeMap.begin(); i != m_AttributeMap.end(); ++i)
-         kDebug()<<i.key()->getName()<<" "<<i.key()->getBaseType()
+         uDebug()<<i.key()->getName()<<" "<<i.key()->getBaseType()
                  <<" "<<i.value()->getName()<<" "<<i.value()->getBaseType()<<endl;
 
 
@@ -256,7 +256,7 @@ bool UMLForeignKeyConstraint::load( QDomElement & element ) {
 
 
         } else {
-            kWarning() << "unknown child type in UMLUniqueConstraint::load";
+            uWarning() << "unknown child type in UMLUniqueConstraint::load";
         }
 
         node = node.nextSibling();

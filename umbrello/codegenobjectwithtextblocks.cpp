@@ -424,7 +424,6 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
     QDomNode tnode = root.firstChild();
     QDomElement telement = tnode.toElement();
     bool loadCheckForChildrenOK = false;
-    QString pfx("CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode: ");
     while (!telement.isNull()) {
         QString nodeName = telement.tagName();
 
@@ -447,7 +446,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                 CodeComment * block = CodeGenFactory::newCodeComment(m_pCodeDoc);
                 block->loadFromXMI(element);
                 if (!addTextBlock(block)) {
-                    kError() << pfx << "unable to add codeComment to :" << this << endl;
+                    uError() << "unable to add codeComment to :" << this << endl;
                     delete block;
                 } else
                     loadCheckForChildrenOK = true;
@@ -458,7 +457,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                 // search for our method in the
                 TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
                 if (!tb || !addTextBlock(tb)) {
-                    kError() << pfx << "unable to add code accessor/decl method block (tag:"
+                    uError() << "unable to add code accessor/decl method block (tag:"
                         << acctag << ") to:" << this << endl;
                     // DON'T delete
                 } else
@@ -468,7 +467,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                 CodeBlock * block = newCodeBlock();
                 block->loadFromXMI(element);
                 if (!addTextBlock(block)) {
-                    kError() << pfx << "unable to add codeBlock to :" << this << endl;
+                    uError() << "unable to add codeBlock to :" << this << endl;
                     delete block;
                 } else
                     loadCheckForChildrenOK = true;
@@ -477,7 +476,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                 CodeBlockWithComments * block = newCodeBlockWithComments();
                 block->loadFromXMI(element);
                 if (!addTextBlock(block)) {
-                    kError() << pfx << "unable to add codeBlockwithcomments to:" << this << endl;
+                    uError() << "unable to add codeBlockwithcomments to:" << this << endl;
                     delete block;
                 } else
                     loadCheckForChildrenOK = true;
@@ -489,7 +488,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                 HierarchicalCodeBlock * block = new HierarchicalCodeBlock(m_pCodeDoc);
                 block->loadFromXMI(element);
                 if (!addTextBlock(block)) {
-                    kError() << pfx << "unable to add hierarchicalcodeBlock to:" << this << endl;
+                    uError() << "unable to add hierarchicalcodeBlock to:" << this << endl;
                     delete block;
                 } else
                     loadCheckForChildrenOK = true;
@@ -505,13 +504,13 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                     if (addTextBlock(block))
                         loadCheckForChildrenOK = true;
                     else {
-                        kError() << pfx << "unable to add codeoperation to:" << this << endl;
+                        uError() << "unable to add codeoperation to:" << this << endl;
                         delete block;
                     }
                 } else
-                    kError() << pfx << "unable to create codeoperation for obj id:" << id << endl;
+                    uError() << "unable to create codeoperation for obj id:" << id << endl;
             } else
-                kWarning() << pfx << "Got strange tag in text block stack:" << name << ", ignorning";
+                uWarning() << "Got strange tag in text block stack:" << name << ", ignorning";
 
             node = element.nextSibling();
             element = node.toElement();
@@ -523,13 +522,13 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
     if (!loadCheckForChildrenOK) {
         CodeDocument * test = dynamic_cast<CodeDocument*>(this);
         if (test) {
-            kWarning() << pfx << "unable to initialize any child blocks in doc: " << test->getFileName() << " " << this;
+            uWarning() << "unable to initialize any child blocks in doc: " << test->getFileName() << " " << this;
         } else {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(this);
             if (hb)
-                kWarning() << pfx << "unable to initialize any child blocks in Hblock: "<< hb->getTag() << " " << this;
+                uWarning() << "unable to initialize any child blocks in Hblock: "<< hb->getTag() << " " << this;
             else
-                kDebug() << pfx << "unable to initialize any child blocks in UNKNOWN OBJ:" << this;
+                uDebug() << "unable to initialize any child blocks in UNKNOWN OBJ:" << this;
         }
     }
 

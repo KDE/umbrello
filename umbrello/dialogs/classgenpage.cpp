@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -80,7 +80,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
     } else if (t == Uml::ot_Entity) {
         name = i18n("Entity &name:");
     } else {
-        kWarning() << "creating class gen page for unknown widget type";
+        uWarning() << "creating class gen page for unknown widget type";
     }
     setMinimumSize(310,330);
     QVBoxLayout * topLayout = new QVBoxLayout(this);
@@ -348,7 +348,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget) : QWid
     } else if (widget->getBaseType() == Uml::wt_Node) {
         m_pNameL->setText(i18n("Node name:"));
     } else {
-        kWarning() << "ClassGenPage called on unknown widget type";
+        uWarning() << "ClassGenPage called on unknown widget type";
     }
     m_pNameLayout->addWidget(m_pNameL, 0, 0);
 

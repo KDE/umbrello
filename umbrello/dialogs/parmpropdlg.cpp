@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -142,7 +142,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
     //add template parameters
     UMLClassifier *pConcept = dynamic_cast<UMLClassifier*>( m_pAtt->parent()->parent() );
     if (pConcept == NULL) {
-        kError() << "ParmPropDlg: grandparent of " << m_pAtt->getName()
+        uError() << "ParmPropDlg: grandparent of " << m_pAtt->getName()
         << " is not a UMLClassifier" << endl;
     } else {
         UMLTemplateList tmplParams( pConcept->getTemplateList() );
@@ -234,8 +234,7 @@ void ParmPropDlg::slotOk() {
         QString typeName = m_pTypeCB->currentText();
         UMLClassifier * pConcept = dynamic_cast<UMLClassifier*>( m_pAtt->parent()->parent() );
         if (pConcept == NULL) {
-            kError() << "ParmPropDlg::slotOk: grandparent of " << m_pAtt->getName()
-            << " is not a UMLClassifier" << endl;
+            uError() << "grandparent of " << m_pAtt->getName() << " is not a UMLClassifier" << endl;
         } else {
             UMLTemplate *tmplParam = pConcept->findTemplate(typeName);
             if (tmplParam) {
@@ -256,7 +255,7 @@ void ParmPropDlg::slotOk() {
             // Nothing found: Create a new type on the fly.
             // @todo There should be an extra dialog to decide whether to
             // create a datatype or a class. For now, we create a class.
-            kDebug() << "ParmPropDlg::slotOk: " << typeName << " not found."
+            uDebug() << "" << typeName << " not found."
                 << " Creating a new class for the type." << endl;
             UMLObject *o = Object_Factory::createUMLObject(Uml::ot_Class, typeName);
             m_pAtt->setType(o);

@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006                                                    *
+ *   copyright (C) 2006-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -24,6 +24,7 @@
 // app includes
 #include "petalnode.h"
 #include "petaltree2uml.h"
+#include "umlnamespace.h"  // only for uDebug()/uError()
 
 namespace Import_Rose {
 
@@ -173,21 +174,21 @@ QString collectVerbatimText(QTextStream& stream) {
         if (line.isEmpty() || line.startsWith(')'))
             break;
         if (line[0] != '|') {
-            kError() << loc() << "expecting '|' at start of verbatim text" << endl;
+            uError() << loc() << "expecting '|' at start of verbatim text" << endl;
             return QString();
         } else {
             result += line.mid(1) + '\n';
         }
     }
     if (line.isNull()) {
-        kError() << loc() << "premature EOF" << endl;
+        uError() << loc() << "premature EOF" << endl;
         return QString();
     }
     if (! line.isEmpty()) {
         for (int i = 0; i < line.length(); i++) {
             const QChar& clParenth = line[i];
             if (clParenth != ')') {
-                kError() << loc() << "expected ')', found: " << clParenth << endl;
+                uError() << loc() << "expected ')', found: " << clParenth << endl;
                 return QString();
             }
             nClosures++;
@@ -234,7 +235,7 @@ QString extractValue(QStringList& l, QTextStream& stream) {
     } else {
         result = shift(l);
         if (l.first() != ")") {
-            kError() << loc() << "expecting closing parenthesis" << endl;
+            uError() << loc() << "expecting closing parenthesis" << endl;
             return result;
         }
         l.pop_front();
@@ -256,7 +257,7 @@ QString extractValue(QStringList& l, QTextStream& stream) {
 PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
     methodName("readAttributes");
     if (initialArgs.count() == 0) {
-        kError() << loc() << "initialArgs is empty" << endl;
+        uError() << loc() << "initialArgs is empty" << endl;
         return NULL;
     }
     PetalNode::NodeType nt;
@@ -266,7 +267,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
     else if (type == "list")
         nt = PetalNode::nt_list;
     else {
-        kError() << loc() << "unknown node type " << type << endl;
+        uError() << loc() << "unknown node type " << type << endl;
         return NULL;
     }
     PetalNode *node = new PetalNode(nt);
@@ -285,7 +286,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
         QString stringOrNodeOpener = shift(tokens);
         QString name;
         if (nt == PetalNode::nt_object && !stringOrNodeOpener.contains(QRegExp("^[A-Za-z]"))) {
-            kError() << loc() << "unexpected line " << line << endl;
+            uError() << loc() << "unexpected line " << line << endl;
             return NULL;
         }
         PetalNode::StringOrNode value;
@@ -312,7 +313,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
             attr.second = value;
             attrs.append(attr);
             if (tokens.count() && tokens.first() != ")") {
-                kDebug() << loc()
+                uDebug() << loc()
                     << "NYI - immediate list entry with more than one item" << endl;
             }
             if (checkClosing(tokens))

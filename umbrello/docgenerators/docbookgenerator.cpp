@@ -2,7 +2,7 @@
  *                        docbookgenerator.cpp  -  description             *
  *                           -------------------                           *
  *  copyright            : (C) 2006 by Gael de Chalendar (aka Kleag)       *
- *    (C) 2006 Umbrello UML Modeller Authors <uml-devel@uml.sf.net>        *
+ *    (C) 2006-2007 Umbrello UML Modeller Authors <uml-devel@uml.sf.net>   *
  ***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -51,7 +51,7 @@ bool DocbookGenerator::generateDocbookForProject()
   QString fileName = url.fileName();
   fileName.replace(QRegExp(".xmi$"),"");
   url.setFileName(fileName);
-  kDebug() <<"Exporting to directory: " << url;
+  uDebug() <<"Exporting to directory: " << url;
   generateDocbookForProjectInto(url);
   return true;
 }
@@ -73,13 +73,13 @@ void DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDir)
     docbookGeneratorJob = new DocbookGeneratorJob( this );
     connect( docbookGeneratorJob , SIGNAL(docbookGenerated(const QString&)), this, SLOT(slotDocbookGenerationFinished(const QString&)));
     connect( docbookGeneratorJob, SIGNAL( finished() ), this, SLOT( threadFinished() ) );
-    kDebug()<<"Threading";
+    uDebug()<<"Threading";
     docbookGeneratorJob->start();
 }
 
 void DocbookGenerator::slotDocbookGenerationFinished(const QString& tmpFileName)
 {
-    kDebug()<<"Generation Finished"<<tmpFileName;
+    uDebug()<<"Generation Finished"<<tmpFileName;
     KUrl url = umlDoc->url();
     QString fileName = url.fileName();
     fileName.replace(QRegExp(".xmi$"),".docbook");

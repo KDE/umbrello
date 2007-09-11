@@ -58,7 +58,7 @@ bool AdaWriter::isOOClass(UMLClassifier *c) {
     if (ot == Uml::ot_Enum)
         return false;
     if (ot != Uml::ot_Class) {
-        kDebug() << "AdaWriter::isOOClass: unknown object type " << ot;
+        uDebug() << "unknown object type " << ot;
         return false;
     }
     QString stype = c->getStereotype();
@@ -147,7 +147,7 @@ void AdaWriter::computeAssocTypeAndRole(UMLClassifier *c,
 
 void AdaWriter::writeClass(UMLClassifier *c) {
     if (!c) {
-        kDebug() << "Cannot write class of NULL concept!";
+        uDebug() << "Cannot write class of NULL concept!";
         return;
     }
 
@@ -207,8 +207,7 @@ void AdaWriter::writeClass(UMLClassifier *c) {
                 // Check whether it's a data type.
                 UMLClassifier *typeObj = t->getType();
                 if (typeObj == NULL) {
-                    kError() << "AdaWriter::writeClass(template_param "
-                    << typeName << "): typeObj is NULL" << endl;
+                    uError() << "template_param " << typeName << ": typeObj is NULL" << endl;
                     ada << getIndent() << "type " << formalName << " is new " << typeName
                     << " with private;  -- CHECK: codegen error"
                     << m_endl;

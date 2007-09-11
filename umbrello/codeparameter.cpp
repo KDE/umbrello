@@ -219,7 +219,7 @@ void CodeParameter::setAttributesFromNode ( QDomElement & root) {
             else if(role_id == 0)
                 role = assoc->getUMLRole(Uml::B);
             else
-                kError() << "corrupt save file? "
+                uError() << "corrupt save file? "
                 << "cant get proper UMLRole for codeparameter uml id:"
                 << ID2STR(id) << " w/role_id:" << role_id << endl;
 
@@ -230,7 +230,7 @@ void CodeParameter::setAttributesFromNode ( QDomElement & root) {
             initFields ( m_parentDocument, obj); // just the regular approach
 
     } else
-        kError() << "Cant load CodeParam: parentUMLObject w/id:"
+        uError() << "Cant load CodeParam: parentUMLObject w/id:"
         << ID2STR(id) << " not found, corrupt save file?" << endl;
 
     // other attribs now
@@ -255,7 +255,7 @@ void CodeParameter::setAttributesFromNode ( QDomElement & root) {
     }
 
     if(!gotComment)
-        kWarning()<<" loadFromXMI : Warning: unable to initialize CodeComment in codeparam:"<<this;
+        uWarning()<<" loadFromXMI : Warning: unable to initialize CodeComment in codeparam:"<<this;
 
 
 }

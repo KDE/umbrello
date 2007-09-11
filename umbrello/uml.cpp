@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -96,7 +96,7 @@ QMenu* UMLApp::findMenu(KMenuBar* /*menu*/, const QString &name)
     QWidget* widget = factory()->container(name, this);
     if (widget)
         return dynamic_cast<QMenu*>(widget);
-    kDebug() << "UMLApp::findMenu(KMenuBar*): factory()->container(" << name << ") returns NULL";
+    uDebug() << "factory()->container(" << name << ") returns NULL";
     return 0;
 }
 
@@ -1653,13 +1653,13 @@ void UMLApp::setDiagramMenuItemsState(bool bState) {
 void UMLApp::slotUpdateViews() {
     QMenu* menu = findMenu( menuBar(), QString("views") );
     if (!menu) {
-        kWarning() << "view menu not found";
+        uWarning() << "view menu not found";
         return;
     }
 
     menu = findMenu( menu, QString("show_view") );
     if (!menu) {
-        kWarning() << "show menu not found";
+        uWarning() << "show menu not found";
         return;
     }
 
@@ -1757,7 +1757,7 @@ void UMLApp::slotDeleteSelectedWidget() {
     if ( getCurrentView() ) {
         getCurrentView()->deleteSelection();
     } else {
-        kWarning() << " trying to delete widgets when there is no current view (see bug 59774)";
+        uWarning() << " trying to delete widgets when there is no current view (see bug 59774)";
     }
 }
 
@@ -1883,7 +1883,7 @@ QWidget* UMLApp::getMainViewWidget() {
 void UMLApp::setCurrentView(UMLView* view) {
     m_view = view;
     if (view == NULL) {
-        kDebug() << "UMLApp::setCurrentView: view is NULL";
+        uDebug() << "view is NULL";
         return;
     }
 
@@ -1917,7 +1917,7 @@ QMenu* UMLApp::findMenu(QMenu* /*menu*/, const QString &name) {
     QWidget* widget = factory()->container(name, this);
     if (widget)
         return dynamic_cast<QMenu*>(widget);
-    kDebug() << "UMLApp::findMenu: factory()->container(" << name << ") returns NULL";
+    uDebug() << "factory()->container(" << name << ") returns NULL";
     return 0;
 }
 
@@ -1936,7 +1936,7 @@ void UMLApp::slotChangeTabLeft() {
     UMLView *currView = m_view;
     int viewIndex = 0;
     if ( (viewIndex = views.indexOf(currView)) < 0) {
-        kError() << "UMLApp::slotChangeTabLeft(): currView not found in viewlist" << endl;
+        uError() << "currView not found in viewlist" << endl;
         return;
     }
     UMLView* prevView = NULL;
@@ -1959,7 +1959,7 @@ void UMLApp::slotChangeTabRight() {
     UMLView *currView = m_view;
     int viewIndex = 0;
     if (( viewIndex = views.indexOf(currView) ) < 0) {
-        kError() << "UMLApp::slotChangeTabRight(): currView not found in viewlist" << endl;
+        uError() << "currView not found in viewlist" << endl;
         return;
     }
     UMLView* nextView = NULL;
@@ -2008,7 +2008,7 @@ void UMLApp::clearUndoStack() {
 
 void UMLApp::undo()
 {
-    kDebug() << "UMLApp::undo(" << m_pUndoStack->undoText() << ") [" << m_pUndoStack->count() << "]";
+    uDebug() << m_pUndoStack->undoText() << " [" << m_pUndoStack->count() << "]";
     m_pUndoStack->undo();
 
     if(m_pUndoStack->canUndo())
@@ -2021,7 +2021,7 @@ void UMLApp::undo()
 
 void UMLApp::redo()
 {
-    kDebug() << "UMLApp::undo(" << m_pUndoStack->redoText() << ") [" << m_pUndoStack->count() << "]";
+    uDebug() << m_pUndoStack->redoText() << " [" << m_pUndoStack->count() << "]";
     m_pUndoStack->redo();
 
     if(m_pUndoStack->canRedo())
@@ -2037,7 +2037,7 @@ void UMLApp::executeCommand(QUndoCommand* cmd)
     if(cmd != NULL)
         m_pUndoStack->push(cmd);
 
-    kDebug() << "UMLApp::executeCommand(" << cmd->text() << ") [" << m_pUndoStack->count() << "]";
+    uDebug() << cmd->text() << " [" << m_pUndoStack->count() << "]";
 
     UMLApp::app()->enableUndo(true);
 }

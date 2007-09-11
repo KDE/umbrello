@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 // own header
@@ -121,12 +121,12 @@ bool FloatingDashLineWidget::loadFromXMI( QDomElement & qElement ) {
     if( !UMLWidget::loadFromXMI( qElement ) ) {
         return false;
     }
-    kDebug() <<"load.......";
+    uDebug() <<"load.......";
     m_yMax = qElement.attribute( "maxY", "" ).toInt();
     m_yMin = qElement.attribute( "minY", "" ).toInt();
     setY(qElement.attribute( "y", "" ).toInt());
     m_Text = qElement.attribute( "text", "" );
-    kDebug() <<"m_y......." <<m_y;
+    uDebug() <<"m_y......." <<m_y;
     return true;
 }
 

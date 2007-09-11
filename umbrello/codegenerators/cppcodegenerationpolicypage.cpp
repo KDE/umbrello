@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -68,7 +68,7 @@ void CPPCodeGenerationPolicyPage::apply()
     common->setCommentStyle((CodeGenerationPolicy::CommentStyle ) form->m_SelectCommentStyle->currentItem());
     common->setAutoGenerateConstructors(form->getGenerateEmptyConstructors());
     parent->setAutoGenerateAccessors(form->getGenerateAccessorMethods());
-    kDebug()<<form->getGenerateAccessorMethods();
+    uDebug()<<form->getGenerateAccessorMethods();
 
     parent->setDestructorsAreVirtual(form->getVirtualDestructors());
     parent->setPackageIsNamespace(form->getPackageIsANamespace());

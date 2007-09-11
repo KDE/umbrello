@@ -200,7 +200,7 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
         break;
     default:
         // do nothing..no idea what this is
-        kWarning()<<"Warning: cant generate JavaCodeAccessorMethod for type: "<<getType();
+        uWarning()<<"Warning: cant generate JavaCodeAccessorMethod for type: "<<getType();
         break;
     }
 

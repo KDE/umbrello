@@ -84,8 +84,7 @@ QString JavaCodeClassField::getInitialValue() {
         if (at) {
             return fixInitialStringDeclValue(at->getInitialValue(), getTypeName());
         } else {
-            kError() << "JavaodeClassField::getInitialValue: parent object is not a UMLAttribute"
-            << endl;
+            uError() << "parent object is not a UMLAttribute" << endl;
             return "";
         }
         return fixInitialStringDeclValue(at->getInitialValue(), getTypeName());

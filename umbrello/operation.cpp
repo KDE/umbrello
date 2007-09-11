@@ -57,16 +57,14 @@ void UMLOperation::setType(UMLObject *type) {
 
 void UMLOperation::moveParmLeft(UMLAttribute * a) {
     if (a == NULL) {
-        kDebug() << "UMLOperation::moveParmLeft called on NULL attribute"
-        << endl;
+        uDebug() << "called on NULL attribute" << endl;
         return;
     }
-    kDebug() << "UMLOperation::moveParmLeft(" << a->getName() << ") called"
-    << endl;
+    uDebug() << "called for " << a->getName() << endl;
     disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
     int idx;
     if ( (idx=m_List.indexOf( a )) == -1 ) {
-        kDebug() << "Error move parm left " << a->getName();
+        uDebug() << "Error move parm left " << a->getName();
         return;
     }
     if ( idx == 0 )
@@ -77,16 +75,14 @@ void UMLOperation::moveParmLeft(UMLAttribute * a) {
 
 void UMLOperation::moveParmRight(UMLAttribute * a) {
     if (a == NULL) {
-        kDebug() << "UMLOperation::moveParmRight called on NULL attribute"
-        << endl;
+        uDebug() << "called on NULL attribute" << endl;
         return;
     }
-    kDebug() << "UMLOperation::moveParmRight(" << a->getName() << ") called"
-    << endl;
+    uDebug() << "called for " << a->getName() << endl;
     disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
     int idx;
     if ( (idx=m_List.indexOf( a )) == -1 ) {
-        kDebug() << "Error move parm right " << a->getName();
+        uDebug() << "Error move parm right " << a->getName();
         return;
     }
     int count = m_List.count();
@@ -98,15 +94,13 @@ void UMLOperation::moveParmRight(UMLAttribute * a) {
 
 void UMLOperation::removeParm(UMLAttribute * a, bool emitModifiedSignal /* =true */) {
     if (a == NULL) {
-        kDebug() << "UMLOperation::removeParm called on NULL attribute"
-        << endl;
+        uDebug() << "called on NULL attribute" << endl;
         return;
     }
-    kDebug() << "UMLOperation::removeParm(" << a->getName() << ") called"
-    << endl;
+    uDebug() << "called for " << a->getName() << endl;
     disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
     if(!m_List.removeAll(a))
-        kDebug() << "Error removing parm " << a->getName();
+        uDebug() << "Error removing parm " << a->getName();
 
     if (emitModifiedSignal)
         emit modified();
@@ -290,8 +284,7 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     if (m_pSecondary) {
         QDomElement retElement = qDoc.createElement("UML:Parameter");
         if (m_returnId == Uml::id_None) {
-            kDebug() << "UMLOperation::saveToXMI(" << m_Name
-                << "): m_returnId is not set, setting it now." << endl;
+            uDebug() << m_Name << ": m_returnId is not set, setting it now." << endl;
             m_returnId = UniqueID::gen();
         }
         retElement.setAttribute( "xmi.id", ID2STR(m_returnId) );
@@ -299,8 +292,7 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
         retElement.setAttribute( "kind", "return" );
         featureElement.appendChild( retElement );
     } else {
-        kDebug() << "UMLOperation::saveToXMI: m_SecondaryId is "
-        << m_SecondaryId << endl;
+        uDebug() << "m_SecondaryId is " << m_SecondaryId << endl;
     }
     //save each attribute here, type different
 
@@ -360,8 +352,6 @@ bool UMLOperation::load( QDomElement & element ) {
                     break;
                 }
                 if (kind.isEmpty()) {
-                    // kDebug() << "UMLOperation::load(" << m_Name << "): "
-                    //  << "cannot find kind, using default \"in\"." << endl;
                     kind = "in";
                 }
             }
@@ -397,8 +387,7 @@ bool UMLOperation::load( QDomElement & element ) {
                         break;
                     }
                     if (m_SecondaryId.isEmpty()) {
-                        kError() << "UMLOperation::load(" << m_Name << "): "
-                        << "cannot find return type." << endl;
+                        uError() << m_Name << ": cannot find return type." << endl;
                     }
                 }
                 // Use deferred xmi.id resolution.

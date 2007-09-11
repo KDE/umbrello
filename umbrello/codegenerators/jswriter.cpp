@@ -37,7 +37,7 @@ void JSWriter::writeClass(UMLClassifier *c)
 {
     if(!c)
     {
-        kDebug()<<"Cannot write class of NULL concept!";
+        uDebug()<<"Cannot write class of NULL concept!";
         return;
     }
 

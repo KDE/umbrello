@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -210,8 +210,7 @@ bool PinWidget::loadFromXMI( QDomElement & qElement ) {
 
     UMLWidget *pWA = m_pView -> findWidget( aId );
     if (pWA == NULL) {
-        kDebug() << "PinWidget::loadFromXMI: role A object "
-        << ID2STR(aId) << " not found" << endl;
+        uDebug() << "role A object " << ID2STR(aId) << " not found" << endl;
         return false;
     }
 
@@ -245,8 +244,7 @@ bool PinWidget::loadFromXMI( QDomElement & qElement ) {
                 m_pName = NULL;
             }
         } else {
-            kError() << "PinWidget::loadFromXMI: unknown tag "
-            << tag << endl;
+            uError() << "unknown tag " << tag << endl;
         }
     }
 

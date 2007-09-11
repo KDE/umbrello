@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -76,9 +76,7 @@ bool UMLComponent::load(QDomElement& element) {
         }
         UMLObject *pObject = Object_Factory::makeObjectFromXMI(type);
         if( !pObject ) {
-            kWarning() << "UMLComponent::load: "
-                        << "Unknown type of umlobject to create: "
-                        << type << endl;
+            uWarning() << "Unknown type of umlobject to create: " << type << endl;
             continue;
         }
         pObject->setUMLPackage(this);

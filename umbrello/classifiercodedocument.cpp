@@ -272,8 +272,7 @@ Q3PtrList<CodeOperation> ClassifierCodeDocument::getCodeOperations ( ) {
 void ClassifierCodeDocument::addOperation (UMLClassifierListItem * o) {
     UMLOperation *op = dynamic_cast<UMLOperation*>(o);
     if (op == NULL) {
-        kError() << "ClassifierCodeDocument::addOperation: arg is not a UMLOperation"
-            << endl;
+        uError() << "arg is not a UMLOperation" << endl;
     }
     QString tag = CodeOperation::findTag(op);
     CodeOperation * codeOp = dynamic_cast<CodeOperation*>(findTextBlockByTag(tag, true));
@@ -307,11 +306,11 @@ void ClassifierCodeDocument::removeOperation (UMLClassifierListItem * op ) {
         if(removeTextBlock(tb)) // wont add if already present
             delete tb; // delete unused operations
         else
-            kError()<<"Cant remove CodeOperation from ClassCodeDocument!"<<endl;
+            uError()<<"Cant remove CodeOperation from ClassCodeDocument!"<<endl;
 
     }
     else
-        kError()<<"Cant Find codeOperation for deleted operation!"<<endl;
+        uError()<<"Cant Find codeOperation for deleted operation!"<<endl;
 }
 
 // Other methods
@@ -617,7 +616,7 @@ ClassifierCodeDocument::findCodeClassFieldFromParentID (Uml::IDType id,
     }
 
     // shouldn't happen..
-    kError() << "Failed to find codeclassfield for parent uml id:"
+    uError() << "Failed to find codeclassfield for parent uml id:"
     << ID2STR(id) << " (role id:" << role_id
     << ") Do you have a corrupt classifier code document?"
     << endl;
@@ -649,7 +648,7 @@ void ClassifierCodeDocument::loadClassFieldsFromXMI( QDomElement & elem) {
                 m_classFieldMap.insert(cf->getParentObject(),cf);
 
             } else
-                kError()<<" LoadFromXMI: can't load classfield parent_id:"<<id<<" do you have a corrupt savefile?"<<endl;
+                uError()<<" LoadFromXMI: can't load classfield parent_id:"<<id<<" do you have a corrupt savefile?"<<endl;
         }
         node = childElem.nextSibling();
         childElem= node.toElement();

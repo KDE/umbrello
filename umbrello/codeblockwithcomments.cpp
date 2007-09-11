@@ -138,7 +138,7 @@ void CodeBlockWithComments::setAttributesFromNode( QDomElement & root)
     }
 
     if(!gotComment)
-        kWarning()<<" loadFromXMI : Warning: unable to initialize CodeComment in block:"<<getTag();
+        uWarning()<<" loadFromXMI : Warning: unable to initialize CodeComment in block:"<<getTag();
 
 }
 

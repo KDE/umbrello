@@ -66,8 +66,7 @@ bool NativeImportBase::skipToClosing(QChar opener) {
             closing = ">";
             break;
         default:
-            kError() << "NativeImportBase::skipToClosing(" << opener
-                << "): " << "illegal input character" << endl;
+            uError() << "opener='" << opener << "': illegal input character" << endl;
             return false;
     }
     const QString opening(opener);
@@ -271,12 +270,12 @@ void NativeImportBase::parseFile(const QString& filename) {
     if (filename.contains('/')) {
         QString path = filename;
         path.remove( QRegExp("/[^/]+$") );
-        kDebug() << msgPrefix << "adding path " << path;
+        uDebug() << msgPrefix << "adding path " << path;
         Import_Utils::addIncludePath(path);
     }
     if (! QFile::exists(filename)) {
         if (filename.startsWith('/')) {
-            kError() << msgPrefix << "cannot find file" << endl;
+            uError() << msgPrefix << "cannot find file" << endl;
             return;
         }
         bool found = false;
@@ -294,16 +293,16 @@ void NativeImportBase::parseFile(const QString& filename) {
             }
         }
         if (! found) {
-            kError() << msgPrefix << "cannot find file" << endl;
+            uError() << msgPrefix << "cannot find file" << endl;
             return;
         }
     }
     QFile file(fname);
     if (! file.open(QIODevice::ReadOnly)) {
-        kError() << msgPrefix << "cannot open file" << endl;
+        uError() << msgPrefix << "cannot open file" << endl;
         return;
     }
-    kDebug() << msgPrefix << "parsing.";
+    uDebug() << msgPrefix << "parsing.";
     // Scan the input file into the QStringList m_source.
     m_source.clear();
     m_srcIndex = 0;
@@ -322,7 +321,7 @@ void NativeImportBase::parseFile(const QString& filename) {
     const int srcLength = m_source.count();
     for (m_srcIndex = 0; m_srcIndex < srcLength; m_srcIndex++) {
         const QString& firstToken = m_source[m_srcIndex];
-        //kDebug() << '"' << firstToken << '"';
+        //uDebug() << '"' << firstToken << '"';
         if (firstToken.startsWith(m_singleLineCommentIntro)) {
             m_comment = firstToken.mid(m_singleLineCommentIntro.length());
             continue;
@@ -331,7 +330,7 @@ void NativeImportBase::parseFile(const QString& filename) {
            skipStmt();
         m_comment.clear();
     }
-    kDebug() << msgPrefix << "end of parse.";
+    uDebug() << msgPrefix << "end of parse.";
 }
 
 void NativeImportBase::initialize() {

@@ -130,7 +130,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                     block->loadFromXMI(element);
                     if(!addTextBlock(block))
                     {
-                        kError()<<"Unable to add codeComment to :"<<this<<endl;
+                        uError()<<"Unable to add codeComment to :"<<this<<endl;
                         block->deleteLater();
                     } else
                         loadCheckForChildrenOK= true;
@@ -143,7 +143,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                         TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
                         if(!tb || !addTextBlock(tb))
                         {
-                            kError()<<"Unable to add codeclassfield child method to:"<<this<<endl;
+                            uError()<<"Unable to add codeclassfield child method to:"<<this<<endl;
                             // DON'T delete
                         } else
                             loadCheckForChildrenOK= true;
@@ -154,7 +154,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                             block->loadFromXMI(element);
                             if(!addTextBlock(block))
                             {
-                                kError()<<"Unable to add codeBlock to :"<<this<<endl;
+                                uError()<<"Unable to add codeBlock to :"<<this<<endl;
                                 block->deleteLater();
                             } else
                                 loadCheckForChildrenOK= true;
@@ -164,7 +164,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                                 block->loadFromXMI(element);
                                 if(!addTextBlock(block))
                                 {
-                                    kError()<<"Unable to add codeBlockwithcomments to:"<<this<<endl;
+                                    uError()<<"Unable to add codeBlockwithcomments to:"<<this<<endl;
                                     block->deleteLater();
                                 } else
                                     loadCheckForChildrenOK= true;
@@ -177,7 +177,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                                         block->loadFromXMI(element);
                                         if(!addTextBlock(block))
                                         {
-                                            kError()<<"Unable to add hierarchicalcodeBlock to:"<<this<<endl;
+                                            uError()<<"Unable to add hierarchicalcodeBlock to:"<<this<<endl;
                                             block->deleteLater();
                                         } else
                                             loadCheckForChildrenOK= true;
@@ -196,11 +196,11 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                                                     loadCheckForChildrenOK= true;
                                                 else
                                                 {
-                                                    kError()<<"Unable to add codeoperation to:"<<this<<endl;
+                                                    uError()<<"Unable to add codeoperation to:"<<this<<endl;
                                                     block->deleteLater();
                                                 }
                                             } else
-                                                kError()<<"Unable to find operation create codeoperation for:"<<this<<endl;
+                                                uError()<<"Unable to find operation create codeoperation for:"<<this<<endl;
                                         }
                                         else
                                             if( name == "cppheaderclassdeclarationblock" )
@@ -213,7 +213,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
 
                                                 if(!m_namespaceBlock || !m_namespaceBlock->addTextBlock(block))
                                                 {
-                                                    kError()<<"Error:cant add class declaration codeblock"<<endl;
+                                                    uError()<<"Error:cant add class declaration codeblock"<<endl;
                                                     // DON'T delete/release block
                                                     // block->release();
                                                 } else
@@ -222,7 +222,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                                             }
                 // only needed for extreme debugging conditions (E.g. making new codeclassdocument loader)
                 //else
-                //kDebug()<<" LoadFromXMI: Got strange tag in text block stack:"<<name<<", ignorning";
+                //uDebug()<<" LoadFromXMI: Got strange tag in text block stack:"<<name<<", ignorning";
 
                 node = element.nextSibling();
                 element = node.toElement();
@@ -239,13 +239,13 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
         CodeDocument * test = dynamic_cast<CodeDocument*>(this);
         if(test)
         {
-            kWarning()<<" loadChildBlocks : unable to initialize any child blocks in doc: "<<test->getFileName()<<" "<<this;
+            uWarning()<<" loadChildBlocks : unable to initialize any child blocks in doc: "<<test->getFileName()<<" "<<this;
         } else {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(this);
             if(hb)
-                kWarning()<<" loadChildBlocks : unable to initialize any child blocks in Hblock: "<<hb->getTag()<<" "<<this;
+                uWarning()<<" loadChildBlocks : unable to initialize any child blocks in Hblock: "<<hb->getTag()<<" "<<this;
             else
-                kDebug()<<" loadChildBlocks : unable to initialize any child blocks in UNKNOWN OBJ:"<<this;
+                uDebug()<<" loadChildBlocks : unable to initialize any child blocks in UNKNOWN OBJ:"<<this;
         }
     }
 

@@ -2,7 +2,7 @@
     begin               : Thu Oct 17 2002
     copyright       : (C) 2002 by Heiko Nardmann
     email               : h.nardmann@secunet.de
-      (C) 2003-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
+      (C) 2003-2007  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
  ***************************************************************************/
 
 /***************************************************************************
@@ -2992,7 +2992,7 @@ PhpWriter::~PhpWriter() {}
 
 void PhpWriter::writeClass(UMLClassifier *c) {
     if(!c) {
-        kDebug()<<"Cannot write class of NULL concept!";
+        uDebug()<<"Cannot write class of NULL concept!";
         return;
     }
 

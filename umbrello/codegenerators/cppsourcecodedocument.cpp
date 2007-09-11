@@ -88,12 +88,12 @@ bool CPPSourceCodeDocument::addCodeOperation (CodeOperation * op ) {
         if (m_constructorBlock)
             retval = m_constructorBlock->addTextBlock(op);
         else
-            kError() << "CPPSourceCodeDocument::addCodeOperation: m_constructorBlock is NULL";
+            uError() << "m_constructorBlock is NULL";
     } else {
         if (m_methodsBlock)
             retval = m_methodsBlock->addTextBlock(op);
         else
-            kError() << "CPPSourceCodeDocument::addCodeOperation: m_methodsBlock is NULL";
+            uError() << "m_methodsBlock is NULL";
     }
     return retval;
 }

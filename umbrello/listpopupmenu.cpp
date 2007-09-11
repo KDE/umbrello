@@ -248,7 +248,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     if(!object)
         return;
     Uml::Widget_Type type = object->getBaseType();
-    // kDebug() << "ListPopupMenu created with multi=" << multi << " , unique="
+    // uDebug() << "ListPopupMenu created with multi=" << multi << " , unique="
     //         << unique << " for Widget_Type=" << type << endl;
 
     if(multi) {
@@ -618,7 +618,7 @@ void ListPopupMenu::insert(Menu_Type m)
         m_actions[m] = addAction(SmallIcon("image"), i18n("Export as Picture..."));
         break;
     default:
-        kWarning() << "ListPopupMenu::insert called on unimplemented Menu_Type " << m << endl;
+        uWarning() << "called on unimplemented Menu_Type " << m << endl;
         break;
     }
 }
@@ -689,7 +689,7 @@ void ListPopupMenu::insert(Menu_Type m, KMenu* menu)
         m_actions[m] = menu->addAction(m_pixmap[pm_Text], i18n("Text Line..." ));
         break;
     default:
-        kWarning() << "ListPopupMenu::insert called on unimplemented Menu_Type " << m << endl;
+        uWarning() << "called on unimplemented Menu_Type " << m << endl;
         break;
     }
 }
@@ -783,14 +783,12 @@ void ListPopupMenu::insertSubmodelAction()
     UMLListViewItem *current = static_cast<UMLListViewItem*>(listView->currentItem());
     UMLObject *o = current->getUMLObject();
     if (o == NULL) {
-        kError() << "ListPopupMenu::insertSubmodelAction: "
-            << current->getText() << " getUMLObject()  returns NULL" << endl;
+        uError() << current->getText() << " getUMLObject()  returns NULL" << endl;
         return;
     }
     UMLFolder *f = dynamic_cast<UMLFolder*>(o);
     if (f == NULL) {
-        kError() << "ListPopupMenu::insertSubmodelAction: "
-            << "current->getUMLObject (" << o->getName() << ") is not a Folder" << endl;
+        uError() << "current->getUMLObject (" << o->getName() << ") is not a Folder" << endl;
         return;
     }
     QString submodelFile = f->getFolderFile();
@@ -1084,7 +1082,7 @@ void ListPopupMenu::insertSubMenuNew(Menu_Type type)
 
 void ListPopupMenu::setupMenu(Menu_Type type)
 {
-    // kDebug() << "ListPopupMenu created for Menu_Type=" << type << endl;
+    // uDebug() << "ListPopupMenu created for Menu_Type=" << type << endl;
     KStandardDirs* dirs = KGlobal::dirs();
     QString dataDir = dirs->findResourceDir("data", "umbrello/pics/object.png");
     dataDir += "/umbrello/pics/";
@@ -1227,7 +1225,7 @@ void ListPopupMenu::setupMenu(Menu_Type type)
         insertSubMenuNew(type);
         addSeparator();
         if ( m_TriggerObjectType!= tot_View ) {
-            kError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType << endl;
+            uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType << endl;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
@@ -1237,7 +1235,7 @@ void ListPopupMenu::setupMenu(Menu_Type type)
         insertSubMenuNew(type);
         addSeparator();
         if ( m_TriggerObjectType!= tot_View ) {
-            kError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType << endl;
+            uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType << endl;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
@@ -1247,7 +1245,7 @@ void ListPopupMenu::setupMenu(Menu_Type type)
         insertSubMenuNew(type);
         addSeparator();
         if ( m_TriggerObjectType!= tot_View ) {
-            kError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType << endl;
+            uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType << endl;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
@@ -1257,7 +1255,7 @@ void ListPopupMenu::setupMenu(Menu_Type type)
         insertSubMenuNew(type);
         addSeparator();
         if ( m_TriggerObjectType!= tot_View ) {
-            kError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType << endl;
+            uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType << endl;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
@@ -1267,7 +1265,7 @@ void ListPopupMenu::setupMenu(Menu_Type type)
         insertSubMenuNew(type);
         addSeparator();
         if ( m_TriggerObjectType!= tot_View ) {
-            kError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType << endl;
+            uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType << endl;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
@@ -1277,7 +1275,7 @@ void ListPopupMenu::setupMenu(Menu_Type type)
         insertSubMenuNew(type);
         addSeparator();
         if ( m_TriggerObjectType!= tot_View ) {
-            kError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType<<endl;
+            uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType<<endl;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
@@ -1287,7 +1285,7 @@ void ListPopupMenu::setupMenu(Menu_Type type)
         insertSubMenuNew(type);
         addSeparator();
         if ( m_TriggerObjectType!= tot_View ) {
-            kError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType << endl;
+            uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType << endl;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
@@ -1298,7 +1296,7 @@ void ListPopupMenu::setupMenu(Menu_Type type)
         insertSubMenuNew(type);
         addSeparator();
         if ( m_TriggerObjectType!= tot_View ) {
-            kError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType << endl;
+            uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType << endl;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
@@ -1371,7 +1369,7 @@ void ListPopupMenu::setupMenu(Menu_Type type)
     case mt_Category:
         {
             if (m_TriggerObjectType != tot_Object) {
-                kError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType << endl;
+                uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType << endl;
                 return;
             }
             KMenu* menu = makeCategoryTypeMenu(static_cast<UMLCategory*>(m_TriggerObject.m_Object));
@@ -1632,7 +1630,7 @@ void ListPopupMenu::setActionChecked(Menu_Type idx, bool value)
     if (action && action->isCheckable())
         action->setChecked(value);
     else
-        kWarning() << "ListPopupMenu::setActionChecked called on unknown Menu_Type " << idx << endl;
+        uWarning() << "called on unknown Menu_Type " << idx << endl;
 }
 
 void ListPopupMenu::setActionEnabled(Menu_Type idx, bool value)
@@ -1641,5 +1639,5 @@ void ListPopupMenu::setActionEnabled(Menu_Type idx, bool value)
     if (action)
         action->setEnabled(value);
     else
-        kWarning() << "ListPopupMenu::setActionEnabled called on unknown Menu_Type " << idx << endl;
+        uWarning() << "called on unknown Menu_Type " << idx << endl;
 }

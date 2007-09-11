@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2006                                                     *
+ *  copyright (C) 2006-2007                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -63,7 +63,7 @@ bool PythonImport::preprocess(QString& line) {
     int leadingWhite = line.left(pos).count( QRegExp("\\s") );
     if (leadingWhite > m_srcIndent[m_srcIndentIndex]) {
         if (m_srcIndex == 0) {
-            kError() << "PythonImport::preprocess(): internal error 1" << endl;
+            uError() << "internal error 1" << endl;
             return true;
         }
         if (m_braceWasOpened) {
@@ -161,7 +161,7 @@ bool PythonImport::parseStmt() {
         // operation
         UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
         if (advance() != "(") {
-            kError() << "importPython def " << name << ": expecting \"(\"" << endl;
+            uError() << "importPython def " << name << ": expecting \"(\"" << endl;
             skipBody();
             return true;
         }
@@ -181,7 +181,7 @@ bool PythonImport::parseStmt() {
         if (m_scopeIndex)
             m_klass = dynamic_cast<UMLClassifier*>(m_scope[--m_scopeIndex]);
         else
-            kError() << "importPython: too many }" << endl;
+            uError() << "importPython: too many }" << endl;
         return true;
     }
     return false;  // @todo parsing of attributes

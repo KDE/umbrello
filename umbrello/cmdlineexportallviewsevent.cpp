@@ -38,9 +38,9 @@ CmdLineExportAllViewsEvent::CmdLineExportAllViewsEvent(const QString &imageType,
 void CmdLineExportAllViewsEvent::exportAllViews() {
     QStringList errors = UMLViewImageExporterModel().exportAllViews(m_imageType, m_directory, m_useFolders);
     if (!errors.isEmpty()) {
-        kError() << "Errors while exporting:" << endl;
+        uError() << "Errors while exporting:" << endl;
         for (QStringList::Iterator it = errors.begin(); it != errors.end(); ++it) {
-            kError() << *it << endl;
+            uError() << *it << endl;
         }
     }
 

@@ -2,7 +2,7 @@
     begin               : Thu Oct 17 2002
     copyright           : (C) 2002 by Heiko Nardmann
     email               : h.nardmann@secunet.de
-      (C) 2003-2006  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
+      (C) 2003-2007  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
     php5 version by Thorsten Kunz (tk AT bytecrash DOT net)
  ***************************************************************************/
 
@@ -2996,7 +2996,7 @@ Php5Writer::~Php5Writer() {}
 
 void Php5Writer::writeClass(UMLClassifier *c) {
     if(!c) {
-        kDebug()<<"Cannot write class of NULL concept!";
+        uDebug()<<"Cannot write class of NULL concept!";
         return;
     }
 
@@ -3096,7 +3096,7 @@ void Php5Writer::writeClass(UMLClassifier *c) {
             //which container to use.
             UMLObject *o = a->getObject(Uml::A);
             if (o == NULL) {
-                kError() << "aggregation role A object is NULL" << endl;
+                uError() << "aggregation role A object is NULL" << endl;
                 continue;
             }
             QString typeName = cleanName(o->getName());
@@ -3114,7 +3114,7 @@ void Php5Writer::writeClass(UMLClassifier *c) {
             // see comment on Aggregation about multiplicity...
             UMLObject *o = a->getObject(Uml::A);
             if (o == NULL) {
-                kError() << "composition role A object is NULL" << endl;
+                uError() << "composition role A object is NULL" << endl;
                 continue;
             }
             QString typeName = cleanName(o->getName());

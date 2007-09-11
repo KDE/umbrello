@@ -111,7 +111,7 @@ bool LinePath::setPoint( int pointIndex, const QPoint &point ) {
     if( count == 0 || pointIndex > count  || pointIndex < 0)
         return false;
     if (point.x() == 0 && point.y() == 0) {
-        kError() << "LinePath::setPoint:ignoring request for (0,0)" << endl;
+        uError() << "ignoring request for (0,0)" << endl;
         return false;
     }
 
@@ -840,7 +840,7 @@ uint LinePath::getLineWidth() {
     if ( viewLineWidth >= 0 && viewLineWidth <= 10 )
         return viewLineWidth;
     else {
-        kWarning() << "Ignore wrong LineWidth of " << viewLineWidth
+        uWarning() << "Ignore wrong LineWidth of " << viewLineWidth
         << " in LinePath::getLineWidth" << endl;
         return 0;
     }
@@ -887,7 +887,7 @@ void LinePath::dumpPoints () {
     int count = m_LineList.count();
     for( int i = 1; i < count; i++ ) {
         QPoint point = getPoint( i );
-        kDebug()<<" * point x:"<<point.x()<<" y:"<<point.y();
+        uDebug()<<" * point x:"<<point.x()<<" y:"<<point.y();
     }
 }
 

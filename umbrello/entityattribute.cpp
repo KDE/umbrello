@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -141,9 +141,8 @@ UMLObject* UMLEntityAttribute::clone() const
 void UMLEntityAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement entityattributeElement = UMLObject::save("UML:EntityAttribute", qDoc);
     if (m_pSecondary == NULL) {
-        kDebug() << "UMLEntityAttribute::saveToXMI(" << m_Name
-        << "): m_pSecondary is NULL, using local name "
-        << m_SecondaryId << endl;
+        uDebug() << m_Name << ": m_pSecondary is NULL, using local name "
+            << m_SecondaryId << endl;
         entityattributeElement.setAttribute( "type", m_SecondaryId );
     } else {
         entityattributeElement.setAttribute( "type", ID2STR(m_pSecondary->getID()) );

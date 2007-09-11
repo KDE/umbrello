@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2003-2006                                                *
+ *  copyright (C) 2003-2007                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -122,12 +122,12 @@ void UMLForeignKeyConstraintDialog::slotDeletePair(){
     m_pReferencedAttributeList.append( pair.second );
 
     // add them to the view ( combo boxes )
-    kDebug()<< ( pair.first ) << ( pair.second );
+    uDebug()<< ( pair.first ) << ( pair.second );
     m_ColumnWidgets.localColumnCB->addItem( ( pair.first )->toString(Uml::st_SigNoVis) );
     m_ColumnWidgets.referencedColumnCB->addItem( ( pair.second )->toString(Uml::st_SigNoVis) );
 
     foreach(pair, m_pAttributeMapList ) {
-        kDebug()<<( pair.first )->getName()<<" "<< ( pair.first )->getBaseType()<<" "
+        uDebug()<<( pair.first )->getName()<<" "<< ( pair.first )->getBaseType()<<" "
                 <<( pair.second )->getName()<<" "<< ( pair.second )->getBaseType()<<endl;
     }
 }
@@ -141,7 +141,7 @@ bool UMLForeignKeyConstraintDialog::apply(){
     UMLEntity* ue = static_cast<UMLEntity*>( uo );
 
     if ( ue==NULL ) {
-        kDebug()<< " Couldn't find UML Entity with name "<< entityName;
+        uDebug()<< " Couldn't find UML Entity with name "<< entityName;
         return false;
     }
 

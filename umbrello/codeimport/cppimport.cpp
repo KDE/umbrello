@@ -61,18 +61,18 @@ void CppImport::feedTheModel(const QString& fileName) {
                 continue;
             QString includeFile = it.key();
             if (includeFile.isEmpty()) {
-                kError() << fileName << ": " << it.data().first
+                uError() << fileName << ": " << it.data().first
                 << " not found" << endl;
                 continue;
             }
-            kDebug() << fileName << ": " << includeFile << " => " << it.data().first;
+            uDebug() << fileName << ": " << includeFile << " => " << it.data().first;
             if (ms_seenFiles.find(includeFile) == ms_seenFiles.end())
                 feedTheModel(includeFile);
         }
     }
     TranslationUnitAST *ast = ms_driver->translationUnit( fileName );
     if (ast == NULL) {
-        kError() << "CppImport::feedTheModel: " << fileName << " not found" << endl;
+        uError() << fileName << " not found" << endl;
         return;
     }
     CppTree2Uml modelFeeder( fileName );

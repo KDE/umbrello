@@ -1,12 +1,12 @@
 /***************************************************************************
- *  copyright (C) 2003-2005                                                *
- *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2003-2007                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "idlwriter.h"
@@ -102,7 +102,7 @@ void IDLWriter::computeAssocTypeAndRole
 
 void IDLWriter::writeClass(UMLClassifier *c) {
     if (!c) {
-        kDebug() << "Cannot write class of NULL concept!";
+        uDebug() << "Cannot write class of NULL concept!";
         return;
     }
 
@@ -189,12 +189,12 @@ void IDLWriter::writeClass(UMLClassifier *c) {
     if (! isOOClass(c)) {
         QString stype = c->getStereotype();
         if (stype == "CORBAConstant") {
-            kError() << "The stereotype " << stype << " cannot be applied to "
+            uError() << "The stereotype " << stype << " cannot be applied to "
             << c->getName() << ", but only to attributes." << endl;
             return;
         }
         if (!isClass) {
-            kError() << "The stereotype " << stype
+            uError() << "The stereotype " << stype
             << " cannot be applied to " << c->getName()
             << ", but only to classes." << endl;
             return;

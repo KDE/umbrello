@@ -169,7 +169,7 @@ bool AdaImport::parseStmt() {
     const int srcLength = m_source.count();
     QString keyword = m_source[m_srcIndex];
     UMLDoc *umldoc = UMLApp::app()->getDocument();
-    //kDebug() << '"' << keyword << '"';
+    //uDebug() << '"' << keyword << '"';
     if (keyword == "with") {
         if (m_inGenericFormalPart) {
             // mapping of generic formal subprograms or packages is not yet implemented
@@ -225,7 +225,7 @@ bool AdaImport::parseStmt() {
         } else if (m_source[m_srcIndex] == "renames") {
             m_renaming[name] = advance();
         } else {
-            kError() << "AdaImport::parseStmt: unexpected: " << m_source[m_srcIndex] << endl;
+            uError() << "unexpected: " << m_source[m_srcIndex] << endl;
             skipStmt("is");
         }
         if (m_inGenericFormalPart) {
@@ -260,8 +260,7 @@ bool AdaImport::parseStmt() {
         QString name = advance();
         QString next = advance();
         if (next == "(") {
-            kDebug() << "AdaImport::parseStmt(" << name << "): "
-                << "discriminant handling is not yet implemented" << endl;
+            uDebug() << name << ": discriminant handling is not yet implemented" << endl;
             // @todo Find out how to map discriminated record to UML.
             //       For now, we just create a pro forma empty record.
             Import_Utils::createUMLObject(Uml::ot_Class, name, m_scope[m_scopeIndex],
@@ -279,7 +278,7 @@ bool AdaImport::parseStmt() {
             return true;
         }
         if (next != "is") {
-            kError() << "AdaImport::parseStmt: expecting \"is\"" << endl;
+            uError() << "expecting \"is\"" << endl;
             return false;
         }
         next = advance();
@@ -394,7 +393,7 @@ bool AdaImport::parseStmt() {
     if (keyword == "end") {
         if (m_klass) {
             if (advance() != "record") {
-                kError() << "end: expecting \"record\" at "
+                uError() << "end: expecting \"record\" at "
                           << m_source[m_srcIndex] << endl;
             }
             m_klass = NULL;
@@ -402,13 +401,13 @@ bool AdaImport::parseStmt() {
             if (advance() != ";") {
                 QString scopeName = m_scope[m_scopeIndex]->getFullyQualifiedName();
                 if (scopeName.toLower() != m_source[m_srcIndex].toLower())
-                    kError() << "end: expecting " << scopeName << ", found "
+                    uError() << "end: expecting " << scopeName << ", found "
                               << m_source[m_srcIndex] << endl;
             }
             m_scopeIndex--;
             m_currentAccess = Uml::Visibility::Public;   // @todo make a stack for this
         } else {
-            kError() << "importAda: too many \"end\"" << endl;
+            uError() << "importAda: too many \"end\"" << endl;
         }
         skipStmt();
         return true;
@@ -426,7 +425,7 @@ bool AdaImport::parseStmt() {
             // subprograms.
             // In order to map those, we would need to create a UML
             // class with stereotype <<utility>> for the Ada package.
-            kDebug() << "ignoring parameterless " << keyword << " " << name;
+            uDebug() << "ignoring parameterless " << keyword << " " << name;
             skipStmt();
             return true;
         }
@@ -438,13 +437,13 @@ bool AdaImport::parseStmt() {
             uint parNameCount = 0;
             do {
                 if (parNameCount >= MAX_PARNAMES) {
-                    kError() << "MAX_PARNAMES is exceeded at " << name << endl;
+                    uError() << "MAX_PARNAMES is exceeded at " << name << endl;
                     break;
                 }
                 parName[parNameCount++] = advance();
             } while (advance() == ",");
             if (m_source[m_srcIndex] != ":") {
-                kError() << "importAda: expecting ':'" << endl;
+                uError() << "importAda: expecting ':'" << endl;
                 skipStmt();
                 break;
             }
@@ -502,7 +501,7 @@ bool AdaImport::parseStmt() {
         if (keyword == "function") {
             if (advance() != "return") {
                 if (klass)
-                    kError() << "importAda: expecting \"return\" at function "
+                    uError() << "importAda: expecting \"return\" at function "
                         << name << endl;
                 return false;
             }
@@ -547,7 +546,7 @@ bool AdaImport::parseStmt() {
             if (advance() == "record")
                 skipStmt("end");
         } else {
-            kError() << "importAda: expecting \"use\" at rep spec of "
+            uError() << "importAda: expecting \"use\" at rep spec of "
                       << typeName << endl;
         }
         skipStmt();
@@ -560,7 +559,7 @@ bool AdaImport::parseStmt() {
     }
     const QString& name = keyword;
     if (advance() != ":") {
-        kError() << "adaImport: expecting \":\" at " << name << " "
+        uError() << "adaImport: expecting \":\" at " << name << " "
                   << m_source[m_srcIndex] << endl;
         skipStmt();
         return true;

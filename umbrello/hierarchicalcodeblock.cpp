@@ -133,7 +133,7 @@ bool HierarchicalCodeBlock::insertTextBlock(TextBlock * newBlock, TextBlock * ex
             if(hb && hb->insertTextBlock(newBlock, existingBlock, after))
                 return true; // found, and inserted, otherwise keep going
         }
-        kWarning()<<" Warning: couldnt insert text block (tag:"<<newBlock->getTag()<<"). Reference text block (tag:"<<existingBlock->getTag()<<") not found.";
+        uWarning()<<" Warning: couldnt insert text block (tag:"<<newBlock->getTag()<<"). Reference text block (tag:"<<existingBlock->getTag()<<") not found.";
         return false;
     }
 
@@ -365,7 +365,7 @@ TextBlock * HierarchicalCodeBlock::findCodeClassFieldTextBlockByTag ( const QStr
     if(cdoc)
         return cdoc->findCodeClassFieldTextBlockByTag(tag);
     else
-        kError()<<" HierarchicalCodeBlock: findCodeClassFieldTextBlockByTag() finds NO parent document! Badly constructed textblock?!?"<<endl;
+        uError()<<" HierarchicalCodeBlock: findCodeClassFieldTextBlockByTag() finds NO parent document! Badly constructed textblock?!?"<<endl;
 
     // if we get here, we failed.
     return (TextBlock*) NULL;

@@ -31,7 +31,7 @@ void WidgetBase::init(UMLView *view, Uml::Widget_Type type /* = Uml::wt_UMLWidge
         m_LineColour = optionState.uiState.lineColor;
         m_LineWidth  = optionState.uiState.lineWidth;
     } else {
-        kError() << "WidgetBase constructor: SERIOUS PROBLEM - m_pView is NULL" << endl;
+        uError() << "WidgetBase constructor: SERIOUS PROBLEM - m_pView is NULL" << endl;
         m_bUsesDiagramLineColour = false;
         m_bUsesDiagramLineWidth  = false;
         m_LineColour = QColor("black");
@@ -58,9 +58,8 @@ void WidgetBase::setUMLObject(UMLObject * o) {
 void WidgetBase::setID(Uml::IDType id) {
     if (m_pObject) {
         if (m_pObject->getID() != Uml::id_None)
-            kWarning() << "WidgetBase::setID(): changing old UMLObject "
-            << ID2STR(m_pObject->getID()) << " to "
-            << ID2STR(id) << endl;
+            uWarning() << "changing old UMLObject " << ID2STR(m_pObject->getID())
+                << " to " << ID2STR(id) << endl;
         m_pObject->setID(id);
     }
     m_nId = id;

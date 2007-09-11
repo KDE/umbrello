@@ -85,8 +85,7 @@ void UMLClassifierListItem::setTypeName(const QString &type) {
         // Make data type for easily identified cases
         if (Model_Utils::isCommonDataType(type) || type.contains('*')) {
             m_pSecondary = Object_Factory::createUMLObject(Uml::ot_Datatype, type);
-            kDebug() << "UMLClassifierListItem::setTypeName: "
-            << "created datatype for " << type << endl;
+            uDebug() << "created datatype for " << type << endl;
         } else {
             m_SecondaryId = type;
         }

@@ -53,7 +53,7 @@ void DocbookGeneratorJob::run()
 
   // lets open the file for writing
   if( !file.open() ) {
-    kError()<<"There was a problem saving file"<<file.fileName();
+    uError()<<"There was a problem saving file"<<file.fileName();
     return;
   }
 

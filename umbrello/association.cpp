@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -52,14 +52,14 @@ UMLAssociation::UMLAssociation( Uml::Association_Type type /* = Uml::at_Unknown 
 // destructor
 UMLAssociation::~UMLAssociation( ) {
     if (m_pRole[A] == NULL) {
-        kError() << "UMLAssociation destructor: m_pRole[A] is NULL already"
+        uError() << "UMLAssociation destructor: m_pRole[A] is NULL already"
         << endl;
     } else {
         delete m_pRole[A];
         m_pRole[A] = NULL;
     }
     if (m_pRole[B] == NULL) {
-        kError() << "UMLAssociation destructor: m_pRole[B] is NULL already"
+        uError() << "UMLAssociation destructor: m_pRole[B] is NULL already"
         << endl;
     } else {
         delete m_pRole[B];
@@ -242,8 +242,8 @@ bool UMLAssociation::load( QDomElement & element ) {
                 if (m_pUMLPackage == NULL) {
                     Uml::Model_Type mt = Model_Utils::convert_OT_MT(obj[r]->getBaseType());
                     m_pUMLPackage = doc->getRootFolder(mt);
-                    kDebug() << "UMLAssociation::load(assoctype " << m_AssocType
-                        << "): setting model type " << mt << endl;
+                    uDebug() << "assoctype " << m_AssocType
+                        << ": setting model type " << mt << endl;
                 }
             }
         }
@@ -270,8 +270,8 @@ bool UMLAssociation::load( QDomElement & element ) {
                         idStr = tmpElem.attribute( "xmi.idref", "" );
                 }
                 if (idStr.isEmpty()) {
-                    kError() << "UMLAssociation::load (type " << m_AssocType
-                        << ", id " << ID2STR(getID()) << "): "
+                    uError() << "type " << m_AssocType
+                        << ", id " << ID2STR(getID()) << ": "
                         << "xmi id not given for " << tag << endl;
                     continue;
                 }
@@ -306,8 +306,7 @@ bool UMLAssociation::load( QDomElement & element ) {
         if (!tagEq(tag, "Association.connection") &&
                 !tagEq(tag, "Namespace.ownedElement") &&
                 !tagEq(tag, "Namespace.contents")) {
-            kWarning() << "UMLAssociation::load: "
-            << "unknown child node " << tag << endl;
+            uWarning() << "unknown child node " << tag << endl;
             continue;
         }
         // Load role A.
@@ -316,14 +315,13 @@ bool UMLAssociation::load( QDomElement & element ) {
             node = node.nextSibling();
         tempElement = node.toElement();
         if (tempElement.isNull()) {
-            kWarning() << "UML:Association : element (A) is Null";
+            uWarning() << "UML:Association : element (A) is Null";
             return false;
         }
         tag = tempElement.tagName();
         if (!tagEq(tag, "AssociationEndRole") &&
                 !tagEq(tag, "AssociationEnd")) {
-            kWarning() << "UMLAssociation::load: "
-            << "unknown child (A) tag " << tag << endl;
+            uWarning() << "unknown child (A) tag " << tag << endl;
             return false;
         }
         if (! getUMLRole(A)->loadFromXMI(tempElement))
@@ -334,14 +332,13 @@ bool UMLAssociation::load( QDomElement & element ) {
             node = node.nextSibling();
         tempElement = node.toElement();
         if (tempElement.isNull()) {
-            kWarning() << "UML:Association : element (B) is Null";
+            uWarning() << "UML:Association : element (B) is Null";
             return false;
         }
         tag = tempElement.tagName();
         if (!tagEq(tag, "AssociationEndRole") &&
                 !tagEq(tag, "AssociationEnd")) {
-            kWarning() << "UMLAssociation::load: "
-            << "unknown child (B) tag " << tag << endl;
+            uWarning() << "unknown child (B) tag " << tag << endl;
             return false;
         }
         if (! getUMLRole(B)->loadFromXMI(tempElement))
@@ -350,7 +347,7 @@ bool UMLAssociation::load( QDomElement & element ) {
         if (m_pUMLPackage == NULL) {
             Uml::Model_Type mt = Model_Utils::convert_OT_MT(getObject(B)->getBaseType());
             m_pUMLPackage = doc->getRootFolder(mt);
-            kDebug() << "UMLAssociation::load: setting model type " << mt;
+            uDebug() << "setting model type " << mt;
         }
 
         // setting the association type:
@@ -411,7 +408,7 @@ bool UMLAssociation::load( QDomElement & element ) {
     } else {
         int assocTypeNum = assocTypeStr.toInt();
         if (assocTypeNum < (int)atypeFirst || assocTypeNum > (int)atypeLast) {
-            kWarning() << "bad assoctype of UML:Association "
+            uWarning() << "bad assoctype of UML:Association "
             << ID2STR(getID()) << endl;
             return false;
         }
@@ -486,12 +483,10 @@ Uml::IDType UMLAssociation::getObjectId(Uml::Role_Type role) {
     if (o == NULL) {
         QString auxID = roleObj->getSecondaryId();
         if (auxID.isEmpty()) {
-            kError() << "UMLAssociation::getObjectId(" << role
-            << "): getObject returns NULL" << endl;
+            uError() << "role " << role << ": getObject returns NULL" << endl;
             return Uml::id_None;
         } else {
-            kDebug() << "UMLAssociation::getObjectId(" << role
-            << "): using secondary ID " << auxID << endl;
+            uDebug() << "role " << role << ": using secondary ID " << auxID << endl;
             return STR2ID(auxID);
         }
     }
@@ -543,7 +538,7 @@ void UMLAssociation::setAssocType(Uml::Association_Type assocType) {
         // In this case we need to auto-set the multiplicity/rolenames
         // of the roles
 #ifdef VERBOSE_DEBUGGING
-        kDebug() << " A new uni-association has been created.";
+        uDebug() << " A new uni-association has been created.";
 #endif
     }
     UMLObject::emitModified();

@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -151,7 +151,7 @@ bool PreconditionWidget::activate(IDChangeLog * Log /*= 0*/) {
     m_pView->resetPastePoint();
     UMLWidget::activate(Log);
     if (m_pOw == NULL) {
-        kDebug() << "PreconditionWidget::activate: can't make precondition";
+        uDebug() << "cannot make precondition";
         return false;
     }
 
@@ -185,8 +185,7 @@ void PreconditionWidget::calculateDimensions() {
 void PreconditionWidget::slotWidgetMoved(Uml::IDType id) {
     const Uml::IDType idA = m_pOw->getLocalID();
     if (idA != id ) {
-        kDebug() << "MessageWidget::slotWidgetMoved(" << ID2STR(id)
-            << "): ignoring for idA=" << ID2STR(idA) << endl;
+        uDebug() << "id=" << ID2STR(id) << ": ignoring for idA=" << ID2STR(idA) << endl;
         return;
     }
     m_nY = getY();
@@ -243,15 +242,13 @@ bool PreconditionWidget::loadFromXMI( QDomElement & qElement ) {
 
     UMLWidget *pWA = m_pView -> findWidget( aId );
     if (pWA == NULL) {
-        kDebug() << "PreconditionWidget::loadFromXMI: role A object "
-        << ID2STR(aId) << " not found" << endl;
+        uDebug() << "role A object " << ID2STR(aId) << " not found" << endl;
         return false;
     }
 
     m_pOw = dynamic_cast<ObjectWidget*>(pWA);
     if (m_pOw == NULL) {
-        kDebug() << "PreconditionWidget::loadFromXMI: role A widget "
-        << ID2STR(aId) << " is not an ObjectWidget" << endl;
+        uDebug() << "role A widget " << ID2STR(aId) << " is not an ObjectWidget" << endl;
         return false;
     }
 

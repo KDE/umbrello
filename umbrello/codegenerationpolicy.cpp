@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -466,7 +466,7 @@ QString CodeGenerationPolicy::getHeadingFile(const QString& str) {
     if(!getIncludeHeadings() || str.isEmpty())
         return QString("");
     if(str.contains(" ") ||str.contains(";")) {
-        kWarning() << "File folder must not have spaces or semi colons!";
+        uWarning() << "File folder must not have spaces or semi colons!";
         return QString("");
     }
     //if we only get the extension, then we look for the default
@@ -483,7 +483,7 @@ QString CodeGenerationPolicy::getHeadingFile(const QString& str) {
             QStringList fileList = headingFiles.entryList();
             if ( !fileList.isEmpty() )
               filename = headingFiles.absoluteFilePath(fileList.first());
-            // kWarning() << "header file name set to " << filename << " because it was *";
+            // uWarning() << "header file name set to " << filename << " because it was *";
         }
     } else {   //we got a file name (not only extension)
         filename = headingFiles.absoluteFilePath(str);
@@ -491,8 +491,8 @@ QString CodeGenerationPolicy::getHeadingFile(const QString& str) {
 
     QFile f(filename);
     if(!f.open(QIODevice::ReadOnly)) {
-        //                kWarning() << "Error opening heading file: " << f.name();
-        //                kWarning() << "Headings directory was " << headingFiles.absPath();
+        //                uWarning() << "Error opening heading file: " << f.name();
+        //                uWarning() << "Headings directory was " << headingFiles.absPath();
         return QString("");
     }
 

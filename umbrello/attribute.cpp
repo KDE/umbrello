@@ -96,9 +96,8 @@ QString UMLAttribute::toString(Uml::Signature_Type sig) {
         }
         UMLClassifier *ownParent = dynamic_cast<UMLClassifier*>(owningObject);
         if (ownParent == NULL) {
-            kError() << "UMLAttribute::toString: parent "
-            << owningObject->getName()
-            << " is not a UMLClassifier" << endl;
+            uError() << "parent " << owningObject->getName()
+                << " is not a UMLClassifier" << endl;
             return "";
         }
         QString typeName;
@@ -136,9 +135,8 @@ QString UMLAttribute::getFullyQualifiedName( const QString& separator,
     }
     UMLClassifier *ownParent = dynamic_cast<UMLClassifier*>(owningObject);
     if (ownParent == NULL) {
-        kError() << "UMLAttribute::getFullyQualifiedName(" << m_Name
-        << "): parent " << owningObject->getName()
-        << " is not a UMLClassifier" << endl;
+        uError() << m_Name << ": parent " << owningObject->getName()
+            << " is not a UMLClassifier" << endl;
         return "";
     }
     QString tempSeparator = separator;
@@ -191,9 +189,8 @@ UMLObject* UMLAttribute::clone() const
 void UMLAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement attributeElement = UMLObject::save("UML:Attribute", qDoc);
     if (m_pSecondary == NULL) {
-        kDebug() << "UMLAttribute::saveToXMI(" << m_Name
-        << "): m_pSecondary is NULL, m_SecondaryId is '"
-        << m_SecondaryId << "'" << endl;
+        uDebug() << m_Name << ": m_pSecondary is NULL, m_SecondaryId is '"
+            << m_SecondaryId << "'" << endl;
     } else {
         attributeElement.setAttribute( "type", ID2STR(m_pSecondary->getID()) );
     }
@@ -237,8 +234,7 @@ bool UMLAttribute::load( QDomElement & element ) {
             break;
         }
         if (m_SecondaryId.isEmpty()) {
-            kDebug() << "UMLAttribute::load(" << m_Name << "): "
-            << "cannot find type." << endl;
+            uDebug() << m_Name << ": " << "cannot find type." << endl;
         }
     }
     m_InitialValue = element.attribute( "initialValue", "" );

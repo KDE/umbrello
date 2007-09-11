@@ -196,7 +196,7 @@ void DCodeAccessorMethod::updateMethodDeclaration()
         break;
     default:
         // do nothing..no idea what this is
-        kWarning()<<"Warning: cant generate DCodeAccessorMethod for type: "<<getType();
+        uWarning()<<"Warning: cant generate DCodeAccessorMethod for type: "<<getType();
         break;
     }
 

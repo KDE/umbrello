@@ -158,7 +158,7 @@ void CodeAccessorMethod::setAttributesFromNode ( QDomElement & root) {
         if(newCF)
                 initFields(newCF);
         else
-                kError()<<"ERROR: code accessor method cant load parent codeclassfield, corrupt file?"<<endl;
+                uError()<<"ERROR: code accessor method cant load parent codeclassfield, corrupt file?"<<endl;
 
     */
     // now load/set other local attributes

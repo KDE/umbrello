@@ -159,10 +159,10 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
 
     // moveWidget(diffX,diffY);
 
-    // kDebug() << "UMLWidgetController::mouseMoveEvent before constrainMovementForAllWidgets:"
+    // uDebug() << "before constrainMovementForAllWidgets:"
     //     << " diffX=" << diffX << ", diffY=" << diffY << endl;
     constrainMovementForAllWidgets(diffX, diffY);
-    // kDebug() << "UMLWidgetController::mouseMoveEvent after constrainMovementForAllWidgets:"
+    // uDebug() << "after constrainMovementForAllWidgets:"
     //     << " diffX=" << diffX << ", diffY=" << diffY << endl;
 
     //Nothing to move
@@ -187,7 +187,7 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
         //m_doc->executeCommand(new cmdMoveWidgetBy(widget,diffX,diffY));
         widget->getWidgetController()->moveWidgetBy(diffX, diffY);
     }
-    // kDebug();
+    // uDebug();
 
     // Move any selected associations.
 
@@ -279,8 +279,7 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me) {
     //TODO Copied from old code. Does it really work as intended?
     UMLWidget *bkgnd = m_widget->m_pView->getWidgetAt(me->pos());
     if (bkgnd) {
-        //kDebug() << "UMLWidgetController::mouseReleaseEvent: setting Z to "
-        //    << bkgnd->getZ() + 1 << endl;
+        //uDebug() << "setting Z to " << bkgnd->getZ() + 1 << endl;
         m_widget->setZ(bkgnd->getZ() + 1);
     } else {
         m_widget->setZ(0);
@@ -530,10 +529,10 @@ int UMLWidgetController::getBiggestY(const UMLWidgetList &widgetList) {
 
 QPoint UMLWidgetController::getPosition(QMouseEvent* me) {
     /*
-    kDebug() << "UMLWidgetController::getPosition: me->x=" << me->x()
+    uDebug() << "me->x=" << me->x()
         << " m_widget->getX=" << m_widget->getX() << ", m_oldX=" << m_oldX
         << ", m_pressOffsetX=" << m_pressOffsetX << endl;
-    kDebug() << "UMLWidgetController::getPosition: me->y=" << me->y()
+    uDebug() << "me->y=" << me->y()
         << " m_widget->getY=" << m_widget->getY() << ", m_oldY=" << m_oldY
         << ", m_pressOffsetY=" << m_pressOffsetY << endl;
      */
@@ -546,19 +545,19 @@ QPoint UMLWidgetController::getPosition(QMouseEvent* me) {
     m_prevY = newY;
 
     if (newX + (m_minSelectedX - m_widget->getX()) < 0) {
-        //kDebug() << "UMLWidgetController::getPosition: got into cond.1";
+        //uDebug() << "got into cond.1";
         newX = m_widget->getX() - m_minSelectedX;
     }
     if (newY + (m_minSelectedY - m_widget->getY()) < 0) {
-        //kDebug() << "UMLWidgetController::getPosition: got into cond.2";
+        //uDebug() << "got into cond.2";
         newY = m_widget->getY() - m_minSelectedY;
     }
     if (newX + (m_maxSelectedX - m_widget->getX()) > maxX) {
-        //kDebug() << "UMLWidgetController::getPosition: got into cond.3";
+        //uDebug() << "got into cond.3";
         newX = maxX - (m_maxSelectedX - m_widget->getX());
     }
     if (newY + (m_maxSelectedY - m_widget->getY()) > maxY) {
-        //kDebug() << "UMLWidgetController::getPosition: got into cond.4";
+        //uDebug() << "got into cond.4";
         newY = maxY - (m_maxSelectedY - m_widget->getY());
     }
     return QPoint(newX, newY);

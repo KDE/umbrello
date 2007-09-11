@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -222,7 +222,7 @@ void ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* a) {
         umla->setUMLPackage(umldoc->getRootFolder(m));
         UMLApp::app()->getDocument()->addAssociation(umla);
     } else {
-        kError() << "cannot addAssocInViewAndDoc(), deleting" << endl;
+        uError() << "cannot addAssocInViewAndDoc(), deleting" << endl;
         delete a;
     }
 }

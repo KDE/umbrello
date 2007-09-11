@@ -292,7 +292,7 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* attribute, int position) 
 
 int UMLEntity::removeEntityAttribute(UMLClassifierListItem* literal) {
     if (!m_List.removeAll((UMLEntityAttribute*)literal)) {
-        kDebug() << "can't find att given in list";
+        uDebug() << "can't find att given in list";
         return -1;
     }
     emit entityAttributeRemoved(literal);
@@ -389,10 +389,9 @@ bool UMLEntity::load(QDomElement& element) {
 
             addConstraint( pCheckConstraint );
         } else if (tag == "stereotype") {
-            kDebug() << "UMLEntity::load(" << m_Name
-            << "): losing old-format stereotype." << endl;
+            uDebug() << m_Name << ": losing old-format stereotype." << endl;
         } else {
-            kWarning() << "unknown child type in UMLEntity::load";
+            uWarning() << "unknown child type in UMLEntity::load";
         }
         node = node.nextSibling();
     }//end while
@@ -402,14 +401,14 @@ bool UMLEntity::load(QDomElement& element) {
 
 bool UMLEntity::setAsPrimaryKey(UMLUniqueConstraint* uconstr) {
     if ( uconstr == NULL ) {
-        kDebug()<<"NULL value passed. To unset a Primary Key use "
+        uDebug()<<"NULL value passed. To unset a Primary Key use "
                 <<"unsetPrimaryKey()"<<endl;
         return false;
     }
 
     if ( static_cast<UMLEntity*>( uconstr->parent() ) != this ) {
 
-        kDebug()<<"Parent of "<<uconstr->getName()
+        uDebug()<<"Parent of "<<uconstr->getName()
                 <<" doesn't match with current entity"<<endl;
         return false;
     }
@@ -447,7 +446,7 @@ bool UMLEntity::hasPrimaryKey() const{
 
 bool UMLEntity::addConstraint(UMLEntityConstraint* constr) {
     if ( findChildObjectById( constr->getID() ) != NULL ) {
-        kDebug()<<"Constraint with id "<<ID2STR(constr->getID())
+        uDebug()<<"Constraint with id "<<ID2STR(constr->getID())
                 <<" already exists ";
         return false;
     }
@@ -463,7 +462,7 @@ bool UMLEntity::addConstraint(UMLEntityConstraint* constr) {
 
 bool UMLEntity::removeConstraint(UMLEntityConstraint* constr) {
      if ( findChildObjectById( constr->getID() ) == NULL ) {
-        kDebug()<<"Constraint with id "<<ID2STR(constr->getID())
+        uDebug()<<"Constraint with id "<<ID2STR(constr->getID())
                 <<" does not exist ";
         return false;
     }

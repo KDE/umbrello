@@ -55,7 +55,7 @@ bool PascalWriter::isOOClass(UMLClassifier *c) {
     if (ot == Uml::ot_Enum)
         return false;
     if (ot != Uml::ot_Class) {
-        kDebug() << "PascalWriter::isOOClass: unknown object type " << ot;
+        uDebug() << "unknown object type " << ot;
         return false;
     }
     QString stype = c->getStereotype();
@@ -122,7 +122,7 @@ void PascalWriter::computeAssocTypeAndRole
 
 void PascalWriter::writeClass(UMLClassifier *c) {
     if (!c) {
-        kDebug() << "Cannot write class of NULL concept!";
+        uDebug() << "Cannot write class of NULL concept!";
         return;
     }
 

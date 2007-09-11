@@ -85,7 +85,7 @@ void DWriter::writeModuleImports(UMLClassifier *c, QTextStream &d) {
 
 void DWriter::writeClass(UMLClassifier *c) {
     if (!c) {
-        kDebug()<<"Cannot write class of NULL concept!\n";
+        uDebug()<<"Cannot write class of NULL concept!\n";
         return;
     }
 

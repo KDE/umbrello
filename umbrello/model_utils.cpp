@@ -148,7 +148,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                 }
             }
             if (seenPkgs.indexOf(pkg) != -1) {
-                kError() << "findUMLObject(" << name << "): "
+                uError() << "findUMLObject(" << name << "): "
                     << "breaking out of cycle involving "
                     << pkg->getName() << endl;
                 break;
@@ -166,7 +166,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                 Uml::Object_Type foundType = obj->getBaseType();
                 if (nameWithoutFirstPrefix.isEmpty()) {
                     if (type != Uml::ot_UMLObject && type != foundType) {
-                        kDebug() << "findUMLObject: type mismatch for "
+                        uDebug() << "findUMLObject: type mismatch for "
                             << name << " (seeking type: "
                             << type << ", found type: "
                             << foundType << ")" << endl;
@@ -190,7 +190,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                     foundType != Uml::ot_Class &&
                     foundType != Uml::ot_Interface &&
                     foundType != Uml::ot_Component) {
-                    kDebug() << "findUMLObject: found \"" << name
+                    uDebug() << "findUMLObject: found \"" << name
                         << "\" is not a package (?)" << endl;
                     continue;
                 }
@@ -212,7 +212,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
         Uml::Object_Type foundType = obj->getBaseType();
         if (nameWithoutFirstPrefix.isEmpty()) {
             if (type != Uml::ot_UMLObject && type != foundType) {
-                kDebug() << "findUMLObject: type mismatch for "
+                uDebug() << "findUMLObject: type mismatch for "
                     << name << " (seeking type: "
                     << type << ", found type: "
                     << foundType << ")" << endl;
@@ -225,7 +225,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
             foundType != Uml::ot_Class &&
             foundType != Uml::ot_Interface &&
             foundType != Uml::ot_Component) {
-            kDebug() << "findUMLObject: found \"" << name
+            uDebug() << "findUMLObject: found \"" << name
                 << "\" is not a package (?)" << endl;
             continue;
         }
@@ -269,7 +269,7 @@ QString uniqObjectName(Uml::Object_Type type, UMLPackage *parentPkg, QString pre
             currentName = i18n("new_category");
         else {
             currentName = i18n("new_object");
-            kWarning() << "unknown object type in umldoc::uniqObjectName()";
+            uWarning() << "unknown object type in umldoc::uniqObjectName()";
         }
     }
     UMLDoc *doc = UMLApp::app()->getDocument();
@@ -799,7 +799,7 @@ Uml::Model_Type convert_DT_MT(Uml::Diagram_Type dt) {
             mt = Uml::mt_EntityRelationship;
             break;
         default:
-            kError() << "Model_Utils::convert_DT_MT: illegal input value " << dt << endl;
+            uError() << "Model_Utils::convert_DT_MT: illegal input value " << dt << endl;
             mt = Uml::N_MODELTYPES;
             break;
     }
@@ -894,7 +894,7 @@ Uml::ListView_Type convert_DT_LVT(Uml::Diagram_Type dt) {
         break;
 
     default:
-        kWarning() << "convert_DT_LVT() called on unknown diagram type";
+        uWarning() << "convert_DT_LVT() called on unknown diagram type";
     }
     return type;
 }
@@ -948,7 +948,7 @@ Uml::ListView_Type convert_OT_LVT(UMLObject *o) {
                     return type;
                 }
             } while ((f = static_cast<UMLFolder*>(f->getUMLPackage())) != NULL);
-            kError() << "convert_OT_LVT(" << o->getName()
+            uError() << "convert_OT_LVT(" << o->getName()
                 << "): internal error - object is not properly nested in folder"
                 << endl;
         }

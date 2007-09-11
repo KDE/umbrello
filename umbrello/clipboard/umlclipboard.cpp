@@ -287,7 +287,7 @@ bool UMLClipboard::insertItemChildren(UMLListViewItem * Item, UMLListViewItemLis
 
 bool UMLClipboard::pasteChildren(UMLListViewItem *parent, IDChangeLog *chgLog) {
     if (!parent) {
-        kWarning() << "Paste Children Error, parent missing";
+        uWarning() << "Paste Children Error, parent missing";
         return false;
     }
     UMLDoc *doc = UMLApp::app()->getDocument();
@@ -298,20 +298,19 @@ bool UMLClipboard::pasteChildren(UMLListViewItem *parent, IDChangeLog *chgLog) {
         Uml::IDType newID = chgLog->findNewID(oldID);
         UMLListViewItem *shouldNotExist = listView->findItem(newID);
         if (shouldNotExist) {
-            kError() << "UMLClipboard::pasteChildren: new list view item " << ID2STR(newID)
-            << " already exists (internal error)" << endl;
+            uError() << "new list view item " << ID2STR(newID)
+                << " already exists (internal error)" << endl;
             childItem = static_cast<UMLListViewItem*>(childItem->nextSibling());
             continue;
         }
         UMLObject *newObj = doc->findObjectById(newID);
         if (newObj) {
-            kDebug() << "UMLClipboard::pasteChildren: adjusting lvitem(" << ID2STR(oldID)
-            << ") to new UMLObject(" << ID2STR(newID) << ")" << endl;
+            uDebug() << "adjusting lvitem(" << ID2STR(oldID)
+                << ") to new UMLObject(" << ID2STR(newID) << ")" << endl;
             childItem->setUMLObject(newObj);
             childItem->setText(newObj->getName());
         } else {
-            kDebug() << "UMLClipboard::pasteChildren: no UMLObject found for lvitem "
-            << ID2STR(newID) << endl;
+            uDebug() << "no UMLObject found for lvitem " << ID2STR(newID) << endl;
         }
         childItem = static_cast<UMLListViewItem*>(childItem->nextSibling());
     }
@@ -375,7 +374,7 @@ bool UMLClipboard::pasteClip2(const QMimeData* data) {
     }
     foreach ( UMLObject* obj, objects ) {
         if(!doc->assignNewIDs(obj)) {
-            kDebug()<<"UMLClipboard: error adding umlobject";
+            uDebug()<<"UMLClipboard: error adding umlobject";
             return false;
         }
     }
@@ -481,9 +480,8 @@ bool UMLClipboard::pasteClip4(const QMimeData* data) {
         Uml::IDType oldId = widget->getID();
         Uml::IDType newId = idchanges->findNewID(oldId);
         if (currentView->findWidget(newId)) {
-            kError() << "UMLClipboard::pasteClip4: widget (oldID=" << ID2STR(oldId)
-                << ", newID=" << ID2STR(newId) << ") already exists in target view."
-                << endl;
+            uError() << "widget (oldID=" << ID2STR(oldId) << ", newID="
+                << ID2STR(newId) << ") already exists in target view." << endl;
             widgets.removeAll(widget);
             delete widget;
             objectAlreadyExists = true;
@@ -541,8 +539,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data) {
     }
     UMLClassifier *parent = dynamic_cast<UMLClassifier *>(lvitem->getUMLObject());
     if (parent == NULL) {
-        kError() << "UMLClipboard::pasteClip5: parent is not a UMLClassifier"
-        << endl;
+        uError() << "parent is not a UMLClassifier" << endl;
         return false;
     }
 
@@ -575,8 +572,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data) {
                 if (parent->addAttribute(att, idchanges)) {
                     result = true;
                 } else {
-                    kError() << "UMLClipboard::pasteClip5: " << parent->getName()
-                        << "->addAttribute(" << att->getName() << ") failed" << endl;
+                    uError() << "" << parent->getName() << "->addAttribute(" << att->getName() << ") failed" << endl;
                 }
                 break;
             }
@@ -591,13 +587,12 @@ bool UMLClipboard::pasteClip5(const QMimeData* data) {
                 if (parent->addOperation(op, idchanges)) {
                     result = true;
                 } else {
-                    kError() << "UMLClipboard::pasteClip5: " << parent->getName()
-                        << "->addOperation(" << op->getName() << ") failed" << endl;
+                    uError() << "" << parent->getName() << "->addOperation(" << op->getName() << ") failed" << endl;
                 }
                 break;
             }
         default :
-            kWarning() << "pasting unknown children type in clip type 5";
+            uWarning() << "pasting unknown children type in clip type 5";
             return false;
         }
     }

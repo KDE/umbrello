@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -302,8 +302,7 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement ) {
                 m_pView->setupNewWidget(fdlwidget);
             }
         } else {
-            kError() << "MessageWidget::loadFromXMI: unknown tag "
-            << tag << endl;
+            uError() << "unknown tag " << tag << endl;
         }
         node = node.nextSibling();
         element = node.toElement();
