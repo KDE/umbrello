@@ -45,7 +45,7 @@ public:
      * the ListView but no diagrams to be copied, Mime type =
      * "application/x-uml-clip1
      */
-    explicit UMLDragData(UMLObjectList& Objects,QWidget* dragSource = 0, const char* name = 0 );
+    explicit UMLDragData(UMLObjectList& Objects, QWidget* dragSource = 0);
 
     /**
      * For use when the user selects UML Object and Diagrams
@@ -53,15 +53,14 @@ public:
      * "application/x-uml-clip2
      */
     UMLDragData(UMLObjectList &Objects, UMLListViewItemList& UMLListViewItems,
-            UMLViewList& Diagrams, QWidget * dragSource = 0, const char * name = 0 );
+                UMLViewList& Diagrams, QWidget * dragSource = 0);
 
     /**
      * For use when the user selects only empty folders from
      * the ListView to be copied, Mime type =
      * "application/x-uml-clip3
      */
-    explicit UMLDragData(UMLListViewItemList& UMLListViewItems, QWidget* dragSource = 0,
-            const char* name = 0 );
+    explicit UMLDragData(UMLListViewItemList& UMLListViewItems, QWidget* dragSource = 0);
 
     /*
      * For use when the user selects UMLObjects from a
@@ -71,20 +70,19 @@ public:
      * "application/x-uml-clip4
      */
     UMLDragData(UMLObjectList& Objects, UMLWidgetList& Widgets, AssociationWidgetList& Associations,
-            QPixmap& PngImage, Uml::Diagram_Type dType, QWidget* dragSource = 0,
-            const char* name = 0 );
+            QPixmap& PngImage, Uml::Diagram_Type dType, QWidget* dragSource = 0);
 
     /**
      * For use when the user selects only Operations and/or
      * Attributes from the ListView, Mime type =
      * "application/x-uml-clip5
      */
-    UMLDragData(UMLObjectList& Objects, int, QWidget* dragSource = 0, const char* name = 0);
+    UMLDragData(UMLObjectList& Objects, int, QWidget* dragSource = 0);
 
     /**
      *  Constructor
      */
-    explicit UMLDragData(QWidget* dragSource = 0, const char* name = 0);
+    explicit UMLDragData(QWidget* dragSource = 0);
 
     /**
      *  Deconstructor

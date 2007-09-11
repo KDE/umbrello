@@ -33,33 +33,31 @@
 #include "../object_factory.h"
 #include "../model_utils.h"
 
-UMLDragData::UMLDragData(UMLObjectList& objects, QWidget* dragSource /*= 0*/, const char* name /*= 0*/ ) {
+UMLDragData::UMLDragData(UMLObjectList& objects, QWidget* /* dragSource = 0 */) {
     setUMLDataClip1(objects);
 }
 
 UMLDragData::UMLDragData(UMLObjectList& objects, UMLListViewItemList& umlListViewItems, UMLViewList& diagrams,
-                 QWidget* dragSource /*= 0*/, const char* name /*= 0*/ ) {
+                 QWidget* /* dragSource = 0 */) {
     setUMLDataClip2(objects, umlListViewItems, diagrams);
 }
 
-UMLDragData::UMLDragData(UMLListViewItemList& umlListViewItems, QWidget* dragSource /*= 0*/,
-                 const char* name /*= 0*/ ) {
+UMLDragData::UMLDragData(UMLListViewItemList& umlListViewItems, QWidget* /* dragSource = 0 */) {
     setUMLDataClip3(umlListViewItems);
 }
 
 UMLDragData::UMLDragData(UMLObjectList& objects,
                  UMLWidgetList& widgets, AssociationWidgetList& associationDatas,
-                 QPixmap& pngImage, Uml::Diagram_Type dType, QWidget * dragSource /*= 0*/,
-                 const char * name /*= 0*/ ) {
+                 QPixmap& pngImage, Uml::Diagram_Type dType, QWidget* /* dragSource = 0 */) {
     setUMLDataClip4(objects, widgets, associationDatas, pngImage, dType);
 }
 
 UMLDragData::UMLDragData(UMLObjectList& objects, int,
-                 QWidget* /*dragSource = 0*/, const char* /*name = 0*/ ) {
+                         QWidget* /* dragSource = 0 */) {
     setUMLDataClip5(objects);
 }
 
-UMLDragData::UMLDragData(QWidget* dragSource /*= 0*/, const char * name /*= 0*/ ) {
+UMLDragData::UMLDragData(QWidget* /* dragSource = 0 */) {
 }
 
 UMLDragData::~UMLDragData() {
