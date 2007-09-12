@@ -620,7 +620,7 @@ typically a single computer.  They also show interfaces and objects (class insta
 <title>Entity Relationship Diagrams</title>
 
 <para>Entity Relationship Diagrams (ER Diagrams) show the conceptual design of database applications. They depict the
-various entities (concepts) in the information system and the existing relationships and cosntraints between them.
+various entities (concepts) in the information system and the existing relationships and constraints between them.
 An extension of Entity Relationship Diagrams named 'Extended Entity Relationship Diagrams' or 'Enhanced Entity Relationship Diagrams' (EER), are used to incorporate Object Oriented design techniques in ER Diagrams. </para> 
 <para>
 <screenshot>
