@@ -1,4 +1,3 @@
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -46,9 +45,7 @@ void DCodeClassFieldDeclarationBlock::updateContent( )
 {
 
     CodeClassField * cf = getParentClassField();
-    ClassifierCodeDocument * doc = cf->getParentDocument();
     DCodeClassField * jcf = dynamic_cast<DCodeClassField*>(cf);
-    DClassifierCodeDocument* jdoc = dynamic_cast<DClassifierCodeDocument*>(doc);
     CodeGenerationPolicy * commonpolicy = UMLApp::app()->getCommonPolicy();
 
     Uml::Visibility::Value scopePolicy = commonpolicy->getAssociationFieldScope();

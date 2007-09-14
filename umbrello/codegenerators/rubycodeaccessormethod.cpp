@@ -139,7 +139,6 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
 {
 
     RubyCodeClassField * rubyfield = dynamic_cast<RubyCodeClassField*>(getParentClassField());
-    RubyClassifierCodeDocument * rubydoc = dynamic_cast<RubyClassifierCodeDocument*>(rubyfield->getParentDocument());
 
     // gather defs
     CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();

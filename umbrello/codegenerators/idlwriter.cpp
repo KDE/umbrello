@@ -180,7 +180,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
         m_indentLevel--;
         idl << getIndent() << "};" << m_endl << m_endl;
         // Close the modules inside which we might be nested.
-        foreach ( UMLPackage* pkg,  pkgList ) {
+        for (int i = 0; i < pkgList.count(); i++) {
             m_indentLevel--;
             idl << getIndent() << "};" << m_endl << m_endl;
         }
@@ -256,7 +256,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
             idl << getIndent() << "// " << stype << ": Unknown stereotype" << m_endl << m_endl;
         }
         // Close the modules inside which we might be nested.
-        foreach ( UMLPackage* pkg , pkgList ) {
+        for (int i = 0; i < pkgList.count(); i++) {
             m_indentLevel--;
             idl << getIndent() << "};" << m_endl << m_endl;
         }
@@ -376,7 +376,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
     idl << getIndent() << "};" << m_endl << m_endl;
 
     // Close the modules inside which we might be nested.
-    foreach ( UMLPackage* pkg,  pkgList ) {
+    for (int i = 0; i < pkgList.count(); i++) {
         m_indentLevel--;
         idl << getIndent() << "};" << m_endl << m_endl;
     }

@@ -131,7 +131,6 @@ void DCodeAccessorMethod::updateMethodDeclaration()
 {
 
     DCodeClassField * dfield = dynamic_cast<DCodeClassField*>(getParentClassField());
-    DClassifierCodeDocument * ddoc = dynamic_cast<DClassifierCodeDocument*>(dfield->getParentDocument());
     CodeGenerationPolicy *commonpolicy = UMLApp::app()->getCommonPolicy();
 
     // gather defs

@@ -135,7 +135,6 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
 {
 
     JavaCodeClassField * javafield = dynamic_cast<JavaCodeClassField*>(getParentClassField());
-    JavaClassifierCodeDocument * javadoc = dynamic_cast<JavaClassifierCodeDocument*>(javafield->getParentDocument());
     CodeGenerationPolicy *commonpolicy = UMLApp::app()->getCommonPolicy();
 
     // gather defs

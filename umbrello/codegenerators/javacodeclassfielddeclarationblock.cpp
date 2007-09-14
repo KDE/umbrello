@@ -50,9 +50,7 @@ void JavaCodeClassFieldDeclarationBlock::updateContent( )
 {
 
     CodeClassField * cf = getParentClassField();
-    ClassifierCodeDocument * doc = cf->getParentDocument();
     JavaCodeClassField * jcf = dynamic_cast<JavaCodeClassField*>(cf);
-    JavaClassifierCodeDocument* jdoc = dynamic_cast<JavaClassifierCodeDocument*>(doc);
     CodeGenerationPolicy * commonpolicy = UMLApp::app()->getCommonPolicy();
 
     Uml::Visibility::Value scopePolicy = commonpolicy->getAssociationFieldScope();

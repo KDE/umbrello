@@ -3033,7 +3033,6 @@ void Php5Writer::writeClass(UMLClassifier *c) {
     //write includes
     UMLPackageList includes;
     findObjectsRelated(c,includes);
-    UMLPackage *conc;
     foreach(UMLPackage* conc, includes ) {
         QString headerName = findFileName(conc, ".php");
         if (!headerName.isEmpty()) {
