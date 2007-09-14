@@ -406,7 +406,7 @@ void createCppStereotypes() {
 
 QString capitalizeFirstLetter(const QString &string) {
     QChar firstChar = string.at(0);
-    return firstChar.upper() + string.mid(1);
+    return firstChar.toUpper() + string.mid(1);
 }
 
 }  // end namespace Codegen_Utils

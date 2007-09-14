@@ -88,7 +88,7 @@ QString DCodeGenerator::capitalizeFirstLetter(const QString &string)
     // we could lowercase everything tostart and then capitalize? Nah, it would
     // screw up formatting like getMyRadicalVariable() to getMyradicalvariable(). Bah.
     QChar firstChar = string.at(0);
-    return firstChar.upper() + string.mid(1);
+    return firstChar.toUpper() + string.mid(1);
 }
 
 // IF the type is "string" we need to declare it as

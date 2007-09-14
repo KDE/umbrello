@@ -147,7 +147,7 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
     }
 
     // Write the hash define stuff to prevent multiple parsing/inclusion of header
-    QString hashDefine = m_classifierInfo->className.upper().simplified().replace(QRegExp(" "),  "_");
+    QString hashDefine = m_classifierInfo->className.toUpper().simplified().replace(QRegExp(" "),  "_");
     writeBlankLine(h);
     h << "#ifndef "<< hashDefine + "_H" << m_endl;
     h << "#define "<< hashDefine + "_H" << m_endl;
@@ -624,7 +624,7 @@ void CppWriter::writeAttributeMethods(UMLAttributeList *attribs,
         // from what I can tell, this IS the default behavior for
         // cleanName. I dunno why its not working -b.t.
         methodBaseName = methodBaseName.trimmed();
-        methodBaseName.replace(0,1,methodBaseName.at(0).upper());
+        methodBaseName.replace(0,1,methodBaseName.at(0).toUpper());
 
         writeSingleAttributeAccessorMethods(at->getTypeName(), varName,
                                             methodBaseName, at->getDoc(), Uml::chg_Changeable, isHeaderMethod,

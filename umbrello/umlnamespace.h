@@ -368,7 +368,7 @@ typedef std::string IDType;
 const IDType id_None = "-1";
 const IDType id_Reserved = "0";
 
-# define STR2ID(id)  id.toAscii().data()
+# define STR2ID(id)  qPrintable(id)
 # define ID2STR(id)  QString(id.c_str())
 
 // convenience macros for console output to the Umbrello area

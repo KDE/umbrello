@@ -16,15 +16,15 @@
 #include <math.h>
 
 // include files for Qt
-#include <QApplication>
-#include <QImageWriter>
-#include <qrect.h>
-#include <qimage.h>
-#include <qpicture.h>
-#include <qpainter.h>
-#include <qprinter.h>
-#include <qdir.h>
-#include <qregexp.h>
+#include <QtGui/QApplication>
+#include <QtGui/QImageWriter>
+#include <QtCore/QRect>
+#include <QtGui/QImage>
+#include <QtGui/QPicture>
+#include <QtGui/QPainter>
+#include <QtGui/QPrinter>
+#include <QtCore/QDir>
+#include <QtCore/QRegExp>
 
 // kde include files
 #include <kdebug.h>
@@ -325,7 +325,7 @@ bool UMLViewImageExporterModel::fixEPS(const QString &fileName, const QRect& rec
 }
 
 bool UMLViewImageExporterModel::exportViewToSvg(UMLView* view, const QString &fileName) const {
-    bool exportSuccesful;
+    bool exportSuccessful;
 
     QPicture* diagram = new QPicture();
 
@@ -343,7 +343,7 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLView* view, const QString &fi
     painter->translate(-rect.x(),-rect.y());
     view->getDiagram(rect,*painter);
     painter->end();
-    exportSuccesful = diagram->save(fileName, QString("SVG").ascii());
+    exportSuccessful = diagram->save(fileName);
 
     // delete painter and printer before we try to open and fix the file
     delete painter;
@@ -351,12 +351,17 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLView* view, const QString &fi
     // next painting will most probably be to a different device (i.e. the screen)
     view->forceUpdateWidgetFontMetrics(0);
 
-    return exportSuccesful;
+    uDebug() << "saving to file " << fileName << " successful=" << exportSuccessful << endl;
+    return exportSuccessful;
 }
 
 bool UMLViewImageExporterModel::exportViewToPixmap(UMLView* view, const QString &imageType, const QString &fileName) const {
+    bool exportSuccessful;
     QRect rect = view->getDiagramRect();
     QPixmap diagram(rect.width(), rect.height());
     view->getDiagram(rect, diagram);
-    return diagram.save(fileName, imageType.upper().ascii());
+    exportSuccessful = diagram.save(fileName, qPrintable(imageType.toUpper()));
+
+    uDebug() << "saving to file " << fileName << " , imageType=" << imageType << " successful=" << exportSuccessful << endl;
+    return exportSuccessful;
 }

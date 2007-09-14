@@ -101,7 +101,7 @@ void IDLImport::parseFile(const QString& filename) {
     }
     command += ' ' + filename;
     uDebug() << "importIDL: " << command;
-    FILE *fp = popen(command.ascii(), "r");
+    FILE *fp = popen(qPrintable(command), "r");
     if (fp == NULL) {
         uError() << "cannot popen(" << command << ")" << endl;
         return;

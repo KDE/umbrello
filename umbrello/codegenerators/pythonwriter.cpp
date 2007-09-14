@@ -62,7 +62,7 @@ void PythonWriter::writeClass(UMLClassifier *c) {
     QChar first = fileName.at(0);
     //Replace the first letter of the filename because
     //python class begin with an upper caracter (convention)
-    first = first.upper();
+    first = first.toUpper();
     fileName = fileName.replace(0, 1, first);
 
     QFile fileh;
@@ -113,7 +113,7 @@ void PythonWriter::writeClass(UMLClassifier *c) {
         if ( !headerName.isEmpty() ) {
             headerName.remove(QRegExp(".py$"));
             first = headerName.at(0);
-            first = first.upper();
+            first = first.toUpper();
             headerName = headerName.replace(0, 1, first);
             str = headerName.replace(QChar('/'),QChar('.'));
             if (includesList.findIndex(str) < 0)  // not yet imported

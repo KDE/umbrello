@@ -222,7 +222,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
     //Write class Documentation
   if(forceDoc() || !c->getDoc().isEmpty()) {
     perl << m_endl << "=head1";
-    perl << " " << classname.upper() << m_endl << m_endl;
+    perl << " " << classname.toUpper() << m_endl << m_endl;
     perl << c->getDoc();
     perl << m_endl << m_endl << "=cut" << m_endl << m_endl;
   }
