@@ -45,7 +45,7 @@ bool PythonImport::preprocess(QString& line) {
     if (NativeImportBase::preprocess(line))
         return true;
     // Handle single line comment
-    int pos = line.find(m_singleLineCommentIntro);
+    int pos = line.indexOf(m_singleLineCommentIntro);
     if (pos != -1) {
         QString cmnt = line.mid(pos);
         m_source.append(cmnt);
@@ -56,7 +56,7 @@ bool PythonImport::preprocess(QString& line) {
         line.remove( QRegExp("\\s+$") );
     }
     // Transform changes in indentation into braces a la C++/Java/Perl/...
-    pos = line.find( QRegExp("\\S") );
+    pos = line.indexOf( QRegExp("\\S") );
     if (pos == -1)
         return true;
     bool isContinuation = false;

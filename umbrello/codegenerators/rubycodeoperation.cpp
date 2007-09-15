@@ -173,10 +173,10 @@ void RubyCodeOperation::updateMethodDeclaration()
         // must be indented correctly. If they aren't a list
         // item starting with '*', then indent the text with
         // two spaces, '  ', to line up with the list item.
-        pos = comment.find(endLine + '*');
+        pos = comment.indexOf(endLine + '*');
         if (pos != -1) {
             pos += endLine.length() + 1;
-            pos = comment.find(endLine, pos);
+            pos = comment.indexOf(endLine, pos);
         }
 
         while (pos > 0) {
@@ -186,7 +186,7 @@ void RubyCodeOperation::updateMethodDeclaration()
                 pos += 2;
             }
 
-            pos = comment.find(endLine, pos);
+            pos = comment.indexOf(endLine, pos);
         }
 
         QString typeStr = RubyCodeGenerator::cppToRubyType(o->getTypeName());

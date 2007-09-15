@@ -111,11 +111,11 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ex
 
     // if a package name exists check the existence of the package directory
     if (!package.isEmpty() && m_createDirHierarchyForPackages) {
-        QDir pathDir(UMLApp::app()->getCommonPolicy()->getOutputDirectory().absPath() + package);
+        QDir pathDir(UMLApp::app()->getCommonPolicy()->getOutputDirectory().absolutePath() + package);
         // does our complete output directory exist yet? if not, try to create it
         if (!pathDir.exists())
         {
-            QStringList dirs = pathDir.absPath().split("/");
+            QStringList dirs = pathDir.absolutePath().split("/");
             QString currentDir = "";
 
             QStringList::iterator end(dirs.end());
@@ -126,7 +126,7 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ex
                         || pathDir.mkdir(currentDir) ) )
                 {
                     KMessageBox::error(0, i18n("Cannot create the folder:\n") +
-                                       pathDir.absPath() + i18n("\nPlease check the access rights"),
+                                       pathDir.absolutePath() + i18n("\nPlease check the access rights"),
                                        i18n("Cannot Create Folder"));
                     return NULL;
                 }
@@ -154,7 +154,7 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
     }
 
     int suffix;
-    OverwriteDialogue overwriteDialogue( filename, outputDir.absPath(),
+    OverwriteDialogue overwriteDialogue( filename, outputDir.absolutePath(),
                                          m_applyToAllRemaining, kapp -> mainWidget() );
     switch(commonPolicy->getOverwritePolicy()) {  //if it exists, check the OverwritePolicy we should use
     case CodeGenerationPolicy::Ok:                //ok to overwrite file

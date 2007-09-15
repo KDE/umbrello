@@ -303,7 +303,7 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
             // must be indented correctly. If they aren't a list
             // item starting with '# *', then indent the text with
             // three spaces, '#   ', to line up with the list item.
-            pos = docStr.find("# *");
+            pos = docStr.indexOf("# *");
             QRegExp re_linestart("# (?!\\*)");
             pos = re_linestart.search(docStr, pos);
             while (pos > 0) {

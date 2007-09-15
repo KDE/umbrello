@@ -132,7 +132,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
     str = getHeadingFile(".java");
     if(!str.isEmpty()) {
         str.replace(QRegExp("%filename%"),fileName);
-        str.replace(QRegExp("%filepath%"),file.name());
+        str.replace(QRegExp("%filepath%"),file.fileName());
         java<<str<<m_endl;
     }
 

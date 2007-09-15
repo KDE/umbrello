@@ -71,7 +71,7 @@ void DocbookGeneratorJob::run()
   xmlSubstituteEntitiesDefault(1);
   xmlLoadExtDtdDefaultValue = 1;
   cur = xsltParseStylesheetFile((const xmlChar *)xsltFile.latin1());
-  doc = xmlParseFile((const char*)(file.name().utf8()));
+  doc = xmlParseFile((const char*)(file.fileName().utf8()));
   res = xsltApplyStylesheet(cur, doc, params);
 
 

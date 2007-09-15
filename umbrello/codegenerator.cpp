@@ -396,7 +396,7 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
     }
 
     int suffix;
-    OverwriteDialogue overwriteDialog( name, outputDirectory.absPath(),
+    OverwriteDialogue overwriteDialog( name, outputDirectory.absolutePath(),
                                          m_applyToAllRemaining, kapp -> mainWidget() );
     switch (pol->getOverwritePolicy()) {  //if it exists, check the OverwritePolicy we should use
     case CodeGenerationPolicy::Ok:              //ok to overwrite file
@@ -467,9 +467,9 @@ bool CodeGenerator::openFile (QFile & file, const QString &fileName ) {
         return false;
     } else {
         QDir outputDirectory = UMLApp::app()->getCommonPolicy()->getOutputDirectory();
-        file.setName(outputDirectory.absoluteFilePath(fileName));
+        file.setFileName(outputDirectory.absoluteFilePath(fileName));
         if(!file.open(QIODevice::WriteOnly)) {
-            KMessageBox::sorry(0,i18n("Cannot open file %1 for writing. Please make sure the folder exists and you have permissions to write to it.", file.name()),i18n("Cannot Open File"));
+            KMessageBox::sorry(0,i18n("Cannot open file %1 for writing. Please make sure the folder exists and you have permissions to write to it.", file.fileName()),i18n("Cannot Open File"));
             return false;
         }
         return true;
@@ -511,13 +511,13 @@ QString CodeGenerator::findFileName ( CodeDocument * codeDocument ) {
     // if a path name exists check the existence of the path directory
     if (!path.isEmpty()) {
         QDir outputDirectory = UMLApp::app()->getCommonPolicy()->getOutputDirectory();
-        QDir pathDir(outputDirectory.absPath() + path);
+        QDir pathDir(outputDirectory.absolutePath() + path);
 
         // does our complete output directory exist yet? if not, try to create it
         if (!pathDir.exists())
         {
             // ugh. dir separator here is UNIX specific..
-            QStringList dirs = pathDir.absPath().split("/");
+            QStringList dirs = pathDir.absolutePath().split("/");
             QString currentDir = "";
 
             QStringList::iterator end(dirs.end());
@@ -528,7 +528,7 @@ QString CodeGenerator::findFileName ( CodeDocument * codeDocument ) {
                         || pathDir.mkdir(currentDir) ) )
                 {
                     KMessageBox::error(0, i18n("Cannot create the folder:\n") +
-                                       pathDir.absPath() + i18n("\nPlease check the access rights"),
+                                       pathDir.absolutePath() + i18n("\nPlease check the access rights"),
                                        i18n("Cannot Create Folder"));
                     return NULL;
 
@@ -639,7 +639,7 @@ QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix,
             continue;
         }
         int index;
-        while ((index = input.findRev(" ", lineWidth)) >= 0) {
+        while ((index = input.lastIndexOf(" ", lineWidth)) >= 0) {
             output += linePrefix + input.left(index) + endLine; // add line
             input.remove(0, index + 1); //and remove processed string, including
             // white space

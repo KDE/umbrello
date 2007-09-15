@@ -97,7 +97,7 @@ QString formatComment(const QString &comment) {
             lines.pop_front();  // nothing interesting on this line
     }
     QString& last = lines.last();
-    int endpos = last.find("*/");
+    int endpos = last.indexOf("*/");
     if (endpos != -1) {
         if (last.contains(wordex))
             last = last.mid(0, endpos - 1);  // remove comment end

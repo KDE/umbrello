@@ -362,10 +362,10 @@ bool UMLDoc::openDocument(const KUrl& url, const char* /*format =0*/) {
     // check if the xmi file is a compressed archive like tar.bzip2 or tar.gz
     QString filetype = m_doc_url.fileName();
     QString mimetype = "";
-    if (filetype.find(QRegExp("\\.tgz$")) != -1)
+    if (filetype.indexOf(QRegExp("\\.tgz$")) != -1)
     {
         mimetype = "application/x-gzip";
-    } else if (filetype.find(QRegExp("\\.tar.bz2$")) != -1) {
+    } else if (filetype.indexOf(QRegExp("\\.tar.bz2$")) != -1) {
         mimetype = "application/x-bzip";
     }
 

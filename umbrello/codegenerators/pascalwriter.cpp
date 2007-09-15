@@ -152,7 +152,7 @@ void PascalWriter::writeClass(UMLClassifier *c) {
     str = getHeadingFile(".pas");
     if (!str.isEmpty()) {
         str.replace(QRegExp("%filename%"), fileName);
-        str.replace(QRegExp("%filepath%"), file.name());
+        str.replace(QRegExp("%filepath%"), file.fileName());
         pas << str << endl;
     }
 

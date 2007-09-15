@@ -77,7 +77,7 @@ void SQLWriter::writeClass(UMLClassifier *c) {
     str = getHeadingFile(".sql");
     if(!str.isEmpty()) {
         str.replace(QRegExp("%filename%"),fileName);
-        str.replace(QRegExp("%filepath%"),file.name());
+        str.replace(QRegExp("%filepath%"),file.fileName());
         sql<<str<<m_endl;
     }
 

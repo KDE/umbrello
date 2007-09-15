@@ -175,7 +175,7 @@ void CodeGenerationWizard::showPage(QWidget *page) {
         CodeGenerationPolicy *policy = UMLApp::app()->getCommonPolicy();
 
         // get the output directory path
-        QFileInfo info(policy->getOutputDirectory().absPath());
+        QFileInfo info(policy->getOutputDirectory().absolutePath());
         if(!info.exists())
         {
             if (KMessageBox::questionYesNo(this,

@@ -58,7 +58,7 @@ void CodeGenerationOptionsPage::init()
     m_forceDoc->setChecked(policy->getCodeVerboseDocumentComments());
     m_forceSections->setChecked(policy->getCodeVerboseSectionComments());
 
-    m_outputDir->setText(policy->getOutputDirectory().absPath());
+    m_outputDir->setText(policy->getOutputDirectory().absolutePath());
     m_includeHeadings->setChecked(policy->getIncludeHeadings());
     m_headingsDir->setText(policy->getHeadingFileDir());
     m_overwriteGroup->setButton(overwriteToInteger(policy->getOverwritePolicy()));

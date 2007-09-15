@@ -112,10 +112,10 @@ bool NativeImportBase::preprocess(QString& line) {
     // Check for end of multi line comment.
     if (m_inComment) {
         int delimiterLen = 0;
-        int pos = line.find(m_multiLineCommentEnd);
+        int pos = line.indexOf(m_multiLineCommentEnd);
         if (pos == -1) {
             if (! m_multiLineAltCommentEnd.isEmpty())
-                pos = line.find(m_multiLineAltCommentEnd);
+                pos = line.indexOf(m_multiLineAltCommentEnd);
             if (pos == -1) {
                 m_comment += line + '\n';
                 return true;  // done
@@ -141,20 +141,20 @@ bool NativeImportBase::preprocess(QString& line) {
     // Check for start of multi line comment.
     int delimIntroLen = 0;
     int delimEndLen = 0;
-    int pos = line.find(m_multiLineCommentIntro);
+    int pos = line.indexOf(m_multiLineCommentIntro);
     if (pos != -1) {
         delimIntroLen = m_multiLineCommentIntro.length();
     } else if (!m_multiLineAltCommentIntro.isEmpty()) {
-        pos = line.find(m_multiLineAltCommentIntro);
+        pos = line.indexOf(m_multiLineAltCommentIntro);
         if (pos != -1)
             delimIntroLen = m_multiLineAltCommentIntro.length();
     }
     if (pos != -1) {
-        int endpos = line.find(m_multiLineCommentEnd);
+        int endpos = line.indexOf(m_multiLineCommentEnd);
         if (endpos != -1) {
             delimEndLen = m_multiLineCommentEnd.length();
         } else if (!m_multiLineAltCommentEnd.isEmpty()) {
-            endpos = line.find(m_multiLineAltCommentEnd);
+            endpos = line.indexOf(m_multiLineAltCommentEnd);
             if (endpos != -1)
                 delimEndLen = m_multiLineAltCommentEnd.length();
         }
@@ -236,7 +236,7 @@ void NativeImportBase::scan(QString line) {
     if (preprocess(line))
         return;
     // Check for single line comment.
-    int pos = line.find(m_singleLineCommentIntro);
+    int pos = line.indexOf(m_singleLineCommentIntro);
     if (pos != -1) {
         QString cmnt = line.mid(pos);
         m_source.append(cmnt);

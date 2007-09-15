@@ -116,7 +116,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
   // actual solution: shameful ".pm" hack in codegenerator
 
   CodeGenerationPolicy *pol = UMLApp::app()->getCommonPolicy();
-  QString curDir = pol->getOutputDirectory().absPath();
+  QString curDir = pol->getOutputDirectory().absolutePath();
   if (fileName.contains("::")) {
     // create new directories for each level
     QString newDir;
@@ -144,7 +144,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
     emit codeGenerated(c, false);
     return;
   }
-  QString oldDir = pol->getOutputDirectory().absPath();
+  QString oldDir = pol->getOutputDirectory().absolutePath();
   pol->setOutputDirectory(curDir);
   QFile fileperl;
   if(!openFile(fileperl, fileName)) {
@@ -171,7 +171,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
     str.replace(QRegExp("%date%"),QDate::currentDate().toString());
     str.replace(QRegExp("%time%"),QTime::currentTime().toString());
     str.replace(QRegExp("%package-name%"),ThisPkgName);
-    if(str.find(QRegExp("%PACKAGE-DECLARE%"))){
+    if(str.indexOf(QRegExp("%PACKAGE-DECLARE%"))){
       str.replace(QRegExp("%PACKAGE-DECLARE%"),
                   "package " + ThisPkgName + ';'
                   + m_endl + m_endl
@@ -183,7 +183,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
       bPackageDeclared = true;
     }
 
-    if(str.find(QRegExp("%USE-STATEMENTS%"))){
+    if(str.indexOf(QRegExp("%USE-STATEMENTS%"))){
       QString UseStms;
       if(GetUseStatements(c,UseStms,ThisPkgName)){
         str.replace(QRegExp("%USE-STATEMENTS%"), UseStms);

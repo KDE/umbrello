@@ -130,7 +130,7 @@ void IDLWriter::writeClass(UMLClassifier *c) {
     str = getHeadingFile(".idl");
     if (!str.isEmpty()) {
         str.replace(QRegExp("%filename%"), fileName);
-        str.replace(QRegExp("%filepath%"), file.name());
+        str.replace(QRegExp("%filepath%"), file.fileName());
         idl << str << m_endl;
     }
 

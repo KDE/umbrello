@@ -256,7 +256,7 @@ void UMLAttribute::setTemplateParams(const QString& templateParam, UMLClassifier
         return;
     QString type = templateParam.simplifyWhiteSpace();
 
-    int start = type.find(QChar('<'));
+    int start = type.indexOf(QChar('<'));
     if (start >= 0 ) {
         int end = start;
         int count = 1;
@@ -307,9 +307,9 @@ UMLClassifierList UMLAttribute::getTemplateParams() {
     // Handle C++/D/Java template/generic parameters
     const Uml::Programming_Language pl = UMLApp::app()->getActiveLanguage();
     if (pl == Uml::pl_Cpp || pl == Uml::pl_Java || pl == Uml::pl_D) {
-        int start = type.find(QChar('<'));
+        int start = type.indexOf(QChar('<'));
         if (start >= 0 ) {
-            int end = type.findRev(QChar('>'));
+            int end = type.lastIndexOf(QChar('>'));
             if (end > start) {
                 templateParam = type.mid(start + 1, end - start - 1);
                 setTemplateParams(templateParam, templateParamList);

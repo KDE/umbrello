@@ -88,7 +88,7 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
     QString headerText = getHeadingFile(".xsd");
     if(!headerText.isEmpty()) {
         headerText.replace(QRegExp("%filename%"),fileName);
-        headerText.replace(QRegExp("%filepath%"),file.name());
+        headerText.replace(QRegExp("%filepath%"),file.fileName());
     }
     if(!headerText.isEmpty())
         XMLschema<<headerText<<m_endl;

@@ -448,7 +448,7 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
     if (a.isEmpty())
         return PS_Empty;
 
-    int colonPos = a.find(':');
+    int colonPos = a.indexOf(':');
     if (colonPos < 0) {
         nmTp = NameAndType(a, NULL);
         return PS_OK;
@@ -571,7 +571,7 @@ Parse_Status parseConstraint(QString m, QString& name, UMLEntity* /*owningScope*
     if (m.isEmpty())
         return PS_Empty;
 
-    int colonPos = m.find(':');
+    int colonPos = m.indexOf(':');
     if (colonPos < 0) {
         name = m;
         return PS_OK;

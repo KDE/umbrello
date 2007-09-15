@@ -50,7 +50,7 @@ CppImport::CppImport() {
 CppImport::~CppImport() {}
 
 void CppImport::feedTheModel(const QString& fileName) {
-    if (ms_seenFiles.find(fileName) != ms_seenFiles.end())
+    if (ms_seenFiles.indexOf(fileName) != -1)
         return;
     ms_seenFiles.append(fileName);
     QMap<QString, Dependence> deps = ms_driver->dependences(fileName);
@@ -66,7 +66,7 @@ void CppImport::feedTheModel(const QString& fileName) {
                 continue;
             }
             uDebug() << fileName << ": " << includeFile << " => " << it.data().first;
-            if (ms_seenFiles.find(includeFile) == ms_seenFiles.end())
+            if (ms_seenFiles.indexOf(includeFile) == -1)
                 feedTheModel(includeFile);
         }
     }
@@ -101,7 +101,7 @@ void CppImport::initialize() {
 }
 
 void CppImport::parseFile(const QString& fileName) {
-    if (ms_seenFiles.find(fileName) != ms_seenFiles.end())
+    if (ms_seenFiles.indexOf(fileName) != -1)
         return;
     ms_driver->parseFile( fileName );
     feedTheModel(fileName);

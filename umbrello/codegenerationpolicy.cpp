@@ -169,7 +169,7 @@ void CodeGenerationPolicy::setHeadingFileDir ( const QString & path) {
  * @return the value of m_headingFileDir
  */
 QString CodeGenerationPolicy::getHeadingFileDir ( ) const {
-    return Settings::getOptionState().codeGenerationState.headingsDirectory.absPath();
+    return Settings::getOptionState().codeGenerationState.headingsDirectory.absolutePath();
 }
 
 /**
@@ -451,7 +451,7 @@ void CodeGenerationPolicy::writeConfig () {
     UmbrelloSettings::setIndentationType(getIndentationType());
     UmbrelloSettings::setIndentationAmount(getIndentationAmount());
 
-    UmbrelloSettings::setOutputDirectory( getOutputDirectory().absPath());
+    UmbrelloSettings::setOutputDirectory( getOutputDirectory().absolutePath());
     UmbrelloSettings::setHeadingsDirectory( getHeadingFileDir());
     UmbrelloSettings::setIncludeHeadings( getIncludeHeadings());
     UmbrelloSettings::setOverwritePolicy(getOverwritePolicy());
@@ -492,7 +492,7 @@ QString CodeGenerationPolicy::getHeadingFile(const QString& str) {
     QFile f(filename);
     if(!f.open(QIODevice::ReadOnly)) {
         //                uWarning() << "Error opening heading file: " << f.name();
-        //                uWarning() << "Headings directory was " << headingFiles.absPath();
+        //                uWarning() << "Headings directory was " << headingFiles.absolutePath();
         return QString("");
     }
 

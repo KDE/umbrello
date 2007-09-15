@@ -115,7 +115,7 @@ void DWriter::writeClass(UMLClassifier *c) {
     str = getHeadingFile(".d");
     if(!str.isEmpty()) {
         str.replace(QRegExp("%filename%"),fileName);
-        str.replace(QRegExp("%filepath%"),file.name());
+        str.replace(QRegExp("%filepath%"),file.fileName());
         d<<str<<m_endl;
     }
 
