@@ -54,7 +54,7 @@ public:
     /**
      * Overrides the function from UMLWidget.
      *
-     * @param sel  The command to be executed.
+     * @param action  The action to be executed.
      */
     void slotMenuSelection(QAction* action);
 

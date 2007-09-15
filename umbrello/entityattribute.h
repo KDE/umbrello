@@ -20,8 +20,7 @@
  * It has a type, name, index type and default value.
  *
  * @short Sets up entityattribute information.
- * @author Jonathan Riddell <jr @jriddell.org>
- * @see UMLObject
+ * @author Jonathan Riddell <jr@jriddell.org>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class UMLEntityAttribute : public UMLAttribute {

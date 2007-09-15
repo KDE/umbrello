@@ -29,11 +29,6 @@
  * Displays a page on the tabbed dialog window of @ref ClassPropDlg.
  * The page shows all the Associations that belong to a UMLClassifier.
  *
- *
- * @see ClassPropDlg
-
- * @see UMLClassifier
- *
  * @short The page shows all the Associations that belong to a UMLClassifier.
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org

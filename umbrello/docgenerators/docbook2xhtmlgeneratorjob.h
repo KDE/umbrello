@@ -33,6 +33,7 @@ class Docbook2XhtmlGeneratorJob : public QThread {
     /**
      * Constructor 
      * @param docBookUrl The Url of the Docbook that is to be converted to XHtml
+     * @param parent     Parent object for QThread constructor
      */
     Docbook2XhtmlGeneratorJob(KUrl& docBookUrl,QObject* parent);
 

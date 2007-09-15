@@ -344,6 +344,7 @@ public:
      * Find an attribute, operation, association or template.
      *
      * @param id                The id of the object to find.
+     * @param considerAncestors Whether to search the parent classes.
      *
      * @return  The object found.  Will return 0 if none found.
      */

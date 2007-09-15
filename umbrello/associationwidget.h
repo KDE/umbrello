@@ -524,7 +524,7 @@ public:
     void setText(FloatingTextWidget *ft, const QString &text);
 
     /**
-     * Calls @ref setTextPosition() on all the labels.
+     * Calls setTextPosition on all the labels.
      * Overrides operation from LinkWidget.
      */
     void resetTextPositions();
@@ -1043,8 +1043,6 @@ public slots:
     /**
      * Connected to UMLObject::modified() in case this
      * AssociationWidget is linked to a classifer's attribute type.
-     *
-     * @param obj               The UMLAttribute removed.
      */
     void slotAttributeChanged();
 

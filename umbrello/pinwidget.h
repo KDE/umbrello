@@ -44,6 +44,7 @@ public:
      * Creates a Pin widget.
      *
      * @param view              The parent of the widget.
+     * @param a                 The widget to which this pin is attached.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
      PinWidget( UMLView * view, UMLWidget* a, Uml::IDType id = Uml::id_None );

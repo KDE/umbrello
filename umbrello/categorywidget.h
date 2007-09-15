@@ -24,7 +24,7 @@ class UMLCategory;
  * by a @ref UMLView.  An CategoryWidget belongs to only one @ref UMLView instance.
  * When the @ref UMLView instance that this class belongs to, it will be automatically deleted.
  *
- * If the @ref Category class that this CategoryWidget is displaying is deleted, the @ref UMLView will
+ * If the Category class that this CategoryWidget is displaying is deleted, the @ref UMLView will
  * make sure that this instance is also deleted.
  *
  * The CategoryWidget class inherits from the @ref UMLWidget class which adds most of the functionality
@@ -74,7 +74,7 @@ public slots:
      * Will be called when a menu selection has been made from the
      * popup menu.
      *
-     * @param sel       The selection id that has been selected.
+     * @param action    The action that has been selected.
      */
     void slotMenuSelection(QAction* action);
 
