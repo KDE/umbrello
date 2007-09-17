@@ -1413,7 +1413,6 @@ void UMLApp::readOptionState() {
 
 /** Call the code viewing assistant on a code document */
 void UMLApp::viewCodeDocument(UMLClassifier* classifier) {
-
     CodeGenerator * currentGen = getGenerator();
     if(currentGen && classifier) {
         if(!dynamic_cast<SimpleCodeGenerator*>(currentGen))
@@ -1434,6 +1433,8 @@ void UMLApp::viewCodeDocument(UMLClassifier* classifier) {
         } else {
             KMessageBox::sorry(0, i18n("Cannot view code from simple code writer."),i18n("Cannot View Code"));
         }
+    } else {
+        uWarning() << "No CodeGenerator or UMLClassifier given!" << endl;
     }
 
 }

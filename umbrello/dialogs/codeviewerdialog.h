@@ -19,16 +19,8 @@
 #ifndef CODEVIEWERDIALOG_H
 #define CODEVIEWERDIALOG_H
 
-#include <qcolor.h>
-#include <qmap.h>
-#include <q3ptrlist.h>
-#include <qstring.h>
-#include <q3textedit.h>
-//Added by qt3to4:
-#include <QVBoxLayout>
-#include <QFrame>
-#include <QHBoxLayout>
-#include <QGridLayout>
+#include <QtCore/QString>
+
 #include "../codeviewerstate.h"
 #include "ui_codeviewerdialogbase.h"
 

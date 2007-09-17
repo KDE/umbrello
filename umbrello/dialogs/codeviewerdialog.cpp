@@ -36,6 +36,7 @@ CodeViewerDialog::CodeViewerDialog ( QWidget* parent, CodeDocument * doc,
         : QDialog ( parent, fl )
 {
     setObjectName(name);
+    uDebug() << "setObjectName(" << name << ")" << endl;
     setModal(modal);
     setupUi(this);
 
@@ -44,7 +45,6 @@ CodeViewerDialog::CodeViewerDialog ( QWidget* parent, CodeDocument * doc,
     initGUI(name);
 
     addCodeDocument(doc);
-
 }
 
 /*
@@ -55,8 +55,8 @@ CodeViewerDialog::~CodeViewerDialog()
     // no need to delete child widgets, Qt does it all for us
 }
 
-void CodeViewerDialog::initGUI ( const char * name) {
-
+void CodeViewerDialog::initGUI ( const char * name)
+{
     if ( !name )
         setName( "CodeViewerDialog" );
 
@@ -73,7 +73,6 @@ void CodeViewerDialog::initGUI ( const char * name) {
     CodeViewerDialogBase::gridLayout->setMargin(margin);
 
     resize( QSize(width, height).expandedTo(minimumSizeHint()) );
-
 }
 
 /*
@@ -82,22 +81,22 @@ void CodeViewerDialog::initGUI ( const char * name) {
 void CodeViewerDialog::addCodeDocument( CodeDocument * doc)
 {
     CodeEditor * page = new CodeEditor ( this, "_codedocumenteditor_", doc );
-    QString fname = doc->getFileName();
+    QString name = doc->getFileName();
     QString ext = doc->getFileExtension();
-    m_tabWidget->insertTab(page, (fname + (ext.isEmpty()? "" : ext)));
+    uDebug() << "name=" << name << " / ext=" << ext << endl;
+    m_tabWidget->insertTab(page, (name + (ext.isEmpty() ? "" : ext)));
 
     connect( m_highlightCheckBox, SIGNAL( stateChanged(int) ), page, SLOT( changeHighlighting(int) ) );
     connect( m_showHiddenCodeCB, SIGNAL( stateChanged(int) ), page, SLOT( changeShowHidden(int) ) );
-
 }
 
-Settings::CodeViewerState CodeViewerDialog::getState() {
+Settings::CodeViewerState CodeViewerDialog::getState()
+{
     return m_state;
 }
 
 bool CodeViewerDialog::close ( bool /*alsoDelete*/ )
 {
-
     // remember widget size for next time
     m_state.height = height() / fontMetrics().lineSpacing();
     m_state.width = width() / fontMetrics().maxWidth();
@@ -110,7 +109,6 @@ bool CodeViewerDialog::close ( bool /*alsoDelete*/ )
 
     // run superclass close now
     return QDialog::close();
-
 }
 
 /*

@@ -19,14 +19,13 @@
 #ifndef CODEEDITOR_H
 #define CODEEDITOR_H
 
-#include <q3popupmenu.h>
-#include <qstring.h>
-#include <qlabel.h>
+#include <kmenu.h>
+#include <QtCore/QString>
+#include <QtGui/QLabel>
+//#include <QtGui/QTextEdit>
 #include <q3textedit.h>
-//Added by qt3to4:
-#include <QMouseEvent>
-#include <QKeyEvent>
-#include <Q3PtrList>
+#include <q3popupmenu.h>
+#include <QtCore/QList>
 #include "../codeviewerstate.h"
 #include "../textblocklist.h"
 
@@ -49,7 +48,8 @@ class CodeEditor : public Q3TextEdit
     Q_OBJECT
 public:
 
-    explicit CodeEditor ( const QString & text, const QString & context = QString(), CodeViewerDialog * parent = 0, const char * name = 0 , CodeDocument * doc = 0);
+    explicit CodeEditor ( const QString & text, const QString & context = QString(),
+                          CodeViewerDialog * parent = 0, const char * name = 0 , CodeDocument * doc = 0);
     explicit CodeEditor ( CodeViewerDialog * parent, const char* name = 0, CodeDocument * doc = 0);
     ~CodeEditor ();
 
@@ -90,7 +90,10 @@ protected:
     void loadFromDocument();
 
     // specialized popup menu for our tool
-    Q3PopupMenu * createPopupMenu ( const QPoint & pos );
+    Q3PopupMenu * createPopupMenu(const QPoint & pos);
+    KMenu * createPopup();
+
+//    virtual void mousePressEvent(QMouseEvent * event);
 
 private:
 
@@ -135,7 +138,7 @@ private:
 
     // return whether or not the passed string is empty or
     // contains nothing but whitespace
-    static bool StringIsBlank( const QString &str );
+    static bool stringIsBlank( const QString &str );
 
 public slots:
 
@@ -180,7 +183,7 @@ public:
 
 class TextBlockInfo {
 public:
-    Q3PtrList<ParaInfo> m_paraList;
+    QList<ParaInfo*> m_paraList;
     UMLObject * m_parent;
     QString displayName;
     bool isClickable;
