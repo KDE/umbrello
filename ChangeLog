@@ -130,6 +130,7 @@ Version 1.5.5
 * Fix for message widget selection
 * Fix for class association not updating the association position when being moved
 * Bugs/wishes from http://bugs.kde.org:
+* Export-to-docbook and Export-to-HTML documentation generator (54307)
 * "role A properties" should give class name (69244)
 * Sharing designs, Folders, 3rd Party imports (87252, reimplementation)
 * "Open recent" list doesn't reorder when a file is opened (111757)
