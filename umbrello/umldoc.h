@@ -16,21 +16,12 @@
 #include <typeinfo>
 
 // qt includes
-#include <qdatastream.h>
-#include <qmap.h>
-#include <q3dict.h>
-#include <q3ptrstack.h>
-//Added by qt3to4:
-#include <Q3PtrList>
-#include <QUndoView>
 
 // kde includes
 #include <kurl.h>
-#include <k3dockwidget.h>
-#include <kmenu.h>
-#include <kundostack.h>
 
 // app includes
+#include "listpopupmenu.h"
 #include "umlnamespace.h"
 #include "optionstate.h"
 #include "umlobjectlist.h"
@@ -754,6 +745,12 @@ public:
      */
     void resolveTypes();
 
+    /**
+     * Find and return the user selected type of the popup menu.
+     * See also m_pTabPopupMenu and slotDiagramPopupMenu
+     */
+    ListPopupMenu::Menu_Type getPopupMenuSelection(QAction* action);
+
 private:
     /**
      * Sets up the autosave timer.
@@ -824,7 +821,7 @@ private:
      * the context menu on the tabs,
      * plugs into umlview::slotMenuSelection()
      */
-    KMenu* m_pTabPopupMenu;
+    ListPopupMenu* m_pTabPopupMenu;
 
     /**
      * Auxiliary variable for currentRoot():

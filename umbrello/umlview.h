@@ -20,7 +20,6 @@
 #include <QPixmap>
 #include <QHideEvent>
 #include <QCloseEvent>
-#include <Q3PtrList>
 #include <QDropEvent>
 #include <QShowEvent>
 #include <QDragEnterEvent>

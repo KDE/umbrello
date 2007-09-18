@@ -17,25 +17,16 @@
 #include <math.h>
 
 // include files for Qt
-#include <qpixmap.h>
-#include <q3picture.h>
-#include <qprinter.h>
-#include <qpainter.h>
-#include <qstring.h>
-#include <qstringlist.h>
-#include <qobject.h>
-#include <q3objectdict.h>
-#include <q3dragobject.h>
-#include <qfileinfo.h>
-#include <q3ptrlist.h>
-#include <qcolor.h>
-#include <qmatrix.h>
-#include <qregexp.h>
+#include <QtCore/QString>
+#include <QtCore/QStringList>
+#include <QtCore/QVector>
+#include <QtGui/QPixmap>
+#include <QtGui/QPainter>
+#include <QtGui/QColor>
+#include <QtGui/QMatrix>
 #include <q3paintdevicemetrics.h>
-#include <qvector.h>
 
 //Added by qt3to4:
-#include <QTextStream>
 #include <QHideEvent>
 #include <QCloseEvent>
 #include <QDropEvent>
@@ -2485,7 +2476,7 @@ void UMLView::copyAsImage(QPixmap*& pix) {
 void UMLView::setMenu() {
     slotRemovePopupMenu();
     ListPopupMenu::Menu_Type menu = ListPopupMenu::mt_Undefined;
-    switch( getType() ) {
+    switch ( getType() ) {
     case dt_Class:
         menu = ListPopupMenu::mt_On_Class_Diagram;
         break;
@@ -2523,11 +2514,12 @@ void UMLView::setMenu() {
         break;
 
     default:
-        uWarning() << "setMenu() called on unknown diagram type";
+        uWarning() << "unknown diagram type " << getType();
         menu = ListPopupMenu::mt_Undefined;
         break;
     }//end switch
-    if( menu != ListPopupMenu::mt_Undefined ) {
+    if (menu != ListPopupMenu::mt_Undefined) {
+        // uDebug() << "create popup for Menu_Type " << menu;
         m_pMenu = new ListPopupMenu(this, menu, this);
         connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
         m_pMenu->popup( mapToGlobal( contentsToViewport(worldMatrix().map(m_Pos)) ) );
@@ -2535,7 +2527,7 @@ void UMLView::setMenu() {
 }
 
 void UMLView::slotRemovePopupMenu() {
-    if(m_pMenu) {
+    if (m_pMenu) {
         disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
         delete m_pMenu;
         m_pMenu = 0;
@@ -2543,8 +2535,14 @@ void UMLView::slotRemovePopupMenu() {
 }
 
 void UMLView::slotMenuSelection(QAction* action) {
-    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
-    switch(sel) {
+    ListPopupMenu::Menu_Type sel = ListPopupMenu::mt_Undefined;
+    if (m_pMenu != NULL) {  // popup from this class
+        sel = m_pMenu->getMenuType(action);
+    }
+    else {  // popup from umldoc
+        sel = m_pDoc->getPopupMenuSelection(action);
+    }
+    switch (sel) {
     case ListPopupMenu::mt_Undo:
         UMLApp::app()->undo();
         break;
@@ -2757,6 +2755,7 @@ void UMLView::slotMenuSelection(QAction* action) {
         break;
 
     default:
+        uWarning() << "unknown ListPopupMenu::Menu_Type " << sel;
         break;
     }
 }

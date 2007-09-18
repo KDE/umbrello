@@ -2188,13 +2188,23 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point) {
         break;
 
     default:
-        uWarning() << "unknown diagram type in slotDiagramPopupMenu()";
-        break;
+        uWarning() << "unknown diagram type " << view->getType();
+        return;
     }//end switch
 
+    // uDebug() << "create popup for ListView_Type " << type;
     m_pTabPopupMenu = new ListPopupMenu(UMLApp::app()->getMainViewWidget(), type, 0);
     m_pTabPopupMenu->popup(point);
     connect(m_pTabPopupMenu, SIGNAL(triggered(QAction*)), view, SLOT(slotMenuSelection(QAction*)));
+}
+
+ListPopupMenu::Menu_Type UMLDoc::getPopupMenuSelection(QAction* action) {
+    if (m_pTabPopupMenu == NULL) {
+        return ListPopupMenu::mt_Undefined;
+    }
+    else {
+        return m_pTabPopupMenu->getMenuType(action);
+    }
 }
 
 void UMLDoc::addDefaultStereotypes() {

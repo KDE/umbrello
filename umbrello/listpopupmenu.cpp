@@ -231,6 +231,7 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type, UMLObject
         break;
 
     default:
+        uWarning() << "unhandled ListView_Type " << type << endl;
         break;
     }
     setupMenu(mt);
@@ -249,7 +250,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         return;
     Uml::Widget_Type type = object->getBaseType();
     // uDebug() << "ListPopupMenu created with multi=" << multi << " , unique="
-    //         << unique << " for Widget_Type=" << type << endl;
+    //          << unique << " for Widget_Type=" << type << endl;
 
     if(multi) {
         ClassifierWidget *c = NULL;
@@ -528,6 +529,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         }
         break;
     default:
+        uWarning() << "unhandled Widget_Type " << type << endl;
         break;
     }//end switch
 
