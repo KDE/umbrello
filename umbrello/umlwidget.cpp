@@ -259,7 +259,6 @@ void UMLWidget::init() {
 }
 
 void UMLWidget::slotMenuSelection(QAction* action) {
-    QFont font;
     QColor newColour;
     const Uml::Widget_Type wt = m_Type;
     UMLWidget* widget = 0; // use for select the first object properties (fill, line color)
@@ -347,18 +346,12 @@ void UMLWidget::slotMenuSelection(QAction* action) {
         break;
 
     case ListPopupMenu::mt_Change_Font:
-        font = getFont();
-        if( KFontDialog::getFont( font, false, m_pView ) )
-        {
-            UMLApp::app()->executeCommand(new cmdChangeFontSelection(m_pDoc,m_pView,font));
-        }
-        break;
-
     case ListPopupMenu::mt_Change_Font_Selection:
-        font = getFont();
-        if( KFontDialog::getFont( font, false, m_pView ) )
         {
-            UMLApp::app()->executeCommand(new cmdChangeFontSelection(m_pDoc,m_pView,font));
+            QFont font = getFont();
+            if (KFontDialog::getFont(font, false, m_pView)) {
+                UMLApp::app()->executeCommand(new cmdChangeFontSelection(m_pDoc, m_pView, font));
+            }
         }
         break;
 
@@ -637,7 +630,7 @@ void UMLWidget::showProperties() {
         docwindow->showDocumentation( getUMLObject() , true );
         m_pDoc->setModified(true);
     }
-    dlg->close(true); //wipe from memory
+    dlg->close(); //wipe from memory
 }
 
 void UMLWidget::startPopupMenu( const QPoint &At) {

@@ -20,7 +20,6 @@
 #include <qfile.h>
 #include <qdrag.h>
 #include <qregexp.h>
-#include <kapplication.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
@@ -376,7 +375,7 @@ void UMLListViewItem::okRename( int col ) {
                 }
                 m_Label = op->toString(Uml::st_SigNoVis);
             } else {
-                KMessageBox::error( kapp->mainWidget(),
+                KMessageBox::error( 0,
                                     Model_Utils::psText(st),
                                     i18n("Rename canceled") );
             }
@@ -410,7 +409,7 @@ void UMLListViewItem::okRename( int col ) {
                 pAtt->setInitialValue(nt.m_initialValue);
                 m_Label = pAtt->toString(Uml::st_SigNoVis);
             } else {
-                KMessageBox::error( kapp->mainWidget(),
+                KMessageBox::error( 0,
                                     Model_Utils::psText(st),
                                     i18n("Rename canceled") );
             }
@@ -442,7 +441,7 @@ void UMLListViewItem::okRename( int col ) {
                 UMLEntityConstraint* uec = static_cast<UMLEntityConstraint*>(m_pObject);
                 m_Label = uec->toString(Uml::st_SigNoVis);
             } else {
-                KMessageBox::error( kapp->mainWidget(),
+                KMessageBox::error( 0,
                                     Model_Utils::psText(st),
                                     i18n("Rename canceled") );
             }
@@ -470,7 +469,7 @@ void UMLListViewItem::okRename( int col ) {
                 tmpl->setType(nt.m_type);
                 m_Label = tmpl->toString(Uml::st_SigNoVis);
             } else {
-                KMessageBox::error( kapp->mainWidget(),
+                KMessageBox::error( 0,
                                     Model_Utils::psText(st),
                                     i18n("Rename canceled") );
             }
@@ -505,7 +504,7 @@ void UMLListViewItem::okRename( int col ) {
             break;
         }
     default:
-        KMessageBox::error( kapp->mainWidget() ,
+        KMessageBox::error( 0,
                             i18n("Renaming an item of listview type %1 is not yet implemented.", m_Type),
                             i18n("Function Not Implemented") );
         Q3ListViewItem::setText(0, m_Label);
@@ -515,7 +514,7 @@ void UMLListViewItem::okRename( int col ) {
 }
 
 void UMLListViewItem::cancelRenameWithMsg() {
-    KMessageBox::error( kapp->mainWidget() ,
+    KMessageBox::error( 0,
                         i18n("The name you entered was invalid.\nRenaming process has been canceled."),
                         i18n("Name Not Valid") );
     Q3ListViewItem::setText(0, m_Label);

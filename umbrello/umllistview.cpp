@@ -2003,7 +2003,7 @@ bool UMLListView::itemRenamed( Q3ListViewItem * item , int /*col*/ ) {
     // If the type is empty then delete it.
     if (newText.isEmpty() || newText.contains(QRegExp("^\\s+$"))) {
         KMessageBox::error(
-            kapp -> mainWidget(),
+            0,
             i18n( "The name you entered was invalid.\nCreation process has been canceled." ),
             i18n( "Name Not Valid" ) );
         return false;
@@ -2013,14 +2013,14 @@ bool UMLListView::itemRenamed( Q3ListViewItem * item , int /*col*/ ) {
         //if operation ask if ok not to be unique i.e overloading
         if( type == Uml::lvt_Operation ) {
             if( KMessageBox::warningYesNo(
-                        kapp -> mainWidget(),
+                        0,
                         i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
                         i18n( "Name Not Unique" ), KGuiItem(i18n("Use Name")), KGuiItem(i18n("Enter New Name")) ) == KMessageBox::No ) {
                 return false;
             }
         } else {
             KMessageBox::error(
-                kapp -> mainWidget(),
+                0,
                 i18n( "The name you entered was not unique.\nCreation process has been canceled." ),
                 i18n( "Name Not Unique" ) );
             return false;
@@ -2234,7 +2234,7 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
         Model_Utils::NameAndType nt;
         Model_Utils::Parse_Status st = Model_Utils::parseTemplate(text, nt, owningClassifier);
         if (st) {
-            KMessageBox::error( kapp->mainWidget(),
+            KMessageBox::error( 0,
                                 Model_Utils::psText(st),
                                 i18n("Creation canceled") );
             m_bCreatingChildObject = false;
@@ -2251,7 +2251,7 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
         Model_Utils::Parse_Status st;
         st = Model_Utils::parseAttribute(text, nt, owningClass, &vis);
         if (st) {
-            KMessageBox::error( kapp->mainWidget(),
+            KMessageBox::error( 0,
                                 Model_Utils::psText(st),
                                 i18n("Creation canceled") );
             m_bCreatingChildObject = false;
@@ -2266,7 +2266,7 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
         Model_Utils::OpDescriptor od;
         Model_Utils::Parse_Status st = Model_Utils::parseOperation(text, od, owningClassifier);
         if (st) {
-            KMessageBox::error( kapp->mainWidget(),
+            KMessageBox::error( 0,
                                 Model_Utils::psText(st),
                                 i18n("Creation canceled") );
             m_bCreatingChildObject = false;
@@ -2277,7 +2277,7 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
         if (newObject == NULL || isExistingOp) {
             if (isExistingOp)
                 KMessageBox::error(
-                    kapp -> mainWidget(),
+                    0,
                     i18n( "The name you entered was not unique.\nCreation process has been canceled." ),
                     i18n( "Name Not Unique" ) );
             m_bCreatingChildObject = false;
@@ -2296,7 +2296,7 @@ bool UMLListView::createChildUMLObject( UMLListViewItem * item, Uml::Object_Type
         QString name;
         Model_Utils::Parse_Status st = Model_Utils::parseConstraint(text, name, owningEntity);
         if (st) {
-            KMessageBox::error( kapp->mainWidget(),
+            KMessageBox::error( 0,
                                 Model_Utils::psText(st),
                                 i18n("Creation canceled") );
             m_bCreatingChildObject = false;
@@ -2830,7 +2830,7 @@ bool UMLListView::deleteItem(UMLListViewItem *temp) {
             UMLObjectList contained = nmSpc->containedObjects();
             if (contained.count()) {
                 KMessageBox::error(
-                    kapp->mainWidget(),
+                    0,
                     i18n("The folder must be emptied before it can be deleted."),
                     i18n("Folder Not Empty"));
                 return false;
@@ -2868,7 +2868,6 @@ void UMLListView::contentsDragEnterEvent(QDragEnterEvent* event) {
 }
 
 
-
 void UMLListView::contentsDragMoveEvent(QDragMoveEvent* event) {
     event->accept();
     K3ListView::contentsDragMoveEvent( event );
@@ -2890,6 +2889,13 @@ void UMLListView::contentsDropEvent(QDropEvent* event) {
 
     }
     K3ListView::contentsDropEvent( event );
+}
+
+void UMLListView::setBackgroundColor(const QColor & color)
+{
+    QPalette palette;
+    palette.setColor(backgroundRole(), color);
+    setPalette(palette);
 }
 
 #include "umllistview.moc"

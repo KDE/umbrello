@@ -14,14 +14,9 @@
 
 #include <qdom.h>
 #include <qpixmap.h>
-//Added by qt3to4:
-#include <QContextMenuEvent>
-#include <QMouseEvent>
-#include <QFocusEvent>
-#include <QKeyEvent>
-#include <QEvent>
-#include <QDropEvent>
+
 #include <k3listview.h>
+
 #include "umlnamespace.h"
 #include "umllistviewitemlist.h"
 
@@ -36,9 +31,11 @@
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
+class QEvent;
 class QMouseEvent;
-class QContextMenuEvent;
+class QFocusEvent;
 class QKeyEvent;
+class QDropEvent;
 class IDChangeLog;
 class ListPopupMenu;
 class UMLClassifier;
@@ -481,6 +478,11 @@ private:
      */
     UMLListViewItem* recursiveSearchForView(UMLListViewItem* folder,
                                             Uml::ListView_Type type, Uml::IDType id);
+
+    /**
+     * Set the background color.
+     */
+    void setBackgroundColor(const QColor & color);
 
     QPoint m_dragStartPosition;
 };

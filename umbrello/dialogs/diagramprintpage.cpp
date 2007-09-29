@@ -16,7 +16,6 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <qlayout.h>
-#include <q3ptrlist.h>
 #include <q3listbox.h>
 #include <qradiobutton.h>
 #include <q3buttongroup.h>
@@ -91,14 +90,16 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : KPrintDi
     connect(m_pFilterBG, SIGNAL(clicked(int)), this, SLOT(slotClicked(int)));
     connect(m_pTypeCB, SIGNAL(activated(const QString&)), this, SLOT(slotActivated(const QString&)));
 
-    m_pTypeCB -> insertItem(i18n("Class"));
-    m_pTypeCB -> insertItem(i18n("Use Case"));
-    m_pTypeCB -> insertItem(i18n("Collaboration"));
-    m_pTypeCB -> insertItem(i18n("Sequence"));
-    m_pTypeCB -> insertItem(i18n("State"));
-    m_pTypeCB -> insertItem(i18n("Activity"));
-    m_pTypeCB -> insertItem(i18n("Component"));
-    m_pTypeCB -> insertItem(i18n("Deployment"));
+    QStringList types;
+    types << i18n("Class")
+          << i18n("Use Case")
+          << i18n("Collaboration")
+          << i18n("Sequence")
+          << i18n("State")
+          << i18n("Activity")
+          << i18n("Component")
+          << i18n("Deployment");
+    m_pTypeCB -> insertItems(0, types);
 }
 
 DiagramPrintPage::~DiagramPrintPage()
