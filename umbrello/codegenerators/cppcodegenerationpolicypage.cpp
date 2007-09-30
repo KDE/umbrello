@@ -30,7 +30,7 @@ CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage( QWidget *parent, const
 {
     CodeGenerationPolicy *common = UMLApp::app()->getCommonPolicy();
     form = new CPPCodeGenerationForm(this);
-    form->m_SelectCommentStyle->setCurrentItem((int)(common->getCommentStyle()));
+    form->m_SelectCommentStyle->setCurrentIndex((int)(common->getCommentStyle()));
     form->setPackageIsANamespace(policy->getPackageIsNamespace());
     form->setVirtualDestructors(policy->getDestructorsAreVirtual());
     form->setGenerateAccessorMethods(policy->getAutoGenerateAccessors());
@@ -65,7 +65,7 @@ void CPPCodeGenerationPolicyPage::apply()
     // documents
     parent->blockSignals(true);
 
-    common->setCommentStyle((CodeGenerationPolicy::CommentStyle ) form->m_SelectCommentStyle->currentItem());
+    common->setCommentStyle((CodeGenerationPolicy::CommentStyle ) form->m_SelectCommentStyle->currentIndex());
     common->setAutoGenerateConstructors(form->getGenerateEmptyConstructors());
     parent->setAutoGenerateAccessors(form->getGenerateAccessorMethods());
     uDebug()<<form->getGenerateAccessorMethods();

@@ -34,12 +34,12 @@ RubyCodeGenerationPolicyPage::RubyCodeGenerationPolicyPage( QWidget *parent, con
 {
     CodeGenerationPolicy *common = UMLApp::app()->getCommonPolicy();
     form.setupUi(this);
-    form.m_SelectCommentStyle->setCurrentItem((int)(common->getCommentStyle()));
+    form.m_SelectCommentStyle->setCurrentIndex((int)(common->getCommentStyle()));
     form.m_generateConstructors->setChecked(common->getAutoGenerateConstructors());
     form.m_generateAttribAccessors->setChecked(policy->getAutoGenerateAttribAccessors());
     form.m_generateAssocAccessors->setChecked(policy->getAutoGenerateAssocAccessors());
-    form.m_accessorScopeCB->setCurrentItem(common->getAttributeAccessorScope());
-    form.m_assocFieldScopeCB->setCurrentItem(common->getAssociationFieldScope());
+    form.m_accessorScopeCB->setCurrentIndex(common->getAttributeAccessorScope());
+    form.m_assocFieldScopeCB->setCurrentIndex(common->getAssociationFieldScope());
 }
 
 RubyCodeGenerationPolicyPage::~RubyCodeGenerationPolicyPage()
@@ -56,9 +56,9 @@ void RubyCodeGenerationPolicyPage::apply()
     // block signals so we don't cause too many update content calls to code documents
     parent->blockSignals(true);
 
-    common->setCommentStyle((CodeGenerationPolicy::CommentStyle) form.m_SelectCommentStyle->currentItem());
-    common->setAttributeAccessorScope((Uml::Visibility::Value) form.m_accessorScopeCB->currentItem());
-    common->setAssociationFieldScope((Uml::Visibility::Value) form.m_assocFieldScopeCB->currentItem());
+    common->setCommentStyle((CodeGenerationPolicy::CommentStyle) form.m_SelectCommentStyle->currentIndex());
+    common->setAttributeAccessorScope((Uml::Visibility::Value) form.m_accessorScopeCB->currentIndex());
+    common->setAssociationFieldScope((Uml::Visibility::Value) form.m_assocFieldScopeCB->currentIndex());
     common->setAutoGenerateConstructors(form.m_generateConstructors->isChecked());
     parent->setAutoGenerateAttribAccessors(form.m_generateAttribAccessors->isChecked());
     parent->setAutoGenerateAssocAccessors(form.m_generateAssocAccessors->isChecked());

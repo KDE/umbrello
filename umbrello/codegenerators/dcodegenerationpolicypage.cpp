@@ -26,12 +26,12 @@ DCodeGenerationPolicyPage::DCodeGenerationPolicyPage( QWidget *parent, const cha
 {
     CodeGenerationPolicy *commonPolicy = UMLApp::app()->getCommonPolicy();
     form = new DCodeGenerationFormBase(this);
-    form->m_SelectCommentStyle->setCurrentItem((int)(commonPolicy->getCommentStyle()));
+    form->m_SelectCommentStyle->setCurrentIndex((int)(commonPolicy->getCommentStyle()));
     form->m_generateConstructors->setChecked(commonPolicy->getAutoGenerateConstructors());
     form->m_generateAttribAccessors->setChecked(policy->getAutoGenerateAttribAccessors());
     form->m_generateAssocAccessors->setChecked(policy->getAutoGenerateAssocAccessors());
-    form->m_accessorScopeCB->setCurrentItem(commonPolicy->getAttributeAccessorScope());
-    form->m_assocFieldScopeCB->setCurrentItem(commonPolicy->getAssociationFieldScope());
+    form->m_accessorScopeCB->setCurrentIndex(commonPolicy->getAttributeAccessorScope());
+    form->m_assocFieldScopeCB->setCurrentIndex(commonPolicy->getAssociationFieldScope());
 
     /**
      * @todo unclean - CreateANTBuildFile attribute should be in d policy
@@ -54,9 +54,9 @@ void DCodeGenerationPolicyPage::apply()
     // block signals so we don't cause too many update content calls to code documents
     commonPolicy->blockSignals(true);
 
-    commonPolicy->setCommentStyle((CodeGenerationPolicy::CommentStyle ) form->m_SelectCommentStyle->currentItem());
-    commonPolicy->setAttributeAccessorScope((Uml::Visibility::Value) (form->m_accessorScopeCB->currentItem()));
-    commonPolicy->setAssociationFieldScope((Uml::Visibility::Value) (form->m_assocFieldScopeCB->currentItem()));
+    commonPolicy->setCommentStyle((CodeGenerationPolicy::CommentStyle ) form->m_SelectCommentStyle->currentIndex());
+    commonPolicy->setAttributeAccessorScope((Uml::Visibility::Value) (form->m_accessorScopeCB->currentIndex()));
+    commonPolicy->setAssociationFieldScope((Uml::Visibility::Value) (form->m_assocFieldScopeCB->currentIndex()));
     commonPolicy->setAutoGenerateConstructors(form->m_generateConstructors->isChecked());
     parent->setAutoGenerateAttribAccessors(form->m_generateAttribAccessors->isChecked());
     parent->setAutoGenerateAssocAccessors(form->m_generateAssocAccessors->isChecked());
