@@ -36,7 +36,6 @@ EntityWidget::EntityWidget(UMLView* view, UMLObject* o): UMLWidget(view, o) {
 void EntityWidget::init() {
     UMLWidget::setBaseType(Uml::wt_Entity);
     setSize(100, 30);
-    m_pMenu = 0;
     //set defaults from m_pView
     if (m_pView) {
         //check to see if correct
