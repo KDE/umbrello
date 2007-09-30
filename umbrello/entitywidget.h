@@ -69,12 +69,6 @@ protected:
      */
     QSize calculateSize();
 
-private:
-    /**
-     * The right mouse button menu.
-     */
-    ListPopupMenu* m_pMenu;
-
 public slots:
     /**
      * Will be called when a menu selection has been made from the
