@@ -100,6 +100,9 @@ void UMLEntityAttributeDialog::setupDialog() {
     m_pNullCB->setChecked( m_pEntityAttribute->getNull() );
     valuesLayout->addWidget(m_pNullCB, 6, 0);
 
+    // enable/disable isNull depending on the state of Auto Increment Check Box
+    slotAutoIncrementStateChanged( m_pAutoIncrementCB->isChecked() );
+
     m_pAttributesL = new QLabel(i18n("Attributes:"), m_pValuesGB);
     valuesLayout->addWidget(m_pAttributesL, 7, 0);
 
