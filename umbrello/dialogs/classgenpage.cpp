@@ -71,6 +71,8 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
         name = i18n("Interface &name:");
     } else if (t == Uml::ot_Component) {
         name = i18n("Component &name:");
+    } else if (t == Uml::ot_Node) {
+        name = i18n("Node &name:");
     } else if (t == Uml::ot_Artifact) {
         name = i18n("Artifact &name:");
     } else if (t == Uml::ot_Enum) {

@@ -742,7 +742,7 @@ void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
     insert(mt_Delete);
 }
 
-void ListPopupMenu::insertContainerItems(bool folderAndDiagrams) 
+void ListPopupMenu::insertContainerItems(bool folderAndDiagrams)
 {
     KMenu* menu = new KMenu(i18n("New"), this);
     menu->setIcon(SmallIcon("document-new"));
@@ -771,7 +771,7 @@ void ListPopupMenu::insertAssocItem(const QString &label, Menu_Type mt)
     insert(mt_Properties);
 }
 
-void ListPopupMenu::insertSubmodelAction() 
+void ListPopupMenu::insertSubmodelAction()
 {
     const Settings::OptionState& ostat = Settings::getOptionState();
     if (ostat.generalState.tabdiagrams) {
@@ -879,7 +879,7 @@ void ListPopupMenu::insertSubMenuColor(bool fc)
     addMenu(color);
 }
 
-Uml::Diagram_Type ListPopupMenu::convert_MT_DT(Menu_Type mt) 
+Uml::Diagram_Type ListPopupMenu::convert_MT_DT(Menu_Type mt)
 {
     Uml::Diagram_Type type =  Uml::dt_Undefined;
 
@@ -1366,6 +1366,7 @@ void ListPopupMenu::setupMenu(Menu_Type type)
     case mt_Operation:
     case mt_Template:
         insertStdItems(false);
+        insert( mt_Properties );
         break;
 
     case mt_Category:
@@ -1612,7 +1613,7 @@ KMenu* ListPopupMenu::makeCategoryTypeMenu(UMLCategory* category)
 
 QAction* ListPopupMenu::getAction(Menu_Type idx)
 {
-    return m_actions.value(idx, NULL); 
+    return m_actions.value(idx, NULL);
 }
 
 // ListPopupMenu::Menu_Type ListPopupMenu::getMenuType(KAction* action)

@@ -525,6 +525,11 @@ void UMLListView::popupMenuSel(QAction* action) {
 
         if ( Model_Utils::typeIsCanvasWidget(lvt) ) {
             object->showProperties(ClassPropDlg::page_gen);
+        } else if ( umlType == Uml::ot_EnumLiteral ) {
+            // Show the Enum Literal Dialog
+            UMLEnumLiteral* selectedEnumLiteral = static_cast<UMLEnumLiteral*>( object );
+            selectedEnumLiteral->showPropertiesDialog( this );
+
         } else if(umlType == Uml::ot_Attribute) {
             // show the attribute dialog
             UMLAttribute* selectedAttribute = static_cast<UMLAttribute*>(object);
