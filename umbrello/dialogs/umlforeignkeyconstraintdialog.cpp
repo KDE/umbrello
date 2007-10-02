@@ -99,6 +99,7 @@ void UMLForeignKeyConstraintDialog::slotAddPair() {
 
     m_ColumnWidgets.mappingTW->addTopLevelItem( mapping );
 
+    slotResetWidgetState();
 }
 
 void UMLForeignKeyConstraintDialog::slotDeletePair(){
@@ -130,6 +131,8 @@ void UMLForeignKeyConstraintDialog::slotDeletePair(){
         uDebug()<<( pair.first )->getName()<<" "<< ( pair.first )->getBaseType()<<" "
                 <<( pair.second )->getName()<<" "<< ( pair.second )->getBaseType()<<endl;
     }
+
+    slotResetWidgetState();
 }
 
 bool UMLForeignKeyConstraintDialog::apply(){
@@ -289,9 +292,9 @@ void UMLForeignKeyConstraintDialog::setupColumnPage() {
     columnsLayout->addWidget( m_ColumnWidgets.referencedColumnCB, 1, 1 );
 
     KDialogButtonBox* buttonBox = new KDialogButtonBox( page );
-    buttonBox->addButton( i18n( "&Add" ), KDialogButtonBox::ActionRole, this,
+    m_ColumnWidgets.addPB = buttonBox->addButton( i18n( "&Add" ), KDialogButtonBox::ActionRole, this,
                           SLOT(slotAddPair()) );
-    buttonBox->addButton( i18n( "&Delete" ), KDialogButtonBox::ActionRole, this,
+    m_ColumnWidgets.removePB = buttonBox->addButton( i18n( "&Delete" ), KDialogButtonBox::ActionRole, this,
                           SLOT(slotDeletePair()) );
 
     columnsLayout->addWidget( buttonBox , 2, 1 );
@@ -336,7 +339,9 @@ void UMLForeignKeyConstraintDialog::setupColumnPage() {
 
     }
 
+    slotResetWidgetState();
 
+    connect( m_ColumnWidgets.mappingTW, SIGNAL( itemClicked( QTreeWidgetItem*, int ) ), this, SLOT( slotResetWidgetState() ) );
 
 }
 
@@ -411,6 +416,25 @@ void UMLForeignKeyConstraintDialog::refillLocalAttributeCB(){
        }
     }
 
+}
+
+void UMLForeignKeyConstraintDialog::slotResetWidgetState() {
+    m_ColumnWidgets.addPB->setEnabled( true );
+    m_ColumnWidgets.removePB->setEnabled( true );
+    m_ColumnWidgets.localColumnCB->setEnabled( true );
+    m_ColumnWidgets.referencedColumnCB->setEnabled( true );
+
+    // If one of the Combo Boxes is empty , then disable the Combo Box
+    if ( m_ColumnWidgets.localColumnCB->count()==0 || m_ColumnWidgets.referencedColumnCB->count()==0 ) {
+        m_ColumnWidgets.localColumnCB->setEnabled( false );
+        m_ColumnWidgets.referencedColumnCB->setEnabled( false );
+        m_ColumnWidgets.addPB->setEnabled( false );
+    }
+
+    // get index of selected Attribute in List Box
+    if ( m_ColumnWidgets.mappingTW->currentItem() == NULL ) {
+        m_ColumnWidgets.removePB->setEnabled( false );
+    }
 }
 
 #include "umlforeignkeyconstraintdialog.moc"

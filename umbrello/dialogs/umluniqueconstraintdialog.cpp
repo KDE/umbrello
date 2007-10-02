@@ -103,9 +103,9 @@ void UMLUniqueConstraintDialog::setupDialog(){
 
     //the action buttons
     KDialogButtonBox* buttonBox = new KDialogButtonBox(m_pAttributeListGB);
-    buttonBox->addButton( i18n( "&Add" ), KDialogButtonBox::ActionRole, this,
+    m_pAddPB = buttonBox->addButton( i18n( "&Add" ), KDialogButtonBox::ActionRole, this,
                           SLOT(slotAddAttribute()) );
-    buttonBox->addButton( i18n( "&Delete" ), KDialogButtonBox::ActionRole, this,
+    m_pRemovePB = buttonBox->addButton( i18n( "&Delete" ), KDialogButtonBox::ActionRole, this,
                           SLOT(slotDeleteAttribute()) );
 
     comboButtonHBoxLayout->addWidget( buttonBox );
@@ -137,6 +137,14 @@ void UMLUniqueConstraintDialog::setupDialog(){
 
     // set text of label
     m_pNameLE->setText( m_pUniqueConstraint->getName() );
+
+    // select firstItem
+    if ( m_pAttributeListLB->count()!=0 )
+        m_pAttributeListLB->setSelected( 0, true );
+
+    slotResetWidgetState();
+
+    connect( m_pAttributeListLB, SIGNAL( clicked( Q3ListBoxItem* ) ), this, SLOT( slotResetWidgetState() ) );
 }
 
 
@@ -164,7 +172,7 @@ void UMLUniqueConstraintDialog::slotAddAttribute(){
     int count = m_pAttributeListLB->count();
     m_pAttributeListLB->insertItem( entAtt->toString( Uml::st_SigNoVis ), count );
 
-
+    slotResetWidgetState();
 }
 
 void UMLUniqueConstraintDialog::slotDeleteAttribute(){
@@ -189,6 +197,7 @@ void UMLUniqueConstraintDialog::slotDeleteAttribute(){
     int count = m_pAttributeCB->count();
     m_pAttributeCB->insertItem( count, entAtt->toString(Uml::st_SigNoVis ) );
 
+    slotResetWidgetState();
 }
 
 
@@ -227,6 +236,28 @@ bool UMLUniqueConstraintDialog::apply() {
 }
 
 
+
+void UMLUniqueConstraintDialog::slotResetWidgetState() {
+
+    m_pAttributeCB->setEnabled( true );
+    m_pAddPB->setEnabled( true );
+    m_pRemovePB->setEnabled( true );
+
+    // get index of selected Attribute in List Box
+    int index = m_pAttributeListLB->currentItem();
+    // if index is not invalid ( -1 ), then activate the Remove Button
+    if ( index == -1 ) {
+        m_pRemovePB->setEnabled( false );
+    }
+
+    // check for number of items in ComboBox
+    int count = m_pAttributeCB->count();
+    // if count is 0 disable Combo Box and Add Button
+    if ( count == 0 ) {
+        m_pAttributeCB->setEnabled( false );
+        m_pAddPB->setEnabled( false );
+    }
+}
 
 #include "umluniqueconstraintdialog.moc"
 

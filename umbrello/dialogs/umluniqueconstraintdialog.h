@@ -19,6 +19,7 @@
 #include <q3listbox.h>
 #include <q3textedit.h>
 #include <qlineedit.h>
+#include <qpushbutton.h>
 
 //kde includes
 #include <karrowbutton.h>
@@ -85,6 +86,7 @@ private:
     QLineEdit* m_pNameLE;
     Q3ListBox* m_pAttributeListLB;
     KComboBox* m_pAttributeCB; 
+    QPushButton* m_pAddPB,*m_pRemovePB;
 
     /* local cache */
     UMLEntityAttributeList m_pEntityAttributeList;
@@ -92,6 +94,12 @@ private:
     UMLEntityAttributeList m_pConstraintAttributeList;
  
 public slots:
+
+    /** 
+     * Enable or Disable the widgets
+     *
+     */
+    void slotResetWidgetState();
 
     /**
      * Used when the Apply Button is clicked

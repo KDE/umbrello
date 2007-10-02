@@ -119,6 +119,8 @@ private:
 
         QLabel* localColumnL;
         QLabel* referencedColumnL;
+
+        QPushButton* addPB,*removePB;
     }
     ; // end column widgets
 
@@ -143,6 +145,11 @@ private:
 
 public slots:
 
+    /**
+     * Enable/Disable the widgets in the Dialog Box
+     */
+    void slotResetWidgetState();
+     
     /**
      * Used when the Apply button is clicked
      */
