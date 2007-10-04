@@ -641,7 +641,8 @@ void ListPopupMenu::insert(Menu_Type m, KMenu* menu)
     case mt_Component_Diagram:
         {
             QAction* act = UMLApp::app()->actionCollection()->action("new_component_diagram");
-            m_actions[m] = act;
+            //don't keep a local copy of pointer which resides somewhere else ( in this case - in actionCollection() )
+            //m_actions[m] = act;
             menu->addAction(act);
         }
         break;
@@ -651,7 +652,7 @@ void ListPopupMenu::insert(Menu_Type m, KMenu* menu)
     case mt_Deployment_Diagram:
         {
             QAction* act = UMLApp::app()->actionCollection()->action("new_deployment_diagram");
-            m_actions[m] = act;
+            //m_actions[m] = act;
             menu->addAction(act);
         }
         break;
@@ -667,7 +668,7 @@ void ListPopupMenu::insert(Menu_Type m, KMenu* menu)
     case mt_EntityRelationship_Diagram:
         {
             QAction* act = UMLApp::app()->actionCollection()->action("new_entityrelationship_diagram");
-            m_actions[m] = act;
+            //m_actions[m] = act;
             menu->addAction(act);
         }
         break;
@@ -683,7 +684,7 @@ void ListPopupMenu::insert(Menu_Type m, KMenu* menu)
     case mt_UseCase_Diagram:
         {
             QAction* act = UMLApp::app()->actionCollection()->action("new_use_case_diagram");
-            m_actions[m] = act;
+            //m_actions[m] = act;
             menu->addAction(act);
         }
         break;
