@@ -101,7 +101,7 @@ void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
     url.setPath(m_destDir.path());
     url.addPath(fileName);
 
-    KIO::Job* htmlCopyJob = KIO::file_copy( KUrl::fromPath( tmpFileName ), url, -1, true, true, false );
+    KIO::Job* htmlCopyJob = KIO::file_copy( KUrl::fromPath( tmpFileName ), url, -1, KIO::Overwrite | KIO::HideProgressInfo );
     if ( KIO::NetAccess::synchronousRun( htmlCopyJob, (QWidget*)UMLApp::app() ) ) {
         umlDoc->writeToStatusBar(i18n("XHTML Generation Complete..."));
     } else {
@@ -114,7 +114,7 @@ void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
     QString cssFileName(KGlobal::dirs()->findResource("appdata","xmi.css"));
     KUrl cssUrl = m_destDir;
     cssUrl.addPath("xmi.css");
-    KIO::Job* cssJob = KIO::file_copy(cssFileName,cssUrl,-1,true,true,false);
+    KIO::Job* cssJob = KIO::file_copy(cssFileName,cssUrl,-1, KIO::Overwrite | KIO::HideProgressInfo );
 
     if ( KIO::NetAccess::synchronousRun( cssJob, (QWidget*)UMLApp::app() ) ) {
         umlDoc->writeToStatusBar(i18n("Finished Copying CSS..."));

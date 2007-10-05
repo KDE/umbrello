@@ -86,7 +86,7 @@ void DocbookGenerator::slotDocbookGenerationFinished(const QString& tmpFileName)
     url.setPath(m_destDir.path());
     url.addPath(fileName);
 
-    KIO::Job* job = KIO::file_copy(KUrl::fromPath(tmpFileName),url,-1, true, true, false);
+    KIO::Job* job = KIO::file_copy(KUrl::fromPath(tmpFileName), url, -1, KIO::Overwrite | KIO::HideProgressInfo);
     if ( KIO::NetAccess::synchronousRun( job, (QWidget*)UMLApp::app() ) ) {
         umlDoc->writeToStatusBar(i18n("Docbook Generation Complete..."));
         m_pStatus = true;
