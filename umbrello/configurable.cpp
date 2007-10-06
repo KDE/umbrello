@@ -24,6 +24,7 @@
 // KDE includes
 #include <kdebug.h>
 #include <kconfig.h>
+#include <kconfiggroup.h>
 
 // local includes
 #include "pluginloader.h"
@@ -48,8 +49,9 @@ Configurable::loadPlugins(KConfig *config,
                           const QString &key)
 {
     bool ret = true;
+    KConfigGroup grp(config, config->group());
 
-    QStringList names = config->readEntry(key,QStringList());
+    QStringList names = grp.readEntry(key,QStringList());
     for (int i = 0; i != names.size(); i++) {
         const QString &name = names[i];
 
