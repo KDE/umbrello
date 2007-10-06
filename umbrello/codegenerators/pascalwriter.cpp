@@ -249,7 +249,7 @@ void PascalWriter::writeClass(UMLClassifier *c) {
     }
     pas << m_endl;
 
-    ClassifierInfo info(c, UMLApp::app()->getDocument());
+    ClassifierInfo info(c);
     UMLAttributeList atpub = info.atpub;
     if (isClass && (forceSections() || atpub.count())) {
         pas << getIndent() << "// Public attributes:" << m_endl;

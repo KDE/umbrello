@@ -66,7 +66,7 @@ void RubyWriter::writeClass(UMLClassifier *c) {
     QTextStream h(&fileh);
 
     // preparations
-    classifierInfo = new ClassifierInfo(c, m_doc);
+    classifierInfo = new ClassifierInfo(c);
     classifierInfo->fileName = fileName;
     classifierInfo->className = cleanName(c->getName());
 
@@ -81,7 +81,7 @@ void RubyWriter::writeClass(UMLClassifier *c) {
     str = getHeadingFile(".rb");
     if(!str.isEmpty()) {
         str.replace(QRegExp("%filename%"), fileName);
-        str.replace(QRegExp("%filepath%"), fileh.name());
+        str.replace(QRegExp("%filepath%"), fileh.fileName());
         h<<str<<m_endl;
     }
 
@@ -269,14 +269,14 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
             docStr.replace(" m_", " ");
             docStr.replace(QRegExp("\\s[npb](?=[A-Z])"), " ");
             QRegExp re_params("@param (\\w)(\\w*)");
-            int pos = re_params.search(docStr);
+            int pos = re_params.indexIn(docStr);
             while (pos != -1) {
                 docStr.replace( re_params.cap(0),
                                 QString("@param _") + re_params.cap(1).toLower() + re_params.cap(2) + '_' );
                 commentedParams.append(re_params.cap(1).toLower() + re_params.cap(2));
 
                 pos += re_params.matchedLength() + 3;
-                pos = re_params.search(docStr, pos);
+                pos = re_params.indexIn(docStr, pos);
             }
 
             docStr.replace("\n", QString("\n") + m_indentation + "# ");
@@ -305,12 +305,12 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
             // three spaces, '#   ', to line up with the list item.
             pos = docStr.indexOf("# *");
             QRegExp re_linestart("# (?!\\*)");
-            pos = re_linestart.search(docStr, pos);
+            pos = re_linestart.indexIn(docStr, pos);
             while (pos > 0) {
                 docStr.insert(pos + 1, "  ");
 
                 pos += re_linestart.matchedLength() + 2;
-                pos = re_linestart.search(docStr, pos);
+                pos = re_linestart.indexIn(docStr, pos);
             }
 
             h << m_indentation << "# "<< docStr << m_endl;

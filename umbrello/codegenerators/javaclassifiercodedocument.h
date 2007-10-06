@@ -19,7 +19,8 @@
 #ifndef JAVACLASSIFIERCODEDOCUMENT_H
 #define JAVACLASSIFIERCODEDOCUMENT_H
 
-#include <qstring.h>
+#include <QtCore/QString>
+
 #include "../codeclassfieldlist.h"
 #include "../classifiercodedocument.h"
 #include "../classifier.h"
@@ -97,9 +98,6 @@ private:
     HierarchicalCodeBlock * operationsBlock;
 
     ClassifierInfo * info;
-    QString fileName; // Just for our convience in creating code
-    QString endLine; // characters for ending line. Just for our convience in creating code
-    QString JavaClassName;
 
     void init ( );
     JavaClassDeclarationBlock * getClassDecl();

@@ -141,14 +141,14 @@ void RubyCodeOperation::updateMethodDeclaration()
         comment.replace(" m_", " ");
         comment.replace(QRegExp("\\s[npb](?=[A-Z])"), " ");
         QRegExp re_params("@param (\\w)(\\w*)");
-        int pos = re_params.search(comment);
+        int pos = re_params.indexIn(comment);
         while (pos != -1) {
             comment.replace( re_params.cap(0),
                             QString("@param _") + re_params.cap(1).toLower() + re_params.cap(2) + '_' );
             commentedParams.append(re_params.cap(1).toLower() + re_params.cap(2));
 
             pos += re_params.matchedLength() + 3;
-            pos = re_params.search(comment, pos);
+            pos = re_params.indexIn(comment, pos);
         }
 
         UMLAttributeList parameters = o->getParmList();

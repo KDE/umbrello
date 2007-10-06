@@ -113,7 +113,7 @@ TclWriter::writeClass(UMLClassifier * c)
         return;
     }
     // preparations
-    classifierInfo = new ClassifierInfo(c, m_doc);
+    classifierInfo = new ClassifierInfo(c);
     classifierInfo->fileName = fileName;
     classifierInfo->className = cleanName(c->getName());
     mClass = cleanName(c->getName());

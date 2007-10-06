@@ -52,7 +52,8 @@
 //
 
 CPPHeaderCodeDocument::CPPHeaderCodeDocument ( UMLClassifier * concept )
-        : ClassifierCodeDocument (concept) {
+        : ClassifierCodeDocument (concept)
+{
     setFileExtension(".h");
 
     //initCodeClassFields(); // this is dubious because it calls down to
@@ -76,7 +77,8 @@ CPPHeaderCodeDocument::CPPHeaderCodeDocument ( UMLClassifier * concept )
 
 }
 
-CPPHeaderCodeDocument::~CPPHeaderCodeDocument ( ) {
+CPPHeaderCodeDocument::~CPPHeaderCodeDocument ( )
+{
     resetTextBlocks();
 }
 
@@ -310,33 +312,33 @@ void CPPHeaderCodeDocument::resetTextBlocks()
  */
 // in the vannilla version, we just tack all operations on the end
 // of the document
-bool CPPHeaderCodeDocument::addCodeOperation (CodeOperation * op ) {
-
+bool CPPHeaderCodeDocument::addCodeOperation (CodeOperation * op )
+{
     Uml::Visibility scope = op->getParentOperation()->getVisibility();
     if(!op->getParentOperation()->isLifeOperation())
     {
         switch (scope) {
         default:
-              case Uml::Visibility::Public:
+        case Uml::Visibility::Public:
             return m_pubOperationsBlock->addTextBlock(op);
             break;
-              case Uml::Visibility::Protected:
+        case Uml::Visibility::Protected:
             return m_protOperationsBlock->addTextBlock(op);
             break;
-              case Uml::Visibility::Private:
+        case Uml::Visibility::Private:
             return m_privOperationsBlock->addTextBlock(op);
             break;
         }
     } else {
         switch (scope) {
         default:
-              case Uml::Visibility::Public:
+        case Uml::Visibility::Public:
             return m_pubConstructorBlock->addTextBlock(op);
             break;
-              case Uml::Visibility::Protected:
+        case Uml::Visibility::Protected:
             return m_protConstructorBlock->addTextBlock(op);
             break;
-              case Uml::Visibility::Private:
+        case Uml::Visibility::Private:
             return m_privConstructorBlock->addTextBlock(op);
             break;
         }
@@ -349,7 +351,8 @@ bool CPPHeaderCodeDocument::addCodeOperation (CodeOperation * op ) {
  * @return      bool    status of save
  */
 /*
-void CPPHeaderCodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+void CPPHeaderCodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root )
+{
         QDomElement docElement = doc.createElement( "" );
 
         setAttributesOnNode(doc, docElement);
@@ -367,7 +370,6 @@ void CPPHeaderCodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root )
 // comments) to appear or not, as needed.
 void CPPHeaderCodeDocument::updateContent( )
 {
-
     // Gather info on the various fields and parent objects of this class...
     UMLClassifier * c = getParentClassifier();
     CodeGenPolicyExt *pe = UMLApp::app()->getPolicyExt();
@@ -515,7 +517,7 @@ void CPPHeaderCodeDocument::updateContent( )
         QString indent = UMLApp::app()->getCommonPolicy()->getIndentation();
         UMLEnum* e = dynamic_cast<UMLEnum*>(c);
         if (e) {
-            enumStatement.append(indent + "enum "+cppClassName+" {"+endLine);
+            enumStatement.append(indent + "enum " + cppClassName + " {" + endLine);
 
             // populate
             UMLClassifierListItemList ell = e->getFilteredList(Uml::ot_EnumLiteral);
@@ -701,8 +703,7 @@ void CPPHeaderCodeDocument::updateContent( )
     // meta-data to state what the scope of this method is, we will make it
     // "public" as a default. This might present problems if the user wants
     // to move the block into the "private" or "protected" blocks.
-    QString CPPClassName = CodeGenerator::cleanName(c->getName());
-    QString emptyConstStatement = CPPClassName+" ( ) { }";
+    QString emptyConstStatement = cppClassName + " ( ) { }";
 
     // search for this first in the entire document. IF not present, put
     // it in the public constructor method block

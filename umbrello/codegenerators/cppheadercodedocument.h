@@ -17,7 +17,7 @@
 #ifndef CPPHEADERCODEDOCUMENT_H
 #define CPPHEADERCODEDOCUMENT_H
 
-#include <qstring.h>
+#include <QtCore/QString>
 
 #include "../codeclassfieldlist.h"
 #include "../classifiercodedocument.h"
@@ -97,10 +97,9 @@ private:
     HierarchicalCodeBlock * m_privOperationsBlock;
     HierarchicalCodeBlock * m_protOperationsBlock;
 
-    QString fileName; // Just for our convience in creating code
-    QString endLine; // characters for ending line. Just for our convience in creating code
-    QString CPPClassName;
-
+    /**
+     *
+     */
     CPPHeaderClassDeclarationBlock * getClassDecl();
 
 };

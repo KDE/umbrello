@@ -27,13 +27,14 @@
   * class ClassInfo is an object to hold summary information about a classifier
   * in a convenient form for easy access by a code generator.
   */
-class ClassifierInfo {
+class ClassifierInfo
+{
 public:
 
     /**
      * Constructor, initialises a couple of variables
      */
-    ClassifierInfo (UMLClassifier * classifier, UMLDoc * doc);
+    ClassifierInfo (UMLClassifier * classifier);
 
     /**
      * Destructor, empty
@@ -105,14 +106,10 @@ public:
      */
     UMLAttributeList* getAttList();
 
-
-protected:
-    void init (UMLClassifier *c);
-
 private:
 
-    Uml::IDType m_nID; // id of the classifier
-
+    UMLClassifier* classifier_;
+    
     /**
      * Utility method called by "get*ChildClassfierList()" methods. It basically
      * finds all the classifiers named in each association in the given association list

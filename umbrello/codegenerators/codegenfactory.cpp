@@ -19,7 +19,6 @@
 #include "codegenfactory.h"
 
 // qt/kde includes
-#include <qstringlist.h>
 #include <kdebug.h>
 
 // app includes

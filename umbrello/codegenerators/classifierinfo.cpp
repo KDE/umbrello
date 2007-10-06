@@ -15,29 +15,20 @@
 #include "../classifier.h"
 #include "../operation.h"
 
-ClassifierInfo::ClassifierInfo( UMLClassifier *classifier , UMLDoc */*doc*/)
+ClassifierInfo::ClassifierInfo( UMLClassifier *classifier)
 {
-
-    init(classifier);
-}
-
-ClassifierInfo::~ClassifierInfo() { }
-
-void ClassifierInfo::init(UMLClassifier *c) {
+    classifier_ = classifier;
 
     // set default class, file names
-    className = c->getName();
-    fileName = c->getName().toLower();
+    className = classifier->getName();
+    fileName = classifier->getName().toLower();
 
     // determine up-front what we are dealing with
-    isInterface = c->isInterface();
-
-    // set id
-    m_nID = c->getID();
+    isInterface = classifier->isInterface();
 
     // sort attributes by Scope
     if(!isInterface) {
-        UMLAttributeList atl = c->getAttributeList();
+        UMLAttributeList atl = classifier->getAttributeList();
         foreach(UMLAttribute* at, atl ) {
             switch(at->getVisibility())
             {
@@ -61,23 +52,22 @@ void ClassifierInfo::init(UMLClassifier *c) {
                     atpriv.append(at);
                 break;
             }
-            m_AttsList.append(at);
         }
     }
 
     // inheritance issues
-    superclasses = c->getSuperClasses(); // list of what we inherit from
+    superclasses = classifier->getSuperClasses(); // list of what we inherit from
 
-    subclasses = c->getSubClasses();     // list of what inherits from us
+    subclasses = classifier->getSubClasses();     // list of what inherits from us
 
     // another preparation, determine what we have
-    plainAssociations = c->getSpecificAssocs(Uml::at_Association); // BAD! only way to get "general" associations.
+    plainAssociations = classifier->getSpecificAssocs(Uml::at_Association); // BAD! only way to get "general" associations.
 
-    uniAssociations = c->getUniAssociationToBeImplemented();
+    uniAssociations = classifier->getUniAssociationToBeImplemented();
 
-    aggregations = c->getAggregations();
+    aggregations = classifier->getAggregations();
 
-    compositions = c->getCompositions();
+    compositions = classifier->getCompositions();
 
     // set some summary information about the classifier now
     hasAssociations = plainAssociations.count() > 0 || aggregations.count() > 0 || compositions.count() > 0 || uniAssociations.count() > 0;
@@ -92,7 +82,7 @@ void ClassifierInfo::init(UMLClassifier *c) {
 
     hasAccessorMethods = hasAttributes || hasAssociations;
 
-    hasOperationMethods = c->getOpList().last() ? true : false;
+    hasOperationMethods = classifier->getOpList().last() ? true : false;
 
     hasMethods = hasOperationMethods || hasAccessorMethods;
 
@@ -100,26 +90,27 @@ void ClassifierInfo::init(UMLClassifier *c) {
     // SINGLE objects, and WONT be declared as Vectors, so this
     // is a bit overly inclusive (I guess that's better than the other way around)
     hasVectorFields = hasAssociations ? true : false;
-
-
 }
 
-UMLClassifierList ClassifierInfo::getPlainAssocChildClassifierList() {
+ClassifierInfo::~ClassifierInfo() { }
+
+UMLClassifierList ClassifierInfo::getPlainAssocChildClassifierList()
+{
     return findAssocClassifierObjsInRoles(&plainAssociations);
 }
 
-UMLClassifierList ClassifierInfo::getAggregateChildClassifierList() {
+UMLClassifierList ClassifierInfo::getAggregateChildClassifierList()
+{
     return findAssocClassifierObjsInRoles(&aggregations);
 }
 
-UMLClassifierList ClassifierInfo::getCompositionChildClassifierList() {
+UMLClassifierList ClassifierInfo::getCompositionChildClassifierList() 
+{
     return findAssocClassifierObjsInRoles(&compositions);
 }
 
 UMLClassifierList ClassifierInfo::findAssocClassifierObjsInRoles (UMLAssociationList * list)
 {
-
-
     UMLClassifierList classifiers;
 
     for (UMLAssociationListIt alit(*list); alit.hasNext(); ) {
@@ -129,11 +120,11 @@ UMLClassifierList ClassifierInfo::findAssocClassifierObjsInRoles (UMLAssociation
         // the association.
         // We also ignore classifiers which are the same as the current one
         // (e.g. id matches), we only want the "other" classifiers
-        if (a->getObjectId(Uml::A) == m_nID && !a->getRoleName(Uml::B).isEmpty()) {
+        if (a->getObjectId(Uml::A) == classifier_->getID() && !a->getRoleName(Uml::B).isEmpty()) {
             UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::B));
             if(c)
                 classifiers.append(c);
-        } else if (a->getObjectId(Uml::B) == m_nID && !a->getRoleName(Uml::A).isEmpty()) {
+        } else if (a->getObjectId(Uml::B) == classifier_->getID() && !a->getRoleName(Uml::A).isEmpty()) {
             UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::A));
             if(c)
                 classifiers.append(c);
@@ -143,7 +134,9 @@ UMLClassifierList ClassifierInfo::findAssocClassifierObjsInRoles (UMLAssociation
     return classifiers;
 }
 
-UMLAttributeList* ClassifierInfo::getAttList() {
-    return &m_AttsList;
+UMLAttributeList* ClassifierInfo::getAttList()
+{
+    UMLAttributeList atl = classifier_->getAttributeList();
+    return &atl;
 }
 

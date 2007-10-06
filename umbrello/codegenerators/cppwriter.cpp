@@ -92,7 +92,7 @@ void CppWriter::writeClass(UMLClassifier *c)
     }
 
     // preparations
-    m_classifierInfo = new ClassifierInfo(c, m_doc);
+    m_classifierInfo = new ClassifierInfo(c);
     m_classifierInfo->fileName = fileName;
     m_classifierInfo->className = cleanName(c->getName());
 
@@ -142,7 +142,7 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &fileh) {
     QString str = getHeadingFile(".h");
     if(!str.isEmpty()) {
         str.replace(QRegExp("%filename%"),m_classifierInfo->fileName + ".h");
-        str.replace(QRegExp("%filepath%"),fileh.name());
+        str.replace(QRegExp("%filepath%"),fileh.fileName());
         h << str<< m_endl;
     }
 
@@ -207,7 +207,7 @@ void CppWriter::writeSourceFile (UMLClassifier *c, QFile &filecpp ) {
     str = getHeadingFile(".cpp");
     if(!str.isEmpty()) {
         str.replace(QRegExp("%filename%"),m_classifierInfo->fileName + ".cpp");
-        str.replace(QRegExp("%filepath%"),filecpp.name());
+        str.replace(QRegExp("%filepath%"),filecpp.fileName());
         cpp << str << m_endl;
     }
 
@@ -739,7 +739,7 @@ void CppWriter::writeAssociationRoleDecl(QString fieldClassName, QString roleNam
 
         // record this for later consideration of initialization IF the
         // multi value requires 1 of these objects
-        if(ObjectFieldVariables.findIndex(fieldVarName) == -1 &&
+        if(ObjectFieldVariables.indexOf(fieldVarName) == -1 &&
                 multi.contains(QRegExp("^1$"))
           )
         {
@@ -756,7 +756,7 @@ void CppWriter::writeAssociationRoleDecl(QString fieldClassName, QString roleNam
 
         // record unique occurrences for later when we want to check
         // for initialization of this vector
-        if(VectorFieldVariables.findIndex(fieldVarName) == -1)
+        if(VectorFieldVariables.indexOf(fieldVarName) == -1)
             VectorFieldVariables.append(fieldVarName);
 
         stream << indent << policyExt()->getVectorClassName() <<"<" << fieldClassName << "*";
