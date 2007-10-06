@@ -13,7 +13,6 @@
 #ifndef CLASSIFIERINFO_H
 #define CLASSIFIERINFO_H
 
-#include "../classifier.h"
 #include "../umldoc.h"
 #include "../attribute.h"
 #include "../association.h"
@@ -21,7 +20,11 @@
 #include "../umlassociationlist.h"
 #include "../umlattributelist.h"
 
-#include <qstring.h>
+#include <QtCore/QString>
+
+
+class UMLClassifier;
+	
 
 /**
   * class ClassInfo is an object to hold summary information about a classifier
@@ -104,7 +107,7 @@ public:
      * Utility method to obtain list of attributes, if they exist, for
      * the current classfier.
      */
-    UMLAttributeList* getAttList();
+    UMLAttributeList getAttList();
 
 private:
 
@@ -117,11 +120,6 @@ private:
      * current one via declared associations such as in aggregations/compositions.
      */
     UMLClassifierList findAssocClassifierObjsInRoles (UMLAssociationList * list);
-
-    /**
-     *      List of all the attributes in this class.
-     */
-    UMLAttributeList m_AttsList;
 
 };
 

@@ -134,9 +134,8 @@ UMLClassifierList ClassifierInfo::findAssocClassifierObjsInRoles (UMLAssociation
     return classifiers;
 }
 
-UMLAttributeList* ClassifierInfo::getAttList()
+UMLAttributeList ClassifierInfo::getAttList()
 {
-    UMLAttributeList atl = classifier_->getAttributeList();
-    return &atl;
+    return classifier_->getAttributeList();
 }
 

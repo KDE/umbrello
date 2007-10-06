@@ -644,8 +644,8 @@ TclWriter::writeInitAttributeSource()
         m_indentLevel++;
 
         // first, initiation of fields derived from attributes
-        UMLAttributeList *atl = classifierInfo->getAttList();
-        foreach (UMLAttribute * at , *atl ) {
+        UMLAttributeList atl = classifierInfo->getAttList();
+        foreach (UMLAttribute * at , atl ) {
             if (!at->getInitialValue().isEmpty()) {
                 varName = cleanName(at->getName());
                 writeCode("set " + varName + ' ' + at->getInitialValue());

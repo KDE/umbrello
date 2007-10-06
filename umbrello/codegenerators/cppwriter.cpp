@@ -1018,8 +1018,8 @@ void CppWriter::writeInitAttibuteMethod (QTextStream &stream)
 
     m_indentLevel++;
     // first, initiation of fields derived from attributes
-    UMLAttributeList* atl = m_classifierInfo->getAttList();
-    foreach (UMLAttribute* at, *atl ) {
+    UMLAttributeList atl = m_classifierInfo->getAttList();
+    foreach (UMLAttribute* at, atl ) {
         if(!at->getInitialValue().isEmpty()) {
             QString varName = getAttributeVariableName(at);
             stream << getIndent() << varName << " = " << at->getInitialValue() << ";" << m_endl;
