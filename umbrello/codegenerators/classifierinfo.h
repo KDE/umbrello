@@ -13,7 +13,6 @@
 #ifndef CLASSIFIERINFO_H
 #define CLASSIFIERINFO_H
 
-#include "../classifier.h"
 #include "../umldoc.h"
 #include "../attribute.h"
 #include "../association.h"
@@ -22,6 +21,10 @@
 #include "../umlattributelist.h"
 
 #include <qstring.h>
+
+
+class UMLClassifier;
+	
 
 /**
   * class ClassInfo is an object to hold summary information about a classifier
@@ -33,7 +36,7 @@ public:
     /**
      * Constructor, initialises a couple of variables
      */
-    ClassifierInfo (UMLClassifier * classifier, UMLDoc * doc);
+    ClassifierInfo (UMLClassifier * classifier);
 
     /**
      * Destructor, empty
@@ -103,16 +106,12 @@ public:
      * Utility method to obtain list of attributes, if they exist, for
      * the current classfier.
      */
-    UMLAttributeList* getAttList();
-
-
-protected:
-    void init (UMLClassifier *c);
+    UMLAttributeList getAttList();
 
 private:
 
-    Uml::IDType m_nID; // id of the classifier
-
+    UMLClassifier* classifier_;
+    
     /**
      * Utility method called by "get*ChildClassfierList()" methods. It basically
      * finds all the classifiers named in each association in the given association list
@@ -120,11 +119,6 @@ private:
      * current one via declared associations such as in aggregations/compositions.
      */
     UMLClassifierList findAssocClassifierObjsInRoles (UMLAssociationList * list);
-
-    /**
-     *      List of all the attributes in this class.
-     */
-    UMLAttributeList m_AttsList;
 
 };
 

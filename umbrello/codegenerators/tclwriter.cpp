@@ -113,7 +113,7 @@ TclWriter::writeClass(UMLClassifier * c)
         return;
     }
     // preparations
-    classifierInfo = new ClassifierInfo(c, m_doc);
+    classifierInfo = new ClassifierInfo(c);
     classifierInfo->fileName = fileName;
     classifierInfo->className = cleanName(c->getName());
     mClass = cleanName(c->getName());
@@ -649,8 +649,8 @@ TclWriter::writeInitAttributeSource()
         m_indentLevel++;
 
         // first, initiation of fields derived from attributes
-        UMLAttributeList *atl = classifierInfo->getAttList();
-        for (UMLAttribute * at = atl->first(); at; at = atl->next()) {
+        UMLAttributeList atl = classifierInfo->getAttList();
+        for (UMLAttribute * at = atl.first(); at; at = atl.next()) {
             if (!at->getInitialValue().isEmpty()) {
                 varName = cleanName(at->getName());
                 writeCode("set " + varName + ' ' + at->getInitialValue());

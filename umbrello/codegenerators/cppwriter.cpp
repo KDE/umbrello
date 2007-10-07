@@ -92,7 +92,7 @@ void CppWriter::writeClass(UMLClassifier *c)
     }
 
     // preparations
-    m_classifierInfo = new ClassifierInfo(c, m_doc);
+    m_classifierInfo = new ClassifierInfo(c);
     m_classifierInfo->fileName = fileName;
     m_classifierInfo->className = cleanName(c->getName());
 
@@ -1021,8 +1021,8 @@ void CppWriter::writeInitAttibuteMethod (QTextStream &stream)
 
     m_indentLevel++;
     // first, initiation of fields derived from attributes
-    UMLAttributeList* atl = m_classifierInfo->getAttList();
-    for(UMLAttribute *at = atl->first(); at ; at = atl->next()) {
+    UMLAttributeList atl = m_classifierInfo->getAttList();
+    for(UMLAttribute *at = atl.first(); at ; at = atl.next()) {
         if(!at->getInitialValue().isEmpty()) {
             QString varName = getAttributeVariableName(at);
             stream << getIndent() << varName << " = " << at->getInitialValue() << ";" << m_endl;

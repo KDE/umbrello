@@ -97,10 +97,9 @@ private:
     HierarchicalCodeBlock * privOperationsBlock;
     HierarchicalCodeBlock * protOperationsBlock;
 
-    QString fileName; // Just for our convience in creating code
-    QString endLine; // characters for ending line. Just for our convience in creating code
-    QString CPPClassName;
-
+    /**
+     *
+     */
     CPPHeaderClassDeclarationBlock * getClassDecl();
 
 };

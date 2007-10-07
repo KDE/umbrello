@@ -66,7 +66,7 @@ void RubyWriter::writeClass(UMLClassifier *c) {
     QTextStream h(&fileh);
 
     // preparations
-    classifierInfo = new ClassifierInfo(c, m_doc);
+    classifierInfo = new ClassifierInfo(c);
     classifierInfo->fileName = fileName;
     classifierInfo->className = cleanName(c->getName());
 
