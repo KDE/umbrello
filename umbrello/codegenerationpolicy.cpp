@@ -464,10 +464,10 @@ void CodeGenerationPolicy::writeConfig () {
 QString CodeGenerationPolicy::getHeadingFile(const QString& str) {
 
     if(!getIncludeHeadings() || str.isEmpty())
-        return QString("");
+        return QString();
     if(str.contains(" ") ||str.contains(";")) {
         uWarning() << "File folder must not have spaces or semi colons!";
-        return QString("");
+        return QString();
     }
     //if we only get the extension, then we look for the default
     // heading.[extension]. If there is no such file, we try to
@@ -489,11 +489,13 @@ QString CodeGenerationPolicy::getHeadingFile(const QString& str) {
         filename = headingFiles.absoluteFilePath(str);
     }
 
+    if(filename.isEmpty())
+        return QString();
     QFile f(filename);
     if(!f.open(QIODevice::ReadOnly)) {
         //                uWarning() << "Error opening heading file: " << f.name();
         //                uWarning() << "Headings directory was " << headingFiles.absolutePath();
-        return QString("");
+        return QString();
     }
 
     QTextStream ts(&f);
