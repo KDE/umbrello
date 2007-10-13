@@ -41,7 +41,7 @@ public:
 	QFile f( fileName );
 	if( f.open(QIODevice::ReadOnly) ){
 	    QTextStream s( &f );
-	    source = s.read();
+	    source = s.readAll();
 	    f.close();
 	}
 	return source;
@@ -90,11 +90,12 @@ void Driver::reset( )
     m_problems.clear();
     m_includePaths.clear();
 
-    while( m_parsedUnits.size() ){
-	TranslationUnitAST* unit = *m_parsedUnits.begin();
-	m_parsedUnits.remove( m_parsedUnits.begin() );
-	delete( unit );
+    QMapIterator<QString, TranslationUnitAST*> it(m_parsedUnits);
+    while (it.hasNext()){
+        it.next();
+        delete( it.value() );
     }
+    m_parsedUnits.clear();
 }
 
 void Driver::remove( const QString & fileName )
@@ -203,7 +204,7 @@ QMap< QString, Dependence > Driver::dependences( const QString & fileName ) cons
 {
     QMap<QString, QMap<QString, Dependence> >::ConstIterator it = m_dependences.find( fileName );
     if( it != m_dependences.end() )
-	return it.data();
+        return it.value();
     return QMap<QString, Dependence>();
 }
 
@@ -216,14 +217,14 @@ Q3ValueList < Problem > Driver::problems( const QString & fileName ) const
 {
     QMap<QString, Q3ValueList<Problem> >::ConstIterator it = m_problems.find( fileName );
     if( it != m_problems.end() )
-	return it.data();
+        return it.value();
     return Q3ValueList<Problem>();
 }
 
 void Driver::parseFile( const QString& fileName, bool onlyPreProcess, bool force )
 {
     QFileInfo fileInfo( fileName );
-    QString absoluteFilePath = fileInfo.absFilePath();
+    QString absoluteFilePath = fileInfo.absoluteFilePath();
 
     QMap<QString, TranslationUnitAST*>::Iterator it = m_parsedUnits.find( absoluteFilePath );
 
@@ -404,7 +405,7 @@ QString Driver::findIncludeFile( const Dependence& dep ) const
     QString fileName = dep.first;
 
     if( dep.second == Dep_Local ){
-        QString path = QFileInfo( currentFileName() ).dirPath( true );
+        QString path = QFileInfo( currentFileName() ).absolutePath();
         QFileInfo fileInfo( QFileInfo(path, fileName) );
 	if ( fileInfo.exists() && fileInfo.isFile() )
 	    return fileInfo.absoluteFilePath();

@@ -71,7 +71,7 @@ void CppTree2Uml::parseNamespace( NamespaceAST* ast )
         QFileInfo fileInfo( m_fileName );
         QString shortFileName = fileInfo.baseName();
 
-        nsName.sprintf( "(%s_%d)", shortFileName.local8Bit().data(), m_anon++ );
+        nsName.sprintf( "(%s_%d)", shortFileName.toLocal8Bit().constData(), m_anon++ );
     } else {
         nsName = ast->namespaceName()->text();
     }
@@ -302,7 +302,7 @@ void CppTree2Uml::parseFunctionDefinition( FunctionDefinitionAST* ast )
     UMLOperation *m = Import_Utils::makeOperation(c, id);
     // if a class has no return type, it could be a constructor or
     // a destructor
-    if (d && returnType.isEmpty() && id.find("~") == -1)
+    if (d && returnType.isEmpty() && id.indexOf('~') == -1)
         isConstructor = true;
 
     parseFunctionArguments( d, m );
@@ -336,7 +336,7 @@ void CppTree2Uml::parseClassSpecifier( ClassSpecifierAST* ast )
     } else if( !ast->name() ){
         QFileInfo fileInfo( m_fileName );
         QString shortFileName = fileInfo.baseName();
-        className.sprintf( "(%s_%d)", shortFileName.local8Bit().data(), m_anon++ );
+        className.sprintf( "(%s_%d)", shortFileName.toLocal8Bit().constData(), m_anon++ );
     } else {
         className = ast->name()->unqualifiedName()->text().trimmed();
     }
@@ -532,7 +532,7 @@ void CppTree2Uml::parseFunctionDeclaration(  GroupAST* funSpec, GroupAST* storag
     UMLOperation *m = Import_Utils::makeOperation(c, id);
     // if a class has no return type, it could de a constructor or
     // a destructor
-    if (d && returnType.isEmpty() && id.find("~") == -1)
+    if (d && returnType.isEmpty() && id.indexOf('~') == -1)
         isConstructor = true;
 
     parseFunctionArguments( d, m );

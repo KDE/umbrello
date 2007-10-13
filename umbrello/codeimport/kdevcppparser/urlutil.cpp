@@ -40,14 +40,14 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 QString URLUtil::filename(const QString & name) {
-  int slashPos = name.findRev("/");
+  int slashPos = name.lastIndexOf('/');
   return slashPos<0 ? name : name.mid(slashPos+1);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 QString URLUtil::directory(const QString & name) {
-  int slashPos = name.findRev("/");
+  int slashPos = name.lastIndexOf('/');
   return slashPos<0 ? QString("") : name.left(slashPos);
 }
 
@@ -72,7 +72,7 @@ QString URLUtil::relativePath(const QString & parent, const QString & child, uin
 ///////////////////////////////////////////////////////////////////////////////
 
 QString URLUtil::upDir(const QString & path, bool slashSuffix) {
-  int slashPos = path.findRev("/");
+  int slashPos = path.lastIndexOf('/');
   if (slashPos<1) return QString();
   return path.mid(0,slashPos+ (slashSuffix ? 1 : 0) );
 }
@@ -101,8 +101,8 @@ KUrl URLUtil::mergeURL(const KUrl & source, const KUrl & dest, const KUrl & chil
 ///////////////////////////////////////////////////////////////////////////////
 
 QString URLUtil::getExtension(const QString & path) {
-  int dotPos = path.findRev('.');
-  if (dotPos<0) return QString("");
+  int dotPos = path.lastIndexOf('.');
+  if (dotPos<0) return QString();
   return path.mid(dotPos+1);
 }
 
@@ -112,7 +112,7 @@ QString URLUtil::extractPathNameRelative(const KUrl &baseDirUrl, const KUrl &url
 {
   QString absBase = extractPathNameAbsolute( baseDirUrl ),
     absRef = extractPathNameAbsolute( url );
-  int i = absRef.find( absBase, 0, true );
+  int i = absRef.indexOf( absBase, 0, Qt::CaseSensitive );
 
   if (i == -1)
     return QString();
@@ -220,11 +220,11 @@ QString URLUtil::relativePathToFile( const QString & dirUrl, const QString & fil
   if (dirUrl.isEmpty() || (dirUrl == "/"))
     return fileUrl;
 
-  QStringList dir = QStringList::split("/", dirUrl, false);
-  QStringList file = QStringList::split("/", fileUrl, false);
+  QStringList dir = dirUrl.split('/', QString::SkipEmptyParts);
+  QStringList file = fileUrl.split('/', QString::SkipEmptyParts);
 
   QString resFileName = file.last();
-  file.remove(file.last());
+  file.removeLast();
 
   uint i = 0;
   while ( (i < dir.count()) && (i < (file.count())) && (dir[i] == file[i]) )
@@ -238,7 +238,7 @@ QString URLUtil::relativePathToFile( const QString & dirUrl, const QString & fil
   {
     i >= dir.count() ? currDir = "" : currDir = dir[i];
     i >= file.count() ? currFile = "" : currFile = file[i];
-    qWarning("i = %d, currDir = %s, currFile = %s", i, currDir.latin1(), currFile.latin1());
+    qWarning("i = %d, currDir = %s, currFile = %s", i, currDir.toLatin1(), currFile.toLatin1());
     if (currDir.isEmpty() && currFile.isEmpty())
       break;
     else if (currDir.isEmpty())
@@ -292,7 +292,7 @@ QString URLUtil::envExpand ( const QString& str )
       if (pos < 0)
         pos = len;
 
-      char* ret = getenv( QConstString(str.unicode()+1, pos-1).string().local8Bit().data() );
+      const char* ret = qgetenv( QString(str.unicode()+1, pos-1).toLocal8Bit().constData() );
 
       if (ret)
       {
