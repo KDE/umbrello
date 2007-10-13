@@ -15,7 +15,8 @@
 // qt/kde includes
 #include <QPixmap>
 #include <QTextStream>
-#include <qdom.h>
+#include <QDom>
+#include <QIcon>
 #include <kdebug.h>
 
 // local includes
@@ -82,7 +83,7 @@ void UMLDragData::setUMLDataClip1(UMLObjectList& objects) {
     QDomElement itemsTag = domDoc.createElement("umllistviewitems");
     xmiclip.appendChild(itemsTag);
 
-    setData( "application/x-uml-clip1", domDoc.toString().utf8() );
+    setData( "application/x-uml-clip1", domDoc.toString().toUtf8() );
 }
 
 void UMLDragData::setUMLDataClip2(UMLObjectList& objects, UMLListViewItemList& umlListViewItems,
@@ -115,7 +116,7 @@ void UMLDragData::setUMLDataClip2(UMLObjectList& objects, UMLListViewItemList& u
         item->saveToXMI(domDoc, itemsTag);
     }
 
-    setData( "application/x-uml-clip2", domDoc.toString().utf8() );
+    setData( "application/x-uml-clip2", domDoc.toString().toUtf8() );
 }
 
 void UMLDragData::setUMLDataClip3(UMLListViewItemList& umlListViewItems) {
@@ -131,7 +132,7 @@ void UMLDragData::setUMLDataClip3(UMLListViewItemList& umlListViewItems) {
         item->saveToXMI(domDoc, itemsTag);
     }
 
-    setData( "application/x-uml-clip3", domDoc.toString().utf8() );
+    setData( "application/x-uml-clip3", domDoc.toString().toUtf8() );
 }
 
 void UMLDragData::setUMLDataClip4(UMLObjectList& objects, UMLWidgetList& widgets, AssociationWidgetList& associations,
@@ -166,13 +167,14 @@ void UMLDragData::setUMLDataClip4(UMLObjectList& objects, UMLWidgetList& widgets
     QDomElement itemsTag = domDoc.createElement("umllistviewitems");
     xmiclip.appendChild(itemsTag);
 
-    setData( "application/x-uml-clip4", domDoc.toString().utf8() );
+    setData( "application/x-uml-clip4", domDoc.toString().toUtf8() );
 
-    long l_size = (pngImage.convertToImage()).numBytes();
+    QImage img = pngImage.toImage();
+    int l_size = img.numBytes();
     QByteArray clipdata;
     clipdata.resize(l_size);
     QDataStream clipstream( &clipdata,QIODevice::WriteOnly);
-    clipstream << pngImage;
+    clipstream << img;
 
     setImageData( clipdata );
 }
@@ -193,7 +195,7 @@ void UMLDragData::setUMLDataClip5(UMLObjectList& objects) {
     QDomElement itemsTag = domDoc.createElement("umllistviewitems");
     xmiclip.appendChild(itemsTag);
 
-    setData( "application/x-uml-clip5", domDoc.toString().utf8() );
+    setData( "application/x-uml-clip5", domDoc.toString().toUtf8() );
 }
 
 
