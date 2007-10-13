@@ -108,9 +108,9 @@ void AssocGenPage::constructWidget() {
 
     m_pTypeCB = new KComboBox(nameGB);
     pTypeL->setBuddy(m_pTypeCB);
-    m_pTypeCB->insertStringList(m_AssocTypeStrings);
+    m_pTypeCB->addItems(m_AssocTypeStrings);
     m_pTypeCB->setCompletedItems(m_AssocTypeStrings);
-    m_pTypeCB->setCurrentText(currentTypeAsString);
+    m_pTypeCB->setItemText(m_pTypeCB->currentIndex(), currentTypeAsString);
     m_pTypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
     m_pTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
     m_pDoc->setWordWrap(Q3MultiLineEdit::WidgetWidth);
@@ -124,7 +124,7 @@ void AssocGenPage::constructWidget() {
 void AssocGenPage::updateObject() {
 
     if (m_pAssociationWidget) {
-        int comboBoxItem = m_pTypeCB->currentItem();
+        int comboBoxItem = m_pTypeCB->currentIndex();
         Uml::Association_Type newType = m_AssocTypes[comboBoxItem];
         m_pAssociationWidget->setAssocType(newType);
         m_pAssociationWidget->setName(m_pAssocNameLE->text());

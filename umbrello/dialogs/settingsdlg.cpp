@@ -13,14 +13,13 @@
 #include "settingsdlg.h"
 
 // qt includes
-#include <qlayout.h>
-
-#include <kvbox.h>
-//Added by qt3to4:
+#include <QLayout>
 #include <QLabel>
 #include <QGridLayout>
-#include <kicon.h>
+
 // kde includes
+#include <kvbox.h>
+#include <kicon.h>
 #include <kdebug.h>
 #include <kiconloader.h>
 #include <klocale.h>
@@ -224,7 +223,7 @@ void SettingsDlg::setupGeneralPage() {
     int indexCounter = 0;
     while (indexCounter < Uml::pl_Reserved) {
         QString language = Model_Utils::progLangToString((Uml::Programming_Language) indexCounter);
-        m_GeneralWidgets.languageKB->insertItem(language, indexCounter);
+        m_GeneralWidgets.languageKB->insertItem(indexCounter, language);
         indexCounter++;
     }
     m_GeneralWidgets.languageKB->setCurrentIndex(m_pOptionState->generalState.defaultLanguage);
@@ -236,7 +235,7 @@ void SettingsDlg::setupGeneralPage() {
 */
 void SettingsDlg::insertDiagram( const QString& type, int index )
 {
-    m_GeneralWidgets.diagramKB->insertItem( type, index );
+    m_GeneralWidgets.diagramKB->insertItem( index, type );
     m_GeneralWidgets.diagramKB->completionObject()->addItem( type );
 }
 
@@ -317,7 +316,7 @@ void SettingsDlg::setupClassPage() {
 */
 void SettingsDlg::insertAttribScope( const QString& type, int index )
 {
-    m_ClassWidgets.m_pAttribScopeCB->insertItem( type, index );
+    m_ClassWidgets.m_pAttribScopeCB->insertItem( index, type );
     m_ClassWidgets.m_pAttribScopeCB->completionObject()->addItem( type );
 }
 /**
@@ -325,7 +324,7 @@ void SettingsDlg::insertAttribScope( const QString& type, int index )
 */
 void SettingsDlg::insertOperationScope( const QString& type, int index )
 {
-    m_ClassWidgets.m_pOperationScopeCB->insertItem( type, index );
+    m_ClassWidgets.m_pOperationScopeCB->insertItem( index, type );
     m_ClassWidgets.m_pOperationScopeCB->completionObject()->addItem( type );
 }
 
@@ -436,8 +435,8 @@ void SettingsDlg::applyPage( KPageWidgetItem*item ) {
         // 2004-05-17 Achim Spangler: retrieve Suffix setting from dialog entry
         m_pOptionState->generalState.autosavesuffix = m_GeneralWidgets.autosaveSuffixT -> text();
 	m_pOptionState->generalState.loadlast = m_GeneralWidgets.loadlastCB -> isChecked();
-        m_pOptionState->generalState.diagram  = (Uml::Diagram_Type)(m_GeneralWidgets.diagramKB->currentItem() + 1);
-        m_pOptionState->generalState.defaultLanguage = ( Uml::Programming_Language )( m_GeneralWidgets.languageKB->currentItem()  );
+        m_pOptionState->generalState.diagram  = (Uml::Diagram_Type)(m_GeneralWidgets.diagramKB->currentIndex() + 1);
+        m_pOptionState->generalState.defaultLanguage = ( Uml::Programming_Language )( m_GeneralWidgets.languageKB->currentIndex()  );
 
     }
     else if ( item == pageFont )
@@ -460,8 +459,8 @@ void SettingsDlg::applyPage( KPageWidgetItem*item ) {
         m_pOptionState->classState.showAttSig = m_ClassWidgets.showAttSigCB -> isChecked();
         m_pOptionState->classState.showOpSig = m_ClassWidgets.showOpSigCB -> isChecked();
         m_pOptionState->classState.showPackage = m_ClassWidgets.showPackageCB -> isChecked();
-        m_pOptionState->classState.defaultAttributeScope = (Uml::Visibility::Value) m_ClassWidgets.m_pAttribScopeCB->currentItem();
-        m_pOptionState->classState.defaultOperationScope = (Uml::Visibility::Value) m_ClassWidgets.m_pOperationScopeCB->currentItem();
+        m_pOptionState->classState.defaultAttributeScope = (Uml::Visibility::Value) m_ClassWidgets.m_pAttribScopeCB->currentIndex();
+        m_pOptionState->classState.defaultOperationScope = (Uml::Visibility::Value) m_ClassWidgets.m_pOperationScopeCB->currentIndex();
     }
     else if ( item == pageCodeGen )
     {

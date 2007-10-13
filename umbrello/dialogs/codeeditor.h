@@ -58,7 +58,7 @@ public:
 
 protected:
 
-    bool close ( bool alsoDelete );
+    bool close ();
 
     // various methods for appending various types of text blocks in the editor.
     void appendText (TextBlock * tblock);

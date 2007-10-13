@@ -13,9 +13,7 @@
 #include "parmpropdlg.h"
 
 // qt includes
-#include <qlayout.h>
-
-//Added by qt3to4:
+#include <QLayout>
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -160,7 +158,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
     int typeBoxCount = 0;
     bool foundType = false;
     while (typeBoxCount < m_pTypeCB->count() && foundType == false) {
-        QString typeBoxString = m_pTypeCB->text(typeBoxCount);
+        QString typeBoxString = m_pTypeCB->itemText(typeBoxCount);
         if ( typeBoxString == type ) { //getTypeName()
             foundType = true;
             m_pTypeCB->setCurrentIndex(typeBoxCount);
@@ -208,13 +206,13 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
 
 void ParmPropDlg::insertType( const QString& type, int index )
 {
-    m_pTypeCB->insertItem( type, index );
+    m_pTypeCB->insertItem( index, type );
     m_pTypeCB->completionObject()->addItem( type );
 }
 
 void ParmPropDlg::insertStereotype( const QString& type, int index )
 {
-    m_pStereoTypeCB->insertItem( type, index );
+    m_pStereoTypeCB->insertItem( index, type );
     m_pStereoTypeCB->completionObject()->addItem( type );
 }
 

@@ -86,7 +86,10 @@ void AssocPage::fillListBox() {
     }
 }
 
-void AssocPage::slotRightButtonClicked(Q3ListBoxItem */* item*/, const QPoint &/* p*/) {
+void AssocPage::slotRightButtonClicked(Q3ListBoxItem *item, const QPoint &p) {
+    Q_UNUSED(item)
+    Q_UNUSED(p)
+
     if(m_pMenu) {
         m_pMenu -> hide();
         disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotPopupMenuSel(int)));

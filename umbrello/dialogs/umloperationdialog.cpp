@@ -194,7 +194,7 @@ void UMLOperationDialog::setupDialog() {
     int returnBoxCount = 0;
     bool foundReturnType = false;
     while (returnBoxCount < m_pRtypeCB->count() && foundReturnType == false) {
-        QString returnBoxString = m_pRtypeCB->text(returnBoxCount);
+        QString returnBoxString = m_pRtypeCB->itemText(returnBoxCount);
         if ( returnBoxString == m_pOperation->getTypeName() ) {
             foundReturnType = true;
             m_pRtypeCB->setCurrentIndex(returnBoxCount);
@@ -265,7 +265,7 @@ void UMLOperationDialog::setupDialog() {
 
     m_pNameLE->setFocus();
     connect( m_pNameLE, SIGNAL( textChanged ( const QString & ) ), SLOT( slotNameChanged( const QString & ) ) );
-    slotNameChanged(m_pNameLE->text() );
+    slotNameChanged( m_pNameLE->text() );
 
 }
 
@@ -296,7 +296,10 @@ void UMLOperationDialog::slotParmRightButtonPressed(Q3ListBoxItem *item, const Q
 
 }
 
-void UMLOperationDialog::slotParmRightButtonClicked(Q3ListBoxItem */*item*/, const QPoint &/*p*/) {
+void UMLOperationDialog::slotParmRightButtonClicked(Q3ListBoxItem *item, const QPoint &p) {
+    Q_UNUSED(item)
+    Q_UNUSED(p)
+
     if (m_pMenu) {
         m_pMenu -> hide();
         disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotParmPopupMenuSel(QAction*)));
@@ -536,13 +539,13 @@ void UMLOperationDialog::slotOk() {
 
 void UMLOperationDialog::insertType( const QString& type, int index )
 {
-    m_pRtypeCB->insertItem( type, index );
+    m_pRtypeCB->insertItem( index, type );
     m_pRtypeCB->completionObject()->addItem( type );
 }
 
 void UMLOperationDialog::insertStereotype( const QString& type, int index )
 {
-    m_pStereoTypeCB->insertItem( type, index );
+    m_pStereoTypeCB->insertItem( index, type );
     m_pStereoTypeCB->completionObject()->addItem( type );
 }
 

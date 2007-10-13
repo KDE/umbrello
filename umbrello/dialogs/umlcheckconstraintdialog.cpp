@@ -57,7 +57,8 @@ void UMLCheckConstraintDialog::setupDialog(){
     mainLayout->setSpacing(15);
 
     // layout to hold the name label and line edit
-    QHBoxLayout* nameLayout = new QHBoxLayout( mainLayout );
+    QHBoxLayout* nameLayout = new QHBoxLayout();
+    mainLayout->addItem( nameLayout );
 
     // name label
     m_pNameL = new QLabel( i18n( "Name" ), this );
@@ -66,7 +67,8 @@ void UMLCheckConstraintDialog::setupDialog(){
     m_pNameLE = new KLineEdit( this );
     nameLayout->addWidget( m_pNameLE );
 
-    QVBoxLayout* checkConditionLayout = new QVBoxLayout( mainLayout );
+    QVBoxLayout* checkConditionLayout = new QVBoxLayout();
+    mainLayout->addItem( checkConditionLayout );
 
     m_pCheckConditionL = new QLabel( i18n( "Check Condition :" ), frame );
     checkConditionLayout->addWidget( m_pCheckConditionL );

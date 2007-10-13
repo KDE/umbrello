@@ -13,8 +13,7 @@
 #include "selectopdlg.h"
 
 // qt includes
-#include <qlayout.h>
-//Added by qt3to4:
+#include <QLayout>
 #include <QVBoxLayout>
 #include <QGridLayout>
 
@@ -92,7 +91,7 @@ SelectOpDlg::~SelectOpDlg() {
 
 void SelectOpDlg::insertOperation( const QString& type, int index )
 {
-    m_pOpCB->insertItem( type, index );
+    m_pOpCB->insertItem( index, type );
     m_pOpCB->completionObject()->addItem( type );
 }
 
@@ -130,7 +129,7 @@ void SelectOpDlg::setCustomOp(const QString &op) {
 bool SelectOpDlg::setClassOp(const QString &op) {
     for (int i = 1; i!= m_pOpCB->count(); ++i)
     {
-        if ( m_pOpCB->text(i) == op ) {
+        if ( m_pOpCB->itemText(i) == op ) {
             m_pOpCB->setCurrentIndex(i);
             m_pCustomRB -> setChecked(false);
             slotSelected(OP);

@@ -18,9 +18,9 @@
 #include <klocale.h>
 #include <kdialogbuttonbox.h>
 #include <kdebug.h>
-#include <qlayout.h>
-#include <qstringlist.h>
-//Added by qt3to4:
+
+#include <QLayout>
+#include <QStringList>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QGridLayout>
@@ -47,13 +47,15 @@ void ActivityPage::setupPage() {
     listVBoxLayout -> setSpacing ( 10 );
 
     //horizontal box contains the list box and the move up/down buttons
-    QHBoxLayout* listHBoxLayout = new QHBoxLayout( listVBoxLayout );
+    QHBoxLayout* listHBoxLayout = new QHBoxLayout();
+    listVBoxLayout->addItem( listHBoxLayout );
     
     m_pActivityLB = new Q3ListBox(m_pActivityGB );
    
     listHBoxLayout -> addWidget(m_pActivityLB);
 
-    QVBoxLayout * buttonLayout = new QVBoxLayout( listHBoxLayout );
+    QVBoxLayout * buttonLayout = new QVBoxLayout();
+    listHBoxLayout->addItem( buttonLayout );
 
     m_pTopArrowB = new KArrowButton( m_pActivityGB );
     m_pTopArrowB -> setEnabled( false );

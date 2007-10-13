@@ -21,7 +21,6 @@
 #include <q3multilineedit.h>
 #include <qradiobutton.h>
 #include <qcheckbox.h>
-//Added by qt3to4:
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -364,7 +363,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget) : QWid
     m_pStereoTypeCB = new KComboBox(true, this);
     m_pNameLayout->addWidget(m_pStereoTypeCB, 1, 1);
 
-    m_pStereoTypeCB->setCurrentText( widget->getUMLObject()->getStereotype() );
+    m_pStereoTypeCB->setItemText( m_pStereoTypeCB->currentIndex(), widget->getUMLObject()->getStereotype() );
     m_pStereoTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
 
     m_pInstanceL = new QLabel(this);
@@ -393,7 +392,7 @@ ClassGenPage::~ClassGenPage() {}
 
 void ClassGenPage::insertStereotype( const QString& type, int index )
 {
-    m_pStereoTypeCB->insertItem( type, index );
+    m_pStereoTypeCB->insertItem( index, type );
     m_pStereoTypeCB->completionObject()->addItem( type );
 }
 

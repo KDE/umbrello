@@ -22,7 +22,7 @@
 #include "defaultcodegenpolicypage.h"
 
 // qt/kde includes
-#include <qlabel.h>
+#include <QLabel>
 #include <klocale.h>
 
 
@@ -32,7 +32,8 @@
 DefaultCodeGenPolicyPage::DefaultCodeGenPolicyPage ( QWidget *parent, const char *name, CodeGenPolicyExt * policy )
         :CodeGenerationPolicyPage(parent,name,policy)
 {
-    textLabel = new QLabel(parent,"textLabel");
+    textLabel = new QLabel(parent);
+    textLabel->setObjectName("textLabel");
     textLabel->setText(tr2i18n("<p align=\"center\">No Options Available.</p>"));
 }
 

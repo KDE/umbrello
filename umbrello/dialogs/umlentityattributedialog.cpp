@@ -173,7 +173,7 @@ void UMLEntityAttributeDialog::setupDialog() {
     int typeBoxCount = 0;
     bool foundType = false;
     while (typeBoxCount < m_pTypeCB->count() && foundType == false) {
-        QString typeBoxString = m_pTypeCB->text(typeBoxCount);
+        QString typeBoxString = m_pTypeCB->itemText(typeBoxCount);
         if ( typeBoxString == m_pEntityAttribute->getTypeName() ) {
             foundType = true;
             m_pTypeCB->setCurrentIndex(typeBoxCount);
@@ -272,12 +272,12 @@ void UMLEntityAttributeDialog::slotOk() {
 }
 
 void UMLEntityAttributeDialog::insertType( const QString& type, int index ) {
-    m_pTypeCB->insertItem( type, index );
+    m_pTypeCB->insertItem( index, type );
     m_pTypeCB->completionObject()->addItem( type );
 }
 
 void UMLEntityAttributeDialog::insertAttribute( const QString& type, int index ) {
-    m_pAttributesCB->insertItem( type, index );
+    m_pAttributesCB->insertItem( index, type );
     m_pAttributesCB->completionObject()->addItem( type );
 }
 

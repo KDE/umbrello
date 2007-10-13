@@ -90,11 +90,11 @@ CodeGenerationWizard::CodeGenerationWizard(UMLClassifierList *classList)
     finishButton()->disconnect();
     finishButton()->setText(i18n("&Generate"));
     connect(finishButton(),SIGNAL(clicked()),this,SLOT(generateCode()));
-    if ( QApplication::reverseLayout() )
+    if ( QApplication::layoutDirection() )
     {
-        QPixmap tmpPixmap( *m_addButton->pixmap() );
-        m_addButton->setPixmap(*m_removeButton->pixmap());
-        m_removeButton->setPixmap(tmpPixmap);
+        QIcon tmpIcon = m_addButton->icon();
+        m_addButton->setIcon(m_removeButton->icon());
+        m_removeButton->setIcon(tmpIcon);
     }
 }
 

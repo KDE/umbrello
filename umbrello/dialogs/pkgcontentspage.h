@@ -54,7 +54,7 @@ private:
 
 public slots:
     void slotDoubleClick(Q3ListBoxItem * i);
-    void slotRightButtonClicked(Q3ListBoxItem */* item*/, const QPoint &/* p*/);
+    void slotRightButtonClicked(Q3ListBoxItem * /*item*/, const QPoint & /*p*/);
     void slotRightButtonPressed(Q3ListBoxItem * item, const QPoint & p);
     void slotPopupMenuSel(QAction* action);
 };

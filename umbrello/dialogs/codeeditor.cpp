@@ -106,7 +106,7 @@ void CodeEditor::clicked(int para, int pos)
 }
 
 
-bool CodeEditor::close ( bool alsoDelete )
+bool CodeEditor::close ()
 {
     // capture last code block, if it exists
     if(m_lastTextBlockToBeEdited)
@@ -115,7 +115,7 @@ bool CodeEditor::close ( bool alsoDelete )
         m_lastTextBlockToBeEdited = 0;
     }
 
-    return Q3TextEdit::close(alsoDelete);
+    return Q3TextEdit::close();
 }
 
 void CodeEditor::doubleClicked(int para, int pos)
@@ -205,7 +205,7 @@ void CodeEditor::loadFromDocument ()
 
     // set caption on tool
     QString caption = m_parentDoc->getFileName() + m_parentDoc->getFileExtension();
-    setCaption( tr2i18n( caption.toLatin1() ) );
+    setWindowTitle( tr2i18n( caption.toLatin1() ) );
 
     // header for document
     QString header = m_parentDoc->getHeader()->toString();

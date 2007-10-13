@@ -91,11 +91,11 @@ void ObjectNodeDialog::applyPage( KPageWidgetItem *item ) {
         m_pObjectNodeWidget -> setState( m_GenPageWidgets.stateLE -> text() );
 
         ObjectNodeWidget::ObjectNodeType newType = ObjectNodeWidget::Normal;
-        if ( m_GenPageWidgets.BufferRB->isOn() )
+        if ( m_GenPageWidgets.BufferRB->isChecked() )
             newType = ObjectNodeWidget::Buffer;
-        else if ( m_GenPageWidgets.DataRB->isOn() )
+        else if ( m_GenPageWidgets.DataRB->isChecked() )
             newType = ObjectNodeWidget::Data;
-        else if (m_GenPageWidgets.FlowRB->isOn() )
+        else if (m_GenPageWidgets.FlowRB->isChecked() )
              newType = ObjectNodeWidget::Flow;
 
         m_pObjectNodeWidget->setObjectNodeType (newType);

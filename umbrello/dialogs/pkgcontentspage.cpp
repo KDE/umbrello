@@ -10,9 +10,10 @@
  ***************************************************************************/
 
 #include "pkgcontentspage.h"
-#include <qlayout.h>
-//Added by qt3to4:
+
+#include <QLayout>
 #include <QHBoxLayout>
+
 #include <klocale.h>
 #include <kdebug.h>
 #include "../umlobjectlist.h"
@@ -87,7 +88,10 @@ void PkgContentsPage::fillListBox() {
     }
 }
 
-void PkgContentsPage::slotRightButtonClicked(Q3ListBoxItem */* item*/, const QPoint &/* p*/) {
+void PkgContentsPage::slotRightButtonClicked(Q3ListBoxItem *item, const QPoint &p) {
+    Q_UNUSED(item)
+    Q_UNUSED(p)
+
     if(m_pMenu) {
         m_pMenu -> hide();
         disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotPopupMenuSel(QAction*)));

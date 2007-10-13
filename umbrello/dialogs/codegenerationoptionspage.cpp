@@ -81,7 +81,7 @@ void CodeGenerationOptionsPage::setupActiveLanguageBox()
     int indexCounter = 0;
     while (indexCounter < Uml::pl_Reserved) {
         QString language = Model_Utils::progLangToString((Uml::Programming_Language) indexCounter);
-        m_SelectLanguageBox->insertItem(language, indexCounter);
+        m_SelectLanguageBox->insertItem(indexCounter, language);
         indexCounter++;
     }
     m_SelectLanguageBox->setCurrentIndex(UMLApp::app()->getActiveLanguage());
@@ -157,8 +157,8 @@ void CodeGenerationOptionsPage::apply() {
         m_parentPolicy->setIncludeHeadings(m_includeHeadings->isChecked());
         m_parentPolicy->setHeadingFileDir(m_headingsDir->text());
         m_parentPolicy->setOverwritePolicy((CodeGenerationPolicy::OverwritePolicy)m_overwriteGroup->id(m_overwriteGroup->selected()));
-        m_parentPolicy->setLineEndingType((CodeGenerationPolicy::NewLineType) m_SelectEndLineCharsBox->currentItem());
-        m_parentPolicy->setIndentationType((CodeGenerationPolicy::IndentationType) m_SelectIndentationTypeBox->currentItem());
+        m_parentPolicy->setLineEndingType((CodeGenerationPolicy::NewLineType) m_SelectEndLineCharsBox->currentIndex());
+        m_parentPolicy->setIndentationType((CodeGenerationPolicy::IndentationType) m_SelectIndentationTypeBox->currentIndex());
         m_parentPolicy->setIndentationAmount(m_SelectIndentationNumber->value());
 
         m_pCodePolicyPage->apply();
@@ -180,7 +180,7 @@ void CodeGenerationOptionsPage::setDefaults() {
 
 void CodeGenerationOptionsPage::browseClicked() {
 
-    QString button = sender()->name();
+    QString button = sender()->objectName();
     QString dir = KFileDialog::getExistingDirectory();
     if(dir.isEmpty())
         return;

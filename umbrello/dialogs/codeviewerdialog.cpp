@@ -19,9 +19,9 @@
 #include "codeviewerdialog.h"
 
 // qt/kde includes
-#include <qlayout.h>
-#include <qtabwidget.h>
-#include <qcheckbox.h>
+#include <QLayout>
+#include <QTabWidget>
+#include <QCheckBox>
 #include <kdebug.h>
 #include <klocale.h>
 
@@ -58,7 +58,7 @@ CodeViewerDialog::~CodeViewerDialog()
 void CodeViewerDialog::initGUI ( const char * name)
 {
     if ( !name )
-        setName( "CodeViewerDialog" );
+        setObjectName( "CodeViewerDialog" );
 
     setFont( getState().font );
 
@@ -84,7 +84,7 @@ void CodeViewerDialog::addCodeDocument( CodeDocument * doc)
     QString name = doc->getFileName();
     QString ext = doc->getFileExtension();
     uDebug() << "name=" << name << " / ext=" << ext << endl;
-    m_tabWidget->insertTab(page, (name + (ext.isEmpty() ? "" : ext)));
+    m_tabWidget->addTab(page, (name + (ext.isEmpty() ? "" : ext)));
 
     connect( m_highlightCheckBox, SIGNAL( stateChanged(int) ), page, SLOT( changeHighlighting(int) ) );
     connect( m_showHiddenCodeCB, SIGNAL( stateChanged(int) ), page, SLOT( changeShowHidden(int) ) );
@@ -117,7 +117,7 @@ bool CodeViewerDialog::close ( bool /*alsoDelete*/ )
  */
 void CodeViewerDialog::languageChange()
 {
-    setCaption( tr2i18n( "Code Viewer" ) );
+    setWindowTitle( tr2i18n( "Code Viewer" ) );
 }
 
 #include "codeviewerdialog.moc"

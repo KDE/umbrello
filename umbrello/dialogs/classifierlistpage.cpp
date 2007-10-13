@@ -24,8 +24,7 @@
 #include <kdebug.h>
 #include <kdialogbuttonbox.h>
 #include <klocale.h>
-#include <qlayout.h>
-//Added by qt3to4:
+#include <QLayout>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QApplication>
@@ -88,12 +87,14 @@ void ClassifierListPage::setupPage() {
     listVBoxLayout->setSpacing ( 10 );
 
     //horizontal box contains the list box and the move up/down buttons
-    QHBoxLayout* listHBoxLayout = new QHBoxLayout( listVBoxLayout );
+    QHBoxLayout* listHBoxLayout = new QHBoxLayout();
+    listVBoxLayout->addItem( listHBoxLayout );
     m_pItemListLB = new Q3ListBox(m_pItemListGB);
     listHBoxLayout->addWidget(m_pItemListLB);
 
     //the move up/down buttons (another vertical box)
-    QVBoxLayout* buttonLayout = new QVBoxLayout( listHBoxLayout );
+    QVBoxLayout* buttonLayout = new QVBoxLayout();
+    listHBoxLayout->addItem( buttonLayout );
     m_pTopArrowB = new KArrowButton( m_pItemListGB );
     m_pTopArrowB->setEnabled( false );
     buttonLayout->addWidget( m_pTopArrowB );

@@ -13,8 +13,8 @@
 #include "exportallviewsdialog.h"
 
 // include files for Qt
-#include <qlayout.h>
-#include <qlabel.h>
+#include <QLayout>
+#include <QLabel>
 
 // kde include files
 #include <kfilefiltercombo.h>
@@ -36,8 +36,12 @@ ExportAllViewsDialog::ExportAllViewsDialog(
     setupUi(this);
 
     // create and initialize m_imageType
+    QSizePolicy sp(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    sp.setHorizontalStretch(0);
+    sp.setVerticalStretch(0);
+    sp.setHeightForWidth(m_imageType->sizePolicy().hasHeightForWidth());
     m_imageType = new KFileFilterCombo(this);
-    m_imageType->setSizePolicy(QSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed, 0, 0, m_imageType->sizePolicy().hasHeightForWidth()));
+    m_imageType->setSizePolicy(sp);
     m_imageType->setEditable(false);
 
     m_imageType->setMimeFilter(UMLViewImageExporterModel::supportedMimeTypes(), defaultMimeType);

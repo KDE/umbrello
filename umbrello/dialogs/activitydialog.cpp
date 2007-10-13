@@ -13,16 +13,14 @@
 #include "activitydialog.h"
 
 //qt includes
-#include <qlayout.h>
-//Added by qt3to4:
-#include <kicon.h>
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QGridLayout>
 #include <QCheckBox>
 #include <QRadioButton>
-#include <kvbox.h>
 //kde includes
+#include <kicon.h>
+#include <kvbox.h>
 #include <kiconloader.h>
 #include <klocale.h>
 
@@ -98,9 +96,9 @@ void ActivityDialog::applyPage( KPageWidgetItem *item ) {
 
 		
         ActivityWidget::ActivityType newType = ActivityWidget::Normal;
-        if ( m_GenPageWidgets.InvokRB->isOn() )
+        if ( m_GenPageWidgets.InvokRB->isChecked() )
               newType = ActivityWidget::Invok;
-        else if ( m_GenPageWidgets.ParamRB->isOn() )
+        else if ( m_GenPageWidgets.ParamRB->isChecked() )
               newType = ActivityWidget::Param;
         m_pActivityWidget->setActivityType (newType);
 
