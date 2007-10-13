@@ -15,7 +15,7 @@
 // qt/kde includes
 #include <QPixmap>
 #include <QTextStream>
-#include <QDom>
+#include <QDomDocument>
 #include <QIcon>
 #include <kdebug.h>
 
