@@ -187,7 +187,7 @@ bool HierarchicalCodeBlock::removeTextBlock ( TextBlock * remove_object ) {
     QString tag = remove_object->getTag();
     if(!(tag.isEmpty()))
     {
-        m_textBlockTagMap.erase(tag);
+        m_textBlockTagMap.remove(tag);
         getParentDocument()->removeChildTagFromMap(tag);
     }
     return true;

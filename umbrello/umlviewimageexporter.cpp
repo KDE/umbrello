@@ -96,7 +96,7 @@ bool UMLViewImageExporter::getParametersFromUser() {
 
     // check if the extension is the extension of the mime type
     QFileInfo info(m_imageURL.fileName());
-    QString ext = info.extension(false);
+    QString ext = info.suffix();
     QString extDef = UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType);
     if(ext != extDef) {
         m_imageURL.setFileName(m_imageURL.fileName() + '.' + extDef);

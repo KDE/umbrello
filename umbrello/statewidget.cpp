@@ -189,10 +189,8 @@ bool StateWidget::addActivity( const QString &activity ) {
 }
 
 bool StateWidget::removeActivity( const QString &activity ) {
-    int index = - 1;
-    if( ( index = m_Activities.findIndex( activity ) ) == -1 )
+    if( m_Activities.removeAll( activity ) == 0 )
         return false;
-    m_Activities.removeAll( m_Activities.at( index ) );
     updateComponentSize();
     return true;
 }

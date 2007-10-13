@@ -612,7 +612,8 @@ void UMLApp::initView() {
     m_documentationDock->setObjectName("DocumentationDock");
 
     addDockWidget(Qt::LeftDockWidgetArea, m_documentationDock);
-    m_pDocWindow = new DocWindow(m_doc, m_documentationDock, "DOCWINDOW");
+    m_pDocWindow = new DocWindow(m_doc, m_documentationDock);
+    m_pDocWindow->setObjectName("DOCWINDOW");
     m_documentationDock->setWidget(m_pDocWindow);
 
     m_doc->setupSignals();//make sure gets signal from list view

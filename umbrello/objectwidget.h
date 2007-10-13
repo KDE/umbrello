@@ -132,7 +132,7 @@ public:
     /**
      * Overrides the standard operation.
      */
-    virtual void moveEvent(QMoveEvent */*m*/);
+    virtual void moveEvent(QMoveEvent *m);
 
     /**
      * Used to cleanup any other widget it may need to delete.

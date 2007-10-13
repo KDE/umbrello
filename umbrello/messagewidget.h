@@ -437,8 +437,8 @@ protected:
     Uml::Sequence_Message_Type m_sequenceMessageType;
 
 private:
-    void moveEvent(QMoveEvent */*m*/);
-    void resizeEvent(QResizeEvent */*re*/);
+    void moveEvent(QMoveEvent *m);
+    void resizeEvent(QResizeEvent *re);
 
     ObjectWidget * m_pOw[2];
     FloatingTextWidget * m_pFText;

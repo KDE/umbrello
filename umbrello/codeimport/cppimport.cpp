@@ -57,7 +57,7 @@ void CppImport::feedTheModel(const QString& fileName) {
     if (! deps.empty()) {
         QMap<QString, Dependence>::Iterator it;
         for (it = deps.begin(); it != deps.end(); ++it) {
-            if (it.data().second == Dep_Global)  // don't want these
+            if (it.value().second == Dep_Global)  // don't want these
                 continue;
             QString includeFile = it.key();
             if (includeFile.isEmpty()) {

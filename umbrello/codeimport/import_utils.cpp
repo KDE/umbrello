@@ -90,7 +90,7 @@ QString formatComment(const QString &comment) {
     QString& first = lines.first();
     QRegExp wordex("\\w");
     if (first.startsWith("/*")) {
-        int wordpos = wordex.search(first);
+        int wordpos = wordex.indexIn(first);
         if (wordpos != -1)
             first = first.mid(wordpos);  // remove comment start
         else
@@ -250,7 +250,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
     if (gRelatedClassifier == NULL || gRelatedClassifier == o)
         return o;
     QRegExp templateInstantiation("^[\\w:\\.]+\\s*<(.*)>");
-    int pos = templateInstantiation.search(name);
+    int pos = templateInstantiation.indexIn(name);
     if (pos == -1)
         return o;
     // Create dependencies on template parameters.

@@ -107,7 +107,7 @@ void Driver::remove( const QString & fileName )
     QMap<QString, TranslationUnitAST*>::Iterator it = m_parsedUnits.find( fileName );
     if( it != m_parsedUnits.end() ){
 	TranslationUnitAST* unit = *it;
-	m_parsedUnits.remove( it );
+	m_parsedUnits.erase( it );
 	delete( unit );
     }
 }
@@ -182,7 +182,7 @@ QMap< QString, Dependence >& Driver::findOrInsertDependenceList( const QString &
 {
     QMap<QString, QMap<QString, Dependence> >::Iterator it = m_dependences.find( fileName );
     if( it != m_dependences.end() )
-        return it.data();
+        return it.value();
 
     QMap<QString, Dependence> l;
     m_dependences.insert( fileName, l );
@@ -193,7 +193,7 @@ Q3ValueList < Problem >& Driver::findOrInsertProblemList( const QString & fileNa
 {
     QMap<QString, Q3ValueList<Problem> >::Iterator it = m_problems.find( fileName );
     if( it != m_problems.end() )
-        return it.data();
+        return it.value();
 
     Q3ValueList<Problem> l;
     m_problems.insert( fileName, l );

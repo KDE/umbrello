@@ -401,7 +401,7 @@ Uml::Model_Type guessContainer(UMLObject *o) {
 
 int stringToDirection(QString input, Uml::Parameter_Direction & result) {
     QRegExp dirx("^(in|out|inout)");
-    int pos = dirx.search(input);
+    int pos = dirx.indexIn(input);
     if (pos == -1)
         return 0;
     const QString& dirStr = dirx.capturedTexts().first();
@@ -456,7 +456,7 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
     QString name = a.left(colonPos).trimmed();
     if (vis) {
         QRegExp mnemonicVis("^([\\+\\#\\-\\~] *)");
-        int pos = mnemonicVis.search(name);
+        int pos = mnemonicVis.indexIn(name);
         if (pos == -1) {
             *vis = Uml::Visibility::Private;  // default value
         } else {
@@ -521,14 +521,14 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
          * using narrative names, for example "check water temperature".
          */
         QRegExp beginningUpToOpenParenth( "^([^\\(]+)" );
-        int pos = beginningUpToOpenParenth.search(m);
+        int pos = beginningUpToOpenParenth.indexIn(m);
         if (pos == -1)
             return PS_Illegal_MethodName;
         desc.m_name = beginningUpToOpenParenth.cap(1);
     }
     desc.m_pReturnType = NULL;
     QRegExp pat = QRegExp("\\) *:(.*)$");
-    int pos = pat.search(m);
+    int pos = pat.indexIn(m);
     if (pos != -1) {  // return type is optional
         QString retType = pat.cap(1);
         retType = retType.trimmed();
@@ -546,7 +546,7 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
     m.remove( QRegExp("\\s*\\(\\s*\\)") );
     desc.m_args.clear();
     pat = QRegExp( "\\((.*)\\)" );
-    pos = pat.search(m);
+    pos = pat.indexIn(m);
     if (pos == -1)  // argument list is optional
         return PS_OK;
     QString arglist = pat.cap(1);

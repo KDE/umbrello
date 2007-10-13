@@ -35,8 +35,9 @@
 //
 
 OwnedCodeBlock::OwnedCodeBlock ( UMLObject * parent )
-        : QObject ( (QObject*)parent, "anOwnedCodeBlock" )
+        : QObject ( parent )
 {
+    setObjectName( "anOwnedCodeBlock" );
     initFields(parent);
 }
 

@@ -164,12 +164,12 @@ PluginLoader::slotDestroyed(QObject *obj)
 
     PluginMap::iterator end(_plugins.end());
     for(PluginMap::iterator i = _plugins.begin(); i != end; ++i) {
-        Plugin *p = i.data();
+        Plugin *p = i.value();
         if(p == plugin) {
             kDebug() << "unloading plugin " << i.key();
 
             // remove it from the mapping
-            _plugins.remove(i);
+            _plugins.erase(i);
             break;
         }
     }
