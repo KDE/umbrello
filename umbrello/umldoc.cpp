@@ -24,6 +24,7 @@
 #include <QTextStream>
 #include <Q3PtrList>
 #include <QUndoStack>
+#include <QtGui/QPrinter>
 
 // kde includes
 #include <kdeversion.h>
@@ -33,7 +34,6 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kmimetype.h>
-#include <kprinter.h>
 #include <ktar.h>
 #include <ktempdir.h>
 #include <ktemporaryfile.h>
@@ -75,6 +75,7 @@
 #include "listpopupmenu.h"
 #include "version.h"
 #include "cmds.h"
+#include "diagramprintpage.h"
 
 #define XMI_FILE_VERSION UMBRELLO_VERSION
 // For the moment, the XMI_FILE_VERSION changes with each UMBRELLO_VERSION.
@@ -1891,15 +1892,14 @@ UMLAssociationList UMLDoc::getAssociations() {
     return associationList;
 }
 
-void UMLDoc::print(KPrinter * pPrinter) {
+void UMLDoc::print(QPrinter * pPrinter, DiagramPrintPage * selectPage) {
     UMLView * printView = 0;
-    int count = QString(pPrinter -> option("kde-uml-count")).toInt();
+    int count = selectPage -> printUmlCount();
     QPainter painter(pPrinter);
     for(int i = 0;i < count;i++) {
         if(i>0)
             pPrinter -> newPage();
-        QString diagram = i18n("kde-uml-Diagram") + QString("%1").arg(i);
-        QString sID = pPrinter -> option(diagram);
+        QString sID = selectPage -> printUmlDiagram(i);
         Uml::IDType id = STR2ID(sID);
         printView = findView(id);
 

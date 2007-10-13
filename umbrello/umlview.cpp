@@ -22,6 +22,7 @@
 #include <QtCore/QVector>
 #include <QtGui/QPixmap>
 #include <QtGui/QPainter>
+#include <QtGui/QPrinter>
 #include <QtGui/QColor>
 #include <QtGui/QMatrix>
 #include <q3paintdevicemetrics.h>
@@ -38,7 +39,6 @@
 #include <ktemporaryfile.h>
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
-#include <kprinter.h>
 #include <kcursor.h>
 #include <kfiledialog.h>
 #include <kinputdialog.h>
@@ -224,7 +224,7 @@ int UMLView::generateCollaborationId() {
     return ++m_nCollaborationId;
 }
 
-void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
+void UMLView::print(QPrinter *pPrinter, QPainter & pPainter) {
     int height, width;
     //get the size of the page
     pPrinter->setFullPage( true );
@@ -240,7 +240,7 @@ void UMLView::print(KPrinter *pPrinter, QPainter & pPainter) {
     top += 2;
     bottom += 2;
 
-    if(pPrinter->orientation() == KPrinter::Landscape) {
+    if(pPrinter->orientation() == QPrinter::Landscape) {
         // we are printing in LANDSCAPE --> swap marginX and marginY
         uint right_old = right;
         // the DiagramRight side is printed at PrintersTop

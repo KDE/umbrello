@@ -20,7 +20,6 @@ class Q3GroupBox;
 class KComboBox;
 
 #include <Q3ValueList>
-#include <kdeprint/kprintdialogpage.h>
 
 #include "../umldoc.h"
 #include "../umlview.h"
@@ -36,7 +35,7 @@ class KComboBox;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class DiagramPrintPage : public KPrintDialogPage {
+class DiagramPrintPage : public QWidget {
     Q_OBJECT
 public:
     /**
@@ -53,15 +52,10 @@ public:
     ~DiagramPrintPage();
 
     /**
-     * Overridden method. It builds a list with the diagram name and the diagram
-     * IDs.
+     * Get selected print options
      */
-    void getOptions(QMap<QString,QString>& opts, bool /* incldef=false */);
-
-    /**
-     * Overridden method.
-     */
-    void setOptions( const QMap<QString,QString>& /*opts*/ );
+    int printUmlCount();
+    QString printUmlDiagram(int sel);
 
     /**
      * Overridden method.

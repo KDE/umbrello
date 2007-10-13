@@ -39,13 +39,14 @@
 
 // forward declarations
 class QDomNode;
+class QPrinter;
 
-class KPrinter;
 class KMenu;
 
 class IDChangeLog;
 class UMLPackage;
 class UMLFolder;
+class DiagramPrintPage;
 
 /**
   * UMLDoc provides a document object for a document-view model.
@@ -544,7 +545,7 @@ public:
      *
      * @param pPrinter  The printer (object) to use.
      */
-    void print(KPrinter * pPrinter);
+    void print(QPrinter * pPrinter, DiagramPrintPage * selectPage);
 
     /**
      * Return the list of views for this document.

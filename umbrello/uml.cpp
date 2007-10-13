@@ -24,6 +24,8 @@
 #include <QMenuItem>
 #include <QDockWidget>
 #include <QStackedWidget>
+#include <QtGui/QPrinter>
+#include <QtGui/QPrintDialog>
 
 // kde includes
 #include <kaction.h>
@@ -38,7 +40,6 @@
 #include <kicon.h>
 #include <kiconloader.h>
 #include <klocale.h>
-#include <kprinter.h>
 #include <kmenubar.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
@@ -49,6 +50,8 @@
 #include <kmenu.h>
 #include <kxmlguifactory.h>
 #include <kapplication.h>
+#include <kdeprintdialog.h>
+
 // app includes
 #include "codeimport/classimport.h"
 #include "docwindow.h"
@@ -967,14 +970,17 @@ void UMLApp::slotFilePrint()
 {
     slotStatusMsg(i18n("Printing..."));
 
-    KPrinter printer;
-    printer.setFullPage(true);
-    DiagramPrintPage * selectPage = new DiagramPrintPage(0, m_doc);
-    printer.addDialogPage(selectPage);
-    QString msg;
-    if (printer.setup(this, i18n("Print %1", m_doc->url().prettyUrl()))) {
+    QPrinter printer;
 
-        m_doc -> print(&printer);
+    printer.setFullPage(true);
+
+    DiagramPrintPage * selectPage = new DiagramPrintPage(0, m_doc);
+    QPrintDialog *printDialog =
+                  KdePrint::createPrintDialog(&printer, QList<QWidget*>() << selectPage, this);
+    printDialog->setWindowTitle(i18n("Print %1", m_doc->url().prettyUrl()));
+
+    if (printDialog->exec()) {
+        m_doc -> print(&printer, selectPage);
     }
     slotStatusMsg(i18n("Ready."));
 }

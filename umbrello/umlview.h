@@ -49,7 +49,7 @@ class UMLViewImageExporter;
 class UMLForeignKeyConstraint;
 class UMLEntity;
 
-class KPrinter;
+class QPrinter;
 class ToolBarState;
 class ToolBarStateFactory;
 
@@ -356,7 +356,7 @@ public:
     /**
      * contains the implementation for printing functionality
      */
-    void print(KPrinter *pPrinter, QPainter & pPainter);
+    void print(QPrinter *pPrinter, QPainter & pPainter);
 
     /**
      * Overrides the standard operation.

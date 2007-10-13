@@ -32,9 +32,9 @@
 #include "../umlnamespace.h"
 
 
-DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : KPrintDialogPage(parent), m_pDoc(m_pDoc) {
+DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : QWidget(parent), m_pDoc(m_pDoc) {
     int margin = fontMetrics().height();
-    setTitle(i18n("&Diagrams"));
+    setWindowTitle(i18n("&Diagrams"));
     QHBoxLayout * mainLayout = new QHBoxLayout(this);
     mainLayout -> setSpacing(10);
     mainLayout -> setMargin(margin);
@@ -108,24 +108,33 @@ DiagramPrintPage::~DiagramPrintPage()
     disconnect(m_pTypeCB, SIGNAL(activated(const QString&)), this, SLOT(slotActivated(const QString&)));
 }
 
-void DiagramPrintPage::getOptions( QMap<QString,QString>& opts, bool /*incldef = false*/ ) {
+int DiagramPrintPage::printUmlCount() {
     int listCount = m_pSelectLB -> count();
     int count = 0;
 
-    QString diagram(i18n("kde-uml-Diagram"));
     for(int     i=0;i<listCount;i++) {
         if(m_pSelectLB -> isSelected(i)) {
-            UMLView *view = (UMLView *)m_pDoc -> findView(m_nIdList[i]);
-            QString sCount = QString("%1").arg(count);
-            QString sID = QString("%1").arg(ID2STR(view -> getID()));
-            opts.insert(diagram + sCount, sID);
             count++;
         }
     }
-    opts.insert("kde-uml-count", QString("%1").arg(count));
+    return count;
 }
 
-void DiagramPrintPage::setOptions( const QMap<QString,QString>& /*opts*/ ) {}
+QString DiagramPrintPage::printUmlDiagram(int sel){
+    int listCount = m_pSelectLB -> count();
+    int count = 0;
+
+    for(int     i=0;i<listCount;i++) {
+        if(m_pSelectLB -> isSelected(i)) {
+            if(count==sel) {
+                UMLView *view = (UMLView *)m_pDoc -> findView(m_nIdList[i]);
+                QString sID = QString("%1").arg(ID2STR(view -> getID()));
+                return sID;
+            }
+            count++;
+        }
+    }
+}
 
 bool DiagramPrintPage::isValid( QString& msg ) {
     int listCount = m_pSelectLB -> count();
