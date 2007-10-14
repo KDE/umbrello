@@ -36,7 +36,7 @@ public:
      * @param type      The type of this UMLEntityAttribute.
      * @param iv        The initial value of the entityattribute.
      */
-    UMLEntityAttribute(const UMLObject* parent, const QString& name,
+    UMLEntityAttribute(UMLObject* parent, const QString& name,
                        Uml::IDType id = Uml::id_None,
                        Uml::Visibility s = Uml::Visibility::Private,
                        UMLObject *type = 0, const QString& iv = 0);
@@ -46,7 +46,7 @@ public:
      *
      * @param parent    The parent of this UMLEntityAttribute.
      */
-    UMLEntityAttribute(const UMLObject* parent);
+    UMLEntityAttribute(UMLObject* parent);
 
     /**
      * Overloaded '==' operator

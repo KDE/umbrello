@@ -25,7 +25,7 @@
 #include "uniqueid.h"
 #include "dialogs/umloperationdialog.h"
 
-UMLOperation::UMLOperation(const UMLClassifier *parent, const QString& name,
+UMLOperation::UMLOperation(UMLClassifier *parent, const QString& name,
                            Uml::IDType id, Uml::Visibility s, UMLObject *rt)
         : UMLClassifierListItem(parent, name, id)
 {
@@ -39,7 +39,7 @@ UMLOperation::UMLOperation(const UMLClassifier *parent, const QString& name,
     m_bConst = false;
 }
 
-UMLOperation::UMLOperation(const UMLClassifier * parent)
+UMLOperation::UMLOperation(UMLClassifier * parent)
         : UMLClassifierListItem (parent)
 {
     m_BaseType = Uml::ot_Operation;

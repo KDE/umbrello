@@ -37,7 +37,7 @@ public:
      * @param s         The visibility of the operation.
      * @param rt        The return type of the operation.
      */
-    UMLOperation(const UMLClassifier * parent, const QString& name,
+    UMLOperation(UMLClassifier * parent, const QString& name,
                  Uml::IDType id = Uml::id_None,
                  Uml::Visibility s = Uml::Visibility::Public,
                  UMLObject *rt = 0);
@@ -50,7 +50,7 @@ public:
      *
      * @param parent    The parent to this operation.
      */
-    UMLOperation(const UMLClassifier * parent);
+    UMLOperation(UMLClassifier * parent);
 public:
 
     /**

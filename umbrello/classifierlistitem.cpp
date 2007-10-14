@@ -23,7 +23,7 @@
 #include "model_utils.h"
 #include "object_factory.h"
 
-UMLClassifierListItem::UMLClassifierListItem(const UMLObject *parent,
+UMLClassifierListItem::UMLClassifierListItem(UMLObject *parent,
                                              const QString& name, Uml::IDType id)
         : UMLObject(parent, name, id) {
     UMLObject *parentObj = const_cast<UMLObject*>(parent);
@@ -32,7 +32,7 @@ UMLClassifierListItem::UMLClassifierListItem(const UMLObject *parent,
         UMLObject::setUMLPackage(pc);
 }
 
-UMLClassifierListItem::UMLClassifierListItem(const UMLObject *parent)
+UMLClassifierListItem::UMLClassifierListItem(UMLObject *parent)
         : UMLObject(parent) {
     UMLObject *parentObj = const_cast<UMLObject*>(parent);
     UMLClassifier *pc = dynamic_cast<UMLClassifier*>(parentObj);

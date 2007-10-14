@@ -33,7 +33,7 @@ public:
      * @param name              The name of this UMLEnumLiteral.
      * @param id                The unique id given to this UMLEnumLiteral.
      */
-    UMLEnumLiteral(const UMLObject* parent,
+    UMLEnumLiteral(UMLObject* parent,
                    const QString& name, Uml::IDType id = Uml::id_None);
 
     /**
@@ -41,7 +41,7 @@ public:
      *
      * @param parent    The parent of this UMLEnumLiteral.
      */
-    UMLEnumLiteral(const UMLObject* parent);
+    UMLEnumLiteral(UMLObject* parent);
 
     /**
      * Overloaded '==' operator

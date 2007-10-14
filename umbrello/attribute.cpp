@@ -12,7 +12,6 @@
 // own header
 #include "attribute.h"
 // qt/kde includes
-#include <qregexp.h>
 #include <kdebug.h>
 // app includes
 #include "classifier.h"
@@ -23,7 +22,7 @@
 #include "dialogs/umlattributedialog.h"
 #include "object_factory.h"
 
-UMLAttribute::UMLAttribute( const UMLObject *parent,
+UMLAttribute::UMLAttribute( UMLObject *parent,
                             const QString& name, Uml::IDType id,
                             Uml::Visibility s,
                             UMLObject *type, const QString& iv )
@@ -40,7 +39,7 @@ UMLAttribute::UMLAttribute( const UMLObject *parent,
     m_pSecondary = type;
 }
 
-UMLAttribute::UMLAttribute(const UMLObject *parent) : UMLClassifierListItem(parent) {
+UMLAttribute::UMLAttribute(UMLObject *parent) : UMLClassifierListItem(parent) {
     m_BaseType = Uml::ot_Attribute;
     m_Vis = Uml::Visibility::Private;
     m_ParmKind = Uml::pd_In;
@@ -254,7 +253,7 @@ bool UMLAttribute::showPropertiesDialog(QWidget* parent) {
 void UMLAttribute::setTemplateParams(const QString& templateParam, UMLClassifierList &templateParamList) {
     if (templateParam.isEmpty())
         return;
-    QString type = templateParam.simplifyWhiteSpace();
+    QString type = templateParam.simplified();
 
     int start = type.indexOf(QChar('<'));
     if (start >= 0 ) {

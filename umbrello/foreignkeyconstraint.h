@@ -50,7 +50,7 @@ public:
      * @param name      The name of this UMLForeignKeyConstraint.
      * @param id        The unique id given to this UMLForeignKeyConstraint.
      */
-    UMLForeignKeyConstraint(const UMLObject *parent, const QString& name,
+    UMLForeignKeyConstraint(UMLObject *parent, const QString& name,
 			    Uml::IDType id = Uml::id_None );
 
     /**
@@ -58,12 +58,12 @@ public:
      *
      * @param parent    The parent of this UMLForeignKeyConstraint.
      */
-    UMLForeignKeyConstraint(const UMLObject *parent);
+    UMLForeignKeyConstraint(UMLObject *parent);
 
     /**
      * Overloaded '==' operator
      */
-    bool operator==( UMLForeignKeyConstraint &rhs);
+    bool operator==( const UMLForeignKeyConstraint &rhs);
 
     /**
      * destructor.

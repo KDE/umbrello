@@ -18,18 +18,18 @@
 #include "dialogs/umlcheckconstraintdialog.h"
 
 
-UMLCheckConstraint::UMLCheckConstraint(const UMLObject *parent,
+UMLCheckConstraint::UMLCheckConstraint(UMLObject *parent,
                           const QString& name, Uml::IDType id)
     : UMLEntityConstraint(parent, name, id) {
     init();
 }
 
-UMLCheckConstraint::UMLCheckConstraint(const UMLObject *parent)
+UMLCheckConstraint::UMLCheckConstraint(UMLObject *parent)
     : UMLEntityConstraint( parent ) {
     init();
 }
 
-bool UMLCheckConstraint::operator==( UMLCheckConstraint &rhs) {
+bool UMLCheckConstraint::operator==(const UMLCheckConstraint &rhs) {
     if( this == &rhs )
         return true;
 

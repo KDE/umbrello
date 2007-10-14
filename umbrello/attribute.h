@@ -38,7 +38,7 @@ public:
      * @param type      The type of this UMLAttribute.
      * @param iv        The initial value of the attribute.
      */
-    UMLAttribute(const UMLObject *parent, const QString& name,
+    UMLAttribute(UMLObject *parent, const QString& name,
                  Uml::IDType id = Uml::id_None,
                  Uml::Visibility s = Uml::Visibility::Private,
                  UMLObject *type = 0, const QString& iv = 0);
@@ -48,7 +48,7 @@ public:
      *
      * @param parent    The parent of this UMLAttribute.
      */
-    UMLAttribute(const UMLObject *parent);
+    UMLAttribute(UMLObject *parent);
 
     /**
      * Overloaded '==' operator

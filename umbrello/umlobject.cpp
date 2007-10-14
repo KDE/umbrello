@@ -12,7 +12,6 @@
 // own header
 #include "umlobject.h"
 // qt/kde includes
-#include <qregexp.h>
 #include <QApplication>
 #include <kdebug.h>
 // app includes
@@ -34,8 +33,9 @@
 
 using namespace Uml;
 
-UMLObject::UMLObject(const UMLObject * parent, const QString &name, Uml::IDType id)
-        : QObject(const_cast<UMLObject*>(parent), "UMLObject" ) {
+UMLObject::UMLObject(UMLObject * parent, const QString &name, Uml::IDType id)
+        : QObject( parent ) {
+    setObjectName( "UMLObject" );
     init();
     if (id == Uml::id_None)
         m_nId = UniqueID::gen();
@@ -54,8 +54,8 @@ UMLObject::UMLObject(const QString &name, Uml::IDType id)
     m_Name = name;
 }
 
-UMLObject::UMLObject(const UMLObject * parent)
-        : QObject(const_cast<UMLObject*>(parent)) {
+UMLObject::UMLObject(UMLObject * parent)
+        : QObject(parent) {
     init();
 }
 
@@ -87,7 +87,7 @@ bool UMLObject::showProperties(int page, bool assoc) {
         UMLApp::app()->getDocument()->setModified(true);
         modified = true;
     }
-    dlg->close(true); //wipe from memory
+    dlg->close();
     return modified;
 }
 
@@ -139,7 +139,7 @@ QString UMLObject::getFullyQualifiedName(const QString& separator,
     return fqn;
 }
 
-bool UMLObject::operator==(UMLObject & rhs ) {
+bool UMLObject::operator==(const UMLObject & rhs ) {
     if( this == &rhs )
         return true;
 

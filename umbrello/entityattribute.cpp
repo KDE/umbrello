@@ -21,7 +21,7 @@
 #include "dialogs/umlentityattributedialog.h"
 #include "object_factory.h"
 
-UMLEntityAttribute::UMLEntityAttribute( const UMLObject *parent, const QString& name,
+UMLEntityAttribute::UMLEntityAttribute( UMLObject *parent, const QString& name,
                                         Uml::IDType id, Uml::Visibility s,
                                         UMLObject *type, const QString& iv )
         : UMLAttribute(parent, name, id, s, type, iv) {
@@ -31,7 +31,7 @@ UMLEntityAttribute::UMLEntityAttribute( const UMLObject *parent, const QString& 
     }
 }
 
-UMLEntityAttribute::UMLEntityAttribute(const UMLObject *parent) : UMLAttribute(parent) {
+UMLEntityAttribute::UMLEntityAttribute(UMLObject *parent) : UMLAttribute(parent) {
     init();
 }
 

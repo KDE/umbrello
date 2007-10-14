@@ -13,7 +13,6 @@
 #include "template.h"
 
 // qt/kde includes
-#include <qregexp.h>
 #include <kdebug.h>
 
 // app includes
@@ -21,14 +20,14 @@
 #include "umldoc.h"
 #include "dialogs/umltemplatedialog.h"
 
-UMLTemplate::UMLTemplate(const UMLObject *parent, const QString& name,
+UMLTemplate::UMLTemplate(UMLObject *parent, const QString& name,
                          Uml::IDType id, const QString& type)
         : UMLClassifierListItem( parent, name, id ) {
     setTypeName( type );
     m_BaseType = Uml::ot_Template;
 }
 
-UMLTemplate::UMLTemplate(const UMLObject *parent)
+UMLTemplate::UMLTemplate(UMLObject *parent)
         : UMLClassifierListItem( parent ) {
     m_BaseType = Uml::ot_Template;
 }

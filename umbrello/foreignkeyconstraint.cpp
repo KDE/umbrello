@@ -12,9 +12,7 @@
 //own header
 #include "foreignkeyconstraint.h"
 // qt/kde includes
-#include <qregexp.h>
 #include <kdebug.h>
-#include <qpair.h>
 // app includes
 #include "entity.h"
 #include "entityattribute.h"
@@ -24,13 +22,13 @@
 #include "dialogs/umlforeignkeyconstraintdialog.h"
 #include "object_factory.h"
 
-UMLForeignKeyConstraint::UMLForeignKeyConstraint(const UMLObject *parent,
+UMLForeignKeyConstraint::UMLForeignKeyConstraint(UMLObject *parent,
     const QString& name, Uml::IDType id)
     : UMLEntityConstraint(parent, name, id) {
     init();
 }
 
-UMLForeignKeyConstraint::UMLForeignKeyConstraint(const UMLObject *parent)
+UMLForeignKeyConstraint::UMLForeignKeyConstraint(UMLObject *parent)
     : UMLEntityConstraint( parent ) {
     init();
 }
@@ -50,7 +48,7 @@ void UMLForeignKeyConstraint::init() {
      connect( this,SIGNAL( sigReferencedEntityChanged() ),this,SLOT( slotReferencedEntityChanged() ) );
 }
 
-bool UMLForeignKeyConstraint::operator==( UMLForeignKeyConstraint &rhs) {
+bool UMLForeignKeyConstraint::operator==( const UMLForeignKeyConstraint &rhs) {
     if( this == &rhs )
         return true;
 

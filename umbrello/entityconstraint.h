@@ -36,7 +36,7 @@ public:
      * @param name      The name of this UMLEntityConstraint.
      * @param id        The unique id given to this UMLEntityConstraint.
      */
-    UMLEntityConstraint(const UMLObject *parent, const QString& name,
+    UMLEntityConstraint(UMLObject *parent, const QString& name,
 			Uml::IDType id = Uml::id_None );
 
     /**
@@ -44,12 +44,12 @@ public:
      *
      * @param parent    The parent of this UMLEntityConstraint.
      */
-    UMLEntityConstraint(const UMLObject *parent);
+    UMLEntityConstraint(UMLObject *parent);
 
     /**
      * Overloaded '==' operator
      */
-    bool operator==( UMLEntityConstraint &rhs);
+    bool operator==( const UMLEntityConstraint &rhs);
 
     /**
      * destructor.

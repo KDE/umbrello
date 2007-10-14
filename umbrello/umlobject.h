@@ -44,14 +44,14 @@ public:
      * @param id                The ID of the object (optional.) If omitted
      *                  then a new ID will be assigned internally.
      */
-    UMLObject(const UMLObject * parent, const QString &name, Uml::IDType id = Uml::id_None);
+    UMLObject(UMLObject * parent, const QString &name, Uml::IDType id = Uml::id_None);
 
     /**
      * Creates a UMLObject.
      *
      * @param   parent          The parent of the object.
      */
-    UMLObject(const UMLObject * parent);
+    UMLObject(UMLObject * parent);
 
     /**
      * Creates a UMLObject with a given name and unique ID.
@@ -59,12 +59,12 @@ public:
      * @param   name            The name of the object.
      * @param   id              The unique ID of the object.
      */
-    explicit UMLObject(const QString &name = "" , Uml::IDType id = Uml::id_None);
+    explicit UMLObject(const QString &name = QString() , Uml::IDType id = Uml::id_None);
 
     /**
      * Overloaded '==' operator
      */
-    virtual bool operator==(UMLObject & rhs );
+    virtual bool operator==(const UMLObject & rhs );
 
     /**
      * Standard deconstructor.

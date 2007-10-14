@@ -42,7 +42,7 @@ public:
      * @param name              The name of the Concept.
      * @param id                The unique id of the Concept.
      */
-    explicit UMLCanvasObject(const QString & name = "", Uml::IDType id = Uml::id_None);
+    explicit UMLCanvasObject(const QString & name = QString(), Uml::IDType id = Uml::id_None);
 
     /**
      * Standard deconstructor.

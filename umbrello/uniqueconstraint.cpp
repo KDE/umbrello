@@ -12,7 +12,6 @@
 //own header
 #include "uniqueconstraint.h"
 // qt/kde includes
-#include <qregexp.h>
 #include <kdebug.h>
 // app includes
 #include "entity.h"
@@ -24,13 +23,13 @@
 #include "object_factory.h"
 
 
-UMLUniqueConstraint::UMLUniqueConstraint(const UMLObject *parent,
+UMLUniqueConstraint::UMLUniqueConstraint(UMLObject *parent,
                           const QString& name, Uml::IDType id)
     : UMLEntityConstraint(parent, name, id) {
     init();
 }
 
-UMLUniqueConstraint::UMLUniqueConstraint(const UMLObject *parent)
+UMLUniqueConstraint::UMLUniqueConstraint(UMLObject *parent)
     : UMLEntityConstraint( parent ) {
     init();
 }

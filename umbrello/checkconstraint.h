@@ -33,7 +33,7 @@ public:
      * @param name      The name of this UMLCheckConstraint.
      * @param id        The unique id given to this UMLCheckConstraint.
      */
-    UMLCheckConstraint(const UMLObject *parent, const QString& name,
+    UMLCheckConstraint(UMLObject *parent, const QString& name,
 			Uml::IDType id = Uml::id_None );
 
     /**
@@ -41,12 +41,12 @@ public:
      *
      * @param parent    The parent of this UMLCheckConstraint.
      */
-    UMLCheckConstraint(const UMLObject *parent);
+    UMLCheckConstraint(UMLObject *parent);
 
     /**
      * Overloaded '==' operator
      */
-    bool operator==( UMLCheckConstraint &rhs);
+    bool operator==(const UMLCheckConstraint &rhs);
 
     /**
      * destructor.

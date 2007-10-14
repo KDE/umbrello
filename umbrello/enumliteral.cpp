@@ -15,13 +15,13 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-UMLEnumLiteral::UMLEnumLiteral(const UMLObject *parent,
+UMLEnumLiteral::UMLEnumLiteral(UMLObject *parent,
                                const QString& name, Uml::IDType id)
         : UMLClassifierListItem(parent, name, id) {
     m_BaseType = Uml::ot_EnumLiteral;
 }
 
-UMLEnumLiteral::UMLEnumLiteral(const UMLObject *parent) : UMLClassifierListItem(parent) {
+UMLEnumLiteral::UMLEnumLiteral(UMLObject *parent) : UMLClassifierListItem(parent) {
     m_BaseType = Uml::ot_EnumLiteral;
 }
 

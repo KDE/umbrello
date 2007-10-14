@@ -20,21 +20,21 @@
 #include "uml.h"
 
 
-UMLEntityConstraint::UMLEntityConstraint(const UMLObject *parent,
+UMLEntityConstraint::UMLEntityConstraint(UMLObject *parent,
     const QString& name, Uml::IDType id )
     : UMLClassifierListItem( parent, name, id ) {
 
     m_BaseType = Uml::ot_EntityConstraint;
 }
 
-UMLEntityConstraint::UMLEntityConstraint(const UMLObject *parent)
+UMLEntityConstraint::UMLEntityConstraint(UMLObject *parent)
     : UMLClassifierListItem( parent ) {
 
     m_BaseType = Uml::ot_EntityConstraint;
 
 }
 
-bool UMLEntityConstraint::operator==( UMLEntityConstraint &rhs) {
+bool UMLEntityConstraint::operator==( const UMLEntityConstraint &rhs) {
     if( this == &rhs )
         return true;
 

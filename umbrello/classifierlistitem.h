@@ -43,7 +43,7 @@ public:
      * @param name              The name of the operation.
      * @param id                The id of the operation.
      */
-    UMLClassifierListItem(const UMLObject *parent,
+    UMLClassifierListItem(UMLObject *parent,
                           const QString& name,
                           Uml::IDType id = Uml::id_None);
 
@@ -57,7 +57,7 @@ public:
      *          operations, and in this case the UMLOperation is the
      *          parent.
      */
-    UMLClassifierListItem(const UMLObject *parent);
+    UMLClassifierListItem(UMLObject *parent);
 
     /**
      * Destructor.  Empty.
