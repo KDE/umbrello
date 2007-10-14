@@ -72,7 +72,8 @@ void UMLUniqueConstraintDialog::setupDialog(){
 
 
     // layout to hold the name label and line edit
-    QHBoxLayout* nameLayout = new QHBoxLayout( mainLayout );
+    QHBoxLayout* nameLayout = new QHBoxLayout();
+    mainLayout->addItem( nameLayout );
 
     // name label
     m_pNameL = new QLabel( i18n( "Name" ), this );
@@ -94,7 +95,8 @@ void UMLUniqueConstraintDialog::setupDialog(){
     listVBoxLayout->addWidget( m_pAttributeListLB );
 
     // Horizontal Layout to hold  attributes CB, the add, and remove buttons
-    QHBoxLayout* comboButtonHBoxLayout = new QHBoxLayout( listVBoxLayout );
+    QHBoxLayout* comboButtonHBoxLayout = new QHBoxLayout();
+    listVBoxLayout->addItem( comboButtonHBoxLayout );
 
     // the Combo Box containing the attributes
     m_pAttributeCB = new KComboBox( true, m_pAttributeListGB );

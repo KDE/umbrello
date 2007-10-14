@@ -124,7 +124,7 @@ QString DiagramPrintPage::printUmlDiagram(int sel){
     int listCount = m_pSelectLB -> count();
     int count = 0;
 
-    for(int     i=0;i<listCount;i++) {
+    for(int i = 0; i < listCount; i++) {
         if(m_pSelectLB -> isSelected(i)) {
             if(count==sel) {
                 UMLView *view = (UMLView *)m_pDoc -> findView(m_nIdList[i]);
@@ -134,6 +134,7 @@ QString DiagramPrintPage::printUmlDiagram(int sel){
             count++;
         }
     }
+    return QString();
 }
 
 bool DiagramPrintPage::isValid( QString& msg ) {

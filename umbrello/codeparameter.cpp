@@ -34,8 +34,9 @@
 //
 
 CodeParameter::CodeParameter ( ClassifierCodeDocument * parentDoc, UMLObject * parentObject )
-        : QObject ( (QObject*) parentObject, "ACodeParam")
+        : QObject ( parentObject)
 {
+    setObjectName( "ACodeParam" );
     initFields( parentDoc, parentObject );
 }
 

@@ -36,7 +36,6 @@ using namespace Umbrello;
 Configurable::Configurable() :
         _plugins()
 {
-    _plugins.setAutoDelete(false);
 }
 
 Configurable::~Configurable()

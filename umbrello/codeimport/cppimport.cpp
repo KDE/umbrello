@@ -12,9 +12,7 @@
 // own header
 #include "cppimport.h"
 // qt/kde includes
-#include <qmap.h>
-#include <qregexp.h>
-#include <kmessagebox.h>
+#include <QMap>
 #include <kdebug.h>
 // app includes
 #include "import_utils.h"
@@ -61,11 +59,11 @@ void CppImport::feedTheModel(const QString& fileName) {
                 continue;
             QString includeFile = it.key();
             if (includeFile.isEmpty()) {
-                uError() << fileName << ": " << it.data().first
+                uError() << fileName << ": " << it.value().first
                 << " not found" << endl;
                 continue;
             }
-            uDebug() << fileName << ": " << includeFile << " => " << it.data().first;
+            uDebug() << fileName << ": " << includeFile << " => " << it.value().first;
             if (ms_seenFiles.indexOf(includeFile) == -1)
                 feedTheModel(includeFile);
         }

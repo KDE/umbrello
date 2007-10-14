@@ -19,7 +19,7 @@
 #ifndef UMBRELLO_CONFIGURABLE_H
 #define UMBRELLO_CONFIGURABLE_H
 
-#include <Q3PtrList>
+#include <QList>
 
 // forward declarations
 class KConfig;
@@ -107,7 +107,7 @@ protected:
     bool unloadPlugins();
 
 private:
-    typedef Q3PtrList<Plugin> PluginList;
+    typedef QList<Plugin*> PluginList;
 
     PluginList  _plugins;       ///< List of loaded plugins
 };

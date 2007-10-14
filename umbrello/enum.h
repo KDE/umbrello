@@ -35,7 +35,7 @@ public:
      * @param name  The name of the Enum.
      * @param id  The unique id of the Enum.
      */
-    explicit UMLEnum(const QString& name = "", Uml::IDType id = Uml::id_None);
+    explicit UMLEnum(const QString& name = QString(), Uml::IDType id = Uml::id_None);
 
     /**
      * Standard deconstructor.

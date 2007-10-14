@@ -41,7 +41,7 @@ public:
      * @param name              The name of the Category.
      * @param id                The unique id to assign to this Category.
      */
-    explicit UMLCategory(const QString & name = "", Uml::IDType id = Uml::id_None);
+    explicit UMLCategory(const QString & name = QString(), Uml::IDType id = Uml::id_None);
 
     /**
      * Standard deconstructor.
