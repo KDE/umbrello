@@ -70,10 +70,7 @@ CodeGenerator::CodeGenerator (QDomElement & element )
 
 CodeGenerator::~CodeGenerator ( ) {
     // destroy all owned codedocuments
-    CodeDocument *doc;
-    for (CodeDocumentListIt it(m_codedocumentVector);
-                     (doc = it.current()) != NULL; ++it)
-        delete doc;
+    qDeleteAll(m_codedocumentVector);
     m_codedocumentVector.clear();
 }
 
@@ -116,7 +113,7 @@ QString CodeGenerator::getUniqueID(CodeDocument * codeDoc)
 CodeDocument * CodeGenerator::findCodeDocumentByID( const QString &tag ) {
     //if we already know to which file this class was written/should be written, just return it.
     CodeDocument * doc = (CodeDocument*)NULL;
-    if((doc = m_codeDocumentDictionary.find(tag)))
+    if((doc = m_codeDocumentDictionary.value(tag)))
         return doc;
 
     return doc;
@@ -133,7 +130,7 @@ bool CodeGenerator::addCodeDocument ( CodeDocument * doc )
         doc->setID(tag);
     }
 
-    if(m_codeDocumentDictionary.find(tag))
+    if(m_codeDocumentDictionary.contains(tag))
         return false; // return false, we already have some object with this tag in the list
     else
         m_codeDocumentDictionary.insert(tag, doc);
@@ -152,7 +149,7 @@ bool CodeGenerator::removeCodeDocument ( CodeDocument * remove_object ) {
     else
         return false;
 
-    m_codedocumentVector.remove(remove_object);
+    m_codedocumentVector.removeAll(remove_object);
     return true;
 }
 
@@ -220,8 +217,10 @@ void CodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
     docElement.setAttribute("language",langType);
 
     CodeDocumentList * docList = getCodeDocumentList();
-    for (CodeDocument * codeDoc = docList->first(); codeDoc; codeDoc= docList->next())
-        codeDoc->saveToXMI(doc, docElement);
+    CodeDocumentList::iterator it = docList->begin();
+    CodeDocumentList::iterator end = docList->end();
+    for ( ; it != end; ++it )
+        (*it)->saveToXMI(doc, docElement);
 
     root.appendChild( docElement );
 }
@@ -266,8 +265,10 @@ void CodeGenerator::initFromParentDocument( ) {
  * or removed as is apppropriate.
  */
 void CodeGenerator::syncCodeToDocument ( ) {
-    for (CodeDocument * doc = m_codedocumentVector.first(); doc; doc=m_codedocumentVector.next())
-        doc->synchronize();
+    CodeDocumentList::iterator it = m_codedocumentVector.begin();
+    CodeDocumentList::iterator end = m_codedocumentVector.end();
+    for ( ; it != end; ++it )
+        (*it)->synchronize();
 }
 
 // in this 'vanilla' version, we only worry about adding classifier
@@ -317,7 +318,6 @@ void CodeGenerator::writeCodeToFile ( )
 
 void CodeGenerator::writeCodeToFile ( UMLClassifierList & concepts) {
     CodeDocumentList docs;
-    docs.setAutoDelete(false);
 
     foreach (UMLClassifier *concept, concepts ) {
         CodeDocument * doc = findCodeDocumentByClassifier(concept);
@@ -332,22 +332,24 @@ void CodeGenerator::writeCodeToFile ( UMLClassifierList & concepts) {
 void CodeGenerator::writeListedCodeDocsToFile ( CodeDocumentList * docs ) {
 
     // iterate thru all code documents
-    for (CodeDocument *doc = docs->first(); doc; doc = docs->next())
+    CodeDocumentList::iterator it = docs->begin();
+    CodeDocumentList::iterator end = docs->end();
+    for ( ; it != end; ++it )
     {
 
         // we need this so we know when to emit a 'codeGenerated' signal
-        ClassifierCodeDocument * cdoc = dynamic_cast<ClassifierCodeDocument *>(doc);
+        ClassifierCodeDocument * cdoc = dynamic_cast<ClassifierCodeDocument *>(*it);
         bool codeGenSuccess = false;
 
         // we only write the document, if so requested
-        if(doc->getWriteOutCode())
+        if((*it)->getWriteOutCode())
         {
-            QString filename = findFileName(doc);
+            QString filename = findFileName(*it);
             // check that we may open that file for writing
             QFile file;
             if ( openFile(file,filename) ) {
                 QTextStream stream(&file);
-                stream<<doc->toString()<<endl;
+                stream << (*it)->toString() << endl;
                 file.close();
                 codeGenSuccess = true; // we wrote the code OK
             } else {
@@ -653,8 +655,6 @@ QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix,
 void CodeGenerator::initFields() {
 
     m_document = UMLApp::app()->getDocument();
-    m_codeDocumentDictionary.setAutoDelete(false);
-    m_codedocumentVector.setAutoDelete(false);
     m_applyToAllRemaining = true;
     lastIDIndex = 0;
 

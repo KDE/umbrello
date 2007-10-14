@@ -43,10 +43,7 @@ CPPCodeGenerator::CPPCodeGenerator () {
 
 CPPCodeGenerator::~CPPCodeGenerator ( ) {
     // destroy all separately owned codedocuments (e.g. header docs)
-    CodeDocument *doc;
-    for (CodeDocumentListIt it(m_headercodedocumentVector);
-                     (doc = it.current()) != NULL; ++it)
-        delete doc;
+    qDeleteAll(m_headercodedocumentVector);
     m_headercodedocumentVector.clear();
 }
 
@@ -95,7 +92,7 @@ bool CPPCodeGenerator::addHeaderCodeDocument ( CPPHeaderCodeDocument * doc )
         doc->setID(tag);
     }
 
-    if(m_codeDocumentDictionary.find(tag))
+    if(m_codeDocumentDictionary.contains(tag))
         return false; // return false, we already have some object with this tag in the list
     else
         m_codeDocumentDictionary.insert(tag, doc);
@@ -114,7 +111,7 @@ bool CPPCodeGenerator::removeHeaderCodeDocument ( CPPHeaderCodeDocument * remove
     else
         return false;
 
-    m_headercodedocumentVector.remove(remove_object);
+    m_headercodedocumentVector.removeAll(remove_object);
     return true;
 }
 
@@ -168,11 +165,15 @@ void CPPCodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
     docElement.setAttribute("language", "C++");
 
     CodeDocumentList * docList = getCodeDocumentList();
-    for (CodeDocument * codeDoc = docList->first(); codeDoc; codeDoc= docList->next())
-        codeDoc->saveToXMI(doc, docElement);
+    CodeDocumentList::Iterator it  = docList->begin();
+    CodeDocumentList::Iterator end  = docList->end();
+    for ( ; it != end; ++it )
+        (*it)->saveToXMI(doc, docElement);
 
-    for (CodeDocument * hcodeDoc = m_headercodedocumentVector.first(); hcodeDoc; hcodeDoc=m_headercodedocumentVector.next())
-        hcodeDoc->saveToXMI(doc, docElement);
+    CodeDocumentList::Iterator it2  = m_headercodedocumentVector.begin();
+    CodeDocumentList::Iterator end2  = m_headercodedocumentVector.end();
+    for ( ; it2 != end2; ++it2 )
+        (*it2)->saveToXMI(doc, docElement);
 
     root.appendChild( docElement );
 }
@@ -184,12 +185,15 @@ void CPPCodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
 void CPPCodeGenerator::syncCodeToDocument ( ) {
 
     CodeDocumentList * docList = getCodeDocumentList();
+    CodeDocumentList::Iterator it  = docList->begin();
+    CodeDocumentList::Iterator end  = docList->end();
+    for ( ; it != end; ++it )
+        (*it)->synchronize();
 
-    for (CodeDocument * doc = docList->first(); doc; doc=docList->next())
-        doc->synchronize();
-
-    for (CodeDocument * hcodeDoc = m_headercodedocumentVector.first(); hcodeDoc; hcodeDoc=m_headercodedocumentVector.next())
-        hcodeDoc->synchronize();
+    CodeDocumentList::Iterator it2  = m_headercodedocumentVector.begin();
+    CodeDocumentList::Iterator end2  = m_headercodedocumentVector.end();
+    for ( ; it2 != end2; ++it2 )
+        (*it2)->synchronize();
 
 }
 
@@ -210,7 +214,6 @@ void CPPCodeGenerator::writeCodeToFile ( )
 // both the header and source documents
 void CPPCodeGenerator::writeCodeToFile ( UMLClassifierList & concepts) {
     CodeDocumentList docs;
-    docs.setAutoDelete(false);
 
     foreach (UMLClassifier* concept, concepts ) {
         CodeDocument * doc = findCodeDocumentByClassifier(concept);

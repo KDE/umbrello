@@ -213,10 +213,11 @@ QString HierarchicalCodeBlock::getStartText ( ) {
 
 void HierarchicalCodeBlock::addCodeClassFieldMethods(CodeClassFieldList &list )
 {
-
-    for (CodeClassFieldListIt ccflit(list); ccflit.current(); ++ccflit)
+    CodeClassFieldList::Iterator it = list.begin();
+    CodeClassFieldList::Iterator end = list.end();
+    for ( ; it != end; ++it )
     {
-        CodeClassField * field = ccflit.current();
+        CodeClassField * field = *it;
         CodeAccessorMethodList list = field->getMethodList();
         CodeAccessorMethod * method;
         for (CodeAccessorMethodListIt it(list); (method = it.current()) != NULL; ++it)

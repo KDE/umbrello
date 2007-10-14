@@ -12,12 +12,12 @@
 #ifndef _CODEDOCUMENTLIST_H
 #define _CODEDOCUMENTLIST_H
 
-#include <q3ptrlist.h>
+#include <QList>
 
 // forward declarations
 class CodeDocument;
 
-typedef Q3PtrList<CodeDocument> CodeDocumentList;
-typedef Q3PtrListIterator<CodeDocument> CodeDocumentListIt;
+typedef QList<CodeDocument*> CodeDocumentList;
+typedef QListIterator<CodeDocument*> CodeDocumentListIt;
 
 #endif

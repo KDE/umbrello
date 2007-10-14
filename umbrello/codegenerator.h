@@ -19,10 +19,9 @@
 #ifndef CODEGENERATOR_H
 #define CODEGENERATOR_H
 
-#include <q3dict.h>
-//Added by qt3to4:
-#include <Q3PtrList>
-#include <qdir.h>
+#include <QHash>
+#include <QList>
+#include <QDir>
 
 #include "codegenerators/codegenpolicyext.h"
 #include "codegenerationpolicy.h"
@@ -352,7 +351,7 @@ protected:
     static const char * hierarchicalCodeBlockNodeName;
 
     // map of what code documents we currently have in this generator.
-    Q3Dict<CodeDocument> m_codeDocumentDictionary;
+    QHash<QString, CodeDocument*> m_codeDocumentDictionary;
 
     /**
      * used by overwriteDialogue to know if the apply to all

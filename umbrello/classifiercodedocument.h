@@ -19,9 +19,9 @@
 #ifndef CLASSIFIERCODEDOCUMENT_H
 #define CLASSIFIERCODEDOCUMENT_H
 
-#include <qmap.h>
-#include <qstring.h>
-#include <q3ptrlist.h>
+#include <QMap>
+#include <QList>
+#include <QString>
 
 #include "classifier.h"
 #include "codeaccessormethod.h"
@@ -108,9 +108,9 @@ public:
 
     /**
      * Get a list of codeoperation objects held by this classifiercodedocument.
-     * @return      QPtrList<CodeOperation>
+     * @return      QList<CodeOperation>
      */
-    Q3PtrList<CodeOperation> getCodeOperations ( );
+    QList<CodeOperation*> getCodeOperations ();
 
     /** Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
      * @return      CodeClassFieldList
@@ -125,7 +125,7 @@ public:
     /** Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
      * @return      CodeClassFieldList
      */
-    CodeClassFieldList getSpecificClassFields (CodeClassField::ClassFieldType cfType, Uml::Visibility visibility);
+    CodeClassFieldList getSpecificClassFields (CodeClassField::ClassFieldType cfType, Uml::Visibility::Value visibility);
 
     /** Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
      * @return      CodeClassFieldList

@@ -324,11 +324,15 @@ void JavaClassifierCodeDocument::updateContent( )
     // first, set the global flag on whether or not to show classfield info
     // This depends on whether or not we have attribute/association classes
     CodeClassFieldList * cfList = getCodeClassFieldList();
-    for(CodeClassField * field = cfList->first(); field; field = cfList->next())
+    CodeClassFieldList::iterator it = cfList->begin();
+    CodeClassFieldList::iterator end = cfList->end();
+    for( ; it != end; ++it ) {
+        CodeClassField * field = *it;
         if(field->parentIsAttribute())
             field->setWriteOutMethods(policy->getAutoGenerateAttribAccessors());
         else
             field->setWriteOutMethods(policy->getAutoGenerateAssocAccessors());
+    }
 
     // attribute-based ClassFields
     // we do it this way to have the static fields sorted out from regular ones
