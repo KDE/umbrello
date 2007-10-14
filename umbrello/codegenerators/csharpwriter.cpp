@@ -170,7 +170,7 @@ void CSharpWriter::writeClass(UMLClassifier *c) {
     str = getHeadingFile(".cs");
     if (!str.isEmpty()) {
         str.replace(QRegExp("%filename%"),fileName);
-        str.replace(QRegExp("%filepath%"),filecs.name());
+        str.replace(QRegExp("%filepath%"),filecs.fileName());
         cs<<str<<m_endl;
     }
 

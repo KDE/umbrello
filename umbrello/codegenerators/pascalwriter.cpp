@@ -212,7 +212,7 @@ void PascalWriter::writeClass(UMLClassifier *c) {
                     QString typeName = at->getTypeName();
                     pas << getIndent() << name << " : " << typeName;
                     QString initialVal = at->getInitialValue();
-                    if (initialVal.latin1() && ! initialVal.isEmpty())
+                    if (!initialVal.isEmpty())
                         pas << " := " << initialVal;
                     pas << ";" << m_endl;
                 }
@@ -259,7 +259,7 @@ void PascalWriter::writeClass(UMLClassifier *c) {
             //     continue;
             pas << getIndent() << cleanName(at->getName()) << " : "
                 << at->getTypeName();
-            if (at && at->getInitialValue().latin1() && ! at->getInitialValue().isEmpty())
+            if (at && !at->getInitialValue().isEmpty())
                 pas << " := " << at->getInitialValue();
             pas << ";" << m_endl;
         }
@@ -288,7 +288,7 @@ void PascalWriter::writeClass(UMLClassifier *c) {
             //     continue;
             pas << getIndent() << cleanName(at->getName()) << " : "
                 << at->getTypeName();
-            if (at && at->getInitialValue().latin1() && ! at->getInitialValue().isEmpty())
+            if (at && !at->getInitialValue().isEmpty())
                 pas << " := " << at->getInitialValue();
             pas << ";" << m_endl;
         }
@@ -303,7 +303,7 @@ void PascalWriter::writeClass(UMLClassifier *c) {
             //     continue;
             pas << getIndent() << cleanName(at->getName()) << " : "
                 << at->getTypeName();
-            if (at && at->getInitialValue().latin1() && ! at->getInitialValue().isEmpty())
+            if (at && !at->getInitialValue().isEmpty())
                 pas << " := " << at->getInitialValue();
             pas << ";" << m_endl;
         }

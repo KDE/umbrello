@@ -33,7 +33,7 @@ public:
     /**
      * Constructor
      */
-    explicit DocWindow( UMLDoc * doc, QWidget *parent = 0, const char *name = 0 );
+    explicit DocWindow( UMLDoc * doc, QWidget *parent = 0 );
 
     /**
      * Deconstructor

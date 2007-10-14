@@ -3025,7 +3025,7 @@ void Php5Writer::writeClass(UMLClassifier *c) {
     str = getHeadingFile(".php");
     if(!str.isEmpty()) {
         str.replace(QRegExp("%filename%"),fileName);
-        str.replace(QRegExp("%filepath%"),filephp.name());
+        str.replace(QRegExp("%filepath%"),filephp.fileName());
         php<<str<<m_endl;
     }
 

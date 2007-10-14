@@ -83,7 +83,7 @@ void PythonWriter::writeClass(UMLClassifier *c) {
     str = getHeadingFile(".py");
     if(!str.isEmpty()) {
         str.replace(QRegExp("%filename%"), fileName);
-        str.replace(QRegExp("%filepath%"), fileh.name());
+        str.replace(QRegExp("%filepath%"), fileh.fileName());
         h<<str<<m_endl;
     }
 
@@ -116,7 +116,7 @@ void PythonWriter::writeClass(UMLClassifier *c) {
             first = first.toUpper();
             headerName = headerName.replace(0, 1, first);
             str = headerName.replace(QChar('/'),QChar('.'));
-            if (includesList.findIndex(str) < 0)  // not yet imported
+            if (includesList.indexOf(str) < 0)  // not yet imported
                 h << "from " << str << " import *" << m_endl;
         }
     }

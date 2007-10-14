@@ -121,7 +121,7 @@ bool CodeGenObjectWithTextBlocks::removeTextBlock ( TextBlock * remove_object ) 
     // if we get here.. it was in this object so remove from our map
     QString tag = remove_object->getTag();
     if(!tag.isEmpty())
-        m_textBlockTagMap.erase(tag);
+        m_textBlockTagMap.remove(tag);
 
     return true;
 }

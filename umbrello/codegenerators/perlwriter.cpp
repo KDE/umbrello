@@ -125,7 +125,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
     QDir* existing = new QDir (curDir);
     QRegExp regEx("(.*)(::)");
     regEx.setMinimal(true);
-    while (regEx.search(fragment) > -1) {
+    while (regEx.indexIn(fragment) > -1) {
       newDir = regEx.cap(1);
       fragment.remove(0, (regEx.pos(2) + 2)); // get round strange minimal matching bug
       existing->setPath(curDir + '/' + newDir);
@@ -166,7 +166,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
   str = getHeadingFile(".pm");   // what this mean?
   if(!str.isEmpty()) {
     str.replace(QRegExp("%filename%"),fileName);
-    str.replace(QRegExp("%filepath%"),fileperl.name());
+    str.replace(QRegExp("%filepath%"),fileperl.fileName());
     str.replace(QRegExp("%year%"),QDate::currentDate().toString("yyyy"));
     str.replace(QRegExp("%date%"),QDate::currentDate().toString());
     str.replace(QRegExp("%time%"),QTime::currentTime().toString());

@@ -456,7 +456,7 @@ HierarchicalCodeBlock * CodeDocument::newHierarchicalCodeBlock ( ) {
 
 void CodeDocument::removeChildTagFromMap ( const QString &tag )
 {
-    m_childTextBlockTagMap.erase(tag);
+    m_childTextBlockTagMap.remove(tag);
 }
 
 void CodeDocument::addChildTagToMap ( const QString &tag, TextBlock * tb)

@@ -71,7 +71,7 @@ void JSWriter::writeClass(UMLClassifier *c)
     if(!str.isEmpty())
     {
         str.replace(QRegExp("%filename%"),fileName);
-        str.replace(QRegExp("%filepath%"),filejs.name());
+        str.replace(QRegExp("%filepath%"),filejs.fileName());
         js << str << m_endl;
     }
 

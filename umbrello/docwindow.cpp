@@ -28,7 +28,7 @@
 #include "umlwidget.h"
 
 
-DocWindow::DocWindow( UMLDoc * doc, QWidget *parent, const char *name ) : QWidget( parent, name ) {
+DocWindow::DocWindow( UMLDoc * doc, QWidget *parent ) : QWidget( parent ) {
     //setup visual display
 
     QVBoxLayout * docLayout = new QVBoxLayout( this );
