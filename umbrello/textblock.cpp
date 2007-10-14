@@ -31,8 +31,9 @@
 //
 
 TextBlock::TextBlock ( CodeDocument * parent, const QString & text )
-        : QObject ( (QObject *)parent, "textBlock")
+        : QObject ( parent )
 {
+    setObjectName( "textBlock" );
     initFields(parent);
     setText(text);
 }

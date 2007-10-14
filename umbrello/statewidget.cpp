@@ -206,7 +206,7 @@ QStringList & StateWidget::getActivityList() {
 
 bool StateWidget::renameActivity( const QString &activity, const QString &newName ) {
     int index = - 1;
-    if( ( index = m_Activities.findIndex( activity ) ) == -1 )
+    if( ( index = m_Activities.indexOf( activity ) ) == -1 )
         return false;
     m_Activities[ index ] = newName;
     return true;

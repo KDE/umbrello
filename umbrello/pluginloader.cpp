@@ -64,13 +64,13 @@ PluginLoader::loadPlugin(const QString &name)
     // if the plugin has already been loaded, increment
     // its reference and return.
     if((it = _plugins.find(name)) != _plugins.end()) {
-        plugin = it.data();
+        plugin = it.value();
         plugin->ref();
         return plugin;
     }
 
     // use KLibLoader to get a reference to the library
-    lib = KLibLoader::self()->library(name.latin1());
+    lib = KLibLoader::self()->library(name);
     if(!lib) {
         kError() << "failed loading plugin library " << name << endl;
         success = false;
@@ -127,18 +127,16 @@ PluginLoader::loadPlugin(const QString &name)
 Plugin *
 PluginLoader::findPlugin(const QString &name)
 {
-    Plugin *ret = NULL;
     PluginMap::iterator it = _plugins.find(name);
-    if(it != _plugins.end()) {
-        ret = it.data();
-    }
-    return ret;
+    if(it != _plugins.end())
+        return it.value();
+    return NULL;
 }
 
 void
 PluginLoader::unloadPlugin(const QString &name)
 {
-    KLibLoader::self()->unloadLibrary(name.latin1());
+    KLibLoader::self()->unloadLibrary(name);
 }
 
 const PluginLoader::PluginMap &

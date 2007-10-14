@@ -179,7 +179,8 @@ void ObjectWidget::setY( int y ) {
     moveEvent(0);
 }
 
-void ObjectWidget::moveEvent(QMoveEvent */*m*/) {
+void ObjectWidget::moveEvent(QMoveEvent *m) {
+    Q_UNUSED(m)
     emit sigWidgetMoved( m_nLocalID );
     if (m_pLine) {
         const int x = getX();    // for debugging: gdb has a problem evaluating getX() etc
@@ -215,7 +216,7 @@ void ObjectWidget::showProperties() {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->getDocument()->setModified(true);
     }
-    dlg->close(true);//wipe from memory
+    dlg->close();
 }
 
 void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY) {

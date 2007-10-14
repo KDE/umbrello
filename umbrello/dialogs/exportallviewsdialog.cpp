@@ -36,11 +36,11 @@ ExportAllViewsDialog::ExportAllViewsDialog(
     setupUi(this);
 
     // create and initialize m_imageType
+    m_imageType = new KFileFilterCombo(this);
     QSizePolicy sp(QSizePolicy::Preferred, QSizePolicy::Fixed);
     sp.setHorizontalStretch(0);
     sp.setVerticalStretch(0);
     sp.setHeightForWidth(m_imageType->sizePolicy().hasHeightForWidth());
-    m_imageType = new KFileFilterCombo(this);
     m_imageType->setSizePolicy(sp);
     m_imageType->setEditable(false);
 
