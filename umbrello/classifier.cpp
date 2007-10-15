@@ -402,7 +402,7 @@ UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type) {
     return parentConcepts;
 }
 
-bool UMLClassifier::operator==( UMLClassifier & rhs ) {
+bool UMLClassifier::operator==(const UMLClassifier & rhs ) {
   /*
     if ( m_List.count() != rhs.m_List.count() ) {
         return false;

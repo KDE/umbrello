@@ -61,7 +61,7 @@ public:
     /**
      * Overloaded '==' operator.
      */
-    bool operator==( UMLOperation & rhs );
+    bool operator==( const UMLOperation & rhs );
 
     /**
      * Copy the internal presentation of this object into the new

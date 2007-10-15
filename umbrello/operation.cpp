@@ -184,7 +184,7 @@ QString UMLOperation::getUniqueParameterName() {
     return name;
 }
 
-bool UMLOperation::operator==( UMLOperation & rhs ) {
+bool UMLOperation::operator==(const  UMLOperation & rhs ) {
     if( this == &rhs )
         return true;
 

@@ -61,7 +61,7 @@ public:
     /**
      * Overloaded '==' operator.
      */
-    bool operator==( UMLClassifier & rhs );
+    bool operator==(const UMLClassifier & rhs );
 
     /**
      * Copy the internal presentation of this object into the new

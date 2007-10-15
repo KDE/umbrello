@@ -94,12 +94,12 @@ public:
     /**
      * Overrides the assignment operator.
      */
-    AssociationWidget& operator=(AssociationWidget & Other);
+    AssociationWidget& operator=(const AssociationWidget & Other);
 
     /**
      * Overrides the equality test operator.
      */
-    bool operator==(AssociationWidget & Other);
+    bool operator==(const AssociationWidget & Other);
 
     /**
      * Overrides the != operator.
@@ -217,7 +217,7 @@ public:
      *
      * @return  Pointer to the role's UMLWidget.
      */
-    UMLWidget* getWidget(Uml::Role_Type role);
+    UMLWidget* getWidget(Uml::Role_Type role) const;
 
     /**
      * Sets the associated widgets.

@@ -48,7 +48,7 @@ public:
     /**
      * Overloaded '==' operator
      */
-    bool operator==(UMLTemplate &rhs);
+    bool operator==(const UMLTemplate &rhs);
 
     /**
      * Copy the internal presentation of this object into the new

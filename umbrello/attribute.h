@@ -53,7 +53,7 @@ public:
     /**
      * Overloaded '==' operator
      */
-    bool operator==( UMLAttribute &rhs);
+    bool operator==(const UMLAttribute &rhs);
 
     /**
      * destructor.

@@ -90,8 +90,7 @@ QString UMLEntityAttribute::toString(Uml::Signature_Type sig) {
 
     if(sig == Uml::st_ShowSig || sig == Uml::st_NoSig) {
         s=m_Vis.toString(true) + ' ';
-    } else
-        s = "";
+    }
 
     if(sig == Uml::st_ShowSig || sig == Uml::st_SigNoVis) {
         QString string = s + getName() + " : " + getTypeName();
@@ -102,7 +101,7 @@ QString UMLEntityAttribute::toString(Uml::Signature_Type sig) {
         return s + getName();
 }
 
-bool UMLEntityAttribute::operator==( UMLEntityAttribute &rhs) {
+bool UMLEntityAttribute::operator==(const UMLEntityAttribute &rhs) {
     if( this == &rhs )
         return true;
 

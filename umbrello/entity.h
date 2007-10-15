@@ -54,7 +54,7 @@ public:
     /**
      * Overloaded '==' operator.
      */
-    bool operator==(UMLEntity& rhs);
+    bool operator==(const UMLEntity& rhs);
 
     /**
      * Copy the internal presentation of this object into the new

@@ -52,7 +52,7 @@ public:
     /**
      *  Overloaded '==' operator
      */
-    virtual bool operator==(UMLCanvasObject& rhs);
+    virtual bool operator==(const UMLCanvasObject& rhs);
 
     /**
      * Copy the internal presentation of this object into the new

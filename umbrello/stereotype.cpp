@@ -39,7 +39,7 @@ UMLStereotype::UMLStereotype() : UMLObject() {
 
 UMLStereotype::~UMLStereotype() {}
 
-bool UMLStereotype::operator==( UMLStereotype &rhs) {
+bool UMLStereotype::operator==( const UMLStereotype &rhs) {
     if (this == &rhs) {
         return true;
     }

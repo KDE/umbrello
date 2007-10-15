@@ -51,7 +51,7 @@ public:
     /**
      * Overloaded '==' operator
      */
-    bool operator==( UMLEntityAttribute& rhs);
+    bool operator==(const UMLEntityAttribute& rhs);
 
     /**
      * destructor.

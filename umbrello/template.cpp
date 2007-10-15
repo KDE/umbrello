@@ -48,7 +48,7 @@ QString UMLTemplate::getTypeName() {
     return m_pSecondary->getName();
 }
 
-bool UMLTemplate::operator==(UMLTemplate &rhs) {
+bool UMLTemplate::operator==(const UMLTemplate &rhs) {
     if (this == &rhs) {
         return true;
     }

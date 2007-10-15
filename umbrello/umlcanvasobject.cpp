@@ -210,7 +210,7 @@ void UMLCanvasObject::init() {
 
 }
 
-bool UMLCanvasObject::operator==(UMLCanvasObject& rhs) {
+bool UMLCanvasObject::operator==(const UMLCanvasObject& rhs) {
     if (this == &rhs) {
         return true;
     }

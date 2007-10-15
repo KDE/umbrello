@@ -30,7 +30,7 @@ UMLEnum::~UMLEnum() {
     m_List.clear();
 }
 
-bool UMLEnum::operator==( UMLEnum & rhs ) {
+bool UMLEnum::operator==(const UMLEnum & rhs ) {
     return UMLClassifier::operator==(rhs);
 }
 

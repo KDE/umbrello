@@ -46,7 +46,7 @@ public:
     /**
      * Overloaded '==' operator
      */
-    bool operator==(UMLEnumLiteral &rhs);
+    bool operator==(const UMLEnumLiteral &rhs);
 
     /**
      * Copy the internal presentation of this object into the new

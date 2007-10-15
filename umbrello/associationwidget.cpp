@@ -128,7 +128,7 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
 AssociationWidget::~AssociationWidget() {
 }
 
-AssociationWidget& AssociationWidget::operator=(AssociationWidget & Other) {
+AssociationWidget& AssociationWidget::operator=(const AssociationWidget & Other) {
     m_LinePath = Other.m_LinePath;
 
     m_pView = Other.m_pView;
@@ -182,7 +182,7 @@ AssociationWidget& AssociationWidget::operator=(AssociationWidget & Other) {
     return *this;
 }
 
-bool AssociationWidget::operator==(AssociationWidget & Other) {
+bool AssociationWidget::operator==(const AssociationWidget & Other) {
     if( this == &Other )
         return true;
 
@@ -252,7 +252,7 @@ FloatingTextWidget* AssociationWidget::getMultiWidget(Uml::Role_Type role) {
 QString AssociationWidget::getMulti(Uml::Role_Type role) const
 {
     if (m_role[role].m_pMulti == NULL)
-        return "";
+        return QString();
     return m_role[role].m_pMulti->getText();
 }
 
@@ -263,7 +263,7 @@ FloatingTextWidget* AssociationWidget::getNameWidget()
 
 QString AssociationWidget::getName() const {
     if (m_pName == NULL)
-        return "";
+        return QString();
     return m_pName->getText();
 }
 
@@ -300,13 +300,13 @@ FloatingTextWidget* AssociationWidget::getTextWidgetByRole(Uml::Text_Role tr) {
 
 QString AssociationWidget::getRoleName(Uml::Role_Type role) const {
     if (m_role[role].m_pRole == NULL)
-        return "";
+        return QString();
     return m_role[role].m_pRole->getText();
 }
 
 QString AssociationWidget::getRoleDoc(Uml::Role_Type role) const {
     if (m_pObject == NULL || m_pObject->getBaseType() != ot_Association)
-        return "";
+        return QString();
     UMLAssociation *umla = static_cast<UMLAssociation*>(m_pObject);
     return umla->getRoleDoc(role);
 }
@@ -678,7 +678,7 @@ Uml::Text_Role AssociationWidget::CalculateNameType(Uml::Text_Role defaultRole) 
     return result;
 }
 
-UMLWidget* AssociationWidget::getWidget(Uml::Role_Type role) {
+UMLWidget* AssociationWidget::getWidget(Uml::Role_Type role) const {
     return m_role[role].m_pWidget;
 }
 
@@ -893,7 +893,7 @@ Uml::IDType AssociationWidget::getWidgetID(Uml::Role_Type role) const {
 
 /** Returns a QString Object representing this AssociationWidget */
 QString AssociationWidget::toString() {
-    QString string = "";
+    QString string;
 
     if(m_role[A].m_pWidget) {
         string = m_role[A].m_pWidget -> getName();

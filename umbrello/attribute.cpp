@@ -97,7 +97,7 @@ QString UMLAttribute::toString(Uml::Signature_Type sig) {
         if (ownParent == NULL) {
             uError() << "parent " << owningObject->getName()
                 << " is not a UMLClassifier" << endl;
-            return "";
+            return QString();
         }
         QString typeName;
         UMLClassifier *type = UMLClassifierListItem::getType();
@@ -136,7 +136,7 @@ QString UMLAttribute::getFullyQualifiedName( const QString& separator,
     if (ownParent == NULL) {
         uError() << m_Name << ": parent " << owningObject->getName()
             << " is not a UMLClassifier" << endl;
-        return "";
+        return QString();
     }
     QString tempSeparator = separator;
     if (tempSeparator.isEmpty())
@@ -148,7 +148,7 @@ QString UMLAttribute::getFullyQualifiedName( const QString& separator,
     return fqn;
 }
 
-bool UMLAttribute::operator==( UMLAttribute &rhs) {
+bool UMLAttribute::operator==(const UMLAttribute &rhs) {
     if( this == &rhs )
         return true;
 

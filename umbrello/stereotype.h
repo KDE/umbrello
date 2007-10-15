@@ -43,7 +43,7 @@ public:
     /**
      * Overloaded '==' operator
      */
-    bool operator==(UMLStereotype &rhs);
+    bool operator==(const UMLStereotype &rhs);
 
     /**
      * destructor

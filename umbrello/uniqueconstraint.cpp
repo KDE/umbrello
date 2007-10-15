@@ -34,7 +34,7 @@ UMLUniqueConstraint::UMLUniqueConstraint(UMLObject *parent)
     init();
 }
 
-bool UMLUniqueConstraint::operator==( UMLUniqueConstraint &rhs) {
+bool UMLUniqueConstraint::operator==(const  UMLUniqueConstraint &rhs) {
     if( this == &rhs )
         return true;
 

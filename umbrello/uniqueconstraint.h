@@ -47,7 +47,7 @@ public:
     /**
      * Overloaded '==' operator
      */
-    bool operator==( UMLUniqueConstraint &rhs);
+    bool operator==(const UMLUniqueConstraint &rhs);
 
     /**
      * destructor.

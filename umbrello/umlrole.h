@@ -38,7 +38,7 @@ public:
     /**
      * Overloaded '==' operator
      */
-    bool operator==(UMLRole & rhs);
+    bool operator==(const UMLRole & rhs);
 
     /**
      * Standard deconstructor.

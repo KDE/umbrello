@@ -31,7 +31,7 @@ UMLRole::UMLRole(UMLAssociation * parent, UMLObject * parentObj, Uml::Role_Type 
 
 UMLRole::~UMLRole() { }
 
-bool UMLRole::operator==(UMLRole &rhs) {
+bool UMLRole::operator==(const UMLRole &rhs) {
     if (this == &rhs) {
         return true;
     }

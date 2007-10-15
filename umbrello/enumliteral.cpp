@@ -27,7 +27,7 @@ UMLEnumLiteral::UMLEnumLiteral(UMLObject *parent) : UMLClassifierListItem(parent
 
 UMLEnumLiteral::~UMLEnumLiteral() { }
 
-bool UMLEnumLiteral::operator==(UMLEnumLiteral& rhs) {
+bool UMLEnumLiteral::operator==(const UMLEnumLiteral& rhs) {
     if ( this == &rhs )  {
         return true;
     }

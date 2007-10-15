@@ -39,7 +39,7 @@ UMLEntity::~UMLEntity() {
     m_List.clear();
 }
 
-bool UMLEntity::operator==( UMLEntity& rhs ) {
+bool UMLEntity::operator==(const UMLEntity& rhs ) {
     return UMLClassifier::operator==(rhs);
 }
 
