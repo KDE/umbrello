@@ -56,12 +56,12 @@ public:
     /**
     *   equal to (==) operator
     */
-    bool operator==( LinePath & rhs );
+    bool operator==( const LinePath & rhs );
 
     /**
     *   copy ( = ) operator
     */
-    LinePath & operator=( LinePath & rhs );
+    LinePath & operator=( const LinePath & rhs );
 
     /**
     *   Enum to tell whether the line docks top/bottom or left/right
@@ -75,13 +75,13 @@ public:
     */
     void setDockRegion( Region region );
 
-    bool hasPoints ();
+    bool hasPoints () const;
     void dumpPoints ();
 
     /**
     *   Returns the point at the point index.
     */
-    QPoint getPoint( int pointIndex );
+    QPoint getPoint( int pointIndex ) const;
 
     /**
     *   Sets the position of an already set point.
@@ -115,7 +115,7 @@ public:
     *   Returns the amount of POINTS on the line.
     *   Includes start and end points.
     */
-    int count();
+    int count() const;
 
     /**
     *   Returns -1 if the given point is not on the line.
@@ -252,7 +252,7 @@ protected:
     *   This class doesn't hold this information but is a wrapper
     *   method to stop calls to undefined variable like m_pAssociation.
     */
-    Uml::Association_Type getAssocType();
+    Uml::Association_Type getAssocType() const;
 
     /**
     *   Returns the Line Color to use.

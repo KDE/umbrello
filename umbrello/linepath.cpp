@@ -93,16 +93,17 @@ void LinePath::setAssociation(AssociationWidget * association ) {
     connect( view, SIGNAL( sigLineWidthChanged( Uml::IDType ) ), this, SLOT( slotLineWidthChanged( Uml::IDType ) ) );
 }
 
-QPoint LinePath::getPoint( int pointIndex ) {
+QPoint LinePath::getPoint( int pointIndex ) const {
     int count = m_LineList.count();
     if( count == 0 || pointIndex > count  || pointIndex < 0)
         return QPoint( -1, -1 );
 
     if( pointIndex == count ) {
-        Q3CanvasLine * line = m_LineList.last();
+        Q3CanvasLine * line = m_LineList.getLast();
         return line -> endPoint();
     }
-    Q3CanvasLine * line = m_LineList.at( pointIndex );
+    // Q3PtrList's constness sucked... remove this cast when porting to QList
+    Q3CanvasLine * line = const_cast<LinePath*>(this)->m_LineList.at( pointIndex );
     return line -> startPoint();
 }
 
@@ -290,7 +291,7 @@ bool LinePath::setStartEndPoints( const QPoint &start, const QPoint &end ) {
     return false;
 }
 
-int LinePath::count() {
+int LinePath::count() const {
     return m_LineList.count() + 1;
 }
 
@@ -782,7 +783,7 @@ void LinePath::updateParallelLine() {
     line -> setPoints( common.x(), common.y(), p.x(), p.y() );
 }
 
-bool LinePath::operator==( LinePath & rhs ) {
+bool LinePath::operator==( const LinePath & rhs ) {
     if( this -> m_LineList.count() != rhs.m_LineList.count() )
         return false;
 
@@ -794,7 +795,7 @@ bool LinePath::operator==( LinePath & rhs ) {
     return true;
 }
 
-LinePath & LinePath::operator=( LinePath & rhs ) {
+LinePath & LinePath::operator=( const LinePath & rhs ) {
     if( this == &rhs )
         return *this;
     //clear out the old canvas objects
@@ -821,7 +822,7 @@ Q3Canvas * LinePath::getCanvas() {
     return view -> canvas();
 }
 
-Uml::Association_Type LinePath::getAssocType() {
+Uml::Association_Type LinePath::getAssocType() const {
     if( m_pAssociation )
         return m_pAssociation -> getAssocType();
     return Uml::at_Association;
@@ -877,7 +878,7 @@ void LinePath::setDockRegion( Region region ) {
     m_DockRegion = region;
 }
 
-bool LinePath::hasPoints () {
+bool LinePath::hasPoints () const {
     int count = m_LineList.count();
     if (count>1)
         return true;
