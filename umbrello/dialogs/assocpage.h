@@ -16,7 +16,6 @@
 #include <qwidget.h>
 #include <q3groupbox.h>
 #include <q3listbox.h>
-#include <q3ptrlist.h>
 
 #include "../umlobject.h"
 #include "../umlview.h"

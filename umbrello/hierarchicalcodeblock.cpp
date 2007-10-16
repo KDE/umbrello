@@ -219,8 +219,7 @@ void HierarchicalCodeBlock::addCodeClassFieldMethods(CodeClassFieldList &list )
     {
         CodeClassField * field = *it;
         CodeAccessorMethodList list = field->getMethodList();
-        CodeAccessorMethod * method;
-        for (CodeAccessorMethodListIt it(list); (method = it.current()) != NULL; ++it)
+        Q_FOREACH( CodeAccessorMethod *method, list )
         {
             QString tag = method->getTag();
             if(tag.isEmpty())

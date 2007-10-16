@@ -22,7 +22,6 @@
 #define CODEGENERATIONWIZARD_H
 
 #include <qwidget.h>
-#include <q3ptrlist.h>
 #include "ui_codegenerationwizardbase.h"
 #include "settingsdlg.h"
 #include "../umlclassifierlist.h"

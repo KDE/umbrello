@@ -15,7 +15,6 @@
 // qt includes
 #include <qstring.h>
 #include <qtextstream.h>
-#include <q3ptrlist.h>
 #include <qstringlist.h>
 #include <qregexp.h>
 #include <qmessagebox.h>
@@ -27,8 +26,6 @@
 #include "umlnamespace.h"  // only for uDebug()/uError()
 
 namespace Import_Rose {
-
-typedef Q3PtrList<PetalNode> PetalNodeList;
 
 uint nClosures; // Multiple closing parentheses may appear on a single
                 // line. The parsing is done line-by-line and using

@@ -95,7 +95,7 @@ public:
      * @return CodeAccessorMethodList list of Method objects held by
      * m_methodVector
      */
-    CodeAccessorMethodList getMethodList();
+    CodeAccessorMethodList getMethodList() const;
 
     /** Utility method to allow finding particular accessor method of this
          *  code class field by its type identifier.
@@ -111,10 +111,10 @@ public:
     /**
      * Get the type of classfield this is.
      */
-    ClassFieldType getClassFieldType();
+    ClassFieldType getClassFieldType() const;
 
     // quick utility call to figure out if parent is an attribute or not
-    bool parentIsAttribute ( );
+    bool parentIsAttribute ( ) const;
 
     // get the type of object that will be added/removed from lists
     // of objects (as per specification of associations)
@@ -124,7 +124,7 @@ public:
      * this flag is often used to toggle autogeneration of accessor
      * methods in the code class field.
      */
-    bool getWriteOutMethods ();
+    bool getWriteOutMethods () const;
 
     /** determine if we will *allow* methods to be viewable.
      * this flag is often used to toggle autogeneration of accessor

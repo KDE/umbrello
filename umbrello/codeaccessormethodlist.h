@@ -12,12 +12,12 @@
 #ifndef _CODEACCESSORMETHODLIST_H
 #define _CODEACCESSORMETHODLIST_H
 
-#include <q3ptrlist.h>
+#include <QList>
 
 // forward declarations
 class CodeAccessorMethod;
 
-typedef Q3PtrList<CodeAccessorMethod> CodeAccessorMethodList;
-typedef Q3PtrListIterator<CodeAccessorMethod> CodeAccessorMethodListIt;
+typedef QList<CodeAccessorMethod*> CodeAccessorMethodList;
+typedef QListIterator<CodeAccessorMethod*> CodeAccessorMethodListIt;
 
 #endif

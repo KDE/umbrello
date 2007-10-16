@@ -15,7 +15,6 @@
 #include <qwidget.h>
 #include <q3groupbox.h>
 #include <q3listbox.h>
-#include <q3ptrlist.h>
 
 #include "../package.h"
 #include "../listpopupmenu.h"

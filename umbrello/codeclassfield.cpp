@@ -17,7 +17,7 @@
 // own header
 #include "codeclassfield.h"
 // qt/kde includes
-#include <qregexp.h>
+#include <QRegExp>
 #include <kdebug.h>
 // app includes
 #include "association.h"
@@ -53,13 +53,11 @@ CodeClassField::CodeClassField ( ClassifierCodeDocument * doc , UMLAttribute * a
 CodeClassField::~CodeClassField ( ) {
 
     // remove methods from parent document
-    CodeAccessorMethodList list = m_methodVector;
-    for(CodeAccessorMethod * m = list.first(); m ; m=list.next())
+    Q_FOREACH( CodeAccessorMethod *m, m_methodVector )
     {
         getParentDocument()->removeTextBlock(m);
         m->forceRelease();
     }
-    list.clear();
 
     // clear the decl block from parent text block list too
     if(m_declCodeBlock)
@@ -119,21 +117,22 @@ QString CodeClassField::getTypeName ( ) {
 
 // get the type of object that will be added/removed from lists
 // of objects (as per specification of associations)
-QString CodeClassField::getListObjectType() {
-    QString type;
+QString CodeClassField::getListObjectType()
+{
     if (!parentIsAttribute())
     {
         UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
-        type = getUMLObjectName(role->getObject());
+        return getUMLObjectName(role->getObject());
     }
-    return type;
+    return QString();
 }
 
 /**
  * Get the value of m_isAbstract
  * @return the value of m_isAbstract
  */
-bool CodeClassField::parentIsAttribute ( ) {
+bool CodeClassField::parentIsAttribute ( ) const
+{
     return m_parentIsAttribute;
     //  return (m_classFieldType == Attribute) ? true : false;
 }
@@ -141,7 +140,8 @@ bool CodeClassField::parentIsAttribute ( ) {
 /**
  * Get the type of classfield this is.
  */
-CodeClassField::ClassFieldType CodeClassField::getClassFieldType() {
+CodeClassField::ClassFieldType CodeClassField::getClassFieldType() const
+{
     return m_classFieldType;
 }
 
@@ -187,7 +187,7 @@ bool CodeClassField::addMethod ( CodeAccessorMethod * add_object ) {
  */
 bool CodeClassField::removeMethod ( CodeAccessorMethod * remove_object ) {
     // m_methodMap->erase(remove_object->getType());
-    m_methodVector.removeRef(remove_object);
+    m_methodVector.removeAll(remove_object);
     getParentDocument()->removeTextBlock(remove_object);
     return true;
 }
@@ -197,7 +197,8 @@ bool CodeClassField::removeMethod ( CodeAccessorMethod * remove_object ) {
  * @return QPtrList<CodeMethodBlock *> list of Method objects held by
  * m_methodVector
  */
-CodeAccessorMethodList CodeClassField::getMethodList() {
+CodeAccessorMethodList CodeClassField::getMethodList() const
+{
     return m_methodVector;
 }
 
@@ -205,7 +206,7 @@ CodeAccessorMethodList CodeClassField::getMethodList() {
  * this flag is often used to toggle autogeneration of accessor
  * methods in the code class field.
  */
-bool CodeClassField::getWriteOutMethods ()
+bool CodeClassField::getWriteOutMethods () const
 {
     return m_writeOutMethods;
 }
@@ -254,8 +255,7 @@ void CodeClassField::setAttributesOnNode ( QDomDocument & doc, QDomElement & cfE
     m_declCodeBlock->saveToXMI(doc, cfElem);
 
     // now record the tags on our accessormethods
-    CodeAccessorMethod *method;
-    for (CodeAccessorMethodListIt it(m_methodVector); (method = it.current()) != NULL; ++it)
+    Q_FOREACH( CodeAccessorMethod *method, m_methodVector )
     {
         method->saveToXMI(doc,cfElem);
     }
@@ -379,8 +379,7 @@ QString CodeClassField::fixInitialStringDeclValue(const QString& val, const QStr
 void CodeClassField::synchronize ()
 {
     updateContent();
-    CodeAccessorMethod *method;
-    for (CodeAccessorMethodListIt it(m_methodVector); (method = it.current()) != NULL; ++it)
+    Q_FOREACH( CodeAccessorMethod *method, m_methodVector )
         method->syncToParent();
 
     if(m_declCodeBlock)
@@ -398,13 +397,13 @@ CodeAccessorMethod * CodeClassField::findMethodByType ( CodeAccessorMethod::Acce
     */
     if(role_id > 1 || role_id < 0)
     {
-        for (CodeAccessorMethod * m = m_methodVector.first(); m ; m= m_methodVector.next())
+        Q_FOREACH( CodeAccessorMethod *m, m_methodVector )
             if( m->getType() == type)
                 return m;
     } else {
         // ugh. forced into this underperforming algorithm because of bad association
         // design.
-        for (CodeAccessorMethod * m = m_methodVector.first(); m ; m= m_methodVector.next())
+        Q_FOREACH( CodeAccessorMethod *m, m_methodVector )
         {
             UMLRole * role = dynamic_cast<UMLRole*>(m->getParentObject());
             if(!role)
@@ -487,8 +486,7 @@ void CodeClassField::updateContent()
     // all here? -b.t.
     if (parentIsAttribute())
     {
-        for ( CodeAccessorMethod *method = m_methodVector.first(); method;
-                method = m_methodVector.next() )
+        Q_FOREACH( CodeAccessorMethod *method, m_methodVector )
             method->setWriteOutText( m_writeOutMethods );
         return;
     }
@@ -497,7 +495,7 @@ void CodeClassField::updateContent()
     bool isSingleValue = fieldIsSingleValue();
     bool isEmptyRole = role->getName().isEmpty() ? true : false;
 
-    for (CodeAccessorMethod * method = m_methodVector.first(); method; method=m_methodVector.next())
+    Q_FOREACH( CodeAccessorMethod *method, m_methodVector )
     {
 
         CodeAccessorMethod::AccessorType type = method->getType();
@@ -598,7 +596,6 @@ void CodeClassField::initFields(bool inConstructor) {
     m_listClassName = QString ();
     m_declCodeBlock = NULL;
 
-    m_methodVector.setAutoDelete(false);
     // m_methodMap = new QMap<CodeAccessorMethod::AccessorType, CodeAccessorMethod *>;
 
     if (!inConstructor)
