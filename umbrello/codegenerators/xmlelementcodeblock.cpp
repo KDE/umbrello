@@ -122,7 +122,7 @@ void XMLElementCodeBlock::updateContent ( )
 
     // Now update START/ENDING Text
     QString startText = '<' + nodeName;
-    QString endText = "";
+    QString endText;
 
     UMLAttributeList * alist = getAttributeList();
     foreach (UMLAttribute *at , *alist)

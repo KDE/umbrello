@@ -120,7 +120,7 @@ QString CodeClassField::getTypeName ( ) {
 // get the type of object that will be added/removed from lists
 // of objects (as per specification of associations)
 QString CodeClassField::getListObjectType() {
-    QString type = QString ("");
+    QString type;
     if (!parentIsAttribute())
     {
         UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
@@ -595,7 +595,7 @@ bool CodeClassField::fieldIsSingleValue ( )
 void CodeClassField::initFields(bool inConstructor) {
 
     m_writeOutMethods = false;
-    m_listClassName = QString ("");
+    m_listClassName = QString ();
     m_declCodeBlock = NULL;
 
     m_methodVector.setAutoDelete(false);

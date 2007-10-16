@@ -67,7 +67,7 @@ UMLAssociation::~UMLAssociation( ) {
     }
 }
 
-bool UMLAssociation::operator==(UMLAssociation &rhs) {
+bool UMLAssociation::operator==(const UMLAssociation &rhs) {
     if (this == &rhs) {
         return true;
     }
@@ -128,7 +128,7 @@ QString UMLAssociation::toString ( ) const
 QString UMLAssociation::typeAsString (Uml::Association_Type atype)
 {
     if (atype < atypeFirst || atype > atypeLast)
-        return "";
+        return QString();
     return assocTypeStr[(unsigned)atype - (unsigned)atypeFirst];
 }
 

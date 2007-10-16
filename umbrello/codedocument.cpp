@@ -302,7 +302,7 @@ QString CodeDocument::toString ( ) {
     // IF the whole document is turned "Off" then don't bother
     // checking individual code blocks, just send back empty string
     if(!getWriteOutCode())
-        return QString("");
+        return QString();
 
     QString content = getHeader()->toString();
 
@@ -481,8 +481,8 @@ void CodeDocument::initDoc () {
 
     m_writeOutCode = true;
     m_package = NULL;
-    m_fileExtension = QString("");
-    m_ID = QString(""); // leave with NO ID as a default
+    m_fileExtension = QString();
+    m_ID = QString(); // leave with NO ID as a default
 
     //m_textblockVector.setAutoDelete(false);
 

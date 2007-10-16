@@ -46,9 +46,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
     m_pUmldoc = doc;
     m_pAtt = a;
     QString type, text, name, initialValue;
-    if(!a) {
-        type = text = name = initialValue = "";
-    } else {
+    if(a) {
         type = a -> getTypeName();
         name = a -> getName();
         initialValue = a -> getInitialValue();

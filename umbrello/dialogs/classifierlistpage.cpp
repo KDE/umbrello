@@ -48,8 +48,8 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
 
 void ClassifierListPage::setupPage() {
 
-    QString typeName("");
-    QString newItemType("");
+    QString typeName;
+    QString newItemType;
 
     if (m_itemType == ot_Attribute) {
         typeName = i18n("Attributes");

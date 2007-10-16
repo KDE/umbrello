@@ -137,7 +137,7 @@ void CodeMethodBlock::setAttributesFromObject(TextBlock * obj)
  */
 QString CodeMethodBlock::toString ( ) {
 
-    QString string = QString("");
+    QString string;
 
     if(getWriteOutText()) {
 
@@ -170,8 +170,8 @@ QString CodeMethodBlock::toString ( ) {
 
 void CodeMethodBlock::initFields ( ) {
 
-    m_startMethod = QString("");
-    m_endMethod = QString("");
+    m_startMethod = QString();
+    m_endMethod = QString();
 }
 
 void CodeMethodBlock::syncToParent ( )

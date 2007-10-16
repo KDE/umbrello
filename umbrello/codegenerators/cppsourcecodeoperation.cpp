@@ -75,7 +75,7 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
 
     QString returnType = o->getTypeName();
     QString methodName = o->getName();
-    QString paramStr = QString("");
+    QString paramStr;
     QString className = CodeGenerator::cleanName(c->getName());
 
     // assemble parameters

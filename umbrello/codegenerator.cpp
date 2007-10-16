@@ -520,7 +520,7 @@ QString CodeGenerator::findFileName ( CodeDocument * codeDocument ) {
         {
             // ugh. dir separator here is UNIX specific..
             QStringList dirs = pathDir.absolutePath().split("/");
-            QString currentDir = "";
+            QString currentDir;
 
             QStringList::iterator end(dirs.end());
             for (QStringList::iterator dir(dirs.begin()); dir != end; ++dir)

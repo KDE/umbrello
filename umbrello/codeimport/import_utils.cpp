@@ -105,7 +105,7 @@ QString formatComment(const QString &comment) {
             lines.pop_back();  // nothing interesting on this line
     }
     if (! lines.count())
-        return "";
+        return QString();
 
     QStringList::Iterator end(lines.end());
     for (QStringList::Iterator lit(lines.begin()); lit != end; ++lit) {

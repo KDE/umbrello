@@ -404,7 +404,7 @@ void CodeEditor::appendText (CodeClassFieldDeclarationBlock * db )
     UMLObject * parentObj = db->getParentClassField()->getParentObject();
 
     QColor bgcolor = getState().editBlockColor;
-    QString componentName = QString("");
+    QString componentName;
     if(parentObj)
     {
         if(db->getParentClassField()->parentIsAttribute()) {
@@ -507,7 +507,7 @@ void CodeEditor::appendText(HierarchicalCodeBlock * hblock)
 
     OwnedHierarchicalCodeBlock * test = dynamic_cast<OwnedHierarchicalCodeBlock *>(hblock);
     UMLObject * parentObj = 0;
-    QString componentName = QString("");
+    QString componentName;
     QColor paperColor = getState().nonEditBlockColor;
     if(test)
     {
@@ -860,7 +860,7 @@ void CodeEditor::updateTextBlockFromText (TextBlock * block)
         TextBlockInfo *info = (*m_tbInfoMap)[block];
         UMLObject * parentObj = info->getParent();
         int pstart = m_textBlockList.findRef(block);
-        QString content = "";
+        QString content;
 
         // Assemble content from editiable paras
         QList<ParaInfo*> list = info->m_paraList;

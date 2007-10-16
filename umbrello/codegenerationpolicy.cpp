@@ -281,8 +281,8 @@ QString CodeGenerationPolicy::getIndentation ( ) const {
 }
 
 void CodeGenerationPolicy::calculateIndentation ( ) {
-    QString indent = "";
-    m_indentation = "";
+    QString indent;
+    m_indentation = QString();
     switch (Settings::getOptionState().codeGenerationState.indentationType) {
     case NONE:
         break;
@@ -499,7 +499,7 @@ QString CodeGenerationPolicy::getHeadingFile(const QString& str) {
     }
 
     QTextStream ts(&f);
-    QString retstr = QString("");
+    QString retstr = QString();
     QString endLine = getNewLineEndingChars();
     for(int l = 0; l < MAXLINES && !ts.atEnd(); l++)
         retstr += ts.readLine()+endLine;

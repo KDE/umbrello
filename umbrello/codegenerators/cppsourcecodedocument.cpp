@@ -148,7 +148,7 @@ void CPPSourceCodeDocument::updateContent( )
     //
 
     // INCLUDE CODEBLOCK
-    QString includeStatement = "";
+    QString includeStatement;
     // Include own header file
     QString myOwnName( getParentClassifier()->getName() );
     includeStatement.append("#include \""+CodeGenerator::cleanName(myOwnName.toLower())+".h\""+endLine);

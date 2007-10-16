@@ -47,7 +47,7 @@ bool XhtmlGenerator::generateXhtmlForProject()
 {
   KUrl url = umlDoc->url();
   QString fileName = url.fileName();
-  fileName.replace(QRegExp(".xmi$"),"");
+  fileName.remove(QRegExp(".xmi$"));
   url.setFileName(fileName);
   uDebug()<< "Exporting to directory: " << url;
   return generateXhtmlForProjectInto(url);

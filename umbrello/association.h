@@ -56,7 +56,7 @@ public:
     /**
      * Overloaded '==' operator
      */
-    bool operator==(UMLAssociation &rhs);
+    bool operator==(const UMLAssociation &rhs);
 
     /**
      * Standard deconstructor.

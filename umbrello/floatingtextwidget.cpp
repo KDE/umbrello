@@ -353,7 +353,7 @@ QString FloatingTextWidget::getText() const {
     if(m_Role == Uml::tr_Seq_Message || m_Role == Uml::tr_Seq_Message_Self ||
             m_Role == Uml::tr_Coll_Message || m_Role == Uml::tr_Coll_Message_Self) {
         if( m_Text.length() <= 1 || m_Text == ": " )
-            return "";
+            return QString();
     }
     return m_Text;
 }

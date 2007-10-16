@@ -277,7 +277,7 @@ void CodeParameter::initFields ( ClassifierCodeDocument * doc, UMLObject * obj) 
     m_parentObject = obj;
 
     m_parentDocument = doc;
-    m_initialValue = QString("");
+    m_initialValue = QString();
 
     m_comment = CodeGenFactory::newCodeComment(m_parentDocument);
     m_comment->setText(getParentObject()->getDoc());

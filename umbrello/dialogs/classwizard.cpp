@@ -32,7 +32,7 @@ ClassWizard::ClassWizard( UMLDoc * pDoc ) : K3Wizard( (QWidget*)pDoc -> parent()
     UMLObject * pTemp = 0;
     QString name = i18n("new_class");
     QString newName = name;
-    QString num = "";
+    QString num;
     int i = 0;
     m_pClass = new UMLClassifier( newName );
     do {
