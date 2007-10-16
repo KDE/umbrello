@@ -77,9 +77,8 @@
 #include "cmds.h"
 #include "diagramprintpage.h"
 
-#define XMI_FILE_VERSION UMBRELLO_VERSION
-// For the moment, the XMI_FILE_VERSION changes with each UMBRELLO_VERSION.
-// But someday that may stabilize ;)
+// Update this version when changing the XMI file format
+#define XMI_FILE_VERSION "1.5.8"
 
 using namespace Uml;
 
