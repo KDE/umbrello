@@ -270,7 +270,7 @@ bool LinePath::removePoint( int pointIndex, const QPoint &point, unsigned short 
 
 
     /* remove the segment from the list */
-    m_LineList.removeAt( pointIndex );
+    delete m_LineList.takeAt( pointIndex );
 
     return true;
 }
