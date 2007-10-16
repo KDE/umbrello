@@ -11,12 +11,10 @@
 
 #ifndef LINEPATH_H
 #define LINEPATH_H
-#include <qobject.h>
-#include <q3ptrlist.h>
-#include <qpoint.h>
-#include <q3pointarray.h>
+#include <QObject>
+#include <QList>
+#include <QPoint>
 #include <q3canvas.h>
-#include <qpainter.h>
 #include "umlnamespace.h"
 
 /* how many pixels a user could click around a point */
@@ -27,13 +25,12 @@ class AssociationWidget;
 // Qt forward declarations
 class QDomDocument;
 class QDomElement;
+class QPainter;
 
 // typedefs
-typedef Q3PtrList<Q3CanvasLine> LineList;
-typedef Q3PtrListIterator<Q3CanvasLine> LineListIt;
+typedef QList<Q3CanvasLine*> LineList;
 
-typedef Q3PtrList<Q3CanvasRectangle> RectList;
-typedef Q3PtrListIterator<Q3CanvasRectangle> RectListIt;
+typedef QList<Q3CanvasRectangle*> RectList;
 
 
 /**

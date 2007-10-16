@@ -18,8 +18,8 @@
 
 // qt includes
 #include <q3canvas.h>
-#include <qdatastream.h>
-#include <qdom.h>
+#include <QDomDocument>
+#include <QPainter>
 
 // kde includes
 #include <kdebug.h>
@@ -60,10 +60,6 @@ void LinePath::Circle::drawShape(QPainter& p) {
 }
 
 LinePath::LinePath() {
-    m_RectList.setAutoDelete( true );
-    m_LineList.setAutoDelete( true );
-    m_HeadList.setAutoDelete( true );
-    m_ParallelList.setAutoDelete( true );
     m_bSelected = false;
     m_pClearPoly = 0;
     m_pCircle = 0;
@@ -77,7 +73,13 @@ LinePath::LinePath() {
     m_DockRegion = TopBottom;
 }
 
-LinePath::~LinePath() {}
+LinePath::~LinePath()
+{
+    qDeleteAll(m_RectList);
+    qDeleteAll(m_LineList);
+    qDeleteAll(m_HeadList);
+    qDeleteAll(m_ParallelList);
+}
 
 void LinePath::setAssociation(AssociationWidget * association ) {
     if( !association )
@@ -99,11 +101,10 @@ QPoint LinePath::getPoint( int pointIndex ) const {
         return QPoint( -1, -1 );
 
     if( pointIndex == count ) {
-        Q3CanvasLine * line = m_LineList.getLast();
+        Q3CanvasLine * line = m_LineList.last();
         return line -> endPoint();
     }
-    // Q3PtrList's constness sucked... remove this cast when porting to QList
-    Q3CanvasLine * line = const_cast<LinePath*>(this)->m_LineList.at( pointIndex );
+    Q3CanvasLine * line = m_LineList.at( pointIndex );
     return line -> startPoint();
 }
 
@@ -269,7 +270,7 @@ bool LinePath::removePoint( int pointIndex, const QPoint &point, unsigned short 
 
 
     /* remove the segment from the list */
-    m_LineList.remove( pointIndex );
+    m_LineList.removeAt( pointIndex );
 
     return true;
 }
@@ -301,7 +302,7 @@ int LinePath::onLinePath( const QPoint &position ) {
 
     Q3CanvasItemList::iterator end(list.end());
     for(Q3CanvasItemList::iterator item_it(list.begin()); item_it != end; ++item_it ) {
-        if( ( index = m_LineList.findRef( (Q3CanvasLine*)*item_it ) ) != -1 )
+        if( ( index = m_LineList.indexOf( (Q3CanvasLine*)*item_it ) ) != -1 )
             break;
     }//end for
     return index;
@@ -315,12 +316,12 @@ void LinePath::setSelected( bool select ) {
 }
 
 void LinePath::setAssocType( Uml::Association_Type type ) {
-    LineListIt it( m_LineList );
-    Q3CanvasLine * line = 0;
-    while( ( line = it.current() ) ) {
-        line -> setPen( getPen() );
-        ++it;
-    }
+    QList<Q3CanvasLine*>::Iterator it = m_LineList.begin();
+    QList<Q3CanvasLine*>::Iterator end = m_LineList.end();
+
+    for( ; it != end; ++it )
+        (*it) -> setPen( getPen() );
+
     if( m_pClearPoly ) {
         delete m_pClearPoly;
         m_pClearPoly = 0;
@@ -364,25 +365,22 @@ void LinePath::slotLineColorChanged( Uml::IDType viewID ) {
 
 
 void LinePath::setLineColor( const QColor &color ) {
-    Q3CanvasLine * line = 0;
     uint linewidth = 0;
-    LineListIt it( m_LineList );
-    while( ( line = it.current() ) ) {
+    Q3CanvasLine * line = 0;
+
+    Q_FOREACH( line, m_LineList ) {
         linewidth = line->pen().width();
         line -> setPen( QPen( color, linewidth ) );
-        ++it;
     }
-    LineListIt hit( m_HeadList );
-    while( ( line = hit.current() ) ) {
+
+    Q_FOREACH( line, m_HeadList ) {
         linewidth = line->pen().width();
         line -> setPen( QPen( color, linewidth ) );
-        ++hit;
     }
-    LineListIt pit( m_ParallelList );
-    while( ( line = pit.current() ) ) {
+
+    Q_FOREACH( line, m_ParallelList ) {
         linewidth = line->pen().width();
         line -> setPen( QPen( color, linewidth ) );
-        ++pit;
     }
 
     if( getAssocType() == Uml::at_Aggregation )
@@ -404,25 +402,22 @@ void LinePath::slotLineWidthChanged( Uml::IDType viewID ) {
 }
 
 void LinePath::setLineWidth( uint width ) {
-    Q3CanvasLine * line = 0;
     QColor linecolor;
-    LineListIt it( m_LineList );
-    while( ( line = it.current() ) ) {
+    Q3CanvasLine * line = 0;
+
+    Q_FOREACH( line, m_LineList ) {
         linecolor = line->pen().color();
         line -> setPen( QPen( linecolor, width ) );
-        ++it;
     }
-    LineListIt hit( m_HeadList );
-    while( ( line = hit.current() ) ) {
+
+    Q_FOREACH( line, m_HeadList ) {
         linecolor = line->pen().color();
         line -> setPen( QPen( linecolor, width ) );
-        ++hit;
     }
-    LineListIt pit( m_ParallelList );
-    while( ( line = pit.current() ) ) {
+
+    Q_FOREACH( line, m_ParallelList ) {
         linecolor = line->pen().color();
         line -> setPen( QPen( linecolor, width ) );
-        ++pit;
     }
 
     if( m_pCircle ) {
@@ -461,12 +456,11 @@ void LinePath::moveSelected( int pointIndex ) {
 void LinePath::setupSelected() {
     m_RectList.clear();
     Q3CanvasLine * line = 0;
-    LineListIt it( m_LineList );
-    while( ( line = it.current() ) ) {
+
+    Q_FOREACH( line, m_LineList ) {
         QPoint sp = line -> startPoint();
         Q3CanvasRectangle *rect = Widget_Utils::decoratePoint(sp);
         m_RectList.append( rect );
-        ++it;
     }
     //special case for last point
     line = m_LineList.last();
