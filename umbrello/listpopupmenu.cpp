@@ -264,7 +264,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         insert(mt_Copy);
         insert(mt_Paste);
         addSeparator();
-        insert(mt_Change_Font_Selection, SmallIcon("newfont"), i18n("Change Font..."));
+        insert(mt_Change_Font_Selection, SmallIcon("list-add-font"), i18n("Change Font..."));
         insert(mt_Delete_Selection, SmallIcon("edit-delete"), i18n("Delete Selected Items"));
 
         // add this here and not above with the other stuff of the interface
@@ -569,7 +569,7 @@ void ListPopupMenu::insert(Menu_Type m)
         m_actions[m] = addAction(SmallIcon("edit-paste"), i18n("Paste"));
         break;
     case mt_Change_Font:
-        m_actions[m] = addAction(SmallIcon("newfont"), i18n("Change Font..."));
+        m_actions[m] = addAction(SmallIcon("list-add-font"), i18n("Change Font..."));
         break;
     case mt_Line_Color:
         m_actions[m] = addAction(SmallIcon("color-line"), i18n("Line Color..."));
