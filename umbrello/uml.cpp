@@ -402,7 +402,7 @@ void UMLApp::initActions() {
     zoomAction->setShortcuts(KShortcut(Qt::Key_F9));
     actionCollection()->addAction("popup_zoom", zoomAction);
     zoom100Action = actionCollection()->addAction("zoom100");
-    zoom100Action->setIcon(KIcon("viewmag1"));
+    zoom100Action->setIcon(KIcon("zoom-original"));
     zoom100Action->setText(i18n("Z&oom to 100%"));
     connect(zoom100Action, SIGNAL( triggered( bool ) ), this, SLOT( slotZoom100() ));
 
