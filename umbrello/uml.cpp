@@ -569,7 +569,7 @@ void UMLApp::initView() {
     m_newSessionButton->setMenu(newDiagram->menu());
 
     m_closeDiagramButton = new QToolButton(m_tabWidget);
-    m_closeDiagramButton->setIconSet( SmallIcon("tab-remove"));
+    m_closeDiagramButton->setIconSet( SmallIcon("tab-close"));
     m_closeDiagramButton->adjustSize();
 
     connect(m_closeDiagramButton, SIGNAL(clicked()), SLOT(slotDeleteDiagram()));
